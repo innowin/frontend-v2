@@ -1,0 +1,55 @@
+.user-dropdown-link {
+  .user-avatar {
+    position: absolute;
+    width: 56px;
+    height: 56px;
+    right: -16px;
+    top: -8px;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 8px;
+  }
+  .user-username {
+    display: inline-block;
+    margin-right: 42px;
+  }
+}
+
+.dropdown-menu.user-dropdown-menu {
+  width: 18rem;
+  padding-top: 0;
+  margin-top: 0.5rem;
+  padding-bottom: 0;
+  .user-header {
+    background-color: #00a65a;
+    height: 175px;
+    padding: 10px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+    .user-avatar {
+      width: 80px;
+      height: 80px;
+      display: inline-block;
+      vertical-align: middle;
+      border-radius: 100%;
+      border: 3px solid rgba(255, 255, 255, 0.2);
+    }
+  }
+  .user-body {
+    padding: 15px;
+    border-bottom: 1px solid #f4f4f4;
+    border-top: 1px solid #dddddd;
+    a, a:hover, a:active, a:focus {
+      outline: none;
+      text-decoration: none;
+      color: #444 !important;
+
+    }
+  }
+  .user-footer {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+  }
+}

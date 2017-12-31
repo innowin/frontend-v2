@@ -1,0 +1,58 @@
+@import "../variables";
+
+.login-page {
+  overflow: hidden;
+  .content {
+    display: flex;
+    flex-flow: row wrap-reverse;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &.full-page-wrapper::before {
+    content: '';
+    position: absolute;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: -10;
+    right: -100px;
+    left: -100px;
+    top: -100px;
+    bottom: -100px;
+    background-image: url("https://www.nrdc.org/sites/default/files/styles/full_content/public/media-uploads/coms11_path_house_2400.jpg?itok=YPC2_0ye");
+    filter: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg"><filter id="filter"><feGaussianBlur stdDeviation="15" /></filter></svg>#filter');
+    filter: blur(15px);
+  }
+
+  .carousel-wrapper {
+    flex: 2 2 500px;
+    order: 1;
+    min-width: 500px;
+  }
+
+  .login-wrapper {
+    flex: 1 1 300px;
+    order: 2;
+    min-width: 300px;
+  }
+}
+
+.login-page > .login-container {
+  position: relative;
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px;
+  flex-direction: column;
+  .header {
+    flex:0 0 50px;
+  }
+  .content {
+    flex: 1 1 800px;
+    align-self: stretch;
+  }
+  .footer-wrapper {
+    flex:0 0 60px;
+  }
+}

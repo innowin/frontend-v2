@@ -1,0 +1,54 @@
+@import "../../variables";
+
+.social-login {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+
+  & span {
+    flex: 0 0 50%;
+  }
+}
+
+.social-login-wrapper {
+  display: flex;
+  flex: 0 0 50%;
+  flex-flow: row;
+  justify-content: flex-end;
+
+  .social-icon-wrapper {
+    width:36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $gray-border;
+    border: 2px solid $gray-border;
+    border-radius: 50%;
+    margin:0 4px;
+
+    .social-button {
+      font-size: 20px;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &.twitter:hover {
+      color: skyblue;
+      border-color: skyblue;
+    }
+
+    &.google:hover {
+      color: red;
+      border-color: red;
+    }
+
+    &.facebook:hover {
+      color: dodgerblue;
+      border-color: dodgerblue;
+    }
+
+  }
+}

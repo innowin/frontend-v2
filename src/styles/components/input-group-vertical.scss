@@ -1,0 +1,24 @@
+@import "src/styles/variables";
+
+.input-group-vertical {
+  .form-control, .btn {
+    &:not(:last-child) {
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    &:not(:first-child) {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+    &:not(:last-child) {
+      border-bottom: none;
+    }
+  }
+  .form-control:focus + .form-control, .form-control:focus + .btn {
+    border-top: 1px solid $input-border-focus;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}

@@ -1,0 +1,15 @@
+.filename-wrapper {
+  display: flex;
+  .filename-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 0 1 auto;
+  }
+
+  .filename-ext {
+    min-width: 0;
+    flex: 0 0 auto;
+  }
+
+}

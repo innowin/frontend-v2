@@ -1,0 +1,16 @@
+$brand-inverse: #253545;
+
+$font-family-sans-serif: vazir, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
+$font-family-serif:      vazir, Georgia, "Times New Roman", Times, serif !default;
+
+@import "~bootstrap/scss/variables";
+
+//Color Variables
+//text colors
+$gray-border : #ddd;
+$text-lightest-color: #fff;
+$text-lighter-color: #ddd;
+$text-light-color: #bbb;
+$text-dark-color: #444;
+$text-darker-color: #222;
+$text-darkest-color: #000;

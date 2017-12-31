@@ -1,0 +1,38 @@
+.danesh-boom-custom-file-control {
+  display: flex;
+  flex-wrap: nowrap;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 5;
+  height: $custom-file-height;
+  line-height: $custom-file-line-height;
+  color: $custom-file-color;
+  pointer-events: none;
+  user-select: none;
+  background-color: $custom-file-bg;
+  border: $custom-file-border-width solid $custom-file-border-color;
+  @include border-radius($custom-file-border-radius);
+  @include box-shadow($custom-file-box-shadow);
+
+  .before {
+    flex: 0 0 auto;
+    z-index: 6;
+    margin: -$custom-file-border-width;
+    margin-left: 0;
+    height: $custom-file-height;
+    padding: $custom-file-padding-x $custom-file-padding-y;
+    line-height: $custom-file-line-height;
+    color: $custom-file-button-color;
+    background-color: $custom-file-button-bg;
+    border: $custom-file-border-width solid $custom-file-border-color;
+    @include border-radius(0 $custom-file-border-radius $custom-file-border-radius 0);
+  }
+  .after {
+    padding: $custom-file-padding-x $custom-file-padding-y;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+}

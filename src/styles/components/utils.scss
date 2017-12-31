@@ -1,0 +1,32 @@
+.flat {
+  @include border-radius(0);
+}
+
+.flat-top {
+  @include border-top-radius(0);
+}
+
+.flat-right {
+  @include border-right-radius(0);
+}
+
+.flat-bottom {
+  @include border-bottom-radius(0);
+}
+
+.flat-left {
+  @include border-left-radius(0);
+}
+
+.dir-rtl {
+  direction: rtl;
+}
+
+.dir-ltr {
+  direction: ltr;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+

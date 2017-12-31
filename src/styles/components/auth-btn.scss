@@ -1,0 +1,9 @@
+@import "../variables";
+@import "~bootstrap/scss/mixins";
+
+a.btn-google {
+  @include button-variant(#fff, #e0492f, rgba(12, 13, 14, 0.1));
+  &:focus {
+    color: #fff;
+  }
+}

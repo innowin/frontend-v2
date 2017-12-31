@@ -1,0 +1,30 @@
+body {
+  direction: ltr;
+  overflow-x: hidden;
+}
+
+html {
+  min-height: 100%;
+}
+@import "./font-face";;
+@import "variables";
+@import "~bootstrap/scss/bootstrap.scss";
+@import "./components/layout";
+@import "./components/input-group-vertical.scss";
+@import "./components/list-group-addons.scss";
+@import "./components/utils.scss";
+@import "./components/file-input";
+@import "./components/file-name";
+@import "./components/media";
+@import "./components/other";
+@import "~react-select-2/dist/css/react-select-2.css";
+@import "components/auth/SocialLogin";
+@import "components/auth/FooterLogin";
+@import "components/auth/HeaderLogin";
+@import "components/auth/Carousel";
+@import "./pages/login";
+@import "./pages/profile";
+
+body {
+  background-color: #f2f4f6;
+}
