@@ -1,7 +1,50 @@
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+#DANESH BOOM PROJECT
+##Instruction to run the project :
 
-Below you will find some information on how to perform common tasks.<br>
-You can find the most recent version of this guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
+- Installing Node modules
+    ```sh 
+    yarn
+    ```
+- Running Developement server
+    ```sh 
+    yarn start
+    ```
+
+## Code Style
+- General:
+    + TODO
+        + Use TODO every where that need change or fixing.
+    + GIT
+        1) pull from premaster into your branch.
+        2) commit and Push on your branch.
+        3) checkout to premaster.
+        4) merge your branch into premaster.
+        5) push premaster branch on remote server
+- Indentation 
+    + JS 
+        + Tab size : 2 
+        + Indent : 2 
+        + Continuation indent : 4 
+    + SCSS 
+        + Tab size : 2 
+        + Indent : 2 
+        + Continuation indent : 4     
+    + CSS 
+        + Tab size : 2 
+        + Indent : 2 
+        + Continuation indent : 4 
+- React Components:
+    + Stateless Components: 
+        - should be written in Functional-Component way.
+    + Importing in Components: 
+        - should be imported base on alphabetic order. 
+    + Naming declared functions: 
+        - Their names should be started with under-score(_). 
+    + Returning in functions: 
+        - Return context inside ( ).
+         
+
+
 
 ## Table of Contents
 
