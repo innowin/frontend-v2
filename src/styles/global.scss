@@ -7,7 +7,7 @@ html {
   min-height: 100%;
 }
 @import "./font-face";;
-@import "variables";
+@import "./_variables.scss";
 @import "~bootstrap/scss/bootstrap.scss";
 @import "./components/layout";
 @import "./components/input-group-vertical.scss";
