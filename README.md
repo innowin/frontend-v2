@@ -9,19 +9,20 @@
     ```sh 
     yarn start
     ```
-
-## Code Style
-- General:
-    + TODO
-        + Use TODO every where that need change or fixing.
-    + GIT
+## GIT
+    + Rules
         1) pull from premaster into your branch.
         2) commit and Push on your branch.
         3) checkout to premaster.
         4) merge your branch into premaster.
         5) push premaster branch on remote server
+## Code Style
+- General:
+    + TODO
+        + Use TODO every where that need change or fixing.
+
 - Indentation 
-    + JS 
+    + JS
         + Tab size : 2 
         + Indent : 2 
         + Continuation indent : 4 
