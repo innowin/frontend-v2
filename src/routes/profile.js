@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, IndexRedirect} from 'react-router';
+import {Route, IndexRedirect} from 'react-router-dom';
 
 import ProfilePage from "src/views/public/ProfilePage";
 import Profile from 'src/views/components/profile/profiles/index';

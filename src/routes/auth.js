@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, Redirect} from 'react-router';
+import {Route, Redirect} from 'react-router-dom';
 import LoginPage from "src/views/public/LoginPage";
 
 export const authRoutes = <Route path="auth">

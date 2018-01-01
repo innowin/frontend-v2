@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, IndexRedirect} from 'react-router';
+import {Route, IndexRedirect} from 'react-router-dom';
 
 import OrganizationPage from "src/views/public/OrganizationPage";
 import Organization from 'src/views/components/organization/organizations/index';
