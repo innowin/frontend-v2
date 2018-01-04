@@ -54,7 +54,9 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom"
+    "test": "node scripts/test.js --env=jsdom",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -99,9 +101,15 @@
     "extends": "react-app"
   },
   "devDependencies": {
-    "@storybook/react": "^3.3.1",
+    "@kadira/storybook-addons": "^1.6.1",
+    "@storybook/addon-actions": "^3.3.3",
+    "@storybook/addon-console": "^1.0.0",
+    "@storybook/addon-knobs": "^3.3.3",
+    "@storybook/addon-links": "^3.3.3",
+    "@storybook/react": "^3.3.3",
     "i18n-webpack-plugin": "^1.0.0",
     "node-sass": "^4.7.2",
+    "react-storybook-addon-chapters": "^2.1.1",
     "sass-loader": "^6.0.6",
     "storybook-addon-i18n-tools": "^1.0.0"
   }
