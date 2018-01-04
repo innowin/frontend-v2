@@ -14,22 +14,20 @@ input, textarea, button, select {
   font-family: "IRANSansWebFaNum", "Helvetica Neue", sans-serif !important;
 }
 
-
+@import "~bootstrap/scss/bootstrap.scss";
+@import "~react-select-2/dist/css/react-select-2.css";
 @import "./font-face";
 @import "./_variables.scss";
-@import "~bootstrap/scss/bootstrap.scss";
-@import "./components/layout";
-@import "./components/input-group-vertical.scss";
-@import "./components/list-group-addons.scss";
-@import "./components/utils.scss";
-@import "./components/file-input";
-@import "./components/file-name";
-@import "./components/media";
-@import "./components/other";
-@import "~react-select-2/dist/css/react-select-2.css";
-@import "components/auth/SocialLogin";
-@import "components/auth/FooterLogin";
-@import "components/auth/HeaderLogin";
-@import "components/auth/Carousel";
 @import "./pages/login";
 @import "./pages/profile";
+@import "./components/utils.scss";
+@import "components/login/SocialLogin";
+@import "components/login/FooterLogin";
+@import "components/login/HeaderLogin";
+@import "components/login/Carousel";
+@import "components/common/layout";
+@import "components/common/media";
+@import "components/common/input-group-vertical";
+@import "components/common/list-group-addons";
+@import "components/common/inputs/file-input";
+@import "components/common/inputs/file-name";
