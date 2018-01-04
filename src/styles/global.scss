@@ -1,12 +1,21 @@
 body {
   direction: ltr;
   overflow-x: hidden;
+  background-color: #f2f4f6;
+  font-family: "IRANSansWebFaNum", "Helvetica Neue", sans-serif !important;
 }
 
 html {
   min-height: 100%;
+  font-family: "IRANSansWebFaNum", "Helvetica Neue", sans-serif !important;
 }
-@import "./font-face";;
+
+input, textarea, button, select {
+  font-family: "IRANSansWebFaNum", "Helvetica Neue", sans-serif !important;
+}
+
+
+@import "./font-face";
 @import "./_variables.scss";
 @import "~bootstrap/scss/bootstrap.scss";
 @import "./components/layout";
@@ -24,7 +33,3 @@ html {
 @import "components/auth/Carousel";
 @import "./pages/login";
 @import "./pages/profile";
-
-body {
-  background-color: #f2f4f6;
-}
