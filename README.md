@@ -60,7 +60,7 @@
 ```
 ## Socket server 
 ```sh 
-    http://restful.daneshboom.ir/docs/    
+    http://89.42.210.20:9095
 ```
 ------------------------------------
 ##sample Code for SOCKET
