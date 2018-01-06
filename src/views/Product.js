@@ -1,17 +1,17 @@
 import React,{Component} from 'react';
 
-class Profile extends Component {
+
+class Products extends Component {
 	constructor (props) {
 		super (props);
 		this.state = {
-		
 		}
 	}
 	render () {
 		return (
-			<h1>profile</h1>
+				<h1> Products</h1>
 		)
 	}
 }
 
-export default Profile;
+export default Products;
