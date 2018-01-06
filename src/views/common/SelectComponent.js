@@ -1,7 +1,8 @@
 /*global __*/
-import React, {Component, PropTypes} from 'react'; //mohsen کل PropTypes  ها رو نمیفهمه.سرچ کن و حل کن
-import Select from 'react-select-2';
-import cx from 'classnames';
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
+import Select from 'react-select-2'
+import cx from 'classnames'
 
 
 export class SelectComponent extends Component {

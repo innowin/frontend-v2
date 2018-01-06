@@ -1,6 +1,7 @@
 /*global __*/
-import React, {Component, PropTypes} from 'react';
-import {editIcon} from "src/images/icons";
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
+import {editIcon} from 'src/images/icons'
 
 
 export class ItemWrapper extends Component {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 
 export const str_to_option = (primary_string) => {
