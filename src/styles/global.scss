@@ -14,20 +14,21 @@ input, textarea, button, select {
   font-family: "IRANSansWebFaNum", "Helvetica Neue", sans-serif !important;
 }
 
-@import "./_variables.scss";
-@import "./components/utils.scss";
+
 @import "./font-face";
-@import "./pages/login";
-@import "./pages/profile";
+@import "./_variables.scss";
+@import "~bootstrap/scss/bootstrap.scss";
+@import "layout";
 @import "components/common/input-group-vertical";
+@import "components/common/list-group-addons";
+@import "./components/utils.scss";
 @import "components/common/inputs/file-input";
 @import "components/common/inputs/file-name";
-@import "components/common/list-group-addons";
 @import "components/common/media";
-@import "components/login/Carousel";
+@import "~react-select-2/dist/css/react-select-2.css";
+@import "components/login/SocialLogin";
 @import "components/login/FooterLogin";
 @import "components/login/HeaderLogin";
-@import "components/login/SocialLogin";
-@import "layout";
-@import "~bootstrap/scss/bootstrap.scss";
-@import "~react-select-2/dist/css/react-select-2.css";
+@import "components/login/Carousel";
+@import "./pages/login";
+@import "./pages/profile";
