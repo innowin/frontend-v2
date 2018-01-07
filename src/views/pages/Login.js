@@ -1,9 +1,87 @@
-import React,{Component}  from 'react';
+/*global __*/
+import React,{Component}  from 'react'
+import CarouselLogin from './login/Carousel'
+import FooterLogin from './login/FooterLogin'
+import HeaderLogin from './login/HeaderLogin'
+import LoginForm from './login/signInForm'
+import RecoveryForm from './login/RecoveryForm'
+import RegisterForm from './login/SignUpForm'
+import SocialLogin from './login/SocialLogin'
 
 class Login extends Component {
-  render(){
-    return(
-      <div>Login</div>
+	constructor (props) {
+		super(props);
+		this.state = {
+			page: 'SignIn',
+			footer: { year:'2018'},
+			header: {
+				iosLink:'#', androidLink: '#', address: 'انقلاب روبروی دانشگاه تهران مجتمع پارسا', phoneNumber: '02166972207',logoCaption:'اکوسیستم دانش بنیان'
+			}
+		}
+	}
+	
+	_showSignIn = () => {
+		const newState = {
+			...this.state,
+			page: 'SignIn'
+		};
+		this.setState(newState)
+	};
+	
+	_showSignUp = () => {
+		const newState = {
+			...this.state,
+			page: 'SignUp'
+		};
+		this.setState(newState)
+	};
+	
+	_showRecovery = () => {
+		const newState = {
+			...this.state,
+			page: 'Recovery'
+		};
+		this.setState(newState)
+	};
+
+	render() {
+		const {page,footer,header} = this.state;
+		const {year} = footer;
+		const {iosLink, androidLink, address, phoneNumber, logoCaption} = header;
+		const SignIn = (page === 'SignIn');
+		const SignUp = (page === 'SignUp');
+		const Recovery = (page === 'Recovery');
+		return (
+				<div className="full-page-wrapper login-page">
+					<div className="login-container">
+						<HeaderLogin  iosLink={iosLink} androidLink={androidLink} address={address} phoneNumber={phoneNumber} logoCaption={logoCaption} />
+						<div className="row content">
+							<CarouselLogin />
+							<div className="col-12 col-md-6 col-lg-5 mt-4 login-wrapper">
+								<div className="card">
+									<div className="login-tab">
+										{!SignIn && <button className="btn btn-sm btn-secondary" onClick={this._showSignIn}>
+											{__('Login')}
+										</button>}
+										{SignIn && <button className="btn btn-sm btn-secondary" onClick={this._showSignUp}>
+											{__('Register')}
+										</button>}
+									</div>
+									<div className="card-block">
+										{SignIn && <LoginForm showRecovery={this._showRecovery}/>}
+										{SignUp && <RegisterForm showLogin={this._showSignIn}/>}
+										{Recovery && <RecoveryForm/>}
+									</div>
+									<div className="card-footer social-login">
+										<span>{__('Register with other accounts')}</span>
+										<SocialLogin />
+									</div>
+								</div>
+							</div>
+						</div>
+						<FooterLogin year={year}/>
+					</div>
+				</div>
     )
   }
 }
