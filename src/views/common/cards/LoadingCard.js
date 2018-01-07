@@ -1,5 +1,5 @@
 /*global __*/
-import React from "react";
+import React from 'react'
 
 export const LoadingCard = ({header}) => {
     return (

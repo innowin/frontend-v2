@@ -18,7 +18,7 @@ class Organization extends Component {
 	render() {
 		const {match} = this.props;
 		const {path, url} = match;
-		const leftSidebar =
+		const rightSidebar =
             <div className="row align-items-center">
                 <div className="col text-center">
                     <div className="mt-4 mb-4">
@@ -28,33 +28,37 @@ class Organization extends Component {
 
             </div>;
 		return (
-				<div>
-					<div className="">
-						{/* TODO : side bar component should be placed here*/}
-						{leftSidebar}
-					</div>
-					<div>
-						<Link to={`${url}/Basic_Information`}>Basic Information</Link>
-						<Link to={`${url}/Products`}>Products</Link>
-						<Link to={`${url}/Posts`}>Posts</Link>
-						<Link to={`${url}/Customers`}>Customers</Link>
-						<Link to={`${url}/Social_connections`}>Social connections</Link>
-						<Link to={`${url}/Skills`}>Skills</Link>
-						<Link to={`${url}/Certificates`}>Certificates</Link>
-						<Switch>
-							<Route path={`${path}/Basic_Information`} component={BasicInformation}/>
-							<Route path={`${path}/Products`} component={Products}/>
-							<Route path={`${path}/Posts`} component={Posts}/>
-							<Route path={`${path}/Customers`} component={Customers}/>
-							<Route path={`${path}/Social_Connections`} component={Social}/>
-							<Route path={`${path}/Skills`} component={Skills}/>
-							<Route path={`${path}/Certificates`} component={Certificates}/>
-						</Switch>
-					</div>
-					<div>
-						{/* TODO : char bar component should be placed here*/}
-					</div>
+			<div className="page-wrapper">
+				<div className="left-sidebar-wrapper" >
+
 				</div>
+				<div className="right-sidebar-wrapper">
+					{rightSidebar}
+				</div>
+				<div className="content-wrapper">
+						<div className="container-fluid">
+							<Link to={`${url}/Basic_Information`}>Basic Information</Link>
+							<Link to={`${url}/Products`}>Products</Link>
+							<Link to={`${url}/Posts`}>Posts</Link>
+							<Link to={`${url}/Customers`}>Customers</Link>
+							<Link to={`${url}/Social_connections`}>Social connections</Link>
+							<Link to={`${url}/Skills`}>Skills</Link>
+							<Link to={`${url}/Certificates`}>Certificates</Link>
+							<Switch>
+								<Route path={`${path}/Basic_Information`} component={BasicInformation}/>
+								<Route path={`${path}/Products`} component={Products}/>
+								<Route path={`${path}/Posts`} component={Posts}/>
+								<Route path={`${path}/Customers`} component={Customers}/>
+								<Route path={`${path}/Social_Connections`} component={Social}/>
+								<Route path={`${path}/Skills`} component={Skills}/>
+								<Route path={`${path}/Certificates`} component={Certificates}/>
+							</Switch>
+						</div>
+				</div>
+				<div>
+					{/* TODO : char bar component should be placed here*/}
+				</div>
+			</div>
 		)
 	}
 }

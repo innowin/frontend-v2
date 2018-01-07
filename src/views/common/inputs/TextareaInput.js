@@ -1,6 +1,7 @@
 /*global __*/
-import React, {Component, PropTypes} from 'react'
-import cx from 'classnames';
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
+import cx from 'classnames'
 
 export class TextareaInput extends Component {
     static defaultProps = {

@@ -1,5 +1,6 @@
 /*global __*/
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 
 const IR_CODE = '98';
 

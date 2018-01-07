@@ -1,6 +1,7 @@
 /*global __*/
-import React, {Component, PropTypes} from 'react'
-import cx from 'classnames';
+import React, {Component} from 'react'
+import cx from 'classnames'
+import PropTypes from 'prop-types'
 
 export class ArrayInput extends Component {
     static defaultProps = {
