@@ -60,10 +60,10 @@ class Login extends Component {
 							<div className="col-12 col-md-6 col-lg-5 mt-4 login-wrapper">
 								<div className="card">
 									<div className="login-tab">
-										{!SignIn && <button className="btn btn-sm btn-secondary" onClick={this._showSignIn}>
+										{(!SignIn) && <button className="btn btn-sm btn-secondary" onClick={this._showSignIn}>
 											{__('Login')}
 										</button>}
-										{SignIn && <button className="btn btn-sm btn-secondary" onClick={this._showSignUp}>
+										{ (SignIn) && <button className="btn btn-sm btn-secondary" onClick={this._showSignUp}>
 											{__('Register')}
 										</button>}
 									</div>
