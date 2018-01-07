@@ -1,12 +1,13 @@
 /*global __*/
-import React, {Component, PropTypes} from "react";
-import Relay from "react-relay";
-import {FileInput} from "./inputs/FileInput";
-import {relayContainer} from "src/utils/relayHelpers";
-import {mediaFragment} from "src/queries/medias";
-import {organizationFragment} from "src/queries/organization/organization";
-import {viewerFragment} from "src/queries/common";
-import {createMediaMutation} from "src/mutations/profile/medias";
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
+import Relay from "react-relay"
+import {createMediaMutation} from "src/mutations/profile/medias"
+import {FileInput} from "./inputs/FileInput"
+import {mediaFragment} from "src/queries/medias"
+import {organizationFragment} from "src/queries/organization/organization"
+import {relayContainer} from "src/utils/relayHelpers"
+import {viewerFragment} from "src/queries/common"
 
 const fullViewerFragment = Relay.QL`
     fragment on ViewerNode{

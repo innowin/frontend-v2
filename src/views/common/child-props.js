@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 export const childProps = ({props, children}) => {
     return React.Children.map(children,

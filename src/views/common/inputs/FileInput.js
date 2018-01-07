@@ -1,7 +1,8 @@
 /*global __*/
-import React, {Component, PropTypes} from 'react'
-import cx from 'classnames';
-import {FileName} from 'src/views/components/common/FileName'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
+import cx from 'classnames'
+import {FileName} from 'src/views/common/FileName'
 
 export class FileInput extends Component {
     static defaultProps = {
