@@ -3,8 +3,8 @@ import './fontawesome/css/font-awesome.min.css';
 import './styles/global.scss';
 import Layout from './views/Layout';
 import Login from './views/pages/Login';
-import {Route , Redirect} from 'react-router-dom';
 import Test from './views/Test';
+import {Route , Redirect} from 'react-router-dom';
 
 class App extends Component {
   render() {
@@ -18,7 +18,7 @@ class App extends Component {
                 <Redirect to="/login"/>
 						)
 				)}/>
-        <Route path="/" component={Layout}/>
+        <Route exact path="/" component={Layout}/>
         <Route path="/login" component={Login}/>
         <Test/>
       </div>
