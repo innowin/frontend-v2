@@ -1,5 +1,8 @@
 .flat {
-  @include border-radius(0);
+  @include border-top-radius(0);
+  @include border-right-radius(0);
+  @include border-left-radius(0);
+  @include border-bottom-radius(0);
 }
 
 .flat-top {

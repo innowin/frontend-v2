@@ -14,6 +14,8 @@ input, textarea, button, select {
   font-family: "IRANSansWebFaNum", "Helvetica Neue", sans-serif !important;
 }
 
+@import "~bootstrap/scss/bootstrap";
+@import "~react-select-2/dist/css/react-select-2.css";
 @import "./_variables.scss";
 @import "./components/utils.scss";
 @import "./font-face";
@@ -29,5 +31,4 @@ input, textarea, button, select {
 @import "components/login/HeaderLogin";
 @import "components/login/SocialLogin";
 @import "layout";
-@import "~bootstrap/scss/bootstrap.scss";
-@import "~react-select-2/dist/css/react-select-2.css";
+

@@ -3,7 +3,6 @@ import  BasicInformation from './user/BasicInformation';
 import  Posts from './user/Posts';
 import  Career from './user/Career';
 import  Skills from './user/Skills';
-import  Home from './pages/Home';
 import  Certificates from './user/Certificates';
 import {Link , Route , Switch} from 'react-router-dom';
 
@@ -13,7 +12,7 @@ class User extends Component {
 		this.state = {
 		}
 	}
-	
+
 	render(){
 		const {match} = this.props;
 		const {path , url} = match;

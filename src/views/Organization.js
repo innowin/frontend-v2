@@ -7,20 +7,31 @@ import Products from './organization/Products';
 import {Link , Route , Switch} from 'react-router-dom';
 import Skills from './organization/Skills';
 import Social from './organization/Social';
+import OrganizationSideView from './organization/components/SideView';
 
 class Organization extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {}
 	}
-	
+
 	render() {
 		const {match} = this.props;
 		const {path, url} = match;
+		const leftSidebar =
+            <div className="row align-items-center">
+                <div className="col text-center">
+                    <div className="mt-4 mb-4">
+                        <OrganizationSideView {...this.props}/>
+                    </div>
+                </div>
+
+            </div>;
 		return (
 				<div>
-					<div>
+					<div className="">
 						{/* TODO : side bar component should be placed here*/}
+						{leftSidebar}
 					</div>
 					<div>
 						<Link to={`${url}/Basic_Information`}>Basic Information</Link>
