@@ -1,11 +1,10 @@
-import React,{Component} from 'react';
-import  BasicInformation from './user/BasicInformation';
-import  Posts from './user/Posts';
-import  Career from './user/Career';
-import  Skills from './user/Skills';
-import  Home from './pages/Home';
-import  Certificates from './user/Certificates';
-import {Link , Route , Switch} from 'react-router-dom';
+import React,{Component} from "react"
+import  Career from "./user/Career"
+import  Certificates from "./user/Certificates"
+import  Posts from "./user/Posts"
+import  Skills from "./user/Skills"
+import  UserBasicInformation from "./user/basicInformation/index"
+import {Link , Route , Switch} from "react-router-dom"
 
 class User extends Component {
 	constructor (props) {
@@ -29,7 +28,7 @@ class User extends Component {
 						<Link to={`${url}/Skills`}>Skills</Link>
 						<Link to={`${url}/Certificates`}>Certificates</Link>
 						<Switch>
-							<Route exact path={`${path}`} component={BasicInformation} />
+							<Route exact path={`${path}`} component={UserBasicInformation} />
 							<Route path={`${path}/Posts`} component={Posts} />
 							<Route path={`${path}/Career`} component={Career} />
 							<Route path={`${path}/Skills`} component={Skills} />
