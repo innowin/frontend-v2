@@ -7,6 +7,7 @@ import Products from './organization/Products';
 import {Link , Route , Switch} from 'react-router-dom';
 import Skills from './organization/Skills';
 import Social from './organization/Social';
+import TopBar from "./TopBar";
 
 class Organization extends Component {
 	constructor(props) {
@@ -19,6 +20,7 @@ class Organization extends Component {
 		const {path, url} = match;
 		return (
 				<div>
+					<TopBar/>
 					<div>
 						{/* TODO : side bar component should be placed here*/}
 					</div>

@@ -1,28 +1,32 @@
 import React,{Component} from 'react';
 import Home from './pages/Home';
 import TopBar from './TopBar';
+import PropsRoute from '../consts/PropsRoute'
 import User from './User';
 import Exchange from './Exchange';
 import Organization from './Organization';
-import {Switch , Route} from 'react-router-dom';
+import {Switch } from 'react-router-dom';
 
 class Layout extends Component {
   constructor (props) {
     super (props);
     this.state = {
+    	layout: true,
     }
   }
 
   render(){
+  	const {socket , handleSignOut } = this.props;
     return(
       <div>
-        <TopBar/>
+				{/*{(showTopbar) ? <Route path="/" component={TopBar} /> : ''}*/}
+				{/*<Route path="/" render={() => (showTopbar ? <TopBar/> : '')}/>*/}
 				<div>
 					<Switch>
-						<Route exact={true} path="/" component={Home}/>
-						<Route  path="/user" component={User}/>
-						<Route  path="/organization" component={Organization}/>
-						<Route  path="/exchange" component={Exchange}/>
+						<PropsRoute exact={true} path="/" component={Home} socket={socket} handleSignOut={handleSignOut} />
+						<PropsRoute  path="/user" component={User} socket={socket}  handleSignOut={handleSignOut}/>
+						<PropsRoute  path="/organization" component={Organization} socket={socket}  handleSignOut={handleSignOut}/>
+						<PropsRoute  path="/exchange" component={Exchange} socket={socket}  handleSignOut={handleSignOut}/>
 					</Switch>
 				</div>
         {/*<pre>{JSON.stringify(this.props, null , 2)}</pre>*/}
