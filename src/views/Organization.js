@@ -30,7 +30,6 @@ class Organization extends Component {
 		return (
 			<div className="page-wrapper">
 				<div className="left-sidebar-wrapper" >
-
 				</div>
 				<div className="right-sidebar-wrapper">
 					{rightSidebar}
