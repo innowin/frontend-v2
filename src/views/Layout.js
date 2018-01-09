@@ -5,7 +5,7 @@ import PropsRoute from '../consts/PropsRoute'
 import User from './User';
 import Exchange from './Exchange';
 import Organization from './Organization';
-import {Switch } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 
 class Layout extends Component {
   constructor (props) {

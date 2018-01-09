@@ -39,6 +39,7 @@ class App extends Component {
 		}
 		//alert('signed out');
 		this.setState({...this.state , isLoggedIn: false});
+		this.props.history.push('/login')
 		//console.log('props in handle sign out ',JSON.stringify(this.props,null , 2));
 	};
 	
@@ -58,13 +59,7 @@ class App extends Component {
 		const {isLoggedIn} = this.state;
 		return (
       <div className="App">
-				<Route exact path="/" render={() => (
-						(isLoggedIn || this._loggedIn()) ? (
-						<Redirect from="/login" to="/"/>
-					) : (
-						<Redirect to="/login"/>
-					)
-				)}/>
+				{(isLoggedIn || this._loggedIn()) ? (<Redirect from="/login" to="/"/> ,console.log(this.props))  : (<Redirect to="/login"/>)}
         <PropsRoute path="/" component={Layout} socket={socket} handleSignOut={this._handleSignOut}/>
         <PropsRoute path="/login" component={Login} socket={socket} handleLogIn={this._handleLogIn}/>
         <Test socket={socket}/>
