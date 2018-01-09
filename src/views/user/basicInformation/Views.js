@@ -35,11 +35,11 @@ export class UserInfoView extends Component {
                 </Field>
                 <Field>
                     <FieldLabel label={__('Name') + ": "}/>
-                    <FieldValue value={user.firstName}/>
+                    <FieldValue value={user.first_name}/>
                 </Field>
                 <Field>
                     <FieldLabel label={__('Last name') + ": "}/>
-                    <FieldValue value={user.lastName}/>
+                    <FieldValue value={user.last_name}/>
                 </Field>
                 <Field>
                     <FieldLabel label={__('Email') + ": "}/>
@@ -60,18 +60,18 @@ export class ProfileInfoView extends Component {
         const {profile, showEdit} = this.props;
         const listMobile = list_of_badge(profile.mobile);
         const listPhone = list_of_badge(profile.phone);
-        const listWebSite = list_of_badge(profile.webSite);
+        const listWebSite = list_of_badge(profile.web_site);
         // TODO keep ltr
         return (
             <UserInfoItemWrapper>
                 <ItemHeader title={__('Profile info')} showEdit={showEdit}/>
                 <Field>
                     <FieldLabel label={__('BirthDate') + ": "}/>
-                    <FieldValue value={profile.birthDate}/>
+                    <FieldValue value={profile.birth_date}/>
                 </Field>
                 <Field>
                     <FieldLabel label={__('National code') + ": "}/>
-                    <FieldValue value={profile.nationalCode}/>
+                    <FieldValue value={profile.national_code}/>
                 </Field>
                 <Field>
                     <FieldLabel label={__('Mobile') + ": "}/>
@@ -87,11 +87,11 @@ export class ProfileInfoView extends Component {
                 </Field>
                 <Field>
                     <FieldLabel label={__('Public email') + ": "}/>
-                    <FieldValue value={profile.publicEmail}/>
+                    <FieldValue value={profile.public_email}/>
                 </Field>
                 <Field>
                     <FieldLabel label={__('Telegram account') + ": "}/>
-                    <FieldValue value={<span className="d-inline-block dir-rtl">{profile.telegramAccount}</span>}/>
+                    <FieldValue value={<span className="d-inline-block dir-rtl">{profile.telegram_account}</span>}/>
                 </Field>
                 <Field>
                     <FieldLabel label={__('Website') + ": "}/>

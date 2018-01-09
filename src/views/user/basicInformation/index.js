@@ -1,163 +1,175 @@
 /*global __*/
 import React, {Component} from "react"
 import PropTypes from "prop-types"
-import {FrameCard, CategoryTitle} from "../../common/cards/Frames"
+import {FrameCard, CategoryTitle, VerifyWrapper} from "../../common/cards/Frames"
 import {ListGroup} from '../../common/cards/Frames'
-import {LoadingCard} from "../../common/cards/LoadingCard"
 import {ProfileInfoEditForm, UserInfoEditForm} from './Forms'
 import {REST_REQUEST} from "../../../consts/Events"
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
-import {UserInfoItemWrapper, UserInfoView, ProfileInfoView} from "./Item"
+import {UserInfoItemWrapper, UserInfoView, ProfileInfoView} from "./Views"
 
 
 export class UserInfo extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {user: null, error: null, edit: false, isLoading: false}
-    }
+  constructor(props) {
+    super(props);
+    this.state = {user:{}, error: null, edit: false, isLoading: false}
+  }
 
-    static propTypes = {
-        userId: PropTypes.number.isRequired,
-    };
+  static propTypes = {
+    userId: PropTypes.number.isRequired,
+  };
 
-    showEdit = () => {
-        this.setState({edit: true});
-    };
+  showEdit = () => {
+    this.setState({edit: true});
+  };
 
-    hideEdit = () => {
-        this.setState({edit: false});
-    };
+  hideEdit = (updatedUser) => {
+    this.setState({edit: false, user:updatedUser});
+  };
 
-    componentDidMount() {
-        const {userId} = this.props;
-        socket.emit(REST_REQUEST,
-            {
-                method: "get",
-                url: url + `/users/${userId}/`,
-                result: `UserInfo-get-${userId}`,
-                token: "",
-            },
-            () => {
-                const newState = {...this.state, isLoading: true};
-                this.setState(newState);
-            }
-        );
-
-
-        socket.on(`UserInfo-get-${userId}`, (res) => {
-            console.log('user: ', res);
-            const newState = {...this.state, user: res};
-            this.setState(newState);
-        });
-    }
-
-    render() {
-        const {user} = this.state;
-        if (this.state.edit) {
-            return (
-                <UserInfoItemWrapper>
-                    <UserInfoEditForm
-                        user={user}
-                        hideEdit={this.hideEdit}
-                    />
-                </UserInfoItemWrapper>
-            )
+  componentDidMount() {
+    const {userId} = this.props;
+    const emitting = () => {
+      const newState = {...this.state, isLoading: true};
+      this.setState(newState);
+      socket.emit(REST_REQUEST,
+        {
+          method: "get",
+          url: `${url}/users/${userId}/`,
+          result: `UserInfo-get/${userId}`,
+          token: "",
         }
-        return (
+      );
+    };
+
+    emitting();
+
+    socket.on(`UserInfo-get/${userId}`, (res) => {
+      if (res.detail) {
+        console.log(res.detail);
+        const newState = {...this.state, error: res.detail, isLoading: false};
+        this.setState(newState);
+      }
+      const newState = {...this.state, user: res, isLoading: false};
+      this.setState(newState);
+    });
+  }
+
+  render() {
+    const {user, edit, isLoading, error} = this.state;
+    return (
+      <VerifyWrapper isLoading={isLoading} error={error}>
+        {
+          (edit) ? (
+            <UserInfoItemWrapper>
+              <UserInfoEditForm
+                user={user}
+                hideEdit={this.hideEdit}
+              />
+            </UserInfoItemWrapper>
+          ) : (
             <UserInfoView user={user} showEdit={this.showEdit}/>
-        )
-    }
+          )
+        }
+      </VerifyWrapper>
+    )
+  }
 }
 
 export class ProfileInfo extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {profile: null, error: null, edit: false}
-    }
+  constructor(props) {
+    super(props);
+    this.state = {profile: {}, error: null, edit: false, isLoading: false}
+  }
 
-    static propTypes = {
-        userId: PropTypes.object.isRequired,
-    };
+  static propTypes = {
+    userId: PropTypes.object.isRequired,
+  };
 
-    showEdit = () => {
-        this.setState({edit: true});
-    };
+  showEdit = () => {
+    this.setState({edit: true});
+  };
 
-    hideEdit = () => {
-        this.setState({edit: false});
-    };
+  hideEdit = (updatedProfile, error, isLoading) => {
+    this.setState({edit: false, profile:updatedProfile, error:error, isLoading:isLoading});
+  };
 
-    componentDidMount() {
-        const {profileId} = this.props;
-        const emitting = () => {
-            // todo mohsen: cut set isloading and set in isloading.js and import
-            const newState = {...this.state, isLoading: true};
-            this.setState(newState);
-            socket.emit(REST_REQUEST,
-                {
-                    method: "get",
-                    url: url + `/users/profiles/${profileId}/`,
-                    result: `ProfileInfo-get-${profileId}`,
-                    token: "",
-                }
-            );
-        };
+  componentDidMount() {
+    const {userId} = this.props;
 
-        emitting();
-
-        socket.on(`ProfileInfo-get-${profileId}`, (res) => {
-            console.log('profile: ', res);
-            const newState = {...this.state, profile: res};
-            this.setState(newState);
-        });
-    }
-
-    render() {
-        if (!this.state.isLoading) {
-            const {profile} = this.state;
-            if (this.state.edit) {
-                return (
-                    <UserInfoItemWrapper>
-                        <ProfileInfoEditForm
-                            profile={profile}
-                            hideEdit={this.hideEdit}
-                        />
-                    </UserInfoItemWrapper>
-                )
-            }
-            return (
-                <ProfileInfoView profile={profile} showEdit={this.showEdit}/>
-            )
+    const emitting = () => {
+      const newState = {...this.state, isLoading: true};
+      this.setState(newState);
+      socket.emit(REST_REQUEST,
+        {
+          method: "get",
+          url: `${url}/users/profiles/?profile_user=${userId}`,
+          result: `ProfileInfo-get/${userId}`,
+          token: "",
         }
-        return <LoadingCard/>
-    }
+      );
+    };
+    emitting();
+
+    socket.on(`ProfileInfo-get/${userId}`, (res) => {
+      if (res.detail) {
+        console.log(res.detail);
+        const newState = {...this.state, error: res.detail, isLoading: false};
+        this.setState(newState);
+      }
+      const newState = {...this.state, profile: res[0], isLoading: false};
+      this.setState(newState);
+    });
+  }
+
+  render() {
+    const {profile, edit, isLoading, error} = this.state;
+    return (
+      <VerifyWrapper isLoading={isLoading} error={error}>
+        {
+          (edit) ? (
+            <UserInfoItemWrapper>
+              <ProfileInfoEditForm
+                profile={profile}
+                hideEdit={this.hideEdit}
+              />
+            </UserInfoItemWrapper>
+          ) : (
+            <ProfileInfoView profile={profile} showEdit={this.showEdit}/>
+          )
+        }
+      </VerifyWrapper>
+    )
+
+  }
 }
 
 
 export default class UserBasicInformation extends Component {
 
-    static propTypes = {
-        userId: PropTypes.number.isRequired,
-    };
+  static propTypes = {
+    // userId: PropTypes.number.isRequired,
+  };
 
-    render() {
-        const {userId} = this.props;
-        return (
-            <div>
-                <CategoryTitle
-                    title={__('Basic information')}
-                    // showCreateForm={this.showCreateForm}
-                    createForm={true}
-                />
-                <FrameCard>
-                    <ListGroup>
-                        <UserInfo {...{userId}} />
-                        <ProfileInfo {...{userId}} />
-                    </ListGroup>
-                </FrameCard>
-            </div>
-        )
-    }
+  render() {
+    // const {userId} = this.props;
+    const userId = 5;
+    return (
+      <div>
+        <CategoryTitle
+          title={__('Basic information')}
+          // showCreateForm={this.showCreateForm}
+          createForm={true}
+        />
+        <FrameCard>
+          <ListGroup>
+            <UserInfo {...{userId}} />
+            <ProfileInfo {...{userId}} />
+          </ListGroup>
+        </FrameCard>
+      </div>
+    )
+  }
 }
 
