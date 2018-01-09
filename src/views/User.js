@@ -2,9 +2,11 @@ import React,{Component} from "react"
 import  Career from "./user/Career"
 import  Certificates from "./user/Certificates"
 import  Posts from "./user/Posts"
+import  PropsRoute from "../consts/PropsRoute"
 import  Skills from "./user/Skills"
 import  UserBasicInformation from "./user/basicInformation/index"
-import {Link , Route , Switch} from "react-router-dom"
+import  {Link , Switch} from "react-router-dom"
+import TopBar from "./TopBar"
 
 class User extends Component {
 	constructor (props) {
@@ -14,10 +16,11 @@ class User extends Component {
 	}
 	
 	render(){
-		const {match} = this.props;
+		const {match , socket , handleSignOut} = this.props;
 		const {path , url} = match;
 		return(
 				<div>
+					<TopBar handleSignOut={handleSignOut}/>
 					<div>
 						{/* TODO : side bar component should be placed here*/}
 					</div>
@@ -28,11 +31,11 @@ class User extends Component {
 						<Link to={`${url}/Skills`}>Skills</Link>
 						<Link to={`${url}/Certificates`}>Certificates</Link>
 						<Switch>
-							<Route exact path={`${path}`} component={UserBasicInformation} />
-							<Route path={`${path}/Posts`} component={Posts} />
-							<Route path={`${path}/Career`} component={Career} />
-							<Route path={`${path}/Skills`} component={Skills} />
-							<Route path={`${path}/Certificates`} component={Certificates} />
+							<PropsRoute exact={true} path={`${path}`} component={UserBasicInformation} socket={socket} />
+							<PropsRoute path={`${path}/Posts`} component={Posts} socket={socket}/>
+							<PropsRoute path={`${path}/Career`} component={Career} socket={socket}/>
+							<PropsRoute path={`${path}/Skills`} component={Skills} socket={socket}/>
+							<PropsRoute path={`${path}/Certificates`} component={Certificates} socket={socket}/>
 						</Switch>
 					</div>
 					<div>
