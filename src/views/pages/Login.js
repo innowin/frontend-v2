@@ -51,8 +51,10 @@ class Login extends Component {
 		const SignIn = (page === 'SignIn');
 		const SignUp = (page === 'SignUp');
 		const Recovery = (page === 'Recovery');
+		const {socket , handleLogIn } = this.props;
 		return (
 				<div className="full-page-wrapper login-page">
+					
 					<div className="login-container">
 						<HeaderLogin  iosLink={iosLink} androidLink={androidLink} address={address} phoneNumber={phoneNumber} logoCaption={logoCaption} />
 						<div className="row content">
@@ -68,9 +70,9 @@ class Login extends Component {
 										</button>}
 									</div>
 									<div className="card-block">
-										{SignIn && <LoginForm showRecovery={this._showRecovery}/>}
-										{SignUp && <RegisterForm showLogin={this._showSignIn}/>}
-										{Recovery && <RecoveryForm/>}
+										{SignIn && <LoginForm showRecovery={this._showRecovery} socket={socket}  handleLogIn={handleLogIn}/>}
+										{SignUp && <RegisterForm showLogin={this._showSignIn} socket={socket}/>}
+										{Recovery && <RecoveryForm socket={socket}/>}
 									</div>
 									<div className="card-footer social-login">
 										<span>{__('Register with other accounts')}</span>

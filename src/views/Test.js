@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import {REST_REQUEST, GET_VIEWS_COUNT} from '../consts/Events';
-import {SOCKET as socket , REST_URL as url} from '../consts/URLS';
+import { REST_URL as url} from '../consts/URLS';
 
 export default class Test extends Component {
 
@@ -13,13 +13,14 @@ export default class Test extends Component {
   }
 
   componentDidMount() {
-    socket.emit(REST_REQUEST,{
+		const {socket} = this.props;
+		socket.emit(REST_REQUEST,{
       method: "get",
       url: url+'/base/',
       result: "TEST_BASE_GET",
       token: "",
     });
-
+    
     socket.emit(GET_VIEWS_COUNT, {
       id: 1,
       result: "TEST_VIEW"
@@ -30,7 +31,8 @@ export default class Test extends Component {
       const newState = {
         ...this.state,
         is_socket_connected: true,
-      };      this.setState(newState);
+      };
+      this.setState(newState);
     });
 
     socket.on('TEST_VIEW',(res)=>{
@@ -62,7 +64,7 @@ export default class Test extends Component {
   render() {
     const result = this.state;
     return (
-      <div style={{background: '#ddd'}}>
+      <div style={{background: '#ddd', position: 'absolute' , bottom: '0', left:'0',opacity:'0.5'}}>
         <pre>{JSON.stringify(result,null,2)}</pre>
       </div>
     )
