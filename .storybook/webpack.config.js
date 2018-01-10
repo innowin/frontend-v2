@@ -8,16 +8,22 @@ const path = require('path');
 // to "React Create App". This only has babel loader to load JavaScript.
 
 module.exports = {
-  plugins: [
-    // your custom plugins
-  ],
-  module: {
-    rules: [
-      {
-        test: /\.scss$/,
-        loaders: ["style-loader", "css-loader", "sass-loader"],
-        include: path.resolve(__dirname, '../')
-      }
-    ],
-  },
+	plugins: [
+		// your custom plugins
+	],
+	module: {
+		rules: [
+			{
+				test: /\.scss$/,
+				loaders: ["style-loader", "css-loader", "sass-loader"],
+				include: path.resolve(__dirname, '../')
+			}
+		],
+	},
+	resolve:{
+		alias: {
+			'src':'../src'
+		}
+	}
+
 };

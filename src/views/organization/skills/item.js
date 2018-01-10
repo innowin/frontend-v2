@@ -17,7 +17,6 @@ export const OrganItemWrapper = ({children}) => {
 };
 
 export const OrganizationView =({showEdit,skill})=> {
-		const {skill, showEdit} = this.props;
 		// TODO keep ltr
 			return (
 				<OrganItemWrapper>
@@ -35,10 +34,6 @@ OrganizationView.propTypes={
 
 export class OrganizationInfo extends Component {
 		state = {edit: false};
-		static propTypes = {
-				updateOrganization: PropTypes.func.isRequired,
-				organization: PropTypes.object.isRequired,
-		};
 		showEdit = () => {
 				this.setState({edit: true});
 		};
@@ -48,7 +43,7 @@ export class OrganizationInfo extends Component {
 
 		render() {
 			const {organization, updateOrganization} = this.props;
-			const skills = organization.skills.edges.map((skill,index)=>{
+			const skills = organization.skills.map((skill,index)=>{
 				return <OrganizationView skill={skill.node} key={index} showEdit={this.showEdit}/>
 			})
 			if (this.state.edit) {
@@ -62,11 +57,17 @@ export class OrganizationInfo extends Component {
 					</OrganItemWrapper>
 				)
 			}
-			return <div>
-					{skills}
-					</div>;
+			return (
+				<div>
+				{skills}
+				</div>
+			)
 		}
 }
+OrganizationInfo.propTypes = {
+	updateOrganization: PropTypes.func.isRequired,
+	organization: PropTypes.object.isRequired,
+};
 
 export const Skills = ({updateOrganization,organization}) => {
 	return (
