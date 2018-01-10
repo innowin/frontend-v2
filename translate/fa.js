@@ -75,7 +75,7 @@ module.exports = {
   'Description': "توضیحات",
   'Educations': "سوابق تحصیلی",
 
-  // profile - profiles
+  // profile - BasicInformation
   'National code must be 10 digit ': "کد ملی باید عدد ۱۰ رقمی باشد",
   'BirthDate': "تاریخ تولد",
   'Fax': "دورنگار",
