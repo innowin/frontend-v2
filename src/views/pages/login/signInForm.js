@@ -3,7 +3,7 @@ import React, {Component} from 'react'
 import {REST_URL as url} from '../../../consts/URLS'
 import {REST_REQUEST} from '../../../consts/Events'
 import {Redirect} from 'react-router-dom'
-import {TOKEN,ALL_COOKIES ,setID,saveData, setTOKEN , deleteTOKEN } from 'src/consts/data'
+import {TOKEN,ALL_COOKIES ,setID,saveData, setTOKEN , deleteTOKEN } from '/src/consts/data'
 import cookies from 'browser-cookies'
 
 

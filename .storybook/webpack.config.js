@@ -21,6 +21,9 @@ module.exports = {
 		],
 	},
 	resolve:{
+		modules: [
+			path.resolve('../src')
+		],
 		alias: {
 			'src':'../src'
 		}

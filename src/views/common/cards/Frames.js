@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {editIcon} from '../../src/images/icons'
+import {editIcon} from '/src/images/icons'
 import {ErrorCard} from "./ErrorCard";
 import {LoadingCard} from "./LoadingCard";
 

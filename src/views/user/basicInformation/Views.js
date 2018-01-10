@@ -2,7 +2,7 @@
 import React, {Component} from "react"
 import PropTypes from "prop-types"
 import {list_of_badge} from "../../common/Functions"
-import {userInfoIcon} from "src/images/icons"
+import {userInfoIcon} from "/src/images/icons"
 import {
     Field,
     FieldLabel,
