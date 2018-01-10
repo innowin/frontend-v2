@@ -7,7 +7,7 @@ import  Skills from "./user/Skills"
 import  UserBasicInformation from "./user/basicInformation/index"
 import  {Link , Switch} from "react-router-dom"
 import {ID} from "../consts/data"
-import TopBar from "./bars/TopBar"
+import TopBar from "src/views/bars/TopBar"
 
 class User extends Component {
 	constructor (props) {
