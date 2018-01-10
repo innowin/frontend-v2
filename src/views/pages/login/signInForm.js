@@ -41,16 +41,10 @@ export default class LoginForm extends Component {
 			//console.log('all cookies are these : ',cookies.all(), 'and cookie is : ',cookies.get('token'))
 		});
 	}
-<<<<<<< HEAD
-
-	_handleError = (message)=> {
-		console.log(message)
-=======
 
 	_handleError = ()=> {
 		const message= 'نام کاربری یا پسورد صحیح نمیباشد';
 		this.setState({...this.state , error: true , message: message });
->>>>>>> 20bd563af6349c2ad269f7c17cefa980263c9146
 		//TODO: showing error in form
 	};
 
