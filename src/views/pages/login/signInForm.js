@@ -31,13 +31,14 @@ export default class LoginForm extends Component {
 				const message = "Fields should not be empty";
 				this._handleClick(message)
 			}
+			//console.log(res);
 			handleLogIn();
 			this.setState({...this.state , isLoggedIn: true});
 			cookies.set('token',res.token);
 			setTOKEN(res.token);
-			setID(res.token);
+			setID(res.user.id.toString());
 			saveData(res);
-			console.log('all cookies are these : ',cookies.all(), 'and cookie is : ',cookies.get('token'))
+			//console.log('all cookies are these : ',cookies.all(), 'and cookie is : ',cookies.get('token'))
 		});
 	}
 	
