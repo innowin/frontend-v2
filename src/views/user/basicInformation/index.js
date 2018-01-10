@@ -5,7 +5,7 @@ import {FrameCard, CategoryTitle, VerifyWrapper} from "../../common/cards/Frames
 import {ListGroup} from '../../common/cards/Frames'
 import {ProfileInfoEditForm, UserInfoEditForm} from './Forms'
 import {REST_REQUEST} from "../../../consts/Events"
-import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
+import {REST_URL as url} from "../../../consts/URLS"
 import {UserInfoItemWrapper, UserInfoView, ProfileInfoView} from "./Views"
 
 
@@ -29,7 +29,7 @@ export class UserInfo extends Component {
   };
 
   componentDidMount() {
-    const {userId} = this.props;
+    const {userId , socket} = this.props;
     const emitting = () => {
       const newState = {...this.state, isLoading: true};
       this.setState(newState);
@@ -58,6 +58,7 @@ export class UserInfo extends Component {
 
   render() {
     const {user, edit, isLoading, error} = this.state;
+    const {socket} = this.props;
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         {
@@ -66,6 +67,7 @@ export class UserInfo extends Component {
               <UserInfoEditForm
                 user={user}
                 hideEdit={this.hideEdit}
+                socket={socket}
               />
             </UserInfoItemWrapper>
           ) : (
@@ -80,7 +82,7 @@ export class UserInfo extends Component {
 export class ProfileInfo extends Component {
   constructor(props) {
     super(props);
-    this.state = {profile: {}, error: null, edit: false, isLoading: false}
+    this.state = {...this.state , profile: {}, error: null, edit: false, isLoading: false}
   }
 
   static propTypes = {
@@ -88,15 +90,15 @@ export class ProfileInfo extends Component {
   };
 
   showEdit = () => {
-    this.setState({edit: true});
+    this.setState({...this.state , edit: true});
   };
 
   hideEdit = (updatedProfile, error, isLoading) => {
-    this.setState({edit: false, profile:updatedProfile, error:error, isLoading:isLoading});
+    this.setState({...this.state , edit: false, profile:updatedProfile, error:error, isLoading:isLoading});
   };
 
   componentDidMount() {
-    const {userId} = this.props;
+    const {userId , socket} = this.props;
 
     const emitting = () => {
       const newState = {...this.state, isLoading: true};
@@ -153,8 +155,7 @@ export default class UserBasicInformation extends Component {
   };
 
   render() {
-    // const {userId} = this.props;
-    const userId = 5;
+    const {userId , socket} = this.props;
     return (
       <div>
         <CategoryTitle
@@ -164,8 +165,8 @@ export default class UserBasicInformation extends Component {
         />
         <FrameCard>
           <ListGroup>
-            <UserInfo {...{userId}} />
-            <ProfileInfo {...{userId}} />
+            <UserInfo {...{userId}} socket={socket}/>
+            <ProfileInfo {...{userId}} socket={socket}/>
           </ListGroup>
         </FrameCard>
       </div>

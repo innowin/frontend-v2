@@ -259,7 +259,7 @@ export class UserInfoEditForm extends Component {
   save = (hideEditFunc) => {
     const userId = this.props.user.id;
     const formValues = this.refs.form.getValues();
-    return updateUser(formValues, userId, hideEditFunc)
+    return updateUser(formValues, userId, hideEditFunc )
   };
 
   onSubmit = (e) => {

@@ -1,7 +1,7 @@
 import {REST_REQUEST} from "../../../consts/Events"
-import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
+import {REST_URL as url } from "../../../consts/URLS"
 
-export const updateUser = (formValues, userId, hideEditFunc) => {
+export const updateUser = (formValues, userId, hideEditFunc , socket) => {
   socket.emit(REST_REQUEST, {
     method: "patch",
     url: `${url}/users/${userId}/`,
@@ -29,7 +29,7 @@ export const updateUser = (formValues, userId, hideEditFunc) => {
   });
 };
 
-export const updateProfile = (formValues, profileId, hideEditFunc) => {
+export const updateProfile = (formValues, profileId, hideEditFunc , socket) => {
   socket.emit(REST_REQUEST, {
     method: "patch",
     url: `${url}/users/profiles/${profileId}/`,

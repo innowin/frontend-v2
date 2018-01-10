@@ -1,4 +1,4 @@
-import React,{Component} from "react"
+import  React,{Component} from "react"
 import  Career from "./user/Career"
 import  Certificates from "./user/Certificates"
 import  Posts from "./user/Posts"
@@ -6,7 +6,8 @@ import  PropsRoute from "../consts/PropsRoute"
 import  Skills from "./user/Skills"
 import  UserBasicInformation from "./user/basicInformation/index"
 import  {Link , Switch} from "react-router-dom"
-import TopBar from "./TopBar"
+import  TopBar from "./TopBar"
+import {ID} from "../consts/data"
 
 class User extends Component {
 	constructor (props) {
@@ -31,11 +32,11 @@ class User extends Component {
 						<Link to={`${url}/Skills`}>Skills</Link>
 						<Link to={`${url}/Certificates`}>Certificates</Link>
 						<Switch>
-							<PropsRoute exact={true} path={`${path}`} component={UserBasicInformation} socket={socket} />
-							<PropsRoute path={`${path}/Posts`} component={Posts} socket={socket}/>
-							<PropsRoute path={`${path}/Career`} component={Career} socket={socket}/>
-							<PropsRoute path={`${path}/Skills`} component={Skills} socket={socket}/>
-							<PropsRoute path={`${path}/Certificates`} component={Certificates} socket={socket}/>
+							<PropsRoute exact={true} path={`${path}`} component={UserBasicInformation} socket={socket} userId={ID}/>
+							<PropsRoute path={`${path}/Posts`} component={Posts} socket={socket} userId={ID}/>
+							<PropsRoute path={`${path}/Career`} component={Career} socket={socket} userId={ID}/>
+							<PropsRoute path={`${path}/Skills`} component={Skills} socket={socket} userId={ID}/>
+							<PropsRoute path={`${path}/Certificates`} component={Certificates} socket={socket} userId={ID}/>
 						</Switch>
 					</div>
 					<div>
