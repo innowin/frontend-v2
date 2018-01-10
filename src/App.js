@@ -67,7 +67,7 @@ class App extends Component {
 				)}/>
         <PropsRoute path="/" component={Layout} socket={socket} handleSignOut={this._handleSignOut}/>
         <PropsRoute path="/login" component={Login} socket={socket} handleLogIn={this._handleLogIn}/>
-        <Test socket={socket}/>
+        {/*<Test socket={socket}/>*/}
 			</div>
     )
   }

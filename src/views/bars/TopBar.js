@@ -1,14 +1,6 @@
 import React,{Component} from 'react';
 import cookies from 'browser-cookies';
-import {deleteTOKEN} from "../consts/data";
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  Nav,
-} from 'reactstrap';
-
-
+import {deleteTOKEN} from "../../consts/data";
 
 class TopBar extends Component {
   constructor (props) {
@@ -19,7 +11,7 @@ class TopBar extends Component {
   }
 
   render(){
-    const {handleSignOut} = this.props
+    const {handleSignOut} = this.props;
     return(
       <div>
         <button onClick={handleSignOut} >Sign out</button>
