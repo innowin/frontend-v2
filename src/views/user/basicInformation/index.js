@@ -5,7 +5,7 @@ import {FrameCard, CategoryTitle, VerifyWrapper} from "../../common/cards/Frames
 import {ListGroup} from '../../common/cards/Frames'
 import {ProfileInfoEditForm, UserInfoEditForm} from './Forms'
 import {REST_REQUEST} from "../../../consts/Events"
-import {REST_URL as url} from "../../../consts/URLS"
+import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {UserInfoItemWrapper, UserInfoView, ProfileInfoView} from "./Views"
 
 
@@ -29,7 +29,7 @@ export class UserInfo extends Component {
   };
 
   componentDidMount() {
-    const {userId , socket} = this.props;
+    const {userId } = this.props;
     const emitting = () => {
       const newState = {...this.state, isLoading: true};
       this.setState(newState);
@@ -47,7 +47,6 @@ export class UserInfo extends Component {
 
     socket.on(`UserInfo-get/${userId}`, (res) => {
       if (res.detail) {
-        console.log(res.detail);
         const newState = {...this.state, error: res.detail, isLoading: false};
         this.setState(newState);
       }
@@ -58,7 +57,6 @@ export class UserInfo extends Component {
 
   render() {
     const {user, edit, isLoading, error} = this.state;
-    const {socket} = this.props;
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         {
@@ -112,11 +110,11 @@ export class ProfileInfo extends Component {
         }
       );
     };
+
     emitting();
 
     socket.on(`ProfileInfo-get/${userId}`, (res) => {
       if (res.detail) {
-        console.log(res.detail);
         const newState = {...this.state, error: res.detail, isLoading: false};
         this.setState(newState);
       }
@@ -151,7 +149,7 @@ export class ProfileInfo extends Component {
 export default class UserBasicInformation extends Component {
 
   static propTypes = {
-    // userId: PropTypes.number.isRequired,
+    userId: PropTypes.number.isRequired,
   };
 
   render() {

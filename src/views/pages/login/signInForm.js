@@ -66,18 +66,6 @@ export default class LoginForm extends Component {
 		}
 	};
 	
-	_verifyToken(token) {
-		// socket.emit( REST_REQUEST , {
-		// 	method: "post",
-		// 	url: url+'/api-token-verify/',
-		// 	result: "verifyResult",
-		// 	token,
-		// });
-		// socket.on('verifyResult',res=>console.log(res))
-	}
-	
-
-	
 	render() {
 		const {isLoggedIn ,error , message} = this.state;
 		return (

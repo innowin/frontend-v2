@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import Home from './pages/Home';
-import TopBar from './TopBar';
+import TopBar from './bars/TopBar';
 import PropsRoute from '../consts/PropsRoute'
 import User from './User';
 import Exchange from './Exchange';

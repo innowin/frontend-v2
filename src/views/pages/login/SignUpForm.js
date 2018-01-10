@@ -67,7 +67,7 @@ export class SignUpForm extends Component {
 		const usernameError = this.validateUsername(username);
 		const emailError = this.validateEmail(email);
 		const passwordError = this.validatePasswords(password1, password2);
-		const errors = [usernameError, emailError, passwordError].filter(err => err)
+		let errors = [usernameError, emailError, passwordError].filter(err => err);
 	
 		if (errors.length > 0) {
 			this.setState({errors});
@@ -79,7 +79,7 @@ export class SignUpForm extends Component {
 			this.setState({errors: [], sending: false, success: true});
 		} catch (e) {
 			if (e) {
-				const errors = this.formatServerErrors(e);
+				errors = this.formatServerErrors(e);
 				this.setState({errors: errors[ALL] || [__('Some error occurred')], sending: false});
 			}
 		}

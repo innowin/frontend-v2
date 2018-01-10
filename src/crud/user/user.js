@@ -1,6 +1,5 @@
-import {REST_REQUEST} from "../../../consts/Events"
-import {REST_URL as url } from "../../../consts/URLS"
-import {SOCKET as socket} from "../../../consts/URLS"
+import {REST_URL as url ,SOCKET as socket } from "../../consts/URLS"
+import {REST_REQUEST} from "../../consts/Events"
 
 export const updateUser = (formValues, userId, hideEditFunc ) => {
   socket.emit(REST_REQUEST, {
@@ -16,13 +15,10 @@ export const updateUser = (formValues, userId, hideEditFunc ) => {
     }
   });
 
-  // TODO mohsen: check username is not already exist when change
   socket.on(`updateUser-patch-${userId}`, (res) => {
-    console.log('patched user: ', res);
     let error = false;
     let isLoading = false;
     if (res.detail) {
-      console.log(res.detail);
       error = true;
       isLoading = true;
     }
@@ -51,11 +47,9 @@ export const updateProfile = (formValues, profileId, hideEditFunc) => {
   });
 
   socket.on(`updateProfile-patch-${profileId}`, (res) => {
-    console.log('patched profile: ', res);
     let error = false;
     let isLoading = false;
     if (res.detail) {
-      console.log(res.detail);
       error = true;
       isLoading = true;
     }

@@ -59,10 +59,10 @@ class App extends Component {
 		const {isLoggedIn} = this.state;
 		return (
       <div className="App">
-				{(isLoggedIn || this._loggedIn()) ? (<Redirect from="/login" to="/"/> ,console.log(this.props))  : (<Redirect to="/login"/>)}
+				{/*{(isLoggedIn || this._loggedIn()) ? (<Redirect from="/login" to="/"/>)  : (<Redirect to="/login"/>)}*/}
         <PropsRoute path="/" component={Layout} socket={socket} handleSignOut={this._handleSignOut}/>
         <PropsRoute path="/login" component={Login} socket={socket} handleLogIn={this._handleLogIn}/>
-        <Test socket={socket}/>
+        {/*<Test socket={socket}/>*/}
 			</div>
     )
   }

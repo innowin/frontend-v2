@@ -6,8 +6,8 @@ import  PropsRoute from "../consts/PropsRoute"
 import  Skills from "./user/Skills"
 import  UserBasicInformation from "./user/basicInformation/index"
 import  {Link , Switch} from "react-router-dom"
-import  TopBar from "./TopBar"
 import {ID} from "../consts/data"
+import TopBar from "./bars/TopBar"
 
 class User extends Component {
 	constructor (props) {
