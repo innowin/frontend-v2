@@ -4,6 +4,7 @@ import {REST_URL as url} from '../../../consts/URLS'
 import {REST_REQUEST} from '../../../consts/Events'
 import {Redirect} from 'react-router-dom'
 import {TOKEN,ALL_COOKIES ,setID,saveData, setTOKEN , deleteTOKEN } from 'src/consts/data'
+import ErrorMessage from './ErrorMessage'
 import cookies from 'browser-cookies'
 
 
@@ -12,6 +13,8 @@ export default class LoginForm extends Component {
 		super(props);
 		this.state = {
 			isLoggedIn : false,
+			message : '',
+			error : null,
 		}
 	}
 	
@@ -38,8 +41,9 @@ export default class LoginForm extends Component {
 		});
 	}
 	
-	_handleError = (message)=> {
-		console.log(message)
+	_handleError = ()=> {
+		const message= 'نام کاربری یا پسورد صحیح نمیباشد';
+		this.setState({...this.state , error: true , message: message });
 		//TODO: showing error in form
 	};
 	
@@ -74,7 +78,7 @@ export default class LoginForm extends Component {
 
 	
 	render() {
-		const {isLoggedIn} = this.state;
+		const {isLoggedIn ,error , message} = this.state;
 		return (
 			<div>
 				{ (isLoggedIn) ? <Redirect from="/login" to='/' /> : '' }
@@ -96,6 +100,7 @@ export default class LoginForm extends Component {
 						/>
 					</div>
 					<button onClick={this._handleClick} className="btn btn-primary btn-block btn-lg">{__('Login')}</button>
+					<ErrorMessage message={message} error={(error)? error : ''}/>
 					<button type="button"  className="btn btn-link">
 						{__('Password recovery')}
 					</button>
