@@ -7,7 +7,7 @@ import Products from './organization/Products';
 import {Link , Route , Switch} from 'react-router-dom';
 import Skills from './organization/Skills';
 import Social from './organization/Social';
-import TopBar from "./TopBar";
+import TopBar from "./bars/TopBar";
 
 class Organization extends Component {
 	constructor(props) {

@@ -1,5 +1,8 @@
-import {REST_REQUEST} from "../../../consts/Events"
-import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
+import io from "socket.io-client";
+import {REST_REQUEST} from "../../consts/Events"
+import {REST_URL as url, SOCKET_URL} from "../../consts/URLS"
+
+const socket = io(SOCKET_URL);
 
 export const updateUser = (formValues, userId, hideEditFunc) => {
   socket.emit(REST_REQUEST, {
@@ -15,7 +18,6 @@ export const updateUser = (formValues, userId, hideEditFunc) => {
     }
   });
 
-  // TODO mohsen: check username is not already exist when change
   socket.on(`updateUser-patch-${userId}`, (res) => {
     console.log('patched user: ', res);
     let error = false;
@@ -50,7 +52,6 @@ export const updateProfile = (formValues, profileId, hideEditFunc) => {
   });
 
   socket.on(`updateProfile-patch-${profileId}`, (res) => {
-    console.log('patched profile: ', res);
     let error = false;
     let isLoading = false;
     if (res.detail) {

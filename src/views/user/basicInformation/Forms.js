@@ -10,7 +10,7 @@ import {outputComponent} from "src/views/common/OutputComponent"
 import {PhoneInput} from "src/views/common/inputs/PhoneInput"
 import {TextareaInput} from "src/views/common/inputs/TextareaInput"
 import {TextInput} from "src/views/common/inputs/TextInput"
-import {updateProfile, updateUser} from "../../crud/user/user"
+import {updateProfile, updateUser} from "../../../crud/user/user"
 
 export class ProfileInfoForm extends Component {
   static propTypes = {

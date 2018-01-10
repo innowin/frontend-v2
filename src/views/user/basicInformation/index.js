@@ -1,13 +1,15 @@
 /*global __*/
 import React, {Component} from "react"
+import io from "socket.io-client";
 import PropTypes from "prop-types"
 import {FrameCard, CategoryTitle, VerifyWrapper} from "../../common/cards/Frames"
 import {ListGroup} from '../../common/cards/Frames'
 import {ProfileInfoEditForm, UserInfoEditForm} from './Forms'
 import {REST_REQUEST} from "../../../consts/Events"
-import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
+import {REST_URL as url, SOCKET_URL} from "../../../consts/URLS"
 import {UserInfoItemWrapper, UserInfoView, ProfileInfoView} from "./Views"
 
+const socket = io(SOCKET_URL);
 
 export class UserInfo extends Component {
 
@@ -110,6 +112,7 @@ export class ProfileInfo extends Component {
         }
       );
     };
+
     emitting();
 
     socket.on(`ProfileInfo-get/${userId}`, (res) => {
