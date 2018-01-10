@@ -27,7 +27,8 @@
 ## **Code Style**
 - General:
     + TODO
-        + Use TODO every where that need change or fixing.
+        + Use TODO by name of developer and issue number every where that need change or fixing.
+        example : // TODO mohsen #32 : ....
 
 - Indentation 
     + JS
@@ -60,7 +61,7 @@
 ```
 ## Socket server 
 ```sh 
-    http://restful.daneshboom.ir/docs/    
+    http://89.42.210.20:9095
 ```
 ------------------------------------
 ##sample Code for SOCKET

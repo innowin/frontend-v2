@@ -2,6 +2,7 @@
 
 .login-page {
   overflow: hidden;
+  height: 100vh;
   .content {
     display: flex;
     flex-flow: row wrap-reverse;
@@ -16,10 +17,10 @@
     background-size: cover;
     background-repeat: no-repeat;
     z-index: -10;
-    right: -100px;
+    right: 0px;
     left: -100px;
-    top: -100px;
-    bottom: -100px;
+    top: 0px;
+    bottom: 0px;
     background-image: url("https://www.nrdc.org/sites/default/files/styles/full_content/public/media-uploads/coms11_path_house_2400.jpg?itok=YPC2_0ye");
     filter: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg"><filter id="filter"><feGaussianBlur stdDeviation="15" /></filter></svg>#filter');
     filter: blur(15px);
@@ -41,18 +42,25 @@
 .login-page > .login-container {
   position: relative;
   display: flex;
-  max-width: 1200px;
+  max-width: 1600px;
+  height: 100%;
   margin: 0 auto;
   padding: 10px;
   flex-direction: column;
+  justify-content: space-between;
   .header {
     flex:0 0 50px;
+    align-self: flex-start;
   }
+
   .content {
-    flex: 1 1 800px;
+    flex: 1 1 400px;
     align-self: stretch;
+    padding: 20px;
+    height: 100%;
   }
   .footer-wrapper {
     flex:0 0 60px;
+    align-self: flex-end;
   }
 }

@@ -1,30 +1,32 @@
 import React,{Component} from 'react';
-import Exchanges from './pages/Exchanges';
 import Home from './pages/Home';
-import Profile from './pages/Profile';
-import TopBar from './TopBar';
-import {Switch , Route} from 'react-router-dom';
+import TopBar from './bars/TopBar';
+import PropsRoute from '../consts/PropsRoute'
+import User from './User';
+import Exchange from './Exchange';
+import Organization from './Organization';
+import { Switch } from 'react-router-dom';
 
 class Layout extends Component {
   constructor (props) {
     super (props);
     this.state = {
-      is_exchanges : true,
+    	layout: true,
     }
   }
 
   render(){
+  	const {socket , handleSignOut } = this.props;
     return(
-      <div>
-        <TopBar/>
-        <Switch>
-          <Route exact path="/" component={Home}/>
-          <Route path="/exchanges/:id" component={Exchanges}/>
-          <Route path="/profile/:id" component={Profile}/>
-        </Switch>
-        <pre>{JSON.stringify(this.props, null , 2)}</pre>
-      </div>
-    )
+			<div>
+				<Switch>
+					<PropsRoute exact={true} path="/" component={Home} socket={socket} handleSignOut={handleSignOut} />
+					<PropsRoute  path="/user" component={User} socket={socket}  handleSignOut={handleSignOut}/>
+					<PropsRoute  path="/organization" component={Organization} socket={socket}  handleSignOut={handleSignOut}/>
+					<PropsRoute  path="/exchange" component={Exchange} socket={socket}  handleSignOut={handleSignOut}/>
+				</Switch>
+			</div>
+		)
   }
 }
 

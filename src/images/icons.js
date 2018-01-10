@@ -1,12 +1,13 @@
-import certificateIcon from "./certificate.svg";
-import editIcon from "./edit.svg";
-import educationIcon from "./education.svg";
-import researchIcon from "./research.svg";
-import skillIcon from "./skill.svg";
-import starIcon from "./star.svg";
-import streamIcon from "./stream.svg";
-import userInfoIcon from "./userinfo.svg.js";
-import workExperienceIcon from "./workExperience.svg";
+import certificateIcon from "./user/certificate.svg";
+import editIcon from "./common/edit.svg";
+import educationIcon from "./user/education.svg";
+import researchIcon from "./user/research.svg";
+import skillIcon from "./user/skill.svg";
+import starIcon from "./common/star.svg";
+import streamIcon from "./common/stream.svg";
+import userInfoIcon from "./user/userinfo.svg.js";
+import workExperienceIcon from "./user/workExperience.svg";
+import defaultImg from "./common/defaultImg.png"
 
 
 export {
@@ -19,4 +20,5 @@ export {
     starIcon,
     userInfoIcon,
     workExperienceIcon,
+    defaultImg
 }
