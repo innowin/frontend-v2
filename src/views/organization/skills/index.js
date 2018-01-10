@@ -1,28 +1,17 @@
 /*global __*/
 import React, {Component} from "react";
-import {OrganizationSkills} from "./Item";
+import {OrganizationSkills} from "./item";
 import {FrameCard, CategoryTitle} from "../../common/cards/Frames";
-export const OrganizationContainer = ()=> {
-
-		updateOrganization_ = (formValues, organizationId) => {
-				const revisedOrganization = {...formValues, id: organizationId};
-				return updateOrganization({revisedOrganization});
-		};
-		const {organization} = this.props;
-		const {allUsers} = this.props;
-
+export const OrganizationContainer = (organization,allUsers)=> {
 		return(
 		<OrganizationSkills
 				organization={organization}
 				allUsers={allUsers}
-				updateOrganization={this.updateOrganization_}
 		/>
 		)
 };
 
-const OrganizationSection = ()=>{
-				const {organization} = this.props;
-				const {allUsers} = this.props;
+export const OrganizationSection = ({organization,allUsers})=>{
 				return (
 					<div>
 							<CategoryTitle

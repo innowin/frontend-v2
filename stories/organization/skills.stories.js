@@ -2,8 +2,8 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 import { Button, Welcome } from '@storybook/react/demo';
 import {CenterDecorator, ProfileCardDecorator} from "../helpers";
-import {OrganizationSkills} from 'src/views/organization/skills/Item'
-import { OrganizationContainer } from 'src/views/organization/skills/Index';
+import {OrganizationSkills} from 'src/views/organization/skills/item'
+import { OrganizationContainer } from 'src/views/organization/skills/index';
 import { storiesOf } from '@storybook/react';
 import { linkTo } from '@storybook/addon-links';
 

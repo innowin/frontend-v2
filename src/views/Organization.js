@@ -5,7 +5,7 @@ import Customers from './organization/Customers';
 import Posts from './organization/Posts';
 import Products from './organization/Products';
 import {Link , Route , Switch} from 'react-router-dom';
-import Skills from './organization/Skills';
+import Skills from 'src/views/organization/skills/index';
 import Social from './organization/Social';
 import TopBar from "./bars/TopBar";
 import {OrganizationSideView} from 'src/views/organization/components/SideView';

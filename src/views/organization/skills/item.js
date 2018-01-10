@@ -46,17 +46,17 @@ export class OrganizationInfo extends Component {
 			const skills = organization.skills.map((skill,index)=>{
 				return <OrganizationView skill={skill.node} key={index} showEdit={this.showEdit}/>
 			})
-			if (this.state.edit) {
-				return (
-					<OrganItemWrapper>
-									<OrganizationEditForm
-										organization={organization}
-										hideEdit={this.hideEdit}
-										update={updateOrganization}
-									/>
-					</OrganItemWrapper>
-				)
-			}
+			// if (this.state.edit) {
+			// 	return (
+			// 		<OrganItemWrapper>
+			// 						<OrganizationEditForm
+			// 							organization={organization}
+			// 							hideEdit={this.hideEdit}
+			// 							update={updateOrganization}
+			// 						/>
+			// 		</OrganItemWrapper>
+			// 	)
+			// }
 			return (
 				<div>
 				{skills}
@@ -69,7 +69,7 @@ OrganizationInfo.propTypes = {
 	organization: PropTypes.object.isRequired,
 };
 
-export const Skills = ({updateOrganization,organization}) => {
+export const OrganizationSkills = ({updateOrganization,organization}) => {
 	return (
 	<ListGroup>
 		<OrganizationInfo {...{organization}} {...{updateOrganization}} />
@@ -77,7 +77,7 @@ export const Skills = ({updateOrganization,organization}) => {
 	)
 };
 
-Skills.propTypes = {
+OrganizationSkills.propTypes = {
 	updateOrganization: PropTypes.func.isRequired,
 	organization: PropTypes.object.isRequired,
 	allUsers: PropTypes.array,

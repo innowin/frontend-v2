@@ -21,11 +21,12 @@ module.exports = {
 		],
 	},
 	resolve:{
-		modules: [
-			path.resolve('../src')
-		],
+		modules: [path.resolve(__dirname, "../src"), 'node_modules', paths.appNodeModules].concat(
+			// It is guaranteed to exist because we tweak it in `env.js`
+			process.env.NODE_PATH.split(path.delimiter).filter(Boolean)
+		),
 		alias: {
-			'src':'../src'
+			'src':path.resolve(__dirname, "../src")
 		}
 	}
 
