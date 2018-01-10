@@ -7,6 +7,7 @@ import starIcon from "./common/star.svg";
 import streamIcon from "./common/stream.svg";
 import userInfoIcon from "./user/userinfo.svg.js";
 import workExperienceIcon from "./user/workExperience.svg";
+import defaultImg from "./common/defaultImg.png"
 
 
 export {
@@ -19,4 +20,5 @@ export {
     starIcon,
     userInfoIcon,
     workExperienceIcon,
+    defaultImg
 }
