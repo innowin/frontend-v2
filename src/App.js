@@ -56,7 +56,6 @@ class App extends Component {
 	};
 	
   render() {
-		const {isLoggedIn} = this.state;
 		return (
       <div className="App">
 				{/*{(isLoggedIn || this._loggedIn()) ? (<Redirect from="/login" to="/"/>)  : (<Redirect to="/login"/>)}*/}
