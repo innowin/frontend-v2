@@ -65,7 +65,6 @@ export class UserInfo extends Component {
               <UserInfoEditForm
                 user={user}
                 hideEdit={this.hideEdit}
-                socket={socket}
               />
             </UserInfoItemWrapper>
           ) : (
@@ -96,7 +95,7 @@ export class ProfileInfo extends Component {
   };
 
   componentDidMount() {
-    const {userId , socket} = this.props;
+    const {userId} = this.props;
 
     const emitting = () => {
       const newState = {...this.state, isLoading: true};
@@ -153,7 +152,7 @@ export default class UserBasicInformation extends Component {
   };
 
   render() {
-    const {userId , socket} = this.props;
+    const {userId} = this.props;
     return (
       <div>
         <CategoryTitle
@@ -163,8 +162,8 @@ export default class UserBasicInformation extends Component {
         />
         <FrameCard>
           <ListGroup>
-            <UserInfo {...{userId}} socket={socket}/>
-            <ProfileInfo {...{userId}} socket={socket}/>
+            <UserInfo {...{userId}}/>
+            <ProfileInfo {...{userId}}/>
           </ListGroup>
         </FrameCard>
       </div>
