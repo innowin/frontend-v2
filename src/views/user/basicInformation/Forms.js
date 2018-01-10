@@ -20,30 +20,30 @@ export class ProfileInfoForm extends Component {
 
   getValues = () => {
     return {
-      birth_date: this.refs.birthDateInput.getValue(),
-      national_code: this.refs.nationalCodeInput.getValue(),
-      mobile: this.refs.mobileInput.getValue(),
-      phone: this.refs.phoneInput.getValue(),
-      fax: this.refs.faxInput.getValue(),
-      public_email: this.refs.publicEmailInput.getValue(),
-      telegram_account: this.refs.telegramAccountInput.getValue(),
-      web_site: this.refs.webSiteInput.getValue(),
-      description: this.refs.descriptionInput.getValue(),
+      birth_date: this.birthDateInput.getValue(),
+      national_code: this.nationalCodeInput.getValue(),
+      mobile: this.mobileInput.getValue(),
+      phone: this.phoneInput.getValue(),
+      fax: this.faxInput.getValue(),
+      public_email: this.publicEmailInput.getValue(),
+      telegram_account: this.telegramAccountInput.getValue(),
+      web_site: this.webSiteInput.getValue(),
+      description: this.descriptionInput.getValue(),
     }
   };
 
   formValidate = () => {
     let result = true;
     const validates = [
-      this.refs.birthDateInput.validate(),
-      this.refs.nationalCodeInput.validate(),
-      this.refs.mobileInput.validate(),
-      this.refs.phoneInput.validate(),
-      this.refs.faxInput.validate(),
-      this.refs.publicEmailInput.validate(),
-      this.refs.telegramAccountInput.validate(),
-      this.refs.webSiteInput.validate(),
-      this.refs.descriptionInput.validate(),
+      this.birthDateInput.validate(),
+      this.nationalCodeInput.validate(),
+      this.mobileInput.validate(),
+      this.phoneInput.validate(),
+      this.faxInput.validate(),
+      this.publicEmailInput.validate(),
+      this.telegramAccountInput.validate(),
+      this.webSiteInput.validate(),
+      this.descriptionInput.validate(),
     ];
     for (let i = 0; i < validates.length; i++) {
       if (validates[i]) {
@@ -72,48 +72,48 @@ export class ProfileInfoForm extends Component {
             name="birthDate"
             label={__('BirthDate') + ": "}
             value={profile.birth_date}
-            ref="birthDateInput"
+            ref={birthDateInput => {this.birthDateInput = birthDateInput}}
             showDay={true}
           />
           <TextInput
             name="nationalCode"
             label={__('National code') + ": "}
             value={profile.national_code}
-            ref="nationalCodeInput"
+            ref={nationalCodeInput => {this.nationalCodeInput = nationalCodeInput}}
             customValidate={this.nationalCodeValidate}
           />
           <CustomArrayInput
             label={__('Mobile') + ": "}
             value={profile.mobile}
-            ref="mobileInput"
+            ref={mobileInput => {this.mobileInput = mobileInput}}
             inputComponent={PhoneInput}
             outputComponent={outputComponent}
           />
           <CustomArrayInput
             label={__('Phone') + ": "}
             value={profile.phone}
-            ref="phoneInput"
+            ref={phoneInput => {this.phoneInput = phoneInput}}
             inputComponent={PhoneInput}
             outputComponent={outputComponent}
           />
           <CustomInput
             label={__('Fax') + ": "}
             value={profile.fax}
-            ref="faxInput"
+            ref={faxInput => {this.faxInput = faxInput}}
             inputComponent={PhoneInput}
           />
           {/*TODO EMAIL INPUT*/}
           <EmailInput
             label={__('Public email') + ": "}
             value={profile.public_email}
-            ref="publicEmailInput"
+            ref={publicEmailInput => {this.publicEmailInput = publicEmailInput}}
           />
           {/*TODO TELEGRAM INPUT*/}
           <TextInput
             name="telegramAccount"
             label={__('Telegram account') + ": "}
             value={profile.telegram_account}
-            ref="telegramAccountInput"
+            ref={telegramAccountInput => {this.telegramAccountInput = telegramAccountInput}}
           />
           {/*TODO WEB INPUT*/}
           <ArrayInput
@@ -121,13 +121,13 @@ export class ProfileInfoForm extends Component {
             label={__('Website') + ": "}
             placeholder={__('www...')}
             value={profile.web_site}
-            ref="webSiteInput"
+            ref={webSiteInput => {this.webSiteInput = webSiteInput}}
           />
           <TextareaInput
             name="description"
             label={__('Description') + ": "}
             value={profile.description}
-            ref="descriptionInput"
+            ref={descriptionInput => {this.descriptionInput = descriptionInput}}
           />
           {this.props.children}
         </div>
@@ -149,13 +149,13 @@ export class ProfileInfoEditForm extends Component {
 
   save = (hideEditFunc) => {
     const profileId = this.props.profile.id;
-    const formValues = this.refs.form.getValues();
+    const formValues = this.form.getValues();
     return updateProfile(formValues, profileId, hideEditFunc)
   };
 
   onSubmit = (e) => {
     e.preventDefault();
-    if (this.refs.form.formValidate()) {
+    if (this.form.formValidate()) {
       this.save(this.props.hideEdit)
     }
     return false;
@@ -164,7 +164,7 @@ export class ProfileInfoEditForm extends Component {
   render() {
     const {profile} = this.props;
     return (
-      <ProfileInfoForm onSubmit={this.onSubmit} ref="form" profile={profile}>
+      <ProfileInfoForm onSubmit={this.onSubmit} ref={form => {this.form = form}} profile={profile}>
         <div className="col-12 d-flex justify-content-end">
           <button type="button" className="btn btn-secondary mr-2" onClick={this.props.hideEdit}>
             {__('Cancel')}
@@ -185,20 +185,20 @@ export class UserInfoForm extends Component {
 
   getValues = () => {
     return {
-      username: this.refs.usernameInput.getValue(),
-      first_name: this.refs.firstNameInput.getValue(),
-      last_name: this.refs.lastNameInput.getValue(),
-      email: this.refs.emailInput.getValue()
+      username: this.usernameInput.getValue(),
+      first_name: this.firstNameInput.getValue(),
+      last_name: this.lastNameInput.getValue(),
+      email: this.emailInput.getValue()
     }
   };
 
   formValidate = () => {
     let result = true;
     const validates = [
-      this.refs.usernameInput.validate(),
-      this.refs.firstNameInput.validate(),
-      this.refs.lastNameInput.validate(),
-      this.refs.emailInput.validate()
+      this.usernameInput.validate(),
+      this.firstNameInput.validate(),
+      this.lastNameInput.validate(),
+      this.emailInput.validate()
     ];
     for (let i = 0; i < validates.length; i++) {
       if (validates[i]) {
@@ -218,25 +218,25 @@ export class UserInfoForm extends Component {
             name="username"
             label={__('Username') + ": "}
             value={user.username}
-            ref="usernameInput"
+            ref={usernameInput => {this.usernameInput = usernameInput}}
           />
           <TextInput
             name="firstName"
             label={__('First name') + ": "}
             value={user.first_name}
-            ref="firstNameInput"
+            ref={firstNameInput => {this.firstNameInput = firstNameInput}}
           />
           <TextInput
             name="lastName"
             label={__('Last name') + ": "}
             value={user.last_name}
-            ref="lastNameInput"
+            ref={lastNameInput => {this.lastNameInput = lastNameInput}}
           />
           {/*TODO EMAIL INPUT*/}
           <EmailInput
             label={__('Email') + ": "}
             value={user.email}
-            ref="emailInput"
+            ref={emailInput => {this.emailInput = emailInput}}
           />
           {this.props.children}
         </div>
@@ -247,9 +247,12 @@ export class UserInfoForm extends Component {
 
 
 export class UserInfoEditForm extends Component {
-  state = {
-    confirm: false,
-  };
+  constructor(props){
+    super(props);
+    this.state={
+			confirm: false,
+    }
+  }
 
   static propTypes = {
     hideEdit: PropTypes.func.isRequired,
@@ -258,14 +261,15 @@ export class UserInfoEditForm extends Component {
 
   save = (hideEditFunc) => {
     const userId = this.props.user.id;
-    const formValues = this.refs.form.getValues();
-    return updateUser(formValues, userId, hideEditFunc)
+    const formValues = this.form.getValues();
+    return updateUser(formValues, userId, hideEditFunc )
   };
 
   onSubmit = (e) => {
+    const {hideEdit} = this.props;
     e.preventDefault();
-    if (this.refs.form.formValidate()) {
-      this.save(this.props.hideEdit)
+    if (this.form.formValidate()) {
+      this.save(hideEdit)
     }
     return false;
   };
@@ -273,7 +277,7 @@ export class UserInfoEditForm extends Component {
   render() {
     const {user} = this.props;
     return (
-      <UserInfoForm onSubmit={this.onSubmit} ref="form" user={user}>
+      <UserInfoForm onSubmit={this.onSubmit} ref={form => {this.form = form}} user={user}>
         <div className="col-12 d-flex justify-content-end">
           <button type="button" className="btn btn-secondary mr-2" onClick={this.props.hideEdit}>
             {__('Cancel')}

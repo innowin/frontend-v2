@@ -1,10 +1,7 @@
-import io from "socket.io-client";
+import {REST_URL as url ,SOCKET as socket } from "../../consts/URLS"
 import {REST_REQUEST} from "../../consts/Events"
-import {REST_URL as url, SOCKET_URL} from "../../consts/URLS"
 
-const socket = io(SOCKET_URL);
-
-export const updateUser = (formValues, userId, hideEditFunc) => {
+export const updateUser = (formValues, userId, hideEditFunc ) => {
   socket.emit(REST_REQUEST, {
     method: "patch",
     url: `${url}/users/${userId}/`,
@@ -19,11 +16,9 @@ export const updateUser = (formValues, userId, hideEditFunc) => {
   });
 
   socket.on(`updateUser-patch-${userId}`, (res) => {
-    console.log('patched user: ', res);
     let error = false;
     let isLoading = false;
     if (res.detail) {
-      console.log(res.detail);
       error = true;
       isLoading = true;
     }
@@ -55,7 +50,6 @@ export const updateProfile = (formValues, profileId, hideEditFunc) => {
     let error = false;
     let isLoading = false;
     if (res.detail) {
-      console.log(res.detail);
       error = true;
       isLoading = true;
     }

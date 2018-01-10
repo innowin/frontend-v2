@@ -17,7 +17,7 @@ class Organization extends Component {
 	}
 
 	render() {
-		const {match} = this.props;
+		const {match , handleSignOut} = this.props;
 		const {path, url} = match;
 		const rightSidebar =
             <div className="row align-items-center">
@@ -56,12 +56,12 @@ class Organization extends Component {
 						</div>
 				</div>
 				<div>
-					<TopBar/>
+					<TopBar handleSignOut={handleSignOut}/>
 					<div>
 						{/* TODO : side bar component should be placed here*/}
 					</div>
 					<div>
-						<Link to={`${url}/Basic_Information`}>Basic Information</Link>
+						<Link to={`${url}`}>Basic Information</Link>
 						<Link to={`${url}/Products`}>Products</Link>
 						<Link to={`${url}/Posts`}>Posts</Link>
 						<Link to={`${url}/Customers`}>Customers</Link>
@@ -69,7 +69,7 @@ class Organization extends Component {
 						<Link to={`${url}/Skills`}>Skills</Link>
 						<Link to={`${url}/Certificates`}>Certificates</Link>
 						<Switch>
-							<Route path={`${path}/Basic_Information`} component={BasicInformation}/>
+							<Route exact path={`${path}`} component={BasicInformation}/>
 							<Route path={`${path}/Products`} component={Products}/>
 							<Route path={`${path}/Posts`} component={Posts}/>
 							<Route path={`${path}/Customers`} component={Customers}/>
