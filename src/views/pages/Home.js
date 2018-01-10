@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+import React from 'react';
+const Home = () => {
+  return (
+      <h1> Home </h1>
+  )
+=======
 import React , {Component} from 'react';
 import TopBar from "../bars/TopBar";
 
@@ -11,6 +18,7 @@ class Home extends Component {
 				</div>
 		)
 	}
+>>>>>>> 20bd563af6349c2ad269f7c17cefa980263c9146
 }
 
 export default Home;
