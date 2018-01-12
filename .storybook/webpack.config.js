@@ -17,16 +17,17 @@ module.exports = {
 				test: /\.scss$/,
 				loaders: ["style-loader", "css-loader", "sass-loader"],
 				include: path.resolve(__dirname, '../')
+			},
+			{
+				test: /\.woff$/,
+				loaders: ["url-loader"],
+				include: path.resolve(__dirname, '../')
 			}
 		],
 	},
 	resolve:{
-		modules: [path.resolve(__dirname, "../src"), 'node_modules', paths.appNodeModules].concat(
-			// It is guaranteed to exist because we tweak it in `env.js`
-			process.env.NODE_PATH.split(path.delimiter).filter(Boolean)
-		),
 		alias: {
-			'src':path.resolve(__dirname, "../src")
+			'src':path.resolve(__dirname, '../src')
 		}
 	}
 
