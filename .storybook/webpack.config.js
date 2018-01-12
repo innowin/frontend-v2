@@ -19,7 +19,7 @@ module.exports = {
 				include: path.resolve(__dirname, '../')
 			},
 			{
-				test: /\.woff$/,
+				test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/,/\.woff$/, /\.png$/],
 				loaders: ["url-loader"],
 				include: path.resolve(__dirname, '../')
 			}
