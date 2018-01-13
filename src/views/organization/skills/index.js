@@ -1,5 +1,5 @@
 /*global __*/
-import React, {Component} from "react";
+import React from "react";
 import {OrganizationSkills} from "./item";
 import {FrameCard, CategoryTitle} from "../../common/cards/Frames";
 export const OrganizationContainer = (organization,allUsers)=> {
