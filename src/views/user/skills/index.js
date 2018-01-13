@@ -1,6 +1,6 @@
 /*global __*/
 import React from "react";
-import {UserSkills} from "./item";
+import {UserSkills} from "./view";
 import {FrameCard, CategoryTitle} from "../../common/cards/Frames";
 export const UserContainer = (User)=> {
 		return(
