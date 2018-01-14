@@ -11,69 +11,69 @@ import {UserInfoItemWrapper, UserInfoView, ProfileInfoView} from "./Views"
 
 export class UserInfo extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {user:{}, error: null, edit: false, isLoading: false}
-  }
+	constructor(props) {
+		super(props);
+		this.state = {user:{}, error: null, edit: false, isLoading: false}
+	}
 
-  static propTypes = {
-    userId: PropTypes.number.isRequired,
-  };
+	static propTypes = {
+		userId: PropTypes.number.isRequired,
+	};
 
-  showEdit = () => {
-    this.setState({edit: true});
-  };
+	_showEdit = () => {
+		this.setState({edit: true});
+	};
 
-  hideEdit = (updatedUser) => {
-    this.setState({edit: false, user:updatedUser});
-  };
+	_hideEdit = (updatedUser) => {
+		this.setState({edit: false, user:updatedUser});
+	};
 
-  componentDidMount() {
-    const {userId } = this.props;
-    const emitting = () => {
-      const newState = {...this.state, isLoading: true};
-      this.setState(newState);
-      socket.emit(REST_REQUEST,
-        {
-          method: "get",
-          url: `${url}/users/${userId}/`,
-          result: `UserInfo-get/${userId}`,
-          token: "",
-        }
-      );
-    };
+	componentDidMount() {
+		const {userId } = this.props;
+		const emitting = () => {
+			const newState = {...this.state, isLoading: true};
+			this.setState(newState);
+			socket.emit(REST_REQUEST,
+				{
+					method: "get",
+					url: `${url}/users/${userId}/`,
+					result: `UserInfo-get/${userId}`,
+					token: "",
+				}
+			);
+		};
 
-    emitting();
+		emitting();
 
-    socket.on(`UserInfo-get/${userId}`, (res) => {
-      if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false};
-        this.setState(newState);
-      }
-      const newState = {...this.state, user: res, isLoading: false};
-      this.setState(newState);
-    });
-  }
+		socket.on(`UserInfo-get/${userId}`, (res) => {
+			if (res.detail) {
+				const newState = {...this.state, error: res.detail, isLoading: false};
+				this.setState(newState);
+			}
+			const newState = {...this.state, user: res, isLoading: false};
+			this.setState(newState);
+		});
+	}
 
-  render() {
-    const {user, edit, isLoading, error} = this.state;
-    return (
-      <VerifyWrapper isLoading={isLoading} error={error}>
-        {
-          (edit) ? (
-            <UserInfoItemWrapper>
-              <UserInfoEditForm
-                user={user}
-                hideEdit={this.hideEdit}
-              />
-            </UserInfoItemWrapper>
-          ) : (
-            <UserInfoView user={user} showEdit={this.showEdit}/>
-          )
-        }
-      </VerifyWrapper>
-    )
-  }
+	render() {
+		const {user, edit, isLoading, error} = this.state;
+		return (
+			<VerifyWrapper isLoading={isLoading} error={error}>
+				{
+					(edit) ? (
+						<UserInfoItemWrapper>
+							<UserInfoEditForm
+								user={user}
+								hideEdit={this.hideEdit}
+							/>
+						</UserInfoItemWrapper>
+					) : (
+						<UserInfoView user={user} showEdit={this.showEdit}/>
+					)
+				}
+			</VerifyWrapper>
+		)
+	}
 }
 
 export class ProfileInfo extends Component {

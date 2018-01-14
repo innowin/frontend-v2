@@ -1,5 +1,5 @@
 import  React,{Component} from "react"
-import  Career from "./user/Career"
+import  Career from "./user/career/index"
 import  Certificates from "./user/Certificates"
 import  Posts from "./user/Posts"
 import  PropsRoute from "../consts/PropsRoute"
