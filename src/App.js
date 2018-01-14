@@ -17,9 +17,7 @@ const socket = io(SOCKET_URL);
 class App extends Component {
 	constructor (props){
 		super(props);
-		this.state = {
-			isLoggedIn : false,
-		}
+		this.state = {isLoggedIn : false}
 	}
 	
 	_verifyToken = () => {
@@ -61,7 +59,7 @@ class App extends Component {
 				{/*{(isLoggedIn || this._loggedIn()) ? (<Redirect from="/login" to="/"/>)  : (<Redirect to="/login"/>)}*/}
         <PropsRoute path="/" component={Layout} socket={socket} handleSignOut={this._handleSignOut}/>
         <PropsRoute path="/login" component={Login} socket={socket} handleLogIn={this._handleLogIn}/>
-        {/*<Test socket={socket}/>*/}
+        <Test socket={socket}/>
 			</div>
     )
   }
