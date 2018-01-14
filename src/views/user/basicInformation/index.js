@@ -21,11 +21,15 @@ export class UserInfo extends Component {
   };
 
   _showEdit = () => {
-    this.setState({edit: true});
+    this.setState({...this.state, edit: true});
   };
 
-  _hideEdit = (updatedUser) => {
-    this.setState({edit: false, user:updatedUser});
+  _hideEdit = () => {
+    this.setState({...this.state, edit: false});
+  };
+
+  _updateStateForView = (res, error, isLoading) => {
+    this.setState({...this.state, user:res, error:error, isLoading:isLoading});
   };
 
   componentDidMount() {
@@ -65,6 +69,7 @@ export class UserInfo extends Component {
               <UserInfoEditForm
                 user={user}
                 hideEdit={this._hideEdit}
+                updateStateForView={this._updateStateForView}
               />
             </UserInfoItemWrapper>
           ) : (
@@ -90,8 +95,12 @@ export class ProfileInfo extends Component {
     this.setState({...this.state , edit: true});
   };
 
-  _hideEdit = (updatedProfile, error, isLoading) => {
-    this.setState({...this.state , edit: false, profile:updatedProfile, error:error, isLoading:isLoading});
+  _hideEdit = () => {
+    this.setState({...this.state , edit: false});
+  };
+
+  _updateStateForView = (res, error, isLoading) => {
+    this.setState({...this.state, profile:res, error:error, isLoading:isLoading});
   };
 
   componentDidMount() {
@@ -132,6 +141,7 @@ export class ProfileInfo extends Component {
               <ProfileInfoEditForm
                 profile={profile}
                 hideEdit={this._hideEdit}
+                updateStateForView={this._updateStateForView}
               />
             </UserInfoItemWrapper>
           ) : (

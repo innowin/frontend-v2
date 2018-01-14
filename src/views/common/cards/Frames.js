@@ -129,7 +129,7 @@ export class VerifyWrapper extends Component {
 
   static propTypes = {
     isLoading: PropTypes.bool.isRequired,
-    error: PropTypes.string,
+    error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     retry: PropTypes.func
   };
 

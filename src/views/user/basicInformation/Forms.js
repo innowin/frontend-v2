@@ -138,25 +138,25 @@ export class ProfileInfoForm extends Component {
 
 
 export class ProfileInfoEditForm extends Component {
-  state = {
-    confirm: false,
-  };
+  state = {confirm: false};
 
   static propTypes = {
     hideEdit: PropTypes.func.isRequired,
+    updateStateForView: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
   };
 
-  _save = (hideEditFunc) => {
+  _save = (updateStateForView, hideEdit) => {
     const profileId = this.props.profile.id;
     const formValues = this.form._getValues();
-    return updateProfile(formValues, profileId, hideEditFunc)
+    return updateProfile(formValues, profileId, updateStateForView,  hideEdit)
   };
 
   _onSubmit = (e) => {
     e.preventDefault();
+    const {updateStateForView, hideEdit} = this.props;
     if (this.form._formValidate()) {
-      this._save(this.props.hideEdit)
+      this._save(updateStateForView, hideEdit)
     }
     return false;
   };
@@ -249,27 +249,26 @@ export class UserInfoForm extends Component {
 export class UserInfoEditForm extends Component {
   constructor(props){
     super(props);
-    this.state={
-			confirm: false,
-    }
+    this.state={confirm: false}
   }
 
   static propTypes = {
     hideEdit: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired,
+    updateStateForView: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired
   };
 
-  _save = (hideEditFunc) => {
+  _save = (updateStateForView, hideEdit) => {
     const userId = this.props.user.id;
     const formValues = this.form._getValues();
-    return updateUser(formValues, userId, hideEditFunc )
+    return updateUser(formValues, userId, updateStateForView, hideEdit)
   };
 
   _onSubmit = (e) => {
-    const {hideEdit} = this.props;
+    const {updateStateForView, hideEdit} = this.props;
     e.preventDefault();
     if (this.form._formValidate()) {
-      this._save(hideEdit)
+      this._save(updateStateForView, hideEdit)
     }
     return false;
   };

@@ -35,7 +35,7 @@ class TopBar extends Component {
           <div className="dir-ltr d-flex flex-row">
             <img src={defaultImg} style={{maxHeight: "45px"}}/>
             <div className="ml-4 mt-2 mb-2 -searchInput d-flex align-items-center">
-              <i class="fa fa-search" aria-hidden="true"></i>
+              <i className="fa fa-search" aria-hidden="true"></i>
               <input
                 type="text"
                 name="search"
