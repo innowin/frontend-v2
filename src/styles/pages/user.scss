@@ -1,31 +1,33 @@
-.profile-tabs {
+.-tabs {
   display: flex;
   justify-content: space-around;
   background-color: #fff;
   border: 1px solid #cecece;
   padding: 10px;
   margin-bottom: 10px;
-  .profile-tab {
+  .-tab {
     border: 2px solid #373737;
     fill: #373737;
     height: 38px;
     width: 38px;
     border-radius: 100%;
     padding: 7px;
-    &.active {
-      background-color: #373737;
-      color: #ffffff;
-      fill: #ffffff;
-    }
     svg {
       width: 20px;
       height: 20px;
     }
-
+  }
+  a.-tab:hover, a.-active {
+    background-color: #696969;
+    & > svg {
+      fill: white;
+    }
   }
 }
 
-.profile-category-title {
+
+
+.-categoryTitle {
   background-color: #eaeaea;
   color: #688491;
   padding: 7px 17px;
@@ -33,17 +35,18 @@
   display: flex;
 }
 
-.profile-card {
+.-frameCard {
   background-color: #ffffff;
   border: 1px solid #cecece;
   border-top: 5px solid #688491;
   padding: 20px 16px 16px 16px;
-  .profile-item {
+  .-itemWrapper {
     position: relative;
-    .profile-icon {
+    margin-bottom: 12px;
+    .-item-icon {
       position: absolute;
       top: 0;
-      left: 0;
+      right: 0;
       width: 40px;
       height: 30px;
       border: 1px solid #959595;
@@ -57,7 +60,7 @@
         width: 20px;
       }
     }
-    .profile-item-header {
+    .-item-header {
       position: absolute;
       display: flex;
       white-space: nowrap;
@@ -68,10 +71,10 @@
       right: 0;
       margin-right: 16px;
       margin-left: 16px;
-      .profile-item-title {
+      .-item-title {
         flex: 1 1 auto;
       }
-      .profile-item-edit-btn {
+      .-item-edit-btn {
         flex: 0 0 auto;
         svg {
           fill: #373737;
@@ -80,16 +83,16 @@
         }
       }
     }
-    .profile-content {
+    .-item-content {
       position: relative;
-      margin-left: 39px;
+      margin-right: 39px;
       margin-top: 29px;
       border-top: 1px solid #688491;
-      border-left: 1px solid #688491;
+      border-right: 1px solid #688491;
       padding: 16px 16px 50px 16px;
       color: #373737;
     }
-    &:last-child .profile-content {
+    &:last-child .-item-content {
       padding: 16px;
     }
   }
