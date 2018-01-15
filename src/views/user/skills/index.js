@@ -2,11 +2,7 @@
 import React,{Component} from "react";
 import PropTypes from 'prop-types';
 import {
-	FrameCard,
 	VerifyWrapper,
-	CategoryTitle,
-	ItemHeader,
-	ItemWrapper,
 	ListGroup
 	} from "../../common/cards/Frames";
 import {UserSkillView} from "./view";
@@ -17,7 +13,7 @@ import {REST_REQUEST} from "../../../consts/Events"
 export class UserSkills extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {edit: false};
+		this.state = {error: null, edit: false, isLoading: false, skills:[]};
 	}
 
 	static propTypes = {
@@ -46,9 +42,11 @@ export class UserSkills extends Component {
 			if (res.detail) {
 				const newState = {...this.state, error: res.detail, isLoading: false};
 				this.setState(newState);
+			}else{
+				const newState = {...this.state, skills: res, isLoading: false};
+				this.setState(newState);
 			}
-			const newState = {...this.state, skills: res, isLoading: false};
-			this.setState(newState);
+
 		});
 	}
 

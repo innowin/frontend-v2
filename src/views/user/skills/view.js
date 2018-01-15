@@ -1,8 +1,6 @@
 /*global __*/
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from "prop-types";
-import {userInfoIcon} from "src/images/icons"
-
 
 export const UserSkillView =({showEdit,skill})=> {
 		const tags = skill.tags.map((tag,index)=>{

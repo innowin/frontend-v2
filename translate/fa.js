@@ -96,7 +96,8 @@ module.exports = {
   'Name': "نام",
   'Not implemented yet':"هنوز اجرا نشده",
   'Follow':'دنبال کردن',
-  'Send Message':'ارسال پیام',
+	'Send Message':'ارسال پیام',
+	'FirstName':'نام',
 
   // profile - researches
   'This number is not a correct year': "سال باید عدد ۴ رقمی معتبر باشد",

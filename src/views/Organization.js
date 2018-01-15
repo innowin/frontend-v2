@@ -22,15 +22,9 @@ class Organization extends Component {
 
 	render() {
 		const {match , handleSignOut} = this.props;
+		const {organization} = this.state;
 		const {path, url} = match;
-		const rightSidebar =
-			<div className="row align-items-center">
-					<div className="col text-center">
-							<div className="mt-4 mb-4">
-									<Sidebar {...this.props}/>
-							</div>
-					</div>
-			</div>;
+
 		return (
 			<div className="page-wrapper">
 				<div className="left-sidebar-wrapper" >
