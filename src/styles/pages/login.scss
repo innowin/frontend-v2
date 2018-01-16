@@ -52,7 +52,11 @@
     flex:0 0 50px;
     align-self: flex-start;
   }
-
+  form .messageBox {
+    height: 25px;
+    color: #888;
+    margin-bottom: 7px;
+  }
   .content {
     flex: 1 1 400px;
     align-self: stretch;

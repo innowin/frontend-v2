@@ -34,15 +34,15 @@
     + JS
         + Tab size : 2 
         + Indent : 2 
-        + Continuation indent : 4 
+        + Continuation indent : 2 
     + SCSS 
         + Tab size : 2 
         + Indent : 2 
-        + Continuation indent : 4     
+        + Continuation indent : 2     
     + CSS 
         + Tab size : 2 
         + Indent : 2 
-        + Continuation indent : 4 
+        + Continuation indent : 2 
 - React Components:
     + Stateless Components: 
         - should be written in Functional-Component way.
