@@ -18,7 +18,7 @@ export class ProfileInfoForm extends Component {
     profile: PropTypes.object,
   };
 
-  getValues = () => {
+  _getValues = () => {
     return {
       birth_date: this.birthDateInput.getValue(),
       national_code: this.nationalCodeInput.getValue(),
@@ -32,7 +32,7 @@ export class ProfileInfoForm extends Component {
     }
   };
 
-  formValidate = () => {
+  _formValidate = () => {
     let result = true;
     const validates = [
       this.birthDateInput.validate(),
@@ -54,7 +54,7 @@ export class ProfileInfoForm extends Component {
     return result
   };
 
-  nationalCodeValidate = (value, final) => {
+  _nationalCodeValidate = (value, final) => {
     if (final && value && !/^\d{10}$/.test(value)) {
       return __('National code must be 10 digit ');
     } else {
@@ -80,7 +80,7 @@ export class ProfileInfoForm extends Component {
             label={__('National code') + ": "}
             value={profile.national_code}
             ref={nationalCodeInput => {this.nationalCodeInput = nationalCodeInput}}
-            customValidate={this.nationalCodeValidate}
+            customValidate={this._nationalCodeValidate}
           />
           <CustomArrayInput
             label={__('Mobile') + ": "}
@@ -138,25 +138,25 @@ export class ProfileInfoForm extends Component {
 
 
 export class ProfileInfoEditForm extends Component {
-  state = {
-    confirm: false,
-  };
+  state = {confirm: false};
 
   static propTypes = {
     hideEdit: PropTypes.func.isRequired,
+    updateStateForView: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
   };
 
-  save = (hideEditFunc) => {
+  _save = (updateStateForView, hideEdit) => {
     const profileId = this.props.profile.id;
-    const formValues = this.form.getValues();
-    return updateProfile(formValues, profileId, hideEditFunc)
+    const formValues = this.form._getValues();
+    return updateProfile(formValues, profileId, updateStateForView,  hideEdit)
   };
 
-  onSubmit = (e) => {
+  _onSubmit = (e) => {
     e.preventDefault();
-    if (this.form.formValidate()) {
-      this.save(this.props.hideEdit)
+    const {updateStateForView, hideEdit} = this.props;
+    if (this.form._formValidate()) {
+      this._save(updateStateForView, hideEdit)
     }
     return false;
   };
@@ -164,7 +164,7 @@ export class ProfileInfoEditForm extends Component {
   render() {
     const {profile} = this.props;
     return (
-      <ProfileInfoForm onSubmit={this.onSubmit} ref={form => {this.form = form}} profile={profile}>
+      <ProfileInfoForm onSubmit={this._onSubmit} ref={form => {this.form = form}} profile={profile}>
         <div className="col-12 d-flex justify-content-end">
           <button type="button" className="btn btn-secondary mr-2" onClick={this.props.hideEdit}>
             {__('Cancel')}
@@ -183,7 +183,7 @@ export class UserInfoForm extends Component {
     user: PropTypes.object,
   };
 
-  getValues = () => {
+  _getValues = () => {
     return {
       username: this.usernameInput.getValue(),
       first_name: this.firstNameInput.getValue(),
@@ -192,7 +192,7 @@ export class UserInfoForm extends Component {
     }
   };
 
-  formValidate = () => {
+  _formValidate = () => {
     let result = true;
     const validates = [
       this.usernameInput.validate(),
@@ -249,27 +249,26 @@ export class UserInfoForm extends Component {
 export class UserInfoEditForm extends Component {
   constructor(props){
     super(props);
-    this.state={
-			confirm: false,
-    }
+    this.state={confirm: false}
   }
 
   static propTypes = {
     hideEdit: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired,
+    updateStateForView: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired
   };
 
-  save = (hideEditFunc) => {
+  _save = (updateStateForView, hideEdit) => {
     const userId = this.props.user.id;
-    const formValues = this.form.getValues();
-    return updateUser(formValues, userId, hideEditFunc )
+    const formValues = this.form._getValues();
+    return updateUser(formValues, userId, updateStateForView, hideEdit)
   };
 
-  onSubmit = (e) => {
-    const {hideEdit} = this.props;
+  _onSubmit = (e) => {
+    const {updateStateForView, hideEdit} = this.props;
     e.preventDefault();
-    if (this.form.formValidate()) {
-      this.save(hideEdit)
+    if (this.form._formValidate()) {
+      this._save(updateStateForView, hideEdit)
     }
     return false;
   };
@@ -277,7 +276,7 @@ export class UserInfoEditForm extends Component {
   render() {
     const {user} = this.props;
     return (
-      <UserInfoForm onSubmit={this.onSubmit} ref={form => {this.form = form}} user={user}>
+      <UserInfoForm onSubmit={this._onSubmit} ref={form => {this.form = form}} user={user}>
         <div className="col-12 d-flex justify-content-end">
           <button type="button" className="btn btn-secondary mr-2" onClick={this.props.hideEdit}>
             {__('Cancel')}

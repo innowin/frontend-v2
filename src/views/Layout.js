@@ -10,9 +10,7 @@ import { Switch } from 'react-router-dom';
 class Layout extends Component {
   constructor (props) {
     super (props);
-    this.state = {
-    	layout: true,
-    }
+    this.state = {layout: true}
   }
 
   render(){

@@ -25,3 +25,56 @@
    background-color: transparent;
    outline: none;
 }
+
+.-profile-collapse {
+  position: absolute;
+  right: 0.1rem;
+  top: 47px;
+  z-index: +10;
+  width: 13rem;
+}
+
+ .-profile-collapse img{
+   height: 150px;
+ }
+
+ //**             ChatBar             **//
+
+.chatBar{
+  background-image: url("../images/common/chatBarImg.png");
+  min-height: 100%;
+  position: fixed;
+  left: 0;
+  top: 48px;
+  bottom: 0;
+  z-index: +10;
+  overflow-y: auto;
+ }
+
+.-my-icons1 {
+  margin-top: 20px !important;
+  padding-left: 0;
+  position: fixed;
+  left: 20px;
+}
+
+.-my-icons1 a{
+  display: block;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  border: 1px solid #596978;
+  border-radius: 50px;
+  position: relative;
+  margin-bottom: 30px;
+  background-color: #ffffff;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, .5);
+ }
+
+.-my-icons1 svg{
+  fill: #36485C;
+  float: left !important;
+  height: 24px;
+  position: absolute;
+  transform: translate(50%, 50%)
+}

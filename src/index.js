@@ -4,7 +4,7 @@ import App from './App';
 import {BrowserRouter as Router , withRouter} from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker';
 
-const WrappedApp = withRouter(App)
+const WrappedApp = withRouter(App);
 
 ReactDOM.render(
     <Router>

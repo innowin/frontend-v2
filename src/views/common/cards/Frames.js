@@ -12,9 +12,9 @@ export class ItemWrapper extends Component {
 
   render() {
     return (
-      <div className="profile-item">
-        <div className="profile-icon">{this.props.icon}</div>
-        <div className="profile-content">
+      <div className="-itemWrapper">
+        <div className="-item-icon">{this.props.icon}</div>
+        <div className="-item-content">
           {this.props.children}
         </div>
       </div>
@@ -41,9 +41,9 @@ export class ItemHeader extends Component {
 
   render() {
     return (
-      <div className="profile-item-header">
-        <div className="profile-item-title">{this.props.title}</div>
-        <div className="profile-item-edit-btn">
+      <div className="-item-header">
+        <div className="-item-title">{this.props.title}</div>
+        <div className="-item-edit-btn">
           <div onClick={this.props.showEdit}>{editIcon}</div>
         </div>
       </div>
@@ -54,7 +54,7 @@ export class ItemHeader extends Component {
 export class FrameCard extends Component {
   render() {
     return (
-      <div className="profile-card">
+      <div className="-frameCard">
         {this.props.children}
       </div>
     )
@@ -70,7 +70,7 @@ export class CategoryTitle extends Component {
 
   render() {
     return (
-      <div className="profile-category-title">
+      <div className="-categoryTitle">
         {this.props.title}
         {!this.props.createForm &&
         <button className="btn btn-sm btn-outline-success ml-auto" onClick={this.props.showCreateForm}>
@@ -88,7 +88,7 @@ export class FieldLabel extends Component {
 
   render() {
     return (
-      <div className="col-5 pr-0">
+      <div className="col-5">
         {this.props.label}
       </div>
     )
@@ -129,7 +129,7 @@ export class VerifyWrapper extends Component {
 
   static propTypes = {
     isLoading: PropTypes.bool.isRequired,
-    error: PropTypes.string,
+    error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     retry: PropTypes.func
   };
 

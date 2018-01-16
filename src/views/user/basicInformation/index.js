@@ -20,12 +20,16 @@ export class UserInfo extends Component {
     userId: PropTypes.number.isRequired,
   };
 
-  showEdit = () => {
-    this.setState({edit: true});
+  _showEdit = () => {
+    this.setState({...this.state, edit: true});
   };
 
-  hideEdit = (updatedUser) => {
-    this.setState({edit: false, user:updatedUser});
+  _hideEdit = () => {
+    this.setState({...this.state, edit: false});
+  };
+
+  _updateStateForView = (res, error, isLoading) => {
+    this.setState({...this.state, user:res, error:error, isLoading:isLoading});
   };
 
   componentDidMount() {
@@ -64,11 +68,12 @@ export class UserInfo extends Component {
             <UserInfoItemWrapper>
               <UserInfoEditForm
                 user={user}
-                hideEdit={this.hideEdit}
+                hideEdit={this._hideEdit}
+                updateStateForView={this._updateStateForView}
               />
             </UserInfoItemWrapper>
           ) : (
-            <UserInfoView user={user} showEdit={this.showEdit}/>
+            <UserInfoView user={user} showEdit={this._showEdit}/>
           )
         }
       </VerifyWrapper>
@@ -86,12 +91,16 @@ export class ProfileInfo extends Component {
     userId: PropTypes.object.isRequired,
   };
 
-  showEdit = () => {
+  _showEdit = () => {
     this.setState({...this.state , edit: true});
   };
 
-  hideEdit = (updatedProfile, error, isLoading) => {
-    this.setState({...this.state , edit: false, profile:updatedProfile, error:error, isLoading:isLoading});
+  _hideEdit = () => {
+    this.setState({...this.state , edit: false});
+  };
+
+  _updateStateForView = (res, error, isLoading) => {
+    this.setState({...this.state, profile:res, error:error, isLoading:isLoading});
   };
 
   componentDidMount() {
@@ -131,11 +140,12 @@ export class ProfileInfo extends Component {
             <UserInfoItemWrapper>
               <ProfileInfoEditForm
                 profile={profile}
-                hideEdit={this.hideEdit}
+                hideEdit={this._hideEdit}
+                updateStateForView={this._updateStateForView}
               />
             </UserInfoItemWrapper>
           ) : (
-            <ProfileInfoView profile={profile} showEdit={this.showEdit}/>
+            <ProfileInfoView profile={profile} showEdit={this._showEdit}/>
           )
         }
       </VerifyWrapper>
