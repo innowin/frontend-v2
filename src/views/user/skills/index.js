@@ -3,8 +3,14 @@ import React,{Component} from "react";
 import PropTypes from 'prop-types';
 import {
 	VerifyWrapper,
-	ListGroup
+	ListGroup,
+	FrameCard,
+	ItemWrapper
 	} from "../../common/cards/Frames";
+import {
+	userInfoIcon
+} from '../../../images/icons';
+
 import {UserSkillView} from "./view";
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {TOKEN} from "../../../consts/data"
@@ -77,9 +83,13 @@ export class UserSkills extends Component {
 		return(
 			<VerifyWrapper isLoading={isLoading} error={error}>
 				{
-					<ListGroup>
-						{skillsView}
-					</ListGroup>
+					<FrameCard>
+						<ItemWrapper icon={userInfoIcon}>
+							<ListGroup>
+								{skillsView}
+							</ListGroup>
+						</ItemWrapper>
+					</FrameCard>
 				}
 			</VerifyWrapper>
 

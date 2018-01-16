@@ -1,6 +1,12 @@
 /*global __*/
 import React,{Component} from 'react';
 import PropTypes from "prop-types";
+import {
+	ItemWrapper
+} from '../../common/cards/Frames';
+import {
+	userInfoIcon
+} from '../../../images/icons';
 
 export class UserSkillView extends Component {
 	static propTypes={
