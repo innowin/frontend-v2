@@ -7,6 +7,7 @@ import {
 	} from "../../common/cards/Frames";
 import {UserSkillView} from "./view";
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
+import {TOKEN} from "../../../consts/data"
 import {REST_REQUEST} from "../../../consts/Events"
 
 //TODO amir #5  get data with SOCKET and review component
@@ -22,6 +23,7 @@ export class UserSkills extends Component {
 	};
 
 	componentDidMount(){
+		console.log("TOKEN IS "+TOKEN)
 		const {userId } = this.props;
 		const emitting = () => {
 			const newState = {...this.state, isLoading: true};
@@ -31,7 +33,7 @@ export class UserSkills extends Component {
 					method: "get",
 					url: `${url}/users/skills/?skill_user=${userId}`,
 					result: `UserSkills-get/${userId}`,
-					token: "",
+					token: TOKEN,
 				}
 			);
 		};
