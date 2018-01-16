@@ -1,7 +1,7 @@
 /*global __*/
 import React, {Component} from 'react'
-import {REST_URL as url} from '../../../consts/URLS'
-import {REST_REQUEST} from '../../../consts/Events'
+import {REST_URL as url} from 'src/consts/URLS'
+import {REST_REQUEST} from 'src/consts/Events'
 import {Redirect} from 'react-router-dom'
 import {TOKEN,ALL_COOKIES ,setID,saveData, setTOKEN , deleteTOKEN } from 'src/consts/data'
 import ErrorMessage from './ErrorMessage'
@@ -24,7 +24,7 @@ export default class LoginForm extends Component {
 			console.log(res);
 			if (res.non_field_errors) {
 				const message = res.non_field_errors[0];
-				this._handleError(message)
+				this._handleError(message);
 				return false;
 			}
 			if (res.password || res.username) {
@@ -37,13 +37,14 @@ export default class LoginForm extends Component {
 			cookies.set('token',res.token);
 			setTOKEN(res.token);
 			setID(res.user.id.toString());
+			console.log(res);
 			saveData(res);
-			//console.log('all cookies are these : ',cookies.all(), 'and cookie is : ',cookies.get('token'))
+			console.log('all cookies are these : ',cookies.all(), 'and cookie is : ',cookies.get('token'))
 		});
 	}
 
-	_handleError = ()=> {
-		const message= 'نام کاربری یا پسورد صحیح نمیباشد';
+	_handleError = (msg)=> {
+		const message=  'نام کاربری یا گذرواژه صحیح نمی باشد';
 		this.setState({...this.state , error: true , message: message });
 		//TODO: showing error in form
 	};

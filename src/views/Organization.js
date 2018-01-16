@@ -5,7 +5,7 @@ import ChatBar from "./bars/ChatBar"
 import Customers from "./organization/Customers"
 import Posts from "./organization/Posts"
 import Products from "./organization/Products"
-import Sidebar from "src/views/bars/Sidebar"
+import Sidebar from "src/views/bars/SideBar"
 import Skills from "src/views/organization/skills/index"
 import Social from "./organization/Social"
 import TopBar from "./bars/TopBar"
@@ -22,6 +22,7 @@ class Organization extends Component {
 	render() {
 		const {match , handleSignOut} = this.props;
 		const {path, url} = match;
+
 		return (
 			<div className="-tabbed-pages -userOrganBackgroundImg">
         <TopBar handleSignOut={handleSignOut}/>

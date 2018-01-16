@@ -8,9 +8,13 @@ import Skills from "./user/Skills"
 import TopBar from "src/views/bars/TopBar"
 import UserBasicInformation from "./user/basicInformation/index"
 import {ID} from "../consts/data"
-import {NavLink, Switch , Redirect} from "react-router-dom"
+import {NavLink, Switch, Redirect} from "react-router-dom"
 import {Tabs} from "src/views/common/cards/Frames"
 import {userInfoIcon, skillIcon, certificateIcon, workExperienceIcon, postIcon} from "src/images/icons"
+import Sidebar from "bars/SideBar"
+import {VerifyWrapper} from "./common/cards/Frames"
+import {REST_REQUEST} from "../consts/Events"
+import {REST_URL as url, SOCKET as socket} from "../consts/URLS"
 
 
 class User extends Component {
@@ -19,17 +23,44 @@ class User extends Component {
     this.state = {}
   }
 
+//   componentDidMount(){
+//   const {userId} = this.props;
+//   const emitting = () => {
+//   const newState = {...this.state, isLoading: true};
+//   this.setState(newState);
+//   socket.emit(REST_REQUEST,
+// {
+//   method: "get",
+//   url: `${url}/users/${userId}/`,
+//   result: `UserInfo-get/${userId}`,
+//   token: "",
+// }
+//   );
+// };
+//
+//   emitting();
+//
+//   socket.on(`UserInfo-get/${userId}`, (res) => {
+//   if (res.detail) {
+//   const newState = {...this.state, error: res.detail, isLoading: false};
+//   this.setState(newState);
+// }
+//   const newState = {...this.state, user: res, isLoading: false};
+//   this.setState(newState);
+// });
+// }
+
   render() {
     const {match, socket, handleSignOut} = this.props;
     const {path, url} = match;
     return (
       <div className="-tabbed-pages -userOrganBackgroundImg">
         <TopBar handleSignOut={handleSignOut}/>
+
         <main className="row">
           <div className="col-3 -right-sidebar-wrapper">
-            {/* TODO : side bar component should be placed here*/}
+            <Sidebar/>
           </div>
-
           <div className="col-6 -content-wrapper">
             <Tabs>
               <NavLink className="-tab" to={`${url}/basicInformation`} activeClassName="-active">
@@ -52,14 +83,15 @@ class User extends Component {
               <PropsRoute path={`${path}/Certificates`} component={Certificates} socket={socket} userId={ID}/>
             </Switch>
           </div>
-
           <div className="col-3 -left-sidebar-wrapper">
             <ChatBar/>
           </div>
         </main>
+
       </div>
     )
   }
+
 }
 
 export default User;
