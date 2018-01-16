@@ -1,14 +1,17 @@
-import React,{Component} from 'react';
-import BasicInformation from './organization/Basic_Information';
-import Certificates from './organization/Certificates';
-import Customers from './organization/Customers';
-import Posts from './organization/Posts';
-import Products from './organization/Products';
-import {Link , Route , Switch} from 'react-router-dom';
-import Skills from 'src/views/organization/skills/index';
-import Social from './organization/Social';
-import TopBar from "./bars/TopBar";
-import {OrganizationSideView} from 'src/views/organization/components/SideView';
+import React,{Component} from "react"
+import BasicInformation from "./organization/Basic_Information"
+import Certificates from "./organization/Certificates"
+import ChatBar from "./bars/ChatBar"
+import Customers from "./organization/Customers"
+import Posts from "./organization/Posts"
+import Products from "./organization/Products"
+import Sidebar from "src/views/bars/Sidebar"
+import Skills from "src/views/organization/skills/index"
+import Social from "./organization/Social"
+import TopBar from "./bars/TopBar"
+import {NavLink , Route , Switch, Redirect} from "react-router-dom"
+import {Tabs} from "src/views/common/cards/Frames"
+import {userInfoIcon, postIcon, certificateIcon, skillIcon} from "../images/icons"
 
 class Organization extends Component {
 	constructor(props) {
@@ -19,69 +22,52 @@ class Organization extends Component {
 	render() {
 		const {match , handleSignOut} = this.props;
 		const {path, url} = match;
-		const rightSidebar =
-            <div className="row align-items-center">
-                <div className="col text-center">
-                    <div className="mt-4 mb-4">
-                        <OrganizationSideView {...this.props}/>
-                    </div>
-                </div>
-
-            </div>;
 		return (
-			<div className="page-wrapper">
-				<div className="left-sidebar-wrapper" >
-				</div>
-				<div className="right-sidebar-wrapper">
-					{rightSidebar}
-				</div>
-				<div className="content-wrapper">
-						<div className="container-fluid">
-							<Link to={`${url}/Basic_Information`}>Basic Information</Link>
-							<Link to={`${url}/Products`}>Products</Link>
-							<Link to={`${url}/Posts`}>Posts</Link>
-							<Link to={`${url}/Customers`}>Customers</Link>
-							<Link to={`${url}/Social_connections`}>Social connections</Link>
-							<Link to={`${url}/Skills`}>Skills</Link>
-							<Link to={`${url}/Certificates`}>Certificates</Link>
-							<Switch>
-								<Route path={`${path}/Basic_Information`} component={BasicInformation}/>
-								<Route path={`${path}/Products`} component={Products}/>
-								<Route path={`${path}/Posts`} component={Posts}/>
-								<Route path={`${path}/Customers`} component={Customers}/>
-								<Route path={`${path}/Social_Connections`} component={Social}/>
-								<Route path={`${path}/Skills`} component={Skills}/>
-								<Route path={`${path}/Certificates`} component={Certificates}/>
-							</Switch>
-						</div>
-				</div>
-				<div>
-					<TopBar handleSignOut={handleSignOut}/>
-					<div>
-						{/* TODO : side bar component should be placed here*/}
-					</div>
-					<div>
-						<Link to={`${url}`}>Basic Information</Link>
-						<Link to={`${url}/Products`}>Products</Link>
-						<Link to={`${url}/Posts`}>Posts</Link>
-						<Link to={`${url}/Customers`}>Customers</Link>
-						<Link to={`${url}/Social_connections`}>Social connections</Link>
-						<Link to={`${url}/Skills`}>Skills</Link>
-						<Link to={`${url}/Certificates`}>Certificates</Link>
-						<Switch>
-							<Route exact path={`${path}`} component={BasicInformation}/>
-							<Route path={`${path}/Products`} component={Products}/>
-							<Route path={`${path}/Posts`} component={Posts}/>
-							<Route path={`${path}/Customers`} component={Customers}/>
-							<Route path={`${path}/Social_Connections`} component={Social}/>
-							<Route path={`${path}/Skills`} component={Skills}/>
-							<Route path={`${path}/Certificates`} component={Certificates}/>
-						</Switch>
-					</div>
-					<div>
-						{/* TODO : char bar component should be placed here*/}
-					</div>
-				</div>
+			<div className="-tabbed-pages -userOrganBackgroundImg">
+        <TopBar handleSignOut={handleSignOut}/>
+        <main className="row">
+          <div className="col-3 -right-sidebar-wrapper">
+            <Sidebar/>
+          </div>
+          <div className="col-6 -content-wrapper">
+            <Tabs>
+              <NavLink className="-tab" to={`${url}/basicInformation`} activeClassName="-active">
+                {userInfoIcon}
+              </NavLink>
+              <NavLink className="-tab" to={`${url}/Products`} activeClassName="-active">
+                {postIcon}
+              </NavLink>
+              <NavLink className="-tab" to={`${url}/Posts`} activeClassName="-active">
+                {postIcon}
+              </NavLink>
+              <NavLink className="-tab" to={`${url}/Customers`} activeClassName="-active">
+                {postIcon}
+              </NavLink>
+              <NavLink className="-tab" to={`${url}/SocialConnections`} activeClassName="-active">
+                {postIcon}
+              </NavLink>
+              <NavLink className="-tab" to={`${url}/Skills`} activeClassName="-active">
+                {skillIcon}
+              </NavLink>
+              <NavLink className="-tab" to={`${url}/Certificates`} activeClassName="-active">
+                {certificateIcon}
+              </NavLink>
+            </Tabs>
+              <Switch>
+                <Redirect exact from={`${path}/`} to={`${path}/basicInformation`}/>
+                <Route exact path={`${path}`} component={BasicInformation}/>
+                <Route path={`${path}/Products`} component={Products}/>
+                <Route path={`${path}/Posts`} component={Posts}/>
+                <Route path={`${path}/Customers`} component={Customers}/>
+                <Route path={`${path}/SocialConnections`} component={Social}/>
+                <Route path={`${path}/Skills`} component={Skills}/>
+                <Route path={`${path}/Certificates`} component={Certificates}/>
+              </Switch>
+          </div>
+          <div className="col-3 -left-sidebar-wrapper">
+            <ChatBar/>
+          </div>
+        </main>
 			</div>
 		)
 	}

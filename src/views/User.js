@@ -1,28 +1,16 @@
 import React, {Component} from "react"
 import Career from "./user/Career"
 import Certificates from "./user/Certificates"
+import ChatBar from "src/views/bars/ChatBar"
 import Posts from "./user/Posts"
 import PropsRoute from "../consts/PropsRoute"
 import Skills from "./user/Skills"
-import UserBasicInformation from "./user/basicInformation/index"
-import {NavLink, Switch , Redirect} from "react-router-dom"
-import ChatBar from "src/views/bars/ChatBar"
 import TopBar from "src/views/bars/TopBar"
+import UserBasicInformation from "./user/basicInformation/index"
 import {ID} from "../consts/data"
+import {NavLink, Switch , Redirect} from "react-router-dom"
+import {Tabs} from "src/views/common/cards/Frames"
 import {userInfoIcon, skillIcon, certificateIcon, workExperienceIcon, postIcon} from "src/images/icons"
-
-
-class Tabs extends Component {
-  render() {
-    return (
-      <div className="mt-4 mb-4">
-        <div className="-tabs">
-          {this.props.children}
-        </div>
-      </div>
-    )
-  }
-}
 
 
 class User extends Component {
@@ -35,14 +23,14 @@ class User extends Component {
     const {match, socket, handleSignOut} = this.props;
     const {path, url} = match;
     return (
-      <div className="-tabbed-pages">
+      <div className="-tabbed-pages -userOrganBackgroundImg">
         <TopBar handleSignOut={handleSignOut}/>
         <main className="row">
-          <div className="col-3">
+          <div className="col-3 -right-sidebar-wrapper">
             {/* TODO : side bar component should be placed here*/}
           </div>
 
-          <div className="col-6">
+          <div className="col-6 -content-wrapper">
             <Tabs>
               <NavLink className="-tab" to={`${url}/basicInformation`} activeClassName="-active">
                 {userInfoIcon}
@@ -65,7 +53,7 @@ class User extends Component {
             </Switch>
           </div>
 
-          <div className="col-3 chatBar">
+          <div className="col-3 -left-sidebar-wrapper">
             <ChatBar/>
           </div>
         </main>

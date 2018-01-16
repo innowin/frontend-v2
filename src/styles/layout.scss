@@ -1,44 +1,41 @@
-$left-sidebar-width: 364px;
-$right-sidebar-width: 345px;
+@import "variables";
 
 .full-page-wrapper {
   padding-top: 20px;
 }
 
-.page-wrapper {
-  padding-left: $left-sidebar-width;
-  padding-right: $right-sidebar-width;
+.-tabbed-pages main {
+  padding-top: $topBarHeight;
 }
 
-.left-sidebar-wrapper {
-  z-index: 1000;
-  position: fixed;
-  left: $left-sidebar-width;
-  width: $left-sidebar-width;
-  height: 100%;
-  margin-left: -$left-sidebar-width;
-  overflow-y: auto;
-
+.-topBarHeight {
+  height: $topBarHeight;
 }
 
-.right-sidebar-wrapper {
+.-left-sidebar-wrapper {
   z-index: 1000;
   position: fixed;
-  right: $right-sidebar-width;
-  width: $right-sidebar-width;
-  height: 100%;
-  margin-right: -$right-sidebar-width;
+  left: 0;
+  top: $topBarHeight;
+  bottom: 0;
+  min-height: 100%;
   overflow-y: auto;
-  background: #eaeaea;
+}
+
+.-right-sidebar-wrapper {
+  z-index: 1000;
+  position: fixed;
+  right: 0;
+  top: $topBarHeight;
+  bottom: 0;
+  min-height: 100%;
+  overflow-y: auto;
+  background: #FFFFFF;
   -webkit-box-shadow: -3px 0px 11px 3px rgba(0,0,0,0.57);
   -moz-box-shadow: -3px 0px 11px 3px rgba(0,0,0,0.57);
   box-shadow: -3px 0px 11px 3px rgba(0,0,0,0.57);
 }
 
-.content-wrapper {
-
-}
-
-.-tabbed-pages main{
-  margin-top: 45px;
+.-content-wrapper {
+  margin: 0 auto !important;
 }

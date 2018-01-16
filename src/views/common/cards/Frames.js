@@ -4,6 +4,18 @@ import {editIcon} from 'src/images/icons'
 import {ErrorCard} from "./ErrorCard";
 import {LoadingCard} from "./LoadingCard";
 
+export class Tabs extends Component {
+  render() {
+    return (
+      <div className="mt-4 mb-4">
+        <div className="-tabs">
+          {this.props.children}
+        </div>
+      </div>
+    )
+  }
+}
+
 
 export class ItemWrapper extends Component {
   static propTypes = {
@@ -123,7 +135,9 @@ export class Field extends Component {
 export class VerifyWrapper extends Component {
 
   static defaultProps = {
-    retry: () => {return alert("retry")},
+    retry: () => {
+      return alert("retry")
+    },
     error: false
   };
 
