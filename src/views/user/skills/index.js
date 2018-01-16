@@ -29,7 +29,7 @@ export class UserSkills extends Component {
 			socket.emit(REST_REQUEST,
 				{
 					method: "get",
-					url: `${url}/users/skills/${userId}/`,
+					url: `${url}/users/skills/?skill_user=${userId}`,
 					result: `UserSkills-get/${userId}`,
 					token: "",
 				}
