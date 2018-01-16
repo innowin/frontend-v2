@@ -1,14 +1,99 @@
-.skillDescription{
-	font-size: 12px;
-	color:rgb(138, 138, 138);
+.-tabs {
+  display: flex;
+  justify-content: space-around;
+  background-color: #fff;
+  border: 1px solid #cecece;
+  padding: 10px;
+  margin-bottom: 10px;
+  .-tab {
+    border: 2px solid #373737;
+    fill: #373737;
+    height: 38px;
+    width: 38px;
+    border-radius: 100%;
+    padding: 7px;
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  a.-tab:hover, a.-active {
+    background-color: #696969;
+    & > svg {
+      fill: white;
+    }
+  }
 }
-.descriptionBox{
-	border:1px solid #b4b4b4;
-	padding:12px;
-	margin:10px;
+
+
+
+.-categoryTitle {
+  background-color: #eaeaea;
+  color: #688491;
+  padding: 7px 17px;
+  margin-bottom: 10px;
+  display: flex;
 }
-.skillTags{
-	.skillTag{
-		background-color:rgba(110, 110, 110, 0.705)
-	}
+
+.-frameCard {
+  background-color: #ffffff;
+  border: 1px solid #cecece;
+  border-top: 5px solid #688491;
+  padding: 20px 16px 16px 16px;
+  .-itemWrapper {
+    position: relative;
+    margin-bottom: 12px;
+    .-item-icon {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 40px;
+      height: 30px;
+      border: 1px solid #959595;
+      border-right-color: #688491;
+      border-bottom-color: #688491;
+      background-color: #eaeaea;
+      fill: #373737;
+      padding: 4px 9px;
+      svg {
+        height: 20px;
+        width: 20px;
+      }
+    }
+    .-item-header {
+      position: absolute;
+      display: flex;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      top: -29px;
+      left: 0;
+      right: 0;
+      margin-right: 16px;
+      margin-left: 16px;
+      .-item-title {
+        flex: 1 1 auto;
+      }
+      .-item-edit-btn {
+        flex: 0 0 auto;
+        svg {
+          fill: #373737;
+          height: 16px;
+          width: 16px;
+        }
+      }
+    }
+    .-item-content {
+      position: relative;
+      margin-right: 39px;
+      margin-top: 29px;
+      border-top: 1px solid #688491;
+      border-right: 1px solid #688491;
+      padding: 16px 16px 50px 16px;
+      color: #373737;
+    }
+    &:last-child .-item-content {
+      padding: 16px;
+    }
+  }
 }

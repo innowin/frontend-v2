@@ -35,6 +35,10 @@ class Login extends Component {
 		};
 		this.setState(newState)
 	};
+	_RedirectToHome = () => {
+		const {history} = this.props;
+		history.push('/');
+	};
 	
 	_showRecovery = () => {
 		const newState = {
@@ -52,9 +56,9 @@ class Login extends Component {
 		const SignUp = (page === 'SignUp');
 		const Recovery = (page === 'Recovery');
 		const {socket , handleLogIn } = this.props;
+		const RedirectToHome = this._RedirectToHome;
 		return (
 				<div className="full-page-wrapper login-page">
-					
 					<div className="login-container">
 						<HeaderLogin  iosLink={iosLink} androidLink={androidLink} address={address} phoneNumber={phoneNumber} logoCaption={logoCaption} />
 						<div className="row content">
@@ -62,16 +66,16 @@ class Login extends Component {
 							<div className="col-12 col-md-6 col-lg-5 mt-4 login-wrapper">
 								<div className="card">
 									<div className="login-tab">
-										{(!SignIn) && <button className="btn btn-sm btn-secondary" onClick={this._showSignIn}>
+										{(!SignIn) && (<div className="signup-tab"><button className="btn btn-sm btn-secondary" onClick={this._showSignIn}>
 											{__('Login')}
-										</button>}
-										{ (SignIn) && <button className="btn btn-sm btn-secondary" onClick={this._showSignUp}>
+										</button><span>{__('Register')}</span></div>)}
+										{ (SignIn) && (<div className="signin-tab"><span>{__('Login')}</span><button className="btn btn-sm btn-secondary" onClick={this._showSignUp}>
 											{__('Register')}
-										</button>}
+										</button></div>)}
 									</div>
 									<div className="card-block">
 										{SignIn && <LoginForm showRecovery={this._showRecovery} socket={socket}  handleLogIn={handleLogIn}/>}
-										{SignUp && <RegisterForm showLogin={this._showSignIn} socket={socket}/>}
+										{SignUp && <RegisterForm showLogin={this._showSignIn} socket={socket} RedirectToHome={RedirectToHome}/>}
 										{Recovery && <RecoveryForm socket={socket}/>}
 									</div>
 									<div className="card-footer social-login">

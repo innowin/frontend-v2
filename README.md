@@ -25,6 +25,7 @@
 				5) push premaster branch on remote server
 -------------------------------------
 ## **Code Style**
+<<<<<<< HEAD
 	- General:
 		+ TODO
 				+ Use TODO by name of developer and issue number every where that need change or fixing.
@@ -63,6 +64,46 @@
 	```sh
 		http://89.42.210.20:9095
 	```
+=======
+- General:
+    + TODO
+        + Use TODO by name of developer and issue number every where that need change or fixing.
+        example : // TODO mohsen #32 : ....
+
+- Indentation 
+    + JS
+        + Tab size : 2 
+        + Indent : 2 
+        + Continuation indent : 2 
+    + SCSS 
+        + Tab size : 2 
+        + Indent : 2 
+        + Continuation indent : 2     
+    + CSS 
+        + Tab size : 2 
+        + Indent : 2 
+        + Continuation indent : 2 
+- React Components:
+    + Stateless Components: 
+        - should be written in Functional-Component way.
+    + Importing in Components: 
+        - should be imported base on alphabetic order. 
+    + Naming declared functions: 
+        - Their names should be started with under-score( _ ). 
+    + Returning in functions: 
+        - Return context inside ( ).
+
+
+-------------------------------------------------         
+## Rest documentation server 
+```sh 
+    http://restful.daneshboom.ir/docs/    
+```
+## Socket server 
+```sh 
+    http://89.42.210.20:9095
+```
+>>>>>>> c1d942a7703252b162214f897e54954d0fa03197
 ------------------------------------
 ##sample Code for SOCKET
 ```

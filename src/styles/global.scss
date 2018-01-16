@@ -20,8 +20,7 @@ input, textarea, button, select {
 @import "~react-select-2/dist/css/react-select-2.css";
 @import "./components/utils.scss";
 @import "./pages/login";
-@import "./pages/profile";
-@import "./pages/user";
+@import "pages/user";
 @import "components/bars/bars";
 @import "components/common/input-group-vertical";
 @import "components/common/inputs/file-input";

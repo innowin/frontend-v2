@@ -4,7 +4,7 @@ import educationIcon from "./user/education.svg"
 import researchIcon from "./user/research.svg"
 import skillIcon from "./user/skill.svg"
 import starIcon from "./common/star.svg"
-import streamIcon from "./common/stream.svg"
+import postIcon from "./common/post.svg"
 import userInfoIcon from "./user/userinfo.svg.js"
 import workExperienceIcon from "./user/workExperience.svg"
 import defaultImg from "./common/defaultImg.png"
@@ -15,7 +15,7 @@ export {
     editIcon,
     certificateIcon,
     educationIcon,
-    streamIcon,
+    postIcon,
     researchIcon,
     skillIcon,
     starIcon,
