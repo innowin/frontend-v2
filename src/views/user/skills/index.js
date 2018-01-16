@@ -46,7 +46,6 @@ export class UserSkills extends Component {
 				const newState = {...this.state, skills: res, isLoading: false};
 				this.setState(newState);
 			}
-
 		});
 	}
 
@@ -56,22 +55,29 @@ export class UserSkills extends Component {
 	hideEdit = () => {
 			this.setState({...this.state, edit: false});
 	};
+	_deleteTag(element,index){
+
+	}
+	_addTag(tagName){
+
+	}
 
 	render() {
 		const {skills, edit, isLoading, error} = this.state;
 		const skillsView = skills.map((skill,index)=>{
-			return <UserSkillView skill={skill.node} key={index} showEdit={this.showEdit}/>
+			return <UserSkillView skill={skill}
+			 key={index}
+			 edit={edit}
+			 showEdit={this.showEdit}
+			 addTag={this._addTag}
+			 deleteTag={this.deleteTag}/>
 		})
 		return(
 			<VerifyWrapper isLoading={isLoading} error={error}>
 				{
-					(edit) ? (
-						<span/>
-					) : (
-						<ListGroup>
-							{skillsView}
-						</ListGroup>
-					)
+					<ListGroup>
+						{skillsView}
+					</ListGroup>
 				}
 			</VerifyWrapper>
 
