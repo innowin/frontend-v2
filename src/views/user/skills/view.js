@@ -16,10 +16,9 @@ export class UserSkillView extends Component {
 		const {skill,edit,showEdit} = this.props;
 		const tags = skill.tag.map((tag,index)=>{
 			if(edit){
-				<span class="badge badge-secondary skillTag m-1">{tag}<span className="tagCross" onClick={this.deleteTag.bind(this,index)}>X</span></span>
+				return (<span class="badge badge-secondary skillTag m-1">{tag}<span className="tagCross" onClick={this.deleteTag.bind(this,index)}>X</span></span>)
 			}else{
-				return
-				<span class="badge badge-secondary skillTag m-1">{tag}</span>
+				return(<span class="badge badge-secondary skillTag m-1">{tag}</span>)
 			}
 
 		})
