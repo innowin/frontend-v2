@@ -119,7 +119,8 @@ module.exports = {
   'Work experiences': "سوابق کاری",
   'Position': "موقعیت",
   'Removing...': "در حال حذف ...",
-  'Saving...': "در حال ذخیره سازی ...",
+	'Saving...': "در حال ذخیره سازی ...",
+	'Tag Name': 'نام تگ',
 
   // UserDropDown.js
   'Profile': "پروفایل",

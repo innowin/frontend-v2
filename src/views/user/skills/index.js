@@ -5,7 +5,8 @@ import {
 	VerifyWrapper,
 	ListGroup,
 	FrameCard,
-	ItemWrapper
+	ItemWrapper,
+	ItemHeader
 	} from "../../common/cards/Frames";
 import {
 	userInfoIcon
@@ -15,12 +16,14 @@ import {UserSkillView} from "./view";
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {TOKEN} from "../../../consts/data"
 import {REST_REQUEST} from "../../../consts/Events"
-
+import SkillInfoForm from './forms';
 //TODO amir #5  get data with SOCKET and review component
 export class UserSkills extends Component {
 	constructor(props) {
 		super(props);
+		console.log("constructor: Skill index")
 		this.state = {error: null, edit: false, isLoading: false, skills:[]};
+
 	}
 
 	static propTypes = {
@@ -29,7 +32,7 @@ export class UserSkills extends Component {
 	};
 
 	componentDidMount(){
-		console.log("TOKEN IS "+TOKEN)
+		console.log("ComponentDidMount: Skill index")
 		const {userId } = this.props;
 		const emitting = () => {
 			const newState = {...this.state, isLoading: true};
@@ -57,34 +60,44 @@ export class UserSkills extends Component {
 		});
 	}
 
-	showEdit = () => {
+	_showEdit = () => {
 			this.setState({...this.state, edit: true});
 	};
-	hideEdit = () => {
+	_hideEdit = () => {
 			this.setState({...this.state, edit: false});
 	};
-	_deleteTag(element,index){
 
-	}
-	_addTag(tagName){
-
-	}
+	_updateStateForView = (res,skillIndex, error, isLoading) => {
+		const {skills} = this.state;
+		skills[skillIndex] = res;
+		this.setState({...this.state, skills:skills, error:error, isLoading:isLoading});
+	};
 
 	render() {
 		const {skills, edit, isLoading, error} = this.state;
+
 		const skillsView = skills.map((skill,index)=>{
-			return <UserSkillView skill={skill}
-			 key={index}
-			 edit={edit}
-			 showEdit={this.showEdit}
-			 addTag={this._addTag}
-			 deleteTag={this.deleteTag}/>
+			return( (!edit) ?
+			<UserSkillView
+				skill={skill}
+				key={index}
+				skillIndex={index}
+				showEdit={this._showEdit}
+			/> :
+			<SkillInfoForm
+				skillIndex ={index}
+				skill = {skill}
+				hideEdit={this._hideEdit}
+				updateStateForView ={this._updateStateForView}
+			/>)
 		})
 		return(
 			<VerifyWrapper isLoading={isLoading} error={error}>
 				{
+
 					<FrameCard>
 						<ItemWrapper icon={userInfoIcon}>
+							<ItemHeader title={__('User info')} showEdit={this._showEdit}/>
 							<ListGroup>
 								{skillsView}
 							</ListGroup>
