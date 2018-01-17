@@ -1,5 +1,6 @@
-import {REST_URL as url, SOCKET as socket} from "../../consts/URLS"
 import {REST_REQUEST} from "../../consts/Events"
+import {REST_URL as url, SOCKET as socket} from "../../consts/URLS"
+import {TOKEN} from "src/consts/data"
 
 export const updateUser = (formValues, userId, updateStateForView, hideEdit) => {
   let isLoading = false;
@@ -9,7 +10,7 @@ export const updateUser = (formValues, userId, updateStateForView, hideEdit) => 
       method: "patch",
       url: `${url}/users/${userId}/`,
       result: `updateUser-patch-${userId}`,
-      token: "",
+      token: TOKEN,
       data: {
         "username": formValues.username,
         "first_name": formValues.first_name,
@@ -40,7 +41,7 @@ export const updateProfile = (formValues, profileId, updateStateForView, hideEdi
       method: "patch",
       url: `${url}/users/profiles/${profileId}/`,
       result: `updateProfile-patch-${profileId}`,
-      token: "",
+      token: TOKEN,
       data: {
         "public_email": formValues.public_email,
         "national_code": formValues.national_code,
