@@ -16,14 +16,12 @@ class Layout extends Component {
   render(){
   	const {socket , handleSignOut } = this.props;
     return(
-			<div>
 				<Switch>
 					<PropsRoute exact={true} path="/" component={Home} socket={socket} handleSignOut={handleSignOut} />
 					<PropsRoute  path="/user" component={User} socket={socket}  handleSignOut={handleSignOut}/>
 					<PropsRoute  path="/organization" component={Organization} socket={socket}  handleSignOut={handleSignOut}/>
 					<PropsRoute  path="/exchange" component={Exchange} socket={socket}  handleSignOut={handleSignOut}/>
 				</Switch>
-			</div>
 		)
   }
 }
