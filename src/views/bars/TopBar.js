@@ -20,7 +20,8 @@ class TopBar extends Component {
     const {handleSignOut} = this.props;
     return (
       <div>
-        <nav className="navbar flex-row justify-content-between p-0 -white-i fixed-top" style={{backgroundColor: "#253545"}}>
+        <nav className="navbar flex-row justify-content-between p-0 -white-i fixed-top -topBarHeight"
+             style={{backgroundColor: "#253545"}}>
           <div className="d-flex align-items-center">
             <button type="button" className="navbar-toggler my-auto" onClick={this._toggle}>
               <i className="fa fa-bars" aria-hidden="true"></i>
@@ -33,7 +34,7 @@ class TopBar extends Component {
           </div>
           <img className="-centerInDad-img" src={defaultImg} alt="profile_img" style={{maxHeight: "30px"}}/>
           <div className="dir-ltr d-flex flex-row">
-            <img src={defaultImg} style={{maxHeight: "45px"}}/>
+            <img className="-topBarHeight" src={defaultImg}/>
             <div className="ml-4 mt-2 mb-2 -searchInput d-flex align-items-center">
               <i className="fa fa-search" aria-hidden="true"></i>
               <input

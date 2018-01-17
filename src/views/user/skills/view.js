@@ -23,8 +23,9 @@ export class UserSkillView extends Component {
 	render(){
 		const {skill, showEdit} = this.props;
 		const tags = skill.tag.map((tag,index)=>{
-			return(<span class="badge badge-secondary skillTag m-1">{tag}</span>)
-		})
+{/*<<<<<<< HEAD*/}
+			return(<span className="badge badge-secondary skillTag m-1">{tag}</span>)
+		});
 					// <div className="descriptionBox">
 					// 	<input type="text" className="h6 form-control" value={skill.title} name="title"></input>
 					// 	<textarea className="skillDescription form-control" name="description">
@@ -39,6 +40,36 @@ export class UserSkillView extends Component {
 					// 	</div>
 					// </div>
 
+// =======
+//       if(edit){
+//       return (
+//       <span class="badge badge-secondary skillTag m-1">
+//       {tag}
+//       <span className="tagCross" onClick={this.deleteTag.bind(this,index)}>X</span>
+//       </span>
+//       )
+//     }else{
+//       return(
+//       <span class="badge badge-secondary skillTag m-1">{tag}</span>)
+//     }
+//
+//     });
+//     if(edit){
+//       return (
+//       <div className="descriptionBox">
+//       <input type="text" className="h6 form-control" value={skill.title} name="title"></input>
+//       <textarea className="skillDescription form-control" name="description">
+//       {skill.description}
+//       </textarea>
+//       <div className="skillTags" name="tags" ref={(input)=>{this.tags = input;}} >
+//       {tags}
+//       </div>
+//       <input type="button" className="form-control" value={__('Add Tag')} onClick={this.addTag} />
+//       <input type="text" className="form-control" name="tagName"  ref={(input)=>{this.tagname = input;}}> </input>
+//       </div>
+//       )
+//     }else{
+//       >>>>>>> premaster
 			return (
 				<div className="descriptionBox">
 					<h6>{skill.title}</h6>
@@ -51,4 +82,4 @@ export class UserSkillView extends Component {
 				</div>
 			)
 	}
-};
+}

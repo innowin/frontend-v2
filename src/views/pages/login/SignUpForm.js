@@ -1,12 +1,12 @@
 /*global __*/
-import React, {Component} from 'react';
-import {FORM_ERROR , ALL} from "../../../consts/error-codes";
-import {SOCKET as socket, REST_URL as url} from "src/consts/URLS";
-import {setID ,setTOKEN,saveData} from 'src/consts/data';
-import cookies from 'browser-cookies';
-import {REST_REQUEST} from 'src/consts/Events';
-import {LoadingCard} from "../../common/cards/LoadingCard";
-import {ErrorCard} from "../../common/cards/ErrorCard";
+import React, {Component} from "react"
+import cookies from "browser-cookies"
+import {ErrorCard} from "../../common/cards/ErrorCard"
+import {FORM_ERROR , ALL} from "../../../consts/error-codes"
+import {LoadingCard} from "../../common/cards/LoadingCard"
+import {REST_REQUEST} from "src/consts/Events"
+import {setID ,setTOKEN,saveData} from "src/consts/data"
+import {SOCKET as socket, REST_URL as url} from "src/consts/URLS"
 
 export class SignUpForm extends Component {
 	constructor(props) {

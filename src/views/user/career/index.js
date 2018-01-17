@@ -59,7 +59,7 @@ export class UserCareers extends Component {
 		const {careers, edit, isLoading, error} = this.state;
 		const careersView = careers.map((career,index)=>{
 			return <UserCareerView career={career} key={index}/>
-		})
+		});
 		return(
 			<VerifyWrapper isLoading={isLoading} error={error}>
 				{

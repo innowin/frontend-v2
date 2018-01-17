@@ -24,7 +24,7 @@ export class UserCareerView extends Component {
 	static propTypes={
 		showEdit: PropTypes.func.isRequired,
 		career: PropTypes.object.isRequired
-	}
+	};
 
 	showEdit = () => {
 		this.setState({...this.state, edit: true});
@@ -58,5 +58,5 @@ export class UserCareerView extends Component {
 			)
 		}
 	}
-};
+}
 

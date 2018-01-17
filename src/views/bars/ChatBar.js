@@ -15,62 +15,6 @@ class MainChatBar extends Component {
     let content = (
       <div>
         <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-        <h2> i am chat</h2>
-
       </div>
     );
     if (tab === "map") {

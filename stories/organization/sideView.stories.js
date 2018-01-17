@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react"
 
-import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import { linkTo } from '@storybook/addon-links';
+import { storiesOf } from "@storybook/react"
+import { action } from "@storybook/addon-actions"
+import { linkTo } from "@storybook/addon-links"
 
-import { Button, Welcome } from '@storybook/react/demo';
-import OrganizationSideView from '../../src/views/organization/components/SideView';
+import { Button, Welcome } from "@storybook/react/demo"
+import OrganizationSideView from "src/views/bars/Sidebar"
 
 const organization ={
 	logo :"#",

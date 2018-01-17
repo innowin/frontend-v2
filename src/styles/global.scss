@@ -1,12 +1,13 @@
 body {
   direction: rtl;
   overflow-x: hidden;
+  height: 100%;
   background-color: #f2f4f6;
   font-family: "IRANSansWebFaNum", "Helvetica Neue", sans-serif !important;
 }
 
 html {
-  min-height: 100%;
+  height: 100%;
   font-family: "IRANSansWebFaNum", "Helvetica Neue", sans-serif !important;
 }
 
@@ -20,8 +21,8 @@ input, textarea, button, select {
 @import "~react-select-2/dist/css/react-select-2.css";
 @import "./components/utils.scss";
 @import "./pages/login";
-@import "pages/user";
 @import "components/bars/bars";
+@import "components/common/cards/frames";
 @import "components/common/input-group-vertical";
 @import "components/common/inputs/file-input";
 @import "components/common/inputs/file-name";
