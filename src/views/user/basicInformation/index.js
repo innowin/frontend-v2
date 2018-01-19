@@ -6,6 +6,7 @@ import {ListGroup} from '../../common/cards/Frames'
 import {ProfileInfoEditForm, UserInfoEditForm} from './Forms'
 import {REST_REQUEST} from "../../../consts/Events"
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
+import {TOKEN} from "src/consts/data"
 import {UserInfoItemWrapper, UserInfoView, ProfileInfoView} from "./Views"
 
 
@@ -42,7 +43,7 @@ export class UserInfo extends Component {
           method: "get",
           url: `${url}/users/${userId}/`,
           result: `UserInfo-get/${userId}`,
-          token: "",
+          token: TOKEN,
         }
       );
     };
@@ -114,7 +115,7 @@ export class ProfileInfo extends Component {
           method: "get",
           url: `${url}/users/profiles/?profile_user=${userId}`,
           result: `ProfileInfo-get/${userId}`,
-          token: "",
+          token: TOKEN
         }
       );
     };

@@ -7,10 +7,6 @@ import Test from './views/Test';
 import {setTOKEN, setID,saveData} from './consts/data';
 import cookies from 'browser-cookies';
 import PropsRoute from './consts/PropsRoute';
-import io from 'socket.io-client';
-import {SOCKET_URL} from './consts/URLS';
-
-const socket = io(SOCKET_URL);
 
 class App extends Component {
 	constructor (props){
@@ -65,8 +61,9 @@ class App extends Component {
 		return (
       <div className="App">
 				{this._isLoggedIn()}
-				<PropsRoute path="/" component={Layout} socket={socket} handleSignOut={this._handleSignOut}/>
-				<PropsRoute path="/login" component={Login} socket={socket} handleLogIn={this._handleLogIn}/>
+				<PropsRoute path="/" component={Layout} handleSignOut={this._handleSignOut}/>
+				<PropsRoute path="/login" component={Login} handleLogIn={this._handleLogIn}/>
+
         {/*<Test socket={socket}/>*/}
 			</div>
     )

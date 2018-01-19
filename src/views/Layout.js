@@ -1,12 +1,10 @@
 import React,{Component} from 'react';
 import Home from './pages/Home';
-import TopBar from './bars/TopBar';
 import PropsRoute from '../consts/PropsRoute'
 import User from './User';
 import Exchange from './Exchange';
 import Organization from './Organization';
-import cookies from 'browser-cookies'
-import { Switch , Redirect } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 
 class Layout extends Component {
   constructor (props) {
@@ -15,17 +13,14 @@ class Layout extends Component {
   }
 
   render(){
-  	const {socket , handleSignOut} = this.props;
-  	//alert(this.props,'layout');
+  	const {handleSignOut} = this.props;
     return(
-			<div>
 				<Switch>
-					<PropsRoute exact={true} path="/" component={Home} socket={socket} handleSignOut={handleSignOut} />
-					<PropsRoute  path="/user" component={User} socket={socket}  handleSignOut={handleSignOut}/>
-					<PropsRoute  path="/organization" component={Organization} socket={socket}  handleSignOut={handleSignOut}/>
-					<PropsRoute  path="/exchange" component={Exchange} socket={socket}  handleSignOut={handleSignOut}/>
+					<PropsRoute exact={true} path="/" component={Home} handleSignOut={handleSignOut}/>
+					<PropsRoute  path="/user/:id" component={User} handleSignOut={handleSignOut}/>
+					<PropsRoute  path="/organization/:id" component={Organization} handleSignOut={handleSignOut}/>
+					<PropsRoute  path="/exchange" component={Exchange} handleSignOut={handleSignOut}/>
 				</Switch>
-			</div>
 		)
   }
 }

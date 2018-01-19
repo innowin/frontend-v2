@@ -1,12 +1,13 @@
 /*global __*/
-import React,{Component}  from 'react'
-import CarouselLogin from './login/Carousel'
-import FooterLogin from './login/FooterLogin'
-import HeaderLogin from './login/HeaderLogin'
-import LoginForm from './login/signInForm'
-import RecoveryForm from './login/RecoveryForm'
-import RegisterForm from './login/SignUpForm'
-import SocialLogin from './login/SocialLogin'
+import React,{Component}  from "react"
+import CarouselLogin from "./login/Carousel"
+import FooterLogin from "./login/FooterLogin"
+import HeaderLogin from "./login/HeaderLogin"
+import LoginForm from "./login/signInForm"
+import RecoveryForm from "./login/RecoveryForm"
+import RegisterForm from "./login/SignUpForm"
+import SocialLogin from "./login/SocialLogin"
+import {SOCKET as socket} from "../../consts/URLS"
 
 class Login extends Component {
 	constructor (props) {
@@ -55,7 +56,7 @@ class Login extends Component {
 		const SignIn = (page === 'SignIn');
 		const SignUp = (page === 'SignUp');
 		const Recovery = (page === 'Recovery');
-		const {socket , handleLogIn } = this.props;
+		const {handleLogIn } = this.props;
 		const RedirectToHome = this._RedirectToHome;
 		return (
 				<div className="full-page-wrapper login-page">

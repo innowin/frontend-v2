@@ -8,7 +8,6 @@ import postIcon from "./common/post.svg"
 import userInfoIcon from "./user/userinfo.svg.js"
 import workExperienceIcon from "./user/workExperience.svg"
 import defaultImg from "./common/defaultImg.png"
-import chatBarImg from "./common/chatBarImg.png"
 
 
 export {
@@ -22,5 +21,4 @@ export {
     userInfoIcon,
     workExperienceIcon,
     defaultImg,
-    chatBarImg
 }

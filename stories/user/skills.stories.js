@@ -1,10 +1,10 @@
-import React from 'react';
-import { action } from '@storybook/addon-actions';
-import { Button, Welcome } from '@storybook/react/demo';
-import {CenterDecorator, ProfileCardDecorator} from "../helpers";
-import {UserSkills} from 'src/views/user/skills/item'
-import { storiesOf } from '@storybook/react';
-import { linkTo } from '@storybook/addon-links';
+import React from "react"
+import { action } from "@storybook/addon-actions"
+import { Button, Welcome } from "@storybook/react/demo"
+import { linkTo } from "@storybook/addon-links"
+import { storiesOf } from "@storybook/react"
+import {CenterDecorator, ProfileCardDecorator} from "../helpers"
+import {UserSkills} from "src/views/user/skills/item"
 
 
 // TODO correct  customer format, users format ( users? members?)
