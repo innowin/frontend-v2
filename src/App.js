@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import './fontawesome/css/font-awesome.min.css';
 import './styles/global.scss';
 import Layout from './views/Layout';
 import Login from './views/pages/Login';
-import Test from './views/Test';
-import {setTOKEN, setID,saveData} from './consts/data';
+// import Test from './views/Test';
+import {setTOKEN, setID, saveData} from './consts/data';
 import cookies from 'browser-cookies';
 import PropsRoute from './consts/PropsRoute';
 
 class App extends Component {
-	constructor (props){
+	constructor(props) {
 		super(props);
-		this.state = {isLoggedIn : null}
+		this.state = {isLoggedIn: null}
 	}
 	
 	_verifyToken = () => {
@@ -21,7 +21,7 @@ class App extends Component {
 	};
 	
 	_handleLogIn = (res) => {
-		const setData = (data , cb) => {
+		const setData = (data, cb) => {
 			const {token} = data;
 			const id = data.user.id.toString();
 			saveData(data);
@@ -31,11 +31,11 @@ class App extends Component {
 		};
 		const redirectingToHome = () => {
 			const T = cookies.get('token');
-			if(T.length > 0) {
+			if (T.length > 0) {
 				this.props.history.push('/');
 			}
 		};
-		setData(res , redirectingToHome);
+		setData(res, redirectingToHome);
 	};
 	
 	_handleSignOut = () => {
@@ -46,28 +46,28 @@ class App extends Component {
 	};
 	
 	_isLoggedIn = () => {
-		if(cookies.get('token') && this._verifyToken()) {
+		if (cookies.get('token') && this._verifyToken()) {
 			return false
 		}
-		if(!cookies.get('token')) {
-			if(this.props.location.pathname !== "/login" ){
+		if (!cookies.get('token')) {
+			if (this.props.location.pathname !== "/login") {
 				this.props.history.push('/login');
 			}
 			return false
 		}
 	};
 	
-  render() {
+	render() {
 		return (
-      <div className="App">
-				{this._isLoggedIn()}
-				<PropsRoute path="/" component={Layout} handleSignOut={this._handleSignOut}/>
-				<PropsRoute path="/login" component={Login} handleLogIn={this._handleLogIn}/>
-
-        {/*<Test socket={socket}/>*/}
-			</div>
-    )
-  }
+				<div className="App">
+					{this._isLoggedIn()}
+					<PropsRoute path="/" component={Layout} handleSignOut={this._handleSignOut}/>
+					<PropsRoute path="/login" component={Login} handleLogIn={this._handleLogIn}/>
+					
+					{/*<Test socket={socket}/>*/}
+				</div>
+		)
+	}
 }
 
 export default App;
