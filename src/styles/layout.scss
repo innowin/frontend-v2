@@ -23,11 +23,9 @@ $right-sidebar-width: 345px;
 
 .right-sidebar-wrapper {
   z-index: 1000;
-  position: fixed;
-  right: $right-sidebar-width;
-  width: $right-sidebar-width;
+	position: fixed;
+	max-width:inherit;
   height: 100%;
-  margin-right: -$right-sidebar-width;
   overflow-y: auto;
   background: #eaeaea;
   -webkit-box-shadow: -3px 0px 11px 3px rgba(0,0,0,0.57);

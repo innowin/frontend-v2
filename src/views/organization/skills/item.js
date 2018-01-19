@@ -5,12 +5,8 @@ import {userInfoIcon} from "src/images/icons"
 import {
 		ItemHeader,
 		ItemWrapper,
-		Field,
-		FieldLabel,
-		FieldValue,
 		ListGroup
 } from "../../common/cards/Frames";
-import {str_to_option, optionLabel, list_of_badge} from "../../common/Functions"
 
 export const OrganItemWrapper = ({children}) => {
 		return <ItemWrapper icon={userInfoIcon}>{children}</ItemWrapper>;
@@ -42,7 +38,7 @@ export class OrganizationInfo extends Component {
 		};
 
 		render() {
-			const {organization, updateOrganization} = this.props;
+			const {organization} = this.props;
 			const skills = organization.skills.map((skill,index)=>{
 				return <OrganizationView skill={skill.node} key={index} showEdit={this.showEdit}/>
 			})
