@@ -26,7 +26,7 @@ export const OrganizationView =({showEdit,skill})=> {
 OrganizationView.propTypes={
 	showEdit: PropTypes.func.isRequired,
 	skill: PropTypes.object.isRequired,
-}
+};
 
 export class OrganizationInfo extends Component {
 		state = {edit: false};
@@ -41,7 +41,7 @@ export class OrganizationInfo extends Component {
 			const {organization} = this.props;
 			const skills = organization.skills.map((skill,index)=>{
 				return <OrganizationView skill={skill.node} key={index} showEdit={this.showEdit}/>
-			})
+			});
 			// if (this.state.edit) {
 			// 	return (
 			// 		<OrganItemWrapper>
@@ -77,4 +77,4 @@ OrganizationSkills.propTypes = {
 	updateOrganization: PropTypes.func.isRequired,
 	organization: PropTypes.object.isRequired,
 	allUsers: PropTypes.array,
-}
+};

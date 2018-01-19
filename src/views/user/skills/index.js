@@ -17,6 +17,8 @@ import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {TOKEN} from "../../../consts/data"
 import {REST_REQUEST} from "../../../consts/Events"
 import SkillInfoForm from './forms';
+
+
 //TODO amir #5  get data with SOCKET and review component
 export class UserSkills extends Component {
 	constructor(props) {
@@ -90,7 +92,8 @@ export class UserSkills extends Component {
 				hideEdit={this._hideEdit}
 				updateStateForView ={this._updateStateForView}
 			/>)
-		})
+		});
+
 		return(
 			<VerifyWrapper isLoading={isLoading} error={error}>
 				{

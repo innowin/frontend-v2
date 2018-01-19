@@ -24,7 +24,7 @@ export default class LoginForm extends Component {
 			console.log(res);
 			if (res.non_field_errors) {
 				const message = res.non_field_errors[0];
-				this._handleError(message)
+				this._handleError(message);
 				return false;
 			}
 			if (res.password || res.username) {

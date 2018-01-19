@@ -1,7 +1,9 @@
 /*global __*/
-import React from "react";
-import {OrganizationSkills} from "./item";
-import {FrameCard, CategoryTitle} from "../../common/cards/Frames";
+import React from "react"
+import {OrganizationSkills} from "./item"
+import {FrameCard, CategoryTitle} from "../../common/cards/Frames"
+
+
 export const OrganizationContainer = (organization,allUsers)=> {
 		return(
 		<OrganizationSkills
@@ -27,7 +29,7 @@ export const OrganizationSection = ({organization,allUsers})=>{
 							</FrameCard>
 					</div>
 				);
-		}
+		};
 export default OrganizationSection;
 
 // export default ({organization, allUsers}) => {

@@ -1,16 +1,13 @@
-import React, { Component } from 'react';
-import './fontawesome/css/font-awesome.min.css';
-import './styles/global.scss';
-import Layout from './views/Layout';
-import Login from './views/pages/Login';
-import Test from './views/Test';
-import {TOKEN} from './consts/data';
-import {Route,Redirect} from 'react-router-dom';
-import {REST_REQUEST, GET_VIEWS_COUNT} from './consts/Events';
-import cookies from 'browser-cookies';
-import PropsRoute from './consts/PropsRoute';
-import io from 'socket.io-client';
-import {SOCKET_URL} from './consts/URLS';
+import React, { Component } from "react"
+import "./fontawesome/css/font-awesome.min.css"
+import "./styles/global.scss"
+import Layout from "./views/Layout"
+import Login from "./views/pages/Login"
+import Test from "./views/Test"
+import cookies from "browser-cookies"
+import PropsRoute from "./consts/PropsRoute"
+import io from "socket.io-client"
+import {SOCKET_URL} from "./consts/URLS"
 
 const socket = io(SOCKET_URL);
 
@@ -57,9 +54,9 @@ class App extends Component {
 		return (
       <div className="App">
 				{/*{(isLoggedIn || this._loggedIn()) ? (<Redirect from="/login" to="/"/>)  : (<Redirect to="/login"/>)}*/}
-        <PropsRoute path="/" component={Layout} socket={socket} handleSignOut={this._handleSignOut}/>
-        <PropsRoute path="/login" component={Login} socket={socket} handleLogIn={this._handleLogIn}/>
-        <Test socket={socket}/>
+        <PropsRoute path="/" component={Layout} handleSignOut={this._handleSignOut}/>
+        <PropsRoute path="/login" component={Login} handleLogIn={this._handleLogIn}/>
+        {/*<Test socket={socket}/>*/}
 			</div>
     )
   }

@@ -1,3 +1,10 @@
+.-userOrganBackgroundImg {
+  background-image: url("../images/common/userOrganBackground.png");
+  background-repeat: no-repeat;
+  background-position: top left;
+  background-attachment: fixed;
+}
+
 .flat {
   @include border-top-radius(0);
   @include border-right-radius(0);
