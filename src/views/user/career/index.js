@@ -3,7 +3,8 @@ import React,{Component} from "react";
 import PropTypes from 'prop-types';
 import {
 	VerifyWrapper,
-	ListGroup
+	ListGroup,
+	FrameCard
 	} from "../../common/cards/Frames";
 import {UserCareerView} from "./view";
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
@@ -35,7 +36,7 @@ export class UserCareers extends Component {
 			socket.emit(REST_REQUEST,
 				{
 					method: "get",
-					url: `${url}/users/work-experiences/${userId}/`,
+					url: `${url}/users/work-experiences/?work_experience_user=${userId}`,
 					result: `UserCareers-get/${userId}`,
 					token: "",
 				}
@@ -60,12 +61,15 @@ export class UserCareers extends Component {
 		const careersView = careers.map((career,index)=>{
 			return <UserCareerView career={career} key={index}/>
 		})
+
 		return(
 			<VerifyWrapper isLoading={isLoading} error={error}>
 				{
-					<ListGroup>
-						{careersView}
-					</ListGroup>
+					<FrameCard>
+						<ListGroup>
+							{careersView}
+						</ListGroup>
+					</FrameCard>
 				}
 			</VerifyWrapper>
 		)

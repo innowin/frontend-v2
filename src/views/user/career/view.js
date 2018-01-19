@@ -1,7 +1,7 @@
 /*global __*/
 import React, {Component} from 'react';
 import PropTypes from "prop-types";
-import {WorkExperienceEditForm} from './forms';
+import UserCareerForm from './forms';
 import {
 	ItemHeader,
 	ItemWrapper,
@@ -33,30 +33,35 @@ export class UserCareerView extends Component {
 			this.setState({...this.state, edit: false});
 	};
 
-	render(){
+	render(){//TODO amir : correct date format (??)
 		const {career} = this.props;
 		const {edit} = this.state;
-		if (edit) {
-			return <div/>
-		}else{
+
 			return (
-				<WorkExperienceItemWrapper>
-					<ItemHeader title={career.name} showEdit={this.showEdit}/>
-					<Field>
-						<FieldLabel label={__('Position') + ": "}/>
-						<FieldValue value={career.position}/>
-					</Field>
-					<Field>
-						<FieldLabel label={__('From date') + ": "}/>
-						<FieldValue value={career.fromDate}/>
-					</Field>
-					<Field>
-						<FieldLabel label={__('To date') + ": "}/>
-						<FieldValue value={career.toDate}/>
-					</Field>
-				</WorkExperienceItemWrapper>
-			)
+				(edit) ? (
+					<UserCareerForm className="p-2"
+						{...this.props}
+						hideEdit={this.hideEdit}
+					>
+					</UserCareerForm>
+				) : (
+					<WorkExperienceItemWrapper>
+						<ItemHeader title={career.name} showEdit={this.showEdit}/>
+						<Field>
+							<FieldLabel label={__('Position') + ": "}/>
+							<FieldValue value={career.position}/>
+						</Field>
+						<Field>
+							<FieldLabel label={__('From date') + ": "}/>
+							<FieldValue value={career.fromDate}/>
+						</Field>
+						<Field>
+							<FieldLabel label={__('To date') + ": "}/>
+							<FieldValue value={career.toDate}/>
+						</Field>
+					</WorkExperienceItemWrapper>
+					)
+				)
 		}
-	}
 };
 
