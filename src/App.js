@@ -4,9 +4,7 @@ import './styles/global.scss';
 import Layout from './views/Layout';
 import Login from './views/pages/Login';
 import Test from './views/Test';
-import {TOKEN} from './consts/data';
-import {Route,Redirect} from 'react-router-dom';
-import {REST_REQUEST, GET_VIEWS_COUNT} from './consts/Events';
+import {setTOKEN, setID,saveData} from './consts/data';
 import cookies from 'browser-cookies';
 import PropsRoute from './consts/PropsRoute';
 import io from 'socket.io-client';
@@ -17,17 +15,31 @@ const socket = io(SOCKET_URL);
 class App extends Component {
 	constructor (props){
 		super(props);
-		this.state = {isLoggedIn : false}
+		this.state = {isLoggedIn : null}
 	}
 	
 	_verifyToken = () => {
 		//TODO: token should be verified with backend token
+		
 		return true;
 	};
 	
-	_handleLogIn = () => {
-		this.setState({...this.state , isLoggedIn : true});
-		//alert('inside handle login')
+	_handleLogIn = (res) => {
+		const setData = (data , cb) => {
+			const {token} = data;
+			const id = data.user.id.toString();
+			saveData(data);
+			setTOKEN(token);
+			setID(id);
+			cb()
+		};
+		const redirectingToHome = () => {
+			const T = cookies.get('token');
+			if(T.length > 0) {
+				this.props.history.push('/');
+			}
+		};
+		setData(res , redirectingToHome);
 	};
 	
 	_handleSignOut = () => {
@@ -35,31 +47,27 @@ class App extends Component {
 		for (let cookieName in allCookies) {
 			cookies.erase(cookieName);
 		}
-		//alert('signed out');
-		this.setState({...this.state , isLoggedIn: false});
-		this.props.history.push('/login')
-		//console.log('props in handle sign out ',JSON.stringify(this.props,null , 2));
 	};
 	
-	_loggedIn = () => {
-		// alert('inside logged in checker ',cookies.get('token'));
+	_isLoggedIn = () => {
 		if(cookies.get('token') && this._verifyToken()) {
-			//console.log('in true :',TOKEN);
-			return true;
+			return false
 		}
 		if(!cookies.get('token')) {
-			//alert('in false :',TOKEN);
-			return false;
+			if(this.props.location.pathname !== "/login" ){
+				this.props.history.push('/login');
+			}
+			return false
 		}
 	};
 	
   render() {
 		return (
       <div className="App">
-				{/*{(isLoggedIn || this._loggedIn()) ? (<Redirect from="/login" to="/"/>)  : (<Redirect to="/login"/>)}*/}
-        <PropsRoute path="/" component={Layout} socket={socket} handleSignOut={this._handleSignOut}/>
-        <PropsRoute path="/login" component={Login} socket={socket} handleLogIn={this._handleLogIn}/>
-        <Test socket={socket}/>
+				{this._isLoggedIn()}
+				<PropsRoute path="/" component={Layout} socket={socket} handleSignOut={this._handleSignOut}/>
+				<PropsRoute path="/login" component={Login} socket={socket} handleLogIn={this._handleLogIn}/>
+        {/*<Test socket={socket}/>*/}
 			</div>
     )
   }

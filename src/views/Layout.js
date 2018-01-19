@@ -5,7 +5,8 @@ import PropsRoute from '../consts/PropsRoute'
 import User from './User';
 import Exchange from './Exchange';
 import Organization from './Organization';
-import { Switch } from 'react-router-dom';
+import cookies from 'browser-cookies'
+import { Switch , Redirect } from 'react-router-dom';
 
 class Layout extends Component {
   constructor (props) {
@@ -14,7 +15,8 @@ class Layout extends Component {
   }
 
   render(){
-  	const {socket , handleSignOut } = this.props;
+  	const {socket , handleSignOut} = this.props;
+  	//alert(this.props,'layout');
     return(
 			<div>
 				<Switch>

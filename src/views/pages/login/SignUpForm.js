@@ -61,8 +61,9 @@ export class SignUpForm extends Component {
 			setTOKEN(res.token);
 			setID(res.user.id.toString());
 			saveData(res);
-			console.log(res);
-			console.log('all cookies are these : ',cookies.all(), 'and cookie is : ',cookies.get('token'));
+			//console.log(res);
+			//console.log('all cookies are these : ',cookies.all(), 'and cookie is : ',cookies.get('token'));
+			//console.log(this.form);
 			this.form.reset();
 			RedirectToHome();
 		});
@@ -324,13 +325,13 @@ export class SignUpForm extends Component {
 		}
 	};
 	render() {
-		const successStyle = {backgroundColor: '#92ef8d'};
-		const errorStyle = {backgroundColor: '#f3a9a9'};
-		const strongStyle = {backgroundColor: '#01a800'};
-		const goodStyle = {backgroundColor: '#28ef48'};
-		const mediumStyle = {backgroundColor: '#92ef8d'};
-		const weakStyle = {backgroundColor: '#dfeb9d'};
-		const tooWeakStyle = {backgroundColor: '#f3a9a9'};
+		const successStyle = {border: '2px solid #92ef8d'};
+		const errorStyle = {border: '2px solid #f3a9a9'};
+		const strongStyle = {border: '2px solid #01a800'};
+		const goodStyle = {border: '2px solid #28ef48'};
+		const mediumStyle = {border: '2px solid #92ef8d'};
+		const weakStyle = {border: '2px solid #dfeb9d'};
+		const tooWeakStyle = {border: '2px solid #f3a9a9'};
 		
 		const { success, sending , messages,status} = this.state;
 		const {usernameS,emailS,passwordS,passwordConfirmS} = status;
