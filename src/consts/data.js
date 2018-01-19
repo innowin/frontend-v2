@@ -1,5 +1,4 @@
 import cookies from 'browser-cookies';
-import io from 'socket.io-client';
 
 cookies.defaults.secure = false;
 cookies.defaults.expires = 30;

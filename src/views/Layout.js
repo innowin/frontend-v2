@@ -1,10 +1,10 @@
-import React,{Component} from "react"
-import Exchange from "./Exchange"
-import Home from "./pages/Home"
-import Organization from "./Organization"
-import PropsRoute from "../consts/PropsRoute"
-import User from "./User"
-import { Switch } from "react-router-dom"
+import React,{Component} from 'react';
+import Home from './pages/Home';
+import PropsRoute from '../consts/PropsRoute'
+import User from './User';
+import Exchange from './Exchange';
+import Organization from './Organization';
+import { Switch } from 'react-router-dom';
 
 class Layout extends Component {
   constructor (props) {
