@@ -1,5 +1,4 @@
 import React, {Component} from "react"
-import ID from "src/consts/data"
 import PropTypes from "prop-types"
 import {Link} from "react-router-dom"
 import {userInfoIcon, workExperienceIcon, postIcon} from "src/images/icons"

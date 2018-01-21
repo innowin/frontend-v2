@@ -18,7 +18,7 @@ export class UserInfo extends Component {
   }
 
   static propTypes = {
-    userId: PropTypes.number.isRequired,
+    userId: PropTypes.string.isRequired,
   };
 
   _showEdit = () => {
@@ -89,7 +89,7 @@ export class ProfileInfo extends Component {
   }
 
   static propTypes = {
-    userId: PropTypes.object.isRequired,
+    userId: PropTypes.string.isRequired,
   };
 
   _showEdit = () => {
@@ -159,7 +159,7 @@ export class ProfileInfo extends Component {
 export default class UserBasicInformation extends Component {
 
   static propTypes = {
-    userId: PropTypes.number.isRequired,
+    userId: PropTypes.string.isRequired,
   };
 
   render() {

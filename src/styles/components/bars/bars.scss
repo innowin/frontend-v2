@@ -28,7 +28,7 @@
 }
 
 .-profile-collapse {
-  position: absolute;
+  position: fixed;
   right: 0.1rem;
   top: $topBarHeight;
   z-index: 10000;
@@ -39,6 +39,9 @@
    height: 150px;
  }
 
+.-outlineWhite{
+  outline-color: white !important;
+}
  //**             ChatBar(leftBar)             **//
 
 .-my-icons1 {
@@ -67,4 +70,24 @@
   height: 24px;
   position: absolute;
   transform: translate(50%, 50%)
+}
+
+
+//**         Sidebar(rightBar)               **//
+.-sidebar-child-wrapper > div {
+  display: flex;
+  border-bottom: 1px solid #E6E6E5;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.-green1{
+  color: #9c9c9c;
+}
+
+.-myBadge{
+  background-color: #C2C2C2;
+  padding-right: 10px;
+  padding-left: 10px;
+  margin-left: 5px;
 }
