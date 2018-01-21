@@ -12,6 +12,7 @@ export const updateSkill = (formValues, skillId, updateStateForView, hideEdit) =
 				url: `${url}/users/skills/${skillId}/`,
 				result: `updateSkill-patch/${skillId}`,
 				data :{
+					"content_type" : "json/application",
 					"tag":formValues.tag,
 					"delete_flag": formValues.delete_flag,
 					"description": formValues.description,

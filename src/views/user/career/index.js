@@ -24,8 +24,7 @@ export class UserCareers extends Component {
 	}
 
 	static propTypes = {
-		updateUser: PropTypes.func.isRequired,
-		userId: PropTypes.string.isRequired,
+		userId: PropTypes.string.isRequired
 	};
 
 	componentDidMount(){
