@@ -9,18 +9,20 @@ import skillIcon from "./user/skill.svg"
 import starIcon from "./common/star.svg"
 import userInfoIcon from "./user/userinfo.svg.js"
 import workExperienceIcon from "./user/workExperience.svg"
+import logo from "./logoWhite.png"
 
 
 export {
-  certificateIcon,
-  defaultImg,
-  editIcon,
-  educationIcon,
+	editIcon,
+	certificateIcon,
+	educationIcon,
+	postIcon,
+	researchIcon,
+	skillIcon,
+	starIcon,
+	userInfoIcon,
+	workExperienceIcon,
+	defaultImg,
+	logo,
   organLogo,
-  postIcon,
-  researchIcon,
-  skillIcon,
-  starIcon,
-  userInfoIcon,
-  workExperienceIcon,
 }

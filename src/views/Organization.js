@@ -28,7 +28,7 @@ export class Organization extends Component {
 		super(props);
 		this.state = {}
 	}
-
+	
 	render() {
 		const {match , handleSignOut} = this.props;
 		const {path, url, params} = match;

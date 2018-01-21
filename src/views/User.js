@@ -2,7 +2,7 @@ import React, {Component} from "react"
 import PropTypes from "prop-types"
 
 import Career from "./user/career/index"
-import Certificates from "./user/Certificates"
+import Certificates from "./user/certificates/index"
 import ChatBar from "src/views/bars/ChatBar"
 import Posts from "./user/Posts"
 import PropsRoute from "../consts/PropsRoute"
