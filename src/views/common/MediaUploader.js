@@ -1,27 +1,8 @@
 /*global __*/
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import Relay from "react-relay"
-import {createMediaMutation} from "src/mutations/profile/medias"
 import {FileInput} from "./inputs/FileInput"
-import {mediaFragment} from "src/queries/medias"
-import {organizationFragment} from "src/queries/organization/organization"
-import {relayContainer} from "src/utils/relayHelpers"
-import {viewerFragment} from "src/queries/common"
 
-const fullViewerFragment = Relay.QL`
-    fragment on ViewerNode{
-        ${viewerFragment}
-    }
-`;
-
-@relayContainer({
-    fragments: {
-        media: () => mediaFragment,
-        viewer: () => fullViewerFragment,
-        organization: () => organizationFragment,
-    }
-})
 export class MediaUploader extends Component {
 
     static defaultProps = {
@@ -55,11 +36,11 @@ export class MediaUploader extends Component {
                 identity = viewer.me.identity;
             }
 
-            this.mediaPromise = createMediaMutation({identity, viewer, file: this.file})
-                .then((res) => {
-                    const {media} = res.createMedia;
-                    return media;
-                });
+            // this.mediaPromise = createMediaMutation({identity, viewer, file: this.file})
+            //     .then((res) => {
+            //         const {media} = res.createMedia;
+            //         return media;
+            //     });
         }
         return this.mediaPromise;
     };
