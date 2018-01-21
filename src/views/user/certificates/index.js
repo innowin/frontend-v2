@@ -9,23 +9,32 @@ import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {REST_REQUEST} from "../../../consts/Events"
 
 export class CertificateContainer extends Component {
-    delete_ = (certificateId) => {
-        const {  userId} = this.props;
-        return deleteCertificate({certificateId, userId});
-    };
-    update_ = (formValues, certificateId) => {
-        const revisedCertificate = {...formValues, id:certificateId};
-        return updateCertificate({revisedCertificate});
-    };
+		componentWillReceiveProps(props){
+			const {certificate} = props;
+			this.setState ({...this.state ,certificate:certificate});
+	}
+	delete_ = (certificateId) => {
+		const {userId} = this.props;
+		return deleteCertificate({certificateId, userId});
+	};
+	update_ = (formValues, certificateId, updateStateForView, hideEdit) => {//formValues, careerId, updateStateForView, hideEdit
+		return updateCertificate(formValues,certificateId, updateStateForView, hideEdit);
+	};
+	_updateStateForView = (res, error, isLoading) => {
+		const {updateStateForView} = this.props;
+		updateStateForView({error:error,isLoading:isLoading});
+		this.setState({...this.state, certificate:res, error:error, isLoading:isLoading});
+	};
 
-    render() {
-        const {certificate} = this.props;
-        return <Certificate
-            certificate={certificate}
-            deleteCertificate={this.delete_}
-            updateCertificate={this.update_}
-        />;
-    }
+	render() {
+		const {certificate} = this.props;
+		return <Certificate
+			certificate={certificate}
+			updateStateForView={this._updateStateForView}
+			deleteCertificate={this.delete_}
+			updateCertificate={this.update_}
+		/>;
+	}
 }
 
 export class CertificateList extends Component {
@@ -33,13 +42,13 @@ export class CertificateList extends Component {
 			hideCreateForm: PropTypes.func.isRequired,
 			createForm: PropTypes.bool.isRequired,
 	};
-	create = (formValues) => {
+	create = (formValues,hideEdit) => {
 			const {userId, certificateId} = this.props;
-			return createCertificate({formValues, userId, certificateId});
+			return createCertificate({formValues, userId, certificateId, hideEdit});
 	};
 
 	render() {
-		const {  userId, createForm} = this.props;
+		const {  userId, createForm, updateStateForView} = this.props;
 		const {certificates} = this.props;
 		return <ListGroup>
 			{createForm &&
@@ -49,6 +58,7 @@ export class CertificateList extends Component {
 			{
 				certificates.map(cert => <CertificateContainer
 					certificate={cert}
+					updateStateForView = {updateStateForView}
 					userId={userId}
 					key={cert.id}
 				/>)
@@ -101,25 +111,29 @@ export class Certificates extends Component {
 	hideCreateForm = () => {
 			this.setState({createForm: false});
 	};
+	updateStateForView = (error,isLoading) =>{
+		this.setState({...this.state, error:error, isLoading:isLoading})
+	}
 
 	render() {
-			const {  userId} = this.props;
-			const {createForm, certificates} = this.state;
-			return <div>
-					<CategoryTitle
-							title={__('Certificates')}
-							showCreateForm={this.showCreateForm}
-							createForm={createForm}
-					/>
-					<FrameCard>
-							<CertificateList
-									certificates={certificates}
-									userId={userId}
-									createForm={createForm}
-									hideCreateForm={this.hideCreateForm}
-							/>
-					</FrameCard>
-			</div>;
+		const {  userId} = this.props;
+		const {createForm, certificates} = this.state;
+		return <div>
+			<CategoryTitle
+				title={__('Certificates')}
+				showCreateForm={this.showCreateForm}
+				createForm={createForm}
+			/>
+			<FrameCard>
+				<CertificateList
+					updateStateForView={this.updateStateForView}
+					certificates={certificates}
+					userId={userId}
+					createForm={createForm}
+					hideCreateForm={this.hideCreateForm}
+				/>
+			</FrameCard>
+		</div>;
 	}
 }
 export default Certificates;

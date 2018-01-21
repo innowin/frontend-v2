@@ -10,8 +10,8 @@ export const updateCertificate = (formValues, careerId, updateStateForView, hide
 		socket.emit(REST_REQUEST,
 			{
 				method: "patch",
-				url: `${url}/users/work-experiences/${careerId}/`,
-				result: `updateCareer-patch/${careerId}`,
+				url: `${url}/users/certificates/${careerId}/`,
+				result: `updateCertificate-patch/${careerId}`,
 				data :formValues,
 				token: TOKEN
 			}
@@ -20,7 +20,7 @@ export const updateCertificate = (formValues, careerId, updateStateForView, hide
 
 	emitting();
 
-	socket.on(`updateCareer-patch/${careerId}`, (res) => {
+	socket.on(`updateCertificate-patch/${careerId}`, (res) => {
 		let error = false;
 		isLoading = false;
 		if (res.detail) {
@@ -38,9 +38,9 @@ export const createCertificate = (formValues, careerId, updateStateForView, hide
 		isLoading = true;
 		socket.emit(REST_REQUEST,
 			{
-				method: "patch",
-				url: `${url}/users/work-experiences/${careerId}/`,
-				result: `updateCareer-patch/${careerId}`,
+				method: "post",
+				url: `${url}/users/certificates/${careerId}/`,
+				result: `createCertificate-post/${careerId}`,
 				data :formValues,
 				token: TOKEN
 			}
@@ -49,7 +49,7 @@ export const createCertificate = (formValues, careerId, updateStateForView, hide
 
 	emitting();
 
-	socket.on(`updateCareer-patch/${careerId}`, (res) => {
+	socket.on(`createCertificate-post/${careerId}`, (res) => {
 		let error = false;
 		isLoading = false;
 		if (res.detail) {
@@ -67,9 +67,9 @@ export const deleteCertificate = (formValues, careerId, updateStateForView, hide
 		isLoading = true;
 		socket.emit(REST_REQUEST,
 			{
-				method: "patch",
-				url: `${url}/users/work-experiences/${careerId}/`,
-				result: `updateCareer-patch/${careerId}`,
+				method: "delete",
+				url: `${url}/users/certificates/${careerId}/`,
+				result: `deleteCertificate-delete/${careerId}`,
 				data :formValues,
 				token: TOKEN
 			}
@@ -78,7 +78,7 @@ export const deleteCertificate = (formValues, careerId, updateStateForView, hide
 
 	emitting();
 
-	socket.on(`updateCareer-patch/${careerId}`, (res) => {
+	socket.on(`deleteCertificate-delete/${careerId}`, (res) => {
 		let error = false;
 		isLoading = false;
 		if (res.detail) {
