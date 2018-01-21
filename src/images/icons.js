@@ -8,17 +8,19 @@ import postIcon from "./common/post.svg"
 import userInfoIcon from "./user/userinfo.svg.js"
 import workExperienceIcon from "./user/workExperience.svg"
 import defaultImg from "./common/defaultImg.png"
+import logo from "./logoWhite.png"
 
 
 export {
-    editIcon,
-    certificateIcon,
-    educationIcon,
-    postIcon,
-    researchIcon,
-    skillIcon,
-    starIcon,
-    userInfoIcon,
-    workExperienceIcon,
-    defaultImg,
+	editIcon,
+	certificateIcon,
+	educationIcon,
+	postIcon,
+	researchIcon,
+	skillIcon,
+	starIcon,
+	userInfoIcon,
+	workExperienceIcon,
+	defaultImg,
+	logo,
 }
