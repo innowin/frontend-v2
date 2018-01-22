@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Collapse} from "reactstrap"
-import {defaultImg} from "src/images/icons"
+import {defaultImg, logoDaneshBoom} from "src/images/icons"
 import {ID} from "src/consts/data"
 import {Link} from "react-router-dom"
 
@@ -31,7 +31,7 @@ class TopBar extends Component {
             <Link to={"/"}><i className="fa fa-envelope-o mr-4" aria-hidden="true"></i></Link>
             <i className="fa fa-bell mr-4" aria-hidden="true"></i>
           </div>
-          <img className="-centerInDad-img" src={defaultImg} alt="profile_img" style={{maxHeight: "30px"}}/>
+          <img className="-centerInDad-img" src={logoDaneshBoom} alt="profile_img" style={{maxHeight: "30px"}}/>
           <div className="dir-ltr d-flex flex-row">
             <img className="-topBarHeight" src={defaultImg} alt="Person icon"/>
             <div className="ml-4 mt-2 mb-2 -searchInput d-flex align-items-center">

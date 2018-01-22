@@ -1,13 +1,13 @@
 /*global __*/
 import React from 'react'
 import FontAwesome from 'react-fontawesome'
-import {logo} from 'src/images/icons'
+import {logoDaneshBoom} from 'src/images/icons'
 
 const HeaderLogin = ({iosLink, androidLink, address, phoneNumber, logoCaption}) => {
 	return (
 			<div className="header">
 				<div className="logo-wrapper">
-					<div className="logo"><img src={logo} alt="" /></div>
+					<div className="logo"><img src={logoDaneshBoom} alt="" /></div>
 					<div className="company-name">{__('Danesh Boom')}</div>
 					<div className="divider"></div>
 					<div className="logo-caption">{logoCaption}</div>
