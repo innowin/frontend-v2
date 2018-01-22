@@ -52,7 +52,7 @@ export class SkillInfoForm extends Component {
 
 	_addTag(tag,skillIndex){
 		const {skill} = this.state;
-		skill.tag.push(tag);
+		skill.tag.push(tag.getValue());
 		this.setState({...this.state, skill:skill})
 	}
 	_updateStateForView(skill, error , loading){
@@ -72,14 +72,13 @@ export class SkillInfoForm extends Component {
 		//Todo keep ltr
 		const skill = this.props.skill || {};
 		const {hideEdit, skillIndex} = this.props;
-
 		const tags = skill.tag.map((tag,index)=>{
-				return (
-				<div className="tagEdit m-1">
-					<button className="tagCross btn btn-danger btn-sm" onClick={()=>{this._deleteTag(index,skillIndex)}}>x</button>
-					<span class="badge badge-secondary skillTag m-1">{tag}</span>
-				</div>
-				)
+			return (
+			<div className="tagEdit m-1">
+				<button className="tagCross btn btn-danger btn-sm" onClick={()=>{this._deleteTag(index,skillIndex)}}>x</button>
+				<span class="badge badge-secondary skillTag m-1">{tag}</span>
+			</div>
+			)
 		})
 
 		return (
@@ -101,7 +100,7 @@ export class SkillInfoForm extends Component {
 						{tags}
 					</div>
 					<div className="skillAddTagInput">
-						<input type="button" className="btn btn-primary m-2" value={__('Add Tag')} onClick={()=>{this._addTag(this.refs.tagname,skillIndex)}} />
+						<input type="button" className="btn btn-primary m-2" value={__('Add Tag')} onClick={()=>{this._addTag(this.tagNameInput,skillIndex)}} />
 						<TextInput
 							name="tagName"
 							label={__('Tag Name') + ": "}

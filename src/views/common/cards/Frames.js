@@ -144,15 +144,16 @@ export class VerifyWrapper extends Component {
   static propTypes = {
     isLoading: PropTypes.bool.isRequired,
     error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    retry: PropTypes.func
+    retry: PropTypes.func,
+    className: PropTypes.string
   };
 
   render() {
-    const {isLoading, error, retry, children} = this.props;
+    const {isLoading, error, retry, children, className} = this.props;
     if (!isLoading) {
       if (!error) {
         return (
-          <div>
+          <div className={className}>
             {children}
           </div>
         )

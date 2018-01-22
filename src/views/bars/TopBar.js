@@ -1,4 +1,3 @@
-/*global __*/
 import React, {Component} from "react";
 import {Collapse} from "reactstrap"
 import {defaultImg} from "src/images/icons"
@@ -23,7 +22,7 @@ class TopBar extends Component {
         <nav className="navbar flex-row justify-content-between p-0 -white-i fixed-top -topBarHeight"
              style={{backgroundColor: "#253545"}}>
           <div className="d-flex align-items-center">
-            <button type="button" className="navbar-toggler my-auto" onClick={this._toggle}>
+            <button type="button" className="navbar-toggler my-auto mr-2 -outlineWhite" onClick={this._toggle}>
               <i className="fa fa-bars" aria-hidden="true"></i>
             </button>
             <Link to={"/"}><i className="fa fa-home mr-3" aria-hidden="true"></i></Link>
@@ -37,18 +36,11 @@ class TopBar extends Component {
             <img className="-topBarHeight" src={defaultImg} alt="Person icon"/>
             <div className="ml-4 mt-2 mb-2 -searchInput d-flex align-items-center">
               <i className="fa fa-search" aria-hidden="true"></i>
-              <input
-                type="text"
-                name="search"
-                ref={searchInput => {
-                  this.searchInput = searchInput
-                }}
-                dir="auto"
-              />
+              <input type="text" name="search" dir="auto" style={{color:"white"}}
+                ref={searchInput => {this.searchInput = searchInput}}/>
             </div>
           </div>
         </nav>
-
         <Collapse isOpen={this.state.collapse} className="-profile-collapse">
           <div className="card text-center">
             <img className="card-img-top" src={defaultImg} alt="Person icon"/>
@@ -58,10 +50,8 @@ class TopBar extends Component {
             </div>
           </div>
         </Collapse>
-
       </div>
     )
-
   }
 }
 

@@ -1,6 +1,8 @@
 import React, {Component} from "react"
+import PropTypes from "prop-types"
+
 import Career from "./user/career/index"
-import Certificates from "./user/Certificates"
+import Certificates from "./user/certificates/index"
 import ChatBar from "src/views/bars/ChatBar"
 import Posts from "./user/Posts"
 import PropsRoute from "../consts/PropsRoute"
@@ -11,8 +13,14 @@ import UserBasicInformation from "./user/basicInformation/index"
 import {NavLink, Switch, Redirect} from "react-router-dom"
 import {Tabs} from "./common/cards/Frames"
 import {userInfoIcon, skillIcon, certificateIcon, workExperienceIcon, postIcon} from "src/images/icons"
+import {UserSideView} from "./bars/SideBar";
 
 class User extends Component {
+
+  static propTypes = {
+    match: PropTypes.object.isRequired,
+    handleSignOut: PropTypes.func.isRequired
+  };
 
   render() {
     const {match, handleSignOut} = this.props;
@@ -25,6 +33,7 @@ class User extends Component {
         <main className="row">
           <div className="col-3 -right-sidebar-wrapper">
             <Sidebar>
+              <UserSideView userId={userId}/>
             </Sidebar>
           </div>
           <div className="col-6 -content-wrapper">
@@ -48,7 +57,6 @@ class User extends Component {
             <ChatBar/>
           </div>
         </main>
-
       </div>
     )
   }
