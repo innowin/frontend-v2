@@ -168,8 +168,6 @@ export default class UserBasicInformation extends Component {
       <div>
         <CategoryTitle
           title={__('Basic information')}
-          // showCreateForm={this.showCreateForm}
-          createForm={true}
         />
         <FrameCard>
           <ListGroup>

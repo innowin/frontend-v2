@@ -63,6 +63,9 @@ module.exports = {
   'Save': "ذخیره",
   'Certificates': "گواهی‌نامه‌ها",
 
+  // profile - posts
+  'Post':"کاربرنما",
+
   // profile - common
   'Are you sure? Do you want delete it?': "آیا مطمئن به حذف هستید؟",
   'Yes, Do it.': "آری",
