@@ -53,6 +53,7 @@ module.exports = {
   'Select': "انتخاب",
   'Uploading...': "در حال بارگذاری",
   'Change': "تغییر",
+  'search': "جستجو",
 
   // profile - certificates
   'Title': "عنوان",
