@@ -49,6 +49,30 @@
   padding-left: 0;
   position: fixed;
   left: 20px;
+  a {
+    color: $primary-color;
+    font-size: 27px;
+    line-height: 48px;
+    &:hover , &.active {
+      color: white;
+      background-color: $primary-color;
+    }
+		&.active:after {
+			content: '';
+			display: block;
+			width: 0;
+			height: 0;
+			//border: 2px solid red;
+			position: absolute;
+			top:50%;
+			transform: translate(0, -50%);
+			border-top: 15px solid transparent;
+			border-bottom: 15px solid transparent;
+
+			border-left: 10px solid $primary-color;
+			right: -6px;
+		}
+  }
 }
 
 .-my-icons1 a{
