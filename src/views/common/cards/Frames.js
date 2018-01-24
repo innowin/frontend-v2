@@ -1,8 +1,10 @@
-import React, {Component} from 'react'
-import PropTypes from 'prop-types'
-import {editIcon} from 'src/images/icons'
+import React, {Component} from "react";
+import PropTypes from "prop-types";
+import cx from "classnames";
+import {editIcon} from 'src/images/icons';
 import {ErrorCard} from "./ErrorCard";
 import {LoadingCard} from "./LoadingCard";
+
 
 export class Tabs extends Component {
   render() {
@@ -64,9 +66,16 @@ export class ItemHeader extends Component {
 }
 
 export class FrameCard extends Component {
+  static defaultProps = {
+    className : ""
+  };
+  static propTypes = {
+    className: PropTypes.string
+  };
+
   render() {
     return (
-      <div className="-frameCard">
+      <div className={cx("-frameCard\u0020" + this.props.className)}>
         {this.props.children}
       </div>
     )
@@ -74,6 +83,12 @@ export class FrameCard extends Component {
 }
 
 export class CategoryTitle extends Component {
+
+  static defaultProps = {
+    createForm: true,
+    showCreateForm: () => false
+  };
+
   static propTypes = {
     title: PropTypes.node,
     createForm: PropTypes.bool,
@@ -85,7 +100,7 @@ export class CategoryTitle extends Component {
       <div className="-categoryTitle">
         {this.props.title}
         {!this.props.createForm &&
-        <button className="btn btn-sm btn-outline-success ml-auto" onClick={this.props.showCreateForm}>
+        <button className="btn btn-sm btn-outline-success mr-auto" onClick={this.props.showCreateForm}>
           +
         </button>}
       </div>

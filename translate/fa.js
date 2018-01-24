@@ -53,6 +53,7 @@ module.exports = {
   'Select': "انتخاب",
   'Uploading...': "در حال بارگذاری",
   'Change': "تغییر",
+  'search': "جستجو",
 
   // profile - certificates
   'Title': "عنوان",
@@ -62,6 +63,9 @@ module.exports = {
   'Delete': "حذف",
   'Save': "ذخیره",
   'Certificates': "گواهی‌نامه‌ها",
+
+  // profile - posts
+  'Post':"کاربرنما",
 
   // profile - common
   'Are you sure? Do you want delete it?': "آیا مطمئن به حذف هستید؟",

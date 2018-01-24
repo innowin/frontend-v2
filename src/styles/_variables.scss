@@ -6,6 +6,11 @@ $font-family-serif:      vazir, Georgia, "Times New Roman", Times, serif !defaul
 @import "~bootstrap/scss/variables";
 
 //Color Variables
+//primary color is Cello
+$primary-color: #32485D;
+$chatbox1-color: #CADFE0;
+$chatbox2-color: #F5F5F5;
+
 //text colors
 $gray-border : #ddd;
 $text-lightest-color: #fff;
@@ -14,4 +19,4 @@ $text-light-color: #bbb;
 $text-dark-color: #444;
 $text-darker-color: #222;
 $text-darkest-color: #000;
-$topBarHeight: 48px;
+$topBarHeight: 67px;
