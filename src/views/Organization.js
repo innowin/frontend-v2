@@ -2,7 +2,7 @@ import React,{Component} from "react";
 import PropTypes from "prop-types";
 
 import BasicInformation from "./organization/Basic_Information";
-import Certificates from "./organization/Certificates";
+import Certificates from "./organization/certificates/index";
 import ChatBar from "./bars/ChatBar";
 import Customers from "./organization/Customers";
 import Posts from "./organization/Posts";
@@ -28,7 +28,7 @@ export class Organization extends Component {
 		super(props);
 		this.state = {}
 	}
-	
+
 	render() {
 		const {match , handleSignOut} = this.props;
 		const {path, url, params} = match;
