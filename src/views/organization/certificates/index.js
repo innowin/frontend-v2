@@ -8,8 +8,8 @@ import {createCertificate, deleteCertificate, updateCertificate} from '../../../
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {REST_REQUEST} from "../../../consts/Events"
 
-// TODO amir every variable and stuff related to organization should be changed this file is not completed
-// TODO amir SOCKET METHOD ADDRESS IS WRONG nothign found in backend
+// TODO amir everything!
+// TODO amir backend is not ready
 export class CertificateContainer extends Component {
 	constructor(props){
 		super(props);
