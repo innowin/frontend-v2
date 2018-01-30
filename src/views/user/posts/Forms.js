@@ -1,9 +1,11 @@
 /*global __*/
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {TextInput} from 'src/views/common/inputs/TextInput'
-import {MediaUploader} from 'src/views/common/MediaUploader';
 import {Confirm} from "../../common/cards/Confirm";
+import {SelectComponent} from '../../common/SelectComponent';
+import {TextInput} from "../../common/inputs/TextInput";
+import {Tabs} from "../../common/cards/Frames";
+import {TextareaInput} from "../../common/inputs/TextareaInput";
 
 
 export class PostForm extends Component {
@@ -13,13 +15,9 @@ export class PostForm extends Component {
   };
 
   getValues =  () => {
-    const media =null;// await this.refs.pictureInput.refs.component.getMedia();
-    const mediaId = media ? media.id : null;
-    const values = {
-      title: this.refs.titleInput.getValue(),
-      pictureId: mediaId, // TODO use media uploader
+    return {
+      postType: this.refs.postTypeInput.getValue(),
     };
-    return values
   };
 
   formValidate = () => {
@@ -37,27 +35,35 @@ export class PostForm extends Component {
   };
 
   render() {
-    const {} = this.props;
-    const post = this.props.post || {picture: null};
-    return <form onSubmit={this.props.onSubmit}>
-      <div className="row">
+    const {onSubmit, post} = this.props;
+    return (
+      <form onSubmit={onSubmit} className="row w-100">
+        {/*<SelectComponent*/}
+          {/*name="postType"*/}
+          {/*label={__('Post type') + ": "}*/}
+          {/*options={options}*/}
+          {/*required*/}
+          {/*value=""*/}
+          {/*ref={postTypeInput => {this.postTypeInput = postTypeInput}}*/}
+        {/*/>*/}
+        <select className="w-100 mb-3">
+          <option value="post">پست</option>
+          <option value="supply">عرضه</option>
+          <option value="demand">تقاضا</option>
+        </select>
         <TextInput
-          name="title"
+          label={__('Post title')}
+          name="post_title"
           required
-          label={__('Title') + ": "}
-          value={post.title}
-          ref="titleInput"
         />
-        <MediaUploader
-          name="picture"
-          label={__('Picture') + ": "}
-          ref="pictureInput"
-          media={post.picture}
-          organization={null}
+        <TextareaInput
+          name="post_description"
+          label={__('Post description')}
+          required
         />
         {this.props.children}
-      </div>
-    </form>
+      </form>
+    )
   }
 }
 
@@ -69,29 +75,25 @@ export class PostCreateForm extends Component {
     hideEdit: PropTypes.func.isRequired
   };
 
-  _save = async () => {
-    const formValues = await this.refs.form.getValues();
-    const { hideEdit} = this.props;
-    return this.props.create(formValues, hideEdit);
+  _save = () => {
+    const {create, hideEdit} = this.props;
+    const formValues = this.refs.form.getValues();
+    return create(formValues, hideEdit);
   };
 
   _onSubmit = (e) => {
     e.preventDefault();
-    if (this.refs.form.formValidate()) {
+    if (this.form._formValidate()) {
       this._save()
-        .then(res => {
-          this.props.hideEdit();
-        })
-        .catch(err => {
-        });
     }
+    return false;
   };
 
   render() {
-    const {} = this.props;
-    return <PostForm onSubmit={this._onSubmit} ref="form">
+    const {hideEdit} = this.props;
+    return <PostForm onSubmit={this._onSubmit} ref={form => {this.form = form}}>
       <div className="col-12 d-flex justify-content-end">
-        <button type="button" className="btn btn-secondary mr-2" onClick={this.props.hideEdit}>
+        <button type="button" className="btn btn-secondary mr-2" onClick={hideEdit}>
           {__('Cancel')}
         </button>
         <button type="submit" className="btn btn-success">{__('Create')}</button>

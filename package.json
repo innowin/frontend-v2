@@ -29,7 +29,7 @@
     "fs-extra": "3.0.1",
     "html-webpack-plugin": "2.29.0",
     "jest": "20.0.4",
-    "moment": "^2.20.1",
+    "moment": "^2.12.1",
     "moment-jalali": "^0.3.9",
     "moment-timezone": "^0.5.14",
     "object-assign": "4.1.1",
