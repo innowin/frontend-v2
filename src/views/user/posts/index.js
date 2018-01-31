@@ -1,7 +1,7 @@
 /*global __*/
 import React, {Component} from "react"
 import PropTypes from 'prop-types'
-import {createPost, deletePost, updatePost} from 'src/crud/user/post.js'
+import {createPost, deletePost, updatePost} from 'src/crud/user/post'
 import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames"
 import {PostCreateForm} from "./Forms"
 import {PostEditForm} from './Forms'
@@ -24,17 +24,11 @@ class PostInfo extends Component {
   constructor(props) {
     super(props);
     const {post} = props;
-    this.state = {edit: false, post: post};
+    this.state = {edit: false, post: post, error:false, isLoading:false};
     this._updateStateForView = this._updateStateForView.bind(this);
     this._showEdit = this._showEdit.bind(this);
     this._showEdit = this._showEdit.bind(this);
   }
-
-  componentWillReceiveProps(props) {
-    const {post} = props;
-    this.setState({...this.state, post: post})
-  }
-
 
   _showEdit = () => {
     this.setState({edit: true});
@@ -45,8 +39,7 @@ class PostInfo extends Component {
   };
 
   _updateStateForView = (res, error, isLoading) => {
-    const {updateStateForView} = this.props;
-    this.setState({...this.state, post: res})
+    this.setState({...this.state, post: res, error:error, isLoading:isLoading})
   };
 
   render() {
@@ -87,7 +80,7 @@ class Post extends Component {
     return deletePost({postId});
   };
 
-  _update = (formValues, postId, updateStateForView, hideEdit) => {//formValues, careerId, updateStateForView, hideEdit
+  _update = (formValues, postId, updateStateForView, hideEdit) => {
     return updatePost(formValues, postId, updateStateForView, hideEdit);
   };
 
@@ -117,10 +110,6 @@ class Posts extends Component {
   constructor(props) {
     super(props);
     this.state = {createForm: false, edit: false, isLoading: false, error: null, posts: [], user: {}, profile: {}};
-    this._create = this._create.bind(this);
-    this._hideCreateForm = this._hideCreateForm.bind(this);
-    this._updateStateForView = this._updateStateForView.bind(this);
-    this._showCreateForm = this._showCreateForm.bind(this)
   }
 
   static propTypes = {
@@ -227,18 +216,17 @@ class Posts extends Component {
     this.setState({createForm: true});
   };
 
-  _hideCreateForm = (e) => {
-    e.preventDefault();
+  _hideCreateForm = () => {
     this.setState({createForm: false});
   };
 
-  _updateStateForView = (error, isLoading) => {
-    this.setState({...this.state, error: error, isLoading: isLoading})
+  _updateStateForView = (res, error, isLoading) => {
+    this.setState({...this.state, post:res, error: error, isLoading: isLoading})
   };
 
-  _create = (formValues, hideEdit) => {
-    const {userId, postId} = this.props;
-    return createPost({formValues, userId, postId, hideEdit});
+  _create = (formValues, hideCreateForm) => {
+    const updateStateForView = this._updateStateForView;
+    return createPost(formValues, updateStateForView, hideCreateForm);
   };
 
   render() {
@@ -255,7 +243,7 @@ class Posts extends Component {
             {
               createForm &&
               <PostItemWrapper>
-                <PostCreateForm hideEdit={this._hideCreateForm} create={this._create}/>
+                <PostCreateForm hideCreateForm={this._hideCreateForm} create={this._create}/>
               </PostItemWrapper>
             }
             {
