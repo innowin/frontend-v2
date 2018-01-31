@@ -1,22 +1,14 @@
-/*global __*/
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {FileInput} from "./inputs/FileInput"
 
 export class MediaUploader extends Component {
 
-    static defaultProps = {
-        autoUpload: true,
-    };
-
     static propTypes = {
-        customValidate: PropTypes.func,
-        label: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        required: PropTypes.bool,
         media: PropTypes.object,
-        autoUpload: PropTypes.bool,
-        organization: PropTypes.object,
+        identity: PropTypes.number,
+        uploader: PropTypes.number,
+        info: PropTypes.string,
+        fileString: PropTypes.string,
     };
 
     constructor(props) {
@@ -25,39 +17,28 @@ export class MediaUploader extends Component {
         this.file = null;
         this.mediaPromise = null;
     };
-
-    upload = () => {
-        if (this.file) {
-            const {viewer, organization} = this.props;
-            let identity;
-            if (organization) {
-                identity = organization.identity;
-            } else {
-                identity = viewer.me.identity;
-            }
-
-            // this.mediaPromise = createMediaMutation({identity, viewer, file: this.file})
-            //     .then((res) => {
-            //         const {media} = res.createMedia;
-            //         return media;
-            //     });
-        }
-        return this.mediaPromise;
-    };
-
-    handleChange = (file) => {
-        this.file = file;
-        if (this.file) {
-            this.setState({ready: false}, () => {
-                if (this.props.autoUpload) {
-                    this.upload()
-                        .then((media) => {
-                            this.setState({media, ready: true});
-                        });
-                }
-            });
-        }
-    };
+    //
+    // upload = () => {
+    //         return this.mediaPromise = createMedia({identity, viewer, file: this.file})
+    //             .then((res) => {
+    //                 const {media} = res.createMedia;
+    //                 return media;
+    //             });
+    // };
+    //
+    // handleChange = (file) => {
+    //     this.file = file;
+    //     if (this.file) {
+    //         this.setState({ready: false}, () => {
+    //             if (this.props.autoUpload) {
+    //                 this.upload()
+    //                     .then((media) => {
+    //                         this.setState({media, ready: true});
+    //                     });
+    //             }
+    //         });
+    //     }
+    // };
 
     getMedia = async () => {
         if (this.state.ready) {
@@ -66,34 +47,12 @@ export class MediaUploader extends Component {
         return await this.mediaPromise;
     };
 
-    isReady = () => {
-        return this.state.ready;
-    };
-
-    onChangeClick = () => {
-        this.setState({media: null});
-    };
-
     render() {
-        const {customValidate, label, name, required} = this.props;
-        const props = {customValidate, label, name, required};
-        if (!this.state.ready) {
-            return (
-                <div>{__('Uploading...')}</div>
-            )
-        }
-        if (this.state.media) {
-            return (
-                <div>
-                    <img className="media-preview" src={this.state.media.url} alt=""/>
-                    <button type="button" className="btn btn-secondary" onClick={this.onChangeClick}>
-                        {__('Change')}
-                    </button>
-                </div>
-            )
-        }
+        const {children} = this.props;
         return (
-            <FileInput onChange={this.handleChange} {...props}/>
+            <div>
+                {children}
+            </div>
         )
     }
 }

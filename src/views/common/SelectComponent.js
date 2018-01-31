@@ -1,7 +1,7 @@
 /*global __*/
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import Select from 'react-select-2'
+import Select from 'react-select'
 import cx from 'classnames'
 
 
@@ -41,10 +41,10 @@ export class SelectComponent extends Component {
   };
 
   handleChange = (val) => {
-    let value = val;
+    let value = val.value;
     if (this.props.multi) {
       value = val.map(
-        (x) => {return x}
+        (x) => {return x.value}
       );
     }
     this.setState({...this.state, value:value});

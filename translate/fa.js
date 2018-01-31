@@ -51,7 +51,7 @@ module.exports = {
   'Phone number': "شماره تلفن",
   'Choose file': "فایل را انتخاب کنید",
   'Select': "انتخاب",
-  'Uploading...': "در حال بارگذاری",
+  'Uploading...': "در حال بارگذاری...",
   'Change': "تغییر",
   'search': "جستجو",
 
