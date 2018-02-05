@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
+import FontAwesome from 'react-fontawesome'
 import PropTypes from 'prop-types'
 import {editIcon} from 'src/images/icons'
-import {ErrorCard} from "./ErrorCard";
-import {LoadingCard} from "./LoadingCard";
+import {ErrorCard} from "./ErrorCard"
+import {LoadingCard} from "./LoadingCard"
 
 export class Tabs extends Component {
   render() {
@@ -86,7 +87,7 @@ export class CategoryTitle extends Component {
         {this.props.title}
         {!this.props.createForm &&
         <button className="btn btn-sm btn-outline-success ml-auto" onClick={this.props.showCreateForm}>
-          +
+          <FontAwesome name="plus" />
         </button>}
       </div>
     )

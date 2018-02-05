@@ -1,0 +1,28 @@
+.members-wrapper {
+	display: flex;
+	flex-flow: row wrap;
+	.member-wrapper {
+		flex: 0 1 50%;
+		display: flex;
+		flex-flow: row;
+		padding: 5px ;
+		.details {
+			flex: 1;
+			display: flex;
+			flex-flow: row;
+			justify-content: space-between;
+			padding: 5px 10px;
+			.job-title {
+				font-size: 14px;
+				color: #777;
+			}
+		}
+		.image-wrapper {
+			img {
+				width: 70px;
+				height: 70px;
+				border-radius: 50%;
+			}
+		}
+	}
+}

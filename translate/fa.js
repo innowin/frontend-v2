@@ -93,6 +93,9 @@ module.exports = {
   'Last name': "نام خانوادگی",
   'Email': "رایانامه",
   'User info': "اطلاعات کاربری",
+  'Organization info': "اطلاعات سازمان",
+  'Organization members': "اعضای سازمان",
+  
   'Profile info': 'اطلاعات تکمیلی',
   'Website': "تارنما",
   'www...': "...www",

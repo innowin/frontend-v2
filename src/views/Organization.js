@@ -1,7 +1,7 @@
 import React,{Component} from "react";
 import PropTypes from "prop-types";
 
-import BasicInformation from "./organization/Basic_Information";
+import {default as BasicInformation} from "./organization/basicInformation/index";
 import Certificates from "./organization/Certificates";
 import ChatBar from "./bars/ChatBar";
 import Customers from "./organization/Customers";
@@ -33,7 +33,6 @@ export class Organization extends Component {
 		const {match , handleSignOut} = this.props;
 		const {path, url, params} = match;
     const organizationId = params.id;
-
 		return (
 			<div className="-tabbed-pages -userOrganBackgroundImg">
         <TopBar handleSignOut={handleSignOut}/>
