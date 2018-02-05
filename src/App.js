@@ -3,8 +3,7 @@ import './fontawesome/css/font-awesome.min.css';
 import './styles/global.scss';
 import Layout from './views/Layout';
 import Login from './views/pages/Login';
-// import Test from './views/Test';
-import {setTOKEN, setID, saveData} from './consts/data';
+import {setTOKEN, setID, saveData , setIdentityId} from './consts/data';
 import cookies from 'browser-cookies';
 import PropsRoute from './consts/PropsRoute';
 
@@ -22,12 +21,14 @@ class App extends Component {
 	
 	_handleLogIn = (res) => {
 		const setData = (data, cb) => {
+			console.log('recieved data is' ,data.identity.id);
 			const {token} = data;
 			const id = data.user.id.toString();
 			saveData(data);
 			setTOKEN(token);
 			setID(id);
-			cb()
+			setIdentityId(data.identity.id);
+			cb();
 		};
 		const redirectingToHome = () => {
 			const T = cookies.get('token');
@@ -63,8 +64,6 @@ class App extends Component {
 					{this._isLoggedIn()}
 					<PropsRoute path="/" component={Layout} handleSignOut={this._handleSignOut}/>
 					<PropsRoute path="/login" component={Login} handleLogIn={this._handleLogIn}/>
-					
-					{/*<Test socket={socket}/>*/}
 				</div>
 		)
 	}
