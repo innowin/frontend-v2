@@ -1,24 +1,21 @@
 import React,{Component} from "react";
-import PropTypes from "prop-types";
-
-import {default as BasicInformation} from "./organization/basicInformation/index";
 import Certificates from "./organization/Certificates";
 import ChatBar from "./bars/ChatBar";
 import Customers from "./organization/Customers";
 import Posts from "./organization/Posts";
 import Products from "./organization/Products";
+import PropTypes from "prop-types";
 import Sidebar from "src/views/bars/SideBar";
 import Skills from "src/views/organization/skills/index";
 import Social from "./organization/Social";
 import TopBar from "./bars/TopBar";
+import {default as BasicInformation} from "./organization/basicInformation/index";
 import {NavLink , Route , Switch, Redirect} from "react-router-dom";
+import {OrganizationSideView} from "src/views/bars/SideBar";
 import {Tabs} from "src/views/common/cards/Frames";
 import {userInfoIcon, postIcon, certificateIcon, skillIcon} from "../images/icons";
-import {OrganizationSideView} from "src/views/bars/SideBar";
-
 
 export class Organization extends Component {
-
   static propTypes = {
     match: PropTypes.object.isRequired,
     handleSignOut: PropTypes.func.isRequired
@@ -28,7 +25,7 @@ export class Organization extends Component {
 		super(props);
 		this.state = {}
 	}
-	
+
 	render() {
 		const {match , handleSignOut} = this.props;
 		const {path, url, params} = match;

@@ -54,10 +54,13 @@ export class UserCareers extends Component {
 
 		});
 	}
+	updateStateForView = (error, isLoading) =>{
+		this.setState({...this.state,error:error, isLoading:isLoading })
+	}
 	render() {
 		const {careers, edit, isLoading, error} = this.state;
 		const careersView = careers.map((career,index)=>{
-			return <UserCareerView career={career} key={index}/>
+			return <UserCareerView updateStateForView ={this.updateStateForView} career={career} key={index}/>
 		})
 
 		return(

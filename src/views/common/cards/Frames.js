@@ -1,9 +1,12 @@
 import React, {Component} from 'react'
+import cx from 'classnames'
 import FontAwesome from 'react-fontawesome'
 import PropTypes from 'prop-types'
 import {editIcon} from 'src/images/icons'
 import {ErrorCard} from "./ErrorCard"
 import {LoadingCard} from "./LoadingCard"
+
+
 
 export class Tabs extends Component {
   render() {
@@ -65,9 +68,16 @@ export class ItemHeader extends Component {
 }
 
 export class FrameCard extends Component {
+  static defaultProps = {
+    className : ""
+  };
+  static propTypes = {
+    className: PropTypes.string
+  };
+
   render() {
     return (
-      <div className="-frameCard">
+      <div className={cx("-frameCard\u0020" + this.props.className)}>
         {this.props.children}
       </div>
     )
@@ -75,6 +85,12 @@ export class FrameCard extends Component {
 }
 
 export class CategoryTitle extends Component {
+
+  static defaultProps = {
+    createForm: true,
+    showCreateForm: () => false
+  };
+
   static propTypes = {
     title: PropTypes.node,
     createForm: PropTypes.bool,

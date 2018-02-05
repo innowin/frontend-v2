@@ -64,6 +64,9 @@ module.exports = {
   'Save': "ذخیره",
   'Certificates': "گواهی‌نامه‌ها",
 
+  // profile - posts
+  'Post':"کاربرنما",
+
   // profile - common
   'Are you sure? Do you want delete it?': "آیا مطمئن به حذف هستید؟",
   'Yes, Do it.': "آری",
@@ -125,6 +128,7 @@ module.exports = {
   'Removing...': "در حال حذف ...",
 	'Saving...': "در حال ذخیره سازی ...",
 	'Tag Name': 'نام تگ',
+	'Add Tag':'اضافه تگ',
 
   // UserDropDown.js
   'Profile': "پروفایل",
