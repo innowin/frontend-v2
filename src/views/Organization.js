@@ -71,7 +71,7 @@ export class Organization extends Component {
                 <Redirect exact from={`${url}/`} to={`${url}/basicInformation`}/>
                 <Route exact path={`${path}/basicInformation`} component={BasicInformation} organizationId={organizationId}/>
                 <Route path={`${path}/Products`} component={Products} organizationId={organizationId}/>
-                <Route path={`${path}/Posts`} component={Posts} organizationId={organizationId}/>
+                <Route path={`${path}/Posts`} component={Posts} organizationId={200}/>
                 <Route path={`${path}/Customers`} component={Customers} organizationId={organizationId}/>
                 <Route path={`${path}/SocialConnections`} component={Social} organizationId={organizationId}/>
                 <Route path={`${path}/Skills`} component={Skills} organizationId={organizationId}/>

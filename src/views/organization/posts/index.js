@@ -115,7 +115,7 @@ class Posts extends Component {
   }
 
   static propTypes = {
-    organizationId: PropTypes.string.isRequired
+    organizationId: PropTypes.string.isRequired,
   };
 
   componentDidMount() {
