@@ -1,5 +1,5 @@
 import React,{Component} from "react";
-import Certificates from "./organization/Certificates";
+import Certificates from "./organization/certificates/index";
 import ChatBar from "./bars/ChatBar";
 import Customers from "./organization/Customers";
 import Posts from "./organization/Posts";
