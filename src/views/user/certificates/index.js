@@ -3,11 +3,13 @@ import React, {Component} from "react";
 import PropTypes from 'prop-types';
 import {Certificate, CertificateItemWrapper} from "./view";
 import {CertificateCreateForm} from "./forms";
-import {FrameCard, CategoryTitle, ListGroup} from "../../common/cards/Frames";
+import {FrameCard, CategoryTitle, ListGroup, ItemWrapper, ItemHeader} from "../../common/cards/Frames";
 import {createCertificate, deleteCertificate, updateCertificate} from '../../../crud/user/certificate.js';
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {REST_REQUEST} from "../../../consts/Events"
+import {TOKEN} from '../../../consts/data'
 
+//TODO amir editform not implemtend in new version
 export class CertificateContainer extends Component {
 		componentWillReceiveProps(props){
 			const {certificate} = props;
@@ -49,20 +51,25 @@ export class CertificateList extends Component {
 
 	render() {
 		const {  userId, createForm, updateStateForView} = this.props;
-		const {certificates} = this.props;
+		const {certificates,badges} = this.props;
 		return <ListGroup>
 			{createForm &&
 			<CertificateItemWrapper>
 					<CertificateCreateForm hideEdit={this.props.hideCreateForm} create={this.create} />
 			</CertificateItemWrapper>}
-			{
-				certificates.map(cert => <CertificateContainer
-					certificate={cert}
-					updateStateForView = {updateStateForView}
-					userId={userId}
-					key={cert.id}
-				/>)
-			}
+			<CertificateItemWrapper>
+				<ItemHeader title={__('Certificates')} />
+				<div className="row align-items-center">
+				{
+					certificates.map(cert => <CertificateContainer
+						certificate={cert}
+						updateStateForView = {updateStateForView}
+						userId={userId}
+						key={cert.id}
+					/>)
+				}
+				</div>
+			</CertificateItemWrapper>
 		</ListGroup>;
 	}
 }
@@ -71,7 +78,7 @@ export class Certificates extends Component {
 
 	constructor(props){
 		super(props);
-		this.state = {createForm: false, edit:false, isLoading:false, error:null, certificates:[]};
+		this.state = {createForm: false, edit:false, isLoading:false, error:null,badges:[], certificates:[]};
 	}
 	static propTypes = {
 		userId: PropTypes.string.isRequired
@@ -79,6 +86,7 @@ export class Certificates extends Component {
 
 	componentDidMount(){
 		const {userId } = this.props;
+		const token = TOKEN;
 		const emitting = () => {
 			const newState = {...this.state, isLoading: true};
 			this.setState(newState);
@@ -87,9 +95,16 @@ export class Certificates extends Component {
 					method: "get",
 					url: `${url}/users/certificates/?certificate_user=${userId}`,
 					result: `UserCertificates-get/${userId}`,
-					token: "",
+					token: token,
 				}
 			);
+			socket.emit(REST_REQUEST,
+			{
+				method:"get",
+				url:`${url}/users/badges/?badge_user=${userId}`,
+				result :`UserBadges-get/${userId}`,
+				token:TOKEN
+			})
 		};
 
 		emitting();
@@ -100,6 +115,16 @@ export class Certificates extends Component {
 				this.setState(newState);
 			}else{
 				const newState = {...this.state, certificates: res, isLoading: false};
+				this.setState(newState);
+			}
+
+		});
+		socket.on(`UserBadges-get/${userId}`, (res) => {
+			if (res.detail) {
+				const newState = {...this.state, error: res.detail, isLoading: false};
+				this.setState(newState);
+			}else{
+				const newState = {...this.state, badges: res, isLoading: false};
 				this.setState(newState);
 			}
 
@@ -117,7 +142,7 @@ export class Certificates extends Component {
 
 	render() {
 		const {  userId} = this.props;
-		const {createForm, certificates} = this.state;
+		const {createForm, certificates, badges} = this.state;
 		return <div>
 			<CategoryTitle
 				title={__('Certificates')}

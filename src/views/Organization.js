@@ -5,7 +5,7 @@ import BasicInformation from "./organization/Basic_Information";
 import Certificates from "./organization/certificates/index";
 import ChatBar from "./bars/ChatBar";
 import Customers from "./organization/Customers";
-import Posts from "./organization/Posts";
+import Posts from "./organization/posts/index";
 import Products from "./organization/products/index";
 import Sidebar from "src/views/bars/SideBar";
 import Skills from "src/views/organization/skills/index";

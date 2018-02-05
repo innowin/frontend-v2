@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {TextInput} from 'src/views/common/inputs/TextInput'
 import {MediaUploader} from 'src/views/common/MediaUploader';
 import {Confirm} from "../../common/cards/Confirm";
-
+import {TOKEN} from '../../../consts/data'
 
 export class PostForm extends Component {
   static propTypes = {
