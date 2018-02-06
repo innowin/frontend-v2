@@ -20,8 +20,9 @@ export default class UserCareerForm extends Component {
 	_getValues = () => {
     return {
       username: this.positionInput.getValue(),
-      first_name: this.toDateInput.getValue(),
-      last_name: this.fromDateInput.getValue()
+      to_date: this.toDateInput.getValue(),
+			from_date: this.fromDateInput.getValue(),
+
     }
 	};
 
@@ -44,8 +45,8 @@ export default class UserCareerForm extends Component {
 	_onSubmit = (e) => {
 		e.preventDefault();
 		const {updateStateForView, hideEdit, career} = this.props;
-		if (this.form._formValidate()) {
-			const formValues = this.form._getValues();
+		if (this._formValidate()) {
+			const formValues = this._getValues();
 			updateCareer(formValues, career.id, updateStateForView,  hideEdit)
 		}
 		return false;
@@ -54,7 +55,7 @@ export default class UserCareerForm extends Component {
 	render(){
 		const {career, hideEdit} = this.props;
 			return (
-				<form onSubmit={this.props.onSubmit}>
+				<form onSubmit={this._onSubmit}>
 					<div className="row">
 						<TextInput
 							label={__('Position')}
@@ -63,16 +64,18 @@ export default class UserCareerForm extends Component {
 							ref={positionInput => {this.positionInput = positionInput}}
 						/>
 						<DateInput
+							name="from_date"
 							label={__('From date')}
 							value={career.fromDate}
-							name="from_date"
 							ref={fromDateInput => {this.fromDateInput = fromDateInput}}
+							showDay={true}
 						/>
 						<DateInput
 							label={__('To date')}
 							value={career.toDate}
 							name="to_date"
 							ref={toDateInput => {this.toDateInput = toDateInput}}
+							showDay={true}
 						/>
 
 						{/* {<div className="input-group ">

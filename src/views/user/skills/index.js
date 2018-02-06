@@ -100,7 +100,7 @@ export class UserSkills extends Component {
 
 					<FrameCard>
 						<ItemWrapper icon={userInfoIcon}>
-							<ItemHeader title={__('User info')} showEdit={this._showEdit}/>
+							<ItemHeader title={__('Skills')} showEdit={this._showEdit}/>
 							<ListGroup>
 								{skillsView}
 							</ListGroup>

@@ -1,9 +1,11 @@
-import React, {Component} from "react";
-import PropTypes from "prop-types";
-import cx from "classnames";
-import {editIcon} from 'src/images/icons';
-import {ErrorCard} from "./ErrorCard";
-import {LoadingCard} from "./LoadingCard";
+import React, {Component} from 'react'
+import cx from 'classnames'
+import FontAwesome from 'react-fontawesome'
+import PropTypes from 'prop-types'
+import {editIcon} from 'src/images/icons'
+import {ErrorCard} from "./ErrorCard"
+import {LoadingCard} from "./LoadingCard"
+
 
 
 export class Tabs extends Component {
@@ -100,8 +102,8 @@ export class CategoryTitle extends Component {
       <div className="-categoryTitle">
         {this.props.title}
         {!this.props.createForm &&
-        <button className="btn btn-sm btn-outline-success mr-auto" onClick={this.props.showCreateForm}>
-          +
+        <button className="btn btn-sm btn-outline-success ml-auto" onClick={this.props.showCreateForm}>
+          <FontAwesome name="plus" />
         </button>}
       </div>
     )

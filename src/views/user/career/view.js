@@ -19,7 +19,12 @@ export const WorkExperienceItemWrapper = ({children}) => {
 export class UserCareerView extends Component {
 	constructor(props){
 		super(props);
-		this.state={edit:false}
+		const{career} = props;
+		this.state={edit:false, career:career}
+	}
+	componentWillReceiveProps(props){
+		const{career} = props;
+		this.setState ({...this.state, edit:false, career:career});
 	}
 	static propTypes={
 		showEdit: PropTypes.func.isRequired,
@@ -33,8 +38,14 @@ export class UserCareerView extends Component {
 			this.setState({...this.state, edit: false});
 	};
 
+	updateStateForView = (career, err, isLoading) => {
+		const {updateStateForView} = this.props;
+		this.setState({...this.state, career:career, error:err, isLoading:isLoading});
+		updateStateForView(err,isLoading);
+	}
+
 	render(){//TODO amir : correct date format (??)
-		const {career} = this.props;
+		const {career} = this.state;
 		const {edit} = this.state;
 
 			return (
@@ -42,6 +53,7 @@ export class UserCareerView extends Component {
 					<UserCareerForm className="p-2"
 						{...this.props}
 						hideEdit={this.hideEdit}
+						updateStateForView ={this.updateStateForView}
 					>
 					</UserCareerForm>
 				) : (

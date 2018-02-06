@@ -57,7 +57,7 @@ export class EmailInput extends Component {
             <div className={cx("col-12 form-group", {'has-danger': this.state.error})}>
                 <label>{this.props.label}</label>
                 <input
-                    type="text"
+                    type="email"
                     name="email"
                     className="form-control"
                     value={this.state.value}
