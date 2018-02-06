@@ -3,7 +3,6 @@ import {REST_REQUEST} from "../../consts/Events"
 import {TOKEN} from '../../consts/data'
 
 export const createPost = (formValues, updateStateForView, hideCreateForm) => {
-    console.log(formValues)
     let isLoading = false;
 
     const emitting = () => {
@@ -21,7 +20,7 @@ export const createPost = (formValues, updateStateForView, hideCreateForm) => {
 
     emitting();
 
-    socket.on('createPost-post', (res) => {console.log(res)
+    socket.on('createPost-post', (res) => {
         let error = false;
         isLoading = false;
         if (res.detail) {

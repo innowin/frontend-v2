@@ -1,13 +1,12 @@
 /*global __*/
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import React, {Component} from "react";
+import PropTypes from "prop-types";
 import {CheckBox} from "../../common/inputs/CheckBox";
 import {Confirm} from "../../common/cards/Confirm";
 import {SelectComponent} from '../../common/SelectComponent';
 import {TextareaInput} from "../../common/inputs/TextareaInput";
 import {TextInput} from "../../common/inputs/TextInput";
-import {FileInput} from "../../common/inputs/FileInput";
-import {MediaUploader} from "src/views/common/MediaUploader";
+import {FileInput} from "src/views/common/inputs/FileInput";
 
 
 export class PostForm extends Component {
@@ -17,7 +16,7 @@ export class PostForm extends Component {
     };
 
     _getValues = () => {
-        const media = this.postPictureInput.getMedia();
+        const media = this.postPictureInput.getFile();
         const mediaId = media ? media.id : null;
         return {
             post_type: this.postTypeInput.getValue(),
@@ -91,16 +90,13 @@ export class PostForm extends Component {
                         this.postPinnedInput = postPinnedInput
                     }}
                 />
-                <MediaUploader>
-                    <FileInput
-                        label={__('Post picture') + ": "}
-                        name="post_picture"
-                        url={post.post_picture}
-                        ref={postPictureInput => {
-                            this.postPictureInput = postPictureInput
-                        }}
-                    />
-                </MediaUploader>
+                <FileInput
+                  label={__('Post picture') + ": "}
+                  mediaId={post.post_picture}
+                  ref={postPictureInput => {
+                    this.postPictureInput = postPictureInput
+                  }}
+                />
                 {this.props.children}
             </form>
         )
