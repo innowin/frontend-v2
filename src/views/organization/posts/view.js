@@ -89,22 +89,21 @@ export class PostView extends Component {
   static propTypes = {
     showEdit: PropTypes.func.isRequired,
     post: PropTypes.object.isRequired,
-    profile: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
+    organization: PropTypes.object.isRequired,
   };
 
   render() {
-    const {showEdit, post, user, profile} = this.props;
+    const {showEdit, post, organization} = this.props; 
     return (
       <PostItemWrapper>
         <div className="-img-col">
           {/*// TODO mohsen: handle src of img*/}
-          <img className="-item-imgPost" src={profile.profile_media || defaultImg}/>
+          <img className="-item-imgPost" src={organization.organization_logo || defaultImg}/>
         </div>
         <div className="-content-col">
           <PostItemHeader
-            name={user.first_name + " " + user.last_name}
-            username={user.username}
+            name={organization.official_name}
+            username={organization.username}
             postType={post.post_type}
             showEdit={showEdit}
           />

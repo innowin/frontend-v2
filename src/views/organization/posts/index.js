@@ -15,8 +15,7 @@ import {TOKEN} from "src/consts/data"
 class PostInfo extends Component {
   static propTypes = {
     post: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
-    profile: PropTypes.object.isRequired,
+    organization: PropTypes.object.isRequired,
     updatePost: PropTypes.func.isRequired,
     deletePost: PropTypes.func.isRequired,
     updateStateForView: PropTypes.func.isRequired
@@ -49,7 +48,7 @@ class PostInfo extends Component {
 
   render() {
     const {post} = this.state;
-    const {user, profile} = this.props;
+    const {organization, profile} = this.props;
     if (this.state.edit) {
       return <PostItemWrapper>
         <PostEditForm
@@ -61,7 +60,7 @@ class PostInfo extends Component {
         />
       </PostItemWrapper>;
     }
-    return <PostView post={post} user={user} profile={profile} showEdit={this._showEdit}/>;
+    return <PostView post={post} organization={organization} profile={profile} showEdit={this._showEdit}/>;
   }
 }
 
@@ -69,8 +68,7 @@ class Post extends Component {
 
   static propTypes = {
     post: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
-    profile: PropTypes.object.isRequired,
+    organization: PropTypes.object.isRequired,
   };
 
   componentWillReceiveProps(props) {
@@ -93,12 +91,11 @@ class Post extends Component {
   };
 
   render() {
-    const {post, user, profile} = this.props;
+    const {post, organization} = this.props;
     return (
       <PostInfo
         post={post}
-        user={user}
-        profile={profile}
+        organization={organization}
         updateStateForView={this._updateStateForView}
         deletePost={this._delete}
         updatePost={this._update}
@@ -116,10 +113,11 @@ class Posts extends Component {
 
   static propTypes = {
     organizationId: PropTypes.string.isRequired,
-  };
+  }
 
   componentDidMount() {
-    const {organizationId} = this.props;
+    // const {organizationId} = this.props;
+    const {organizationId} = this.props; //TODO amir solve prop injection of organizationId
     const emitting = () => {
       const newState = {...this.state, isLoading: true};
       this.setState(newState);
@@ -205,7 +203,7 @@ class Posts extends Component {
   };
 
   render() {
-    const {createForm, posts, user, profile} = this.state;
+    const {createForm, posts, organization, profile } = this.state;
     return <div>
       <CategoryTitle
         title={__('Post')}
@@ -224,7 +222,7 @@ class Posts extends Component {
             posts.map((post, i) => (
               <Post
                 post={post}
-                user={user}
+                organization={organization}
                 profile={profile}
                 updateStateForView={this._updateStateForView}
                 key={i}

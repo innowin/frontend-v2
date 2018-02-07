@@ -140,6 +140,7 @@ export class UserSideView extends Component {
 
   componentWillUnmount() {
     const {userId} = this.props;
+    
     socket.off(`user-sidebar-get/${userId}`, (res) => {
       if (res.detail) {
         const newState = {...this.state, error: res.detail, isLoading: false};
@@ -166,6 +167,7 @@ export class UserSideView extends Component {
       const newState = {...this.state, badges: res, isLoading: false};
       this.setState(newState);
     });
+
     socket.off(`certificate_user-sidebar-get/${userId}`, (res) => {
       if (res.detail) {
         const newState = {...this.state, error: res.detail, isLoading: false};
