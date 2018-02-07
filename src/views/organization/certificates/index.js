@@ -19,11 +19,13 @@ export class CertificateContainer extends Component {
 	}
 	delete_ = (certificateId, hideEdit) => {	
 		const {organizationId, updateStateForView} = this.props;
+		updateStateForView(null,null,true);
 		return deleteCertificate(certificateId, organizationId,()=>{
 			updateStateForView(null,false);
 		},hideEdit,organizationId);
 	};
 	update_ = (formValues, certificateId, updateStateForView, hideEdit) => {//formValues, careerId, updateStateForView, hideEdit
+		updateStateForView(null,null,true);
 		return updateCertificate(formValues,certificateId, updateStateForView, hideEdit);
 	};
 	_updateStateForView = (res, error, isLoading) => {

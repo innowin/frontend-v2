@@ -55,16 +55,16 @@ export const createCertificate = (formValues, certId, updateStateForView, hideEd
 		if (res.detail) {
 			error = res.detail;
 			updateStateForView(res, error, isLoading);
-			hideEdit();
+			
 			return;
 		}
-
+		hideEdit();
 		socket.emit(REST_REQUEST,
 			{
 				method: "get",
-				url: `${url}/organizations/certificates/${organizationId}`,
+				url: `${url}/organizations/certificates/?certificate_organization=${organizationId}`,
 				result: `OrganizationCertificates-get/${organizationId}`,
-				token: "",
+				token: TOKEN
 			}
 		);
 	});
@@ -93,16 +93,16 @@ export const deleteCertificate = (formValues, certId, updateStateForView, hideEd
 		if (res.detail) {
 			error = res.detail;
 			updateStateForView(res, error, isLoading);
-			hideEdit();
+			
 			return;
 		}
-
+		hideEdit();
 		socket.emit(REST_REQUEST,
 			{
 				method: "get",
-				url: `${url}/organizations/certificates/${organizationId}`,
+				url: `${url}/organizations/certificates/?certificate_organization=${organizationId}`,
 				result: `OrganizationCertificates-get/${organizationId}`,
-				token: "",
+				token: TOKEN
 			}
 		);
 
