@@ -159,9 +159,10 @@ export default class organizationBasicInformation extends Component {
 	};
 	
 	render() {
-		const {match} = this.props;
-		const {params} = match;
-		const {id} = params;
+		// const {match} = this.props;
+		// const {params} = match;
+		// const {id} = params;
+		const {organizationId} = this.props;
 		return (
 				<div>
 					<CategoryTitle
@@ -170,8 +171,8 @@ export default class organizationBasicInformation extends Component {
 					/>
 					<FrameCard>
 						<ListGroup>
-							<OrganizationInfo organizationId={id}/>
-							<OrganizationMembers organizationId={id}/>
+							<OrganizationInfo organizationId={organizationId}/>
+							<OrganizationMembers organizationId={organizationId}/>
 						</ListGroup>
 					</FrameCard>
 				</div>

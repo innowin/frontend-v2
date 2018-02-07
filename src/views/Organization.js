@@ -10,10 +10,11 @@ import Skills from "src/views/organization/skills/index";
 import Social from "./organization/Social";
 import TopBar from "./bars/TopBar";
 import {default as BasicInformation} from "./organization/basicInformation/index";
-import {NavLink , Route , Switch, Redirect} from "react-router-dom";
+import {NavLink , Switch, Redirect} from "react-router-dom";
 import {OrganizationSideView} from "src/views/bars/SideBar";
 import {Tabs} from "src/views/common/cards/Frames";
 import {userInfoIcon, postIcon, certificateIcon, skillIcon} from "../images/icons";
+import PropsRoute from "../consts/PropsRoute";
 
 export class Organization extends Component {
   static propTypes = {
@@ -65,13 +66,13 @@ export class Organization extends Component {
             </Tabs>
               <Switch>
                 <Redirect exact from={`${url}/`} to={`${url}/basicInformation`}/>
-                <Route exact path={`${path}/basicInformation`} component={BasicInformation} organizationId={organizationId}/>
-                <Route path={`${path}/Products`} component={Products} organizationId={organizationId}/>
-                <Route path={`${path}/Posts`} component={Posts} organizationId={organizationId}/>
-                <Route path={`${path}/Customers`} component={Customers} organizationId={organizationId}/>
-                <Route path={`${path}/SocialConnections`} component={Social} organizationId={organizationId}/>
-                <Route path={`${path}/Skills`} component={Skills} organizationId={organizationId}/>
-                <Route path={`${path}/Certificates`} component={Certificates} organizationId={organizationId}/>
+                <PropsRoute exact path={`${path}/basicInformation`} component={BasicInformation} organizationId={organizationId}/>
+                <PropsRoute path={`${path}/Products`} component={Products} organizationId={organizationId}/>
+                <PropsRoute path={`${path}/Posts`} component={Posts} organizationId={organizationId}/>
+                <PropsRoute path={`${path}/Customers`} component={Customers} organizationId={organizationId}/>
+                <PropsRoute path={`${path}/SocialConnections`} component={Social} organizationId={organizationId}/>
+                <PropsRoute path={`${path}/Skills`} component={Skills} organizationId={organizationId}/>
+                <PropsRoute path={`${path}/Certificates`} component={Certificates} organizationId={organizationId}/>
               </Switch>
           </div>
           <div className="col-3 -left-sidebar-wrapper">
