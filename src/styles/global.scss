@@ -18,7 +18,7 @@ input, textarea, button, select {
 @import "./font-face";
 @import "./_variables.scss";
 @import "~bootstrap/scss/bootstrap.scss";
-@import "~react-select-2/dist/css/react-select-2.css";
+@import "~react-select/dist/react-select.css";
 @import "./components/utils.scss";
 @import "./pages/login";
 @import "components/bars/bars";

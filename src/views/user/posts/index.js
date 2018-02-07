@@ -1,12 +1,11 @@
 /*global __*/
-import React, {Component} from "react";
-import PropTypes from 'prop-types';
-
-import {createPost, deletePost, updatePost} from 'src/crud/user/post.js';
-import {FrameCard, CategoryTitle, ListGroup} from "src/views/common/cards/Frames";
-import {PostCreateForm} from "./Forms";
-import {PostEditForm} from './Forms';
-import {PostItemWrapper, PostView} from "./Views";
+import React, {Component} from "react"
+import PropTypes from 'prop-types'
+import {createPost, deletePost, updatePost} from 'src/crud/user/post'
+import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames"
+import {PostCreateForm} from "./Forms"
+import {PostEditForm} from './Forms'
+import {PostItemWrapper, PostView} from "./Views"
 import {REST_REQUEST} from "src/consts/Events"
 import {REST_URL as url, SOCKET as socket} from "src/consts/URLS"
 import {TOKEN} from "src/consts/data"
@@ -25,14 +24,11 @@ class PostInfo extends Component {
   constructor(props) {
     super(props);
     const {post} = props;
-    this.state = {edit:false, post:post};
+    this.state = {edit: false, post: post, error:false, isLoading:false};
+    this._updateStateForView = this._updateStateForView.bind(this);
+    this._showEdit = this._showEdit.bind(this);
+    this._showEdit = this._showEdit.bind(this);
   }
-
-  componentWillReceiveProps(props) {
-    const {post} = props;
-    this.setState({...this.state, post: post})
-  }
-
 
   _showEdit = () => {
     this.setState({edit: true});
@@ -43,8 +39,7 @@ class PostInfo extends Component {
   };
 
   _updateStateForView = (res, error, isLoading) => {
-    const {updateStateForView} = this.props;
-    this.setState({...this.state, post: res})
+    this.setState({...this.state, post: res, error:error, isLoading:isLoading})
   };
 
   render() {
@@ -73,16 +68,19 @@ class Post extends Component {
     profile: PropTypes.object.isRequired,
   };
 
-  componentWillReceiveProps(props) {
-    const {post} = props;
-    this.setState({...this.state, post: post});
+  constructor(props) {
+    super(props);
+    this._delete = this._delete.bind(this);
+    this._update = this._update.bind(this);
+    this._updateStateForView = this._updateStateForView.bind(this)
   }
+
 
   _delete = (postId) => {
     return deletePost({postId});
   };
 
-  _update = (formValues, postId, updateStateForView, hideEdit) => {//formValues, careerId, updateStateForView, hideEdit
+  _update = (formValues, postId, updateStateForView, hideEdit) => {
     return updatePost(formValues, postId, updateStateForView, hideEdit);
   };
 
@@ -222,45 +220,47 @@ class Posts extends Component {
     this.setState({createForm: false});
   };
 
-  _updateStateForView = (error, isLoading) => {
-    this.setState({...this.state, error: error, isLoading: isLoading})
+  _updateStateForView = (res, error, isLoading) => {
+    this.setState({...this.state, post:res, error: error, isLoading: isLoading})
   };
 
-  _create = (formValues, hideEdit) => {
-    const {userId, postId} = this.props;
-    return createPost({formValues, userId, postId, hideEdit});
+  _create = (formValues, hideCreateForm) => {
+    const updateStateForView = this._updateStateForView;
+    return createPost(formValues, updateStateForView, hideCreateForm);
   };
 
   render() {
-    const {createForm, posts, user, profile} = this.state;
-    return <div>
-      <CategoryTitle
-        title={__('Post')}
-        showCreateForm={this._showCreateForm}
-        createForm={createForm}
-      />
-      <FrameCard className="-frameCardPost">
-        <ListGroup>
-          {
-            createForm &&
-            <PostItemWrapper>
-              <PostCreateForm hideEdit={this._hideCreateForm} create={this._create}/>
-            </PostItemWrapper>
-          }
-          {
-            posts.map((post, i) => (
-              <Post
-                post={post}
-                user={user}
-                profile={profile}
-                updateStateForView={this._updateStateForView}
-                key={i}
-              />
-            ))
-          }
-        </ListGroup>
-      </FrameCard>
-    </div>;
+    const {createForm, posts, user, profile, isLoading, error} = this.state;
+    return (
+      <VerifyWrapper isLoading={isLoading} error={error}>
+        <CategoryTitle
+          title={__('Post')}
+          showCreateForm={this._showCreateForm}
+          createForm={createForm}
+        />
+        <FrameCard className="-frameCardPost">
+          <ListGroup>
+            {
+              createForm &&
+              <PostItemWrapper>
+                <PostCreateForm hideCreateForm={this._hideCreateForm} create={this._create}/>
+              </PostItemWrapper>
+            }
+            {
+              posts.map((post, i) => (
+                <Post
+                  post={post}
+                  user={user}
+                  profile={profile}
+                  updateStateForView={this._updateStateForView}
+                  key={i}
+                />
+              ))
+            }
+          </ListGroup>
+        </FrameCard>
+      </VerifyWrapper>
+    )
   }
 }
 
