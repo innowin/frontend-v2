@@ -11,7 +11,8 @@ class TopBar extends Component {
     this.state = {isSignedOut: false, collapse: false}
   }
 
-  _toggle = () => {
+  _toggle = (e) => {
+    e.preventDefault();
     this.setState({...this.state, collapse: !this.state.collapse})
   };
 

@@ -1,8 +1,8 @@
 /*global __*/
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {TextInput} from 'src/views/common/inputs/TextInput'
-import {MediaUploader} from 'src/views/common/MediaUploader';
+import React, {Component} from "react";
+import PropTypes from "prop-types";
+import {TextInput} from "src/views/common/inputs/TextInput"
+import {FileInput} from "src/views/common/inputs/FileInput";
 import {Confirm} from "../../common/cards/Confirm";
 
 
@@ -48,11 +48,10 @@ export class CertificateForm extends Component {
 							value={certificate.title}
 							ref="titleInput"
 					/>
-					<MediaUploader
-							name="picture"
+					<FileInput
 							label={__('Picture') + ": "}
 							ref="pictureInput"
-							media={certificate.picture}
+							mediaId={certificate.picture}
 							organization={null}
 					/>
 					{this.props.children}
