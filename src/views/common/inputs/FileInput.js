@@ -22,8 +22,6 @@ export class FileInput extends Component {
     // TODO mohsen: fileSize
     // for get or create media
     mediaId: PropTypes.object,
-    identity: PropTypes.number,
-    uploader: PropTypes.number,
   };
 
   constructor(props) {
@@ -45,8 +43,7 @@ export class FileInput extends Component {
     const mediaResult = (res) => {
       this.setState({...this.state, isLoading: false, fileName:fileName, media: res})
     };
-    const {identity, uploader} = this.props;
-    createFile(identity, uploader, fileString, mediaResult);
+    createFile(fileString, mediaResult);
   };
 
   componentDidMount() {
