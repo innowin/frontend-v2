@@ -53,6 +53,7 @@ class PostInfo extends Component {
       return <PostItemWrapper>
         <PostEditForm
           post={post}
+          organization={organization}
           hideEdit={this._hideEdit}
           updateStateForView={this._updateStateForView}
           remove={this.props.deletePost}

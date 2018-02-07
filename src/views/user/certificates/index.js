@@ -1,164 +1,242 @@
 /*global __*/
-import React, {Component} from "react";
-import PropTypes from 'prop-types';
-import {Certificate, CertificateItemWrapper} from "./view";
-import {CertificateCreateForm} from "./forms";
-import {FrameCard, CategoryTitle, ListGroup, ItemWrapper, ItemHeader} from "../../common/cards/Frames";
-import {createCertificate, deleteCertificate, updateCertificate} from '../../../crud/user/certificate.js';
-import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
-import {REST_REQUEST} from "../../../consts/Events"
-import {TOKEN} from '../../../consts/data'
+import React, {Component} from "react"
+import PropTypes from 'prop-types'
+import {createCertificate, deleteCertificate, updateCertificate} from 'src/crud/user/certificate'
+import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames"
+import {CertificateCreateForm} from "./forms"
+import {CertificateEditForm} from './forms'
+import {CertificateItemWrapper, CertificateView} from "./view"
+import {REST_REQUEST} from "src/consts/Events"
+import {REST_URL as url, SOCKET as socket} from "src/consts/URLS"
+import {TOKEN} from "src/consts/data"
 
-//TODO amir editform not implemtend in new version
-export class CertificateContainer extends Component {
-		componentWillReceiveProps(props){
-			const {certificate} = props;
-			this.setState ({...this.state ,certificate:certificate});
-	}
-	delete_ = (certificateId) => {
-		const {userId} = this.props;
-		return deleteCertificate({certificateId, userId});
-	};
-	update_ = (formValues, certificateId, updateStateForView, hideEdit) => {//formValues, careerId, updateStateForView, hideEdit
-		return updateCertificate(formValues,certificateId, updateStateForView, hideEdit);
-	};
-	_updateStateForView = (res, error, isLoading) => {
-		const {updateStateForView} = this.props;
-		updateStateForView({error:error,isLoading:isLoading});
-		this.setState({...this.state, certificate:res, error:error, isLoading:isLoading});
-	};
 
-	render() {
-		const {certificate} = this.props;
-		return <Certificate
-			certificate={certificate}
-			updateStateForView={this._updateStateForView}
-			deleteCertificate={this.delete_}
-			updateCertificate={this.update_}
-		/>;
-	}
+class CertificateInfo extends Component {
+  static propTypes = {
+    certificate: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
+    updateCertificate: PropTypes.func.isRequired,
+    deleteCertificate: PropTypes.func.isRequired,
+    updateStateForView: PropTypes.func.isRequired
+  };
+
+  constructor(props) {
+    super(props);
+    const {certificate} = props;
+    this.state = {edit: false, certificate: certificate, error:false, isLoading:false};
+    this._updateStateForView = this._updateStateForView.bind(this);
+    this._showEdit = this._showEdit.bind(this);
+    this._showEdit = this._showEdit.bind(this);
+  }
+
+  _showEdit = () => {
+    this.setState({edit: true});
+  };
+
+  _hideEdit = () => {
+    this.setState({edit: false});
+  };
+
+  _updateStateForView = (res, error, isLoading) => {
+    this.setState({...this.state, certificate: res, error:error, isLoading:isLoading})
+  };
+
+  render() {
+    const {certificate} = this.state;
+    const {user} = this.props;
+    if (this.state.edit) {
+      return <CertificateItemWrapper>
+        <CertificateEditForm
+          user={user}
+          certificate={certificate}
+          hideEdit={this._hideEdit}
+          updateStateForView={this._updateStateForView}
+          remove={this.props.deleteCertificate}
+          update={this.props.updateCertificate}
+        />
+      </CertificateItemWrapper>;
+    }
+    return <CertificateView certificate={certificate} user={user} showEdit={this._showEdit}/>;
+  }
 }
 
-export class CertificateList extends Component {
-	static propTypes = {
-			hideCreateForm: PropTypes.func.isRequired,
-			createForm: PropTypes.bool.isRequired,
-	};
-	create = (formValues,hideEdit) => {
-			const {userId, certificateId} = this.props;
-			return createCertificate({formValues, userId, certificateId, hideEdit});
-	};
+class Certificate extends Component {
 
-	render() {
-		const {  userId, createForm, updateStateForView} = this.props;
-		const {certificates,badges} = this.props;
-		return <ListGroup>
-			{createForm &&
-			<CertificateItemWrapper>
-					<CertificateCreateForm hideEdit={this.props.hideCreateForm} create={this.create} />
-			</CertificateItemWrapper>}
-			<CertificateItemWrapper>
-				<ItemHeader title={__('Certificates')} />
-				<div className="row align-items-center">
-				{
-					certificates.map(cert => <CertificateContainer
-						certificate={cert}
-						updateStateForView = {updateStateForView}
-						userId={userId}
-						key={cert.id}
-					/>)
-				}
-				</div>
-			</CertificateItemWrapper>
-		</ListGroup>;
-	}
+  static propTypes = {
+    certificate: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
+  };
+
+  constructor(props) {
+    super(props);
+    this._delete = this._delete.bind(this);
+    this._update = this._update.bind(this);
+    this._updateStateForView = this._updateStateForView.bind(this)
+  }
+
+
+  _delete = (certificateId,userId, hideEdit) => {
+    const {updateStateForView} = this.props;
+    updateStateForView(null,null,true);
+    return deleteCertificate(certificateId,updateStateForView,hideEdit, userId);
+  };
+
+  _update = (formValues, certificateId, updateStateForView, hideEdit) => {
+    updateStateForView(null,null,true);
+    return updateCertificate(formValues, certificateId, updateStateForView, hideEdit);
+  };
+
+  _updateStateForView = (res, error, isLoading) => {
+    const {updateStateForView} = this.props;
+    updateStateForView({error: error, isLoading: isLoading});
+    this.setState({...this.state, certificate: res, error: error, isLoading: isLoading});
+  };
+
+  render() {
+    const {certificate, user} = this.props;
+    return (
+      <CertificateInfo
+        certificate={certificate}
+        user={user}
+        updateStateForView={this._updateStateForView}
+        deleteCertificate={this._delete}
+        updateCertificate={this._update}
+      />
+    )
+  }
 }
 
-export class Certificates extends Component {
+class Certificates extends Component {
 
-	constructor(props){
-		super(props);
-		this.state = {createForm: false, edit:false, isLoading:false, error:null,badges:[], certificates:[]};
-	}
-	static propTypes = {
-		userId: PropTypes.string.isRequired
-	};
+  constructor(props) {
+    super(props);
+    this.state = {createForm: false, edit: false, isLoading: false, error: null, certificates: [], user: {}, profile: {}};
+  }
 
-	componentDidMount(){
-		const {userId } = this.props;
-		const token = TOKEN;
-		const emitting = () => {
-			const newState = {...this.state, isLoading: true};
-			this.setState(newState);
-			socket.emit(REST_REQUEST,
-				{
-					method: "get",
-					url: `${url}/users/certificates/?certificate_user=${userId}`,
-					result: `UserCertificates-get/${userId}`,
-					token: token,
-				}
-			);
-			socket.emit(REST_REQUEST,
-			{
-				method:"get",
-				url:`${url}/users/badges/?badge_user=${userId}`,
-				result :`UserBadges-get/${userId}`,
-				token:TOKEN
-			})
-		};
+  static propTypes = {
+    userId: PropTypes.string.isRequired
+  };
 
-		emitting();
+  componentDidMount() {
+    const {userId} = this.props;
+    const emitting = () => {
+      const newState = {...this.state, isLoading: true};
+      this.setState(newState);
+      socket.emit(REST_REQUEST,
+        {
+          method: "get",
+          url: `${url}/users/certificates/?certificate_user=${userId}`,
+          result: `userCertificates-Certificates-get/${userId}`,
+          token: TOKEN
+        }
+      );
+      socket.emit(REST_REQUEST,
+        {
+          method: "get",
+          url: `${url}/users/${userId}/`,
+          result: `user-Certificates-get/${userId}`,
+          token: TOKEN
+        }
+      );
+    };
 
-		socket.on(`UserCertificates-get/${userId}`, (res) => {
-			if (res.detail) {
-				const newState = {...this.state, error: res.detail, isLoading: false};
-				this.setState(newState);
-			}else{
-				const newState = {...this.state, certificates: res, isLoading: false};
-				this.setState(newState);
-			}
+    emitting();
 
-		});
-		socket.on(`UserBadges-get/${userId}`, (res) => {
-			if (res.detail) {
-				const newState = {...this.state, error: res.detail, isLoading: false};
-				this.setState(newState);
-			}else{
-				const newState = {...this.state, badges: res, isLoading: false};
-				this.setState(newState);
-			}
+    socket.on(`userCertificates-Certificates-get/${userId}`, (res) => {
+      if (res.detail) {
+        const newState = {...this.state, error: res.detail, isLoading: false};
+        this.setState(newState);
+      } else {
+        const newState = {...this.state, certificates: res, isLoading: false};
+        this.setState(newState);
+      }
+    });
+    socket.on(`user-Certificates-get/${userId}`, (res) => {
+      if (res.detail) {
+        const newState = {...this.state, error: res.detail, isLoading: false};
+        this.setState(newState);
+      } else {
+        const newState = {...this.state, user: res, isLoading: false};
+        this.setState(newState);
+      }
+    });
 
-		});
-	}
-	showCreateForm = () => {
-			this.setState({createForm: true});
-	};
-	hideCreateForm = () => {
-			this.setState({createForm: false});
-	};
-	updateStateForView = (error,isLoading) =>{
-		this.setState({...this.state, error:error, isLoading:isLoading})
-	}
+  }
 
-	render() {
-		const {  userId} = this.props;
-		const {createForm, certificates, badges} = this.state;
-		return <div>
-			<CategoryTitle
-				title={__('Certificates')}
-				showCreateForm={this.showCreateForm}
-				createForm={createForm}
-			/>
-			<FrameCard>
-				<CertificateList
-					updateStateForView={this.updateStateForView}
-					certificates={certificates}
-					userId={userId}
-					createForm={createForm}
-					hideCreateForm={this.hideCreateForm}
-				/>
-			</FrameCard>
-		</div>;
-	}
+  componentWillUnmount() {
+    const {userId} = this.props;
+    socket.off(`userCertificates-Certificates-get/${userId}`, (res) => {
+      if (res.detail) {
+        const newState = {...this.state, error: res.detail, isLoading: false};
+        this.setState(newState);
+      } else {
+        const newState = {...this.state, certificates: res, isLoading: false};
+        this.setState(newState);
+      }
+    });
+    socket.off(`user-Certificates-get/${userId}`, (res) => {
+      if (res.detail) {
+        const newState = {...this.state, error: res.detail, isLoading: false};
+        this.setState(newState);
+      } else {
+        const newState = {...this.state, user: res, isLoading: false};
+        this.setState(newState);
+      }
+    });
+
+  }
+
+  _showCreateForm = () => {
+    this.setState({createForm: true});
+  };
+
+  _hideCreateForm = () => {
+    this.setState({createForm: false});
+  };
+
+  _updateStateForView = (res, error, isLoading) => {
+    this.setState({...this.state, certificate:res, error: error, isLoading: isLoading})
+  };
+
+  _create = (formValues, hideCreateForm) => {
+    const updateStateForView = this._updateStateForView;
+    const {userId} = this.props;
+    formValues.certificate_user = userId;
+    return createCertificate(formValues, updateStateForView, hideCreateForm);
+  };
+
+  render() {
+    const {createForm, certificates, user, isLoading, error, userId} = this.state;
+    return (
+      <VerifyWrapper isLoading={isLoading} error={error}>
+        <CategoryTitle
+          title={__('Certificates')}
+          showCreateForm={this._showCreateForm}
+          createForm={createForm}
+        />
+        <FrameCard className="-frameCardCertificate">
+            {
+              createForm &&
+              <CertificateItemWrapper>
+                <CertificateCreateForm hideCreateForm={this._hideCreateForm} create={this._create}/>
+              </CertificateItemWrapper>
+            }
+            	<div className="row align-items-center">
+            {
+              certificates.map((certificate, i) => (
+                <Certificate
+                  certificate={certificate}
+                  user={user}
+                  updateStateForView={this._updateStateForView}
+                  key={i}
+                />
+              ))
+            }
+            </div>
+        </FrameCard>
+      </VerifyWrapper>
+    )
+  }
 }
+
 export default Certificates;

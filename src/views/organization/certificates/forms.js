@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {TextInput} from 'src/views/common/inputs/TextInput'
-import {MediaUploader} from 'src/views/common/MediaUploader';
+import {FileInput} from 'src/views/common/inputs/FileInput';
 import {Confirm} from "../../common/cards/Confirm";
 
 
@@ -13,11 +13,11 @@ export class CertificateForm extends Component {
 	};
 
 	getValues =  () => {
-		const media =null;// await this.refs.pictureInput.refs.component.getMedia();
-		const mediaId = media ? media.id : null;
+		const media = this.certPictureInput.getFile();
+        const mediaId = media ? media.id : null;
 		const values = {
-				title: this.refs.titleInput.getValue(),
-				pictureId: mediaId, // TODO use media uploader
+				title: this.titleInput.getValue(),
+				picture_media: mediaId, // TODO use media uploader
 		};
 		return values
 	};
@@ -25,7 +25,7 @@ export class CertificateForm extends Component {
 	formValidate = () => {
 			let result = true;
 			const validates = [
-					this.refs.titleInput.validate(),
+					this.titleInput.validate(),
 			];
 			for (let i = 0; i < validates.length; i++) {
 					if (validates[i]) {
@@ -37,7 +37,7 @@ export class CertificateForm extends Component {
 	};
 
 	render() {
-			const {} = this.props;
+			const {organization} = this.props;
 			const certificate = this.props.certificate || {picture: null};
 			return <form onSubmit={this.props.onSubmit}>
 				<div className="row">
@@ -46,15 +46,20 @@ export class CertificateForm extends Component {
 							required
 							label={__('Title') + ": "}
 							value={certificate.title}
-							ref="titleInput"
+							ref={titleInput => {
+								this.titleInput = titleInput
+							}}
 					/>
-					<MediaUploader
+					<FileInput
 							name="picture"
 							label={__('Picture') + ": "}
-							ref="pictureInput"
-							media={certificate.picture}
-							organization={null}
+							ref={certPictureInput => {
+								this.titlcertPictureInputeInput = certPictureInput
+							}}
+							mediaId={certificate.picture}
+							organization={organization}
 					/>
+
 					{this.props.children}
 				</div>
 			</form>
@@ -69,8 +74,8 @@ export class CertificateCreateForm extends Component {
 			hideEdit: PropTypes.func.isRequired
 	};
 
-	save = async () => {
-			const formValues = await this.refs.form.getValues();
+	save = () => {
+			const formValues = this.refs.form.getValues();
 			const { hideEdit} = this.props;
 			return this.props.create(formValues, hideEdit);
 	};
@@ -78,12 +83,7 @@ export class CertificateCreateForm extends Component {
 	onSubmit = (e) => {
 			e.preventDefault();
 			if (this.refs.form.formValidate()) {
-					this.save()
-							.then(res => {
-									this.props.hideEdit();
-							})
-							.catch(err => {
-							});
+				this.save();
 			}
 	};
 
@@ -120,8 +120,9 @@ export class CertificateEditForm extends Component {
 	};
 
 	remove = () => {
+		const{hideEdit} = this.props;
 		const certificateId = this.props.certificate.id;
-		return this.props.remove(certificateId)
+		return this.props.remove(certificateId,hideEdit)
 	};
 
 	save = () => {//(formValues, certificateId, updateStateForView, hideEdit

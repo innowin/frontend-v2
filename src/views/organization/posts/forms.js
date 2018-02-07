@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {TextInput} from 'src/views/common/inputs/TextInput'
-import {MediaUploader} from 'src/views/common/MediaUploader';
+import {FileInput} from 'src/views/common/inputs/FileInput';
 import {Confirm} from "../../common/cards/Confirm";
 import {TOKEN} from '../../../consts/data'
 
@@ -37,7 +37,7 @@ export class PostForm extends Component {
   };
 
   render() {
-    const {} = this.props;
+    const {organization} = this.props;
     const post = this.props.post || {picture: null};
     return <form onSubmit={this.props.onSubmit}>
       <div className="row">
@@ -48,12 +48,12 @@ export class PostForm extends Component {
           value={post.title}
           ref="titleInput"
         />
-        <MediaUploader
-          name="picture"
-          label={__('Picture') + ": "}
-          ref="pictureInput"
-          media={post.picture}
-          organization={null}
+        <FileInput
+            name="picture"
+            label={__('Picture') + ": "}
+            ref="pictureInput"
+            mediaId={post.picture}
+            organization={organization}
         />
         {this.props.children}
       </div>
