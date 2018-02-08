@@ -2,7 +2,7 @@
 import React, {Component} from "react";
 import PropTypes from 'prop-types';
 
-import {createPost, deletePost, updatePost} from 'src/crud/user/post.js';
+import {createPost, deletePost, updatePost} from 'src/crud/organization/post.js';
 import {FrameCard, CategoryTitle, ListGroup} from "src/views/common/cards/Frames";
 import {PostCreateForm} from "./forms";
 import {PostEditForm} from './forms';
@@ -200,7 +200,8 @@ class Posts extends Component {
 
   _create = (formValues, hideEdit) => {
     const {organizationId, postId} = this.props;
-    return createPost({formValues, organizationId, postId, hideEdit});
+    const {organization} = this.state;
+    return createPost(formValues, organizationId, organization.owner, this._updateStateForView, hideEdit);
   };
 
   render() {
@@ -216,7 +217,7 @@ class Posts extends Component {
           {
             createForm &&
             <PostItemWrapper>
-              <PostCreateForm hideEdit={this._hideCreateForm} create={this._create}/>
+              <PostCreateForm hideCreateForm={this._hideCreateForm} create={this._create}/>
             </PostItemWrapper>
           }
           {
