@@ -41,7 +41,7 @@ export class OrganizationMembersView extends Component {
 	};
 	render() {
 		const {members, showEdit} = this.props;
-		console.log('organization member is : ', members);
+		// console.log('organization member is : ', members);
 		return (
 				<OrganizationMembersWrapper>
 					<ItemHeader title={__('Organization members')} showEdit={showEdit}/>

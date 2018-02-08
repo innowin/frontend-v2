@@ -100,9 +100,9 @@ export class CategoryTitle extends Component {
   render() {
     return (
       <div className="-categoryTitle">
-        {this.props.title}
+        <span>{this.props.title}</span>
         {!this.props.createForm &&
-        <button className="btn btn-sm btn-outline-success ml-auto" onClick={this.props.showCreateForm}>
+        <button className="btn btn-sm btn-outline-success" onClick={this.props.showCreateForm}>
           <FontAwesome name="plus" />
         </button>}
       </div>

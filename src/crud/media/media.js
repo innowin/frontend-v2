@@ -21,9 +21,9 @@ export const getFile = (mediaId, mediaResult) => {
   });
 };
 
-export const createFile = (identity = null, uploader = null, fileString, mediaResult) => {
+export const createFile = (fileString, mediaResult) => {
 
-  const data = {identity: identity, uploader: uploader, file_string: fileString};
+  const data = {file_string: fileString};
   socket.emit(REST_REQUEST,
     {
       method: "post",

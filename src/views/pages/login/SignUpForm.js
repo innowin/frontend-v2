@@ -61,9 +61,6 @@ export class SignUpForm extends Component {
 			setTOKEN(res.token);
 			setID(res.user.id.toString());
 			saveData(res);
-			//console.log(res);
-			//console.log('all cookies are these : ',cookies.all(), 'and cookie is : ',cookies.get('token'));
-			//console.log(this.form);
 			this.form.reset();
 			RedirectToHome();
 		});
@@ -125,9 +122,6 @@ export class SignUpForm extends Component {
 			this._sendingForm();
 			return true
 		}
-		
-		
-		
 	};
 	
 	_validateUsername = (username) => {

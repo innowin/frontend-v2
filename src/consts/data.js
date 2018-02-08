@@ -13,7 +13,7 @@ export const setID = (id) => {
 };
 
 export const setIdentityId = (id) => {
-	cookies.set('identityId', id , {expire:30})
+	cookies.set('identityId', id.toString() , {expire:30})
 };
 
 export const saveData = (data) => {

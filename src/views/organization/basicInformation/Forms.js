@@ -65,73 +65,10 @@ export class OrganizationMembersForm extends Component {
 
 	render() {
 		//Todo keep ltr
-		const profile = this.props.profile || {};
+		const members = this.props.members || {};
 		return (
 				<form onSubmit={this.props.onSubmit}>
-					<div className="row">
-						<DateInput
-								name="birthDate"
-								label={__('BirthDate') + ": "}
-								value={profile.birth_date}
-								ref={birthDateInput => {this.birthDateInput = birthDateInput}}
-								showDay={true}
-						/>
-						<TextInput
-								name="nationalCode"
-								label={__('National code') + ": "}
-								value={profile.national_code}
-								ref={nationalCodeInput => {this.nationalCodeInput = nationalCodeInput}}
-								customValidate={this._nationalCodeValidate}
-						/>
-						<CustomArrayInput
-								label={__('Mobile') + ": "}
-								value={profile.mobile}
-								ref={mobileInput => {this.mobileInput = mobileInput}}
-								inputComponent={PhoneInput}
-								outputComponent={outputComponent}
-						/>
-						<CustomArrayInput
-								label={__('Phone') + ": "}
-								value={profile.phone}
-								ref={phoneInput => {this.phoneInput = phoneInput}}
-								inputComponent={PhoneInput}
-								outputComponent={outputComponent}
-						/>
-						<CustomInput
-								label={__('Fax') + ": "}
-								value={profile.fax}
-								ref={faxInput => {this.faxInput = faxInput}}
-								inputComponent={PhoneInput}
-						/>
-						{/*TODO EMAIL INPUT*/}
-						<EmailInput
-								label={__('Public email') + ": "}
-								value={profile.public_email}
-								ref={publicEmailInput => {this.publicEmailInput = publicEmailInput}}
-						/>
-						{/*TODO TELEGRAM INPUT*/}
-						<TextInput
-								name="telegramAccount"
-								label={__('Telegram account') + ": "}
-								value={profile.telegram_account}
-								ref={telegramAccountInput => {this.telegramAccountInput = telegramAccountInput}}
-						/>
-						{/*TODO WEB INPUT*/}
-						<ArrayInput
-								name="webSite"
-								label={__('Website') + ": "}
-								placeholder={__('www...')}
-								value={profile.web_site}
-								ref={webSiteInput => {this.webSiteInput = webSiteInput}}
-						/>
-						<TextareaInput
-								name="description"
-								label={__('Description') + ": "}
-								value={profile.description}
-								ref={descriptionInput => {this.descriptionInput = descriptionInput}}
-						/>
-						{this.props.children}
-					</div>
+					this is form of members
 				</form>
 		)
 	}

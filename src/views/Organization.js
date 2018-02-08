@@ -11,10 +11,11 @@ import Social from "./organization/Social";
 import TopBar from "./bars/TopBar";
 import PropsRoute from "../consts/PropsRoute"
 import {default as BasicInformation} from "./organization/basicInformation/index";
-import {NavLink , Route , Switch, Redirect} from "react-router-dom";
+import {NavLink , Switch, Redirect} from "react-router-dom";
 import {OrganizationSideView} from "src/views/bars/SideBar";
 import {Tabs} from "src/views/common/cards/Frames";
 import {userInfoIcon, postIcon, certificateIcon, skillIcon} from "../images/icons";
+import PropsRoute from "../consts/PropsRoute";
 
 export class Organization extends Component {
   static propTypes = {
