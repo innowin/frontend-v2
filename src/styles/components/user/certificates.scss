@@ -1,0 +1,45 @@
+.certificate{
+	.content{
+		min-width: 100%;
+		border:1px solid #c9c9c99c;
+		border-radius: 2px;
+	}
+	.certImage{
+		min-width:100px;
+		min-height: 100px;
+		max-width: 100%;
+
+	}
+	img{
+		padding-top: 5%;
+		padding-bottom: 0;
+		padding-right: 35%;
+		padding-left: 35%;
+	}
+	h5{
+		padding:5px;
+		padding-bottom:0px;
+		padding-top:15px;
+		margin:0px;
+		font-size:14px;
+	}
+	.shareButton{
+		float:right;
+		padding-left:6px;
+		padding-right:6px;
+		padding-bottom:6px;
+		padding-top:0px;
+		svg{
+			width:10px;
+			height:10px;
+		}
+	}
+	.editButton{
+		cursor:pointer;
+		float:left;
+		svg{
+			width:15px;
+			height: 15px;
+		}
+	}
+}
