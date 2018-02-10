@@ -19,7 +19,7 @@ export const OrganizationMembersWrapper = ({children}) => {
 	)
 };
 
-export const OrganizationMember = ({jobTitle, userID , firstName , lastName}) => {
+export const OrganizationMember = ({jobTitle, userID , firstName , lastName, isEdit}) => {
 	return (
 			<div className="member-wrapper">
 				<div className="image-wrapper"><Link to={`/user/${userID}`}><img className="members-image" src={defaultImg} /></Link></div>
@@ -28,7 +28,7 @@ export const OrganizationMember = ({jobTitle, userID , firstName , lastName}) =>
 						<div className="name">{firstName} {lastName}</div>
 						<div className="job-title">{jobTitle}</div>
 					</div>
-					<div className="link-wrapper"><Link to="#">connect</Link></div>
+					<div className="link-wrapper">{(isEdit) ? <button className="btn btn-outline-danger">{__('Delete')}</button>:<Link to="#">connect</Link>}</div>
 				</div>
 			</div>
 	)

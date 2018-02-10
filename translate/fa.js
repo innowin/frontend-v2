@@ -61,6 +61,8 @@ module.exports = {
   'Cancel': "لغو",
   'Create': "ایجاد",
   'Delete': "حذف",
+  'Add': "افزودن",
+  
   'Save': "ذخیره",
   'Certificates': "گواهی‌نامه‌ها",
 

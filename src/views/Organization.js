@@ -35,12 +35,12 @@ export class Organization extends Component {
 			<div className="-tabbed-pages -userOrganBackgroundImg">
         <TopBar handleSignOut={handleSignOut}/>
         <main className="row">
-          <div className="col-3 -right-sidebar-wrapper">
+          <div className="col-md-2 col-sm-1 -right-sidebar-wrapper">
             <Sidebar>
               <OrganizationSideView organizationId={organizationId}/>
             </Sidebar>
           </div>
-          <div className="col-6 -content-wrapper">
+          <div className="col-md-8 col-sm-10  -content-wrapper">
             <Tabs>
               <NavLink className="-tab" to={`${url}/basicInformation`} activeClassName="-active">
                 {userInfoIcon}
@@ -75,7 +75,7 @@ export class Organization extends Component {
                 <PropsRoute path={`${path}/Certificates`} component={Certificates} organizationId={organizationId}/>
               </Switch>
           </div>
-          <div className="col-3 -left-sidebar-wrapper">
+          <div className="col-md-2 col-sm-1 -left-sidebar-wrapper">
             <ChatBar/>
           </div>
         </main>

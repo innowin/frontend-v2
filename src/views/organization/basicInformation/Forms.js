@@ -11,12 +11,13 @@ import {PhoneInput} from "src/views/common/inputs/PhoneInput"
 import {TextareaInput} from "src/views/common/inputs/TextareaInput"
 import {TextInput} from "src/views/common/inputs/TextInput"
 import {updateOrganization} from "src/crud/organization/basicInformation"
+import {OrganizationMember} from './Views'
 import {OrganizationMembers} from "./index";
 
 export class OrganizationMembersForm extends Component {
 	static propTypes = {
 		onSubmit: PropTypes.func.isRequired,
-		profile: PropTypes.object,
+		members: PropTypes.array,
 	};
 
 	_getValues = () => {
@@ -64,11 +65,23 @@ export class OrganizationMembersForm extends Component {
 	};
 
 	render() {
-		//Todo keep ltr
-		const members = this.props.members || {};
+		//Todo pedram : delete and create functionality should be added
+		const members = this.props.members || [{}];
+		console.log(members);
 		return (
 				<form onSubmit={this.props.onSubmit}>
-					this is form of members
+					<div className="members-wrapper">
+						{
+							members.map((member)=>{
+								return (
+										<OrganizationMember key={member.id} jobTitle={member.position} firstName={member.staff_user.first_name} lastName={member.staff_user.last_name} isEdit userID={member.staff_user.id}/>
+								)})
+						}
+					</div>
+					<div className="add-member">
+						<button className='btn btn-primary'>{__('Add')}</button>
+					</div>
+					<div>{this.props.children}</div>
 				</form>
 		)
 	}
@@ -86,7 +99,7 @@ export class OrganizationMembersEditForm extends Component {
 	static propTypes = {
 		hideEdit: PropTypes.func.isRequired,
 		updateStateForView: PropTypes.func.isRequired,
-		profile: PropTypes.object.isRequired,
+		members: PropTypes.array.isRequired,
 	};
 
 	_save = (updateStateForView, hideEdit) => {
@@ -105,9 +118,9 @@ export class OrganizationMembersEditForm extends Component {
 	};
 
 	render() {
-		const {profile} = this.props;
+		const {members} = this.props;
 		return (
-				<OrganizationMembersForm onSubmit={this._onSubmit} ref={form => {this.form = form}} profile={profile}>
+				<OrganizationMembersForm onSubmit={this._onSubmit} ref={form => {this.form = form}} members={members}>
 					<div className="col-12 d-flex justify-content-end">
 						<button type="button" className="btn btn-secondary mr-2" onClick={this.props.hideEdit}>
 							{__('Cancel')}
