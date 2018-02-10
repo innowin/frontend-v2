@@ -1,41 +1,93 @@
 /*global __*/
-import React,{Component} from "react";
+import React, {Component} from "react";
 import PropTypes from 'prop-types';
-import {
-	VerifyWrapper,
-	ListGroup,
-	FrameCard,
-	ItemWrapper,
-	ItemHeader,
-	CategoryTitle
-	} from "../../common/cards/Frames";
-import {
-	userInfoIcon
-} from '../../../images/icons';
-
-import {UserSkillView} from "./view";
+import {Skill, SkillItemWrapper} from "./view";
+import {SkillCreateForm} from "./forms";
+import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper} from "../../common/cards/Frames";
+import {createSkill, deleteSkill, updateSkill} from '../../../crud/organization/skills.js';
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
-import {TOKEN} from "../../../consts/data"
 import {REST_REQUEST} from "../../../consts/Events"
-import SkillInfoForm from './forms';
+import {TOKEN} from "src/consts/data"
 
-
-//TODO amir #5  get data with SOCKET and review component
-export class UserSkills extends Component {
-	constructor(props) {
+export class SkillContainer extends Component {
+	constructor(props){
 		super(props);
-		console.log("constructor: Skill index")
-		this.state = {error: null, edit: false, isLoading: false, skills:[]};
-
+		this.state= {skill:{}};
 	}
+	componentWillReceiveProps(props){
+			const {skill} = props;
+			this.setState ({...this.state ,skill:skill || {}});
+	}
+	delete_ = (skillId, hideEdit) => {	
+		const {organizationId, updateStateForView} = this.props;
+		updateStateForView(null,null,true);
+		return deleteSkill(skillId, organizationId,()=>{
+			updateStateForView(null,false);
+		},hideEdit,organizationId);
+	};
+	update_ = (formValues, skillId, updateStateForView, hideEdit) => {//formValues, careerId, updateStateForView, hideEdit
+		updateStateForView(null,null,true);
+		return updateSkill(formValues,skillId, updateStateForView, hideEdit);
+	};
+	_updateStateForView = (res, error, isLoading) => {
+		const {updateStateForView} = this.props;
+		updateStateForView({error:error,isLoading:isLoading});
+		this.setState({...this.state, skill:res, error:error, isLoading:isLoading});
+	};
 
+	render() {
+		const {skill} = this.state;
+		return <Skill
+			skill={skill}
+			updateStateForView={this._updateStateForView}
+			deleteSkill={this.delete_}
+			updateSkill={this.update_}
+		/>;
+	}
+}
+
+export class SkillList extends Component {
 	static propTypes = {
-		updateUser: PropTypes.func.isRequired,
-		organizationId: PropTypes.string.isRequired,
+			hideCreateForm: PropTypes.func.isRequired,
+			createForm: PropTypes.bool.isRequired,
+	};
+
+	create = (formValues,hideEdit) => {
+			const {organizationId, skillId, updateStateForView} = this.props;
+			return createSkill(formValues, updateStateForView, hideEdit, organizationId);
+	};
+
+	render() {
+		const {  organizationId, createForm, updateStateForView} = this.props;
+		var {skills} = this.props ;
+		return <ListGroup>
+			{createForm &&
+			<SkillItemWrapper>
+					<SkillCreateForm hideEdit={this.props.hideCreateForm} create={this.create} />
+			</SkillItemWrapper>}
+			{
+				skills.map(skill => <SkillContainer
+					skill={skill}
+					updateStateForView = {updateStateForView}
+					organizationId={organizationId}
+					key={skill.id}
+				/>)
+			}
+		</ListGroup>;
+	}
+}
+
+export class Skills extends Component {
+
+	constructor(props){
+		super(props);
+		this.state = {createForm: false,skills:{}, edit:false, isLoading:false, error:null, skills:[]};
+	}
+	static propTypes = {
+		organizationId: PropTypes.string.isRequired
 	};
 
 	componentDidMount(){
-		console.log("ComponentDidMount: Skill index")
 		const {organizationId } = this.props;
 		const emitting = () => {
 			const newState = {...this.state, isLoading: true};
@@ -44,75 +96,81 @@ export class UserSkills extends Component {
 				{
 					method: "get",
 					url: `${url}/organizations/abilities/?ability_organization=${organizationId}`,
-					result: `OrganizationSklls-get/${organizationId}`,
+					result: `OrganizationAbilities-get/${organizationId}`,
 					token: TOKEN,
 				}
 			);
+
+			socket.emit(REST_REQUEST,
+        {
+          method: "get",
+          url: `${url}/organizations/${organizationId}/`,
+          result: `organization-Abilities-get/${organizationId}`,
+          token: TOKEN
+        }
+			);
+			
 		};
 
 		emitting();
 
-		socket.on(`OrganizationSklls-get/${organizationId}`, (res) => {
+		socket.on(`OrganizationAbilities-get/${organizationId}`, (res) => {
 			if (res.detail) {
 				const newState = {...this.state, error: res.detail, isLoading: false};
 				this.setState(newState);
 			}else{
-				const newState = {...this.state, skills: res, isLoading: false};
+				const newState = {...this.state, skills: res instanceof Array ? res : [], isLoading: false};
+				this.setState(newState);
+			}
+
+		});
+		socket.on(`organization-Abilities-get/${organizationId}`, (res) => {
+			if (res.detail) {
+				const newState = {...this.state, error: res.detail, isLoading: false};
+				this.setState(newState);
+			} else {
+				const newState = {...this.state, organization: res, isLoading: false};
 				this.setState(newState);
 			}
 		});
+
+		
+	}
+	showCreateForm = () => {
+			this.setState({createForm: true});
+	};
+	hideCreateForm = () => {
+			this.setState({createForm: false});
+	};
+	updateStateForView = (error,isLoading) =>{
+		this.setState({...this.state, error:error, isLoading:isLoading})
 	}
 
-	_showEdit = () => {
-			this.setState({...this.state, edit: true});
-	};
-	_hideEdit = () => {
-			this.setState({...this.state, edit: false});
-	};
-
-	_updateStateForView = (res,skillIndex, error, isLoading) => {
-		const {skills} = this.state;
-		skills[skillIndex] = res;
-		this.setState({...this.state, skills:skills, error:error, isLoading:isLoading});
-	};
-
 	render() {
-		const {skills, edit, isLoading, error} = this.state;
-
-		const skillsView = skills.map((skill,index)=>{
-			return( (!edit) ?
-			<UserSkillView
-				skill={skill}
-				key={index}
-				skillIndex={index}
-				showEdit={this._showEdit}
-			/> :
-			<SkillInfoForm
-				skillIndex ={index}
-				skill = {skill}
-				hideEdit={this._hideEdit}
-				updateStateForView ={this._updateStateForView}
-			/>)
-		});
-
-		return(
-			<VerifyWrapper isLoading={isLoading} error={error}>
-				{
-					<div>
+		const {  organizationId} = this.props;
+		const {createForm, skills, isLoading, error} = this.state;
+		return (
+		<VerifyWrapper isLoading={isLoading} error={error}>
+			{
+				<div>
 					<CategoryTitle
 						title={__('Skills')}
+						showCreateForm={this.showCreateForm}
+						createForm={createForm}
 					/>
 					<FrameCard>
-							<ListGroup>
-								{skillsView}
-							</ListGroup>
+						<SkillList
+							updateStateForView={this.updateStateForView}
+							skills={skills}
+							organizationId={organizationId}
+							createForm={createForm}
+							hideCreateForm={this.hideCreateForm}
+						/>
 					</FrameCard>
-					</div>
-				}
-			</VerifyWrapper>
-
+				</div>
+			}
+		</VerifyWrapper>
 		)
 	}
 }
-
-export default UserSkills;
+export default Skills;

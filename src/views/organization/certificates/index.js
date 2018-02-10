@@ -53,7 +53,7 @@ export class CertificateList extends Component {
 
 	create = (formValues,hideEdit) => {
 			const {organizationId, certificateId, updateStateForView} = this.props;
-			return createCertificate(formValues,certificateId, updateStateForView, hideEdit, organizationId);
+			return createCertificate(formValues, updateStateForView, hideEdit, organizationId);
 	};
 
 	render() {
@@ -148,7 +148,7 @@ export class Certificates extends Component {
 	render() {
 		const {  organizationId} = this.props;
 		const {createForm, certificates, isLoading, error} = this.state;
-		return 
+		return (
 		<VerifyWrapper isLoading={isLoading} error={error}>
 			{
 				<div>
@@ -169,6 +169,7 @@ export class Certificates extends Component {
 				</div>
 			}
 		</VerifyWrapper>
+		)
 	}
 }
 export default Certificates;

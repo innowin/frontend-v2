@@ -19,6 +19,7 @@ export class CertificateForm extends Component {
 				title: this.titleInput.getValue(),
 				picture_media: mediaId, // TODO use media uploader
 		};
+		return values;
 	};
 
 	formValidate = () => {
@@ -53,7 +54,7 @@ export class CertificateForm extends Component {
 							name="picture"
 							label={__('Picture') + ": "}
 							ref={certPictureInput => {
-								this.titlcertPictureInputeInput = certPictureInput
+								this.certPictureInput = certPictureInput
 							}}
 							mediaId={certificate.picture}
 							organization={organization}

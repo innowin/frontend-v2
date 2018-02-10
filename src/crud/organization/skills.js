@@ -35,3 +35,85 @@ export const updateSkill = (formValues, skillId, updateStateForView, hideEdit) =
 		hideEdit();
 	});
 };
+
+
+
+export const createSkill = (formValues,  updateStateForView, hideEdit,organizationId) => {
+	let isLoading = false;
+	formValues.ability_organization = organizationId;
+	console.log(TOKEN)
+	const emitting = () => {
+		isLoading = true;
+		socket.emit(REST_REQUEST,
+			{
+				method: "post",
+				url: `${url}/organizations/abilities/`,
+				result: `createSkill-post/`,
+				data :formValues,
+				token: TOKEN
+			}
+		);
+	};
+
+	emitting();
+
+	socket.on(`createSkill-post/`, (res) => {
+		let error = false;
+		isLoading = false;
+		if (res.detail) {
+			error = res.detail;
+			updateStateForView(res, error, isLoading);
+			
+			return;
+		}
+		hideEdit();
+		socket.emit(REST_REQUEST,
+			{
+				method: "get",
+				url: `${url}/organizations/abilities/?ability_organization=${organizationId}`,
+				result: `OrganizationSkills-get/${organizationId}`,
+				token: TOKEN
+			}
+		);
+	});
+};
+
+export const deleteSkill = (formValues, certId, updateStateForView, hideEdit,organizationId) => {
+	let isLoading = false;
+
+	const emitting = () => {
+		isLoading = true;
+		socket.emit(REST_REQUEST,
+			{
+				method: "delete",
+				url: `${url}/organizations/abilities/${certId}/`,
+				result: `deleteSkill-delete/${certId}`,
+				data :formValues,
+				token: TOKEN
+			}
+		);
+	};
+
+	emitting();
+
+	socket.on(`deleteSkill-delete/${certId}`, (res) => {
+		let error = false;
+		isLoading = false;
+		if (res.detail) {
+			error = res.detail;
+			updateStateForView(res, error, isLoading);
+			
+			return;
+		}
+		hideEdit();
+		socket.emit(REST_REQUEST,
+			{
+				method: "get",
+				url: `${url}/organizations/abilities/?ability_organization=${organizationId}`,
+				result: `OrganizationSkills-get/${organizationId}`,
+				token: TOKEN
+			}
+		);
+
+	});
+};

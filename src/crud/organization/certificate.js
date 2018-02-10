@@ -31,16 +31,17 @@ export const updateCertificate = (formValues, certId, updateStateForView, hideEd
 	});
 };
 
-export const createCertificate = (formValues, certId, updateStateForView, hideEdit,organizationId) => {
+export const createCertificate = (formValues,  updateStateForView, hideEdit,organizationId) => {
 	let isLoading = false;
-
+	formValues.certificate_organization = organizationId;
+	console.log(TOKEN)
 	const emitting = () => {
 		isLoading = true;
 		socket.emit(REST_REQUEST,
 			{
 				method: "post",
-				url: `${url}/organizations/certificates/${certId}/`,
-				result: `createCertificate-post/${certId}`,
+				url: `${url}/organizations/certificates/`,
+				result: `createCertificate-post/`,
 				data :formValues,
 				token: TOKEN
 			}
@@ -49,7 +50,7 @@ export const createCertificate = (formValues, certId, updateStateForView, hideEd
 
 	emitting();
 
-	socket.on(`createCertificate-post/${certId}`, (res) => {
+	socket.on(`createCertificate-post/`, (res) => {
 		let error = false;
 		isLoading = false;
 		if (res.detail) {
@@ -72,6 +73,7 @@ export const createCertificate = (formValues, certId, updateStateForView, hideEd
 
 export const deleteCertificate = (formValues, certId, updateStateForView, hideEdit,organizationId) => {
 	let isLoading = false;
+
 	const emitting = () => {
 		isLoading = true;
 		socket.emit(REST_REQUEST,
