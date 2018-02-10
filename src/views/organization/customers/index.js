@@ -12,6 +12,7 @@ import {TOKEN} from "src/consts/data"
 export class CustomerContainer extends Component {
 	constructor(props){
 		super(props);
+		this.state={customer:{}}
 	}
 	componentWillReceiveProps(props){
 			const {customer} = props;
@@ -19,10 +20,8 @@ export class CustomerContainer extends Component {
 	}
 	delete_ = (customerId, hideEdit) => {	
 		const {organizationId, updateStateForView} = this.props;
-		updateStateForView(null,null,true);
-		return deleteCustomer(customerId, organizationId,()=>{
-			updateStateForView(null,false);
-		},hideEdit,organizationId);
+		updateStateForView(null,true,true);
+		return deleteCustomer(customerId, updateStateForView,hideEdit,organizationId);
 	};
 	update_ = (formValues, customerId, updateStateForView, hideEdit) => {//formValues, careerId, updateStateForView, hideEdit
 		updateStateForView(null,null,true);
@@ -53,7 +52,7 @@ export class CustomerList extends Component {
 
 	create = (formValues,hideEdit) => {
 			const {organizationId, customerId, updateStateForView} = this.props;
-			return createCustomer(formValues,customerId, updateStateForView, hideEdit, organizationId);
+			return createCustomer(formValues, updateStateForView, hideEdit, organizationId);
 	};
 
 	render() {
@@ -65,11 +64,11 @@ export class CustomerList extends Component {
 					<CustomerCreateForm hideEdit={this.props.hideCreateForm} create={this.create} />
 			</CustomerItemWrapper>}
 			{
-				customers.map(cert => <CustomerContainer
-					customer={cert}
+				customers.map(customer => <CustomerContainer
+					customer={customer}
 					updateStateForView = {updateStateForView}
 					organizationId={organizationId}
-					key={cert.id}
+					key={customer.id}
 				/>)
 			}
 		</ListGroup>;
@@ -94,9 +93,9 @@ export class Customers extends Component {
 			socket.emit(REST_REQUEST,
 				{
 					method: "get",
-					url: `${url}/organizations/customers/${organizationId}`,
+					url: `${url}/organizations/customers/?customer_organization=${organizationId}`,
 					result: `OrganizationCustomers-get/${organizationId}`,
-					token: "",
+					token: TOKEN,
 				}
 			);
 
@@ -104,7 +103,7 @@ export class Customers extends Component {
         {
           method: "get",
           url: `${url}/organizations/${organizationId}/`,
-          result: `organization-Posts-get/${organizationId}`,
+          result: `organization-Customers-get/${organizationId}`,
           token: TOKEN
         }
 			);
@@ -113,7 +112,7 @@ export class Customers extends Component {
 
 		emitting();
 
-		socket.on(`UserCustomers-get/${organizationId}`, (res) => {
+		socket.on(`OrganizationCustomers-get/${organizationId}`, (res) => {
 			if (res.detail) {
 				const newState = {...this.state, error: res.detail, isLoading: false};
 				this.setState(newState);
@@ -123,7 +122,7 @@ export class Customers extends Component {
 			}
 
 		});
-		socket.on(`organization-Posts-get/${organizationId}`, (res) => {
+		socket.on(`organization-Customers-get/${organizationId}`, (res) => {
 			if (res.detail) {
 				const newState = {...this.state, error: res.detail, isLoading: false};
 				this.setState(newState);

@@ -17,8 +17,10 @@ export class CustomerForm extends Component {
         const mediaId = media ? media.id : null;
 		const values = {
 				title: this.titleInput.getValue(),
-				picture_media: mediaId, // TODO use media uploader
+				customer_picture: mediaId || 1, // TODO amir use media uploader
+				related_customer:6,// TODO amir related customer is unknown
 		};
+		return values;
 	};
 
 	formValidate = () => {
@@ -53,7 +55,7 @@ export class CustomerForm extends Component {
 							name="picture"
 							label={__('Picture') + ": "}
 							ref={certPictureInput => {
-								this.titlcertPictureInputeInput = certPictureInput
+								this.certPictureInput = certPictureInput
 							}}
 							mediaId={customer.picture}
 							organization={organization}

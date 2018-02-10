@@ -3,8 +3,8 @@ import {REST_REQUEST} from "../../consts/Events"
 import {TOKEN} from '../../consts/data'
 
 export const createPost = (formValues, organizationId, userId, updateStateForView, hideCreateForm) => {
-    let isLoading = false;
-
+    let isLoading = true;
+    updateStateForView({}, null, isLoading);
     const emitting = () => {
         isLoading = true;
         socket.emit(REST_REQUEST,
@@ -48,7 +48,7 @@ export const updatePost = (formValues, postId, updateStateForView, hideEdit) => 
     socket.emit(REST_REQUEST,
       {
         method: "patch",
-        url: `${url}/users/posts/${postId}/`,
+        url: `${url}/base/posts/${postId}/`,
         result: `updatePost-patch/${postId}`,
         data :formValues,
         token: TOKEN
@@ -69,17 +69,16 @@ export const updatePost = (formValues, postId, updateStateForView, hideEdit) => 
   });
 };
 
-export const deletePost = (formValues, postId, updateStateForView, hideEdit) => {
+export const deletePost = (postId, updateStateForView, hideEdit) => {
   let isLoading = false;
-
+  updateStateForView({}, null, isLoading);
   const emitting = () => {
     isLoading = true;
     socket.emit(REST_REQUEST,
       {
         method: "delete",
-        url: `${url}/users/posts/${postId}/`,
+        url: `${url}/base/posts/${postId}/`,
         result: `deletePost-delete/${postId}`,
-        data :formValues,
         token: TOKEN
       }
     );

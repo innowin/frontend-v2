@@ -77,8 +77,8 @@ class Post extends Component {
     this.setState({...this.state, post: post});
   }
 
-  _delete = (postId) => {
-    return deletePost({postId});
+  _delete = (postId, updateStateForView, hideEdit) => {
+    return deletePost(postId, updateStateForView, hideEdit);
   };
 
   _update = (formValues, postId, updateStateForView, hideEdit) => {//formValues, careerId, updateStateForView, hideEdit
