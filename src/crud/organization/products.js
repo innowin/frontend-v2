@@ -2,7 +2,7 @@ import {REST_URL as url, SOCKET as socket} from "../../consts/URLS"
 import {REST_REQUEST} from "../../consts/Events"
 import {TOKEN} from '../../consts/data'
 
-export const updateProduct = (formValues, careerId, updateStateForView, hideEdit) => {
+export const updateProduct = (formValues, productId, updateStateForView, hideEdit) => {
 	let isLoading = false;
 
 	const emitting = () => {
@@ -10,8 +10,8 @@ export const updateProduct = (formValues, careerId, updateStateForView, hideEdit
 		socket.emit(REST_REQUEST,
 			{
 				method: "patch",
-				url: `${url}/organization/products/${careerId}/`,
-				result: `updateProduct-patch/${careerId}`,
+				url: `${url}/products/${productId}/`,
+				result: `updateProduct-patch/${productId}`,
 				data :formValues,
 				token: TOKEN
 			}
@@ -20,7 +20,7 @@ export const updateProduct = (formValues, careerId, updateStateForView, hideEdit
 
 	emitting();
 
-	socket.on(`updateProduct-patch/${careerId}`, (res) => {
+	socket.on(`updateProduct-organization-patch/${productId}`, (res) => {
 		let error = false;
 		isLoading = false;
 		if (res.detail) {
@@ -31,7 +31,7 @@ export const updateProduct = (formValues, careerId, updateStateForView, hideEdit
 	});
 };
 
-export const createProduct = (formValues, careerId, updateStateForView, hideEdit) => {
+export const createProduct = (formValues, updateStateForView, hideEdit) => {
 	let isLoading = false;
 
 	const emitting = () => {
@@ -39,8 +39,8 @@ export const createProduct = (formValues, careerId, updateStateForView, hideEdit
 		socket.emit(REST_REQUEST,
 			{
 				method: "post",
-				url: `${url}/organization/products/${careerId}/`,
-				result: `createProduct-post/${careerId}`,
+				url: `${url}/products/`,
+				result: `createProduct-organization-post/`,
 				data :formValues,
 				token: TOKEN
 			}
@@ -49,7 +49,7 @@ export const createProduct = (formValues, careerId, updateStateForView, hideEdit
 
 	emitting();
 
-	socket.on(`createProduct-post/${careerId}`, (res) => {
+	socket.on(`createProduct-organization-post/`, (res) => {
 		let error = false;
 		isLoading = false;
 		if (res.detail) {
@@ -60,7 +60,7 @@ export const createProduct = (formValues, careerId, updateStateForView, hideEdit
 	});
 };
 
-export const deleteProduct = (formValues, careerId, updateStateForView, hideEdit) => {
+export const deleteProduct = (formValues, productId, updateStateForView, hideEdit) => {
 	let isLoading = false;
 
 	const emitting = () => {
@@ -68,9 +68,8 @@ export const deleteProduct = (formValues, careerId, updateStateForView, hideEdit
 		socket.emit(REST_REQUEST,
 			{
 				method: "delete",
-				url: `${url}/organization/products/${careerId}/`,
-				result: `deleteProduct-delete/${careerId}`,
-				data :formValues,
+				url: `${url}/organization/products/${productId}/`,
+				result: `deleteProduct-organization-delete/${productId}`,
 				token: TOKEN
 			}
 		);
@@ -78,7 +77,7 @@ export const deleteProduct = (formValues, careerId, updateStateForView, hideEdit
 
 	emitting();
 
-	socket.on(`deleteProduct-delete/${careerId}`, (res) => {
+	socket.on(`deleteProduct-organization-delete/${productId}`, (res) => {
 		let error = false;
 		isLoading = false;
 		if (res.detail) {

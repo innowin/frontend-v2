@@ -162,8 +162,8 @@ export class PostEditForm extends Component {
     };
 
     _remove = () => {
-        const postId = this.props.post.id;
-        return this.props.remove(postId)
+        const {post, updateStateForView, hideEdit} = this.props;
+        return this.props.remove(post.id, updateStateForView, hideEdit)
     };
 
     _save = () => {

@@ -76,8 +76,8 @@ class Post extends Component {
   }
 
 
-  _delete = (postId) => {
-    return deletePost({postId});
+  _delete = (postId, updateStateForView, hideEdit) => {
+    return deletePost(postId, updateStateForView, hideEdit);
   };
 
   _update = (formValues, postId, updateStateForView, hideEdit) => {

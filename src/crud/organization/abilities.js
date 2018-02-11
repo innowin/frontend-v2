@@ -2,20 +2,19 @@ import {REST_URL as url, SOCKET as socket} from "../../consts/URLS"
 import {REST_REQUEST} from "../../consts/Events"
 import {TOKEN} from '../../consts/data'
 
-export const updateSkill = (formValues, skillId, updateStateForView, hideEdit) => {
+export const updateAbility = (formValues, abilityId, updateStateForView, hideEdit) => {
 	let isLoading = false;
 	const emitting = () => {
 		isLoading = true;
 		socket.emit(REST_REQUEST,
 			{
 				method: "patch",
-				url: `${url}/organizations/abilities/${skillId}/`,
-				result: `updateSkill-patch/${skillId}`,
+				url: `${url}/organizations/abilities/${abilityId}/`,
+				result: `updateAbility-patch/${abilityId}`,
 				data :{
 					"content_type" : "json/application",
 					"delete_flag": formValues.delete_flag,
 					"text": formValues.text,
-					"ability_organization": formValues.skill_user,
 					"title": formValues.title
 				},
 				token: TOKEN
@@ -25,7 +24,7 @@ export const updateSkill = (formValues, skillId, updateStateForView, hideEdit) =
 
 	emitting();
 
-	socket.on(`updateSkill-patch/${skillId}`, (res) => {
+	socket.on(`updateAbility-patch/${abilityId}`, (res) => {
 		let error = false;
 		isLoading = false;
 		if (res.detail) {
@@ -38,7 +37,7 @@ export const updateSkill = (formValues, skillId, updateStateForView, hideEdit) =
 
 
 
-export const createSkill = (formValues,  updateStateForView, hideEdit,organizationId) => {
+export const createAbility = (formValues,  updateStateForView, hideEdit,organizationId) => {
 	let isLoading = false;
 	formValues.ability_organization = organizationId;
 	console.log(TOKEN)
@@ -48,7 +47,7 @@ export const createSkill = (formValues,  updateStateForView, hideEdit,organizati
 			{
 				method: "post",
 				url: `${url}/organizations/abilities/`,
-				result: `createSkill-post/`,
+				result: `createAbility-post/`,
 				data :formValues,
 				token: TOKEN
 			}
@@ -57,7 +56,7 @@ export const createSkill = (formValues,  updateStateForView, hideEdit,organizati
 
 	emitting();
 
-	socket.on(`createSkill-post/`, (res) => {
+	socket.on(`createAbility-post/`, (res) => {
 		let error = false;
 		isLoading = false;
 		if (res.detail) {
@@ -71,14 +70,14 @@ export const createSkill = (formValues,  updateStateForView, hideEdit,organizati
 			{
 				method: "get",
 				url: `${url}/organizations/abilities/?ability_organization=${organizationId}`,
-				result: `OrganizationSkills-get/${organizationId}`,
+				result: `OrganizationAbilities-get/${organizationId}`,
 				token: TOKEN
 			}
 		);
 	});
 };
 
-export const deleteSkill = (formValues, certId, updateStateForView, hideEdit,organizationId) => {
+export const deleteAbility = (formValues, certId, updateStateForView, hideEdit,organizationId) => {
 	let isLoading = false;
 
 	const emitting = () => {
@@ -87,8 +86,7 @@ export const deleteSkill = (formValues, certId, updateStateForView, hideEdit,org
 			{
 				method: "delete",
 				url: `${url}/organizations/abilities/${certId}/`,
-				result: `deleteSkill-delete/${certId}`,
-				data :formValues,
+				result: `deleteAbility-delete/${certId}`,
 				token: TOKEN
 			}
 		);
@@ -96,7 +94,7 @@ export const deleteSkill = (formValues, certId, updateStateForView, hideEdit,org
 
 	emitting();
 
-	socket.on(`deleteSkill-delete/${certId}`, (res) => {
+	socket.on(`deleteAbility-delete/${certId}`, (res) => {
 		let error = false;
 		isLoading = false;
 		if (res.detail) {
@@ -110,7 +108,7 @@ export const deleteSkill = (formValues, certId, updateStateForView, hideEdit,org
 			{
 				method: "get",
 				url: `${url}/organizations/abilities/?ability_organization=${organizationId}`,
-				result: `OrganizationSkills-get/${organizationId}`,
+				result: `OrganizationAbilities-get/${organizationId}`,
 				token: TOKEN
 			}
 		);

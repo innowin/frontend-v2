@@ -39,7 +39,7 @@ export const updatePost = (formValues, postId, updateStateForView, hideEdit) => 
     socket.emit(REST_REQUEST,
       {
         method: "patch",
-        url: `${url}/users/posts/${postId}/`,
+        url: `${url}/base/posts/${postId}/`,
         result: `updatePost-patch/${postId}`,
         data :formValues,
         token: TOKEN
@@ -60,7 +60,7 @@ export const updatePost = (formValues, postId, updateStateForView, hideEdit) => 
   });
 };
 
-export const deletePost = (formValues, postId, updateStateForView, hideEdit) => {
+export const deletePost = (postId, updateStateForView, hideEdit) => {
   let isLoading = false;
 
   const emitting = () => {
@@ -68,9 +68,9 @@ export const deletePost = (formValues, postId, updateStateForView, hideEdit) => 
     socket.emit(REST_REQUEST,
       {
         method: "delete",
-        url: `${url}/users/posts/${postId}/`,
+        url: `${url}/base/posts/${postId}/`,
         result: `deletePost-delete/${postId}`,
-        data :formValues,
+        data:{},
         token: TOKEN
       }
     );

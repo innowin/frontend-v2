@@ -1,77 +1,84 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {SkillEditForm} from './forms';
-import {ItemHeader, ItemWrapper} from "../../common/cards/Frames";
-import {skillIcon, starIcon} from "src/images/icons";
+import React, {Component} from "react";
+import PropTypes from "prop-types";
+import "moment/locale/fa";
+import Moment from "react-moment";
+import {editIcon, defaultImg} from "src/images/icons";
+import {NEW_VIEW, GET_VIEWS_COUNT} from "src/consts/Events";
+import {SOCKET as socket} from "src/consts/URLS";
+import {TOKEN} from "src/consts/data";
+import {VerifyWrapper} from "src/views/common/cards/Frames";
 
-export const SkillItemWrapper = ({children}) => {
-	return <ItemWrapper icon={skillIcon}>{children}</ItemWrapper>;
-};
 
-export class SkillView extends Component {
-	static propTypes = {
-		showEdit: PropTypes.func.isRequired,
-		skill: PropTypes.object.isRequired,
-	};
-
-	render() {
-		const {skill, showEdit} = this.props;
-		return (
-			<div className="descriptionBox">
-				<h6>{skill.title}</h6>
-				<p className="skillDescription">
-					{skill.text}
-				</p>
-			</div>
-		)
-	}
+export class AbilityItemWrapper extends Component {
+  render() {
+		const {showEdit} = this.props;
+    return (
+      <div className="-itemWrapperSkill">
+				<div className="-itemEditBtn" onClick={showEdit}>{editIcon}</div>
+        {this.props.children}
+      </div>
+    )
+  }
 }
 
+export class AbilityBody extends Component {
+  static propTypes = {
+    description: PropTypes.string.isRequired
+  };
 
-export class Skill extends Component {
-	constructor(props){
-		super(props);
-		const {skill} = props;
-		this.state = {edit: false, skill:skill};
-	}
-	componentWillReceiveProps(props){
-		const {skill} = props;
-		this.setState({...this.state, skill:skill})
-	}
+  render() {
+		const {description} = this.props;
+    return (
+				<p className="skillDescription">
+					{description}
+				</p>
+		)
+  }
+}
 
-	static propTypes = {
-		updateSkill: PropTypes.func.isRequired,
-		deleteSkill: PropTypes.func.isRequired,
-		skill: PropTypes.object.isRequired,
-		updateStateForView:PropTypes.func.isRequired
-	};
+export class AbilityFooter extends Component {
+   render() {
+		const {viewerCount, addViewer} = this.props;
+		
+    
+    return (
+      <div className="skillTags">
+				
+			</div>
+    )
+  }
+}
 
-	showEdit = () => {
-		this.setState({edit: true});
-	};
+export class AbilityView extends Component {
+  static propTypes = {
+    showEdit: PropTypes.func.isRequired,
+    ability: PropTypes.object.isRequired,
+    profile: PropTypes.object.isRequired,
+    organization: PropTypes.object.isRequired,
+  };
 
-	hideEdit = () => {
-		this.setState({edit: false});
-	};
+  constructor(props) {
+    super(props);
+    this.state = {viewerCount: 0, isLoading: false, error: false};
+  };
 
-	updateStateForView = (res, error,isLoading) =>{
-		const {updateStateForView} = this.props;
-		this.setState({...this.state,skill:res })
-	}
+  componentDidMount() {
+  };
 
-	render() {
-		const {skill} = this.state;
-		if (this.state.edit) {
-			return <SkillItemWrapper>
-				<SkillEditForm
-					skill = {skill}
-					hideEdit = {this.hideEdit}
-					updateStateForView = {this.updateStateForView}
-					remove = {this.props.deleteSkill}
-					update = {this.props.updateSkill}
-				/>
-			</SkillItemWrapper>;
-		}
-		return <SkillView skill={skill} showEdit={this.showEdit}/>;
-	}
+  componentWillUnmount() {
+  }
+
+  render() {
+		const {showEdit, ability, organization, profile, isLoading, error} = this.props;
+    const {viewerCount} = this.state;
+    return (
+      <VerifyWrapper isLoading={isLoading} error={error}>
+        <AbilityItemWrapper showEdit = {showEdit}>
+					<h6>{ability.title}</h6>
+					<AbilityBody description={ability.text}/>
+					<AbilityFooter abilityId={ability.id}/>
+        </AbilityItemWrapper>
+      </VerifyWrapper>
+    )
+  }
 }

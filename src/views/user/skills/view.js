@@ -1,85 +1,88 @@
-/*global __*/
-import React,{Component} from 'react';
+import React, {Component} from "react";
 import PropTypes from "prop-types";
-import {
-	ItemWrapper
-} from '../../common/cards/Frames';
-import {
-	userInfoIcon
-} from '../../../images/icons';
+import "moment/locale/fa";
+import Moment from "react-moment";
+import {editIcon, defaultImg} from "src/images/icons";
+import {NEW_VIEW, GET_VIEWS_COUNT} from "src/consts/Events";
+import {SOCKET as socket} from "src/consts/URLS";
+import {TOKEN} from "src/consts/data";
+import {VerifyWrapper} from "src/views/common/cards/Frames";
 
 
-export class UserSkillView extends Component {
-	static propTypes={
-		skill: PropTypes.object.isRequired,
-		edit: PropTypes.bool.isRequired,
-		showEdit: PropTypes.func.isRequired,
-		skillIndex:PropTypes.number.isRequired
-	}
-	constructor(props){
-		super(props);
-	}
+export class SkillItemWrapper extends Component {
+  render() {
+		const {showEdit} = this.props;
+    return (
+      <div className="-itemWrapperSkill">
+				<div className="-itemEditBtn" onClick={showEdit}>{editIcon}</div>
+        {this.props.children}
+      </div>
+    )
+  }
+}
 
-	render(){
-		const {skill, showEdit} = this.props;
+
+export class SkillBody extends Component {
+  static propTypes = {
+    description: PropTypes.string.isRequired
+  };
+
+  render() {
+		const {description} = this.props;
+    return (
+				<p className="skillDescription">
+					{description}
+				</p>
+		)
+  }
+}
+
+export class SkillFooter extends Component {
+   render() {
+		const {viewerCount, addViewer, tags} = this.props;
+		
+    
+    return (
+      <div className="skillTags">
+				{tags}
+			</div>
+    )
+  }
+}
+
+export class SkillView extends Component {
+  static propTypes = {
+    showEdit: PropTypes.func.isRequired,
+    skill: PropTypes.object.isRequired,
+    profile: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {viewerCount: 0, isLoading: false, error: false};
+  };
+
+  componentDidMount() {
+  };
+
+  componentWillUnmount() {
+  }
+
+  render() {
+		const {showEdit, skill, user, profile, isLoading, error} = this.props;
 		const tags = skill.tag.map((tag,index)=>{
-{/*<<<<<<< HEAD*/}
 			return(<span className="badge badge-secondary skillTag m-1">{tag}</span>)
 		});
-					// <div className="descriptionBox">
-					// 	<input type="text" className="h6 form-control" value={skill.title} name="title"></input>
-					// 	<textarea className="skillDescription form-control" name="description">
-					// 		{skill.description}
-					// 	</textarea>
-					// 	<div className="skillTags m-1" name="tags" ref={(input)=>{this.tags = input;}} >
-					// 		{tags}
-					// 	</div>
-					// 	<div className="skillAddTagInput">
-					// 		<input type="button" className="btn btn-primary m-2" value={__('Add Tag')} onClick={()=>{addTag(this.tagname,skillIndex)}} />
-					// 		<input type="text" className="form-control m-1" name="tagName"  placeholder={__('Tag Name')} ref={(input)=>{this.tagname = input;}}/>
-					// 	</div>
-					// </div>
-
-// =======
-//       if(edit){
-//       return (
-//       <span class="badge badge-secondary skillTag m-1">
-//       {tag}
-//       <span className="tagCross" onClick={this.deleteTag.bind(this,index)}>X</span>
-//       </span>
-//       )
-//     }else{
-//       return(
-//       <span class="badge badge-secondary skillTag m-1">{tag}</span>)
-//     }
-//
-//     });
-//     if(edit){
-//       return (
-//       <div className="descriptionBox">
-//       <input type="text" className="h6 form-control" value={skill.title} name="title"></input>
-//       <textarea className="skillDescription form-control" name="description">
-//       {skill.description}
-//       </textarea>
-//       <div className="skillTags" name="tags" ref={(input)=>{this.tags = input;}} >
-//       {tags}
-//       </div>
-//       <input type="button" className="form-control" value={__('Add Tag')} onClick={this.addTag} />
-//       <input type="text" className="form-control" name="tagName"  ref={(input)=>{this.tagname = input;}}> </input>
-//       </div>
-//       )
-//     }else{
-//       >>>>>>> premaster
-			return (
-				<div className="descriptionBox">
+    const {viewerCount} = this.state;
+    return (
+      <VerifyWrapper isLoading={isLoading} error={error}>
+        <SkillItemWrapper showEdit = {showEdit}>
 					<h6>{skill.title}</h6>
-					<p className="skillDescription">
-						{skill.description}
-					</p>
-					<div className="skillTags">
-						{tags}
-					</div>
-				</div>
-			)
-	}
+					<SkillBody description={skill.description}/>
+					<SkillFooter skillId={skill.id} tags={tags}/>
+        </SkillItemWrapper>
+      </VerifyWrapper>
+    )
+  }
 }
