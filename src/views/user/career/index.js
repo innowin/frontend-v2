@@ -8,6 +8,7 @@ import {
 import {UserCareerView} from "./view";
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {REST_REQUEST} from "../../../consts/Events"
+import {TOKEN } from "../../../consts/data"
 
 //TODO amir #5  get data with SOCKET and review component
 export class UserCareers extends Component {
@@ -36,7 +37,7 @@ export class UserCareers extends Component {
 					method: "get",
 					url: `${url}/users/work-experiences/?work_experience_user=${userId}`,
 					result: `UserCareers-get/${userId}`,
-					token: "",
+					token: TOKEN,
 				}
 			);
 		};

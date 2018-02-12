@@ -24,7 +24,7 @@ export class UserCareerView extends Component {
 	}
 	componentWillReceiveProps(props){
 		const{career} = props;
-		this.setState ({...this.state, edit:false, career:career});
+
 	}
 	static propTypes={
 		showEdit: PropTypes.func.isRequired,

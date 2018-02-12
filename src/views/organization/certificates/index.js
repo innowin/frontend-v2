@@ -3,13 +3,12 @@ import React, {Component} from "react";
 import PropTypes from 'prop-types';
 import {Certificate, CertificateItemWrapper} from "./view";
 import {CertificateCreateForm} from "./forms";
-import {FrameCard, CategoryTitle, ListGroup} from "../../common/cards/Frames";
-import {createCertificate, deleteCertificate, updateCertificate} from '../../../crud/user/certificate.js';
+import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper} from "../../common/cards/Frames";
+import {createCertificate, deleteCertificate, updateCertificate} from '../../../crud/organization/certificate.js';
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {REST_REQUEST} from "../../../consts/Events"
+import {TOKEN} from "src/consts/data"
 
-// TODO amir every variable and stuff related to organization should be changed this file is not completed
-// TODO amir SOCKET METHOD ADDRESS IS WRONG nothign found in backend
 export class CertificateContainer extends Component {
 	constructor(props){
 		super(props);
@@ -18,11 +17,15 @@ export class CertificateContainer extends Component {
 			const {certificate} = props;
 			this.setState ({...this.state ,certificate:certificate || {}});
 	}
-	delete_ = (certificateId) => {
-		const {organizationId} = this.props;
-		return deleteCertificate({certificateId, organizationId});
+	delete_ = (certificateId, hideEdit) => {	
+		const {organizationId, updateStateForView} = this.props;
+		updateStateForView(null,null,true);
+		return deleteCertificate(certificateId, organizationId,()=>{
+			updateStateForView(null,false);
+		},hideEdit,organizationId);
 	};
 	update_ = (formValues, certificateId, updateStateForView, hideEdit) => {//formValues, careerId, updateStateForView, hideEdit
+		updateStateForView(null,null,true);
 		return updateCertificate(formValues,certificateId, updateStateForView, hideEdit);
 	};
 	_updateStateForView = (res, error, isLoading) => {
@@ -49,8 +52,8 @@ export class CertificateList extends Component {
 	};
 
 	create = (formValues,hideEdit) => {
-			const {organizationId, certificateId} = this.props;
-			return createCertificate({formValues, organizationId, certificateId, hideEdit});
+			const {organizationId, certificateId, updateStateForView} = this.props;
+			return createCertificate(formValues,certificateId, updateStateForView, hideEdit, organizationId);
 	};
 
 	render() {
@@ -77,7 +80,7 @@ export class Certificates extends Component {
 
 	constructor(props){
 		super(props);
-		this.state = {createForm: false, edit:false, isLoading:false, error:null, certificates:[]};
+		this.state = {createForm: false,certificates:{}, edit:false, isLoading:false, error:null, certificates:[]};
 	}
 	static propTypes = {
 		organizationId: PropTypes.string.isRequired
@@ -96,6 +99,16 @@ export class Certificates extends Component {
 					token: "",
 				}
 			);
+
+			socket.emit(REST_REQUEST,
+        {
+          method: "get",
+          url: `${url}/organizations/${organizationId}/`,
+          result: `organization-Posts-get/${organizationId}`,
+          token: TOKEN
+        }
+			);
+			
 		};
 
 		emitting();
@@ -110,6 +123,17 @@ export class Certificates extends Component {
 			}
 
 		});
+		socket.on(`organization-Posts-get/${organizationId}`, (res) => {
+			if (res.detail) {
+				const newState = {...this.state, error: res.detail, isLoading: false};
+				this.setState(newState);
+			} else {
+				const newState = {...this.state, organization: res, isLoading: false};
+				this.setState(newState);
+			}
+		});
+
+		
 	}
 	showCreateForm = () => {
 			this.setState({createForm: true});
@@ -123,23 +147,28 @@ export class Certificates extends Component {
 
 	render() {
 		const {  organizationId} = this.props;
-		const {createForm, certificates} = this.state;
-		return <div>
-			<CategoryTitle
-				title={__('Certificates')}
-				showCreateForm={this.showCreateForm}
-				createForm={createForm}
-			/>
-			<FrameCard>
-				<CertificateList
-					updateStateForView={this.updateStateForView}
-					certificates={certificates}
-					organizationId={organizationId}
-					createForm={createForm}
-					hideCreateForm={this.hideCreateForm}
-				/>
-			</FrameCard>
-		</div>;
+		const {createForm, certificates, isLoading, error} = this.state;
+		return 
+		<VerifyWrapper isLoading={isLoading} error={error}>
+			{
+				<div>
+					<CategoryTitle
+						title={__('Certificates')}
+						showCreateForm={this.showCreateForm}
+						createForm={createForm}
+					/>
+					<FrameCard>
+						<CertificateList
+							updateStateForView={this.updateStateForView}
+							certificates={certificates}
+							organizationId={organizationId}
+							createForm={createForm}
+							hideCreateForm={this.hideCreateForm}
+						/>
+					</FrameCard>
+				</div>
+			}
+		</VerifyWrapper>
 	}
 }
 export default Certificates;

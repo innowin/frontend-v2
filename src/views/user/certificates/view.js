@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {CertificateEditForm} from './forms';
-import {ItemHeader, ItemWrapper} from "../../common/cards/Frames";
-import {certificateIcon} from "src/images/icons";
-
+import {ItemHeader, ItemWrapper, VerifyWrapper} from "../../common/cards/Frames";
+import {certificateIcon, starIcon,editIcon} from "src/images/icons";
+//TODO amir share icon image
 export const CertificateItemWrapper = ({children}) => {
 	return <ItemWrapper icon={certificateIcon}>{children}</ItemWrapper>;
 };
@@ -15,15 +15,26 @@ export class CertificateView extends Component {
 	};
 
 	render() {
+
 		const {certificate, showEdit} = this.props;
-		return <CertificateItemWrapper>
-			<ItemHeader title={certificate.title} showEdit={showEdit}/>
-			{certificate.picture &&
-				<div className="w-100">
-					<img src={certificate.picture.url} alt={certificate.title} className="media-show"/>
+		console.log(certificate)
+		return (
+			<div className="col-6 text-center container-fluid">
+				<div className="row">
+					<div className="col certificate">
+						<div className="content">
+							<div className="editButton">
+								<div onClick={showEdit}>{editIcon}</div>
+							</div>
+							<img className="certImage" alt="" src={certificate.picture_media || "/static/media/defaultImg.94a29bce.png"} />
+							<h5>{certificate.title}</h5>	
+							<a className="shareButton">{starIcon}</a>
+							<span>&nbsp;</span>
+						</div>
+					</div>
 				</div>
-			}
-		</CertificateItemWrapper>
+			</div>
+		)
 	}
 }
 
@@ -60,18 +71,27 @@ export class Certificate extends Component {
 	}
 
 	render() {
-		const {certificate} = this.state;
+		const {certificate, isLoading, error} = this.state;
+		// const {showEdit, isLoading, error} = this.props;
 		if (this.state.edit) {
-			return <CertificateItemWrapper>
-				<CertificateEditForm
-					certificate = {certificate}
-					hideEdit = {this.hideEdit}
-					updateStateForView = {this.updateStateForView}
-					remove = {this.props.deleteCertificate}
-					update = {this.props.updateCertificate}
-				/>
-			</CertificateItemWrapper>;
+			return (
+				<VerifyWrapper isLoading={isLoading} error={error}>
+				<CertificateItemWrapper>
+					<CertificateEditForm
+						certificate = {certificate}
+						hideEdit = {this.hideEdit}
+						updateStateForView = {this.updateStateForView}
+						remove = {this.props.deleteCertificate}
+						update = {this.props.updateCertificate}
+					/>
+				</CertificateItemWrapper>;
+				</VerifyWrapper >
+			)
 		}
-		return <CertificateView certificate={certificate} showEdit={this.showEdit}/>;
+		return (
+			<VerifyWrapper isLoading={isLoading} error={error}>
+			<CertificateView certificate={certificate} showEdit={this.showEdit}/>
+			</VerifyWrapper>
+		)
 	}
 }

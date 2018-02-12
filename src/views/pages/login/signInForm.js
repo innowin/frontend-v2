@@ -16,12 +16,10 @@ export default class LoginForm extends Component {
 			error: null,
 		}
 	}
-	
+
 	componentDidMount() {
 		const {handleLogIn} = this.props;
 		socket.on("TOKEN_Result", res => {
-			// alert('Hi');
-			// console.log(res);
 			if (res.non_field_errors) {
 				const message = res.non_field_errors[0];
 				this._handleError(message);
@@ -34,18 +32,18 @@ export default class LoginForm extends Component {
 			handleLogIn(res);
 		});
 	}
-	
+
 	_handleError = (msg) => {
 		const message = 'نام کاربری یا گذرواژه صحیح نمی باشد';
 		this.setState({...this.state, error: true, message: message});
 		//TODO: showing error in form
 	};
-	
+
 	_handleClick = (e) => {
 		e.preventDefault();
 		const username = this.username.value;
 		const password = this.password.value;
-		if (username.length > 4 && password.length > 4) {
+		if (username.length > 0 && password.length > 0) {
 			socket.emit(REST_REQUEST, {
 				method: "post",
 				url: url + "/api-token-auth/",
@@ -57,7 +55,7 @@ export default class LoginForm extends Component {
 			});
 		}
 	};
-	
+
 	render() {
 		const {error, message} = this.state;
 		return (

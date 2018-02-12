@@ -2,7 +2,7 @@ import {REST_URL as url, SOCKET as socket} from "../../consts/URLS"
 import {REST_REQUEST} from "../../consts/Events"
 import {TOKEN} from '../../consts/data'
 
-export const updateCertificate = (formValues, careerId, updateStateForView, hideEdit) => {
+export const updateCertificate = (formValues, certId, updateStateForView, hideEdit) => {
 	let isLoading = false;
 
 	const emitting = () => {
@@ -10,8 +10,8 @@ export const updateCertificate = (formValues, careerId, updateStateForView, hide
 		socket.emit(REST_REQUEST,
 			{
 				method: "patch",
-				url: `${url}/users/certificates/${careerId}/`,
-				result: `updateCertificate-patch/${careerId}`,
+				url: `${url}/users/certificates/${certId}/`,
+				result: `updateCertificate-patch/${certId}`,
 				data :formValues,
 				token: TOKEN
 			}
@@ -20,7 +20,7 @@ export const updateCertificate = (formValues, careerId, updateStateForView, hide
 
 	emitting();
 
-	socket.on(`updateCertificate-patch/${careerId}`, (res) => {
+	socket.on(`updateCertificate-patch/${certId}`, (res) => {
 		let error = false;
 		isLoading = false;
 		if (res.detail) {
@@ -31,16 +31,16 @@ export const updateCertificate = (formValues, careerId, updateStateForView, hide
 	});
 };
 
-export const createCertificate = (formValues, careerId, updateStateForView, hideEdit) => {
+export const createCertificate = (formValues	, updateStateForView, hideEdit,userId) => {
 	let isLoading = false;
-
+	
 	const emitting = () => {
 		isLoading = true;
 		socket.emit(REST_REQUEST,
 			{
 				method: "post",
-				url: `${url}/users/certificates/${careerId}/`,
-				result: `createCertificate-post/${careerId}`,
+				url: `${url}/users/certificates/`,
+				result: `createCertificate-post`,
 				data :formValues,
 				token: TOKEN
 			}
@@ -49,18 +49,28 @@ export const createCertificate = (formValues, careerId, updateStateForView, hide
 
 	emitting();
 
-	socket.on(`createCertificate-post/${careerId}`, (res) => {
+	socket.on(`createCertificate-post`, (res) => {
 		let error = false;
 		isLoading = false;
 		if (res.detail) {
 			error = res.detail;
+			updateStateForView(res, error, isLoading);
+			
+			return;
 		}
-		updateStateForView(res, error, isLoading);
 		hideEdit();
+		socket.emit(REST_REQUEST,
+			{
+				method: "get",
+				url: `${url}/users/certificates/?certificate_user=${userId}`,
+				result: `userCertificates-Certificates-get/${userId}`,
+				token: TOKEN
+			}
+		);
 	});
 };
 
-export const deleteCertificate = (formValues, careerId, updateStateForView, hideEdit) => {
+export const deleteCertificate = ( certId, updateStateForView, hideEdit, userId) => {
 	let isLoading = false;
 
 	const emitting = () => {
@@ -68,9 +78,9 @@ export const deleteCertificate = (formValues, careerId, updateStateForView, hide
 		socket.emit(REST_REQUEST,
 			{
 				method: "delete",
-				url: `${url}/users/certificates/${careerId}/`,
-				result: `deleteCertificate-delete/${careerId}`,
-				data :formValues,
+				url: `${url}/users/certificates/${certId}/`,
+				result: `deleteCertificate-delete/${certId}`,
+				data :{},
 				token: TOKEN
 			}
 		);
@@ -78,13 +88,23 @@ export const deleteCertificate = (formValues, careerId, updateStateForView, hide
 
 	emitting();
 
-	socket.on(`deleteCertificate-delete/${careerId}`, (res) => {
+	socket.on(`deleteCertificate-delete/${certId}`, (res) => {
 		let error = false;
 		isLoading = false;
 		if (res.detail) {
 			error = res.detail;
+			updateStateForView(res, error, isLoading);
+			
+			return;
 		}
-		updateStateForView(res, error, isLoading);
 		hideEdit();
+		socket.emit(REST_REQUEST,
+			{
+				method: "get",
+				url: `${url}/users/certificates/?certificate_user=${userId}`,
+				result: `userCertificates-Certificates-get/${userId}`,
+				token: TOKEN
+			}
+		);
 	});
 };

@@ -1,45 +1,31 @@
 /*global __*/
-<<<<<<< HEAD
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {TextInput} from 'src/views/common/inputs/TextInput'
-import {FileInput} from 'src/views/common/inputs/FileInput';
-=======
-import React, {Component} from "react";
-import PropTypes from "prop-types";
-import {TextInput} from "src/views/common/inputs/TextInput";
->>>>>>> 728fae26a7d05b8e44c1b3d41bce5b229135cf27
+import {MediaUploader} from 'src/views/common/MediaUploader';
 import {Confirm} from "../../common/cards/Confirm";
-import {FileInput} from "../../common/inputs/FileInput";
 
 
-export class CertificateForm extends Component {
+export class ProductForm extends Component {
 	static propTypes = {
 		onSubmit: PropTypes.func.isRequired,
-		certificate: PropTypes.object,
+		product: PropTypes.object,
 	};
 
 	getValues =  () => {
-<<<<<<< HEAD
-		const media = this.certPictureInput.getFile();
-        const mediaId = media ? media.id : null;
-		const values = {
-				title: this.titleInput.getValue(),
-				picture_media: mediaId, // TODO use media uploader
-=======
-    const media = this.postPictureInput.getFile();
+		const media =null;// await this.refs.pictureInput.refs.component.getMedia();
 		const mediaId = media ? media.id : null;
-		return {
+		const values = {
 				title: this.refs.titleInput.getValue(),
-				pictureId: mediaId
->>>>>>> 728fae26a7d05b8e44c1b3d41bce5b229135cf27
+				pictureId: mediaId, // TODO use media uploader
 		};
+		return values
 	};
 
 	formValidate = () => {
 			let result = true;
 			const validates = [
-					this.titleInput.validate(),
+					this.refs.titleInput.validate(),
 			];
 			for (let i = 0; i < validates.length; i++) {
 					if (validates[i]) {
@@ -51,29 +37,24 @@ export class CertificateForm extends Component {
 	};
 
 	render() {
-			const {organization} = this.props;
-			const certificate = this.props.certificate || {picture: null};
+			const {} = this.props;
+			const product = this.props.product || {picture: null};
 			return <form onSubmit={this.props.onSubmit}>
 				<div className="row">
 					<TextInput
 							name="title"
 							required
 							label={__('Title') + ": "}
-							value={certificate.title}
-							ref={titleInput => {
-								this.titleInput = titleInput
-							}}
+							value={product.title}
+							ref="titleInput"
 					/>
-					<FileInput
+					<MediaUploader
 							name="picture"
 							label={__('Picture') + ": "}
-							ref={certPictureInput => {
-								this.titlcertPictureInputeInput = certPictureInput
-							}}
-							mediaId={certificate.picture}
-							organization={organization}
+							ref="pictureInput"
+							media={product.picture}
+							organization={null}
 					/>
-
 					{this.props.children}
 				</div>
 			</form>
@@ -81,15 +62,15 @@ export class CertificateForm extends Component {
 }
 
 
-export class CertificateCreateForm extends Component {
+export class ProductCreateForm extends Component {
 
 	static propTypes = {
 			create: PropTypes.func.isRequired,
 			hideEdit: PropTypes.func.isRequired
 	};
 
-	save = () => {
-			const formValues = this.refs.form.getValues();
+	save = async () => {
+			const formValues = await this.refs.form.getValues();
 			const { hideEdit} = this.props;
 			return this.props.create(formValues, hideEdit);
 	};
@@ -97,23 +78,28 @@ export class CertificateCreateForm extends Component {
 	onSubmit = (e) => {
 			e.preventDefault();
 			if (this.refs.form.formValidate()) {
-				this.save();
+					this.save()
+							.then(res => {
+									this.props.hideEdit();
+							})
+							.catch(err => {
+							});
 			}
 	};
 
 	render() {
 			const {} = this.props;
-			return <CertificateForm onSubmit={this.onSubmit} ref="form">
+			return <ProductForm onSubmit={this.onSubmit} ref="form">
 					<div className="col-12 d-flex justify-content-end">
 							<button type="button" className="btn btn-secondary mr-2" onClick={this.props.hideEdit}>
 									{__('Cancel')}
 							</button>
 							<button type="submit" className="btn btn-success">{__('Create')}</button>
 					</div>
-			</CertificateForm>;
+			</ProductForm>;
 	}
 }
-export class CertificateEditForm extends Component {
+export class ProductEditForm extends Component {
 	state = {
 			confirm: false,
 	};
@@ -122,7 +108,7 @@ export class CertificateEditForm extends Component {
 			update: PropTypes.func.isRequired,
 			remove: PropTypes.func.isRequired,
 			hideEdit: PropTypes.func.isRequired,
-			certificate: PropTypes.object.isRequired,
+			product: PropTypes.object.isRequired,
 	};
 
 	showConfirm = () => {
@@ -134,16 +120,15 @@ export class CertificateEditForm extends Component {
 	};
 
 	remove = () => {
-		const{hideEdit} = this.props;
-		const certificateId = this.props.certificate.id;
-		return this.props.remove(certificateId,hideEdit)
+		const productId = this.props.product.id;
+		return this.props.remove(productId)
 	};
 
-	save = () => {//(formValues, certificateId, updateStateForView, hideEdit
-		const {certificate,updateStateForView,hideEdit} = this.props;
-		const certificateId = certificate.id;
+	save = () => {//(formValues, productId, updateStateForView, hideEdit
+		const {product,updateStateForView,hideEdit} = this.props;
+		const productId = product.id;
 		const formValues = this.refs.form.getValues();
-		return this.props.update(formValues, certificateId, updateStateForView, hideEdit)
+		return this.props.update(formValues, productId, updateStateForView, hideEdit)
 	};
 
 	onSubmit = (e) => {
@@ -157,8 +142,8 @@ export class CertificateEditForm extends Component {
 				return <Confirm cancelRemoving={this.cancelConfirm} remove={this.remove}/>;
 		}
 
-		const {certificate} = this.props;
-		return <CertificateForm onSubmit={this.onSubmit} ref="form" certificate={certificate} >
+		const {product} = this.props;
+		return <ProductForm onSubmit={this.onSubmit} ref="form" product={product} >
 				<div className="col-12 d-flex justify-content-end">
 						<button type="button" className="btn btn-outline-danger mr-auto" onClick={this.showConfirm}>
 								{__('Delete')}
@@ -168,6 +153,6 @@ export class CertificateEditForm extends Component {
 						</button>
 						<button type="submit" className="btn btn-success">{__('Save')}</button>
 				</div>
-		</CertificateForm>;
+		</ProductForm>;
 	}
 }

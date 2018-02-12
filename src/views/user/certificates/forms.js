@@ -1,157 +1,168 @@
 /*global __*/
 import React, {Component} from "react";
 import PropTypes from "prop-types";
-import {TextInput} from "src/views/common/inputs/TextInput"
-import {FileInput} from "src/views/common/inputs/FileInput";
+import {CheckBox} from "../../common/inputs/CheckBox";
 import {Confirm} from "../../common/cards/Confirm";
+import {SelectComponent} from '../../common/SelectComponent';
+import {TextareaInput} from "../../common/inputs/TextareaInput";
+import {TextInput} from "../../common/inputs/TextInput";
+import {FileInput} from "src/views/common/inputs/FileInput";
 
 
 export class CertificateForm extends Component {
-	static propTypes = {
-		onSubmit: PropTypes.func.isRequired,
-		certificate: PropTypes.object,
-	};
+    static propTypes = {
+        onSubmit: PropTypes.func.isRequired,
+        certificate: PropTypes.object,
+    };
 
-	getValues =  () => {
-		const media =null;// await this.refs.pictureInput.refs.component.getMedia();
-		const mediaId = media ? media.id : null;
-		const values = {
-				title: this.refs.titleInput.getValue(),
-				pictureId: mediaId, // TODO use media uploader
-		};
-		return values
-	};
+    _getValues = () => {
+        const media = this.certificatePictureInput.getFile();
+        const mediaId = media ? media.id : null;
+        
+        return {
+            title: this.certificateTitleInput.getValue(),
+            picture_media: mediaId,
+        };
+    };
 
-	formValidate = () => {
-			let result = true;
-			const validates = [
-					this.refs.titleInput.validate(),
-			];
-			for (let i = 0; i < validates.length; i++) {
-					if (validates[i]) {
-							result = false;
-							break;
-					}
-			}
-			return result
-	};
+    _formValidate = () => {
+        let result = true;
+        const validates = [
+            this.certificateTitleInput.validate(),
+            this.certificatePictureInput.validate()
+        ];
+        for (let i = 0; i < validates.length; i++) {
+            if (validates[i]) {
+                result = false;
+                break;
+            }
+        } 
+        return result
+    };
 
-	render() {
-			const {} = this.props;
-			const certificate = this.props.certificate || {picture: null};
-			return <form onSubmit={this.props.onSubmit}>
-				<div className="row">
-					<TextInput
-							name="title"
-							required
-							label={__('Title') + ": "}
-							value={certificate.title}
-							ref="titleInput"
-					/>
-					<FileInput
-							label={__('Picture') + ": "}
-							ref="pictureInput"
-							mediaId={certificate.picture}
-							organization={null}
-					/>
-					{this.props.children}
-				</div>
-			</form>
-	}
+    render() {
+        const {onSubmit} = this.props;
+        const certificate = this.props.certificate || {};
+				return (
+					<form onSubmit={this.props.onSubmit}>
+						<div className="row">
+							<TextInput
+                                name="title"
+                                label={__('Title') + ": "}
+                                value={certificate.title}
+                                ref={certificateTitleInput => {
+                                    this.certificateTitleInput = certificateTitleInput
+                                }}
+							/>
+							<FileInput
+								label={__('Picture') + ": "}
+								mediaId={certificate.picture}
+								ref={certificatePictureInput => {
+									this.certificatePictureInput = certificatePictureInput
+								}}
+							/>
+							{this.props.children}
+						</div>
+					</form>
+				)
+    }
 }
 
 
 export class CertificateCreateForm extends Component {
 
-	static propTypes = {
-			create: PropTypes.func.isRequired,
-			hideEdit: PropTypes.func.isRequired
-	};
+    static propTypes = {
+        create: PropTypes.func.isRequired,
+        hideCreateForm: PropTypes.func.isRequired
+    };
 
-	save = async () => {
-			const formValues = await this.refs.form.getValues();
-			const { hideEdit} = this.props;
-			return this.props.create(formValues, hideEdit);
-	};
+    _save = () => {
+        const {create, hideCreateForm} = this.props;
+        const formValues = this.form._getValues();
+        return create(formValues, hideCreateForm);
+    };
 
-	onSubmit = (e) => {
-			e.preventDefault();
-			if (this.refs.form.formValidate()) {
-					this.save()
-							.then(res => {
-									this.props.hideEdit();
-							})
-							.catch(err => {
-							});
-			}
-	};
+    _onSubmit = (e) => {
+        e.preventDefault();
+        if (this.form._formValidate()) {
+            this._save()
+        }
+        return false;
+    };
 
-	render() {
-			const {} = this.props;
-			return <CertificateForm onSubmit={this.onSubmit} ref="form">
-					<div className="col-12 d-flex justify-content-end">
-							<button type="button" className="btn btn-secondary mr-2" onClick={this.props.hideEdit}>
-									{__('Cancel')}
-							</button>
-							<button type="submit" className="btn btn-success">{__('Create')}</button>
-					</div>
-			</CertificateForm>;
-	}
+    render() {
+        const {hideCreateForm} = this.props;
+        return <CertificateForm onSubmit={this._onSubmit} ref={form => {
+            this.form = form
+        }}>
+            <div className="col-12 d-flex justify-content-end">
+                <button type="button" className="btn btn-secondary mr-2" onClick={hideCreateForm}>
+                    {__('Cancel')}
+                </button>
+                <button type="submit" className="btn btn-success">{__('Create')}</button>
+            </div>
+        </CertificateForm>;
+    }
 }
 export class CertificateEditForm extends Component {
-	state = {
-			confirm: false,
-	};
 
-	static propTypes = {
-			update: PropTypes.func.isRequired,
-			remove: PropTypes.func.isRequired,
-			hideEdit: PropTypes.func.isRequired,
-			certificate: PropTypes.object.isRequired,
-	};
+    static propTypes = {
+        update: PropTypes.func.isRequired,
+        remove: PropTypes.func.isRequired,
+        hideEdit: PropTypes.func.isRequired,
+        certificate: PropTypes.object.isRequired,
+    };
 
-	showConfirm = () => {
-			this.setState({confirm: true})
-	};
+    constructor(props) {
+        super(props);
+        this.state = {confirm: false};
+    }
 
-	cancelConfirm = () => {
-		this.setState({confirm: false})
-	};
+    _showConfirm = () => {
+        this.setState({confirm: true})
+    };
 
-	remove = () => {
-		const certificateId = this.props.certificate.id;
-		return this.props.remove(certificateId)
-	};
+    _cancelConfirm = () => {
+        this.setState({confirm: false})
+    };
 
-	save = () => {//(formValues, certificateId, updateStateForView, hideEdit
-		const {certificate,updateStateForView,hideEdit} = this.props;
-		const certificateId = certificate.id;
-		const formValues = this.refs.form.getValues();
-		return this.props.update(formValues, certificateId, updateStateForView, hideEdit)
-	};
+    _remove = () => {
+        const certificateId = this.props.certificate.id;
+        const {user, hideEdit} = this.props;
+        return this.props.remove(certificateId,user.id, hideEdit)
+    };
 
-	onSubmit = (e) => {
-		e.preventDefault();
-		this.save();
-	};
+    _save = () => {
+        const {certificate, updateStateForView, hideEdit} = this.props;
+        const certificateId = certificate.id;
+        const formValues = this.form._getValues();
+        return this.props.update(formValues, certificateId, updateStateForView, hideEdit)
+    };
 
-	render() {
-		const {confirm} = this.state;
-		if (confirm) {
-				return <Confirm cancelRemoving={this.cancelConfirm} remove={this.remove}/>;
-		}
+    _onSubmit = (e) => {
+        e.preventDefault();
+        this._save();
+    };
 
-		const {certificate} = this.props;
-		return <CertificateForm onSubmit={this.onSubmit} ref="form" certificate={certificate} >
-				<div className="col-12 d-flex justify-content-end">
-						<button type="button" className="btn btn-outline-danger mr-auto" onClick={this.showConfirm}>
-								{__('Delete')}
-						</button>
-						<button type="button" className="btn btn-secondary mr-2" onClick={this.props.hideEdit}>
-								{__('Cancel')}
-						</button>
-						<button type="submit" className="btn btn-success">{__('Save')}</button>
-				</div>
-		</CertificateForm>;
-	}
+    render() {
+        const {confirm} = this.state;
+        const {hideEdit, certificate} = this.props;
+        if (confirm) {
+            return <Confirm cancelRemoving={this._cancelConfirm} remove={this._remove}/>;
+        }
+        return <CertificateForm onSubmit={this._onSubmit} certificate={certificate}
+                         ref={form => {
+                             this.form = form
+                         }}>
+            <div className="col-12 d-flex justify-content-end">
+                <button type="button" className="btn btn-outline-danger mr-auto" onClick={this._showConfirm}>
+                    {__('Delete')}
+                </button>
+                <button type="button" className="btn btn-secondary mr-2" onClick={hideEdit}>
+                    {__('Cancel')}
+                </button>
+                <button type="submit" className="btn btn-success">{__('Save')}</button>
+            </div>
+        </CertificateForm>;
+    }
 }
