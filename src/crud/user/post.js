@@ -24,20 +24,6 @@ export const getPosts = (userId, updatePosts, handleErrorLoading) => {
 };
 
 
-<<<<<<< HEAD
-  const emitting = () => {
-    isLoading = true;
-    socket.emit(REST_REQUEST,
-      {
-        method: "patch",
-        url: `${url}/base/posts/${postId}/`,
-        result: `updatePost-patch/${postId}`,
-        data :formValues,
-        token: TOKEN
-      }
-    );
-  };
-=======
 export const createPost = (formValues, updatePosts, handleErrorLoading, hideCreateForm) => {
   socket.emit(REST_REQUEST,
     {
@@ -48,7 +34,6 @@ export const createPost = (formValues, updatePosts, handleErrorLoading, hideCrea
       token: TOKEN
     }
   );
->>>>>>> b1afce4cc7a11d27e41c7c4d8bdf7c315cf76ee5
 
   socket.on('createPost-post', (res) => {
     if (res.detail) {
@@ -83,25 +68,6 @@ export const updatePost = (formValues, postId, updateView, hideEdit, handleError
   });
 };
 
-<<<<<<< HEAD
-export const deletePost = (postId, updateStateForView, hideEdit) => {
-  let isLoading = false;
-
-  const emitting = () => {
-    isLoading = true;
-    socket.emit(REST_REQUEST,
-      {
-        method: "delete",
-        url: `${url}/base/posts/${postId}/`,
-        result: `deletePost-delete/${postId}`,
-        data:{},
-        token: TOKEN
-      }
-    );
-  };
-
-  emitting();
-=======
 export const deletePost = (posts, post, updatePosts, hideEdit, handleErrorLoading) => {
   const postId = post.id;
   socket.emit(REST_REQUEST,
@@ -112,7 +78,6 @@ export const deletePost = (posts, post, updatePosts, hideEdit, handleErrorLoadin
       token: TOKEN
     }
   );
->>>>>>> b1afce4cc7a11d27e41c7c4d8bdf7c315cf76ee5
 
   socket.on(`deletePost-delete/${postId}`, (res) => {
     if (res.detail) {
