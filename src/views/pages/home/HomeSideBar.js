@@ -23,7 +23,7 @@ export default class HomeSideBar extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			activeId : 47,
+			activeId : null,
 			items : []
 		}
 	}
@@ -49,7 +49,9 @@ export default class HomeSideBar extends Component {
 	}
 	
 	_handleClick = (id) => {
+		const {get_posts} = this.props;
 		this.setState({...this.state, activeId: id});
+		get_posts(id);
 	};
 	
 	render () {
@@ -62,9 +64,9 @@ export default class HomeSideBar extends Component {
 							const {activeId} = this.state;
 							return (
 									(id === activeId) ?
-									<SideBarItem key={i} name={name} image={image} exchange_id={id} description={description} handleClick={this._handleClick} active={true}/>
+									<SideBarItem key={i} name={name} image={image} exchange_id={id} description={description} handleClick={this._handleClick} active={true} />
 										:
-									<SideBarItem key={i} name={name} image={image} exchange_id={id} description={description} handleClick={this._handleClick} active={false}/>
+									<SideBarItem key={i} name={name} image={image} exchange_id={id} description={description} handleClick={this._handleClick} active={false} />
 							)
 						})
 					}

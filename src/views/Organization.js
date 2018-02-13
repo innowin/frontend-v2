@@ -9,7 +9,6 @@ import Sidebar from "src/views/bars/SideBar";
 import Skills from "src/views/organization/skills/index";
 import Social from "./organization/Social";
 import TopBar from "./bars/TopBar";
-import PropsRoute from "../consts/PropsRoute"
 import {default as BasicInformation} from "./organization/basicInformation/index";
 import {NavLink , Switch, Redirect} from "react-router-dom";
 import {OrganizationSideView} from "src/views/bars/SideBar";

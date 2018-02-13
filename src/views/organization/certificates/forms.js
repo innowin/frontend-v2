@@ -1,16 +1,9 @@
 /*global __*/
-<<<<<<< HEAD
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {TextInput} from 'src/views/common/inputs/TextInput'
 import {FileInput} from 'src/views/common/inputs/FileInput';
-=======
-import React, {Component} from "react";
-import PropTypes from "prop-types";
-import {TextInput} from "src/views/common/inputs/TextInput";
->>>>>>> 728fae26a7d05b8e44c1b3d41bce5b229135cf27
 import {Confirm} from "../../common/cards/Confirm";
-import {FileInput} from "../../common/inputs/FileInput";
 
 
 export class CertificateForm extends Component {
@@ -20,20 +13,20 @@ export class CertificateForm extends Component {
 	};
 
 	getValues =  () => {
-<<<<<<< HEAD
-		const media = this.certPictureInput.getFile();
-        const mediaId = media ? media.id : null;
-		const values = {
-				title: this.titleInput.getValue(),
-				picture_media: mediaId, // TODO use media uploader
-=======
-    const media = this.postPictureInput.getFile();
-		const mediaId = media ? media.id : null;
-		return {
-				title: this.refs.titleInput.getValue(),
-				pictureId: mediaId
->>>>>>> 728fae26a7d05b8e44c1b3d41bce5b229135cf27
-		};
+{/*<<<<<<< HEAD*/}
+		{/*const media = this.certPictureInput.getFile();*/}
+        {/*const mediaId = media ? media.id : null;*/}
+		{/*const values = {*/}
+				{/*title: this.titleInput.getValue(),*/}
+				{/*picture_media: mediaId, // TODO use media uploader*/}
+{/*=======*/}
+    {/*const media = this.postPictureInput.getFile();*/}
+		{/*const mediaId = media ? media.id : null;*/}
+		{/*return {*/}
+				{/*title: this.refs.titleInput.getValue(),*/}
+				{/*pictureId: mediaId*/}
+{/*>>>>>>> 728fae26a7d05b8e44c1b3d41bce5b229135cf27*/}
+		// };
 	};
 
 	formValidate = () => {
