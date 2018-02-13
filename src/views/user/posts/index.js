@@ -68,7 +68,11 @@ class Post extends Component {
         </VerifyWrapper>
       )
     }
-    return <PostView post={post} user={user} profile={profile} showEdit={this._showEdit}/>;
+    return (
+      <VerifyWrapper isLoading={isLoading} error={error}>
+        <PostView post={post} user={user} profile={profile} showEdit={this._showEdit}/>
+      </VerifyWrapper>
+    )
   }
 }
 
@@ -106,7 +110,7 @@ class Posts extends Component {
       return false;
     }
     if (type === 'post') {
-      this.setState({...this.state, posts: [...posts, res]});
+      this.setState({...this.state, posts: [res, ...posts]});
       return false;
     }
     if (type === 'del') {
@@ -208,8 +212,8 @@ class Posts extends Component {
   }
 
   render() {
-    const {createForm, posts, user, profile, isLoading, error} = this.state;
-    const _posts = [...new Set(posts)];
+    const {createForm, user, profile, isLoading, error} = this.state;
+    const posts = [...new Set(this.state.posts)];
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         <CategoryTitle
@@ -226,9 +230,9 @@ class Posts extends Component {
               </PostItemWrapper>
             }
             {
-              _posts.map((post) => (
+              posts.map((post) => (
                 <Post
-                  posts={_posts}
+                  posts={posts}
                   post={post}
                   user={user}
                   profile={profile}

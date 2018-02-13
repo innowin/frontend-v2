@@ -24,7 +24,7 @@ export const getPosts = (userId, updatePosts, handleErrorLoading) => {
 };
 
 
-export const createPost = (formValues, updateView, handleErrorLoading, hideCreateForm) => {
+export const createPost = (formValues, updatePosts, handleErrorLoading, hideCreateForm) => {
   socket.emit(REST_REQUEST,
     {
       method: "post",
@@ -40,7 +40,7 @@ export const createPost = (formValues, updateView, handleErrorLoading, hideCreat
       handleErrorLoading(res.detail);
       return false;
     }
-    updateView(res, 'post');
+    updatePosts(res, 'post');
     handleErrorLoading();
     hideCreateForm();
   });

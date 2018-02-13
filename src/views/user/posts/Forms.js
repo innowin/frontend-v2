@@ -184,16 +184,20 @@ export class PostEditForm extends Component {
     if (confirm) {
       return <Confirm cancelRemoving={this._cancelConfirm} remove={this._remove}/>;
     }
-    return <PostForm onSubmit={this._onSubmit} post={post} ref={form => {this.form = form}}>
-      <div className="col-12 d-flex justify-content-end">
-        <button type="button" className="btn btn-outline-danger mr-auto" onClick={this._showConfirm}>
-          {__('Delete')}
-        </button>
-        <button type="button" className="btn btn-secondary mr-2" onClick={hideEdit}>
-          {__('Cancel')}
-        </button>
-        <button type="submit" className="btn btn-success">{__('Save')}</button>
-      </div>
-    </PostForm>;
+    return (
+      <PostForm onSubmit={this._onSubmit} post={post} ref={form => {
+        this.form = form
+      }}>
+        <div className="col-12 d-flex justify-content-end">
+          <button type="button" className="btn btn-outline-danger mr-auto" onClick={this._showConfirm}>
+            {__('Delete')}
+          </button>
+          <button type="button" className="btn btn-secondary mr-2" onClick={hideEdit}>
+            {__('Cancel')}
+          </button>
+          <button type="submit" className="btn btn-success">{__('Save')}</button>
+        </div>
+      </PostForm>
+    )
   }
 }
