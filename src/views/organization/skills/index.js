@@ -73,6 +73,7 @@ class Ability extends Component {
     this._delete = this._delete.bind(this);
     this._update = this._update.bind(this);
     this._updateStateForView = this._updateStateForView.bind(this)
+    this.state={ability:props.ability}
   }
 
 
@@ -91,7 +92,8 @@ class Ability extends Component {
   };
 
   render() {
-    const {ability, organization, profile} = this.props;
+    const {organization, profile} = this.props;
+    const {ability} = this.state;
     return (
       <AbilityInfo
         ability={ability}

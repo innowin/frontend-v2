@@ -56,12 +56,17 @@ export class ItemHeader extends Component {
   };
 
   render() {
+    const {showEdit} = this.props;
     return (
       <div className="-item-header">
         <div className="-item-title">{this.props.title}</div>
-        <div className="-item-edit-btn">
-          <div onClick={this.props.showEdit}>{editIcon}</div>
-        </div>
+        
+          <div className="-item-edit-btn">
+          {
+          (showEdit!=null) ? 
+            <div onClick={showEdit}>{editIcon}</div>: <span/>
+          }
+          </div> 
       </div>
     )
   }

@@ -2,30 +2,40 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {TextInput} from 'src/views/common/inputs/TextInput'
-import {MediaUploader} from 'src/views/common/MediaUploader';
+import {FileInput} from 'src/views/common/inputs/FileInput';
 import {Confirm} from "../../common/cards/Confirm";
-
+import {SelectComponent} from '../../common/SelectComponent';
+import { IDENTITY_ID } from '../../../consts/data';
 
 export class ProductForm extends Component {
 	static propTypes = {
 		onSubmit: PropTypes.func.isRequired,
 		product: PropTypes.object,
+		categories: PropTypes.array
 	};
 
 	getValues =  () => {
-		const media =null;// await this.refs.pictureInput.refs.component.getMedia();
-		const mediaId = media ? media.id : null;
 		const values = {
-				title: this.refs.titleInput.getValue(),
-				pictureId: mediaId, // TODO use media uploader
+				name: this.nameInput.getValue(),
+				country: this.countryInput.getValue(),
+				province: this.provinceInput.getValue(),
+				city: this.cityInput.getValue(),
+				description: this.descriptionInput.getValue(),
+				product_owner: IDENTITY_ID,
+				product_category: this.productCategoryInput.getValue()
 		};
-		return values
+		return values;
 	};
 
 	formValidate = () => {
 			let result = true;
 			const validates = [
-					this.refs.titleInput.validate(),
+				this.nameInput.validate(),
+				this.countryInput.validate(),
+				this.provinceInput.validate(),
+				this.cityInput.validate(),
+				this.descriptionInput.validate(),
+				this.productCategoryInput.validate()
 			];
 			for (let i = 0; i < validates.length; i++) {
 					if (validates[i]) {
@@ -35,26 +45,76 @@ export class ProductForm extends Component {
 			}
 			return result
 	};
-
+//TODO amir specify identity concept and how to handle them
 	render() {
-			const {} = this.props;
+			const {organization, categories} = this.props;
 			const product = this.props.product || {picture: null};
+			var currentCategory = {title:""};
+			const options = categories.map((cat,index)=>{
+				if(cat.id == product.product_category){
+					currentCategory = cat;
+				}
+				return {value:cat.id, label:cat.title};
+			})
 			return <form onSubmit={this.props.onSubmit}>
 				<div className="row">
 					<TextInput
-							name="title"
+							name="name"
 							required
-							label={__('Title') + ": "}
-							value={product.title}
-							ref="titleInput"
+							label={__('Name') + ": "}
+							value={product.name}
+							ref={nameInput => {
+								this.nameInput = nameInput
+							}}
 					/>
-					<MediaUploader
-							name="picture"
-							label={__('Picture') + ": "}
-							ref="pictureInput"
-							media={product.picture}
-							organization={null}
+					<TextInput
+							name="country"
+							required
+							label={__('Country') + ": "}
+							value={product.country}
+							ref={countryInput => {
+								this.countryInput = countryInput
+							}}
 					/>
+				
+					<TextInput
+							name="province"
+							required
+							label={__('Province') + ": "}
+							value={product.province}
+							ref={provinceInput => {
+								this.provinceInput = provinceInput
+							}}
+					/>
+					<TextInput
+							name="city"
+							required
+							label={__('City') + ": "}
+							value={product.city}
+							ref={cityInput => {
+								this.cityInput = cityInput
+							}}
+					/>
+					<TextInput
+							name="description"
+							required
+							label={__('Description') + ": "}
+							value={product.description}
+							ref={descriptionInput => {
+								this.descriptionInput = descriptionInput
+							}}
+					/>
+					<SelectComponent
+								name="productCategory"
+								label={__('ProductCategory') + ": "}
+								options={options}
+								required
+								value={currentCategory.title }
+								ref={productCategoryInput => {
+										this.productCategoryInput = productCategoryInput
+								}}
+						/>
+
 					{this.props.children}
 				</div>
 			</form>
@@ -69,8 +129,8 @@ export class ProductCreateForm extends Component {
 			hideEdit: PropTypes.func.isRequired
 	};
 
-	save = async () => {
-			const formValues = await this.refs.form.getValues();
+	save = () => {
+			const formValues = this.refs.form.getValues();
 			const { hideEdit} = this.props;
 			return this.props.create(formValues, hideEdit);
 	};
@@ -78,18 +138,13 @@ export class ProductCreateForm extends Component {
 	onSubmit = (e) => {
 			e.preventDefault();
 			if (this.refs.form.formValidate()) {
-					this.save()
-							.then(res => {
-									this.props.hideEdit();
-							})
-							.catch(err => {
-							});
+				this.save();
 			}
 	};
 
 	render() {
-			const {} = this.props;
-			return <ProductForm onSubmit={this.onSubmit} ref="form">
+			const {categories} = this.props;
+			return <ProductForm categories={categories} onSubmit={this.onSubmit} ref="form">
 					<div className="col-12 d-flex justify-content-end">
 							<button type="button" className="btn btn-secondary mr-2" onClick={this.props.hideEdit}>
 									{__('Cancel')}
@@ -120,8 +175,9 @@ export class ProductEditForm extends Component {
 	};
 
 	remove = () => {
+		const{hideEdit} = this.props;
 		const productId = this.props.product.id;
-		return this.props.remove(productId)
+		return this.props.remove(productId,hideEdit)
 	};
 
 	save = () => {//(formValues, productId, updateStateForView, hideEdit
@@ -138,12 +194,13 @@ export class ProductEditForm extends Component {
 
 	render() {
 		const {confirm} = this.state;
+		const {categories} = this.props;
 		if (confirm) {
 				return <Confirm cancelRemoving={this.cancelConfirm} remove={this.remove}/>;
 		}
 
 		const {product} = this.props;
-		return <ProductForm onSubmit={this.onSubmit} ref="form" product={product} >
+		return <ProductForm categories={categories} onSubmit={this.onSubmit} ref="form" product={product} >
 				<div className="col-12 d-flex justify-content-end">
 						<button type="button" className="btn btn-outline-danger mr-auto" onClick={this.showConfirm}>
 								{__('Delete')}

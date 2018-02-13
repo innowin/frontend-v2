@@ -17,7 +17,7 @@ export class CustomerView extends Component {
 	render() {
 		const {customer, showEdit} = this.props;
 		return (
-			<div className="col-6 text-center container-fluid">
+			<div className="col-4 text-center container-fluid p-1">
 				<div className="row">
 					<div className="col customer">
 						<div className="content">

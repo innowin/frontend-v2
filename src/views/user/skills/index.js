@@ -265,6 +265,33 @@ class Skills extends Component {
             }
           </ListGroup>
         </FrameCard>
+
+        {/* {<CategoryTitle
+          title={__('Products')}
+          showCreateForm={this._showCreateForm}
+          createForm={createForm}
+        />
+        <FrameCard className="-frameCardSkill">
+          <ListGroup>
+            {
+              createForm &&
+              <ProductItemWrapper>
+                <ProductCreateForm hideCreateForm={this._hideCreateForm} create={this._create}/>
+              </ProductItemWrapper>
+            }
+            {
+              skills.map((skill, i) => (
+                <Skill
+                  skill={skill}
+                  user={user}
+                  profile={profile}
+                  updateStateForView={this._updateStateForView}
+                  key={i}
+                />
+              ))
+            }
+          </ListGroup>
+        </FrameCard>} */}
       </VerifyWrapper>
     )
   }

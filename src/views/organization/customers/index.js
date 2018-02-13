@@ -3,7 +3,7 @@ import React, {Component} from "react";
 import PropTypes from 'prop-types';
 import {Customer, CustomerItemWrapper} from "./view";
 import {CustomerCreateForm} from "./forms";
-import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper} from "../../common/cards/Frames";
+import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper, ItemHeader} from "../../common/cards/Frames";
 import {createCustomer, deleteCustomer, updateCustomer} from '../../../crud/organization/customer.js';
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {REST_REQUEST} from "../../../consts/Events"
@@ -12,7 +12,7 @@ import {TOKEN} from "src/consts/data"
 export class CustomerContainer extends Component {
 	constructor(props){
 		super(props);
-		this.state={customer:{}}
+		this.state={customer:props.customer}
 	}
 	componentWillReceiveProps(props){
 			const {customer} = props;
@@ -63,6 +63,7 @@ export class CustomerList extends Component {
 			<CustomerItemWrapper>
 					<CustomerCreateForm hideEdit={this.props.hideCreateForm} create={this.create} />
 			</CustomerItemWrapper>}
+			<div className="row align-items-left">
 			{
 				customers.map(customer => <CustomerContainer
 					customer={customer}
@@ -71,6 +72,7 @@ export class CustomerList extends Component {
 					key={customer.id}
 				/>)
 			}
+			</div>
 		</ListGroup>;
 	}
 }
@@ -79,7 +81,7 @@ export class Customers extends Component {
 
 	constructor(props){
 		super(props);
-		this.state = {createForm: false,customers:{}, edit:false, isLoading:false, error:null, customers:[]};
+		this.state = {organization:{}, createForm: false,customers:{}, edit:false, isLoading:false, error:null, customers:[]};
 	}
 	static propTypes = {
 		organizationId: PropTypes.string.isRequired
@@ -145,8 +147,8 @@ export class Customers extends Component {
 	}
 
 	render() {
-		const {  organizationId} = this.props;
-		const {createForm, customers, isLoading, error} = this.state;
+		const {  organizationId, } = this.props;
+		const {createForm, customers, isLoading, error,organization} = this.state;
 		return (
 			<VerifyWrapper isLoading={isLoading} error={error}>
 				{
@@ -157,6 +159,9 @@ export class Customers extends Component {
 							createForm={createForm}
 						/>
 						<FrameCard>
+							<CustomerItemWrapper>
+								<ItemHeader title={"ثبت شده توسط "+organization.official_name}/>
+							
 							<CustomerList
 								updateStateForView={this.updateStateForView}
 								customers={customers}
@@ -164,6 +169,7 @@ export class Customers extends Component {
 								createForm={createForm}
 								hideCreateForm={this.hideCreateForm}
 							/>
+							</CustomerItemWrapper>
 						</FrameCard>
 					</div>
 				}

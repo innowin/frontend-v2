@@ -11,9 +11,7 @@ export const updateAbility = (formValues, abilityId, updateStateForView, hideEdi
 				method: "patch",
 				url: `${url}/organizations/abilities/${abilityId}/`,
 				result: `updateAbility-patch/${abilityId}`,
-				data :{
-					"content_type" : "json/application",
-					"delete_flag": formValues.delete_flag,
+				data :{	
 					"text": formValues.text,
 					"title": formValues.title
 				},

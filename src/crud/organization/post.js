@@ -24,16 +24,16 @@ export const createPost = (formValues, organizationId, userId, updateStateForVie
         let error = false;
         isLoading = false;
         if (res.detail) {
-            error = res.detail;
+          updateStateForView(res, error, isLoading);
+			
+          return;
         }
-        updateStateForView(res, error, isLoading);
         hideCreateForm();
-
         socket.emit(REST_REQUEST,
           {
             method: "get",
-            url: `${url}/organizations/${organizationId}/`,
-            result: `organization-Posts-get/${organizationId}`,
+            url: `${url}/base/posts/?post_parent=${organizationId}`,
+            result: `organizationPosts-Posts-get/${organizationId}`,
             token: TOKEN
           }
         );
@@ -69,7 +69,7 @@ export const updatePost = (formValues, postId, updateStateForView, hideEdit) => 
   });
 };
 
-export const deletePost = (postId, updateStateForView, hideEdit) => {
+export const deletePost = (postId,organizationId, updateStateForView, hideEdit) => {
   let isLoading = false;
   updateStateForView({}, null, isLoading);
   const emitting = () => {
@@ -81,9 +81,7 @@ export const deletePost = (postId, updateStateForView, hideEdit) => {
         result: `deletePost-delete/${postId}`,
         token: TOKEN
       }
-    );
-
-    
+    );    
   };
 
   emitting();
@@ -92,10 +90,19 @@ export const deletePost = (postId, updateStateForView, hideEdit) => {
     let error = false;
     isLoading = false;
     if (res.detail) {
-      error = res.detail;
-    }
-    updateStateForView(res, error, isLoading);
-    hideEdit();
+      updateStateForView(res, error, isLoading);
+			
+			return;
+		}
+		hideEdit();
+		socket.emit(REST_REQUEST,
+			{
+				method: "get",
+				url: `${url}/base/post/?post_parent=${organizationId}`,
+				result: `organizationPosts-Posts-get/${organizationId}`,
+				token: TOKEN
+			}
+		);
 
 
   });

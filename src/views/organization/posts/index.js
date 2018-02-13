@@ -78,7 +78,8 @@ class Post extends Component {
   }
 
   _delete = (postId, updateStateForView, hideEdit) => {
-    return deletePost(postId, updateStateForView, hideEdit);
+    const{organization} = this.props;
+    return deletePost(postId, organization.id, updateStateForView, hideEdit);
   };
 
   _update = (formValues, postId, updateStateForView, hideEdit) => {//formValues, careerId, updateStateForView, hideEdit
