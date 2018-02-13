@@ -1,8 +1,15 @@
 /*global __*/
+<<<<<<< HEAD
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {TextInput} from 'src/views/common/inputs/TextInput'
 import {FileInput} from 'src/views/common/inputs/FileInput';
+=======
+import React, {Component} from "react";
+import PropTypes from "prop-types";
+import {TextInput} from "src/views/common/inputs/TextInput"
+import {FileInput} from "src/views/common/inputs/FileInput";
+>>>>>>> b1afce4cc7a11d27e41c7c4d8bdf7c315cf76ee5
 import {Confirm} from "../../common/cards/Confirm";
 
 

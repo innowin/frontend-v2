@@ -20,8 +20,6 @@ export default class LoginForm extends Component {
 	componentDidMount() {
 		const {handleLogIn} = this.props;
 		socket.on("TOKEN_Result", res => {
-			// alert('Hi');
-			// console.log(res);
 			if (res.non_field_errors) {
 				const message = res.non_field_errors[0];
 				this._handleError(message);

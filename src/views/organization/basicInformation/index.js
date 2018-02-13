@@ -122,7 +122,6 @@ export class OrganizationMembers extends Component {
 		emitting();
 		
 		socket.on(`OrganizationMembers-get/${organizationId}`, (res) => {
-			console.log('ID is ',organizationId,'in response' , res);
 			if (res.detail) {
 				this.setState({...this.state, error: res.detail, isLoading: false});
 			}

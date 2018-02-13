@@ -5,23 +5,23 @@ import PropTypes from 'prop-types'
 export class CheckBox extends Component {
 
     static propTypes = {
-        value: PropTypes.bool,
+        checked: PropTypes.bool,
         label: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
     };
 
     constructor(props) {
         super(props);
-        this.state = {value: this.props.value || false};
+        this.state = {checked: this.props.checked || false};
     };
 
     handleChange = (event) => {
         const checkedValue = event.target.checked;
-        this.setState({value:checkedValue});
+        this.setState({checked:checkedValue});
     };
 
     getValue = () => {
-        return this.state.value;
+        return this.state.checked;
     };
 
     validate = () => {
@@ -30,7 +30,7 @@ export class CheckBox extends Component {
 
     render() {
         const {label, name} = this.props;
-        const {value} = this.state;
+        const {checked} = this.state;
         return (
             <div className="col-12 form-group">
                 <label>{label}</label>
@@ -40,7 +40,7 @@ export class CheckBox extends Component {
                     className="form-control"
                     style={{width:"initial"}}
                     onChange={this.handleChange}
-                    value={value}
+                    checked={checked}
                 />
             </div>
         )
