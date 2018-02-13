@@ -77,13 +77,19 @@ class Skill extends Component {
 
 
   _delete = (skillId, updateStateForView, hideEdit) => {
-    return deleteSkill(skillId, updateStateForView, hideEdit);
+    const{skill, skills, updateSkills} = this.props;
+    return deleteSkill(skill, skills, updateSkills, hideEdit, this._handleErrorLoading);
   };
 
   _update = (formValues, skillId, updateStateForView, hideEdit) => {
-    return updateSkill(formValues, skillId, updateStateForView, hideEdit);
+    const {updateSkills} = this.props;  
+    return updateSkill(formValues, skillId, updateSkills, hideEdit);
   };
 
+  _handleErrorLoading = (error = false) => {
+    this.setState({...this.state, isLoading: false, error: error});
+  };
+  
   _updateStateForView = (res, error, isLoading) => {
     const {updateStateForView} = this.props;
     updateStateForView({error: error, isLoading: isLoading});
@@ -226,13 +232,34 @@ class Skills extends Component {
     this.setState({createForm: false});
   };
 
+  _handleErrorLoading = (error = false) => {
+    this.setState({...this.state, isLoading: false, error: error});
+  };
+  
   _updateStateForView = (res, error, isLoading) => {
     this.setState({...this.state, skill:res, error: error, isLoading: isLoading})
   };
 
+  _updateSkills = (res, type, deletedIndex = null) => {
+    const {skills} = this.state;
+    if (type === 'get') {
+      this.setState({...this.state, skills: [...skills, ...res]});
+      return false;
+    }
+    if (type === 'post') {
+      this.setState({...this.state, skills: [res, ...skills]});
+      return false;
+    }
+    if (type === 'delete' || type ==='del') {
+      const remainSkills = skills.slice(0, deletedIndex).concat(skills.slice(deletedIndex + 1));
+      this.setState({...this.state, skills: remainSkills});
+    }
+  };
   _create = (formValues, hideCreateForm) => {
     const updateStateForView = this._updateStateForView;
-    return createSkill(formValues, updateStateForView, hideCreateForm);
+    const {user, skill, skills} = this.state;
+    formValues.skill_user = user.id;
+    return createSkill(formValues,skills, skill, this._updateSkills, hideCreateForm);
   };
 
   render() {
@@ -256,9 +283,10 @@ class Skills extends Component {
               skills.map((skill, i) => (
                 <Skill
                   skill={skill}
+                  skills={skills}
                   user={user}
                   profile={profile}
-                  updateStateForView={this._updateStateForView}
+                  updateSkills={this._updateSkills}
                   key={i}
                 />
               ))

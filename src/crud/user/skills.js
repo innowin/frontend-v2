@@ -35,7 +35,7 @@ export const updateSkill = (formValues, skillId, updateStateForView, hideEdit) =
 };
 
 
-export const createSkill = (formValues, updateStateForView, hideEdit) => {
+export const createSkill = (formValues, skills, skill, updateSkills, hideEdit, handleErrorLoading) => {
 	let isLoading = false;
 	const emitting = () => {
 		isLoading = true;
@@ -43,7 +43,7 @@ export const createSkill = (formValues, updateStateForView, hideEdit) => {
 			{
 				method: "post",
 				url: `${url}/users/skills/`,
-				result: `createSkill-patch`,
+				result: `createSkill-post`,
 				data :{
 					"tag":formValues.tag,
 					"delete_flag": formValues.delete_flag,
@@ -58,27 +58,28 @@ export const createSkill = (formValues, updateStateForView, hideEdit) => {
 
 	emitting();
 
-	socket.on(`createSkill-patch`, (res) => {
-		let error = false;
-		isLoading = false;
+	socket.on(`createSkill-post`, (res) => {
 		if (res.detail) {
-			error = res.detail;
-		}
-		updateStateForView(res, error, isLoading);
-		hideEdit();
+      handleErrorLoading(res.detail);
+      return false;
+    }
+    const deletedIndex = skills.indexOf(skill);
+    updateSkills(null, 'del', deletedIndex);
+    handleErrorLoading();
+    hideEdit();
 	});
 };
 
 
-export const deleteSkill = (skillId, updateStateForView, hideEdit) => {
+export const deleteSkill = (skill, skills, updateSkills, hideEdit, handleErrorLoading) => {
 	let isLoading = false;
 	const emitting = () => {
 		isLoading = true;
 		socket.emit(REST_REQUEST,
 			{
-				method: "delete",
-				url: `${url}/users/skills/${skillId}/`,
-				result: `deleteSkill-patch/${skillId}/`,
+				method: "del",
+				url: `${url}/users/skills/${skill.id}/`,
+				result: `deleteSkill-delete/${skill.id}/`,
 				token: TOKEN
 			}
 		);
@@ -86,13 +87,14 @@ export const deleteSkill = (skillId, updateStateForView, hideEdit) => {
 
 	emitting();
 
-	socket.on(`deleteSkill-patch/${skillId}/`, (res) => {
-		let error = false;
-		isLoading = false;
+	socket.on(`deleteSkill-delete/${skill.id}/`, (res) => {
 		if (res.detail) {
-			error = res.detail;
-		}
-		updateStateForView(res, error, isLoading);
-		hideEdit();
+      handleErrorLoading(res.detail);
+      return false;
+    }
+    const deletedIndex = skills.indexOf(skill);
+    updateSkills(null, 'del', deletedIndex);
+    handleErrorLoading();
+    hideEdit();
 	});
 };

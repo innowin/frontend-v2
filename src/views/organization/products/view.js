@@ -1,7 +1,14 @@
+/*global __*/
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {ProductEditForm} from './forms';
-import {ItemHeader, ItemWrapper} from "../../common/cards/Frames";
+import {
+	ItemHeader,
+	ItemWrapper,
+	Field,
+	FieldLabel,
+	FieldValue
+} from "../../common/cards/Frames";
 import {postIcon} from "src/images/icons";
 
 export const ProductItemWrapper = ({children}) => {
@@ -16,10 +23,27 @@ export class ProductView extends Component {
 
 	render() {
 		const {product, showEdit} = this.props;
-		return <ProductItemWrapper>
-			<ItemHeader title={product.name} showEdit={showEdit}/>
-			
-		</ProductItemWrapper>
+		return (
+			<ProductItemWrapper>
+					<ItemHeader title={product.name} showEdit={this.showEdit}/>
+					<Field>
+						<FieldLabel label={__('Country') + ": "}/>
+						<FieldValue value={product.country}/>
+					</Field>
+					<Field>
+						<FieldLabel label={__('Province') + ": "}/>
+						<FieldValue value={product.province}/>
+					</Field>
+					<Field>
+						<FieldLabel label={__('City') + ": "}/>
+						<FieldValue value={product.city}/>
+					</Field>
+					<Field>
+						<FieldLabel label={__('Description') + ": "}/>
+						<FieldValue value={product.description}/>
+					</Field>
+			</ProductItemWrapper>
+			)
 	}
 }
 

@@ -40,7 +40,6 @@ export class AbilityFooter extends Component {
    render() {
 		const {viewerCount, addViewer} = this.props;
 		
-    
     return (
       <div className="skillTags">
 				

@@ -11,12 +11,12 @@ import {
 } from "../../common/cards/Frames";
 import {workExperienceIcon} from "src/images/icons";
 
-export const WorkExperienceItemWrapper = ({children}) => {
+export const CareerItemWrapper = ({children}) => {
 	return <ItemWrapper icon={workExperienceIcon}>{children}</ItemWrapper>;
 };
 
 
-export class UserCareerView extends Component {
+export class CareerView extends Component {
 	constructor(props){
 		super(props);
 		const{career} = props;
@@ -57,7 +57,7 @@ export class UserCareerView extends Component {
 					>
 					</UserCareerForm>
 				) : (
-					<WorkExperienceItemWrapper>
+					<CareerItemWrapper>
 						<ItemHeader title={career.name} showEdit={this.showEdit}/>
 						<Field>
 							<FieldLabel label={__('Position') + ": "}/>
@@ -65,13 +65,13 @@ export class UserCareerView extends Component {
 						</Field>
 						<Field>
 							<FieldLabel label={__('From date') + ": "}/>
-							<FieldValue value={career.fromDate}/>
+							<FieldValue value={career.from_date}/>
 						</Field>
 						<Field>
 							<FieldLabel label={__('To date') + ": "}/>
-							<FieldValue value={career.toDate}/>
+							<FieldValue value={career.to_date}/>
 						</Field>
-					</WorkExperienceItemWrapper>
+					</CareerItemWrapper>
 					)
 				)
 		}

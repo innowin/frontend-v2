@@ -11,8 +11,12 @@ import {FileInput} from "src/views/common/inputs/FileInput";
 
 export class SkillForm extends Component {
 	constructor(props){
-		super(props);
-		this.state = { skill:props.skill}
+        super(props);
+        let tags = [];
+        if(props.skill){
+            tags = props.skill.tag;
+        }
+		this.state = { skill:props.skill ,tag:tags}
 	}
 	static propTypes = {
 			onSubmit: PropTypes.func.isRequired,
@@ -20,22 +24,22 @@ export class SkillForm extends Component {
 	};
 	
 	_deleteTag(tagIndex){
-		const {skill} = this.state;
-		skill.tag.splice(tagIndex,1);
-		this.setState({...this.state, skill:skill})
+		const {skill, tag} = this.state;
+		tag.splice(tagIndex,1);
+		this.setState({...this.state, tag:tag})
 	}
 
-	_addTag(tag){
-		const {skill} = this.state;
-		skill.tag.push(tag.getValue());
-		this.setState({...this.state, skill:skill})
+	_addTag(tagInput){
+        const { tag} = this.state;
+        tag.push(tagInput.getValue())
+		this.setState({...this.state, tag:tag})
 	}
 
     _getValues = () => {
         return {
             title: this.skillTitleInput.getValue(),
             description: this.skillDescriptionInput.getValue(),
-						tag:this.state.skill.tag
+            tag:this.state.tag
         };
     };
 
@@ -58,7 +62,7 @@ export class SkillForm extends Component {
 
     render() {
         const {onSubmit} = this.props;
-				const skill = this.props.skill || {};
+                const skill = this.props.skill || {tag:this.state.tag};
 				const tags = skill.tag.map((tag,index)=>{
 					return(
 						<div className="tagEdit m-1">
