@@ -1,9 +1,9 @@
 /*global __*/
 import React, {Component} from "react";
 import PropTypes from "prop-types";
-import {TextInput} from "src/views/common/inputs/TextInput";
+import {TextInput} from "src/views/common/inputs/TextInput"
+import {FileInput} from "src/views/common/inputs/FileInput";
 import {Confirm} from "../../common/cards/Confirm";
-import {FileInput} from "../../common/inputs/FileInput";
 
 
 export class CertificateForm extends Component {
