@@ -19,8 +19,7 @@ export class CertificateView extends Component {
     this.state = {mediaFile: null};
   };
 
-  _getFile = () => {
-    const mediaId = this.props.certificate.picture_media;
+  _getFile = (mediaId) => {
     if (mediaId) {
       const mediaResult = (res) => {
         this.setState({...this.state, mediaFile: res.file})
@@ -30,7 +29,7 @@ export class CertificateView extends Component {
   };
 
   componentDidMount() {
-    this._getFile();
+    this._getFile(this.props.certificate.picture_media);
   }
 
 	render() {

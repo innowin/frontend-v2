@@ -1,7 +1,7 @@
 /*global __*/
 import React, {Component} from "react"
 import PropTypes from 'prop-types'
-import {getPosts, createPost, deletePost, updatePost} from 'src/crud/user/post'
+import {getUserPosts, createPost, deletePost, updatePost} from 'src/crud/user/post'
 import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames"
 import {PostCreateForm} from "./Forms"
 import {PostEditForm} from './Forms'
@@ -9,20 +9,19 @@ import {PostItemWrapper, PostView} from "./Views"
 import {REST_REQUEST} from "src/consts/Events"
 import {REST_URL as url, SOCKET as socket} from "src/consts/URLS"
 import {TOKEN} from "src/consts/data"
+import {ID} from "../../../consts/data";
 
-class Post extends Component {
+export class Post extends Component {
 
   static propTypes = {
     posts: PropTypes.array.isRequired,
     post: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
-    profile: PropTypes.object.isRequired,
     updatePosts: PropTypes.func.isRequired
   };
 
   constructor(props) {
     super(props);
-    this.state = {edit: false, error: false, isLoading: false, post: this.props.post || {}};
+    this.state = {edit: false, error: false, isLoading: false, user:{}, profile:{}, post: this.props.post||{} };
   }
 
   _showEdit = () => {
@@ -51,90 +50,14 @@ class Post extends Component {
     return deletePost(this.props.posts, this.props.post, this.props.updatePosts, this._hideEdit, this._handleErrorLoading);
   };
 
-  render() {
-    const {post, isLoading, error} = this.state;
-    const {user, profile} = this.props;
-    if (this.state.edit) {
-      return (
-        <VerifyWrapper isLoading={isLoading} error={error}>
-          <PostItemWrapper>
-            <PostEditForm
-              post={post}
-              hideEdit={this._hideEdit}
-              delete={this._delete}
-              update={this._update}
-            />
-          </PostItemWrapper>
-        </VerifyWrapper>
-      )
-    }
-    return (
-      <VerifyWrapper isLoading={isLoading} error={error}>
-        <PostView post={post} user={user} profile={profile} showEdit={this._showEdit}/>
-      </VerifyWrapper>
-    )
-  }
-}
-
-class Posts extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      createForm: false,
-      edit: false, isLoading: false, error: null, posts: [], user: {}, profile: {}, resetState: false
-    };
-  }
-
-  static propTypes = {
-    userId: PropTypes.string.isRequired
-  };
-
-  _showCreateForm = () => {
-    this.setState({createForm: true});
-  };
-
-  _hideCreateForm = () => {
-    this.setState({createForm: false});
-  };
-
-
-  _handleErrorLoading = (error = false) => {
-    this.setState({...this.state, isLoading: false, error: error});
-  };
-
-  _updatePosts = (res, type, deletedIndex = null) => {
-    const {posts} = this.state;
-    if (type === 'get') {
-      this.setState({...this.state, posts: [...posts, ...res]});
-      return false;
-    }
-    if (type === 'post') {
-      this.setState({...this.state, posts: [res, ...posts]});
-      return false;
-    }
-    if (type === 'del') {
-      const remainPosts = posts.slice(0, deletedIndex).concat(posts.slice(deletedIndex + 1));
-      this.setState({...this.state, posts: remainPosts});
-    }
-  };
-
-  _getPosts = () => {
-    this.setState({...this.state, isLoading: true});
-    getPosts(this.props.userId, this._updatePosts, this._handleErrorLoading);
-  };
-
-  _create = (formValues) => {
-    this.setState({...this.state, isLoading: true});
-    createPost(formValues, this._updatePosts, this._handleErrorLoading, this._hideCreateForm);
-  };
-
   componentDidMount() {
-    const {userId} = this.props;
+    // TODO mohsen: handle get userId or organId from post
+
+    // const {userId} = this.props;
+    const userId = ID;
     const emitting = () => {
       const newState = {...this.state, isLoading: true};
       this.setState(newState);
-      this._getPosts();
       socket.emit(REST_REQUEST,
         {
           method: "get",
@@ -180,15 +103,6 @@ class Posts extends Component {
   componentWillUnmount() {
     const {userId} = this.props;
     // TODO mohsen: complete by socket.off of update and delete requests
-    socket.off(`userPosts-Posts-get/${userId}`, (res) => {
-      if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false};
-        this.setState(newState);
-      } else {
-        const newState = {...this.state, posts: res, isLoading: false};
-        this.setState(newState);
-      }
-    });
     socket.off(`user-Posts-get/${userId}`, (res) => {
       if (res.detail) {
         const newState = {...this.state, error: res.detail, isLoading: false};
@@ -212,7 +126,99 @@ class Posts extends Component {
   }
 
   render() {
-    const {createForm, user, profile, isLoading, error} = this.state;
+    const {post, isLoading, error, user, profile} = this.state;
+    if (this.state.edit) {
+      return (
+        <VerifyWrapper isLoading={isLoading} error={error}>
+          <PostItemWrapper>
+            <PostEditForm
+              post={post}
+              hideEdit={this._hideEdit}
+              delete={this._delete}
+              update={this._update}
+            />
+          </PostItemWrapper>
+        </VerifyWrapper>
+      )
+    }
+    return (
+      <VerifyWrapper isLoading={isLoading} error={error}>
+        <PostView post={post} user={user} profile={profile} showEdit={this._showEdit}/>
+      </VerifyWrapper>
+    )
+  }
+}
+
+class Posts extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {createForm: false, edit: false, isLoading: false, error: null, posts: [], user: {}, profile: {}};
+  }
+
+  static propTypes = {
+    userId: PropTypes.string.isRequired
+  };
+
+  _showCreateForm = () => {
+    this.setState({createForm: true});
+  };
+
+  _hideCreateForm = () => {
+    this.setState({createForm: false});
+  };
+
+
+  _handleErrorLoading = (error = false) => {
+    this.setState({...this.state, isLoading: false, error: error});
+  };
+
+  _updatePosts = (res, type, deletedIndex = null) => {
+    const {posts} = this.state;
+    if (type === 'get') {
+      this.setState({...this.state, posts: [...posts, ...res]});
+      return false;
+    }
+    if (type === 'post') {
+      this.setState({...this.state, posts: [res, ...posts]});
+      return false;
+    }
+    if (type === 'del') {
+      const remainPosts = posts.slice(0, deletedIndex).concat(posts.slice(deletedIndex + 1));
+      this.setState({...this.state, posts: remainPosts});
+    }
+  };
+
+  _getUserPosts = (userId) => {
+    this.setState({...this.state, isLoading: true});
+    getUserPosts(userId , this._updatePosts, this._handleErrorLoading);
+  };
+
+  _create = (formValues) => {
+    this.setState({...this.state, isLoading: true});
+    createPost(formValues, this._updatePosts, this._handleErrorLoading, this._hideCreateForm);
+  };
+
+  componentDidMount() {
+    this._getUserPosts(this.props.userId);
+  };
+
+  componentWillUnmount() {
+    const {userId} = this.props;
+    // TODO mohsen: complete by socket.off of update and delete requests
+    socket.off(`userPosts-Posts-get/${userId}`, (res) => {
+      if (res.detail) {
+        const newState = {...this.state, error: res.detail, isLoading: false};
+        this.setState(newState);
+      } else {
+        const newState = {...this.state, posts: res, isLoading: false};
+        this.setState(newState);
+      }
+    });
+  }
+
+  render() {
+    const {createForm, isLoading, error} = this.state;
     const posts = [...new Set(this.state.posts)];
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
@@ -234,8 +240,6 @@ class Posts extends Component {
                 <Post
                   posts={posts}
                   post={post}
-                  user={user}
-                  profile={profile}
                   updatePosts={this._updatePosts}
                   key={post.id}
                 />

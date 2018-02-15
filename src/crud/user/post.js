@@ -1,19 +1,42 @@
 import {REST_URL as url, SOCKET as socket} from "../../consts/URLS"
 import {REST_REQUEST} from "../../consts/Events"
-import {TOKEN} from '../../consts/data'
+import {TOKEN as token} from '../../consts/data'
 
 
-export const getPosts = (userId, updatePosts, handleErrorLoading) => {
+export const getUserPosts = (userId, updatePosts, handleErrorLoading) => {
 
   socket.emit(REST_REQUEST,
     {
       method: "get",
       url: `${url}/base/posts/?post_user=${userId}`,
       result: `userPosts-Posts-get/${userId}`,
-      token: TOKEN
+      token
     });
 
   socket.on(`userPosts-Posts-get/${userId}`, (res) => {
+    if (res.detail) {
+      handleErrorLoading(res.detail);
+      return false;
+    }
+    updatePosts(res, 'get');
+    handleErrorLoading();
+  });
+};
+
+export const getOrganPosts = (userId, updatePosts, handleErrorLoading) => {
+
+};
+
+export const getExchangePosts = (exchangeId, updatePosts, handleErrorLoading) => {
+
+  socket.emit(REST_REQUEST, {
+    method: 'get',
+    url: url+`/base/posts/?post_parent=${exchangeId}`,
+    result: 'EXCHANGE-LIST-POSTS',
+    token,
+  });
+
+  socket.on('EXCHANGE-LIST-POSTS',(res) => {
     if (res.detail) {
       handleErrorLoading(res.detail);
       return false;
@@ -31,7 +54,7 @@ export const createPost = (formValues, updatePosts, handleErrorLoading, hideCrea
       url: `${url}/base/posts/`,
       result: 'createPost-post',
       data: {...formValues, post_user: 6, post_parent: 6},
-      token: TOKEN
+      token
     }
   );
 
@@ -53,7 +76,7 @@ export const updatePost = (formValues, postId, updateView, hideEdit, handleError
       url: `${url}/base/posts/${postId}/`,
       result: `updatePost-patch/${postId}`,
       data: formValues,
-      token: TOKEN
+      token
     }
   );
 
@@ -75,7 +98,7 @@ export const deletePost = (posts, post, updatePosts, hideEdit, handleErrorLoadin
       method: "del",
       url: `${url}/base/posts/${postId}/`,
       result: `deletePost-delete/${postId}`,
-      token: TOKEN
+      token
     }
   );
 

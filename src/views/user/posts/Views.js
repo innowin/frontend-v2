@@ -7,6 +7,7 @@ import {NEW_VIEW, GET_VIEWS_COUNT} from "src/consts/Events";
 import {SOCKET as socket} from "src/consts/URLS";
 import {TOKEN} from "src/consts/data";
 import {VerifyWrapper} from "src/views/common/cards/Frames";
+import {getFile} from "../../../crud/media/media";
 
 
 export class PostItemWrapper extends Component {
@@ -103,7 +104,7 @@ export class PostView extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {viewerCount: 0, isLoading: false, error: false};
+    this.state = {viewerCount: 0, isLoading: false, error: false, profile_media_File:null};
     this._addViewer = this._addViewer.bind(this);
   }
 
@@ -157,8 +158,18 @@ export class PostView extends Component {
     this._getViewerCount()
   };
 
+  _getFile = (mediaId) => {
+    if (mediaId) {
+      const mediaResult = (res) => {
+        this.setState({...this.state, profile_media_File: res.file})
+      };
+      return getFile(mediaId, mediaResult)
+    }
+  };
+
   componentDidMount() {
-    this._getViewerCount()
+    this._getViewerCount();
+    this._getFile(this.props.profile.profile_media);
   };
 
   componentWillUnmount() {
@@ -184,14 +195,14 @@ export class PostView extends Component {
   }
 
   render() {
-    const {showEdit, post, user, profile, isLoading, error} = this.props;
+    const {showEdit, post, user, profile_media_File, isLoading, error} = this.props;
     const {viewerCount} = this.state;
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         <PostItemWrapper>
           <div className="-img-col">
             {/*// TODO mohsen: handle src of img*/}
-            <img className="-item-imgPost" src={profile.profile_media || defaultImg}/>
+            <img className="-item-imgPost rounded-circle" src={profile_media_File || defaultImg} alt=""/>
           </div>
           <div className="-content-col">
             <PostItemHeader

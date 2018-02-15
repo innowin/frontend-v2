@@ -38,3 +38,8 @@
   margin: 0 auto !important;
   min-height: 100vh !important;
 }
+
+.-home-content-wrapper > div{
+  margin-top: $topBarHeight;
+  padding-top: 20px;
+}
