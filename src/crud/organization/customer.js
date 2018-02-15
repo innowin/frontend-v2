@@ -2,16 +2,16 @@ import {REST_URL as url, SOCKET as socket} from "../../consts/URLS"
 import {REST_REQUEST} from "../../consts/Events"
 import {TOKEN} from '../../consts/data'
 
-export const updateCertificate = (formValues, certId, updateStateForView, hideEdit) => {
+export const updateCustomer = (formValues, customerId, updateStateForView, hideEdit) => {
 	let isLoading = false;
-
+	
 	const emitting = () => {
 		isLoading = true;
 		socket.emit(REST_REQUEST,
 			{
 				method: "patch",
-				url: `${url}/users/certificates/${certId}/`,
-				result: `updateCertificate-patch/${certId}`,
+				url: `${url}/organizations/customers/${customerId}/`,
+				result: `updateCustomer-patch/${customerId}`,
 				data :formValues,
 				token: TOKEN
 			}
@@ -20,7 +20,7 @@ export const updateCertificate = (formValues, certId, updateStateForView, hideEd
 
 	emitting();
 
-	socket.on(`updateCertificate-patch/${certId}`, (res) => {
+	socket.on(`updateCustomer-patch/${customerId}`, (res) => {
 		let error = false;
 		isLoading = false;
 		if (res.detail) {
@@ -31,17 +31,19 @@ export const updateCertificate = (formValues, certId, updateStateForView, hideEd
 	});
 };
 
-export const createCertificate = (formValues,  updateStateForView, hideEdit,organizationId) => {
+
+
+export const createCustomer = (formValues,  updateStateForView, hideEdit,organizationId) => {
 	let isLoading = false;
-	formValues.certificate_organization = organizationId;
+	formValues.customer_organization = organizationId;
 	console.log(TOKEN)
 	const emitting = () => {
 		isLoading = true;
 		socket.emit(REST_REQUEST,
 			{
 				method: "post",
-				url: `${url}/organizations/certificates/`,
-				result: `createCertificate-post/`,
+				url: `${url}/organizations/customers/`,
+				result: `createCustomer-post/`,
 				data :formValues,
 				token: TOKEN
 			}
@@ -50,7 +52,7 @@ export const createCertificate = (formValues,  updateStateForView, hideEdit,orga
 
 	emitting();
 
-	socket.on(`createCertificate-post/`, (res) => {
+	socket.on(`createCustomer-post/`, (res) => {
 		let error = false;
 		isLoading = false;
 		if (res.detail) {
@@ -63,25 +65,24 @@ export const createCertificate = (formValues,  updateStateForView, hideEdit,orga
 		socket.emit(REST_REQUEST,
 			{
 				method: "get",
-				url: `${url}/organizations/certificates/?certificate_organization=${organizationId}`,
-				result: `OrganizationCertificates-get/${organizationId}`,
+				url: `${url}/organizations/customers/?customer_organization=${organizationId}`,
+				result: `OrganizationCustomers-get/${organizationId}`,
 				token: TOKEN
 			}
 		);
 	});
 };
 
-export const deleteCertificate = (formValues, certId, updateStateForView, hideEdit,organizationId) => {
+export const deleteCustomer = (customerId, updateStateForView, hideEdit,organizationId) => {
 	let isLoading = false;
-
+	console.log(TOKEN)
 	const emitting = () => {
 		isLoading = true;
 		socket.emit(REST_REQUEST,
 			{
 				method: "delete",
-				url: `${url}/organizations/certificates/${certId}/`,
-				result: `deleteCertificate-delete/${certId}`,
-				data :formValues,
+				url: `${url}/organizations/customers/${customerId}/`,
+				result: `deleteCustomer-delete/${customerId}`,
 				token: TOKEN
 			}
 		);
@@ -89,7 +90,7 @@ export const deleteCertificate = (formValues, certId, updateStateForView, hideEd
 
 	emitting();
 
-	socket.on(`deleteCertificate-delete/${certId}`, (res) => {
+	socket.on(`deleteCustomer-delete/${customerId}`, (res) => {
 		let error = false;
 		isLoading = false;
 		if (res.detail) {
@@ -102,8 +103,8 @@ export const deleteCertificate = (formValues, certId, updateStateForView, hideEd
 		socket.emit(REST_REQUEST,
 			{
 				method: "get",
-				url: `${url}/organizations/certificates/?certificate_organization=${organizationId}`,
-				result: `OrganizationCertificates-get/${organizationId}`,
+				url: `${url}/organizations/customers/?customer_organization=${organizationId}`,
+				result: `OrganizationCustomers-get/${organizationId}`,
 				token: TOKEN
 			}
 		);

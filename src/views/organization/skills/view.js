@@ -1,40 +1,83 @@
-/*global __*/
-import React,{Component} from 'react';
+import React, {Component} from "react";
 import PropTypes from "prop-types";
-import {
-	ItemWrapper,
-	ItemHeader
-} from '../../common/cards/Frames';
-import {
-	userInfoIcon
-} from '../../../images/icons';
+import "moment/locale/fa";
+import Moment from "react-moment";
+import {editIcon, defaultImg} from "src/images/icons";
+import {NEW_VIEW, GET_VIEWS_COUNT} from "src/consts/Events";
+import {SOCKET as socket} from "src/consts/URLS";
+import {TOKEN} from "src/consts/data";
+import {VerifyWrapper} from "src/views/common/cards/Frames";
 
 
-export const OrganItemWrapper = ({children}) => {
-	return <ItemWrapper icon={userInfoIcon}>{children}</ItemWrapper>;
-};
+export class AbilityItemWrapper extends Component {
+  render() {
+		const {showEdit} = this.props;
+    return (
+      <div className="-itemWrapperSkill">
+				<div className="-itemEditBtn" onClick={showEdit}>{editIcon}</div>
+        {this.props.children}
+      </div>
+    )
+  }
+}
 
+export class AbilityBody extends Component {
+  static propTypes = {
+    description: PropTypes.string.isRequired
+  };
 
-export class UserSkillView extends Component {
-	static propTypes={
-		skill: PropTypes.object.isRequired,
-		edit: PropTypes.bool.isRequired,
-		showEdit: PropTypes.func.isRequired,
-		skillIndex:PropTypes.number.isRequired
-	}
-	constructor(props){
-		super(props);
-	}
+  render() {
+		const {description} = this.props;
+    return (
+				<p className="skillDescription">
+					{description}
+				</p>
+		)
+  }
+}
 
-	render(){
-		const {skill, showEdit} = this.props;
-			return (
-				<OrganItemWrapper>
-            <ItemHeader title={skill.title} showEdit={showEdit}/>
-            <div className="p-0">
-                {skill.text}
-            </div>
-        </OrganItemWrapper>
-			)
-	}
+export class AbilityFooter extends Component {
+   render() {
+		const {viewerCount, addViewer} = this.props;
+		
+    return (
+      <div className="skillTags">
+				
+			</div>
+    )
+  }
+}
+
+export class AbilityView extends Component {
+  static propTypes = {
+    showEdit: PropTypes.func.isRequired,
+    ability: PropTypes.object.isRequired,
+    profile: PropTypes.object.isRequired,
+    organization: PropTypes.object.isRequired,
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {viewerCount: 0, isLoading: false, error: false};
+  };
+
+  componentDidMount() {
+  };
+
+  componentWillUnmount() {
+  }
+
+  render() {
+		const {showEdit, ability, organization, profile, isLoading, error} = this.props;
+    const {viewerCount} = this.state;
+    return (
+      <VerifyWrapper isLoading={isLoading} error={error}>
+        <AbilityItemWrapper showEdit = {showEdit}>
+					<h6>{ability.title}</h6>
+					<AbilityBody description={ability.text}/>
+					<AbilityFooter abilityId={ability.id}/>
+        </AbilityItemWrapper>
+      </VerifyWrapper>
+    )
+  }
 }

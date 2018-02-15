@@ -9,22 +9,22 @@ import {TextInput} from "../../common/inputs/TextInput";
 import {FileInput} from "src/views/common/inputs/FileInput";
 
 
-export class SkillForm extends Component {
+export class SocialForm extends Component {
 	constructor(props){
         super(props);
         let tags = [];
-        if(props.skill){
-            tags = props.skill.tag;
+        if(props.Social){
+            tags = props.Social.tag;
         }
-		this.state = { skill:props.skill ,tag:tags}
+		this.state = { Social:props.Social ,tag:tags}
 	}
 	static propTypes = {
 			onSubmit: PropTypes.func.isRequired,
-			skill: PropTypes.object,
+			Social: PropTypes.object,
 	};
 	
 	_deleteTag(tagIndex){
-		const {skill, tag} = this.state;
+		const {Social, tag} = this.state;
 		tag.splice(tagIndex,1);
 		this.setState({...this.state, tag:tag})
 	}
@@ -37,8 +37,8 @@ export class SkillForm extends Component {
 
     _getValues = () => {
         return {
-            title: this.skillTitleInput.getValue(),
-            description: this.skillDescriptionInput.getValue(),
+            title: this.SocialTitleInput.getValue(),
+            description: this.SocialDescriptionInput.getValue(),
             tag:this.state.tag
         };
     };
@@ -46,8 +46,8 @@ export class SkillForm extends Component {
     _formValidate = () => {
         let result = true;
         const validates = [
-            this.skillTitleInput.validate(),
-            this.skillDescriptionInput.validate(),
+            this.SocialTitleInput.validate(),
+            this.SocialDescriptionInput.validate(),
         ];
         for (let i = 0; i < validates.length; i++) {
             if (validates[i]) {
@@ -62,12 +62,12 @@ export class SkillForm extends Component {
 
     render() {
         const {onSubmit} = this.props;
-                const skill = this.props.skill || {tag:this.state.tag};
-				const tags = skill.tag.map((tag,index)=>{
+                const Social = this.props.Social || {tag:this.state.tag};
+				const tags = Social.tag.map((tag,index)=>{
 					return(
 						<div className="tagEdit m-1">
 							<button className="tagCross btn btn-danger btn-sm" onClick={()=>{this._deleteTag(index)}}>x</button>
-							<span class="badge badge-secondary skillTag m-1">{tag}</span>
+							<span class="badge badge-secondary SocialTag m-1">{tag}</span>
 						</div>
 			)
 				});
@@ -77,19 +77,19 @@ export class SkillForm extends Component {
 									<TextInput
 										name="title"
 										label={__('Title') + ": "}
-										value={skill.title}
-										ref={skillTitleInput => {this.skillTitleInput = skillTitleInput}}
+										value={Social.title}
+										ref={SocialTitleInput => {this.SocialTitleInput = SocialTitleInput}}
 									/>
 									<TextareaInput
 										name="description"
 										label={__('Description') + ": "}
-										value={skill.description}
-										ref={skillDescriptionInput => {this.skillDescriptionInput = skillDescriptionInput}}
+										value={Social.description}
+										ref={SocialDescriptionInput => {this.SocialDescriptionInput = SocialDescriptionInput}}
 									/>
-									<div className="skillTags m-1" name="tags" ref={(input)=>{this.tags = input;}} >
+									<div className="SocialTags m-1" name="tags" ref={(input)=>{this.tags = input;}} >
 										{tags}
 									</div>
-									<div className="skillAddTagInput">
+									<div className="SocialAddTagInput">
 										<input type="button" className="btn btn-primary m-2" value={__('Add Tag')} onClick={()=>{this._addTag(this.tagNameInput)}} />
 										<TextInput
 											name="tagName"
@@ -105,7 +105,7 @@ export class SkillForm extends Component {
 }
 
 
-export class SkillCreateForm extends Component {
+export class SocialCreateForm extends Component {
 
     static propTypes = {
         create: PropTypes.func.isRequired,
@@ -130,7 +130,7 @@ export class SkillCreateForm extends Component {
 
     render() {
         const {hideCreateForm} = this.props;
-        return <SkillForm onSubmit={this._onSubmit} ref={form => {
+        return <SocialForm onSubmit={this._onSubmit} ref={form => {
             this.form = form
         }}>
             <div className="col-12 d-flex justify-content-end">
@@ -139,16 +139,16 @@ export class SkillCreateForm extends Component {
                 </button>
                 <button type="submit" className="btn btn-success">{__('Create')}</button>
             </div>
-        </SkillForm>;
+        </SocialForm>;
     }
 }
-export class SkillEditForm extends Component {
+export class SocialEditForm extends Component {
 
     static propTypes = {
         update: PropTypes.func.isRequired,
         remove: PropTypes.func.isRequired,
         hideEdit: PropTypes.func.isRequired,
-        skill: PropTypes.object.isRequired,
+        Social: PropTypes.object.isRequired,
     };
 
     constructor(props) {
@@ -165,15 +165,15 @@ export class SkillEditForm extends Component {
     };
 
     _remove = () => {
-        const {skill, updateStateForView, hideEdit} = this.props;
-        return this.props.remove(skill.id, updateStateForView, hideEdit)
+        const {Social, updateStateForView, hideEdit} = this.props;
+        return this.props.remove(Social.id, updateStateForView, hideEdit)
     };
 
     _save = () => {
-        const {skill, updateStateForView, hideEdit} = this.props;
-        const skillId = skill.id;
+        const {Social, updateStateForView, hideEdit} = this.props;
+        const SocialId = Social.id;
         const formValues = this.form._getValues();
-        return this.props.update(formValues, skillId, updateStateForView, hideEdit)
+        return this.props.update(formValues, SocialId, updateStateForView, hideEdit)
     };
 
     _onSubmit = (e) => {
@@ -183,11 +183,11 @@ export class SkillEditForm extends Component {
 
     render() {
         const {confirm} = this.state;
-        const {hideEdit, skill} = this.props;
+        const {hideEdit, Social} = this.props;
         if (confirm) {
             return <Confirm cancelRemoving={this._cancelConfirm} remove={this._remove}/>;
         }
-        return <SkillForm onSubmit={this._onSubmit} skill={skill}
+        return <SocialForm onSubmit={this._onSubmit} Social={Social}
                          ref={form => {
                              this.form = form
                          }}>
@@ -200,6 +200,6 @@ export class SkillEditForm extends Component {
                 </button>
                 <button type="submit" className="btn btn-success">{__('Save')}</button>
             </div>
-        </SkillForm>;
+        </SocialForm>;
     }
 }

@@ -1,8 +1,8 @@
 /*global __*/
-import React, {Component} from "react";
-import PropTypes from "prop-types";
-import {TextInput} from "src/views/common/inputs/TextInput"
-import {FileInput} from "src/views/common/inputs/FileInput";
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import {TextInput} from 'src/views/common/inputs/TextInput'
+import {FileInput} from 'src/views/common/inputs/FileInput';
 import {Confirm} from "../../common/cards/Confirm";
 
 
@@ -13,12 +13,13 @@ export class CertificateForm extends Component {
 	};
 
 	getValues =  () => {
-    const media = this.certPictureInput.getFile();
-		const mediaId = media ? media.id : null;
-		return {
+		const media = this.certPictureInput.getFile();
+        const mediaId = media ? media.id : null;
+		const values = {
 				title: this.titleInput.getValue(),
-    		picture_media: mediaId,
+				picture_media: mediaId, // TODO use media uploader
 		};
+		return values;
 	};
 
 	formValidate = () => {

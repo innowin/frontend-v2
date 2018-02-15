@@ -2,7 +2,6 @@ import {REST_URL as url, SOCKET as socket} from "../../consts/URLS"
 import {REST_REQUEST} from "../../consts/Events"
 import {TOKEN as token} from '../../consts/data'
 
-
 export const getUserPosts = (userId, updatePosts, handleErrorLoading) => {
 
   socket.emit(REST_REQUEST,

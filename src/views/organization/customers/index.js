@@ -1,60 +1,180 @@
 /*global __*/
 import React, {Component} from "react";
-import {createCustomer, deleteCustomer, updateCustomer} from '../../../crud/user/customers.js';
-import {OrganizationCustomers} from "./view";
-import {FrameCard, CategoryTitle} from "../../common/cards/Frames";
+import PropTypes from 'prop-types';
+import {Customer, CustomerItemWrapper} from "./view";
+import {CustomerCreateForm} from "./forms";
+import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper, ItemHeader} from "../../common/cards/Frames";
+import {createCustomer, deleteCustomer, updateCustomer} from '../../../crud/organization/customer.js';
+import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
+import {REST_REQUEST} from "../../../consts/Events"
+import {TOKEN} from "src/consts/data"
 
 export class CustomerContainer extends Component {
-
 	constructor(props){
 		super(props);
+		this.state={customer:props.customer}
 	}
 	componentWillReceiveProps(props){
-			const {certificate} = props;
-			this.setState ({...this.state ,certificate:certificate || {}});
+			const {customer} = props;
+			this.setState ({...this.state ,customer:customer || {}});
 	}
-	delete_ = (certificateId) => {
-		const {organizationId} = this.props;
-		return deleteCustomer({certificateId, organizationId});
+	delete_ = (customerId, hideEdit) => {	
+		const {organizationId, updateStateForView} = this.props;
+		updateStateForView(null,true,true);
+		return deleteCustomer(customerId, updateStateForView,hideEdit,organizationId);
 	};
-	update_ = (formValues, certificateId, updateStateForView, hideEdit) => {//formValues, careerId, updateStateForView, hideEdit
-		return updateCustomer(formValues,certificateId, updateStateForView, hideEdit);
+	update_ = (formValues, customerId, updateStateForView, hideEdit) => {//formValues, careerId, updateStateForView, hideEdit
+		updateStateForView(null,null,true);
+		return updateCustomer(formValues,customerId, updateStateForView, hideEdit);
 	};
 	_updateStateForView = (res, error, isLoading) => {
 		const {updateStateForView} = this.props;
 		updateStateForView({error:error,isLoading:isLoading});
-		this.setState({...this.state, certificate:res, error:error, isLoading:isLoading});
+		this.setState({...this.state, customer:res, error:error, isLoading:isLoading});
 	};
 
 	render() {
-		const {customer} = this.props;
-		return (
-			<OrganizationCustomers
-					customer={customer}
-					updateStateForView={this._updateStateForView}
-					deleteCertificate={this.delete_}
-					updateCertificate={this.update_}
-			/>
-		);
+		const {customer} = this.state;
+		return <Customer
+			customer={customer}
+			updateStateForView={this._updateStateForView}
+			deleteCustomer={this.delete_}
+			updateCustomer={this.update_}
+		/>; 
 	}
 }
 
-export class CustomerSection extends Component {
+export class CustomerList extends Component {
+	static propTypes = {
+			hideCreateForm: PropTypes.func.isRequired,
+			createForm: PropTypes.bool.isRequired,
+	};
+
+	create = (formValues,hideEdit) => {
+			const {organizationId, customerId, updateStateForView} = this.props;
+			return createCustomer(formValues, updateStateForView, hideEdit, organizationId);
+	};
+
 	render() {
-		const {customer} = this.props.viewer;
-		return (
-			<div>
-				<CategoryTitle
-					title={__('Customers')}
-					showCreateForm={this.showCreateForm}
-					createForm={true}
-				/>
-				<FrameCard>
-					<CustomerContainer
-						customer={customer}
-					/>
-				</FrameCard>
+		const {  organizationId, createForm, updateStateForView} = this.props;
+		var {customers} = this.props ;
+		return <ListGroup>
+			{createForm &&
+			<CustomerItemWrapper>
+					<CustomerCreateForm hideEdit={this.props.hideCreateForm} create={this.create} />
+			</CustomerItemWrapper>}
+			<div className="row align-items-left">
+			{
+				customers.map(customer => <CustomerContainer
+					customer={customer}
+					updateStateForView = {updateStateForView}
+					organizationId={organizationId}
+					key={customer.id}
+				/>)
+			}
 			</div>
-		);
+		</ListGroup>;
 	}
 }
+
+export class Customers extends Component {
+
+	constructor(props){
+		super(props);
+		this.state = {organization:{}, createForm: false,customers:{}, edit:false, isLoading:false, error:null, customers:[]};
+	}
+	static propTypes = {
+		organizationId: PropTypes.string.isRequired
+	};
+
+	componentDidMount(){
+		const {organizationId } = this.props;
+		const emitting = () => {
+			const newState = {...this.state, isLoading: true};
+			this.setState(newState);
+			socket.emit(REST_REQUEST,
+				{
+					method: "get",
+					url: `${url}/organizations/customers/?customer_organization=${organizationId}`,
+					result: `OrganizationCustomers-get/${organizationId}`,
+					token: TOKEN,
+				}
+			);
+
+			socket.emit(REST_REQUEST,
+        {
+          method: "get",
+          url: `${url}/organizations/${organizationId}/`,
+          result: `organization-Customers-get/${organizationId}`,
+          token: TOKEN
+        }
+			);
+			
+		};
+
+		emitting();
+
+		socket.on(`OrganizationCustomers-get/${organizationId}`, (res) => {
+			if (res.detail) {
+				const newState = {...this.state, error: res.detail, isLoading: false};
+				this.setState(newState);
+			}else{
+				const newState = {...this.state, customers: res instanceof Array ? res : [], isLoading: false};
+				this.setState(newState);
+			}
+
+		});
+		socket.on(`organization-Customers-get/${organizationId}`, (res) => {
+			if (res.detail) {
+				const newState = {...this.state, error: res.detail, isLoading: false};
+				this.setState(newState);
+			} else {
+				const newState = {...this.state, organization: res, isLoading: false};
+				this.setState(newState);
+			}
+		});
+
+		
+	}
+	showCreateForm = () => {
+			this.setState({createForm: true});
+	};
+	hideCreateForm = () => {
+			this.setState({createForm: false});
+	};
+	updateStateForView = (error,isLoading) =>{
+		this.setState({...this.state, error:error, isLoading:isLoading})
+	}
+
+	render() {
+		const {  organizationId, } = this.props;
+		const {createForm, customers, isLoading, error,organization} = this.state;
+		return (
+			<VerifyWrapper isLoading={isLoading} error={error}>
+				{
+					<div>
+						<CategoryTitle
+							title={__('Customers')}
+							showCreateForm={this.showCreateForm}
+							createForm={createForm}
+						/>
+						<FrameCard>
+							<CustomerItemWrapper>
+								<ItemHeader title={"ثبت شده توسط "+organization.official_name}/>
+							
+							<CustomerList
+								updateStateForView={this.updateStateForView}
+								customers={customers}
+								organizationId={organizationId}
+								createForm={createForm}
+								hideCreateForm={this.hideCreateForm}
+							/>
+							</CustomerItemWrapper>
+						</FrameCard>
+					</div>
+				}
+			</VerifyWrapper>
+		)
+	}
+}
+export default Customers;

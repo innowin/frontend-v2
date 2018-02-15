@@ -167,5 +167,13 @@ module.exports = {
 
   // Organization - customers
   'Registered By':"ثبت شده توسط شرکت ",
-  'Customers' :"مشتریان"
+  'Customers' :"مشتریان",
+
+  //User - Social
+  'Followers': "دنبال کننده ها",
+  'Followings': "دنبال شونده ها",
+  'Exchange' : 'بورس',
+  'Exchanges': 'بورس ها',
+  'Social': 'اجتماعی'
+  
 };

@@ -156,8 +156,9 @@ class Posts extends Component {
     this.state = {createForm: false, edit: false, isLoading: false, error: null, posts: [], user: {}, profile: {}};
   }
 
-  static propTypes = {
-    userId: PropTypes.string.isRequired
+
+  _delete = (postId, updateStateForView, hideEdit) => {
+    return deletePost(postId, updateStateForView, hideEdit);
   };
 
   _showCreateForm = () => {

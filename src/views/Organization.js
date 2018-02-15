@@ -1,14 +1,14 @@
 import React,{Component} from "react";
 import Certificates from "./organization/certificates/index";
 import ChatBar from "./bars/ChatBar";
-import Customers from "./organization/Customers";
+import Customers from "./organization/customers/index";
 import Posts from "./organization/posts/index";
-import Products from "./organization/Products";
+import Products from "./organization/products/index";
 import PropsRoute from "../consts/PropsRoute"
 import PropTypes from "prop-types";
 import Sidebar from "src/views/bars/SideBar";
 import Skills from "src/views/organization/skills/index";
-import Social from "./organization/Social";
+import Social from "src/views/organization/social/index";
 import TopBar from "./bars/TopBar";
 import {default as BasicInformation} from "./organization/basicInformation/index";
 import {NavLink , Switch, Redirect} from "react-router-dom";

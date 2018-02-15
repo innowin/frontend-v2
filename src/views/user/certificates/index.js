@@ -31,7 +31,6 @@ export class Certificate extends Component {
     this.setState({...this.state, isLoading: false, error: error});
   };
 
-
   _updateView = (res) => {
     this.setState({...this.state, certificate: res});
   };

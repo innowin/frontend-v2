@@ -72,7 +72,7 @@ export const deleteCertificate = (certificates, certificate, updateCertificates,
   const certificateId = certificate.id;
   socket.emit(REST_REQUEST,
     {
-      method: "del",
+      method: "delete",
       url: `${url}/users/certificates/${certificateId}/`,
       result: `deleteCertificate-delete/${certificateId}`,
       token: TOKEN

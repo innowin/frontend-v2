@@ -29,9 +29,9 @@ export class PostItemHeader extends Component {
         <div className="-item-titlePost">
           <span>
             {
-              ((postType === "post") && <i class="fa fa-share-alt" aria-hidden="true"></i>) ||
-              ((postType === "supply") && <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>) ||
-              ((postType === "demand") && <i class="fa fa-shopping-cart" aria-hidden="true"></i>)
+              ((postType === "post") && <i className="fa fa-share-alt" aria-hidden="true"></i>) ||
+              ((postType === "supply") && <i className="fa fa-cart-arrow-down" aria-hidden="true"></i>) ||
+              ((postType === "demand") && <i className="fa fa-shopping-cart" aria-hidden="true"></i>)
             }
           </span>
           <span className="mr-2">{name}</span>

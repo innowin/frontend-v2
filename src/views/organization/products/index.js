@@ -7,6 +7,7 @@ import {FrameCard, CategoryTitle, ListGroup} from "../../common/cards/Frames";
 import {createProduct, deleteProduct, updateProduct} from '../../../crud/organization/products.js';
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {REST_REQUEST} from "../../../consts/Events"
+import {IDENTITY_ID,TOKEN} from '../../../consts/data'
 
 //TODO amir
 export class ProductContainer extends Component {
@@ -28,9 +29,10 @@ export class ProductContainer extends Component {
 	};
 
 	render() {
-		const {product} = this.props;
+		const {product, categories} = this.props;
 		return <Product
 			product={product}
+			categories={categories}
 			updateStateForView={this._updateStateForView}
 			deleteProduct={this.delete_}
 			updateProduct={this.update_}
@@ -44,21 +46,22 @@ export class ProductList extends Component {
 		createForm: PropTypes.bool.isRequired,
 	};
 	create = (formValues,hideEdit) => {
-		const {organizationId, productId} = this.props;
-		return createProduct({formValues, organizationId, productId, hideEdit});
+		const {organizationId, productId, updateStateForView} = this.props;
+		return createProduct(formValues,updateStateForView, hideEdit);
 	};
 
 	render() {
 		const {  organizationId, createForm, updateStateForView} = this.props;
-		const {products} = this.props;
+		const {products, categories} = this.props;
 		return <ListGroup>
 			{createForm &&
 			<ProductItemWrapper>
-					<ProductCreateForm hideEdit={this.props.hideCreateForm} create={this.create} />
+					<ProductCreateForm hideEdit={this.props.hideCreateForm}  categories={categories} create={this.create} />
 			</ProductItemWrapper>}
 			{
 				products.map(cert => <ProductContainer
 					product={cert}
+					categories={categories}
 					updateStateForView = {updateStateForView}
 					organizationId={organizationId}
 					key={cert.id}
@@ -72,7 +75,7 @@ export class Products extends Component {
 
 	constructor(props){
 		super(props);
-		this.state = {createForm: false, edit:false, isLoading:false, error:null, products:[]};
+		this.state = {categories:[], createForm: false, edit:false, isLoading:false, error:null, products:[]};
 	}
 	static propTypes = {
 		organizationId: PropTypes.string.isRequired
@@ -86,16 +89,26 @@ export class Products extends Component {
 			socket.emit(REST_REQUEST,
 				{
 					method: "get",
-					url: `${url}/organizations/products/?product_organization=${organizationId}`,
-					result: `Products-get/${organizationId}`,
-					token: "",
+					url: `${url}/products/?product_owner=${IDENTITY_ID}`,
+					result: `Products-get/${IDENTITY_ID}`,
+					token: TOKEN,
 				}
 			);
+
+			socket.emit(REST_REQUEST,
+				{
+					method: "get",
+					url: `${url}/products/category/`,
+					result: `Products-category-get/`,
+					token: TOKEN,
+				}
+			);
+
 		};
 
 		emitting();
 
-		socket.on(`Products-get/${organizationId}`, (res) => {
+		socket.on(`Products-get/${IDENTITY_ID}`, (res) => {
 			if (res.detail) {
 				const newState = {...this.state, error: res.detail, isLoading: false};
 				this.setState(newState);
@@ -104,6 +117,17 @@ export class Products extends Component {
 				this.setState(newState);
 			}
 		});
+
+		socket.on(`Products-category-get/`, (res) => {
+			if (res.detail) {
+				const newState = {...this.state, error: res.detail, isLoading: false};
+				this.setState(newState);
+			}else{
+				const newState = {...this.state, categories: res, isLoading: false};
+				this.setState(newState);
+			}
+		});
+
 	}
 	showCreateForm = () => {
 		this.setState({createForm: true});
@@ -117,7 +141,7 @@ export class Products extends Component {
 
 	render() {
 		const {organizationId} = this.props;
-		const {createForm, products} = this.state;
+		const {createForm, products, categories} = this.state;
 		return (
 			<div>
 				<CategoryTitle
@@ -129,6 +153,7 @@ export class Products extends Component {
 					<ProductList
 						updateStateForView={this.updateStateForView}
 						products={products}
+						categories={categories}
 						organizationId={organizationId}
 						createForm={createForm}
 						hideCreateForm={this.hideCreateForm}
