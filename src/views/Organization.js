@@ -8,7 +8,7 @@ import PropsRoute from "../consts/PropsRoute"
 import PropTypes from "prop-types";
 import Sidebar from "src/views/bars/SideBar";
 import Skills from "src/views/organization/skills/index";
-import Social from "./organization/Social";
+import Social from "src/views/organization/social/index";
 import TopBar from "./bars/TopBar";
 import {default as BasicInformation} from "./organization/basicInformation/index";
 import {NavLink , Switch, Redirect} from "react-router-dom";
