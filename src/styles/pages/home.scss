@@ -1,5 +1,46 @@
 .home-wrapper {
-	background-image: url("../images/common/userOrganBackground.png");
-	background-repeat: no-repeat;
-	background-size: cover;
+  background-image: url("../images/common/userOrganBackground.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.-createPostHome {
+  display: flex;
+  flex-direction: row;
+  margin: 10px 5px;
+  height: 150px;
+  background-color: #F5F5F5;
+  border-radius: 3px;
+  padding: 15px 20px 15px 20px;
+
+  .-img-col {
+    img {
+      width: 45px;
+      height: 45px;
+    }
+  }
+
+  .-content-col{
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    margin-right: 20px;
+    background-color: white;
+    border-radius: 5px;
+    padding: 1px;
+  }
+
+  .-createPostFooter{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 20px;
+    div > i {
+      color: #C2C2C2;
+    }
+  }
+
+  textarea{
+    resize: none;
+  }
 }

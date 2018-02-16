@@ -16,61 +16,61 @@
   border-right: 0;
   border-left: 0;
   padding: 10px 5px;
+}
 
-  .-itemWrapperPost {
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 5px;
-    border: 1px solid #EEEEEE;
-    border-radius: 3px;
-    padding: 10px 20px 15px 20px;
+.-itemWrapperPost {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 5px;
+  border: 1px solid #EEEEEE;
+  border-radius: 3px;
+  padding: 10px 20px 15px 20px;
 
-    .-img-col {
-      img {
-        width: 45px;
-        height: 50px;
-      }
+  .-img-col {
+    img {
+      width: 45px;
+      height: 45px;
     }
-
-    .-content-col {
-      display: flex;
-      flex-grow: 1;
-      flex-direction: column;
-      margin-right: 20px;
-      .-item-headerPost {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 25px;
-        .-item-titlePost {
-          padding-top: 2px;
-          display: flex;
-          flex-direction: row;
-        }
-        .-item-edit-btnPost {
-          padding-top: 2px;
-          svg {
-            fill: #373737;
-            height: 16px;
-            width: 16px;
-          }
-        }
-        .-line-height {
-          line-height: 2.1;
-        }
-      }
-      .-item-footerPost {
-        display: flex;
-        flex-direction: row-reverse;
-        div {
-          margin-right: 20px;
-        }
-        span, i {
-          color: #C2C2C2;
-        }
-      }
-    }
-
   }
+
+  .-content-col {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    margin-right: 20px;
+    .-item-headerPost {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 25px;
+      .-item-titlePost {
+        padding-top: 2px;
+        display: flex;
+        flex-direction: row;
+      }
+      .-item-edit-btnPost {
+        padding-top: 2px;
+        svg {
+          fill: #373737;
+          height: 16px;
+          width: 16px;
+        }
+      }
+      .-line-height {
+        line-height: 2.1;
+      }
+    }
+    .-item-footerPost {
+      display: flex;
+      flex-direction: row-reverse;
+      div {
+        margin-right: 20px;
+      }
+      span, i {
+        color: #C2C2C2;
+      }
+    }
+  }
+
 }
 
 .-green2 {

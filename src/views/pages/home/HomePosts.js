@@ -1,10 +1,10 @@
-/*global __*/
 import React, {Component} from "react"
 import PropTypes from 'prop-types'
 import {getExchangePosts, createPost} from 'src/crud/user/post'
 import {FrameCard, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames"
 import {Post} from "../../user/posts"
 import {getExchanges} from "../../../crud/exchange/exchange";
+import HomeCreatePost from "./CreatPostHome";
 
 
 class HomePosts extends Component {
@@ -78,7 +78,7 @@ class HomePosts extends Component {
     const posts = [...new Set(this.state.posts)];
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
-        <h1>this is create post</h1>
+        <HomeCreatePost/>
         <FrameCard className="-frameCardPost border-top-0">
           <ListGroup>
             {
