@@ -67,7 +67,7 @@ class ChatBar extends Component {
 						<MainChatBar tab={tab}/>
 					</div>
 					<div className="col-1 d-flex flex-column align-items-end -my-icons1">
-						{(tab==='dashboard') ? <Link onClick={this._handleDashboard} className="active" to="#" ><FontAwesome className="dashboard-icon" name="dashboard"/></Link> : <Link onClick={this._handleDashboard} to="#"><FontAwesome className="dashboard-icon" name="dashboard"/></Link>}
+						{(tab==='dashboard') ? <Link className="active" to="exchange/Exchange_Explorer" ><FontAwesome className="dashboard-icon" name="dashboard"/></Link> : <Link  to="exchange/Exchange_Explorer" ><FontAwesome className="dashboard-icon" name="dashboard"/></Link>}
 						{(tab==='map') ? <Link onClick={this._handleMap} className="active" to="#" ><FontAwesome className="map-icon" name="map-o"/></Link> : <Link  onClick={this._handleMap} to="#"><FontAwesome className="map-icon" name="map-o"/></Link>}
 						{(tab==='chat') ? <Link onClick={this._handleChat} className="active" to="#"><FontAwesome className="chat-icon" name="comments"/></Link> :  <Link onClick={this._handleChat} to="#"><FontAwesome className="chat-icon" name="comments"/></Link> }
 					</div>
