@@ -1,3 +1,4 @@
+$heightOfContentBox: 140px;
 .home-wrapper {
   background-image: url("../images/common/userOrganBackground.png");
   background-repeat: no-repeat;
@@ -8,16 +9,13 @@
   display: flex;
   flex-direction: row;
   margin: 10px 5px;
-  height: 150px;
   background-color: #F5F5F5;
   border-radius: 3px;
   padding: 15px 20px 15px 20px;
 
   .-img-col {
-    img {
       width: 45px;
       height: 45px;
-    }
   }
 
   .-content-col{
@@ -28,6 +26,23 @@
     background-color: white;
     border-radius: 5px;
     padding: 1px;
+    .-createPostInput {
+      flex: 1;
+      outline: none;
+      border: 0;
+      width: 80%;
+      height: $heightOfContentBox;
+      float: right;
+    }
+    .-img-content {
+      height: $heightOfContentBox;
+      margin: 0 auto 0 0;
+      display: flex;
+      flex-direction: column;
+      img{
+        height: 90%;
+      }
+    }
   }
 
   .-createPostFooter{
@@ -35,8 +50,18 @@
     flex-direction: row;
     justify-content: space-between;
     padding: 10px 20px;
-    div > i {
+
+    .-submitAttach i{
+      color: #929292;
+    }
+
+    i {
       color: #C2C2C2;
+    }
+
+    i:hover{
+      color: #32485D;
+      cursor: pointer;
     }
   }
 
