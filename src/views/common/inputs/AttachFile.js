@@ -14,6 +14,7 @@ class AttachFile extends Component {
     customValidate: PropTypes.func,
     // TODO mohsen: fileType: PropTypes.arrayOf(PropTypes.string.isRequired),
     // TODO mohsen: fileSize
+    getMedia: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -24,6 +25,7 @@ class AttachFile extends Component {
   _createFile = (fileString, fileName) => {
     const mediaResult = (res) => {
       this.setState({...this.state, isLoading: false, fileName, media:res});
+      this.props.getMedia(res, fileName)
     };
     createFile(fileString, mediaResult);
   };
@@ -49,6 +51,7 @@ class AttachFile extends Component {
 
   _onChangeClick = () => {
     this.setState({...this.state, isLoading: false, fileName:'', media:{}});
+    this.props.getMedia({}, '')
   };
 
   _validateFile = (file) => {

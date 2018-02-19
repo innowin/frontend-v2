@@ -1,9 +1,9 @@
 import React, {Component} from "react"
 import PropTypes from 'prop-types'
-import {getExchangePosts, createPost} from 'src/crud/user/post'
+import {getExchangePosts} from 'src/crud/user/post'
 import {FrameCard, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames"
 import {Post} from "../../user/posts"
-import {getExchanges} from "../../../crud/exchange/exchange";
+import {getExchangeIdentities} from "../../../crud/exchange/exchange";
 import HomeCreatePost from "./CreatPostHome";
 
 
@@ -16,7 +16,10 @@ class HomePosts extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {createForm: false, edit: false, isLoading: false, error: null, posts: [], user: {}, profile: {}};
+    this.state = {
+      createForm: false, edit: false, isLoading: false, error: null, posts: [], user: {}, profile: {},
+      exchangeId: this.props.exchangeId
+    };
   }
 
   _handleErrorLoading = (error = false) => {
@@ -44,27 +47,26 @@ class HomePosts extends Component {
     getExchangePosts(exchangeId, this._updatePosts, this._handleErrorLoading);
   };
 
-  _create = (formValues) => {
-    this.setState({...this.state, isLoading: true});
-    createPost(formValues, this._updatePosts, this._handleErrorLoading, this._hideCreateForm);
-  };
 
   _getFirstExchangeId = (identity) => {
     const _handleResult = (res) => {
       if (res) {
-        this._getExchangePosts(res[0].id);
+        const exchangeId = res[0].exchange_identity_related_exchange.id;
+        this.setState({...this.state, exchangeId});
+        this._getExchangePosts(exchangeId);
       }
     };
-    getExchanges(identity, _handleResult);
+    getExchangeIdentities(identity, _handleResult);
   };
 
   componentDidMount() {
     this._getFirstExchangeId(this.props.identity);
   }
 
-  componentWillReceiveProps() {
-    const {exchangeId} = this.props;
+  componentWillReceiveProps(nextProps) {
+    let {exchangeId} = nextProps;
     if (exchangeId) {
+      this.setState({...this.state, exchangeId});
       this._getExchangePosts(exchangeId);
     }
   }
@@ -74,11 +76,13 @@ class HomePosts extends Component {
   }
 
   render() {
-    const {isLoading, error} = this.state;
+    const {isLoading, error, exchangeId} = this.state;
+    console.log("exchangeId", exchangeId);
     const posts = [...new Set(this.state.posts)];
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
-        <HomeCreatePost/>
+        <HomeCreatePost updatePosts={this._updatePosts} postParent={exchangeId}
+                        handleErrorLoading={this._handleErrorLoading}/>
         <FrameCard className="-frameCardPost border-top-0">
           <ListGroup>
             {

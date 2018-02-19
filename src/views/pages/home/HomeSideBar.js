@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types'
 import FontAwesome from 'react-fontawesome';
-import {SOCKET as socket} from "../../../consts/URLS";
-import {getExchanges} from "../../../crud/exchange/exchange";
+import {SOCKET as socket} from "src/consts/URLS";
+import {getExchangeIdentities} from "src/crud/exchange/exchange";
 
 export const SideBarItem = ({name, image, exchange_id: id, handleClick, active}) => {
 
@@ -29,7 +29,7 @@ export default class HomeSideBar extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {activeId: null, exchanges:[]}
+    this.state = {activeId: null, exchangeIdentities:[]}
   }
 
   _handleClick = (id) => {
@@ -38,29 +38,29 @@ export default class HomeSideBar extends Component {
     get_exchangeId(id);
   };
 
-  _getExchanges = (identity) => {
+  _getExchangeIdentities = (identity) => {
     const _handleResult = (res) => {
-      this.setState({...this.state, exchanges: res })
+      this.setState({...this.state, exchangeIdentities: res})
     };
-    getExchanges(identity, _handleResult);
+    getExchangeIdentities(identity, _handleResult);
   }
   ;
   componentDidMount(){
-    this._getExchanges(this.props.identity)
+    this._getExchangeIdentities(this.props.identity)
   }
 
   componentWillUnmount () {
     socket.off("EXCHANGE_LIST_HOME_SIDEBAR", res => {
-      this.setState({...this.state, exchanges: res});
+      this.setState({...this.state, exchangeIdentities: res});
     });
   }
 
   render() {
-    const {exchanges} = this.state;
+    const {exchangeIdentities} = this.state;
     return (
       <div>
         {
-          exchanges.map((item, i) => {
+          exchangeIdentities.map((item, i) => {
             const {name, exchange_image: image, description, id} = item.exchange_identity_related_exchange;
             const {activeId} = this.state;
             return (
