@@ -5,6 +5,7 @@ import User from './User';
 import Exchange from './Exchange';
 import Organization from './Organization';
 import {Switch} from 'react-router-dom';
+import Product from './Product';
 
 class Layout extends Component {
 	constructor(props) {
@@ -20,6 +21,7 @@ class Layout extends Component {
 					<PropsRoute path="/user/:id" component={User} handleSignOut={handleSignOut}/>
 					<PropsRoute path="/organization/:id" component={Organization} handleSignOut={handleSignOut}/>
 					<PropsRoute path="/exchange" component={Exchange} handleSignOut={handleSignOut}/>
+					<PropsRoute path="/product" component={Product} handleSignOut={handleSignOut}/>
 				</Switch>
 		)
 	}
