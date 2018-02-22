@@ -11,10 +11,52 @@ import {IDENTITY_ID,TOKEN} from '../../../consts/data'
 
 //TODO amir
 export class ProductContainer extends Component {
-		componentWillReceiveProps(props){
-			const {product} = props;
-			this.setState ({...this.state ,product:product});
+	constructor(props){
+		super(props);
+		this.state={picture:{}}
 	}
+	componentWillReceiveProps(props){
+		const {product} = props;
+		this.setState ({...this.state ,product:product});
+	}
+
+	componentDidMount(){
+		const {product} = this.props;
+		socket.emit(REST_REQUEST,
+			{
+				method: "get",
+				url: `${url}/products/pictures/?picture_product=${product.id}`,
+				result: `Product-picture-get`,
+				token: TOKEN,
+			}
+		);
+
+		socket.emit(REST_REQUEST,
+			{
+				method: "get",
+				url: `${url}/products/prices/?price_product=${product.id}`,
+				result: `Product-price-get`,
+				token: TOKEN,
+			}
+		);
+		
+		socket.on('Product-price-get',(res)=>{
+			if(res.detail){
+
+			}else{
+				this.setState({...this.state, price:res})
+			}
+		})
+
+		socket.on('Product-picture-get',(res)=>{
+			if(res.detail){
+
+			}else{
+				this.setState({...this.state, picture:res})
+			}
+		})
+	}
+
 	delete_ = (productId) => {
 		const {organizationId} = this.props;
 		return deleteProduct({productId, organizationId});
@@ -29,9 +71,14 @@ export class ProductContainer extends Component {
 	};
 
 	render() {
-		const {product, categories} = this.props;
+		const {product, categories, organization} = this.props;
+		const {picture, price} = this.state;
 		return <Product
+			organization={organization}
+			price={price}
+			picture={picture}
 			product={product}
+			
 			categories={categories}
 			updateStateForView={this._updateStateForView}
 			deleteProduct={this.delete_}
@@ -51,7 +98,7 @@ export class ProductList extends Component {
 	};
 
 	render() {
-		const {  organizationId, createForm, updateStateForView} = this.props;
+		const {  organizationId, createForm, updateStateForView, organization} = this.props;
 		const {products, categories} = this.props;
 		return <ListGroup>
 			{createForm &&
@@ -60,6 +107,7 @@ export class ProductList extends Component {
 			</ProductItemWrapper>}
 			{
 				products.map(cert => <ProductContainer
+					organization={organization}
 					product={cert}
 					categories={categories}
 					updateStateForView = {updateStateForView}
@@ -75,7 +123,7 @@ export class Products extends Component {
 
 	constructor(props){
 		super(props);
-		this.state = {categories:[], createForm: false, edit:false, isLoading:false, error:null, products:[]};
+		this.state = {organization:{}, categories:[], createForm: false, edit:false, isLoading:false, error:null, products:[]};
 	}
 	static propTypes = {
 		organizationId: PropTypes.string.isRequired
@@ -104,17 +152,35 @@ export class Products extends Component {
 				}
 			);
 
+			socket.emit(REST_REQUEST,
+				{
+					method: "get",
+					url: `${url}/organizations/${organizationId}/`,
+					result: `Products-organization-get`,
+					token: TOKEN,
+				}
+			);
 		};
 
 		emitting();
-
+		socket.on('Products-organization-get',(res)=>{
+			if (res.detail) {
+				const newState = {...this.state, error: res.detail, isLoading: false};
+				this.setState(newState);
+			}else{
+				const newState = {...this.state, organization: res, isLoading: false};
+				this.setState(newState, ()=>{
+				});
+			}
+		})
 		socket.on(`Products-get/${IDENTITY_ID}`, (res) => {
 			if (res.detail) {
 				const newState = {...this.state, error: res.detail, isLoading: false};
 				this.setState(newState);
 			}else{
 				const newState = {...this.state, products: res, isLoading: false};
-				this.setState(newState);
+				this.setState(newState, ()=>{
+				});
 			}
 		});
 
@@ -129,6 +195,7 @@ export class Products extends Component {
 		});
 
 	}
+
 	showCreateForm = () => {
 		this.setState({createForm: true});
 	};
@@ -140,8 +207,8 @@ export class Products extends Component {
 	}
 
 	render() {
-		const {organizationId} = this.props;
-		const {createForm, products, categories} = this.state;
+		const {organizationId } = this.props;
+		const {createForm, products, categories, organization} = this.state;
 		return (
 			<div>
 				<CategoryTitle
@@ -154,6 +221,7 @@ export class Products extends Component {
 						updateStateForView={this.updateStateForView}
 						products={products}
 						categories={categories}
+						organization={organization}
 						organizationId={organizationId}
 						createForm={createForm}
 						hideCreateForm={this.hideCreateForm}
