@@ -24,21 +24,16 @@ export class ProductView extends Component {
 	render() {
 		const {product, showEdit, organization, picture, price} = this.props;
 		return (
-			<ProductItemWrapper>
-					{/* <ItemHeader title={product.name} showEdit={this.showEdit}/> */}
-					<Field>
-						<FieldValue value={product.name}/>
-					</Field>
-					<Field>
-						<img src={picture.picture_media || "/static/media/defaultImg.94a29bce.png"} />
-					</Field>
-					<Field>
-						<FieldValue value={organization.official_name}/>
-					</Field>
-					<Field>
-						<FieldValue value={product.product_category.name}/>
-					</Field>
-			</ProductItemWrapper>
+			<div className="col-6 organizationProduct">
+				<div className=" productBox">
+						{/* <ItemHeader title={product.name} showEdit={this.showEdit}/> */}
+							<div className="d-block m-2">{product.name}</div>
+							<img src={picture.picture_media || "/static/media/defaultImg.94a29bce.png"} />
+							<div className="d-block m-2">{organization.official_name}</div>
+							<div>قیمت:</div><span className="d-block m-2">{price.value}</span>
+							<span className="m-2 badge badge-secondary"> {product.product_category.name} </span>
+				</div>
+			</div>
 			)
 	}
 }

@@ -3,11 +3,14 @@ import React, {Component} from "react";
 import PropTypes from 'prop-types';
 import {Product, ProductItemWrapper} from "./view";
 import {ProductCreateForm} from "./forms";
-import {FrameCard, CategoryTitle, ListGroup} from "../../common/cards/Frames";
+import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper, ItemWrapper, ItemHeader} from "../../common/cards/Frames";
 import {createProduct, deleteProduct, updateProduct} from '../../../crud/organization/products.js';
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {REST_REQUEST} from "../../../consts/Events"
 import {IDENTITY_ID,TOKEN} from '../../../consts/data'
+import {postIcon} from "src/images/icons";
+
+
 
 //TODO amir
 export class ProductContainer extends Component {
@@ -100,22 +103,27 @@ export class ProductList extends Component {
 	render() {
 		const {  organizationId, createForm, updateStateForView, organization} = this.props;
 		const {products, categories} = this.props;
-		return <ListGroup>
-			{createForm &&
-			<ProductItemWrapper>
-					<ProductCreateForm hideEdit={this.props.hideCreateForm}  categories={categories} create={this.create} />
-			</ProductItemWrapper>}
-			{
-				products.map(cert => <ProductContainer
-					organization={organization}
-					product={cert}
-					categories={categories}
-					updateStateForView = {updateStateForView}
-					organizationId={organizationId}
-					key={cert.id}
-				/>)
-			}
-		</ListGroup>;
+		return (<div>
+				{createForm &&
+				
+						<ProductCreateForm hideEdit={this.props.hideCreateForm}  categories={categories} create={this.create} />
+				}
+				
+				<div className="row">
+					{
+						
+						products.map(cert => <ProductContainer
+							organization={organization}
+							product={cert}
+							categories={categories}
+							updateStateForView = {updateStateForView}
+							organizationId={organizationId}
+							key={cert.id}
+						/>)
+					}
+				</div>
+			</div>
+		)
 	}
 }
 
@@ -207,27 +215,30 @@ export class Products extends Component {
 	}
 
 	render() {
-		const {organizationId } = this.props;
-		const {createForm, products, categories, organization} = this.state;
+		const {organizationId, } = this.props;
+		const {createForm, products, categories, organization, edit} = this.state;
 		return (
-			<div>
+			<VerifyWrapper isLoading={false} error={false}>
 				<CategoryTitle
 					title={__('Products')}
 					showCreateForm={this.showCreateForm}
 					createForm={createForm}
 				/>
 				<FrameCard>
-					<ProductList
-						updateStateForView={this.updateStateForView}
-						products={products}
-						categories={categories}
-						organization={organization}
-						organizationId={organizationId}
-						createForm={createForm}
-						hideCreateForm={this.hideCreateForm}
-					/>
+					<ProductItemWrapper>
+						<ItemHeader title="" showEdit={edit}/>
+						<ProductList
+							updateStateForView={this.updateStateForView}
+							products={products}
+							categories={categories}
+							organization={organization}
+							organizationId={organizationId}
+							createForm={createForm}
+							hideCreateForm={this.hideCreateForm}
+						/>
+					</ProductItemWrapper>
 				</FrameCard>
-			</div>
+				</VerifyWrapper>
 		)
 	}
 }
