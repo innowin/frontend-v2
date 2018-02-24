@@ -2,7 +2,7 @@
 import React, {Component} from "react";
 import PropTypes from 'prop-types';
 import {Product, ProductItemWrapper} from "./view";
-import {ProductCreateForm} from "./forms";
+import {ProductCreateForm, ProductEditForm} from "./forms";
 import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper, ItemWrapper, ItemHeader} from "../../common/cards/Frames";
 import {createProduct, deleteProduct, updateProduct} from '../../../crud/organization/products.js';
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
@@ -16,7 +16,7 @@ import {postIcon} from "src/images/icons";
 export class ProductContainer extends Component {
 	constructor(props){
 		super(props);
-		this.state={picture:{}}
+		this.state={picture:{},edit:false}
 	}
 	componentWillReceiveProps(props){
 		const {product} = props;
@@ -60,6 +60,12 @@ export class ProductContainer extends Component {
 		})
 	}
 
+	showEdit(){
+		this.setState({...this.state, edit:true});
+	}
+	hideEdit(){
+		this.setState({...this.state, edit:false});
+	}
 	delete_ = (productId) => {
 		const {organizationId} = this.props;
 		return deleteProduct({productId, organizationId});
@@ -74,19 +80,22 @@ export class ProductContainer extends Component {
 	};
 
 	render() {
-		const {product, categories, organization} = this.props;
-		const {picture, price} = this.state;
-		return <Product
-			organization={organization}
-			price={price}
-			picture={picture}
-			product={product}
-			
-			categories={categories}
-			updateStateForView={this._updateStateForView}
-			deleteProduct={this.delete_}
-			updateProduct={this.update_}
-		/>;
+		const {categories, organization} = this.props;
+		const {picture, price, edit} = this.state;
+		let product = this.props.product || this.state.product;
+
+		return(<Product
+				showEdit={this.showEdit}
+				hideEdit={this.hideEdit}
+				organization={organization}
+				price={price}
+				picture={picture}
+				product={product}
+				categories={categories}
+				updateStateForView={this._updateStateForView}
+				deleteProduct={this.delete_}
+				updateProduct={this.update_}
+			/>)	
 	}
 }
 
@@ -215,10 +224,10 @@ export class Products extends Component {
 	}
 
 	render() {
-		const {organizationId, } = this.props;
-		const {createForm, products, categories, organization, edit} = this.state;
+		const {organizationId} = this.props;
+		const {createForm, products, categories, organization, edit, isLoading, error} = this.state;
 		return (
-			<VerifyWrapper isLoading={false} error={false}>
+			<VerifyWrapper isLoading={isLoading} error={error}>
 				<CategoryTitle
 					title={__('Products')}
 					showCreateForm={this.showCreateForm}
@@ -226,7 +235,7 @@ export class Products extends Component {
 				/>
 				<FrameCard>
 					<ProductItemWrapper>
-						<ItemHeader title="" showEdit={edit}/>
+						
 						<ProductList
 							updateStateForView={this.updateStateForView}
 							products={products}
