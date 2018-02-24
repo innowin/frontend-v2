@@ -5,6 +5,8 @@ import {defaultImg} from "src/images/icons";
 import AttachFile from "src/views/common/inputs/AttachFile";
 import {createPost} from "../../../crud/user/post";
 import cx from 'classnames';
+import {SupplyIcon, DemandIcon} from "src/images/icons";
+import {IDENTITY_ID} from "../../../consts/data";
 
 class CreatePostFooter extends Component {
 
@@ -29,6 +31,10 @@ class CreatePostFooter extends Component {
     return this.state.postType
   };
 
+  _reset_postType = () => {
+    this.setState({...this.state, postType: 'post'})
+  };
+
   _handle_post_type = (e) => {
     e.preventDefault();
     this.setState({...this.state, postType: e.target.id});
@@ -36,15 +42,18 @@ class CreatePostFooter extends Component {
 
   render() {
     const {postType} = this.state;
-    const supply = postType === 'supply';
-    const demand = postType === 'demand';console.log(supply, demand)
+    const supplyMark = postType === 'supply';
+    const demandMark = postType === 'demand';
+    const postMark = postType === 'post';
     return (
       <div className="-createPostFooter">
         <div>
-          <i className={cx("fa fa-cart-arrow-down", {"-selectedPostType": supply})} aria-hidden="true" id='supply'
+          <i className={cx("fa fa-share-alt", {'-selectedPostType': postMark})} aria-hidden="true" id='post'
              onClick={this._handle_post_type}></i>
-          <i className={cx("fa fa-shopping-cart mr-3", {"-selectedPostType": demand})} aria-hidden="true" id='demand'
-             onClick={this._handle_post_type}></i>
+          <SupplyIcon height="22px" className={cx("mr-3", {'-selectedPostType': supplyMark})}
+                      onClickFunc={this._handle_post_type} id='supply'/>
+          <DemandIcon height="22px" className={cx("-viewDemand-icon mr-2", {'-selectedPostType': demandMark})}
+                      onClickFunc={this._handle_post_type} id='demand'/>
         </div>
         <div>
           <AttachFile
@@ -76,7 +85,7 @@ class HomeCreatePost extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {media: {}, fileName: '', description: '', descriptionValidate: true}
+    this.state = {media: {}, fileName: '', description: '', descriptionValidate: false}
   }
 
   _getValues = () => {
@@ -87,7 +96,8 @@ class HomeCreatePost extends Component {
       post_description: this.state.description,
       post_title: 'title',
       post_type: this.createPostFooter._post_type(),
-      post_parent: this.props.postParent
+      post_parent: this.props.postParent,
+      post_user: IDENTITY_ID
     }
   };
 
@@ -111,7 +121,8 @@ class HomeCreatePost extends Component {
   };
 
   _hideCreateForm = () => {
-    this.setState({...this.state, media: {}, fileName: '', description: ''})
+    this.setState({...this.state, media: {}, fileName: '', description: ''});
+    this.createPostFooter._reset_postType()
   };
 
   _save = () => {
@@ -145,7 +156,7 @@ class HomeCreatePost extends Component {
         <img className="-img-col rounded-circle" src={profile_media_file || defaultImg} alt=""/>
         <div className="-content-col">
           <div className="d-flex flex-row mb-2">
-            <textarea className="-createPostInput" onChange={this._handleChange}>{description}</textarea>
+            <textarea className="-createPostInput" onChange={this._handleChange} value={description}/>
             <div className="-img-content text-center">
               {(media.file) ? <img src={media.file} alt="imagePreview"/> : ('')}
               <span style={{color: "#BFBFBF"}}>{fileName}</span>

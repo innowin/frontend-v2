@@ -14,11 +14,11 @@ $heightOfContentBox: 140px;
   padding: 15px 20px 15px 20px;
 
   .-img-col {
-      width: 45px;
-      height: 45px;
+    width: 45px;
+    height: 45px;
   }
 
-  .-content-col{
+  .-content-col {
     display: flex;
     flex-grow: 1;
     flex-direction: column;
@@ -39,37 +39,64 @@ $heightOfContentBox: 140px;
       margin: 0 auto 0 0;
       display: flex;
       flex-direction: column;
-      img{
+      img {
         height: 90%;
       }
     }
   }
 
-  .-createPostFooter{
+  .-createPostFooter {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     padding: 10px 20px;
 
-    .-submitAttach i{
+    .-submitAttach i {
       color: #929292;
     }
 
     i {
       color: #C2C2C2;
+      font-size: 22px;
     }
 
-    i:hover{
+    i:hover {
       color: #32485D;
       cursor: pointer;
     }
+
+    svg:hover {
+      cursor: pointer;
+    }
+
+    svg path {
+      fill: #C2C2C2;
+    }
+
+    svg:hover path {
+      fill: #32485D;
+    }
   }
 
-  textarea{
+  textarea {
     resize: none;
   }
 }
 
+.-viewDemand-icon {
+  margin-top: 2px;
+  margin-right: -8px;
+}
+
+.-rectSvg {
+  fill-opacity:0;
+  stroke-opacity:0;
+}
+
 .-selectedPostType {
-  color: red;
+  color: #32485D !important;
+}
+
+.-selectedPostType path{
+  fill: #32485D !important;
 }

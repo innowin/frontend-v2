@@ -8,6 +8,8 @@ import {SOCKET as socket} from "src/consts/URLS";
 import {TOKEN} from "src/consts/data";
 import {VerifyWrapper} from "src/views/common/cards/Frames";
 import {getFile} from "../../../crud/media/media";
+import {SupplyIcon,DemandIcon} from "src/images/icons";
+import cx from 'classnames';
 
 
 export class PostItemWrapper extends Component {
@@ -31,14 +33,17 @@ export class PostItemHeader extends Component {
 
   render() {
     const {name, showEdit, username, post} = this.props;
+    const supplyIcon = post.post_type === 'supply';
+    const demandIcon = post.post_type === 'demand';
+    const postIcon = post.post_type === 'post';
     return (
       <div className="-item-headerPost">
         <div className="-item-titlePost">
-          <span>
+          <span className={cx("", {'-viewDemand-icon': demandIcon})}>
             {
-              ((post.post_type === "post") && <i class="fa fa-share-alt" aria-hidden="true"></i>) ||
-              ((post.post_type === "supply") && <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>) ||
-              ((post.post_type === "demand") && <i class="fa fa-shopping-cart" aria-hidden="true"></i>)
+              ((postIcon) && <i class="fa fa-share-alt" aria-hidden="true"></i>) ||
+              ((supplyIcon) && <SupplyIcon height="22px"/>) ||
+              ((demandIcon) && <DemandIcon height="22px"/>)
             }
           </span>
           <span className="mr-2">{name}</span>

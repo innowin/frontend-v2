@@ -10,6 +10,8 @@ import starIcon from "./common/star.svg"
 import userInfoIcon from "./user/userinfo.svg.js"
 import workExperienceIcon from "./user/workExperience.svg"
 import logoDaneshBoom from "./common/logoWhite.png"
+import SupplyIcon from "./common/supply.svg.js"
+import DemandIcon from "./common/demand.svg.js"
 
 
 export {
@@ -25,4 +27,6 @@ export {
 	defaultImg,
   logoDaneshBoom,
   organLogo,
+  SupplyIcon,
+  DemandIcon,
 }
