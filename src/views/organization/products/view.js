@@ -22,27 +22,18 @@ export class ProductView extends Component {
 	};
 
 	render() {
-		const {product, showEdit} = this.props;
+		const {product, showEdit, organization, picture, price} = this.props;
 		return (
-			<ProductItemWrapper>
-					<ItemHeader title={product.name} showEdit={this.showEdit}/>
-					<Field>
-						<FieldLabel label={__('Country') + ": "}/>
-						<FieldValue value={product.country}/>
-					</Field>
-					<Field>
-						<FieldLabel label={__('Province') + ": "}/>
-						<FieldValue value={product.province}/>
-					</Field>
-					<Field>
-						<FieldLabel label={__('City') + ": "}/>
-						<FieldValue value={product.city}/>
-					</Field>
-					<Field>
-						<FieldLabel label={__('Description') + ": "}/>
-						<FieldValue value={product.description}/>
-					</Field>
-			</ProductItemWrapper>
+			<div className="col-6 organizationProduct">
+				<div className=" productBox">
+						{/* <ItemHeader title={product.name} showEdit={this.showEdit}/> */}
+							<div className="d-block m-2">{product.name}</div>
+							<img src={picture.picture_media || "/static/media/defaultImg.94a29bce.png"} />
+							<div className="d-block m-2">{organization.official_name}</div>
+							<div>قیمت:</div><span className="d-block m-2">{price.value}</span>
+							<span className="m-2 badge badge-secondary"> {product.product_category.name} </span>
+				</div>
+			</div>
 			)
 	}
 }
@@ -64,7 +55,8 @@ export class Product extends Component {
 		deleteProduct: PropTypes.func.isRequired,
 		product: PropTypes.object.isRequired,
 		updateStateForView:PropTypes.func.isRequired,
-		categories:PropTypes.array.isRequired
+		categories:PropTypes.array.isRequired,
+		picture:PropTypes.object.isRequired
 	};
 
 	showEdit = () => {
@@ -82,9 +74,13 @@ export class Product extends Component {
 
 	render() {
 		const {product, categories} = this.state;
+		const{picture, price, organization} = this.props;
 		if (this.state.edit) {
 			return <ProductItemWrapper>
 				<ProductEditForm
+					picture = {picture}
+					price ={picture}
+					organization={organization}
 					product = {product}
 					categories={categories}
 					hideEdit = {this.hideEdit}
@@ -94,6 +90,6 @@ export class Product extends Component {
 				/>
 			</ProductItemWrapper>;
 		}
-		return <ProductView product={product} showEdit={this.showEdit}/>;
+		return <ProductView organization={organization} picture={picture} price={picture} product={product} showEdit={this.showEdit}/>;
 	}
 }
