@@ -2,6 +2,7 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {createFile} from "../../../crud/media/media";
+import {attachFileIcon} from "src/images/icons";
 
 class AttachFile extends Component {
   static defaultProps = {
@@ -88,7 +89,8 @@ class AttachFile extends Component {
     return (
       <span>
         <label for="file">
-          <i class="fa fa-paperclip" aria-hidden="true"></i>
+          {/*// TODO mohsen: improve place of attach icon*/}
+          {attachFileIcon("-h18")}
         </label>
         <input
           type="file"

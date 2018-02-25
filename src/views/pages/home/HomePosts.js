@@ -77,7 +77,6 @@ class HomePosts extends Component {
 
   render() {
     const {isLoading, error, exchangeId} = this.state;
-    console.log("exchangeId", exchangeId);
     const posts = [...new Set(this.state.posts)];
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
