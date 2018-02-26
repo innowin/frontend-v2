@@ -3,12 +3,14 @@ import {Collapse} from "reactstrap"
 import {defaultImg, logoDaneshBoom, exchangeIcon, socialIcon, contributionIcon, notificationIcon} from "src/images/icons"
 import {ID} from "src/consts/data"
 import {Link} from "react-router-dom"
+import {getProfile} from "src/crud/user/profile";
+import {getFile} from "../../crud/media/media";
 
 class TopBar extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {isSignedOut: false, collapse: false}
+    this.state = {isSignedOut: false, collapse: false, profileMedia:defaultImg}
   }
 
   _toggle = (e) => {
@@ -16,8 +18,27 @@ class TopBar extends Component {
     this.setState({...this.state, collapse: !this.state.collapse})
   };
 
+  _getProfileMedia = (res) => {
+    const mediaId = res.profile_media;
+    if(mediaId){
+      const mediaResult = (res) => {
+        this.setState({...this.state, profileMedia:res.file})
+      };
+      getFile(mediaId, mediaResult)
+    }
+  };
+
+  componentDidMount() {
+    getProfile(ID, this._getProfileMedia)
+  }
+
+  componentWillUnmount() {
+  // TODO mohsen: socket.off
+  }
+
   render() {
     const {handleSignOut} = this.props;
+    const {profileMedia} = this.state;
     return (
       <div>
         <nav className="navbar flex-row justify-content-between p-0 -white-i fixed-top -topBarHeight"
@@ -34,7 +55,7 @@ class TopBar extends Component {
           </div>
           <img className="-centerInDad-img" src={logoDaneshBoom} alt="profile_img" style={{maxHeight: "40px"}}/>
           <div className="dir-ltr d-flex flex-row">
-            <img className="-ProfTopBarImg" src={defaultImg} alt="Person icon"/>
+            <img className="-ProfTopBarImg" src={profileMedia} alt="Person icon"/>
             <div className="ml-4 -searchInput d-flex align-items-center">
               <i className="fa fa-search" aria-hidden="true"></i>
               <input type="text" name="search" dir="auto" style={{color:"white"}}
