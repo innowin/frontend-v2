@@ -52,7 +52,7 @@ export const createPost = (formValues, updatePosts, handleErrorLoading, hideCrea
       method: "post",
       url: `${url}/base/posts/`,
       result: 'createPost-post',
-      data: {...formValues, post_user: 6, post_parent: 6},
+      data: {...formValues},
       token
     }
   );

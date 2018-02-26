@@ -7,6 +7,7 @@ import {SelectComponent} from '../../common/SelectComponent';
 import {TextareaInput} from "../../common/inputs/TextareaInput";
 import {TextInput} from "../../common/inputs/TextInput";
 import {FileInput} from "src/views/common/inputs/FileInput";
+import {IDENTITY_ID} from "src/consts/data";
 
 
 export class PostForm extends Component {
@@ -24,6 +25,8 @@ export class PostForm extends Component {
       post_description: this.postDescriptionInput.getValue(),
       post_pinned: this.postPinnedInput.getValue(),
       post_picture: mediaId,
+      post_parent: IDENTITY_ID,
+      post_user: IDENTITY_ID
     };
   };
 

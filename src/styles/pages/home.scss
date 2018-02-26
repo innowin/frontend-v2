@@ -1,3 +1,4 @@
+$heightOfContentBox: 140px;
 .home-wrapper {
   background-image: url("../images/common/userOrganBackground.png");
   background-repeat: no-repeat;
@@ -8,19 +9,16 @@
   display: flex;
   flex-direction: row;
   margin: 10px 5px;
-  height: 150px;
   background-color: #F5F5F5;
   border-radius: 3px;
   padding: 15px 20px 15px 20px;
 
   .-img-col {
-    img {
-      width: 45px;
-      height: 45px;
-    }
+    width: 45px;
+    height: 45px;
   }
 
-  .-content-col{
+  .-content-col {
     display: flex;
     flex-grow: 1;
     flex-direction: column;
@@ -28,19 +26,76 @@
     background-color: white;
     border-radius: 5px;
     padding: 1px;
+    .-createPostInput {
+      flex: 1;
+      outline: none;
+      border: 0;
+      width: 80%;
+      height: $heightOfContentBox;
+      float: right;
+    }
+    .-img-content {
+      height: $heightOfContentBox;
+      margin: 0 auto 0 0;
+      display: flex;
+      flex-direction: column;
+      img {
+        height: 90%;
+      }
+    }
   }
 
-  .-createPostFooter{
+  .-createPostFooter {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     padding: 10px 20px;
-    div > i {
+
+    i {
       color: #C2C2C2;
+      font-size: 22px;
+    }
+
+    i:hover {
+      color: #32485D;
+      cursor: pointer;
+    }
+
+    svg:hover {
+      cursor: pointer;
+    }
+
+    svg path {
+      fill: #C2C2C2;
+    }
+
+    svg:hover path {
+      fill: #32485D;
+    }
+
+    .-submitAttach path {
+      fill: #929292;
     }
   }
 
-  textarea{
+  textarea {
     resize: none;
   }
+}
+
+.-h18{
+  height: 16px;
+}
+
+.-viewDemand-icon {
+  margin-top: 2px;
+  margin-right: -8px;
+}
+
+.-selectedPostType {
+  color: #32485D !important;
+}
+
+.-selectedPostType path {
+  fill: #32485D !important;
 }
