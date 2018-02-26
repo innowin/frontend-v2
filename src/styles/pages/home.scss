@@ -51,10 +51,6 @@ $heightOfContentBox: 140px;
     justify-content: space-between;
     padding: 10px 20px;
 
-    .-submitAttach i {
-      color: #929292;
-    }
-
     i {
       color: #C2C2C2;
       font-size: 22px;
@@ -76,6 +72,10 @@ $heightOfContentBox: 140px;
     svg:hover path {
       fill: #32485D;
     }
+
+    .-submitAttach path {
+      fill: #929292;
+    }
   }
 
   textarea {
@@ -83,20 +83,19 @@ $heightOfContentBox: 140px;
   }
 }
 
+.-h18{
+  height: 16px;
+}
+
 .-viewDemand-icon {
   margin-top: 2px;
   margin-right: -8px;
-}
-
-.-rectSvg {
-  fill-opacity:0;
-  stroke-opacity:0;
 }
 
 .-selectedPostType {
   color: #32485D !important;
 }
 
-.-selectedPostType path{
+.-selectedPostType path {
   fill: #32485D !important;
 }

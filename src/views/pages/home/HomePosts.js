@@ -50,6 +50,7 @@ class HomePosts extends Component {
 
   _getFirstExchangeId = (identity) => {
     const _handleResult = (res) => {
+      console.log(res);
       if (res) {
         const exchangeId = res[0].exchange_identity_related_exchange.id;
         this.setState({...this.state, exchangeId});
@@ -77,7 +78,6 @@ class HomePosts extends Component {
 
   render() {
     const {isLoading, error, exchangeId} = this.state;
-    console.log("exchangeId", exchangeId);
     const posts = [...new Set(this.state.posts)];
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>

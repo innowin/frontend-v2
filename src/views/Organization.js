@@ -14,7 +14,7 @@ import {default as BasicInformation} from "./organization/basicInformation/index
 import {NavLink , Switch, Redirect} from "react-router-dom";
 import {OrganizationSideView} from "src/views/bars/SideBar";
 import {Tabs} from "src/views/common/cards/Frames";
-import {userInfoIcon, postIcon, certificateIcon, skillIcon} from "../images/icons";
+import {contributionIcon, postIcon, certificateIcon, informationIcon, socialIcon, customerIcon} from "../images/icons";
 
 export class Organization extends Component {
   static propTypes = {
@@ -40,26 +40,26 @@ export class Organization extends Component {
               <OrganizationSideView organizationId={organizationId}/>
             </Sidebar>
           </div>
-          <div className="col-md-8 col-sm-10  -content-wrapper">
+          <div className="col-md-8 col-sm-10 -content-wrapper">
             <Tabs>
               <NavLink className="-tab" to={`${url}/basicInformation`} activeClassName="-active">
-                {userInfoIcon}
+                {informationIcon()}
               </NavLink>
               <NavLink className="-tab" to={`${url}/Products`} activeClassName="-active">
-                {postIcon}
+                {contributionIcon()}
               </NavLink>
               <NavLink className="-tab" to={`${url}/Posts`} activeClassName="-active">
                 {postIcon}
               </NavLink>
-              <NavLink className="-tab" to={`${url}/Customers`} activeClassName="-active">
-                {postIcon}
-              </NavLink>
               <NavLink className="-tab" to={`${url}/SocialConnections`} activeClassName="-active">
-                {postIcon}
+                {socialIcon()}
               </NavLink>
-              <NavLink className="-tab" to={`${url}/Skills`} activeClassName="-active">
-                {skillIcon}
+              <NavLink className="-tab" to={`${url}/Customers`} activeClassName="-active">
+                {customerIcon()}
               </NavLink>
+              {/*<NavLink className="-tab" to={`${url}/Skills`} activeClassName="-active">*/}
+                {/*{skillIcon}*/}
+              {/*</NavLink>*/}
               <NavLink className="-tab" to={`${url}/Certificates`} activeClassName="-active">
                 {certificateIcon}
               </NavLink>

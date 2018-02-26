@@ -5,7 +5,7 @@ import {defaultImg} from "src/images/icons";
 import AttachFile from "src/views/common/inputs/AttachFile";
 import {createPost} from "../../../crud/user/post";
 import cx from 'classnames';
-import {SupplyIcon, DemandIcon} from "src/images/icons";
+import {SupplyIcon, DemandIcon, postSendIcon} from "src/images/icons";
 import {IDENTITY_ID} from "../../../consts/data";
 
 class CreatePostFooter extends Component {
@@ -52,6 +52,7 @@ class CreatePostFooter extends Component {
              onClick={this._handle_post_type}></i>
           <SupplyIcon height="22px" className={cx("mr-3", {'-selectedPostType': supplyMark})}
                       onClickFunc={this._handle_post_type} id='supply'/>
+          {/*// TODO mohsen: improve place of demand icon*/}
           <DemandIcon height="22px" className={cx("-viewDemand-icon mr-2", {'-selectedPostType': demandMark})}
                       onClickFunc={this._handle_post_type} id='demand'/>
         </div>
@@ -65,8 +66,9 @@ class CreatePostFooter extends Component {
           <i class="fa fa-smile-o mr-3" aria-hidden="true"></i>
           <span className="mr-4">
              <span style={{color: "#BFBFBF"}}>ارسال</span>
-             <label for="submit" className="-submitAttach">
-               <i class="fa fa-paper-plane mr-2" aria-hidden="true"></i>
+             <label for="submit">
+               {/*// TODO mohsen: improve place of PostSend icon*/}
+               {postSendIcon("-submitAttach -h18 mr-2")}
              </label>
             <input id="submit" hidden type="submit"/>
           </span>

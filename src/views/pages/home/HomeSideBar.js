@@ -5,23 +5,22 @@ import {SOCKET as socket} from "src/consts/URLS";
 import {getExchangeIdentities} from "src/crud/exchange/exchange";
 
 export const SideBarItem = ({name, image, exchange_id: id, handleClick, active}) => {
-
-  const onClickHandler = () => {
-    handleClick(id);
-  };
-
-  return (
-    <div className={`item-wrapper${ active ? ' active' : ''}`} onClick={onClickHandler}>
-      {!image ? <div className="default-logo"><FontAwesome name="building-o" aria-hidden="true"/></div> :
-        <img src={image} alt="logo"/>}
-      <div className="company-title">{name}</div>
-    </div>
-  )
+	
+	const onClickHandler = () => {
+		handleClick(id);
+	};
+	
+	return (
+			<div className={`item-wrapper${ active ? ' active' : ''}`} onClick={onClickHandler}>
+				{!image ? <div className="default-logo"><FontAwesome name="building-o" aria-hidden="true"/></div> :
+						<img src={image} alt="logo"/>}
+				<div className="company-title">{name}</div>
+			</div>
+	)
 };
 
 
 export default class HomeSideBar extends Component {
-
   static propTypes = {
     get_exchangeId: PropTypes.func.isRequired,
     identity:PropTypes.object.isRequired,

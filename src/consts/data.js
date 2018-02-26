@@ -29,6 +29,6 @@ export const TOKEN = cookies.get('token');
 
 //Erase
 export const deleteTOKEN = () => {
-	cookies.erase('token')
+	cookies.erase('token');
 };
 
