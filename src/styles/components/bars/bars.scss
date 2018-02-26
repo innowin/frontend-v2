@@ -3,6 +3,11 @@
 
 .-white-i i {
   color: white !important;
+  font-size: 26px;
+}
+
+.-topBarIcons {
+  height: 23px;
 }
 
 .-centerInDad-img{
@@ -18,6 +23,7 @@
   background-color: #36485C;
   padding-left: 10px;
   padding-right: 20px;
+  margin: 14px;
 }
 
 .-searchInput input{
@@ -33,6 +39,12 @@
   top: $topBarHeight;
   z-index: 10000;
   width: 13rem;
+}
+
+.-ProfTopBarImg{
+  height: 57px;
+  margin: auto 0 auto 10px;
+  border-radius: 50%;
 }
 
  .-profile-collapse img{

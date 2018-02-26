@@ -1,36 +1,25 @@
-import React, {Component} from 'react';
-import {Collapse, Button} from 'reactstrap';
-import PropTypes from 'prop-types';
+import React,{Component} from 'react';
+import {BeatLoader} from 'react-spinners';
+import {Collapse} from 'reactstrap';
 import FontAwesome from 'react-fontawesome';
 
-export class ContributionsType extends Component {
+export class ExtraParams extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			collapse : true,
+			collapse: false,
 		}
 	}
 	
-	static propTypes = {
-		isOpen: PropTypes.bool,
-		labels: PropTypes.array,
-		header: PropTypes.string,
+	_toggle = () => {
+		this.setState({...this.state,collapse: !this.state.collapse})
 	};
 	
-	static defaultProps = {
-		labels: [],
-		header: '',
-	};
 	
-	_toggle = ()=> {
-		const newState = {...this.state,collapse: !this.state.collapse};
-		this.setState(newState);
-	};
-	
-	render(){
-	const {labels, header} = this.props;
-	const {collapse} = this.state;
-	return (
+	render() {
+		const {labels, header} = this.props;
+		const {collapse} = this.state;
+		return (
 				<div className="filter-element">
 					<div className="accordion-header">
 						<div className="collapse-header" onClick={this._toggle}>

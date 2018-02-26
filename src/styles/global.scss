@@ -20,9 +20,10 @@ input, textarea, button, select {
 @import "~bootstrap/scss/bootstrap.scss";
 @import "~react-select/dist/react-select.css";
 @import "./components/utils.scss";
-@import "./pages/login";
 @import "./pages/home";
+@import "./pages/login";
 @import "components/bars/bars";
+@import "components/bars/chatbar";
 @import "components/common/cards/frames";
 @import "components/common/input-group-vertical";
 @import "components/common/inputs/file-input";
@@ -33,13 +34,13 @@ input, textarea, button, select {
 @import "components/login/FooterLogin";
 @import "components/login/HeaderLogin";
 @import "components/login/SocialLogin";
-@import "components/user/tabs";
-@import "components/user/certificates";
-@import "components/user/skill";
-@import "components/bars/chatbar";
-@import "product/product-explorer";
 @import "components/organization/basicInformation";
 @import "components/organization/customers";
 @import "components/organization/products";
 
+@import "components/user/certificates";
+@import "components/user/skill";
+@import "components/user/tabs";
+@import "icons_svg";
 @import "layout";
+@import "product/product-explorer";
