@@ -9,7 +9,7 @@ import {
 	FieldLabel,
 	FieldValue
 } from "../../common/cards/Frames";
-import {postIcon} from "src/images/icons";
+import {postIcon, editIcon} from "src/images/icons";
 
 export const ProductItemWrapper = ({children}) => {
 	return <ItemWrapper icon={postIcon}>{children}</ItemWrapper>;
@@ -26,7 +26,7 @@ export class ProductView extends Component {
 		return (
 			<div className="col-6 organizationProduct">
 				<div className=" productBox">
-						{/* <ItemHeader title={product.name} showEdit={this.showEdit}/> */}
+							<div className="float-left -item-edit-btnProduct" onClick={showEdit}>{editIcon}</div>
 							<div className="d-block m-2">{product.name}</div>
 							<img src={picture.picture_media || "/static/media/defaultImg.94a29bce.png"} />
 							<div className="d-block m-2">{organization.official_name}</div>
@@ -73,10 +73,10 @@ export class Product extends Component {
 	}
 
 	render() {
-		const {product, categories} = this.state;
-		const{picture, price, organization} = this.props;
+		const {product } = this.state;
+		const{picture, price, organization, categories} = this.props;
 		if (this.state.edit) {
-			return <ProductItemWrapper>
+			return (
 				<ProductEditForm
 					picture = {picture}
 					price ={picture}
@@ -87,8 +87,7 @@ export class Product extends Component {
 					updateStateForView = {this.updateStateForView}
 					remove = {this.props.deleteProduct}
 					update = {this.props.updateProduct}
-				/>
-			</ProductItemWrapper>;
+				/>)
 		}
 		return <ProductView organization={organization} picture={picture} price={picture} product={product} showEdit={this.showEdit}/>;
 	}

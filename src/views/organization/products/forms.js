@@ -6,7 +6,7 @@ import {FileInput} from 'src/views/common/inputs/FileInput';
 import {Confirm} from "../../common/cards/Confirm";
 import {SelectComponent} from '../../common/SelectComponent';
 import { IDENTITY_ID } from '../../../consts/data';
-
+import {defaultImg} from 'src/images/icons'
 export class ProductForm extends Component {
 	static propTypes = {
 		onSubmit: PropTypes.func.isRequired,
@@ -209,6 +209,7 @@ export class ProductPictureForm extends Component {
 						this.productPictureInput = productPictureInput
 					}}
 				/>
+				<img className="-item-productForm-img" src={picture.picture_media || defaultImg}/>
 				<div className="col-12 d-flex justify-content-end">
 					<button type="button" className="btn btn-secondary mr-2" onClick={this.props.hideEdit}>
 						{__('Cancel')}
@@ -269,7 +270,7 @@ export class ProductEditForm extends Component {
 		const {product, picture} = this.props;
 		return (
 		<div>
-			<ProductPictureForm/>
+			<ProductPictureForm picture={picture} />
 			<ProductForm categories={categories} onSubmit={this.onSubmit} ref="form" product={product} >
 					<div className="col-12 d-flex justify-content-end">
 							<button type="button" className="btn btn-outline-danger mr-auto" onClick={this.showConfirm}>
