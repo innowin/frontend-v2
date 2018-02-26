@@ -4,7 +4,6 @@ import {TOKEN as token} from '../../consts/data'
 
 
 export const getExchanges = (identity, handleResult) => {
-
   socket.emit(REST_REQUEST, {
     method: "get",
     url: url + `/exchanges/identities/?identities_exchange=${identity}`,

@@ -51,8 +51,9 @@ class HomePosts extends Component {
 
   _getFirstExchangeId = (identity) => {
     const _handleResult = (res) => {
+      console.log(res);
       if (res) {
-        this._getExchangePosts(res[0].id);
+        this._getExchangePosts(res[0].exchange_identity_related_exchange.id);
       }
     };
     getExchanges(identity, _handleResult);

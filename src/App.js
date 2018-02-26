@@ -21,7 +21,7 @@ class App extends Component {
 	
 	_handleLogIn = (res) => {
 		const setData = (data, cb) => {
-			console.log('recieved data is' ,data.identity.id);
+			console.log('recieved data is' ,data);
 			const {token} = data;
 			const id = data.user.id.toString();
 			saveData(data);
