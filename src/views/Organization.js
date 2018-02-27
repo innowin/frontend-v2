@@ -14,7 +14,7 @@ import {default as BasicInformation} from "./organization/basicInformation/index
 import {NavLink , Switch, Redirect} from "react-router-dom";
 import {OrganizationSideView} from "src/views/bars/SideBar";
 import {Tabs} from "src/views/common/cards/Frames";
-import {contributionIcon, postIcon, certificateIcon, informationIcon, socialIcon, customerIcon} from "../images/icons";
+import {ContributionIcon, postIcon, certificateIcon, InformationIcon, SocialIcon, customerIcon} from "../images/icons";
 
 export class Organization extends Component {
   static propTypes = {
@@ -43,16 +43,16 @@ export class Organization extends Component {
           <div className="col-md-8 col-sm-10 -content-wrapper">
             <Tabs>
               <NavLink className="-tab" to={`${url}/basicInformation`} activeClassName="-active">
-                {informationIcon()}
+                <InformationIcon/>
               </NavLink>
               <NavLink className="-tab" to={`${url}/Products`} activeClassName="-active">
-                {contributionIcon()}
+                <ContributionIcon/>
               </NavLink>
               <NavLink className="-tab" to={`${url}/Posts`} activeClassName="-active">
                 {postIcon}
               </NavLink>
               <NavLink className="-tab" to={`${url}/SocialConnections`} activeClassName="-active">
-                {socialIcon()}
+                <SocialIcon/>
               </NavLink>
               <NavLink className="-tab" to={`${url}/Customers`} activeClassName="-active">
                 {customerIcon()}

@@ -1,7 +1,6 @@
 import React from 'react';
 
-const exchangeIcon = (className='') => {
-  return (
+const ExchangeIcon = ({className=''}) => (
     <svg className={className} viewBox="0 0 44810 50030">
       <g>
         <path
@@ -10,7 +9,6 @@ const exchangeIcon = (className='') => {
           d="M0 12160l0 19300c1580,-420 18660,-10720 19540,-10720 860,0 4270,2860 5720,2860l17390 -9550c770,-440 2060,-720 2160,-1890 -890,-80 -9670,-5170 -11160,-6010 -1000,-560 -10810,-6150 -11010,-6150 -1270,0 -20850,12010 -22640,12160z"/>
       </g>
     </svg>
-  )
-};
+  );
 
-export default exchangeIcon;
+export default ExchangeIcon;

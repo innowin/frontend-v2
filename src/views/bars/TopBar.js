@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Collapse} from "reactstrap"
-import {defaultImg, logoDaneshBoom, exchangeIcon, socialIcon, contributionIcon, notificationIcon} from "src/images/icons"
+import {defaultImg, logoDaneshBoom, ExchangeIcon, SocialIcon, ContributionIcon, NotificationIcon} from "src/images/icons"
 import {ID} from "src/consts/data"
 import {Link} from "react-router-dom"
 import {getProfile} from "src/crud/user/profile";
@@ -48,10 +48,10 @@ class TopBar extends Component {
               <i className="fa fa-bars" aria-hidden="true"></i>
             </button>
             <Link to={"/"}><i className="fa fa-home mr-3" aria-hidden="true"></i></Link>
-            <Link to={"/exchange/Exchange_Explorer"}>{exchangeIcon("-topBarIcons mr-4")}</Link>
-            <Link to={"/"}>{socialIcon("-topBarIcons mr-4")}</Link>
-            <Link to={"/"}>{contributionIcon("-topBarIcons mr-4")}</Link>
-            <Link to={"/"}>{notificationIcon("-topBarIcons mr-4")}</Link>
+            <Link to={"/exchange/Exchange_Explorer"}><ExchangeIcon className="-topBarIcons mr-4"/></Link>
+            <Link to={"/"}><SocialIcon className="-topBarIcons mr-4" /></Link>
+            <Link to={"/"}><ContributionIcon className="-topBarIcons mr-4"/></Link>
+            <Link to={"/"}><NotificationIcon className="-topBarIcons mr-4"/></Link>
           </div>
           <img className="-centerInDad-img" src={logoDaneshBoom} alt="profile_img" style={{maxHeight: "40px"}}/>
           <div className="dir-ltr d-flex flex-row">

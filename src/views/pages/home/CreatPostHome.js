@@ -5,7 +5,7 @@ import {defaultImg} from "src/images/icons";
 import AttachFile from "src/views/common/inputs/AttachFile";
 import {createPost} from "../../../crud/user/post";
 import cx from 'classnames';
-import {SupplyIcon, DemandIcon, postSendIcon} from "src/images/icons";
+import {SupplyIcon, DemandIcon, PostSendIcon} from "src/images/icons";
 import {IDENTITY_ID} from "../../../consts/data";
 
 class CreatePostFooter extends Component {
@@ -68,7 +68,7 @@ class CreatePostFooter extends Component {
              <span style={{color: "#BFBFBF"}}>ارسال</span>
              <label for="submit">
                {/*// TODO mohsen: improve place of PostSend icon*/}
-               {postSendIcon("-submitAttach -h18 mr-2")}
+               <PostSendIcon className="-submitAttach -h18 mr-2" />
              </label>
             <input id="submit" hidden type="submit"/>
           </span>
