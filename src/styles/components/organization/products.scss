@@ -1,0 +1,30 @@
+.organizationProduct{
+	padding:10px;
+	
+	.productBox{
+		border:1px solid rgb(202, 202, 202);
+		padding: 10px;
+		
+	}
+
+	img{
+		max-height:250px;
+	}
+
+	.badge-secondary {
+    color: #fff;
+    background-color: #6c757d;
+	}
+
+	.-item-edit-btnProduct{
+		svg{
+			height:16px;
+			width:16px;
+		}
+	}
+
+	
+}
+.-item-productForm-img{
+	max-width: 200px;
+}

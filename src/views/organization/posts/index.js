@@ -3,7 +3,7 @@ import React, {Component} from "react";
 import PropTypes from 'prop-types';
 
 import {createPost, deletePost, updatePost} from 'src/crud/organization/post.js';
-import {FrameCard, CategoryTitle, ListGroup} from "src/views/common/cards/Frames";
+import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames";
 import {PostCreateForm} from "./forms";
 import {PostEditForm} from './forms';
 import {PostItemWrapper, PostView} from "./view";
@@ -206,35 +206,37 @@ class Posts extends Component {
   };
 
   render() {
-    const {createForm, posts, organization, profile } = this.state;
-    return <div>
+    const {createForm, posts, organization, profile, error, isLoading } = this.state;
+    return <VerifyWrapper isLoading={isLoading} error={error}>
       <CategoryTitle
         title={__('Post')}
         showCreateForm={this._showCreateForm}
         createForm={createForm}
       />
       <FrameCard className="-frameCardPost">
-        <ListGroup>
-          {
-            createForm &&
-            <PostItemWrapper>
-              <PostCreateForm hideCreateForm={this._hideCreateForm} create={this._create}/>
-            </PostItemWrapper>
-          }
-          {
-            posts.map((post, i) => (
-              <Post
-                post={post}
-                organization={organization}
-                profile={profile}
-                updateStateForView={this._updateStateForView}
-                key={i}
-              />
-            ))
-          }
-        </ListGroup>
+      
+          <ListGroup>
+            {
+              createForm &&
+              <PostItemWrapper>
+                <PostCreateForm hideCreateForm={this._hideCreateForm} create={this._create}/>
+              </PostItemWrapper>
+            }
+            {
+              posts.map((post, i) => (
+                <Post
+                  post={post}
+                  organization={organization}
+                  profile={profile}
+                  updateStateForView={this._updateStateForView}
+                  key={i}
+                />
+              ))
+            }
+          </ListGroup>
+        
       </FrameCard>
-    </div>;
+    </VerifyWrapper>
   }
 }
 

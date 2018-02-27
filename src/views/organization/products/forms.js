@@ -6,7 +6,7 @@ import {FileInput} from 'src/views/common/inputs/FileInput';
 import {Confirm} from "../../common/cards/Confirm";
 import {SelectComponent} from '../../common/SelectComponent';
 import { IDENTITY_ID } from '../../../consts/data';
-
+import {defaultImg} from 'src/images/icons'
 export class ProductForm extends Component {
 	static propTypes = {
 		onSubmit: PropTypes.func.isRequired,
@@ -15,6 +15,8 @@ export class ProductForm extends Component {
 	};
 
 	getValues =  () => {
+		const media = this.productPictureInput.getFile();
+		const mediaId = media ? media.id : null;
 		const values = {
 				name: this.nameInput.getValue(),
 				country: this.countryInput.getValue(),
@@ -47,7 +49,7 @@ export class ProductForm extends Component {
 	};
 //TODO amir specify identity concept and how to handle them
 	render() {
-			const {organization, categories} = this.props;
+			const {organization, categories, picture} = this.props;
 			const product = this.props.product || {picture: null};
 			var currentCategory = {title:""};
 			const options = categories.map((cat,index)=>{
@@ -104,6 +106,7 @@ export class ProductForm extends Component {
 								this.descriptionInput = descriptionInput
 							}}
 					/>
+					
 					<SelectComponent
 								name="productCategory"
 								label={__('ProductCategory') + ": "}
@@ -121,39 +124,104 @@ export class ProductForm extends Component {
 	}
 }
 
-
 export class ProductCreateForm extends Component {
-
 	static propTypes = {
 			create: PropTypes.func.isRequired,
 			hideEdit: PropTypes.func.isRequired
 	};
-
 	save = () => {
 			const formValues = this.refs.form.getValues();
 			const { hideEdit} = this.props;
 			return this.props.create(formValues, hideEdit);
 	};
-
 	onSubmit = (e) => {
 			e.preventDefault();
 			if (this.refs.form.formValidate()) {
 				this.save();
 			}
 	};
-
 	render() {
-			const {categories} = this.props;
-			return <ProductForm categories={categories} onSubmit={this.onSubmit} ref="form">
-					<div className="col-12 d-flex justify-content-end">
-							<button type="button" className="btn btn-secondary mr-2" onClick={this.props.hideEdit}>
-									{__('Cancel')}
-							</button>
-							<button type="submit" className="btn btn-success">{__('Create')}</button>
-					</div>
-			</ProductForm>;
+		const {categories} = this.props;
+		return <ProductForm categories={categories} onSubmit={this.onSubmit} ref="form">
+			<div className="col-12 d-flex justify-content-end">
+				<button type="button" className="btn btn-secondary mr-2" onClick={this.props.hideEdit}>
+						{__('Cancel')}
+				</button>
+				<button type="submit" className="btn btn-success">{__('Create')}</button>
+			</div>
+		</ProductForm>;
 	}
 }
+
+export class ProductPictureForm extends Component {
+	static propTypes = {
+
+	}
+
+	constructor(props){
+		super(props);
+		this.state = {}
+	}
+
+	getValues =  () => {
+		const media = this.productPictureInput.getFile();
+		const mediaId = media ? media.id : null;
+		const values = {
+				picture_media: mediaId,
+		};
+		return values;
+	};
+
+	formValidate = () => {
+			let result = true;
+			const validates = [
+				this.productPictureInput.validate()
+			];
+			for (let i = 0; i < validates.length; i++) {
+					if (validates[i]) {
+							result = false;
+							break;
+					}
+			}
+			return result
+	};
+
+	save = () => {//(formValues, productId, updateStateForView, hideEdit
+		const {picture, product, updateStateForView, hideEdit, updatePicture} = this.props;
+		const productId = product.id;
+		const formValues = this.getValues();
+		return updatePicture(formValues, productId, updateStateForView, hideEdit)
+	};
+
+	onSubmit = (e) => {
+		e.preventDefault();
+		this.save();
+	};
+
+	render() {
+		const {picture} = this.props;
+		return (
+			<form onSubmit ={this.onSubmit}>
+				<FileInput
+					label={__('Post picture') + ": "}
+					mediaId={picture.picture_media}
+					ref={productPictureInput => {
+						this.productPictureInput = productPictureInput
+					}}
+				/>
+				<img className="-item-productForm-img" src={picture.picture_media || defaultImg}/>
+				<div className="col-12 d-flex justify-content-end">
+					<button type="button" className="btn btn-secondary mr-2" onClick={this.props.hideEdit}>
+						{__('Cancel')}
+					</button>
+					<button type="submit" className="btn btn-success">{__('Create')}</button>
+				</div>
+			</form>
+		)
+	}
+
+}
+
 export class ProductEditForm extends Component {
 	state = {
 			confirm: false,
@@ -199,17 +267,22 @@ export class ProductEditForm extends Component {
 				return <Confirm cancelRemoving={this.cancelConfirm} remove={this.remove}/>;
 		}
 
-		const {product} = this.props;
-		return <ProductForm categories={categories} onSubmit={this.onSubmit} ref="form" product={product} >
-				<div className="col-12 d-flex justify-content-end">
-						<button type="button" className="btn btn-outline-danger mr-auto" onClick={this.showConfirm}>
-								{__('Delete')}
-						</button>
-						<button type="button" className="btn btn-secondary mr-2" onClick={this.props.hideEdit}>
-								{__('Cancel')}
-						</button>
-						<button type="submit" className="btn btn-success">{__('Save')}</button>
-				</div>
-		</ProductForm>;
+		const {product, picture} = this.props;
+		return (
+		<div>
+			<ProductPictureForm picture={picture} />
+			<ProductForm categories={categories} onSubmit={this.onSubmit} ref="form" product={product} >
+					<div className="col-12 d-flex justify-content-end">
+							<button type="button" className="btn btn-outline-danger mr-auto" onClick={this.showConfirm}>
+									{__('Delete')}
+							</button>
+							<button type="button" className="btn btn-secondary mr-2" onClick={this.props.hideEdit}>
+									{__('Cancel')}
+							</button>
+							<button type="submit" className="btn btn-success">{__('Save')}</button>
+					</div>
+			</ProductForm>
+		</div>
+		)
 	}
 }

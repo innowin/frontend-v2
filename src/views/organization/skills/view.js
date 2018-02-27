@@ -73,7 +73,7 @@ export class AbilityView extends Component {
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         <AbilityItemWrapper showEdit = {showEdit}>
-					<h6>{ability.title}</h6>
+					<h6>{ability.title}</h6> 
 					<AbilityBody description={ability.text}/>
 					<AbilityFooter abilityId={ability.id}/>
         </AbilityItemWrapper>
