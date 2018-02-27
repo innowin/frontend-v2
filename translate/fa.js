@@ -174,6 +174,10 @@ module.exports = {
   'Followings': "دنبال شونده ها",
   'Exchange' : 'بورس',
   'Exchanges': 'بورس ها',
-  'Social': 'اجتماعی'
+  'Social': 'اجتماعی',
+
+  // Product
+  // Product Rating
+  'Ratings': 'دیدگاه ها و بازخورد ها',
   
 };

@@ -19,6 +19,8 @@ import SupplyIcon from "./common/supply_svg"
 import userInfoIcon from "./user/userinfo_svg"
 import workExperienceIcon from "./user/workExperience_svg"
 import RatingIcon from "./product/rating_svg"
+import ChartIcon from "./product/chart"
+import BookmarkIcon from "./product/bookmark"
 
 
 export {
@@ -43,4 +45,6 @@ export {
   SocialIcon,
   SupplyIcon,
   RatingIcon,
+  ChartIcon,
+  BookmarkIcon
 }

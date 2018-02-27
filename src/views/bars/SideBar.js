@@ -9,7 +9,7 @@ import {TOKEN} from "src/consts/data";
 import {VerifyWrapper} from "../common/cards/Frames";
 
 
-const CertificatesBox = ({urlOfCertificates}) => {
+export const CertificatesBox = ({urlOfCertificates}) => {
   return (
     urlOfCertificates.map((urlOfCertificate, i) => (
       <span className="col-3 mb-2">
@@ -19,7 +19,7 @@ const CertificatesBox = ({urlOfCertificates}) => {
   )
 };
 
-const TagsBox = ({tags}) => {
+export const TagsBox = ({tags}) => {
   return (
     tags.map((item, i) => (
       <div className="mb-1">
@@ -187,7 +187,7 @@ export class UserSideView extends Component {
           <img className="rounded-circle" alt="Person icon" src={userProfile.profile_media || defaultImg}
                style={{width: "100px"}}/>
           <span style={{padding: 20}}>{__('User')}: {user.first_name + " " + user.last_name || "----"}</span>
-          <span className="-green1">{userProfile.description}</span>
+          <span className="-grey1">{userProfile.description}</span>
         </div>
         {
           (urlOfCertificates.length > 0) ? (
@@ -331,7 +331,7 @@ export class OrganizationSideView extends Component {
                style={{width: "100px"}}/>
           {/*TODO mohsen: check organization name is what??*/}
           <span style={{padding: 20}}>{__('Organization')}: {organization.nike_name || organization.official_name}</span>
-          <span className="-green1">{organization.biography}</span>
+          <span className="-grey1">{organization.biography}</span>
         </div>
         {
           (urlOfCertificates.length > 0) ? (
