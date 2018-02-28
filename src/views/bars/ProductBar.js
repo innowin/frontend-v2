@@ -7,7 +7,7 @@ import {REST_REQUEST} from "../../consts/Events";
 import {REST_URL as url, SOCKET as socket} from "../../consts/URLS";
 import {TOKEN} from "src/consts/data";
 import {VerifyWrapper} from "../common/cards/Frames";
-import {CertificatesBox, TagsBox} from "./SideBar";
+import {BadgesCard, TagsBox} from "./SideBar";
 
 class MediaSection extends Component {
   static propTypes = {
@@ -88,7 +88,7 @@ export default class ProductSideView extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {user: {}, userProfile: {}, badges: [], urlOfCertificates: [], isLoading: false, error: null}
+    this.state = {user: {}, userProfile: {}, badges: [], tags: [], isLoading: false, error: null}
   }
 
 
@@ -122,14 +122,7 @@ export default class ProductSideView extends Component {
           token: TOKEN,
         }
       );
-      socket.emit(REST_REQUEST,
-        {
-          method: "get",
-          url: `${url}/users/certificates/?certificate_user=${userId}`,
-          result: `certificate_user-sidebar-get/${userId}`,
-          token: TOKEN,
-        }
-      );
+      // TODO mohsen: socket.emit of tags
     };
 
     emitting();
@@ -160,14 +153,7 @@ export default class ProductSideView extends Component {
       const newState = {...this.state, badges: res, isLoading: false};
       this.setState(newState);
     });
-    socket.on(`certificate_user-sidebar-get/${userId}`, (res) => {
-      if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false};
-        this.setState(newState);
-      }
-      const newState = {...this.state, urlOfCertificates: res, isLoading: false};
-      this.setState(newState);
-    });
+    // TODO mohsen: socket.on of tags
   }
 
   componentWillUnmount() {
@@ -175,24 +161,24 @@ export default class ProductSideView extends Component {
   }
 
   render() {
-    const {user, userProfile, badges, urlOfCertificates, isLoading, error} = this.state;
+    const {user, userProfile, badges, tags, isLoading, error} = this.state;
     return (
       <VerifyWrapper isLoading={isLoading} error={error} className="-sidebar-child-wrapper">
         <MediaSection userProfile={userProfile} user={user}/>
         <OwnerSection user={user} userProfile={userProfile}/>
         {
-          (urlOfCertificates.length > 0) ? (
+          (badges.length > 0) ? (
             <div className="flex-wrap pb-3">
-              <CertificatesBox urlOfCertificates={urlOfCertificates}/>
-            </div>
-          ) : ("")
+              <BadgesCard badges={badges}/>
+            </div>) : ("")
         }
         <BottomSection/>
         {
-          (badges.length > 0) ? (
+          (tags.length > 0) ? (
             <div className="flex-wrap pb-3">
-              <TagsBox tags={badges}/>
-            </div>) : ("")
+              <TagsBox tags={tags}/>
+            </div>
+          ) : ("")
         }
       </VerifyWrapper>
     )

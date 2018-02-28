@@ -9,11 +9,11 @@ import {TOKEN} from "src/consts/data";
 import {VerifyWrapper} from "../common/cards/Frames";
 
 
-export const CertificatesBox = ({urlOfCertificates}) => {
+export const BadgesCard = ({badges}) => {
   return (
-    urlOfCertificates.map((urlOfCertificate, i) => (
+    badges.map((badge, i) => (
       <span className="col-3 mb-2">
-          <img key={i} src={urlOfCertificate.picture_media || defaultImg} style={{height: "35px"}} alt=""/>
+          <img key={i} src={badge.badge_media || defaultImg} style={{height: "35px"}} alt=""/>
       </span>
     ))
   )
@@ -21,10 +21,10 @@ export const CertificatesBox = ({urlOfCertificates}) => {
 
 export const TagsBox = ({tags}) => {
   return (
-    tags.map((item, i) => (
+    tags.map((tag, i) => (
       <div className="mb-1">
         {/*// TODO mohsen : handle ltr for badges*/}
-        <span key={i} className="badge -myBadge" dir="ltr">{item.title}</span>
+        <span key={i} className="badge -myBadge" dir="ltr">{tag.title}</span>
       </div>
     ))
   )
@@ -56,7 +56,7 @@ export class UserSideView extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {user: {}, userProfile: {}, badges: [], urlOfCertificates: [], isLoading: false, error: null}
+    this.state = {user: {}, userProfile: {}, badges: [], tags: [], isLoading: false, error: null}
   }
 
 
@@ -90,14 +90,7 @@ export class UserSideView extends Component {
           token: TOKEN,
         }
       );
-      socket.emit(REST_REQUEST,
-        {
-          method: "get",
-          url: `${url}/users/certificates/?certificate_user=${userId}`,
-          result: `certificate_user-sidebar-get/${userId}`,
-          token: TOKEN,
-        }
-      );
+      // TODO mohsen: socket.emit of tags
     };
 
     emitting();
@@ -128,19 +121,12 @@ export class UserSideView extends Component {
       const newState = {...this.state, badges: res, isLoading: false};
       this.setState(newState);
     });
-    socket.on(`certificate_user-sidebar-get/${userId}`, (res) => {
-      if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false};
-        this.setState(newState);
-      }
-      const newState = {...this.state, urlOfCertificates: res, isLoading: false};
-      this.setState(newState);
-    });
+    // TODO mohsen: socket.on of tags
   }
 
   componentWillUnmount() {
     const {userId} = this.props;
-    
+
     socket.off(`user-sidebar-get/${userId}`, (res) => {
       if (res.detail) {
         const newState = {...this.state, error: res.detail, isLoading: false};
@@ -168,18 +154,11 @@ export class UserSideView extends Component {
       this.setState(newState);
     });
 
-    socket.off(`certificate_user-sidebar-get/${userId}`, (res) => {
-      if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false};
-        this.setState(newState);
-      }
-      const newState = {...this.state, urlOfCertificates: res, isLoading: false};
-      this.setState(newState);
-    });
+    // TODO mohsen: socket.off of tags
   }
 
   render() {
-    const {user, userProfile, badges, urlOfCertificates, isLoading, error} = this.state;
+    const {user, userProfile, badges, tags, isLoading, error} = this.state;
     return (
       <VerifyWrapper isLoading={isLoading} error={error} className="-sidebar-child-wrapper">
         <div className="align-items-center flex-column">
@@ -190,9 +169,9 @@ export class UserSideView extends Component {
           <span className="-grey1">{userProfile.description}</span>
         </div>
         {
-          (urlOfCertificates.length > 0) ? (
+          (badges.length > 0) ? (
             <div className="flex-wrap pb-3">
-              <CertificatesBox urlOfCertificates={urlOfCertificates}/>
+              <BadgesCard badges={badges}/>
             </div>
           ) : ("")
         }
@@ -213,9 +192,9 @@ export class UserSideView extends Component {
           </div>
         </div>
         {
-          (badges.length > 0) ? (
+          (tags.length > 0) ? (
             <div className="flex-wrap pb-3">
-              <TagsBox tags={badges}/>
+              <TagsBox tags={tags}/>
             </div>) : ("")
         }
       </VerifyWrapper>
@@ -227,7 +206,7 @@ export class OrganizationSideView extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {organization: {}, badges:[], urlOfCertificates:[], isLoading: false, error: null}
+    this.state = {organization: {}, badges: [], tags: [], isLoading: false, error: null}
   }
 
   static propTypes = {
@@ -247,22 +226,8 @@ export class OrganizationSideView extends Component {
           token: TOKEN,
         }
       );
-      // socket.emit(REST_REQUEST,
-      //   {
-      //     method: "get",
-      //     url: `${url}/organizations/badges/?badge_organization=${organizationId}`,
-      //     result: `badge_organization-OrganizationSideView-get/${organizationId}`,
-      //     token: TOKEN,
-      //   }
-      // );
-      // socket.emit(REST_REQUEST,
-      //   {
-      //     method: "get",
-      //     url: `${url}/organizations/certificates/?certificate_organization=${organizationId}`,
-      //     result: `certificate_organization-OrganizationSideView-get/${organizationId}`,
-      //     token: TOKEN,
-      //   }
-      // );
+      // TODO mohsen: socket.emit of badges
+      // TODO mohsen: socket.emit of tags
     };
 
     emitting();
@@ -275,23 +240,10 @@ export class OrganizationSideView extends Component {
       const newState = {...this.state, organization: res, isLoading: false};
       this.setState(newState);
     });
-    // socket.on(`badge_organization-OrganizationSideView-get/${organizationId}`, (res) => {
-    //   if (res.detail) {
-    //     const newState = {...this.state, error: res.detail, isLoading: false};
-    //     this.setState(newState);
-    //   }
-    //   const newState = {...this.state, badges: res, isLoading: false};
-    //   this.setState(newState);
-    // });
-    // socket.on(`certificate_organization-OrganizationSideView-get/${organizationId}`, (res) => {
-    //   if (res.detail) {
-    //     const newState = {...this.state, error: res.detail, isLoading: false};
-    //     this.setState(newState);
-    //   }
-    //   const newState = {...this.state, urlOfCertificates: res, isLoading: false};
-    //   this.setState(newState);
-    // });
+    // TODO mohsen: socket.on of badges
+    // TODO mohsen: socket.on of tags;
   }
+
   componentWillUnmount() {
     const {organizationId} = this.props;
     socket.off(`organization-OrganizationSideView-get/${organizationId}`, (res) => {
@@ -302,27 +254,12 @@ export class OrganizationSideView extends Component {
       const newState = {...this.state, organization: res, isLoading: false};
       this.setState(newState);
     });
-    // socket.off(`badge_organization-OrganizationSideView-get/${organizationId}`, (res) => {
-    //   if (res.detail) {
-    //     const newState = {...this.state, error: res.detail, isLoading: false};
-    //     this.setState(newState);
-    //   }
-    //   const newState = {...this.state, badges: res, isLoading: false};
-    //   this.setState(newState);
-    // });
-    // socket.off(`certificate_organization-OrganizationSideView-get/${organizationId}`, (res) => {
-    //   if (res.detail) {
-    //     const newState = {...this.state, error: res.detail, isLoading: false};
-    //     this.setState(newState);
-    //   }
-    //   const newState = {...this.state, urlOfCertificates: res, isLoading: false};
-    //   this.setState(newState);
-    // });
+    // TODO mohsen: socket.off of badges
+    // TODO mohsen: socket.off of tags;
   }
 
   render() {
-    const {organization,badges, urlOfCertificates, isLoading, error} = this.state;
-    console.log(organization);
+    const {organization, badges, tags, isLoading, error} = this.state;
     return (
       <VerifyWrapper isLoading={isLoading} error={error} className="-sidebar-child-wrapper">
         <div className="align-items-center flex-column">
@@ -330,13 +267,14 @@ export class OrganizationSideView extends Component {
           <img className="rounded-circle" alt="Person icon" src={organization.organization_logo || organLogo}
                style={{width: "100px"}}/>
           {/*TODO mohsen: check organization name is what??*/}
-          <span style={{padding: 20}}>{__('Organization')}: {organization.nike_name || organization.official_name}</span>
+          <span
+            style={{padding: 20}}>{__('Organization')}: {organization.nike_name || organization.official_name}</span>
           <span className="-grey1">{organization.biography}</span>
         </div>
         {
-          (urlOfCertificates.length > 0) ? (
+          (badges.length > 0) ? (
             <div className="flex-wrap pb-3">
-              <CertificatesBox urlOfCertificates={urlOfCertificates}/>
+              <BadgesCard badges={badges}/>
             </div>
           ) : ("")
         }
@@ -357,9 +295,9 @@ export class OrganizationSideView extends Component {
           </div>
         </div>
         {
-          (badges.length > 0) ? (
+          (tags.length > 0) ? (
             <div className="flex-wrap pb-3">
-              <TagsBox tags={badges}/>
+              <TagsBox tags={tags}/>
             </div>) : ("")
         }
       </VerifyWrapper>

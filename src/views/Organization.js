@@ -1,4 +1,4 @@
-import React,{Component} from "react";
+import React, {Component} from "react";
 import Certificates from "./organization/certificates/index";
 import ChatBar from "./bars/ChatBar";
 import Customers from "./organization/customers/index";
@@ -7,11 +7,10 @@ import Products from "./organization/products/index";
 import PropsRoute from "../consts/PropsRoute"
 import PropTypes from "prop-types";
 import Sidebar from "src/views/bars/SideBar";
-import Skills from "src/views/organization/skills/index";
 import Social from "src/views/organization/social/index";
 import TopBar from "./bars/TopBar";
 import {default as BasicInformation} from "./organization/basicInformation/index";
-import {NavLink , Switch, Redirect} from "react-router-dom";
+import {NavLink, Switch, Redirect} from "react-router-dom";
 import {OrganizationSideView} from "src/views/bars/SideBar";
 import {Tabs} from "src/views/common/cards/Frames";
 import {ContributionIcon, postIcon, certificateIcon, InformationIcon, SocialIcon, customerIcon} from "../images/icons";
@@ -22,17 +21,12 @@ export class Organization extends Component {
     handleSignOut: PropTypes.func.isRequired
   };
 
-	constructor(props) {
-		super(props);
-		this.state = {}
-	}
-
-	render() {
-		const {match , handleSignOut} = this.props;
-		const {path, url, params} = match;
+  render() {
+    const {match, handleSignOut} = this.props;
+    const {path, url, params} = match;
     const organizationId = params.id;
-		return (
-			<div className="-tabbed-pages -userOrganBackgroundImg">
+    return (
+      <div className="-tabbed-pages -userOrganBackgroundImg">
         <TopBar handleSignOut={handleSignOut}/>
         <main className="row">
           <div className="col-md-2 col-sm-1 -right-sidebar-wrapper">
@@ -42,14 +36,14 @@ export class Organization extends Component {
           </div>
           <div className="col-md-8 col-sm-10 -content-wrapper">
             <Tabs>
-              <NavLink className="-tab" to={`${url}/basicInformation`} activeClassName="-active">
-                <InformationIcon/>
-              </NavLink>
               <NavLink className="-tab" to={`${url}/Products`} activeClassName="-active">
                 <ContributionIcon/>
               </NavLink>
               <NavLink className="-tab" to={`${url}/Posts`} activeClassName="-active">
                 {postIcon}
+              </NavLink>
+              <NavLink className="-tab" to={`${url}/basicInformation`} activeClassName="-active">
+                <InformationIcon/>
               </NavLink>
               <NavLink className="-tab" to={`${url}/SocialConnections`} activeClassName="-active">
                 <SocialIcon/>
@@ -57,31 +51,28 @@ export class Organization extends Component {
               <NavLink className="-tab" to={`${url}/Customers`} activeClassName="-active">
                 {customerIcon()}
               </NavLink>
-              {/*<NavLink className="-tab" to={`${url}/Skills`} activeClassName="-active">*/}
-                {/*{skillIcon}*/}
-              {/*</NavLink>*/}
               <NavLink className="-tab" to={`${url}/Certificates`} activeClassName="-active">
                 {certificateIcon}
               </NavLink>
             </Tabs>
-              <Switch>
-                <Redirect exact from={`${url}/`} to={`${url}/basicInformation`}/>
-                <PropsRoute exact path={`${path}/basicInformation`} component={BasicInformation} organizationId={organizationId}/>
-                <PropsRoute path={`${path}/Products`} component={Products} organizationId={organizationId}/>
-                <PropsRoute path={`${path}/Posts`} component={Posts} organizationId={organizationId }/>
-                <PropsRoute path={`${path}/Customers`} component={Customers} organizationId={organizationId}/>
-                <PropsRoute path={`${path}/SocialConnections`} component={Social} organizationId={organizationId}/>
-                <PropsRoute path={`${path}/Skills`} component={Skills} organizationId={organizationId}/>
-                <PropsRoute path={`${path}/Certificates`} component={Certificates} organizationId={organizationId}/>
-              </Switch>
+            <Switch>
+              <Redirect exact from={`${url}/`} to={`${url}/Products`}/>
+              <PropsRoute path={`${path}/Products`} component={Products} organizationId={organizationId}/>
+              <PropsRoute path={`${path}/Posts`} component={Posts} organizationId={organizationId}/>
+              <PropsRoute exact path={`${path}/basicInformation`} component={BasicInformation}
+                          organizationId={organizationId}/>
+              <PropsRoute path={`${path}/Customers`} component={Customers} organizationId={organizationId}/>
+              <PropsRoute path={`${path}/SocialConnections`} component={Social} organizationId={organizationId}/>
+              <PropsRoute path={`${path}/Certificates`} component={Certificates} organizationId={organizationId}/>
+            </Switch>
           </div>
           <div className="col-md-2 col-sm-1 -left-sidebar-wrapper">
             <ChatBar/>
           </div>
         </main>
-			</div>
-		)
-	}
+      </div>
+    )
+  }
 }
 
 export default (props) => {
