@@ -74,7 +74,7 @@ export class Product extends Component {
 
 	render() {
 		const {product } = this.state;
-		const{picture, price, organization, categories} = this.props;
+		const{picture, price, organization, categories, products} = this.props;
 		if (this.state.edit) {
 			return (
 				<ProductEditForm
@@ -82,6 +82,7 @@ export class Product extends Component {
 					price ={picture}
 					organization={organization}
 					product = {product}
+					products = {products}
 					categories={categories}
 					hideEdit = {this.hideEdit}
 					updateStateForView = {this.updateStateForView}

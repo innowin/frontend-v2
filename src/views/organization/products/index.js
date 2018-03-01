@@ -63,13 +63,26 @@ export class ProductContainer extends Component {
 	showEdit(){
 		this.setState({...this.state, edit:true});
 	}
-	hideEdit(){
-		this.setState({...this.state, edit:false});
-	}
-	delete_ = (productId) => {
+	// hideEdit(){
+	// 	this.setState({...this.state, edit:false});
+	// }
+	delete_ = (product, products, hideEdit) => {
 		const {organizationId} = this.props;
-		return deleteProduct({productId, organizationId});
+		
+		return deleteProduct(product, products, hideEdit);
 	};
+
+	updateProducts =(res, method, index)=>{
+		let {products} = this.state;
+		if(method == "del"){
+			products.splice(index,1);
+		}else if ( method == "update"){
+			products[index]= res;
+		}else if( method == "insert"){
+			products.push(res);
+		}
+		this.setState({...this.state, products:products});
+	}
 	update_ = (formValues, productId, updateStateForView, hideEdit) => {//formValues, careerId, updateStateForView, hideEdit
 		return updateProduct(formValues,productId, updateStateForView, hideEdit);
 	};
@@ -80,7 +93,7 @@ export class ProductContainer extends Component {
 	};
 
 	render() {
-		const {categories, organization} = this.props;
+		const {categories, organization, products} = this.props;
 		const {picture, price, edit} = this.state;
 		let product = this.props.product || this.state.product;
 
@@ -89,6 +102,7 @@ export class ProductContainer extends Component {
 				hideEdit={this.hideEdit}
 				organization={organization}
 				price={price}
+				products ={products}
 				picture={picture}
 				product={product}
 				categories={categories}
@@ -123,6 +137,7 @@ export class ProductList extends Component {
 						
 						products.map(cert => <ProductContainer
 							organization={organization}
+							products = {products}
 							product={cert}
 							categories={categories}
 							updateStateForView = {updateStateForView}
@@ -151,6 +166,7 @@ export class Products extends Component {
 		const emitting = () => {
 			const newState = {...this.state, isLoading: true};
 			this.setState(newState);
+			
 			socket.emit(REST_REQUEST,
 				{
 					method: "get",
@@ -234,8 +250,7 @@ export class Products extends Component {
 					createForm={createForm}
 				/>
 				<FrameCard>
-					<ProductItemWrapper>
-						
+					<ProductItemWrapper>		
 						<ProductList
 							updateStateForView={this.updateStateForView}
 							products={products}
