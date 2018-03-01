@@ -7,7 +7,7 @@ import {CategoryTitle, FrameCard, ListGroup} from "../../common/cards/Frames";
 export default class ProductBasicInformation extends Component {
 
   static propTypes = {
-    productId: PropTypes.string.isRequired,
+    productId: PropTypes.number.isRequired,
   };
 
   render() {

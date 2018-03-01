@@ -20,12 +20,12 @@ export default class ProductView extends Component {
   render() {
     const {match} = this.props;
     const {path ,url, params} = match;
-    const productId = params.id;
+    const productId = +(params.id);
     return (
       <div className="row">
         <div className="col-md-3 col-sm-2 -right-sidebar-wrapper">
           <Sidebar>
-            <ProductSideView userId={3}/>
+            <ProductSideView productId={productId}/>
           </Sidebar>
         </div>
         <div className="col-md-6 col-sm-9  -content-wrapper">

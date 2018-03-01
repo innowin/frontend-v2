@@ -6,7 +6,7 @@ import {FrameCard, CategoryTitle, ListGroup} from "../../common/cards/Frames";
 
 export class ProductCertificates extends Component {
   static propTypes = {
-    ProductId: PropTypes.string.isRequired
+    ProductId: PropTypes.number.isRequired
   };
 
   render() {

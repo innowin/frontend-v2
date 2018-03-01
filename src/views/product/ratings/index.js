@@ -5,7 +5,7 @@ import {FrameCard, CategoryTitle, ListGroup} from "src/views/common/cards/Frames
 
 class ProductRating extends Component {
   static propTypes = {
-    ProductId: PropTypes.string.isRequired
+    ProductId: PropTypes.number.isRequired
   };
 
   render() {
