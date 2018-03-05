@@ -43,7 +43,21 @@
   height: 200px;
 }
 
-.-rBarProductImage div {
+.-rBarProductImage {
+  flex-wrap: wrap;
+}
+
+.-rBarProductImage div:not(:last-child) {
+  height: 45px;
+  width: 22%;
+  border: 1px solid gainsboro;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-left: 12px;
+}
+
+.-rBarProductImage div:last-child {
   height: 45px;
   width: 22%;
   border: 1px solid gainsboro;

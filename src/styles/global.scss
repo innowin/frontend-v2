@@ -19,6 +19,8 @@ input, textarea, button, select {
 @import "./_variables.scss";
 @import "~bootstrap/scss/bootstrap.scss";
 @import "~react-select/dist/react-select.css";
+@import "~slick-carousel/slick/slick-theme.css";
+@import "~slick-carousel/slick/slick.css";
 @import "./components/utils.scss";
 @import "./pages/home";
 @import "./pages/login";

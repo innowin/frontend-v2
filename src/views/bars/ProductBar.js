@@ -36,7 +36,7 @@ class MediaSection extends Component {
             <img className="w-100 -rBarMainPicture" alt="Person icon" src={defaultImg}/>
           )
         }
-        <div className="-rBarProductImage d-flex flex-row justify-content-between mt-3">
+        <div className="-rBarProductImage d-flex flex-row mt-3">
           {pictureProductFiles.map((file, i) => {
             if (0 < i && i < 4) {
               return (

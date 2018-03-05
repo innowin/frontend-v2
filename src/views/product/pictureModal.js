@@ -1,6 +1,27 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
-import {Modal, Button, ModalBody, ModalHeader, ModalFooter} from "reactstrap";
+import {Modal, Button, ModalBody, ModalHeader, ModalFooter} from "reactstrap"
+import Slider from "react-slick"
+
+class SimpleSlider extends React.Component {
+  render() {
+    const settings = {
+      dots: false,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1
+    };
+    const {files} = this.props;
+    return (
+      <Slider {...settings}>
+        {files.map((file) => {
+          return (<div key={file} style={{backgroundImage: `url(${file})`,}}/>)
+        })}
+      </Slider>
+    );
+  }
+}
 
 export class PictureModal extends Component {
   static propTypes = {
@@ -10,6 +31,8 @@ export class PictureModal extends Component {
     toggleModal: PropTypes.func.isRequired,
     className: PropTypes.string
   };
+
+  static displayName = "PictureModal";
 
   constructor(props) {
     super(props);
@@ -28,16 +51,16 @@ export class PictureModal extends Component {
   render() {
     const {className, files, selectedFile} = this.props;
     return (
-      <Modal isOpen={this.state.modal} toggle={this._handleToggleModal} className={className}>
+      <Modal isOpen={this.state.modal} className={className}>
         <ModalHeader toggle={this._handleToggleModal}>Modal title</ModalHeader>
         <ModalBody>
-          {files.map((file, i) => {
-            if (0 < i && i < 4) {
-              return (<div key={file} style={{backgroundImage: `url(${file})`,}}/>)
-            }
-            return null
+          <div className="-rBarProductImage d-flex flex-row mt-3">
+          {files.map((file) => {
+            return (<div key={file} style={{backgroundImage: `url(${file})`,}}/>)
           })}
+          </div>
         </ModalBody>
+
         <ModalFooter>
           <Button color="secondary" onClick={this._handleToggleModal}>Cancel</Button>
         </ModalFooter>
