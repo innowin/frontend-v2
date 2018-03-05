@@ -43,3 +43,8 @@
   margin-top: $topBarHeight;
   padding-top: 20px;
 }
+
+.-myModal{
+  max-width: 750px;
+  margin-top: $topBarHeight !important;
+}

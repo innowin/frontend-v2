@@ -17,6 +17,9 @@ export const getPictureProduct = (productId, handleResult) => {
         // TODO mohsen: handle error
         return false
       }
+      res.sort(function(obj1, obj2) {
+        return obj1.order - obj2.order;
+      });
       res.map((picture) => {
         return getFile(picture.picture_media, handleResult);
       });

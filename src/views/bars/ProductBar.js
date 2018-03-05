@@ -7,12 +7,17 @@ import {BadgesCard, TagsBox} from "./SideBar";
 import {getProduct} from "src/crud/product/product";
 import {getIdentity} from "src/crud/identity";
 import {getPictureProduct} from "../../crud/picture/productPicture";
-import {UserName} from "../common/mostRequestedData/userData";
 
 class MediaSection extends Component {
   static propTypes = {
     pictureProductFiles: PropTypes.array.isRequired,
     productName: PropTypes.string.isRequired,
+    toggleModal: PropTypes.func.isRequired,
+  };
+
+  _handleToggleModal = (e) => {
+    e.preventDefault();
+    this.props.toggleModal(this.props.pictureProductFiles, e.target.tabIndex);
   };
 
   render() {
@@ -23,7 +28,31 @@ class MediaSection extends Component {
           <span>{productName}</span>
           <BookmarkIcon className="-rBarBookmark"/>
         </div>
-        <img className="w-100 -rBarPicture" alt="Person icon" src={pictureProductFiles[0] || defaultImg}/>
+        {
+          (pictureProductFiles[0]) ? (
+            <img className="w-100 -rBarMainPicture cursor-pointer" alt="Person icon" src={pictureProductFiles[0]}
+                 onClick={this._handleToggleModal} tabIndex={0}/>
+          ) : (
+            <img className="w-100 -rBarMainPicture" alt="Person icon" src={defaultImg}/>
+          )
+        }
+        <div className="-rBarProductImage d-flex flex-row justify-content-between mt-3">
+          {pictureProductFiles.map((file, i) => {
+            if (0 < i && i < 4) {
+              return (
+                <div className="cursor-pointer" key={file} style={{backgroundImage: `url(${file})`}}
+                     onClick={this._handleToggleModal} tabIndex={i}/>
+              )
+            }
+            return null
+          })
+          }
+          {(4 < pictureProductFiles.length) ? (
+            <div className="-myCenter cursor-pointer" onClick={this._handleToggleModal}>
+              <span className="-fontSize10">تصاویر بیشتر</span>
+            </div>) : ('')
+          }
+        </div>
       </div>
     )
   }
@@ -85,6 +114,7 @@ export default class ProductSideView extends Component {
 
   static propTypes = {
     productId: PropTypes.number.isRequired,
+    toggleModal: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -108,7 +138,7 @@ export default class ProductSideView extends Component {
   _getProductIdentity = (product) => {
     this._isLoadingTrue();
     const handleResult = (res) => {
-      this.setState({...this.state, ownerName: UserName(3), isLoading: false});
+      this.setState({...this.state, ownerName: res.name, isLoading: false});
     };
     getIdentity(product.product_owner, handleResult)
   };
@@ -121,6 +151,7 @@ export default class ProductSideView extends Component {
         isLoading: false
       });
     };
+    //TODO mohsen: fix range of view image in sidBar product
     getPictureProduct(product.id, handleResult)
   };
 
@@ -147,7 +178,6 @@ export default class ProductSideView extends Component {
       this._getProductTags(res);
     };
     getProduct(this.props.productId, handleResult);
-
     // TODO mohsen: socket.emit of badges
     // TODO mohsen: socket.emit of tags
     // TODO mohsen: socket.on of badges
@@ -161,10 +191,14 @@ export default class ProductSideView extends Component {
   render() {
     const {product, ownerName, userProfile, badges, tags, isLoading, error} = this.state;
     const pictureProductFiles = [...new Set(this.state.pictureProductFiles)];
-    console.log("pictureProductFiles", pictureProductFiles)
     return (
       <VerifyWrapper isLoading={isLoading} error={error} className="-sidebar-child-wrapper">
-        <MediaSection pictureProductFiles={pictureProductFiles} userProfile={userProfile} productName={product.name}/>
+        <MediaSection
+          pictureProductFiles={pictureProductFiles}
+          userProfile={userProfile}
+          productName={product.name}
+          toggleModal={this.props.toggleModal}
+        />
         <OwnerSection ownerName={ownerName} userProfile={userProfile}/>
         {
           (badges.length > 0) ? (
