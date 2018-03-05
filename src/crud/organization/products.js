@@ -60,14 +60,14 @@ export const createProduct = (formValues, updateStateForView, hideEdit) => {
 	});
 };
 
-export const deleteProduct = (formValues, productId, updateStateForView, hideEdit) => {
+export const deleteProduct = (product, products, hideEdit) => {
 	let isLoading = false;
-
+	let productId = product.id;
 	const emitting = () => {
 		isLoading = true;
 		socket.emit(REST_REQUEST,
 			{
-				method: "delete",
+				method: "del",
 				url: `${url}/products/${productId}/`,
 				result: `deleteProduct-organization-delete/${productId}`,
 				token: TOKEN
@@ -83,7 +83,18 @@ export const deleteProduct = (formValues, productId, updateStateForView, hideEdi
 		if (res.detail) {
 			error = res.detail;
 		}
-		updateStateForView(res, error, isLoading);
+
+		socket.emit(REST_REQUEST,
+			{
+				method: "get",
+				url: `${url}/products/?product_owner=${IDENTITY_ID}`,
+				result: `Products-get/${IDENTITY_ID}`,
+				token: TOKEN,
+			}
+		);
+
+		//const deletedIndex = products.indexOf(product);
+		//updateProducts(res, 'del', deletedIndex);
 		hideEdit();
 	});
 };

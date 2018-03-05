@@ -243,9 +243,8 @@ export class ProductEditForm extends Component {
 	};
 
 	remove = () => {
-		const{hideEdit} = this.props;
-		const productId = this.props.product.id;
-		return this.props.remove(productId,hideEdit)
+		const{hideEdit, product, products} = this.props;
+		return this.props.remove(product,products,hideEdit)
 	};
 
 	save = () => {//(formValues, productId, updateStateForView, hideEdit
