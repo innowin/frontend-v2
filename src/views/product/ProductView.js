@@ -41,7 +41,7 @@ export default class ProductView extends Component {
         </div>
         <div className="col-md-6 col-sm-9 -content-wrapper">
           <PictureModal className="-myModal" isOpen={modal} files={modalFiles} toggleModal={this._toggleModal}
-                        selectedFile={selectedFileIndex} />
+                        selectedFileIndex={selectedFileIndex} />
           <Tabs>
             <NavLink className="-tab" to={`${url}/basicInformation`}
                      activeClassName="-active"><InformationIcon/></NavLink>

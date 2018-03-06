@@ -3,22 +3,54 @@ import PropTypes from "prop-types";
 import {Modal, Button, ModalBody, ModalHeader, ModalFooter} from "reactstrap"
 import Slider from "react-slick"
 
-class SimpleSlider extends React.Component {
+// const NextArrow = ({props}) => {
+//   const {className, style, onClick} = props;
+//   return (
+//     <div
+//       className={className}
+//       style={{...style, display: 'block', background: 'red', height:'50px'}}
+//       onClick={onClick}
+//     />
+//   );
+// };
+//
+// const PrevArrow = ({props}) => {
+//   const {className, style, onClick} = props;
+//   return (
+//     <div
+//       className={className}
+//       style={{...style, display: 'block', background: 'green', height:'50px'}}
+//       onClick={onClick}
+//     />
+//   );
+// };
+
+class SimpleSlider extends Component {
   render() {
     const settings = {
       dots: false,
       infinite: true,
       speed: 500,
       slidesToShow: 1,
-      slidesToScroll: 1
+      slidesToScroll: 1,
+      // nextArrow: <NextArrow props={{}}/>,
+      // prevArrow: <PrevArrow props={{}}/>
     };
-    const {files} = this.props;
+    const {files, selectedFileIndex} = this.props;
     return (
-      <Slider {...settings}>
-        {files.map((file) => {
-          return (<div key={file} style={{backgroundImage: `url(${file})`,}}/>)
-        })}
-      </Slider>
+      <div>
+        <Slider {...settings} className="-mySlider">
+          <div><img src={files[selectedFileIndex]}/></div>
+          {
+            files.map((file, i) => {
+              if (i !== selectedFileIndex) {
+                return <div><img className="w-75 -rBarMainPicture" alt="Product icon" src={file}/></div>
+              }
+              return null;
+            })
+          }
+        </Slider>
+      </div>
     );
   }
 }
@@ -27,7 +59,7 @@ export class PictureModal extends Component {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     files: PropTypes.array.isRequired,
-    selectedFile: PropTypes.number,
+    selectedFileIndex: PropTypes.number,
     toggleModal: PropTypes.func.isRequired,
     className: PropTypes.string
   };
@@ -49,18 +81,13 @@ export class PictureModal extends Component {
   };
 
   render() {
-    const {className, files, selectedFile} = this.props;
+    const {className, files, selectedFileIndex} = this.props;
     return (
       <Modal isOpen={this.state.modal} className={className}>
         <ModalHeader toggle={this._handleToggleModal}>Modal title</ModalHeader>
         <ModalBody>
-          <div className="-rBarProductImage d-flex flex-row mt-3">
-          {files.map((file) => {
-            return (<div key={file} style={{backgroundImage: `url(${file})`,}}/>)
-          })}
-          </div>
+          <SimpleSlider files={files} selectedFileIndex={selectedFileIndex}/>
         </ModalBody>
-
         <ModalFooter>
           <Button color="secondary" onClick={this._handleToggleModal}>Cancel</Button>
         </ModalFooter>
