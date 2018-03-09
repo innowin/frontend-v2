@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {Product, ProductItemWrapper} from "./view";
 import {ProductCreateForm, ProductEditForm} from "./forms";
 import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper, ItemWrapper, ItemHeader} from "../../common/cards/Frames";
-import {createProduct, deleteProduct, updateProduct} from '../../../crud/organization/products.js';
+import {createProduct, deleteProduct, updateProduct, addPicture, deletePicture} from '../../../crud/organization/products.js';
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {REST_REQUEST} from "../../../consts/Events"
 import {IDENTITY_ID,TOKEN} from '../../../consts/data'
@@ -16,7 +16,7 @@ import {postIcon} from "src/images/icons";
 export class ProductContainer extends Component {
 	constructor(props){
 		super(props);
-		this.state={picture:{},edit:false}
+		this.state={pictures:[],price:{}, edit:false}
 	}
 	componentWillReceiveProps(props){
 		const {product} = props;
@@ -28,8 +28,8 @@ export class ProductContainer extends Component {
 		socket.emit(REST_REQUEST,
 			{
 				method: "get",
-				url: `${url}/products/pictures/?picture_product=${product.id}`,
-				result: `Product-picture-get`,
+				url: `${url}/products/pictures/?pictures_product=${product.id}`,
+				result: `Product-pictures-get`,
 				token: TOKEN,
 			}
 		);
@@ -51,11 +51,11 @@ export class ProductContainer extends Component {
 			}
 		})
 
-		socket.on('Product-picture-get',(res)=>{
+		socket.on('Product-pictures-get',(res)=>{
 			if(res.detail){
 
 			}else{
-				this.setState({...this.state, picture:res})
+				this.setState({...this.state, pictures:res})
 			}
 		})
 	}
@@ -63,14 +63,40 @@ export class ProductContainer extends Component {
 	showEdit(){
 		this.setState({...this.state, edit:true});
 	}
-	// hideEdit(){
-	// 	this.setState({...this.state, edit:false});
-	// }
+	hideEdit(){
+		this.setState({...this.state, edit:false});
+	}
 	delete_ = (product, products, hideEdit) => {
-		const {organizationId} = this.props;
+		const {organizationId, updateProductsList} = this.props;
 		
-		return deleteProduct(product, products, hideEdit);
+		return deleteProduct(product, products, updateProductsList);
 	};
+
+	
+
+	updatePicturesList = (res, type, deletedIndex = null)=>{
+		const {pictures} = this.state;
+		if (type === 'get') {
+			this.setState({...this.state, pictures: [...pictures, ...res]});
+			return false;
+		}
+		if (type === 'post') {
+			this.setState({...this.state, pictures: [res, ...pictures]});
+			return false;
+		}
+		if (type === 'del') {
+			const remainPictures = pictures.slice(0, deletedIndex).concat(pictures.slice(deletedIndex + 1));
+			this.setState({...this.state, pictures: remainPictures});
+		}
+	}
+
+	deletePicture = (pictures, picture, updateStateForView) => {
+		deletePicture(pictures, picture, this.updatePicturesList, updateStateForView );
+	}
+
+	addPicture = ({mediaId,productId}) => {
+		addPicture({mediaId,productId})
+	}
 
 	updateProducts =(res, method, index)=>{
 		let {products} = this.state;
@@ -83,8 +109,8 @@ export class ProductContainer extends Component {
 		}
 		this.setState({...this.state, products:products});
 	}
-	update_ = (formValues, productId, updateStateForView, hideEdit) => {//formValues, careerId, updateStateForView, hideEdit
-		return updateProduct(formValues,productId, updateStateForView, hideEdit);
+	update_ = (formValues, productId, picturesId, updateStateForView, hideEdit) => {//formValues, careerId, updateStateForView, hideEdit
+		return updateProduct(formValues,productId, picturesId, updateStateForView, hideEdit);
 	};
 	_updateStateForView = (res, error, isLoading) => {
 		const {updateStateForView} = this.props;
@@ -94,16 +120,18 @@ export class ProductContainer extends Component {
 
 	render() {
 		const {categories, organization, products} = this.props;
-		const {picture, price, edit} = this.state;
+		const {pictures, price, edit} = this.state;
 		let product = this.props.product || this.state.product;
 
 		return(<Product
+				deletePicture={this.deletePicture}
+				addPicture={this.addPicture}
 				showEdit={this.showEdit}
 				hideEdit={this.hideEdit}
 				organization={organization}
 				price={price}
 				products ={products}
-				picture={picture}
+				pictures={pictures}
 				product={product}
 				categories={categories}
 				updateStateForView={this._updateStateForView}
@@ -117,6 +145,7 @@ export class ProductList extends Component {
 	static propTypes = {
 		hideCreateForm: PropTypes.func.isRequired,
 		createForm: PropTypes.bool.isRequired,
+		updateProductsList: PropTypes.func.isRequired
 	};
 	create = (formValues,hideEdit) => {
 		const {organizationId, productId, updateStateForView} = this.props;
@@ -124,18 +153,27 @@ export class ProductList extends Component {
 	};
 
 	render() {
-		const {  organizationId, createForm, updateStateForView, organization} = this.props;
+		const {updateProductsList,  organizationId, createForm, updateStateForView, organization, deletePicture, addPicture} = this.props;
 		const {products, categories} = this.props;
 		return (<div>
 				{createForm &&
 				
-						<ProductCreateForm hideEdit={this.props.hideCreateForm}  categories={categories} create={this.create} />
+						<ProductCreateForm 
+							updateProductsList={updateProductsList}
+							deletePicture={deletePicture}
+							addPicture={addPicture} 
+							hideEdit={this.props.hideCreateForm} 
+							pictures={[]}  
+							categories={categories} 
+							create={this.create} 
+						/>
 				}
 				
 				<div className="row">
 					{
 						
 						products.map(cert => <ProductContainer
+							updateProductsList={updateProductsList}
 							organization={organization}
 							products = {products}
 							product={cert}
@@ -239,6 +277,23 @@ export class Products extends Component {
 		this.setState({...this.state, error:error, isLoading:isLoading})
 	}
 
+	updateProductsList = (res, type, deletedIndex = null)=>{
+		const {products} = this.state;
+		if (type === 'get') {
+			this.setState({...this.state, products: [...products, ...res]});
+			return false;
+		}
+		if (type === 'post') {
+			this.setState({...this.state, products: [res, ...products]});
+			return false;
+		}
+		if (type === 'del') {
+			const remainProducts = products.slice(0, deletedIndex).concat(products.slice(deletedIndex + 1));
+			this.setState({...this.state, products: remainProducts});
+		}
+	}
+
+
 	render() {
 		const {organizationId} = this.props;
 		const {createForm, products, categories, organization, edit, isLoading, error} = this.state;
@@ -252,6 +307,7 @@ export class Products extends Component {
 				<FrameCard>
 					<ProductItemWrapper>		
 						<ProductList
+							updateProductsList={this.updateProductsList}
 							updateStateForView={this.updateStateForView}
 							products={products}
 							categories={categories}
