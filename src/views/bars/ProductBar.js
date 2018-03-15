@@ -144,6 +144,7 @@ export default class ProductSideView extends Component {
   };
 
   _getProductPictures = (product) => {
+    // TODO mohsen: get files from socket
     const mackData = [
       "http://restful.daneshboom.ir/media/ad33940ff4b84557af10c7ef8c98755b.jpeg",
       "http://restful.daneshboom.ir/media/0e6a0bf247654b66aa3ffb0afe8eeb34.jpeg",
@@ -168,6 +169,7 @@ export default class ProductSideView extends Component {
   };
 
   _getProductBadges = (product) => {
+    //TODO mohsen: handle getProductBadges
     const handleResult = (res) => {
       this.setState({...this.state, product: res, isLoading: false});
     };
@@ -175,6 +177,7 @@ export default class ProductSideView extends Component {
   };
 
   _getProductTags = (product) => {
+    //TODO mohsen: handle getProductTags
     const handleResult = (res) => {
       this.setState({...this.state, product: res, isLoading: false});
     };
