@@ -42,6 +42,7 @@
     "react-dev-utils": "^4.2.1",
     "react-dom": "^16.2.0",
     "react-fontawesome": "^1.6.1",
+    "react-image-gallery": "^0.8.7",
     "react-moment": "^0.7.0",
     "react-router-dom": "^4.2.2",
     "react-select": "^1.2.1",
