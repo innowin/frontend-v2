@@ -7,12 +7,12 @@ export const getPictureProduct = (productId, handleResult) => {
     socket.emit(REST_REQUEST,
       {
         method: "get",
-        url: `${url}/products/pictures/?picture_product=${productId}`,
-        result: "products/pictures/?picture_product-get",
+        url: `${url}/products/pictures/?product=${productId}`,
+        result: "products/pictures/?product-get",
         token: TOKEN,
       }
     );
-    socket.on("products/pictures/?picture_product-get", (res) => {
+    socket.on("products/pictures/?product-get", (res) => {
       if (res.detail) {
         // TODO mohsen: handle error
         return false

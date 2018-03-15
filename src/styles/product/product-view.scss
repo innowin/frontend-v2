@@ -78,10 +78,22 @@
 
 // Modal and Slider
 
-.-mySlider > div {
-  direction: ltr;
+.-grey3 {
+ background-color: #e6f1fb;
 }
 
-.-mySlider img {
-  margin: 0 auto;
+.-grey4{
+  background-color: #dee9ef;
+}
+
+.-productViewModal button{
+  outline: none;
+}
+
+.-productViewOriginalClass img{
+  height: 550px;
+}
+
+.-productViewThumbnailClass img{
+  height: 70px;
 }

@@ -144,15 +144,27 @@ export default class ProductSideView extends Component {
   };
 
   _getProductPictures = (product) => {
-    const handleResult = (res) => {
-      this.setState({
-        ...this.state,
-        pictureProductFiles: [res.file, ...this.state.pictureProductFiles],
-        isLoading: false
-      });
-    };
+    const mackData = [
+      "http://restful.daneshboom.ir/media/ad33940ff4b84557af10c7ef8c98755b.jpeg",
+      "http://restful.daneshboom.ir/media/0e6a0bf247654b66aa3ffb0afe8eeb34.jpeg",
+      "http://restful.daneshboom.ir/media/d415fefe2f5442aab21c7783807819fe.jpeg",
+      "http://restful.daneshboom.ir/media/332d993f2ebe4eb597c3e6232ad43f12.jpeg",
+      "http://restful.daneshboom.ir/media/b0dc23ba075b4c5c961e271fbeb2027a.jpeg",
+      "http://restful.daneshboom.ir/media/149c1bc03d784654a7c48396fe29f222.jpeg",
+      "http://restful.daneshboom.ir/media/f3f52d1c67984dfe8d88db43ccad28ed.jpeg",
+      "http://restful.daneshboom.ir/media/4ba35210b9a7471995a044faf48fa57a.jpeg",
+      "http://restful.daneshboom.ir/media/285531dc47514033af8ffe6ddad5de4e.jpeg"
+    ];
+    // const handleResult = (res) => {
+    this.setState({
+      ...this.state,
+      // pictureProductFiles: [res.file, ...this.state.pictureProductFiles],
+      pictureProductFiles: mackData,
+      isLoading: false
+    });
+    // };
     //TODO mohsen: fix range of view image in sidBar product
-    getPictureProduct(product.id, handleResult)
+    // getPictureProduct(product.id, handleResult)
   };
 
   _getProductBadges = (product) => {

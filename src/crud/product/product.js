@@ -12,7 +12,7 @@ export const getProduct = (productId, handleResult) => {
     }
   );
 
-  socket.on("products/{id}/-get", (res) => {console.log("............../",productId, res)
+  socket.on("products/{id}/-get", (res) => {
     if (res.detail) {
       // TODO mohsen: handle error
       return false
