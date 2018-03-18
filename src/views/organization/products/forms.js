@@ -59,11 +59,14 @@ export class ProductForm extends Component {
 	render() {
 			const {organization, categories, pictures} = this.props;
 			const product = this.props.product || {pictures: []};
-			var currentCategory = {title:""};
+			var currentCategory = {title:"",name:""};
 			const options = categories.map((cat,index)=>{
-				if(cat.id == product.product_category.id){
-					currentCategory = cat;
+				if ( product.product_category){
+					if(cat.id == product.product_category.id){
+						currentCategory = cat;
+					}
 				}
+				
 				return {value:cat.id, label:cat.title};
 			})
 			return <form onSubmit={this.props.onSubmit}>
