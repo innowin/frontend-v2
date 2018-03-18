@@ -7,18 +7,19 @@ export const getFile = (mediaId, mediaResult) => {
     {
       method: "get",
       url: `${url}/files/${mediaId}/`,
-      result: `getFile-get/${mediaId}`,
+      result: `files/${mediaId}-get`,
       token: TOKEN
     }
   );
 
-  socket.on(`getFile-get/${mediaId}`, (res) => {
+  socket.on(`files/${mediaId}-get`, (res) => {
     if (res.detail) {
       // TODO mohsen: handle error
-      return false
+      return false;
     }
     mediaResult(res)
   });
+  //TODO mohsen: remove duplicate when equal file requested from product picture
 };
 
 export const createFile = (fileString, mediaResult) => {

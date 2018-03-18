@@ -11,24 +11,37 @@ import {NavLink, Switch, Redirect} from "react-router-dom"
 import PropsRoute from "src/consts/PropsRoute"
 import PropTypes from "prop-types";
 import ProductSideView from "../bars/ProductBar";
+import {PictureModal} from "./pictureModal";
 
 export default class ProductView extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {modal: false, modalFiles: [], selectedFileIndex: null}
+  }
+
+  _toggleModal = (files = [], fileIndex = -1) => {
+    this.setState({modal: !this.state.modal, modalFiles: files, selectedFileIndex: fileIndex})
+  };
+
   render() {
     const {match} = this.props;
-    const {path ,url, params} = match;
-    const productId = params.id;
+    const {path, url, params} = match;
+    const productId = +(params.id);
+    const {modal, modalFiles, selectedFileIndex} = this.state;
     return (
       <div className="row">
         <div className="col-md-3 col-sm-2 -right-sidebar-wrapper">
           <Sidebar>
-            <ProductSideView userId={3}/>
+            <ProductSideView productId={productId} toggleModal={this._toggleModal}/>
           </Sidebar>
         </div>
-        <div className="col-md-6 col-sm-9  -content-wrapper">
+        <div className="col-md-6 col-sm-9 -content-wrapper">
+          <PictureModal className="-myModal" isOpen={modal} files={modalFiles} toggleModal={this._toggleModal}
+                        selectedFileIndex={selectedFileIndex} />
           <Tabs>
             <NavLink className="-tab" to={`${url}/basicInformation`}
                      activeClassName="-active"><InformationIcon/></NavLink>

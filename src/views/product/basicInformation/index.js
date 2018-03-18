@@ -93,7 +93,7 @@ export class ProductInfo extends Component {
 			}
       const newState = {...this.state, product_category: res, isLoading: false};
 			this.setState(newState);
-    })
+    });
 
     socket.on(`Products-owner-get`,(res)=>{
       if (res.detail) {
