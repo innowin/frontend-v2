@@ -15,6 +15,7 @@ export class ContributionsType extends Component {
 		isOpen: PropTypes.bool,
 		labels: PropTypes.array,
 		header: PropTypes.string,
+    setActiveContribution: PropTypes.func.isRequired,
 	};
 	
 	static defaultProps = {
@@ -26,6 +27,12 @@ export class ContributionsType extends Component {
 		const newState = {...this.state,collapse: !this.state.collapse};
 		this.setState(newState);
 	};
+
+  _handleChange = (e) => {
+    const lab = e.target.id;
+    const checked = e.target.checked;
+    this.props.setActiveContribution(lab, checked)
+  };
 	
 	render(){
 	const {labels, header} = this.props;
@@ -43,7 +50,7 @@ export class ContributionsType extends Component {
 							{labels.map((lab, i) => {
 										return (
 												<label key={i} className="label-wrapper">
-													<input type="checkbox"/>
+													<input type="checkbox" id={lab} onChange={this._handleChange}/>
 													<span className="checkmark"></span>
 													{lab}
 												</label>

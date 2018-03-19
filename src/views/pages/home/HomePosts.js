@@ -50,8 +50,7 @@ class HomePosts extends Component {
 
   _getFirstExchangeId = (identity) => {
     const _handleResult = (res) => {
-      console.log(res);
-      if (res) {
+      if (res.length > 0) {
         const exchangeId = res[0].exchange_identity_related_exchange.id;
         this.setState({...this.state, exchangeId});
         this._getExchangePosts(exchangeId);
@@ -81,22 +80,26 @@ class HomePosts extends Component {
     const posts = [...new Set(this.state.posts)];
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
-        <HomeCreatePost updatePosts={this._updatePosts} postParent={exchangeId}
-                        handleErrorLoading={this._handleErrorLoading}/>
-        <FrameCard className="-frameCardPost border-top-0">
-          <ListGroup>
-            {
-              (posts.length > 0) ? (posts.map((post) => (
-                <Post
-                  posts={posts}
-                  post={post}
-                  updatePosts={this._updatePosts}
-                  key={post.id}
-                />
-              ))) : (<h1 className="mt-5 red">در این بورس پستی وجود ندارد!</h1>)
-            }
-          </ListGroup>
-        </FrameCard>
+        {(exchangeId) ? (
+          <div>
+            <HomeCreatePost updatePosts={this._updatePosts} postParent={exchangeId}
+                            handleErrorLoading={this._handleErrorLoading}/>
+            <FrameCard className="-frameCardPost border-top-0">
+              <ListGroup>
+                {
+                  (posts.length > 0) ? (posts.map((post) => (
+                    <Post
+                      posts={posts}
+                      post={post}
+                      updatePosts={this._updatePosts}
+                      key={post.id}
+                    />
+                  ))) : (<h1 className="mt-5 red">در این بورس پستی وجود ندارد!</h1>)
+                }
+              </ListGroup>
+            </FrameCard>
+          </div>
+        ) : ('')}
       </VerifyWrapper>
     )
   }
