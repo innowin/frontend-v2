@@ -2,6 +2,25 @@ import {REST_URL as url, SOCKET as socket} from "src/consts/URLS"
 import {REST_REQUEST} from "src/consts/Events"
 import {TOKEN} from 'src/consts/data'
 
+export const getProducts = (limit, handleResult) => {
+  socket.emit(REST_REQUEST,
+    {
+      method: "get",
+      url: `${url}/products/?limit=${limit}`,
+      result: "products-get",
+      token: TOKEN,
+    }
+  );
+
+  socket.on("products-get", (res) => {
+    if (res.detail) {
+      // TODO mohsen: handle error
+      return false
+    }
+    handleResult(res.results)
+  });
+};
+
 export const getProduct = (productId, handleResult) => {
   socket.emit(REST_REQUEST,
     {

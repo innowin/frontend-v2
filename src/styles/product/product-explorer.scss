@@ -1,113 +1,144 @@
 @import "../_variables.scss";
+
 .product-explorer {
-	.filter-element {
-		border-bottom: 2px solid $text-lighter-color;
-	}
-	.accordion-header {
-		display: flex;
-		flex-flow: row;
-		justify-content: space-between;
-		.collapse-header {
-			cursor: pointer;
-			color: $text-title-menu-color;
-			font-size: 15px;
-			padding: 10px 0;
-			//background-color: pink;
-			margin-bottom:5px;
-			flex: 1;
-		}
-		.angle-icon {
-			//background-color: red;
-			display: flex;
-			font-size: 18px;
-			align-items: center;
-			color: $text-light-color;
-			cursor: pointer;
-		}
-		.filter-spinner {
-			display: flex;
-			flex-flow: row;
-			align-items: center;
-			& > div {
-				line-height: 10px;
-			}
-		}
-	}
-	.options-wrapper {
-		padding: 0 10px 0 0 ;
-		.categoryItems {
-			color: $text-light-color;
-			font-size: 13px;
-			margin: 5px 0;
-			padding: 5px 0;
-			border-top: 1px solid $text-lighter-color;
-			&.active {
-				color: #373737;
-			}
-			&:hover {
-				color: $text-dark-color;
-				cursor: pointer;
-			}
-		}
-	}
-	.label-wrapper {
-		display: flex;
-		flex-flow: row wrap ;
-		position: relative;
-		padding-right: 35px;
-		margin-bottom: 12px;
-		color: $text-light-color;
-		cursor: pointer;
-		font-size: 14px;
-		-webkit-user-select: none;
-		-moz-user-select: none;
-		-ms-user-select: none;
-		user-select: none;
-		&:hover {
-			color: $text-dark-color;
-		}
-		input {
-			position: absolute;
-			opacity: 0;
-			cursor: pointer;
-			&:checked + .checkmark {
-				background-color: #000000;
-				&:after {
-					display: block;
-				}
-			}
-		}
-		&:hover input + .checkmark {
-			background-color: #ccc;
-		}
-		.checkmark:after {
-			left: 6px;
-			top: 0px;
-			width: 8px;
-			height: 15px;
-			border: solid white;
-			border-width: 0 3px 3px 0;
-			box-shadow: 2px 2px 2px 0 #666;
-			-webkit-transform: rotate(45deg);
-			-ms-transform: rotate(45deg);
-			transform: rotate(45deg);
-		}
-	}
+  .filter-element {
+    border-bottom: 2px solid $text-lighter-color;
+  }
+  .accordion-header {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    .collapse-header {
+      cursor: pointer;
+      color: $text-title-menu-color;
+      font-size: 15px;
+      padding: 10px 0;
+      //background-color: pink;
+      margin-bottom: 5px;
+      flex: 1;
+    }
+    .angle-icon {
+      //background-color: red;
+      display: flex;
+      font-size: 18px;
+      align-items: center;
+      color: $text-light-color;
+      cursor: pointer;
+    }
+    .filter-spinner {
+      display: flex;
+      flex-flow: row;
+      align-items: center;
+      & > div {
+        line-height: 10px;
+      }
+    }
+  }
+  .options-wrapper {
+    padding: 0 10px 0 0;
+    .categoryItems {
+      color: $text-light-color;
+      font-size: 13px;
+      margin: 5px 0;
+      padding: 5px 0;
+      border-top: 1px solid $text-lighter-color;
+      &.active {
+        color: #373737;
+      }
+      &:hover {
+        color: $text-dark-color;
+        cursor: pointer;
+      }
+    }
+  }
+  .label-wrapper {
+    display: flex;
+    flex-flow: row wrap;
+    position: relative;
+    padding-right: 35px;
+    margin-bottom: 12px;
+    color: $text-light-color;
+    cursor: pointer;
+    font-size: 14px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    &:hover {
+      color: $text-dark-color;
+    }
+    input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      &:checked + .checkmark {
+        background-color: #000000;
+        &:after {
+          display: block;
+        }
+      }
+    }
+    &:hover input + .checkmark {
+      background-color: #ccc;
+    }
+    .checkmark:after {
+      left: 6px;
+      top: 0px;
+      width: 8px;
+      height: 15px;
+      border: solid white;
+      border-width: 0 3px 3px 0;
+      box-shadow: 2px 2px 2px 0 #666;
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+    }
+  }
 
+  .checkmark {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 20px;
+    width: 20px;
+    border-radius: 5px;
+    background-color: #eee;
+    &:after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
+  }
+}
 
+// Product explorer content
 
-	.checkmark {
-		position: absolute;
-		top: 0;
-		right: 0;
-		height: 20px;
-		width: 20px;
-		border-radius: 5px;
-		background-color: #eee;
-		&:after {
-			content: "";
-			position: absolute;
-			display: none;
-		}
-	}
+.-product-explorer-content {
+  margin-left: 0;
+  margin-right: 0;
+  > div {
+    margin-left: 23px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    background: white;
+    width: 30%;
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 2px;
+
+    span {
+    margin-right: 5px;
+    };
+
+    img {
+      height: 150px;
+      outline: none;
+      cursor: pointer;
+      border: 1px solid #6E6E6E;
+      width: 100%;
+    }
+  }
+}
+
+.-grey5 {
+  color:#828080
 }
