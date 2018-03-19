@@ -114,7 +114,7 @@ export class ProductContainer extends Component {
 	};
 	_updateStateForView = (res, error, isLoading) => {
 		const {updateStateForView} = this.props;
-		updateStateForView({error:error,isLoading:isLoading});
+		updateStateForView(error,isLoading);
 		this.setState({...this.state, product:res, error:error, isLoading:isLoading});
 	};
 

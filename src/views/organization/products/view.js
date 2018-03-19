@@ -74,14 +74,14 @@ export class Product extends Component {
 		this.setState({edit: false});
 	};
 
-	updateStateForView = (res, error,isLoading) =>{
-		const {updateStateForView} = this.props;
-		this.setState({...this.state,product:res })
-	}
+	// updateStateForView = (res, error,isLoading) =>{
+	// 	const {updateStateForView} = this.props;
+	// 	this.setState({...this.state,product:res,error:error, isLoading:isLoading })
+	// }
 
 	render() {
 		const {product } = this.state;
-		const{pictures, price, organization, categories, products, deletePicture, addPicture} = this.props;
+		const{pictures, price, organization, updateStateForView, categories, products, deletePicture, addPicture} = this.props;
 		if (this.state.edit) {
 			return (
 				<ProductEditForm
@@ -94,7 +94,7 @@ export class Product extends Component {
 					products = {products}
 					categories={categories}
 					hideEdit = {this.hideEdit}
-					updateStateForView = {this.updateStateForView}
+					updateStateForView = {updateStateForView}
 					remove = {this.props.deleteProduct}
 					update = {this.props.updateProduct}
 				/>)

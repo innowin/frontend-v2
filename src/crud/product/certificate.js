@@ -1,6 +1,6 @@
 import {REST_URL as url, SOCKET as socket} from "../../consts/URLS"
 import {REST_REQUEST} from "../../consts/Events"
-import {TOKEN} from '../../consts/data'
+import {TOKEN, ID, IDENTITY_ID} from '../../consts/data'
 
 export const updateCertificate = (formValues, certId, updateStateForView, hideEdit) => {
 	let isLoading = false;
@@ -33,7 +33,9 @@ export const updateCertificate = (formValues, certId, updateStateForView, hideEd
 
 export const createCertificate = (formValues,  updateStateForView, hideEdit,productId) => {
 	let isLoading = false;
-	formValues.certificate_product = productId;
+	formValues.certificate_parent = productId;
+	formValues.certificate_identity = IDENTITY_ID;
+	
 	console.log(TOKEN)
 	const emitting = () => {
 		isLoading = true;

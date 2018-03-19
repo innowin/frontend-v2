@@ -12,6 +12,7 @@ import {TOKEN} from "src/consts/data"
 export class CertificateContainer extends Component {
 	constructor(props){
 		super(props);
+		
 	}
 	componentWillReceiveProps(props){
 			const {certificate} = props;
@@ -96,7 +97,7 @@ export class Certificates extends Component {
 					method: "get",
 					url: `${url}/base/certificates/?certificate_parent=${productId}`,
 					result: `ProductCertificates-get/${productId}`,
-					token: "",
+					token: TOKEN
 				}
 			);
 
@@ -118,7 +119,8 @@ export class Certificates extends Component {
 				const newState = {...this.state, error: res.detail, isLoading: false};
 				this.setState(newState);
 			}else{
-				const newState = {...this.state, certificates: res instanceof Array ? res : [], isLoading: false};
+				const newState = {...this.state, certificates:res, isLoading: false};
+				console.log(newState);
 				this.setState(newState);
 			}
 

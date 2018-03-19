@@ -67,7 +67,7 @@ export class Post extends Component {
       } else {
 				let exchanges = this.state.exchanges;
 				exchanges.push(res);
-        const newState = {...this.state, exchanges: exchanges , isLoading: false};
+        const newState = {...this.state, exchanges: exchanges, isLoading: false};
         this.setState(newState);
       }
 		})
