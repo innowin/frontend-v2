@@ -18,7 +18,7 @@ class Exchange extends Component {
 				<div>
 					<Switch>
 						<Route path={`${path}/Exchange_Explorer`} component={ExchangeExplorer}/>
-						<Route exact path={`${path}/`} component={ExchangeView}/>
+						<Route path={`${path}/:id`} component={ExchangeView}/>
 					</Switch>
 				</div>
 			</div>

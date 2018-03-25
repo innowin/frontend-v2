@@ -1,9 +1,9 @@
-import React from 'react';
+import React,{Component} from 'react';
 
-const ExchangeExplorer = () => {
-	return (
-			<h1> ExchangeExplorer</h1>
-	)
+export default class ExchangeExplorer extends Component {
+	render () {
+		return (
+				<h1> ExchangeExplorer</h1>
+		)
+	}
 };
-
-export default ExchangeExplorer;
