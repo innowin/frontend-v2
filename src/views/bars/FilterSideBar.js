@@ -1,4 +1,5 @@
 import React,{Component} from 'react';
+import PropTypes from 'prop-types';
 import {ContributionsType} from './filter/ContributionType';
 import {CategoryType} from './filter/CategoryType';
 import {ExtraParams} from './filter/ExtraParams';
@@ -6,6 +7,12 @@ import {SubcategoryType} from './filter/SubcategoryType';
 
 
 export default class ProductFilterSidebar extends Component {
+	static propTypes = {
+    getActiveCategory: PropTypes.func.isRequired,
+    getActiveSubcategory: PropTypes.func.isRequired,
+    getActiveContribution: PropTypes.func.isRequired,
+	};
+
 	constructor(props){
 		super(props);
 		this.state = {
@@ -35,13 +42,19 @@ export default class ProductFilterSidebar extends Component {
 	_setActiveCategory = (id) => {
 		const {groups} = this.state;
 		this.setState({...this.state,groups: {...groups , activeCategory: id}});
+		this.props.getActiveCategory(+id)
 	};
 	
 	_setActiveSubategory = (id) => {
 		const {groups} = this.state;
 		this.setState({...this.state,groups: {...groups , activeSubcategory: id}});
+    this.props.getActiveSubcategory(+id)
 	};
-	
+
+	_setActiveContribution = (lab, checked) => {
+    this.props.getActiveContribution(lab, checked)
+  };
+
 	_makeTree = (array ,  parent) => {
 		let result = {};
 		array.filter(c => c.category_parent === parent)
@@ -50,7 +63,7 @@ export default class ProductFilterSidebar extends Component {
 	};
 	_setList = (list) => {
 		const {groups} =  this.state;
-		const catList = [];
+		const catList = [{category_parent: null, id : "999999", title:"همه", name:"همه"}];
 		const catListIds = [];
 		const subcatListIds = [];
 		const subcatList = [];
@@ -84,7 +97,7 @@ export default class ProductFilterSidebar extends Component {
 		const {ContributionLabels , ContributionHeader} = contribution;
 		return(
 				<div id="accordionFilter" role="tablist" aria-multiselectable="true" >
-					<ContributionsType labels={ContributionLabels} header={ContributionHeader}/>
+					<ContributionsType setActiveContribution={this._setActiveContribution} labels={ContributionLabels} header={ContributionHeader}/>
 					<CategoryType header={categoryHeader} categoryList={CategoryList} isLoading={isLoading} activeCategory={activeCategory} setList={this._setList} setActiveCategory={this._setActiveCategory}/>
 					<SubcategoryType header={SubcategoryHeader} subcategoryList={SubcatList} isLoading={!activeCategory} activeSubcategory={activeSubcategory} setActiveSubcategory={this._setActiveSubategory}/>
 					<ExtraParams header={extraHeader} labels={extraLabels} />

@@ -28,14 +28,8 @@ class MediaSection extends Component {
           <span>{productName}</span>
           <BookmarkIcon className="-rBarBookmark"/>
         </div>
-        {
-          (pictureProductFiles[0]) ? (
-            <img className="w-100 -rBarMainPicture cursor-pointer" alt="Product icon" src={pictureProductFiles[0]}
-                 onClick={this._handleToggleModal} tabIndex={0}/>
-          ) : (
-            <img className="w-100 -rBarMainPicture" alt="Product icon" src={defaultImg}/>
-          )
-        }
+        <img className="w-100 -rBarMainPicture cursor-pointer" alt="Product icon" src={pictureProductFiles[0]}
+             onClick={this._handleToggleModal} tabIndex={0}/>
         <div className="-rBarProductImage d-flex flex-row mt-3">
           {pictureProductFiles.map((file, i) => {
             if (0 < i && i < 4) {
@@ -157,9 +151,11 @@ export default class ProductSideView extends Component {
       "http://restful.daneshboom.ir/media/285531dc47514033af8ffe6ddad5de4e.jpeg"
     ];
     // const handleResult = (res) => {
+    // const file = res.file || defaultImg;
+    // TODO mohsen: test file and set suitable default img for product
     this.setState({
       ...this.state,
-      // pictureProductFiles: [res.file, ...this.state.pictureProductFiles],
+      // pictureProductFiles: [file, ...this.state.pictureProductFiles],
       pictureProductFiles: mackData,
       isLoading: false
     });
