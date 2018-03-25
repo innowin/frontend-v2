@@ -6,7 +6,7 @@ import {ListGroup} from '../../common/cards/Frames'
 import {ProductInfoEditForm , ProductDescriptionEditForm} from './Forms'
 import {REST_REQUEST} from "../../../consts/Events"
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
-import {TOKEN} from "src/consts/data"
+import {TOKEN, IDENTITY_ID} from "src/consts/data"
 import {ProductInfoItemWrapper, ProductInfoView, ProductDescriptionView, ProductDescriptionWrapper} from "./Views"
 import {Product} from "../../Product";
 
@@ -49,7 +49,7 @@ export class ProductInfo extends Component {
     socket.emit(REST_REQUEST,
       {
         method: "get",
-        url: `${url}/users/${userId}/`,
+        url: `${url}/users/identities/${IDENTITY_ID}/`,
         result: `Products-owner-get`,
         token: TOKEN,
       }
@@ -68,10 +68,13 @@ export class ProductInfo extends Component {
 						result: `ProductInfo-get/${productId}`,
 						token: TOKEN,
 					}
-      );
+			);
+			
+			
 		};
 		
 		emitting();
+		
 		
 		socket.on(`ProductInfo-get/${productId}`, (res) => {
 			if (res.detail) {

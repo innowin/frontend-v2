@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {Certificate, CertificateItemWrapper} from "./view";
 import {CertificateCreateForm} from "./forms";
 import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper} from "../../common/cards/Frames";
-import {createCertificate, deleteCertificate, updateCertificate} from '../../../crud/organization/certificate.js';
+import {createCertificate, deleteCertificate, updateCertificate} from '../../../crud/product/certificate.js';
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {REST_REQUEST} from "../../../consts/Events"
 import {TOKEN} from "src/consts/data"
@@ -12,17 +12,18 @@ import {TOKEN} from "src/consts/data"
 export class CertificateContainer extends Component {
 	constructor(props){
 		super(props);
+		
 	}
 	componentWillReceiveProps(props){
 			const {certificate} = props;
 			this.setState ({...this.state ,certificate:certificate || {}});
 	}
 	delete_ = (certificateId, hideEdit) => {	
-		const {organizationId, updateStateForView} = this.props;
+		const {productId, updateStateForView} = this.props;
 		updateStateForView(null,null,true);
-		return deleteCertificate(certificateId, organizationId,()=>{
+		return deleteCertificate(certificateId, productId,()=>{
 			updateStateForView(null,false);
-		},hideEdit,organizationId);
+		},hideEdit,productId);
 	};
 	update_ = (formValues, certificateId, updateStateForView, hideEdit) => {//formValues, careerId, updateStateForView, hideEdit
 		updateStateForView(null,null,true);
@@ -52,12 +53,12 @@ export class CertificateList extends Component {
 	};
 
 	create = (formValues,hideEdit) => {
-			const {organizationId, certificateId, updateStateForView} = this.props;
-			return createCertificate(formValues, updateStateForView, hideEdit, organizationId);
+			const {productId, certificateId, updateStateForView} = this.props;
+			return createCertificate(formValues, updateStateForView, hideEdit, productId);
 	};
 
 	render() {
-		const {  organizationId, createForm, updateStateForView} = this.props;
+		const {  productId, createForm, updateStateForView} = this.props;
 		var {certificates} = this.props ;
 		return <ListGroup>
 			{createForm &&
@@ -68,7 +69,7 @@ export class CertificateList extends Component {
 				certificates.map(cert => <CertificateContainer
 					certificate={cert}
 					updateStateForView = {updateStateForView}
-					organizationId={organizationId}
+					productId={productId}
 					key={cert.id}
 				/>)
 			}
@@ -83,28 +84,28 @@ export class Certificates extends Component {
 		this.state = {createForm: false,certificates:{}, edit:false, isLoading:false, error:null, certificates:[]};
 	}
 	static propTypes = {
-		organizationId: PropTypes.string.isRequired
+		productId: PropTypes.string.isRequired
 	};
 
 	componentDidMount(){
-		const {organizationId } = this.props;
+		const {productId } = this.props;
 		const emitting = () => {
 			const newState = {...this.state, isLoading: true};
 			this.setState(newState);
 			socket.emit(REST_REQUEST,
 				{
 					method: "get",
-					url: `${url}/organizations/certificates/${organizationId}`,
-					result: `OrganizationCertificates-get/${organizationId}`,
-					token: "",
+					url: `${url}/base/certificates/?certificate_parent=${productId}`,
+					result: `ProductCertificates-get/${productId}`,
+					token: TOKEN
 				}
 			);
 
 			socket.emit(REST_REQUEST,
         {
           method: "get",
-          url: `${url}/organizations/${organizationId}/`,
-          result: `organization-Posts-get/${organizationId}`,
+          url: `${url}/products/${productId}/`,
+          result: `product-Posts-get/${productId}`,
           token: TOKEN
         }
 			);
@@ -113,22 +114,23 @@ export class Certificates extends Component {
 
 		emitting();
 
-		socket.on(`UserCertificates-get/${organizationId}`, (res) => {
+		socket.on(`ProductCertificates-get/${productId}`, (res) => {
 			if (res.detail) {
 				const newState = {...this.state, error: res.detail, isLoading: false};
 				this.setState(newState);
 			}else{
-				const newState = {...this.state, certificates: res instanceof Array ? res : [], isLoading: false};
+				const newState = {...this.state, certificates:res, isLoading: false};
+				console.log(newState);
 				this.setState(newState);
 			}
 
 		});
-		socket.on(`organization-Posts-get/${organizationId}`, (res) => {
+		socket.on(`product-Posts-get/${productId}`, (res) => {
 			if (res.detail) {
 				const newState = {...this.state, error: res.detail, isLoading: false};
 				this.setState(newState);
 			} else {
-				const newState = {...this.state, organization: res, isLoading: false};
+				const newState = {...this.state, product: res, isLoading: false};
 				this.setState(newState);
 			}
 		});
@@ -146,7 +148,7 @@ export class Certificates extends Component {
 	}
 
 	render() {
-		const {  organizationId} = this.props;
+		const {  productId} = this.props;
 		const {createForm, certificates, isLoading, error} = this.state;
 		return (
 		<VerifyWrapper isLoading={isLoading} error={error}>
@@ -161,7 +163,7 @@ export class Certificates extends Component {
 						<CertificateList
 							updateStateForView={this.updateStateForView}
 							certificates={certificates}
-							organizationId={organizationId}
+							productId={productId}
 							createForm={createForm}
 							hideCreateForm={this.hideCreateForm}
 						/>
