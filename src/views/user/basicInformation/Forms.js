@@ -10,7 +10,7 @@ import {outputComponent} from "src/views/common/OutputComponent"
 import {PhoneInput} from "src/views/common/inputs/PhoneInput"
 import {TextareaInput} from "src/views/common/inputs/TextareaInput"
 import {TextInput} from "src/views/common/inputs/TextInput"
-import {updateProfile, updateUser} from "../../../crud/user/user"
+import {updateProfile, updateUser, updateEducation} from "../../../crud/user/user"
 
 export class ProfileInfoForm extends Component {
   static propTypes = {
@@ -176,7 +176,6 @@ export class ProfileInfoEditForm extends Component {
   }
 }
 
-
 export class UserInfoForm extends Component {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
@@ -284,6 +283,156 @@ export class UserInfoEditForm extends Component {
           <button type="submit" className="btn btn-success">{__('Save')}</button>
         </div>
       </UserInfoForm>
+    )
+  }
+}
+
+export class ResearchInfoForm extends Component {
+  static propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+    research: PropTypes.object,
+  };
+
+
+  render() {
+    //Todo keep ltr
+    return (
+      <form onSubmit={this.props.onSubmit}>
+        
+      </form>
+    )
+  }
+}
+
+export class ResearchInfoEditForm extends Component {
+  state = {confirm: false};
+
+  static propTypes = {
+    hideEdit: PropTypes.func.isRequired,
+    updateStateForView: PropTypes.func.isRequired,
+    research: PropTypes.object.isRequired,
+  };
+
+  _save = (updateStateForView, hideEdit) => {
+    const profileId = this.props.profile.id;
+    const formValues = this.form._getValues();
+    return updateProfile(formValues, profileId, updateStateForView,  hideEdit)
+  };
+
+  _onSubmit = (e) => {
+    e.preventDefault();
+    const {updateStateForView, hideEdit} = this.props;
+    if (this.form._formValidate()) {
+      this._save(updateStateForView, hideEdit)
+    }
+    return false;
+  };
+
+  render() {
+    const {research} = this.props;
+    return (
+      <ResearchInfoForm onSubmit={this._onSubmit} ref={form => {this.form = form}} research={research}>
+        <div className="col-12 d-flex justify-content-end">
+          <button type="button" className="btn btn-secondary mr-2" onClick={this.props.hideEdit}>
+            {__('Cancel')}
+          </button>
+          <button type="submit" className="btn btn-success">{__('Save')}</button>
+        </div>
+      </ResearchInfoForm>
+    )
+  }
+}
+
+export class EducationInfoForm extends Component {
+  static propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+    education: PropTypes.object,
+  };
+
+
+  render() {
+    const{education} = this.props;
+    //Todo keep ltr
+    return (
+      <form onSubmit={this.props.onSubmit}>
+        <div className="row">
+          <TextInput
+            name="university"
+            label={__('University') + ": "}
+            value={education.university}
+            ref={universityInput => {this.universityInput = universityInput}}
+          />
+          <TextInput
+            name="grade"
+            label={__('Grade')}
+            value={education.grade}
+            ref={gradeInput => {this.gradeInput = gradeInput}}
+          />
+          <TextInput
+            name="fieldOfStudy"
+            label={__('Field Of Study') + ": "}
+            value={education.field_of_study}
+            ref={fieldInput => {this.fieldInput = fieldInput}}
+          />
+          {/*TODO EMAIL INPUT*/}
+          <TextInput
+            label={__('FromDate') + ": "}
+            value={education.from_date}
+            ref={fromDateInput => {this.fromDateInput = fromDateInput}}
+          />
+          <TextInput
+            label={__('ToDate') + ": "}
+            value={education.to_date}
+            ref={toDateInput => {this.toDateInput = toDateInput}}
+          />
+          {this.props.children}
+        </div>
+      </form>
+    )
+  }
+}
+
+export class EducationInfoEditForm extends Component {
+  state = {confirm: false};
+
+  static propTypes = {
+    hideEdit: PropTypes.func.isRequired,
+    updateStateForView: PropTypes.func.isRequired,
+    education: PropTypes.object.isRequired,
+  };
+
+  _save = (updateStateForView, hideEdit) => {
+    const educationId = this.props.education.id;
+    const formValues = this.form._getValues();
+    return updateEducation(educationId,formValues,(res)=>{
+      if(res.error){
+        updateStateForView(null,-1,true,false);
+      }else{
+        updateStateForView(res,educationId,false,false);
+      }
+    })
+  };
+
+  _onSubmit = (e) => {
+    e.preventDefault();
+    const {updateStateForView, hideEdit} = this.props;
+    if (this.form._formValidate()) {
+      this._save(updateStateForView, hideEdit)
+    }
+    return false;
+  };
+
+  render() {
+    const {education} = this.props;
+    return (
+      <EducationInfoForm onSubmit={this._onSubmit} ref={form => {this.form = form}} education={education}>
+        <div className="col-12 d-flex justify-content-end">
+          <button type="button" className="btn btn-secondary mr-2" onClick={this.props.hideEdit}>
+            {__('Cancel')}
+          </button>
+          <button type="submit" className="btn btn-success">{__('Save')}</button>
+        </div>
+      </EducationInfoForm>
     )
   }
 }

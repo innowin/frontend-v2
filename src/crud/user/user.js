@@ -2,6 +2,84 @@ import {REST_REQUEST} from "../../consts/Events"
 import {REST_URL as url, SOCKET as socket} from "../../consts/URLS"
 import {TOKEN} from "src/consts/data"
 
+export const updateEducation = (educationId, formValues,handleResult) =>{
+
+    socket.emit(REST_REQUEST,
+    {
+      method:'patch',
+      url:`${url}/users/educations/${educationId}/`,
+      data:formValues,
+      result:`user-education-update/${educationId}`,
+      token:TOKEN
+    })
+
+    socket.on(`user-education-update/${educationId}`,(res)=>{
+      if(res.detail){
+        handleResult( {error:true,detail:res.detail});
+      }else{
+        handleResult(res);
+      }
+    })  
+}
+
+export const createEducation = (educationId, formValues, handleResult) =>{
+  
+}
+
+export const deleteEducation = (educationId, formValues, handleResult) =>{
+  
+}
+
+//---------------------------------------------------------------------//
+
+export const updateResearch = (researchId, formValues, handleResult) =>{
+
+}
+
+export const createResearch = (researchId, formValues, handleResult) =>{
+  
+}
+
+export const deleteResearch = (researchId, formValues, handleResult) =>{
+  
+}
+
+export const getUserEducations = (userId, handleResult) =>{
+  socket.emit(REST_REQUEST, 
+    {
+    method: "get",
+    url:`${url}/users/educations/`,
+    result: "/users/educations/get",
+    token: TOKEN,
+    }
+  );
+
+  socket.on("/users/educations/get",(res)=>{
+    if(res.detail) {
+      handleResult( {error:true,detail:res.detail});
+    }
+    handleResult(res);
+  })
+}
+
+export const getUserResearches = (userId, handleResult) =>{
+  socket.emit(REST_REQUEST, 
+    {
+    method: "get",
+    url:`${url}/users/researches/`,
+    result: "/users/researches/get",
+    token: TOKEN,
+    }
+  );
+
+  socket.on("/users/researches/get",(res)=>{
+    if(res.detail) {
+      handleResult( {error:true,detail:res.detail});
+    }
+    handleResult(res);
+  })
+}
+
 export const getUser = (userId, handleResult) => {
   socket.emit(REST_REQUEST,
     {

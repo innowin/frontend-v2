@@ -105,3 +105,85 @@ export class ProfileInfoView extends Component {
         )
     }
 }
+
+
+
+export class ResearchInfoView extends Component {
+    static propTypes = {
+        showEdit: PropTypes.func.isRequired,
+        research: PropTypes.object.isRequired,
+    };
+
+    render() {
+        const {research, showEdit} = this.props;
+        const listAuthor = list_of_badge(research.author);
+        // TODO keep ltr
+        return (
+            <UserInfoItemWrapper>
+                <ItemHeader title={__('ResearchInfo')} showEdit={showEdit}/>
+                <Field>
+                    <FieldLabel label={__('Title') + ": "}/>
+                    <FieldValue value={research.title}/>
+                </Field>
+                <Field>
+                    <FieldLabel label={__('Author') + ": "}/>
+                    <FieldValue value={<span className="dir-rtl">{listAuthor}</span>}/>
+                </Field>
+                <Field>
+                    <FieldLabel label={__('Publication') + ": "}/>
+                    <FieldValue value={research.publication}/>
+                </Field>
+                <Field>
+                    <FieldLabel label={__('Year') + ": "}/>
+                    <FieldValue value={research.year}/>
+                </Field>
+                <Field>
+                    <FieldLabel label={__('Page Count') + ": "}/>
+                    <FieldValue value={research.page_count}/>
+                </Field>
+            </UserInfoItemWrapper>
+        )
+    }
+}
+
+
+export class EducationInfoView extends Component {
+    static propTypes = {
+        showEdit: PropTypes.func.isRequired,
+        education: PropTypes.object.isRequired,
+    };
+
+    render() {
+        const {education, showEdit} = this.props;
+        // TODO keep ltr
+        return (
+            <UserInfoItemWrapper>
+                <ItemHeader title={__('EducationInfo')} showEdit={showEdit}/>
+                <Field>
+                    <FieldLabel label={__('University') + ": "}/>
+                    <FieldValue value={education.university}/>
+                </Field>
+                <Field>
+                    <FieldLabel label={__('Grade') + ": "}/>
+                    <FieldValue value={education.grade}/>
+                </Field>
+                <Field>
+                    <FieldLabel label={__('FromDate') + ": "}/>
+                    <FieldValue value={education.from_date}/>
+                </Field>
+                <Field>
+                    <FieldLabel label={__('ToDate') + ": "}/>
+                    <FieldValue value={education.to_date}/>
+                </Field>
+                <Field>
+                    <FieldLabel label={__('Average') + ": "}/>
+                    <FieldValue value={education.average}/>
+                </Field>
+                <Field>
+                    <FieldLabel label={__('Description') + ": "}/>
+                    <FieldValue value={education.description}/>
+                </Field>
+            </UserInfoItemWrapper>
+        )
+    }
+}
