@@ -7,6 +7,7 @@ import {getIdentity} from "src/crud/identity";
 import {getPictureProduct} from "../../crud/picture/productPicture";
 import {getProducts} from "../../crud/product/product";
 import {TagsBox} from "../bars/SideBar";
+import {Link} from "react-router-dom";
 
 class Product extends Component {
 
@@ -90,7 +91,7 @@ class Product extends Component {
             <span>{product.name}</span>
             <BookmarkIcon className="-rBarBookmark"/>
           </div>
-          <img alt="Product icon" src={productPicture}/>
+          <Link to={`/product/${product.id}`}><img alt="Product icon" src={productPicture}/></Link>
         </div>
         <div className="pt-3">
           <span className="-grey5">{ownerName}</span>
