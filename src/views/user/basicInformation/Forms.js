@@ -10,7 +10,9 @@ import {outputComponent} from "src/views/common/OutputComponent"
 import {PhoneInput} from "src/views/common/inputs/PhoneInput"
 import {TextareaInput} from "src/views/common/inputs/TextareaInput"
 import {TextInput} from "src/views/common/inputs/TextInput"
-import {updateProfile, updateUser, updateEducation} from "../../../crud/user/user"
+import {IntInput} from "src/views/common/inputs/IntInput"
+
+import {updateProfile, updateUser, updateEducation, updateResearch} from "../../../crud/user/user"
 
 export class ProfileInfoForm extends Component {
   static propTypes = {
@@ -136,7 +138,6 @@ export class ProfileInfoForm extends Component {
   }
 }
 
-
 export class ProfileInfoEditForm extends Component {
   state = {confirm: false};
 
@@ -244,7 +245,6 @@ export class UserInfoForm extends Component {
   }
 }
 
-
 export class UserInfoEditForm extends Component {
   constructor(props){
     super(props);
@@ -292,13 +292,68 @@ export class ResearchInfoForm extends Component {
     onSubmit: PropTypes.func.isRequired,
     research: PropTypes.object,
   };
+  _getValues = () => {
+    return {
+      title: this.titleInput.getValue(),
+      author: this.authorInput.getValue(),
+      year: this.yearInput.getValue(),
+      page_count: this.pageCountInput.getValue()
+    }
+  };
 
+  _formValidate = () => {
+    let result = true;
+    const validates = [
+      this.titleInput.validate(),
+      this.authorInput.validate(),
+      this.yearInput.validate(),
+      this.pageCountInput.validate()
+    ];
+    for (let i = 0; i < validates.length; i++) {
+      if (validates[i]) {
+        result = false;
+        break;
+      }
+    }
+    return result
+  };
 
   render() {
+    const {research} = this.props;
     //Todo keep ltr
     return (
       <form onSubmit={this.props.onSubmit}>
-        
+        <div className="row">
+          <TextInput
+            name="title"
+            label={__('Title') + ": "}
+            value={research.title}
+            ref={titleInput => {this.titleInput = titleInput}}
+          />
+          <TextInput
+            name="author"
+            label={__('Author')}
+            value={research.author}
+            ref={authorInput => {this.authorInput = authorInput}}
+          />
+          <TextInput
+            name="publication"
+            label={__('Publication') + ": "}
+            value={research.publication}
+            ref={publicationInput => {this.publicationInput = publicationInput}}
+          />
+          <DateInput
+            label={__('Year') + ": "}
+            value={research.year}
+            ref={yearInput => {this.yearInput = yearInput}}
+          />
+          <IntInput
+            label={__('Page Count') + ": "}
+            value={research.page_count}
+            ref={pageCountInput => {this.pageCountInput = pageCountInput}}
+          />
+          {this.props.children}
+        </div>
       </form>
     )
   }
@@ -314,9 +369,15 @@ export class ResearchInfoEditForm extends Component {
   };
 
   _save = (updateStateForView, hideEdit) => {
-    const profileId = this.props.profile.id;
+    const researchId = this.props.research.id;
     const formValues = this.form._getValues();
-    return updateProfile(formValues, profileId, updateStateForView,  hideEdit)
+    return updateResearch(researchId,formValues,(res)=>{
+      if(res.error){
+        updateStateForView(null,-1,true,false);
+      }else{
+        updateStateForView(res,researchId,false,false);
+      }
+    })
   };
 
   _onSubmit = (e) => {
@@ -349,6 +410,33 @@ export class EducationInfoForm extends Component {
     education: PropTypes.object,
   };
 
+  _getValues = () => {
+    return {
+      university: this.universityInput.getValue(),
+      grade: this.gradeInput.getValue(),
+      field_of_study: this.fieldInput.getValue(),
+      from_date: this.fromDateInput.getValue(),
+      to_date: this.toDateInput.getValue()
+    }
+  };
+
+  _formValidate = () => {
+    let result = true;
+    const validates = [
+      this.universityInput.validate(),
+      this.gradeInput.validate(),
+      this.fieldInput.validate(),
+      this.fromDateInput.validate(),
+      this.toDateInput.validate(),
+    ];
+    for (let i = 0; i < validates.length; i++) {
+      if (validates[i]) {
+        result = false;
+        break;
+      }
+    }
+    return result
+  };
 
   render() {
     const{education} = this.props;
@@ -375,12 +463,12 @@ export class EducationInfoForm extends Component {
             ref={fieldInput => {this.fieldInput = fieldInput}}
           />
           {/*TODO EMAIL INPUT*/}
-          <TextInput
+          <DateInput
             label={__('FromDate') + ": "}
             value={education.from_date}
             ref={fromDateInput => {this.fromDateInput = fromDateInput}}
           />
-          <TextInput
+          <DateInput
             label={__('ToDate') + ": "}
             value={education.to_date}
             ref={toDateInput => {this.toDateInput = toDateInput}}
