@@ -88,7 +88,7 @@ class AttachFile extends Component {
     }
     return (
       <span>
-        <label for="file">
+        <label htmlFor="file">
           {/*// TODO mohsen: improve place of attach icon*/}
           <AttachFileIcon className="-h18"/>
         </label>

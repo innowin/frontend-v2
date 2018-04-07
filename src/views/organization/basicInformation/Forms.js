@@ -1,18 +1,9 @@
 /*global __*/
 import React, {Component} from "react"
 import PropTypes from "prop-types"
-import {ArrayInput} from "src/views/common/inputs/ArrayInput"
-import {CustomArrayInput} from "src/views/common/inputs/CustomArrayInput"
-import {CustomInput} from "src/views/common/inputs/CustomInput"
-import {DateInput} from "src/views/common/inputs/DateInput"
-import {EmailInput} from "src/views/common/inputs/EmailInput"
-import {outputComponent} from "src/views/common/OutputComponent"
-import {PhoneInput} from "src/views/common/inputs/PhoneInput"
-import {TextareaInput} from "src/views/common/inputs/TextareaInput"
 import {TextInput} from "src/views/common/inputs/TextInput"
 import {updateOrganization} from "src/crud/organization/basicInformation"
 import {OrganizationMember} from './Views'
-import {OrganizationMembers} from "./index";
 
 export class OrganizationMembersForm extends Component {
 	static propTypes = {
@@ -67,7 +58,6 @@ export class OrganizationMembersForm extends Component {
 	render() {
 		//Todo pedram : delete and create functionality should be added
 		const members = this.props.members || [{}];
-		console.log(members);
 		return (
 				<form onSubmit={this.props.onSubmit}>
 					<div className="members-wrapper">

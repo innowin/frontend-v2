@@ -68,8 +68,6 @@ export default class ProductFilterSidebar extends Component {
 		const subcatListIds = [];
 		const subcatList = [];
 		const jsonData = {};
-		// console.log(list);
-		// console.log('result is ',JSON.stringify(this._makeTree(list , null) , null , 2));
 		list.map(item => {
 			if(item.category_parent === null){
 				catList.push(item);
@@ -78,7 +76,6 @@ export default class ProductFilterSidebar extends Component {
 			}
 		});
 		list.map(item => {
-			// console.log('this is in Cat',catListIds);
 			if(catListIds.includes(item.category_parent)){
 				subcatListIds.push(item.id);
 				jsonData[item.category_parent].push(item);
@@ -86,7 +83,6 @@ export default class ProductFilterSidebar extends Component {
 		});
 		
 		this.setState({...this.state ,isLoading: false, groups: {...groups , SubcategoryList:subcatList , CategoryList: catList , jsonData}});
-		// console.log(this.state);
 	};
 	
 	render(){

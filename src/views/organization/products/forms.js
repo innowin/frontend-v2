@@ -15,9 +15,9 @@ export class ProductForm extends Component {
 	};
 
 	getValues =  () => {
-		const media = this.productPictureInput.getFile();
-		const mediaId = media ? media.id : null;
-		const values = {
+		// const media = this.productPictureInput.getFile();
+		// const mediaId = media ? media.id : null;
+		return {
 				name: this.nameInput.getValue(),
 				country: this.countryInput.getValue(),
 				province: this.provinceInput.getValue(),
@@ -25,8 +25,7 @@ export class ProductForm extends Component {
 				description: this.descriptionInput.getValue(),
 				product_owner: IDENTITY_ID,
 				product_category: this.productCategoryInput.getValue()
-		};
-		return values;
+		}
 	};
 
 	formValidate = () => {
@@ -51,13 +50,13 @@ export class ProductForm extends Component {
 	render() {
 			const {organization, categories, picture} = this.props;
 			const product = this.props.product || {picture: null};
-			var currentCategory = {title:""};
+			let currentCategory = {title:""};
 			const options = categories.map((cat,index)=>{
 				if(cat.id == product.product_category){
 					currentCategory = cat;
 				}
 				return {value:cat.id, label:cat.title};
-			})
+			});
 			return <form onSubmit={this.props.onSubmit}>
 				<div className="row">
 					<TextInput
@@ -154,9 +153,6 @@ export class ProductCreateForm extends Component {
 }
 
 export class ProductPictureForm extends Component {
-	static propTypes = {
-
-	}
 
 	constructor(props){
 		super(props);
@@ -166,10 +162,9 @@ export class ProductPictureForm extends Component {
 	getValues =  () => {
 		const media = this.productPictureInput.getFile();
 		const mediaId = media ? media.id : null;
-		const values = {
+		return {
 				picture_media: mediaId,
-		};
-		return values;
+		}
 	};
 
 	formValidate = () => {

@@ -1,10 +1,8 @@
-/*global __*/
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {defaultImg, BookmarkIcon} from "../../images/icons";
 import {VerifyWrapper} from "../common/cards/Frames";
 import {getIdentity} from "src/crud/identity";
-import {getPictureProduct} from "../../crud/picture/productPicture";
 import {getProducts} from "../../crud/product/product";
 import {TagsBox} from "../bars/SideBar";
 import {Link} from "react-router-dom";
@@ -144,7 +142,6 @@ export default class ProductExplorerContent extends Component {
   _handleScroll = () => {
     const _handlefectch = (percent) => {
       // TODO
-      // console.log(percent)
     };
     document.addEventListener('scroll', () => {
       let height = document.body.scrollHeight;

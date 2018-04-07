@@ -12,10 +12,11 @@ import {TOKEN} from "src/consts/data"
 export class CertificateContainer extends Component {
 	constructor(props){
 		super(props);
+		this.state = {certificate:{}, error:null, isLoading:false}
 	}
 	componentWillReceiveProps(props){
 			const {certificate} = props;
-			this.setState ({...this.state ,certificate:certificate || {}});
+			this.setState ({...this.state ,certificate:certificate});
 	}
 	delete_ = (certificateId, hideEdit) => {	
 		const {organizationId, updateStateForView} = this.props;
@@ -52,13 +53,13 @@ export class CertificateList extends Component {
 	};
 
 	create = (formValues,hideEdit) => {
-			const {organizationId, certificateId, updateStateForView} = this.props;
+			const {organizationId, updateStateForView} = this.props;
 			return createCertificate(formValues, updateStateForView, hideEdit, organizationId);
 	};
 
 	render() {
 		const {  organizationId, createForm, updateStateForView} = this.props;
-		var {certificates} = this.props ;
+		let {certificates} = this.props ;
 		return <ListGroup>
 			{createForm &&
 			<CertificateItemWrapper>
@@ -80,7 +81,7 @@ export class Certificates extends Component {
 
 	constructor(props){
 		super(props);
-		this.state = {createForm: false,certificates:{}, edit:false, isLoading:false, error:null, certificates:[]};
+		this.state = {createForm: false, certificates:[], edit:false, isLoading:false, error:null};
 	}
 	static propTypes = {
 		organizationId: PropTypes.string.isRequired
@@ -143,7 +144,7 @@ export class Certificates extends Component {
 	};
 	updateStateForView = (error,isLoading) =>{
 		this.setState({...this.state, error:error, isLoading:isLoading})
-	}
+	};
 
 	render() {
 		const {  organizationId} = this.props;

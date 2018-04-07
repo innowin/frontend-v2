@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import {REST_REQUEST, GET_VIEWS_COUNT} from '../consts/Events';
-import { REST_URL as url} from '../consts/URLS';
+import { REST_URL as url, SOCKET as socket} from '../consts/URLS';
 
 export default class Test extends Component {
 
@@ -13,7 +13,6 @@ export default class Test extends Component {
   }
 
   componentDidMount() {
-		const {socket} = this.props;
 		socket.emit(REST_REQUEST,{
       method: "get",
       url: url+'/base/',

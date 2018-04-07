@@ -1,4 +1,3 @@
-/*global __*/
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {defaultImg, ChartIcon, BookmarkIcon} from "../../images/icons";
@@ -6,7 +5,6 @@ import {VerifyWrapper} from "../common/cards/Frames";
 import {BadgesCard, TagsBox} from "./SideBar";
 import {getProduct} from "src/crud/product/product";
 import {getIdentity} from "src/crud/identity";
-import {getPictureProduct} from "../../crud/picture/productPicture";
 
 class MediaSection extends Component {
   static propTypes = {
@@ -166,17 +164,10 @@ export default class ProductSideView extends Component {
 
   _getProductBadges = (product) => {
     //TODO mohsen: handle getProductBadges
-    const handleResult = (res) => {
-      this.setState({...this.state, product: res, isLoading: false});
-    };
-
   };
 
   _getProductTags = (product) => {
     //TODO mohsen: handle getProductTags
-    const handleResult = (res) => {
-      this.setState({...this.state, product: res, isLoading: false});
-    };
   };
 
   componentDidMount() {

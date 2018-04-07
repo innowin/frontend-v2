@@ -17,7 +17,6 @@ export const getIdentity = (identityId, handleResult) => {
       // TODO mohsen: handle error
       return false
     }
-    console.log(res, 2);
     handleResult(res);
     s_off()
   };
