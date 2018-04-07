@@ -80,7 +80,7 @@ export class ProductInfoView extends Component {
 					</Field>
 					<Field>
 						<FieldLabel label ={__('Product Owner')+": "}/>
-						<FieldValue value={owner.username}/>
+						<FieldValue value={owner.name}/>
 					</Field>
 					<Field>
 						<FieldLabel label={__('Country') + ": "}/>

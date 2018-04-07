@@ -3,6 +3,7 @@ import ProductFilterSidebar from "../bars/FilterSideBar";
 import ProductExplorerContent from "./ProductExplorerContent";
 
 export default class ProductExplorer extends Component {
+
   constructor(props) {
     super(props);
     this.state = {activeCategory: null, activeSubcategory: null, activeContribution: []}

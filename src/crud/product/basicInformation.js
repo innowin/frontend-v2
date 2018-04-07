@@ -4,6 +4,7 @@ import {TOKEN} from '../../consts/data'
 
 export const updateProduct = (formValues, productId, updateStateForView, hideEdit) => {
 	let isLoading = false;
+	console.log(TOKEN);
 	const emitting = () => {
 		isLoading = true;
 		socket.emit(REST_REQUEST,

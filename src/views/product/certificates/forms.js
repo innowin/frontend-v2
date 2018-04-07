@@ -17,7 +17,7 @@ export class CertificateForm extends Component {
         const mediaId = media ? media.id : null;
 		const values = {
 				title: this.titleInput.getValue(),
-				picture_media: mediaId, // TODO use media uploader
+				certificate_picture: mediaId, // TODO use media uploader
 		};
 		return values;
 	};

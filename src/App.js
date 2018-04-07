@@ -6,6 +6,7 @@ import Login from './views/pages/Login';
 import {setTOKEN, setID, saveData , setIdentityId} from './consts/data';
 import cookies from 'browser-cookies';
 import PropsRoute from './consts/PropsRoute';
+import Test from './views/Test';
 
 class App extends Component {
 	constructor(props) {
@@ -20,6 +21,7 @@ class App extends Component {
 	};
 	
 	_handleLogIn = (res) => {
+		console.log('response is this : ',res);
 		const setData = (data, cb) => {
 			console.log('recieved data is' ,data);
 			const {token} = data;
@@ -64,6 +66,7 @@ class App extends Component {
 					{this._isLoggedIn()}
 					<PropsRoute path="/" component={Layout} handleSignOut={this._handleSignOut}/>
 					<PropsRoute path="/login" component={Login} handleLogIn={this._handleLogIn}/>
+					{/*<Test/>*/}
 				</div>
 		)
 	}

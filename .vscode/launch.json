@@ -9,8 +9,7 @@
 			"request": "attach",
 			"name": "Attach to Chrome",
 			"port": 9222,
-			"webRoot": "${workspaceFolder}",
-			"url": "http://localhost:3000",
+			"webRoot": "${workspaceFolder}"
 		},
 		{
 			"type": "node",
