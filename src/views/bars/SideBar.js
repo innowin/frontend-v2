@@ -165,7 +165,7 @@ export class UserSideView extends Component {
           {/*TODO mohsen : handle profile_media.url*/}
           <img className="rounded-circle" alt="Person icon" src={userProfile.profile_media || defaultImg}
                style={{width: "100px"}}/>
-          <span style={{padding: 20}}>{__('User')}: {user.first_name + " " + user.last_name || "----"}</span>
+          <span style={{padding: 20}}>{__('User')}: {user.first_name + " " + user.last_name || "------"}</span>
           <span className="-grey1">{userProfile.description}</span>
         </div>
         {

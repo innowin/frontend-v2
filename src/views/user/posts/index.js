@@ -6,10 +6,10 @@ import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper} from "src/views/comm
 import {PostCreateForm} from "./Forms"
 import {PostEditForm} from './Forms'
 import {PostItemWrapper, PostView} from "./Views"
-import {REST_REQUEST} from "src/consts/Events"
-import {REST_URL as url, SOCKET as socket} from "src/consts/URLS"
-import {TOKEN} from "src/consts/data"
-import {ID} from "../../../consts/data";
+import {SOCKET as socket} from "src/consts/URLS"
+import {getIdentity} from "../../../crud/identity";
+import {getUser} from "../../../crud/user/user";
+import {getProfile} from "../../../crud/user/profile";
 
 export class Post extends Component {
 
@@ -21,15 +21,15 @@ export class Post extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {edit: false, error: false, isLoading: false, user:{}, profile:{}, post: this.props.post||{} };
+    this.state = {post: this.props.post || {}, user: {}, profile: {}, edit: false, error: false, isLoading: false}
   }
 
   _showEdit = () => {
-    this.setState({edit: true});
+    this.setState({edit: true})
   };
 
   _hideEdit = () => {
-    this.setState({edit: false});
+    this.setState({edit: false})
   };
 
   _handleErrorLoading = (error = false) => {
@@ -52,52 +52,23 @@ export class Post extends Component {
 
   componentDidMount() {
     // TODO mohsen: handle get userId or organId from post
-
-    // const {userId} = this.props;
-    const userId = ID;
-    const emitting = () => {
-      const newState = {...this.state, isLoading: true};
-      this.setState(newState);
-      socket.emit(REST_REQUEST,
-        {
-          method: "get",
-          url: `${url}/users/${userId}/`,
-          result: `user-Posts-get/${userId}`,
-          token: TOKEN
-        }
-      );
-      socket.emit(REST_REQUEST,
-        {
-          method: "get",
-          url: `${url}/users/profiles/?profile_user=${userId}`,
-          result: `profileUser-Posts-get/${userId}`,
-          token: TOKEN
-        }
-      );
+    const {post_user} = this.props.post;
+    const handleResult = (identity) => {
+      const userId = identity.identity_user;
+      this.setState({...this.state, isLoading: true});
+      // const organId = identity.identity_organization;
+      if (userId) {
+        const handleUser = (res) => {
+          this.setState({...this.state, user: res})
+        };
+        const handleProfile = (res) => {
+          this.setState({...this.state, profile: res, isLoading: false})
+        };
+        getUser(userId, handleUser);
+        getProfile(userId, handleProfile);
+      }
     };
-
-    emitting();
-
-    socket.on(`user-Posts-get/${userId}`, (res) => {
-      if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false};
-        this.setState(newState);
-      } else {
-        const newState = {...this.state, user: res, isLoading: false};
-        this.setState(newState);
-      }
-    });
-
-    socket.on(`profileUser-Posts-get/${userId}`, (res) => {
-      if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false};
-        this.setState(newState);
-      } else {
-        const newState = {...this.state, profile: res[0], isLoading: false};
-        this.setState(newState);
-      }
-    });
-
+    getIdentity(post_user, handleResult);
   }
 
   componentWillUnmount() {
@@ -127,8 +98,8 @@ export class Post extends Component {
 
   render() {
     const {post, isLoading, error, user, profile} = this.state;
-    if (this.state.edit) {
-      return (
+    return (
+      this.state.edit ?
         <VerifyWrapper isLoading={isLoading} error={error}>
           <PostItemWrapper>
             <PostEditForm
@@ -139,12 +110,10 @@ export class Post extends Component {
             />
           </PostItemWrapper>
         </VerifyWrapper>
-      )
-    }
-    return (
-      <VerifyWrapper isLoading={isLoading} error={error}>
-        <PostView post={post} user={user} profile={profile} showEdit={this._showEdit}/>
-      </VerifyWrapper>
+        :
+        <VerifyWrapper isLoading={isLoading} error={error}>
+          <PostView post={post} user={user} profile={profile} showEdit={this._showEdit}/>
+        </VerifyWrapper>
     )
   }
 }
@@ -192,7 +161,7 @@ class Posts extends Component {
 
   _getUserPosts = (userId) => {
     this.setState({...this.state, isLoading: true});
-    getUserPosts(userId , this._updatePosts, this._handleErrorLoading);
+    getUserPosts(userId, this._updatePosts, this._handleErrorLoading);
   };
 
   _create = (formValues) => {

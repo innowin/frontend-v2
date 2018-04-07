@@ -23,7 +23,7 @@ export const SideBarItem = ({name, image, exchange_id: id, handleClick, active})
 export default class HomeSideBar extends Component {
   static propTypes = {
     get_exchangeId: PropTypes.func.isRequired,
-    identity: PropTypes.object.isRequired,
+    identityId: PropTypes.string.isRequired,
   };
 
   constructor(props) {
@@ -37,16 +37,13 @@ export default class HomeSideBar extends Component {
     get_exchangeId(id);
   };
 
-  _getExchangeIdentities = (identity) => {
-    const _handleResult = (res) => {
-      this.setState({...this.state, exchangeIdentities: res})
-    };
-    getExchangeIdentities(identity, _handleResult);
-  }
-  ;
-
   componentDidMount() {
-    this._getExchangeIdentities(this.props.identity)
+    const handleResult = (res) => {
+      if(res.length > 0){
+        this.setState({...this.state, exchangeIdentities: res, activeId:res[0].exchange_identity_related_exchange.id})
+      }
+    };
+    getExchangeIdentities(this.props.identityId, handleResult)
   }
 
   componentWillUnmount() {
@@ -60,7 +57,8 @@ export default class HomeSideBar extends Component {
     return (
       <div>
         {
-          (exchangeIdentities.length > 0) ? (exchangeIdentities.map((item, i) => {
+          (exchangeIdentities.length > 0) ? (
+            exchangeIdentities.map((item, i) => {
             const {name, exchange_image: image, description, id} = item.exchange_identity_related_exchange;
             const {activeId} = this.state;
             return (
@@ -71,7 +69,8 @@ export default class HomeSideBar extends Component {
                 <SideBarItem key={i} name={name} image={image} exchange_id={id} description={description}
                              handleClick={this._handleClick} active={false}/>
             )
-          })) : (<p className="mt-3"><b>شما عضو هیچ بورسی نیستید!</b></p>)
+          })
+          ) : (<p className="mt-3"><b>شما عضو هیچ بورسی نیستید!</b></p>)
         }
       </div>
     )

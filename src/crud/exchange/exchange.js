@@ -7,7 +7,7 @@ import {TOKEN as token} from '../../consts/data'
 export const getExchangeIdentities = (identity, handleResult) => {
   socket.emit(REST_REQUEST, {
     method: "get",
-    url: url + `/exchanges/identities/?identities_exchange=${identity}`,
+    url: url + `/exchanges/identities/?identity_id=${identity}`,
     result: "EXCHANGE_LIST_HOME_SIDEBAR",
     token,
   });

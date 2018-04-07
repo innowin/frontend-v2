@@ -63,10 +63,10 @@ class CreatePostFooter extends Component {
             }}
             getMedia={this.props.getMedia}
           />
-          <i class="fa fa-smile-o mr-3" aria-hidden="true"></i>
+          <i className="fa fa-smile-o mr-3" aria-hidden="true"></i>
           <span className="mr-4">
              <span style={{color: "#BFBFBF"}}>ارسال</span>
-             <label for="submit">
+             <label htmlFor="submit">
                {/*// TODO mohsen: improve place of PostSend icon*/}
                <PostSendIcon className="-submitAttach -h18 mr-2" />
              </label>

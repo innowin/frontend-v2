@@ -12,13 +12,20 @@ export const getUser = (userId, handleResult) => {
     }
   );
 
-  socket.on("/users/{id}/-get", (res) => {
+  const func = (res) => {
     if (res.detail) {
       // TODO mohsen: handle error
       return false
     }
-    handleResult(res)
-  });
+    handleResult(res);
+    s_off()
+  };
+
+  socket.on("/users/{id}/-get",func);
+
+  function s_off() {
+    socket.off("/users/{id}/-get", func)
+  }
 };
 
 export const updateUser = (formValues, userId, updateStateForView, hideEdit) => {

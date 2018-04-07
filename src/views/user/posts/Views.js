@@ -26,13 +26,17 @@ export class PostItemWrapper extends Component {
 export class PostItemHeader extends Component {
   static propTypes = {
     name: PropTypes.string,
-    username: PropTypes.string.isRequired,
+    username: PropTypes.string,
     post: PropTypes.object.isRequired,
     showEdit: PropTypes.func.isRequired,
   };
 
   render() {
-    const {name, showEdit, username, post} = this.props;
+    const {showEdit, username, post} = this.props;
+    let {name} = this.props;
+    if(name === ' '){
+      name = "------"
+    }
     const supplyIcon = post.post_type === 'supply';
     const demandIcon = post.post_type === 'demand';
     const postIcon = post.post_type === 'post';
@@ -41,7 +45,7 @@ export class PostItemHeader extends Component {
         <div className="-item-titlePost">
           <span className={cx("", {'-viewDemand-icon': demandIcon})}>
             {
-              ((postIcon) && <i class="fa fa-share-alt" aria-hidden="true"></i>) ||
+              ((postIcon) && <i className="fa fa-share-alt" aria-hidden="true"></i>) ||
               ((supplyIcon) && <SupplyIcon height="22px"/>) ||
               ((demandIcon) && <DemandIcon height="22px"/>)
             }
@@ -61,7 +65,7 @@ export class PostItemHeader extends Component {
 
 export class PostBody extends Component {
   static propTypes = {
-    description: PropTypes.string.isRequired
+    description: PropTypes.string
   };
 
   render() {
@@ -85,14 +89,14 @@ export class PostFooter extends Component {
       <div className="-item-footerPost">
         <div>
           <span className="ml-1">{viewerCount}</span>
-          <i class="fa fa-eye" aria-hidden="true"></i>
+          <i className="fa fa-eye" aria-hidden="true"></i>
         </div>
         <div>
           <span className="ml-1">\</span>
-          <i class="fa fa-share" aria-hidden="true"></i>
+          <i className="fa fa-share" aria-hidden="true"></i>
         </div>
         <span>
-          <a href="#" onClick={addViewer}><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a>
+          <a href="#" onClick={addViewer}><i className="fa fa-ellipsis-h" aria-hidden="true"></i></a>
         </span>
       </div>
     )
@@ -110,7 +114,6 @@ export class PostView extends Component {
   constructor(props) {
     super(props);
     this.state = {viewerCount: 0, isLoading: false, error: false, profile_media_File:null};
-    this._addViewer = this._addViewer.bind(this);
   }
 
   _getViewerCount = () => {
@@ -200,8 +203,8 @@ export class PostView extends Component {
   }
 
   render() {
-    const {showEdit, post, user, profile_media_File, isLoading, error} = this.props;
-    const {viewerCount} = this.state;
+    const {showEdit, post, user} = this.props;
+    const {viewerCount, isLoading, error, profile_media_File} = this.state;
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         <PostItemWrapper>
