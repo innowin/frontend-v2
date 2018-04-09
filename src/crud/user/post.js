@@ -22,9 +22,9 @@ export const getUserPosts = (userId, updatePosts, handleErrorLoading) => {
   });
 };
 
-export const getOrganPosts = (userId, updatePosts, handleErrorLoading) => {
-
-};
+// export const getOrganPosts = (userId, updatePosts, handleErrorLoading) => {
+//
+// };
 
 export const getExchangePosts = (exchangeId, updatePosts, handleErrorLoading) => {
 

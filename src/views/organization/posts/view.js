@@ -98,7 +98,7 @@ export class PostView extends Component {
       <PostItemWrapper>
         <div className="-img-col">
           {/*// TODO mohsen: handle src of img*/}
-          <img className="-item-imgPost" src={organization.organization_logo || defaultImg}/>
+          <img  alt="" className="-item-imgPost" src={organization.organization_logo || defaultImg}/>
         </div>
         <div className="-content-col">
           <PostItemHeader

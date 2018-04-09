@@ -10,10 +10,19 @@ export const getProfile = (userId, handleResult) => {
     token: TOKEN,
   });
 
-  socket.on(`userProfile-get-${userId}`, (res) => {
+  const func = (res) => {
     if (res.detail) {
+      // TODO mohsen: handle error
       return false
     }
     handleResult(res[0]);
-  });
+    s_off()
+  };
+
+  socket.on(`userProfile-get-${userId}`, func);
+
+  function s_off() {
+    socket.off(`userProfile-get-${userId}`, func)
+  }
+
 };

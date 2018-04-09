@@ -12,11 +12,17 @@ export const getIdentity = (identityId, handleResult) => {
     }
   );
 
-  socket.on("users/identities/{id}/-get", (res) => {
+  const func = (res) => {
     if (res.detail) {
       // TODO mohsen: handle error
       return false
     }
-    handleResult(res)
-  });
+    handleResult(res);
+    s_off()
+  };
+  socket.on("users/identities/{id}/-get", func);
+
+  function s_off() {
+    socket.off("users/identities/{id}/-get", func)
+  }
 };

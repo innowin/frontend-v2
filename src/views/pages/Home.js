@@ -26,10 +26,10 @@ class Home extends Component {
         <TopBar handleSignOut={handleSignOut}/>
         <main>
           <div className="col-md-2 col-sm-1 -right-sidebar-wrapper">
-            <HomeSideBar identity={IDENTITY_ID} get_exchangeId={this._get_exchangeId} />
+            <HomeSideBar identityId={IDENTITY_ID} get_exchangeId={this._get_exchangeId} />
           </div>
           <div className="col-md-8 col-sm-10 -content-wrapper -home-content-wrapper">
-            <HomePosts identity={IDENTITY_ID} exchangeId={activeExchangeId}/>
+            <HomePosts identityId={IDENTITY_ID} exchangeId={activeExchangeId}/>
           </div>
           <div className="col-md-2 col-sm-1 -left-sidebar-wrapper">
             <ChatBar/>

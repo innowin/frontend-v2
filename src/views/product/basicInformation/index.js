@@ -8,7 +8,6 @@ import {REST_REQUEST} from "../../../consts/Events"
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {TOKEN, IDENTITY_ID} from "src/consts/data"
 import {ProductInfoItemWrapper, ProductInfoView, ProductDescriptionView, ProductDescriptionWrapper} from "./Views"
-import {Product} from "../../Product";
 
 
 export class ProductInfo extends Component {

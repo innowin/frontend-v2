@@ -35,13 +35,12 @@ export const OrganizationMember = ({jobTitle, userID , firstName , lastName, isE
 };
 
 export class OrganizationMembersView extends Component {
-	static propsTypes = {
+	static propTypes = {
 		showEdit: PropTypes.func.isRequired,
 		organization: PropTypes.object.isRequired,
 	};
 	render() {
 		const {members, showEdit} = this.props;
-		// console.log('organization member is : ', members);
 		return (
 				<OrganizationMembersWrapper>
 					<ItemHeader title={__('Organization members')} showEdit={showEdit}/>

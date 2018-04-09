@@ -10,8 +10,8 @@ import HomeCreatePost from "./CreatPostHome";
 class HomePosts extends Component {
 
   static propTypes = {
-    exchangeId: PropTypes.number.isRequired,
-    identity: PropTypes.object.isRequired,
+    exchangeId: PropTypes.number,
+    identityId: PropTypes.string.isRequired,
   };
 
   constructor(props) {
@@ -42,32 +42,26 @@ class HomePosts extends Component {
     }
   };
 
-  _getExchangePosts = (exchangeId) => {
-    this.setState({...this.state, isLoading: true});
-    getExchangePosts(exchangeId, this._updatePosts, this._handleErrorLoading);
-  };
-
-
-  _getFirstExchangeId = (identity) => {
+  _getFirstExchangeId = (identityId) => {
     const _handleResult = (res) => {
       if (res.length > 0) {
         const exchangeId = res[0].exchange_identity_related_exchange.id;
-        this.setState({...this.state, exchangeId});
-        this._getExchangePosts(exchangeId);
+        this.setState({...this.state, exchangeId, isLoading: true},
+          () => (getExchangePosts(exchangeId, this._updatePosts, this._handleErrorLoading)))
       }
     };
-    getExchangeIdentities(identity, _handleResult);
+    getExchangeIdentities(identityId, _handleResult);
   };
 
   componentDidMount() {
-    this._getFirstExchangeId(this.props.identity);
+    this._getFirstExchangeId(this.props.identityId);
   }
 
   componentWillReceiveProps(nextProps) {
     let {exchangeId} = nextProps;
     if (exchangeId) {
-      this.setState({...this.state, exchangeId});
-      this._getExchangePosts(exchangeId);
+      this.setState({...this.state, exchangeId},
+        () => (getExchangePosts(exchangeId, this._updatePosts, this._handleErrorLoading)))
     }
   }
 
@@ -88,12 +82,12 @@ class HomePosts extends Component {
               <ListGroup>
                 {
                   (posts.length > 0) ? (posts.map((post) => (
-                    <Post
-                      posts={posts}
-                      post={post}
-                      updatePosts={this._updatePosts}
-                      key={post.id}
-                    />
+                      <Post
+                        posts={posts}
+                        post={post}
+                        updatePosts={this._updatePosts}
+                        key={post.id + "HomePosts"}
+                      />
                   ))) : (<h1 className="mt-5 red">در این بورس پستی وجود ندارد!</h1>)
                 }
               </ListGroup>

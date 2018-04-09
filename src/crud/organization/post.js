@@ -4,7 +4,7 @@ import {TOKEN} from '../../consts/data'
 
 export const createPost = (formValues, organizationId, userId, updateStateForView, hideCreateForm) => {
     let isLoading = true;
-    updateStateForView({}, null, isLoading);
+    // updateStateForView({}, null, isLoading);
     const emitting = () => {
         isLoading = true;
         socket.emit(REST_REQUEST,
@@ -71,12 +71,12 @@ export const updatePost = (formValues, postId, updateStateForView, hideEdit) => 
 
 export const deletePost = (postId,organizationId, updateStateForView, hideEdit) => {
   let isLoading = false;
-  updateStateForView({}, null, isLoading);
+  // updateStateForView({}, null, isLoading);
   const emitting = () => {
     isLoading = true;
     socket.emit(REST_REQUEST,
       {
-        method: "delete",
+        method: "del",
         url: `${url}/base/posts/${postId}/`,
         result: `deletePost-delete/${postId}`,
         token: TOKEN
@@ -98,12 +98,10 @@ export const deletePost = (postId,organizationId, updateStateForView, hideEdit) 
 		socket.emit(REST_REQUEST,
 			{
 				method: "get",
-				url: `${url}/base/post/?post_parent=${organizationId}`,
+				url: `${url}/base/posts/?post_parent=${organizationId}`,
 				result: `organizationPosts-Posts-get/${organizationId}`,
 				token: TOKEN
 			}
 		);
-
-
   });
 };

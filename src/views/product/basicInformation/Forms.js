@@ -1,22 +1,12 @@
 /*global __*/
 import React, {Component} from "react"
 import PropTypes from "prop-types"
-import {ArrayInput} from "src/views/common/inputs/ArrayInput"
-import {CustomArrayInput} from "src/views/common/inputs/CustomArrayInput"
-import {CustomInput} from "src/views/common/inputs/CustomInput"
-import {DateInput} from "src/views/common/inputs/DateInput"
-import {EmailInput} from "src/views/common/inputs/EmailInput"
-import {outputComponent} from "src/views/common/OutputComponent"
-import {PhoneInput} from "src/views/common/inputs/PhoneInput"
-import {TextareaInput} from "src/views/common/inputs/TextareaInput"
 import {TextInput} from "src/views/common/inputs/TextInput"
 import {updateProduct} from "src/crud/product/basicInformation"
 import {SelectComponent} from "src/views/common/SelectComponent"
-import {ProductDescription} from './Views'
-import {ProductDescriptionInfo} from "./index";
 import {REST_REQUEST} from "../../../consts/Events"
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
-import {TOKEN, IDENTITY_ID} from "src/consts/data"
+import {TOKEN} from "src/consts/data"
 
 export class ProductDescriptionForm extends Component {
 	static propTypes = {
@@ -47,7 +37,6 @@ export class ProductDescriptionForm extends Component {
 	render() {
 		//Todo pedram : delete and create functionality should be added
 		const description = this.props.description || "";
-		console.log(description);
 		return (
 				<form onSubmit={this.props.onSubmit}>
 					<div className="description-wrapper">
@@ -162,7 +151,7 @@ export class ProductInfoForm extends Component {
 					token: TOKEN,
 				}
 			);
-		}
+		};
 
 		emitting();
 
@@ -181,13 +170,13 @@ export class ProductInfoForm extends Component {
 	render() {
 		const product = this.props.product || {};
 		const {categories} = this.state;
-		var currentCategory = {title:""};
+		let currentCategory = {title:""};
 		const options = categories.map((cat,index)=>{
-			if(cat.id == product.product_category){
+			if(cat.id === product.product_category){
 				currentCategory = cat;
 			}
 			return {value:cat.id, label:cat.title};
-		})
+		});
 		return (
 				<form onSubmit={this.props.onSubmit}>
 					<div className="row">
@@ -257,7 +246,6 @@ export class ProductInfoEditForm extends Component {
 	_save = (updateStateForView, hideEdit) => {
 		const productId = this.props.product.id;
 		const formValues = this.form._getValues();
-		//console.error('hi',formValues, productId, updateStateForView, hideEdit);
 		return updateProduct(formValues, productId, updateStateForView, hideEdit)
 	};
 	

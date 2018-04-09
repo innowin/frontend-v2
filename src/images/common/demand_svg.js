@@ -4,8 +4,8 @@ import PropTypes from "prop-types";
 class DemandIcon extends Component {
 
   static propTypes = {
-    height: PropTypes.number.isRequired,
-    width: PropTypes.number,
+    height: PropTypes.string.isRequired,
+    width: PropTypes.string,
     className: PropTypes.string,
     onClickFunc: PropTypes.func,
     id: PropTypes.string

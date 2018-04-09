@@ -71,6 +71,10 @@ class Post extends Component {
     post: PropTypes.object.isRequired,
     organization: PropTypes.object.isRequired,
   };
+  constructor(props){
+    super(props);
+    this.state ={...this.state, post: props.post}
+  }
 
   componentWillReceiveProps(props) {
     const {post} = props;
@@ -202,7 +206,7 @@ class Posts extends Component {
   _create = (formValues, hideEdit) => {
     const {organizationId, postId} = this.props;
     const {organization} = this.state;
-    return createPost(formValues, organizationId, organization.owner, this._updateStateForView, hideEdit);
+    return createPost(formValues, organizationId, organization.owner.id, this._updateStateForView, hideEdit);
   };
 
   render() {
@@ -210,7 +214,7 @@ class Posts extends Component {
     return <VerifyWrapper isLoading={isLoading} error={error}>
       <CategoryTitle
         title={__('Post')}
-        showCreateForm={this._showCreateForm}
+        showCreateForm={this._showCreateForm.bind(this)}
         createForm={createForm}
       />
       <FrameCard className="-frameCardPost">
@@ -219,7 +223,7 @@ class Posts extends Component {
             {
               createForm &&
               <PostItemWrapper>
-                <PostCreateForm hideCreateForm={this._hideCreateForm} create={this._create}/>
+                <PostCreateForm hideCreateForm={this._hideCreateForm.bind(this)} create={this._create.bind(this)}/>
               </PostItemWrapper>
             }
             {
@@ -228,7 +232,7 @@ class Posts extends Component {
                   post={post}
                   organization={organization}
                   profile={profile}
-                  updateStateForView={this._updateStateForView}
+                  updateStateForView={this._updateStateForView.bind(this)}
                   key={i}
                 />
               ))

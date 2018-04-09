@@ -35,13 +35,12 @@ export const ProductDescription = ({jobTitle, userID , firstName , lastName, isE
 };
 
 export class ProductDescriptionView extends Component {
-	static propsTypes = {
+	static propTypes = {
 		showEdit: PropTypes.func.isRequired,
 		product: PropTypes.object.isRequired,
 	};
 	render() {
 		const {description, showEdit} = this.props;
-		// console.log('product member is : ', members);
 		return (
 				<ProductDescriptionWrapper>
 					<ItemHeader title={__('Description')} showEdit={showEdit}/>

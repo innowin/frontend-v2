@@ -8,7 +8,6 @@ import {REST_REQUEST} from "../../../consts/Events"
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {TOKEN} from "src/consts/data"
 import {OrganizationInfoItemWrapper, OrganizationInfoView, OrganizationMembersView, OrganizationMembersWrapper} from "./Views"
-import {Organization} from "../../Organization";
 
 
 export class OrganizationInfo extends Component {
