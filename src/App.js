@@ -3,7 +3,7 @@ import './fontawesome/css/font-awesome.min.css';
 import './styles/global.scss';
 import Layout from './views/Layout';
 import Login from './views/pages/Login';
-import {setTOKEN, setID, saveData , setIdentityId} from './consts/data';
+import {setTOKEN, setSession, setID, saveData , setIdentityId} from './consts/data';
 import cookies from 'browser-cookies';
 import PropsRoute from './consts/PropsRoute';
 import Test from './views/Test';
@@ -20,14 +20,14 @@ class App extends Component {
 		return true;
 	};
 	
-	_handleLogIn = (res) => {
-		console.log('response is this : ',res);
+	_handleLogIn = (res , rememberme) => {
+		// console.log('response is this : ',res);
 		const setData = (data, cb) => {
 			console.log('recieved data is' ,data);
 			const {token} = data;
 			const id = data.user.id.toString();
 			saveData(data);
-			setTOKEN(token);
+			rememberme ? setTOKEN(token) : setSession(token);
 			setID(id);
 			setIdentityId(data.identity.id);
 			cb();

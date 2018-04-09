@@ -10,7 +10,7 @@ export default class ExchangeView extends Component {
 	};
 	
 	render (){
-		const {match, handleSignOut} = this.props;
+		const {handleSignOut} = this.props;
 		return (
 				<div className="-tabbed-pages -userOrganBackgroundImg">
 					<TopBar handleSignOut={handleSignOut}/>

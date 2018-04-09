@@ -95,6 +95,7 @@ module.exports = {
   'Telegram account': "حساب تلگرام",
   'Username': "نام کاربری",
   'First name': "نام",
+  'Remember me': "مرا به خاطر بسپار",
   'Last name': "نام خانوادگی",
   'Email': "رایانامه",
   'User info': "اطلاعات کاربری",

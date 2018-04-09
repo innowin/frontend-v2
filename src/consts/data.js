@@ -8,6 +8,10 @@ export const setTOKEN = (token) => {
 	cookies.set('token', token, {expires: 30})
 };
 
+export const setSession = (token) => {
+	cookies.set('token', token, {expires: 0})
+};
+
 export const setID = (id) => {
 	cookies.set('id', id, {expire: 30})
 };
