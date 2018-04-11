@@ -107,13 +107,14 @@ export class PostView extends Component {
   static propTypes = {
     showEdit: PropTypes.func.isRequired,
     post: PropTypes.object.isRequired,
-    profile: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
+    postUser_mediaId: PropTypes.string,
+    postUser_username: PropTypes.string.isRequired,
+    postUser_name: PropTypes.string.isRequired,
   };
 
   constructor(props) {
     super(props);
-    this.state = {viewerCount: 0, isLoading: false, error: false, profile_media_File:null};
+    this.state = {viewerCount: 0, isLoading: false, error: false, postUser_File:null};
   }
 
   _getViewerCount = () => {
@@ -169,7 +170,7 @@ export class PostView extends Component {
   _getFile = (mediaId) => {
     if (mediaId) {
       const mediaResult = (res) => {
-        this.setState({...this.state, profile_media_File: res.file})
+        this.setState({...this.state, postUser_File: res.file})
       };
       return getFile(mediaId, mediaResult)
     }
@@ -177,7 +178,7 @@ export class PostView extends Component {
 
   componentDidMount() {
     this._getViewerCount();
-    this._getFile(this.props.profile.profile_media);
+    this._getFile(this.props.postUser_mediaId);
   };
 
   componentWillUnmount() {
@@ -203,19 +204,19 @@ export class PostView extends Component {
   }
 
   render() {
-    const {showEdit, post, user} = this.props;
-    const {viewerCount, isLoading, error, profile_media_File} = this.state;
+    const {showEdit, post, postUser_username, postUser_name} = this.props;
+    const {viewerCount, isLoading, error, postUser_File} = this.state;
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         <PostItemWrapper>
           <div className="-img-col">
             {/*// TODO mohsen: handle src of img*/}
-            <img className="-item-imgPost rounded-circle" src={profile_media_File || defaultImg} alt=""/>
+            <img className="-item-imgPost rounded-circle" src={postUser_File || defaultImg} alt=""/>
           </div>
           <div className="-content-col">
             <PostItemHeader
-              name={user.first_name + " " + user.last_name}
-              username={user.username}
+              name={postUser_name}
+              username={postUser_username}
               post={post}
               showEdit={showEdit}
             />

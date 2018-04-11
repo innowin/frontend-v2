@@ -10,7 +10,7 @@ export const updateEducation = (educationId, formValues,handleResult) =>{
     data:formValues,
     result:`user-education-update/${educationId}`,
     token:TOKEN
-  })
+  });
 
   socket.on(`user-education-update/${educationId}`,(res)=>{
     if(res.detail){
@@ -19,7 +19,7 @@ export const updateEducation = (educationId, formValues,handleResult) =>{
       handleResult(res);
     }
   })
-}
+};
 
 export const createEducation = (formValues, handleResult) =>{
   formValues.education_user = ID;
@@ -30,7 +30,7 @@ export const createEducation = (formValues, handleResult) =>{
       data:formValues,
       result:`user-education-create/`,
       token:TOKEN
-    })
+    });
 
   socket.on(`user-education-create/`,(res)=>{
     if(res.detail){
@@ -39,7 +39,7 @@ export const createEducation = (formValues, handleResult) =>{
       handleResult(res);
     }
   })
-}
+};
 
 export const deleteEducation = (educationId, formValues, handleResult) =>{
   socket.emit(REST_REQUEST,
@@ -49,7 +49,7 @@ export const deleteEducation = (educationId, formValues, handleResult) =>{
       data:formValues,
       result:`user-education-del/${educationId}`,
       token:TOKEN
-    })
+    });
   
     socket.on(`user-education-del/${educationId}`,(res)=>{
       if(res.detail){
@@ -58,7 +58,7 @@ export const deleteEducation = (educationId, formValues, handleResult) =>{
         handleResult(res);
       }
     })
-}
+};
 
 //---------------------------------------------------------------------//
 
@@ -70,7 +70,7 @@ export const updateResearch = (researchId, formValues, handleResult) =>{
       data:formValues,
       result:`user-research-update/${researchId}`,
       token:TOKEN
-    })
+    });
 
   socket.on(`user-research-update/${researchId}`,(res)=>{
     if(res.detail){
@@ -79,7 +79,7 @@ export const updateResearch = (researchId, formValues, handleResult) =>{
       handleResult(res);
     }
   })
-}
+};
 
 export const createResearch = (researchId, formValues, handleResult) =>{
   formValues.education_user = ID;
@@ -90,7 +90,7 @@ export const createResearch = (researchId, formValues, handleResult) =>{
       data:formValues,
       result:`user-research-create/${researchId}`,
       token:TOKEN
-    })
+    });
 
   socket.on(`user-research-create/${researchId}`,(res)=>{
     if(res.detail){
@@ -99,7 +99,7 @@ export const createResearch = (researchId, formValues, handleResult) =>{
       handleResult(res);
     }
   })
-}
+};
 
 export const deleteResearch = (researchId, formValues, handleResult) =>{
   socket.emit(REST_REQUEST,
@@ -109,7 +109,7 @@ export const deleteResearch = (researchId, formValues, handleResult) =>{
       data:formValues,
       result:`user-research-del/${researchId}`,
       token:TOKEN
-    })
+    });
   
     socket.on(`user-research-del/${researchId}`,(res)=>{
       if(res.detail){
@@ -118,7 +118,7 @@ export const deleteResearch = (researchId, formValues, handleResult) =>{
         handleResult(res);
       }
     })
-}
+};
 
 //---------------------------------------------------------------------//
 
@@ -138,7 +138,7 @@ export const getUserEducations = (userId, handleResult) =>{
     }
     handleResult(res);
   })
-}
+};
 
 export const getUserResearches = (userId, handleResult) =>{
   socket.emit(REST_REQUEST, 
@@ -156,14 +156,14 @@ export const getUserResearches = (userId, handleResult) =>{
     }
     handleResult(res);
   })
-}
+};
 
 export const getUser = (userId, handleResult) => {
   socket.emit(REST_REQUEST,
     {
       method: "get",
       url: `${url}/users/${userId}/`,
-      result: "/users/{id}/-get",
+      result: `/users/{id}/-get/getUser/${userId}`,
       token: TOKEN,
     }
   );
@@ -177,10 +177,10 @@ export const getUser = (userId, handleResult) => {
     s_off()
   };
 
-  socket.on("/users/{id}/-get",func);
+  socket.on(`/users/{id}/-get/getUser/${userId}`,func);
 
   function s_off() {
-    socket.off("/users/{id}/-get", func)
+    socket.off(`/users/{id}/-get/getUser/${userId}`, func)
   }
 };
 

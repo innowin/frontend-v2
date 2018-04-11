@@ -21,7 +21,7 @@ export class FileInput extends Component {
     // TODO mohsen: fileType: PropTypes.arrayOf(PropTypes.string.isRequired),
     // TODO mohsen: fileSize
     // for get or create media
-    mediaId: PropTypes.object,
+    mediaId: PropTypes.number,
   };
 
   constructor(props) {
@@ -131,7 +131,7 @@ export class FileInput extends Component {
           />
           <span className="danesh-boom-custom-file-control">
               <span className="after">
-                {fileName && <FileName fileName={fileName}/>}{!fileName && __('Choose file')}</span>
+                {fileName && <FileName fileName={fileName} className={"dir-ltr"}/>}{!fileName && __('Choose file')}</span>
               <span className="before">{selectText}</span>
           </span>
         </label>

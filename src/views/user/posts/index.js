@@ -10,6 +10,7 @@ import {SOCKET as socket} from "src/consts/URLS"
 import {getIdentity} from "../../../crud/identity";
 import {getUser} from "../../../crud/user/user";
 import {getProfile} from "../../../crud/user/profile";
+import {getOrganization} from "../../../crud/organization/organization";
 
 export class Post extends Component {
 
@@ -21,7 +22,15 @@ export class Post extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {post: this.props.post || {}, user: {}, profile: {}, edit: false, error: false, isLoading: false}
+    this.state = {
+      post: this.props.post || {},
+      postUser_username: '',
+      postUser_name: '',
+      postUser_mediaId: null,
+      edit: false,
+      error: false,
+      isLoading: false
+    }
   }
 
   _showEdit = () => {
@@ -56,48 +65,39 @@ export class Post extends Component {
     const handleResult = (identity) => {
       const userId = identity.identity_user;
       this.setState({...this.state, isLoading: true});
-      // const organId = identity.identity_organization;
+      const organId = identity.identity_organization;
       if (userId) {
         const handleUser = (res) => {
-          this.setState({...this.state, user: res})
+          this.setState({
+            ...this.state,
+            postUser_username: res.username,
+            postUser_name: res.first_name + ' ' + res.last_name
+          })
         };
         const handleProfile = (res) => {
-          this.setState({...this.state, profile: res, isLoading: false})
+          this.setState({...this.state, postUser_mediaId: res.profile_media, isLoading: false})
         };
         getUser(userId, handleUser);
         getProfile(userId, handleProfile);
+      }
+      if (organId) {
+        const handleOrgan = (res) => {
+          this.setState({
+            ...this.state,
+            postUser_username: res.username,
+            postUser_name: res.nike_name || res.official_name,
+            postUser_mediaId: res.organization_logo,
+            isLoading: false
+          })
+        };
+        getOrganization(organId, handleOrgan);
       }
     };
     getIdentity(post_user, handleResult);
   }
 
-  componentWillUnmount() {
-    const {userId} = this.props;
-    // TODO mohsen: complete by socket.off of update and delete requests
-    socket.off(`user-Posts-get/${userId}`, (res) => {
-      if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false};
-        this.setState(newState);
-      } else {
-        const newState = {...this.state, user: res, isLoading: false};
-        this.setState(newState);
-      }
-    });
-
-    socket.off(`profileUser-Posts-get/${userId}`, (res) => {
-      if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false};
-        this.setState(newState);
-      } else {
-        const newState = {...this.state, profile: res[0], isLoading: false};
-        this.setState(newState);
-      }
-    });
-
-  }
-
   render() {
-    const {post, isLoading, error, user, profile} = this.state;
+    const {post, isLoading, error, postUser_username, postUser_name, postUser_mediaId} = this.state;
     return (
       this.state.edit ?
         <VerifyWrapper isLoading={isLoading} error={error}>
@@ -112,7 +112,9 @@ export class Post extends Component {
         </VerifyWrapper>
         :
         <VerifyWrapper isLoading={isLoading} error={error}>
-          <PostView post={post} user={user} profile={profile} showEdit={this._showEdit}/>
+          <PostView post={post} postUser_username={postUser_username} postUser_name={postUser_name}
+                    postUser_mediaId={postUser_mediaId}
+                    showEdit={this._showEdit}/>
         </VerifyWrapper>
     )
   }

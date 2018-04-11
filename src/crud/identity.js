@@ -7,7 +7,7 @@ export const getIdentity = (identityId, handleResult) => {
     {
       method: "get",
       url: `${url}/users/identities/${identityId}/`,
-      result: "users/identities/{id}/-get",
+      result: `users/identities/{id}/-get/getIdentity/${identityId}`,
       token: TOKEN,
     }
   );
@@ -20,9 +20,9 @@ export const getIdentity = (identityId, handleResult) => {
     handleResult(res);
     s_off()
   };
-  socket.on("users/identities/{id}/-get", func);
+  socket.on(`users/identities/{id}/-get/getIdentity/${identityId}`, func);
 
   function s_off() {
-    socket.off("users/identities/{id}/-get", func)
+    socket.off(`users/identities/{id}/-get/getIdentity/${identityId}`, func)
   }
 };

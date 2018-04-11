@@ -7,6 +7,19 @@ import {createPost} from "../../../crud/user/post";
 import cx from 'classnames';
 import {SupplyIcon, DemandIcon, PostSendIcon} from "src/images/icons";
 import {IDENTITY_ID} from "../../../consts/data";
+import Transition from 'react-transition-group/Transition'
+import {FileName} from "../../common/FileName";
+import {AttachFileIcon} from "src/images/icons";
+
+const duration = 300;
+const defaultStyle = {
+  transition: `all ${duration}ms ease-in-out`,
+  height: 60,
+};
+const transitionStyles = {
+  entering: {height: 60},
+  entered: {height: 190}
+};
 
 class CreatePostFooter extends Component {
 
@@ -27,13 +40,11 @@ class CreatePostFooter extends Component {
     }
   };
 
-  _post_type = () => {
-    return this.state.postType
-  };
+  AttachBottom = () => <AttachFileIcon className="-h18"/>;
 
-  _reset_postType = () => {
-    this.setState({...this.state, postType: 'post'})
-  };
+  _post_type = () => this.state.postType;
+
+  _reset_postType = () => this.setState({...this.state, postType: 'post'});
 
   _handle_post_type = (e) => {
     e.preventDefault();
@@ -47,7 +58,7 @@ class CreatePostFooter extends Component {
     const postMark = postType === 'post';
     return (
       <div className="-createPostFooter">
-        <div>
+        <div className="rightIcons">
           <i className={cx("fa fa-share-alt", {'-selectedPostType': postMark})} aria-hidden="true" id='post'
              onClick={this._handle_post_type}></i>
           <SupplyIcon height="22px" className={cx("mr-3", {'-selectedPostType': supplyMark})}
@@ -56,19 +67,20 @@ class CreatePostFooter extends Component {
           <DemandIcon height="22px" className={cx("-viewDemand-icon mr-2", {'-selectedPostType': demandMark})}
                       onClickFunc={this._handle_post_type} id='demand'/>
         </div>
-        <div>
+        <div className="leftIcons">
           <AttachFile
             ref={AttachFileInput => {
               this.AttachFileInput = AttachFileInput
             }}
             getMedia={this.props.getMedia}
+            AttachBottom={this.AttachBottom}
           />
           <i className="fa fa-smile-o mr-3" aria-hidden="true"></i>
           <span className="mr-4">
              <span style={{color: "#BFBFBF"}}>ارسال</span>
              <label htmlFor="submit">
                {/*// TODO mohsen: improve place of PostSend icon*/}
-               <PostSendIcon className="-submitAttach -h18 mr-2" />
+               <PostSendIcon className="-submitAttach -h18 mr-2"/>
              </label>
             <input id="submit" hidden type="submit"/>
           </span>
@@ -87,7 +99,10 @@ class HomeCreatePost extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {media: {}, fileName: '', description: '', descriptionValidate: false}
+    this.state = {
+      media: {}, fileName: '', description: '', descriptionValidate: false, textareaClass: 'closeTextarea',
+      show: false
+    }
   }
 
   _getValues = () => {
@@ -118,6 +133,8 @@ class HomeCreatePost extends Component {
     return result
   };
 
+  AttachBottom = () => <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+
   _getMedia = (media, fileName) => {
     this.setState({...this.state, media, fileName})
   };
@@ -141,34 +158,49 @@ class HomeCreatePost extends Component {
     this.setState({...this.state, description: val, descriptionValidate: validate});
   };
 
+  _handleFocus = () => {
+    this.setState({...this.state, textareaClass: "openTextarea", show: true})
+  };
+
   _onSubmit = (e) => {
     e.preventDefault();
     if (this._formValidate()) {
-      this._save()
+      this._save();
+      this.setState({...this.state, textareaClass: "closeTextarea", show: false})
     }
     return false;
   };
 
   render() {
-    const {media, fileName, description} = this.state;
+    const {media, fileName, description, textareaClass, show} = this.state;
     const {profile_media_file} = this.props;
     return (
       <form className="-createPostHome" onSubmit={this._onSubmit}>
         {/*// TODO mohsen: handle src of img*/}
         <img className="-img-col rounded-circle" src={profile_media_file || defaultImg} alt=""/>
-        <div className="-content-col">
-          <div className="d-flex flex-row mb-2">
-            <textarea className="-createPostInput" onChange={this._handleChange} value={description}/>
-            <div className="-img-content text-center">
-              {(media.file) ? <img src={media.file} alt="imagePreview"/> : ('')}
-              <span style={{color: "#BFBFBF"}}>{fileName}</span>
+        <Transition in={show} timeout={duration}>
+          {(state) => (
+            <div className={"-content-col " + textareaClass} style={{...defaultStyle, ...transitionStyles[state]}}>
+              <div className="d-flex flex-row mb-2 -texBox">
+                <textarea onFocus={this._handleFocus} onChange={this._handleChange} value={description}/>
+                <div className="-img-content">
+                  {(media.file) ? (
+                  <div className="-fileBox">
+                    <AttachFile getMedia={this._getMedia} AttachBottom={this.AttachBottom}/>
+                    <img src={media.file} alt="imagePreview"/>
+                  </div>
+
+                  ) : ('')}
+                  <div className="-fileNameBox"><FileName fileName={fileName} className={"d-inline-block"}/></div>
+                </div>
+              </div>
+              <CreatePostFooter getMedia={this._getMedia} ref={createPostFooter => {
+                this.createPostFooter = createPostFooter
+              }}
+              />
             </div>
-          </div>
-          <CreatePostFooter getMedia={this._getMedia} ref={createPostFooter => {
-            this.createPostFooter = createPostFooter
-          }}
-          />
-        </div>
+          )}
+        </Transition>
       </form>
     )
   }

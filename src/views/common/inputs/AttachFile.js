@@ -2,7 +2,6 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {createFile} from "../../../crud/media/media";
-import {AttachFileIcon} from "src/images/icons";
 
 class AttachFile extends Component {
   static defaultProps = {
@@ -15,7 +14,8 @@ class AttachFile extends Component {
     customValidate: PropTypes.func,
     // TODO mohsen: fileType: PropTypes.arrayOf(PropTypes.string.isRequired),
     // TODO mohsen: fileSize
-    getMedia: PropTypes.func.isRequired
+    getMedia: PropTypes.func.isRequired,
+    AttachBottom: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -81,6 +81,7 @@ class AttachFile extends Component {
 
   render() {
     const {error, isLoading} = this.state;
+    const {AttachBottom} = this.props;
     if (isLoading) {
       return (
           <span>{__('Uploading...')}</span>
@@ -90,7 +91,7 @@ class AttachFile extends Component {
       <span>
         <label htmlFor="file">
           {/*// TODO mohsen: improve place of attach icon*/}
-          <AttachFileIcon className="-h18"/>
+          <AttachBottom/>
         </label>
         <input
           type="file"
