@@ -204,7 +204,7 @@ export class Products extends Component {
 		const emitting = () => {
 			const newState = {...this.state, isLoading: true};
 			this.setState(newState);
-			
+			console.log(IDENTITY_ID);
 			socket.emit(REST_REQUEST,
 				{
 					method: "get",

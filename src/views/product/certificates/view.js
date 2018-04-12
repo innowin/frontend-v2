@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {CertificateEditForm} from './forms';
 import {ItemHeader, ItemWrapper} from "../../common/cards/Frames";
-import {certificateIcon, starIcon} from "src/images/icons";
+import {certificateIcon, starIcon,editIcon} from "src/images/icons";
 
 export const CertificateItemWrapper = ({children}) => {
 	return <ItemWrapper icon={certificateIcon}>{children}</ItemWrapper>;
@@ -17,10 +17,13 @@ export class CertificateView extends Component {
 	render() {
 		const {certificate, showEdit} = this.props;
 		return (
-			<div className="col text-center container-fluid">
+			<div className="col-6 text-center container-fluid">
 				<div className="row">
 					<div className="col certificate">
 						<div className="content">
+							<div className="editButton">
+								<div onClick={showEdit}>{editIcon}</div>
+							</div>
 							<img className="certImage" alt="" src={certificate.picture_media || "/static/media/defaultImg.94a29bce.png"} />
 							<h5>{certificate.title}</h5>
 
@@ -33,7 +36,6 @@ export class CertificateView extends Component {
 		)
 	}
 }
-
 
 export class Certificate extends Component {
 	constructor(props){

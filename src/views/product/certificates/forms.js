@@ -38,7 +38,7 @@ export class CertificateForm extends Component {
 
 	render() {
 			const {organization} = this.props;
-			const certificate = this.props.certificate || {picture: null};
+			const certificate = this.props.certificate || {};
 			return <form onSubmit={this.props.onSubmit}>
 				<div className="row">
 					<TextInput
@@ -53,11 +53,10 @@ export class CertificateForm extends Component {
 					<FileInput
 							name="picture"
 							label={__('Picture') + ": "}
+							mediaId={certificate.certificate_picture}
 							ref={certPictureInput => {
 								this.certPictureInput = certPictureInput
 							}}
-							mediaId={certificate.picture}
-							organization={organization}
 					/>
 
 					{this.props.children}
@@ -135,6 +134,7 @@ export class CertificateEditForm extends Component {
 	onSubmit = (e) => {
 		e.preventDefault();
 		this.save();
+		return true;
 	};
 
 	render() {

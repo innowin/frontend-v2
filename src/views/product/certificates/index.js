@@ -12,21 +12,21 @@ import {TOKEN} from "src/consts/data"
 export class CertificateContainer extends Component {
 	constructor(props){
 		super(props);
-		
+		this.state = {certificate:props.certificate || {}};
 	}
 	componentWillReceiveProps(props){
 			const {certificate} = props;
-			this.setState ({...this.state ,certificate:certificate || {}});
+			
 	}
 	delete_ = (certificateId, hideEdit) => {	
 		const {productId, updateStateForView} = this.props;
 		updateStateForView(null,null,true);
-		return deleteCertificate(certificateId, productId,()=>{
+		return deleteCertificate(certificateId,()=>{
 			updateStateForView(null,false);
 		},hideEdit,productId);
 	};
 	update_ = (formValues, certificateId, updateStateForView, hideEdit) => {//formValues, careerId, updateStateForView, hideEdit
-		updateStateForView(null,null,true);
+		// updateStateForView(null,null,true);
 		return updateCertificate(formValues,certificateId, updateStateForView, hideEdit);
 	};
 	_updateStateForView = (res, error, isLoading) => {

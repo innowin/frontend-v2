@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import TopBar from '../bars/TopBar';
 import ChatBar from '../bars/ChatBar';
 import PropTypes from 'prop-types';
+import Posts from './cardView/index';
 
 export default class ExchangeView extends Component {
 	static propTypes = {
@@ -20,7 +21,7 @@ export default class ExchangeView extends Component {
 							side bar
 						</div>
 						<div className="col-md-8 col-sm-10 -content-wrapper">
-						
+							<Posts exchangeId={match.params.id}/>
 						</div>
 						<div className="col-md-2 col-sm-1 -left-sidebar-wrapper">
 							<ChatBar/>
