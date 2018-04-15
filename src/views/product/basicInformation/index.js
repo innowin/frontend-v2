@@ -33,7 +33,7 @@ export class ProductInfo extends Component {
 		this.setState({...this.state, product: res, error: error, isLoading});
   };
   
-  getProductDetail(categoryId, userId){
+  getProductDetail(categoryId, userId, productId){
     const newState = {...this.state, isLoading: true};
     this.setState(newState);
     socket.emit(REST_REQUEST,
@@ -52,7 +52,16 @@ export class ProductInfo extends Component {
         result: `Products-owner-get`,
         token: TOKEN,
       }
-    );
+		);
+		
+		socket.emit(REST_REQUEST,
+			{
+				method: "get",
+				url: `${url}/products/pictures/?picture_product=${productId}`,
+				result: `product-pictures-get/${productId}`,
+				token: TOKEN
+			}
+		);
   }
 	
 	componentDidMount() {
@@ -81,7 +90,7 @@ export class ProductInfo extends Component {
 				this.setState(newState);
 			}
       const newState = {...this.state, product: res, isLoading: false};
-      this.getProductDetail(res.product_category,res.product_owner);
+      this.getProductDetail(res.product_category,res.product_owner, productId);
 			this.setState(newState);
     });
     

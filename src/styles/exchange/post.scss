@@ -1,0 +1,76 @@
+.-masonry {
+	display: -ms-flexbox;
+	-ms-flex-direction: column;
+	-ms-flex-wrap: wrap;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	height: 800px;
+	font-size: 0; 
+}
+
+.-masonry-brick { 
+	width: 33.3%;
+	transition: .8s opacity;
+
+	.-img-col{
+
+	}
+	.-content-col{
+
+	}
+	.-item-imgPost{
+		max-width: 100%;
+	}
+	.-item-headerPost{
+
+	}
+	.-line-height{
+		
+	}
+	.-item-footerPost{
+
+	}
+}
+
+div#masonry {
+	display: -ms-flexbox;
+	-ms-flex-direction: column;
+	-ms-flex-wrap: wrap;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	height: 800px;
+	font-size: 0; 
+}
+.-masonry-brick { 
+	width: 33.3%;
+	
+}
+
+.-exchangePost{
+	.productBox{
+		border:1px solid rgb(202, 202, 202);
+		padding: 10px;
+		
+	}
+
+	img{
+		max-height:250px;
+	}
+
+	.badge-secondary {
+    color: #fff;
+    background-color: #6c757d;
+	}
+
+	.-item-edit-btnProduct{
+		svg{
+			height:16px;
+			width:16px;
+		}
+	}
+}
+
+
+

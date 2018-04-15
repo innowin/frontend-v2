@@ -4,6 +4,7 @@ import ProductPosts from "../product/posts";
 import ProductBasicInformation from "../product/basicInformation";
 import ProductCertificates from "../product/certificates";
 import ProductRating from "../product/ratings";
+import Represents from '../product/represents';
 import ChatBar from "../bars/ChatBar";
 import Sidebar from "../bars/SideBar";
 import {Tabs} from "../common/cards/Frames";
@@ -27,7 +28,7 @@ export default class ProductView extends Component {
     this.setState({modal: !this.state.modal, modalFiles: files, selectedFileIndex: fileIndex})
   };
 
-  render() {
+  render() {// TODO ICON for represents
     const {match} = this.props;
     const {path, url, params} = match;
     const productId = +(params.id);
@@ -48,6 +49,7 @@ export default class ProductView extends Component {
             <NavLink className="-tab" to={`${url}/Certificates`} activeClassName="-active">{certificateIcon}</NavLink>
             <NavLink className="-tab" to={`${url}/Ratings`} activeClassName="-active"><RatingIcon/></NavLink>
             <NavLink className="-tab" to={`${url}/Posts`} activeClassName="-active">{postIcon}</NavLink>
+            <NavLink className="-tab" to={`${url}/Represents`} activeClassName="-active">{postIcon}</NavLink>
           </Tabs>
           <div>
             <Switch>
@@ -56,6 +58,7 @@ export default class ProductView extends Component {
               <PropsRoute path={`${path}/Certificates`} component={ProductCertificates} productId={productId}/>
               <PropsRoute path={`${path}/Ratings`} component={ProductRating} productId={productId}/>
               <PropsRoute path={`${path}/Posts`} component={ProductPosts} productId={productId}/>
+              <PropsRoute path={`${path}/Represents`} component={Represents} productId={productId}/>
             </Switch>
           </div>
         </div>

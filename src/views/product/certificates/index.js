@@ -10,42 +10,40 @@ import {REST_REQUEST} from "../../../consts/Events"
 import {TOKEN} from "src/consts/data"
 
 export class CertificateContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {certificate: {}, error: null, isLoading: false}
-  }
+	constructor(props){
+		super(props);
+		this.state = {certificate:props.certificate || {}};
+	}
+	componentWillReceiveProps(props){
+			const {certificate} = props;
+			
+	}
+	delete_ = (certificateId, hideEdit) => {	
+		const {productId, updateStateForView} = this.props;
+		updateStateForView(null,null,true);
+		return deleteCertificate(certificateId,()=>{
+			updateStateForView(null,false);
+		},hideEdit,productId);
+	};
+	update_ = (formValues, certificateId, updateStateForView, hideEdit) => {//formValues, careerId, updateStateForView, hideEdit
+		// updateStateForView(null,null,true);
+		return updateCertificate(formValues,certificateId, updateStateForView, hideEdit);
+	};
+	_updateStateForView = (res, error, isLoading) => {
+		const {updateStateForView} = this.props;
+		updateStateForView({error:error,isLoading:isLoading});
+		this.setState({...this.state, certificate:res, error:error, isLoading:isLoading});
+	};
 
-  componentWillReceiveProps(props) {
-    const {certificate} = props;
-    this.setState({...this.state, certificate: certificate});
-  }
-
-  delete_ = (certificateId, hideEdit) => {
-    const {productId, updateStateForView} = this.props;
-    updateStateForView(null, null, true);
-    return deleteCertificate(certificateId, productId, () => {
-      updateStateForView(null, false);
-    }, hideEdit, productId);
-  };
-  update_ = (formValues, certificateId, updateStateForView, hideEdit) => {//formValues, careerId, updateStateForView, hideEdit
-    updateStateForView(null, null, true);
-    return updateCertificate(formValues, certificateId, updateStateForView, hideEdit);
-  };
-  _updateStateForView = (res, error, isLoading) => {
-    const {updateStateForView} = this.props;
-    updateStateForView({error: error, isLoading: isLoading});
-    this.setState({...this.state, certificate: res, error: error, isLoading: isLoading});
-  };
-
-  render() {
-    const {certificate} = this.state;
-    return <Certificate
-      certificate={certificate}
-      updateStateForView={this._updateStateForView}
-      deleteCertificate={this.delete_}
-      updateCertificate={this.update_}
-    />;
-  }
+	render() {
+		const {certificate} = this.state;
+		return <Certificate
+			certificate={certificate}
+			updateStateForView={this._updateStateForView}
+			deleteCertificate={this.delete_}
+			updateCertificate={this.update_}
+		/>;
+	}
 }
 
 export class CertificateList extends Component {
