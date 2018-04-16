@@ -109,35 +109,42 @@ export class Certificates extends Component {
           result: `product-Posts-get/${productId}`,
           token: TOKEN
         }
-      );
+			);
+			
+		};
 
+		emitting();
+
+		socket.on(`ProductCertificates-get/${productId}`, (res) => {
+			if (res.detail) {
+				const newState = {...this.state, error: res.detail, isLoading: false};
+				this.setState(newState);
+			}else{
+				const newState = {...this.state, certificates:res, isLoading: false};
+				console.log(newState);
+				this.setState(newState);
+			}
+
+		});
+		socket.on(`product-Posts-get/${productId}`, (res) => {
+			if (res.detail) {
+				const newState = {...this.state, error: res.detail, isLoading: false};
+				this.setState(newState);
+			} else {
+				const newState = {...this.state, product: res, isLoading: false};
+				this.setState(newState);
+			}
+		});
+	}
+    showCreateForm = () => {
+        this.setState({createForm: true});
     };
-
-    emitting();
-
-    socket.on(`ProductCertificates-get/${productId}`, (res) => {
-      if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false};
-        this.setState(newState);
-      } else {
-        const newState = {...this.state, certificates: res, isLoading: false};
-        console.log(newState);
-        this.setState(newState);
-      }
-
-    });
-    socket.on(`product-Posts-get/${productId}`, (res) => {
-      if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false};
-        this.setState(newState);
-      } else {
-        const newState = {...this.state, product: res, isLoading: false};
-        this.setState(newState);
-      }
-    });
-
-
-  }
+    hideCreateForm = () => {
+        this.setState({createForm: false});
+    };
+    updateStateForView = (error,isLoading) =>{
+      this.setState({...this.state, error:error, isLoading:isLoading})
+    }
 
   showCreateForm = () => {
     this.setState({createForm: true});

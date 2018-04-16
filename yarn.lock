@@ -6894,6 +6894,10 @@ react-masonry-component@^6.0.2:
     masonry-layout "^4.2.0"
     prop-types "^15.5.8"
 
+react-masonry-css@^1.0.10:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/react-masonry-css/-/react-masonry-css-1.0.10.tgz#9a510937d6a645615df7ff8bb585ff08b18dceaf"
+
 react-masonry-infinite@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/react-masonry-infinite/-/react-masonry-infinite-1.2.2.tgz#20c1386f9ccdda9747527c8f42bc2c02dd2e7951"
