@@ -116,7 +116,7 @@ export default class ProductSideView extends Component {
       ownerName: "",
       pictureProductFiles: [],
       userProfile: {},
-      badges: [],
+      badgesImgUrl: [],
       tags: [],
       isLoading: false,
       error: null
@@ -191,7 +191,7 @@ export default class ProductSideView extends Component {
   }
 
   render() {
-    const {product, ownerName, userProfile, badges, tags, isLoading, error} = this.state;
+    const {product, ownerName, userProfile, badgesImgUrl, tags, isLoading, error} = this.state;
     const pictureProductFiles = [...new Set(this.state.pictureProductFiles)];
     return (
       <VerifyWrapper isLoading={isLoading} error={error} className="-sidebar-child-wrapper">
@@ -203,9 +203,9 @@ export default class ProductSideView extends Component {
         />
         <OwnerSection ownerName={ownerName} userProfile={userProfile}/>
         {
-          (badges.length > 0) ? (
+          (badgesImgUrl.length > 0) ? (
             <div className="flex-wrap pb-3">
-              <BadgesCard badges={badges}/>
+              <BadgesCard badgesImgUrl={badgesImgUrl}/>
             </div>) : ("")
         }
         <BottomSection price={product.price}/>

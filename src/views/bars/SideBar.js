@@ -9,11 +9,11 @@ import {TOKEN} from "src/consts/data";
 import {VerifyWrapper} from "../common/cards/Frames";
 
 
-export const BadgesCard = ({badges}) => {
+export const BadgesCard = ({badgesImgUrl}) => {
   return (
-    badges.map((badge, i) => (
+    badgesImgUrl.map((imgUrl, i) => (
       <span className="col-3 mb-2">
-          <img key={i} src={badge.badge_media || defaultImg} style={{height: "35px"}} alt=""/>
+          <img key={i} src={imgUrl} style={{height: "35px"}} alt=""/>
       </span>
     ))
   )
@@ -56,7 +56,7 @@ export class UserSideView extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {user: {}, userProfile: {}, badges: [], tags: [], isLoading: false, error: null}
+    this.state = {user: {}, userProfile: {}, badgesImgUrl: [], tags: [], isLoading: false, error: null}
   }
 
 
@@ -118,7 +118,7 @@ export class UserSideView extends Component {
         const newState = {...this.state, error: res.detail, isLoading: false};
         this.setState(newState);
       }
-      const newState = {...this.state, badges: res, isLoading: false};
+      const newState = {...this.state, badgesImgUrl: res, isLoading: false};
       this.setState(newState);
     });
     // TODO mohsen: socket.on of tags
@@ -150,7 +150,7 @@ export class UserSideView extends Component {
         const newState = {...this.state, error: res.detail, isLoading: false};
         this.setState(newState);
       }
-      const newState = {...this.state, badges: res, isLoading: false};
+      const newState = {...this.state, badgesImgUrl: res, isLoading: false};
       this.setState(newState);
     });
 
@@ -158,7 +158,7 @@ export class UserSideView extends Component {
   }
 
   render() {
-    const {user, userProfile, badges, tags, isLoading, error} = this.state;
+    const {user, userProfile, badgesImgUrl, tags, isLoading, error} = this.state;
     return (
       <VerifyWrapper isLoading={isLoading} error={error} className="-sidebar-child-wrapper">
         <div className="align-items-center flex-column">
@@ -169,9 +169,9 @@ export class UserSideView extends Component {
           <span className="-grey1">{userProfile.description}</span>
         </div>
         {
-          (badges.length > 0) ? (
+          (badgesImgUrl.length > 0) ? (
             <div className="flex-wrap pb-3">
-              <BadgesCard badges={badges}/>
+              <BadgesCard badgesImgUrl={badgesImgUrl}/>
             </div>
           ) : ("")
         }
@@ -206,7 +206,7 @@ export class OrganizationSideView extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {organization: {}, badges: [], tags: [], isLoading: false, error: null}
+    this.state = {organization: {}, badgesImgUrl: [], tags: [], isLoading: false, error: null}
   }
 
   static propTypes = {
@@ -259,7 +259,7 @@ export class OrganizationSideView extends Component {
   }
 
   render() {
-    const {organization, badges, tags, isLoading, error} = this.state;
+    const {organization, badgesImgUrl, tags, isLoading, error} = this.state;
     return (
       <VerifyWrapper isLoading={isLoading} error={error} className="-sidebar-child-wrapper">
         <div className="align-items-center flex-column">
@@ -272,9 +272,9 @@ export class OrganizationSideView extends Component {
           <span className="-grey1">{organization.biography}</span>
         </div>
         {
-          (badges.length > 0) ? (
+          (badgesImgUrl.length > 0) ? (
             <div className="flex-wrap pb-3">
-              <BadgesCard badges={badges}/>
+              <BadgesCard badgesImgUrl={badgesImgUrl}/>
             </div>
           ) : ("")
         }

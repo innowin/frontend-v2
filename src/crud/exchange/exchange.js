@@ -18,3 +18,22 @@ export const getExchangeIdentities = (identity, handleResult) => {
     handleResult(res)
   });
 };
+
+export const getExchange = (exchangeId, handleResult) => {
+  socket.emit(REST_REQUEST, {
+    method: "get",
+    url: url + `/exchanges/${exchangeId}/`,
+    result: `GET_/exchanges/{id}/${exchangeId}`,
+    token
+  });
+
+  const func = (res) => {
+    if (res.detail) {
+      return false;
+    }
+    handleResult(res);
+    socket.off(`GET_/exchanges/{id}/${exchangeId}`, func)
+  };
+
+  socket.on(`GET_/exchanges/{id}/${exchangeId}`, func)
+};
