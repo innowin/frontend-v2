@@ -36,7 +36,7 @@ export class ProductView extends Component {
 		
 
 		return (
-			<div className="col-6 organizationProduct">
+			<div className="organizationProduct">
 				<div className=" productBox">
           <div className="d-block m-2">{product.name}</div>
           

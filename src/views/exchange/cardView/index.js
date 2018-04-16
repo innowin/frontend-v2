@@ -8,7 +8,7 @@ import {REST_REQUEST} from "src/consts/Events"
 import {REST_URL as url, SOCKET as socket} from "src/consts/URLS"
 import {TOKEN} from "src/consts/data"
 import {ID} from "../../../consts/data";
-import Masonry from 'react-masonry-component';
+import Masonry from 'react-masonry-css'
 
 export class Post extends Component {
 
@@ -218,7 +218,23 @@ class Posts extends Component {
           createForm={createForm}
         />
         <FrameCard className="-frameCardPost">
-          <ListGroup>
+          <Masonry
+            breakpointCols={3}
+            className="my-masonry-grid"
+            columnClassName="my-masonry-grid_column">
+            {
+              posts.map((post) => (
+                <Post
+                  posts={posts}
+                  post={post}
+                  updatePosts={this._updatePosts}
+                  key={post.id}
+                />
+              ))
+            }
+          </Masonry>
+          {/* <ListGroup>
+            
               {
                 posts.map((post) => (
                   <Post
@@ -229,7 +245,7 @@ class Posts extends Component {
                   />
                 ))
               }
-            </ListGroup>
+            </ListGroup> */}
         </FrameCard>
       </VerifyWrapper>
     )

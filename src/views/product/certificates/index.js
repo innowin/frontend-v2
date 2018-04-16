@@ -134,8 +134,6 @@ export class Certificates extends Component {
 				this.setState(newState);
 			}
 		});
-
-		
 	}
 	showCreateForm = () => {
 			this.setState({createForm: true});

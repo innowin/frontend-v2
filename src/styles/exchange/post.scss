@@ -1,52 +1,31 @@
-.-masonry {
-	display: -ms-flexbox;
-	-ms-flex-direction: column;
-	-ms-flex-wrap: wrap;
-	display: flex;
-	flex-direction: column;
-	flex-wrap: wrap;
-	height: 800px;
-	font-size: 0; 
+.my-masonry-grid {
+  display: -webkit-box; // Not needed if autoprefixing
+  display: -ms-flexbox; // Not needed if autoprefixing
+  display: flex;
+  margin-left: -30px; // gutter size offset
+}
+.my-masonry-grid_column {
+  border-left: 10px solid transparent; // gutter size
+  background-clip: padding-box;
 }
 
-.-masonry-brick { 
-	width: 33.3%;
-	transition: .8s opacity;
+// Style your items
+.my-masonry-grid_column > div { // change div to reference your elements you put in <Masonry>
 
-	.-img-col{
-
-	}
+  margin-bottom: 10px;
+}
+.-itemWrapperPost{
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 5px;
+	border: 1px solid #EEEEEE;
+	border-radius: 3px;
+	padding: 10px 20px 15px 20px;
 	.-content-col{
-
-	}
-	.-item-imgPost{
-		max-width: 100%;
-	}
-	.-item-headerPost{
-
-	}
-	.-line-height{
-		
-	}
-	.-item-footerPost{
-
+		margin-right:0;
 	}
 }
 
-div#masonry {
-	display: -ms-flexbox;
-	-ms-flex-direction: column;
-	-ms-flex-wrap: wrap;
-	display: flex;
-	flex-direction: column;
-	flex-wrap: wrap;
-	height: 800px;
-	font-size: 0; 
-}
-.-masonry-brick { 
-	width: 33.3%;
-	
-}
 
 .-exchangePost{
 	.productBox{
