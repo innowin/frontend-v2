@@ -4,6 +4,7 @@ import TopBar from '../bars/TopBar';
 import ChatBar from '../bars/ChatBar';
 import PropTypes from 'prop-types';
 import ExchangeViewBar from "../bars/ExchangeViewBar";
+import Posts from './cardView/index';
 
 export default class ExchangeView extends Component {
 	static propTypes = {
@@ -23,7 +24,7 @@ export default class ExchangeView extends Component {
 							<ExchangeViewBar exchangeId={exchangeId}/>
 						</div>
 						<div className="col-md-7 col-sm-10 -content-wrapper">
-						
+							<Posts exchangeId={exchangeId}/>
 						</div>
 						<div className="col-md-2 col-sm-1 -left-sidebar-wrapper">
 							<ChatBar/>

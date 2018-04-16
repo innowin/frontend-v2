@@ -7,7 +7,7 @@ export const getProductRepresents = (productId, updateRepresents, handleErrorLoa
   socket.emit(REST_REQUEST,
     {
       method: "get",
-      url: `${url}/base/represents/?represent_product=${productId}`,
+      url: `${url}/base/posts/?post_product=${productId}`,
       result: `productRepresents-Represents-get/${productId}`,
       token
     });

@@ -52,7 +52,7 @@ export const createCertificate = (formValues,  updateStateForView, hideEdit,prod
 
 	emitting();
 
-	socket.on(`createCertificate-post/`, (res) => {
+	socket.on(`createCertificate-post/`, (res) => { //TODO picture is null problem 
 		let error = false;
 		isLoading = false;
 		if (res.detail) {
@@ -73,17 +73,16 @@ export const createCertificate = (formValues,  updateStateForView, hideEdit,prod
 	});
 };
 
-export const deleteCertificate = (formValues, certId, updateStateForView, hideEdit,productId) => {
+export const deleteCertificate = (certId, updateStateForView, hideEdit,productId) => {
 	let isLoading = false;
 
 	const emitting = () => {
 		isLoading = true;
 		socket.emit(REST_REQUEST,
 			{
-				method: "delete",
+				method: "del",
 				url: `${url}/base/certificates/${certId}/`,
 				result: `deleteCertificate-delete/${certId}`,
-				data :formValues,
 				token: TOKEN
 			}
 		);
