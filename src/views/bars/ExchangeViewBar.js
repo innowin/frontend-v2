@@ -53,14 +53,14 @@ class ExchangeViewBar extends Component {
             {/*//TODO mohsen: set dafault image for exchange */}
             <img className="rounded-circle" alt="Person icon" src={exchangeImage || defaultImg}
                  style={{width: "100px",height:"100px", border:"1px solid #C2C2C2"}}/>
-            <div style={{padding: 20}} className="exchangeName">
+            <div style={{padding: "20px 0"}} className="exchangeName">
               <ExchangeIcon/>
               <div>
                 <span style={{fontSize:"13px"}}>{__('Exchange')}: </span>
                 <span>{exchange.name}</span>
               </div>
             </div>
-            <span className="-grey1">{exchange.description}</span>
+            <span className="-grey1" style={{fontSize:13}}>{exchange.description}</span>
           </div>
           <div className="numbersSection flex-column pl-3">
             <div className="">

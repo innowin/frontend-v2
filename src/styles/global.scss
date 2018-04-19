@@ -25,6 +25,7 @@ input, textarea, button, select {
 @import "./components/utils.scss";
 @import "./pages/home";
 @import "./pages/login";
+
 @import "components/bars/bars";
 @import "components/bars/chatbar";
 @import "components/common/cards/frames";
@@ -34,6 +35,7 @@ input, textarea, button, select {
 @import "components/common/list-group-addons";
 @import "components/common/media";
 @import "components/exchange/exchangeView";
+@import "components/exchange/post";
 @import "components/login/Carousel";
 @import "components/login/FooterLogin";
 @import "components/login/HeaderLogin";
@@ -41,7 +43,6 @@ input, textarea, button, select {
 @import "components/organization/basicInformation";
 @import "components/organization/customers";
 @import "components/organization/products";
-
 @import "components/user/certificates";
 @import "components/user/skill";
 @import "components/user/tabs";
@@ -49,4 +50,3 @@ input, textarea, button, select {
 @import "layout";
 @import "product/product-explorer";
 @import "product/product-view";
-@import "exchange/post.scss";

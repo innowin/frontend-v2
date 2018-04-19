@@ -45,7 +45,7 @@ export class PostItemHeader extends Component {
         <div className="-item-titlePost">
           <span className={cx("", {'-viewDemand-icon': demandIcon})}>
             {
-              ((postIcon) && <i className="fa fa-share-alt" aria-hidden="true"></i>) ||
+              ((postIcon) && <i className="fa fa-share-alt" aria-hidden="true"/>) ||
               ((supplyIcon) && <SupplyIcon height="22px"/>) ||
               ((demandIcon) && <DemandIcon height="22px"/>)
             }
@@ -89,14 +89,14 @@ export class PostFooter extends Component {
       <div className="-item-footerPost">
         <div>
           <span className="ml-1">{viewerCount}</span>
-          <i className="fa fa-eye" aria-hidden="true"></i>
+          <i className="fa fa-eye" aria-hidden="true"/>
         </div>
         <div>
           <span className="ml-1">\</span>
-          <i className="fa fa-share" aria-hidden="true"></i>
+          <i className="fa fa-share" aria-hidden="true"/>
         </div>
         <span>
-          <a href="#" onClick={addViewer}><i className="fa fa-ellipsis-h" aria-hidden="true"></i></a>
+          <a href="#" onClick={addViewer}><i className="fa fa-ellipsis-h" aria-hidden="true"/></a>
         </span>
       </div>
     )
@@ -125,11 +125,11 @@ export class PostView extends Component {
       this.setState(newState);
       socket.emit(GET_VIEWS_COUNT, {
         id: id,
-        result: `${postId}-_getViewerCount`
+        result: `${postId}-_getViewerCount-PostView`
       });
     };
     emitting();
-    socket.on(`${postId}-_getViewerCount`, (res) => {
+    socket.on(`${postId}-_getViewerCount-PostView`, (res) => {
       if (res.detail) {
         const newState = {...this.state, error: res.detail, isLoading: false};
         this.setState(newState);
@@ -150,11 +150,11 @@ export class PostView extends Component {
       socket.emit(NEW_VIEW, {
         id: id,
         token: TOKEN,
-        result: "_addViewer-result"
+        result: `${id}_addViewerResult-PostView`
       });
     };
     emitting();
-    socket.on("_addViewer-result", (res) => {
+    socket.on(`${id}_addViewerResult-PostView`, (res) => {
       if (res.detail) {
         const newState = {...this.state, error: res.detail, isLoading: false};
         this.setState(newState);
@@ -181,28 +181,6 @@ export class PostView extends Component {
     this._getFile(this.props.postUser_mediaId);
   };
 
-  componentWillUnmount() {
-    const postId = this.props.post.id;
-    socket.off(`${postId}-_getViewerCount`, (res) => {
-      if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false};
-        this.setState(newState);
-      } else {
-        const newState = {...this.state, viewerCount: res, isLoading: false};
-        this.setState(newState);
-      }
-    });
-    socket.off("_addViewer-result", (res) => {
-      if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false};
-        this.setState(newState);
-      } else {
-        const newState = {...this.state, isLoading: false};
-        this.setState(newState)
-      }
-    });
-  }
-
   render() {
     const {showEdit, post, postUser_username, postUser_name} = this.props;
     const {viewerCount, isLoading, error, postUser_File} = this.state;
@@ -210,7 +188,6 @@ export class PostView extends Component {
       <VerifyWrapper isLoading={isLoading} error={error}>
         <PostItemWrapper>
           <div className="-img-col">
-            {/*// TODO mohsen: handle src of img*/}
             <img className="-item-imgPost rounded-circle" src={postUser_File || defaultImg} alt=""/>
           </div>
           <div className="-content-col">

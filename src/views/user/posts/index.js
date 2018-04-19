@@ -6,7 +6,6 @@ import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper} from "src/views/comm
 import {PostCreateForm} from "./Forms"
 import {PostEditForm} from './Forms'
 import {PostItemWrapper, PostView} from "./Views"
-import {SOCKET as socket} from "src/consts/URLS"
 import {getIdentity} from "../../../crud/identity";
 import {getUser} from "../../../crud/user/user";
 import {getProfile} from "../../../crud/user/profile";
@@ -60,7 +59,6 @@ export class Post extends Component {
   };
 
   componentDidMount() {
-    // TODO mohsen: handle get userId or organId from post
     const {post_user} = this.props.post;
     const handleResult = (identity) => {
       const userId = identity.identity_user;
@@ -97,10 +95,10 @@ export class Post extends Component {
   }
 
   render() {
-    const {post, isLoading, error, postUser_username, postUser_name, postUser_mediaId} = this.state;
+    const {post, postUser_username, postUser_name, postUser_mediaId, edit, isLoading, error} = this.state;
     return (
-      this.state.edit ?
-        <VerifyWrapper isLoading={isLoading} error={error}>
+      <VerifyWrapper isLoading={isLoading} error={error}>
+        {edit ?
           <PostItemWrapper>
             <PostEditForm
               post={post}
@@ -109,13 +107,12 @@ export class Post extends Component {
               update={this._update}
             />
           </PostItemWrapper>
-        </VerifyWrapper>
-        :
-        <VerifyWrapper isLoading={isLoading} error={error}>
+          :
           <PostView post={post} postUser_username={postUser_username} postUser_name={postUser_name}
                     postUser_mediaId={postUser_mediaId}
                     showEdit={this._showEdit}/>
-        </VerifyWrapper>
+        }
+      </VerifyWrapper>
     )
   }
 }
@@ -124,13 +121,8 @@ class Posts extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {createForm: false, edit: false, isLoading: false, error: null, posts: [], user: {}, profile: {}};
+    this.state = {posts: [], createForm: false, isLoading: false, error: null};
   }
-
-
-  _delete = (postId, updateStateForView, hideEdit) => {
-    return deletePost(postId, updateStateForView, hideEdit);
-  };
 
   _showCreateForm = () => {
     this.setState({createForm: true});
@@ -175,20 +167,6 @@ class Posts extends Component {
     this._getUserPosts(this.props.userId);
   };
 
-  componentWillUnmount() {
-    const {userId} = this.props;
-    // TODO mohsen: complete by socket.off of update and delete requests
-    socket.off(`userPosts-Posts-get/${userId}`, (res) => {
-      if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false};
-        this.setState(newState);
-      } else {
-        const newState = {...this.state, posts: res, isLoading: false};
-        this.setState(newState);
-      }
-    });
-  }
-
   render() {
     const {createForm, isLoading, error} = this.state;
     const posts = [...new Set(this.state.posts)];
@@ -213,7 +191,7 @@ class Posts extends Component {
                   posts={posts}
                   post={post}
                   updatePosts={this._updatePosts}
-                  key={post.id}
+                  key={post.id + "Posts"}
                 />
               ))
             }

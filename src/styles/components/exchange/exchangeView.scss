@@ -34,6 +34,9 @@
 .numbersSection div {
   display: flex;
   justify-content: space-between;
+  :first-child{
+    font-size: 14px;
+  }
   :last-child {
     color: #afafaf;
   }

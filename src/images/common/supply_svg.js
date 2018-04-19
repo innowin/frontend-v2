@@ -8,12 +8,11 @@ class SupplyIcon extends Component {
     width: PropTypes.string,
     className: PropTypes.string,
     onClickFunc: PropTypes.func,
-    id: PropTypes.string
-
+    dataValue: PropTypes.string
   };
 
   render() {
-    const {className, onClickFunc, id, height, width} = this.props;
+    const {className, onClickFunc, dataValue, height, width} = this.props;
     return (
       <svg height={height} width={width} className={className} viewBox="0 0 52710 43950">
         <g>
@@ -27,7 +26,7 @@ class SupplyIcon extends Component {
             d="M4130 23890c220,600 1060,950 1940,1600 780,590 1160,1000 1850,1700 640,640 3470,3000 3680,3590l400 0c60,-740 280,-930 590,-1380 -580,-860 -2360,-2540 -3260,-3230 -770,-590 -940,-950 -1810,-1530 -400,-270 -2720,-1560 -3390,-750z"/>
           <path
             d="M13960 28020c410,-210 470,-270 990,-390 -170,-640 -170,-490 -630,-940l-2630 -2490c-1590,-1220 -1820,-2080 -4610,-2080 220,830 580,490 2640,2080l3310 2980c400,400 490,540 930,840z"/>
-          <rect className="-rectSvg" id={id} width="100%" height="100%" onClick={onClickFunc}/>
+          <rect className="-rectSvg" data-value={dataValue} width="100%" height="100%" onClick={onClickFunc}/>
         </g>
       </svg>
     )

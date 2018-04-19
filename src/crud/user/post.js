@@ -7,7 +7,7 @@ export const getUserPosts = (userId, updatePosts, handleErrorLoading) => {
   socket.emit(REST_REQUEST,
     {
       method: "get",
-      url: `${url}/base/posts/?post_user=${userId}`,
+      url: `${url}/base/posts/?post_user_id=${userId}`,
       result: `userPosts-Posts-get/${userId}`,
       token
     });

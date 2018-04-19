@@ -5,6 +5,7 @@ import {FrameCard, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames
 import {Post} from "../../user/posts"
 import {getExchangeIdentities} from "../../../crud/exchange/exchange";
 import HomeCreatePost from "./CreatPostHome";
+import {Link} from "react-router-dom"
 
 
 class HomePosts extends Component {
@@ -16,10 +17,7 @@ class HomePosts extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      createForm: false, edit: false, isLoading: false, error: null, posts: [], user: {}, profile: {},
-      exchangeId: this.props.exchangeId
-    };
+    this.state = {posts: [], exchangeId: this.props.exchangeId, isLoading: false, error: null}
   }
 
   _handleErrorLoading = (error = false) => {
@@ -65,10 +63,6 @@ class HomePosts extends Component {
     }
   }
 
-  componentWillUnmount() {
-    // TODO mohsen: complete by socket.off of update and delete requests
-  }
-
   render() {
     const {isLoading, error, exchangeId} = this.state;
     const posts = [...new Set(this.state.posts)];
@@ -76,18 +70,21 @@ class HomePosts extends Component {
       <VerifyWrapper isLoading={isLoading} error={error}>
         {(exchangeId) ? (
           <div>
+            <div>
+              <Link to={"/exchange/" + exchangeId} className="mr-3">صفحه بورس</Link>
+            </div>
             <HomeCreatePost updatePosts={this._updatePosts} postParent={exchangeId}
                             handleErrorLoading={this._handleErrorLoading}/>
             <FrameCard className="-frameCardPost border-top-0">
               <ListGroup>
                 {
                   (posts.length > 0) ? (posts.map((post) => (
-                      <Post
-                        posts={posts}
-                        post={post}
-                        updatePosts={this._updatePosts}
-                        key={post.id + "HomePosts"}
-                      />
+                    <Post
+                      posts={posts}
+                      post={post}
+                      updatePosts={this._updatePosts}
+                      key={post.id + "HomePosts"}
+                    />
                   ))) : (<h1 className="mt-5 red">در این بورس پستی وجود ندارد!</h1>)
                 }
               </ListGroup>

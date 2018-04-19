@@ -8,11 +8,11 @@ class DemandIcon extends Component {
     width: PropTypes.string,
     className: PropTypes.string,
     onClickFunc: PropTypes.func,
-    id: PropTypes.string
+    dataValue: PropTypes.string
   };
 
   render() {
-    const {className, onClickFunc, id, height, width} = this.props;
+    const {className, onClickFunc, dataValue, height, width} = this.props;
     return (
       <svg height={height} width={width} className={className}  viewBox="0 0 52710 43950">
         <g>
@@ -24,7 +24,7 @@ class DemandIcon extends Component {
             d="M13450 33890c4110,0 4560,-5210 1520,-6500 -670,-290 -1190,-370 -1890,-200 -2150,510 -3120,2610 -2440,4530 330,950 1510,2170 2810,2170z"/>
           <path
             d="M22190 30390c0,2070 1360,3500 3360,3500 2730,0 4130,-3670 2230,-5730 -1920,-2060 -5590,-810 -5590,2230z"/>
-          <rect className="-rectSvg" id={id} width="100%" height="100%"  onClick={onClickFunc}/>
+          <rect className="-rectSvg" data-value={dataValue} width="100%" height="100%"  onClick={onClickFunc}/>
         </g>
       </svg>
     )

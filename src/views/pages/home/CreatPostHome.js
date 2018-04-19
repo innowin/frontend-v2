@@ -48,7 +48,7 @@ class CreatePostFooter extends Component {
 
   _handle_post_type = (e) => {
     e.preventDefault();
-    this.setState({...this.state, postType: e.target.id});
+    this.setState({...this.state, postType: e.target.getAttribute("data-value")});
   };
 
   render() {
@@ -59,13 +59,13 @@ class CreatePostFooter extends Component {
     return (
       <div className="-createPostFooter">
         <div className="rightIcons">
-          <i className={cx("fa fa-share-alt", {'-selectedPostType': postMark})} aria-hidden="true" id='post'
-             onClick={this._handle_post_type}></i>
+          <i className={cx("fa fa-share-alt", {'-selectedPostType': postMark})} aria-hidden="true" data-value='post'
+             onClick={this._handle_post_type}/>
           <SupplyIcon height="22px" className={cx("mr-3", {'-selectedPostType': supplyMark})}
-                      onClickFunc={this._handle_post_type} id='supply'/>
+                      onClickFunc={this._handle_post_type} dataValue='supply'/>
           {/*// TODO mohsen: improve place of demand icon*/}
           <DemandIcon height="22px" className={cx("-viewDemand-icon mr-2", {'-selectedPostType': demandMark})}
-                      onClickFunc={this._handle_post_type} id='demand'/>
+                      onClickFunc={this._handle_post_type} dataValue='demand'/>
         </div>
         <div className="leftIcons">
           <AttachFile
@@ -75,7 +75,7 @@ class CreatePostFooter extends Component {
             getMedia={this.props.getMedia}
             AttachBottom={this.AttachBottom}
           />
-          <i className="fa fa-smile-o mr-3" aria-hidden="true"></i>
+          <i className="fa fa-smile-o mr-3" aria-hidden="true"/>
           <span className="mr-4">
              <span style={{color: "#BFBFBF"}}>ارسال</span>
              <label htmlFor="submit">
@@ -94,7 +94,8 @@ class HomeCreatePost extends Component {
   static propTypes = {
     postParent: PropTypes.number.isRequired,
     updatePosts: PropTypes.func.isRequired,
-    handleErrorLoading: PropTypes.func
+    handleErrorLoading: PropTypes.func,
+    className: PropTypes.string,
   };
 
   constructor(props) {
@@ -133,7 +134,7 @@ class HomeCreatePost extends Component {
     return result
   };
 
-  AttachBottom = () => <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+  AttachBottom = () => <i className="fa fa-pencil-square-o" aria-hidden="true"/>;
 
   _getMedia = (media, fileName) => {
     this.setState({...this.state, media, fileName})
@@ -173,9 +174,9 @@ class HomeCreatePost extends Component {
 
   render() {
     const {media, fileName, description, textareaClass, show} = this.state;
-    const {profile_media_file} = this.props;
+    const {profile_media_file, className} = this.props;
     return (
-      <form className="-createPostHome" onSubmit={this._onSubmit}>
+      <form className={"-createPostHome " + className} onSubmit={this._onSubmit}>
         {/*// TODO mohsen: handle src of img*/}
         <img className="-img-col rounded-circle" src={profile_media_file || defaultImg} alt=""/>
         <Transition in={show} timeout={duration}>
@@ -185,10 +186,10 @@ class HomeCreatePost extends Component {
                 <textarea onFocus={this._handleFocus} onChange={this._handleChange} value={description}/>
                 <div className="-img-content">
                   {(media.file) ? (
-                  <div className="-fileBox">
-                    <AttachFile getMedia={this._getMedia} AttachBottom={this.AttachBottom}/>
-                    <img src={media.file} alt="imagePreview"/>
-                  </div>
+                    <div className="-fileBox">
+                      <AttachFile getMedia={this._getMedia} AttachBottom={this.AttachBottom}/>
+                      <img src={media.file} alt="imagePreview"/>
+                    </div>
 
                   ) : ('')}
                   <div className="-fileNameBox"><FileName fileName={fileName} className={"d-inline-block"}/></div>

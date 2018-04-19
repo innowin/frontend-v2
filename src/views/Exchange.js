@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import {Route, Switch ,Link} from 'react-router-dom';
-import ExchangeView from './exchange/Exchange';
+import ExchangeView from './exchange/Exchange_View';
 import ExchangeExplorer from './exchange/Exchange_Explorer';
 
 class Exchange extends Component {
