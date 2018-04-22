@@ -16,6 +16,7 @@ import {getIdentity} from "../../../../crud/identity";
 import {getOrganization} from "../../../../crud/organization/organization";
 import {PostEditForm} from "../../../user/posts/Forms";
 import {PostItemWrapper} from "../../../user/posts/Views";
+import Masonry from "react-masonry-css"
 
 export class PostExchange extends Component {
 
@@ -138,8 +139,8 @@ export class PostExchange extends Component {
           </PostItemWrapper>
           :
           <PostExchangeView post={post} postUser_username={postUser_username} postUser_name={postUser_name}
-                    postUser_mediaId={postUser_mediaId}
-                    showEdit={this._showEdit} />
+                            postUser_mediaId={postUser_mediaId}
+                            showEdit={this._showEdit}/>
         }
       </VerifyWrapper>
     )
@@ -159,21 +160,24 @@ class PostsExchange extends Component {
 
   _updatePosts = (res, type, deletedIndex = null) => {
     const {allPosts} = this.state;
+    if (type === 'get' && Array.isArray(res)) {
+      this.setState({...this.state, posts: res, filteredPosts: res},
+        () => this._handleErrorLoading());
+      return false;
+    }
     if (type === 'post') {
-      this.setState({...this.state, allPosts: [res, ...allPosts], filteredPosts:[res, ...allPosts]});
+      this.setState({...this.state, allPosts: [res, ...allPosts], filteredPosts: [res, ...allPosts]});
       return false;
     }
     if (type === 'del') {
       const remainPosts = allPosts.slice(0, deletedIndex).concat(allPosts.slice(deletedIndex + 1));
-      this.setState({...this.state, allPosts: remainPosts, filteredPosts:remainPosts});
+      this.setState({...this.state, allPosts: remainPosts, filteredPosts: remainPosts});
     }
   };
 
   _getExchangePosts = (exchangeId) => {
     this.setState({...this.state, isLoading: true});
-    getExchangePosts(exchangeId, (res) => {
-      this.setState({...this.state, allPosts: res, filteredPosts: res, isLoading: false})
-    })
+    getExchangePosts(exchangeId, this._updatePosts)
   };
 
   _FilterPosts = (e) => {
@@ -191,6 +195,11 @@ class PostsExchange extends Component {
   render() {
     const {filteredPosts, isLoading, error} = this.state;
     const posts = [...new Set(filteredPosts)];
+    const breakpointColumnsObj = {
+      default: 3,
+      1140: 2,
+      720: 1,
+    };
     return (
       <VerifyWrapper isLoading={isLoading} error={error} className="postExchangeView">
         <div className="row mb-3">
@@ -204,34 +213,21 @@ class PostsExchange extends Component {
             <DemandIcon height="22px" onClickFunc={this._FilterPosts} dataValue="demand"/>
           </div>
         </div>
-        <div className="row">
-          <div className="flex-column col-6 firstDiv">
-            {
-              posts.map((post, i) => (
-                (i % 2 === 0) &&
-                <PostExchange
-                  posts={posts}
-                  post={post}
-                  updatePosts={this._updatePosts}
-                  key={post.id + "PostsExchangeView-firstDiv"}
-                />
-              ))
-            }
-          </div>
-          <div className="flex-column col-6 secondDiv">
-            {
-              posts.map((post, i) => (
-                (i % 2 !== 0) &&
-                <PostExchange
-                  posts={posts}
-                  post={post}
-                  updatePosts={this._updatePosts}
-                  key={post.id + "PostsExchangeView-secondDiv"}
-                />
-              ))
-            }
-          </div>
-        </div>
+        <Masonry
+          breakpointCols={breakpointColumnsObj}
+          className="my-masonry-grid"
+          columnClassName="my-masonry-grid_column">
+          {
+            posts.map((post) => (
+              <PostExchange
+                posts={posts}
+                post={post}
+                updatePosts={this._updatePosts}
+                key={post.id + "PostsExchangeView-Masonry"}
+              />
+            ))
+          }
+        </Masonry>
       </VerifyWrapper>
     )
   }
