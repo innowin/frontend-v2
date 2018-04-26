@@ -7,26 +7,31 @@ import {SelectComponent} from '../../common/SelectComponent';
 import {TextareaInput} from "../../common/inputs/TextareaInput";
 import {TextInput} from "../../common/inputs/TextInput";
 import {FileInput} from "src/views/common/inputs/FileInput";
-import {IDENTITY_ID} from "src/consts/data";
-
 
 export class PostForm extends Component {
+  static defaultProps = {
+    postParent: null
+  };
+
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
-    post: PropTypes.object,
+    postParent: PropTypes.number,
+    postIdentity: PropTypes.number.isRequired,
+    post: PropTypes.object
   };
 
   _getValues = () => {
     const media = this.postPictureInput.getFile();
     const mediaId = media ? media.id : null;
+    const {postParent, postIdentity} = this.props;
     return {
       post_type: this.postTypeInput.getValue(),
       post_title: this.postTitleInput.getValue(),
       post_description: this.postDescriptionInput.getValue(),
       post_pinned: this.postPinnedInput.getValue(),
       post_picture: mediaId,
-      post_parent: IDENTITY_ID,
-      post_user: IDENTITY_ID
+      post_parent: postParent,
+      post_identity: postIdentity,
     };
   };
 
@@ -88,7 +93,7 @@ export class PostForm extends Component {
         <CheckBox
           label={__('Post pinned') + ": "}
           name="post_pinned"
-          checked={post.post_pinned}
+          value={post.post_pinned}
           ref={postPinnedInput => {
             this.postPinnedInput = postPinnedInput
           }}
@@ -110,7 +115,8 @@ export class PostCreateForm extends Component {
 
   static propTypes = {
     create: PropTypes.func.isRequired,
-    hideCreateForm: PropTypes.func.isRequired
+    hideCreateForm: PropTypes.func.isRequired,
+    postIdentity: PropTypes.number.isRequired,
   };
 
   _save = () => {
@@ -128,25 +134,25 @@ export class PostCreateForm extends Component {
   };
 
   render() {
-    const {hideCreateForm} = this.props;
-    return <PostForm onSubmit={this._onSubmit} ref={form => {
-      this.form = form
-    }}>
-      <div className="col-12 d-flex justify-content-end">
-        <button type="button" className="btn btn-secondary mr-2" onClick={hideCreateForm}>
-          {__('Cancel')}
-        </button>
-        <button type="submit" className="btn btn-success">{__('Create')}</button>
-      </div>
-    </PostForm>;
+    const {hideCreateForm, postIdentity} = this.props;
+    return (
+      <PostForm onSubmit={this._onSubmit} postIdentity={postIdentity} ref={form => {this.form = form}}>
+        <div className="col-12 d-flex justify-content-end">
+          <button type="button" className="btn btn-secondary mr-2" onClick={hideCreateForm}>
+            {__('Cancel')}
+          </button>
+          <button type="submit" className="btn btn-success">{__('Create')}</button>
+        </div>
+      </PostForm>
+    )
   }
 }
 
 export class PostEditForm extends Component {
 
   static propTypes = {
-    update: PropTypes.func.isRequired,
-    delete: PropTypes.func.isRequired,
+    updateFunc: PropTypes.func.isRequired,
+    deleteFunc: PropTypes.func.isRequired,
     hideEdit: PropTypes.func.isRequired,
     post: PropTypes.object.isRequired,
   };
@@ -165,20 +171,22 @@ export class PostEditForm extends Component {
   };
 
   _remove = () => {
-    const postId = this.props.post.id;
-    return this.props.delete(postId)
+    return this.props.deleteFunc()
   };
 
   _save = () => {
-    const {post, update} = this.props;
+    const {post, updateFunc} = this.props;
     const postId = post.id;
     const formValues = this.form._getValues();
-    return update(formValues, postId)
+    return updateFunc(formValues, postId)
   };
 
   _onSubmit = (e) => {
     e.preventDefault();
-    this._save();
+    if (this.form._formValidate()) {
+      this._save();
+    }
+    return false;
   };
 
   render() {
@@ -188,9 +196,10 @@ export class PostEditForm extends Component {
       return <Confirm cancelRemoving={this._cancelConfirm} remove={this._remove}/>;
     }
     return (
-      <PostForm onSubmit={this._onSubmit} post={post} ref={form => {
-        this.form = form
-      }}>
+      <PostForm onSubmit={this._onSubmit} post={post} postParent={post.post_parent} postIdentity={post.post_identity}
+                ref={form => {
+                  this.form = form
+                }}>
         <div className="col-12 d-flex justify-content-end">
           <button type="button" className="btn btn-outline-danger mr-auto" onClick={this._showConfirm}>
             {__('Delete')}

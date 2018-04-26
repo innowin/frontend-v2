@@ -7,7 +7,7 @@ import {NEW_VIEW, GET_VIEWS_COUNT} from "src/consts/Events";
 import {SOCKET as socket} from "src/consts/URLS";
 import {TOKEN} from "src/consts/data";
 import {VerifyWrapper} from "src/views/common/cards/Frames";
-import {getFile} from "../../../crud/media/media";
+import {getFile} from "src/crud/media/media";
 import {SupplyIcon,DemandIcon} from "src/images/icons";
 import cx from 'classnames';
 
@@ -21,7 +21,6 @@ export class PostItemWrapper extends Component {
     )
   }
 }
-
 
 export class PostItemHeader extends Component {
   static propTypes = {
@@ -107,14 +106,14 @@ export class PostView extends Component {
   static propTypes = {
     showEdit: PropTypes.func.isRequired,
     post: PropTypes.object.isRequired,
-    postUser_mediaId: PropTypes.string,
-    postUser_username: PropTypes.string.isRequired,
-    postUser_name: PropTypes.string.isRequired,
+    postIdentityMediaId: PropTypes.number,
+    postIdentityUsername: PropTypes.string.isRequired,
+    postIdentityName: PropTypes.string.isRequired,
   };
 
   constructor(props) {
     super(props);
-    this.state = {viewerCount: 0, isLoading: false, error: false, postUser_File:null};
+    this.state = {viewerCount: 0, isLoading: false, error: false, postIdentity_File:null};
   }
 
   _getViewerCount = () => {
@@ -170,7 +169,7 @@ export class PostView extends Component {
   _getFile = (mediaId) => {
     if (mediaId) {
       const mediaResult = (res) => {
-        this.setState({...this.state, postUser_File: res.file})
+        this.setState({...this.state, postIdentity_File: res.file})
       };
       return getFile(mediaId, mediaResult)
     }
@@ -178,22 +177,22 @@ export class PostView extends Component {
 
   componentDidMount() {
     this._getViewerCount();
-    this._getFile(this.props.postUser_mediaId);
+    this._getFile(this.props.postIdentityMediaId);
   };
 
   render() {
-    const {showEdit, post, postUser_username, postUser_name} = this.props;
-    const {viewerCount, isLoading, error, postUser_File} = this.state;
+    const {showEdit, post, postIdentityUsername, postIdentityName} = this.props;
+    const {viewerCount, isLoading, error, postIdentity_File} = this.state;
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         <PostItemWrapper>
           <div className="-img-col">
-            <img className="-item-imgPost rounded-circle" src={postUser_File || defaultImg} alt=""/>
+            <img className="-item-imgPost rounded-circle" src={postIdentity_File || defaultImg} alt=""/>
           </div>
           <div className="-content-col">
             <PostItemHeader
-              name={postUser_name}
-              username={postUser_username}
+              name={postIdentityName}
+              username={postIdentityUsername}
               post={post}
               showEdit={showEdit}
             />

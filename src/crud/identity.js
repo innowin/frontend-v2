@@ -6,7 +6,7 @@ export const getIdentity = (identityId, handleResult) => {
   socket.emit(REST_REQUEST,
     {
       method: "get",
-      url: `${url}/users/identities/${identityId}/`,
+      url: `${url}/users/identities/${identityId}`,
       result: `users/identities/{id}/-get/getIdentity/${identityId}`,
       token: TOKEN,
     }
@@ -25,4 +25,46 @@ export const getIdentity = (identityId, handleResult) => {
   function s_off() {
     socket.off(`users/identities/{id}/-get/getIdentity/${identityId}`, func)
   }
+};
+
+export const getIdentityByUser = (userId, handleResult) => {
+  socket.emit(REST_REQUEST,
+    {
+      method: "get",
+      url: `${url}/users/identities/?identity_user=${userId}`,
+      result: `users/identities/{id}_get_getIdentityByUser_${userId}`,
+      token: TOKEN,
+    }
+  );
+
+  const func = (res) => {
+    if (res.detail) {
+      // TODO mohsen: handle error
+      return false
+    }
+    handleResult(res[0]);
+    socket.off(`users/identities/{id}_get_getIdentityByUser_${userId}`, func)
+  };
+  socket.on(`users/identities/{id}_get_getIdentityByUser_${userId}`, func)
+};
+
+export const getIdentityByOrgan = (organId, handleResult) => {
+  socket.emit(REST_REQUEST,
+    {
+      method: "get",
+      url: `${url}/users/identities/?identity_organization=${organId}`,
+      result: `users/identities/{id}_get_getIdentityByOrgan_${organId}`,
+      token: TOKEN,
+    }
+  );
+
+  const func = (res) => {
+    if (res.detail) {
+      // TODO mohsen: handle error
+      return false
+    }
+    handleResult(res[0]);
+    socket.off(`users/identities/{id}_get_getIdentityByOrgan_${organId}`, func)
+  };
+  socket.on(`users/identities/{id}_get_getIdentityByOrgan_${organId}`, func);
 };

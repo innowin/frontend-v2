@@ -3,10 +3,9 @@ import PropTypes from "prop-types";
 import "moment/locale/fa";
 import {defaultImg} from "src/images/icons";
 import AttachFile from "src/views/common/inputs/AttachFile";
-import {createPost} from "../../../crud/user/post";
+import {createPost} from "src/crud/post";
 import cx from 'classnames';
 import {SupplyIcon, DemandIcon, PostSendIcon} from "src/images/icons";
-import {IDENTITY_ID} from "../../../consts/data";
 import Transition from 'react-transition-group/Transition'
 import {FileName} from "../../common/FileName";
 import {AttachFileIcon} from "src/images/icons";
@@ -93,6 +92,7 @@ class CreatePostFooter extends Component {
 class HomeCreatePost extends Component {
   static propTypes = {
     postParent: PropTypes.number.isRequired,
+    postIdentity: PropTypes.number.isRequired,
     updatePosts: PropTypes.func.isRequired,
     handleErrorLoading: PropTypes.func,
     className: PropTypes.string,
@@ -109,13 +109,14 @@ class HomeCreatePost extends Component {
   _getValues = () => {
     const {media} = this.createPostFooter._AttachFile();
     const mediaId = media ? media.id : null;
+    const {postIdentity, postParent} = this.props;
     return {
       post_picture: mediaId,
       post_description: this.state.description,
       post_title: 'title',
       post_type: this.createPostFooter._post_type(),
-      post_parent: this.props.postParent,
-      post_user: IDENTITY_ID
+      post_parent: postParent,
+      post_identity: postIdentity
     }
   };
 

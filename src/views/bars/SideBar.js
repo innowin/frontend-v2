@@ -12,7 +12,7 @@ import {VerifyWrapper} from "../common/cards/Frames";
 export const BadgesCard = ({badgesImgUrl}) => {
   return (
     badgesImgUrl.map((imgUrl, i) => (
-      <span className="col-3 mb-2">
+      <span className="col-3 mb-2" key={i + "BadgesCard"}>
           <img key={i} src={imgUrl} style={{height: "35px"}} alt=""/>
       </span>
     ))
@@ -22,7 +22,7 @@ export const BadgesCard = ({badgesImgUrl}) => {
 export const TagsBox = ({tags}) => {
   return (
     tags.map((tag, i) => (
-      <div className="mb-1">
+      <div className="mb-1" key={i + "TagsBox"}>
         {/*// TODO mohsen : handle ltr for badges*/}
         <span key={i} className="badge -myBadge" dir="ltr">{tag.title}</span>
       </div>

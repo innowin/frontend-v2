@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 import Career from "./user/career/index"
 import Certificates from "./user/certificates/index"
 import ChatBar from "src/views/bars/ChatBar"
-import Posts from "./user/posts/index"
+import Posts from "src/views/common/post/index"
 import PropsRoute from "../consts/PropsRoute"
 import Sidebar from "src/views/bars/SideBar"
 import Skills from "./user/skills/index"
@@ -47,7 +47,7 @@ class User extends Component {
             <Switch>
               <Redirect exact from={`${url}/`} to={`${url}/basicInformation`}/>
               <PropsRoute path={`${path}/basicInformation`} component={UserBasicInformation} userId={userId}/>
-              <PropsRoute path={`${path}/Posts`} component={Posts}  userId={userId}/>
+              <PropsRoute path={`${path}/Posts`} component={Posts} id={userId} identityType='user'/>
               <PropsRoute path={`${path}/Career`} component={Career} userId={userId}/>
               <PropsRoute path={`${path}/Skills`} component={Skills}  userId={userId}/>
               <PropsRoute path={`${path}/Certificates`} component={Certificates} userId={userId}/>
