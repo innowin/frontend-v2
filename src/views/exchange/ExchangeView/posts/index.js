@@ -1,14 +1,14 @@
 /*global __*/
 import React, {Component} from "react"
 import PropTypes from 'prop-types'
-import {getExchangePosts} from 'src/crud/post'
+import {getExchangePosts} from 'src/crud/post/post'
 import {VerifyWrapper} from "src/views/common/cards/Frames"
 import {REST_REQUEST} from "src/consts/Events"
 import {REST_URL as url, SOCKET as socket} from "src/consts/URLS"
 import {TOKEN} from "src/consts/data"
 import HomeCreatePost from "../../../pages/home/CreatPostHome";
 import {SupplyIcon, DemandIcon, NoFilterIcon} from "../../../../images/icons";
-import {deletePost, updatePost} from "src/crud/post";
+import {deletePost, updatePost} from "src/crud/post/post";
 import {getProfile} from "../../../../crud/user/profile";
 import {getUser} from "../../../../crud/user/user";
 import {getIdentity} from "../../../../crud/identity";
@@ -36,7 +36,7 @@ export class ExchangePost extends Component {
       product: {},
       edit: false,
       error: false,
-      isLoading: false,
+      isLoading: true,
     };
   }
 
@@ -57,17 +57,16 @@ export class ExchangePost extends Component {
   };
 
   _update = (formValues, postId) => {
-    this.setState({...this.state, isLoading: true});
-    return updatePost(formValues, postId, this._updateView, this._hideEdit, this._handleErrorLoading);
+    this.setState({...this.state, isLoading: true},() =>
+      updatePost(formValues, postId, this._updateView, this._hideEdit, this._handleErrorLoading));
   };
 
   _delete = () => {
-    this.setState({...this.state, isLoading: true});
-    return deletePost(this.props.posts, this.props.post, this.props.updatePosts, this._hideEdit, this._handleErrorLoading);
+    this.setState({...this.state, isLoading: true},() =>
+      deletePost(this.props.posts, this.props.post, this.props.updatePosts, this._hideEdit, this._handleErrorLoading))
   };
 
   _getIdentityDetails = (post_identity) => {
-    this.setState({...this.state, isLoading: true});
     const handleResult = (identityId) => {
       const userId = identityId.identity_user;
       const organId = identityId.identity_organization;
@@ -80,9 +79,11 @@ export class ExchangePost extends Component {
             }
           ));
         getProfile(userId, (res) => {
-          this.setState({...this.state,
+          this.setState({
+            ...this.state,
             postIdentity_mediaId: res.profile_media,
-            isLoading: false})
+            isLoading: false
+          })
         });
       }
       if (organId) {
@@ -156,7 +157,7 @@ class ExchangePosts extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {allPosts: [], filteredPosts: [], isLoading: false, error: null};
+    this.state = {allPosts: [], filteredPosts: [], isLoading: true, error: null};
   }
 
   _handleErrorLoading = (error = false) => {
@@ -181,7 +182,6 @@ class ExchangePosts extends Component {
   };
 
   _getExchangePosts = (exchangeId) => {
-    this.setState({...this.state, isLoading: true});
     getExchangePosts(exchangeId, this._updatePosts, this._handleErrorLoading)
   };
 

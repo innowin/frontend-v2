@@ -3,13 +3,11 @@ import PropTypes from "prop-types";
 import "moment/locale/fa";
 import Moment from "react-moment";
 import {editIcon, defaultImg} from "src/images/icons";
-import {NEW_VIEW, GET_VIEWS_COUNT} from "src/consts/Events";
-import {SOCKET as socket} from "src/consts/URLS";
-import {TOKEN} from "src/consts/data";
 import {VerifyWrapper} from "src/views/common/cards/Frames";
 import {getFile} from "src/crud/media/media";
-import {SupplyIcon,DemandIcon} from "src/images/icons";
+import {SupplyIcon, DemandIcon} from "src/images/icons";
 import cx from 'classnames';
+import {getPostViewerCount, setPostViewer} from "src/crud/post/postViewerCount";
 
 
 export class PostItemWrapper extends Component {
@@ -33,7 +31,7 @@ export class PostItemHeader extends Component {
   render() {
     const {showEdit, username, post} = this.props;
     let {name} = this.props;
-    if(name === ' '){
+    if (name === ' ') {
       name = "------"
     }
     const supplyIcon = post.post_type === 'supply';
@@ -95,7 +93,7 @@ export class PostFooter extends Component {
           <i className="fa fa-share" aria-hidden="true"/>
         </div>
         <span>
-          <a href="#" onClick={addViewer}><i className="fa fa-ellipsis-h" aria-hidden="true"/></a>
+          <i className="fa fa-ellipsis-h cursor-pointer" aria-hidden="true" onClick={addViewer}/>
         </span>
       </div>
     )
@@ -113,71 +111,28 @@ export class PostView extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {viewerCount: 0, isLoading: false, error: false, postIdentity_File:null};
+    this.state = {viewerCount: 0, postIdentity_File: null, isLoading: false, error: false}
   }
 
   _getViewerCount = () => {
     const postId = this.props.post.id;
-    const id = `post-${postId}`;
-    const emitting = () => {
-      const newState = {...this.state, isLoading: true};
-      this.setState(newState);
-      socket.emit(GET_VIEWS_COUNT, {
-        id: id,
-        result: `${postId}-_getViewerCount-PostView`
-      });
-    };
-    emitting();
-    socket.on(`${postId}-_getViewerCount-PostView`, (res) => {
-      if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false};
-        this.setState(newState);
-      } else {
-        const newState = {...this.state, viewerCount: res, isLoading: false};
-        this.setState(newState);
-      }
-    })
+    this.setState({...this.state, isLoading: true}, () => (
+      getPostViewerCount(postId, (res) => this.setState({...this.state, viewerCount: res, isLoading: false}))
+    ));
   };
 
   _addViewer = (e) => {
     e.preventDefault();
     const postId = this.props.post.id;
-    const id = `post-${postId}`;
-    const emitting = () => {
-      const newState = {...this.state, isLoading: true};
-      this.setState(newState);
-      socket.emit(NEW_VIEW, {
-        id: id,
-        token: TOKEN,
-        result: `${id}_addViewerResult-PostView`
-      });
-    };
-    emitting();
-    socket.on(`${id}_addViewerResult-PostView`, (res) => {
-      if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false};
-        this.setState(newState);
-      } else {
-        const newState = {...this.state, isLoading: false};
-        this.setState(newState)
-      }
-    });
-
-    this._getViewerCount()
-  };
-
-  _getFile = (mediaId) => {
-    if (mediaId) {
-      const mediaResult = (res) => {
-        this.setState({...this.state, postIdentity_File: res.file})
-      };
-      return getFile(mediaId, mediaResult)
-    }
+    setPostViewer(postId, () => this._getViewerCount())
   };
 
   componentDidMount() {
+    const mediaId = this.props.postIdentityMediaId;
     this._getViewerCount();
-    this._getFile(this.props.postIdentityMediaId);
+    if (mediaId) {
+      getFile(mediaId, (res) => this.setState({...this.state, postIdentity_File: res.file}))
+    }
   };
 
   render() {

@@ -11,7 +11,7 @@ class Home extends Component {
     this.state = {activeExchangeId: null}
   }
 
-  _get_exchangeId = (exchangeId) => {
+  _setExchangeId = (exchangeId) => {
     const {activeExchangeId} = this.state;
     if (exchangeId !== activeExchangeId) {
       this.setState({...this.state, activeExchangeId: exchangeId})
@@ -26,7 +26,7 @@ class Home extends Component {
         <TopBar handleSignOut={handleSignOut}/>
         <main>
           <div className="col-md-2 col-sm-1 -right-sidebar-wrapper">
-            <HomeSideBar identityId={IDENTITY_ID} get_exchangeId={this._get_exchangeId} />
+            <HomeSideBar identityId={IDENTITY_ID} setExchangeId={this._setExchangeId} />
           </div>
           <div className="col-md-8 col-sm-10 -content-wrapper -home-content-wrapper">
             <HomePosts identityId={IDENTITY_ID} exchangeId={activeExchangeId}/>

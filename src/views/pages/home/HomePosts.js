@@ -1,6 +1,6 @@
 import React, {Component} from "react"
 import PropTypes from 'prop-types'
-import {getExchangePosts} from 'src/crud/post'
+import {getExchangePosts} from 'src/crud/post/post'
 import {FrameCard, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames"
 import {Post} from "src/views/common/post/index"
 import {getExchangeIdentities} from "../../../crud/exchange/exchange";

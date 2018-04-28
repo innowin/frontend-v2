@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames";
 import {getIdentity, getIdentityByOrgan, getIdentityByUser} from "src/crud/identity";
 import {getOrganization} from "src/crud/organization/organization";
-import {getPostsByIdentity, createPost, updatePost, deletePost} from "src/crud/post";
+import {getPostsByIdentity, createPost, updatePost, deletePost} from "src/crud/post/post";
 import {getProfile} from "src/crud/user/profile";
 import {getUser} from "src/crud/user/user";
 import {PostCreateForm} from "./Forms";
@@ -29,7 +29,7 @@ export class Post extends Component {
       postIdentity_mediaId: null,
       edit: false,
       error: false,
-      isLoading: false
+      isLoading: true
     }
   }
 
@@ -50,17 +50,16 @@ export class Post extends Component {
   };
 
   _update = (formValues, postId) => {
-    this.setState({...this.state, isLoading: true});
-    return updatePost(formValues, postId, this._updateView, this._hideEdit, this._handleErrorLoading);
+    this.setState({...this.state, isLoading: true},() =>
+    updatePost(formValues, postId, this._updateView, this._hideEdit, this._handleErrorLoading))
   };
 
   _delete = () => {
-    this.setState({...this.state, isLoading: true});
-    return deletePost(this.props.posts, this.props.post, this.props.updatePosts, this._hideEdit, this._handleErrorLoading);
+    this.setState({...this.state, isLoading: true},() =>
+      deletePost(this.props.posts, this.props.post, this.props.updatePosts, this._hideEdit, this._handleErrorLoading))
   };
 
   _getIdentityDetails = (identityId) => {
-    this.setState({...this.state, isLoading: true});
     const handleResult = (identityId) => {
       const userId = identityId.identity_user;
       const organId = identityId.identity_organization;
@@ -131,7 +130,7 @@ class Posts extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {posts: [], postIdentity: null, createForm: false, isLoading: false, error: null}
+    this.state = {posts: [], postIdentity: null, createForm: false, isLoading: true, error: null}
   }
 
   _handleErrorLoading = (error = false) => {
@@ -168,7 +167,6 @@ class Posts extends Component {
   };
 
   _getPosts = (id, identityType) => {
-    this.setState({...this.state, isLoading: true});
     const callBack = (res) => (getPostsByIdentity(res.id, this._updatePosts, this._handleErrorLoading));
     if (identityType === 'user') {
       getIdentityByUser(id, (res) => (this.setState({...this.state, postIdentity: res.id}, callBack(res))))
