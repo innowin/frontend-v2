@@ -26,18 +26,18 @@ export class RepresentItemWrapper extends Component {
 export class RepresentItemHeader extends Component {
   static propTypes = {
     name: PropTypes.string,
-    username: PropTypes.string.isRequired,
+    officialTitle: PropTypes.string.isRequired,
     represent: PropTypes.object.isRequired,
     showEdit: PropTypes.func.isRequired,
   };
 
   render() {
-    const {name, showEdit, username, represent} = this.props;
+    const {name, showEdit, officialTitle, represent} = this.props;
     return (
       <div className="-item-headerRepresent">
         <div className="-item-titleRepresent">
           <span className="mr-2">{name}</span>
-          <span className="mr-2 -green2">{username}</span>
+          <span className="mr-2 -green2">{officialTitle}</span>
           <Moment className="mr-3 -green2" element="span" fromNow ago>{represent.created_time}</Moment>
           <span className="mr-1 -green2"> پیش</span>
         </div>
@@ -190,7 +190,7 @@ export class RepresentView extends Component {
   }
 
   render() {
-    const {showEdit, represent, user, profile_media_File, isLoading, error} = this.props;
+    const {showEdit, represent, organization, profile_media_File, isLoading, error} = this.props;
     const {viewerCount} = this.state;
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
