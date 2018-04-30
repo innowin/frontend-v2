@@ -54,6 +54,12 @@ module.exports = {
   'Uploading...': "در حال بارگذاری...",
   'Change': "تغییر",
   'search': "جستجو",
+  'FromDate': 'از تاریخ',
+  'ToDate' : 'تا تاریخ',
+  'EducationInfo' :'اطلاعات تحصیلی',
+  'ResearchInfo': 'تحقیقات',
+  'Author':'نویسنده',
+  'Page Count':'تعداد صفحات',
 
   // profile - certificates
   'Title': "عنوان",
