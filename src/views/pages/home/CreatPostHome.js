@@ -186,20 +186,21 @@ class HomeCreatePost extends Component {
                 <div className="-img-content">
                   {(media.file) ? (
                     <div className="-fileBox">
-                       {/*attachFile same as attach from createPostFooter by editFile icon*/}
+                      {/*attachFile same as attach from createPostFooter by editFile icon*/}
                       <label htmlFor="file">
                         <i className="fa fa-pencil-square-o" aria-hidden="true"/>
                       </label>
                       <img src={media.file} alt="imagePreview"/>
                     </div>
-
                   ) : ('')}
                   <div className="-fileNameBox"><FileName fileName={fileName} className={"d-inline-block"}/></div>
                 </div>
               </div>
               <CreatePostFooter
                 getMedia={this._getMedia}
-                ref={createPostFooter => {this.createPostFooter = createPostFooter}}
+                ref={createPostFooter => {
+                  this.createPostFooter = createPostFooter
+                }}
               />
             </div>
           )}

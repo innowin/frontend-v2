@@ -16,6 +16,7 @@ import {getOrganization} from "../../../../crud/organization/organization";
 import {PostEditForm} from "src/views/common/post/Forms";
 import {PostItemWrapper, PostView} from "src/views/common/post/View";
 import Masonry from "react-masonry-css"
+import cx from 'classnames'
 
 export class ExchangePost extends Component {
 
@@ -57,12 +58,12 @@ export class ExchangePost extends Component {
   };
 
   _update = (formValues, postId) => {
-    this.setState({...this.state, isLoading: true},() =>
+    this.setState({...this.state, isLoading: true}, () =>
       updatePost(formValues, postId, this._updateView, this._hideEdit, this._handleErrorLoading));
   };
 
   _delete = () => {
-    this.setState({...this.state, isLoading: true},() =>
+    this.setState({...this.state, isLoading: true}, () =>
       deletePost(this.props.posts, this.props.post, this.props.updatePosts, this._hideEdit, this._handleErrorLoading))
   };
 
@@ -150,6 +151,23 @@ export class ExchangePost extends Component {
   }
 }
 
+const ExchangeFilterPosts = (props) => {
+  const {filterType, _onClick} = props;
+  return (
+    <div className="filterBox">
+      <span>فیلتر نمایش:</span>
+      <NoFilterIcon className={cx({clicked: filterType === "all"})} height="22px" dataValue="all"
+                    onClickFunc={_onClick}/>
+      <i className={cx("fa fa-share-alt ml-2", {clicked: filterType === "post"})} aria-hidden="true"
+         data-value="post" onClick={_onClick}/>
+      <SupplyIcon height="22px" onClickFunc={_onClick} dataValue="supply"
+                  className={cx({clicked: filterType === "supply"})}/>
+      <DemandIcon height="22px" onClickFunc={_onClick} dataValue="demand"
+                  className={cx({clicked: filterType === "demand"})}/>
+    </div>
+  )
+};
+
 class ExchangePosts extends Component {
   static propTypes = {
     exchangeId: PropTypes.number.isRequired
@@ -157,7 +175,7 @@ class ExchangePosts extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {allPosts: [], filteredPosts: [], isLoading: true, error: null};
+    this.state = {allPosts: [], filteredPosts: [], filterType: 'all', isLoading: true, error: null};
   }
 
   _handleErrorLoading = (error = false) => {
@@ -186,11 +204,11 @@ class ExchangePosts extends Component {
   };
 
   _FilterPosts = (e) => {
-    const post_type = e.target.getAttribute("data-value");
-    const filteredPosts = (post_type === "all") ? (this.state.allPosts) : (
-      this.state.allPosts.filter((post) => (post.post_type === post_type))
+    const filterType = e.target.getAttribute("data-value");
+    const filteredPosts = (filterType === "all") ? (this.state.allPosts) : (
+      this.state.allPosts.filter((post) => (post.post_type === filterType))
     );
-    this.setState({...this.state, filteredPosts: filteredPosts})
+    this.setState({...this.state, filteredPosts: filteredPosts, filterType: filterType})
   };
 
   componentDidMount() {
@@ -198,7 +216,7 @@ class ExchangePosts extends Component {
   };
 
   render() {
-    const {filteredPosts, isLoading, error} = this.state;
+    const {filteredPosts, filterType, isLoading, error} = this.state;
     const posts = [...new Set(filteredPosts)];
     const {exchangeId} = this.props;
     const breakpointColumnsObj = {
@@ -212,13 +230,7 @@ class ExchangePosts extends Component {
         <div className="row mb-3">
           <HomeCreatePost updatePosts={this._updatePosts} postParent={exchangeId} postIdentity={8}
                           handleErrorLoading={this._handleErrorLoading} className="createPost"/>
-          <div className="filterBox">
-            <span>فیلتر نمایش:</span>
-            <NoFilterIcon height="22px" dataValue="all" onClickFunc={this._FilterPosts}/>
-            <i className="fa fa-share-alt ml-2" aria-hidden="true" data-value="post" onClick={this._FilterPosts}/>
-            <SupplyIcon height="22px" onClickFunc={this._FilterPosts} dataValue="supply"/>
-            <DemandIcon height="22px" onClickFunc={this._FilterPosts} dataValue="demand"/>
-          </div>
+          <ExchangeFilterPosts _onClick={this._FilterPosts} filterType={filterType}/>
         </div>
         <Masonry
           breakpointCols={breakpointColumnsObj}
