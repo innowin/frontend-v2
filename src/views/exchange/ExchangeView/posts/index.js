@@ -14,9 +14,10 @@ import {getUser} from "../../../../crud/user/user";
 import {getIdentity} from "../../../../crud/identity";
 import {getOrganization} from "../../../../crud/organization/organization";
 import {PostEditForm} from "src/views/common/post/Forms";
-import {PostItemWrapper, PostView} from "src/views/common/post/View";
+import {ExchangePostView} from "src/views/exchange/ExchangeView/posts/Views";
 import Masonry from "react-masonry-css"
 import cx from 'classnames'
+import {PostItemWrapper} from "../../../common/post/View";
 
 export class ExchangePost extends Component {
 
@@ -30,7 +31,6 @@ export class ExchangePost extends Component {
     super(props);
     this.state = {
       post: this.props.post || {},
-      postIdentity_username: '',
       postIdentity_name: '',
       postIdentity_mediaId: null,
       productPictures: [],
@@ -75,7 +75,6 @@ export class ExchangePost extends Component {
         getUser(userId, (res) =>
           this.setState({
               ...this.state,
-              postIdentity_username: res.username,
               postIdentity_name: res.first_name + ' ' + res.last_name
             }
           ));
@@ -91,7 +90,6 @@ export class ExchangePost extends Component {
         getOrganization(organId, (res) => {
           this.setState({
             ...this.state,
-            postIdentity_username: res.username,
             postIdentity_name: res.nike_name || res.official_name,
             postIdentity_mediaId: res.organization_logo,
             isLoading: false
@@ -129,7 +127,7 @@ export class ExchangePost extends Component {
   }
 
   render() {
-    const {post, postIdentity_username, postIdentity_name, postIdentity_mediaId, product, productPictures, edit, isLoading, error} = this.state;
+    const {post, postIdentity_name, postIdentity_mediaId, product, productPictures, edit, isLoading, error} = this.state;
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         {edit ?
@@ -142,8 +140,7 @@ export class ExchangePost extends Component {
             />
           </PostItemWrapper>
           :
-          <PostView post={post} postIdentityUsername={postIdentity_username} postIdentityName={postIdentity_name}
-                    postIdentityMediaId={postIdentity_mediaId}
+          <ExchangePostView post={post} postIdentityName={postIdentity_name} postIdentityMediaId={postIdentity_mediaId}
                     showEdit={this._showEdit}/>
         }
       </VerifyWrapper>
@@ -226,7 +223,7 @@ class ExchangePosts extends Component {
     };
     // TODO mohsen: choice postIdentity from client
     return (
-      <VerifyWrapper isLoading={isLoading} error={error} className="postExchangeView">
+      <VerifyWrapper isLoading={isLoading} error={error} className="-exchangePosts">
         <div className="row mb-3">
           <HomeCreatePost updatePosts={this._updatePosts} postParent={exchangeId} postIdentity={8}
                           handleErrorLoading={this._handleErrorLoading} className="createPost"/>

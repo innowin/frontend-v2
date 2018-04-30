@@ -52,9 +52,7 @@ export class PostItemHeader extends Component {
           <Moment className="mr-3 -green2" element="span" fromNow ago>{post.created_time}</Moment>
           <span className="mr-1 -green2"> پیش</span>
         </div>
-        <div className="-item-edit-btnPost">
-          <div onClick={showEdit}>{editIcon}</div>
-        </div>
+        <div onClick={showEdit} className="-item-edit-btnPost">{editIcon}</div>
       </div>
     )
   }
@@ -142,7 +140,7 @@ export class PostView extends Component {
       <VerifyWrapper isLoading={isLoading} error={error}>
         <PostItemWrapper>
           <div className="-img-col">
-            <img className="-item-imgPost rounded-circle" src={postIdentity_File || defaultImg} alt=""/>
+            <img className="rounded-circle" src={postIdentity_File || defaultImg} alt=""/>
           </div>
           <div className="-content-col">
             <PostItemHeader

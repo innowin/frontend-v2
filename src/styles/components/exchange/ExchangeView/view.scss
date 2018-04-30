@@ -1,0 +1,43 @@
+/*----------------------   ExchangePostView -----------------*/
+
+.-exchangePostView {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #EEEEEE;
+  border-radius: 3px;
+  .-headerBox {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    span, svg {
+      align-items: center;
+    }
+    > div:first-child {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      > div {
+        margin: auto 0;
+      }
+    }
+    img {
+      width: 45px;
+      height: 45px;
+      border: #9c9c9c;
+    }
+    .-line-height {
+      line-height: 2.1;
+    }
+  }
+  .shareBox {
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    span, i {
+      color: #C2C2C2;
+    }
+  }
+
+}
+
