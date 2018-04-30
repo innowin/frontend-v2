@@ -184,6 +184,8 @@ export const getUser = (userId, handleResult) => {
   }
 };
 
+
+
 export const updateUser = (formValues, userId, updateStateForView, hideEdit) => {
   let isLoading = false;
   const emitting = () => {

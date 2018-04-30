@@ -10,7 +10,7 @@ import {ExchangeIcon} from "src/images/icons"
 
 class ExchangeViewBar extends Component {
   static propTypes = {
-    exchangeId: PropTypes.string.isRequired
+    exchangeId: PropTypes.number.isRequired
   };
 
   constructor(props) {

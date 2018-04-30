@@ -4,7 +4,7 @@ import TopBar from '../bars/TopBar';
 import ChatBar from '../bars/ChatBar';
 import PropTypes from 'prop-types';
 import ExchangeViewBar from "../bars/ExchangeViewBar";
-import PostsExchange from './ExchangeView/posts/index';
+import ExchangePosts from './ExchangeView/posts/index';
 
 export default class ExchangeView extends Component {
 	static propTypes = {
@@ -15,7 +15,7 @@ export default class ExchangeView extends Component {
 	render (){
 		const {handleSignOut} = this.props;
     const {params} = this.props.match;
-    const exchangeId = params.id;
+    const exchangeId = +params.id;
 		return (
 				<div className="-tabbed-pages -userOrganBackgroundImg">
 					<TopBar handleSignOut={handleSignOut}/>
@@ -24,7 +24,7 @@ export default class ExchangeView extends Component {
 							<ExchangeViewBar exchangeId={exchangeId}/>
 						</div>
 						<div className="col-md-8 col-sm-10 -content-wrapper">
-							<PostsExchange exchangeId={exchangeId}/>
+							<ExchangePosts exchangeId={exchangeId}/>
 						</div>
 						<div className="col-md-2 col-sm-1 -left-sidebar-wrapper">
 							<ChatBar/>

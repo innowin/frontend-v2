@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import Certificates from "./organization/certificates/index";
 import ChatBar from "./bars/ChatBar";
 import Customers from "./organization/customers/index";
-import Posts from "./organization/posts/index";
+import Posts from "src/views/common/post/index";
 import Products from "./organization/products/index";
 import PropsRoute from "../consts/PropsRoute"
 import PropTypes from "prop-types";
@@ -58,7 +58,7 @@ export class Organization extends Component {
             <Switch>
               <Redirect exact from={`${url}/`} to={`${url}/Products`}/>
               <PropsRoute path={`${path}/Products`} component={Products} organizationId={organizationId}/>
-              <PropsRoute path={`${path}/Posts`} component={Posts} organizationId={organizationId}/>
+              <PropsRoute path={`${path}/Posts`} component={Posts} id={organizationId} identityType='organization'/>
               <PropsRoute exact path={`${path}/basicInformation`} component={BasicInformation}
                           organizationId={organizationId}/>
               <PropsRoute path={`${path}/Customers`} component={Customers} organizationId={organizationId}/>

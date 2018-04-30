@@ -1,8 +1,8 @@
 import React, {Component} from "react"
 import PropTypes from 'prop-types'
-import {getExchangePosts} from 'src/crud/user/post'
+import {getExchangePosts} from 'src/crud/post'
 import {FrameCard, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames"
-import {Post} from "../../user/posts"
+import {Post} from "src/views/common/post/index"
 import {getExchangeIdentities} from "../../../crud/exchange/exchange";
 import HomeCreatePost from "./CreatPostHome";
 import {Link} from "react-router-dom"
@@ -25,19 +25,19 @@ class HomePosts extends Component {
   };
 
   _updatePosts = (res, type, deletedIndex = null) => {
-    const {posts} = this.state;
-    if (type === 'get') {
-      this.setState({...this.state, posts: [...res]});
-      return false;
-    }
-    if (type === 'post') {
-      this.setState({...this.state, posts: [res, ...posts]});
-      return false;
-    }
-    if (type === 'del') {
-      const remainPosts = posts.slice(0, deletedIndex).concat(posts.slice(deletedIndex + 1));
-      this.setState({...this.state, posts: remainPosts});
-    }
+      const {posts} = this.state;
+      if (type === 'get' && Array.isArray(res)) {
+        this.setState({...this.state, posts: [...res]});
+        return false;
+      }
+      if (type === 'post') {
+        this.setState({...this.state, posts: [res, ...posts]});
+        return false;
+      }
+      if (type === 'del') {
+        const remainPosts = posts.slice(0, deletedIndex).concat(posts.slice(deletedIndex + 1));
+        this.setState({...this.state, posts: remainPosts});
+      }
   };
 
   _getFirstExchangeId = (identityId) => {
@@ -66,6 +66,7 @@ class HomePosts extends Component {
   render() {
     const {isLoading, error, exchangeId} = this.state;
     const posts = [...new Set(this.state.posts)];
+    // TODO mohsen: choice postIdentity from client
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         {(exchangeId) ? (
@@ -73,7 +74,7 @@ class HomePosts extends Component {
             <div>
               <Link to={"/exchange/" + exchangeId} className="mr-3">صفحه بورس</Link>
             </div>
-            <HomeCreatePost updatePosts={this._updatePosts} postParent={exchangeId}
+            <HomeCreatePost updatePosts={this._updatePosts} postParent={exchangeId} postIdentity={8}
                             handleErrorLoading={this._handleErrorLoading}/>
             <FrameCard className="-frameCardPost border-top-0">
               <ListGroup>

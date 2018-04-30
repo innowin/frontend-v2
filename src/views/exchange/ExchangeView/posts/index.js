@@ -1,23 +1,23 @@
 /*global __*/
 import React, {Component} from "react"
 import PropTypes from 'prop-types'
-import {getExchangePosts} from 'src/crud/exchange/post'
+import {getExchangePosts} from 'src/crud/post'
 import {VerifyWrapper} from "src/views/common/cards/Frames"
-import {PostExchangeView} from "./Views"
 import {REST_REQUEST} from "src/consts/Events"
 import {REST_URL as url, SOCKET as socket} from "src/consts/URLS"
 import {TOKEN} from "src/consts/data"
 import HomeCreatePost from "../../../pages/home/CreatPostHome";
 import {SupplyIcon, DemandIcon, NoFilterIcon} from "../../../../images/icons";
-import {deletePost, updatePost} from "../../../../crud/user/post";
+import {deletePost, updatePost} from "src/crud/post";
 import {getProfile} from "../../../../crud/user/profile";
 import {getUser} from "../../../../crud/user/user";
 import {getIdentity} from "../../../../crud/identity";
 import {getOrganization} from "../../../../crud/organization/organization";
-import {PostEditForm} from "../../../user/posts/Forms";
-import {PostItemWrapper} from "../../../user/posts/Views";
+import {PostEditForm} from "src/views/common/post/Forms";
+import {PostItemWrapper, PostView} from "src/views/common/post/View";
+import Masonry from "react-masonry-css"
 
-export class PostExchange extends Component {
+export class ExchangePost extends Component {
 
   static propTypes = {
     posts: PropTypes.array.isRequired,
@@ -29,9 +29,9 @@ export class PostExchange extends Component {
     super(props);
     this.state = {
       post: this.props.post || {},
-      postUser_username: '',
-      postUser_name: '',
-      postUser_mediaId: null,
+      postIdentity_username: '',
+      postIdentity_name: '',
+      postIdentity_mediaId: null,
       productPictures: [],
       product: {},
       edit: false,
@@ -66,6 +66,40 @@ export class PostExchange extends Component {
     return deletePost(this.props.posts, this.props.post, this.props.updatePosts, this._hideEdit, this._handleErrorLoading);
   };
 
+  _getIdentityDetails = (post_identity) => {
+    this.setState({...this.state, isLoading: true});
+    const handleResult = (identityId) => {
+      const userId = identityId.identity_user;
+      const organId = identityId.identity_organization;
+      if (userId) {
+        getUser(userId, (res) =>
+          this.setState({
+              ...this.state,
+              postIdentity_username: res.username,
+              postIdentity_name: res.first_name + ' ' + res.last_name
+            }
+          ));
+        getProfile(userId, (res) => {
+          this.setState({...this.state,
+            postIdentity_mediaId: res.profile_media,
+            isLoading: false})
+        });
+      }
+      if (organId) {
+        getOrganization(organId, (res) => {
+          this.setState({
+            ...this.state,
+            postIdentity_username: res.username,
+            postIdentity_name: res.nike_name || res.official_name,
+            postIdentity_mediaId: res.organization_logo,
+            isLoading: false
+          })
+        });
+      }
+    };
+    getIdentity(post_identity, handleResult)
+  };
+
   getProductPictures(productId) {
     socket.emit(REST_REQUEST,
       {
@@ -88,43 +122,12 @@ export class PostExchange extends Component {
   }
 
   componentDidMount() {
-    const {post_user} = this.props.post;
-    const handleResult = (identity) => {
-      const userId = identity.identity_user;
-      this.setState({...this.state, isLoading: true});
-      const organId = identity.identity_organization;
-      if (userId) {
-        const handleUser = (res) => {
-          this.setState({
-            ...this.state,
-            postUser_username: res.username,
-            postUser_name: res.first_name + ' ' + res.last_name
-          })
-        };
-        const handleProfile = (res) => {
-          this.setState({...this.state, postUser_mediaId: res.profile_media, isLoading: false})
-        };
-        getUser(userId, handleUser);
-        getProfile(userId, handleProfile);
-      }
-      if (organId) {
-        const handleOrgan = (res) => {
-          this.setState({
-            ...this.state,
-            postUser_username: res.username,
-            postUser_name: res.nike_name || res.official_name,
-            postUser_mediaId: res.organization_logo,
-            isLoading: false
-          })
-        };
-        getOrganization(organId, handleOrgan);
-      }
-    };
-    getIdentity(post_user, handleResult);
+    const {post_identity} = this.props.post;
+    this._getIdentityDetails(post_identity)
   }
 
   render() {
-    const {post, postUser_username, postUser_name, postUser_mediaId, product, productPictures, edit, isLoading, error} = this.state;
+    const {post, postIdentity_username, postIdentity_name, postIdentity_mediaId, product, productPictures, edit, isLoading, error} = this.state;
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         {edit ?
@@ -132,21 +135,24 @@ export class PostExchange extends Component {
             <PostEditForm
               post={post}
               hideEdit={this._hideEdit}
-              delete={this._delete}
-              update={this._update}
+              deleteFunc={this._delete}
+              updateFunc={this._update}
             />
           </PostItemWrapper>
           :
-          <PostExchangeView post={post} postUser_username={postUser_username} postUser_name={postUser_name}
-                    postUser_mediaId={postUser_mediaId}
-                    showEdit={this._showEdit} />
+          <PostView post={post} postIdentityUsername={postIdentity_username} postIdentityName={postIdentity_name}
+                    postIdentityMediaId={postIdentity_mediaId}
+                    showEdit={this._showEdit}/>
         }
       </VerifyWrapper>
     )
   }
 }
 
-class PostsExchange extends Component {
+class ExchangePosts extends Component {
+  static propTypes = {
+    exchangeId: PropTypes.number.isRequired
+  };
 
   constructor(props) {
     super(props);
@@ -159,21 +165,24 @@ class PostsExchange extends Component {
 
   _updatePosts = (res, type, deletedIndex = null) => {
     const {allPosts} = this.state;
+    if (type === 'get' && Array.isArray(res)) {
+      this.setState({...this.state, allPosts: res, filteredPosts: res},
+        () => this._handleErrorLoading());
+      return false;
+    }
     if (type === 'post') {
-      this.setState({...this.state, allPosts: [res, ...allPosts], filteredPosts:[res, ...allPosts]});
+      this.setState({...this.state, allPosts: [res, ...allPosts], filteredPosts: [res, ...allPosts]});
       return false;
     }
     if (type === 'del') {
       const remainPosts = allPosts.slice(0, deletedIndex).concat(allPosts.slice(deletedIndex + 1));
-      this.setState({...this.state, allPosts: remainPosts, filteredPosts:remainPosts});
+      this.setState({...this.state, allPosts: remainPosts, filteredPosts: remainPosts});
     }
   };
 
   _getExchangePosts = (exchangeId) => {
     this.setState({...this.state, isLoading: true});
-    getExchangePosts(exchangeId, (res) => {
-      this.setState({...this.state, allPosts: res, filteredPosts: res, isLoading: false})
-    })
+    getExchangePosts(exchangeId, this._updatePosts, this._handleErrorLoading)
   };
 
   _FilterPosts = (e) => {
@@ -191,10 +200,17 @@ class PostsExchange extends Component {
   render() {
     const {filteredPosts, isLoading, error} = this.state;
     const posts = [...new Set(filteredPosts)];
+    const {exchangeId} = this.props;
+    const breakpointColumnsObj = {
+      default: 3,
+      1140: 2,
+      720: 1,
+    };
+    // TODO mohsen: choice postIdentity from client
     return (
       <VerifyWrapper isLoading={isLoading} error={error} className="postExchangeView">
         <div className="row mb-3">
-          <HomeCreatePost updatePosts={this._updatePosts} postParent={this.props.exchangeId}
+          <HomeCreatePost updatePosts={this._updatePosts} postParent={exchangeId} postIdentity={8}
                           handleErrorLoading={this._handleErrorLoading} className="createPost"/>
           <div className="filterBox">
             <span>فیلتر نمایش:</span>
@@ -204,37 +220,24 @@ class PostsExchange extends Component {
             <DemandIcon height="22px" onClickFunc={this._FilterPosts} dataValue="demand"/>
           </div>
         </div>
-        <div className="row">
-          <div className="flex-column col-6 firstDiv">
-            {
-              posts.map((post, i) => (
-                (i % 2 === 0) &&
-                <PostExchange
-                  posts={posts}
-                  post={post}
-                  updatePosts={this._updatePosts}
-                  key={post.id + "PostsExchangeView-firstDiv"}
-                />
-              ))
-            }
-          </div>
-          <div className="flex-column col-6 secondDiv">
-            {
-              posts.map((post, i) => (
-                (i % 2 !== 0) &&
-                <PostExchange
-                  posts={posts}
-                  post={post}
-                  updatePosts={this._updatePosts}
-                  key={post.id + "PostsExchangeView-secondDiv"}
-                />
-              ))
-            }
-          </div>
-        </div>
+        <Masonry
+          breakpointCols={breakpointColumnsObj}
+          className="my-masonry-grid"
+          columnClassName="my-masonry-grid_column">
+          {
+            posts.map((post) => (
+              <ExchangePost
+                posts={posts}
+                post={post}
+                updatePosts={this._updatePosts}
+                key={post.id + "ExchangePostsView-Masonry"}
+              />
+            ))
+          }
+        </Masonry>
       </VerifyWrapper>
     )
   }
 }
 
-export default PostsExchange;
+export default ExchangePosts;

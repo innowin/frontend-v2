@@ -1,7 +1,8 @@
 import React,{Component} from 'react';
-import {Route, Switch ,Link} from 'react-router-dom';
+import {Switch ,Link} from 'react-router-dom';
 import ExchangeView from './exchange/Exchange_View';
 import ExchangeExplorer from './exchange/Exchange_Explorer';
+import PropsRoute from "../consts/PropsRoute";
 
 class Exchange extends Component {
 	constructor(props) {
@@ -9,7 +10,7 @@ class Exchange extends Component {
 		this.state = {}
 	}
 	render() {
-		const {match} = this.props;
+		const {match, handleSignOut} = this.props;
 		const {path , url} = match;
 		return(
 			<div>
@@ -17,8 +18,8 @@ class Exchange extends Component {
 				<Link to={`${url}`}>Exchange</Link>
 				<div>
 					<Switch>
-						<Route path={`${path}/Exchange_Explorer`} component={ExchangeExplorer}/>
-						<Route path={`${path}/:id`} component={ExchangeView}/>
+						<PropsRoute path={`${path}/Exchange_Explorer`} component={ExchangeExplorer}/>
+						<PropsRoute path={`${path}/:id`} component={ExchangeView} handleSignOut={handleSignOut}/>
 					</Switch>
 				</div>
 			</div>
