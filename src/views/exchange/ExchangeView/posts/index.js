@@ -185,26 +185,6 @@ export class ExchangePost extends Component {
   }
 }
 
-<<<<<<< HEAD
-=======
-const ExchangeFilterPosts = (props) => {
-  const {filterType, _onClick} = props;
-  return (
-    <div className="filterBox">
-      <span>فیلتر نمایش:</span>
-      <NoFilterIcon className={cx({clicked: filterType === "all"})} height="22px" dataValue="all"
-                    onClickFunc={_onClick}/>
-      <i className={cx("fa fa-share-alt ml-2", {clicked: filterType === "post"})} aria-hidden="true"
-         data-value="post" onClick={_onClick}/>
-      <SupplyIcon height="22px" onClickFunc={_onClick} dataValue="supply"
-                  className={cx({clicked: filterType === "supply"})}/>
-      <DemandIcon height="22px" onClickFunc={_onClick} dataValue="demand"
-                  className={cx({clicked: filterType === "demand"})}/>
-    </div>
-  )
-};
-
->>>>>>> 9c61ec4e58eb5c1c021521cdd09d67c598694d4a
 class ExchangePosts extends Component {
   static propTypes = {
     exchangeId: PropTypes.number.isRequired
@@ -237,10 +217,7 @@ class ExchangePosts extends Component {
   };
 
   _getExchangePosts = (exchangeId) => {
-<<<<<<< HEAD
     this.setState({...this.state, isLoading: true});
-=======
->>>>>>> 9c61ec4e58eb5c1c021521cdd09d67c598694d4a
     getExchangePosts(exchangeId, this._updatePosts, this._handleErrorLoading)
   };
 
@@ -271,7 +248,6 @@ class ExchangePosts extends Component {
         <div className="row mb-3">
           <HomeCreatePost updatePosts={this._updatePosts} postParent={exchangeId} postIdentity={8}
                           handleErrorLoading={this._handleErrorLoading} className="createPost"/>
-<<<<<<< HEAD
           <div className="filterBox">
             <span>فیلتر نمایش:</span>
             <NoFilterIcon height="22px" dataValue="all" onClickFunc={this._FilterPosts}/>
@@ -279,9 +255,6 @@ class ExchangePosts extends Component {
             <SupplyIcon height="22px" onClickFunc={this._FilterPosts} dataValue="supply"/>
             <DemandIcon height="22px" onClickFunc={this._FilterPosts} dataValue="demand"/>
           </div>
-=======
-          <ExchangeFilterPosts _onClick={this._FilterPosts} filterType={filterType}/>
->>>>>>> 9c61ec4e58eb5c1c021521cdd09d67c598694d4a
         </div>
         <Masonry
           breakpointCols={breakpointColumnsObj}
