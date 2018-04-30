@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import "moment/locale/fa";
 import {defaultImg} from "src/images/icons";
 import AttachFile from "src/views/common/inputs/AttachFile";
-import {createPost} from "src/crud/post";
+import {createPost} from "src/crud/post/post";
 import cx from 'classnames';
 import {SupplyIcon, DemandIcon, PostSendIcon} from "src/images/icons";
 import Transition from 'react-transition-group/Transition'
@@ -135,8 +135,6 @@ class HomeCreatePost extends Component {
     return result
   };
 
-  AttachBottom = () => <i className="fa fa-pencil-square-o" aria-hidden="true"/>;
-
   _getMedia = (media, fileName) => {
     this.setState({...this.state, media, fileName})
   };
@@ -183,22 +181,26 @@ class HomeCreatePost extends Component {
         <Transition in={show} timeout={duration}>
           {(state) => (
             <div className={"-content-col " + textareaClass} style={{...defaultStyle, ...transitionStyles[state]}}>
-              <div className="d-flex flex-row mb-2 -texBox">
+              <div className="d-flex flex-row mb-2 -textBox">
                 <textarea onFocus={this._handleFocus} onChange={this._handleChange} value={description}/>
                 <div className="-img-content">
                   {(media.file) ? (
                     <div className="-fileBox">
-                      <AttachFile getMedia={this._getMedia} AttachBottom={this.AttachBottom}/>
+                      {/*attachFile same as attach from createPostFooter by editFile icon*/}
+                      <label htmlFor="file">
+                        <i className="fa fa-pencil-square-o" aria-hidden="true"/>
+                      </label>
                       <img src={media.file} alt="imagePreview"/>
                     </div>
-
                   ) : ('')}
                   <div className="-fileNameBox"><FileName fileName={fileName} className={"d-inline-block"}/></div>
                 </div>
               </div>
-              <CreatePostFooter getMedia={this._getMedia} ref={createPostFooter => {
-                this.createPostFooter = createPostFooter
-              }}
+              <CreatePostFooter
+                getMedia={this._getMedia}
+                ref={createPostFooter => {
+                  this.createPostFooter = createPostFooter
+                }}
               />
             </div>
           )}

@@ -45,7 +45,7 @@ export class SideBarItem extends Component {
 
 export default class HomeSideBar extends Component {
   static propTypes = {
-    get_exchangeId: PropTypes.func.isRequired,
+    setExchangeId: PropTypes.func.isRequired,
     identityId: PropTypes.string.isRequired,
   };
 
@@ -55,9 +55,8 @@ export default class HomeSideBar extends Component {
   }
 
   _handleClick = (id) => {
-    const {get_exchangeId} = this.props;
-    this.setState({...this.state, activeId: id});
-    get_exchangeId(id);
+    const {setExchangeId} = this.props;
+    this.setState({...this.state, activeId: id} , () => setExchangeId(id));
   };
 
   componentDidMount() {

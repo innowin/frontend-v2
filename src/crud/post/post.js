@@ -1,63 +1,61 @@
-import {REST_URL as url, SOCKET as socket} from "../../consts/URLS"
-import {REST_REQUEST} from "../../consts/Events"
-import {TOKEN as token} from '../../consts/data'
+import {REST_URL as url, SOCKET as socket} from "src/consts/URLS"
+import {REST_REQUEST} from "src/consts/Events"
+import {TOKEN as token} from 'src/consts/data'
 
-export const getUserPosts = (userId, updatePosts, handleErrorLoading) => {
+export const getPostsByIdentity = (IdentityId, updatePosts, handleErrorLoading) => {
 
   socket.emit(REST_REQUEST,
     {
       method: "get",
-      url: `${url}/base/posts/?post_user_id=${userId}`,
-      result: `userPosts-Posts-get/${userId}`,
+      url: `${url}/base/posts/?post_identity_id=${IdentityId}`,
+      result: `getUserPosts-get/${IdentityId}`,
       token
     });
-
-  socket.on(`userPosts-Posts-get/${userId}`, (res) => {
+  const func = (res) => {
     if (res.detail) {
       handleErrorLoading(res.detail);
       return false;
     }
     updatePosts(res, 'get');
     handleErrorLoading();
-  });
+    socket.off(`getUserPosts-get/${IdentityId}`, func)
+  };
+  socket.on(`getUserPosts-get/${IdentityId}`, func);
 };
-
-// export const getOrganPosts = (userId, updatePosts, handleErrorLoading) => {
-//
-// };
 
 export const getExchangePosts = (exchangeId, updatePosts, handleErrorLoading) => {
 
   socket.emit(REST_REQUEST, {
     method: 'get',
-    url: url+`/base/posts/?post_parent=${exchangeId}`,
-    result: 'EXCHANGE-LIST-POSTS',
+    url: url + `/base/posts/?post_parent=${exchangeId}`,
+    result: `getExchangePosts-get-${exchangeId}`,
     token,
   });
 
-  socket.on('EXCHANGE-LIST-POSTS',(res) => {
+  const func = (res) => {
     if (res.detail) {
       handleErrorLoading(res.detail);
       return false;
     }
     updatePosts(res, 'get');
     handleErrorLoading();
-  });
-};
+    socket.off(`getExchangePosts-get-${exchangeId}`, func)
+  };
 
+  socket.on(`getExchangePosts-get-${exchangeId}`, func);
+};
 
 export const createPost = (formValues, updatePosts, handleErrorLoading, hideCreateForm) => {
   socket.emit(REST_REQUEST,
     {
       method: "post",
       url: `${url}/base/posts/`,
-      result: 'createPost-post',
+      result: '/base/posts/-post',
       data: {...formValues},
       token
     }
   );
-
-  socket.on('createPost-post', (res) => {
+  const func = (res) => {
     if (res.detail) {
       handleErrorLoading(res.detail);
       return false;
@@ -65,7 +63,9 @@ export const createPost = (formValues, updatePosts, handleErrorLoading, hideCrea
     updatePosts(res, 'post');
     handleErrorLoading();
     hideCreateForm();
-  });
+    socket.off('/base/posts/-post', func)
+  };
+  socket.on('/base/posts/-post', func);
 };
 
 export const updatePost = (formValues, postId, updateView, hideEdit, handleErrorLoading) => {
@@ -73,13 +73,13 @@ export const updatePost = (formValues, postId, updateView, hideEdit, handleError
     {
       method: "patch",
       url: `${url}/base/posts/${postId}/`,
-      result: `updatePost-patch/${postId}`,
+      result: `/base/posts/-patch/${postId}`,
       data: formValues,
       token
     }
   );
 
-  socket.on(`updatePost-patch/${postId}`, (res) => {
+  const func = (res) => {
     if (res.detail) {
       handleErrorLoading(res.detail);
       return false;
@@ -87,7 +87,9 @@ export const updatePost = (formValues, postId, updateView, hideEdit, handleError
     updateView(res);
     handleErrorLoading();
     hideEdit();
-  });
+    socket.off(`/base/posts/-patch/${postId}`, func)
+  };
+  socket.on(`/base/posts/-patch/${postId}`, func);
 };
 
 export const deletePost = (posts, post, updatePosts, hideEdit, handleErrorLoading) => {
@@ -101,7 +103,7 @@ export const deletePost = (posts, post, updatePosts, hideEdit, handleErrorLoadin
     }
   );
 
-  socket.on(`deletePost-delete/${postId}`, (res) => {
+  const func = (res) => {
     if (res.detail) {
       handleErrorLoading(res.detail);
       return false;
@@ -110,5 +112,7 @@ export const deletePost = (posts, post, updatePosts, hideEdit, handleErrorLoadin
     updatePosts(null, 'del', deletedIndex);
     handleErrorLoading();
     hideEdit();
-  });
+    socket.off(`deletePost-delete/${postId}`, func)
+  };
+  socket.on(`deletePost-delete/${postId}`, func);
 };

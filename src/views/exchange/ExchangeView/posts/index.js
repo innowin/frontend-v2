@@ -1,14 +1,14 @@
 /*global __*/
 import React, {Component} from "react"
 import PropTypes from 'prop-types'
-import {getExchangePosts} from 'src/crud/post'
+import {getExchangePosts} from 'src/crud/post/post'
 import {VerifyWrapper} from "src/views/common/cards/Frames"
 import {REST_REQUEST} from "src/consts/Events"
 import {REST_URL as url, SOCKET as socket} from "src/consts/URLS"
 import {TOKEN} from "src/consts/data"
 import HomeCreatePost from "../../../pages/home/CreatPostHome";
 import {SupplyIcon, DemandIcon, NoFilterIcon} from "../../../../images/icons";
-import {deletePost, updatePost} from "src/crud/post";
+import {deletePost, updatePost} from "src/crud/post/post";
 import {getProfile} from "../../../../crud/user/profile";
 import {getUser} from "../../../../crud/user/user";
 import {getIdentity} from "../../../../crud/identity";
@@ -16,6 +16,7 @@ import {getOrganization} from "../../../../crud/organization/organization";
 import {PostEditForm} from "src/views/common/post/Forms";
 import {PostItemWrapper, PostView} from "src/views/common/post/View";
 import Masonry from "react-masonry-css"
+import cx from 'classnames'
 
 export class ExchangePost extends Component {
 
@@ -36,7 +37,7 @@ export class ExchangePost extends Component {
       product: {},
       edit: false,
       error: false,
-      isLoading: false,
+      isLoading: true,
     };
   }
 
@@ -57,13 +58,48 @@ export class ExchangePost extends Component {
   };
 
   _update = (formValues, postId) => {
-    this.setState({...this.state, isLoading: true});
-    return updatePost(formValues, postId, this._updateView, this._hideEdit, this._handleErrorLoading);
+    this.setState({...this.state, isLoading: true}, () =>
+      updatePost(formValues, postId, this._updateView, this._hideEdit, this._handleErrorLoading));
   };
 
   _delete = () => {
-    this.setState({...this.state, isLoading: true});
-    return deletePost(this.props.posts, this.props.post, this.props.updatePosts, this._hideEdit, this._handleErrorLoading);
+    this.setState({...this.state, isLoading: true}, () =>
+      deletePost(this.props.posts, this.props.post, this.props.updatePosts, this._hideEdit, this._handleErrorLoading))
+  };
+
+  _getIdentityDetails = (post_identity) => {
+    const handleResult = (identityId) => {
+      const userId = identityId.identity_user;
+      const organId = identityId.identity_organization;
+      if (userId) {
+        getUser(userId, (res) =>
+          this.setState({
+              ...this.state,
+              postIdentity_username: res.username,
+              postIdentity_name: res.first_name + ' ' + res.last_name
+            }
+          ));
+        getProfile(userId, (res) => {
+          this.setState({
+            ...this.state,
+            postIdentity_mediaId: res.profile_media,
+            isLoading: false
+          })
+        });
+      }
+      if (organId) {
+        getOrganization(organId, (res) => {
+          this.setState({
+            ...this.state,
+            postIdentity_username: res.username,
+            postIdentity_name: res.nike_name || res.official_name,
+            postIdentity_mediaId: res.organization_logo,
+            isLoading: false
+          })
+        });
+      }
+    };
+    getIdentity(post_identity, handleResult)
   };
 
   _getIdentityDetails = (post_identity) => {
@@ -149,6 +185,26 @@ export class ExchangePost extends Component {
   }
 }
 
+<<<<<<< HEAD
+=======
+const ExchangeFilterPosts = (props) => {
+  const {filterType, _onClick} = props;
+  return (
+    <div className="filterBox">
+      <span>فیلتر نمایش:</span>
+      <NoFilterIcon className={cx({clicked: filterType === "all"})} height="22px" dataValue="all"
+                    onClickFunc={_onClick}/>
+      <i className={cx("fa fa-share-alt ml-2", {clicked: filterType === "post"})} aria-hidden="true"
+         data-value="post" onClick={_onClick}/>
+      <SupplyIcon height="22px" onClickFunc={_onClick} dataValue="supply"
+                  className={cx({clicked: filterType === "supply"})}/>
+      <DemandIcon height="22px" onClickFunc={_onClick} dataValue="demand"
+                  className={cx({clicked: filterType === "demand"})}/>
+    </div>
+  )
+};
+
+>>>>>>> 9c61ec4e58eb5c1c021521cdd09d67c598694d4a
 class ExchangePosts extends Component {
   static propTypes = {
     exchangeId: PropTypes.number.isRequired
@@ -156,7 +212,7 @@ class ExchangePosts extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {allPosts: [], filteredPosts: [], isLoading: false, error: null};
+    this.state = {allPosts: [], filteredPosts: [], filterType: 'all', isLoading: true, error: null};
   }
 
   _handleErrorLoading = (error = false) => {
@@ -181,16 +237,19 @@ class ExchangePosts extends Component {
   };
 
   _getExchangePosts = (exchangeId) => {
+<<<<<<< HEAD
     this.setState({...this.state, isLoading: true});
+=======
+>>>>>>> 9c61ec4e58eb5c1c021521cdd09d67c598694d4a
     getExchangePosts(exchangeId, this._updatePosts, this._handleErrorLoading)
   };
 
   _FilterPosts = (e) => {
-    const post_type = e.target.getAttribute("data-value");
-    const filteredPosts = (post_type === "all") ? (this.state.allPosts) : (
-      this.state.allPosts.filter((post) => (post.post_type === post_type))
+    const filterType = e.target.getAttribute("data-value");
+    const filteredPosts = (filterType === "all") ? (this.state.allPosts) : (
+      this.state.allPosts.filter((post) => (post.post_type === filterType))
     );
-    this.setState({...this.state, filteredPosts: filteredPosts})
+    this.setState({...this.state, filteredPosts: filteredPosts, filterType: filterType})
   };
 
   componentDidMount() {
@@ -198,7 +257,7 @@ class ExchangePosts extends Component {
   };
 
   render() {
-    const {filteredPosts, isLoading, error} = this.state;
+    const {filteredPosts, filterType, isLoading, error} = this.state;
     const posts = [...new Set(filteredPosts)];
     const {exchangeId} = this.props;
     const breakpointColumnsObj = {
@@ -212,6 +271,7 @@ class ExchangePosts extends Component {
         <div className="row mb-3">
           <HomeCreatePost updatePosts={this._updatePosts} postParent={exchangeId} postIdentity={8}
                           handleErrorLoading={this._handleErrorLoading} className="createPost"/>
+<<<<<<< HEAD
           <div className="filterBox">
             <span>فیلتر نمایش:</span>
             <NoFilterIcon height="22px" dataValue="all" onClickFunc={this._FilterPosts}/>
@@ -219,6 +279,9 @@ class ExchangePosts extends Component {
             <SupplyIcon height="22px" onClickFunc={this._FilterPosts} dataValue="supply"/>
             <DemandIcon height="22px" onClickFunc={this._FilterPosts} dataValue="demand"/>
           </div>
+=======
+          <ExchangeFilterPosts _onClick={this._FilterPosts} filterType={filterType}/>
+>>>>>>> 9c61ec4e58eb5c1c021521cdd09d67c598694d4a
         </div>
         <Masonry
           breakpointCols={breakpointColumnsObj}

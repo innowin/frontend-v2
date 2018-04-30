@@ -15,31 +15,33 @@ class ExchangeViewBar extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {exchange: {}, exchangeImage: null, badgesImgUrl: [], tags: [], isLoading: false, error: null}
+    this.state = {exchange: {}, exchangeImage: null, badgesImgUrl: [], tags: [], isLoading: true, error: null}
   }
 
   _getImageUrl = (res) => {
     this.setState({...this.state, exchangeImage: res.file})
   };
 
-  _MacData = () => {
+  _MockData = () => {
     const tags = [{title: "چادر مشکی"}, {title: "پوشاک مردانه"}];
     const badges = ["http://restful.daneshboom.ir/media/14ba7946fe394deca765cad2fc02c848.jpeg"];
     this.setState({...this.state, tags: tags, badgesImgUrl: badges, isLoading: false})
   };
 
-  componentDidMount() {
-    const {exchangeId} = this.props;
-    this.setState({...this.state, isLoading: true});
+  _getExchange = (exchangeId) => {
     const handleResult = (res) => {
       this.setState({...this.state, exchange: res}, () => {
         getFile(res.exchange_image, this._getImageUrl);
-        this._MacData()
+        this._MockData()
       });
       // TODO mohsen: socket.emit of badges
       // TODO mohsen: socket.emit of tags
     };
     getExchange(exchangeId, handleResult)
+  };
+
+  componentDidMount() {
+    this._getExchange(this.props.exchangeId)
   }
 
 
