@@ -3,9 +3,6 @@ import React, {Component} from "react"
 import PropTypes from 'prop-types'
 import {getExchangePosts} from 'src/crud/post/post'
 import {VerifyWrapper} from "src/views/common/cards/Frames"
-import {REST_REQUEST} from "src/consts/Events"
-import {REST_URL as url, SOCKET as socket} from "src/consts/URLS"
-import {TOKEN} from "src/consts/data"
 import HomeCreatePost from "../../../pages/home/CreatPostHome";
 import {SupplyIcon, DemandIcon, NoFilterIcon} from "../../../../images/icons";
 import {deletePost, updatePost} from "src/crud/post/post";
@@ -18,6 +15,7 @@ import {ExchangePostView} from "src/views/exchange/ExchangeView/posts/Views";
 import Masonry from "react-masonry-css"
 import cx from 'classnames'
 import {PostItemWrapper} from "../../../common/post/View";
+import {IDENTITY_ID} from "../../../../consts/data";
 
 export class ExchangePost extends Component {
 
@@ -142,6 +140,7 @@ const ExchangeFilterPosts = (props) => {
   )
 };
 
+
 class ExchangePosts extends Component {
   static propTypes = {
     exchangeId: PropTypes.number.isRequired
@@ -174,6 +173,7 @@ class ExchangePosts extends Component {
   };
 
   _getExchangePosts = (exchangeId) => {
+    this.setState({...this.state, isLoading: true});
     getExchangePosts(exchangeId, this._updatePosts, this._handleErrorLoading)
   };
 
@@ -202,7 +202,7 @@ class ExchangePosts extends Component {
     return (
       <VerifyWrapper isLoading={isLoading} error={error} className="-exchangePosts">
         <div className="row mb-3">
-          <HomeCreatePost updatePosts={this._updatePosts} postParent={exchangeId} postIdentity={8}
+          <HomeCreatePost updatePosts={this._updatePosts} postParent={exchangeId} postIdentity={+IDENTITY_ID}
                           handleErrorLoading={this._handleErrorLoading} className="createPost"/>
           <ExchangeFilterPosts _onClick={this._FilterPosts} filterType={filterType}/>
         </div>

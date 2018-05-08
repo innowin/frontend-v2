@@ -29,7 +29,7 @@ export class Post extends Component {
       postIdentity_mediaId: null,
       edit: false,
       error: false,
-      isLoading: true
+      isLoading: false
     }
   }
 
