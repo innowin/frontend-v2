@@ -41,10 +41,6 @@ export class ExchangePost extends Component {
     };
   }
 
-  _showEdit = () => {
-    this.setState({edit: true});
-  };
-
   _hideEdit = () => {
     this.setState({edit: false});
   };
@@ -68,9 +64,9 @@ export class ExchangePost extends Component {
   };
 
   _getIdentityDetails = (post_identity) => {
-    const handleResult = (identityId) => {
-      const userId = identityId.identity_user;
-      const organId = identityId.identity_organization;
+    const handleResult = (identity) => {
+      const userId = identity.identity_user;
+      const organId = identity.identity_organization;
       if (userId) {
         getUser(userId, (res) =>
           this.setState({
@@ -100,34 +96,13 @@ export class ExchangePost extends Component {
     getIdentity(post_identity, handleResult)
   };
 
-  getProductPictures(productId) {
-    socket.emit(REST_REQUEST,
-      {
-        method: "get",
-        url: `${url}/products/pictures/?picture_product=${productId}`,
-        result: `product-pictures-get/${productId}`,
-        token: TOKEN
-      }
-    );
-
-    socket.on(`product-pictures-get/${productId}`, (res) => {
-      if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false};
-        this.setState(newState)
-      } else {
-        const newState = {...this.state, productPictures: res, isLoading: false};
-        this.setState(newState);
-      }
-    })
-  }
-
   componentDidMount() {
     const {post_identity} = this.props.post;
     this._getIdentityDetails(post_identity)
   }
 
   render() {
-    const {post, postIdentity_name, postIdentity_mediaId, product, productPictures, edit, isLoading, error} = this.state;
+    const {post, postIdentity_name, postIdentity_mediaId, edit, isLoading, error} = this.state;
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         {edit ?
@@ -140,8 +115,10 @@ export class ExchangePost extends Component {
             />
           </PostItemWrapper>
           :
-          <ExchangePostView post={post} postIdentityName={postIdentity_name} postIdentityMediaId={postIdentity_mediaId}
-                    showEdit={this._showEdit}/>
+          <ExchangePostView post={post}
+                            postIdentityName={postIdentity_name}
+                            postIdentityMediaId={postIdentity_mediaId}
+          />
         }
       </VerifyWrapper>
     )
@@ -153,13 +130,13 @@ const ExchangeFilterPosts = (props) => {
   return (
     <div className="filterBox">
       <span>فیلتر نمایش:</span>
-      <NoFilterIcon className={cx({clicked: filterType === "all"})} height="22px" dataValue="all"
+      <NoFilterIcon className={cx("ml-1", {clicked: filterType === "all"})} height="22px" dataValue="all"
                     onClickFunc={_onClick}/>
-      <i className={cx("fa fa-share-alt ml-2", {clicked: filterType === "post"})} aria-hidden="true"
+      <i className={cx("fa fa-share-alt ml-2 pt-1", {clicked: filterType === "post"})} aria-hidden="true"
          data-value="post" onClick={_onClick}/>
       <SupplyIcon height="22px" onClickFunc={_onClick} dataValue="supply"
-                  className={cx({clicked: filterType === "supply"})}/>
-      <DemandIcon height="22px" onClickFunc={_onClick} dataValue="demand"
+                  className={cx("ml-2", {clicked: filterType === "supply"})}/>
+      <DemandIcon height="24px" onClickFunc={_onClick} dataValue="demand"
                   className={cx({clicked: filterType === "demand"})}/>
     </div>
   )

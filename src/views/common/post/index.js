@@ -60,9 +60,9 @@ export class Post extends Component {
   };
 
   _getIdentityDetails = (identityId) => {
-    const handleResult = (identityId) => {
-      const userId = identityId.identity_user;
-      const organId = identityId.identity_organization;
+    const handleResult = (identity) => {
+      const userId = identity.identity_user;
+      const organId = identity.identity_organization;
       if (userId) {
         getUser(userId, (res) =>
           this.setState({

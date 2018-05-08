@@ -1,17 +1,27 @@
-/*----------------------   ExchangePostView -----------------*/
+@import "../../../variables";
 
+$color1: lighten($text-light-color, 20%);
+$color2: darken($text-light-color, 15%);
+$color3: lighten($text-light-color, 10%);
+$color4: lighten($text-light-color, 4%);
+
+$fontSize1: 14px;
+$fontSize2: 15px;
+$fontSize3: 20px;
+
+/*----------------------   ExchangePostView -----------------*/
 .-exchangePostView {
   display: flex;
   flex-direction: column;
-  border: 1px solid #EEEEEE;
+  border: 1px solid $color1;
+  background-color: $text-lightest-color;
   border-radius: 3px;
-  .-headerBox {
+
+  .postHeaderBox {
     padding: 15px;
     display: flex;
     flex-direction: column;
-    span, svg {
-      align-items: center;
-    }
+    font-size: $fontSize1;
     > div:first-child {
       display: flex;
       flex-direction: row;
@@ -20,22 +30,84 @@
         margin: auto 0;
       }
     }
+    svg {
+      fill: $color2;
+    }
+    span, i {
+      color: $color2;
+    }
+    i {
+      font-size: $fontSize2
+    }
     img {
       width: 45px;
       height: 45px;
-      border: #9c9c9c;
+      border: $color2;
     }
-    .-line-height {
-      line-height: 2.1;
+    .supplyPad {
+      padding: 2px;
     }
   }
-  .shareBox {
-    padding: 15px;
+
+  .postContentBox {
+    padding: 0 15px 15px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    img {
+      max-height: 200px;
+    }
+    .descriptionOfPost {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      height: 60px;
+      font-size: $fontSize1;
+      line-height: 2;
+      position: relative;
+    }
+    .descriptionOfPost::after {
+      display: block;
+      content: '';
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 60%;
+      background: linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 75%);
+    }
+    .menuOfPost {
+      :first-child {
+        color: $color2;
+        font-size: $fontSize2;
+      }
+      :last-child {
+        color: $color3;
+        font-size: $fontSize3;
+      }
+    }
+  }
+
+  .postFooterBox {
+    padding: 12px 15px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    span, i {
-      color: #C2C2C2;
+    border-top: 1px solid $color1;
+    span {
+      color: $color4;
+    }
+    svg {
+      fill: $color4;
+    }
+    .lastComment {
+      padding-right: 20px;
+      display: inline-flex;
+      span {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        width: 238.4px;
+        font-size: 14px;
+        color: $color2;
+      }
     }
   }
 

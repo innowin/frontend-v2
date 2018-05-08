@@ -2,12 +2,18 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import "moment/locale/fa";
 import Moment from "react-moment";
-import {editIcon, defaultImg} from "src/images/icons";
+import {defaultImg, ForwardIcon} from "src/images/icons";
 import {VerifyWrapper} from "src/views/common/cards/Frames";
 import {getFile} from "src/crud/media/media";
 import {SupplyIcon, DemandIcon} from "src/images/icons";
 import cx from 'classnames';
 import {setPostViewer} from "src/crud/post/postViewerCount";
+import {getCommentsByParent} from "../../../../crud/comment";
+import {getIdentity} from "../../../../crud/identity";
+import {getOrganization} from "../../../../crud/organization/organization";
+import {getUser} from "../../../../crud/user/user";
+import {Product} from "src/views/product/ProductExplorerContent"
+import {getProduct} from "../../../../crud/product/product";
 
 
 class PostItemHeader extends Component {
@@ -15,12 +21,10 @@ class PostItemHeader extends Component {
     name: PropTypes.string,
     post: PropTypes.object.isRequired,
     postIdentityFile: PropTypes.string,
-    showEdit: PropTypes.func.isRequired,
-    description: PropTypes.string
   };
 
   render() {
-    const {showEdit, post, postIdentityFile, description} = this.props;
+    const {post, postIdentityFile} = this.props;
     let {name} = this.props;
     if (name === ' ') {
       name = "------"
@@ -30,50 +34,89 @@ class PostItemHeader extends Component {
     const postIcon = post.post_type === 'post';
     //TODO : mohsen handle editIcon
     return (
-      <div className="-headerBox">
+      <div className="postHeaderBox">
         <div>
           <div>
             <img className="rounded-circle" src={postIdentityFile || defaultImg} alt=""/>
-            <span className="mr-2">{name}</span>
+            <span className="mr-3">{name}</span>
           </div>
           <div>
-            <Moment className="mr-3 -green2" element="span" fromNow ago>{post.created_time}</Moment>
-            <span className="mr-1 -green2">پیش</span>
+            <Moment className="mr-3" element="span" fromNow ago>{post.created_time}</Moment>
+            <span className="mr-1">پیش</span>
           </div>
-          {/*<div onClick={showEdit} className="-item-edit-btnPost">{editIcon}</div>*/}
         </div>
-        <div className={cx("mt-3", {'-viewDemand-icon': demandIcon})}>
+        <div className="mt-3 d-flex flex-row">
           {
-            ((postIcon) && <i className="fa fa-share-alt" aria-hidden="true"/>) ||
-            ((supplyIcon) && <SupplyIcon height="22px"/>) ||
-            ((demandIcon) && <DemandIcon height="22px"/>)
+            ((postIcon) && <i className="fa fa-share-alt ml-2 pt-1" aria-hidden="true"/>) ||
+            ((supplyIcon) && <SupplyIcon height="22px" className="ml-2 supplyPad"/>) ||
+            ((demandIcon) && <DemandIcon height="24px" className="ml-2"/>)
           }
           {
             ((postIcon) && <span>پست</span>) ||
-            ((supplyIcon) && <span>عرضه:</span>) ||
-            ((demandIcon) && <span>تقاضا:</span>)
+            ((supplyIcon) && <div><span>عرضه: </span>{post.post_title}</div>) ||
+            ((demandIcon) && <div><span>تقاضا: </span>{post.post_title}</div>)
           }
-        </div>
-        <div className="-line-height mt-3">
-          {description}
         </div>
       </div>
     )
   }
 }
 
-class PostShare extends Component {
+class PostContent extends Component {
+
   static propTypes = {
     viewerCount: PropTypes.number.isRequired,
-    addViewer: PropTypes.func.isRequired
+    addViewer: PropTypes.func.isRequired,
+    postFile: PropTypes.string,
+    description: PropTypes.string,
+    product: PropTypes.object,
   };
 
   render() {
-    const {addViewer} = this.props;
+    const {addViewer, description, postFile, product} = this.props;
     return (
-      <div className="shareBox">
-        <i className="fa fa-share-square-o"/>
-        <i className="fa fa-ellipsis-h cursor-pointer" aria-hidden="true" onClick={addViewer}/>
+      <div className="postContentBox">
+        {
+          (product) ? (
+            <Product product={product}/>
+          ) : (
+            <img alt="" src={postFile}/>
+          )
+        }
+        <div className={cx("descriptionOfPost", {"mt-3": postFile})}>
+          {description}
+        </div>
+        <div className="menuOfPost d-flex flex-row justify-content-between mt-2">
+          <i className="fa fa-share-square-o cursor-pointer" onClick={addViewer}/>
+          <i className="fa fa-ellipsis-h cursor-pointer" aria-hidden="true"/>
+        </div>
+      </div>
+    )
+  }
+}
+
+class PostFooter extends Component {
+  static propTypes = {
+    lastCommentSenderName: PropTypes.string,
+    lastCommentText: PropTypes.string,
+    commentsCount: PropTypes.number.isRequired
+  };
+
+  render() {
+    const {lastCommentSenderName, lastCommentText, commentsCount} = this.props;
+    return (
+      <div className="postFooterBox">
+        <div>
+          <span className="ml-2">{commentsCount}</span>
+          <ForwardIcon height="15px" className="mr-1"/>
+        </div>
+        <div className="lastComment">
+          {
+            (lastCommentSenderName) ? (
+              <span>{lastCommentSenderName + ": " + lastCommentText}</span>
+            ) : (<span>بدون نظر</span>)
+          }
+        </div>
       </div>
     )
   }
@@ -81,7 +124,6 @@ class PostShare extends Component {
 
 export class ExchangePostView extends Component {
   static propTypes = {
-    showEdit: PropTypes.func.isRequired,
     post: PropTypes.object.isRequired,
     postIdentityMediaId: PropTypes.number,
     postIdentityName: PropTypes.string.isRequired,
@@ -89,7 +131,18 @@ export class ExchangePostView extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {viewerCount: 0, postIdentity_File: null, isLoading: false, error: false}
+    this.state = {
+      viewerCount: 0,
+      postIdentity_File: null,
+      postFile: null,
+      product: null,
+      postComments: [],
+      lastCommentSenderName: '',
+      lastCommentText: '',
+      commentsCount: 0,
+      isLoading: false,
+      error: false
+    }
   }
 
   _addViewer = (e) => {
@@ -98,16 +151,60 @@ export class ExchangePostView extends Component {
     setPostViewer(postId)
   };
 
-  componentDidMount() {
-    const mediaId = this.props.postIdentityMediaId;
-    if (mediaId) {
-      getFile(mediaId, (res) => this.setState({...this.state, postIdentity_File: res.file}))
+  _getLastComment = (postComments) => {
+    if (postComments.length > 0) {
+      const handleResult = (identity) => {
+        const userId = identity.identity_user;
+        const organId = identity.identity_organization;
+        if (userId) {
+          getUser(userId, (res) =>
+            this.setState({
+              ...this.state,
+              lastCommentSenderName: res.first_name + ' ' + res.last_name,
+              lastCommentText: postComments[0].text,
+              isLoading: false
+            }));
+        }
+        if (organId) {
+          getOrganization(organId, (res) => {
+            this.setState({
+              ...this.state,
+              lastCommentSenderName: res.nike_name || res.official_name,
+              lastCommentText: postComments[0].text,
+              isLoading: false
+            })
+          });
+        }
+      };
+      getIdentity(postComments[0].comment_sender, handleResult)
+    } else {
+      this.setState({...this.state, isLoading: false})
     }
   };
 
+  componentDidMount() {
+    const {postIdentityMediaId, post} = this.props;
+    if (postIdentityMediaId) {
+      getFile(postIdentityMediaId, (res) => this.setState({...this.state, postIdentity_File: res.file}));
+    }
+    if (post.post_picture) {
+      getFile(post.post_picture, (res) => this.setState({...this.state, postFile: res.file}))
+    }
+    if (post.post_related_product) {
+      this.setState({...this.state, isLoading: true}, () =>
+        getProduct(post.post_related_product, (res) => this.setState({...this.state, product: res, isLoading: false}))
+      )
+    }
+    this.setState({...this.state, isLoading: true}, () =>
+      getCommentsByParent(post.id, (res) => {
+        this.setState({...this.state, postComments: res, commentsCount: res.length}, () => this._getLastComment(res))
+      })
+    )
+  };
+
   render() {
-    const {showEdit, post, postIdentityName} = this.props;
-    const {viewerCount, isLoading, error, postIdentity_File} = this.state;
+    const {post, postIdentityName} = this.props;
+    const {viewerCount, isLoading, error, postIdentity_File, postFile, lastCommentSenderName, lastCommentText, commentsCount, product} = this.state;
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         <div className="-exchangePostView">
@@ -115,10 +212,18 @@ export class ExchangePostView extends Component {
             name={postIdentityName}
             post={post}
             postIdentityFile={postIdentity_File}
-            showEdit={showEdit}
-            description={post.post_description}
           />
-          <PostShare postId={post.id} viewerCount={viewerCount} addViewer={this._addViewer}/>
+          <PostContent postId={post.id}
+                       viewerCount={viewerCount}
+                       addViewer={this._addViewer}
+                       description={post.post_description}
+                       postFile={postFile}
+                       product={product}
+          />
+          <PostFooter lastCommentSenderName={lastCommentSenderName}
+                      lastCommentText={lastCommentText}
+                      commentsCount={commentsCount}
+          />
         </div>
       </VerifyWrapper>
     )

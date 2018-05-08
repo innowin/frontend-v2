@@ -63,7 +63,7 @@ class CreatePostFooter extends Component {
           <SupplyIcon height="22px" className={cx("mr-3", {'-selectedPostType': supplyMark})}
                       onClickFunc={this._handle_post_type} dataValue='supply'/>
           {/*// TODO mohsen: improve place of demand icon*/}
-          <DemandIcon height="22px" className={cx("-viewDemand-icon mr-2", {'-selectedPostType': demandMark})}
+          <DemandIcon height="24px" className={cx("mr-3", {'-selectedPostType': demandMark})}
                       onClickFunc={this._handle_post_type} dataValue='demand'/>
         </div>
         <div className="leftIcons">
@@ -110,6 +110,7 @@ class HomeCreatePost extends Component {
     const {media} = this.createPostFooter._AttachFile();
     const mediaId = media ? media.id : null;
     const {postIdentity, postParent} = this.props;
+    // TODO mohsen: post_title is static but should be from post create
     return {
       post_picture: mediaId,
       post_description: this.state.description,

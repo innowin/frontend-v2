@@ -7,18 +7,19 @@ export const getProducts = (limit, handleResult) => {
     {
       method: "get",
       url: `${url}/products/?limit=${limit}`,
-      result: "products-get",
+      result: "products/>list-get",
       token: TOKEN,
     }
   );
-
-  socket.on("products-get", (res) => {
+  const func = (res) => {
     if (res.detail) {
       // TODO mohsen: handle error
       return false
     }
-    handleResult(res.results)
-  });
+    handleResult(res.results);
+    socket.off("products/>list-get", func)
+  };
+  socket.on("products/>list-get", func)
 };
 
 export const getProduct = (productId, handleResult) => {
@@ -26,16 +27,17 @@ export const getProduct = (productId, handleResult) => {
     {
       method: "get",
       url: `${url}/products/${productId}/`,
-      result: "products/{id}/-get",
+      result: `products/{id}/-get/${productId}`,
       token: TOKEN,
     }
   );
-
-  socket.on("products/{id}/-get", (res) => {
+  const func = (res) => {
     if (res.detail) {
       // TODO mohsen: handle error
       return false
     }
-    handleResult(res)
-  });
+    handleResult(res);
+    socket.off(`products/{id}/-get/${productId}`, func)
+  };
+  socket.on(`products/{id}/-get/${productId}`, func)
 };

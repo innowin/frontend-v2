@@ -6,7 +6,6 @@ import {editIcon, defaultImg} from "src/images/icons";
 import {VerifyWrapper} from "src/views/common/cards/Frames";
 import {getFile} from "src/crud/media/media";
 import {SupplyIcon, DemandIcon} from "src/images/icons";
-import cx from 'classnames';
 import {getPostViewerCount, setPostViewer} from "src/crud/post/postViewerCount";
 
 
@@ -40,11 +39,11 @@ export class PostItemHeader extends Component {
     return (
       <div className="-item-headerPost">
         <div className="-item-titlePost">
-          <span className={cx("", {'-viewDemand-icon': demandIcon})}>
+          <span>
             {
               ((postIcon) && <i className="fa fa-share-alt" aria-hidden="true"/>) ||
               ((supplyIcon) && <SupplyIcon height="22px"/>) ||
-              ((demandIcon) && <DemandIcon height="22px"/>)
+              ((demandIcon) && <DemandIcon height="24px"/>)
             }
           </span>
           <span className="mr-2">{name}</span>

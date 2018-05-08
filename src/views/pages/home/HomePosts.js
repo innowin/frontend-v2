@@ -6,6 +6,7 @@ import {Post} from "src/views/common/post/index"
 import {getExchangeIdentities} from "../../../crud/exchange/exchange";
 import HomeCreatePost from "./CreatPostHome";
 import {Link} from "react-router-dom"
+import {IDENTITY_ID} from "../../../consts/data";
 
 
 class HomePosts extends Component {
@@ -74,7 +75,7 @@ class HomePosts extends Component {
             <div>
               <Link to={"/exchange/" + exchangeId} className="mr-3">صفحه بورس</Link>
             </div>
-            <HomeCreatePost updatePosts={this._updatePosts} postParent={exchangeId} postIdentity={8}
+            <HomeCreatePost updatePosts={this._updatePosts} postParent={exchangeId} postIdentity={+IDENTITY_ID}
                             handleErrorLoading={this._handleErrorLoading}/>
             <FrameCard className="-frameCardPost border-top-0">
               <ListGroup>

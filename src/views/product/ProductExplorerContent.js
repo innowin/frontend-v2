@@ -7,10 +7,14 @@ import {getProducts} from "../../crud/product/product";
 import {TagsBox} from "../bars/SideBar";
 import {Link} from "react-router-dom";
 
-class Product extends Component {
+export class Product extends Component {
+  static defaultProps = {
+    className: ''
+  };
 
   static propTypes = {
     product: PropTypes.object,
+    className: PropTypes.string
   };
 
   constructor(props) {
@@ -73,33 +77,25 @@ class Product extends Component {
     // TODO mohsen: socket.on of tags
   }
 
-
-  componentWillUnmount() {
-    // TODO mohsen: socket.off
-  }
-
-
   render() {
-    const {product} = this.props;
+    const {product, className} = this.props;
     const {productPicture, ownerName, tags, isLoading, error} = this.state;
     return (
-      <VerifyWrapper isLoading={isLoading} error={error}>
+      <VerifyWrapper isLoading={isLoading} error={error} className={"-productComponent " + className}>
         <div className="flex-column">
           <div className="d-flex justify-content-between mb-2">
             <span>{product.name}</span>
             <BookmarkIcon className="-rBarBookmark"/>
           </div>
+        </div>
+        <div className="productContent">
           <Link to={`/product/${product.id}`}><img alt="Product icon" src={productPicture}/></Link>
-        </div>
-        <div className="pt-3">
-          <span className="-grey5">{ownerName}</span>
-        </div>
-        <div className="pt-2">
-          <span className="-grey5">{"قیمت: " + (this.props.price || "تماس")}</span>
+          <span className="d-block pt-3">{ownerName}</span>
+          <span className="d-block pt-2">{"قیمت: " + (this.props.price || "تماس")}</span>
         </div>
         {
           (tags.length > 0) ? (
-            <div className="row pt-2 m-0">
+            <div className="productTags row pt-2 m-0">
               <TagsBox tags={tags}/>
             </div>
           ) : ("")
@@ -173,12 +169,12 @@ export default class ProductExplorerContent extends Component {
     const {products, isLoading, error} = this.state;
     return (
       <VerifyWrapper isLoading={isLoading} error={error}
-                     className="row -product-explorer-content">
+                     className="row -product-explorer-content mr-0 ml-0">
           {
             (products.length > 0) ? (
               products.map((product) => {
                   return (
-                    <Product product={product}/>
+                    <Product product={product} key={product.id + "ProductExplorerContent"}/>
                   )
                 }
               )) : ('')
