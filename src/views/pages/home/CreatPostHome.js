@@ -66,7 +66,7 @@ class CreatePostFooter extends Component {
           <DemandIcon height="24px" className={cx("mr-3", {'-selectedPostType': demandMark})}
                       onClickFunc={this._handle_post_type} dataValue='demand'/>
         </div>
-        <div className="leftIcons">
+        <div className="leftBottomIcons">
           <AttachFile
             ref={AttachFileInput => {
               this.AttachFileInput = AttachFileInput
@@ -90,6 +90,10 @@ class CreatePostFooter extends Component {
 }
 
 class HomeCreatePost extends Component {
+  static defaultProps = {
+    className: ''
+  };
+
   static propTypes = {
     postParent: PropTypes.number.isRequired,
     postIdentity: PropTypes.number.isRequired,
@@ -163,6 +167,13 @@ class HomeCreatePost extends Component {
     this.setState({...this.state, textareaClass: "openTextarea", show: true})
   };
 
+  _handleClickOutForm = (e) => {
+    const {fileName, description} = this.state;
+    if (!e.target.closest('#HomeCreatePost') && !fileName && !description.trim()) {
+      this.setState({...this.state, textareaClass: "closeTextarea", show: false})
+    }
+  };
+
   _onSubmit = (e) => {
     e.preventDefault();
     if (this._formValidate()) {
@@ -172,16 +183,27 @@ class HomeCreatePost extends Component {
     return false;
   };
 
+  componentDidMount() {
+    document.addEventListener('click', this._handleClickOutForm);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this._handleClickOutForm);
+  }
+
   render() {
     const {media, fileName, description, textareaClass, show} = this.state;
     const {profile_media_file, className} = this.props;
     return (
-      <form className={"-createPostHome " + className} onSubmit={this._onSubmit}>
+      <form className={"-createPostHome " + className} id="HomeCreatePost" onSubmit={this._onSubmit}>
         {/*// TODO mohsen: handle src of img*/}
         <img className="-img-col rounded-circle" src={profile_media_file || defaultImg} alt=""/>
         <Transition in={show} timeout={duration}>
           {(state) => (
-            <div className={"-content-col " + textareaClass} style={{...defaultStyle, ...transitionStyles[state]}}>
+            <div
+              className={"-content-col " + textareaClass}
+              style={{...defaultStyle, ...transitionStyles[state]}}
+            >
               <div className="d-flex flex-row mb-2 -textBox">
                 <textarea onFocus={this._handleFocus} onChange={this._handleChange} value={description}/>
                 <div className="-img-content">

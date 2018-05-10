@@ -39,6 +39,9 @@
   top: $topBarHeight;
   z-index: 10000;
   width: 13rem;
+  img{
+    height: 150px;
+  }
 }
 
 .-ProfTopBarImg{
@@ -46,10 +49,6 @@
   margin: auto 0 auto 10px;
   border-radius: 50%;
 }
-
- .-profile-collapse img{
-   height: 150px;
- }
 
 .-outlineWhite{
   outline-color: white !important;

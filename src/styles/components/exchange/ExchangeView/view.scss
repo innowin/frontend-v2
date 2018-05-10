@@ -56,6 +56,7 @@ $fontSize3: 20px;
     justify-content: space-between;
     img {
       max-height: 200px;
+      height: auto !important;
     }
     .descriptionOfPost {
       overflow: hidden;
