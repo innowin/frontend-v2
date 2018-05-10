@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import uuid from 'uuid'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
+// main component
 class CarouselLogin extends Component {
     constructor() {
         super()
         this.state = {
-			items: [
+			slides: [
 				{
 					id: `login-slide-${uuid()}`,
 					header: 'بازاریابی, بازارسازی و بازگردانی تخصصی در حوزه ملی و بین‌المللی۱',
@@ -25,49 +26,76 @@ class CarouselLogin extends Component {
 			],
 			activeId: 1,
 			showSlide: false,
-			showDesc: false,
 		}
 	}
-	componentDidMount() { this.setState({ ...this.state, activeId: this.state.items[0].id, showSlide: true }) }
-
-	_contentHandler = (id) => this.setState({ ...this.state, activeId: id, showSlide: false }, () => console.log('f', this.state.show))
+	componentDidMount() {
+		this._contentHandler(this.state.slides[0].id) //  the first content setting
+		setTimeout(() => this.setState({ ...this.state, showSlide: true }), 10) // set showSlide: true after 10ms
+	 }
+	 
+	componentWillUnmount() {
+		clearInterval(this.interval);
+	}
+	
+	_contentHandler = (id) => {
+		clearInterval(this.interval) // first clearing past interval
+		const { slides } = this.state
+		this.setState({ ...this.state, activeId: id, showSlide: false })
+		let index = slides.findIndex(slide => slide.id === id)
+		if (index === slides.length -1) index = 0
+		else index++
+		this.interval = setInterval(this._contentHandler, 5000, slides[index].id) // set new interval
+	}
 
 	render() {
-        const { items, activeId, showSlide, showDesc } = this.state
+        const { slides, activeId, showSlide } = this.state
         return (
             <div className="carousel-wrapper">
-				<BtnBar activeId={activeId} items={items} handler={this._contentHandler} />
+				<BtnBar activeId={activeId} slides={slides} handler={this._contentHandler} />
 					<div>
 						<TransitionGroup>
-							{items.map(item => (item.id === activeId ? 
-								<CSSTransition
-									in={item.id === activeId}
+							{slides.map(slide => (slide.id === activeId ?
+								// <---------------- slide
+								<CSSTransition // start of next slide entering is onExited the prev slide.
+									key={`content${slide.id}`}
+									in={slide.id === activeId}
 									timeout={1000}
 									classNames="login-slide"
 									unmountOnExit
-									onExited={() => this.setState({ ...this.state, showSlide: true, showDesc: false }, () => console.log('s', this.state.show))}
+									onExited={() => this.setState({ ...this.state, showSlide: true})}
 								>
-									<div className="login-slide" key={`content${item.id}`}>
+									<div className="login-slide">
 										<CSSTransition
 											in={showSlide}
 											timeout={1000}
 											classNames="login-slide"
 											unmountOnExit
-											onEntered={() => this.setState({showDesc: true})}
 										>
-											<div className="content">
-												<header>{item.header}</header>
-												<br />
-												<p>{item.desc}</p>
-											</div>
-											
+											{
+												status => (
+													<div>
+														<CSSTransition // when the slide is entered header of slide start entering 
+															in={status === 'entered'}
+															timeout={400}
+															classNames="login-slide-header"
+															unmountOnExit
+														>	
+															<header>{slide.header}</header>		
+														</CSSTransition>
+														<br />
+														<p>{slide.desc}</p>
+													</div>
+												)
+											}
 										</CSSTransition>
 									</div>
 								</CSSTransition>
 								:
 								''
 								) 
+								// slide ------------------->
 							)}
+
 						</TransitionGroup>
 					</div>
             </div>
@@ -75,15 +103,16 @@ class CarouselLogin extends Component {
     }
 }
 
-const BtnBar = ({ items, activeId, handler }) => (
+// slide show controle btn bar
+const BtnBar = ({ slides, activeId, handler }) => (
 	<div className="carousel-btn-bar">
 		<ul>
-			{items.map(item => 
-				<li key={`btn${item.id}`}>
+			{slides.map(slide => 
+				<li key={`btn${slide.id}`}>
 					<i
-						onClick={handler.bind(null, item.id)}
+						onClick={handler.bind(null, slide.id)}
 						className={
-							activeId === item.id ? 'fa fa-circle'
+							activeId === slide.id ? 'fa fa-circle'
 							: 
 							'fa fa-circle-o'
 						} 

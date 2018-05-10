@@ -5,12 +5,7 @@
   justify-content: flex-start;
   div {
     padding: 10px;
-    // flex-direction: column;
   }
-}
-.content {
-  display: flex;
-  align-items: center; 
 }
 .carousel-btn-bar{
   align-items: center;
@@ -21,45 +16,39 @@
     flex-direction: column;
   }
 }
-.login-slide {
+.content {
   header {
     font-size: 124%;
   }
   p {
     line-height: 30px;
+    align-self: flex-end;
   }
 }
+
 .login-slide-enter {
   opacity: 0.01;
   transform: translate3d(0px, -30px, 0px);
 }
-// .slide-desc-enter {
-//   opacity: 0.01;
-//   // transform: translate3d(0px, -30px, 0px);
-// }
-// .slide-desc-enter-active {
-//   opacity: 1;
-//   transform: translate3d(0px,0px,0px);
-//   transition: opacity 1000ms, transform 1000ms;
-// }
+
 .login-slide-enter-active {
   opacity: 1;
   transform: translate3d(0px,0px,0px);
-  transition: opacity 1000ms, transform 1000ms;
+  transition: opacity 1000ms, transform 1000ms ease-out;
 }
 
-// .login-slide-desc-active {
-//   opacity: 1;
-//   // transform: translate3d(0px,0px,0px);
-//   transition: opacity 1000ms;
-// }
-// .login-slide-exit {
-//   transform: translateY(0%);
-// }
-
 .login-slide-exit {
-  // display: none;
   opacity: 0.1;
   transform: translate3d(0px,30px,0px);
-  transition: opacity 1000ms, transform 1000ms ease-out;
+  transition: opacity 1000ms, transform 1000ms ease-in;
+}
+.login-slide-header-enter {
+  opacity: 0.01;
+  transform: translate3d(0px,14px,0px);
+}
+
+.login-slide-header-enter-active {
+  opacity: 1;
+  transform: translate3d(0px,0px,0px);
+  transition: opacity 400ms, transform 400ms ease-out;
 }
