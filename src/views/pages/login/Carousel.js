@@ -73,7 +73,7 @@ class CarouselLogin extends Component {
 										>
 											{
 												status => (
-													<div>
+													<div className="content">
 														<CSSTransition // when the slide is entered header of slide start entering 
 															in={status === 'entered'}
 															timeout={400}
