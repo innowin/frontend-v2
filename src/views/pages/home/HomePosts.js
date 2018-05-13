@@ -1,6 +1,6 @@
 import React, {Component} from "react"
 import PropTypes from 'prop-types'
-import {getExchangePosts} from 'src/crud/post/post'
+import {getExchangePosts} from 'src/crud/post/exchangePost'
 import {FrameCard, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames"
 import {Post} from "src/views/common/post/index"
 import {getExchangeIdentities} from "../../../crud/exchange/exchange";
@@ -18,7 +18,16 @@ class HomePosts extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {posts: [], exchangeId: this.props.exchangeId, isLoading: false, error: null}
+    this.state = {
+      posts: [],
+      offset: 0,
+      activeScrollHeight: 0,
+      exchangeId: this.props.exchangeId,
+      isLoading: false,
+      error: null,
+      scrollLoading: false,
+      scrollError: null,
+    }
   }
 
   _handleErrorLoading = (error = false) => {
@@ -26,46 +35,77 @@ class HomePosts extends Component {
   };
 
   _updatePosts = (res, type, deletedIndex = null) => {
-      const {posts} = this.state;
-      if (type === 'get' && Array.isArray(res)) {
-        this.setState({...this.state, posts: [...res]});
-        return false;
-      }
-      if (type === 'post') {
-        this.setState({...this.state, posts: [res, ...posts]});
-        return false;
-      }
-      if (type === 'del') {
-        const remainPosts = posts.slice(0, deletedIndex).concat(posts.slice(deletedIndex + 1));
-        this.setState({...this.state, posts: remainPosts});
-      }
+    const {posts} = this.state;
+    if (type === 'get' && Array.isArray(res)) {
+      this.setState({...this.state, posts: [...res]});
+      return false;
+    }
+    if (type === 'post') {
+      this.setState({...this.state, posts: [res, ...posts]});
+      return false;
+    }
+    if (type === 'del') {
+      const remainPosts = posts.slice(0, deletedIndex).concat(posts.slice(deletedIndex + 1));
+      this.setState({...this.state, posts: remainPosts});
+    }
   };
 
   _getFirstExchangeId = (identityId) => {
     const _handleResult = (res) => {
       if (res.length > 0) {
+        const limit = 100;
+        const offset = 0;
         const exchangeId = res[0].exchange_identity_related_exchange.id;
         this.setState({...this.state, exchangeId, isLoading: true},
-          () => (getExchangePosts(exchangeId, this._updatePosts, this._handleErrorLoading)))
+          () => (getExchangePosts(exchangeId, null, limit, offset, this._updatePosts, this._handleErrorLoading)))
       }
     };
     getExchangeIdentities(identityId, _handleResult);
   };
 
+  _onScroll = () => {
+    const {posts, exchangeId, offset, activeScrollHeight} = this.state;
+    const limit = 100;
+    const scrollHeight = document.body.scrollHeight;
+    if (exchangeId
+      && posts.length > (limit - 1)
+      && (~~(window.innerHeight + window.scrollY) >= (scrollHeight - 500))
+      && (scrollHeight > activeScrollHeight)) {
+      const newOffset = offset + 100;
+      const scrollErrorLoading = (error = null) => (
+        this.setState({...this.state, scrollLoading: false, scrollError: error})
+      );
+      const addToPosts = (res, type) => {
+        const newPosts = [...posts, ...res];
+        this.setState({...this.state, posts: newPosts})
+      };
+      this.setState({...this.state, offset: newOffset, activeScrollHeight: scrollHeight, scrollLoading: true},
+        () => getExchangePosts(exchangeId, null, limit, newOffset, addToPosts, scrollErrorLoading)
+      )
+    }
+  };
+
   componentDidMount() {
     this._getFirstExchangeId(this.props.identityId);
+    window.addEventListener('scroll', this._onScroll)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this._onScroll)
   }
 
   componentWillReceiveProps(nextProps) {
     let {exchangeId} = nextProps;
+    const limit = 100;
+    const offset = 0;
     if (exchangeId) {
       this.setState({...this.state, exchangeId},
-        () => (getExchangePosts(exchangeId, this._updatePosts, this._handleErrorLoading)))
+        () => (getExchangePosts(exchangeId, null, limit, offset, this._updatePosts, this._handleErrorLoading)))
     }
   }
 
   render() {
-    const {isLoading, error, exchangeId} = this.state;
+    const {isLoading, error, exchangeId, scrollLoading, scrollError} = this.state;
     const posts = [...new Set(this.state.posts)];
     // TODO mohsen: choice postIdentity from client
     return (
@@ -88,6 +128,11 @@ class HomePosts extends Component {
                       key={post.id + "HomePosts"}
                     />
                   ))) : (<h1 className="mt-5 red">در این بورس پستی وجود ندارد!</h1>)
+                }
+                {
+                  (scrollLoading || scrollError)?(
+                    <VerifyWrapper isLoading={scrollLoading} error={scrollError} />
+                  ):('')
                 }
               </ListGroup>
             </FrameCard>

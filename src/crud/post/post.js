@@ -23,28 +23,6 @@ export const getPostsByIdentity = (IdentityId, updatePosts, handleErrorLoading) 
   socket.on(`getUserPosts-get/${IdentityId}`, func);
 };
 
-export const getExchangePosts = (exchangeId, updatePosts, handleErrorLoading) => {
-
-  socket.emit(REST_REQUEST, {
-    method: 'get',
-    url: url + `/base/posts/?post_parent=${exchangeId}`,
-    result: `getExchangePosts-get-${exchangeId}`,
-    token,
-  });
-
-  const func = (res) => {
-    if (res.detail) {
-      handleErrorLoading(res.detail);
-      return false;
-    }
-    updatePosts(res, 'get');
-    handleErrorLoading();
-    socket.off(`getExchangePosts-get-${exchangeId}`, func)
-  };
-
-  socket.on(`getExchangePosts-get-${exchangeId}`, func);
-};
-
 export const createPost = (formValues, updatePosts, handleErrorLoading, hideCreateForm) => {
   socket.emit(REST_REQUEST,
     {

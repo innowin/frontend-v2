@@ -1,21 +1,21 @@
 /*global __*/
 import React, {Component} from "react"
 import PropTypes from 'prop-types'
-import {getExchangePosts} from 'src/crud/post/post'
+import {getExchangePosts} from 'src/crud/post/exchangePost'
 import {VerifyWrapper} from "src/views/common/cards/Frames"
-import HomeCreatePost from "../../../pages/home/CreatPostHome";
-import {SupplyIcon, DemandIcon, NoFilterIcon} from "../../../../images/icons";
-import {deletePost, updatePost} from "src/crud/post/post";
-import {getProfile} from "../../../../crud/user/profile";
-import {getUser} from "../../../../crud/user/user";
-import {getIdentity} from "../../../../crud/identity";
-import {getOrganization} from "../../../../crud/organization/organization";
-import {PostEditForm} from "src/views/common/post/Forms";
-import {ExchangePostView} from "src/views/exchange/ExchangeView/posts/Views";
+import HomeCreatePost from "../../../pages/home/CreatPostHome"
+import {SupplyIcon, DemandIcon, NoFilterIcon} from "../../../../images/icons"
+import {deletePost, updatePost} from "src/crud/post/post"
+import {getProfile} from "../../../../crud/user/profile"
+import {getUser} from "../../../../crud/user/user"
+import {getIdentity} from "../../../../crud/identity"
+import {getOrganization} from "../../../../crud/organization/organization"
+import {PostEditForm} from "src/views/common/post/Forms"
+import {ExchangePostView} from "src/views/exchange/ExchangeView/posts/Views"
 import Masonry from "react-masonry-css"
 import cx from 'classnames'
-import {PostItemWrapper} from "../../../common/post/View";
-import {IDENTITY_ID} from "../../../../consts/data";
+import {PostItemWrapper} from "../../../common/post/View"
+import {IDENTITY_ID} from "../../../../consts/data"
 
 export class ExchangePost extends Component {
 
@@ -124,18 +124,17 @@ export class ExchangePost extends Component {
 }
 
 const ExchangeFilterPosts = (props) => {
-  const {filterType, _onClick} = props;
+  const {postType, _onClick} = props;
   return (
     <div className="filterBox">
       <span>فیلتر نمایش:</span>
-      <NoFilterIcon className={cx("ml-1", {clicked: filterType === "all"})} height="22px" dataValue="all"
-                    onClickFunc={_onClick}/>
-      <i className={cx("fa fa-share-alt ml-2 pt-1", {clicked: filterType === "post"})} aria-hidden="true"
+      <NoFilterIcon className={cx("ml-1", {clicked: postType === null})} height="22px" onClickFunc={_onClick}/>
+      <i className={cx("fa fa-share-alt ml-2 pt-1", {clicked: postType === "post"})} aria-hidden="true"
          data-value="post" onClick={_onClick}/>
       <SupplyIcon height="22px" onClickFunc={_onClick} dataValue="supply"
-                  className={cx("ml-2", {clicked: filterType === "supply"})}/>
+                  className={cx("ml-2", {clicked: postType === "supply"})}/>
       <DemandIcon height="24px" onClickFunc={_onClick} dataValue="demand"
-                  className={cx({clicked: filterType === "demand"})}/>
+                  className={cx({clicked: postType === "demand"})}/>
     </div>
   )
 };
@@ -148,50 +147,84 @@ class ExchangePosts extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {allPosts: [], filteredPosts: [], filterType: 'all', isLoading: true, error: null};
+    this.state = {
+      posts: [],
+      postType: null,
+      offset: 0,
+      activeScrollHeight: 0,
+      isLoading: true,
+      error: null,
+      scrollLoading: false,
+      scrollError: null
+    }
   }
 
   _handleErrorLoading = (error = false) => {
     this.setState({...this.state, isLoading: false, error: error});
   };
 
-  _updatePosts = (res, type, deletedIndex = null) => {
-    const {allPosts} = this.state;
+  _updatePosts = (res, type) => {
+    const {posts} = this.state;
     if (type === 'get' && Array.isArray(res)) {
-      this.setState({...this.state, allPosts: res, filteredPosts: res},
-        () => this._handleErrorLoading());
+      this.setState({...this.state, posts: res});
       return false;
     }
     if (type === 'post') {
-      this.setState({...this.state, allPosts: [res, ...allPosts], filteredPosts: [res, ...allPosts]});
+      this.setState({...this.state, posts: [res, ...posts]});
       return false;
     }
-    if (type === 'del') {
-      const remainPosts = allPosts.slice(0, deletedIndex).concat(allPosts.slice(deletedIndex + 1));
-      this.setState({...this.state, allPosts: remainPosts, filteredPosts: remainPosts});
-    }
-  };
-
-  _getExchangePosts = (exchangeId) => {
-    this.setState({...this.state, isLoading: true});
-    getExchangePosts(exchangeId, this._updatePosts, this._handleErrorLoading)
   };
 
   _FilterPosts = (e) => {
-    const filterType = e.target.getAttribute("data-value");
-    const filteredPosts = (filterType === "all") ? (this.state.allPosts) : (
-      this.state.allPosts.filter((post) => (post.post_type === filterType))
-    );
-    this.setState({...this.state, filteredPosts: filteredPosts, filterType: filterType})
+    const {exchangeId} = this.props;
+    const limit = 100;
+    const offset = 0;
+    const postType = e.target.getAttribute("data-value");
+    if (postType !== this.state.postType) {
+      this.setState({...this.state, postType: postType}, () =>
+        getExchangePosts(exchangeId, postType, limit, offset, this._updatePosts, this._handleErrorLoading))
+    }
   };
+
+  _onScroll = () => {
+    const {posts, postType, offset, activeScrollHeight} = this.state;
+    const {exchangeId} = this.props;
+    const limit = 100;
+    const scrollHeight = document.body.scrollHeight;
+    if (posts.length > (limit - 1)
+      && (~~(window.innerHeight + window.scrollY) >= (scrollHeight - 500))
+      && (scrollHeight > activeScrollHeight)) {
+      const newOffset = offset + 100;
+      const scrollErrorLoading = (error = null) => (
+        this.setState({...this.state, scrollLoading: false, scrollError: error})
+      );
+      const addToPosts = (res, type) => {
+        const newPosts = [...posts, ...res];
+        this.setState({...this.state, posts: newPosts})
+      };
+      this.setState({...this.state, offset: newOffset, activeScrollHeight: scrollHeight, scrollLoading: true},
+        () => getExchangePosts(exchangeId, postType, limit, newOffset, addToPosts, scrollErrorLoading)
+      )
+    }
+  };
+
 
   componentDidMount() {
-    this._getExchangePosts(this.props.exchangeId);
+    const {exchangeId} = this.props;
+    const limit = 100;
+    const offset = 0;
+    this.setState({...this.state, isLoading: true}, () =>
+      getExchangePosts(exchangeId, null, limit, offset, this._updatePosts, this._handleErrorLoading));
+    window.addEventListener('scroll', this._onScroll)
   };
 
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this._onScroll)
+  }
+
   render() {
-    const {filteredPosts, filterType, isLoading, error} = this.state;
-    const posts = [...new Set(filteredPosts)];
+    const {postType, isLoading, error, scrollLoading, scrollError} = this.state;
+    const posts = [...new Set(this.state.posts)];
     const {exchangeId} = this.props;
     const breakpointColumnsObj = {
       default: 3,
@@ -204,7 +237,7 @@ class ExchangePosts extends Component {
         <div className="row mb-3">
           <HomeCreatePost updatePosts={this._updatePosts} postParent={exchangeId} postIdentity={+IDENTITY_ID}
                           handleErrorLoading={this._handleErrorLoading} className="createPost"/>
-          <ExchangeFilterPosts _onClick={this._FilterPosts} filterType={filterType}/>
+          <ExchangeFilterPosts _onClick={this._FilterPosts} postType={postType}/>
         </div>
         <Masonry
           breakpointCols={breakpointColumnsObj}
@@ -221,6 +254,11 @@ class ExchangePosts extends Component {
             ))
           }
         </Masonry>
+        {
+          (scrollLoading || scrollError) ? (
+            <VerifyWrapper isLoading={scrollLoading} error={scrollError}/>
+          ) : ('')
+        }
       </VerifyWrapper>
     )
   }
