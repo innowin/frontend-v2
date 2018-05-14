@@ -7,6 +7,7 @@ import {BadgesCard, TagsBox} from "./SideBar";
 import {getExchange} from "../../crud/exchange/exchange";
 import {getFile} from "../../crud/media/media";
 import {ExchangeIcon} from "src/images/icons"
+import {getExchangePostsByPostType, getExchangePostsHasProduct} from "../../crud/post/exchangePost";
 
 class ExchangeViewBar extends Component {
   static propTypes = {
@@ -15,7 +16,17 @@ class ExchangeViewBar extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {exchange: {}, exchangeImage: null, badgesImgUrl: [], tags: [], isLoading: true, error: null}
+    this.state = {
+      exchange: {},
+      exchangeImage: null,
+      demandCount: 0,
+      supplyCount: 0,
+      productCount: 0,
+      badgesImgUrl: [],
+      tags: [],
+      isLoading: true,
+      error: null
+    }
   }
 
   _getImageUrl = (res) => {
@@ -25,7 +36,7 @@ class ExchangeViewBar extends Component {
   _MockData = () => {
     const tags = [{title: "چادر مشکی"}, {title: "پوشاک مردانه"}];
     const badges = ["http://restful.daneshboom.ir/media/14ba7946fe394deca765cad2fc02c848.jpeg"];
-    this.setState({...this.state, tags: tags, badgesImgUrl: badges, isLoading: false})
+    this.setState({...this.state, tags: tags, badgesImgUrl: badges})
   };
 
   _getExchange = (exchangeId) => {
@@ -40,13 +51,24 @@ class ExchangeViewBar extends Component {
     getExchange(exchangeId, handleResult)
   };
 
+  _getCounts = (exchangeId) => {
+    const handleCountProduct = (res) => this.setState({...this.state, productCount: res.length, isLoading: false});
+    const handleCountSupply = (res) => this.setState({...this.state, supplyCount: res.length},
+      () => getExchangePostsHasProduct(exchangeId, handleCountProduct));
+    const handleCountDemand = (res) => this.setState({...this.state, demandCount: res.length},
+      () => getExchangePostsByPostType(exchangeId, 'supply', handleCountSupply));
+    getExchangePostsByPostType(exchangeId, 'demand', handleCountDemand)
+  };
+
   componentDidMount() {
-    this._getExchange(this.props.exchangeId)
+    const {exchangeId} = this.props;
+    this._getExchange(exchangeId);
+    this._getCounts(exchangeId);
   }
 
 
   render() {
-    const {exchange, exchangeImage, badgesImgUrl, tags, isLoading, error} = this.state;
+    const {exchange, exchangeImage, badgesImgUrl, demandCount, supplyCount, productCount, tags, isLoading, error} = this.state;
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         <div className="-sidebar-child-wrapper col">
@@ -54,15 +76,15 @@ class ExchangeViewBar extends Component {
             <i className="fa fa-ellipsis-v menuBottom"/>
             {/*//TODO mohsen: set dafault image for exchange */}
             <img className="rounded-circle" alt="Person icon" src={exchangeImage || defaultImg}
-                 style={{width: "100px",height:"100px", border:"1px solid #C2C2C2"}}/>
+                 style={{width: "100px", height: "100px", border: "1px solid #C2C2C2"}}/>
             <div style={{padding: "20px 0"}} className="exchangeName">
               <ExchangeIcon/>
               <div>
-                <span style={{fontSize:"13px"}}>{__('Exchange')}: </span>
+                <span style={{fontSize: "13px"}}>{__('Exchange')}: </span>
                 <span>{exchange.name}</span>
               </div>
             </div>
-            <span className="-grey1" style={{fontSize:13}}>{exchange.description}</span>
+            <span className="-grey1" style={{fontSize: 13}}>{exchange.description}</span>
           </div>
           <div className="numbersSection flex-column pl-3">
             <div className="">
@@ -71,15 +93,15 @@ class ExchangeViewBar extends Component {
             </div>
             <div className="">
               <span>عرضه:</span>
-              <span>۲۰</span>
+              <span>{supplyCount}</span>
             </div>
             <div className="">
               <span>تقاضا:</span>
-              <span>۱۲</span>
+              <span>{demandCount}</span>
             </div>
             <div className="">
               <span>محصول عرضه شده:</span>
-              <span>۱۰</span>
+              <span>{productCount}</span>
             </div>
           </div>
           {

@@ -25,22 +25,25 @@ export const getFile = (mediaId, mediaResult) => {
 export const createFile = (fileString, mediaResult) => {
 
   const data = {file_string: fileString};
+  const randomNumber = Math.random();
   socket.emit(REST_REQUEST,
     {
       method: "post",
       url: `${url}/files/`,
-      result: "createFile-post",
+      result: `createFile-post-${randomNumber}`,
       data: data,
       token: TOKEN
     }
   );
 
-  socket.on("createFile-post", (res) => {
+  const func = (res) => {
     if (res.detail) {
       // TODO mohsen: handle error
       return false;
     }
-    mediaResult(res)
-  });
+    mediaResult(res);
+    socket.off(`createFile-post-${randomNumber}`, func)
+  };
+  socket.on(`createFile-post-${randomNumber}`, func);
 
 };

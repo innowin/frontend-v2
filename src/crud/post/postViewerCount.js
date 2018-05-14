@@ -17,7 +17,7 @@ export const getPostViewerCount = (postId, handleResult) => {
   socket.on(`${postId}-getPostViewerCount`, func)
 };
 
-export const setPostViewer = (postId, getAddedView) => {
+export const setPostViewer = (postId, getAddedView = () => null) => {
   socket.emit(NEW_VIEW, {
     id: `post-${postId}`,
     token: TOKEN,

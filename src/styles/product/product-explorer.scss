@@ -1,4 +1,8 @@
 @import "../_variables.scss";
+$color1: lighten($text-light-color, 20%);
+$color5: darken($text-light-color, 10%);
+$fontSize1: 14px;
+$fontSize4: 16px;
 
 .product-explorer {
   .filter-element {
@@ -111,37 +115,39 @@
   }
 }
 
-// Product explorer content
-
-.-product-explorer-content {
-  margin-left: 0;
-  margin-right: 0;
-  > div {
+.-product-explorer-content{
+  .-productComponent:hover {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  }
+  .-productComponent {
     margin-left: 23px;
-    background: white;
     width: 30%;
-    margin-top: 15px;
-    padding: 10px;
-    border: 1px solid #f3f3f3;
-    border-radius: 2px;
+  }
+}
 
-    span {
+.-productComponent {
+  background: $text-lightest-color;
+  margin-top: 15px;
+  padding: 10px;
+  border: 1px solid $color1;
+  border-radius: 2px;
+  font-size: $fontSize1;
+  span {
     margin-right: 5px;
-    };
-
+  }
+  .productContent {
+    span{
+      color: $color5;
+    }
     img {
       height: 150px;
       outline: none;
       cursor: pointer;
-      border: 1px solid #6E6E6E;
+      border: 1px solid $color5;
       width: 100%;
     }
   }
-  > div:hover {
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  .productTags{
+    font-size: $fontSize4;
   }
-}
-
-.-grey5 {
-  color:#828080
 }

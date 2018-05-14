@@ -6,7 +6,6 @@ import {editIcon, defaultImg} from "src/images/icons";
 import {VerifyWrapper} from "src/views/common/cards/Frames";
 import {getFile} from "src/crud/media/media";
 import {SupplyIcon, DemandIcon} from "src/images/icons";
-import cx from 'classnames';
 import {getPostViewerCount, setPostViewer} from "src/crud/post/postViewerCount";
 
 
@@ -40,11 +39,11 @@ export class PostItemHeader extends Component {
     return (
       <div className="-item-headerPost">
         <div className="-item-titlePost">
-          <span className={cx("", {'-viewDemand-icon': demandIcon})}>
+          <span>
             {
               ((postIcon) && <i className="fa fa-share-alt" aria-hidden="true"/>) ||
               ((supplyIcon) && <SupplyIcon height="22px"/>) ||
-              ((demandIcon) && <DemandIcon height="22px"/>)
+              ((demandIcon) && <DemandIcon height="24px"/>)
             }
           </span>
           <span className="mr-2">{name}</span>
@@ -52,9 +51,7 @@ export class PostItemHeader extends Component {
           <Moment className="mr-3 -green2" element="span" fromNow ago>{post.created_time}</Moment>
           <span className="mr-1 -green2"> پیش</span>
         </div>
-        <div className="-item-edit-btnPost">
-          <div onClick={showEdit}>{editIcon}</div>
-        </div>
+        <div onClick={showEdit} className="-item-edit-btnPost">{editIcon}</div>
       </div>
     )
   }
@@ -142,7 +139,7 @@ export class PostView extends Component {
       <VerifyWrapper isLoading={isLoading} error={error}>
         <PostItemWrapper>
           <div className="-img-col">
-            <img className="-item-imgPost rounded-circle" src={postIdentity_File || defaultImg} alt=""/>
+            <img className="rounded-circle" src={postIdentity_File || defaultImg} alt=""/>
           </div>
           <div className="-content-col">
             <PostItemHeader
