@@ -1,4 +1,4 @@
-$brand-inverse: #253545;
+$topBarHeight: 67px;
 
 $font-family-sans-serif: vazir, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
 $font-family-serif:      vazir, Georgia, "Times New Roman", Times, serif !default;
@@ -7,9 +7,11 @@ $font-family-serif:      vazir, Georgia, "Times New Roman", Times, serif !defaul
 
 //Color Variables
 //primary color is Cello
+$brand-inverse: #253545;
 $primary-color: #32485D;
 $chatbox1-color: #CADFE0;
 $chatbox2-color: #F5F5F5;
+$sidebar-bottom-color: #606060;
 
 //text colors
 $gray-border : #ddd;
@@ -20,4 +22,16 @@ $text-dark-color: #444;
 $text-darker-color: #222;
 $text-darkest-color: #000;
 $text-title-menu-color: #999;
-$topBarHeight: 67px;
+
+//post colors:
+
+// font-sizes
+$font-size-verySmallText: 10px;
+$font-size-boxText: 12px;
+$font-size-smallText: 13px;
+$font-size-normalText: 14px;
+$font-size-smallIcon: 15px;
+$font-size-normalIcon-titleText: 16px;
+$font-size-LoginBottom: 18px;
+$font-size-chatBarIcon: 27px;
+

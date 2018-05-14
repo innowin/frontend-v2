@@ -1,3 +1,4 @@
+@import "../../variables";
 /* --------------------------- ExchangeViewBar --------------------------*/
 .exchangeName {
   display: flex;
@@ -27,7 +28,7 @@
   line-height: 25px;
 }
 
-.myBottum div {
+.exchangeViewSidebarBottom div {
   width: 130px;
 }
 
@@ -35,7 +36,7 @@
   display: flex;
   justify-content: space-between;
   :first-child{
-    font-size: 14px;
+    font-size: $font-size-normalText;
   }
   :last-child {
     color: #afafaf;

@@ -117,19 +117,17 @@ class ExchangeViewBar extends Component {
                 <TagsBox tags={tags}/>
               </div>) : ("")
           }
-          <div className="row mr-0 ml-0 pb-3 myBottum flex-wrap justify-content-around">
+          <div className="row mr-0 ml-0 pb-3 exchangeViewSidebarBottom flex-wrap justify-content-around">
             <div className="pb-2">
               <button
                 type="button"
-                style={{fontFamily: 'IRANSans', borderColor: '#606060', color: '#606060', fontSize: "12px"}}
-                className="btn btn-outline-secondary btn-block">ارسال پیام به کارگزار
+                className="btn btn-outline-secondary btn-block sidebarBottom">ارسال پیام به کارگزار
               </button>
             </div>
             <div className="pb-2">
               <button
                 type="button"
-                style={{fontFamily: 'IRANSans', borderColor: '#606060', color: '#606060', fontSize: "12px"}}
-                className="btn btn-outline-secondary btn-block">درخواست عضویت
+                className="btn btn-outline-secondary btn-block sidebarBottom">درخواست عضویت
               </button>
             </div>
           </div>

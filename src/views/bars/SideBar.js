@@ -59,7 +59,6 @@ export class UserSideView extends Component {
     this.state = {user: {}, userProfile: {}, badgesImgUrl: [], tags: [], isLoading: false, error: null}
   }
 
-
   componentDidMount() {
     const {userId} = this.props;
     const emitting = () => {
@@ -179,15 +178,13 @@ export class UserSideView extends Component {
           <div className="w-50 pl-2 pb-2">
             <button
               type="button"
-              style={{fontFamily: 'IRANSans', borderColor: '#606060', color: '#606060'}}
-              className="btn btn-outline-secondary btn-block">{__('Follow')}
+              className="btn btn-outline-secondary btn-block sidebarBottom">{__('Follow')}
             </button>
           </div>
           <div className="w-50 pb-2">
             <button
               type="button"
-              style={{fontFamily: 'IRANSans', borderColor: '#606060', color: '#606060'}}
-              className="btn btn-outline-secondary btn-block">{__('Send Message')}
+              className="btn btn-outline-secondary btn-block sidebarBottom">{__('Send Message')}
             </button>
           </div>
         </div>
@@ -282,15 +279,13 @@ export class OrganizationSideView extends Component {
           <div className="w-50 pl-2 pb-2">
             <button
               type="button"
-              style={{fontFamily: 'IRANSans', borderColor: '#606060', color: '#606060'}}
-              className="btn btn-outline-secondary btn-block">{__('Follow')}
+              className="btn btn-outline-secondary btn-block sidebarBottom">{__('Follow')}
             </button>
           </div>
           <div className="w-50 pb-2">
             <button
               type="button"
-              style={{fontFamily: 'IRANSans', borderColor: '#606060', color: '#606060'}}
-              className="btn btn-outline-secondary btn-block">{__('Send Message')}
+              className="btn btn-outline-secondary btn-block sidebarBottom">{__('Send Message')}
             </button>
           </div>
         </div>

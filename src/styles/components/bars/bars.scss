@@ -62,7 +62,7 @@
   left: 20px;
   a {
     color: $primary-color;
-    font-size: 27px;
+    font-size: $font-size-chatBarIcon;
     line-height: 48px;
     &:hover , &.active {
       color: white;
@@ -113,6 +113,12 @@
   border-bottom: 1px solid #E6E6E5;
   padding-top: 20px;
   padding-bottom: 20px;
+}
+
+.sidebarBottom {
+  border-color: $sidebar-bottom-color !important;
+  color: $sidebar-bottom-color!important;
+  font-size: $font-size-boxText;
 }
 
 .-grey1{

@@ -37,7 +37,7 @@
 		.logo-caption {
 			min-width: 80px;
 			flex: 0 0 100px;
-			font-size: 16px;
+			font-size: $font-size-normalIcon-titleText;
 			margin: 8px;
 		}
 	}
@@ -59,7 +59,7 @@
 		}
 		.address {
 			color: $text-lightest-color;
-			font-size: 15px;
+			font-size: $font-size-smallIcon;
 			line-height: 20px;
 		}
 		.phone-number {

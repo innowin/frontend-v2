@@ -85,15 +85,13 @@ class BottomSection extends Component {
           <div className="-w-45 pb-2">
             <button
               type="button"
-              style={{fontFamily: 'IRANSans', borderColor: '#606060', color: '#606060', fontSize: "12px"}}
-              className="btn btn-outline-secondary btn-block p-0 pt-2 pb-2">تماس با ارايه دهنده
+              className="btn btn-outline-secondary btn-block sidebarBottom p-0 pt-2 pb-2">تماس با ارايه دهنده
             </button>
           </div>
           <div className="-w-45 pb-2">
             <button
               type="button"
-              style={{fontFamily: 'IRANSans', borderColor: '#606060', color: '#606060', fontSize: "12px"}}
-              className="btn btn-outline-secondary btn-block p-0 pt-2 pb-2">درخواست کارگزاری محصول
+              className="btn btn-outline-secondary btn-block sidebarBottom p-0 pt-2 pb-2">درخواست کارگزاری محصول
             </button>
           </div>
         </div>

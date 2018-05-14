@@ -1,3 +1,4 @@
+@import "../../../variables";
 /*--------------------------------- ExchangePosts ------------------ */
 .-exchangePosts {
   display: flex;
@@ -17,7 +18,7 @@
     padding: 10px;
     height: 110px;
     span {
-      font-size: 12px;
+      font-size: $font-size-boxText;
     }
     i {
       color: #C2C2C2;

@@ -1,6 +1,6 @@
-
+@import "../../variables";
 .skillDescription{
-	font-size: 12px;
+	font-size: $font-size-boxText;
 	color:rgb(138, 138, 138);
 }
 .-itemWrapperSkill{
@@ -12,7 +12,7 @@
 	svg{
 		width:10px;
 	}
-	font-size: 10px;
+	font-size: $font-size-verySmallText;
 	float:left;
 	cursor: pointer;
 }

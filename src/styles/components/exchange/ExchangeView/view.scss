@@ -5,10 +5,6 @@ $color2: darken($text-light-color, 15%);
 $color3: lighten($text-light-color, 10%);
 $color4: lighten($text-light-color, 4%);
 
-$fontSize1: 14px;
-$fontSize2: 15px;
-$fontSize3: 20px;
-
 /*----------------------   ExchangePostView -----------------*/
 .-exchangePostView {
   display: flex;
@@ -21,7 +17,7 @@ $fontSize3: 20px;
     padding: 15px;
     display: flex;
     flex-direction: column;
-    font-size: $fontSize1;
+    font-size: $font-size-normalText;
     > div:first-child {
       display: flex;
       flex-direction: row;
@@ -37,7 +33,7 @@ $fontSize3: 20px;
       color: $color2;
     }
     i {
-      font-size: $fontSize2
+      font-size: $font-size-smallIcon
     }
     img {
       width: 45px;
@@ -62,7 +58,7 @@ $fontSize3: 20px;
       overflow: hidden;
       text-overflow: ellipsis;
       height: 60px;
-      font-size: $fontSize1;
+      font-size: $font-size-normalText;
       line-height: 2;
       position: relative;
     }
@@ -78,11 +74,11 @@ $fontSize3: 20px;
     .menuOfPost {
       :first-child {
         color: $color2;
-        font-size: $fontSize2;
+        font-size: $font-size-smallIcon;
       }
       :last-child {
         color: $color3;
-        font-size: $fontSize3;
+        font-size: 20px;
       }
     }
   }
@@ -106,7 +102,7 @@ $fontSize3: 20px;
         white-space: nowrap;
         text-overflow: ellipsis;
         width: 238.4px;
-        font-size: 14px;
+        font-size: $font-size-normalText;
         color: $color2;
       }
     }

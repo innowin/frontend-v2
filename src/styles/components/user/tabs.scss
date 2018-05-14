@@ -1,7 +1,8 @@
+@import "../../variables";
 //********************* Skills ******************************
 
 .tagCross {
-  font-size: 12px;
+  font-size: $font-size-boxText;
 }
 
 .skillAddTagInput {
