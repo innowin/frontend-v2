@@ -1,0 +1,62 @@
+.carousel-wrapper {
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  // div {
+  //   padding: 10px;
+  // }
+}
+.carousel-btn-bar{
+  align-items: center;
+  display: flex;
+  ul {
+    list-style-type:none;
+    display: flex;
+    flex-direction: column;
+    margin: 0 15px;
+  }
+}
+.login-slide {
+  margin: 0 15px;
+}
+
+.login-slide-header {
+  font-size: 124%;
+  // align-self: flex-start;
+}
+.login-slide-desc {
+  line-height: 30px;
+}
+
+.login-slide-enter {
+  opacity: 0.01;
+  transform: translate3d(0px, -12px, 0px);
+}
+
+.login-slide-enter-active {
+  opacity: 1;
+  transform: translate3d(0px,0px,0px);
+  transition: opacity 1000ms, transform 1000ms ease-in;
+}
+
+.login-slide-exit {
+  opacity: 0;
+  transform: translate3d(0px,12px,0px);
+  transition: opacity 1000ms ease-out, transform 1000ms ease-out;
+}
+.login-slide-header-enter {
+  opacity: 0.01;
+  transform: translate3d(0px,12px,0px);
+}
+
+.login-slide-header-enter-active {
+  opacity: 1;
+  transform: translate3d(0px,0px,0px);
+  transition: opacity 1000ms, transform 1000ms;
+}
+.login-slide-header-exit-active {
+  opacity: 0.1;
+  transform: translate3d(0px,0px,0px);
+  transition: opacity 1000ms, transform 1000ms;
+}
