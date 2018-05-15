@@ -30,7 +30,7 @@ class CarouselLogin extends Component {
 	}
 	componentDidMount() {
 		this._contentHandler(this.state.slides[0].id) //  the first content setting
-		setTimeout(() => this.setState({ ...this.state, showSlide: true }), 10) // set showSlide: true after 10ms
+		setTimeout(() => this.setState({ ...this.state, showSlide: true }), 100) // set showSlide: true after 10ms
 	 }
 	 
 	componentWillUnmount() {
@@ -64,7 +64,7 @@ class CarouselLogin extends Component {
 									unmountOnExit
 									onExited={() => this.setState({ ...this.state, showSlide: true})}
 								>
-									<div className="login-slide">
+									<div>
 										<CSSTransition
 											in={showSlide}
 											timeout={1000}
@@ -73,17 +73,17 @@ class CarouselLogin extends Component {
 										>
 											{
 												status => (
-													<div className="content">
+													<div className="login-slide">
 														<CSSTransition // when the slide is entered header of slide start entering 
-															in={status === 'entered'}
-															timeout={400}
+															in={status === 'entering' || status === 'entered'}
+															timeout={1000}
 															classNames="login-slide-header"
 															unmountOnExit
 														>	
-															<header>{slide.header}</header>		
+															<header className="login-slide-header">{slide.header}</header>		
 														</CSSTransition>
 														<br />
-														<p>{slide.desc}</p>
+														<p className="login-slide-desc">{slide.desc}</p>
 													</div>
 												)
 											}
@@ -115,7 +115,7 @@ const BtnBar = ({ slides, activeId, handler }) => (
 							activeId === slide.id ? 'fa fa-circle'
 							: 
 							'fa fa-circle-o'
-						} 
+						}
 					/>
 				</li>
 			)}
