@@ -176,7 +176,9 @@ class PostComment extends Component{
             {sender.username}@
           </div>
           <div className="-comment-date">
-            {comment.created_time}
+            <Moment className="mr-3" element="span" fromNow ago>{comment.created_time}</Moment>
+            <span className="mr-1">پیش</span>
+            
           </div>
         </div>
         <div className="-exchange-post-comment-text">
