@@ -1,0 +1,54 @@
+@import "../variables";
+
+// -------------------------- error messages -------------------------------------------//
+.error-message {
+  color: $error-color;
+}
+
+.success-message {
+  color: $success-color;
+}
+
+.strong-message {
+  color: darken($success-color, 30%)
+}
+
+.medium-message {
+  color: lighten($success-color, 5%)
+}
+
+.weak-message {
+  color: lighten($error-color, 30%)
+}
+
+.info-message {
+  color: $info-color;
+}
+
+// -------------------------- error input borders -------------------------------------------//
+
+.success-border{
+  border: 2px solid $success-color
+}
+
+.error-border {
+  border: 2px solid $error-color
+}
+
+.strong-border {
+  border: 2px solid darken($success-color, 30%)
+}
+
+.medium-border {
+  border: 2px solid lighten($success-color, 5%)
+}
+
+.weak-border {
+  border: 2px solid lighten($error-color, 30%)
+}
+
+// -------------------------- error boxes -------------------------------------------//
+.error-box {
+  background-color: lighten($error-color, 30%);
+  color: darken($error-color, 30%);
+}
