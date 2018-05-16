@@ -10,13 +10,47 @@ import {
     ItemHeader,
     ItemWrapper,
 } from '../../common/cards/Frames'
-
+import * as jMoment from 'moment-jalali'
 
 export const UserInfoItemWrapper = ({children}) => {
     return (
         <ItemWrapper icon={userInfoIcon}>{children}</ItemWrapper>
     )
 };
+const JalaliWithFarsiMonth = (date) => {
+    // this function getting a date in format "YYYY-MM-DDTHH:mm:ss.SSZ" and return somthing like 26 فروردین 1397
+    const monthes = {  // object of monthes
+        1: 'فروردین',
+        2: 'اردیبهشت',
+        3: 'خرداد',
+        4: 'تیر',
+        5: 'مرداد',
+        6: 'شهریور',
+        7: 'مهر',
+        8: 'آبان',
+        9: 'آذر',
+        10: 'دی',
+        11: 'بهمن',
+        12: 'اسفند',
+    }
+    
+    const convertTOFarsi = (month) => {
+           // a function that convert numbered month to farsi month(for example conver 1 to فروردین).
+        const farsiMonth =  Object.keys(monthes).reduce((farsi, key) => {
+            console.log(key == month, key)
+            if (key == month) return monthes[key]
+            else return farsi
+        }, '')
+        return farsiMonth
+    }
+    
+    let jalaliDate;
+    if (date) {
+        jalaliDate = jMoment(date, "YYYY-MM-DDTHH:mm:ss.SSZ")
+        jalaliDate = `${jalaliDate.jDate()} ${convertTOFarsi(jalaliDate.jMonth())} ${jalaliDate.jYear()}`
+    }
+    return jalaliDate // the output is somthing like 26 فروردین 1397
+}
 
 export class UserInfoView extends Component {
     static propTypes = {
@@ -45,6 +79,10 @@ export class UserInfoView extends Component {
                     <FieldLabel label={__('Email') + ": "}/>
                     <FieldValue value={user.email}/>
                 </Field>
+                <Field>
+                    <FieldLabel label={__('Date joined') + ": "}/>
+                    <FieldValue value={JalaliWithFarsiMonth(user.date_joined)}/>
+                </Field>
             </UserInfoItemWrapper>
         )
     }
@@ -64,6 +102,7 @@ export class ProfileInfoView extends Component {
         // TODO keep ltr
         return (
             <UserInfoItemWrapper>
+                {console.log('profile ', profile)}
                 <ItemHeader title={__('Profile info')} showEdit={showEdit}/>
                 <Field>
                     <FieldLabel label={__('BirthDate') + ": "}/>
