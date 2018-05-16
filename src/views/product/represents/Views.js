@@ -9,6 +9,7 @@ import {TOKEN} from "src/consts/data";
 import {VerifyWrapper} from "src/views/common/cards/Frames";
 import {getFile} from "../../../crud/media/media";
 import {SupplyIcon,DemandIcon} from "src/images/icons";
+import {ProductContainer} from './Product/index';
 import cx from 'classnames';
 
 
@@ -190,7 +191,7 @@ export class RepresentView extends Component {
   }
 
   render() {
-    const {showEdit, represent, organization, user, profile_media_File, isLoading, error} = this.props;
+    const {showEdit, represent, product, productId, organization, user, profile_media_File, isLoading, error} = this.props;
     const {viewerCount} = this.state;
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
@@ -208,6 +209,7 @@ export class RepresentView extends Component {
               showEdit={showEdit}
             />
             <RepresentBody description={represent.post_description}/>
+            <ProductContainer productId={productId}/>
             <RepresentFooter representId={represent.id} viewerCount={viewerCount} addViewer={this._addViewer}/>
           </div>
         </RepresentItemWrapper>

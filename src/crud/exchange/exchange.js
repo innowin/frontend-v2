@@ -2,7 +2,24 @@ import {REST_URL as url, SOCKET as socket} from "../../consts/URLS"
 import {REST_REQUEST} from "../../consts/Events"
 import {TOKEN as token} from '../../consts/data'
 
+export const getExchangePostComment = (postId)=>{
+return new Promise((resolve, reject)=>{
+  socket.emit(REST_REQUEST, {
+    method: "get",
+    url: url + `/base/comments/?comment_parent=${postId}`,
+    result: `get-exchange-post/${postId}`,
+    token,
+  });
+  socket.on(`get-exchange-post/${postId}`, res => {
+    if (res.detail) {
+      reject(res.detail);
+    }
+    socket.off(`get-exchange-post/${postId}`);
+    resolve(res)
+  });
+})
 
+}
 
 export const getExchangeIdentities = (identity, handleResult) => {
   socket.emit(REST_REQUEST, {
