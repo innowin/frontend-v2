@@ -1,0 +1,26 @@
+.exchangePostComments{
+  padding: 10px;
+  background-color: #ededed;
+}
+
+.-exchange-post-comment-title{
+  width: 100%;
+  height: 50px;
+  .-comment-sender-name{
+    float:right;
+    margin:10px;
+  }
+  .-comment-sender-username{
+    float:right;
+    margin:10px;
+    color:gray;
+  }
+  .-comment-date{
+    color:gray;
+    float:left;
+    margin:10px;
+  }
+}
+.-exchange-post-comment-text{
+
+}
