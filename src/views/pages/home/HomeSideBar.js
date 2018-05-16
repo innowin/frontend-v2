@@ -61,7 +61,7 @@ export default class HomeSideBar extends Component {
 
   componentDidMount() {
     const handleResult = (res) => {
-      if (res.length > 0) {
+      if (Array.isArray(res) && res.length > 0) { //  Array.isArray(res) added by ali for more check.
         this.setState({...this.state, exchangeIdentities: res, activeId: res[0].exchange_identity_related_exchange.id})
       }
     };
