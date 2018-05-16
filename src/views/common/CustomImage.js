@@ -2,7 +2,6 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import cx from "classnames";
-import {FileName} from "src/views/common/FileName";
 import { getFile} from "src/crud/media/media";
 
 export class CustomImage extends Component {
@@ -10,8 +9,9 @@ export class CustomImage extends Component {
   static defaultProps = {
     customValidate: () => false,
     required: false,
-    multiple: false
-  };
+    multiple: false,
+    className: ''
+    };
 
   static propTypes = {
     required: PropTypes.bool,
@@ -22,6 +22,7 @@ export class CustomImage extends Component {
     // TODO mohsen: fileSize
     // for get or create media
     mediaId: PropTypes.object,
+    className: PropTypes.string
   };
 
   constructor(props) {
@@ -56,13 +57,13 @@ export class CustomImage extends Component {
 
   render() {
     const {fileName, error, isLoading, media} = this.state;
-    const {label, multiple,customStyle} = this.props;
+    const {label, multiple,className} = this.props;
 
     let imagePreview = '';
     let selectText = __('Select');
     if (media) {
       imagePreview = (
-        <img style={customStyle} src={media.file} alt="imagePreview"/>
+        <img className={className} src={media.file} alt="imagePreview"/>
       );
       selectText = __('Change')
     }

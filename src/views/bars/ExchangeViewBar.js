@@ -75,16 +75,15 @@ class ExchangeViewBar extends Component {
           <div className="align-items-center flex-column">
             <i className="fa fa-ellipsis-v menuBottom"/>
             {/*//TODO mohsen: set dafault image for exchange */}
-            <img className="rounded-circle" alt="Person icon" src={exchangeImage || defaultImg}
-                 style={{width: "100px", height: "100px", border: "1px solid #C2C2C2"}}/>
-            <div style={{padding: "20px 0"}} className="exchangeName">
+            <img className="rounded-circle exchangeViewBarImg" alt="" src={exchangeImage || defaultImg}/>
+            <div className="exchangeName">
               <ExchangeIcon/>
               <div>
-                <span style={{fontSize: "13px"}}>{__('Exchange')}: </span>
+                <span className="fontSize-13px">{__('Exchange')}: </span>
                 <span>{exchange.name}</span>
               </div>
             </div>
-            <span className="-grey1" style={{fontSize: 13}}>{exchange.description}</span>
+            <span className="-grey1 fontSize-13px">{exchange.description}</span>
           </div>
           <div className="numbersSection flex-column pl-3">
             <div className="">

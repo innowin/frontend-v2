@@ -26,7 +26,7 @@ class MediaSection extends Component {
           <span>{productName}</span>
           <BookmarkIcon className="-rBarBookmark"/>
         </div>
-        <img className="w-100 -rBarMainPicture cursor-pointer" alt="Product icon" src={pictureProductFiles[0]}
+        <img className="w-100 -rBarMainPicture cursor-pointer" alt="" src={pictureProductFiles[0]}
              onClick={this._handleToggleModal} tabIndex={0}/>
         <div className="-rBarProductImage d-flex flex-row mt-3">
           {pictureProductFiles.map((file, i) => {
@@ -61,8 +61,7 @@ class OwnerSection extends Component {
     return (
       <div className="align-items-center flex-row pt-3 pb-3">
         {/*TODO mohsen : handle profile_media.url*/}
-        <img className="rounded-circle" alt="Product icon" src={userProfile.profile_media || defaultImg}
-             style={{width: "40px"}}/>
+        <img className="rounded-circle w-40px" alt="Product icon" src={userProfile.profile_media || defaultImg}/>
         <span className="mr-4 -grey2">{ownerName}</span>
       </div>
     )

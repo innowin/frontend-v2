@@ -1,5 +1,3 @@
-@import "../variables";
-
 .login-page {
   overflow: hidden;
   height: 100vh;
@@ -53,23 +51,32 @@
     flex:0 0 50px;
     align-self: flex-start;
   }
+
   & ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
     color: #999999;
   }
+
   & ::-moz-placeholder { /* Firefox 19+ */
     color: #999999;
   }
+
   & :-ms-input-placeholder { /* IE 10+ */
     color: #999999;
   }
+
   & :-moz-placeholder { /* Firefox 18- */
     color: #999999;
   }
+
   form .messageBox {
-    height: 25px;
-    color: #888;
+    height: 5px;
+    transition: all 300ms ease-in;
     margin-bottom: 7px;
+    &.active {
+      height: 25px;
+    }
   }
+
   .content {
     flex: 1 1 400px;
     align-self: stretch;

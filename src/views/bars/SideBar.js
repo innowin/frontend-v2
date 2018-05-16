@@ -13,7 +13,7 @@ export const BadgesCard = ({badgesImgUrl}) => {
   return (
     badgesImgUrl.map((imgUrl, i) => (
       <span className="col-3 mb-2" key={i + "BadgesCard"}>
-          <img key={i} src={imgUrl} style={{height: "35px"}} alt=""/>
+          <img src={imgUrl} className="-badgeImg" alt=""/>
       </span>
     ))
   )
@@ -24,7 +24,7 @@ export const TagsBox = ({tags}) => {
     tags.map((tag, i) => (
       <div className="mb-1" key={i + "TagsBox"}>
         {/*// TODO mohsen : handle ltr for badges*/}
-        <span key={i} className="badge -myBadge" dir="ltr">{tag.title}</span>
+        <span className="badge -myBadge" dir="ltr">{tag.title}</span>
       </div>
     ))
   )
@@ -162,9 +162,8 @@ export class UserSideView extends Component {
       <VerifyWrapper isLoading={isLoading} error={error} className="-sidebar-child-wrapper">
         <div className="align-items-center flex-column">
           {/*TODO mohsen : handle profile_media.url*/}
-          <img className="rounded-circle" alt="Person icon" src={userProfile.profile_media || defaultImg}
-               style={{width: "100px"}}/>
-          <span style={{padding: 20}}>{__('User')}: {user.first_name + " " + user.last_name || "------"}</span>
+          <img className="rounded-circle w-100px" alt="" src={userProfile.profile_media || defaultImg}/>
+          <span className="p-20px">{__('User')}: {user.first_name + " " + user.last_name || "------"}</span>
           <span className="-grey1">{userProfile.description}</span>
         </div>
         {
@@ -261,11 +260,9 @@ export class OrganizationSideView extends Component {
       <VerifyWrapper isLoading={isLoading} error={error} className="-sidebar-child-wrapper">
         <div className="align-items-center flex-column">
           {/*TODO mohsen : handle profile_media.url*/}
-          <img className="rounded-circle" alt="Person icon" src={organization.organization_logo || organLogo}
-               style={{width: "100px"}}/>
+          <img className="rounded-circle w-100px" alt="Person icon" src={organization.organization_logo || organLogo}/>
           {/*TODO mohsen: check organization name is what??*/}
-          <span
-            style={{padding: 20}}>{__('Organization')}: {organization.nike_name || organization.official_name}</span>
+          <span className="p-20px">{__('Organization')}: {organization.nike_name || organization.official_name}</span>
           <span className="-grey1">{organization.biography}</span>
         </div>
         {

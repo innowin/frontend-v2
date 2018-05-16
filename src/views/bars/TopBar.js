@@ -41,25 +41,24 @@ class TopBar extends Component {
     const {profileMedia} = this.state;
     return (
       <div>
-        <nav className="navbar flex-row justify-content-between p-0 -white-i fixed-top -topBarHeight"
-             style={{backgroundColor: "#253545"}}>
+        <nav className="navbar flex-row justify-content-between p-0 -white-i fixed-top topBar">
           <div className="d-flex align-items-center -whiteSvg">
             <button type="button" className="navbar-toggler my-auto mr-2 -outlineWhite" onClick={this._toggle}>
-              <i className="fa fa-bars" aria-hidden="true"></i>
+              <i className="fa fa-bars" aria-hidden="true"/>
             </button>
-            <Link to={"/"}><i className="fa fa-home mr-3" aria-hidden="true"></i></Link>
+            <Link to={"/"}><i className="fa fa-home mr-3" aria-hidden="true"/></Link>
             <Link to={"/exchange/Exchange_Explorer"}><ExchangeIcon className="-topBarIcons mr-4"/></Link>
             <Link to={"/"}><SocialIcon className="-topBarIcons mr-4" /></Link>
             <Link to={"/"}><ContributionIcon className="-topBarIcons mr-4"/></Link>
             <Link to={"/"}><NotificationIcon className="-topBarIcons mr-4"/></Link>
           </div>
-          <img className="-centerInDad-img" src={logoDaneshBoom} alt="profile_img" style={{maxHeight: "40px"}}/>
+          <img className="centerImgTopBar" src={logoDaneshBoom} alt="profile_img"/>
           <div className="dir-ltr d-flex flex-row">
             <img className="-ProfTopBarImg" src={profileMedia} alt="Person icon"/>
             <div className="ml-4 -searchInput d-flex align-items-center">
-              <i className="fa fa-search" aria-hidden="true"></i>
-              <input type="text" name="search" dir="auto" style={{color:"white"}}
-                ref={searchInput => {this.searchInput = searchInput}}/>
+              <i className="fa fa-search" aria-hidden="true"/>
+              <input type="text" className="text-white" name="search" dir="auto"
+                     ref={searchInput => {this.searchInput = searchInput}}/>
             </div>
           </div>
         </nav>

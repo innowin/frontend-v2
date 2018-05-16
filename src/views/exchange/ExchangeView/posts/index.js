@@ -128,13 +128,13 @@ const ExchangeFilterPosts = (props) => {
   return (
     <div className="filterBox">
       <span>فیلتر نمایش:</span>
-      <NoFilterIcon className={cx("ml-1", {clicked: postType === null})} height="22px" onClickFunc={_onClick}/>
-      <i className={cx("fa fa-share-alt ml-2 pt-1", {clicked: postType === "post"})} aria-hidden="true"
+      <NoFilterIcon className={cx("ml-1", {'clicked': postType === null})} height="22px" onClickFunc={_onClick}/>
+      <i className={cx("fa fa-share-alt ml-2 pt-1", {'clicked': postType === "post"})} aria-hidden="true"
          data-value="post" onClick={_onClick}/>
       <SupplyIcon height="22px" onClickFunc={_onClick} dataValue="supply"
-                  className={cx("ml-2", {clicked: postType === "supply"})}/>
+                  className={cx("ml-2", {'clicked': postType === "supply"})}/>
       <DemandIcon height="24px" onClickFunc={_onClick} dataValue="demand"
-                  className={cx({clicked: postType === "demand"})}/>
+                  className={cx({'clicked': postType === "demand"})}/>
     </div>
   )
 };

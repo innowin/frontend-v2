@@ -36,8 +36,7 @@ export class CheckBox extends Component {
                 <input
                     type="checkbox"
                     name={name}
-                    className="form-control"
-                    style={{width:"initial"}}
+                    className="form-control w-auto"
                     onChange={this.handleChange}
                     checked={checked}
                 />

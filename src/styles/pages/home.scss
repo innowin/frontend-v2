@@ -1,9 +1,10 @@
+@import "../variables";
 $heightOfContentBox: 140px;
 @keyframes animate-createPostFooter {
-  // TODO mohsen: test in safari
-  from {opacity: 0}
+  from {
+    opacity: 0
+  }
 }
-
 
 .home-wrapper {
   background-image: url("../images/common/userOrganBackground.png");
@@ -72,6 +73,10 @@ $heightOfContentBox: 140px;
       fill: #32485D;
     }
 
+    .submitColor {
+      color: $text-title-menu-color;
+    }
+
     .-submitAttach path {
       fill: #929292;
     }
@@ -88,6 +93,7 @@ $heightOfContentBox: 140px;
       display: none;
     }
     .-createPostFooter {
+
       .leftBottomIcons {
         display: none
       }

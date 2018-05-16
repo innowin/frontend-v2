@@ -77,7 +77,7 @@ class Test extends Component {
   render() {
     const result = this.state;
     return (
-      <div style={{background: '#ddd', position: 'absolute', bottom: '0', left: '0', opacity: '0.5'}}>
+      <div className="-testDiv">
         <pre>{JSON.stringify(result, null, 2)}</pre>
         {this.props.tests.length > 0 ?
           this._renderData()
