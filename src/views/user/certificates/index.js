@@ -62,7 +62,7 @@ export class Certificate extends Component {
       )
     }
     return (
-      <VerifyWrapper isLoading={isLoading} error={error}>
+      <VerifyWrapper className="certificate-wrapper" isLoading={isLoading} error={error}>
         <CertificateView certificate={certificate} showEdit={this._showEdit}/>
       </VerifyWrapper>
     )
@@ -137,16 +137,18 @@ export class Certificates extends Component {
               <CertificateCreateForm hideCreateForm={this._hideCreateForm} create={this._create}/>
             </CertificateItemWrapper>
             }
-            {
-              certificates.map((certificate) => (
-                <Certificate
-                  certificates={certificates}
-                  certificate={certificate}
-                  updateCertificates={this._updateCertificates}
-                  key={"certificate"+certificate.id}
-                />
-              ))
-            }
+            <div className="certificates-wrapper">
+              {
+                certificates.map((certificate) => (
+                    <Certificate
+                      certificates={certificates}
+                      certificate={certificate}
+                      updateCertificates={this._updateCertificates}
+                      key={"certificate"+certificate.id}
+                    />
+                )) 
+              }
+          </div>
           </ListGroup>
         </FrameCard>
       </VerifyWrapper>
