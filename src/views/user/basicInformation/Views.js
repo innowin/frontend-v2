@@ -37,10 +37,14 @@ const JalaliWithFarsiMonth = (date) => {
     const convertTOFarsi = (month) => {
            // a function that convert numbered month to farsi month(for example conver 1 to فروردین).
         const farsiMonth =  Object.keys(monthes).reduce((farsi, key) => {
-            console.log(key == month, key)
+            return ((key == month) && monthes[key]) || farsi
+        }, '')
+        /*
+            the returned value working as same as the below:
             if (key == month) return monthes[key]
             else return farsi
-        }, '')
+        */
+            
         return farsiMonth
     }
     
@@ -102,7 +106,6 @@ export class ProfileInfoView extends Component {
         // TODO keep ltr
         return (
             <UserInfoItemWrapper>
-                {console.log('profile ', profile)}
                 <ItemHeader title={__('Profile info')} showEdit={showEdit}/>
                 <Field>
                     <FieldLabel label={__('BirthDate') + ": "}/>
