@@ -1,3 +1,4 @@
+@import "../../variables";
 .customer{
 	.content{
 		min-width: 100%;
@@ -19,7 +20,7 @@
 		padding-bottom:0px;
 		padding-top:15px;
 		margin:0px;
-		font-size:14px;
+		font-size:$font-size-normalText;
 	}
 	.shareButton{
 		float:right;

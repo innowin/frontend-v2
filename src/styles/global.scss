@@ -32,11 +32,14 @@ input, textarea, button, select {
 @import "components/common/input-group-vertical";
 @import "components/common/inputs/file-input";
 @import "components/common/inputs/file-name";
+@import "components/common/inputs/otherInput";
 @import "components/common/list-group-addons";
 @import "components/common/media";
 @import "components/exchange/exchangeView";
+@import "components/exchange/ExchangeView/index";
+@import "components/exchange/ExchangeView/view";
+@import "components/exchange/ExchangeView/post";
 @import "components/exchange/masonry";
-@import "components/exchange/post";
 @import "components/login/Carousel";
 @import "components/login/FooterLogin";
 @import "components/login/HeaderLogin";
@@ -47,6 +50,7 @@ input, textarea, button, select {
 @import "components/user/certificates";
 @import "components/user/skill";
 @import "components/user/tabs";
+@import "components/validation_styles";
 @import "icons_svg";
 @import "layout";
 @import "product/product-explorer";

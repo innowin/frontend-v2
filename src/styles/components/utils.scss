@@ -1,3 +1,5 @@
+@import "../variables";
+
 .-userOrganBackgroundImg {
   background-image: url("../images/common/userOrganBackground.png");
   background-repeat: no-repeat;
@@ -59,3 +61,30 @@
   word-wrap: break-word;
 }
 
+.-testDiv {
+  background: $gray-border;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  opacity: 0.5
+}
+
+.w-40px {
+  width: 40px;
+}
+
+.w-100px {
+  width: 100px;
+}
+
+.p-20px {
+  padding: 20px;
+}
+
+.fontSize-13px {
+  font-size: $font-size-smallText;
+}
+
+.max-w-100 {
+  max-width: 100%;
+}

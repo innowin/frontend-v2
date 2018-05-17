@@ -1,7 +1,8 @@
+@import "../../variables";
 //********************* Skills ******************************
 
 .tagCross {
-  font-size: 12px;
+  font-size: $font-size-boxText;
 }
 
 .skillAddTagInput {
@@ -47,14 +48,6 @@
         display: flex;
         flex-direction: row;
       }
-      .-item-edit-btnPost {
-        padding-top: 2px;
-        svg {
-          fill: #373737;
-          height: 16px;
-          width: 16px;
-        }
-      }
       .-line-height {
         line-height: 2.1;
       }
@@ -70,7 +63,15 @@
       }
     }
   }
+}
 
+.-item-edit-btnPost {
+  padding-top: 2px;
+  svg {
+    fill: #373737;
+    height: 16px;
+    width: 16px;
+  }
 }
 
 .-green2 {

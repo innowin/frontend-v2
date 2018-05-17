@@ -1,3 +1,4 @@
+@import "../../variables";
 .chat-wrapper {
 	background-color: white;
 	border-radius: 4px;
@@ -26,7 +27,7 @@
 			border: none;
 			color: #777;
 			flex: 0 0 90%;
-			font-size: 14px;
+			font-size: $font-size-normalText;
 		}
 		span {
 			color: #929292;

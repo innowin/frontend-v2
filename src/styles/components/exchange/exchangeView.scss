@@ -1,7 +1,9 @@
-/* --------------------------- exchangeViewBar --------------------------*/
+@import "../../variables";
+/* --------------------------- ExchangeViewBar --------------------------*/
 .exchangeName {
   display: flex;
   align-items: center;
+  padding: 20px 0;
   svg {
     height: 20px;
     margin-left: 7px;
@@ -10,6 +12,12 @@
     }
   ;
   }
+}
+
+.exchangeViewBarImg{
+  width: 100px;
+  height: 100px;
+  border: 1px solid #C2C2C2;
 }
 
 .menuBottom {
@@ -27,7 +35,7 @@
   line-height: 25px;
 }
 
-.myBottum div {
+.exchangeViewSidebarBottom div {
   width: 130px;
 }
 
@@ -35,7 +43,7 @@
   display: flex;
   justify-content: space-between;
   :first-child{
-    font-size: 14px;
+    font-size: $font-size-normalText;
   }
   :last-child {
     color: #afafaf;

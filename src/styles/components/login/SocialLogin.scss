@@ -55,14 +55,14 @@
 
 //Header of Login and Signup form
 .login-tab {
-  font-size: 18px;
+  font-size: $font-size-LoginBottom;
   .signup-tab {
     display: flex;
     flex-direction: row;
     button {
       flex: 1;
       padding: 15px 0;
-      font-size: 18px;
+      font-size: $font-size-LoginBottom;
       background-color: #e6e6e6;
       border: 1px solid #999;
       border-top: 0 solid transparent ;
@@ -85,7 +85,7 @@
     button {
       flex: 1;
       padding: 15px 0;
-      font-size: 18px;
+      font-size: $font-size-LoginBottom;
       background-color: #e6e6e6;
       border: 1px solid #999;
       border-top: 0 solid transparent ;

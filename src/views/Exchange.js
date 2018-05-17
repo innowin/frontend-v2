@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import {Switch ,Link} from 'react-router-dom';
 import ExchangeView from './exchange/Exchange_View';
 import ExchangeExplorer from './exchange/Exchange_Explorer';
+import ExchangePost from './exchange/ExchangeView/post/index';
 import PropsRoute from "../consts/PropsRoute";
 
 class Exchange extends Component {
@@ -19,7 +20,8 @@ class Exchange extends Component {
 				<div>
 					<Switch>
 						<PropsRoute path={`${path}/Exchange_Explorer`} component={ExchangeExplorer}/>
-						<PropsRoute path={`${path}/:id`} component={ExchangeView} handleSignOut={handleSignOut}/>
+						<PropsRoute exact path={`${path}/:id`} component={ExchangeView} handleSignOut={handleSignOut}/>
+						<PropsRoute exact path={`${path}/:exchangeId/post/:postId`} component={ExchangePost} handleSignOut={handleSignOut}/>
 					</Switch>
 				</div>
 			</div>

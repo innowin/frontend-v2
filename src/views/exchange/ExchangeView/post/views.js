@@ -14,7 +14,9 @@ import {getOrganization} from "../../../../crud/organization/organization";
 import {getUser} from "../../../../crud/user/user";
 import {Product} from "src/views/product/ProductExplorerContent"
 import {getProduct} from "../../../../crud/product/product";
-
+import {REST_URL as url, SOCKET as socket} from "src/consts/URLS"
+import {REST_REQUEST} from "src/consts/Events"
+import {TOKEN} from 'src/consts/data'
 
 class PostItemHeader extends Component {
   static propTypes = {
@@ -74,8 +76,12 @@ class PostContent extends Component {
 
   render() {
     const {addViewer, description, postFile, product} = this.props;
-    return (
+    return ( 
       <div className="postContentBox">
+        <div className={cx("descriptionOfPost", {"mt-3": postFile})}>
+          {description}
+        </div>
+
         {
           (product) ? (
             <Product product={product}/>
@@ -83,9 +89,7 @@ class PostContent extends Component {
             <img alt="" src={postFile}/>
           )
         }
-        <div className={cx("descriptionOfPost", {"mt-3": postFile})}>
-          {description}
-        </div>
+        
         <div className="menuOfPost d-flex flex-row justify-content-between mt-2">
           <i className="fa fa-share-square-o cursor-pointer" onClick={addViewer}/>
           <i className="fa fa-ellipsis-h cursor-pointer" aria-hidden="true"/>
@@ -110,18 +114,103 @@ class PostFooter extends Component {
           <span className="ml-2">{commentsCount}</span>
           <ForwardIcon height="15px" className="mr-1"/>
         </div>
-        <div className="lastComment">
+        {/* <div className="lastComment">
           {
             (lastCommentSenderName) ? (
               <span>{lastCommentSenderName + ": " + lastCommentText}</span>
             ) : (<span>بدون نظر</span>)
           }
+        </div> */}
+      </div>
+    )
+  }
+}
+
+class PostComment extends Component{
+  constructor(props){
+    super(props);
+    this.state={sender:{}}
+  }
+
+  componentDidMount(){
+    let {comment_sender} = this.props.comment;
+    this.setState({...this.state, isLoading:true, error:false})
+    this._getCommentSender(comment_sender).then(res=>{
+      this.setState({...this.state, sender:res, error:res, isLoading:false})
+    }).catch(err=>{
+      this.setState({...this.state, error:false, isLoading:false})
+    })
+  }
+
+  _getCommentSender(senderId){
+    return new Promise((resolve, reject)=>{
+      socket.emit(REST_REQUEST,
+        {
+          method: "get",
+          url: `${url}/users/${senderId}`,
+          result: `get-comment-sender/${senderId}`,
+          token: TOKEN,
+        }
+      );
+      socket.on(`get-comment-sender/${senderId}`,(res)=>{
+        socket.off(`get-comment-sender/${senderId}`);
+        if(res.detail){
+          reject(res.detail);
+        }else{
+          resolve(res)
+        }
+      })
+    })
+  }
+
+  render(){
+    let {sender} = this.state;
+    let {comment} = this.props;
+    return (
+      <div>
+        <div className="-exchange-post-comment-title">
+          <div className="-comment-sender-name">
+            {sender.first_name ?sender.first_name + ' '+ sender.last_name : "----"}
+          </div>
+          <div className="-comment-sender-username">
+            {sender.username}@
+          </div>
+          <div className="-comment-date">
+            <Moment className="mr-3" element="span" fromNow ago>{comment.created_time}</Moment>
+            <span className="mr-1">پیش</span>
+            
+          </div>
+        </div>
+        <div className="-exchange-post-comment-text">
+          {comment.text}
         </div>
       </div>
     )
   }
 }
 
+class PostComments extends Component{
+  static propTypes = {
+    comments: PropTypes.array.isRequired,
+  };
+  constructor(props){
+    super(props)
+  }
+
+  render(){
+    let commentsView = this.props.comments.map((val,index)=>{
+      return <PostComment
+        comment = {val}
+        key = {index}
+      />
+    })
+    return (
+    <div className="exchangePostComments">
+      {commentsView}
+    </div>
+    )
+  }
+}
 export class ExchangePostView extends Component {
   static propTypes = {
     post: PropTypes.object.isRequired,
@@ -203,7 +292,7 @@ export class ExchangePostView extends Component {
   };
 
   render() {
-    const {post, postIdentityName} = this.props;
+    const {post, postIdentityName, comments} = this.props;
     const {viewerCount, isLoading, error, postIdentity_File, postFile, lastCommentSenderName, lastCommentText, commentsCount, product} = this.state;
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
@@ -223,6 +312,9 @@ export class ExchangePostView extends Component {
           <PostFooter lastCommentSenderName={lastCommentSenderName}
                       lastCommentText={lastCommentText}
                       commentsCount={commentsCount}
+          />
+          <PostComments
+            comments={comments}
           />
         </div>
       </VerifyWrapper>

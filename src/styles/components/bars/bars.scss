@@ -1,6 +1,11 @@
 //**              topBar              **//
 @import "../../variables";
 
+.topBar {
+  height: $topBarHeight;
+  background-color: $brand-inverse;
+}
+
 .-white-i i {
   color: white !important;
   font-size: 26px;
@@ -10,14 +15,15 @@
   height: 23px;
 }
 
-.-centerInDad-img{
-   position: absolute;
-   left: 50%;
-   top: 50%;
-   transform: translate(-50%,-50%);
- }
+.centerImgTopBar {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  max-height: 40px
+}
 
-.-searchInput{
+.-searchInput {
   border: 1px solid #36485C;
   border-radius: 20px;
   background-color: #36485C;
@@ -26,11 +32,11 @@
   margin: 14px;
 }
 
-.-searchInput input{
-   margin-left: 10px;
-   border: none !important;
-   background-color: transparent;
-   outline: none;
+.-searchInput input {
+  margin-left: 10px;
+  border: none !important;
+  background-color: transparent;
+  outline: none;
 }
 
 .-profile-collapse {
@@ -39,22 +45,22 @@
   top: $topBarHeight;
   z-index: 10000;
   width: 13rem;
+  img {
+    height: 150px;
+  }
 }
 
-.-ProfTopBarImg{
+.-ProfTopBarImg {
   height: 57px;
   margin: auto 0 auto 10px;
   border-radius: 50%;
 }
 
- .-profile-collapse img{
-   height: 150px;
- }
-
-.-outlineWhite{
+.-outlineWhite {
   outline-color: white !important;
 }
- //**             ChatBar(leftBar)             **//
+
+//**             ChatBar(leftBar)             **//
 
 .-my-icons1 {
   margin-top: 20px !important;
@@ -63,30 +69,30 @@
   left: 20px;
   a {
     color: $primary-color;
-    font-size: 27px;
+    font-size: $font-size-chatBarIcon;
     line-height: 48px;
-    &:hover , &.active {
+    &:hover, &.active {
       color: white;
       background-color: $primary-color;
     }
-		&.active:after {
-			content: '';
-			display: block;
-			width: 0;
-			height: 0;
-			position: absolute;
-			top:50%;
-			transform: translate(0, -50%);
-			border-top: 15px solid transparent;
-			border-bottom: 15px solid transparent;
+    &.active:after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 0;
+      position: absolute;
+      top: 50%;
+      transform: translate(0, -50%);
+      border-top: 15px solid transparent;
+      border-bottom: 15px solid transparent;
 
-			border-left: 10px solid $primary-color;
-			right: -6px;
-		}
+      border-left: 10px solid $primary-color;
+      right: -6px;
+    }
   }
 }
 
-.-my-icons1 a{
+.-my-icons1 a {
   display: block;
   width: 50px;
   height: 50px;
@@ -97,16 +103,15 @@
   margin-bottom: 30px;
   background-color: #ffffff;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, .4);
- }
+}
 
-.-my-icons1 svg{
+.-my-icons1 svg {
   fill: #36485C;
   float: left !important;
   height: 24px;
   position: absolute;
   transform: translate(50%, 50%)
 }
-
 
 //**         Sidebar(rightBar)               **//
 .-sidebar-child-wrapper > div {
@@ -116,23 +121,34 @@
   padding-bottom: 20px;
 }
 
-.-grey1{
+.sidebarBottom {
+  border-color: $sidebar-bottom-color !important;
+  color: $sidebar-bottom-color !important;
+  font-size: $font-size-boxText;
+}
+
+.-grey1 {
   color: #9c9c9c;
 }
 
-.-myBadge{
+.-myBadge {
   background-color: #C2C2C2;
   padding-right: 10px;
   padding-left: 10px;
   margin-left: 5px;
 }
+
+.-badgeImg {
+  height: 35px
+}
+
 //**         Home Sidebar(List of exchanges)               **//
 .item-wrapper {
   display: flex;
   flex-flow: row;
   cursor: pointer;
   align-items: center;
-  padding: 10px ;
+  padding: 10px;
   //background-color: pink;
   position: relative;
   &.active .company-title {
@@ -149,7 +165,7 @@
     left: -15px;
     background-color: $text-lighter-color;
   }
-  & > .default-logo , img {
+  & > .default-logo, img {
     width: 50px;
     min-width: 50px;
     height: 50px;

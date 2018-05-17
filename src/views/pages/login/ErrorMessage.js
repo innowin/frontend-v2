@@ -1,12 +1,10 @@
 import React from 'react';
 
-const ErrorMessage = ({message , error})=> {
-	const errorStyle = {color : 'red'};
-	const successStyle = {color : 'green'};
-	
-	return (
-			<div style={(error) ? (errorStyle) : (successStyle)}>{message}</div>
-	)
+const ErrorMessage = ({message, error}) => {
+  const className = (error) ? ('error-message') : ('success-message')
+  return (
+    <div className={className}>{message}</div>
+  )
 }
 
 export default ErrorMessage;

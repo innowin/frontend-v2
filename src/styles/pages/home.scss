@@ -1,4 +1,11 @@
+@import "../variables";
 $heightOfContentBox: 140px;
+@keyframes animate-createPostFooter {
+  from {
+    opacity: 0
+  }
+}
+
 .home-wrapper {
   background-image: url("../images/common/userOrganBackground.png");
   background-repeat: no-repeat;
@@ -37,12 +44,66 @@ $heightOfContentBox: 140px;
     }
   }
 
+  .-createPostFooter {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 20px 0 20px;
+    align-items: center;
+
+    i {
+      color: #C2C2C2;
+      font-size: 22px;
+    }
+
+    i:hover {
+      color: #32485D;
+      cursor: pointer;
+    }
+
+    svg:hover {
+      cursor: pointer;
+    }
+
+    svg path {
+      fill: #C2C2C2;
+    }
+
+    svg:hover path {
+      fill: #32485D;
+    }
+
+    .submitColor {
+      color: $text-title-menu-color;
+    }
+
+    .-submitAttach path {
+      fill: #929292;
+    }
+  }
+
+  .closeTextarea {
+    flex-direction: row;
+    justify-content: space-between;
+    textarea {
+      height: 100%;
+      overflow-y: hidden;
+    }
+    .-img-content {
+      display: none;
+    }
+    .-createPostFooter {
+
+      .leftBottomIcons {
+        display: none
+      }
+    }
+  }
+
   .openTextarea {
     flex-direction: column;
-
     textarea {
       width: 80%;
-      height: $heightOfContentBox;
     }
     .-img-content {
       height: $heightOfContentBox;
@@ -74,62 +135,8 @@ $heightOfContentBox: 140px;
       }
     }
     .-createPostFooter {
-      align-items: center;
-    }
-  }
-
-  .closeTextarea {
-    flex-direction: row;
-    justify-content: space-between;
-
-    textarea {
-      height: 100%;
-      overflow-y: hidden;
-    }
-
-    .-createPostFooter {
-      align-items: center;
-    }
-    .-img-content {
-      display: none;
-    }
-
-    .leftIcons {
-      display: none;
-    }
-
-  }
-
-  .-createPostFooter {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 10px 20px 0 20px;
-
-    i {
-      color: #C2C2C2;
-      font-size: 22px;
-    }
-
-    i:hover {
-      color: #32485D;
-      cursor: pointer;
-    }
-
-    svg:hover {
-      cursor: pointer;
-    }
-
-    svg path {
-      fill: #C2C2C2;
-    }
-
-    svg:hover path {
-      fill: #32485D;
-    }
-
-    .-submitAttach path {
-      fill: #929292;
+      animation: animate-createPostFooter 5000ms;
+      animation-fill-mode: backwards
     }
   }
 
@@ -137,11 +144,6 @@ $heightOfContentBox: 140px;
 
 .-h18 {
   height: 16px;
-}
-
-.-viewDemand-icon {
-  margin-top: 2px;
-  margin-right: -8px;
 }
 
 .-selectedPostType {
