@@ -40,6 +40,7 @@ class Login extends Component {
 		};
 		this.setState(newState)
 	};
+
 	_RedirectToHome = () => {
 		const {history} = this.props;
 		history.push('/');

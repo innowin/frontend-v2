@@ -9,44 +9,45 @@
 	justify-content: space-between;
 
 	.logo-wrapper {
-		flex: 0 0 300px;
+		flex: 0 1 53%;
 		display: flex;
 		flex-direction: row;
 		align-items: center;
+		padding-right: 95px;
 		color: $text-lighter-color;
 		.logo img {
-			height: 65px;
+			height: 48px;
 			flex: 0 0 50px;
 			color: $text-lightest-color;
 			margin: 10px 5px 0 0;
 		}
 		.company-name {
-			flex: 0 0 170px;
+			flex: 0 0 125px;
 			margin: 0 10px 0 0;
-			font-size: 40px;
+			font-size: 30px;
 			color: $text-lightest-color;
 			display: flex;
 			align-items: center;
 		}
 		.divider {
 			width: 0;
-			border: 1.5px solid $text-lightest-color;
-			height: 100%;
+			border: 1.25px solid $text-lightest-color;
+			height: 75%;
 			margin: 8px;
 		}
 		.logo-caption {
-			min-width: 80px;
-			flex: 0 0 100px;
-			font-size: $font-size-normalIcon-titleText;
+			min-width: 70px;
+			flex: 0 0 70px;
+			font-size: $font-size-boxText;
 			margin: 8px;
 		}
 	}
 
 	.address-wrapper {
-		flex: 0 0 500px;
+		flex: 0 1 47%;
+		padding-right: 95px;
 		display: flex;
 		flex-flow: row;
-		justify-content: space-between;
 		align-items: center;
 		.address-section, .app-icon-section {
 			display: flex;
@@ -59,12 +60,12 @@
 		}
 		.address {
 			color: $text-lightest-color;
-			font-size: $font-size-smallIcon;
+			font-size: $font-size-boxText;
 			line-height: 20px;
 		}
 		.phone-number {
 			color: $text-lightest-color;
-			font-size: 20px;
+			font-size: $font-size-smallIcon;
 			line-height: 17px;
 		}
 		.icon {
