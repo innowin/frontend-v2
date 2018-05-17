@@ -12,17 +12,40 @@ export const getProducts = (limit, handleResult) => {
     }
   );
   const func = (res) => {
+    socket.off("products/>list-get", func)
     if (res.detail) {
       // TODO mohsen: handle error
       return false
     }
     handleResult(res.results);
-    socket.off("products/>list-get", func)
+    
   };
   socket.on("products/>list-get", func)
 };
 
 export const getProduct = (productId, handleResult) => {
+  if(!handleResult){
+    return new Promise((resolve,reject)=>{
+      socket.emit(REST_REQUEST,
+        {
+          method: "get",
+          url: `${url}/products/${productId}/`,
+          result: `products/{id}/-get/${productId}`,
+          token: TOKEN,
+        }
+      );
+      const func = (res) => {
+        socket.off(`products/{id}/-get/${productId}`, func)
+        if (res.detail) {
+          // TODO mohsen: handle error
+          reject(res.detail)
+        }
+        resolve(res);
+        
+      };
+      socket.on(`products/{id}/-get/${productId}`, func)
+    })
+  }
   socket.emit(REST_REQUEST,
     {
       method: "get",
@@ -32,12 +55,13 @@ export const getProduct = (productId, handleResult) => {
     }
   );
   const func = (res) => {
+    socket.off(`products/{id}/-get/${productId}`, func)
     if (res.detail) {
       // TODO mohsen: handle error
       return false
     }
     handleResult(res);
-    socket.off(`products/{id}/-get/${productId}`, func)
+    
   };
   socket.on(`products/{id}/-get/${productId}`, func)
 };

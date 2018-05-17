@@ -86,6 +86,7 @@ export const deletePost = (posts, post, updatePosts, hideEdit, handleErrorLoadin
       handleErrorLoading(res.detail);
       return false;
     }
+
     const deletedIndex = posts.indexOf(post);
     updatePosts(null, 'del', deletedIndex);
     handleErrorLoading();
@@ -93,4 +94,28 @@ export const deletePost = (posts, post, updatePosts, hideEdit, handleErrorLoadin
     socket.off(`deletePost-delete/${postId}`, func)
   };
   socket.on(`deletePost-delete/${postId}`, func);
+};
+
+export const getPost = (id, handleErrorLoading) => {
+  return new Promise((resolve, reject)=>{
+    socket.emit(REST_REQUEST,
+      {
+        method: "get",
+        url: `${url}/base/posts/${id}`,
+        result: `getPost-get/${id}`,
+        token
+      });
+    const func = (res) => {
+      if (res.detail) {
+        reject(res.detail);
+        // handleErrorLoading(res.detail);
+        // return false;
+      }
+      // handleErrorLoading();
+      socket.off(`ggetPost-get/${id}`, func)
+      resolve(res);
+    };
+    socket.on(`getPost-get/${id}`, func);
+  })
+  
 };

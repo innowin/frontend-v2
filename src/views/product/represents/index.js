@@ -104,10 +104,11 @@ export class Represent extends Component {
   }
 
   render() {
-    const {represent, isLoading, error, product, profile, user, organization} = this.state;
+    const {represent, isLoading, error, profile, user, organization} = this.state;
+    const {product} = this.props;
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
-        <RepresentView represent={represent} product={product} profile={profile} user={user} organization={organization} showEdit={this._showEdit}/>
+        <RepresentView represent={represent} product={product} productId={product.id} profile={profile} user={user} organization={organization} showEdit={this._showEdit}/>
       </VerifyWrapper>
     )
   }

@@ -9,7 +9,7 @@ import {ExchangeItemWrapper, ExchangesView, FollowersView, FollowingsView} from 
 import {REST_REQUEST} from "src/consts/Events"
 import {REST_URL as url, SOCKET as socket} from "src/consts/URLS"
 import {TOKEN} from "src/consts/data"
-import { IDENTITY_ID } from "../../../consts/data";
+import { IDENTITY_ID, ID } from "../../../consts/data";
 //TODO CRUD
 class Socials extends Component {
 
@@ -23,6 +23,7 @@ class Socials extends Component {
   };
 
   componentDidMount() {
+    console.log(TOKEN);
     const {organizationId, userId} = this.props;
     const self = this;
     const emitting = () => {
@@ -39,28 +40,42 @@ class Socials extends Component {
         }
       );
 
-      //followers get with follow_identity
       socket.emit(REST_REQUEST,
-        {
-          method: "get",
-          url: `${url}/organizations/followers/?follow_identity=${IDENTITY_ID}`,
-          result: `organizationFollowers-Socials-get/${organizationId}`,
-          token: TOKEN
-        }
-      );
+      {
+        method:"get",
+        url: `${url}/users/identities/?identity_organization=${organizationId}`,
+        result :`organization-identity-id-get/${organizationId}`,
+        token:TOKEN
+      })
 
-      //get followers follow_follower
-      socket.emit(REST_REQUEST,
-        {
-          method: "get",
-          url: `${url}/organizations/followers/?follow_follower=${IDENTITY_ID}`,
-          result: `organizationFollowings-Socials-get/${organizationId}`,
-          token: TOKEN
-        }
-      );
+      
     };
 
     emitting();
+    socket.on(`organization-identity-id-get/${organizationId}`,(res)=>{
+      if(res.detail){
+
+      }else{
+        //followers get with follow_identity
+        socket.emit(REST_REQUEST,
+          {
+            method: "get",
+            url: `${url}/organizations/follows/?follow_followed=${res[0].id}`,
+            result: `organizationFollowers-Socials-get/${organizationId}`,
+            token: TOKEN
+          }
+        );
+        //get followers follow_follower
+        socket.emit(REST_REQUEST,
+          {
+            method: "get",
+            url: `${url}/organizations/follows/?follow_follower=${res[0].id}`,
+            result: `organizationFollowings-Socials-get/${organizationId}`,
+            token: TOKEN
+          }
+        );
+      }
+    })
     
     socket.on(`userExchnages-Socials-get/${organizationId}`, (res) => {
       if (res.detail) {
@@ -144,12 +159,12 @@ class Socials extends Component {
 
   }
 
-  getFollowers(){
+  getFollowers(){//TODO backed changed follow_identity doesn't exist
     let {followersList} = this.state;
     for(var i = 0 ; i < followersList.length; i++){
       socket.emit(REST_REQUEST,{
         method: "get",
-        url: `${url}/users/identities/${followersList[i].follow_identity}/`,
+        url: `${url}/users/identities/${followersList[i].follow_follower}/`,
         result: `organizationFollowers-follower-get`,
         token: TOKEN
       })
@@ -162,7 +177,7 @@ class Socials extends Component {
     for(var i = 0 ; i < followingsList.length; i++){
       socket.emit(REST_REQUEST,{
         method: "get",
-        url: `${url}/users/identities/${followingsList[i].follow_identity}/`,
+        url: `${url}/users/identities/${followingsList[i].follow_followed}/`,
         result: `organizationFollowings-following-get`,
         token: TOKEN
       })
@@ -176,13 +191,13 @@ class Socials extends Component {
     this.setState({...this.state, followings:followings}, ()=>{
       socket.emit(REST_REQUEST,{
         method: "del",
-        url: `${url}/organizations/followers/?follow_follower=${followingsList[index].follow_follower}`,
+        url: `${url}/organizations/follows/?follow_followed=${followingsList[index].follow_followed}`,
         result: `organizationFollowing-delete`,
         token: TOKEN
       })
     });    
   }
-  deleteExchange(id, index){
+  deleteExchange(id, index){ //TODO
     const {exchanges} = this.state;
     exchanges.splice(index,1);
     this.setState({...this.state, exchanges:exchanges}, ()=>{
