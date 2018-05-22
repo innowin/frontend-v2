@@ -34,7 +34,15 @@ export default class LoginForm extends Component {
 			handleLogIn(res , rememberme);
 		});
 	}
-
+	
+	_redirectPath = () => {
+		const locationState = this.props.location.state;
+		const pathname = (
+				locationState && locationState.from && locationState.from.pathname
+		);
+		return pathname || '/';
+	};
+	
 	_handleError = (msg) => {
 		const message = 'نام کاربری یا گذرواژه صحیح نمی باشد';
 		this.setState({...this.state, error: true, message: message});
@@ -90,20 +98,21 @@ export default class LoginForm extends Component {
 					</div>
 					<button onClick={this._handleClick} className="btn btn-primary btn-block btn-lg">{__('Login')}</button>
 					<ErrorMessage message={message} error={(error) ? error : ''}/>
-					<button className=" btn btn-link loginForm rememberme" onChange={this._handleCheckbox}>
-						<label htmlFor="rememberme" >
+					<div className=" btn btn-link loginForm rememberMe">
+						<label htmlFor="rememberme">
 							<input
 									id="rememberme"
 									type="checkbox"
 									checked={rememberme}
+									onChange={this._handleCheckbox}
 									ref={rememberme => this.rememberme = rememberme}
 							/>
 							{__('Remember me')}
 						</label>
-					</button>
-					<button type="button" className="btn btn-link">
+					</div>
+					<div className="btn btn-link">
 						{__('Password recovery')}
-					</button>
+					</div>
 				</form>
 		)
 	}

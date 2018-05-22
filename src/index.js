@@ -4,10 +4,11 @@ import App from './App';
 import {BrowserRouter as Router , withRouter} from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker';
 import {Provider} from 'react-redux';
-import configureStore from './redux/store/configureStore';
+import configureStore,{runSaga} from './redux/store/configureStore';
 
 const WrappedApp = withRouter(App);
 const store = configureStore();
+runSaga()
 
 ReactDOM.render(
     <Provider store={store}>

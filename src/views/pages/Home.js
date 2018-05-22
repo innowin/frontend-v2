@@ -4,6 +4,7 @@ import ChatBar from '../bars/ChatBar';
 import HomeSideBar from './home/HomeSideBar';
 import HomePosts from './home/HomePosts';
 import {IDENTITY_ID} from "src/consts/data";
+import ReduxTest from '../reduxTest';
 
 class Home extends Component {
   constructor(props) {
@@ -33,8 +34,11 @@ class Home extends Component {
           </div>
           <div className="col-md-2 col-sm-1 -left-sidebar-wrapper">
             <ChatBar/>
-          </div>
+						{/*<ReduxTest/>*/}
+
+					</div>
         </main>
+        
       </div>
     )
   }
