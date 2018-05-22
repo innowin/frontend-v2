@@ -6,7 +6,6 @@ import Login from './views/pages/Login';
 import {setTOKEN, setSession, setID, saveData , setIdentityId} from './consts/data';
 import cookies from 'browser-cookies';
 import PropsRoute from './consts/PropsRoute';
-import Test from './views/Test';
 
 class App extends Component {
 	constructor(props) {

@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as testActions from 'src/redux/actions/testActions';
 import PropTypes from 'prop-types';
+import TestActions from 'src/redux/actions/testActions'
 
 class Test extends Component {
   constructor(props) {
@@ -21,6 +22,7 @@ class Test extends Component {
   };
 
   componentDidMount() {
+  	TestActions.fetchStuff(10);
     socket.emit(REST_REQUEST, {
       method: "get",
       url: url + '/base/',
@@ -71,7 +73,11 @@ class Test extends Component {
       this.setState(newState);
     });
   }
-
+	_handleClick = (e) => {
+  	alert('hi');
+  	console.log(e.target)
+	};
+  
   _renderData = () => (<div>{this.props.tests}</div>);
 
   render() {
@@ -79,7 +85,7 @@ class Test extends Component {
     return (
       <div className="-testDiv">
         <pre>{JSON.stringify(result, null, 2)}</pre>
-        {this.props.tests.length > 0 ?
+        {(this.props.tests && this.props.tests.length > 0) ?
           this._renderData()
           :
           <div>
@@ -92,17 +98,13 @@ class Test extends Component {
 }
 
 
-function mapStateToProps(state) {
-  return {
-    result: state.test.result,
-    list: state.test.list,
-  }
-}
+const mapStateToProps = (state) => ({
+  result: state.test.result,
+  list: state.test.list,
+});
 
-function mapDispatchToProps() {
-  return {
-    testActions: bindActionCreators(testActions)
-  };
-}
+const mapDispatchToProps = () => ({
+  testActions: bindActionCreators(testActions)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Test)
