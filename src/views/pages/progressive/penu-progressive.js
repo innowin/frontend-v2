@@ -17,7 +17,6 @@ class MenuProgressive extends Component {
             status: 'active'
         }
     }
-
     _goNext = () => {
         const { activeStep, steps } = this.state
         if (activeStep < steps.length) this._setStep((activeStep + 1), 'going-next')
