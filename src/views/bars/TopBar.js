@@ -43,7 +43,7 @@ class TopBar extends Component {
       <div>
         <nav className="navbar flex-row justify-content-between p-0 -white-i fixed-top topBar">
           <div className="d-flex align-items-center -whiteSvg">
-            <button type="button" className="navbar-toggler my-auto mr-2 -outlineWhite" onClick={this._toggle}>
+            <button type="button" className= {`navbar-toggler my-auto mr-2 -outlineWhite ${this.state.collapse ? "active" : ""}`} onClick={this._toggle}>
               <i className="fa fa-bars" aria-hidden="true"/>
             </button>
             <Link to={"/"}><i className="fa fa-home mr-3" aria-hidden="true"/></Link>
@@ -63,17 +63,25 @@ class TopBar extends Component {
           </div>
         </nav>
         <Collapse isOpen={this.state.collapse} className="-profile-collapse">
-          <div className="card text-center">
-            <img className="card-img-top" src={defaultImg} alt="Person icon"/>
-            <div className="card-block">
-              <Link className="card-link" to="#" onClick={handleSignOut}>Sign out</Link>
-              <Link className="card-link" to={`/user/${ID}`}>my_profile</Link>
-            </div>
+          <div style={{width:"100%"}}>
+              <ul>
+                <li ><i className="fa fa-home mr-3"/> لینک اول</li>
+                <li ><i className="fa fa-home mr-3"/> لینک دوم</li>
+                <li ><i className="fa fa-home mr-3"/> لینک سوم</li>
+                <li ><i className="fa fa-home mr-3"/>لینک چهارم</li>
+              </ul>
+              
           </div>
         </Collapse>
       </div>
     )
   }
 }
-
+{/* <div className="card text-center">
+  <img className="card-img-top" src={defaultImg} alt="Person icon"/>
+  <div className="card-block">
+    <Link className="card-link" to="#" onClick={handleSignOut}>Sign out</Link>
+    <Link className="card-link" to={`/user/${ID}`}>my_profile</Link>
+  </div>
+</div> */}
 export default TopBar;
