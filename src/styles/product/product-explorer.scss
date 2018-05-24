@@ -74,7 +74,7 @@ $color5: darken($text-light-color, 10%);
       opacity: 0;
       cursor: pointer;
       &:checked + .checkmark {
-        background-color: #000000;
+        background-color: $text-darkest-color;
         &:after {
           display: block;
         }
@@ -88,7 +88,7 @@ $color5: darken($text-light-color, 10%);
       top: 0px;
       width: 8px;
       height: 15px;
-      border: solid white;
+      border: solid $text-lightest-color;
       border-width: 0 3px 3px 0;
       box-shadow: 2px 2px 2px 0 #666;
       -webkit-transform: rotate(45deg);

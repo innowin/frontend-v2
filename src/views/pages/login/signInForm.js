@@ -3,10 +3,7 @@ import React, {Component} from 'react'
 import {REST_URL as url} from 'src/consts/URLS'
 import {REST_REQUEST} from 'src/consts/Events'
 import {SOCKET as socket} from "../../../consts/URLS"
-import {Redirect} from 'react-router-dom'
-import {TOKEN, ALL_COOKIES, setID, saveData, setTOKEN, deleteTOKEN} from 'src/consts/data'
 import ErrorMessage from './ErrorMessage'
-import cookies from 'browser-cookies'
 
 export default class LoginForm extends Component {
   constructor(props) {
@@ -95,8 +92,9 @@ export default class LoginForm extends Component {
             placeholder={__('Password')}
           />
         </div>
-        <button onClick={this._handleClick}
-                className="btn btn-primary btn-block login-submit-button">{__('Login')}</button>
+        <button onClick={this._handleClick} className="btn btn-primary btn-block login-submit-button">
+          {__('Login')}
+        </button>
         <ErrorMessage message={message} error={(error) ? error : ''}/>
         <div className="remember-recovery">
           <label htmlFor="rememberme">

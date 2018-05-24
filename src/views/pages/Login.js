@@ -77,7 +77,7 @@ class Login extends Component {
                 <div className="login-tab">
                   {(!SignIn) && (
                     <div className="signup-tab">
-                      <button className="btn btn-sm btn-secondary" onClick={this._showSignIn}>
+                      <button className="btn btn-secondary" onClick={this._showSignIn}>
                         {__('Login')}
                       </button>
                       <span>{__('Register')}</span>
@@ -86,7 +86,7 @@ class Login extends Component {
                   {(SignIn) && (
                     <div className="signin-tab">
                       <span>{__('Login')}</span>
-                      <button className="btn btn-sm btn-secondary" onClick={this._showSignUp}>
+                      <button className="btn btn-secondary" onClick={this._showSignUp}>
                         {__('Register')}
                       </button>
                     </div>

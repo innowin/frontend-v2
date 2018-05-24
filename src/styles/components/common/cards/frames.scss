@@ -1,7 +1,8 @@
+@import "../../../variables";
 .-tabs {
   display: flex;
   justify-content: space-around;
-  background-color: #fff;
+  background-color: $text-lightest-color;
   border: 1px solid #cecece;
   padding: 10px;
   margin-bottom: 10px;
@@ -20,7 +21,7 @@
   a.-tab:hover, a.-active {
     background-color: #696969;
     & > svg {
-      fill: white;
+      fill: $text-lightest-color;
     }
   }
 }
@@ -37,7 +38,7 @@
 }
 
 .-frameCard {
-  background-color: #ffffff;
+  background-color: $text-lightest-color;
   border: 1px solid #cecece;
   border-top: 5px solid #688491;
   padding: 20px 16px 16px 16px;

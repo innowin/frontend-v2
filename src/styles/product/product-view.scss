@@ -5,7 +5,7 @@
 }
 
 .-rBarChart path {
-  fill: #999;
+  fill: $text-title-menu-color;
 }
 
 .-rBarChart:hover {
@@ -13,7 +13,7 @@
 }
 
 .-rBarChart:hover path {
-  fill: #32485D
+  fill: $primary-color
 }
 
 .-w-45 {
@@ -29,7 +29,7 @@
 }
 
 .-rBarBookmark path {
-  fill: #999;
+  fill: $text-title-menu-color;
 }
 
 .-rBarBookmark:hover {
@@ -37,7 +37,7 @@
 }
 
 .-rBarBookmark:hover path {
-  fill: #32485D
+  fill: $primary-color
 }
 
 .-rBarMainPicture {

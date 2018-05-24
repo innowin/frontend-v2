@@ -16,7 +16,7 @@ $heightOfContentBox: 140px;
   display: flex;
   flex-direction: row;
   margin: 10px 5px;
-  background-color: #F5F5F5;
+  background-color: $chat-box2-color;
   border-radius: 3px;
   padding: 15px 20px 15px 20px;
 
@@ -31,7 +31,7 @@ $heightOfContentBox: 140px;
     margin-right: 20px;
     border-radius: 5px;
     padding: 1px;
-    background-color: white;
+    background-color: $text-lightest-color;
     .-textBox {
       flex-grow: 1;
     }
@@ -57,7 +57,7 @@ $heightOfContentBox: 140px;
     }
 
     i:hover {
-      color: #32485D;
+      color: $primary-color;
       cursor: pointer;
     }
 
@@ -70,7 +70,7 @@ $heightOfContentBox: 140px;
     }
 
     svg:hover path {
-      fill: #32485D;
+      fill: $primary-color;
     }
 
     .submitColor {
@@ -120,7 +120,7 @@ $heightOfContentBox: 140px;
           top: 1px;
         }
         i {
-          background-color: white;
+          background-color: $text-lightest-color;
           border-radius: 2px;
           box-shadow: 1px 1px 10px 1px grey;
         }
@@ -147,9 +147,9 @@ $heightOfContentBox: 140px;
 }
 
 .-selectedPostType {
-  color: #32485D !important;
+  color: $primary-color !important;
 }
 
 .-selectedPostType path {
-  fill: #32485D !important;
+  fill: $primary-color !important;
 }

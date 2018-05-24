@@ -6,28 +6,24 @@ $font-family-serif:      vazir, Georgia, "Times New Roman", Times, serif !defaul
 @import "~bootstrap/scss/variables";
 
 //Color Variables
-//primary color is Cello
-$brand-inverse: #253545;
+$background-body-color: #f2f4f6;
+$brand-inverse-color: #253545;
 $primary-color: #32485D;
 
-$chatbox1-color: #CADFE0;
-$chatbox2-color: #F5F5F5;
+$chat-box1-color: #CADFE0;
+$chat-box2-color: #F5F5F5;
 $sidebar-bottom-color: #606060;
 $error-color:lighten(crimson, 25%);
 $success-color: lighten(#2acd24, 5%);
 $info-color: lighten(aqua, 20%);
 
-//text colors
-$gray-border : #ddd;
 $text-lightest-color: #fff;
 $text-lighter-color: #ddd;
 $text-light-color: #bababa;
+$text-title-menu-color: #999;
 $text-dark-color: #444;
 $text-darker-color: #222;
 $text-darkest-color: #000;
-$text-title-menu-color: #999;
-
-//post colors:
 
 // font-sizes
 $font-size-verySmallText: 10px;

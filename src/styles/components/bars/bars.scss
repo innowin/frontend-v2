@@ -3,11 +3,11 @@
 
 .topBar {
   height: $topBarHeight;
-  background-color: $brand-inverse;
+  background-color: $brand-inverse-color;
 }
 
 .-white-i i {
-  color: white !important;
+  color: $text-lightest-color !important;
   font-size: 26px;
 }
 
@@ -57,7 +57,7 @@
 }
 
 .-outlineWhite {
-  outline-color: white !important;
+  outline-color: $text-lightest-color !important;
 }
 
 //**             ChatBar(leftBar)             **//
@@ -72,7 +72,7 @@
     font-size: $font-size-chatBarIcon;
     line-height: 48px;
     &:hover, &.active {
-      color: white;
+      color: $text-lightest-color;
       background-color: $primary-color;
     }
     &.active:after {
@@ -101,7 +101,7 @@
   border-radius: 50px;
   position: relative;
   margin-bottom: 30px;
-  background-color: #ffffff;
+  background-color: $text-lightest-color;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, .4);
 }
 

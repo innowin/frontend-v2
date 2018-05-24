@@ -12,7 +12,7 @@
     margin: 10px 15px 10px 0;
     display: flex;
     flex: 1;
-    background-color: #F5F5F5;
+    background-color: $chat-box2-color;
     align-items: center;
     justify-content: space-around;
     padding: 10px;
@@ -25,18 +25,18 @@
     }
     i:hover {
       cursor: pointer;
-      color: #32485D;
+      color: $primary-color;
     }
     svg {
       cursor: pointer;
       fill: #C2C2C2;
       :hover {
-        fill: #32485D;
+        fill: $primary-color;
       }
     }
     .clicked {
-      fill: #32485D;
-      color: #32485D;
+      fill: $primary-color;
+      color: $primary-color;
     }
   }
 }

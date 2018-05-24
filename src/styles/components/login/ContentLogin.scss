@@ -12,20 +12,26 @@
 }
 
 @keyframes animate-sign-in-form {
-  from {
-    height: 38px;
+  0% {
+    height: 38px
   }
-  to {
-    height: 278px;
+  99% {
+    height: 278px
+  }
+  100% {
+    height: auto
   }
 }
 
 @keyframes animate-sign-up-form {
-  from {
-    height: 38px;
+  0% {
+    height: 38px
   }
-  to {
-    height: 340px;
+  99% {
+    height: 340px
+  }
+  100% {
+    height: auto
   }
 }
 
@@ -35,23 +41,23 @@
   flex-flow: row wrap-reverse;
   justify-content: space-around;
   align-items: flex-end;
-  margin-top: 150px;
+  margin-top: 100px;
   padding-bottom: 100px;
 
   & ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-    color: #999999;
+    color: $text-title-menu-color;
   }
 
   & ::-moz-placeholder { /* Firefox 19+ */
-    color: #999999;
+    color: $text-title-menu-color;
   }
 
   & :-ms-input-placeholder { /* IE 10+ */
-    color: #999999;
+    color: $text-title-menu-color;
   }
 
   & :-moz-placeholder { /* Firefox 18- */
-    color: #999999;
+    color: $text-title-menu-color;
   }
 
   .login-wrapper {
@@ -75,7 +81,7 @@
   }
 
   .carousel-wrapper {
-    color: white;
+    color: $text-lightest-color;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -94,8 +100,10 @@
     flex: 1;
     padding: 10px 0;
     background-color: #e6e6e6;
-    border: 1px solid #999;
+    border: 1px solid $text-title-menu-color;
     border-top: 0 solid transparent;
+    color: darken($text-light-color, 15%);
+    font-size: $font-size-normalText;
   }
   button:hover {
     background-color: #f7f7f7;
@@ -206,8 +214,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: $gray-border;
-    border: 2px solid $gray-border;
+    color: $text-lighter-color;
+    border: 2px solid $text-lighter-color;
     border-radius: 50%;
     margin: 0 4px;
 
