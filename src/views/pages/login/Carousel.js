@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import uuid from 'uuid'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import FontAwesome from 'react-fontawesome'
 
 // main component
 class CarouselLogin extends Component {
@@ -105,17 +106,13 @@ class CarouselLogin extends Component {
 
 // slide show controle btn bar
 const BtnBar = ({ slides, activeId, handler }) => (
-	<div className="carousel-btn-bar">
+	<div className="carousel-btn-bar-wrapper">
 		<ul>
 			{slides.map(slide => 
 				<li key={`btn${slide.id}`}>
-					<i
+					<FontAwesome 
+						name={activeId === slide.id ? 'circle' : 'circle-o'}
 						onClick={handler.bind(null, slide.id)}
-						className={
-							activeId === slide.id ? 'fa fa-circle'
-							: 
-							'fa fa-circle-o'
-						}
 					/>
 				</li>
 			)}

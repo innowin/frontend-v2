@@ -251,7 +251,7 @@ export class SignUpForm extends Component {
 
     const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,64})");
     const mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
-    if(!value) {
+    if (!value) {
       const message = __('Password is required');
       const newState = {
         ...this.state,
@@ -327,7 +327,7 @@ export class SignUpForm extends Component {
       this.setState(newState);
       return false;
     }
-    if(!pass2){
+    if (!pass2) {
       return false
     }
     else {
@@ -359,22 +359,22 @@ export class SignUpForm extends Component {
   };
 
   _statusClassName = (status) => {
-    if(status==='error' || status==='tooWeak'){
-      return {messages:'error-message active', border:'error-border'}
+    if (status === 'error' || status === 'tooWeak') {
+      return {messages: 'messageBox error-message', border: 'mb-0 error-border'}
     }
-    if(status==='success' || status==='good'){
-      return {messages:'success-message active', border:'success-border'}
+    if (status === 'success' || status === 'good') {
+      return {messages: 'messageBox success-message', border: 'mb-0 success-border'}
     }
-    if(status==='strong'){
-      return {messages:'strong-message active', border:'strong-border'}
+    if (status === 'strong') {
+      return {messages: 'messageBox strong-message', border: 'mb-0 strong-border'}
     }
-    if(status==='medium'){
-      return {messages:'medium-message active', border:'medium-border'}
+    if (status === 'medium') {
+      return {messages: 'messageBox medium-message', border: 'mb-0 medium-border'}
     }
-    if(status==='weak'){
-      return {messages:'weak-message active', border:'weak-border'}
+    if (status === 'weak') {
+      return {messages: 'messageBox weak-message', border: 'mb-0 weak-border'}
     }
-    return {messages:'', border:''}
+    return {messages: '', border: ''}
   }
 
   render() {
@@ -397,9 +397,7 @@ export class SignUpForm extends Component {
       )
     }
     return (
-      <form ref={form => {
-        this.form = form
-      }}>
+      <form ref={form => {this.form = form}} className="sign-up-form">
         <input
           type="text"
           name="username"
@@ -408,21 +406,21 @@ export class SignUpForm extends Component {
           }}
           onKeyUp={this._verifyValue}
           onBlur={this._verifyValue}
-          className={`form-control form-control-lg ${usernameClass.border}`}
+          className={`form-control my-form-control-lg -mb-2 ${usernameClass.border}`}
           placeholder={__('Username')}
         />
-        <div className={"messageBox" + ' ' + usernameClass.messages}>{usernameMB}</div>
+        <div className={usernameClass.messages}>{usernameMB}</div>
         <input
           type="email"
           name="email"
           ref={email => {
             this.email = email
           }}
-          className={"form-control form-control-lg" + ' ' + emailClass.border}
+          className={"form-control my-form-control-lg -mb-2" + ' ' + emailClass.border}
           onBlur={this._verifyValue}
           placeholder={__('Email')}
         />
-        <div className={"messageBox" + ' ' + emailClass.messages}>{emailMB}</div>
+        <div className={emailClass.messages}>{emailMB}</div>
 
         <input
           type="password"
@@ -430,12 +428,12 @@ export class SignUpForm extends Component {
           ref={password => {
             this.password = password
           }}
-          className={"form-control form-control-lg" + ' ' + passwordClass.border}
+          className={"form-control my-form-control-lg -mb-2" + ' ' + passwordClass.border}
           onKeyUp={this._verifyValue}
           placeholder={__('Password')}
         />
 
-        <div className={"messageBox" + ' ' + passwordClass.messages}>
+        <div className={passwordClass.messages}>
           {passwordMB}
         </div>
 
@@ -446,15 +444,16 @@ export class SignUpForm extends Component {
             this.passwordConfirm = passwordConfirm
           }}
           onKeyUp={this._verifyValue}
-          className={"form-control form-control-lg" + ' ' + passwordConfirmClass.border}
+          className={"form-control my-form-control-lg -mb-2" + ' ' + passwordConfirmClass.border}
           placeholder={__('Repeat password')}
         />
 
-        <div className={"messageBox" + ' ' + passwordConfirmClass.messages}>{passwordConfirmMB}</div>
+        <div className={passwordConfirmClass.messages}>{passwordConfirmMB}</div>
 
-        {sending && <div className="text-muted">{__('Sending')}</div>}
-        <button onClick={this._handleSubmit} className="btn btn-primary btn-block btn-lg">{__('Register')}</button>
-        <div className="messageBox error-message">{formMB}</div>
+        {sending && <div className="text-muted -mb-2">{__('Sending')}</div>}
+        <button onClick={this._handleSubmit}
+                className="btn btn-primary btn-block login-submit-button mt-0">{__('Register')}</button>
+        <div className={(formMB) ? ("messageBox error-message") : ("")}>{formMB}</div>
       </form>
     )
   }

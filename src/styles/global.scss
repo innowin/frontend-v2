@@ -25,6 +25,7 @@ input, textarea, button, select {
 @import "./components/utils.scss";
 @import "./pages/home";
 @import "./pages/login";
+@import "./pages/progressive";
 
 @import "components/bars/bars";
 @import "components/bars/chatbar";
@@ -43,7 +44,7 @@ input, textarea, button, select {
 @import "components/login/Carousel";
 @import "components/login/FooterLogin";
 @import "components/login/HeaderLogin";
-@import "components/login/SocialLogin";
+@import "components/login/ContentLogin";
 @import "components/organization/basicInformation";
 @import "components/organization/customers";
 @import "components/organization/products";

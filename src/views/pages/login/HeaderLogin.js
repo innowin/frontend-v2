@@ -5,17 +5,17 @@ import {logoDaneshBoom} from 'src/images/icons'
 
 const HeaderLogin = ({iosLink, androidLink, address, phoneNumber, logoCaption}) => {
 	return (
-			<div className="header">
-				<div className="logo-wrapper">
-					<div className="logo"><img src={logoDaneshBoom} alt="" /></div>
+			<div className="row header mr-0 ml-0">
+				<div className="logo-wrapper col-lg-6 col-md-12 col-sm-12 mb-4">
+					<div className="logo"><img className="h-48px" src={logoDaneshBoom} alt="" /></div>
 					<div className="company-name">{__('Danesh Boom')}</div>
 					<div className="divider"></div>
 					<div className="logo-caption">{logoCaption}</div>
 				</div>
-				<div className="address-wrapper">
-					<div className="address-section">
+				<div className="address-wrapper col-lg-6 col-md-12 col-sm-12">
+					<div className="address-section ml-5">
 						<div className='icon phone-icon'>
-							<FontAwesome name="phone"/>
+							<div><FontAwesome name="phone"/></div>
 						</div>
 						<div className='address-wrapper-text'>
 							<div className="phone-number">{phoneNumber}</div>
@@ -23,12 +23,12 @@ const HeaderLogin = ({iosLink, androidLink, address, phoneNumber, logoCaption}) 
 						</div>
 					</div>
 					<div className="app-icon-section">
-						<div className='icon android-icon'>
+						<div className='icon ml-3'>
 							<a href={androidLink}>
 								<div><FontAwesome name="android"/></div>
 							</a>
 						</div>
-						<div className='icon ios-icon'>
+						<div className='icon'>
 							<a href={iosLink}>
 								<div><FontAwesome name="apple"/></div>
 							</a>
