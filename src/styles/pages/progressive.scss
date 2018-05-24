@@ -3,12 +3,13 @@
 // $ative-color: #253545;
 .steps { // the parent of steps
     position: relative;
-    background-color: $text-lighter-color;
+    background-color: $chatbox2-color;
     display: flex;
     justify-content: space-between;
     height: 10px;
-    margin: 11px 2px 0;
-    flex-direction: row;   
+    margin: 0 auto;
+    flex-direction: row;
+    // max-width: 600px;
 }
 
 div.active::after { // initial classes of progress.
@@ -44,7 +45,7 @@ div.active::after { // initial classes of progress.
         width: 30px;
         height: 30px;
         border-radius: 100px;
-        background-color: $text-lighter-color;
+        background-color: $chatbox2-color;
         color: $brand-inverse;
         position: relative;
         z-index: 2;
@@ -58,15 +59,16 @@ div.active::after { // initial classes of progress.
         }
         .step-title {
             position: absolute;
-            bottom: -50px;
-            transform: translate(-50%,0);
+            bottom: -37px;
+            transform: translate(-50%, 0);
             left: 50%;
             width: 100px;
             color: #d8d8d8;
+            font-size: 12px;
         }
         &.checked {
             background-color: $brand-inverse; 
-            color: $text-lighter-color;
+            color: $chatbox2-color;
             transition: all 2s;
         }
     }
@@ -80,14 +82,14 @@ div.active::after { // initial classes of progress.
 .progressive-step.checked .step-title {
         color: #848484;
 }
-.progressive-wrapper {
-    padding: 0 20px;
-    .progress {
-        position: relative;
-        height: 10px;
-        background-color: $brand-inverse;
-        top: -10px;
-        width: 0;
-        z-index: 1;
-    }
-}
+// .progressive-wrapper {
+//     padding: 0 20px;
+//     .progress {
+//         position: relative;
+//         height: 10px;
+//         background-color: $brand-inverse;
+//         top: -10px;
+//         width: 0;
+//         z-index: 1;
+//     }
+// }

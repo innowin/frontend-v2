@@ -1,0 +1,126 @@
+@import '../variables';
+
+.modal-body {
+    padding: 10px;
+}
+.modal-content {
+    border-radius: 0;
+    border: 2px solid $text-title-menu-color;
+}
+.modal-lg {
+    max-width: 90%;
+}
+// .new-contribution-wrapper {
+//     max-width: 80%;
+// }
+.adding-contribution-wrapper{
+    .wrapper {
+        max-width: 80%;
+        margin: 0 auto;
+    }
+    .wrapper .next-prev-bns {
+        // display: flex;
+        margin-top: 40px;
+        .next {
+            float: left;
+            padding: 0 30px;
+            width: 150px;
+            border: 2px solid $brand-inverse;
+            border-radius: 70px;
+            background-color: $brand-inverse;
+            color: $text-lightest-color;
+        }
+        .prev {
+            float: right;
+            padding: 0 30px;
+            width: 150px;
+            border: 2px solid $brand-inverse;
+            border-radius: 70px;
+        }
+    }
+    .progressive-wrapper {
+        padding: 40px 0;
+        max-width: 60%;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 500px) {
+    .modal-lg {
+        max-width: 96%;
+    }
+    // .new-contribution-wrapper {
+    //     max-width: 92%;
+    // }
+    .adding-contribution-wrapper .wrapper {
+            max-width: 92%;
+    }
+    .adding-contribution-wrapper .progressive-wrapper {
+        // padding: 40px 0;
+        max-width: 92%;
+
+    }
+}
+.new-contribution-wrapper {
+    margin: 0 auto;
+    .categories-wrapper h5 {
+        font-size: 12px;
+        margin-bottom: 20px;
+    }
+    .categories-wrapper .categories {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        .category {
+            border: 3px solid $chatbox2-color;
+            flex: 0 0 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            border-radius: 20px;
+            height: 150px;
+            min-width: 150px;
+        }
+        .category.active {
+            border: 3px solid $brand-inverse;
+        }
+        .category .image {
+            height: 50px;
+        }
+        .category .image span {
+            color: $text-title-menu-color;
+        }
+        .category.active .image span {
+            color: $text-title-menu-color;
+        }
+        .category .title {
+            font-size: 11px;
+            margin-top: 38px;
+            color: $text-title-menu-color;
+        }
+        .category.active .title {
+            color: $brand-inverse;
+        }
+
+    }
+    .desc {
+        background-color: $chatbox2-color;
+        padding: 20px;
+        display: flex;
+        margin: 55px auto 40px;
+        line-height: 29px;
+        border-radius: 3px;
+        .text {
+            text-align: center;
+            font-size: 12px;
+            color: $text-title-menu-color;
+        }
+        .text p {
+            margin: 0
+        }
+        .image span {
+            color: green;
+        }
+    }
+}
