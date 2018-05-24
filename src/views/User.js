@@ -53,6 +53,7 @@ class User extends Component {
               <PropsRoute path={`${path}/Certificates`} component={Certificates} userId={userId}/>
             </Switch>
           </div>
+          
           <div className="col-3 -left-sidebar-wrapper">
             <ChatBar/>
           </div>

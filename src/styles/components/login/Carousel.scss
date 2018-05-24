@@ -1,12 +1,20 @@
-.carousel-btn-bar{
+.carousel-wrapper {
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.carousel-btn-bar-wrapper{
   align-items: center;
   display: flex;
   ul {
     list-style-type:none;
     display: flex;
     flex-direction: column;
-    margin: 0 0 0 15px;
-    padding-right: 0;
+    margin: 0 15px;
+    li span {
+      font-size: 12px;
+    }
   }
 }
 .login-slide {
@@ -14,11 +22,12 @@
 }
 
 .login-slide-header {
-  font-size: 124%;
+  font-size: 15px;
   // align-self: flex-start;
 }
 .login-slide-desc {
   line-height: 30px;
+  font-size: 13px;
 }
 
 .login-slide-enter {
@@ -47,7 +56,6 @@
   transform: translate3d(0px,0px,0px);
   transition: opacity 1000ms, transform 1000ms;
 }
-
 .login-slide-header-exit-active {
   opacity: 0.1;
   transform: translate3d(0px,0px,0px);
