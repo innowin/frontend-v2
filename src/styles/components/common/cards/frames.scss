@@ -1,14 +1,15 @@
 @import "../../../variables";
+
 .-tabs {
   display: flex;
   justify-content: space-around;
   background-color: $text-lightest-color;
-  border: 1px solid #cecece;
+  border: 1px solid lighten($text-light-color, 8%);
   padding: 10px;
   margin-bottom: 10px;
   .-tab {
-    border: 2px solid #373737;
-    fill: #373737;
+    border: 2px solid $text-dark-color;
+    fill: $text-dark-color;
     height: 38px;
     width: 38px;
     border-radius: 100%;
@@ -19,7 +20,7 @@
     }
   }
   a.-tab:hover, a.-active {
-    background-color: #696969;
+    background-color: lighten($sidebar-bottom-color, 3%);
     & > svg {
       fill: $text-lightest-color;
     }
@@ -29,8 +30,8 @@
 
 
 .-categoryTitle {
-  background-color: #eaeaea;
-  color: #688491;
+  background-color: lighten($text-lighter-color, 5%);
+  color: $frame-color;
   padding: 7px 17px;
   margin-bottom: 10px;
   display: flex;
@@ -39,8 +40,8 @@
 
 .-frameCard {
   background-color: $text-lightest-color;
-  border: 1px solid #cecece;
-  border-top: 5px solid #688491;
+  border: 1px solid lighten($text-light-color, 8%);
+  border-top: 5px solid $frame-color;
   padding: 20px 16px 16px 16px;
   .-itemWrapper {
     position: relative;
@@ -51,11 +52,11 @@
       right: 0;
       width: 40px;
       height: 30px;
-      border: 1px solid #959595;
-      border-right-color: #688491;
-      border-bottom-color: #688491;
-      background-color: #eaeaea;
-      fill: #373737;
+      border: 1px solid darken($text-title-menu-color, 1.6%);
+      border-right-color: $frame-color;
+      border-bottom-color: $frame-color;
+      background-color: lighten($text-lighter-color, 5%);
+      fill: $text-dark-color;
       padding: 4px 9px;
       svg {
         height: 20px;
@@ -79,7 +80,7 @@
       .-item-edit-btn {
         flex: 0 0 auto;
         svg {
-          fill: #373737;
+          fill: $text-dark-color;
           height: 16px;
           width: 16px;
         }
@@ -89,10 +90,10 @@
       position: relative;
       margin-right: 39px;
       margin-top: 29px;
-      border-top: 1px solid #688491;
-      border-right: 1px solid #688491;
+      border-top: 1px solid $frame-color;
+      border-right: 1px solid $frame-color;
       padding: 16px 16px 50px 16px;
-      color: #373737;
+      color: $text-dark-color;
     }
     &:last-child .-item-content {
       padding: 16px;

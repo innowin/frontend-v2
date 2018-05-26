@@ -61,7 +61,7 @@ div.active::after { // initial classes of progress.
             transform: translate(-50%,0);
             left: 50%;
             width: 100px;
-            color: #d8d8d8;
+            color: darken($text-lighter-color, 2%);
         }
         &.checked {
             background-color: $brand-inverse; 
@@ -77,7 +77,7 @@ div.active::after { // initial classes of progress.
     }
 }
 .progressive-step.checked .step-title {
-        color: #848484;
+        color: darken($text-title-menu-color, 7.5%);
 }
 .progressive-wrapper {
     padding: 0 20px;

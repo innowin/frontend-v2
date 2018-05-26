@@ -81,7 +81,7 @@
 			div {
 				width: 34px;
 				height: 34px;
-				color: lighten($text-dark-color, 17%);
+				color: lighten($text-dark-color, 22%);
 				font-size: 24px;
 				background-color: lighten($text-lightest-color, 40%);
 				text-align: center;
@@ -89,7 +89,7 @@
 			}
 		}
 		.icon, a {
-			color: $text-dark-color;
+			color: lighten($text-dark-color, 5%);
 		}
 	}
 }

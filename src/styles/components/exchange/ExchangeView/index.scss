@@ -1,4 +1,5 @@
 @import "../../../variables";
+
 /*--------------------------------- ExchangePosts ------------------ */
 .-exchangePosts {
   display: flex;
@@ -21,7 +22,7 @@
       font-size: $font-size-boxText;
     }
     i {
-      color: #C2C2C2;
+      color: lighten($text-light-color, 3%);
     }
     i:hover {
       cursor: pointer;
@@ -29,7 +30,7 @@
     }
     svg {
       cursor: pointer;
-      fill: #C2C2C2;
+      fill: lighten($text-light-color, 3%);
       :hover {
         fill: $primary-color;
       }

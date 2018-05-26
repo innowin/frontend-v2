@@ -1,6 +1,8 @@
+@import "../../../variables";
+
 .exchangePostComments{
   padding: 10px;
-  background-color: #ededed;
+  background-color: lighten($text-lighter-color, 6.3%);
 }
 
 .-exchange-post-comment-title{

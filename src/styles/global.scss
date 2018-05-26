@@ -1,5 +1,4 @@
 @import "variables";
-@import "components/utils";
 body {
   direction: rtl;
   overflow-x: hidden;
@@ -15,11 +14,6 @@ html {
 
 input, textarea, button, select {
   font-family: "IRANSansWebFaNum", "Helvetica Neue", sans-serif !important;
-}
-
-img ,a {
-@extend %no-draggable;
-  //TODO mohsen: not work in fireFux and should test in opera
 }
 
 @import "./font-face";

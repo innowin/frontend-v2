@@ -52,7 +52,7 @@ $heightOfContentBox: 140px;
     align-items: center;
 
     i {
-      color: #C2C2C2;
+      color: lighten($text-light-color, 3%);
       font-size: 22px;
     }
 
@@ -66,7 +66,7 @@ $heightOfContentBox: 140px;
     }
 
     svg path {
-      fill: #C2C2C2;
+      fill: lighten($text-light-color, 3%);
     }
 
     svg:hover path {
@@ -78,7 +78,7 @@ $heightOfContentBox: 140px;
     }
 
     .-submitAttach path {
-      fill: #929292;
+      fill: darken($text-title-menu-color, 2.7%);
     }
   }
 
@@ -130,7 +130,7 @@ $heightOfContentBox: 140px;
         }
       }
       .-fileNameBox {
-        color: #BFBFBF;
+        color: lighten($text-light-color, 2%);
         text-align: center;
       }
     }

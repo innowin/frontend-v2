@@ -1,5 +1,6 @@
 @import "../variables";
-//          product sidBart      //
+
+//-----------------------        product sidBart   -----------------//
 .-rBarChart {
   height: 25px;
 }
@@ -21,7 +22,7 @@
 }
 
 .-grey2 {
-  color: #A1A1A1;
+  color: lighten($text-title-menu-color, 3%);
 }
 
 .-rBarBookmark {

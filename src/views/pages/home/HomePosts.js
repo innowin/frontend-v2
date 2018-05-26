@@ -52,7 +52,7 @@ class HomePosts extends Component {
 
   _getFirstExchangeId = (identityId) => {
     const _handleResult = (res) => {
-      if (res.length > 0) {
+      if (Array.isArray(res) && res.length > 0) {
         const limit = 100;
         const offset = 0;
         const exchangeId = res[0].exchange_identity_related_exchange.id;

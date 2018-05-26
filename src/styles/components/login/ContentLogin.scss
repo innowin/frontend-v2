@@ -99,14 +99,14 @@
   button {
     flex: 1;
     padding: 10px 0;
-    background-color: #e6e6e6;
+    background-color: lighten($text-lighter-color, 3.6%);
     border: 1px solid $text-title-menu-color;
     border-top: 0 solid transparent;
     color: darken($text-light-color, 15%);
     font-size: $font-size-normalText;
   }
   button:hover {
-    background-color: #f7f7f7;
+    background-color: lighten($chat-box2-color, .8%);
     cursor: pointer;
   }
   span {

@@ -23,7 +23,7 @@
   display: flex;
   flex-direction: row;
   margin-bottom: 5px;
-  border: 1px solid #EEEEEE;
+  border: 1px solid $eee-color;
   border-radius: 3px;
   padding: 10px 20px 15px 20px;
 
@@ -59,7 +59,7 @@
         margin-right: 20px;
       }
       span, i {
-        color: #C2C2C2;
+        color: lighten($text-light-color, 3%);
       }
     }
   }
@@ -68,12 +68,12 @@
 .-item-edit-btnPost {
   padding-top: 2px;
   svg {
-    fill: #373737;
+    fill: $text-dark-color;
     height: 16px;
     width: 16px;
   }
 }
 
 .-green2 {
-  color: #bbbbbb;
+  color: lighten($text-light-color, .5%);
 }
