@@ -44,6 +44,8 @@
     "react-dom": "^16.2.0",
     "react-fontawesome": "^1.6.1",
     "react-image-gallery": "^0.8.7",
+    "react-intl": "^2.4.0",
+    "react-intl-redux": "^2.0.0",
     "react-masonry-css": "^1.0.11",
     "react-moment": "^0.7.0",
     "react-redux": "^5.0.7",

@@ -4,7 +4,7 @@ import App from './App';
 import {ConnectedRouter} from 'react-router-redux'
 import {BrowserRouter as Router , withRouter} from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker';
-import {Provider} from 'react-redux';
+import {Provider} from 'react-intl-redux'
 import configureStore,{runSaga , history} from './redux/store/configureStore';
 
 const WrappedApp = withRouter(App);

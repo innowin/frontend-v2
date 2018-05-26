@@ -5,5 +5,11 @@ export default {
 	},
 	reduxTest:{
 		number:0,
+	},
+	intl: {
+		locale: 'ir',
+		messages: {
+			'greeting':'سلام'
+		}
 	}
 };

@@ -26,7 +26,7 @@ export default class LoginForm extends Component {
       }
       if (res.password || res.username) {
         const message = "Fields should not be empty";
-        this._handleClick(message)
+        this._handleError(message)
       }
       handleLogIn(res, rememberme);
     });
