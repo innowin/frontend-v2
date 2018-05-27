@@ -187,6 +187,5 @@ module.exports = {
 
   // Product
   // Product Rating
-  'Ratings': 'دیدگاه ها و بازخورد ها',
-  
+  'Ratings': 'دیدگاه ها و بازخورد ها'
 };
