@@ -1,3 +1,5 @@
+import messages from 'translate/fa'
+
 export default {
 	test: {
 		result: 1,
@@ -7,9 +9,7 @@ export default {
 		number:0,
 	},
 	intl: {
-		locale: 'ir',
-		messages: {
-			'greeting':'سلام'
-		}
+		locale: 'fa',
+		messages: {...messages}
 	}
 };

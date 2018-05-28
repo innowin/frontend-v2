@@ -18,20 +18,10 @@ const receiveStuff = list => ({
 		list
 	});
 
-const fetchStuff = () => {
-	alert('in fetch');
-	return dispatch => {
-		socket.emit(REST_REQUEST, {
-			method:"get",
-			url: REST_URL+'exchanges/identities/',
-			result: 'TEST_REDUX_RESPONSE',
-			token
-		});
-		socket.on('TEST_REDUX_RESPONSE',res => {
-			dispatch(receiveStuff(res))
-		})
-	}
-};
+const fetchUsers = url => ({
+	type: types.FETCH_USERS,
+	url
+});
 
 const socketing = (url) => (result) => {
 	return socket.emit(REST_REQUEST, {
@@ -43,7 +33,7 @@ const socketing = (url) => (result) => {
 };
 
 const TestActions = {
-	fetchStuff,
+	fetchUsers,
 	subtractNumber,
 	addNumber,
 	receiveStuff
