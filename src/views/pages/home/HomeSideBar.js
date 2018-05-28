@@ -47,6 +47,7 @@ export default class HomeSideBar extends Component {
   static propTypes = {
     setExchangeId: PropTypes.func.isRequired,
     identityId: PropTypes.string.isRequired,
+    classNames: PropTypes.string
   };
 
   constructor(props) {
@@ -76,8 +77,9 @@ export default class HomeSideBar extends Component {
 
   render() {
     const {exchangeIdentities} = this.state;
+    const {classNames} = this.props
     return (
-      <div>
+      <div className={classNames}>
         {
           (exchangeIdentities.length > 0) ? (
             exchangeIdentities.map((item, i) => {

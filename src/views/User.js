@@ -26,12 +26,13 @@ class User extends Component {
     const {match, handleSignOut} = this.props;
     const {path, url, params} = match;
     const userId = params.id;
+    const widthOfRightBar = "col-3";
     return (
       <div className="-tabbed-pages -userOrganBackgroundImg">
-        <TopBar handleSignOut={handleSignOut}/>
+        <TopBar handleSignOut={handleSignOut} collapseWidthCol={widthOfRightBar}/>
 
         <main className="row">
-          <div className="col-3 -right-sidebar-wrapper">
+          <div className={`-right-sidebar-wrapper ${widthOfRightBar}`}>
             <Sidebar>
               <UserSideView userId={userId}/>
             </Sidebar>

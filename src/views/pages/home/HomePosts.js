@@ -14,6 +14,7 @@ class HomePosts extends Component {
   static propTypes = {
     exchangeId: PropTypes.number,
     identityId: PropTypes.string.isRequired,
+    classNames: PropTypes.string
   };
 
   constructor(props) {
@@ -106,10 +107,11 @@ class HomePosts extends Component {
 
   render() {
     const {isLoading, error, exchangeId, scrollLoading, scrollError} = this.state;
+    const {classNames} = this.props;
     const posts = [...new Set(this.state.posts)];
     // TODO mohsen: choice postIdentity from client
     return (
-      <VerifyWrapper isLoading={isLoading} error={error}>
+      <VerifyWrapper isLoading={isLoading} error={error} className={classNames}>
         {(exchangeId) ? (
           <div>
             <div>

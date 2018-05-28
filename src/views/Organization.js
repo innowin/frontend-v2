@@ -25,11 +25,12 @@ export class Organization extends Component {
     const {match, handleSignOut} = this.props;
     const {path, url, params} = match;
     const organizationId = params.id;
+    const widthOfRightBar = "col-md-2 col-sm-1";
     return (
       <div className="-tabbed-pages -userOrganBackgroundImg">
-        <TopBar handleSignOut={handleSignOut}/>
+        <TopBar handleSignOut={handleSignOut} collapseWidthCol={widthOfRightBar}/>
         <main className="row">
-          <div className="col-md-2 col-sm-1 -right-sidebar-wrapper">
+          <div className={`${widthOfRightBar} -right-sidebar-wrapper`}>
             <Sidebar>
               <OrganizationSideView organizationId={organizationId}/>
             </Sidebar>

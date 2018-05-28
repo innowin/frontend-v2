@@ -19,7 +19,6 @@
   cursor: pointer;
 }
 
-
 %no-draggable {
   -webkit-user-select: none; /* Safari 3.1+ */
   -moz-user-select: none; /* Firefox 2+ */
@@ -73,4 +72,18 @@
 
 .max-w-100 {
   max-width: 100%;
+}
+
+.pr-14-percent {
+  padding-right: 14%;
+}
+
+.pr-5-percent {
+  padding-right: 5%;
+}
+
+.-myCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

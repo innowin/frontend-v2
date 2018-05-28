@@ -14,13 +14,15 @@ class Product extends Component {
   render() {
     const {match, handleSignOut} = this.props;
     const {path} = match;
+    const widthOfRightBar = "col-md-3 col-sm-2";
     return (
       <div className="-tabbed-pages -userOrganBackgroundImg">
-        <TopBar handleSignOut={handleSignOut}/>
+        <TopBar handleSignOut={handleSignOut} collapseWidthCol={widthOfRightBar} />
         <main>
           <Switch>
-            <PropsRoute exact path={`${path}/Product_Explorer`} component={ProductExplorer}/>
-            <PropsRoute path={`${path}/:id`} component={ProductView}/>
+            <PropsRoute exact path={`${path}/Product_Explorer`} component={ProductExplorer}
+                        widthOfRightBar={widthOfRightBar}/>
+            <PropsRoute path={`${path}/:id`} component={ProductView} widthOfRightBar={widthOfRightBar}/>
           </Switch>
         </main>
       </div>
