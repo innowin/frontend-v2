@@ -23,6 +23,7 @@ import starIcon from "./common/star_svg"
 import SupplyIcon from "./common/supply_svg"
 import userInfoIcon from "./user/userinfo_svg"
 import workExperienceIcon from "./user/workExperience_svg"
+import ExchangeExploreIcon from "./common/exchange_explore_svg"
 
 
 export {
@@ -41,6 +42,7 @@ export {
   customerIcon,
   DemandIcon,
   ExchangeIcon,
+  ExchangeExploreIcon,
   ForwardIcon,
   InformationIcon,
   logoDaneshBoom,

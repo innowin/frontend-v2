@@ -4,9 +4,7 @@ import {Collapse} from "reactstrap"
 import {
   defaultImg,
   logoDaneshBoom,
-  ExchangeIcon,
-  SocialIcon,
-  ContributionIcon,
+  ExchangeExploreIcon,
   NotificationIcon
 } from "src/images/icons"
 import {ID} from "src/consts/data"
@@ -71,10 +69,8 @@ class TopBar extends Component {
               }
             </button>
             <Link to={"/"}><i className="fa fa-home mr-3" aria-hidden="true"/></Link>
-            <Link to={"/exchange/Exchange_Explorer"}><ExchangeIcon className="-topBarIcons mr-4"/></Link>
-            <Link to={"/"}><SocialIcon className="-topBarIcons mr-4"/></Link>
-            <Link to={"/"}><ContributionIcon className="-topBarIcons mr-4"/></Link>
-            <Link to={"/"}><NotificationIcon className="-topBarIcons mr-4"/></Link>
+            <Link className="mr-5" to={"/exchange/Exchange_Explorer"}><ExchangeExploreIcon className="-topBarIcons"/></Link>
+            <Link className="mr-5" to={"/"}><NotificationIcon className="-topBarIcons"/></Link>
           </div>
           <img className="centerImgTopBar" src={logoDaneshBoom} alt="profile_img"/>
           <div className="dir-ltr d-flex flex-row">
