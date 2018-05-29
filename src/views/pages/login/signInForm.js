@@ -126,5 +126,5 @@ class LoginForm extends Component {
     )
   }
 }
-const mapStateToProps = (state) => ({from: state.router.location.state.from})
+const mapStateToProps = (state) => ({})
 export default connect(mapStateToProps)(LoginForm)
