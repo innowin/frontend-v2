@@ -1,4 +1,4 @@
-import messages from 'translate/fa'
+import messages from 'src/translate/fa'
 
 export default {
 	test: {
