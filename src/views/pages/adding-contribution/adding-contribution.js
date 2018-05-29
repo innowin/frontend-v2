@@ -2,35 +2,36 @@ import React from 'react';
 import { Modal, ModalBody } from 'reactstrap'
 import MenuProgressive from '../progressive/penu-progressive'
 import FontAwesome from 'react-fontawesome'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
-const newContributionData = {
+const newContributionStepData = {
     desc: {
         svg: 'user',
         text: 'اورده در سامانه دانشبوم دارایی تومندی یا ارزشی‌ست که کاربران اعم از مجموعه‌ها و افراد ارایه می‌دهند . قابلیت عرضه در بورس‌ها کارگزاری و انجام معامله آن وجود دارد. محصولات تولیدی توانمندی‌ها تاییدیه‌ها گواهی‌نامه‌ها خدمات مشاوره . زیرساخت‌های قابل اشتراک از انواع آورده در سامانه دانشبوم هستند.',
     },
     categoreis: [
         {
-            id: '1',
+            value: '1',
             svg: 'user',
             title: 'محصول',
         },
         {
-            id: '2',
+            value: '2',
             svg: 'user',
             title: 'توانمندی',
         },
         {
-            id: '3',
+            value: '3',
             svg: 'user',
             title: 'تاییدیه',
         },
         {
-            id: '4',
+            value: '4',
             svg: 'user',
             title: 'مشاوره',
         },
         {
-            id: '5',
+            value: '5',
             svg: 'user',
             title: 'زیرساخت قابل اشتراک',
         },
@@ -46,8 +47,8 @@ class Contribution extends React.Component {
     super(props);
     this.state = {
       modalIsOpen: false,
-      contnet: CONTENTS.NEW,
-      progressActiveStep: 1,
+      contentNum: 0,
+      activeStep: 0,
       progressSteps: [
           { title: 'گام اول', icon: 'circle' },
           { title: 'گام دوم', icon: 'circle-o' },
@@ -55,33 +56,65 @@ class Contribution extends React.Component {
           { title: 'گام چهارم', icon: 'circle-o' },
           { title: 'گام پنجم', icon: 'circle' },
       ],
-      progressStatus: 'active'
+      progressStatus: 'active',
+      newContributionData: {}
     };
   }
 
   _nextStep = () => {
-    const { progressActiveStep, progressSteps } = this.state
-    if (progressActiveStep < progressSteps.length) this._setStep((progressActiveStep + 1), 'going-next')
+    const { activeStep, progressSteps } = this.state
+    if (activeStep < progressSteps.length) this._setStep((activeStep + 1), 'going-next')
   }
 
   _prevStep = () => {
-      const { progressActiveStep } = this.state
-      if (progressActiveStep !== 1) this._setStep((progressActiveStep - 1), 'going-prev')
+      const { activeStep } = this.state
+      if (activeStep !== 1) this._setStep((activeStep - 1), 'going-prev')
   }
 
   _setStep = (newStep, status) => {
-      this.setState({ ...this.state, progressActiveStep: newStep, progressStatus: status}, this._setWidth)
+      this.setState({ ...this.state, activeStep: newStep, progressStatus: status}, this._afterStepChanging)
   }
+  
+  _setContentNum = () => setTimeout(() => this.setState({ ...this.state, contentNum: this.state.activeStep }), 2020)
 
-  _setWidth = () => {
+  _afterStepChanging = () => {
       setTimeout(() => this.setState({ ...this.state, progressStatus: 'active' }), 10)
+      this._setContentNum()
   }
 
 
-  _toggleModal = () => this.setState({ ...this.state, modalIsOpen: !this.state.modalIsOpen })
+  _toggleModal = () => {
+      const { activeStep } = this.state;
+      this.setState({ ...this.state, modalIsOpen: !this.state.modalIsOpen })
+      if (activeStep === 0) {
+          setTimeout(() => this.setState({ ...this.state, activeStep: 1}, this._setContentNum), 10)
+      }
+    }
+
+  _newContributionCategoryHandler = (category) => {
+      const data = { ...this.state.newContributionData, category: category }
+      this.setState({ ...this.state, newContributionData: data}, () => console.log(this.state))
+  }
+  _switchContent = () => {
+    const { content, newContributionData } = this.state
+    switch (content) {
+        case CONTENTS.NEW:
+            return (<NewContribution 
+                        desc={newContributionStepData.desc}
+                        categoreis={newContributionStepData.categoreis}
+                        goToNextStep={this._nextStep}
+                        goToPrevStep={this._toggleModal}
+                        nextBtnTitle="لغو"
+                        selectedCategory={newContributionData.category}
+                        selectCategoryHandler={this._newContributionCategoryHandler}
+                   />)
+        default:
+            return ''
+    }
+  }
 
   render() {
-    const { modalIsOpen, contnet, progressActiveStep, progressSteps, progressStatus} = this.state
+    const { modalIsOpen, activeStep, contentNum, progressSteps, progressStatus, newContributionData} = this.state
     return (
       <div>
         <button color="danger" onClick={this._toggleModal}>test</button>
@@ -90,13 +123,35 @@ class Contribution extends React.Component {
             <div className="progressive-wrapper">
                 <MenuProgressive 
                     steps={progressSteps}
-                    activeStep={progressActiveStep}
+                    activeStep={activeStep}
                     status={progressStatus}
                 />
             </div>
             <div className="wrapper">
-                <ContentHandler content={contnet} />
-                <NextPrevBtns nextStep={this._nextStep} prevStep={this._prevStep} />
+                    <CSSTransition
+                        in={contentNum === 1}
+                        timeout={1000}
+                        classNames="new-contribution-step"
+                        unmountOnExit
+                    >
+                        <NewContribution 
+                            desc={newContributionStepData.desc}
+                            categoreis={newContributionStepData.categoreis}
+                            goToNextStep={this._nextStep}
+                            goToPrevStep={this._toggleModal}
+                            nextBtnTitle="لغو"
+                            selectedCategory={newContributionData.category}
+                            selectCategoryHandler={this._newContributionCategoryHandler}
+                        />
+                    </CSSTransition>
+                    <CSSTransition
+                        in={contentNum === 2}
+                        timeout={1000}
+                        classNames="new-contribution-step"
+                        unmountOnExit
+                    >
+                        <InitialInfo />
+                    </CSSTransition>
             </div>
           </ModalBody>
         </Modal>
@@ -106,17 +161,19 @@ class Contribution extends React.Component {
 }
 
 
-const ContentHandler = ({ content }) => {
-    switch (content) {
-        case CONTENTS.NEW:
-            return <NewContribution desc={newContributionData.desc} categoreis={newContributionData.categoreis} />
-        default:
-            return ''
-    }
-}
+// const ContentHandler = ({ content }) => {
+//     switch (content) {
+//         case CONTENTS.NEW:
+//             return <NewContribution desc={newContributionData.desc} categoreis={newContributionData.categoreis} />
+//         default:
+//             return ''
+//     }
+// }
 
 
-const NewContribution = ({ desc, categoreis }) => (
+const NewContribution = ({
+    desc, categoreis, goToNextStep, goToPrevStep, nextBtnTitle, selectedCategory, selectCategoryHandler
+}) => (
     <div className="new-contribution-wrapper">
         <div className="desc">
             <div className="image">
@@ -130,7 +187,13 @@ const NewContribution = ({ desc, categoreis }) => (
             <h5>انتخاب نوع آورده</h5>
             <div className="categories">
                 {categoreis && categoreis.map(category =>
-                    <div key={`category${category.id}`} className="category">
+                    <div
+                        onClick={selectCategoryHandler.bind(null, category.value)}
+                        key={`category${category.value}`}
+                        className={selectedCategory === category.value ? 
+                            'category pointer active' : 'category pointer'
+                        }
+                    >
                         <div className="image">
                             <FontAwesome size='5x' name={category.svg} />
                         </div>
@@ -138,16 +201,23 @@ const NewContribution = ({ desc, categoreis }) => (
                     </div>
                 )}
             </div>
-            
         </div>
+        <NextPrevBtns
+            nextBtnTitle={nextBtnTitle}
+            goToNextStep={goToNextStep}
+            goToPrevStep={goToPrevStep}
+        />
     </div>
 )
+const InitialInfo = () => (
+    <div className="initial-info">hikkkk</div>
+)
 
-const NextPrevBtns = ({ nextStep, prevStep, tips }) => (
-    <div className="next-prev-bns">
-        <button onClick={prevStep} className="prev">قبلی</button>
+const NextPrevBtns = ({ goToNextStep, goToPrevStep, tips, nextBtnTitle }) => (
+    <div className="next-prev-btns">
+        <button onClick={goToPrevStep} className="prev pointer">{nextBtnTitle}</button>
         {tips && <div className="tips">s</div>}
-        <button onClick={nextStep} className="next">بعدی</button>
+        <button onClick={goToNextStep} className="next pointer">بعدی</button>
     </div>
 )
 

@@ -1,5 +1,7 @@
 @import '../variables';
-
+.pointer {
+    cursor: pointer;
+}
 .modal-body {
     padding: 10px;
 }
@@ -18,33 +20,31 @@
         max-width: 80%;
         margin: 0 auto;
     }
-    .wrapper .next-prev-bns {
-        // display: flex;
-        margin-top: 40px;
-        .next {
-            float: left;
-            padding: 0 30px;
-            width: 150px;
-            border: 2px solid $brand-inverse;
-            border-radius: 70px;
-            background-color: $brand-inverse;
-            color: $text-lightest-color;
-        }
-        .prev {
-            float: right;
-            padding: 0 30px;
-            width: 150px;
-            border: 2px solid $brand-inverse;
-            border-radius: 70px;
-        }
+}
+.next-prev-btns {
+    margin-top: 40px;
+    .next {
+        float: left;
+        padding: 0 30px;
+        width: 150px;
+        border: 2px solid $brand-inverse;
+        border-radius: 70px;
+        background-color: $brand-inverse;
+        color: $text-lightest-color;
     }
-    .progressive-wrapper {
-        padding: 40px 0;
-        max-width: 60%;
-        margin: 0 auto;
+    .prev {
+        float: right;
+        padding: 0 30px;
+        width: 150px;
+        border: 2px solid $brand-inverse;
+        border-radius: 70px;
     }
 }
-
+.progressive-wrapper {
+    padding: 40px 0;
+    max-width: 60%;
+    margin: 0 auto;
+}
 @media (max-width: 500px) {
     .modal-lg {
         max-width: 96%;
@@ -91,15 +91,15 @@
         .category .image span {
             color: $text-title-menu-color;
         }
-        .category.active .image span {
-            color: $text-title-menu-color;
-        }
+        // .category.active .image span {
+        //     color: $text-title-menu-color;
+        // }
         .category .title {
             font-size: 11px;
             margin-top: 38px;
             color: $text-title-menu-color;
         }
-        .category.active .title {
+        .category.active .title, .category.active .image span {
             color: $brand-inverse;
         }
 
@@ -124,3 +124,44 @@
         }
     }
 }
+
+// .wrapper .new-contribution-step-enter {
+//     opacity: 0;
+//     // transform: scale3d(0.3, 0.3, 3);
+// }
+// .wrapper .new-contribution-step-enter-active {
+//     opacity: 1;
+//     // transform: scale3d(1, 1, 1);
+//     transition: opacity 1000ms;
+// }
+// .wrapper .new-contribution-step-exit-active {
+//     opacity: 0;
+//     // transform: translate3d(40px,0px,0px);
+//     transition: opacity 1000ms, transform 1000ms ease-out;
+// }
+.new-contribution-step {
+    &-enter {
+        opacity: 0.1;
+    }
+    &-enter-active {
+        opacity: 1;
+        transition: opacity 1000ms;
+    }
+    &-exit-active {
+        opacity: 0;
+        transition: opacity 1000ms;
+    }
+}
+// .initial-info-step {
+//     &-enter {
+//         opacity: 0.1;
+//     }
+//     &-enter-active {
+//         opacity: 1;
+//         transition: opacity 1000ms;
+//     }
+//     &-exit-active {
+//         opacity: 0;
+//         transition: opacity 1000ms;
+//     }
+// }
