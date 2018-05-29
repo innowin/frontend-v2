@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Home from './pages/Home';
-import PropsRoute from '../consts/PropsRoute'
+import PrivateRoute from '../consts/PrivateRoute'
 import User from './User';
 import Exchange from './Exchange';
 import Organization from './Organization';
@@ -18,12 +18,12 @@ class Layout extends Component {
 		const {handleSignOut} = this.props;
 		return (
 				<Switch>
-					<PropsRoute exact={true} path="/" component={Home} handleSignOut={handleSignOut}/>
-					<PropsRoute path="/user/:id" component={User} handleSignOut={handleSignOut}/>
-					<PropsRoute path="/organization/:id" component={Organization} handleSignOut={handleSignOut}/>
-					<PropsRoute path="/exchange" component={Exchange} handleSignOut={handleSignOut}/>
-					<PropsRoute path="/product" component={Product} handleSignOut={handleSignOut}/>
-					<PropsRoute path="/progressive-test" component={MenuProgressive} handleSignOut={handleSignOut}/>
+					<PrivateRoute exact={true} path="/" component={Home} handleSignOut={handleSignOut}/>
+					<PrivateRoute path="/user/:id" component={User} handleSignOut={handleSignOut}/>
+					<PrivateRoute path="/organization/:id" component={Organization} handleSignOut={handleSignOut}/>
+					<PrivateRoute path="/exchange" component={Exchange} handleSignOut={handleSignOut}/>
+					<PrivateRoute path="/product" component={Product} handleSignOut={handleSignOut}/>
+					<PrivateRoute path="/progressive-test" component={MenuProgressive} handleSignOut={handleSignOut}/>
 				</Switch>
 		)
 	}

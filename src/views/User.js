@@ -5,7 +5,7 @@ import Career from "./user/career/index"
 import Certificates from "./user/certificates/index"
 import ChatBar from "src/views/bars/ChatBar"
 import Posts from "src/views/common/post/index"
-import PropsRoute from "../consts/PropsRoute"
+import PrivateRoute from "../consts/PrivateRoute"
 import Sidebar from "src/views/bars/SideBar"
 import Skills from "./user/skills/index"
 import TopBar from "src/views/bars/TopBar"
@@ -47,11 +47,11 @@ class User extends Component {
             </Tabs>
             <Switch>
               <Redirect exact from={`${url}/`} to={`${url}/basicInformation`}/>
-              <PropsRoute path={`${path}/basicInformation`} component={UserBasicInformation} userId={userId}/>
-              <PropsRoute path={`${path}/Posts`} component={Posts} id={userId} identityType='user'/>
-              <PropsRoute path={`${path}/Career`} component={Career} userId={userId}/>
-              <PropsRoute path={`${path}/Skills`} component={Skills}  userId={userId}/>
-              <PropsRoute path={`${path}/Certificates`} component={Certificates} userId={userId}/>
+              <PrivateRoute path={`${path}/basicInformation`} component={UserBasicInformation} userId={userId}/>
+              <PrivateRoute path={`${path}/Posts`} component={Posts} id={userId} identityType='user'/>
+              <PrivateRoute path={`${path}/Career`} component={Career} userId={userId}/>
+              <PrivateRoute path={`${path}/Skills`} component={Skills}  userId={userId}/>
+              <PrivateRoute path={`${path}/Certificates`} component={Certificates} userId={userId}/>
             </Switch>
           </div>
           

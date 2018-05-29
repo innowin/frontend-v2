@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import ProductView from './product/ProductView';
 import ProductExplorer from './product/ProductExplorer';
-import PropsRoute from "../consts/PropsRoute"
+import PrivateRoute from "../consts/PrivateRoute"
 import {Switch} from 'react-router-dom';
 import TopBar from "./bars/TopBar";
 
@@ -20,9 +20,8 @@ class Product extends Component {
         <TopBar handleSignOut={handleSignOut} collapseWidthCol={widthOfRightBar} />
         <main>
           <Switch>
-            <PropsRoute exact path={`${path}/Product_Explorer`} component={ProductExplorer}
-                        widthOfRightBar={widthOfRightBar}/>
-            <PropsRoute path={`${path}/:id`} component={ProductView} widthOfRightBar={widthOfRightBar}/>
+            <PrivateRoute exact path={`${path}/Product_Explorer`} component={ProductExplorer} widthOfRightBar={widthOfRightBar}/>
+            <PrivateRoute path={`${path}/:id`} component={ProductView} widthOfRightBar={widthOfRightBar}/>
           </Switch>
         </main>
       </div>

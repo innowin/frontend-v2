@@ -19,7 +19,7 @@ class App extends Component {
 		return true;
 	};
 	
-	_handleLogIn = (res , rememberme) => {
+	_handleLogIn = (res , rememberme,nextUrl = '/') => {
 		// console.log('response is this : ',res);
 		const setData = async (data, cb) => {
 			console.log('recieved data is' ,data);
@@ -31,7 +31,7 @@ class App extends Component {
 			await setIdentityId(data.identity.id);
 			const T = cookies.get('token');
 			if (T !== null) {
-				this.props.history.push('/');
+				this.props.history.push(nextUrl);
 			}
 		};
 		setData(res);

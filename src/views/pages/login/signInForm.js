@@ -5,8 +5,9 @@ import {REST_REQUEST} from 'src/consts/Events'
 import {SOCKET as socket} from "../../../consts/URLS"
 import ErrorMessage from './ErrorMessage'
 import {BeatLoader} from 'react-spinners'
+import {connect} from 'react-redux'
 
-export default class LoginForm extends Component {
+class LoginForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,7 +21,7 @@ export default class LoginForm extends Component {
   componentDidMount() {
     const {handleLogIn} = this.props;
     const {rememberme} = this.state;
-    socket.on("TOKEN_Result", res => {
+    socket.on("TOKEN_Result", async res => {
       if (res.non_field_errors) {
         // const message = res.non_field_errors[0];
         // TODO mohsen: error message is handle
@@ -28,7 +29,7 @@ export default class LoginForm extends Component {
         this._handleError(message);
         return false;
       }
-      handleLogIn(res, rememberme);
+      await handleLogIn(res, rememberme);
       this.setState({...this.state, sending: false})
     });
   }
@@ -75,6 +76,7 @@ export default class LoginForm extends Component {
 
   render() {
     const {error, message, rememberme, sending} = this.state;
+    console.log('this is all props', this.props,'\n and my states are ',this.state)
     return (
       <form action="#" className="sign-in-form">
         <div className="input-group-vertical">
@@ -124,3 +126,5 @@ export default class LoginForm extends Component {
     )
   }
 }
+const mapStateToProps = (state) => ({from: state.router.location.state.from})
+export default connect(mapStateToProps)(LoginForm)
