@@ -14,7 +14,6 @@ class HomePosts extends Component {
   static propTypes = {
     exchangeId: PropTypes.number,
     identityId: PropTypes.string.isRequired,
-    classNames: PropTypes.string
   };
 
   constructor(props) {
@@ -107,11 +106,10 @@ class HomePosts extends Component {
 
   render() {
     const {isLoading, error, exchangeId, scrollLoading, scrollError} = this.state;
-    const {classNames} = this.props;
     const posts = [...new Set(this.state.posts)];
     // TODO mohsen: choice postIdentity from client
     return (
-      <VerifyWrapper isLoading={isLoading} error={error} className={classNames}>
+      <VerifyWrapper isLoading={isLoading} error={error}>
         {(exchangeId) ? (
           <div>
             <div>
@@ -129,7 +127,7 @@ class HomePosts extends Component {
                       updatePosts={this._updatePosts}
                       key={post.id + "HomePosts"}
                     />
-                  ))) : (<h1 className="mt-5 red">در این بورس پستی وجود ندارد!</h1>)
+                  ))) : (<h1 className="mt-5">در این بورس پستی وجود ندارد!</h1>)
                 }
                 {
                   (scrollLoading || scrollError)?(

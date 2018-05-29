@@ -29,8 +29,9 @@ class Home extends Component {
         <main>
           <HomeSideBar identityId={IDENTITY_ID} setExchangeId={this._setExchangeId}
                        classNames={`${widthOfRightBar} -right-sidebar-wrapper`}/>
-          <HomePosts identityId={IDENTITY_ID} exchangeId={activeExchangeId}
-                     classNames="col-md-7 col-sm-9 -content-wrapper -home-content-wrapper pr-5-percent"/>
+          <div className="col-md-7 col-sm-9 pr-5-percent -content-wrapper -home-content-wrapper">
+            <HomePosts identityId={IDENTITY_ID} exchangeId={activeExchangeId}/>
+          </div>
           <div className="col-md-2 col-sm-1 -left-sidebar-wrapper">
             <ChatBar/>
             {/*<ReduxTest/>*/}

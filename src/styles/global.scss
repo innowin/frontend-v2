@@ -39,13 +39,13 @@ input, textarea, button, select {
 @import "components/common/media";
 @import "components/exchange/exchangeView";
 @import "components/exchange/ExchangeView/index";
-@import "components/exchange/ExchangeView/view";
 @import "components/exchange/ExchangeView/post";
+@import "components/exchange/ExchangeView/view";
 @import "components/exchange/masonry";
 @import "components/login/Carousel";
+@import "components/login/ContentLogin";
 @import "components/login/FooterLogin";
 @import "components/login/HeaderLogin";
-@import "components/login/ContentLogin";
 @import "components/organization/basicInformation";
 @import "components/organization/customers";
 @import "components/organization/products";

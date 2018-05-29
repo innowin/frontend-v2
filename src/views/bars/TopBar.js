@@ -46,6 +46,10 @@ class TopBar extends Component {
     }
   };
 
+  _handleProductWizardModal = () => {
+    // this.addProductWizard._toggle()
+  }
+
   componentDidMount() {
     getProfile(ID, this._getProfileMedia)
   }
@@ -88,7 +92,7 @@ class TopBar extends Component {
           <ul>
             <li><i className="fa fa-home"/> درخواست ارتقاء به کارگزار</li>
             <li><i className="fa fa-home"/> بورس جدید</li>
-            <li><i className="fa fa-home"/> آورده ی جدید</li>
+            <li onClick={this._handleProductWizardModal}><i className="fa fa-home"/> آورده ی جدید</li>
           </ul>
         </Collapse>
         <Collapse isOpen={collapseProfile} className="-topBar-profile-collapse">
@@ -99,6 +103,10 @@ class TopBar extends Component {
             </div>
           </div>
         </Collapse>
+        {/*<AddProductWizardModal*/}
+          {/*ref={addProductWizard => {this.addProductWizard = addProductWizard}}*/}
+          {/*className="addProductWizard"*/}
+        {/*/>*/}
       </div>
     )
   }

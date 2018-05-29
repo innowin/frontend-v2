@@ -25,26 +25,17 @@
   bottom: 0;
   overflow-y: auto;
   background: $text-lightest-color;
-  -webkit-box-shadow: -2px 0px 14px rgba(0,0,0,0.3);
-  -moz-box-shadow: -2px 0px 14px  rgba(0,0,0,0.3);
-  box-shadow: -2px 0px 14px rgba(0,0,0,0.3);
+  -webkit-box-shadow: -2px 0px 14px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: -2px 0px 14px rgba(0, 0, 0, 0.3);
+  box-shadow: -2px 0px 14px rgba(0, 0, 0, 0.3);
 }
 
 .-content-wrapper {
-  margin: 0 auto !important;
-  min-height: 100vh !important;
+  margin: 0 auto;
+  min-height: 100vh;
 }
 
-.-home-content-wrapper > div{
+.-home-content-wrapper > div {
   margin-top: $topBarHeight;
   padding-top: 20px;
-}
-
-.-myModal{
-  max-width: 900px;
-  margin-top: 30px;
-  .image-gallery{
-    max-width: 900px;
-    width: 100%;
-  }
 }

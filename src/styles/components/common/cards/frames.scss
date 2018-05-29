@@ -12,11 +12,16 @@
     fill: $text-dark-color;
     height: 38px;
     width: 38px;
-    border-radius: 100%;
-    padding: 7px;
+    border-radius: 50%;
+    position: relative;
+
     svg {
       width: 20px;
       height: 20px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
   }
   a.-tab:hover, a.-active {
@@ -26,8 +31,6 @@
     }
   }
 }
-
-
 
 .-categoryTitle {
   background-color: lighten($text-lighter-color, 5%);
@@ -98,5 +101,18 @@
     &:last-child .-item-content {
       padding: 16px;
     }
+  }
+}
+
+.-loading {
+  padding-top: 1.25rem!important;
+  .loading-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+    background-color: #fff;
   }
 }
