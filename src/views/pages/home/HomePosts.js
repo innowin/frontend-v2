@@ -112,9 +112,6 @@ class HomePosts extends Component {
       <VerifyWrapper isLoading={isLoading} error={error}>
         {(exchangeId) ? (
           <div>
-            <div>
-              <Link to={"/exchange/" + exchangeId} className="mr-3">صفحه بورس</Link>
-            </div>
             <HomeCreatePost updatePosts={this._updatePosts} postParent={exchangeId} postIdentity={+IDENTITY_ID}
                             handleErrorLoading={this._handleErrorLoading}/>
             <FrameCard className="-frameCardPost border-top-0">

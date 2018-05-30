@@ -4,11 +4,32 @@ import FontAwesome from 'react-fontawesome';
 import {SOCKET as socket} from "src/consts/URLS";
 import {getExchangeIdentities} from "src/crud/exchange/exchange";
 import {getFile} from "../../../crud/media/media";
+import {SeeViewIcon, RefreshIcon, SettingIcon} from 'src/images/icons';
+import {Link} from "react-router-dom"
+
+const DescriptionSideBarItem = ({description = '', className = ""}) => {
+  return (
+    <div className={className}>
+      {description}
+    </div>
+  )
+}
+
+const FooterSideBarItem = ({exchangeId, className = ""}) => {
+  return (
+    <div className={className}>
+      <Link to={"/exchange/" + exchangeId}><SeeViewIcon height="15px" className="cursor-pointer"/></Link>
+      <SettingIcon height="16px" className="cursor-pointer mr-4"/>
+      <RefreshIcon height="16px" className="cursor-pointer mr-4"/>
+    </div>
+  )
+}
 
 export class SideBarItem extends Component {
 
   static propTypes = {
     name: PropTypes.string,
+    description: PropTypes.string,
     imageId: PropTypes.number,
     exchangeId: PropTypes.number,
     handleClick: PropTypes.func,
@@ -25,18 +46,29 @@ export class SideBarItem extends Component {
     handleClick(exchangeId);
   };
 
-  componentDidMount(){
-    getFile(this.props.imageId, (res) =>(this.setState({file:res.file})))
+  componentDidMount() {
+    getFile(this.props.imageId, (res) => (this.setState({file: res.file})))
   }
 
   render() {
-    const {imageId, active, name} = this.props;
+    const {imageId, active, name, description, exchangeId} = this.props;
     const {file} = this.state;
     return (
-      <div className={`item-wrapper${ active ? ' active' : ''}`} onClick={this._onClickHandler}>
-        {!imageId ? <div className="default-logo"><FontAwesome name="building-o" aria-hidden="true"/></div> :
-          <img src={file} alt="logo"/>}
-        <div className="company-title">{name}</div>
+      <div className={`item-wrapper ${ active ? 'active' : ''}`} onClick={this._onClickHandler}>
+        <div className="header-exchange">
+          {!imageId ? <div className="default-logo"><FontAwesome name="building-o" aria-hidden="true"/></div> :
+            <img className="img-logo" src={file} alt="logo"/>
+          }
+          <div className="exchange-name">{name}</div>
+        </div>
+        {
+          (!active) ? ('') : (
+            <div className="active-content">
+              <DescriptionSideBarItem description={description} className="active-description"/>
+              <FooterSideBarItem exchangeId={exchangeId} className="active-footer"/>
+            </div>
+          )
+        }
       </div>
     )
   }
@@ -57,7 +89,7 @@ export default class HomeSideBar extends Component {
 
   _handleClick = (id) => {
     const {setExchangeId} = this.props;
-    this.setState({...this.state, activeId: id} , () => setExchangeId(id));
+    this.setState({...this.state, activeId: id}, () => setExchangeId(id));
   };
 
   componentDidMount() {
@@ -94,7 +126,7 @@ export default class HomeSideBar extends Component {
                                handleClick={this._handleClick} active={false}/>
               )
             })
-          ) : (<p className="mt-3"><b>شما عضو هیچ بورسی نیستید!</b></p>)
+          ) : (<p className="mt-3 pr-3"><b>شما عضو هیچ بورسی نیستید!</b></p>)
         }
       </div>
     )

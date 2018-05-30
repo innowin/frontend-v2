@@ -68,8 +68,9 @@
     }
     .menuOfPost {
       :first-child {
-        color: darken($text-light-color, 15%);
-        font-size: $font-size-smallIcon;
+        path{
+        fill: darken($text-light-color, 15%);
+        }
       }
       :last-child {
         color: lighten($text-light-color, 10%);

@@ -68,7 +68,7 @@
   img {
     height: 150px;
   }
-  ul{
+  ul {
     padding: 0;
     list-style-type: none;
     margin-bottom: 0;
@@ -83,8 +83,8 @@
         font-size: 30px;
       }
     }
-    li:hover{
-      background-color: darken($primary-color, 3%) ;
+    li:hover {
+      background-color: darken($primary-color, 3%);
     }
   }
 }
@@ -98,13 +98,13 @@
   width: 22rem;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-bottom-right-radius: 0.25rem;
-  > div{
+  > div {
     height: 75px
   }
   a {
     color: $text-lightest-color
   }
-  a:hover{
+  a:hover {
     color: $info-color
   }
 }
@@ -204,43 +204,81 @@
 //**         Home Sidebar(List of exchanges)               **//
 .item-wrapper {
   display: flex;
-  flex-flow: row;
-  cursor: pointer;
-  align-items: center;
-  padding: 10px;
+  flex-direction: column;
+  padding: 10px 10px 10px 30px;
   position: relative;
-  &.active .company-title {
-    color: lighten($sidebar-bottom-color, 11.5%);
+
+  &.active {
+    background-color: $chat-box2-color;
+    .exchange-name {
+      color: lighten($text-darkest-color, 10%)!important;
+    }
   }
+
+  .header-exchange {
+    display: flex;
+    flex-flow: row;
+    margin-bottom: 10px;
+    cursor: pointer;
+    align-items: center;
+    .exchange-name {
+      padding: 0 20px 0 0;
+      color: $text-light-color;
+      font-size: $font-size-normalText;
+    }
+    .default-logo {
+      width: 22%;
+      width: 50px;
+      font-size: 30px;
+      text-align: center;
+      height: 50px;
+      border: 0.5px solid $text-light-color;
+      border-radius: 50%;
+      background-color: lighten($text-lighter-color, 4.6%);
+      position: relative;
+      span {
+        transform: translate(-50%, -50%);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        color: $text-lightest-color;
+      }
+    }
+    .img-logo {
+      width: 22%;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+  }
+
+  .active-content{
+    color: $text-light-color;
+    .active-description {
+      padding-right: 10px;
+      font-size: $font-size-normalText;
+      line-height: 2.5;
+      overflow: hidden;
+      height: 60px;
+    }
+    .active-footer{
+      margin-top: 25px;
+      svg path{
+        fill: $text-light-color
+      }
+      float: left;
+    }
+  }
+
   &:after {
     content: '';
     width: 78%;
-    width: calc(100% - 50px);
+    width: calc(100% - 80px);
     display: block;
     position: absolute;
     height: 1px;
     bottom: 0;
-    left: -15px;
+    left: 0;
     background-color: $text-lighter-color;
-  }
-  & > .default-logo, img {
-    width: 50px;
-    min-width: 50px;
-    height: 50px;
-    border-radius: 50%;
-  }
-  .default-logo {
-    font-size: 30px;
-    text-align: center;
-    line-height: 55px;
-    border: 0.5px solid $text-light-color;
-    background-color: lighten($text-lighter-color, 4.6%);
-    span {
-      color: $text-lightest-color;
-    }
-  }
-  .company-title {
-    padding: 0 10px 0 0;
-    color: $text-light-color;
   }
 }

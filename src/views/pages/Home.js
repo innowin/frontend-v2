@@ -4,7 +4,6 @@ import ChatBar from '../bars/ChatBar';
 import HomeSideBar from './home/HomeSideBar';
 import HomePosts from './home/HomePosts';
 import {IDENTITY_ID} from "src/consts/data";
-import ReduxTest from '../reduxTest';
 
 class Home extends Component {
   constructor(props) {
@@ -28,13 +27,12 @@ class Home extends Component {
         <TopBar handleSignOut={handleSignOut} collapseWidthCol={widthOfRightBar}/>
         <main>
           <HomeSideBar identityId={IDENTITY_ID} setExchangeId={this._setExchangeId}
-                       classNames={`${widthOfRightBar} -right-sidebar-wrapper`}/>
+                       classNames={`${widthOfRightBar} pr-0 pl-0 -right-sidebar-wrapper`}/>
           <div className="col-md-7 col-sm-9 pr-5-percent -content-wrapper -home-content-wrapper">
             <HomePosts identityId={IDENTITY_ID} exchangeId={activeExchangeId}/>
           </div>
           <div className="col-md-2 col-sm-1 -left-sidebar-wrapper">
             <ChatBar/>
-            {/*<ReduxTest/>*/}
           </div>
         </main>
 
