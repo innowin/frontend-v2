@@ -2,7 +2,92 @@ import React from 'react';
 import { Modal, ModalBody } from 'reactstrap'
 import MenuProgressive from '../progressive/penu-progressive'
 import FontAwesome from 'react-fontawesome'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { SelectInput } from '../../common/inputs/SelectInput'
+import { TextInput } from '../../common/inputs/TextInput'
+import { RadioButtonGroup } from '../../common/inputs/RadioButtonInput'
+import { TextareaInput } from '../../common/inputs/TextareaInput'
+
+const categoreisData = [
+    {
+        value: 'ctgLevel1_1',
+        title: 'طبقه اول ۱',
+        children: [
+            {
+                value: 'ctgLevel2_1',
+                title: 'طبقه دوم ۱ ',
+                children: [
+                    { value: 'ctgLevel3_1', title: 'طبقه سوم ۱'},
+                    { value: 'ctgLevel3_2', title: 'طبقه سوم ۲'},
+                    { value: 'ctgLevel3_3', title: 'طبقه سوم ۳'},
+                    { value: 'ctgLevel3_4', title: 'طبقه سوم ۴'},
+                ]
+            },
+            {
+                value: 'ctgLevel2_2',
+                title: 'طبقه دوم ۲',
+                children: [
+                    { value: 'ctgLevel3_5', title: 'طبقه سوم ۵'},
+                    { value: 'ctgLevel3_6', title: 'طبقه سوم ۶'},
+                    { value: 'ctgLevel3_7', title: 'طبقه سوم ۷'},
+                    { value: 'ctgLevel3_8', title: 'طبقه سوم ۸'},
+                ]
+            },
+            {
+                value: 'ctgLevel2_3',
+                title: 'طبقه دوم ۳',
+                children: [
+                    { value: 'ctgLevel3_9', title: 'طبقه سوم ۹'},
+                    { value: 'ctgLevel3_10', title: 'طبقه سوم ۱۰'},
+                ]
+            }
+        ]
+    },
+    {
+        value: 'ctgLevel1_2',
+        title: 'طبقه اول ۲',
+        children: [
+            {
+                value: 'ctgLevel2_4',
+                title: 'طبقه دوم ۴',
+                children: [
+                    { value: 'ctgLevel3_11', title: 'طبقه سوم ۱۱'},
+                    { value: 'ctgLevel3_12', title: 'طبقه سوم ۱۲'},
+                    { value: 'ctgLevel3_13', title: 'طبقه سوم ۱۳'},
+                ]
+            },
+            {
+                value: 'ctgLevel2_5',
+                title: 'طبقه دوم ۵',
+                children: [
+                    { value: 'ctgLevel3_14', title: 'طبقه سوم ۱۴'},
+                ]
+            },
+            {
+                value: 'ctgLevel2_6',
+                title: 'طبقه دوم ۶',
+                children: [
+                    { value: 'ctgLevel3_15', title: 'طبقه سوم ۱۵'},
+                ]
+            }
+        ]
+    },
+    {
+        value: 'ctgLevel1_3',
+        title: 'طبقه اول ۳',
+        children: [
+            {
+                value: 'ctgLevel2_7',
+                title: 'طبقه دوم ۷',
+                children: [
+                    { value: 'ctgLevel3_16', title: 'طبقه سوم ۱۶'},
+                    { value: 'ctgLevel3_17', title: 'طبقه سوم ۱۷'},
+                    { value: 'ctgLevel3_18', title: 'طبقه سوم ۱۸'},
+                    { value: 'ctgLevel3_19', title: 'طبقه سوم ۱۹'},
+                ]
+            },
+        ]
+    },
+]
 
 const newContributionStepData = {
     desc: {
@@ -38,17 +123,23 @@ const newContributionStepData = {
     ],
 }
 
-const CONTENTS = {
-    NEW: 'new/contribution'
+const WRAPPER_CLASS_NAMES = {
+    ENTERING: 'entering',
+    ENTERED: 'entered',
+    EXITING: 'exiting',  
 }
-
+const PROGRESSIVE_STATUS_CHOICES = {
+    GOING_NEXT: 'going-next',
+    GOING_PREV: 'going-next',
+    ACTIVE: 'active'
+}
 class Contribution extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       modalIsOpen: false,
-      contentNum: 0,
-      activeStep: 0,
+      wrapperClassName: WRAPPER_CLASS_NAMES.ENTERING,
+      activeStep: 1,
       progressSteps: [
           { title: 'گام اول', icon: 'circle' },
           { title: 'گام دوم', icon: 'circle-o' },
@@ -56,69 +147,73 @@ class Contribution extends React.Component {
           { title: 'گام چهارم', icon: 'circle-o' },
           { title: 'گام پنجم', icon: 'circle' },
       ],
-      progressStatus: 'active',
+      progressStatus: PROGRESSIVE_STATUS_CHOICES.ACTIVE,
       newContributionData: {}
     };
   }
 
   _nextStep = () => {
     const { activeStep, progressSteps } = this.state
-    if (activeStep < progressSteps.length) this._setStep((activeStep + 1), 'going-next')
+    if (activeStep < progressSteps.length) this._setStep((activeStep + 1), PROGRESSIVE_STATUS_CHOICES.GOING_NEXT)
   }
 
   _prevStep = () => {
       const { activeStep } = this.state
-      if (activeStep !== 1) this._setStep((activeStep - 1), 'going-prev')
+      if (activeStep !== 1) this._setStep((activeStep - 1), PROGRESSIVE_STATUS_CHOICES.GOING_PREV)
   }
 
   _setStep = (newStep, status) => {
-      this.setState({ ...this.state, activeStep: newStep, progressStatus: status}, this._afterStepChanging)
+      this.setState({
+          ...this.state,
+          activeStep: newStep,
+          progressStatus: status,
+          wrapperClassName: WRAPPER_CLASS_NAMES.EXITING,
+        },
+        this._afterStepChanging)
   }
-  
-  _setContentNum = () => setTimeout(() => this.setState({ ...this.state, contentNum: this.state.activeStep }), 2020)
 
   _afterStepChanging = () => {
-      setTimeout(() => this.setState({ ...this.state, progressStatus: 'active' }), 10)
-      this._setContentNum()
-  }
-
-
-  _toggleModal = () => {
-      const { activeStep } = this.state;
-      this.setState({ ...this.state, modalIsOpen: !this.state.modalIsOpen })
-      if (activeStep === 0) {
-          setTimeout(() => this.setState({ ...this.state, activeStep: 1}, this._setContentNum), 10)
-      }
+      setTimeout(() => this.setState({ ...this.state, progressStatus: PROGRESSIVE_STATUS_CHOICES.ACTIVE, wrapperClassName: WRAPPER_CLASS_NAMES.ENTERED, }), 10)
     }
 
   _newContributionCategoryHandler = (category) => {
       const data = { ...this.state.newContributionData, category: category }
-      this.setState({ ...this.state, newContributionData: data}, () => console.log(this.state))
+      this.setState({ ...this.state, newContributionData: data})
   }
   _switchContent = () => {
-    const { content, newContributionData } = this.state
-    switch (content) {
-        case CONTENTS.NEW:
-            return (<NewContribution 
+    const { newContributionData, activeStep } = this.state
+    switch (activeStep) {
+        case 1:
+            return (
+                <NewContribution
                         desc={newContributionStepData.desc}
                         categoreis={newContributionStepData.categoreis}
                         goToNextStep={this._nextStep}
-                        goToPrevStep={this._toggleModal}
-                        nextBtnTitle="لغو"
+                        goToPrevStep={() => this.setState({ ...this.state, modalIsOpen: false })}
+                        prevBtnTitle="لغو"
                         selectedCategory={newContributionData.category}
                         selectCategoryHandler={this._newContributionCategoryHandler}
-                   />)
+                    />)
+        
+        case 2:
+            return (
+                <InitialInfo
+                    goToNextStep={this._nextStep}
+                    goToPrevStep={this._prevStep}
+                    prevBtnTitle="قبلی"
+                />
+            )
         default:
-            return ''
+            return <span>{' '}</span>
     }
   }
 
   render() {
-    const { modalIsOpen, activeStep, contentNum, progressSteps, progressStatus, newContributionData} = this.state
+    const { modalIsOpen, activeStep, progressSteps, progressStatus, wrapperClassName } = this.state
     return (
       <div>
-        <button color="danger" onClick={this._toggleModal}>test</button>
-        <Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} toggle={this._toggleModal} backdrop={false}>
+        <button color="danger" onClick={() => this.setState({ ...this.state, modalIsOpen: true})}>test</button>
+        <Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>
           <ModalBody className="adding-contribution-wrapper">
             <div className="progressive-wrapper">
                 <MenuProgressive 
@@ -127,31 +222,8 @@ class Contribution extends React.Component {
                     status={progressStatus}
                 />
             </div>
-            <div className="wrapper">
-                    <CSSTransition
-                        in={contentNum === 1}
-                        timeout={1000}
-                        classNames="new-contribution-step"
-                        unmountOnExit
-                    >
-                        <NewContribution 
-                            desc={newContributionStepData.desc}
-                            categoreis={newContributionStepData.categoreis}
-                            goToNextStep={this._nextStep}
-                            goToPrevStep={this._toggleModal}
-                            nextBtnTitle="لغو"
-                            selectedCategory={newContributionData.category}
-                            selectCategoryHandler={this._newContributionCategoryHandler}
-                        />
-                    </CSSTransition>
-                    <CSSTransition
-                        in={contentNum === 2}
-                        timeout={1000}
-                        classNames="new-contribution-step"
-                        unmountOnExit
-                    >
-                        <InitialInfo />
-                    </CSSTransition>
+            <div className={`wrapper ${wrapperClassName}`}>
+                {this._switchContent()}
             </div>
           </ModalBody>
         </Modal>
@@ -159,7 +231,6 @@ class Contribution extends React.Component {
     );
   }
 }
-
 
 // const ContentHandler = ({ content }) => {
 //     switch (content) {
@@ -172,7 +243,7 @@ class Contribution extends React.Component {
 
 
 const NewContribution = ({
-    desc, categoreis, goToNextStep, goToPrevStep, nextBtnTitle, selectedCategory, selectCategoryHandler
+    desc, categoreis, goToNextStep, goToPrevStep, prevBtnTitle, selectedCategory, selectCategoryHandler, className
 }) => (
     <div className="new-contribution-wrapper">
         <div className="desc">
@@ -203,21 +274,50 @@ const NewContribution = ({
             </div>
         </div>
         <NextPrevBtns
-            nextBtnTitle={nextBtnTitle}
+            prevBtnTitle={prevBtnTitle}
             goToNextStep={goToNextStep}
             goToPrevStep={goToPrevStep}
         />
     </div>
 )
-const InitialInfo = () => (
-    <div className="initial-info">hikkkk</div>
+/* !toDo the field name 'currency' need for changing in future. 
+may be needed for fetching and creating a search box */
+const InitialInfo = ({ prevBtnTitle, goToNextStep, goToPrevStep }) => (
+    <div className="initial-info">
+        <div className="form">
+            <div className="form-column">
+                <TextInput label="عنوان آورده" name="name" />
+                <SelectInput options={categoreisData} label="طبقه اول دسته‌بندی" name="category_level1" placeholder="لطفا انتخاب کنید" />
+                <SelectInput options={categoreisData} label="طبقه دوم دسته‌بندی" name="category_level2" placeholder="لطفا انتخاب کنید" />
+                <SelectInput options={categoreisData} label="طبقه سوم دسته‌بندی" name="category_level3" placeholder="لطفا انتخاب کنید" />
+            </div>
+            <div className="form-column">
+                <TextInput label="محدوده جغرافیایی" name="province" />
+                <RadioButtonGroup
+                    label="قیمت"
+                    name="priceStatus"
+                    items={[
+                        { title: 'معین', value: 'specified' },
+                        { title: 'تماس با عرضه‌کننده', value: 'call_with_owner' }
+                    ]}
+                />
+                <TextInput value="IRR" label=" " name="currency" />
+                <TextareaInput name="description" label="توصیف اجمالی محصول" />
+            </div>
+        </div>
+        <NextPrevBtns
+            prevBtnTitle={prevBtnTitle}
+            goToNextStep={goToNextStep}
+            goToPrevStep={goToPrevStep}
+        />
+    </div>
 )
 
-const NextPrevBtns = ({ goToNextStep, goToPrevStep, tips, nextBtnTitle }) => (
+const NextPrevBtns = ({ goToNextStep, goToPrevStep, tips, prevBtnTitle }) => (
     <div className="next-prev-btns">
-        <button onClick={goToPrevStep} className="prev pointer">{nextBtnTitle}</button>
+        <div onClick={goToPrevStep} className="prev pointer">{prevBtnTitle}</div>
         {tips && <div className="tips">s</div>}
-        <button onClick={goToNextStep} className="next pointer">بعدی</button>
+        <div onClick={goToNextStep} className="next pointer">بعدی</div>
     </div>
 )
 

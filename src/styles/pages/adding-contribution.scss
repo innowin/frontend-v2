@@ -1,4 +1,18 @@
 @import '../variables';
+
+/* ----------- mohsen ---------------
+.pictureModal {
+  max-width: 900px;
+  margin-top: 30px;
+  .image-gallery {
+    max-width: 900px;
+    width: 100%;
+  }
+}
+----------- mohsen --------------- */
+
+
+
 .pointer {
     cursor: pointer;
 }
@@ -8,56 +22,107 @@
 .modal-content {
     border-radius: 0;
     border: 2px solid $text-title-menu-color;
-}
-.modal-lg {
-    max-width: 90%;
+    min-height: 554px;
 }
 // .new-contribution-wrapper {
 //     max-width: 80%;
 // }
 .adding-contribution-wrapper{
     .wrapper {
-        max-width: 80%;
+        // max-width: 80%;
         margin: 0 auto;
     }
 }
 .next-prev-btns {
-    margin-top: 40px;
+    padding: 60px 0 77px;
+    %next-prev {
+        line-height: 27px;
+        text-align: center;
+        padding: 0px 30px;
+        width: 150px;
+        box-sizing: border-box;
+        border-radius: 70px;
+        height: 31px;
+    }
     .next {
         float: left;
-        padding: 0 30px;
-        width: 150px;
-        border: 2px solid $brand-inverse;
-        border-radius: 70px;
-        background-color: $brand-inverse;
-        color: $text-lightest-color;
+        background-color: #253545;
+        color: #fff;
+        @extend %next-prev;
     }
     .prev {
         float: right;
-        padding: 0 30px;
-        width: 150px;
-        border: 2px solid $brand-inverse;
-        border-radius: 70px;
+        border: 2px solid #253545;
+        @extend %next-prev;
     }
 }
-.progressive-wrapper {
+.adding-contribution-wrapper .progressive-wrapper {
     padding: 40px 0;
-    max-width: 60%;
+    max-width: 45%;
     margin: 0 auto;
 }
-@media (max-width: 500px) {
+.modal-lg {
+    max-width: 1150px;
+}
+.adding-contribution-wrapper .wrapper {
+    .initial-info {
+        .form {
+            max-width: 750px;
+            margin: 0 auto;
+        }
+        .next-prev-btns {
+            max-width: 910px;
+            margin: 0 auto;
+        }
+    }
+    .new-contribution-wrapper {
+        max-width: 910px;
+        margin: 0 auto;
+    }
+
+}
+
+@media (max-width: 1170px) {
+    .modal-lg {
+        max-width: 970px;
+
+    }
+    // .initial-info {
+    //     .form {
+    //         max-width: 750px;
+    //         margin: 0 auto;
+    //     }
+    //     .next-prev-btns {
+    //         max-width: 910px;
+    //         margin: 0 auto;
+    //     }
+    // }
+}
+@media (max-width: 990px) {
+    .modal-lg {
+        max-width: 770px;
+    }
+}
+
+@media (max-width: 780px) {
+    .modal-lg {
+        max-width: 550px;
+    }
+}
+
+@media (max-width: 560px) {
     .modal-lg {
         max-width: 96%;
     }
     // .new-contribution-wrapper {
     //     max-width: 92%;
     // }
-    .adding-contribution-wrapper .wrapper {
-            max-width: 92%;
-    }
+    // .adding-contribution-wrapper .wrapper {
+    //         max-width: 92%;
+    // }
     .adding-contribution-wrapper .progressive-wrapper {
         // padding: 40px 0;
-        max-width: 92%;
+        max-width: 90%;
 
     }
 }
@@ -125,43 +190,86 @@
     }
 }
 
-// .wrapper .new-contribution-step-enter {
-//     opacity: 0;
-//     // transform: scale3d(0.3, 0.3, 3);
-// }
-// .wrapper .new-contribution-step-enter-active {
-//     opacity: 1;
-//     // transform: scale3d(1, 1, 1);
-//     transition: opacity 1000ms;
-// }
-// .wrapper .new-contribution-step-exit-active {
-//     opacity: 0;
-//     // transform: translate3d(40px,0px,0px);
-//     transition: opacity 1000ms, transform 1000ms ease-out;
-// }
-.new-contribution-step {
-    &-enter {
-        opacity: 0.1;
-    }
-    &-enter-active {
-        opacity: 1;
-        transition: opacity 1000ms;
-    }
-    &-exit-active {
-        opacity: 0;
-        transition: opacity 1000ms;
+.wrapper.entered {
+    animation-duration: 2s;
+    animation-name: show;
+}
+.wrapper.exiting {
+    animation-duration: 2s;
+    animation-name: hide;
+}
+@keyframes hide {
+    from { opacity: 0 }
+  
+    to { opacity: 1 }
+}
+@keyframes show {
+    from { opacity: 0 }
+  
+    to { opacity: 1 }
+}
+
+.initial-info {
+    font-size: 12px;
+    .form {
+        display: flex;
+        flex-wrap: wrap;
+        .form-column {
+            min-height: 300px;
+            flex: 1 1 300px;
+            min-width: 250px;
+            padding: 60px 0 0;
+        }
+        .form-column .form-group {
+            padding: 0;
+            margin: 0px;
+        }
+        .form-column:first-child {
+            margin-left: 25px;
+        }
+        .form-column:last-child {
+            margin-right: 25px
+
+        }
+        %text-input-styles {
+            background-color: $chatbox2-color;
+            border: none;
+            border-radius: 0px;
+            margin: 14px 0;
+        }
+        .form-column .form-group input {
+            @extend %text-input-styles;
+        }
+        .form-column .form-group textarea {
+            @extend %text-input-styles;
+            height: 126px;
+        }
+        .form-column .radio-button-group {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: self-start;
+            margin: -9px 0 -13px;
+        }
+        .form-column .radio-button-group label {
+            margin: 0;
+            align-self: flex-end;
+            flex: 1 1;
+            margin: 0;
+        }
+        .form-column .radio-button-group .radio-btns-wrapper {
+            display: flex;
+            justify-content: space-between;
+            flex: 1 1 160px;
+            padding-left: 9px;
+        }
+        .form-column .select-input-wrapper .select {
+            margin: 14px 0;
+        }
     }
 }
-// .initial-info-step {
-//     &-enter {
-//         opacity: 0.1;
-//     }
-//     &-enter-active {
-//         opacity: 1;
-//         transition: opacity 1000ms;
-//     }
-//     &-exit-active {
-//         opacity: 0;
-//         transition: opacity 1000ms;
-//     }
-// }
+@media (max-width: 781px) {
+    .initial-info .form .form-column {
+        margin: 0;
+    }
+}
