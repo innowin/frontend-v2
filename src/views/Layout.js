@@ -6,7 +6,7 @@ import Exchange from './Exchange';
 import Organization from './Organization';
 import {Switch} from 'react-router-dom';
 import Product from './Product';
-import MenuProgressive from './pages/progressive/penu-progressive'
+import ProductsTest from './pages/adding-contribution/adding-contribution'
 
 class Layout extends Component {
 	constructor(props) {
@@ -23,6 +23,7 @@ class Layout extends Component {
 					<PrivateRoute path="/organization/:id" component={Organization} handleSignOut={handleSignOut}/>
 					<PrivateRoute path="/exchange" component={Exchange} handleSignOut={handleSignOut}/>
 					<PrivateRoute path="/product" component={Product} handleSignOut={handleSignOut}/>
+					<PrivateRoute path="/testOf" component={ProductsTest} handleSignOut={handleSignOut}/>
 				</Switch>
 		)
 	}
