@@ -5,7 +5,7 @@
     position: relative;
     .value {
         font-size: 12px;
-        background-color: $chatbox2-color;
+        background-color: $chat-box2-color;
         padding: 8px 11px;
         color: $text-dark-color;
         height: 36px;
@@ -25,12 +25,12 @@
     }
     .options {
         position: absolute;
-        background-color: $chatbox2-color;
+        background-color: $chat-box2-color;
         color: $text-dark-color;
         width: 100%;
         font-size: 13px;
-        border-left: 1px solid $chatbox2-color;
-        border-right: 1px solid $chatbox2-color;
+        border-left: 1px solid $chat-box2-color;
+        border-right: 1px solid $chat-box2-color;
         box-sizing: border-box;
         z-index: 1;
         .option {

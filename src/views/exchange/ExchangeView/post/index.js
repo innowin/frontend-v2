@@ -1,24 +1,16 @@
-/*global __*/
 import React, {Component} from "react"
 import PropTypes from 'prop-types'
-import {getExchangePosts} from 'src/crud/post/exchangePost'
 import {VerifyWrapper} from "src/views/common/cards/Frames"
-import HomeCreatePost from "../../../pages/home/CreatPostHome"
-import {SupplyIcon, DemandIcon, NoFilterIcon} from "../../../../images/icons"
 import {deletePost, updatePost} from "src/crud/post/post"
 import {getProfile} from "../../../../crud/user/profile"
 import {getPost} from '../../../../crud/post/post'
 import {getUser} from "../../../../crud/user/user"
 import {getIdentity} from "../../../../crud/identity"
 import {getOrganization} from "../../../../crud/organization/organization"
-import {getProduct} from '../../../../crud/product/product'
 import {getExchangePostComment} from '../../../../crud/exchange/exchange'
 import {PostEditForm} from "src/views/common/post/Forms"
 import {ExchangePostView} from "./views"
-import Masonry from "react-masonry-css"
-import cx from 'classnames' 
 import {PostItemWrapper} from "../../../common/post/View"
-import {IDENTITY_ID} from "../../../../consts/data"
 
 export class ExchangePost extends Component {
 
@@ -98,7 +90,7 @@ export class ExchangePost extends Component {
   };
 
   componentDidMount() {
-    const {postId, exchangeId} = this.props.match.params;
+    const {postId} = this.props.match.params;
     this.setState({isLoading:true, error:null});
     
     getPost(postId).then(post=>{

@@ -12,7 +12,7 @@ export const RadioButtonGroup = ({ label, name, selected, items, handler }) => {
                         <span className="title">{item.title}</span>
                         <span
                             className={item.value === selected ? 'selected radio-btn' : 'radio-btn'}
-                            onClick={changHandler.bind(null, item.value)}
+                            onClick={() => changHandler(item.value)}
                         >
                         </span>
                     </div>

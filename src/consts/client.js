@@ -1,9 +1,10 @@
 import cookies from 'browser-cookies'
 
 export const isAuthenticated = () => {
-	return cookies.get('tokens') !== null;
+	return cookies.get('token') !== null;
 };
 
-export default {
+const client = {
 	isAuthenticated,
 };
+export default client

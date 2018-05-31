@@ -1,8 +1,12 @@
 import React, {Component} from 'react';
+import PropTypes from "prop-types"
 import ProductFilterSidebar from "../bars/FilterSideBar";
 import ProductExplorerContent from "./ProductExplorerContent";
 
 export default class ProductExplorer extends Component {
+  static propTypes = {
+    widthOfRightBar: PropTypes.string.isRequired
+  }
 
   constructor(props) {
     super(props);
@@ -37,14 +41,15 @@ export default class ProductExplorer extends Component {
 
   render() {
     const {activeCategory, activeSubcategory, activeContribution} = this.state;
+    const {widthOfRightBar} = this.props
     return (
       <div className="product-explorer">
-        <div className="col-md-2 col-sm-1 -right-sidebar-wrapper">
+        <div className={`${widthOfRightBar} -right-sidebar-wrapper`}>
           <ProductFilterSidebar getActiveCategory={this._getActiveCategory}
                                 getActiveSubcategory={this._getActiveSubcategory}
                                 getActiveContribution={this._getActiveContribution}/>
         </div>
-        <div className="col-md-8 col-sm-10 -content-wrapper">
+        <div className="col-md-9 col-sm-10 -content-wrapper pr-14-percent">
           <ProductExplorerContent activeCategory={activeCategory} activeSubcategory={activeSubcategory}
                                   activeContribution={activeContribution}/>
         </div>

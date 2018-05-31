@@ -4,7 +4,6 @@ const getPosts = url => {
 	return fetch(url)
 }
 
-
 /**********    %% WORKERS %%    **********/
 function* testSaga() {
 	const msg = yield '**** I am a message from saga middleware ****'
@@ -12,6 +11,15 @@ function* testSaga() {
 }
 
 function* fetchPosts(action) {
+	try {
+		const res = yield call(getPosts,action.payload.url)
+		const posts = yield res.json()
+		yield put({ type: types.FETCH_SUCCEEDED,data:posts })
+	} catch (error) {
+		yield put({type: types.FETCH_FAILED, error})
+	}
+}
+function* fetchUsers(action) {
 	try {
 		const res = yield call(getPosts,action.payload.url)
 		const posts = yield res.json()
@@ -29,4 +37,8 @@ export function* watchAddNumber() {
 
 export function* watchGetPosts() {
 	yield takeEvery(types.FETCH_POSTS,fetchPosts)
+}
+
+export function* watchFetchUsers() {
+	yield takeEvery(types.FETCH_USERS,fetchUsers)
 }

@@ -7,47 +7,49 @@
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: space-between;
+	flex: 0 0 50px;
 
 	.logo-wrapper {
-		flex: 0 0 300px;
 		display: flex;
 		flex-direction: row;
 		align-items: center;
 		color: $text-lighter-color;
 		.logo img {
-			height: 65px;
+			height: 48px;
 			flex: 0 0 50px;
 			color: $text-lightest-color;
-			margin: 10px 5px 0 0;
 		}
 		.company-name {
-			flex: 0 0 170px;
+			flex: 0 0 125px;
 			margin: 0 10px 0 0;
-			font-size: 40px;
+			font-size: 30px;
 			color: $text-lightest-color;
 			display: flex;
 			align-items: center;
 		}
 		.divider {
 			width: 0;
-			border: 1.5px solid $text-lightest-color;
-			height: 100%;
+			border: 1.25px solid $text-lightest-color;
+			height: 75%;
 			margin: 8px;
+			background-color: $text-lightest-color;
 		}
 		.logo-caption {
-			min-width: 80px;
-			flex: 0 0 100px;
-			font-size: $font-size-normalIcon-titleText;
+			min-width: 70px;
+			flex: 0 0 70px;
+			font-size: $font-size-boxText;
 			margin: 8px;
 		}
 	}
 
 	.address-wrapper {
-		flex: 0 0 500px;
+      @media screen and (min-width: 992px) {
+        justify-content: flex-end;
+      }
 		display: flex;
 		flex-flow: row;
-		justify-content: space-between;
 		align-items: center;
+
 		.address-section, .app-icon-section {
 			display: flex;
 			flex-direction: row;
@@ -59,40 +61,35 @@
 		}
 		.address {
 			color: $text-lightest-color;
-			font-size: $font-size-smallIcon;
+			font-size: $font-size-boxText;
 			line-height: 20px;
 		}
 		.phone-number {
 			color: $text-lightest-color;
-			font-size: 20px;
+			font-size: $font-size-smallIcon;
 			line-height: 17px;
 		}
 		.icon {
-			margin: 0  10px;
-			line-height: 55px;
+			line-height: 40px;
 			&.phone-icon {
-				width: 45px;
-				height: 45px;
 				border-radius: 50%;
-				line-height: 55px;
-				color: #676767;
-				font-size: 32px;
 				text-align: center;
 				background-color: $text-lightest-color;
 				margin: 0 0 0 15px;
+                align-self: center;
 			}
 			div {
-				width: 45px;
-				height: 45px;
-				color: #676767;
-				font-size: 32px;
+				width: 34px;
+				height: 34px;
+				color: lighten($text-dark-color, 22%);
+				font-size: 24px;
 				background-color: lighten($text-lightest-color, 40%);
 				text-align: center;
 				border-radius: 50%;
 			}
 		}
 		.icon, a {
-			color: $text-dark-color;
+			color: lighten($text-dark-color, 5%);
 		}
 	}
 }

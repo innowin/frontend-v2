@@ -17,7 +17,7 @@ export class SignUpForm extends Component {
       userType: USER_TYPES.PERSON
     }
   }
-  
+
   _typeHandler = (value) => this.setState({ ...this.state, userType: value });
 
   render() {

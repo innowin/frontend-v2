@@ -1,11 +1,10 @@
+@import "../../variables";
+
 .carousel-wrapper {
-  color: white;
+  color: $text-lightest-color;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  // div {
-  //   padding: 10px;
-  // }
 }
 .carousel-btn-bar-wrapper{
   align-items: center;

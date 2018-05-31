@@ -4,7 +4,7 @@ import ChatBar from "./bars/ChatBar";
 import Customers from "./organization/customers/index";
 import Posts from "src/views/common/post/index";
 import Products from "./organization/products/index";
-import PropsRoute from "../consts/PropsRoute"
+import PrivateRoute from "../consts/PrivateRoute"
 import PropTypes from "prop-types";
 import Sidebar from "src/views/bars/SideBar";
 import Social from "src/views/organization/social/index";
@@ -25,11 +25,12 @@ export class Organization extends Component {
     const {match, handleSignOut} = this.props;
     const {path, url, params} = match;
     const organizationId = params.id;
+    const widthOfRightBar = "col-md-2 col-sm-1";
     return (
       <div className="-tabbed-pages -userOrganBackgroundImg">
-        <TopBar handleSignOut={handleSignOut}/>
+        <TopBar handleSignOut={handleSignOut} collapseWidthCol={widthOfRightBar}/>
         <main className="row">
-          <div className="col-md-2 col-sm-1 -right-sidebar-wrapper">
+          <div className={`${widthOfRightBar} -right-sidebar-wrapper`}>
             <Sidebar>
               <OrganizationSideView organizationId={organizationId}/>
             </Sidebar>
@@ -57,13 +58,13 @@ export class Organization extends Component {
             </Tabs>
             <Switch>
               <Redirect exact from={`${url}/`} to={`${url}/Products`}/>
-              <PropsRoute path={`${path}/Products`} component={Products} organizationId={organizationId}/>
-              <PropsRoute path={`${path}/Posts`} component={Posts} id={organizationId} identityType='organization'/>
-              <PropsRoute exact path={`${path}/basicInformation`} component={BasicInformation}
+              <PrivateRoute path={`${path}/Products`} component={Products} organizationId={organizationId}/>
+              <PrivateRoute path={`${path}/Posts`} component={Posts} id={organizationId} identityType='organization'/>
+              <PrivateRoute exact path={`${path}/basicInformation`} component={BasicInformation}
                           organizationId={organizationId}/>
-              <PropsRoute path={`${path}/Customers`} component={Customers} organizationId={organizationId}/>
-              <PropsRoute path={`${path}/SocialConnections`} component={Social} organizationId={organizationId}/>
-              <PropsRoute path={`${path}/Certificates`} component={Certificates} organizationId={organizationId}/>
+              <PrivateRoute path={`${path}/Customers`} component={Customers} organizationId={organizationId}/>
+              <PrivateRoute path={`${path}/SocialConnections`} component={Social} organizationId={organizationId}/>
+              <PrivateRoute path={`${path}/Certificates`} component={Certificates} organizationId={organizationId}/>
             </Switch>
           </div>
           <div className="col-md-2 col-sm-1 -left-sidebar-wrapper">

@@ -113,6 +113,7 @@ const BtnBar = ({ slides, activeId, handler }) => (
 					<FontAwesome 
 						name={activeId === slide.id ? 'circle' : 'circle-o'}
 						onClick={handler.bind(null, slide.id)}
+						className="cursor-pointer"
 					/>
 				</li>
 			)}

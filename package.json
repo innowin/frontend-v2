@@ -39,11 +39,14 @@
     "promise": "8.0.1",
     "prop-types": "^15.6.0",
     "raf": "3.4.0",
+    "re-select": "^0.5.0",
     "react": "^16.2.0",
     "react-dev-utils": "^4.2.1",
     "react-dom": "^16.2.0",
     "react-fontawesome": "^1.6.1",
     "react-image-gallery": "^0.8.7",
+    "react-intl": "^2.4.0",
+    "react-intl-redux": "^2.0.0",
     "react-masonry-css": "^1.0.11",
     "react-moment": "^0.7.0",
     "react-redux": "^5.0.7",
@@ -71,9 +74,7 @@
     "start": "NODE_PATH=./src && yarn dev",
     "dev": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "test": "node scripts/test.js --env=jsdom"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -118,16 +119,8 @@
     "extends": "react-app"
   },
   "devDependencies": {
-    "@kadira/storybook-addons": "^1.6.1",
-    "@storybook/addon-actions": "^3.3.3",
-    "@storybook/addon-console": "^1.0.0",
-    "@storybook/addon-knobs": "^3.3.3",
-    "@storybook/addon-links": "^3.3.3",
-    "@storybook/react": "^3.3.3",
     "i18n-webpack-plugin": "^1.0.0",
     "node-sass": "^4.7.2",
-    "react-storybook-addon-chapters": "^2.1.1",
-    "sass-loader": "^6.0.6",
-    "storybook-addon-i18n-tools": "^1.0.0"
+    "sass-loader": "^6.0.6"
   }
 }
