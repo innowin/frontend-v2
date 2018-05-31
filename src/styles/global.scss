@@ -26,6 +26,7 @@ input, textarea, button, select {
 @import "./pages/home";
 @import "./pages/login";
 @import "./pages/progressive";
+@import "./pages/adding-contribution";
 
 @import "components/bars/bars";
 @import "components/bars/chatbar";
@@ -33,6 +34,9 @@ input, textarea, button, select {
 @import "components/common/input-group-vertical";
 @import "components/common/inputs/file-input";
 @import "components/common/inputs/file-name";
+@import "components/common/inputs/select-input";
+@import "components/common/inputs/radio-button-input";
+@import "components/common/inputs/circular-checkbox";
 @import "components/common/inputs/otherInput";
 @import "components/common/list-group-addons";
 @import "components/common/media";

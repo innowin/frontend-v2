@@ -107,6 +107,7 @@ module.exports = {
   'User info': "اطلاعات کاربری",
   'Organization info': "اطلاعات سازمان",
   'Organization members': "اعضای سازمان",
+  'Date joined': 'تاریخ پیوستن',
   
   'Profile info': 'اطلاعات تکمیلی',
   'Website': "تارنما",
