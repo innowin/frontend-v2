@@ -27,7 +27,15 @@ class ReduxTest extends Component {
 	}
 }
 
+const translateSelector = (messages) => {
+	
+	return(
+			{}
+	)
+}
+
 const mapStateToProps = (state , ownProps) => ({
+	translate: translateSelector(state.intl.messages),
 	number: state.test.result,
 });
 

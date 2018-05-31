@@ -23,7 +23,6 @@ class Layout extends Component {
 					<PrivateRoute path="/organization/:id" component={Organization} handleSignOut={handleSignOut}/>
 					<PrivateRoute path="/exchange" component={Exchange} handleSignOut={handleSignOut}/>
 					<PrivateRoute path="/product" component={Product} handleSignOut={handleSignOut}/>
-					<PrivateRoute path="/progressive-test" component={MenuProgressive} handleSignOut={handleSignOut}/>
 				</Switch>
 		)
 	}

@@ -59,22 +59,21 @@ export class SignUpForm extends Component {
       this._handleSignIn();
     });
 
-    socket.on("TOKEN_Result_2", res => {
+    socket.on("TOKEN_Result_2", async res => {
       // this.setState({...this.state , isLoggedIn: true});
       const {RedirectToHome} = this.props;
-      cookies.set('token', res.token);
-      setTOKEN(res.token);
-      setID(res.user.id.toString());
-      saveData(res);
-      this.form.reset();
-      RedirectToHome();
+      await cookies.set('token', res.token);
+      await setTOKEN(res.token);
+      await setID(res.user.id.toString());
+      await saveData(res);
+      await this.form.reset();
+      await RedirectToHome();
     });
   }
 
   _handleSignIn = () => {
     const {credentials} = this.state;
     const {username, password} = credentials;
-    console.log('username is :', username, '  ', password);
     socket.emit(REST_REQUEST, {
       method: "post",
       url: url + "/api-token-auth/",
@@ -393,9 +392,7 @@ export class SignUpForm extends Component {
         <input
           type="text"
           name="username"
-          ref={username => {
-            this.username = username
-          }}
+          ref={username => this.username = username}
           onKeyUp={this._verifyValue}
           onBlur={this._verifyValue}
           className={`form-control my-form-control-lg -mb-2 ${usernameClass.border}`}
@@ -405,9 +402,7 @@ export class SignUpForm extends Component {
         <input
           type="email"
           name="email"
-          ref={email => {
-            this.email = email
-          }}
+          ref={email => this.email = email}
           className={"form-control my-form-control-lg -mb-2" + ' ' + emailClass.border}
           onBlur={this._verifyValue}
           placeholder={__('Email')}
@@ -417,31 +412,25 @@ export class SignUpForm extends Component {
         <input
           type="password"
           name="password"
-          ref={password => {
-            this.password = password
-          }}
+          ref={password => this.password = password}
           className={"form-control my-form-control-lg -mb-2" + ' ' + passwordClass.border}
           onKeyUp={this._verifyValue}
           placeholder={__('Password')}
         />
 
-        <div className={passwordClass.messages}>
-          {passwordMB}
-        </div>
+        <div className={passwordClass.messages}>{passwordMB}</div>
 
         <input
           type="password"
           name="passwordConfirm"
-          ref={passwordConfirm => {
-            this.passwordConfirm = passwordConfirm
-          }}
+          ref={passwordConfirm => this.passwordConfirm = passwordConfirm}
           onKeyUp={this._verifyValue}
           className={"form-control my-form-control-lg -mb-2" + ' ' + passwordConfirmClass.border}
           placeholder={__('Repeat password')}
         />
 
         <div className={passwordConfirmClass.messages}>{passwordConfirmMB}</div>
-
+        
         <button onClick={this._handleSubmit}
                 className="btn btn-primary btn-block login-submit-button mt-0 cursor-pointer"
                 disabled={sending}>
@@ -449,6 +438,7 @@ export class SignUpForm extends Component {
             <BeatLoader color="#fff" size={10} margin="auto"/>
           )}
         </button>
+
         <div className={(formMB) ? ("messageBox error-message") : ("")}>{formMB}</div>
       </form>
     )

@@ -1,5 +1,6 @@
 import types from 'src/redux/actions/actionTypes'
 import {put, takeEvery, call} from 'redux-saga/effects'
+
 const getPosts = url => {
 	return fetch(url)
 }
