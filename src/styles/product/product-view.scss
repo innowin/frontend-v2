@@ -1,11 +1,12 @@
 @import "../variables";
-//          product sidBart      //
+
+//-----------------------        product sidBart   -----------------//
 .-rBarChart {
   height: 25px;
 }
 
 .-rBarChart path {
-  fill: #999;
+  fill: $text-title-menu-color;
 }
 
 .-rBarChart:hover {
@@ -13,7 +14,7 @@
 }
 
 .-rBarChart:hover path {
-  fill: #32485D
+  fill: $primary-color
 }
 
 .-w-45 {
@@ -21,7 +22,7 @@
 }
 
 .-grey2 {
-  color: #A1A1A1;
+  color: lighten($text-title-menu-color, 3%);
 }
 
 .-rBarBookmark {
@@ -29,7 +30,7 @@
 }
 
 .-rBarBookmark path {
-  fill: #999;
+  fill: $text-title-menu-color;
 }
 
 .-rBarBookmark:hover {
@@ -37,7 +38,7 @@
 }
 
 .-rBarBookmark:hover path {
-  fill: #32485D
+  fill: $primary-color
 }
 
 .-rBarMainPicture {
@@ -66,12 +67,6 @@
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-}
-
-.-myCenter {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .-fontSize10 {

@@ -16,7 +16,7 @@ $heightOfContentBox: 140px;
   display: flex;
   flex-direction: row;
   margin: 10px 5px;
-  background-color: #F5F5F5;
+  background-color: $chat-box2-color;
   border-radius: 3px;
   padding: 15px 20px 15px 20px;
 
@@ -31,7 +31,7 @@ $heightOfContentBox: 140px;
     margin-right: 20px;
     border-radius: 5px;
     padding: 1px;
-    background-color: white;
+    background-color: $text-lightest-color;
     .-textBox {
       flex-grow: 1;
     }
@@ -52,12 +52,12 @@ $heightOfContentBox: 140px;
     align-items: center;
 
     i {
-      color: #C2C2C2;
+      color: lighten($text-light-color, 3%);
       font-size: 22px;
     }
 
     i:hover {
-      color: #32485D;
+      color: $primary-color;
       cursor: pointer;
     }
 
@@ -66,11 +66,11 @@ $heightOfContentBox: 140px;
     }
 
     svg path {
-      fill: #C2C2C2;
+      fill: lighten($text-light-color, 3%);
     }
 
     svg:hover path {
-      fill: #32485D;
+      fill: $primary-color;
     }
 
     .submitColor {
@@ -78,7 +78,7 @@ $heightOfContentBox: 140px;
     }
 
     .-submitAttach path {
-      fill: #929292;
+      fill: darken($text-title-menu-color, 2.7%);
     }
   }
 
@@ -120,7 +120,7 @@ $heightOfContentBox: 140px;
           top: 1px;
         }
         i {
-          background-color: white;
+          background-color: $text-lightest-color;
           border-radius: 2px;
           box-shadow: 1px 1px 10px 1px grey;
         }
@@ -130,7 +130,7 @@ $heightOfContentBox: 140px;
         }
       }
       .-fileNameBox {
-        color: #BFBFBF;
+        color: lighten($text-light-color, 2%);
         text-align: center;
       }
     }
@@ -147,9 +147,9 @@ $heightOfContentBox: 140px;
 }
 
 .-selectedPostType {
-  color: #32485D !important;
+  color: $primary-color !important;
 }
 
 .-selectedPostType path {
-  fill: #32485D !important;
+  fill: $primary-color !important;
 }

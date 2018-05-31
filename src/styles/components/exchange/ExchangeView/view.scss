@@ -1,15 +1,10 @@
 @import "../../../variables";
 
-$color1: lighten($text-light-color, 20%);
-$color2: darken($text-light-color, 15%);
-$color3: lighten($text-light-color, 10%);
-$color4: lighten($text-light-color, 4%);
-
 /*----------------------   ExchangePostView -----------------*/
 .-exchangePostView {
   display: flex;
   flex-direction: column;
-  border: 1px solid $color1;
+  border: 1px solid lighten($text-light-color, 20%);
   background-color: $text-lightest-color;
   border-radius: 3px;
 
@@ -27,10 +22,10 @@ $color4: lighten($text-light-color, 4%);
       }
     }
     svg {
-      fill: $color2;
+      fill: darken($text-light-color, 15%);
     }
     span, i {
-      color: $color2;
+      color: darken($text-light-color, 15%);
     }
     i {
       font-size: $font-size-smallIcon
@@ -38,7 +33,7 @@ $color4: lighten($text-light-color, 4%);
     img {
       width: 45px;
       height: 45px;
-      border: $color2;
+      border: darken($text-light-color, 15%);
     }
     .supplyPad {
       padding: 2px;
@@ -73,11 +68,12 @@ $color4: lighten($text-light-color, 4%);
     }
     .menuOfPost {
       :first-child {
-        color: $color2;
-        font-size: $font-size-smallIcon;
+        path{
+        fill: darken($text-light-color, 15%);
+        }
       }
       :last-child {
-        color: $color3;
+        color: lighten($text-light-color, 10%);
         font-size: 20px;
       }
     }
@@ -87,12 +83,12 @@ $color4: lighten($text-light-color, 4%);
     padding: 12px 15px;
     display: flex;
     flex-direction: row;
-    border-top: 1px solid $color1;
+    border-top: 1px solid lighten($text-light-color, 20%);
     span {
-      color: $color4;
+      color: lighten($text-light-color, 4%);
     }
     svg {
-      fill: $color4;
+      fill: lighten($text-light-color, 4%);
     }
     .lastComment {
       padding-right: 20px;
@@ -103,7 +99,7 @@ $color4: lighten($text-light-color, 4%);
         text-overflow: ellipsis;
         width: 238.4px;
         font-size: $font-size-normalText;
-        color: $color2;
+        color: darken($text-light-color, 15%);
       }
     }
   }

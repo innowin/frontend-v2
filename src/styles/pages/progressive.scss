@@ -2,7 +2,7 @@
 
 .steps { // the parent of steps
     position: relative;
-    background-color: $chatbox2-color;
+    background-color: $chat-box2-color;
     display: flex;
     justify-content: space-between;
     height: 10px;
@@ -44,7 +44,7 @@ div.active::after { // initial classes of progress.
         width: 30px;
         height: 30px;
         border-radius: 100px;
-        background-color: $chatbox2-color;
+        background-color: $chat-box2-color;
         color: $brand-inverse;
         position: relative;
         z-index: 2;
@@ -67,7 +67,7 @@ div.active::after { // initial classes of progress.
         }
         &.checked {
             background-color: $brand-inverse; 
-            color: $chatbox2-color;
+            color: $chat-box2-color;
             transition: all 2s;
         }
     }

@@ -1,13 +1,33 @@
-//**              topBar              **//
 @import "../../variables";
 
+//** ----------------             topBar  -----------------------------------**//
 .topBar {
   height: $topBarHeight;
-  background-color: $brand-inverse;
+  background-color: $brand-inverse-color;
+}
+
+.navbar-toggler {
+  padding: 0;
+  /* margin: 0; */
+  background-size: cover;
+  width: 4rem;
+  height: 100%;
+  border-radius: 0;
+  right: 0;
+  margin-right: 0 !important;
+  outline: none;
+}
+
+.navbar-toggler:hover {
+  background-color: lighten($primary-color, 1.5%)
+}
+
+.navbar-toggler.active {
+  background-color: lighten($primary-color, 1.5%)
 }
 
 .-white-i i {
-  color: white !important;
+  color: $text-lightest-color;
   font-size: 26px;
 }
 
@@ -24,9 +44,9 @@
 }
 
 .-searchInput {
-  border: 1px solid #36485C;
+  border: 1px solid lighten($primary-color, 2%);
   border-radius: 20px;
-  background-color: #36485C;
+  background-color: lighten($primary-color, 2%);
   padding-left: 10px;
   padding-right: 20px;
   margin: 14px;
@@ -39,14 +59,53 @@
   outline: none;
 }
 
-.-profile-collapse {
+.-topBar-right-collapse {
   position: fixed;
-  right: 0.1rem;
+  right: 0;
   top: $topBarHeight;
-  z-index: 10000;
-  width: 13rem;
+  background-color: lighten($primary-color, 1.5%);
+  z-index: 1010;
   img {
     height: 150px;
+  }
+  ul {
+    padding: 0;
+    list-style-type: none;
+    margin-bottom: 0;
+    li {
+      display: flex;
+      align-items: center;
+      font-size: 12px;
+      color: $text-lightest-color;
+      cursor: pointer;
+      i {
+        padding: 15px;
+        font-size: 30px;
+      }
+    }
+    li:hover {
+      background-color: darken($primary-color, 3%);
+    }
+  }
+}
+
+.-topBar-profile-collapse {
+  position: fixed;
+  left: 0;
+  top: $topBarHeight;
+  background-color: $brand-inverse-color;
+  z-index: 1010;
+  width: 22rem;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-bottom-right-radius: 0.25rem;
+  > div {
+    height: 75px
+  }
+  a {
+    color: $text-lightest-color
+  }
+  a:hover {
+    color: $info-color
   }
 }
 
@@ -57,10 +116,10 @@
 }
 
 .-outlineWhite {
-  outline-color: white !important;
+  outline-color: $text-lightest-color !important;
 }
 
-//**             ChatBar(leftBar)             **//
+//** --------------------------      ChatBar(leftBar)   -------------------------**//
 
 .-my-icons1 {
   margin-top: 20px !important;
@@ -72,7 +131,7 @@
     font-size: $font-size-chatBarIcon;
     line-height: 48px;
     &:hover, &.active {
-      color: white;
+      color: $text-lightest-color;
       background-color: $primary-color;
     }
     &.active:after {
@@ -97,26 +156,26 @@
   width: 50px;
   height: 50px;
   text-align: center;
-  border: 1px solid #596978;
+  border: 1px solid lighten($primary-color, 21.6%);
   border-radius: 50px;
   position: relative;
   margin-bottom: 30px;
-  background-color: #ffffff;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, .4);
+  background-color: $text-lightest-color;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .4);
 }
 
 .-my-icons1 svg {
-  fill: #36485C;
+  fill: lighten($primary-color, 2%);
   float: left !important;
   height: 24px;
   position: absolute;
   transform: translate(50%, 50%)
 }
 
-//**         Sidebar(rightBar)               **//
+//** ---------------------------        Sidebar(rightBar)      -------------------------------- **//
 .-sidebar-child-wrapper > div {
   display: flex;
-  border-bottom: 1px solid #E6E6E5;
+  border-bottom: 1px solid lighten($text-lighter-color, 3.6%);
   padding-top: 20px;
   padding-bottom: 20px;
 }
@@ -128,11 +187,11 @@
 }
 
 .-grey1 {
-  color: #9c9c9c;
+  color: lighten($text-title-menu-color, 1%);
 }
 
 .-myBadge {
-  background-color: #C2C2C2;
+  background-color: lighten($text-light-color, 3%);
   padding-right: 10px;
   padding-left: 10px;
   margin-left: 5px;
@@ -145,44 +204,81 @@
 //**         Home Sidebar(List of exchanges)               **//
 .item-wrapper {
   display: flex;
-  flex-flow: row;
-  cursor: pointer;
-  align-items: center;
-  padding: 10px;
-  //background-color: pink;
+  flex-direction: column;
+  padding: 10px 10px 10px 30px;
   position: relative;
-  &.active .company-title {
-    color: #7d7d7d;
+
+  &.active {
+    background-color: $chat-box2-color;
+    .exchange-name {
+      color: lighten($text-darkest-color, 10%)!important;
+    }
   }
+
+  .header-exchange {
+    display: flex;
+    flex-flow: row;
+    margin-bottom: 10px;
+    cursor: pointer;
+    align-items: center;
+    .exchange-name {
+      padding: 0 20px 0 0;
+      color: $text-light-color;
+      font-size: $font-size-normalText;
+    }
+    .default-logo {
+      width: 22%;
+      width: 50px;
+      font-size: 30px;
+      text-align: center;
+      height: 50px;
+      border: 0.5px solid $text-light-color;
+      border-radius: 50%;
+      background-color: lighten($text-lighter-color, 4.6%);
+      position: relative;
+      span {
+        transform: translate(-50%, -50%);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        color: $text-lightest-color;
+      }
+    }
+    .img-logo {
+      width: 22%;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+  }
+
+  .active-content{
+    color: $text-light-color;
+    .active-description {
+      padding-right: 10px;
+      font-size: $font-size-normalText;
+      line-height: 2.5;
+      overflow: hidden;
+      height: 60px;
+    }
+    .active-footer{
+      margin-top: 25px;
+      svg path{
+        fill: $text-light-color
+      }
+      float: left;
+    }
+  }
+
   &:after {
     content: '';
     width: 78%;
-    width: calc(100% - 50px);
+    width: calc(100% - 80px);
     display: block;
     position: absolute;
     height: 1px;
     bottom: 0;
-    left: -15px;
+    left: 0;
     background-color: $text-lighter-color;
-  }
-  & > .default-logo, img {
-    width: 50px;
-    min-width: 50px;
-    height: 50px;
-    border-radius: 50%;
-  }
-  .default-logo {
-    font-size: 30px;
-    text-align: center;
-    line-height: 55px;
-    border: 0.5px solid $text-light-color;
-    background-color: #e9e9e9;
-    span {
-      color: $text-lightest-color;
-    }
-  }
-  .company-title {
-    padding: 0 10px 0 0;
-    color: $text-light-color;
   }
 }

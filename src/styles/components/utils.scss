@@ -7,29 +7,6 @@
   background-attachment: fixed;
 }
 
-.flat {
-  @include border-top-radius(0);
-  @include border-right-radius(0);
-  @include border-left-radius(0);
-  @include border-bottom-radius(0);
-}
-
-.flat-top {
-  @include border-top-radius(0);
-}
-
-.flat-right {
-  @include border-right-radius(0);
-}
-
-.flat-bottom {
-  @include border-bottom-radius(0);
-}
-
-.flat-left {
-  @include border-left-radius(0);
-}
-
 .dir-rtl {
   direction: rtl;
 }
@@ -40,6 +17,14 @@
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+%no-draggable {
+  -webkit-user-select: none; /* Safari 3.1+ */
+  -moz-user-select: none; /* Firefox 2+ */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none; /* Standard syntax */
+  -webkit-user-drag: none;
 }
 
 .badge-remove-btn {
@@ -62,7 +47,7 @@
 }
 
 .-testDiv {
-  background: $gray-border;
+  background: $text-lighter-color;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -87,4 +72,18 @@
 
 .max-w-100 {
   max-width: 100%;
+}
+
+.pr-14-percent {
+  padding-right: 14%;
+}
+
+.pr-5-percent {
+  padding-right: 5%;
+}
+
+.-myCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

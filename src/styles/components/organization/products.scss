@@ -1,3 +1,4 @@
+@import "../../variables";
 .organizationProduct{
 	padding:10px;
 	
@@ -12,7 +13,7 @@
 	}
 
 	.badge-secondary {
-    color: #fff;
+    color: $text-lightest-color;
     background-color: #6c757d;
 	}
 
@@ -39,9 +40,9 @@
 	width: 182px; /*328 co je 1/3 - 20margin left*/
 	height: 121px;
 	line-height: 20px;
-	margin-top: 0px;
+	margin-top: 0;
 	margin-left: 9px;
-	margin-right:0px;
+	margin-right:0;
 	display:inline-block;
 	position:relative;
 }
@@ -51,5 +52,5 @@
 	bottom:5px;
 	right:5px;
 	background:blue;
-	color:#FFF;
+	color:$text-lightest-color;
 }

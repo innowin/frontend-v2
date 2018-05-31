@@ -1,6 +1,4 @@
 @import "../_variables.scss";
-$color1: lighten($text-light-color, 20%);
-$color5: darken($text-light-color, 10%);
 
 .product-explorer {
   .filter-element {
@@ -15,12 +13,10 @@ $color5: darken($text-light-color, 10%);
       color: $text-title-menu-color;
       font-size: $font-size-smallIcon;
       padding: 10px 0;
-      //background-color: pink;
       margin-bottom: 5px;
       flex: 1;
     }
     .angle-icon {
-      //background-color: red;
       display: flex;
       font-size: 18px;
       align-items: center;
@@ -45,10 +41,10 @@ $color5: darken($text-light-color, 10%);
       padding: 5px 0;
       border-top: 1px solid $text-lighter-color;
       &.active {
-        color: #373737;
+        color: $text-dark-color;
       }
       &:hover {
-        color: $text-dark-color;
+        color: lighten($text-dark-color, 5%);
         cursor: pointer;
       }
     }
@@ -67,30 +63,30 @@ $color5: darken($text-light-color, 10%);
     -ms-user-select: none;
     user-select: none;
     &:hover {
-      color: $text-dark-color;
+      color: lighten($text-dark-color, 5%);
     }
     input {
       position: absolute;
       opacity: 0;
       cursor: pointer;
       &:checked + .checkmark {
-        background-color: #000000;
+        background-color: $text-darkest-color;
         &:after {
           display: block;
         }
       }
     }
     &:hover input + .checkmark {
-      background-color: #ccc;
+      background-color: darken($text-lighter-color, 5.7%);
     }
     .checkmark:after {
       left: 6px;
       top: 0px;
       width: 8px;
       height: 15px;
-      border: solid white;
+      border: solid $text-lightest-color;
       border-width: 0 3px 3px 0;
-      box-shadow: 2px 2px 2px 0 #666;
+      box-shadow: 2px 2px 2px 0 lighten($sidebar-bottom-color, 2.5%);
       -webkit-transform: rotate(45deg);
       -ms-transform: rotate(45deg);
       transform: rotate(45deg);
@@ -104,7 +100,7 @@ $color5: darken($text-light-color, 10%);
     height: 20px;
     width: 20px;
     border-radius: 5px;
-    background-color: #eee;
+    background-color: $eee-color;
     &:after {
       content: "";
       position: absolute;
@@ -127,7 +123,7 @@ $color5: darken($text-light-color, 10%);
   background: $text-lightest-color;
   margin-top: 15px;
   padding: 10px;
-  border: 1px solid $color1;
+  border: 1px solid lighten($text-light-color, 20%);
   border-radius: 2px;
   font-size: $font-size-normalText;
   span {
@@ -135,13 +131,13 @@ $color5: darken($text-light-color, 10%);
   }
   .productContent {
     span{
-      color: $color5;
+      color: darken($text-light-color, 10%);
     }
     img {
       height: 150px;
       outline: none;
       cursor: pointer;
-      border: 1px solid $color5;
+      border: 1px solid darken($text-light-color, 10%);
       width: 100%;
     }
   }

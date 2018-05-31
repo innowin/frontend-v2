@@ -137,7 +137,7 @@
         justify-content: space-between;
         flex-wrap: wrap;
         .category {
-            border: 3px solid $chatbox2-color;
+            border: 3px solid $chat-box2-color;
             flex: 0 0 150px;
             display: flex;
             flex-direction: column;
@@ -170,7 +170,7 @@
 
     }
     .desc {
-        background-color: $chatbox2-color;
+        background-color: $chat-box2-color;
         padding: 20px;
         display: flex;
         margin: 55px auto 40px;
@@ -209,7 +209,7 @@
     to { opacity: 1 }
 }
 %none-bordered-input {
-    background-color: $chatbox2-color;
+    background-color: $chat-box2-color;
     border: none;
     border-radius: 0px;
 }

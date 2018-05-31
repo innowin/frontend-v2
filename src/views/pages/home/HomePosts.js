@@ -52,7 +52,7 @@ class HomePosts extends Component {
 
   _getFirstExchangeId = (identityId) => {
     const _handleResult = (res) => {
-      if (res.length > 0) {
+      if (Array.isArray(res) && res.length > 0) {
         const limit = 100;
         const offset = 0;
         const exchangeId = res[0].exchange_identity_related_exchange.id;
@@ -112,9 +112,6 @@ class HomePosts extends Component {
       <VerifyWrapper isLoading={isLoading} error={error}>
         {(exchangeId) ? (
           <div>
-            <div>
-              <Link to={"/exchange/" + exchangeId} className="mr-3">صفحه بورس</Link>
-            </div>
             <HomeCreatePost updatePosts={this._updatePosts} postParent={exchangeId} postIdentity={+IDENTITY_ID}
                             handleErrorLoading={this._handleErrorLoading}/>
             <FrameCard className="-frameCardPost border-top-0">
@@ -127,7 +124,7 @@ class HomePosts extends Component {
                       updatePosts={this._updatePosts}
                       key={post.id + "HomePosts"}
                     />
-                  ))) : (<h1 className="mt-5 red">در این بورس پستی وجود ندارد!</h1>)
+                  ))) : (<h1 className="mt-5">در این بورس پستی وجود ندارد!</h1>)
                 }
                 {
                   (scrollLoading || scrollError)?(

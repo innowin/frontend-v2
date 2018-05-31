@@ -14,7 +14,7 @@
 	const paths = require('./paths');
 	const languages = {
 	"en": null,
-	"fa": require("../translate/fa")
+	"fa": require("../src/translate/fa")
 	};
 
 	// Webpack uses `publicPath` to determine where the app is being served from.

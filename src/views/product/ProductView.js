@@ -17,6 +17,7 @@ import {PictureModal} from "./pictureModal";
 export default class ProductView extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
+    widthOfRightBar: PropTypes.string.isRequired
   };
 
   constructor(props) {
@@ -29,19 +30,19 @@ export default class ProductView extends Component {
   };
 
   render() {// TODO ICON for represents
-    const {match} = this.props;
+    const {match, widthOfRightBar} = this.props;
     const {path, url, params} = match;
     const productId = +(params.id);
     const {modal, modalFiles, selectedFileIndex} = this.state;
     return (
       <div className="row">
-        <div className="col-md-3 col-sm-2 -right-sidebar-wrapper">
+        <div className={`${widthOfRightBar} -right-sidebar-wrapper`}>
           <Sidebar>
             <ProductSideView productId={productId} toggleModal={this._toggleModal}/>
           </Sidebar>
         </div>
         <div className="col-md-6 col-sm-9 -content-wrapper">
-          <PictureModal className="-myModal" isOpen={modal} files={modalFiles} toggleModal={this._toggleModal}
+          <PictureModal className="pictureModal" isOpen={modal} files={modalFiles} toggleModal={this._toggleModal}
                         selectedFileIndex={selectedFileIndex} />
           <Tabs>
             <NavLink className="-tab" to={`${url}/basicInformation`}

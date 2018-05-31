@@ -33,9 +33,11 @@ module.exports = {
   'Sending': "در حال ارسال",
   'Error': "خطا",
   'Loading ...': "در حال بارگذاری ...",
+  'Username or password is not correct': "نام کاربری و گذرواژه صحیح نمی باشد",
 
   //common
   'Required field': "فیلد الزامی",
+  'Required fields should be filled':"موارد الزامی باید پر شوند",
   'Day': "روز",
   'Month': "ماه",
   'Year': "سال",
@@ -186,6 +188,5 @@ module.exports = {
 
   // Product
   // Product Rating
-  'Ratings': 'دیدگاه ها و بازخورد ها',
-  
+  'Ratings': 'دیدگاه ها و بازخورد ها'
 };

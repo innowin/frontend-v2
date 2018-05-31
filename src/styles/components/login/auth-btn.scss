@@ -2,8 +2,8 @@
 @import "../../../../node_modules/bootstrap/scss/mixins";
 
 a.btn-google {
-  @include button-variant(#fff, #e0492f, rgba(12, 13, 14, 0.1));
+  @include button-variant($text-lightest-color, #e0492f, rgba(12, 13, 14, 0.1));
   &:focus {
-    color: #fff;
+    color: $text-lightest-color;
   }
 }

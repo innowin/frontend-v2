@@ -4,6 +4,7 @@ import cookies from "browser-cookies"
 import {REST_REQUEST} from "src/consts/Events"
 import {setID, setTOKEN, saveData} from "src/consts/data"
 import {SOCKET as socket, REST_URL as url} from "src/consts/URLS"
+import {BeatLoader} from "react-spinners"
 
 export class SignUpForm extends Component {
 
@@ -38,21 +39,19 @@ export class SignUpForm extends Component {
       const {status, messages} = this.state;
       if (res.length > 0) {
         let message = __('Username exists');
-        const newStates = {
+        this.setState({
           ...this.state,
           status: {...status, usernameS: 'error'},
           messages: {...messages, usernameMB: message}
-        };
-        this.setState(newStates);
+        });
         return false;
       }
       let message = __('Acceptable');
-      const newStates = {
+      this.setState({
         ...this.state,
         status: {...status, usernameS: 'success'},
         messages: {...messages, usernameMB: message}
-      };
-      this.setState(newStates);
+      });
     });
 
     socket.on('CREATE_USER_RESULT', res => {
@@ -111,6 +110,7 @@ export class SignUpForm extends Component {
 
   _handleSubmit = async (e) => {
     e.preventDefault();
+    await this.setState({...this.state, sending: true})
     await this._validateUsername()
     await this._validateEmail()
     await this._validatePassword()
@@ -119,14 +119,12 @@ export class SignUpForm extends Component {
     const {messages, status} = this.state;
     if (Object.values(status).indexOf('error') > -1) {
       let message = __('Fix the errors and retry');
-      const newStates = {...this.state, messages: {...messages, formMB: message}};
-      this.setState(newStates);
+      this.setState({...this.state, messages: {...messages, formMB: message}, sending: false})
       return false
     }
     if (Object.values(status).indexOf('error') === -1) {
       let message = __('');
-      const newStates = {...this.state, messages: {...messages, formMB: message}};
-      this.setState(newStates);
+      this.setState({...this.state, messages: {...messages, formMB: message}})
       this._sendingForm();
       return true
     }
@@ -137,22 +135,20 @@ export class SignUpForm extends Component {
     const {status, messages} = this.state;
     if (!username) {
       let message = __('Username is required');
-      const newStates = {
+      this.setState({
         ...this.state,
         status: {...status, usernameS: 'error'},
         messages: {...messages, usernameMB: message}
-      };
-      this.setState(newStates);
+      });
       return false;
     }
     if (username.length > 0 && username.length < 5) {
       let message = __('Username length should be greater than 4');
-      const newStates = {
+      this.setState({
         ...this.state,
         status: {...status, usernameS: 'error'},
         messages: {...messages, usernameMB: message}
-      };
-      this.setState(newStates);
+      });
       return false;
     }
     if (username.length > 4) {
@@ -165,12 +161,11 @@ export class SignUpForm extends Component {
     }
     if (!/^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]+$/.test(username)) {
       let message = __('Invalid username');
-      const newStates = {
+      this.setState({
         ...this.state,
         status: {...status, usernameS: 'error'},
         messages: {...messages, usernameMB: message}
-      };
-      this.setState(newStates);
+      });
       return false
     }
     return false;
@@ -181,50 +176,45 @@ export class SignUpForm extends Component {
     const {status, messages} = this.state;
     if (value.length === 0) {
       let message = __('Email is required');
-      const newStates = {
+      this.setState({
         ...this.state,
         status: {...status, emailS: 'error'},
         messages: {...messages, emailMB: message}
-      };
-      this.setState(newStates);
+      });
       return false;
     }
     if (value.length > 0 && value.length < 5) {
       let message = __('Invalid email');
-      const newStates = {
+      this.setState({
         ...this.state,
         status: {...status, emailS: 'error'},
         messages: {...messages, emailMB: message}
-      };
-      this.setState(newStates);
+      });
       return false;
     }
     if (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value)) {
       //email is false
       let message = null;
-      const newStates = {
+      this.setState({
         ...this.state,
         status: {...status, emailS: 'success'},
         messages: {...messages, emailMB: message}
-      };
-      this.setState(newStates);
+      });
       return false
     }
     if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value)) {
       //email is false
       const message = 'رایانامه وارد شده معتبر نمی باشد';
-      const newStates = {
+      this.setState({
         ...this.state,
         status: {...status, emailS: 'error'},
         messages: {...messages, emailMB: message}
-      };
-      this.setState(newStates);
+      });
       return false;
     }
 
     //email is OK'
-    const newStates = {...this.state, status: {...status, emailS: 'success'}};
-    this.setState(newStates);
+    this.setState({...this.state, status: {...status, emailS: 'success'}})
     return true
 
   };
@@ -397,7 +387,9 @@ export class SignUpForm extends Component {
       )
     }
     return (
-      <form ref={form => {this.form = form}} className="sign-up-form">
+      <form ref={form => {
+        this.form = form
+      }} className="sign-up-form">
         <input
           type="text"
           name="username"
@@ -450,9 +442,13 @@ export class SignUpForm extends Component {
 
         <div className={passwordConfirmClass.messages}>{passwordConfirmMB}</div>
 
-        {sending && <div className="text-muted -mb-2">{__('Sending')}</div>}
         <button onClick={this._handleSubmit}
-                className="btn btn-primary btn-block login-submit-button mt-0">{__('Register')}</button>
+                className="btn btn-primary btn-block login-submit-button mt-0 cursor-pointer"
+                disabled={sending}>
+          {!sending ? (__('Register')) : (
+            <BeatLoader color="#fff" size={10} margin="auto"/>
+          )}
+        </button>
         <div className={(formMB) ? ("messageBox error-message") : ("")}>{formMB}</div>
       </form>
     )

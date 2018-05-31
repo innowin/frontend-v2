@@ -162,7 +162,6 @@ export class EducationInfo extends Component {
   }
 
   static propTypes = {
-    userId: PropTypes.string.isRequired,
     education: PropTypes.object.isRequired
   };
 
@@ -177,11 +176,6 @@ export class EducationInfo extends Component {
   _updateStateForView = (res, error, isLoading) => {
     this.setState({...this.state, educations:res, error:error, isLoading:isLoading});
   };
-
-  componentDidMount() {
-    const {userId} = this.props;
-   
-  }
 
   render() {
     const {education, edit, isLoading, error} = this.state;
@@ -228,8 +222,8 @@ export class EducationsInfo extends Component{
   _updateStateForView = (education, educationId, error, isLoading) => {
     let educations = this.state.educations;
     if(!error){
-      var index = educations.findIndex((element)=>{
-        return element.id == educationId
+      let index = educations.findIndex((element)=>{
+        return element.id === educationId
       })
       educations[index] = education;
     }
@@ -257,7 +251,7 @@ export class EducationsInfo extends Component{
   render(){
     const{educations} = this.state;
     const Educations = educations.map((education,index)=>{
-      return <EducationInfo education={education} key={index}/>
+      return <EducationInfo education={education} key={index + "EducationsInfo"}/>
     })
     return (
       <div>
@@ -274,7 +268,6 @@ export class ResearchInfo extends Component {
   }
 
   static propTypes = {
-    userId: PropTypes.string.isRequired,
     research: PropTypes.object.isRequired
   };
 
@@ -290,10 +283,6 @@ export class ResearchInfo extends Component {
     this.setState({...this.state, research:res, error:error, isLoading:isLoading});
   };
 
-  componentDidMount() {
-    const {userId} = this.props;
-      
-  }
 
   render() {
     const {research, edit, isLoading, error} = this.state;

@@ -1,6 +1,6 @@
 @import "../../variables";
 .chat-wrapper {
-	background-color: white;
+	background-color: $text-lightest-color;
 	border-radius: 4px;
 	box-shadow: 0 3px 4px rgba(0 ,0 ,0, 0.1);
 	position: absolute;
@@ -14,7 +14,7 @@
 	overflow: auto;
 	z-index: 100;
 	.search-box {
-		background-color: #F1EFF0;
+		background-color: darken($chat-box2-color, 1.6%);
 		border-radius: 5px;
 		display: flex;
 		flex-flow: row;
@@ -25,12 +25,12 @@
 			background-color: transparent;
 			outline: none;
 			border: none;
-			color: #777;
+			color: lighten($sidebar-bottom-color, 9%);
 			flex: 0 0 90%;
 			font-size: $font-size-normalText;
 		}
 		span {
-			color: #929292;
+			color: darken($text-title-menu-color, 3%);
 			display: block;
 			height: 25px;
 			width: 35px;

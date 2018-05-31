@@ -1,3 +1,5 @@
+import messages from 'src/translate/fa'
+
 export default {
 	test: {
 		result: 1,
@@ -5,5 +7,9 @@ export default {
 	},
 	reduxTest:{
 		number:0,
+	},
+	intl: {
+		locale: 'fa',
+		messages: {...messages}
 	}
 };

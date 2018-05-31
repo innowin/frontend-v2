@@ -2,10 +2,9 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import "moment/locale/fa";
 import Moment from "react-moment";
-import {defaultImg, ForwardIcon} from "src/images/icons";
+import {defaultImg, ForwardIcon, SeeViewIcon, SupplyIcon, DemandIcon} from "src/images/icons";
 import {VerifyWrapper} from "src/views/common/cards/Frames";
 import {getFile} from "src/crud/media/media";
-import {SupplyIcon, DemandIcon} from "src/images/icons";
 import cx from 'classnames';
 import {setPostViewer} from "src/crud/post/postViewerCount";
 import {getCommentsByParent} from "../../../../crud/comment";
@@ -91,7 +90,7 @@ class PostContent extends Component {
         }
         
         <div className="menuOfPost d-flex flex-row justify-content-between mt-2">
-          <i className="fa fa-share-square-o cursor-pointer" onClick={addViewer}/>
+          <SeeViewIcon height="15px" className="cursor-pointer" onClick={addViewer}/>
           <i className="fa fa-ellipsis-h cursor-pointer" aria-hidden="true"/>
         </div>
       </div>
@@ -193,9 +192,6 @@ class PostComments extends Component{
   static propTypes = {
     comments: PropTypes.array.isRequired,
   };
-  constructor(props){
-    super(props)
-  }
 
   render(){
     let commentsView = this.props.comments.map((val,index)=>{
@@ -211,6 +207,7 @@ class PostComments extends Component{
     )
   }
 }
+
 export class ExchangePostView extends Component {
   static propTypes = {
     post: PropTypes.object.isRequired,

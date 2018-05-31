@@ -1,5 +1,7 @@
+@import "../../variables";
+
 .carousel-wrapper {
-  color: white;
+  color: $text-lightest-color;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;

@@ -19,25 +19,22 @@ class App extends Component {
 		return true;
 	};
 	
-	_handleLogIn = (res , rememberme) => {
+	_handleLogIn = (res , rememberme,nextUrl = '/') => {
 		// console.log('response is this : ',res);
-		const setData = (data, cb) => {
+		const setData = async (data, cb) => {
 			console.log('recieved data is' ,data);
 			const {token} = data;
 			const id = data.user.id.toString();
-			saveData(data);
-			rememberme ? setTOKEN(token) : setSession(token);
-			setID(id);
-			setIdentityId(data.identity.id);
-			cb();
-		};
-		const redirectingToHome = () => {
+			await saveData(data);
+			await rememberme ? setTOKEN(token) : setSession(token);
+			await setID(id);
+			await setIdentityId(data.identity.id);
 			const T = cookies.get('token');
-			if (T.length > 0) {
-				this.props.history.push('/');
+			if (T !== null) {
+				this.props.history.push(nextUrl);
 			}
 		};
-		setData(res, redirectingToHome);
+		setData(res);
 	};
 	
 	_handleSignOut = () => {
