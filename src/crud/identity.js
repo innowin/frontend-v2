@@ -17,14 +17,10 @@ export const getIdentity = (identityId, handleResult) => {
       // TODO mohsen: handle error
       return false
     }
-    handleResult(res);
-    s_off()
-  };
-  socket.on(`users/identities/{id}/-get/getIdentity/${identityId}`, func);
-
-  function s_off() {
+    handleResult(res)
     socket.off(`users/identities/{id}/-get/getIdentity/${identityId}`, func)
-  }
+  };
+  socket.on(`users/identities/{id}/-get/getIdentity/${identityId}`, func)
 };
 
 export const getIdentityByUser = (userId, handleResult) => {

@@ -2,40 +2,6 @@ import {REST_URL as url, SOCKET as socket} from "../../consts/URLS"
 import {REST_REQUEST} from "../../consts/Events"
 import {TOKEN as token} from '../../consts/data'
 
-export const getExchangePostComment = (postId)=>{
-return new Promise((resolve, reject)=>{
-  socket.emit(REST_REQUEST, {
-    method: "get",
-    url: url + `/base/comments/?comment_parent=${postId}`,
-    result: `get-exchange-post/${postId}`,
-    token,
-  });
-  socket.on(`get-exchange-post/${postId}`, res => {
-    if (res.detail) {
-      reject(res.detail);
-    }
-    socket.off(`get-exchange-post/${postId}`);
-    resolve(res)
-  });
-})
-
-}
-
-export const getExchangeIdentities = (identity, handleResult) => {
-  socket.emit(REST_REQUEST, {
-    method: "get",
-    url: url + `/exchanges/identities/?identity_id=${identity}`,
-    result: "EXCHANGE_LIST_HOME_SIDEBAR",
-    token,
-  });
-  socket.on("EXCHANGE_LIST_HOME_SIDEBAR", res => {
-    if (res.detail) {
-      return false;
-    }
-    handleResult(res)
-  });
-};
-
 export const getExchange = (exchangeId, handleResult) => {
   socket.emit(REST_REQUEST, {
     method: "get",
@@ -54,3 +20,76 @@ export const getExchange = (exchangeId, handleResult) => {
 
   socket.on(`GET_/exchanges/{id}/${exchangeId}`, func)
 };
+
+export const getExchangesByMemberIdentity = (identityOfMember, handleError, handleResult) => {
+  // get exchanges that this identity is member of it
+  socket.emit(REST_REQUEST, {
+    method: "get",
+    url: url + `/exchanges/identities/?identity_id=${identityOfMember}`,
+    result: "EXCHANGE_LIST_HOME_SIDEBAR",
+    token,
+  });
+  socket.on("EXCHANGE_LIST_HOME_SIDEBAR", res => {
+    if (res.detail) {
+      handleError(res.detail)
+    }
+    handleResult(res)
+  });
+};
+
+export const getExchangesByOwnerIdentity = (identityOfOwner, handleError, handleResult) => {
+  // get exchanges that this identity is owner of it
+  socket.emit(REST_REQUEST, {
+    method: "get",
+    url: url + `/exchanges/?owner=${identityOfOwner}`,
+    result: `/exchanges/?owner=${identityOfOwner}`,
+    token,
+  });
+
+  const func = (res) => {
+    if (res.detail) {
+      handleError(res.result)
+    }
+    handleResult(res);
+    socket.off(`/exchanges/?owner=${identityOfOwner}`, func)
+  };
+
+  socket.on(`/exchanges/?owner=${identityOfOwner}`, func)
+};
+
+
+export const getExchangePostComment = (postId) => {
+  return new Promise((resolve, reject) => {
+    socket.emit(REST_REQUEST, {
+      method: "get",
+      url: url + `/base/comments/?comment_parent=${postId}`,
+      result: `get-exchange-post/${postId}`,
+      token,
+    });
+    socket.on(`get-exchange-post/${postId}`, res => {
+      if (res.detail) {
+        reject(res.detail);
+      }
+      socket.off(`get-exchange-post/${postId}`);
+      resolve(res)
+    });
+  })
+}
+
+export const deleteExchange = (exchangeId, handleError, handleResult = () => null) => {
+  socket.emit(REST_REQUEST, {
+    method: "get",
+    url: url + `/exchanges/${exchangeId}`,
+    result: `deleteExchange-${exchangeId}`,
+    token,
+  });
+
+  const func = (res) => {
+    if (res.detail) {
+      handleError(res.result)
+    }
+    handleResult(res);
+    socket.off(`deleteExchange-${exchangeId}`, func)
+  };
+  socket.on(`deleteExchange-${exchangeId}`, func)
+}

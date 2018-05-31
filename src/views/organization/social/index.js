@@ -2,20 +2,29 @@
 import React, {Component} from "react"
 import PropTypes from 'prop-types'
 // import {createSocial, deleteSocial, updateSocial} from 'src/crud/user/Socials'
-import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames"
+import {FrameCard, CategoryTitle, VerifyWrapper} from "src/views/common/cards/Frames"
 import {SocialCreateForm} from "./forms"
 import {SocialEditForm} from './forms'
-import {ExchangeItemWrapper, ExchangesView, FollowersView, FollowingsView} from "./view"
+import {ExchangesView, FollowersView, FollowingsView} from "./view"
 import {REST_REQUEST} from "src/consts/Events"
 import {REST_URL as url, SOCKET as socket} from "src/consts/URLS"
 import {TOKEN} from "src/consts/data"
-import { IDENTITY_ID, ID } from "../../../consts/data";
+import { IDENTITY_ID} from "../../../consts/data";
 //TODO CRUD
 class Socials extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {createForm: false, edit: false, isLoading: false, error: null,followersList:[], followingsList:[], followers:[], followings:[], exchanges:[], followers: [], user: {}};
+    this.state = {createForm: false,
+      edit: false,
+      isLoading: false,
+      error: null,followersList:[],
+      followingsList:[],
+      followers:[],
+      followings:[],
+      exchanges:[],
+      user: {}
+    };
   }
 
   static propTypes = {
@@ -24,8 +33,7 @@ class Socials extends Component {
 
   componentDidMount() {
     console.log(TOKEN);
-    const {organizationId, userId} = this.props;
-    const self = this;
+    const {organizationId} = this.props;
     const emitting = () => {
       const newState = {...this.state, isLoading: true};
       this.setState(newState);
