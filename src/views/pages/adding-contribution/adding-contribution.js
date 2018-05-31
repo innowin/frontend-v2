@@ -6,6 +6,7 @@ import { SelectInput } from '../../common/inputs/SelectInput'
 import { TextInput } from '../../common/inputs/TextInput'
 import { RadioButtonGroup } from '../../common/inputs/RadioButtonInput'
 import { TextareaInput } from '../../common/inputs/TextareaInput'
+import { CircularCheckbox } from '../../common/inputs/CircularCheckbox'
 
 const categoreisData = [
     {
@@ -185,22 +186,35 @@ class Contribution extends React.Component {
     switch (activeStep) {
         case 1:
             return (
-                <NewContribution
-                        desc={newContributionStepData.desc}
-                        categoreis={newContributionStepData.categoreis}
+                    <Certificates
                         goToNextStep={this._nextStep}
-                        goToPrevStep={() => this.setState({ ...this.state, modalIsOpen: false })}
-                        prevBtnTitle="لغو"
-                        selectedCategory={newContributionData.category}
-                        selectCategoryHandler={this._newContributionCategoryHandler}
-                    />)
+                        goToPrevStep={this._prevStep}
+                    />
+                )
         
         case 2:
             return (
                 <InitialInfo
                     goToNextStep={this._nextStep}
                     goToPrevStep={this._prevStep}
-                    prevBtnTitle="قبلی"
+                />
+            )
+        
+        case 3:
+            return (<InitialInfo
+                        goToNextStep={this._nextStep}
+                        goToPrevStep={this._prevStep}
+                    />)
+        
+        case 4:
+            return (
+                <NewContribution
+                        desc={newContributionStepData.desc}
+                        categoreis={newContributionStepData.categoreis}
+                        goToNextStep={this._nextStep}
+                        goToPrevStep={() => this.setState({ ...this.state, modalIsOpen: false })}
+                        selectedCategory={newContributionData.category}
+                        selectCategoryHandler={this._newContributionCategoryHandler}
                 />
             )
         default:
@@ -232,18 +246,8 @@ class Contribution extends React.Component {
   }
 }
 
-// const ContentHandler = ({ content }) => {
-//     switch (content) {
-//         case CONTENTS.NEW:
-//             return <NewContribution desc={newContributionData.desc} categoreis={newContributionData.categoreis} />
-//         default:
-//             return ''
-//     }
-// }
-
-
 const NewContribution = ({
-    desc, categoreis, goToNextStep, goToPrevStep, prevBtnTitle, selectedCategory, selectCategoryHandler, className
+    desc, categoreis, goToNextStep, goToPrevStep, selectedCategory, selectCategoryHandler, className
 }) => (
     <div className="new-contribution-wrapper">
         <div className="desc">
@@ -274,7 +278,7 @@ const NewContribution = ({
             </div>
         </div>
         <NextPrevBtns
-            prevBtnTitle={prevBtnTitle}
+            prevBtnTitle="لغو"
             goToNextStep={goToNextStep}
             goToPrevStep={goToPrevStep}
         />
@@ -282,7 +286,7 @@ const NewContribution = ({
 )
 /* !toDo the field name 'currency' need for changing in future. 
 may be needed for fetching and creating a search box */
-const InitialInfo = ({ prevBtnTitle, goToNextStep, goToPrevStep }) => (
+const InitialInfo = ({ goToNextStep, goToPrevStep }) => (
     <div className="initial-info">
         <div className="form">
             <div className="form-column">
@@ -306,7 +310,52 @@ const InitialInfo = ({ prevBtnTitle, goToNextStep, goToPrevStep }) => (
             </div>
         </div>
         <NextPrevBtns
-            prevBtnTitle={prevBtnTitle}
+            prevBtnTitle="قبلی"
+            goToNextStep={goToNextStep}
+            goToPrevStep={goToPrevStep}
+        />
+    </div>
+)
+
+const Certificates = ({ goToNextStep, goToPrevStep }) => (
+    <div className="certificates">
+        <div className="form">
+            <div className="form-column">
+                <div className="title">
+                    <TextInput label="عنوان گواهینامه" name="name" />                
+                </div>
+                <div className="verification-request-wrapper">
+                    <FontAwesome name="fa-dollar" />
+                    <CircularCheckbox name="verification_request" label="درخواست اعتبارسنجی توسط دانش‌بوم" />
+                </div>
+            </div>
+            <div className="form-column">
+                <div className="logo-upload">
+                    <label>بارگزاری لوگو</label>
+                    <div className="file-btn">
+                        انتخاب فایل
+                        <input type="file" name="logo" />
+                    </div>
+                </div>
+                <div className="image-upload">
+                    <label>
+                        بارگزاری تصویر گواهینامه
+                    </label>
+                    <div className="file-btn">
+                        انتخاب فایل
+                        <input type="file" name="certificate_image" />
+                    </div>
+                </div>
+                <div className="submit">ثبت</div>
+            </div>
+        </div>
+        <div className="images">
+            <div className="image"></div>
+            <div className="image"></div>
+            <div className="image"></div>
+        </div>
+        <NextPrevBtns
+            prevBtnTitle="قبلی"
             goToNextStep={goToNextStep}
             goToPrevStep={goToPrevStep}
         />

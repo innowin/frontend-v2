@@ -24,42 +24,42 @@
     border: 2px solid $text-title-menu-color;
     min-height: 554px;
 }
-// .new-contribution-wrapper {
-//     max-width: 80%;
-// }
+
 .adding-contribution-wrapper{
+    font-size: $font-size-regular;
     .wrapper {
-        // max-width: 80%;
+        margin: 0 auto;
+    }
+    .progressive-wrapper {
+        padding: 40px 0;
+        max-width: 45%;
         margin: 0 auto;
     }
 }
+%jumbo-btn {
+    line-height: 27px;
+    text-align: center;
+    box-sizing: border-box;
+    border-radius: 70px;
+    height: 31px;
+}
+
 .next-prev-btns {
     padding: 60px 0 77px;
-    %next-prev {
-        line-height: 27px;
-        text-align: center;
-        padding: 0px 30px;
-        width: 150px;
-        box-sizing: border-box;
-        border-radius: 70px;
-        height: 31px;
-    }
+
     .next {
         float: left;
-        background-color: #253545;
-        color: #fff;
-        @extend %next-prev;
+        background-color: $brand-inverse;
+        color: $text-lightest-color;
+        @extend %jumbo-btn;
+        width: 160px;
     }
     .prev {
         float: right;
-        border: 2px solid #253545;
-        @extend %next-prev;
+        border: 3px solid $brand-inverse;
+        @extend %jumbo-btn;
+        width: 160px;
     }
-}
-.adding-contribution-wrapper .progressive-wrapper {
-    padding: 40px 0;
-    max-width: 45%;
-    margin: 0 auto;
 }
 .modal-lg {
     max-width: 1150px;
@@ -129,7 +129,7 @@
 .new-contribution-wrapper {
     margin: 0 auto;
     .categories-wrapper h5 {
-        font-size: 12px;
+        // font-size: 12px;
         margin-bottom: 20px;
     }
     .categories-wrapper .categories {
@@ -160,7 +160,7 @@
         //     color: $text-title-menu-color;
         // }
         .category .title {
-            font-size: 11px;
+            // font-size: 11px;
             margin-top: 38px;
             color: $text-title-menu-color;
         }
@@ -178,7 +178,7 @@
         border-radius: 3px;
         .text {
             text-align: center;
-            font-size: 12px;
+            // font-size: 12px;
             color: $text-title-menu-color;
         }
         .text p {
@@ -208,9 +208,13 @@
   
     to { opacity: 1 }
 }
-
+%none-bordered-input {
+    background-color: $chatbox2-color;
+    border: none;
+    border-radius: 0px;
+}
 .initial-info {
-    font-size: 12px;
+    // font-size: 12px;
     .form {
         display: flex;
         flex-wrap: wrap;
@@ -231,17 +235,14 @@
             margin-right: 25px
 
         }
-        %text-input-styles {
-            background-color: $chatbox2-color;
-            border: none;
-            border-radius: 0px;
+        
+        .form-column .form-group input {
+            @extend %none-bordered-input;
             margin: 14px 0;
         }
-        .form-column .form-group input {
-            @extend %text-input-styles;
-        }
         .form-column .form-group textarea {
-            @extend %text-input-styles;
+            @extend %none-bordered-input;
+            margin: 14px 0;
             height: 126px;
         }
         .form-column .radio-button-group {
@@ -269,7 +270,61 @@
     }
 }
 @media (max-width: 781px) {
-    .initial-info .form .form-column {
+    .initial-info .form .form-column:first-child,
+    .initial-info .form .form-column:last-child {
         margin: 0;
     }
 }
+
+.certificates {
+    .form {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        .form-column {
+            flex: 1 1 280px;
+            max-width: 280px;
+        }
+        .form-group {
+            padding: 0;
+            margin: 0;
+        }
+        .form-column .submit {
+            @extend %jumbo-btn;
+            width: 90px;
+            background-color: $brand-inverse;
+            float: left;
+            color: $text-lightest-color;
+        }
+        .file-btn {
+            @extend %jumbo-btn;
+            width: 90px;
+            border: 3px solid $brand-inverse;
+        }
+        .file-btn input {
+            opacity: 0;
+            width: 100%;
+        }
+    }
+    .images {
+        display: flex;
+        justify-content: space-between;
+    }
+    .form-column .logo-upload,
+    .form-column .image-upload{
+        display: flex;
+        height: 31px;
+        line-height: 31px;
+        justify-content: space-between;
+        label {
+            margin: 0;
+        }
+    }
+    .form-column .title input {
+        @extend %none-bordered-input;
+    }
+}
+// .form .form-group {
+//     padding: 0;
+//     margin: 0;
+// }
