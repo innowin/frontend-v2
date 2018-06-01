@@ -22,7 +22,7 @@ export const RadioButtonGroup = ({ label, name, selected, items, handler }) => {
         </div>
     )
 }
-RadioButtonGroup.PropTypes = {
+RadioButtonGroup.propTypes = {
     label: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     selected: PropTypes.oneOfType([

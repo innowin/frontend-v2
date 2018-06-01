@@ -7,7 +7,7 @@ import {SOCKET as socket, REST_URL as url} from "src/consts/URLS"
 import {BeatLoader} from "react-spinners"
 
 class PersonSignUpForm extends Component {
-
+ 
   constructor(props) {
     super(props);
     this.state = {
