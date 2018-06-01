@@ -21,7 +21,7 @@ class App extends Component {
 	
 	_handleLogIn = (res , rememberme,nextUrl = '/') => {
 		// console.log('response is this : ',res);
-		const setData = async (data, cb) => {
+		const setData = async (data) => {
 			console.log('recieved data is' ,data);
 			const {token} = data;
 			const id = data.user.id.toString();
