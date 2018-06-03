@@ -4,13 +4,12 @@ import PropTypes from 'prop-types';
 
 import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames";
 import {getIdentity, getIdentityByOrgan, getIdentityByUser} from "src/crud/identity";
-import {getOrganization} from "src/crud/organization/organization";
 import {getPostsByIdentity, createPost, updatePost, deletePost} from "src/crud/post/post";
 import {getProfile} from "src/crud/user/profile";
-import {getUser} from "src/crud/user/user";
 import {PostCreateForm} from "./Forms";
 import {PostEditForm} from './Forms';
 import {PostItemWrapper, PostView} from "./View";
+import {getFile} from "../../../crud/media/media";
 
 export class Post extends Component {
 
@@ -29,7 +28,7 @@ export class Post extends Component {
       postIdentity_mediaId: null,
       edit: false,
       error: false,
-      isLoading: false
+      isLoading: true
     }
   }
 
@@ -50,45 +49,45 @@ export class Post extends Component {
   };
 
   _update = (formValues, postId) => {
-    this.setState({...this.state, isLoading: true},() =>
-    updatePost(formValues, postId, this._updateView, this._hideEdit, this._handleErrorLoading))
+    this.setState({...this.state, isLoading: true}, () =>
+      updatePost(formValues, postId, this._updateView, this._hideEdit, this._handleErrorLoading))
   };
 
   _delete = () => {
-    this.setState({...this.state, isLoading: true},() =>
+    this.setState({...this.state, isLoading: true}, () =>
       deletePost(this.props.posts, this.props.post, this.props.updatePosts, this._hideEdit, this._handleErrorLoading))
   };
 
   _getIdentityDetails = (identityId) => {
     const handleResult = (identity) => {
-      const userId = identity.identity_user;
-      const organId = identity.identity_organization;
-      if (userId) {
-        getUser(userId, (res) =>
-          this.setState({
-              ...this.state,
-              postIdentity_username: res.username,
-              postIdentity_name: res.first_name + ' ' + res.last_name
-            }
-          ));
-        getProfile(userId, (res) => {
-          this.setState({
+      const user = identity.identity_user;
+      const organization = identity.identity_organization;
+      if (user) {
+        this.setState({
             ...this.state,
-            postIdentity_mediaId: res.profile_media,
-            isLoading: false
-          })
-        });
+            postIdentity_username: user.username,
+            postIdentity_name: user.first_name + ' ' + user.last_name
+          }
+        );
+        getProfile(user.id, (res) => {
+          // TODO mohsen: handle error for getProfile
+          if (res.profile_media) {
+            getFile(res.profile_media, (res) =>
+              this.setState({...this.state, postIdentity_mediaId: res.file})
+            )
+          }
+        })
+        this.setState({...this.state, isLoading: false})
       }
-      if (organId) {
-        getOrganization(organId, (res) => {
-          this.setState({
-            ...this.state,
-            postIdentity_username: res.username,
-            postIdentity_name: res.nike_name || res.official_name,
-            postIdentity_mediaId: res.organization_logo,
-            isLoading: false
-          })
-        });
+      if (organization) {
+        // TODO: mohsen check this section organization work
+        this.setState({
+          ...this.state,
+          postIdentity_username: organization.username,
+          postIdentity_name: organization.nike_name || organization.official_name,
+          postIdentity_mediaId: organization.organization_logo,
+          isLoading: false
+        })
       }
     };
     getIdentity(identityId, handleResult)

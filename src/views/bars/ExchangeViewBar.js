@@ -5,7 +5,6 @@ import {defaultImg} from "../../images/icons";
 import {VerifyWrapper} from "../common/cards/Frames";
 import {BadgesCard, TagsBox} from "./SideBar";
 import {getExchange} from "../../crud/exchange/exchange";
-import {getFile} from "../../crud/media/media";
 import {ExchangeIcon} from "src/images/icons"
 import {getExchangePostsByPostType, getExchangePostsHasProduct} from "../../crud/post/exchangePost";
 
@@ -18,7 +17,6 @@ class ExchangeViewBar extends Component {
     super(props);
     this.state = {
       exchange: {},
-      exchangeImage: null,
       demandCount: 0,
       supplyCount: 0,
       productCount: 0,
@@ -29,10 +27,6 @@ class ExchangeViewBar extends Component {
     }
   }
 
-  _getImageUrl = (res) => {
-    this.setState({...this.state, exchangeImage: res.file})
-  };
-
   _MockData = () => {
     const tags = [{title: "چادر مشکی"}, {title: "پوشاک مردانه"}];
     const badges = ["http://restful.daneshboom.ir/media/14ba7946fe394deca765cad2fc02c848.jpeg"];
@@ -41,10 +35,7 @@ class ExchangeViewBar extends Component {
 
   _getExchange = (exchangeId) => {
     const handleResult = (res) => {
-      this.setState({...this.state, exchange: res}, () => {
-        getFile(res.exchange_image, this._getImageUrl);
-        this._MockData()
-      });
+      this.setState({...this.state, exchange: res})
       // TODO mohsen: socket.emit of badges
       // TODO mohsen: socket.emit of tags
     };
@@ -68,14 +59,14 @@ class ExchangeViewBar extends Component {
 
 
   render() {
-    const {exchange, exchangeImage, badgesImgUrl, demandCount, supplyCount, productCount, tags, isLoading, error} = this.state;
+    const {exchange, badgesImgUrl, demandCount, supplyCount, productCount, tags, isLoading, error} = this.state;
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         <div className="-sidebar-child-wrapper col">
           <div className="align-items-center flex-column">
             <i className="fa fa-ellipsis-v menuBottom"/>
             {/*//TODO mohsen: set dafault image for exchange */}
-            <img className="rounded-circle exchangeViewBarImg" alt="" src={exchangeImage || defaultImg}/>
+            <img className="rounded-circle exchangeViewBarImg" alt="" src={exchange.link || defaultImg}/>
             <div className="exchangeName">
               <ExchangeIcon/>
               <div>
