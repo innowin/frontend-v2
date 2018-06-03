@@ -52,7 +52,7 @@ export class ListGroup extends Component {
 export class ItemHeader extends Component {
   static propTypes = {
     title: PropTypes.node,
-    showEdit: PropTypes.func.isRequired,
+    showEdit: PropTypes.func,
   };
 
   render() {

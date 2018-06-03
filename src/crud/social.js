@@ -2,7 +2,7 @@ import {REST_URL as url, SOCKET as socket} from "src/consts/URLS"
 import {REST_REQUEST} from "src/consts/Events"
 import {TOKEN as token} from "src/consts/data"
 
-export const getFollowed = (identityId, handleError, handleResult) => {
+export const getFollowings = (identityId, handleError, handleResult) => {
   socket.emit(REST_REQUEST,
     {
       method: "get",
@@ -12,7 +12,7 @@ export const getFollowed = (identityId, handleError, handleResult) => {
     }
   );
 
-  const func = (res) => {
+  const func = (res) => {console.log("crud followings:", res)
     if (res.detail) {
       handleError(res.detail)
     }
@@ -23,7 +23,7 @@ export const getFollowed = (identityId, handleError, handleResult) => {
 }
 
 
-export const getFollower = (identityId, handleError, handleResult) => {
+export const getFollowers = (identityId, handleError, handleResult) => {
   socket.emit(REST_REQUEST,
     {
       method: "get",
@@ -33,7 +33,7 @@ export const getFollower = (identityId, handleError, handleResult) => {
     }
   );
 
-  const func = (res) => {
+  const func = (res) => {console.log("crud followers:", res)
     if (res.detail) {
       handleError(res.detail)
     }

@@ -38,7 +38,6 @@ export class ExchangesView extends Component {
 
   render() {
     const {exchanges, showEdit, deleteExchange} = this.props;
-    // console.log('organization member is : ', members);
     return (
       <ExchangesWrapper>
         <ItemHeader title={__('Exchanges')} showEdit={showEdit}/>
@@ -99,6 +98,7 @@ export class ExchangeView extends Component {
   }
 }
 
+
 export const FollowersWrapper = ({children}) => {
   return (
     <ItemWrapper icon={userInfoIcon}>{children}</ItemWrapper>
@@ -117,56 +117,24 @@ export class FollowerItemWrapper extends Component {
   }
 }
 
-export class FollowersView extends Component {
-  static propsTypes = {
-    showEdit: PropTypes.func.isRequired,
-    organization: PropTypes.object.isRequired,
-  };
-
-  render() {
-    const {followers, showEdit} = this.props;
-    return (
-      <FollowersWrapper>
-        <ItemHeader title={__('Followers')} showEdit={showEdit}/>
-        <div className="members-wrapper">
-          {
-            followers.map((follower, i) => {
-              return (
-                <FollowerView follower={follower} userID={follower.id || 6} key={i+"FollowersView"}/>
-              )
-            })
-          }
-        </div>
-      </FollowersWrapper>
-    )
-  }
-}
-
 export class FollowerView extends Component {
   static propTypes = {
-    showEdit: PropTypes.func.isRequired,
     follower: PropTypes.object.isRequired,
-    profile: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
-  };
-
-  constructor(props) {
-    super(props);
-    this.state = {viewerCount: 0, isLoading: false, error: false};
   };
 
   render() {
-    const {showEdit, follower, user, profile, isLoading, error} = this.props;
+    const {user, img} = this.props.follower;
 
     return (
 
       <div className="member-wrapper">
-        <div className="image-wrapper"><Link to={`/user/${6}`}><img className="members-image" src={defaultImg}/></Link>
+        <div className="image-wrapper">
+          <Link to={`/user/${user.id}`}><img className="members-image" src={img || defaultImg} alt=""/></Link>
         </div>
         <div className="details">
           <div className="detail-wrapper">
-            <div className="name">{follower.name}</div>
-            <div className="job-title">{follower.description}</div>
+            <div className="name">{user.name || '----'}</div>
+            {/*<div className="name">{user.status || __('status')}</div>*/}
           </div>
           <div className="link-wrapper">{(false) ? <button className="btn btn-outline-danger">{__('Delete')}</button> :
             <Link to="#">connect</Link>}</div>
@@ -176,6 +144,29 @@ export class FollowerView extends Component {
   }
 }
 
+export class FollowersView extends Component {
+  static propTypes = {
+    followers: PropTypes.array.isRequired,
+  };
+
+  render() {
+    const {followers} = this.props;  console.log("final1:",followers)
+    return (
+      <FollowersWrapper>
+        <ItemHeader title={__('Followers')}/>
+        <div className="members-wrapper">
+          {
+            followers.map((follower, i) => {
+              return (
+                <FollowerView follower={follower} key={i + "FollowersView"}/>
+              )
+            })
+          }
+        </div>
+      </FollowersWrapper>
+    )
+  }
+}
 
 export const FollowingsWrapper = ({children}) => {
   return (
@@ -195,46 +186,16 @@ export class FollowingItemWrapper extends Component {
   }
 }
 
-export class FollowingsView extends Component {
-  static propsTypes = {
-    showEdit: PropTypes.func.isRequired,
-    organization: PropTypes.object.isRequired,
-    deleteFollowing: PropTypes.func,
-  };
-
-  render() {
-    const {followings, showEdit, deleteFollowing} = this.props;
-    // console.log('organization member is : ', members);
-    return (
-      <FollowingsWrapper>
-        <ItemHeader title={__('Followings')} showEdit={showEdit}/>
-        <div className="members-wrapper">
-          {
-            followings.map((following, i) => {
-              return (
-                <FollowingView index={i} deleteFollowing={deleteFollowing} following={following}
-                               userID={following.id || 6} key={i}/>
-              )
-            })
-          }
-        </div>
-      </FollowingsWrapper>
-    )
-  }
-}
-
 export class FollowingView extends Component {
   static propTypes = {
-    showEdit: PropTypes.func.isRequired,
     following: PropTypes.object.isRequired,
-    profile: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
+    index: PropTypes.number,
     deleteFollowing: PropTypes.func
   };
 
   constructor(props) {
     super(props);
-    this.state = {viewerCount: 0, isLoading: false, error: false};
+    this.state = {viewerCount: 0};
   };
 
   componentDidMount() {
@@ -249,18 +210,18 @@ export class FollowingView extends Component {
   }
 
   render() {
-    const {showEdit, following, user, profile, isLoading, error} = this.props;
+    const {deleteFollowing, following} = this.props
+    const {user, img} = following
 
     return (
 
       <div className="member-wrapper">
-
-        <div className="image-wrapper"><Link to={`/user/${6}`}><img className="members-image" src={defaultImg}/></Link>
+        <div className="image-wrapper">
+          <Link to={`/user/${user.id}`}><img className="members-image" src={img || defaultImg} alt=""/></Link>
         </div>
         <div className="details">
           <div className="detail-wrapper">
-            <div className="name">{following.name}</div>
-            <div className="job-title">{following.description}</div>
+            <div className="name">{user.name || '----'}</div>
           </div>
           <div className="link-wrapper">
             {(false) ? <button className="btn btn-outline-danger">{__('Delete')}</button> : <Link to="#">connect</Link>}
@@ -269,6 +230,31 @@ export class FollowingView extends Component {
           </div>
         </div>
       </div>
+    )
+  }
+}
+
+export class FollowingsView extends Component {
+  static propTypes = {
+    followings: PropTypes.arrayOf(PropTypes.object.isRequired),
+    deleteFollowing: PropTypes.func,
+  };
+
+  render() {
+    const {followings, deleteFollowing} = this.props;  console.log("final2:",followings)
+    return (
+      <FollowingsWrapper>
+        <ItemHeader title={__('Followings')}/>
+        <div className="members-wrapper">
+          {
+            followings.map((following, i) => {
+              return (
+                <FollowingView index={i} deleteFollowing={deleteFollowing} following={following} key={i+ "FollowingsView"}/>
+              )
+            })
+          }
+        </div>
+      </FollowingsWrapper>
     )
   }
 }

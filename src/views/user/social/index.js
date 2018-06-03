@@ -6,10 +6,12 @@ import {SocialCreateForm} from "./forms"
 import {SocialEditForm} from './forms'
 import {ExchangesView, FollowersView, FollowingsView} from "./view"
 import {getIdentityByUser} from "src/crud/identity";
-import {getFollowed, getFollower} from "src/crud/social";
+import {getFollowers, getFollowings} from "src/crud/social";
 import {deleteExchange, getExchangesByMemberIdentity} from "../../../crud/exchange/exchange";
 import {getIdentity} from "../../../crud/identity";
 import {deleteFollow} from "../../../crud/social";
+import {getProfile} from "../../../crud/user/profile";
+import {getFile} from "../../../crud/media/media";
 
 
 class Socials extends Component {
@@ -19,10 +21,11 @@ class Socials extends Component {
       createForm: false,
       edit: false,
       exchanges: [],
-      followersList: [],
       followingsList: [],
-      followers: [],
-      followings: [],
+      followersImages: [],
+      followersUsers: [],
+      followingsImages: [],
+      followingsUsers: [],
       isLoading: false,
       error: null
     }
@@ -32,80 +35,111 @@ class Socials extends Component {
     userId: PropTypes.string.isRequired
   };
 
-  _handleError = (error) => this.setState({...this.state, error: error, isLoading: false})
+  _handleError = (error) => this.setState({...this.state, error: error, isLoading: false});
 
-  getFollowers() {
-    let {followersList} = this.state;
-    let fls = [];
+  _getFollowers = (followersList) => {console.log("followersList:", followersList);
+    const followersUsers = this.state;
     for (let i = 0; i < followersList.length; i++) {
       getIdentity(followersList[i].follow_follower, (res) => {
-        fls.push(res.identity_user);
+        const user = res.identity_user;
+        this.setState({...this.state, followersUsers: [...followersUsers, user]}, () => {
+          getProfile(user.id, (res) => {
+            const mediaId = res.profile_media;
+            const followersImages = this.state;
+            if (mediaId) {
+              return getFile(mediaId, (res) =>
+                this.setState({...this.state, followersImages: [...followersImages, res.file]})
+              )
+            } else {
+              this.setState({...this.state, followersImages: [...followersImages, null]})
+            }
+          })
+        })
       })
     }
-    this.setState({...this.state, followers: fls})
-  }
+  };
 
-  getFollowings() {
-    let {followingsList} = this.state;
-    let fls = [];
+  _getFollowings = (followingsList) => {
+    console.log("followersList:", followingsList);
+    const followingsUsers = this.state;
     for (let i = 0; i < followingsList.length; i++) {
       getIdentity(followingsList[i].follow_followed, (res) => {
-        fls.push(res.identity_user);
+        const user = res.identity_user;
+        this.setState({...this.state, followingsUsers: [...followingsUsers, user]}, () => {
+          getProfile(user.id, (res) => {
+            const mediaId = res.profile_media;
+            const followingsImages = this.state;
+            if (mediaId) {
+              return getFile(mediaId, (res) =>
+                this.setState({...this.state, followingsImages: [...followingsImages, res.file]})
+              )
+            } else {
+              this.setState({...this.state, followingsImages: [...followingsImages, null], isLoading: false})
+            }
+          })
+        })
       })
     }
-    this.setState({...this.state, followings: fls, isLoading: false})
-  }
+  };
 
   _handleGet = (identityId) => {
     getExchangesByMemberIdentity(identityId, this._handleError, (results) => {
-      let exchanges = []
-      if(results && results.length > 0){
+      let exchanges = [];
+      if (results && results.length > 0) {
         results.map((res) => exchanges.push(res.exchange_identity_related_exchange))
       }
       this.setState({...this.state, exchanges: exchanges})
-    })
-    getFollower(identityId, this._handleError, (res) =>
-      this.setState({...this.state, followersList: res}, () => this.getFollowers()))
-    getFollowed(identityId, this._handleError, (res) =>
-      this.setState({...this.state, followingsList: res}, () => this.getFollowings()))
-  }
+    });
+    getFollowers(identityId, this._handleError, (res) => this._getFollowers(res));
+    getFollowings(identityId, this._handleError, (res) =>
+      this.setState({...this.state, followingsList: res}, () => this._getFollowings(res)))
+  };
 
   componentDidMount() {
     const {userId} = this.props;
     this.setState({...this.state, isLoading: true}, () => getIdentityByUser(userId, (res) => this._handleGet(res.id)))
   }
 
-  deleteFollowing = (id, index) => {
-    const {followings, followingsList} = this.state;
-    followings.splice(index, 1);
-    this.setState({...this.state, followings: followings}, () => {
+  _deleteFollowing = (id, index) => {
+    const {followingsList} = this.state;
+    followingsList.splice(index, 1);
+    this.setState({...this.state, followingsList: followingsList}, () => {
       deleteFollow(followingsList[index].follow_followed, this._handleError, (res) => {
-          this.setState({...this.state, followings: res})
+          this.setState({...this.state, followingsList: res})
         }
       )
     });
-  }
+  };
 
-  deleteExchange = (id, index) => {
+  _deleteExchange = (id, index) => {
     const {exchanges} = this.state;
     exchanges.splice(index, 1);
     this.setState({...this.state, exchanges: exchanges}, () => {
       deleteExchange(id, this._handleError)
     });
-  }
+  };
+
+  _mergeUsersImages = (usersArray, imagesArray) => {
+    let fls = [];
+    usersArray.map((user, i) => fls.push({'user': user, 'img': imagesArray[i]}));
+    return fls
+  };
 
   render() {
-    const {createForm, users, exchanges, followings, followers, isLoading, error} = this.state;
-
+    const {
+      createForm, exchanges, followersImages, followersUsers, followingsImages, followingsUsers, isLoading, error
+    } = this.state;console.log("first section:", followersUsers, followingsUsers);
+    const followers = this._mergeUsersImages(followersUsers, followersImages);
+    const followings = this._mergeUsersImages(followingsUsers, followingsImages);
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         <CategoryTitle
           title={__('Socials')}
         />
         <FrameCard className="-frameCardSocial">
-          <ExchangesView deleteExchange={this.deleteExchange} exchanges={exchanges}/>
+          <ExchangesView deleteExchange={this._deleteExchange} exchanges={exchanges}/>
           <FollowersView followers={followers}/>
-          <FollowingsView deleteFollowing={this.deleteFollowing} followings={followings}/>
+          <FollowingsView deleteFollowing={this._deleteFollowing} followings={followings}/>
         </FrameCard>
       </VerifyWrapper>
     )
