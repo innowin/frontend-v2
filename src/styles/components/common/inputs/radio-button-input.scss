@@ -2,13 +2,17 @@
 
 .radio-button-group {
     padding: 1px;
+    margin-bottom: 10px;
     label {
         padding: 1px;
     }
     .radio-btns-wrapper {
         padding: 1px;
+        display: flex;
+        flex-direction: row;
         .item {
             padding: 1px;
+            margin-left: 20px;
         }
         .item .title {
             padding: 1px;

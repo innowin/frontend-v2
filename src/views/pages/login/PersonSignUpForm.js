@@ -110,21 +110,21 @@ class PersonSignUpForm extends Component {
 
   _handleSubmit = async (e) => {
     e.preventDefault();
-    await this.setState({...this.state, sending: true})
-    await this._validateUsername()
-    await this._validateEmail()
-    await this._validatePassword()
-    await this._validatePasswordConfirm()
+    await this.setState({...this.state, sending: true});
+    await this._validateUsername();
+    await this._validateEmail();
+    await this._validatePassword();
+    await this._validatePasswordConfirm();
     // note: this function state should be get after validations await
     const {messages, status} = this.state;
     if (Object.values(status).indexOf('error') > -1) {
       let message = __('Fix the errors and retry');
-      this.setState({...this.state, messages: {...messages, formMB: message}, sending: false})
+      this.setState({...this.state, messages: {...messages, formMB: message}, sending: false});
       return false
     }
     if (Object.values(status).indexOf('error') === -1) {
       let message = __('');
-      this.setState({...this.state, messages: {...messages, formMB: message}})
+      this.setState({...this.state, messages: {...messages, formMB: message}});
       this._sendingForm();
       return true
     }
@@ -365,16 +365,16 @@ class PersonSignUpForm extends Component {
       return {messages: 'messageBox weak-message', border: 'mb-0 weak-border'}
     }
     return {messages: '', border: ''}
-  }
+  };
 
   render() {
-    const {success, sending, messages, status} = this.state
-    const {usernameMB, emailMB, passwordMB, passwordConfirmMB, formMB} = messages
-    const {usernameS, emailS, passwordS, passwordConfirmS} = status
-    const usernameClass = this._statusClassName(usernameS)
-    const emailClass = this._statusClassName(emailS)
-    const passwordClass = this._statusClassName(passwordS)
-    const passwordConfirmClass = this._statusClassName(passwordConfirmS)
+    const {success, sending, messages, status} = this.state;
+    const {usernameMB, emailMB, passwordMB, passwordConfirmMB, formMB} = messages;
+    const {usernameS, emailS, passwordS, passwordConfirmS} = status;
+    const usernameClass = this._statusClassName(usernameS);
+    const emailClass = this._statusClassName(emailS);
+    const passwordClass = this._statusClassName(passwordS);
+    const passwordConfirmClass = this._statusClassName(passwordConfirmS);
 
     if (success) {
       return (

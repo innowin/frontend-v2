@@ -63,7 +63,7 @@ class Login extends Component {
     const Recovery = (page === 'Recovery');
     const {handleLogIn} = this.props;
     const RedirectToHome = this._RedirectToHome;
-    const animateFormClass = (SignIn) ? ("sign-in-form") : ("sign-up-form")
+    const animateFormClass = (SignIn) ? ("sign-in-form") : ("sign-up-form");
 
     return (
       <div className="login-page  full-page-wrapper">
