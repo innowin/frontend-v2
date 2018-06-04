@@ -1,0 +1,94 @@
+@import '../variables';
+
+.steps { // the parent of steps
+    position: relative;
+    background-color: $chat-box2-color;
+    display: flex;
+    justify-content: space-between;
+    height: 10px;
+    margin: 0 auto;
+    flex-direction: row;
+    // max-width: 600px;
+}
+
+div.active::after { // initial classes of progress.
+    content:'';
+    display: block;
+    height: 10px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: $brand-inverse;
+}
+
+@for $i from 0 through 8 {
+    @for $j from 1 through 9 {
+        .going-next-step#{$i}.steps-lenght#{$j}::after { // that execute before going to the next step.
+            width: (100% * ($i - 2) / ($j - 1));
+            // transition: all 1s;
+        }
+        .active-step#{$i}.steps-lenght#{$j}::after {
+            width: (100% * ($i - 1) / ($j - 1));
+            transition: all 1.5s;
+        }
+        .going-prev-step#{$i}.steps-lenght#{$j}::after { // that execute before going to the preview step.
+            width: (100% * $i / ($j - 1));
+            // transition: all 1s;
+        }
+    }
+}
+
+.progressive-step-wrapper {  // each step has this parent.
+    text-align: center;
+    .progressive-step {
+        width: 30px;
+        height: 30px;
+        border-radius: 100px;
+        background-color: $chat-box2-color;
+        color: $brand-inverse;
+        position: relative;
+        z-index: 2;
+        top: -10px;
+        transition: all 1s;
+        span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .step-title {
+            position: absolute;
+            bottom: -37px;
+            transform: translate(-50%, 0);
+            left: 50%;
+            width: 100px;
+            color: #d8d8d8;
+            font-size: 12px;
+        }
+        &.checked {
+            background-color: $brand-inverse; 
+            color: $chat-box2-color;
+            transition: all 2s;
+        }
+    }
+    &:first-child .progressive-step{
+        left: 2px;
+    }
+    &:last-child .progressive-step{
+        left: -2px;
+    }
+}
+.progressive-step.checked .step-title {
+        color: #848484;
+}
+// .progressive-wrapper {
+//     padding: 0 20px;
+//     .progress {
+//         position: relative;
+//         height: 10px;
+//         background-color: $brand-inverse;
+//         top: -10px;
+//         width: 0;
+//         z-index: 1;
+//     }
+// }

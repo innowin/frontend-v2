@@ -37,7 +37,7 @@ export class CertificateView extends Component {
 		const {certificate, showEdit} = this.props;
 		const {mediaFile} = this.state;
 		return (
-			<div className="col-6 text-center container-fluid">
+			<div className="col-6 text-center certificate-col">
 				<div className="row">
 					<div className="col certificate">
 						<div className="content">

@@ -1,24 +1,15 @@
-/*global __*/
 import React, {Component} from "react"
 import PropTypes from 'prop-types'
-import {getExchangePosts} from 'src/crud/post/exchangePost'
 import {VerifyWrapper} from "src/views/common/cards/Frames"
-import HomeCreatePost from "../../../pages/home/CreatPostHome"
-import {SupplyIcon, DemandIcon, NoFilterIcon} from "../../../../images/icons"
 import {deletePost, updatePost} from "src/crud/post/post"
 import {getProfile} from "../../../../crud/user/profile"
 import {getPost} from '../../../../crud/post/post'
-import {getUser} from "../../../../crud/user/user"
 import {getIdentity} from "../../../../crud/identity"
-import {getOrganization} from "../../../../crud/organization/organization"
-import {getProduct} from '../../../../crud/product/product'
 import {getExchangePostComment} from '../../../../crud/exchange/exchange'
 import {PostEditForm} from "src/views/common/post/Forms"
 import {ExchangePostView} from "./views"
-import Masonry from "react-masonry-css"
-import cx from 'classnames' 
 import {PostItemWrapper} from "../../../common/post/View"
-import {IDENTITY_ID} from "../../../../consts/data"
+import {getFile} from "../../../../crud/media/media";
 
 export class ExchangePost extends Component {
 
@@ -38,7 +29,7 @@ export class ExchangePost extends Component {
       edit: false,
       error: false,
       isLoading: true,
-      comments:[]
+      comments: []
     };
   }
 
@@ -66,57 +57,55 @@ export class ExchangePost extends Component {
 
   _getIdentityDetails = (post_identity) => {
     const handleResult = (identity) => {
-      const userId = identity.identity_user;
-      const organId = identity.identity_organization;
-      if (userId) {
-        getUser(userId, (res) =>
-          this.setState({
-              ...this.state,
-              postIdentity_name: res.first_name + ' ' + res.last_name
-            }
-          ));
-        getProfile(userId, (res) => {
-          this.setState({
-            ...this.state,
-            postIdentity_mediaId: res.profile_media,
-            isLoading: false
-          })
+      const user = identity.identity_user;
+      const organization = identity.identity_organization;
+      if (user) {
+        this.setState({
+          ...this.state,
+          postIdentity_name: user.first_name + ' ' + user.last_name
+        });
+        getProfile(user.id, (res) => {
+          // TODO mohsen: handle error for getProfile
+          if (res.profile_media) {
+            getFile(res.profile_media, (res) =>
+              this.setState({...this.state, postIdentity_mediaId: res.file})
+            )
+          }
+          this.setState({...this.state, isLoading: false})
         });
       }
-      if (organId) {
-        getOrganization(organId, (res) => {
-          this.setState({
-            ...this.state,
-            postIdentity_name: res.nike_name || res.official_name,
-            postIdentity_mediaId: res.organization_logo,
-            isLoading: false
-          })
-        });
+      if (organization) {
+        this.setState({
+          ...this.state,
+          postIdentity_name: organization.nike_name || organization.official_name,
+          postIdentity_mediaId: organization.organization_logo,
+          isLoading: false
+        })
       }
     };
     getIdentity(post_identity, handleResult)
   };
 
   componentDidMount() {
-    const {postId, exchangeId} = this.props.match.params;
-    this.setState({isLoading:true, error:null});
-    
-    getPost(postId).then(post=>{
-      this.setState({...this.state,post:post})
+    const {postId} = this.props.match.params;
+    this.setState({isLoading: true, error: null});
+
+    getPost(postId).then(post => {
+      this.setState({...this.state, post: post})
       this._getIdentityDetails(post.post_identity);
 
-      getExchangePostComment(post.id).then(comments=>{
-        this.setState({...this.state, comments:comments, isLoading:false})
-      }).catch(err=>{
-        this.setState({...this.state, isLoading:false, error:err})
+      getExchangePostComment(post.id).then(comments => {
+        this.setState({...this.state, comments: comments, isLoading: false})
+      }).catch(err => {
+        this.setState({...this.state, isLoading: false, error: err})
       })
-      
-    }).catch(err=>{
-      this.setState({isLoading:false, error:err});
+
+    }).catch(err => {
+      this.setState({isLoading: false, error: err});
     })
-    
+
   }
- 
+
   render() {
     const {post, postIdentity_name, postIdentity_mediaId, edit, comments, isLoading, error} = this.state;
     return (
@@ -132,9 +121,9 @@ export class ExchangePost extends Component {
           </PostItemWrapper>
           :
           <ExchangePostView post={post}
-            comments={comments}
-            postIdentityName={postIdentity_name}
-            postIdentityMediaId={postIdentity_mediaId}
+                            comments={comments}
+                            postIdentityName={postIdentity_name}
+                            postIdentityMediaId={postIdentity_mediaId}
           />
         }
       </VerifyWrapper>

@@ -1,0 +1,29 @@
+@import '../../../variables';
+
+.circular-checkbox .checkbox {
+    width: 20px;
+    position: relative;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid $brand-inverse;
+    &::after {
+        font-family: "FontAwesome";
+        content: "\f00c";
+        width: 14px;
+        height: 14px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: opacity 0.5s;
+        color: $brand-inverse;
+    }
+    &.checked::after {
+        opacity: 1;
+        transition: opacity 0.5s;
+    }
+    .hidden {
+        opacity: 0;
+    }
+}

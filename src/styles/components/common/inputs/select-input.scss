@@ -1,0 +1,58 @@
+// $hidden-opts: '';
+@import '../../../variables';
+
+.select-input-wrapper .select {
+    position: relative;
+    .value {
+        font-size: 12px;
+        background-color: $chat-box2-color;
+        padding: 8px 11px;
+        color: $text-dark-color;
+        height: 36px;
+        cursor: pointer;
+        &::after {
+            content: "\f0dd";
+            font-family: "FontAwesome";
+            float: left;
+            // margin-left: 12px;
+            transition: all 0.75s;
+        }
+    }
+
+    &.showed-options .value::after {
+        transform: rotate(0.5turn);
+        transition: transform 0.75s;
+    }
+    .options {
+        position: absolute;
+        background-color: $chat-box2-color;
+        color: $text-dark-color;
+        width: 100%;
+        font-size: 13px;
+        border-left: 1px solid $chat-box2-color;
+        border-right: 1px solid $chat-box2-color;
+        box-sizing: border-box;
+        z-index: 1;
+        .option {
+            padding: 4px 12px;
+            margin-bottom: 1px;
+            cursor: pointer;
+            background-color: white;
+        }
+        // .option:hover {
+        //     background-color: $chatbox2-color;
+        // }
+    }
+    &.hidden-options .options {
+        max-height: 0px;
+        overflow: hidden;
+        transition: max-height 0.75s ease-in;
+    }
+
+    &.showed-options .options {
+        max-height: 200px;
+        transition: max-height 0.75s ease-in;
+        overflow: auto;
+    }
+
+}

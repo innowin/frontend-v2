@@ -11,7 +11,7 @@ import {
     ItemWrapper,
 } from '../../common/cards/Frames'
 import * as jMoment from 'moment-jalali'
-import moment from 'moment';
+
 export const UserInfoItemWrapper = ({children}) => {
     return (
         <ItemWrapper icon={userInfoIcon}>{children}</ItemWrapper>

@@ -1,8 +1,12 @@
 @import '../../variables';
 
-.footer-wrapper {
+.login-footer-wrapper {
   width: 100%;
   text-align: center;
   color: $text-lighter-color;
+  font-size: $font-size-smallText;
+  position: absolute;
+  bottom: 0;
+  height: 60px;
 }
 

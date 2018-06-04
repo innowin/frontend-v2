@@ -6,7 +6,7 @@ export const getProfile = (userId, handleResult) => {
   socket.emit(REST_REQUEST, {
     method: "get",
     url: `${url}/users/profiles/?profile_user=${userId}`,
-    result: `userProfile-get-${userId}`,
+    result: `/users/profiles/?profile_user=${userId}`,
     token: TOKEN,
   });
 
@@ -16,13 +16,8 @@ export const getProfile = (userId, handleResult) => {
       return false
     }
     handleResult(res[0]);
-    s_off()
+    socket.off(`/users/profiles/?profile_user=${userId}`, func)
   };
 
-  socket.on(`userProfile-get-${userId}`, func);
-
-  function s_off() {
-    socket.off(`userProfile-get-${userId}`, func)
-  }
-
+  socket.on(`/users/profiles/?profile_user=${userId}`, func);
 };

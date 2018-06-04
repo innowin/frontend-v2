@@ -30,7 +30,6 @@ export const TagsBox = ({tags}) => {
   )
 };
 
-
 export class Sidebar extends Component {
 
   render() {
@@ -46,7 +45,6 @@ export class Sidebar extends Component {
 }
 
 export default Sidebar;
-
 
 export class UserSideView extends Component {
 
@@ -121,39 +119,6 @@ export class UserSideView extends Component {
       this.setState(newState);
     });
     // TODO mohsen: socket.on of tags
-  }
-
-  componentWillUnmount() {
-    const {userId} = this.props;
-
-    socket.off(`user-sidebar-get/${userId}`, (res) => {
-      if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false};
-        this.setState(newState);
-      }
-      const newState = {...this.state, user: res, isLoading: false};
-      this.setState(newState);
-    });
-
-    socket.off(`profile_user-sidebar-get/${userId}`, (res) => {
-      if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false};
-        this.setState(newState);
-      }
-      const newState = {...this.state, userProfile: res[0], isLoading: false};
-      this.setState(newState);
-    });
-
-    socket.off(`badge_user-sidebar-get/${userId}`, (res) => {
-      if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false};
-        this.setState(newState);
-      }
-      const newState = {...this.state, badgesImgUrl: res, isLoading: false};
-      this.setState(newState);
-    });
-
-    // TODO mohsen: socket.off of tags
   }
 
   render() {
@@ -238,20 +203,6 @@ export class OrganizationSideView extends Component {
     });
     // TODO mohsen: socket.on of badges
     // TODO mohsen: socket.on of tags;
-  }
-
-  componentWillUnmount() {
-    const {organizationId} = this.props;
-    socket.off(`organization-OrganizationSideView-get/${organizationId}`, (res) => {
-      if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false};
-        this.setState(newState);
-      }
-      const newState = {...this.state, organization: res, isLoading: false};
-      this.setState(newState);
-    });
-    // TODO mohsen: socket.off of badges
-    // TODO mohsen: socket.off of tags;
   }
 
   render() {

@@ -15,7 +15,7 @@
 			padding: 5px 10px;
 			.job-title {
 				font-size: $font-size-normalText;
-				color: #777;
+				color: lighten($sidebar-bottom-color, 9%);
 			}
 		}
 		.image-wrapper {
