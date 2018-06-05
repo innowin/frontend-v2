@@ -9,7 +9,7 @@ import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {TOKEN} from "src/consts/data"
 import {UserInfoItemWrapper, UserInfoView, ProfileInfoView, ResearchInfoView, EducationInfoView} from "./Views"
 import {getUserResearches, getUserEducations} from '../../../crud/user/user'
-
+import AgentForm from '../../pages/modal/agentForm-modal.js';
 export class UserInfo extends Component {
 
   constructor(props) {
@@ -63,7 +63,9 @@ export class UserInfo extends Component {
   render() {
     const {user, edit, isLoading, error} = this.state;
     return (
+      
       <VerifyWrapper isLoading={isLoading} error={error}>
+      
         {
           (edit) ? (
             <UserInfoItemWrapper>

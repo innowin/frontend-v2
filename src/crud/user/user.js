@@ -126,13 +126,13 @@ export const getUserEducations = (userId, handleResult) =>{
   socket.emit(REST_REQUEST, 
     {
     method: "get",
-    url:`${url}/users/educations/`,
-    result: "/users/educations/get",
+    url:`${url}/users/educations/?education_user=${userId}`,
+    result: `/users/educations/get${userId}`,
     token: TOKEN,
     }
   );
 
-  socket.on("/users/educations/get",(res)=>{
+  socket.on(`/users/educations/get${userId}`,(res)=>{
     if(res.detail) {
       handleResult( {error:true,detail:res.detail});
     }
