@@ -244,3 +244,78 @@
 
   }
 }
+
+@keyframes error-message {
+  from { opacity: 0; top: -10px }
+  to { opacity: 1; top: 0px }
+}
+.signup-wrapper {
+  %flex-space-between {
+    display: flex;
+    justify-content: space-between;
+
+
+  }
+  .radio-button-group {
+    @extend %flex-space-between;
+  }
+  .radio-button-group .radio-btns-wrapper {
+    @extend %flex-space-between;    
+    .item {
+      padding: 0 7px;
+    }
+  }
+  .organization-signup-form, .person-signup-form {
+    input {
+        
+    }
+    input {
+      -webkit-transition: all 0.30s ease-in-out;
+      -moz-transition: all 0.30s ease-in-out;
+      -ms-transition: all 0.30s ease-in-out;
+      -o-transition: all 0.30s ease-in-out;
+      outline: none;
+      padding: 3px 0px 3px 3px;
+      border: 1px solid $input-border;
+      display: block;
+      width: 100%;
+      padding: 0.56rem 1.2rem;
+      font-size: 15px;
+      border-radius: 0.3rem;
+      line-height: 17.986px;
+      color: $text-input-border-color
+    }
+     
+    input:focus {
+      box-shadow: 0;
+      border: 1px solid $input-focus-border;
+    }
+    input.error {
+      border: 2px solid $error-color;
+      transition: all 0.3s;
+    }
+    .error-message {
+      color: $error-color;
+      animation-name: error-message;
+      animation-duration: 0.3s;
+      margin-bottom: 7px;
+      font-size: $font-size-regular;
+      position: relative;
+    }
+    .signup-field {
+      margin-bottom: 10px;
+    }
+    .hidden-part {
+      max-height: 0px;
+      overflow: hidden;
+      opacity: 0;
+      transition: all 1s; 
+    }
+    .visible-part {
+      max-height: 500px;
+      overflow: hidden;
+      opacity: 1;
+      transition: all 1.5s; 
+    }
+  }
+}
