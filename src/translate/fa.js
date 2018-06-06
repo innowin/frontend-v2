@@ -9,6 +9,8 @@ module.exports = {
   'Login with google': "با حساب گوگل وارد شوید",
   'All rights are reserved for Danesh Boom' : "تمامی حقوق برای دانش بوم محفوظ است",
   'Register with other accounts': "ثبت نام با اکانت های دیگر",
+  'Username': "نام کاربری",
+  'Email': "رایانامه",
   'Username or email': "نام کاربری یا رایانامه",
   'Password': "گذرواژه",
   'Repeat password': "تکرار گذرواژه",
@@ -34,6 +36,9 @@ module.exports = {
   'Error': "خطا",
   'Loading ...': "در حال بارگذاری ...",
   'Username or password is not correct': "نام کاربری و گذرواژه صحیح نمی باشد",
+  'Invalid organization national code': "شناسه ملی نامعتبر می باشد",
+  'Organization national code must be 10 digit': "شناسه ملی باید یک عدد ده رقمی باشد",
+
 
   //common
   'Required field': "فیلد الزامی",
@@ -101,11 +106,9 @@ module.exports = {
   'Phone': "تلفن ثابت",
   'Public email': "رایانامه عمومی",
   'Telegram account': "حساب تلگرام",
-  'Username': "نام کاربری",
   'First name': "نام",
   'Remember me': "مرا به خاطر بسپار",
   'Last name': "نام خانوادگی",
-  'Email': "رایانامه",
   'User info': "اطلاعات کاربری",
   'Organization info': "اطلاعات سازمان",
   'Organization members': "اعضای سازمان",

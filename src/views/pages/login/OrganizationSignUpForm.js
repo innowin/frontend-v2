@@ -1,4 +1,3 @@
-  /*global __*/
 import React from "react"
 import { Field, reduxForm } from 'redux-form'
 // import cookies from "browser-cookies"
@@ -8,7 +7,6 @@ import { Field, reduxForm } from 'redux-form'
 // import {BeatLoader} from "react-spinners"
 import {BeatLoader} from "react-spinners"
 import {validateSignup as validate} from './validations'
-import {SOCKET as socket, REST_URL as url} from "src/consts/URLS"
 import renderTextField from '../../common/inputs/reduxFormRenderTextField'
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -39,7 +37,7 @@ const OrgFormPart1 = ({ handleSubmit, pristine, reset, submitting, onSubmit }) =
       <button
         className="btn btn-primary btn-block login-submit-button mt-0 cursor-pointer"
         disabled={submitting}>
-        {!submitting ? (__('Register')) : (
+        {!submitting ? "ثبت نام" : (
           <BeatLoader color="#fff" size={10} margin="auto"/>
         )}
       </button>
@@ -57,7 +55,7 @@ const OrgFormPart2 = ({ handleSubmit, pristine, reset, submitting, onSubmit }) =
       <button
         className="btn btn-primary btn-block login-submit-button mt-0 cursor-pointer"
         disabled={submitting}>
-        {!submitting ? (__('Register')) : (
+        {!submitting ? "ثبت نام" : (
           <BeatLoader color="#fff" size={10} margin="auto"/>
         )}
       </button>

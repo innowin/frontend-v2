@@ -11,14 +11,15 @@ export const getFile = (mediaId, mediaResult) => {
       token: TOKEN
     }
   );
-
-  socket.on(`files/${mediaId}-get`, (res) => {
+  const func = (res) => {
     if (res.detail) {
       // TODO mohsen: handle error
       return false;
     }
     mediaResult(res)
-  });
+    socket.off(`files/${mediaId}-get`, func)
+  }
+  socket.on(`files/${mediaId}-get`, func);
   //TODO mohsen: remove duplicate when equal file requested from product picture
 };
 

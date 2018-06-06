@@ -1,4 +1,3 @@
-/*global __*/
 import React, {Component} from "react"
 import PropTypes from 'prop-types'
 import {getExchangePosts} from 'src/crud/post/exchangePost'
@@ -7,15 +6,14 @@ import HomeCreatePost from "../../../pages/home/CreatPostHome"
 import {SupplyIcon, DemandIcon, NoFilterIcon} from "../../../../images/icons"
 import {deletePost, updatePost} from "src/crud/post/post"
 import {getProfile} from "../../../../crud/user/profile"
-import {getUser} from "../../../../crud/user/user"
 import {getIdentity} from "../../../../crud/identity"
-import {getOrganization} from "../../../../crud/organization/organization"
 import {PostEditForm} from "src/views/common/post/Forms"
 import {ExchangePostView} from "src/views/exchange/ExchangeView/posts/Views"
 import Masonry from "react-masonry-css"
 import cx from 'classnames'
 import {PostItemWrapper} from "../../../common/post/View"
 import {IDENTITY_ID} from "../../../../consts/data"
+import {getFile} from "../../../../crud/media/media";
 
 export class ExchangePost extends Component {
 
@@ -63,32 +61,30 @@ export class ExchangePost extends Component {
 
   _getIdentityDetails = (post_identity) => {
     const handleResult = (identity) => {
-      const userId = identity.identity_user;
-      const organId = identity.identity_organization;
-      if (userId) {
-        getUser(userId, (res) =>
-          this.setState({
-              ...this.state,
-              postIdentity_name: res.first_name + ' ' + res.last_name
-            }
-          ));
-        getProfile(userId, (res) => {
-          this.setState({
-            ...this.state,
-            postIdentity_mediaId: res.profile_media,
-            isLoading: false
-          })
+      const user = identity.identity_user;
+      const organization = identity.identity_organization;
+      if (user) {
+        this.setState({
+          ...this.state,
+          postIdentity_name: user.first_name + ' ' + user.last_name
+        });
+        getProfile(user.id, (res) => {
+          // TODO mohsen: handle error for getProfile
+          if (res.profile_media) {
+            getFile(res.profile_media, (res) =>
+              this.setState({...this.state, postIdentity_mediaId: res.file})
+            )
+          }
+          this.setState({...this.state, isLoading: false})
         });
       }
-      if (organId) {
-        getOrganization(organId, (res) => {
-          this.setState({
-            ...this.state,
-            postIdentity_name: res.nike_name || res.official_name,
-            postIdentity_mediaId: res.organization_logo,
-            isLoading: false
-          })
-        });
+      if (organization) {
+        this.setState({
+          ...this.state,
+          postIdentity_name: organization.nike_name || organization.official_name,
+          postIdentity_mediaId: organization.organization_logo,
+          isLoading: false
+        })
       }
     };
     getIdentity(post_identity, handleResult)

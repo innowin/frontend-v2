@@ -3,9 +3,8 @@ import PropTypes from 'prop-types'
 import {getExchangePosts} from 'src/crud/post/exchangePost'
 import {FrameCard, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames"
 import {Post} from "src/views/common/post/index"
-import {getExchangeIdentities} from "../../../crud/exchange/exchange";
+import {getExchangesByMemberIdentity} from "../../../crud/exchange/exchange";
 import HomeCreatePost from "./CreatPostHome";
-import {Link} from "react-router-dom"
 import {IDENTITY_ID} from "../../../consts/data";
 
 
@@ -60,7 +59,7 @@ class HomePosts extends Component {
           () => (getExchangePosts(exchangeId, null, limit, offset, this._updatePosts, this._handleErrorLoading)))
       }
     };
-    getExchangeIdentities(identityId, _handleResult);
+    getExchangesByMemberIdentity(identityId, this._handleErrorLoading, _handleResult);
   };
 
   _onScroll = () => {
