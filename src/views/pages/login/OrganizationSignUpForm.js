@@ -4,7 +4,6 @@ import {BeatLoader} from "react-spinners"
 import {validateSignup as validate} from './validations'
 import renderTextField from '../../common/inputs/reduxFormRenderTextField'
 import renderSelectField from '../../common/inputs/reduxFormRenderSelect'
-
 // const asyncValidate = (values /*, dispatch */) => {
 //   return sleep(1000).then(() => {
 //     // simulate server latency
@@ -23,63 +22,63 @@ const PROVINCES1 = [{value: '1', title: 'استان۱'}, {value: '2', title: 'ا
 
 const PROVINCES2 = [{value: '3', title: 'استان3'}, {value: '4', title: 'استان4'}]
 
-const OrgFormPart1 = ({ handleSubmit, pristine, reset, submitting, onSubmit }) => (
+const OrgFormPart1 = ({ translator, handleSubmit, pristine, reset, submitting, onSubmit }) => (
   <form onSubmit={handleSubmit(onSubmit)}>
     <Field
       name="username"
       type="text"
       component={renderTextField}
-      label="نام کاربری"
+      label={translator['Username']}
     />
-    <Field name="email" type="email" component={renderTextField} label="ایمیل" />
-    <Field name="official_name" type="text" component={renderTextField} label="نام رسمی" />
-    <Field name="national_code" type="text" component={renderTextField} label="کد ملی" />
+    <Field name="email" type="email" component={renderTextField} label={translator['Email']} />
+    <Field name="official_name" type="text" component={renderTextField} label={translator['Official name']} />
+    <Field name="national_code" type="text" component={renderTextField} label={translator['National code']} />
     <Field
       name="organization_type"
       component={renderSelectField}
-      label="نوع شرکت"
+      label={translator['Organization type']}
       options={ORGANIZATION_TYPES}
     />
     <Field
       name="business_type"
       component={renderSelectField}
-      label="نوع تجارت"
+      label={translator['Business type']}
       options={BUSINESS_TYPES}
     />
     <div>
       <button
         className="btn btn-primary btn-block login-submit-button mt-0 cursor-pointer"
         disabled={submitting}>
-        {!submitting ? "ثبت نام" : (
+        {!submitting ? translator['Register'] : (
           <BeatLoader color="#fff" size={10} margin="auto"/>
         )}
       </button>
     </div>
   </form>
 )
-const OrgFormPart2 = ({ handleSubmit, pristine, reset, submitting, onSubmit, handleProvinces, provincesIdentifier }) => (
+const OrgFormPart2 = ({ translator, handleSubmit, pristine, reset, submitting, onSubmit, handleProvinces, provincesIdentifier }) => (
   <form onSubmit={handleSubmit(onSubmit)}>
     <Field
       name="country"
       options={COUNTRIES}
       component={renderSelectField}
       changeHandler={handleProvinces}
-      label="کشور"
+      label={translator['Country']}
     />
     <Field
       name="province"
       options={provincesIdentifier === '1'? PROVINCES1: PROVINCES2}
       component={renderSelectField}
-      label="استان"
+      label={translator['Province']}
     />
-    <Field name="city" type="text" component={renderTextField} label="شهر" />
-    <Field name="password" type="password" component={renderTextField} label="رمز عبور" />
-    <Field name="passwordConfirm" type="password" component={renderTextField} label="تکرار رمز عبور" />
+    <Field name="city" type="text" component={renderTextField} label={translator['City']} />
+    <Field name="password" type="password" component={renderTextField} label={translator['Password']} />
+    <Field name="passwordConfirm" type="password" component={renderTextField} label={translator['Repeat password']} />
     <div>
       <button
         className="btn btn-primary btn-block login-submit-button mt-0 cursor-pointer"
         disabled={submitting}>
-        {!submitting ? "ثبت نام" : (
+        {!submitting ? translator['Register'] : (
           <BeatLoader color="#fff" size={10} margin="auto"/>
         )}
       </button>
@@ -98,13 +97,13 @@ const OrgReduxFormPart2 = reduxForm({
   validate,
 })(OrgFormPart2)
 
-const OrganizationSignupForm = ({ onSubmitPart1, onSubmitPart2, formPart, provincesIdentifier, handleProvinces }) => (
-  <div className="organization-signup-form">  
+const OrganizationSignupForm = ({ translator ,onSubmitPart1, onSubmitPart2, formPart, provincesIdentifier, handleProvinces }) => (
+  <div className="organization-signup-form">
     <div className={formPart === 2 ? 'visible-part' : 'hidden-part' }>
-      <OrgReduxFormPart2 onSubmit={onSubmitPart2} handleProvinces={handleProvinces} provincesIdentifier={provincesIdentifier} />        
+      <OrgReduxFormPart2 translator={translator} onSubmit={onSubmitPart2} handleProvinces={handleProvinces} provincesIdentifier={provincesIdentifier} />        
     </div>
     <div className={formPart === 1 ? 'visible-part' : 'hidden-part' }>
-      <OrgReduxFormPart1 onSubmit={onSubmitPart1} />
+      <OrgReduxFormPart1 translator={translator} onSubmit={onSubmitPart1} />
     </div>
   </div>
 )
