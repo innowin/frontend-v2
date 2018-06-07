@@ -1,16 +1,11 @@
-
 import React, {Component} from 'react'
 import PersonSignupForm from './PersonSignUpForm'
 import OrganizationSignUpForm from './OrganizationSignUpForm'
 import { RadioButtonGroup } from '../../common/inputs/RadioButtonInput'
-import cookies from "browser-cookies"
-import {REST_REQUEST} from "src/consts/Events"
-import {setID, setTOKEN, saveData} from "src/consts/data"
-import {SOCKET as socket, REST_URL as url} from "src/consts/URLS"
 const USER_TYPES = {
   PERSON: 'person',
   ORGANIZATION: 'organization',
-};
+}
 
 export class SignUpForm extends Component {
 
@@ -19,7 +14,9 @@ export class SignUpForm extends Component {
     this.state = {
       userType: USER_TYPES.PERSON,
       orgFormPart: 0,
-      data: {}
+      data: {},
+      provincesIdentifier: 0 // this is for test of province changing by country changing and
+                            // it will be clearing in future.
     }
   }
   _typeHandler = (value) => {
@@ -28,12 +25,13 @@ export class SignUpForm extends Component {
       this._orgFormPartHandler(part)
     }));
   }
+  // handleProvinces = i => this.setState({check: i})
+  
+  handleProvinces = (e, v) => {this.setState({ ...this.state, provincesIdentifier: v})}// this is 
+  // for test of province changing by country changing and
+  // it will be clearing in future.
+  
   _orgFormPart1SubmitHandler = (values) => {
-    socket.emit(REST_REQUEST, {
-      method: "get",
-      url: `${url}/users/?username=${values.username}`,
-      result: "USERNAME_check",
-    }).then(res => console.log('my res is ', res))
     this.setState({ ...this.state, orgFormPart: 2, data: { ...this.state.data, ...values} })
   }
 
@@ -42,30 +40,31 @@ export class SignUpForm extends Component {
   }
   
   _handlePersonFormSubmit = (values) => {
-       this.setState({ ...this.state, data: values}, () => console.log(this.state))
+    this.setState({ ...this.state, data: values})
   }
 
   _orgFormPartHandler = part => this.setState({ ...this.state, orgFormPart: part})
 
   render() {
     const {RedirectToHome} = this.props;
-    const { userType, orgFormPart } = this.state
+    const { userType, orgFormPart, provincesIdentifier } = this.state
     const userTypeItems = [ // used for RadioButtonItems as items property.
       { value: USER_TYPES.PERSON, title: 'فرد' },
       { value: USER_TYPES.ORGANIZATION, title: 'سازمان' },
-    ];
+    ]
     return (
       <div className="signup-wrapper">
-        <RadioButtonGroup selected={userType}
-                          handler={this._typeHandler}
-                          items={userTypeItems}
-                          name="userType"
-                          label="ثبت نام کننده"
+        <RadioButtonGroup
+          selected={userType}
+          handler={this._typeHandler}
+          items={userTypeItems}
+          name="userType"
+          label="ثبت نام کننده"
         />
         {userType === USER_TYPES.PERSON ?
           <PersonSignupForm onSubmit={this._handlePersonFormSubmit} RedirectToHome={RedirectToHome} />
           :
-          <OrganizationSignUpForm handlePart={this._orgFormPartHandler} formPart={orgFormPart} onSubmitPart2={this._orgFormPart2SubmitHandler} onSubmitPart1={this._orgFormPart1SubmitHandler} />
+          <OrganizationSignUpForm handleProvinces={this.handleProvinces} provincesIdentifier={provincesIdentifier} handlePart={this._orgFormPartHandler} formPart={orgFormPart} onSubmitPart2={this._orgFormPart2SubmitHandler} onSubmitPart1={this._orgFormPart1SubmitHandler} />
         }
       </div>
     )

@@ -30,7 +30,11 @@
       } else return 'کد ملی باید ۱۰ رقم باشد.'
     } return 'همه کاراکترهای کدملی باید عدد باشد.'
   }
-  
+  const validatePassword = (pass) => {
+    const level = new RegExp("^[\s\S]{4,}$");
+    const level7 = new RegExp('([\\s\\S])\\1\\1\n');
+    if (!level.test(pass) || level7.test(pass)) return  'این رمز ضعیف است. رمز ورود باید حداقل ۸ کاراکتر باشد و از حداقل دارای یک حرف باشد.'
+  }
   export const validateSignup = values => {
     const errors = {}
     const requiredFields = [
@@ -41,7 +45,8 @@
     if (username) errors.username = validateUsername(username)
     if (email) errors.email = validateEmail(email)
     if (national_code) errors.national_code = validateNationalCode(national_code)
-    
+    // if (password) errors.password = validatePassword(password)
+
     if (passwordConfirm && passwordConfirm !== password) errors.passwordConfirm = 'دو رمز وارد شده یکسان نیستند.'
   
     requiredFields.forEach(field => {
