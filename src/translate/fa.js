@@ -157,6 +157,8 @@ module.exports = {
   'User': "کاربر",
   'Organization Not Found': "شرکت مورد نظر یافت نشد!",
   'Organization': "شرکت",
+  'Person': "فرد",
+  'Registrar': "ثبت نام کننده",
 
   // Organization - organizations
   'Official name': "نام رسمی",
@@ -164,6 +166,7 @@ module.exports = {
   'Organization national code': "شناسه ملی",
   'Registration ads url': "پیوند آگهی ثبت شرکت",
   'Registrar organization': "سازمان ثبت کننده",
+  'Organization type': "نوع سازمان",
   'Country': "کشور",
   'Province': "استان",
   'City': "شهر",
