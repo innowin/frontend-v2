@@ -6,8 +6,8 @@ export const getFollowings = (identityId, handleError, handleResult) => {
   socket.emit(REST_REQUEST,
     {
       method: "get",
-      url: `${url}/organizations/follows/?follow_followed=${identityId}`,
-      result: `/organizations/follows/?follow_followed/${identityId}`,
+      url: `${url}/organizations/follows/?follow_follower=${identityId}`,
+      result: `/organizations/follows/?follow_follower/${identityId}`,
       token
     }
   );
@@ -17,9 +17,9 @@ export const getFollowings = (identityId, handleError, handleResult) => {
       handleError(res.detail)
     }
     handleResult(res);
-    socket.off(`/organizations/follows/?follow_followed/${identityId}`, func)
+    socket.off(`/organizations/follows/?follow_follower/${identityId}`, func)
   };
-  socket.on(`/organizations/follows/?follow_followed/${identityId}`, func);
+  socket.on(`/organizations/follows/?follow_follower/${identityId}`, func);
 }
 
 
@@ -27,8 +27,8 @@ export const getFollowers = (identityId, handleError, handleResult) => {
   socket.emit(REST_REQUEST,
     {
       method: "get",
-      url: `${url}/organizations/follows/?follow_follower=${identityId}`,
-      result: `/organizations/follows/?follow_follower/${identityId}`,
+      url: `${url}/organizations/follows/?follow_followed=${identityId}`,
+      result: `/organizations/follows/?follow_followed/${identityId}`,
       token
     }
   );
@@ -38,9 +38,9 @@ export const getFollowers = (identityId, handleError, handleResult) => {
       handleError(res.detail)
     }
     handleResult(res);
-    socket.off(`/organizations/follows/?follow_follower/${identityId}`, func)
+    socket.off(`/organizations/follows/?follow_followed/${identityId}`, func)
   };
-  socket.on(`/organizations/follows/?follow_follower/${identityId}`, func);
+  socket.on(`/organizations/follows/?follow_followed/${identityId}`, func);
 }
 
 export const deleteFollow = (followedIdentityId, handleError, handleResult) => {
