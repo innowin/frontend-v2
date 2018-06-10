@@ -55,7 +55,7 @@ const OrgFormPart1 = ({ translator, handleSubmit, pristine, reset, submitting, o
       </button>
     </div>
   </form>
-)
+);
 const OrgFormPart2 = ({ translator, handleSubmit, pristine, reset, submitting, onSubmit, handleProvinces, provincesIdentifier }) => (
   <form onSubmit={handleSubmit(onSubmit)}>
     <Field
@@ -84,18 +84,18 @@ const OrgFormPart2 = ({ translator, handleSubmit, pristine, reset, submitting, o
       </button>
     </div>
   </form>
-)
+);
 const OrgReduxFormPart1 = reduxForm({
   form: 'orgSignupFormPart1',
   validate,
   // asyncValidate,
   // asyncBlurFields: ['username']
-})(OrgFormPart1)
+})(OrgFormPart1);
 
 const OrgReduxFormPart2 = reduxForm({
   form: 'orgSignupFormPart2',
   validate,
-})(OrgFormPart2)
+})(OrgFormPart2);
 
 const OrganizationSignupForm = ({ translator ,onSubmitPart1, onSubmitPart2, formPart, provincesIdentifier, handleProvinces }) => (
   <div className="organization-signup-form">
@@ -106,7 +106,7 @@ const OrganizationSignupForm = ({ translator ,onSubmitPart1, onSubmitPart2, form
       <OrgReduxFormPart1 translator={translator} onSubmit={onSubmitPart1} />
     </div>
   </div>
-)
+);
 
 export default OrganizationSignupForm
 
