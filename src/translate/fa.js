@@ -36,8 +36,7 @@ module.exports = {
   'Error': "خطا",
   'Loading ...': "در حال بارگذاری ...",
   'Username or password is not correct': "نام کاربری و گذرواژه صحیح نمی باشد",
-  'Invalid organization national code': "شناسه ملی نامعتبر می باشد",
-  'Organization national code must be 10 digit': "شناسه ملی باید یک عدد ده رقمی باشد",
+  'Organization national code must be 11 digit': "شناسه ملی باید یک عدد یازده رقمی باشد",
 
 
   //common
@@ -110,8 +109,8 @@ module.exports = {
   'Remember me': "مرا به خاطر بسپار",
   'Last name': "نام خانوادگی",
   'User info': "اطلاعات کاربری",
-  'Organization info': "اطلاعات سازمان",
-  'Organization members': "اعضای سازمان",
+  'Organization info': "اطلاعات شرکت",
+  'Organization members': "اعضای شرکت",
   'Date joined': 'تاریخ پیوستن',
   
   'Profile info': 'اطلاعات تکمیلی',
@@ -157,6 +156,8 @@ module.exports = {
   'User': "کاربر",
   'Organization Not Found': "شرکت مورد نظر یافت نشد!",
   'Organization': "شرکت",
+  'Person': "فرد",
+  'Registrar': "ثبت نام کننده",
 
   // Organization - organizations
   'Official name': "نام رسمی",
@@ -164,6 +165,7 @@ module.exports = {
   'Organization national code': "شناسه ملی",
   'Registration ads url': "پیوند آگهی ثبت شرکت",
   'Registrar organization': "سازمان ثبت کننده",
+  'Organization type': "نوع شرکت",
   'Country': "کشور",
   'Province': "استان",
   'City': "شهر",

@@ -1,162 +1,6 @@
 import {REST_REQUEST} from "../../consts/Events"
 import {REST_URL as url, SOCKET as socket} from "../../consts/URLS"
-import {TOKEN, ID} from "src/consts/data"
-
-export const updateEducation = (educationId, formValues,handleResult) =>{
-  socket.emit(REST_REQUEST,
-  {
-    method:'patch',
-    url:`${url}/users/educations/${educationId}/`,
-    data:formValues,
-    result:`user-education-update/${educationId}`,
-    token:TOKEN
-  });
-
-  socket.on(`user-education-update/${educationId}`,(res)=>{
-    if(res.detail){
-      handleResult( {error:true,detail:res.detail});
-    }else{
-      handleResult(res);
-    }
-  })
-};
-
-export const createEducation = (formValues, handleResult) =>{
-  formValues.education_user = ID;
-  socket.emit(REST_REQUEST,
-    {
-      method:'post',
-      url:`${url}/users/educations/`,
-      data:formValues,
-      result:`user-education-create/`,
-      token:TOKEN
-    });
-
-  socket.on(`user-education-create/`,(res)=>{
-    if(res.detail){
-      handleResult( {error:true,detail:res.detail});
-    }else{
-      handleResult(res);
-    }
-  })
-};
-
-export const deleteEducation = (educationId, formValues, handleResult) =>{
-  socket.emit(REST_REQUEST,
-    {
-      method:'del',
-      url:`${url}/users/educations/${educationId}/`,
-      data:formValues,
-      result:`user-education-del/${educationId}`,
-      token:TOKEN
-    });
-  
-    socket.on(`user-education-del/${educationId}`,(res)=>{
-      if(res.detail){
-        handleResult( {error:true,detail:res.detail});
-      }else{
-        handleResult(res);
-      }
-    })
-};
-
-//---------------------------------------------------------------------//
-
-export const updateResearch = (researchId, formValues, handleResult) =>{
-  socket.emit(REST_REQUEST,
-    {
-      method:'patch',
-      url:`${url}/users/researches/${researchId}/`,
-      data:formValues,
-      result:`user-research-update/${researchId}`,
-      token:TOKEN
-    });
-
-  socket.on(`user-research-update/${researchId}`,(res)=>{
-    if(res.detail){
-      handleResult( {error:true,detail:res.detail});
-    }else{
-      handleResult(res);
-    }
-  })
-};
-
-export const createResearch = (researchId, formValues, handleResult) =>{
-  formValues.education_user = ID;
-  socket.emit(REST_REQUEST,
-    {
-      method:'post',
-      url:`${url}/users/researches/${researchId}`,
-      data:formValues,
-      result:`user-research-create/${researchId}`,
-      token:TOKEN
-    });
-
-  socket.on(`user-research-create/${researchId}`,(res)=>{
-    if(res.detail){
-      handleResult( {error:true,detail:res.detail});
-    }else{
-      handleResult(res);
-    }
-  })
-};
-
-export const deleteResearch = (researchId, formValues, handleResult) =>{
-  socket.emit(REST_REQUEST,
-    {
-      method:'del',
-      url:`${url}/users/researches/${researchId}/`,
-      data:formValues,
-      result:`user-research-del/${researchId}`,
-      token:TOKEN
-    });
-  
-    socket.on(`user-research-del/${researchId}`,(res)=>{
-      if(res.detail){
-        handleResult( {error:true,detail:res.detail});
-      }else{
-        handleResult(res);
-      }
-    })
-};
-
-//---------------------------------------------------------------------//
-
-export const getUserEducations = (userId, handleResult) =>{
-  socket.emit(REST_REQUEST, 
-    {
-    method: "get",
-    url:`${url}/users/educations/?education_user=${userId}`,
-    result: `/users/educations/get${userId}`,
-    token: TOKEN,
-    }
-  );
-
-  socket.on(`/users/educations/get${userId}`,(res)=>{
-    if(res.detail) {
-      handleResult( {error:true,detail:res.detail});
-    }
-    handleResult(res);
-  })
-};
-
-export const getUserResearches = (userId, handleResult) =>{
-  socket.emit(REST_REQUEST, 
-    {
-    method: "get",
-    url:`${url}/users/researches/`,
-    result: "/users/researches/get",
-    token: TOKEN,
-    }
-  );
-
-  socket.on("/users/researches/get",(res)=>{
-    if(res.detail) {
-      handleResult( {error:true,detail:res.detail});
-    }
-    handleResult(res);
-  })
-};
+import {TOKEN} from "src/consts/data"
 
 export const getUser = (userId, handleResult) => {
   socket.emit(REST_REQUEST,
@@ -177,14 +21,64 @@ export const getUser = (userId, handleResult) => {
     s_off()
   };
 
-  socket.on(`/users/{id}/-get/getUser/${userId}`,func);
+  socket.on(`/users/{id}/-get/getUser/${userId}`, func);
 
   function s_off() {
     socket.off(`/users/{id}/-get/getUser/${userId}`, func)
   }
 };
 
+export const createUser = (data, apiTokenAuth, handleLogin) => {
+  const {username, password, email} = data;
+  socket.emit(REST_REQUEST, {
+    method: 'post',
+    url: `${url}/users/`,
+    result: 'CREATE_USER',
+    data: {
+      username,
+      password,
+      email
+    }
+  });
+  const func = (res) => {
+    if (res.id) {
+      apiTokenAuth(data, handleLogin)
+    }
+    socket.off('CREATE_USER', func)
+  };
+  socket.on('CREATE_USER', func);
+};
 
+export const createUserOrgan = (data, apiTokenAuth, handleLogin) => {
+  const {username, password, email, ...organization} = data;
+  const {national_code, official_name, country, province, city, ownership_type, business_type} = organization;
+  socket.emit(REST_REQUEST, {
+    method: 'post',
+    url: `${url}/users/user-organization/`,
+    result: 'createUserOrgan',
+    data: {
+      username,
+      password,
+      email,
+      "organization.username": username,
+      "organization.email": email,
+      "organization.official_name": official_name,
+      "organization.national_code": national_code,
+      "organization.country": country,
+      "organization.province": province,
+      "organization.city": city,
+      "organization.ownership_type": ownership_type,
+      "organization.business_type": business_type
+    }
+  });
+  const func = (res) => {
+    if (res.id) {
+      apiTokenAuth(data, handleLogin)
+    }
+    socket.off('createUserOrgan', func)
+  };
+  socket.on('createUserOrgan', func);
+};
 
 export const updateUser = (formValues, userId, updateStateForView, hideEdit) => {
   let isLoading = false;
@@ -217,39 +111,25 @@ export const updateUser = (formValues, userId, updateStateForView, hideEdit) => 
   });
 };
 
-export const updateProfile = (formValues, profileId, updateStateForView, hideEdit) => {
-  let isLoading = false;
-  const emitting = () => {
-    isLoading = true;
-    socket.emit(REST_REQUEST, {
-      method: "patch",
-      url: `${url}/users/profiles/${profileId}/`,
-      result: `updateProfile-patch-${profileId}`,
-      token: TOKEN,
-      data: {
-        "public_email": formValues.public_email,
-        "national_code": formValues.national_code,
-        "birth_date": formValues.birth_date,
-        "web_site": formValues.web_site,
-        "phone": formValues.phone,
-        "mobile": formValues.mobile,
-        "fax": formValues.fax,
-        "telegram_account": formValues.telegram_account,
-        "description": formValues.description,
-        "profile_user": formValues.profile_user
-      }
-    })
+export const apiTokenAuth = (data, handleLogin) => {
+  const {username, password} = data;
+  socket.emit(REST_REQUEST, {
+    method: "post",
+    url: url + "/api-token-auth/",
+    result: "apiTokenAuth",
+    data: {
+      username,
+      password
+    }
+  });
+  const func = async (res) => {
+    if (res.non_field_errors) {
+      // TODO mohsen: error message is handle
+      return false;
+    }
+    await handleLogin(res);
+    socket.off("apiTokenAuth", func)
   };
 
-  emitting();
-
-  socket.on(`updateProfile-patch-${profileId}`, (res) => {
-    let error = false;
-    isLoading = false;
-    if (res.detail) {
-      error = res.detail;
-    }
-    updateStateForView(res, error, isLoading);
-    hideEdit();
-  });
+  socket.on('apiTokenAuth', func);
 };

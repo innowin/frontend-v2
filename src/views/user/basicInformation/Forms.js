@@ -6,13 +6,15 @@ import {CustomArrayInput} from "src/views/common/inputs/CustomArrayInput"
 import {CustomInput} from "src/views/common/inputs/CustomInput"
 import {DateInput} from "src/views/common/inputs/DateInput"
 import {EmailInput} from "src/views/common/inputs/EmailInput"
+import {IntInput} from "src/views/common/inputs/IntInput"
 import {outputComponent} from "src/views/common/OutputComponent"
 import {PhoneInput} from "src/views/common/inputs/PhoneInput"
 import {TextareaInput} from "src/views/common/inputs/TextareaInput"
 import {TextInput} from "src/views/common/inputs/TextInput"
-import {IntInput} from "src/views/common/inputs/IntInput"
-
-import {updateProfile, updateUser, updateEducation, updateResearch} from "../../../crud/user/user"
+import {updateEducation} from "src/crud/user/education"
+import {updateProfile} from "src/crud/user/profile"
+import {updateResearch} from "src/crud/user/research"
+import {updateUser} from "src/crud/user/user"
 
 export class ProfileInfoForm extends Component {
   static propTypes = {
