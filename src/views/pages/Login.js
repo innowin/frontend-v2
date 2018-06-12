@@ -96,7 +96,7 @@ class Login extends Component {
                   {SignIn &&
                   <LoginForm showRecovery={this._showRecovery} socket={socket} handleLogIn={handleLogIn}/>}
                   {SignUp &&
-                  <RegisterForm showLogin={this._showSignIn} socket={socket} RedirectToHome={RedirectToHome}/>}
+                  <RegisterForm showLogin={this._showSignIn} handleLogIn={handleLogIn} RedirectToHome={RedirectToHome}/>}
                   {Recovery &&
                   <RecoveryForm socket={socket}/>}
                 </div>
