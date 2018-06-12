@@ -8,7 +8,8 @@ import {REST_REQUEST} from "../../../consts/Events"
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {TOKEN} from "src/consts/data"
 import {UserInfoItemWrapper, UserInfoView, ProfileInfoView, ResearchInfoView, EducationInfoView} from "./Views"
-import {getUserResearches, getUserEducations} from '../../../crud/user/user'
+import {getUserResearches} from "src/crud/user/research"
+import {getUserEducations} from "src/crud/user/education"
 
 export class UserInfo extends Component {
 

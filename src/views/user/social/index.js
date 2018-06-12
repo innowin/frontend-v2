@@ -37,49 +37,44 @@ class Socials extends Component {
 
   _handleError = (error) => this.setState({...this.state, error: error, isLoading: false});
 
-  _getFollowers = (followersList) => {console.log("followersList:", followersList);
-    const followersUsers = this.state;
+  _getFollowers = (followersList) => {
+    let fls = [];
+    let images = [];
     for (let i = 0; i < followersList.length; i++) {
       getIdentity(followersList[i].follow_follower, (res) => {
         const user = res.identity_user;
-        this.setState({...this.state, followersUsers: [...followersUsers, user]}, () => {
-          getProfile(user.id, (res) => {
-            const mediaId = res.profile_media;
-            const followersImages = this.state;
-            if (mediaId) {
-              return getFile(mediaId, (res) =>
-                this.setState({...this.state, followersImages: [...followersImages, res.file]})
-              )
-            } else {
-              this.setState({...this.state, followersImages: [...followersImages, null]})
-            }
-          })
+        fls.push(user);
+        getProfile(user.id, (res) => {
+          const mediaId = res.profile_media;
+          if (mediaId) {
+            return getFile(mediaId, (res) => images.push(res.file))
+          } else {
+            images.push(null)
+          }
         })
       })
     }
+    this.setState({...this.state, followersUsers: fls, followersImages: images});
   };
 
   _getFollowings = (followingsList) => {
-    console.log("followersList:", followingsList);
-    const followingsUsers = this.state;
+    let fls = [];
+    let images = [];
     for (let i = 0; i < followingsList.length; i++) {
       getIdentity(followingsList[i].follow_followed, (res) => {
         const user = res.identity_user;
-        this.setState({...this.state, followingsUsers: [...followingsUsers, user]}, () => {
-          getProfile(user.id, (res) => {
-            const mediaId = res.profile_media;
-            const followingsImages = this.state;
-            if (mediaId) {
-              return getFile(mediaId, (res) =>
-                this.setState({...this.state, followingsImages: [...followingsImages, res.file]})
-              )
-            } else {
-              this.setState({...this.state, followingsImages: [...followingsImages, null], isLoading: false})
-            }
-          })
+        fls.push(user);
+        getProfile(user.id, (res) => {
+          const mediaId = res.profile_media;
+          if (mediaId) {
+            return getFile(mediaId, (res) => images.push(res.file))
+          } else {
+            images.push(null)
+          }
         })
       })
     }
+    this.setState({...this.state, followingsUsers: fls, followingsImages: images});
   };
 
   _handleGet = (identityId) => {
@@ -92,7 +87,7 @@ class Socials extends Component {
     });
     getFollowers(identityId, this._handleError, (res) => this._getFollowers(res));
     getFollowings(identityId, this._handleError, (res) =>
-      this.setState({...this.state, followingsList: res}, () => this._getFollowings(res)))
+        this.setState({...this.state, followingsList: res}, () => this._getFollowings(res)))
   };
 
   componentDidMount() {
@@ -105,8 +100,8 @@ class Socials extends Component {
     followingsList.splice(index, 1);
     this.setState({...this.state, followingsList: followingsList}, () => {
       deleteFollow(followingsList[index].follow_followed, this._handleError, (res) => {
-          this.setState({...this.state, followingsList: res})
-        }
+            this.setState({...this.state, followingsList: res})
+          }
       )
     });
   };
@@ -119,7 +114,8 @@ class Socials extends Component {
     });
   };
 
-  _mergeUsersImages = (usersArray, imagesArray) => {
+  _mergeUsersImages = (usersArray, imagesArray) => {console.log("imgArray:::", imagesArray.length)
+    imagesArray.map((io) => alert(io))
     let fls = [];
     usersArray.map((user, i) => fls.push({'user': user, 'img': imagesArray[i]}));
     return fls
@@ -128,20 +124,22 @@ class Socials extends Component {
   render() {
     const {
       createForm, exchanges, followersImages, followersUsers, followingsImages, followingsUsers, isLoading, error
-    } = this.state;console.log("first section:", followersUsers, followingsUsers);
+    } = this.state;
+    console.log("numbers:", followersUsers, followersImages);
     const followers = this._mergeUsersImages(followersUsers, followersImages);
+    console.log("followers:", followers)
     const followings = this._mergeUsersImages(followingsUsers, followingsImages);
     return (
-      <VerifyWrapper isLoading={isLoading} error={error}>
-        <CategoryTitle
-          title={__('Socials')}
-        />
-        <FrameCard className="-frameCardSocial">
-          <ExchangesView deleteExchange={this._deleteExchange} exchanges={exchanges}/>
-          <FollowersView followers={followers}/>
-          <FollowingsView deleteFollowing={this._deleteFollowing} followings={followings}/>
-        </FrameCard>
-      </VerifyWrapper>
+        <VerifyWrapper isLoading={isLoading} error={error}>
+          <CategoryTitle
+              title={__('Socials')}
+          />
+          <FrameCard className="-frameCardSocial">
+            <ExchangesView deleteExchange={this._deleteExchange} exchanges={exchanges}/>
+            <FollowersView followers={followers}/>
+            <FollowingsView deleteFollowing={this._deleteFollowing} followings={followings}/>
+          </FrameCard>
+        </VerifyWrapper>
     )
   }
 }
