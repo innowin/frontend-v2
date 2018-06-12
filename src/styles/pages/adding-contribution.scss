@@ -65,8 +65,8 @@
     max-width: 1150px;
 }
 .adding-contribution-wrapper .wrapper {
-    .initial-info {
-        .form {
+    .initial-info, .certificates {
+        .form, .images {
             max-width: 750px;
             margin: 0 auto;
         }
@@ -79,9 +79,17 @@
         max-width: 910px;
         margin: 0 auto;
     }
-
 }
-
+@media (max-width: 780px) {
+    .certificates .form .form-column {
+        margin: 0 auto
+    }
+}
+@media (max-width: 466px) {
+    .certificates .images .image {
+        margin: 0 auto
+    }
+}
 @media (max-width: 1170px) {
     .modal-lg {
         max-width: 970px;
@@ -300,15 +308,44 @@
             @extend %jumbo-btn;
             width: 90px;
             border: 3px solid $brand-inverse;
+            position: relative;
+            cursor: pointer;
         }
         .file-btn input {
             opacity: 0;
             width: 100%;
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 27px;
         }
     }
     .images {
         display: flex;
         justify-content: space-between;
+        flex-flow: row wrap;
+        .image {
+            height: 142px;
+            border: 1px dotted;
+            flex: 0 0 202px;
+            min-width: 202px;
+            border-radius: 4px;
+            margin: 10px 0;
+            // background: $chat-box2-color;
+        }
+        .image img {
+            width: 200px;
+            height: 140px;
+            object-fit: cover;
+         }
+        .image .hide {
+            opacity: 0;
+            transition: all 0.5s;
+        }
+        .image .show {
+            opacity: 1;
+            transition: all 0.5s;
+        }
     }
     .form-column .logo-upload,
     .form-column .image-upload{
@@ -328,3 +365,8 @@
 //     padding: 0;
 //     margin: 0;
 // }
+@media (max-width: 466px) {
+    .certificates .images .image {
+        margin: 0 auto
+    }
+}

@@ -134,6 +134,11 @@ const PROGRESSIVE_STATUS_CHOICES = {
     GOING_PREV: 'going-next',
     ACTIVE: 'active'
 }
+const CERTIFICATES_IMG_IDS = [
+    'certificate1img',
+    'certificate2img',
+    'certificate3img',
+]
 class Contribution extends React.Component {
   constructor(props) {
     super(props);
@@ -149,7 +154,8 @@ class Contribution extends React.Component {
           { title: 'گام پنجم', icon: 'circle' },
       ],
       progressStatus: PROGRESSIVE_STATUS_CHOICES.ACTIVE,
-      newContributionData: {}
+      newContributionData: {},
+      testImage: ''
     };
   }
 
@@ -161,6 +167,48 @@ class Contribution extends React.Component {
   _prevStep = () => {
       const { activeStep } = this.state
       if (activeStep !== 1) this._setStep((activeStep - 1), PROGRESSIVE_STATUS_CHOICES.GOING_PREV)
+  }
+
+  _certificatesImagesHandler = (e, id) => {
+      const { newContributionData } = this.state
+      let imgId = id 
+      if (!id) {
+        //   imgId = CERTIFICATES_IMG_IDS.ID1;
+        //   if (newContributionData[CERTIFICATES_IMG_IDS.ID1]) imgId = CERTIFICATES_IMG_IDS.ID2
+        //   if (newContributionData[CERTIFICATES_IMG_IDS.ID2]) imgId = CERTIFICATES_IMG_IDS.ID3
+        for (let i = 0; i < CERTIFICATES_IMG_IDS.length; i++) {
+            if (!newContributionData[CERTIFICATES_IMG_IDS[i]]) {
+                imgId = CERTIFICATES_IMG_IDS[i]
+                break
+            }
+        }
+      }
+      const input = e.target
+      if (input.files) {
+        const reader = new FileReader()
+        reader.onload = () => {
+            document.getElementById(imgId).src = reader.result
+            this.setState({
+              ...this.state,
+              newContributionData: { ...this.state.newContributionData, [imgId]: reader.result}
+            }, () => console.log(this.state.newContributionData))
+        }
+        
+        reader.readAsDataURL(input.files[0])
+      }
+      
+      
+    //   var openFile = function(event) {
+    //     var input = event.target;
+    
+    //     var reader = new FileReader();
+    //     reader.onload = function(){
+    //       var dataURL = reader.result;
+    //       var output = document.getElementById('output');
+    //       output.src = dataURL;
+    //     };
+    //     reader.readAsDataURL(input.files[0]);
+    //   };
   }
 
   _setStep = (newStep, status) => {
@@ -187,8 +235,10 @@ class Contribution extends React.Component {
         case 1:
             return (
                     <Certificates
+                        certificatesImagesHandler={this._certificatesImagesHandler}
                         goToNextStep={this._nextStep}
                         goToPrevStep={this._prevStep}
+                        newContributionData={newContributionData}
                     />
                 )
         
@@ -317,50 +367,58 @@ const InitialInfo = ({ goToNextStep, goToPrevStep }) => (
     </div>
 )
 
-const Certificates = ({ goToNextStep, goToPrevStep }) => (
-    <div className="certificates">
-        <div className="form">
-            <div className="form-column">
-                <div className="title">
-                    <TextInput label="عنوان گواهینامه" name="name" />                
-                </div>
-                <div className="verification-request-wrapper">
-                    <FontAwesome name="fa-dollar" />
-                    <CircularCheckbox name="verification_request" label="درخواست اعتبارسنجی توسط دانش‌بوم" />
-                </div>
-            </div>
-            <div className="form-column">
-                <div className="logo-upload">
-                    <label>بارگزاری لوگو</label>
-                    <div className="file-btn">
-                        انتخاب فایل
-                        <input type="file" name="logo" />
+const Certificates = ({ goToNextStep, goToPrevStep, certificatesImagesHandler, newContributionData }) => {
+    return (
+        <div className="certificates">
+            <div className="form">
+                <div className="form-column">
+                    <div className="title">
+                        <TextInput label="عنوان گواهینامه" name="name" />                
+                    </div>
+                    <div className="verification-request-wrapper">
+                        <FontAwesome name="fa-dollar" />
+                        <CircularCheckbox name="verification_request" label="درخواست اعتبارسنجی توسط دانش‌بوم" />
                     </div>
                 </div>
-                <div className="image-upload">
-                    <label>
-                        بارگزاری تصویر گواهینامه
-                    </label>
-                    <div className="file-btn">
-                        انتخاب فایل
-                        <input type="file" name="certificate_image" />
+                <div className="form-column">
+                    <div className="logo-upload">
+                        <label>بارگزاری لوگو</label>
+                        <div className="file-btn">
+                            انتخاب فایل
+                            <input type="file" name="logo" />
+                        </div>
                     </div>
+                    <div className="image-upload">
+                        <label>
+                            بارگزاری تصویر گواهینامه
+                        </label>
+                        <div className="file-btn">
+                            انتخاب فایل
+                            <input type="file" name="certificate_image" onChange={(e) => {
+                                certificatesImagesHandler(e, null)
+                            }} />
+                        </div>
+                    </div>
+                    <div className="submit">ثبت</div>
                 </div>
-                <div className="submit">ثبت</div>
             </div>
+            <div className="images">
+                {CERTIFICATES_IMG_IDS.map(id => (
+                    <div className="image">
+                        <div className={newContributionData[id] ? 'show' : 'hide'}>
+                            <img id={id} src="" alt="certificate" />
+                        </div>
+                    </div>
+                ))}
+            </div>
+            <NextPrevBtns
+                prevBtnTitle="قبلی"
+                goToNextStep={goToNextStep}
+                goToPrevStep={goToPrevStep}
+            />
         </div>
-        <div className="images">
-            <div className="image"></div>
-            <div className="image"></div>
-            <div className="image"></div>
-        </div>
-        <NextPrevBtns
-            prevBtnTitle="قبلی"
-            goToNextStep={goToNextStep}
-            goToPrevStep={goToPrevStep}
-        />
-    </div>
-)
+    )
+}
 
 const NextPrevBtns = ({ goToNextStep, goToPrevStep, tips, prevBtnTitle }) => (
     <div className="next-prev-btns">
