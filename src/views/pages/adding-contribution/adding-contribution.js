@@ -7,6 +7,7 @@ import { TextInput } from '../../common/inputs/TextInput'
 import { RadioButtonGroup } from '../../common/inputs/RadioButtonInput'
 import { TextareaInput } from '../../common/inputs/TextareaInput'
 import { CircularCheckbox } from '../../common/inputs/CircularCheckbox'
+import { PayIcon, CongratsTick, ThinDownArrow } from '../../../images/icons'
 
 const categoreisData = [
     {
@@ -139,6 +140,8 @@ const CERTIFICATES_IMG_IDS = [
     'certificate2img',
     'certificate3img',
 ]
+const logoFieldName = 'contributionLogo'
+
 class Contribution extends React.Component {
   constructor(props) {
     super(props);
@@ -170,47 +173,35 @@ class Contribution extends React.Component {
   }
 
   _certificatesImagesHandler = (e, id) => {
-      const { newContributionData } = this.state
-      let imgId = id 
-      if (!id) {
-        //   imgId = CERTIFICATES_IMG_IDS.ID1;
-        //   if (newContributionData[CERTIFICATES_IMG_IDS.ID1]) imgId = CERTIFICATES_IMG_IDS.ID2
-        //   if (newContributionData[CERTIFICATES_IMG_IDS.ID2]) imgId = CERTIFICATES_IMG_IDS.ID3
+    const { newContributionData } = this.state
+    let imgId = id 
+    if (!id) {
         for (let i = 0; i < CERTIFICATES_IMG_IDS.length; i++) {
             if (!newContributionData[CERTIFICATES_IMG_IDS[i]]) {
                 imgId = CERTIFICATES_IMG_IDS[i]
                 break
             }
         }
-      }
-      const input = e.target
-      if (input.files) {
-        const reader = new FileReader()
-        reader.onload = () => {
-            document.getElementById(imgId).src = reader.result
-            this.setState({
-              ...this.state,
-              newContributionData: { ...this.state.newContributionData, [imgId]: reader.result}
-            }, () => console.log(this.state.newContributionData))
-        }
-        
-        reader.readAsDataURL(input.files[0])
-      }
-      
-      
-    //   var openFile = function(event) {
-    //     var input = event.target;
-    
-    //     var reader = new FileReader();
-    //     reader.onload = function(){
-    //       var dataURL = reader.result;
-    //       var output = document.getElementById('output');
-    //       output.src = dataURL;
-    //     };
-    //     reader.readAsDataURL(input.files[0]);
-    //   };
+    }
+    const input = e.target
+    this._setStateForFileField(input,  imgId)
   }
-
+  _logoFileHandler = (e) => {
+      const input = e.target
+      this._setStateForFileField(input, logoFieldName)
+  }
+  _setStateForFileField = (input, key) => {
+    const reader = new FileReader()
+    if (input.files && key){
+        reader.onload = () => {
+            this.setState({
+                ...this.state,
+                newContributionData: { ...this.state.newContributionData, [key]: reader.result}
+          })
+        }
+        input.files[0] && reader.readAsDataURL(input.files[0])
+    }
+  }
   _setStep = (newStep, status) => {
       this.setState({
           ...this.state,
@@ -239,6 +230,7 @@ class Contribution extends React.Component {
                         goToNextStep={this._nextStep}
                         goToPrevStep={this._prevStep}
                         newContributionData={newContributionData}
+                        logoFileHandler={this._logoFileHandler}
                     />
                 )
         
@@ -367,46 +359,72 @@ const InitialInfo = ({ goToNextStep, goToPrevStep }) => (
     </div>
 )
 
-const Certificates = ({ goToNextStep, goToPrevStep, certificatesImagesHandler, newContributionData }) => {
+const Certificates = ({
+    goToNextStep,
+    goToPrevStep,
+    certificatesImagesHandler,
+    newContributionData,
+    logoFileHandler
+}) => {
     return (
         <div className="certificates">
+        {console.log('newContributionData is ', newContributionData)}
             <div className="form">
                 <div className="form-column">
                     <div className="title">
                         <TextInput label="عنوان گواهینامه" name="name" />                
                     </div>
                     <div className="verification-request-wrapper">
-                        <FontAwesome name="fa-dollar" />
+                        <PayIcon className="pay-svg-icon" />
                         <CircularCheckbox name="verification_request" label="درخواست اعتبارسنجی توسط دانش‌بوم" />
                     </div>
                 </div>
                 <div className="form-column">
                     <div className="logo-upload">
-                        <label>بارگزاری لوگو</label>
+                        <CongratsTick className={newContributionData[logoFieldName]?
+                            'logo-uploaded-check checked'
+                            :
+                            'logo-uploaded-check'
+                        }
+                        />
+                        <label>بارگذاری لوگو</label>
                         <div className="file-btn">
                             انتخاب فایل
-                            <input type="file" name="logo" />
+                            <input onChange={logoFileHandler} type="file" name="logo" />
                         </div>
                     </div>
                     <div className="image-upload">
                         <label>
-                            بارگزاری تصویر گواهینامه
+                            بارگذاری تصویر گواهینامه
                         </label>
                         <div className="file-btn">
                             انتخاب فایل
                             <input type="file" name="certificate_image" onChange={(e) => {
                                 certificatesImagesHandler(e, null)
-                            }} />
+                                }} 
+                            />
                         </div>
                     </div>
-                    <div className="submit">ثبت</div>
+                    <div className="submit">
+                        ثبت
+                        <ThinDownArrow className="icon" />
+                    </div>
                 </div>
             </div>
             <div className="images">
                 {CERTIFICATES_IMG_IDS.map(id => (
-                    <div className="image">
+                    <div className="image" key={`certificateId/${id}`}>
                         <div className={newContributionData[id] ? 'show' : 'hide'}>
-                            <img id={id} src="" alt="certificate" />
+                            <img id={id} src={newContributionData[id]} alt="certificate" />
+                            <div className="certificate-img-edit-btn">
+                                <input
+                                    type="file"
+                                    className="edit-file-input"
+                                    onChange={(e) => {
+                                        certificatesImagesHandler(e, id)
+                                    }}
+                                />
+                            </div>
                         </div>
                     </div>
                 ))}
@@ -422,9 +440,15 @@ const Certificates = ({ goToNextStep, goToPrevStep, certificatesImagesHandler, n
 
 const NextPrevBtns = ({ goToNextStep, goToPrevStep, tips, prevBtnTitle }) => (
     <div className="next-prev-btns">
-        <div onClick={goToPrevStep} className="prev pointer">{prevBtnTitle}</div>
+        <div onClick={goToPrevStep} className="prev pointer">
+            <ThinDownArrow className="right-arrow" />
+            {prevBtnTitle}
+        </div>
         {tips && <div className="tips">s</div>}
-        <div onClick={goToNextStep} className="next pointer">بعدی</div>
+        <div onClick={goToNextStep} className="next pointer">
+            <ThinDownArrow className="left-arrow" />
+            بعدی
+        </div>
     </div>
 )
 

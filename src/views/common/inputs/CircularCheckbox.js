@@ -23,9 +23,9 @@ export class CircularCheckbox extends Component {
         const { label, name } = this.props;
         const { checked } = this.state;
         return (
-            <div className="circular-checkbox">
+            <div onClick={this._checkHandler} className="circular-checkbox">
                 <label>{label}</label>
-                <div onClick={this._checkHandler} className={checked ? "checkbox checked" : "checkbox"}>
+                <div className={checked ? "checkbox checked" : "checkbox"}>
                     <input type="checkbox" className="hidden" checked={checked} name={name} />
                 </div>
             </div>

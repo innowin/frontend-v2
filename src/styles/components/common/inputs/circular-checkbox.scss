@@ -1,5 +1,7 @@
 @import '../../../variables';
-
+.circular-checkbox {
+    cursor: pointer;
+}
 .circular-checkbox .checkbox {
     width: 20px;
     position: relative;

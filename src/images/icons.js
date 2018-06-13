@@ -27,7 +27,9 @@ import starIcon from "./common/star_svg"
 import SupplyIcon from "./common/supply_svg"
 import userInfoIcon from "./user/userinfo_svg"
 import workExperienceIcon from "./user/workExperience_svg"
-
+import PayIcon from "./addingConribution/pay_icon_svg"
+import CongratsTick from "./addingConribution/congratsTick_svg"
+import ThinDownArrow from "./common/thin_down_arrow_svg"
 
 export {
 	certificateIcon,
@@ -59,4 +61,7 @@ export {
   SettingIcon,
   SocialIcon,
   SupplyIcon,
+  PayIcon,
+  CongratsTick,
+  ThinDownArrow
 }

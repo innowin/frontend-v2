@@ -53,12 +53,35 @@
         color: $text-lightest-color;
         @extend %jumbo-btn;
         width: 160px;
+        position: relative;
+        .left-arrow {
+            width: 10px;
+            transform: rotate3d(0, 0, 1, 90deg);
+            position: absolute;
+            top: 9px;
+            left: 26px;
+            
+        }
+        .left-arrow path {
+            fill: $chat-box2-color;
+        }
     }
     .prev {
         float: right;
         border: 3px solid $brand-inverse;
         @extend %jumbo-btn;
         width: 160px;
+        position: relative;
+        .right-arrow {
+            width: 10px;
+            transform: rotate3d(0, 0, 1, -90deg);
+            position: absolute;
+            top: 6.5px;
+            right: 26px;
+        }
+        .right-arrow path {
+            fill: $brand-inverse;
+        }
     }
 }
 .modal-lg {
@@ -80,16 +103,12 @@
         margin: 0 auto;
     }
 }
-@media (max-width: 780px) {
-    .certificates .form .form-column {
-        margin: 0 auto
-    }
-}
-@media (max-width: 466px) {
-    .certificates .images .image {
-        margin: 0 auto
-    }
-}
+// @media (max-width: 780px) {
+//     .certificates .form, .certificates .images {
+//         justify-content: center;
+//     }
+// }
+
 @media (max-width: 1170px) {
     .modal-lg {
         max-width: 970px;
@@ -283,8 +302,35 @@
         margin: 0;
     }
 }
+%absolute-top0-right0 {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+// .certificate-img-edit-btn { 
+//     background: $image-edit-btn-background;
+//     opacity: 0;
+//     transition: opacity 0.3s;
+//     width: 16px;
+//     height: 16px;
+//     @extend %absolute-top0-right0;
+//     .edit-file-input {
+//         width: 30px;
+//         z-index: 1;
+//         opacity: 0;
+//         @extend %absolute-top0-right0;
+//     }
+//     &::after {
+//         content: "\F044";
+//         font-family: "FontAwesome";
+//         z-index: 0;
+//         color: $chat-box2-color;
+//         @extend %absolute-top0-right0;
 
+//     }
+// }
 .certificates {
+    padding-top: 50px;
     .form {
         display: flex;
         justify-content: space-between;
@@ -303,7 +349,19 @@
             background-color: $brand-inverse;
             float: left;
             color: $text-lightest-color;
+            margin: 0 0 30px;
+            position: relative;
         }
+        .form-column .submit .icon {
+            position: absolute;
+            width: 10px;
+            left: 10px;
+            top: 8px;
+        }
+        .form-column .submit .icon path {
+            fill: $chat-box2-color;
+        }
+        
         .file-btn {
             @extend %jumbo-btn;
             width: 90px;
@@ -331,6 +389,7 @@
             min-width: 202px;
             border-radius: 4px;
             margin: 10px 0;
+            position: relative;
             // background: $chat-box2-color;
         }
         .image img {
@@ -346,6 +405,31 @@
             opacity: 1;
             transition: all 0.5s;
         }
+        .image .show .certificate-img-edit-btn { 
+            background: $image-edit-btn-background;
+            opacity: 0;
+            transition: opacity 0.3s;
+            width: 16px;
+            height: 16px;
+            @extend %absolute-top0-right0;
+        }
+        .image .show .certificate-img-edit-btn .edit-file-input { 
+            width: 30px;
+            z-index: 1;
+            opacity: 0;
+            @extend %absolute-top0-right0;
+        }
+        .image .show .certificate-img-edit-btn::after { 
+            content: "\F044";
+            font-family: "FontAwesome";
+            z-index: 0;
+            color: $chat-box2-color;
+            @extend %absolute-top0-right0;
+        }
+        .image .show:hover .certificate-img-edit-btn {
+            opacity: 1;
+            transition: opacity 0.3s;
+        }
     }
     .form-column .logo-upload,
     .form-column .image-upload{
@@ -353,6 +437,7 @@
         height: 31px;
         line-height: 31px;
         justify-content: space-between;
+        margin: 30px 0;
         label {
             margin: 0;
         }
@@ -360,13 +445,48 @@
     .form-column .title input {
         @extend %none-bordered-input;
     }
+    .form-column .logo-upload {
+        position: relative;
+        .logo-uploaded-check {
+            height: 27px;
+            position: absolute;
+            right: -50px;
+        }
+        .logo-uploaded-check path {
+            fill: $disable-color;
+            transition: all 0.4s;
+        }
+        .logo-uploaded-check.checked path {
+            fill: $success-color;
+            transition: all 0.4s;
+        }
+    }
 }
-// .form .form-group {
-//     padding: 0;
-//     margin: 0;
-// }
-@media (max-width: 466px) {
+
+@media (max-width: 780px) {
+    .certificates .form, .certificates .images {
+        justify-content: center;
+    }
     .certificates .images .image {
-        margin: 0 auto
+        margin: 20px;
+    }
+}
+
+.form .form-column .verification-request-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 34px;
+    .pay-svg-icon {
+        height: 22px;
+        width: 23px;
+        position: relative;
+        top: -5px
+    }
+    .circular-checkbox {
+        display: flex;
+        justify-content: space-between;
+        .checkbox {
+            margin-right: 40px;
+        }
     }
 }
