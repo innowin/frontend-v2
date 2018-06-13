@@ -7,6 +7,7 @@ import customerIcon from "./organization/customer_svg"
 import defaultImg from "./common/defaultImg.png"
 import DemandIcon from "./common/demand_svg"
 import editIcon from "./common/edit.svg"
+import educationIcon from "./user/education_svg"
 import ExchangeExploreIcon from "./common/exchange_explore_svg"
 import ExchangeIcon from "./common/exchange_svg"
 import ForwardIcon from "./common/forward_svg"
@@ -19,6 +20,7 @@ import postIcon from "./user/post_svg"
 import PostSendIcon from "./common/postSend_svg"
 import RatingIcon from "./product/rating_svg"
 import RefreshIcon from "./common/refresh_svg"
+import researchIcon from "./user/research_svg"
 import SeeViewIcon from "./common/see_view_svg"
 import SettingIcon from "./common/setting_svg"
 import skillIcon from "./user/skill_svg"
@@ -44,6 +46,7 @@ export {
   ContributionIcon,
   customerIcon,
   DemandIcon,
+  educationIcon,
   ExchangeExploreIcon,
   ExchangeIcon,
   ForwardIcon,
@@ -55,6 +58,7 @@ export {
   PostSendIcon,
   RatingIcon,
   RefreshIcon,
+  researchIcon,
   SeeViewIcon,
   SettingIcon,
   SocialIcon,

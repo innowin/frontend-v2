@@ -10,6 +10,7 @@ import {TOKEN} from "src/consts/data"
 import {UserInfoItemWrapper, UserInfoView, ProfileInfoView, ResearchInfoView, EducationInfoView} from "./Views"
 import {getUserResearches} from "src/crud/user/research"
 import {getUserEducations} from "src/crud/user/education"
+import {userInfoIcon, researchIcon, educationIcon} from "src/images/icons"
 
 export class UserInfo extends Component {
 
@@ -69,7 +70,7 @@ export class UserInfo extends Component {
       
         {
           (edit) ? (
-            <UserInfoItemWrapper>
+            <UserInfoItemWrapper icon={userInfoIcon}>
               <UserInfoEditForm
                 user={user}
                 hideEdit={this._hideEdit}
@@ -141,7 +142,7 @@ export class ProfileInfo extends Component {
       <VerifyWrapper isLoading={isLoading} error={error}>
         {
           (edit) ? (
-            <UserInfoItemWrapper>
+            <UserInfoItemWrapper icon={userInfoIcon}>
               <ProfileInfoEditForm
                 profile={profile}
                 hideEdit={this._hideEdit}
@@ -187,7 +188,7 @@ export class EducationInfo extends Component {
       <VerifyWrapper isLoading={isLoading} error={error}>
         {
           (edit) ? (
-            <UserInfoItemWrapper>
+            <UserInfoItemWrapper icon={educationIcon}>
               <EducationInfoEditForm
                 education={education}
                 hideEdit={this._hideEdit} 
@@ -293,7 +294,7 @@ export class ResearchInfo extends Component {
       <VerifyWrapper isLoading={isLoading} error={error}>
         {
           (edit) ? (
-            <UserInfoItemWrapper>
+            <UserInfoItemWrapper icon={researchIcon}>
               <ResearchInfoEditForm
                 research={research}
                 hideEdit={this._hideEdit}
@@ -366,21 +367,10 @@ export default class UserBasicInformation extends Component {
 
   static propTypes = {
     userId: PropTypes.string.isRequired,
-  };
-
-  componentDidMount(){
-
   }
 
   render() {
     const {userId} = this.props;
-    // const {educations, reseraches} = this.state;
-    // const educationsView = educations.map((education,index)=>{
-    //   return <EducationInfo education={education}/>
-    // })
-    // const researchesView = reseraches.map((research,index)=>{
-    //   return <ResearchInfo research={research}/>
-    // })
     return (
       <div>
         <CategoryTitle
