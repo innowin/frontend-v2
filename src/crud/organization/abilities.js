@@ -33,8 +33,6 @@ export const updateAbility = (formValues, abilityId, updateStateForView, hideEdi
 	});
 };
 
-
-
 export const createAbility = (formValues,  updateStateForView, hideEdit,organizationId) => {
 	let isLoading = false;
 	formValues.ability_organization = organizationId;

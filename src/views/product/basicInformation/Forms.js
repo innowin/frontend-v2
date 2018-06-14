@@ -216,6 +216,7 @@ export class ProductInfoForm extends Component {
 								name="productCategory"
 								label={__('ProductCategory') + ": "}
 								options={options}
+								className="col-12 form-group"
 								required
 								value={currentCategory.title }
 								ref={productCategoryInput => {

@@ -4,7 +4,7 @@ const renderTextField = ({
     input,  
     label,
     type,
-    meta: { touched, error, warning }
+    meta: { touched, error}
   }) => (
     <div className="signup-field">
       <input className={touched && error ? 'error' : ''} {...input} placeholder={label} type={type} />

@@ -36,7 +36,7 @@ module.exports = {
   'Error': "خطا",
   'Loading ...': "در حال بارگذاری ...",
   'Username or password is not correct': "نام کاربری و گذرواژه صحیح نمی باشد",
-  'Organization national code must be 11 digit': "شناسه ملی باید یک عدد یازده رقمی باشد",
+  'Continue': "ادامه",
 
 
   //common
