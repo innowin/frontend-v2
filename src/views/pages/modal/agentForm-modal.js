@@ -7,7 +7,7 @@ import LabelTag from '../../common/tag-label.js'
 class AgentForm extends Component {
   static propTypes = {
     hide: PropTypes.func.isRequired,
-    active: PropTypes.boolean.isRequired
+    active: PropTypes.bool.isRequired
   }
   constructor(props) {
     super(props);
@@ -41,15 +41,15 @@ class AgentForm extends Component {
   }
   render() {
     return (
-      <div className="modal-page" tabindex="-1" role="dialog">
+      <div className={this.props.active  ? "modal-page" : "modal-page hide" }tabindex="-1" role="dialog" ref={this.setWrapperRef}>
         <p><i className="fa fa-home"/> درخواست ارتقاء به کارگزار</p>
         <div className="modal-hint">
           <div className="row">
             <div className="col-2">
-              <i className="fa fa-home hint-icon" style={{fontSize:"22px"}}/>
+              <i className="fa fa-home hint-icon" />
             </div>
-            <div className="col-10">
-              <p>درخواست ارتقا درخواست ارتقا درخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقا</p>
+            <div className="col-10 text-right">
+              درخواست ارتقا درخواست ارتقا درخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقا
             </div>
           </div>
         </div>
@@ -71,10 +71,10 @@ class AgentForm extends Component {
         </div>
         <div className="modal-bottom">
           <label className="label float-right">هدف شما از ارتقا به کارگزار چیست؟</label>
-          <input type="text " className="form-control"/>
+          <input type="text " className="form-control gray-text-input"/>
 
-          <label className="label float-right">ویرایش برچسب ها</label>
-          <input type="text " className="form-control"/>
+          <label className="label float-right mt-2">ویرایش برچسب ها</label>
+          <input type="text " className="form-control gray-text-input"/>
           <div className="modal-labels">
             <LabelTag
               name="تست"
@@ -94,7 +94,7 @@ class AgentForm extends Component {
         <div className="modal-footers">
           <div className = "row">
             <div className="col">
-              <button className="modal-button link float-right">
+              <button onClick={this.props.hide} className="modal-button link float-right">
                 لغو
               </button>
             </div>

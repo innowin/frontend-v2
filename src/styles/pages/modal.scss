@@ -1,3 +1,6 @@
+.modal-page.hide {
+  display: none;
+}
 .modal-page {
   top:10px;
   bottom: 10px;
@@ -25,8 +28,11 @@
     background-color: lightgray;
     width: 50%;
     margin: 0 auto;
+    font-size: 13px;
     .hint-icon{
-      margin-top: 50%;
+      font-size: 22px;
+      top: 50%;
+      transform: translate(0,100%);
     }
   }
   .modal-options {
@@ -74,7 +80,11 @@
     min-width: 200px;
     border-radius: 30px;
   }
-
+  .gray-text-input{
+    background: #efefef;
+    border: 0;
+    border-radius: 0;
+  }
 }
 // .radio-label { 
 //   padding-right: 10px;

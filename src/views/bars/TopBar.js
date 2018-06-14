@@ -11,7 +11,7 @@ import {ID} from "src/consts/data"
 import {Link} from "react-router-dom"
 import {getProfile} from "src/crud/user/profile";
 import {getFile} from "../../crud/media/media";
-
+import AgentForm from "../pages/modal/agentForm-modal"
 class TopBar extends Component {
 
   static propTypes = {
@@ -21,7 +21,7 @@ class TopBar extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {isSignedOut: false, collapse: false, collapseProfile: false, profileMedia: defaultImg}
+    this.state = {isSignedOut: false, collapse: false, collapseProfile: false, agentForm:false, profileMedia: defaultImg}
   }
 
   _toggle = (e) => {
@@ -48,6 +48,14 @@ class TopBar extends Component {
     // this.addProductWizard._toggle()
   }
 
+  _handleExchangeUpgrade = (e) => {
+    this.setState({...this.state,agentForm:true})
+  }
+
+  _handleHideAgent = (e)=>{
+    this.setState({...this.state,agentForm:false})
+  }
+
   componentDidMount() {
     getProfile(ID, this._getProfileMedia)
   }
@@ -57,6 +65,10 @@ class TopBar extends Component {
     const {profileMedia, collapse, collapseProfile} = this.state;
     return (
       <div>
+        <AgentForm
+          active={this.state.agentForm}
+          hide={this._handleHideAgent}
+        />
         <nav className="navbar flex-row justify-content-between p-0 -white-i fixed-top topBar">
           <div className="d-flex align-items-center -whiteSvg">
             <button type="button"
