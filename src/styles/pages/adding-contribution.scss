@@ -426,7 +426,8 @@
             color: $chat-box2-color;
             @extend %absolute-top0-right0;
         }
-        .image .show:hover .certificate-img-edit-btn {
+        .image .show:hover .certificate-img-edit-btn,
+        .image .show:active .certificate-img-edit-btn {
             opacity: 1;
             transition: opacity 0.3s;
         }
@@ -462,7 +463,11 @@
         }
     }
 }
-
+@media (max-width: 412px) {
+    .certificates .form .form-column .logo-upload .logo-uploaded-check {
+        right: 80px;
+    }
+}
 @media (max-width: 780px) {
     .certificates .form, .certificates .images {
         justify-content: center;
@@ -487,6 +492,27 @@
         justify-content: space-between;
         .checkbox {
             margin-right: 40px;
+        }
+    }
+}
+.technical-properties-wrapper .columns-wrapper {
+    display: flex;
+    .properties-column {
+        .property-block {
+            padding: 4px;
+        }
+        padding: 2px;
+        .property {
+            background: gray;
+        }
+        .property .value, .property.title {
+            background: white;
+        }
+        .add-property-block {
+            background: gray;
+        }
+        .add-property-block input {
+            padding: 4px;
         }
     }
 }
