@@ -65,7 +65,9 @@ export class UserInfo extends Component {
   render() {
     const {user, edit, isLoading, error} = this.state;
     return (
+      
       <VerifyWrapper isLoading={isLoading} error={error}>
+      
         {
           (edit) ? (
             <UserInfoItemWrapper icon={userInfoIcon}>

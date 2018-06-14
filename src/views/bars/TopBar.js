@@ -86,8 +86,8 @@ class TopBar extends Component {
         </nav>
         <Collapse isOpen={collapse} className={`-topBar-right-collapse col-3 pr-0 pl-0 ${collapseWidthCol}`}>
           <ul>
-            <li><i className="fa fa-home"/> درخواست ارتقاء به کارگزار</li>
-            <li><i className="fa fa-home"/> بورس جدید</li>
+            <li onClick={this._handleExchangeUpgrade}><i className="fa fa-home"/> درخواست ارتقاء به کارگزار</li>
+            <li onClick={this._handleNewExchange}><i className="fa fa-home"/> بورس جدید</li>
             <li onClick={this._handleProductWizardModal}><i className="fa fa-home"/> آورده ی جدید</li>
           </ul>
         </Collapse>

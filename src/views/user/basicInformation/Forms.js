@@ -494,6 +494,7 @@ export class EducationInfoEditForm extends Component {
   _save = (updateStateForView, hideEdit) => {
     const educationId = this.props.education.id;
     const formValues = this.form._getValues();
+    
     return updateEducation(educationId,formValues,(res)=>{
       if(res.error){
         updateStateForView(null,-1,true,false);
