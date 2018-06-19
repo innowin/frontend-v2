@@ -72,6 +72,7 @@ export class PostForm extends Component {
           ref={postTypeInput => {
             this.postTypeInput = postTypeInput
           }}
+          className="col-12 form-group"
         />
         <TextInput
           label={__('Post title') + ": "}

@@ -6,7 +6,9 @@ import {RadioButtonGroup} from '../../common/inputs/RadioButtonInput'
 import {connect} from 'react-redux'
 import {getMessages} from '../../../redux/selectors/translateSelector'
 import {createUser} from "src/crud/user/user";
-import {apiTokenAuth, createUserOrgan} from "../../../crud/user/user";
+import {apiTokenAuth, createUserOrgan} from "src/crud/user/user";
+import {getMetaDataOrganization} from "src/crud/organization/organization";
+import {getCountries, getProvinces, getTowns} from "src/crud/regions";
 
 const USER_TYPES = {
   PERSON: 'person',
@@ -24,9 +26,13 @@ export class SignUpForm extends Component {
       userType: USER_TYPES.PERSON,
       orgFormPart: 0,
       data: {},
-      provincesIdentifier: 0,
-      // this is for test of province changing by country changing and
-      // it will be clearing in future.
+      ownershipTypesOptions: [],
+      businessTypesOptions: [],
+      countries: [],
+      provinces: [],
+      countriesOptions: [],
+      provinceOptions: [],
+      townOptions: []
     }
   }
 
@@ -36,14 +42,6 @@ export class SignUpForm extends Component {
       this._orgFormPartHandler(part)
     }));
   };
-  // handleProvinces = i => this.setState({check: i})
-
-  handleProvinces = (e, v) => {
-    this.setState({...this.state, provincesIdentifier: v})
-  };
-  // this is
-  // for test of province changing by country changing and
-  // it will be clearing in future.
 
   _orgFormPart1SubmitHandler = (values) => {
     this.setState({...this.state, orgFormPart: 2, data: {...this.state.data, ...values}})
@@ -62,13 +60,61 @@ export class SignUpForm extends Component {
 
   _orgFormPartHandler = part => this.setState({...this.state, orgFormPart: part});
 
+  _convertToOptions1 = (arr) => {
+    let options = []
+    arr.map(item => options.push({value: item[0], title: item[1]}))
+    return options
+  }
+
+  _convertToOptions2 = (arr) => {
+    let options = []
+    if (Array.isArray(arr)) {
+      arr.map(item => options.push({value: item.name, title: item.name}))
+    }
+    return options
+  }
+
+  _getProvinces = (e) => {
+    const {countries} = this.state
+    const selectedCountry = countries.filter((country) => country.name === e.target.value)
+    if (selectedCountry.length > 0) {
+      const countryId = selectedCountry[0].id
+      getProvinces(countryId, (res) => this.setState({
+        ...this.state,
+        provinces: res,
+        provinceOptions: this._convertToOptions2(res)
+      }))
+    } else this.setState({...this.state, provinceOptions: [], townOptions: []})
+  }
+
+  _getTowns = (e) => {
+    const {provinces} = this.state
+    const selectedProvince = provinces.filter((province) => province.name === e.target.value)
+    if (selectedProvince.length > 0) {
+      const provinceId = selectedProvince[0].id
+      getTowns(provinceId, (res) => this.setState({...this.state, townOptions: this._convertToOptions2(res)}))
+    } else this.setState({...this.state, townOptions: []})
+  }
+
+  componentDidMount() {
+    getMetaDataOrganization((res) => this.setState({
+      ...this.state,
+      ownershipTypesOptions: this._convertToOptions1(res.ownership_types),
+      businessTypesOptions: this._convertToOptions1(res.business_types),
+    }))
+    getCountries((res) => {
+      if (Array.isArray(res) && res.length > 0) {
+        this.setState({...this.state, countries: res, countriesOptions: this._convertToOptions2(res)})
+      }
+    })
+  }
+
   render() {
     const {RedirectToHome, translator} = this.props;
-    const {userType, orgFormPart, provincesIdentifier} = this.state;
-    const userTypeItems = [ // used for RadioButtonItems as items property.
-      {value: USER_TYPES.PERSON, title: 'فرد'},
-      {value: USER_TYPES.ORGANIZATION, title: 'شرکت'},
-    ];
+    const {
+      userType, orgFormPart, ownershipTypesOptions, businessTypesOptions, countriesOptions, provinceOptions, townOptions
+    } = this.state;
+    const userTypeItems = [{value: USER_TYPES.PERSON, title: 'فرد'}, {value: USER_TYPES.ORGANIZATION, title: 'مجموعه'}]
     return (
       <div className="signup-wrapper">
         <RadioButtonGroup
@@ -87,10 +133,15 @@ export class SignUpForm extends Component {
           :
           <OrganizationSignUpForm
             translator={translator}
-            handleProvinces={this.handleProvinces}
-            provincesIdentifier={provincesIdentifier}
             handlePart={this._orgFormPartHandler}
             formPart={orgFormPart}
+            ownershipTypesOptions={ownershipTypesOptions}
+            businessTypesOptions={businessTypesOptions}
+            countriesOptions={countriesOptions}
+            provinceOptions={provinceOptions}
+            townOptions={townOptions}
+            getProvinces={this._getProvinces}
+            getTowns={this._getTowns}
             onSubmitPart2={this._orgFormPart2SubmitHandler}
             onSubmitPart1={this._orgFormPart1SubmitHandler}
           />
