@@ -22,13 +22,14 @@ export const OrganizationMembersWrapper = ({children}) => {
 export const OrganizationMember = ({jobTitle, userID , firstName , lastName, isEdit}) => {
 	return (
 			<div className="member-wrapper">
-				<div className="image-wrapper"><Link to={`/user/${userID}`}><img className="members-image" src={defaultImg} /></Link></div>
+				<div className="image-wrapper">
+					<Link to={`/user/${userID}`}><img alt="" src={defaultImg} className="rounded-circle"/></Link></div>
 				<div className="details">
-					<div className="detail-wrapper">
+					<div>
 						<div className="name">{firstName} {lastName}</div>
 						<div className="job-title">{jobTitle}</div>
 					</div>
-					<div className="link-wrapper">{(isEdit) ? <button className="btn btn-outline-danger">{__('Delete')}</button>:<Link to="#">connect</Link>}</div>
+					{(isEdit) ? <button className="btn btn-outline-danger">{__('Delete')}</button>:<Link to="#">connect</Link>}
 				</div>
 			</div>
 	)

@@ -13,6 +13,9 @@
 			flex-flow: row;
 			justify-content: space-between;
 			padding: 5px 10px;
+			a {
+				text-decoration: none;
+			}
 			.job-title {
 				font-size: $font-size-normalText;
 				color: lighten($sidebar-bottom-color, 9%);
@@ -22,7 +25,6 @@
 			img {
 				width: 70px;
 				height: 70px;
-				border-radius: 50%;
 			}
 		}
 	}
