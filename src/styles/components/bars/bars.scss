@@ -110,12 +110,18 @@
 }
 
 .-ProfTopBarImg {
-  height: 57px;
-  width: 57px;
-  margin: auto 0 auto 10px;
-  border-radius: 50%;
-}
+  display: flex;
+  img , svg {
+    cursor: pointer;
+    margin: auto 0 auto 10px;
+    height: 57px;
+    width: 57px;
+  }
+  img {
+    border-radius: 50%;
+  }
 
+}
 .-outlineWhite {
   outline-color: $text-lightest-color !important;
 }
@@ -212,7 +218,7 @@
   &.active {
     background-color: $chat-box2-color;
     .exchange-name {
-      color: lighten($text-darkest-color, 10%)!important;
+      color: lighten($text-darkest-color, 10%) !important;
     }
   }
 
@@ -230,20 +236,7 @@
     .default-logo {
       width: 22%;
       width: 50px;
-      font-size: 30px;
-      text-align: center;
       height: 50px;
-      border: 0.5px solid $text-light-color;
-      border-radius: 50%;
-      background-color: lighten($text-lighter-color, 4.6%);
-      position: relative;
-      span {
-        transform: translate(-50%, -50%);
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        color: $text-lightest-color;
-      }
     }
     .img-logo {
       width: 22%;
@@ -253,7 +246,7 @@
     }
   }
 
-  .active-content{
+  .active-content {
     color: $text-light-color;
     .active-description {
       padding-right: 10px;
@@ -262,9 +255,9 @@
       overflow: hidden;
       height: 60px;
     }
-    .active-footer{
+    .active-footer {
       margin-top: 25px;
-      svg path{
+      svg path {
         fill: $text-light-color
       }
       float: left;

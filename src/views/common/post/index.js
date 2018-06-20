@@ -58,8 +58,7 @@ export class Post extends Component {
       deletePost(this.props.posts, this.props.post, this.props.updatePosts, this._hideEdit, this._handleErrorLoading))
   }
 
-  _getIdentityDetails = (identityId) => {
-    const handleResult = (identity) => {
+  _getIdentityDetails = (identity) => {
       const user = identity.identity_user;
       const organization = identity.identity_organization;
       if (user) {
@@ -70,7 +69,6 @@ export class Post extends Component {
           }
         )
         getProfile(user.id, (result) => {
-          // TODO mohsen: handle error for getProfile
           if (result.profile_media) {
             getFile(result.profile_media, (res) =>
               this.setState({...this.state, postIdentityImg: res.file})
@@ -81,7 +79,6 @@ export class Post extends Component {
       }
       if (organization) {
         const logoId = organization.organization_logo
-        // TODO: mohsen check this section organization work
         if (logoId) {
           getFile(logoId, (res) =>
             this.setState({...this.state, postIdentityImg: res.file})
@@ -94,9 +91,7 @@ export class Post extends Component {
           isLoading: false
         })
       }
-    };
-    getIdentity(identityId, handleResult)
-  };
+  }
 
   componentDidMount() {
     const {post_identity} = this.props.post;

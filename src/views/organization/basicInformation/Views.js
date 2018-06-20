@@ -3,7 +3,7 @@ import React, {Component} from "react"
 import PropTypes from "prop-types"
 import {userInfoIcon} from "src/images/icons"
 import {Link} from 'react-router-dom'
-import {defaultImg} from 'src/images/icons'
+import {DefaultUserIcon} from 'src/images/icons'
 import {
 	Field,
 	FieldLabel,
@@ -23,7 +23,10 @@ export const OrganizationMember = ({jobTitle, userID , firstName , lastName, isE
 	return (
 			<div className="member-wrapper">
 				<div className="image-wrapper">
-					<Link to={`/user/${userID}`}><img alt="" src={defaultImg} className="rounded-circle"/></Link></div>
+					<Link to={`/user/${userID}`}>
+						<DefaultUserIcon/>
+					</Link>
+				</div>
 				<div className="details">
 					<div>
 						<div className="name">{firstName} {lastName}</div>

@@ -4,7 +4,11 @@ import certificateIcon from "./user/certificate_svg"
 import ChartIcon from "./product/chart"
 import ContributionIcon from "./common/contribution_svg"
 import customerIcon from "./organization/customer_svg"
-import defaultImg from "./common/defaultImg.png"
+import DefaultExchangeIcon from "./defaults/defaultExchange_svg"
+import DefaultImageIcon from "./defaults/defaultImage_svg"
+import DefaultProductIcon from "./defaults/defaultProduct_svg"
+import DefaultUserIcon from "./defaults/defaultUser_svg"
+import DefaultOrganIcon from "./defaults/defaultOrganization_svg"
 import DemandIcon from "./common/demand_svg"
 import editIcon from "./common/edit.svg"
 import educationIcon from "./user/education_svg"
@@ -15,7 +19,6 @@ import InformationIcon from "./common/information_svg"
 import logoDaneshBoom from "./common/logoWhite.png"
 import NoFilterIcon from "./common/noFilter_svg"
 import NotificationIcon from "./common/notification_svg"
-import organLogo from "./organization/organLogo.png"
 import postIcon from "./user/post_svg"
 import PostSendIcon from "./common/postSend_svg"
 import RatingIcon from "./product/rating_svg"
@@ -33,7 +36,6 @@ import workExperienceIcon from "./user/workExperience_svg"
 
 export {
 	certificateIcon,
-	defaultImg,
 	editIcon,
 	postIcon,
 	skillIcon,
@@ -45,6 +47,11 @@ export {
   ChartIcon,
   ContributionIcon,
   customerIcon,
+  DefaultExchangeIcon,
+  DefaultImageIcon,
+  DefaultProductIcon,
+  DefaultUserIcon,
+  DefaultOrganIcon,
   DemandIcon,
   educationIcon,
   ExchangeExploreIcon,
@@ -54,7 +61,6 @@ export {
   logoDaneshBoom,
   NoFilterIcon,
   NotificationIcon,
-  organLogo,
   PostSendIcon,
   RatingIcon,
   RefreshIcon,

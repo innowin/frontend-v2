@@ -2,7 +2,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import "moment/locale/fa";
-import {defaultImg} from "src/images/icons";
+import {DefaultExchangeIcon, DefaultUserIcon} from "src/images/icons";
 import {SocialIcon} from "src/images/icons"
 import {Link} from 'react-router-dom'
 import {ItemWrapper, ItemHeader} from "src/views/common/cards/Frames";
@@ -60,7 +60,10 @@ export const ExchangeView = (props) => {
     <div className="member-wrapper col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
       <div className="image-wrapper">
         <Link to={`/exchange/${exchange.id}`}>
-          <img alt="" src={exchangeImg || defaultImg} className="rounded-circle"/>
+          {
+            (!exchangeImg)? (<DefaultExchangeIcon/>):(
+              <img alt="" src={exchangeImg} className="rounded-circle"/>)
+          }
         </Link>
       </div>
       <div className="details">
@@ -98,7 +101,11 @@ export const FollowerView = (props) => {
   return (
     <div className="member-wrapper">
       <div className="image-wrapper">
-        <Link to={`/user/${user.id}`}><img src={img || defaultImg} alt=""/></Link>
+        <Link to={`/user/${user.id}`}>
+          {
+            (!img)? (<DefaultUserIcon/>):(<img alt="" className="rounded-circle" src={img}/>)
+          }
+        </Link>
       </div>
       <div className="details">
         <div className="text-section">
@@ -154,7 +161,11 @@ export const FollowingView = (props) => {
 
     <div className="member-wrapper">
       <div className="image-wrapper">
-        <Link to={`/user/${user.id}`}><img src={img || defaultImg} alt=""/></Link>
+        <Link to={`/user/${user.id}`}>
+          {
+            (!img)? (<DefaultUserIcon/>):(<img alt="" className="rounded-circle" src={img}/>)
+          }
+        </Link>
       </div>
       <div className="details">
         <div className="text-section">

@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import "moment/locale/fa";
-import {defaultImg} from "src/images/icons";
+import {DefaultUserIcon} from "src/images/icons";
 import AttachFile from "src/views/common/inputs/AttachFile";
 import {createPost} from "src/crud/post/post";
 import cx from 'classnames';
@@ -197,7 +197,10 @@ class HomeCreatePost extends Component {
     return (
       <form className={"-createPostHome " + className} id="HomeCreatePost" onSubmit={this._onSubmit}>
         {/*// TODO mohsen: handle src of img*/}
-        <img className="-img-col rounded-circle" src={profile_media_file || defaultImg} alt=""/>
+        {
+          (!profile_media_file) ? (<DefaultUserIcon className="-img-col"/>):(
+            <img className="-img-col rounded-circle" src={profile_media_file} alt=""/>)
+        }
         <Transition in={show} timeout={duration}>
           {(state) => (
             <div

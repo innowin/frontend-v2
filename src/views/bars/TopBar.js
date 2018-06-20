@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import PropTypes from "prop-types"
 import {Collapse} from "reactstrap"
 import {
-  defaultImg,
+  DefaultUserIcon,
   logoDaneshBoom,
   ExchangeExploreIcon,
   NotificationIcon
@@ -21,7 +21,7 @@ class TopBar extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {isSignedOut: false, collapse: false, collapseProfile: false, profileMedia: defaultImg}
+    this.state = {isSignedOut: false, collapse: false, collapseProfile: false, profileMedia: null}
   }
 
   _toggle = (e) => {
@@ -74,7 +74,13 @@ class TopBar extends Component {
           </div>
           <img className="centerImgTopBar" src={logoDaneshBoom} alt="profile_img"/>
           <div className="dir-ltr d-flex flex-row">
-            <img className="-ProfTopBarImg" src={profileMedia} alt="Person icon" onClick={this._toggleProfile}/>
+            <div className="-ProfTopBarImg">
+              {
+                (!profileMedia)?(
+                    <DefaultUserIcon onClickFunc={this._toggleProfile}/>):
+                  (<img src={profileMedia} alt="Person icon" onClick={this._toggleProfile}/>)
+              }
+            </div>
             <div className="ml-4 -searchInput d-flex align-items-center">
               <i className="fa fa-search" aria-hidden="true"/>
               <input type="text" className="text-white" name="search" dir="auto"

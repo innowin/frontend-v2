@@ -1,7 +1,7 @@
 /*global __*/
 import React, {Component} from 'react';
 import PropTypes from 'prop-types'
-import {defaultImg} from "../../images/icons";
+import {DefaultExchangeIcon} from "../../images/icons";
 import {VerifyWrapper} from "../common/cards/Frames";
 import {BadgesCard, TagsBox} from "./SideBar";
 import {getExchange} from "../../crud/exchange/exchange";
@@ -66,7 +66,11 @@ class ExchangeViewBar extends Component {
           <div className="align-items-center flex-column">
             <i className="fa fa-ellipsis-v menuBottom"/>
             {/*//TODO mohsen: set dafault image for exchange */}
-            <img className="rounded-circle exchangeViewBarImg" alt="" src={exchange.link || defaultImg}/>
+            {
+              (!exchange.link)?
+              (<DefaultExchangeIcon className="exchangeViewBarImg" />):(
+                <img className="rounded-circle exchangeViewBarImg" alt="" src={exchange.link}/>)
+            }
             <div className="exchangeName">
               <ExchangeIcon/>
               <div>

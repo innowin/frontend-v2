@@ -1,11 +1,7 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import "moment/locale/fa";
-import Moment from "react-moment";
-import {editIcon, defaultImg} from "src/images/icons";
-import {NEW_VIEW, GET_VIEWS_COUNT} from "src/consts/Events";
-import {SOCKET as socket} from "src/consts/URLS";
-import {TOKEN} from "src/consts/data";
+import {editIcon} from "src/images/icons";
 import {VerifyWrapper} from "src/views/common/cards/Frames";
 
 

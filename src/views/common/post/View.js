@@ -2,9 +2,8 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import "moment/locale/fa";
 import Moment from "react-moment";
-import {editIcon, defaultImg} from "src/images/icons";
+import {editIcon, DefaultUserIcon} from "src/images/icons";
 import {VerifyWrapper} from "src/views/common/cards/Frames";
-import {getFile} from "src/crud/media/media";
 import {SupplyIcon, DemandIcon} from "src/images/icons";
 import {getPostViewerCount, setPostViewer} from "src/crud/post/postViewerCount";
 
@@ -135,7 +134,10 @@ export class PostView extends Component {
       <VerifyWrapper isLoading={isLoading} error={error}>
         <PostItemWrapper>
           <div className="-img-col">
-            <img className="rounded-circle" src={postIdentityImg || defaultImg} alt=""/>
+            {
+              (!postIdentityImg) ? (<DefaultUserIcon/>) : (
+                <img className="rounded-circle" src={postIdentityImg} alt=""/>)
+            }
           </div>
           <div className="-content-col">
             <PostItemHeader

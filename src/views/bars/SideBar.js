@@ -2,7 +2,7 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 
-import {defaultImg, organLogo} from "../../images/icons";
+import {DefaultUserIcon, DefaultOrganIcon} from "../../images/icons";
 import {REST_REQUEST} from "../../consts/Events";
 import {REST_URL as url, SOCKET as socket} from "../../consts/URLS";
 import {TOKEN} from "src/consts/data";
@@ -99,7 +99,10 @@ export class UserSideView extends Component {
       <VerifyWrapper isLoading={isLoading} error={error} className="-sidebar-child-wrapper">
         <div className="align-items-center flex-column">
           {/*TODO mohsen : handle profile_media.url*/}
-          <img className="rounded-circle img-rounded-100px" alt="" src={profile_img || defaultImg}/>
+          {
+            (!profile_img)?(<DefaultUserIcon className="img-rounded-100px"/>):(
+              <img className="rounded-circle img-rounded-100px" alt="" src={profile_img}/>)
+          }
           <span className="p-20px">{__('User')}: {user.first_name + " " + user.last_name || "------"}</span>
           <span className="-grey1">{userProfile.description}</span>
         </div>
@@ -168,7 +171,10 @@ export class OrganizationSideView extends Component {
       <VerifyWrapper isLoading={isLoading} error={error} className="-sidebar-child-wrapper">
         <div className="align-items-center flex-column">
           {/*TODO mohsen : handle profile_media.url*/}
-          <img className="rounded-circle img-rounded-100px" alt="Person icon" src={organizationLogo || organLogo}/>
+          {
+            (!organizationLogo)?(<DefaultOrganIcon className="img-rounded-100px"/>) :(
+              <img className="rounded-circle img-rounded-100px" alt="Person icon" src={organizationLogo}/>)
+          }
           {/*TODO mohsen: check organization name is what??*/}
           <span className="p-20px">{__('Organization')}: {organization.nike_name || organization.official_name}</span>
           <span className="-grey1">{organization.biography}</span>
