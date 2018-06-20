@@ -41,7 +41,8 @@ const validatePassword = (pass) => {
   const condition12 = (level4.test(pass) && level3.test(pass))
   const validate = condition1 || condition2 || condition3 || condition4 || condition5 || condition6 || condition7
   || condition8 || condition9 || condition10 || condition11 || condition12
-  if (validate) return 'این رمز ضعیف است. رمز ورود باید حداقل ۸ کاراکتر باشد و از حداقل دارای یک عدد یا یک حرف باشد.'
+  if (pass.length < 8) return 'رمز ورود باید حداقل ۸ حرف باشد.'
+  else if (!validate) return 'این رمز ضعیف است. رمز ورود حداقل دارای یک عدد یا یک حرف بزرگ یا علامت باشد.'
 };
 
 export const validatePersonSignUp = values => {
@@ -69,7 +70,7 @@ export const validatePersonSignUp = values => {
 
 export const validateOrganSignUp1 = values => {
   const errors = {};
-  const requiredFields = ['username', 'email', 'official_name', 'national_code', 'organization_type', 'business_type']
+  const requiredFields = ['username', 'email', 'official_name', 'national_code', 'ownership_type', 'business_type']
   const {username, email, national_code, password, passwordConfirm} = values;
 
   if (username) errors.username = validateUsername(username);

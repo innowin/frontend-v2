@@ -38,7 +38,7 @@ class User extends Component {
               <UserSideView userId={userId}/>
             </Sidebar>
           </div>
-          <div className="col-6 -content-wrapper">
+          <div className="col-6 pr-1-percent -content-wrapper">
             <Tabs>
               <NavLink className="-tab" to={`${url}/basicInformation`} activeClassName="-active">{userInfoIcon}</NavLink>
               <NavLink className="-tab" to={`${url}/Posts`} activeClassName="-active">{postIcon}</NavLink>

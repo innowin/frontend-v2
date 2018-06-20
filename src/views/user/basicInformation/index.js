@@ -183,7 +183,6 @@ export class EducationInfo extends Component {
 
   render() {
     const {education, edit, isLoading, error} = this.state;
-    let self = this;
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         {

@@ -81,16 +81,15 @@ export class ExchangeView extends Component {
     return (
 
         <div className="member-wrapper">
-          <div className="image-wrapper"><Link to={`/user/${6}`}><img className="members-image" src={defaultImg} /></Link></div>
+          <div className="image-wrapper">
+            <Link to={`/user/${6}`}><img alt="" src={defaultImg} className="rounded-circle"/></Link></div>
           <div className="details">
-              <div className="detail-wrapper">
+              <div>
                 <div className="name">{exchange.name}</div>
                 <div className="job-title">{exchange.description}</div>
               </div>
-              <div className="link-wrapper">
-                {(false) ? <button className="btn btn-outline-danger">{__('Delete')}</button>:<Link to="#">connect</Link>}
+                {(false) ? <button className="btn btn-outline-danger">{__('Delete')}</button>:""}
                 <button onClick={this.onDeleteExchange.bind(this)} className="m-auto d-block btn btn-outline-danger btn-sm">{__('Delete')}</button>
-              </div>
           </div>
         </div>
     )
@@ -163,13 +162,14 @@ export class FollowerView extends Component {
     return (
 
         <div className="member-wrapper">
-          <div className="image-wrapper"><Link to={`/user/${6}`}><img className="members-image" src={defaultImg} /></Link></div>
+          <div className="image-wrapper">
+            <Link to={`/user/${6}`}><img alt="" src={defaultImg} className="rounded-circle"/></Link></div>
           <div className="details">
-              <div className="detail-wrapper">
+              <div>
                 <div className="name">{follower.name}</div>
                 <div className="job-title">{follower.description}</div>
               </div>
-            <div className="link-wrapper">{(false) ? <button className="btn btn-outline-danger">{__('Delete')}</button>:<Link to="#">connect</Link>}</div>
+            {(false) ? <button className="btn btn-outline-danger">{__('Delete')}</button>:<Link to="#">connect</Link>}
           </div>
         </div>
     )
@@ -250,16 +250,15 @@ export class FollowingView extends Component {
 
         <div className="member-wrapper">
         
-          <div className="image-wrapper"><Link to={`/user/${6}`}><img className="members-image" src={defaultImg} /></Link></div>
+          <div className="image-wrapper">
+            <Link to={`/user/${6}`}><img alt="" src={defaultImg} className="rounded-circle"/></Link></div>
           <div className="details">
-              <div className="detail-wrapper">
+              <div>
                 <div className="name">{following.name}</div>
                 <div className="job-title">{following.description}</div>
               </div>
-            <div className="link-wrapper">
             {(false) ? <button className="btn btn-outline-danger">{__('Delete')}</button>:<Link to="#">connect</Link>}
             <button onClick={this.onDeleteFollowing.bind(this)} className="m-auto d-block btn btn-outline-danger btn-sm">{__('Delete')}</button>
-            </div>
           </div>
         </div>
     )

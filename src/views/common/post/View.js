@@ -101,22 +101,22 @@ export class PostView extends Component {
   static propTypes = {
     showEdit: PropTypes.func.isRequired,
     post: PropTypes.object.isRequired,
-    postIdentityMediaId: PropTypes.number,
+    postIdentityImg: PropTypes.string,
     postIdentityUsername: PropTypes.string.isRequired,
     postIdentityName: PropTypes.string.isRequired,
   };
 
   constructor(props) {
     super(props);
-    this.state = {viewerCount: 0, postIdentity_File: null, isLoading: false, error: false}
+    this.state = {viewerCount: 0, isLoading: false, error: false}
   }
 
   _getViewerCount = () => {
     const postId = this.props.post.id;
     this.setState({...this.state, isLoading: true}, () => (
       getPostViewerCount(postId, (res) => this.setState({...this.state, viewerCount: res, isLoading: false}))
-    ));
-  };
+    ))
+  }
 
   _addViewer = (e) => {
     e.preventDefault();
@@ -125,21 +125,17 @@ export class PostView extends Component {
   };
 
   componentDidMount() {
-    const mediaId = this.props.postIdentityMediaId;
     this._getViewerCount();
-    if (mediaId) {
-      getFile(mediaId, (res) => this.setState({...this.state, postIdentity_File: res.file}))
-    }
   };
 
   render() {
-    const {showEdit, post, postIdentityUsername, postIdentityName} = this.props;
-    const {viewerCount, isLoading, error, postIdentity_File} = this.state;
+    const {showEdit, post, postIdentityUsername, postIdentityName, postIdentityImg} = this.props;
+    const {viewerCount, isLoading, error} = this.state;
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         <PostItemWrapper>
           <div className="-img-col">
-            <img className="rounded-circle" src={postIdentity_File || defaultImg} alt=""/>
+            <img className="rounded-circle" src={postIdentityImg || defaultImg} alt=""/>
           </div>
           <div className="-content-col">
             <PostItemHeader

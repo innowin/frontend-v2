@@ -25,7 +25,7 @@ export class Post extends Component {
       post: this.props.post || {},
       postIdentity_username: '',
       postIdentity_name: '',
-      postIdentity_mediaId: null,
+      postIdentityImg: null,
       edit: false,
       error: false,
       isLoading: true
@@ -34,29 +34,29 @@ export class Post extends Component {
 
   _showEdit = () => {
     this.setState({edit: true})
-  };
+  }
 
   _hideEdit = () => {
     this.setState({edit: false})
-  };
+  }
 
   _handleErrorLoading = (error = false) => {
     this.setState({...this.state, isLoading: false, error: error});
-  };
+  }
 
   _updateView = (res) => {
     this.setState({...this.state, post: res})
-  };
+  }
 
   _update = (formValues, postId) => {
     this.setState({...this.state, isLoading: true}, () =>
       updatePost(formValues, postId, this._updateView, this._hideEdit, this._handleErrorLoading))
-  };
+  }
 
   _delete = () => {
     this.setState({...this.state, isLoading: true}, () =>
       deletePost(this.props.posts, this.props.post, this.props.updatePosts, this._hideEdit, this._handleErrorLoading))
-  };
+  }
 
   _getIdentityDetails = (identityId) => {
     const handleResult = (identity) => {
@@ -68,24 +68,29 @@ export class Post extends Component {
             postIdentity_username: user.username,
             postIdentity_name: user.first_name + ' ' + user.last_name
           }
-        );
-        getProfile(user.id, (res) => {
+        )
+        getProfile(user.id, (result) => {
           // TODO mohsen: handle error for getProfile
-          if (res.profile_media) {
-            getFile(res.profile_media, (res) =>
-              this.setState({...this.state, postIdentity_mediaId: res.file})
+          if (result.profile_media) {
+            getFile(result.profile_media, (res) =>
+              this.setState({...this.state, postIdentityImg: res.file})
             )
           }
         })
         this.setState({...this.state, isLoading: false})
       }
       if (organization) {
+        const logoId = organization.organization_logo
         // TODO: mohsen check this section organization work
+        if (logoId) {
+          getFile(logoId, (res) =>
+            this.setState({...this.state, postIdentityImg: res.file})
+          )
+        }
         this.setState({
           ...this.state,
           postIdentity_username: organization.username,
           postIdentity_name: organization.nike_name || organization.official_name,
-          postIdentity_mediaId: organization.organization_logo,
           isLoading: false
         })
       }
@@ -99,7 +104,7 @@ export class Post extends Component {
   }
 
   render() {
-    const {post, postIdentity_username, postIdentity_name, postIdentity_mediaId, edit, isLoading, error} = this.state;
+    const {post, postIdentity_username, postIdentity_name, postIdentityImg, edit, isLoading, error} = this.state;
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         {edit ?
@@ -113,7 +118,7 @@ export class Post extends Component {
           </PostItemWrapper>
           :
           <PostView post={post} postIdentityUsername={postIdentity_username} postIdentityName={postIdentity_name}
-                    postIdentityMediaId={postIdentity_mediaId}
+                    postIdentityImg={postIdentityImg}
                     showEdit={this._showEdit}/>
         }
       </VerifyWrapper>

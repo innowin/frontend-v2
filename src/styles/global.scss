@@ -34,14 +34,14 @@ input, textarea, button, select {
 @import "components/bars/chatbar";
 @import "components/common/cards/frames";
 @import "components/common/input-group-vertical";
+@import "components/common/inputs/circular-checkbox";
 @import "components/common/inputs/file-input";
 @import "components/common/inputs/file-name";
-@import "components/common/inputs/select-input";
-@import "components/common/inputs/radio-button-input";
-@import "components/common/inputs/circular-checkbox";
 @import "components/common/inputs/otherInput";
-@import "components/common/list-group-addons";
+@import "components/common/inputs/radio-button-input";
+@import "components/common/inputs/select-input";
 @import "components/common/label";
+@import "components/common/list-group-addons";
 @import "components/common/media";
 @import "components/exchange/exchangeView";
 @import "components/exchange/ExchangeView/index";
@@ -57,6 +57,7 @@ input, textarea, button, select {
 @import "components/organization/products";
 @import "components/user/certificates";
 @import "components/user/skill";
+@import "components/user/social";
 @import "components/user/tabs";
 @import "components/validation_styles";
 @import "icons_svg";

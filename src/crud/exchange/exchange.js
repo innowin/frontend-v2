@@ -130,8 +130,8 @@ export const getExchangeMemberIdentity = (memberIdentity, handleError, handleRes
 
 export const deleteExchange = (exchangeId, handleError, handleResult = () => null) => {
   socket.emit(REST_REQUEST, {
-    method: "get",
-    url: url + `/exchanges/${exchangeId}`,
+    method: "del",
+    url: url + `/exchanges/${exchangeId}/`,
     result: `deleteExchange-${exchangeId}`,
     token,
   });
@@ -139,9 +139,30 @@ export const deleteExchange = (exchangeId, handleError, handleResult = () => nul
   const func = (res) => {
     if (res.detail) {
       handleError(res.result)
+      return false
     }
-    handleResult(res);
+    handleResult(res)
     socket.off(`deleteExchange-${exchangeId}`, func)
   };
   socket.on(`deleteExchange-${exchangeId}`, func)
+}
+
+export const removeExchangeMembership = (id, handleError, handleResult = () => null) => {
+  // id is id of /exchanges/identities/{id}/ table not exchangeId or not identityId
+  socket.emit(REST_REQUEST, {
+    method: "del",
+    url: url + `/exchanges/identities/${id}/`,
+    result: `removeExchangeMembership-${id}`,
+    token,
+  });
+
+  const func = (res) => {
+    if (res.detail) {
+      handleError(res.result)
+      return false
+    }
+    handleResult(res)
+    socket.off(`removeExchangeMembership-${id}`, func)
+  };
+  socket.on(`removeExchangeMembership-${id}`, func)
 }

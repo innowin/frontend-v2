@@ -26,7 +26,7 @@ const OrgFormPart1 = ({translator, handleSubmit, OWNERSHIP_TYPES, BUSINESS_TYPES
     <Field name="official_name" type="text" component={renderTextField} label={translator['Official name']}/>
     <Field name="national_code" type="text" component={renderTextField} label={translator['National code']}/>
     <Field
-      name="organization_type"
+      name="ownership_type"
       component={renderSelectField}
       label={translator['Organization type']}
       options={OWNERSHIP_TYPES}

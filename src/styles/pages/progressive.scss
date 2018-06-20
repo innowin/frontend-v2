@@ -9,9 +9,7 @@
     margin: 0 auto;
     flex-direction: row;
     // max-width: 600px;
-}
-
-div.active::after { // initial classes of progress.
+  .progressive-step-wrapper.active::after { // initial classes of progress.
     content:'';
     display: block;
     height: 10px;
@@ -19,6 +17,7 @@ div.active::after { // initial classes of progress.
     right: 0;
     top: 0;
     background-color: $brand-inverse;
+  }
 }
 
 @for $i from 0 through 8 {
