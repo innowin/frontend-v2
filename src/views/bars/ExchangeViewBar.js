@@ -23,6 +23,7 @@ class ExchangeViewBar extends Component {
       badgesImgUrl: [],
       tags: [],
       members:[],
+      membersViewSide: false,
       isLoading: true,
       error: null,
     }
@@ -35,6 +36,7 @@ class ExchangeViewBar extends Component {
   };
 
   _getExchange = (exchangeId) => {
+    var self =this
     const handleResult = (res) => {
       this.setState({...this.state, exchange: res, loading:true})
       // TODO mohsen: socket.emit of badges
@@ -50,13 +52,13 @@ class ExchangeViewBar extends Component {
           getExchangeMemberIdentity(identities[i].exchange_identity_related_identity,(err)=>{
 
           },(memberIdentity)=>{
-            getExchangeMember(memberIdentity.identity_user,(err)=>{
+            getExchangeMember(memberIdentity.identity_user.id,(err)=>{
 
             },(member)=>{
-              members.push(members)
+              members.push(member)
               j = j+1
-              if(j > identities.length){
-                this.setState({...this.state, members:members, loading:false})
+              if(j >= identities.length){
+                self.setState({...self.state, members:members, loading:false})
               }
             })
             
@@ -75,6 +77,10 @@ class ExchangeViewBar extends Component {
       () => getExchangePostsByPostType(exchangeId, 'supply', handleCountSupply));
     getExchangePostsByPostType(exchangeId, 'demand', handleCountDemand)
   };
+  
+  _handleMembersClick = (e)=>{
+    this.setState({...this.state,membersViewSide:!this.state.membersViewSide})
+  }
 
   componentDidMount() {
     const {exchangeId} = this.props;
@@ -85,17 +91,21 @@ class ExchangeViewBar extends Component {
 
   render() {
     const {exchange, badgesImgUrl, demandCount, supplyCount, productCount, tags, members, isLoading, error} = this.state;
-    members.map((val,idx)=>{
-      return  (<div className="">
-                <span>اعضا:</span>
-                <span>{exchange.members_count}</span>
+    var membersView = members.map((val,idx)=>{
+      return  (<div className="" key={idx}>
+                <span>{val.username || val.name}</span>
+                <img src={val.profile_media || "#"}></img>
               </div>)
     })
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         <div className="-sidebar-child-wrapper col">
           <div className="align-items-center flex-column">
-            <i className="fa fa-ellipsis-v menuBottom"/>
+          {this.state.membersViewSide ?  
+          <i className="fa fa-arrow-left menuBottom" onClick={this._handleMembersClick.bind(this)}></i>
+          :
+          <i className="fa fa-ellipsis-v menuBottom"/>
+          }
             {/*//TODO mohsen: set dafault image for exchange */}
             <img className="rounded-circle exchangeViewBarImg" alt="" src={exchange.link || defaultImg}/>
             <div className="exchangeName">
@@ -107,24 +117,19 @@ class ExchangeViewBar extends Component {
             </div>
             <span className="-grey1 fontSize-13px">{exchange.description}</span>
           </div>
-          {true ? 
+          {this.state.membersViewSide ? 
           <div className="numbersSection flex-column pl-3">
             <div className="">
               <span>اعضا:</span>
-              <span>{exchange.members_count}</span>
+              <span>{membersView.length}</span>
             </div>
+            {membersView}
           </div>
            : 
           <div className="numbersSection flex-column pl-3">
-           
-            <div className="">
+            <div className="" onClick={this._handleMembersClick.bind(this)}>
               <span>اعضا:</span>
-              <span>{exchange.members_count}</span>
-            </div>
-             
-            <div className="">
-              <span>اعضا:</span>
-              <span>{exchange.members_count}</span>
+              <span>{membersView.length}</span>
             </div>
             <div className="">
               <span>عرضه:</span>
