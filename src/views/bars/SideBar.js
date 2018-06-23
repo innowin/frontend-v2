@@ -56,6 +56,7 @@ export class UserSideView extends Component {
       user: {},
       userProfile: {},
       profile_img: null,
+      profileBanner:null,
       badgesImgUrl: [],
       tags: [],
       isLoading: false,
@@ -70,6 +71,9 @@ export class UserSideView extends Component {
     getProfile(userId, (res) => this.setState({...this.state, userProfile: res}, () => {
       if (res.profile_media) {
         getFile(res.profile_media, (res) => this.setState({...this.state, profile_img: res.file}))
+      }
+      if(res.profile_banner){
+        getFile(res.profile_banner, (res) => this.setState({...this.state, profileBanner: res.file}))
       }
     }))
 
@@ -94,45 +98,50 @@ export class UserSideView extends Component {
   }
 
   render() {
-    const {user, userProfile, profile_img, badgesImgUrl, tags, isLoading, error} = this.state;
+    const {user, userProfile, profile_img, profileBanner, badgesImgUrl, tags, isLoading, error} = this.state;
     return (
-      <VerifyWrapper isLoading={isLoading} error={error} className="-sidebar-child-wrapper">
-        <div className="align-items-center flex-column">
-          {/*TODO mohsen : handle profile_media.url*/}
+      <VerifyWrapper isLoading={isLoading} error={error}>
+        {
+          (profileBanner)?(<img alt="" src={profileBanner} className="banner"/>):('')
+        }
+        <div className="-sidebar-child-wrapper col">
+          <div className="align-items-center flex-column">
+            {/*TODO mohsen : handle profile_media.url*/}
+            {
+              (!profile_img) ? (<DefaultUserIcon className="img-rounded-100px"/>) : (
+                <img className="rounded-circle img-rounded-100px" alt="" src={profile_img}/>)
+            }
+            <span className="p-20px">{__('User')}: {user.first_name + " " + user.last_name || "------"}</span>
+            <span className="-grey1">{userProfile.description}</span>
+          </div>
           {
-            (!profile_img)?(<DefaultUserIcon className="img-rounded-100px"/>):(
-              <img className="rounded-circle img-rounded-100px" alt="" src={profile_img}/>)
+            (badgesImgUrl.length > 0) ? (
+              <div className="flex-wrap pb-3">
+                <BadgesCard badgesImgUrl={badgesImgUrl}/>
+              </div>
+            ) : ("")
           }
-          <span className="p-20px">{__('User')}: {user.first_name + " " + user.last_name || "------"}</span>
-          <span className="-grey1">{userProfile.description}</span>
-        </div>
-        {
-          (badgesImgUrl.length > 0) ? (
-            <div className="flex-wrap pb-3">
-              <BadgesCard badgesImgUrl={badgesImgUrl}/>
+          <div className="flex-row pb-3">
+            <div className="w-50 pl-2 pb-2">
+              <button
+                type="button"
+                className="btn btn-outline-secondary btn-block sidebarBottom">{__('Follow')}
+              </button>
             </div>
-          ) : ("")
-        }
-        <div className="flex-row pb-3">
-          <div className="w-50 pl-2 pb-2">
-            <button
-              type="button"
-              className="btn btn-outline-secondary btn-block sidebarBottom">{__('Follow')}
-            </button>
+            <div className="w-50 pb-2">
+              <button
+                type="button"
+                className="btn btn-outline-secondary btn-block sidebarBottom">{__('Send Message')}
+              </button>
+            </div>
           </div>
-          <div className="w-50 pb-2">
-            <button
-              type="button"
-              className="btn btn-outline-secondary btn-block sidebarBottom">{__('Send Message')}
-            </button>
-          </div>
+          {
+            (tags.length > 0) ? (
+              <div className="flex-wrap pb-3">
+                <TagsBox tags={tags}/>
+              </div>) : ("")
+          }
         </div>
-        {
-          (tags.length > 0) ? (
-            <div className="flex-wrap pb-3">
-              <TagsBox tags={tags}/>
-            </div>) : ("")
-        }
       </VerifyWrapper>
     )
   }
@@ -142,7 +151,15 @@ export class OrganizationSideView extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {organization: {}, organizationLogo: null, badgesImgUrl: [], tags: [], isLoading: false, error: null}
+    this.state = {
+      organization: {},
+      organizationLogo: null,
+      organizationBanner: null,
+      badgesImgUrl: [],
+      tags: [],
+      isLoading: false,
+      error: null
+    }
   }
 
   static propTypes = {
@@ -152,60 +169,68 @@ export class OrganizationSideView extends Component {
   componentDidMount() {
     const {organizationId} = this.props;
     this.setState({...this.state, isLoading: true})
-    getOrganization(organizationId, (res) => this.setState({...this.state, organization: res},
-      () => {
-        if (res.organization_logo) {
-          getFile(res.organization_logo, (res) =>
-            this.setState({...this.state, organizationLogo: res.file, isLoading:false}))
-        }
-        else this.setState({...this.state, organizationLogo: null, isLoading:false})
+    getOrganization(organizationId, (res) => {
+      this.setState({...this.state, organization: res})
+      if (res.organization_banner) {
+        getFile(res.organization_banner, (res) =>
+          this.setState({...this.state, organizationBanner: res.file, isLoading: false}))
       }
-    ))
+      if (res.organization_logo) {
+        getFile(res.organization_logo, (res) =>
+          this.setState({...this.state, organizationLogo: res.file, isLoading: false}))
+      }
+      else this.setState({...this.state, organizationLogo: null, isLoading: false})
+    })
     // TODO mohsen: socket of badges
     // TODO mohsen: socket  of tags
   }
 
   render() {
-    const {organization, organizationLogo, badgesImgUrl, tags, isLoading, error} = this.state;
+    const {organization, organizationLogo, organizationBanner, badgesImgUrl, tags, isLoading, error} = this.state;
     return (
-      <VerifyWrapper isLoading={isLoading} error={error} className="-sidebar-child-wrapper">
-        <div className="align-items-center flex-column">
-          {/*TODO mohsen : handle profile_media.url*/}
+      <VerifyWrapper isLoading={isLoading} error={error}>
+        {
+          (organizationBanner)?(<img alt="" src={organizationBanner} className="banner"/>):('')
+        }
+        <div className="-sidebar-child-wrapper col">
+          <div className="align-items-center flex-column">
+            {/*TODO mohsen : handle profile_media.url*/}
+            {
+              (!organizationLogo) ? (<DefaultOrganIcon className="img-rounded-100px"/>) : (
+                <img className="rounded-circle img-rounded-100px" alt="Person icon" src={organizationLogo}/>)
+            }
+            {/*TODO mohsen: check organization name is what??*/}
+            <span className="p-20px">{__('Organization')}: {organization.nike_name || organization.official_name}</span>
+            <span className="-grey1">{organization.biography}</span>
+          </div>
           {
-            (!organizationLogo)?(<DefaultOrganIcon className="img-rounded-100px"/>) :(
-              <img className="rounded-circle img-rounded-100px" alt="Person icon" src={organizationLogo}/>)
+            (badgesImgUrl.length > 0) ? (
+              <div className="flex-wrap pb-3">
+                <BadgesCard badgesImgUrl={badgesImgUrl}/>
+              </div>
+            ) : ("")
           }
-          {/*TODO mohsen: check organization name is what??*/}
-          <span className="p-20px">{__('Organization')}: {organization.nike_name || organization.official_name}</span>
-          <span className="-grey1">{organization.biography}</span>
-        </div>
-        {
-          (badgesImgUrl.length > 0) ? (
-            <div className="flex-wrap pb-3">
-              <BadgesCard badgesImgUrl={badgesImgUrl}/>
+          <div className="flex-row pb-3">
+            <div className="w-50 pl-2 pb-2">
+              <button
+                type="button"
+                className="btn btn-outline-secondary btn-block sidebarBottom">{__('Follow')}
+              </button>
             </div>
-          ) : ("")
-        }
-        <div className="flex-row pb-3">
-          <div className="w-50 pl-2 pb-2">
-            <button
-              type="button"
-              className="btn btn-outline-secondary btn-block sidebarBottom">{__('Follow')}
-            </button>
+            <div className="w-50 pb-2">
+              <button
+                type="button"
+                className="btn btn-outline-secondary btn-block sidebarBottom">{__('Send Message')}
+              </button>
+            </div>
           </div>
-          <div className="w-50 pb-2">
-            <button
-              type="button"
-              className="btn btn-outline-secondary btn-block sidebarBottom">{__('Send Message')}
-            </button>
-          </div>
+          {
+            (tags.length > 0) ? (
+              <div className="flex-wrap pb-3">
+                <TagsBox tags={tags}/>
+              </div>) : ("")
+          }
         </div>
-        {
-          (tags.length > 0) ? (
-            <div className="flex-wrap pb-3">
-              <TagsBox tags={tags}/>
-            </div>) : ("")
-        }
       </VerifyWrapper>
     )
   }

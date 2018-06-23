@@ -30,10 +30,8 @@ export class Organization extends Component {
       <div className="-tabbed-pages -userOrganBackgroundImg">
         <TopBar handleSignOut={handleSignOut} collapseWidthCol={widthOfRightBar}/>
         <main className="row">
-          <div className={`${widthOfRightBar} -right-sidebar-wrapper`}>
-            <Sidebar>
-              <OrganizationSideView organizationId={organizationId}/>
-            </Sidebar>
+          <div className={`${widthOfRightBar} -right-sidebar-wrapper pr-0 pl-0`}>
+            <OrganizationSideView organizationId={organizationId}/>
           </div>
           <div className="col-md-8 col-sm-10 -content-wrapper">
             <Tabs>
