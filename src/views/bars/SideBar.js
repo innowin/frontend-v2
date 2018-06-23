@@ -12,6 +12,19 @@ import {getProfile} from "../../crud/user/profile";
 import {getOrganization} from "../../crud/organization/organization";
 import {getFile} from "../../crud/media/media";
 
+const MenuBox = (props) => (
+  <div className="menu-box pt-0 pb-0" id={props.id}>
+    <div>
+      <span>اشتراک گذاری نمایه</span>
+      <span>ویرایش ویترین</span>
+    </div>
+    <div>
+      <span>بی صدا کردن اعلام</span>
+      <span>بلاک</span>
+      <span>گزارش تخلف</span>
+    </div>
+  </div>
+)
 
 export const BadgesCard = ({badgesImgUrl}) => {
   return (
@@ -34,16 +47,6 @@ export const TagsBox = ({tags}) => {
   )
 };
 
-const Sidebar = (props) => {
-  return (
-    <div className="col">
-      {props.children}
-    </div>
-  )
-}
-
-export default Sidebar;
-
 export class UserSideView extends Component {
 
   static propTypes = {
@@ -56,11 +59,18 @@ export class UserSideView extends Component {
       user: {},
       userProfile: {},
       profile_img: null,
-      profileBanner:null,
+      profileBanner: null,
       badgesImgUrl: [],
       tags: [],
+      menuToggle: false,
       isLoading: false,
       error: null
+    }
+  }
+
+  _handleClickOutMenuBox = (e) => {
+    if (!e.target.closest('#user-sidebar-menu-box') && !e.target.closest('.menuBottom')) {
+      this.setState({...this.state, menuToggle: false})
     }
   }
 
@@ -72,7 +82,7 @@ export class UserSideView extends Component {
       if (res.profile_media) {
         getFile(res.profile_media, (res) => this.setState({...this.state, profile_img: res.file}))
       }
-      if(res.profile_banner){
+      if (res.profile_banner) {
         getFile(res.profile_banner, (res) => this.setState({...this.state, profileBanner: res.file}))
       }
     }))
@@ -95,17 +105,30 @@ export class UserSideView extends Component {
       }
     );
 // TODO mohsen: socket of tags
+    document.addEventListener('click', this._handleClickOutMenuBox)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this._handleClickOutMenuBox);
+  }
+
+  _handleMenu = () => {
+    this.setState({...this.state, menuToggle: !this.state.menuToggle})
   }
 
   render() {
-    const {user, userProfile, profile_img, profileBanner, badgesImgUrl, tags, isLoading, error} = this.state;
+    const {user, userProfile, profile_img, profileBanner, badgesImgUrl, tags, menuToggle, isLoading, error} = this.state;
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         {
-          (profileBanner)?(<img alt="" src={profileBanner} className="banner"/>):('')
+          (profileBanner) ? (<img alt="" src={profileBanner} className="banner"/>) : ('')
         }
         <div className="-sidebar-child-wrapper col">
+          <i className="fa fa-ellipsis-v menuBottom" onClick={this._handleMenu}/>
           <div className="align-items-center flex-column">
+            {
+              (!menuToggle) ? ('') : (<MenuBox id="user-sidebar-menu-box"/>)
+            }
             {/*TODO mohsen : handle profile_media.url*/}
             {
               (!profile_img) ? (<DefaultUserIcon className="img-rounded-100px"/>) : (
@@ -157,6 +180,7 @@ export class OrganizationSideView extends Component {
       organizationBanner: null,
       badgesImgUrl: [],
       tags: [],
+      menuToggle:false,
       isLoading: false,
       error: null
     }
@@ -166,6 +190,12 @@ export class OrganizationSideView extends Component {
     organizationId: PropTypes.string.isRequired,
   };
 
+  _handleClickOutMenuBox = (e) => {
+    if (!e.target.closest('#organization-sidebar-menu-box') && !e.target.closest('.menuBottom')) {
+      this.setState({...this.state, menuToggle: false})
+    }
+  }
+
   componentDidMount() {
     const {organizationId} = this.props;
     this.setState({...this.state, isLoading: true})
@@ -173,26 +203,43 @@ export class OrganizationSideView extends Component {
       this.setState({...this.state, organization: res})
       if (res.organization_banner) {
         getFile(res.organization_banner, (res) =>
-          this.setState({...this.state, organizationBanner: res.file, isLoading: false}))
+          this.setState({...this.state, organizationBanner: res.file}))
       }
       if (res.organization_logo) {
         getFile(res.organization_logo, (res) =>
-          this.setState({...this.state, organizationLogo: res.file, isLoading: false}))
+          this.setState({...this.state, organizationLogo: res.file}))
       }
-      else this.setState({...this.state, organizationLogo: null, isLoading: false})
+      this.setState({...this.state, isLoading: false})
     })
     // TODO mohsen: socket of badges
     // TODO mohsen: socket  of tags
+    document.addEventListener('click', this._handleClickOutMenuBox)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this._handleClickOutMenuBox);
+  }
+
+
+  _handleMenu = () => {
+    this.setState({...this.state, menuToggle: !this.state.menuToggle})
   }
 
   render() {
-    const {organization, organizationLogo, organizationBanner, badgesImgUrl, tags, isLoading, error} = this.state;
+    const {
+      organization, organizationLogo, organizationBanner, badgesImgUrl, tags, menuToggle,
+      isLoading, error
+    } = this.state;
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         {
-          (organizationBanner)?(<img alt="" src={organizationBanner} className="banner"/>):('')
+          (organizationBanner) ? (<img alt="" src={organizationBanner} className="banner"/>) : ('')
         }
         <div className="-sidebar-child-wrapper col">
+          <i className="fa fa-ellipsis-v menuBottom" onClick={this._handleMenu}/>
+          {
+            (!menuToggle) ? ('') : (<MenuBox id="organization-sidebar-menu-box"/>)
+          }
           <div className="align-items-center flex-column">
             {/*TODO mohsen : handle profile_media.url*/}
             {
@@ -235,3 +282,13 @@ export class OrganizationSideView extends Component {
     )
   }
 }
+
+const Sidebar = (props) => {
+  return (
+    <div className="col">
+      {props.children}
+    </div>
+  )
+}
+
+export default Sidebar;
