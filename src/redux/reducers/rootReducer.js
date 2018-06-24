@@ -1,13 +1,17 @@
 import {combineReducers} from 'redux'
-import test from './testReducer'
+import test from './test'
+import auth from './auth'
 import {routerReducer} from 'react-router-redux'
-import {intlReducer} from './intlReducer'
+import {intlReducer} from './intl'
 import {reducer as formReducer} from 'redux-form'
 
 const reducers = {
-	test
+	test,
+	auth
 }
 
+
+//Don't change below code ,  Put your reducer on the upper object.
 const rootReducer = combineReducers({
 	...reducers,
 	intl: intlReducer,

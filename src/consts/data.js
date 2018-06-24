@@ -1,7 +1,6 @@
 import cookies from 'browser-cookies';
 
 cookies.defaults.secure = false;
-cookies.defaults.expires = 30;
 
 //Set DATA
 export const setTOKEN = (token) => {
@@ -9,15 +8,15 @@ export const setTOKEN = (token) => {
 };
 
 export const setSession = (token) => {
-	cookies.set('token', token, {expires: 0})
+	cookies.set('token', token, {expires: null})
 };
 
 export const setID = (id) => {
-	cookies.set('id', id, {expire: 30})
+	cookies.set('id', id, {expires: 30})
 };
 
 export const setIdentityId = (id) => {
-	cookies.set('identityId', id.toString() , {expire:30})
+	cookies.set('identityId', id.toString() , {expires:30})
 };
 
 export const saveData = (data) => {
