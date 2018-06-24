@@ -7,7 +7,7 @@ import {ImageViewer} from 'src/views/common/ImageViewer';
 import {Confirm} from "../../common/cards/Confirm";
 import {SelectComponent} from '../../common/SelectComponent';
 import {IDENTITY_ID} from '../../../consts/data';
-import {defaultImg} from 'src/images/icons'
+import {DefaultUserIcon} from 'src/images/icons'
 
 export class ProductForm extends Component {
   static propTypes = {
@@ -249,7 +249,11 @@ export class ProductPictureForm extends Component {
             this.productPictureInput = productPictureInput
           }}
         />
-        <img alt="" className="-item-productForm-img" src={picture.picture_media || defaultImg}/>
+        {
+          (picture.picture_media)?(<img alt="" className="-item-productForm-img" src={picture.picture_media}/>):(
+            <DefaultUserIcon className="-item-productForm-img"/>
+          )
+        }
         <div className="col-12 d-flex justify-content-end">
           <button type="button" className="btn btn-secondary mr-2" onClick={this.props.hideEdit}>
             {__('Cancel')}

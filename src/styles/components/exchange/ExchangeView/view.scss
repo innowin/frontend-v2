@@ -21,14 +21,19 @@
         margin: auto 0;
       }
     }
-    svg {
-      fill: darken($text-light-color, 15%);
-    }
+
     span, i {
       color: darken($text-light-color, 15%);
     }
     i {
       font-size: $font-size-smallIcon
+    }
+    .default-icon {
+      width: 45px;
+      height: 45px
+    }
+    .svgIcon {
+      fill: darken($text-light-color, 15%);
     }
     img {
       width: 45px;

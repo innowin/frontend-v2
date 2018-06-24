@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
-import {defaultImg, BookmarkIcon} from "../../images/icons";
+import {DefaultProductIcon, BookmarkIcon} from "../../images/icons";
 import {VerifyWrapper} from "../common/cards/Frames";
 import {getIdentity} from "src/crud/identity";
 import {getProducts} from "../../crud/product/product";
@@ -21,7 +21,7 @@ export class Product extends Component {
     super(props);
     this.state = {
       ownerName: "",
-      productPicture: defaultImg,
+      productPicture: null,
       tags: [],
       isLoading: false,
       error: false
@@ -89,7 +89,9 @@ export class Product extends Component {
           </div>
         </div>
         <div className="productContent">
-          <Link to={`/product/${product.id}`}><img alt="Product icon" src={productPicture}/></Link>
+          <Link to={`/product/${product.id}`}>
+            {(!productPicture)?(<DefaultProductIcon/>):(<img alt="Product icon" src={productPicture}/>)}
+          </Link>
           <span className="d-block pt-3">{ownerName}</span>
           <span className="d-block pt-2">{"قیمت: " + (this.props.price || "تماس")}</span>
         </div>

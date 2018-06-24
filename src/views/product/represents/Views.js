@@ -2,15 +2,13 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import "moment/locale/fa";
 import Moment from "react-moment";
-import {editIcon, defaultImg} from "src/images/icons";
+import {editIcon, DefaultUserIcon} from "src/images/icons";
 import {NEW_VIEW, GET_VIEWS_COUNT} from "src/consts/Events";
 import {SOCKET as socket} from "src/consts/URLS";
 import {TOKEN} from "src/consts/data";
 import {VerifyWrapper} from "src/views/common/cards/Frames";
 import {getFile} from "../../../crud/media/media";
-import {SupplyIcon,DemandIcon} from "src/images/icons";
 import {ProductContainer} from './Product/index';
-import cx from 'classnames';
 
 
 export class RepresentItemWrapper extends Component {
@@ -76,14 +74,14 @@ export class RepresentFooter extends Component {
       <div className="-item-footerPost">
         <div>
           <span className="ml-1">{viewerCount}</span>
-          <i class="fa fa-eye" aria-hidden="true"></i>
+          <i class="fa fa-eye" aria-hidden="true"/>
         </div>
         <div>
           <span className="ml-1">\</span>
-          <i class="fa fa-share" aria-hidden="true"></i>
+          <i class="fa fa-share" aria-hidden="true"/>
         </div>
         <span>
-          <a href="#" onClick={addViewer}><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a>
+          <a href="#" onClick={addViewer}><i class="fa fa-ellipsis-h" aria-hidden="true"/></a>
         </span>
       </div>
     )
@@ -100,7 +98,7 @@ export class RepresentView extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {viewerCount: 0, isLoading: false, error: false, profile_media_File:null};
+    this.state = {viewerCount: 0, isLoading: false, error: false, profile_media_File: null};
     this._addViewer = this._addViewer.bind(this);
   }
 
@@ -198,7 +196,10 @@ export class RepresentView extends Component {
         <RepresentItemWrapper>
           <div className="-img-col">
             {/*// TODO mohsen: handle src of img*/}
-            <img className="-item-imgPost rounded-circle" src={profile_media_File || defaultImg} alt=""/>
+            {
+              (!profile_media_File) ? (<DefaultUserIcon className="-item-imgPost"/>) : (
+                <img className="-item-imgPost rounded-circle" src={profile_media_File} alt=""/>)
+            }
           </div>
           <div className="-content-col">
 

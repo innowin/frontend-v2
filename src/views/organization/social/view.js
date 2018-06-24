@@ -2,13 +2,9 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import "moment/locale/fa";
-import Moment from "react-moment";
-import {editIcon, defaultImg} from "src/images/icons";
+import {editIcon, DefaultUserIcon, DefaultExchangeIcon} from "src/images/icons";
 import {userInfoIcon} from "src/images/icons"
 import {Link} from 'react-router-dom'
-import {NEW_VIEW, GET_VIEWS_COUNT} from "src/consts/Events";
-import {SOCKET as socket} from "src/consts/URLS";
-import {TOKEN} from "src/consts/data";
 import {ItemWrapper, ItemHeader, VerifyWrapper} from "src/views/common/cards/Frames";
 
 export const ExchangesWrapper = ({children}) => {
@@ -82,7 +78,10 @@ export class ExchangeView extends Component {
 
         <div className="member-wrapper">
           <div className="image-wrapper">
-            <Link to={`/user/${6}`}><img alt="" src={defaultImg} className="rounded-circle"/></Link></div>
+            <Link to={`/user/${6}`}>
+              <DefaultExchangeIcon/>
+            </Link>
+          </div>
           <div className="details">
               <div>
                 <div className="name">{exchange.name}</div>
@@ -163,7 +162,10 @@ export class FollowerView extends Component {
 
         <div className="member-wrapper">
           <div className="image-wrapper">
-            <Link to={`/user/${6}`}><img alt="" src={defaultImg} className="rounded-circle"/></Link></div>
+            <Link to={`/user/${6}`}>
+              <DefaultUserIcon/>
+            </Link>
+          </div>
           <div className="details">
               <div>
                 <div className="name">{follower.name}</div>
@@ -251,7 +253,10 @@ export class FollowingView extends Component {
         <div className="member-wrapper">
         
           <div className="image-wrapper">
-            <Link to={`/user/${6}`}><img alt="" src={defaultImg} className="rounded-circle"/></Link></div>
+            <Link to={`/user/${6}`}>
+              <DefaultUserIcon/>
+            </Link>
+          </div>
           <div className="details">
               <div>
                 <div className="name">{following.name}</div>

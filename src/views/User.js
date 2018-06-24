@@ -33,14 +33,13 @@ class User extends Component {
         <TopBar handleSignOut={handleSignOut} collapseWidthCol={widthOfRightBar}/>
 
         <main className="row">
-          <div className={`-right-sidebar-wrapper ${widthOfRightBar}`}>
-            <Sidebar>
-              <UserSideView userId={userId}/>
-            </Sidebar>
+          <div className={`-right-sidebar-wrapper ${widthOfRightBar} pr-0 pl-0`}>
+            <UserSideView userId={userId}/>
           </div>
           <div className="col-6 pr-1-percent -content-wrapper">
             <Tabs>
-              <NavLink className="-tab" to={`${url}/basicInformation`} activeClassName="-active">{userInfoIcon}</NavLink>
+              <NavLink className="-tab" to={`${url}/basicInformation`}
+                       activeClassName="-active">{userInfoIcon}</NavLink>
               <NavLink className="-tab" to={`${url}/Posts`} activeClassName="-active">{postIcon}</NavLink>
               <NavLink className="-tab" to={`${url}/Career`} activeClassName="-active">{workExperienceIcon}</NavLink>
               <NavLink className="-tab" to={`${url}/SocialConnections`} activeClassName="-active">
@@ -55,11 +54,11 @@ class User extends Component {
               <PrivateRoute path={`${path}/Posts`} component={Posts} id={userId} identityType='user'/>
               <PrivateRoute path={`${path}/Career`} component={Career} userId={userId}/>
               <PrivateRoute path={`${path}/SocialConnections`} component={Social} userId={userId}/>
-              <PrivateRoute path={`${path}/Skills`} component={Skills}  userId={userId}/>
+              <PrivateRoute path={`${path}/Skills`} component={Skills} userId={userId}/>
               <PrivateRoute path={`${path}/Certificates`} component={Certificates} userId={userId}/>
             </Switch>
           </div>
-          
+
           <div className="col-3 -left-sidebar-wrapper">
             <ChatBar/>
           </div>
