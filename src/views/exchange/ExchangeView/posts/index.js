@@ -60,10 +60,9 @@ export class ExchangePost extends Component {
   };
 
   _getIdentityDetails = (post_identity) => {
-    const handleResult = (identity) => {
-      const user = identity.identity_user;
-      const organization = identity.identity_organization;
-      if (user) {
+      const user = post_identity.identity_user;
+      const organization = post_identity.identity_organization;
+      if (user) {alert(user.id)
         this.setState({
           ...this.state,
           postIdentity_name: user.first_name + ' ' + user.last_name
@@ -86,8 +85,6 @@ export class ExchangePost extends Component {
           isLoading: false
         })
       }
-    };
-    getIdentity(post_identity, handleResult)
   };
 
   componentDidMount() {
