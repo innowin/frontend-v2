@@ -1,10 +1,12 @@
 import {all} from 'redux-saga/effects'
-import {watchAddNumber, watchGetPosts} from "./auth/testSaga"
+import {watchLoginFlow, watchSignInSuccess} from './auth/authSaga'
 
 const rootSaga = function* () {
 	yield all([
 		watchAddNumber(),
-		watchGetPosts()
+		watchGetPosts(),
+		watchLoginFlow(),
+		watchSignInSuccess()
 	])
 };
 export default rootSaga;

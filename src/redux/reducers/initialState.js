@@ -1,6 +1,14 @@
 import messages from 'src/translate/fa'
 
 export default {
+	auth:{
+		client:{
+			identity:{},
+			profile:{},
+			user:{},
+			rememberMe:null,
+		}
+	},
 	test: {
 		result: 1,
 		list:[]

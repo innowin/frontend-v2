@@ -74,9 +74,12 @@ class Skill extends Component {
     this._update = this._update.bind(this);
     this._updateStateForView = this._updateStateForView.bind(this)
   }
-
-
-  _delete = (skillId, updateStateForView, hideEdit) => {
+	
+	_handleErrorLoading = (error = false) => {
+		this.setState({...this.state, isLoading: false, error: error});
+	};
+	
+	_delete = (skillId, updateStateForView, hideEdit) => {
     const{skill, skills, updateSkills} = this.props;
     return deleteSkill(skill, skills, updateSkills, hideEdit, this._handleErrorLoading);
   };
@@ -86,10 +89,7 @@ class Skill extends Component {
     return updateSkill(formValues, skillId, updateSkills, hideEdit);
   };
 
-  _handleErrorLoading = (error = false) => {
-    this.setState({...this.state, isLoading: false, error: error});
-  };
-  
+
   _updateStateForView = (res, error, isLoading) => {
     const {updateStateForView} = this.props;
     updateStateForView({error: error, isLoading: isLoading});
@@ -230,10 +230,6 @@ class Skills extends Component {
 
   _hideCreateForm = () => {
     this.setState({createForm: false});
-  };
-
-  _handleErrorLoading = (error = false) => {
-    this.setState({...this.state, isLoading: false, error: error});
   };
   
   _updateStateForView = (res, error, isLoading) => {
