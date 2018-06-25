@@ -6,6 +6,7 @@ import Login from './views/pages/Login';
 import {setTOKEN, setSession, setID, saveData , setIdentityId} from './consts/data';
 import cookies from 'browser-cookies';
 import PropsRoute from './consts/PropsRoute';
+import client from 'src/consts/client'
 
 class App extends Component {
 	constructor(props) {
@@ -26,7 +27,7 @@ class App extends Component {
 			const {token} = data;
 			const id = data.user.id.toString();
 			await saveData(data);
-			await rememberme ? setTOKEN(token) : setSession(token);
+			await rememberme ? client.setTokenLS(token) : client.setSessionLS(token);
 			await setID(id);
 			await setIdentityId(data.identity.id);
 			const T = cookies.get('token');

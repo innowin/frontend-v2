@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
-import {connect } from 'react-redux'
-import {bindActionCreators} from 'redux'
+import AuthActions from 'src/redux/actions/authActions'
+import client from 'src/consts/client'
 import TestActions from 'src/redux/actions/testActions'
-import * as client from '../consts/client'
+import {bindActionCreators} from 'redux'
+import {connect } from 'react-redux'
 
 class ReduxTest extends Component {
 	componentDidMount(){
@@ -11,36 +12,35 @@ class ReduxTest extends Component {
 	}
 	
 	_handleClick = (e) => {
-		(e.target.dataset.action === 'ASC') ?
-				this.props.actions.add(1) :
-				this.props.actions.subtract(1)
+		const {actions:{add, subtract , signin}} = this.props;
+		if(e.target.dataset.action === 'ASC') {
+			add(1)
+		} else if(e.target.dataset.action === 'DSC') {
+			subtract(1)
+		} else if (e.target.dataset.action === 'SIGNIN'){
+			signin('pedram','DaneshBoom','true')
+		}
 	};
 	
 	render(){
 		return(
 				<div>
 					<h1>I am Redux Test</h1>
-					<h2>{JSON.stringify(this.props,null,2)}</h2>
-					<button data-action="ASC" className="btn btn-outline-primary" onClick={this._handleClick}>+</button><button className="btn btn-outline-primary" data-action="DSC" onClick={this._handleClick}>-</button>
+					<pre>{JSON.stringify(this.props,null,2)}</pre>
+					<button data-action="ASC" className="btn btn-outline-primary" onClick={this._handleClick}>+</button>
+					<button className="btn btn-outline-primary" data-action="DSC" onClick={this._handleClick}>-</button>
+					<button className="btn btn-outline-primary" data-action="SIGNIN" onClick={this._handleClick}>sign in</button>
 				</div>
 		)
 	}
 }
 
-const translateSelector = (messages) => {
-	
-	return(
-			{}
-	)
-}
-
 const mapStateToProps = (state , ownProps) => ({
-	translate: translateSelector(state.intl.messages),
 	number: state.test.result,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-	actions: bindActionCreators({subtract:TestActions.subtractNumber , add:TestActions.addNumber},dispatch)
+	actions: bindActionCreators({subtract:TestActions.subtractNumber , add:TestActions.addNumber, signin: AuthActions.signIn},dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReduxTest)

@@ -11,5 +11,12 @@ const types = {
 	SIGN_IN: 'SIGN_IN',
 	SIGN_IN_SUCCESS: 'SIGN_IN_SUCCESS',
 	SIGN_IN_FAILED: 'SIGN_IN_FAILED',
+	SIGN_IN_ERROR: 'SIGN_IN_ERROR',
+	SIGN_OUT:'SIGN_OUT',
+	
+	//error types
+	ERRORS: {
+		SIGN_IN: 'SIGN_IN'
+	}
 }
 export default types
