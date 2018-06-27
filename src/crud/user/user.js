@@ -105,6 +105,7 @@ export const updateUser = (formValues, userId, updateStateForView, hideEdit) => 
     isLoading = false;
     if (res.detail) {
       error = res.detail;
+      return false;
     }
     updateStateForView(res, error, isLoading);
     hideEdit();
