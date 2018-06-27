@@ -2,19 +2,13 @@
 .*/src/registerServiceWorker.js
 .*/src/index.js
 .*/src/App.test.js
-.*/src/fonts/.*
-.*/src/fontawesome/.*
-.*/src/images/.*
-.*/src/styles/.*
-.*/src/translate/.*
 
 [include]
-.*/src/.*
-
+./src/
 [libs]
 
 [lints]
 
 [options]
-
+module.name_mapper='^src\(.*\)$' -> '<PROJECT_ROOT>/src/\1'
 [strict]
