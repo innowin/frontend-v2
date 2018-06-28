@@ -1,6 +1,6 @@
 /*global __*/
 // @flow
-import * as React from 'React'
+import * as React from 'react'
 import PropTypes from 'prop-types';
 import {Product, ProductItemWrapper} from "./view";
 import {ProductCreateForm, ProductEditForm} from "./forms";

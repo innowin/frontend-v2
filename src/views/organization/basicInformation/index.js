@@ -148,12 +148,11 @@ export class OrganizationMembers extends React.Component<OrganizationMembersProp
 		
 	}
 }
+type organizationBasicInformationProps ={
+	organizationId: number
+}
+export default class organizationBasicInformation extends React.Component<organizationBasicInformationProps> {
 
-export default class organizationBasicInformation extends Component {
-	static propTypes = {
-		organizationId: PropTypes.string.isRequired,
-	};
-	
 	render() {
 		// const {match} = this.props;
 		// const {params} = match;

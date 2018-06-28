@@ -91,7 +91,7 @@ type OrganizationMembersEditFormProps = {
 	hideEdit: Function,
 	updateStateForView: Function,
 	members: Array<Object>,
-	profile:Object
+	profile?:Object
 }
 export class OrganizationMembersEditForm extends React.Component<OrganizationMembersEditFormProps,{confirm: boolean}> {
 	form:any;
