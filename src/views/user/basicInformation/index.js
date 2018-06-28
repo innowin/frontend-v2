@@ -1,5 +1,5 @@
-/*global __*/
-import React, {Component} from "react"
+// @flow
+import * as React from "react"
 import PropTypes from "prop-types"
 import {FrameCard, CategoryTitle, VerifyWrapper} from "../../common/cards/Frames"
 import {ListGroup} from '../../common/cards/Frames'
@@ -11,63 +11,57 @@ import {UserInfoItemWrapper, UserInfoView, ProfileInfoView, ResearchInfoView, Ed
 import {getUserResearches} from "src/crud/user/research"
 import {getUserEducations} from "src/crud/user/education"
 import {userInfoIcon, researchIcon, educationIcon} from "src/images/icons"
+import {getUser} from "src/crud/user/user"
 
-export class UserInfo extends Component {
+type UserInfoProps = {
+  userId: number
+}
 
-  constructor(props) {
-    super(props);
-    this.state = {user:{}, error: null, edit: false, isLoading: false}
+type UserInfoState ={
+  user: {},
+  error:boolean,
+  edit: boolean,
+  isLoading:boolean
+}
+export class UserInfo extends React.Component<UserInfoProps, UserInfoState> {
+
+  constructor(props:UserInfoProps) {
+    super(props)
+    this.state = {user:{}, error: false, edit: false, isLoading: false}
   }
 
   static propTypes = {
     userId: PropTypes.string.isRequired,
-  };
+  }
 
-  _showEdit = () => {
-    this.setState({...this.state, edit: true});
-  };
+  _showEdit = ():void => {
+    this.setState({...this.state, edit: true})
+  }
 
-  _hideEdit = () => {
-    this.setState({...this.state, edit: false});
-  };
+  _hideEdit = ():void => {
+    this.setState({...this.state, edit: false})
+  }
 
-  _updateStateForView = (res, error, isLoading) => {
-    this.setState({...this.state, user:res, error:error, isLoading:isLoading});
-  };
+  _updateStateForView = (res:{}, error:boolean, isLoading:boolean):void => {
+    this.setState({...this.state, user:res, error:error, isLoading:isLoading})
+  }
 
   componentDidMount() {
     const {userId } = this.props;
-    const emitting = () => {
-      const newState = {...this.state, isLoading: true};
-      this.setState(newState);
-      socket.emit(REST_REQUEST,
-        {
-          method: "get",
-          url: `${url}/users/${userId}/`,
-          result: `UserInfo-get/${userId}`,
-          token: TOKEN,
-        }
-      );
-    };
-
-    emitting();
-
-    socket.on(`UserInfo-get/${userId}`, (res) => {
-      if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false};
-        this.setState(newState);
+    this.setState({...this.state, isLoading: true}, (): void => {
+        getUser(userId, (res) =>
+          this.setState({...this.state, user: res, isLoading: false})
+        )
       }
-      const newState = {...this.state, user: res, isLoading: false};
-      this.setState(newState);
-    });
+    )
   }
 
   render() {
-    const {user, edit, isLoading, error} = this.state;
+    const {user, edit, isLoading, error}:UserInfoState = this.state;
     return (
-      
+
       <VerifyWrapper isLoading={isLoading} error={error}>
-      
+
         {
           (edit) ? (
             <UserInfoItemWrapper icon={userInfoIcon}>
@@ -86,14 +80,24 @@ export class UserInfo extends Component {
   }
 }
 
-export class ProfileInfo extends Component {
-  constructor(props) {
+type ProfileInfoProps = {
+  userId: number
+}
+
+type ProfileInfoState = {
+  profile: {},
+  error: boolean,
+  edit: boolean,
+  isLoading: boolean
+}
+export class ProfileInfo extends React.Component<ProfileInfoProps, ProfileInfoState> {
+  constructor(props:ProfileInfoProps) {
     super(props);
-    this.state = {...this.state , profile: {}, error: null, edit: false, isLoading: false}
+    this.state = {profile: {}, error: false, edit: false, isLoading: false}
   }
 
   static propTypes = {
-    userId: PropTypes.string.isRequired,
+    userId: PropTypes.number.isRequired
   };
 
   _showEdit = () => {
@@ -104,7 +108,7 @@ export class ProfileInfo extends Component {
     this.setState({...this.state , edit: false});
   };
 
-  _updateStateForView = (res, error, isLoading) => {
+  _updateStateForView = (res:{}, error:boolean, isLoading:boolean) => {
     this.setState({...this.state, profile:res, error:error, isLoading:isLoading});
   };
 
@@ -159,10 +163,20 @@ export class ProfileInfo extends Component {
   }
 }
 
-export class EducationInfo extends Component {
-  constructor(props) {
+type EducationInfoProps = {
+  education: {}
+}
+
+type EducationInfoState ={
+  education:{},
+  error:boolean,
+  edit: boolean,
+  isLoading: boolean
+}
+export class EducationInfo extends React.Component<EducationInfoProps, EducationInfoState> {
+  constructor(props:EducationInfoProps) {
     super(props);
-    this.state = {...this.state , education:props.education, error: null, edit: false, isLoading: false}
+    this.state = {education:{}, error: false, edit: false, isLoading: false}
   }
 
   static propTypes = {
@@ -177,9 +191,13 @@ export class EducationInfo extends Component {
     this.setState({...this.state , edit: false});
   };
 
-  _updateStateForView = (res, error, isLoading) => {
-    this.setState({...this.state, educations:res, error:error, isLoading:isLoading});
+  _updateStateForView = (res:{}, error:boolean, isLoading: boolean) => {
+    this.setState({...this.state, education:res, error:error, isLoading:isLoading});
   };
+
+  componentDidMount() {
+    this.setState({...this.state, education:this.props.education})
+  }
 
   render() {
     const {education, edit, isLoading, error} = this.state;
@@ -190,9 +208,9 @@ export class EducationInfo extends Component {
             <UserInfoItemWrapper icon={educationIcon}>
               <EducationInfoEditForm
                 education={education}
-                hideEdit={this._hideEdit} 
+                hideEdit={this._hideEdit}
                 updateStateForView={this._updateStateForView}
-              /> 
+              />
             </UserInfoItemWrapper>
           ) : (
             <EducationInfoView education={education} showEdit={this._showEdit}/>
@@ -204,14 +222,24 @@ export class EducationInfo extends Component {
   }
 }
 
-export class EducationsInfo extends Component{
-  constructor(props) {
+type EducationsInfoProps = {
+  userId: number
+}
+
+type EducationsInfoState ={
+  educations:Array<{}>,
+  error:boolean,
+  edit: boolean,
+  isLoading: boolean
+}
+export class EducationsInfo extends React.Component<EducationsInfoProps, EducationsInfoState>{
+  constructor(props:EducationsInfoProps) {
     super(props);
-    this.state = {...this.state , educations: [], error: null, edit: false, isLoading: false}
+    this.state = {educations: [], error: false, edit: false, isLoading: false}
   }
 
   static propTypes = {
-    userId: PropTypes.string.isRequired,
+    userId: PropTypes.number.isRequired,
   };
 
   _showEdit = () => {
@@ -220,18 +248,6 @@ export class EducationsInfo extends Component{
 
   _hideEdit = () => {
     this.setState({...this.state , edit: false});
-  };
-
-  _updateStateForView = (education, educationId, error, isLoading) => {
-    let educations = this.state.educations;
-    if(!error){
-      let index = educations.findIndex((element)=>{
-        return element.id === educationId
-      })
-      educations[index] = education;
-    }
-
-    this.setState({...this.state, educations:educations, error:error, isLoading:isLoading});
   };
 
   componentDidMount() {
@@ -248,7 +264,7 @@ export class EducationsInfo extends Component{
       const newState = {...this.state, educations: res, isLoading: false};
       this.setState(newState);
     })
-      
+
   }
 
   render(){
@@ -264,10 +280,20 @@ export class EducationsInfo extends Component{
   }
 }
 
-export class ResearchInfo extends Component {
-  constructor(props) {
+type ResearchInfoProps = {
+  research: {}
+}
+
+type ResearchInfoState ={
+  research: {},
+  error:boolean,
+  edit: boolean,
+  isLoading: boolean
+}
+export class ResearchInfo extends React.Component<ResearchInfoProps, ResearchInfoState> {
+  constructor(props:ResearchInfoProps) {
     super(props);
-    this.state = {...this.state , research:props.research, error: null, edit: false, isLoading: false}
+    this.state={research:{}, error: false, edit: false, isLoading: false}
   }
 
   static propTypes = {
@@ -282,9 +308,13 @@ export class ResearchInfo extends Component {
     this.setState({...this.state , edit: false});
   };
 
-  _updateStateForView = (res, error, isLoading) => {
+  _updateStateForView = (res:{}, error:boolean, isLoading:boolean):void => {
     this.setState({...this.state, research:res, error:error, isLoading:isLoading});
   };
+
+  componentDidMount() {
+    this.setState({...this.state, research:this.props.research})
+  }
 
 
   render() {
@@ -310,10 +340,20 @@ export class ResearchInfo extends Component {
   }
 }
 
-export class ResearchesInfo extends Component{
-  constructor(props) {
+type ResearchesInfoProps = {
+  userId: number
+}
+
+type ResearchesInfoState ={
+  researches: Array<{}>,
+  error:boolean,
+  edit: boolean,
+  isLoading: boolean
+}
+export class ResearchesInfo extends React.Component<ResearchesInfoProps, ResearchesInfoState>{
+  constructor(props:ResearchesInfoProps) {
     super(props);
-    this.state = {...this.state , researches: [], error: null, edit: false, isLoading: false}
+    this.state = {researches: [], error: false, edit: false, isLoading: false}
   }
 
   static propTypes = {
@@ -328,7 +368,7 @@ export class ResearchesInfo extends Component{
     this.setState({...this.state , edit: false});
   };
 
-  _updateStateForView = (res, error, isLoading) => {
+  _updateStateForView = (res:Array<{}>, error:boolean, isLoading:boolean) => {
     this.setState({...this.state, researches:res, error:error, isLoading:isLoading});
   };
 
@@ -346,7 +386,7 @@ export class ResearchesInfo extends Component{
       const newState = {...this.state, researches: res, isLoading: false};
       this.setState(newState);
     })
-      
+
   }
 
   render(){
@@ -362,7 +402,10 @@ export class ResearchesInfo extends Component{
   }
 }
 
-export default class UserBasicInformation extends Component {
+type UserBasicInformationProps = {
+  userId: number
+}
+export default class UserBasicInformation extends React.Component<UserBasicInformationProps> {
 
   static propTypes = {
     userId: PropTypes.string.isRequired,
@@ -373,7 +416,7 @@ export default class UserBasicInformation extends Component {
     return (
       <div>
         <CategoryTitle
-          title={__('Basic information')}
+          // title={__('Basic information')}
         />
         <FrameCard>
           <ListGroup>
