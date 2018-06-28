@@ -1,5 +1,6 @@
 /*global __*/
-import React, {Component} from "react";
+// @flow
+import * as React from "React";
 import PropTypes from "prop-types";
 import "moment/locale/fa";
 import {editIcon, DefaultUserIcon, DefaultExchangeIcon} from "src/images/icons";
@@ -7,12 +8,21 @@ import {userInfoIcon} from "src/images/icons"
 import {Link} from 'react-router-dom'
 import {ItemWrapper, ItemHeader, VerifyWrapper} from "src/views/common/cards/Frames";
 
-export const ExchangesWrapper = ({children}) => {
+
+type ExchangesWrapperProps = {
+  children?: React.Node,
+};
+export function ExchangesWrapper (props:ExchangesWrapperProps) {
 	return (
-			<ItemWrapper icon={userInfoIcon}>{children}</ItemWrapper>
+			<ItemWrapper icon={userInfoIcon}>{props.children}</ItemWrapper>
 	)
 };
-export class ExchangeItemWrapper extends Component {
+
+type ExchangeItemWrapperProps = {
+  showEdit: boolean,
+  children?: React.Node,
+};
+export class ExchangeItemWrapper extends React.Component<ExchangeItemWrapperProps> {
   render() {
 		const {showEdit} = this.props;
     return (
@@ -23,12 +33,13 @@ export class ExchangeItemWrapper extends Component {
     )
   }
 }
-export class ExchangesView extends Component {
-	static propsTypes = {
-		showEdit: PropTypes.func.isRequired,
-    organization: PropTypes.object.isRequired,
-    deleteExchange:PropTypes.func.isRequired
-	};
+
+type ExchangesViewProps = {
+  showEdit?: boolean,
+  exchanges: Array<Object>,
+  deleteExchange: Function
+};
+export class ExchangesView extends React.Component<ExchangesViewProps> {
 	render() {
 		const {exchanges, showEdit, deleteExchange} = this.props;
 		// console.log('organization member is : ', members);
@@ -49,17 +60,25 @@ export class ExchangesView extends Component {
 	}
 }
 
-export class ExchangeView extends Component {
-  static propTypes = {
-    showEdit: PropTypes.func.isRequired,
-    exchange: PropTypes.object.isRequired,
-    profile: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
-  };
+type ExchangeViewProps = {
+  exchange: Object,
+  deleteExchange:Function,
+  index:number,
+}
+type ExchangeViewState = {
+  viewerCount: number, 
+  isLoading: boolean, 
+  error: boolean
+};
 
-  constructor(props) {
-    super(props);
-    this.state = {viewerCount: 0, isLoading: false, error: false};
+export class ExchangeView extends React.Component<ExchangeViewProps, ExchangeViewState> {
+  state = {
+    viewerCount: 0, 
+    isLoading: false, 
+    error: false
+  };
+  constructor(props: ExchangeViewProps) {
+    super(props)
   };
 
   componentDidMount() {
@@ -72,7 +91,7 @@ export class ExchangeView extends Component {
     deleteExchange(exchange.id,index);
   }
   render() {
-		const {showEdit, exchange, user, profile, isLoading, error} = this.props;
+		const {exchange} = this.props;
 
     return (
 
@@ -94,13 +113,19 @@ export class ExchangeView extends Component {
     )
   }
 }
-
-export const FollowersWrapper = ({children}) => {
+type FollowersWrapperProps ={
+  children: React.Node
+}
+export  function FollowersWrapper(props:FollowersWrapperProps){
 	return (
-			<ItemWrapper icon={userInfoIcon}>{children}</ItemWrapper>
+			<ItemWrapper icon={userInfoIcon}>{props.children}</ItemWrapper>
 	)
 };
-export class FollowerItemWrapper extends Component {
+type FollowerItemWrapperProps ={
+  showEdit: boolean,
+  children: React.Node
+}
+export class FollowerItemWrapper extends React.Component<FollowerItemWrapperProps> {
   render() {
 		const {showEdit} = this.props;
     return (
@@ -111,11 +136,12 @@ export class FollowerItemWrapper extends Component {
     )
   }
 }
-export class FollowersView extends Component {
-	static propsTypes = {
-		showEdit: PropTypes.func.isRequired,
-		organization: PropTypes.object.isRequired,
-	};
+
+type FollowersViewProps ={
+  showEdit?: Function,
+  followers: Array<Object>
+}
+export class FollowersView extends React.Component<FollowersViewProps> {
 	render() {
 		const {followers, showEdit} = this.props;
 		// console.log('organization member is : ', members);
@@ -135,18 +161,15 @@ export class FollowersView extends Component {
 		)
 	}
 }
-
-export class FollowerView extends Component {
-  static propTypes = {
-    showEdit: PropTypes.func.isRequired,
-    follower: PropTypes.object.isRequired,
-    profile: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
-  };
-
-  constructor(props) {
+type FollowerViewProps = {
+  follower: Object
+}
+export class FollowerView extends React.Component<FollowerViewProps,{viewerCount:number}> {
+  
+  state = {viewerCount: 0};
+  
+  constructor(props:FollowerViewProps) {
     super(props);
-    this.state = {viewerCount: 0, isLoading: false, error: false};
   };
 
   componentDidMount() {
@@ -156,7 +179,7 @@ export class FollowerView extends Component {
   }
 
   render() {
-		const {showEdit, follower, user, profile, isLoading, error} = this.props;
+		const {follower} = this.props;
 
     return (
 
@@ -179,13 +202,19 @@ export class FollowerView extends Component {
 }
 
 
-
-export const FollowingsWrapper = ({children}) => {
+type FollowingsWrapperProps = {
+  children: React.Node
+}
+export const FollowingsWrapper = (props:FollowingsWrapperProps) => {
 	return (
-			<ItemWrapper icon={userInfoIcon}>{children}</ItemWrapper>
+			<ItemWrapper icon={userInfoIcon}>{props.children}</ItemWrapper>
 	)
 };
-export class FollowingItemWrapper extends Component {
+type FollowingItemWrapperProps = {
+  showEdit : boolean,
+  children: React.Node
+}
+export class FollowingItemWrapper extends React.Component<FollowingItemWrapperProps> {
   render() {
 		const {showEdit} = this.props;
     return (
@@ -196,12 +225,13 @@ export class FollowingItemWrapper extends Component {
     )
   }
 }
-export class FollowingsView extends Component {
-	static propsTypes = {
-		showEdit: PropTypes.func.isRequired,
-    organization: PropTypes.object.isRequired,
-    deleteFollowing : PropTypes.func,
-	};
+type FollowingsViewProps = {
+  showEdit? : boolean,
+  deleteFollowing : Function,
+  followings : Array<Object>
+}
+export class FollowingsView extends React.Component<FollowingsViewProps> {
+
 	render() {
 		const {followings, showEdit, deleteFollowing} = this.props;
     // console.log('organization member is : ', members);
@@ -221,32 +251,24 @@ export class FollowingsView extends Component {
 		)
 	}
 }
+type FollowingViewProps = { 
+  deleteFollowing:Function,
+  following: Object,
+  index: number
+}
+export class FollowingView extends React.Component<FollowingViewProps, {viewerCount: number, isLoading: boolean, error: boolean}> {
 
-export class FollowingView extends Component {
-  static propTypes = {
-    showEdit: PropTypes.func.isRequired,
-    following: PropTypes.object.isRequired,
-    profile: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
-    deleteFollowing: PropTypes.func
-  };
-
-  constructor(props) {
+  state = {viewerCount: 0, isLoading: false, error: false};
+  constructor(props:FollowingViewProps) {
     super(props);
-    this.state = {viewerCount: 0, isLoading: false, error: false};
   };
 
-  componentDidMount() {
-  };
-
-  componentWillUnmount() {
-  }
   onDeleteFollowing(){
     const {deleteFollowing, following, index} = this.props;
     deleteFollowing(following.follow_follower, index);
   }
   render() {
-		const {showEdit, following, user, profile, isLoading, error} = this.props;
+		const {following } = this.props;
 
     return (
 

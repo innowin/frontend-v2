@@ -49,20 +49,12 @@ class ExchangeViewBar extends Component {
         //callback hell 201 requests just to get user names and profile Media TODO amir
         // TODO amir: tell backend to fix this mess
         for(var i =0 ; i < identities.length; i++){
-          getExchangeMemberIdentity(identities[i].exchange_identity_related_identity,(err)=>{
-
-          },(memberIdentity)=>{
-            getExchangeMember(memberIdentity.identity_user.id,(err)=>{
-
-            },(member)=>{
-              members.push(member)
-              j = j+1
-              if(j >= identities.length){
-                self.setState({...self.state, members:members, loading:false})
-              }
-            })
-            
-          })
+          var member = identities[i].exchange_identity_related_identity
+          members.push(member) //todo add profile media to identity_user
+          j = j+1
+          if(j >= identities.length){
+            self.setState({...self.state, members:members, loading:false})
+          }
         }
       })
     };

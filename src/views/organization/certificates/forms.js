@@ -1,17 +1,20 @@
 /*global __*/
-import React, {Component} from 'react';
+//@flow
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import {TextInput} from 'src/views/common/inputs/TextInput'
 import {FileInput} from 'src/views/common/inputs/FileInput';
 import {Confirm} from "../../common/cards/Confirm";
 
-
-export class CertificateForm extends Component {
-	static propTypes = {
-		onSubmit: PropTypes.func.isRequired,
-		certificate: PropTypes.object,
-	};
-
+type CertificateFormProps = {
+	onSubmit: Function,
+	certificate?: Object,
+	organization?: Object,
+	children: React.Node
+}
+export class CertificateForm extends React.Component<CertificateFormProps> {
+	certPictureInput:any;
+	titleInput : any;
 	getValues =  () => {
 		const media = this.certPictureInput.getFile();
         const mediaId = media ? media.id : null;
@@ -37,8 +40,8 @@ export class CertificateForm extends Component {
 	};
 
 	render() {
-			const {organization} = this.props;
-			const certificate = this.props.certificate || {picture: null};
+			const {organization} = this.props||{};
+			const certificate = this.props.certificate || {title:'', picture: null};
 			return <form onSubmit={this.props.onSubmit}>
 				<div className="row">
 					<TextInput
@@ -66,13 +69,11 @@ export class CertificateForm extends Component {
 	}
 }
 
-
-export class CertificateCreateForm extends Component {
-
-	static propTypes = {
-			create: PropTypes.func.isRequired,
-			hideEdit: PropTypes.func.isRequired
-	};
+type CertificateCreateFormProps = {
+	create: Function,
+	hideEdit: Function
+}
+export class CertificateCreateForm extends React.Component<CertificateCreateFormProps> {
 
 	save = () => {
 			const formValues = this.refs.form.getValues();
@@ -80,7 +81,7 @@ export class CertificateCreateForm extends Component {
 			return this.props.create(formValues, hideEdit);
 	};
 
-	onSubmit = (e) => {
+	onSubmit = (e:SyntheticEvent<HTMLButtonElement>) => {
 			e.preventDefault();
 			if (this.refs.form.formValidate()) {
 				this.save();
@@ -99,17 +100,15 @@ export class CertificateCreateForm extends Component {
 			</CertificateForm>;
 	}
 }
-export class CertificateEditForm extends Component {
-	state = {
-			confirm: false,
-	};
 
-	static propTypes = {
-			update: PropTypes.func.isRequired,
-			remove: PropTypes.func.isRequired,
-			hideEdit: PropTypes.func.isRequired,
-			certificate: PropTypes.object.isRequired,
-	};
+type CertificateEditFormProps = {
+	update:Function,
+	remove: Function,
+	hideEdit:Function,
+	certificate: Object,
+	updateStateForView: Function,
+}
+export class CertificateEditForm extends React.Component<CertificateEditFormProps,{confirm:boolean}> {
 
 	showConfirm = () => {
 			this.setState({confirm: true})
@@ -132,7 +131,7 @@ export class CertificateEditForm extends Component {
 		return this.props.update(formValues, certificateId, updateStateForView, hideEdit)
 	};
 
-	onSubmit = (e) => {
+	onSubmit = (e:SyntheticEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		this.save();
 	};

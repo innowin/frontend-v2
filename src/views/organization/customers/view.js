@@ -1,18 +1,22 @@
-import React, {Component} from 'react';
+//@flow
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import {CustomerEditForm} from './forms';
 import {ItemHeader, ItemWrapper} from "../../common/cards/Frames";
 import {certificateIcon, starIcon, editIcon} from "src/images/icons";
 
-export const CustomerItemWrapper = ({children}) => {
-	return <ItemWrapper icon={certificateIcon}>{children}</ItemWrapper>;
+type CustomerItemWrapperProps = {
+	children:React.Node
+}
+export const CustomerItemWrapper = (props:CustomerItemWrapperProps) => {
+	return <ItemWrapper icon={certificateIcon}>{props.children}</ItemWrapper>;
 };
 
-export class CustomerView extends Component {
-	static propTypes = {
-		showEdit: PropTypes.func.isRequired,
-		customer: PropTypes.object.isRequired,
-	};
+type CustomerViewProps = {
+	showEdit: Function,
+	customer: Object
+}
+export class CustomerView extends React.Component<CustomerViewProps> {
 
 	render() {
 		const {customer, showEdit} = this.props;
@@ -35,24 +39,22 @@ export class CustomerView extends Component {
 	}
 }
 
-
-export class Customer extends Component {
-	constructor(props){
+type CustomerProps = { 
+	customer:Object,
+	updateCustomer: Function,
+	deleteCustomer: Function,
+	updateStateForView: Function
+}
+export class Customer extends React.Component<CustomerProps,{edit: boolean, customer:Object}> {
+	constructor(props:CustomerProps){
 		super(props);
 		const {customer} = props;
 		this.state = {edit: false, customer:customer};
 	}
-	componentWillReceiveProps(props){
+	componentWillReceiveProps(props:CustomerProps){
 		const {customer} = props;
 		this.setState({...this.state, customer:customer})
 	}
-
-	static propTypes = {
-		updateCustomer: PropTypes.func.isRequired,
-		deleteCustomer: PropTypes.func.isRequired,
-		customer: PropTypes.object.isRequired,
-		updateStateForView:PropTypes.func.isRequired
-	};
 
 	showEdit = () => {
 		this.setState({edit: true});
@@ -62,7 +64,7 @@ export class Customer extends Component {
 		this.setState({edit: false});
 	};
 
-	updateStateForView = (res, error,isLoading) =>{
+	updateStateForView = (res:Object, error:boolean,isLoading:boolean) =>{
 		const {updateStateForView} = this.props;
 		this.setState({...this.state,customer:res })
 	}

@@ -1,5 +1,6 @@
 /*global __*/
-import React, {Component} from "react";
+//@flow
+import * as React from 'react'
 import PropTypes from 'prop-types';
 import {Customer, CustomerItemWrapper} from "./view";
 import {CustomerCreateForm} from "./forms";
@@ -9,25 +10,30 @@ import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {REST_REQUEST} from "../../../consts/Events"
 import {TOKEN} from "src/consts/data"
 
-export class CustomerContainer extends Component {
-	constructor(props){
+type CustomerContainerProps = { 
+	customer:Object,
+	organizationId:number, 
+	updateStateForView: Function
+}
+export class CustomerContainer extends React.Component<CustomerContainerProps,{customer:Object, error:boolean, isLoading:boolean}> {
+	constructor(props:CustomerContainerProps){
 		super(props);
-		this.state={customer:props.customer}
+		this.state={...this.state, customer:props.customer}
 	}
-	componentWillReceiveProps(props){
+	componentWillReceiveProps(props:CustomerContainerProps){
 			const {customer} = props;
 			this.setState ({...this.state ,customer:customer || {}});
 	}
-	delete_ = (customerId, hideEdit) => {	
+	delete_ = (customerId:number, hideEdit:Function) => {	
 		const {organizationId, updateStateForView} = this.props;
 		updateStateForView(null,true,true);
 		return deleteCustomer(customerId, updateStateForView,hideEdit,organizationId);
 	};
-	update_ = (formValues, customerId, updateStateForView, hideEdit) => {//formValues, careerId, updateStateForView, hideEdit
+	update_ = (formValues:Object, customerId:number, updateStateForView:Function, hideEdit:Function) => {//formValues, careerId, updateStateForView, hideEdit
 		updateStateForView(null,null,true);
 		return updateCustomer(formValues,customerId, updateStateForView, hideEdit);
 	};
-	_updateStateForView = (res, error, isLoading) => {
+	_updateStateForView = (res:Object, error:boolean, isLoading:boolean) => {
 		const {updateStateForView} = this.props;
 		updateStateForView({error:error,isLoading:isLoading});
 		this.setState({...this.state, customer:res, error:error, isLoading:isLoading});
@@ -44,14 +50,17 @@ export class CustomerContainer extends Component {
 	}
 }
 
-export class CustomerList extends Component {
-	static propTypes = {
-			hideCreateForm: PropTypes.func.isRequired,
-			createForm: PropTypes.bool.isRequired,
-	};
+type CustomerListProps = {
+	hideCreateForm: Function,
+	createForm: boolean,
+	organizationId:number,
+	updateStateForView:Function,
+	customers:Array<Object>
+}
+export class CustomerList extends React.Component<CustomerListProps> {
 
-	create = (formValues,hideEdit) => {
-			const {organizationId, customerId, updateStateForView} = this.props;
+	create = (formValues:Object,hideEdit:Function) => {
+			const {organizationId,  updateStateForView} = this.props;
 			return createCustomer(formValues, updateStateForView, hideEdit, organizationId);
 	};
 
@@ -77,16 +86,14 @@ export class CustomerList extends Component {
 	}
 }
 
-export class Customers extends Component {
-
-	constructor(props){
+type CustomersProps = { 
+	organizationId:number,
+}
+export class Customers extends React.Component<CustomersProps,{organization:Object, createForm: boolean,customers:Object, edit:boolean, isLoading:boolean, error:boolean, customers:Array<Object>}> {
+	state = {organization:{}, createForm: false,customers:{}, edit:false, isLoading:false, error:false, customers:[]};
+	constructor(props:CustomersProps){
 		super(props);
-		this.state = {organization:{}, createForm: false,customers:{}, edit:false, isLoading:false, error:null, customers:[]};
 	}
-	static propTypes = {
-		organizationId: PropTypes.string.isRequired
-	};
-
 	componentDidMount(){
 		const {organizationId } = this.props;
 		const emitting = () => {
@@ -142,7 +149,7 @@ export class Customers extends Component {
 	hideCreateForm = () => {
 			this.setState({createForm: false});
 	};
-	updateStateForView = (error,isLoading) =>{
+	updateStateForView = (error:boolean,isLoading:boolean) =>{
 		this.setState({...this.state, error:error, isLoading:isLoading})
 	}
 

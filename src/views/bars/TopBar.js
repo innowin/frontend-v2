@@ -21,11 +21,7 @@ class TopBar extends Component {
 
   constructor(props) {
     super(props);
-<<<<<<< HEAD
-    this.state = {isSignedOut: false, collapse: false, collapseProfile: false, agentForm:false, profileMedia: defaultImg}
-=======
     this.state = {isSignedOut: false, collapse: false, collapseProfile: false, profileMedia: null}
->>>>>>> 422cfeb2a93fe830c421018a6ff97d30a1e57a66
   }
 
   _toggle = (e) => {

@@ -1,5 +1,6 @@
 /*global __*/
-import React, {Component} from "react"
+//@flow
+import * as React from "react"
 import PropTypes from 'prop-types'
 import {createAbility, deleteAbility, updateAbility} from 'src/crud/organization/abilities'
 import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames"
@@ -10,18 +11,16 @@ import {REST_REQUEST} from "src/consts/Events"
 import {REST_URL as url, SOCKET as socket} from "src/consts/URLS"
 import {TOKEN} from "src/consts/data"
 
+type AbilityInfoProps = {
+  ability: Object,
+  organization: Object,
+  profile:Object,
+  updateAbility: Function,
+  deleteAbility: Function,
+}
+class AbilityInfo extends React.Component<AbilityInfoProps,{edit: boolean, ability: Object, error:boolean, isLoading:boolean}> {
 
-class AbilityInfo extends Component {
-  static propTypes = {
-    ability: PropTypes.object.isRequired,
-    organization: PropTypes.object.isRequired,
-    profile: PropTypes.object.isRequired,
-    updateAbility: PropTypes.func.isRequired,
-    deleteAbility: PropTypes.func.isRequired,
-    updateStateForView: PropTypes.func.isRequired
-  };
-
-  constructor(props) {
+  constructor(props:AbilityInfoProps) {
     super(props);
     const {ability} = props;
     this.state = {edit: false, ability: ability, error:false, isLoading:false};
@@ -59,21 +58,20 @@ class AbilityInfo extends Component {
     return <AbilityView ability={ability} organization={organization} profile={profile} showEdit={this._showEdit}/>;
   }
 }
-
-class Ability extends Component {
-
-  static propTypes = {
-    ability: PropTypes.object.isRequired,
-    organization: PropTypes.object.isRequired,
-    profile: PropTypes.object.isRequired,
-  };
-
-  constructor(props) {
+type AbilityProps = {
+  ability: Object,
+  organization: Object,
+  profile: Object,
+  updateStateForView:(error:boolean, isLoading:boolean) => void
+}
+class Ability extends React.Component<AbilityProps,{ability:Object, error:false, isLoading:false}> {
+  state={error:false, isLoading:false, ability:{}}
+  constructor(props:AbilityProps) {
     super(props);
     this._delete = this._delete.bind(this);
     this._update = this._update.bind(this);
     this._updateStateForView = this._updateStateForView.bind(this)
-    this.state={ability:props.ability}
+    this.state={...this.state,ability:props.ability}
   }
 
 
@@ -87,7 +85,7 @@ class Ability extends Component {
 
   _updateStateForView = (res, error, isLoading) => {
     const {updateStateForView} = this.props;
-    updateStateForView({error: error, isLoading: isLoading});
+    updateStateForView(error, isLoading);
     this.setState({...this.state, ability: res, error: error, isLoading: isLoading});
   };
 
@@ -106,18 +104,24 @@ class Ability extends Component {
     )
   }
 }
-
-class Abilities extends Component {
-
-  constructor(props) {
+type AbilitiesProps ={
+  organizationId: number
+}
+class Abilities extends React.Component<AbilitiesProps,{
+                                                        createForm: boolean, 
+                                                        edit: boolean, 
+                                                        isLoading: boolean, 
+                                                        error: boolean, 
+                                                        abilities:Array<Object>, 
+                                                        organization: Object, 
+                                                        profile: Object
+                                                      }
+> { 
+  state = {createForm: false, edit: false, isLoading: false, error: false, abilities: [], organization: {}, profile: {}};
+   
+  constructor(props:AbilitiesProps) { 
     super(props);
-    this.state = {createForm: false, edit: false, isLoading: false, error: null, abilities: [], organization: {}, profile: {}};
   }
-
-  static propTypes = {
-    organizationId: PropTypes.string.isRequired
-  };
-
   componentDidMount() {
     const {organizationId} = this.props;
     const emitting = () => {
@@ -205,11 +209,11 @@ class Abilities extends Component {
     this.setState({createForm: false});
   };
 
-  _updateStateForView = (res, error, isLoading) => {
-    this.setState({...this.state, ability:res, error: error, isLoading: isLoading})
+  _updateStateForView = ( error:boolean, isLoading:boolean) => {
+    this.setState({...this.state, error: error, isLoading: isLoading}) 
   };
 
-  _create = (formValues, hideCreateForm) => {
+  _create = (formValues:Object, hideCreateForm:Function) => {
     const updateStateForView = this._updateStateForView;
     return createAbility(formValues, updateStateForView, hideCreateForm);
   };

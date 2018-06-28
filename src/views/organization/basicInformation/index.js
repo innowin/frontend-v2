@@ -1,5 +1,6 @@
 /*global __*/
-import React, {Component} from "react"
+//@flow
+import * as React from 'react';
 import PropTypes from "prop-types"
 import {FrameCard, CategoryTitle, VerifyWrapper} from "../../common/cards/Frames"
 import {ListGroup} from '../../common/cards/Frames'
@@ -9,17 +10,15 @@ import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {TOKEN} from "src/consts/data"
 import {OrganizationInfoItemWrapper, OrganizationInfoView, OrganizationMembersView, OrganizationMembersWrapper} from "./Views"
 
-
-export class OrganizationInfo extends Component {
+type OrganizationInfoProps = {
+	organizationId: number
+}
+export class OrganizationInfo extends React.Component<OrganizationInfoProps,{organization: Object, error: boolean, edit: boolean, isLoading: boolean}> {
 	
-	constructor(props) {
+	constructor(props:OrganizationInfoProps) {
 		super(props);
-		this.state = {organization: {}, error: null, edit: false, isLoading: false}
+		this.state = {organization: {}, error: false, edit: false, isLoading: false}
 	}
-	
-	static propTypes = {
-		organizationId: PropTypes.string.isRequired,
-	};
 	
 	_showEdit = () => {
 		this.setState({...this.state, edit: true});
@@ -29,7 +28,7 @@ export class OrganizationInfo extends Component {
 		this.setState({...this.state, edit: false});
 	};
 	
-	_updateStateForView = (res, error, isLoading) => {
+	_updateStateForView = (res:Object, error:boolean, isLoading:boolean) => {
 		this.setState({...this.state, organization: res, error: error, isLoading});
 	};
 	
@@ -82,16 +81,15 @@ export class OrganizationInfo extends Component {
 	}
 }
 
-export class OrganizationMembers extends Component {
-	constructor(props) {
+type OrganizationMembersProps = {
+	organizationId:number
+}
+export class OrganizationMembers extends React.Component<OrganizationMembersProps,{members:Array<Object>, error: boolean, edit: boolean, isLoading: boolean}> {
+	constructor(props:OrganizationMembersProps) {
 		super(props);
-		this.state = {members: [], error: null, edit: false, isLoading: false}
+		this.state = {members: [], error: false, edit: false, isLoading: false}
 	}
-	
-	static propTypes = {
-		organizationId: PropTypes.string.isRequired,
-	};
-	
+
 	_showEdit = () => {
 		this.setState({...this.state, edit: true});
 	};
@@ -100,7 +98,7 @@ export class OrganizationMembers extends Component {
 		this.setState({...this.state, edit: false});
 	};
 	
-	_updateStateForView = (res, error, isLoading) => {
+	_updateStateForView = (res:Array<Object>, error:boolean, isLoading:boolean) => {
 		this.setState({...this.state, members: res, error: error, isLoading: isLoading});
 	};
 	

@@ -1,19 +1,22 @@
-import React, {Component} from 'react';
+//@flow
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import {CertificateEditForm} from './forms';
 import {ItemHeader, ItemWrapper} from "../../common/cards/Frames";
 import {certificateIcon, starIcon} from "src/images/icons";
 
-export const CertificateItemWrapper = ({children}) => {
-	return <ItemWrapper icon={certificateIcon}>{children}</ItemWrapper>;
+type CertificateItemWrapperProps = {
+	children :React.Node
+}
+export const CertificateItemWrapper = (props:CertificateItemWrapperProps) => {
+	return <ItemWrapper icon={certificateIcon}>{props.children}</ItemWrapper>;
 };
 
-export class CertificateView extends Component {
-	static propTypes = {
-		showEdit: PropTypes.func.isRequired,
-		certificate: PropTypes.object.isRequired,
-	};
-
+type CertificateViewProps = {
+	showEdit: Function,
+	certificate: Object,
+}
+export class CertificateView extends React.Component<CertificateViewProps> {
 	render() {
 		const {certificate, showEdit} = this.props;
 		return (
@@ -34,24 +37,22 @@ export class CertificateView extends Component {
 	}
 }
 
-
-export class Certificate extends Component {
-	constructor(props){
+type CertificateProps = {
+	certificate:Object,
+	updateCertificate: Function,
+	deleteCertificate: Function,
+	updateStateForView: Function
+}
+export class Certificate extends React.Component<CertificateProps,{edit:boolean,certificate:Object}> {
+	constructor(props:CertificateProps){
 		super(props);
 		const {certificate} = props;
 		this.state = {edit: false, certificate:certificate};
 	}
-	componentWillReceiveProps(props){
+	componentWillReceiveProps(props:CertificateProps){
 		const {certificate} = props;
 		this.setState({...this.state, certificate:certificate})
 	}
-
-	static propTypes = {
-		updateCertificate: PropTypes.func.isRequired,
-		deleteCertificate: PropTypes.func.isRequired,
-		certificate: PropTypes.object.isRequired,
-		updateStateForView:PropTypes.func.isRequired
-	};
 
 	showEdit = () => {
 		this.setState({edit: true});
@@ -61,7 +62,7 @@ export class Certificate extends Component {
 		this.setState({edit: false});
 	};
 
-	updateStateForView = (res, error,isLoading) =>{
+	updateStateForView = (res:Object, error:boolean,isLoading:boolean) =>{
 		const {updateStateForView} = this.props;
 		this.setState({...this.state,certificate:res })
 	}

@@ -2,7 +2,7 @@ import {REST_URL as url, SOCKET as socket} from "../../consts/URLS"
 import {REST_REQUEST} from "../../consts/Events"
 import {TOKEN,IDENTITY_ID} from '../../consts/data'
 
-export const updateProduct = (formValues, productId, pictureId, updateStateForView, hideEdit) => {
+export const updateProduct = (formValues, productId, updateStateForView, hideEdit) => {
 	let isLoading = false;
 	
 	const emitting = () => {
