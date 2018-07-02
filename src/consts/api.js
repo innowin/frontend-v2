@@ -13,27 +13,10 @@ const createSocketChannel = (resultName) => {
 	})
 }
 
-const query = (url, resultName, query = "") => {
-	return new Promise((resolve,reject)=>{
-		SOCKET.emit(REST_REQUEST, {
-			method: 'get',
-			url: REST_URL + '/' + url+'/'+ query,
-			result: resultName,
-			token
-		})
-		SOCKET.on(resultName,(res)=>{
-			if(res.detail){
-				reject(res)
-			}
-			resolve(res)
-		})
-	})
-}
-
-const get = (url , resultName) => {
+const get = (url , resultName, query = "") => {
 	SOCKET.emit(REST_REQUEST, {
 		method: 'get',
-		url: REST_URL + '/' + url+'/',
+		url: REST_URL + '/' + url+'/'+ query,
 		result: resultName,
 		token
 	})

@@ -8,6 +8,6 @@ export const SOCKET = io(SOCKET_URL);
 
 const urls =  {
 	SIGN_IN : "api-token-auth",
-	GET_ORGANIZATION : 'organization'
+	GET_ORGANIZATION : 'organizations'
 }
 export default urls;
