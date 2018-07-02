@@ -9,9 +9,12 @@ import {REST_REQUEST} from "../../../consts/Events"
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {TOKEN} from "src/consts/data"
 import {OrganizationInfoItemWrapper, OrganizationInfoView, OrganizationMembersView, OrganizationMembersWrapper} from "./Views"
-
+import OrganizationActions from '../../../redux/actions/organizationActions';
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
 type OrganizationInfoProps = {
-	organizationId: number
+	organizationId: number,
+	getOrganization:Function
 }
 export class OrganizationInfo extends React.Component<OrganizationInfoProps,{organization: Object, error: boolean, edit: boolean, isLoading: boolean}> {
 	
@@ -33,30 +36,8 @@ export class OrganizationInfo extends React.Component<OrganizationInfoProps,{org
 	};
 	
 	componentDidMount() {
-		const {organizationId} = this.props;
-		const emitting = () => {
-			const newState = {...this.state, isLoading: true};
-			this.setState(newState);
-			socket.emit(REST_REQUEST,
-					{
-						method: "get",
-						url: `${url}/organizations/${organizationId}/`,
-						result: `OrganizationInfo-get/${organizationId}`,
-						token: TOKEN,
-					}
-			);
-		};
-		
-		emitting();
-		
-		socket.on(`OrganizationInfo-get/${organizationId}`, (res) => {
-			if (res.detail) {
-				const newState = {...this.state, error: res.detail, isLoading: false};
-				this.setState(newState);
-			}
-			const newState = {...this.state, organization: res, isLoading: false};
-			this.setState(newState);
-		});
+		const {organizationId,getOrganization} = this.props;
+		getOrganization(organizationId)
 	}
 	
 	render() {
@@ -149,15 +130,17 @@ export class OrganizationMembers extends React.Component<OrganizationMembersProp
 	}
 }
 type organizationBasicInformationProps ={
-	organizationId: number
+	organizationId: number,
+	actions:Object
 }
-export default class organizationBasicInformation extends React.Component<organizationBasicInformationProps> {
+export class organizationBasicInformation extends React.Component<organizationBasicInformationProps> {
 
 	render() {
 		// const {match} = this.props;
 		// const {params} = match;
 		// const {id} = params;
 		const {organizationId} = this.props;
+		const {getOrganization} = this.props.actions;
 		return (
 				<div>
 					<CategoryTitle
@@ -166,7 +149,7 @@ export default class organizationBasicInformation extends React.Component<organi
 					/>
 					<FrameCard>
 						<ListGroup>
-							<OrganizationInfo organizationId={organizationId}/>
+							<OrganizationInfo getOrganization = {getOrganization} organizationId={organizationId}/>
 							<OrganizationMembers organizationId={organizationId}/>
 						</ListGroup>
 					</FrameCard>
@@ -175,3 +158,12 @@ export default class organizationBasicInformation extends React.Component<organi
 	}
 }
 
+const mapStateToProps = (state) => {
+	console.log(state)
+}
+const mapDispatchToProps = dispatch => ({
+	actions: bindActionCreators({
+		getOrganization: OrganizationActions.getOrganization ,
+	}, dispatch)
+})
+export default connect(mapStateToProps, mapDispatchToProps)(organizationBasicInformation)

@@ -6,6 +6,7 @@ import client from 'src/consts/client'
 import results from 'src/consts/resultName'
 
 /**********    %% WORKERS %%    **********/
+
 //1 - req -sending requests
 function* sendRequest(username,password) {
 	yield apply({}, api.post, [urls.SIGN_IN, results.SIGN_IN,{username,password}])

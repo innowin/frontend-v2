@@ -15,7 +15,9 @@ export default {
 		customers:[],
 		products:[],
 		pictures:[],
-		name:''
+		name:'',
+		id:'',
+		
 	},
 	test: {
 		result: 1,

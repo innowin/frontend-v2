@@ -3,35 +3,34 @@ import urls from 'src/consts/URLS'
 import {put,take, fork,takeEvery, apply,call} from 'redux-saga/effects'
 import api from 'src/consts/api'
 import client from 'src/consts/client'
-import data from 'src/consts/data'
 import results from 'src/consts/resultName'
 
 /**********    %% WORKERS %%    **********/
 
 //1 - req -sending requests
-function* sendRequest(organId) {
-	yield apply({}, api.query, [urls.GET_ORGANIZATION, results.GET_ORGANIZATION,{organId}])
+function* sendRequest(request, result, paramObject) {
+	yield apply({}, api.query, [request, result,{...paramObject}])
 }
 //1 - get org worker
-export function* getOrganization (payload) {
+export function* getOrganization (action) {
+	const payload = action.payload
 	const {organizationId} = payload;
-	const socketChannel = yield call(api.createSocketChannel, results.GET_ORGANIZATION)
 	try {
-    yield fork(sendRequest , organizationId )
+    const data = yield call(sendRequest ,urls.GET_ORGANIZATION, results.GET_ORGANIZATION ,{organizationId} )
     yield put({ type: types.SUCCESS.GET_ORGANIZATION, payload:{data} })
 
 	} catch (e) {
 		const {message} = e
-		yield put({type:types.ERROR.GET_ORGANIZATION, payload:{type:types.ERRORS.GET_ORGANIZATION,message}})
+		console.log(message)
+		yield put({type:types.ERRORS.GET_ORGANIZATION, payload:{type:types.ERRORS.GET_ORGANIZATION,message}})
 	} finally {
-		socketChannel.close()
+		
 	}
 }
 
 //2 - get org success
 function getOrganizationSuccess(action) {
 	const {organizationId} = action.payload
-	data.setID(organizationId)
 }
 
 /**********    %% WATCHERS %%    **********/

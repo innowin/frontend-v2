@@ -1,10 +1,10 @@
 import types from './actionTypes';
 
 //organization
-const getOrganization = (organId) => ({
+const getOrganization = (organizationId) => ({
 	type: types.GET_ORGANIZATION,
 	payload: {
-		organId
+		organizationId
 	}
 })
 
@@ -32,7 +32,7 @@ const createAbility = (formValues, organizationId) => ({//TODO amir add organiza
 	type: types.CREATE_ABILITY,
 	payload: {
     ...formValues,
-    abilityId
+    organizationId
 	}
 })
 
@@ -78,7 +78,6 @@ const updateCustomer = (formValues) => ({
   type: types.UPDATE_CUSTOMER,
 	payload: {
     ...formValues,
-    customerId
 	}
 })
 

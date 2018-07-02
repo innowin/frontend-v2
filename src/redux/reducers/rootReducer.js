@@ -1,13 +1,15 @@
 import {combineReducers} from 'redux'
 import test from './test'
 import auth from './auth'
+import organization from './organization'
 import {routerReducer} from 'react-router-redux'
 import {intlReducer} from './intl'
 import {reducer as formReducer} from 'redux-form'
 
 const reducers = {
 	test,
-	auth
+	auth,
+	organization
 }
 
 
