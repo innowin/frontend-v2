@@ -9,6 +9,14 @@ export default {
 			rememberMe:null,
 		}
 	},
+	organization:{
+		abilities:[],
+		certificates:[],
+		customers:[],
+		products:[],
+		pictures:[],
+		name:''
+	},
 	test: {
 		result: 1,
 		list:[]
@@ -19,5 +27,8 @@ export default {
 	intl: {
 		locale: 'fa',
 		messages: {...messages}
+	},
+	error:{
+		message:''
 	}
 };

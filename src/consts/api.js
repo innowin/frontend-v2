@@ -13,6 +13,15 @@ const createSocketChannel = (resultName) => {
 	})
 }
 
+const query = (url, resultName, query = "") => {
+	SOCKET.emit(REST_REQUEST, {
+		method: 'get',
+		url: REST_URL + '/' + url+'/'+ query,
+		result: resultName,
+		token
+	})
+}
+
 const get = (url , resultName) => {
 	SOCKET.emit(REST_REQUEST, {
 		method: 'get',
