@@ -13,19 +13,19 @@ const createSocketChannel = (resultName) => {
 	})
 }
 
-const get = (url , resultName) => {
+const get = (url ,query='', resultName) => {
 	SOCKET.emit(REST_REQUEST, {
 		method: 'get',
-		url: REST_URL + '/' + url+'/',
+		url: REST_URL + '/' + url+'/'+query,
 		result: resultName,
 		token
 	})
 }
 
-const post = (url , resultName ,data) => {
+const post = (url ,query='ddd', resultName ,data) => {
 	SOCKET.emit(REST_REQUEST, {
 		method: 'post',
-		url: REST_URL+'/'+url+'/',
+		url: REST_URL+'/'+url+'/'+query,
 		result: resultName,
 		data,
 		token

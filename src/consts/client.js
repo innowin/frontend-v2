@@ -1,39 +1,40 @@
 import cookies from 'browser-cookies'
 
-export const isAuthenticated = async () => {
-	const result = await cookies.get('token') !== null;
-	return result
+export const isAuthenticated = () => {
+	return window.localStorage.hasOwnProperty('token') || window.sessionStorage.hasOwnProperty('token');
 };
 
-const setTokenLS = async (token) => {
-	if(window.localStorage) {
-		await localStorage.setItem('token',token)
+const setTokenLS = (token) => {
+	if (window.localStorage) {
+		window.localStorage.setItem('token', token)
 	}
-	await cookies.set('token',token,{expires:30})
 }
 
-const setSessionLS = async (token) => {
-	if(window.localStorage) {
-		await localStorage.setItem('token',token)
+const setSessionLS = (token) => {
+	if (window.sessionStorage) {
+		window.sessionStorage.setItem('token', token)
 	}
-	await cookies.set('token',token,{expires:null})
 }
 
-const clearToken = async () => {
-	if(window.localStorage) {
-		return await localStorage.clear('token')
+const clearToken = () => {
+	if(window.localStorage && localStorage.hasOwnProperty('token')) {
+		localStorage.clear('token')
 	}
-	return await cookies.erase('token')
+	if (window.sessionStorage && sessionStorage.hasOwnProperty('token')) {
+		sessionStorage.clear()
+	}
+	if ((document.cookie.match(/^(?:.*;)?\s*token\s*=\s*([^;]+)(?:.*)?$/)||[,null])[1]){
+		document.cookie.erase('token');
+	}
+	return true;
 }
 
-const getToken = async () => {
-	let token
-	if(window.localStorage) {
-		token = await localStorage.getItem('token')
-		return token
+const getToken = () => {
+	if (window.localStorage && localStorage.getItem('token')) {
+		return localStorage.getItem('token')
+	} else {
+		return sessionStorage.getItem('token')
 	}
-	token = await cookies.get('token')
-	return token
 }
 
 const client = {
