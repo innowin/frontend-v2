@@ -7,7 +7,13 @@ let token = client.getToken()
 
 const createSocketChannel = (resultName) => {
 	return eventChannel(emit => {
-		const resultHandler = res => { emit(res)}
+		const resultHandler = res => { 
+			if(res.detail){
+				emit(new Error(res.detail))
+				return;
+			}
+			emit(res)
+		}
 		SOCKET.on(resultName,resultHandler)
 		return () =>	SOCKET.off(resultName,resultHandler)
 	})
@@ -22,10 +28,10 @@ const get = (url , resultName, query = "") => {
 	})
 }
 
-const post = (url , resultName ,data) => {
+const post = (url , resultName ,data,query = "") => {
 	SOCKET.emit(REST_REQUEST, {
 		method: 'post',
-		url: REST_URL+'/'+url+'/',
+		url: REST_URL+'/'+url+'/'+ query,
 		result: resultName,
 		data,
 		token
@@ -36,6 +42,5 @@ const api = {
 	createSocketChannel,
 	get,
 	post,
-	query
 }
 export default api

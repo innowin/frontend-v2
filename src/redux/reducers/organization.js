@@ -6,7 +6,7 @@ const organization = (state = initialState.organization, action) => {
 		case types.SUCCESS.GET_ORGANIZATION:
 			const {organizationId} = action.payload
 			return {...state,};
-		case types.ERRORS.SIGN_IN:
+		case types.ERRORS.GET_ORGANIZATION:
 			return {...state, client: {}};
 		default:
 			return state;

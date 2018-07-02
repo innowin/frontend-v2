@@ -9,22 +9,25 @@ import results from 'src/consts/resultName'
 
 //1 - req -sending requests
 function* sendRequest(request, result, paramObject) {
-	yield apply({}, api.query, [request, result,{...paramObject}])
+	yield apply({}, api.get, [request, result,{...paramObject}])
 }
 //1 - get org worker
 export function* getOrganization (action) {
 	const payload = action.payload
 	const {organizationId} = payload;
-	try {
-    const data = yield call(sendRequest ,urls.GET_ORGANIZATION, results.GET_ORGANIZATION ,{organizationId} )
-    yield put({ type: types.SUCCESS.GET_ORGANIZATION, payload:{data} })
 
+	const socketChannel = yield call(api.createSocketChannel, results.GET_ORGANIZATION)
+	try {
+		yield fork(sendRequest ,urls.GET_ORGANIZATION, results.GET_ORGANIZATION ,{organizationId} )
+		while (true) {
+			const data = yield take(socketChannel)
+			yield put({ type: types.SUCCESS.GET_ORGANIZATION, payload:{data} })
+		}
 	} catch (e) {
 		const {message} = e
-		console.log(message)
 		yield put({type:types.ERRORS.GET_ORGANIZATION, payload:{type:types.ERRORS.GET_ORGANIZATION,message}})
 	} finally {
-		
+		socketChannel.close()
 	}
 }
 
