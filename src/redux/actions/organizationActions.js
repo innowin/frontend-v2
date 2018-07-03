@@ -21,10 +21,24 @@ const getOrganizationMembers = (organizationId) => ({
 	}
 })
 
-const getOrgFollowers = (identity) =>({
+const getOrgFollowers = (organizationId) =>({
     type: types.GET_ORG_FOLLOWERS,
 	payload: {
-        identity
+        organizationId
+	} 
+})
+
+const getOrgFollowings = (organizationId) =>({
+    type: types.GET_ORG_FOLLOWINGS,
+	payload: {
+        organizationId
+	} 
+})
+
+const getOrgExchanges= (organizationId) =>({
+    type: types.GET_ORG_EXCHANGES,
+	payload: {
+        organizationId
 	} 
 })
 //abilities
@@ -159,6 +173,8 @@ const OrganizationActions = {
   getMetaDataOrganization,
   getOrganizationMembers,
   getOrgFollowers,
+  getOrgFollowings,
+  getOrgExchanges,
 
   getAbilities,
   updateAbility,

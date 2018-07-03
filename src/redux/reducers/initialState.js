@@ -18,6 +18,18 @@ export default {
 	},
 	organization:{
 		isLoading:false,
+		exchanges:{
+			isLoading:false,
+			list:[]
+		},
+		followings:{
+			isLoading:false,
+			list:[]
+		},
+		followers:{
+			isLoading:false,
+			list:[]
+		},
 		abilities:{
 			isLoading:false,
 			list:[]

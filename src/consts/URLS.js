@@ -14,5 +14,7 @@ const urls =  {
 	GET_PRODUCTS:'products',
 	GET_USER_IDENTITY:'users/identities',
 	GET_ORG_FOLLOWERS:'organizations/follows',
+	GET_ORG_FOLLOWINGS:'organizations/follows',
+	GET_ORG_EXCHANGES:'exchanges'
 }
 export default urls;

@@ -40,6 +40,9 @@ type ExchangesViewProps = {
   deleteExchange: Function
 };
 export class ExchangesView extends React.Component<ExchangesViewProps> {
+  static defaultProps = {
+    exchanges:[]
+  }
 	render() {
 		const {exchanges, showEdit, deleteExchange} = this.props;
 		// console.log('organization member is : ', members);
@@ -142,6 +145,9 @@ type FollowersViewProps ={
   followers: Array<Object>
 }
 export class FollowersView extends React.Component<FollowersViewProps> {
+  static defaultProps = {
+    followers : []
+  }
 	render() {
 		const {followers, showEdit} = this.props;
 		// console.log('organization member is : ', members);
@@ -231,7 +237,9 @@ type FollowingsViewProps = {
   followings : Array<Object>
 }
 export class FollowingsView extends React.Component<FollowingsViewProps> {
-
+  static defaultProps = {
+    followings : []
+  }
 	render() {
 		const {followings, showEdit, deleteFollowing} = this.props;
     // console.log('organization member is : ', members);

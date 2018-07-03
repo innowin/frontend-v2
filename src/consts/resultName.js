@@ -6,5 +6,9 @@ const results = {
 	UPDATE_ORGANIZATION_INFO:'update-organization-info',
 	GET_USER_IDENTITY:'get-user-identity',
 	GET_ORG_FOLLOWERS:'get-org-followers',
+	GET_ORG_FOLLOWINGS:'get-org-followings',
+	GET_ORG_EXCHANGES:'get-org-exchanges',
+	GET_ORG_FOLLOWING:'get-org-following',
+	GET_ORG_FOLLOWINGS_IDENTITIES:'get-org-followings-identities'
 }
 export default results
