@@ -14,7 +14,7 @@ class LoginForm extends Component {
 		this.state = {
 			message: '',
 			error: null,
-			rememberme: null,
+			rememberme: false,
 			sending: false,
 			isLoggedIn: props.isLoggedIn
 		}

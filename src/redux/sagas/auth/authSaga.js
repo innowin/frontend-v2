@@ -10,11 +10,10 @@ import results from 'src/consts/resultName'
 
 //1 - req -sending requests
 function* sendRequest(username,password) {
-	yield apply({}, api.post, [urls.SIGN_IN, results.SIGN_IN,{username,password}])
+	yield apply({}, api.post, [urls.SIGN_IN,null, results.SIGN_IN,{username,password}])
 }
 //1 - sign in worker
 export function* signIn (action) {
-	alert('inside sign in')
 	const {payload} = action
 	const {username ,password,remember} = payload
 	const socketChannel = yield call(api.createSocketChannel, results.SIGN_IN)
