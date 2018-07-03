@@ -8,9 +8,9 @@ import results from 'src/consts/resultName'
 
 /**********    %% WORKERS %%    **********/
 
-//1 - req -sending requests
+//1 - prerequisite - sending requests
 function* sendRequest(username,password) {
-	yield apply({}, api.post, [urls.SIGN_IN,null, results.SIGN_IN,{username,password}])
+	yield apply({}, api.post, [urls.SIGN_IN, results.SIGN_IN,{username,password}])
 }
 //1 - sign in worker
 export function* signIn (action) {
@@ -42,7 +42,7 @@ export function* signIn (action) {
 		socketChannel.close()
 	}
 }
-//Sign Out worker
+//2 - Sign Out worker
 export function* signOut () {
 	yield call(client.clearToken)
 	yield put({type:types.SIGN_OUT_FINISHED, payload:{}})
