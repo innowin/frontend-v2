@@ -1,5 +1,10 @@
 import {all} from 'redux-saga/effects'
-import {watchGetOrganization, watchGetOrganizationSuccess} from './organization/organizationSaga'
+import {watchGetOrganization, 
+	watchGetOrganizationSuccess,
+	watchGetOrganizationMembers,
+	watchGetOrganizationMembersSuccess,
+	watchUpdateOrganization,
+	watchGetProducts} from './organization/organizationSaga'
 import {watchLSignIn, watchLSignOut, watchLSignInError} from './auth/authSaga'
 
 const rootSaga = function* () {
@@ -9,6 +14,10 @@ const rootSaga = function* () {
 		watchLSignIn(),
 		watchGetOrganization(),
 		watchGetOrganizationSuccess(),
+		watchGetOrganizationMembers(),
+		watchUpdateOrganization(),
+		watchGetProducts()
+
 	])
 };
 

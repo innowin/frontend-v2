@@ -53,7 +53,9 @@ type OrganizationMembersViewProps = {
 	showEdit: Function
 }
 export class OrganizationMembersView extends React.Component<OrganizationMembersViewProps> {
-
+	static defaultProps = {
+		members:[]
+	}
 	render() {
 		const {members, showEdit} = this.props;
 		return (

@@ -3,7 +3,7 @@
 import * as React from 'react';
 import PropTypes from "prop-types"
 import {TextInput} from "src/views/common/inputs/TextInput"
-import {updateOrganization} from "src/crud/organization/basicInformation"
+// import {updateOrganization} from "src/crud/organization/basicInformation"
 import {OrganizationMember} from './Views'
 
 type OrganizationMembersFormProps = {
@@ -89,9 +89,10 @@ export class OrganizationMembersForm extends React.Component<OrganizationMembers
 
 type OrganizationMembersEditFormProps = {
 	hideEdit: Function,
-	updateStateForView: Function,
+	// updateStateForView: Function,
 	members: Array<Object>,
-	profile?:Object
+	profile?:Object,
+	actions:Object
 }
 export class OrganizationMembersEditForm extends React.Component<OrganizationMembersEditFormProps,{confirm: boolean}> {
 	form:any;
@@ -102,17 +103,19 @@ export class OrganizationMembersEditForm extends React.Component<OrganizationMem
 		}
 	}
 
-	_save = (updateStateForView:Function, hideEdit:Function) => {
+	_save = ( hideEdit:Function) => {
 		const profileId = this.props.profile.id;
 		const formValues = this.form._getValues();
-		return updateOrganization(formValues, profileId, updateStateForView,  hideEdit)
+		formValues.profileId = profileId;
+		const {updateOrganization} = this.props.actions;
+		updateOrganization(formValues, profileId)
 	};
 
 	_onSubmit = (e:SyntheticEvent<HTMLButtonElement>) => {
 		e.preventDefault();
-		const {updateStateForView, hideEdit} = this.props;
+		const {hideEdit} = this.props;
 		if (this.form._formValidate()) {
-			this._save(updateStateForView, hideEdit)
+			this._save( hideEdit)
 		}
 		return false;
 	};
@@ -238,8 +241,9 @@ export class OrganizationInfoForm extends React.Component<OrganizationInfoFormPr
 
 type OrganizationInfoEditFormProps = { 
 	hideEdit: Function,
-	updateStateForView: Function,
-	organization: Object
+	// updateStateForView: Function,
+	organization: Object,
+	actions:Object
 }
 export class OrganizationInfoEditForm extends React.Component<OrganizationInfoEditFormProps,{confirm: boolean}> {
 	form:any;
@@ -248,18 +252,19 @@ export class OrganizationInfoEditForm extends React.Component<OrganizationInfoEd
 		this.state = {confirm: false}
 	}
 	
-	_save = (updateStateForView:Function, hideEdit:Function) => {
+	_save = ( hideEdit:Function) => {
 		const organizationId = this.props.organization.id;
 		const formValues = this.form._getValues();
+		const {updateOrganization} = this.props.actions;
 		//console.error('hi',formValues, organizationId, updateStateForView, hideEdit);
-		return updateOrganization(formValues, organizationId, updateStateForView, hideEdit)
+		updateOrganization(formValues, organizationId)
 	};
 	
 	_onSubmit = (e:SyntheticEvent<HTMLButtonElement>) => {
-		const {updateStateForView, hideEdit} = this.props;
+		const { hideEdit} = this.props;
 		e.preventDefault();
 		if (this.form._formValidate()) {
-			this._save(updateStateForView, hideEdit)
+			this._save( hideEdit)
 		}
 		return false;
 	};

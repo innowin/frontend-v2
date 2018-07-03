@@ -14,13 +14,14 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 type OrganizationInfoProps = {
 	organizationId: number,
-	getOrganization:Function
+	actions: Object,
+	organization:Object
 }
-export class OrganizationInfo extends React.Component<OrganizationInfoProps,{organization: Object, error: boolean, edit: boolean, isLoading: boolean}> {
+export class OrganizationInfo extends React.Component<OrganizationInfoProps,{ error: boolean, edit: boolean, isLoading: boolean}> {
 	
 	constructor(props:OrganizationInfoProps) {
 		super(props);
-		this.state = {organization: {}, error: false, edit: false, isLoading: false}
+		this.state = { error: false, edit: false, isLoading: false}
 	}
 	
 	_showEdit = () => {
@@ -31,17 +32,19 @@ export class OrganizationInfo extends React.Component<OrganizationInfoProps,{org
 		this.setState({...this.state, edit: false});
 	};
 	
-	_updateStateForView = (res:Object, error:boolean, isLoading:boolean) => {
-		this.setState({...this.state, organization: res, error: error, isLoading});
-	};
+	// _updateStateForView = (res:Object, error:boolean, isLoading:boolean) => {
+	// 	this.setState({...this.state, error: error, isLoading});
+	// };
 	
 	componentDidMount() {
-		const {organizationId,getOrganization} = this.props;
+		const {organizationId} = this.props;
+		const {getOrganization} = this.props.actions;
 		getOrganization(organizationId)
 	}
 	
 	render() {
-		const {organization, edit, isLoading, error} = this.state;
+		const {edit, isLoading, error} = this.state;
+		const {organization} = this.props
 		return (
 				<VerifyWrapper isLoading={isLoading} error={error}>
 					{
@@ -50,7 +53,7 @@ export class OrganizationInfo extends React.Component<OrganizationInfoProps,{org
 									<OrganizationInfoEditForm
 											organization={organization}
 											hideEdit={this._hideEdit}
-											updateStateForView={this._updateStateForView}
+											actions={this.props.actions}
 									/>
 								</OrganizationInfoItemWrapper>
 						) : (
@@ -63,12 +66,21 @@ export class OrganizationInfo extends React.Component<OrganizationInfoProps,{org
 }
 
 type OrganizationMembersProps = {
-	organizationId:number
+	organizationId:number,
+	members:Object,
+	actions: Object,
+	error:String
 }
-export class OrganizationMembers extends React.Component<OrganizationMembersProps,{members:Array<Object>, error: boolean, edit: boolean, isLoading: boolean}> {
+export class OrganizationMembers extends React.Component<OrganizationMembersProps,{edit: boolean}> {
+	static defaultProps = {
+		members:{
+			isLoading:false,
+			list:[]
+		}
+	}
 	constructor(props:OrganizationMembersProps) {
 		super(props);
-		this.state = {members: [], error: false, edit: false, isLoading: false}
+		this.state = { edit: false}
 	}
 
 	_showEdit = () => {
@@ -79,49 +91,29 @@ export class OrganizationMembers extends React.Component<OrganizationMembersProp
 		this.setState({...this.state, edit: false});
 	};
 	
-	_updateStateForView = (res:Array<Object>, error:boolean, isLoading:boolean) => {
-		this.setState({...this.state, members: res, error: error, isLoading: isLoading});
-	};
-	
 	componentDidMount() {
-		const {organizationId} = this.props;
-		const emitting = () => {
-			this.setState({...this.state, isLoading: true});
-			socket.emit(REST_REQUEST,
-					{
-						method: "get",
-						url: `${url}/organizations/staff/?staff_organization=${organizationId}`,
-						result: `OrganizationMembers-get/${organizationId}`,
-						token: TOKEN
-					}
-			);
-		};
+		const {organizationId, members} = this.props;
+		const {getOrganizationMembers} = this.props.actions;
+		getOrganizationMembers(organizationId)
 		
-		emitting();
-		
-		socket.on(`OrganizationMembers-get/${organizationId}`, (res) => {
-			if (res.detail) {
-				this.setState({...this.state, error: res.detail, isLoading: false});
-			}
-			this.setState({...this.state, members: res, isLoading: false});
-		});
 	}
 	
 	render() {
-		const {members, edit, isLoading, error} = this.state;
+		const {edit} = this.state;
+		const {members, error} = this.props;
 		return (
-				<VerifyWrapper isLoading={isLoading} error={error}>
+				<VerifyWrapper isLoading={members.isLoading} error={error}>
 					{
 						(edit) ? (
 								<OrganizationMembersWrapper>
 									<OrganizationMembersEditForm
-											members={members}
+											members={members.list}
 											hideEdit={this._hideEdit}
-											updateStateForView={this._updateStateForView}
+											actions={this.props.actions}
 									/>
 								</OrganizationMembersWrapper>
 						) : (
-								<OrganizationMembersView members={members} showEdit={this._showEdit}/>
+								<OrganizationMembersView members={members.list} showEdit={this._showEdit}/>
 						)
 					}
 				</VerifyWrapper>
@@ -131,16 +123,14 @@ export class OrganizationMembers extends React.Component<OrganizationMembersProp
 }
 type organizationBasicInformationProps ={
 	organizationId: number,
-	actions:Object
+	actions:Object,
+	organization:Object,
 }
 export class organizationBasicInformation extends React.Component<organizationBasicInformationProps> {
 
 	render() {
-		// const {match} = this.props;
-		// const {params} = match;
-		// const {id} = params;
-		const {organizationId} = this.props;
-		const {getOrganization} = this.props.actions;
+		const {organizationId, organization} = this.props;
+		const {getOrganization, getOrganizationMembers} = this.props.actions;
 		return (
 				<div>
 					<CategoryTitle
@@ -149,8 +139,8 @@ export class organizationBasicInformation extends React.Component<organizationBa
 					/>
 					<FrameCard>
 						<ListGroup>
-							<OrganizationInfo getOrganization = {getOrganization} organizationId={organizationId}/>
-							<OrganizationMembers organizationId={organizationId}/>
+							<OrganizationInfo actions = {this.props.actions} organizationId={organizationId} organization={organization}/>
+							<OrganizationMembers members ={this.props.organization.members} actions ={this.props.actions} organizationId={organizationId}/>
 						</ListGroup>
 					</FrameCard>
 				</div>
@@ -158,12 +148,15 @@ export class organizationBasicInformation extends React.Component<organizationBa
 	}
 }
 
-const mapStateToProps = (state) => {
-	console.log(state)
-}
+const mapStateToProps = (state) => ({
+	organization:state.organization,
+})
 const mapDispatchToProps = dispatch => ({
 	actions: bindActionCreators({
 		getOrganization: OrganizationActions.getOrganization ,
+		getOrganizationMembers: OrganizationActions.getOrganizationMembers,
+		updateOrganization: OrganizationActions.updateOrganization,
+
 	}, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(organizationBasicInformation)
