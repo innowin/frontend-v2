@@ -1,6 +1,7 @@
 import types from 'src/redux/actions/actionTypes'
 import urls from 'src/consts/URLS'
-import {put,take, fork,takeEvery, apply,call} from 'redux-saga/effects'
+import {delay} from 'redux-saga'
+import {put,take, fork, apply,call, takeEvery} from 'redux-saga/effects'
 import api from 'src/consts/api'
 import client from 'src/consts/client'
 import results from 'src/consts/resultName'
@@ -9,16 +10,23 @@ import results from 'src/consts/resultName'
 
 //1 - req -sending requests
 function* sendRequest(username,password) {
-	yield apply({}, api.post, [urls.SIGN_IN, results.SIGN_IN,{username,password}])
+	yield apply({}, api.post, [urls.SIGN_IN,null, results.SIGN_IN,{username,password}])
 }
 //1 - sign in worker
-export function* signIn (payload) {
-	const {username ,password,remember} = payload;
+export function* signIn (action) {
+	const {payload} = action
+	const {username ,password,remember} = payload
 	const socketChannel = yield call(api.createSocketChannel, results.SIGN_IN)
 	try {
 		yield fork(sendRequest , username,password )
 		while (true) {
 			const data = yield take(socketChannel)
+			if (remember) {
+				yield client.setTokenLS(data.token)
+			} else {
+				yield client.setSessionLS(data.token)
+			}
+			yield delay(500)
 			yield put({ type: types.SIGN_IN_SUCCESS, payload:{data , rememberMe:remember} })
 		}
 	} catch (e) {
@@ -28,27 +36,24 @@ export function* signIn (payload) {
 		socketChannel.close()
 	}
 }
-
-//2 - sign in success
-function signInSuccess(action) {
-	const {rememberMe ,data} = action.payload
-	const {token} = data
-	rememberMe ? client.setTokenLS(token) : client.setSessionLS(token)
-	console.log(rememberMe,data,'token is : ',client.getToken())
+//Sign Out worker
+export function* signOut () {
+	yield call(client.clearToken)
+	yield put({type:types.SIGN_OUT_FINISHED, payload:{}})
 }
 
 /**********    %% WATCHERS %%    **********/
-//1 - sign in
-export function* watchLoginFlow() {
-	while(true) {
-		const {payload} = yield take(types.SIGN_IN)
-		yield call(signIn,payload)
-		yield take([types.SIGN_OUT,types.SIGN_IN_ERROR])
-		yield call(client.clearToken)
-	}
+//1 - sign In
+export function* watchLSignIn() {
+	yield takeEvery(types.SIGN_IN,signIn)
 }
 
-//2 - sign in success
-export function* watchSignInSuccess() {
-	yield takeEvery(types.SIGN_IN_SUCCESS, signInSuccess)
+//2 - sign out
+export function* watchLSignOut() {
+	yield takeEvery(types.SIGN_OUT,signOut)
+}
+
+//3 - sign in error
+export function* watchLSignInError() {
+	yield takeEvery(types.SIGN_IN_ERROR,signOut)
 }

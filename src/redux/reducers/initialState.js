@@ -2,11 +2,18 @@ import messages from 'src/translate/fa'
 
 export default {
 	auth:{
-		client:{
+		client: {
+			isLoggedIn: false,
 			identity:{},
 			profile:{},
 			user:{},
-			rememberMe:null,
+			rememberMe:null
+		},
+		clients: {
+			users:[],
+			active_user:{},
+			visited_pages:{},
+			logged_in_time:{}
 		}
 	},
 	organization:{
@@ -43,9 +50,6 @@ export default {
 	test: {
 		result: 1,
 		list:[]
-	},
-	reduxTest:{
-		number:0,
 	},
 	intl: {
 		locale: 'fa',

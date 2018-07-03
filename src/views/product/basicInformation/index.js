@@ -13,29 +13,29 @@ import {ProductInfoItemWrapper, ProductInfoView, ProductDescriptionView, Product
 export class ProductInfo extends Component {
 	
 	constructor(props) {
-		super(props);
+		super(props)
 		this.state = {product: {}, product_category:{}, owner:{}, error: null, edit: false, isLoading: false}
 	}
 	
 	static propTypes = {
 		productId: PropTypes.string.isRequired,
-	};
+	}
 	
 	_showEdit = () => {
-		this.setState({...this.state, edit: true});
-	};
+		this.setState({...this.state, edit: true})
+	}
 	
 	_hideEdit = () => {
-		this.setState({...this.state, edit: false});
-	};
+		this.setState({...this.state, edit: false})
+	}
 	
 	_updateStateForView = (res, error, isLoading) => {
-		this.setState({...this.state, product: res, error: error, isLoading});
-  };
+		this.setState({...this.state, product: res, error: error, isLoading})
+  }
   
   getProductDetail(categoryId, userId, productId){
-    const newState = {...this.state, isLoading: true};
-    this.setState(newState);
+    const newState = {...this.state, isLoading: true}
+    this.setState(newState)
     socket.emit(REST_REQUEST,
       {
         method: "get",
@@ -43,7 +43,7 @@ export class ProductInfo extends Component {
         result: `Products-category-get/`,
         token: TOKEN,
       }
-    );
+    )
 
     socket.emit(REST_REQUEST,
       {
@@ -52,7 +52,7 @@ export class ProductInfo extends Component {
         result: `Products-owner-get`,
         token: TOKEN,
       }
-		);
+		)
 		
 		socket.emit(REST_REQUEST,
 			{
@@ -61,14 +61,14 @@ export class ProductInfo extends Component {
 				result: `product-pictures-get/${productId}`,
 				token: TOKEN
 			}
-		);
+		)
   }
 	
 	componentDidMount() {
-		const {productId} = this.props;
+		const {productId} = this.props
 		const emitting = () => {
-			const newState = {...this.state, isLoading: true};
-			this.setState(newState);
+			const newState = {...this.state, isLoading: true}
+			this.setState(newState)
 			socket.emit(REST_REQUEST,
 					{
 						method: "get",
@@ -76,45 +76,45 @@ export class ProductInfo extends Component {
 						result: `ProductInfo-get/${productId}`,
 						token: TOKEN,
 					}
-			);
+			)
 			
 			
-		};
+		}
 		
-		emitting();
+		emitting()
 		
 		
 		socket.on(`ProductInfo-get/${productId}`, (res) => {
 			if (res.detail) {
-				const newState = {...this.state, error: res.detail, isLoading: false};
-				this.setState(newState);
+				const newState = {...this.state, error: res.detail, isLoading: false}
+				this.setState(newState)
 			}
-      const newState = {...this.state, product: res, isLoading: false};
-      this.getProductDetail(res.product_category,res.product_owner, productId);
-			this.setState(newState);
-    });
+      const newState = {...this.state, product: res, isLoading: false}
+      this.getProductDetail(res.product_category,res.product_owner, productId)
+			this.setState(newState)
+    })
     
     socket.on(`Products-category-get/`,(res)=>{
       if (res.detail) {
-				const newState = {...this.state, error: res.detail, isLoading: false};
-				this.setState(newState);
+				const newState = {...this.state, error: res.detail, isLoading: false}
+				this.setState(newState)
 			}
-      const newState = {...this.state, product_category: res, isLoading: false};
-			this.setState(newState);
-    });
+      const newState = {...this.state, product_category: res, isLoading: false}
+			this.setState(newState)
+    })
 
     socket.on(`Products-owner-get`,(res)=>{
       if (res.detail) {
-				const newState = {...this.state, error: res.detail, isLoading: false};
-				this.setState(newState);
+				const newState = {...this.state, error: res.detail, isLoading: false}
+				this.setState(newState)
 			}
-      const newState = {...this.state, owner: res, isLoading: false};
-			this.setState(newState);
+      const newState = {...this.state, owner: res, isLoading: false}
+			this.setState(newState)
     })
 	}
 
 	render() {
-		const {product,product_category,owner, edit, isLoading, error} = this.state;
+		const {product,product_category,owner, edit, isLoading, error} = this.state
 		return (
 				<VerifyWrapper isLoading={isLoading} error={error}>
           {
@@ -158,10 +158,10 @@ export class ProductInfo extends Component {
 export default class productBasicInformation extends Component {
 	static propTypes = {
 		productId: PropTypes.string.isRequired,
-	};
+	}
 	
 	render() {
-		const {productId} = this.props;
+		const {productId} = this.props
 		return (
 				<div>
 					<CategoryTitle

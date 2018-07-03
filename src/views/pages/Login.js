@@ -7,7 +7,6 @@ import LoginForm from "./login/signInForm"
 import RecoveryForm from "./login/RecoveryForm"
 import RegisterForm from "./login/SignUpForm"
 import SocialLogin from "./login/SocialLogin"
-import {SOCKET as socket} from "../../consts/URLS"
 
 class Login extends Component {
   constructor(props) {
@@ -26,33 +25,21 @@ class Login extends Component {
   }
 
   _showSignIn = () => {
-    const newState = {
-      ...this.state,
-      page: 'SignIn'
-    };
-    this.setState(newState)
+    this.setState( {...this.state,page: 'SignIn'})
   };
 
   _showSignUp = () => {
-    const newState = {
-      ...this.state,
-      page: 'SignUp'
-    };
-    this.setState(newState)
-  };
+    this.setState({...this.state,page: 'SignUp'})
+  }
 
   _RedirectToHome = () => {
     const {history} = this.props;
     history.push('/');
-  };
+  }
 
   _showRecovery = () => {
-    const newState = {
-      ...this.state,
-      page: 'Recovery'
-    };
-    this.setState(newState)
-  };
+    this.setState({...this.state,page: 'Recovery'})
+  }
 
   render() {
     const {page, footer, header} = this.state;
@@ -61,7 +48,6 @@ class Login extends Component {
     const SignIn = (page === 'SignIn');
     const SignUp = (page === 'SignUp');
     const Recovery = (page === 'Recovery');
-    const {handleLogIn} = this.props;
     const RedirectToHome = this._RedirectToHome;
     const animateFormClass = (SignIn) ? ("sign-in-form") : ("sign-up-form");
 
@@ -94,11 +80,11 @@ class Login extends Component {
                 </div>
                 <div className="card-block login-form p-3">
                   {SignIn &&
-                  <LoginForm showRecovery={this._showRecovery} socket={socket} handleLogIn={handleLogIn}/>}
+                  <LoginForm showRecovery={this._showRecovery}/>}
                   {SignUp &&
-                  <RegisterForm showLogin={this._showSignIn} handleLogIn={handleLogIn} RedirectToHome={RedirectToHome}/>}
+                  <RegisterForm showLogin={this._showSignIn} RedirectToHome={RedirectToHome}/>}
                   {Recovery &&
-                  <RecoveryForm socket={socket}/>}
+                  <RecoveryForm />}
                 </div>
                 <div className="card-footer social-login">
                   <span>{__('Register with other accounts')}</span>

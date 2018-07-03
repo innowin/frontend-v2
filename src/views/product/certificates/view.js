@@ -1,21 +1,21 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {CertificateEditForm} from './forms';
-import {ItemHeader, ItemWrapper} from "../../common/cards/Frames";
-import {certificateIcon, starIcon,editIcon} from "src/images/icons";
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
+import {CertificateEditForm} from './forms'
+import {ItemHeader, ItemWrapper} from "../../common/cards/Frames"
+import {certificateIcon, starIcon,editIcon} from "src/images/icons"
 
 export const CertificateItemWrapper = ({children}) => {
-	return <ItemWrapper icon={certificateIcon}>{children}</ItemWrapper>;
-};
+	return <ItemWrapper icon={certificateIcon}>{children}</ItemWrapper>
+}
 
 export class CertificateView extends Component {
 	static propTypes = {
 		showEdit: PropTypes.func.isRequired,
 		certificate: PropTypes.object.isRequired,
-	};
+	}
 
 	render() {
-		const {certificate, showEdit} = this.props;
+		const {certificate, showEdit} = this.props
 		return (
 			<div className="col-6 text-center container-fluid">
 				<div className="row">
@@ -28,7 +28,7 @@ export class CertificateView extends Component {
 							<h5>{certificate.title}</h5>
 
 							<a className="shareButton">{starIcon}</a>
-							<span>&nbsp;</span>
+							<span>&nbsp</span>
 						</div>
 					</div>
 				</div>
@@ -39,12 +39,12 @@ export class CertificateView extends Component {
 
 export class Certificate extends Component {
 	constructor(props){
-		super(props);
-		const {certificate} = props;
-		this.state = {edit: false, certificate:certificate};
+		super(props)
+		const {certificate} = props
+		this.state = {edit: false, certificate:certificate}
 	}
 	componentWillReceiveProps(props){
-		const {certificate} = props;
+		const {certificate} = props
 		this.setState({...this.state, certificate:certificate})
 	}
 
@@ -53,23 +53,23 @@ export class Certificate extends Component {
 		deleteCertificate: PropTypes.func.isRequired,
 		certificate: PropTypes.object.isRequired,
 		updateStateForView:PropTypes.func.isRequired
-	};
+	}
 
 	showEdit = () => {
-		this.setState({edit: true});
-	};
+		this.setState({edit: true})
+	}
 
 	hideEdit = () => {
-		this.setState({edit: false});
-	};
+		this.setState({edit: false})
+	}
 
 	updateStateForView = (res, error,isLoading) =>{
-		const {updateStateForView} = this.props;
+		const {updateStateForView} = this.props
 		this.setState({...this.state,certificate:res })
 	}
 
 	render() {
-		const {certificate} = this.state;
+		const {certificate} = this.state
 		if (this.state.edit) {
 			return <CertificateItemWrapper>
 				<CertificateEditForm
@@ -79,8 +79,8 @@ export class Certificate extends Component {
 					remove = {this.props.deleteCertificate}
 					update = {this.props.updateCertificate}
 				/>
-			</CertificateItemWrapper>;
+			</CertificateItemWrapper>
 		}
-		return <CertificateView certificate={certificate} showEdit={this.showEdit}/>;
+		return <CertificateView certificate={certificate} showEdit={this.showEdit}/>
 	}
 }
