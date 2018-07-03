@@ -3,7 +3,7 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import "moment/locale/fa";
 import Moment from "react-moment";
-import {editIcon, defaultImg} from "src/images/icons";
+import {EditIcon, defaultImg} from "src/images/icons";
 import {userInfoIcon} from "src/images/icons"
 import {Link} from 'react-router-dom'
 import {NEW_VIEW, GET_VIEWS_COUNT} from "src/consts/Events";
@@ -22,7 +22,7 @@ export class ExchangeItemWrapper extends Component {
     const {showEdit} = this.props;
     return (
       <div className="-itemWrapperExchange">
-        <div className="-itemEditBtn" onClick={showEdit}>{editIcon}</div>
+        <div className="-itemEditBtn" onClick={showEdit}><EditIcon /></div>
         {this.props.children}
       </div>
     )
@@ -110,7 +110,7 @@ export class FollowerItemWrapper extends Component {
     const {showEdit} = this.props;
     return (
       <div className="-itemWrapperFollower">
-        <div className="-itemEditBtn" onClick={showEdit}>{editIcon}</div>
+        <div className="-itemEditBtn" onClick={showEdit}><EditIcon /></div>
         {this.props.children}
       </div>
     )
@@ -179,7 +179,7 @@ export class FollowingItemWrapper extends Component {
     const {showEdit} = this.props;
     return (
       <div className="-itemWrapperFollowing">
-        <div className="-itemEditBtn" onClick={showEdit}>{editIcon}</div>
+        <div className="-itemEditBtn" onClick={showEdit}><EditIcon /></div>
         {this.props.children}
       </div>
     )

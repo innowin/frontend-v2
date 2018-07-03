@@ -6,7 +6,7 @@ import Exchange from './Exchange';
 import Organization from './Organization';
 import {Switch} from 'react-router-dom';
 import Product from './Product';
-import ProductsTest from './pages/adding-contribution/adding-contribution'
+import ProductsTest from './pages/adding-contribution/addingContribution'
 
 class Layout extends Component {
 	constructor(props) {

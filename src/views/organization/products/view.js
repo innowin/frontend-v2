@@ -10,7 +10,7 @@ import {
 	FieldLabel,
 	FieldValue
 } from "../../common/cards/Frames";
-import {postIcon, editIcon} from "src/images/icons";
+import {postIcon, EditIcon} from "src/images/icons";
 
 export const ProductItemWrapper = ({children}) => {
 	return <ItemWrapper icon={postIcon}>{children}</ItemWrapper>;
@@ -27,7 +27,7 @@ export class ProductView extends Component {
 		return (
 			<div className="col-6 organizationProduct">
 				<div className=" productBox">
-							<div className="float-left -item-edit-btnProduct" onClick={showEdit}>{editIcon}</div>
+							<div className="float-left -item-edit-btnProduct" onClick={showEdit}><EditIcon /></div>
 							<div className="d-block m-2">{product.name}</div>
 							
 							{(pictures.length > 0) ? <ImageViewer

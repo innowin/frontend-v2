@@ -13,7 +13,7 @@ import TopBar from "src/views/bars/TopBar"
 import UserBasicInformation from "./user/basicInformation/index"
 import {NavLink, Switch, Redirect} from "react-router-dom"
 import {Tabs} from "./common/cards/Frames"
-import {userInfoIcon, skillIcon, certificateIcon, workExperienceIcon, postIcon, SocialIcon} from "src/images/icons"
+import {userInfoIcon, SkillIcon, CertificateIcon, workExperienceIcon, postIcon, SocialIcon} from "src/images/icons"
 import {UserSideView} from "./bars/SideBar";
 
 class User extends Component {
@@ -46,8 +46,8 @@ class User extends Component {
               <NavLink className="-tab" to={`${url}/SocialConnections`} activeClassName="-active">
                 <SocialIcon/>
               </NavLink>
-              <NavLink className="-tab" to={`${url}/Skills`} activeClassName="-active">{skillIcon}</NavLink>
-              <NavLink className="-tab" to={`${url}/Certificates`} activeClassName="-active">{certificateIcon}</NavLink>
+              <NavLink className="-tab" to={`${url}/Skills`} activeClassName="-active"><SkillIcon /></NavLink>
+              <NavLink className="-tab" to={`${url}/Certificates`} activeClassName="-active"><CertificateIcon /></NavLink>
             </Tabs>
             <Switch>
               <Redirect exact from={`${url}/`} to={`${url}/basicInformation`}/>

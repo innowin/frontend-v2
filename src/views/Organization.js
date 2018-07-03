@@ -13,7 +13,7 @@ import {default as BasicInformation} from "./organization/basicInformation/index
 import {NavLink, Switch, Redirect} from "react-router-dom";
 import {OrganizationSideView} from "src/views/bars/SideBar";
 import {Tabs} from "src/views/common/cards/Frames";
-import {ContributionIcon, postIcon, certificateIcon, InformationIcon, SocialIcon, customerIcon} from "../images/icons";
+import {ContributionIcon, postIcon, CertificateIcon, InformationIcon, SocialIcon, customerIcon} from "../images/icons";
 
 export class Organization extends Component {
   static propTypes = {
@@ -53,7 +53,7 @@ export class Organization extends Component {
                 {customerIcon()}
               </NavLink>
               <NavLink className="-tab" to={`${url}/Certificates`} activeClassName="-active">
-                {certificateIcon}
+                <CertificateIcon />
               </NavLink>
             </Tabs>
             <Switch>

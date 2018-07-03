@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import "moment/locale/fa";
 import Moment from "react-moment";
-import {editIcon, defaultImg} from "src/images/icons";
+import {EditIcon, defaultImg} from "src/images/icons";
 import {NEW_VIEW, GET_VIEWS_COUNT} from "src/consts/Events";
 import {SOCKET as socket} from "src/consts/URLS";
 import {TOKEN} from "src/consts/data";
@@ -14,7 +14,7 @@ export class AbilityItemWrapper extends Component {
 		const {showEdit} = this.props;
     return (
       <div className="-itemWrapperSkill">
-				<div className="-itemEditBtn" onClick={showEdit}>{editIcon}</div>
+				<div className="-itemEditBtn" onClick={showEdit}><EditIcon /></div>
         {this.props.children}
       </div>
     )

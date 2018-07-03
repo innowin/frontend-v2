@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import "moment/locale/fa";
 import Moment from "react-moment";
-import {editIcon, defaultImg} from "src/images/icons";
+import {EditIcon, defaultImg} from "src/images/icons";
 import {NEW_VIEW, GET_VIEWS_COUNT} from "src/consts/Events";
 import {SOCKET as socket} from "src/consts/URLS";
 import {TOKEN} from "src/consts/data";
@@ -43,7 +43,7 @@ export class RepresentItemHeader extends Component {
           <span className="mr-1 -green2"> پیش</span>
         </div>
         <div className="-item-edit-btnRepresent">
-          <div onClick={showEdit}>{editIcon}</div>
+          <div onClick={showEdit}><EditIcon /></div>
         </div>
       </div>
     )

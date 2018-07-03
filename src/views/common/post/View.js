@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import "moment/locale/fa";
 import Moment from "react-moment";
-import {editIcon, defaultImg} from "src/images/icons";
+import {EditIcon, defaultImg} from "src/images/icons";
 import {VerifyWrapper} from "src/views/common/cards/Frames";
 import {getFile} from "src/crud/media/media";
 import {SupplyIcon, DemandIcon} from "src/images/icons";
@@ -51,7 +51,7 @@ export class PostItemHeader extends Component {
           <Moment className="mr-3 -green2" element="span" fromNow ago>{post.created_time}</Moment>
           <span className="mr-1 -green2"> پیش</span>
         </div>
-        <div onClick={showEdit} className="-item-edit-btnPost">{editIcon}</div>
+        <div onClick={showEdit} className="-item-edit-btnPost"><EditIcon /></div>
       </div>
     )
   }

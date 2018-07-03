@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {CertificateEditForm} from './forms';
 import {ItemHeader, ItemWrapper} from "../../common/cards/Frames";
-import {certificateIcon, starIcon} from "src/images/icons";
+import {CertificateIcon, starIcon} from "src/images/icons";
 
 export const CertificateItemWrapper = ({children}) => {
-	return <ItemWrapper icon={certificateIcon}>{children}</ItemWrapper>;
+	return <ItemWrapper icon={<CertificateIcon />}>{children}</ItemWrapper>;
 };
 
 export class CertificateView extends Component {

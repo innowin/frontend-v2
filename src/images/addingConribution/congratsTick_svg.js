@@ -1,7 +1,7 @@
 import React from 'react';
 
-const CongratsTick = ({className = ''}) => (
-    <svg className={className} xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 48190 48190">
+const CongratsTick = ({className = '', onClick}) => (
+    <svg onClick={onClick} className={className} xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 48190 48190">
         <path className="fil0" d="M14290 19610l-3360 3340 10820 10950 24300 -24280 -3390 -3370 -20860 20850 -7510 -7490zm9800 -19610c3280,0 6400,650 9240,1840l-2710 2520c-2050,-680 -4230,-1040 -6500,-1040 -11510,0 -20850,9330 -20850,20840 0,11510 9340,20840 20850,20840 11510,0 20840,-9330 20840,-20840l0 -40 3230 10c-20,13290 -10800,24060 -24100,24060 -13300,0 -24090,-10790 -24090,-24100 0,-13300 10790,-24090 24090,-24090z"/>
     </svg>
     

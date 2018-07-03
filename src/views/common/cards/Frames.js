@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import cx from 'classnames'
 import FontAwesome from 'react-fontawesome'
 import PropTypes from 'prop-types'
-import {editIcon} from 'src/images/icons'
+import {EditIcon} from 'src/images/icons'
 import {ErrorCard} from "./ErrorCard"
 import {LoadingCard} from "./LoadingCard"
 
@@ -64,7 +64,7 @@ export class ItemHeader extends Component {
           <div className="-item-edit-btn">
           {
           (showEdit!=null) ? 
-            <div onClick={showEdit}>{editIcon}</div>: <span/>
+            <div onClick={showEdit}><EditIcon /></div>: <span/>
           }
           </div> 
       </div>

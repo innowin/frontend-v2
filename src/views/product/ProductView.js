@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {InformationIcon, postIcon, certificateIcon, RatingIcon} from "../../images/icons";
+import {InformationIcon, postIcon, CertificateIcon, RatingIcon} from "../../images/icons";
 import ProductPosts from "../product/posts";
 import ProductBasicInformation from "../product/basicInformation";
 import ProductCertificates from "../product/certificates";
@@ -47,7 +47,7 @@ export default class ProductView extends Component {
           <Tabs>
             <NavLink className="-tab" to={`${url}/basicInformation`}
                      activeClassName="-active"><InformationIcon/></NavLink>
-            <NavLink className="-tab" to={`${url}/Certificates`} activeClassName="-active">{certificateIcon}</NavLink>
+            <NavLink className="-tab" to={`${url}/Certificates`} activeClassName="-active"><CertificateIcon /></NavLink>
             <NavLink className="-tab" to={`${url}/Ratings`} activeClassName="-active"><RatingIcon/></NavLink>
             <NavLink className="-tab" to={`${url}/Posts`} activeClassName="-active">{postIcon}</NavLink>
             <NavLink className="-tab" to={`${url}/Represents`} activeClassName="-active">{postIcon}</NavLink>

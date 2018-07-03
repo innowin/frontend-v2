@@ -9,7 +9,7 @@ import {
 	FieldLabel,
 	FieldValue
 } from "../../../common/cards/Frames";
-import {postIcon, editIcon} from "src/images/icons";
+import {postIcon, EditIcon} from "src/images/icons";
 
 export const ProductItemWrapper = ({children}) => {
 	return <ItemWrapper icon={postIcon}>{children}</ItemWrapper>;

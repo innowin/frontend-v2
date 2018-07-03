@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {CustomerEditForm} from './forms';
 import {ItemHeader, ItemWrapper} from "../../common/cards/Frames";
-import {certificateIcon, starIcon, editIcon} from "src/images/icons";
+import {CertificateIcon, starIcon, EditIcon} from "src/images/icons";
 
 export const CustomerItemWrapper = ({children}) => {
-	return <ItemWrapper icon={certificateIcon}>{children}</ItemWrapper>;
+	return <ItemWrapper icon={<CertificateIcon />}>{children}</ItemWrapper>;
 };
 
 export class CustomerView extends Component {
@@ -22,7 +22,7 @@ export class CustomerView extends Component {
 					<div className="col customer">
 						<div className="content">
 							<div className="editButton">
-								<div onClick={showEdit}>{editIcon}</div>
+								<div onClick={showEdit}><EditIcon /></div>
 							</div>
 							<img className="customerImage" alt="" src={customer.picture_media || "/static/media/defaultImg.94a29bce.png"} />
 							<h5>{customer.title}</h5>
