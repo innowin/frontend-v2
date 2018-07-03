@@ -21,6 +21,12 @@ export function* signIn (action) {
 		yield fork(sendRequest , username,password )
 		while (true) {
 			const data = yield take(socketChannel)
+			let identityType = data.identity.identity_user !== null
+			if (identityType) {
+				yield client.saveData(data.user.id , data.identity.id,'person',remember)
+			} else {
+				yield client.saveData(data.user.id , data.identity.id, 'organization',remember)
+			}
 			if (remember) {
 				yield client.setTokenLS(data.token)
 			} else {
