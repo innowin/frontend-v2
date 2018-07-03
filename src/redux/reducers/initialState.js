@@ -7,7 +7,8 @@ export default {
 			identity:{},
 			profile:{},
 			user:{},
-			rememberMe:null
+			rememberMe:null,
+			user_type:null,
 		},
 		clients: {
 			users:[],
