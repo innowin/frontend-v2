@@ -13,36 +13,19 @@ const createSocketChannel = (resultName) => {
 	})
 }
 
-const query = (url, resultName, query = "") => {
-	return new Promise((resolve,reject)=>{
-		SOCKET.emit(REST_REQUEST, {
-			method: 'get',
-			url: REST_URL + '/' + url+'/'+ query,
-			result: resultName,
-			token
-		})
-		SOCKET.on(resultName,(res)=>{
-			if(res.detail){
-				reject(res)
-			}
-			resolve(res)
-		})
-	})
-}
-
-const get = (url , resultName) => {
+const get = (url ,query='', resultName) => {
 	SOCKET.emit(REST_REQUEST, {
 		method: 'get',
-		url: REST_URL + '/' + url+'/',
+		url: REST_URL + '/' + url+'/'+query,
 		result: resultName,
 		token
 	})
 }
 
-const post = (url , resultName ,data) => {
+const post = (url ,query='', resultName ,data) => {
 	SOCKET.emit(REST_REQUEST, {
 		method: 'post',
-		url: REST_URL+'/'+url+'/',
+		url: REST_URL+'/'+url+'/'+query,
 		result: resultName,
 		data,
 		token
@@ -52,7 +35,6 @@ const post = (url , resultName ,data) => {
 const api = {
 	createSocketChannel,
 	get,
-	post,
-	query
+	post
 }
 export default api

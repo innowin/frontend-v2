@@ -6,24 +6,24 @@ import {FrameCard, CategoryTitle, VerifyWrapper, ListGroup} from "../../../commo
 import {REST_REQUEST} from "../../../../consts/Events"
 import {REST_URL as url, SOCKET as socket} from "../../../../consts/URLS"
 import {TOKEN, IDENTITY_ID, ID} from "src/consts/data"
-import ImageViewer from '../../../common/ImageViewer';
+import ImageViewer from '../../../common/ImageViewer'
 
-import {Product} from './view';
+import {Product} from './view'
 
 
 //TODO amir
 export class ProductContainer extends Component {
 	constructor(props){
-		super(props);
+		super(props)
 		this.state={pictures:[],price:{}, edit:false, product:{}, categories:[]}
 	}
 	componentWillReceiveProps(props){
-		// const {product} = props;
-		// this.setState ({...this.state ,product:product});
+		// const {product} = props
+		// this.setState ({...this.state ,product:product})
 	}
 
 	componentDidMount(){
-		const {productId} = this.props;
+		const {productId} = this.props
 		
 		socket.emit(REST_REQUEST,
 			{
@@ -32,7 +32,7 @@ export class ProductContainer extends Component {
 				result: `Products-category-get/`,
 				token: TOKEN,
 			}
-		);
+		)
 //---
 		socket.emit(REST_REQUEST,
 			{
@@ -41,7 +41,7 @@ export class ProductContainer extends Component {
 				result: `Product-pictures-get`,
 				token: TOKEN,
 			}
-		);
+		)
 
 		socket.emit(REST_REQUEST,
 			{
@@ -50,7 +50,7 @@ export class ProductContainer extends Component {
 				result: `Product-get/${productId}`,
 				token: TOKEN,
 			}
-		);
+		)
 
 		socket.emit(REST_REQUEST,
 			{
@@ -59,7 +59,7 @@ export class ProductContainer extends Component {
 				result: `Product-price-get`,
 				token: TOKEN,
 			}
-		);
+		)
 		
 		socket.on('Product-price-get',(res)=>{
 			if(res.detail){
@@ -79,13 +79,13 @@ export class ProductContainer extends Component {
 
 		socket.on(`Products-category-get/`, (res) => {
 			if (res.detail) {
-				const newState = {...this.state, error: res.detail, isLoading: false};
-				this.setState(newState);
+				const newState = {...this.state, error: res.detail, isLoading: false}
+				this.setState(newState)
 			}else{
-				const newState = {...this.state, categories: res, isLoading: false};
-				this.setState(newState);
+				const newState = {...this.state, categories: res, isLoading: false}
+				this.setState(newState)
 			}
-		});
+		})
 
 		socket.on('Product-pictures-get',(res)=>{
 			if(res.detail){
@@ -96,8 +96,8 @@ export class ProductContainer extends Component {
 		})
 	}
 	render() {
-		const {organization, productId} = this.props;
-		const {pictures, price, edit, product, categories} = this.state;
+		const {organization, productId} = this.props
+		const {pictures, price, edit, product, categories} = this.state
 
 		return(<Product
 				deletePicture={this.deletePicture}
@@ -116,11 +116,11 @@ export class ProductList extends Component {
 		hideCreateForm: PropTypes.func.isRequired,
 		createForm: PropTypes.bool.isRequired,
 		updateProductsList: PropTypes.func.isRequired
-	};
+	}
 
 	render() {
-		const {  organizationId, organization} = this.props;
-		const {products, categories} = this.props;
+		const {  organizationId, organization} = this.props
+		const {products, categories} = this.props
 		return (<div>				
 				<div className="row">
 					{						
@@ -142,18 +142,18 @@ export class ProductList extends Component {
 export class Products extends Component {
 
 	constructor(props){
-		super(props);
-		this.state = {organization:{}, categories:[], createForm: false, edit:false, isLoading:false, error:null, products:[]};
+		super(props)
+		this.state = {organization:{}, categories:[], createForm: false, edit:false, isLoading:false, error:null, products:[]}
 	}
 	static propTypes = {
 		organizationId: PropTypes.string.isRequired
-	};
+	}
 
 	componentDidMount(){
-		const {organizationId } = this.props;
+		const {organizationId } = this.props
 		const emitting = () => {
-			const newState = {...this.state, isLoading: true};
-			this.setState(newState);
+			const newState = {...this.state, isLoading: true}
+			this.setState(newState)
 			
 			socket.emit(REST_REQUEST,
 				{
@@ -162,7 +162,7 @@ export class Products extends Component {
 					result: `Products-get/${IDENTITY_ID}`,
 					token: TOKEN,
 				}
-			);
+			)
 
 			socket.emit(REST_REQUEST,
 				{
@@ -171,7 +171,7 @@ export class Products extends Component {
 					result: `Products-category-get/`,
 					token: TOKEN,
 				}
-			);
+			)
 
 			socket.emit(REST_REQUEST,
 				{
@@ -180,46 +180,46 @@ export class Products extends Component {
 					result: `Products-organization-get`,
 					token: TOKEN,
 				}
-			);
-		};
+			)
+		}
 
-		emitting();
+		emitting()
 		socket.on('Products-organization-get',(res)=>{
 			if (res.detail) {
-				const newState = {...this.state, error: res.detail, isLoading: false};
-				this.setState(newState);
+				const newState = {...this.state, error: res.detail, isLoading: false}
+				this.setState(newState)
 			}else{
-				const newState = {...this.state, organization: res, isLoading: false};
+				const newState = {...this.state, organization: res, isLoading: false}
 				this.setState(newState, ()=>{
-				});
+				})
 			}
 		})
 		socket.on(`Products-get/${IDENTITY_ID}`, (res) => {
 			if (res.detail) {
-				const newState = {...this.state, error: res.detail, isLoading: false};
-				this.setState(newState);
+				const newState = {...this.state, error: res.detail, isLoading: false}
+				this.setState(newState)
 			}else{
-				const newState = {...this.state, products: res, isLoading: false};
+				const newState = {...this.state, products: res, isLoading: false}
 				this.setState(newState, ()=>{
-				});
+				})
 			}
-		});
+		})
 
 		socket.on(`Products-category-get/`, (res) => {
 			if (res.detail) {
-				const newState = {...this.state, error: res.detail, isLoading: false};
-				this.setState(newState);
+				const newState = {...this.state, error: res.detail, isLoading: false}
+				this.setState(newState)
 			}else{
-				const newState = {...this.state, categories: res, isLoading: false};
-				this.setState(newState);
+				const newState = {...this.state, categories: res, isLoading: false}
+				this.setState(newState)
 			}
-		});
+		})
 
 	}
 
 	render() {
-		const {organizationId} = this.props;
-		const {createForm, products, categories, organization, edit, isLoading, error} = this.state;
+		const {organizationId} = this.props
+		const {createForm, products, categories, organization, edit, isLoading, error} = this.state
 		return (
 			<VerifyWrapper isLoading={isLoading} error={error}>
 				<CategoryTitle
@@ -243,4 +243,3 @@ export class Products extends Component {
 		)
 	}
 }
-;
