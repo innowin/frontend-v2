@@ -16,7 +16,7 @@ const navMiddleware = routerMiddleware(history)
 const configureStore = () => {
 	return createStore(rootReducer,
 			window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-			applyMiddleware(
+			applyMiddleware (
 					navMiddleware,
 					sagaMiddleware,
 					logger

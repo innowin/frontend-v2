@@ -15,7 +15,6 @@ class App extends Component {
 					<Switch>
 						<PropsRoute path="/login" component={Login}/>
 						<Layout/>
-						{/*<PrivateRoute path="/" component={Layout} />*/}
 					</Switch>
 				</div>
 		)
