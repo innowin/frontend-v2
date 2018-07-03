@@ -13,6 +13,20 @@ const getMetaDataOrganization = () => ({
 	payload: {
 	}
 })
+
+const getOrganizationMembers = (organizationId) => ({
+    type: types.GET_ORGANIZATION_MEMBERS,
+	payload: {
+        organizationId
+	}
+})
+
+const getOrgFollowers = (identity) =>({
+    type: types.GET_ORG_FOLLOWERS,
+	payload: {
+        identity
+	} 
+})
 //abilities
 const getAbilities = (organizationId) => ({
     type: types.GET_ABILITIES,
@@ -45,10 +59,10 @@ const deleteAbility = (abilityId) => ({
 
 //basic information
 const updateOrganization = (formValues, organizationId) => ({
-	type: types.DELETE_ABILITY,
+	type: types.UPDATE_ORGANIZATION_INFO,
 	payload: {
-    ...formValues,
-    organizationId
+        formValues,
+        organizationId
 	}
 })
 
@@ -95,6 +109,13 @@ const deleteCustomer = (customerId) => ({
 	}
 })
 
+const getProducts = (IDENTITY_ID) => ({
+    type: types.GET_PRODUCTS,
+	payload: {
+        IDENTITY_ID
+	}   
+})
+
 const updateProduct = (formValues, productId) => ({
   type: types.UPDATE_PRODUCT,
 	payload: {
@@ -136,6 +157,8 @@ const addPicture = (picture_media, picture_product) => ({
 const OrganizationActions = {
   getOrganization,
   getMetaDataOrganization,
+  getOrganizationMembers,
+  getOrgFollowers,
 
   getAbilities,
   updateAbility,
@@ -152,6 +175,7 @@ const OrganizationActions = {
   createCustomer,
   deleteCustomer,
 
+  getProducts,
   updateProduct,
   createProduct,
   deleteProduct,

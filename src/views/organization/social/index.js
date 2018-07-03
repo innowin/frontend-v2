@@ -10,31 +10,22 @@ import {REST_REQUEST} from "src/consts/Events"
 import {REST_URL as url, SOCKET as socket} from "src/consts/URLS"
 import {TOKEN} from "src/consts/data"
 import { IDENTITY_ID} from "../../../consts/data";
+import OrganizationActions from '../../../redux/actions/organizationActions';
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
 //TODO CRUD
 type SocialsProps ={
-  organizationId: string
+  organizationId: string,
+  actions:Object,
+  isLoading:boolean,
 }
 class Socials extends React.Component<SocialsProps,{
   createForm: boolean,
   edit: boolean,
-  isLoading: boolean,
-  error: boolean,followersList:Array<Object>,
-  followingsList:Array<Object>,
-  followers:Array<Object>,
-  followings:Array<Object>,
-  exchanges:Array<Object>,
-  user: Object
 }> {
-  state = {createForm: false,
+  state = {
+    createForm: false,
     edit: false,
-    isLoading: false,
-    error: false,
-    followersList:[],
-    followingsList:[],
-    followers:[],
-    followings:[],
-    exchanges:[],
-    user: {}
   };
   constructor(props:SocialsProps ) {
     super(props);
@@ -48,125 +39,126 @@ class Socials extends React.Component<SocialsProps,{
   componentDidMount() {
     console.log(TOKEN);
     const {organizationId} = this.props;
-    const emitting = () => {
-      const newState = {...this.state, isLoading: true};
-      this.setState(newState);
+    const {getFollowers, getFollowings, getOrgExchanges} = this.props.actions;
+    getFollowers();
+    // const emitting = () => {
+    //   const newState = {...this.state, isLoading: true};
+    //   this.setState(newState);
 
-      //Socials exchanges  get //TODO itsnow owned but joined exchanges
-      socket.emit(REST_REQUEST,
-        {
-          method: "get",
-          url: `${url}/exchanges/?owner=${organizationId}`,
-          result: `userExchnages-Socials-get/${organizationId}`,
-          token: TOKEN
-        }
-      );
+    //   //Socials exchanges  get //TODO itsnow owned but joined exchanges
+    //   socket.emit(REST_REQUEST,
+    //     {
+    //       method: "get",
+    //       url: `${url}/exchanges/?owner=${organizationId}`,
+    //       result: `userExchnages-Socials-get/${organizationId}`,
+    //       token: TOKEN
+    //     }
+    //   );
 
-      socket.emit(REST_REQUEST,
-      {
-        method:"get",
-        url: `${url}/users/identities/?identity_organization=${organizationId}`,
-        result :`organization-identity-id-get/${organizationId}`,
-        token:TOKEN
-      })
+    //   socket.emit(REST_REQUEST,
+    //   {
+    //     method:"get",
+    //     url: `${url}/users/identities/?identity_organization=${organizationId}`,
+    //     result :`organization-identity-id-get/${organizationId}`,
+    //     token:TOKEN
+    //   })
 
       
-    };
+    // };
 
-    emitting();
-    socket.on(`organization-identity-id-get/${organizationId}`,(res)=>{
-      if(res.detail){
+    // emitting();
+    // socket.on(`organization-identity-id-get/${organizationId}`,(res)=>{
+    //   if(res.detail){
 
-      }else{
-        //followers get with follow_identity
-        socket.emit(REST_REQUEST,
-          {
-            method: "get",
-            url: `${url}/organizations/follows/?follow_followed=${res[0].id}`,
-            result: `organizationFollowers-Socials-get/${organizationId}`,
-            token: TOKEN
-          }
-        );
-        //get followers follow_follower
-        socket.emit(REST_REQUEST,
-          {
-            method: "get",
-            url: `${url}/organizations/follows/?follow_follower=${res[0].id}`,
-            result: `organizationFollowings-Socials-get/${organizationId}`,
-            token: TOKEN
-          }
-        );
-      }
-    })
+    //   }else{
+    //     //followers get with follow_identity
+    //     socket.emit(REST_REQUEST,
+    //       {
+    //         method: "get",
+    //         url: `${url}/organizations/follows/?follow_followed=${res[0].id}`,
+    //         result: `organizationFollowers-Socials-get/${organizationId}`,
+    //         token: TOKEN
+    //       }
+    //     );
+    //     //get followers follow_follower
+    //     socket.emit(REST_REQUEST,
+    //       {
+    //         method: "get",
+    //         url: `${url}/organizations/follows/?follow_follower=${res[0].id}`,
+    //         result: `organizationFollowings-Socials-get/${organizationId}`,
+    //         token: TOKEN
+    //       }
+    //     );
+    //   }
+    // })
     
-    socket.on(`userExchnages-Socials-get/${organizationId}`, (res) => {
-      if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false};
-        this.setState(newState);
-      } else {
-        const newState = {...this.state, exchanges: res, isLoading: false};
-        this.setState(newState);
-      }
-    })
+    // socket.on(`userExchnages-Socials-get/${organizationId}`, (res) => {
+    //   if (res.detail) {
+    //     const newState = {...this.state, error: res.detail, isLoading: false};
+    //     this.setState(newState);
+    //   } else {
+    //     const newState = {...this.state, exchanges: res, isLoading: false};
+    //     this.setState(newState);
+    //   }
+    // })
 
-    socket.on(`organizationFollowers-Socials-get/${organizationId}`, (res) => {
-      console.log(IDENTITY_ID);
-      if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false};
-        this.setState(newState);
-      } else {
-        const newState = {...this.state, followersList: res, followers:[], isLoading: false};
-        this.setState(newState, ()=>{
-          this.getFollowers();
-        });
-      }
-    })
+    // socket.on(`organizationFollowers-Socials-get/${organizationId}`, (res) => {
+    //   if (res.detail) {
+    //     const newState = {...this.state, error: res.detail, isLoading: false};
+    //     this.setState(newState);
+    //   } else {
+    //     const newState = {...this.state, followersList: res, followers:[], isLoading: false};
+    //     this.setState(newState, ()=>{
+    //       this.getFollowers();
+    //     });
+    //   }
+    // })
 
-    socket.on(`organizationFollowings-Socials-get/${organizationId}`, (res) => {
-      if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false};
-        this.setState(newState);
-      } else {
-        const newState = {...this.state, followings:[], followingsList: res, isLoading: false};
-        this.setState(newState, ()=>{
-          this.getFollowings();
-        });
-      }
-    })
+    // socket.on(`organizationFollowings-Socials-get/${organizationId}`, (res) => {
+    //   if (res.detail) {
+    //     const newState = {...this.state, error: res.detail, isLoading: false};
+    //     this.setState(newState);
+    //   } else {
+    //     const newState = {...this.state, followings:[], followingsList: res, isLoading: false};
+    //     this.setState(newState, ()=>{
+    //       this.getFollowings();
+    //     });
+    //   }
+    // })
 
-    socket.on(`organizationFollowings-following-get`, (res) => {
-      if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false};
-        this.setState(newState);
-      } else {
-        let fls = this.state.followings;
-        fls.push(res);
-        const newState = {...this.state, followings: fls, isLoading: false};
-        this.setState(newState);
-      }
-    })
+    // socket.on(`organizationFollowings-following-get`, (res) => {
+    //   if (res.detail) {
+    //     const newState = {...this.state, error: res.detail, isLoading: false};
+    //     this.setState(newState);
+    //   } else {
+    //     let fls = this.state.followings;
+    //     fls.push(res);
+    //     const newState = {...this.state, followings: fls, isLoading: false};
+    //     this.setState(newState);
+    //   }
+    // })
 
-    socket.on(`organizationFollowers-follower-get`, (res) => {
-      if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false};
-        this.setState(newState);
-      } else {
-        let fls = this.state.followers;
-        fls.push(res);
-        const newState = {...this.state, followers: fls, isLoading: false};
-        this.setState(newState);
-      }
-    })
+    // socket.on(`organizationFollowers-follower-get`, (res) => {
+    //   if (res.detail) {
+    //     const newState = {...this.state, error: res.detail, isLoading: false};
+    //     this.setState(newState);
+    //   } else {
+    //     let fls = this.state.followers;
+    //     fls.push(res);
+    //     const newState = {...this.state, followers: fls, isLoading: false};
+    //     this.setState(newState);
+    //   }
+    // })
 
-    socket.on(`organizationFollowing-delete`, (res) => {
-      if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false};
-        this.setState(newState);
-      } else {
-        // const newState = {...this.state, followings: res, isLoading: false};
-        // this.setState(newState);
-      }
-    })
+    // socket.on(`organizationFollowing-delete`, (res) => {
+    //   if (res.detail) {
+    //     const newState = {...this.state, error: res.detail, isLoading: false};
+    //     this.setState(newState);
+    //   } else {
+    //     // const newState = {...this.state, followings: res, isLoading: false};
+    //     // this.setState(newState);
+    //   }
+    // })
 
   }
 
@@ -252,4 +244,14 @@ class Socials extends React.Component<SocialsProps,{
   }
 }
 
-export default Socials;
+const mapStateToProps = (state) => ({
+	organization:state.organization,
+  auth:state.auth,
+  
+})
+const mapDispatchToProps = dispatch => ({
+	actions: bindActionCreators({
+		getProducts: OrganizationActions.getProducts ,
+	}, dispatch)
+})
+export default connect(mapStateToProps, mapDispatchToProps)(Socials)

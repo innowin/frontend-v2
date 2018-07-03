@@ -26,14 +26,17 @@ const clearToken = async () => {
 	return await cookies.erase('token')
 }
 
-const getToken = async () => {
+const getToken =  () => {
 	let token
 	if(window.localStorage) {
-		token = await localStorage.getItem('token')
+		token =  localStorage.getItem('token')
 		return token
 	}
-	token = await cookies.get('token')
-	return token
+	return (async()=>{
+		token = await cookies.get('token')
+		return token
+	})()
+	
 }
 
 const client = {
