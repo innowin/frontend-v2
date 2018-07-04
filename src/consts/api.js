@@ -32,7 +32,17 @@ const get = (url , resultName, query = "") => {
 const patch = (url , resultName ,data,query = "") => {
 	SOCKET.emit(REST_REQUEST, {
 		method: 'patch',
-		url: REST_URL+'/'+url+'/'+ query,
+		url: REST_URL+'/'+url+'/'+ query+'/',
+		result: resultName,
+		data,
+		token
+	})
+}
+
+const del = (url , resultName , data, query = "") => {
+	SOCKET.emit(REST_REQUEST, {
+		method: 'del',
+		url: REST_URL+'/'+url+'/'+ query+'/',
 		result: resultName,
 		data,
 		token
@@ -52,6 +62,7 @@ const api = {
 	createSocketChannel,
 	get,
 	post,
-	patch
+	patch,
+	del
 }
 export default api

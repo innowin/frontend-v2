@@ -9,6 +9,8 @@ const results = {
 	GET_ORG_FOLLOWINGS:'get-org-followings',
 	GET_ORG_EXCHANGES:'get-org-exchanges',
 	GET_ORG_FOLLOWING:'get-org-following',
-	GET_ORG_FOLLOWINGS_IDENTITIES:'get-org-followings-identities'
+	GET_ORG_FOLLOWINGS_IDENTITIES:'get-org-followings-identities',
+	GET_ORG_CUSTOMERS:'get-org-customers',
+	GET_ORG_CERTIFICATES:'get-org-certificates',
 }
 export default results

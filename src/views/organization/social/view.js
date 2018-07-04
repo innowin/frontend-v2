@@ -53,7 +53,7 @@ export class ExchangesView extends React.Component<ExchangesViewProps> {
 						{
 							exchanges.map((exchange, i)=>{
 								return (
-                  <ExchangeView index={i} deleteExchange={deleteExchange} exchange={exchange} userID={exchange.owner.id} key={i}/>
+                  <ExchangeView index={i} deleteExchange={deleteExchange} exchange={exchange} userID={exchange.exchange_identity_related_identity.id} key={i}/>
 								)
 							})
 						}

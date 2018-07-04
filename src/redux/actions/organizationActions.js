@@ -41,6 +41,20 @@ const getOrgExchanges= (organizationId) =>({
         organizationId
 	} 
 })
+
+const getOrgCustomers = (organizationId) =>({
+    type: types.GET_ORG_CUSTOMERS,
+    payload: {
+        organizationId
+    }
+})
+
+const getOrgCertificates = (organizationId) => ({
+    type:types.GET_ORG_CERTIFICATES,
+    payload: {
+        organizationId
+    }
+})
 //abilities
 const getAbilities = (organizationId) => ({
     type: types.GET_ABILITIES,
@@ -72,11 +86,12 @@ const deleteAbility = (abilityId) => ({
 })
 
 //basic information
-const updateOrganization = (formValues, organizationId) => ({
+const updateOrganization = (formValues, organizationId, hideEdit) => ({
 	type: types.UPDATE_ORGANIZATION_INFO,
 	payload: {
         formValues,
-        organizationId
+        organizationId,
+        hideEdit
 	}
 })
 
@@ -123,10 +138,10 @@ const deleteCustomer = (customerId) => ({
 	}
 })
 
-const getProducts = (IDENTITY_ID) => ({
+const getProducts = (organizationId) => ({
     type: types.GET_PRODUCTS,
 	payload: {
-        IDENTITY_ID
+        organizationId
 	}   
 })
 
@@ -183,10 +198,12 @@ const OrganizationActions = {
 
   updateOrganization,
 
+  getOrgCertificates,
   updateCertificate,
   createCertificate,
   deleteCertificate,
-
+  
+  getOrgCustomers,
   updateCustomer,
   createCustomer,
   deleteCustomer,

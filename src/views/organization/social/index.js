@@ -220,14 +220,14 @@ class Socials extends React.Component<SocialsProps,{
     const {followers,followings,exchanges} = this.props.organization;
     let user =null
     return (
-      <VerifyWrapper isLoading={false} error={false}>
+      <VerifyWrapper isLoading={exchanges.isLoading || followers.isLoading || followings.isLoading} error={exchanges.error || followers.error || followings.error}>
         <CategoryTitle
           title={__('Socials')}
         />
         <FrameCard className="-frameCardSocial">
-          <ExchangesView deleteExchange ={this.deleteExchange.bind(this)} exchanges = {exchanges.list} user={user}/>
-          <FollowersView followers = {followers.list} user={user}/>
-          <FollowingsView deleteFollowing = {this.deleteFollowing.bind(this)} followings = {followings.list} user={user}/>
+          <ExchangesView deleteExchange ={this.deleteExchange.bind(this)} exchanges = {exchanges.content} user={user}/>
+          <FollowersView followers = {followers.content} user={user}/>
+          <FollowingsView deleteFollowing = {this.deleteFollowing.bind(this)} followings = {followings.content} user={user}/>
         </FrameCard>
       </VerifyWrapper>
     )

@@ -17,7 +17,7 @@ type OrganizationInfoProps = {
 	actions: Object,
 	organization:Object
 }
-export class OrganizationInfo extends React.Component<OrganizationInfoProps,{ error: boolean, edit: boolean, isLoading: boolean}> {
+export class OrganizationInfo extends React.Component<OrganizationInfoProps,{ edit: boolean}> {
 	
 	constructor(props:OrganizationInfoProps) {
 		super(props);
@@ -32,10 +32,6 @@ export class OrganizationInfo extends React.Component<OrganizationInfoProps,{ er
 		this.setState({...this.state, edit: false});
 	};
 	
-	// _updateStateForView = (res:Object, error:boolean, isLoading:boolean) => {
-	// 	this.setState({...this.state, error: error, isLoading});
-	// };
-	
 	componentDidMount() {
 		const {organizationId} = this.props;
 		const {getOrganization} = this.props.actions;
@@ -43,8 +39,9 @@ export class OrganizationInfo extends React.Component<OrganizationInfoProps,{ er
 	}
 	
 	render() {
-		const {edit, isLoading, error} = this.state;
+		const {edit} = this.state;
 		const {organization} = this.props
+		const { isLoading , error} = organization
 		return (
 				<VerifyWrapper isLoading={isLoading} error={error}>
 					{
@@ -107,13 +104,13 @@ export class OrganizationMembers extends React.Component<OrganizationMembersProp
 						(edit) ? (
 								<OrganizationMembersWrapper>
 									<OrganizationMembersEditForm
-											members={members.list}
+											members={members.content}
 											hideEdit={this._hideEdit}
 											actions={this.props.actions}
 									/>
 								</OrganizationMembersWrapper>
 						) : (
-								<OrganizationMembersView members={members.list} showEdit={this._showEdit}/>
+								<OrganizationMembersView members={members.content} showEdit={this._showEdit}/>
 						)
 					}
 				</VerifyWrapper>

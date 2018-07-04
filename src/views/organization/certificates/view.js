@@ -41,7 +41,6 @@ type CertificateProps = {
 	certificate:Object,
 	updateCertificate: Function,
 	deleteCertificate: Function,
-	updateStateForView: Function
 }
 export class Certificate extends React.Component<CertificateProps,{edit:boolean,certificate:Object}> {
 	constructor(props:CertificateProps){
@@ -62,11 +61,6 @@ export class Certificate extends React.Component<CertificateProps,{edit:boolean,
 		this.setState({edit: false});
 	};
 
-	updateStateForView = (res:Object, error:boolean,isLoading:boolean) =>{
-		const {updateStateForView} = this.props;
-		this.setState({...this.state,certificate:res })
-	}
-
 	render() {
 		const {certificate} = this.state;
 		if (this.state.edit) {
@@ -74,7 +68,6 @@ export class Certificate extends React.Component<CertificateProps,{edit:boolean,
 				<CertificateEditForm
 					certificate = {certificate}
 					hideEdit = {this.hideEdit}
-					updateStateForView = {this.updateStateForView}
 					remove = {this.props.deleteCertificate}
 					update = {this.props.updateCertificate}
 				/>

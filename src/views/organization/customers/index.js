@@ -9,11 +9,13 @@ import {createCustomer, deleteCustomer, updateCustomer} from '../../../crud/orga
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {REST_REQUEST} from "../../../consts/Events"
 import {TOKEN} from "src/consts/data"
-
+import {postIcon} from "src/images/icons";
+import OrganizationActions from '../../../redux/actions/organizationActions';
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
 type CustomerContainerProps = { 
 	customer:Object,
-	organizationId:number, 
-	updateStateForView: Function
+	organizationId:number
 }
 export class CustomerContainer extends React.Component<CustomerContainerProps,{customer:Object, error:boolean, isLoading:boolean}> {
 	constructor(props:CustomerContainerProps){
@@ -54,18 +56,19 @@ type CustomerListProps = {
 	hideCreateForm: Function,
 	createForm: boolean,
 	organizationId:number,
-	updateStateForView:Function,
 	customers:Array<Object>
 }
 export class CustomerList extends React.Component<CustomerListProps> {
-
+	static defaultProps = {
+		customers:[]
+	}
 	create = (formValues:Object,hideEdit:Function) => {
-			const {organizationId,  updateStateForView} = this.props;
-			return createCustomer(formValues, updateStateForView, hideEdit, organizationId);
+			const {organizationId } = this.props;
+			return createCustomer(formValues, hideEdit, organizationId);
 	};
 
 	render() {
-		const {  organizationId, createForm, updateStateForView} = this.props;
+		const {  organizationId, createForm} = this.props;
 		var {customers} = this.props ;
 		return <ListGroup>
 			{createForm &&
@@ -76,7 +79,6 @@ export class CustomerList extends React.Component<CustomerListProps> {
 			{
 				customers.map(customer => <CustomerContainer
 					customer={customer}
-					updateStateForView = {updateStateForView}
 					organizationId={organizationId}
 					key={customer.id}
 				/>)
@@ -88,59 +90,23 @@ export class CustomerList extends React.Component<CustomerListProps> {
 
 type CustomersProps = { 
 	organizationId:number,
+	actions:Object,
+	organization:Object,
+	customers:Object,
+
 }
-export class Customers extends React.Component<CustomersProps,{organization:Object, createForm: boolean,customers:Object, edit:boolean, isLoading:boolean, error:boolean, customers:Array<Object>}> {
-	state = {organization:{}, createForm: false,customers:{}, edit:false, isLoading:false, error:false, customers:[]};
+export class Customers extends React.Component<CustomersProps,{createForm: boolean, edit:boolean}> {
+	static defaultProps = {
+		customers:{list:[],isLoading:false,error:false}
+	}
+	state = { createForm: false, edit:false};
 	constructor(props:CustomersProps){
 		super(props);
 	}
 	componentDidMount(){
 		const {organizationId } = this.props;
-		const emitting = () => {
-			const newState = {...this.state, isLoading: true};
-			this.setState(newState);
-			socket.emit(REST_REQUEST,
-				{
-					method: "get",
-					url: `${url}/organizations/customers/?customer_organization=${organizationId}`,
-					result: `OrganizationCustomers-get/${organizationId}`,
-					token: TOKEN,
-				}
-			);
-
-			socket.emit(REST_REQUEST,
-        {
-          method: "get",
-          url: `${url}/organizations/${organizationId}/`,
-          result: `organization-Customers-get/${organizationId}`,
-          token: TOKEN
-        }
-			);
-			
-		};
-
-		emitting();
-
-		socket.on(`OrganizationCustomers-get/${organizationId}`, (res) => {
-			if (res.detail) {
-				const newState = {...this.state, error: res.detail, isLoading: false};
-				this.setState(newState);
-			}else{
-				const newState = {...this.state, customers: res instanceof Array ? res : [], isLoading: false};
-				this.setState(newState);
-			}
-
-		});
-		socket.on(`organization-Customers-get/${organizationId}`, (res) => {
-			if (res.detail) {
-				const newState = {...this.state, error: res.detail, isLoading: false};
-				this.setState(newState);
-			} else {
-				const newState = {...this.state, organization: res, isLoading: false};
-				this.setState(newState);
-			}
-		});
-
+		const {getCustomers} = this.props.actions;
+		getCustomers(organizationId)
 		
 	}
 	showCreateForm = () => {
@@ -149,13 +115,13 @@ export class Customers extends React.Component<CustomersProps,{organization:Obje
 	hideCreateForm = () => {
 			this.setState({createForm: false});
 	};
-	updateStateForView = (error:boolean,isLoading:boolean) =>{
-		this.setState({...this.state, error:error, isLoading:isLoading})
-	}
+
 
 	render() {
-		const {  organizationId, } = this.props;
-		const {createForm, customers, isLoading, error,organization} = this.state;
+		const {organizationId,  organization} = this.props;
+		const {isLoading,error} = organization.customers;
+		const customers = organization.customers;
+		const {createForm} = this.state;
 		return (
 			<VerifyWrapper isLoading={isLoading} error={error}>
 				{
@@ -170,8 +136,7 @@ export class Customers extends React.Component<CustomersProps,{organization:Obje
 								<ItemHeader title={"ثبت شده توسط "+organization.official_name}/>
 							
 							<CustomerList
-								updateStateForView={this.updateStateForView}
-								customers={customers}
+								customers={customers.content}
 								organizationId={organizationId}
 								createForm={createForm}
 								hideCreateForm={this.hideCreateForm}
@@ -184,4 +149,13 @@ export class Customers extends React.Component<CustomersProps,{organization:Obje
 		)
 	}
 }
-export default Customers;
+const mapStateToProps = (state) => ({
+	organization:state.organization,
+	auth:state.auth
+})
+const mapDispatchToProps = dispatch => ({
+	actions: bindActionCreators({
+		getCustomers: OrganizationActions.getOrgCustomers ,
+	}, dispatch)
+})
+export default connect(mapStateToProps, mapDispatchToProps)(Customers)

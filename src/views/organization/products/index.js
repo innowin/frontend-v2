@@ -9,6 +9,7 @@ import {createProduct, deleteProduct, updateProduct, addPicture, deletePicture} 
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {REST_REQUEST} from "../../../consts/Events"
 import {IDENTITY_ID,TOKEN} from '../../../consts/data'
+import client from '../../../consts/client'
 import {postIcon} from "src/images/icons";
 import OrganizationActions from '../../../redux/actions/organizationActions';
 import {bindActionCreators} from 'redux'
@@ -213,8 +214,7 @@ export class Products extends React.Component<ProductsProps,
 	componentDidMount(){
 		const {organizationId } = this.props;
 		const {getProducts} = this.props.actions;
-
-		getProducts(IDENTITY_ID);
+		getProducts(organizationId);
 
 		// const emitting = () => {
 		// 	const newState = {...this.state, isLoading: true};
