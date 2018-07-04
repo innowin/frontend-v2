@@ -4,9 +4,17 @@ import CertificateIcon from "./user/certificate_svg"
 import ChartIcon from "./product/chart"
 import ContributionIcon from "./common/contribution_svg"
 import customerIcon from "./organization/customer_svg"
-import defaultImg from "./common/defaultImg.png"
+import DefaultExchangeIcon from "./defaults/defaultExchange_svg"
+import DefaultImageIcon from "./defaults/defaultImage_svg"
+import DefaultProductIcon from "./defaults/defaultProduct_svg"
+import DefaultUserIcon from "./defaults/defaultUser_svg"
+import DefaultOrganIcon from "./defaults/defaultOrganization_svg"
 import DemandIcon from "./common/demand_svg"
+// <<<<<<< HEAD
 import EditIcon from "./common/edit.svg"
+// =======
+import educationIcon from "./user/education_svg"
+// >>>>>>> 334a313b38d230e9604698b6edd620d3c6380f29
 import ExchangeExploreIcon from "./common/exchange_explore_svg"
 import ExchangeIcon from "./common/exchange_svg"
 import ForwardIcon from "./common/forward_svg"
@@ -14,11 +22,11 @@ import InformationIcon from "./common/information_svg"
 import logoDaneshBoom from "./common/logoWhite.png"
 import NoFilterIcon from "./common/noFilter_svg"
 import NotificationIcon from "./common/notification_svg"
-import organLogo from "./organization/organLogo.png"
 import postIcon from "./user/post_svg"
 import PostSendIcon from "./common/postSend_svg"
 import RatingIcon from "./product/rating_svg"
 import RefreshIcon from "./common/refresh_svg"
+import researchIcon from "./user/research_svg"
 import SeeViewIcon from "./common/see_view_svg"
 import SettingIcon from "./common/setting_svg"
 import SkillIcon from "./user/skill_svg"
@@ -40,7 +48,6 @@ import ConsultIcon from "./user/consult_svg_icon"
 
 export {
 	CertificateIcon,
-	defaultImg,
 	EditIcon,
 	MoviesSvgIcon,
     ImageUploadSvg,
@@ -52,13 +59,19 @@ export {
     CircularAddIcon,
     TipsIcon,
     ConsultIcon,
+    RatingIcon,
   AttachFileIcon,
   BookmarkIcon,
   ChartIcon,
   ContributionIcon,
     ItemsAndPropertiesIcon,
   customerIcon,
+  DefaultExchangeIcon,
+  DefaultProductIcon,
+  DefaultUserIcon,
+  DefaultOrganIcon,
   DemandIcon,
+  educationIcon,
   ExchangeExploreIcon,
   ExchangeIcon,
   ForwardIcon,
@@ -66,10 +79,9 @@ export {
   logoDaneshBoom,
   NoFilterIcon,
   NotificationIcon,
-  organLogo,
   PostSendIcon,
-  RatingIcon,
   RefreshIcon,
+  researchIcon,
   SeeViewIcon,
   SettingIcon,
   SocialIcon,

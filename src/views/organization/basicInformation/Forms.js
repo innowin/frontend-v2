@@ -1,16 +1,26 @@
 /*global __*/
-import React, {Component} from "react"
+//@flow 
+import * as React from 'react';
 import PropTypes from "prop-types"
 import {TextInput} from "src/views/common/inputs/TextInput"
-import {updateOrganization} from "src/crud/organization/basicInformation"
+// import {updateOrganization} from "src/crud/organization/basicInformation"
 import {OrganizationMember} from './Views'
 
-export class OrganizationMembersForm extends Component {
-	static propTypes = {
-		onSubmit: PropTypes.func.isRequired,
-		members: PropTypes.array,
-	};
-
+type OrganizationMembersFormProps = {
+	onSubmit:Function,
+	members: Array<Object>,
+	children: React.Node
+}
+export class OrganizationMembersForm extends React.Component<OrganizationMembersFormProps> {
+	birthDateInput:any;
+	nationalCodeInput:any;
+	mobileInput:any;
+	phoneInput:any;
+	faxInput:any;
+	publicEmailInput:any;
+	telegramAccountInput:any;
+	webSiteInput:any;
+	descriptionInput:any;
 	_getValues = () => {
 		return {
 			birth_date: this.birthDateInput.getValue(),
@@ -47,7 +57,7 @@ export class OrganizationMembersForm extends Component {
 		return result
 	};
 
-	_nationalCodeValidate = (value, final) => {
+	_nationalCodeValidate = (value:string, final:string) => {
 		if (final && value && !/^\d{10}$/.test(value)) {
 			return __('National code must be 10 digit ');
 		} else {
@@ -77,32 +87,35 @@ export class OrganizationMembersForm extends Component {
 	}
 }
 
-
-export class OrganizationMembersEditForm extends Component {
-	constructor(props) {
+type OrganizationMembersEditFormProps = {
+	hideEdit: Function,
+	// updateStateForView: Function,
+	members: Array<Object>,
+	profile?:Object,
+	actions:Object
+}
+export class OrganizationMembersEditForm extends React.Component<OrganizationMembersEditFormProps,{confirm: boolean}> {
+	form:any;
+	constructor(props:OrganizationMembersEditFormProps) {
 		super(props);
 		this.state = {
 			confirm: false
 		}
 	}
 
-	static propTypes = {
-		hideEdit: PropTypes.func.isRequired,
-		updateStateForView: PropTypes.func.isRequired,
-		members: PropTypes.array.isRequired,
-	};
-
-	_save = (updateStateForView, hideEdit) => {
+	_save = ( hideEdit:Function) => {
 		const profileId = this.props.profile.id;
 		const formValues = this.form._getValues();
-		return updateOrganization(formValues, profileId, updateStateForView,  hideEdit)
+		formValues.profileId = profileId;
+		const {updateOrganization} = this.props.actions;
+		updateOrganization(formValues, profileId)
 	};
 
-	_onSubmit = (e) => {
+	_onSubmit = (e:SyntheticEvent<HTMLButtonElement>) => {
 		e.preventDefault();
-		const {updateStateForView, hideEdit} = this.props;
+		const {hideEdit} = this.props;
 		if (this.form._formValidate()) {
-			this._save(updateStateForView, hideEdit)
+			this._save( hideEdit)
 		}
 		return false;
 	};
@@ -122,12 +135,18 @@ export class OrganizationMembersEditForm extends Component {
 	}
 }
 
-
-export class OrganizationInfoForm extends Component {
-	static propTypes = {
-		onSubmit: PropTypes.func.isRequired,
-		organization: PropTypes.object,
-	};
+type OrganizationInfoFormProps = {
+	onSubmit: Function,
+	organization: Object,
+	children : React.Node
+}
+export class OrganizationInfoForm extends React.Component<OrganizationInfoFormProps> {
+	usernameInput:any;
+	officialNameInput:any;
+	nationalCodeInput:any;
+	countryInput:any;
+	provinceInput:any;
+	cityInput:any;
 	
 	_getValues = () => {
 		return {
@@ -220,31 +239,32 @@ export class OrganizationInfoForm extends Component {
 	}
 }
 
-
-export class OrganizationInfoEditForm extends Component {
-	constructor(props) {
+type OrganizationInfoEditFormProps = { 
+	hideEdit: Function,
+	// updateStateForView: Function,
+	organization: Object,
+	actions:Object
+}
+export class OrganizationInfoEditForm extends React.Component<OrganizationInfoEditFormProps,{confirm: boolean}> {
+	form:any;
+	constructor(props:OrganizationInfoEditFormProps) {
 		super(props);
 		this.state = {confirm: false}
 	}
 	
-	static propTypes = {
-		hideEdit: PropTypes.func.isRequired,
-		updateStateForView: PropTypes.func.isRequired,
-		organization: PropTypes.object.isRequired
-	};
-	
-	_save = (updateStateForView, hideEdit) => {
+	_save = ( hideEdit:Function) => {
 		const organizationId = this.props.organization.id;
 		const formValues = this.form._getValues();
+		const {updateOrganization} = this.props.actions;
 		//console.error('hi',formValues, organizationId, updateStateForView, hideEdit);
-		return updateOrganization(formValues, organizationId, updateStateForView, hideEdit)
+		updateOrganization(formValues, organizationId)
 	};
 	
-	_onSubmit = (e) => {
-		const {updateStateForView, hideEdit} = this.props;
+	_onSubmit = (e:SyntheticEvent<HTMLButtonElement>) => {
+		const { hideEdit} = this.props;
 		e.preventDefault();
 		if (this.form._formValidate()) {
-			this._save(updateStateForView, hideEdit)
+			this._save( hideEdit)
 		}
 		return false;
 	};

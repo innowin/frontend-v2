@@ -6,7 +6,7 @@ import {FrameCard, CategoryTitle, ListGroup} from "src/views/common/cards/Frames
 class ProductPosts extends Component {
   static propTypes = {
     ProductId: PropTypes.number.isRequired
-  };
+  }
 
   render() {
     return (
@@ -24,4 +24,4 @@ class ProductPosts extends Component {
   }
 }
 
-export default ProductPosts;
+export default ProductPosts

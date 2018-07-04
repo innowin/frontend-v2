@@ -11,6 +11,7 @@ module.exports = {
 
     // views - components:
     // auth
+    'Organization national code must be 11 digit': "شناسه ملی باید یک عدد یازده رقمی باشد",
     'Login with google': "با حساب گوگل وارد شوید",
     'All rights are reserved for Danesh Boom': "تمامی حقوق برای دانش بوم محفوظ است",
     'Register with other accounts': "ثبت نام با اکانت های دیگر",
@@ -41,7 +42,7 @@ module.exports = {
     'Error': "خطا",
     'Loading ...': "در حال بارگذاری ...",
     'Username or password is not correct': "نام کاربری و گذرواژه صحیح نمی باشد",
-    'Organization national code must be 11 digit': "شناسه ملی باید یک عدد یازده رقمی باشد",
+    'Continue': "ادامه",
 
 
     //common
@@ -72,7 +73,7 @@ module.exports = {
     'Author': 'نویسنده',
     'Page Count': 'تعداد صفحات',
 
-    // profile - certificates
+    // user - certificates
     'Title': "عنوان",
     'Picture': "عکس",
     'Cancel': "لغو",
@@ -83,15 +84,15 @@ module.exports = {
     'Save': "ذخیره",
     'Certificates': "گواهی‌نامه‌ها",
 
-    // profile - posts
+    // user - posts
     'Post': "کاربرنما",
 
-    // profile - common
+    // user - common
     'Are you sure? Do you want delete it?': "آیا مطمئن به حذف هستید؟",
     'Yes, Do it.': "آری",
     'No, Cancel please.': "خیر",
 
-    // profile - educations
+    // user - educations
     'Grade': "مقطع تحصیلی",
     'University': "آموزشگاه/ دانشگاه",
     'Field of study': "رشته تحصیلی",
@@ -101,7 +102,7 @@ module.exports = {
     'Description': "توضیحات",
     'Educations': "سوابق تحصیلی",
 
-    // profile - BasicInformation
+    // user - BasicInformation
     'National code must be 10 digit ': "کد ملی باید عدد ۱۰ رقمی باشد",
     'BirthDate': "تاریخ تولد",
     'Fax': "دورنگار",
@@ -128,7 +129,7 @@ module.exports = {
     'Send Message': 'ارسال پیام',
     'FirstName': 'نام',
 
-    // profile - researches
+    // user - researches
     'This number is not a correct year': "سال باید عدد ۴ رقمی معتبر باشد",
     'Page count must be positive': "تعداد صفحات باید عددی مثبت باشد",
     'Publication year': "سال انتشار",
@@ -139,7 +140,7 @@ module.exports = {
     'Researches': "سوابق پژوهشی",
     ', ': '، ',
 
-    // profile - skills
+    // user - skills
     'Tag': "برچسب",
     'Skills': "مهارت‌ها",
     'Work experiences': "سوابق کاری",
@@ -148,6 +149,10 @@ module.exports = {
     'Saving...': "در حال ذخیره سازی ...",
     'Tag Name': 'نام تگ',
     'Add Tag': 'اضافه تگ',
+
+    // user - social
+    'Socials': "ارتباط اجتماعی",
+    'Joined exchanges': "بورس های عضو شده",
 
     // UserDropDown.js
     'Profile': "پروفایل",

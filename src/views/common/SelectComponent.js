@@ -10,13 +10,15 @@ export class SelectComponent extends Component {
   static defaultProps = {
     multi: false,
     required: false,
-    zIndex: 3
+    zIndex: 3,
+    className:''
   };
 
   static propTypes = {
     options: PropTypes.array.isRequired,
     label: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
+    handleOnSelect: PropTypes.func,
     defaultValue: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.array,
@@ -27,13 +29,13 @@ export class SelectComponent extends Component {
     ]),
     multi: PropTypes.bool,
     required: PropTypes.bool,
-    zIndex: PropTypes.number
+    zIndex: PropTypes.number,
+    className:PropTypes.string
   };
 
   constructor(props) {
     super(props);
-    this.state = {value: this.props.value || this.props.defaultValue || '', error: false};
-    this.handleChange = this.handleChange.bind(this)
+    this.state = {value: this.props.value || this.props.defaultValue || '', error: false}
   }
 
   getValue = () => {
@@ -41,6 +43,7 @@ export class SelectComponent extends Component {
   };
 
   handleChange = (val) => {
+    const {handleOnSelect} = this.props
     let value = val.value;
     if (this.props.multi) {
       value = val.map(
@@ -48,6 +51,9 @@ export class SelectComponent extends Component {
       );
     }
     this.setState({...this.state, value:value});
+    if(handleOnSelect){
+      this.props.handleOnSelect(value)
+    }
   };
 
   validateSelect = (value) => {
@@ -69,13 +75,13 @@ export class SelectComponent extends Component {
 
 
   render() {
-    const {options, label, name, multi} = this.props;
+    const {options, label, name, multi, className} = this.props;
     const {error, value} = this.state;
     const style = {
       zIndex: this.props.zIndex,
     };
     return (
-      <div className={cx("col-12 form-group", {'has-danger': error})} style={style}>
+      <div className={cx(className, {'has-danger': error})} style={style}>
         <label>{label}</label>
         <Select
           value={value}

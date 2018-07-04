@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
-import {defaultImg, ChartIcon, BookmarkIcon} from "../../images/icons";
+import {DefaultUserIcon, ChartIcon, BookmarkIcon} from "../../images/icons";
 import {VerifyWrapper} from "../common/cards/Frames";
 import {BadgesCard, TagsBox} from "./SideBar";
 import {getProduct} from "src/crud/product/product";
@@ -61,7 +61,12 @@ class OwnerSection extends Component {
     return (
       <div className="align-items-center flex-row pt-3 pb-3">
         {/*TODO mohsen : handle profile_media.url*/}
-        <img className="rounded-circle w-40px" alt="Product icon" src={userProfile.profile_media || defaultImg}/>
+        {
+          (!userProfile.profile_media)?(
+            <DefaultUserIcon className="w-40px"/>):(
+            <img className="rounded-circle w-40px" alt="Product icon" src={userProfile.profile_media}/>
+          )
+        }
         <span className="mr-4 -grey2">{ownerName}</span>
       </div>
     )
@@ -146,7 +151,7 @@ export default class ProductSideView extends Component {
       "http://restful.daneshboom.ir/media/285531dc47514033af8ffe6ddad5de4e.jpeg"
     ];
     // const handleResult = (res) => {
-    // const file = res.file || defaultImg;
+    // const file = res.file
     // TODO mohsen: test file and set suitable default img for product
     this.setState({
       ...this.state,
@@ -181,10 +186,6 @@ export default class ProductSideView extends Component {
     // TODO mohsen: socket.emit of tags
     // TODO mohsen: socket.on of badges
     // TODO mohsen: socket.on of tags
-  }
-
-  componentWillUnmount() {
-    // TODO mohsen: socket.off
   }
 
   render() {

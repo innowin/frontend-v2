@@ -4,7 +4,7 @@ import "moment/locale/fa";
 import Moment from "react-moment";
 import {VerifyWrapper} from "src/views/common/cards/Frames";
 import {getFile} from "src/crud/media/media";
-import {SupplyIcon, DemandIcon, SeeViewIcon, defaultImg, ForwardIcon} from "src/images/icons";
+import {SupplyIcon, DemandIcon, SeeViewIcon, DefaultUserIcon, ForwardIcon} from "src/images/icons";
 import cx from 'classnames';
 import {setPostViewer} from "src/crud/post/postViewerCount";
 import {getCommentsByParent} from "../../../../crud/comment";
@@ -36,7 +36,11 @@ class PostItemHeader extends Component {
       <div className="postHeaderBox">
         <div>
           <div>
-            <img className="rounded-circle" src={postIdentityFile || defaultImg} alt=""/>
+            {
+              (!postIdentityFile) ? (<DefaultUserIcon className="default-icon"/>) : (
+                <img className="rounded-circle" src={postIdentityFile} alt=""/>
+              )
+            }
             <span className="mr-3">{name}</span>
           </div>
           <div>
@@ -47,8 +51,8 @@ class PostItemHeader extends Component {
         <div className="mt-3 d-flex flex-row">
           {
             ((postIcon) && <i className="fa fa-share-alt ml-2 pt-1" aria-hidden="true"/>) ||
-            ((supplyIcon) && <SupplyIcon height="22px" className="ml-2 supplyPad"/>) ||
-            ((demandIcon) && <DemandIcon height="24px" className="ml-2"/>)
+            ((supplyIcon) && <SupplyIcon height="22px" className="ml-2 supplyPad svgIcon"/>) ||
+            ((demandIcon) && <DemandIcon height="24px" className="ml-2 svgIcon"/>)
           }
           {
             ((postIcon) && <span>پست</span>) ||

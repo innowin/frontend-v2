@@ -20,3 +20,20 @@ export const getOrganization = (organId, handleResult) => {
     handleResult(res)
   });
 };
+
+export const getMetaDataOrganization = (handleResult) => {
+  socket.emit(REST_REQUEST,
+    {
+      method: "get",
+      url: `${url}/organizations/get_meta_data/`,
+      result: "getMetaDataOrganization",
+    }
+  );
+
+  socket.on("getMetaDataOrganization", (res) => {
+    if (res.detail) {
+      return false
+    }
+    handleResult(res)
+  });
+};

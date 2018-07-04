@@ -1,5 +1,6 @@
 /*global __*/
-import React, {Component} from 'react';
+//@flow
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import {TextInput} from 'src/views/common/inputs/TextInput'
 import {FileInput} from 'src/views/common/inputs/FileInput';
@@ -7,14 +8,30 @@ import {ImageViewer} from 'src/views/common/ImageViewer';
 import {Confirm} from "../../common/cards/Confirm";
 import {SelectComponent} from '../../common/SelectComponent';
 import {IDENTITY_ID} from '../../../consts/data';
-import {defaultImg} from 'src/images/icons'
+import {DefaultUserIcon} from 'src/images/icons'
 
-export class ProductForm extends Component {
-  static propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-    product: PropTypes.object,
-    categories: PropTypes.array
-  };
+type ProductFormProps = { 
+  onSubmit: Function,
+  product?:Object,
+  categories: Array<Object>,
+  deletePicture: Function,
+  pictures:Array<Object>,
+  updateStateForView?:Function,
+  children: React.Node
+}
+export class ProductForm extends React.Component<ProductFormProps> {
+  defaultProps = {
+    product :{name:"", city:"", province:"", country:"",description:""},
+    updateStateForView : null
+  }
+  productPictureInput: any;
+  nameInput: any;
+  countryInput : any;
+  provinceInput : any;
+  cityInput : any;
+  descriptionInput : any;
+  productCategoryInput : any;
+  updatePictureList: any;
 
   getValues = () => {
     const media = this.productPictureInput.getFile();
@@ -50,17 +67,17 @@ export class ProductForm extends Component {
     return result
   };
 
-  deletePicture = (index) => {
+  deletePicture = (index:number) => {
     const {deletePicture, pictures, updateStateForView} = this.props;
     let pictureId = pictures[index].id;
-    deletePicture(pictures, pictures[index], this.updatePictureList, updateStateForView);
+    deletePicture(pictures, pictures[index], this.updatePictureList, updateStateForView||null);
   };
 
   //TODO amir specify identity concept and how to handle them
   render() {
-    const {organization, categories, pictures} = this.props;
-    const product = this.props.product || {picture: []};
-    let currentCategory = {title: "", name: ""};
+    const {categories, pictures} = this.props;
+    const product = this.props.product || {name:"", city:"", province:"", country:"",description:"",pictures:[]}
+    let currentCategory = {title: "", name: "", id:-1};
     const options = categories.map((cat, index) => {
       if (product.product_category) {
         if (cat.id === product.product_category.id) {
@@ -147,6 +164,7 @@ export class ProductForm extends Component {
             name="productCategory"
             label={__('ProductCategory') + ": "}
             options={options}
+            className="col-12 form-group"
             required
             value={currentCategory.id}
             ref={productCategoryInput => {
@@ -161,18 +179,21 @@ export class ProductForm extends Component {
     )
   }
 }
+type ProductCreateFormProps = { 
+  create: Function,
+  hideEdit: Function,
+  categories:Array<Object>, 
+  pictures:Array<Object>, 
+  deletePicture:Function
+}
+export class ProductCreateForm extends React.Component<ProductCreateFormProps> {
 
-export class ProductCreateForm extends Component {
-  static propTypes = {
-    create: PropTypes.func.isRequired,
-    hideEdit: PropTypes.func.isRequired
-  };
   save = () => {
     const formValues = this.refs.form.getValues();
     const {hideEdit} = this.props;
     return this.props.create(formValues, hideEdit);
   };
-  onSubmit = (e) => {
+  onSubmit = (e:SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (this.refs.form.formValidate()) {
       this.save();
@@ -180,10 +201,10 @@ export class ProductCreateForm extends Component {
   };
 
   render() {
-    const {categories, product, pictures, deletePicture, addPicture} = this.props;
+    const {categories, pictures, deletePicture} = this.props;
 
     return <div>
-      <ProductForm deletePicture={deletePicture} addPicture={addPicture} pictures={pictures} categories={categories}
+      <ProductForm deletePicture={deletePicture} pictures={pictures} categories={categories}
                    onSubmit={this.onSubmit} ref="form">
         <div className="col-12 d-flex justify-content-end">
           <button type="button" className="btn btn-secondary mr-2" onClick={this.props.hideEdit}>
@@ -195,12 +216,18 @@ export class ProductCreateForm extends Component {
     </div>
   }
 }
+type ProductPictureFormProps  = {
+  product:Object, 
+  updateStateForView:Function, 
+  hideEdit:Function, 
+  updatePicture:Function,
+  picture:Object
+}
+export class ProductPictureForm extends React.Component<ProductPictureFormProps> {
+  productPictureInput: any;
 
-export class ProductPictureForm extends Component {
-
-  constructor(props) {
+  constructor(props:ProductPictureFormProps) {
     super(props);
-    this.state = {}
   }
 
   getValues = () => {
@@ -226,13 +253,13 @@ export class ProductPictureForm extends Component {
   };
 
   save = () => {//(formValues, productId, updateStateForView, hideEdit
-    const {picture, product, updateStateForView, hideEdit, updatePicture} = this.props;
+    const {product, updateStateForView, hideEdit, updatePicture} = this.props;
     const productId = product.id;
     const formValues = this.getValues();
     return updatePicture(formValues, productId, updateStateForView, hideEdit)
   };
 
-  onSubmit = (e) => {
+  onSubmit = (e:SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
     this.save();
   };
@@ -248,7 +275,11 @@ export class ProductPictureForm extends Component {
             this.productPictureInput = productPictureInput
           }}
         />
-        <img alt="" className="-item-productForm-img" src={picture.picture_media || defaultImg}/>
+        {
+          (picture.picture_media)?(<img alt="" className="-item-productForm-img" src={picture.picture_media}/>):(
+            <DefaultUserIcon className="-item-productForm-img"/>
+          )
+        }
         <div className="col-12 d-flex justify-content-end">
           <button type="button" className="btn btn-secondary mr-2" onClick={this.props.hideEdit}>
             {__('Cancel')}
@@ -260,17 +291,21 @@ export class ProductPictureForm extends Component {
   }
 
 }
+type ProductEditFormProps = {
+  update: Function,
+  remove: Function,
+  hideEdit: Function,
+  product: Object,
+  products: Array<Object>,
+  pictures:Array<Object>,
+  updateStateForView:Function,
+  categories: Array<Object>, 
+  deletePicture:Function
 
-export class ProductEditForm extends Component {
+}
+export class ProductEditForm extends React.Component<ProductEditFormProps,{confirm:boolean}> {
   state = {
     confirm: false,
-  };
-
-  static propTypes = {
-    update: PropTypes.func.isRequired,
-    remove: PropTypes.func.isRequired,
-    hideEdit: PropTypes.func.isRequired,
-    product: PropTypes.object.isRequired,
   };
 
   showConfirm = () => {
@@ -290,17 +325,17 @@ export class ProductEditForm extends Component {
     const {product, updateStateForView, hideEdit, pictures} = this.props;
     const productId = product.id;
     const formValues = this.refs.form.getValues();
-    return this.props.update(formValues, productId, pictures.id, updateStateForView, hideEdit)
+    return this.props.update(formValues, productId, updateStateForView, hideEdit)
   };
 
-  onSubmit = (e) => {
+  onSubmit = (e:SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
     this.save();
   };
 
   render() {
     const {confirm} = this.state;
-    const {categories, addPicture, deletePicture} = this.props;
+    const {categories, deletePicture} = this.props;
 
     if (confirm) {
       return <Confirm cancelRemoving={this.cancelConfirm} remove={this.remove}/>;
@@ -309,7 +344,7 @@ export class ProductEditForm extends Component {
     return (
       <div>
 
-        <ProductForm pictures={pictures} addPicture={addPicture} deletePicture={deletePicture} categories={categories}
+        <ProductForm pictures={pictures}  deletePicture={deletePicture} categories={categories}
                      onSubmit={this.onSubmit} ref="form" product={product}>
           <div className="col-12 d-flex justify-content-end">
             <button type="button" className="btn btn-outline-danger mr-auto" onClick={this.showConfirm}>

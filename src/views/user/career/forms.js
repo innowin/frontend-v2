@@ -88,6 +88,7 @@ export default class CareerForm extends Component {
 							name="status"
 							label={__('Status') + ": "}
 							options={options}
+              className="col-12 form-group"
 							required
 							value={career.status}
 							ref={careerStatus => {

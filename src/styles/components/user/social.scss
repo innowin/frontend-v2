@@ -1,0 +1,39 @@
+@import "../../variables";
+$item-header-margin-right: 16px;
+.frameCardSocial{
+  .-item-content{
+    padding-left: 0!important;
+    padding-right: 0!important;
+    .member-wrapper{
+      padding-right: $item-header-margin-right;
+      padding-left: 0;
+      padding-bottom: 10px;
+    }
+    .-item-header{
+      margin-right:$item-header-margin-right ;
+      margin-left: 0;
+      .-item-title{
+        font-size:$font-size-normalText;
+      }
+    }
+    .details{
+      justify-content: space-between;
+      padding-left: 3px;
+      .text-section{
+        display: flex;
+        flex-direction: column;
+        .name{
+          margin-bottom: 5px;
+          font-size: $font-size-normalText;
+        }
+        .description {
+          color:$text-title-menu-color;
+          font-size: $font-size-smallText;
+          overflow: hidden;
+          height: 50px;
+          line-height: 2;
+        }
+      }
+    }
+  }
+}

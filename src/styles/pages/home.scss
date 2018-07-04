@@ -1,4 +1,5 @@
 @import "../variables";
+
 $heightOfContentBox: 140px;
 @keyframes animate-createPostFooter {
   from {
@@ -21,8 +22,8 @@ $heightOfContentBox: 140px;
   padding: 15px 20px 15px 20px;
 
   .-img-col {
-    width: 45px;
-    height: 45px;
+      width: 45px;
+      height: 45px;
   }
 
   .-content-col {

@@ -1,5 +1,6 @@
 /*global __*/
-import React, {Component} from "react"
+//@flow
+import * as React from 'react';
 import PropTypes from "prop-types"
 import {FrameCard, CategoryTitle, VerifyWrapper} from "../../common/cards/Frames"
 import {ListGroup} from '../../common/cards/Frames'
@@ -8,18 +9,20 @@ import {REST_REQUEST} from "../../../consts/Events"
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {TOKEN} from "src/consts/data"
 import {OrganizationInfoItemWrapper, OrganizationInfoView, OrganizationMembersView, OrganizationMembersWrapper} from "./Views"
-
-
-export class OrganizationInfo extends Component {
+import OrganizationActions from '../../../redux/actions/organizationActions';
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
+type OrganizationInfoProps = {
+	organizationId: number,
+	actions: Object,
+	organization:Object
+}
+export class OrganizationInfo extends React.Component<OrganizationInfoProps,{ error: boolean, edit: boolean, isLoading: boolean}> {
 	
-	constructor(props) {
+	constructor(props:OrganizationInfoProps) {
 		super(props);
-		this.state = {organization: {}, error: null, edit: false, isLoading: false}
+		this.state = { error: false, edit: false, isLoading: false}
 	}
-	
-	static propTypes = {
-		organizationId: PropTypes.string.isRequired,
-	};
 	
 	_showEdit = () => {
 		this.setState({...this.state, edit: true});
@@ -29,39 +32,19 @@ export class OrganizationInfo extends Component {
 		this.setState({...this.state, edit: false});
 	};
 	
-	_updateStateForView = (res, error, isLoading) => {
-		this.setState({...this.state, organization: res, error: error, isLoading});
-	};
+	// _updateStateForView = (res:Object, error:boolean, isLoading:boolean) => {
+	// 	this.setState({...this.state, error: error, isLoading});
+	// };
 	
 	componentDidMount() {
 		const {organizationId} = this.props;
-		const emitting = () => {
-			const newState = {...this.state, isLoading: true};
-			this.setState(newState);
-			socket.emit(REST_REQUEST,
-					{
-						method: "get",
-						url: `${url}/organizations/${organizationId}/`,
-						result: `OrganizationInfo-get/${organizationId}`,
-						token: TOKEN,
-					}
-			);
-		};
-		
-		emitting();
-		
-		socket.on(`OrganizationInfo-get/${organizationId}`, (res) => {
-			if (res.detail) {
-				const newState = {...this.state, error: res.detail, isLoading: false};
-				this.setState(newState);
-			}
-			const newState = {...this.state, organization: res, isLoading: false};
-			this.setState(newState);
-		});
+		const {getOrganization} = this.props.actions;
+		getOrganization(organizationId)
 	}
 	
 	render() {
-		const {organization, edit, isLoading, error} = this.state;
+		const {edit, isLoading, error} = this.state;
+		const {organization} = this.props
 		return (
 				<VerifyWrapper isLoading={isLoading} error={error}>
 					{
@@ -70,7 +53,7 @@ export class OrganizationInfo extends Component {
 									<OrganizationInfoEditForm
 											organization={organization}
 											hideEdit={this._hideEdit}
-											updateStateForView={this._updateStateForView}
+											actions={this.props.actions}
 									/>
 								</OrganizationInfoItemWrapper>
 						) : (
@@ -82,16 +65,24 @@ export class OrganizationInfo extends Component {
 	}
 }
 
-export class OrganizationMembers extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {members: [], error: null, edit: false, isLoading: false}
+type OrganizationMembersProps = {
+	organizationId:number,
+	members:Object,
+	actions: Object,
+	error:String
+}
+export class OrganizationMembers extends React.Component<OrganizationMembersProps,{edit: boolean}> {
+	static defaultProps = {
+		members:{
+			isLoading:false,
+			list:[]
+		}
 	}
-	
-	static propTypes = {
-		organizationId: PropTypes.string.isRequired,
-	};
-	
+	constructor(props:OrganizationMembersProps) {
+		super(props);
+		this.state = { edit: false}
+	}
+
 	_showEdit = () => {
 		this.setState({...this.state, edit: true});
 	};
@@ -100,49 +91,29 @@ export class OrganizationMembers extends Component {
 		this.setState({...this.state, edit: false});
 	};
 	
-	_updateStateForView = (res, error, isLoading) => {
-		this.setState({...this.state, members: res, error: error, isLoading: isLoading});
-	};
-	
 	componentDidMount() {
-		const {organizationId} = this.props;
-		const emitting = () => {
-			this.setState({...this.state, isLoading: true});
-			socket.emit(REST_REQUEST,
-					{
-						method: "get",
-						url: `${url}/organizations/staff/?staff_organization=${organizationId}`,
-						result: `OrganizationMembers-get/${organizationId}`,
-						token: TOKEN
-					}
-			);
-		};
+		const {organizationId, members} = this.props;
+		const {getOrganizationMembers} = this.props.actions;
+		getOrganizationMembers(organizationId)
 		
-		emitting();
-		
-		socket.on(`OrganizationMembers-get/${organizationId}`, (res) => {
-			if (res.detail) {
-				this.setState({...this.state, error: res.detail, isLoading: false});
-			}
-			this.setState({...this.state, members: res, isLoading: false});
-		});
 	}
 	
 	render() {
-		const {members, edit, isLoading, error} = this.state;
+		const {edit} = this.state;
+		const {members, error} = this.props;
 		return (
-				<VerifyWrapper isLoading={isLoading} error={error}>
+				<VerifyWrapper isLoading={members.isLoading} error={error}>
 					{
 						(edit) ? (
 								<OrganizationMembersWrapper>
 									<OrganizationMembersEditForm
-											members={members}
+											members={members.list}
 											hideEdit={this._hideEdit}
-											updateStateForView={this._updateStateForView}
+											actions={this.props.actions}
 									/>
 								</OrganizationMembersWrapper>
 						) : (
-								<OrganizationMembersView members={members} showEdit={this._showEdit}/>
+								<OrganizationMembersView members={members.list} showEdit={this._showEdit}/>
 						)
 					}
 				</VerifyWrapper>
@@ -150,17 +121,16 @@ export class OrganizationMembers extends Component {
 		
 	}
 }
+type organizationBasicInformationProps ={
+	organizationId: number,
+	actions:Object,
+	organization:Object,
+}
+export class organizationBasicInformation extends React.Component<organizationBasicInformationProps> {
 
-export default class organizationBasicInformation extends Component {
-	static propTypes = {
-		organizationId: PropTypes.string.isRequired,
-	};
-	
 	render() {
-		// const {match} = this.props;
-		// const {params} = match;
-		// const {id} = params;
-		const {organizationId} = this.props;
+		const {organizationId, organization} = this.props;
+		const {getOrganization, getOrganizationMembers} = this.props.actions;
 		return (
 				<div>
 					<CategoryTitle
@@ -169,8 +139,8 @@ export default class organizationBasicInformation extends Component {
 					/>
 					<FrameCard>
 						<ListGroup>
-							<OrganizationInfo organizationId={organizationId}/>
-							<OrganizationMembers organizationId={organizationId}/>
+							<OrganizationInfo actions = {this.props.actions} organizationId={organizationId} organization={organization}/>
+							<OrganizationMembers members ={this.props.organization.members} actions ={this.props.actions} organizationId={organizationId}/>
 						</ListGroup>
 					</FrameCard>
 				</div>
@@ -178,3 +148,15 @@ export default class organizationBasicInformation extends Component {
 	}
 }
 
+const mapStateToProps = (state) => ({
+	organization:state.organization,
+})
+const mapDispatchToProps = dispatch => ({
+	actions: bindActionCreators({
+		getOrganization: OrganizationActions.getOrganization ,
+		getOrganizationMembers: OrganizationActions.getOrganizationMembers,
+		updateOrganization: OrganizationActions.updateOrganization,
+
+	}, dispatch)
+})
+export default connect(mapStateToProps, mapDispatchToProps)(organizationBasicInformation)

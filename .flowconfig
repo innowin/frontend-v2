@@ -1,0 +1,15 @@
+[ignore]
+.*/src/registerServiceWorker.js
+.*/src/index.js
+.*/src/App.test.js
+
+[include]
+./src/
+
+[libs]
+
+[lints]
+
+[options]
+module.name_mapper='^src\(.*\)$' -> '<PROJECT_ROOT>/src/\1'
+[strict]

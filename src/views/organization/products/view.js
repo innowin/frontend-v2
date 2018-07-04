@@ -1,5 +1,6 @@
 /*global __*/
-import React, {Component} from 'react';
+//@flow
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import {ProductEditForm} from './forms';
 import {ImageViewer} from '../../common/ImageViewer';
@@ -12,15 +13,21 @@ import {
 } from "../../common/cards/Frames";
 import {postIcon, EditIcon} from "src/images/icons";
 
-export const ProductItemWrapper = ({children}) => {
-	return <ItemWrapper icon={postIcon}>{children}</ItemWrapper>;
+type ProductItemWrapperProps = {
+	children:React.Node
+}
+export function ProductItemWrapper (props:ProductItemWrapperProps){
+	return <ItemWrapper icon={postIcon}>{props.children}</ItemWrapper>;
 };
 
-export class ProductView extends Component {
-	static propTypes = {
-		showEdit: PropTypes.func.isRequired,
-		product: PropTypes.object.isRequired,
-	};
+type ProductViewProps =  {
+	showEdit: Function,
+	product: Object,
+	organization: Object,
+	pictures: Array<Object>,
+	price : Object
+}
+export class ProductView extends React.Component<ProductViewProps> {
 
 	render() {
 		const {product, showEdit, organization, pictures, price} = this.props;
@@ -45,27 +52,29 @@ export class ProductView extends Component {
 	}
 }
 
-
-export class Product extends Component {
-	constructor(props){
+type ProductProps = {
+	product:Object,
+	updateProduct: Function,
+	deleteProduct: Function,
+	updateStateForView:Function,
+	categories:Array<Object>,
+	pictures:Array<Object>,
+	organization:Object,
+	price:Object, 
+	products:Array<Object>,
+	addPicture:Function,
+	deletePicture:Function
+}
+export class Product extends React.Component<ProductProps,{edit: boolean, product:Object}> {
+	constructor(props:ProductProps){
 		super(props);
 		const {product} = props;
-		this.state = {edit: false, product:product};
+		this.state = {...this.state, edit: false, product:product};
 	}
-	componentWillReceiveProps(props){
+	componentWillReceiveProps(props:ProductProps){
 		const {product} = props;
 		this.setState({...this.state, product:product})
 	} 
-
-	static propTypes = {
-		updateProduct: PropTypes.func.isRequired,
-		deleteProduct: PropTypes.func.isRequired,
-		product: PropTypes.object.isRequired,
-		updateStateForView:PropTypes.func.isRequired,
-		categories:PropTypes.array.isRequired,
-		pictures:PropTypes.array.isRequired
-	};
-
 	showEdit = () => {
 		this.setState({edit: true});
 	};
@@ -73,12 +82,6 @@ export class Product extends Component {
 	hideEdit = () => {
 		this.setState({edit: false});
 	};
-
-	// updateStateForView = (res, error,isLoading) =>{
-	// 	const {updateStateForView} = this.props;
-	// 	this.setState({...this.state,product:res,error:error, isLoading:isLoading })
-	// }
-
 	render() {
 		const {product } = this.state;
 		const{pictures, price, organization, updateStateForView, categories, products, deletePicture, addPicture} = this.props;

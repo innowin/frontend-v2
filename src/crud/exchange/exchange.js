@@ -76,11 +76,11 @@ export const getExchangePostComment = (postId) => {
   })
 }
 
-export const deleteExchange = (exchangeId, handleError, handleResult = () => null) => {
+export const getExchangeMembers = (exchangeId, handleError, handleResult) => {
   socket.emit(REST_REQUEST, {
     method: "get",
-    url: url + `/exchanges/${exchangeId}`,
-    result: `deleteExchange-${exchangeId}`,
+    url: url + `/exchanges/identities/?exchange_id=${exchangeId}`,
+    result: `get-exchange-members-${exchangeId}`,
     token,
   });
 
@@ -89,7 +89,80 @@ export const deleteExchange = (exchangeId, handleError, handleResult = () => nul
       handleError(res.result)
     }
     handleResult(res);
+    socket.off(`get-exchange-members-${exchangeId}`, func)
+  };
+  socket.on(`get-exchange-members-${exchangeId}`, func)
+}
+export const getExchangeMember = (memberId, handleError, handleResult)=>{
+  socket.emit(REST_REQUEST, {
+    method: "get",
+    url: url + `/users/${memberId}`,
+    result: `get-member-${memberId}`,
+    token,
+  });
+
+  const func = (res) => {
+    if (res.detail) {
+      handleError(res.result)
+    }
+    handleResult(res);
+    socket.off(`get-member-${memberId}`, func)
+  };
+  socket.on(`get-member-${memberId}`, func)
+}
+export const getExchangeMemberIdentity = (memberIdentity, handleError, handleResult)=>{
+  socket.emit(REST_REQUEST, {
+    method: "get",
+    url: url + `/users/identities/${memberIdentity}`,
+    result: `get-exchange-member-${memberIdentity}`,
+    token,
+  });
+
+  const func = (res) => {
+    if (res.detail) {
+      handleError(res.result)
+    }
+    handleResult(res);
+    socket.off(`get-exchange-member-${memberIdentity}`, func)
+  };
+  socket.on(`get-exchange-member-${memberIdentity}`, func)
+}
+
+export const deleteExchange = (exchangeId, handleError, handleResult = () => null) => {
+  socket.emit(REST_REQUEST, {
+    method: "del",
+    url: url + `/exchanges/${exchangeId}/`,
+    result: `deleteExchange-${exchangeId}`,
+    token,
+  });
+
+  const func = (res) => {
+    if (res.detail) {
+      handleError(res.result)
+      return false
+    }
+    handleResult(res)
     socket.off(`deleteExchange-${exchangeId}`, func)
   };
   socket.on(`deleteExchange-${exchangeId}`, func)
+}
+
+export const removeExchangeMembership = (id, handleError, handleResult = () => null) => {
+  // id is id of /exchanges/identities/{id}/ table not exchangeId or not identityId
+  socket.emit(REST_REQUEST, {
+    method: "del",
+    url: url + `/exchanges/identities/${id}/`,
+    result: `removeExchangeMembership-${id}`,
+    token,
+  });
+
+  const func = (res) => {
+    if (res.detail) {
+      handleError(res.result)
+      return false
+    }
+    handleResult(res)
+    socket.off(`removeExchangeMembership-${id}`, func)
+  };
+  socket.on(`removeExchangeMembership-${id}`, func)
 }

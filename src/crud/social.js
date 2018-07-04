@@ -12,7 +12,7 @@ export const getFollowings = (identityId, handleError, handleResult) => {
     }
   );
 
-  const func = (res) => {console.log("crud followings:", res)
+  const func = (res) => {
     if (res.detail) {
       handleError(res.detail)
     }
@@ -33,7 +33,7 @@ export const getFollowers = (identityId, handleError, handleResult) => {
     }
   );
 
-  const func = (res) => {console.log("crud followers:", res)
+  const func = (res) => {
     if (res.detail) {
       handleError(res.detail)
     }

@@ -3,7 +3,7 @@ import React, {Component} from "react"
 import PropTypes from "prop-types"
 import {userInfoIcon} from "src/images/icons"
 import {Link} from 'react-router-dom'
-import {defaultImg} from 'src/images/icons'
+import {DefaultUserIcon} from 'src/images/icons'
 import {
 	Field,
 	FieldLabel,
@@ -11,36 +11,42 @@ import {
 	ItemHeader,
 	ItemWrapper,
 } from '../../common/cards/Frames'
-// import {ProductMembers} from "./index";
+// import {ProductMembers} from "./index"
 
 export const ProductDescriptionWrapper = ({children}) => {
 	return (
 			<ItemWrapper icon={userInfoIcon}>{children}</ItemWrapper>
 	)
-};
+}
 
 export const ProductDescription = ({jobTitle, userID , firstName , lastName, isEdit}) => {
 	return (
 			<div className="member-wrapper">
-				<div className="image-wrapper"><Link to={`/user/${userID}`}><img className="members-image" src={defaultImg} /></Link></div>
+				<div className="image-wrapper">
+          <Link to={`/user/${userID}`}>
+						<DefaultUserIcon/>
+					</Link>
+				</div>
 				<div className="details">
-					<div className="detail-wrapper">
+					<div>
 						<div className="name">{firstName} {lastName}</div>
 						<div className="job-title">{jobTitle}</div>
 					</div>
-					<div className="link-wrapper">{(isEdit) ? <button className="btn btn-outline-danger">{__('Delete')}</button>:<Link to="#">connect</Link>}</div>
+					{(isEdit) ?
+						<button className="btn btn-outline-danger">{__('Delete')}</button>:<Link to="#">connect</Link>
+					}
 				</div>
 			</div>
 	)
-};
+}
 
 export class ProductDescriptionView extends Component {
 	static propTypes = {
 		showEdit: PropTypes.func.isRequired,
 		product: PropTypes.object.isRequired,
-	};
+	}
 	render() {
-		const {description, showEdit} = this.props;
+		const {description, showEdit} = this.props
 		return (
 				<ProductDescriptionWrapper>
 					<ItemHeader title={__('Description')} showEdit={showEdit}/>
@@ -58,15 +64,15 @@ export const ProductInfoItemWrapper = ({children}) => {
 	return (
 			<ItemWrapper icon={userInfoIcon}>{children}</ItemWrapper>
 	)
-};
+}
 
 export class ProductInfoView extends Component {
 	static propTypes = {
 		showEdit: PropTypes.func.isRequired,
 		product: PropTypes.object.isRequired,
-	};
+	}
 	render() {
-		const {product,product_category, owner, showEdit} = this.props;
+		const {product,product_category, owner, showEdit} = this.props
 		return (
 				<ProductInfoItemWrapper>
 					<ItemHeader title={__('Product info')} showEdit={showEdit}/>

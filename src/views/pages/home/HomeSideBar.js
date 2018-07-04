@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types'
-import FontAwesome from 'react-fontawesome';
 import {SOCKET as socket} from "src/consts/URLS";
 import {getExchangesByMemberIdentity} from "src/crud/exchange/exchange";
 import {SeeViewIcon, RefreshIcon, SettingIcon} from 'src/images/icons';
 import {Link} from "react-router-dom"
+import {DefaultExchangeIcon} from "src/images/icons"
 
 const DescriptionSideBarItem = ({description = '', className = ""}) => {
   return (
@@ -48,7 +48,7 @@ export class SideBarItem extends Component {
     return (
       <div className={`item-wrapper ${ active ? 'active' : ''}`} onClick={this._onClickHandler}>
         <div className="header-exchange">
-          {!imageId ? <div className="default-logo"><FontAwesome name="building-o" aria-hidden="true"/></div> :
+          {!imageId ? <DefaultExchangeIcon className="default-logo"/> :
             <img className="img-logo" src={imageId} alt="logo"/>
           }
           <div className="exchange-name">{name}</div>

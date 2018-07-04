@@ -53,6 +53,7 @@ export const updateProfile = (formValues, profileId, updateStateForView, hideEdi
     isLoading = false;
     if (res.detail) {
       error = res.detail;
+      return false;
     }
     updateStateForView(res, error, isLoading);
     hideEdit();
