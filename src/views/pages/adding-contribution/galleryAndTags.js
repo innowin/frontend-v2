@@ -1,7 +1,7 @@
 import React from 'react'
 import Select from 'react-select';
 import FontAwesome from 'react-fontawesome'
-import {GALLERY_IMG_NAMES, GALLERY_VIDEO_NAME} from './addingConributionData'
+import {LAYER1_INPUTS} from './addingConributionData'
 import {ImageUploadSvg, MoviesSvgIcon} from '../../../images/icons'
 import {CircularCheckbox} from '../../common/inputs/CircularCheckbox'
 import NextPrevBtns from './nextAndPrevBtns'
@@ -24,7 +24,6 @@ const GalleryAndTags = ({
     return (
         <div className="gallery-and-tags-wrapper">
             <div className="gallery-wrapper">
-                {console.log(GALLERY_IMG_NAMES)}
                 <h4 className="header">
                     آلبوم تصاویر:
                 </h4>
@@ -56,17 +55,33 @@ const GalleryAndTags = ({
                             }
                         </div>
                     ))}
-                    <div className={newContributionData[GALLERY_VIDEO_NAME] ? 'upload-box uploaded' : 'upload-box'}>
-                        <div className="upload-icon-wrapper">
-                            <MoviesSvgIcon className="upload-icon"/>
+                    <div
+                        className={newContributionData[LAYER1_INPUTS.GALLERY_VIDEO_NAME] ? 'upload-box uploaded' : 'upload-box'}>
+                        <div className="image-wrapper">
+                            <div className="upload-icon-wrapper">
+                                <MoviesSvgIcon className="upload-icon"/>
+                            </div>
+                            {newContributionData[LAYER1_INPUTS.GALLERY_VIDEO_NAME] ?
+                                <video className="gallery-video" controls>
+                                    <source src={newContributionData[LAYER1_INPUTS.GALLERY_VIDEO_NAME]} type="video/mp4"/>
+                                    Your browser does not support HTML5 video.
+                                </video>
+                                :
+                                ''
+                            }
                         </div>
+                        {newContributionData[LAYER1_INPUTS.GALLERY_VIDEO_NAME] ?
+                            <div>
+                                <div className="edit-btn"/>
+                                <div onClick={() => videoHandler()} className="clear-btn">
+                                    <FontAwesome name="times"/>
+                                </div>
+                            </div>
+                            :
+                            ''
+                        }
                         <input type="file" className="hidden-file-input"
-                               onChange={(e) => videoHandler(e.target, GALLERY_VIDEO_NAME)}/>
-                        <video width="420" className="gallery-item" >
-                            <source src={newContributionData[GALLERY_VIDEO_NAME]} type="video/mp4"/>
-                            <source src="mov_bbb.ogg" type="video/ogg"/>
-                            Your browser does not support HTML5 video.
-                        </video>
+                               onChange={(e) => videoHandler(e.target)}/>
                     </div>
                 </div>
             </div>
@@ -92,7 +107,7 @@ const GalleryAndTags = ({
                 </div>
             </div>
             <NextPrevBtns
-                prevBtnTitle="قبلی"
+                nextBtnTitle="ثبت"
                 goToNextStep={goToNextStep}
                 goToPrevStep={goToPrevStep}
             />

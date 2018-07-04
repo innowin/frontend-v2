@@ -116,7 +116,6 @@ const TechnicalProperties = ({
                 </DragDropContext>
             </div>
             <NextPrevBtns
-                prevBtnTitle="قبلی"
                 goToNextStep={goToNextStep}
                 goToPrevStep={goToPrevStep}
             />

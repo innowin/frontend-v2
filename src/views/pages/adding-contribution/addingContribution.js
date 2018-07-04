@@ -23,6 +23,8 @@ import {
 } from '../../../images/icons'
 import {getMessages} from "../../../redux/selectors/translateSelector";
 import {connect} from "react-redux";
+import {LAYER1_INPUTS} from './addingConributionData'
+import SuccessMessage from './successMessage'
 
 const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
@@ -156,7 +158,10 @@ class AddingContribution extends React.Component {
     }
     _nextStep = () => {
         const {activeStep, progressSteps} = this.state
-        if (activeStep < progressSteps.length) this._setStep((activeStep + 1), PROGRESSIVE_STATUS_CHOICES.GOING_NEXT)
+        if (activeStep < progressSteps.length + 1) {
+            console.log(activeStep + 1)
+            this._setStep((activeStep + 1), PROGRESSIVE_STATUS_CHOICES.GOING_NEXT)
+        }
     }
 
     _prevStep = () => {
@@ -240,18 +245,22 @@ class AddingContribution extends React.Component {
             input.files[0] && reader.readAsDataURL(input.files[0])
         }
     }
-    _videoHandler = (input, key) => {
-        console.log('key is: ', key)
-        console.log('input is: ', input)
-        const reader = new FileReader()
-        if (input.files) {
-            console.log(input.files)
-            reader.onload = () => {
-                this.setState({...this.state, newContributionData: {...this.state.newContributionData, [key]: reader.result}})
+    _videoHandler = (input) => {
+        const {newContributionData} = this.state
+        this.setState({
+            ...this.state,
+            newContributionData: {
+                ...newContributionData,
+                [LAYER1_INPUTS.GALLERY_VIDEO_NAME]: null
             }
-            input.files[0] && reader.readAsDataURL(input.files[0])
-        }
+        }, () => {
+            if (input) {
+                setTimeout(() => this._setStateForFileField(input, LAYER1_INPUTS.GALLERY_VIDEO_NAME), 10)
+            }
+        })
     }
+
+
     _setStateForFileField = (input, key) => {
         const reader = new FileReader()
         if (input.files && key) {
@@ -271,7 +280,10 @@ class AddingContribution extends React.Component {
                 progressStatus: status,
                 wrapperClassName: WRAPPER_CLASS_NAMES.EXITING,
             },
-            this._afterStepChanging)
+            () => {
+                this._afterStepChanging()
+                console.log(this.state)
+            })
     }
 
     _afterStepChanging = () => {
@@ -286,6 +298,10 @@ class AddingContribution extends React.Component {
         const data = {...this.state.newContributionData, category: category}
         this.setState({...this.state, newContributionData: data})
     }
+    _shareContribution = () => 1
+    _introToExchange = () => 1
+    _findAgent = () => 1
+    _getCertificateHandler = () => 1
 
     _switchContent = () => {
         const {newContributionData, activeStep, addingTechPropNow, newTechPropertyData} = this.state
@@ -302,7 +318,6 @@ class AddingContribution extends React.Component {
                         selectCategoryHandler={this._newContributionCategoryHandler}
                     />
                 )
-
             case 2:
                 return (
                     <InitialInfo
@@ -312,7 +327,6 @@ class AddingContribution extends React.Component {
                         newContributionData={newContributionData}
                     />
                 )
-
             case 3:
                 return (
                     <TechnicalProperties
@@ -328,7 +342,6 @@ class AddingContribution extends React.Component {
                         goToPrevStep={this._prevStep}
                     />
                 )
-
             case 4:
                 return (
                     <Certificates
@@ -356,8 +369,19 @@ class AddingContribution extends React.Component {
                         videoHandler={this._videoHandler}
                     />
                 )
+            case 6:
+                return (
+                    <SuccessMessage
+                        smallUrl="some/test/small.url"
+                        shareContribution={this._shareContribution}
+                        introToExchange={this._introToExchange}
+                        findAgent={this._findAgent}
+                        getCertificateHandler={this._getCertificateHandler}
+                        finishHandler={() => this.setState({...this.state, modalIsOpen: false})}
+                    />
+                )
             default:
-                return <span>{' '}</span>
+                return (<span/>)
         }
     }
 
