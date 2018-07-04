@@ -1,10 +1,8 @@
 import React from 'react'
-import {TextInput} from '../../common/inputs/TextInput'
 import {CircularCheckbox} from '../../common/inputs/CircularCheckbox'
 import {PayIcon, CongratsTick, ThinDownArrow} from '../../../images/icons'
 import {CERTIFICATES_IMG_IDS, logoFieldName, LAYER1_INPUTS} from "./addingConributionData";
 import NextPrevBtns from './nextAndPrevBtns'
-import Sidebar from "../../bars/SideBar";
 import StateLessTextInput from '../../common/inputs/StateLessTextInput'
 
 const Certificates = ({
@@ -86,7 +84,6 @@ const Certificates = ({
                 ))}
             </div>
             <NextPrevBtns
-                prevBtnTitle="قبلی"
                 goToNextStep={goToNextStep}
                 goToPrevStep={goToPrevStep}
             />

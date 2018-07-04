@@ -36,7 +36,9 @@ import ThinDownArrow from "./common/thin_down_arrow_svg"
 import MoviesSvgIcon from "./common/movies_svg_icon"
 import ImageUploadSvg from "./common/image_upload_svg"
 import TipsIcon from "./common/tips_svg_icon"
+import CircularTickSvg from "./common/circularTick"
 import ConsultIcon from "./user/consult_svg_icon"
+import AgentSvgIcon from "./addingConribution/agent_svg"
 
 export {
 	CertificateIcon,
@@ -44,6 +46,7 @@ export {
 	EditIcon,
 	MoviesSvgIcon,
     ImageUploadSvg,
+    CircularTickSvg,
     postIcon,
 	SkillIcon,
 	starIcon,
@@ -51,6 +54,7 @@ export {
 	workExperienceIcon,
     CircularAddIcon,
     TipsIcon,
+    AgentSvgIcon,
     ConsultIcon,
   AttachFileIcon,
   BookmarkIcon,

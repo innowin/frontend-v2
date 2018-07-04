@@ -126,13 +126,6 @@ export const CERTIFICATES_IMG_IDS = [
     'certificate3img',
 ]
 
-export const GALLERY_IMG_NAMES = [
-    'galleryImage1',
-    'galleryImage2',
-    'galleryImage3',
-    'galleryImage4',
-    'galleryImage5',
-]
 export const GALLERY_VIDEO_NAME = 'galleryVideo'
 
 export const logoFieldName = 'contributionLogo'
@@ -160,5 +153,6 @@ export const LAYER1_INPUTS = {
     CURRENCY: 'currency',
     DESCRIPTION: 'description',
     CERTIFICATE_TITLE: 'certificateTitle',
-    CERTIFICATE_NEED_FOR_VERIFY: 'certificateNeedForVerify'
+    CERTIFICATE_NEED_FOR_VERIFY: 'certificateNeedForVerify',
+    GALLERY_VIDEO_NAME: 'galleryVideo'
 }

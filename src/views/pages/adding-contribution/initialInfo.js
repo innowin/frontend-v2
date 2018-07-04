@@ -69,7 +69,6 @@ const InitialInfo = ({goToNextStep, goToPrevStep, newContributionData, inputHand
             </div>
         </div>
         <NextPrevBtns
-            prevBtnTitle="قبلی"
             goToNextStep={goToNextStep}
             goToPrevStep={goToPrevStep}
         />
