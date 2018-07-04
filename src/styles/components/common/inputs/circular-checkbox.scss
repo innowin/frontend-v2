@@ -8,9 +8,7 @@
     height: 20px;
     border-radius: 50%;
     border: 2px solid $brand-inverse;
-    &::after {
-        font-family: "FontAwesome";
-        content: "\f00c";
+    .tick {
         width: 14px;
         height: 14px;
         position: absolute;
@@ -21,7 +19,20 @@
         transition: opacity 0.5s;
         color: $brand-inverse;
     }
-    &.checked::after {
+    //&::after {
+    //    font-family: "FontAwesome";
+    //    content: "\f00c";
+    //    width: 14px;
+    //    height: 14px;
+    //    position: absolute;
+    //    top: 50%;
+    //    left: 50%;
+    //    transform: translate(-50%, -50%);
+    //    opacity: 0;
+    //    transition: opacity 0.5s;
+    //    color: $brand-inverse;
+    //}
+    &.checked .tick {
         opacity: 1;
         transition: opacity 0.5s;
     }

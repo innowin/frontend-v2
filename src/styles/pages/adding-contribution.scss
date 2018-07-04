@@ -1018,8 +1018,8 @@
     .checked {
       background: $brand-inverse;
     }
-    .checked::after {
-      color: $text-lighter-color;
+    .checked .tick path {
+      fill: $text-lighter-color;
     }
   }
   .custom-tooltip {

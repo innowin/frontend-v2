@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-
+import {TickSvgIcon} from 'src/images/icons'
 // export class CircularCheckbox extends Component {
 //
 //     static propTypes = {
@@ -36,6 +36,8 @@ import PropTypes from 'prop-types'
 export const CircularCheckbox = ({onCheck = () => 1, label = '', name = '', checked = false}) => (
     <div onClick={onCheck} className="circular-checkbox">
         <label>{label}</label>
-        <div className={checked ? "checkbox checked" : "checkbox"} />
+        <div className={checked ? "checkbox checked" : "checkbox"}>
+            <TickSvgIcon className="tick"/>
+        </div>
     </div>
 )

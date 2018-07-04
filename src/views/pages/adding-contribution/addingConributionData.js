@@ -105,7 +105,7 @@ export const newContributionCategories = [  // need for fetching and creating th
         },
         {
             value: '5',
-            svg: (<TipsIcon className="new-contribution-category-image" />),
+            svg: (<div className="new-contribution-category-image">?</div>),
             label: 'زیرساخت قابل اشتراک',
         },
     ]
