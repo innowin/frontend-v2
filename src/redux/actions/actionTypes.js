@@ -1,3 +1,7 @@
+export const SUCCESS = '_SUCCESS'
+export const FAILED = '_FAILED'
+export const REQUEST = '_REQUEST'
+
 const types = {
 	FETCH_SUCCEEDED:'FETCH_SUCCEEDED',
 	FETCH_POSTS:'FETCH_POSTS',
@@ -11,5 +15,8 @@ const types = {
 	SIGN_IN: 'SIGN_IN',
 	SIGN_IN_SUCCESS: 'SIGN_IN_SUCCESS',
 	SIGN_IN_FAILED: 'SIGN_IN_FAILED',
+
+	// addingProduct
+	ADD_CONTRIBUTION: 'ADD_CONTRIBUTION'
 }
 export default types

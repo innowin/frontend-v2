@@ -11,5 +11,8 @@ export default {
 	intl: {
 		locale: 'fa',
 		messages: {...messages}
+	},
+	product: {
+
 	}
 };
