@@ -27,7 +27,7 @@ class User extends Component {
 	render() {
 		const {match, handleSignOut} = this.props;
 		const {path, url, params} = match;
-		const userId = params.id;
+		const userId = +params.id;
 		const widthOfRightBar = "col-3";
 		return (
 				<div className="-tabbed-pages -userOrganBackgroundImg">

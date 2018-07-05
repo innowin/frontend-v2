@@ -10,26 +10,20 @@ export const getUser = (userId, handleResult) => {
       result: `/users/{id}/-get/getUser/${userId}`,
       token: TOKEN,
     }
-  );
+  )
 
   const func = (res) => {
     if (res.detail) {
-      // TODO mohsen: handle error
       return false
     }
-    handleResult(res);
-    s_off()
-  };
-
-  socket.on(`/users/{id}/-get/getUser/${userId}`, func);
-
-  function s_off() {
+    handleResult(res)
     socket.off(`/users/{id}/-get/getUser/${userId}`, func)
   }
-};
+  socket.on(`/users/{id}/-get/getUser/${userId}`, func)
+}
 
 export const createUser = (data, apiTokenAuth, handleLogin) => {
-  const {username, password, email} = data;
+  const {username, password, email} = data
   socket.emit(REST_REQUEST, {
     method: 'post',
     url: `${url}/users/`,
@@ -39,19 +33,19 @@ export const createUser = (data, apiTokenAuth, handleLogin) => {
       password,
       email
     }
-  });
+  })
   const func = (res) => {
     if (res.id) {
       apiTokenAuth(data, handleLogin)
     }
     socket.off('CREATE_USER', func)
-  };
-  socket.on('CREATE_USER', func);
-};
+  }
+  socket.on('CREATE_USER', func)
+}
 
 export const createUserOrgan = (data, apiTokenAuth, handleLogin) => {
-  const {username, password, email, ...organization} = data;
-  const {national_code, official_name, country, province, city, ownership_type, business_type} = organization;
+  const {username, password, email, ...organization} = data
+  const {national_code, official_name, country, province, city, ownership_type, business_type} = organization
   socket.emit(REST_REQUEST, {
     method: 'post',
     url: `${url}/users/user-organization/`,
@@ -70,20 +64,17 @@ export const createUserOrgan = (data, apiTokenAuth, handleLogin) => {
       "organization.ownership_type": ownership_type,
       "organization.business_type": business_type
     }
-  });
+  })
   const func = (res) => {
     if (res.id) {
       apiTokenAuth(data, handleLogin)
     }
     socket.off('createUserOrgan', func)
-  };
-  socket.on('createUserOrgan', func);
-};
+  }
+  socket.on('createUserOrgan', func)
+}
 
 export const updateUser = (formValues, userId, updateStateForView, hideEdit) => {
-  let isLoading = false;
-  const emitting = () => {
-    isLoading = true;
     socket.emit(REST_REQUEST, {
       method: "patch",
       url: `${url}/users/${userId}/`,
@@ -96,24 +87,19 @@ export const updateUser = (formValues, userId, updateStateForView, hideEdit) => 
         "email": formValues.email,
       }
     })
-  };
-
-  emitting();
-
-  socket.on(`updateUser-patch-${userId}`, (res) => {
-    let error = false;
-    isLoading = false;
+  const func = (res) => {
     if (res.detail) {
-      error = res.detail;
-      return false;
+      return false
     }
-    updateStateForView(res, error, isLoading);
-    hideEdit();
-  });
-};
+    updateStateForView(res)
+    hideEdit()
+    socket.off(`updateUser-patch-${userId}`, func)
+  }
+  socket.on(`updateUser-patch-${userId}`, func)
+}
 
 export const apiTokenAuth = (data, handleLogin) => {
-  const {username, password} = data;
+  const {username, password} = data
   socket.emit(REST_REQUEST, {
     method: "post",
     url: url + "/api-token-auth/",
@@ -122,15 +108,14 @@ export const apiTokenAuth = (data, handleLogin) => {
       username,
       password
     }
-  });
+  })
   const func = async (res) => {
     if (res.non_field_errors) {
-      // TODO mohsen: error message is handle
-      return false;
+      return false
     }
-    await handleLogin(res);
+    await handleLogin(res)
     socket.off("apiTokenAuth", func)
-  };
+  }
 
-  socket.on('apiTokenAuth', func);
-};
+  socket.on('apiTokenAuth', func)
+}

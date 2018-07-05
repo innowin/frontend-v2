@@ -50,7 +50,7 @@ export const TagsBox = ({tags}) => {
 export class UserSideView extends Component {
 
   static propTypes = {
-    userId: PropTypes.string.isRequired,
+    userId: PropTypes.number.isRequired,
   };
 
   constructor(props) {
@@ -187,7 +187,7 @@ export class OrganizationSideView extends Component {
   }
 
   static propTypes = {
-    organizationId: PropTypes.string.isRequired,
+    organizationId: PropTypes.number.isRequired,
   };
 
   _handleClickOutMenuBox = (e) => {

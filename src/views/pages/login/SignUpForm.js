@@ -4,7 +4,7 @@ import PersonSignupForm from './PersonSignUpForm'
 import OrganizationSignUpForm from './OrganizationSignUpForm'
 import {RadioButtonGroup} from '../../common/inputs/RadioButtonInput'
 import {connect} from 'react-redux'
-import {getMessages} from '../../../redux/selectors/translateSelector'
+import {getMessages} from 'src/redux/selectors/translateSelector'
 import {createUser} from "src/crud/user/user";
 import {apiTokenAuth, createUserOrgan} from "src/crud/user/user";
 import {getMetaDataOrganization} from "src/crud/organization/organization";
@@ -151,10 +151,8 @@ export class SignUpForm extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    translator: getMessages(state)
-  }
-};
+const mapStateToProps = (state) => ({translator: getMessages(state)})
+
+
 
 export default connect(mapStateToProps)(SignUpForm)

@@ -3,10 +3,10 @@ import {REST_REQUEST} from "../../consts/Events"
 import {TOKEN} from '../../consts/data'
 
 export const updateProduct = (formValues, productId, updateStateForView, hideEdit) => {
-	let isLoading = false;
+	let isLoading = false
 
 	const emitting = () => {
-		isLoading = true;
+		isLoading = true
 		socket.emit(REST_REQUEST,
 			{
 				method: "patch",
@@ -15,27 +15,27 @@ export const updateProduct = (formValues, productId, updateStateForView, hideEdi
 				data :formValues,
 				token: TOKEN
 			}
-		);
-	};
+		)
+	}
 
-	emitting();
+	emitting()
 
 	socket.on(`updateProduct-patch/${productId}`, (res) => {
-		let error = false;
-		isLoading = false;
+		let error = false
+		isLoading = false
 		if (res.detail) {
-			error = res.detail;
+			error = res.detail
 		}
-		updateStateForView(res, error, isLoading);
-		hideEdit();
-	});
-};
+		updateStateForView(res, error, isLoading)
+		hideEdit()
+	})
+}
 
 export const createProduct = (formValues, updateStateForView, hideEdit) => {
-	let isLoading = false;
+	let isLoading = false
 
 	const emitting = () => {
-		isLoading = true;
+		isLoading = true
 		socket.emit(REST_REQUEST,
 			{
 				method: "post",
@@ -44,27 +44,27 @@ export const createProduct = (formValues, updateStateForView, hideEdit) => {
 				data :formValues,
 				token: TOKEN
 			}
-		);
-	};
+		)
+	}
 
-	emitting();
+	emitting()
 
 	socket.on(`createProduct-post/`, (res) => {
-		let error = false;
-		isLoading = false;
+		let error = false
+		isLoading = false
 		if (res.detail) {
-			error = res.detail;
+			error = res.detail
 		}
-		updateStateForView(res, error, isLoading);
-		hideEdit();
-	});
-};
+		updateStateForView(res, error, isLoading)
+		hideEdit()
+	})
+}
 
 export const deleteProduct = (formValues, productId, updateStateForView, hideEdit) => {
-	let isLoading = false;
+	let isLoading = false
 
 	const emitting = () => {
-		isLoading = true;
+		isLoading = true
 		socket.emit(REST_REQUEST,
 			{
 				method: "delete",
@@ -72,18 +72,18 @@ export const deleteProduct = (formValues, productId, updateStateForView, hideEdi
 				result: `deleteProduct-delete/${productId}`,
 				token: TOKEN
 			}
-		);
-	};
+		)
+	}
 
-	emitting();
+	emitting()
 
 	socket.on(`deleteProduct-delete/${productId}`, (res) => {
-		let error = false;
-		isLoading = false;
+		let error = false
+		isLoading = false
 		if (res.detail) {
-			error = res.detail;
+			error = res.detail
 		}
-		updateStateForView(res, error, isLoading);
-		hideEdit();
-	});
-};
+		updateStateForView(res, error, isLoading)
+		hideEdit()
+	})
+}
