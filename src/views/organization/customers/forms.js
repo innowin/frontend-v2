@@ -1,17 +1,23 @@
 /*global __*/
-import React, {Component} from 'react';
+//@flow
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import {TextInput} from 'src/views/common/inputs/TextInput'
 import {FileInput} from 'src/views/common/inputs/FileInput';
 import {Confirm} from "../../common/cards/Confirm";
 
-
-export class CustomerForm extends Component {
-	static propTypes = {
-		onSubmit: PropTypes.func.isRequired,
-		customer: PropTypes.object,
-	};
-
+type CustomerFormProps = {
+	onSubmit: Function,
+	customer?: Object,
+	organization?:Object,
+	children:React.Node
+}
+export class CustomerForm extends React.Component<CustomerFormProps> {
+	static defaultProps = {
+		customer : {}
+	}
+	certPictureInput:any;
+	titleInput:any;
 	getValues =  () => {
 		const media = this.certPictureInput.getFile();
         const mediaId = media ? media.id : null;
@@ -38,8 +44,8 @@ export class CustomerForm extends Component {
 	};
 //TODO amir specify identity concept and how to handle them
 	render() {
-			const {organization} = this.props;
-			const customer = this.props.customer || {picture: null};
+			const {organization} = this.props || {};
+			const customer = this.props.customer || {name:'', title:'', picture: null};
 			return <form onSubmit={this.props.onSubmit}>
 				<div className="row">
 					<TextInput
@@ -67,8 +73,11 @@ export class CustomerForm extends Component {
 	}
 }
 
-
-export class CustomerCreateForm extends Component {
+type CustomerCreateFormProps ={
+	create: Function,
+	hideEdit: Function
+}
+export class CustomerCreateForm extends React.Component<CustomerCreateFormProps> {
 
 	static propTypes = {
 			create: PropTypes.func.isRequired,
@@ -81,7 +90,7 @@ export class CustomerCreateForm extends Component {
 			return this.props.create(formValues, hideEdit);
 	};
 
-	onSubmit = (e) => {
+	onSubmit = (e:SyntheticEvent<HTMLButtonElement>) => {
 			e.preventDefault();
 			if (this.refs.form.formValidate()) {
 				this.save();
@@ -100,16 +109,16 @@ export class CustomerCreateForm extends Component {
 			</CustomerForm>;
 	}
 }
-export class CustomerEditForm extends Component {
+type CustomerEditFormProps = {
+	update: Function,
+	remove: Function,
+	hideEdit: Function,
+	customer: Object,
+	updateStateForView: Function
+}
+export class CustomerEditForm extends React.Component<CustomerEditFormProps,{confirm:boolean}> {
 	state = {
 			confirm: false,
-	};
-
-	static propTypes = {
-			update: PropTypes.func.isRequired,
-			remove: PropTypes.func.isRequired,
-			hideEdit: PropTypes.func.isRequired,
-			customer: PropTypes.object.isRequired,
 	};
 
 	showConfirm = () => {
@@ -133,7 +142,7 @@ export class CustomerEditForm extends Component {
 		return this.props.update(formValues, customerId, updateStateForView, hideEdit)
 	};
 
-	onSubmit = (e) => {
+	onSubmit = (e:SyntheticEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		this.save();
 	};

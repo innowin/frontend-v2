@@ -1,5 +1,6 @@
 /*global __*/
-import React, {Component} from "react";
+//@flow
+import * as React from 'react'
 import PropTypes from "prop-types";
 import {CheckBox} from "../../common/inputs/CheckBox";
 import {Confirm} from "../../common/cards/Confirm";
@@ -8,17 +9,19 @@ import {TextareaInput} from "../../common/inputs/TextareaInput";
 import {TextInput} from "../../common/inputs/TextInput";
 import {FileInput} from "src/views/common/inputs/FileInput";
 
+type AbilityFormProps = { 
+    onSubmit: Function,
+    ability: Object,
+    children : React.Node
+}
+export class AbilityForm extends React.Component<AbilityFormProps,{ability:Object}>{
+    abilityTitleInput : any;
+    abilityDescriptionInput: any;
 
-export class AbilityForm extends Component {
-	constructor(props){
+	constructor(props:AbilityFormProps){
 		super(props);
-		this.state = { ability:props.ability}
-	}
-	static propTypes = {
-			onSubmit: PropTypes.func.isRequired,
-			ability: PropTypes.object,
-	};
-	
+		this.state = {...this.state, ability:props.ability}
+	}	
     _getValues = () => {
         return {
             title: this.abilityTitleInput.getValue(),
@@ -40,8 +43,6 @@ export class AbilityForm extends Component {
         }
         return result
 		};
-		
-		
 
     render() {
         const {onSubmit} = this.props;
@@ -68,23 +69,19 @@ export class AbilityForm extends Component {
     }
 }
 
-
-export class AbilityCreateForm extends Component {
-
-    static propTypes = {
-        create: PropTypes.func.isRequired,
-        hideCreateForm: PropTypes.func.isRequired
-    };
-
-		
-		
+type AbilityCreateFormProps = {
+    create: Function,
+    hideCreateForm: Function
+}
+export class AbilityCreateForm extends React.Component<AbilityCreateFormProps> {
+	form: any;
     _save = () => {
         const {create, hideCreateForm} = this.props;
         const formValues = this.form._getValues();
         return create(formValues, hideCreateForm);
     };
 
-    _onSubmit = (e) => {
+    _onSubmit = (e:SyntheticEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (this.form._formValidate()) {
             this._save()
@@ -94,7 +91,7 @@ export class AbilityCreateForm extends Component {
 
     render() {
         const {hideCreateForm} = this.props;
-        return <AbilityForm onSubmit={this._onSubmit} ref={form => {
+        return <AbilityForm ability = {{}} onSubmit={this._onSubmit} ref={form => {
             this.form = form
         }}>
             <div className="col-12 d-flex justify-content-end">
@@ -106,18 +103,18 @@ export class AbilityCreateForm extends Component {
         </AbilityForm>;
     }
 }
-export class AbilityEditForm extends Component {
-
-    static propTypes = {
-        update: PropTypes.func.isRequired,
-        remove: PropTypes.func.isRequired,
-        hideEdit: PropTypes.func.isRequired,
-        ability: PropTypes.object.isRequired,
-    };
-
-    constructor(props) {
+type AbilityEditFormProps = { 
+    update: Function,
+    remove: Function,
+    hideEdit: Function,
+    ability: Object,
+    updateStateForView : Function
+}
+export class AbilityEditForm extends React.Component<AbilityEditFormProps,{confirm:boolean}> {
+    form: any;
+    constructor(props:AbilityEditFormProps) {
         super(props);
-        this.state = {confirm: false};
+        this.state = {...this.state, confirm: false};
     }
 
     _showConfirm = () => {
@@ -140,7 +137,7 @@ export class AbilityEditForm extends Component {
         return this.props.update(formValues, abilityId, updateStateForView, hideEdit)
     };
 
-    _onSubmit = (e) => {
+    _onSubmit = (e: SyntheticEvent<HTMLButtonElement>) => {
         e.preventDefault();
         this._save();
     };

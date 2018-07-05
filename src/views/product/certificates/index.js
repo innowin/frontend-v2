@@ -1,48 +1,48 @@
 /*global __*/
-import React, {Component} from "react";
-import PropTypes from 'prop-types';
-import {Certificate, CertificateItemWrapper} from "./view";
-import {CertificateCreateForm} from "./forms";
-import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper} from "../../common/cards/Frames";
-import {createCertificate, deleteCertificate, updateCertificate} from '../../../crud/product/certificate.js';
+import React, {Component} from "react"
+import PropTypes from 'prop-types'
+import {Certificate, CertificateItemWrapper} from "./view"
+import {CertificateCreateForm} from "./forms"
+import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper} from "../../common/cards/Frames"
+import {createCertificate, deleteCertificate, updateCertificate} from '../../../crud/product/certificate.js'
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {REST_REQUEST} from "../../../consts/Events"
 import {TOKEN} from "src/consts/data"
 
 export class CertificateContainer extends Component {
 	constructor(props){
-		super(props);
-		this.state = {certificate:props.certificate || {}};
+		super(props)
+		this.state = {certificate:props.certificate || {}}
 	}
 	componentWillReceiveProps(props){
-			const {certificate} = props;
+			const {certificate} = props
 			
 	}
 	delete_ = (certificateId, hideEdit) => {	
-		const {productId, updateStateForView} = this.props;
-		updateStateForView(null,null,true);
+		const {productId, updateStateForView} = this.props
+		updateStateForView(null,null,true)
 		return deleteCertificate(certificateId,()=>{
-			updateStateForView(null,false);
-		},hideEdit,productId);
-	};
+			updateStateForView(null,false)
+		},hideEdit,productId)
+	}
 	update_ = (formValues, certificateId, updateStateForView, hideEdit) => {//formValues, careerId, updateStateForView, hideEdit
-		// updateStateForView(null,null,true);
-		return updateCertificate(formValues,certificateId, updateStateForView, hideEdit);
-	};
+		// updateStateForView(null,null,true)
+		return updateCertificate(formValues,certificateId, updateStateForView, hideEdit)
+	}
 	_updateStateForView = (res, error, isLoading) => {
-		const {updateStateForView} = this.props;
-		updateStateForView({error:error,isLoading:isLoading});
-		this.setState({...this.state, certificate:res, error:error, isLoading:isLoading});
-	};
+		const {updateStateForView} = this.props
+		updateStateForView({error:error,isLoading:isLoading})
+		this.setState({...this.state, certificate:res, error:error, isLoading:isLoading})
+	}
 
 	render() {
-		const {certificate} = this.state;
+		const {certificate} = this.state
 		return <Certificate
 			certificate={certificate}
 			updateStateForView={this._updateStateForView}
 			deleteCertificate={this.delete_}
 			updateCertificate={this.update_}
-		/>;
+		/>
 	}
 }
 
@@ -50,16 +50,16 @@ export class CertificateList extends Component {
   static propTypes = {
     hideCreateForm: PropTypes.func.isRequired,
     createForm: PropTypes.bool.isRequired,
-  };
+  }
 
   create = (formValues, hideEdit) => {
-    const {productId, updateStateForView} = this.props;
-    return createCertificate(formValues, updateStateForView, hideEdit, productId);
-  };
+    const {productId, updateStateForView} = this.props
+    return createCertificate(formValues, updateStateForView, hideEdit, productId)
+  }
 
   render() {
-    const {productId, createForm, updateStateForView} = this.props;
-    let {certificates} = this.props;
+    const {productId, createForm, updateStateForView} = this.props
+    let {certificates} = this.props
     return <ListGroup>
       {createForm &&
       <CertificateItemWrapper>
@@ -73,26 +73,26 @@ export class CertificateList extends Component {
           key={cert.id}
         />)
       }
-    </ListGroup>;
+    </ListGroup>
   }
 }
 
 export class Certificates extends Component {
 
   constructor(props) {
-    super(props);
-    this.state = {createForm: false, certificates: [], edit: false, isLoading: false, error: null};
+    super(props)
+    this.state = {createForm: false, certificates: [], edit: false, isLoading: false, error: null}
   }
 
   static propTypes = {
     productId: PropTypes.string.isRequired
-  };
+  }
 
   componentDidMount() {
-    const {productId} = this.props;
+    const {productId} = this.props
     const emitting = () => {
-      const newState = {...this.state, isLoading: true};
-      this.setState(newState);
+      const newState = {...this.state, isLoading: true}
+      this.setState(newState)
       socket.emit(REST_REQUEST,
         {
           method: "get",
@@ -100,7 +100,7 @@ export class Certificates extends Component {
           result: `ProductCertificates-get/${productId}`,
           token: TOKEN
         }
-      );
+      )
 
       socket.emit(REST_REQUEST,
         {
@@ -109,56 +109,56 @@ export class Certificates extends Component {
           result: `product-Posts-get/${productId}`,
           token: TOKEN
         }
-			);
+			)
 			
-		};
+		}
 
-		emitting();
+		emitting()
 
 		socket.on(`ProductCertificates-get/${productId}`, (res) => {
 			if (res.detail) {
-				const newState = {...this.state, error: res.detail, isLoading: false};
-				this.setState(newState);
+				const newState = {...this.state, error: res.detail, isLoading: false}
+				this.setState(newState)
 			}else{
-				const newState = {...this.state, certificates:res, isLoading: false};
-				console.log(newState);
-				this.setState(newState);
+				const newState = {...this.state, certificates:res, isLoading: false}
+				console.log(newState)
+				this.setState(newState)
 			}
 
-		});
+		})
 		socket.on(`product-Posts-get/${productId}`, (res) => {
 			if (res.detail) {
-				const newState = {...this.state, error: res.detail, isLoading: false};
-				this.setState(newState);
+				const newState = {...this.state, error: res.detail, isLoading: false}
+				this.setState(newState)
 			} else {
-				const newState = {...this.state, product: res, isLoading: false};
-				this.setState(newState);
+				const newState = {...this.state, product: res, isLoading: false}
+				this.setState(newState)
 			}
-		});
+		})
 	}
     showCreateForm = () => {
-        this.setState({createForm: true});
-    };
+        this.setState({createForm: true})
+    }
     hideCreateForm = () => {
-        this.setState({createForm: false});
-    };
+        this.setState({createForm: false})
+    }
     updateStateForView = (error,isLoading) =>{
       this.setState({...this.state, error:error, isLoading:isLoading})
     }
 
   showCreateForm = () => {
-    this.setState({createForm: true});
-  };
+    this.setState({createForm: true})
+  }
   hideCreateForm = () => {
-    this.setState({createForm: false});
-  };
+    this.setState({createForm: false})
+  }
   updateStateForView = (error, isLoading) => {
     this.setState({...this.state, error: error, isLoading: isLoading})
-  };
+  }
 
   render() {
-    const {productId} = this.props;
-    const {createForm, certificates, isLoading, error} = this.state;
+    const {productId} = this.props
+    const {createForm, certificates, isLoading, error} = this.state
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         {
@@ -184,4 +184,4 @@ export class Certificates extends Component {
   }
 }
 
-export default Certificates;
+export default Certificates

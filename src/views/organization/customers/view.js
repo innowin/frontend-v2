@@ -1,85 +1,86 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+//@flow
+import * as React from 'react';
 import {CustomerEditForm} from './forms';
 import {ItemHeader, ItemWrapper} from "../../common/cards/Frames";
-import {certificateIcon, starIcon, editIcon} from "src/images/icons";
+import {CertificateIcon, EditIcon} from "src/images/icons";
 
-export const CustomerItemWrapper = ({children}) => {
-	return <ItemWrapper icon={certificateIcon}>{children}</ItemWrapper>;
+type CustomerItemWrapperProps = {
+    children:React.Node
+}
+export const CustomerItemWrapper = (props:CustomerItemWrapperProps) => {
+    return <ItemWrapper icon={<CertificateIcon/>}>{props.children}</ItemWrapper>;
 };
 
-export class CustomerView extends Component {
-	static propTypes = {
-		showEdit: PropTypes.func.isRequired,
-		customer: PropTypes.object.isRequired,
-	};
+type CustomerViewProps = {
+    showEdit: Function,
+    customer: Object
+}
+export class CustomerView extends React.Component<CustomerViewProps> {
 
-	render() {
-		const {customer, showEdit} = this.props;
-		return (
-			<div className="col-4 text-center container-fluid p-1">
-				<div className="row">
-					<div className="col customer">
-						<div className="content">
-							<div className="editButton">
-								<div onClick={showEdit}>{editIcon}</div>
-							</div>
-							<img className="customerImage" alt="" src={customer.picture_media || "/static/media/defaultImg.94a29bce.png"} />
-							<h5>{customer.title}</h5>
-							<span>&nbsp;</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		)
-	}
+    render() {
+        const {customer, showEdit} = this.props;
+        return (
+            <div className="col-4 text-center container-fluid p-1">
+                <div className="row">
+                    <div className="col customer">
+                        <div className="content">
+                            <div className="editButton">
+                                <div onClick={showEdit}>{<EditIcon/>}</div>
+                            </div>
+                            <img className="customerImage" alt="" src={customer.picture_media || "/static/media/defaultImg.94a29bce.png"} />
+                            <h5>{customer.title}</h5>
+                            <span>&nbsp;</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
 }
 
+type CustomerProps = {
+    customer:Object,
+    updateCustomer: Function,
+    deleteCustomer: Function,
+    updateStateForView: Function
+}
+export class Customer extends React.Component<CustomerProps,{edit: boolean, customer:Object}> {
+    constructor(props:CustomerProps){
+        super(props);
+        const {customer} = props;
+        this.state = {edit: false, customer:customer};
+    }
+    componentWillReceiveProps(props:CustomerProps){
+        const {customer} = props;
+        this.setState({...this.state, customer:customer})
+    }
 
-export class Customer extends Component {
-	constructor(props){
-		super(props);
-		const {customer} = props;
-		this.state = {edit: false, customer:customer};
-	}
-	componentWillReceiveProps(props){
-		const {customer} = props;
-		this.setState({...this.state, customer:customer})
-	}
+    showEdit = () => {
+        this.setState({edit: true});
+    };
 
-	static propTypes = {
-		updateCustomer: PropTypes.func.isRequired,
-		deleteCustomer: PropTypes.func.isRequired,
-		customer: PropTypes.object.isRequired,
-		updateStateForView:PropTypes.func.isRequired
-	};
+    hideEdit = () => {
+        this.setState({edit: false});
+    };
 
-	showEdit = () => {
-		this.setState({edit: true});
-	};
+    updateStateForView = (res:Object, error:boolean,isLoading:boolean) =>{
+        const {updateStateForView} = this.props;
+        this.setState({...this.state,customer:res })
+    }
 
-	hideEdit = () => {
-		this.setState({edit: false});
-	};
-
-	updateStateForView = (res, error,isLoading) =>{
-		const {updateStateForView} = this.props;
-		this.setState({...this.state,customer:res })
-	}
-
-	render() {
-		const {customer} = this.state;
-		if (this.state.edit) {
-			return <CustomerItemWrapper>
-				<CustomerEditForm
-					customer = {customer}
-					hideEdit = {this.hideEdit}
-					updateStateForView = {this.updateStateForView}
-					remove = {this.props.deleteCustomer}
-					update = {this.props.updateCustomer}
-				/>
-			</CustomerItemWrapper>;
-		}
-		return <CustomerView customer={customer} showEdit={this.showEdit}/>;
-	}
+    render() {
+        const {customer} = this.state;
+        if (this.state.edit) {
+            return <CustomerItemWrapper>
+                <CustomerEditForm
+                    customer = {customer}
+                    hideEdit = {this.hideEdit}
+                    updateStateForView = {this.updateStateForView}
+                    remove = {this.props.deleteCustomer}
+                    update = {this.props.updateCustomer}
+                />
+            </CustomerItemWrapper>;
+        }
+        return <CustomerView customer={customer} showEdit={this.showEdit}/>;
+    }
 }

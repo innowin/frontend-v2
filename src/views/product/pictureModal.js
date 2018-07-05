@@ -1,34 +1,34 @@
-import React, {Component} from "react";
-import PropTypes from "prop-types";
+import React, {Component} from "react"
+import PropTypes from "prop-types"
 import {Modal, Button, ModalBody, ModalFooter} from "reactstrap"
-import ImageGallery from 'react-image-gallery';
+import ImageGallery from 'react-image-gallery'
 
 class ProductViewImageGallery extends Component {
   render() {
-    const {files} = this.props;
-    let selectedFileIndex = this.props.selectedFileIndex;
+    const {files} = this.props
+    let selectedFileIndex = this.props.selectedFileIndex
     if (selectedFileIndex === -1) {
       selectedFileIndex = 0
     }
-    const images = [];
+    const images = []
     files.map((file) => {
       return images.push({
         original: file,
         thumbnail: file,
         originalClass: "-productViewOriginalClass",
         thumbnailClass: "-productViewThumbnailClass"
-      });
-    });
+      })
+    })
     const settings = {
       showPlayButton: false,
       showBullets: true,
       startIndex: selectedFileIndex,
-    };
+    }
     return (
       <div dir="ltr" className="-productViewModal">
         <ImageGallery items={images} {...settings}/>
       </div>
-    );
+    )
   }
 }
 
@@ -39,13 +39,13 @@ export class PictureModal extends Component {
     selectedFileIndex: PropTypes.number,
     toggleModal: PropTypes.func.isRequired,
     className: PropTypes.string
-  };
+  }
 
-  static displayName = "PictureModal";
+  static displayName = "PictureModal"
 
   constructor(props) {
-    super(props);
-    this.state = {modal: false};
+    super(props)
+    this.state = {modal: false}
   }
 
   componentWillReceiveProps(nextProps) {
@@ -53,12 +53,12 @@ export class PictureModal extends Component {
   }
 
   _handleToggleModal = (e) => {
-    e.preventDefault();
-    this.props.toggleModal();
-  };
+    e.preventDefault()
+    this.props.toggleModal()
+  }
 
   render() {
-    const {className, files, selectedFileIndex} = this.props;
+    const {className, files, selectedFileIndex} = this.props
     return (
       <Modal isOpen={this.state.modal} className={className}>
         <ModalBody className="-grey3">
@@ -68,6 +68,6 @@ export class PictureModal extends Component {
           <Button className="-grey4" onClick={this._handleToggleModal}>بستن</Button>
         </ModalFooter>
       </Modal>
-    );
+    )
   }
 }

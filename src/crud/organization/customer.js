@@ -31,8 +31,6 @@ export const updateCustomer = (formValues, customerId, updateStateForView, hideE
 	});
 };
 
-
-
 export const createCustomer = (formValues,  updateStateForView, hideEdit,organizationId) => {
 	let isLoading = false;
 	formValues.customer_organization = organizationId;

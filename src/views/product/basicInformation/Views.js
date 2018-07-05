@@ -11,13 +11,13 @@ import {
 	ItemHeader,
 	ItemWrapper,
 } from '../../common/cards/Frames'
-// import {ProductMembers} from "./index";
+// import {ProductMembers} from "./index"
 
 export const ProductDescriptionWrapper = ({children}) => {
 	return (
 			<ItemWrapper icon={userInfoIcon}>{children}</ItemWrapper>
 	)
-};
+}
 
 export const ProductDescription = ({jobTitle, userID , firstName , lastName, isEdit}) => {
 	return (
@@ -38,15 +38,15 @@ export const ProductDescription = ({jobTitle, userID , firstName , lastName, isE
 				</div>
 			</div>
 	)
-};
+}
 
 export class ProductDescriptionView extends Component {
 	static propTypes = {
 		showEdit: PropTypes.func.isRequired,
 		product: PropTypes.object.isRequired,
-	};
+	}
 	render() {
-		const {description, showEdit} = this.props;
+		const {description, showEdit} = this.props
 		return (
 				<ProductDescriptionWrapper>
 					<ItemHeader title={__('Description')} showEdit={showEdit}/>
@@ -64,15 +64,15 @@ export const ProductInfoItemWrapper = ({children}) => {
 	return (
 			<ItemWrapper icon={userInfoIcon}>{children}</ItemWrapper>
 	)
-};
+}
 
 export class ProductInfoView extends Component {
 	static propTypes = {
 		showEdit: PropTypes.func.isRequired,
 		product: PropTypes.object.isRequired,
-	};
+	}
 	render() {
-		const {product,product_category, owner, showEdit} = this.props;
+		const {product,product_category, owner, showEdit} = this.props
 		return (
 				<ProductInfoItemWrapper>
 					<ItemHeader title={__('Product info')} showEdit={showEdit}/>

@@ -1,5 +1,6 @@
 /*global __*/
-import React, {Component} from "react";
+//@flow
+import * as React from 'react'
 import PropTypes from 'prop-types';
 import {Certificate, CertificateItemWrapper} from "./view";
 import {CertificateCreateForm} from "./forms";
@@ -9,27 +10,32 @@ import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {REST_REQUEST} from "../../../consts/Events"
 import {TOKEN} from "src/consts/data"
 
-export class CertificateContainer extends Component {
-	constructor(props){
+type CertificateContainerProps = {
+	certificate:Object,
+	organizationId: number,
+	updateStateForView: Function,
+}
+export class CertificateContainer extends React.Component<CertificateContainerProps,{certificate:Object, error:boolean, isLoading:boolean}> {
+	constructor(props:CertificateContainerProps){
 		super(props);
-		this.state = {certificate:{}, error:null, isLoading:false}
+		this.state = {certificate:{}, error:false, isLoading:false}
 	}
-	componentWillReceiveProps(props){
+	componentWillReceiveProps(props:CertificateContainerProps){
 			const {certificate} = props;
 			this.setState ({...this.state ,certificate:certificate});
 	}
-	delete_ = (certificateId, hideEdit) => {	
+	delete_ = (certificateId:number, hideEdit:Function) => {	
 		const {organizationId, updateStateForView} = this.props;
 		updateStateForView(null,null,true);
 		return deleteCertificate(certificateId, organizationId,()=>{
 			updateStateForView(null,false);
 		},hideEdit,organizationId);
 	};
-	update_ = (formValues, certificateId, updateStateForView, hideEdit) => {//formValues, careerId, updateStateForView, hideEdit
+	update_ = (formValues:Object, certificateId:number, updateStateForView:Function, hideEdit:Function) => {//formValues, careerId, updateStateForView, hideEdit
 		updateStateForView(null,null,true);
 		return updateCertificate(formValues,certificateId, updateStateForView, hideEdit);
 	};
-	_updateStateForView = (res, error, isLoading) => {
+	_updateStateForView = (res:Object, error:boolean, isLoading:boolean) => {
 		const {updateStateForView} = this.props;
 		updateStateForView({error:error,isLoading:isLoading});
 		this.setState({...this.state, certificate:res, error:error, isLoading:isLoading});
@@ -46,13 +52,16 @@ export class CertificateContainer extends Component {
 	}
 }
 
-export class CertificateList extends Component {
-	static propTypes = {
-			hideCreateForm: PropTypes.func.isRequired,
-			createForm: PropTypes.bool.isRequired,
-	};
+type CertificateListProps = {
+	hideCreateForm: Function,
+	createForm: boolean,
+	organizationId: number, 
+	updateStateForView: Function,
+	certificates: Array<Object>
+}
+export class CertificateList extends React.Component<CertificateListProps> {
 
-	create = (formValues,hideEdit) => {
+	create = (formValues:Object,hideEdit:Function) => {
 			const {organizationId, updateStateForView} = this.props;
 			return createCertificate(formValues, updateStateForView, hideEdit, organizationId);
 	};
@@ -77,15 +86,16 @@ export class CertificateList extends Component {
 	}
 }
 
-export class Certificates extends Component {
+type CertificatesProps = {
+	organizationId:number
+}
+export class Certificates extends React.Component<CertificatesProps,
+{certificates:Array<Object>, createForm: boolean, edit:boolean, organization:Object, isLoading:boolean, error:boolean}> {
 
-	constructor(props){
+	constructor(props:CertificatesProps){
 		super(props);
-		this.state = {certificates:[], createForm: false, edit:false, isLoading:false, error:null};
+		this.state = {organization:{}, certificates:[], createForm: false, edit:false, isLoading:false, error:false};
 	}
-	static propTypes = {
-		organizationId: PropTypes.string.isRequired
-	};
 
 	componentDidMount(){
 		const {organizationId } = this.props;
@@ -142,7 +152,7 @@ export class Certificates extends Component {
 	hideCreateForm = () => {
 			this.setState({createForm: false});
 	};
-	updateStateForView = (error,isLoading) =>{
+	updateStateForView = (error:boolean,isLoading:boolean) =>{
 		this.setState({...this.state, error:error, isLoading:isLoading})
 	};
 
