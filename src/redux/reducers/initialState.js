@@ -56,7 +56,10 @@ export default {
 		locale: 'fa',
 		messages: {...messages}
 	},
-	error:{
-		message:''
+	error: {
+        message: ''
+    },
+	product: {
+
 	}
 };

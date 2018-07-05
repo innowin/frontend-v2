@@ -33,12 +33,12 @@ const SuccessMessage = ({smallUrl, shareContribution, introToExchange, findAgent
         <div className="success-message">
             <CircularTickSvg className="message-image"/>
             <div className="message-text">
-                محصول شما با موفقیت در سامانه ثبت شد و در فهرست آورده‌های شما قرار گرفت.
+                محصول شما با موفقیت در سامانه ثبت شد و در فهرست آورده‌های شما قرار گرفت
             </div>
             <div className="small-url">آدرس کوتاه محصول: {smallUrl}</div>
             <div className="act-bar">
                 {actions.map(act => (
-                    <div className="act-btn" onClick={act.handler}>
+                    <div key={act.title} className="act-btn" onClick={act.handler}>
                         {act.image}
                         {act.title}
                     </div>

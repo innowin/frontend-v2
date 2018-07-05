@@ -25,6 +25,7 @@ import {getMessages} from "../../../redux/selectors/translateSelector";
 import {connect} from "react-redux";
 import {LAYER1_INPUTS} from './addingConributionData'
 import SuccessMessage from './successMessage'
+import {addContributionAction} from 'src/redux/actions/productActions'
 
 const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
@@ -145,6 +146,13 @@ class AddingContribution extends React.Component {
             })
         }
     }
+
+    _submitHandler = () => {
+        // console.log('this.props is 1 :', this.props)
+        this.props.dispatch(addContributionAction(this.state.newContributionData))
+        this._nextStep()
+    }
+
     _tagsSelectionHandler = (resultTags) => {
         // const {newContributionData} = this.state
         // const tags = (newContributionData.tags && [...newContributionData.tags, ...resultTags]) || [...resultTags]
@@ -217,8 +225,6 @@ class AddingContribution extends React.Component {
         })
     }
     _layer1InputsValueHandler = (value, key) => {
-        console.log('key is: ', key)
-        console.log('value: ', value)
         this.setState({
             ...this.state,
             newContributionData: {
@@ -364,7 +370,7 @@ class AddingContribution extends React.Component {
                         imageAddEditHandler={this._galleryImageAddEdit}
                         imageDeleteHandler={this._galleryImageDelete}
                         setMainGalleryImageIndex={this._setMainGalleryImageIndex}
-                        goToNextStep={this._nextStep}
+                        goToNextStep={this._submitHandler}
                         goToPrevStep={this._prevStep}
                         videoHandler={this._videoHandler}
                     />
