@@ -231,12 +231,12 @@ function* getCustomers(action){ //TODO amir
 	}
 }
 //14 get org certificates
-function* getCertificates(action){ //TODO amir
+function* getCertificates(action){ //TODO amir change URL nad QUERY
 	const payload = action.payload;
 	const {organizationId} = payload;
 	const socketChannel = yield call(api.createSocketChannel, results.GET_ORG_CERTIFICATES)
 	try {
-		yield fork(sendRequest ,urls.GET_ORG_CERTIFICATES, results.GET_ORG_CERTIFICATES , `${organizationId}` )
+		yield fork(sendRequest ,urls.GET_ORG_CERTIFICATES, results.GET_ORG_CERTIFICATES , `?organization_id=${organizationId}` )
 		const data = yield take(socketChannel)
 		yield put({ type: types.SUCCESS.GET_ORG_CERTIFICATES, payload:data })
 	} catch (e) {
@@ -292,4 +292,8 @@ export function* watchGetOrgExchanges(){
 //11 - get org customers
 export function* watchGetCustomers(){
 	yield takeEvery(types.GET_ORG_CUSTOMERS, getCustomers)
+}
+//12 - get org certificates
+export function* watchGetCertificates(){
+	yield takeEvery(types.GET_ORG_CERTIFICATES, getCertificates)	
 }
