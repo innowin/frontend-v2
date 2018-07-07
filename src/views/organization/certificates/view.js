@@ -1,40 +1,39 @@
 //@flow
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import {CertificateEditForm} from './forms';
 import {ItemHeader, ItemWrapper} from "../../common/cards/Frames";
-import {certificateIcon, starIcon} from "src/images/icons";
+import {CertificateIcon, starIcon} from "src/images/icons";
 
 type CertificateItemWrapperProps = {
-	children :React.Node
+    children :React.Node
 }
 export const CertificateItemWrapper = (props:CertificateItemWrapperProps) => {
-	return <ItemWrapper icon={certificateIcon}>{props.children}</ItemWrapper>;
+    return <ItemWrapper icon={<CertificateIcon />}>{props.children}</ItemWrapper>;
 };
 
 type CertificateViewProps = {
-	showEdit: Function,
-	certificate: Object,
+    showEdit: Function,
+    certificate: Object,
 }
 export class CertificateView extends React.Component<CertificateViewProps> {
-	render() {
-		const {certificate, showEdit} = this.props;
-		return (
-			<div className="col text-center container-fluid">
-				<div className="row">
-					<div className="col certificate">
-						<div className="content">
-							<img className="certImage" alt="" src={certificate.picture_media || "/static/media/defaultImg.94a29bce.png"} />
-							<h5>{certificate.title}</h5>
+    render() {
+        const {certificate, showEdit} = this.props;
+        return (
+            <div className="col text-center container-fluid">
+                <div className="row">
+                    <div className="col certificate">
+                        <div className="content">
+                            <img className="certImage" alt="" src={certificate.picture_media || "/static/media/defaultImg.94a29bce.png"} />
+                            <h5>{certificate.title}</h5>
 
-							<a className="shareButton">{starIcon}</a>
-							<span>&nbsp;</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		)
-	}
+                            <a className="shareButton">{starIcon}</a>
+                            <span>&nbsp;</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
 }
 
 type CertificateProps = {
@@ -43,23 +42,23 @@ type CertificateProps = {
 	deleteCertificate: Function,
 }
 export class Certificate extends React.Component<CertificateProps,{edit:boolean,certificate:Object}> {
-	constructor(props:CertificateProps){
-		super(props);
-		const {certificate} = props;
-		this.state = {edit: false, certificate:certificate};
-	}
-	componentWillReceiveProps(props:CertificateProps){
-		const {certificate} = props;
-		this.setState({...this.state, certificate:certificate})
-	}
+    constructor(props:CertificateProps){
+        super(props);
+        const {certificate} = props;
+        this.state = {edit: false, certificate:certificate};
+    }
+    componentWillReceiveProps(props:CertificateProps){
+        const {certificate} = props;
+        this.setState({...this.state, certificate:certificate})
+    }
 
-	showEdit = () => {
-		this.setState({edit: true});
-	};
+    showEdit = () => {
+        this.setState({edit: true});
+    };
 
-	hideEdit = () => {
-		this.setState({edit: false});
-	};
+    hideEdit = () => {
+        this.setState({edit: false});
+    };
 
 	render() {
 		const {certificate} = this.state;

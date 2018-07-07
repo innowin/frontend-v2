@@ -53,3 +53,27 @@ export class SelectInput extends Component {
         )
     }
 }
+export const StateLessSelect = ({onChange = () => 1, label = '', name = '', options = [], selected = {}}) => {
+    let classes = HIDDEN_OPTS
+    const optionsDisplayHandler = () => {
+        if (classes === SHOWED_OPTS) classes = HIDDEN_OPTS
+        else classes = SHOWED_OPTS
+        // classes = ((classes === SHOWED_OPTS) && HIDDEN_OPTS) || SHOWED_OPTS
+        console.log(classes)
+    }
+    return (
+        <div className="select-input-wrapper">
+            <label>{label}</label>
+            <div className={`select ${classes}`}>
+                <div className="value" onClick={optionsDisplayHandler}>
+                    {selected && selected.title}
+                </div>
+                <div className="options">
+                    {options.map(option => (
+                        <div key={option.value} onClick={() => onChange(option)} className="option">{option.title}</div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    )
+}

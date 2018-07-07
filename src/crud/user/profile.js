@@ -8,54 +8,46 @@ export const getProfile = (userId, handleResult) => {
     url: `${url}/users/profiles/?profile_user=${userId}`,
     result: `/users/profiles/?profile_user=${userId}`,
     token,
-  });
+  })
 
   const func = (res) => {
     if (res.detail) {
-      // TODO mohsen: handle error
       return false
     }
-    handleResult(res[0]);
+    handleResult(res[0])
     socket.off(`/users/profiles/?profile_user=${userId}`, func)
-  };
+  }
 
-  socket.on(`/users/profiles/?profile_user=${userId}`, func);
-};
+  socket.on(`/users/profiles/?profile_user=${userId}`, func)
+}
 
 export const updateProfile = (formValues, profileId, updateStateForView, hideEdit) => {
-  let isLoading = false;
-  const emitting = () => {
-    isLoading = true;
-    socket.emit(REST_REQUEST, {
-      method: "patch",
-      url: `${url}/users/profiles/${profileId}/`,
-      result: `updateProfile-patch-${profileId}`,
-      token,
-      data: {
-        "public_email": formValues.public_email,
-        "national_code": formValues.national_code,
-        "birth_date": formValues.birth_date,
-        "web_site": formValues.web_site,
-        "phone": formValues.phone,
-        "mobile": formValues.mobile,
-        "fax": formValues.fax,
-        "telegram_account": formValues.telegram_account,
-        "description": formValues.description,
-        "profile_user": formValues.profile_user
-      }
-    })
-  };
-
-  emitting();
-
-  socket.on(`updateProfile-patch-${profileId}`, (res) => {
-    let error = false;
-    isLoading = false;
-    if (res.detail) {
-      error = res.detail;
-      return false;
+  socket.emit(REST_REQUEST, {
+    method: "patch",
+    url: `${url}/users/profiles/${profileId}/`,
+    result: `updateProfile-patch-${profileId}`,
+    token,
+    data: {
+      "public_email": formValues.public_email,
+      "national_code": formValues.national_code,
+      "birth_date": formValues.birth_date,
+      "web_site": formValues.web_site,
+      "phone": formValues.phone,
+      "mobile": formValues.mobile,
+      "fax": formValues.fax,
+      "telegram_account": formValues.telegram_account,
+      "description": formValues.description,
+      "profile_user": formValues.profile_user
     }
-    updateStateForView(res, error, isLoading);
-    hideEdit();
-  });
-};
+  })
+
+  const func = (res) => {
+    if (res.detail) {
+      return false
+    }
+    updateStateForView(res)
+    hideEdit()
+    socket.off(`updateProfile-patch-${profileId}`, func)
+  }
+  socket.on(`updateProfile-patch-${profileId}`, func)
+}

@@ -31,7 +31,7 @@ class PostItemHeader extends Component {
     const supplyIcon = post.post_type === 'supply';
     const demandIcon = post.post_type === 'demand';
     const postIcon = post.post_type === 'post';
-    //TODO : mohsen handle editIcon
+    //TODO : mohsen handle EditIcon
     return (
       <div className="postHeaderBox">
         <div>
