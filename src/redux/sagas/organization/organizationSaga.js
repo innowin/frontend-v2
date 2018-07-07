@@ -241,7 +241,7 @@ function* getCertificates(action){ //TODO amir change URL nad QUERY
 		yield put({ type: types.SUCCESS.GET_ORG_CERTIFICATES, payload:data })
 	} catch (e) {
 		const {message} = e
-		yield put({type:types.ERRORS.GET_ORG_CERTIFICATES, payload:{type:types.ERRORS.GET_ORG_CERTIFICATES,message}})
+		yield put({type:types.ERRORS.GET_ORG_CERTIFICATES, payload:{type:types.ERRORS.GET_ORG_CERTIFICATES,error:message}})
 	} finally {
 		socketChannel.close()
 	}

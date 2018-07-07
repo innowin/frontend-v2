@@ -2,6 +2,7 @@ import initialState from './initialState';
 import types from '../actions/actionTypes';
 
 const organization = (state = initialState.organization, action) => {
+	let error;
 	switch (action.type) {
 		//pending
 		case types.UPDATE_ORGANIZATION_INFO:
@@ -55,9 +56,11 @@ const organization = (state = initialState.organization, action) => {
 			return{...state,...updatedOrganization,isLoading:false,error:false}
 		//ERROR
 		case types.ERRORS.UPDATE_ORGANIZATION_INFO:
-			const error = action.payload
-			return{...state,error:error,isLoading:false,error:true}
-
+			error = action.payload.error
+			return{...state,errorMessage:error,isLoading:false,error:true}
+		case types.ERRORS.GET_ORG_CERTIFICATES:
+			error = action.payload.error
+			return{...state,errorMessage:error,certificates:{content:[],isLoading:false,error:true}}
 		case types.ERRORS.GET_ORGANIZATION:
 			return {...state, client: {}};
 			
