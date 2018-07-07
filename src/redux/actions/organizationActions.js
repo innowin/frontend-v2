@@ -95,11 +95,12 @@ const updateOrganization = (formValues, organizationId, hideEdit) => ({
 	}
 })
 
-const updateCertificate = (formValues, certId) => ({
+const updateCertificate = (formValues, certId, hideEdit) => ({
   type: types.UPDATE_CERTIFICATE,
 	payload: {
     ...formValues,
-    certId
+    certId,
+    hideEdit
 	}
 })
 
@@ -117,10 +118,12 @@ const deleteCertificate = (certId) => ({
 	}
 })
 
-const updateCustomer = (formValues) => ({
+const updateCustomer = (formValues, customerId, hideEdit) => ({
   type: types.UPDATE_CUSTOMER,
 	payload: {
-    ...formValues,
+        formValues,
+        customerId,
+        hideEdit
 	}
 })
 

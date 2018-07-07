@@ -18,5 +18,6 @@ const urls =  {
 	GET_ORG_EXCHANGES:'exchanges/identities',
 	GET_ORG_CUSTOMERS:'organizations/customers',
 	GET_ORG_CERTIFICATES:'base/certificates',
+	UPDATE_CUSTOMER:'organizations/customers'
 }
 export default urls;

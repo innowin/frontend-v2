@@ -15,7 +15,8 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 type CustomerContainerProps = { 
 	customer:Object,
-	organizationId:number
+	organizationId:number,
+	actions:Object
 }
 export class CustomerContainer extends React.Component<CustomerContainerProps,{customer:Object, error:boolean, isLoading:boolean}> {
 	constructor(props:CustomerContainerProps){
@@ -27,33 +28,32 @@ export class CustomerContainer extends React.Component<CustomerContainerProps,{c
 			this.setState ({...this.state ,customer:customer || {}});
 	}
 	delete_ = (customerId:number, hideEdit:Function) => {	
-		const {organizationId, updateStateForView} = this.props;
-		updateStateForView(null,true,true);
-		return deleteCustomer(customerId, updateStateForView,hideEdit,organizationId);
+		const {organizationId} = this.props;
+		// updateStateForView(null,true,true);
+		return deleteCustomer(customerId,hideEdit,organizationId);
 	};
 	update_ = (formValues:Object, customerId:number, updateStateForView:Function, hideEdit:Function) => {//formValues, careerId, updateStateForView, hideEdit
 		updateStateForView(null,null,true);
 		return updateCustomer(formValues,customerId, updateStateForView, hideEdit);
 	};
 	_updateStateForView = (res:Object, error:boolean, isLoading:boolean) => {
-		const {updateStateForView} = this.props;
-		updateStateForView({error:error,isLoading:isLoading});
+		// const {updateStateForView} = this.props;
+		// updateStateForView({error:error,isLoading:isLoading});
 		this.setState({...this.state, customer:res, error:error, isLoading:isLoading});
 	};
 
 	render() {
-		const {customer} = this.state;
+		const {customer, actions} = this.props;
 		return <Customer
 			customer={customer}
-			updateStateForView={this._updateStateForView}
-			deleteCustomer={this.delete_}
-			updateCustomer={this.update_}
+			actions = {actions}
 		/>; 
 	}
 }
 
 type CustomerListProps = {
 	hideCreateForm: Function,
+	actions:Object,
 	createForm: boolean,
 	organizationId:number,
 	customers:Array<Object>
@@ -68,7 +68,7 @@ export class CustomerList extends React.Component<CustomerListProps> {
 	};
 
 	render() {
-		const {  organizationId, createForm} = this.props;
+		const {  organizationId, createForm, actions} = this.props;
 		var {customers} = this.props ;
 		return <ListGroup>
 			{createForm &&
@@ -79,6 +79,7 @@ export class CustomerList extends React.Component<CustomerListProps> {
 			{
 				customers.map(customer => <CustomerContainer
 					customer={customer}
+					actions = {actions}
 					organizationId={organizationId}
 					key={customer.id}
 				/>)
@@ -118,7 +119,7 @@ export class Customers extends React.Component<CustomersProps,{createForm: boole
 
 
 	render() {
-		const {organizationId,  organization} = this.props;
+		const {organizationId,  organization, actions} = this.props;
 		const {isLoading,error} = organization.customers;
 		const customers = organization.customers;
 		const {createForm} = this.state;
@@ -137,6 +138,7 @@ export class Customers extends React.Component<CustomersProps,{createForm: boole
 							
 							<CustomerList
 								customers={customers.content}
+								actions ={actions}
 								organizationId={organizationId}
 								createForm={createForm}
 								hideCreateForm={this.hideCreateForm}
@@ -156,6 +158,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = dispatch => ({
 	actions: bindActionCreators({
 		getCustomers: OrganizationActions.getOrgCustomers ,
+		updateCustomer: OrganizationActions.updateCustomer
 	}, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Customers)

@@ -110,11 +110,9 @@ export class CustomerCreateForm extends React.Component<CustomerCreateFormProps>
 	}
 }
 type CustomerEditFormProps = {
-	update: Function,
-	remove: Function,
 	hideEdit: Function,
 	customer: Object,
-	updateStateForView: Function
+	actions: Object
 }
 export class CustomerEditForm extends React.Component<CustomerEditFormProps,{confirm:boolean}> {
 	state = {
@@ -132,14 +130,16 @@ export class CustomerEditForm extends React.Component<CustomerEditFormProps,{con
 	remove = () => {
 		const{hideEdit} = this.props;
 		const customerId = this.props.customer.id;
-		return this.props.remove(customerId,hideEdit)
+		// return this.props.remove(customerId,hideEdit)
 	};
 
 	save = () => {//(formValues, customerId, updateStateForView, hideEdit
-		const {customer,updateStateForView,hideEdit} = this.props;
+		const {customer,hideEdit, actions} = this.props;
 		const customerId = customer.id;
 		const formValues = this.refs.form.getValues();
-		return this.props.update(formValues, customerId, updateStateForView, hideEdit)
+		const {updateCustomer} = actions;
+		updateCustomer(formValues,customerId,hideEdit)
+		// return this.props.update(formValues, customerId,  hideEdit)
 	};
 
 	onSubmit = (e:SyntheticEvent<HTMLButtonElement>) => {
