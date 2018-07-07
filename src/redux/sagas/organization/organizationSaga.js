@@ -231,21 +231,58 @@ function* getCustomers(action){ //TODO amir
 	}
 }
 //14 get org certificates
-function* getCertificates(action){ //TODO amir
+function* getCertificates(action){ //TODO amir change URL nad QUERY
 	const payload = action.payload;
 	const {organizationId} = payload;
 	const socketChannel = yield call(api.createSocketChannel, results.GET_ORG_CERTIFICATES)
 	try {
-		yield fork(sendRequest ,urls.GET_ORG_CERTIFICATES, results.GET_ORG_CERTIFICATES , `${organizationId}` )
+		yield fork(sendRequest ,urls.GET_ORG_CERTIFICATES, results.GET_ORG_CERTIFICATES , `?organization_id=${organizationId}` )
 		const data = yield take(socketChannel)
 		yield put({ type: types.SUCCESS.GET_ORG_CERTIFICATES, payload:data })
 	} catch (e) {
 		const {message} = e
-		yield put({type:types.ERRORS.GET_ORG_CERTIFICATES, payload:{type:types.ERRORS.GET_ORG_CERTIFICATES,message}})
+		yield put({type:types.ERRORS.GET_ORG_CERTIFICATES, payload:{type:types.ERRORS.GET_ORG_CERTIFICATES,error:message}})
 	} finally {
 		socketChannel.close()
 	}
 }
+
+//15 update certificate
+function* updateCertificate(action){ //TODO amir change URL nad QUERY
+	const payload = action.payload;
+	const {formValues, certId, hideEdit} = payload;
+	const socketChannel = yield call(api.createSocketChannel, results.UPDATE_CERTIFICATE)
+	try {
+		yield fork(updateRequest ,urls.UPDATE_CERTIFICATE, results.UPDATE_CERTIFICATE , formValues, `/${certId}` )
+		const data = yield take(socketChannel)
+		yield put({ type: types.SUCCESS.UPDATE_CERTIFICATE, payload:data })
+	} catch (e) {
+		const {message} = e
+		yield put({type:types.ERRORS.UPDATE_CERTIFICATE, payload:{type:types.ERRORS.UPDATE_CERTIFICATE,error:message}})
+	} finally {
+		socketChannel.close()
+		hideEdit()
+	}
+}
+
+// 16 update customer
+function* updateCustomer(action){ //TODO amir change URL nad QUERY
+	const payload = action.payload;
+	const {formValues, customerId, hideEdit} = payload;
+	const socketChannel = yield call(api.createSocketChannel, results.UPDATE_CUSTOMER)
+	try {
+		yield fork(updateRequest ,urls.UPDATE_CUSTOMER, results.UPDATE_CUSTOMER , formValues, `${customerId}` )
+		const data = yield take(socketChannel)
+		yield put({ type: types.SUCCESS.UPDATE_CUSTOMER, payload:data })
+	} catch (e) {
+		const {message} = e
+		yield put({type:types.ERRORS.UPDATE_CUSTOMER, payload:{type:types.ERRORS.UPDATE_CUSTOMER,error:message}})
+	} finally {
+		socketChannel.close()
+		hideEdit()
+	}
+}
+
 /**********    %% WATCHERS %%    **********/
 //1 - get organization
 export function* watchGetOrganization() {
@@ -292,4 +329,17 @@ export function* watchGetOrgExchanges(){
 //11 - get org customers
 export function* watchGetCustomers(){
 	yield takeEvery(types.GET_ORG_CUSTOMERS, getCustomers)
+}
+//12 - get org certificates
+export function* watchGetCertificates(){
+	yield takeEvery(types.GET_ORG_CERTIFICATES, getCertificates)	
+}
+
+//13 - update org certificate
+export function* watchUpdateCertificate(){
+	yield takeEvery(types.UPDATE_CERTIFICATE, updateCertificate)	
+}
+//14 - update org customer
+export function* watchUpdateCustomer(){
+	yield takeEvery(types.UPDATE_CUSTOMER, updateCustomer)	
 }

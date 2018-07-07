@@ -10,7 +10,9 @@ import {watchGetOrganization,
 	watchGetOrgFollowers,
 	watchGetOrgFollowings,
 	watchGetOrgExchanges,
-	watchGetCustomers} from './organization/organizationSaga'
+	watchGetCustomers,
+	watchGetCertificates,
+	watchUpdateCustomer} from './organization/organizationSaga'
 import {watchLSignIn, watchLSignOut, watchLSignInError} from './auth/authSaga'
 
 const rootSaga = function* () {
@@ -26,7 +28,9 @@ const rootSaga = function* () {
 		watchGetOrgFollowers(),
 		watchGetOrgFollowings(),
 		watchGetOrgExchanges(),
-		watchGetCustomers()
+		watchGetCustomers(),
+		watchGetCertificates(),
+		watchUpdateCustomer()
 
     ])
 }

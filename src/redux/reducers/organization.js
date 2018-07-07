@@ -2,6 +2,7 @@ import initialState from './initialState';
 import types from '../actions/actionTypes';
 
 const organization = (state = initialState.organization, action) => {
+	let error;
 	switch (action.type) {
 		//pending
 		case types.UPDATE_ORGANIZATION_INFO:
@@ -17,6 +18,13 @@ const organization = (state = initialState.organization, action) => {
 		case types.SUCCESS.GET_ORG_CERTIFICATES:
 			let certificates = action.payload;
 			return{...state,certificates:{content:certificates,isLoading:false,error:false}}		
+		
+		case types.SUCCESS.UPDATE_CUSTOMER:
+			let customer = action.payload;
+			let nowCustomers = state.customers.content;
+			var index = nowCustomers.findIndex(function (cus) { return cus.id === customer.id; });
+			nowCustomers[index] = customer
+			return{...state,customers:{content:nowCustomers,isLoading:false,error:false}}	
 
 		case types.SUCCESS.GET_ORG_CUSTOMERS:
 			let customers = action.payload;
@@ -55,8 +63,16 @@ const organization = (state = initialState.organization, action) => {
 			return{...state,...updatedOrganization,isLoading:false,error:false}
 		//ERROR
 		case types.ERRORS.UPDATE_ORGANIZATION_INFO:
-			const error = action.payload
-			return{...state,error:error,isLoading:false,error:true}
+			error = action.payload.error
+			return{...state,errorMessage:error,isLoading:false,error:true}
+
+		case types.ERRORS.GET_ORG_CERTIFICATES:
+			error = action.payload.error
+			return{...state,errorMessage:error,certificates:{content:[],isLoading:false,error:true}}
+
+		case types.ERRORS.UPDATE_CUSTOMER:
+			error = action.payload.error
+			return{...state,errorMessage:error,customers:{content:[],isLoading:false,error:true}}
 
 		case types.ERRORS.GET_ORGANIZATION:
 			return {...state, client: {}};
