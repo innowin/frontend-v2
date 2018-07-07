@@ -25,7 +25,7 @@ export const getProvinces = (countryId, handleResult) => {
       result: "getProvinces",
     }
   );
-  socket.on("getProvinces", (res) => {console.log("getProvinces:", res)
+  socket.on("getProvinces", (res) => {
     if (res.detail) {
       return false
     }
@@ -41,7 +41,7 @@ export const getTowns = (provinceId, handleResult) => {
       result: "getTowns",
     }
   );
-  socket.on("getTowns", (res) => {console.log("getTowns:", res)
+  socket.on("getTowns", (res) => {
     if (res.detail) {
       return false
     }

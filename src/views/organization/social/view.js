@@ -1,43 +1,42 @@
 /*global __*/
 // @flow
 import * as React from "react";
-import PropTypes from "prop-types";
 import "moment/locale/fa";
-import {editIcon, DefaultUserIcon, DefaultExchangeIcon} from "src/images/icons";
+import {EditIcon, DefaultUserIcon, DefaultExchangeIcon} from "src/images/icons";
 import {userInfoIcon} from "src/images/icons"
 import {Link} from 'react-router-dom'
 import {ItemWrapper, ItemHeader, VerifyWrapper} from "src/views/common/cards/Frames";
 
 
 type ExchangesWrapperProps = {
-  children?: React.Node,
+    children?: React.Node,
 };
 export function ExchangesWrapper (props:ExchangesWrapperProps) {
-	return (
-			<ItemWrapper icon={userInfoIcon}>{props.children}</ItemWrapper>
-	)
+    return (
+        <ItemWrapper icon={userInfoIcon}>{props.children}</ItemWrapper>
+    )
 };
 
 type ExchangeItemWrapperProps = {
-  showEdit: boolean,
-  children?: React.Node,
+    showEdit: boolean,
+    children?: React.Node,
 };
 export class ExchangeItemWrapper extends React.Component<ExchangeItemWrapperProps> {
-  render() {
-		const {showEdit} = this.props;
-    return (
-      <div className="-itemWrapperExchange">
-				<div className="-itemEditBtn" onClick={showEdit}>{editIcon}</div>
-        {this.props.children}
-      </div>
-    )
-  }
+    render() {
+        const {showEdit} = this.props;
+        return (
+            <div className="-itemWrapperExchange">
+                <div className="-itemEditBtn" onClick={showEdit}><EditIcon /></div>
+                {this.props.children}
+            </div>
+        )
+    }
 }
 
 type ExchangesViewProps = {
-  showEdit?: boolean,
-  exchanges: Array<Object>,
-  deleteExchange: Function
+    showEdit?: boolean,
+    exchanges: Array<Object>,
+    deleteExchange: Function
 };
 export class ExchangesView extends React.Component<ExchangesViewProps> {
   static defaultProps = {
@@ -64,85 +63,85 @@ export class ExchangesView extends React.Component<ExchangesViewProps> {
 }
 
 type ExchangeViewProps = {
-  exchange: Object,
-  deleteExchange:Function,
-  index:number,
+    exchange: Object,
+    deleteExchange:Function,
+    index:number,
 }
 type ExchangeViewState = {
-  viewerCount: number, 
-  isLoading: boolean, 
-  error: boolean
+    viewerCount: number,
+    isLoading: boolean,
+    error: boolean
 };
 
 export class ExchangeView extends React.Component<ExchangeViewProps, ExchangeViewState> {
-  state = {
-    viewerCount: 0, 
-    isLoading: false, 
-    error: false
-  };
-  constructor(props: ExchangeViewProps) {
-    super(props)
-  };
+    state = {
+        viewerCount: 0,
+        isLoading: false,
+        error: false
+    };
+    constructor(props: ExchangeViewProps) {
+        super(props)
+    };
 
-  componentDidMount() {
-  };
+    componentDidMount() {
+    };
 
-  componentWillUnmount() {
-  }
-  onDeleteExchange(){
-    const{exchange, deleteExchange, index} = this.props;
-    deleteExchange(exchange.id,index);
-  }
-  render() {
-		const {exchange} = this.props;
+    componentWillUnmount() {
+    }
+    onDeleteExchange(){
+        const{exchange, deleteExchange, index} = this.props;
+        deleteExchange(exchange.id,index);
+    }
+    render() {
+        const {exchange} = this.props;
 
-    return (
+        return (
 
-        <div className="member-wrapper">
-          <div className="image-wrapper">
-            <Link to={`/user/${6}`}>
-              <DefaultExchangeIcon/>
-            </Link>
-          </div>
-          <div className="details">
-              <div>
-                <div className="name">{exchange.name}</div>
-                <div className="job-title">{exchange.description}</div>
-              </div>
-                {(false) ? <button className="btn btn-outline-danger">{__('Delete')}</button>:""}
-                <button onClick={this.onDeleteExchange.bind(this)} className="m-auto d-block btn btn-outline-danger btn-sm">{__('Delete')}</button>
-          </div>
-        </div>
-    )
-  }
+            <div className="member-wrapper">
+                <div className="image-wrapper">
+                    <Link to={`/user/${6}`}>
+                        <DefaultExchangeIcon/>
+                    </Link>
+                </div>
+                <div className="details">
+                    <div>
+                        <div className="name">{exchange.name}</div>
+                        <div className="job-title">{exchange.description}</div>
+                    </div>
+                    {(false) ? <button className="btn btn-outline-danger">{__('Delete')}</button>:""}
+                    <button onClick={this.onDeleteExchange.bind(this)} className="m-auto d-block btn btn-outline-danger btn-sm">{__('Delete')}</button>
+                </div>
+            </div>
+        )
+    }
 }
 type FollowersWrapperProps ={
-  children: React.Node
+    children: React.Node
 }
 export  function FollowersWrapper(props:FollowersWrapperProps){
-	return (
-			<ItemWrapper icon={userInfoIcon}>{props.children}</ItemWrapper>
-	)
+    return (
+        <ItemWrapper icon={userInfoIcon}>{props.children}</ItemWrapper>
+    )
 };
 type FollowerItemWrapperProps ={
-  showEdit: boolean,
-  children: React.Node
+    showEdit: boolean,
+    children: React.Node
 }
 export class FollowerItemWrapper extends React.Component<FollowerItemWrapperProps> {
-  render() {
-		const {showEdit} = this.props;
-    return (
-      <div className="-itemWrapperFollower">
-				<div className="-itemEditBtn" onClick={showEdit}>{editIcon}</div>
-        {this.props.children}
-      </div>
-    )
-  }
+    render() {
+        const {showEdit} = this.props;
+        return (
+            <div className="-itemWrapperFollower">
+                <div className="-itemEditBtn" onClick={showEdit}><EditIcon/></div>
+                {this.props.children}
+            </div>
+        )
+    }
 }
 
 type FollowersViewProps ={
-  showEdit?: Function,
-  followers: Array<Object>
+    showEdit?: Function,
+    followers: Array<Object>
 }
 export class FollowersView extends React.Component<FollowersViewProps> {
   static defaultProps = {
@@ -168,73 +167,73 @@ export class FollowersView extends React.Component<FollowersViewProps> {
 	}
 }
 type FollowerViewProps = {
-  follower: Object
+    follower: Object
 }
 export class FollowerView extends React.Component<FollowerViewProps,{viewerCount:number}> {
-  
-  state = {viewerCount: 0};
-  
-  constructor(props:FollowerViewProps) {
-    super(props);
-  };
 
-  componentDidMount() {
-  };
+    state = {viewerCount: 0};
 
-  componentWillUnmount() {
-  }
+    constructor(props:FollowerViewProps) {
+        super(props);
+    };
 
-  render() {
-		const {follower} = this.props;
+    componentDidMount() {
+    };
 
-    return (
+    componentWillUnmount() {
+    }
 
-        <div className="member-wrapper">
-          <div className="image-wrapper">
-            <Link to={`/user/${6}`}>
-              <DefaultUserIcon/>
-            </Link>
-          </div>
-          <div className="details">
-              <div>
-                <div className="name">{follower.name}</div>
-                <div className="job-title">{follower.description}</div>
-              </div>
-            {(false) ? <button className="btn btn-outline-danger">{__('Delete')}</button>:<Link to="#">connect</Link>}
-          </div>
-        </div>
-    )
-  }
+    render() {
+        const {follower} = this.props;
+
+        return (
+
+            <div className="member-wrapper">
+                <div className="image-wrapper">
+                    <Link to={`/user/${6}`}>
+                        <DefaultUserIcon/>
+                    </Link>
+                </div>
+                <div className="details">
+                    <div>
+                        <div className="name">{follower.name}</div>
+                        <div className="job-title">{follower.description}</div>
+                    </div>
+                    {(false) ? <button className="btn btn-outline-danger">{__('Delete')}</button>:<Link to="#">connect</Link>}
+                </div>
+            </div>
+        )
+    }
 }
 
 
 type FollowingsWrapperProps = {
-  children: React.Node
+    children: React.Node
 }
 export const FollowingsWrapper = (props:FollowingsWrapperProps) => {
-	return (
-			<ItemWrapper icon={userInfoIcon}>{props.children}</ItemWrapper>
-	)
+    return (
+        <ItemWrapper icon={userInfoIcon}>{props.children}</ItemWrapper>
+    )
 };
 type FollowingItemWrapperProps = {
-  showEdit : boolean,
-  children: React.Node
+    showEdit : boolean,
+    children: React.Node
 }
 export class FollowingItemWrapper extends React.Component<FollowingItemWrapperProps> {
-  render() {
-		const {showEdit} = this.props;
-    return (
-      <div className="-itemWrapperFollowing">
-				<div className="-itemEditBtn" onClick={showEdit}>{editIcon}</div>
-        {this.props.children}
-      </div>
-    )
-  }
+    render() {
+        const {showEdit} = this.props;
+        return (
+            <div className="-itemWrapperFollowing">
+                <div className="-itemEditBtn" onClick={showEdit}><EditIcon/></div>
+                {this.props.children}
+            </div>
+        )
+    }
 }
 type FollowingsViewProps = {
-  showEdit? : boolean,
-  deleteFollowing : Function,
-  followings : Array<Object>
+    showEdit? : boolean,
+    deleteFollowing : Function,
+    followings : Array<Object>
 }
 export class FollowingsView extends React.Component<FollowingsViewProps> {
   static defaultProps = {
@@ -259,43 +258,43 @@ export class FollowingsView extends React.Component<FollowingsViewProps> {
 		)
 	}
 }
-type FollowingViewProps = { 
-  deleteFollowing:Function,
-  following: Object,
-  index: number
+type FollowingViewProps = {
+    deleteFollowing:Function,
+    following: Object,
+    index: number
 }
 export class FollowingView extends React.Component<FollowingViewProps, {viewerCount: number, isLoading: boolean, error: boolean}> {
 
-  state = {viewerCount: 0, isLoading: false, error: false};
-  constructor(props:FollowingViewProps) {
-    super(props);
-  };
+    state = {viewerCount: 0, isLoading: false, error: false};
+    constructor(props:FollowingViewProps) {
+        super(props);
+    };
 
-  onDeleteFollowing(){
-    const {deleteFollowing, following, index} = this.props;
-    deleteFollowing(following.follow_follower, index);
-  }
-  render() {
-		const {following } = this.props;
+    onDeleteFollowing(){
+        const {deleteFollowing, following, index} = this.props;
+        deleteFollowing(following.follow_follower, index);
+    }
+    render() {
+        const {following } = this.props;
 
-    return (
+        return (
 
-        <div className="member-wrapper">
-        
-          <div className="image-wrapper">
-            <Link to={`/user/${6}`}>
-              <DefaultUserIcon/>
-            </Link>
-          </div>
-          <div className="details">
-              <div>
-                <div className="name">{following.name}</div>
-                <div className="job-title">{following.description}</div>
-              </div>
-            {(false) ? <button className="btn btn-outline-danger">{__('Delete')}</button>:<Link to="#">connect</Link>}
-            <button onClick={this.onDeleteFollowing.bind(this)} className="m-auto d-block btn btn-outline-danger btn-sm">{__('Delete')}</button>
-          </div>
-        </div>
-    )
-  }
+            <div className="member-wrapper">
+
+                <div className="image-wrapper">
+                    <Link to={`/user/${6}`}>
+                        <DefaultUserIcon/>
+                    </Link>
+                </div>
+                <div className="details">
+                    <div>
+                        <div className="name">{following.name}</div>
+                        <div className="job-title">{following.description}</div>
+                    </div>
+                    {(false) ? <button className="btn btn-outline-danger">{__('Delete')}</button>:<Link to="#">connect</Link>}
+                    <button onClick={this.onDeleteFollowing.bind(this)} className="m-auto d-block btn btn-outline-danger btn-sm">{__('Delete')}</button>
+                </div>
+            </div>
+        )
+    }
 }

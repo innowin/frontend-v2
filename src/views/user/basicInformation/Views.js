@@ -1,7 +1,8 @@
-/*global __*/
-import React, {Component} from "react"
+// @flow
+import * as React from "react"
 import PropTypes from "prop-types"
 import {list_of_badge} from "../../common/Functions"
+import {JalaliWithFarsiMonth} from "../../common/JalaliWithFarsiMonth"
 import {userInfoIcon, researchIcon, educationIcon} from "src/images/icons"
 import {
   Field,
@@ -10,11 +11,21 @@ import {
   ItemHeader,
   ItemWrapper,
 } from '../../common/cards/Frames'
-import * as jMoment from 'moment-jalali'
+import {
+  userType,
+  userProfileType,
+  userEducationType,
+  userResearchType
+} from "src/consts/flowTypes/user/basicInformation"
 
-export const UserInfoItemWrapper = ({children, icon}) => {
+
+type PropsUserInfoItemWrapper = {
+  icon: React.Element<any>,
+  children?: React.ChildrenArray<React.Element<'div'>> | React.Element<any>
+}
+export const UserInfoItemWrapper = (props: PropsUserInfoItemWrapper) => {
   return (
-    <ItemWrapper icon={icon}>{children}</ItemWrapper>
+    <ItemWrapper icon={props.icon}>{props.children}</ItemWrapper>
   )
 }
 UserInfoItemWrapper.propTypes = {
@@ -22,74 +33,43 @@ UserInfoItemWrapper.propTypes = {
 }
 
 
-const JalaliWithFarsiMonth = (date) => {
-  // this function getting a date in format "YYYY-MM-DDTHH:mm:ss.SSZ" and return somthing like 26 فروردین 1397
-  const monthes = {  // object of monthes
-    1: 'فروردین',
-    2: 'اردیبهشت',
-    3: 'خرداد',
-    4: 'تیر',
-    5: 'مرداد',
-    6: 'شهریور',
-    7: 'مهر',
-    8: 'آبان',
-    9: 'آذر',
-    10: 'دی',
-    11: 'بهمن',
-    12: 'اسفند',
-  }
-
-  const convertTOFarsi = (month) => {
-    // a function that convert numbered month to farsi month(for example conver 1 to فروردین).
-    const farsiMonth = Object.keys(monthes).reduce((farsi, key) => {
-      return ((key == month) && monthes[key]) || farsi
-    }, '')
-    /*
-        the returned value working as same as the below:
-        if (key == month) return monthes[key]
-        else return farsi
-    */
-
-    return farsiMonth
-  }
-
-  let jalaliDate;
-  if (date) {
-    jalaliDate = jMoment(date, "YYYY-MM-DDTHH:mm:ss.SSZ")
-    jalaliDate = `${jalaliDate.jDate()} ${convertTOFarsi(jalaliDate.jMonth())} ${jalaliDate.jYear()}`
-  }
-  return jalaliDate // the output is somthing like 26 فروردین 1397
+// flow type of UserInfoView
+type PropsUserInfoView = {
+  showEdit: Function,
+  user: userType,
+  translate: {[string]:string}
 }
 
-export class UserInfoView extends Component {
+export class UserInfoView extends React.Component<PropsUserInfoView> {
   static propTypes = {
     showEdit: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
-  };
+    translate: PropTypes.object.isRequired
+  }
 
   render() {
-    const {user, showEdit} = this.props;
+    const {user, showEdit, translate} = this.props
     return (
       <UserInfoItemWrapper icon={userInfoIcon}>
-        <ItemHeader title={__('User info')} showEdit={showEdit}/>
+        <ItemHeader title={translate['User info']} showEdit={showEdit}/>
         <Field>
-          <FieldLabel label={__('Username') + ": "}/>
+          <FieldLabel label={translate['Username'] + ": "}/>
           <FieldValue value={user.username}/>
         </Field>
         <Field>
-          <FieldLabel label={__('Name') + ": "}/>
+          <FieldLabel label={translate['Name'] + ": "}/>
           <FieldValue value={user.first_name}/>
         </Field>
         <Field>
-          <FieldLabel label={__('Last name') + ": "}/>
+          <FieldLabel label={translate['Last name'] + ": "}/>
           <FieldValue value={user.last_name}/>
         </Field>
         <Field>
-          <FieldLabel label={__('Email') + ": "}/>
+          <FieldLabel label={translate['Email'] + ": "}/>
           <FieldValue value={user.email}/>
         </Field>
         <Field>
-          <FieldLabel label={__('Date joined') + ": "}/>
+          <FieldLabel label={translate['Date joined'] + ": "}/>
           <FieldValue value={JalaliWithFarsiMonth(user.date_joined)}/>
         </Field>
       </UserInfoItemWrapper>
@@ -97,55 +77,65 @@ export class UserInfoView extends Component {
   }
 }
 
-export class ProfileInfoView extends Component {
+
+// flow type of ProfileInfoView
+type PropsProfileInfoView = {
+  showEdit: Function,
+  profile: userProfileType,
+  translate:{[string]:string}
+}
+type listOfBadge = (?React.Element<'span'>)[]
+
+export class ProfileInfoView extends React.Component<PropsProfileInfoView> {
   static propTypes = {
     showEdit: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
-  };
+    translate: PropTypes.object.isRequired
+  }
 
   render() {
-    const {profile, showEdit} = this.props;
-    const listMobile = list_of_badge(profile.mobile);
-    const listPhone = list_of_badge(profile.phone);
-    const listWebSite = list_of_badge(profile.web_site);
-    // TODO keep ltr
+    const {showEdit,translate} = this.props
+    const profile = this.props.profile
+    const listMobile: listOfBadge = list_of_badge(profile.mobile)
+    const listPhone: listOfBadge = list_of_badge(profile.phone)
+    const listWebSite: listOfBadge = list_of_badge(profile.web_site)
     return (
       <UserInfoItemWrapper icon={userInfoIcon}>
-        <ItemHeader title={__('Profile info')} showEdit={showEdit}/>
+        <ItemHeader title={translate['Profile info']} showEdit={showEdit}/>
         <Field>
-          <FieldLabel label={__('BirthDate') + ": "}/>
+          <FieldLabel label={translate['BirthDate'] + ": "}/>
           <FieldValue value={profile.birth_date}/>
         </Field>
         <Field>
-          <FieldLabel label={__('National code') + ": "}/>
+          <FieldLabel label={translate['National code'] + ": "}/>
           <FieldValue value={profile.national_code}/>
         </Field>
         <Field>
-          <FieldLabel label={__('Mobile') + ": "}/>
+          <FieldLabel label={translate['Mobile'] + ": "}/>
           <FieldValue value={<span className="dir-rtl">{listMobile}</span>}/>
         </Field>
         <Field>
-          <FieldLabel label={__('Phone') + ": "}/>
+          <FieldLabel label={translate['Phone'] + ": "}/>
           <FieldValue value={<span className="dir-rtl">{listPhone}</span>}/>
         </Field>
         <Field>
-          <FieldLabel label={__('Fax') + ": "}/>
+          <FieldLabel label={translate['Fax'] + ": "}/>
           <FieldValue value={<span className="d-inline-block dir-rtl">{profile.fax}</span>}/>
         </Field>
         <Field>
-          <FieldLabel label={__('Public email') + ": "}/>
+          <FieldLabel label={translate['Public email'] + ": "}/>
           <FieldValue value={profile.public_email}/>
         </Field>
         <Field>
-          <FieldLabel label={__('Telegram account') + ": "}/>
+          <FieldLabel label={translate['Telegram account'] + ": "}/>
           <FieldValue value={<span className="d-inline-block dir-rtl">{profile.telegram_account}</span>}/>
         </Field>
         <Field>
-          <FieldLabel label={__('Website') + ": "}/>
+          <FieldLabel label={translate['Website'] + ": "}/>
           <FieldValue value={<span className="dir-rtl">{listWebSite}</span>}/>
         </Field>
         <Field>
-          <FieldLabel label={__('Description') + ": "}/>
+          <FieldLabel label={translate['Description'] + ": "}/>
           <FieldValue value={profile.description}/>
         </Field>
       </UserInfoItemWrapper>
@@ -153,79 +143,95 @@ export class ProfileInfoView extends Component {
   }
 }
 
-export class ResearchInfoView extends Component {
+
+// flow type of EducationInfoView
+type PropsEducationInfoView = {
+  showEdit: Function,
+  education: userEducationType,
+  translate: {[string]:string}
+}
+
+export class EducationInfoView extends React.Component<PropsEducationInfoView> {
   static propTypes = {
     showEdit: PropTypes.func.isRequired,
-    research: PropTypes.object.isRequired,
-  };
+    education: PropTypes.object.isRequired,
+    translate: PropTypes.object.isRequired
+  }
 
   render() {
-    const {research, showEdit} = this.props;
-    const listAuthor = list_of_badge(research.author);
-    // TODO keep ltr
+    const {education, showEdit, translate} = this.props
     return (
-      <UserInfoItemWrapper icon={researchIcon}>
-        <ItemHeader title={__('ResearchInfo')} showEdit={showEdit}/>
+      <UserInfoItemWrapper icon={educationIcon}>
+        <ItemHeader title={translate['EducationInfo']} showEdit={showEdit}/>
         <Field>
-          <FieldLabel label={__('Title') + ": "}/>
-          <FieldValue value={research.title}/>
+          <FieldLabel label={translate['University'] + ": "}/>
+          <FieldValue value={education.university}/>
         </Field>
         <Field>
-          <FieldLabel label={__('Author') + ": "}/>
-          <FieldValue value={<span className="dir-rtl">{listAuthor}</span>}/>
+          <FieldLabel label={translate['Grade'] + ": "}/>
+          <FieldValue value={education.grade}/>
         </Field>
         <Field>
-          <FieldLabel label={__('Publication') + ": "}/>
-          <FieldValue value={research.publication}/>
+          <FieldLabel label={translate['FromDate'] + ": "}/>
+          <FieldValue value={education.from_date}/>
         </Field>
         <Field>
-          <FieldLabel label={__('Year') + ": "}/>
-          <FieldValue value={research.year}/>
+          <FieldLabel label={translate['ToDate'] + ": "}/>
+          <FieldValue value={education.to_date}/>
         </Field>
         <Field>
-          <FieldLabel label={__('Page Count') + ": "}/>
-          <FieldValue value={research.page_count}/>
+          <FieldLabel label={translate['Average'] + ": "}/>
+          <FieldValue value={education.average}/>
+        </Field>
+        <Field>
+          <FieldLabel label={translate['Description'] + ": "}/>
+          <FieldValue value={education.description}/>
         </Field>
       </UserInfoItemWrapper>
     )
   }
 }
 
-export class EducationInfoView extends Component {
+
+// flow type of ResearchInfoView
+type PropsResearchInfoView = {
+  showEdit: Function,
+  research: userResearchType,
+  translate: {[string]:string}
+}
+
+export class ResearchInfoView extends React.Component<PropsResearchInfoView> {
   static propTypes = {
     showEdit: PropTypes.func.isRequired,
-    education: PropTypes.object.isRequired,
-  };
+    research: PropTypes.object.isRequired,
+    translate: PropTypes.object.isRequired
+  }
 
   render() {
-    const {education, showEdit} = this.props;
-    // TODO keep ltr
+    const {research, showEdit, translate} = this.props
+    const listAuthor: listOfBadge = list_of_badge(research.author)
     return (
-      <UserInfoItemWrapper icon={educationIcon}>
-        <ItemHeader title={__('EducationInfo')} showEdit={showEdit}/>
+      <UserInfoItemWrapper icon={researchIcon}>
+        <ItemHeader title={translate['ResearchInfo']} showEdit={showEdit}/>
         <Field>
-          <FieldLabel label={__('University') + ": "}/>
-          <FieldValue value={education.university}/>
+          <FieldLabel label={translate['Title'] + ": "}/>
+          <FieldValue value={research.title}/>
         </Field>
         <Field>
-          <FieldLabel label={__('Grade') + ": "}/>
-          <FieldValue value={education.grade}/>
+          <FieldLabel label={translate['Author'] + ": "}/>
+          <FieldValue value={<span className="dir-rtl">{listAuthor}</span>}/>
         </Field>
         <Field>
-          <FieldLabel label={__('FromDate') + ": "}/>
-          <FieldValue value={education.from_date}/>
+          <FieldLabel label={translate['Publication'] + ": "}/>
+          <FieldValue value={research.publication}/>
         </Field>
         <Field>
-          <FieldLabel label={__('ToDate') + ": "}/>
-          <FieldValue value={education.to_date}/>
+          <FieldLabel label={translate['Year'] + ": "}/>
+          <FieldValue value={research.year}/>
         </Field>
         <Field>
-          <FieldLabel label={__('Average') + ": "}/>
-          <FieldValue value={education.average}/>
-        </Field>
-        <Field>
-          <FieldLabel label={__('Description') + ": "}/>
-          <FieldValue value={education.description}/>
+          <FieldLabel label={translate['Page Count'] + ": "}/>
+          <FieldValue value={research.page_count}/>
         </Field>
       </UserInfoItemWrapper>
     )

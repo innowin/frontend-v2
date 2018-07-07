@@ -55,7 +55,7 @@ export class PostItemHeader extends Component {
           <span className="mr-1 -green2"> پیش</span>
         </div>
         <div className="-item-edit-btnPost">
-          <div onClick={showEdit}>{editIcon}</div>
+          <div onClick={showEdit}><EditIcon /></div>
         </div>
       </div>
     )

@@ -49,11 +49,16 @@
         z-index: 2;
         top: -10px;
         transition: all 1s;
-        span {
+        .progress-step-icon {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            width: 14px;
+            height: 14px;
+        }
+        .progress-step-icon path {
+            fill: $disable-color;
         }
         .step-title {
             position: absolute;
@@ -65,8 +70,11 @@
             font-size: 12px;
         }
         &.checked {
-            background-color: $brand-inverse; 
-            color: $chat-box2-color;
+            background-color: $brand-inverse;
+            transition: all 2s;
+        }
+        &.checked .progress-step-icon path {
+            fill: $chat-box2-color;
             transition: all 2s;
         }
     }
@@ -78,7 +86,7 @@
     }
 }
 .progressive-step.checked .step-title {
-        color: #848484;
+        color: $text-medium-dark;
 }
 // .progressive-wrapper {
 //     padding: 0 20px;

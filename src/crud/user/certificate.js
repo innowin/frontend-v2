@@ -11,17 +11,17 @@ export const getCertificates = (userId, updateCertificates, handleErrorLoading) 
       result: `UserCertificates-get/${userId}`,
       token: TOKEN,
     }
-  );
+  )
 
   socket.on(`UserCertificates-get/${userId}`, (res) => {
     if (res.detail) {
-      handleErrorLoading(res.detail);
-      return false;
+      handleErrorLoading(res.detail)
+      return false
     }
-    updateCertificates(res, 'get');
-    handleErrorLoading();
-  });
-};
+    updateCertificates(res, 'get')
+    handleErrorLoading()
+  })
+}
 
 export const updateCertificate = (formValues, certificateId, updateView, hideEdit, handleErrorLoading) => {
   socket.emit(REST_REQUEST,
@@ -32,18 +32,18 @@ export const updateCertificate = (formValues, certificateId, updateView, hideEdi
       data: formValues,
       token: TOKEN
     }
-  );
+  )
 
   socket.on(`updateCertificate-patch/${certificateId}`, (res) => {
     if (res.detail) {
-      handleErrorLoading(res.detail);
-      return false;
+      handleErrorLoading(res.detail)
+      return false
     }
-    updateView(res);
-    handleErrorLoading();
-    hideEdit();
-  });
-};
+    updateView(res)
+    handleErrorLoading()
+    hideEdit()
+  })
+}
 
 export const createCertificate = (formValues, updateCertificates, handleErrorLoading, hideCreateForm) => {
     socket.emit(REST_REQUEST,
@@ -54,22 +54,22 @@ export const createCertificate = (formValues, updateCertificates, handleErrorLoa
         data: {...formValues, certificate_user:ID},
         token: TOKEN
       }
-    );
+    )
 
     socket.on("createCertificate-post", (res) => {
       if (res.detail) {
-        handleErrorLoading(res.detail);
-        return false;
+        handleErrorLoading(res.detail)
+        return false
       }
-      updateCertificates(res, 'post');
-      handleErrorLoading();
-      hideCreateForm();
-    });
+      updateCertificates(res, 'post')
+      handleErrorLoading()
+      hideCreateForm()
+    })
   }
-;
+
 
 export const deleteCertificate = (certificates, certificate, updateCertificates, hideEdit, handleErrorLoading) => {
-  const certificateId = certificate.id;
+  const certificateId = certificate.id
   socket.emit(REST_REQUEST,
     {
       method: "delete",
@@ -77,17 +77,17 @@ export const deleteCertificate = (certificates, certificate, updateCertificates,
       result: `deleteCertificate-delete/${certificateId}`,
       token: TOKEN
     }
-  );
+  )
 
 
   socket.on(`deleteCertificate-delete/${certificateId}`, (res) => {
     if (res.detail) {
-      handleErrorLoading(res.detail);
-      return false;
+      handleErrorLoading(res.detail)
+      return false
     }
-    const deletedIndex = certificates.indexOf(certificate);
-    updateCertificates(null, 'del', deletedIndex);
-    handleErrorLoading();
-    hideEdit();
-  });
-};
+    const deletedIndex = certificates.indexOf(certificate)
+    updateCertificates(null, 'del', deletedIndex)
+    handleErrorLoading()
+    hideEdit()
+  })
+}
