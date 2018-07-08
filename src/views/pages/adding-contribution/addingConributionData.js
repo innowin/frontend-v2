@@ -144,7 +144,7 @@ export const tags = [  //
 ]
 
 export const LAYER1_INPUTS = {
-    NAME: 'name',
+    NAME: 'title',
     CATEGORY_LAYER1: 'categoryLevel1',
     CATEGORY_LAYER2: 'categoryLevel2',
     CATEGORY_LAYER3: 'categoryLevel3',
