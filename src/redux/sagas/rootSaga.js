@@ -1,7 +1,5 @@
-import {all, takeLatest} from 'redux-saga/effects'
-import {addingContribution} from './product/workers'
-import types, {REQUEST} from '../actions/actionTypes'
-import {watchGetOrganization, 
+import {all} from 'redux-saga/effects'
+import {watchGetOrganization,
 	watchGetOrganizationSuccess,
 	watchGetOrganizationMembers,
 	// watchGetOrganizationMembersSuccess,
@@ -14,6 +12,7 @@ import {watchGetOrganization,
 	watchGetCertificates,
 	watchUpdateCustomer} from './organization/organizationSaga'
 import {watchLSignIn, watchLSignOut, watchLSignInError} from './auth/authSaga'
+import {watchAddingContribution} from './addingContribution/wW'
 
 const rootSaga = function* () {
 	yield all([
@@ -30,25 +29,10 @@ const rootSaga = function* () {
 		watchGetOrgExchanges(),
 		watchGetCustomers(),
 		watchGetCertificates(),
-		watchUpdateCustomer()
-
+		watchUpdateCustomer(),
+		watchAddingContribution(),
     ])
 }
 
-// =======
-// import {all, takeLatest} from 'redux-saga/effects'
-// import types, {REQUEST} from '../actions/actionTypes'
-// import {watchAddNumber, watchGetPosts} from "./auth/testSaga"
-// import {addingContribution} from './product/workers'
-//
-// const rootSaga = function* () {
-//     yield takeLatest(types.ADD_CONTRIBUTION + REQUEST, addingContribution); // watches for adding contribution.
-//
-//     yield all([
-//         watchAddNumber(),
-//         watchGetPosts()
-//     ])
-// >>>>>>> ali
-// };
 
 export default rootSaga;
