@@ -27,7 +27,7 @@ class TopBar extends Component {
 	
 	constructor(props) {
 		super(props);
-		this.state = {isSignedOut: false, collapse: false, collapseProfile: false, profileMedia: null}
+		this.state = {isSignedOut: false, collapse: false, collapseProfile: false, agentForm:false, profileMedia: null}
 	}
 	
 	_toggle = (e) => {
@@ -49,6 +49,15 @@ class TopBar extends Component {
 			getFile(mediaId, mediaResult)
 		}
 	};
+
+	_handleExchangeUpgrade = (e) => {
+    this.setState({...this.state,agentForm:true})
+  }
+
+  _handleHideAgent = (e)=>{
+    this.setState({...this.state,agentForm:false})
+  }
+
 	
 	_handleProductWizardModal = () => {
 		// this.addProductWizard._toggle()
@@ -72,6 +81,11 @@ class TopBar extends Component {
 		const {profileMedia, collapse, collapseProfile} = this.state;
 		return (
 				<div>
+					<AgentForm
+						active={this.state.agentForm}
+						hide={this._handleHideAgent}
+					/>
+
 					<nav className="navbar flex-row justify-content-between p-0 -white-i fixed-top topBar">
 						<div className="d-flex align-items-center -whiteSvg">
 							<button type="button"
