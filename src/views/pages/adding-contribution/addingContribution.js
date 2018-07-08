@@ -25,7 +25,7 @@ import {getMessages} from "../../../redux/selectors/translateSelector";
 import {connect} from "react-redux";
 import {LAYER1_INPUTS} from './addingConributionData'
 import SuccessMessage from './successMessage'
-import {addContributionAction} from 'src/redux/actions/productActions'
+import {createSkillAction} from 'src/redux/actions/ContributionActions'
 import FontAwesome from "react-fontawesome"
 
 const reorder = (list, startIndex, endIndex) => {
@@ -149,7 +149,10 @@ class AddingContribution extends React.Component {
 
     _submitHandler = () => {
         // console.log('this.props is 1 :', this.props)
-        this.props.dispatch(addContributionAction(this.state.newContributionData))
+        const {newContributionData} = this.state
+        const {title, description} = newContributionData
+        console.log({title, description})
+        this.props.dispatch(createSkillAction({title, description}))
         this._nextStep()
     }
 

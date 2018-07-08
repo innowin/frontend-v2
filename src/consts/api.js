@@ -29,6 +29,7 @@ const get = (url, resultName, query = "") => {
   })
 }
 
+
 const patch = (url, resultName, data, query = "") => {
   SOCKET.emit(REST_REQUEST, {
     method: 'patch',
@@ -58,6 +59,7 @@ const post = (url, resultName, data, query = "") => {
     token
   })
 }
+
 const api = {
   createSocketChannel,
   get,
