@@ -6,10 +6,10 @@ import {routerActions} from 'react-router-redux'
 import {bindActionCreators} from 'redux'
 import {connect} from "react-redux"
 import {
-	DefaultUserIcon,
-	logoDaneshBoom,
-	ExchangeExploreIcon,
-	NotificationIcon
+    DefaultUserIcon,
+    logoDaneshBoom,
+    ExchangeExploreIcon,
+    NotificationIcon
 } from "src/images/icons"
 import {ID} from "src/consts/data"
 import {Link} from "react-router-dom"
@@ -17,6 +17,7 @@ import {Link} from "react-router-dom"
 import {getProfile} from "src/crud/user/profile"
 import {getFile} from "src/crud/media/media"
 import AgentForm from "../pages/modal/agentForm-modal"
+import AddingContribution from "../pages/adding-contribution/addingContribution"
 
 class TopBar extends Component {
 	
@@ -144,6 +145,11 @@ class TopBar extends Component {
 }
 
 const mapStateToProps = state => ({isLoggedIn: state.auth.client.isLoggedIn})
-const mapDispatchToProps = dispatch => ({actions: bindActionCreators({signOut: AuthActions.signOut,push:routerActions.push}, dispatch)})
+const mapDispatchToProps = dispatch => ({
+    actions: bindActionCreators({
+        signOut: AuthActions.signOut,
+        push: routerActions.push
+    }, dispatch)
+})
 export default connect(mapStateToProps, mapDispatchToProps)(TopBar)
 

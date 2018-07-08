@@ -26,6 +26,7 @@ import {connect} from "react-redux";
 import {LAYER1_INPUTS} from './addingConributionData'
 import SuccessMessage from './successMessage'
 import {addContributionAction} from 'src/redux/actions/productActions'
+import FontAwesome from "react-fontawesome"
 
 const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
@@ -39,7 +40,6 @@ class AddingContribution extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            modalIsOpen: false,
             wrapperClassName: WRAPPER_CLASS_NAMES.ENTERING,
             activeStep: 1,
             progressSteps: [
@@ -304,6 +304,8 @@ class AddingContribution extends React.Component {
         const data = {...this.state.newContributionData, category: category}
         this.setState({...this.state, newContributionData: data})
     }
+    _handleModalVisibility = () => this.props.handleModalVisibility()
+
     _shareContribution = () => 1
     _introToExchange = () => 1
     _findAgent = () => 1
@@ -319,7 +321,7 @@ class AddingContribution extends React.Component {
                     <NewContribution
                         categories={newContributionCategories}
                         goToNextStep={this._nextStep}
-                        goToPrevStep={() => this.setState({...this.state, modalIsOpen: false})}
+                        goToPrevStep={this._handleModalVisibility}
                         selectedCategory={newContributionData.category}
                         selectCategoryHandler={this._newContributionCategoryHandler}
                     />
@@ -383,7 +385,7 @@ class AddingContribution extends React.Component {
                         introToExchange={this._introToExchange}
                         findAgent={this._findAgent}
                         getCertificateHandler={this._getCertificateHandler}
-                        finishHandler={() => this.setState({...this.state, modalIsOpen: false})}
+                        finishHandler={this._handleModalVisibility}
                     />
                 )
             default:
@@ -392,7 +394,8 @@ class AddingContribution extends React.Component {
     }
 
     render() {
-        const {modalIsOpen, activeStep, progressSteps, progressStatus, wrapperClassName} = this.state
+        const {activeStep, progressSteps, progressStatus, wrapperClassName} = this.state
+        const {modalIsOpen} = this.props
         return (
             <div>
                 <button color="danger" onClick={() => this.setState({...this.state, modalIsOpen: true})}>test</button>
