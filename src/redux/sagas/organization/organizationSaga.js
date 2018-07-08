@@ -40,6 +40,7 @@ export function* getOrganization (action) {
 		yield fork(sendRequest ,urls.GET_ORGANIZATION, results.GET_ORGANIZATION ,organizationId )
 		// while (true) {
 		const data = yield take(socketChannel)
+		alert(typeof data)
 		yield put({ type: types.SUCCESS.GET_ORGANIZATION, payload:data })
 		// }
 	} catch (e) {
@@ -78,7 +79,7 @@ function* updateOrganization(action){
 	const {organizationId, formValues,hideEdit} = payload;
 	const socketChannel = yield call(api.createSocketChannel, results.UPDATE_ORGANIZATION_INFO)
 	try {
-		yield fork(updateRequest ,urls.UPDATE_ORGANIZATION_INFO, results.UPDATE_ORGANIZATION_INFO ,formValues, organizationId )
+		yield fork(updateRequest ,urls.UPDATE_ORGANIZATION_INFO, results.UPDATE_ORGANIZATION_INFO ,formValues, `${organizationId}/` )
 		const data = yield take(socketChannel)
 		yield put({ type: types.SUCCESS.UPDATE_ORGANIZATION_INFO, payload:data })
 
@@ -253,7 +254,7 @@ function* updateCertificate(action){ //TODO amir change URL nad QUERY
 	const {formValues, certId, hideEdit} = payload;
 	const socketChannel = yield call(api.createSocketChannel, results.UPDATE_CERTIFICATE)
 	try {
-		yield fork(updateRequest ,urls.UPDATE_CERTIFICATE, results.UPDATE_CERTIFICATE , formValues, `/${certId}` )
+		yield fork(updateRequest ,urls.UPDATE_CERTIFICATE, results.UPDATE_CERTIFICATE , formValues, `/${certId}/` )
 		const data = yield take(socketChannel)
 		yield put({ type: types.SUCCESS.UPDATE_CERTIFICATE, payload:data })
 	} catch (e) {
@@ -271,7 +272,7 @@ function* updateCustomer(action){ //TODO amir change URL nad QUERY
 	const {formValues, customerId, hideEdit} = payload;
 	const socketChannel = yield call(api.createSocketChannel, results.UPDATE_CUSTOMER)
 	try {
-		yield fork(updateRequest ,urls.UPDATE_CUSTOMER, results.UPDATE_CUSTOMER , formValues, `${customerId}` )
+		yield fork(updateRequest ,urls.UPDATE_CUSTOMER, results.UPDATE_CUSTOMER , formValues, `${customerId}/` )
 		const data = yield take(socketChannel)
 		yield put({ type: types.SUCCESS.UPDATE_CUSTOMER, payload:data })
 	} catch (e) {
