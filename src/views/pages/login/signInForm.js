@@ -108,7 +108,7 @@ class LoginForm extends Component {
 						</label>
 						<span className="btn btn-link recovery-button">
             {__('Password recovery')}
-          </span>
+            </span>
 					</div>
 				</form>
 		)

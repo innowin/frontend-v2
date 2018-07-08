@@ -44,8 +44,9 @@ export const createUser = (data, apiTokenAuth, handleLogin) => {
 }
 
 export const createUserOrgan = (data, apiTokenAuth, handleLogin) => {
-  const {username, password, email, ...organization} = data
-  const {national_code, official_name, country, province, city, ownership_type, business_type} = organization
+  const {username, password, email} = data;
+  // const {username, password, email, ...organization} = data
+  // const {national_code, official_name, country, province, city, ownership_type, business_type} = organization
   socket.emit(REST_REQUEST, {
     method: 'post',
     url: `${url}/users/user-organization/`,
@@ -56,13 +57,13 @@ export const createUserOrgan = (data, apiTokenAuth, handleLogin) => {
       email,
       "organization.username": username,
       "organization.email": email,
-      "organization.official_name": official_name,
-      "organization.national_code": national_code,
-      "organization.country": country,
-      "organization.province": province,
-      "organization.city": city,
-      "organization.ownership_type": ownership_type,
-      "organization.business_type": business_type
+      "organization.official_name": `${username}_official`,
+      // "organization.national_code": national_code,
+      // "organization.country": country,
+      // "organization.province": province,
+      // "organization.city": city,
+      // "organization.ownership_type": ownership_type,
+      // "organization.business_type": business_type
     }
   })
   const func = (res) => {
@@ -109,11 +110,11 @@ export const apiTokenAuth = (data, handleLogin) => {
       password
     }
   })
-  const func = async (res) => {
+  const func = (res) => {
     if (res.non_field_errors) {
       return false
     }
-    await handleLogin(res)
+    handleLogin(res)
     socket.off("apiTokenAuth", func)
   }
 
