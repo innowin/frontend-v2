@@ -21,11 +21,39 @@ const getOrganizationMembers = (organizationId) => ({
 	}
 })
 
-const getOrgFollowers = (identity) =>({
+const getOrgFollowers = (organizationId) =>({
     type: types.GET_ORG_FOLLOWERS,
 	payload: {
-        identity
+        organizationId
 	} 
+})
+
+const getOrgFollowings = (organizationId) =>({
+    type: types.GET_ORG_FOLLOWINGS,
+	payload: {
+        organizationId
+	} 
+})
+
+const getOrgExchanges= (organizationId) =>({
+    type: types.GET_ORG_EXCHANGES,
+	payload: {
+        organizationId
+	} 
+})
+
+const getOrgCustomers = (organizationId) =>({
+    type: types.GET_ORG_CUSTOMERS,
+    payload: {
+        organizationId
+    }
+})
+
+const getOrgCertificates = (organizationId) => ({
+    type:types.GET_ORG_CERTIFICATES,
+    payload: {
+        organizationId
+    }
 })
 //abilities
 const getAbilities = (organizationId) => ({
@@ -58,19 +86,21 @@ const deleteAbility = (abilityId) => ({
 })
 
 //basic information
-const updateOrganization = (formValues, organizationId) => ({
+const updateOrganization = (formValues, organizationId, hideEdit) => ({
 	type: types.UPDATE_ORGANIZATION_INFO,
 	payload: {
         formValues,
-        organizationId
+        organizationId,
+        hideEdit
 	}
 })
 
-const updateCertificate = (formValues, certId) => ({
+const updateCertificate = (formValues, certId, hideEdit) => ({
   type: types.UPDATE_CERTIFICATE,
 	payload: {
     ...formValues,
-    certId
+    certId,
+    hideEdit
 	}
 })
 
@@ -88,10 +118,12 @@ const deleteCertificate = (certId) => ({
 	}
 })
 
-const updateCustomer = (formValues) => ({
+const updateCustomer = (formValues, customerId, hideEdit) => ({
   type: types.UPDATE_CUSTOMER,
 	payload: {
-    ...formValues,
+        formValues,
+        customerId,
+        hideEdit
 	}
 })
 
@@ -109,10 +141,10 @@ const deleteCustomer = (customerId) => ({
 	}
 })
 
-const getProducts = (IDENTITY_ID) => ({
+const getProducts = (organizationId) => ({
     type: types.GET_PRODUCTS,
 	payload: {
-        IDENTITY_ID
+        organizationId
 	}   
 })
 
@@ -159,6 +191,8 @@ const OrganizationActions = {
   getMetaDataOrganization,
   getOrganizationMembers,
   getOrgFollowers,
+  getOrgFollowings,
+  getOrgExchanges,
 
   getAbilities,
   updateAbility,
@@ -167,10 +201,12 @@ const OrganizationActions = {
 
   updateOrganization,
 
+  getOrgCertificates,
   updateCertificate,
   createCertificate,
   deleteCertificate,
-
+  
+  getOrgCustomers,
   updateCustomer,
   createCustomer,
   deleteCustomer,

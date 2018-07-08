@@ -1,11 +1,8 @@
 import React from 'react'
-import {SelectInput, StateLessSelect} from '../../common/inputs/SelectInput'
-import {TextInput} from '../../common/inputs/TextInput'
 import StateLessTextInput from '../../common/inputs/StateLessTextInput'
 import StateLessTextarea from '../../common/inputs/StateLessTextarea'
 import Select from 'react-select';
 import {RadioButtonGroup} from '../../common/inputs/RadioButtonInput'
-import {TextareaInput} from '../../common/inputs/TextareaInput'
 import {categoriesData, LAYER1_INPUTS} from './addingConributionData'
 import NextPrevBtns from './nextAndPrevBtns'
 
@@ -20,7 +17,7 @@ const InitialInfo = ({goToNextStep, goToPrevStep, newContributionData, inputHand
                     onChange={(e) => inputHandler(e.target.value, LAYER1_INPUTS.NAME)}
                 />
                 {[LAYER1_INPUTS.CATEGORY_LAYER1, LAYER1_INPUTS.CATEGORY_LAYER2, LAYER1_INPUTS.CATEGORY_LAYER3].map(layerName =>(
-                    <div className="category-selection">
+                    <div className="category-selection" key={layerName}>
                         <label htmlFor={layerName}>
                             {layerName === LAYER1_INPUTS.CATEGORY_LAYER1 ? 'طبقه اول دسته‌بندی'
                                 :

@@ -256,8 +256,7 @@ export class OrganizationInfoEditForm extends React.Component<OrganizationInfoEd
 		const organizationId = this.props.organization.id;
 		const formValues = this.form._getValues();
 		const {updateOrganization} = this.props.actions;
-		//console.error('hi',formValues, organizationId, updateStateForView, hideEdit);
-		updateOrganization(formValues, organizationId)
+		updateOrganization(formValues, organizationId, hideEdit)
 	};
 	
 	_onSubmit = (e:SyntheticEvent<HTMLButtonElement>) => {

@@ -19,44 +19,63 @@ export default {
 	},
 	organization:{
 		isLoading:false,
+		exchanges:{
+			isLoading:false,
+			content:[]
+		},
+		followings:{
+			isLoading:false,
+			content:[]
+		},
+		followers:{
+			isLoading:false,
+			content:[]
+		},
 		abilities:{
 			isLoading:false,
-			list:[]
+			content:[]
 		},
 		certificates:{
 			isLoading:false,
-			list:[]
+			content:[]
 		},
 		customers:{
 			isLoading:false,
-			list:[]
+			error:false,
+			content:[]
 		},
 		products:{
 			isLoading:false,
-			list:[]
+			content:[]
 		},
 		pictures:{
 			isLoading:false,
-			list:[]
+			content:[]
 		},
 		members:{
 			isLoading:false,
-			list:[]
+			content:[]
 		},
 		name:'',
 		id:'',
 		official_name:'',
-		identity:'',
+		identity:{
+			isLoaded:false,
+			content:''
+		},
 	},
 	test: {
 		result: 1,
-		list:[]
+		content:[]
 	},
 	intl: {
 		locale: 'fa',
 		messages: {...messages}
 	},
-	error:{
-		message:''
+	error: {
+        message: ''
+    },
+	product: {
+
 	}
 };

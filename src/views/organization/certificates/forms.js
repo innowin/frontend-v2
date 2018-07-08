@@ -106,7 +106,6 @@ type CertificateEditFormProps = {
 	remove: Function,
 	hideEdit:Function,
 	certificate: Object,
-	updateStateForView: Function,
 }
 export class CertificateEditForm extends React.Component<CertificateEditFormProps,{confirm:boolean}> {
 
@@ -125,10 +124,10 @@ export class CertificateEditForm extends React.Component<CertificateEditFormProp
 	};
 
 	save = () => {//(formValues, certificateId, updateStateForView, hideEdit
-		const {certificate,updateStateForView,hideEdit} = this.props;
+		const {certificate,hideEdit} = this.props;
 		const certificateId = certificate.id;
 		const formValues = this.refs.form.getValues();
-		return this.props.update(formValues, certificateId, updateStateForView, hideEdit)
+		return this.props.update(formValues, certificateId, hideEdit)
 	};
 
 	onSubmit = (e:SyntheticEvent<HTMLButtonElement>) => {

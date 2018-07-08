@@ -39,24 +39,27 @@ type ExchangesViewProps = {
     deleteExchange: Function
 };
 export class ExchangesView extends React.Component<ExchangesViewProps> {
-    render() {
-        const {exchanges, showEdit, deleteExchange} = this.props;
-        // console.log('organization member is : ', members);
-        return (
-            <ExchangesWrapper>
-                <ItemHeader title={__('Exchanges')} showEdit={showEdit}/>
-                <div className="members-wrapper">
-                    {
-                        exchanges.map((exchange, i)=>{
-                            return (
-                                <ExchangeView index={i} deleteExchange={deleteExchange} exchange={exchange} userID={exchange.owner.id} key={i}/>
-                            )
-                        })
-                    }
-                </div>
-            </ExchangesWrapper>
-        )
-    }
+  static defaultProps = {
+    exchanges:[]
+  }
+	render() {
+		const {exchanges, showEdit, deleteExchange} = this.props;
+		// console.log('organization member is : ', members);
+		return (
+				<ExchangesWrapper>
+					<ItemHeader title={__('Exchanges')} showEdit={showEdit}/>
+					<div className="members-wrapper">
+						{
+							exchanges.map((exchange, i)=>{
+								return (
+                  <ExchangeView index={i} deleteExchange={deleteExchange} exchange={exchange} userID={exchange.exchange_identity_related_identity.id} key={i}/>
+								)
+							})
+						}
+					</div>
+				</ExchangesWrapper>
+		)
+	}
 }
 
 type ExchangeViewProps = {
@@ -141,24 +144,27 @@ type FollowersViewProps ={
     followers: Array<Object>
 }
 export class FollowersView extends React.Component<FollowersViewProps> {
-    render() {
-        const {followers, showEdit} = this.props;
-        // console.log('organization member is : ', members);
-        return (
-            <FollowersWrapper>
-                <ItemHeader title={__('Followers')} showEdit={showEdit}/>
-                <div className="members-wrapper">
-                    {
-                        followers.map((follower, i)=>{
-                            return (
-                                <FollowerView follower={follower} userID={follower.id || 6} key={i}/>
-                            )
-                        })
-                    }
-                </div>
-            </FollowersWrapper>
-        )
-    }
+  static defaultProps = {
+    followers : []
+  }
+	render() {
+		const {followers, showEdit} = this.props;
+		// console.log('organization member is : ', members);
+		return (
+				<FollowersWrapper>
+					<ItemHeader title={__('Followers')} showEdit={showEdit}/>
+					<div className="members-wrapper">
+						{
+							followers.map((follower, i)=>{
+								return (
+                    <FollowerView follower={follower} userID={follower.id || 6} key={i}/>
+								)
+							})
+						}
+					</div>
+				</FollowersWrapper>
+		)
+	}
 }
 type FollowerViewProps = {
     follower: Object
@@ -230,25 +236,27 @@ type FollowingsViewProps = {
     followings : Array<Object>
 }
 export class FollowingsView extends React.Component<FollowingsViewProps> {
-
-    render() {
-        const {followings, showEdit, deleteFollowing} = this.props;
-        // console.log('organization member is : ', members);
-        return (
-            <FollowingsWrapper>
-                <ItemHeader title={__('Followings')} showEdit={showEdit}/>
-                <div className="members-wrapper">
-                    {
-                        followings.map((following, i)=>{
-                            return (
-                                <FollowingView index={i} deleteFollowing={deleteFollowing} following={following} userID={following.id || 6} key={i}/>
-                            )
-                        })
-                    }
-                </div>
-            </FollowingsWrapper>
-        )
-    }
+  static defaultProps = {
+    followings : []
+  }
+	render() {
+		const {followings, showEdit, deleteFollowing} = this.props;
+    // console.log('organization member is : ', members);
+		return (
+				<FollowingsWrapper>
+					<ItemHeader title={__('Followings')} showEdit={showEdit}/>
+					<div className="members-wrapper">
+						{
+              followings.map((following, i)=>{
+								return (
+                    <FollowingView index={i} deleteFollowing={deleteFollowing} following={following} userID={following.id || 6} key={i}/>
+								)
+              })
+            }
+					</div>
+				</FollowingsWrapper>
+		)
+	}
 }
 type FollowingViewProps = {
     deleteFollowing:Function,

@@ -40,19 +40,13 @@ export class CustomerView extends React.Component<CustomerViewProps> {
 
 type CustomerProps = {
     customer:Object,
-    updateCustomer: Function,
-    deleteCustomer: Function,
-    updateStateForView: Function
+    actions:Object
 }
-export class Customer extends React.Component<CustomerProps,{edit: boolean, customer:Object}> {
+export class Customer extends React.Component<CustomerProps,{edit: boolean}> {
     constructor(props:CustomerProps){
         super(props);
         const {customer} = props;
-        this.state = {edit: false, customer:customer};
-    }
-    componentWillReceiveProps(props:CustomerProps){
-        const {customer} = props;
-        this.setState({...this.state, customer:customer})
+        this.state = {edit: false};
     }
 
     showEdit = () => {
@@ -63,21 +57,14 @@ export class Customer extends React.Component<CustomerProps,{edit: boolean, cust
         this.setState({edit: false});
     };
 
-    updateStateForView = (res:Object, error:boolean,isLoading:boolean) =>{
-        const {updateStateForView} = this.props;
-        this.setState({...this.state,customer:res })
-    }
-
     render() {
-        const {customer} = this.state;
+        const {customer, actions} = this.props;
         if (this.state.edit) {
             return <CustomerItemWrapper>
                 <CustomerEditForm
                     customer = {customer}
                     hideEdit = {this.hideEdit}
-                    updateStateForView = {this.updateStateForView}
-                    remove = {this.props.deleteCustomer}
-                    update = {this.props.updateCustomer}
+                    actions = {actions}
                 />
             </CustomerItemWrapper>;
         }

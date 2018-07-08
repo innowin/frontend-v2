@@ -16,6 +16,7 @@ import {connect} from 'react-redux'
 //TODO CRUD
 type SocialsProps ={
   organizationId: string,
+  organization:Object,
   actions:Object,
   isLoading:boolean,
 }
@@ -39,8 +40,10 @@ class Socials extends React.Component<SocialsProps,{
   componentDidMount() {
     console.log(TOKEN);
     const {organizationId} = this.props;
-    const {getFollowers, getFollowings, getOrgExchanges} = this.props.actions;
-    getFollowers();
+    const {getFollowers, getFollowings, getExchanges} = this.props.actions;
+    getFollowers(organizationId);
+    getFollowings(organizationId);
+    getExchanges(organizationId);
     // const emitting = () => {
     //   const newState = {...this.state, isLoading: true};
     //   this.setState(newState);
@@ -164,80 +167,67 @@ class Socials extends React.Component<SocialsProps,{
 
   componentWillUnmount() {
     const {organizationId} = this.props;
-
-    socket.off(`userExchnages-Socials-get/${organizationId}`);
-    socket.off(`user-Socials-get/${organizationId}`);
-    socket.off(`userFollowers-Socials-get/${organizationId}`);
-    socket.off(`userFollowings-Socials-get/${organizationId}`);
-    socket.off(`organizationFollowings-following-get`);
-
   }
 
   getFollowers(){//TODO backed changed follow_identity doesn't exist
-    let {followersList} = this.state;
-    for(var i = 0 ; i < followersList.length; i++){
-      socket.emit(REST_REQUEST,{
-        method: "get",
-        url: `${url}/users/identities/${followersList[i].follow_follower}/`,
-        result: `organizationFollowers-follower-get`,
-        token: TOKEN
-      })
+    // let {organization,followings,followers} = this.props.organization;
+    // for(var i = 0 ; i < followersList.length; i++){
+    //   socket.emit(REST_REQUEST,{
+    //     method: "get",
+    //     url: `${url}/users/identities/${followersList[i].follow_follower}/`,
+    //     result: `organizationFollowers-follower-get`,
+    //     token: TOKEN
+    //   })
 
-    }
+    // }
   }
 
   getFollowings(){
-    let {followingsList} = this.state;
-    for(var i = 0 ; i < followingsList.length; i++){
-      socket.emit(REST_REQUEST,{
-        method: "get",
-        url: `${url}/users/identities/${followingsList[i].follow_followed}/`,
-        result: `organizationFollowings-following-get`,
-        token: TOKEN
-      })
+    // let {followingsList} = this.state;
+    // for(var i = 0 ; i < followingsList.length; i++){
+    //   socket.emit(REST_REQUEST,{
+    //     method: "get",
+    //     url: `${url}/users/identities/${followingsList[i].follow_followed}/`,
+    //     result: `organizationFollowings-following-get`,
+    //     token: TOKEN
+    //   })
 
-    }
+    // }
   }
 
   deleteFollowing(id:number, index:number){
-    const {followings, followingsList} = this.state;
-    followings.splice(index,1);
-    this.setState({...this.state, followings:followings}, ()=>{
-      socket.emit(REST_REQUEST,{
-        method: "del",
-        url: `${url}/organizations/follows/?follow_followed=${followingsList[index].follow_followed}`,
-        result: `organizationFollowing-delete`,
-        token: TOKEN
-      })
-    });    
+    // const {followings, followingsList} = this.state;
+    // followings.splice(index,1);
+    // this.setState({...this.state, followings:followings}, ()=>{
+    //   socket.emit(REST_REQUEST,{
+    //     method: "del",
+    //     url: `${url}/organizations/follows/?follow_followed=${followingsList[index].follow_followed}`,
+    //     result: `organizationFollowing-delete`,
+    //     token: TOKEN
+    //   })
+    // });    
   }
   deleteExchange(id:number, index:number){ //TODO
-    const {exchanges} = this.state;
-    exchanges.splice(index,1);
-    this.setState({...this.state, exchanges:exchanges}, ()=>{
+    // const {exchanges} = this.state;
+    // exchanges.splice(index,1);
+    // this.setState({...this.state, exchanges:exchanges}, ()=>{
       
-    });   
+    // });   
   }
 
   render() {
-    const {
-      createForm,
-      exchanges,
-      user,
-      isLoading,
-      error,
-      followings,
-      followers} = this.state;
-    
+    const {createForm} = this.state;
+    const {followers,followings,exchanges} = this.props.organization;
+    let user =null
     return (
-      <VerifyWrapper isLoading={false} error={false}>
+      <VerifyWrapper isLoading={exchanges.isLoading || followers.isLoading || followings.isLoading} error={exchanges.error || followers.error || followings.error}>
         <CategoryTitle
           title={__('Socials')}
         />
         <FrameCard className="-frameCardSocial">
-          <ExchangesView deleteExchange ={this.deleteExchange.bind(this)} exchanges = {exchanges} user={user}/>
-          <FollowersView followers = {followers} user={user}/>
-          <FollowingsView deleteFollowing = {this.deleteFollowing.bind(this)} followings = {followings} user={user}/>
+          <ExchangesView deleteExchange ={this.deleteExchange.bind(this)} exchanges = {exchanges.content} user={user}/>
+          <FollowersView followers = {followers.content} user={user}/>
+          <FollowingsView deleteFollowing = {this.deleteFollowing.bind(this)} followings = {followings.content} user={user}/>
         </FrameCard>
       </VerifyWrapper>
     )
@@ -251,7 +241,9 @@ const mapStateToProps = (state) => ({
 })
 const mapDispatchToProps = dispatch => ({
 	actions: bindActionCreators({
-		getProducts: OrganizationActions.getProducts ,
+    getFollowings: OrganizationActions.getOrgFollowings ,
+    getFollowers: OrganizationActions.getOrgFollowers,
+    getExchanges: OrganizationActions.getOrgExchanges,
 	}, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Socials)
