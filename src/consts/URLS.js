@@ -1,10 +1,10 @@
 import io from 'socket.io-client'
 
-export const SOCKET_URL = 'http://socket.daneshboom.ir';
-export const REST_URL = 'http://restful.daneshboom.ir';
+export const SOCKET_URL = 'http://socket.daneshboom.ir'
+export const REST_URL = 'http://restful.daneshboom.ir'
 
 //Socket
-export const SOCKET = io(SOCKET_URL);
+export const SOCKET = io(SOCKET_URL)
 
 const urls =  {
 	SIGN_IN : "api-token-auth",
@@ -18,6 +18,8 @@ const urls =  {
 	GET_ORG_EXCHANGES:'exchanges/identities',
 	GET_ORG_CUSTOMERS:'organizations/customers',
 	GET_ORG_CERTIFICATES:'base/certificates',
-	UPDATE_CUSTOMER:'organizations/customers'
+	UPDATE_CUSTOMER:'organizations/customers',
+	CREATE_PRODUCT: '',
+	CREATE_Skill: 'users/skills'
 }
-export default urls;
+export default urls

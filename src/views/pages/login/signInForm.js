@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux'
 import ErrorMessage from './ErrorMessage'
 import {BeatLoader} from 'react-spinners'
 import {connect} from 'react-redux'
-import client from "../../../consts/client";
+import client from "src/consts/client"
 
 class LoginForm extends Component {
 	constructor(props) {

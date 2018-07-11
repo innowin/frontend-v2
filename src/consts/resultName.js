@@ -12,6 +12,11 @@ const results = {
 	GET_ORG_FOLLOWINGS_IDENTITIES:'get-org-followings-identities',
 	GET_ORG_CUSTOMERS:'get-org-customers',
 	GET_ORG_CERTIFICATES:'get-org-certificates',
-	UPDATE_CUSTOMER:'update-org-customer'
+	UPDATE_CUSTOMER:'update-org-customer',
+
+	//contribution
+	CREATE_PRODUCT: 'create-product',
+	CREATE_Skill: 'create-skill',
+
 }
 export default results

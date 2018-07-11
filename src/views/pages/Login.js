@@ -1,5 +1,8 @@
 /*global __*/
 import React, {Component} from "react"
+import {connect} from 'react-redux'
+import {routerActions} from "react-router-redux"
+import {bindActionCreators} from "redux"
 import CarouselLogin from "./login/Carousel"
 import FooterLogin from "./login/FooterLogin"
 import HeaderLogin from "./login/HeaderLogin"
@@ -10,7 +13,7 @@ import SocialLogin from "./login/SocialLogin"
 
 class Login extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       page: 'SignIn',
       footer: {year: '2018'},
@@ -25,31 +28,31 @@ class Login extends Component {
   }
 
   _showSignIn = () => {
-    this.setState( {...this.state,page: 'SignIn'})
-  };
+    this.setState({...this.state, page: 'SignIn'})
+  }
 
   _showSignUp = () => {
-    this.setState({...this.state,page: 'SignUp'})
+    this.setState({...this.state, page: 'SignUp'})
   }
 
   _RedirectToHome = () => {
-    const {history} = this.props;
-    history.push('/');
+    const {actions} = this.props
+    actions.push('/')
   }
 
   _showRecovery = () => {
-    this.setState({...this.state,page: 'Recovery'})
+    this.setState({...this.state, page: 'Recovery'})
   }
 
   render() {
-    const {page, footer, header} = this.state;
-    const {year} = footer;
-    const {iosLink, androidLink, address, phoneNumber, logoCaption} = header;
-    const SignIn = (page === 'SignIn');
-    const SignUp = (page === 'SignUp');
-    const Recovery = (page === 'Recovery');
-    const RedirectToHome = this._RedirectToHome;
-    const animateFormClass = (SignIn) ? ("sign-in-form") : ("sign-up-form");
+    const {page, footer, header} = this.state
+    const {year} = footer
+    const {iosLink, androidLink, address, phoneNumber, logoCaption} = header
+    const SignIn = (page === 'SignIn')
+    const SignUp = (page === 'SignUp')
+    const Recovery = (page === 'Recovery')
+    const RedirectToHome = this._RedirectToHome
+    const animateFormClass = (SignIn) ? ("sign-in-form") : ("sign-up-form")
 
     return (
       <div className="login-page  full-page-wrapper">
@@ -84,7 +87,7 @@ class Login extends Component {
                   {SignUp &&
                   <RegisterForm showLogin={this._showSignIn} RedirectToHome={RedirectToHome}/>}
                   {Recovery &&
-                  <RecoveryForm />}
+                  <RecoveryForm/>}
                 </div>
                 <div className="card-footer social-login">
                   <span>{__('Register with other accounts')}</span>
@@ -100,4 +103,8 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => (
+  {actions: bindActionCreators({push: routerActions.push}, dispatch)}
+)
+
+export default connect(null, mapDispatchToProps)(Login)
