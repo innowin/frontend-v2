@@ -1,4 +1,3 @@
-// @flow
 import React, {Component} from 'react'
 import {InformationIcon, postIcon, CertificateIcon, RatingIcon} from "../../images/icons"
 import ProductPosts from "../product/posts"
@@ -27,7 +26,7 @@ export default class ProductView extends Component {
     }
 
     _toggleModal = (files = [], fileIndex = -1) => {
-        this.setState({modal: !this.state.modal, modalFiles: files, selectedFileIndex: fileIndex})
+        this.setState({...this.state, modal: !this.state.modal, modalFiles: files, selectedFileIndex: fileIndex})
     }
 
     render() {// TODO ICON for represents

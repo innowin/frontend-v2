@@ -22,7 +22,7 @@ export const getUser = (userId, handleResult) => {
   socket.on(`/users/{id}/-get/getUser/${userId}`, func)
 }
 
-export const createUser = (data, apiTokenAuth, handleLogin) => {
+export const createUser = (data, handleLogin) => {
   const {username, password, email} = data
   socket.emit(REST_REQUEST, {
     method: 'post',
@@ -36,14 +36,15 @@ export const createUser = (data, apiTokenAuth, handleLogin) => {
   })
   const func = (res) => {
     if (res.id) {
-      apiTokenAuth(data, handleLogin)
+      apiTokenAuth(data)
+      handleLogin()
     }
     socket.off('CREATE_USER', func)
   }
   socket.on('CREATE_USER', func)
 }
 
-export const createUserOrgan = (data, apiTokenAuth, handleLogin) => {
+export const createUserOrgan = (data, handleLogin) => {
   const {username, password, email} = data;
   // const {username, password, email, ...organization} = data
   // const {national_code, official_name, country, province, city, ownership_type, business_type} = organization
@@ -66,9 +67,10 @@ export const createUserOrgan = (data, apiTokenAuth, handleLogin) => {
       // "organization.business_type": business_type
     }
   })
-  const func = (res) => {
+  const func = (res) => {alert(res.id)
     if (res.id) {
-      apiTokenAuth(data, handleLogin)
+      apiTokenAuth(data)
+      handleLogin(res)
     }
     socket.off('createUserOrgan', func)
   }
@@ -99,7 +101,7 @@ export const updateUser = (formValues, userId, updateStateForView, hideEdit) => 
   socket.on(`updateUser-patch-${userId}`, func)
 }
 
-export const apiTokenAuth = (data, handleLogin) => {
+export const apiTokenAuth = (data) => {
   const {username, password} = data
   socket.emit(REST_REQUEST, {
     method: "post",
@@ -110,13 +112,4 @@ export const apiTokenAuth = (data, handleLogin) => {
       password
     }
   })
-  const func = (res) => {
-    if (res.non_field_errors) {
-      return false
-    }
-    handleLogin(res)
-    socket.off("apiTokenAuth", func)
-  }
-
-  socket.on('apiTokenAuth', func)
 }
