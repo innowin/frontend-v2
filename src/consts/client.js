@@ -22,7 +22,7 @@ const clearToken = () => {
     sessionStorage.clear()
   }
   if ((document.cookie.match(/^(?:.*;)?\s*token\s*=\s*([^;]+)(?:.*)?$/) || [, null])[1]) {
-    document.cookie.erase('token')
+    eraseCookie('token')
   }
   return true
 }
@@ -34,25 +34,39 @@ const setCookie = (cname, cvalue, exdays) => {
   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/"
 }
 
-const saveData = (id, identity, identity_type, remember) => {
+const eraseAllCookies = () => {
+  document.cookie.split(";").forEach(c => {
+    document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/")
+  })
+}
+
+const eraseCookie = name => {
+  document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+}
+
+const saveData = (id, identity, identity_type, remember, organization = null) => {
   if (remember) {
     setCookie('id', id, 30)
     setCookie('identity', identity, 30)
     setCookie('identity_type', identity_type, 30)
+    setCookie('organization', organization, 30)
     if (window.localStorage) {
       localStorage.setItem('id', id)
       localStorage.setItem('identity', identity)
       localStorage.setItem('identity_type', identity_type)
+      localStorage.setItem('organization', organization)
     }
   }
   if (!remember) {
     setCookie('id', id, 0)
     setCookie('identity', identity, 0)
     setCookie('identity_type', identity_type, 0)
+    setCookie('organization', organization, 0)
     if (window.sessionStorage) {
       sessionStorage.setItem('id', id)
       sessionStorage.setItem('identity', identity)
       sessionStorage.setItem('identity_type', identity_type)
+      sessionStorage.setItem('organization', organization)
     }
   }
   return true
@@ -61,7 +75,7 @@ const saveData = (id, identity, identity_type, remember) => {
 const clearData = () => {
   window.localStorage && localStorage.clear()
   window.sessionStorage && sessionStorage.clear()
-  document.cookie.erase()
+  eraseAllCookies()
 }
 
 const getToken = () => {
@@ -96,6 +110,14 @@ const getIdentityType = () => {
   }
 }
 
+const getOrganization = () => {
+  if (window.localStorage && localStorage.hasOwnProperty('organization')) {
+    return localStorage.getItem('organization')
+  } else {
+    return sessionStorage.getItem('organization')
+  }
+}
+
 const client = {
   isAuthenticated,
   setSessionLS,
@@ -106,6 +128,7 @@ const client = {
   saveData,
   getId,
   getIdentity,
-  getIdentityType
+  getIdentityType,
+  getOrganization
 }
 export default client

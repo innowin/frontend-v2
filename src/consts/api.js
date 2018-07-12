@@ -2,6 +2,7 @@ import {SOCKET, REST_URL} from "./URLS"
 import {REST_REQUEST} from "./Events"
 import client from './client'
 import {eventChannel} from 'redux-saga'
+import {apply} from "redux-saga/effects"
 
 let token = client.getToken()
 
@@ -19,7 +20,25 @@ const createSocketChannel = (resultName) => {
   })
 }
 
-const get = (url, resultName, query = "") => {
+//1 - req -sending requests
+function* get(url, result, param = "") {
+  yield apply({}, getEmit, [url, result, param])
+}
+
+function* post(url, result, data, param = "") {
+  yield apply({}, postEmit, [url, result, data, param])
+}
+
+function* patch(url, result, data, param = "") {
+  yield apply({}, patchEmit, [url, result, data, param])
+}
+
+function* del(url, result, data, param = "") {
+  yield apply({}, delEmit, [url, result, data, param])
+}
+
+// pre send request
+const getEmit = (url, resultName, query = "") => {
   let token = client.getToken()
   SOCKET.emit(REST_REQUEST, {
     method: 'get',
@@ -29,8 +48,7 @@ const get = (url, resultName, query = "") => {
   })
 }
 
-
-const patch = (url, resultName, data, query = "") => {
+const patchEmit = (url, resultName, data, query = "") => {
   SOCKET.emit(REST_REQUEST, {
     method: 'patch',
     url: REST_URL + '/' + url + '/' + query + '/',
@@ -40,7 +58,7 @@ const patch = (url, resultName, data, query = "") => {
   })
 }
 
-const del = (url, resultName, data, query = "") => {
+const delEmit = (url, resultName, data, query = "") => {
   SOCKET.emit(REST_REQUEST, {
     method: 'del',
     url: REST_URL + '/' + url + '/' + query + '/',
@@ -50,7 +68,7 @@ const del = (url, resultName, data, query = "") => {
   })
 }
 
-const post = (url, resultName, data, query = "") => {
+const postEmit = (url, resultName, data, query = "") => {
   SOCKET.emit(REST_REQUEST, {
     method: 'post',
     url: REST_URL + '/' + url + '/' + query,

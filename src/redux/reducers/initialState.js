@@ -7,6 +7,7 @@ export default {
 			identity:{},
 			profile:{},
 			user:{},
+			organization:null,
 			rememberMe:null,
 			user_type:null,
 		},
