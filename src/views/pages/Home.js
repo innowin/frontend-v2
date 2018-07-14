@@ -1,27 +1,27 @@
-import React, {Component} from 'react';
-import TopBar from "../bars/TopBar";
-import ChatBar from '../bars/ChatBar';
-import HomeSideBar from './home/HomeSideBar';
-import HomePosts from './home/HomePosts';
-import {IDENTITY_ID} from "src/consts/data";
+import React, {Component} from "react"
+import ChatBar from "../bars/ChatBar"
+import HomePosts from "./home/HomePosts"
+import HomeSideBar from "./home/HomeSideBar"
+import TopBar from "../bars/TopBar"
+import {IDENTITY_ID} from "src/consts/data"
 
 class Home extends Component {
 	constructor(props) {
-		super(props);
+		super(props)
 		this.state = {activeExchangeId: null}
 	}
 	
 	_setExchangeId = (exchangeId) => {
-		const {activeExchangeId} = this.state;
+		const {activeExchangeId} = this.state
 		if (exchangeId !== activeExchangeId) {
 			this.setState({...this.state, activeExchangeId: exchangeId})
 		}
-	};
+	}
 	
 	render() {
-		const {handleSignOut} = this.props;
-		let {activeExchangeId} = this.state;
-		const widthOfRightBar = "col-md-3 col-sm-2";
+		const {handleSignOut} = this.props
+		let {activeExchangeId} = this.state
+		const widthOfRightBar = "col-md-3 col-sm-2"
 		return (
 				<div className="home-wrapper">
 					<TopBar handleSignOut={handleSignOut} collapseWidthCol={widthOfRightBar}/>
@@ -41,4 +41,4 @@ class Home extends Component {
 	}
 }
 
-export default Home;
+export default Home

@@ -44,29 +44,30 @@ const eraseCookie = name => {
   document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
 }
 
-const saveData = (id, identity, identity_type, remember, organization = null) => {
+const saveData = (userId, identityId, identity_type, remember, organizationId = null) => {
+  // TODO: mohsen save Clients to localStorage
   if (remember) {
-    setCookie('id', id, 30)
-    setCookie('identity', identity, 30)
+    setCookie('userId', userId, 30)
+    setCookie('identityId', identityId, 30)
     setCookie('identity_type', identity_type, 30)
-    setCookie('organization', organization, 30)
+    setCookie('organizationId', organizationId, 30)
     if (window.localStorage) {
-      localStorage.setItem('id', id)
-      localStorage.setItem('identity', identity)
+      localStorage.setItem('userId', userId)
+      localStorage.setItem('identityId', identityId)
       localStorage.setItem('identity_type', identity_type)
-      localStorage.setItem('organization', organization)
+      localStorage.setItem('organizationId', organizationId)
     }
   }
   if (!remember) {
-    setCookie('id', id, 0)
-    setCookie('identity', identity, 0)
+    setCookie('userId', userId, 0)
+    setCookie('identityId', identityId, 0)
     setCookie('identity_type', identity_type, 0)
-    setCookie('organization', organization, 0)
+    setCookie('organizationId', organizationId, 0)
     if (window.sessionStorage) {
-      sessionStorage.setItem('id', id)
-      sessionStorage.setItem('identity', identity)
+      sessionStorage.setItem('userId', userId)
+      sessionStorage.setItem('identityId', identityId)
       sessionStorage.setItem('identity_type', identity_type)
-      sessionStorage.setItem('organization', organization)
+      sessionStorage.setItem('organizationId', organizationId)
     }
   }
   return true
@@ -86,19 +87,19 @@ const getToken = () => {
   }
 }
 
-const getId = () => {
-  if (window.localStorage && localStorage.hasOwnProperty('id')) {
-    return localStorage.getItem('id')
+const getUserId = () => {
+  if (window.localStorage && localStorage.hasOwnProperty('userId')) {
+    return localStorage.getItem('userId')
   } else {
-    return sessionStorage.getItem('id')
+    return sessionStorage.getItem('userId')
   }
 }
 
-const getIdentity = () => {
-  if (window.localStorage && localStorage.hasOwnProperty('identity')) {
-    return localStorage.getItem('identity')
+const getIdentityId = () => {
+  if (window.localStorage && localStorage.hasOwnProperty('identityId')) {
+    return localStorage.getItem('identityId')
   } else {
-    return sessionStorage.getItem('identity')
+    return sessionStorage.getItem('identityId')
   }
 }
 
@@ -110,11 +111,11 @@ const getIdentityType = () => {
   }
 }
 
-const getOrganization = () => {
-  if (window.localStorage && localStorage.hasOwnProperty('organization')) {
-    return localStorage.getItem('organization')
+const getOrganizationId = () => {
+  if (window.localStorage && localStorage.hasOwnProperty('organizationId')) {
+    return localStorage.getItem('organizationId')
   } else {
-    return sessionStorage.getItem('organization')
+    return sessionStorage.getItem('organizationId')
   }
 }
 
@@ -126,9 +127,9 @@ const client = {
   clearToken,
   clearData,
   saveData,
-  getId,
-  getIdentity,
+  getUserId,
+  getIdentityId,
   getIdentityType,
-  getOrganization
+  getOrganizationId
 }
 export default client

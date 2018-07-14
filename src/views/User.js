@@ -1,5 +1,6 @@
 // @flow
 import * as React from "react"
+import {Component} from "react"
 import PropTypes from "prop-types"
 
 import Career from "./user/career/index"
@@ -9,13 +10,13 @@ import Posts from "src/views/common/post/index"
 import PrivateRoute from "../consts/PrivateRoute"
 import Sidebar from "src/views/bars/SideBar"
 import Skills from "./user/skills/index"
-import Social from "src/views/user/social/index";
+import Social from "src/views/user/social/index"
 import TopBar from "src/views/bars/TopBar"
 import UserBasicInformation from "./user/basicInformation/index"
 import {NavLink, Switch, Redirect} from "react-router-dom"
 import {Tabs} from "./common/cards/Frames"
 import {userInfoIcon, SkillIcon, CertificateIcon, workExperienceIcon, postIcon, SocialIcon} from "src/images/icons"
-import {UserSideView} from "./bars/SideBar";
+import {UserSideView} from "./bars/SideBar"
 // import ReduxTest from './reduxTest'
 
 type PropsUser = {
@@ -23,7 +24,7 @@ type PropsUser = {
   handleSignOut: Function
 }
 
-class User extends React.Component<PropTypes> {
+class User extends Component<PropTypes> {
 
   static propTypes = {
     match: PropTypes.object.isRequired,
@@ -32,9 +33,9 @@ class User extends React.Component<PropTypes> {
 
   render() {
     const {match, handleSignOut} = this.props
-    const {path, url, params} = match;
-    const userId: number = +params.id;
-    const widthOfRightBar = "col-3";
+    const {path, url, params} = match
+    const userId: number = +params.id
+    const widthOfRightBar = "col-3"
     return (
       <div className="-tabbed-pages -userOrganBackgroundImg">
         <TopBar handleSignOut={handleSignOut} collapseWidthCol={widthOfRightBar}/>
@@ -82,7 +83,7 @@ class User extends React.Component<PropTypes> {
 }
 
 export default (props: PropsUser): React.Element<typeof User> => {
-  const match = props.match;
-  const handleSignOut = props.handleSignOut;
+  const match = props.match
+  const handleSignOut = props.handleSignOut
   return <User match={match} handleSignOut={handleSignOut}/>
 }

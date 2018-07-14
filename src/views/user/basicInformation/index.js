@@ -1,16 +1,17 @@
 // @flow
 import * as React from "react"
+import {Component} from "react"
 import PropTypes from "prop-types"
-import {connect} from 'react-redux'
-import {getMessages} from 'src/redux/selectors/translateSelector'
+import {connect} from "react-redux"
 import {FrameCard, CategoryTitle, VerifyWrapper, ListGroup} from "src/views/common/cards/Frames"
-import {ProfileInfoEditForm, UserInfoEditForm, ResearchInfoEditForm, EducationInfoEditForm} from "./Forms"
-import {UserInfoItemWrapper, UserInfoView, ProfileInfoView, ResearchInfoView, EducationInfoView} from "./Views"
-import {getUserResearches} from "src/crud/user/research"
-import {getUserEducations} from "src/crud/user/education"
-import {userInfoIcon, researchIcon, educationIcon} from "src/images/icons"
-import {getUser} from "src/crud/user/user"
+import {getMessages} from "src/redux/selectors/translateSelector"
 import {getProfile} from "src/crud/user/profile"
+import {getUserEducations} from "src/crud/user/education"
+import {getUserResearches} from "src/crud/user/research"
+import {getUser} from "src/crud/user/user"
+import {ProfileInfoEditForm, UserInfoEditForm, ResearchInfoEditForm, EducationInfoEditForm} from "./Forms"
+import {userInfoIcon, researchIcon, educationIcon} from "src/images/icons"
+import {UserInfoItemWrapper, UserInfoView, ProfileInfoView, ResearchInfoView, EducationInfoView} from "./Views"
 import {
   userType,
   userProfileType,
@@ -31,7 +32,7 @@ type UserInfoState = {
   isLoading: boolean
 }
 
-export class UserInfo extends React.Component<UserInfoProps, UserInfoState> {
+export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 
   constructor(props: UserInfoProps) {
     super(props)
@@ -104,7 +105,7 @@ type ProfileInfoState = {
   isLoading: boolean
 }
 
-export class ProfileInfo extends React.Component<ProfileInfoProps, ProfileInfoState> {
+export class ProfileInfo extends Component<ProfileInfoProps, ProfileInfoState> {
   constructor(props: ProfileInfoProps) {
     super(props)
     this.state = {profile: {}, error: false, edit: false, isLoading: false}
@@ -173,7 +174,7 @@ type EducationInfoState = {
   isLoading: boolean
 }
 
-export class EducationInfo extends React.Component<EducationInfoProps, EducationInfoState> {
+export class EducationInfo extends Component<EducationInfoProps, EducationInfoState> {
   constructor(props: EducationInfoProps) {
     super(props)
     this.state = {education: {}, error: false, edit: false, isLoading: false}
@@ -237,7 +238,7 @@ type EducationsInfoState = {
   isLoading: boolean
 }
 
-export class EducationsInfo extends React.Component<EducationsInfoProps, EducationsInfoState> {
+export class EducationsInfo extends Component<EducationsInfoProps, EducationsInfoState> {
   constructor(props: EducationsInfoProps) {
     super(props)
     this.state = {educations: [], error: false, edit: false, isLoading: false}
@@ -292,7 +293,7 @@ type ResearchInfoState = {
   isLoading: boolean
 }
 
-export class ResearchInfo extends React.Component<ResearchInfoProps, ResearchInfoState> {
+export class ResearchInfo extends Component<ResearchInfoProps, ResearchInfoState> {
   constructor(props: ResearchInfoProps) {
     super(props)
     this.state = {research: {}, error: false, edit: false, isLoading: false}
@@ -358,7 +359,7 @@ type ResearchesInfoState = {
   isLoading: boolean
 }
 
-export class ResearchesInfo extends React.Component<ResearchesInfoProps, ResearchesInfoState> {
+export class ResearchesInfo extends Component<ResearchesInfoProps, ResearchesInfoState> {
   constructor(props: ResearchesInfoProps) {
     super(props)
     this.state = {researches: [], error: false, edit: false, isLoading: false}
@@ -407,7 +408,7 @@ type UserBasicInformationProps = {
   translate: { [string]: string }
 }
 
-export class UserBasicInformation extends React.Component<UserBasicInformationProps> {
+export class UserBasicInformation extends Component<UserBasicInformationProps> {
 
   static propTypes = {
     userId: PropTypes.number.isRequired,

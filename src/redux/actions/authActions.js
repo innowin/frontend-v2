@@ -1,11 +1,12 @@
 import types from './actionTypes'
 
-const signIn = (username, password , remember) => ({
+const signIn = (username, password , remember, hasOrgan) => ({
 	type: types.SIGN_IN,
 	payload: {
 		username,
 		password,
-		remember
+		remember,
+    hasOrgan
 	}
 })
 const signOut = () => ({type: types.SIGN_OUT , payload:{}})
@@ -15,4 +16,4 @@ const AuthActions = {
 	signOut
 }
 
-export default AuthActions;
+export default AuthActions
