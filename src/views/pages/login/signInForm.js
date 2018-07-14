@@ -40,14 +40,12 @@ class SignInForm extends Component {
 	
 	_handleError = (msg) => {
 		this.setState({...this.state, error: true, message: msg, sending: false})
-		//TODO: showing error in form
 	}
 	
 	_handleCheckbox = () => {
 		let checked = this.rememberme.checked
 		this.setState({...this.state, rememberme: checked},)
 	}
-	
 	_handleClick = (e) => {
 		e.preventDefault()
 		const {signIn} = this.props.actions
