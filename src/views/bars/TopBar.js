@@ -1,4 +1,6 @@
-import React, {Component} from "react"
+// @flow
+import * as React from "react"
+import {Component} from "react"
 import PropTypes from "prop-types"
 import {Collapse} from "reactstrap"
 import AuthActions from "src/redux/actions/authActions"
@@ -6,10 +8,10 @@ import {routerActions} from 'react-router-redux'
 import {bindActionCreators} from 'redux'
 import {connect} from "react-redux"
 import {
-    DefaultUserIcon,
-    logoDaneshBoom,
-    ExchangeExploreIcon,
-    NotificationIcon
+	DefaultUserIcon,
+	logoDaneshBoom,
+	ExchangeExploreIcon,
+	NotificationIcon
 } from "src/images/icons"
 import {ID} from "src/consts/data"
 import {Link} from "react-router-dom"
@@ -19,27 +21,74 @@ import {getFile} from "src/crud/media/media"
 import AgentForm from "../pages/modal/agentForm-modal"
 import AddingContribution from "../pages/adding-contribution/addingContribution"
 
-class TopBar extends Component {
+type PropsTopBar = {|
+	collapseWidthCol: string,
+	isLoggedIn: boolean,
+	actions: {
+		signOut: Function,
+		push: Function
+	}
+|}
+
+type StatesTopBar = {|
+	isSignedOut: boolean,
+	collapse: boolean,
+	collapseProfile: boolean,
+	agentForm: boolean,
+	profileMedia: ? string,
+	productWizardModalIsOpen: boolean
+|}
+
+class TopBar extends Component<PropsTopBar, StatesTopBar> {
 	
 	static propTypes = {
-		handleSignOut: PropTypes.func.isRequired,
 		collapseWidthCol: PropTypes.string.isRequired
 	}
 	
+	//types
+	searchInput: ? HTMLInputElement
+	
 	constructor(props) {
 		super(props);
-		this.state = {isSignedOut: false, collapse: false, collapseProfile: false, agentForm:false, profileMedia: null}
+		this.state = {
+			isSignedOut: false,
+			collapse: false,
+			collapseProfile: false,
+			agentForm: false,
+			profileMedia: null,
+			productWizardModalIsOpen: false
+		}
 	}
 	
-	_toggle = (e) => {
+	componentDidUpdate(nextProps: { isLoggedIn: boolean }) {
+		if (nextProps.isLoggedIn && nextProps.isLoggedIn !== this.props.isLoggedIn) {
+			this.props.actions.push('/login')
+		}
+	}
+	
+	componentDidMount() {
+		getProfile(ID, this._getProfileMedia)
+	}
+	
+	
+	_toggle = (e: SyntheticEvent<HTMLButtonElement>): void => {
 		e.preventDefault();
 		this.setState({...this.state, collapse: !this.state.collapse})
 	};
 	
-	_toggleProfile = (e) => {
+	_toggleProfile = (e: SyntheticEvent<HTMLButtonElement>): void => {
 		e.preventDefault();
 		this.setState({...this.state, collapseProfile: !this.state.collapseProfile})
 	};
+	
+	
+	_handleExchangeUpgrade = (e) => {
+		this.setState({...this.state, agentForm: true})
+	}
+	
+	_handleHideAgent = (e) => {
+		this.setState({...this.state, agentForm: false})
+	}
 	
 	_getProfileMedia = (res) => {
 		const mediaId = res.profile_media;
@@ -50,66 +99,43 @@ class TopBar extends Component {
 			getFile(mediaId, mediaResult)
 		}
 	};
-
-	_handleExchangeUpgrade = (e) => {
-    this.setState({...this.state,agentForm:true})
-  }
-
-  _handleHideAgent = (e)=>{
-    this.setState({...this.state,agentForm:false})
-  }
-
-	
+	_handleNewExchange = () => {
+		//TODO: new exchange should be handled
+	}
 	_handleProductWizardModal = () => {
-		// this.addProductWizard._toggle()
+		this.setState({...this.state, productWizardModalIsOpen: !this.state.productWizardModalIsOpen})
 	}
 	
 	_handleSignOut = () => {
 		this.props.actions.signOut()
 	}
-	componentDidUpdate(nextProps) {
-		if(nextProps.isLoggedIn && nextProps.isLoggedIn !== this.props.isLoggedIn){
-			this.props.actions.push('/login')
-		}
-	}
-	
-	componentDidMount() {
-		getProfile(ID, this._getProfileMedia)
-	}
 	
 	render() {
-		const { collapseWidthCol} = this.props;
-		const {profileMedia, collapse, collapseProfile} = this.state;
+		const {collapseWidthCol} = this.props;
+		const {profileMedia, collapse, collapseProfile, productWizardModalIsOpen} = this.state;
 		return (
 				<div>
 					<AgentForm
-						active={this.state.agentForm}
-						hide={this._handleHideAgent}
+							active={this.state.agentForm}
+							hide={this._handleHideAgent}
 					/>
-
 					<nav className="navbar flex-row justify-content-between p-0 -white-i fixed-top topBar">
 						<div className="d-flex align-items-center -whiteSvg">
 							<button type="button"
 											className={`navbar-toggler my-auto mr-2 -outlineWhite ${collapse ? "active" : ""}`}
 											onClick={this._toggle}>
-								{
-									(!collapse) ? (<i className="fa fa-bars cursor-pointer" aria-hidden="true"/>) : (
-											<i className=" text-danger fa fa-close cursor-pointer" aria-hidden="true"/>
-									)
-								}
+								{!collapse ? <i className="fa fa-bars cursor-pointer" aria-hidden={true}/> :
+										<i className=" text-danger fa fa-close cursor-pointer" aria-hidden={true}/>}
 							</button>
-							<Link to={"/"}><i className="fa fa-home mr-3" aria-hidden="true"/></Link>
+							<Link to={"/"}><i className="fa fa-home mr-3" aria-hidden={true}/></Link>
 							<Link className="mr-5" to={"/exchange/Exchange_Explorer"}><ExchangeExploreIcon className="-topBarIcons"/></Link>
 							<Link className="mr-5" to={"/"}><NotificationIcon className="-topBarIcons"/></Link>
 						</div>
 						<img className="centerImgTopBar" src={logoDaneshBoom} alt="profile_img"/>
 						<div className="dir-ltr d-flex flex-row">
 							<div className="-ProfTopBarImg">
-								{
-									(!profileMedia) ? (
-													<DefaultUserIcon onClickFunc={this._toggleProfile}/>) :
-											(<img src={profileMedia} alt="Person icon" onClick={this._toggleProfile}/>)
-								}
+								{!profileMedia ? <DefaultUserIcon onClickFunc={this._toggleProfile}/> :
+										<img src={profileMedia} alt="Person icon" onClick={this._toggleProfile}/>}
 							</div>
 							<div className="ml-4 -searchInput d-flex align-items-center">
 								<i className="fa fa-search" aria-hidden="true"/>
@@ -139,6 +165,8 @@ class TopBar extends Component {
 					{/*ref={addProductWizard => {this.addProductWizard = addProductWizard}}*/}
 					{/*className="addProductWizard"*/}
 					{/*/>*/}
+					<AddingContribution modalIsOpen={productWizardModalIsOpen}
+															handleModalVisibility={this._handleProductWizardModal}/>
 				</div>
 		)
 	}
@@ -146,10 +174,10 @@ class TopBar extends Component {
 
 const mapStateToProps = state => ({isLoggedIn: state.auth.client.isLoggedIn})
 const mapDispatchToProps = dispatch => ({
-    actions: bindActionCreators({
-        signOut: AuthActions.signOut,
-        push: routerActions.push
-    }, dispatch)
+	actions: bindActionCreators({
+		signOut: AuthActions.signOut,
+		push: routerActions.push
+	}, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(TopBar)
 
