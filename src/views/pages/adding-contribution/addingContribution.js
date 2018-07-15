@@ -6,12 +6,13 @@ import InitialInfo from './initialInfo'
 import NewContribution from './newConribution'
 import Certificates from './certificates'
 import {
-    newContributionCategories,
+    newContributionMainCategories,
     WRAPPER_CLASS_NAMES,
     PROGRESSIVE_STATUS_CHOICES,
     CERTIFICATES_IMG_IDS,
     logoFieldName,
-    tags
+    tags,
+    TYPES
 } from './addingConributionData'
 import GalleryAndTags from './galleryAndTags'
 import {
@@ -23,10 +24,12 @@ import {
 } from '../../../images/icons'
 import {getMessages} from "../../../redux/selectors/translateSelector";
 import {connect} from "react-redux";
-import {LAYER1_INPUTS} from './addingConributionData'
+import {LAYER1S} from './addingConributionData'
 import SuccessMessage from './successMessage'
-import {createSkillAction} from 'src/redux/actions/ContributionActions'
+import {createSkillAction, createProductAction} from 'src/redux/actions/ContributionActions'
 import FontAwesome from "react-fontawesome"
+import client from 'src/consts/client'
+import {normalize, schema} from 'normalizr';
 
 const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
@@ -53,7 +56,7 @@ class AddingContribution extends React.Component {
             newContributionData: {},
             testImage: '',
             addingTechPropNow: false,
-            newTechPropertyData: {}
+            newTechPropertyData: {},
         };
     }
 
@@ -67,6 +70,34 @@ class AddingContribution extends React.Component {
             ...this.state,
             newContributionData: {...this.state.newContributionData, technicalProperties: properties}
         })
+    }
+
+    componentDidUpdate() {
+        console.log('this.state.newContributionData', this.state.newContributionData)
+        // const articlesData = [{
+        //         id: 21,
+        //         author: {id: 12, name: 'ali'},
+        //         comments: [
+        //             {
+        //                 id: 14,
+        //                 text: 'some text',
+        //                 commenter: {id: 24, name: 'mohammad'}
+        //             },
+        //             {
+        //                 id: 28,
+        //                 text: 'some other text',
+        //                 commenter: {id: 36, name: 'mohammad ali'}
+        //             }
+        //         ]
+        // }]
+        // const userSchema = new schema.Entity('users')
+        // const commentSchema = new schema.Entity('comments', {commenter: userSchema})
+        // const articleSchema = new schema.Entity('articles', {author: userSchema, comments: [commentSchema]})
+        // const articlesSchema = [articleSchema]
+        // const normalizedArticles = normalize(articlesData, articlesSchema)
+        // console.log(normalizedArticles)
+        const identity = client.getIdentity()
+        console.log('client.getIdentity()', identity, typeof identity)
     }
 
     _activationAddTechPropBlock = (e, key) => {
@@ -146,13 +177,59 @@ class AddingContribution extends React.Component {
             })
         }
     }
+    _createSkillHandler = () => {
+        const {title, description} = this.state.newContributionData
+        const userType = client.getIdentityType()
+        if (userType === TYPES.PERSON) {
+            this.props.dispatch(createSkillAction({title, description}))
+        }
+        else {
+
+        }
+    }
+
+    _createProductHandler = () => {
+        const {
+            title,
+            description,
+            [LAYER1S.CATEGORY_LAYER3]: product_category,
+            technicalProperties,
+        } = this.state.newContributionData
+
+        const attrs = technicalProperties.reduce((result, property) => {
+            const {value, title} = property
+            if (value && title) result[title] = value
+            return result
+        }, {})
+
+        console.log(attrs)
+        const identity = client.getIdentity()
+        console.log('identity is ', identity)
+        const data = {
+            name: title,
+            description,
+            product_category: 30,
+            attrs,
+            province: 'some province',
+            country: 'some country',
+            product_owner: client.getIdentity()
+        }
+        console.log(data)
+        this.props.dispatch(createProductAction(data))
+    }
 
     _submitHandler = () => {
-        // console.log('this.props is 1 :', this.props)
-        const {newContributionData} = this.state
-        const {title, description} = newContributionData
-        console.log({title, description})
-        this.props.dispatch(createSkillAction({title, description}))
+        const {mainCategory} = this.state.newContributionData
+        switch (mainCategory) {
+            case newContributionMainCategories[0].value: // in case product.
+                this._createProductHandler()
+                break
+            case newContributionMainCategories[1].value: // in case skill.
+                this._createSkillHandler()
+                break
+            default:
+                return
+        }
         this._nextStep()
     }
 
@@ -199,10 +276,6 @@ class AddingContribution extends React.Component {
         }
         const input = e.target
         this._setStateForFileField(input, imgId)
-    }
-    _logoFileHandler = (e) => { // ! redundant
-        const input = e.target
-        this._setStateForFileField(input, logoFieldName)
     }
     _galleryImageDelete = (idx) => {
         const {newContributionData} = this.state
@@ -260,15 +333,42 @@ class AddingContribution extends React.Component {
             ...this.state,
             newContributionData: {
                 ...newContributionData,
-                [LAYER1_INPUTS.GALLERY_VIDEO_NAME]: null
+                [LAYER1S.GALLERY_VIDEO_NAME]: null
             }
         }, () => {
             if (input) {
-                setTimeout(() => this._setStateForFileField(input, LAYER1_INPUTS.GALLERY_VIDEO_NAME), 10)
+                setTimeout(() => this._setStateForFileField(input, LAYER1S.GALLERY_VIDEO_NAME), 10)
             }
         })
     }
-
+    _newCertificateHandler = (index) => {
+        const {newContributionData} = this.state
+        const {
+            certificates,
+            [LAYER1S.NEW_CERT_TITLE]: title,
+            [LAYER1S.NEW_CERT_IMAGE]: image,
+            [LAYER1S.NEW_CERT_LOGO]: logo,
+            [LAYER1S.NEW_CERT_NEED_FOR_VERIFY]: needForVerify,
+        } = newContributionData
+        const newCertificates = (certificates && [...certificates]) || []
+        const deleteCount = ((index === 0) && 0) || 1 // index determines that creating or updating.
+        const start = index || newCertificates.length // if there is index we want to update a certificate. else we only
+        // want to add a new certificate in the end of certificates.
+        if (title && image) {
+            newCertificates.splice(start, deleteCount, {title, image, logo, needForVerify})
+            this.setState({
+                ...this.state,
+                newContributionData: {
+                    ...newContributionData,
+                    certificates: newCertificates,
+                    [LAYER1S.NEW_CERT_TITLE]: '',
+                    [LAYER1S.NEW_CERT_IMAGE]: '',
+                    [LAYER1S.NEW_CERT_LOGO]: '',
+                    [LAYER1S.NEW_CERT_NEED_FOR_VERIFY]: false,
+                },
+            })
+        }
+    }
 
     _setStateForFileField = (input, key) => {
         const reader = new FileReader()
@@ -303,11 +403,15 @@ class AddingContribution extends React.Component {
         }), 10)
     }
 
-    _newContributionCategoryHandler = (category) => {
-        const data = {...this.state.newContributionData, category: category}
+    _newContributionMainCategoryHandler = (category) => {
+        const data = {...this.state.newContributionData, mainCategory: category}
         this.setState({...this.state, newContributionData: data})
     }
-    _handleModalVisibility = () => this.props.handleModalVisibility()
+    _handleModalVisibility = () => {
+        const {handleModalVisibility} = this.props
+        handleModalVisibility()
+        this.setState({...this.state, newContributionData: {}, activeStep: 1})
+    }
 
     _shareContribution = () => 1
     _introToExchange = () => 1
@@ -322,11 +426,11 @@ class AddingContribution extends React.Component {
             case 1:
                 return (
                     <NewContribution
-                        categories={newContributionCategories}
+                        categories={newContributionMainCategories}
                         goToNextStep={this._nextStep}
                         goToPrevStep={this._handleModalVisibility}
-                        selectedCategory={newContributionData.category}
-                        selectCategoryHandler={this._newContributionCategoryHandler}
+                        selectedCategory={newContributionData.mainCategory}
+                        selectCategoryHandler={this._newContributionMainCategoryHandler}
                     />
                 )
             case 2:
@@ -360,7 +464,8 @@ class AddingContribution extends React.Component {
                         goToNextStep={this._nextStep}
                         goToPrevStep={this._prevStep}
                         newContributionData={newContributionData}
-                        logoFileHandler={this._logoFileHandler}
+                        setStateForFileField={this._setStateForFileField}
+                        newCertificateHandler={this._newCertificateHandler}
                         inputHandler={this._layer1InputsValueHandler}
                     />
                 )
@@ -401,9 +506,11 @@ class AddingContribution extends React.Component {
         const {modalIsOpen} = this.props
         return (
             <div>
-                <button color="danger" onClick={() => this.setState({...this.state, modalIsOpen: true})}>test</button>
+                {/*<button color="danger" onClick={() => this.setState({...this.state, modalIsOpen: true})}>test</button>*/}
                 <Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>
                     <ModalBody className="adding-contribution-wrapper">
+                        <FontAwesome name="times" size="2x" className="close-btn"
+                                     onClick={this._handleModalVisibility}/>
                         <div className="progressive-wrapper">
                             <MenuProgressive
                                 steps={progressSteps}

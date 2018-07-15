@@ -17,6 +17,13 @@ export default {
 			logged_in_time:{}
 		}
 	},
+	user: {
+		skills: {
+			isLoading: false,
+			content: [],
+			isLoaded: false
+		}
+	},
 	organization:{
 		isLoading:false,
 		exchanges:{
@@ -75,7 +82,4 @@ export default {
 	error: {
         message: ''
     },
-	product: {
-
-	}
 };
