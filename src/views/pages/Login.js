@@ -8,7 +8,7 @@ import RegisterForm from "./login/SignUpForm"
 import SignInForm from "./login/signInForm"
 import SocialLogin from "./login/SocialLogin"
 import {bindActionCreators} from "redux"
-import {connect} from 'react-redux'
+import {connect} from "react-redux"
 import {routerActions} from "react-router-redux"
 
 class Login extends Component {
