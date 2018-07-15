@@ -5,7 +5,7 @@ import organization from './organization'
 import {routerReducer} from 'react-router-redux'
 import {intlReducer} from './intl'
 import {reducer as formReducer} from 'redux-form'
-import productReducer from './productReducer'
+import productReducer from './contributionReducer'
 
 const reducers = {
 	test,

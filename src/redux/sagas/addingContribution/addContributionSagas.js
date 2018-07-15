@@ -3,28 +3,51 @@ import types from "../../actions/actionTypes"
 import api from "../../../consts/api"
 import urls from "../../../consts/URLS"
 import results from "../../../consts/resultName"
+{/*=======*/}
+{/*import {call, fork, put, take, takeEvery} from "redux-saga/effects";*/}
+{/*import types from "../../actions/actionTypes";*/}
+{/*import api from "../../../consts/api";*/}
+{/*import urls from "../../../consts/URLS";*/}
+{/*import results from "../../../consts/resultName";*/}
+{/*import requests from "../requests"*/}
+{/*>>>>>>> ali*/}
 
 function* createSkill(action){
     const formValues = action.data
     const socketChannel = yield call(api.createSocketChannel, results.CREATE_Skill)
     try {
+// <<<<<<< HEAD
         yield fork(api.post ,urls.CREATE_Skill, results.CREATE_Skill ,formValues )
+// =======
+//         yield fork(requests.postRequest ,urls.CREATE_Skill, results.CREATE_Skill ,formValues)
+// >>>>>>> ali
         const data = yield take(socketChannel)
+        console.log(data)
         yield put({ type: types.SUCCESS.CREATE_SKILL, payload:data })
     } catch (e) {
         const {message} = e
+        console.log(message)
         yield put({type:types.ERRORS.CREATE_SKILL, payload:{type:types.ERRORS.CREATE_SKILL,message}})
     } finally {
         socketChannel.close()
     }
 }
 
-export function* createProduct(action) {
+function* createProduct(action){
+    const formValues = action.data
+    console.log('formvalue is: ', formValues)
+    const socketChannel = yield call(api.createSocketChannel, results.CREATE_PRODUCT)
     try {
-        console.log('this is addingContribution action:', action)
-        yield put({ type: types.ADD_CONTRIBUTION ,data: "some fake data." })
-    } catch (error) {
-        yield put({type: types.ADD_CONTRIBUTION, error})
+        yield fork(api.post ,urls.CREATE_PRODUCT, results.CREATE_PRODUCT ,formValues)
+        const data = yield take(socketChannel)
+        console.log(data)
+        yield put({ type: types.SUCCESS.CREATE_PRODUCT, payload:data })
+    } catch (e) {
+        const {message} = e
+        console.log(message)
+        yield put({type:types.ERRORS.CREATE_PRODUCT, payload:{type:types.ERRORS.CREATE_PRODUCT,message}})
+    } finally {
+        socketChannel.close()
     }
 }
 
@@ -33,4 +56,8 @@ export function* createProduct(action) {
 
 export function* watchCreateSkill() {
     yield takeEvery(types.CREATE_SKILL, createSkill)
+}
+
+export function* watchCreateProduct() {
+    yield takeEvery(types.CREATE_PRODUCT, createProduct)
 }

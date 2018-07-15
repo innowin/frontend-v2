@@ -10,13 +10,20 @@
   }
 }
 ----------- mohsen --------------- */
-
 .pointer {
   cursor: pointer;
 }
 
 .modal-body {
   padding: 10px;
+}
+.modal {
+  background: rgba(0, 0, 0, 0);
+  transition: all 1s;
+}
+.modal.show {
+  background: rgba(0, 0, 0, 0.5);
+  transition: all 1s;
 }
 
 .modal-content {
@@ -26,6 +33,11 @@
 }
 
 .adding-contribution-wrapper {
+  .close-btn {
+    color: $danger-color;
+    float: right;
+    cursor: pointer;
+  }
   input, textarea {
     font-size: $font-size-regular;
   }
@@ -422,8 +434,6 @@
     }
     .form-column .submit {
       @extend %jumbo-btn;
-      opacity: 0;
-      visibility: hidden;
       width: 90px;
       background-color: $brand-inverse;
       float: left;

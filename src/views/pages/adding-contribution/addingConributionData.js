@@ -82,19 +82,19 @@ export const categoriesData = [
     },
 ]
 
-export const newContributionCategories = [  // need for fetching and creating this list dynamical.
+export const newContributionMainCategories = [  // need for fetching and creating this list dynamical.
         {
-            value: '1',
+            value: 'product',
             svg: (<ContributionIcon className="new-contribution-category-image" />),
             label: 'محصول',
         },
         {
-            value: '2',
+            value: 'skill',
             svg: (<SkillIcon className="new-contribution-category-image skill-icon" />),
             label: 'توانمندی',
         },
         {
-            value: '3',
+            value: 'certificate',
             svg: (<CertificateIcon className="new-contribution-category-image" />),
             label: 'تاییدیه',
         },
@@ -125,7 +125,10 @@ export const CERTIFICATES_IMG_IDS = [
     'certificate2img',
     'certificate3img',
 ]
-
+export const TYPES = {
+    PERSON: 'person',
+    ORG: 'organization'
+}
 export const GALLERY_VIDEO_NAME = 'galleryVideo'
 
 export const logoFieldName = 'contributionLogo'
@@ -143,7 +146,11 @@ export const tags = [  //
     {value: 10, label: 'برچسب ۱۰', usedCount: 8},
 ]
 
-export const LAYER1_INPUTS = {
+export const LAYER1S = { // the name of layer 1 inputs in state.newContributionData
+    NEW_CERT_TITLE: 'newCertificateTitle',
+    NEW_CERT_IMAGE: 'newCertificateImage',
+    NEW_CERT_LOGO: 'newCertificateLogo',
+    NEW_CERT_NEED_FOR_VERIFY: 'newCertificateNeedForVirify',
     NAME: 'title',
     CATEGORY_LAYER1: 'categoryLevel1',
     CATEGORY_LAYER2: 'categoryLevel2',
@@ -152,7 +159,7 @@ export const LAYER1_INPUTS = {
     PRICE_STATUS: 'priceStatus',
     CURRENCY: 'currency',
     DESCRIPTION: 'description',
-    CERTIFICATE_TITLE: 'certificateTitle',
-    CERTIFICATE_NEED_FOR_VERIFY: 'certificateNeedForVerify',
+    CERT_TITLE: 'certificateTitle',
+    CERT_NEED_FOR_VERIFY: 'certificateNeedForVerify',
     GALLERY_VIDEO_NAME: 'galleryVideo'
 }
