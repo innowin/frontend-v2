@@ -45,9 +45,7 @@ export const createUser = (data, handleLogin) => {
 }
 
 export const createUserOrgan = (data, handleLogin) => {
-  const {username, password, email} = data;
-  // const {username, password, email, ...organization} = data
-  // const {national_code, official_name, country, province, city, ownership_type, business_type} = organization
+  const {username, password, email} = data
   socket.emit(REST_REQUEST, {
     method: 'post',
     url: `${url}/users/user-organization/`,
@@ -59,18 +57,12 @@ export const createUserOrgan = (data, handleLogin) => {
       "organization.username": username,
       "organization.email": email,
       "organization.official_name": `${username}_official`,
-      // "organization.national_code": national_code,
-      // "organization.country": country,
-      // "organization.province": province,
-      // "organization.city": city,
-      // "organization.ownership_type": ownership_type,
-      // "organization.business_type": business_type
     }
   })
-  const func = (res) => {alert(res.id)
+  const func = (res) => {
     if (res.id) {
       apiTokenAuth(data)
-      handleLogin(res)
+      handleLogin()
     }
     socket.off('createUserOrgan', func)
   }

@@ -1,7 +1,7 @@
 import React from 'react'
 import Select from 'react-select';
 import FontAwesome from 'react-fontawesome'
-import {LAYER1_INPUTS} from './addingConributionData'
+import {LAYER1S} from './addingConributionData'
 import {ImageUploadSvg, MoviesSvgIcon} from '../../../images/icons'
 import {CircularCheckbox} from '../../common/inputs/CircularCheckbox'
 import NextPrevBtns from './nextAndPrevBtns'
@@ -56,21 +56,21 @@ const GalleryAndTags = ({
                         </div>
                     ))}
                     <div
-                        className={newContributionData[LAYER1_INPUTS.GALLERY_VIDEO_NAME] ? 'upload-box uploaded' : 'upload-box'}>
+                        className={newContributionData[LAYER1S.GALLERY_VIDEO_NAME] ? 'upload-box uploaded' : 'upload-box'}>
                         <div className="image-wrapper">
                             <div className="upload-icon-wrapper">
                                 <MoviesSvgIcon className="upload-icon"/>
                             </div>
-                            {newContributionData[LAYER1_INPUTS.GALLERY_VIDEO_NAME] ?
+                            {newContributionData[LAYER1S.GALLERY_VIDEO_NAME] ?
                                 <video className="gallery-video" controls>
-                                    <source src={newContributionData[LAYER1_INPUTS.GALLERY_VIDEO_NAME]} type="video/mp4"/>
+                                    <source src={newContributionData[LAYER1S.GALLERY_VIDEO_NAME]} type="video/mp4"/>
                                     Your browser does not support HTML5 video.
                                 </video>
                                 :
                                 ''
                             }
                         </div>
-                        {newContributionData[LAYER1_INPUTS.GALLERY_VIDEO_NAME] ?
+                        {newContributionData[LAYER1S.GALLERY_VIDEO_NAME] ?
                             <div>
                                 <div className="edit-btn"/>
                                 <div onClick={() => videoHandler()} className="clear-btn">

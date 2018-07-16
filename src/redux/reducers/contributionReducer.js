@@ -1,15 +1,16 @@
 import initialState from './initialState';
-import types, {SUCCESS, FAILED, REQUEST} from '../actions/actionTypes';
+import types from '../actions/actionTypes';
 
-const productReducer = (state = initialState.product, action) => {
+const {SUCCESS, ERRORS, CREATE_SKILL} = types
+const productReducer = (state = initialState.user.skills, action) => {
     switch (action.type) {
-        case types.ADD_CONTRIBUTION + REQUEST:
+        case CREATE_SKILL:
             console.log("oh yes that's so clever thing.", action);
             return { ...state };
-        case types.ADD_CONTRIBUTION + SUCCESS:
-            console.log('this is a success message.');
+        case SUCCESS.CREATE_SKILL:
+            console.log('this is a success message.', action.payload);
             return {...state};
-        case types.ADD_CONTRIBUTION + FAILED:
+        case ERRORS.CREATE_SKILL:
             console.log('this is the failure message.');
             return {...state};
         default:

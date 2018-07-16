@@ -1,21 +1,21 @@
-import React, {Component} from 'react';
-import Home from './pages/Home';
-import PrivateRoute from '../consts/PrivateRoute'
-import User from './User';
-import Exchange from './Exchange';
-import Organization from './Organization';
-import {Switch} from 'react-router-dom';
-import Product from './Product';
-import ProductsTest from './pages/adding-contribution/addingContribution'
+import React, {Component} from "react"
+import Exchange from "./Exchange"
+import Home from "./pages/Home"
+import Organization from "./Organization"
+import PrivateRoute from "../consts/PrivateRoute"
+import Product from "./Product"
+import ProductsTest from "./pages/adding-contribution/addingContribution"
+import User from "./User"
+import {Switch} from "react-router-dom"
 
 class Layout extends Component {
 	constructor(props) {
-		super(props);
+		super(props)
 		this.state = {layout: true}
 	}
 	
 	render() {
-		const {handleSignOut} = this.props;
+		const {handleSignOut} = this.props
 		return (
 				<Switch>
 					<PrivateRoute exact={true} path="/" component={Home} handleSignOut={handleSignOut}/>
@@ -29,4 +29,4 @@ class Layout extends Component {
 	}
 }
 
-export default Layout;
+export default Layout

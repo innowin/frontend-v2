@@ -1,15 +1,15 @@
 /*global __*/
 import React, {Component} from "react"
-import {connect} from 'react-redux'
-import {routerActions} from "react-router-redux"
-import {bindActionCreators} from "redux"
 import CarouselLogin from "./login/Carousel"
 import FooterLogin from "./login/FooterLogin"
 import HeaderLogin from "./login/HeaderLogin"
-import LoginForm from "./login/signInForm"
 import RecoveryForm from "./login/RecoveryForm"
 import RegisterForm from "./login/SignUpForm"
+import SignInForm from "./login/signInForm"
 import SocialLogin from "./login/SocialLogin"
+import {bindActionCreators} from "redux"
+import {connect} from "react-redux"
+import {routerActions} from "react-router-redux"
 
 class Login extends Component {
   constructor(props) {
@@ -83,9 +83,9 @@ class Login extends Component {
                 </div>
                 <div className="card-block login-form p-3">
                   {SignIn &&
-                  <LoginForm showRecovery={this._showRecovery}/>}
+                  <SignInForm showRecovery={this._showRecovery}/>}
                   {SignUp &&
-                  <RegisterForm showLogin={this._showSignIn} RedirectToHome={RedirectToHome}/>}
+                  <RegisterForm RedirectToHome={RedirectToHome}/>}
                   {Recovery &&
                   <RecoveryForm/>}
                 </div>
