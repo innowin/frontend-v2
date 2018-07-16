@@ -12,7 +12,7 @@ import {watchGetOrganization,
 	watchGetCertificates,
 	watchUpdateCustomer} from './organization/organizationSaga'
 import {watchLSignIn, watchLSignOut, watchLSignInError} from './auth/authSaga'
-import {watchCreateSkill} from './addingContribution/addContributionSagas'
+import {watchCreateSkill, watchCreateProduct} from './addingContribution/addContributionSagas'
 
 const rootSaga = function* () {
 	yield all([
@@ -31,6 +31,7 @@ const rootSaga = function* () {
 		watchGetCertificates(),
 		watchUpdateCustomer(),
 		watchCreateSkill(),
+        watchCreateProduct(),
     ])
 }
 

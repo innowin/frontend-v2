@@ -1,5 +1,6 @@
 // @flow
 import * as React from "react"
+import {Component} from "react"
 import PropTypes from "prop-types"
 import {ArrayInput} from "src/views/common/inputs/ArrayInput"
 import {CustomArrayInput} from "src/views/common/inputs/CustomArrayInput"
@@ -41,7 +42,7 @@ type StateUserInfoEditForm = {
   confirm: boolean
 }
 
-export class UserInfoForm extends React.Component<PropsUserInfoForm> {
+export class UserInfoForm extends Component<PropsUserInfoForm> {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
     user: PropTypes.object,
@@ -124,7 +125,7 @@ export class UserInfoForm extends React.Component<PropsUserInfoForm> {
   }
 }
 
-export class UserInfoEditForm extends React.Component<PropsUserInfoEditForm, StateUserInfoEditForm> {
+export class UserInfoEditForm extends Component<PropsUserInfoEditForm, StateUserInfoEditForm> {
   constructor(props: PropsUserInfoEditForm) {
     super(props)
     this.state = {confirm: false}
@@ -192,7 +193,7 @@ type StateProfileInfoEditForm = {
   confirm: boolean
 }
 
-export class ProfileInfoForm extends React.Component<PropsProfileInfoForm> {
+export class ProfileInfoForm extends Component<PropsProfileInfoForm> {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
     profile: PropTypes.object,
@@ -345,7 +346,7 @@ export class ProfileInfoForm extends React.Component<PropsProfileInfoForm> {
   }
 }
 
-export class ProfileInfoEditForm extends React.Component<PropsProfileInfoEditForm, StateProfileInfoEditForm> {
+export class ProfileInfoEditForm extends Component<PropsProfileInfoEditForm, StateProfileInfoEditForm> {
   state = {confirm: false}
 
   static propTypes = {
@@ -410,7 +411,7 @@ type StateEducationInfoEditForm = {
   confirm: boolean
 }
 
-export class EducationInfoForm extends React.Component<PropsEducationInfoForm> {
+export class EducationInfoForm extends Component<PropsEducationInfoForm> {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
     education: PropTypes.object,
@@ -505,7 +506,7 @@ export class EducationInfoForm extends React.Component<PropsEducationInfoForm> {
   }
 }
 
-export class EducationInfoEditForm extends React.Component<PropsEducationInfoEditForm, StateEducationInfoEditForm> {
+export class EducationInfoEditForm extends Component<PropsEducationInfoEditForm, StateEducationInfoEditForm> {
   state = {confirm: false}
 
   static propTypes = {
@@ -570,7 +571,7 @@ type StateResearchInfoEditForm = {
   confirm: boolean
 }
 
-export class ResearchInfoForm extends React.Component<PropsResearchInfoForm> {
+export class ResearchInfoForm extends Component<PropsResearchInfoForm> {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
     research: PropTypes.object,
@@ -663,7 +664,7 @@ export class ResearchInfoForm extends React.Component<PropsResearchInfoForm> {
   }
 }
 
-export class ResearchInfoEditForm extends React.Component<PropsResearchInfoEditForm, StateResearchInfoEditForm> {
+export class ResearchInfoEditForm extends Component<PropsResearchInfoEditForm, StateResearchInfoEditForm> {
   state = {confirm: false}
 
   static propTypes = {

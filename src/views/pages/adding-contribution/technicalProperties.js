@@ -8,7 +8,7 @@ const TechnicalProperties = ({
                                  newPropertyData, addOrEditTechProperty, propertiesOrderHandler,
                                  setNewTechPropertyDate, goToNextStep, goToPrevStep}) => {
     const incompleteProperties = properties && properties.filter(property => !property.title)
-    const firstEmptyPropertyId = incompleteProperties[0] && incompleteProperties[0].id
+    const firstEmptyPropertyId = incompleteProperties && incompleteProperties[0].id
     const setBlockClassName = (id) => {
         let classes = 'add-property-block'
         if (id === firstEmptyPropertyId) {

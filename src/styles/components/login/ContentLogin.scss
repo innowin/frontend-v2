@@ -47,18 +47,6 @@
   }
 }
 
-@keyframes animate-sign-up-organ-form {
-  0% {
-    height: 0
-  }
-  99% {
-    height: 319px
-  }
-  100% {
-    height: auto
-  }
-}
-
 @keyframes error-message {
   from {
     opacity: 0;
@@ -292,13 +280,10 @@
       padding: 0 7px;
     }
   }
-  .organization-signup-form {
-    animation: animate-sign-up-organ-form 1s ease-in-out forwards;
-  }
-  .person-signup-form{
+  .signUp-form{
     animation: animate-sign-up-person-form 1s ease-in-out forwards;
   }
-  .organization-signup-form, .person-signup-form {
+  .signUp-form {
     select {
       display: flex;
       width: 100%;

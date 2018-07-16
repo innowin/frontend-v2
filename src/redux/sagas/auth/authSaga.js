@@ -1,45 +1,51 @@
-import types from 'src/redux/actions/actionTypes'
-import urls from 'src/consts/URLS'
-import {delay} from 'redux-saga'
-import {put, take, fork, apply, call, takeEvery} from 'redux-saga/effects'
-import api from 'src/consts/api'
-import client from 'src/consts/client'
-import results from 'src/consts/resultName'
+import api from "src/consts/api"
+import client from "src/consts/client"
+import results from "src/consts/resultName"
+import types from "src/redux/actions/actionTypes"
+import urls from "src/consts/URLS"
+import {delay} from "redux-saga"
+import {put, take, fork, call, takeEvery} from "redux-saga/effects"
 
 /**********    %% WORKERS %%    **********/
 
-//1 - prerequisite - sending requests
-function* signInRequest(username, password) {
-  yield apply({}, api.post, [urls.SIGN_IN, results.SIGN_IN, {username, password}])
-}
 
-function* getOrganRequest(username) {
-  yield apply({}, api.get, [urls.GET_ORGANIZATION, results.GET_ORGANIZATION, `?username=${username}`])
+export function* getOrganizationInSignIn(username) {
+  const socketChannel = yield call(api.createSocketChannel, results.GET_ORGANIZATION)
+  try {
+    yield fork(api.get, urls.GET_ORGANIZATION, results.GET_ORGANIZATION, `?username=${username}`)
+    const data = yield take(socketChannel)
+    return data[0]
+  } catch (e) {
+    const {message} = e
+    yield put({type: types.ERRORS.GET_ORGANIZATION, payload: {type: types.ERRORS.GET_ORGANIZATION, message}})
+  } finally {
+    socketChannel.close()
+  }
 }
 
 //1 - sign in worker
 export function* signIn(action) {
   const {payload} = action
-  const {username, password, remember} = payload
+  const {username, password, remember, hasOrgan} = payload
   const socketChannel = yield call(api.createSocketChannel, results.SIGN_IN)
   try {
-    yield fork(signInRequest, username, password)
-    const data = yield take(socketChannel)
-    let identityType = data.identity.identity_user !== null
-    if (identityType) {
-      yield client.saveData(data.user.id, data.identity.id, 'person', remember)
-    } else {
-      const organId = yield* call(getOrganRequest, data.user.username)
-      yield client.saveData(data.user.id, data.identity.id, 'organization', remember)
-    }
+    yield fork(api.post, urls.SIGN_IN, results.SIGN_IN, {username, password})
+    let data = yield take(socketChannel)
     if (remember) {
       yield client.setTokenLS(data.token)
     } else {
       yield client.setSessionLS(data.token)
     }
+    const organData = yield call(getOrganizationInSignIn, username)
+    if (!hasOrgan) {
+      yield client.saveData(data.user.id, data.identity.id, 'person', remember, null)
+      data = {...data, organization: null}
+    } else {
+      data = {...data, organization: organData}
+      yield client.saveData(data.user.id, data.identity.id, 'org', remember, organData.id)
+    }
     yield delay(500)
     yield put({type: types.SIGN_IN_SUCCESS, payload: {data, rememberMe: remember}})
-
   }
   catch (e) {
     const {message} = e

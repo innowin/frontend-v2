@@ -1,5 +1,6 @@
-/*global __*/
-import React, {Component} from "react"
+// @flow
+import * as React from "react"
+import {Component} from "react"
 import PropTypes from "prop-types"
 import {FrameCard, CategoryTitle, VerifyWrapper} from "../../common/cards/Frames"
 import {ListGroup} from '../../common/cards/Frames'
@@ -8,13 +9,26 @@ import {REST_REQUEST} from "../../../consts/Events"
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {TOKEN, IDENTITY_ID} from "src/consts/data"
 import {ProductInfoItemWrapper, ProductInfoView, ProductDescriptionView, ProductDescriptionWrapper} from "./Views"
+import {getMessages} from "../../../redux/selectors/translateSelector";
+import {connect} from "react-redux";
 
+type ProductInfoProps = {
+	product: Object,
+	product_category: Object,
+	owner: Object,
+	error: ?String,
+	edit: boolean,
+	isLoading: boolean
+}
+type ProductInfoState = {
+	productId: string
+}
 
-export class ProductInfo extends Component {
+export class ProductInfo extends Component<ProductInfoProps, ProductInfoState> {
 	
-	constructor(props) {
-		super(props)
-		this.state = {product: {}, product_category:{}, owner:{}, error: null, edit: false, isLoading: false}
+	constructor() {
+		super()
+		this.state = {product: {},product_category:{}, owner:{}, error: null, edit: false, isLoading: false}
 	}
 	
 	static propTypes = {
@@ -154,28 +168,28 @@ export class ProductInfo extends Component {
 	}
 }
 
-
-export default class productBasicInformation extends Component {
-	static propTypes = {
-		productId: PropTypes.string.isRequired,
-	}
-	
-	render() {
-		const {productId} = this.props
-		return (
-				<div>
-					<CategoryTitle
-							title={__('Product Detail')}
-							createForm={true}
-					/>
-					<FrameCard>
-						<ListGroup>
-              {/* {<ProductDescriptionInfo productId={productId}/>} */}
-							<ProductInfo productId={productId}/>
-						</ListGroup>
-					</FrameCard>
-				</div>
-		)
-	}
+type BasicInfoProps = {
+	productId: string,
+	translator: Object
 }
 
+const productBasicInformation = (props: BasicInfoProps) => {
+	const {productId, translator} = props
+	return (
+        <div>
+            <CategoryTitle
+                title={translator['Product Detail']}
+                createForm={true}
+            />
+            <FrameCard>
+                <ListGroup>
+                    <ProductInfo productId={productId}/>
+                </ListGroup>
+            </FrameCard>
+        </div>
+    )
+}
+
+const mapStateToProps = (state) => ({translator: getMessages(state)})
+
+export default connect(mapStateToProps)(productBasicInformation)

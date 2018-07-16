@@ -1,16 +1,17 @@
 /*global __*/
 import React, {Component} from 'react'
-import {routerActions} from 'react-router-redux'
-import AuthActions from 'src/redux/actions/authActions'
-import {bindActionCreators} from 'redux'
-import ErrorMessage from './ErrorMessage'
-import {BeatLoader} from 'react-spinners'
-import {connect} from 'react-redux'
+import AuthActions from "src/redux/actions/authActions"
 import client from "src/consts/client"
+import ErrorMessage from "./ErrorMessage"
+import {BeatLoader} from "react-spinners"
+import {bindActionCreators} from "redux"
+import {connect} from "react-redux"
+import {routerActions} from "react-router-redux"
 
-class LoginForm extends Component {
+
+class SignInForm extends Component {
 	constructor(props) {
-		super(props);
+		super(props)
 		this.state = {
 			message: '',
 			error: null,
@@ -25,28 +26,26 @@ class LoginForm extends Component {
 	}
 	
 	componentDidUpdate(prevProps) {
-		const {push} = this.props.actions;
+		const {push} = this.props.actions
 		if (prevProps.isLoggedIn !== this.props.isLoggedIn && this.props.isLoggedIn) {
 			push(this._redirectPath())
 		}
 	}
 	
 	_redirectPath = () => {
-		const locationState = this.props.location.state;
+		const locationState = this.props.location.state
 		const pathname = (locationState && locationState.state && locationState.state.pathname)
 		return pathname || '/'
 	}
 	
 	_handleError = (msg) => {
-		this.setState({...this.state, error: true, message: msg, sending: false});
-		//TODO: showing error in form
+		this.setState({...this.state, error: true, message: msg, sending: false})
 	}
 	
 	_handleCheckbox = () => {
-		let checked = this.rememberme.checked;
-		this.setState({...this.state, rememberme: checked},);
+		let checked = this.rememberme.checked
+		this.setState({...this.state, rememberme: checked},)
 	}
-	
 	_handleClick = (e) => {
 		e.preventDefault()
 		const {signIn} = this.props.actions
@@ -122,4 +121,4 @@ const mapDispatchToProps = dispatch => ({
 		push: routerActions.push
 	}, dispatch)
 })
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)
+export default connect(mapStateToProps, mapDispatchToProps)(SignInForm)

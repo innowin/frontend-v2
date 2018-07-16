@@ -1,8 +1,9 @@
 // @flow
 import * as React from "react"
+import {Component} from "react"
 import PropTypes from "prop-types"
-import {list_of_badge} from "../../common/Functions"
 import {JalaliWithFarsiMonth} from "../../common/JalaliWithFarsiMonth"
+import {list_of_badge} from "../../common/Functions"
 import {userInfoIcon, researchIcon, educationIcon} from "src/images/icons"
 import {
   Field,
@@ -10,7 +11,7 @@ import {
   FieldValue,
   ItemHeader,
   ItemWrapper,
-} from '../../common/cards/Frames'
+} from "../../common/cards/Frames"
 import {
   userType,
   userProfileType,
@@ -37,10 +38,10 @@ UserInfoItemWrapper.propTypes = {
 type PropsUserInfoView = {
   showEdit: Function,
   user: userType,
-  translate: {[string]:string}
+  translate: { [string]: string }
 }
 
-export class UserInfoView extends React.Component<PropsUserInfoView> {
+export class UserInfoView extends Component<PropsUserInfoView> {
   static propTypes = {
     showEdit: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
@@ -82,11 +83,11 @@ export class UserInfoView extends React.Component<PropsUserInfoView> {
 type PropsProfileInfoView = {
   showEdit: Function,
   profile: userProfileType,
-  translate:{[string]:string}
+  translate: { [string]: string }
 }
 type listOfBadge = (?React.Element<'span'>)[]
 
-export class ProfileInfoView extends React.Component<PropsProfileInfoView> {
+export class ProfileInfoView extends Component<PropsProfileInfoView> {
   static propTypes = {
     showEdit: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
@@ -94,7 +95,7 @@ export class ProfileInfoView extends React.Component<PropsProfileInfoView> {
   }
 
   render() {
-    const {showEdit,translate} = this.props
+    const {showEdit, translate} = this.props
     const profile = this.props.profile
     const listMobile: listOfBadge = list_of_badge(profile.mobile)
     const listPhone: listOfBadge = list_of_badge(profile.phone)
@@ -148,10 +149,10 @@ export class ProfileInfoView extends React.Component<PropsProfileInfoView> {
 type PropsEducationInfoView = {
   showEdit: Function,
   education: userEducationType,
-  translate: {[string]:string}
+  translate: { [string]: string }
 }
 
-export class EducationInfoView extends React.Component<PropsEducationInfoView> {
+export class EducationInfoView extends Component<PropsEducationInfoView> {
   static propTypes = {
     showEdit: PropTypes.func.isRequired,
     education: PropTypes.object.isRequired,
@@ -197,10 +198,10 @@ export class EducationInfoView extends React.Component<PropsEducationInfoView> {
 type PropsResearchInfoView = {
   showEdit: Function,
   research: userResearchType,
-  translate: {[string]:string}
+  translate: { [string]: string }
 }
 
-export class ResearchInfoView extends React.Component<PropsResearchInfoView> {
+export class ResearchInfoView extends Component<PropsResearchInfoView> {
   static propTypes = {
     showEdit: PropTypes.func.isRequired,
     research: PropTypes.object.isRequired,

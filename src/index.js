@@ -1,12 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom'
-import App from './App'
-import {ConnectedRouter} from 'react-router-redux'
-import {withRouter} from 'react-router-dom'
-import registerServiceWorker from './registerServiceWorker'
-import {Provider} from 'react-redux'
-import configureStore,{runSaga , history} from './redux/store/configureStore'
+import React from "react"
+import ReactDOM from "react-dom"
+import App from "./App"
+import configureStore,{runSaga , history} from "./redux/store/configureStore"
+import registerServiceWorker from "./registerServiceWorker"
+import {ConnectedRouter} from "react-router-redux"
 import {IntlProvider} from "react-intl-redux"
+import {Provider} from "react-redux"
+import {withRouter} from "react-router-dom"
 
 const WrappedApp = withRouter(App)
 const store = configureStore()
@@ -21,5 +21,5 @@ ReactDOM.render(
 			</IntlProvider>
     </Provider>
 
-    , document.getElementById('root'));
-registerServiceWorker();
+    , document.getElementById('root'))
+registerServiceWorker()
