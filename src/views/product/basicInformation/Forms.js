@@ -1,5 +1,6 @@
-/*global __*/
-import React, {Component} from "react"
+// @flow
+import * as React from "react"
+import {Component} from "react"
 import PropTypes from "prop-types"
 import {TextInput} from "src/views/common/inputs/TextInput"
 import {updateProduct} from "src/crud/product/basicInformation"
@@ -8,12 +9,19 @@ import {REST_REQUEST} from "../../../consts/Events"
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {TOKEN} from "src/consts/data"
 
-export class ProductDescriptionForm extends Component {
+type ProductDescriptionFormProps = {
+	onSubmit: Function,
+	description: [],
+    children: React.Node,
+	translator: {[string]: string}
+}
+
+export class ProductDescriptionForm extends Component<ProductDescriptionFormProps> {
 	static propTypes = {
 		onSubmit: PropTypes.func.isRequired,
 		description: PropTypes.array,
 	}
-
+    descriptionInput: React.ElementRef<typeof TextInput>;
 	_getValues = () => {
 		return {
 			description: this.descriptionInput.getValue()
@@ -35,6 +43,7 @@ export class ProductDescriptionForm extends Component {
 	}
 	
 	render() {
+		const {translator} = this.props
 		//Todo pedram : delete and create functionality should be added
 		const description = this.props.description || ""
 		return (
@@ -43,7 +52,7 @@ export class ProductDescriptionForm extends Component {
 						<TextInput
 								name="description"
 								required
-								label={__('Description') + ": "}
+								label={translator['Description'] + ": "}
 								value={description}
 								ref={descriptionInput => {
 									this.descriptionInput = descriptionInput
@@ -56,60 +65,89 @@ export class ProductDescriptionForm extends Component {
 	}
 }
 
+export type ProductType = {
+    description: Array<mixed>,
+	id: number,
+	name: string,
+	province: string,
+	country: string,
+    city: string
+}
 
-export class ProductDescriptionEditForm extends Component {
-	constructor(props) {
-		super(props)
+type ProductDescriptionEditFormProps = {
+    hideEdit: Function,
+    updateStateForView: Function,
+    description: any,
+	translator: {[string]: string},
+	product: ProductType
+}
+type ProductDescriptionEditFormState = {
+	confirm: boolean
+}
+
+export class ProductDescriptionEditForm extends Component<ProductDescriptionEditFormProps, ProductDescriptionEditFormState> {
+	constructor() {
+		super()
 		this.state = {
 			confirm: false
 		}
 	}
-
+	form: ?React.ElementRef<typeof ProductDescriptionForm>
 	static propTypes = {
 		hideEdit: PropTypes.func.isRequired,
 		updateStateForView: PropTypes.func.isRequired,
 		description: PropTypes.array.isRequired,
 	}
  
-	_save = (updateStateForView, hideEdit) => {
+	_save = (updateStateForView: Function, hideEdit: Function) => {
 		const productId = this.props.product.id
-		const formValues = this.form._getValues()
+		const formValues = (this.form && this.form._getValues()) || {}
 		return updateProduct(formValues, productId, updateStateForView,  hideEdit)
 	}
 
-	_onSubmit = (e) => {
+	_onSubmit = (e: SyntheticEvent<>) => {
 		e.preventDefault()
 		const {updateStateForView, hideEdit} = this.props
-		if (this.form._formValidate()) {
+		if (this.form && this.form._formValidate()) {
 			this._save(updateStateForView, hideEdit)
 		}
 		return false
 	}
 
 	render() {
-		const {description} = this.props
+		const {description, translator} = this.props
 		return (
-				<ProductDescriptionForm onSubmit={this._onSubmit} ref={form => {this.form = form}} description={description}>
+				<ProductDescriptionForm onSubmit={this._onSubmit} ref={form => {this.form = form}} translator={translator} description={description}>
 					<div className="col-12 d-flex justify-content-end">
 						<button type="button" className="btn btn-secondary mr-2" onClick={this.props.hideEdit}>
-							{__('Cancel')}
+							{translator['Cancel']}
 						</button>
-						<button type="submit" className="btn btn-success">{__('Save')}</button>
+						<button type="submit" className="btn btn-success">{translator['Save']}</button>
 					</div>
 				</ProductDescriptionForm>
 		)
 	}
 }
 
-
-export class ProductInfoForm extends Component {
+type ProductInfoFormProps = {
+	onSubmit: Function,
+	product: ProductType
+}
+type ProductInfoFormState = {
+	categories: []
+}
+export class ProductInfoForm extends Component<ProductInfoFormProps, ProductInfoFormState> {
 	static propTypes = {
 		onSubmit: PropTypes.func.isRequired,
 		product: PropTypes.object,
 	}
-
-	constructor(props){
-		super(props)
+    nameInput: React.ElementRef<typeof TextInput>
+    countryInput: React.ElementRef<typeof TextInput>
+    provinceInput: React.ElementRef<typeof TextInput>
+    cityInput: React.ElementRef<typeof TextInput>
+    productCategoryInput: React.ElementRef<typeof TextInput>
+	constructor(){
+		super()
 		this.state = {categories:[]}
 	}
 	
@@ -169,6 +207,7 @@ export class ProductInfoForm extends Component {
 	
 	render() {
 		const product = this.props.product || {}
+		const {translator} = this.props
 		const {categories} = this.state
 		let currentCategory = {title:""}
 		const options = categories.map((cat,index)=>{
@@ -182,7 +221,7 @@ export class ProductInfoForm extends Component {
 					<div className="row">
 						<TextInput
 								name="name"
-								label={__('Name') + ": "}
+								label={translator['Name'] + ": "}
 								value={product.name}
 								ref={nameInput => {
 									this.nameInput = nameInput
@@ -190,7 +229,7 @@ export class ProductInfoForm extends Component {
 						/>
 						<TextInput
 								name="country"
-								label={__('Country') + ": "}
+								label={translator['Country'] + ": "}
 								value={product.country}
 								ref={countryInput => {
 									this.countryInput = countryInput
@@ -198,7 +237,7 @@ export class ProductInfoForm extends Component {
 						/>
 						<TextInput
 								name="province"
-								label={__('Province') + ": "}
+								label={translator['Province'] + ": "}
 								value={product.province}
 								ref={provinceInput => {
 									this.provinceInput = provinceInput
@@ -206,7 +245,7 @@ export class ProductInfoForm extends Component {
 						/>
 						<TextInput
 								name="city"
-								label={__('City') + ": "}
+								label={translator['City'] + ": "}
 								value={product.city}
 								ref={cityInput => {
 									this.cityInput = cityInput
@@ -214,7 +253,7 @@ export class ProductInfoForm extends Component {
 						/>
 						<SelectComponent
 								name="productCategory"
-								label={__('ProductCategory') + ": "}
+								label={translator['ProductCategory'] + ": "}
 								options={options}
 								className="col-12 form-group"
 								required
@@ -260,16 +299,16 @@ export class ProductInfoEditForm extends Component {
 	}
 	
 	render() {
-		const {product} = this.props
+		const {product, translator} = this.props
 		return (
-				<ProductInfoForm onSubmit={this._onSubmit} ref={form => {
+				<ProductInfoForm translator={translator} onSubmit={this._onSubmit} ref={form => {
 					this.form = form
 				}} product={product}>
 					<div className="col-12 d-flex justify-content-end">
 						<button type="button" className="btn btn-secondary mr-2" onClick={this.props.hideEdit}>
-							{__('Cancel')}
+							{translator['Cancel']}
 						</button>
-						<button type="submit" className="btn btn-success">{__('Save')}</button>
+						<button type="submit" className="btn btn-success">{translator['Save']}</button>
 					</div>
 				</ProductInfoForm>
 		)
