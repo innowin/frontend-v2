@@ -1,27 +1,24 @@
-/*global __*/
-import React, {Component} from "react"
-import PropTypes from 'prop-types'
+// @flow
+import * as React from "react"
 import {FrameCard, CategoryTitle, ListGroup} from "src/views/common/cards/Frames"
 
-class ProductRating extends Component {
-  static propTypes = {
-    ProductId: PropTypes.number.isRequired
-  }
-
-  render() {
-    return (
-      <div>
-        <CategoryTitle
-          title={__('Ratings')}
-        />
-        <FrameCard className="-frameCardPost">
-          <ListGroup>
-            <p>Product Ratings</p>
-          </ListGroup>
-        </FrameCard>
-      </div>
-    )
-  }
+type ProductRatingProps = {
+    translator: {[string]: string}
 }
 
+const ProductRating = (props: ProductRatingProps) => {
+    const {translator} = props
+    return (
+        <div>
+            <CategoryTitle
+                title={translator['Ratings']}
+            />
+            <FrameCard className="-frameCardPost">
+                <ListGroup>
+                    <p>Product Ratings</p>
+                </ListGroup>
+            </FrameCard>
+        </div>
+    )
+}
 export default ProductRating

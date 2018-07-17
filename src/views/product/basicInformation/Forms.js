@@ -8,12 +8,17 @@ import {SelectComponent} from "src/views/common/SelectComponent"
 import {REST_REQUEST} from "../../../consts/Events"
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {TOKEN} from "src/consts/data"
+import type {ProductType} from "src/consts/flowTypes/product/productTypes"
 
 type ProductDescriptionFormProps = {
 	onSubmit: Function,
 	description: [],
     children: React.Node,
 	translator: {[string]: string}
+}
+
+type FormVluesType = {
+    description: string
 }
 
 export class ProductDescriptionForm extends Component<ProductDescriptionFormProps> {
@@ -65,15 +70,6 @@ export class ProductDescriptionForm extends Component<ProductDescriptionFormProp
 	}
 }
 
-export type ProductType = {
-    description: Array<mixed>,
-	id: number,
-	name: string,
-	province: string,
-	country: string,
-    city: string
-}
-
 type ProductDescriptionEditFormProps = {
     hideEdit: Function,
     updateStateForView: Function,
@@ -96,12 +92,12 @@ export class ProductDescriptionEditForm extends Component<ProductDescriptionEdit
 	static propTypes = {
 		hideEdit: PropTypes.func.isRequired,
 		updateStateForView: PropTypes.func.isRequired,
-		description: PropTypes.array.isRequired,
+		description: PropTypes.string.isRequired,
 	}
  
 	_save = (updateStateForView: Function, hideEdit: Function) => {
-		const productId = this.props.product.id
-		const formValues = (this.form && this.form._getValues()) || {}
+		const productId: number = this.props.product.id
+		const formValues: FormVluesType = (this.form && this.form._getValues()) || {description: ''}
 		return updateProduct(formValues, productId, updateStateForView,  hideEdit)
 	}
 
@@ -131,7 +127,9 @@ export class ProductDescriptionEditForm extends Component<ProductDescriptionEdit
 
 type ProductInfoFormProps = {
 	onSubmit: Function,
-	product: ProductType
+	product: ProductType,
+	translator: {[string]: string},
+    children: React.Node
 }
 type ProductInfoFormState = {
 	categories: []
@@ -195,10 +193,10 @@ export class ProductInfoForm extends Component<ProductInfoFormProps, ProductInfo
 
 		socket.on(`Products-category-get/`, (res) => {
 			if (res.detail) {
-				const newState = {...this.state, error: res.detail, isLoading: false}
+				const newState: {} = {...this.state, error: res.detail, isLoading: false}
 				this.setState(newState)
 			}else{
-				const newState = {...this.state, categories: res, isLoading: false}
+				const newState: {} = {...this.state, categories: res, isLoading: false}
 				this.setState(newState)
 			}
 		})
@@ -270,10 +268,20 @@ export class ProductInfoForm extends Component<ProductInfoFormProps, ProductInfo
 	}
 }
 
+type ProductInfoEditFormProps = {
+    hideEdit: Function,
+    updateStateForView: Function,
+    product: ProductType,
+    translator: {[string]: string},
+}
 
-export class ProductInfoEditForm extends Component {
-	constructor(props) {
-		super(props)
+type ProductInfoEditFormState = {
+    confirm: boolean
+}
+
+export class ProductInfoEditForm extends Component<ProductInfoEditFormProps, ProductInfoEditFormState> {
+	constructor() {
+		super()
 		this.state = {confirm: false}
 	}
 	
@@ -282,17 +290,19 @@ export class ProductInfoEditForm extends Component {
 		updateStateForView: PropTypes.func.isRequired,
 		product: PropTypes.object.isRequired
 	}
-	
-	_save = (updateStateForView, hideEdit) => {
+
+	form: ?React.ElementRef<typeof ProductInfoForm>
+
+	_save = (updateStateForView: Function, hideEdit: Function) => {
 		const productId = this.props.product.id
-		const formValues = this.form._getValues()
+		const formValues = this.form && this.form._getValues()
 		return updateProduct(formValues, productId, updateStateForView, hideEdit)
 	}
 	
-	_onSubmit = (e) => {
+	_onSubmit = (e: SyntheticEvent<>) => {
 		const {updateStateForView, hideEdit} = this.props
 		e.preventDefault()
-		if (this.form._formValidate()) {
+		if (this.form && this.form._formValidate()) {
 			this._save(updateStateForView, hideEdit)
 		}
 		return false
