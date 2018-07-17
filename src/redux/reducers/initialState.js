@@ -23,7 +23,16 @@ export default {
 			isLoading: false,
 			content: [],
 			isLoaded: false
-		}
+		},
+    workExperiences: {
+      isLoading: false,
+      content: [],
+      isLoaded: false,
+			error:{
+      	isError:false,
+      	message:'',
+			}
+    }
 	},
 	organization:{
 		isLoading:false,

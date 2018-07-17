@@ -44,22 +44,22 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
     translate: PropTypes.object.isRequired
   }
 
-  _showEdit = (): void => {
+  _showEdit = () => {
     this.setState({...this.state, edit: true})
   }
 
-  _hideEdit = (): void => {
+  _hideEdit = () => {
     this.setState({...this.state, edit: false})
   }
 
-  _updateStateForView = (res: userType): void => {
+  _updateStateForView = (res: userType) => {
     this.setState({...this.state, user: res, isLoading: false})
   }
 
   componentDidMount() {
     const {userId} = this.props
-    this.setState({...this.state, isLoading: true}, (): void => {
-        getUser(userId, (res: userType): void =>
+    this.setState({...this.state, isLoading: true}, () => {
+        getUser(userId, (res: userType) =>
           this.setState({...this.state, user: res, isLoading: false})
         )
       }
@@ -116,22 +116,22 @@ export class ProfileInfo extends Component<ProfileInfoProps, ProfileInfoState> {
     translate: PropTypes.object.isRequired
   }
 
-  _showEdit = (): void => {
+  _showEdit = () => {
     this.setState({...this.state, edit: true})
   }
 
-  _hideEdit = (): void => {
+  _hideEdit = () => {
     this.setState({...this.state, edit: false})
   }
 
-  _updateStateForView = (res: userProfileType): void => {
+  _updateStateForView = (res: userProfileType) => {
     this.setState({...this.state, profile: res, isLoading: false})
   }
 
   componentDidMount() {
     const {userId} = this.props
-    this.setState({...this.state, isLoading: true}, (): void => {
-      getProfile(userId, (res: userProfileType): void => this.setState({...this.state, profile: res, isLoading: false}))
+    this.setState({...this.state, isLoading: true}, () => {
+      getProfile(userId, (res: userProfileType) => this.setState({...this.state, profile: res, isLoading: false}))
     })
   }
 
@@ -185,15 +185,15 @@ export class EducationInfo extends Component<EducationInfoProps, EducationInfoSt
     translate: PropTypes.object.isRequired
   }
 
-  _showEdit = (): void => {
+  _showEdit = () => {
     this.setState({...this.state, edit: true})
   }
 
-  _hideEdit = (): void => {
+  _hideEdit = () => {
     this.setState({...this.state, edit: false})
   }
 
-  _updateStateForView = (res: userEducationType, error: boolean, isLoading: boolean): void => {
+  _updateStateForView = (res: userEducationType, error: boolean, isLoading: boolean) => {
     this.setState({...this.state, education: res, error: error, isLoading: isLoading})
   }
 
@@ -249,18 +249,18 @@ export class EducationsInfo extends Component<EducationsInfoProps, EducationsInf
     translate: PropTypes.object.isRequired
   }
 
-  _showEdit = (): void => {
+  _showEdit = () => {
     this.setState({...this.state, edit: true})
   }
 
-  _hideEdit = (): void => {
+  _hideEdit = () => {
     this.setState({...this.state, edit: false})
   }
 
   componentDidMount() {
     const {userId} = this.props
-    this.setState({...this.state, isLoading: true}, (): void => {
-      getUserEducations(userId, (res: (userEducationType)[]): void => {
+    this.setState({...this.state, isLoading: true}, () => {
+      getUserEducations(userId, (res: (userEducationType)[]) => {
         this.setState({...this.state, educations: res, isLoading: false})
       })
     })
@@ -304,15 +304,15 @@ export class ResearchInfo extends Component<ResearchInfoProps, ResearchInfoState
     translate: PropTypes.object.isRequired
   }
 
-  _showEdit = (): void => {
+  _showEdit = () => {
     this.setState({...this.state, edit: true})
   }
 
-  _hideEdit = (): void => {
+  _hideEdit = () => {
     this.setState({...this.state, edit: false})
   }
 
-  _updateStateForView = (res: userResearchType, error: boolean, isLoading: boolean): void => {
+  _updateStateForView = (res: userResearchType, error: boolean, isLoading: boolean) => {
     this.setState({...this.state, research: res, error: error, isLoading: isLoading})
   }
 
@@ -370,18 +370,18 @@ export class ResearchesInfo extends Component<ResearchesInfoProps, ResearchesInf
     translate: PropTypes.object.isRequired
   }
 
-  _showEdit = (): void => {
+  _showEdit = () => {
     this.setState({...this.state, edit: true})
   }
 
-  _hideEdit = (): void => {
+  _hideEdit = () => {
     this.setState({...this.state, edit: false})
   }
 
   componentDidMount() {
     const {userId} = this.props
-    this.setState({...this.state, isLoading: true}, (): void => {
-      getUserResearches(userId, (res: (userResearchType)[]): void => {
+    this.setState({...this.state, isLoading: true}, () => {
+      getUserResearches(userId, (res: (userResearchType)[]) => {
         this.setState({...this.state, researches: res, isLoading: false})
       })
     })
@@ -412,6 +412,7 @@ export class UserBasicInformation extends Component<UserBasicInformationProps> {
 
   static propTypes = {
     userId: PropTypes.number.isRequired,
+    translate: PropTypes.object.isRequired
   }
 
   render() {
