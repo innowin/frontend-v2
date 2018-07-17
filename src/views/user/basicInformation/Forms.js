@@ -16,7 +16,7 @@ import {updateEducation} from "src/crud/user/education"
 import {updateProfile} from "src/crud/user/profile"
 import {updateResearch} from "src/crud/user/research"
 import {updateUser} from "src/crud/user/user"
-import {
+import type {
   userType,
   userProfileType,
   userEducationType,

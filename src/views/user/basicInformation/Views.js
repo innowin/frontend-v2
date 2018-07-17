@@ -12,7 +12,7 @@ import {
   ItemHeader,
   ItemWrapper,
 } from "../../common/cards/Frames"
-import {
+import type {
   userType,
   userProfileType,
   userEducationType,

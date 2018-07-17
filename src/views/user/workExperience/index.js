@@ -19,7 +19,7 @@ import {REST_REQUEST} from "src/consts/Events"
 import {REST_URL as url, SOCKET as socket} from "src/consts/URLS"
 import {routerActions,} from "react-router-redux"
 import {TOKEN} from "src/consts/data"
-import {workExperienceType} from "src/consts/flowTypes/user/workExperience"
+import type {workExperienceType} from "src/consts/flowTypes/user/others"
 import type {userType, userProfileType} from "src/consts/flowTypes/user/basicInformation"
 
 

@@ -12,7 +12,7 @@ import {getUser} from "src/crud/user/user"
 import {ProfileInfoEditForm, UserInfoEditForm, ResearchInfoEditForm, EducationInfoEditForm} from "./Forms"
 import {userInfoIcon, researchIcon, educationIcon} from "src/images/icons"
 import {UserInfoItemWrapper, UserInfoView, ProfileInfoView, ResearchInfoView, EducationInfoView} from "./Views"
-import {
+import type {
   userType,
   userProfileType,
   userEducationType,

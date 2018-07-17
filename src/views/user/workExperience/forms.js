@@ -5,7 +5,7 @@ import PropTypes from "prop-types"
 import {Confirm} from "../../common/cards/Confirm"
 import {DateInput} from "../../common/inputs/DateInput"
 import {TextInput} from "../../common/inputs/TextInput"
-import {workExperienceType} from "src/consts/flowTypes/user/workExperience"
+import type {workExperienceType} from "src/consts/flowTypes/user/others"
 
 // flow type of WorkExperienceForm
 type PropsWorkExperienceForm = {
@@ -36,12 +36,14 @@ export class WorkExperienceForm extends Component<PropsWorkExperienceForm, State
   fromDateInput: React.ElementRef<typeof DateInput>
   fromDateInput: React.ElementRef<typeof DateInput>
 
-  _getValues = (): {} => {
+  _getValues = () => {
     return {
       name: this.nameInput.getValue(),
       position: this.positionInput.getValue(),
       to_date: this.toDateInput.getValue(),
       from_date: this.fromDateInput.getValue(),
+      //TODO mohsen: handle work_experience_organization
+      work_experience_organization: 22
     }
   }
 

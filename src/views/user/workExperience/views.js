@@ -3,7 +3,7 @@ import * as React from "react"
 import {Component} from "react"
 import PropTypes from "prop-types"
 import {workExperienceIcon} from "src/images/icons"
-import {workExperienceType} from "../../../consts/flowTypes/user/workExperience"
+import type {workExperienceType} from "src/consts/flowTypes/user/others"
 import {
   ItemHeader,
   ItemWrapper,
