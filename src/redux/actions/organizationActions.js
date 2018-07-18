@@ -156,10 +156,12 @@ const updateProduct = (formValues, productId) => ({
 	}
 })
 
-const createProduct = (formValues) => ({ //TODO amir add orgnaizationid to formvalues
+const createProduct = (formValues, organizationId = null, hideEdit ) => ({ //TODO amir add orgnaizationid to formvalues
   type: types.CREATE_PRODUCT,
 	payload: {
-    ...formValues
+        formValues,
+        organizationId,
+        hideEdit
 	}
 })
 

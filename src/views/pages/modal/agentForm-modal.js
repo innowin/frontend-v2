@@ -47,7 +47,7 @@ class AgentForm extends Component {
         <div className="modal-hint">
           <div className="row">
             <div className="col-2">
-              <i className="fa fa-home hint-icon" />
+              <TipsIcon className="hint-icon"/>
             </div>
             <div className="col-10 text-right">
               درخواست ارتقا درخواست ارتقا درخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقا

@@ -266,7 +266,7 @@ function* updateCertificate(action) { //TODO amir change URL nad QUERY
   const {formValues, certId, hideEdit} = payload;
   const socketChannel = yield call(api.createSocketChannel, results.UPDATE_CERTIFICATE)
   try {
-    yield fork(api.patch, urls.UPDATE_CERTIFICATE, results.UPDATE_CERTIFICATE, formValues, `/${certId}/`)
+    yield fork(api.patch, urls.UPDATE_CERTIFICATE, results.UPDATE_CERTIFICATE, formValues, `/${certId}`)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.UPDATE_CERTIFICATE, payload: data})
   } catch (e) {
@@ -284,7 +284,25 @@ function* updateCustomer(action) { //TODO amir change URL nad QUERY
   const {formValues, customerId, hideEdit} = payload;
   const socketChannel = yield call(api.createSocketChannel, results.UPDATE_CUSTOMER)
   try {
-    yield fork(api.patch, urls.UPDATE_CUSTOMER, results.UPDATE_CUSTOMER, formValues, `${customerId}/`)
+    yield fork(api.patch, urls.UPDATE_CUSTOMER, results.UPDATE_CUSTOMER, formValues, `${customerId}`)
+    const data = yield take(socketChannel)
+    yield put({type: types.SUCCESS.UPDATE_CUSTOMER, payload: data})
+  } catch (e) {
+    const {message} = e
+    yield put({type: types.ERRORS.UPDATE_CUSTOMER, payload: {type: types.ERRORS.UPDATE_CUSTOMER, error: message}})
+  } finally {
+    socketChannel.close()
+    hideEdit()
+  }
+}
+
+//17 create products
+function* createProduct(action){
+  const payload = action.payload;
+  const {formValues, organizationId, hideEdit} = payload;
+  const socketChannel = yield call(api.createSocketChannel, results.CREATE_PRODUCT)
+  try {
+    yield fork(api.patch, urls.CREATE_PRODUCT, results.CREATE_PRODUCT, formValues, `${organizationId}`)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.UPDATE_CUSTOMER, payload: data})
   } catch (e) {
@@ -360,4 +378,8 @@ export function* watchUpdateCertificate() {
 //14 - update org customer
 export function* watchUpdateCustomer() {
   yield takeEvery(types.UPDATE_CUSTOMER, updateCustomer)
+}
+
+export function* watchCreateProduct() {
+  yield takeEvery(types.CREATE_PRODUCT, createProduct)
 }
