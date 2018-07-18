@@ -11,6 +11,7 @@ import {
 	ItemWrapper,
 } from '../../common/cards/Frames'
 import type {ProductType} from "src/consts/flowTypes/product/productTypes"
+import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 
 type ProductDescriptionWrapperProps = {
 	children: React.Node,
@@ -29,7 +30,7 @@ type ProductDescriptionProps = {
 	firstName: string,
 	lastName: string,
 	isEdit: boolean,
-    translator: {[string]: string}
+    translator: TranslatorType
 }
 export const ProductDescription = (props: ProductDescriptionProps) => {
 	const {jobTitle, userID , firstName , lastName, isEdit, translator} = props
@@ -56,7 +57,7 @@ export const ProductDescription = (props: ProductDescriptionProps) => {
 type ProductDescriptionViewProps = {
     description: string,
 	showEdit: Function,
-	translator: {[string]:string}
+	translator: TranslatorType
 }
 
 export const ProductDescriptionView = (props: ProductDescriptionViewProps) => {
@@ -95,7 +96,7 @@ type ProductInfoViewProps = {
 	product_category: ProductCategoryProps,
 	owner: ownerType,
 	showEdit: Function,
-	translator: {[string]: string}
+	translator: TranslatorType
 }
 export const ProductInfoView = (props: ProductInfoViewProps) => {
     const {product,product_category, owner, showEdit, translator} = props

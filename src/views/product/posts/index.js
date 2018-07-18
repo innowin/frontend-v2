@@ -1,9 +1,10 @@
 // @flow
 import * as React from "react"
 import {FrameCard, CategoryTitle, ListGroup} from "src/views/common/cards/Frames"
+import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 
 type ProductPostsProps = {
-    translator: {[string]: string}
+    translator: TranslatorType
 }
 
 const ProductPosts = (props: ProductPostsProps) => {

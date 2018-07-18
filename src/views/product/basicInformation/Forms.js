@@ -9,12 +9,13 @@ import {REST_REQUEST} from "../../../consts/Events"
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {TOKEN} from "src/consts/data"
 import type {ProductType} from "src/consts/flowTypes/product/productTypes"
+import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 
 type ProductDescriptionFormProps = {
 	onSubmit: Function,
 	description: [],
     children: React.Node,
-	translator: {[string]: string}
+	translator: TranslatorType
 }
 
 type FormVluesType = {
@@ -74,7 +75,7 @@ type ProductDescriptionEditFormProps = {
     hideEdit: Function,
     updateStateForView: Function,
     description: any,
-	translator: {[string]: string},
+	translator: TranslatorType,
 	product: ProductType
 }
 type ProductDescriptionEditFormState = {
@@ -128,7 +129,7 @@ export class ProductDescriptionEditForm extends Component<ProductDescriptionEdit
 type ProductInfoFormProps = {
 	onSubmit: Function,
 	product: ProductType,
-	translator: {[string]: string},
+	translator: TranslatorType,
     children: React.Node
 }
 type ProductInfoFormState = {
@@ -272,7 +273,7 @@ type ProductInfoEditFormProps = {
     hideEdit: Function,
     updateStateForView: Function,
     product: ProductType,
-    translator: {[string]: string},
+    translator: TranslatorType,
 }
 
 type ProductInfoEditFormState = {

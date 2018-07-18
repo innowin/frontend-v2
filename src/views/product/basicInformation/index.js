@@ -12,6 +12,7 @@ import {ProductInfoItemWrapper, ProductInfoView, ProductDescriptionView, Product
 import {getMessages} from "../../../redux/selectors/translateSelector";
 import {connect} from "react-redux"
 import type {ProductType} from "src/consts/flowTypes/product/productTypes"
+import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 
 type OwnerType = {
 	name: string
@@ -29,7 +30,7 @@ type ProductInfoState = {
 }
 type ProductInfoProps = {
 	productId: number,
-    translator: {}
+    translator: TranslatorType
 }
 
 export class ProductInfo extends Component<ProductInfoProps, ProductInfoState> {
@@ -201,7 +202,7 @@ export class ProductInfo extends Component<ProductInfoProps, ProductInfoState> {
 
 type BasicInfoProps = {
 	productId: number,
-	translator: Object
+	translator: TranslatorType
 }
 
 const productBasicInformation = (props: BasicInfoProps) => {

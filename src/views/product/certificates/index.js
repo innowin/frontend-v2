@@ -11,6 +11,7 @@ import {REST_REQUEST} from "../../../consts/Events"
 import {TOKEN} from "src/consts/data"
 import {getMessages} from "../../../redux/selectors/translateSelector";
 import {connect} from "react-redux";
+import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 
 type CertificateType = {
     picture_media: string,
@@ -22,7 +23,7 @@ type CertificateContainerProps = {
     certificate: CertificateType,
     productId: string,
     updateStateForView: Function,
-    translator: {[string]: string}
+    translator: TranslatorType
 }
 
 type CertificateContainerState = {
@@ -75,8 +76,8 @@ type CertificateListType = {
     productId: string,
     createForm: boolean,
     updateStateForView: Function,
-    certificates: [CertificateType] | [],
-    translator: {[string]: string},
+    certificates: Array<CertificateType>,
+    translator: TranslatorType,
     hideCreateForm: Function
 }
 
@@ -114,12 +115,12 @@ export class CertificateList extends Component<CertificateListType> {
 
 type CertificatesProps = {
     productId: string,
-    translator: {[string]: string}
+    translator: TranslatorType
 }
 
 type CertificatesState = {
     createForm: boolean,
-    certificates: [CertificateType] | [],
+    certificates: Array<CertificateType>,
     edit: boolean,
     isLoading: boolean,
     error: ?string,
