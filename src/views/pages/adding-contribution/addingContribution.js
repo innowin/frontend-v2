@@ -96,8 +96,8 @@ class AddingContribution extends React.Component {
         // const articlesSchema = [articleSchema]
         // const normalizedArticles = normalize(articlesData, articlesSchema)
         // console.log(normalizedArticles)
-        const identity = client.getIdentity()
-        console.log('client.getIdentity()', identity, typeof identity)
+        // const identity = client.getIdentity()
+        // console.log('client.getIdentity()', identity, typeof identity)
     }
 
     _activationAddTechPropBlock = (e, key) => {
