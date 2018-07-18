@@ -4,7 +4,9 @@ import rootReducer from '../reducers/rootReducer'
 import rootSaga from '../sagas/rootSaga'
 import {logger} from 'redux-logger'
 import {routerMiddleware} from 'react-router-redux'
+import {persistReducer} from 'redux-persist'
 import createHistory from 'history/createBrowserHistory'
+import storage from 'redux-persist/lib/storage'
 
 //Creating history
 export const history = createHistory()
@@ -12,16 +14,18 @@ export const history = createHistory()
 const sagaMiddleware = createSagaMiddleware()
 //Creating middleware to dispatch navigation actions
 const navMiddleware = routerMiddleware(history)
+const persistConfig = {key: 'root',storage}
+const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 const configureStore = () => {
-	return createStore(rootReducer,
+	return createStore(persistedReducer,
 			window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
 			applyMiddleware (
 					navMiddleware,
 					sagaMiddleware,
 					logger
 			)
-	);
+	)
 }
 export const runSaga = () => sagaMiddleware.run(rootSaga)
 export default configureStore
