@@ -18,32 +18,55 @@
   .modal-title {
 
   }
+  .agent-from-title{
+    font-size: 13px;
+    display: flex;
+    .agent-form-title-container{
+      margin: 0 auto;
+      transform: translate(0, 50%);
 
+    }
+    .agent-from-title-text{
+      display: inline-block;
+      margin: 10px;
+      transform: translate(0, -50%);
+    }
+  }
+  
+  .agent-form-agent-icon{
+    display: inline-block;
+    width:30px;
+    background: #454545;
+    fill: white;
+    border-radius: 100%;
+    padding: 5px;
+  }
   .modal-content {
 
   }
   .modal-hint{
     margin-top: 30px!important;
     padding: 10px;
-    background-color: lightgray;
+    background-color:#ededed9e;
     width: 50%;
     margin: 0 auto;
     font-size: 13px;
     .hint-icon{
-      font-size: 22px;
-      top: 50%;
-      transform: translate(0,100%);
+      font-size: 30px;
+      transform: translate(0, 50%);
     }
   }
   .modal-options {
     margin-top: 30px !important;
     width: 50%;
     margin: 0 auto;
+    font-size:13px;
   }
   .modal-bottom {
     margin-top: 20px !important;
     width: 70%;
     margin: 0 auto;
+    font-size:13px;
   }
   .modal-labels{
     text-align: right;
@@ -53,7 +76,7 @@
   .modal-label{
     display: inline;
     padding-right: 2px;
-    padding-left: 2px;
+    padding-left: 5px;
   }
   .modal-footers {
     margin-top: 50px !important;

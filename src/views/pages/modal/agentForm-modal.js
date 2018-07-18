@@ -4,6 +4,7 @@ import PropTypes from "prop-types"
 import FontAwesome from 'react-fontawesome'
 import RadioButtonInput from '../../common/inputs/RadioButtonInput'
 import LabelTag from '../../common/tag-label.js'
+import {AgentSvgIcon, TipsIcon} from "src/images/icons"
 class AgentForm extends Component {
   static propTypes = {
     hide: PropTypes.func.isRequired,
@@ -42,11 +43,11 @@ class AgentForm extends Component {
   render() {
     return (
       <div className={this.props.active  ? "modal-page" : "modal-page hide" }tabindex="-1" role="dialog" ref={this.setWrapperRef}>
-        <p><i className="fa fa-home"/> درخواست ارتقاء به کارگزار</p>
+        <p className="agent-from-title"><div className="agent-form-title-container"><AgentSvgIcon className="agent-form-agent-icon"/><span className="agent-from-title-text"> درخواست ارتقاء به کارگزار</span></div></p>
         <div className="modal-hint">
           <div className="row">
             <div className="col-2">
-              <i className="fa fa-home hint-icon" />
+              <TipsIcon className="hint-icon"/>
             </div>
             <div className="col-10 text-right">
               درخواست ارتقا درخواست ارتقا درخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقا
