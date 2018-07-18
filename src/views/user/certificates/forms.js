@@ -177,7 +177,10 @@ export class CertificateEditForm extends Component<PropsCertificateEditForm, Sta
 
   _onSubmit = (e: SyntheticEvent<HTMLButtonElement>): boolean | void => {
     e.preventDefault()
-    this._save()
+    if (this.form && this.form._formValidate()) {
+      this._save()
+    }
+    return false
   }
 
   render() {

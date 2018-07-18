@@ -32,3 +32,19 @@ export type certificateFormValuesType = {|
   title: string,
   picture_media: ?number
 |}
+
+export type skillType = {|
+  id: number,
+  created_time: string,
+  updated_time: string,
+  title: string,
+  tag: (string)[],
+  description: ?string,
+  skill_user: number
+|}
+
+export type skillFormValuesType = {|
+  title: string,
+  tag: (string)[],
+  description: ?string
+|}
