@@ -10,25 +10,52 @@ import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {TOKEN, IDENTITY_ID} from "src/consts/data"
 import {ProductInfoItemWrapper, ProductInfoView, ProductDescriptionView, ProductDescriptionWrapper} from "./Views"
 import {getMessages} from "../../../redux/selectors/translateSelector";
-import {connect} from "react-redux";
+import {connect} from "react-redux"
+import type {ProductType} from "src/consts/flowTypes/product/productTypes"
 
-type ProductInfoProps = {
-	product: Object,
-	product_category: Object,
-	owner: Object,
-	error: ?String,
+type OwnerType = {
+	name: string
+}
+type ProductCategoryType = {
+	name: string
+}
+type ProductInfoState = {
+	product: ProductType,
+	product_category: ProductCategoryType,
+	owner: OwnerType,
+	error: string,
 	edit: boolean,
 	isLoading: boolean
 }
-type ProductInfoState = {
-	productId: string
+type ProductInfoProps = {
+	productId: number,
+    translator: {}
 }
 
 export class ProductInfo extends Component<ProductInfoProps, ProductInfoState> {
 	
 	constructor() {
 		super()
-		this.state = {product: {},product_category:{}, owner:{}, error: null, edit: false, isLoading: false}
+		this.state = {
+			product: {
+                description: '',
+                id: 0,
+                name: '',
+                province: '',
+                country: '',
+                city: '',
+                product_category: 0
+			},
+			product_category:{
+				name: ''
+			},
+			owner:{
+				name: ''
+			},
+			error: '',
+			edit: false,
+			isLoading: false
+		}
 	}
 	
 	static propTypes = {
@@ -43,11 +70,11 @@ export class ProductInfo extends Component<ProductInfoProps, ProductInfoState> {
 		this.setState({...this.state, edit: false})
 	}
 	
-	_updateStateForView = (res, error, isLoading) => {
+	_updateStateForView = (res: ProductType, error: string, isLoading: boolean) => {
 		this.setState({...this.state, product: res, error: error, isLoading})
   }
   
-  getProductDetail(categoryId, userId, productId){
+  getProductDetail(categoryId: number, userId: number, productId: number){
     const newState = {...this.state, isLoading: true}
     this.setState(newState)
     socket.emit(REST_REQUEST,
@@ -99,6 +126,7 @@ export class ProductInfo extends Component<ProductInfoProps, ProductInfoState> {
 		
 		
 		socket.on(`ProductInfo-get/${productId}`, (res) => {
+			console.log('hi ali res is : ', res)
 			if (res.detail) {
 				const newState = {...this.state, error: res.detail, isLoading: false}
 				this.setState(newState)
@@ -129,12 +157,14 @@ export class ProductInfo extends Component<ProductInfoProps, ProductInfoState> {
 
 	render() {
 		const {product,product_category,owner, edit, isLoading, error} = this.state
+		const {translator} = this.props
 		return (
 				<VerifyWrapper isLoading={isLoading} error={error}>
           {
             (edit) ? (
-              <ProductDescriptionWrapper>
+              <ProductDescriptionWrapper translator={translator}>
                 <ProductDescriptionEditForm
+                    translator={translator}
                     owner={owner}
                     product={product}
                     product_category={product_category}
@@ -144,22 +174,23 @@ export class ProductInfo extends Component<ProductInfoProps, ProductInfoState> {
                 />
               </ProductDescriptionWrapper>
             ) : (
-                <ProductDescriptionView description={product.description} product_category={product_category} owner={owner} showEdit={this._showEdit}/>
+                <ProductDescriptionView translator={translator} description={product.description} product_category={product_category} owner={owner} showEdit={this._showEdit}/>
             )
 					}
 					{
 						(edit) ? (
-								<ProductInfoItemWrapper>
+								<ProductInfoItemWrapper translator={translator}>
 									<ProductInfoEditForm
-                      owner={owner}
-                      product_category={product_category}
+                                        	translator={translator}
+                      						owner={owner}
+                      						product_category={product_category}
 											product={product}
 											hideEdit={this._hideEdit}
 											updateStateForView={this._updateStateForView}
 									/>
 								</ProductInfoItemWrapper>
 						) : (
-								<ProductInfoView product_category={product_category} product={product} owner={owner} showEdit={this._showEdit}/>
+								<ProductInfoView translator={translator} product_category={product_category} product={product} owner={owner} showEdit={this._showEdit}/>
             )
           }
           
@@ -169,7 +200,7 @@ export class ProductInfo extends Component<ProductInfoProps, ProductInfoState> {
 }
 
 type BasicInfoProps = {
-	productId: string,
+	productId: number,
 	translator: Object
 }
 
@@ -183,7 +214,7 @@ const productBasicInformation = (props: BasicInfoProps) => {
             />
             <FrameCard>
                 <ListGroup>
-                    <ProductInfo productId={productId}/>
+                    <ProductInfo translator={translator} productId={productId}/>
                 </ListGroup>
             </FrameCard>
         </div>

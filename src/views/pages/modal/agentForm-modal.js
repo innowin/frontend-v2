@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 import FontAwesome from 'react-fontawesome'
 import RadioButtonInput from '../../common/inputs/RadioButtonInput'
 import LabelTag from '../../common/tag-label.js'
-import {AgentSvgIcon} from "src/images/icons"
+import {AgentSvgIcon, TipsIcon} from "src/images/icons"
 class AgentForm extends Component {
   static propTypes = {
     hide: PropTypes.func.isRequired,

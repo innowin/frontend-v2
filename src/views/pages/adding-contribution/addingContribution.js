@@ -96,8 +96,8 @@ class AddingContribution extends React.Component {
         // const articlesSchema = [articleSchema]
         // const normalizedArticles = normalize(articlesData, articlesSchema)
         // console.log(normalizedArticles)
-        // const identity = client.getIdentity()
-        // console.log('client.getIdentity()', identity, typeof identity)
+        const identity = client.getIdentityId()
+        console.log('client.getIdentity()', identity, typeof identity)
     }
 
     _activationAddTechPropBlock = (e, key) => {
@@ -203,7 +203,7 @@ class AddingContribution extends React.Component {
         }, {})
 
         console.log(attrs)
-        const identity = client.getIdentity()
+        const identity = client.getIdentityId()
         console.log('identity is ', identity)
         const data = {
             name: title,
@@ -212,7 +212,7 @@ class AddingContribution extends React.Component {
             attrs,
             province: 'some province',
             country: 'some country',
-            product_owner: client.getIdentity()
+            product_owner: client.getIdentityId()
         }
         console.log(data)
         this.props.dispatch(createProductAction(data))
