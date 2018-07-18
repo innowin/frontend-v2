@@ -1,4 +1,6 @@
-import React, {Component} from 'react'
+// @flow
+import * as React from 'react'
+import {Component} from 'react'
 import {InformationIcon, postIcon, CertificateIcon, RatingIcon} from "../../images/icons"
 import ProductPosts from "../product/posts"
 import ProductBasicInformation from "../product/basicInformation"
@@ -14,18 +16,36 @@ import PropTypes from "prop-types"
 import ProductSideView from "../bars/ProductBar"
 import {PictureModal} from "./pictureModal"
 
-export default class ProductView extends Component {
+type ParamsType = {
+    id: string
+}
+
+type MatchType = {
+    path: string,
+    url: string,
+    params: ParamsType
+}
+type ProductViewProps = {
+    match: MatchType,
+    widthOfRightBar: string
+}
+
+type ProductViewState = {
+    modal: boolean, modalFiles: [], selectedFileIndex: ?number
+}
+
+export default class ProductView extends Component<ProductViewProps, ProductViewState> {
     static propTypes = {
         match: PropTypes.object.isRequired,
         widthOfRightBar: PropTypes.string.isRequired
     }
 
-    constructor(props) {
-        super(props)
+    constructor() {
+        super()
         this.state = {modal: false, modalFiles: [], selectedFileIndex: null}
     }
 
-    _toggleModal = (files = [], fileIndex = -1) => {
+    _toggleModal = (files: [] = [], fileIndex: number = -1) => {
         this.setState({...this.state, modal: !this.state.modal, modalFiles: files, selectedFileIndex: fileIndex})
     }
 

@@ -8,20 +8,20 @@ import {REST_URL as url, SOCKET as socket} from "../../../../consts/URLS"
 import {TOKEN, IDENTITY_ID} from "src/consts/data"
 import {Product} from './view'
 import type {ProductType, CategoryType, PriceType, PictureType} from "src/consts/flowTypes/product/productTypes"
-
+import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 
 type ProductContainerProps = {
     productId: number,
     organization: {},
-    translator: { [string]: string }
+    translator: TranslatorType
 }
 
 type ProductContainerState = {
-    pictures: [PictureType],
-    price: [PriceType],
+    pictures: Array<PictureType>,
+    price: Array<PriceType>,
     edit: boolean,
     product: ProductType,
-    categories: [CategoryType]
+    categories: Array<CategoryType>
 }
 
 //TODO amir
@@ -29,11 +29,11 @@ export class ProductContainer extends Component<ProductContainerProps, ProductCo
     constructor() {
         super()
         this.state = {
-            pictures: [ {} ], // for flow
-            price: [ {} ], // for flow
+            pictures: [{}], // for flow
+            price: [{}], // for flow
             edit: false,
             product: [],
-            categories: [ {} ]
+            categories: [{}]
         }
     }
 
@@ -133,38 +133,60 @@ export class ProductContainer extends Component<ProductContainerProps, ProductCo
     }
 }
 
-export class ProductList extends Component {
-    static propTypes = {
-        hideCreateForm: PropTypes.func.isRequired,
-        createForm: PropTypes.bool.isRequired,
-        updateProductsList: PropTypes.func.isRequired
-    }
-
-    render() {
-        const {organizationId, organization} = this.props
-        const {products, categories} = this.props
-        return (<div>
-                <div className="row">
-                    {
-                        products.map(cert => <ProductContainer
-                            organization={organization}
-                            products={products}
-                            product={cert}
-                            categories={categories}
-                            organizationId={organizationId}
-                            key={cert.id}
-                        />)
-                    }
-                </div>
-            </div>
-        )
-    }
+type ProductListProps = {
+    hideCreateForm: Function,
+    createForm: boolean,
+    updateProductsList: Function,
+    organizationId: number,
+    organization: {},
+    products: Array<ProductType>,
+    categories: Array<CategoryType>,
+    translator: TranslatorType,
+    productId: number
 }
 
-export class Products extends Component {
+const ProductList = (props: ProductListProps) => {
+    const {products, categories, organizationId, organization, translator, productId} = props
+    return (
+        <div>
+            <div className="row">
+                {
+                    products.map(cert => <ProductContainer
+                        organization={organization}
+                        products={products}
+                        product={cert}
+                        categories={categories}
+                        organizationId={organizationId}
+                        key={cert.id}
+                        translator={translator}
+                        productId={productId}
+                    />)
+                }
+            </div>
+        </div>
+    )
+}
 
-    constructor(props) {
-        super(props)
+type ProductsProps = {
+    organizationId: number,
+    translator: TranslatorType,
+    productId: number
+}
+
+type ProductsState = {
+    organization: {},
+    categories: Array<CategoryType>,
+    createForm: boolean,
+    edit: boolean,
+    isLoading: boolean,
+    error: ?string,
+    products: Array<ProductType>
+}
+
+export class Products extends Component<ProductsProps,ProductsState> {
+
+    constructor() {
+        super()
         this.state = {
             organization: {},
             categories: [],
@@ -177,7 +199,7 @@ export class Products extends Component {
     }
 
     static propTypes = {
-        organizationId: PropTypes.string.isRequired
+        organizationId: PropTypes.number.isRequired
     }
 
     componentDidMount() {
@@ -249,25 +271,27 @@ export class Products extends Component {
     }
 
     render() {
-        const {organizationId} = this.props
-        const {createForm, products, categories, organization, isLoading, error, translator} = this.state
+        const {organizationId, translator, productId} = this.props
+        const {createForm, products, categories, organization, isLoading, error} = this.state
         return (
             <VerifyWrapper isLoading={isLoading} error={error}>
                 <CategoryTitle
                     title={translator['Products']}
-                    showCreateForm={this.showCreateForm}
+                    showCreateForm={() => 1}
                     createForm={createForm}
                 />
                 <FrameCard>
                     <ProductList
-                        updateProductsList={this.updateProductsList}
-                        updateStateForView={this.updateStateForView}
+                        updateProductsList={() => 1}
+                        updateStateForView={() => 1}
                         products={products}
                         categories={categories}
                         organization={organization}
                         organizationId={organizationId}
                         createForm={createForm}
-                        hideCreateForm={this.hideCreateForm}
+                        hideCreateForm={() => 1}
+                        translator={translator}
+                        productId={productId}
                     />
                 </FrameCard>
             </VerifyWrapper>

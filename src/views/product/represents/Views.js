@@ -13,6 +13,8 @@ import {getFile} from "../../../crud/media/media"
 import {ProductContainer} from './Product/index'
 import FontAwesome from "react-fontawesome"
 import type {RepresentType, UserType, ProfileType} from "src/consts/flowTypes/product/productTypes"
+import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
+
 type RepresentItemWrapperProps = {
     children: React.Node
 }
@@ -87,7 +89,7 @@ type RepresentViewProps = {
     error: boolean | string,
     isLoading: boolean,
     organization: {},
-    translator: {[string]: string}
+    translator: TranslatorType
 }
 
 type RepresentViewState = {
