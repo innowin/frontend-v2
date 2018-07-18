@@ -1,49 +1,70 @@
-import React, {Component} from 'react'
+// @flow
+import * as React from 'react'
+import {Component} from 'react'
 import PropTypes from 'prop-types'
 import {CertificateEditForm} from './forms'
-import {ItemHeader, ItemWrapper} from "../../common/cards/Frames"
+import {ItemWrapper} from "../../common/cards/Frames"
 import {CertificateIcon, starIcon, EditIcon} from "src/images/icons"
 
-export const CertificateItemWrapper = ({children}) => {
+type CertificateItemWrapperProps = {
+    children: React.Node
+}
+export const CertificateItemWrapper = (props: CertificateItemWrapperProps) => {
+    const {children} = props
     return <ItemWrapper icon={<CertificateIcon/>}>{children}</ItemWrapper>
 }
+type CertificateType = {
+    picture_media: string,
+    title: string
+}
 
-export class CertificateView extends Component {
-    static propTypes = {
-        showEdit: PropTypes.func.isRequired,
-        certificate: PropTypes.object.isRequired,
-    }
+type CertificateViewProps = {
+    certificate: CertificateType,
+    showEdit: Function
+}
 
-    render() {
-        const {certificate, showEdit} = this.props
-        return (
-            <div className="col-6 text-center container-fluid">
-                <div className="row">
-                    <div className="col certificate">
-                        <div className="content">
-                            <div className="editButton">
-                                <div onClick={showEdit}><EditIcon/></div>
-                            </div>
-                            <img className="certImage" alt="" src={certificate.picture_media || "/static/media/defaultImg.94a29bce.png"} />
-                            <h5>{certificate.title}</h5>
-
-                            <a className="shareButton">{starIcon}</a>
-                            <span>&nbsp</span>
+export const CertificateView = (props: CertificateViewProps) => {
+    const {certificate, showEdit} = props
+    return (
+        <div className="col-6 text-center container-fluid">
+            <div className="row">
+                <div className="col certificate">
+                    <div className="content">
+                        <div className="editButton">
+                            <div onClick={showEdit}><EditIcon/></div>
                         </div>
+                        <img className="certImage" alt="" src={certificate.picture_media || "/static/media/defaultImg.94a29bce.png"} />
+                        <h5>{certificate.title}</h5>
+
+                        <a className="shareButton">{starIcon}</a>
+                        <span>&nbsp</span>
                     </div>
                 </div>
             </div>
-        )
-    }
+        </div>
+    )
 }
 
-export class Certificate extends Component {
-    constructor(props){
-        super(props)
+type CertificateProps = {
+    certificate: CertificateType,
+    translator: {[string]: string},
+    deleteCertificate: Function,
+    updateCertificate: Function,
+    updateStateForView: Function
+}
+
+type CertificateState = {
+    edit: boolean,
+    certificate: CertificateType
+}
+
+export class Certificate extends Component<CertificateProps, CertificateState> {
+    constructor(props: CertificateProps){
+        super()
         const {certificate} = props
         this.state = {edit: false, certificate:certificate}
     }
-    componentWillReceiveProps(props){
+    componentWillReceiveProps(props: CertificateProps){
         const {certificate} = props
         this.setState({...this.state, certificate:certificate})
     }
@@ -51,7 +72,7 @@ export class Certificate extends Component {
     static propTypes = {
         updateCertificate: PropTypes.func.isRequired,
         deleteCertificate: PropTypes.func.isRequired,
-        certificate: PropTypes.object.isRequired,
+        // certificate: PropTypes.object.isRequired,
         updateStateForView:PropTypes.func.isRequired
     }
 
@@ -63,21 +84,22 @@ export class Certificate extends Component {
         this.setState({edit: false})
     }
 
-    updateStateForView = (res, error,isLoading) =>{
-        const {updateStateForView} = this.props
-        this.setState({...this.state,certificate:res })
+    updateStateForView = (res: CertificateType, error: string, isLoading: boolean) =>{
+        this.setState({...this.state, certificate:res })
     }
 
     render() {
         const {certificate} = this.state
+        const {translator, deleteCertificate, updateCertificate} = this.props
         if (this.state.edit) {
             return <CertificateItemWrapper>
                 <CertificateEditForm
+                    translator={translator}
                     certificate = {certificate}
                     hideEdit = {this.hideEdit}
                     updateStateForView = {this.updateStateForView}
-                    remove = {this.props.deleteCertificate}
-                    update = {this.props.updateCertificate}
+                    remove = {deleteCertificate}
+                    update = {updateCertificate}
                 />
             </CertificateItemWrapper>
         }

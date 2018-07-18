@@ -1,4 +1,6 @@
-import React, {Component} from "react"
+// @flow
+import * as  React from "react"
+import {Component} from "react"
 import PropTypes from "prop-types"
 import "moment/locale/fa"
 import Moment from "react-moment"
@@ -9,86 +11,93 @@ import {TOKEN} from "src/consts/data"
 import {VerifyWrapper} from "src/views/common/cards/Frames"
 import {getFile} from "../../../crud/media/media"
 import {ProductContainer} from './Product/index'
-
-
-export class RepresentItemWrapper extends Component {
-    render() {
-        return (
-            <div className="-itemWrapperPost">
-                {this.props.children}
-            </div>
-        )
-    }
+import FontAwesome from "react-fontawesome"
+import type {RepresentType, UserType, ProfileType} from "src/consts/flowTypes/product/productTypes"
+type RepresentItemWrapperProps = {
+    children: React.Node
 }
 
-
-export class RepresentItemHeader extends Component {
-    static propTypes = {
-        name: PropTypes.string,
-        username: PropTypes.string.isRequired,
-        represent: PropTypes.object.isRequired,
-        showEdit: PropTypes.func.isRequired,
-    }
-
-    render() {
-        const {name, showEdit, username, represent} = this.props
-        return (
-            <div className="-item-headerPost">
-                <div className="-item-titlePost">
-                    <span className="mr-2">{name}</span>
-                    <span className="mr-2 -green2">{username}</span>
-                    <Moment className="mr-3 -green2" element="span" fromNow ago>{represent.created_time}</Moment>
-                    <span className="mr-1 -green2"> پیش</span>
-                </div>
-                <div className="-item-edit-btnRepresent">
-                    <div onClick={showEdit}><EditIcon/></div>
-                </div>
-            </div>
-        )
-    }
+export const RepresentItemWrapper = (props: RepresentItemWrapperProps) => {
+    const {children} = props
+    return <div className="-itemWrapperPost">{children}</div>
 }
 
-export class RepresentBody extends Component {
-    static propTypes = {
-        description: PropTypes.string.isRequired
-    }
-
-    render() {
-        return (
-            <div className="-line-height">
-                {this.props.description}
-            </div>
-        )
-    }
+type RepresentItemHeaderProps = {
+    name: ?string,
+    username: string,
+    represent: RepresentType,
+    showEdit: Function,
 }
 
-export class RepresentFooter extends Component {
-    static propTypes = {
-        viewerCount: PropTypes.number.isRequired,
-        addViewer: PropTypes.func.isRequired
-    }
+const RepresentItemHeader = (props: RepresentItemHeaderProps) => {
+    const {name, showEdit, username, represent} = props
+    return (
+        <div className="-item-headerPost">
+            <div className="-item-titlePost">
+                <span className="mr-2">{name}</span>
+                <span className="mr-2 -green2">{username}</span>
+                <Moment className="mr-3 -green2" element="span" fromNow ago>{represent.created_time}</Moment>
+                <span className="mr-1 -green2"> پیش</span>
+            </div>
+            <div className="-item-edit-btnRepresent">
+                <div onClick={showEdit}><EditIcon/></div>
+            </div>
+        </div>
+    )
+}
 
-    render() {
-        const {viewerCount, addViewer} = this.props
-        return (
-            <div className="-item-footerPost">
-                <div>
-                    <span className="ml-1">{viewerCount}</span>
-                    <i class="fa fa-eye" aria-hidden="true"/>
-                </div>
-                <div>
-                    <span className="ml-1">\</span>
-                    <i class="fa fa-share" aria-hidden="true"/>
-                </div>
-                <span>
-          <a href="#" onClick={addViewer}><i class="fa fa-ellipsis-h" aria-hidden="true"/></a>
+type RepresentBodyProps = {
+    description: string
+}
+
+export const RepresentBody = (props: RepresentBodyProps) => {
+    const {description} = props
+    return <div className="-line-height">{description}</div>
+}
+
+type RepresentFooterProps = {
+    viewerCount: number,
+    addViewer: Function
+}
+const RepresentFooter = (props: RepresentFooterProps) => {
+    const {viewerCount, addViewer} = props
+    return (
+        <div className="-item-footerPost">
+            <div>
+                <span className="ml-1">{viewerCount}</span>
+                <FontAwesome name="eye"/>
+            </div>
+            <div>
+                <span className="ml-1">\</span>
+                <FontAwesome name="share"/>
+            </div>
+            <span>
+          <a href="#" onClick={addViewer}><FontAwesome name="ellipsis-h"/></a>
         </span>
-            </div>
-        )
-    }
+        </div>
+    )
+}
+type RepresentViewProps = {
+    showEdit: Function,
+    represent: RepresentType,
+    profile: ProfileType,
+    user: UserType,
+    productId: number,
+    profile_media_File?: string,
+    error: boolean | string,
+    isLoading: boolean,
+    organization: {},
+    translator: {[string]: string}
 }
 
-export class RepresentView extends Component {
+type RepresentViewState = {
+    viewerCount: number,
+    isLoading: boolean,
+    error: string | boolean,
+    profile_media_File: ?string,
+}
+
+export class RepresentView extends Component<RepresentViewProps, RepresentViewState> {
     static propTypes = {
         showEdit: PropTypes.func.isRequired,
         represent: PropTypes.object.isRequired,
@@ -96,10 +105,9 @@ export class RepresentView extends Component {
         user: PropTypes.object.isRequired,
     }
 
-    constructor(props) {
-        super(props)
+    constructor() {
+        super()
         this.state = {viewerCount: 0, isLoading: false, error: false, profile_media_File: null}
-        this._addViewer = this._addViewer.bind(this)
     }
 
     _getViewerCount = () => {
@@ -125,7 +133,7 @@ export class RepresentView extends Component {
         })
     }
 
-    _addViewer = (e) => {
+    _addViewer = (e: SyntheticEvent<>) => {
         e.preventDefault()
         const representId = this.props.represent.id
         const id = `represent-${representId}`
@@ -152,7 +160,7 @@ export class RepresentView extends Component {
         this._getViewerCount()
     }
 
-    _getFile = (mediaId) => {
+    _getFile = (mediaId: number) => {
         if (mediaId) {
             const mediaResult = (res) => {
                 this.setState({...this.state, profile_media_File: res.file})
@@ -189,13 +197,12 @@ export class RepresentView extends Component {
     }
 
     render() {
-        const {showEdit, represent, product, productId, organization, user, profile_media_File, isLoading, error} = this.props
+        const {showEdit, represent, productId, user, organization, translator, profile_media_File, isLoading, error} = this.props
         const {viewerCount} = this.state
         return (
             <VerifyWrapper isLoading={isLoading} error={error}>
                 <RepresentItemWrapper>
-                    <div className="-img-col">
-                        {/*// TODO mohsen: handle src of img*/}
+                    <div className="-img-col"> // TODO mohsen: handle src of img
                         {
                             (!profile_media_File) ? (<DefaultUserIcon className="-item-imgPost"/>) : (
                                 <img className="-item-imgPost rounded-circle" src={profile_media_File} alt=""/>)
@@ -210,8 +217,16 @@ export class RepresentView extends Component {
                             showEdit={showEdit}
                         />
                         <RepresentBody description={represent.post_description}/>
-                        <ProductContainer productId={productId}/>
-                        <RepresentFooter representId={represent.id} viewerCount={viewerCount} addViewer={this._addViewer}/>
+                        <ProductContainer
+                            productId={productId}
+                            translator={translator}
+                            organization={organization}
+                        />
+                        <RepresentFooter
+                            representId={represent.id}
+                            viewerCount={viewerCount}
+                            addViewer={this._addViewer}
+                        />
                     </div>
                 </RepresentItemWrapper>
             </VerifyWrapper>
