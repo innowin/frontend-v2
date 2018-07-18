@@ -1,38 +1,43 @@
-import React, {Component} from "react"
+// @flow
+import * as React from "react"
+import {Component} from 'react'
 import PropTypes from "prop-types"
 import {Modal, Button, ModalBody, ModalFooter} from "reactstrap"
 import ImageGallery from 'react-image-gallery'
 
-class ProductViewImageGallery extends Component {
-  render() {
-    const {files} = this.props
-    let selectedFileIndex = this.props.selectedFileIndex
-    if (selectedFileIndex === -1) {
-      selectedFileIndex = 0
-    }
-    const images = []
-    files.map((file) => {
-      return images.push({
-        original: file,
-        thumbnail: file,
-        originalClass: "-productViewOriginalClass",
-        thumbnailClass: "-productViewThumbnailClass"
+
+const ProductViewImageGallery = (props) => {
+    const {files, selectedFileIndex} = props
+    const startIndex = ((selectedFileIndex === -1) && 0) || selectedFileIndex
+    const images = files.map(file => {
+      return ({
+          original: file,
+          thumbnail: file,
+          originalClass: "-productViewOriginalClass",
+          thumbnailClass: "-productViewThumbnailClass"
       })
     })
-    const settings = {
-      showPlayButton: false,
-      showBullets: true,
-      startIndex: selectedFileIndex,
-    }
+    const settings = {showPlayButton: false, showBullets: true, startIndex: startIndex}
     return (
-      <div dir="ltr" className="-productViewModal">
-        <ImageGallery items={images} {...settings}/>
-      </div>
+        <div dir="ltr" className="-productViewModal">
+            <ImageGallery items={images} {...settings}/>
+        </div>
     )
-  }
 }
 
-export class PictureModal extends Component {
+type PictureModalProps = {
+    isOpen: boolean,
+    files: [],
+    selectedFileIndex: ?number,
+    toggleModal: Function,
+    className: ?string
+}
+
+type PictureModalState = {
+  modal: boolean
+}
+
+export class PictureModal extends Component<PictureModalProps, PictureModalState> {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     files: PropTypes.array.isRequired,
@@ -43,16 +48,16 @@ export class PictureModal extends Component {
 
   static displayName = "PictureModal"
 
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
     this.state = {modal: false}
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: PictureModalProps) {
     this.setState({...this.state, modal: nextProps.isOpen})
   }
 
-  _handleToggleModal = (e) => {
+  _handleToggleModal = (e: SyntheticEvent<>) => {
     e.preventDefault()
     this.props.toggleModal()
   }

@@ -25,17 +25,17 @@ function* createSimpleChannel(result, url, type, query = '') {
 export function* getOrganization(action) {
   const payload = action.payload
   const {organizationId} = payload
-  const socketChannel = yield call(api.createSocketChannel, results.GET_ORGANIZATION)
+  const socketChannel = yield call(api.createSocketChannel, results.ORGANIZTION.GET_ORGANIZATION)
   try {
-    yield fork(api.get, urls.GET_ORGANIZATION, results.GET_ORGANIZATION, organizationId)
+    yield fork(api.get, urls.ORGANIZTION.GET_ORGANIZATION, results.ORGANIZTION.GET_ORGANIZATION, organizationId)
     // while (true) {
     const data = yield take(socketChannel)
     alert(typeof data)
-    yield put({type: types.SUCCESS.GET_ORGANIZATION, payload: data})
+    yield put({type: types.SUCCESS.ORGANIZTION.GET_ORGANIZATION, payload: data})
     // }
   } catch (e) {
     const {message} = e
-    yield put({type: types.ERRORS.GET_ORGANIZATION, payload: {type: types.ERRORS.GET_ORGANIZATION, message}})
+    yield put({type: types.ERRORS.ORGANIZTION.GET_ORGANIZATION, payload: {type: types.ERRORS.ORGANIZTION.GET_ORGANIZATION, message}})
   } finally {
     socketChannel.close()
   }
@@ -50,18 +50,18 @@ function getOrganizationSuccess(action) {
 function* getOrganizationMembers(action) {
   const payload = action.payload
   const {organizationId} = payload;
-  const socketChannel = yield call(api.createSocketChannel, results.GET_ORGANIZATION_MEMBERS)
+  const socketChannel = yield call(api.createSocketChannel, results.ORGANIZTION.GET_ORGANIZATION_MEMBERS)
   try {
-    yield fork(api.get, urls.GET_ORGANIZATION_MEMBERS, results.GET_ORGANIZATION_MEMBERS, `?staff_organization=${organizationId}`)
+    yield fork(api.get, urls.ORGANIZTION.GET_ORGANIZATION_MEMBERS, results.ORGANIZTION.GET_ORGANIZATION_MEMBERS, `?staff_organization=${organizationId}`)
     while (true) {
       const data = yield take(socketChannel)
-      yield put({type: types.SUCCESS.GET_ORGANIZATION_MEMBERS, payload: data})
+      yield put({type: types.SUCCESS.ORGANIZTION.GET_ORGANIZATION_MEMBERS, payload: data})
     }
   } catch (e) {
     const {message} = e
     yield put({
-      type: types.ERRORS.GET_ORGANIZATION_MEMBERS,
-      payload: {type: types.ERRORS.GET_ORGANIZATION_MEMBERS, message}
+      type: types.ERRORS.ORGANIZTION.GET_ORGANIZATION_MEMBERS,
+      payload: {type: types.ERRORS.ORGANIZTION.GET_ORGANIZATION_MEMBERS, message}
     })
   } finally {
     socketChannel.close()
@@ -72,17 +72,17 @@ function* getOrganizationMembers(action) {
 function* updateOrganization(action) {
   const payload = action.payload
   const {organizationId, formValues, hideEdit} = payload;
-  const socketChannel = yield call(api.createSocketChannel, results.UPDATE_ORGANIZATION_INFO)
+  const socketChannel = yield call(api.createSocketChannel, results.ORGANIZTION.UPDATE_ORGANIZATION_INFO)
   try {
-    yield fork(api.patch, urls.UPDATE_ORGANIZATION_INFO, results.UPDATE_ORGANIZATION_INFO, formValues, `${organizationId}/`)
+    yield fork(api.patch, urls.ORGANIZTION.UPDATE_ORGANIZATION_INFO, results.ORGANIZTION.UPDATE_ORGANIZATION_INFO, formValues, `${organizationId}/`)
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.UPDATE_ORGANIZATION_INFO, payload: data})
+    yield put({type: types.SUCCESS.ORGANIZTION.UPDATE_ORGANIZATION_INFO, payload: data})
 
   } catch (e) {
     const {message} = e
     yield put({
-      type: types.ERRORS.UPDATE_ORGANIZATION_INFO,
-      payload: {type: types.ERRORS.UPDATE_ORGANIZATION_INFO, message}
+      type: types.ERRORS.ORGANIZTION.UPDATE_ORGANIZATION_INFO,
+      payload: {type: types.ERRORS.ORGANIZTION.UPDATE_ORGANIZATION_INFO, message}
     })
   } finally {
     socketChannel.close()
@@ -95,14 +95,14 @@ function* getProducts(action) {
   const payload = action.payload
   const {organizationId} = payload;
   const identity = yield* getOrgIdentity(action)
-  const socketChannel = yield call(api.createSocketChannel, results.GET_PRODUCTS)
+  const socketChannel = yield call(api.createSocketChannel, results.ORGANIZTION.GET_PRODUCTS)
   try {
-    yield fork(api.get, urls.GET_PRODUCTS, results.GET_PRODUCTS, `?product_owner=${identity}`)
+    yield fork(api.get, urls.ORGANIZTION.GET_PRODUCTS, results.ORGANIZTION.GET_PRODUCTS, `?product_owner=${identity}`)
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.GET_PRODUCTS, payload: data})
+    yield put({type: types.SUCCESS.ORGANIZTION.GET_PRODUCTS, payload: data})
   } catch (e) {
     const {message} = e
-    yield put({type: types.ERRORS.GET_PRODUCTS, payload: {type: types.ERRORS.GET_PRODUCTS, message}})
+    yield put({type: types.ERRORS.ORGANIZTION.GET_PRODUCTS, payload: {type: types.ERRORS.ORGANIZTION.GET_PRODUCTS, message}})
   } finally {
     socketChannel.close()
   }
@@ -137,14 +137,14 @@ function* getExchanges(action) {
   const payload = action.payload
   const {organizationId} = payload;
   const identity = yield getOrgIdentity(action)
-  const socketChannel = yield call(api.createSocketChannel, results.GET_ORG_EXCHANGES)
+  const socketChannel = yield call(api.createSocketChannel, results.ORGANIZTION.GET_ORG_EXCHANGES)
   try {
-    yield fork(api.get, urls.GET_ORG_EXCHANGES, results.GET_ORG_EXCHANGES, `?identity_id=${identity[0].id}`)
+    yield fork(api.get, urls.ORGANIZTION.GET_ORG_EXCHANGES, results.ORGANIZTION.GET_ORG_EXCHANGES, `?identity_id=${identity[0].id}`)
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.GET_ORG_EXCHANGES, payload: data})
+    yield put({type: types.SUCCESS.ORGANIZTION.GET_ORG_EXCHANGES, payload: data})
   } catch (e) {
     const {message} = e
-    yield put({type: types.ERRORS.GET_ORG_EXCHANGES, payload: {type: types.ERRORS.GET_ORG_EXCHANGES, message}})
+    yield put({type: types.ERRORS.ORGANIZTION.GET_ORG_EXCHANGES, payload: {type: types.ERRORS.ORGANIZTION.GET_ORG_EXCHANGES, message}})
   } finally {
     socketChannel.close()
   }
@@ -154,16 +154,16 @@ function* getExchanges(action) {
 function* getOrgIdentity(action) {
   const payload = action.payload
   const {organizationId} = payload;
-  const socketChannel = yield call(api.createSocketChannel, results.GET_USER_IDENTITY)
+  const socketChannel = yield call(api.createSocketChannel, results.ORGANIZTION.GET_USER_IDENTITY)
   let res
   try {
-    yield fork(api.get, urls.GET_USER_IDENTITY, results.GET_USER_IDENTITY, `?identity_organization=${organizationId}`)
+    yield fork(api.get, urls.ORGANIZTION.GET_USER_IDENTITY, results.ORGANIZTION.GET_USER_IDENTITY, `?identity_organization=${organizationId}`)
     const data = yield take(socketChannel)
     res = data
-    yield put({type: types.SUCCESS.GET_USER_IDENTITY, payload: data})
+    yield put({type: types.SUCCESS.ORGANIZTION.GET_USER_IDENTITY, payload: data})
   } catch (e) {
     const {message} = e
-    yield put({type: types.ERRORS.GET_USER_IDENTITY, payload: {type: types.ERRORS.GET_USER_IDENTITY, message}})
+    yield put({type: types.ERRORS.ORGANIZTION.GET_USER_IDENTITY, payload: {type: types.ERRORS.ORGANIZTION.GET_USER_IDENTITY, message}})
   } finally {
     socketChannel.close()
     return res
@@ -173,16 +173,16 @@ function* getOrgIdentity(action) {
 //11 get - org- followings identities
 function* getFollowingsIdentities(orgIdentity) {
   let data
-  const socketChannel = yield call(api.createSocketChannel, results.GET_ORG_FOLLOWINGS_IDENTITIES)
+  const socketChannel = yield call(api.createSocketChannel, results.ORGANIZTION.GET_ORG_FOLLOWINGS_IDENTITIES)
   try {
-    yield fork(api.get, urls.GET_ORG_FOLLOWERS, results.GET_ORG_FOLLOWINGS_IDENTITIES, `?follow_follower=${orgIdentity}`)
+    yield fork(api.get, urls.ORGANIZTION.GET_ORG_FOLLOWERS, results.ORGANIZTION.GET_ORG_FOLLOWINGS_IDENTITIES, `?follow_follower=${orgIdentity}`)
     data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.GET_ORG_FOLLOWINGS_IDENTITIES, payload: data})
+    yield put({type: types.SUCCESS.ORGANIZTION.GET_ORG_FOLLOWINGS_IDENTITIES, payload: data})
   } catch (e) {
     const {message} = e
     yield put({
-      type: types.ERRORS.GET_ORG_FOLLOWINGS_IDENTITIES,
-      payload: {type: types.ERRORS.GET_ORG_FOLLOWINGS_IDENTITIES, message}
+      type: types.ERRORS.ORGANIZTION.GET_ORG_FOLLOWINGS_IDENTITIES,
+      payload: {type: types.ERRORS.ORGANIZTION.GET_ORG_FOLLOWINGS_IDENTITIES, message}
     })
   } finally {
     socketChannel.close()
@@ -192,13 +192,13 @@ function* getFollowingsIdentities(orgIdentity) {
 
 //12 get following
 function* getFollowing(follow_followed) {
-  const socketChannel = yield call(api.createSocketChannel, results.GET_ORG_FOLLOWING)
+  const socketChannel = yield call(api.createSocketChannel, results.ORGANIZTION.GET_ORG_FOLLOWING)
   try {
-    yield fork(api.get, urls.GET_USER_IDENTITY, results.GET_ORG_FOLLOWING, `${follow_followed}`)
+    yield fork(api.get, urls.ORGANIZTION.GET_USER_IDENTITY, results.ORGANIZTION.GET_ORG_FOLLOWING, `${follow_followed}`)
     const data = yield take(socketChannel)
   } catch (e) {
     const {message} = e
-    yield put({type: types.ERRORS.GET_ORG_FOLLOWING, payload: {type: types.ERRORS.GET_ORG_FOLLOWING, message}})
+    yield put({type: types.ERRORS.ORGANIZTION.GET_ORG_FOLLOWING, payload: {type: types.ERRORS.ORGANIZTION.GET_ORG_FOLLOWING, message}})
   } finally {
     socketChannel.close()
   }
@@ -211,13 +211,13 @@ function* getFollowersIdentities(orgIdentity) {
 
 //14 get - org - follower
 function* getFollower(follow_follower) {
-  const socketChannel = yield call(api.createSocketChannel, results.GET_ORG_FOLLOWER)
+  const socketChannel = yield call(api.createSocketChannel, results.ORGANIZTION.GET_ORG_FOLLOWER)
   try {
-    yield fork(api.get, urls.GET_USER_IDENTITY, results.GET_ORG_FOLLOWER, `${follow_follower}`)
+    yield fork(api.get, urls.ORGANIZTION.GET_USER_IDENTITY, results.ORGANIZTION.GET_ORG_FOLLOWER, `${follow_follower}`)
     const data = yield take(socketChannel)
   } catch (e) {
     const {message} = e
-    yield put({type: types.ERRORS.GET_ORG_FOLLOWING, payload: {type: types.ERRORS.GET_ORG_FOLLOWING, message}})
+    yield put({type: types.ERRORS.ORGANIZTION.GET_ORG_FOLLOWING, payload: {type: types.ERRORS.ORGANIZTION.GET_ORG_FOLLOWING, message}})
   } finally {
     socketChannel.close()
   }
@@ -227,14 +227,14 @@ function* getFollower(follow_follower) {
 function* getCustomers(action) { //TODO amir
   const payload = action.payload;
   const {organizationId} = payload;
-  const socketChannel = yield call(api.createSocketChannel, results.GET_ORG_CUSTOMERS)
+  const socketChannel = yield call(api.createSocketChannel, results.ORGANIZTION.GET_ORG_CUSTOMERS)
   try {
-    yield fork(api.get, urls.GET_ORG_CUSTOMERS, results.GET_ORG_CUSTOMERS, `?customer_organization=${organizationId}`)
+    yield fork(api.get, urls.ORGANIZTION.GET_ORG_CUSTOMERS, results.ORGANIZTION.GET_ORG_CUSTOMERS, `?customer_organization=${organizationId}`)
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.GET_ORG_CUSTOMERS, payload: data})
+    yield put({type: types.SUCCESS.ORGANIZTION.GET_ORG_CUSTOMERS, payload: data})
   } catch (e) {
     const {message} = e
-    yield put({type: types.ERRORS.GET_ORG_CUSTOMERS, payload: {type: types.ERRORS.GET_ORG_CUSTOMERS, message}})
+    yield put({type: types.ERRORS.ORGANIZTION.GET_ORG_CUSTOMERS, payload: {type: types.ERRORS.ORGANIZTION.GET_ORG_CUSTOMERS, message}})
   } finally {
     socketChannel.close()
   }
@@ -244,16 +244,16 @@ function* getCustomers(action) { //TODO amir
 function* getCertificates(action) { //TODO amir change URL nad QUERY
   const payload = action.payload;
   const {organizationId} = payload;
-  const socketChannel = yield call(api.createSocketChannel, results.GET_ORG_CERTIFICATES)
+  const socketChannel = yield call(api.createSocketChannel, results.ORGANIZTION.GET_ORG_CERTIFICATES)
   try {
-    yield fork(api.get, urls.GET_ORG_CERTIFICATES, results.GET_ORG_CERTIFICATES, `?organization_id=${organizationId}`)
+    yield fork(api.get, urls.ORGANIZTION.GET_ORG_CERTIFICATES, results.ORGANIZTION.GET_ORG_CERTIFICATES, `?organization_id=${organizationId}`)
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.GET_ORG_CERTIFICATES, payload: data})
+    yield put({type: types.SUCCESS.ORGANIZTION.GET_ORG_CERTIFICATES, payload: data})
   } catch (e) {
     const {message} = e
     yield put({
-      type: types.ERRORS.GET_ORG_CERTIFICATES,
-      payload: {type: types.ERRORS.GET_ORG_CERTIFICATES, error: message}
+      type: types.ERRORS.ORGANIZTION.GET_ORG_CERTIFICATES,
+      payload: {type: types.ERRORS.ORGANIZTION.GET_ORG_CERTIFICATES, error: message}
     })
   } finally {
     socketChannel.close()
@@ -264,14 +264,14 @@ function* getCertificates(action) { //TODO amir change URL nad QUERY
 function* updateCertificate(action) { //TODO amir change URL nad QUERY
   const payload = action.payload;
   const {formValues, certId, hideEdit} = payload;
-  const socketChannel = yield call(api.createSocketChannel, results.UPDATE_CERTIFICATE)
+  const socketChannel = yield call(api.createSocketChannel, results.ORGANIZTION.UPDATE_CERTIFICATE)
   try {
-    yield fork(api.patch, urls.UPDATE_CERTIFICATE, results.UPDATE_CERTIFICATE, formValues, `/${certId}/`)
+    yield fork(api.patch, urls.UPDATE_CERTIFICATE, results.UPDATE_CERTIFICATE, formValues, `/${certId}`)
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.UPDATE_CERTIFICATE, payload: data})
+    yield put({type: types.SUCCESS.ORGANIZTION.UPDATE_CERTIFICATE, payload: data})
   } catch (e) {
     const {message} = e
-    yield put({type: types.ERRORS.UPDATE_CERTIFICATE, payload: {type: types.ERRORS.UPDATE_CERTIFICATE, error: message}})
+    yield put({type: types.ERRORS.ORGANIZTION.UPDATE_CERTIFICATE, payload: {type: types.ERRORS.ORGANIZTION.UPDATE_CERTIFICATE, error: message}})
   } finally {
     socketChannel.close()
     hideEdit()
@@ -282,9 +282,9 @@ function* updateCertificate(action) { //TODO amir change URL nad QUERY
 function* updateCustomer(action) { //TODO amir change URL nad QUERY
   const payload = action.payload;
   const {formValues, customerId, hideEdit} = payload;
-  const socketChannel = yield call(api.createSocketChannel, results.UPDATE_CUSTOMER)
+  const socketChannel = yield call(api.createSocketChannel, results.ORGANIZTION.UPDATE_CUSTOMER)
   try {
-    yield fork(api.patch, urls.UPDATE_CUSTOMER, results.UPDATE_CUSTOMER, formValues, `${customerId}/`)
+    yield fork(api.patch, urls.UPDATE_CUSTOMER, results.UPDATE_CUSTOMER, formValues, `${customerId}`)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.UPDATE_CUSTOMER, payload: data})
   } catch (e) {
@@ -296,6 +296,40 @@ function* updateCustomer(action) { //TODO amir change URL nad QUERY
   }
 }
 
+//17 create products
+function* createProduct(action){
+  const payload = action.payload;
+  const {formValues, organizationId, hideEdit} = payload;
+  const socketChannel = yield call(api.createSocketChannel, results.CREATE_PRODUCT)
+  try {
+    yield fork(api.patch, urls.CREATE_PRODUCT, results.CREATE_PRODUCT, formValues, `${organizationId}`)
+    const data = yield take(socketChannel)
+    yield put({type: types.SUCCESS.ORGANIZTION.UPDATE_CUSTOMER, payload: data})
+  } catch (e) {
+    const {message} = e
+    yield put({type: types.ERRORS.ORGANIZTION.UPDATE_CUSTOMER, payload: {type: types.ERRORS.ORGANIZTION.UPDATE_CUSTOMER, error: message}})
+  } finally {
+    socketChannel.close()
+    hideEdit()
+  }
+}
+
+function* createProduct(action){
+  const payload = action.payload;
+  const {formValues, organizationId, hideEdit} = payload;
+  const socketChannel = yield call(api.createSocketChannel, results.ORGANIZTION.CREATE_PRODUCT)
+  try {
+    yield fork(api.patch, urls.ORGANIZTION.CREATE_PRODUCT, results.ORGANIZTION.CREATE_PRODUCT, formValues, `${organizationId}/`)
+    const data = yield take(socketChannel)
+    yield put({type: types.SUCCESS.ORGANIZTION.CREATE_PRODUCT, payload: data})
+  } catch (e) {
+    const {message} = e
+    yield put({type: types.ERRORS.ORGANIZTION.CREATE_PRODUCT, payload: {type: types.ERRORS.ORGANIZTION.CREATE_PRODUCT, error: message}})
+  } finally {
+    socketChannel.close()
+    hideEdit()
+  }
+}
 /**********    %% WATCHERS %%    **********/
 //1 - get organization
 export function* watchGetOrganization() {
@@ -304,7 +338,7 @@ export function* watchGetOrganization() {
 
 //2 - get organization - success
 export function* watchGetOrganizationSuccess() {
-  yield takeEvery(types.SUCCESS.GET_ORGANIZATION, getOrganizationSuccess)
+  yield takeEvery(types.SUCCESS.ORGANIZTION.GET_ORGANIZATION, getOrganizationSuccess)
 }
 
 //3 - get organization - members
@@ -360,4 +394,8 @@ export function* watchUpdateCertificate() {
 //14 - update org customer
 export function* watchUpdateCustomer() {
   yield takeEvery(types.UPDATE_CUSTOMER, updateCustomer)
+}
+
+export function* watchCreateProduct() {
+  yield takeEvery(types.CREATE_PRODUCT, createProduct)
 }

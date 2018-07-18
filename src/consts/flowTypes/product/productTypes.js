@@ -54,3 +54,4 @@ export type PictureType = {
 export type PriceType = {
     value: number
 }
+export type ContributionType = {} // !? what is the type?

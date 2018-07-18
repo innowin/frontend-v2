@@ -5,13 +5,14 @@ import PropTypes from 'prop-types'
 import {TextInput} from 'src/views/common/inputs/TextInput'
 import {FileInput} from 'src/views/common/inputs/FileInput'
 import {Confirm} from "../../common/cards/Confirm"
+import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 
 type CertificateType = {
     certificate_picture: number,
     title: string
 }
 type CertificateFormProps = {
-    translator: { [string]: string },
+    translator: TranslatorType,
     onSubmit: Function,
     certificate?: CertificateType,
     children: React.Node
@@ -81,7 +82,7 @@ export class CertificateForm extends Component<CertificateFormProps> {
 type CertificateCreateFormProps = {
     create: Function,
     hideEdit: Function,
-    translator: { [string]: string }
+    translator: TranslatorType
 }
 
 export class CertificateCreateForm extends Component<CertificateCreateFormProps> {
@@ -124,7 +125,7 @@ type CertificateEditFormProps = {
     remove: Function,
     hideEdit: Function,
     certificate: Object,
-    translator: {[string]: string},
+    translator: TranslatorType,
     updateStateForView: Function
 }
 

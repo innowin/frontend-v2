@@ -6,6 +6,7 @@ import {CustomImage} from '../../../common/CustomImage'
 import {ItemWrapper,} from "../../../common/cards/Frames"
 import {postIcon} from "src/images/icons"
 import type {ProductType, CategoryType} from "src/consts/flowTypes/product/productTypes"
+import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 
 type ProductItemWrapperProps = {
     children: React.Node
@@ -22,10 +23,10 @@ type PriceType = {
 }
 type ProductViewProps = {
     product: ProductType,
-    pictures: [PictureType],
-    price:[PriceType],
-    categories: [CategoryType],
-    translator: {[string]: string}
+    pictures: Array<PictureType>,
+    price: Array<PriceType>,
+    categories: Array<CategoryType>,
+    translator: TranslatorType
 }
 const ProductView = (props: ProductViewProps) => {
     const {product, pictures, price, categories, translator} = props
@@ -56,10 +57,10 @@ const ProductView = (props: ProductViewProps) => {
 
 type ProductProps = {
     product: ProductType,
-    categories: [CategoryType],
-    pictures: [PictureType],
-    price: [PriceType],
-    translator: {[string]: string}
+    categories: Array<CategoryType>,
+    pictures: Array<PictureType>,
+    price: Array<PriceType>,
+    translator: TranslatorType
 }
 type ProductState = {
     product: ProductType

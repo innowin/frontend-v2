@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import {CertificateEditForm} from './forms'
 import {ItemWrapper} from "../../common/cards/Frames"
 import {CertificateIcon, starIcon, EditIcon} from "src/images/icons"
+import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 
 type CertificateItemWrapperProps = {
     children: React.Node
@@ -47,7 +48,7 @@ export const CertificateView = (props: CertificateViewProps) => {
 
 type CertificateProps = {
     certificate: CertificateType,
-    translator: {[string]: string},
+    translator: TranslatorType,
     deleteCertificate: Function,
     updateCertificate: Function,
     updateStateForView: Function

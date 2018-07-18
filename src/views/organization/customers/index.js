@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {Customer, CustomerItemWrapper} from "./view";
 import {CustomerCreateForm} from "./forms";
 import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper, ItemHeader} from "../../common/cards/Frames";
-import {createCustomer, deleteCustomer, updateCustomer} from '../../../crud/organization/customer.js';
+// import {createCustomer, deleteCustomer, updateCustomer} from '../../../crud/organization/customer.js';
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {REST_REQUEST} from "../../../consts/Events"
 import {TOKEN} from "src/consts/data"
@@ -30,11 +30,11 @@ export class CustomerContainer extends React.Component<CustomerContainerProps,{c
 	delete_ = (customerId:number, hideEdit:Function) => {	
 		const {organizationId} = this.props;
 		// updateStateForView(null,true,true);
-		return deleteCustomer(customerId,hideEdit,organizationId);
+		// return deleteCustomer(customerId,hideEdit,organizationId);
 	};
 	update_ = (formValues:Object, customerId:number, updateStateForView:Function, hideEdit:Function) => {//formValues, careerId, updateStateForView, hideEdit
-		updateStateForView(null,null,true);
-		return updateCustomer(formValues,customerId, updateStateForView, hideEdit);
+		const {updateCustomer} = this.props.actions
+		updateCustomer(formValues,customerId, hideEdit);
 	};
 	_updateStateForView = (res:Object, error:boolean, isLoading:boolean) => {
 		// const {updateStateForView} = this.props;
@@ -64,7 +64,7 @@ export class CustomerList extends React.Component<CustomerListProps> {
 	}
 	create = (formValues:Object,hideEdit:Function) => {
 			const {organizationId } = this.props;
-			return createCustomer(formValues, hideEdit, organizationId);
+			// return createCustomer(formValues, hideEdit, organizationId);
 	};
 
 	render() {
