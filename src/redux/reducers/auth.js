@@ -1,6 +1,5 @@
 import initialState from './initialState'
 import types from '../actions/actionTypes'
-import {persistor} from "src/index"
 
 const auth = (state = initialState.auth, action) => {
 	switch (action.type) {
@@ -21,7 +20,6 @@ const auth = (state = initialState.auth, action) => {
 				}
 			}
 		case types.SIGN_OUT_FINISHED:
-			persistor.purge()
 			return {
 				...state,
 				client: {
