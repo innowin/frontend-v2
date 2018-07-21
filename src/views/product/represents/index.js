@@ -2,7 +2,7 @@
 import * as React from "react"
 import {Component} from "react"
 import PropTypes from 'prop-types'
-import {getProductRepresents, updateRepresent} from 'src/crud/product/represents'
+import {getProductRepresents} from 'src/crud/product/represents'
 import {getProduct} from 'src/crud/product/product'
 import {getUser} from 'src/crud/user/user'
 import {getOrganization} from 'src/crud/organization/organization'
@@ -12,13 +12,14 @@ import {REST_REQUEST} from "src/consts/Events"
 import {REST_URL as url, SOCKET as socket} from "src/consts/URLS"
 import {TOKEN} from "src/consts/data"
 import type {RepresentType, ProductType, UserType, ProfileType} from "src/consts/flowTypes/product/productTypes"
+import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 
 type RepresentProps = {
     represent: RepresentType,
     updateRepresent: Function,
     productId: number,
     product: ProductType,
-    translator: {[string]: string}
+    translator: TranslatorType
 }
 
 type RepresentState = {
@@ -149,19 +150,27 @@ export class Represent extends Component<RepresentProps, RepresentState> {
         )
     }
 }
+type RepresentsProps = {
+    translator: TranslatorType,
+    productId: number
+}
 
-class Represents extends Component {
+type RepresentsState = {
+    isLoading: boolean, error: ?boolean | string, represent: [], product: {}, profile: {}
+}
 
-    constructor(props) {
-        super(props)
+class Represents extends Component<RepresentsProps, RepresentsState> {
+
+    constructor() {
+        super()
         this.state = {isLoading: false, error: null, represent: [], product: {}, profile: {}}
     }
 
-    _handleErrorLoading = (error = false) => {
+    _handleErrorLoading = (error: boolean|string = false) => {
         this.setState({...this.state, isLoading: false, error: error})
     }
 
-    _updateRepresents = (res, type, deletedIndex = null) => {
+    _updateRepresents = (res: RepresentType, type: string, deletedIndex: ?string = null) => {
         let self = this
         const {productId} = this.props
         getProduct(productId, (product) => {
@@ -172,7 +181,7 @@ class Represents extends Component {
         return false
     }
 
-    _getProductRepresents = (productId) => {
+    _getProductRepresents = (productId: number) => {
         this.setState({...this.state, isLoading: true})
         getProductRepresents(productId, this._updateRepresents, this._handleErrorLoading)
     }
@@ -197,7 +206,7 @@ class Represents extends Component {
 
     render() {
         const {isLoading, error, product} = this.state
-        const {translator} = this.props
+        const {translator, productId} = this.props
         const represent = [...new Set(this.state.represent)]
         return (
             <VerifyWrapper isLoading={isLoading} error={error}>
@@ -209,6 +218,8 @@ class Represents extends Component {
                         {
                             represent.map((represent) => (
                                 <Represent
+                                    productId={productId}
+                                    translator={translator}
                                     product={product}
                                     represents={represent}
                                     represent={represent}

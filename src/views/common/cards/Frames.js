@@ -1,144 +1,200 @@
-import React from 'react'
+// @flow
+import * as React from "react"
 import cx from 'classnames'
 import FontAwesome from 'react-fontawesome'
 import PropTypes from 'prop-types'
 import {EditIcon} from 'src/images/icons'
-import {ErrorCard} from "./ErrorCard"
-import {LoadingCard} from "./LoadingCard"
+import ErrorCard from "./ErrorCard"
+import {loadingCard} from "./LoadingCard"
 
-
-export const Tabs = (props) => {
-    return (
-        <div className="mt-4 mb-4">
-            <div className="-tabs">
-                {props.children}
-            </div>
-        </div>
-    )
+type div = React.Element<'div'>
+type PropsTabs = {
+  children?: React.Node
 }
 
+export const Tabs = (props: PropsTabs): div => {
+  return (
+    <div className="mt-4 mb-4">
+      <div className="-tabs">
+        {props.children}
+      </div>
+    </div>
+  )
+}
 
-export const ItemWrapper = ({className='', ...props}) => {
-    const {icon, children} = props
-    return (
-        <div className={"-itemWrapper " + className}>
-            <div className="-item-icon">{icon}</div>
-            <div className="-item-content">
-                {children}
-            </div>
-        </div>
-    )
+type PropsItemWrapper = {
+  children?: React.Node,
+  icon: React.Element<any>,
+  className?: string
+}
+
+export const ItemWrapper = (props: PropsItemWrapper): div => {
+  const {icon, children} = props
+  const className = props.className || ''
+  return (
+    <div className={"-itemWrapper " + className}>
+      <div className="-item-icon">{icon}</div>
+      <div className="-item-content">
+        {children}
+      </div>
+    </div>
+  )
 }
 ItemWrapper.propTypes = {
-    icon: PropTypes.node,
-    className: PropTypes.string,
+  icon: PropTypes.node,
+  className: PropTypes.string
 }
 
 
-export const ListGroup = (props) => {
-    return (
-        <div className="list-group list-group-flush">
-            {props.children}
-        </div>
-    )
+type PropsListGroup = {
+  children?: React.Node
 }
 
-export const ItemHeader = (props) => {
-    const {showEdit} = props;
-    return (
-        <div className="-item-header">
-            <div className="-item-title">{props.title}</div>
-            <div className="-item-edit-btn">
-                {
-                    (showEdit != null) ?
-                        <div onClick={showEdit}><EditIcon/></div> : <span/>
-                }
-            </div>
-        </div>
-    )
+export const ListGroup = (props: PropsListGroup): div => {
+  return (
+    <div className="list-group list-group-flush">
+      {props.children}
+    </div>
+  )
+}
+
+type PropsItemHeader = {
+  showEdit?: Function,
+  title: string
+}
+
+export const ItemHeader = (props: PropsItemHeader): div => {
+  const {showEdit} = props
+  return (
+    <div className="-item-header">
+      <div className="-item-title">{props.title}</div>
+      <div className="-item-edit-btn">
+        {
+          (showEdit !== null) ?
+            <div onClick={showEdit}><EditIcon/></div> : <span/>
+        }
+      </div>
+    </div>
+  )
 }
 ItemHeader.propTypes = {
-    title: PropTypes.node,
-    showEdit: PropTypes.func,
-};
+  title: PropTypes.node,
+  showEdit: PropTypes.func
+}
 
-export const FrameCard = ({children, className=''}) => {
-    return (
-        <div className={cx("-frameCard\u0020" + className)}>
-            {children}
-        </div>
-    )
+
+type PropsFrameCard = {
+  children?: React.Node,
+  className?: string
+}
+
+export const FrameCard = (props: PropsFrameCard): div => {
+  const className = props.className || ''
+  return (
+    <div className={cx("-frameCard\u0020" + className)}>
+      {props.children}
+    </div>
+  )
 }
 FrameCard.propTypes = {
-    className: PropTypes.string
-};
+  className: PropTypes.string
+}
 
-export const CategoryTitle = ({title, createForm = true, showCreateForm = () => false}) => {
-    return (
-        <div className="-categoryTitle">
-            <span>{title}</span>
-            {!createForm &&
-            <button className="btn btn-sm btn-outline-success" onClick={showCreateForm}>
-                <FontAwesome name="plus"/>
-            </button>}
-        </div>
-    )
+type PropsCategoryTitle = {
+  title: string,
+  createForm?: boolean,
+  showCreateForm?: Function
+}
+
+export const CategoryTitle = ({title, createForm = true, showCreateForm = () => false}: PropsCategoryTitle): div => {
+  return (
+    <div className="-categoryTitle">
+      <span>{title}</span>
+      {
+        !createForm &&
+        <button className="btn btn-sm btn-outline-success" onClick={showCreateForm}>
+          <FontAwesome name="plus"/>
+        </button>
+      }
+    </div>
+  )
 }
 CategoryTitle.propTypes = {
-    title: PropTypes.node,
-    createForm: PropTypes.bool,
-    showCreateForm: PropTypes.func,
-};
+  title: PropTypes.node,
+  createForm: PropTypes.bool,
+  showCreateForm: PropTypes.func
+}
 
-export const FieldLabel = (props) => {
-    return (
-        <div className="col-5">
-            {props.label}
-        </div>
-    )
+
+type PropsFieldLabel = {
+  label: string
+}
+
+export const FieldLabel = (props: PropsFieldLabel): div => {
+  return (
+    <div className="col-5">
+      {props.label}
+    </div>
+  )
 }
 FieldLabel.propTypes = {
-    label: PropTypes.string.isRequired,
-};
+  label: PropTypes.string.isRequired,
+}
 
-export const FieldValue = (props) => {
-    return (
-        <div className="col-7 font-weight-bold break-word">
-            {props.value}
-        </div>
-    )
+
+type PropsFieldValue = {
+  value: string | React.Element<'span'>
+}
+
+export const FieldValue = (props: PropsFieldValue) => {
+  return (
+    <div className="col-7 font-weight-bold break-word">
+      {props.value}
+    </div>
+  )
 }
 FieldValue.propTypes = {
-    value: PropTypes.any,
-};
-
-export const Field = (props) => {
-    return (
-        <div className="row col-form-label">
-            {props.children}
-        </div>
-    )
+  value: PropTypes.any
 }
 
-export const VerifyWrapper = ({error=false, retry = () => alert("retry"), ...props}) => {
-    const {isLoading, children, className} = props;
-    if (!isLoading) {
-        if (!error) {
-            return (
-                <div className={className}>
-                    {children}
-                </div>
-            )
-        }
-        // TODO mohsen #32 handel error message and retry in ErrorCard
-        return <ErrorCard retry={retry} header={error}/>
+type PropsField = {
+  children?: React.Node
+}
+export const Field = (props: PropsField): div => {
+  return (
+    <div className="row col-form-label">
+      {props.children}
+    </div>
+  )
+}
+
+type PropsVerifyWrapper = {
+  error: boolean | string,
+  retry?: Function,
+  children?: React.Node,
+  className?: string,
+  isLoading: boolean
+}
+
+export const VerifyWrapper = ({error, retry = () => alert("retry"), ...props}: PropsVerifyWrapper): div => {
+  const {isLoading, children, className} = props
+  if (!isLoading) {
+    if (!error) {
+      return (
+        <div className={className}>
+          {children}
+        </div>
+      )
     }
-    return <LoadingCard/>
+    // TODO mohsen #32 handel error message and retry in ErrorCard
+    return <ErrorCard retry={retry} header={error}/>
+  }
+  return loadingCard()
 }
 VerifyWrapper.propTypes = {
-    isLoading: PropTypes.bool.isRequired,
-    error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    retry: PropTypes.func,
-    className: PropTypes.string
-};
+  isLoading: PropTypes.bool.isRequired,
+  error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  retry: PropTypes.func,
+  className: PropTypes.string
+}
 

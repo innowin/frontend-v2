@@ -1,84 +1,83 @@
-import React, {Component} from "react";
-import PropTypes from "prop-types";
-import "moment/locale/fa";
-import {EditIcon} from "src/images/icons";
-import {VerifyWrapper} from "src/views/common/cards/Frames";
+// @flow
+import * as React from "react"
+import {Component} from "react"
+import PropTypes from "prop-types"
+import "moment/locale/fa"
+import {EditIcon} from "src/images/icons"
+import {VerifyWrapper} from "src/views/common/cards/Frames"
+import type {skillType} from "src/consts/flowTypes/user/others"
 
-
-export class SkillItemWrapper extends Component {
-    render() {
-        const {showEdit} = this.props;
-        return (
-            <div className="-itemWrapperSkill">
-                <div className="-itemEditBtn" onClick={showEdit}><EditIcon/></div>
-                {this.props.children}
-            </div>
-        )
-    }
+type PropsSkillItemWrapper = {
+  showEdit: Function,
+  children?: React.Node
+}
+export const SkillItemWrapper = (props: PropsSkillItemWrapper) => {
+  const {showEdit, children} = props
+  return (
+    <div className="-itemWrapperSkill">
+      <div className="-itemEditBtn" onClick={showEdit}><EditIcon/></div>
+      {children}
+    </div>
+  )
 }
 
 
-export class SkillBody extends Component {
-    static propTypes = {
-        description: PropTypes.string.isRequired
-    };
-
-    render() {
-        const {description} = this.props;
-        return (
-            <p className="skillDescription">
-                {description}
-            </p>
-        )
-    }
+const SkillBody = (props: { description: string }) => {
+  const {description} = props
+  return (
+    <p className="skillDescription">
+      {description}
+    </p>
+  )
+}
+SkillBody.propTypes = {
+  description: PropTypes.string.isRequired
 }
 
-export class SkillFooter extends Component {
-    render() {
-        const {viewerCount, addViewer, tags} = this.props;
-
-
-        return (
-            <div className="skillTags">
-                {tags}
-            </div>
-        )
-    }
+const SkillFooter = (props: { tags: (string)[] }) => {
+  const {tags} = props
+  return (
+    <div className="skillTags">
+      {tags}
+    </div>
+  )
 }
 
-export class SkillView extends Component {
-    static propTypes = {
-        showEdit: PropTypes.func.isRequired,
-        skill: PropTypes.object.isRequired,
-        profile: PropTypes.object.isRequired,
-        user: PropTypes.object.isRequired,
-    };
+type PropsSkillView = {
+  showEdit: Function,
+  skill: skillType,
+}
+type StateSkillView = {
+  viewerCount: number,
+  isLoading: boolean,
+  error: boolean | string
+}
 
-    constructor(props) {
-        super(props);
-        this.state = {viewerCount: 0, isLoading: false, error: false};
-    };
+export class SkillView extends Component<PropsSkillView, StateSkillView> {
+  static propTypes = {
+    showEdit: PropTypes.func.isRequired,
+    skill: PropTypes.object.isRequired,
+  }
 
-    componentDidMount() {
-    };
+  constructor(props: PropsSkillView) {
+    super(props)
+    this.state = {viewerCount: 0, isLoading: false, error: false}
+  }
 
-    componentWillUnmount() {
-    }
-
-    render() {
-        const {showEdit, skill, user, profile, isLoading, error} = this.props;
-        const tags = skill.tag.map((tag,index)=>{
-            return(<span className="badge badge-secondary skillTag m-1">{tag}</span>)
-        });
-        const {viewerCount} = this.state;
-        return (
-            <VerifyWrapper isLoading={isLoading} error={error}>
-                <SkillItemWrapper showEdit = {showEdit}>
-                    <h6>{skill.title}</h6>
-                    <SkillBody description={skill.description}/>
-                    <SkillFooter skillId={skill.id} tags={tags}/>
-                </SkillItemWrapper>
-            </VerifyWrapper>
-        )
-    }
+  render() {
+    const {showEdit, skill} = this.props
+    const {isLoading, error, viewerCount} = this.state
+    const tags = skill.tag.map((tag, index) => {
+      return (<span className="badge badge-secondary skillTag m-1">{tag}</span>)
+    })
+    return (
+      <VerifyWrapper isLoading={isLoading} error={error}>
+        <SkillItemWrapper showEdit={showEdit}>
+          <h6>{skill.title}</h6>
+          <SkillBody description={skill.description}/>
+          <SkillFooter skillId={skill.id} tags={tags}/>
+        </SkillItemWrapper>
+      </VerifyWrapper>
+    )
+  }
 }

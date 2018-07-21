@@ -150,6 +150,9 @@ module.exports = {
     'Tag Name': 'نام تگ',
     'Add Tag': 'اضافه تگ',
 
+    // user - workExperience
+    'WorkExperience':"تجربه کاری",
+
     // user - social
     'Socials': "ارتباط اجتماعی",
     'Joined exchanges': "بورس های عضو شده",

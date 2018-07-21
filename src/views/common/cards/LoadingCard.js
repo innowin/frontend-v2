@@ -1,7 +1,9 @@
-import React from 'react';
-import {ClipLoader} from 'react-spinners';
+// @flow
+import * as React from "react"
+import {ClipLoader} from "react-spinners"
 
-export const LoadingCard = () => {
+type div = React.Element<'div'>
+export const loadingCard = (): div => {
   return (
     <div className="-loading">
       <div className="loading-box">
@@ -9,6 +11,6 @@ export const LoadingCard = () => {
       </div>
     </div>
   )
-};
+}
 
 

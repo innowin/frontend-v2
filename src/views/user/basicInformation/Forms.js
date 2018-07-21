@@ -16,7 +16,7 @@ import {updateEducation} from "src/crud/user/education"
 import {updateProfile} from "src/crud/user/profile"
 import {updateResearch} from "src/crud/user/research"
 import {updateUser} from "src/crud/user/user"
-import {
+import type {
   userType,
   userProfileType,
   userEducationType,
@@ -28,7 +28,7 @@ import {
 type PropsUserInfoForm = {
   onSubmit: Function,
   user: ?userType,
-  children?: React.Element<'div'>,
+  children?: React.Node,
   translate: { [string]: string }
 }
 // flow type of UserInfoEditForm
@@ -140,7 +140,7 @@ export class UserInfoEditForm extends Component<PropsUserInfoEditForm, StateUser
 
   form: ?React.ElementRef<typeof UserInfoForm>
 
-  _save = (updateStateForView: Function, hideEdit: Function): void => {
+  _save = (updateStateForView: Function, hideEdit: Function) => {
     const userId:number = this.props.user.id
     if (this.form) {
       const formValues:{} = this.form._getValues()
@@ -179,7 +179,7 @@ export class UserInfoEditForm extends Component<PropsUserInfoEditForm, StateUser
 type PropsProfileInfoForm = {
   onSubmit: Function,
   profile: ?userProfileType,
-  children?: React.Element<'div'>,
+  children?: React.Node,
   translate: { [string]: string }
 }
 // ProfileInfoEditForm flow type
@@ -358,7 +358,7 @@ export class ProfileInfoEditForm extends Component<PropsProfileInfoEditForm, Sta
 
   form: ?React.ElementRef<typeof ProfileInfoForm>
 
-  _save = (updateStateForView: Function, hideEdit: Function): void => {
+  _save = (updateStateForView: Function, hideEdit: Function) => {
     const profileId: number = +this.props.profile.id
     if (this.form) {
       const formValues: {} = this.form._getValues()
@@ -397,7 +397,7 @@ export class ProfileInfoEditForm extends Component<PropsProfileInfoEditForm, Sta
 type PropsEducationInfoForm = {
   onSubmit: Function,
   education: ?userEducationType,
-  children?: React.Element<'div'>,
+  children?: React.Node,
   translate: { [string]: string }
 }
 // flow type of EducationInfoEditForm
@@ -518,7 +518,7 @@ export class EducationInfoEditForm extends Component<PropsEducationInfoEditForm,
 
   form: ?React.ElementRef<typeof EducationInfoForm>
 
-  _save = (updateStateForView: Function, hideEdit: Function): void => {
+  _save = (updateStateForView: Function, hideEdit: Function) => {
     const educationId:number = this.props.education.id
     if (this.form) {
       const formValues:{} = this.form._getValues()
@@ -557,7 +557,7 @@ export class EducationInfoEditForm extends Component<PropsEducationInfoEditForm,
 type  PropsResearchInfoForm = {
   onSubmit: Function,
   research: ?userResearchType,
-  children?: React.Element<'div'>,
+  children?: React.Node,
   translate: { [string]: string }
 }
 // flow type of ResearchInfoEditForm
@@ -676,11 +676,11 @@ export class ResearchInfoEditForm extends Component<PropsResearchInfoEditForm, S
 
   form: ?React.ElementRef<typeof ResearchInfoForm>
 
-  _save = (updateStateForView: Function, hideEdit: Function): void => {
+  _save = (updateStateForView: Function, hideEdit: Function) => {
     const researchId:number = this.props.research.id
     if (this.form) {
       const formValues:{} = this.form._getValues()
-      updateResearch(researchId, formValues, hideEdit, (res: {}): void => {
+      updateResearch(researchId, formValues, hideEdit, (res: {}) => {
         updateStateForView(res, researchId, false, false)})
     }
   }
