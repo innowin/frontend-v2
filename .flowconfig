@@ -2,6 +2,7 @@
 .*/src/registerServiceWorker.js
 .*/src/index.js
 .*/src/App.test.js
+./node_modules
 
 [include]
 ./src/

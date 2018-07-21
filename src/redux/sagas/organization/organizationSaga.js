@@ -299,15 +299,17 @@ function* updateCustomer(action) { //TODO amir change URL nad QUERY
 //17 create products
 function* createProduct(action){
   const payload = action.payload;
-  const {formValues, organizationId, hideEdit} = payload;
+  const {formValues, identityId, hideEdit} = payload;
+  // const identity = yield* getOrgIdentity(action)
+  formValues.product_owner = identityId
   const socketChannel = yield call(api.createSocketChannel, results.CREATE_PRODUCT)
   try {
-    yield fork(api.patch, urls.CREATE_PRODUCT, results.CREATE_PRODUCT, formValues, `${organizationId}`)
+    yield fork(api.post, urls.CREATE_PRODUCT, results.CREATE_PRODUCT, formValues)
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.UPDATE_CUSTOMER, payload: data})
+    yield put({type: types.SUCCESS.CREATE_PRODUCT, payload: data})
   } catch (e) {
     const {message} = e
-    yield put({type: types.ERRORS.UPDATE_CUSTOMER, payload: {type: types.ERRORS.UPDATE_CUSTOMER, error: message}})
+    yield put({type: types.ERRORS.CREATE_PRODUCT, payload: {type: types.ERRORS.CREATE_PRODUCT, error: message}})
   } finally {
     socketChannel.close()
     hideEdit()
@@ -380,6 +382,6 @@ export function* watchUpdateCustomer() {
   yield takeEvery(types.UPDATE_CUSTOMER, updateCustomer)
 }
 
-export function* watchCreateProduct() {
+export function* watchCreateOrgProduct() {
   yield takeEvery(types.CREATE_PRODUCT, createProduct)
 }
