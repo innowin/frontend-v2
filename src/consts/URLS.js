@@ -22,6 +22,10 @@ const urls =  {
 		UPDATE_CUSTOMER:'organizations/customers',
 		CREATE_PRODUCT: 'products',
 	},
+  EXCHANGE: {
+    GET_EXCHANGES: 'exchanges',
+    GET_EXCHANGES_BY_MEMBER_IDENTITY:'exchanges/identities',
+  },
 	CREATE_PRODUCT: 'products',
 	CREATE_Skill: 'users/skills'
 }

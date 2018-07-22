@@ -39,12 +39,6 @@ function* del(url, result, data, param = "") {
 
 // pre send request
 const getEmit = (url, resultName, query = "") => {
-	let token = client.getToken()
-	alert("inside get - api")
-	console.log('url is ',url)
-	console.log('result is ',resultName)
-	console.log('query is ',query)
-	console.log('token is ',token)
 	SOCKET.emit(REST_REQUEST, {
 		method: 'get',
 		url: REST_URL + '/' + url + '/' + query,

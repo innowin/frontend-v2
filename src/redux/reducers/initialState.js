@@ -10,6 +10,7 @@ export default {
 			organization:null,
 			rememberMe:null,
 			user_type:null,
+      exchange_identities:[]
 		},
 		clients: {
 			users:[],
