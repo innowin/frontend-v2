@@ -4,16 +4,11 @@ import ChatBar from '../bars/ChatBar';
 import HomeSideBar from './home/HomeSideBar';
 import HomePosts from './home/HomePosts';
 import {IDENTITY_ID} from "src/consts/data";
-import {log,clientData} from 'src/consts/log'
 
 class Home extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {activeExchangeId: null}
-	}
-	
-	componentDidMount () {
-		setTimeout(()=> console.log(clientData()), 2000)
 	}
 	
 	_setExchangeId = (exchangeId) => {
