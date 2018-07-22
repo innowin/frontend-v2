@@ -25,9 +25,9 @@ class SignInForm extends Component {
 		client.isAuthenticated() && (this.props.location.pathname === '/login') && this.props.actions.push(this._redirectPath())
 	}
 	
-	componentDidUpdate(prevProps) {
+	componentDidUpdate() {
 		const {push} = this.props.actions
-		if (prevProps.isLoggedIn !== this.props.isLoggedIn && this.props.isLoggedIn) {
+		if (this.props.isLoggedIn) {
 			push(this._redirectPath())
 		}
 	}
