@@ -335,7 +335,7 @@ function* createProduct(action){
 /**********    %% WATCHERS %%    **********/
 //1 - get organization
 export function* watchGetOrganization() {
-  yield takeEvery(types.GET_ORGANIZATION, getOrganization)
+  yield takeEvery(types.ORGANIZATION.GET_ORGANIZATION, getOrganization)
 }
 
 //2 - get organization - success
@@ -345,59 +345,59 @@ export function* watchGetOrganizationSuccess() {
 
 //3 - get organization - members
 export function* watchGetOrganizationMembers() {
-  yield takeEvery(types.GET_ORGANIZATION_MEMBERS, getOrganizationMembers)
+  yield takeEvery(types.ORGANIZATION.GET_ORGANIZATION_MEMBERS, getOrganizationMembers)
 }
 
 //5 - update organization 
 export function* watchUpdateOrganization() {
-  yield takeEvery(types.UPDATE_ORGANIZATION_INFO, updateOrganization)
+  yield takeEvery(types.ORGANIZATION.UPDATE_ORGANIZATION_INFO, updateOrganization)
 }
 
 //6- get products
 export function* watchGetProducts() {
-  yield takeEvery(types.GET_PRODUCTS, getProducts)
+  yield takeEvery(types.ORGANIZATION.GET_PRODUCTS, getProducts)
 }
 
 //7- get org identity
 export function* watchGetOrgIdentity() {
-  yield takeEvery(types.GET_USER_IDENTITY, getOrgIdentity)
+  yield takeEvery(types.ORGANIZATION.GET_USER_IDENTITY, getOrgIdentity)
 }
 
 // 8 - get org followers
 export function* watchGetOrgFollowers() {
-  yield takeEvery(types.GET_ORG_FOLLOWERS, getFollowers)
+  yield takeEvery(types.ORGANIZATION.GET_ORG_FOLLOWERS, getFollowers)
 }
 
 // 9 get org followings
 export function* watchGetOrgFollowings() {
-  yield takeEvery(types.GET_ORG_FOLLOWINGS, getFollowings)
+  yield takeEvery(types.ORGANIZATION.GET_ORG_FOLLOWINGS, getFollowings)
 }
 
 // 10 - get org exchanges
 export function* watchGetOrgExchanges() {
-  yield takeEvery(types.GET_ORG_EXCHANGES, getExchanges)
+  yield takeEvery(types.ORGANIZATION.GET_ORG_EXCHANGES, getExchanges)
 }
 
 //11 - get org customers
 export function* watchGetCustomers() {
-  yield takeEvery(types.GET_ORG_CUSTOMERS, getCustomers)
+  yield takeEvery(types.ORGANIZATION.GET_ORG_CUSTOMERS, getCustomers)
 }
 
 //12 - get org certificates
 export function* watchGetCertificates() {
-  yield takeEvery(types.GET_ORG_CERTIFICATES, getCertificates)
+  yield takeEvery(types.ORGANIZATION.GET_ORG_CERTIFICATES, getCertificates)
 }
 
 //13 - update org certificate
 export function* watchUpdateCertificate() {
-  yield takeEvery(types.UPDATE_CERTIFICATE, updateCertificate)
+  yield takeEvery(types.ORGANIZATION.UPDATE_CERTIFICATE, updateCertificate)
 }
 
 //14 - update org customer
 export function* watchUpdateCustomer() {
-  yield takeEvery(types.UPDATE_CUSTOMER, updateCustomer)
+  yield takeEvery(types.ORGANIZATION.UPDATE_CUSTOMER, updateCustomer)
 }
 
 export function* watchCreateOrgProduct() {
-  yield takeEvery(types.CREATE_PRODUCT, createProduct)
+  yield takeEvery(types.ORGANIZATION.CREATE_PRODUCT, createProduct)
 }

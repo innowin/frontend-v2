@@ -40,7 +40,7 @@ function* del(url, result, data, param = "") {
 // pre send request
 const getEmit = (url, resultName, query = "") => {
 	let token = client.getToken()
-	alert("inside get - api")
+	// alert("inside get - api")
 	console.log('url is ',url)
 	console.log('result is ',resultName)
 	console.log('query is ',query)
