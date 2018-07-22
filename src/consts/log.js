@@ -15,16 +15,14 @@ export const clientData = () => {
 			os: {name: device_os , version: device_os_version},
 		ua:device_agent
 	} = data
-	console.log('data is : ',data)
 	let resultList = {
 		"language": "language",
 		"color_depth": "device_color_depth",
 		"device_memory": "device_memory",
 		"resolution": "device_current_screen_resolution",
 		"timezone_offset": "timezone_offset",
-		"adblock": "adblock",
+		"adblock": "ad_block",
 		"touch_support": "touch_support",
-		// "regular_plugins": "browser_plugins",
 		"has_lied_languages": "has_lied_languages",
 		"has_lied_resolution": "has_lied_resolution",
 		"has_lied_os": "has_lied_os",

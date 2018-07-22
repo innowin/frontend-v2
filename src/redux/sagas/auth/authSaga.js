@@ -13,8 +13,10 @@ import {persistor} from "src/index"
 export function* getOrganizationInSignIn(username) {
 	const socketChannel = yield call(api.createSocketChannel, results.GET_ORGANIZATION)
 	try {
-		yield fork(api.get, urls.GET_ORGANIZATION, results.GET_ORGANIZATION, `?username=${username}`)
+		yield fork(api.get, urls.ORGANIZATION.GET_ORGANIZATION, results.ORGANIZATION.GET_ORGANIZATION, `?username=${username}`)
 		const data = yield take(socketChannel)
+		console.log(data)
+		alert("data arrived")
 		return data[0]
 	} catch (e) {
 		const {message} = e
@@ -26,6 +28,7 @@ export function* getOrganizationInSignIn(username) {
 
 //1 - sign in worker
 export function* signIn(action) {
+	alert("hiii - in signin worker")
 	const {payload} = action
 	const {username, password, remember, hasOrgan} = payload
 	const socketChannel = yield call(api.createSocketChannel, results.SIGN_IN)
