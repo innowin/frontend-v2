@@ -11,9 +11,9 @@ import {persistor} from "src/index"
 
 
 export function* getOrganizationInSignIn(username) {
-	const socketChannel = yield call(api.createSocketChannel, results.GET_ORGANIZATION)
+	const socketChannel = yield call(api.createSocketChannel, results.ORGANIZATION.GET_ORGANIZATION)
 	try {
-		yield fork(api.get, urls.GET_ORGANIZATION, results.GET_ORGANIZATION, `?username=${username}`)
+		yield fork(api.get, urls.ORGANIZATION.GET_ORGANIZATION, results.ORGANIZATION.GET_ORGANIZATION, `?username=${username}`)
 		const data = yield take(socketChannel)
 		return data[0]
 	} catch (e) {
@@ -27,21 +27,23 @@ export function* getOrganizationInSignIn(username) {
 //1 - sign in worker
 export function* signIn(action) {
 	const {payload} = action
-	const {username, password, remember, hasOrgan} = payload
+	const {username, password, remember} = payload
 	const socketChannel = yield call(api.createSocketChannel, results.SIGN_IN)
 	try {
 		yield fork(api.post, urls.SIGN_IN, results.SIGN_IN, {username, password})
 		let data = yield take(socketChannel)
+    // FixME hasOrgan
+    const hasOrgan = data.profile.is_user_organization
 		if (remember) {
 			yield client.setTokenLS(data.token)
 		} else {
 			yield client.setSessionLS(data.token)
 		}
-		const organData = yield call(getOrganizationInSignIn, username)
 		if (!hasOrgan) {
 			yield client.saveData(data.user.id, data.identity.id, 'person', remember, null)
 			data = {...data, organization: null}
 		} else {
+      const organData = yield call(getOrganizationInSignIn, username)
 			data = {...data, organization: organData}
 			yield client.saveData(data.user.id, data.identity.id, 'org', remember, organData.id)
 		}

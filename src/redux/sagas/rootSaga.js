@@ -10,18 +10,21 @@ import {watchGetOrganization,
 	watchGetOrgExchanges,
 	watchGetCustomers,
 	watchGetCertificates,
-	watchUpdateCustomer} from './organization/organizationSaga'
+	watchUpdateCustomer,
+	watchCreateOrgProduct} from './organization/organizationSaga'
 import {watchLSignIn, watchLSignOut, watchLSignInError} from './auth/authSaga'
 import {watchCreateSkill, watchCreateProduct} from './addingContribution/addContributionSagas'
+import {watchGetProductInfo} from './common/commonSagas'
+
 
 const rootSaga = function* () {
 	yield all([
 		watchLSignInError(),
 		watchLSignOut(),
 		watchLSignIn(),
-		watchGetOrganization(),
+		// watchGetOrganization(),
 		watchGetOrganizationSuccess(),
-		watchGetOrganizationMembers(),
+		// watchGetOrganizationMembers(),
 		watchUpdateOrganization(),
 		watchGetProducts(),
 		watchGetOrgFollowers(),
@@ -31,7 +34,11 @@ const rootSaga = function* () {
 		watchGetCertificates(),
 		watchUpdateCustomer(),
 		watchCreateSkill(),
-        watchCreateProduct(),
+		watchCreateProduct(),
+		watchCreateOrgProduct(),
+
+		// common sagas
+        watchGetProductInfo()
     ])
 }
 

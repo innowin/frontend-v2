@@ -23,6 +23,9 @@ const urls =  {
 		CREATE_PRODUCT: 'products',
 	},
 	CREATE_PRODUCT: 'products',
-	CREATE_Skill: 'users/skills'
+	CREATE_Skill: 'users/skills',
+	PRODUCT: {
+		BASE: 'products'
+	}
 }
 export default urls

@@ -1,7 +1,3 @@
-export const SUCCESS = '_SUCCESS'
-export const FAILED = '_FAILED'
-export const REQUEST = '_REQUEST'
-
 const types = {
     FETCH_SUCCEEDED:'FETCH_SUCCEEDED',
     FETCH_POSTS:'FETCH_POSTS',
@@ -22,7 +18,7 @@ const types = {
     //error types
     ERRORS: {
         SIGN_IN: 'SIGN_IN_ERROR',
-
+        GET_PRODUCT_INFO: 'GET_PRODUCT_INFO_ERROR',
         ORGANIZATION: {
             GET_ORGANIZATION: 'GET_ORGANIZATION_ERROR',
             GET_ORGANIZATION_MEMBERS: 'GET_ORGANIZATION_MEMBERS_ERROR',
@@ -63,7 +59,7 @@ const types = {
             // GET_ORGANIZATION:'GET_ORGANIZATION_SUCCESS',
             GET_ORGANIZATION_MEMBERS:'GET_ORGANIZATION_MEMBERS_SUCCESS',
             GET_USER_IDENTITY:'GET_ORG_IDENTITY_SUCCESS',
-            GET_ORG_FOLLOWERS:'GET_ORG_FOLLOWERS_SUCCESS',
+            GET_ORG_FOLLOWERS:'GET_ORG_FOLLOWERS_SUCCESS', // FixMe: Amir = Duplicated declaration
             GET_ORG_FOLLOWINGS_IDENTITIES:'GET_ORG_FOLLOWINGS_IDENTITIES_SUCCESS',
 
             //organization - abilities
@@ -76,7 +72,7 @@ const types = {
             //get products
             GET_PRODUCTS: 'GET_ORG_PRODUCTS_SUCCESS',
             //socials
-            GET_ORG_FOLLOWERS: 'GET_ORG_FOLLOWERS_SUCCESS',
+            GET_ORG_FOLLOWERS: 'GET_ORG_FOLLOWERS_SUCCESS', // FixMe: Amir = Duplicated declaration
             GET_ORG_FOLLOWINGS: 'GET_ORG_FOLLOWINGS_SUCCESS',
             GET_ORG_EXCHANGES: 'GET_ORG_EXCHANGES_SUCCESS',
             //organization - certificate
@@ -123,6 +119,8 @@ const types = {
         UPDATE_ORGANIZATION_INFO: 'UPDATE_ORGANIZATION_INFO',
         //products
         GET_PRODUCTS: 'GET_ORG_PRODUCTS',
+        //get products
+
         //organization - certificate
         GET_ORG_CERTIFICATES:'GET_ORG_CERTIFICATES',
         UPDATE_CERTIFICATE:'UPDATE_ORG_CERTIFICATE',
@@ -153,12 +151,13 @@ const types = {
     UPDATE_ABILITY: 'UPDATE_ABILITY',
     CREATE_ABILITY: 'CREATE_ABILITY',
     DELETE_ABILITY: 'DELETE_ABILITY',
-    UPDATE_ABILITY_FAILED: 'UPDATE_ABILITY_FAILED', // should move to ERRORS
-    CREATE_ABILITY_FAILED: 'CREATE_ABILITY_FAILED', // should move to ERRORS
-    DELETE_ABILITY_FAILED: 'DELETE_ABILITY_FAILED', // should move to ERRORS
+    UPDATE_ABILITY_FAILED: 'UPDATE_ABILITY_FAILED', // FixMe : Amir = should move to ERRORS
+    CREATE_ABILITY_FAILED: 'CREATE_ABILITY_FAILED', // FixMe : Amir = should move to ERRORS
+    DELETE_ABILITY_FAILED: 'DELETE_ABILITY_FAILED', // FixMe : Amir = should move to ERRORS
     //organization - basic information
     UPDATE_ORGANIZATION_INFO: 'UPDATE_ORGANIZATION_INFO',
     //products
+    GET_PRODUCT_INFO: 'GET_PRODUCT_INFO',
     GET_PRODUCTS: 'GET_PRODUCTS',
     //organization - certificate
     GET_ORG_CERTIFICATES:'GET_ORG_CERTIFICATES',
@@ -176,7 +175,7 @@ const types = {
     DELETE_PRODUCT : 'DELETE_PRODUCT',
     ADD_PICTURE : 'ADD_PICTURE',
     DELETE_PICTURE: 'DELETE_PICTURE',
-    ADD_PICTURE_SUCCESS : 'ADD_PICTURE_SUCCESS',
+    ADD_PICTURE_SUCCESS : 'ADD_PICTURE_SUCCESS', // FixMe : Amir = should move to Success
 
 
     // ADD CONTRIBUTION

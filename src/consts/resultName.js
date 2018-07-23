@@ -16,7 +16,9 @@ const results = {
 		UPDATE_CUSTOMER:'update-org-customer',
 		CREATE_PRODUCT:'create-org-product',
 	},
-	
+	PRODUCT: {
+		GET_BASIC_INFO: 'get-product-basic-info'
+	},
 	//contribution
 	CREATE_PRODUCT: 'create-product',
 	CREATE_Skill: 'create-skill',

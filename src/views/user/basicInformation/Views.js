@@ -12,7 +12,7 @@ import {
   ItemHeader,
   ItemWrapper,
 } from "../../common/cards/Frames"
-import {
+import type {
   userType,
   userProfileType,
   userEducationType,
@@ -22,7 +22,7 @@ import {
 
 type PropsUserInfoItemWrapper = {
   icon: React.Element<any>,
-  children?: React.ChildrenArray<React.Element<'div'>> | React.Element<any>
+  children?: React.Node
 }
 export const UserInfoItemWrapper = (props: PropsUserInfoItemWrapper) => {
   return (

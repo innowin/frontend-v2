@@ -13,6 +13,7 @@ import {
 import type {ProductType} from "src/consts/flowTypes/product/productTypes"
 import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 
+
 type ProductDescriptionWrapperProps = {
 	children: React.Node,
 }
@@ -24,6 +25,7 @@ export const ProductDescriptionWrapper = (props: ProductDescriptionWrapperProps)
 	)
 }
 
+
 type ProductDescriptionProps = {
     jobTitle: string,
 	userID: number,
@@ -32,6 +34,7 @@ type ProductDescriptionProps = {
 	isEdit: boolean,
     translator: TranslatorType
 }
+
 export const ProductDescription = (props: ProductDescriptionProps) => {
 	const {jobTitle, userID , firstName , lastName, isEdit, translator} = props
 	return (
@@ -54,6 +57,7 @@ export const ProductDescription = (props: ProductDescriptionProps) => {
 	)
 }
 
+
 type ProductDescriptionViewProps = {
     description: string,
 	showEdit: Function,
@@ -74,6 +78,7 @@ export const ProductDescriptionView = (props: ProductDescriptionViewProps) => {
     )
 }
 
+
 type ProductInfoItemWrapperProps = {
 	children: React.Node
 }
@@ -85,12 +90,15 @@ export const ProductInfoItemWrapper = (props: ProductInfoItemWrapperProps) => {
 	)
 }
 
+
 type ProductCategoryProps = {
 	name: string
 }
+
 type ownerType = {
 	name: string
 }
+
 type ProductInfoViewProps = {
     product: ProductType,
 	product_category: ProductCategoryProps,
@@ -98,6 +106,7 @@ type ProductInfoViewProps = {
 	showEdit: Function,
 	translator: TranslatorType
 }
+
 export const ProductInfoView = (props: ProductInfoViewProps) => {
     const {product,product_category, owner, showEdit, translator} = props
     return (

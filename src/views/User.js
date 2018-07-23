@@ -3,7 +3,7 @@ import * as React from "react"
 import {Component} from "react"
 import PropTypes from "prop-types"
 
-import Career from "./user/career/index"
+import WorkExperiences from "./user/workExperience/index"
 import Certificates from "./user/certificates/index"
 import ChatBar from "src/views/bars/ChatBar"
 import Posts from "src/views/common/post/index"
@@ -54,7 +54,7 @@ class User extends Component<PropTypes> {
               <NavLink className="-tab" to={`${url}/basicInformation`}
                        activeClassName="-active">{userInfoIcon}</NavLink>
               <NavLink className="-tab" to={`${url}/Posts`} activeClassName="-active">{postIcon}</NavLink>
-              <NavLink className="-tab" to={`${url}/Career`} activeClassName="-active">{workExperienceIcon}</NavLink>
+              <NavLink className="-tab" to={`${url}/WorkExperiences`} activeClassName="-active">{workExperienceIcon}</NavLink>
               <NavLink className="-tab" to={`${url}/SocialConnections`} activeClassName="-active">
                 <SocialIcon/>
               </NavLink>
@@ -66,7 +66,7 @@ class User extends Component<PropTypes> {
               <Redirect exact from={`${url}/`} to={`${url}/basicInformation`}/>
               <PrivateRoute path={`${path}/basicInformation`} component={UserBasicInformation} userId={userId}/>
               <PrivateRoute path={`${path}/Posts`} component={Posts} id={userId} identityType='user'/>
-              <PrivateRoute path={`${path}/Career`} component={Career} userId={userId}/>
+              <PrivateRoute path={`${path}/WorkExperiences`} component={WorkExperiences} userId={userId}/>
               <PrivateRoute path={`${path}/SocialConnections`} component={Social} userId={userId}/>
               <PrivateRoute path={`${path}/Skills`} component={Skills} userId={userId}/>
               <PrivateRoute path={`${path}/Certificates`} component={Certificates} userId={userId}/>

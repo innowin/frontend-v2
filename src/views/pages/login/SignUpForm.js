@@ -67,7 +67,7 @@ export class RegisterForm extends Component {
   _onSubmitOrgan = (values) => {
     const handleLogin = () => {
       const {push, signIn} = this.props.actions
-      signIn(values.username, values.password, false, true)
+      signIn(values.username, values.password, false)
       push('/')
     }
     createUserOrgan(values, handleLogin)
@@ -76,7 +76,7 @@ export class RegisterForm extends Component {
   _onSubmitPerson = (values) => {
     const handleLogin = () => {
       const {push, signIn} = this.props.actions
-      signIn(values.username, values.password, false, false)
+      signIn(values.username, values.password, false)
       push('/')
     }
     createUser(values, handleLogin)

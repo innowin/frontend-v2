@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {Product, ProductItemWrapper} from "./view";
 import {ProductCreateForm, ProductEditForm} from "./forms";
 import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper, ItemWrapper, ItemHeader} from "../../common/cards/Frames";
-import {createProduct, deleteProduct, updateProduct, addPicture, deletePicture} from '../../../crud/organization/products.js';
+// import {createProduct, deleteProduct, updateProduct, addPicture, deletePicture} from '../../../crud/organization/products.js';
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {REST_REQUEST} from "../../../consts/Events"
 import {IDENTITY_ID,TOKEN} from '../../../consts/data'
@@ -77,8 +77,8 @@ export class ProductContainer extends React.Component<ProductContainerProps,{err
 		this.setState({...this.state, edit:false});
 	}
 	delete_ = (product:Object, products:Array<Object>, hideEdit:Function) => {
-		const { updateProductsList} = this.props;
-		return deleteProduct(product, products, updateProductsList);
+		// const { deleteProduct} = this.props.actions;
+		// return deleteProduct(product, products, updateProductsList);
 	};
 
 	updatePicturesList = (res:Object, type:string, deletedIndex:number = -1)=>{
@@ -98,11 +98,11 @@ export class ProductContainer extends React.Component<ProductContainerProps,{err
 	}
 
 	deletePicture = (pictures:Array<Object>, picture:Object, updateStateForView:Function) => {
-		deletePicture(pictures, picture, this.updatePicturesList, updateStateForView );
+		// deletePicture(pictures, picture, this.updatePicturesList, updateStateForView );
 	}
 
 	addPicture = (mediaId:number,productId:number) => {
-		addPicture({mediaId,productId})
+		// addPicture({mediaId,productId})
 	}
 
 	updateProducts =(res:Object, method:string, index:number)=>{
@@ -117,7 +117,7 @@ export class ProductContainer extends React.Component<ProductContainerProps,{err
 		this.setState({...this.state, products:products});
 	}
 	update_ = (formValues:Object, productId:number, picturesId:number, updateStateForView:Function, hideEdit:Function) => {//formValues, careerId, updateStateForView, hideEdit
-		return updateProduct(formValues,productId, picturesId, updateStateForView, hideEdit);
+		// return updateProduct(formValues,productId, picturesId, updateStateForView, hideEdit);
 	};
 	_updateStateForView = (res:Object, error:boolean, isLoading:boolean) => {
 		const {updateStateForView} = this.props;
@@ -157,12 +157,17 @@ type ProductListProps = {
 	categories : Array<Object>,
 	organization: Object,
 	deletePicture: Function,
+	actions: Object,
+	auth : Object,
+	organization : Object
 }
 export class ProductList extends React.Component<ProductListProps> {
 	
 	create = (formValues:Object,hideEdit:Function) => {
-		const {organizationId,  updateStateForView} = this.props;
-		return createProduct(formValues,updateStateForView, hideEdit);
+		const {organizationId,  updateStateForView, auth} = this.props;
+		const {createProduct} = this.props.actions
+		console.log(this.props)
+		return createProduct(formValues,auth.client.identity.id, hideEdit);
 	};
 
 	render() {
@@ -201,7 +206,9 @@ export class ProductList extends React.Component<ProductListProps> {
 
 type ProductsProps = {
 	organizationId: number,
-	actions:Object
+	actions:Object,
+	organization:Object,
+	auth: Object,
 }
 export class Products extends React.Component<ProductsProps,
 {organization:Object, categories:Array<Object>, createForm: boolean, edit:boolean, isLoading:boolean, error:boolean, products:Array<Object>}> {
@@ -216,74 +223,11 @@ export class Products extends React.Component<ProductsProps,
 		const {getProducts} = this.props.actions;
 		getProducts(organizationId);
 
-		// const emitting = () => {
-		// 	const newState = {...this.state, isLoading: true};
-		// 	this.setState(newState);
-		// 	console.log(IDENTITY_ID);
-		// 	socket.emit(REST_REQUEST,
-		// 		{
-		// 			method: "get",
-		// 			url: `${url}/products/?product_owner=${IDENTITY_ID}`,
-		// 			result: `Products-get/${IDENTITY_ID}`,
-		// 			token: TOKEN,
-		// 		}
-		// 	);
-
-		// 	socket.emit(REST_REQUEST,
-		// 		{
-		// 			method: "get",
-		// 			url: `${url}/products/category/`,
-		// 			result: `Products-category-get/`,
-		// 			token: TOKEN,
-		// 		}
-		// 	);
-
-		// 	socket.emit(REST_REQUEST,
-		// 		{
-		// 			method: "get",
-		// 			url: `${url}/organizations/${organizationId}/`,
-		// 			result: `Products-organization-get`,
-		// 			token: TOKEN,
-		// 		}
-		// 	);
-		// };
-
-		// emitting();
-		// socket.on('Products-organization-get',(res)=>{
-		// 	if (res.detail) {
-		// 		const newState = {...this.state, error: res.detail, isLoading: false};
-		// 		this.setState(newState);
-		// 	}else{
-		// 		const newState = {...this.state, organization: res, isLoading: false};
-		// 		this.setState(newState, ()=>{
-		// 		});
-		// 	}
-		// })
-		// socket.on(`Products-get/${IDENTITY_ID}`, (res) => {
-		// 	if (res.detail) {
-		// 		const newState = {...this.state, error: res.detail, isLoading: false};
-		// 		this.setState(newState);
-		// 	}else{
-		// 		const newState = {...this.state, products: res, isLoading: false};
-		// 		this.setState(newState, ()=>{
-		// 		});
-		// 	}
-		// });
-
-		// socket.on(`Products-category-get/`, (res) => {
-		// 	if (res.detail) {
-		// 		const newState = {...this.state, error: res.detail, isLoading: false};
-		// 		this.setState(newState);
-		// 	}else{
-		// 		const newState = {...this.state, categories: res, isLoading: false};
-		// 		this.setState(newState);
-		// 	}
-		// });
 
 	}
 
 	deletePicture = (pictures:Array<Object>, picture:Object, updateStateForView:Function) => {
-		deletePicture(pictures, picture,null, updateStateForView );
+		// deletePicture(pictures, picture,null, updateStateForView );
 	}
 
 
@@ -314,8 +258,9 @@ export class Products extends React.Component<ProductsProps,
 	}
 
 	render() {
-		const {organizationId} = this.props;
-		const {createForm, products, categories, organization, edit, isLoading, error} = this.state;
+		const {organizationId, actions, auth} = this.props;
+		const {isLoading, error} = this.props.organization.products
+		const {createForm, products, categories, organization, edit} = this.state;
 		return (
 			<VerifyWrapper isLoading={isLoading} error={error}>
 				<CategoryTitle
@@ -335,6 +280,8 @@ export class Products extends React.Component<ProductsProps,
 							organizationId={organizationId}
 							createForm={createForm}
 							hideCreateForm={this.hideCreateForm}
+							actions = {actions}
+							auth = {auth}
 						/>
 					</ProductItemWrapper>
 				</FrameCard>
@@ -349,6 +296,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = dispatch => ({
 	actions: bindActionCreators({
 		getProducts: OrganizationActions.getProducts ,
+		createProduct: OrganizationActions.createProduct
 	}, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Products)
