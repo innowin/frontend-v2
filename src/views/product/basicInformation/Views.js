@@ -111,6 +111,7 @@ export const ProductInfoView = (props: ProductInfoViewProps) => {
     const {product,product_category, owner, showEdit, translator} = props
     return (
         <ProductInfoItemWrapper>
+			{console.log('translator is: ', translator)}
             <ItemHeader title={translator['Product info']} showEdit={showEdit}/>
             <Field>
                 <FieldLabel label={translator['Name'] + ": "}/>

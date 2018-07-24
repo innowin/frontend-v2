@@ -59,7 +59,7 @@ class ProductView extends Component<ProductViewProps, ProductViewState> {
     render() {// TODO ICON for represents
         const {match, widthOfRightBar, translator, token, identityId} = this.props
         const {path, url, params} = match
-        const productId = +(params.id)
+        const productId = params.id
         const {modal, modalFiles, selectedFileIndex} = this.state
         return (
             <div className="row">
