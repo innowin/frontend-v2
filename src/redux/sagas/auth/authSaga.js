@@ -61,6 +61,7 @@ export function* signIn(action) {
     const hasOrgan = data.profile.is_user_organization
     const userType = (!hasOrgan) ? ('person') : ('org')
     yield client.saveClientUserData(data.user.id, data.identity.id, userType, remember)
+    data = {...data, organization: null}
     if (hasOrgan) {
       const organData = yield call(getOrganizationInSignIn, username)
       client.saveClientOrganData(remember, organData.id)
