@@ -4,7 +4,7 @@ import types from '../actions/actionTypes'
 const auth = (state = initialState.auth, action) => {
 	switch (action.type) {
 		case types.SIGN_IN_SUCCESS:
-			const {rememberMe, data: {user, token, profile, identity, organization}} = action.payload
+			const {rememberMe, data: {user, token, profile, identity, organization, exchange_identities}} = action.payload
 			const user_type = profile.is_user_organization ? 'org' : 'person'
 			return {
 				...state,
@@ -15,6 +15,7 @@ const auth = (state = initialState.auth, action) => {
 					organization,
 					user_type,
 					rememberMe,
+          exchange_identities,
 					isLoggedIn: true,
 					token
 				}
@@ -26,6 +27,7 @@ const auth = (state = initialState.auth, action) => {
 					user: {},
 					profile: {},
 					identity: {},
+          exchange_identities:[],
 					organization: null,
 					rememberMe: null,
 					isLoggedIn: false,
@@ -39,4 +41,4 @@ const auth = (state = initialState.auth, action) => {
 	}
 }
 
-export default auth;
+export default auth

@@ -19,6 +19,13 @@ const results = {
 	PRODUCT: {
 		GET_BASIC_INFO: 'get-product-basic-info'
 	},
+
+	EXCHANGE:{
+		GET_EXCHANGES:'get-exchanges',
+		GET_EXCHANGE_BY_ID:'get-exchanges-{id}',
+		GET_EXCHANGES_BY_MEMBER_IDENTITY:'getExchangesByMemberIdentity',
+	},
+	
 	//contribution
 	CREATE_PRODUCT: 'create-product',
 	CREATE_Skill: 'create-skill',

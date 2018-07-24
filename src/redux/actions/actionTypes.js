@@ -1,3 +1,7 @@
+export const SUCCESS = '_SUCCESS'
+export const FAILED = '_FAILED'
+export const REQUEST = '_REQUEST'
+
 const types = {
     FETCH_SUCCEEDED:'FETCH_SUCCEEDED',
     FETCH_POSTS:'FETCH_POSTS',
@@ -18,7 +22,6 @@ const types = {
     //error types
     ERRORS: {
         SIGN_IN: 'SIGN_IN_ERROR',
-        GET_PRODUCT_INFO: 'GET_PRODUCT_INFO_ERROR',
         ORGANIZATION: {
             GET_ORGANIZATION: 'GET_ORGANIZATION_ERROR',
             GET_ORGANIZATION_MEMBERS: 'GET_ORGANIZATION_MEMBERS_ERROR',
@@ -50,6 +53,11 @@ const types = {
             CREATE_PRODUCT: 'CREATE_PRODUCT_ERROR', // should move to ERRORS
             DELETE_PRODUCT: 'DELETE_PRODUCT_ERROR', // should move to ERRORS
         },
+        EXCHANGE:{
+            GET_EXCHANGES:'GET_EXCHANGES',
+            GET_EXCHANGE_BY_ID:'GET_EXCHANGE_BY_ID',
+            GET_EXCHANGES_BY_MEMBER_IDENTITY:'GET_EXCHANGES_BY_MEMBER_IDENTITY'
+        }
     },
     SUCCESS : {
         ORGANIZATION:{
@@ -157,7 +165,6 @@ const types = {
     //organization - basic information
     UPDATE_ORGANIZATION_INFO: 'UPDATE_ORGANIZATION_INFO',
     //products
-    GET_PRODUCT_INFO: 'GET_PRODUCT_INFO',
     GET_PRODUCTS: 'GET_PRODUCTS',
     //organization - certificate
     GET_ORG_CERTIFICATES:'GET_ORG_CERTIFICATES',
