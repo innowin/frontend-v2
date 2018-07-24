@@ -30,7 +30,6 @@ export function* getOrganization(action) {
     yield fork(api.get, urls.ORGANIZATION.GET_ORGANIZATION, results.ORGANIZATION.GET_ORGANIZATION, organizationId)
     // while (true) {
     const data = yield take(socketChannel)
-    alert(typeof data)
     yield put({type: types.SUCCESS.ORGANIZATION.GET_ORGANIZATION, payload: data})
     // }
   } catch (e) {

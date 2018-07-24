@@ -179,28 +179,28 @@ export class ProductInfoForm extends Component<ProductInfoFormProps, ProductInfo
 	}
 
 	componentDidMount(){
-		const emitting=()=>{
-			socket.emit(REST_REQUEST,
-				{
-					method: "get",
-					url: `${url}/products/category/`,
-					result: `Products-category-get/`,
-					token: TOKEN,
-				}
-			)
-		}
-
-		emitting()
-
-		socket.on(`Products-category-get/`, (res) => {
-			if (res.detail) {
-				const newState: {} = {...this.state, error: res.detail, isLoading: false}
-				this.setState(newState)
-			}else{
-				const newState: {} = {...this.state, categories: res, isLoading: false}
-				this.setState(newState)
-			}
-		})
+		// const emitting=()=>{
+		// 	socket.emit(REST_REQUEST,
+		// 		{
+		// 			method: "get",
+		// 			url: `${url}/products/category/`,
+		// 			result: `Products-category-get/`,
+		// 			token: TOKEN,
+		// 		}
+		// 	)
+		// }
+        //
+		// emitting()
+        //
+		// socket.on(`Products-category-get/`, (res) => {
+		// 	if (res.detail) {
+		// 		const newState: {} = {...this.state, error: res.detail, isLoading: false}
+		// 		this.setState(newState)
+		// 	}else{
+		// 		const newState: {} = {...this.state, categories: res, isLoading: false}
+		// 		this.setState(newState)
+		// 	}
+		// })
 		
 	}
 	

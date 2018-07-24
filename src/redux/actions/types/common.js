@@ -1,0 +1,17 @@
+const SUCCESS = {
+    GET_PRODUCT_INFO: 'GET_PRODUCT_INFO_SUCCESS'
+}
+
+const ERROR = {
+    GET_PRODUCT_INFO: 'GET_PRODUCT_INFO_ERROR'
+}
+
+const BASE = {
+    GET_PRODUCT_INFO: 'GET_PRODUCT_INFO'
+}
+
+export default {
+    SUCCESS,
+    ERROR,
+    BASE
+}
