@@ -7,7 +7,7 @@ import {ListGroup} from '../../common/cards/Frames'
 import {ProductInfoEditForm, ProductDescriptionEditForm} from './Forms'
 import {REST_REQUEST} from "../../../consts/Events"
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
-import {TOKEN, IDENTITY_ID} from "src/consts/data"
+import client from "src/consts/client"
 import {ProductInfoItemWrapper, ProductInfoView, ProductDescriptionView, ProductDescriptionWrapper} from "./Views"
 import type {ProductType} from "src/consts/flowTypes/product/productTypes"
 import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
@@ -70,7 +70,10 @@ export class ProductInfo extends Component<ProductInfoProps, ProductInfoState> {
         productId: PropTypes.string.isRequired,
     }
 
-    _showEditHandler = (finalStatus: boolean) => this.setState({ ...this.state, edit: finalStatus})
+    _showEditHandler = (finalStatus: boolean) => {
+        console.log('prev state is: ', this.state)
+        this.setState({ ...this.state, edit: finalStatus}, () => console.log('this.state is: ', this.state))
+    }
 
     _updateStateForView = (res: ProductType, error: string, isLoading: boolean) => {
         this.setState({...this.state, product: res, error: error, isLoading})
@@ -84,16 +87,16 @@ export class ProductInfo extends Component<ProductInfoProps, ProductInfoState> {
                 method: "get",
                 url: `${url}/products/category/${categoryId}`,
                 result: `Products-category-get/`,
-                token: TOKEN,
+                token: client.getToken(),
             }
         )
 
         socket.emit(REST_REQUEST,
             {
                 method: "get",
-                url: `${url}/users/identities/${IDENTITY_ID}/`,
+                url: `${url}/users/identities/${client.getIdentityId()}/`,
                 result: `Products-owner-get`,
-                token: TOKEN,
+                token: client.getToken(),
             }
         )
 
@@ -102,12 +105,13 @@ export class ProductInfo extends Component<ProductInfoProps, ProductInfoState> {
                 method: "get",
                 url: `${url}/products/pictures/?picture_product=${productId}`,
                 result: `product-pictures-get/${productId}`,
-                token: TOKEN
+                token: client.getToken()
             }
         )
     }
 
     componentDidMount() {
+        console.log('productInfo props is: ', this.props.productInfo)
         const {productId, _getProductInfo} = this.props
         _getProductInfo(productId)
         const emitting = () => {
@@ -118,7 +122,7 @@ export class ProductInfo extends Component<ProductInfoProps, ProductInfoState> {
                     method: "get",
                     url: `${url}/products/${productId}/`,
                     result: `ProductInfo-get/${productId}`,
-                    token: TOKEN,
+                    token: client.getToken(),
                 }
             )
 
@@ -230,7 +234,7 @@ const productBasicInformation = (props: BasicInfoProps) => {
 }
 
 const mapStateToProps = state => ({
-    productInfo: state.common.viewingProduct
+    productInfo: state.common.viewingProduct.content
 })
 
 const mapDispatchToProps = dispatch =>
