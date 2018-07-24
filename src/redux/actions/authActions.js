@@ -1,14 +1,14 @@
-import types from './actionTypes'
+import types from './types'
 
 const signIn = (username, password , remember) => ({
-	type: types.SIGN_IN,
+	type: types.AUTH.SIGN_IN,
 	payload: {
 		username,
 		password,
 		remember
 	}
 })
-const signOut = () => ({type: types.SIGN_OUT , payload:{}})
+const signOut = () => ({type: types.AUTH.SIGN_OUT , payload:{}})
 
 const AuthActions = {
 	signIn,
