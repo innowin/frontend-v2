@@ -21,6 +21,7 @@ const urls =  {
 		GET_ORG_CERTIFICATES:'base/certificates',
 		UPDATE_CUSTOMER:'organizations/customers',
 		CREATE_PRODUCT: 'products',
+		GET_PRODUCT_CATEGORIES: 'products/category',
 	},
 	CREATE_PRODUCT: 'products',
 	CREATE_Skill: 'users/skills'

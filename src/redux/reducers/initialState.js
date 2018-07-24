@@ -62,8 +62,10 @@ export default {
 			content:[]
 		},
 		products:{
+			error:false,
 			isLoading:false,
-			content:[]
+			content:[],
+			categories:[]
 		},
 		pictures:{
 			isLoading:false,
