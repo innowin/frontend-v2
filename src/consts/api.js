@@ -4,7 +4,7 @@ import client from './client'
 import {eventChannel} from 'redux-saga'
 import {apply} from "redux-saga/effects"
 
-let token = client.getToken()
+const token = client.getToken()
 
 const createSocketChannel = (resultName) => {
 	return eventChannel(emit => {
@@ -39,12 +39,6 @@ function* del(url, result, data, param = "") {
 
 // pre send request
 const getEmit = (url, resultName, query = "") => {
-	let token = client.getToken()
-	// alert("inside get - api")
-	console.log('url is ',url)
-	console.log('result is ',resultName)
-	console.log('query is ',query)
-	console.log('token is ',token)
 	SOCKET.emit(REST_REQUEST, {
 		method: 'get',
 		url: REST_URL + '/' + url + '/' + query,

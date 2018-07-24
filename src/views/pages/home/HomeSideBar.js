@@ -1,10 +1,8 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types'
-import {SOCKET as socket} from "src/consts/URLS";
-import {getExchangesByMemberIdentity} from "src/crud/exchange/exchange";
-import {SeeViewIcon, RefreshIcon, SettingIcon} from 'src/images/icons';
-import {Link} from "react-router-dom"
+import React, {Component} from "react"
+import PropTypes from "prop-types"
 import {DefaultExchangeIcon} from "src/images/icons"
+import {Link} from "react-router-dom"
+import {SeeViewIcon, RefreshIcon, SettingIcon} from "src/images/icons"
 
 const DescriptionSideBarItem = ({description = '', className = ""}) => {
   return (
@@ -30,21 +28,21 @@ export class SideBarItem extends Component {
     exchange: PropTypes.object.isRequired,
     handleClick: PropTypes.func,
     active: PropTypes.bool
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {file: null}
   }
 
   _onClickHandler = () => {
-    const {handleClick, exchange} = this.props;
-    handleClick(exchange.id);
-  };
+    const {handleClick, exchange} = this.props
+    handleClick(exchange.id)
+  }
 
   render() {
-    const {active} = this.props;
-    const {link:imageId, name, description, id:exchangeId} = this.props.exchange;
+    const {active} = this.props
+    const {link: imageId, name, description, id: exchangeId} = this.props.exchange
     return (
       <div className={`item-wrapper ${ active ? 'active' : ''}`} onClick={this._onClickHandler}>
         <div className="header-exchange">
@@ -70,45 +68,29 @@ export class SideBarItem extends Component {
 export default class HomeSideBar extends Component {
   static propTypes = {
     setExchangeId: PropTypes.func.isRequired,
-    identityId: PropTypes.string.isRequired,
-    classNames: PropTypes.string
-  };
+    classNames: PropTypes.string,
+    exchangeIdentities: PropTypes.arrayOf(PropTypes.object.isRequired)
+  }
 
   constructor(props) {
-    super(props);
-    this.state = {activeId: null, exchangeIdentities: []}
+    super(props)
+    this.state = {activeId: null}
   }
 
   _handleClick = (id) => {
-    const {setExchangeId} = this.props;
-    this.setState({...this.state, activeId: id}, () => setExchangeId(id));
-  };
-
-  componentDidMount() {
-    const handleResult = (res) => {
-      if (Array.isArray(res) && res.length > 0) { //  Array.isArray(res) added by ali for more check.
-        this.setState({...this.state, exchangeIdentities: res, activeId: res[0].exchange_identity_related_exchange.id})
-      }
-    };
-    getExchangesByMemberIdentity(this.props.identityId, () => null, handleResult)
-  }
-
-  componentWillUnmount() {
-    socket.off("EXCHANGE_LIST_HOME_SIDEBAR", res => {
-      this.setState({...this.state, exchangeIdentities: res});
-    });
+    const {setExchangeId} = this.props
+    this.setState({...this.state, activeId: id}, () => setExchangeId(id))
   }
 
   render() {
-    const {exchangeIdentities} = this.state;
-    const {classNames} = this.props
+    const {exchangeIdentities, classNames} = this.props
     return (
       <div className={classNames}>
         {
           (exchangeIdentities.length > 0) ? (
             exchangeIdentities.map((item, i) => {
               const exchange = item.exchange_identity_related_exchange
-              const {activeId} = this.state;
+              const {activeId} = this.state
               return (
                 (exchange.id === activeId) ?
                   <SideBarItem key={i + "HomeSideBar-active"} exchange={exchange} handleClick={this._handleClick}

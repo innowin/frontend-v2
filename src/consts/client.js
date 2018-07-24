@@ -12,7 +12,6 @@ const setTokenLS = (token) => {
 }
 
 const setSessionLS = (token) => {
-	alert("inside set session - client")
 	if (window.sessionStorage) {
 		window.sessionStorage.setItem('token', token)
 	}
@@ -49,7 +48,6 @@ const eraseCookie = name => {
 }
 
 const saveData = (userId, identityId, identity_type, remember, organizationId = null) => {
-	alert("inside save data - client")
 	// TODO: mohsen save Clients to localStorage
 	// console.log("Encrypted data is : ",AES('Hi','secret key'))
 	if (remember) {
