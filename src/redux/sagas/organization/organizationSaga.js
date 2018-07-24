@@ -30,7 +30,6 @@ export function* getOrganization(action) {
     yield fork(api.get, urls.ORGANIZATION.GET_ORGANIZATION, results.ORGANIZATION.GET_ORGANIZATION, organizationId)
     // while (true) {
     const data = yield take(socketChannel)
-    alert(typeof data)
     yield put({type: types.SUCCESS.ORGANIZATION.GET_ORGANIZATION, payload: data})
     // }
   } catch (e) {
@@ -95,11 +94,12 @@ function* getProducts(action) {
   const payload = action.payload
   const {organizationId} = payload;
   const identity = yield* getOrgIdentity(action)
+  const categories = yield* getProductCategories()
   const socketChannel = yield call(api.createSocketChannel, results.ORGANIZATION.GET_PRODUCTS)
   try {
     yield fork(api.get, urls.ORGANIZATION.GET_PRODUCTS, results.ORGANIZATION.GET_PRODUCTS, `?product_owner=${identity}`)
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.ORGANIZATION.GET_PRODUCTS, payload: data})
+    yield put({type: types.SUCCESS.ORGANIZATION.GET_PRODUCTS, payload: {products:data,categories}})
   } catch (e) {
     const {message} = e
     yield put({type: types.ERRORS.ORGANIZATION.GET_PRODUCTS, payload: {type: types.ERRORS.ORGANIZATION.GET_PRODUCTS, message}})
@@ -296,32 +296,15 @@ function* updateCustomer(action) { //TODO amir change URL nad QUERY
   }
 }
 
-//17 create products
+//17 create org products
 function* createProduct(action){
   const payload = action.payload;
   const {formValues, identityId, hideEdit} = payload;
   // const identity = yield* getOrgIdentity(action)
   formValues.product_owner = identityId
-  const socketChannel = yield call(api.createSocketChannel, results.CREATE_PRODUCT)
-  try {
-    yield fork(api.post, urls.CREATE_PRODUCT, results.CREATE_PRODUCT, formValues)
-    const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.CREATE_PRODUCT, payload: data})
-  } catch (e) {
-    const {message} = e
-    yield put({type: types.ERRORS.CREATE_PRODUCT, payload: {type: types.ERRORS.CREATE_PRODUCT, error: message}})
-  } finally {
-    socketChannel.close()
-    hideEdit()
-  }
-}
-
-function* createProduct(action){
-  const payload = action.payload;
-  const {formValues, organizationId, hideEdit} = payload;
   const socketChannel = yield call(api.createSocketChannel, results.ORGANIZATION.CREATE_PRODUCT)
   try {
-    yield fork(api.patch, urls.ORGANIZATION.CREATE_PRODUCT, results.ORGANIZATION.CREATE_PRODUCT, formValues, `${organizationId}/`)
+    yield fork(api.post, urls.ORGANIZATION.CREATE_PRODUCT, results.ORGANIZATION.CREATE_PRODUCT, formValues)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.ORGANIZATION.CREATE_PRODUCT, payload: data})
   } catch (e) {
@@ -332,10 +315,30 @@ function* createProduct(action){
     hideEdit()
   }
 }
+
+//18 get products categories
+function* getProductCategories() {
+  const socketChannel = yield call(api.createSocketChannel, results.ORGANIZATION.GET_USER_IDENTITY)
+  let res
+  try {
+    yield fork(api.get, urls.ORGANIZATION.GET_PRODUCT_CATEGORIES, results.ORGANIZATION.GET_PRODUCT_CATEGORIES)
+    const data = yield take(socketChannel)
+    res = data
+    yield put({type: types.SUCCESS.ORGANIZATION.GET_PRODUCT_CATEGORIES, payload: data})
+  } catch (e) {
+    const {message} = e
+    yield put({type: types.ERRORS.ORGANIZATION.GET_PRODUCT_CATEGORIES, payload: {type: types.ERRORS.ORGANIZATION.GET_PRODUCT_CATEGORIES, message}})
+  } finally {
+    socketChannel.close()
+    return res
+  }
+}
+
+
 /**********    %% WATCHERS %%    **********/
 //1 - get organization
 export function* watchGetOrganization() {
-  yield takeEvery(types.GET_ORGANIZATION, getOrganization)
+  yield takeEvery(types.ORGANIZATION.GET_ORGANIZATION, getOrganization)
 }
 
 //2 - get organization - success
@@ -345,59 +348,59 @@ export function* watchGetOrganizationSuccess() {
 
 //3 - get organization - members
 export function* watchGetOrganizationMembers() {
-  yield takeEvery(types.GET_ORGANIZATION_MEMBERS, getOrganizationMembers)
+  yield takeEvery(types.ORGANIZATION.GET_ORGANIZATION_MEMBERS, getOrganizationMembers)
 }
 
 //5 - update organization 
 export function* watchUpdateOrganization() {
-  yield takeEvery(types.UPDATE_ORGANIZATION_INFO, updateOrganization)
+  yield takeEvery(types.ORGANIZATION.UPDATE_ORGANIZATION_INFO, updateOrganization)
 }
 
 //6- get products
 export function* watchGetProducts() {
-  yield takeEvery(types.GET_PRODUCTS, getProducts)
+  yield takeEvery(types.ORGANIZATION.GET_PRODUCTS, getProducts)
 }
 
 //7- get org identity
 export function* watchGetOrgIdentity() {
-  yield takeEvery(types.GET_USER_IDENTITY, getOrgIdentity)
+  yield takeEvery(types.ORGANIZATION.GET_USER_IDENTITY, getOrgIdentity)
 }
 
 // 8 - get org followers
 export function* watchGetOrgFollowers() {
-  yield takeEvery(types.GET_ORG_FOLLOWERS, getFollowers)
+  yield takeEvery(types.ORGANIZATION.GET_ORG_FOLLOWERS, getFollowers)
 }
 
 // 9 get org followings
 export function* watchGetOrgFollowings() {
-  yield takeEvery(types.GET_ORG_FOLLOWINGS, getFollowings)
+  yield takeEvery(types.ORGANIZATION.GET_ORG_FOLLOWINGS, getFollowings)
 }
 
 // 10 - get org exchanges
 export function* watchGetOrgExchanges() {
-  yield takeEvery(types.GET_ORG_EXCHANGES, getExchanges)
+  yield takeEvery(types.ORGANIZATION.GET_ORG_EXCHANGES, getExchanges)
 }
 
 //11 - get org customers
 export function* watchGetCustomers() {
-  yield takeEvery(types.GET_ORG_CUSTOMERS, getCustomers)
+  yield takeEvery(types.ORGANIZATION.GET_ORG_CUSTOMERS, getCustomers)
 }
 
 //12 - get org certificates
 export function* watchGetCertificates() {
-  yield takeEvery(types.GET_ORG_CERTIFICATES, getCertificates)
+  yield takeEvery(types.ORGANIZATION.GET_ORG_CERTIFICATES, getCertificates)
 }
 
 //13 - update org certificate
 export function* watchUpdateCertificate() {
-  yield takeEvery(types.UPDATE_CERTIFICATE, updateCertificate)
+  yield takeEvery(types.ORGANIZATION.UPDATE_CERTIFICATE, updateCertificate)
 }
 
 //14 - update org customer
 export function* watchUpdateCustomer() {
-  yield takeEvery(types.UPDATE_CUSTOMER, updateCustomer)
+  yield takeEvery(types.ORGANIZATION.UPDATE_CUSTOMER, updateCustomer)
 }
 
 export function* watchCreateOrgProduct() {
-  yield takeEvery(types.CREATE_PRODUCT, createProduct)
+  yield takeEvery(types.ORGANIZATION.CREATE_PRODUCT, createProduct)
 }

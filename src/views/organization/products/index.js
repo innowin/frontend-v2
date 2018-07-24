@@ -17,8 +17,6 @@ import {connect} from 'react-redux'
 //TODO amir
 type ProductContainerProps = {
 	product:Object,
-	updateProductsList:Function,
-	updateStateForView:Function,
 	categories:Array<Object>,
 	organization:Object,
 	products:Array<Object>
@@ -120,8 +118,6 @@ export class ProductContainer extends React.Component<ProductContainerProps,{err
 		// return updateProduct(formValues,productId, picturesId, updateStateForView, hideEdit);
 	};
 	_updateStateForView = (res:Object, error:boolean, isLoading:boolean) => {
-		const {updateStateForView} = this.props;
-		updateStateForView(error,isLoading);
 		this.setState({...this.state, product:res, error:error, isLoading:isLoading});
 	};
 
@@ -150,9 +146,7 @@ export class ProductContainer extends React.Component<ProductContainerProps,{err
 type ProductListProps = {
 	hideCreateForm: Function,
 	createForm: boolean,
-	updateProductsList: Function,
 	organizationId: number,
-	updateStateForView:Function,
 	products: Array<Object>,
 	categories : Array<Object>,
 	organization: Object,
@@ -164,19 +158,18 @@ type ProductListProps = {
 export class ProductList extends React.Component<ProductListProps> {
 	
 	create = (formValues:Object,hideEdit:Function) => {
-		const {organizationId,  updateStateForView, auth} = this.props;
+		const {organizationId, auth} = this.props;
 		const {createProduct} = this.props.actions
 		console.log(this.props)
 		return createProduct(formValues,auth.client.identity.id, hideEdit);
 	};
 
 	render() {
-		const {updateProductsList,  organizationId, createForm, updateStateForView, organization, deletePicture} = this.props;
+		const {organizationId, createForm,  organization, deletePicture} = this.props;
 		const {products, categories} = this.props;
 		return (<div>
 				{createForm &&
 						<ProductCreateForm 
-							updateProductsList={updateProductsList}
 							deletePicture={deletePicture}
 							hideEdit={this.props.hideCreateForm} 
 							pictures={[]}  
@@ -188,12 +181,10 @@ export class ProductList extends React.Component<ProductListProps> {
 				<div className="row">
 					{
 						products.map(cert => <ProductContainer
-							updateProductsList={updateProductsList}
 							organization={organization}
 							products = {products}
 							product={cert}
 							categories={categories}
-							updateStateForView = {updateStateForView}
 							organizationId={organizationId}
 							key={cert.id}
 						/>)
@@ -211,8 +202,8 @@ type ProductsProps = {
 	auth: Object,
 }
 export class Products extends React.Component<ProductsProps,
-{organization:Object, categories:Array<Object>, createForm: boolean, edit:boolean, isLoading:boolean, error:boolean, products:Array<Object>}> {
-	state = {organization:{}, categories:[], createForm: false, edit:false, isLoading:false, error:false, products:[]};
+{createForm: boolean, edit:boolean}> {
+	state = {createForm: false, edit:false};
 	constructor(props:ProductsProps){
 		super(props);
 	}
@@ -222,12 +213,10 @@ export class Products extends React.Component<ProductsProps,
 		const {organizationId } = this.props;
 		const {getProducts} = this.props.actions;
 		getProducts(organizationId);
-
-
 	}
 
 	deletePicture = (pictures:Array<Object>, picture:Object, updateStateForView:Function) => {
-		// deletePicture(pictures, picture,null, updateStateForView );
+
 	}
 
 
@@ -238,29 +227,15 @@ export class Products extends React.Component<ProductsProps,
 		this.setState({createForm: false});
 	};
 	updateStateForView = (error:boolean,isLoading:boolean) =>{
-		this.setState({...this.state, error:error, isLoading:isLoading})
-	}
 
-	updateProductsList = (res:Object, type:string, deletedIndex:number = -1)=>{
-		const {products} = this.state;
-		if (type === 'get') {
-			this.setState({...this.state, products: [...products, ...res]});
-			return false;
-		}
-		if (type === 'post') {
-			this.setState({...this.state, products: [res, ...products]});
-			return false;
-		}
-		if (type === 'del') {
-			const remainProducts = products.slice(0, deletedIndex).concat(products.slice(deletedIndex + 1));
-			this.setState({...this.state, products: remainProducts});
-		}
 	}
 
 	render() {
-		const {organizationId, actions, auth} = this.props;
-		const {isLoading, error} = this.props.organization.products
-		const {createForm, products, categories, organization, edit} = this.state;
+		console.log("")
+		const {organizationId, actions, auth, organization} = this.props;
+		const {products} = organization
+		const {isLoading, error, categories} = products
+		const {createForm, edit} = this.state;
 		return (
 			<VerifyWrapper isLoading={isLoading} error={error}>
 				<CategoryTitle
@@ -272,10 +247,8 @@ export class Products extends React.Component<ProductsProps,
 					<ProductItemWrapper>		
 						<ProductList
 							deletePicture = {this.deletePicture}
-							updateProductsList={this.updateProductsList}
-							updateStateForView={this.updateStateForView}
-							products={products}
-							categories={categories}
+							products={products.content}
+							categories={products.categories}
 							organization={organization}
 							organizationId={organizationId}
 							createForm={createForm}

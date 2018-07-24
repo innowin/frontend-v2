@@ -4,7 +4,7 @@ import client from './client'
 import {eventChannel} from 'redux-saga'
 import {apply} from "redux-saga/effects"
 
-let token = client.getToken()
+const token = client.getToken()
 
 const createSocketChannel = (resultName) => {
 	return eventChannel(emit => {

@@ -21,12 +21,16 @@ const urls =  {
 		GET_ORG_CERTIFICATES:'base/certificates',
 		UPDATE_CUSTOMER:'organizations/customers',
 		CREATE_PRODUCT: 'products',
+		GET_PRODUCT_CATEGORIES: 'products/category',
 	},
   EXCHANGE: {
     GET_EXCHANGES: 'exchanges',
     GET_EXCHANGES_BY_MEMBER_IDENTITY:'exchanges/identities',
   },
 	CREATE_PRODUCT: 'products',
-	CREATE_Skill: 'users/skills'
+	CREATE_Skill: 'users/skills',
+	PRODUCT: {
+		BASE: 'products'
+	}
 }
 export default urls

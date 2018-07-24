@@ -15,6 +15,10 @@ const results = {
 		GET_ORG_CERTIFICATES:'get-org-certificates',
 		UPDATE_CUSTOMER:'update-org-customer',
 		CREATE_PRODUCT:'create-org-product',
+		GET_PRODUCT_CATEGORIES : 'get-product-category'
+	},
+	PRODUCT: {
+		GET_BASIC_INFO: 'get-product-basic-info'
 	},
 
 	EXCHANGE:{
