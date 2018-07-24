@@ -3,7 +3,6 @@ export const FAILED = '_FAILED'
 export const REQUEST = '_REQUEST'
 
 const types = {
-<<<<<<< HEAD
 	FETCH_SUCCEEDED:'FETCH_SUCCEEDED',
 	FETCH_POSTS:'FETCH_POSTS',
 	RECEIVE_POSTS:'RECEIVE_POSTS',
@@ -110,15 +109,6 @@ const types = {
 			GET_PRODUCT_CATEGORIES : 'GET_PRODUCT_CATEGORIES_SUCCESS',
 		},
 		
-=======
-    FETCH_SUCCEEDED:'FETCH_SUCCEEDED',
-    FETCH_POSTS:'FETCH_POSTS',
-    RECEIVE_POSTS:'RECEIVE_POSTS',
-    ADD_NUMBER:'ADD_NUMBER',
-    SUBTRACT_NUMBER:'SUBTRACT_NUMBER',
-    FETCH_FAILED: 'FETCH_FAILED', // should move to ERRORS
-    FETCH_USERS: 'FETCH_USERS',
->>>>>>> fa288e940e0577a2bb6fa7e63a1b9ebf8fae2bed
 
     // auth types
     SIGN_IN: 'SIGN_IN',
@@ -128,7 +118,6 @@ const types = {
     SIGN_OUT:'SIGN_OUT',
     SIGN_OUT_FINISHED:'SIGN_OUT_FINISHED',
 
-<<<<<<< HEAD
 		//organization - certificate
 		GET_ORG_CERTIFICATES:'GET_ORG_CERTIFICATES',
 		UPDATE_CERTIFICATE:'UPDATE_ORG_CERTIFICATE',
@@ -150,7 +139,6 @@ const types = {
 
 	},
 	
-=======
     //error types
     ERRORS: {
         SIGN_IN: 'SIGN_IN_ERROR',
@@ -174,7 +162,6 @@ const types = {
             UPDATE_CERTIFICATE: 'UPDATE_ORG_CERTIFICATE_ERROR',
             CREATE_CERTIFICATE: 'CREATE_ORG_CERTIFICATE_ERROR',
             DELETE_CERTIFICATE: 'DELETE_ORG_CERTIFICATE_ERROR',
->>>>>>> fa288e940e0577a2bb6fa7e63a1b9ebf8fae2bed
 
             //customer
             UPDATE_CUSTOMER: 'UPDATE_CUSTOMER_ERROR',

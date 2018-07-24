@@ -1,4 +1,4 @@
-import types from 'src/redux/actions/actionTypes'
+import types from 'src/redux/actions/types/organization'
 import urls from 'src/consts/URLS'
 import {put, take, fork, takeEvery, call, all} from 'redux-saga/effects'
 import api from 'src/consts/api'
