@@ -11,7 +11,8 @@ import {watchGetOrganization,
 	watchGetCustomers,
 	watchGetCertificates,
 	watchUpdateCustomer,
-	watchCreateOrgProduct} from './organization/organizationSaga'
+	watchCreateOrgProduct,
+	} from './organization/organizationSaga'
 import {watchLSignIn, watchLSignOut, watchLSignInError} from './auth/authSaga'
 import {watchCreateSkill, watchCreateProduct} from './addingContribution/addContributionSagas'
 import {watchGetProductInfo} from './common/commonSagas'

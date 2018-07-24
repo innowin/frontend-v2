@@ -45,10 +45,14 @@ const organization = (state = initialState.organization, action) => {
 		case types.SUCCESS.ORGANIZATION.GET_USER_IDENTITY:
 			const identity = action.payload[0];
 			return{...state,identity:{content:identity,isLoading:false,error:false}}
+
+		case types.SUCCESS.ORGANIZATION.GET_PRODUCT_CATEGORIES:
+			const categories = action.payload;
+			return {...state,products:{...products,categories:categories}}
 						
 		case types.SUCCESS.ORGANIZATION.GET_PRODUCTS:
-			const products = action.payload;
-			return{...state,products:products}
+			const {products} = action.payload;
+			return{...state,products:{...products,content:products,isLoading:false,error:false}}
 
 		case types.SUCCESS.ORGANIZATION.GET_ORGANIZATION:
 			const organization = action.payload
