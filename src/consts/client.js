@@ -47,30 +47,30 @@ const eraseCookie = name => {
 	document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
 }
 
-const saveData = (userId, identityId, identity_type, remember, organizationId = null) => {
+const saveData = (userId, identityId, userType, remember, organizationId = null) => {
 	// TODO: mohsen save Clients to localStorage
 	// console.log("Encrypted data is : ",AES('Hi','secret key'))
 	if (remember) {
 		setCookie('userId', userId, 30)
 		setCookie('identityId', identityId, 30)
-		setCookie('identity_type', identity_type, 30)
+		setCookie('userType', userType, 30)
 		setCookie('organizationId', organizationId, 30)
 		if (window.localStorage) {
 			localStorage.setItem('userId', userId)
 			localStorage.setItem('identityId', identityId)
-			localStorage.setItem('identity_type', identity_type)
+			localStorage.setItem('userType', userType)
 			localStorage.setItem('organizationId', organizationId)
 		}
 	}
 	if (!remember) {
 		setCookie('userId', userId, 0)
 		setCookie('identityId', identityId, 0)
-		setCookie('identity_type', identity_type, 0)
+		setCookie('userType', userType, 0)
 		setCookie('organizationId', organizationId, 0)
 		if (window.sessionStorage) {
 			sessionStorage.setItem('userId', userId)
 			sessionStorage.setItem('identityId', identityId)
-			sessionStorage.setItem('identity_type', identity_type)
+			sessionStorage.setItem('userType', userType)
 			sessionStorage.setItem('organizationId', organizationId)
 		}
 	}
@@ -107,11 +107,11 @@ const getIdentityId = () => {
 	}
 }
 
-const getIdentityType = () => {
-	if (window.localStorage && localStorage.hasOwnProperty('identity_type')) {
-		return localStorage.getItem('identity_type')
+const getUserType = () => {
+	if (window.localStorage && localStorage.hasOwnProperty('userType')) {
+		return localStorage.getItem('userType')
 	} else {
-		return sessionStorage.getItem('identity_type')
+		return sessionStorage.getItem('userType')
 	}
 }
 
@@ -133,7 +133,7 @@ const client = {
 	saveData,
 	getUserId,
 	getIdentityId,
-	getIdentityType,
+  getUserType,
 	getOrganizationId
 }
 export default client

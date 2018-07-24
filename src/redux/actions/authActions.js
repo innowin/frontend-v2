@@ -1,12 +1,11 @@
 import types from './actionTypes'
 
-const signIn = (username, password , remember, hasOrgan) => ({
+const signIn = (username, password , remember) => ({
 	type: types.SIGN_IN,
 	payload: {
 		username,
 		password,
-		remember,
-    hasOrgan
+		remember
 	}
 })
 const signOut = () => ({type: types.SIGN_OUT , payload:{}})

@@ -82,10 +82,9 @@ export default {
 			content:''
 		},
 	},
-	test: {
-		result: 1,
-		content:[]
-	},
+	exchanges:{
+    // full with this objects: 97 : {id:97, ...}, 102:{id:102, ...}
+  },
 	intl: {
 		locale: 'fa',
 		messages: {...messages}

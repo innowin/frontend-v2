@@ -1,5 +1,4 @@
 import {combineReducers} from 'redux'
-import test from './test'
 import auth from './auth'
 import organization from './organization'
 import {routerReducer} from 'react-router-redux'
@@ -8,7 +7,6 @@ import {reducer as formReducer} from 'redux-form'
 import productReducer from './contributionReducer'
 
 const reducers = {
-	test,
 	auth,
 	organization
 }
