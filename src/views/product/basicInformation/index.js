@@ -14,7 +14,7 @@ import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 import {getProductInfo} from "src/redux/actions/commonActions"
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-
+import {ProductInformationReduxForm} from "./Forms"
 
 type OwnerType = {
     name: string
@@ -37,10 +37,10 @@ type ProductInfoProps = {
     productId: number,
     translator: TranslatorType,
     _getProductInfo: Function,
-    productInfo: ProductType
+    product: ProductType
 }
 
-export class ProductInfo extends Component<ProductInfoProps, ProductInfoState> {
+export class productBasicInformation extends Component<ProductInfoProps, ProductInfoState> {
 
     constructor() {
         super()
@@ -62,7 +62,8 @@ export class ProductInfo extends Component<ProductInfoProps, ProductInfoState> {
             },
             error: '',
             edit: false,
-            isLoading: false
+            isLoading: false,
+            formData: {},
         }
     }
 
@@ -72,7 +73,7 @@ export class ProductInfo extends Component<ProductInfoProps, ProductInfoState> {
 
     _showEditHandler = (finalStatus: boolean) => {
         console.log('prev state is: ', this.state)
-        this.setState({ ...this.state, edit: finalStatus}, () => console.log('this.state is: ', this.state))
+        this.setState({...this.state, edit: finalStatus}, () => console.log('this.state is: ', this.state))
     }
 
     _updateStateForView = (res: ProductType, error: string, isLoading: boolean) => {
@@ -110,101 +111,92 @@ export class ProductInfo extends Component<ProductInfoProps, ProductInfoState> {
         )
     }
 
+    _productFormSubmitHandler = (values: ProductType) => {
+
+    }
     componentDidMount() {
-        console.log('productInfo props is: ', this.props.productInfo)
         const {productId, _getProductInfo} = this.props
         _getProductInfo(productId)
-        const emitting = () => {
-            const newState = {...this.state, isLoading: true}
-            this.setState(newState)
-            socket.emit(REST_REQUEST,
-                {
-                    method: "get",
-                    url: `${url}/products/${productId}/`,
-                    result: `ProductInfo-get/${productId}`,
-                    token: client.getToken(),
-                }
-            )
+        // socket.on(`Products-category-get/`, (res) => {
+        //     if (res.detail) {
+        //         const newState = {...this.state, error: res.detail, isLoading: false}
+        //         this.setState(newState)
+        //     }
+        //     const newState = {...this.state, product_category: res, isLoading: false}
+        //     this.setState(newState)
+        // })
 
-
-        }
-
-        emitting()
-
-
-        socket.on(`ProductInfo-get/${productId}`, (res) => {
-            console.log('hi ali res is : ', res)
-            if (res.detail) {
-                const newState = {...this.state, error: res.detail, isLoading: false}
-                this.setState(newState)
-            }
-            const newState = {...this.state, product: res, isLoading: false}
-            this.getProductDetail(res.product_category, res.product_owner, productId)
-            this.setState(newState)
-        })
-
-        socket.on(`Products-category-get/`, (res) => {
-            if (res.detail) {
-                const newState = {...this.state, error: res.detail, isLoading: false}
-                this.setState(newState)
-            }
-            const newState = {...this.state, product_category: res, isLoading: false}
-            this.setState(newState)
-        })
-
-        socket.on(`Products-owner-get`, (res) => {
-            if (res.detail) {
-                const newState = {...this.state, error: res.detail, isLoading: false}
-                this.setState(newState)
-            }
-            const newState = {...this.state, owner: res, isLoading: false}
-            this.setState(newState)
-        })
+        // socket.on(`Products-owner-get`, (res) => {
+        //     if (res.detail) {
+        //         const newState = {...this.state, error: res.detail, isLoading: false}
+        //         this.setState(newState)
+        //     }
+        //     const newState = {...this.state, owner: res, isLoading: false}
+        //     this.setState(newState)
+        // })
     }
 
     render() {
-        const {product, product_category, owner, edit, isLoading, error} = this.state
-        const {translator, productInfo} = this.props
+        const {product_category, owner, edit, isLoading, error} = this.state
+        const {translator, product} = this.props
         return (
-            <VerifyWrapper isLoading={isLoading} error={error}>
-                {
-                    (edit) ? (
-                        <ProductDescriptionWrapper translator={translator}>
-                            <ProductDescriptionEditForm
-                                translator={translator}
-                                owner={owner}
-                                product={product}
-                                product_category={product_category}
-                                description={product.description}
-                                hideEdit={() => this._showEditHandler(false)}
-                                updateStateForView={this._updateStateForView}
-                            />
-                        </ProductDescriptionWrapper>
-                    ) : (
-                        <ProductDescriptionView translator={translator} description={productInfo.description}
-                                                product_category={product_category} owner={owner}
-                                                showEdit={() => this._showEditHandler(true)}>{console.log(productInfo)}</ProductDescriptionView>
-                    )
-                }
-                {
-                    (edit) ? (
-                        <ProductInfoItemWrapper translator={translator}>
-                            <ProductInfoEditForm
-                                translator={translator}
-                                owner={owner}
-                                product_category={product_category}
-                                product={product}
-                                hideEdit={() => this._showEditHandler(false)}
-                                updateStateForView={this._updateStateForView}
-                            />
-                        </ProductInfoItemWrapper>
-                    ) : (
-                        <ProductInfoView translator={translator} product_category={product_category} product={product}
-                                         owner={owner} showEdit={() => this._showEditHandler(true)}/>
-                    )
-                }
 
-            </VerifyWrapper>
+            <div>
+                <CategoryTitle
+                    title={translator['Basic information']}
+                    createForm
+                    showEditBtn={!edit}
+                    showEditHandler={() => this._showEditHandler(true)}
+                />
+                <FrameCard>
+                    <ListGroup>
+                        <VerifyWrapper isLoading={isLoading} error={error}>
+                            {
+                                (edit) ? (
+                                    <ProductDescriptionWrapper translator={translator}>
+                                        <ProductDescriptionEditForm
+                                            translator={translator}
+                                            owner={owner}
+                                            product={product}
+                                            product_category={product_category}
+                                            description={product.description}
+                                            hideEdit={() => this._showEditHandler(false)}
+                                            updateStateForView={this._updateStateForView}
+                                        />
+                                    </ProductDescriptionWrapper>
+                                ) : (
+                                    <ProductDescriptionView translator={translator} description={product.description}
+                                                            product_category={product_category} owner={owner}
+                                                            showEdit={() => this._showEditHandler(true)}>
+                                        {console.log('product is: ', product)}
+                                    </ProductDescriptionView>
+                                )
+                            }
+                            {
+                                (edit) ? (
+                                    <ProductInfoItemWrapper translator={translator}>
+                                        <ProductInfoEditForm
+                                            translator={translator}
+                                            owner={owner}
+                                            product_category={product_category}
+                                            product={product}
+                                            hideEdit={() => this._showEditHandler(false)}
+                                            updateStateForView={this._updateStateForView}
+                                        />
+                                        <ProductInformationReduxForm onSubmit={(values) => console.log(values)} translator={translator}/>
+                                    </ProductInfoItemWrapper>
+                                ) : (
+                                    <ProductInfoView translator={translator} product_category={product_category}
+                                                     product={product}
+                                                     owner={owner} showEdit={() => this._showEditHandler(true)}/>
+                                )
+                            }
+
+                        </VerifyWrapper>
+                    </ListGroup>
+                </FrameCard>
+            </div>
+
         )
     }
 }
@@ -213,28 +205,30 @@ type BasicInfoProps = {
     productId: number,
     translator: TranslatorType,
     _getProductInfo: Function,
-    productInfo: ProductType
+    product: ProductType
 }
 
-const productBasicInformation = (props: BasicInfoProps) => {
-    const {productId, translator, _getProductInfo, productInfo} = props
-    return (
-        <div>
-            <CategoryTitle
-                title={translator['Product Detail']}
-                createForm={true}
-            />
-            <FrameCard>
-                <ListGroup>
-                    <ProductInfo productInfo={productInfo} _getProductInfo={_getProductInfo} translator={translator} productId={productId}/>
-                </ListGroup>
-            </FrameCard>
-        </div>
-    )
-}
+// const productBasicInformation = (props: BasicInfoProps) => {
+//     const {productId, translator, _getProductInfo, product} = props
+//     return (
+//         <div>
+//             <CategoryTitle
+//                 title={translator['Basic information']}
+//                 createForm
+//                 showEditBtn
+//             />
+//             <FrameCard>
+//                 <ListGroup>
+//                     <ProductInfo product={product} _getProductInfo={_getProductInfo} translator={translator}
+//                                  productId={productId}/>
+//                 </ListGroup>
+//             </FrameCard>
+//         </div>
+//     )
+// }
 
 const mapStateToProps = state => ({
-    productInfo: state.common.viewingProduct.content
+    product: state.common.viewingProduct.content
 })
 
 const mapDispatchToProps = dispatch =>

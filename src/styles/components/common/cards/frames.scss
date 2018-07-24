@@ -39,6 +39,14 @@
   margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
+  .edit-btn-wrapper {
+    display: inline-flex;
+    align-items: center;
+    .edit-btn {
+      width: 16px;
+      cursor: pointer;
+    }
+  }
 }
 
 .-frameCard {

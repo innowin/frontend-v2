@@ -17,7 +17,8 @@ const results = {
 		CREATE_PRODUCT:'create-org-product',
 	},
 	PRODUCT: {
-		GET_BASIC_INFO: 'get-product-basic-info'
+		GET_BASIC_INFO: 'get-product-basic-info-result',
+		UPDATE: 'update-product-result'
 	},
 	//contribution
 	CREATE_PRODUCT: 'create-product',
