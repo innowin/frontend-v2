@@ -97,6 +97,7 @@ const saveClientOrganData = (remember, organizationId) => {
 const clearData = () => {
 	window.localStorage && localStorage.clear()
 	window.sessionStorage && sessionStorage.clear()
+	client.clearData()
 	eraseAllCookies()
 }
 
