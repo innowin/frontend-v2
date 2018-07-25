@@ -25,6 +25,8 @@ export function* getProductInfo(action) { // action = {type, id}
 
 export function* updateProduct(action) { // action = {type, payload: {id, formData} }
     const {formData, id} = action.payload
+    console.log('the guy formData in saga worker is: ', formData)
+    console.log('the guy action in saga worker is: ', action)
     const socketChannel = yield call(api.createSocketChannel, results.PRODUCT.UPDATE)
     try {
         yield fork(api.patch, urls.PRODUCT.BASE, results.PRODUCT.UPDATE, formData, id)

@@ -16,8 +16,11 @@ import {BeatLoader} from "react-spinners"
 import renderSelectField from "../../common/inputs/reduxFormRenderReactSelect"
 import {RegisterForm} from "../../pages/login/SignUpForm";
 import {validateSignUpForm} from "../../pages/login/validations";
+import {ProductInfoItemWrapper, ProductInfoView, ProductDescriptionView, ProductDescriptionWrapper} from "./Views"
+import renderTextArea from "../../common/inputs/reduxFormRenderTextArea"
 
-const TEST_CATEGORIES = [{label: 'label', value: '1'}, {label: 'label', value: '2'}, {label: 'label', value: '3'}]
+
+const TEST_CATEGORIES = [{label: 'label', value: 30}, {label: 'label', value: 20}, {label: 'label', value: '30'}]
 
 type ProductDescriptionFormProps = {
     onSubmit: Function,
@@ -149,36 +152,69 @@ type ProductInfoFormState = {
 
 const productFormValidation = (values) => {
     const errors = {}
+    const requiredFields = ['name', 'country', 'province', 'product_category']
+    // const hasRequiredError = requiredFields.some(field => !values[field])
+    requiredFields.forEach(field => {
+        if (!values[field]) {
+            errors._error = 'لطفا فیلدهای ضروری را پر کنید'
+            errors[field] = true
+        }
+    })
+    // the hasRequiredError checks if there is a required field that hasn't value.
+    // if (hasRequiredError) errors._error = 'لطفا فیلدهای ضروری را پر کنید'
     return errors
 }
 
-const ProductInformationForm = (props) => {
-    const {handleSubmit, onSubmit, translator, submitting, error, submitFailed} = props
+type ProductInformationFormProps = {
+    handleSubmit: Function,
+    onSubmit: Function,
+    translator: TranslatorType,
+    submitting: boolean,
+    error: string,
+    submitFailed: boolean,
+    hideEdit: Function,
+    formData: ProductType
+}
+
+const ProductInformationForm = (props: ProductInformationFormProps) => {
+    const {handleSubmit, onSubmit, translator, submitting, error, submitFailed, hideEdit, formData} = props
+    const {name, province, city, country, description, product_category} = formData
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="product-form">
-            <Field name="name" type="text" component={renderTextField} label={'name'}/>
-            <Field name="country" type="text" component={renderTextField} label={'country'}/>
-            <Field name="province" type="text" component={renderTextField} label={'province'}/>
-            <Field name="city" type="text" component={renderTextField} label={'city'}/>
-            <Field
-                name="product_category"
-                type="text"
-                component={renderSelectField}
-                label={'category'}
-                noResultsText={translator['No result found']}
-                changeHandler={() => console.log('the value of select changed.')}
-                options={TEST_CATEGORIES}
-            />
-            <div>
-                <button
-                    className="btn btn-primary btn-block login-submit-button mt-0 cursor-pointer"
-                    disabled={submitting}>
-                    {!submitting ? translator['Register'] : (
-                        <BeatLoader color="#fff" size={10} margin="auto"/>
-                    )}
-                </button>
-            </div>
-            {submitFailed && <p className="error-message">{error}</p>}
+            {console.log('formdata in component is: ', name)}
+            <ProductDescriptionWrapper translator={translator}>
+                <Field value={description} name="description" className="description" type="text" component={renderTextArea} label={'desc'}/>
+            </ProductDescriptionWrapper>
+            <ProductInfoItemWrapper translator={translator}>
+            <Field name="name" value={name} className="form-field" type="text" component={renderTextField} label={'name'}/>
+                <Field name="country" value={country} className="form-field" type="text" component={renderTextField} label={'country'}/>
+                <Field name="province" value={province} className="form-field" type="text" component={renderTextField} label={'province'}/>
+                <Field name="city" value={city} className="form-field" type="text" component={renderTextField} label={'city'}/>
+                <Field
+                    value={product_category}
+                    className="category"
+                    name="product_category"
+                    type="text"
+                    component={renderSelectField}
+                    label={'category'}
+                    noResultsText={translator['No result found']}
+                    changeHandler={() => console.log('the value of select changed.')}
+                    options={TEST_CATEGORIES}
+                />
+                <div>
+                    <button
+                        className="btn btn-success btn login-submit-button mt-0 cursor-pointer"
+                        disabled={submitting}>
+                        {!submitting ? translator['Register'] : (
+                            <BeatLoader color="#fff" size={10} margin="auto"/>
+                        )}
+                    </button>
+                    <button type="button" className="btn btn-secondary mr-2" onClick={hideEdit}>
+                        {translator['Cancel']}
+                    </button>
+                </div>
+                {submitFailed && <p className="error-message">{error}</p>}
+            </ProductInfoItemWrapper>
         </form>
     )
 }

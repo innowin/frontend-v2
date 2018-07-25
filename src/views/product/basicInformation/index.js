@@ -11,7 +11,7 @@ import client from "src/consts/client"
 import {ProductInfoItemWrapper, ProductInfoView, ProductDescriptionView, ProductDescriptionWrapper} from "./Views"
 import type {ProductType} from "src/consts/flowTypes/product/productTypes"
 import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
-import {getProductInfo} from "src/redux/actions/commonActions"
+import {getProductInfo, updateProduct} from "src/redux/actions/commonActions"
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {ProductInformationReduxForm} from "./Forms"
@@ -30,13 +30,15 @@ type ProductInfoState = {
     owner: OwnerType,
     error: string,
     edit: boolean,
-    isLoading: boolean
+    isLoading: boolean,
+    formData: ProductType
 }
 
 type ProductInfoProps = {
     productId: number,
     translator: TranslatorType,
     _getProductInfo: Function,
+    _updateProduct: Function,
     product: ProductType
 }
 
@@ -112,11 +114,23 @@ export class productBasicInformation extends Component<ProductInfoProps, Product
     }
 
     _productFormSubmitHandler = (values: ProductType) => {
-
+        const {product, _updateProduct, productId} = this.props
+        const product_category = (values.product_category && values.product_category.value) || product.product_category
+        const formData = {...values, product_category}
+        _updateProduct(productId, formData)
     }
+
     componentDidMount() {
-        const {productId, _getProductInfo} = this.props
+        const {productId, product, _getProductInfo} = this.props
         _getProductInfo(productId)
+        if (product) {
+            const formFields = ['product_category', 'name', 'country', 'province', 'city', 'description']
+            const formData = formFields.reduce((acc, field) => ({...acc, [field]: product[field]}), {})
+            this.setState({
+                ...this.state,
+                formData: formData
+            })
+        }
         // socket.on(`Products-category-get/`, (res) => {
         //     if (res.detail) {
         //         const newState = {...this.state, error: res.detail, isLoading: false}
@@ -137,11 +151,11 @@ export class productBasicInformation extends Component<ProductInfoProps, Product
     }
 
     render() {
-        const {product_category, owner, edit, isLoading, error} = this.state
+        const {product_category, owner, edit, isLoading, error, formData} = this.state
         const {translator, product} = this.props
         return (
 
-            <div>
+            <div className="product-basic-information">
                 <CategoryTitle
                     title={translator['Basic information']}
                     createForm
@@ -151,46 +165,59 @@ export class productBasicInformation extends Component<ProductInfoProps, Product
                 <FrameCard>
                     <ListGroup>
                         <VerifyWrapper isLoading={isLoading} error={error}>
-                            {
-                                (edit) ? (
-                                    <ProductDescriptionWrapper translator={translator}>
-                                        <ProductDescriptionEditForm
-                                            translator={translator}
-                                            owner={owner}
-                                            product={product}
-                                            product_category={product_category}
-                                            description={product.description}
-                                            hideEdit={() => this._showEditHandler(false)}
-                                            updateStateForView={this._updateStateForView}
-                                        />
-                                    </ProductDescriptionWrapper>
-                                ) : (
+                            {edit ?
+                                <ProductInformationReduxForm
+                                    hideEdit={() => this._showEditHandler(false)}
+                                    onSubmit={this._productFormSubmitHandler}
+                                    translator={translator}
+                                    formData={formData}
+                                />
+                                :
+                                <div>
                                     <ProductDescriptionView translator={translator} description={product.description}
                                                             product_category={product_category} owner={owner}
                                                             showEdit={() => this._showEditHandler(true)}>
                                         {console.log('product is: ', product)}
                                     </ProductDescriptionView>
-                                )
-                            }
-                            {
-                                (edit) ? (
-                                    <ProductInfoItemWrapper translator={translator}>
-                                        <ProductInfoEditForm
-                                            translator={translator}
-                                            owner={owner}
-                                            product_category={product_category}
-                                            product={product}
-                                            hideEdit={() => this._showEditHandler(false)}
-                                            updateStateForView={this._updateStateForView}
-                                        />
-                                        <ProductInformationReduxForm onSubmit={(values) => console.log(values)} translator={translator}/>
-                                    </ProductInfoItemWrapper>
-                                ) : (
                                     <ProductInfoView translator={translator} product_category={product_category}
                                                      product={product}
                                                      owner={owner} showEdit={() => this._showEditHandler(true)}/>
-                                )
+                                </div>
                             }
+                            {/*{*/}
+                            {/*(edit) ? (*/}
+                            {/*<ProductDescriptionWrapper translator={translator}>*/}
+                            {/*<ProductDescriptionEditForm*/}
+                            {/*translator={translator}*/}
+                            {/*owner={owner}*/}
+                            {/*product={product}*/}
+                            {/*product_category={product_category}*/}
+                            {/*description={product.description}*/}
+                            {/*hideEdit={() => this._showEditHandler(false)}*/}
+                            {/*updateStateForView={this._updateStateForView}*/}
+                            {/*/>*/}
+                            {/*</ProductDescriptionWrapper>*/}
+                            {/*) : (*/}
+                            {/*<ProductDescriptionView translator={translator} description={product.description}*/}
+                            {/*product_category={product_category} owner={owner}*/}
+                            {/*showEdit={() => this._showEditHandler(true)}>*/}
+                            {/*{console.log('product is: ', product)}*/}
+                            {/*</ProductDescriptionView>*/}
+                            {/*)*/}
+                            {/*}*/}
+                            {/*{*/}
+                            {/*(edit) ? (*/}
+                            {/*<ProductInfoItemWrapper translator={translator}>*/}
+                            {/*<ProductInformationReduxForm hideEdit={() => this._showEditHandler(false)}*/}
+                            {/*onSubmit={this._productFormSubmitHandler}*/}
+                            {/*translator={translator}/>*/}
+                            {/*</ProductInfoItemWrapper>*/}
+                            {/*) : (*/}
+                            {/*<ProductInfoView translator={translator} product_category={product_category}*/}
+                            {/*product={product}*/}
+                            {/*owner={owner} showEdit={() => this._showEditHandler(true)}/>*/}
+                            {/*)*/}
+                            {/*}*/}
 
                         </VerifyWrapper>
                     </ListGroup>
@@ -234,7 +261,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch =>
     bindActionCreators(
         {
-            _getProductInfo: id => getProductInfo(id)
+            _getProductInfo: id => getProductInfo(id),
+            _updateProduct: (id, values) => updateProduct(id, values)
         },
         dispatch
     );

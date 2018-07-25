@@ -1,10 +1,18 @@
 // @flow
 import * as React from 'react'
 import Select from 'react-select';
+import star_svg from "../../../images/common/star_svg";
+
 
 type OptionType = {
     value: string | number,
     label: string
+}
+
+type MetaType = {
+    touched: boolean,
+    error: string,
+    warning: string
 }
 
 type Props = {
@@ -18,7 +26,8 @@ type Props = {
     rtl: boolean,
     onBlurResetsInput: boolean,
     onBlur: Function,
-    placeholder: string
+    placeholder: string,
+    meta: MetaType
 
 }
 const renderSelectField = ({
@@ -29,7 +38,7 @@ const renderSelectField = ({
                                changeHandler,
                                noResultsText,
                                value,
-                               multi,
+                               multi = false,
                                rtl,
                                onBlurResetsInput = false,
                                onBlur = () => 0,
@@ -37,7 +46,7 @@ const renderSelectField = ({
                                meta: {touched, error, warning},
                            }: Props) => {
     return (
-        <div className={className}>
+        <div className={error && touched ? `error ${className}` : className}>
             <Select
                 placeholder={placeholder}
                 multi={multi}
@@ -51,6 +60,7 @@ const renderSelectField = ({
                 onBlur={onBlur}
                 onBlurResetsInput={onBlurResetsInput}
             />
+            {(touched && error) && console.log(`the error of ${input.name} is: ${error}`)}
         </div>
     )
 }
