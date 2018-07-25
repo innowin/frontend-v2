@@ -10,21 +10,22 @@ import {clientData} from "src/consts/log"
 import {connect} from "react-redux"
 import type {exchangeIdentityType} from "src/consts/flowTypes/exchange/exchange.js"
 
-class Home extends Component<{ handleSignOut: Function, exchangeIdentities: (exchangeIdentityType)[] }, { activeExchangeId: ?number }> {
+class Home extends Component<{ handleSignOut: Function, identityId: number }, { activeExchangeId: ?number, exchangeIdentities: (exchangeIdentityType)[] }> {
 
   static propTypes = {
     handleSignOut: PropTypes.func.isRequired,
-    exchangeIdentities: PropTypes.arrayOf(PropTypes.object.isRequired)
+    identityId: PropTypes.number.isRequired
   }
 
   constructor(props) {
     super(props)
-    this.state = {activeExchangeId: null}
+    this.state = {activeExchangeId: null, exchangeIdentities: []}
   }
 
   componentDidMount() {
-    const {exchangeIdentities} = this.props
-    const DaneshBoomExchangeId = exchangeIdentities[0].exchange_identity_related_exchange.id
+    const {identityId} = this.props
+    // const DaneshBoomExchangeId = exchangeIdentities[0].exchange_identity_related_exchange.id
+    const DaneshBoomExchangeId = 1
     setTimeout(() => console.log(clientData()), 2000)
     this.setState({...this.state, activeExchangeId: DaneshBoomExchangeId})
   }
@@ -37,8 +38,8 @@ class Home extends Component<{ handleSignOut: Function, exchangeIdentities: (exc
   }
 
   render() {
-    const {handleSignOut, exchangeIdentities} = this.props
-    let {activeExchangeId} = this.state
+    const {handleSignOut} = this.props
+    const {activeExchangeId, exchangeIdentities} = this.state
     const widthOfRightBar = "col-md-3 col-sm-2"
     return (
       <div className="home-wrapper">
@@ -63,7 +64,7 @@ class Home extends Component<{ handleSignOut: Function, exchangeIdentities: (exc
 
 const mapStateToProps = state => (
   {
-    exchangeIdentities: state.auth.client.exchange_identities
+    identityId: state.auth.client.identity.id
   }
 )
 export default connect(mapStateToProps)(Home)

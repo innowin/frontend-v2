@@ -19,6 +19,7 @@ export function* getOrganizationInSignIn(username) {
   } catch (e) {
     const {message} = e
     yield put({type: types.ERRORS.ORG.GET_ORGANIZATION, payload: {type: types.ERRORS.ORG.GET_ORGANIZATION, message}})
+    throw new Error(e)
   } finally {
     socketChannel.close()
   }
