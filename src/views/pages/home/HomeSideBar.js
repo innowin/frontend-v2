@@ -87,7 +87,7 @@ export default class HomeSideBar extends Component {
     return (
       <div className={classNames}>
         {
-          (exchangeIdentities.length > 0) ? (
+          (exchangeIdentities && exchangeIdentities.length > 0) ? (
             exchangeIdentities.map((item, i) => {
               const exchange = item.exchange_identity_related_exchange
               const {activeId} = this.state
