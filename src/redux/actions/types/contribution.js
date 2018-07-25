@@ -1,8 +1,8 @@
-const SUCCESS = {
+const ERRORS = {
 
 }
 
-const ERROR = {
+const SUCCESS = {
 
 }
 
@@ -11,7 +11,7 @@ const BASE = {
 }
 
 export default {
-    SUCCESS,
-    ERROR,
-    BASE
+	ERRORS,
+	SUCCESS,
+	BASE
 }
