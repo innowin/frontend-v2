@@ -10,7 +10,7 @@ import {Field, reduxForm} from "redux-form"
 import {getMessages} from "src/redux/selectors/translateSelector"
 import {RadioButtonGroup} from "../../common/inputs/RadioButtonInput"
 import {routerActions} from "react-router-redux"
-import {validateSignUpForm} from "./validations"
+import {validateSignUpForm, asyncValidate} from "./validations"
 
 
 
@@ -70,7 +70,10 @@ export class RegisterForm extends Component {
       signIn(values.username, values.password, false)
       push('/')
     }
-    createUserOrgan(values, handleLogin)
+    const handleError = res => {
+      console.log("createUserOrgan error:", res)
+    }
+    createUserOrgan(values, handleLogin, handleError)
   }
 
   _onSubmitPerson = (values) => {
@@ -79,7 +82,10 @@ export class RegisterForm extends Component {
       signIn(values.username, values.password, false)
       push('/')
     }
-    createUser(values, handleLogin)
+    const handleError = res => {
+      console.log("createUser error:", res)
+    }
+    createUser(values, handleLogin, handleError)
   }
 
   render() {
@@ -118,6 +124,7 @@ const mapDispatchToProps = dispatch => ({
 RegisterForm = reduxForm({
   form: 'RegisterForm',
   validate: validateSignUpForm,
+  asyncValidate:asyncValidate
 })(RegisterForm)
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm)

@@ -1,3 +1,31 @@
+import {SOCKET as socket, REST_URL as url} from "src/consts/URLS"
+import {REST_REQUEST} from "src/consts/Events"
+
+
+const checkExist = (username, resolve) => {
+  socket.emit(REST_REQUEST, {
+    method: "post",
+    url: `${url}/users/user_exist/`,
+    data: {username: username},
+    result: "USERNAME_CHECK"
+  })
+  const func = (res) => {
+    resolve(res)
+    socket.off("USERNAME_CHECK", func)
+  }
+  socket.on("USERNAME_CHECK", func)
+}
+
+const checkUsername = username => new Promise(resolve => checkExist(username, resolve))
+
+export const asyncValidate = values => {
+  return checkUsername(values.username).then((res) => {
+    if (res === 1) {
+      throw {username: 'این کاربر قبلا وجود داشته است!'}
+    }
+  })
+}
+
 const validateUsername = (username) => {
   if (!/^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]+$/.test(username)) {
     return 'نام کاربری غیر قابل قبول است. لطفا تنها از حروف انگلیسی  یا اعداد یا کاراکتر ـ استفاده نمایید.'
