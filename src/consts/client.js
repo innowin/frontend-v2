@@ -1,4 +1,5 @@
 import AES from 'crypto-js/aes'
+import cookie from 'src/consts/data'
 
 export const isAuthenticated = () => {
 	console.log("hi inside isAuthenticated: LS = ",window.localStorage.hasOwnProperty('token').toString(), " SS = ",window.sessionStorage.hasOwnProperty('token'))
@@ -8,12 +9,14 @@ export const isAuthenticated = () => {
 const setTokenLS = (token) => {
 	if (window.localStorage) {
 		window.localStorage.setItem('token', token)
+		cookie.setTOKEN(token)
 	}
 }
 
 const setSessionLS = (token) => {
 	if (window.sessionStorage) {
 		window.sessionStorage.setItem('token', token)
+		cookie.setSession(token)
 	}
 }
 
@@ -51,6 +54,8 @@ const saveClientUserData = (userId, identityId, userType, remember) => {
 	// TODO: mohsen save Clients to localStorage
 	// console.log("Encrypted data is : ",AES('Hi','secret key'))
 	if (remember) {
+		client.setID(userId)
+		client.setIdentityId(identityId)
 		setCookie('userId', userId, 30)
 		setCookie('identityId', identityId, 30)
 		setCookie('userType', userType, 30)
