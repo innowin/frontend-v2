@@ -1,87 +1,89 @@
 import {SOCKET, REST_URL} from "./URLS"
 import {REST_REQUEST} from "./Events"
-import client from './client'
 import {eventChannel} from 'redux-saga'
-import {apply} from "redux-saga/effects"
+import {apply, select} from "redux-saga/effects"
 
-const token = client.getToken()
 
 const createSocketChannel = (resultName) => {
-	return eventChannel(emit => {
-		const resultHandler = res => {
-			if (res.detail) {
-				emit(new Error(res.detail))
-				return;
-			}
-			emit(res)
-		}
-		SOCKET.on(resultName, resultHandler)
-		return () => SOCKET.off(resultName, resultHandler)
-	})
+  return eventChannel(emit => {
+    const resultHandler = res => {
+      if (res.detail) {
+        emit(new Error(res.detail))
+        return;
+      }
+      emit(res)
+    }
+    SOCKET.on(resultName, resultHandler)
+    return () => SOCKET.off(resultName, resultHandler)
+  })
 }
 
 //1 - req -sending requests
 function* get(url, result, param = "") {
-	yield apply({}, getEmit, [url, result, param])
+  const token = yield select((state) => state.auth.client.token)
+  yield apply({}, getEmit, [url, result, param, token])
 }
 
 function* post(url, result, data, param = "") {
-	yield apply({}, postEmit, [url, result, data, param])
+  const token = yield select((state) => state.auth.client.token)
+  yield apply({}, postEmit, [url, result, data, param, token])
 }
 
 function* patch(url, result, data, param = "") {
-	yield apply({}, patchEmit, [url, result, data, param])
+  const token = yield select((state) => state.auth.client.token)
+  yield apply({}, patchEmit, [url, result, data, param, token])
 }
 
 function* del(url, result, data, param = "") {
-	yield apply({}, delEmit, [url, result, data, param])
+  const token = yield select((state) => state.auth.client.token)
+  yield apply({}, delEmit, [url, result, data, param, token])
 }
 
 // pre send request
-const getEmit = (url, resultName, query = "") => {
-	SOCKET.emit(REST_REQUEST, {
-		method: 'get',
-		url: REST_URL + '/' + url + '/' + query,
-		result: resultName,
-		token
-	})
+const getEmit = (url, resultName, query = "", token) => {
+  SOCKET.emit(REST_REQUEST, {
+    method: 'get',
+    url: REST_URL + '/' + url + '/' + query,
+    result: resultName,
+    token
+  })
 }
 
-const patchEmit = (url, resultName, data, query = "") => {
-	SOCKET.emit(REST_REQUEST, {
-		method: 'patch',
-		url: REST_URL + '/' + url + '/' + query + '/',
-		result: resultName,
-		data,
-		token
-	})
+const patchEmit = (url, resultName, data, query = "", token) => {
+  SOCKET.emit(REST_REQUEST, {
+    method: 'patch',
+    url: REST_URL + '/' + url + '/' + query + '/',
+    result: resultName,
+    data,
+    token
+  })
 }
 
-const delEmit = (url, resultName, data, query = "") => {
-	SOCKET.emit(REST_REQUEST, {
-		method: 'del',
-		url: REST_URL + '/' + url + '/' + query + '/',
-		result: resultName,
-		data,
-		token
-	})
+const delEmit = (url, resultName, data, query = "", token) => {
+  SOCKET.emit(REST_REQUEST, {
+    method: 'del',
+    url: REST_URL + '/' + url + '/' + query + '/',
+    result: resultName,
+    data,
+    token
+  })
 }
 
-const postEmit = (url, resultName, data, query = "") => {
-	SOCKET.emit(REST_REQUEST, {
-		method: 'post',
-		url: REST_URL + '/' + url + '/' + query,
-		result: resultName,
-		data,
-		token
-	})
+const postEmit = (url, resultName, data, query = "", token) => {
+  SOCKET.emit(REST_REQUEST, {
+    method: 'post',
+    url: REST_URL + '/' + url + '/' + query,
+    result: resultName,
+    data,
+    token
+  })
 }
 
 const api = {
-	createSocketChannel,
-	get,
-	post,
-	patch,
-	del
+  createSocketChannel,
+  get,
+  post,
+  patch,
+  del
 }
 export default api

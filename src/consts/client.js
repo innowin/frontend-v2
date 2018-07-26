@@ -47,46 +47,34 @@ const eraseCookie = name => {
 	document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
 }
 
-const saveClientUserData = (userId, identityId, userType, remember) => {
+const saveData = (userId, identityId, userType, organizationId, remember) => {
 	// TODO: mohsen save Clients to localStorage
 	// console.log("Encrypted data is : ",AES('Hi','secret key'))
 	if (remember) {
 		setCookie('userId', userId, 30)
 		setCookie('identityId', identityId, 30)
 		setCookie('userType', userType, 30)
+    setCookie('organizationId', organizationId, 30)
 		if (window.localStorage) {
 			localStorage.setItem('userId', userId)
 			localStorage.setItem('identityId', identityId)
 			localStorage.setItem('userType', userType)
+      localStorage.setItem('organizationId', organizationId)
 		}
 	}
 	if (!remember) {
 		setCookie('userId', userId, 0)
 		setCookie('identityId', identityId, 0)
 		setCookie('userType', userType, 0)
+    setCookie('organizationId', organizationId, 0)
 		if (window.sessionStorage) {
 			sessionStorage.setItem('userId', userId)
 			sessionStorage.setItem('identityId', identityId)
 			sessionStorage.setItem('userType', userType)
+      sessionStorage.setItem('organizationId', organizationId)
 		}
 	}
 	return true
-}
-
-const saveClientOrganData = (remember, organizationId) => {
-  if (remember) {
-    setCookie('organizationId', organizationId, 30)
-    if (window.localStorage) {
-      localStorage.setItem('organizationId', organizationId)
-    }
-  }
-  if (!remember) {
-    setCookie('organizationId', organizationId, 0)
-    if (window.sessionStorage) {
-      sessionStorage.setItem('organizationId', organizationId)
-    }
-  }
-  return true
 }
 
 const clearData = () => {
@@ -142,8 +130,7 @@ const client = {
 	getToken,
 	clearToken,
 	clearData,
-  saveClientUserData,
-  saveClientOrganData,
+  saveData,
 	getUserId,
 	getIdentityId,
   getUserType,
