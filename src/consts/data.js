@@ -35,3 +35,14 @@ export const deleteTOKEN = () => {
 	cookies.erase('token');
 };
 
+export default {
+	IDENTITY_ID,
+	ID,
+	TOKEN,
+	setTOKEN,
+	setSession,
+	setID,
+	setIdentityId,
+	saveData
+}
+
