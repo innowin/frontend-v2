@@ -1,7 +1,7 @@
 const results = {
 	//sign in
 	SIGN_IN : 'sign-in',
-	ORGANIZATION:{
+	ORG:{
 		GET_ORGANIZATION : 'get-organization',
 		GET_ORGANIZATION_MEMBERS: 'get-organization-members',
 		UPDATE_ORGANIZATION_INFO:'update-organization-info',
@@ -15,7 +15,11 @@ const results = {
 		GET_ORG_CERTIFICATES:'get-org-certificates',
 		UPDATE_CUSTOMER:'update-org-customer',
 		CREATE_PRODUCT:'create-org-product',
-		GET_PRODUCT_CATEGORIES : 'get-product-category'
+		GET_PRODUCT_CATEGORIES : 'get-product-category',
+		GET_PRODUCTS : 'get-org-products',
+		UPDATE_PRODUCT: 'update-org-product',
+		ADD_PRODUCT_PICTURE:'add-org-product-picture',
+		GET_PRODUCT_PICTURE:'get-org-product-picture'
 	},
 	PRODUCT: {
 		GET_BASIC_INFO: 'get-product-basic-info'

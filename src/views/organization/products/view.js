@@ -56,7 +56,6 @@ type ProductProps = {
 	product:Object,
 	updateProduct: Function,
 	deleteProduct: Function,
-	updateStateForView:Function,
 	categories:Array<Object>,
 	pictures:Array<Object>,
 	organization:Object,
@@ -84,7 +83,7 @@ export class Product extends React.Component<ProductProps,{edit: boolean, produc
 	};
 	render() {
 		const {product } = this.state;
-		const{pictures, price, organization, updateStateForView, categories, products, deletePicture, addPicture} = this.props;
+		const{pictures, price, organization, categories, products, deletePicture, addPicture} = this.props;
 		if (this.state.edit) {
 			return (
 				<ProductEditForm
@@ -97,7 +96,6 @@ export class Product extends React.Component<ProductProps,{edit: boolean, produc
 					products = {products}
 					categories={categories}
 					hideEdit = {this.hideEdit}
-					updateStateForView = {updateStateForView}
 					remove = {this.props.deleteProduct}
 					update = {this.props.updateProduct}
 				/>)

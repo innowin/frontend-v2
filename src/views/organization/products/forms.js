@@ -16,13 +16,11 @@ type ProductFormProps = {
   categories: Array<Object>,
   deletePicture: Function,
   pictures:Array<Object>,
-  updateStateForView?:Function,
   children: React.Node
 }
 export class ProductForm extends React.Component<ProductFormProps> {
   defaultProps = {
     product :{name:"", city:"", province:"", country:"",description:""},
-    updateStateForView : null
   }
   productPictureInput: any;
   nameInput: any;
@@ -68,9 +66,9 @@ export class ProductForm extends React.Component<ProductFormProps> {
   };
 
   deletePicture = (index:number) => {
-    const {deletePicture, pictures, updateStateForView} = this.props;
+    const {deletePicture, pictures} = this.props;
     let pictureId = pictures[index].id;
-    deletePicture(pictures, pictures[index], this.updatePictureList, updateStateForView||null);
+    deletePicture(pictures, pictures[index], this.updatePictureList);
   };
 
   //TODO amir specify identity concept and how to handle them
@@ -218,7 +216,6 @@ export class ProductCreateForm extends React.Component<ProductCreateFormProps> {
 }
 type ProductPictureFormProps  = {
   product:Object, 
-  updateStateForView:Function, 
   hideEdit:Function, 
   updatePicture:Function,
   picture:Object
@@ -253,10 +250,10 @@ export class ProductPictureForm extends React.Component<ProductPictureFormProps>
   };
 
   save = () => {//(formValues, productId, updateStateForView, hideEdit
-    const {product, updateStateForView, hideEdit, updatePicture} = this.props;
+    const {product,  hideEdit, updatePicture} = this.props;
     const productId = product.id;
     const formValues = this.getValues();
-    return updatePicture(formValues, productId, updateStateForView, hideEdit)
+    return updatePicture(formValues, productId,  hideEdit)
   };
 
   onSubmit = (e:SyntheticEvent<HTMLButtonElement>) => {
@@ -298,7 +295,6 @@ type ProductEditFormProps = {
   product: Object,
   products: Array<Object>,
   pictures:Array<Object>,
-  updateStateForView:Function,
   categories: Array<Object>, 
   deletePicture:Function
 
@@ -322,10 +318,10 @@ export class ProductEditForm extends React.Component<ProductEditFormProps,{confi
   };
 
   save = () => {//(formValues, productId, updateStateForView, hideEdit
-    const {product, updateStateForView, hideEdit, pictures} = this.props;
+    const {product,  hideEdit, pictures} = this.props;
     const productId = product.id;
     const formValues = this.refs.form.getValues();
-    return this.props.update(formValues, productId, updateStateForView, hideEdit)
+    return this.props.update(formValues, productId, hideEdit)
   };
 
   onSubmit = (e:SyntheticEvent<HTMLButtonElement>) => {

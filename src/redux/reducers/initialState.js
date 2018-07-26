@@ -64,12 +64,12 @@ export default {
 		},
 		products: {
 			isLoading: false,
-			content: []
+			content: [],
+			categories:[]
 		},
 		pictures: {
 			isLoading: false,
 			content: []
-			
 		},
 		members: {
 			isLoading: false,

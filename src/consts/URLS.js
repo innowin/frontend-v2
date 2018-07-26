@@ -8,7 +8,7 @@ export const SOCKET = io(SOCKET_URL)
 
 const urls =  {
 	SIGN_IN : "api-token-auth",
-	ORGANIZATION:{
+	ORG:{
 		GET_ORGANIZATION : 'organizations',
 		GET_ORGANIZATION_MEMBERS : 'organizations/staff',
 		UPDATE_ORGANIZATION_INFO:'organizations',
@@ -22,6 +22,9 @@ const urls =  {
 		UPDATE_CUSTOMER:'organizations/customers',
 		CREATE_PRODUCT: 'products',
 		GET_PRODUCT_CATEGORIES: 'products/category',
+		UPDATE_PRODUCT: 'products',
+		ADD_PRODUCT_PICTURE:'products/pictures',
+		GET_PRODUCT_PICTURE:'products/pictures'
 	},
   EXCHANGE: {
     GET_EXCHANGES: 'exchanges',
