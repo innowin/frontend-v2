@@ -44,7 +44,7 @@ class SignInForm extends Component {
 	
 	_handleCheckbox = () => {
 		let checked = this.rememberme.checked
-		this.setState({...this.state, rememberme: checked},)
+		this.setState({...this.state, rememberme: checked})
 	}
 	_handleClick = (e) => {
 		e.preventDefault()

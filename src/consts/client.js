@@ -1,4 +1,5 @@
 import AES from 'crypto-js/aes'
+import cookie from 'src/consts/data'
 
 export const isAuthenticated = () => {
 	console.log("hi inside isAuthenticated: LS = ",window.localStorage.hasOwnProperty('token').toString(), " SS = ",window.sessionStorage.hasOwnProperty('token'))
@@ -8,12 +9,14 @@ export const isAuthenticated = () => {
 const setTokenLS = (token) => {
 	if (window.localStorage) {
 		window.localStorage.setItem('token', token)
+		cookie.setTOKEN(token)
 	}
 }
 
 const setSessionLS = (token) => {
 	if (window.sessionStorage) {
 		window.sessionStorage.setItem('token', token)
+		cookie.setSession(token)
 	}
 }
 
@@ -47,39 +50,54 @@ const eraseCookie = name => {
 	document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
 }
 
-const saveData = (userId, identityId, identity_type, remember, organizationId = null) => {
+const saveClientUserData = (userId, identityId, userType, remember) => {
 	// TODO: mohsen save Clients to localStorage
 	// console.log("Encrypted data is : ",AES('Hi','secret key'))
 	if (remember) {
+		client.setID(userId)
+		client.setIdentityId(identityId)
 		setCookie('userId', userId, 30)
 		setCookie('identityId', identityId, 30)
-		setCookie('identity_type', identity_type, 30)
-		setCookie('organizationId', organizationId, 30)
+		setCookie('userType', userType, 30)
 		if (window.localStorage) {
 			localStorage.setItem('userId', userId)
 			localStorage.setItem('identityId', identityId)
-			localStorage.setItem('identity_type', identity_type)
-			localStorage.setItem('organizationId', organizationId)
+			localStorage.setItem('userType', userType)
 		}
 	}
 	if (!remember) {
 		setCookie('userId', userId, 0)
 		setCookie('identityId', identityId, 0)
-		setCookie('identity_type', identity_type, 0)
-		setCookie('organizationId', organizationId, 0)
+		setCookie('userType', userType, 0)
 		if (window.sessionStorage) {
 			sessionStorage.setItem('userId', userId)
 			sessionStorage.setItem('identityId', identityId)
-			sessionStorage.setItem('identity_type', identity_type)
-			sessionStorage.setItem('organizationId', organizationId)
+			sessionStorage.setItem('userType', userType)
 		}
 	}
 	return true
 }
 
+const saveClientOrganData = (remember, organizationId) => {
+  if (remember) {
+    setCookie('organizationId', organizationId, 30)
+    if (window.localStorage) {
+      localStorage.setItem('organizationId', organizationId)
+    }
+  }
+  if (!remember) {
+    setCookie('organizationId', organizationId, 0)
+    if (window.sessionStorage) {
+      sessionStorage.setItem('organizationId', organizationId)
+    }
+  }
+  return true
+}
+
 const clearData = () => {
 	window.localStorage && localStorage.clear()
 	window.sessionStorage && sessionStorage.clear()
+	client.clearData()
 	eraseAllCookies()
 }
 
@@ -107,11 +125,11 @@ const getIdentityId = () => {
 	}
 }
 
-const getIdentityType = () => {
-	if (window.localStorage && localStorage.hasOwnProperty('identity_type')) {
-		return localStorage.getItem('identity_type')
+const getUserType = () => {
+	if (window.localStorage && localStorage.hasOwnProperty('userType')) {
+		return localStorage.getItem('userType')
 	} else {
-		return sessionStorage.getItem('identity_type')
+		return sessionStorage.getItem('userType')
 	}
 }
 
@@ -130,10 +148,11 @@ const client = {
 	getToken,
 	clearToken,
 	clearData,
-	saveData,
+  saveClientUserData,
+  saveClientOrganData,
 	getUserId,
 	getIdentityId,
-	getIdentityType,
+  getUserType,
 	getOrganizationId
 }
 export default client

@@ -2,7 +2,7 @@ import {all} from 'redux-saga/effects'
 import {watchGetOrganization,
 	watchGetOrganizationSuccess,
 	watchGetOrganizationMembers,
-	// watchGetOrganizationMembersSuccess,
+	//watchGetOrganizationMembersSuccess,
 	watchUpdateOrganization,
 	watchGetProducts,
 	watchGetOrgFollowers,
@@ -35,7 +35,7 @@ const rootSaga = function* () {
 		watchGetCertificates(),
 		watchUpdateCustomer(),
 		watchCreateSkill(),
-		watchCreateProduct(),
+		// watchCreateProduct(),
 		watchCreateOrgProduct(),
 
 		// common sagas

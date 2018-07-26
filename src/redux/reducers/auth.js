@@ -1,10 +1,10 @@
 import initialState from './initialState'
-import types from '../actions/actionTypes'
+import types from '../actions/types'
 
 const auth = (state = initialState.auth, action) => {
 	switch (action.type) {
-		case types.SIGN_IN_SUCCESS:
-			const {rememberMe, data: {user, token, profile, identity, organization, exchange_identities}} = action.payload
+		case types.SUCCESS.AUTH.SIGN_IN:
+			const {rememberMe, data: {user, token, profile, identity, organization}} = action.payload
 			const user_type = profile.is_user_organization ? 'org' : 'person'
 			return {
 				...state,
@@ -15,26 +15,24 @@ const auth = (state = initialState.auth, action) => {
 					organization,
 					user_type,
 					rememberMe,
-          exchange_identities,
 					isLoggedIn: true,
 					token
 				}
 			}
-		case types.SIGN_OUT_FINISHED:
+		case types.AUTH.SIGN_OUT_FINISHED:
 			return {
 				...state,
 				client: {
 					user: {},
 					profile: {},
 					identity: {},
-          exchange_identities:[],
 					organization: null,
 					rememberMe: null,
 					isLoggedIn: false,
 					token: null
 				}
 			}
-		case types.SIGN_IN_ERROR:
+		case types.ERRORS.AUTH.SIGN_IN:
 			return {...state, client: {}}
 		default:
 			return state
