@@ -3,6 +3,21 @@ import types from '../actions/types'
 
 const auth = (state = initialState.auth, action) => {
 	switch (action.type) {
+		case types.IS_LOADING.AUTH.SIGN_IN:
+		  const {isLoading} = action.payload
+      return {
+        ...state,
+        client:{
+          user: {},
+          profile: {},
+          identity: {},
+          organization: null,
+          rememberMe: null,
+          signInIsLoading:isLoading,
+          isLoggedIn: false,
+          token:null,
+        }
+      }
     case types.AUTH.SET_TOKEN:
       return {
         ...state,
@@ -12,6 +27,7 @@ const auth = (state = initialState.auth, action) => {
           identity: {},
           organization: null,
           rememberMe: null,
+					signInIsLoading:true,
           isLoggedIn: false,
           token:action.payload.token,
         }
@@ -28,6 +44,7 @@ const auth = (state = initialState.auth, action) => {
 					organization,
 					user_type,
 					rememberMe,
+					signInIsLoading:false,
 					isLoggedIn: true,
           token
 				}
@@ -41,6 +58,7 @@ const auth = (state = initialState.auth, action) => {
 					identity: {},
 					organization: null,
 					rememberMe: null,
+					signInIsLoading:false,
 					isLoggedIn: false,
 					token: null
 				}

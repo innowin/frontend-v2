@@ -13,7 +13,12 @@ const BASE = {
   SIGN_OUT_FINISHED:'SIGN_OUT_FINISHED',
 }
 
+const IS_LOADING = {
+  SIGN_IN:'SIGN_IN_IS_LOADING'
+}
+
 export default {
+  IS_LOADING,
   SUCCESS,
   ERROR,
   BASE

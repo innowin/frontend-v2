@@ -4,6 +4,7 @@ export default {
 	auth: {
 		client: {
 			isLoggedIn: false,
+			signInIsLoading:false,
 			identity: {},
 			profile: {},
 			user: {},

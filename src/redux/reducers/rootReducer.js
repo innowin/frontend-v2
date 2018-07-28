@@ -3,7 +3,7 @@ import auth from './auth'
 import organization from './organization'
 import {routerReducer} from 'react-router-redux'
 import {intlReducer} from './intl'
-import {reducer as formReducer} from 'redux-form'
+import formReducer from './preFormReducer'
 import productReducer from './contributionReducer'
 import common from './common'
 

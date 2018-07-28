@@ -13,9 +13,8 @@ import {routerActions} from "react-router-redux"
 import {validateSignUpForm, asyncValidate} from "./validations"
 
 
-
 const SignUpForm = (props) => {
-  const {handleSubmit, onSubmit, translator, submitting, error, submitFailed} = props
+  const {signInIsLoading, handleSubmit, onSubmit, translator, error, submitFailed} = props
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="signUp-form">
       <Field
@@ -31,8 +30,8 @@ const SignUpForm = (props) => {
       <div>
         <button
           className="btn btn-primary btn-block login-submit-button mt-0 cursor-pointer"
-          disabled={submitting}>
-          {!submitting ? translator['Register'] : (
+          disabled={signInIsLoading}>
+          {!signInIsLoading ? translator['Register'] : (
             <BeatLoader color="#fff" size={10} margin="auto"/>
           )}
         </button>
@@ -49,7 +48,8 @@ const USER_TYPES = {
 
 export class RegisterForm extends Component {
   static propTypes = {
-    RedirectToHome: PropTypes.func.isRequired
+    RedirectToHome: PropTypes.func.isRequired,
+    signInIsLoading: PropTypes.bool.isRequired
   }
 
   constructor(props) {
@@ -65,31 +65,36 @@ export class RegisterForm extends Component {
   }
 
   _onSubmitOrgan = (values) => {
+    const {push, signIn, signInIsLoading} = this.props.actions
+    signInIsLoading(true)
     const handleLogin = () => {
-      const {push, signIn} = this.props.actions
       signIn(values.username, values.password, false)
       push('/')
     }
     const handleError = res => {
       console.log("createUserOrgan error:", res)
+      signInIsLoading(false)
     }
     createUserOrgan(values, handleLogin, handleError)
   }
 
   _onSubmitPerson = (values) => {
+    const {push, signIn, signInIsLoading} = this.props.actions
+    signInIsLoading(true)
     const handleLogin = () => {
-      const {push, signIn} = this.props.actions
       signIn(values.username, values.password, false)
       push('/')
     }
     const handleError = res => {
       console.log("createUser error:", res)
+      signInIsLoading(false)
     }
     createUser(values, handleLogin, handleError)
   }
 
   render() {
-    const {RedirectToHome, translator, ...reduxFormProps} = this.props
+    const {RedirectToHome, translator, signInIsLoading, ...reduxFormProps} = this.props
+    console.log("sign in signInIsLoading", signInIsLoading)
     const {userType} = this.state
     const userTypeItems = [{value: USER_TYPES.PERSON, title: 'فرد'}, {value: USER_TYPES.ORGANIZATION, title: 'مجموعه'}]
     const onSubmitFunc = (userType === USER_TYPES.PERSON) ? (this._onSubmitPerson) : (this._onSubmitOrgan)
@@ -107,16 +112,21 @@ export class RegisterForm extends Component {
           translator={translator}
           onSubmit={onSubmitFunc}
           RedirectToHome={RedirectToHome}
+          signInIsLoading={signInIsLoading}
         />
       </div>
     )
   }
 }
 
-const mapStateToProps = (state) => ({translator: getMessages(state)})
+const mapStateToProps = (state) => ({
+  translator: getMessages(state),
+  signInIsLoading:state.auth.client.signInIsLoading
+})
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     signIn: AuthActions.signIn,
+    signInIsLoading: AuthActions.signInIsLoading,
     push: routerActions.push
   }, dispatch)
 })
@@ -124,7 +134,7 @@ const mapDispatchToProps = dispatch => ({
 RegisterForm = reduxForm({
   form: 'RegisterForm',
   validate: validateSignUpForm,
-  asyncValidate:asyncValidate
+  asyncValidate: asyncValidate
 })(RegisterForm)
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm)
