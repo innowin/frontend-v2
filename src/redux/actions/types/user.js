@@ -7,8 +7,11 @@ const ERROR = {
 const BASE = {
 }
 
+const IS_LOADING = {}
+
 export default {
-    SUCCESS,
-    ERROR,
-    BASE
+  IS_LOADING,
+  SUCCESS,
+  ERROR,
+  BASE
 }

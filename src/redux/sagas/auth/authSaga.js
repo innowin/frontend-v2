@@ -54,21 +54,26 @@ export function* signIn(action) {
   try {
     yield fork(api.post, urls.SIGN_IN, results.SIGN_IN, {username, password})
     let data = yield take(socketChannel)
-    if (remember) {
-      yield client.setTokenLS(data.token)
-    } else {
-      yield client.setSessionLS(data.token)
-    }
+    const {token} = data
+    yield put({type: types.AUTH.SET_TOKEN, payload: {token}})
+    yield delay(500)
     const hasOrgan = data.profile.is_user_organization
-    const userType = (!hasOrgan) ? ('person') : ('org')
-    yield client.saveClientUserData(data.user.id, data.identity.id, userType, remember)
-    data = {...data, organization: null}
+    let userType = 'person'
+    let organizationId = null
+    let organization = null
     if (hasOrgan) {
       const organData = yield call(getOrganizationInSignIn, username)
-      client.saveClientOrganData(remember, organData.id)
-      data = {...data, organization: organData}
+      userType = 'org'
+      organizationId = organData.id
+      organization = organData
     }
-    yield delay(500)
+    yield client.saveData(data.user.id, data.identity.id, userType, organizationId, remember)
+    if (!remember) {
+      yield client.setSessionLS(token)
+    } else {
+      yield client.setTokenLS(token)
+    }
+    data = {...data, organization}
     yield put({type: types.SUCCESS.AUTH.SIGN_IN, payload: {data, rememberMe: remember}})
   }
   catch (e) {

@@ -3,8 +3,37 @@ import types from '../actions/types'
 
 const auth = (state = initialState.auth, action) => {
 	switch (action.type) {
+		case types.IS_LOADING.AUTH.SIGN_IN:
+		  const {isLoading} = action.payload
+      return {
+        ...state,
+        client:{
+          user: {},
+          profile: {},
+          identity: {},
+          organization: null,
+          rememberMe: null,
+          signInIsLoading:isLoading,
+          isLoggedIn: false,
+          token:null,
+        }
+      }
+    case types.AUTH.SET_TOKEN:
+      return {
+        ...state,
+        client:{
+          user: {},
+          profile: {},
+          identity: {},
+          organization: null,
+          rememberMe: null,
+					signInIsLoading:true,
+          isLoggedIn: false,
+          token:action.payload.token,
+        }
+      }
 		case types.SUCCESS.AUTH.SIGN_IN:
-			const {rememberMe, data: {user, token, profile, identity, organization}} = action.payload
+			const {rememberMe, data: {token, user, profile, identity, organization}} = action.payload
 			const user_type = profile.is_user_organization ? 'org' : 'person'
 			return {
 				...state,
@@ -15,8 +44,9 @@ const auth = (state = initialState.auth, action) => {
 					organization,
 					user_type,
 					rememberMe,
+					signInIsLoading:false,
 					isLoggedIn: true,
-					token
+          token
 				}
 			}
 		case types.AUTH.SIGN_OUT_FINISHED:
@@ -28,6 +58,7 @@ const auth = (state = initialState.auth, action) => {
 					identity: {},
 					organization: null,
 					rememberMe: null,
+					signInIsLoading:false,
 					isLoggedIn: false,
 					token: null
 				}

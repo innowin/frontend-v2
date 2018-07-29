@@ -22,7 +22,7 @@ export const getUser = (userId, handleResult) => {
   socket.on(`/users/{id}/-get/getUser/${userId}`, func)
 }
 
-export const createUser = (data, handleLogin) => {
+export const createUser = (data, handleLogin, handleError) => {
   const {username, password, email} = data
   socket.emit(REST_REQUEST, {
     method: 'post',
@@ -38,13 +38,15 @@ export const createUser = (data, handleLogin) => {
     if (res.id) {
       apiTokenAuth(data)
       handleLogin()
+    } else {
+      handleError(res)
     }
     socket.off('CREATE_USER', func)
   }
   socket.on('CREATE_USER', func)
 }
 
-export const createUserOrgan = (data, handleLogin) => {
+export const createUserOrgan = (data, handleLogin, handleError) => {
   const {username, password, email} = data
   socket.emit(REST_REQUEST, {
     method: 'post',
@@ -63,6 +65,8 @@ export const createUserOrgan = (data, handleLogin) => {
     if (res.id) {
       apiTokenAuth(data)
       handleLogin()
+    }else{
+      handleError(res)
     }
     socket.off('createUserOrgan', func)
   }

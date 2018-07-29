@@ -129,8 +129,11 @@ const BASE = {
     GET_PRODUCT_PICTURE: 'GET_PRODUCT_PICTURE',
 }
 
+const IS_LOADING = {}
+
 export default {
-	ERROR,
-	SUCCESS,
-	BASE
+  IS_LOADING,
+  SUCCESS,
+  ERROR,
+  BASE
 }

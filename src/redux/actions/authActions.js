@@ -1,18 +1,26 @@
+// @flow
 import types from './types'
 
-const signIn = (username, password , remember) => ({
-	type: types.AUTH.SIGN_IN,
-	payload: {
-		username,
-		password,
-		remember
-	}
+const signIn = (username: string, password: string, remember: boolean) => ({
+  type: types.AUTH.SIGN_IN,
+  payload: {
+    username,
+    password,
+    remember
+  }
 })
-const signOut = () => ({type: types.AUTH.SIGN_OUT , payload:{}})
+
+const signInIsLoading = (isLoading: boolean) => ({
+  type: types.IS_LOADING.AUTH.SIGN_IN,
+  payload: {isLoading}
+})
+
+const signOut = () => ({type: types.AUTH.SIGN_OUT, payload: {}})
 
 const AuthActions = {
-	signIn,
-	signOut
+  signIn,
+  signInIsLoading,
+  signOut
 }
 
 export default AuthActions

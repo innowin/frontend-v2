@@ -1,4 +1,4 @@
-const ERRORS = {
+const ERROR = {
 
 }
 
@@ -10,8 +10,11 @@ const BASE = {
 
 }
 
+const IS_LOADING = {}
+
 export default {
-	ERRORS,
-	SUCCESS,
-	BASE
+  IS_LOADING,
+  SUCCESS,
+  ERROR,
+  BASE
 }
