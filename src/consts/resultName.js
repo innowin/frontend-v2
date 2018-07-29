@@ -17,8 +17,13 @@ const results = {
 		CREATE_PRODUCT:'create-org-product',
 		GET_PRODUCT_CATEGORIES : 'get-product-category'
 	},
-	PRODUCT: {
-		GET_BASIC_INFO: 'get-product-basic-info'
+	COMMON: {
+		// product
+		GET_PRODUCT_BASIC_INFO: 'get-product-basic-info-result',
+		UPDATE_PRODUCT: 'update-product-result',
+
+		// category
+		GET_CATEGORIES: 'get-categories-list-result'
 	},
 
 	EXCHANGE:{

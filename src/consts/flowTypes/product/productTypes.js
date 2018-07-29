@@ -34,7 +34,7 @@ export type RepresentType = {
 }
 
 export type CategoryType = {
-    title: string,
+    name: string,
     id: number
 }
 
