@@ -50,11 +50,11 @@ const renderSelectField = ({
             <Select
                 placeholder={placeholder}
                 multi={multi}
-                onChange={changeHandler}
+                onChange={(e) => console.log('eeeeeeeeeeeeeeeeeee is: ', e)}
                 rtl={rtl}
                 options={options}
                 noResultsText={noResultsText}
-                // value={'value'}
+                value={value}
                 {...input}
                 labelKey={label}
                 onBlur={onBlur}

@@ -16,8 +16,8 @@ import {
 } from './organization/organizationSaga'
 import {watchLSignIn, watchLSignOut, watchLSignInError} from './auth/authSaga'
 import {watchCreateSkill, watchCreateProduct} from './addingContribution/addContributionSagas'
-import {watchGetProductInfo, watchUpdateProduct} from './common/commonSagas'
-
+import {watchGetProductInfo, watchUpdateProduct} from './common/productSagas'
+import {watchGetCategories} from './common/categorySagas'
 
 const rootSaga = function* () {
     yield all([
@@ -41,7 +41,8 @@ const rootSaga = function* () {
 
         // common sagas
         watchGetProductInfo(),
-        watchUpdateProduct()
+        watchUpdateProduct(),
+        watchGetCategories()
     ])
 }
 

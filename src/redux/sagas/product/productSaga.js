@@ -9,9 +9,9 @@ import {signIn} from "../auth/authSaga";
 /**********    %% WORKERS %%    **********/
 
 export function* getProductInfo(id) {
-    const socketChannel = yield call(api.createSocketChannel, results.PRODUCT.GET_BASIC_INFO)
+    const socketChannel = yield call(api.createSocketChannel, results.COMMON.GET_PRODUCT_BASIC_INFO)
     try {
-        yield fork(api.get, urls.PRODUCT.BASE, results.PRODUCT.GET_BASIC_INFO, `${id}`)
+        yield fork(api.get, urls.COMMON.PRODUCTS, results.COMMON.GET_PRODUCT_BASIC_INFO, `${id}`)
         const data = yield take(socketChannel)
         console.log(data)
     } catch (error) {

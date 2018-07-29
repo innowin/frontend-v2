@@ -30,6 +30,7 @@ function* post(url, result, data, param = "") {
 }
 
 function* patch(url, result, data, param = "") {
+	console.log('form api.patch. the data is: ', data)
 	yield apply({}, patchEmit, [url, result, data, param])
 }
 

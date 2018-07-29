@@ -18,6 +18,7 @@ import {RegisterForm} from "../../pages/login/SignUpForm";
 import {validateSignUpForm} from "../../pages/login/validations";
 import {ProductInfoItemWrapper, ProductInfoView, ProductDescriptionView, ProductDescriptionWrapper} from "./Views"
 import renderTextArea from "../../common/inputs/reduxFormRenderTextArea"
+import {connect} from 'react-redux'
 
 
 const TEST_CATEGORIES = [{label: 'label', value: 30}, {label: 'label', value: 20}, {label: 'label', value: '30'}]
@@ -173,33 +174,37 @@ type ProductInformationFormProps = {
     error: string,
     submitFailed: boolean,
     hideEdit: Function,
-    formData: ProductType
+    formData: ProductType,
+    categoriesOptions: []
 }
 
-const ProductInformationForm = (props: ProductInformationFormProps) => {
-    const {handleSubmit, onSubmit, translator, submitting, error, submitFailed, hideEdit, formData} = props
-    const {name, province, city, country, description, product_category} = formData
+let ProductInformationForm = (props: ProductInformationFormProps) => {
+    const {handleSubmit, onSubmit, translator, submitting, error, submitFailed, hideEdit, categoriesOptions} = props
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="product-form">
-            {console.log('formdata in component is: ', name)}
             <ProductDescriptionWrapper translator={translator}>
-                <Field value={description} name="description" className="description" type="text" component={renderTextArea} label={'desc'}/>
+                <Field name="description" className="description" type="text"
+                       component={renderTextArea} label={'desc'}/>
             </ProductDescriptionWrapper>
             <ProductInfoItemWrapper translator={translator}>
-            <Field name="name" value={name} className="form-field" type="text" component={renderTextField} label={'name'}/>
-                <Field name="country" value={country} className="form-field" type="text" component={renderTextField} label={'country'}/>
-                <Field name="province" value={province} className="form-field" type="text" component={renderTextField} label={'province'}/>
-                <Field name="city" value={city} className="form-field" type="text" component={renderTextField} label={'city'}/>
+                <Field name="name" className="form-field" type="text" component={renderTextField}
+                       label={'name'}/>
+                <Field name="country" className="form-field" type="text" component={renderTextField}
+                       label={'country'}/>
+                <Field name="province" className="form-field" type="text" component={renderTextField}
+                       label={'province'}/>
+                <Field name="city" className="form-field" type="text" component={renderTextField}
+                       label={'city'}/>
                 <Field
-                    value={product_category}
                     className="category"
                     name="product_category"
                     type="text"
+                    placeholder='category'
                     component={renderSelectField}
                     label={'category'}
-                    noResultsText={translator['No result found']}
-                    changeHandler={() => console.log('the value of select changed.')}
-                    options={TEST_CATEGORIES}
+                    noResultsText={'چنین دسته‌بندی وجود ندارد.'}
+                    changeHandler={(e) => console.log('e is: ', e)}
+                    options={categoriesOptions}
                 />
                 <div>
                     <button
@@ -209,9 +214,9 @@ const ProductInformationForm = (props: ProductInformationFormProps) => {
                             <BeatLoader color="#fff" size={10} margin="auto"/>
                         )}
                     </button>
-                    <button type="button" className="btn btn-secondary mr-2" onClick={hideEdit}>
+                    <span className="btn btn-secondary mr-2" onClick={hideEdit}>
                         {translator['Cancel']}
-                    </button>
+                    </span>
                 </div>
                 {submitFailed && <p className="error-message">{error}</p>}
             </ProductInfoItemWrapper>
@@ -219,10 +224,13 @@ const ProductInformationForm = (props: ProductInformationFormProps) => {
     )
 }
 
-export const ProductInformationReduxForm = reduxForm({
-    form: 'productInfoForm',
+ProductInformationForm = reduxForm({
+    form: 'productBasicInfoForm',
     validate: productFormValidation,
 })(ProductInformationForm)
+
+export {ProductInformationForm}
+
 
 export class ProductInfoForm extends Component<ProductInfoFormProps, ProductInfoFormState> {
     static propTypes = {

@@ -9,12 +9,12 @@ import results from "../../../consts/resultName";
 
 export function* getProductInfo(action) { // action = {type, id}
     const {id} = action
-    const socketChannel = yield call(api.createSocketChannel, results.PRODUCT.GET_BASIC_INFO)
+    const socketChannel = yield call(api.createSocketChannel, results.COMMON.GET_PRODUCT_BASIC_INFO)
     try {
-        yield fork(api.get, urls.PRODUCT.BASE, results.PRODUCT.GET_BASIC_INFO, id)
+        yield fork(api.get, urls.COMMON.PRODUCT, results.COMMON.GET_PRODUCT_BASIC_INFO, id)
         const data = yield take(socketChannel)
+        console.log('the guy new complete data is: ', data)
         yield put({type: types.SUCCESS.COMMON.GET_PRODUCT_INFO, data})
-        console.log('yap finally the data is: ', data)
     } catch (error) {
         yield put({type: types.ERRORS.COMMON.GET_PRODUCT_INFO, error})
     } finally {
@@ -25,17 +25,14 @@ export function* getProductInfo(action) { // action = {type, id}
 
 export function* updateProduct(action) { // action = {type, payload: {id, formData} }
     const {formData, id} = action.payload
-    console.log('the guy formData in saga worker is: ', formData)
-    console.log('the guy action in saga worker is: ', action)
-    const socketChannel = yield call(api.createSocketChannel, results.PRODUCT.UPDATE)
+    const socketChannel = yield call(api.createSocketChannel, results.COMMON.UPDATE_PRODUCT)
+
     try {
-        yield fork(api.patch, urls.PRODUCT.BASE, results.PRODUCT.UPDATE, formData, id)
+        yield fork(api.patch, urls.COMMON.PRODUCT, results.COMMON.UPDATE_PRODUCT, formData, id)
         const data = yield take(socketChannel)
-        // yield put({type: types.SUCCESS.COMMON.GET_PRODUCT_INFO, data})
-        console.log('yap finally the data is: ', data)
+        yield put({type: types.SUCCESS.COMMON.UPDATE_PRODUCT, data})
     } catch (error) {
-        console.log(error)
-        // yield put({type: types.ERRORS.COMMON.GET_PRODUCT_INFO, error})
+        yield put({type: types.ERRORS.COMMON.UPDATE_PRODUCT, error})
     } finally {
         socketChannel.close()
     }
@@ -52,5 +49,3 @@ export function* watchGetProductInfo() {
 export function* watchUpdateProduct() {
     yield takeEvery(types.COMMON.UPDATE_PRODUCT, updateProduct)
 }
-
-

@@ -16,9 +16,13 @@ const results = {
 		UPDATE_CUSTOMER:'update-org-customer',
 		CREATE_PRODUCT:'create-org-product',
 	},
-	PRODUCT: {
-		GET_BASIC_INFO: 'get-product-basic-info-result',
-		UPDATE: 'update-product-result'
+	COMMON: {
+		// product
+		GET_PRODUCT_BASIC_INFO: 'get-product-basic-info-result',
+		UPDATE_PRODUCT: 'update-product-result',
+
+		// category
+		GET_CATEGORIES: 'get-categories-list-result'
 	},
 	//contribution
 	CREATE_PRODUCT: 'create-product',

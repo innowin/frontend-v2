@@ -87,6 +87,11 @@ export default {
             isLoading: false,
             isLoaded: false,
         }, // the product that is viewing now.
+        categories: {
+            content: {},
+            isLoading: false,
+            isLoaded: false
+        }
     },
     test: {
         result: 1,

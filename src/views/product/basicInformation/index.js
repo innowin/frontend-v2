@@ -9,12 +9,14 @@ import {REST_REQUEST} from "../../../consts/Events"
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import client from "src/consts/client"
 import {ProductInfoItemWrapper, ProductInfoView, ProductDescriptionView, ProductDescriptionWrapper} from "./Views"
-import type {ProductType} from "src/consts/flowTypes/product/productTypes"
+import type {ProductType, CategoryType} from "src/consts/flowTypes/product/productTypes"
 import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
-import {getProductInfo, updateProduct} from "src/redux/actions/commonActions"
+import {getProductInfo, updateProduct} from "src/redux/actions/commonActions/productActions"
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {ProductInformationReduxForm} from "./Forms"
+import {ProductInformationForm} from "./Forms"
+import {getCategories} from "src/redux/actions/commonActions/categoryActions"
+
 
 type OwnerType = {
     name: string
@@ -39,7 +41,9 @@ type ProductInfoProps = {
     translator: TranslatorType,
     _getProductInfo: Function,
     _updateProduct: Function,
-    product: ProductType
+    product: ProductType,
+    _getCategories: Function,
+    categories: { number: { name: string } }
 }
 
 export class productBasicInformation extends Component<ProductInfoProps, ProductInfoState> {
@@ -82,6 +86,12 @@ export class productBasicInformation extends Component<ProductInfoProps, Product
         this.setState({...this.state, product: res, error: error, isLoading})
     }
 
+    _categoriesAsOptions = () => {
+        const {categories} = this.props
+        return Object.keys(categories).map(key => ( {value: key, label: categories[key].name } ))
+        // react-select need some thing like [ {value: , label: }, ... ] by default.
+    }
+
     getProductDetail(categoryId: number, userId: number, productId: number) {
         const newState = {...this.state, isLoading: true}
         this.setState(newState)
@@ -117,20 +127,29 @@ export class productBasicInformation extends Component<ProductInfoProps, Product
         const {product, _updateProduct, productId} = this.props
         const product_category = (values.product_category && values.product_category.value) || product.product_category
         const formData = {...values, product_category}
+        console.log('from the basicInformation component. values is: ', values)
         _updateProduct(productId, formData)
+
     }
 
     componentDidMount() {
-        const {productId, product, _getProductInfo} = this.props
+        const {productId, product, _getProductInfo, _getCategories} = this.props
         _getProductInfo(productId)
+        _getCategories()
+        // let formData = {}
+
         if (product) {
             const formFields = ['product_category', 'name', 'country', 'province', 'city', 'description']
+
             const formData = formFields.reduce((acc, field) => ({...acc, [field]: product[field]}), {})
+            formData['product_category'] = {value: product.product_category.id, label: product.product_category.name}
             this.setState({
                 ...this.state,
                 formData: formData
-            })
+            }, () => console.log('this .state.formData is: ', this.state.formData))
         }
+        console.log(' ------------------ this.props.categories is: ', this.props.categories)
+
         // socket.on(`Products-category-get/`, (res) => {
         //     if (res.detail) {
         //         const newState = {...this.state, error: res.detail, isLoading: false}
@@ -166,11 +185,12 @@ export class productBasicInformation extends Component<ProductInfoProps, Product
                     <ListGroup>
                         <VerifyWrapper isLoading={isLoading} error={error}>
                             {edit ?
-                                <ProductInformationReduxForm
+                                <ProductInformationForm
+                                    categoriesOptions={this._categoriesAsOptions()}
                                     hideEdit={() => this._showEditHandler(false)}
                                     onSubmit={this._productFormSubmitHandler}
                                     translator={translator}
-                                    formData={formData}
+                                    initialValues={formData}
                                 />
                                 :
                                 <div>
@@ -255,14 +275,16 @@ type BasicInfoProps = {
 // }
 
 const mapStateToProps = state => ({
-    product: state.common.viewingProduct.content
+    product: state.common.viewingProduct.content,
+    categories: state.common.categories.content
 })
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators(
         {
             _getProductInfo: id => getProductInfo(id),
-            _updateProduct: (id, values) => updateProduct(id, values)
+            _updateProduct: (id, values) => updateProduct(id, values),
+            _getCategories: () => getCategories()
         },
         dispatch
     );
