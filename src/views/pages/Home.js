@@ -6,28 +6,20 @@ import TopBar from "../bars/TopBar"
 import ChatBar from "../bars/ChatBar"
 import HomeSideBar from "./home/HomeSideBar"
 import HomePosts from "./home/HomePosts"
-import {clientData} from "src/consts/log"
 import {connect} from "react-redux"
-import type {exchangeIdentityType} from "src/consts/flowTypes/exchange/exchange.js"
 
-class Home extends Component<{ handleSignOut: Function, identityId: number }, { activeExchangeId: ?number, exchangeIdentities: (exchangeIdentityType)[] }> {
+type HomeProps = {|
+  identityId: number
+|}
+class Home extends Component<HomeProps, {| activeExchangeId: ?number|}> {
 
   static propTypes = {
-    handleSignOut: PropTypes.func.isRequired,
     identityId: PropTypes.number.isRequired
   }
 
   constructor(props) {
     super(props)
-    this.state = {activeExchangeId: null, exchangeIdentities: []}
-  }
-
-  componentDidMount() {
-    const {identityId} = this.props
-    // const DaneshBoomExchangeId = exchangeIdentities[0].exchange_identity_related_exchange.id
-    const DaneshBoomExchangeId = 1
-    setTimeout(() => console.log(clientData()), 2000)
-    this.setState({...this.state, activeExchangeId: DaneshBoomExchangeId})
+    this.state = {activeExchangeId: null}
   }
 
   _setExchangeId = (exchangeId: number) => {
@@ -38,16 +30,16 @@ class Home extends Component<{ handleSignOut: Function, identityId: number }, { 
   }
 
   render() {
-    const {handleSignOut} = this.props
-    const {activeExchangeId, exchangeIdentities} = this.state
+    const {identityId} = this.props
+    const {activeExchangeId} = this.state
     const widthOfRightBar = "col-md-3 col-sm-2"
     return (
       <div className="home-wrapper">
-        <TopBar handleSignOut={handleSignOut} collapseWidthCol={widthOfRightBar}/>
+        <TopBar collapseWidthCol={widthOfRightBar}/>
         <main>
           <HomeSideBar setExchangeId={this._setExchangeId}
                        classNames={`${widthOfRightBar} pr-0 pl-0 -right-sidebar-wrapper`}
-                       exchangeIdentities={exchangeIdentities}
+                       identityId={identityId}
           />
           <div className="col-md-7 col-sm-9 pr-5-percent -content-wrapper -home-content-wrapper">
             <HomePosts exchangeId={activeExchangeId}/>

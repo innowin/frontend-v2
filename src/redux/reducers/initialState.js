@@ -11,7 +11,15 @@ export default {
 			organization: null,
 			rememberMe: null,
 			user_type: null,
-			exchange_identities: []
+			exchange_identities: {
+        isLoading:false,
+        isLoaded:false,
+        error:{
+          isError:false,
+          messages:null
+        },
+        content:[]
+			}
 		},
 		clients: {
 			users: [],
@@ -97,8 +105,5 @@ export default {
 	intl: {
 		locale: 'fa',
 		messages: {...messages}
-	},
-	error: {
-		message: ''
-	},
-};
+	}
+}

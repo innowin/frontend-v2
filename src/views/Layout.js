@@ -18,7 +18,7 @@ class Layout extends Component {
 		const {handleSignOut} = this.props
 		return (
 				<Switch>
-					<PrivateRoute exact={true} path="/" component={Home} handleSignOut={handleSignOut}/>
+					<PrivateRoute exact={true} path="/" component={Home}/>
 					<PrivateRoute path="/user/:id" component={User} handleSignOut={handleSignOut}/>
 					<PrivateRoute path="/organization/:id" component={Organization} handleSignOut={handleSignOut}/>
 					<PrivateRoute path="/exchange" component={Exchange} handleSignOut={handleSignOut}/>

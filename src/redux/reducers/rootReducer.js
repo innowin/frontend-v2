@@ -9,19 +9,19 @@ import common from './common'
 
 
 const reducers = {
-    auth,
-    organization
+  auth,
+  organization
 }
 
 
 //Don't change below code ,  Put your reducer on the upper object.
 const rootReducer = combineReducers({
-    ...reducers,
-    intl: intlReducer,
-    router: routerReducer,
-    form: formReducer,
-    productReducer,
-    common
+  ...reducers,
+  intl: intlReducer,
+  router: routerReducer,
+  form: formReducer,
+  productReducer,
+  common
 })
 
 export default rootReducer

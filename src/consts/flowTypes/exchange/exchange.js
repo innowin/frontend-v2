@@ -1,4 +1,4 @@
-export type exchangeType = {
+export type exchangeType = {|
   id: number,
   name: string,
   link: ?string,
@@ -36,9 +36,9 @@ export type exchangeType = {
   },
   // FixME mohsen = exchange_hashtag is numbber or object??
   exchange_hashtag: ?number
-}
+|}
 
-export type exchangeIdentityType = {
+export type exchangeIdentityType = {|
   id: number,
   exchange_identity_related_exchange: {
     id: number,
@@ -106,4 +106,4 @@ export type exchangeIdentityType = {
   created_time: string,
   join_type: string,
   active_flag: boolean
-}
+|}
