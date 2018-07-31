@@ -28,8 +28,14 @@ const urls =  {
 		// product
 		PRODUCT: 'products',
 
+		// file
+		FILE: 'files',
+
 		// category
-		CATEGORY: 'products/category'
+		CATEGORY: 'products/category',
+
+		// certificate
+		CERTIFICATE: 'base/certificates'
 	}
 }
 export default urls

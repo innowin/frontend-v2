@@ -82,15 +82,26 @@ export default {
         },
     },
     common: {
-        viewingProduct: {
-            content: {},
-            isLoading: false,
-            isLoaded: false,
-        }, // the product that is viewing now.
-        categories: {
-            content: {},
-            isLoading: false,
-            isLoaded: false
+        product: {
+            viewingProduct: {
+                content: {},
+                isLoading: false,
+                isLoaded: false,
+            }, // the product that is viewing now.
+        },
+        category: {
+            categories: {
+                content: {},
+                isLoading: false,
+                isLoaded: false
+            },
+        },
+        certificate: {
+            objectCertificates: { // the 'object' in objectCertificates can be organization or user or product.
+                content: {},
+                isLoaded: false,
+                isLoading: false
+            }
         }
     },
     test: {

@@ -5,14 +5,18 @@ import organization from './organization'
 import {routerReducer} from 'react-router-redux'
 import {intlReducer} from './intl'
 import {reducer as formReducer} from 'redux-form'
-import productReducer from './contributionReducer'
-import common from './common'
+import category from './commonReducer/category'
+import product from './commonReducer/product'
+import certificate from './commonReducer/certificate'
 
 
 const reducers = {
     test,
     auth,
-    organization
+    organization,
+    category,
+    product,
+    certificate
 }
 
 
@@ -22,8 +26,6 @@ const rootReducer = combineReducers({
     intl: intlReducer,
     router: routerReducer,
     form: formReducer,
-    productReducer,
-    common
 })
 
 export default rootReducer

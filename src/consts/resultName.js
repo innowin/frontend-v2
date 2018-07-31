@@ -18,11 +18,19 @@ const results = {
 	},
 	COMMON: {
 		// product
-		GET_PRODUCT_BASIC_INFO: 'get-product-basic-info-result',
-		UPDATE_PRODUCT: 'update-product-result',
+		GET_PRODUCT_BASIC_INFO: 'common-get-product-basic-info-result',
+		UPDATE_PRODUCT: 'common-update-product-result',
+
+		// file
+		CREATE_FILE: 'common-create-file-result',
+		UPDATE_FILE: 'common-update-file-result',
 
 		// category
-		GET_CATEGORIES: 'get-categories-list-result'
+		GET_CATEGORIES: 'common-get-categories-list-result',
+
+		// certificate
+        GET_OBJECT_CERTIFICATES: 'common-get-object-certificates-list',
+		CREATE_OBJECT_CERTIFICATE: 'common-create-object-certificate',
 	},
 	//contribution
 	CREATE_PRODUCT: 'create-product',

@@ -1,7 +1,6 @@
 // @flow
 import * as React from 'react'
 import Select from 'react-select';
-import star_svg from "../../../images/common/star_svg";
 
 
 type OptionType = {
@@ -35,9 +34,7 @@ const renderSelectField = ({
                                className,
                                label,
                                options,
-                               changeHandler,
                                noResultsText,
-                               value,
                                multi = false,
                                rtl,
                                onBlurResetsInput = false,
@@ -50,17 +47,13 @@ const renderSelectField = ({
             <Select
                 placeholder={placeholder}
                 multi={multi}
-                onChange={(e) => console.log('eeeeeeeeeeeeeeeeeee is: ', e)}
                 rtl={rtl}
                 options={options}
                 noResultsText={noResultsText}
-                value={value}
                 {...input}
-                labelKey={label}
                 onBlur={onBlur}
                 onBlurResetsInput={onBlurResetsInput}
             />
-            {(touched && error) && console.log(`the error of ${input.name} is: ${error}`)}
         </div>
     )
 }

@@ -1,9 +1,6 @@
 import {all} from 'redux-saga/effects'
 import {
-    watchGetOrganization,
     watchGetOrganizationSuccess,
-    watchGetOrganizationMembers,
-    // watchGetOrganizationMembersSuccess,
     watchUpdateOrganization,
     watchGetProducts,
     watchGetOrgFollowers,
@@ -15,9 +12,11 @@ import {
     watchCreateOrgProduct
 } from './organization/organizationSaga'
 import {watchLSignIn, watchLSignOut, watchLSignInError} from './auth/authSaga'
-import {watchCreateSkill, watchCreateProduct} from './addingContribution/addContributionSagas'
-import {watchGetProductInfo, watchUpdateProduct} from './common/productSagas'
-import {watchGetCategories} from './common/categorySagas'
+import productWatchers from './common/product/product'
+import categoryWatchers from './common/category/category'
+import fileWatchers from './common/file/file'
+import certificateWatchers from './common/certificate/certificate'
+
 
 const rootSaga = function* () {
     yield all([
@@ -35,14 +34,21 @@ const rootSaga = function* () {
         watchGetCustomers(),
         watchGetCertificates(),
         watchUpdateCustomer(),
-        watchCreateSkill(),
-        watchCreateProduct(),
         watchCreateOrgProduct(),
 
-        // common sagas
-        watchGetProductInfo(),
-        watchUpdateProduct(),
-        watchGetCategories()
+        // product watchers
+        productWatchers.watchGetProductInfo(),
+        productWatchers.watchUpdateProduct(),
+
+        // category watchers
+        categoryWatchers.watchGetCategoriesList(),
+
+        // file watchers
+        fileWatchers.watchCreateFile(),
+        fileWatchers.watchUpdateFile(),
+
+        // certificate watchers
+        certificateWatchers.watchGetObjectCertificates(),
     ])
 }
 
