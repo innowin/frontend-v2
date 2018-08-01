@@ -1,4 +1,4 @@
-export type userType = {
+export type userType = {|
   id: number,
   username: string,
   password: string,
@@ -7,9 +7,9 @@ export type userType = {
   is_active: boolean,
   profile_media: ?number,
   [string]: ?string
-}
+|}
 
-export type userProfileType = {
+export type userProfileType = {|
   id: number,
   profile_user: number,
   profile_strength: number,
@@ -24,9 +24,9 @@ export type userProfileType = {
   profile_banner: ?number,
   profile_media: ?number,
   [string]: ?string
-}
+|}
 
-export type userEducationType = {
+export type userEducationType = {|
   id: number,
   created_time: string,
   updated_time: string,
@@ -38,10 +38,10 @@ export type userEducationType = {
   from_date: ?string,
   to_date: ?string,
   description: ?string,
-}
+|}
 
 
-export type userResearchType = {
+export type userResearchType = {|
   id: number,
   created_time: string,
   updated_time: string,
@@ -53,4 +53,4 @@ export type userResearchType = {
   publication: ?string,
   research_link: ?string,
   url: ?string
-}
+|}

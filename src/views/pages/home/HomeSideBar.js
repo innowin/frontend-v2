@@ -1,8 +1,13 @@
-import React, {Component} from "react"
+// @flow
+import * as React from "react"
+import {Component} from "react"
 import PropTypes from "prop-types"
-import {DefaultExchangeIcon} from "src/images/icons"
+import ExchangeActions from "src/redux/actions/exchangeAction"
+import type {exchangeIdentityType, exchangeType} from "src/consts/flowTypes/exchange/exchange.js"
+import {bindActionCreators} from "redux"
+import {connect} from "react-redux"
 import {Link} from "react-router-dom"
-import {SeeViewIcon, RefreshIcon, SettingIcon} from "src/images/icons"
+import {SeeViewIcon, RefreshIcon, SettingIcon, DefaultExchangeIcon} from "src/images/icons"
 
 const DescriptionSideBarItem = ({description = '', className = ""}) => {
   return (
@@ -22,17 +27,18 @@ const FooterSideBarItem = ({exchangeId, className = ""}) => {
   )
 }
 
-export class SideBarItem extends Component {
+type PropsSideBarItem = {
+  exchange: exchangeType,
+  handleClick: Function,
+  active: boolean
+}
+
+export class SideBarItem extends Component<PropsSideBarItem> {
 
   static propTypes = {
     exchange: PropTypes.object.isRequired,
-    handleClick: PropTypes.func,
+    handleClick: PropTypes.func.isRequired,
     active: PropTypes.bool
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {file: null}
   }
 
   _onClickHandler = () => {
@@ -65,11 +71,32 @@ export class SideBarItem extends Component {
 }
 
 
-export default class HomeSideBar extends Component {
+type StateHomeSideBar = {|
+  activeId: ?number
+|}
+
+type PropsHomeSideBar = {|
+  identityId: number,
+  setExchangeId: Function,
+  classNames?: string,
+  clientExchangeIdentities: {
+    content: (exchangeIdentityType)[],
+    isLoading: boolean,
+    isLoaded: boolean
+  },
+  actions: {
+    getExchangeIdentities: Function,
+    isLoadingFunc: Function
+  }
+|}
+
+class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
   static propTypes = {
+    identityId: PropTypes.number.isRequired,
     setExchangeId: PropTypes.func.isRequired,
     classNames: PropTypes.string,
-    exchangeIdentities: PropTypes.arrayOf(PropTypes.object.isRequired)
+    clientExchangeIdentities: PropTypes.object.isRequired,
+    actions: PropTypes.object.isRequired
   }
 
   constructor(props) {
@@ -82,13 +109,23 @@ export default class HomeSideBar extends Component {
     this.setState({...this.state, activeId: id}, () => setExchangeId(id))
   }
 
+  componentDidMount() {
+    const {identityId, clientExchangeIdentities} = this.props
+    const {getExchangeIdentities, isLoadingFunc} = this.props.actions
+    if (!clientExchangeIdentities.isLoaded) {
+      isLoadingFunc()
+      getExchangeIdentities(identityId)
+    }
+  }
+
   render() {
-    const {exchangeIdentities, classNames} = this.props
+    const {clientExchangeIdentities, classNames} = this.props
+    const exchanges = clientExchangeIdentities.content
     return (
       <div className={classNames}>
         {
-          (exchangeIdentities && exchangeIdentities.length > 0) ? (
-            exchangeIdentities.map((item, i) => {
+          (exchanges && exchanges.length > 0) ? (
+            exchanges.map((item, i) => {
               const exchange = item.exchange_identity_related_exchange
               const {activeId} = this.state
               return (
@@ -106,3 +143,15 @@ export default class HomeSideBar extends Component {
     )
   }
 }
+
+
+const mapStateToProps = state => ({
+  clientExchangeIdentities: state.auth.client.exchange_identities
+})
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({
+    getExchangeIdentities: ExchangeActions.getExchangeIdentitiesByMemberIdentity,
+    isLoadingFunc: ExchangeActions.getExchangeIdentitiesByMemberIdentityIsLoading
+  }, dispatch)
+})
+export default connect(mapStateToProps, mapDispatchToProps)(HomeSideBar)

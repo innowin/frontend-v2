@@ -94,7 +94,6 @@ export class RegisterForm extends Component {
 
   render() {
     const {RedirectToHome, translator, signInIsLoading, ...reduxFormProps} = this.props
-    console.log("sign in signInIsLoading", signInIsLoading)
     const {userType} = this.state
     const userTypeItems = [{value: USER_TYPES.PERSON, title: 'فرد'}, {value: USER_TYPES.ORGANIZATION, title: 'مجموعه'}]
     const onSubmitFunc = (userType === USER_TYPES.PERSON) ? (this._onSubmitPerson) : (this._onSubmitOrgan)

@@ -24,8 +24,13 @@ const results = {
 		DELETE_PRODUCT:'delete-org-product',
 		CREATE_CERTIFICATE:'create-org-certificate',
 	},
-	PRODUCT: {
-		GET_BASIC_INFO: 'get-product-basic-info'
+	COMMON: {
+		// product
+		GET_PRODUCT_BASIC_INFO: 'get-product-basic-info-result',
+		UPDATE_PRODUCT: 'update-product-result',
+
+		// category
+		GET_CATEGORIES: 'get-categories-list-result'
 	},
 
 	EXCHANGE:{

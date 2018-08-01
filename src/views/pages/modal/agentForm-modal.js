@@ -1,9 +1,6 @@
-/*global __*/
-import React, { Component } from 'react'
+import React, { Component } from "react"
 import PropTypes from "prop-types"
-import FontAwesome from 'react-fontawesome'
-import RadioButtonInput from '../../common/inputs/RadioButtonInput'
-import LabelTag from '../../common/tag-label.js'
+import LabelTag from "../../common/tag-label.js"
 import {AgentSvgIcon, TipsIcon} from "src/images/icons"
 class AgentForm extends Component {
   static propTypes = {
@@ -42,8 +39,8 @@ class AgentForm extends Component {
   }
   render() {
     return (
-      <div className={this.props.active  ? "modal-page" : "modal-page hide" }tabindex="-1" role="dialog" ref={this.setWrapperRef}>
-        <p className="agent-from-title"><div className="agent-form-title-container"><AgentSvgIcon className="agent-form-agent-icon"/><span className="agent-from-title-text"> درخواست ارتقاء به کارگزار</span></div></p>
+      <div className={this.props.active  ? "modal-page" : "modal-page hide" } tabIndex="-1" role="dialog" ref={this.setWrapperRef}>
+        <div className="agent-from-title"><div className="agent-form-title-container"><AgentSvgIcon className="agent-form-agent-icon"/><span className="agent-from-title-text"> درخواست ارتقاء به کارگزار</span></div></div>
         <div className="modal-hint">
           <div className="row">
             <div className="col-2">
@@ -59,13 +56,13 @@ class AgentForm extends Component {
             <div className="col" dir="ltr">
               <div className="form-check form-check-inline">
                 <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"/>
-                <label className="form-check-label" for="inlineRadio1">ارتقا مستقیم به کارگزار</label>
+                <label className="form-check-label" htmlFor="inlineRadio1">ارتقا مستقیم به کارگزار</label>
               </div>
             </div>
             <div className="col" dir="ltr">
               <div className="form-check form-check-inline">
                 <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"/>
-                <label className="form-check-label" for="inlineRadio1">ارتقا بر اساس سوابق کارگزاری</label>
+                <label className="form-check-label" htmlFor="inlineRadio1">ارتقا بر اساس سوابق کارگزاری</label>
               </div>
             </div>
           </div>

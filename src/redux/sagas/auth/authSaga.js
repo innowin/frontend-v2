@@ -25,27 +25,6 @@ export function* getOrganizationInSignIn(username) {
   }
 }
 
-export function* getExchangeIdentities(identityId) {
-  const socketChannel = yield call(api.createSocketChannel, results.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY)
-  try {
-    yield fork(
-      api.get,
-      urls.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY,
-      results.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY,
-      `?identity_id=${identityId}`
-    )
-    return yield take(socketChannel)
-  } catch (e) {
-    const {message} = e
-    yield put({
-      type: types.ERRORS.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY,
-      payload: {type: types.ERRORS.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY, message}
-    })
-  } finally {
-    socketChannel.close()
-  }
-}
-
 //1 - sign in worker
 export function* signIn(action) {
   const {payload} = action

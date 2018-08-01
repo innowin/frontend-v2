@@ -1,57 +1,61 @@
 import {all} from 'redux-saga/effects'
 import {watchGetOrganization,
-	watchGetOrganizationSuccess,
-	watchGetOrganizationMembers,
-	//watchGetOrganizationMembersSuccess,
-	watchUpdateOrganization,
-	watchGetProducts,
-	watchGetOrgFollowers,
-	watchGetOrgFollowings,
-	watchGetOrgExchanges,
-	watchGetCustomers,
-	watchGetCertificates,
-	watchUpdateCustomer,
-	watchCreateOrgProduct,
-	watchUpdateOrgProduct,
-	watchAddProductPicture,
-	watchGetProductPictures,
-	watchGetProductsSuccess,
-	watchDeleteProduct,
-	watchCreateCertificate,
-	} from './organization/organizationSaga'
+    watchGetOrganizationSuccess,
+    watchGetOrganizationMembers,
+    watchUpdateOrganization,
+    watchGetProducts,
+    watchGetOrgFollowers,
+    watchGetOrgFollowings,
+    watchGetOrgExchanges,
+    watchGetCustomers,
+    watchGetCertificates,
+    watchUpdateCustomer,
+		watchCreateOrgProduct,
+		watchUpdateOrgProduct,
+		watchAddProductPicture,
+		watchGetProductPictures,
+		watchGetProductsSuccess,
+		watchDeleteProduct,
+		watchCreateCertificate,
+
+} from './organization/organizationSaga'
 import {watchLSignIn, watchLSignOut, watchLSignInError} from './auth/authSaga'
 import {watchCreateSkill, watchCreateProduct} from './addingContribution/addContributionSagas'
-import {watchGetProductInfo} from './common/commonSagas'
-
+import {watchGetProductInfo, watchUpdateProduct} from './common/productSagas'
+import {watchLGetExchangesByMemberIdentity} from "./exchange/exchange"
+import {watchGetCategories} from './common/categorySagas'
 
 const rootSaga = function* () {
-	yield all([
-		watchLSignInError(),
-		watchLSignOut(),
-		watchLSignIn(),
-		watchGetOrganization(),
-		watchGetOrganizationSuccess(),
-		watchGetOrganizationMembers(),
-		watchUpdateOrganization(),
-		watchGetProducts(),
-		watchGetOrgFollowers(),
-		watchGetOrgFollowings(),
-		watchGetOrgExchanges(),
-		watchGetCustomers(),
-		watchGetCertificates(),
-		watchUpdateCustomer(),
-		watchCreateSkill(),
-		// watchCreateProduct(),
-		watchCreateOrgProduct(),
-		watchUpdateOrgProduct(),
-		watchAddProductPicture(),
-		watchGetProductPictures(),
-		watchGetProductsSuccess(),
-		watchDeleteProduct(),
-		watchCreateCertificate(),
+    yield all([
+        watchLSignInError(),
+        watchLSignOut(),
+        watchLSignIn(),
+        watchGetCertificates(),
+        watchGetCustomers(),
+        watchGetOrganization(),
+        watchGetOrganizationMembers(),
+        watchGetOrganizationSuccess(),
+        watchGetOrgExchanges(),
+        watchGetOrgFollowers(),
+        watchGetOrgFollowings(),
+        watchGetProducts(),
+        watchUpdateOrganization(),
+        watchLGetExchangesByMemberIdentity(),
+        watchUpdateCustomer(),
+				watchCreateSkill(),
+				watchUpdateOrgProduct(),
+				watchAddProductPicture(),
+				watchGetProductPictures(),
+				watchGetProductsSuccess(),
+				watchDeleteProduct(),
+				watchCreateCertificate(),
+        // watchCreateProduct(),
+        watchCreateOrgProduct(),
 
-		// common sagas
-        watchGetProductInfo()
+        // common sagas
+        watchGetProductInfo(),
+        watchUpdateProduct(),
+        watchGetCategories()
     ])
 }
 
