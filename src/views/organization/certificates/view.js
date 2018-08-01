@@ -1,8 +1,10 @@
 //@flow
+/*global __*/
 import * as React from 'react';
 import {CertificateEditForm} from './forms';
 import {ItemHeader, ItemWrapper} from "../../common/cards/Frames";
 import {CertificateIcon, starIcon} from "src/images/icons";
+import {ImageViewer} from '../../common/ImageViewer';
 
 type CertificateItemWrapperProps = {
     children :React.Node
@@ -23,7 +25,13 @@ export class CertificateView extends React.Component<CertificateViewProps> {
                 <div className="row">
                     <div className="col certificate">
                         <div className="content">
-                            <img className="certImage" alt="" src={certificate.picture_media || "/static/media/defaultImg.94a29bce.png"} />
+                            {certificate.certificate_picture ? 
+                            <ImageViewer
+                            label={__('Post pictures') + ": "}
+                             mediaId={certificate.certificate_picture} 
+                            /> : 
+                            <img src="/static/media/defaultImg.94a29bce.png" />
+                            }
                             <h5>{certificate.title}</h5>
 
                             <a className="shareButton">{starIcon}</a>
@@ -61,7 +69,7 @@ export class Certificate extends React.Component<CertificateProps,{edit:boolean,
     };
 
 	render() {
-		const {certificate} = this.state;
+		const {certificate} = this.props;
 		if (this.state.edit) {
 			return <CertificateItemWrapper>
 				<CertificateEditForm

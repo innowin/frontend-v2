@@ -15,6 +15,9 @@ import {watchGetOrganization,
 	watchUpdateOrgProduct,
 	watchAddProductPicture,
 	watchGetProductPictures,
+	watchGetProductsSuccess,
+	watchDeleteProduct,
+	watchCreateCertificate,
 	} from './organization/organizationSaga'
 import {watchLSignIn, watchLSignOut, watchLSignInError} from './auth/authSaga'
 import {watchCreateSkill, watchCreateProduct} from './addingContribution/addContributionSagas'
@@ -43,6 +46,9 @@ const rootSaga = function* () {
 		watchUpdateOrgProduct(),
 		watchAddProductPicture(),
 		watchGetProductPictures(),
+		watchGetProductsSuccess(),
+		watchDeleteProduct(),
+		watchCreateCertificate(),
 
 		// common sagas
         watchGetProductInfo()

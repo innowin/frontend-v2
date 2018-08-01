@@ -20,6 +20,7 @@ import {Link} from "react-router-dom"
 import {getFile} from "src/crud/media/media"
 import AgentForm from "../pages/modal/agentForm-modal"
 import AddingContribution from "../pages/adding-contribution/addingContribution"
+import CreateExchangeForm from "../pages/modal/createExchange-modal";
 
 type PropsTopBar = {|
   collapseWidthCol: string,
@@ -39,7 +40,8 @@ type StatesTopBar = {|
   collapseProfile: boolean,
   agentForm: boolean,
   profileMedia: ? string,
-  productWizardModalIsOpen: boolean
+  productWizardModalIsOpen: boolean,
+  createExchangeForm: boolean,
 |}
 
 class TopBar extends Component<PropsTopBar, StatesTopBar> {
@@ -58,6 +60,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       collapse: false,
       collapseProfile: false,
       agentForm: false,
+      createExchangeForm: false,
       profileMedia: null,
       productWizardModalIsOpen: false
     }
@@ -99,6 +102,11 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
   _handleNewExchange = () => {
     //TODO: new exchange should be handled
+    this.setState({...this.state, createExchangeForm: true})
+  }
+
+  _handleHideNewExchange = ()=>{
+    this.setState({...this.state, createExchangeForm: false})
   }
 
   _handleProductWizardModal = () => {
@@ -117,6 +125,10 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
         <AgentForm
           active={this.state.agentForm}
           hide={this._handleHideAgent}
+        />
+        <CreateExchangeForm 
+          active = {this.state.createExchangeForm}
+          hide={this._handleHideNewExchange}
         />
         <nav className="navbar flex-row justify-content-between p-0 -white-i fixed-top topBar">
           <div className="d-flex align-items-center -whiteSvg">

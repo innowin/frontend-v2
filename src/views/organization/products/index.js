@@ -34,7 +34,6 @@ export class ProductContainer extends React.Component<ProductContainerProps,{ ed
 	componentDidMount(){
 		const {product,actions} = this.props;
 		const {getProductPicture} = actions;
-		getProductPicture(product.id)
 		// socket.emit(REST_REQUEST,
 		// 	{
 		// 		method: "get",
@@ -76,14 +75,11 @@ export class ProductContainer extends React.Component<ProductContainerProps,{ ed
 	hideEdit(){
 		this.setState({...this.state, edit:false});
 	}
-	delete_ = (product:Object, products:Array<Object>, hideEdit:Function) => {
-		// const { deleteProduct} = this.props.actions;
-		// return deleteProduct(product, products, updateProductsList);
+	delete_ = (product:Object, hideEdit:Function) => {
+		const { deleteProduct} = this.props.actions;
+		return deleteProduct(product.id)
 	};
 
-	deletePicture = (pictures:Array<Object>, picture:Object, updateStateForView:Function) => {
-		// deletePicture(pictures, picture, this.updatePicturesList, updateStateForView );
-	}
 
 	addPicture = (mediaId:number,productId:number) => {
 		// addPicture({mediaId,productId})
@@ -246,6 +242,7 @@ const mapDispatchToProps = dispatch => ({
 		getProducts: OrganizationActions.getProducts ,
 		createProduct: OrganizationActions.createProduct,
 		updateProduct : OrganizationActions.updateProduct,
+		deleteProduct : OrganizationActions.deleteProduct,
 		getProductPicture : OrganizationActions.getProductPicture
 	}, dispatch)
 })

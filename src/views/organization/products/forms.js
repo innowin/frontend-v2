@@ -314,7 +314,7 @@ export class ProductEditForm extends React.Component<ProductEditFormProps,{confi
 
   remove = () => {
     const {hideEdit, product, products} = this.props;
-    return this.props.remove(product, products, hideEdit)
+    return this.props.remove(product, hideEdit)
   };
 
   save = () => {//(formValues, productId, updateStateForView, hideEdit

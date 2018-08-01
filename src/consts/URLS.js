@@ -19,12 +19,15 @@ const urls =  {
 		GET_ORG_EXCHANGES:'exchanges/identities',
 		GET_ORG_CUSTOMERS:'organizations/customers',
 		GET_ORG_CERTIFICATES:'base/certificates',
+		CREATE_CERTIFICATE:'base/certificates',
 		UPDATE_CUSTOMER:'organizations/customers',
 		CREATE_PRODUCT: 'products',
 		GET_PRODUCT_CATEGORIES: 'products/category',
 		UPDATE_PRODUCT: 'products',
 		ADD_PRODUCT_PICTURE:'products/pictures',
-		GET_PRODUCT_PICTURE:'products/pictures'
+		GET_PRODUCT_PICTURE:'products/pictures',
+		GET_PRODUCT_PRICE:'products/prices',
+		DELETE_PRODUCT:'products'
 	},
   EXCHANGE: {
     GET_EXCHANGES: 'exchanges',

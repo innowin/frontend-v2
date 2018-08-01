@@ -19,7 +19,10 @@ const results = {
 		GET_PRODUCTS : 'get-org-products',
 		UPDATE_PRODUCT: 'update-org-product',
 		ADD_PRODUCT_PICTURE:'add-org-product-picture',
-		GET_PRODUCT_PICTURE:'get-org-product-picture'
+		GET_PRODUCT_PICTURE:'get-org-product-picture',
+		GET_PRODUCT_PRICE:'get-org-product-price',
+		DELETE_PRODUCT:'delete-org-product',
+		CREATE_CERTIFICATE:'create-org-certificate',
 	},
 	PRODUCT: {
 		GET_BASIC_INFO: 'get-product-basic-info'

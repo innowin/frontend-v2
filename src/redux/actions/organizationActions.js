@@ -49,10 +49,10 @@ const getOrgCustomers = (organizationId) =>({
     }
 })
 
-const getOrgCertificates = (organizationId) => ({
+const getOrgCertificates = (identityId) => ({
     type:types.ORG.GET_ORG_CERTIFICATES,
     payload: {
-        organizationId
+        identityId
     }
 })
 //abilities
@@ -104,10 +104,13 @@ const updateCertificate = (formValues, certId, hideEdit) => ({
 	}
 })
 
-const createCertificate = (formValues) => ({ //TODO amir add organizationId to formValues
-  type: types.ORG.UPDATE_CERTIFICATE,
+const createCertificate = (formValues,identityId , userId, hideEdit) => ({ //TODO amir add organizationId to formValues
+  type: types.ORG.CREATE_CERTIFICATE,
 	payload: {
-    ...formValues
+        formValues,
+        identityId,
+        userId,
+        hideEdit
 	}
 })
 
@@ -169,7 +172,7 @@ const createProduct = (formValues, organizationId = null, hideEdit ) => ({ //TOD
 const deleteProduct = ( productId) => ({
   type: types.ORG.DELETE_PRODUCT,
 	payload: {
-    productId
+        productId
 	}
 })
 
@@ -194,6 +197,13 @@ const addPicture = (picture_media, picture_product) => ({
         picture_product
 	}
 })
+
+const getProductPrice = (productId) => ({
+    type: types.ORG.GET_PRODUCT_PRICE,
+      payload: {
+        productId
+      }
+  })
 
 const OrganizationActions = {
   getOrganization,
@@ -225,6 +235,8 @@ const OrganizationActions = {
   createProduct,
   deleteProduct,
   getProductPicture,
+
+  getProductPrice,
   
   deletePicture,
   addPicture

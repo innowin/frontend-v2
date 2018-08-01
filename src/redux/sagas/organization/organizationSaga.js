@@ -96,6 +96,7 @@ function* getProducts(action) {
   const {organizationId} = payload;
 	const identity = yield* getOrgIdentity(action)
 	const categories = yield* getProductCategories()
+	
   const socketChannel = yield call(api.createSocketChannel, results.ORG.GET_PRODUCTS)
   try {
     yield fork(api.get, urls.ORG.GET_PRODUCTS, results.ORG.GET_PRODUCTS, `?product_owner=${identity[0].id}`)
@@ -259,12 +260,20 @@ function* getCustomers(action) { //TODO amir
 //14 get org certificates
 function* getCertificates(action) { //TODO amir change URL nad QUERY
 	const payload = action.payload;
-	const {organizationId} = payload;
+	const {identityId} = payload;
 	const socketChannel = yield call(api.createSocketChannel, results.ORG.GET_ORG_CERTIFICATES)
 	try {
-		yield fork(api.get, urls.ORG.GET_ORG_CERTIFICATES, results.ORG.GET_ORG_CERTIFICATES, `?organization_id=${organizationId}`)
+		yield fork(api.get, urls.ORG.GET_ORG_CERTIFICATES, results.ORG.GET_ORG_CERTIFICATES, `?certificate_identity=${identityId}`)
 		const data = yield take(socketChannel)
-		yield put({type: types.SUCCESS.ORG.GET_ORG_CERTIFICATES, payload: data})
+		if(typeof data =="string"){
+			yield put({
+				type: types.ERRORS.ORG.GET_ORG_CERTIFICATES,
+				payload: {type: types.ERRORS.ORG.GET_ORG_CERTIFICATES, error: "Request Failed"}
+			})
+		}else{
+			yield put({type: types.SUCCESS.ORG.GET_ORG_CERTIFICATES, payload: data})
+		}
+		
 	} catch (e) {
 		const {message} = e
 		yield put({
@@ -375,13 +384,14 @@ function* updateProduct(action){
 	}
 }
 //20 get product picture org
-function* getProductPicture(action){
-	const payload = action.payload;
-	const {productId} = payload;
+function* getProductPicture(productId){
+
 	const socketChannel = yield call(api.createSocketChannel, results.ORG.GET_PRODUCT_PICTURE)
+	let res
 	try {
 		yield fork(api.get, urls.ORG.GET_PRODUCT_PICTURE, results.ORG.GET_PRODUCT_PICTURE, `?picture_product=${productId}`)
 		const data = yield take(socketChannel)
+		res = data
 		yield put({type: types.SUCCESS.ORG.GET_PRODUCT_PICTURE, payload: data})
 	} catch (e) {
 		const {message} = e
@@ -391,6 +401,7 @@ function* getProductPicture(action){
 		})
 	} finally {
 		socketChannel.close()
+		return res
 	}
 }
 //21 add picture product org
@@ -415,7 +426,71 @@ function* addPictureProduct(action){
 	}
 }
 
+function* getProductsSuccess(action){
+	const{products} = action.payload;
+	for (let i = 0 ; i < products.length;i++){
+		yield getProductPicture(products[i].id)
+		yield getProductPrice(products[i].id)
+	}
+}
 
+function* getProductPrice(productId){
+	const socketChannel = yield call(api.createSocketChannel, results.ORG.GET_PRODUCT_PRICE)
+	let res
+	try {
+		yield fork(api.get, urls.ORG.GET_PRODUCT_PRICE, results.ORG.GET_PRODUCT_PRICE, `?price_product=${productId}`)
+		const data = yield take(socketChannel)
+		res = data
+		yield put({type: types.SUCCESS.ORG.GET_PRODUCT_PRICE, payload: data})
+	} catch (e) {
+		const {message} = e
+		yield put({
+			type: types.ERRORS.ORG.GET_PRODUCT_PRICE,
+			payload: {type: types.ERRORS.ORG.GET_PRODUCT_PRICE, error: message}
+		})
+	} finally {
+		socketChannel.close()
+		return res
+	}
+}
+
+function* deleteProduct(action){
+	const {productId} = action.payload
+	const socketChannel = yield call(api.createSocketChannel, results.ORG.DELETE_PRODUCT)
+	try {
+		yield fork(api.del, urls.ORG.DELETE_PRODUCT,  results.ORG.DELETE_PRODUCT,{},`${productId}`)
+		const data = yield take(socketChannel)
+		yield put({type: types.SUCCESS.ORG.DELETE_PRODUCT, payload: {productId}})
+	} catch (e) {
+		const {message} = e
+		yield put({
+			type: types.ERRORS.ORG.DELETE_PRODUCT,
+			payload: {type: types.ERRORS.ORG.DELETE_PRODUCT, error: message}
+		})
+	} finally {
+		socketChannel.close()
+	}
+}
+
+function* createCertificate(action){
+  const payload = action.payload;
+  const {formValues, identityId, userId,  hideEdit} = payload;
+  // const identity = yield* getOrgIdentity(action)
+	formValues.certificate_identity = identityId
+	formValues.certificate_parent = userId
+  const socketChannel = yield call(api.createSocketChannel, results.ORG.CREATE_CERTIFICATE)
+  try {
+    yield fork(api.post, urls.ORG.CREATE_CERTIFICATE, results.ORG.CREATE_CERTIFICATE, formValues)
+    const data = yield take(socketChannel)
+    yield put({type: types.SUCCESS.ORG.CREATE_CERTIFICATE, payload: data})
+  } catch (e) {
+    const {message} = e
+    yield put({type: types.ERRORS.ORG.CREATE_CERTIFICATE, payload: {type: types.ERRORS.ORG.CREATE_CERTIFICATE, error: message}})
+  } finally {
+    socketChannel.close()
+    hideEdit()
+  }
+}
 /**********    %% WATCHERS %%    **********/
 //1 - get organization
 export function* watchGetOrganization() {
@@ -472,6 +547,10 @@ export function* watchGetCertificates() {
   yield takeEvery(types.ORG.GET_ORG_CERTIFICATES, getCertificates)
 }
 
+export function* watchCreateCertificate() {
+  yield takeEvery(types.ORG.CREATE_CERTIFICATE, createCertificate)
+}
+
 //13 - update org certificate
 export function* watchUpdateCertificate() {
   yield takeEvery(types.ORG.UPDATE_CERTIFICATE, updateCertificate)
@@ -497,3 +576,13 @@ export function* watchAddProductPicture() {
 export function* watchGetProductPictures(){
 	yield takeEvery(types.ORG.GET_PRODUCT_PICTURE, getProductPicture)
 }
+
+// get products success
+export function* watchGetProductsSuccess() {
+  yield takeEvery(types.SUCCESS.ORG.GET_PRODUCTS, getProductsSuccess)
+}
+
+export function* watchDeleteProduct(){
+	yield takeEvery(types.ORG.DELETE_PRODUCT, deleteProduct)
+}
+

@@ -9,17 +9,27 @@ const organization = (state = initialState.organization, action) => {
 			return {...state,isLoading:true};
 
 		case types.ORG.GET_ORG_EXCHANGES:
-			return {...state,exchanges:{...exchanges,isLoading:true}};
+			return {...state,exchanges:{...state.exchanges,isLoading:true}};
 		case types.ORG.GET_ORG_CUSTOMERS:
-			return {...state,customers:{...customers,isLoading:true}}
+			return {...state,customers:{...state.customers,isLoading:true}}
 		case types.ORG.GET_ORG_CERTIFICATES:
-			return {...state,certificates:{...certificates,isLoading:true}}
+			return {...state,certificates:{...state.certificates,isLoading:true}}
+		case types.ORG.CREATE_CERTIFICATE:
+			return {...state,certificates:{...state.certificates,isLoading:true}}
 		case types.ORG.UPDATE_PRODUCT:
 			return {...state,products:{isLoading:true}}
+		case types.ORG.GET_PRODUCTS:
+			return {...state,products:{isLoading:true}}
 		//SUCCESS
+		case types.SUCCESS.ORG.CREATE_CERTIFICATE:
+			let {certificate} = action.payload
+			let curCertificates = state.certificates.content;
+			curCertificates.push(certificate)
+			return{...state,certificates:{...state.certificates,content:curCertificates,isLoading:false,error:false}}		
+			
 		case types.SUCCESS.ORG.GET_ORG_CERTIFICATES:
 			let certificates = action.payload;
-			return{...state,certificates:{content:certificates,isLoading:false,error:false}}		
+			return{...state,certificates:{...state.certificates, content:certificates,isLoading:false,error:false}}		
 		
 		case types.SUCCESS.ORG.UPDATE_CUSTOMER:
 			let customer = action.payload;
@@ -53,11 +63,11 @@ const organization = (state = initialState.organization, action) => {
 			let currentProducts = state.customers.content;
 			var index = currentProducts.findIndex(function (cus) { return cus.id === product.id; });
 			currentProducts[index] = product
-			return{...state,products:{content:currentProducts,isLoading:false,error:false}}	
+			return{...state,products:{...products, content:currentProducts,isLoading:false,error:false}}	
 						
 		case types.SUCCESS.ORG.GET_PRODUCTS:
 			const {products,categories} = action.payload;
-			return{...state,products:{content:products,categories:categories,isLoading:false,error:false}}
+			return{...state,products:{...products, content:products,categories:categories,isLoading:false,error:false}}
 
 		case types.SUCCESS.ORG.GET_ORGANIZATION:
 			const organization = action.payload
@@ -76,7 +86,27 @@ const organization = (state = initialState.organization, action) => {
 			currentProducts = state.products.content;
 			var index = currentProducts.findIndex(function (cus) { return cus.id === pictures[0].picture_product; });
 			currentProducts[index].pictures = pictures
-			return {...state,products:{content:currentProducts,isLoading:false,error:false}}
+			return {...state,products:{...state.products, content:currentProducts,isLoading:false,error:false}}
+
+		case types.SUCCESS.ORG.CREATE_PRODUCT:
+			product = action.payload
+			currentProducts = state.products.content;
+			currentProducts.push(product)
+			return{...state,products:{...state.products, content:currentProducts,isLoading:false,error:false}};
+
+		case types.SUCCESS.ORG.DELETE_PRODUCT:
+			const productId = action.payload
+			currentProducts = state.products.content;
+			var index = currentProducts.findIndex(function (cus) { return cus.id === productId; });
+			currentProducts.array.splice(index, 1);
+			return{...state,products:{...state.products, content:currentProducts,isLoading:false,error:false}};
+
+		case types.SUCCESS.ORG.GET_PRODUCT_PRICE:
+			const price = action.payload
+			currentProducts = state.products.content;
+			var index = currentProducts.findIndex(function (cus) { return cus.id === price[0].price_product; });
+			currentProducts[index].price = price[0]
+			return {...state,products:{...state.products, content:currentProducts,isLoading:false,error:false}}
 	
 		case types.ERRORS.ORG.UPDATE_ORGANIZATION_INFO:
 			error = action.payload.error
@@ -104,6 +134,9 @@ const organization = (state = initialState.organization, action) => {
 		case types.ERRORS.ORG.GET_PRODUCT_PICTURE:
 			error = action.payload.error
 			return{...state,errorMessage:error,products:{content:[],isLoading:false,error:true}}
+		case types.ERRORS.ORG.DELETE_PRODUCT:
+			error = action.payload.error
+			return{...state, errorMessage:error,products:{...state.products,isLoading:false,error:true}}
 			
 		case types.ERRORS.ORG.GET_ORGANIZATION_MEMBERS:
 			return {...state, members: []};
