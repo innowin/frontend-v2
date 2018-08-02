@@ -3,14 +3,18 @@ import auth from './auth'
 import organization from './organization'
 import {routerReducer} from 'react-router-redux'
 import {intlReducer} from './intl'
-import formReducer from './preFormReducer'
+import {reducer as formReducer} from 'redux-form';
 import productReducer from './contributionReducer'
 import common from './common'
+import user from "./user"
 
 
 const reducers = {
   auth,
-  organization
+  user,
+  common,
+  organization,
+  productReducer
 }
 
 
@@ -19,9 +23,7 @@ const rootReducer = combineReducers({
   ...reducers,
   intl: intlReducer,
   router: routerReducer,
-  form: formReducer,
-  productReducer,
-  common
+  form: formReducer
 })
 
 export default rootReducer

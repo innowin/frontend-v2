@@ -8,14 +8,8 @@ const getExchangeIdentitiesByMemberIdentity = (identityId: number) => ({
   }
 })
 
-const getExchangeIdentitiesByMemberIdentityIsLoading = () => ({
-  type: types.IS_LOADING.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY,
-  payload: {}
-})
-
 const ExchangeActions = {
-  getExchangeIdentitiesByMemberIdentity,
-  getExchangeIdentitiesByMemberIdentityIsLoading
+  getExchangeIdentitiesByMemberIdentity
 }
 
 export default ExchangeActions

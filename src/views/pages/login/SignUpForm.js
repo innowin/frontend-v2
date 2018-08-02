@@ -10,23 +10,26 @@ import {Field, reduxForm} from "redux-form"
 import {getMessages} from "src/redux/selectors/translateSelector"
 import {RadioButtonGroup} from "../../common/inputs/RadioButtonInput"
 import {routerActions} from "react-router-redux"
-import {validateSignUpForm, asyncValidate} from "./validations"
+import {validateSignUpForm, asyncValidate} from "./signUpValidations"
 
 
 const SignUpForm = (props) => {
   const {signInIsLoading, handleSubmit, onSubmit, translator, error, submitFailed} = props
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="signUp-form">
+    <form onSubmit={handleSubmit(onSubmit)} className="sign-up-form">
       <Field
         name="username"
         type="text"
         component={renderTextField}
         label={translator['Username']}
+        className="signup-field"
       />
-      <Field name="email" type="email" component={renderTextField} label={translator['Email']}/>
-      <Field name="password" type="password" component={renderTextField} label={translator['Password']}/>
+      <Field name="email" type="email" component={renderTextField} label={translator['Email']}
+             className="signup-field"/>
+      <Field name="password" type="password" component={renderTextField} label={translator['Password']}
+             className="signup-field"/>
       <Field name="passwordConfirm" type="password" component={renderTextField}
-             label={translator['Repeat password']}/>
+             label={translator['Repeat password']} className="signup-field"/>
       <div>
         <button
           className="btn btn-primary btn-block login-submit-button mt-0 cursor-pointer"
@@ -48,57 +51,54 @@ const USER_TYPES = {
 
 export class RegisterForm extends Component {
   static propTypes = {
-    RedirectToHome: PropTypes.func.isRequired,
     signInIsLoading: PropTypes.bool.isRequired
   }
 
   constructor(props) {
     super(props)
-    this.state = {
-      userType: USER_TYPES.PERSON,
-      data: {},
-    }
+    this.state = {userType: USER_TYPES.PERSON}
   }
 
   _typeHandler = (value) => {
     this.setState({...this.state, userType: value})
   }
 
+  componentDidUpdate(prevProps) {
+    const {push} = this.props.actions
+    if (this.props.isLoggedIn && this.props.isLoggedIn !== prevProps.isLoggedIn) {
+      push('/')
+    }
+  }
+
   _onSubmitOrgan = (values) => {
-    const {push, signIn, signInIsLoading} = this.props.actions
-    signInIsLoading(true)
+    const {signIn} = this.props.actions
     const handleLogin = () => {
       signIn(values.username, values.password, false)
-      push('/')
     }
     const handleError = res => {
       console.log("createUserOrgan error:", res)
-      signInIsLoading(false)
     }
     createUserOrgan(values, handleLogin, handleError)
   }
 
   _onSubmitPerson = (values) => {
-    const {push, signIn, signInIsLoading} = this.props.actions
-    signInIsLoading(true)
+    const {signIn} = this.props.actions
     const handleLogin = () => {
       signIn(values.username, values.password, false)
-      push('/')
     }
     const handleError = res => {
       console.log("createUser error:", res)
-      signInIsLoading(false)
     }
     createUser(values, handleLogin, handleError)
   }
 
   render() {
-    const {RedirectToHome, translator, signInIsLoading, ...reduxFormProps} = this.props
+    const {translator, signInIsLoading, ...reduxFormProps} = this.props
     const {userType} = this.state
     const userTypeItems = [{value: USER_TYPES.PERSON, title: 'فرد'}, {value: USER_TYPES.ORGANIZATION, title: 'مجموعه'}]
     const onSubmitFunc = (userType === USER_TYPES.PERSON) ? (this._onSubmitPerson) : (this._onSubmitOrgan)
     return (
-      <div className="signup-wrapper">
+      <div className="wrapper-form">
         <RadioButtonGroup
           selected={userType}
           handler={this._typeHandler}
@@ -110,7 +110,6 @@ export class RegisterForm extends Component {
           {...reduxFormProps}
           translator={translator}
           onSubmit={onSubmitFunc}
-          RedirectToHome={RedirectToHome}
           signInIsLoading={signInIsLoading}
         />
       </div>
@@ -120,12 +119,12 @@ export class RegisterForm extends Component {
 
 const mapStateToProps = (state) => ({
   translator: getMessages(state),
-  signInIsLoading:state.auth.client.signInIsLoading
+  signInIsLoading: state.auth.client.signInIsLoading,
+  isLoggedIn: state.auth.client.isLoggedIn
 })
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     signIn: AuthActions.signIn,
-    signInIsLoading: AuthActions.signInIsLoading,
     push: routerActions.push
   }, dispatch)
 })

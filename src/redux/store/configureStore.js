@@ -1,4 +1,4 @@
-import {createStore , applyMiddleware} from 'redux'
+import {createStore, applyMiddleware} from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import rootReducer from '../reducers/rootReducer'
 import rootSaga from '../sagas/rootSaga'
@@ -14,7 +14,7 @@ export const history = createHistory()
 const sagaMiddleware = createSagaMiddleware()
 //Creating middleware to dispatch navigation actions
 const navMiddleware = routerMiddleware(history)
-const persistConfig = {key: 'root',storage}
+const persistConfig = {key: 'root',storage, blacklist:['form']}
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 const configureStore = () => {

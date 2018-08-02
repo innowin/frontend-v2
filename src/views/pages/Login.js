@@ -3,13 +3,9 @@ import React, {Component} from "react"
 import CarouselLogin from "./login/Carousel"
 import FooterLogin from "./login/FooterLogin"
 import HeaderLogin from "./login/HeaderLogin"
-import RecoveryForm from "./login/RecoveryForm"
 import RegisterForm from "./login/SignUpForm"
 import SignInForm from "./login/signInForm"
 import SocialLogin from "./login/SocialLogin"
-import {bindActionCreators} from "redux"
-import {connect} from "react-redux"
-import {routerActions} from "react-router-redux"
 
 class Login extends Component {
   constructor(props) {
@@ -35,24 +31,13 @@ class Login extends Component {
     this.setState({...this.state, page: 'SignUp'})
   }
 
-  _RedirectToHome = () => {
-    const {actions} = this.props
-    actions.push('/')
-  }
-
-  _showRecovery = () => {
-    this.setState({...this.state, page: 'Recovery'})
-  }
-
   render() {
     const {page, footer, header} = this.state
     const {year} = footer
     const {iosLink, androidLink, address, phoneNumber, logoCaption} = header
     const SignIn = (page === 'SignIn')
     const SignUp = (page === 'SignUp')
-    const Recovery = (page === 'Recovery')
-    const RedirectToHome = this._RedirectToHome
-    const animateFormClass = (SignIn) ? ("sign-in-form") : ("sign-up-form")
+    const animateFormClass = (SignIn) ? ("sign-in-form-animate") : ("sign-up-form-animate")
 
     return (
       <div className="login-page  full-page-wrapper">
@@ -82,12 +67,8 @@ class Login extends Component {
                   )}
                 </div>
                 <div className="card-block login-form p-3">
-                  {SignIn &&
-                  <SignInForm showRecovery={this._showRecovery}/>}
-                  {SignUp &&
-                  <RegisterForm RedirectToHome={RedirectToHome}/>}
-                  {Recovery &&
-                  <RecoveryForm/>}
+                  {SignIn && <SignInForm/>}
+                  {SignUp && <RegisterForm/>}
                 </div>
                 <div className="card-footer social-login">
                   <span>{__('Register with other accounts')}</span>
@@ -103,8 +84,4 @@ class Login extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => (
-  {actions: bindActionCreators({push: routerActions.push}, dispatch)}
-)
-
-export default connect(null, mapDispatchToProps)(Login)
+export default Login

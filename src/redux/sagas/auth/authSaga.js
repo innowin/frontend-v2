@@ -5,34 +5,21 @@ import types from "src/redux/actions/types"
 import urls from "src/consts/URLS"
 import {delay} from "redux-saga"
 import {put, take, fork, call, takeEvery} from "redux-saga/effects"
-import {persistor} from "src/index"
 
 /**********    %% WORKERS %%    **********/
 
-
-export function* getOrganizationInSignIn(username) {
-  const socketChannel = yield call(api.createSocketChannel, results.ORGANIZATION.GET_ORGANIZATION)
-  try {
-    yield fork(api.get, urls.ORGANIZATION.GET_ORGANIZATION, results.ORGANIZATION.GET_ORGANIZATION, `?username=${username}`)
-    const data = yield take(socketChannel)
-    return data[0]
-  } catch (e) {
-    const {message} = e
-    yield put({type: types.ERRORS.ORG.GET_ORGANIZATION, payload: {type: types.ERRORS.ORG.GET_ORGANIZATION, message}})
-    throw new Error(e)
-  } finally {
-    socketChannel.close()
-  }
-}
-
 //1 - sign in worker
-export function* signIn(action) {
+function* signIn(action) {
   const {payload} = action
   const {username, password, remember} = payload
   const socketChannel = yield call(api.createSocketChannel, results.SIGN_IN)
   try {
     yield fork(api.post, urls.SIGN_IN, results.SIGN_IN, {username, password})
     let data = yield take(socketChannel)
+    if(data.non_field_errors){
+      const message = data.non_field_errors[0]
+      throw new Error(message)
+    }
     const {token} = data
     yield put({type: types.AUTH.SET_TOKEN, payload: {token}})
     yield delay(500)
@@ -64,11 +51,26 @@ export function* signIn(action) {
   }
 }
 
+function* getOrganizationInSignIn(username) {
+  const socketChannel = yield call(api.createSocketChannel, results.ORGANIZATION.GET_ORGANIZATION)
+  try {
+    yield fork(api.get, urls.ORGANIZATION.GET_ORGANIZATION, results.ORGANIZATION.GET_ORGANIZATION, `?username=${username}`)
+    const data = yield take(socketChannel)
+    return data[0]
+  } catch (e) {
+    const {message} = e
+    yield put({type: types.ERRORS.ORG.GET_ORGANIZATION, payload: {type: types.ERRORS.ORG.GET_ORGANIZATION, message}})
+    throw new Error(e)
+  } finally {
+    socketChannel.close()
+  }
+}
+
 //2 - Sign Out worker
-export function* signOut() {
+function* signOut() {
   yield call(client.clearToken)
-  yield persistor.purge()
-  yield put({type: types.AUTH.SIGN_OUT_FINISHED, payload: {}})
+  yield put({type:types.RESET})
+  yield put({type: types.AUTH.SIGN_OUT_FINISHED})
 }
 
 /**********    %% WATCHERS %%    **********/

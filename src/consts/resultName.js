@@ -1,6 +1,11 @@
 const results = {
 	//sign in
 	SIGN_IN : 'sign-in',
+	USER:{
+    USERNAME_CHECK:"USERNAME_CHECK",
+		CREATE_USER_PERSON:"CREATE_USER_PERSON",
+		CREATE_USER_ORGAN:"CREATE_USER_ORGAN"
+	},
 	ORGANIZATION:{
 		GET_ORGANIZATION : 'get-organization',
 		GET_ORGANIZATION_MEMBERS: 'get-organization-members',

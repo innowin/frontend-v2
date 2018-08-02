@@ -5,15 +5,6 @@ const auth = (state = initialState.auth, action) => {
   const {client} = state
   const {exchange_identities} = client
   switch (action.type) {
-    case types.IS_LOADING.AUTH.SIGN_IN:
-      const {isLoading} = action.payload
-      return {
-        ...state,
-        client: {
-          ...client,
-          signInIsLoading: isLoading
-        }
-      }
     case types.AUTH.SET_TOKEN:
       return {
         ...state,
@@ -39,30 +30,15 @@ const auth = (state = initialState.auth, action) => {
           isLoggedIn: true
         }
       }
-    case types.AUTH.SIGN_OUT_FINISHED:
-      return {
-        ...state,
-        client: {
-          user: {},
-          profile: {},
-          identity: {},
-          organization: null,
-          rememberMe: null,
-          signInIsLoading: false,
-          isLoggedIn: false,
-          token: null
-        }
-      }
     case types.ERRORS.AUTH.SIGN_IN:
-      return {...state, client: {}}
-    case types.IS_LOADING.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY:
+      const {message:errorMessage} = action.payload
       return {
         ...state,
         client: {
           ...client,
-          exchange_identities: {
-            ...exchange_identities,
-            isLoading: true
+          error: {
+            isError: true,
+            message: errorMessage
           }
         }
       }
@@ -87,7 +63,7 @@ const auth = (state = initialState.auth, action) => {
         client: {
           ...client,
           exchange_identities: {
-            exchange_identities,
+            ...exchange_identities,
             isLoading: false,
             error: {
               isError: true,
@@ -96,6 +72,8 @@ const auth = (state = initialState.auth, action) => {
           }
         }
       }
+    case types.RESET:
+      return initialState.auth
     default:
       return state
   }

@@ -7,6 +7,7 @@ import exchangeTypes from "./exchange"
 
 
 const types = {
+  RESET:'RESET',
   ERRORS: {
     COMMON: commonTypes.ERROR,
     AUTH: authTypes.ERROR,
@@ -23,15 +24,6 @@ const types = {
     USER: userTypes.SUCCESS,
     ORG: orgTypes.SUCCESS, // organization success
     EXCHANGE: exchangeTypes.SUCCESS
-  },
-
-  IS_LOADING: {
-    COMMON: commonTypes.IS_LOADING,
-    AUTH: authTypes.IS_LOADING,
-    CONT: contributionTypes.IS_LOADING, // contribution isLoading
-    USER: userTypes.IS_LOADING,
-    ORG: orgTypes.IS_LOADING, // organization isLoading
-    EXCHANGE: exchangeTypes.IS_LOADING
   },
 
   COMMON: commonTypes.BASE,

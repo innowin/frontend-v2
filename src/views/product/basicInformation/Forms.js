@@ -15,7 +15,7 @@ import {Field, reduxForm} from "redux-form"
 import {BeatLoader} from "react-spinners"
 import renderSelectField from "../../common/inputs/reduxFormRenderReactSelect"
 import {RegisterForm} from "../../pages/login/SignUpForm";
-import {validateSignUpForm} from "../../pages/login/validations";
+import {validateSignUpForm} from "../../pages/login/signUpValidations";
 import {ProductInfoItemWrapper, ProductInfoView, ProductDescriptionView, ProductDescriptionWrapper} from "./Views"
 import renderTextArea from "../../common/inputs/reduxFormRenderTextArea"
 import {connect} from 'react-redux'

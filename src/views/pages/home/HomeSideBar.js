@@ -2,7 +2,7 @@
 import * as React from "react"
 import {Component} from "react"
 import PropTypes from "prop-types"
-import ExchangeActions from "src/redux/actions/exchangeAction"
+import ExchangeActions from "src/redux/actions/exchangeActions"
 import type {exchangeIdentityType, exchangeType} from "src/consts/flowTypes/exchange/exchange.js"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
@@ -85,8 +85,7 @@ type PropsHomeSideBar = {|
     isLoaded: boolean
   },
   actions: {
-    getExchangeIdentities: Function,
-    isLoadingFunc: Function
+    getExchangeIdentities: Function
   }
 |}
 
@@ -111,16 +110,15 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
 
   componentDidMount() {
     const {identityId, clientExchangeIdentities} = this.props
-    const {getExchangeIdentities, isLoadingFunc} = this.props.actions
-    if (!clientExchangeIdentities.isLoaded) {
-      isLoadingFunc()
+    const {getExchangeIdentities} = this.props.actions
+    if (clientExchangeIdentities && !clientExchangeIdentities.isLoaded) {
       getExchangeIdentities(identityId)
     }
   }
 
   render() {
     const {clientExchangeIdentities, classNames} = this.props
-    const exchanges = clientExchangeIdentities.content
+    const exchanges = (clientExchangeIdentities) ? (clientExchangeIdentities.content) : null
     return (
       <div className={classNames}>
         {
@@ -150,8 +148,7 @@ const mapStateToProps = state => ({
 })
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    getExchangeIdentities: ExchangeActions.getExchangeIdentitiesByMemberIdentity,
-    isLoadingFunc: ExchangeActions.getExchangeIdentitiesByMemberIdentityIsLoading
+    getExchangeIdentities: ExchangeActions.getExchangeIdentitiesByMemberIdentity
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(HomeSideBar)
