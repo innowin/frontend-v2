@@ -10,7 +10,6 @@ export default {
       rememberMe: null,
       user_type: null,
       isLoggedIn: false,
-      signInIsLoading: false,
       error: {
         isError: false,
         message: null

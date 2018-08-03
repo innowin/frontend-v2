@@ -11,13 +11,16 @@ import {put, take, fork, call, takeEvery} from "redux-saga/effects"
 //1 - sign in worker
 function* signIn(action) {
   const {payload} = action
-  const {username, password, remember} = payload
+  const {username, password, remember, reject} = payload
   const socketChannel = yield call(api.createSocketChannel, results.SIGN_IN)
   try {
     yield fork(api.post, urls.SIGN_IN, results.SIGN_IN, {username, password})
     let data = yield take(socketChannel)
-    if(data.non_field_errors){
+    if (data.non_field_errors) {
       const message = data.non_field_errors[0]
+      // this below line is for reject async error form in submit for sign in form
+      yield call(reject, 'Password does not correct')
+      // below line is for pass error to catch for save error in redux errors
       throw new Error(message)
     }
     const {token} = data
@@ -69,7 +72,7 @@ function* getOrganizationInSignIn(username) {
 //2 - Sign Out worker
 function* signOut() {
   yield call(client.clearToken)
-  yield put({type:types.RESET})
+  yield put({type: types.RESET})
   yield put({type: types.AUTH.SIGN_OUT_FINISHED})
 }
 

@@ -1,4 +1,4 @@
-import {all} from 'redux-saga/effects'
+import {all, fork} from 'redux-saga/effects'
 import {
   watchGetOrganization,
   watchGetOrganizationSuccess,
@@ -19,16 +19,14 @@ import {watchCreateSkill, watchCreateProduct} from './addingContribution/addCont
 import {watchGetProductInfo, watchUpdateProduct} from './common/productSagas'
 import {watchLGetExchangesByMemberIdentity} from "./exchange/exchange"
 import {watchGetCategories} from './common/categorySagas'
-import {watchUSERNAME_CHECK, watchCreateUserOrgan, watchCreateUserPerson} from "./user/user"
+import {watchUsernameCheck} from "./user/userSagas"
 
-const rootSaga = function* () {
+const rootSaga = function*() {
   yield all([
+    fork(watchUsernameCheck),
     watchLSignInError(),
     watchLSignOut(),
     watchLSignIn(),
-    watchUSERNAME_CHECK,
-    watchCreateUserOrgan,
-    watchCreateUserPerson,
     watchGetCertificates(),
     watchGetCustomers(),
     watchGetOrganization(),

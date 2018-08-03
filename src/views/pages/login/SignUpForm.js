@@ -14,7 +14,7 @@ import {validateSignUpForm, asyncValidate} from "./signUpValidations"
 
 
 const SignUpForm = (props) => {
-  const {signInIsLoading, handleSubmit, onSubmit, translator, error, submitFailed} = props
+  const {handleSubmit, onSubmit, submitting, translator, error, submitFailed} = props
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="sign-up-form">
       <Field
@@ -33,8 +33,8 @@ const SignUpForm = (props) => {
       <div>
         <button
           className="btn btn-primary btn-block login-submit-button mt-0 cursor-pointer"
-          disabled={signInIsLoading}>
-          {!signInIsLoading ? translator['Register'] : (
+          disabled={submitting}>
+          {!submitting ? translator['Register'] : (
             <BeatLoader color="#fff" size={10} margin="auto"/>
           )}
         </button>
@@ -50,9 +50,6 @@ const USER_TYPES = {
 }
 
 export class RegisterForm extends Component {
-  static propTypes = {
-    signInIsLoading: PropTypes.bool.isRequired
-  }
 
   constructor(props) {
     super(props)
@@ -93,7 +90,7 @@ export class RegisterForm extends Component {
   }
 
   render() {
-    const {translator, signInIsLoading, ...reduxFormProps} = this.props
+    const {translator, ...reduxFormProps} = this.props
     const {userType} = this.state
     const userTypeItems = [{value: USER_TYPES.PERSON, title: 'فرد'}, {value: USER_TYPES.ORGANIZATION, title: 'مجموعه'}]
     const onSubmitFunc = (userType === USER_TYPES.PERSON) ? (this._onSubmitPerson) : (this._onSubmitOrgan)
@@ -110,7 +107,6 @@ export class RegisterForm extends Component {
           {...reduxFormProps}
           translator={translator}
           onSubmit={onSubmitFunc}
-          signInIsLoading={signInIsLoading}
         />
       </div>
     )
@@ -119,7 +115,6 @@ export class RegisterForm extends Component {
 
 const mapStateToProps = (state) => ({
   translator: getMessages(state),
-  signInIsLoading: state.auth.client.signInIsLoading,
   isLoggedIn: state.auth.client.isLoggedIn
 })
 const mapDispatchToProps = dispatch => ({

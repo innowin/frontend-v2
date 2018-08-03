@@ -1,19 +1,22 @@
-
 export const asyncValidateSignIn = (...validationArguments) => {
   // validationArguments is array of [0:values, 1:f(action), 2:props object, 3:field is writing]
   const username = validationArguments[0].username
   const checkUsername = validationArguments[2].actions.checkUsername
-  if (username && username.length > 4) {
-    const res = new Promise((resolve, reject) => checkUsername(username, resolve, reject)).then((res) => {
-      if (res === 0) {
-        throw {username: 'کاربری با این نام کاربری وجود ندارد!'}
-      }
-    })
-    return res
-  }
+  const translator = validationArguments[2].translator
+  return new Promise(resolve => {
+    if (username) {
+      checkUsername(username, resolve)
+    }
+  }).then((res) => {
+    if (res === 0) {
+      throw {username: translator['This username does not exist']}
+    }
+  })
 }
 
-export const validateSignInForm = values => {
+export const validateSignInForm = (...validationArguments) => {
+  const translator = validationArguments[1].translator
+  const values = validationArguments[0]
   const errors = {}
   const requiredFields = ['username', 'password']
   let requiredErrors = []
@@ -24,7 +27,7 @@ export const validateSignInForm = values => {
     } else {
       requiredErrors.push(false)
     }
-    (requiredErrors.includes(true)) ? (errors._error = "فیلد های ضروری را پر کنید!?????") : (errors._error = "")
+    (requiredErrors.includes(true)) ? (errors._error =translator['Fill required fields']) : (errors._error = "")
   })
   return errors
 }

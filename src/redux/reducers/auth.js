@@ -26,7 +26,6 @@ const auth = (state = initialState.auth, action) => {
           organization,
           user_type,
           rememberMe,
-          signInIsLoading: false,
           isLoggedIn: true
         }
       }
