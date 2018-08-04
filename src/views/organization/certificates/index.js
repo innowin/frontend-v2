@@ -64,17 +64,18 @@ export class CertificateList extends React.Component<CertificateListProps> {
 	render() {
 		const {  organizationId, createForm } = this.props;
 		let {certificates} = this.props ;
-		return <div>
+		return <div className="row">
 			{createForm &&
 			<CertificateItemWrapper>
 					<CertificateCreateForm hideEdit={this.props.hideCreateForm} create={this.create} />
 			</CertificateItemWrapper>}
 			{
-				certificates.map(cert => <CertificateContainer
+				certificates.map(cert => 
+				cert!=null ? <CertificateContainer
 					certificate={cert}
 					organizationId={organizationId}
 					key={cert.id}
-				/>)
+				/>:<span/>)
 			}
 		</div>;
 	}

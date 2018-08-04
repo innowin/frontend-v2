@@ -5,6 +5,179 @@ import FontAwesome from 'react-fontawesome'
 import RadioButtonInput from '../../common/inputs/RadioButtonInput'
 import LabelTag from '../../common/tag-label.js'
 import {AgentSvgIcon, TipsIcon} from "src/images/icons"
+import MemberItem from './member-item'
+const  PageOne = ()=>{
+  return(<div>
+    <div className="modal-hint ">
+      <div className="row">
+        <div className="col-2">
+          <TipsIcon className="hint-icon"/>
+        </div>
+        <div className="col-10 text-right">
+        توضیح مختصر از بورس توضیح مختصر از بورس توضیح مختصر از بورس توضیح مختصر از بورس توضیح مختصر از بورس توضیح مختصر از بورس توضیح مختصر از بورس توضیح مختصر از بورس توضیح مختصر از بورس توضیح مختصر از بورس توضیح مختصر از بورس توضیح مختصر از بورس توضیح مختصر از بورس توضیح مختصر از بورس توضیح مختصر از بورس 
+        </div>
+      </div>
+    </div>
+    <div className="modal-body-create-exchange">
+      <div className="row">
+        <div className="col m-2" dir="ltr">
+          <div className="row" dir="rtl">
+            <div className="col">
+              <label className="label float-right"><strong>عنوان بورس:</strong></label>
+              <input type="text " className="form-control white-text-input"/>
+            </div>
+          </div>
+          <div className="row create-exchange-options">
+            <div className="col">
+              <div className="form-check form-check-inline">
+                <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option1"/>
+                <label className="form-check-label" htmlFor="inlineRadio2"><strong>عمومی</strong></label>
+              </div>
+            </div>
+            <div className="col">
+              <div className="form-check form-check-inline">
+                <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"/>
+                <label className="form-check-label" htmlFor="inlineRadio1"><strong>خصوصی</strong></label>
+              </div>
+            </div>   
+            <div className="col">
+              <label className="form-check-label float-right" dir="rtl"><strong>عمومیت:</strong></label>
+            </div>         
+          </div>
+          <div className="row create-exchange-options" dir="ltr" >
+              <label for="exchangeUser" class="col-sm-2 exchangeUser-label"><strong>http://dbm.ir/</strong></label>
+              <div class="col-sm-10">
+                
+                <input type="text" class="form-control  white-text-input" id="exchangeUser" placeholder="نام کاربری بورس" dir='rtl'/>
+              </div>
+          </div>
+        </div>
+        <div className="col m-2" dir="ltr">
+          <div className="row" dir="rtl">
+            <div className="col">
+              <label className="label float-right" ><strong>انتخاب تصویر</strong></label>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <div style={{backgroundColor:'lightgray',width:'100%',height:'100%'}} />
+            </div>
+            <div className="col">
+            <div style={{backgroundColor:'lightgray',width:'100%',height:'100%'}}/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>)
+}
+const  PageTwo = ()=>{
+  return (<div>
+    <div className="modal-hint create-exchange-modal">
+      <div className="row">
+        <div className="col-2">
+          <TipsIcon className="hint-icon"/>
+        </div>
+        <div className="col-10 text-right">
+        اهمیت توصیف بورس و برچسب ها اهمیت توصیف بورس و برچسب ها اهمیت توصیف بورس و برچسب ها اهمیت توصیف بورس و برچسب ها اهمیت توصیف بورس و برچسب ها 
+        </div>
+      </div>
+    </div>
+    <div className="modal-body-create-exchange">
+      <div className="row ">
+        <div className="col m-2" dir="ltr">
+          <div className="row full-height" dir="rtl">
+            <div className="col">
+              <label className="label float-right"><strong>توصیف بورس:</strong></label>
+              <textarea class="form-control white-text-input exchange-description full-height" id="" rows="3"></textarea>
+            </div>
+          </div>
+          <div className="row create-exchange-options" >
+            <div className="col">
+            </div>
+            <div className="col">
+            </div>            
+          </div>
+          <div className="row create-exchange-options" dir="ltr" >
+             
+          </div>
+        </div>
+        <div className="col m-2" dir="ltr">
+          <div className="row" dir="rtl">
+            <div className="col">
+              <div className="input-group gray-text-input search-label-create-exchange">
+                <input type="text " placeholder="جستو جو برچسب" className="form-control " />
+                <span>
+                  <i className="fa fa-search" aria-hidden="true"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="row mt-2 full-height">
+            <div className="col">
+              <div className="modal-labels-create-exchange">
+                <LabelTag
+                  name="تست"
+                  number="2"
+                />
+                <LabelTag
+                  name="تست"
+                  number="2"
+                />
+                <LabelTag
+                  name="تست"
+                  number="2"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>)
+}
+const PageThree = ()=>{
+  return (<div>
+    <div className="modal-top-friends">
+      <div className="row">
+        <div className="col modal-hint-friends">
+          <div className="row">
+            <div className="col-2">
+              <TipsIcon className="hint-icon"/>
+            </div>
+            <div className="col-10 text-right">
+            شما می توانید در ابتدا تا سقف 50 نفر را مستقیما عضو بورس کنید
+            </div>
+          </div>
+        </div>
+        <div className='col'>
+          <div className="input-group gray-text-input search-label-create-exchange">
+            <input type="text " placeholder="جستو جو افراد" className="form-control " />
+            <span>
+              <i className="fa fa-search" aria-hidden="true"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    <div className="modal-body-create-exchange">
+      <div className="row m-2 invite-member-box">
+        <MemberItem added={true} name="رضا موسوی پور" skill="مهندس خط و سازه"/>
+        <MemberItem added={true} name="رضا موسوی پور" skill="مهندس خط و سازه"/>
+        <MemberItem added={false} name="صابر منادی نوری" skill="مدیرعامل شرکت نوکاوان"/>
+      </div>
+    </div>
+  </div>)
+}
+
+const steps = [
+  {id: 0, component: <PageOne/>},
+  {id: 1, component: <PageTwo/>},
+  {id: 2, component: <PageThree/>},
+];
+
 class CreateExchangeForm extends Component {
   static propTypes = { 
     hide: PropTypes.func.isRequired,
@@ -12,7 +185,7 @@ class CreateExchangeForm extends Component {
   }
   constructor(props) {
     super(props);
-    this.state = {page:0}
+    this.state = {page:0,pageContent:steps[0].component}
     this.setWrapperRef = this.setWrapperRef.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
   }
@@ -42,69 +215,36 @@ class CreateExchangeForm extends Component {
   }
 
   handleNext(event){
-
+    let page = this.state.page
+    if(page < 2){
+      page+=1
+    }
+    var found = steps.find(function(element) {
+      return element.id == page;
+    });
+    this.setState({...this.state,page,pageContent:found.component})
   }
 
   handleBack(event){
-
+    let page = this.state.page
+    if(page > 0){
+      page-=1
+    }
+    var found = steps.find(function(element) {
+      return element.id == page;
+    });
+    this.setState({...this.state,page,pageContent:found.component})
   }
+
   render() {
-    const {page} = this.state
     return (
       <div className={this.props.active  ? "modal-page" : "modal-page hide" }tabindex="-1" role="dialog" ref={this.setWrapperRef}>
         <ul class="progressbar" dir="rtl">
-            <li >3</li>
-            <li >2</li>
-            <li class="active">1</li>
+            <li class={this.state.page >=0 ? "active": ""}>1</li>
+            <li class={this.state.page >= 1 ? "active": ""}>2</li>
+            <li class={this.state.page >= 2 ? "active": ""}>3</li>
         </ul>
-        <div className="modal-hint">
-          <div className="row">
-            <div className="col-2">
-              <TipsIcon className="hint-icon"/>
-            </div>
-            <div className="col-10 text-right">
-              درخواست ارتقا درخواست ارتقا درخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقا
-            </div>
-          </div>
-        </div>
-        <div className="modal-options">
-          <div className="row">
-            <div className="col" dir="ltr">
-              <div className="form-check form-check-inline">
-                <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"/>
-                <label className="form-check-label" for="inlineRadio1">ارتقا مستقیم به کارگزار</label>
-              </div>
-            </div>
-            <div className="col" dir="ltr">
-              <div className="form-check form-check-inline">
-                <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"/>
-                <label className="form-check-label" for="inlineRadio1">ارتقا بر اساس سوابق کارگزاری</label>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="modal-bottom">
-          <label className="label float-right">هدف شما از ارتقا به کارگزار چیست؟</label>
-          <input type="text " className="form-control gray-text-input"/>
-
-          <label className="label float-right mt-2">ویرایش برچسب ها</label>
-          <input type="text " className="form-control gray-text-input"/>
-          <div className="modal-labels">
-            <LabelTag
-              name="تست"
-              number="2"
-            />
-            <LabelTag
-              name="تست"
-              number="2"
-            />
-            <LabelTag
-              name="تست"
-              number="2"
-            />
-          </div>
-          
-        </div>
+        {this.state.pageContent}
         <div className="modal-footers">
           <div className = "row">
             <div className="col">
