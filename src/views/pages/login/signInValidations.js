@@ -3,6 +3,7 @@ export const asyncValidateSignIn = (...validationArguments) => {
   const username = validationArguments[0].username
   const checkUsername = validationArguments[2].actions.checkUsername
   const translator = validationArguments[2].translator
+  //TODO mohsen: set async check email not exist
   return new Promise(resolve => {
     if (username) {
       checkUsername(username, resolve)

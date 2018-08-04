@@ -1,16 +1,15 @@
 import React, {Component} from "react"
-import PropTypes from "prop-types"
 import AuthActions from "../../../redux/actions/authActions"
 import renderTextField from "../../common/inputs/reduxFormRenderTextField"
 import {BeatLoader} from "react-spinners"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
-import {createUserOrgan, createUser} from "src/crud/user/user"
-import {Field, reduxForm} from "redux-form"
+import {Field, reduxForm, SubmissionError} from "redux-form"
 import {getMessages} from "src/redux/selectors/translateSelector"
 import {RadioButtonGroup} from "../../common/inputs/RadioButtonInput"
 import {routerActions} from "react-router-redux"
 import {validateSignUpForm, asyncValidate} from "./signUpValidations"
+import UserActions from "../../../redux/actions/user/userActions"
 
 
 const SignUpForm = (props) => {
@@ -68,25 +67,51 @@ export class RegisterForm extends Component {
   }
 
   _onSubmitOrgan = (values) => {
-    const {signIn} = this.props.actions
-    const handleLogin = () => {
-      signIn(values.username, values.password, false)
-    }
-    const handleError = res => {
-      console.log("createUserOrgan error:", res)
-    }
-    createUserOrgan(values, handleLogin, handleError)
+    const {signIn, createUserOrgan} = this.props.actions
+    const {translator} = this.props
+    return new Promise((resolve, reject) => createUserOrgan(values, resolve, reject))
+      .then(
+        (res) => {
+          alert("F")
+          console.log(res)
+          return new Promise((resolve, reject) => signIn(values.username, values.password, false, reject))
+          //TODO mohsen: test return error in sign in
+            .catch((errorMessage) => {
+              throw new SubmissionError({_error: translator[errorMessage]})
+            })
+        }
+      )
+      .catch(
+        (errorMessage) => {
+          alert("E")
+          console.log(errorMessage)
+          //TODO mohsen: test return error in SubmissionError
+          throw new SubmissionError({_error: translator[errorMessage]})
+        }
+      )
   }
 
   _onSubmitPerson = (values) => {
-    const {signIn} = this.props.actions
-    const handleLogin = () => {
-      signIn(values.username, values.password, false)
-    }
-    const handleError = res => {
-      console.log("createUser error:", res)
-    }
-    createUser(values, handleLogin, handleError)
+    const {signIn, createUserPerson} = this.props.actions
+    const {translator} = this.props
+    return new Promise((resolve, reject) => createUserPerson(values, resolve, reject))
+      .then(
+        (res) => {
+          alert("F")
+          console.log(res)
+          return new Promise((resolve, reject) => signIn(values.username, values.password, false, reject))
+            .catch((errorMessage) => {
+              throw new SubmissionError({_error: translator[errorMessage]})
+            })
+        }
+      )
+      .catch(
+        (errorMessage) => {
+          alert("E")
+          console.log(errorMessage)
+          throw new SubmissionError({_error: translator[errorMessage]})
+        }
+      )
   }
 
   render() {
@@ -120,7 +145,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     signIn: AuthActions.signIn,
-    push: routerActions.push
+    push: routerActions.push,
+    createUserPerson: UserActions.createUserPerson,
+    createUserOrgan: UserActions.createUserOrgan
   }, dispatch)
 })
 

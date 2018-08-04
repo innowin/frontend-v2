@@ -11,7 +11,7 @@ const urls = {
   USER: {
     USERNAME_CHECK: "users/user_exist",
     CREATE_USER_PERSON: "users",
-    CREATE_USER_ORGAN: "/users/user-organization/"
+    CREATE_USER_ORGAN: "users/user-organization"
   },
   ORG: {
     GET_ORGANIZATION: 'organizations',

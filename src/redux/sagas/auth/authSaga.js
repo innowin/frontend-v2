@@ -55,9 +55,9 @@ function* signIn(action) {
 }
 
 function* getOrganizationInSignIn(username) {
-  const socketChannel = yield call(api.createSocketChannel, results.ORGANIZATION.GET_ORGANIZATION)
+  const socketChannel = yield call(api.createSocketChannel, results.ORG.GET_ORGANIZATION)
   try {
-    yield fork(api.get, urls.ORGANIZATION.GET_ORGANIZATION, results.ORGANIZATION.GET_ORGANIZATION, `?username=${username}`)
+    yield fork(api.get, urls.ORG.GET_ORGANIZATION, results.ORG.GET_ORGANIZATION, `?username=${username}`)
     const data = yield take(socketChannel)
     return data[0]
   } catch (e) {

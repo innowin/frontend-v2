@@ -24,12 +24,14 @@ import {watchCreateSkill, watchCreateProduct} from './addingContribution/addCont
 import {watchGetProductInfo, watchUpdateProduct} from './common/productSagas'
 import {watchLGetExchangesByMemberIdentity} from "./exchange/exchange"
 import {watchGetCategories} from './common/categorySagas'
-import {watchUsernameCheck} from "./user/userSagas"
+import {watchUsernameCheck, watchCreateUserPerson, watchCreateUserOrgan} from "./user/userSagas"
 
 
 const rootSaga = function* () {
   yield all([
     fork(watchUsernameCheck),
+    watchCreateUserPerson(),
+    watchCreateUserOrgan(),
     watchLSignInError(),
     watchLSignOut(),
     watchLSignIn(),

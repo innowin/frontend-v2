@@ -45,10 +45,10 @@ const  PageOne = ()=>{
             </div>         
           </div>
           <div className="row create-exchange-options" dir="ltr" >
-              <label for="exchangeUser" class="col-sm-2 exchangeUser-label"><strong>http://dbm.ir/</strong></label>
-              <div class="col-sm-10">
+              <label htmlFor="exchangeUser" className="col-sm-2 exchangeUser-label"><strong>http://dbm.ir/</strong></label>
+              <div className="col-sm-10">
                 
-                <input type="text" class="form-control  white-text-input" id="exchangeUser" placeholder="نام کاربری بورس" dir='rtl'/>
+                <input type="text" className="form-control  white-text-input" id="exchangeUser" placeholder="نام کاربری بورس" dir='rtl'/>
               </div>
           </div>
         </div>
@@ -90,7 +90,7 @@ const  PageTwo = ()=>{
           <div className="row full-height" dir="rtl">
             <div className="col">
               <label className="label float-right"><strong>توصیف بورس:</strong></label>
-              <textarea class="form-control white-text-input exchange-description full-height" id="" rows="3"></textarea>
+              <textarea className="form-control white-text-input exchange-description full-height" id="" rows="3"></textarea>
             </div>
           </div>
           <div className="row create-exchange-options" >
@@ -219,8 +219,8 @@ class CreateExchangeForm extends Component {
     if(page < 2){
       page+=1
     }
-    var found = steps.find(function(element) {
-      return element.id == page;
+    let found = steps.find(function(element) {
+      return element.id === page;
     });
     this.setState({...this.state,page,pageContent:found.component})
   }
@@ -230,31 +230,31 @@ class CreateExchangeForm extends Component {
     if(page > 0){
       page-=1
     }
-    var found = steps.find(function(element) {
-      return element.id == page;
+    let found = steps.find(function(element) {
+      return element.id === page;
     });
     this.setState({...this.state,page,pageContent:found.component})
   }
 
   render() {
     return (
-      <div className={this.props.active  ? "modal-page" : "modal-page hide" }tabindex="-1" role="dialog" ref={this.setWrapperRef}>
-        <ul class="progressbar" dir="rtl">
-            <li class={this.state.page >=0 ? "active": ""}>1</li>
-            <li class={this.state.page >= 1 ? "active": ""}>2</li>
-            <li class={this.state.page >= 2 ? "active": ""}>3</li>
+      <div className={this.props.active  ? "modal-page" : "modal-page hide" } tabIndex="-1" role="dialog" ref={this.setWrapperRef}>
+        <ul className="progressbar" dir="rtl">
+            <li className={this.state.page >=0 ? "active": ""}>1</li>
+            <li className={this.state.page >= 1 ? "active": ""}>2</li>
+            <li className={this.state.page >= 2 ? "active": ""}>3</li>
         </ul>
         {this.state.pageContent}
         <div className="modal-footers">
           <div className = "row">
             <div className="col">
-              <button onClick={this.state.page == 0 ? this.props.hide : this.handleBack.bind(this)} className="modal-button link float-right">
-                {this.state.page == 0 ? "لغو" : "قبلی"}
+              <button onClick={this.state.page === 0 ? this.props.hide : this.handleBack.bind(this)} className="modal-button link float-right">
+                {this.state.page === 0 ? "لغو" : "قبلی"}
               </button>
             </div>
             <div className="col">
-              <button onClick={this.state.page == 3 ? this.props.hide : this.handleNext.bind(this)}  className="modal-button primary float-left">
-                {this.state.page == 3 ? "ارسال" : 'بعدی'}
+              <button onClick={this.state.page === 3 ? this.props.hide : this.handleNext.bind(this)}  className="modal-button primary float-left">
+                {this.state.page === 3 ? "ارسال" : 'بعدی'}
               </button>
             </div>
           </div>
