@@ -13,6 +13,7 @@ import {PersistGate} from 'redux-persist/integration/react'
 const WrappedApp = withRouter(App)
 const store = configureStore()
 export const persistor = persistStore(store)
+// persistor.purge()
 runSaga()
 
 ReactDOM.render(

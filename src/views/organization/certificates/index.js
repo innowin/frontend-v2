@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {Certificate, CertificateItemWrapper} from "./view";
 import {CertificateCreateForm} from "./forms";
 import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper} from "../../common/cards/Frames";
-import {createCertificate, deleteCertificate, updateCertificate} from '../../../crud/organization/certificate.js';
+// import {createCertificate, deleteCertificate, updateCertificate} from '../../../crud/organization/certificate.js';
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {REST_REQUEST} from "../../../consts/Events"
 import {TOKEN} from "src/consts/data"
@@ -27,16 +27,16 @@ export class CertificateContainer extends React.Component<CertificateContainerPr
 	}
 	delete_ = (certificateId:number, hideEdit:Function) => {	
 		const {organizationId} = this.props;
-		return deleteCertificate(certificateId, organizationId,()=>{
-		},hideEdit,organizationId);
+		// return deleteCertificate(certificateId, organizationId,()=>{
+		// },hideEdit,organizationId);
 	};
 	update_ = (formValues:Object, certificateId:number, updateStateForView:Function, hideEdit:Function) => {//formValues, careerId, updateStateForView, hideEdit
 		updateStateForView(null,null,true);
-		return updateCertificate(formValues,certificateId, updateStateForView, hideEdit);
+		// return updateCertificate(formValues,certificateId, updateStateForView, hideEdit);
 	};
 
 	render() {
-		const {certificate} = this.state;
+		const {certificate} = this.props;
 		return <Certificate
 			certificate={certificate}
 			deleteCertificate={this.delete_}
@@ -49,31 +49,35 @@ type CertificateListProps = {
 	hideCreateForm: Function,
 	createForm: boolean,
 	organizationId: number, 
-	certificates: Array<Object>
+	certificates: Array<Object>,
+	auth:Object,
+	actions:Object
 }
 export class CertificateList extends React.Component<CertificateListProps> {
 
 	create = (formValues:Object,hideEdit:Function) => {
-			const {organizationId} = this.props;
-			return createCertificate(formValues, hideEdit, organizationId);
+			const {organizationId,auth, actions} = this.props;
+			const{createCertificate} = actions
+			return createCertificate(formValues, auth.client.identity.id, auth.client.identity.identity_user.id, hideEdit );
 	};
 
 	render() {
 		const {  organizationId, createForm } = this.props;
 		let {certificates} = this.props ;
-		return <ListGroup>
+		return <div className="row">
 			{createForm &&
 			<CertificateItemWrapper>
 					<CertificateCreateForm hideEdit={this.props.hideCreateForm} create={this.create} />
 			</CertificateItemWrapper>}
 			{
-				certificates.map(cert => <CertificateContainer
+				certificates.map(cert => 
+				cert!=null ? <CertificateContainer
 					certificate={cert}
 					organizationId={organizationId}
 					key={cert.id}
-				/>)
+				/>:<span/>)
 			}
-		</ListGroup>;
+		</div>;
 	}
 }
 
@@ -81,6 +85,7 @@ type CertificatesProps = {
 	organizationId:number,
 	actions:Object,
 	organization:Object,
+	auth:Object,
 }
 export class Certificates extends React.Component<CertificatesProps,
 {createForm: boolean, edit:boolean}> {
@@ -91,53 +96,9 @@ export class Certificates extends React.Component<CertificatesProps,
 	}
 
 	componentDidMount(){
-		const {organizationId } = this.props;
+		const {auth} = this.props;
 		const {getCertificates} = this.props.actions;
-		getCertificates(organizationId);
-		// const emitting = () => {
-		// 	const newState = {...this.state, isLoading: true};
-		// 	this.setState(newState);
-		// 	socket.emit(REST_REQUEST,
-		// 		{
-		// 			method: "get",
-		// 			url: `${url}/organizations/certificates/${organizationId}`,
-		// 			result: `OrganizationCertificates-get/${organizationId}`,
-		// 			token: "",
-		// 		}
-		// 	);
-
-		// 	socket.emit(REST_REQUEST,
-    //     {
-    //       method: "get",
-    //       url: `${url}/organizations/${organizationId}/`,
-    //       result: `organization-Posts-get/${organizationId}`,
-    //       token: TOKEN
-    //     }
-		// 	);
-			
-		// };
-
-		// emitting();
-
-		// socket.on(`UserCertificates-get/${organizationId}`, (res) => {
-		// 	if (res.detail) {
-		// 		const newState = {...this.state, error: res.detail, isLoading: false};
-		// 		this.setState(newState);
-		// 	}else{
-		// 		const newState = {...this.state, certificates: res instanceof Array ? res : [], isLoading: false};
-		// 		this.setState(newState);
-		// 	}
-
-		// });
-		// socket.on(`organization-Posts-get/${organizationId}`, (res) => {
-		// 	if (res.detail) {
-		// 		const newState = {...this.state, error: res.detail, isLoading: false};
-		// 		this.setState(newState);
-		// 	} else {
-		// 		const newState = {...this.state, organization: res, isLoading: false};
-		// 		this.setState(newState);
-		// 	}
-		// });
+		getCertificates(auth.client.identity.id);
 	}
 	showCreateForm = () => {
 			this.setState({createForm: true});
@@ -147,7 +108,7 @@ export class Certificates extends React.Component<CertificatesProps,
 	};
 
 	render() {
-		const {  organizationId,organization} = this.props;
+		const {  organizationId,organization, auth, actions} = this.props;
 		const {createForm } = this.state;
 		const certificates = organization.certificates;
 		const {isLoading,error} = certificates;
@@ -162,6 +123,8 @@ export class Certificates extends React.Component<CertificatesProps,
 					/>
 					<FrameCard>
 						<CertificateList
+							auth={auth}
+							actions={actions}
 							certificates={certificates.content}
 							organizationId={organizationId}
 							createForm={createForm}
@@ -181,6 +144,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = dispatch => ({
 	actions: bindActionCreators({
 		getCertificates: OrganizationActions.getOrgCertificates ,
+		createCertificate : OrganizationActions.createCertificate
 	}, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Certificates)

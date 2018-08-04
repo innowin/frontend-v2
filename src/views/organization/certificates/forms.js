@@ -17,10 +17,10 @@ export class CertificateForm extends React.Component<CertificateFormProps> {
 	titleInput : any;
 	getValues =  () => {
 		const media = this.certPictureInput.getFile();
-        const mediaId = media ? media.id : null;
+        const mediaId = media ? media.id : -1;
 		const values = {
 				title: this.titleInput.getValue(),
-				picture_media: mediaId, // TODO use media uploader
+				certificate_picture: mediaId, // TODO use media uploader
 		};
 		return values;
 	};

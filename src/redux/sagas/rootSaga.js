@@ -3,7 +3,6 @@ import {
   watchGetOrganization,
   watchGetOrganizationSuccess,
   watchGetOrganizationMembers,
-  //watchGetOrganizationMembersSuccess,
   watchUpdateOrganization,
   watchGetProducts,
   watchGetOrgFollowers,
@@ -13,6 +12,12 @@ import {
   watchGetCertificates,
   watchUpdateCustomer,
   watchCreateOrgProduct,
+  watchUpdateOrgProduct,
+  watchAddProductPicture,
+  watchGetProductPictures,
+  watchGetProductsSuccess,
+  watchDeleteProduct,
+  watchCreateCertificate,
 } from './organization/organizationSaga'
 import {watchLSignIn, watchLSignOut, watchLSignInError} from './auth/authSaga'
 import {watchCreateSkill, watchCreateProduct} from './addingContribution/addContributionSagas'
@@ -21,7 +26,8 @@ import {watchLGetExchangesByMemberIdentity} from "./exchange/exchange"
 import {watchGetCategories} from './common/categorySagas'
 import {watchUsernameCheck} from "./user/userSagas"
 
-const rootSaga = function*() {
+
+const rootSaga = function* () {
   yield all([
     fork(watchUsernameCheck),
     watchLSignInError(),
@@ -40,9 +46,14 @@ const rootSaga = function*() {
     watchLGetExchangesByMemberIdentity(),
     watchUpdateCustomer(),
     watchCreateSkill(),
+    watchUpdateOrgProduct(),
+    watchAddProductPicture(),
+    watchGetProductPictures(),
+    watchGetProductsSuccess(),
+    watchDeleteProduct(),
+    watchCreateCertificate(),
     // watchCreateProduct(),
     watchCreateOrgProduct(),
-
     // common sagas
     watchGetProductInfo(),
     watchUpdateProduct(),
@@ -51,4 +62,4 @@ const rootSaga = function*() {
 }
 
 
-export default rootSaga;
+export default rootSaga
