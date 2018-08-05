@@ -7,7 +7,7 @@ import helpers from "../../../../consts/helperFunctions";
 
 
 function* getObjectCertificates(action) { // action={type: , id: }
-    const suffix = `?certificate_parent=${action.id}`
+    const suffix = `?certificate_parent=${action.payload.id}`
     const socketChannel = yield call(api.createSocketChannel, results.COMMON.GET_OBJECT_CERTIFICATES)
 
     try {
