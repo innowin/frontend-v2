@@ -1,20 +1,22 @@
 import api from "../../../../consts/api";
 import results from "../../../../consts/resultName";
 import urls from "../../../../consts/URLS";
-import {call, fork,take} from "redux-saga/effects";
+import {call, fork,take, put} from "redux-saga/effects";
+import types from '../../../actions/types'
+
 
 function* createFile(action) { // payload?
-    const {formData} = action.payload
+    const {formData} = action
     const socketChannel = yield call(api.createSocketChannel, results.COMMON.CREATE_FILE)
 
     try {
         yield fork(api.post, urls.COMMON.FILE, results.COMMON.CREATE_FILE, formData)
         const data = yield take(socketChannel)
-        console.log('createFile saga worker success data is: ', data)
-        // yield put({type: types.SUCCESS.COMMON.UPDATE_PRODUCT, data})
+        yield put({type: types.SUCCESS.COMMON.CREATE_FILE, data})
+
     } catch (error) {
-        // yield put({type: types.ERRORS.COMMON.UPDATE_PRODUCT, error})
         console.log('createFile saga worker error data is: ', error)
+
     } finally {
         socketChannel.close()
     }

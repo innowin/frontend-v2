@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import {Certificate, CertificateItemWrapper} from "./view"
 import {CertificateCreateForm} from "./forms"
 import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper} from "../../common/cards/Frames"
-import {createCertificate, deleteCertificate, updateCertificate} from '../../../crud/product/certificate.js'
+import {deleteCertificate, updateCertificate} from '../../../crud/product/certificate.js'
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {REST_REQUEST} from "../../../consts/Events"
 import client from "src/consts/client"
@@ -13,10 +13,12 @@ import {getMessages} from "../../../redux/selectors/translateSelector";
 import {connect} from "react-redux";
 import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 import {bindActionCreators} from "redux";
-import {getCertificatesList} from "src/redux/actions/commonActions/certificateActions"
+import {getCertificatesList, createCertificate} from "src/redux/actions/commonActions/certificateActions"
+import {CertificateReduxForm} from "./forms"
+import {createFile} from 'src/redux/actions/commonActions/fileActions'
 
 
-const TOKEN = client.getToken()
+const IDENTITY_ID = client.getIdentityId()
 
 type CertificateType = {
     picture_media: string,
@@ -84,16 +86,32 @@ type CertificateListProps = {
     updateStateForView: Function,
     certificates: {[number | string]: CertificateType},
     translator: TranslatorType,
-    hideCreateForm: Function
+    hideCreateForm: Function,
+    handleCertificateInput: Function,
+    sendingFormDataHandler: Function
 }
 
 const CertificateList = (props: CertificateListProps) => {
-    const {productId, createForm, updateStateForView, translator, certificates, hideCreateForm} = props
+    const {
+        sendingFormDataHandler,
+        productId,
+        createForm,
+        updateStateForView,
+        translator,
+        certificates,
+        hideCreateForm,
+        handleCertificateInput
+    } = props
     return (
         <ListGroup>
             {createForm &&
             <CertificateItemWrapper>
-                <CertificateCreateForm translator={translator} hideEdit={hideCreateForm} create={() => 0}/>
+                <CertificateReduxForm
+                    handleCertificateInput={handleCertificateInput}
+                    onSubmit={sendingFormDataHandler}
+                    hideForm={() => console.log('need for hiding')}
+                />
+                {/*<CertificateCreateForm translator={translator} hideEdit={hideCreateForm} create={() => 0}/>*/}
             </CertificateItemWrapper>}
             {Object.keys(certificates).map(id => {
                 const certificate = {id, ...certificates[id]}
@@ -112,11 +130,21 @@ const CertificateList = (props: CertificateListProps) => {
 }
 
 
+type CertFormType = {
+    picture: string,
+    title: string
+}
+
 type CertificatesProps = {
     productId: string,
     translator: TranslatorType,
     _getCertificatesList: Function,
     certificates: {[number | string]: CertificateType},
+    _createFile: Function,
+    newOrUpdatingFile: {
+        content: {id?: string}
+    },
+    _createCertificate: Function
 }
 
 type CertificatesState = {
@@ -124,13 +152,30 @@ type CertificatesState = {
     edit: boolean,
     isLoading: boolean,
     error: ?(string | boolean),
+    certFileInput: string,
+    certTitleInput: string,
+    sendingCertFormType: string
+}
+
+const SENDING_TYPES = { // We using this to determine the type of certFormData.
+    POST: 'TYPE_POST',
+    UPDATE: 'TYPE_UPDATE'
 }
 
 export class Certificates extends Component<CertificatesProps, CertificatesState> {
 
     constructor() {
         super()
-        this.state = {createForm: false, certificates: [], edit: false, isLoading: false, error: null}
+        this.state = {
+            createForm: false,
+            certificates: [],
+            edit: false,
+            isLoading: false,
+            error: null,
+            certFileInput: '', // the value of picture of creating or updating certificate.
+            certTitleInput: '', // the value of title of creating or updating certificate.
+            sendingCertFormType: '' // determine that certFormData is for creating or updating.
+        }
     }
 
     static propTypes = {
@@ -142,13 +187,47 @@ export class Certificates extends Component<CertificatesProps, CertificatesState
         _getCertificatesList()
     }
 
+    componentDidUpdate(prevProps: CertificatesProps) {
+        const {newOrUpdatingFile, _createCertificate, productId} = this.props
+        const oldFile = prevProps.newOrUpdatingFile
+        if (oldFile && newOrUpdatingFile) {
+            if (!oldFile.content.id && newOrUpdatingFile.content.id) {
+                this.setState({
+                    ...this.state,
+                    certFileInput: newOrUpdatingFile.content.id
+                }, () => {
+                    const data = {
+                        title: this.state.certTitleInput,
+                        picture: newOrUpdatingFile.content.id,
+                        certificate_parent: productId,
+                        certificate_identity: IDENTITY_ID
+                    }
+                    _createCertificate(data)
+                })
+            }
+        }
+    }
+
+    _sendingFormDataHandler = (values: CertFormType) => {
+        this.setState({ ...this.state, certTitleInput: values.title})
+        const data = {file_string: this.state.certFileInput}
+        this.props._createFile(data)
+    }
+
     _showCreateFormHandler = () => this.setState({...this.state, createForm: !this.state.createForm})
 
-    _certList = () => {
-        const {certificates} = this.props
-        return Object.keys(certificates).map(id => ({...certificates[id], id: id}))
-        // certificates is an object that it's keys are ids of certificates and it's values are the data of
-        // correspond certificate.
+    _handleCertificateInput = (e: any) => {
+        const reader: any = new FileReader()
+        const input: {files: Array<{}>} = e.target
+        if (input.files) {
+            reader.onload = () => {
+                this.setState({
+                    ...this.state,
+                    certFileInput: reader.result
+                })
+            }
+            input.files[0] && reader.readAsDataURL(input.files[0])
+        }
     }
 
     updateStateForView = (error, isLoading) => {
@@ -169,6 +248,7 @@ export class Certificates extends Component<CertificatesProps, CertificatesState
             <VerifyWrapper isLoading={isLoading} error={error}>
                 {
                     <div>
+                        {console.log(this.props, IDENTITY_ID)}
                         <CategoryTitle
                             title={translator['Certificates']}
                             showCreateForm={this._showCreateFormHandler}
@@ -176,6 +256,8 @@ export class Certificates extends Component<CertificatesProps, CertificatesState
                         />
                         <FrameCard>
                             <CertificateList
+                                sendingFormDataHandler={this._sendingFormDataHandler}
+                                handleCertificateInput={this._handleCertificateInput}
                                 translator={translator}
                                 updateStateForView={this.updateStateForView}
                                 certificates={certificates}
@@ -193,13 +275,16 @@ export class Certificates extends Component<CertificatesProps, CertificatesState
 
 const mapStateToProps = (state) => ({
     translator: getMessages(state),
-    certificates: state.certificate.objectCertificates.content
+    certificates: state.certificate.objectCertificates.content,
+    newOrUpdatingFile: state.file.newOrUpdatingFile
 })
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators(
         {
-            _getCertificatesList: id => getCertificatesList(id)
+            _getCertificatesList: id => getCertificatesList(id),
+            _createFile: data => createFile(data),
+            _createCertificate: data => createCertificate(data)
         },
         dispatch
     )

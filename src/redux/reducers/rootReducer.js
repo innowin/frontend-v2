@@ -8,6 +8,7 @@ import {reducer as formReducer} from 'redux-form'
 import category from './commonReducer/category'
 import product from './commonReducer/product'
 import certificate from './commonReducer/certificate'
+import file from './commonReducer/fileReducer'
 
 
 const reducers = {
@@ -16,7 +17,8 @@ const reducers = {
     organization,
     category,
     product,
-    certificate
+    certificate,
+    file
 }
 
 

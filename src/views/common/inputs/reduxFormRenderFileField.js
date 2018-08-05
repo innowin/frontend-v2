@@ -1,25 +1,28 @@
 import React from 'react'
 
+const adaptFileEventToValue = delegate => e => {delegate(e.target.files[0])}
 
-type Props = {
-    input: HTMLInputElement,
-    label: string,
-    id: string,
-    className: string,
-}
-
-const renderTextField = (props: Props) => {
-    const {input, label, id, className, meta: {touched, error}} = props
+const FileInput = ({
+                       input: {
+                           value: omitValue, onChange, onBlur, ...inputProps
+                       },
+                       meta: omitMeta,
+                       ...props
+                   }) => {
+    const {className, label, id} = props;
     return (
-        <div className={className}>
-            <label htmlFor={id}>{label}</label>
-            <div id={id} className="redux-form-file-field">
-                <input className={touched && error ? 'error' : ''} {...input} type="file"/>
+        <div>
+            <div className={className}>
+                <label htmlFor={id}>{label}</label>
+                <input
+                    onChange={onChange}
+                    onBlur={adaptFileEventToValue(onBlur)}
+                    type="file"
+                    {...inputProps}
+                    {...props}
+                />
             </div>
-            {(touched && error) && <span className="error-message">{error}</span>}
         </div>
-    )
-}
-
-export default renderTextField
-
+    );
+};
+export default FileInput;
