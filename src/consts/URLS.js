@@ -24,9 +24,10 @@ const urls =  {
 		GET_PRODUCT_CATEGORIES: 'products/category',
 	},
   EXCHANGE: {
-    GET_EXCHANGES: 'exchanges',
+    GET_EXCHANGE_BY_EX_ID: 'exchanges',
     GET_EXCHANGES_BY_MEMBER_IDENTITY:'exchanges/identities',
-  },
+		GET_EXCHANGE_MEMBERS_BY_EX_ID:'/exchanges/identities/',
+	},
 	CREATE_PRODUCT: 'products',
 	CREATE_Skill: 'users/skills',
 	PRODUCT: {

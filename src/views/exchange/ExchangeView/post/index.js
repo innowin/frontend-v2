@@ -9,17 +9,17 @@ import {getExchangePostComment} from '../../../../crud/exchange/exchange'
 import {PostEditForm} from "src/views/common/post/Forms"
 import {ExchangePostView} from "./views"
 import {PostItemWrapper} from "../../../common/post/View"
-import {getFile} from "../../../../crud/media/media";
+import {getFile} from "../../../../crud/media/media"
 
 export class ExchangePost extends Component {
 
   static propTypes = {
     post: PropTypes.object.isRequired,
     updatePosts: PropTypes.func.isRequired
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       post: {},
       postIdentity_name: '',
@@ -30,40 +30,40 @@ export class ExchangePost extends Component {
       error: false,
       isLoading: true,
       comments: []
-    };
+    }
   }
 
   _hideEdit = () => {
-    this.setState({edit: false});
-  };
+    this.setState({edit: false})
+  }
 
   _handleErrorLoading = (error = false) => {
-    this.setState({...this.state, isLoading: false, error: error});
-  };
+    this.setState({...this.state, isLoading: false, error: error})
+  }
 
   _updateView = (res) => {
     this.setState({...this.state, post: res})
-  };
+  }
 
   _update = (formValues, postId) => {
     this.setState({...this.state, isLoading: true}, () =>
-      updatePost(formValues, postId, this._updateView, this._hideEdit, this._handleErrorLoading));
-  };
+      updatePost(formValues, postId, this._updateView, this._hideEdit, this._handleErrorLoading))
+  }
 
   _delete = () => {
     this.setState({...this.state, isLoading: true}, () =>
       deletePost(this.props.posts, this.props.post, this.props.updatePosts, this._hideEdit, this._handleErrorLoading))
-  };
+  }
 
   _getIdentityDetails = (post_identity) => {
     const handleResult = (identity) => {
-      const user = identity.identity_user;
-      const organization = identity.identity_organization;
+      const user = identity.identity_user
+      const organization = identity.identity_organization
       if (user) {
         this.setState({
           ...this.state,
           postIdentity_name: user.first_name + ' ' + user.last_name
-        });
+        })
         getProfile(user.id, (res) => {
           // TODO mohsen: handle error for getProfile
           if (res.profile_media) {
@@ -72,7 +72,7 @@ export class ExchangePost extends Component {
             )
           }
           this.setState({...this.state, isLoading: false})
-        });
+        })
       }
       if (organization) {
         this.setState({
@@ -82,17 +82,17 @@ export class ExchangePost extends Component {
           isLoading: false
         })
       }
-    };
+    }
     getIdentity(post_identity, handleResult)
-  };
+  }
 
   componentDidMount() {
-    const {postId} = this.props.match.params;
-    this.setState({isLoading: true, error: null});
+    const {postId} = this.props.match.params
+    this.setState({isLoading: true, error: null})
 
     getPost(postId).then(post => {
       this.setState({...this.state, post: post})
-      this._getIdentityDetails(post.post_identity);
+      this._getIdentityDetails(post.post_identity)
 
       getExchangePostComment(post.id).then(comments => {
         this.setState({...this.state, comments: comments, isLoading: false})
@@ -101,13 +101,13 @@ export class ExchangePost extends Component {
       })
 
     }).catch(err => {
-      this.setState({isLoading: false, error: err});
+      this.setState({isLoading: false, error: err})
     })
 
   }
 
   render() {
-    const {post, postIdentity_name, postIdentity_mediaId, edit, comments, isLoading, error} = this.state;
+    const {post, postIdentity_name, postIdentity_mediaId, edit, comments, isLoading, error} = this.state
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         {edit ?
@@ -131,4 +131,4 @@ export class ExchangePost extends Component {
   }
 }
 
-export default ExchangePost;
+export default ExchangePost

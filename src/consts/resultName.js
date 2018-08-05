@@ -22,7 +22,7 @@ const results = {
 	},
 
 	EXCHANGE:{
-		GET_EXCHANGES:'get-exchanges',
+		GET_EXCHANGE_BY_EX_ID:'get-exchange-by-ex-id',
 		GET_EXCHANGE_BY_ID:'get-exchanges-{id}',
 		GET_EXCHANGES_BY_MEMBER_IDENTITY:'getExchangesByMemberIdentity',
 	},

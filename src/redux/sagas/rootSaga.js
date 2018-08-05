@@ -16,7 +16,7 @@ import {watchGetOrganization,
 import {watchLSignIn, watchLSignOut, watchLSignInError} from './auth/authSaga'
 import {watchCreateSkill, watchCreateProduct} from './addingContribution/addContributionSagas'
 import {watchGetProductInfo} from './common/commonSagas'
-import {watchLGetExchangesByMemberIdentity} from "./exchange/exchange"
+import {watchLGetExchangesByMemberIdentity , watchGetExchangeByExId} from "./exchange/exchange"
 
 const rootSaga = function* () {
 	yield all([
@@ -33,6 +33,8 @@ const rootSaga = function* () {
 		watchGetOrgFollowings(),
 		watchGetProducts(),
 		watchUpdateOrganization(),
+    //Exchange sagas
+		watchGetExchangeByExId(),
     watchLGetExchangesByMemberIdentity(),
 		watchUpdateCustomer(),
 		watchCreateSkill(),

@@ -27,7 +27,9 @@ class SignInForm extends Component {
 	
 	componentDidUpdate() {
 		const {push} = this.props.actions
+		// alert('upside if - did update - signinform')
 		if (this.props.isLoggedIn) {
+			// alert('inside if - did update - signinform')
 			push(this._redirectPath())
 		}
 	}

@@ -2,7 +2,7 @@
 import * as React from "react"
 import {Component} from "react"
 import PropTypes from "prop-types"
-import ExchangeActions from "src/redux/actions/exchangeAction"
+import ExchangeActions from "src/redux/actions/exchangeActions"
 import type {exchangeIdentityType, exchangeType} from "src/consts/flowTypes/exchange/exchange.js"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"

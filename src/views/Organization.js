@@ -1,31 +1,31 @@
-import React, {Component} from "react";
-import Certificates from "./organization/certificates/index";
-import ChatBar from "./bars/ChatBar";
-import Customers from "./organization/customers/index";
-import Posts from "src/views/common/post/index";
-import Products from "./organization/products/index";
+import React, {Component} from "react"
+import Certificates from "./organization/certificates/index"
+import ChatBar from "./bars/ChatBar"
+import Customers from "./organization/customers/index"
+import Posts from "src/views/common/post/index"
+import Products from "./organization/products/index"
 import PrivateRoute from "../consts/PrivateRoute"
-import PropTypes from "prop-types";
-import Sidebar from "src/views/bars/SideBar";
-import Social from "src/views/organization/social/index";
-import TopBar from "./bars/TopBar";
-import {default as BasicInformation} from "./organization/basicInformation/index";
-import {NavLink, Switch, Redirect} from "react-router-dom";
-import {OrganizationSideView} from "src/views/bars/SideBar";
-import {Tabs} from "src/views/common/cards/Frames";
-import {ContributionIcon, postIcon, CertificateIcon, InformationIcon, SocialIcon, customerIcon} from "../images/icons";
+import PropTypes from "prop-types"
+import Sidebar from "src/views/bars/SideBar"
+import Social from "src/views/organization/social/index"
+import TopBar from "./bars/TopBar"
+import {default as BasicInformation} from "./organization/basicInformation/index"
+import {NavLink, Switch, Redirect} from "react-router-dom"
+import {OrganizationSideView} from "src/views/bars/SideBar"
+import {Tabs} from "src/views/common/cards/Frames"
+import {ContributionIcon, postIcon, CertificateIcon, InformationIcon, SocialIcon, customerIcon} from "../images/icons"
 
 export class Organization extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
     handleSignOut: PropTypes.func.isRequired
-  };
+  }
 
   render() {
-    const {match, handleSignOut} = this.props;
-    const {path, url, params} = match;
-    const organizationId = params.id;
-    const widthOfRightBar = "col-md-2 col-sm-1";
+    const {match, handleSignOut} = this.props
+    const {path, url, params} = match
+    const organizationId = params.id
+    const widthOfRightBar = "col-md-2 col-sm-1"
     return (
       <div className="-tabbed-pages -userOrganBackgroundImg">
         <TopBar handleSignOut={handleSignOut} collapseWidthCol={widthOfRightBar}/>
@@ -75,7 +75,7 @@ export class Organization extends Component {
 }
 
 export default (props) => {
-  const match = props.match;
-  const handleSignOut = props.handleSignOut;
+  const match = props.match
+  const handleSignOut = props.handleSignOut
   return <Organization match={match} handleSignOut={handleSignOut}/>
-};
+}
