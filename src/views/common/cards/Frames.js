@@ -181,7 +181,7 @@ export const Field = (props: PropsField): div => {
 }
 
 type PropsVerifyWrapper = {
-    error: boolean | string,
+    error: ?(boolean | string),
     retry?: Function,
     children?: React.Node,
     className?: string,

@@ -6,6 +6,11 @@ import {TextInput} from 'src/views/common/inputs/TextInput'
 import {FileInput} from 'src/views/common/inputs/FileInput'
 import {Confirm} from "../../common/cards/Confirm"
 import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
+import renderTextField from "../../common/inputs/reduxFormRenderTextField";
+import renderFileField from "../../common/inputs/reduxFormRenderFileField";
+import {Field, reduxForm} from "redux-form"
+import type {ProductType} from "../../../consts/flowTypes/product/productTypes";
+
 
 type CertificateType = {
     certificate_picture: number,
@@ -17,6 +22,45 @@ type CertificateFormProps = {
     certificate?: CertificateType,
     children: React.Node
 }
+
+const CertificateReduxFormValidate = (values) => {
+    const errors = {}
+    return errors
+}
+
+type CertificateReduxFormProps = {
+    handleSubmit: Function,
+    onSubmit: Function,
+    translator: TranslatorType,
+    submitting: boolean,
+    error: string,
+    submitFailed: boolean,
+    hideForm: Function,
+    formData: ProductType,
+    handleCertificateInput: Function
+}
+
+let CertificateReduxForm = (props: CertificateReduxFormProps) => {
+    const {handleSubmit, onSubmit, translator, submitting, error, submitFailed, hideForm, handleCertificateInput} = props
+    return (
+        <form onSubmit={handleSubmit(onSubmit)} className="certificate-form">
+            <Field name="title" className="form-field" type="text" component={renderTextField}
+                   label={'title'}/>
+            <Field name="picture" className="form-field" component={renderFileField}
+                   label={'picture'} onChange={handleCertificateInput}/>
+            <button type="submit" className="btn btn-success">ثبت</button>
+            <span className="btn" onClick={hideForm}>لغو</span>
+        </form>
+    )
+}
+
+CertificateReduxForm = reduxForm({
+    form: 'certificateReduxForm',
+    validate: CertificateReduxFormValidate
+})(CertificateReduxForm)
+
+export {CertificateReduxForm}
+
 
 export class CertificateForm extends Component<CertificateFormProps> {
     static propTypes = {
