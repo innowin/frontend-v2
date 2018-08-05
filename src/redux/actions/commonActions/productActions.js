@@ -2,7 +2,9 @@ import types from '../types/index'
 
 export const getProductInfo = (id) => ({
     type: types.COMMON.GET_PRODUCT_INFO,
-    id
+    payload: {
+        id
+    }
 })
 
 

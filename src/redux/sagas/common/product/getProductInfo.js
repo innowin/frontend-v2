@@ -5,7 +5,7 @@ import urls from "../../../../consts/URLS";
 import types from "../../../actions/types";
 
 function* getProductInfo(action) { // action = {type, id}
-    const {id} = action
+    const {id} = action.payload
     const socketChannel = yield call(api.createSocketChannel, results.COMMON.GET_PRODUCT_BASIC_INFO)
     try {
         yield fork(api.get, urls.COMMON.PRODUCT, results.COMMON.GET_PRODUCT_BASIC_INFO, id)

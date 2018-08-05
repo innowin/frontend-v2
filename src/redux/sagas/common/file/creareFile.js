@@ -6,7 +6,7 @@ import types from '../../../actions/types'
 
 
 function* createFile(action) { // payload?
-    const {formData} = action
+    const {formData} = action.payload
     const socketChannel = yield call(api.createSocketChannel, results.COMMON.CREATE_FILE)
 
     try {
