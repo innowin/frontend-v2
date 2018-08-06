@@ -13,9 +13,11 @@ import {getMessages} from "../../../redux/selectors/translateSelector"
 import {connect} from "react-redux"
 import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 import {bindActionCreators} from "redux"
-import {getCertificatesList, createCertificate} from "src/redux/actions/commonActions/certificateActions"
+import {getCertificatesList, createCertificate, resetCreatingObjCertStatus} from "src/redux/actions/commonActions/certificateActions"
 import {CertificateReduxForm} from "./forms"
-import {createFile, delMiddleWareFileData} from "src/redux/actions/commonActions/fileActions"
+import {createFile, updateFile} from "src/redux/actions/commonActions/fileActions"
+import status from "src/redux/reducers/statusChoices"
+
 
 const IDENTITY_ID = client.getIdentityId()
 
@@ -87,7 +89,8 @@ type CertificateListProps = {
     translator: TranslatorType,
     hideCreateForm: Function,
     handleCertificateInput: Function,
-    sendingFormDataHandler: Function
+    sendingFormDataHandler: Function,
+    creatingObjCertStatus: string
 }
 
 const CertificateList = (props: CertificateListProps) => {
@@ -99,16 +102,19 @@ const CertificateList = (props: CertificateListProps) => {
         translator,
         certificates,
         hideCreateForm,
-        handleCertificateInput
+        handleCertificateInput,
+        creatingObjCertStatus
     } = props
     return (
         <ListGroup>
             {createForm &&
             <CertificateItemWrapper>
                 <CertificateReduxForm
+                    creatingObjCertStatus={creatingObjCertStatus}
                     handleCertificateInput={handleCertificateInput}
                     onSubmit={sendingFormDataHandler}
                     hideForm={hideCreateForm}
+                    initialValues={{}}
                 />
                 {/*<CertificateCreateForm translator={translator} hideEdit={hideCreateForm} create={() => 0}/>*/}
             </CertificateItemWrapper>}
@@ -144,7 +150,10 @@ type CertificatesProps = {
         content: {id?: string}
     },
     _createCertificate: Function,
-    _delMiddleWareFileData: Function
+    // _delMiddleWareFileData: Function,
+    creatingObjCertStatus: string,
+    _resetCreatingObjCertStatus: Function,
+    _updateFile: Function
 }
 
 type CertificatesState = {
@@ -188,8 +197,17 @@ export class Certificates extends Component<CertificatesProps, CertificatesState
     }
 
     componentDidUpdate(prevProps: CertificatesProps) {
-        const {middlewareFileData, _createCertificate, productId, _delMiddleWareFileData} = this.props
+
+        const {middlewareFileData,
+            _createCertificate,
+            productId,
+            // _delMiddleWareFileData,
+            creatingObjCertStatus,
+            _resetCreatingObjCertStatus
+        } = this.props
+
         const oldFile = prevProps.middlewareFileData
+
         if (oldFile && middlewareFileData) {
             if (!oldFile.content.id && middlewareFileData.content.id) {
                 this.setState({
@@ -203,9 +221,12 @@ export class Certificates extends Component<CertificatesProps, CertificatesState
                         certificate_identity: IDENTITY_ID
                     }
                     _createCertificate(data)
-                    _delMiddleWareFileData()
                 })
             }
+        }
+
+        if (creatingObjCertStatus === status.SUCCEED) {
+            setTimeout(_resetCreatingObjCertStatus, 10)
         }
     }
 
@@ -217,9 +238,15 @@ export class Certificates extends Component<CertificatesProps, CertificatesState
 
     _showCreateFormHandler = () => this.setState({...this.state, createForm: !this.state.createForm})
 
+    _sendingType$Handler = (type: string) => {
+        this.setState({ ...this.state, sendingCertFormType: type },
+            this._showCreateFormHandler) // after setting sending type making form visible.
+    }
+
     _handleCertificateInput = (e: any) => {
         const reader: any = new FileReader()
         const input: {files: Array<{}>} = e.target
+        console.log(input)
         if (input.files) {
             reader.onload = () => {
                 this.setState({
@@ -243,19 +270,21 @@ export class Certificates extends Component<CertificatesProps, CertificatesState
     }
 
     render() {
-        const {productId, translator, certificates} = this.props
+        const {productId, translator, certificates, creatingObjCertStatus} = this.props
         const {createForm, isLoading, error} = this.state
         return (
             <VerifyWrapper isLoading={isLoading} error={error}>
                 {
                     <div>
+                        {console.log(this.state)}
                         <CategoryTitle
                             title={translator['Certificates']}
-                            showCreateForm={this._showCreateFormHandler}
+                            showCreateForm={() => this._sendingType$Handler(SENDING_TYPES.POST)}
                             createForm={createForm}
                         />
                         <FrameCard>
                             <CertificateList
+                                creatingObjCertStatus={creatingObjCertStatus}
                                 sendingFormDataHandler={this._sendingFormDataHandler}
                                 handleCertificateInput={this._handleCertificateInput}
                                 translator={translator}
@@ -276,7 +305,8 @@ export class Certificates extends Component<CertificatesProps, CertificatesState
 const mapStateToProps = (state) => ({
     translator: getMessages(state),
     certificates: state.certificate.objectCertificates.content,
-    middlewareFileData: state.file.middlewareFileData
+    middlewareFileData: state.file.middlewareFileData,
+    creatingObjCertStatus: state.certificate.creatingObjCertStatus
 })
 
 const mapDispatchToProps = dispatch =>
@@ -285,7 +315,9 @@ const mapDispatchToProps = dispatch =>
             _getCertificatesList: id => getCertificatesList(id),
             _createFile: data => createFile(data),
             _createCertificate: data => createCertificate(data),
-            _delMiddleWareFileData: delMiddleWareFileData
+            _updateFile: payload => updateFile(payload),
+            // _delMiddleWareFileData: delMiddleWareFileData,
+            _resetCreatingObjCertStatus: resetCreatingObjCertStatus
         },
         dispatch
     )

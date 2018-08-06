@@ -1,5 +1,7 @@
-import initialState from '../initialState';
-import types from '../../actions/types';
+import initialState from '../initialState'
+import types from '../../actions/types'
+import status from '../statusChoices'
+
 
 const certificate = (state = initialState.common.certificate, action) => {
     switch (action.type) {
@@ -53,8 +55,9 @@ const certificate = (state = initialState.common.certificate, action) => {
                 objectCertificates: {
                     content: {...state.objectCertificates.content, [id]: data},
                     isLoading: false,
-                    isLoaded: true
-                }
+                    isLoaded: true,
+                },
+                creatingObjCertStatus: status.SUCCEED
             }
         }
 
@@ -66,6 +69,13 @@ const certificate = (state = initialState.common.certificate, action) => {
                     isLoading: false,
                     isLoaded: true,
                 }
+            }
+
+        /** ----------------- Reset Creating Object Cert Status ------------------> **/
+        case types.COMMON.RESET_CREATE_CERTIFICATE_STATUS:
+            return {
+                ...state,
+                creatingObjCertStatus: status.NEUTRAL
             }
 
         default:
