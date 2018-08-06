@@ -7,3 +7,8 @@ export const createFile = (formData) => ({
         formData
     }
 })
+
+export const delMiddleWareFileData = () => ({
+    type: types.COMMON.DEL_MIDDLEWARE_FILE_DATA,
+    payload: {}
+})

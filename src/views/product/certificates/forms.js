@@ -41,6 +41,7 @@ type CertificateReduxFormProps = {
 }
 
 let CertificateReduxForm = (props: CertificateReduxFormProps) => {
+
     const {handleSubmit, onSubmit, translator, submitting, error, submitFailed, hideForm, handleCertificateInput} = props
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="certificate-form">

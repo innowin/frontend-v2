@@ -4,10 +4,11 @@ import types from '../../actions/types'
 
 const file = (state = initialState.file, action) => {
     switch (action.type) {
+        /** ------------------ create file -------------------> **/
         case types.COMMON.CREATE_FILE:
             return {
                 ...state,
-                newOrUpdatingFile: {
+                middlewareFileData: {
                     content: {},
                     isCreating: true,
                     isCreated: false
@@ -17,7 +18,7 @@ const file = (state = initialState.file, action) => {
         case types.SUCCESS.COMMON.CREATE_FILE:
             return {
                 ...state,
-                newOrUpdatingFile: {
+                middlewareFileData: {
                     content: action.data,
                     isCreated: true,
                     isCreating: false,
@@ -27,9 +28,24 @@ const file = (state = initialState.file, action) => {
         case types.ERRORS.COMMON.CREATE_FILE:
             return {
                 ...state,
-                isCreated: false,
-                isCreating: false,
-                content: {} // should be more handled.
+                middlewareFileData: {
+                    isCreated: false,
+                    isCreating: false,
+                    content: {} // should be more handled.
+                }
+            }
+
+        /** ----------------- delete middleware file data -----------------> **/
+
+        case types.COMMON.DEL_MIDDLEWARE_FILE_DATA:
+            console.log('hi from deleting middleware file data request.')
+            return {
+                ...state,
+                middlewareFileData: {
+                    isCreated: false,
+                    isCreating: false,
+                    content: {} // should be more handled.
+                }
             }
 
         default:
