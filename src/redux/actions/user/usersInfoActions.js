@@ -16,10 +16,22 @@ const createUserOrgan = (formValues:{}, resolve:Function, reject:Function) => ({
   payload:{formValues, resolve, reject}
 })
 
+const getUserByUserId = (userId:number) => ({
+  type:types.USER.GET_USER_BY_USER_ID,
+  payload:{userId}
+})
+
+const getProfileByUserId = (userId:number) => ({
+  type:types.USER.GET_PROFILE_BY_USER_ID,
+  payload:{userId}
+})
+
 const UserActions = {
   checkUsername,
   createUserPerson,
-  createUserOrgan
+  createUserOrgan,
+  getUserByUserId,
+  getProfileByUserId
 }
 
 export default UserActions
