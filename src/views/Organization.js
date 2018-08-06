@@ -17,18 +17,16 @@ import {ContributionIcon, postIcon, CertificateIcon, InformationIcon, SocialIcon
 
 export class Organization extends Component {
   static propTypes = {
-    match: PropTypes.object.isRequired,
-    handleSignOut: PropTypes.func.isRequired
-  };
+    match: PropTypes.object.isRequired
+  }
 
   render() {
-    const {match, handleSignOut} = this.props;
-    const {path, url, params} = match;
-    const organizationId = params.id;
-    const widthOfRightBar = "col-md-2 col-sm-1";
+    const {path, url, params} = this.props.match
+    const organizationId = params.id
+    const widthOfRightBar = "col-md-2 col-sm-1"
     return (
       <div className="-tabbed-pages -userOrganBackgroundImg">
-        <TopBar handleSignOut={handleSignOut} collapseWidthCol={widthOfRightBar}/>
+        <TopBar collapseWidthCol={widthOfRightBar}/>
         <main className="row">
           <div className={`${widthOfRightBar} -right-sidebar-wrapper pr-0 pl-0`}>
             <OrganizationSideView organizationId={organizationId}/>
@@ -75,7 +73,6 @@ export class Organization extends Component {
 }
 
 export default (props) => {
-  const match = props.match;
-  const handleSignOut = props.handleSignOut;
-  return <Organization match={match} handleSignOut={handleSignOut}/>
+  const match = props.match
+  return <Organization match={match} />
 };

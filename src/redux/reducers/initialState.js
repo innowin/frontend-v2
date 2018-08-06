@@ -38,7 +38,6 @@ export default {
     //     content:{},
     //     isLoading:false,
     //     error:{
-    //       isError:false,
     //       message:null
     //     }
     //   },
@@ -46,7 +45,6 @@ export default {
     //     content:{},
     //     isLoading:false,
     //     error:{
-    //       isError:false,
     //       message: null
     //     }
     //   }

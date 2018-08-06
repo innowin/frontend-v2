@@ -9,17 +9,15 @@ import ExchangePosts from './ExchangeView/posts/index';
 export default class ExchangeView extends Component {
 	static propTypes = {
 		match: PropTypes.object.isRequired,
-		handleSignOut: PropTypes.func.isRequired
-	};
+	}
 	
 	render (){
-		const {handleSignOut} = this.props;
-    const {params} = this.props.match;
-    const exchangeId = +params.id;
-    const widthOfRightBar = "col-md-2 col-sm-1";
+    const {params} = this.props.match
+    const exchangeId = +params.id
+    const widthOfRightBar = "col-md-2 col-sm-1"
 		return (
 				<div className="-tabbed-pages -userOrganBackgroundImg">
-					<TopBar handleSignOut={handleSignOut} collapseWidthCol={widthOfRightBar}/>
+					<TopBar collapseWidthCol={widthOfRightBar}/>
 					<main className="row">
 						<div className={`-right-sidebar-wrapper ${widthOfRightBar}`}>
 							<ExchangeViewBar exchangeId={exchangeId}/>

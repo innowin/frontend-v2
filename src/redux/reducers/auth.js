@@ -5,6 +5,8 @@ const auth = (state = initialState.auth, action) => {
   const {client} = state
   const {exchange_identities} = client
   switch (action.type) {
+
+    /** -------------------------- sign in -------------------------> **/
     case types.AUTH.SET_TOKEN:
       return {
         ...state,
@@ -41,6 +43,8 @@ const auth = (state = initialState.auth, action) => {
           }
         }
       }
+
+    /** -------------------------- get client exchanges -------------------------> **/
     case types.SUCCESS.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY:
       const {data} = action.payload
       return {
@@ -71,6 +75,8 @@ const auth = (state = initialState.auth, action) => {
           }
         }
       }
+
+    /** -------------------------- reset auth  -------------------------> **/
     case types.RESET:
       return initialState.auth
     default:

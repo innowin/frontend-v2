@@ -3,13 +3,9 @@ import * as React from "react"
 import {Component} from "react"
 import PropTypes from "prop-types"
 
-import usersInfoActions from "src/redux/actions/user/usersInfoActions"
-import {bindActionCreators} from "redux"
-import {connect} from "react-redux"
 import {DefaultImageIcon} from "src/images/icons"
 import {DefaultUserIcon, DefaultOrganIcon} from "src/images/icons"
 import {getFile} from "src/crud/media/media"
-import {getMessages} from "../../redux/selectors/translateSelector"
 import {getOrganization} from "src/crud/organization/organization"
 import {VerifyWrapper} from "../common/cards/Frames"
 
@@ -48,14 +44,12 @@ export const TagsBox = ({tags}) => {
   )
 }
 
-class UserSideView extends Component {
+export class UserSideView extends Component {
 
   static propTypes = {
-    userId: PropTypes.number.isRequired,
     translate: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired,
-    user: PropTypes.object,
-    profile: PropTypes.object
+    userObject: PropTypes.object.isRequired,
+    profileObject: PropTypes.object.isRequired
   }
 
   constructor(props) {
@@ -74,10 +68,6 @@ class UserSideView extends Component {
   }
 
   componentDidMount() {
-    const {userId, actions} = this.props
-    const {getUserByUserId, getProfileByUserId} = actions
-    getUserByUserId(userId)
-    getProfileByUserId(userId)
 // TODO mohsen: socket of tags && socket.badges
     document.addEventListener('click', this._handleClickOutMenuBox)
   }
@@ -150,46 +140,6 @@ class UserSideView extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const userId = ownProps.userId
-  const userIdObject = state.usersInfo[userId]
-  if (!userIdObject) {
-    return {
-      userObject: {
-        content: {},
-        isLoading: true,
-        error: {
-          message: null
-        }
-      },
-      profileObject: {
-        content: {},
-        isLoading: true,
-        error: {
-          message: null
-        }
-      },
-      translate: getMessages(state)
-    }
-  } else {
-    const user = state.usersInfo[userId].user
-    const profile = state.usersInfo[userId].profile
-    return {
-      userObject: user,
-      profileObject: profile,
-      translate: getMessages(state)
-    }
-  }
-}
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({
-    getUserByUserId: usersInfoActions.getUserByUserId,
-    getProfileByUserId: usersInfoActions.getProfileByUserId
-  }, dispatch)
-})
-UserSideView = connect(mapStateToProps, mapDispatchToProps)(UserSideView)
-export {UserSideView}
-
 
 export class OrganizationSideView extends Component {
 
@@ -201,7 +151,7 @@ export class OrganizationSideView extends Component {
       organizationBanner: null,
       badgesImgUrl: [],
       tags: [],
-      menuToggle:false,
+      menuToggle: false,
       isLoading: false,
       error: null
     }

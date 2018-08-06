@@ -12,12 +12,11 @@ class Product extends Component {
   }
 
   render() {
-    const {match, handleSignOut} = this.props;
-    const {path} = match;
-    const widthOfRightBar = "col-md-3 col-sm-2";
+    const {path} = this.props.match
+    const widthOfRightBar = "col-md-3 col-sm-2"
     return (
       <div className="-tabbed-pages -userOrganBackgroundImg">
-        <TopBar handleSignOut={handleSignOut} collapseWidthCol={widthOfRightBar} />
+        <TopBar collapseWidthCol={widthOfRightBar} />
         <main>
           <Switch>
             <PrivateRoute exact path={`${path}/Product_Explorer`} component={ProductExplorer} widthOfRightBar={widthOfRightBar}/>
