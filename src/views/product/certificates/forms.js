@@ -6,10 +6,12 @@ import {TextInput} from 'src/views/common/inputs/TextInput'
 import {FileInput} from 'src/views/common/inputs/FileInput'
 import {Confirm} from "../../common/cards/Confirm"
 import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
-import renderTextField from "../../common/inputs/reduxFormRenderTextField";
-import renderFileField from "../../common/inputs/reduxFormRenderFileField";
+import renderTextField from "../../common/inputs/reduxFormRenderTextField"
+import renderFileField from "../../common/inputs/reduxFormRenderFileField"
 import {Field, reduxForm} from "redux-form"
-import type {ProductType} from "../../../consts/flowTypes/product/productTypes";
+import type {ProductType} from "../../../consts/flowTypes/product/productTypes"
+import status from "src/redux/reducers/statusChoices"
+import {Certificates} from "./index";
 
 
 type CertificateType = {
@@ -37,20 +39,47 @@ type CertificateReduxFormProps = {
     submitFailed: boolean,
     hideForm: Function,
     formData: ProductType,
-    handleCertificateInput: Function
+    handleCertificateInput: Function,
+    creatingObjCertStatus: string,
+    reset: Function
 }
 
 let CertificateReduxForm = (props: CertificateReduxFormProps) => {
 
-    const {handleSubmit, onSubmit, translator, submitting, error, submitFailed, hideForm, handleCertificateInput} = props
+    const {
+        handleSubmit,
+        onSubmit,
+        translator,
+        submitting,
+        reset,
+        error,
+        submitFailed,
+        hideForm,
+        handleCertificateInput,
+        creatingObjCertStatus
+    } = props
+
+    const resetForm = () => {
+        const inputs: any = document.getElementsByClassName('certificate-form-field')
+        if (inputs) Object.keys(inputs).forEach(index => inputs[index].value = '')
+        reset() // this is not perfect way for rest and should execute reset from parent(Certificates component).
+    }
+
+    if (creatingObjCertStatus === status.SUCCEED) resetForm()
+
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="certificate-form">
-            <Field name="title" className="form-field" type="text" component={renderTextField}
+            <Field name="title" className="certificate-form-field" type="text" component={renderTextField}
                    label={'title'}/>
-            <Field name="picture" className="form-field" component={renderFileField}
+            <Field name="picture" className="certificate-form-field" component={renderFileField}
                    label={'picture'} onChange={handleCertificateInput}/>
             <button type="submit" className="btn btn-success">ثبت</button>
-            <span className="btn" onClick={hideForm}>لغو</span>
+            <span className="btn btn-default"
+                  onClick={() => {
+                      resetForm()
+                      hideForm()
+                  }}
+            >لغو</span>
         </form>
     )
 }
@@ -185,6 +214,7 @@ export class CertificateEditForm extends Component<CertificateEditFormProps, Cer
             confirm: false,
         }
     }
+
     static propTypes = {
         update: PropTypes.func.isRequired,
         remove: PropTypes.func.isRequired,
@@ -227,7 +257,8 @@ export class CertificateEditForm extends Component<CertificateEditFormProps, Cer
 
         const {certificate, translator, hideEdit} = this.props
         return (
-            <CertificateForm translator={translator} onSubmit={this.onSubmit} ref={form => (this.form = form)} certificate={certificate}>
+            <CertificateForm translator={translator} onSubmit={this.onSubmit} ref={form => (this.form = form)}
+                             certificate={certificate}>
                 <div className="col-12 d-flex justify-content-end">
                     <button type="button" className="btn btn-outline-danger mr-auto" onClick={this.showConfirm}>
                         {translator['Delete']}

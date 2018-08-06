@@ -29,7 +29,7 @@ import SuccessMessage from './successMessage'
 import {createSkillAction, createProductAction} from 'src/redux/actions/ContributionActions'
 import FontAwesome from "react-fontawesome"
 import client from 'src/consts/client'
-import {normalize, schema} from 'normalizr';
+
 
 const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);

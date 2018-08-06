@@ -104,7 +104,7 @@ export class ProductDescriptionEditForm extends Component<ProductDescriptionEdit
         const productId: number = this.props.product.id
         const formValues: FormValuesType = (this.form && this.form._getValues()) || {description: ''}
         return updateProduct(formValues, productId, updateStateForView, hideEdit)
-    }
+        }
 
     _onSubmit = (e: SyntheticEvent<>) => {
         e.preventDefault()
