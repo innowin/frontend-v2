@@ -109,7 +109,7 @@ const CertificateList = (props: CertificateListProps) => {
                 <CertificateReduxForm
                     handleCertificateInput={handleCertificateInput}
                     onSubmit={sendingFormDataHandler}
-                    hideForm={() => console.log('need for hiding')}
+                    hideForm={hideCreateForm}
                 />
                 {/*<CertificateCreateForm translator={translator} hideEdit={hideCreateForm} create={() => 0}/>*/}
             </CertificateItemWrapper>}
