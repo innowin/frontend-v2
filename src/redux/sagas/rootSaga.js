@@ -66,6 +66,7 @@ const rootSaga = function* () {
         // file watchers
         fileWatchers.watchCreateFile(),
         fileWatchers.watchUpdateFile(),
+        fileWatchers.watchDelFileMiddleWareData(),
 
         // certificate watchers
         certificateWatchers.watchGetObjectCertificates(),

@@ -121,7 +121,7 @@ export default {
             }
         },
         file: {
-            newOrUpdatingFile: { // the file that is new creating or is updating in the moment.
+            middlewareFileData: { // the file that is new creating or is updating in the moment.
                 content: {},
                 isCreating: false,
                 isCreated: false

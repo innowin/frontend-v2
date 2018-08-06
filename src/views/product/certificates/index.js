@@ -9,14 +9,13 @@ import {deleteCertificate, updateCertificate} from '../../../crud/product/certif
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {REST_REQUEST} from "../../../consts/Events"
 import client from "src/consts/client"
-import {getMessages} from "../../../redux/selectors/translateSelector";
-import {connect} from "react-redux";
+import {getMessages} from "../../../redux/selectors/translateSelector"
+import {connect} from "react-redux"
 import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
-import {bindActionCreators} from "redux";
+import {bindActionCreators} from "redux"
 import {getCertificatesList, createCertificate} from "src/redux/actions/commonActions/certificateActions"
 import {CertificateReduxForm} from "./forms"
-import {createFile} from 'src/redux/actions/commonActions/fileActions'
-
+import {createFile, delMiddleWareFileData} from "src/redux/actions/commonActions/fileActions"
 
 const IDENTITY_ID = client.getIdentityId()
 
@@ -141,10 +140,11 @@ type CertificatesProps = {
     _getCertificatesList: Function,
     certificates: {[number | string]: CertificateType},
     _createFile: Function,
-    newOrUpdatingFile: {
+    middlewareFileData: {
         content: {id?: string}
     },
-    _createCertificate: Function
+    _createCertificate: Function,
+    _delMiddleWareFileData: Function
 }
 
 type CertificatesState = {
@@ -174,7 +174,7 @@ export class Certificates extends Component<CertificatesProps, CertificatesState
             error: null,
             certFileInput: '', // the value of picture of creating or updating certificate.
             certTitleInput: '', // the value of title of creating or updating certificate.
-            sendingCertFormType: '' // determine that certFormData is for creating or updating.
+            sendingCertFormType: '', // determine that certFormData is for creating or updating.
         }
     }
 
@@ -188,21 +188,22 @@ export class Certificates extends Component<CertificatesProps, CertificatesState
     }
 
     componentDidUpdate(prevProps: CertificatesProps) {
-        const {newOrUpdatingFile, _createCertificate, productId} = this.props
-        const oldFile = prevProps.newOrUpdatingFile
-        if (oldFile && newOrUpdatingFile) {
-            if (!oldFile.content.id && newOrUpdatingFile.content.id) {
+        const {middlewareFileData, _createCertificate, productId, _delMiddleWareFileData} = this.props
+        const oldFile = prevProps.middlewareFileData
+        if (oldFile && middlewareFileData) {
+            if (!oldFile.content.id && middlewareFileData.content.id) {
                 this.setState({
                     ...this.state,
-                    certFileInput: newOrUpdatingFile.content.id
+                    certFileInput: middlewareFileData.content.id
                 }, () => {
                     const data = {
                         title: this.state.certTitleInput,
-                        picture: newOrUpdatingFile.content.id,
+                        certificate_picture: middlewareFileData.content.id,
                         certificate_parent: productId,
                         certificate_identity: IDENTITY_ID
                     }
                     _createCertificate(data)
+                    _delMiddleWareFileData()
                 })
             }
         }
@@ -248,7 +249,6 @@ export class Certificates extends Component<CertificatesProps, CertificatesState
             <VerifyWrapper isLoading={isLoading} error={error}>
                 {
                     <div>
-                        {console.log(this.props, IDENTITY_ID)}
                         <CategoryTitle
                             title={translator['Certificates']}
                             showCreateForm={this._showCreateFormHandler}
@@ -276,7 +276,7 @@ export class Certificates extends Component<CertificatesProps, CertificatesState
 const mapStateToProps = (state) => ({
     translator: getMessages(state),
     certificates: state.certificate.objectCertificates.content,
-    newOrUpdatingFile: state.file.newOrUpdatingFile
+    middlewareFileData: state.file.middlewareFileData
 })
 
 const mapDispatchToProps = dispatch =>
@@ -284,7 +284,8 @@ const mapDispatchToProps = dispatch =>
         {
             _getCertificatesList: id => getCertificatesList(id),
             _createFile: data => createFile(data),
-            _createCertificate: data => createCertificate(data)
+            _createCertificate: data => createCertificate(data),
+            _delMiddleWareFileData: delMiddleWareFileData
         },
         dispatch
     )
