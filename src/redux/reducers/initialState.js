@@ -52,7 +52,7 @@ export default {
     //   }
     // }
   },
-  users:{
+  users: {
     // initial structure build in first request for get user is call:
     // [userId]: {
     // exchanges:[],

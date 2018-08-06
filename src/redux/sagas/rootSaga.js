@@ -71,9 +71,10 @@ const rootSaga = function* () {
     // category watchers
     categoryWatchers.watchGetCategoriesList(),
 
-    // file watchers
-    fileWatchers.watchCreateFile(),
-    fileWatchers.watchUpdateFile(),
+        // file watchers
+        fileWatchers.watchCreateFile(),
+        fileWatchers.watchUpdateFile(),
+        fileWatchers.watchDelFileMiddleWareData(),
 
     // certificate watchers
     certificateWatchers.watchGetObjectCertificates(),
