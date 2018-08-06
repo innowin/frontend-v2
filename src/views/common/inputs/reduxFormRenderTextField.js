@@ -6,10 +6,11 @@ const renderTextField = ({
                              type,
                              className,
                              placeholder,
+                             id,
                              meta: {touched, error}
                          }) => (
     <div>
-        <input className={touched && error ? `error ${className}` : className} {...input}
+        <input id={id} className={touched && error ? `error ${className}` : className} {...input}
                placeholder={placeholder || label} type={type}/>
         {(touched && error) && <span className="error-message">{error}</span>}
     </div>

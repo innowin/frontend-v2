@@ -15,6 +15,7 @@ const FileInput = ({
             <div className={className}>
                 <label htmlFor={id}>{label}</label>
                 <input
+                    id={id}
                     onChange={onChange}
                     onBlur={adaptFileEventToValue(onBlur)}
                     type="file"

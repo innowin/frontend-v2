@@ -1,4 +1,6 @@
 import messages from 'src/translate/fa'
+import status from './statusChoices'
+
 
 export default {
     auth: {
@@ -100,8 +102,9 @@ export default {
             objectCertificates: { // the 'object' in objectCertificates can be organization or user or product.
                 content: {},
                 isLoaded: false,
-                isLoading: false
-            }
+                isLoading: false,
+            },
+            creatingObjCertStatus: status.NEUTRAL
         },
         file: {
             middlewareFileData: { // the file that is new creating or is updating in the moment.

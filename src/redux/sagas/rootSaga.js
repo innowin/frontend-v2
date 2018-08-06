@@ -51,6 +51,7 @@ const rootSaga = function* () {
         // certificate watchers
         certificateWatchers.watchGetObjectCertificates(),
         certificateWatchers.watchCreateObjectCertificate(),
+        certificateWatchers.watchResetCreatingObjectCertStatus(),
     ])
 }
 
