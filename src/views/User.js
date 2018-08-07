@@ -3,7 +3,6 @@ import * as React from "react"
 import {Component} from "react"
 import PropTypes from "prop-types"
 
-import WorkExperiences from "./user/workExperience/index"
 import Certificates from "./user/certificates/index"
 import ChatBar from "src/views/bars/ChatBar"
 import Posts from "src/views/common/post/index"
@@ -13,40 +12,59 @@ import Skills from "./user/skills/index"
 import Social from "src/views/user/social/index"
 import TopBar from "src/views/bars/TopBar"
 import UserBasicInformation from "./user/basicInformation/index"
+import usersInfoActions from "src/redux/actions/user/usersInfoActions"
+import WorkExperiences from "./user/workExperience/index"
+import {bindActionCreators} from "redux"
+import {connect} from "react-redux"
+import {getMessages} from "src/redux/selectors/translateSelector"
 import {NavLink, Switch, Redirect} from "react-router-dom"
 import {Tabs} from "./common/cards/Frames"
 import {userInfoIcon, SkillIcon, CertificateIcon, workExperienceIcon, postIcon, SocialIcon} from "src/images/icons"
 import {UserSideView} from "./bars/SideBar"
-// import ReduxTest from './reduxTest'
 
 type PropsUser = {
-  match: {},
-  handleSignOut: Function
+  match: {
+    [string]: string,
+    params: { [string]: string }
+  },
+  actions: {
+    getUserByUserId: Function,
+    getProfileByUserId: Function
+  },
+  translate: {},
+  profileObject: {},
+  userObject: {}
 }
 
-class User extends Component<PropTypes> {
+class User extends Component<PropsUser> {
 
   static propTypes = {
     match: PropTypes.object.isRequired,
-    handleSignOut: PropTypes.func.isRequired
+    actions: PropTypes.object.isRequired
+  }
+
+  componentDidMount() {
+    const {params} = this.props.match
+    const userId: number = +params.id
+    const {getUserByUserId, getProfileByUserId} = this.props.actions
+    getUserByUserId(userId)
+    getProfileByUserId(userId)
   }
 
   render() {
-    const {match, handleSignOut} = this.props
+    const {match, translate, profileObject, userObject} = this.props
     const {path, url, params} = match
     const userId: number = +params.id
     const widthOfRightBar = "col-3"
     return (
       <div className="-tabbed-pages -userOrganBackgroundImg">
-        <TopBar handleSignOut={handleSignOut} collapseWidthCol={widthOfRightBar}/>
+        <TopBar collapseWidthCol={widthOfRightBar}/>
 
         <main className="row">
 
           <div className={`-right-sidebar-wrapper ${widthOfRightBar}`}>
             <Sidebar>
-              <UserSideView userId={userId}/>
-              {/*<ReduxTest/>*/}
-
+              <UserSideView translate={translate} profileObject={profileObject} userObject={userObject}/>
             </Sidebar>
           </div>
           <div className="col-6 -content-wrapper">
@@ -54,7 +72,8 @@ class User extends Component<PropTypes> {
               <NavLink className="-tab" to={`${url}/basicInformation`}
                        activeClassName="-active">{userInfoIcon}</NavLink>
               <NavLink className="-tab" to={`${url}/Posts`} activeClassName="-active">{postIcon}</NavLink>
-              <NavLink className="-tab" to={`${url}/WorkExperiences`} activeClassName="-active">{workExperienceIcon}</NavLink>
+              <NavLink className="-tab" to={`${url}/WorkExperiences`}
+                       activeClassName="-active">{workExperienceIcon}</NavLink>
               <NavLink className="-tab" to={`${url}/SocialConnections`} activeClassName="-active">
                 <SocialIcon/>
               </NavLink>
@@ -82,8 +101,35 @@ class User extends Component<PropTypes> {
   }
 }
 
-export default (props: PropsUser): React.Element<typeof User> => {
-  const match = props.match
-  const handleSignOut = props.handleSignOut
-  return <User match={match} handleSignOut={handleSignOut}/>
+const mapStateToProps = (state, ownProps) => {
+  const {params} = ownProps.match
+  const userId = +params.id
+  const user = state.usersInfo[userId] ? state.usersInfo[userId].user : {
+    // this object is primary value for user object
+    content: {},
+    isLoading: false,
+    error: {
+      message: null
+    }
+  }
+  const profile = state.usersInfo[userId] ? state.usersInfo[userId].profile : {
+    // this object is primary value for profile object
+    content: {},
+    isLoading: false,
+    error: {
+      message: null
+    }
+  }
+  return {
+    userObject: user,
+    profileObject: profile,
+    translate: getMessages(state)
+  }
 }
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({
+    getUserByUserId: usersInfoActions.getUserByUserId,
+    getProfileByUserId: usersInfoActions.getProfileByUserId
+  }, dispatch)
+})
+export default connect(mapStateToProps, mapDispatchToProps)(User)

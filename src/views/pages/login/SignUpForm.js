@@ -1,6 +1,7 @@
 import React, {Component} from "react"
-import AuthActions from "../../../redux/actions/authActions"
+import AuthActions from "src/redux/actions/authActions"
 import renderTextField from "../../common/inputs/reduxFormRenderTextField"
+import UsersInfoActions from "src/redux/actions/user/usersInfoActions"
 import {BeatLoader} from "react-spinners"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
@@ -9,7 +10,6 @@ import {getMessages} from "src/redux/selectors/translateSelector"
 import {RadioButtonGroup} from "../../common/inputs/RadioButtonInput"
 import {routerActions} from "react-router-redux"
 import {validateSignUpForm, asyncValidate} from "./signUpValidations"
-import UserActions from "../../../redux/actions/user/userActions"
 
 
 const SignUpForm = (props) => {
@@ -146,8 +146,8 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     signIn: AuthActions.signIn,
     push: routerActions.push,
-    createUserPerson: UserActions.createUserPerson,
-    createUserOrgan: UserActions.createUserOrgan
+    createUserPerson: UsersInfoActions.createUserPerson,
+    createUserOrgan: UsersInfoActions.createUserOrgan
   }, dispatch)
 })
 

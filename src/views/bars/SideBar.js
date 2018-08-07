@@ -1,16 +1,13 @@
 /*global __*/
-import React, {Component} from "react";
-import PropTypes from "prop-types";
+import * as React from "react"
+import {Component} from "react"
+import PropTypes from "prop-types"
 
-import {DefaultUserIcon, DefaultOrganIcon} from "../../images/icons";
-import {REST_REQUEST} from "../../consts/Events";
-import {REST_URL as url, SOCKET as socket} from "../../consts/URLS";
-import {TOKEN} from "src/consts/data";
-import {VerifyWrapper} from "../common/cards/Frames";
-import {getUser} from "../../crud/user/user";
-import {getProfile} from "../../crud/user/profile";
-import {getOrganization} from "../../crud/organization/organization";
-import {getFile} from "../../crud/media/media";
+import {DefaultImageIcon} from "src/images/icons"
+import {DefaultUserIcon, DefaultOrganIcon} from "src/images/icons"
+import {getFile} from "src/crud/media/media"
+import {getOrganization} from "src/crud/organization/organization"
+import {VerifyWrapper} from "../common/cards/Frames"
 
 const MenuBox = (props) => (
   <div className="menu-box pt-0 pb-0" id={props.id}>
@@ -34,7 +31,7 @@ export const BadgesCard = ({badgesImgUrl}) => {
       </span>
     ))
   )
-};
+}
 
 export const TagsBox = ({tags}) => {
   return (
@@ -45,26 +42,22 @@ export const TagsBox = ({tags}) => {
       </div>
     ))
   )
-};
+}
 
 export class UserSideView extends Component {
 
   static propTypes = {
-    userId: PropTypes.number.isRequired,
-  };
+    translate: PropTypes.object.isRequired,
+    userObject: PropTypes.object.isRequired,
+    profileObject: PropTypes.object.isRequired
+  }
 
   constructor(props) {
     super(props);
     this.state = {
-      user: {},
-      userProfile: {},
-      profile_img: null,
-      profileBanner: null,
       badgesImgUrl: [],
       tags: [],
       menuToggle: false,
-      isLoading: false,
-      error: null
     }
   }
 
@@ -75,36 +68,7 @@ export class UserSideView extends Component {
   }
 
   componentDidMount() {
-    const {userId} = this.props;
-    this.setState({...this.state, isLoading: true})
-    getUser(userId, (res) => this.setState({...this.state, user: res}))
-    getProfile(userId, (res) => this.setState({...this.state, userProfile: res}, () => {
-      if (res.profile_media) {
-        getFile(res.profile_media, (res) => this.setState({...this.state, profile_img: res.file}))
-      }
-      if (res.profile_banner) {
-        getFile(res.profile_banner, (res) => this.setState({...this.state, profileBanner: res.file}))
-      }
-    }))
-
-    const getBadge_func = (res) => {
-      if (res.detail) {
-        this.setState({...this.state, error: res.detail, isLoading: false})
-        return false;
-      }
-      this.setState({...this.state, badgesImgUrl: res, isLoading: false})
-      socket.off(`badge_user-sidebar-get/${userId}`, getBadge_func)
-    }
-    socket.on(`badge_user-sidebar-get/${userId}`, getBadge_func)
-    socket.emit(REST_REQUEST,
-      {
-        method: "get",
-        url: `${url}/users/badges/?badge_user=${userId}`,
-        result: `badge_user-sidebar-get/${userId}`,
-        token: TOKEN,
-      }
-    );
-// TODO mohsen: socket of tags
+// TODO mohsen: socket of tags && socket.badges
     document.addEventListener('click', this._handleClickOutMenuBox)
   }
 
@@ -117,11 +81,17 @@ export class UserSideView extends Component {
   }
 
   render() {
-    const {user, userProfile, profile_img, profileBanner, badgesImgUrl, tags, menuToggle, isLoading, error} = this.state;
+    const {userObject, profileObject, translate: tr} = this.props
+    const {badgesImgUrl, tags, menuToggle} = this.state
+    const user = userObject.content
+    const profile = profileObject.content
+    const name = (!(user.first_name && user.last_name)) ? user.username : (user.first_name + " " + user.last_name)
     return (
-      <VerifyWrapper isLoading={isLoading} error={error}>
+      <VerifyWrapper isLoading={userObject.isLoading || profileObject.isLoading}
+                     error={userObject.error.message || profileObject.error.message}>
         {
-          (profileBanner) ? (<img alt="" src={profileBanner} className="banner"/>) : ('')
+          (!profile.profile_banner) ? <DefaultImageIcon className="banner"/> :
+            <img alt="" src={profile.profile_banner} className="banner"/>
         }
         <div className="-sidebar-child-wrapper col">
           <i className="fa fa-ellipsis-v menuBottom" onClick={this._handleMenu}/>
@@ -131,11 +101,11 @@ export class UserSideView extends Component {
             }
             {/*TODO mohsen : handle profile_media.url*/}
             {
-              (!profile_img) ? (<DefaultUserIcon className="img-rounded-100px"/>) : (
-                <img className="rounded-circle img-rounded-100px" alt="" src={profile_img}/>)
+              (!profile.profile_media) ? (<DefaultUserIcon className="img-rounded-100px"/>) : (
+                <img className="rounded-circle img-rounded-100px" alt="" src={profile.profile_media}/>)
             }
-            <span className="p-20px">{__('User')}: {user.first_name + " " + user.last_name || "------"}</span>
-            <span className="-grey1">{userProfile.description}</span>
+            <span className="p-20px">{tr['User']}: {name}</span>
+            <span className="-grey1">{profile.description}</span>
           </div>
           {
             (badgesImgUrl.length > 0) ? (
@@ -148,13 +118,13 @@ export class UserSideView extends Component {
             <div className="w-50 pl-2 pb-2">
               <button
                 type="button"
-                className="btn btn-outline-secondary btn-block sidebarBottom">{__('Follow')}
+                className="btn btn-outline-secondary btn-block sidebarBottom">{tr['Follow']}
               </button>
             </div>
             <div className="w-50 pb-2">
               <button
                 type="button"
-                className="btn btn-outline-secondary btn-block sidebarBottom">{__('Send Message')}
+                className="btn btn-outline-secondary btn-block sidebarBottom">{tr['Send Message']}
               </button>
             </div>
           </div>
@@ -170,6 +140,7 @@ export class UserSideView extends Component {
   }
 }
 
+
 export class OrganizationSideView extends Component {
 
   constructor(props) {
@@ -180,7 +151,7 @@ export class OrganizationSideView extends Component {
       organizationBanner: null,
       badgesImgUrl: [],
       tags: [],
-      menuToggle:false,
+      menuToggle: false,
       isLoading: false,
       error: null
     }
@@ -291,4 +262,4 @@ const Sidebar = (props) => {
   )
 }
 
-export default Sidebar;
+export default Sidebar

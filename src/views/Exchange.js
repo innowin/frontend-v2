@@ -11,8 +11,7 @@ class Exchange extends Component {
 		this.state = {}
 	}
 	render() {
-		const {match, handleSignOut} = this.props;
-		const {path , url} = match;
+		const {path , url} = this.props.match
 		return(
 			<div>
 				<Link to={`${url}/Exchange_Explorer`}>Exchange Explorer</Link>
@@ -20,8 +19,8 @@ class Exchange extends Component {
 				<div>
 					<Switch>
 						<PrivateRoute path={`${path}/Exchange_Explorer`} component={ExchangeExplorer}/>
-						<PrivateRoute exact path={`${path}/:id`} component={ExchangeView} handleSignOut={handleSignOut}/>
-						<PrivateRoute exact path={`${path}/:exchangeId/post/:postId`} component={ExchangePost} handleSignOut={handleSignOut}/>
+						<PrivateRoute exact path={`${path}/:id`} component={ExchangeView} />
+						<PrivateRoute exact path={`${path}/:exchangeId/post/:postId`} component={ExchangePost} />
 					</Switch>
 				</div>
 			</div>

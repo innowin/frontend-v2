@@ -1,0 +1,116 @@
+import initialState from "../initialState"
+import types from "../../actions/types/index"
+
+const usersInfo = (state = initialState.usersInfo, action) => {
+  const {userId, data, message} = action.payload ? action.payload : {}
+  const previousUser = (state[userId] && state[userId].user) ? (state[userId].user) : ({
+    /* this object is default value for user object if this state[userId] or state[userId].user
+    not exist in state object */
+    content: {},
+    isLoading: false,
+    error: {
+      message: null
+    }
+  })
+  const previousProfile = (state[userId] && state[userId].profile) ? (state[userId].profile) : ({
+    /* this object is default value for profile object if this state[userId] or state[userId].profile
+    not exist in state object */
+    content: {},
+    isLoading: false,
+    error: {
+      message: null
+    }
+  })
+  switch (action.type) {
+    //type of  USERNAME_CHECK is not need to set in states because its result and error is handle by result handler function
+
+    /** -------------------------- get user -------------------------> **/
+    case types.USER.GET_USER_BY_USER_ID:
+      // initial structure build in first request for get user is call but user isLoading is true:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          user: {
+            ...previousUser,
+            isLoading: true
+          }
+        }
+      }
+    case types.SUCCESS.USER.GET_USER_BY_USER_ID:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          user: {
+            ...previousUser,
+            content: {...data},
+            isLoading: false
+          }
+        }
+      }
+    case types.ERRORS.USER.GET_USER_BY_USER_ID:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          user: {
+            ...previousUser,
+            isLoading: false,
+            error: {
+              message
+            }
+          }
+        }
+      }
+
+    /** -------------------------- get profile -------------------------> **/
+    case types.USER.GET_PROFILE_BY_USER_ID:
+      // initial structure build in first request for get user is call but profile isLoading is true:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          profile: {
+            ...previousProfile,
+            isLoading: true
+          }
+        }
+      }
+    case types.SUCCESS.USER.GET_PROFILE_BY_USER_ID:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          profile: {
+            ...previousProfile,
+            content: {...data},
+            isLoading: false
+          }
+        }
+      }
+    case types.ERRORS.USER.GET_PROFILE_BY_USER_ID:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          profile: {
+            ...previousProfile,
+            error: {
+              message
+            },
+            isLoading: false
+          }
+        }
+
+      }
+
+    /** -------------------------- reset usersInfo -------------------------> **/
+    case types.RESET:
+      return initialState.usersInfo
+    default:
+      return state
+  }
+}
+
+export default usersInfo
