@@ -1,6 +1,6 @@
 export const asyncValidateSignIn = (...validationArguments) => {
   // validationArguments is array of [0:values, 1:f(action), 2:props object, 3:field is writing]
-  const username = validationArguments[0].username.trim()
+  const username = validationArguments[0].username && validationArguments[0].username.trim()
   const checkUsername = validationArguments[2].actions.checkUsername
   const translator = validationArguments[2].translator
   //TODO mohsen: set async check email not exist

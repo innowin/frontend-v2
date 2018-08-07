@@ -12,7 +12,6 @@ import {Field, reduxForm, SubmissionError} from "redux-form"
 import renderTextField from "src/views/common/inputs/reduxFormRenderTextField"
 import {getMessages} from "src/redux/selectors/translateSelector"
 
-
 const PureSignInForm = (props) => {
   const {handleSubmit, onSubmit, submitting, translator, error, signInError, submitFailed} = props
   return (
@@ -86,7 +85,7 @@ class SignInForm extends Component {
   _onSubmit = (values) => {
     const {signIn} = this.props.actions
     const {translator} = this.props
-    return new Promise((resolve, reject) => signIn(values.username, values.password, values.remember, reject))
+    return new Promise((resolve, reject) => signIn(values.username, values.password, values.rememberMe, reject))
       .catch(
         (errorMessage) => {
           throw new SubmissionError({_error: translator[errorMessage]})

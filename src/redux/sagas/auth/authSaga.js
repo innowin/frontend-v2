@@ -11,7 +11,7 @@ import {put, take, fork, call, takeEvery} from "redux-saga/effects"
 //1 - sign in worker
 function* signIn(action) {
   const {payload} = action
-  const {username, password, remember, reject} = payload
+  const {username, password, rememberMe, reject} = payload
   const socketChannel = yield call(api.createSocketChannel, results.SIGN_IN)
   try {
     yield fork(api.post, urls.SIGN_IN, results.SIGN_IN, {username, password})
@@ -36,14 +36,14 @@ function* signIn(action) {
       organizationId = organData.id
       organization = organData
     }
-    yield client.saveData(data.user.id, data.identity.id, userType, organizationId, remember)
-    if (!remember) {
+    yield client.saveData(data.user.id, data.identity.id, userType, organizationId, rememberMe)
+    if (!rememberMe) {
       yield client.setSessionLS(token)
     } else {
       yield client.setTokenLS(token)
     }
     data = {...data, organization}
-    yield put({type: types.SUCCESS.AUTH.SIGN_IN, payload: {data, rememberMe: remember}})
+    yield put({type: types.SUCCESS.AUTH.SIGN_IN, payload: {data, rememberMe: rememberMe}})
   }
   catch (e) {
     const {message} = e
@@ -71,7 +71,7 @@ function* getOrganizationInSignIn(username) {
 
 //2 - Sign Out worker
 function* signOut() {
-  yield call(client.clearToken)
+  yield call(client.clearData)
   yield put({type: types.RESET})
   yield put({type: types.AUTH.SIGN_OUT_FINISHED})
 }

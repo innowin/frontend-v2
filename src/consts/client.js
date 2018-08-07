@@ -54,8 +54,6 @@ const saveData = (userId, identityId, userType, organizationId, remember) => {
 	// TODO: mohsen save Clients to localStorage
 	// console.log("Encrypted data is : ",AES('Hi','secret key'))
 	if (remember) {
-		client.setID(userId)
-		client.setIdentityId(identityId)
 		setCookie('userId', userId, 30)
 		setCookie('identityId', identityId, 30)
 		setCookie('userType', userType, 30)
@@ -85,7 +83,6 @@ const saveData = (userId, identityId, userType, organizationId, remember) => {
 const clearData = () => {
 	window.localStorage && localStorage.clear()
 	window.sessionStorage && sessionStorage.clear()
-	client.clearData()
 	eraseAllCookies()
 }
 

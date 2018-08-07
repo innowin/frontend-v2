@@ -67,7 +67,11 @@ class Login extends Component {
                   )}
                 </div>
                 <div className="card-block login-form p-3">
-                  {SignIn && <SignInForm/>}
+                  {SignIn &&
+                  <SignInForm initialValues={
+                    {rememberMe: true}
+                  }
+                  />}
                   {SignUp && <RegisterForm/>}
                 </div>
                 <div className="card-footer social-login">
