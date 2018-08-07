@@ -15,16 +15,14 @@ type MetaType = {
 }
 
 type Props = {
-    input: HTMLSelectElement,
+    input: any,
     className: string,
     label: string,
     options: Array<OptionType>,
-    changeHandler: Function,
     noResultsText: string,
     multi: boolean,
     rtl: boolean,
     onBlurResetsInput: boolean,
-    onBlur: Function,
     placeholder: string,
     meta: MetaType
 
@@ -38,7 +36,6 @@ const renderSelectField = ({
                                multi = false,
                                rtl,
                                onBlurResetsInput = false,
-                               onBlur = () => 0,
                                placeholder,
                                meta: {touched, error, warning},
                            }: Props) => {
@@ -51,8 +48,8 @@ const renderSelectField = ({
                 options={options}
                 noResultsText={noResultsText}
                 {...input}
-                onBlur={onBlur}
-                onBlurResetsInput={onBlurResetsInput}
+                onBlur={() => input.onBlur(input.value)}
+                onBlurResetsInput={false}
             />
         </div>
     )

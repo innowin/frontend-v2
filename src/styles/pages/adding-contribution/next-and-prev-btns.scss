@@ -1,0 +1,46 @@
+@import "./common";
+
+.next-prev-btns {
+  padding: 60px 0 77px;
+
+  .next {
+    float: left;
+    background-color: $brand-inverse;
+    color: $text-lightest-color;
+    @extend %jumbo-btn;
+    width: 160px;
+    position: relative;
+    &.disabled {
+      background-color: $disable-color;
+      cursor: not-allowed;
+    }
+    .left-arrow {
+      width: 10px;
+      transform: rotate3d(0, 0, 1, 90deg);
+      position: absolute;
+      top: 9px;
+      left: 26px;
+
+    }
+    .left-arrow path {
+      fill: $chat-box2-color;
+    }
+  }
+  .prev {
+    float: right;
+    border: 3px solid $brand-inverse;
+    @extend %jumbo-btn;
+    width: 160px;
+    position: relative;
+    .right-arrow {
+      width: 10px;
+      transform: rotate3d(0, 0, 1, -90deg);
+      position: absolute;
+      top: 6.5px;
+      right: 26px;
+    }
+    .right-arrow path {
+      fill: $brand-inverse;
+    }
+  }
+}

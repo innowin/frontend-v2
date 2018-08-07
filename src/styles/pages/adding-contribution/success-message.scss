@@ -1,0 +1,60 @@
+@import "./common";
+
+.adding-contribution-wrapper .success-message {
+  .message-image {
+    width: 180px;
+    height: 180px;
+    margin: 90px auto 0;
+    display: block;
+    path {
+      fill: $success-color;
+    }
+  }
+  .message-text {
+    max-width: 256px;
+    text-align: center;
+    margin: 40px auto;
+    font-size: $font-size-medium;
+    color: $text-dark-color;
+    line-height: 32px;
+  }
+  .small-url {
+    color: $text-dark-color;
+    margin: 50px auto 40px;
+    max-width: 300px;
+    text-align: center;
+  }
+  .act-bar {
+    display: flex;
+    justify-content: space-between;
+    max-width: 800px;
+    margin: 0 auto;
+    flex-flow: row wrap;
+    .act-btn {
+      width: 144px;
+      height: 30px;
+      border: 3px solid $brand-inverse;
+      border-radius: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: $brand-inverse;
+      flex-basis: 144px;
+      margin: 5px;
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+    .act-btn .act-image {
+      width: 20px;
+      height: 20px;
+      margin-left: 10px;
+    }
+    .act-btn .act-image path {
+      fill: $brand-inverse;
+    }
+    .act-btn:last-child {
+      background: $brand-inverse;
+      color: $text-light-color;
+    }
+  }
+}

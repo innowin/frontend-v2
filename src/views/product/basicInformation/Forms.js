@@ -179,12 +179,10 @@ let ProductInformationForm = (props: ProductInformationFormProps) => {
                 <Field
                     className="category"
                     name="product_category"
-                    type="text"
                     placeholder='category'
                     component={renderSelectField}
                     label={'category'}
                     noResultsText={'چنین دسته‌بندی وجود ندارد.'}
-                    changeHandler={(e) => console.log('e is: ', e)}
                     options={categoriesOptions}
                 />
                 <div>

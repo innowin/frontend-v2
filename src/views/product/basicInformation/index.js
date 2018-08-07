@@ -129,6 +129,7 @@ export class productBasicInformation extends Component<ProductInfoProps, Product
                                     onSubmit={this._productFormSubmitHandler}
                                     translator={translator}
                                     initialValues={formData}
+                                    newValues={formData}
                                 />
                                 :
                                 <div>
