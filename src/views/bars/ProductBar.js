@@ -192,7 +192,7 @@ export default class ProductSideView extends Component {
     const {product, ownerName, userProfile, badgesImgUrl, tags, isLoading, error} = this.state;
     const pictureProductFiles = [...new Set(this.state.pictureProductFiles)];
     return (
-      <VerifyWrapper isLoading={isLoading} error={error} className="-sidebar-child-wrapper">
+      <VerifyWrapper isLoading={isLoading} error={error} className="-sidebar-child-wrapper col">
         <MediaSection
           pictureProductFiles={pictureProductFiles}
           userProfile={userProfile}

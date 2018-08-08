@@ -8,7 +8,6 @@ import ProductCertificates from "../product/certificates"
 import ProductRating from "../product/ratings"
 import Represents from '../product/represents'
 import ChatBar from "../bars/ChatBar"
-import Sidebar from "../bars/SideBar"
 import {Tabs} from "../common/cards/Frames"
 import {NavLink, Switch, Redirect} from "react-router-dom"
 import PropsRoute from "src/consts/PropsRoute"
@@ -65,9 +64,7 @@ class ProductView extends Component<ProductViewProps, ProductViewState> {
             <div className="row">
                 {console.log(token)}
                 <div className={`${widthOfRightBar} -right-sidebar-wrapper`}>
-                    <Sidebar>
-                        <ProductSideView productId={productId} toggleModal={this._toggleModal}/>
-                    </Sidebar>
+                  <ProductSideView productId={productId} toggleModal={this._toggleModal}/>
                 </div>
                 <div className="col-md-6 col-sm-9 -content-wrapper">
                     <PictureModal className="pictureModal" isOpen={modal} files={modalFiles}

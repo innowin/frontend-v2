@@ -91,20 +91,19 @@ export class UserSideView extends Component {
                      error={userObject.error.message || profileObject.error.message}>
         {
           (!profile.profile_banner) ? <DefaultImageIcon className="banner"/> :
-            <img alt="" src={profile.profile_banner} className="banner"/>
+            <img alt="" src={profile.profile_banner.file} className="banner"/>
         }
         <div className="-sidebar-child-wrapper col">
-          <i className="fa fa-ellipsis-v menuBottom" onClick={this._handleMenu}/>
+          {
+            (!profile.profile_media) ? (<DefaultUserIcon className="head-picture"/>) : (
+              <img className="rounded-circle head-picture" alt="" src={profile.profile_media.file}/>)
+          }
           <div className="align-items-center flex-column">
+            <i className="fa fa-ellipsis-v menuBottom" onClick={this._handleMenu}/>
             {
               (!menuToggle) ? ('') : (<MenuBox id="user-sidebar-menu-box"/>)
             }
-            {/*TODO mohsen : handle profile_media.url*/}
-            {
-              (!profile.profile_media) ? (<DefaultUserIcon className="img-rounded-100px"/>) : (
-                <img className="rounded-circle img-rounded-100px" alt="" src={profile.profile_media}/>)
-            }
-            <span className="p-20px">{tr['User']}: {name}</span>
+            <span className="p-20px mt-4">{name}</span>
             <span className="-grey1">{profile.description}</span>
           </div>
           {
@@ -159,7 +158,7 @@ export class OrganizationSideView extends Component {
 
   static propTypes = {
     organizationId: PropTypes.number.isRequired,
-  };
+  }
 
   _handleClickOutMenuBox = (e) => {
     if (!e.target.closest('#organization-sidebar-menu-box') && !e.target.closest('.menuBottom')) {
@@ -191,7 +190,6 @@ export class OrganizationSideView extends Component {
     document.removeEventListener('click', this._handleClickOutMenuBox);
   }
 
-
   _handleMenu = () => {
     this.setState({...this.state, menuToggle: !this.state.menuToggle})
   }
@@ -212,13 +210,12 @@ export class OrganizationSideView extends Component {
             (!menuToggle) ? ('') : (<MenuBox id="organization-sidebar-menu-box"/>)
           }
           <div className="align-items-center flex-column">
-            {/*TODO mohsen : handle profile_media.url*/}
             {
-              (!organizationLogo) ? (<DefaultOrganIcon className="img-rounded-100px"/>) : (
-                <img className="rounded-circle img-rounded-100px" alt="Person icon" src={organizationLogo}/>)
+              (!organizationLogo) ? (<DefaultOrganIcon className="head-picture"/>) : (
+                <img className="rounded-circle head-picture" alt="Person icon" src={organizationLogo}/>)
             }
             {/*TODO mohsen: check organization name is what??*/}
-            <span className="p-20px">{__('Organization')}: {organization.nike_name || organization.official_name}</span>
+            <span className="p-20px mt-4">{__('Organization')}: {organization.nike_name || organization.official_name}</span>
             <span className="-grey1">{organization.biography}</span>
           </div>
           {
@@ -253,13 +250,3 @@ export class OrganizationSideView extends Component {
     )
   }
 }
-
-const Sidebar = (props) => {
-  return (
-    <div className="col">
-      {props.children}
-    </div>
-  )
-}
-
-export default Sidebar

@@ -6,7 +6,6 @@ import Posts from "src/views/common/post/index";
 import Products from "./organization/products/index";
 import PrivateRoute from "../consts/PrivateRoute"
 import PropTypes from "prop-types";
-import Sidebar from "src/views/bars/SideBar";
 import Social from "src/views/organization/social/index";
 import TopBar from "./bars/TopBar";
 import {default as BasicInformation} from "./organization/basicInformation/index";

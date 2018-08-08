@@ -7,7 +7,6 @@ import Certificates from "./user/certificates/index"
 import ChatBar from "src/views/bars/ChatBar"
 import Posts from "src/views/common/post/index"
 import PrivateRoute from "../consts/PrivateRoute"
-import Sidebar from "src/views/bars/SideBar"
 import Skills from "./user/skills/index"
 import Social from "src/views/user/social/index"
 import TopBar from "src/views/bars/TopBar"
@@ -59,13 +58,9 @@ class User extends Component<PropsUser> {
     return (
       <div className="-tabbed-pages -userOrganBackgroundImg">
         <TopBar collapseWidthCol={widthOfRightBar}/>
-
         <main className="row">
-
-          <div className={`-right-sidebar-wrapper ${widthOfRightBar}`}>
-            <Sidebar>
+          <div className={`-right-sidebar-wrapper ${widthOfRightBar} pr-0 pl-0`}>
               <UserSideView translate={translate} profileObject={profileObject} userObject={userObject}/>
-            </Sidebar>
           </div>
           <div className="col-6 -content-wrapper">
             <Tabs>
