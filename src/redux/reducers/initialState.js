@@ -34,7 +34,7 @@ export default {
     }
   },
   usersInfo: {
-    // initial structure build in first request for get user is call:
+    // initial structure build in first request for getUser is called:
     // [userId]: {
     //   user: {
     //     content:{},
@@ -53,13 +53,24 @@ export default {
     // }
   },
   users: {
-    // initial structure build in first request for get user is call:
+    // initial structure build in first request for getUser is called:
     // [userId]: {
     // exchanges:[],
     // skills:[],
     // workExperience:[],
     // certificates:[]
     // }
+  },
+  organsInfo:{
+    // initial structure build in first request for getOrgan is called:
+    // [organizationId]: {
+    //   organization: {
+    //     content:{},
+    //     isLoading:false,
+    //     error:{
+    //       message:null
+    //     }
+    //   },
   },
   organization: {
     isLoading: false,

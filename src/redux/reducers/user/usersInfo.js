@@ -26,7 +26,7 @@ const usersInfo = (state = initialState.usersInfo, action) => {
 
     /** -------------------------- get user -------------------------> **/
     case types.USER.GET_USER_BY_USER_ID:
-      // initial structure build in first request for get user is call but user isLoading is true:
+      // initial structure build in first request for getUser is called but user isLoading is true:
       return {
         ...state,
         [userId]: {
@@ -66,7 +66,7 @@ const usersInfo = (state = initialState.usersInfo, action) => {
 
     /** -------------------------- get profile -------------------------> **/
     case types.USER.GET_PROFILE_BY_USER_ID:
-      // initial structure build in first request for get user is call but profile isLoading is true:
+      // initial structure build in first request for getProfile is called but profile isLoading is true:
       return {
         ...state,
         [userId]: {

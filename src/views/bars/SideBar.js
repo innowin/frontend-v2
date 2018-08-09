@@ -5,8 +5,6 @@ import PropTypes from "prop-types"
 
 import {DefaultImageIcon} from "src/images/icons"
 import {DefaultUserIcon, DefaultOrganIcon} from "src/images/icons"
-import {getFile} from "src/crud/media/media"
-import {getOrganization} from "src/crud/organization/organization"
 import {VerifyWrapper} from "../common/cards/Frames"
 
 const MenuBox = (props) => (
@@ -44,7 +42,7 @@ export const TagsBox = ({tags}) => {
   )
 }
 
-export class UserSideView extends Component {
+export class UserSideBar extends Component {
 
   static propTypes = {
     translate: PropTypes.object.isRequired,
@@ -52,24 +50,87 @@ export class UserSideView extends Component {
     profileObject: PropTypes.object.isRequired
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      badgesImgUrl: [],
-      tags: [],
-      menuToggle: false,
-    }
+  componentDidMount() {
+    // TODO mohsen: get badges
   }
 
-  _handleClickOutMenuBox = (e) => {
-    if (!e.target.closest('#user-sidebar-menu-box') && !e.target.closest('.menuBottom')) {
-      this.setState({...this.state, menuToggle: false})
-    }
+  render() {
+    const {userObject, profileObject, translate} = this.props
+    const user = userObject.content
+    const profile = profileObject.content
+    const name = (!(user.first_name && user.last_name)) ? user.username : (user.first_name + " " + user.last_name)
+    const isLoading = userObject.isLoading || profileObject.isLoading
+    const errorMessage = userObject.error.message || profileObject.error.message
+    return (
+      <SideBarContent
+        name={name}
+        banner={profile.profile_banner}
+        description={profile.description}
+        picture={profile.profile_media}
+        badgesImgUrl={[]}
+        isLoading={isLoading}
+        errorMessage={errorMessage}
+        translate={translate}
+      />
+    )
+  }
+}
+
+
+export class OrganSideBar extends Component {
+
+  static propTypes = {
+    organObject: PropTypes.object.isRequired,
+    translate: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
-// TODO mohsen: socket of tags && socket.badges
-    document.addEventListener('click', this._handleClickOutMenuBox)
+    // TODO mohsen: get badges
+  }
+
+  render() {
+    const {organObject, translate} = this.props
+    const organization = organObject.content
+    const name = organization.nike_name || organization.official_name
+    const isLoading = organObject.isLoading
+    const errorMessage = organObject.error.message
+    return (
+      <SideBarContent
+        name={name}
+        banner={organization.organization_banner}
+        description={organization.biography}
+        picture={organization.organization_logo}
+        badgesImgUrl={[]}
+        isLoading={isLoading}
+        errorMessage={errorMessage}
+        translate = {translate}
+      />
+    )
+  }
+}
+
+class SideBarContent extends Component {
+
+  static propTypes = {
+    isLoading: PropTypes.bool.isRequired,
+    errorMessage: PropTypes.string,
+    banner: PropTypes.string,
+    picture: PropTypes.string,
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string,
+    badgesImgUrl: PropTypes.arrayOf(PropTypes.string),
+     translate : PropTypes.object.isRequired
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {menuToggle: false}
+  }
+
+  _handleClickOutMenuBox = (e) => {
+    if (!e.target.closest('#organization-sidebar-menu-box') && !e.target.closest('.menuBottom')) {
+      this.setState({...this.state, menuToggle: false})
+    }
   }
 
   componentWillUnmount() {
@@ -81,22 +142,18 @@ export class UserSideView extends Component {
   }
 
   render() {
-    const {userObject, profileObject, translate: tr} = this.props
-    const {badgesImgUrl, tags, menuToggle} = this.state
-    const user = userObject.content
-    const profile = profileObject.content
-    const name = (!(user.first_name && user.last_name)) ? user.username : (user.first_name + " " + user.last_name)
+    const {menuToggle} = this.state
+    const {isLoading, errorMessage, banner, picture, name, description, badgesImgUrl, translate:tr} = this.props
     return (
-      <VerifyWrapper isLoading={userObject.isLoading || profileObject.isLoading}
-                     error={userObject.error.message || profileObject.error.message}>
+      <VerifyWrapper isLoading={isLoading} error={errorMessage}>
         {
-          (!profile.profile_banner) ? <DefaultImageIcon className="banner"/> :
-            <img alt="" src={profile.profile_banner.file} className="banner"/>
+          (!banner) ? <DefaultImageIcon className="banner"/> :
+            <img alt="" src={banner.file} className="banner"/>
         }
         <div className="-sidebar-child-wrapper col">
           {
-            (!profile.profile_media) ? (<DefaultUserIcon className="head-picture"/>) : (
-              <img className="rounded-circle head-picture" alt="" src={profile.profile_media.file}/>)
+            (!picture) ? (<DefaultUserIcon className="head-picture"/>) : (
+              <img className="rounded-circle head-picture" alt="" src={picture.file}/>)
           }
           <div className="align-items-center flex-column">
             <i className="fa fa-ellipsis-v menuBottom" onClick={this._handleMenu}/>
@@ -104,7 +161,7 @@ export class UserSideView extends Component {
               (!menuToggle) ? ('') : (<MenuBox id="user-sidebar-menu-box"/>)
             }
             <span className="p-20px mt-4">{name}</span>
-            <span className="-grey1">{profile.description}</span>
+            <span className="-grey1">{description}</span>
           </div>
           {
             (badgesImgUrl.length > 0) ? (
@@ -127,124 +184,6 @@ export class UserSideView extends Component {
               </button>
             </div>
           </div>
-          {
-            (tags.length > 0) ? (
-              <div className="flex-wrap pb-3">
-                <TagsBox tags={tags}/>
-              </div>) : ("")
-          }
-        </div>
-      </VerifyWrapper>
-    )
-  }
-}
-
-
-export class OrganizationSideView extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      organization: {},
-      organizationLogo: null,
-      organizationBanner: null,
-      badgesImgUrl: [],
-      tags: [],
-      menuToggle: false,
-      isLoading: false,
-      error: null
-    }
-  }
-
-  static propTypes = {
-    organizationId: PropTypes.number.isRequired,
-  }
-
-  _handleClickOutMenuBox = (e) => {
-    if (!e.target.closest('#organization-sidebar-menu-box') && !e.target.closest('.menuBottom')) {
-      this.setState({...this.state, menuToggle: false})
-    }
-  }
-
-  componentDidMount() {
-    const {organizationId} = this.props;
-    this.setState({...this.state, isLoading: true})
-    getOrganization(organizationId, (res) => {
-      this.setState({...this.state, organization: res})
-      if (res.organization_banner) {
-        getFile(res.organization_banner, (res) =>
-          this.setState({...this.state, organizationBanner: res.file}))
-      }
-      if (res.organization_logo) {
-        getFile(res.organization_logo, (res) =>
-          this.setState({...this.state, organizationLogo: res.file}))
-      }
-      this.setState({...this.state, isLoading: false})
-    })
-    // TODO mohsen: socket of badges
-    // TODO mohsen: socket  of tags
-    document.addEventListener('click', this._handleClickOutMenuBox)
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('click', this._handleClickOutMenuBox);
-  }
-
-  _handleMenu = () => {
-    this.setState({...this.state, menuToggle: !this.state.menuToggle})
-  }
-
-  render() {
-    const {
-      organization, organizationLogo, organizationBanner, badgesImgUrl, tags, menuToggle,
-      isLoading, error
-    } = this.state;
-    return (
-      <VerifyWrapper isLoading={isLoading} error={error}>
-        {
-          (organizationBanner) ? (<img alt="" src={organizationBanner} className="banner"/>) : ('')
-        }
-        <div className="-sidebar-child-wrapper col">
-          <i className="fa fa-ellipsis-v menuBottom" onClick={this._handleMenu}/>
-          {
-            (!menuToggle) ? ('') : (<MenuBox id="organization-sidebar-menu-box"/>)
-          }
-          <div className="align-items-center flex-column">
-            {
-              (!organizationLogo) ? (<DefaultOrganIcon className="head-picture"/>) : (
-                <img className="rounded-circle head-picture" alt="Person icon" src={organizationLogo}/>)
-            }
-            {/*TODO mohsen: check organization name is what??*/}
-            <span className="p-20px mt-4">{__('Organization')}: {organization.nike_name || organization.official_name}</span>
-            <span className="-grey1">{organization.biography}</span>
-          </div>
-          {
-            (badgesImgUrl.length > 0) ? (
-              <div className="flex-wrap pb-3">
-                <BadgesCard badgesImgUrl={badgesImgUrl}/>
-              </div>
-            ) : ("")
-          }
-          <div className="flex-row pb-3">
-            <div className="w-50 pl-2 pb-2">
-              <button
-                type="button"
-                className="btn btn-outline-secondary btn-block sidebarBottom">{__('Follow')}
-              </button>
-            </div>
-            <div className="w-50 pb-2">
-              <button
-                type="button"
-                className="btn btn-outline-secondary btn-block sidebarBottom">{__('Send Message')}
-              </button>
-            </div>
-          </div>
-          {
-            (tags.length > 0) ? (
-              <div className="flex-wrap pb-3">
-                <TagsBox tags={tags}/>
-              </div>) : ("")
-          }
         </div>
       </VerifyWrapper>
     )

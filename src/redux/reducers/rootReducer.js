@@ -9,11 +9,13 @@ import certificate from './commonReducer/certificate'
 import file from './commonReducer/fileReducer'
 import {reducer as formReducer} from 'redux-form'
 import usersInfo from "./user/usersInfo"
+import organsInfo from "./organization/organsInfo"
 
 
 const reducers = {
   auth,
   usersInfo,
+  organsInfo,
   organization,
   category,
   product,

@@ -1,7 +1,5 @@
 import {all, fork} from 'redux-saga/effects'
 import {
-  watchGetOrganization,
-  watchGetOrganizationSuccess,
   watchGetOrganizationMembers,
   watchUpdateOrganization,
   watchGetProducts,
@@ -19,19 +17,16 @@ import {
   watchDeleteProduct,
   watchCreateCertificate,
 } from './organization/organizationSaga'
+import {watchGetOrganization} from "./organization/getOrganSagas"
 import {watchLSignIn, watchLSignOut, watchLSignInError} from './auth/authSaga'
 import {watchLGetExchangesByMemberIdentity} from "./exchange/exchange"
 import productWatchers from './common/product/product'
 import categoryWatchers from './common/category/category'
 import fileWatchers from './common/file/file'
 import certificateWatchers from './common/certificate/certificate'
-import {
-  watchGetUserByUserId,
-  watchUsernameCheck,
-  watchCreateUserPerson,
-  watchCreateUserOrgan,
-  watchGetProfileByUserId
-} from "./user/userSagas"
+import watchUsernameCheck from "./user/checkUsernameSaga"
+import {watchGetUserByUserId, watchGetProfileByUserId} from "./user/getUserSagas"
+import {watchCreateUserPerson, watchCreateUserOrgan,} from "./user/createUserSagas"
 
 
 const rootSaga = function* () {
@@ -48,7 +43,6 @@ const rootSaga = function* () {
     watchGetCustomers(),
     watchGetOrganization(),
     watchGetOrganizationMembers(),
-    watchGetOrganizationSuccess(),
     watchGetOrgExchanges(),
     watchGetOrgFollowers(),
     watchGetOrgFollowings(),
@@ -71,16 +65,16 @@ const rootSaga = function* () {
     // category watchers
     categoryWatchers.watchGetCategoriesList(),
 
-        // file watchers
-        fileWatchers.watchCreateFile(),
-        fileWatchers.watchUpdateFile(),
-        fileWatchers.watchDelFileMiddleWareData(),
+    // file watchers
+    fileWatchers.watchCreateFile(),
+    fileWatchers.watchUpdateFile(),
+    fileWatchers.watchDelFileMiddleWareData(),
 
-        // certificate watchers
-        certificateWatchers.watchGetObjectCertificates(),
-        certificateWatchers.watchCreateObjectCertificate(),
-        certificateWatchers.watchResetCreatingObjectCertStatus(),
-    ])
+    // certificate watchers
+    certificateWatchers.watchGetObjectCertificates(),
+    certificateWatchers.watchCreateObjectCertificate(),
+    certificateWatchers.watchResetCreatingObjectCertStatus(),
+  ])
 }
 
 

@@ -58,11 +58,13 @@ function* getOrganizationInSignIn(username) {
   const socketChannel = yield call(api.createSocketChannel, results.ORG.GET_ORGANIZATION)
   try {
     yield fork(api.get, urls.ORG.GET_ORGANIZATION, results.ORG.GET_ORGANIZATION, `?username=${username}`)
-    const data = yield take(socketChannel)
-    return data[0]
+    const dataList = yield take(socketChannel)
+    const data = dataList[0]
+    const organizationId = data.id
+    yield put({type: types.SUCCESS.ORG.GET_ORGANIZATION, payload: {data:data, organizationId}})
+    return data
   } catch (e) {
-    const {message} = e
-    yield put({type: types.ERRORS.ORG.GET_ORGANIZATION, payload: {type: types.ERRORS.ORG.GET_ORGANIZATION, message}})
+   // this error not is put because not has organizationId and not required put this error
     throw new Error(e)
   } finally {
     socketChannel.close()

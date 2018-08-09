@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from "prop-types"
 import AuthActions from "src/redux/actions/authActions"
-import UsersInfoActions from "src/redux/actions/user/usersInfoActions"
+import CheckUsernameAction from "src/redux/actions/user/checkUsernameAction"
 import client from "src/consts/client"
 import {BeatLoader} from "react-spinners"
 import {bindActionCreators} from "redux"
@@ -115,7 +115,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     signIn: AuthActions.signIn,
-    checkUsername: UsersInfoActions.checkUsername,
+    checkUsername: CheckUsernameAction.checkUsername,
     push: routerActions.push
   }, dispatch)
 })

@@ -11,7 +11,7 @@ import Skills from "./user/skills/index"
 import Social from "src/views/user/social/index"
 import TopBar from "src/views/bars/TopBar"
 import UserBasicInformation from "./user/basicInformation/index"
-import usersInfoActions from "src/redux/actions/user/usersInfoActions"
+import GetUserActions from "src/redux/actions/user/getUserActions"
 import WorkExperiences from "./user/workExperience/index"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
@@ -19,7 +19,7 @@ import {getMessages} from "src/redux/selectors/translateSelector"
 import {NavLink, Switch, Redirect} from "react-router-dom"
 import {Tabs} from "./common/cards/Frames"
 import {userInfoIcon, SkillIcon, CertificateIcon, workExperienceIcon, postIcon, SocialIcon} from "src/images/icons"
-import {UserSideView} from "./bars/SideBar"
+import {UserSideBar} from "./bars/SideBar"
 
 type PropsUser = {
   match: {
@@ -60,7 +60,7 @@ class User extends Component<PropsUser> {
         <TopBar collapseWidthCol={widthOfRightBar}/>
         <main className="row">
           <div className={`-right-sidebar-wrapper ${widthOfRightBar} pr-0 pl-0`}>
-              <UserSideView translate={translate} profileObject={profileObject} userObject={userObject}/>
+              <UserSideBar translate={translate} profileObject={profileObject} userObject={userObject}/>
           </div>
           <div className="col-6 -content-wrapper">
             <Tabs>
@@ -100,7 +100,7 @@ const mapStateToProps = (state, ownProps) => {
   const {params} = ownProps.match
   const userId = +params.id
   const user = state.usersInfo[userId] ? state.usersInfo[userId].user : {
-    // this object is primary value for user object
+    // this object is default value for user object
     content: {},
     isLoading: false,
     error: {
@@ -108,7 +108,7 @@ const mapStateToProps = (state, ownProps) => {
     }
   }
   const profile = state.usersInfo[userId] ? state.usersInfo[userId].profile : {
-    // this object is primary value for profile object
+    // this object is default value for profile object
     content: {},
     isLoading: false,
     error: {
@@ -123,8 +123,8 @@ const mapStateToProps = (state, ownProps) => {
 }
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    getUserByUserId: usersInfoActions.getUserByUserId,
-    getProfileByUserId: usersInfoActions.getProfileByUserId
+    getUserByUserId: GetUserActions.getUserByUserId,
+    getProfileByUserId: GetUserActions.getProfileByUserId
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(User)

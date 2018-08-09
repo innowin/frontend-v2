@@ -69,10 +69,6 @@ const organization = (state = initialState.organization, action) => {
 			const {products,categories} = action.payload;
 			return{...state,products:{...products, content:products,categories:categories,isLoading:false,error:false}}
 
-		case types.SUCCESS.ORG.GET_ORGANIZATION:
-			const organization = action.payload
-			return {...state,...organization};
-
 		case types.SUCCESS.ORG.GET_ORGANIZATION_MEMBERS:
 			const members = action.payload
 			return {...state,...members};		

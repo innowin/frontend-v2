@@ -1,7 +1,7 @@
 import React, {Component} from "react"
 import AuthActions from "src/redux/actions/authActions"
 import renderTextField from "../../common/inputs/reduxFormRenderTextField"
-import UsersInfoActions from "src/redux/actions/user/usersInfoActions"
+import CreateUserActions from "src/redux/actions/user/createUserActions"
 import {BeatLoader} from "react-spinners"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
@@ -146,8 +146,8 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     signIn: AuthActions.signIn,
     push: routerActions.push,
-    createUserPerson: UsersInfoActions.createUserPerson,
-    createUserOrgan: UsersInfoActions.createUserOrgan
+    createUserPerson: CreateUserActions.createUserPerson,
+    createUserOrgan: CreateUserActions.createUserOrgan
   }, dispatch)
 })
 
