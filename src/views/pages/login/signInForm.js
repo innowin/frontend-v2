@@ -41,7 +41,7 @@ const PureSignInForm = (props) => {
         </button>
       </div>
       {submitFailed && <p className="error-message mt-2">{error}</p>}
-      {signInError.isError && <p className="error-message">{signInError.message}</p>}
+      {/* {signInError.isError && <p className="error-message">{signInError.message}</p>} */}
       <div className="remember-recovery">
         <label htmlFor="rememberMe" className="cursor-pointer">
           <Field name="rememberMe" id="rememberMe" component="input" type="checkbox"/>

@@ -30,6 +30,7 @@ const results = {
     GET_PRODUCT_PRICE: 'get-org-product-price',
     DELETE_PRODUCT: 'delete-org-product',
     CREATE_CERTIFICATE: 'create-org-certificate',
+    GET_STAFF:'get-org-staff',
   },
   COMMON: {
     // product

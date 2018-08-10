@@ -7,11 +7,24 @@ const organization = (state = initialState.organization, action) => {
 		//pending
 		case types.ORG.UPDATE_ORGANIZATION_INFO:
 			return {...state,isLoading:true};
-
+		/** -------------------------- get organization -------------------------> **/
 		case types.ORG.GET_ORG_EXCHANGES:
 			return {...state,exchanges:{...state.exchanges,isLoading:true}};
+
+		/** -------------------------- get organization customers-------------------------> **/
 		case types.ORG.GET_ORG_CUSTOMERS:
 			return {...state,customers:{...state.customers,isLoading:true}}
+
+		case types.SUCCESS.ORG.GET_ORG_CUSTOMERS:
+			let customers = action.payload;
+			return{...state,customers:{content:customers,isLoading:false,error:false}}	
+
+		case types.ERRORS.ORG.GET_ORG_CUSTOMERS:
+			error = action.payload.error
+			return{...state,errorMessage:error,customers:{content:[],isLoading:false,error:true}}
+		
+		
+		/** -------------------------- get organization certificates-------------------------> **/
 		case types.ORG.GET_ORG_CERTIFICATES:
 			return {...state,certificates:{...state.certificates,isLoading:true}}
 		case types.ORG.CREATE_CERTIFICATE:
@@ -20,6 +33,13 @@ const organization = (state = initialState.organization, action) => {
 			return {...state,products:{isLoading:true}}
 		case types.ORG.GET_PRODUCTS:
 			return {...state,products:{isLoading:true}}
+		/** -------------------------- get organization certificates-------------------------> **/
+		
+		/** -------------------------- get organization staff-------------------------> **/
+		case types.SUCCESS.ORG.GET_STAFF:
+			let {staff} = action.payload
+			return{...state,staff:{...state.staff,content:staff,isLoading:false,error:false}}		
+			
 		//SUCCESS
 		case types.SUCCESS.ORG.CREATE_CERTIFICATE:
 			let {certificate} = action.payload
@@ -38,9 +58,7 @@ const organization = (state = initialState.organization, action) => {
 			nowCustomers[index] = customer
 			return{...state,customers:{content:nowCustomers,isLoading:false,error:false}}	
 
-		case types.SUCCESS.ORG.GET_ORG_CUSTOMERS:
-			let customers = action.payload;
-			return{...state,customers:{content:customers,isLoading:false,error:false}}		
+			
 
 		case types.SUCCESS.ORG.GET_ORG_EXCHANGES:
 			let exchanges = action.payload;

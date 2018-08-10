@@ -1,6 +1,10 @@
 .modal-page.hide {
   display: none;
 }
+.job-description{
+  margin-top: 50px;
+  min-height: 150px;
+}
 .modal-page {
   top:10px;
   bottom: 10px;
@@ -173,7 +177,7 @@
     font-size:13px;
   }
   .modal-bottom {
-    margin-top: 20px !important;
+    margin-top: 100px !important;
     width: 70%;
     margin: 0 auto;
     font-size:13px;

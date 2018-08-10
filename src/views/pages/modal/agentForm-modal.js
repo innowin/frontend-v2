@@ -41,35 +41,10 @@ class AgentForm extends Component {
     return (
       <div className={this.props.active  ? "modal-page" : "modal-page hide" } tabIndex="-1" role="dialog" ref={this.setWrapperRef}>
         <div className="agent-from-title"><div className="agent-form-title-container"><AgentSvgIcon className="agent-form-agent-icon"/><span className="agent-from-title-text"> درخواست ارتقاء به کارگزار</span></div></div>
-        <div className="modal-hint">
-          <div className="row">
-            <div className="col-2">
-              <TipsIcon className="hint-icon"/>
-            </div>
-            <div className="col-10 text-right">
-              درخواست ارتقا درخواست ارتقا درخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقادرخواست ارتقا
-            </div>
-          </div>
-        </div>
-        <div className="modal-options">
-          <div className="row">
-            <div className="col" dir="ltr">
-              <div className="form-check form-check-inline">
-                <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"/>
-                <label className="form-check-label" htmlFor="inlineRadio1">ارتقا مستقیم به کارگزار</label>
-              </div>
-            </div>
-            <div className="col" dir="ltr">
-              <div className="form-check form-check-inline">
-                <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"/>
-                <label className="form-check-label" htmlFor="inlineRadio1">ارتقا بر اساس سوابق کارگزاری</label>
-              </div>
-            </div>
-          </div>
-        </div>
+
         <div className="modal-bottom">
-          <label className="label float-right">هدف شما از ارتقا به کارگزار چیست؟</label>
-          <input type="text " className="form-control gray-text-input"/>
+          <label className="label float-right">شرحی از سوابق کاری خود را بنویسید</label>
+          <textarea type="text" className="form-control gray-text-input job-description"/>
 
           <label className="label float-right mt-2">ویرایش برچسب ها</label>
           <input type="text " className="form-control gray-text-input"/>

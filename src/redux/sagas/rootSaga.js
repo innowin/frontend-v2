@@ -18,6 +18,7 @@ import {
   watchGetProductsSuccess,
   watchDeleteProduct,
   watchCreateCertificate,
+  watchGetStaff,
 } from './organization/organizationSaga'
 import {watchLSignIn, watchLSignOut, watchLSignInError} from './auth/authSaga'
 import {watchLGetExchangesByMemberIdentity} from "./exchange/exchange"
@@ -63,6 +64,7 @@ const rootSaga = function* () {
     watchDeleteProduct(),
     watchCreateCertificate(),
     watchCreateOrgProduct(),
+    watchGetStaff(),
 
     // product watchers
     productWatchers.watchGetProductInfo(),

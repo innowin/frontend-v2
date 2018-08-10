@@ -35,7 +35,8 @@ const urls = {
     ADD_PRODUCT_PICTURE: 'products/pictures',
     GET_PRODUCT_PICTURE: 'products/pictures',
     GET_PRODUCT_PRICE: 'products/prices',
-    DELETE_PRODUCT: 'products'
+    DELETE_PRODUCT: 'products',
+    GET_STAFF:'organizations/staff',
   },
   EXCHANGE: {
     GET_EXCHANGES: 'exchanges',
