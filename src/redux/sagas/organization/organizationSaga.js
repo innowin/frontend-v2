@@ -312,12 +312,12 @@
 		const {formValues, customerId, hideEdit} = payload;
 		const socketChannel = yield call(api.createSocketChannel, results.ORG.UPDATE_CUSTOMER)
 		try {
-			yield fork(api.patch, urls.UPDATE_CUSTOMER, results.UPDATE_CUSTOMER, formValues, `${customerId}`)
+			yield fork(api.patch, urls.ORG.UPDATE_CUSTOMER, results.ORG.UPDATE_CUSTOMER, formValues, `${customerId}`)
 			const data = yield take(socketChannel)
-			yield put({type: types.SUCCESS.UPDATE_CUSTOMER, payload: data})
+			yield put({type: types.SUCCESS.ORG.UPDATE_CUSTOMER, payload: data})
 		} catch (e) {
 			const {message} = e
-			yield put({type: types.ERRORS.UPDATE_CUSTOMER, payload: {type: types.ERRORS.UPDATE_CUSTOMER, error: message}})
+			yield put({type: types.ERRORS.ORG.UPDATE_CUSTOMER, payload: {type: types.ERRORS.ORG.UPDATE_CUSTOMER, error: message}})
 		} finally {
 			socketChannel.close()
 			hideEdit()
@@ -424,7 +424,7 @@
 			hideEdit()
 		}
 	}
-
+	//22 getProductsSuccess
 	function* getProductsSuccess(action){
 		const{products} = action.payload;
 		for (let i = 0 ; i < products.length;i++){
@@ -432,7 +432,7 @@
 			yield getProductPrice(products[i].id)
 		}
 	}
-
+	//23 getProductPrice
 	function* getProductPrice(productId){
 		const socketChannel = yield call(api.createSocketChannel, results.ORG.GET_PRODUCT_PRICE)
 		let res
@@ -452,7 +452,7 @@
 			return res
 		}
 	}
-
+	//24 deleteProduct
 	function* deleteProduct(action){
 		const {productId} = action.payload
 		const socketChannel = yield call(api.createSocketChannel, results.ORG.DELETE_PRODUCT)
@@ -470,7 +470,7 @@
 			socketChannel.close()
 		}
 	}
-
+	//25 createCertificate
 	function* createCertificate(action){
 		const payload = action.payload;
 		const {formValues, identityId, userId,  hideEdit} = payload;
@@ -490,7 +490,7 @@
 			hideEdit()
 		}
 	}
-
+	//26 get org staff
 	function* getOrgStaff(action){
 		const payload = action.payload;
 		const {organizationId} = payload;
@@ -509,6 +509,42 @@
 			socketChannel.close()
 		}
 	}
+	//27 createOrgCustomer
+	function* createOrgCustomer(action){
+		const payload = action.payload
+		const {organizationId, formValues, hideEdit} = payload
+		formValues.customer_organization  = organizationId
+		const socketChannel = yield call(api.createSocketChannel, results.ORG.CREATE_CUSTOMER)
+		try {
+			yield fork(api.post, urls.ORG.CREATE_CUSTOMER, results.ORG.CREATE_CUSTOMER, formValues)
+			const data = yield take(socketChannel)
+			yield put({type: types.SUCCESS.ORG.CREATE_CUSTOMER, payload: {customer:data}})
+		} catch (e) {
+			const {message} = e
+			yield put({type: types.ERRORS.ORG.CREATE_CUSTOMER, payload: {type: types.ERRORS.ORG.CREATE_CUSTOMER, error: message}})
+		} finally {
+			socketChannel.close()
+			hideEdit()
+		}
+	}
+	//28 delete customer
+	function* deleteOrgCustomer(action){
+		const payload = action.payload
+		const {customerId, hideEdit} = payload
+		const socketChannel = yield call(api.createSocketChannel, results.ORG.DELETE_CUSTOMER)
+		try {
+			yield fork(api.del, urls.ORG.DELETE_CUSTOMER, results.ORG.DELETE_CUSTOMER,{}, `${customerId}`)
+			const data = yield take(socketChannel)
+			yield put({type: types.SUCCESS.ORG.DELETE_CUSTOMER, payload: {customerId:customerId}})
+		} catch (e) {
+			const {message} = e
+			yield put({type: types.ERRORS.ORG.DELETE_CUSTOMER, payload: {type: types.ERRORS.ORG.DELETE_CUSTOMER, error: message}})
+		} finally {
+			socketChannel.close()
+			hideEdit()
+		}
+	}
+	
 	/**********    %% WATCHERS %%    **********/
 	//1 - get organization
 	export function* watchGetOrganization() {
@@ -606,4 +642,12 @@
 
 	export function* watchGetStaff(){
 		yield takeEvery(types.ORG.GET_STAFF, getOrgStaff)
+	}
+
+	export function* watchCreateCustomer(){
+		yield takeEvery(types.ORG.CREATE_CUSTOMER, createOrgCustomer)
+	}
+
+	export function* watchDeleteCustomer(){
+		yield takeEvery(types.ORG.DELETE_CUSTOMER, deleteOrgCustomer)
 	}

@@ -128,9 +128,10 @@ export class CustomerEditForm extends React.Component<CustomerEditFormProps,{con
 	};
 
 	remove = () => {
-		const{hideEdit} = this.props;
+		const{hideEdit,actions} = this.props;
+		const{deleteCustomer} = actions
 		const customerId = this.props.customer.id;
-		// return this.props.remove(customerId,hideEdit)
+		deleteCustomer(customerId,hideEdit);
 	};
 
 	save = () => {//(formValues, customerId, updateStateForView, hideEdit

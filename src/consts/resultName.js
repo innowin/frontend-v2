@@ -31,6 +31,9 @@ const results = {
     DELETE_PRODUCT: 'delete-org-product',
     CREATE_CERTIFICATE: 'create-org-certificate',
     GET_STAFF:'get-org-staff',
+    CREATE_CUSTOMER:'create-org-customer',
+    DELETE_CUSTOMER:'delete-org-customer',
+    
   },
   COMMON: {
     // product

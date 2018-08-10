@@ -130,17 +130,20 @@ const updateCustomer = (formValues, customerId, hideEdit) => ({
 	}
 })
 
-const createCustomer = (formValues) => ({ //TODO  amir add organizationId to formVAlue
+const createCustomer = (formValues, hideEdit, organizationId) => ({ //TODO  amir add organizationId to formVAlue
   type: types.ORG.CREATE_CUSTOMER,
 	payload: {
-    formValues
+        formValues,
+        organizationId,
+        hideEdit
 	}
 })
 
-const deleteCustomer = (customerId) => ({
+const deleteCustomer = (customerId, hideEdit) => ({
   type: types.ORG.DELETE_CUSTOMER,
 	payload: {
-    customerId
+        customerId,
+        hideEdit
 	}
 })
 
