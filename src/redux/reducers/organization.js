@@ -93,7 +93,7 @@ const organization = (state = initialState.organization, action) => {
 
 		case types.SUCCESS.ORG.GET_ORGANIZATION_MEMBERS:
 			const members = action.payload
-			return {...state,...members};		
+			return{...state,staff:{...staff, content:members,isLoading:false,error:false}}
 
 		case types.SUCCESS.ORG.UPDATE_ORGANIZATION_INFO:
 			const updatedOrganization = action.payload

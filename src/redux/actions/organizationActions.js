@@ -205,6 +205,13 @@ const getProductPrice = (productId) => ({
       }
   })
 
+const getOrgStaff = (organizationId) => ({
+    type: types.ORG.GET_STAFF,
+        payload: {
+            organizationId
+        }
+})
+
 const OrganizationActions = {
   getOrganization,
   getMetaDataOrganization,
@@ -239,7 +246,9 @@ const OrganizationActions = {
   getProductPrice,
   
   deletePicture,
-  addPicture
+  addPicture,
+
+  getOrgStaff,
 };
 
 export default OrganizationActions;
