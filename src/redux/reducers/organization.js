@@ -62,15 +62,18 @@ const organization = (state = initialState.organization, action) => {
 			return {...state,certificates:{...state.certificates,isLoading:true}}
 		case types.ORG.CREATE_CERTIFICATE:
 			return {...state,certificates:{...state.certificates,isLoading:true}}
-		case types.ORG.UPDATE_PRODUCT:
-			return {...state,products:{isLoading:true}}
-		case types.ORG.GET_PRODUCTS:
-			return {...state,products:{isLoading:true}}
+		
 		
 		/** -------------------------- get organization staff-------------------------> **/
 		case types.SUCCESS.ORG.GET_STAFF:
 			let {staff} = action.payload
 			return{...state,staff:{...state.staff,content:staff,isLoading:false,error:false}}		
+
+		/** -------------------------- get organization product-------------------------> **/
+		case types.ORG.UPDATE_PRODUCT:
+			return {...state,products:{isLoading:true}}
+		case types.ORG.GET_PRODUCTS:
+			return {...state,products:{isLoading:true}}
 			
 		//SUCCESS
 		case types.SUCCESS.ORG.CREATE_CERTIFICATE:
