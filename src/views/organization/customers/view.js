@@ -3,7 +3,7 @@ import * as React from 'react';
 import {CustomerEditForm} from './forms';
 import {ItemHeader, ItemWrapper} from "../../common/cards/Frames";
 import {CertificateIcon, EditIcon} from "src/images/icons";
-
+import {ImageViewer} from '../../common/ImageViewer';
 type CustomerItemWrapperProps = {
     children:React.Node
 }
@@ -27,7 +27,11 @@ export class CustomerView extends React.Component<CustomerViewProps> {
                             <div className="editButton">
                                 <div onClick={showEdit}>{<EditIcon/>}</div>
                             </div>
-                            <img className="customerImage" alt="" src={customer.picture_media || "/static/media/defaultImg.94a29bce.png"} />
+                            <ImageViewer  
+                            className="customerImage"
+                            mediaId ={customer.customer_picture}
+                            label={'تصویر'} />
+                            {/* <img className="customerImage" alt="" src={customer.picture_media || "/static/media/defaultImg.94a29bce.png"} /> */}
                             <h5>{customer.title}</h5>
                             <span>&nbsp;</span>
                         </div>

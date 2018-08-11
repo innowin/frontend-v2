@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {Modal, ModalBody} from 'reactstrap'
 import MenuProgressive from '../progressive/penu-progressive'
 import TechnicalProperties from './technicalProperties'
@@ -22,13 +22,14 @@ import {
     InformationIcon,
     ContributionIcon
 } from '../../../images/icons'
-import {getMessages} from "../../../redux/selectors/translateSelector";
+import {getMessages} from "../../../redux/selectors/translateSelector"
 import {connect} from "react-redux";
 import {LAYER1S} from './addingConributionData'
 import SuccessMessage from './successMessage'
 import {createSkillAction, createProductAction} from 'src/redux/actions/ContributionActions'
 import FontAwesome from "react-fontawesome"
 import client from 'src/consts/client'
+import InitialInfoReduxForm from './reduxFormInitialInfo'
 
 
 const reorder = (list, startIndex, endIndex) => {
@@ -300,6 +301,7 @@ class AddingContribution extends React.Component {
             }
         })
     }
+
     _layer1InputsValueHandler = (value, key) => {
         this.setState({
             ...this.state,
@@ -435,7 +437,7 @@ class AddingContribution extends React.Component {
                 )
             case 2:
                 return (
-                    <InitialInfo
+                    <InitialInfoReduxForm
                         goToNextStep={this._nextStep}
                         goToPrevStep={this._prevStep}
                         inputHandler={this._layer1InputsValueHandler}

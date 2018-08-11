@@ -7,19 +7,74 @@ const organization = (state = initialState.organization, action) => {
 		//pending
 		case types.ORG.UPDATE_ORGANIZATION_INFO:
 			return {...state,isLoading:true};
-
+		/** -------------------------- get organization -------------------------> **/
 		case types.ORG.GET_ORG_EXCHANGES:
 			return {...state,exchanges:{...state.exchanges,isLoading:true}};
+
+		/** -------------------------- get organization customers-------------------------> **/
 		case types.ORG.GET_ORG_CUSTOMERS:
 			return {...state,customers:{...state.customers,isLoading:true}}
+
+		case types.SUCCESS.ORG.GET_ORG_CUSTOMERS:
+			let customers = action.payload;
+			return{...state,customers:{content:customers,isLoading:false,error:false}}	
+
+		case types.ERRORS.ORG.GET_ORG_CUSTOMERS:
+			error = action.payload.error
+			return{...state,errorMessage:error,customers:{content:[],isLoading:false,error:true}}
+
+		/** -------------------------- create organization customers-------------------------> **/
+		case types.ORG.CREATE_CUSTOMER:
+			return {...state,customers:{...state.customers,isLoading:true}}
+
+		case types.SUCCESS.ORG.CREATE_CUSTOMER:
+			let {customer} = action.payload
+			let currentCustomers = state.customers.content;
+			currentCustomers.push(customer)
+			return{...state,customers:{content:currentCustomers,isLoading:false,error:false}}	
+
+		case types.ERRORS.ORG.CREATE_CUSTOMER:
+			error = action.payload.error
+			return{...state,errorMessage:error,customers:{content:[],isLoading:false,error:true}}
+
+		/** -------------------------- delete organization customers-------------------------> **/
+		case types.ORG.DELETE_CUSTOMER:
+			return {...state,customers:{...state.customers,isLoading:true}}
+
+		case types.SUCCESS.ORG.DELETE_CUSTOMER:
+			let {customerId} = action.payload
+			currentCustomers = state.customers.content;
+			var index = currentCustomers.findIndex(
+				function (cus) {
+					 return cus.id === customerId; 
+					}
+			);
+			currentCustomers.splice(index, 1);
+			return{...state,customers:{content:currentCustomers,isLoading:false,error:false}}	
+
+		case types.ERRORS.ORG.DELETE_CUSTOMER:
+			
+			error = action.payload.error
+			return{...state,errorMessage:error,customers:{content:[],isLoading:false,error:true}}
+
+		/** -------------------------- get organization certificates-------------------------> **/
 		case types.ORG.GET_ORG_CERTIFICATES:
 			return {...state,certificates:{...state.certificates,isLoading:true}}
 		case types.ORG.CREATE_CERTIFICATE:
 			return {...state,certificates:{...state.certificates,isLoading:true}}
+		
+		
+		/** -------------------------- get organization staff-------------------------> **/
+		case types.SUCCESS.ORG.GET_STAFF:
+			let {staff} = action.payload
+			return{...state,staff:{...state.staff,content:staff,isLoading:false,error:false}}		
+
+		/** -------------------------- get organization product-------------------------> **/
 		case types.ORG.UPDATE_PRODUCT:
 			return {...state,products:{isLoading:true}}
 		case types.ORG.GET_PRODUCTS:
 			return {...state,products:{isLoading:true}}
+			
 		//SUCCESS
 		case types.SUCCESS.ORG.CREATE_CERTIFICATE:
 			let {certificate} = action.payload
@@ -32,15 +87,13 @@ const organization = (state = initialState.organization, action) => {
 			return{...state,certificates:{...state.certificates, content:certificates,isLoading:false,error:false}}		
 		
 		case types.SUCCESS.ORG.UPDATE_CUSTOMER:
-			let customer = action.payload;
-			let nowCustomers = state.customers.content;
+			customer = action.payload;
+			var nowCustomers = state.customers.content;
 			var index = nowCustomers.findIndex(function (cus) { return cus.id === customer.id; });
 			nowCustomers[index] = customer
 			return{...state,customers:{content:nowCustomers,isLoading:false,error:false}}	
 
-		case types.SUCCESS.ORG.GET_ORG_CUSTOMERS:
-			let customers = action.payload;
-			return{...state,customers:{content:customers,isLoading:false,error:false}}		
+			
 
 		case types.SUCCESS.ORG.GET_ORG_EXCHANGES:
 			let exchanges = action.payload;
@@ -71,7 +124,7 @@ const organization = (state = initialState.organization, action) => {
 
 		case types.SUCCESS.ORG.GET_ORGANIZATION_MEMBERS:
 			const members = action.payload
-			return {...state,...members};		
+			return{...state,staff:{...staff, content:members,isLoading:false,error:false}}
 
 		case types.SUCCESS.ORG.UPDATE_ORGANIZATION_INFO:
 			const updatedOrganization = action.payload

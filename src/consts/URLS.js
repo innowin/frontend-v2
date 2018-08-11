@@ -29,13 +29,16 @@ const urls = {
     GET_ORG_CERTIFICATES: 'base/certificates',
     CREATE_CERTIFICATE: 'base/certificates',
     UPDATE_CUSTOMER: 'organizations/customers',
+    DELETE_CUSTOMER:'organizations/customers',
     CREATE_PRODUCT: 'products',
     GET_PRODUCT_CATEGORIES: 'products/category',
     UPDATE_PRODUCT: 'products',
     ADD_PRODUCT_PICTURE: 'products/pictures',
     GET_PRODUCT_PICTURE: 'products/pictures',
     GET_PRODUCT_PRICE: 'products/prices',
-    DELETE_PRODUCT: 'products'
+    DELETE_PRODUCT: 'products',
+    GET_STAFF:'organizations/staff',
+    CREATE_CUSTOMER:'organizations/customers',
   },
   EXCHANGE: {
     GET_EXCHANGES: 'exchanges',

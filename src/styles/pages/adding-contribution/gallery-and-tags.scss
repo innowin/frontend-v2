@@ -1,0 +1,209 @@
+@import "./common";
+
+
+.gallery-and-tags-wrapper {
+  .gallery-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .tags-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .next-prev-btns {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .tags-wrapper .tags {
+    display: flex;
+    flex-flow: row wrap;
+    .tag {
+      color: $text-lighter-color;
+      flex: 0 0 100px;
+      min-width: 100px;
+      background: $disable-color;
+      margin-left: 10px;
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      font-size: $tag-font-size;
+    }
+    .tag .title {
+      padding: 3px 8px 0 0;
+    }
+    .tag .used-count {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      min-width: 30px;
+      background: $brand-inverse;
+      padding-top: 3px;
+    }
+    .tag .used-count .clear-btn {
+      @extend %clear-btn;
+      height: 16px;
+      width: 16px;
+      left: -8px;
+      top: -8px;
+    }
+    .tag:hover .used-count .clear-btn {
+      @extend %clear-btn-hover;
+    }
+    .tag .used-count .clear-btn:hover {
+      opacity: 1;
+      cursor: pointer;
+      pointer-events: auto;
+    }
+  }
+  .tags-search-box {
+    margin: 24px 0;
+    .Select-control {
+      @extend %none-bordered-input;
+      .Select-clear-zone,
+      .Select-arrow-zone,
+      .Select-value,
+      .Select-input {
+        display: none;
+      }
+    }
+    .Select-control:hover {
+      box-shadow: none;
+    }
+    .Select.is-focused:not(.is-open) .Select-control {
+      box-shadow: none;
+      @extend %none-bordered-input;
+    }
+  }
+}
+
+.gallery-and-tags-wrapper .gallery {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  .upload-box {
+    @extend %item-size;
+    position: relative;
+    flex: 0 0 120px;
+    margin: 12px 0;
+    .gallery-video {
+      @extend %item-size;
+    }
+    .image-wrapper {
+      @extend %item-size;
+      border: 1px dashed $disable-color;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .hidden-file-input {
+      @extend %item-size;
+      @extend %absolute-top0-right0;
+      opacity: 0;
+      z-index: 3;
+    }
+    .gallery-item {
+      @extend %item-size;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .edit-btn {
+      @extend %absolute-top0-right0;
+      opacity: 0;
+      width: 16px;
+      height: 16px;
+      background: $image-edit-btn-background;
+      transition: opacity 0.3s;
+    }
+    &.uploaded .hidden-file-input{
+      width: 16px;
+      height: 16px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .edit-btn::after {
+      @extend %edit-icon;
+      @extend %absolute-top0-right0;
+    }
+    &.uploaded:hover .edit-btn {
+      opacity: 1;
+      transition: opacity 0.3s;
+      cursor: pointer;
+    }
+    &.uploaded .choose-as-main-image-btn {
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    &.uploaded:hover .choose-as-main-image-btn {
+      opacity: 1;
+      transition: opacity 0.3s;
+    }
+    &.uploaded .gallery-item {
+      opacity: 1;
+      transition: opacity 0.3s;
+    }
+    .upload-icon {
+      position: absolute;
+      width: 40px;
+      opacity: 1;
+      transition: opacity 0.3s;
+    }
+    &.uploaded .upload-icon {
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .upload-icon-wrapper {
+      @extend %item-size;
+      @extend %absolute-top0-right0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .upload-icon path {
+      fill: $disable-color;
+    }
+    .clear-btn {
+      @extend %clear-btn;
+      height: 20px;
+      width: 20px;
+      top: -9px;
+      left: -9px;
+    }
+    &.uploaded:hover .clear-btn {
+      @extend %clear-btn-hover;
+    }
+  }
+}
+
+.gallery-and-tags-wrapper .gallery {
+  .circular-checkbox {
+    label {
+      display: none;
+    }
+    .checked {
+      background: $brand-inverse;
+    }
+    .checked .tick path {
+      fill: $text-lighter-color;
+    }
+  }
+  .custom-tooltip {
+    .desc-wrapper {
+      background: $chat-box2-color;
+    }
+    .desc-wrapper .desc {
+      color: $text-medium-dark;
+    }
+    .point {
+      background: $chat-box2-color;
+    }
+    position: absolute;
+    bottom: 5px;
+    left: 4px;
+    z-index: 2;
+  }
+}
+
+.gallery-and-tags-wrapper .header {
+  font-size: $font-size-regular;
+  margin: 50px 0 12px;
+}

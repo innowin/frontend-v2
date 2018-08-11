@@ -107,7 +107,7 @@ export default {
       isLoading: false,
       content: []
     },
-    members: {
+    staff: {
       isLoading: false,
       content: []
     },

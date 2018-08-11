@@ -14,33 +14,21 @@ import OrganizationActions from '../../../redux/actions/organizationActions';
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 type CustomerContainerProps = { 
-	customer:Object,
 	organizationId:number,
-	actions:Object
+	actions:Object,
+	customer:Object
 }
-export class CustomerContainer extends React.Component<CustomerContainerProps,{customer:Object, error:boolean, isLoading:boolean}> {
+export class CustomerContainer extends React.Component<CustomerContainerProps> {
 	constructor(props:CustomerContainerProps){
 		super(props);
-		this.state={...this.state, customer:props.customer}
 	}
-	componentWillReceiveProps(props:CustomerContainerProps){
-			const {customer} = props;
-			this.setState ({...this.state ,customer:customer || {}});
-	}
-	delete_ = (customerId:number, hideEdit:Function) => {	
-		const {organizationId} = this.props;
-		// updateStateForView(null,true,true);
-		// return deleteCustomer(customerId,hideEdit,organizationId);
-	};
+	
+
 	update_ = (formValues:Object, customerId:number, updateStateForView:Function, hideEdit:Function) => {//formValues, careerId, updateStateForView, hideEdit
 		const {updateCustomer} = this.props.actions
 		updateCustomer(formValues,customerId, hideEdit);
 	};
-	_updateStateForView = (res:Object, error:boolean, isLoading:boolean) => {
-		// const {updateStateForView} = this.props;
-		// updateStateForView({error:error,isLoading:isLoading});
-		this.setState({...this.state, customer:res, error:error, isLoading:isLoading});
-	};
+
 
 	render() {
 		const {customer, actions} = this.props;
@@ -63,8 +51,9 @@ export class CustomerList extends React.Component<CustomerListProps> {
 		customers:[]
 	}
 	create = (formValues:Object,hideEdit:Function) => {
-			const {organizationId } = this.props;
-			// return createCustomer(formValues, hideEdit, organizationId);
+			const {organizationId,actions } = this.props;
+			const {createCustomer} = actions
+			createCustomer(formValues, hideEdit, organizationId);
 	};
 
 	render() {
@@ -158,7 +147,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = dispatch => ({
 	actions: bindActionCreators({
 		getCustomers: OrganizationActions.getOrgCustomers ,
-		updateCustomer: OrganizationActions.updateCustomer
+		updateCustomer: OrganizationActions.updateCustomer ,
+		createCustomer : OrganizationActions.createCustomer,
+		deleteCustomer: OrganizationActions.deleteCustomer
 	}, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Customers)

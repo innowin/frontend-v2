@@ -1,0 +1,78 @@
+@import "./common";
+
+
+.new-contribution-wrapper {
+  margin: 0 auto;
+  .categories-wrapper h5 {
+    margin-bottom: 20px;
+  }
+  .categories-wrapper .categories {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    .category {
+      border: 3px solid $chat-box2-color;
+      flex: 0 0 150px;
+      border-radius: 20px;
+      height: 150px;
+      min-width: 150px;
+    }
+    .category.active {
+      border: 3px solid $brand-inverse;
+    }
+    .category .image {
+      display: flex;
+      margin: 40px 0 14px;
+    }
+    .category .image .new-contribution-category-image {
+      height: 50px;
+      width: 50px;
+      margin: 0 auto;
+    }
+    .category .image .skill-icon {
+      transform: rotate(45deg);
+    }
+    .category .title {
+      text-align: center;
+      color: $text-title-menu-color;
+    }
+    .category .new-contribution-category-image path {
+      fill: $text-title-menu-color;
+    }
+    .category.active .title {
+      color: $brand-inverse;
+    }
+    .category.active .new-contribution-category-image path {
+      fill: $brand-inverse;
+    }
+
+  }
+  .desc {
+    background-color: $chat-box2-color;
+    padding: 20px;
+    display: flex;
+    margin: 55px auto 40px;
+    line-height: 29px;
+    border-radius: 3px;
+    .icon-wrapper {
+      display: flex;
+      align-items: center;
+    }
+    .icon-wrapper .tip-icon {
+      width: 25px;
+      height: 25px;
+      margin-left: 4px;
+    }
+    .icon-wrapper .tip-icon path {
+      fill: $success-color;
+    }
+    .text {
+      text-align: center;
+      // font-size: 12px;
+      color: $text-title-menu-color;
+    }
+    .text p {
+      margin: 0
+    }
+  }
+}

@@ -26,7 +26,7 @@ input, textarea, button, select {
 @import "./pages/login";
 @import "./pages/progressive";
 @import "./pages/modal";
-@import "./pages/adding-contribution";
+@import "./pages/adding-contribution/adding-contribution";
 
 @import "components/bars/bars";
 @import "components/bars/chatbar";
@@ -41,6 +41,7 @@ input, textarea, button, select {
 @import "components/common/label";
 @import "components/common/list-group-addons";
 @import "components/common/media";
+@import "components/common/tooltip";
 @import "components/exchange/exchangeView";
 @import "components/exchange/ExchangeView/index";
 @import "components/exchange/ExchangeView/post";
