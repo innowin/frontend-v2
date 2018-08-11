@@ -41,6 +41,7 @@ const results = {
     UPDATE_PRODUCT: 'update-product-result',
 
     // file
+    GET_FILE:'COMMON_GET_FILE',
     CREATE_FILE: 'common-create-file-result',
     UPDATE_FILE: 'common-update-file-result',
 

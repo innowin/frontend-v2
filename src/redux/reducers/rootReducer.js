@@ -8,19 +8,22 @@ import product from './commonReducer/product'
 import certificate from './commonReducer/certificate'
 import file from './commonReducer/fileReducer'
 import {reducer as formReducer} from 'redux-form'
-import usersInfo from "./user/usersInfo"
-import organsInfo from "./organization/organsInfo"
+import usersInfoList from "./user/usersInfoList"
+import organsInfoList from "./organization/organsInfoList"
 
-
-const reducers = {
-  auth,
-  usersInfo,
-  organsInfo,
-  organization,
+const commonReducers =  {
   category,
   product,
   certificate,
   file
+}
+
+const reducers = {
+  auth,
+  usersInfoList,
+  organsInfoList,
+  organization,
+  common: combineReducers({...commonReducers})
 }
 
 //Don't change below code ,  Put your reducer on the upper object.

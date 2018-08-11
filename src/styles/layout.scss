@@ -17,19 +17,6 @@
   //overflow-y: auto;
 }
 
-.-right-sidebar-wrapper {
-  z-index: 1000;
-  position: fixed;
-  right: 0;
-  top: $topBarHeight;
-  bottom: 0;
-  overflow-y: auto;
-  background: $text-lightest-color;
-  -webkit-box-shadow: -2px 0px 14px rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: -2px 0px 14px rgba(0, 0, 0, 0.3);
-  box-shadow: -2px 0px 14px rgba(0, 0, 0, 0.3);
-}
-
 .-content-wrapper {
   margin: 0 auto;
   min-height: 100vh;

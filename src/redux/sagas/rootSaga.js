@@ -72,6 +72,7 @@ const rootSaga = function* () {
     categoryWatchers.watchGetCategoriesList(),
 
     // file watchers
+    fileWatchers.watchGetFile(),
     fileWatchers.watchCreateFile(),
     fileWatchers.watchUpdateFile(),
     fileWatchers.watchDelFileMiddleWareData(),

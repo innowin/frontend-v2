@@ -1,3 +1,8 @@
 export type TranslatorType = {
-    [string]: string
+  [string]: string
+}
+
+export type errorObjectType = {
+  isError: boolean,
+  message: ?string
 }

@@ -35,7 +35,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number|}> {
     const widthOfRightBar = "col-md-3 col-sm-2"
     return (
       <div className="home-wrapper">
-        <TopBar collapseWidthCol={widthOfRightBar}/>
+        <TopBar collapseClassName={widthOfRightBar}/>
         <main>
           <HomeSideBar setExchangeId={this._setExchangeId}
                        classNames={`${widthOfRightBar} pr-0 pl-0 -right-sidebar-wrapper`}

@@ -181,43 +181,52 @@
 }
 
 //** ---------------------------        Sidebar(rightBar)      -------------------------------- **//
-.banner {
-  width: 100%;
-  height: 150px;
+.-right-sidebar-wrapper {
+  z-index: 1000;
+  position: fixed;
+  right: 0;
+  top: $topBarHeight;
+  bottom: 0;
+  overflow-y: auto;
+  background: $text-lightest-color;
+  -webkit-box-shadow: -2px 0px 14px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: -2px 0px 14px rgba(0, 0, 0, 0.3);
+  box-shadow: -2px 0px 14px rgba(0, 0, 0, 0.3);
 }
 
-.-sidebar-child-wrapper > div {
-  display: flex;
-  border-bottom: 1px solid lighten($text-lighter-color, 3.6%);
-  padding-top: 20px;
-  padding-bottom: 20px;
+.user-sidebar-width {
+  max-width: 18%;
+  min-width: 210px;
 }
 
 .-sidebar-child-wrapper {
   position: relative;
-  .head-picture{
-    width: 100px;
-    height: 100px;
+  .head-picture {
+    width: 80px;
+    height: 80px;
     position: absolute;
     transform: translate(-50%, -50%);
-    top:0;
+    top: 0;
     left: 50%;
   }
-  .menuBottom {
-    position: absolute;
-    top: 0;
-    left: 0;
-    color: lighten($text-light-color, 3%);
-    float: left;
-    margin: 15px 0 -10px 10px;
-    cursor: pointer;
-    display: block;
-    width: 15px;
-    height: 25px;
-    text-align: center;
-    line-height: 25px;
-    z-index: 101;
+  .info-section {
+    padding-bottom: 90px
   }
+  .menuBottom {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: lighten($text-light-color, 3%);
+  float: left;
+  margin: 15px 0 -10px 10px;
+  cursor: pointer;
+  display: block;
+  width: 15px;
+  height: 25px;
+  text-align: center;
+  line-height: 25px;
+  z-index: 101;
+}
   .menu-box {
     position: absolute;
     top: 30px;
@@ -229,7 +238,7 @@
     border: 1px solid lighten($text-lighter-color, 3.6%);
     border-radius: 3px;
     background-color: $text-lightest-color;
-    width: 65%;
+    width: 125px;
     box-shadow: -2px 2px 5px 2px rgba(0, 0, 0, 0.2);
     > div {
       display: flex;
@@ -255,10 +264,23 @@
   }
 }
 
+.-sidebar-child-wrapper > div {
+  display: flex;
+  border-bottom: 1px solid lighten($text-lighter-color, 3.6%);
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.banner {
+  width: 100%;
+  height: 115px;
+}
+
 .sidebarBottom {
   border-color: $sidebar-bottom-color !important;
   color: $sidebar-bottom-color !important;
   font-size: $font-size-boxText;
+  border-radius: 20px;
 }
 
 .-grey1 {

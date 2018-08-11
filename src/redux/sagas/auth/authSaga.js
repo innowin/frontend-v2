@@ -44,7 +44,7 @@ function* signIn(action) {
     }
     data = {...data, organization}
     yield put({type: types.SUCCESS.AUTH.SIGN_IN, payload: {data, rememberMe: rememberMe}})
-    // after set user & profile data in client should set user and profile data in usersInfo in redux state
+    // after set user & profile data in client should set user and profile data in usersInfoList in redux state
     const userId = data.user.id
     const userData = data.user
     const profileData = data.profile
@@ -67,7 +67,7 @@ function* getOrganizationInSignIn(username) {
     const dataList = yield take(socketChannel)
     // return data for access father to organ data
     return dataList[0]
-    // after set organization data in client don't required set organization data in organsInfo in redux state
+    // after set organization data in client don't required set organization data in organsInfoList in redux state
   } catch (e) {
     // don't has organizationId and don't required put this error
     // throw error for father function

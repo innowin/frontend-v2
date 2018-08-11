@@ -16,7 +16,7 @@ class Product extends Component {
     const widthOfRightBar = "col-md-3 col-sm-2"
     return (
       <div className="-tabbed-pages -userOrganBackgroundImg">
-        <TopBar collapseWidthCol={widthOfRightBar} />
+        <TopBar collapseClassName={widthOfRightBar} />
         <main>
           <Switch>
             <PrivateRoute exact path={`${path}/Product_Explorer`} component={ProductExplorer} widthOfRightBar={widthOfRightBar}/>

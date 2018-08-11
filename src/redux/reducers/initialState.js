@@ -33,7 +33,7 @@ export default {
       logged_in_time: {}
     }
   },
-  usersInfo: {
+  usersInfoList: {
     // initial structure build in first request for getUser is called:
     // [userId]: {
     //   user: {
@@ -61,7 +61,7 @@ export default {
     // certificates:[]
     // }
   },
-  organsInfo:{
+  organsInfoList:{
     // initial structure build in first request for getOrgan is called:
     // [organizationId]: {
     //   organization: {
@@ -147,6 +147,14 @@ export default {
       creatingObjCertStatus: status.NEUTRAL
     },
     file: {
+      filesList: {
+        // [fileId]: {
+        //     content:{},
+        //     isLoading:false,
+        //     error:{
+        //       message:null
+        //   },
+      },
       middlewareFileData: { // the file that is new creating or is updating in the moment.
         content: {},
         isCreating: false,

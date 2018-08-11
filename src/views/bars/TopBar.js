@@ -23,7 +23,7 @@ import AddingContribution from "../pages/adding-contribution/addingContribution"
 import CreateExchangeForm from "../pages/modal/createExchange-modal";
 
 type PropsTopBar = {|
-  collapseWidthCol: string,
+  collapseClassName: string,
   isLoggedIn: boolean,
   clientUser: userType,
   clientProfile: userProfileType,
@@ -47,7 +47,7 @@ type StatesTopBar = {|
 class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
   static propTypes = {
-    collapseWidthCol: PropTypes.string.isRequired
+    collapseClassName: PropTypes.string.isRequired
   }
 
   //types
@@ -118,7 +118,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   }
 
   render() {
-    const {collapseWidthCol, clientUser, clientOrganization} = this.props
+    const {collapseClassName, clientUser, clientOrganization} = this.props
     const {profileMedia, collapse, collapseProfile, productWizardModalIsOpen} = this.state
     return (
       <div>
@@ -158,7 +158,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
             </div>
           </div>
         </nav>
-        <Collapse isOpen={collapse} className={`-topBar-right-collapse col-3 pr-0 pl-0 ${collapseWidthCol}`}>
+        <Collapse isOpen={collapse} className={`-topBar-right-collapse pr-0 pl-0 ${collapseClassName}`}>
           <ul>
             <li onClick={this._handleExchangeUpgrade}><i className="fa fa-home"/> درخواست ارتقاء به کارگزار</li>
             <li onClick={this._handleNewExchange}><i className="fa fa-home"/> بورس جدید</li>

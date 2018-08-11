@@ -54,15 +54,13 @@ class User extends Component<PropsUser> {
     const {match, translate, profileObject, userObject} = this.props
     const {path, url, params} = match
     const userId: number = +params.id
-    const widthOfRightBar = "col-3"
     return (
       <div className="-tabbed-pages -userOrganBackgroundImg">
-        <TopBar collapseWidthCol={widthOfRightBar}/>
+        <TopBar collapseClassName="col user-sidebar-width"/>
         <main className="row">
-          <div className={`-right-sidebar-wrapper ${widthOfRightBar} pr-0 pl-0`}>
-              <UserSideBar translate={translate} profileObject={profileObject} userObject={userObject}/>
-          </div>
-          <div className="col-6 -content-wrapper">
+          <UserSideBar translate={translate} profileObject={profileObject} userObject={userObject}
+                       className={`-right-sidebar-wrapper user-sidebar-width col pr-0 pl-0`}/>
+          <div className="col-md-6 col-sm-10 -content-wrapper">
             <Tabs>
               <NavLink className="-tab" to={`${url}/basicInformation`}
                        activeClassName="-active">{userInfoIcon}</NavLink>
@@ -87,7 +85,7 @@ class User extends Component<PropsUser> {
             </Switch>
           </div>
 
-          <div className="col-3 -left-sidebar-wrapper">
+          <div className="col-md-2 col-sm-1 -left-sidebar-wrapper">
             <ChatBar/>
           </div>
         </main>
@@ -99,7 +97,7 @@ class User extends Component<PropsUser> {
 const mapStateToProps = (state, ownProps) => {
   const {params} = ownProps.match
   const userId = +params.id
-  const user = state.usersInfo[userId] ? state.usersInfo[userId].user : {
+  const user = state.usersInfoList[userId] ? state.usersInfoList[userId].user : {
     // this object is default value for user object
     content: {},
     isLoading: false,
@@ -107,7 +105,7 @@ const mapStateToProps = (state, ownProps) => {
       message: null
     }
   }
-  const profile = state.usersInfo[userId] ? state.usersInfo[userId].profile : {
+  const profile = state.usersInfoList[userId] ? state.usersInfoList[userId].profile : {
     // this object is default value for profile object
     content: {},
     isLoading: false,

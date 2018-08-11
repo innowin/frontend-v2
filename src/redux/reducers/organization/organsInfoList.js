@@ -1,7 +1,7 @@
 import initialState from "../initialState"
 import types from "../../actions/types/index"
 
-const organsInfo = (state = initialState.organsInfo, action) => {
+const organsInfoList = (state = initialState.organsInfoList, action) => {
   const {organizationId, data, message} = action.payload ? action.payload : {}
   const previousOrgan = (state[organizationId]) || {
     /* this object is default value for organ object if this state[organizationId] or state[organizationId].organ
@@ -15,7 +15,6 @@ const organsInfo = (state = initialState.organsInfo, action) => {
   switch (action.type) {
     /** -------------------------- get organ -------------------------> **/
     case types.ORG.GET_ORGANIZATION:
-      // initial structure build in first request for getOrgan is called but organ isLoading is true:
       return {
         ...state,
         [organizationId]: {
@@ -44,12 +43,12 @@ const organsInfo = (state = initialState.organsInfo, action) => {
         }
       }
 
-    /** -------------------------- reset organsInfo -------------------------> **/
+    /** -------------------------- reset organsInfoList -------------------------> **/
     case types.RESET:
-      return initialState.organsInfo
+      return initialState.organsInfoList
     default:
       return state
   }
 }
 
-export default organsInfo
+export default organsInfoList
