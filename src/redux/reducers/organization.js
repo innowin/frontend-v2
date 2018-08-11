@@ -1,6 +1,6 @@
 import initialState from './initialState';
 import types from '../actions/types';
-console.log(types)
+
 const organization = (state = initialState.organization, action) => {
 	let error;
 	switch (action.type) {
@@ -119,9 +119,6 @@ const organization = (state = initialState.organization, action) => {
 		case types.ERRORS.ORG.UPDATE_PRODUCT:
 			error = action.payload.error
 			return{...state,errorMessage:error,products:{content:[],isLoading:false,error:true}}
-
-		case types.ERRORS.ORG.GET_ORGANIZATION:
-			return {...state, client: {}};
 
 		case types.ERRORS.ORG.ADD_PRODUCT_PICTURE://TODO amir
 			error = action.payload.error

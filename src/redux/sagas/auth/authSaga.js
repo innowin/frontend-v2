@@ -44,6 +44,12 @@ function* signIn(action) {
     }
     data = {...data, organization}
     yield put({type: types.SUCCESS.AUTH.SIGN_IN, payload: {data, rememberMe: rememberMe}})
+    // after set user & profile data in client should set user and profile data in usersInfo in redux state
+    const userId = data.user.id
+    const userData = data.user
+    const profileData = data.profile
+    yield put({type: types.SUCCESS.USER.GET_USER_BY_USER_ID, payload: {data: userData, userId}})
+    yield put({type: types.SUCCESS.USER.GET_PROFILE_BY_USER_ID, payload: {data: profileData, userId}})
   }
   catch (e) {
     const {message} = e
@@ -59,12 +65,12 @@ function* getOrganizationInSignIn(username) {
   try {
     yield fork(api.get, urls.ORG.GET_ORGANIZATION, results.ORG.GET_ORGANIZATION, `?username=${username}`)
     const dataList = yield take(socketChannel)
-    const data = dataList[0]
-    const organizationId = data.id
-    yield put({type: types.SUCCESS.ORG.GET_ORGANIZATION, payload: {data:data, organizationId}})
-    return data
+    // return data for access father to organ data
+    return dataList[0]
+    // after set organization data in client don't required set organization data in organsInfo in redux state
   } catch (e) {
-   // this error not is put because not has organizationId and not required put this error
+    // don't has organizationId and don't required put this error
+    // throw error for father function
     throw new Error(e)
   } finally {
     socketChannel.close()
