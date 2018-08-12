@@ -1,4 +1,3 @@
-/*global __*/
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {DefaultExchangeIcon} from "../../images/icons"
@@ -11,6 +10,8 @@ import {
 	getExchangeMemberIdentity,
 	getExchangeMember
 } from "../../crud/exchange/exchange"
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import {ExchangeIcon} from "src/images/icons"
 import {getExchangePostsByPostType, getExchangePostsHasProduct} from "../../crud/post/exchangePost"
 
@@ -47,9 +48,7 @@ class ExchangeViewBar extends Component {
 			this.setState({...this.state, exchange: res, loading: true})
 			// TODO mohsen: socket.emit of badges
 			// TODO mohsen: socket.emit of tags
-			getExchangeMembers(exchangeId, (err) => {
-			
-			}, (identities) => {
+			getExchangeMembers(exchangeId, (err) => {}, (identities) => {
 				var members = []
 				var j = 0
 				//callback hell 201 requests just to get user names and profile Media TODO amir
@@ -81,14 +80,17 @@ class ExchangeViewBar extends Component {
 	}
 	
 	componentDidMount() {
-		const {exchangeId} = this.props
-		this._getExchange(exchangeId)
-		this._getCounts(exchangeId)
+		const {actions ,exchangeId} = this.props
+		const {getExchangeMembersByExId} = actions
+		getExchangeMembersByExId ( exchangeId )
+		// this._getExchange(exchangeId)
+		// this._getCounts(exchangeId)
 	}
 	
 	
 	render() {
 		const {exchange, badgesImgUrl, demandCount, supplyCount, productCount, tags, members, isLoading, error} = this.state
+		const {translate} = this.props
 		var membersView = members.map((val, idx) => {
 			return (<div className="" key={idx}>
 				<span>{val.username || val.name}</span>
@@ -113,7 +115,7 @@ class ExchangeViewBar extends Component {
 							<div className="exchangeName">
 								<ExchangeIcon/>
 								<div>
-									<span className="fontSize-13px">{__('Exchange')}: </span>
+									<span className="fontSize-13px">{translate['Exchange']}: </span>
 									<span>{exchange.name}</span>
 								</div>
 							</div>
@@ -180,4 +182,9 @@ class ExchangeViewBar extends Component {
 	}
 }
 
-export default ExchangeViewBar
+const StateToProps = (state) => ({translate:state.intl.messages,router: state.router})
+const DispatchToProps = dispatch => ({actions:bindActionCreators({
+	getExchangeMembersByExId: exchangeActions.getExchangeMembersByExId,
+},dispatch)})
+
+export default connect(StateToProps,DispatchToProps)(ExchangeViewBar)

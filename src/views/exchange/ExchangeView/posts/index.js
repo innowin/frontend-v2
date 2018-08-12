@@ -62,7 +62,7 @@ export class ExchangePost extends Component {
   _getIdentityDetails = (post_identity) => {
       const user = post_identity.identity_user
       const organization = post_identity.identity_organization
-      if (user) {alert(user.id)
+      if (user){
         this.setState({
           ...this.state,
           postIdentity_name: user.first_name + ' ' + user.last_name
