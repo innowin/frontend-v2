@@ -35,8 +35,9 @@ class ExchangeViewBar extends Component {
 			error: null,
 		}
 	}
-	
+
 	_MockData = () => {
+		this._test()
 		const tags = [{title: "چادر مشکی"}, {title: "پوشاک مردانه"}]
 		const badges = ["http://restful.daneshboom.ir/media/14ba7946fe394deca765cad2fc02c848.jpeg"]
 		this.setState({...this.state, tags: tags, badgesImgUrl: badges})
@@ -85,8 +86,8 @@ class ExchangeViewBar extends Component {
 		getExchangeMembersByExId ( exchangeId )
 		// this._getExchange(exchangeId)
 		// this._getCounts(exchangeId)
+		this._getCounts(exchangeId)
 	}
-	
 	
 	render() {
 		const {exchange, badgesImgUrl, demandCount, supplyCount, productCount, tags, members, isLoading, error} = this.state

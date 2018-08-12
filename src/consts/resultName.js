@@ -24,9 +24,14 @@ const results = {
 	EXCHANGE:{
 		GET_EXCHANGE_BY_EX_ID:'get-exchange-by-ex-id',
 		GET_EXCHANGE_BY_ID:'get-exchanges-{id}',
-		GET_EXCHANGES_BY_MEMBER_IDENTITY:'getExchangesByMemberIdentity',
+		GET_EXCHANGES_BY_MEMBER_IDENTITY:'get-exchanges-by-member-identity',
+		DELETE_EXCHANGE_MEMBERSHIP: 'delete-exchange-membership'
 	},
-	
+	COMMON: {
+		POST: {
+			FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET: 'filterPostsByPostParentLimitOffset',
+		}
+	},
 	//contribution
 	CREATE_PRODUCT: 'create-product',
 	CREATE_Skill: 'create-skill',

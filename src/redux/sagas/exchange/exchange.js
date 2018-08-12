@@ -7,6 +7,7 @@ import {put, take, fork, call, takeEvery} from "redux-saga/effects"
 /**********    %% WORKERS %%    **********/
 import {getExchangeByExId} from './getExchangeByExId'
 import {getExchangeMembersByExId} from './getExchangeMembersByExId'
+import {deleteExchangeMembership} from './deleteExchangeMembership'
 export function* getExchangeIdentitiesByMemberIdentity(action) {
 	const {identityId} = action.payload
 	const socketChannel = yield call(api.createSocketChannel, results.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY)
@@ -30,7 +31,6 @@ export function* getExchangeIdentitiesByMemberIdentity(action) {
 	}
 }
 
-
 /**********    %% WATCHERS %%    **********/
 
 export function* watchLGetExchangesByMemberIdentity() {
@@ -43,4 +43,8 @@ export function* watchGetExchangeByExId() {
 
 export function* watchGetExchangeMembersByExId() {
 	yield takeEvery(types.EXCHANGE.GET_EXCHANGE_MEMBERS_BY_EX_ID, getExchangeMembersByExId)
+}
+
+export function* watchDeleteExchangeMembership() {
+	yield takeEvery(types.EXCHANGE.GET_EXCHANGE_MEMBERS_BY_EX_ID, deleteExchangeMembership)
 }

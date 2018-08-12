@@ -27,6 +27,12 @@ const urls =  {
     GET_EXCHANGE_BY_EX_ID: 'exchanges',
     GET_EXCHANGES_BY_MEMBER_IDENTITY:'exchanges/identities',
 		GET_EXCHANGE_MEMBERS_BY_EX_ID:'/exchanges/identities/',
+		DELETE_EXCHANGE_MEMBERSHIP: '/exchanges/identities/',
+	},
+	COMMON: {
+		POST: {
+			FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET:'/base/posts/',
+		},
 	},
 	CREATE_PRODUCT: 'products',
 	CREATE_Skill: 'users/skills',

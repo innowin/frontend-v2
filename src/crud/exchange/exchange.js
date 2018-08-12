@@ -75,7 +75,7 @@ export const getExchangeMembers = (exchangeId, handleError, handleResult) => {
 	}
 	socket.on(`get-exchange-members-${exchangeId}`, func)
 }
-//added type - action added -
+//added type - action added - saga added
 export const removeExchangeMembership = (id, handleError, handleResult = () => null) => {
 	// id is id of /exchanges/identities/{id}/ table not exchangeId or not identityId
 	socket.emit(REST_REQUEST, {

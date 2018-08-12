@@ -4,23 +4,23 @@ import types from "src/redux/actions/types"
 import urls from "src/consts/URLS"
 import {put, take, fork, call} from "redux-saga/effects"
 
-export function* getExchangeMembersByExId(action) {
+export function* deleteExchangeMembership(action) {
 	const {Id} = action.payload
-	const socketChannel = yield call(api.createSocketChannel, results.EXCHANGE.GET_EXCHANGE_MEMBERS_BY_EX_ID)
+	const socketChannel = yield call(api.createSocketChannel, results.EXCHANGE.DELETE_EXCHANGE_MEMBERSHIP)
 	try {
 		yield fork(
-				api.get,
-				urls.EXCHANGE.GET_EXCHANGE_MEMBERS_BY_EX_ID,
-				results.EXCHANGE.GET_EXCHANGE_MEMBERS_BY_EX_ID,
-				`/${Id}`
+				api.del,
+				urls.EXCHANGE.DELETE_EXCHANGE_MEMBERSHIP,
+				results.EXCHANGE.DELETE_EXCHANGE_MEMBERSHIP,
+				`?exchange_id=${Id}`
 		)
 		const data = yield take(socketChannel)
 		
-		yield put({type: types.SUCCESS.EXCHANGE.DELETE_EXCHANGE_MEMBERSHIP, payload: {data}})
+		yield put({type: types.SUCCESS.EXCHANGE.GET_EXCHANGE_BY_EX_ID, payload: {data}})
 	} catch (err) {
 		const {message} = err
 		yield put({
-			type: types.ERRORS.EXCHANGE.DELETE_EXCHANGE_MEMBERSHIP,
+			type: types.ERRORS.EXCHANGE.GET_EXCHANGE_BY_EX_ID,
 			payload: {message}
 		})
 	} finally {

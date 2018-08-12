@@ -7,8 +7,6 @@ import ChatBar from '../bars/ChatBar'
 import PropTypes from 'prop-types'
 import ExchangeViewBar from "../bars/ExchangeViewBar"
 import ExchangePosts from './ExchangeView/posts/index'
-import {connect } from 'react-redux'
-import {bindActionCreators} from 'redux'
 
 type PropsExchangeView = {|
 	match: { params: Object },
