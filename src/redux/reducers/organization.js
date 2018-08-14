@@ -7,7 +7,7 @@ const organization = (state = initialState.organization, action) => {
 		//pending
 		case types.ORG.UPDATE_ORGANIZATION_INFO:
 			return {...state,isLoading:true};
-		/** -------------------------- get organization -------------------------> **/
+		/** -------------------------- get organization exchanges -------------------------> **/
 		case types.ORG.GET_ORG_EXCHANGES:
 			return {...state,exchanges:{...state.exchanges,isLoading:true}};
 
@@ -74,7 +74,28 @@ const organization = (state = initialState.organization, action) => {
 			return {...state,products:{isLoading:true}}
 		case types.ORG.GET_PRODUCTS:
 			return {...state,products:{isLoading:true}}
-			
+
+		/** -------------------------- get organization follower-------------------------> **/
+		case types.ORG.GET_ORG_FOLLOWERS:
+			let followers = action.payload;
+			return{...state,followers:{content:[],isLoading:true,error:false}}	
+		case types.ERRORS.ORG.GET_ORG_FOLLOWERS:
+			let errorMsg = action.payload;
+			return{...state,errorMessage:errorMsg,followers:{content:[],isLoading:false,error:true}}	
+		case types.SUCCESS.ORG.GET_ORG_FOLLOWERS:
+			followers = action.payload;
+			return{...state,followers:{content:followers,isLoading:false,error:false}}	
+
+		/** -------------------------- get organization followings-------------------------> **/
+		case types.ORG.GET_ORG_FOLLOWINGS:
+			let followings = action.payload;
+			return{...state,followings:{content:[],isLoading:true,error:false}}	
+		case types.ERRORS.ORG.GET_ORG_FOLLOWINGS:
+			errorMsg = action.payload;
+			return{...state,errorMessage:errorMsg,followings:{content:[],isLoading:false,error:true}}	
+		case types.SUCCESS.ORG.GET_ORG_FOLLOWINGS:
+		followings = action.payload;
+			return{...state,followings:{content:followings,isLoading:false,error:false}}	
 		//SUCCESS
 		case types.SUCCESS.ORG.CREATE_CERTIFICATE:
 			let {certificate} = action.payload
@@ -98,14 +119,6 @@ const organization = (state = initialState.organization, action) => {
 		case types.SUCCESS.ORG.GET_ORG_EXCHANGES:
 			let exchanges = action.payload;
 			return{...state,exchanges:{content:exchanges,isLoading:false,error:false}}
-
-		case types.SUCCESS.ORG.GET_ORG_FOLLOWINGS:
-			let followings = action.payload;
-			return{...state,followings:{content:followings,isLoading:false,error:false}}
-
-		case types.SUCCESS.ORG.GET_ORG_FOLLOWERS:
-			const followers = action.payload;
-			return{...state,followers:{content:followers,isLoading:false,error:false}}	
 
 		case types.SUCCESS.ORG.GET_USER_IDENTITY:
 			const identity = action.payload[0];

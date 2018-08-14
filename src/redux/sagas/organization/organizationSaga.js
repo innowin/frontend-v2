@@ -95,7 +95,10 @@ function* getFollowers(action) {
   followers = followers.map((val, idx) => {
     return getFollower(val.follow_follower)
   })
-  const results = yield* all(followers)
+  const results = yield all(followers)
+  if(results.length > 0){
+    yield put({type: types.SUCCESS.ORG.GET_ORG_FOLLOWERS, payload: results})
+  }
 }
 
 // 8 - get - followings
@@ -107,7 +110,10 @@ function* getFollowings(action) {
   followings.map((val, idx) => {
     return getFollowing(val.follow_followed)
   })
-  const results = yield* all(followings)
+  const results = yield all(followings)
+  if(results.length > 0){
+    yield put({type: types.SUCCESS.ORG.GET_ORG_FOLLOWINGS, payload: results})
+  }
 }
 
 // 9 - get - exchanges
@@ -176,40 +182,59 @@ function* getFollowingsIdentities(orgIdentity) {
 
 //12 get following
 function* getFollowing(follow_followed) {
-  const socketChannel = yield call(api.createSocketChannel, results.ORG.GET_ORG_FOLLOWING)
+  const socketChannel = yield call(api.createSocketChannel, results.ORG.GET_ORG_FOLLOWINGS)
+  let data
   try {
-    yield fork(api.get, urls.ORG.GET_USER_IDENTITY, results.ORG.GET_ORG_FOLLOWING, `${follow_followed}`)
-    const data = yield take(socketChannel)
+    yield fork(api.get, urls.ORG.GET_USER_IDENTITY, results.ORG.GET_ORG_FOLLOWINGS, `${follow_followed}`)
+    data = yield take(socketChannel)
   } catch (e) {
     const {message} = e
     yield put({
-      type: types.ERRORS.ORG.GET_ORG_FOLLOWING,
-      payload: {type: types.ERRORS.ORG.GET_ORG_FOLLOWING, message}
+      type: types.ERRORS.ORG.GET_ORG_FOLLOWINGS,
+      payload: {type: types.ERRORS.ORG.GET_ORG_FOLLOWINGS, message}
     })
   } finally {
     socketChannel.close()
+    return data
   }
 }
 
 //13 get - org - followers identities
 function* getFollowersIdentities(orgIdentity) {
-  return yield createSimpleChannel('get-followers-identities', 'organizations/follows', types.GET_ORG_FOLLOWERS, `?follow_followed=${orgIdentity}`)
+
+  let data
+  const socketChannel = yield call(api.createSocketChannel, results.ORG.GET_ORG_FOLLOWERS_IDENTITIES)
+  try {
+    yield fork(api.get, urls.ORG.GET_ORG_FOLLOWERS_IDENTITIES, results.ORG.GET_ORG_FOLLOWERS_IDENTITIES, `?follow_followed=${orgIdentity}`)
+    data = yield take(socketChannel)
+    // yield put({type: types.SUCCESS.ORG.GET_ORG_FOLLOWERS_IDENTITIES, payload: {followers:data}})
+  } catch (e) {
+    const {message} = e
+    yield put({type: types.ERRORS.ORG.GET_ORG_FOLLOWERS_IDENTITIES, payload: {type: types.ERRORS.ORG.GET_ORG_FOLLOWERS_IDENTITIES, message}})
+  } finally {
+    socketChannel.close()
+    return data
+  }
+
+  // return yield createSimpleChannel(results.ORG.GET_ORG_FOLLOWERS, urls.ORG.GET_ORG_FOLLOWERS, types.ORG.GET_ORG_FOLLOWERS, `?follow_followed=${orgIdentity}`)
 }
 
 //14 get - org - follower
 function* getFollower(follow_follower) {
   const socketChannel = yield call(api.createSocketChannel, results.ORG.GET_ORG_FOLLOWERS)
+  let data
   try {
     yield fork(api.get, urls.ORG.GET_USER_IDENTITY, results.ORG.GET_ORG_FOLLOWERS, `${follow_follower}`)
-    const data = yield take(socketChannel)
+    data = yield take(socketChannel)
   } catch (e) {
     const {message} = e
     yield put({
-      type: types.ERRORS.ORG.GET_ORG_FOLLOWING,
-      payload: {type: types.ERRORS.ORG.GET_ORG_FOLLOWING, message}
+      type: types.ERRORS.ORG.GET_ORG_FOLLOWERS,
+      payload: {type: types.ERRORS.ORG.GET_ORG_FOLLOWERS, message}
     })
   } finally {
     socketChannel.close()
+    return data
   }
 }
 
