@@ -1,58 +1,87 @@
 @import "../../../variables";
 
-.-tabs {
-  display: flex;
-  justify-content: space-around;
-  background-color: $text-lightest-color;
-  border: 1px solid lighten($text-light-color, 8%);
-  padding: 10px;
-  margin-bottom: 10px;
-  .-tab {
-    border: 2px solid $text-dark-color;
-    fill: $text-dark-color;
-    height: 38px;
-    width: 38px;
-    border-radius: 50%;
-    position: relative;
+.tab-container{
+  margin: 10px 0;
+  .-tabs {
+    display: flex;
+    justify-content: flex-start;
+    background-color: $text-lightest-color;
+    border-radius: $border-radius-size;
+    padding: 10px;
+    margin-bottom: 12px;
+    .-tab {
+      border: 1px solid $text-dark-color;
+      fill: $text-dark-color;
+      height: 45px;
+      width: 45px;
+      border-radius: 50%;
+      position: relative;
+      margin-left: 30px;
 
-    svg {
-      width: 20px;
-      height: 20px;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      svg {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
     }
-  }
-  a.-tab:hover, a.-active {
-    background-color: lighten($sidebar-bottom-color, 3%);
-    & > svg {
-      fill: $text-lightest-color;
+    .-tab:last-child{
+      margin-left: 0;
+    }
+    a.-tab:hover, a.-active {
+      background-color: $brand-inverse-color;
+      & > svg {
+        fill: $text-lightest-color;
+      }
     }
   }
 }
 
-.-categoryTitle {
-  background-color: lighten($text-lighter-color, 5%);
-  color: $frame-color;
-  padding: 7px 17px;
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: space-between;
-  .edit-btn-wrapper {
-    display: inline-flex;
-    align-items: center;
-    .edit-btn {
-      width: 16px;
-      cursor: pointer;
+@media screen and (max-width: 930px) {
+  .tab-container {
+    .-tabs {
+      .-tab {
+        height: 35px;
+        width: 35px;
+        margin-left: 15px;
+
+        svg {
+          width: 15px;
+          height: 15px;
+        }
+      }
     }
+  }
+}
+
+.category-title-container{
+  .-categoryTitle {
+    border-radius: $border-radius-size;
+    padding: 5px 17px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    .edit-btn-wrapper {
+      display: inline-flex;
+      align-items: center;
+      .edit-btn {
+        width: 16px;
+        cursor: pointer;
+      }
+    }
+  }
+  .category-divider{
+    border: 4px solid $title-divider-color;
+    border-radius: $border-radius-size;
+    margin-bottom: 12px;
   }
 }
 
 .-frameCard {
   background-color: $text-lightest-color;
-  border: 1px solid lighten($text-light-color, 8%);
-  border-top: 5px solid $frame-color;
+  border-radius: $border-radius-size;
   padding: 20px 16px 16px 16px;
   .-itemWrapper {
     position: relative;
@@ -101,7 +130,7 @@
     .-item-content {
       position: relative;
       margin-right: 39px;
-      margin-top: 29px;
+      margin-top: 31px;
       border-top: 1px solid $frame-color;
       border-right: 1px solid $frame-color;
       padding: 16px 16px 50px 16px;
