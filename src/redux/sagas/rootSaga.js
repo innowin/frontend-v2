@@ -26,6 +26,7 @@ import {watchLGetExchangesByMemberIdentity} from "./exchange/exchange"
 import productWatchers from './common/product/product'
 import categoryWatchers from './common/category/category'
 import fileWatchers from './common/file/file'
+import badgeWatchers from "./common/badge/badge"
 import certificateWatchers from './common/certificate/certificate'
 import watchUsernameCheck from "./user/checkUsernameSaga"
 import {watchGetUserByUserId, watchGetProfileByUserId} from "./user/getUserSagas"
@@ -81,6 +82,10 @@ const rootSaga = function* () {
     certificateWatchers.watchGetObjectCertificates(),
     certificateWatchers.watchCreateObjectCertificate(),
     certificateWatchers.watchResetCreatingObjectCertStatus(),
+
+    // badge watchers
+    badgeWatchers.watchGetOrganBadges(),
+    badgeWatchers.watchGetUserBadges()
   ])
 }
 

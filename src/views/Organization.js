@@ -119,7 +119,7 @@ export class Organization extends Component<PropsOrganization> {
 const mapStateToProps = (state, ownProps) => {
   const {params} = ownProps.match
   const organId = +params.id
-  const organ = state.organsInfoList[organId] || {
+  const organ = state.organsInfo[organId] || {
     // this object is default value for organ object
     content: {},
     isLoading: false,
@@ -129,8 +129,8 @@ const mapStateToProps = (state, ownProps) => {
   }
   const bannerId = organ.content.organization_banner
   const logoId = organ.content.organization_logo
-  const organBanner = (bannerId && state.common.file.filesList[bannerId] && state.common.file.filesList[bannerId].content.file) || null
-  const organLogo = (logoId && state.common.file.filesList[logoId] && state.common.file.filesList[logoId].content.file) || null
+  const organBanner = (bannerId && state.common.file.files[bannerId] && state.common.file.files[bannerId].content.file) || null
+  const organLogo = (logoId && state.common.file.files[logoId] && state.common.file.files[logoId].content.file) || null
   return {
     organObject: organ,
     translate: getMessages(state),

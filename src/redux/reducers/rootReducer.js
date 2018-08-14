@@ -7,21 +7,25 @@ import category from './commonReducer/category'
 import product from './commonReducer/product'
 import certificate from './commonReducer/certificate'
 import file from './commonReducer/fileReducer'
+import badges from "./commonReducer/badge"
 import {reducer as formReducer} from 'redux-form'
-import usersInfoList from "./user/usersInfoList"
-import organsInfoList from "./organization/organsInfoList"
+import usersInfo from "./user/usersInfo"
+import organsInfo from "./organization/organsInfo"
+import users from "./user/users"
 
 const commonReducers =  {
   category,
   product,
   certificate,
-  file
+  file,
+  badges
 }
 
 const reducers = {
   auth,
-  usersInfoList,
-  organsInfoList,
+  usersInfo,
+  users,
+  organsInfo,
   organization,
   common: combineReducers({...commonReducers})
 }

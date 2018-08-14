@@ -30,10 +30,10 @@ const results = {
     GET_PRODUCT_PRICE: 'get-org-product-price',
     DELETE_PRODUCT: 'delete-org-product',
     CREATE_CERTIFICATE: 'create-org-certificate',
-    GET_STAFF:'get-org-staff',
-    CREATE_CUSTOMER:'create-org-customer',
-    DELETE_CUSTOMER:'delete-org-customer',
-    
+    GET_STAFF: 'get-org-staff',
+    CREATE_CUSTOMER: 'create-org-customer',
+    DELETE_CUSTOMER: 'delete-org-customer',
+
   },
   COMMON: {
     // product
@@ -41,7 +41,7 @@ const results = {
     UPDATE_PRODUCT: 'update-product-result',
 
     // file
-    GET_FILE:'COMMON_GET_FILE',
+    GET_FILE: 'COMMON_GET_FILE',
     CREATE_FILE: 'common-create-file-result',
     UPDATE_FILE: 'common-update-file-result',
 
@@ -51,6 +51,10 @@ const results = {
     // certificate
     GET_OBJECT_CERTIFICATES: 'common-get-object-certificates-list',
     CREATE_OBJECT_CERTIFICATE: 'common-create-object-certificate',
+
+    // badge
+    GET_USER_BADGES: "GET_USER_BADGES",
+    GET_ORG_BADGES: "GET_ORG_BADGES"
   },
 
   EXCHANGE: {

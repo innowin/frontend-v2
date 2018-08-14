@@ -1,7 +1,7 @@
 import initialState from "../initialState"
 import types from "../../actions/types/index"
 
-const organsInfoList = (state = initialState.organsInfoList, action) => {
+const organsInfo = (state = initialState.organsInfo, action) => {
   const {organizationId, data, message} = action.payload ? action.payload : {}
   const previousOrgan = (state[organizationId]) || {
     /* this object is default value for organ object if this state[organizationId] or state[organizationId].organ
@@ -43,12 +43,12 @@ const organsInfoList = (state = initialState.organsInfoList, action) => {
         }
       }
 
-    /** -------------------------- reset organsInfoList -------------------------> **/
+    /** -------------------------- reset organsInfo -------------------------> **/
     case types.RESET:
-      return initialState.organsInfoList
+      return initialState.organsInfo
     default:
       return state
   }
 }
 
-export default organsInfoList
+export default organsInfo

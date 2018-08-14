@@ -33,46 +33,95 @@ export default {
       logged_in_time: {}
     }
   },
-  usersInfoList: {
-    // initial structure build in first request for getUser is called:
-    // [userId]: {
-    //   user: {
-    //     content:{},
-    //     isLoading:false,
-    //     error:{
-    //       message:null
-    //     }
-    //   },
-    //   profile:{
-    //     content:{},
-    //     isLoading:false,
-    //     error:{
-    //       message: null
-    //     }
-    //   }
-    // }
+
+  usersInfo: {
+    /*
+    initial structure build in first request for getUser is called:
+     [userId]: {
+       user: {
+         content:{},
+         isLoading:false,
+         error:{
+           message:null
+         }
+       },
+       profile:{
+         content:{},
+         isLoading:false,
+         error:{
+           message: null
+         }
+       }
+     }
+    */
   },
   users: {
-    // initial structure build in first request for getUser is called:
-    // [userId]: {
-    // exchanges:[],
-    // skills:[],
-    // workExperience:[],
-    // certificates:[]
-    // }
+    /*
+     [userId]: {
+         badges:{
+             content:[1, 2, ...], list of badges id
+             isLoading:false,
+             error:{
+               message:null
+             }
+         },
+         exchanges:{
+             content:[1, 2, ...], list of exchanges id
+             isLoading:false,
+             error:{
+               message:null
+             }
+         },
+         certificates:{
+             content:[1, 2, ...], list of certificates id
+             isLoading:false,
+             error:{
+               message:null
+             }
+         },
+         skills:{
+             content:[{},{},...],  list of skill object
+             isLoading:false,
+             error:{
+               message:null
+             }
+         },
+         workExperiences:{
+             content:[{}, {} , ...],  list of workExperience object
+             isLoading:false,
+             error:{
+               message:null
+             }
+         }
+     }
+    */
   },
-  organsInfoList:{
-    // initial structure build in first request for getOrgan is called:
-    // [organizationId]: {
-    //   organization: {
-    //     content:{},
-    //     isLoading:false,
-    //     error:{
-    //       message:null
-    //     }
-    //   },
+
+  organsInfo: {
+    /*
+     initial structure build in first request for getOrgan is called:
+     [organizationId]: {
+       organization: {
+         content:{},
+         isLoading:false,
+         error:{
+           message:null
+         }
+      },
+    */
   },
   organization: {
+    /*
+    [organId]: {
+       badges:{
+         content:[1, 2, ...], list of badges id
+         isLoading:false,
+         error:{
+           message:null
+         }
+       },
+     }
+    */
     isLoading: false,
     exchanges: {
       isLoading: false,
@@ -119,6 +168,7 @@ export default {
       content: ''
     },
   },
+
   exchanges: {
     // full with this objects: 97 : {id:97, ...}, 102:{id:102, ...}
   },
@@ -147,21 +197,27 @@ export default {
       creatingObjCertStatus: status.NEUTRAL
     },
     file: {
-      filesList: {
-        // [fileId]: {
-        //     content:{},
-        //     isLoading:false,
-        //     error:{
-        //       message:null
-        //   },
+      files: {
+        /*
+        [fileId]: {
+             content:{},
+             isLoading:false,
+             error:{
+               message:null
+           },
+        */
       },
       middlewareFileData: { // the file that is new creating or is updating in the moment.
         content: {},
         isCreating: false,
         isCreated: false
       }
+    },
+    badges: {
+      // [badgeId]: {} // object of badge
     }
   },
+
   intl: {
     locale: 'fa',
     messages: {...messages}

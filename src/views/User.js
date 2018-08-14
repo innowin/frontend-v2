@@ -97,7 +97,7 @@ class User extends Component<PropsUser> {
 const mapStateToProps = (state, ownProps) => {
   const {params} = ownProps.match
   const userId = +params.id
-  const user = state.usersInfoList[userId] ? state.usersInfoList[userId].user : {
+  const user = state.usersInfo[userId] ? state.usersInfo[userId].user : {
     // this object is default value for user object
     content: {},
     isLoading: false,
@@ -105,7 +105,7 @@ const mapStateToProps = (state, ownProps) => {
       message: null
     }
   }
-  const profile = state.usersInfoList[userId] ? state.usersInfoList[userId].profile : {
+  const profile = state.usersInfo[userId] ? state.usersInfo[userId].profile : {
     // this object is default value for profile object
     content: {},
     isLoading: false,

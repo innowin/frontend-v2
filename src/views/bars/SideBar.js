@@ -24,11 +24,11 @@ const MenuBox = (props) => (
   </div>
 )
 
-export const BadgesCard = (props: { badgesImgUrl: (string)[] }) => {
+export const BadgesCard = (props: { badgesImg: (string)[] }) => {
   return (
-    props.badgesImgUrl.map((imgUrl, i) => (
-      <span className="col-3 mb-2" key={i + "BadgesCard"}>
-          <img src={imgUrl} className="-badgeImg" alt=""/>
+    props.badgesImg.map((badgeImg, i) => (
+      <span className="pr-1 pl-1" key={i + "BadgesCard"}>
+          <img src={badgeImg} className="-badgeImg rounded" alt=""/>
       </span>
     ))
   )
@@ -51,43 +51,43 @@ type PropsUserSideBar = {
   className?: string
 }
 
-export class UserSideBar extends Component<PropsUserSideBar> {
+export const UserSideBar = (props: PropsUserSideBar) => {
 
-  static propTypes = {
-    translate: PropTypes.object.isRequired,
-    userObject: PropTypes.object.isRequired,
-    profileObject: PropTypes.object.isRequired,
-    className: PropTypes.string
-  }
-
-  componentDidMount() {
-    // TODO mohsen: get badges
-  }
-
-  render() {
-    const {userObject, profileObject, translate, className} = this.props
-    const user = userObject.content
-    const profile = profileObject.content
-    const name = (!(user.first_name && user.last_name)) ? user.username : (user.first_name + " " + user.last_name)
-    const isLoading = userObject.isLoading || profileObject.isLoading
-    const errorMessage = userObject.error.message || profileObject.error.message
-    const picture = (profile.profile_media && profile.profile_media.file) || null
-    const banner = (profile.profile_banner && profile.profile_banner.file) || null
-    return (
-      <SideBarContent
-        sideBarType='user'
-        name={name}
-        banner={banner}
-        description={profile.description}
-        picture={picture}
-        badgesImgUrl={[]}
-        isLoading={isLoading}
-        errorMessage={errorMessage}
-        translate={translate}
-        className={className}
-      />
-    )
-  }
+  const {userObject, profileObject, translate, className} = props
+  const user = userObject.content
+  const profile = profileObject.content
+  const name = (!(user.first_name && user.last_name)) ? user.username : (user.first_name + " " + user.last_name)
+  const isLoading = userObject.isLoading || profileObject.isLoading
+  const errorMessage = userObject.error.message || profileObject.error.message
+  const picture = (profile.profile_media && profile.profile_media.file) || null
+  const banner = (profile.profile_banner && profile.profile_banner.file) || null
+  const badgesImg = [
+    "http://restful.daneshboom.ir/media/c6fabb8055cc44a4843f7fa1e8a63397.jpg",
+    "http://restful.daneshboom.ir/media/75f00defdde44fd4b0d8bee05617e9c7.jpg",
+    "http://restful.daneshboom.ir/media/c6fabb8055cc44a4843f7fa1e8a63397.jpg",
+    "http://restful.daneshboom.ir/media/75f00defdde44fd4b0d8bee05617e9c7.jpg",
+    "http://restful.daneshboom.ir/media/75f00defdde44fd4b0d8bee05617e9c7.jpg"
+  ]
+  return (
+    <SideBarContent
+      sideBarType='user'
+      name={name}
+      banner={banner}
+      description={profile.description}
+      picture={picture}
+      isLoading={isLoading}
+      errorMessage={errorMessage}
+      translate={translate}
+      className={className}
+      badgesImg={badgesImg}
+    />
+  )
+}
+UserSideBar.propTypes = {
+  translate: PropTypes.object.isRequired,
+  userObject: PropTypes.object.isRequired,
+  profileObject: PropTypes.object.isRequired,
+  className: PropTypes.string
 }
 
 type PropsOrganSideBar = {
@@ -139,7 +139,7 @@ export class OrganSideBar extends Component<PropsOrganSideBar> {
         banner={organBanner}
         description={organization.biography}
         picture={organLogo}
-        badgesImgUrl={[]}
+        badgesImg={[]}
         isLoading={isLoading}
         errorMessage={errorMessage}
         translate={translate}
@@ -157,7 +157,7 @@ type PropsSideBarContent = {
   picture: ?string,
   name: string,
   description: ?string,
-  badgesImgUrl: (string)[],
+  badgesImg: (string)[],
   translate: TranslatorType,
   className?: string
 }
@@ -172,7 +172,7 @@ class SideBarContent extends Component<PropsSideBarContent, { menuToggle: boolea
     picture: PropTypes.string,
     name: PropTypes.string.isRequired,
     description: PropTypes.string,
-    badgesImgUrl: PropTypes.arrayOf(PropTypes.string),
+    badgesImg: PropTypes.array.isRequired,
     translate: PropTypes.object.isRequired,
     className: PropTypes.string
   }
@@ -190,7 +190,6 @@ class SideBarContent extends Component<PropsSideBarContent, { menuToggle: boolea
 
 
   componentDidMount() {
-// TODO mohsen: socket of tags && socket.badges
     // Without flow type: document.addEventListener('click', this._handleClickOutMenuBox)
     (document.addEventListener: Function)('click', this._handleClickOutMenuBox)
   }
@@ -205,8 +204,10 @@ class SideBarContent extends Component<PropsSideBarContent, { menuToggle: boolea
 
   render() {
     const {menuToggle} = this.state
-    const {sideBarType, isLoading, errorMessage, banner, picture, name, description, badgesImgUrl, translate: tr, className} = this.props
+    const {sideBarType, isLoading, errorMessage, banner, picture, name, description, badgesImg, translate: tr, className} = this.props
     // picture and banner is link of file and are string
+    // chosenBadges is the first four badge arrays that sort by order
+    const chosenBadgesImg = badgesImg.slice(0, 4)
     return (
       <VerifyWrapper isLoading={isLoading} error={errorMessage} className={className}>
         {
@@ -230,9 +231,9 @@ class SideBarContent extends Component<PropsSideBarContent, { menuToggle: boolea
             <span className="-grey1 text-center">{description}</span>
           </div>
           {
-            (badgesImgUrl.length > 0) ? (
-              <div className="flex-wrap pb-3">
-                <BadgesCard badgesImgUrl={badgesImgUrl}/>
+            (chosenBadgesImg.length > 0) ? (
+              <div className="row mr-0 ml-0 justify-content-between">
+                <BadgesCard badgesImg={chosenBadgesImg}/>
               </div>
             ) : ("")
           }

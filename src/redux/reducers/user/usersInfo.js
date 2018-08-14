@@ -1,7 +1,7 @@
 import initialState from "../initialState"
 import types from "../../actions/types/index"
 
-const usersInfoList = (state = initialState.usersInfoList, action) => {
+const usersInfo = (state = initialState.usersInfo, action) => {
   const {userId, data, message} = action.payload ? action.payload : {}
   const previousUser = (state[userId] && state[userId].user) ? (state[userId].user) : ({
     /* this object is default value for user object if this state[userId] or state[userId].user
@@ -100,12 +100,12 @@ const usersInfoList = (state = initialState.usersInfoList, action) => {
 
       }
 
-    /** -------------------------- reset usersInfoList -------------------------> **/
+    /** -------------------------- reset usersInfo -------------------------> **/
     case types.RESET:
-      return initialState.usersInfoList
+      return initialState.usersInfo
     default:
       return state
   }
 }
 
-export default usersInfoList
+export default usersInfo

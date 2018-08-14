@@ -58,7 +58,10 @@ const urls = {
     CATEGORY: 'products/category',
 
     // certificate
-    CERTIFICATE: 'base/certificates'
+    CERTIFICATE: 'base/certificates',
+
+    // badge
+    BADGE:'base/badges'
   }
 }
 export default urls
