@@ -9,8 +9,7 @@ import certificate from './commonReducer/certificate'
 import file from './commonReducer/fileReducer'
 import badges from "./commonReducer/badge"
 import {reducer as formReducer} from 'redux-form'
-import usersInfo from "./user/usersInfo"
-import organsInfo from "./organization/organsInfo"
+import organs from "./organization/organs"
 import users from "./user/users"
 
 const commonReducers =  {
@@ -23,9 +22,8 @@ const commonReducers =  {
 
 const reducers = {
   auth,
-  usersInfo,
   users,
-  organsInfo,
+  organs,
   organization,
   common: combineReducers({...commonReducers})
 }

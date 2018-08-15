@@ -122,7 +122,7 @@ type organizationBasicInformationProps ={
 	organizationId: number,
 	actions:Object,
 	organization:Object,
-	organInfo:Object,
+  organObject:Object,
 }
 export class organizationBasicInformation extends React.Component<organizationBasicInformationProps> {
 	componentDidMount(){
@@ -130,7 +130,7 @@ export class organizationBasicInformation extends React.Component<organizationBa
 		const {getOrgStaff} = this.props.actions
 	}
 	render() {
-		const {organizationId, organization, organInfo} = this.props;
+		const {organizationId, organization, organObject} = this.props;
 		const {getOrganization, getOrganizationMembers} = this.props.actions;
 		return (
 				<div>
@@ -140,7 +140,7 @@ export class organizationBasicInformation extends React.Component<organizationBa
 					/>
 					<FrameCard>
 						<ListGroup>
-							<OrganizationInfo actions = {this.props.actions} organizationId={organizationId} organization={organInfo[organizationId]}/>
+							<OrganizationInfo actions = {this.props.actions} organizationId={organizationId} organization={organObject}/>
 							<OrganizationMembers members ={this.props.organization.staff} actions ={this.props.actions} organizationId={organizationId}/>
 						</ListGroup>
 					</FrameCard>
@@ -150,7 +150,6 @@ export class organizationBasicInformation extends React.Component<organizationBa
 }
 
 const mapStateToProps = (state) => ({
-	organInfo:state.organsInfo,
 	organization:state.organization
 })
 const mapDispatchToProps = dispatch => ({

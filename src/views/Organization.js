@@ -101,7 +101,7 @@ export class Organization extends Component<PropsOrganization> {
               <PrivateRoute path={`${path}/Products`} component={Products} organizationId={organizationId}/>
               <PrivateRoute path={`${path}/Posts`} component={Posts} id={organizationId} identityType='organization'/>
               <PrivateRoute exact path={`${path}/basicInformation`} component={BasicInformation}
-                            organizationId={organizationId}/>
+                            organizationId={organizationId} organObject={organObject}/>
               <PrivateRoute path={`${path}/Customers`} component={Customers} organizationId={organizationId}/>
               <PrivateRoute path={`${path}/SocialConnections`} component={Social} organizationId={organizationId}/>
               <PrivateRoute path={`${path}/Certificates`} component={Certificates} organizationId={organizationId}/>
@@ -119,7 +119,7 @@ export class Organization extends Component<PropsOrganization> {
 const mapStateToProps = (state, ownProps) => {
   const {params} = ownProps.match
   const organId = +params.id
-  const organ = state.organsInfo[organId] || {
+  const organ = state.organs[organId] || {
     // this object is default value for organ object
     content: {},
     isLoading: false,

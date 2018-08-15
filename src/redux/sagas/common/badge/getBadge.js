@@ -14,7 +14,7 @@ export function* getUserBadges(action) {
     const badges = yield take(socketChannel)
     const normalData = helpers.arrayToIdKeyedObject(badges)
     yield put({type: types.SUCCESS.COMMON.GET_USER_BADGES, payload: {data:normalData}})
-    yield put({type:types.SUCCESS.COMMON.SET_BADGES_IN_USER, payload:{badges, userId}})
+    yield put({type:types.SUCCESS.COMMON.SET_BADGES_IN_USER, payload:{data:badges, userId}})
   } catch (e) {
     const {message} = e
     yield put({type: types.ERRORS.COMMON.SET_BADGES_IN_USER, payload: {message, userId}})
@@ -32,7 +32,7 @@ export function* getOrganBadges(action) {
     const badges = yield take(socketChannel)
     const normalData = helpers.arrayToIdKeyedObject(badges)
     yield put({type: types.SUCCESS.COMMON.GET_ORG_BADGES, payload: {data:normalData}})
-    yield put({type:types.SUCCESS.COMMON.SET_BADGES_IN_ORG, payload:{badges, organId}})
+    yield put({type:types.SUCCESS.COMMON.SET_BADGES_IN_ORG, payload:{data:badges, organId}})
   } catch (e) {
     const {message} = e
     yield put({type: types.ERRORS.COMMON.SET_BADGES_IN_ORG, payload: {message, organId}})

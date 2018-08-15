@@ -34,11 +34,11 @@ export default {
     }
   },
 
-  usersInfo: {
+  users: {
     /*
-    initial structure build in first request for getUser is called:
      [userId]: {
-       user: {
+       ----------- info -----------
+      user: {
          content:{},
          isLoading:false,
          error:{
@@ -52,12 +52,7 @@ export default {
            message: null
          }
        }
-     }
-    */
-  },
-  users: {
-    /*
-     [userId]: {
+        ------------ common --------------
          badges:{
              content:[1, 2, ...], list of badges id
              isLoading:false,
@@ -79,6 +74,7 @@ export default {
                message:null
              }
          },
+         ---------------- other ----------
          skills:{
              content:[{},{},...],  list of skill object
              isLoading:false,
@@ -97,31 +93,29 @@ export default {
     */
   },
 
-  organsInfo: {
+  organs: {
     /*
-     initial structure build in first request for getOrgan is called:
-     [organizationId]: {
-       organization: {
-         content:{},
-         isLoading:false,
-         error:{
-           message:null
-         }
+  [organId]: {
+  -------------- info -------------
+     organization: {
+       content:{},
+       isLoading:false,
+       error:{
+         message:null
+       }
+     },
+    ---------------- common -----------
+     badges:{
+       content:[1, 2, ...], list of badges id
+       isLoading:false,
+       error:{
+         message:null
+       }
       },
-    */
+   }
+  */
   },
   organization: {
-    /*
-    [organId]: {
-       badges:{
-         content:[1, 2, ...], list of badges id
-         isLoading:false,
-         error:{
-           message:null
-         }
-       },
-     }
-    */
     isLoading: false,
     exchanges: {
       isLoading: false,
