@@ -11,9 +11,15 @@ const getProfileByUserId = (userId:number) => ({
   payload:{userId}
 })
 
+const getIdentityByUserId = (userId:number) => ({
+  type:types.USER.GET_IDENTITY_BY_USER_ID,
+  payload:{userId}
+})
+
 const GetUserActions = {
   getUserByUserId,
-  getProfileByUserId
+  getProfileByUserId,
+  getIdentityByUserId
 }
 
 export default GetUserActions

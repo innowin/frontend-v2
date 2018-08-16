@@ -1,3 +1,5 @@
+import type {organizationType} from "../organization/organization";
+
 export type userType = {|
   id: number,
   username: string,
@@ -24,6 +26,17 @@ export type userProfileType = {|
   profile_banner: ?number,
   profile_media: ?number,
   [string]: ?string
+|}
+
+export type identityType = {|
+  id: number,
+  identity_user: ?userType,
+  identity_organization: ?organizationType,
+  created_time: string,
+  name: string,
+  accepted: boolean,
+  mobile_verified: boolean,
+  email_verified: boolean
 |}
 
 export type userEducationType = {|

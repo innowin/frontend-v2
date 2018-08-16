@@ -5,6 +5,7 @@ import types from '../../actions/types'
 
 const badges = (state = initialState.common.badges, action) => {
   const {data} = action.payload || []
+  // data's structure is : {[id]:{}}
   switch (action.type) {
     /** --------------------  get user badges --------------------- **/
     // parentId in this section is user identityId

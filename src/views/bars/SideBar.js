@@ -3,12 +3,12 @@ import * as React from "react"
 import {Component} from "react"
 import PropTypes from "prop-types"
 
+import type {badgeType} from "../../consts/flowTypes/common/badges"
+import type {organizationType} from "src/consts/flowTypes/organization/organization"
+import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
+import type {userProfileType, userType} from "src/consts/flowTypes/user/basicInformation"
 import {DefaultImageIcon} from "src/images/icons"
 import {DefaultUserIcon, DefaultOrganIcon} from "src/images/icons"
-import {VerifyWrapper} from "../common/cards/Frames"
-import type {userProfileType, userType} from "src/consts/flowTypes/user/basicInformation"
-import type {organizationType} from "src/consts/flowTypes/organization/organization"
-import type {errorObjectType, TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 
 const MenuBox = (props) => (
   <div className="menu-box pt-0 pb-0" id={props.id}>
@@ -27,7 +27,7 @@ const MenuBox = (props) => (
 export const BadgesCard = (props: { badgesImg: (string)[] }) => {
   return (
     props.badgesImg.map((badgeImg, i) => (
-      <span className="pr-1 pl-1" key={i + "BadgesCard"}>
+      <span className="col-3" key={i + "BadgesCard"}>
           <img src={badgeImg} className="-badgeImg rounded" alt=""/>
       </span>
     ))
@@ -45,29 +45,23 @@ export const TagsBox = (props: { tags: ({ title: string })[] }) => {
 }
 
 type PropsUserSideBar = {
-  translate: TranslatorType,
-  userObject: userType,
-  profileObject: userProfileType,
-  className?: string
+  user: userType,
+  profile: userProfileType,
+  badges: (badgeType)[],
+  className?: string,
+  translate: TranslatorType
 }
 
 export const UserSideBar = (props: PropsUserSideBar) => {
 
-  const {userObject, profileObject, translate, className} = props
-  const user = userObject.content
-  const profile = profileObject.content
-  const name = (!(user.first_name && user.last_name)) ? user.username : (user.first_name + " " + user.last_name)
-  const isLoading = userObject.isLoading || profileObject.isLoading
-  const errorMessage = userObject.error.message || profileObject.error.message
+  const {user, profile, badges, translate, className} = props
+  const name = !(user.first_name && user.last_name) ? user.username : (user.first_name + " " + user.last_name)
   const picture = (profile.profile_media && profile.profile_media.file) || null
   const banner = (profile.profile_banner && profile.profile_banner.file) || null
-  const badgesImg = [
-    "http://restful.daneshboom.ir/media/c6fabb8055cc44a4843f7fa1e8a63397.jpg",
-    "http://restful.daneshboom.ir/media/75f00defdde44fd4b0d8bee05617e9c7.jpg",
-    "http://restful.daneshboom.ir/media/c6fabb8055cc44a4843f7fa1e8a63397.jpg",
-    "http://restful.daneshboom.ir/media/75f00defdde44fd4b0d8bee05617e9c7.jpg",
-    "http://restful.daneshboom.ir/media/75f00defdde44fd4b0d8bee05617e9c7.jpg"
-  ]
+  const badgesImg = badges.map(badge => (
+    (!badge) ? '' : (badge.badge_related_badge_category.badge_related_media.file))
+  )
+  const chosenBadgesImg = badgesImg.slice(0, 4)
   return (
     <SideBarContent
       sideBarType='user'
@@ -75,49 +69,45 @@ export const UserSideBar = (props: PropsUserSideBar) => {
       banner={banner}
       description={profile.description}
       picture={picture}
-      isLoading={isLoading}
-      errorMessage={errorMessage}
       translate={translate}
       className={className}
-      badgesImg={badgesImg}
+      chosenBadgesImg={chosenBadgesImg}
     />
   )
 }
 UserSideBar.propTypes = {
   translate: PropTypes.object.isRequired,
-  userObject: PropTypes.object.isRequired,
-  profileObject: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
+  badges: PropTypes.object.isRequired,
   className: PropTypes.string
 }
 
 type PropsOrganSideBar = {
-  translate: TranslatorType,
-  getFile: Function,
-  organObject: {
-    content: organizationType,
-    isLoading: boolean,
-    error: errorObjectType
-  },
+  organ: organizationType,
+  badges: (badgeType)[],
   organLogo: ?string,
   organBanner: ?string,
-  className?: string
+  getFile: Function,
+  className?: string,
+  translate: TranslatorType
 }
 
 export class OrganSideBar extends Component<PropsOrganSideBar> {
 
   static propTypes = {
-    organObject: PropTypes.object.isRequired,
-    translate: PropTypes.object.isRequired,
-    getFile: PropTypes.func.isRequired,
+    organ: PropTypes.object.isRequired,
+    badges: PropTypes.array.isRequired,
     organLogo: PropTypes.string,
     organBanner: PropTypes.string,
-    className: PropTypes.string
+    getFile: PropTypes.func.isRequired,
+    className: PropTypes.string,
+    translate: PropTypes.object.isRequired
   }
 
   componentDidMount() {
-    // TODO mohsen: get badges
-    const {getFile, organObject} = this.props
-    const {organization_logo, organization_banner} = organObject.content
+    const {getFile, organ} = this.props
+    const {organization_logo, organization_banner} = organ
     if (organization_logo) {
       getFile(organization_logo)
     }
@@ -127,21 +117,21 @@ export class OrganSideBar extends Component<PropsOrganSideBar> {
   }
 
   render() {
-    const {organObject, translate, organLogo, organBanner, className} = this.props
-    const organization = organObject.content
-    const name = organization.nike_name || organization.official_name
-    const isLoading = organObject.isLoading
-    const errorMessage = organObject.error.message
+    const {organ, badges, organLogo, organBanner, className, translate} = this.props
+    const name = organ.nike_name || organ.official_name
+    const badgesImg = badges.map(badge => (
+      (!badge) ? '' : (badge.badge_related_badge_category.badge_related_media.file))
+    )
+    console.log("badge in organ sideBar:", badges, badgesImg)
+    const chosenBadgesImg = badgesImg.slice(0, 4)
     return (
       <SideBarContent
         sideBarType='organ'
         name={name}
         banner={organBanner}
-        description={organization.biography}
+        description={organ.biography}
         picture={organLogo}
-        badgesImg={[]}
-        isLoading={isLoading}
-        errorMessage={errorMessage}
+        chosenBadgesImg={chosenBadgesImg}
         translate={translate}
         className={className}
       />
@@ -151,13 +141,11 @@ export class OrganSideBar extends Component<PropsOrganSideBar> {
 
 type PropsSideBarContent = {
   sideBarType: string,
-  isLoading: boolean,
-  errorMessage: ?string,
   banner: ?string,
   picture: ?string,
-  name: string,
+  name: ?string,
   description: ?string,
-  badgesImg: (string)[],
+  chosenBadgesImg: (string)[],
   translate: TranslatorType,
   className?: string
 }
@@ -166,13 +154,11 @@ class SideBarContent extends Component<PropsSideBarContent, { menuToggle: boolea
 
   static propTypes = {
     sideBarType: PropTypes.string.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    errorMessage: PropTypes.string,
     banner: PropTypes.string,
     picture: PropTypes.string,
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
     description: PropTypes.string,
-    badgesImg: PropTypes.array.isRequired,
+    chosenBadgesImg: PropTypes.array.isRequired,
     translate: PropTypes.object.isRequired,
     className: PropTypes.string
   }
@@ -204,12 +190,9 @@ class SideBarContent extends Component<PropsSideBarContent, { menuToggle: boolea
 
   render() {
     const {menuToggle} = this.state
-    const {sideBarType, isLoading, errorMessage, banner, picture, name, description, badgesImg, translate: tr, className} = this.props
-    // picture and banner is link of file and are string
-    // chosenBadges is the first four badge arrays that sort by order
-    const chosenBadgesImg = badgesImg.slice(0, 4)
+    const {sideBarType, banner, picture, name, description, chosenBadgesImg, translate: tr, className} = this.props
     return (
-      <VerifyWrapper isLoading={isLoading} error={errorMessage} className={className}>
+      <div className={className}>
         {
           (!banner) ? <DefaultImageIcon className="banner"/> :
             <img alt="" src={banner} className="banner"/>
@@ -232,7 +215,7 @@ class SideBarContent extends Component<PropsSideBarContent, { menuToggle: boolea
           </div>
           {
             (chosenBadgesImg.length > 0) ? (
-              <div className="row mr-0 ml-0 justify-content-between">
+              <div className="row">
                 <BadgesCard badgesImg={chosenBadgesImg}/>
               </div>
             ) : ("")
@@ -252,7 +235,7 @@ class SideBarContent extends Component<PropsSideBarContent, { menuToggle: boolea
             </div>
           </div>
         </div>
-      </VerifyWrapper>
+      </div>
     )
   }
 }

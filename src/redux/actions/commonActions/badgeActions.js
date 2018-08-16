@@ -1,17 +1,17 @@
 import types from '../types'
 
 const getUserBadges = (userId, identityId) => ({
-  type: types.COMMON.GET_FILE,
+  type: types.COMMON.GET_USER_BADGES,
   payload: {
     userId,
     identityId
   }
 })
 
-const getOrganBadges = (organId) => ({
-  type: types.COMMON.GET_FILE,
+const getOrganBadges = (organizationId) => ({
+  type: types.COMMON.GET_ORG_BADGES,
   payload: {
-    organId
+    organizationId
   }
 })
 

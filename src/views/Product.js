@@ -15,7 +15,7 @@ class Product extends Component {
     const {path} = this.props.match
     const widthOfRightBar = "col-md-3 col-sm-2"
     return (
-      <div className="-tabbed-pages -userOrganBackgroundImg">
+      <div className="-main -userOrganBackgroundImg">
         <TopBar collapseClassName={widthOfRightBar} />
         <main>
           <Switch>

@@ -2,6 +2,7 @@
 import React from "react"
 import {Component} from "react"
 
+import BadgeActions from "src/redux/actions/commonActions/badgeActions"
 import Certificates from "./organization/certificates/index"
 import ChatBar from "./bars/ChatBar"
 import Customers from "./organization/customers/index"
@@ -13,6 +14,8 @@ import Products from "./organization/products/index"
 import PropTypes from "prop-types"
 import Social from "src/views/organization/social/index"
 import TopBar from "./bars/TopBar"
+import type {badgeType} from "src/consts/flowTypes/common/badges"
+import type {listOfIdObject, organStateObject} from "src/consts/flowTypes/stateObjectType"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import {ContributionIcon, postIcon, CertificateIcon, InformationIcon, SocialIcon, customerIcon} from "../images/icons"
@@ -22,54 +25,60 @@ import {NavLink, Switch, Redirect} from "react-router-dom"
 import {OrganSideBar} from "src/views/bars/SideBar"
 import {Tabs} from "src/views/common/cards/Frames"
 import {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
+import {VerifyWrapper} from "./common/cards/Frames"
 
 type PropsOrganization = {
+  organObject: organStateObject,
+  badgesObject: listOfIdObject,
+  badges: (badgeType)[],
+  organBanner: ?string,
+  organLogo: ?string,
+  translate: TranslatorType,
   match: {
     [string]: string,
     params: { [string]: string }
   },
   actions: {
     getOrganizationByOrganId: Function,
-    getFile: Function
-  },
-  organObject: {
-    content: {},
-    error: { message: ?string },
-    isLoading: boolean
-  },
-  translate: TranslatorType,
-  organBanner: ?string,
-  organLogo: ?string
+    getFile: Function,
+    getOrganBadges: Function
+  }
 }
 
 export class Organization extends Component<PropsOrganization> {
   static propTypes = {
-    match: PropTypes.object.isRequired,
     organObject: PropTypes.object.isRequired,
-    translate: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired,
+    badgesObject: PropTypes.object.isRequired,
+    badges: PropTypes.array.isRequired,
     organBanner: PropTypes.string,
-    organLogo: PropTypes.string
+    organLogo: PropTypes.string,
+    translate: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
+    actions: PropTypes.object.isRequired
   }
 
   componentDidMount() {
     const {params} = this.props.match
     const organId = +params.id
-    const {getOrganizationByOrganId} = this.props.actions
+    const {getOrganizationByOrganId, getOrganBadges} = this.props.actions
     getOrganizationByOrganId(organId)
+    getOrganBadges(organId)
   }
 
   render() {
-    const {organObject, translate, actions, organLogo, organBanner} = this.props
+    const {organObject, badgesObject, badges, organLogo, organBanner, translate, actions} = this.props
     const {getFile} = actions
     const {path, url, params} = this.props.match
     const organizationId = params.id
+    const isLoading = organObject.isLoading || badgesObject.isLoading
+    const errorMessage = organObject.error.message || badgesObject.error.message
     return (
-      <div className="-tabbed-pages -userOrganBackgroundImg">
+      <div className="-userOrganBackgroundImg">
         <TopBar collapseClassName="col user-sidebar-width"/>
-        <main className="row">
+        <VerifyWrapper isLoading={isLoading} error={errorMessage} className="-main row">
           <OrganSideBar translate={translate}
-                        organObject={organObject}
+                        organ={organObject.content}
+                        badges={badges}
                         getFile={getFile}
                         organLogo={organLogo}
                         organBanner={organBanner}
@@ -101,7 +110,7 @@ export class Organization extends Component<PropsOrganization> {
               <PrivateRoute path={`${path}/Products`} component={Products} organizationId={organizationId}/>
               <PrivateRoute path={`${path}/Posts`} component={Posts} id={organizationId} identityType='organization'/>
               <PrivateRoute exact path={`${path}/basicInformation`} component={BasicInformation}
-                            organizationId={organizationId} organObject={organObject}/>
+                            organizationId={organizationId} organ={organObject.content}/>
               <PrivateRoute path={`${path}/Customers`} component={Customers} organizationId={organizationId}/>
               <PrivateRoute path={`${path}/SocialConnections`} component={Social} organizationId={organizationId}/>
               <PrivateRoute path={`${path}/Certificates`} component={Certificates} organizationId={organizationId}/>
@@ -110,7 +119,7 @@ export class Organization extends Component<PropsOrganization> {
           <div className="col-md-2 col-sm-1 -left-sidebar-wrapper">
             <ChatBar/>
           </div>
-        </main>
+        </VerifyWrapper>
       </div>
     )
   }
@@ -119,30 +128,32 @@ export class Organization extends Component<PropsOrganization> {
 const mapStateToProps = (state, ownProps) => {
   const {params} = ownProps.match
   const organId = +params.id
-  const organ = state.organs[organId] || {
-    // this object is default value for organ object
-    content: {},
-    isLoading: false,
-    error: {
-      message: null
-    }
-  }
+  const stateOrgan = state.organs[organId]
+  const defaultObject = {content: {}, isLoading: false, error: {message: null}}
+  const defaultObject2 = {content: [], isLoading: false, error: {message: null}}
+  const organ = (stateOrgan && stateOrgan.organ) || defaultObject
   const bannerId = organ.content.organization_banner
   const logoId = organ.content.organization_logo
   const organBanner = (bannerId && state.common.file.files[bannerId] && state.common.file.files[bannerId].content.file) || null
   const organLogo = (logoId && state.common.file.files[logoId] && state.common.file.files[logoId].content.file) || null
+  const badgesObjectInOrgan = (stateOrgan && stateOrgan.badges) || defaultObject2
+  const allBadges = state.common.badges
+  const badges = badgesObjectInOrgan.content.map(badgeId => allBadges[badgeId])
   return {
     organObject: organ,
-    translate: getMessages(state),
+    badgesObject: badgesObjectInOrgan,
+    badges,
     organBanner,
-    organLogo
+    organLogo,
+    translate: getMessages(state)
   }
 }
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getOrganizationByOrganId: OrganizationActions.getOrganization,
-    getFile: FileActions.getFile
+    getFile: FileActions.getFile,
+    getOrganBadges: BadgeActions.getOrganBadges
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Organization)

@@ -2,24 +2,14 @@ import initialState from "../initialState"
 import types from "../../actions/types/index"
 
 const users = (state = initialState.users, action) => {
-  const {userId, data, message} = action.payload ? action.payload : {}
-  const previousUser = (state[userId] && state[userId].user) ? (state[userId].user) : ({
-    /* this object is default value for user object if this state[userId] or state[userId].user
-    not exist in state object */
-    content: {},
-    isLoading: false,
-    error: {
-      message: null
-    }
-  })
-  const previousProfile = (state[userId] && state[userId].profile) ? (state[userId].profile) : ({
-    content: {},
-    isLoading: false,
-    error: {
-      message: null
-    }
-  })
-  const previousBadges = (state[userId] && state[userId].badges) || {}
+  const {userId, data, message} = action.payload || {}
+  const defaultObject = { content: {}, isLoading: false, error: {message: null} }
+  const defaultObject2 = { content: [], isLoading: false, error: {message: null} }
+  const previousUser = (state[userId] && state[userId].user) || defaultObject
+  const previousProfile = (state[userId] && state[userId].profile) || defaultObject
+  const previousIdentity = (state[userId] && state[userId].identity) || defaultObject
+  const previousBadges = (state[userId] && state[userId].badges) || defaultObject2
+
   switch (action.type) {
     /** -------------------------- get user -------------------------> **/
     case types.USER.GET_USER_BY_USER_ID:
@@ -100,7 +90,45 @@ const users = (state = initialState.users, action) => {
         }
 
       }
-    /** -------------------------- badge -------------------------> **/
+    /** -------------------------- get identity -------------------------> **/
+    case types.USER.GET_IDENTITY_BY_USER_ID:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          identity: {
+            ...previousIdentity,
+            isLoading: true
+          }
+        }
+      }
+    case types.SUCCESS.USER.GET_IDENTITY_BY_USER_ID:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          identity: {
+            ...previousIdentity,
+            content: {...data},
+            isLoading: false
+          }
+        }
+      }
+    case types.ERRORS.USER.GET_IDENTITY_BY_USER_ID:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          identity: {
+            ...previousIdentity,
+            isLoading: false,
+            error: {
+              message
+            }
+          }
+        }
+      }
+    /** -------------------------- get badges -------------------------> **/
     case types.COMMON.SET_BADGES_IN_USER:
       return {
         ...state,

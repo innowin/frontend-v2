@@ -8,7 +8,7 @@ import {routerActions} from 'react-router-redux'
 import {bindActionCreators} from 'redux'
 import {connect} from "react-redux"
 import {userProfileType, userType} from "src/consts/flowTypes/user/basicInformation"
-import {fileType} from "src/consts/flowTypes/fileType"
+import {fileType} from "src/consts/flowTypes/common/fileType"
 import {shortOrganizationType} from "src/consts/flowTypes/organization/organization"
 import {
   DefaultUserIcon,

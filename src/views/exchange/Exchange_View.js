@@ -16,7 +16,7 @@ export default class ExchangeView extends Component {
     const exchangeId = +params.id
     const widthOfRightBar = "col-md-2 col-sm-1"
 		return (
-				<div className="-tabbed-pages -userOrganBackgroundImg">
+				<div className="-main -userOrganBackgroundImg">
 					<TopBar collapseClassName={widthOfRightBar}/>
 					<main className="row">
 						<div className={`-right-sidebar-wrapper ${widthOfRightBar}`}>

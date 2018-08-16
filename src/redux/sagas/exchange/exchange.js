@@ -32,6 +32,6 @@ export function* getExchangeIdentitiesByMemberIdentity(action) {
 
 /**********    %% WATCHERS %%    **********/
 
-export function* watchLGetExchangesByMemberIdentity() {
+export function* watchGetExchangesByMemberIdentity() {
   yield takeEvery(types.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY, getExchangeIdentitiesByMemberIdentity)
 }

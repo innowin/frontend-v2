@@ -1,5 +1,5 @@
-import {fileType} from "../fileType"
-export type badgesTypes = {
+import {fileType} from "./fileType"
+export type badgeType = {
   id: 2526,
   created_time: string,
   updated_time: string,

@@ -14,7 +14,8 @@ const urls = {
     CREATE_USER_PERSON: "users",
     CREATE_USER_ORGAN: "users/user-organization",
     GET_USER_BY_USER_ID: "users",
-    GET_PROFILE_BY_USER_ID: "users/profiles"
+    GET_PROFILE_BY_USER_ID: "users/profiles",
+    GET_USER_IDENTITY:"users/identities"
   },
   ORG: {
     GET_ORGANIZATION: 'organizations',
