@@ -58,7 +58,15 @@ const urls = {
     CATEGORY: 'products/category',
 
     // certificate
-    CERTIFICATE: 'base/certificates'
+    CERTIFICATE: 'base/certificates',
+
+    // hashTags
+    HASH_TAG: 'base/hashtag-parents',
+
+    // location
+    COUNTRY: 'base/countries',
+    PROVINCE: 'base/provinces',
+    CITY: 'base/towns',
   }
 }
 export default urls

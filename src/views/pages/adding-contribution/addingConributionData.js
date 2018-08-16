@@ -149,17 +149,21 @@ export const tags = [  //
 export const LAYER1S = { // the name of layer 1 inputs in state.newContributionData
     NEW_CERT_TITLE: 'newCertificateTitle',
     NEW_CERT_IMAGE: 'newCertificateImage',
-    NEW_CERT_LOGO: 'newCertificateLogo',
+    CONTRIBUTION_LOGO: 'contributionLogo',
+    NEW_CERT_INDEX: 'newCertificateIndex',
     NEW_CERT_NEED_FOR_VERIFY: 'newCertificateNeedForVirify',
     NAME: 'title',
     CATEGORY_LAYER1: 'categoryLevel1',
     CATEGORY_LAYER2: 'categoryLevel2',
     CATEGORY_LAYER3: 'categoryLevel3',
-    PROVINCE: 'province',
-    PRICE_STATUS: 'priceStatus',
+    COUNTRY: 'product_related_country',
+    PROVINCE: 'product_related_province',
+    CITY: 'product_related_town',
+    PRICE_STATUS: 'product_price_type',
     CURRENCY: 'currency',
     DESCRIPTION: 'description',
     CERT_TITLE: 'certificateTitle',
     CERT_NEED_FOR_VERIFY: 'certificateNeedForVerify',
     GALLERY_VIDEO_NAME: 'galleryVideo'
 }
+

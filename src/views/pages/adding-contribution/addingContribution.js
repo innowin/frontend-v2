@@ -30,6 +30,17 @@ import {createSkillAction, createProductAction} from 'src/redux/actions/Contribu
 import FontAwesome from "react-fontawesome"
 import client from 'src/consts/client'
 import InitialInfoReduxForm from './reduxFormInitialInfo'
+import {getFormValues} from 'src/redux/selectors/formValuesSelectors'
+import {categorySelector} from 'src/redux/selectors/common/category'
+import {getCategories} from 'src/redux/actions/commonActions/categoryActions'
+import {bindActionCreators} from "redux"
+import {getHashTags} from "src/redux/actions/commonActions/hashTagActions"
+import {hashTagsListSelector} from "src/redux/selectors/common/hashTag"
+import {createProduct} from "src/redux/actions/commonActions/productActions"
+import {getCountries, getProvinces, getCities} from "src/redux/actions/commonActions/location"
+import countrySelector from "src/redux/selectors/common/location/country"
+import makeProvinceSelector from "src/redux/selectors/common/location/province"
+import makeCitySelector from "src/redux/selectors/common/location/city"
 
 
 const reorder = (list, startIndex, endIndex) => {
@@ -62,43 +73,34 @@ class AddingContribution extends React.Component {
     }
 
     componentDidMount() {
+        const {_getCategories, _getHashTags, _getCountries} = this.props
         const {newContributionData} = this.state
         const {technicalProperties} = newContributionData
         const properties = (technicalProperties && technicalProperties.slice()) || []
         const firstIndex = properties.length || 0
         for (let i = firstIndex; i < 9; i++) properties.push({id: i})
+        _getCategories()
+        _getHashTags()
         this.setState({
             ...this.state,
-            newContributionData: {...this.state.newContributionData, technicalProperties: properties}
+            newContributionData: {
+                ...this.state.newContributionData,
+                technicalProperties: properties
+            }
         })
     }
 
-    componentDidUpdate() {
-        console.log('this.state.newContributionData', this.state.newContributionData)
-        // const articlesData = [{
-        //         id: 21,
-        //         author: {id: 12, name: 'ali'},
-        //         comments: [
-        //             {
-        //                 id: 14,
-        //                 text: 'some text',
-        //                 commenter: {id: 24, name: 'mohammad'}
-        //             },
-        //             {
-        //                 id: 28,
-        //                 text: 'some other text',
-        //                 commenter: {id: 36, name: 'mohammad ali'}
-        //             }
-        //         ]
-        // }]
-        // const userSchema = new schema.Entity('users')
-        // const commentSchema = new schema.Entity('comments', {commenter: userSchema})
-        // const articleSchema = new schema.Entity('articles', {author: userSchema, comments: [commentSchema]})
-        // const articlesSchema = [articleSchema]
-        // const normalizedArticles = normalize(articlesData, articlesSchema)
-        // console.log(normalizedArticles)
-        const identity = client.getIdentityId()
-        console.log('client.getIdentity()', identity, typeof identity)
+    _setLocationOptions = () => {
+
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        // const prevActiveStep = prevState.activeStep
+        const {_getCountries} = this.props
+        const {activeStep} = this.state
+        if ((prevState.activeStep === 1) && (activeStep === 2)) {
+            _getCountries()
+        }
     }
 
     _activationAddTechPropBlock = (e, key) => {
@@ -189,6 +191,10 @@ class AddingContribution extends React.Component {
         }
     }
 
+    _countryChangeHandler = v => v && this.props._getProvinces(v.value) // used in initialInfo
+
+    _provinceChangeHandler = v => v && this.props._getCities(v.value) // used in initialInfo
+
     _createProductHandler = () => {
         const {
             title,
@@ -203,9 +209,8 @@ class AddingContribution extends React.Component {
             return result
         }, {})
 
-        console.log(attrs)
         const identity = client.getIdentityId()
-        console.log('identity is ', identity)
+
         const data = {
             name: title,
             description,
@@ -215,7 +220,6 @@ class AddingContribution extends React.Component {
             country: 'some country',
             product_owner: client.getIdentityId()
         }
-        console.log(data)
         this.props.dispatch(createProductAction(data))
     }
 
@@ -248,7 +252,6 @@ class AddingContribution extends React.Component {
     _nextStep = () => {
         const {activeStep, progressSteps} = this.state
         if (activeStep < progressSteps.length + 1) {
-            console.log(activeStep + 1)
             this._setStep((activeStep + 1), PROGRESSIVE_STATUS_CHOICES.GOING_NEXT)
         }
     }
@@ -278,6 +281,23 @@ class AddingContribution extends React.Component {
         const input = e.target
         this._setStateForFileField(input, imgId)
     }
+
+    _certificateIndexHandler = (idx) => {
+        const {certificates} = this.state.newContributionData
+        const cert = (certificates && certificates[idx]) || {}
+
+        this.setState({
+            ...this.state,
+            newContributionData: {
+                ...this.state.newContributionData,
+                [LAYER1S.NEW_CERT_INDEX]: idx,
+                [LAYER1S.NEW_CERT_TITLE]: cert.title,
+                [LAYER1S.NEW_CERT_IMAGE]: cert.image,
+                [LAYER1S.NEW_CERT_NEED_FOR_VERIFY]: cert.needForVerify,
+            }
+        })
+    }
+
     _galleryImageDelete = (idx) => {
         const {newContributionData} = this.state
         let galleryImages = (newContributionData.galleryImages && [...newContributionData.galleryImages]) || []
@@ -309,7 +329,7 @@ class AddingContribution extends React.Component {
                 ...this.state.newContributionData,
                 [key]: value
             }
-        }, () => console.log(this.state.newContributionData))
+        })
     }
     _galleryImageAddEdit = (input, idx) => {
         const {newContributionData} = this.state
@@ -343,21 +363,24 @@ class AddingContribution extends React.Component {
             }
         })
     }
-    _newCertificateHandler = (index) => {
+    _newCertificateHandler = () => {
         const {newContributionData} = this.state
         const {
             certificates,
             [LAYER1S.NEW_CERT_TITLE]: title,
             [LAYER1S.NEW_CERT_IMAGE]: image,
-            [LAYER1S.NEW_CERT_LOGO]: logo,
+            [LAYER1S.NEW_CERT_INDEX]: index,
             [LAYER1S.NEW_CERT_NEED_FOR_VERIFY]: needForVerify,
         } = newContributionData
+
         const newCertificates = (certificates && [...certificates]) || []
-        const deleteCount = ((index === 0) && 0) || 1 // index determines that creating or updating.
-        const start = index || newCertificates.length // if there is index we want to update a certificate. else we only
-        // want to add a new certificate in the end of certificates.
+        const isEditing = (index === 0) || (index > 0)
+        const deleteCount = isEditing ? 1 : 0 // determines that creating or updating.
+        const start = isEditing ? index : newCertificates.length // if there is index we want to update a certificate. else we only
+        // want to add a new certificate in the end of the certificates.
+
         if (title && image) {
-            newCertificates.splice(start, deleteCount, {title, image, logo, needForVerify})
+            newCertificates.splice(start, deleteCount, {title, image, needForVerify})
             this.setState({
                 ...this.state,
                 newContributionData: {
@@ -365,7 +388,7 @@ class AddingContribution extends React.Component {
                     certificates: newCertificates,
                     [LAYER1S.NEW_CERT_TITLE]: '',
                     [LAYER1S.NEW_CERT_IMAGE]: '',
-                    [LAYER1S.NEW_CERT_LOGO]: '',
+                    [LAYER1S.NEW_CERT_INDEX]: '',
                     [LAYER1S.NEW_CERT_NEED_FOR_VERIFY]: false,
                 },
             })
@@ -416,14 +439,20 @@ class AddingContribution extends React.Component {
     }
 
     _shareContribution = () => 1
+
     _introToExchange = () => 1
+
     _findAgent = () => 1
+
     _getCertificateHandler = () => 1
 
     _switchContent = () => {
         const {newContributionData, activeStep, addingTechPropNow, newTechPropertyData} = this.state
-        const {technicalProperties} = newContributionData
-        const {translator} = this.props
+
+        const {technicalProperties, [LAYER1S.NEW_CERT_INDEX]: newCertIndex} = newContributionData
+
+        const {translator, categories, initialInfoFormState, hashTags, countries, provinces, cities} = this.props
+
         switch (activeStep) {
             case 1:
                 return (
@@ -438,10 +467,18 @@ class AddingContribution extends React.Component {
             case 2:
                 return (
                     <InitialInfoReduxForm
+                        countries={countries}
+                        destroyOnUnmount={false}
                         goToNextStep={this._nextStep}
                         goToPrevStep={this._prevStep}
                         inputHandler={this._layer1InputsValueHandler}
                         newContributionData={newContributionData}
+                        initialInfoFormState={initialInfoFormState}
+                        categories={categories}
+                        countryChangeHandler={this._countryChangeHandler}
+                        provinces={provinces}
+                        provinceChangeHandler={this._provinceChangeHandler}
+                        cities={cities}
                     />
                 )
             case 3:
@@ -469,6 +506,8 @@ class AddingContribution extends React.Component {
                         setStateForFileField={this._setStateForFileField}
                         newCertificateHandler={this._newCertificateHandler}
                         inputHandler={this._layer1InputsValueHandler}
+                        certificateIndexHandler={this._certificateIndexHandler}
+                        newCertIndex={newCertIndex}
                     />
                 )
             case 5:
@@ -485,6 +524,7 @@ class AddingContribution extends React.Component {
                         goToNextStep={this._submitHandler}
                         goToPrevStep={this._prevStep}
                         videoHandler={this._videoHandler}
+                        hashTags={hashTags}
                     />
                 )
             case 6:
@@ -505,10 +545,12 @@ class AddingContribution extends React.Component {
 
     render() {
         const {activeStep, progressSteps, progressStatus, wrapperClassName} = this.state
-        const {modalIsOpen} = this.props
+        const {modalIsOpen, provinces, countries, cities} = this.props
         return (
             <div>
-                {/*<button color="danger" onClick={() => this.setState({...this.state, modalIsOpen: true})}>test</button>*/}
+                {console.log('----VIEW---- >> adding contribution >> provinces >> ', provinces)}
+                {console.log('----VIEW---- >> adding contribution >> cities.content', cities.content)}
+                {console.log('----VIEW---- >> adding contribution >> cities', cities)}
                 <Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>
                     <ModalBody className="adding-contribution-wrapper">
                         <FontAwesome name="times" size="2x" className="close-btn"
@@ -530,15 +572,45 @@ class AddingContribution extends React.Component {
     }
 }
 
-/* !toDo the field name 'currency' need for changing in future.
-may be needed for fetching and creating a search box */
+const mapStateToProps = (state, props) => {
+    // the below line crete 'initialInfoFormState' in the way that data saves in redux from for 'initialInfoForm'
+    const initialInfoFormState = props.initialInfoFormState || {values: {
+        [LAYER1S.COUNTRY]: {value: null},
+        [LAYER1S.PROVINCE]: {value: null}
+    }}
 
+    const countryId = initialInfoFormState.values[LAYER1S.COUNTRY].value
 
-const mapStateToProps = (state) => {
+    const provinceId = initialInfoFormState.values[LAYER1S.PROVINCE].value
+
+    const provinceSelector = makeProvinceSelector() // makes a copy of province selector.
+
+    const citySelector = makeCitySelector() // makes a copy of city selector.
+
     return {
-        translator: getMessages(state)
+        translator: getMessages(state),
+        categories: categorySelector(state),
+        initialInfoFormState: getFormValues(state, 'addingContributionInitialInfoForm'),
+        hashTags: hashTagsListSelector(state),
+        countries: countrySelector(state),
+        provinces: provinceSelector(state, countryId),
+        cities: citySelector(state, provinceId),
     }
 };
 
-export default connect(mapStateToProps)(AddingContribution)
+const mapDispatchToProps = dispatch =>
+    bindActionCreators(
+        {
+            _getCategories: () => getCategories(),
+            _getHashTags: () => getHashTags(),
+            _createProduct: formData => createProduct(formData),
+            _getCountries: () => getCountries(),
+            _getProvinces: id => getProvinces(id),
+            _getCities: id => getCities(id)
+        },
+        dispatch
+    );
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddingContribution)
 

@@ -39,6 +39,7 @@ const results = {
     // product
     GET_PRODUCT_BASIC_INFO: 'get-product-basic-info-result',
     UPDATE_PRODUCT: 'update-product-result',
+    CREATE_PRODUCT: 'create-product-result',
 
     // file
     CREATE_FILE: 'common-create-file-result',
@@ -48,8 +49,16 @@ const results = {
     GET_CATEGORIES: 'common-get-categories-list-result',
 
     // certificate
-    GET_OBJECT_CERTIFICATES: 'common-get-object-certificates-list',
-    CREATE_OBJECT_CERTIFICATE: 'common-create-object-certificate',
+    GET_OBJECT_CERTIFICATES: 'common-get-object-certificates-list-result',
+    CREATE_OBJECT_CERTIFICATE: 'common-create-object-certificate-result',
+
+    // hashTag
+    GET_HASH_TAGS: 'common-get-hashTags-result',
+
+   // location
+   GET_COUNTRIES: 'common--get--countries--result',
+   GET_PROVINCES: 'common-get-provinces-result',
+   GET_CITIES: 'common-get-cities-result',
   },
 
   EXCHANGE: {

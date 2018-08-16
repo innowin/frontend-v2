@@ -152,7 +152,31 @@ export default {
         isCreating: false,
         isCreated: false
       }
-    }
+    },
+    hashTag: {
+      list: { // list of the all hashTag.
+        content: {},
+        isLoaded: false,
+        isLoading: false
+      }
+    },
+    location: {
+      country: {
+        content: {},
+        isLoading: false,
+        isLoaded: false
+      },
+      province: {
+        content: {},
+        isLoading: false,
+        isLoaded: false
+      },
+      city: {
+        content: {},
+        isLoaded: false,
+        isLoading: false
+      }
+    },
   },
   intl: {
     locale: 'fa',

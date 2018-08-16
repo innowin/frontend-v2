@@ -12,30 +12,40 @@ const Certificates = ({
                           newContributionData,
                           setStateForFileField,
                           inputHandler,
-                          newCertificateHandler
+                          newCertificateHandler,
+                          certificateIndexHandler,
+                          newCertIndex
                       }) => {
 
     const {certificates} = newContributionData
+
     let repairedCertificates
+
     if (certificates) {
         repairedCertificates = [...certificates]
         for (let i = 0; i < (3 - certificates.length); i++) {
-            console.log(i)
-            repairedCertificates.push({})
+            repairedCertificates.push({title: i})
         }
-    } else repairedCertificates = [{},{},{}]
+    } else repairedCertificates = [{title: '1'}, {title: '2'}, {title: '3'}] // for giving unique key to certificates.
+
+    const _certClassNameHandler = (index, image) => {
+        return (!image && 'hide') || (((index === newCertIndex) && 'show edit')) || 'show'
+
+    }
+
     return (
         <div className="certificates">
             <div className="form">
                 <div className="form-column">
-                    <div className="title">
+                    <div className={(newCertIndex === 0 || newCertIndex > 0) ? 'title edit' : 'title'}>
                         <StateLessTextInput
                             label="عنوان گواهینامه"
                             value={newContributionData[LAYER1S.NEW_CERT_TITLE]}
                             onChange={(e) => inputHandler(e.target.value, LAYER1S.NEW_CERT_TITLE)}
                         />
                     </div>
-                    <div className="verification-request-wrapper">
+                    <div className={(newCertIndex === 0 || newCertIndex > 0) ?
+                        'verification-request-wrapper edit': 'verification-request-wrapper'}>
                         <PayIcon className="pay-svg-icon"/>
                         <CircularCheckbox
                             label="درخواست اعتبارسنجی توسط دانش‌بوم"
@@ -46,7 +56,7 @@ const Certificates = ({
                 </div>
                 <div className="form-column">
                     <div className="logo-upload">
-                        <CongratsTick className={newContributionData[LAYER1S.NEW_CERT_LOGO] ?
+                        <CongratsTick className={newContributionData[LAYER1S.CONTRIBUTION_LOGO] ?
                             'logo-uploaded-check checked'
                             :
                             'logo-uploaded-check'
@@ -55,10 +65,11 @@ const Certificates = ({
                         <label>بارگذاری لوگو</label>
                         <div className="file-btn">
                             انتخاب فایل
-                            <input onChange={(e) => setStateForFileField(e.target, LAYER1S.NEW_CERT_LOGO)} type="file" name="logo"/>
+                            <input onChange={(e) => setStateForFileField(e.target, LAYER1S.CONTRIBUTION_LOGO)} type="file"
+                                   name="logo"/>
                         </div>
                     </div>
-                    <div className="image-upload">
+                    <div className={(newCertIndex === 0 || newCertIndex > 0) ? 'image-upload edit' : 'image-upload'}>
                         <label>
                             بارگذاری تصویر گواهینامه
                         </label>
@@ -70,7 +81,7 @@ const Certificates = ({
                             />
                         </div>
                     </div>
-                    <div className="submit" onClick={() => newCertificateHandler(0)}>
+                    <div className="submit" onClick={newCertificateHandler}>
                         ثبت
                         <ThinDownArrow className="icon"/>
                     </div>
@@ -79,17 +90,9 @@ const Certificates = ({
             <div className="images">
                 {repairedCertificates.map((certificate, index) => (
                     <div className="image" key={certificate.title}>
-                        <div className={certificate.image ? 'show' : 'hide'}>
+                        <div className={_certClassNameHandler(index, certificate.image)}>
                             <img src={certificate.image} alt="certificate"/>
-                            <div className="certificate-img-edit-btn">
-                                {/*<input*/}
-                                    {/*type="file"*/}
-                                    {/*className="edit-file-input"*/}
-                                    {/*onChange={(e) => {*/}
-                                        {/*certificatesImagesHandler()*/}
-                                    {/*}}*/}
-                                {/*/>*/}
-                            </div>
+                            <div onClick={() => certificateIndexHandler(index)} className="certificate-img-edit-btn"/>
                         </div>
                     </div>
                 ))}

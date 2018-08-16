@@ -10,10 +10,28 @@ import {reduxForm, Field} from "redux-form";
 import renderTextField from "../../common/inputs/reduxFormRenderTextField"
 import renderSelectField from "../../common/inputs/reduxFormRenderReactSelect"
 import renderTextArea from "../../common/inputs/reduxFormRenderTextArea"
+import renderRadioButtonGroup from "../../common/inputs/rdxRenderCircularRadioButtonGroup"
+import helpers from "src/consts/helperFunctions"
+
 
 const InitialInfoReduxFormValidate = (values) => {
     const errors = {}
     return errors
+}
+
+type CountryType = {
+    id: number,
+    name: string
+}
+
+type CountriesType = {
+    content: {[number]: CountryType}
+}
+
+type CategoriesType = {
+    content: {},
+    isLoading: boolean,
+    isLoaded: boolean
 }
 
 type InitialInfoProps = {
@@ -25,7 +43,14 @@ type InitialInfoProps = {
     onSubmit: Function,
     submitting: boolean,
     error: string,
-    submitFailed: boolean
+    submitFailed: boolean,
+    initialInfoFormState: {},
+    categories: CategoriesType,
+    countries: CountriesType,
+    countryChangeHandler: Function,
+    provinceChangeHandler: Function,
+    provinces: {},
+    cities: {}
 }
 
 let InitialInfoReduxForm = (props: InitialInfoProps) => {
@@ -39,78 +64,105 @@ let InitialInfoReduxForm = (props: InitialInfoProps) => {
         onSubmit,
         submitting,
         error,
-        submitFailed
+        submitFailed,
+        initialInfoFormState={},
+        categories,
+        countries,
+        provinces,
+        cities,
+        countryChangeHandler,
+        provinceChangeHandler
     } = props
 
+    const {objToArrayAsOptions, filterNestedObjByKey} = helpers
+    const setCategoriesObjByLevel = (layerName) => {
+        const categoriesObj = categories.content
+        switch (layerName) {
+            case LAYER1S.CATEGORY_LAYER2: {
+                if (initialInfoFormState && initialInfoFormState[LAYER1S.CATEGORY_LAYER1]) {
+                    return filterNestedObjByKey(categoriesObj, 'category_parent',
+                        +initialInfoFormState[LAYER1S.CATEGORY_LAYER1].value)
+                }
+                return {}
+            }
+
+            case LAYER1S.CATEGORY_LAYER3: {
+                if (initialInfoFormState && initialInfoFormState[LAYER1S.CATEGORY_LAYER2]) {
+                    return filterNestedObjByKey(categoriesObj, 'category_parent',
+                        +initialInfoFormState[LAYER1S.CATEGORY_LAYER2].value)
+                }
+                return {}
+            }
+            default: return categoriesObj
+        }
+    }
+
+    const countriesList = objToArrayAsOptions(countries.content, 'id', 'name')
+
+    const provincesList = objToArrayAsOptions(provinces.content, 'id', 'name')
+
+    const citiesList = objToArrayAsOptions(cities.content, 'id', 'name')
+
     return (
-        <form onSubmit={handleSubmit(v => console.log('values is: ', v))}>
+        <form onSubmit={handleSubmit(() => {})}>
             <div className="initial-info">
                 <div className="form">
                     <div className="form-column">
-
                         <Field name="name" type="text" component={renderTextField}
-                               label="عنوان آورده"/>
-
-                        /*
-                                                <StateLessTextInput
-                                                    value={newContributionData[LAYER1S.NAME]}
-                                                    label="عنوان آورده"
-                                                    onChange={(e) => inputHandler(e.target.value, LAYER1S.NAME)}
-                                                />
-                        */
+                               label="عنوان آورده" className="form-group"/>
 
                         {[LAYER1S.CATEGORY_LAYER1, LAYER1S.CATEGORY_LAYER2, LAYER1S.CATEGORY_LAYER3].map(layerName => (
-
-                            /*
-                               <div className="category-selection" key={layerName}>
-
-                                   <label htmlFor={layerName}>
-                                       {layerName === LAYER1S.CATEGORY_LAYER1 ? 'طبقه اول دسته‌بندی'
-                                           :
-                                           (layerName === LAYER1S.CATEGORY_LAYER2 ? 'طبقه دوم دسته‌بندی' : 'طبقه سوم دسته‌بندی')
-                                       }
-                                   </label>
-                                   <Select
-                                       id={layerName}
-                                       placeholder=""
-                                       onChange={(opt) => inputHandler(opt, layerName)}
-                                       rtl
-                                       options={categoriesData}
-                                       // noResultsText={translator['No result found']}
-                                       value={newContributionData && newContributionData[layerName]}
-                                   />
-                               </div>
-   */
                             <Field key={layerName}
-                                   className="category"
+                                   placeholder=""
+                                   id={layerName}
+                                   className="category-selection"
                                    name={layerName}
-                                   placeholder={layerName === LAYER1S.CATEGORY_LAYER1 ? 'طبقه اول دسته‌بندی'
+                                   component={renderSelectField}
+                                   label={layerName === LAYER1S.CATEGORY_LAYER1 ? 'طبقه اول دسته‌بندی'
                                        :
                                        (layerName === LAYER1S.CATEGORY_LAYER2 ? 'طبقه دوم دسته‌بندی' : 'طبقه سوم دسته‌بندی')
                                    }
-                                   component={renderSelectField}
-                                   label={'category'}
                                    noResultsText={'چنین دسته‌بندی وجود ندارد.'}
-                                   options={categoriesData}
+                                   options={
+                                       objToArrayAsOptions(setCategoriesObjByLevel(layerName), 'id', 'name')
+                                   }
                             />
-
-
                         ))}
                     </div>
                     <div className="form-column">
 
-                        <Field name="place" type="text" component={renderTextField}
-                               label="محدوده جغرافیایی"/>
-
-                        /*
-                        <StateLessTextInput
-                            label="محدوده جغرافیایی"
-                            onChange={(e) => inputHandler(e.target.value, LAYER1S.PROVINCE)}
-                            value={newContributionData[LAYER1S.PROVINCE]}
+                            <Field key={LAYER1S.COUNTRY}
+                                   placeholder="کشور"
+                                   id={LAYER1S.COUNTRY}
+                                   className="location-select"
+                                   name={LAYER1S.COUNTRY}
+                                   component={renderSelectField}
+                                   label="کشور"
+                                   noResultsText={`چنین کشوری وجود ندارد`}
+                                   options={countriesList}
+                                   onChange={countryChangeHandler}
+                            />
+                        <Field key={LAYER1S.PROVINCE}
+                               placeholder="استان"
+                               id={LAYER1S.PROVINCE}
+                               className="location-select"
+                               name={LAYER1S.PROVINCE}
+                               component={renderSelectField}
+                               label="استان"
+                               noResultsText={`چنین استان وجود ندارد`}
+                               options={provincesList}
+                               onChange={provinceChangeHandler}
                         />
-                        */
-
-
+                        <Field key={LAYER1S.CITY}
+                               placeholder="شهر"
+                               id={LAYER1S.CITY}
+                               className="location-select"
+                               name={LAYER1S.CITY}
+                               component={renderSelectField}
+                               label="شهر"
+                               noResultsText={`چنین شهری وجود ندارد`}
+                               options={citiesList}
+                        />
 
                         <RadioButtonGroup
                             label="قیمت"
@@ -118,34 +170,17 @@ let InitialInfoReduxForm = (props: InitialInfoProps) => {
                             handler={value => inputHandler(value, LAYER1S.PRICE_STATUS)}
                             items={[
                                 {title: 'معین', value: 'specified'},
-                                {title: 'تماس با عرضه‌کننده', value: 'call_with_owner'}
+                                {title: 'تماس با عرضه‌کننده', value: 'call'}
                             ]}
                             selected={newContributionData[LAYER1S.PRICE_STATUS]}
                         />
 
                         <Field name={'IRR'} type="text" component={renderTextField}
-                               label="IRR"/>
-
-                        /*
-                        <StateLessTextInput
-                            placeholder="IRR"
-                            value={newContributionData[LAYER1S.CURRENCY]}
-                            onChange={(e) => inputHandler(e.target.value, LAYER1S.CURRENCY)}
-                        />
-                        */
+                               label="IRR" className="form-group"/>
 
                         <Field name={LAYER1S.DESCRIPTION} type="text" component={renderTextArea}
-                               label="توصیف اجمالی محصول"/>
+                               label="توصیف اجمالی محصول" className="form-group desc"/>
 
-
-                        /*
-                        <StateLessTextarea
-                            value={newContributionData[LAYER1S.DESCRIPTION]}
-                            name={LAYER1S.DESCRIPTION}
-                            label="توصیف اجمالی محصول"
-                            onChange={(e) => inputHandler(e.target.value, LAYER1S.DESCRIPTION)}
-                        />
-                        */
                     </div>
                 </div>
                 <NextPrevBtns
@@ -153,13 +188,12 @@ let InitialInfoReduxForm = (props: InitialInfoProps) => {
                     goToPrevStep={goToPrevStep}
                 />
             </div>
-            <button type="submit btn btn-success">sss</button>
         </form>
     )
 }
 
 InitialInfoReduxForm = reduxForm({
-    form: 'initialInfoReduxForm',
+    form: 'addingContributionInitialInfoForm',
     validate: InitialInfoReduxFormValidate,
 })(InitialInfoReduxForm)
 

@@ -1,9 +1,9 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-export const RadioButtonGroup = ({label = '', name = '', selected = {}, items = [], handler = () => 1}) => {
+export const RadioButtonGroup = ({label = '', name = '', selected = {}, items = [], handler = () => 1, className}) => {
   return (
-    <div className="radio-button-group">
+    <div className={`${className} radio-button-group`}>
       {(label) ? (<label>{label + " :"}</label>) : ('')}
       <div className="radio-btns-wrapper">
         {items.map(item => (

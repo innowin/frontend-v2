@@ -1,22 +1,16 @@
 // @flow
-import * as React from 'react'
-import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd' // !?
+import * as React from 'react';
+import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd'
 import {SquareAdd, CongratsTick, EditIcon} from '../../../images/icons'
 import NextPrevBtns from './nextAndPrevBtns'
 
 
-type TechnicalPropertyType = {
-    value: string,
-    title: string,
-    id: string
-}
-
 type TechnicalPropertiesProps = {
-    properties: Array<TechnicalPropertyType>,
+    properties: Array<string>,
     activationAddPropBlock: Function,
     addingTechPropNow: boolean,
     inputFillHandler: Function,
-    newPropertyData: TechnicalPropertyType,
+    newPropertyData: {},
     addOrEditTechProperty: Function,
     propertiesOrderHandler: Function,
     setNewTechPropertyDate: Function,
@@ -25,18 +19,10 @@ type TechnicalPropertiesProps = {
 }
 
 const TechnicalProperties = (props: TechnicalPropertiesProps) => {
-
     const {
-        properties,
-        activationAddPropBlock,
-        addingTechPropNow,
-        inputFillHandler,
-        newPropertyData,
-        addOrEditTechProperty,
-        propertiesOrderHandler,
-        setNewTechPropertyDate,
-        goToNextStep,
-        goToPrevStep
+        properties, activationAddPropBlock, addingTechPropNow, inputFillHandler,
+        newPropertyData, addOrEditTechProperty, propertiesOrderHandler,
+        setNewTechPropertyDate, goToNextStep, goToPrevStep
     } = props
 
     const incompleteProperties = properties && properties.filter(property => !property.title)
@@ -109,9 +95,7 @@ const TechnicalProperties = (props: TechnicalPropertiesProps) => {
                                                                         :
                                                                         <div className="property">
                                                                             <div className="title">
-                                                                                <EditIcon
-                                                                                    clickHandler={() => setNewTechPropertyDate(property)}
-                                                                                    className="property-edit-btn"/>
+                                                                                <EditIcon clickHandler={() => setNewTechPropertyDate(property)} className="property-edit-btn"/>
                                                                                 {property.title}
                                                                             </div>
                                                                             <div className="value">{property.value}</div>
@@ -132,10 +116,8 @@ const TechnicalProperties = (props: TechnicalPropertiesProps) => {
                                                                         />
                                                                         :
                                                                         <div>
-                                                                            <input className="title" name="title"
-                                                                                   disabled/>
-                                                                            <input className="value" name="value"
-                                                                                   disabled/>
+                                                                            <input className="title" name="title" disabled/>
+                                                                            <input className="value" name="value" disabled/>
                                                                         </div>
                                                                     }
                                                                 </div>
@@ -160,26 +142,7 @@ const TechnicalProperties = (props: TechnicalPropertiesProps) => {
         </div>
     )
 }
-
-
-type InputsProps = {
-    id: string,
-    newPropertyData: TechnicalPropertyType,
-    inputFillHandler: Function,
-    activationAddPropBlock: Function,
-    addOrEditTechProperty: Function
-}
-
-const Inputs = (props: InputsProps) => {
-
-    const {
-        id,
-        newPropertyData,
-        inputFillHandler,
-        activationAddPropBlock,
-        addOrEditTechProperty
-    } = props
-
+const Inputs = ({id, newPropertyData, inputFillHandler, activationAddPropBlock, addOrEditTechProperty}) => {
     const _setTitleWrapperClassName = () => {
         let classes = 'title-wrapper'
         if (newPropertyData) {
@@ -194,7 +157,6 @@ const Inputs = (props: InputsProps) => {
         }
         return classes
     }
-
     const _setValueWrapperClassName = () => {
         let classes = 'value-wrapper'
         if (newPropertyData) {
@@ -202,7 +164,6 @@ const Inputs = (props: InputsProps) => {
         }
         return classes
     }
-
     return (
         <div>
             <div
@@ -236,6 +197,102 @@ const Inputs = (props: InputsProps) => {
                 />
             </div>
         </div>
+    )
+}
+
+const TechnicalPropertiesForm = (props) => {
+    const {
+        propertiesOrderHandler,
+        reOrderedProperties,
+        setBlockClassName,
+        newPropertyData,
+        inputFillHandler,
+        addOrEditTechProperty,
+        setNewTechPropertyDate
+    } = props
+    return (
+        <DragDropContext
+            onDragEnd={propertiesOrderHandler}
+        >
+            {[3, 6, 9].map((rowNum, colIndex) => (
+                <div key={`row${rowNum}`} className="properties-col-wrapper">
+                    <Droppable
+                        index={colIndex}
+                        key={`col${rowNum}`}
+                        // direction="horizontal"
+                        droppableId={`${rowNum}`}
+                        type="TECHNICAL_PROPERTIES"
+                    >
+                        {(provided, snapshot) => (
+                            <div
+                                ref={provided.innerRef}
+                                {...provided.droppableProps}
+                                className="properties-col"
+                            >
+                                {reOrderedProperties().slice(rowNum - 3, rowNum).map((property, index) => (
+                                    <Draggable
+                                        index={index}
+                                        key={`completeProperty${property.id}`}
+                                        draggableId={property.id}
+                                        isDragDisabled={!property.title}
+                                    >
+                                        {(provided, snapshot) => (
+                                            <div ref={provided.innerRef}
+                                                 {...provided.draggableProps}
+                                                 {...provided.dragHandleProps}
+                                                 className={property.title ? 'property-block' : 'property-block disabled'}>
+                                                {property.title ? (
+                                                        <div className={setBlockClassName(property.id)}>
+                                                            {property.id === newPropertyData.id ?
+                                                                <Inputs
+                                                                    id={property.id}
+                                                                    newPropertyData={newPropertyData}
+                                                                    inputFillHandler={inputFillHandler}
+                                                                    activationAddPropBlock={() => 1}
+                                                                    addOrEditTechProperty={addOrEditTechProperty}
+                                                                />
+                                                                :
+                                                                <div className="property">
+                                                                    <div className="title">
+                                                                        <EditIcon clickHandler={() => setNewTechPropertyDate(property)} className="property-edit-btn"/>
+                                                                        {property.title}
+                                                                    </div>
+                                                                    <div className="value">{property.value}</div>
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                    )
+                                                    :
+                                                    (
+                                                        <div className={setBlockClassName(property.id)}>
+                                                            {property.id === firstEmptyPropertyId ?
+                                                                <Inputs
+                                                                    newPropertyData={newPropertyData}
+                                                                    id={property.id}
+                                                                    inputFillHandler={inputFillHandler}
+                                                                    activationAddPropBlock={activationAddPropBlock}
+                                                                    addOrEditTechProperty={addOrEditTechProperty}
+                                                                />
+                                                                :
+                                                                <div>
+                                                                    <input className="title" name="title" disabled/>
+                                                                    <input className="value" name="value" disabled/>
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                    )
+                                                }
+                                            </div>
+                                        )}
+                                    </Draggable>
+                                ))}
+                                {provided.placeholder}
+                            </div>
+                        )}
+                    </Droppable>
+                </div>
+            ))}
+        </DragDropContext>
     )
 }
 

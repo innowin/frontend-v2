@@ -27,6 +27,8 @@ import productWatchers from './common/product/product'
 import categoryWatchers from './common/category/category'
 import fileWatchers from './common/file/file'
 import certificateWatchers from './common/certificate/certificate'
+import hashTagWatchers from './common/hashTag/hashTag'
+import locationWatchers from './common/location/location'
 import watchUsernameCheck from "./user/checkUsernameSaga"
 import {watchGetUserByUserId, watchGetProfileByUserId} from "./user/getUserSagas"
 import {watchCreateUserPerson, watchCreateUserOrgan,} from "./user/createUserSagas"
@@ -67,6 +69,7 @@ const rootSaga = function* () {
     // product watchers
     productWatchers.watchGetProductInfo(),
     productWatchers.watchUpdateProduct(),
+    productWatchers.watchCreateProduct(),
 
     // category watchers
     categoryWatchers.watchGetCategoriesList(),
@@ -80,6 +83,14 @@ const rootSaga = function* () {
     certificateWatchers.watchGetObjectCertificates(),
     certificateWatchers.watchCreateObjectCertificate(),
     certificateWatchers.watchResetCreatingObjectCertStatus(),
+
+    // hashTag watchers
+    hashTagWatchers.watchGetHashTags(),
+
+    // location
+    locationWatchers.watchGetCountries(),
+    locationWatchers.watchGetProvinces(),
+    locationWatchers.watchGetCities(),
   ])
 }
 

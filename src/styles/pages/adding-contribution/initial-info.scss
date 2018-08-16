@@ -36,6 +36,9 @@
       padding: 0;
       margin: 0;
     }
+    .form-column .form-group.desc {
+      margin-top: 26px;
+    }
     .form-column:first-child {
       margin-left: 25px;
     }
@@ -58,7 +61,7 @@
       flex-direction: row;
       justify-content: space-between;
       align-items: self-start;
-      margin: -9px 0 -13px;
+      margin: -9px 0 3px;
     }
     .form-column .radio-button-group label {
       margin: 0;

@@ -1,26 +1,77 @@
-import React from 'react'
-import Select from 'react-select';
+// @flow
+import * as React from 'react'
+import Select from 'react-select'
 import FontAwesome from 'react-fontawesome'
-import {LAYER1S} from './addingConributionData'
+import {LAYER1S, newContributionMainCategories} from './addingConributionData'
 import {ImageUploadSvg, MoviesSvgIcon} from '../../../images/icons'
 import {CircularCheckbox} from '../../common/inputs/CircularCheckbox'
 import NextPrevBtns from './nextAndPrevBtns'
+import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 
-const GalleryAndTags = ({
-                            tags,
-                            translator,
-                            tagsSelectionHandler,
-                            newContributionData,
-                            deleteTag,
-                            imageAddEditHandler,
-                            imageDeleteHandler,
-                            videoHandler,
-                            setMainGalleryImageIndex,
-                            goToNextStep,
-                            goToPrevStep
-                        }) => {
-    const galleryImages = newContributionData.galleryImages || []
+
+type GalleryImageType = {
+
+}
+
+type NewContributionDataType = {
+    tags: Array<TagAsOptionType>,
+    mainGalleryImageIndex?: number,
+    galleryImages: Array<GalleryImageType>
+}
+
+type HashTagsContentType = {
+    title: string,
+    usage: number
+}
+
+type HashTagsType = {
+    content: {[number]: HashTagsContentType},
+    isLoading: boolean,
+}
+
+type GalleryAndTagsProps = {
+    translator: TranslatorType,
+    tagsSelectionHandler: Function,
+    newContributionData: NewContributionDataType,
+    deleteTag: Function,
+    imageAddEditHandler: Function,
+    imageDeleteHandler: Function,
+    videoHandler: Function,
+    setMainGalleryImageIndex: Function,
+    goToNextStep: Function,
+    goToPrevStep: Function,
+    hashTags: HashTagsType
+}
+
+const GalleryAndTags = (props: GalleryAndTagsProps) => {
+
+    const {
+        translator,
+        tagsSelectionHandler,
+        newContributionData,
+        deleteTag,
+        imageAddEditHandler,
+        imageDeleteHandler,
+        videoHandler,
+        setMainGalleryImageIndex,
+        goToNextStep,
+        goToPrevStep,
+        hashTags
+    } = props
+
+    const tagsObj = (hashTags && hashTags.content) || {}
+
+    // hashTags keys are id. note: react-select by default need a 'label' a 'value'(can change this default)
+    const tags = Object.keys(tagsObj).map((id : any) => ({
+        value: id,
+        label: tagsObj[id].title,
+        usage: tagsObj[id].usage
+    }))
+
+    const galleryImages: Array<GalleryImageType> = newContributionData.galleryImages || []
+
     const mainImageIndex = newContributionData.mainGalleryImageIndex
+
     return (
         <div className="gallery-and-tags-wrapper">
             <div className="gallery-wrapper">
@@ -64,7 +115,7 @@ const GalleryAndTags = ({
                             {newContributionData[LAYER1S.GALLERY_VIDEO_NAME] ?
                                 <video className="gallery-video" controls>
                                     <source src={newContributionData[LAYER1S.GALLERY_VIDEO_NAME]} type="video/mp4"/>
-                                    Your browser does not support HTML5 video.
+                                    مرورگر شما توانایی پخش ویدیو را ندارد. لطفا از یک مرورگر پیشرفته‌تر استفاده کنید.
                                 </video>
                                 :
                                 ''
@@ -85,27 +136,12 @@ const GalleryAndTags = ({
                     </div>
                 </div>
             </div>
-            <div className="tags-wrapper">
-                <h4 className="header">
-                    مدیریت برچسب‌ها:
-                </h4>
-                <div className="tags-search-box">
-                    <Select
-                        placeholder=""
-                        multi
-                        onChange={tagsSelectionHandler}
-                        rtl
-                        options={tags}
-                        noResultsText={translator['No result found']}
-                        value={newContributionData && newContributionData.tags}
-                    />
-                </div>
-                <div className="tags">
-                    {newContributionData.tags && newContributionData.tags.map(tag => (
-                        <Tag deleteTag={deleteTag} tag={tag} key={tag.value}/>
-                    ))}
-                </div>
-            </div>
+            <TagsManager
+                selectedTags={newContributionData.tags}
+                changeHandler={tagsSelectionHandler}
+                deleteHandler={deleteTag}
+                tags={tags}
+            />
             <NextPrevBtns
                 nextBtnTitle="ثبت"
                 goToNextStep={goToNextStep}
@@ -115,7 +151,66 @@ const GalleryAndTags = ({
     )
 }
 
-const Tooltip = ({classNames, children, desc}) => {
+
+type TagsManagerProps = {
+    changeHandler: Function,
+    tags: Array<TagAsOptionType>,
+    deleteHandler: Function,
+    selectedTags: Array<TagAsOptionType>
+}
+
+const TagsManager = (props: TagsManagerProps) => {
+    const {changeHandler, tags, deleteHandler, selectedTags} = props
+    return (
+        <div className="tags-wrapper">
+            <h4 className="header">مدیریت برچسب‌ها:</h4>
+            <div className="tags-search-box">
+                <Select
+                    placeholder=""
+                    multi
+                    onChange={changeHandler}
+                    rtl
+                    options={tags}
+                    noResultsText="موردی یافت نشد"
+                    value={selectedTags}
+                />
+            </div>
+            <Tags deleteTag={deleteHandler} tags={selectedTags} />
+        </div>
+    )
+}
+
+type TagAsOptionType = { // type of tag when used in as option in react-select.
+    label: string,
+    value: number,
+    usage: number
+}
+
+type TagsProps = {
+    tags?: Array<TagAsOptionType>,
+    deleteTag: Function
+}
+
+const Tags = (props: TagsProps) => {
+    const {tags, deleteTag} = props
+    return (
+        <div className="tags">
+            {tags && tags.map(tag => (
+                <Tag deleteTag={deleteTag} tag={tag} key={tag.label}/>
+            ))}
+        </div>
+    )
+}
+
+
+type TooltipProps = {
+    classNames: string,
+    children: React.Node,
+    desc: React.Node
+}
+
+const Tooltip = (props: TooltipProps) => {
+    const {classNames, children, desc} = props
     return (
         <div className={`custom-tooltip ${classNames}`}>
             <div className="element">{children}</div>
@@ -127,15 +222,24 @@ const Tooltip = ({classNames, children, desc}) => {
     )
 }
 
-const Tag = ({tag, deleteTag}) => (
-    <div className="tag">
-        <div className="title">{tag.label}</div>
-        <div className="used-count">
-            {tag.usedCount}
-            <div onClick={() => deleteTag(tag.value)} className="clear-btn">
-                <FontAwesome name="times"/>
+type TagProps = {
+    tag: TagAsOptionType,
+    deleteTag: Function
+
+}
+
+const Tag = (props: TagProps) => {
+    const {tag, deleteTag} = props
+    return (
+        <div className="tag">
+            <div className="title">{tag.label}</div>
+            <div className="used-count">
+                {tag.usage}
+                <div onClick={() => deleteTag(tag.value)} className="clear-btn">
+                    <FontAwesome name="times"/>
+                </div>
             </div>
         </div>
-    </div>
-)
+    )
+}
 export default GalleryAndTags
