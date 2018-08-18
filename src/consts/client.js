@@ -129,6 +129,10 @@ const getOrganizationId = () => {
 	}
 }
 
+const checkIdWithQueryId = (paramId) => {
+	return paramId === (getUserId() | getOrganizationId())
+}
+
 const client = {
 	isAuthenticated,
 	setSessionLS,
@@ -140,6 +144,7 @@ const client = {
 	getUserId,
 	getIdentityId,
   getUserType,
-	getOrganizationId
+	getOrganizationId,
+  checkIdWithQueryId,
 }
 export default client

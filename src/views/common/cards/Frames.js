@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import {EditIcon} from 'src/images/icons'
 import ErrorCard from "./ErrorCard"
 import {loadingCard} from "./LoadingCard"
+import client from "src/consts/client"
 
 type div = React.Element<'div'>
 type PropsTabs = {
@@ -105,26 +106,29 @@ type PropsCategoryTitle = {
   createForm?: boolean,
   showCreateForm?: Function,
   showEditBtn?: boolean,
-  showEditHandler?: Function
+  showEditHandler?: Function,
+  //TODO: mohammad get userId from redux
+	userId?: string
 }
 
 export const CategoryTitle = ({
                                 title, createForm = true,
-                                showEditBtn = true,
+                                showEditBtn = false,
                                 showCreateForm = () => false,
-                                showEditHandler = () => 0
+                                showEditHandler = () => 0,
+																userId
                               }: PropsCategoryTitle): div => {
   return (
       <div className="category-title-container">
         <div className="-categoryTitle">
           <span>{title}</span>
           {
-            !createForm &&
+            !createForm && client.checkIdWithQueryId(userId) &&
             <button className="btn btn-sm btn-outline-success" onClick={showCreateForm}>
               <FontAwesome name="plus"/>
             </button>
           }
-          {showEditBtn &&
+          {showEditBtn && client.checkIdWithQueryId(userId) &&
             <div className="edit-btn-wrapper" onClick={showEditHandler}><EditIcon className="edit-btn"/></div>
           }
         </div>

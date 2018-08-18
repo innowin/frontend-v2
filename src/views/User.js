@@ -7,7 +7,7 @@ import WorkExperiences from "./user/workExperience/index"
 import Certificates from "./user/certificates/index"
 import ChatBar from "src/views/bars/ChatBar"
 import Posts from "src/views/common/post/index"
-  import PrivateRoute from "../consts/PrivateRoute"
+import PrivateRoute from "../consts/PrivateRoute"
 import Sidebar from "src/views/bars/SideBar"
 import Skills from "./user/skills/index"
 import Social from "src/views/user/social/index"
@@ -15,7 +15,7 @@ import TopBar from "src/views/bars/TopBar"
 import UserBasicInformation from "./user/basicInformation/index"
 import {NavLink, Switch, Redirect} from "react-router-dom"
 import {Tabs} from "./common/cards/Frames"
-import {userInfoIcon, SkillIcon, CertificateIcon, workExperienceIcon, postIcon, SocialIcon} from "src/images/icons"
+import {SkillIcon, CertificateIcon, workExperienceIcon, postIcon, SocialIcon, InformationIcon} from "src/images/icons"
 import {UserSideView} from "./bars/SideBar"
 // import ReduxTest from './reduxTest'
 
@@ -53,8 +53,9 @@ class User extends Component<PropTypes> {
           <div className="col-6 -content-wrapper">
             <Tabs>
               <NavLink className="-tab" to={`${url}/Posts`} activeClassName="-active">{postIcon}</NavLink>
-              <NavLink className="-tab" to={`${url}/basicInformation`}
-                activeClassName="-active">{userInfoIcon}</NavLink>
+              <NavLink className="-tab" to={`${url}/basicInformation`} activeClassName="-active">
+                <InformationIcon/>
+              </NavLink>
               {/* TODO: mohammad add contributions and its route*/}
               <NavLink className="-tab" to={`${url}/SocialConnections`} activeClassName="-active">
                 <SocialIcon/>
