@@ -130,7 +130,7 @@ export class organizationBasicInformation extends React.Component<organizationBa
 		const {getOrgStaff} = this.props.actions
 	}
 	render() {
-		const {organizationId, organization, organ} = this.props;
+		const {organizationId, organization} = this.props;
 		const {getOrganization, getOrganizationMembers} = this.props.actions;
 		return (
 				<div>
@@ -140,7 +140,7 @@ export class organizationBasicInformation extends React.Component<organizationBa
 					/>
 					<FrameCard>
 						<ListGroup>
-							<OrganizationInfo actions = {this.props.actions} organizationId={organizationId} organization={organ}/>
+							<OrganizationInfo actions = {this.props.actions} organizationId={organizationId} organization={organization}/>
 							<OrganizationMembers members ={this.props.organization.staff} actions ={this.props.actions} organizationId={organizationId}/>
 						</ListGroup>
 					</FrameCard>

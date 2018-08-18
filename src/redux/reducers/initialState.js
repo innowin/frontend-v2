@@ -117,6 +117,7 @@ export default {
   },
   organization: {
     isLoading: false,
+    error: {message:""},
     exchanges: {
       isLoading: false,
       content: []

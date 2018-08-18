@@ -92,12 +92,13 @@ function* getFollowers(action) {
   const {organizationId} = payload;
   const identity = yield* getOrgIdentity(action)
   let followers = yield* getFollowersIdentities(identity[0].id)
-  followers = followers.map((val, idx) => {
-    return getFollower(val.follow_follower)
+  let users = []
+  followers.map((val, idx) => {
+    users.push(val.follow_follower)
   })
-  const results = yield all(followers)
-  if(results.length > 0){
-    yield put({type: types.SUCCESS.ORG.GET_ORG_FOLLOWERS, payload: results})
+  // const results = yield all(followers)
+  if(users.length > 0){
+    yield put({type: types.SUCCESS.ORG.GET_ORG_FOLLOWERS, payload: users})
   }
 }
 
