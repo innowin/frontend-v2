@@ -207,4 +207,11 @@ module.exports = {
   // Product
   // Product Rating
   'Ratings': 'دیدگاه ها و بازخورد ها',
+
+  // TopBar
+  topBar: {
+    'My Profile': 'پروفایل من',
+    'My Organization': 'سازمان من',
+    'Sign Out': 'خروج',
+  },
 };

@@ -19,7 +19,7 @@ import {connect} from "react-redux"
 import {getMessages} from "src/redux/selectors/translateSelector"
 import {NavLink, Switch, Redirect} from "react-router-dom"
 import {Tabs, VerifyWrapper} from "./common/cards/Frames"
-import {userInfoIcon, SkillIcon, CertificateIcon, workExperienceIcon, postIcon, SocialIcon} from "src/images/icons"
+import {InformationIcon, SkillIcon, CertificateIcon, workExperienceIcon, postIcon, SocialIcon} from "src/images/icons"
 import {UserSideBar} from "./bars/SideBar"
 import type {
   profileStateObject,
@@ -76,6 +76,7 @@ class User extends Component<PropsUser> {
 
   render() {
     const {match, translate, profileObject, userObject, identityObject, badgesObject, badges} = this.props
+    {/* TODO: fake*/}
     const {path, url, params} = match
     const userId: number = +params.id
     const isLoading = userObject.isLoading || profileObject.isLoading || identityObject.isLoading
@@ -93,24 +94,27 @@ class User extends Component<PropsUser> {
                        className={`-right-sidebar-wrapper user-sidebar-width col pr-0 pl-0`}/>
           <div className="col-md-6 col-sm-10 -content-wrapper">
             <Tabs>
-              <NavLink className="-tab" to={`${url}/basicInformation`}
-                       activeClassName="-active">{userInfoIcon}</NavLink>
               <NavLink className="-tab" to={`${url}/Posts`} activeClassName="-active">{postIcon}</NavLink>
-              <NavLink className="-tab" to={`${url}/WorkExperiences`}
-                       activeClassName="-active">{workExperienceIcon}</NavLink>
+              <NavLink className="-tab" to={`${url}/basicInformation`} activeClassName="-active">
+                <InformationIcon/>
+              </NavLink>
+              {/* TODO: mohammad add contributions and its route*/}
               <NavLink className="-tab" to={`${url}/SocialConnections`} activeClassName="-active">
                 <SocialIcon/>
               </NavLink>
+              {/* TODO: mohammad add education and its route*/}
+              {/* FixMe: mohammad workExperiences and skills must be join to workExperiences and join their routes*/}
+              <NavLink className="-tab" to={`${url}/WorkExperiences`} activeClassName="-active">{workExperienceIcon}</NavLink>
               <NavLink className="-tab" to={`${url}/Skills`} activeClassName="-active"><SkillIcon/></NavLink>
               <NavLink className="-tab" to={`${url}/Certificates`}
                        activeClassName="-active"><CertificateIcon/></NavLink>
             </Tabs>
             <Switch>
-              <Redirect exact from={`${url}/`} to={`${url}/basicInformation`}/>
-              <PrivateRoute path={`${path}/basicInformation`} component={UserBasicInformation} userId={userId}/>
+              <Redirect exact from={`${url}/`} to={`${url}/Posts`}/>
               <PrivateRoute path={`${path}/Posts`} component={Posts} id={userId} identityType='user'/>
-              <PrivateRoute path={`${path}/WorkExperiences`} component={WorkExperiences} userId={userId}/>
+              <PrivateRoute path={`${path}/basicInformation`} component={UserBasicInformation} userId={userId}/>
               <PrivateRoute path={`${path}/SocialConnections`} component={Social} userId={userId}/>
+              <PrivateRoute path={`${path}/WorkExperiences`} component={WorkExperiences} userId={userId}/>
               <PrivateRoute path={`${path}/Skills`} component={Skills} userId={userId}/>
               <PrivateRoute path={`${path}/Certificates`} component={Certificates} userId={userId}/>
             </Switch>

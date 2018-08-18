@@ -99,13 +99,16 @@
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-bottom-right-radius: 0.25rem;
   > div {
-    height: 75px
+    height: 75px;
   }
   a {
-    color: $text-lightest-color
+    color: $text-lightest-color;
+    margin-left: 20px;
+    margin-right: 20px;
+    text-decoration: none;
   }
   a:hover {
-    color: $info-color
+    color: $info-color;
   }
 }
 
