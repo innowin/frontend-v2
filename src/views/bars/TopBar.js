@@ -31,7 +31,8 @@ type PropsTopBar = {|
   actions: {
     signOut: Function,
     push: Function
-  }
+  },
+  translate: {[string]: string}
 |}
 
 type StatesTopBar = {|
@@ -47,7 +48,8 @@ type StatesTopBar = {|
 class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
   static propTypes = {
-    collapseClassName: PropTypes.string.isRequired
+    collapseClassName: PropTypes.string.isRequired,
+    translate: PropTypes.object.isRequired
   }
 
   //types
@@ -118,7 +120,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   }
 
   render() {
-    const {collapseClassName, clientUser, clientOrganization} = this.props
+    const {collapseClassName, clientUser, clientOrganization, translate} = this.props
     const {profileMedia, collapse, collapseProfile, productWizardModalIsOpen} = this.state
     return (
       <div>
@@ -168,11 +170,11 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
         <Collapse isOpen={collapseProfile} className="-topBar-profile-collapse">
           <div className="text-center">
             <div className="card-block">
-              <Link className="card-link" to="#" onClick={this._handleSignOut}>Sign out</Link>
+              <Link to="#" onClick={this._handleSignOut}>{translate['Sign Out']}</Link>
               {
                 (!clientOrganization) ? (
-                  <Link className="card-link" to={`/user/${clientUser.id}`}>my_profile</Link>) : (
-                  <Link className="card-link" to={`/organization/${clientOrganization.id}`}>my_organization</Link>
+                  <Link to={`/user/${clientUser.id}`}>{translate['My Profile']}</Link>) : (
+                  <Link to={`/organization/${clientOrganization.id}`}>{translate['My Organization']}</Link>
                 )
               }
             </div>
@@ -193,7 +195,8 @@ const mapStateToProps = state => ({
   isLoggedIn: state.auth.client.isLoggedIn,
   clientUser: state.auth.client.user,
   clientProfile: state.auth.client.profile,
-  clientOrganization: state.auth.client.organization
+  clientOrganization: state.auth.client.organization,
+  translate: state.intl.messages.topBar,
 })
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
