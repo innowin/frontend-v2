@@ -108,13 +108,12 @@ function* getFollowings(action) {
   const {organizationId} = payload;
   const identity = yield* getOrgIdentity(action)
   const followings = yield* getFollowingsIdentities(identity[0].id)
+
+  let users = []
   followings.map((val, idx) => {
-    return getFollowing(val.follow_followed)
+    users.push(val.follow_followed)
   })
-  const results = yield all(followings)
-  if(results.length > 0){
-    yield put({type: types.SUCCESS.ORG.GET_ORG_FOLLOWINGS, payload: results})
-  }
+  yield put({type: types.SUCCESS.ORG.GET_ORG_FOLLOWINGS, payload: users})
 }
 
 // 9 - get - exchanges
@@ -166,7 +165,7 @@ function* getFollowingsIdentities(orgIdentity) {
   let data
   const socketChannel = yield call(api.createSocketChannel, results.ORG.GET_ORG_FOLLOWINGS_IDENTITIES)
   try {
-    yield fork(api.get, urls.ORG.GET_ORG_FOLLOWERS, results.ORG.GET_ORG_FOLLOWINGS_IDENTITIES, `?follow_follower=${orgIdentity}`)
+    yield fork(api.get, urls.ORG.GET_ORG_FOLLOWINGS_IDENTITIES, results.ORG.GET_ORG_FOLLOWINGS_IDENTITIES, `?follow_follower=${orgIdentity}`)
     data = yield take(socketChannel)
     yield put({type: types.SUCCESS.ORG.GET_ORG_FOLLOWINGS_IDENTITIES, payload: data})
   } catch (e) {
@@ -547,6 +546,22 @@ function* deleteOrgCustomer(action){
   }
 }
 
+function* agencyRequest(action){
+  const payload = action.payload
+  const { description} = payload
+  const socketChannel = yield call(api.createSocketChannel, results.ORG.AGENCY_REQUEST)
+  try {
+    yield fork(api.post, urls.ORG.AGENCY_REQUEST, results.ORG.AGENCY_REQUEST,{agent_request_description :description})
+    const data = yield take(socketChannel)
+    yield put({type: types.SUCCESS.ORG.AGENCY_REQUEST, payload: {request:data}})
+  } catch (e) {
+    const {message} = e
+    yield put({type: types.ERRORS.ORG.AGENCY_REQUEST, payload: {type: types.ERRORS.ORG.AGENCY_REQUEST, error: message}})
+  } finally {
+    socketChannel.close()
+  }
+}
+
 /**********    %% WATCHERS %%    **********/
 
 //3 - get organization - members
@@ -643,4 +658,8 @@ export function* watchCreateCustomer(){
 
 export function* watchDeleteCustomer(){
   yield takeEvery(types.ORG.DELETE_CUSTOMER, deleteOrgCustomer)
+}
+
+export function* watchAgencyRequest(){
+  yield takeEvery(types.ORG.AGENCY_REQUEST, agencyRequest)
 }

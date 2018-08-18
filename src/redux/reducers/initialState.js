@@ -117,7 +117,10 @@ export default {
   },
   organization: {
     isLoading: false,
-    error: {message:""},
+    error: {message:null},
+    content:{
+
+    },
     exchanges: {
       isLoading: false,
       content: []
@@ -155,20 +158,21 @@ export default {
       isLoading: false,
       content: []
     },
-    name: '',
-    id: '',
-    official_name: '',
     identity: {
       isLoaded: false,
       content: ''
     },
   },
-
+  
   exchanges: {
     // full with this objects: 97 : {id:97, ...}, 102:{id:102, ...}
   },
 
   common: {
+    agencyRequest:{
+      isLoading:false,
+      error:{message:null}
+    },
     product: {
       viewingProduct: {
         content: {},

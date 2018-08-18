@@ -75,6 +75,24 @@ const organization = (state = initialState.organization, action) => {
 		case types.ORG.GET_PRODUCTS:
 			return {...state,products:{isLoading:true}}
 
+		case types.SUCCESS.ORG.GET_PRODUCT_PICTURE:
+			const pictures = action.payload
+			currentProducts = state.products.content;
+			var index = currentProducts.findIndex(function (cus) { return cus.id === pictures[0].picture_product; });
+			currentProducts[index].pictures = pictures
+			return {...state,products:{...state.products, content:currentProducts,isLoading:false,error:false}}
+		
+		case types.SUCCESS.ORG.GET_PRODUCT_PRICE:
+			const price = action.payload
+			currentProducts = state.products.content;
+			var index = currentProducts.findIndex(function (cus) { return cus.id === price[0].price_product; });
+			currentProducts[index].price = price[0]
+			return {...state,products:{...state.products, content:currentProducts,isLoading:false,error:false}}
+	
+		case types.SUCCESS.ORG.GET_PRODUCTS:
+			const {products,categories} = action.payload;
+			return{...state,products:{...products, content:products,categories:categories,isLoading:false,error:false}}
+
 		/** -------------------------- get organization follower-------------------------> **/
 		case types.ORG.GET_ORG_FOLLOWERS:
 			let followers = action.payload;
@@ -96,17 +114,22 @@ const organization = (state = initialState.organization, action) => {
 		case types.SUCCESS.ORG.GET_ORG_FOLLOWINGS:
 		followings = action.payload;
 			return{...state,followings:{content:followings,isLoading:false,error:false}}	
-		//SUCCESS
+		
+		/** -------------------------- create organization CERTIFICATE-------------------------> **/
+		case types.SUCCESS.ORG.GET_ORG_CERTIFICATES:
+			let certificates = action.payload;
+			return{...state,certificates:{...state.certificates, content:certificates,isLoading:false,error:false}}		
+
+		/** -------------------------- create organization CERTIFICATE-------------------------> **/
 		case types.SUCCESS.ORG.CREATE_CERTIFICATE:
 			let {certificate} = action.payload
 			let curCertificates = state.certificates.content;
 			curCertificates.push(certificate)
 			return{...state,certificates:{...state.certificates,content:curCertificates,isLoading:false,error:false}}		
 			
-		case types.SUCCESS.ORG.GET_ORG_CERTIFICATES:
-			let certificates = action.payload;
-			return{...state,certificates:{...state.certificates, content:certificates,isLoading:false,error:false}}		
 		
+			
+		/** -------------------------- update organization customer-------------------------> **/
 		case types.SUCCESS.ORG.UPDATE_CUSTOMER:
 			customer = action.payload;
 			var nowCustomers = state.customers.content;
@@ -115,47 +138,42 @@ const organization = (state = initialState.organization, action) => {
 			return{...state,customers:{content:nowCustomers,isLoading:false,error:false}}	
 
 			
-
+		/** -------------------------- get organization exchanges-------------------------> **/
 		case types.SUCCESS.ORG.GET_ORG_EXCHANGES:
 			let exchanges = action.payload;
 			return{...state,exchanges:{content:exchanges,isLoading:false,error:false}}
 
+		/** -------------------------- get user identity-------------------------> **/
 		case types.SUCCESS.ORG.GET_USER_IDENTITY:
 			const identity = action.payload[0];
 			return{...state,identity:{content:identity,isLoading:false,error:false}}
 
+		/** -------------------------- update organization product-------------------------> **/
 		case types.SUCCESS.ORG.UPDATE_PRODUCT:
 			let product = action.payload;
 			let currentProducts = state.customers.content;
 			var index = currentProducts.findIndex(function (cus) { return cus.id === product.id; });
 			currentProducts[index] = product
 			return{...state,products:{...products, content:currentProducts,isLoading:false,error:false}}	
-						
-		case types.SUCCESS.ORG.GET_PRODUCTS:
-			const {products,categories} = action.payload;
-			return{...state,products:{...products, content:products,categories:categories,isLoading:false,error:false}}
 
+		/** -------------------------- get organization members-------------------------> **/
 		case types.SUCCESS.ORG.GET_ORGANIZATION_MEMBERS:
 			const members = action.payload
 			return{...state,staff:{...staff, content:members,isLoading:false,error:false}}
 
+		/** -------------------------- get organization info-------------------------> **/
 		case types.SUCCESS.ORG.UPDATE_ORGANIZATION_INFO:
 			const updatedOrganization = action.payload
 			return{...state,...updatedOrganization,isLoading:false,error:false}
 		
-		case types.SUCCESS.ORG.GET_PRODUCT_PICTURE:
-			const pictures = action.payload
-			currentProducts = state.products.content;
-			var index = currentProducts.findIndex(function (cus) { return cus.id === pictures[0].picture_product; });
-			currentProducts[index].pictures = pictures
-			return {...state,products:{...state.products, content:currentProducts,isLoading:false,error:false}}
-
+		/** -------------------------- create organization product-------------------------> **/
 		case types.SUCCESS.ORG.CREATE_PRODUCT:
 			product = action.payload
 			currentProducts = state.products.content;
 			currentProducts.push(product)
 			return{...state,products:{...state.products, content:currentProducts,isLoading:false,error:false}};
 
+		/** -------------------------- delete organization product-------------------------> **/
 		case types.SUCCESS.ORG.DELETE_PRODUCT:
 			const productId = action.payload
 			currentProducts = state.products.content;
@@ -163,13 +181,16 @@ const organization = (state = initialState.organization, action) => {
 			currentProducts.array.splice(index, 1);
 			return{...state,products:{...state.products, content:currentProducts,isLoading:false,error:false}};
 
-		case types.SUCCESS.ORG.GET_PRODUCT_PRICE:
-			const price = action.payload
-			currentProducts = state.products.content;
-			var index = currentProducts.findIndex(function (cus) { return cus.id === price[0].price_product; });
-			currentProducts[index].price = price[0]
-			return {...state,products:{...state.products, content:currentProducts,isLoading:false,error:false}}
-	
+		/** -------------------------- get agency request-------------------------> **/
+		case types.ORG.AGENCY_REQUEST:
+			return{...state,agencyReqest:{...state.agencyReqest, isLoading:true,error:{message:''}}};
+		case types.ERRORS.ORG.AGENCY_REQUEST:
+			error = action.payload
+			return{...state,agencyReqest:{...state.agencyReqest, isLoading:false,error:{message:error}}};
+		case types.SUCCESS.ORG.AGENCY_REQUEST:
+			return{...state,agencyReqest:{...state.agencyReqest, isLoading:false,error:{message:''}}};
+
+
 		case types.ERRORS.ORG.UPDATE_ORGANIZATION_INFO:
 			error = action.payload.error
 			return{...state,errorMessage:error,isLoading:false,error:true}
