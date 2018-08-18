@@ -213,20 +213,20 @@
     padding-bottom: 90px
   }
   .menuBottom {
-  position: absolute;
-  top: 0;
-  left: 0;
-  color: lighten($text-light-color, 3%);
-  float: left;
-  margin: 15px 0 -10px 10px;
-  cursor: pointer;
-  display: block;
-  width: 15px;
-  height: 25px;
-  text-align: center;
-  line-height: 25px;
-  z-index: 101;
-}
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: lighten($text-light-color, 3%);
+    float: left;
+    margin: 15px 0 -10px 10px;
+    cursor: pointer;
+    display: block;
+    width: 15px;
+    height: 25px;
+    text-align: center;
+    line-height: 25px;
+    z-index: 101;
+  }
   .menu-box {
     position: absolute;
     top: 30px;
@@ -262,6 +262,42 @@
       }
     }
   }
+  .badgesCard {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    span {
+      margin: 5px 5px 0 5px;
+      img {
+        width: 45px;
+        height: 45px;
+        border-radius: 0.25rem;
+      }
+    }
+  }
+  .followNames {
+    span {
+      &.item {
+        color: cornflowerblue
+      }
+      font-size: 14px;
+      padding-right: 5px;
+    }
+  }
+  .social-network {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    i {
+      font-size: 25px;
+      color: $text-light-color;
+      &.active {
+        color: red;
+      }
+    }
+  }
 }
 
 .-sidebar-child-wrapper > div {
@@ -292,11 +328,6 @@
   padding-right: 10px;
   padding-left: 10px;
   margin-left: 5px;
-}
-
-.-badgeImg {
-  width: 45px;
-  height: 45px
 }
 
 //**         Home Sidebar(List of exchanges)               **//

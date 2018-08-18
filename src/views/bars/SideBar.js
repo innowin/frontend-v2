@@ -9,6 +9,7 @@ import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 import type {userProfileType, userType} from "src/consts/flowTypes/user/basicInformation"
 import {DefaultImageIcon} from "src/images/icons"
 import {DefaultUserIcon, DefaultOrganIcon} from "src/images/icons"
+import cx from "classnames"
 
 const MenuBox = (props) => (
   <div className="menu-box pt-0 pb-0" id={props.id}>
@@ -27,8 +28,8 @@ const MenuBox = (props) => (
 export const BadgesCard = (props: { badgesImg: (string)[] }) => {
   return (
     props.badgesImg.map((badgeImg, i) => (
-      <span className="col-3" key={i + "BadgesCard"}>
-          <img src={badgeImg} className="-badgeImg rounded" alt=""/>
+      <span key={i + "BadgesCard"}>
+          <img src={badgeImg} alt=""/>
       </span>
     ))
   )
@@ -62,6 +63,11 @@ export const UserSideBar = (props: PropsUserSideBar) => {
     (!badge) ? '' : (badge.badge_related_badge_category.badge_related_media.file))
   )
   const chosenBadgesImg = badgesImg.slice(0, 4)
+  const socialNetworks = {
+    telegram_account: profile['telegram_account'],
+    instagram_account: profile['instagram_account'],
+    linkedin_account: profile['linkedin_account'],
+  }
   return (
     <SideBarContent
       sideBarType='user'
@@ -72,6 +78,7 @@ export const UserSideBar = (props: PropsUserSideBar) => {
       translate={translate}
       className={className}
       chosenBadgesImg={chosenBadgesImg}
+      socialNetworks={socialNetworks}
     />
   )
 }
@@ -79,7 +86,7 @@ UserSideBar.propTypes = {
   translate: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
-  badges: PropTypes.object.isRequired,
+  badges: PropTypes.array.isRequired,
   className: PropTypes.string
 }
 
@@ -122,8 +129,12 @@ export class OrganSideBar extends Component<PropsOrganSideBar> {
     const badgesImg = badges.map(badge => (
       (!badge) ? '' : (badge.badge_related_badge_category.badge_related_media.file))
     )
-    console.log("badge in organ sideBar:", badges, badgesImg)
     const chosenBadgesImg = badgesImg.slice(0, 4)
+    const socialNetworks = { //TODO organ socialNetWorks get from backEnd
+      telegram_account: '',
+      instagram_account: '',
+      linkedin_account: '',
+    }
     return (
       <SideBarContent
         sideBarType='organ'
@@ -132,6 +143,7 @@ export class OrganSideBar extends Component<PropsOrganSideBar> {
         description={organ.biography}
         picture={organLogo}
         chosenBadgesImg={chosenBadgesImg}
+        socialNetworks={socialNetworks}
         translate={translate}
         className={className}
       />
@@ -146,6 +158,11 @@ type PropsSideBarContent = {
   name: ?string,
   description: ?string,
   chosenBadgesImg: (string)[],
+  socialNetworks: {
+    telegram_account: ?string,
+    instagram_account: ?string,
+    linkedin_account: ?string,
+  },
   translate: TranslatorType,
   className?: string
 }
@@ -159,6 +176,7 @@ class SideBarContent extends Component<PropsSideBarContent, { menuToggle: boolea
     name: PropTypes.string,
     description: PropTypes.string,
     chosenBadgesImg: PropTypes.array.isRequired,
+    socialNetworks: PropTypes.object.isRequired,
     translate: PropTypes.object.isRequired,
     className: PropTypes.string
   }
@@ -190,7 +208,8 @@ class SideBarContent extends Component<PropsSideBarContent, { menuToggle: boolea
 
   render() {
     const {menuToggle} = this.state
-    const {sideBarType, banner, picture, name, description, chosenBadgesImg, translate: tr, className} = this.props
+    const {sideBarType, banner, picture, name, description, chosenBadgesImg, socialNetworks, translate: tr, className} = this.props
+    const followNames = ["صابر منادی", "امیر امیری فر", "محسن فلاح", "یاسر رستگار", "علی اوروجی"] //TODO get followNames
     return (
       <div className={className}>
         {
@@ -215,11 +234,16 @@ class SideBarContent extends Component<PropsSideBarContent, { menuToggle: boolea
           </div>
           {
             (chosenBadgesImg.length > 0) ? (
-              <div className="row">
+              <div className="badgesCard">
                 <BadgesCard badgesImg={chosenBadgesImg}/>
               </div>
             ) : ("")
           }
+          <div className="followNames">
+            <span className="item">{followNames[0]}،</span>
+            <span className="item">{followNames[1]}</span>
+            <span>{` و ${followNames.length - 2 } نفر دیگر `}</span>
+          </div>
           <div className="flex-row pb-3">
             <div className="w-50 pl-2 pb-2">
               <button
@@ -233,6 +257,20 @@ class SideBarContent extends Component<PropsSideBarContent, { menuToggle: boolea
                 className="btn btn-outline-secondary btn-block sidebarBottom">{tr['Follow']}
               </button>
             </div>
+          </div>
+          <div className="social-network">
+            <a href={socialNetworks.telegram_account || "#"} target="_blank">
+              <i className={cx("fa fa-youtube-play", {'active': socialNetworks.telegram_account})}/>
+            </a>
+            <a href={socialNetworks.telegram_account || "#"} target="_blank">
+              <i className={cx("fa fa-telegram", {'active': socialNetworks.telegram_account})}/>
+            </a>
+            <a href={socialNetworks.instagram_account || "#"} target="_blank">
+              <i className={cx("fa fa-instagram", {'active': socialNetworks.instagram_account})}/>
+            </a>
+            <a href={socialNetworks.linkedin_account || "#"} target="_blank">
+              <i className={cx("fa fa-linkedin-square", {'active': socialNetworks.linkedin_account})}/>
+            </a>
           </div>
         </div>
       </div>
