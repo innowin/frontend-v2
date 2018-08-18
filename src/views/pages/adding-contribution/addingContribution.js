@@ -26,10 +26,10 @@ import {getMessages} from "../../../redux/selectors/translateSelector"
 import {connect} from "react-redux";
 import {LAYER1S} from './addingConributionData'
 import SuccessMessage from './successMessage'
-import {createSkillAction, createProductAction} from 'src/redux/actions/ContributionActions'
+import {createSkillAction} from 'src/redux/actions/ContributionActions'
 import FontAwesome from "react-fontawesome"
 import client from 'src/consts/client'
-import InitialInfoReduxForm from './reduxFormInitialInfo'
+import InitialInfoReduxForm, {INITIAL_INFO_FORM_NAME} from './reduxFormInitialInfo'
 import {getFormValues} from 'src/redux/selectors/formValuesSelectors'
 import {categorySelector} from 'src/redux/selectors/common/category'
 import {getCategories} from 'src/redux/actions/commonActions/categoryActions'
@@ -39,8 +39,9 @@ import {hashTagsListSelector} from "src/redux/selectors/common/hashTag"
 import {createProduct} from "src/redux/actions/commonActions/productActions"
 import {getCountries, getProvinces, getCities} from "src/redux/actions/commonActions/location"
 import countrySelector from "src/redux/selectors/common/location/country"
-import makeProvinceSelector from "src/redux/selectors/common/location/province"
-import makeCitySelector from "src/redux/selectors/common/location/city"
+import {provinceSelector} from "src/redux/selectors/common/location/province"
+import {citySelector} from "src/redux/selectors/common/location/city"
+import {change} from 'redux-form';
 
 
 const reorder = (list, startIndex, endIndex) => {
@@ -88,10 +89,6 @@ class AddingContribution extends React.Component {
                 technicalProperties: properties
             }
         })
-    }
-
-    _setLocationOptions = () => {
-
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -191,36 +188,85 @@ class AddingContribution extends React.Component {
         }
     }
 
-    _countryChangeHandler = v => v && this.props._getProvinces(v.value) // used in initialInfo
+    _countryChangeHandler = v => {
+        const {_changeFormSingleFieldValue, _getProvinces, initialInfoFormState={}} = this.props
+        v && _getProvinces(v.value)
+        if (initialInfoFormState[LAYER1S.COUNTRY]) {
+            if (initialInfoFormState[LAYER1S.COUNTRY].value !== v.value) {
+                _changeFormSingleFieldValue(INITIAL_INFO_FORM_NAME, LAYER1S.PROVINCE, '')
+            }
+        }
 
-    _provinceChangeHandler = v => v && this.props._getCities(v.value) // used in initialInfo
+    } // used in initialInfo
+
+    _provinceChangeHandler = v => {
+        const {_changeFormSingleFieldValue, _getCities, initialInfoFormState={}} = this.props
+        v && _getCities(v.value)
+        if (initialInfoFormState[LAYER1S.PROVINCE]) {
+            if (initialInfoFormState[LAYER1S.PROVINCE].value !== v.value) {
+                _changeFormSingleFieldValue(INITIAL_INFO_FORM_NAME, LAYER1S.CITY, '')
+            }
+        }
+
+    } // used in initialInfo
 
     _createProductHandler = () => {
+        const identityId = client.getIdentityId()
+        const {newContributionData} = this.state
+        const {initialInfoFormState, _createProduct} = this.props
         const {
-            title,
-            description,
-            [LAYER1S.CATEGORY_LAYER3]: product_category,
-            technicalProperties,
-        } = this.state.newContributionData
+            NAME,
+            DESCRIPTION,
+            COUNTRY,
+            PROVINCE,
+            CITY,
+            CATEGORY_LAYER1,
+            CATEGORY_LAYER2,
+            CATEGORY_LAYER3,
+            PRICE_STATUS,
+            PRODUCT_OWNER
+        } = LAYER1S
 
-        const attrs = technicalProperties.reduce((result, property) => {
-            const {value, title} = property
-            if (value && title) result[title] = value
-            return result
-        }, {})
+        const category = (initialInfoFormState[CATEGORY_LAYER3]) ||
+            initialInfoFormState[CATEGORY_LAYER2] || initialInfoFormState[CATEGORY_LAYER1]
 
-        const identity = client.getIdentityId()
-
-        const data = {
-            name: title,
-            description,
-            product_category: 30,
-            attrs,
-            province: 'some province',
-            country: 'some country',
-            product_owner: client.getIdentityId()
+        const product = {
+            [NAME]: initialInfoFormState[NAME],
+            [DESCRIPTION]: initialInfoFormState[DESCRIPTION],
+            [COUNTRY]: initialInfoFormState[COUNTRY].value,
+            [PROVINCE]: initialInfoFormState[PROVINCE].value,
+            [CITY]: initialInfoFormState[CITY].value,
+            [CATEGORY_LAYER3]: category.value,
+            [PRICE_STATUS]: newContributionData[PRICE_STATUS],
+            [PRODUCT_OWNER]: identityId
         }
-        this.props.dispatch(createProductAction(data))
+        _createProduct(product)
+
+        // const product = productFields.reduce((acc, field) => {
+        //     return ({ ...acc, [field]: newContributionData[field] })
+        // }, {})
+        // console.log(product)
+
+        // const d = product
+
+        // const attrs = technicalProperties.reduce((result, property) => {
+        //     const {value, title} = property
+        //     if (value && title) result[title] = value
+        //     return result
+        // }, {})
+        //
+        // const identity = client.getIdentityId()
+        //
+        // const data = {
+        //     name: title,
+        //     description,
+        //     product_category: 30,
+        //     attrs,
+        //     province: 'some province',
+        //     country: 'some country',
+        //     product_owner: client.getIdentityId()
+        // }
+        // this.props.dispatch(createProductAction(data))
     }
 
     _submitHandler = () => {
@@ -416,7 +462,6 @@ class AddingContribution extends React.Component {
             },
             () => {
                 this._afterStepChanging()
-                console.log(this.state)
             })
     }
 
@@ -473,7 +518,7 @@ class AddingContribution extends React.Component {
                         goToPrevStep={this._prevStep}
                         inputHandler={this._layer1InputsValueHandler}
                         newContributionData={newContributionData}
-                        initialInfoFormState={initialInfoFormState}
+                        formVals={initialInfoFormState}
                         categories={categories}
                         countryChangeHandler={this._countryChangeHandler}
                         provinces={provinces}
@@ -548,9 +593,6 @@ class AddingContribution extends React.Component {
         const {modalIsOpen, provinces, countries, cities} = this.props
         return (
             <div>
-                {console.log('----VIEW---- >> adding contribution >> provinces >> ', provinces)}
-                {console.log('----VIEW---- >> adding contribution >> cities.content', cities.content)}
-                {console.log('----VIEW---- >> adding contribution >> cities', cities)}
                 <Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>
                     <ModalBody className="adding-contribution-wrapper">
                         <FontAwesome name="times" size="2x" className="close-btn"
@@ -572,20 +614,7 @@ class AddingContribution extends React.Component {
     }
 }
 
-const mapStateToProps = (state, props) => {
-    // the below line crete 'initialInfoFormState' in the way that data saves in redux from for 'initialInfoForm'
-    const initialInfoFormState = props.initialInfoFormState || {values: {
-        [LAYER1S.COUNTRY]: {value: null},
-        [LAYER1S.PROVINCE]: {value: null}
-    }}
-
-    const countryId = initialInfoFormState.values[LAYER1S.COUNTRY].value
-
-    const provinceId = initialInfoFormState.values[LAYER1S.PROVINCE].value
-
-    const provinceSelector = makeProvinceSelector() // makes a copy of province selector.
-
-    const citySelector = makeCitySelector() // makes a copy of city selector.
+const mapStateToProps = (state) => {
 
     return {
         translator: getMessages(state),
@@ -593,8 +622,8 @@ const mapStateToProps = (state, props) => {
         initialInfoFormState: getFormValues(state, 'addingContributionInitialInfoForm'),
         hashTags: hashTagsListSelector(state),
         countries: countrySelector(state),
-        provinces: provinceSelector(state, countryId),
-        cities: citySelector(state, provinceId),
+        provinces: provinceSelector(state),
+        cities: citySelector(state),
     }
 };
 
@@ -603,10 +632,11 @@ const mapDispatchToProps = dispatch =>
         {
             _getCategories: () => getCategories(),
             _getHashTags: () => getHashTags(),
-            _createProduct: formData => createProduct(formData),
+            _createProduct: createProduct,
             _getCountries: () => getCountries(),
             _getProvinces: id => getProvinces(id),
-            _getCities: id => getCities(id)
+            _getCities: id => getCities(id),
+            _changeFormSingleFieldValue: change
         },
         dispatch
     );

@@ -12,10 +12,26 @@ import renderSelectField from "../../common/inputs/reduxFormRenderReactSelect"
 import renderTextArea from "../../common/inputs/reduxFormRenderTextArea"
 import renderRadioButtonGroup from "../../common/inputs/rdxRenderCircularRadioButtonGroup"
 import helpers from "src/consts/helperFunctions"
+import {connect} from "react-redux";
 
 
 const InitialInfoReduxFormValidate = (values) => {
     const errors = {}
+    const {
+        NAME,
+        COUNTRY,
+        PROVINCE,
+        CITY,
+        CATEGORY_LAYER1,
+    } = LAYER1S
+    const requiredFields = [NAME, COUNTRY, PROVINCE, CITY, CATEGORY_LAYER1]
+
+    requiredFields.forEach(field => {
+        if (!values[field]) {
+            errors._error = 'لطفا فیلدهای ضروری را پر کنید'
+            errors[field] = true
+        }
+    })
     return errors
 }
 
@@ -25,7 +41,7 @@ type CountryType = {
 }
 
 type CountriesType = {
-    content: {[number]: CountryType}
+    content: { [number]: CountryType }
 }
 
 type CategoriesType = {
@@ -44,7 +60,7 @@ type InitialInfoProps = {
     submitting: boolean,
     error: string,
     submitFailed: boolean,
-    initialInfoFormState: {},
+    formVals: {},
     categories: CategoriesType,
     countries: CountriesType,
     countryChangeHandler: Function,
@@ -65,13 +81,13 @@ let InitialInfoReduxForm = (props: InitialInfoProps) => {
         submitting,
         error,
         submitFailed,
-        initialInfoFormState={},
+        formVals = {},
         categories,
         countries,
         provinces,
         cities,
         countryChangeHandler,
-        provinceChangeHandler
+        provinceChangeHandler,
     } = props
 
     const {objToArrayAsOptions, filterNestedObjByKey} = helpers
@@ -79,22 +95,27 @@ let InitialInfoReduxForm = (props: InitialInfoProps) => {
         const categoriesObj = categories.content
         switch (layerName) {
             case LAYER1S.CATEGORY_LAYER2: {
-                if (initialInfoFormState && initialInfoFormState[LAYER1S.CATEGORY_LAYER1]) {
+                if (formVals[LAYER1S.CATEGORY_LAYER1]) {
                     return filterNestedObjByKey(categoriesObj, 'category_parent',
-                        +initialInfoFormState[LAYER1S.CATEGORY_LAYER1].value)
+                        +formVals[LAYER1S.CATEGORY_LAYER1].value)
                 }
                 return {}
             }
 
             case LAYER1S.CATEGORY_LAYER3: {
-                if (initialInfoFormState && initialInfoFormState[LAYER1S.CATEGORY_LAYER2]) {
+                if (formVals[LAYER1S.CATEGORY_LAYER2]) {
                     return filterNestedObjByKey(categoriesObj, 'category_parent',
-                        +initialInfoFormState[LAYER1S.CATEGORY_LAYER2].value)
+                        +formVals[LAYER1S.CATEGORY_LAYER2].value)
                 }
                 return {}
             }
-            default: return categoriesObj
+            default:
+                return categoriesObj
         }
+    }
+
+    const goToNextStepHandler = () => {
+        if(!error) goToNextStep()
     }
 
     const countriesList = objToArrayAsOptions(countries.content, 'id', 'name')
@@ -104,7 +125,8 @@ let InitialInfoReduxForm = (props: InitialInfoProps) => {
     const citiesList = objToArrayAsOptions(cities.content, 'id', 'name')
 
     return (
-        <form onSubmit={handleSubmit(() => {})}>
+        <form onSubmit={handleSubmit(() => {
+        })}>
             <div className="initial-info">
                 <div className="form">
                     <div className="form-column">
@@ -130,40 +152,40 @@ let InitialInfoReduxForm = (props: InitialInfoProps) => {
                         ))}
                     </div>
                     <div className="form-column">
-
+                        <div className="location-fields-wrapper">
                             <Field key={LAYER1S.COUNTRY}
                                    placeholder="کشور"
                                    id={LAYER1S.COUNTRY}
                                    className="location-select"
                                    name={LAYER1S.COUNTRY}
                                    component={renderSelectField}
-                                   label="کشور"
+                                   // label="کشور"
                                    noResultsText={`چنین کشوری وجود ندارد`}
                                    options={countriesList}
                                    onChange={countryChangeHandler}
                             />
-                        <Field key={LAYER1S.PROVINCE}
-                               placeholder="استان"
-                               id={LAYER1S.PROVINCE}
-                               className="location-select"
-                               name={LAYER1S.PROVINCE}
-                               component={renderSelectField}
-                               label="استان"
-                               noResultsText={`چنین استان وجود ندارد`}
-                               options={provincesList}
-                               onChange={provinceChangeHandler}
-                        />
-                        <Field key={LAYER1S.CITY}
-                               placeholder="شهر"
-                               id={LAYER1S.CITY}
-                               className="location-select"
-                               name={LAYER1S.CITY}
-                               component={renderSelectField}
-                               label="شهر"
-                               noResultsText={`چنین شهری وجود ندارد`}
-                               options={citiesList}
-                        />
-
+                            <Field key={LAYER1S.PROVINCE}
+                                   placeholder="استان"
+                                   id={LAYER1S.PROVINCE}
+                                   className="location-select"
+                                   name={LAYER1S.PROVINCE}
+                                   component={renderSelectField}
+                                   // label="استان"
+                                   noResultsText={`چنین استان وجود ندارد`}
+                                   options={provincesList}
+                                   onChange={provinceChangeHandler}
+                            />
+                            <Field key={LAYER1S.CITY}
+                                   placeholder="شهر"
+                                   id={LAYER1S.CITY}
+                                   className="location-select"
+                                   name={LAYER1S.CITY}
+                                   component={renderSelectField}
+                                   // label="شهر"
+                                   noResultsText={`چنین شهری وجود ندارد`}
+                                   options={citiesList}
+                            />
+                        </div>
                         <RadioButtonGroup
                             label="قیمت"
                             name={LAYER1S.PRICE_STATUS}
@@ -180,11 +202,11 @@ let InitialInfoReduxForm = (props: InitialInfoProps) => {
 
                         <Field name={LAYER1S.DESCRIPTION} type="text" component={renderTextArea}
                                label="توصیف اجمالی محصول" className="form-group desc"/>
-
+                        {console.log('\n error: ', error, '\n')}
                     </div>
                 </div>
                 <NextPrevBtns
-                    goToNextStep={goToNextStep}
+                    goToNextStep={goToNextStepHandler}
                     goToPrevStep={goToPrevStep}
                 />
             </div>
@@ -192,8 +214,11 @@ let InitialInfoReduxForm = (props: InitialInfoProps) => {
     )
 }
 
+
+export const INITIAL_INFO_FORM_NAME = 'addingContributionInitialInfoForm'
+
 InitialInfoReduxForm = reduxForm({
-    form: 'addingContributionInitialInfoForm',
+    form: INITIAL_INFO_FORM_NAME,
     validate: InitialInfoReduxFormValidate,
 })(InitialInfoReduxForm)
 

@@ -152,10 +152,10 @@ export const LAYER1S = { // the name of layer 1 inputs in state.newContributionD
     CONTRIBUTION_LOGO: 'contributionLogo',
     NEW_CERT_INDEX: 'newCertificateIndex',
     NEW_CERT_NEED_FOR_VERIFY: 'newCertificateNeedForVirify',
-    NAME: 'title',
+    NAME: 'name',
     CATEGORY_LAYER1: 'categoryLevel1',
     CATEGORY_LAYER2: 'categoryLevel2',
-    CATEGORY_LAYER3: 'categoryLevel3',
+    CATEGORY_LAYER3: 'product_category',
     COUNTRY: 'product_related_country',
     PROVINCE: 'product_related_province',
     CITY: 'product_related_town',
@@ -164,6 +164,7 @@ export const LAYER1S = { // the name of layer 1 inputs in state.newContributionD
     DESCRIPTION: 'description',
     CERT_TITLE: 'certificateTitle',
     CERT_NEED_FOR_VERIFY: 'certificateNeedForVerify',
-    GALLERY_VIDEO_NAME: 'galleryVideo'
+    GALLERY_VIDEO_NAME: 'galleryVideo',
+    PRODUCT_OWNER: 'product_owner'
 }
 

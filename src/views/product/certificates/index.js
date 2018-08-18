@@ -304,9 +304,9 @@ export class Certificates extends Component<CertificatesProps, CertificatesState
 
 const mapStateToProps = (state) => ({
     translator: getMessages(state),
-    certificates: state.certificate.objectCertificates.content,
-    middlewareFileData: state.file.middlewareFileData,
-    creatingObjCertStatus: state.certificate.creatingObjCertStatus
+    certificates: state.common.certificate.objectCertificates.content,
+    middlewareFileData: state.common.file.middlewareFileData,
+    creatingObjCertStatus: state.common.certificate.creatingObjCertStatus
 })
 
 const mapDispatchToProps = dispatch =>

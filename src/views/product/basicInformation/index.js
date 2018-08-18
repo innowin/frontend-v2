@@ -99,7 +99,12 @@ export class productBasicInformation extends Component<ProductInfoProps, Product
             const formFields = ['product_category', 'name', 'country', 'province', 'city', 'description']
 
             const formData = formFields.reduce((acc, field) => ({...acc, [field]: product[field]}), {})
-            formData['product_category'] = {value: product.product_category.id, label: product.product_category.name}
+            if (product.product_category) {
+                formData['product_category'] = {
+                    value: product.product_category.id,
+                    label: product.product_category.name
+                }
+            }
             this.setState({
                 ...this.state,
                 formData: formData
@@ -153,8 +158,8 @@ export class productBasicInformation extends Component<ProductInfoProps, Product
 }
 
 const mapStateToProps = state => ({
-    product: state.product.viewingProduct.content,
-    categories: state.category.categories.content
+    product: state.common.product.viewingProduct.content,
+    categories: state.common.category.categories.content
 })
 
 const mapDispatchToProps = dispatch =>
