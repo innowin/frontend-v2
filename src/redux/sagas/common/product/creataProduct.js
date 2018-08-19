@@ -7,14 +7,21 @@ import types from '../../../actions/types'
 
 function* createProduct(action) { // payload: { formData: {} }
     const {formData} = action.payload
+    const {product, certificates, galleryImages, galleryVideo, tags} = formData
     const socketChannel = yield call(api.createSocketChannel, results.COMMON.CREATE_PRODUCT)
+    console.log('\n', '\n')
+    console.log('--------------- createProduct >> the formData is ----------------------------> ', formData)
+    console.log('\n', '\n')
     try {
-        yield fork(api.post, urls.COMMON.PRODUCT, results.COMMON.CREATE_PRODUCT, formData)
-        const data = yield take(socketChannel)
-        console.log('-------------------- create product saga. data is : ', data)
-        // yield put({type: types.SUCCESS.COMMON.CREATE_FILE, data})
+        yield fork(api.post, urls.COMMON.PRODUCT, results.COMMON.CREATE_PRODUCT, product)
+        const {data} = yield take(socketChannel)
+        console.log('\n', '\n')
+        console.log('--------------- createProduct >> the data is ----------------------------> ', data)
+        console.log('\n', '\n')
+        yield put({type: types.SUCCESS.COMMON.CREATE_PRODUCT, data})
+
     } catch (error) {
-        console.log('-------------------- create product saga. error is: ', error)
+        yield put({type: types.ERROR.COMMON.CREATE_PRODUCT, error})
 
     } finally {
         socketChannel.close()

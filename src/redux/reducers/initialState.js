@@ -130,6 +130,11 @@ export default {
         isLoading: false,
         isLoaded: false,
       }, // the product that is viewing now.
+      list: {},
+      isLoaded: false,
+      isLoading: false,
+      error: null,
+      viewingId: 0
     },
     category: {
       categories: {

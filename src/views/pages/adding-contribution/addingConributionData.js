@@ -147,9 +147,9 @@ export const tags = [  //
 ]
 
 export const LAYER1S = { // the name of layer 1 inputs in state.newContributionData
-    NEW_CERT_TITLE: 'newCertificateTitle',
-    NEW_CERT_IMAGE: 'newCertificateImage',
-    CONTRIBUTION_LOGO: 'contributionLogo',
+    NEW_CERT_TITLE: 'title', // ! need for care
+    NEW_CERT_IMAGE: 'certificate_picture',
+    NEW_CERT_LOGO: 'certificate_logo',
     NEW_CERT_INDEX: 'newCertificateIndex',
     NEW_CERT_NEED_FOR_VERIFY: 'newCertificateNeedForVirify',
     NAME: 'name',

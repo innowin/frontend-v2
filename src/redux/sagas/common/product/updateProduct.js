@@ -10,7 +10,7 @@ function* updateProduct(action) { // action = {type, payload: {id, formData} }
 
     try {
         yield fork(api.patch, urls.COMMON.PRODUCT, results.COMMON.UPDATE_PRODUCT, formData, id)
-        const data = yield take(socketChannel)
+        const {data} = yield take(socketChannel)
         yield put({type: types.SUCCESS.COMMON.UPDATE_PRODUCT, data})
     } catch (error) {
         yield put({type: types.ERRORS.COMMON.UPDATE_PRODUCT, error})

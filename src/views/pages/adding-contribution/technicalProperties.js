@@ -55,13 +55,17 @@ const TechnicalProperties = (props: TechnicalPropertiesProps) => {
         return classes
     }
 
-    const reOrderedProperties = () => {
-        return properties.slice().sort((a, b) => {
-            if (a.title && !b.title) return -1
-            if (b.title && !a.title) return 1
-            return 0
-        })
+    const setReOrderedProperties = () => {
+        if (properties) {
+            return properties.slice().sort((a, b) => {
+                if (a.title && !b.title) return -1
+                if (b.title && !a.title) return 1
+                return 0
+            })
+        }
     }
+
+    const reOrderedProperties = setReOrderedProperties() || []
 
     return (
         <div className="technical-properties-page">
@@ -84,7 +88,7 @@ const TechnicalProperties = (props: TechnicalPropertiesProps) => {
                                         {...provided.droppableProps}
                                         className="properties-col"
                                     >
-                                        {reOrderedProperties().slice(rowNum - 3, rowNum).map((property, index) => (
+                                        {reOrderedProperties.slice(rowNum - 3, rowNum).map((property, index) => (
                                             <Draggable
                                                 index={index}
                                                 key={`completeProperty${property.id}`}

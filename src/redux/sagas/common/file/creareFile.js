@@ -11,7 +11,7 @@ function* createFile(action) { // payload?
     console.log('hi from crateFile. the guy formData is: > > > > > > > > > > ', formData)
     try {
         yield fork(api.post, urls.COMMON.FILE, results.COMMON.CREATE_FILE, formData)
-        const data = yield take(socketChannel)
+        const {data} = yield take(socketChannel)
         console.log('hi again from createFile. the guy res data is: ', data)
         yield put({type: types.SUCCESS.COMMON.CREATE_FILE, data})
     } catch (error) {

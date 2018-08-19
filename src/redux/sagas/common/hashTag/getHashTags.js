@@ -10,7 +10,7 @@ function* getHashTags(action) {
 
     try {
         yield fork(api.get, urls.COMMON.HASH_TAG, results.COMMON.GET_HASH_TAGS)
-        const data = yield take(socketChannel)
+        const {data} = yield take(socketChannel)
         const normalData = helpers.arrayToIdKeyedObject(data)
         yield put({type: types.SUCCESS.COMMON.GET_HASH_TAGS, data: normalData})
 

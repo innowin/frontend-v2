@@ -17,7 +17,7 @@ export const updateProduct = (id, formData) => ({
 })
 
 
-export const createProduct = (formData) => ({
+export const createProductAsContribution = (formData) => ({
     type: types.COMMON.CREATE_PRODUCT,
     payload: {
         formData

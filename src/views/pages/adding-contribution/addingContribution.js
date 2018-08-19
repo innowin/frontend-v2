@@ -36,12 +36,14 @@ import {getCategories} from 'src/redux/actions/commonActions/categoryActions'
 import {bindActionCreators} from "redux"
 import {getHashTags} from "src/redux/actions/commonActions/hashTagActions"
 import {hashTagsListSelector} from "src/redux/selectors/common/hashTag"
-import {createProduct} from "src/redux/actions/commonActions/productActions"
+import {createProductAsContribution} from "src/redux/actions/commonActions/productActions"
 import {getCountries, getProvinces, getCities} from "src/redux/actions/commonActions/location"
 import countrySelector from "src/redux/selectors/common/location/country"
 import {provinceSelector} from "src/redux/selectors/common/location/province"
 import {citySelector} from "src/redux/selectors/common/location/city"
 import {change} from 'redux-form';
+import {REST_URL, SOCKET} from "../../../consts/URLS";
+import {REST_REQUEST} from "../../../consts/Events";
 
 
 const reorder = (list, startIndex, endIndex) => {
@@ -74,29 +76,40 @@ class AddingContribution extends React.Component {
     }
 
     componentDidMount() {
-        const {_getCategories, _getHashTags, _getCountries} = this.props
-        const {newContributionData} = this.state
-        const {technicalProperties} = newContributionData
-        const properties = (technicalProperties && technicalProperties.slice()) || []
-        const firstIndex = properties.length || 0
-        for (let i = firstIndex; i < 9; i++) properties.push({id: i})
+        const {_getCategories, _getHashTags} = this.props
+        // const {newContributionData} = this.state
+        // const {technicalProperties} = newContributionData
+        // const properties = (technicalProperties && technicalProperties.slice()) || []
+        // const firstIndex = properties.length || 0
+        // for (let i = firstIndex; i < 9; i++) properties.push({id: i})
         _getCategories()
         _getHashTags()
-        this.setState({
-            ...this.state,
-            newContributionData: {
-                ...this.state.newContributionData,
-                technicalProperties: properties
-            }
-        })
+        // this.setState({
+        //     ...this.state,
+        //     newContributionData: {
+        //         ...this.state.newContributionData,
+        //         technicalProperties: properties
+        //     }
+        // })
     }
 
     componentDidUpdate(prevProps, prevState) {
         // const prevActiveStep = prevState.activeStep
         const {_getCountries} = this.props
-        const {activeStep} = this.state
+        const {activeStep, newContributionData} = this.state
         if ((prevState.activeStep === 1) && (activeStep === 2)) {
             _getCountries()
+            const {technicalProperties} = newContributionData
+            const properties = (technicalProperties && technicalProperties.slice()) || []
+            const firstIndex = properties.length || 0
+            for (let i = firstIndex; i < 9; i++) properties.push({id: i})
+            this.setState({
+                ...this.state,
+                newContributionData: {
+                    ...this.state.newContributionData,
+                    technicalProperties: properties
+                }
+            })
         }
     }
 
@@ -213,6 +226,7 @@ class AddingContribution extends React.Component {
     _createProductHandler = () => {
         const identityId = client.getIdentityId()
         const {newContributionData} = this.state
+        const {technicalProperties, certificates, galleryImages, galleryVideo, tags} = newContributionData
         const {initialInfoFormState, _createProduct} = this.props
         const {
             NAME,
@@ -227,6 +241,14 @@ class AddingContribution extends React.Component {
             PRODUCT_OWNER
         } = LAYER1S
 
+        let attrs = technicalProperties.reduce((result, property) => {
+            const newProperty = property.title ? {[property.title]: property.value} : {}
+            return {
+                ...result,
+                ...newProperty
+            }
+        }, {})
+        attrs = JSON.stringify(attrs)
         const category = (initialInfoFormState[CATEGORY_LAYER3]) ||
             initialInfoFormState[CATEGORY_LAYER2] || initialInfoFormState[CATEGORY_LAYER1]
 
@@ -238,35 +260,18 @@ class AddingContribution extends React.Component {
             [CITY]: initialInfoFormState[CITY].value,
             [CATEGORY_LAYER3]: category.value,
             [PRICE_STATUS]: newContributionData[PRICE_STATUS],
-            [PRODUCT_OWNER]: identityId
+            [PRODUCT_OWNER]: identityId,
+            attrs
         }
-        _createProduct(product)
-
-        // const product = productFields.reduce((acc, field) => {
-        //     return ({ ...acc, [field]: newContributionData[field] })
-        // }, {})
-        // console.log(product)
-
-        // const d = product
-
-        // const attrs = technicalProperties.reduce((result, property) => {
-        //     const {value, title} = property
-        //     if (value && title) result[title] = value
-        //     return result
-        // }, {})
-        //
-        // const identity = client.getIdentityId()
-        //
-        // const data = {
-        //     name: title,
-        //     description,
-        //     product_category: 30,
-        //     attrs,
-        //     province: 'some province',
-        //     country: 'some country',
-        //     product_owner: client.getIdentityId()
-        // }
-        // this.props.dispatch(createProductAction(data))
+        console.log('---- view >> addingContribution >> certificates is: \n', certificates)
+        const formData = {
+            product,
+            certificates,
+            galleryImages,
+            galleryVideo,
+            tags
+        }
+        _createProduct(formData)
     }
 
     _submitHandler = () => {
@@ -281,7 +286,7 @@ class AddingContribution extends React.Component {
             default:
                 return
         }
-        this._nextStep()
+        // this._nextStep() // TODO: take out from the comment.
     }
 
     _tagsSelectionHandler = (resultTags) => {
@@ -336,10 +341,12 @@ class AddingContribution extends React.Component {
             ...this.state,
             newContributionData: {
                 ...this.state.newContributionData,
+                ...cert,
                 [LAYER1S.NEW_CERT_INDEX]: idx,
-                [LAYER1S.NEW_CERT_TITLE]: cert.title,
-                [LAYER1S.NEW_CERT_IMAGE]: cert.image,
-                [LAYER1S.NEW_CERT_NEED_FOR_VERIFY]: cert.needForVerify,
+                // [LAYER1S.NEW_CERT_TITLE]: cert[LAYER1S.NEW_CERT_TITLE],
+                // [LAYER1S.NEW_CERT_IMAGE]: cert[LAYER1S.NEW_CERT_IMAGE],
+                // [LAYER1S.NEW_CERT_LOGO]: cert[LAYER1S.NEW_CERT_LOGO],
+                // [LAYER1S.NEW_CERT_NEED_FOR_VERIFY]: cert[LAYER1S.NEW_CERT_NEED_FOR_VERIFY],
             }
         })
     }
@@ -411,13 +418,16 @@ class AddingContribution extends React.Component {
     }
     _newCertificateHandler = () => {
         const {newContributionData} = this.state
-        const {
-            certificates,
-            [LAYER1S.NEW_CERT_TITLE]: title,
-            [LAYER1S.NEW_CERT_IMAGE]: image,
-            [LAYER1S.NEW_CERT_INDEX]: index,
-            [LAYER1S.NEW_CERT_NEED_FOR_VERIFY]: needForVerify,
-        } = newContributionData
+        const {NEW_CERT_TITLE, NEW_CERT_IMAGE, NEW_CERT_LOGO, NEW_CERT_NEED_FOR_VERIFY} = LAYER1S
+        const {certificates} = newContributionData
+        const index = newContributionData[LAYER1S.NEW_CERT_INDEX]
+
+        const newCert = {
+            [NEW_CERT_TITLE]: newContributionData[NEW_CERT_TITLE],
+            [NEW_CERT_IMAGE]: newContributionData[NEW_CERT_IMAGE],
+            [NEW_CERT_LOGO]: newContributionData[NEW_CERT_LOGO],
+            [NEW_CERT_NEED_FOR_VERIFY]: newContributionData[NEW_CERT_NEED_FOR_VERIFY],
+        }
 
         const newCertificates = (certificates && [...certificates]) || []
         const isEditing = (index === 0) || (index > 0)
@@ -425,8 +435,8 @@ class AddingContribution extends React.Component {
         const start = isEditing ? index : newCertificates.length // if there is index we want to update a certificate. else we only
         // want to add a new certificate in the end of the certificates.
 
-        if (title && image) {
-            newCertificates.splice(start, deleteCount, {title, image, needForVerify})
+        if (newCert[NEW_CERT_TITLE] && newCert[NEW_CERT_IMAGE]) {
+            newCertificates.splice(start, deleteCount, newCert)
             this.setState({
                 ...this.state,
                 newContributionData: {
@@ -434,6 +444,7 @@ class AddingContribution extends React.Component {
                     certificates: newCertificates,
                     [LAYER1S.NEW_CERT_TITLE]: '',
                     [LAYER1S.NEW_CERT_IMAGE]: '',
+                    [LAYER1S.NEW_CERT_LOGO]: '',
                     [LAYER1S.NEW_CERT_INDEX]: '',
                     [LAYER1S.NEW_CERT_NEED_FOR_VERIFY]: false,
                 },
@@ -590,7 +601,7 @@ class AddingContribution extends React.Component {
 
     render() {
         const {activeStep, progressSteps, progressStatus, wrapperClassName} = this.state
-        const {modalIsOpen, provinces, countries, cities} = this.props
+        const {modalIsOpen} = this.props
         return (
             <div>
                 <Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>
@@ -624,6 +635,7 @@ const mapStateToProps = (state) => {
         countries: countrySelector(state),
         provinces: provinceSelector(state),
         cities: citySelector(state),
+        testToken: state.auth.client.token
     }
 };
 
@@ -632,7 +644,7 @@ const mapDispatchToProps = dispatch =>
         {
             _getCategories: () => getCategories(),
             _getHashTags: () => getHashTags(),
-            _createProduct: createProduct,
+            _createProduct: createProductAsContribution,
             _getCountries: () => getCountries(),
             _getProvinces: id => getProvinces(id),
             _getCities: id => getCities(id),

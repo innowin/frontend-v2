@@ -4,25 +4,15 @@ import organization from './organization'
 import {routerReducer} from 'react-router-redux'
 import {intlReducer} from './intl'
 import category from './commonReducer/category'
-import product from './commonReducer/product'
+import product from './commonReducer/product/index'
 import certificate from './commonReducer/certificate'
 import file from './commonReducer/fileReducer'
 import {reducer as formReducer} from 'redux-form'
 import usersInfo from "./user/usersInfo"
 import organsInfo from "./organization/organsInfo"
 import hashTag from "./commonReducer/hashTag"
-import country from "./commonReducer/location/country"
-import province from "./commonReducer/location/province"
-import city from "./commonReducer/location/city"
+import location from "./commonReducer/location"
 
-// combining 'country' and 'province' and 'city' to one reducer named 'location'
-const location = combineReducers({
-    country,
-    province,
-    city
-})
-
-// combining all the common reducer to a reducer named 'common'
 const common = combineReducers({
     category,
     product,
