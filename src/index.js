@@ -29,14 +29,3 @@ ReactDOM.render(
 		
 		, document.getElementById('root'))
 registerServiceWorker()
-
-// it is only for developement state, It will be removed on build state. this provide hot reload on change.
-if (module.hot) {
-	module.hot.accept('./App', () => {
-		const NextApp = require('./App').default
-		ReactDOM.render(
-				<NextApp />,
-				document.getElementById('root')
-		)
-	})
-}

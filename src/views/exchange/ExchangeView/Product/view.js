@@ -1,31 +1,31 @@
 /*global __*/
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {CustomImage} from '../../../common/CustomImage';
-import {ItemWrapper} from "../../../common/cards/Frames";
-import {postIcon, EditIcon} from "src/images/icons";
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
+import {CustomImage} from '../../../common/CustomImage'
+import {ItemWrapper} from "../../../common/cards/Frames"
+import {postIcon, EditIcon} from "src/images/icons"
 
 export const ProductItemWrapper = ({children}) => {
-  return <ItemWrapper icon={postIcon}>{children}</ItemWrapper>;
-};
+  return <ItemWrapper icon={postIcon}>{children}</ItemWrapper>
+}
 
 export class ProductView extends Component {
   static propTypes = {
     showEdit: PropTypes.func.isRequired,
     product: PropTypes.object.isRequired,
-  };
+  }
 
   render() {
-    const {product, organization, pictures, price, categories} = this.props;
+    const {product, organization, pictures, price, categories} = this.props
     if (Object.keys(product).length === 0 && product.constructor === Object)
-      return <span/>;
+      return <span/>
 
-    let currentCategory = {title: ""};
+    let currentCategory = {title: ""}
     const options = categories.map((cat, index) => {
       if (cat.id == product.product_category) {
-        currentCategory = cat;
+        currentCategory = cat
       }
-      return {value: cat.id, label: cat.title};
+      return {value: cat.id, label: cat.title}
     })
 
 
@@ -54,13 +54,13 @@ export class ProductView extends Component {
 
 export class Product extends Component {
   constructor(props) {
-    super(props);
-    const {product} = props;
-    this.state = {edit: false, product: product};
+    super(props)
+    const {product} = props
+    this.state = {edit: false, product: product}
   }
 
   componentWillReceiveProps(props) {
-    const {product} = props;
+    const {product} = props
     this.setState({...this.state, product: product})
   }
 
@@ -68,14 +68,14 @@ export class Product extends Component {
     product: PropTypes.object.isRequired,
     categories: PropTypes.array.isRequired,
     pictures: PropTypes.array.isRequired
-  };
+  }
 
 
   render() {
-    // const {product } = this.state;
-    const {pictures, price, organization, updateStateForView, categories, product} = this.props;
+    // const {product } = this.state
+    const {pictures, price, organization, updateStateForView, categories, product} = this.props
 
     return <ProductView categories={categories} organization={organization} pictures={pictures} price={price}
-                        product={product}/>;
+                        product={product}/>
   }
 }

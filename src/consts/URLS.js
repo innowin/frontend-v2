@@ -45,7 +45,10 @@ const urls = {
   },
   EXCHANGE: {
     GET_EXCHANGES: 'exchanges',
-    GET_EXCHANGES_BY_MEMBER_IDENTITY: 'exchanges/identities',
+		GET_EXCHANGE_BY_EX_ID: 'exchanges',
+		GET_EXCHANGES_BY_MEMBER_IDENTITY:'exchanges/identities',
+		GET_EXCHANGE_MEMBERS_BY_EX_ID:'/exchanges/identities/',
+		DELETE_EXCHANGE_MEMBERSHIP: '/exchanges/identities/',
   },
 
   CREATE_PRODUCT: 'products',
@@ -64,7 +67,10 @@ const urls = {
     CERTIFICATE: 'base/certificates',
 
     // badge
-    BADGE:'base/badges'
+    BADGE:'base/badges',
+		POST: {
+			FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET:'/base/posts/',
+		},
   }
 }
 export default urls

@@ -22,13 +22,15 @@ import {
 } from './organization/organizationSaga'
 import {watchGetOrganization} from "./organization/getOrganSagas"
 import {watchLSignIn, watchLSignOut, watchLSignInError} from './auth/authSaga'
-import {watchGetExchangesByMemberIdentity} from "./exchange/exchange"
 import productWatchers from './common/product/product'
 import categoryWatchers from './common/category/category'
 import fileWatchers from './common/file/file'
 import badgeWatchers from "./common/badge/badge"
 import certificateWatchers from './common/certificate/certificate'
 import watchUsernameCheck from "./user/checkUsernameSaga"
+import {watchGetProductInfo} from './common/product/product'
+import {watchGetExchangesByMemberIdentity , watchGetExchangeByExId , watchGetExchangeMembersByExId ,watchDeleteExchangeMembership} from "./exchange/exchange"
+import {watchFilterPostsByPostParentPostTypeLimitOffset} from "./common/post/post"
 import {watchGetUserByUserId, watchGetProfileByUserId, watchGetIdentityByUserId} from "./user/getUserSagas"
 import {watchCreateUserPerson, watchCreateUserOrgan,} from "./user/createUserSagas"
 
@@ -53,7 +55,6 @@ const rootSaga = function* () {
     watchGetOrgFollowings(),
     watchGetProducts(),
     watchUpdateOrganization(),
-    watchGetExchangesByMemberIdentity(),
     watchUpdateCustomer(),
     watchUpdateOrgProduct(),
     watchAddProductPicture(),
@@ -65,7 +66,14 @@ const rootSaga = function* () {
     watchGetStaff(),
     watchCreateCustomer(),
     watchDeleteCustomer(),
-
+		
+		//Exchange sagas
+		watchGetExchangeByExId(),
+		watchGetExchangesByMemberIdentity(),
+		watchGetExchangeMembersByExId(),
+		watchDeleteExchangeMembership(),
+		watchUpdateCustomer(),
+    
     // product watchers
     productWatchers.watchGetProductInfo(),
     productWatchers.watchUpdateProduct(),
@@ -89,6 +97,5 @@ const rootSaga = function* () {
     badgeWatchers.watchGetUserBadges()
   ])
 }
-
 
 export default rootSaga

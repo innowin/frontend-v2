@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React,{Component} from 'react'
 
 export default class ExchangeExplorer extends Component {
 	render () {
@@ -6,4 +6,4 @@ export default class ExchangeExplorer extends Component {
 				<h1> ExchangeExplorer</h1>
 		)
 	}
-};
+}
