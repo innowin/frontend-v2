@@ -2,12 +2,17 @@ import {createStore , applyMiddleware} from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import rootReducer from '../reducers/rootReducer'
 import rootSaga from '../sagas/rootSaga'
-import {logger} from 'redux-logger'
+import {createLogger} from 'redux-logger'
 import {routerMiddleware} from 'react-router-redux'
 import {persistReducer} from 'redux-persist'
 import createHistory from 'history/createBrowserHistory'
 import storage from 'redux-persist/lib/storage'
 
+//creating logger
+const logger = createLogger({
+	diff: true,
+	collapsed: (getState, action, logEntry) => !logEntry.error,
+})
 //Creating history
 export const history = createHistory()
 //Creating Saga middleware

@@ -83,7 +83,7 @@ class ExchangeViewBar extends Component {
 	componentDidMount() {
 		const {actions ,exchangeId} = this.props
 		const {getExchangeMembersByExId} = actions
-		getExchangeMembersByExId ( exchangeId )
+		getExchangeMembersByExId (exchangeId)
 		// this._getExchange(exchangeId)
 		// this._getCounts(exchangeId)
 		this._getCounts(exchangeId)

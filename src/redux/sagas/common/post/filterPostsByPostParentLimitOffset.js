@@ -5,7 +5,7 @@ import types from 'src/redux/actions/actionTypes'
 import {put, take, fork, call} from "redux-saga/effects"
 /*
 * parentId is required for filtering but postType is arbitrary.
- * default number of limit is 100 and offset is 0
+* default number of limit is 100 and offset is 0
 * */
 export function* filterPostsByPostParentPostTypeLimitOffset(action) {
 	const {parentId , postType , limit = 100 , offset = 0 } = action.payload

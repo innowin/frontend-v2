@@ -44,7 +44,7 @@ const rootSaga = function* () {
 		// watchCreateProduct(),
 		watchCreateOrgProduct(),
 		//post
-		watchFilterPostsByPostParentPostTypeLimitOffset(),
+		// watchFilterPostsByPostParentPostTypeLimitOffset(),
 		// common sagas
         watchGetProductInfo(),
     ])
