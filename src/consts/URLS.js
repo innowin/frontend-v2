@@ -42,6 +42,7 @@ const urls = {
     DELETE_PRODUCT: 'products',
     GET_STAFF:'organizations/staff',
     CREATE_CUSTOMER:'organizations/customers',
+    AGENCY_REQUEST:'users/agent-requests',
   },
   EXCHANGE: {
     GET_EXCHANGES: 'exchanges',

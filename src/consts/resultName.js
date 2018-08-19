@@ -35,6 +35,7 @@ const results = {
     GET_STAFF: 'get-org-staff',
     CREATE_CUSTOMER: 'create-org-customer',
     DELETE_CUSTOMER: 'delete-org-customer',
+    AGENCY_REQUEST: 'agent-request',
   },
   COMMON: {
     // product

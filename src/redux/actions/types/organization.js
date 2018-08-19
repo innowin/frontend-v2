@@ -44,6 +44,9 @@ const ERROR = {
     
     //STAFF
     GET_STAFF:'GET_ORG_STAFF_ERROR',
+
+    //AGENCY
+    AGENCY_REQUEST:'AGENCY_REQUEST_ERROR',
 }
 
 const SUCCESS = {
@@ -92,6 +95,9 @@ const SUCCESS = {
 
     //STAFF
     GET_STAFF:'GET_ORG_STAFF_SUCCESS',
+
+    //AGENCY
+    AGENCY_REQUEST:'AGENCY_REQUEST_SUCCESS',
 }
 
 const BASE = {
@@ -142,6 +148,9 @@ const BASE = {
 
     //Staff
     GET_STAFF:'GET_ORG_STAFF',
+
+    //AGENCY 
+    AGENCY_REQUEST:'AGENCY_REQUEST',
 }
 
 
