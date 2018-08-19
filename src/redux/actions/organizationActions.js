@@ -215,6 +215,14 @@ const getOrgStaff = (organizationId) => ({
         }
 })
 
+const agencyRequest = (description) => ({
+    type: types.ORG.AGENCY_REQUEST,
+    payload: {
+        
+        description
+    }
+})
+
 const OrganizationActions = {
   getOrganization,
   getMetaDataOrganization,
@@ -252,6 +260,8 @@ const OrganizationActions = {
   addPicture,
 
   getOrgStaff,
+
+  agencyRequest,
 };
 
 export default OrganizationActions;

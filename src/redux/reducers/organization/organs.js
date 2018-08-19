@@ -14,7 +14,7 @@ const organs = (state = initialState.organs, action) => {
         ...state,
         [organizationId]: {
           ...state[organizationId],
-          organ:{
+          organization:{
             ...previousOrgan,
             isLoading: true
           }
@@ -25,10 +25,11 @@ const organs = (state = initialState.organs, action) => {
         ...state,
         [organizationId]: {
           ...state[organizationId],
-          organ:{
+          organization:{
             ...previousOrgan,
             content: {...data},
-            isLoading: false
+            isLoading: false,
+            error:{}
           }
         }
       }
@@ -37,12 +38,11 @@ const organs = (state = initialState.organs, action) => {
         ...state,
         [organizationId]: {
           ...state[organizationId],
-          organ:{
+          organization:{
             ...previousOrgan,
             isLoading: false,
-            error: {
-              message
-            }
+            error: message
+            
           }
         }
       }
