@@ -1,15 +1,19 @@
-// @flow
 import types from './types'
 
-const getExchangeIdentitiesByMemberIdentity = (identityId: number) => ({
-  type: types.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY,
-  payload: {
-    identityId
-  }
-})
+const getExchangeIdentitiesByMemberIdentity = (identityId) => ({type: types.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY, payload: {identityId}})
 
-const ExchangeActions = {
-  getExchangeIdentitiesByMemberIdentity
+const getExchangeByExId = (id) => ({type: types.EXCHANGE.GET_EXCHANGE_BY_EX_ID , payload:{id}})
+
+const getExchangesByMemberIdentity = (identity) => ({type: types.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY , payload:{identity}})
+
+const getExchangeMembersByExId = (id) => ({type: types.EXCHANGE.GET_EXCHANGE_MEMBERS_BY_EX_ID, payload:{id}})
+
+const deleteExchangeMembership = (identityId) => ({type: types.EXCHANGE.DELETE_EXCHANGE_MEMBERSHIP, payload:{identityId}})
+
+export default {
+	getExchangeIdentitiesByMemberIdentity,
+	getExchangeByExId,
+	getExchangesByMemberIdentity,
+	getExchangeMembersByExId,
+	deleteExchangeMembership
 }
-
-export default ExchangeActions

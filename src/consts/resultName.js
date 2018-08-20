@@ -1,5 +1,5 @@
 const results = {
-    //sign in
+// sign in
     SIGN_IN: 'sign-in',
     USER: {
         USERNAME_CHECK: "USERNAME_CHECK",
@@ -58,6 +58,9 @@ const results = {
         // badge
         GET_USER_BADGES: "GET_USER_BADGES",
         GET_ORG_BADGES: "GET_ORG_BADGES",
+        POST: {
+            FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET: 'filterPostsByPostParentLimitOffset',
+        },
 
         // hashTag
         GET_HASH_TAGS: 'common-get-hashTags-result',
@@ -72,11 +75,11 @@ const results = {
         GET_EXCHANGES: 'get-exchanges',
         GET_EXCHANGE_BY_ID: 'get-exchanges-{id}',
         GET_EXCHANGES_BY_MEMBER_IDENTITY: 'getExchangesByMemberIdentity',
+        GET_EXCHANGE_BY_EX_ID: 'get-exchange-by-ex-id',
+        DELETE_EXCHANGE_MEMBERSHIP: 'delete-exchange-membership'
     },
-
     //contribution
     CREATE_PRODUCT: 'create-product',
     CREATE_Skill: 'create-skill',
-
 }
 export default results
