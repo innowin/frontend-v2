@@ -1,97 +1,23 @@
 // @flow
 import * as React from "react"
-import {Component} from "react"
 import PropTypes from "prop-types"
+
+import {Component} from "react"
 import {connect} from "react-redux"
 import {FrameCard, CategoryTitle, VerifyWrapper, ListGroup} from "src/views/common/cards/Frames"
 import {getMessages} from "src/redux/selectors/translateSelector"
 import {getProfile} from "src/crud/user/profile"
 import {getUserEducations} from "src/crud/user/education"
 import {getUserResearches} from "src/crud/user/research"
-import {getUser} from "src/crud/user/user"
-import {ProfileInfoEditForm, UserInfoEditForm, ResearchInfoEditForm, EducationInfoEditForm} from "./Forms"
+import {ProfileInfoEditForm, ResearchInfoEditForm, EducationInfoEditForm} from "./Forms"
 import {userInfoIcon, researchIcon, educationIcon} from "src/images/icons"
-import {UserInfoItemWrapper, UserInfoView, ProfileInfoView, ResearchInfoView, EducationInfoView} from "./Views"
+import {UserInfoItemWrapper, ProfileInfoView, ResearchInfoView, EducationInfoView} from "./Views"
+import {UserInfo} from "./UserInfo"
 import type {
-  userType,
   userProfileType,
   userEducationType,
   userResearchType
 } from "src/consts/flowTypes/user/basicInformation"
-
-
-//UserInfo flowTypes
-type UserInfoProps = {
-  userId: number,
-  translate: {}
-}
-type UserInfoState = {
-  user: userType,
-  error: boolean,
-  edit: boolean,
-  isLoading: boolean
-}
-
-export class UserInfo extends Component<UserInfoProps, UserInfoState> {
-
-  constructor(props: UserInfoProps) {
-    super(props)
-    this.state = {user: {}, error: false, edit: false, isLoading: false}
-  }
-
-  static propTypes = {
-    userId: PropTypes.number.isRequired,
-    translate: PropTypes.object.isRequired
-  }
-
-  _showEdit = () => {
-    this.setState({...this.state, edit: true})
-  }
-
-  _hideEdit = () => {
-    this.setState({...this.state, edit: false})
-  }
-
-  _updateStateForView = (res: userType) => {
-    this.setState({...this.state, user: res, isLoading: false})
-  }
-
-  componentDidMount() {
-    const {userId} = this.props
-    this.setState({...this.state, isLoading: true}, () => {
-        getUser(userId, (res: userType) =>
-          this.setState({...this.state, user: res, isLoading: false})
-        )
-      }
-    )
-  }
-
-  render() {
-    const {translate} = this.props
-    const {user, edit, isLoading, error} = this.state
-    return (
-
-      <VerifyWrapper isLoading={isLoading} error={error}>
-
-        {
-          (edit) ? (
-            <UserInfoItemWrapper icon={userInfoIcon}>
-              <UserInfoEditForm
-                user={user}
-                hideEdit={this._hideEdit}
-                updateStateForView={this._updateStateForView}
-                translate={translate}
-              />
-            </UserInfoItemWrapper>
-          ) : (
-            <UserInfoView user={user} translate={translate} showEdit={this._showEdit}/>
-          )
-        }
-      </VerifyWrapper>
-    )
-  }
-}
-
 
 //ProfileInfo flowTypes
 type ProfileInfoProps = {

@@ -1,7 +1,8 @@
 // @flow
 import * as React from "react"
-import {Component} from "react"
 import PropTypes from "prop-types"
+import {Component} from "react"
+
 import {ArrayInput} from "src/views/common/inputs/ArrayInput"
 import {CustomArrayInput} from "src/views/common/inputs/CustomArrayInput"
 import {CustomInput} from "src/views/common/inputs/CustomInput"
@@ -15,165 +16,11 @@ import {TextInput} from "src/views/common/inputs/TextInput"
 import {updateEducation} from "src/crud/user/education"
 import {updateProfile} from "src/crud/user/profile"
 import {updateResearch} from "src/crud/user/research"
-import {updateUser} from "src/crud/user/user"
 import type {
-  userType,
   userProfileType,
   userEducationType,
   userResearchType
 } from "src/consts/flowTypes/user/basicInformation"
-
-
-// flow type of UserInfoForm
-type PropsUserInfoForm = {
-  onSubmit: Function,
-  user: ?userType,
-  children?: React.Node,
-  translate: { [string]: string }
-}
-// flow type of UserInfoEditForm
-type PropsUserInfoEditForm = {
-  hideEdit: Function,
-  updateStateForView: Function,
-  user: userType,
-  translate: { [string]: string }
-}
-type StateUserInfoEditForm = {
-  confirm: boolean
-}
-
-export class UserInfoForm extends Component<PropsUserInfoForm> {
-  static propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-    user: PropTypes.object,
-    translate: PropTypes.object.isRequired
-  }
-
-  usernameInput: React.ElementRef<typeof TextInput>
-  firstNameInput: React.ElementRef<typeof TextInput>
-  lastNameInput: React.ElementRef<typeof TextInput>
-  emailInput: React.ElementRef<typeof EmailInput>
-
-  _getValues = (): {} => {
-    return {
-      username: this.usernameInput.getValue(),
-      first_name: this.firstNameInput.getValue(),
-      last_name: this.lastNameInput.getValue(),
-      email: this.emailInput.getValue()
-    }
-  }
-
-  _formValidate = (): boolean => {
-    let result: boolean = true
-    const validates: (string | boolean)[] = [
-      this.usernameInput.validate(),
-      this.firstNameInput.validate(),
-      this.lastNameInput.validate(),
-      this.emailInput.validate()
-    ]
-    for (let i = 0; i < validates.length; i++) {
-      if (validates[i]) {
-        result = false
-        break
-      }
-    }
-    return result
-  }
-
-  render() {
-    const {translate} = this.props
-    const user = this.props.user || {}
-    return (
-      <form onSubmit={this.props.onSubmit}>
-        <div className="row">
-          <TextInput
-            name="username"
-            label={translate['Username'] + ": "}
-            value={user.username}
-            ref={usernameInput => {
-              this.usernameInput = usernameInput
-            }}
-          />
-          <TextInput
-            name="firstName"
-            label={translate['First name'] + ": "}
-            value={user.first_name}
-            ref={firstNameInput => {
-              this.firstNameInput = firstNameInput
-            }}
-          />
-          <TextInput
-            name="lastName"
-            label={translate['Last name'] + ": "}
-            value={user.last_name}
-            ref={lastNameInput => {
-              this.lastNameInput = lastNameInput
-            }}
-          />
-          {/*TODO EMAIL INPUT*/}
-          <EmailInput
-            label={translate['Email'] + ": "}
-            value={user.email}
-            ref={emailInput => {
-              this.emailInput = emailInput
-            }}
-          />
-          {this.props.children}
-        </div>
-      </form>
-    )
-  }
-}
-
-export class UserInfoEditForm extends Component<PropsUserInfoEditForm, StateUserInfoEditForm> {
-  constructor(props: PropsUserInfoEditForm) {
-    super(props)
-    this.state = {confirm: false}
-  }
-
-  static propTypes = {
-    hideEdit: PropTypes.func.isRequired,
-    updateStateForView: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired,
-    translate: PropTypes.object.isRequired
-  }
-
-  form: ?React.ElementRef<typeof UserInfoForm>
-
-  _save = (updateStateForView: Function, hideEdit: Function) => {
-    const userId:number = this.props.user.id
-    if (this.form) {
-      const formValues:{} = this.form._getValues()
-      updateUser(formValues, userId, updateStateForView, hideEdit)
-    }
-  }
-
-  _onSubmit = (e: SyntheticEvent<HTMLButtonElement>): boolean | void => {
-    const {updateStateForView, hideEdit} = this.props
-    e.preventDefault()
-    if (this.form && this.form._formValidate()) {
-      this._save(updateStateForView, hideEdit)
-    }
-    return false
-  }
-
-  render() {
-    const {user, translate} = this.props
-    return (
-      <UserInfoForm onSubmit={this._onSubmit} ref={form => {
-        this.form = form
-      }} user={user} translate={translate}>
-        <div className="col-12 d-flex justify-content-end">
-          <button type="button" className="btn btn-secondary mr-2" onClick={this.props.hideEdit}>
-            {translate['Cancel']}
-          </button>
-          <button type="submit" className="btn btn-success">{translate['Save']}</button>
-        </div>
-      </UserInfoForm>
-    )
-  }
-}
-
 
 // ProfileInfoForm flow type
 type PropsProfileInfoForm = {

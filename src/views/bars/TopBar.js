@@ -21,6 +21,7 @@ import {getFile} from "src/crud/media/media"
 import AgentForm from "../pages/modal/agentForm-modal"
 import AddingContribution from "../pages/adding-contribution/addingContribution"
 import CreateExchangeForm from "../pages/modal/createExchange-modal";
+import client from "src/consts/client"
 
 type PropsTopBar = {|
   collapseClassName: string,
@@ -30,9 +31,10 @@ type PropsTopBar = {|
   clientOrganization: ?shortOrganizationType,
   actions: {
     signOut: Function,
-    push: Function
+    push: Function,
+    verifyToken: Function
   },
-  translate: {[string]: string}
+  translate: {[string]: string},
 |}
 
 type StatesTopBar = {|
@@ -49,7 +51,8 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
   static propTypes = {
     collapseClassName: PropTypes.string.isRequired,
-    translate: PropTypes.object.isRequired
+    translate: PropTypes.object.isRequired,
+    actions: PropTypes.func.isRequired,
   }
 
   //types
@@ -75,6 +78,8 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   }
 
   componentDidMount() {
+    const {actions} = this.props
+    const {verifyToken} = actions
     const mediaId: ?number = this.props.clientProfile.profile_media
     if (mediaId) {
       const mediaResult = (res: fileType): void => {
@@ -82,6 +87,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       }
       getFile(mediaId, mediaResult)
     }
+    verifyToken(client.getToken())
   }
 
   _toggle = (e: SyntheticEvent<HTMLButtonElement>): void => {
@@ -201,7 +207,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     signOut: AuthActions.signOut,
-    push: routerActions.push
+    verifyToken: AuthActions.verifyToken,
+    push: routerActions.push,
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(TopBar)

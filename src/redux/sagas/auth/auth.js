@@ -3,6 +3,7 @@ import client from "src/consts/client"
 import results from "src/consts/resultName"
 import types from "src/redux/actions/types"
 import urls from "src/consts/URLS"
+import {verifyToken} from './verifyToken'
 import {delay} from "redux-saga"
 import {put, take, fork, call, takeEvery} from "redux-saga/effects"
 
@@ -98,4 +99,13 @@ export function* watchLSignOut() {
 //3 - sign in error
 export function* watchLSignInError() {
   yield takeEvery(types.ERRORS.AUTH.SIGN_IN, signOut)
+}
+
+//4 -verify Token
+function* watchVerifyToken() {
+  yield takeEvery(types.AUTH.VERIFY_TOKEN, verifyToken)
+}
+
+export default {
+  watchVerifyToken,
 }

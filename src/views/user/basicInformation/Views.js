@@ -2,7 +2,6 @@
 import * as React from "react"
 import {Component} from "react"
 import PropTypes from "prop-types"
-import {JalaliWithFarsiMonth} from "../../common/JalaliWithFarsiMonth"
 import {list_of_badge} from "../../common/Functions"
 import {userInfoIcon, researchIcon, educationIcon} from "src/images/icons"
 import {
@@ -13,12 +12,10 @@ import {
   ItemWrapper,
 } from "../../common/cards/Frames"
 import type {
-  userType,
   userProfileType,
   userEducationType,
   userResearchType
 } from "src/consts/flowTypes/user/basicInformation"
-
 
 type PropsUserInfoItemWrapper = {
   icon: React.Element<any>,
@@ -32,52 +29,6 @@ export const UserInfoItemWrapper = (props: PropsUserInfoItemWrapper) => {
 UserInfoItemWrapper.propTypes = {
   icon: PropTypes.element.isRequired
 }
-
-
-// flow type of UserInfoView
-type PropsUserInfoView = {
-  showEdit: Function,
-  user: userType,
-  translate: { [string]: string }
-}
-
-export class UserInfoView extends Component<PropsUserInfoView> {
-  static propTypes = {
-    showEdit: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired,
-    translate: PropTypes.object.isRequired
-  }
-
-  render() {
-    const {user, showEdit, translate} = this.props
-    return (
-      <UserInfoItemWrapper icon={userInfoIcon}>
-        <ItemHeader title={translate['User info']} showEdit={showEdit}/>
-        <Field>
-          <FieldLabel label={translate['Username'] + ": "}/>
-          <FieldValue value={user.username}/>
-        </Field>
-        <Field>
-          <FieldLabel label={translate['Name'] + ": "}/>
-          <FieldValue value={user.first_name}/>
-        </Field>
-        <Field>
-          <FieldLabel label={translate['Last name'] + ": "}/>
-          <FieldValue value={user.last_name}/>
-        </Field>
-        <Field>
-          <FieldLabel label={translate['Email'] + ": "}/>
-          <FieldValue value={user.email}/>
-        </Field>
-        <Field>
-          <FieldLabel label={translate['Date joined'] + ": "}/>
-          <FieldValue value={JalaliWithFarsiMonth(user.date_joined)}/>
-        </Field>
-      </UserInfoItemWrapper>
-    )
-  }
-}
-
 
 // flow type of ProfileInfoView
 type PropsProfileInfoView = {
