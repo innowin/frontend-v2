@@ -10,14 +10,19 @@ import {FrameCard, CategoryTitle, VerifyWrapper} from "src/views/common/cards/Fr
 import {getExchangesByMemberIdentity, removeExchangeMembership} from "src/crud/exchange/exchange"
 import {getFile} from "src/crud/media/media"
 import {getFollowers, getFollowings} from "src/crud/social"
-import {getIdentityByUser} from "src/crud/identity"
 import {getIdentity} from "src/crud/identity"
 import {getMessages} from "src/redux/selectors/translateSelector"
 import {getProfile} from "src/crud/user/profile"
 import type {userType} from "src/consts/flowTypes/user/basicInformation"
+import {bindActionCreators} from "redux"
+import ExchangeActions from "src/redux/actions/exchangeActions"
 
 type PropsSocials = {
   userId: number,
+  identityId: number,
+  actions:{
+    getExchangesByMemberIdentity:Function
+  },
   translate: { [string]: string }
 }
 type StateSocials = {
@@ -57,6 +62,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
 
   static propTypes = {
     userId: PropTypes.string.isRequired,
+    identityId: PropTypes.number.isRequired,
     translate: PropTypes.object.isRequired
   }
 
@@ -70,7 +76,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
     this.setState({...this.state, editFollowings: !editFollowings})
   }
 
-  _handleError = (error:boolean|string) => this.setState({...this.state, error: error, isLoading: false})
+  _handleError = (error: boolean | string) => this.setState({...this.state, error: error, isLoading: false})
 
   _getFollowers = (followersList) => {
     let fls = []
@@ -114,7 +120,11 @@ class Socials extends Component<PropsSocials, StateSocials> {
     this.setState({...this.state, followingsUser: fls, followingsImg: images, isLoading: false})
   }
 
-  _handleGet = (identityId:number) => {
+
+  componentDidMount() {
+    const {identityId, actions} = this.props
+    // const {getExchangesByMemberIdentity} = actions
+    // getExchangesByMemberIdentity(identityId)
     getExchangesByMemberIdentity(identityId, this._handleError, (results) => {
       if (results && results.length > 0) {
         let exchanges = []
@@ -138,11 +148,6 @@ class Socials extends Component<PropsSocials, StateSocials> {
     getFollowers(identityId, this._handleError, (res) => this._getFollowers(res))
     getFollowings(identityId, this._handleError,
       (res) => this.setState({...this.state, followingsList: res}, () => this._getFollowings(res)))
-  }
-
-  componentDidMount() {
-    const {userId} = this.props
-    this.setState({...this.state, isLoading: true}, () => getIdentityByUser(userId, (res) => this._handleGet(res.id)))
   }
 
   _deleteFollowing = (id, index) => {
@@ -209,4 +214,10 @@ class Socials extends Component<PropsSocials, StateSocials> {
 const mapStateToProps = state => ({
   translate: getMessages(state)
 })
-export default connect(mapStateToProps)(Socials)
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({
+      getExchangesByMemberIdentity: ExchangeActions.getExchangeIdentitiesByMemberIdentity,
+    },
+    dispatch)
+})
+export default connect(mapStateToProps, mapDispatchToProps)(Socials)

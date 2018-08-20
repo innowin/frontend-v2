@@ -29,9 +29,11 @@ const users = (state = initialState.users, action) => {
         [userId]: {
           ...state[userId],
           user: {
-            ...previousUser,
             content: {...data},
-            isLoading: false
+            isLoading: false,
+            error: {
+              message:null
+            }
           }
         }
       }
@@ -69,9 +71,11 @@ const users = (state = initialState.users, action) => {
         [userId]: {
           ...state[userId],
           profile: {
-            ...previousProfile,
             content: {...data},
-            isLoading: false
+            isLoading: false,
+            error: {
+              message:null
+            }
           }
         }
       }
@@ -88,7 +92,6 @@ const users = (state = initialState.users, action) => {
             isLoading: false
           }
         }
-
       }
     /** -------------------------- get identity -------------------------> **/
     case types.USER.GET_IDENTITY_BY_USER_ID:
@@ -108,9 +111,11 @@ const users = (state = initialState.users, action) => {
         [userId]: {
           ...state[userId],
           identity: {
-            ...previousIdentity,
             content: {...data},
-            isLoading: false
+            isLoading: false,
+            error: {
+              message:null
+            }
           }
         }
       }
@@ -147,9 +152,11 @@ const users = (state = initialState.users, action) => {
         [userId]: {
           ...state[userId],
           badges: {
-            ...previousBadges,
             content: ArrayOfBadgeId,
-            isLoading: false
+            isLoading: false,
+            error: {
+              message:null
+            }
           }
         }
       }

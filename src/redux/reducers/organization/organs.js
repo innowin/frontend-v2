@@ -5,7 +5,7 @@ const organs = (state = initialState.organs, action) => {
   const {organizationId, data, message} = action.payload || {}
   const defaultObject = {content: {}, isLoading: false, error: {message: null}}
   const defaultObject2 = {content: [], isLoading: false, error: {message: null}}
-  const previousOrgan = (state[organizationId] && state[organizationId].organ) || defaultObject
+  const previousOrgan = (state[organizationId] && state[organizationId].organization) || defaultObject
   const previousBadges = (state[organizationId] && state[organizationId].badges) || defaultObject2
   switch (action.type) {
     /** -------------------------- get organ -------------------------> **/

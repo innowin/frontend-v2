@@ -69,11 +69,8 @@ export class RegisterForm extends Component {
   _onSubmitOrgan = (values) => {
     const {signIn, createUserOrgan} = this.props.actions
     const {translator} = this.props
-    return new Promise((resolve, reject) => createUserOrgan(values, resolve, reject))
-      .then(
+    return new Promise((resolve, reject) => createUserOrgan(values, resolve, reject)).then(
         (res) => {
-          alert("F")
-          console.log(res)
           return new Promise((resolve, reject) => signIn(values.username, values.password, false, reject))
           //TODO mohsen: test return error in sign in
             .catch((errorMessage) => {
@@ -83,8 +80,6 @@ export class RegisterForm extends Component {
       )
       .catch(
         (errorMessage) => {
-          alert("E")
-          console.log(errorMessage)
           //TODO mohsen: test return error in SubmissionError
           throw new SubmissionError({_error: translator[errorMessage]})
         }
@@ -97,8 +92,6 @@ export class RegisterForm extends Component {
     return new Promise((resolve, reject) => createUserPerson(values, resolve, reject))
       .then(
         (res) => {
-          alert("F")
-          console.log(res)
           return new Promise((resolve, reject) => signIn(values.username, values.password, false, reject))
             .catch((errorMessage) => {
               throw new SubmissionError({_error: translator[errorMessage]})
@@ -107,8 +100,6 @@ export class RegisterForm extends Component {
       )
       .catch(
         (errorMessage) => {
-          alert("E")
-          console.log(errorMessage)
           throw new SubmissionError({_error: translator[errorMessage]})
         }
       )
