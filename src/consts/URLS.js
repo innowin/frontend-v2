@@ -7,7 +7,7 @@ export const REST_URL = 'http://restful.daneshboom.ir'
 export const SOCKET = io(SOCKET_URL)
 
 const urls = {
-
+  SIGN_IN: "api-token-auth",
   VERIFY_TOKEN: "api-token-verify",
   USER: {
     USERNAME_CHECK: "users/user_exist",

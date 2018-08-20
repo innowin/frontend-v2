@@ -3,7 +3,6 @@ import results from "src/consts/resultName"
 import types from "src/redux/actions/types"
 import urls from "src/consts/URLS"
 import {take, put, fork, call} from "redux-saga/effects"
-import client from "src/consts/client"
 
 // verify token
 export function* verifyToken(action) {
@@ -12,7 +11,7 @@ export function* verifyToken(action) {
   const socketChannel = yield call(api.createSocketChannel, results.VERIFY_TOKEN)
   try {
     yield fork(api.post, urls.VERIFY_TOKEN, results.VERIFY_TOKEN, {token})
-    const {data} = yield take(socketChannel)
+    const data = yield take(socketChannel)
     yield put({type:types.SUCCESS.AUTH.VERIFY_TOKEN, payload:{data}})
   } catch (e) {
     const {message} = e
