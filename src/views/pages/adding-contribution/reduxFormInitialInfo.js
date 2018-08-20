@@ -17,21 +17,21 @@ import {connect} from "react-redux";
 
 const InitialInfoReduxFormValidate = (values) => {
     const errors = {}
-    const {
-        NAME,
-        COUNTRY,
-        PROVINCE,
-        CITY,
-        CATEGORY_LAYER1,
-    } = LAYER1S
-    const requiredFields = [NAME, COUNTRY, PROVINCE, CITY, CATEGORY_LAYER1]
-
-    requiredFields.forEach(field => {
-        if (!values[field]) {
-            errors._error = 'لطفا فیلدهای ضروری را پر کنید'
-            errors[field] = true
-        }
-    })
+    // const {
+    //     NAME,
+    //     COUNTRY,
+    //     PROVINCE,
+    //     CITY,
+    //     CATEGORY_LAYER1,
+    // } = LAYER1S
+    // const requiredFields = [NAME, COUNTRY, PROVINCE, CITY, CATEGORY_LAYER1]
+    //
+    // requiredFields.forEach(field => {
+    //     if (!values[field]) {
+    //         errors._error = 'لطفا فیلدهای ضروری را پر کنید'
+    //         errors[field] = true
+    //     }
+    // })
     return errors
 }
 

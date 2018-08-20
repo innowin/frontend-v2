@@ -42,6 +42,7 @@ const results = {
         GET_PRODUCT_BASIC_INFO: 'get-product-basic-info-result',
         UPDATE_PRODUCT: 'update-product-result',
         CREATE_PRODUCT: 'create-product-result',
+        CREATE_PRODUCT_PICTURE: 'create-product-picture-result',
 
         // file
         GET_FILE: 'COMMON_GET_FILE',

@@ -3,26 +3,10 @@ import auth from './auth'
 import organization from './organization'
 import {routerReducer} from 'react-router-redux'
 import {intlReducer} from './intl'
-import category from './commonReducer/category'
-import product from './commonReducer/product/index'
-import certificate from './commonReducer/certificate'
-import file from './commonReducer/fileReducer'
-import badges from "./commonReducer/badge"
 import {reducer as formReducer} from 'redux-form'
 import organs from "./organization/organs"
 import users from "./user/users"
-import hashTag from "./commonReducer/hashTag"
-
-
-const common = combineReducers({
-    category,
-    product,
-    certificate,
-    file,
-    hashTag,
-    location,
-    badges
-})
+import common from "./commonReducer/index"
 
 const reducers = {
     auth,

@@ -57,6 +57,7 @@ const urls = {
     COMMON: {
         // product
         PRODUCT: 'products',
+        PRODUCT_PICTURE: 'products/pictures',
 
         // file
         FILE: 'files',
