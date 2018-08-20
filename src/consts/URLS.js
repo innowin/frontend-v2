@@ -9,13 +9,15 @@ export const SOCKET = io(SOCKET_URL)
 const urls = {
 
   SIGN_IN: "api-token-auth",
+  VERIFY_TOKEN: "api-token-verify",
   USER: {
     USERNAME_CHECK: "users/user_exist",
     CREATE_USER_PERSON: "users",
     CREATE_USER_ORGAN: "users/user-organization",
     GET_USER_BY_USER_ID: "users",
     GET_PROFILE_BY_USER_ID: "users/profiles",
-    GET_USER_IDENTITY:"users/identities"
+    GET_USER_IDENTITY:"users/identities",
+    UPDATE_USER_BY_USER_ID: "users",
   },
   ORG: {
     GET_ORGANIZATION: 'organizations',

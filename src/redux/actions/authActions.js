@@ -13,9 +13,17 @@ const signIn = (username: string, password: string, rememberMe: boolean, reject:
 
 const signOut = () => ({type: types.AUTH.SIGN_OUT, payload: {}})
 
+const verifyToken = (token: string) => ({
+  type: types.AUTH.VERIFY_TOKEN,
+  payload: {
+    token
+  }
+})
+
 const AuthActions = {
   signIn,
-  signOut
+  signOut,
+  verifyToken
 }
 
 export default AuthActions

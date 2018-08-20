@@ -21,7 +21,9 @@ import {
   watchDeleteCustomer,
 } from './organization/organizationSaga'
 import {watchGetOrganization} from "./organization/getOrganSagas"
-import {watchLSignIn, watchLSignOut, watchLSignInError} from './auth/authSaga'
+// TODO: mohammad all auth sagas must go to ./auth/auth.js and just one import here from ./auth/auth.js
+import {watchLSignIn, watchLSignOut, watchLSignInError} from './auth/auth'
+import authWatchers from './auth/auth'
 import {watchGetExchangesByMemberIdentity} from "./exchange/exchange"
 import productWatchers from './common/product/product'
 import categoryWatchers from './common/category/category'
@@ -31,6 +33,8 @@ import certificateWatchers from './common/certificate/certificate'
 import watchUsernameCheck from "./user/checkUsernameSaga"
 import {watchGetUserByUserId, watchGetProfileByUserId, watchGetIdentityByUserId} from "./user/getUserSagas"
 import {watchCreateUserPerson, watchCreateUserOrgan,} from "./user/createUserSagas"
+// TODO: mohammad all user sagas must go to ./user/user.js and just one import here from ./user/user.js
+import userWatchers from './user/user'
 
 
 const rootSaga = function* () {
@@ -86,7 +90,13 @@ const rootSaga = function* () {
 
     // badge watchers
     badgeWatchers.watchGetOrganBadges(),
-    badgeWatchers.watchGetUserBadges()
+    badgeWatchers.watchGetUserBadges(),
+
+    // user watchers
+    userWatchers.watchUpdateUserByUserId(),
+
+    // auth watchers
+    authWatchers.watchVerifyToken(),
   ])
 }
 
