@@ -71,7 +71,7 @@ export class Organization extends Component<PropsOrganization> {
 		const {path, url, params} = this.props.match
 		const organizationId = params.id
 		const isLoading = organObject.isLoading || badgesObject.isLoading
-		const errorMessage = organObject.error.message || badgesObject.error.message
+		const errorMessage = organObject.error || badgesObject.error
 		return (
 				<div className="-userOrganBackgroundImg">
 					<TopBar collapseClassName="col user-sidebar-width"/>
@@ -129,8 +129,8 @@ const mapStateToProps = (state, ownProps) => {
 	const {params} = ownProps.match
 	const organId = +params.id
 	const stateOrgan = state.organs[organId]
-	const defaultObject = {content: {}, isLoading: false, error: {message: null}}
-	const defaultObject2 = {content: [], isLoading: false, error: {message: null}}
+	const defaultObject = {content: {}, isLoading: false, error: null}
+	const defaultObject2 = {content: [], isLoading: false, error: null}
 	const organ = (stateOrgan && stateOrgan.organ) || defaultObject
 	const bannerId = organ.content.organization_banner
 	const logoId = organ.content.organization_logo

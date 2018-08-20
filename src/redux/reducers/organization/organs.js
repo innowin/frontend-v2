@@ -3,8 +3,8 @@ import types from "../../actions/types/index"
 
 const organs = (state = initialState.organs, action) => {
   const {organizationId, data, message} = action.payload || {}
-  const defaultObject = {content: {}, isLoading: false, error: {message: null}}
-  const defaultObject2 = {content: [], isLoading: false, error: {message: null}}
+  const defaultObject = {content: {}, isLoading: false, error: null}
+  const defaultObject2 = {content: [], isLoading: false, error: null}
   const previousOrgan = (state[organizationId] && state[organizationId].organization) || defaultObject
   const previousBadges = (state[organizationId] && state[organizationId].badges) || defaultObject2
   switch (action.type) {
@@ -16,7 +16,8 @@ const organs = (state = initialState.organs, action) => {
           ...state[organizationId],
           organization:{
             ...previousOrgan,
-            isLoading: true
+            isLoading: true,
+            error: null
           }
         }
       }
@@ -28,8 +29,7 @@ const organs = (state = initialState.organs, action) => {
           organization:{
             ...previousOrgan,
             content: {...data},
-            isLoading: false,
-            error:{}
+            isLoading: false
           }
         }
       }
@@ -55,7 +55,8 @@ const organs = (state = initialState.organs, action) => {
           ...state[organizationId],
           badges: {
             ...previousBadges,
-            isLoading: true
+            isLoading: true,
+            error: null
           }
         }
       }
@@ -80,9 +81,7 @@ const organs = (state = initialState.organs, action) => {
           badges: {
             ...previousBadges,
             isLoading: false,
-            error: {
-              message
-            }
+            error: message
           }
         }
       }

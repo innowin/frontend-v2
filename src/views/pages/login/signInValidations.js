@@ -4,15 +4,10 @@ export const asyncValidateSignIn = (...validationArguments) => {
   const checkUsername = validationArguments[2].actions.checkUsername
   const translator = validationArguments[2].translator
   //TODO mohsen: set async check email not exist
-  return new Promise(resolve => {
-    if (username) {
-      checkUsername(username, resolve)
-    }
-  }).then((res) => {
-    if (res === 0) {
-      throw {username: translator['This username does not exist']}
-    }
-  })
+  const promise = new Promise((resolve, reject) => {checkUsername(username, resolve, reject)})
+  return promise
+    .then(() => null)
+    .catch(() => {throw {username: translator['This username does not exist']}})
 }
 
 export const validateSignInForm = (...validationArguments) => {
@@ -28,7 +23,7 @@ export const validateSignInForm = (...validationArguments) => {
     } else {
       requiredErrors.push(false)
     }
-    (requiredErrors.includes(true)) ? (errors._error =translator['Fill required fields']) : (errors._error = "")
+    (requiredErrors.includes(true)) ? (errors._error = translator['Fill required fields']) : (errors._error = "")
   })
   return errors
 }

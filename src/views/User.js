@@ -82,8 +82,8 @@ class User extends Component<PropsUser> {
     const userId: number = +params.id
     const isLoading = userObject.isLoading || profileObject.isLoading || identityObject.isLoading
       || badgesObject.isLoading
-    const errorMessage = userObject.error.message || profileObject.error.message || identityObject.error.message
-      || badgesObject.error.message
+    const errorMessage = userObject.error || profileObject.error || identityObject.error
+      || badgesObject.error
     return (
       <div className="-userOrganBackgroundImg">
         <TopBar collapseClassName="col user-sidebar-width"/>
@@ -138,8 +138,8 @@ const mapStateToProps = (state, ownProps) => {
   const {params} = ownProps.match
   const userId = +params.id
   const stateUser = state.users[userId]
-  const defaultObject = {content: {}, isLoading: false, error: {message: null}}
-  const defaultObject2 = {content: [], isLoading: false, error: {message: null}}
+  const defaultObject = {content: {}, isLoading: false, error: null}
+  const defaultObject2 = {content: [], isLoading: false, error: null}
   const user = (stateUser && stateUser.user) || defaultObject
   const profile = (stateUser && stateUser.profile) || defaultObject
   const identity = (stateUser && stateUser.identity) || defaultObject

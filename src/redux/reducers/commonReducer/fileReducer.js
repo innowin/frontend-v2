@@ -4,14 +4,9 @@ import types from '../../actions/types'
 
 const file = (state = initialState.common.file, action) => {
   const {fileId, data, message} = action.payload || {}
+  const defaultObject = {content: {}, isLoading: false, error: null}
   const files = state.files
-  const previousFile = files[fileId] || {
-    content: {},
-    isLoading: false,
-    error: {
-      message: null
-    }
-  }
+  const previousFile = files[fileId] || defaultObject
   switch (action.type) {
     /** --------------------  get file --------------------- **/
     case types.COMMON.GET_FILE:
@@ -21,7 +16,8 @@ const file = (state = initialState.common.file, action) => {
           ...files,
           [fileId]: {
             ...previousFile,
-            isLoading: true
+            isLoading: true,
+            error: null
           }
         }
       }
@@ -47,9 +43,7 @@ const file = (state = initialState.common.file, action) => {
           [fileId]: {
             ...previousFile,
             isLoading: false,
-            error: {
-              message
-            }
+            error: message
           }
         }
       }

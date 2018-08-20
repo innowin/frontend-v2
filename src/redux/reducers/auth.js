@@ -28,7 +28,8 @@ const auth = (state = initialState.auth, action) => {
           organization,
           user_type,
           rememberMe,
-          isLoggedIn: true
+          isLoggedIn: true,
+          error: null
         }
       }
     case types.ERRORS.AUTH.SIGN_IN:
@@ -37,10 +38,7 @@ const auth = (state = initialState.auth, action) => {
         ...state,
         client: {
           ...client,
-          error: {
-            isError: true,
-            message: errorMessage
-          }
+          error: errorMessage
         }
       }
 
@@ -55,7 +53,8 @@ const auth = (state = initialState.auth, action) => {
             ...exchange_identities,
             content: data,
             isLoaded: true,
-            isLoading: false
+            isLoading: false,
+            error: null
           }
         }
       }
@@ -68,10 +67,7 @@ const auth = (state = initialState.auth, action) => {
           exchange_identities: {
             ...exchange_identities,
             isLoading: false,
-            error: {
-              isError: true,
-              messages: message
-            }
+            error: message
           }
         }
       }

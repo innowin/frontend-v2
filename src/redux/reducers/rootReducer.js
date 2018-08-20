@@ -12,6 +12,7 @@ import {reducer as formReducer} from 'redux-form'
 import organs from "./organization/organs"
 import users from "./user/users"
 import hashTag from "./commonReducer/hashTag"
+import location from "./commonReducer/location/index"
 
 
 const common = combineReducers({

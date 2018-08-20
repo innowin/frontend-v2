@@ -3,8 +3,8 @@ import types from "../../actions/types/index"
 
 const users = (state = initialState.users, action) => {
   const {userId, data, message} = action.payload || {}
-  const defaultObject = { content: {}, isLoading: false, error: {message: null} }
-  const defaultObject2 = { content: [], isLoading: false, error: {message: null} }
+  const defaultObject = { content: {}, isLoading: false, error: null }
+  const defaultObject2 = { content: [], isLoading: false, error: null }
   const previousUser = (state[userId] && state[userId].user) || defaultObject
   const previousProfile = (state[userId] && state[userId].profile) || defaultObject
   const previousIdentity = (state[userId] && state[userId].identity) || defaultObject
@@ -19,7 +19,8 @@ const users = (state = initialState.users, action) => {
           ...state[userId],
           user: {
             ...previousUser,
-            isLoading: true
+            isLoading: true,
+            error: null
           }
         }
       }
@@ -29,11 +30,9 @@ const users = (state = initialState.users, action) => {
         [userId]: {
           ...state[userId],
           user: {
+            ...previousUser,
             content: {...data},
             isLoading: false,
-            error: {
-              message:null
-            }
           }
         }
       }
@@ -45,9 +44,7 @@ const users = (state = initialState.users, action) => {
           user: {
             ...previousUser,
             isLoading: false,
-            error: {
-              message
-            }
+            error: message
           }
         }
       }
@@ -61,7 +58,8 @@ const users = (state = initialState.users, action) => {
           ...state[userId],
           profile: {
             ...previousProfile,
-            isLoading: true
+            isLoading: true,
+            error: null
           }
         }
       }
@@ -71,11 +69,9 @@ const users = (state = initialState.users, action) => {
         [userId]: {
           ...state[userId],
           profile: {
+            ...previousProfile,
             content: {...data},
-            isLoading: false,
-            error: {
-              message:null
-            }
+            isLoading: false
           }
         }
       }
@@ -86,9 +82,7 @@ const users = (state = initialState.users, action) => {
           ...state[userId],
           profile: {
             ...previousProfile,
-            error: {
-              message
-            },
+            error: message,
             isLoading: false
           }
         }
@@ -101,7 +95,8 @@ const users = (state = initialState.users, action) => {
           ...state[userId],
           identity: {
             ...previousIdentity,
-            isLoading: true
+            isLoading: true,
+            error: null
           }
         }
       }
@@ -111,11 +106,9 @@ const users = (state = initialState.users, action) => {
         [userId]: {
           ...state[userId],
           identity: {
+            ...previousIdentity,
             content: {...data},
-            isLoading: false,
-            error: {
-              message:null
-            }
+            isLoading: false
           }
         }
       }
@@ -127,9 +120,7 @@ const users = (state = initialState.users, action) => {
           identity: {
             ...previousIdentity,
             isLoading: false,
-            error: {
-              message
-            }
+            error: message
           }
         }
       }
@@ -141,7 +132,8 @@ const users = (state = initialState.users, action) => {
           ...state[userId],
           badges: {
             ...previousBadges,
-            isLoading: true
+            isLoading: true,
+            error: null
           }
         }
       }
@@ -152,11 +144,9 @@ const users = (state = initialState.users, action) => {
         [userId]: {
           ...state[userId],
           badges: {
+            ...previousBadges,
             content: ArrayOfBadgeId,
-            isLoading: false,
-            error: {
-              message:null
-            }
+            isLoading: false
           }
         }
       }
@@ -168,9 +158,7 @@ const users = (state = initialState.users, action) => {
           badges: {
             ...previousBadges,
             isLoading: false,
-            error: {
-              message
-            }
+            error: message
           }
         }
       }

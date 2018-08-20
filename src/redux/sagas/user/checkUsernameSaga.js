@@ -12,11 +12,10 @@ function* usernameCheck(action) {
   const socketChannel = yield call(api.createSocketChannel, results.USER.USERNAME_CHECK)
   try {
     yield fork(api.post, urls.USER.USERNAME_CHECK, results.USER.USERNAME_CHECK, {username})
-    const res = yield take(socketChannel)
-    resolve(res)
+    yield take(socketChannel)
+    resolve()
   } catch (e) {
-    const {message} = e
-    reject(message)
+    reject()
   } finally {
     socketChannel.close()
   }

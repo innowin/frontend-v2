@@ -16,13 +16,6 @@ function* signIn(action) {
   try {
     yield fork(api.post, urls.SIGN_IN, results.SIGN_IN, {username, password})
     let data = yield take(socketChannel)
-    if (data.non_field_errors) {
-      const message = data.non_field_errors[0]
-      // this below line is for reject async error form in submit for sign in form
-      yield call(reject, 'Password does not correct')
-      // below line is for pass error to catch for save error in redux errors
-      throw new Error(message)
-    }
     const {token} = data
     yield put({type: types.AUTH.SET_TOKEN, payload: {token}})
     yield delay(500)
@@ -54,6 +47,8 @@ function* signIn(action) {
   catch (e) {
     const {message} = e
     yield put({type: types.ERRORS.AUTH.SIGN_IN, payload: {type: types.ERRORS.AUTH.SIGN_IN, message}})
+    // this below line is for reject async error form in submit for sign in form
+    yield call(reject, 'Password does not correct')
   }
   finally {
     socketChannel.close()

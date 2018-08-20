@@ -20,7 +20,7 @@ const checkUsername = username => new Promise(resolve => checkExist(username, re
 
 export const asyncValidate = values => {
   return checkUsername(values.username).then((res) => {
-    if (res === 1) {
+    if (res.data === 1) {
       throw {username: 'این کاربر قبلا وجود داشته است!'}
     }
   })
