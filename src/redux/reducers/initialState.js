@@ -179,6 +179,11 @@ export default {
         isLoading: false,
         isLoaded: false,
       }, // the product that is viewing now.
+      list: {},
+      isLoaded: false,
+      isLoading: false,
+      error: null,
+      viewingId: 0
     },
     category: {
       categories: {
@@ -197,6 +202,11 @@ export default {
     },
     file: {
       files: {
+          middlewareFileData: { // the file that is new creating or is updating in the moment.
+              content: {},
+              isCreating: false,
+              isCreated: false
+          }
         /*
         [fileId]: {
              content:{},
@@ -214,7 +224,31 @@ export default {
     },
     badges: {
       // [badgeId]: {} // object of badge
-    }
+    },
+    hashTag: {
+      list: { // list of the all hashTag.
+        content: {},
+        isLoaded: false,
+        isLoading: false
+      }
+    },
+    location: {
+      country: {
+        content: {},
+        isLoading: false,
+        isLoaded: false
+      },
+      province: {
+        content: {},
+        isLoading: false,
+        isLoaded: false
+      },
+      city: {
+        content: {},
+        isLoaded: false,
+        isLoading: false
+      }
+    },
   },
 
   intl: {

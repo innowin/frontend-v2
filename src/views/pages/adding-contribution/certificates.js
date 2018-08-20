@@ -12,41 +12,52 @@ const Certificates = ({
                           newContributionData,
                           setStateForFileField,
                           inputHandler,
-                          newCertificateHandler
+                          newCertificateHandler,
+                          certificateIndexHandler,
+                          newCertIndex
                       }) => {
 
     const {certificates} = newContributionData
+
     let repairedCertificates
+
     if (certificates) {
         repairedCertificates = [...certificates]
         for (let i = 0; i < (3 - certificates.length); i++) {
-            console.log(i)
-            repairedCertificates.push({})
+            repairedCertificates.push({title: i})
         }
-    } else repairedCertificates = [{},{},{}]
+    } else repairedCertificates = [{title: '1'}, {title: '2'}, {title: '3'}] // for giving unique key to certificates.
+
+    const _certClassNameHandler = (index, image) => {
+        return (!image && 'hide') || (((index === newCertIndex) && 'show edit')) || 'show'
+
+    }
+    const {NEW_CERT_LOGO, NEW_CERT_IMAGE, NEW_CERT_TITLE, NEW_CERT_NEED_FOR_VERIFY} = LAYER1S
+
     return (
         <div className="certificates">
             <div className="form">
                 <div className="form-column">
-                    <div className="title">
+                    <div className={(newCertIndex === 0 || newCertIndex > 0) ? 'title edit' : 'title'}>
                         <StateLessTextInput
                             label="عنوان گواهینامه"
-                            value={newContributionData[LAYER1S.NEW_CERT_TITLE]}
-                            onChange={(e) => inputHandler(e.target.value, LAYER1S.NEW_CERT_TITLE)}
+                            value={newContributionData[NEW_CERT_TITLE]}
+                            onChange={(e) => inputHandler(e.target.value, NEW_CERT_TITLE)}
                         />
                     </div>
-                    <div className="verification-request-wrapper">
+                    <div className={(newCertIndex === 0 || newCertIndex > 0) ?
+                        'verification-request-wrapper edit': 'verification-request-wrapper'}>
                         <PayIcon className="pay-svg-icon"/>
                         <CircularCheckbox
                             label="درخواست اعتبارسنجی توسط دانش‌بوم"
-                            checked={newContributionData[LAYER1S.NEW_CERT_NEED_FOR_VERIFY]}
-                            onCheck={() => inputHandler(!newContributionData[LAYER1S.NEW_CERT_NEED_FOR_VERIFY], LAYER1S.NEW_CERT_NEED_FOR_VERIFY)}
+                            checked={newContributionData[NEW_CERT_NEED_FOR_VERIFY]}
+                            onCheck={() => inputHandler(!newContributionData[NEW_CERT_NEED_FOR_VERIFY], NEW_CERT_NEED_FOR_VERIFY)}
                         />
                     </div>
                 </div>
                 <div className="form-column">
                     <div className="logo-upload">
-                        <CongratsTick className={newContributionData[LAYER1S.NEW_CERT_LOGO] ?
+                        <CongratsTick className={newContributionData[NEW_CERT_LOGO] ?
                             'logo-uploaded-check checked'
                             :
                             'logo-uploaded-check'
@@ -55,22 +66,23 @@ const Certificates = ({
                         <label>بارگذاری لوگو</label>
                         <div className="file-btn">
                             انتخاب فایل
-                            <input onChange={(e) => setStateForFileField(e.target, LAYER1S.NEW_CERT_LOGO)} type="file" name="logo"/>
+                            <input onChange={(e) => setStateForFileField(e.target, NEW_CERT_LOGO)} type="file"
+                                   name="logo"/>
                         </div>
                     </div>
-                    <div className="image-upload">
+                    <div className={(newCertIndex === 0 || newCertIndex > 0) ? 'image-upload edit' : 'image-upload'}>
                         <label>
                             بارگذاری تصویر گواهینامه
                         </label>
                         <div className="file-btn">
                             انتخاب فایل
                             <input type="file" name="certificate_image" onChange={(e) => {
-                                setStateForFileField(e.target, LAYER1S.NEW_CERT_IMAGE)
+                                setStateForFileField(e.target, NEW_CERT_IMAGE)
                             }}
                             />
                         </div>
                     </div>
-                    <div className="submit" onClick={() => newCertificateHandler(0)}>
+                    <div className="submit" onClick={newCertificateHandler}>
                         ثبت
                         <ThinDownArrow className="icon"/>
                     </div>
@@ -78,18 +90,10 @@ const Certificates = ({
             </div>
             <div className="images">
                 {repairedCertificates.map((certificate, index) => (
-                    <div className="image" key={certificate.title}>
-                        <div className={certificate.image ? 'show' : 'hide'}>
-                            <img src={certificate.image} alt="certificate"/>
-                            <div className="certificate-img-edit-btn">
-                                {/*<input*/}
-                                    {/*type="file"*/}
-                                    {/*className="edit-file-input"*/}
-                                    {/*onChange={(e) => {*/}
-                                        {/*certificatesImagesHandler()*/}
-                                    {/*}}*/}
-                                {/*/>*/}
-                            </div>
+                    <div className="image" key={certificate[NEW_CERT_TITLE]}>
+                        <div className={_certClassNameHandler(index, certificate[NEW_CERT_IMAGE])}>
+                            <img src={certificate[NEW_CERT_IMAGE]} alt="certificate"/>
+                            <div onClick={() => certificateIndexHandler(index)} className="certificate-img-edit-btn"/>
                         </div>
                     </div>
                 ))}

@@ -1,6 +1,7 @@
 // @flow
 import * as React from 'react'
 import Select from 'react-select';
+import {LAYER1S} from "../../pages/adding-contribution/addingConributionData";
 
 
 type OptionType = {
@@ -24,7 +25,8 @@ type Props = {
     rtl: boolean,
     onBlurResetsInput: boolean,
     placeholder: string,
-    meta: MetaType
+    meta: MetaType,
+    id?: string,
 
 }
 const renderSelectField = ({
@@ -37,11 +39,14 @@ const renderSelectField = ({
                                rtl,
                                onBlurResetsInput = false,
                                placeholder,
+                               id,
                                meta: {touched, error, warning},
                            }: Props) => {
     return (
         <div className={error && touched ? `error ${className}` : className}>
+            <label htmlFor={id}>{label}</label>
             <Select
+                id={id}
                 placeholder={placeholder}
                 multi={multi}
                 rtl={rtl}
@@ -50,6 +55,9 @@ const renderSelectField = ({
                 {...input}
                 onBlur={() => input.onBlur(input.value)}
                 onBlurResetsInput={false}
+                onChange={(v) => {
+                    input.onChange(v)
+                }}
             />
         </div>
     )

@@ -1,27 +1,33 @@
 @import "common";
 
+%none-bordered-select {
+  .Select-control {
+    @extend %none-bordered-input;
+  }
+  .Select-control .Select-clear-zone {
+    display: none;
+  }
+  .Select-control:hover {
+    box-shadow: none;
+  }
+  .Select.is-focused:not(.is-open) .Select-control {
+    box-shadow: none;
+    @extend %none-bordered-input;
+  }
+  .Select-control .Select-value {
+    padding-right: 12px;
+  }
+  .Select {
+    margin: 14px 0;
+  }
+
+}
+
+
 
 .initial-info {
   .category-selection {
-    .Select-control {
-      @extend %none-bordered-input;
-    }
-    .Select-control .Select-clear-zone {
-      display: none;
-    }
-    .Select-control:hover {
-      box-shadow: none;
-    }
-    .Select.is-focused:not(.is-open) .Select-control {
-      box-shadow: none;
-      @extend %none-bordered-input;
-    }
-    .Select-control .Select-value {
-      padding-right: 12px;
-    }
-    .Select {
-      margin: 14px 0;
-    }
+    @extend %none-bordered-select;
   }
   .form {
     display: flex;
@@ -35,6 +41,9 @@
     .form-column .form-group {
       padding: 0;
       margin: 0;
+    }
+    .form-column .form-group.desc {
+      margin-top: 26px;
     }
     .form-column:first-child {
       margin-left: 25px;
@@ -58,7 +67,7 @@
       flex-direction: row;
       justify-content: space-between;
       align-items: self-start;
-      margin: -9px 0 -13px;
+      margin: -9px 0 3px;
     }
     .form-column .radio-button-group label {
       margin: 0;
@@ -73,6 +82,16 @@
     }
     .form-column .select-input-wrapper .select {
       margin: 14px 0;
+    }
+  }
+  .form .form-column .location-fields-wrapper {
+    display: flex;
+    .location-select {
+      flex: 1 1;
+      label {
+        display: none;
+      }
+     @extend %none-bordered-select;
     }
   }
 }

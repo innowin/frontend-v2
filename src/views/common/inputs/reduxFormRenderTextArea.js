@@ -8,8 +8,8 @@ const renderTextArea = ({
                             className,
                             meta: {touched, error}
                         }) => (
-    <div className="signup-field">
-        <textarea {...input} className={touched && error ? `error ${className}` : className}
+    <div className={className}>
+        <textarea {...input} className={touched && error ? 'error' : ''}
                   placeholder={placeholder || label}/>
         {(touched && error) && <span className="error-message">{error}</span>}
     </div>

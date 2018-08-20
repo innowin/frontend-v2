@@ -15,3 +15,11 @@ export const updateProduct = (id, formData) => ({
         formData
     }
 })
+
+
+export const createProductAsContribution = (formData) => ({
+    type: types.COMMON.CREATE_PRODUCT,
+    payload: {
+        formData
+    }
+})

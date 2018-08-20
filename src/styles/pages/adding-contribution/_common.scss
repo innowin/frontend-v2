@@ -153,13 +153,17 @@
   background-color: $chat-box2-color;
   border: none;
   border-radius: 0;
+  width: 100%;
 }
 
 %edit-icon {
   content: "\F044";
   font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
   z-index: 0;
-  color: $chat-box2-color;
+  color: $text-medium-dark;
 }
 
 %jumbo-btn {
@@ -170,11 +174,12 @@
   height: 31px;
 }
 
-%absolute-top0-right0 {
+%absolute-top10-right10 {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 10px;
+  right: 10px;
 }
+
 
 %clear-btn {
   color: $text-lighter-color;

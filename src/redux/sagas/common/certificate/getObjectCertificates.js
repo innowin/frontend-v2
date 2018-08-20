@@ -12,7 +12,7 @@ function* getObjectCertificates(action) { // action={type: , id: }
 
     try {
         yield fork(api.get, urls.COMMON.CERTIFICATE, results.COMMON.GET_OBJECT_CERTIFICATES, suffix)
-        const data = yield take(socketChannel)
+        const {data} = yield take(socketChannel)
         const normalData = helpers.arrayToIdKeyedObject(data)
         yield put({type: types.SUCCESS.COMMON.GET_OBJECT_CERTIFICATES, data: normalData})
     } catch (error) {

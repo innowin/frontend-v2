@@ -65,7 +65,15 @@ const urls = {
     CERTIFICATE: 'base/certificates',
 
     // badge
-    BADGE:'base/badges'
+    BADGE:'base/badges',
+
+    // hashTags
+    HASH_TAG: 'base/hashtag-parents',
+
+    // location
+    COUNTRY: 'base/countries',
+    PROVINCE: 'base/provinces',
+    CITY: 'base/towns',
   }
 }
 export default urls

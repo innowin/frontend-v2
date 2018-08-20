@@ -12,7 +12,7 @@ function* createObjectCertificate(action) { // action = {type, payload: {formDat
 
     try {
         yield fork(api.post, urls.COMMON.CERTIFICATE, results.COMMON.CREATE_OBJECT_CERTIFICATE, formData)
-        const data = yield take(socketChannel)
+        const {data} = yield take(socketChannel)
         const normalData = helpers.deleteKeyFromObj(data, 'id')
         console.log('normal data id: ', normalData)
         yield put({type: types.SUCCESS.COMMON.CREATE_OBJECT_CERTIFICATE, data: normalData, id: data.id})

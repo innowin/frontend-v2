@@ -10,7 +10,7 @@ function* getCategoriesList() {
 
     try {
         yield fork(api.get, urls.COMMON.CATEGORY, results.COMMON.GET_CATEGORIES)
-        const data = yield take(socketChannel)
+        const {data} = yield take(socketChannel)
         const normalData = helpers.arrayToIdKeyedObject(data)
         yield put({type: types.SUCCESS.COMMON.GET_CATEGORIES, data: normalData})
     } catch (error) {
