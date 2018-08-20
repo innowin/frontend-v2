@@ -162,7 +162,44 @@ const users = (state = initialState.users, action) => {
           }
         }
       }
-
+    /** -------------------------- update user by user id -------------------------> **/
+    case types.USER.UPDATE_USER_BY_USER_ID:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          user: {
+            ...previousUser,
+            isLoading: true
+          }
+        }
+      }
+    case types.SUCCESS.USER.UPDATE_USER_BY_USER_ID:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          user: {
+            ...previousUser,
+            content: {...data},
+            isLoading: false
+          }
+        }
+      }
+    case types.ERRORS.USER.UPDATE_USER_BY_USER_ID:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          user: {
+            ...previousUser,
+            isLoading: false,
+            error: {
+              message
+            }
+          }
+        }
+      }
     /** -------------------------- reset users -------------------------> **/
     case types.RESET:
       return initialState.users

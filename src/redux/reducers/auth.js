@@ -2,6 +2,8 @@ import initialState from './initialState'
 import types from '../actions/types'
 
 const auth = (state = initialState.auth, action) => {
+  const {data} = action.payload || {}
+  const {user, profile, identity} = data || {}
   const {client} = state
   const {exchange_identities} = client
   switch (action.type) {
@@ -16,7 +18,8 @@ const auth = (state = initialState.auth, action) => {
         }
       }
     case types.SUCCESS.AUTH.SIGN_IN:
-      const {rememberMe, data: {user, profile, identity, organization}} = action.payload
+      const {rememberMe} = action.payload
+      const {organization} = data
       const user_type = profile.is_user_organization ? 'org' : 'person'
       return {
         ...state,
@@ -44,7 +47,6 @@ const auth = (state = initialState.auth, action) => {
 
     /** -------------------------- get client exchanges -------------------------> **/
     case types.SUCCESS.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY:
-      const {data} = action.payload
       return {
         ...state,
         client: {
@@ -71,7 +73,26 @@ const auth = (state = initialState.auth, action) => {
           }
         }
       }
-
+    /** -------------------------- update user by user id -------------------------> **/
+    case types.SUCCESS.USER.UPDATE_USER_BY_USER_ID:
+      return {
+        ...state,
+        client: {
+          ...client,
+          user: {...data}
+        }
+      }
+    /** -------------------------- update user by user id -------------------------> **/
+    case types.SUCCESS.AUTH.VERIFY_TOKEN:
+      return {
+        ...state,
+        client: {
+          ...client,
+          user,
+          profile,
+          identity,
+        }
+      }
     /** -------------------------- reset auth  -------------------------> **/
     case types.RESET:
       return initialState.auth
