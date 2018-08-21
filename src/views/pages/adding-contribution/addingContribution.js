@@ -24,7 +24,7 @@ import {
 } from '../../../images/icons'
 import {getMessages} from "../../../redux/selectors/translateSelector"
 import {connect} from "react-redux";
-import {LAYER1S} from './addingConributionData'
+import {LAYER1S, FILE_FIELDS} from './addingConributionData'
 import SuccessMessage from './successMessage'
 import {createSkillAction} from 'src/redux/actions/ContributionActions'
 import FontAwesome from "react-fontawesome"
@@ -226,7 +226,14 @@ class AddingContribution extends React.Component {
     _createProductHandler = () => {
         const identityId = client.getIdentityId()
         const {newContributionData} = this.state
-        const {technicalProperties, certificates, galleryImages, galleryVideo, tags} = newContributionData
+        const {
+            technicalProperties,
+            certificates,
+            galleryImages,
+            galleryVideo,
+            tags,
+            mainGalleryImageIndex
+        } = newContributionData
         const {initialInfoFormState, _createProduct} = this.props
         const {
             NAME,
@@ -269,7 +276,8 @@ class AddingContribution extends React.Component {
             certificates,
             galleryImages,
             galleryVideo,
-            tags
+            tags,
+            mainGalleryImageIndex
         }
         _createProduct(formData)
     }

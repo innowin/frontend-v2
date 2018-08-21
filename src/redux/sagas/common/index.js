@@ -3,7 +3,7 @@ import locationWatchers from "./location/location";
 import categoryWatchers from "./category/category";
 import certificateWatchers from "./certificate/certificate";
 import badgeWatchers from "./badge/badge";
-import productWatchers from "./product/product";
+import productWatchers, {watchCreateProductPicture} from "./product/product";
 import fileWatchers from "./file/file";
 
 export default [
@@ -11,6 +11,7 @@ export default [
     productWatchers.watchGetProductInfo(),
     productWatchers.watchUpdateProduct(),
     productWatchers.watchCreateProduct(),
+    productWatchers.watchCreateProductPicture(),
 
     // category watchers
     categoryWatchers.watchGetCategoriesList(),
