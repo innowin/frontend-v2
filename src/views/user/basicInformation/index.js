@@ -1,90 +1,23 @@
 // @flow
 import * as React from "react"
-import PropTypes from "prop-types"
-
 import {Component} from "react"
 import {connect} from "react-redux"
+import PropTypes from "prop-types"
+
 import {FrameCard, CategoryTitle, VerifyWrapper, ListGroup} from "src/views/common/cards/Frames"
 import {getMessages} from "src/redux/selectors/translateSelector"
-import {getProfile} from "src/crud/user/profile"
 import {getUserEducations} from "src/crud/user/education"
 import {getUserResearches} from "src/crud/user/research"
-import {ProfileInfoEditForm, ResearchInfoEditForm, EducationInfoEditForm} from "./Forms"
-import {userInfoIcon, researchIcon, educationIcon} from "src/images/icons"
-import {UserInfoItemWrapper, ProfileInfoView, ResearchInfoView, EducationInfoView} from "./Views"
-import {UserInfo} from "./UserInfo"
+import {ResearchInfoEditForm, EducationInfoEditForm} from "./Forms"
+import {researchIcon, educationIcon} from "src/images/icons"
+import {UserInfoItemWrapper, ResearchInfoView, EducationInfoView} from "./Views"
+import {UserInfo} from './UserInfo'
+import {ProfileInfo} from './ProfileInfo'
 import type {
   userProfileType,
   userEducationType,
   userResearchType
 } from "src/consts/flowTypes/user/basicInformation"
-
-//ProfileInfo flowTypes
-type ProfileInfoProps = {
-  userId: number,
-  translate: {}
-}
-type ProfileInfoState = {
-  profile: userProfileType,
-  error: boolean,
-  edit: boolean,
-  isLoading: boolean
-}
-
-export class ProfileInfo extends Component<ProfileInfoProps, ProfileInfoState> {
-  constructor(props: ProfileInfoProps) {
-    super(props)
-    this.state = {profile: {}, error: false, edit: false, isLoading: false}
-  }
-
-  static propTypes = {
-    userId: PropTypes.number.isRequired,
-    translate: PropTypes.object.isRequired
-  }
-
-  _showEdit = () => {
-    this.setState({...this.state, edit: true})
-  }
-
-  _hideEdit = () => {
-    this.setState({...this.state, edit: false})
-  }
-
-  _updateStateForView = (res: userProfileType) => {
-    this.setState({...this.state, profile: res, isLoading: false})
-  }
-
-  componentDidMount() {
-    const {userId} = this.props
-    this.setState({...this.state, isLoading: true}, () => {
-      getProfile(userId, (res: userProfileType) => this.setState({...this.state, profile: res, isLoading: false}))
-    })
-  }
-
-  render() {
-    const {translate} = this.props
-    const {profile, edit, isLoading, error} = this.state
-    return (
-      <VerifyWrapper isLoading={isLoading} error={error}>
-        {
-          (edit) ? (
-            <UserInfoItemWrapper icon={userInfoIcon}>
-              <ProfileInfoEditForm
-                profile={profile}
-                hideEdit={this._hideEdit}
-                updateStateForView={this._updateStateForView}
-                translate={translate}
-              />
-            </UserInfoItemWrapper>
-          ) : (
-            <ProfileInfoView profile={profile} showEdit={this._showEdit} translate={translate}/>
-          )
-        }
-      </VerifyWrapper>
-    )
-
-  }
-}
 
 
 //EducationInfo flowTypes
@@ -331,18 +264,20 @@ export class ResearchesInfo extends Component<ResearchesInfoProps, ResearchesInf
 //UserBasicInformation flowTypes
 type UserBasicInformationProps = {
   userId: number,
-  translate: { [string]: string }
+  translate: { [string]: string },
+  profile: userProfileType,
 }
 
 export class UserBasicInformation extends Component<UserBasicInformationProps> {
 
   static propTypes = {
     userId: PropTypes.number.isRequired,
-    translate: PropTypes.object.isRequired
+    translate: PropTypes.object.isRequired,
+    profile: PropTypes.object.isRequired,
   }
 
   render() {
-    const {userId, translate} = this.props
+    const {userId, translate, profile} = this.props
     return (
       <div>
         <CategoryTitle
@@ -351,7 +286,7 @@ export class UserBasicInformation extends Component<UserBasicInformationProps> {
         <FrameCard>
           <ListGroup>
             <UserInfo {...{userId}} translate={translate}/>
-            <ProfileInfo {...{userId}} translate={translate}/>
+            <ProfileInfo {...{userId}} translate={translate} profile={profile}/>
             <EducationsInfo {...{userId}} translate={translate}/>
             <ResearchesInfo {...{userId}} translate={translate}/>
           </ListGroup>

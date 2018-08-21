@@ -86,7 +86,7 @@ const auth = (state = initialState.auth, action) => {
           user: {...data}
         }
       }
-    /** -------------------------- update user by user id -------------------------> **/
+    /** -------------------------- verify token -------------------------> **/
     case types.SUCCESS.AUTH.VERIFY_TOKEN:
       return {
         ...state,
@@ -95,6 +95,25 @@ const auth = (state = initialState.auth, action) => {
           user,
           profile,
           identity,
+        }
+      }
+    case types.ERRORS.AUTH.VERIFY_TOKEN:
+      return {
+        ...state,
+        client: {
+          ...client,
+          error: {
+            message
+          }
+        }
+      }
+    /** -------------------------- update profile by profile id -------------------------> **/
+    case types.SUCCESS.USER.UPDATE_PROFILE_BY_PROFILE_ID:
+      return {
+        ...state,
+        client: {
+          ...client,
+          profile: {...data}
         }
       }
     /** -------------------------- reset auth  -------------------------> **/

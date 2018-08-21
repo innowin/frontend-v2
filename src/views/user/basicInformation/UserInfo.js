@@ -53,7 +53,6 @@ class UserInfo extends Component<UserInfoProps, UserInfoState> {
     const {translate, actions, isLoading, user} = this.props
     const {edit, error} = this.state
     return (
-
         <VerifyWrapper isLoading={isLoading} error={error}>
           {(edit) ? (
               <UserInfoItemWrapper icon={userInfoIcon}>

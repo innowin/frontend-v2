@@ -11,7 +11,7 @@ const createSocketChannel = (resultName) => {
         emit(new Error(res.detail))
         return;
       }
-      emit(res)
+      emit(res.data)
     }
     SOCKET.on(resultName, resultHandler)
     return () => SOCKET.off(resultName, resultHandler)

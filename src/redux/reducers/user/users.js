@@ -212,6 +212,46 @@ const users = (state = initialState.users, action) => {
           }
         }
       }
+    /** -------------------------- update profile by profile id -------------------------> **/
+    case types.USER.UPDATE_PROFILE_BY_PROFILE_ID:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          profile: {
+            ...previousProfile,
+            isLoading: true
+          }
+        }
+      }
+    case types.SUCCESS.USER.UPDATE_PROFILE_BY_PROFILE_ID:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          profile: {
+            content: {...data},
+            isLoading: false,
+            error: {
+              message:null
+            }
+          }
+        }
+      }
+    case types.ERRORS.USER.UPDATE_PROFILE_BY_PROFILE_ID:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          profile: {
+            ...previousProfile,
+            isLoading: false,
+            error: {
+              message
+            }
+          }
+        }
+      }
     /** -------------------------- reset users -------------------------> **/
     case types.RESET:
       return initialState.users
