@@ -8,6 +8,8 @@ function* watchUpdateUserByUserId() {
   yield takeEvery(types.USER.UPDATE_USER_BY_USER_ID, updateUserByUserId)
 }
 
+
+
 export default{
   watchUpdateUserByUserId,
 }

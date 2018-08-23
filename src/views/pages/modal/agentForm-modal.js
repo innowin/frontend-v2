@@ -83,7 +83,6 @@ class AgentForm  extends React.Component<AgentFormProps,{tags:Array<String>, des
       return (
         <div className={this.props.active  ? "modal-page" : "modal-page hide" } tabIndex="-1" role="dialog" ref={this.setWrapperRef}>
           <div className="agent-from-title"><div className="agent-form-title-container"><AgentSvgIcon className="agent-form-agent-icon"/><span className="agent-from-title-text"> درخواست ارتقاء به کارگزار</span></div></div>
-  
           <div className="modal-bottom">
             <label className="label float-right">شرحی از سوابق کاری خود را بنویسید</label>
             <textarea type="text" name="description" id="description" ref={description => (this.description = description)} className="form-control gray-text-input job-description"/>

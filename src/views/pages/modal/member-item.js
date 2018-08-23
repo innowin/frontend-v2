@@ -5,7 +5,9 @@ class MemberItem extends Component {
   constructor(props){
     super(props)
   }
-
+  handleClick(){
+    this.props.onAdd(this.props.index)
+  }
   render(){
     const {added, name, skill} = this.props
     var btnClass = added==true ? "added" :'toadd'
@@ -22,7 +24,7 @@ class MemberItem extends Component {
             <p>{skill}</p>
           </div>
           <div className="col">
-            <button className={`btn btn-sm ${btnClass}`}> {label}</button>
+            <button className={`btn btn-sm ${btnClass}`} onClick={this.handleClick.bind(this)}> {label}</button>
           </div>
         </div>
       </div>

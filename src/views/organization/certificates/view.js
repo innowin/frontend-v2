@@ -27,8 +27,8 @@ export class CertificateView extends React.Component<CertificateViewProps> {
                         <div className="content">
                             {certificate.certificate_picture ? 
                             <ImageViewer
-                            label={__('Post pictures') + ": "}
-                             mediaId={certificate.certificate_picture} 
+                                label={__('Post pictures') + ": "}
+                                mediaId={certificate.certificate_picture} 
                             /> : 
                             <img src="/static/media/defaultImg.94a29bce.png" />
                             }
