@@ -11,6 +11,10 @@ $heightOfContentBox: 140px;
   background-image: url("../images/common/userOrganBackground.png");
   background-repeat: no-repeat;
   background-size: cover;
+  .content {
+    margin: 0 auto;
+    min-height: 100vh
+  }
 }
 
 .-createPostHome {

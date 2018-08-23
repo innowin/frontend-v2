@@ -11,6 +11,7 @@ class HomePosts extends Component {
 
   static propTypes = {
     exchangeId: PropTypes.number,
+    className: PropTypes.string
   }
 
   constructor(props) {
@@ -96,9 +97,10 @@ class HomePosts extends Component {
   render() {
     const {isLoading, error, exchangeId, scrollLoading, scrollError} = this.state
     const posts = [...new Set(this.state.posts)]
+    const {className} = this.props
     // TODO mohsen: choice postIdentity from client
     return (
-      <VerifyWrapper isLoading={isLoading} error={error}>
+      <VerifyWrapper isLoading={isLoading} error={error} className={className}>
         {(exchangeId) ? (
           <div>
             <HomeCreatePost updatePosts={this._updatePosts} postParent={exchangeId} postIdentity={+IDENTITY_ID}
