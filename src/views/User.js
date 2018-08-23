@@ -113,7 +113,9 @@ class User extends Component<PropsUser> {
             </Tabs>
             <Switch>
               <Redirect exact from={`${url}/`} to={`${url}/Posts`}/>
-              <PrivateRoute path={`${path}/Posts`} component={Posts} id={userId} identityType='user'/>
+              <PrivateRoute path={`${path}/Posts`} component={Posts} id={userId} identityType='user'
+                            profileMedia={profileObject.content.profile_media} postIdentity={identityObject.content.id}
+              />
               <PrivateRoute path={`${path}/basicInformation`} component={UserBasicInformation} userId={userId}
                             profile={profileObject}
               />

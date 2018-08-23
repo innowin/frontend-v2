@@ -3,7 +3,7 @@ import types from '../actions/types'
 
 const auth = (state = initialState.auth, action) => {
   const {data} = action.payload || {}
-  const {user, profile, identity} = data || {}
+  const {user, profile, identity, posts} = data || {}
   const {client} = state
   const {exchange_identities} = client
   switch (action.type) {
@@ -31,6 +31,7 @@ const auth = (state = initialState.auth, action) => {
           organization,
           user_type,
           rememberMe,
+          posts,
           isLoggedIn: true
         }
       }
@@ -114,6 +115,23 @@ const auth = (state = initialState.auth, action) => {
         client: {
           ...client,
           profile: {...data}
+        }
+      }
+    /** -------------------------- get posts by identity  -------------------------> **/
+    case types.SUCCESS.COMMON.GET_POST_BY_IDENTITY:
+      const {postIdentity} = action.payload
+      const postId = []
+      data.map(post => {
+        if(postIdentity === state.client.identity.id) {
+          return postId.push(post.id)
+        }
+        return postId
+      })
+      return {
+        ...state,
+        client: {
+          ...client,
+          posts: {...postId}
         }
       }
     /** -------------------------- reset auth  -------------------------> **/

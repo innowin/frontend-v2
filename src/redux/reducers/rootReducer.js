@@ -13,6 +13,7 @@ import organs from "./organization/organs"
 import users from "./user/users"
 import hashTag from "./commonReducer/hashTag"
 import location from './commonReducer/location'
+import posts from './commonReducer/post'
 
 
 const common = combineReducers({
@@ -22,7 +23,8 @@ const common = combineReducers({
     file,
     hashTag,
     location,
-    badges
+    badges,
+    posts,
 })
 
 const reducers = {

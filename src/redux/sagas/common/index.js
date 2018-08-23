@@ -5,6 +5,7 @@ import certificateWatchers from "./certificate/certificate";
 import badgeWatchers from "./badge/badge";
 import productWatchers from "./product/product";
 import fileWatchers from "./file/file";
+import postWatchers from './post/post'
 
 export default [
     // product watchers
@@ -37,4 +38,8 @@ export default [
     locationWatchers.watchGetCountries(),
     locationWatchers.watchGetProvinces(),
     locationWatchers.watchGetCities(),
+
+    // posts
+    postWatchers.watchFilterPostsByPostParentPostTypeLimitOffset(),
+    postWatchers.watchGetPostByIdentity(),
 ]

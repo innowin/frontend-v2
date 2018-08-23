@@ -252,6 +252,36 @@ const users = (state = initialState.users, action) => {
           }
         }
       }
+    /** -------------------------- get posts by identity  -------------------------> **/
+    case types.SUCCESS.COMMON.GET_POST_BY_IDENTITY:
+      const {postIdentity} = action.payload
+      let userSelectId
+      const postId = []
+      for(let key in state){
+        if(postIdentity === state[key].identity.content.id){
+          userSelectId = key
+          break
+        }
+      }
+      data.map(post => {
+        postId.push(post.id)
+        return postId
+      })
+      const previousPosts = (state[userSelectId] && state[userSelectId].posts) || defaultObject
+      return {
+        ...state,
+        [userSelectId]: {
+          ...state[userSelectId],
+          posts: {
+            ...previousPosts,
+            content: {
+              ...postId,
+            },
+            isLoading: false,
+            error: null
+          }
+        }
+      }
     /** -------------------------- reset users -------------------------> **/
     case types.RESET:
       return initialState.users

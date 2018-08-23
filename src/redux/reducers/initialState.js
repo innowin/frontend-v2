@@ -51,6 +51,13 @@ export default {
              error:{
                message: null
              }
+           },
+           posts: {
+             content:{},
+             isLoading:false,
+             error:{
+               message: null
+             }
            }
             ------------ common --------------
              badges:{
@@ -247,6 +254,14 @@ export default {
                 isLoading: false
             }
         },
+        posts: {
+            // each item has post detail
+            /* content: {
+                [postId]: {},
+                isLoading: boolean,
+                error: null | {message}
+            }*/
+        }
     },
 
     intl: {

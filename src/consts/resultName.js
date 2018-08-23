@@ -62,6 +62,7 @@ const results = {
     GET_ORG_BADGES: "GET_ORG_BADGES",
     POST: {
       FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET: 'filterPostsByPostParentLimitOffset',
+      GET_POST_BY_IDENTITY: 'get-post-by-identity',
     },
 
     // hashTag
