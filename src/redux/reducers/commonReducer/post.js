@@ -9,7 +9,7 @@ const posts = (state = initialState.common.posts, action) => {
       /** -------------------------- get post by identity -------------------------> **/
     case types.COMMON.GET_POST_BY_IDENTITY:
       return {
-        ...content,
+        ...state,
         isLoading: true,
         error: null,
       }

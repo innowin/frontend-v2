@@ -1,17 +1,17 @@
 // @flow
 /*global __*/
-import * as React from"react";
+import * as React from "react";
 import PropTypes from 'prop-types';
 
-import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames";
-import {getPostsByIdentity, createPost, updatePost, deletePost} from "src/crud/post/post";
-import {PostCreateForm} from "./Forms";
-import {PostEditForm} from './Forms';
+import {CategoryTitle, FrameCard, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames";
+import {createPost, deletePost, updatePost} from "src/crud/post/post";
+import {PostCreateForm, PostEditForm} from "./Forms";
 import {PostItemWrapper, PostView} from "./View";
 import {getFile} from "../../../crud/media/media";
 import {bindActionCreators} from "redux";
 import PostActions from "../../../redux/actions/commonActions/postActions";
 import connect from "react-redux/es/connect/connect";
+import {makeUserPostsSelector} from 'src/redux/selectors/common/userPostsSelector'
 
 type postPropTypes = {
   post: {
@@ -149,14 +149,14 @@ type postsPropsType = {
   postIdentity: number,
   actions: {
     getPostByIdentity: Function,
-  }
+  },
+  posts: [],
+  isLoading: boolean,
+  error: {} | null
 }
 
 type postsStatesType = {
-  posts: [],
   createForm: boolean,
-  isLoading: boolean,
-  error: {} | null
 }
 
 class Posts extends React.Component<postsPropsType, postsStatesType> {
@@ -166,6 +166,9 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
     profileMedia: PropTypes.string.isRequired,
     postIdentity: PropTypes.number.isRequired,
     actions: PropTypes.object.isRequired,
+    posts: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    error: PropTypes.object.isRequired,
   };
 
   constructor(props: postsPropsType) {
@@ -207,21 +210,16 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
     }
   };
 
-  _getPosts = () => {
-    const {postIdentity} = this.props
-    // getPostsByIdentity(postIdentity, this._updatePosts, this._handleErrorLoading)
-  }
-
   componentDidMount() {
     const {actions, postIdentity} = this.props
     const {getPostByIdentity} = actions
+
     getPostByIdentity(postIdentity)
   }
 
   render() {
-    const {createForm, isLoading, error} = this.state;
-    const {postIdentity, profileMedia} = this.props
-    const posts = [...new Set(this.state.posts)];
+    const {createForm} = this.state;
+    const {postIdentity, profileMedia, posts, isLoading, error} = this.props
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         <CategoryTitle
@@ -240,7 +238,7 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
               </PostItemWrapper>
             }
             {
-              posts.map((post) => (
+              posts !== undefined ? posts.map((post) => (
                 <Post
                   posts={posts}
                   post={post}
@@ -249,6 +247,7 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
                   profileMedia={profileMedia}
                 />
               ))
+              : ''
             }
           </ListGroup>
 
@@ -258,8 +257,14 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
+const mapStateToProps  = () => {
+  const userPostsSelector = makeUserPostsSelector()
+  return (state, props) => {
+    return {
+      posts: userPostsSelector(state, props),
+      isLoading: state.common.posts.isLoading,
+      error: state.common.posts.error,
+    }
   }
 }
 
