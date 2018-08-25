@@ -72,7 +72,7 @@ export const getUserResearches = (userId, handleResult) => {
     if (res.detail) {
       return false
     }
-    handleResult(res)
+    handleResult(res.data)
     socket.off("/users/researches/get", func)
   }
   socket.on("/users/researches/get", func)

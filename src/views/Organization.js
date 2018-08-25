@@ -70,8 +70,8 @@ export class Organization extends Component<PropsOrganization> {
 		const {getFile} = actions
 		const {path, url, params} = this.props.match
 		const organizationId = params.id
-		const isLoading = organObject.isLoading || badgesObject.isLoading
-		const errorMessage = organObject.error || badgesObject.error
+		const isLoading = organObject.isLoading || badgesObject.isLoading //TODO mohsen: added get files isLoading
+		const errorMessage = organObject.error || badgesObject.error //TODO mohsen:added get files error
 		return (
 				<div className="-userOrganBackgroundImg">
 					<TopBar collapseClassName="col user-sidebar-width"/>

@@ -4,6 +4,9 @@ import {Field, reduxForm} from "redux-form";
 
 import type {userType} from "src/consts/flowTypes/user/basicInformation"
 
+
+import renderTextField from "src/views/common/inputs/reduxFormRenderTextField"
+
 // flow type of UserInfoEditForm
 type PropsUserInfoEditForm = {|
   hideEdit: Function,
@@ -12,20 +15,27 @@ type PropsUserInfoEditForm = {|
   actions: {|
     updateUserByUserId: Function,
   |},
-  initialize: Function,
-  handleSubmit: Function,
+  initialize?: Function,
+  handleSubmit?: Function,
+|}
+
+type UserInfoFormInputType = {|
+  username: string,
+  firstName: string,
+  lastName: string,
+  email: string,
 |}
 
 class UserInfoEditForm extends React.Component<PropsUserInfoEditForm> {
   componentDidMount(){
-    const {user} = this.props
+    const {user, initialize} = this.props
     const defaultFormValue = {
       username: user.username,
       firstName: user.first_name,
       lastName: user.last_name,
       email: user.email,
     }
-    this.props.initialize(defaultFormValue);
+    initialize(defaultFormValue);
   }
 
   static propTypes = {
@@ -33,25 +43,25 @@ class UserInfoEditForm extends React.Component<PropsUserInfoEditForm> {
     user: PropTypes.object.isRequired,
     translate: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
-    initialize: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func,
+    handleSubmit: PropTypes.func,
   }
 
-  _onSubmit = (values: {username: string, firstName: string, lastName: string, email: string}): boolean | void => {
+  _onSubmit = (values: UserInfoFormInputType): boolean | void => {
     // user equals to initial value
     const {user, actions} = this.props
     const {updateUserByUserId} = actions
     const userId:number = this.props.user.id
 
     const formFormat = {
-      username: user.username === values.username ? '': values.username,
-      first_name: user.first_name === values.firstName ? '': values.firstName,
-      last_name: user.last_name === values.lastName ? '': values.lastName,
-      email: user.email === values.email ? '': values.email,
+      username: user.username === values.username ? null: values.username,
+      first_name: user.first_name === values.firstName ? null: values.firstName,
+      last_name: user.last_name === values.lastName ? null: values.lastName,
+      email: user.email === values.email ? null: values.email,
     }
     const propertyNames = Object.getOwnPropertyNames(formFormat)
     propertyNames.map(key => {
-      formFormat[key] === '' ? delete(formFormat[key]) : ''
+      formFormat[key] === null ? delete(formFormat[key]) : ''
       return formFormat
     })
     // TODO: mohammad validation form and errors
@@ -64,34 +74,57 @@ class UserInfoEditForm extends React.Component<PropsUserInfoEditForm> {
   render() {
     const {translate, handleSubmit} = this.props
     return (
-        <form onSubmit={handleSubmit(this._onSubmit)}>
-          <div>
+        <form onSubmit={handleSubmit(this._onSubmit)} className=''>
             <div className='form-group'>
               <label>
                 {translate['Username'] + ": "}
               </label>
-              <Field className='form-control user-info-form-text-field' name='username' component='input' type='text' />
+              <Field
+                  name="username"
+                  type="text"
+                  component={renderTextField}
+                  label={translate['Username']}
+                  textFieldClass='form-control'
+              />
             </div>
 
             <div className='form-group'>
               <label>
                 {translate['First name'] + ": "}
               </label>
-              <Field className='form-control user-info-form-text-field' name='firstName' component='input' type='text' />
+              <Field
+                  name="firstName"
+                  type="text"
+                  component={renderTextField}
+                  label={translate['Username']}
+                  textFieldClass='form-control'
+              />
             </div>
 
             <div className='form-group'>
               <label>
                 {translate['Last name'] + ": "}
               </label>
-              <Field className='form-control user-info-form-text-field' name='lastName' component='input' type='text' />
+              <Field
+                  name="lastName"
+                  type="text"
+                  component={renderTextField}
+                  label={translate['Username']}
+                  textFieldClass='form-control'
+              />
             </div>
 
             <div className='form-group'>
               <label>
                 {translate['Email'] + ": "}
               </label>
-              <Field className='form-control user-info-form-text-field' name='email' component='input' type='email' />
+              <Field
+                  name="email"
+                  type="text"
+                  component={renderTextField}
+                  label={translate['Username']}
+                  textFieldClass='form-control'
+              />
             </div>
 
             <div className="col-12 d-flex justify-content-end">
@@ -100,7 +133,6 @@ class UserInfoEditForm extends React.Component<PropsUserInfoEditForm> {
               </button>
               <button type="submit" className="btn btn-success">{translate['Save']}</button>
             </div>
-          </div>
         </form>
     )
   }

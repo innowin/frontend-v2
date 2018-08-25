@@ -8,9 +8,25 @@ $heightOfContentBox: 140px;
 }
 
 .home-wrapper {
-  background-image: url("../images/common/userOrganBackground.png");
-  background-repeat: no-repeat;
-  background-size: cover;
+  .content {
+    min-height: 100%;
+    @media screen and (max-width: 1920px) and (min-width: 1366px){
+      margin: 0 138px;
+    }
+    @media screen and (max-width: 1280px) and (min-width: 600px){
+      margin: 0 90px;
+    }
+    @media screen and (max-width: 1366px) and (min-width: 1280px){
+      margin: 0 97px;
+    }
+    .right-sidebar {
+      overflow-y: auto;
+      background: $text-lightest-color;
+      -webkit-box-shadow: -2px 0px 14px rgba(0, 0, 0, 0.3);
+      -moz-box-shadow: -2px 0px 14px rgba(0, 0, 0, 0.3);
+      box-shadow: -2px 0px 14px rgba(0, 0, 0, 0.3);
+    }
+  }
 }
 
 .-createPostHome {
