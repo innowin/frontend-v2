@@ -6,10 +6,11 @@ const renderTextArea = ({
                             type,
                             placeholder,
                             className,
+                            textFieldClass,
                             meta: {touched, error}
                         }) => (
     <div className={className}>
-        <textarea {...input} className={touched && error ? 'error' : ''}
+        <textarea {...input} className={(touched && error) ? `${textFieldClass} error` : `${textFieldClass}`}
                   placeholder={placeholder || label}/>
         {(touched && error) && <span className="error-message">{error}</span>}
     </div>

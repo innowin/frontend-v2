@@ -128,6 +128,7 @@ module.exports = {
   'Follow': 'دنبال کردن',
   'Send Message': 'ارسال پیام',
   'FirstName': 'نام',
+  'Web Site Format': 'http://www.abc.com',
 
   // user - researches
   'This number is not a correct year': "سال باید عدد ۴ رقمی معتبر باشد",

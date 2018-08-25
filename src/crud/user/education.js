@@ -74,7 +74,7 @@ export const getUserEducations = (userId, handleResult) => {
     if (res.detail) {
       return false
     }
-    handleResult(res)
+    handleResult(res.data)
     socket.off(`/users/educations/get${userId}`, func)
   }
   socket.on(`/users/educations/get${userId}`, func)
