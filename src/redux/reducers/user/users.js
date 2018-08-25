@@ -2,13 +2,25 @@ import initialState from "../initialState"
 import types from "../../actions/types/index"
 
 const users = (state = initialState.users, action) => {
-  const {userId, data, message} = action.payload || {}
+  const {userId, data, message, postIdentity} = action.payload || {}
   const defaultObject = { content: {}, isLoading: false, error: null }
   const defaultObject2 = { content: [], isLoading: false, error: null }
   const previousUser = (state[userId] && state[userId].user) || defaultObject
   const previousProfile = (state[userId] && state[userId].profile) || defaultObject
   const previousIdentity = (state[userId] && state[userId].identity) || defaultObject
   const previousBadges = (state[userId] && state[userId].badges) || defaultObject2
+
+  const getPreviousUserPost = userId => (state[userId] && state[userId].posts) || defaultObject2
+  const getUserId = (postIdentity) => {
+    let userSelectId
+    for(let key in state){
+      if(postIdentity === state[key].identity.content.id){
+        userSelectId = key
+        break
+      }
+    }
+    return userSelectId
+  }
 
   switch (action.type) {
     /** -------------------------- get user -------------------------> **/
@@ -200,9 +212,76 @@ const users = (state = initialState.users, action) => {
           user: {
             ...previousUser,
             isLoading: false,
-            error: {
-              message
-            }
+            error: message
+          }
+        }
+      }
+    /** -------------------------- update profile by profile id -------------------------> **/
+    case types.USER.UPDATE_PROFILE_BY_PROFILE_ID:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          profile: {
+            ...previousProfile,
+            isLoading: true
+          }
+        }
+      }
+    case types.SUCCESS.USER.UPDATE_PROFILE_BY_PROFILE_ID:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          profile: {
+            content: {...data},
+            isLoading: false,
+            error: null
+          }
+        }
+      }
+    case types.ERRORS.USER.UPDATE_PROFILE_BY_PROFILE_ID:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          profile: {
+            ...previousProfile,
+            isLoading: false,
+            error: message
+          }
+        }
+      }
+    /** -------------------------- get posts by identity  -------------------------> **/
+    case types.SUCCESS.COMMON.GET_POST_BY_IDENTITY:
+      const postId = []
+      let userSelectId = getUserId(postIdentity)
+      data.map(post => {
+        postId.push(post.id)
+        return postId
+      })
+      return {
+        ...state,
+        [userSelectId]: {
+          ...state[userSelectId],
+          posts: {
+            content: [...postId],
+            isLoading: false,
+            error: null
+          }
+        }
+      }
+    /** -------------------------- create post  -------------------------> **/
+    case types.SUCCESS.COMMON.CREATE_POST:
+      let userSelectIdCreatePost = getUserId(data.post_identity)
+      return {
+        ...state,
+        [userSelectIdCreatePost]: {
+          ...state[userSelectIdCreatePost],
+          posts: {
+            content: [...getPreviousUserPost(userSelectIdCreatePost).content, data.id],
+            isLoading: false,
+            error: null
           }
         }
       }

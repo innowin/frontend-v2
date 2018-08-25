@@ -6,6 +6,7 @@ import location from "./location";
 import {combineReducers} from "redux";
 import category from "./category";
 import product from "./product";
+import posts from './post'
 
 export default combineReducers({
     category,
@@ -14,5 +15,6 @@ export default combineReducers({
     file,
     hashTag,
     location,
-    badges
+    badges,
+    posts,
 })

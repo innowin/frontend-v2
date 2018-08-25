@@ -11,7 +11,8 @@ import {connect} from "react-redux"
 type HomeProps = {|
   identityId: number
 |}
-class Home extends Component<HomeProps, {| activeExchangeId: ?number|}> {
+
+class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
 
   static propTypes = {
     identityId: PropTypes.number.isRequired
@@ -32,23 +33,20 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number|}> {
   render() {
     const {identityId} = this.props
     const {activeExchangeId} = this.state
-    const widthOfRightBar = "col-md-3 col-sm-2"
     return (
       <div className="home-wrapper">
-        <TopBar collapseClassName={widthOfRightBar}/>
-        <main>
-          <HomeSideBar setExchangeId={this._setExchangeId}
-                       classNames={`${widthOfRightBar} pr-0 pl-0 -right-sidebar-wrapper`}
-                       identityId={identityId}
-          />
-          <div className="col-md-7 col-sm-9 pr-5-percent -content-wrapper -home-content-wrapper">
-            <HomePosts exchangeId={activeExchangeId}/>
+        <TopBar collapseClassName="col-2"/>
+        <main className="-main">
+          <div className="row content">
+            <HomeSideBar setExchangeId={this._setExchangeId}
+                         classNames="col-3 pr-0 pl-0 right-sidebar"
+                         identityId={identityId}
+            />
+            <HomePosts exchangeId={activeExchangeId} className="col-6"/>
+            <div className="col-3 pl-0"/>
           </div>
-          <div className="col-md-2 col-sm-1 -left-sidebar-wrapper">
-            <ChatBar/>
-          </div>
+          <ChatBar className="pr-0 pl-0 -left-sidebar-wrapper"/>
         </main>
-
       </div>
     )
   }
