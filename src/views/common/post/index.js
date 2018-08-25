@@ -4,7 +4,6 @@ import * as React from "react";
 import PropTypes from 'prop-types';
 
 import {CategoryTitle, FrameCard, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames";
-import {createPost, deletePost, updatePost} from "src/crud/post/post";
 import {PostCreateForm, PostEditForm} from "./Forms";
 import {PostItemWrapper, PostView} from "./View";
 import {getFile} from "../../../crud/media/media";
@@ -18,8 +17,9 @@ type postPropTypes = {
     post_identity: number,
   },
   posts: [],
-  updatePosts: Function,
+  updatePost: Function,
   profileMedia: string,
+  deletePost: Function,
 }
 
 type postStateTypes = {
@@ -37,8 +37,9 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
   static propTypes = {
     post: PropTypes.object.isRequired,
     posts: PropTypes.array.isRequired,
-    updatePosts: PropTypes.func.isRequired,
+    updatePost: PropTypes.func.isRequired,
     profileMedia: PropTypes.string.isRequired,
+    deletePost: PropTypes.func.isRequired,
   };
 
   constructor(props: postPropTypes) {
@@ -71,13 +72,15 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
   }
 
   _update = (formValues, postId) => {
-    this.setState({...this.state, isLoading: true}, () =>
-      updatePost(formValues, postId, this._updateView, this._hideEdit, this._handleErrorLoading))
+    const {updatePost} = this.props
+    updatePost(formValues, postId)
   }
 
   _delete = () => {
-    this.setState({...this.state, isLoading: true}, () =>
-      deletePost(this.props.posts, this.props.post, this.props.updatePosts, this._hideEdit, this._handleErrorLoading))
+    // this.setState({...this.state, isLoading: true}, () =>
+      // deletePost(this.props.posts, this.props.post, this.props.updatePosts, this._hideEdit, this._handleErrorLoading))
+    const {deletePost} = this.props
+    deletePost(3369)
   }
 
   _getIdentityDetails = (identity) => {
@@ -149,10 +152,13 @@ type postsPropsType = {
   postIdentity: number,
   actions: {
     getPostByIdentity: Function,
+    createPost: Function,
+    deletePost: Function,
+    updatePost: Function,
   },
   posts: [],
   isLoading: boolean,
-  error: {} | null
+  error: string,
 }
 
 type postsStatesType = {
@@ -173,7 +179,7 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
 
   constructor(props: postsPropsType) {
     super(props);
-    this.state = {posts: [], createForm: false, isLoading: true, error: null}
+    this.state = {createForm: false}
   }
 
   _handleErrorLoading = (error = false) => {
@@ -189,12 +195,13 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
   };
 
   _create = (formValues) => {
-    this.setState({...this.state, isLoading: true});
-    createPost(formValues, this._updatePosts, this._handleErrorLoading, this._hideCreateForm)
+    const {actions} = this.props
+    const {createPost} = actions
+    createPost(formValues)
   };
 
   _updatePosts = (res, type, deletedIndex = null) => {
-    const {posts} = this.state;
+    const {posts} = this.props;
     res = res.data
     if (type === 'get' && Array.isArray(res)) {
       this.setState({...this.state, posts: [...posts, ...res]});
@@ -212,19 +219,14 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
 
   componentDidMount() {
     const {actions, postIdentity} = this.props
-    const {getPostByIdentity, createPost} = actions
-
+    const {getPostByIdentity, updatePost, createPost} = actions
     getPostByIdentity(postIdentity)
   }
 
-  componentDidUpdate(){
-    console.log(this.props.posts, 'updatedd')
-  }
-
   render() {
+    const {postIdentity, profileMedia, posts, isLoading, error, actions} = this.props
+    const {updatePost, deletePost} = actions
     const {createForm} = this.state;
-    const {postIdentity, profileMedia, posts, isLoading, error} = this.props
-    console.log(posts, 'postssss')
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         <CategoryTitle
@@ -243,15 +245,17 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
               </PostItemWrapper>
             }
             {
-              posts && posts !== undefined && posts.map((post) => (
+              posts && posts !== {} && posts !== undefined ? posts.map((post) => (
                 <Post
                   posts={posts}
                   post={post}
-                  updatePosts={this._updatePosts}
+                  updatePost={updatePost}
                   key={post.id + "Posts"}
                   profileMedia={profileMedia}
+                  deletePost={deletePost}
                 />
               ))
+                : ''
             }
           </ListGroup>
 
@@ -276,6 +280,8 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getPostByIdentity: PostActions.getPostByIdentity,
     createPost: PostActions.createPost,
+    updatePost: PostActions.updatePost,
+    deletePost: PostActions.deletePost,
   }, dispatch)
 })
 

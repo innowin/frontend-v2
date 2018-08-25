@@ -5,6 +5,8 @@ import {takeEvery} from "redux-saga/effects"
 import {filterPostsByPostParentPostTypeLimitOffset} from './filterPostsByPostParentLimitOffset'
 import {createPost} from './createPost'
 import {getPostByIdentity} from "./getPostByIdentity"
+import {updatePost} from './updatePost'
+import {deletePost} from './deletePost'
 
 
 /**********    %% WATCHERS %%    **********/
@@ -21,8 +23,18 @@ function* watchCreatePost() {
   yield takeEvery(types.COMMON.CREATE_POST, createPost)
 }
 
+function* watchUpdatePost() {
+  yield takeEvery(types.COMMON.UPDATE_POST, updatePost)
+}
+
+function* watchDeletePost() {
+  yield takeEvery(types.COMMON.DELETE_POST, deletePost)
+}
+
 export default {
   watchFilterPostsByPostParentPostTypeLimitOffset,
   watchGetPostByIdentity,
   watchCreatePost,
+  watchUpdatePost,
+  watchDeletePost,
 }

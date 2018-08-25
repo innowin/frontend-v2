@@ -2,9 +2,8 @@ import initialState from '../initialState'
 import types from '../../actions/types'
 
 const posts = (state = initialState.common.posts, action) => {
-  const {data} = action.payload || []
-  const {message} = action.payload || {}
-  const {content} = state || {}
+  const {data, message} = action.payload || []
+  const {previousContent} = state.content || {}
 
   const indexedPost = {}
 
@@ -17,14 +16,11 @@ const posts = (state = initialState.common.posts, action) => {
         error: null,
       }
     case types.SUCCESS.COMMON.GET_POST_BY_IDENTITY:
-      data.map(post => {
-        // let normalPost = {...post, post_identity: post.post_identity.id}
-        return indexedPost[post.id] = {...post, error: null}
-      })
+      data.map(post => indexedPost[post.id] = {...post, error: null})
       return {
         ...state,
         content: {
-          ...content,
+          ...previousContent,
           ...indexedPost,
         },
         error: null,
@@ -44,17 +40,63 @@ const posts = (state = initialState.common.posts, action) => {
         error: null,
       }
     case types.SUCCESS.COMMON.CREATE_POST:
-      // TODO:
+      // TODO: full identity_object or just id
       return {
         ...state,
         content: {
-          ...content,
+          ...previousContent,
           [data.id]: {...data, error: null}
         },
         error: null,
         isLoading: false,
       }
     case types.ERRORS.COMMON.CREATE_POST:
+      return {
+        ...state,
+        error: message,
+        isLoading: false,
+      }
+      /** -------------------------- update post -------------------------> **/
+    case types.COMMON.UPDATE_POST:
+      return {
+        ...state,
+        isLoading: true,
+        error: null,
+      }
+    case types.SUCCESS.COMMON.UPDATE_POST:
+      return {
+        ...state,
+        content: {
+          ...previousContent,
+          [data.id]: {...data, error: null}
+        },
+        error: null,
+        isLoading: false,
+      }
+    case types.ERRORS.COMMON.UPDATE_POST:
+      return {
+        ...state,
+        error: message,
+        isLoading: false,
+      }
+    /** -------------------------- delete post -------------------------> **/
+    case types.COMMON.DELETE_POST:
+      return {
+        ...state,
+        isLoading: true,
+        error: null,
+      }
+    case types.SUCCESS.COMMON.DELETE_POST:
+      return {
+        ...state,
+        content: {
+          ...previousContent,
+          [data.id]: {...data, error: null}
+        },
+        error: null,
+        isLoading: false,
+      }
+    case types.ERRORS.COMMON.DELETE_POST:
       return {
         ...state,
         error: message,

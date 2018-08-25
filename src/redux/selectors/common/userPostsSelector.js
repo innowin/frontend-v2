@@ -14,6 +14,8 @@ export const makeUserPostsSelector = () => {
           const arrayPost = helpers.filterNestedObjByNestedKey(content, 'post_identity', 'id', postIdentity)
           return [...arrayPost]
         }
+        if (Object.keys(content).length === 0)
+          return []
         return content
       }
   )
