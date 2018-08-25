@@ -35,6 +35,8 @@
 	}
 	.editButton{
 		cursor:pointer;
+		position: absolute;
+		left:0;
 		float:left;
 		svg{
 			width:15px;
