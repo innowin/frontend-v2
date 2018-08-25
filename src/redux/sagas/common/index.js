@@ -3,7 +3,7 @@ import locationWatchers from "./location/location";
 import categoryWatchers from "./category/category";
 import certificateWatchers from "./certificate/certificate";
 import badgeWatchers from "./badge/badge";
-import productWatchers, {watchCreateProductPicture} from "./product/product";
+import productWatchers from "./product/product";
 import fileWatchers from "./file/file";
 
 export default [
@@ -33,6 +33,7 @@ export default [
 
     // hashTag watchers
     hashTagWatchers.watchGetHashTags(),
+    hashTagWatchers.watchCreateHashTagFor(),
 
     // location
     locationWatchers.watchGetCountries(),

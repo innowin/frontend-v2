@@ -117,12 +117,11 @@ let InitialInfoReduxForm = (props: InitialInfoProps) => {
     const goToNextStepHandler = () => {
         if(!error) goToNextStep()
     }
+    const countriesList = objToArrayAsOptions(countries.list, 'id', 'name')
 
-    const countriesList = objToArrayAsOptions(countries.content, 'id', 'name')
+    const provincesList = objToArrayAsOptions(provinces.list, 'id', 'name')
 
-    const provincesList = objToArrayAsOptions(provinces.content, 'id', 'name')
-
-    const citiesList = objToArrayAsOptions(cities.content, 'id', 'name')
+    const citiesList = objToArrayAsOptions(cities.list, 'id', 'name')
 
     return (
         <form onSubmit={handleSubmit(() => {

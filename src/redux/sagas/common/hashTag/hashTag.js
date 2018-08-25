@@ -1,6 +1,7 @@
 import {takeEvery} from "redux-saga/effects";
 import types from "../../../actions/types";
-import getHashTags from "../hashTag/getHashTags";
+import getHashTags from "./getHashTags";
+import createHashTagFor from "./createHashTagFor"
 
 
 function* watchGetHashTags() {
@@ -8,6 +9,12 @@ function* watchGetHashTags() {
 }
 
 
+function* watchCreateHashTagFor() {
+    yield takeEvery(types.COMMON.CREATE_HASH_TAG_FOR, createHashTagFor)
+}
+
+
 export default {
-    watchGetHashTags
+    watchGetHashTags,
+    watchCreateHashTagFor
 }

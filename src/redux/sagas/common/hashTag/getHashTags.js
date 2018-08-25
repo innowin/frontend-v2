@@ -9,10 +9,12 @@ function* getHashTags(action) {
     const socketChannel = yield call(api.createSocketChannel, results.COMMON.GET_HASH_TAGS)
 
     try {
-        yield fork(api.get, urls.COMMON.HASH_TAG, results.COMMON.GET_HASH_TAGS)
-        const {data} = yield take(socketChannel)
+        yield fork(api.get, urls.COMMON.HASH_TAG_PARENT, results.COMMON.GET_HASH_TAGS)
+        const data = yield take(socketChannel)
+        console.log('---- SAGA ---- >> getHashTags >> data is: ',
+            data)
         const normalData = helpers.arrayToIdKeyedObject(data)
-        yield put({type: types.SUCCESS.COMMON.GET_HASH_TAGS, data: normalData})
+        yield put({type: types.SUCCESS.COMMON.GET_HASH_TAGS, payload: {data: normalData}})
 
     } catch (error) {
         yield put({type: types.ERRORS.COMMON.GET_HASH_TAGS, error})

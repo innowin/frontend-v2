@@ -6,7 +6,7 @@ import resetCreatingObjectCertStatus from "./resetCreatingObjCertStatus"
 
 
 function* watchGetObjectCertificates() {
-    yield takeEvery(types.COMMON.GET_OBJECT_CERTIFICATES, getCertificatesList)
+    yield takeEvery(types.COMMON.GET_CERTIFICATES, getCertificatesList)
 }
 
 function* watchCreateObjectCertificate() {

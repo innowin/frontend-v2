@@ -8,15 +8,15 @@ import helpers from "../../../../consts/helperFunctions";
 
 function* getObjectCertificates(action) { // action={type: , id: }
     const suffix = `?certificate_parent=${action.payload.id}`
-    const socketChannel = yield call(api.createSocketChannel, results.COMMON.GET_OBJECT_CERTIFICATES)
+    const socketChannel = yield call(api.createSocketChannel, results.COMMON.GET_CERTIFICATES)
 
     try {
-        yield fork(api.get, urls.COMMON.CERTIFICATE, results.COMMON.GET_OBJECT_CERTIFICATES, suffix)
-        const {data} = yield take(socketChannel)
+        yield fork(api.get, urls.COMMON.CERTIFICATE, results.COMMON.GET_CERTIFICATES, suffix)
+        const data = yield take(socketChannel)
         const normalData = helpers.arrayToIdKeyedObject(data)
-        yield put({type: types.SUCCESS.COMMON.GET_OBJECT_CERTIFICATES, data: normalData})
+        yield put({type: types.SUCCESS.COMMON.GET_CERTIFICATES, data: normalData})
     } catch (error) {
-        yield put({type: types.ERRORS.COMMON.GET_OBJECT_CERTIFICATES, error})
+        yield put({type: types.ERRORS.COMMON.GET_CERTIFICATES, error})
     } finally {
         socketChannel.close()
     }

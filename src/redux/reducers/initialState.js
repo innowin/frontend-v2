@@ -148,16 +148,8 @@ export default {
       error: {message: null}
     },
     product: {
-      viewingProduct: {
-        content: {},
-        isLoading: false,
-        isLoaded: false,
-      }, // the product that is viewing now.
+      // TODO: the 'viewingProduct' object should remove.
       list: {},
-      isLoaded: false,
-      isLoading: false,
-      error: null,
-      viewingId: 0
     },
     category: {
       categories: {
@@ -167,6 +159,8 @@ export default {
       },
     },
     certificate: {
+      list: {},
+        // TODO: remove the below codes of 'certificate' object.
       objectCertificates: { // the 'object' in objectCertificates can be organization or user or product.
         content: {},
         isLoaded: false,
@@ -175,50 +169,23 @@ export default {
       creatingObjCertStatus: status.NEUTRAL
     },
     file: {
-      files: {
-        middlewareFileData: { // the file that is new creating or is updating in the moment.
-          content: {},
-          isCreating: false,
-          isCreated: false
-        }
-        /*
-        [fileId]: {
-             content:{},
-             isLoading:false,
-             error:null
-        */
-      },
-      middlewareFileData: { // the file that is new creating or is updating in the moment.
-        content: {},
-        isCreating: false,
-        isCreated: false
-      }
+      list: {}
     },
     badges: {
       // [badgeId]: {} // object of badge
     },
     hashTag: {
-      list: { // list of the all hashTag.
-        content: {},
-        isLoaded: false,
-        isLoading: false
-      }
+      list: {} // list of the all hashTag.
     },
     location: {
       country: {
-        content: {},
-        isLoading: false,
-        isLoaded: false
+        list: {},
       },
       province: {
-        content: {},
-        isLoading: false,
-        isLoaded: false
+        list: {},
       },
       city: {
-        content: {},
-        isLoaded: false,
-        isLoading: false
+        list: {},
       }
     },
   },

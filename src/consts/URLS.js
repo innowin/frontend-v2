@@ -73,7 +73,8 @@ const urls = {
         BADGE: 'base/badges',
 
         // hashTags
-        HASH_TAG: 'base/hashtag-parents',
+        HASH_TAG_PARENT: 'base/hashtag-parents',
+        HASH_TAG: 'base/hashtags',
 
         // location
         COUNTRY: 'base/countries',

@@ -650,12 +650,12 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch =>
     bindActionCreators(
         {
-            _getCategories: () => getCategories(),
-            _getHashTags: () => getHashTags(),
+            _getCategories: getCategories,
+            _getHashTags: getHashTags,
             _createProduct: createProductAsContribution,
-            _getCountries: () => getCountries(),
-            _getProvinces: id => getProvinces(id),
-            _getCities: id => getCities(id),
+            _getCountries: getCountries,
+            _getProvinces: getProvinces,
+            _getCities: getCities,
             _changeFormSingleFieldValue: change
         },
         dispatch

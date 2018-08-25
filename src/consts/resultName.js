@@ -54,7 +54,7 @@ const results = {
         GET_CATEGORIES: 'common-get-categories-list-result',
 
         // certificate
-        GET_OBJECT_CERTIFICATES: 'common-get-object-certificates-list-result',
+        GET_CERTIFICATES: 'common-get-object-certificates-list-result',
         CREATE_OBJECT_CERTIFICATE: 'common-create-object-certificate-result',
 
         // badge
@@ -66,6 +66,7 @@ const results = {
 
         // hashTag
         GET_HASH_TAGS: 'common-get-hashTags-result',
+        CREATE_HASH_TAG_FOR: 'common-create-hashTag-for-object-result',
 
         // location
         GET_COUNTRIES: 'common--get--countries--result',
