@@ -146,6 +146,12 @@ export const tags = [  //
     {value: 10, label: 'برچسب ۱۰', usedCount: 8},
 ]
 
+export const FILE_FIELDS = {
+    FILE: 'picture_original',
+    PRODUCT: 'picture_product',
+    ORIGINAL: 'picture_original'
+}
+
 export const LAYER1S = { // the name of layer 1 inputs in state.newContributionData
     NEW_CERT_TITLE: 'title', // ! need for care
     NEW_CERT_IMAGE: 'certificate_picture',

@@ -171,6 +171,7 @@ const SENDING_TYPES = { // We using this to determine the type of certFormData.
     UPDATE: 'TYPE_UPDATE'
 }
 
+// TODO: the process of creating and updating certificate should change.
 export class Certificates extends Component<CertificatesProps, CertificatesState> {
 
     constructor() {
@@ -197,7 +198,7 @@ export class Certificates extends Component<CertificatesProps, CertificatesState
     }
 
     componentDidUpdate(prevProps: CertificatesProps) {
-
+        // TODO <----------------------------- should change ----------
         const {middlewareFileData,
             _createCertificate,
             productId,
@@ -228,12 +229,15 @@ export class Certificates extends Component<CertificatesProps, CertificatesState
         if (creatingObjCertStatus === status.SUCCEED) {
             setTimeout(_resetCreatingObjCertStatus, 10)
         }
+        // TODO ------------- should change ----------------------------->
     }
 
     _sendingFormDataHandler = (values: CertFormType) => {
+        // TODO <----------------------------- should change -------------
         this.setState({ ...this.state, certTitleInput: values.title})
         const data = {file_string: this.state.certFileInput}
         this.props._createFile(data)
+        // TODO ------------- should change ----------------------------->
     }
 
     _showCreateFormHandler = () => this.setState({...this.state, createForm: !this.state.createForm})
@@ -309,17 +313,27 @@ const mapStateToProps = (state) => ({
     creatingObjCertStatus: state.common.certificate.creatingObjCertStatus
 })
 
-const mapDispatchToProps = dispatch =>
-    bindActionCreators(
+const mapDispatchToProps = dispatch => {
+    return bindActionCreators(
         {
-            _getCertificatesList: id => getCertificatesList(id),
-            _createFile: data => createFile(data),
-            _createCertificate: data => createCertificate(data),
-            _updateFile: payload => updateFile(payload),
+            _getCertificatesList: getCertificatesList,
+
+            _createFile: () => {},
+            // _createFile: createFile,
+
+            _createCertificate: () => {},
+            // _createCertificate: createCertificate,
+
+            _updateFile: () => {},
+            // _updateFile: updateFile,
+
             // _delMiddleWareFileData: delMiddleWareFileData,
-            _resetCreatingObjCertStatus: resetCreatingObjCertStatus
+
+            _resetCreatingObjCertStatus: () => {}
+            // _resetCreatingObjCertStatus: resetCreatingObjCertStatus
         },
         dispatch
     )
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Certificates)
