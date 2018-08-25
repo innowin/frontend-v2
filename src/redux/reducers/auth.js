@@ -3,7 +3,7 @@ import types from '../actions/types'
 
 const auth = (state = initialState.auth, action) => {
   const {data} = action.payload || {}
-  const {user, profile, identity} = data || {}
+  const {user, profile, identity, posts} = data || {}
   const {client} = state
   const {exchange_identities} = client
   switch (action.type) {
@@ -31,8 +31,9 @@ const auth = (state = initialState.auth, action) => {
           organization,
           user_type,
           rememberMe,
+          posts,
           isLoggedIn: true,
-          error: null
+          error: null,
         }
       }
     case types.ERRORS.AUTH.SIGN_IN:
@@ -82,7 +83,7 @@ const auth = (state = initialState.auth, action) => {
           user: {...data}
         }
       }
-    /** -------------------------- update user by user id -------------------------> **/
+    /** -------------------------- verify token -------------------------> **/
     case types.SUCCESS.AUTH.VERIFY_TOKEN:
       return {
         ...state,
@@ -91,6 +92,51 @@ const auth = (state = initialState.auth, action) => {
           user,
           profile,
           identity,
+        }
+      }
+    case types.ERRORS.AUTH.VERIFY_TOKEN:
+      return {
+        ...state,
+        client: {
+          ...client,
+          error: {
+            message
+          }
+        }
+      }
+    /** -------------------------- update profile by profile id -------------------------> **/
+    case types.SUCCESS.USER.UPDATE_PROFILE_BY_PROFILE_ID:
+      return {
+        ...state,
+        client: {
+          ...client,
+          profile: {...data}
+        }
+      }
+    /** -------------------------- get posts by identity  -------------------------> **/
+    case types.SUCCESS.COMMON.GET_POST_BY_IDENTITY:
+      const {postIdentity} = action.payload || {}
+      const postId = []
+      data.map(post => {
+        if(postIdentity === state.client.identity.id) {
+          return postId.push(post.id)
+        }
+        return postId
+      })
+      return {
+        ...state,
+        client: {
+          ...client,
+          posts: [...postId]
+        }
+      }
+    /** -------------------------- create post  -------------------------> **/
+    case types.SUCCESS.COMMON.CREATE_POST:
+      return {
+        ...state,
+        client: {
+          ...client,
+          posts: [...client.posts, data.id]
         }
       }
     /** -------------------------- reset auth  -------------------------> **/

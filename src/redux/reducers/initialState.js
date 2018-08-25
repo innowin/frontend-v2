@@ -8,6 +8,7 @@ export default {
       identity: {},
       profile: {},
       user: {},
+      posts: [] /* id of user posts*/,
       organization: null,
       rememberMe: null,
       user_type: null,
@@ -41,6 +42,11 @@ export default {
          content:{},
          isLoading:false,
          error:null
+       },
+       posts: {
+         content:{} posts property beside error,
+         isLoading:false,
+         error: null
        }
         ------------ common --------------
          badges:{
@@ -221,6 +227,14 @@ export default {
         isLoading: false
       }
     },
+    posts: {
+      // each item has post detail
+      /* content: {
+          [postId]: {},
+          isLoading: boolean,
+          error: null | {message}
+      }*/
+    }
   },
 
   intl: {

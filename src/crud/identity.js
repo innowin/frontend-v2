@@ -38,7 +38,7 @@ export const getIdentityByUser = (userId, handleResult) => {
       // TODO mohsen: handle error
       return false
     }
-    handleResult(res[0]);
+    handleResult(res.data[0]);
     socket.off(`users/identities/{id}_get_getIdentityByUser_${userId}`, func)
   };
   socket.on(`users/identities/{id}_get_getIdentityByUser_${userId}`, func)
