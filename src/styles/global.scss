@@ -3,8 +3,10 @@ body {
   direction: rtl;
   overflow-x: hidden;
   height: 100%;
-  background-color: $background-body-color;
   font-family: "IRANSansWebFaNum", "Helvetica Neue", sans-serif !important;
+  background-image: url("../images/common/userOrganBackground.png");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 html {

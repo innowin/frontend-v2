@@ -39,15 +39,14 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
         <main className="-main">
           <div className="row content">
             <HomeSideBar setExchangeId={this._setExchangeId}
-                         classNames="col-3 pr-0 pl-0 -right-sidebar-wrapper"
+                         classNames="col-3 pr-0 pl-0 right-sidebar"
                          identityId={identityId}
             />
             <HomePosts exchangeId={activeExchangeId} className="col-6"/>
-            <div className="col-3"/>
+            <div className="col-3 pl-0"/>
           </div>
           <ChatBar className="pr-0 pl-0 -left-sidebar-wrapper"/>
         </main>
-
       </div>
     )
   }
