@@ -2,13 +2,25 @@ import initialState from "../initialState"
 import types from "../../actions/types/index"
 
 const users = (state = initialState.users, action) => {
-  const {userId, data, message} = action.payload || {}
+  const {userId, data, message, postIdentity} = action.payload || {}
   const defaultObject = { content: {}, isLoading: false, error: {message: null} }
   const defaultObject2 = { content: [], isLoading: false, error: {message: null} }
   const previousUser = (state[userId] && state[userId].user) || defaultObject
   const previousProfile = (state[userId] && state[userId].profile) || defaultObject
   const previousIdentity = (state[userId] && state[userId].identity) || defaultObject
   const previousBadges = (state[userId] && state[userId].badges) || defaultObject2
+
+  const getPreviousUserPost = userId => (state[userId] && state[userId].posts) || defaultObject2
+  const getUserId = (postIdentity) => {
+    let userSelectId
+    for(let key in state){
+      if(postIdentity === state[key].identity.content.id){
+        userSelectId = key
+        break
+      }
+    }
+    return userSelectId
+  }
 
   switch (action.type) {
     /** -------------------------- get user -------------------------> **/
@@ -254,29 +266,32 @@ const users = (state = initialState.users, action) => {
       }
     /** -------------------------- get posts by identity  -------------------------> **/
     case types.SUCCESS.COMMON.GET_POST_BY_IDENTITY:
-      const {postIdentity} = action.payload
-      let userSelectId
       const postId = []
-      for(let key in state){
-        if(postIdentity === state[key].identity.content.id){
-          userSelectId = key
-          break
-        }
-      }
+      let userSelectId = getUserId(postIdentity)
       data.map(post => {
         postId.push(post.id)
         return postId
       })
-      const previousPosts = (state[userSelectId] && state[userSelectId].posts) || defaultObject
       return {
         ...state,
         [userSelectId]: {
           ...state[userSelectId],
           posts: {
-            ...previousPosts,
-            content: {
-              ...postId,
-            },
+            content: [...postId],
+            isLoading: false,
+            error: null
+          }
+        }
+      }
+    /** -------------------------- create post  -------------------------> **/
+    case types.SUCCESS.COMMON.CREATE_POST:
+      let userSelectIdCreatePost = getUserId(data.post_identity)
+      return {
+        ...state,
+        [userSelectIdCreatePost]: {
+          ...state[userSelectIdCreatePost],
+          posts: {
+            content: [...getPreviousUserPost(userSelectIdCreatePost).content, data.id],
             isLoading: false,
             error: null
           }

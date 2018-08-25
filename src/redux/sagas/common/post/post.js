@@ -3,6 +3,7 @@ import {takeEvery} from "redux-saga/effects"
 
 /**********    %% WORKERS %%    **********/
 import {filterPostsByPostParentPostTypeLimitOffset} from './filterPostsByPostParentLimitOffset'
+import {createPost} from './createPost'
 import {getPostByIdentity} from "./getPostByIdentity"
 
 
@@ -16,7 +17,12 @@ function* watchGetPostByIdentity() {
   yield takeEvery(types.COMMON.GET_POST_BY_IDENTITY, getPostByIdentity)
 }
 
+function* watchCreatePost() {
+  yield takeEvery(types.COMMON.CREATE_POST, createPost)
+}
+
 export default {
   watchFilterPostsByPostParentPostTypeLimitOffset,
   watchGetPostByIdentity,
+  watchCreatePost,
 }

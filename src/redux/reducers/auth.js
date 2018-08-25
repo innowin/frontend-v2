@@ -119,7 +119,7 @@ const auth = (state = initialState.auth, action) => {
       }
     /** -------------------------- get posts by identity  -------------------------> **/
     case types.SUCCESS.COMMON.GET_POST_BY_IDENTITY:
-      const {postIdentity} = action.payload
+      const {postIdentity} = action.payload || {}
       const postId = []
       data.map(post => {
         if(postIdentity === state.client.identity.id) {
@@ -131,7 +131,16 @@ const auth = (state = initialState.auth, action) => {
         ...state,
         client: {
           ...client,
-          posts: {...postId}
+          posts: [...postId]
+        }
+      }
+    /** -------------------------- create post  -------------------------> **/
+    case types.SUCCESS.COMMON.CREATE_POST:
+      return {
+        ...state,
+        client: {
+          ...client,
+          posts: [...client.posts, data.id]
         }
       }
     /** -------------------------- reset auth  -------------------------> **/

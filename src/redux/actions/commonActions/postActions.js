@@ -14,8 +14,18 @@ const getPostByIdentity = (postIdentity) => {
   }
 }
 
+const createPost = (formValues) => {
+  return{
+    type: types.COMMON.CREATE_POST,
+    payload: {
+      formValues
+    }
+  }
+}
+
 const PostActions = {
   getPostByIdentity,
+  createPost,
   filterPostsByPostParentLmitOffset,
 }
 

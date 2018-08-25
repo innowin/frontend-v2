@@ -1,8 +1,7 @@
 import {createSelector} from 'reselect'
 import helpers from 'src/consts/helperFunctions'
 
-const getUserPosts = state => state.common.posts
-
+const getUserPosts = state => state.common.posts.content
 
 const getPostIdentity = (state, props) => props.postIdentity
 
@@ -10,13 +9,12 @@ const getPostIdentity = (state, props) => props.postIdentity
 export const makeUserPostsSelector = () => {
   return createSelector(
       [getUserPosts, getPostIdentity],
-      (posts, postIdentity) => {
-        const allPosts = posts.content
-        if (allPosts && postIdentity) {
-          const content = helpers.filterNestedObjByNestedKey(allPosts, 'post_identity', 'id', postIdentity)
-          return (content)
+      (content, postIdentity) => {
+        if (content && content !== undefined && postIdentity) {
+          const arrayPost = helpers.filterNestedObjByNestedKey(content, 'post_identity', 'id', postIdentity)
+          return [...arrayPost]
         }
-        return allPosts
+        return content
       }
   )
 }

@@ -32,6 +32,7 @@ const SUCCESS = {
 
     // posts
     GET_POST_BY_IDENTITY: 'GET_POST_BY_IDENTITY_SUCCESS',
+    CREATE_POST: 'CREATE_POST_SUCCESS',
 }
 
 const ERROR = {
@@ -68,6 +69,7 @@ const ERROR = {
 
     // posts
     GET_POST_BY_IDENTITY: 'GET_POST_BY_IDENTITY_ERROR',
+    CREATE_POST: 'CREATE_POST_ERROR',
 }
 
 const BASE = {
@@ -106,6 +108,7 @@ const BASE = {
 
     // posts
     GET_POST_BY_IDENTITY: 'GET_POST_BY_IDENTITY',
+    CREATE_POST: 'CREATE_POST',
 }
 
 export default {

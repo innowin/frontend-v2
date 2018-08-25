@@ -53,7 +53,7 @@ const filterNestedObjByKey = (obj, wantedKey, wantedValue) => {
  a wanted value like >> 1247
  and selects any children of object that has wantedValue in wantedNestedKey.
  **/
-const filterNestedObjByNestedKey = (obj, wantedKey, wantedNestedKey,wantedValue) => {
+const filterNestedObjByNestedKey = (obj, wantedKey, wantedNestedKey, wantedValue) => {
   return Object.keys(obj).reduce((acc, key) => {
     const item = obj[key]
     if (item[wantedKey][wantedNestedKey] === wantedValue) return ([...acc, item])

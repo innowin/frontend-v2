@@ -12,6 +12,7 @@ export default {
             rememberMe: null,
             user_type: null,
             isLoggedIn: false,
+            posts: [] /* id of user posts*/,
             error: {
                 isError: false,
                 message: null
@@ -53,7 +54,7 @@ export default {
              }
            },
            posts: {
-             content:{},
+             content:{} posts property beside error,
              isLoading:false,
              error:{
                message: null

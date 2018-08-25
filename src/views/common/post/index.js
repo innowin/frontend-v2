@@ -212,14 +212,19 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
 
   componentDidMount() {
     const {actions, postIdentity} = this.props
-    const {getPostByIdentity} = actions
+    const {getPostByIdentity, createPost} = actions
 
     getPostByIdentity(postIdentity)
+  }
+
+  componentDidUpdate(){
+    console.log(this.props.posts, 'updatedd')
   }
 
   render() {
     const {createForm} = this.state;
     const {postIdentity, profileMedia, posts, isLoading, error} = this.props
+    console.log(posts, 'postssss')
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         <CategoryTitle
@@ -238,7 +243,7 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
               </PostItemWrapper>
             }
             {
-              posts !== undefined ? posts.map((post) => (
+              posts && posts !== undefined && posts.map((post) => (
                 <Post
                   posts={posts}
                   post={post}
@@ -247,7 +252,6 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
                   profileMedia={profileMedia}
                 />
               ))
-              : ''
             }
           </ListGroup>
 
@@ -270,7 +274,8 @@ const mapStateToProps  = () => {
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    getPostByIdentity: PostActions.getPostByIdentity
+    getPostByIdentity: PostActions.getPostByIdentity,
+    createPost: PostActions.createPost,
   }, dispatch)
 })
 

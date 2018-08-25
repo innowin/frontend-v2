@@ -83,6 +83,7 @@ const urls = {
     POST: {
       FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET: '/base/posts/',
       GET_POST_BY_IDENTITY: 'base/posts',
+      CREATE_POST: 'base/posts',
     },
 
   }
