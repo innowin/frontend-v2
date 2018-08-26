@@ -14,16 +14,14 @@ function* createObjectCertificate(action) { // action = {type, payload: {formDat
         ...action.payload,
         certificate_identity: identityId
     }
-    // console.log('---- SAGA ---- >> createObjectCertificate >> formData is: \n', formData)
+
     const dynamicResult = results.COMMON.CREATE_OBJECT_CERTIFICATE + newCert.title
     const socketChannel = yield call(api.createSocketChannel, dynamicResult)
 
     try {
         yield fork(api.post, urls.COMMON.CERTIFICATE, dynamicResult, newCert)
         const data = yield take(socketChannel)
-        console.log('--- SAGA ---- >> createObjectCert >> data is : \n', data)
-        // const normalData = helpers.deleteKeyFromObj(data, 'id')
-        // yield put({type: types.SUCCESS.COMMON.CREATE_OBJECT_CERTIFICATE, data: normalData})
+        yield put({type: types.SUCCESS.COMMON.CREATE_OBJECT_CERTIFICATE, data: data})
 
     } catch (error) {
         yield put({type: types.ERRORS.COMMON.CREATE_OBJECT_CERTIFICATE, error})

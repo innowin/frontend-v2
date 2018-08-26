@@ -3,7 +3,6 @@ import results from "../../../../consts/resultName";
 import urls from "../../../../consts/URLS";
 import {call, fork, take, put, all} from "redux-saga/effects";
 import types from '../../../actions/types'
-import client from "../../../../consts/client";
 
 
 function* createProductAsContribution(action) { // payload: { formData: {} }
@@ -47,16 +46,18 @@ function* createProductAsContribution(action) { // payload: { formData: {} }
         if (tags) {
             yield all(tags.map(tag => {
                 const payload = {
-                    title: tag.label,
-                    hashtag_base: productId
+                    formData: {
+                        title: tag.label,
+                        hashtag_base: productId
+                    },
+                    setIdForParentType: types.COMMON.ADD_HASH_TAG_ID_TO_PRODUCT
                 }
 
                 return put({type: types.COMMON.CREATE_HASH_TAG_FOR, payload})
             }))
         }
-        console.log('--- SAGA --- >> createProduct >> certificates is: \n', certificates)
+
         if (certificates) {
-            console.log('yes it exists')
             yield all(certificates.map(cert => {
                 const twoNextActionData = {
                     certificate_parent: productId,

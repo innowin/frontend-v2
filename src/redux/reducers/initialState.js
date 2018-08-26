@@ -148,8 +148,15 @@ export default {
       error: {message: null}
     },
     product: {
-      // TODO: the 'viewingProduct' object should remove.
-      list: {},
+      products: {
+          list: {},
+          nowCreatedId: null // the id of the product that is created now by the current user.
+          // this field sets in createProduct success
+          // and sets to null again by in createProduct request (base type).
+      },
+      productPicture: {
+        list: {}
+      }
     },
     category: {
       categories: {
@@ -160,13 +167,6 @@ export default {
     },
     certificate: {
       list: {},
-        // TODO: remove the below codes of 'certificate' object.
-      objectCertificates: { // the 'object' in objectCertificates can be organization or user or product.
-        content: {},
-        isLoaded: false,
-        isLoading: false,
-      },
-      creatingObjCertStatus: status.NEUTRAL
     },
     file: {
       list: {}

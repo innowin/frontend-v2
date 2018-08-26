@@ -24,23 +24,23 @@ const hashTag = (state = initialState.common.hashTag, action) => {
         /** ------------------ get all hashTags ------------------> **/
 
 
-        /** <----------------- create new hashTag for an obj ------ **/
-        case types.COMMON.CREATE_HASH_TAG_FOR:
-            return {
-                ...state,
-            }
-
-        case types.SUCCESS.CREATE_HASH_TAG_FOR:
-            return {
-                ...state,
-                list: {...list, [data.id]: data}
-            }
-
-        case types.ERRORS.CREATE_HASH_TAG_FOR:
-            return {
-                ...state
-            }
-        /** ------------------ create new hashTag for an obj -----> **/
+        // /** <----------------- create new hashTag for an obj ------ **/
+        // case types.COMMON.CREATE_HASH_TAG_FOR:
+        //     return {
+        //         ...state,
+        //     }
+        //
+        // case types.SUCCESS.CREATE_HASH_TAG_FOR:
+        //     return {
+        //         ...state,
+        //         list: {...list, [data.id]: data}
+        //     }
+        //
+        // case types.ERRORS.CREATE_HASH_TAG_FOR:
+        //     return {
+        //         ...state
+        //     }
+        // /** ------------------ create new hashTag for an obj -----> **/
 
         default:
             return { ...state }

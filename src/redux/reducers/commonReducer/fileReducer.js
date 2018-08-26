@@ -32,6 +32,7 @@ const file = (state = initialState.common.file, action) => {
             }
 
         case types.SUCCESS.COMMON.CREATE_FILE:
+
             return {
                 ...state,
                 list: {...list, [data.id]: data}

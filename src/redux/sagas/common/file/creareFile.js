@@ -30,7 +30,6 @@ function* createFile(action) { // payload?
         if (toWhatLayer === 2) {
             if (nextActionData) {
                 if (nextActionData.nextActionData) {
-                    console.log('wao the toWhatLayer is 2')
                     payload = {
                         ...nextActionData,
                         nextActionData: {
@@ -43,7 +42,7 @@ function* createFile(action) { // payload?
         }
 
         console.log('---- SAGA ---- >> createFile >> data is: ', data)
-        yield put({type: types.SUCCESS.COMMON.CREATE_FILE, data})
+        yield put({type: types.SUCCESS.COMMON.CREATE_FILE, payload: {data}})
         yield put({type: nextActionType, payload})
 
     } catch (error) {

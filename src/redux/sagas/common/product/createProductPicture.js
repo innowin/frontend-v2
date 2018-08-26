@@ -9,16 +9,17 @@ function* createProductPicture (action) {
     const productPicture = action.payload
     const dynamicResult = results.COMMON.CREATE_PRODUCT_PICTURE + productPicture.picture_media
     const socketChannel = yield call(api.createSocketChannel, dynamicResult)
-    console.log('\n ------- SAGA ------ >> createProductPicture >> action is:\n', action)
 
     try {
         yield fork(api.post, urls.COMMON.PRODUCT_PICTURE, dynamicResult, productPicture)
         const data = yield take(socketChannel)
-        console.log('\n ------- SAGA ------ >> createProductPicture >> try >> data:\n',  data)
         yield put({type: types.SUCCESS.COMMON.CREATE_PRODUCT_PICTURE, data})
+        yield put({
+            type: types.COMMON.ADD_PICTURE_ID_TO_PRODUCT,
+            payload: {productId: data.picture_product, pictureId: data.id}
+        })
 
     } catch (error) {
-        console.log("---- SAGA ---->> createProductPicture >> error is: \n", error)
         yield put({type: types.ERRORS.COMMON.CREATE_PRODUCT_PICTURE, error})
 
     } finally {
