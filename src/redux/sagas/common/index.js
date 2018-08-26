@@ -34,6 +34,7 @@ export default [
 
     // hashTag watchers
     hashTagWatchers.watchGetHashTags(),
+    hashTagWatchers.watchCreateHashTagFor(),
 
     // location
     locationWatchers.watchGetCountries(),

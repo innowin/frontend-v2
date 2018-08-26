@@ -13,10 +13,10 @@ function* getFile(action) {
   try {
     yield fork(api.get, urls.COMMON.FILE, resultName, `${fileId}`)
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.COMMON.GET_FILE, payload: {data, fileId}})
+    yield put({type: types.SUCCESS.COMMON.GET_FILE, payload: {data}})
   } catch (e) {
     const {message} = e
-    yield put({type: types.ERRORS.COMMON.GET_FILE, payload: {message, fileId}})
+    yield put({type: types.ERRORS.COMMON.GET_FILE, payload: {message}})
   } finally {
     socketChannel.close()
   }

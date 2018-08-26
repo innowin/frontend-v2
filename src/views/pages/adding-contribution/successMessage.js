@@ -1,7 +1,7 @@
 import React from "react"
 import {CircularTickSvg, CertificateIcon, AgentSvgIcon} from '../../../images/icons'
 
-const SuccessMessage = ({smallUrl, shareContribution, introToExchange, findAgent, getCertificateHandler, finishHandler}) => {
+const SuccessMessage = ({nowCreatedId,shareContribution, introToExchange, findAgent, getCertificateHandler, finishHandler}) => {
     const actions = ([
             {
                 title: 'به اشتراک بگذارید',
@@ -35,7 +35,7 @@ const SuccessMessage = ({smallUrl, shareContribution, introToExchange, findAgent
             <div className="message-text">
                 محصول شما با موفقیت در سامانه ثبت شد و در فهرست آورده‌های شما قرار گرفت
             </div>
-            <div className="small-url">آدرس کوتاه محصول: {smallUrl}</div>
+            <div className="small-url"> آدرس محصول: {`http://daneshboom.ir/product/${nowCreatedId}/basicInformation`}</div>
             <div className="act-bar">
                 {actions.map(act => (
                     <div key={act.title} className="act-btn" onClick={act.handler}>

@@ -7,6 +7,7 @@ import {apply, select} from "redux-saga/effects"
 const createSocketChannel = (resultName) => {
   return eventChannel(emit => {
     const resultHandler = res => {
+      console.log('\n --- api --- >> createSocketChannel >> res is : \n', res)
       if (res.status !== "OK") {
         // below is for check user handle error
         if(res.data.non_field_errors){

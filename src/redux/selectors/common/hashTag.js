@@ -1,7 +1,10 @@
 import {createSelector} from 'reselect'
 
 
-const getHashTags = (state) => state.common.hashTag
+const getHashTags = (state) => {
+    console.log('----- selector ----- >> getHashTags >> state is: ', state)
+    return state.common.hashTag
+}
 
 // a small selector for work with hashTags.
 export const hashTagsListSelector = createSelector (

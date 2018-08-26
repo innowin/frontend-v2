@@ -14,24 +14,25 @@ import renderRadioButtonGroup from "../../common/inputs/rdxRenderCircularRadioBu
 import helpers from "src/consts/helperFunctions"
 import {connect} from "react-redux";
 
+const {objToArrayAsOptions, filterNestedObjByKey} = helpers
 
 const InitialInfoReduxFormValidate = (values) => {
     const errors = {}
-    // const {
-    //     NAME,
-    //     COUNTRY,
-    //     PROVINCE,
-    //     CITY,
-    //     CATEGORY_LAYER1,
-    // } = LAYER1S
-    // const requiredFields = [NAME, COUNTRY, PROVINCE, CITY, CATEGORY_LAYER1]
-    //
-    // requiredFields.forEach(field => {
-    //     if (!values[field]) {
-    //         errors._error = 'لطفا فیلدهای ضروری را پر کنید'
-    //         errors[field] = true
-    //     }
-    // })
+    const {
+        NAME,
+        COUNTRY,
+        PROVINCE,
+        CITY,
+        CATEGORY_LAYER1,
+    } = LAYER1S
+    const requiredFields = [NAME, COUNTRY, PROVINCE, CITY, CATEGORY_LAYER1]
+
+    requiredFields.forEach(field => {
+        if (!values[field]) {
+            errors._error = 'لطفا فیلدهای ضروری را پر کنید'
+            errors[field] = true
+        }
+    })
     return errors
 }
 
@@ -40,8 +41,8 @@ type CountryType = {
     name: string
 }
 
-type CountriesType = {
-    content: { [number]: CountryType }
+type LocationType = {
+    list: { [number]: CountryType }
 }
 
 type CategoriesType = {
@@ -62,11 +63,11 @@ type InitialInfoProps = {
     submitFailed: boolean,
     formVals: {},
     categories: CategoriesType,
-    countries: CountriesType,
+    countries: LocationType,
     countryChangeHandler: Function,
     provinceChangeHandler: Function,
-    provinces: {},
-    cities: {}
+    provinces: LocationType,
+    cities: LocationType
 }
 
 let InitialInfoReduxForm = (props: InitialInfoProps) => {
@@ -90,7 +91,6 @@ let InitialInfoReduxForm = (props: InitialInfoProps) => {
         provinceChangeHandler,
     } = props
 
-    const {objToArrayAsOptions, filterNestedObjByKey} = helpers
     const setCategoriesObjByLevel = (layerName) => {
         const categoriesObj = categories.content
         switch (layerName) {
@@ -117,12 +117,11 @@ let InitialInfoReduxForm = (props: InitialInfoProps) => {
     const goToNextStepHandler = () => {
         if(!error) goToNextStep()
     }
+    const countriesList = objToArrayAsOptions(countries.list, 'id', 'name')
 
-    const countriesList = objToArrayAsOptions(countries.content, 'id', 'name')
+    const provincesList = objToArrayAsOptions(provinces.list, 'id', 'name')
 
-    const provincesList = objToArrayAsOptions(provinces.content, 'id', 'name')
-
-    const citiesList = objToArrayAsOptions(cities.content, 'id', 'name')
+    const citiesList = objToArrayAsOptions(cities.list, 'id', 'name')
 
     return (
         <form onSubmit={handleSubmit(() => {
@@ -134,21 +133,10 @@ let InitialInfoReduxForm = (props: InitialInfoProps) => {
                                label="عنوان آورده" className="form-group"/>
 
                         {[LAYER1S.CATEGORY_LAYER1, LAYER1S.CATEGORY_LAYER2, LAYER1S.CATEGORY_LAYER3].map(layerName => (
-                            <Field key={layerName}
-                                   placeholder=""
-                                   id={layerName}
-                                   className="category-selection"
-                                   name={layerName}
-                                   component={renderSelectField}
-                                   label={layerName === LAYER1S.CATEGORY_LAYER1 ? 'طبقه اول دسته‌بندی'
-                                       :
-                                       (layerName === LAYER1S.CATEGORY_LAYER2 ? 'طبقه دوم دسته‌بندی' : 'طبقه سوم دسته‌بندی')
-                                   }
-                                   noResultsText={'چنین دسته‌بندی وجود ندارد.'}
-                                   options={
-                                       objToArrayAsOptions(setCategoriesObjByLevel(layerName), 'id', 'name')
-                                   }
-                            />
+                                <CategoryField
+                                    layerName={layerName}
+                                    categories={setCategoriesObjByLevel(layerName)}
+                                />
                         ))}
                     </div>
                     <div className="form-column">
@@ -214,6 +202,26 @@ let InitialInfoReduxForm = (props: InitialInfoProps) => {
     )
 }
 
+const CategoryField = (props) => {
+    const {layerName, categories} = props
+    return (
+        <Field key={layerName}
+               placeholder=""
+               id={layerName}
+               className="category-selection"
+               name={layerName}
+               component={renderSelectField}
+               label={layerName === LAYER1S.CATEGORY_LAYER1 ? 'طبقه اول دسته‌بندی'
+                   :
+                   (layerName === LAYER1S.CATEGORY_LAYER2 ? 'طبقه دوم دسته‌بندی' : 'طبقه سوم دسته‌بندی')
+               }
+               noResultsText={'چنین دسته‌بندی وجود ندارد.'}
+               options={
+                   objToArrayAsOptions(categories, 'id', 'name')
+               }
+        />
+    )
+}
 
 export const INITIAL_INFO_FORM_NAME = 'addingContributionInitialInfoForm'
 

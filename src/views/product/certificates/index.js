@@ -17,6 +17,7 @@ import {getCertificatesList, createCertificate, resetCreatingObjCertStatus} from
 import {CertificateReduxForm} from "./forms"
 import {createFile, updateFile} from "src/redux/actions/commonActions/fileActions"
 import status from "src/redux/reducers/statusChoices"
+import makeCertSelectorByProductId from "src/redux/selectors/common/certificate/getObjectCertificates"
 
 
 const IDENTITY_ID = client.getIdentityId()
@@ -306,12 +307,16 @@ export class Certificates extends Component<CertificatesProps, CertificatesState
     }
 }
 
-const mapStateToProps = (state) => ({
-    translator: getMessages(state),
-    certificates: state.common.certificate.objectCertificates.content,
-    middlewareFileData: state.common.file.middlewareFileData,
-    creatingObjCertStatus: state.common.certificate.creatingObjCertStatus
-})
+const mapStateToProps = (state, props) => {
+    const {productId} = props
+    const certSelectorByProductId = makeCertSelectorByProductId()
+    return ({
+        translator: getMessages(state),
+        certificates: certSelectorByProductId(state, productId),
+        middlewareFileData: state.common.file.middlewareFileData,
+        creatingObjCertStatus: state.common.certificate.creatingObjCertStatus
+    })
+}
 
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(

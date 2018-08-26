@@ -8,17 +8,13 @@ const country = (state = initialState.common.location.country, action) => {
         /** <------------------- get countries ------------------ **/
         case types.COMMON.GET_COUNTRIES:
             return {
-                ...state,
-                isLoaded: false,
-                isLoading: true
+                ...state
             }
 
         case types.SUCCESS.COMMON.GET_COUNTRIES:
             console.log('---------------------- > > > > get countries reducer. action is: ', action)
             return {
-                content: action.data,
-                isLoaded: true,
-                isLoading: false
+                list: action.data,
             }
 
         case types.ERRORS.COMMON.GET_COUNTRIES:
@@ -33,4 +29,3 @@ const country = (state = initialState.common.location.country, action) => {
 }
 
 export default country
-
