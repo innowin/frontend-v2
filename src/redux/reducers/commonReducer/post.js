@@ -9,28 +9,11 @@ const posts = (state = initialState.common.posts, action) => {
 
   switch (action.type) {
       /** -------------------------- get post by identity -------------------------> **/
-    case types.COMMON.GET_POST_BY_IDENTITY:
-      return {
-        ...state,
-        isLoading: true,
-        error: null,
-      }
     case types.SUCCESS.COMMON.GET_POST_BY_IDENTITY:
       data.map(post => indexedPost[post.id] = {...post, error: null})
       return {
         ...state,
-        content: {
-          ...previousContent,
-          ...indexedPost,
-        },
-        error: null,
-        isLoading: false,
-      }
-    case types.ERRORS.COMMON.GET_POST_BY_IDENTITY:
-      return {
-        ...state,
-        error: message,
-        isLoading: false,
+        ...indexedPost,
       }
       /** -------------------------- create post -------------------------> **/
     case types.COMMON.CREATE_POST:

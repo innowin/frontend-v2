@@ -228,16 +228,7 @@ export default {
       }
     },
     posts: {
-      content: {},
-      isLoading: false,
-      error: null,
-      // each item has post detail
-      /* content: {
-          [postId]: {},
-        },
-        isLoading: boolean,
-        error: null | {message}
-      }*/
+      /* [postId]: {}*/
     }
   },
 

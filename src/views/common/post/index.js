@@ -268,10 +268,22 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
 const mapStateToProps  = () => {
   const userPostsSelector = makeUserPostsSelector()
   return (state, props) => {
+
+    let userId
+    const users = state.users
+    for(let key in users){
+      if(users[key].identity.content.id === props.postIdentity){
+        userId = key
+        break
+      }
+    }
+
+    console.log(state.users[userId], 'll')
+    const postObject = state.users[userId].posts
     return {
       posts: userPostsSelector(state, props),
-      isLoading: state.common.posts.isLoading,
-      error: state.common.posts.error,
+      isLoading: postObject ? state.users[userId].posts.isLoading: false,
+      error: postObject ? state.users[userId].posts.error: null,
     }
   }
 }
