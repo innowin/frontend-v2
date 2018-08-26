@@ -23,9 +23,30 @@ const createPost = (formValues) => {
   }
 }
 
+const updatePost = (formValues, postId) => {
+  return{
+    type: types.COMMON.UPDATE_POST,
+    payload: {
+      formValues,
+      postId,
+    }
+  }
+}
+
+const deletePost = (postId) => {
+  return{
+    type: types.COMMON.DELETE_POST,
+    payload: {
+      postId,
+    }
+  }
+}
+
 const PostActions = {
   getPostByIdentity,
   createPost,
+  updatePost,
+  deletePost,
   filterPostsByPostParentLmitOffset,
 }
 

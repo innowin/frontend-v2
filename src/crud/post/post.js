@@ -2,6 +2,7 @@ import {REST_URL as url, SOCKET as socket} from "src/consts/URLS"
 import {REST_REQUEST} from "src/consts/Events"
 import {TOKEN as token} from 'src/consts/data'
 
+// done - not usage
 export const getPostsByIdentity = (IdentityId, updatePosts, handleErrorLoading) => {
 
   socket.emit(REST_REQUEST,
@@ -23,6 +24,7 @@ export const getPostsByIdentity = (IdentityId, updatePosts, handleErrorLoading) 
   socket.on(`getUserPosts-get/${IdentityId}`, func);
 };
 
+// done - usage
 export const createPost = (formValues, updatePosts, handleErrorLoading, hideCreateForm) => {
   socket.emit(REST_REQUEST,
     {
