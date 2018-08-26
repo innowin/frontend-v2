@@ -43,7 +43,7 @@ export class OrganizationInfo extends React.Component<OrganizationInfoProps,{ ed
 		const {organization} = this.props
 		const { isLoading , error} = organization
 		return (
-				<VerifyWrapper isLoading={isLoading} error={error.message == null ? false: true}>
+				<VerifyWrapper isLoading={isLoading} error={error == null ? false: true}>
 					{
 						(edit) ? (
 								<OrganizationInfoItemWrapper>

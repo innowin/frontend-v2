@@ -1,3 +1,4 @@
+@import '~react-circular-progressbar/dist/styles.css';
 .modal-page.hide {
   display: none;
 }
@@ -6,6 +7,7 @@
   min-height: 150px;
 }
 .modal-page {
+  overflow: scroll;
   top:10px;
   bottom: 10px;
   position: fixed;
@@ -103,6 +105,9 @@
   .invite-member-box{
     border: 1px solid lightgray;
     border-radius:5px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: 300px;
     .member-item{
       flex: 1 1 33.3%;
       max-width: 33.3%;
@@ -248,18 +253,48 @@
 	float: right;
 	position: relative;
 }
-.progressbar li:before {
-	content: counter(step);
-	counter-increment: step;
-	width: 40px;
-	line-height: 40px;
-	display: block;
-	font-size: 10px;
-	color: #333;
-	background: lightgray;
-	border-radius: 50%;
-	margin: 0 auto 5px auto;
+.progressbar {
+  .icon-holder{
+    svg{
+      fill:#2e2e2e9e;
+      
+    }
+    
+    border-radius: 50%;
+    margin: 0 auto 5px auto;
+    width: 40px;
+    height: 40px;
+    background: #d8d8d8;
+  }
+  .icon-holder.active{
+    background:#1a2147;
+    svg{
+      fill:white;
+    }
+  }
 }
+
+.progressbar .icon {
+  width: 20px;
+  line-height: 40px;
+  display: block;
+  font-size: 10px;
+  margin: 0 auto 5px auto;
+  transform: translate(0,50%);
+
+}
+// .progressbar li:before {
+// 	content: "&nbsp;";
+// 	counter-increment: step;
+// 	width: 40px;
+// 	line-height: 40px;
+// 	display: block;
+// 	font-size: 10px;
+// 	color: #333;
+// 	background: lightgray;
+// 	border-radius: 50%;
+// 	margin: 0 auto 5px auto;
+// }
 /*progressbar connectors*/
 .progressbar li:after {
 	content: '';
@@ -287,4 +322,40 @@
 .vtcha .item-box,.vtcha .target-box{
 	width: 170px;
 	margin: 10px auto 0;
+}
+
+.img-agent-small{
+  flex: 0 0 33.33333%;
+  max-width: 33.33333%;
+  padding-left: 5px;
+  padding-right: 5px;
+  
+}
+.img-agent img.selected{
+  border: #3db8ab 5px solid;
+  border-radius: 7px;
+}
+
+.super-tag{
+  position: relative;
+  float: right;
+  .close-img{
+    position:absolute;
+    top: 0;
+    left: 0;
+  }
+}
+.circle-progress{
+  position: absolute;
+  width: 90%;
+  .CircularProgressbar {
+    width: 10%;
+    transform: translate(-50%,0%);
+  }
+}
+.center-margin{
+  svg{
+    fill:#3db8ab
+  }
+  margin: 0 auto;
 }

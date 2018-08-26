@@ -60,7 +60,13 @@ const users = (state = initialState.users, action) => {
           }
         }
       }
-
+    case types.SUCCESS.USER.GET_USERS:
+      return{
+        ...state,
+          list:data,
+          isLoading: false,
+          error:null
+      }
     /** -------------------------- get profile -------------------------> **/
     case types.USER.GET_PROFILE_BY_USER_ID:
       // initial structure build in first request for getProfile is called but profile isLoading is true:

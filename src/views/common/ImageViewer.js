@@ -33,7 +33,7 @@ export class ImageViewer extends Component {
     const mediaId = this.props.mediaId;
     if (mediaId) {
       const mediaResult = (res) => {
-        this.setState({...this.state, media: res})
+        this.setState({...this.state, media: res.data})
       };
       return getFile (mediaId, mediaResult)
     }

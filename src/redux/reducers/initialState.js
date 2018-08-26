@@ -30,6 +30,7 @@ export default {
   },
 
   users: {
+    list:[]
     /*
      [userId]: {
        ----------- info -----------
@@ -151,7 +152,7 @@ export default {
   common: {
     agencyRequest: {
       isLoading: false,
-      error: {message: null}
+      error: null
     },
     product: {
       viewingProduct: {

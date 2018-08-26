@@ -17,6 +17,7 @@ const urls = {
         GET_PROFILE_BY_USER_ID: "users/profiles",
         GET_USER_IDENTITY: "users/identities",
         UPDATE_USER_BY_USER_ID: "users",
+        GET_USERS:'users',
     },
     ORG: {
         GET_ORGANIZATION: 'organizations',
@@ -51,6 +52,8 @@ const urls = {
         GET_EXCHANGES_BY_MEMBER_IDENTITY: 'exchanges/identities',
         GET_EXCHANGE_MEMBERS_BY_EX_ID: '/exchanges/identities/',
         DELETE_EXCHANGE_MEMBERSHIP: '/exchanges/identities/',
+        CREATE_EXCHANGE: 'exchanges',
+
     },
 
     CREATE_PRODUCT: 'products',

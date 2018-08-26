@@ -16,7 +16,12 @@ type CustomerViewProps = {
     customer: Object
 }
 export class CustomerView extends React.Component<CustomerViewProps> {
-
+    constructor(props:Object){
+        super(props)
+    }
+    handleShowEdit(){
+        this.props.showEdit()
+    }
     render() {
         const {customer, showEdit} = this.props;
         return (
@@ -24,14 +29,14 @@ export class CustomerView extends React.Component<CustomerViewProps> {
                 <div className="row">
                     <div className="col customer">
                         <div className="content">
-                            <div className="editButton">
-                                <div onClick={showEdit}>{<EditIcon/>}</div>
+                            <div className="editButton" onClick={this.handleShowEdit.bind(this)}>
+                                <EditIcon/>
                             </div>
                             <ImageViewer  
-                            className="customerImage"
-                            mediaId ={customer.customer_picture}
-                            label={'تصویر'} />
-                            {/* <img className="customerImage" alt="" src={customer.picture_media || "/static/media/defaultImg.94a29bce.png"} /> */}
+                                className="customerImage"
+                                mediaId ={customer.customer_picture}
+                                label={'تصویر'} />
+                                {/* <img className="customerImage" alt="" src={customer.picture_media || "/static/media/defaultImg.94a29bce.png"} /> */}
                             <h5>{customer.title}</h5>
                             <span>&nbsp;</span>
                         </div>
@@ -72,6 +77,6 @@ export class Customer extends React.Component<CustomerProps,{edit: boolean}> {
                 />
             </CustomerItemWrapper>;
         }
-        return <CustomerView customer={customer} showEdit={this.showEdit}/>;
+        return <CustomerView customer={customer} showEdit={this.showEdit.bind(this)}/>;
     }
 }
