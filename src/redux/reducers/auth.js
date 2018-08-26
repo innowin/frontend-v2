@@ -3,7 +3,7 @@ import types from '../actions/types'
 
 const auth = (state = initialState.auth, action) => {
   const {data} = action.payload || {}
-  const {user, profile, identity, posts} = data || {}
+  const {user, profile, identity} = data || {}
   const {client} = state
   const {exchange_identities} = client
   switch (action.type) {
@@ -31,7 +31,7 @@ const auth = (state = initialState.auth, action) => {
           organization,
           user_type,
           rememberMe,
-          posts,
+          posts: [],
           isLoggedIn: true,
           error: null,
         }
