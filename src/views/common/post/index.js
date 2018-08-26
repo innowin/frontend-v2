@@ -15,11 +15,13 @@ import {makeUserPostsSelector} from 'src/redux/selectors/common/userPostsSelecto
 type postPropTypes = {
   post: {
     post_identity: number,
+    id: number,
   },
   posts: [],
   updatePost: Function,
   profileMedia: string,
   deletePost: Function,
+  userId: number,
 }
 
 type postStateTypes = {
@@ -40,6 +42,7 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
     updatePost: PropTypes.func.isRequired,
     profileMedia: PropTypes.string.isRequired,
     deletePost: PropTypes.func.isRequired,
+    userId: PropTypes.number.isRequired,
   };
 
   constructor(props: postPropTypes) {
@@ -79,8 +82,10 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
   _delete = () => {
     // this.setState({...this.state, isLoading: true}, () =>
       // deletePost(this.props.posts, this.props.post, this.props.updatePosts, this._hideEdit, this._handleErrorLoading))
-    const {deletePost} = this.props
-    deletePost(3369)
+    // const {deletePost} = this.props
+    // deletePost(3369)
+    const {deletePost, post, userId} = this.props
+    deletePost(post.id, userId)
   }
 
   _getIdentityDetails = (identity) => {
@@ -195,9 +200,9 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
   };
 
   _create = (formValues) => {
-    const {actions} = this.props
+    const {actions, id} = this.props
     const {createPost} = actions
-    createPost(formValues)
+    createPost(formValues, id)
   };
 
   _updatePosts = (res, type, deletedIndex = null) => {
@@ -218,13 +223,13 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
   };
 
   componentDidMount() {
-    const {actions, postIdentity} = this.props
-    const {getPostByIdentity, updatePost, createPost} = actions
-    getPostByIdentity(postIdentity)
+    const {actions, postIdentity, id} = this.props
+    const {getPostByIdentity} = actions
+    getPostByIdentity(postIdentity, id)
   }
 
   render() {
-    const {postIdentity, profileMedia, posts, isLoading, error, actions} = this.props
+    const {postIdentity, profileMedia, posts, isLoading, error, actions, id} = this.props
     const {updatePost, deletePost} = actions
     const {createForm} = this.state;
     return (
@@ -253,6 +258,7 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
                   key={post.id + "Posts"}
                   profileMedia={profileMedia}
                   deletePost={deletePost}
+                  userId={id}
                 />
               ))
                 : ''
@@ -269,21 +275,15 @@ const mapStateToProps  = () => {
   const userPostsSelector = makeUserPostsSelector()
   return (state, props) => {
 
-    let userId
-    const users = state.users
-    for(let key in users){
-      if(users[key].identity.content.id === props.postIdentity){
-        userId = key
-        break
-      }
-    }
+    let userId = props.id
+    const stateUser = state.users[userId]
+    const defaultObject = {content: [], isLoading: false, error: null}
+    const postObject = (stateUser && stateUser.posts) || defaultObject
 
-    console.log(state.users[userId], 'll')
-    const postObject = state.users[userId].posts
     return {
       posts: userPostsSelector(state, props),
-      isLoading: postObject ? state.users[userId].posts.isLoading: false,
-      error: postObject ? state.users[userId].posts.error: null,
+      isLoading: postObject.isLoading,
+      error: postObject.error,
     }
   }
 }

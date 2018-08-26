@@ -2,10 +2,12 @@ import initialState from './initialState'
 import types from '../actions/types'
 
 const auth = (state = initialState.auth, action) => {
-  const {data} = action.payload || {}
+  const {data, postId, postIdentity} = action.payload || {}
   const {user, profile, identity} = data || {}
   const {client} = state
   const {exchange_identities} = client
+  const previousPost = (client && client.posts) || []
+
   switch (action.type) {
 
     /** -------------------------- sign in -------------------------> **/
@@ -115,19 +117,18 @@ const auth = (state = initialState.auth, action) => {
       }
     /** -------------------------- get posts by identity  -------------------------> **/
     case types.SUCCESS.COMMON.GET_POST_BY_IDENTITY:
-      const {postIdentity} = action.payload || {}
-      const postId = []
+      const arrayOfPostId = []
       data.map(post => {
-        if(postIdentity === state.client.identity.id) {
-          return postId.push(post.id)
+        if(postIdentity === state.client.identity.id && (!previousPost.includes(post.id))) {
+          return arrayOfPostId.push(post.id)
         }
-        return postId
+        return arrayOfPostId
       })
       return {
         ...state,
         client: {
           ...client,
-          posts: [...postId]
+          posts: [...previousPost, ...arrayOfPostId]
         }
       }
     /** -------------------------- create post  -------------------------> **/
@@ -136,7 +137,17 @@ const auth = (state = initialState.auth, action) => {
         ...state,
         client: {
           ...client,
-          posts: [...client.posts, data.id]
+          posts: [...previousPost, data.id]
+        }
+      }
+    /** -------------------------- delete post  -------------------------> **/
+    case types.SUCCESS.COMMON.DELETE_POST:
+      const newDeletedPosts = previousPost.filter(id => id !== postId);
+      return {
+        ...state,
+        client: {
+          ...client,
+          posts: [...newDeletedPosts]
         }
       }
     /** -------------------------- reset auth  -------------------------> **/

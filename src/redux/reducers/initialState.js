@@ -45,7 +45,7 @@ export default {
          error:null
        },
        posts: {
-         content:{} posts property beside error,
+         content:[1, 2, ...], list of posts id
          isLoading:false,
          error: null
        }
@@ -229,7 +229,7 @@ export default {
       }
     },
     posts: {
-      /* [postId]: {}*/
+      /* [postId]: {...postObject, error:null, isLoading: false}*/
     }
   },
 
