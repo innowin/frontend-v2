@@ -84,7 +84,7 @@ const urls = {
         CITY: 'base/towns',
 
         POST: {
-            FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET: '/base/posts/',
+            FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET: 'base/posts',
             GET_POST_BY_IDENTITY: 'base/posts',
             CREATE_POST: 'base/posts',
             UPDATE_POST: 'base/posts',

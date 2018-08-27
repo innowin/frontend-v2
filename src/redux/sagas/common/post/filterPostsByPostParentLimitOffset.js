@@ -1,7 +1,7 @@
 import api from 'src/consts/api'
 import urls from 'src/consts/URLS'
 import results from 'src/consts/resultName'
-import types from 'src/redux/actions/actionTypes'
+import types from 'src/redux/actions/types'
 import {put, take, fork, call} from "redux-saga/effects"
 /*
 * parentId is required for filtering but postType is arbitrary.
@@ -24,11 +24,12 @@ export function* filterPostsByPostParentPostTypeLimitOffset(action) {
 				filter
 		)
 		const data = yield take(socketChannel)
-		yield put({type: types.SUCCESS.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET , payload:{data}})
+		yield put({type: types.SUCCESS.COMMON.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET ,
+			payload:{data, postParent:{parentId, parentType:'exchange'}}})
 	} catch (err) {
 		const {message} = err
 		yield put({
-			type: types.ERRORS.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET,
+			type: types.ERRORS.COMMON.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET,
 			payload: {message}
 		})
 	} finally {

@@ -10,12 +10,12 @@ export function* deletePost(action) {
   try {
     yield fork(api.del, urls.COMMON.POST.DELETE_POST, results.COMMON.POST.DELETE_POST, '', `${postId}`)
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.COMMON.DELETE_POST , payload:{data}})
+    yield put({type: types.SUCCESS.COMMON.DELETE_POST , payload:{data, postId}})
   } catch (error) {
     const {message} = error
     yield put({
       type: types.ERRORS.COMMON.DELETE_POST,
-      payload: {message}
+      payload: {message, postId}
     })
   } finally {
     socketChannel.close()

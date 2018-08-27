@@ -79,8 +79,8 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
   _delete = () => {
     // this.setState({...this.state, isLoading: true}, () =>
       // deletePost(this.props.posts, this.props.post, this.props.updatePosts, this._hideEdit, this._handleErrorLoading))
-    const {deletePost} = this.props
-    deletePost(3369)
+    const {deletePost, post} = this.props
+    deletePost(post.id)
   }
 
   _getIdentityDetails = (identity) => {
@@ -182,10 +182,6 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
     this.state = {createForm: false}
   }
 
-  _handleErrorLoading = (error = false) => {
-    this.setState({...this.state, isLoading: false, error: error});
-  };
-
   _showCreateForm = () => {
     this.setState({createForm: true})
   };
@@ -198,24 +194,7 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
     const {actions} = this.props
     const {createPost} = actions
     createPost(formValues)
-  };
-
-  _updatePosts = (res, type, deletedIndex = null) => {
-    const {posts} = this.props;
-    res = res.data
-    if (type === 'get' && Array.isArray(res)) {
-      this.setState({...this.state, posts: [...posts, ...res]});
-      return false;
-    }
-    if (type === 'post') {
-      this.setState({...this.state, posts: [res, ...posts]});
-      return false;
-    }
-    if (type === 'del') {
-      const remainPosts = posts.slice(0, deletedIndex).concat(posts.slice(deletedIndex + 1));
-      this.setState({...this.state, posts: remainPosts});
-    }
-  };
+  }
 
   componentDidMount() {
     const {actions, postIdentity} = this.props

@@ -10,12 +10,12 @@ export function* updatePost(action) {
   try {
     yield fork(api.patch, urls.COMMON.POST.UPDATE_POST, results.COMMON.POST.UPDATE_POST, formValues, `${postId}`)
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.COMMON.UPDATE_POST , payload:{data}})
+    yield put({type: types.SUCCESS.COMMON.UPDATE_POST , payload:{data, postId}})
   } catch (error) {
     const {message} = error
     yield put({
       type: types.ERRORS.COMMON.UPDATE_POST,
-      payload: {message}
+      payload: {message, postId}
     })
   } finally {
     socketChannel.close()

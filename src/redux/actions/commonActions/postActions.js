@@ -1,7 +1,7 @@
 import types from '../types'
 
-const filterPostsByPostParentLmitOffset = ({parentId , postType , limit , offset}) => ({
-	type: types.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET,
+const filterPostsByPostParentLimitOffset = ({parentId , postType , limit , offset}) => ({
+	type: types.COMMON.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET,
 	payload: {parentId , postType , limit , offset}
 })
 
@@ -14,11 +14,12 @@ const getPostByIdentity = (postIdentity) => {
   }
 }
 
-const createPost = (formValues) => {
+const createPost = (formValues, resolveFunc: () => null) => {
   return{
     type: types.COMMON.CREATE_POST,
     payload: {
-      formValues
+      formValues,
+      resolveFunc
     }
   }
 }
@@ -47,7 +48,7 @@ const PostActions = {
   createPost,
   updatePost,
   deletePost,
-  filterPostsByPostParentLmitOffset,
+  filterPostsByPostParentLimitOffset,
 }
 
 export default PostActions

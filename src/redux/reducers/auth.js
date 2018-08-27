@@ -2,10 +2,9 @@ import initialState from './initialState'
 import types from '../actions/types'
 
 const auth = (state = initialState.auth, action) => {
-  const {data} = action.payload || {}
+  const {data, message} = action.payload || {}
   const {user, profile, identity} = data || {}
   const {client} = state
-  const {exchange_identities} = client
   switch (action.type) {
 
     /** -------------------------- sign in -------------------------> **/
@@ -48,30 +47,12 @@ const auth = (state = initialState.auth, action) => {
 
     /** -------------------------- get client exchanges -------------------------> **/
     case types.SUCCESS.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY:
+      const ArrayOfExchangeId = Object.keys(data).map(id => +id)
       return {
         ...state,
         client: {
           ...client,
-          exchange_identities: {
-            ...exchange_identities,
-            content: data,
-            isLoaded: true,
-            isLoading: false,
-            error: null
-          }
-        }
-      }
-    case types.ERRORS.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY:
-      const {message} = action.payload
-      return {
-        ...state,
-        client: {
-          ...client,
-          exchange_identities: {
-            ...exchange_identities,
-            isLoading: false,
-            error: message
-          }
+          exchanges: ArrayOfExchangeId
         }
       }
     /** -------------------------- update user by user id -------------------------> **/

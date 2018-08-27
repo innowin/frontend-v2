@@ -52,7 +52,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     static propTypes = {
         collapseClassName: PropTypes.string.isRequired,
         translate: PropTypes.object.isRequired,
-        actions: PropTypes.func.isRequired,
+        actions: PropTypes.object.isRequired,
     }
 
     //types
