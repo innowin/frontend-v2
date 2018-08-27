@@ -58,6 +58,28 @@ function* getIdentityByUserId(action) {
   }
 }
 
+function* getUsers(action) {
+  const {payload} = action
+  let socketChannel 
+  try{
+     socketChannel = yield call(api.createSocketChannel, results.USER.GET_USERS)
+  }catch(e){
+    console.log(e)
+  }
+  
+  try {
+    yield fork(api.get, urls.USER.GET_USERS, results.USER.GET_USERS, `?limit=50`)
+    const dataList = yield take(socketChannel)
+    const data = dataList.results
+    yield put({type:types.SUCCESS.USER.GET_USERS, payload:{data}})
+  } catch (e) {
+    const {message} = e
+    yield put({type:types.ERRORS.USER.GET_USERS, payload:{message}})
+  } finally {
+    socketChannel.close()
+  }
+}
+
 /**********    %% WATCHERS %%    **********/
 
 //1 - check username is exist already
@@ -73,4 +95,8 @@ export function* watchGetProfileByUserId() {
 //3 - get identity by userId
 export function* watchGetIdentityByUserId() {
   yield takeEvery(types.USER.GET_IDENTITY_BY_USER_ID, getIdentityByUserId)
+}
+
+export function* watchGetUsers(){
+  yield takeEvery(types.USER.GET_USERS, getUsers)
 }

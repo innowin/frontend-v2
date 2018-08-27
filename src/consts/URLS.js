@@ -17,6 +17,7 @@ const urls = {
         GET_PROFILE_BY_USER_ID: "users/profiles",
         GET_USER_IDENTITY: "users/identities",
         UPDATE_USER_BY_USER_ID: "users",
+        GET_USERS:'users',
     },
     ORG: {
         GET_ORGANIZATION: 'organizations',
@@ -51,6 +52,8 @@ const urls = {
         GET_EXCHANGES_BY_MEMBER_IDENTITY: 'exchanges/identities',
         GET_EXCHANGE_MEMBERS_BY_EX_ID: '/exchanges/identities/',
         DELETE_EXCHANGE_MEMBERSHIP: '/exchanges/identities/',
+        CREATE_EXCHANGE: 'exchanges',
+
     },
 
     CREATE_PRODUCT: 'products',
@@ -73,7 +76,8 @@ const urls = {
         BADGE: 'base/badges',
 
         // hashTags
-        HASH_TAG: 'base/hashtag-parents',
+        HASH_TAG_PARENT: 'base/hashtag-parents',
+        HASH_TAG: 'base/hashtags',
 
         // location
         COUNTRY: 'base/countries',
@@ -82,8 +86,11 @@ const urls = {
 
         POST: {
             FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET: '/base/posts/',
+            GET_POST_BY_IDENTITY: 'base/posts',
+            CREATE_POST: 'base/posts',
+            UPDATE_POST: 'base/posts',
+            DELETE_POST: 'base/posts',
         },
-
     }
 }
 export default urls

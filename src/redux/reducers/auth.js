@@ -2,10 +2,12 @@ import initialState from './initialState'
 import types from '../actions/types'
 
 const auth = (state = initialState.auth, action) => {
-  const {data} = action.payload || {}
+  const {data, postId, postIdentity} = action.payload || {}
   const {user, profile, identity} = data || {}
   const {client} = state
   const {exchange_identities} = client
+  const previousPost = (client && client.posts) || []
+
   switch (action.type) {
 
     /** -------------------------- sign in -------------------------> **/
@@ -31,8 +33,9 @@ const auth = (state = initialState.auth, action) => {
           organization,
           user_type,
           rememberMe,
+          posts: [],
           isLoggedIn: true,
-          error: null
+          error: null,
         }
       }
     case types.ERRORS.AUTH.SIGN_IN:
@@ -82,7 +85,7 @@ const auth = (state = initialState.auth, action) => {
           user: {...data}
         }
       }
-    /** -------------------------- update user by user id -------------------------> **/
+    /** -------------------------- verify token -------------------------> **/
     case types.SUCCESS.AUTH.VERIFY_TOKEN:
       return {
         ...state,
@@ -91,6 +94,60 @@ const auth = (state = initialState.auth, action) => {
           user,
           profile,
           identity,
+        }
+      }
+    case types.ERRORS.AUTH.VERIFY_TOKEN:
+      return {
+        ...state,
+        client: {
+          ...client,
+          error: {
+            message
+          }
+        }
+      }
+    /** -------------------------- update profile by profile id -------------------------> **/
+    case types.SUCCESS.USER.UPDATE_PROFILE_BY_PROFILE_ID:
+      return {
+        ...state,
+        client: {
+          ...client,
+          profile: {...data}
+        }
+      }
+    /** -------------------------- get posts by identity  -------------------------> **/
+    case types.SUCCESS.COMMON.GET_POST_BY_IDENTITY:
+      const arrayOfPostId = []
+      data.map(post => {
+        if(postIdentity === state.client.identity.id && (!previousPost.includes(post.id))) {
+          return arrayOfPostId.push(post.id)
+        }
+        return arrayOfPostId
+      })
+      return {
+        ...state,
+        client: {
+          ...client,
+          posts: [...previousPost, ...arrayOfPostId]
+        }
+      }
+    /** -------------------------- create post  -------------------------> **/
+    case types.SUCCESS.COMMON.CREATE_POST:
+      return {
+        ...state,
+        client: {
+          ...client,
+          posts: [...previousPost, data.id]
+        }
+      }
+    /** -------------------------- delete post  -------------------------> **/
+    case types.SUCCESS.COMMON.DELETE_POST:
+      const newDeletedPosts = previousPost.filter(id => id !== postId);
+      return {
+        ...state,
+        client: {
+          ...client,
+          posts: [...newDeletedPosts]
         }
       }
     /** -------------------------- reset auth  -------------------------> **/

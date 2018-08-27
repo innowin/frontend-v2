@@ -2,13 +2,14 @@ import initialState from "../initialState"
 import types from "../../actions/types/index"
 
 const users = (state = initialState.users, action) => {
-  const {userId, data, message} = action.payload || {}
+  const {userId, data, message, postId} = action.payload || {}
   const defaultObject = { content: {}, isLoading: false, error: null }
   const defaultObject2 = { content: [], isLoading: false, error: null }
   const previousUser = (state[userId] && state[userId].user) || defaultObject
   const previousProfile = (state[userId] && state[userId].profile) || defaultObject
   const previousIdentity = (state[userId] && state[userId].identity) || defaultObject
   const previousBadges = (state[userId] && state[userId].badges) || defaultObject2
+  const previousPost = (state[userId] && state[userId].posts) || defaultObject2
 
   switch (action.type) {
     /** -------------------------- get user -------------------------> **/
@@ -48,7 +49,13 @@ const users = (state = initialState.users, action) => {
           }
         }
       }
-
+    case types.SUCCESS.USER.GET_USERS:
+      return{
+        ...state,
+          list:data,
+          isLoading: false,
+          error:null
+      }
     /** -------------------------- get profile -------------------------> **/
     case types.USER.GET_PROFILE_BY_USER_ID:
       // initial structure build in first request for getProfile is called but profile isLoading is true:
@@ -182,7 +189,8 @@ const users = (state = initialState.users, action) => {
           user: {
             ...previousUser,
             content: {...data},
-            isLoading: false
+            isLoading: false,
+            error: null
           }
         }
       }
@@ -194,9 +202,185 @@ const users = (state = initialState.users, action) => {
           user: {
             ...previousUser,
             isLoading: false,
-            error: {
-              message
-            }
+            error: message
+          }
+        }
+      }
+    /** -------------------------- update profile by profile id -------------------------> **/
+    case types.USER.UPDATE_PROFILE_BY_PROFILE_ID:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          profile: {
+            ...previousProfile,
+            isLoading: true
+          }
+        }
+      }
+    case types.SUCCESS.USER.UPDATE_PROFILE_BY_PROFILE_ID:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          profile: {
+            content: {...data},
+            isLoading: false,
+            error: null
+          }
+        }
+      }
+    case types.ERRORS.USER.UPDATE_PROFILE_BY_PROFILE_ID:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          profile: {
+            ...previousProfile,
+            isLoading: false,
+            error: message
+          }
+        }
+      }
+    /** -------------------------- get posts by identity  -------------------------> **/
+    case types.COMMON.GET_POST_BY_IDENTITY:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          posts: {
+            ...previousPost,
+            isLoading: true,
+            error: null
+          }
+        }
+      }
+    case types.SUCCESS.COMMON.GET_POST_BY_IDENTITY:
+      const arrayOfPostId = data.map(post => post.id)
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          posts: {
+            ...previousPost,
+            content: arrayOfPostId,
+            isLoading: false,
+            error: null
+          }
+        }
+      }
+      //TODO: mohammad check userId is not undefined and find current userId
+    case types.ERRORS.COMMON.GET_POST_BY_IDENTITY:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          posts: {
+            ...previousPost,
+            isLoading: false,
+            error: message
+          }
+        }
+      }
+    /** -------------------------- create post  -------------------------> **/
+    case types.COMMON.CREATE_POST:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          posts: {
+            ...previousPost,
+            isLoading: false,
+            error: null
+          }
+        }
+      }
+    case types.SUCCESS.COMMON.CREATE_POST:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          posts: {
+            ...previousPost,
+            content: [...previousPost.content, data.id],
+            isLoading: false,
+            error: null
+          }
+        }
+      }
+    case types.ERRORS.COMMON.CREATE_POST:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          posts: {
+            ...previousPost,
+            isLoading: false,
+            error: message
+          }
+        }
+      }
+      /** -------------------------- update post  -------------------------> **/
+    case types.COMMON.UPDATE_POST:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          posts: {
+            ...previousPost,
+            isLoading: false,
+            error: null
+          }
+        }
+      }
+    case types.ERRORS.COMMON.UPDATE_POST:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          posts: {
+            ...previousPost,
+            isLoading: false,
+            error: message
+          }
+        }
+      }
+    /** -------------------------- delete post  -------------------------> **/
+    case types.COMMON.DELETE_POST:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          posts: {
+            ...previousPost,
+            isLoading: false,
+            error: null
+          }
+        }
+      }
+    case types.SUCCESS.COMMON.DELETE_POST:
+      const newDeletedPosts = previousPost.content.filter(id => id !== postId);
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          posts: {
+            ...previousPost,
+            content: [...newDeletedPosts],
+            isLoading: false,
+            error: null
+          }
+        }
+      }
+    case types.ERRORS.COMMON.DELETE_POST:
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          posts: {
+            ...previousPost,
+            isLoading: false,
+            error: message
           }
         }
       }

@@ -11,19 +11,19 @@ const getProvincesByCountryId = (state, countryId) => {
      this function filters the provinces (that takes from the state of the redux)
      by the id of country(that takes from the props)
      **/
-    const {content: allProvinces, isLoaded, isLoading} = state.common.location.province
+    const {list: allProvinces, isLoaded, isLoading} = state.common.location.province
     if (countryId) {
         const filteredProvinces = Object.values(allProvinces).filter(province => (
             province.province_related_country === countryId))
 
         return {
-            content: filteredProvinces,
+            list: filteredProvinces,
             isLoaded,
             isLoading
         }
     }
 
-    return {content: allProvinces, isLoading, isLoaded}
+    return {list: allProvinces, isLoading, isLoaded}
 }
 
 export const makeProvinceSelector = () => {

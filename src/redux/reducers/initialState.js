@@ -8,6 +8,7 @@ export default {
       identity: {},
       profile: {},
       user: {},
+      posts: [] /* id of user posts*/,
       organization: null,
       rememberMe: null,
       user_type: null,
@@ -29,6 +30,7 @@ export default {
   },
 
   users: {
+    list:[]
     /*
      [userId]: {
        ----------- info -----------
@@ -41,6 +43,11 @@ export default {
          content:{},
          isLoading:false,
          error:null
+       },
+       posts: {
+         content:[1, 2, ...], list of posts id
+         isLoading:false,
+         error: null
        }
         ------------ common --------------
          badges:{
@@ -145,19 +152,18 @@ export default {
   common: {
     agencyRequest: {
       isLoading: false,
-      error: {message: null}
+      error: null
     },
     product: {
-      viewingProduct: {
-        content: {},
-        isLoading: false,
-        isLoaded: false,
-      }, // the product that is viewing now.
-      list: {},
-      isLoaded: false,
-      isLoading: false,
-      error: null,
-      viewingId: 0
+      products: {
+          list: {},
+          nowCreatedId: null // the id of the product that is created now by the current user.
+          // this field sets in createProduct success
+          // and sets to null again by in createProduct request (base type).
+      },
+      productPicture: {
+        list: {}
+      }
     },
     category: {
       categories: {
@@ -167,60 +173,31 @@ export default {
       },
     },
     certificate: {
-      objectCertificates: { // the 'object' in objectCertificates can be organization or user or product.
-        content: {},
-        isLoaded: false,
-        isLoading: false,
-      },
-      creatingObjCertStatus: status.NEUTRAL
+      list: {},
     },
     file: {
-      files: {
-        middlewareFileData: { // the file that is new creating or is updating in the moment.
-          content: {},
-          isCreating: false,
-          isCreated: false
-        }
-        /*
-        [fileId]: {
-             content:{},
-             isLoading:false,
-             error:null
-        */
-      },
-      middlewareFileData: { // the file that is new creating or is updating in the moment.
-        content: {},
-        isCreating: false,
-        isCreated: false
-      }
+      list: {}
     },
     badges: {
       // [badgeId]: {} // object of badge
     },
     hashTag: {
-      list: { // list of the all hashTag.
-        content: {},
-        isLoaded: false,
-        isLoading: false
-      }
+      list: {} // list of the all hashTag.
     },
     location: {
       country: {
-        content: {},
-        isLoading: false,
-        isLoaded: false
+        list: {},
       },
       province: {
-        content: {},
-        isLoading: false,
-        isLoaded: false
+        list: {},
       },
       city: {
-        content: {},
-        isLoaded: false,
-        isLoading: false
+        list: {},
       }
     },
+    posts: {
+      /* [postId]: {...postObject, error:null, isLoading: false}*/
+    }
   },
 
   intl: {

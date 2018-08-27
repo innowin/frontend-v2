@@ -10,10 +10,12 @@ const getExchangeMembersByExId = (id) => ({type: types.EXCHANGE.GET_EXCHANGE_MEM
 
 const deleteExchangeMembership = (identityId) => ({type: types.EXCHANGE.DELETE_EXCHANGE_MEMBERSHIP, payload:{identityId}})
 
+const createExchange = (formValues, hideEdit) =>({type: types.EXCHANGE.CREATE_EXCHANGE, payload:{formValues,hideEdit}})
 export default {
 	getExchangeIdentitiesByMemberIdentity,
 	getExchangeByExId,
 	getExchangesByMemberIdentity,
 	getExchangeMembersByExId,
-	deleteExchangeMembership
+	deleteExchangeMembership,
+	createExchange
 }

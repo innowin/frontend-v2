@@ -9,16 +9,11 @@ const city = (state = initialState.common.location.city, action) => {
         case types.COMMON.GET_CITIES:
             return {
                 ...state,
-                isLoaded: false,
-                isLoading: true
             }
 
         case types.SUCCESS.COMMON.GET_CITIES:
-            console.log('---------------------- > > > > get cities reducer. action is: ', action)
             return {
-                content: action.data,
-                isLoaded: true,
-                isLoading: false
+                list: action.data,
             }
 
         case types.ERRORS.COMMON.GET_CITIES:

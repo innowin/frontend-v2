@@ -9,16 +9,11 @@ const province = (state = initialState.common.location.province, action) => {
         case types.COMMON.GET_PROVINCES:
             return {
                 ...state,
-                isLoaded: false,
-                isLoading: true
             }
 
         case types.SUCCESS.COMMON.GET_PROVINCES:
-            console.log('---- REDUCER---- >> province >> action is: ', action)
             return {
-                content: action.data,
-                isLoaded: true,
-                isLoading: false
+                list: action.data,
             }
 
         case types.ERRORS.COMMON.GET_PROVINCES:

@@ -9,6 +9,8 @@ const results = {
         GET_PROFILE_BY_USER_ID: "GET_PROFILE_BY_USER_ID",
         GET_USER_IDENTITY: "GET_USER_IDENTITY",
         UPDATE_USER_BY_USER_ID: "UPDATE_USER_BY_USER_ID",
+        UPDATE_PROFILE_BY_PROFILE_ID: 'UPDATE_PROFILE_BY_PROFILE_ID',
+        GET_USERS: 'GET_USERS',
     },
     ORG: {
         GET_ORGANIZATION: 'get-organization',
@@ -54,7 +56,7 @@ const results = {
         GET_CATEGORIES: 'common-get-categories-list-result',
 
         // certificate
-        GET_OBJECT_CERTIFICATES: 'common-get-object-certificates-list-result',
+        GET_CERTIFICATES: 'common-get-object-certificates-list-result',
         CREATE_OBJECT_CERTIFICATE: 'common-create-object-certificate-result',
 
         // badge
@@ -62,10 +64,15 @@ const results = {
         GET_ORG_BADGES: "GET_ORG_BADGES",
         POST: {
             FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET: 'filterPostsByPostParentLimitOffset',
+            GET_POST_BY_IDENTITY: 'get-post-by-identity',
+            CREATE_POST: 'create-post',
+            UPDATE_POST: 'update-post',
+            DELETE_POST: 'delete-post',
         },
 
         // hashTag
         GET_HASH_TAGS: 'common-get-hashTags-result',
+        CREATE_HASH_TAG_FOR: 'common-create-hashTag-for-object-result',
 
         // location
         GET_COUNTRIES: 'common--get--countries--result',
@@ -78,7 +85,8 @@ const results = {
         GET_EXCHANGE_BY_ID: 'get-exchanges-{id}',
         GET_EXCHANGES_BY_MEMBER_IDENTITY: 'getExchangesByMemberIdentity',
         GET_EXCHANGE_BY_EX_ID: 'get-exchange-by-ex-id',
-        DELETE_EXCHANGE_MEMBERSHIP: 'delete-exchange-membership'
+        DELETE_EXCHANGE_MEMBERSHIP: 'delete-exchange-membership',
+        CREATE_EXCHANGE: 'create-exchange'
     },
     //contribution
     CREATE_PRODUCT: 'create-product',

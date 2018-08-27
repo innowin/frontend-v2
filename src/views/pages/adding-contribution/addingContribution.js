@@ -2,7 +2,6 @@ import React from 'react'
 import {Modal, ModalBody} from 'reactstrap'
 import MenuProgressive from '../progressive/penu-progressive'
 import TechnicalProperties from './technicalProperties'
-import InitialInfo from './initialInfo'
 import NewContribution from './newConribution'
 import Certificates from './certificates'
 import {
@@ -10,7 +9,6 @@ import {
     WRAPPER_CLASS_NAMES,
     PROGRESSIVE_STATUS_CHOICES,
     CERTIFICATES_IMG_IDS,
-    logoFieldName,
     tags,
     TYPES
 } from './addingConributionData'
@@ -42,8 +40,7 @@ import countrySelector from "src/redux/selectors/common/location/country"
 import {provinceSelector} from "src/redux/selectors/common/location/province"
 import {citySelector} from "src/redux/selectors/common/location/city"
 import {change} from 'redux-form';
-import {REST_URL, SOCKET} from "../../../consts/URLS";
-import {REST_REQUEST} from "../../../consts/Events";
+import nowCreatedProductIdSelector from "src/redux/selectors/common/product/getNowCreatedProductId"
 
 
 const reorder = (list, startIndex, endIndex) => {
@@ -95,7 +92,7 @@ class AddingContribution extends React.Component {
 
     componentDidUpdate(prevProps, prevState) {
         // const prevActiveStep = prevState.activeStep
-        const {_getCountries} = this.props
+        const {_getCountries, nowCreatedId} = this.props
         const {activeStep, newContributionData} = this.state
         if ((prevState.activeStep === 1) && (activeStep === 2)) {
             _getCountries()
@@ -111,7 +108,9 @@ class AddingContribution extends React.Component {
                 }
             })
         }
+        if (!prevProps.nowCreatedId && nowCreatedId) this._nextStep()
     }
+
 
     _activationAddTechPropBlock = (e, key) => {
         const isActive = key === 'click'
@@ -190,16 +189,7 @@ class AddingContribution extends React.Component {
             })
         }
     }
-    _createSkillHandler = () => {
-        const {title, description} = this.state.newContributionData
-        const userType = client.getIdentityType()
-        if (userType === TYPES.PERSON) {
-            this.props.dispatch(createSkillAction({title, description}))
-        }
-        else {
-
-        }
-    }
+    _createSkillHandler = () => {}
 
     _countryChangeHandler = v => {
         const {_changeFormSingleFieldValue, _getProvinces, initialInfoFormState={}} = this.props
@@ -270,7 +260,6 @@ class AddingContribution extends React.Component {
             [PRODUCT_OWNER]: identityId,
             attrs
         }
-        console.log('---- view >> addingContribution >> certificates is: \n', certificates)
         const formData = {
             product,
             certificates,
@@ -294,7 +283,6 @@ class AddingContribution extends React.Component {
             default:
                 return
         }
-        // this._nextStep() // TODO: take out from the comment.
     }
 
     _tagsSelectionHandler = (resultTags) => {
@@ -515,7 +503,9 @@ class AddingContribution extends React.Component {
 
         const {technicalProperties, [LAYER1S.NEW_CERT_INDEX]: newCertIndex} = newContributionData
 
-        const {translator, categories, initialInfoFormState, hashTags, countries, provinces, cities} = this.props
+        const {
+            translator, categories, initialInfoFormState, hashTags, countries, provinces, cities, nowCreatedId
+        } = this.props
 
         switch (activeStep) {
             case 1:
@@ -594,12 +584,12 @@ class AddingContribution extends React.Component {
             case 6:
                 return (
                     <SuccessMessage
-                        smallUrl="some/test/small.url"
                         shareContribution={this._shareContribution}
                         introToExchange={this._introToExchange}
                         findAgent={this._findAgent}
                         getCertificateHandler={this._getCertificateHandler}
                         finishHandler={this._handleModalVisibility}
+                        nowCreatedId={nowCreatedId}
                     />
                 )
             default:
@@ -643,19 +633,20 @@ const mapStateToProps = (state) => {
         countries: countrySelector(state),
         provinces: provinceSelector(state),
         cities: citySelector(state),
-        testToken: state.auth.client.token
+        testToken: state.auth.client.token,
+        nowCreatedId: nowCreatedProductIdSelector(state)
     }
 };
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators(
         {
-            _getCategories: () => getCategories(),
-            _getHashTags: () => getHashTags(),
+            _getCategories: getCategories,
+            _getHashTags: getHashTags,
             _createProduct: createProductAsContribution,
-            _getCountries: () => getCountries(),
-            _getProvinces: id => getProvinces(id),
-            _getCities: id => getCities(id),
+            _getCountries: getCountries,
+            _getProvinces: getProvinces,
+            _getCities: getCities,
             _changeFormSingleFieldValue: change
         },
         dispatch
@@ -663,4 +654,3 @@ const mapDispatchToProps = dispatch =>
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddingContribution)
-

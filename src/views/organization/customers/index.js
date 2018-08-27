@@ -83,6 +83,7 @@ type CustomersProps = {
 	actions:Object,
 	organization:Object,
 	customers:Object,
+	organs:Object
 
 }
 export class Customers extends React.Component<CustomersProps,{createForm: boolean, edit:boolean}> {
@@ -108,10 +109,11 @@ export class Customers extends React.Component<CustomersProps,{createForm: boole
 
 
 	render() {
-		const {organizationId,  organization, actions} = this.props;
+		const {organizationId,  organization, actions, organs} = this.props;
 		const {isLoading,error} = organization.customers;
 		const customers = organization.customers;
 		const {createForm} = this.state;
+		const organ = organs[organizationId].organization.content
 		return (
 			<VerifyWrapper isLoading={isLoading} error={error}>
 				{
@@ -123,7 +125,7 @@ export class Customers extends React.Component<CustomersProps,{createForm: boole
 						/>
 						<FrameCard>
 							<CustomerItemWrapper>
-								<ItemHeader title={"ثبت شده توسط "+organization.official_name}/>
+								<ItemHeader title={"ثبت شده توسط "+organ.official_name}/>
 							
 							<CustomerList
 								customers={customers.content}
@@ -142,6 +144,7 @@ export class Customers extends React.Component<CustomersProps,{createForm: boole
 }
 const mapStateToProps = (state) => ({
 	organization:state.organization,
+	organs:state.organs,
 	auth:state.auth
 })
 const mapDispatchToProps = dispatch => ({

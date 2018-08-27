@@ -12,6 +12,8 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {ProductInformationForm} from "./Forms"
 import {getCategories} from "src/redux/actions/commonActions/categoryActions"
+import makeProductSelectorById from "src/redux/selectors/common/product/getProductById"
+
 
 type OwnerType = {
     name: string
@@ -73,8 +75,7 @@ export class productBasicInformation extends Component<ProductInfoProps, Product
     }
 
     _showEditHandler = (finalStatus: boolean) => {
-        console.log('prev state is: ', this.state)
-        this.setState({...this.state, edit: finalStatus}, () => console.log('this.state is: ', this.state))
+        this.setState({...this.state, edit: finalStatus})
     }
 
     _categoriesAsOptions = () => {
@@ -157,10 +158,15 @@ export class productBasicInformation extends Component<ProductInfoProps, Product
     }
 }
 
-const mapStateToProps = state => ({
-    product: state.common.product.viewingProduct.content,
-    categories: state.common.category.categories.content
-})
+const mapStateToProps = (state, props) => {
+    const {productId} = props
+    const productSelectorById = makeProductSelectorById()
+
+    return ({
+        product: productSelectorById(state, productId),
+        categories: state.common.category.categories.content
+    })
+}
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators(

@@ -3,8 +3,9 @@ import locationWatchers from "./location/location";
 import categoryWatchers from "./category/category";
 import certificateWatchers from "./certificate/certificate";
 import badgeWatchers from "./badge/badge";
-import productWatchers, {watchCreateProductPicture} from "./product/product";
+import productWatchers from "./product/product";
 import fileWatchers from "./file/file";
+import postWatchers from './post/post'
 
 export default [
     // product watchers
@@ -33,9 +34,17 @@ export default [
 
     // hashTag watchers
     hashTagWatchers.watchGetHashTags(),
+    hashTagWatchers.watchCreateHashTagFor(),
 
     // location
     locationWatchers.watchGetCountries(),
     locationWatchers.watchGetProvinces(),
     locationWatchers.watchGetCities(),
+
+    // posts
+    postWatchers.watchFilterPostsByPostParentPostTypeLimitOffset(),
+    postWatchers.watchGetPostByIdentity(),
+    postWatchers.watchCreatePost(),
+    postWatchers.watchUpdatePost(),
+    postWatchers.watchDeletePost(),
 ]

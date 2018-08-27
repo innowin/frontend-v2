@@ -16,10 +16,16 @@ const getIdentityByUserId = (userId:number) => ({
   payload:{userId}
 })
 
+const getUsers = () => ({
+  type:types.USER.GET_USERS,
+  payload:{}
+})
+
 const GetUserActions = {
   getUserByUserId,
   getProfileByUserId,
-  getIdentityByUserId
+  getIdentityByUserId,
+  getUsers
 }
 
 export default GetUserActions

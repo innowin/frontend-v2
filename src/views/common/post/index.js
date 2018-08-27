@@ -1,26 +1,54 @@
+// @flow
 /*global __*/
-import React, {Component} from "react";
+import * as React from "react";
 import PropTypes from 'prop-types';
 
-import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames";
-import {getIdentity, getIdentityByOrgan, getIdentityByUser} from "src/crud/identity";
-import {getPostsByIdentity, createPost, updatePost, deletePost} from "src/crud/post/post";
-import {getProfile} from "src/crud/user/profile";
-import {PostCreateForm} from "./Forms";
-import {PostEditForm} from './Forms';
+import {CategoryTitle, FrameCard, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames";
+import {PostCreateForm, PostEditForm} from "./Forms";
 import {PostItemWrapper, PostView} from "./View";
 import {getFile} from "../../../crud/media/media";
+import {bindActionCreators} from "redux";
+import PostActions from "../../../redux/actions/commonActions/postActions";
+import connect from "react-redux/es/connect/connect";
+import {makeUserPostsSelector} from 'src/redux/selectors/common/userPostsSelector'
+import {postType} from 'src/consts/flowTypes/common/post'
+import {identityType} from 'src/consts/flowTypes/user/others'
 
-export class Post extends Component {
+type postPropTypes = {
+  post: {
+    post_identity: number,
+    id: number,
+  },
+  posts: [],
+  updatePost: Function,
+  profileMedia: string,
+  deletePost: Function,
+  userId: number,
+}
+
+type postStateTypes = {
+  post: {},
+  postIdentity_username: string,
+  postIdentity_name: string,
+  postIdentityImg: string | null,
+  edit: boolean,
+  error: {} | boolean,
+  isLoading: boolean,
+}
+
+export class Post extends React.Component<postPropTypes, postStateTypes> {
 
   static propTypes = {
     post: PropTypes.object.isRequired,
     posts: PropTypes.array.isRequired,
-    updatePosts: PropTypes.func.isRequired
+    updatePost: PropTypes.func.isRequired,
+    profileMedia: PropTypes.string.isRequired,
+    deletePost: PropTypes.func.isRequired,
+    userId: PropTypes.number.isRequired,
   };
 
-  constructor(props) {
-    super(props);
+  constructor(props: postPropTypes) {
+    super(props)
     this.state = {
       post: this.props.post || {},
       postIdentity_username: '',
@@ -40,27 +68,20 @@ export class Post extends Component {
     this.setState({edit: false})
   }
 
-  _handleErrorLoading = (error = false) => {
-    this.setState({...this.state, isLoading: false, error: error});
-  }
-
-  _updateView = (res) => {
-    this.setState({...this.state, post: res})
-  }
-
-  _update = (formValues, postId) => {
-    this.setState({...this.state, isLoading: true}, () =>
-      updatePost(formValues, postId, this._updateView, this._hideEdit, this._handleErrorLoading))
+  _update = (formValues :postType, postId :number) => {
+    const {updatePost} = this.props
+    updatePost(formValues, postId)
   }
 
   _delete = () => {
-    this.setState({...this.state, isLoading: true}, () =>
-      deletePost(this.props.posts, this.props.post, this.props.updatePosts, this._hideEdit, this._handleErrorLoading))
+    const {deletePost, post, userId} = this.props
+    deletePost(post.id, userId)
   }
 
-  _getIdentityDetails = (identity) => {
+  _getIdentityDetails = (identity: identityType) => {
       const user = identity.identity_user;
       const organization = identity.identity_organization;
+      const {profileMedia} = this.props
       if (user) {
         this.setState({
             ...this.state,
@@ -68,13 +89,11 @@ export class Post extends Component {
             postIdentity_name: user.first_name + ' ' + user.last_name
           }
         )
-        getProfile(user.id, (result) => {
-          if (result.profile_media) {
-            getFile(result.profile_media, (res) =>
-              this.setState({...this.state, postIdentityImg: res.file})
-            )
-          }
-        })
+        if (profileMedia) {
+          getFile(profileMedia, (res) =>
+            this.setState({...this.state, postIdentityImg: res.file})
+          )
+        }
         this.setState({...this.state, isLoading: false})
       }
       if (organization) {
@@ -121,20 +140,42 @@ export class Post extends Component {
   }
 }
 
-class Posts extends Component {
+type postsPropsType = {
+  id: number,
+  identityType: string,
+  profileMedia: string,
+  postIdentity: number,
+  actions: {
+    getPostByIdentity: Function,
+    createPost: Function,
+    deletePost: Function,
+    updatePost: Function,
+  },
+  posts: [],
+  isLoading: boolean,
+  error: string,
+}
+
+type postsStatesType = {
+  createForm: boolean,
+}
+
+class Posts extends React.Component<postsPropsType, postsStatesType> {
   static propTypes = {
     id: PropTypes.string.isRequired,
-    identityType: PropTypes.string.isRequired
+    identityType: PropTypes.string.isRequired,
+    profileMedia: PropTypes.string.isRequired,
+    postIdentity: PropTypes.number.isRequired,
+    actions: PropTypes.object.isRequired,
+    posts: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    error: PropTypes.object.isRequired,
   };
 
-  constructor(props) {
+  constructor(props: postsPropsType) {
     super(props);
-    this.state = {posts: [], postIdentity: null, createForm: false, isLoading: true, error: null}
+    this.state = {createForm: false}
   }
-
-  _handleErrorLoading = (error = false) => {
-    this.setState({...this.state, isLoading: false, error: error});
-  };
 
   _showCreateForm = () => {
     this.setState({createForm: true})
@@ -145,44 +186,21 @@ class Posts extends Component {
   };
 
   _create = (formValues) => {
-    this.setState({...this.state, isLoading: true});
-    createPost(formValues, this._updatePosts, this._handleErrorLoading, this._hideCreateForm)
-  };
-
-  _updatePosts = (res, type, deletedIndex = null) => {
-    const {posts} = this.state;
-    if (type === 'get' && Array.isArray(res)) {
-      this.setState({...this.state, posts: [...posts, ...res]});
-      return false;
-    }
-    if (type === 'post') {
-      this.setState({...this.state, posts: [res, ...posts]});
-      return false;
-    }
-    if (type === 'del') {
-      const remainPosts = posts.slice(0, deletedIndex).concat(posts.slice(deletedIndex + 1));
-      this.setState({...this.state, posts: remainPosts});
-    }
-  };
-
-  _getPosts = (id, identityType) => {
-    const callBack = (res) => (getPostsByIdentity(res.id, this._updatePosts, this._handleErrorLoading));
-    if (identityType === 'user') {
-      getIdentityByUser(id, (res) => (this.setState({...this.state, postIdentity: res.id}, callBack(res))))
-    }
-    if (identityType === 'organization') {
-      getIdentityByOrgan(id, (res) => (this.setState({...this.state, postIdentity: res.id}, callBack(res))))
-    }
+    const {actions, id} = this.props
+    const {createPost} = actions
+    createPost(formValues, id)
   };
 
   componentDidMount() {
-    const {id, identityType} = this.props;
-    this._getPosts(id, identityType)
+    const {actions, postIdentity, id} = this.props
+    const {getPostByIdentity} = actions
+    getPostByIdentity(postIdentity, id)
   }
 
   render() {
-    const {postIdentity, createForm, isLoading, error} = this.state;
-    const posts = [...new Set(this.state.posts)];
+    const {postIdentity, profileMedia, posts, isLoading, error, actions, id} = this.props
+    const {updatePost, deletePost} = actions
+    const {createForm} = this.state;
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         <CategoryTitle
@@ -201,14 +219,18 @@ class Posts extends Component {
               </PostItemWrapper>
             }
             {
-              posts.map((post) => (
+              posts && posts !== {}  ? posts.map((post) => (
                 <Post
                   posts={posts}
                   post={post}
-                  updatePosts={this._updatePosts}
+                  updatePost={updatePost}
                   key={post.id + "Posts"}
+                  profileMedia={profileMedia}
+                  deletePost={deletePost}
+                  userId={id}
                 />
               ))
+              : ''
             }
           </ListGroup>
 
@@ -218,4 +240,30 @@ class Posts extends Component {
   }
 }
 
-export default Posts;
+const mapStateToProps  = () => {
+  const userPostsSelector = makeUserPostsSelector()
+  return (state, props) => {
+
+    let userId = props.id
+    const stateUser = state.users[userId]
+    const defaultObject = {content: [], isLoading: false, error: null}
+    const postObject = (stateUser && stateUser.posts) || defaultObject
+
+    return {
+      posts: userPostsSelector(state, props),
+      isLoading: postObject.isLoading,
+      error: postObject.error,
+    }
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({
+    getPostByIdentity: PostActions.getPostByIdentity,
+    createPost: PostActions.createPost,
+    updatePost: PostActions.updatePost,
+    deletePost: PostActions.deletePost,
+  }, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Posts)

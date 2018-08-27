@@ -11,7 +11,7 @@ export function* updateUserByUserId(action) {
   const socketChannel = yield call(api.createSocketChannel, results.USER.UPDATE_USER_BY_USER_ID)
   try {
     yield fork(api.patch, urls.USER.UPDATE_USER_BY_USER_ID, results.USER.UPDATE_USER_BY_USER_ID, formValues, `${userId}`)
-    const {data} = yield take(socketChannel)
+    const data = yield take(socketChannel)
     yield put({type:types.SUCCESS.USER.UPDATE_USER_BY_USER_ID, payload:{data, userId}})
   } catch (e) {
     const {message} = e

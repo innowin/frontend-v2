@@ -32,7 +32,7 @@ import {
   watchGetExchangeMembersByExId,
   watchDeleteExchangeMembership
 } from "./exchange/exchange"
-import {watchGetUserByUserId, watchGetProfileByUserId, watchGetIdentityByUserId} from "./user/getUserSagas"
+import {watchGetUserByUserId, watchGetProfileByUserId, watchGetIdentityByUserId, watchGetUsers} from "./user/getUserSagas"
 import {watchCreateUserPerson, watchCreateUserOrgan,} from "./user/createUserSagas"
 // TODO: mohammad all user sagas must go to ./user/user.js and just one import here from ./user/user.js
 import userWatchers from './user/user'
@@ -45,6 +45,7 @@ const rootSaga = function* () {
     watchCreateUserPerson(),
     watchCreateUserOrgan(),
     watchGetUserByUserId(),
+    watchGetUsers(),
     watchGetProfileByUserId(),
     watchGetIdentityByUserId(),
     watchLSignInError(),
@@ -81,6 +82,7 @@ const rootSaga = function* () {
 
     // user watchers
     userWatchers.watchUpdateUserByUserId(),
+    userWatchers.watchUpdateProfileByProfileId(),
 
     // auth watchers
     authWatchers.watchVerifyToken(),

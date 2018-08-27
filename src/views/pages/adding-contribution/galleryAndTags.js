@@ -25,8 +25,7 @@ type HashTagsContentType = {
 }
 
 type HashTagsType = {
-    content: {[number]: HashTagsContentType},
-    isLoading: boolean,
+    [number]: HashTagsContentType
 }
 
 type GalleryAndTagsProps = {
@@ -59,13 +58,11 @@ const GalleryAndTags = (props: GalleryAndTagsProps) => {
         hashTags
     } = props
 
-    const tagsObj = (hashTags && hashTags.content) || {}
-
     // hashTags keys are id. note: react-select by default need a 'label' a 'value'(can change this default)
-    const tags = Object.keys(tagsObj).map((id : any) => ({
+    const tags = Object.keys(hashTags).map((id : any) => ({
         value: id,
-        label: tagsObj[id].title,
-        usage: tagsObj[id].usage
+        label: hashTags[id].title,
+        usage: hashTags[id].usage
     }))
 
     const galleryImages: Array<GalleryImageType> = newContributionData.galleryImages || []
