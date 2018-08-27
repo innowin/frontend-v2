@@ -3,12 +3,14 @@ import PropTypes from "prop-types";
 import "moment/locale/fa";
 import {DefaultUserIcon} from "src/images/icons";
 import AttachFile from "src/views/common/inputs/AttachFile";
-import {createPost} from "src/crud/post/post";
 import cx from 'classnames';
 import {SupplyIcon, DemandIcon, PostSendIcon} from "src/images/icons";
 import Transition from 'react-transition-group/Transition'
 import {FileName} from "../../common/FileName";
 import {AttachFileIcon} from "src/images/icons";
+import {bindActionCreators} from "redux"
+import PostActions from "../../../redux/actions/commonActions/postActions"
+import {connect} from "react-redux";
 
 const duration = 300;
 const defaultStyle = {
@@ -97,10 +99,9 @@ class HomeCreatePost extends Component {
   static propTypes = {
     postParent: PropTypes.number.isRequired,
     postIdentity: PropTypes.number.isRequired,
-    updatePosts: PropTypes.func.isRequired,
     handleErrorLoading: PropTypes.func,
     className: PropTypes.string,
-  };
+  }
 
   constructor(props) {
     super(props);
@@ -150,8 +151,10 @@ class HomeCreatePost extends Component {
   };
 
   _save = () => {
+    const {actions} = this.props
+    const {createPost} = actions
     const formValues = this._getValues();
-    return createPost(formValues, this.props.updatePosts, this.props.handleErrorLoading, this._hideCreateForm)
+    return createPost(formValues, this._hideCreateForm)
   };
 
   _handleChange = (e) => {
@@ -236,4 +239,9 @@ class HomeCreatePost extends Component {
   }
 }
 
-export default HomeCreatePost;
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({
+    createPost: PostActions.createPost
+  }, dispatch)
+})
+export default connect(null, mapDispatchToProps)(HomeCreatePost)

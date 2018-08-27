@@ -41,6 +41,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
             <HomeSideBar setExchangeId={this._setExchangeId}
                          classNames="col-3 pr-0 pl-0 right-sidebar"
                          identityId={identityId}
+                         activeExchangeId={activeExchangeId}
             />
             <HomePosts exchangeId={activeExchangeId} className="col-6"/>
             <div className="col-3 pl-0"/>

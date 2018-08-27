@@ -14,12 +14,7 @@ export default {
       user_type: null,
       isLoggedIn: false,
       error: null,
-      exchange_identities: {
-        isLoading: false,
-        isLoaded: false,
-        error: null,
-        content: []
-      }
+      exchanges: []
     },
     clients: {
       users: [],
@@ -34,7 +29,7 @@ export default {
     /*
      [userId]: {
        ----------- info -----------
-      user: {
+       user: {
          content:{},
          isLoading:false,
          error:null
@@ -44,60 +39,46 @@ export default {
          isLoading:false,
          error:null
        },
+      ------------ common --------------
+       badges:{
+           content:[1, 2, ...], list of badges id
+           isLoading:false,
+           error:null
+       },
        posts: {
-         content:{} posts property beside error,
+<<<<<<< HEAD
+         content:[1, 2, ...] list of posts have this user
+=======
+         content:[1, 2, ...], list of posts id
+>>>>>>> c048e233f67b04126704e360d55426552cb8492d
          isLoading:false,
          error: null
+       },
+       certificates:{
+           content:[1, 2, ...], list of certificates id
+           isLoading:false,
+           error:null
+       },
+       ---------------- other ----------
+       skills:{
+           content:[{},{},...],  list of skill object
+           isLoading:false,
+           error:null
+       },
+       workExperiences:{
+           content:[{}, {} , ...],  list of workExperience object
+           isLoading:false,
+           error:null
+       },
+       exchanges:{
+           content:[1, 2, ...], list of exchanges id
+           isLoading:false,
+           error:null
        }
-        ------------ common --------------
-         badges:{
-             content:[1, 2, ...], list of badges id
-             isLoading:false,
-             error:null
-         },
-         exchanges:{
-             content:[1, 2, ...], list of exchanges id
-             isLoading:false,
-             error:null
-         },
-         certificates:{
-             content:[1, 2, ...], list of certificates id
-             isLoading:false,
-             error:null
-         },
-         ---------------- other ----------
-         skills:{
-             content:[{},{},...],  list of skill object
-             isLoading:false,
-             error:null
-         },
-         workExperiences:{
-             content:[{}, {} , ...],  list of workExperience object
-             isLoading:false,
-             error:null
-         }
      }
     */
   },
 
-  organs: {
-    /*
-  [organId]: {
-  -------------- info -------------
-     organization: {
-       content:{},
-       isLoading:false,
-       error: null
-     },
-    ---------------- common -----------
-     badges:{
-       content:[1, 2, ...], list of badges id
-       isLoading:false,
-       error: null
-      },
-   }
-  */
-  },
   organization: {
     isLoading: false,
     error: {message: null},
@@ -145,8 +126,42 @@ export default {
     },
   },
 
+  organs: {
+    /*
+  [organId]: {
+  -------------- info -------------
+     organization: {
+       content:{},
+       isLoading:false,
+       error: null
+     },
+    ---------------- common -----------
+     badges:{
+       content:[1, 2, ...], list of badges id
+       isLoading:false,
+       error: null
+      },
+   }
+  */
+  },
+
   exchanges: {
-    // full with this objects: 97 : {id:97, ...}, 102:{id:102, ...}
+    /*
+    [exchangeId]:{
+      ----------- info -----------------------
+      exchange:{
+        content: {},
+        isLoading: false,
+        error: null
+      },
+      ------------------ common ------------
+      posts: {
+         content:[1, 2, ...] list of posts have this user
+         isLoading:false,
+         error: null
+      },
+    }
+    */
   },
 
   common: {
@@ -196,7 +211,7 @@ export default {
       }
     },
     posts: {
-      /* [postId]: {}*/
+      // [postId]: {...data, isLoading:false, error:errorObject} isLoading and error are for update handling
     }
   },
 

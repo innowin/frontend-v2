@@ -12,7 +12,7 @@ import {deletePost} from './deletePost'
 /**********    %% WATCHERS %%    **********/
 
 function* watchFilterPostsByPostParentPostTypeLimitOffset() {
-	yield takeEvery(types.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET, filterPostsByPostParentPostTypeLimitOffset)
+	yield takeEvery(types.COMMON.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET, filterPostsByPostParentPostTypeLimitOffset)
 }
 
 function* watchGetPostByIdentity() {

@@ -6,6 +6,7 @@ import {createLogger} from 'redux-logger'
 import {routerMiddleware} from 'react-router-redux'
 import {persistReducer} from 'redux-persist'
 import createHistory from 'history/createBrowserHistory'
+import createEncryptor from 'redux-persist-transform-encrypt'
 import storage from 'redux-persist/lib/storage'
 
 //creating logger
@@ -19,7 +20,14 @@ export const history = createHistory()
 const sagaMiddleware = createSagaMiddleware()
 //Creating middleware to dispatch navigation actions
 const navMiddleware = routerMiddleware(history)
-const persistConfig = {key: 'root',storage, blacklist:['form']}
+
+const encryptor = createEncryptor({
+	secretKey: 'my-super-secret-key',
+	onError: (error) => {
+		throw new Error(error)
+	}
+})
+const persistConfig = {key: 'root',transforms: [encryptor],storage, blacklist:['form']}
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 const configureStore = () => {

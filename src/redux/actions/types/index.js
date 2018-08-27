@@ -4,7 +4,6 @@ import userTypes from './user'
 import orgTypes from './organization'
 import authTypes from './auth'
 import exchangeTypes from './exchange'
-import postTypes from './post'
 
 const types = {
   RESET:'RESET',
@@ -15,7 +14,6 @@ const types = {
     USER: userTypes.ERROR,
     ORG: orgTypes.ERROR, // organization errors
 		EXCHANGE: exchangeTypes.ERROR,
-    POST: postTypes.ERROR
   },
 
   SUCCESS: {
@@ -25,7 +23,6 @@ const types = {
     USER: userTypes.SUCCESS,
     ORG: orgTypes.SUCCESS, // organization success
 		EXCHANGE: exchangeTypes.SUCCESS,
-    POST: postTypes.SUCCESS,
   },
   COMMON: commonTypes.BASE,
   AUTH: authTypes.BASE,
@@ -33,7 +30,6 @@ const types = {
   USER: userTypes.BASE,
   ORG: orgTypes.BASE,
 	EXCHANGE: exchangeTypes.BASE,
-  POST: postTypes.BASE,
 }
 
 export default types
