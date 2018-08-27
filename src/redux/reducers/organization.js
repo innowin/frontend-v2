@@ -161,10 +161,7 @@ const organization = (state = initialState.organization, action) => {
 			const members = action.payload
 			return{...state,staff:{...staff, content:members,isLoading:false,error:false}}
 
-		/** -------------------------- get organization info-------------------------> **/
-		case types.SUCCESS.ORG.UPDATE_ORGANIZATION_INFO:
-			const updatedOrganization = action.payload
-			return{...state,...updatedOrganization,isLoading:false,error:false}
+		
 		
 		/** -------------------------- create organization product-------------------------> **/
 		case types.SUCCESS.ORG.CREATE_PRODUCT:

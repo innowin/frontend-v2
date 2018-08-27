@@ -47,6 +47,23 @@ const organs = (state = initialState.organs, action) => {
         }
       }
 
+    /** -------------------------- update organization info-------------------------> **/
+		case types.SUCCESS.ORG.UPDATE_ORGANIZATION_INFO:
+    const updatedOrganization = action.payload
+    return {
+      ...state,
+      [updatedOrganization.id]: {
+        ...state[updatedOrganization.id],
+        organization:{
+          ...previousOrgan,
+          content: {...updatedOrganization},
+          isLoading: false,
+          error: message
+          
+        }
+      }
+    }
+
     /** -------------------------- badge -------------------------> **/
     case types.COMMON.SET_BADGES_IN_ORG:
       return {

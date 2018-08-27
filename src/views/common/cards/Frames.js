@@ -69,12 +69,12 @@ export const ItemHeader = (props: PropsItemHeader): div => {
   return (
       <div className="-item-header">
         <div className="-item-title">{props.title}</div>
-        {/*<div className="-item-edit-btn"> commented by ali*/}
-        {/*{*/}
-        {/*(showEdit !== null) ?*/}
-        {/*<div onClick={showEdit}><EditIcon/></div> : <span/>*/}
-        {/*}*/}
-        {/*</div>*/}
+        <div className="-item-edit-btn"> 
+        {
+        (showEdit !== null) ?
+        <div onClick={showEdit}><EditIcon/></div> : <span/>
+        }
+        </div>
       </div>
   )
 }

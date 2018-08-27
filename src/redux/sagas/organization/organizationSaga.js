@@ -50,7 +50,7 @@ function* updateOrganization(action) {
   const {organizationId, formValues, hideEdit} = payload;
   const socketChannel = yield call(api.createSocketChannel, results.ORG.UPDATE_ORGANIZATION_INFO)
   try {
-    yield fork(api.patch, urls.ORG.UPDATE_ORGANIZATION_INFO, results.ORG.UPDATE_ORGANIZATION_INFO, formValues, `${organizationId}/`)
+    yield fork(api.patch, urls.ORG.UPDATE_ORGANIZATION_INFO, results.ORG.UPDATE_ORGANIZATION_INFO, formValues, `${organizationId}`)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.ORG.UPDATE_ORGANIZATION_INFO, payload: data})
 
