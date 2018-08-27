@@ -11,6 +11,8 @@ import {bindActionCreators} from "redux";
 import PostActions from "../../../redux/actions/commonActions/postActions";
 import connect from "react-redux/es/connect/connect";
 import {makeUserPostsSelector} from 'src/redux/selectors/common/userPostsSelector'
+import {postType} from 'src/consts/flowTypes/common/post'
+import {identityType} from 'src/consts/flowTypes/user/others'
 
 type postPropTypes = {
   post: {
@@ -66,29 +68,17 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
     this.setState({edit: false})
   }
 
-  _handleErrorLoading = (error = false) => {
-    this.setState({...this.state, isLoading: false, error: error});
-  }
-
-  _updateView = (res) => {
-    this.setState({...this.state, post: res})
-  }
-
-  _update = (formValues, postId) => {
+  _update = (formValues :postType, postId :number) => {
     const {updatePost} = this.props
     updatePost(formValues, postId)
   }
 
   _delete = () => {
-    // this.setState({...this.state, isLoading: true}, () =>
-      // deletePost(this.props.posts, this.props.post, this.props.updatePosts, this._hideEdit, this._handleErrorLoading))
-    // const {deletePost} = this.props
-    // deletePost(3369)
     const {deletePost, post, userId} = this.props
     deletePost(post.id, userId)
   }
 
-  _getIdentityDetails = (identity) => {
+  _getIdentityDetails = (identity: identityType) => {
       const user = identity.identity_user;
       const organization = identity.identity_organization;
       const {profileMedia} = this.props
@@ -151,7 +141,7 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
 }
 
 type postsPropsType = {
-  id: string,
+  id: number,
   identityType: string,
   profileMedia: string,
   postIdentity: number,
@@ -187,10 +177,6 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
     this.state = {createForm: false}
   }
 
-  _handleErrorLoading = (error = false) => {
-    this.setState({...this.state, isLoading: false, error: error});
-  };
-
   _showCreateForm = () => {
     this.setState({createForm: true})
   };
@@ -203,23 +189,6 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
     const {actions, id} = this.props
     const {createPost} = actions
     createPost(formValues, id)
-  };
-
-  _updatePosts = (res, type, deletedIndex = null) => {
-    const {posts} = this.props;
-    res = res.data
-    if (type === 'get' && Array.isArray(res)) {
-      this.setState({...this.state, posts: [...posts, ...res]});
-      return false;
-    }
-    if (type === 'post') {
-      this.setState({...this.state, posts: [res, ...posts]});
-      return false;
-    }
-    if (type === 'del') {
-      const remainPosts = posts.slice(0, deletedIndex).concat(posts.slice(deletedIndex + 1));
-      this.setState({...this.state, posts: remainPosts});
-    }
   };
 
   componentDidMount() {
@@ -250,7 +219,7 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
               </PostItemWrapper>
             }
             {
-              posts && posts !== {} && posts !== undefined ? posts.map((post) => (
+              posts && posts !== {}  ? posts.map((post) => (
                 <Post
                   posts={posts}
                   post={post}
@@ -261,7 +230,7 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
                   userId={id}
                 />
               ))
-                : ''
+              : ''
             }
           </ListGroup>
 
