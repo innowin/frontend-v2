@@ -9,10 +9,6 @@ function* watchUpdateUserByUserId() {
   yield takeEvery(types.USER.UPDATE_USER_BY_USER_ID, updateUserByUserId)
 }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> amir
 // update profile by profile id
 function* watchUpdateProfileByProfileId() {
   yield takeEvery(types.USER.UPDATE_PROFILE_BY_PROFILE_ID, updateProfileByProfileId)

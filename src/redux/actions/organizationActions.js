@@ -215,11 +215,11 @@ const getOrgStaff = (organizationId) => ({
         }
 })
 
-const agencyRequest = (description) => ({
+const agencyRequest = (description, hideLoading) => ({
     type: types.ORG.AGENCY_REQUEST,
     payload: {
-        
-        description
+        description,
+        hideLoading
     }
 })
 
