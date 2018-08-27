@@ -11,7 +11,8 @@ export function* getCountries(action) {
     console.log('------- >>> getCountries >> action : ', action)
     try {
         yield fork(api.get, urls.COMMON.COUNTRY, results.COMMON.GET_COUNTRIES)
-        const {data, status} = yield take(socketChannel)
+        const data = yield take(socketChannel)
+        console.log('------- >>> getCountries >> try >> data : ', data)
         const normalData = helpers.arrayToIdKeyedObject(data)
         yield put({type: types.SUCCESS.COMMON.GET_COUNTRIES, data: normalData})
 
@@ -33,8 +34,7 @@ export function* getProvinces(action) { // action: { payload: { parentId } }
 
     try {
         yield fork(api.get, urls.COMMON.PROVINCE, results.COMMON.GET_PROVINCES, suffix)
-        const {data, status} = yield take(socketChannel)
-        console.log('------- >>> getProvinces >> data : ', data)
+        const data = yield take(socketChannel)
         const normalData = helpers.arrayToIdKeyedObject(data)
         yield put({type: types.SUCCESS.COMMON.GET_PROVINCES, data: normalData})
 
@@ -54,7 +54,7 @@ export function* getCities(action) { // action: { payload: { parentId } }
 
     try {
         yield fork(api.get, urls.COMMON.CITY, results.COMMON.GET_CITIES, suffix)
-        const {data} = yield take(socketChannel)
+        const data = yield take(socketChannel)
         const normalData = helpers.arrayToIdKeyedObject(data)
         yield put({type: types.SUCCESS.COMMON.GET_CITIES, data: normalData})
 

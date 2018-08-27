@@ -9,7 +9,7 @@ function* getProductInfo(action) { // action = {type, id}
     const socketChannel = yield call(api.createSocketChannel, results.COMMON.GET_PRODUCT_BASIC_INFO)
     try {
         yield fork(api.get, urls.COMMON.PRODUCT, results.COMMON.GET_PRODUCT_BASIC_INFO, id)
-        const {data} = yield take(socketChannel)
+        const data = yield take(socketChannel)
         console.log('the guy new complete data is: ', data)
         yield put({type: types.SUCCESS.COMMON.GET_PRODUCT_INFO, data})
     } catch (error) {

@@ -202,7 +202,7 @@ const mapStateToProps = state => ({
     clientUser: state.auth.client.user,
     clientProfile: state.auth.client.profile,
     clientOrganization: state.auth.client.organization,
-    translate: state.intl.messages.topBar,
+    translate: state.intl.messages.topBar || {},
 })
 const mapDispatchToProps = dispatch => ({
     actions: bindActionCreators({

@@ -12,19 +12,19 @@ const getCitiesByProvinceId = (state, provinceId) => {
      this function filters the cities (that takes from the state of the redux)
      by the id of province(that takes from the props)
      **/
-    const {content: allCities, isLoaded, isLoading} = state.common.location.city
+    const {list: allCities, isLoaded, isLoading} = state.common.location.city
 
     if (provinceId) {
         const filteredCities = Object.values(allCities).filter(city => (
             city.town_related_province === provinceId))
         return {
-            content: filteredCities,
+            list: filteredCities,
             isLoaded,
             isLoading
         }
     }
 
-    return {content: allCities, isLoading, isLoaded}
+    return {list: allCities, isLoading, isLoaded}
 }
 
 export const makeCitySelector = () => {

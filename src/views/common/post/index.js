@@ -11,15 +11,19 @@ import {bindActionCreators} from "redux";
 import PostActions from "../../../redux/actions/commonActions/postActions";
 import connect from "react-redux/es/connect/connect";
 import {makeUserPostsSelector} from 'src/redux/selectors/common/userPostsSelector'
+import {postType} from 'src/consts/flowTypes/common/post'
+import {identityType} from 'src/consts/flowTypes/user/others'
 
 type postPropTypes = {
   post: {
     post_identity: number,
+    id: number,
   },
   posts: [],
   updatePost: Function,
   profileMedia: string,
   deletePost: Function,
+  userId: number,
 }
 
 type postStateTypes = {
@@ -40,6 +44,7 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
     updatePost: PropTypes.func.isRequired,
     profileMedia: PropTypes.string.isRequired,
     deletePost: PropTypes.func.isRequired,
+    userId: PropTypes.number.isRequired,
   };
 
   constructor(props: postPropTypes) {
@@ -63,27 +68,17 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
     this.setState({edit: false})
   }
 
-  _handleErrorLoading = (error = false) => {
-    this.setState({...this.state, isLoading: false, error: error});
-  }
-
-  _updateView = (res) => {
-    this.setState({...this.state, post: res})
-  }
-
-  _update = (formValues, postId) => {
+  _update = (formValues :postType, postId :number) => {
     const {updatePost} = this.props
     updatePost(formValues, postId)
   }
 
   _delete = () => {
-    // this.setState({...this.state, isLoading: true}, () =>
-      // deletePost(this.props.posts, this.props.post, this.props.updatePosts, this._hideEdit, this._handleErrorLoading))
-    const {deletePost, post} = this.props
-    deletePost(post.id)
+    const {deletePost, post, userId} = this.props
+    deletePost(post.id, userId)
   }
 
-  _getIdentityDetails = (identity) => {
+  _getIdentityDetails = (identity: identityType) => {
       const user = identity.identity_user;
       const organization = identity.identity_organization;
       const {profileMedia} = this.props
@@ -146,7 +141,7 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
 }
 
 type postsPropsType = {
-  id: string,
+  id: number,
   identityType: string,
   profileMedia: string,
   postIdentity: number,
@@ -191,19 +186,19 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
   };
 
   _create = (formValues) => {
-    const {actions} = this.props
+    const {actions, id} = this.props
     const {createPost} = actions
-    createPost(formValues)
+    createPost(formValues, id)
   }
 
   componentDidMount() {
-    const {actions, postIdentity} = this.props
-    const {getPostByIdentity, updatePost, createPost} = actions
-    getPostByIdentity(postIdentity)
+    const {actions, postIdentity, id} = this.props
+    const {getPostByIdentity} = actions
+    getPostByIdentity(postIdentity, id)
   }
 
   render() {
-    const {postIdentity, profileMedia, posts, isLoading, error, actions} = this.props
+    const {postIdentity, profileMedia, posts, isLoading, error, actions, id} = this.props
     const {updatePost, deletePost} = actions
     const {createForm} = this.state;
     return (
@@ -224,7 +219,7 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
               </PostItemWrapper>
             }
             {
-              posts && posts !== {} && posts !== undefined ? posts.map((post) => (
+              posts && posts !== {}  ? posts.map((post) => (
                 <Post
                   posts={posts}
                   post={post}
@@ -232,9 +227,10 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
                   key={post.id + "Posts"}
                   profileMedia={profileMedia}
                   deletePost={deletePost}
+                  userId={id}
                 />
               ))
-                : ''
+              : ''
             }
           </ListGroup>
 
@@ -248,21 +244,15 @@ const mapStateToProps  = () => {
   const userPostsSelector = makeUserPostsSelector()
   return (state, props) => {
 
-    let userId
-    const users = state.users
-    for(let key in users){
-      if(users[key].identity.content.id === props.postIdentity){
-        userId = key
-        break
-      }
-    }
+    let userId = props.id
+    const stateUser = state.users[userId]
+    const defaultObject = {content: [], isLoading: false, error: null}
+    const postObject = (stateUser && stateUser.posts) || defaultObject
 
-    console.log(state.users[userId], 'll')
-    const postObject = state.users[userId].posts
     return {
       posts: userPostsSelector(state, props),
-      isLoading: postObject ? state.users[userId].posts.isLoading: false,
-      error: postObject ? state.users[userId].posts.error: null,
+      isLoading: postObject.isLoading,
+      error: postObject.error,
     }
   }
 }

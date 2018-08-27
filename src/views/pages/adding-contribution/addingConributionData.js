@@ -154,10 +154,10 @@ export const FILE_FIELDS = {
 
 export const LAYER1S = { // the name of layer 1 inputs in state.newContributionData
     NEW_CERT_TITLE: 'title', // ! need for care
-    NEW_CERT_IMAGE: 'certificate_picture',
-    NEW_CERT_LOGO: 'certificate_logo',
+    NEW_CERT_IMAGE: 'certPicture',
+    NEW_CERT_LOGO: 'certLogo',
     NEW_CERT_INDEX: 'newCertificateIndex',
-    NEW_CERT_NEED_FOR_VERIFY: 'newCertificateNeedForVirify',
+    NEW_CERT_NEED_FOR_VERIFY: 'validation_request_flag',
     NAME: 'name',
     CATEGORY_LAYER1: 'categoryLevel1',
     CATEGORY_LAYER2: 'categoryLevel2',
