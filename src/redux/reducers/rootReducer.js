@@ -6,6 +6,7 @@ import {intlReducer} from './intl'
 import {reducer as formReducer} from 'redux-form'
 import organs from "./organization/organs"
 import users from "./user/users"
+import exchanges from "./exchange"
 import common from "./commonReducer/index"
 
 const reducers = {
@@ -13,6 +14,7 @@ const reducers = {
     users,
     organs,
     organization,
+    exchanges,
     common
 }
 

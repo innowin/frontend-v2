@@ -2,7 +2,7 @@ import {updateUserByUserId} from './updateUserByUserIdSaga'
 import {updateProfileByProfileId} from "./updateProfileByProfileIdSaga"
 
 import {takeEvery} from "../../../../node_modules/redux-saga/effects"
-import types from "../../actions/types";
+import types from "../../actions/types"
 
 // update user by user id
 function* watchUpdateUserByUserId() {
