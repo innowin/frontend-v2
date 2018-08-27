@@ -51,6 +51,15 @@ class Socials extends React.Component<SocialsProps,{
     const {organizationId} = this.props;
   }
 
+  deleteExchange(){
+
+  }
+
+
+  deleteFollowing(){
+    
+  }
+
   render() {
     const {createForm} = this.state;
     const {followers,followings,exchanges} = this.props.organization;

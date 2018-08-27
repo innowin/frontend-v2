@@ -110,7 +110,7 @@ export class OrganizationMembers extends React.Component<OrganizationMembersProp
 									/>
 								</OrganizationMembersWrapper>
 						) : (
-								<OrganizationMembersView members={members.content} showEdit={this._showEdit}/>
+								<OrganizationMembersView members={members.content} showEdit={null}/>
 						)
 					}
 				</VerifyWrapper>
