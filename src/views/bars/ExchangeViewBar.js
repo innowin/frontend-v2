@@ -92,12 +92,12 @@ class ExchangeViewBar extends Component {
 	render() {
 		const {exchange, badgesImgUrl, demandCount, supplyCount, productCount, tags, members, isLoading, error} = this.state
 		const {translate} = this.props
-		var membersView = members.map((val, idx) => {
-			return (<div className="" key={idx}>
-				<span>{val.username || val.name}</span>
-				<img src={val.profile_media || "#"}></img>
-			</div>)
-		})
+		let membersView = members.map((val, idx) => (
+				<div className="" key={idx}>
+					<span>{val.username || val.name}</span>
+					<img src={val.profile_media || "#"}></img>
+				</div>)
+		)
 		return (
 				<VerifyWrapper isLoading={isLoading} error={error}>
 					<div className="-sidebar-child-wrapper col">

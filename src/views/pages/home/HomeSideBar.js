@@ -80,7 +80,7 @@ type PropsHomeSideBar = {|
   setExchangeId: Function,
   classNames?: string,
   clientExchangeIdentities: {
-    content: (exchangeIdentityType)[],
+    content: Array<exchangeIdentityType>,
     isLoading: boolean,
     isLoaded: boolean
   },
