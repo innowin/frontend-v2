@@ -13,7 +13,7 @@ import renderTextField from "src/views/common/inputs/reduxFormRenderTextField"
 import {getMessages} from "src/redux/selectors/translateSelector"
 
 const PureSignInForm = (props) => {
-  const {handleSubmit, onSubmit, submitting, translator, error, signInError, submitFailed} = props
+  const {handleSubmit, onSubmit, submitting, translator, error, submitFailed} = props
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="sign-in-form">
       <Field
@@ -40,7 +40,6 @@ const PureSignInForm = (props) => {
         </button>
       </div>
       {submitFailed && <p className="error-message mt-2">{error}</p>}
-      {signInError && <p className="error-message">{signInError}</p>}
       <div className="remember-recovery">
         <label htmlFor="rememberMe" className="cursor-pointer">
           <Field name="rememberMe" id="rememberMe" component="input" type="checkbox"/>
@@ -59,7 +58,6 @@ class SignInForm extends Component {
   static propTypes = {
     translator: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
-    signInError: PropTypes.string,
     actions: PropTypes.object,
   }
 
@@ -95,13 +93,12 @@ class SignInForm extends Component {
   }
 
   render() {
-    const {translator, signInError, ...reduxFormProps} = this.props
+    const {translator, ...reduxFormProps} = this.props
     return (
       <PureSignInForm
         {...reduxFormProps}
         translator={translator}
         onSubmit={this._onSubmit}
-        signInError={signInError}
       />
     )
   }
@@ -110,8 +107,7 @@ class SignInForm extends Component {
 const mapStateToProps = state => ({
   translator: getMessages(state),
   location: state.router.location,
-  isLoggedIn: state.auth.client.isLoggedIn,
-  signInError: state.auth.client.error
+  isLoggedIn: state.auth.client.isLoggedIn
 })
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
@@ -124,7 +120,8 @@ const mapDispatchToProps = dispatch => ({
 SignInForm = reduxForm({
   form: 'SignInForm',
   validate: validateSignInForm,
-  asyncValidate: asyncValidateSignIn
+  asyncValidate: asyncValidateSignIn,
+  asyncBlurFields: ['username']
 })(SignInForm)
 
 SignInForm = connect(mapStateToProps, mapDispatchToProps)(SignInForm)
