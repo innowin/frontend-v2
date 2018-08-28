@@ -75,7 +75,6 @@ class HomePosts extends Component {
     const {isLoading, error, scrollLoading, scrollError} = this.state
     const {posts, exchangeId, className, actions} = this.props
     const {deletePost, updatePost} = actions
-    console.log("ddddddddddddddfffffffffd", posts)
     // TODO mohsen: choice postIdentity from client
     return (
       <VerifyWrapper isLoading={isLoading} error={error} className={className}>

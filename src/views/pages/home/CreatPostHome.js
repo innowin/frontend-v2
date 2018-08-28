@@ -145,16 +145,16 @@ class HomeCreatePost extends Component {
     this.setState({...this.state, media, fileName})
   };
 
-  _hideCreateForm = () => {
-    this.setState({...this.state, media: {}, fileName: '', description: ''});
-    this.createPostFooter._reset_postType()
-  };
+  // _hideCreateForm = () => {
+  //   this.setState({...this.state, media: {}, fileName: '', description: ''});
+  //   this.createPostFooter._reset_postType()
+  // };
 
   _save = () => {
     const {actions} = this.props
     const {createPost} = actions
     const formValues = this._getValues();
-    return createPost(formValues, this._hideCreateForm)
+    return createPost(formValues)
   };
 
   _handleChange = (e) => {
