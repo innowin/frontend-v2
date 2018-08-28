@@ -16,7 +16,7 @@ function* getFile(action) {
     yield put({type: types.SUCCESS.COMMON.GET_FILE, payload: {data}})
   } catch (e) {
     const {message} = e
-    yield put({type: types.ERRORS.COMMON.GET_FILE, payload: {message}})
+    yield put({type: types.ERRORS.COMMON.GET_FILE, payload: {message, fileId}})
   } finally {
     socketChannel.close()
   }
