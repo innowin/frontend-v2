@@ -33,8 +33,7 @@ export class ProfileInfoView extends Component<PropsProfileInfoView> {
   }
 
   render() {
-    const {showEdit, translate} = this.props
-    const profile = this.props.profile.content
+    const {showEdit, translate, profile} = this.props
     const listMobile: listOfBadge = list_of_badge(profile.mobile)
     const listPhone: listOfBadge = list_of_badge(profile.phone)
     const listWebSite: listOfBadge = list_of_badge(profile.web_site)

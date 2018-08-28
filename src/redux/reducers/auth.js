@@ -97,7 +97,7 @@ const auth = (state = initialState.auth, action) => {
         }
       }
     /** -------------------------- get posts by identity  -------------------------> **/
-    case types.SUCCESS.COMMON.GET_POST_BY_IDENTITY:
+    case types.SUCCESS.COMMON.POST.GET_POST_BY_IDENTITY:
       const arrayOfPostId = []
       data.map(post => {
         if(postIdentity === state.client.identity.id && (!previousPost.includes(post.id))) {
@@ -113,7 +113,7 @@ const auth = (state = initialState.auth, action) => {
         }
       }
     /** -------------------------- create post  -------------------------> **/
-    case types.SUCCESS.COMMON.CREATE_POST:
+    case types.SUCCESS.COMMON.POST.CREATE_POST:
       return {
         ...state,
         client: {
@@ -122,7 +122,7 @@ const auth = (state = initialState.auth, action) => {
         }
       }
     /** -------------------------- delete post  -------------------------> **/
-    case types.SUCCESS.COMMON.DELETE_POST:
+    case types.SUCCESS.COMMON.POST.DELETE_POST:
       const newDeletedPosts = previousPost.filter(id => id !== postId);
       return {
         ...state,

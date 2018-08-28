@@ -46,11 +46,7 @@ export default {
            error:null
        },
        posts: {
-<<<<<<< HEAD
          content:[1, 2, ...] list of posts have this user
-=======
-         content:[1, 2, ...], list of posts id
->>>>>>> c048e233f67b04126704e360d55426552cb8492d
          isLoading:false,
          error: null
        },
@@ -212,6 +208,16 @@ export default {
     },
     posts: {
       // [postId]: {...data, isLoading:false, error:errorObject} isLoading and error are for update handling
+    },
+    social: {
+      followees: {
+        isLoading: false,
+        content: [],
+      },
+      followers: {
+        isLoading: false,
+        content: [],
+      },
     }
   },
 

@@ -16,7 +16,7 @@ export const getFile = (mediaId, mediaResult) => {
       // TODO mohsen: handle error
       return false;
     }
-    mediaResult(res)
+    mediaResult(res.data)
     socket.off(`files/${mediaId}-get`, func)
   }
   socket.on(`files/${mediaId}-get`, func);
@@ -42,7 +42,7 @@ export const createFile = (fileString, mediaResult) => {
       // TODO mohsen: handle error
       return false;
     }
-    mediaResult(res);
+    mediaResult(res.data);
     socket.off(`createFile-post-${randomNumber}`, func)
   };
   socket.on(`createFile-post-${randomNumber}`, func);

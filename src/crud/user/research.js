@@ -17,7 +17,7 @@ export const createResearch = (researchId, formValues, handleResult) => {
     if (res.detail) {
       return false
     }
-    handleResult(res)
+    handleResult(res.data)
   })
 }
 
@@ -34,7 +34,7 @@ export const updateResearch = (researchId, formValues, hideEdit, handleResult) =
     if (res.detail) {
       return false
     }
-    handleResult(res)
+    handleResult(res.data)
     hideEdit()
     socket.off(`user-research-update/${researchId}`, func)
   }
@@ -55,7 +55,7 @@ export const deleteResearch = (researchId, formValues, handleResult) => {
     if (res.detail) {
       return false
     }
-    handleResult(res)
+    handleResult(res.data)
   })
 }
 

@@ -56,6 +56,7 @@ const getEmit = (url, resultName, query = "", token) => {
 }
 
 const patchEmit = (url, resultName, data, query = "", token) => {
+  console.log(REST_URL + '/' + url + '/' + query + '/', 'llllllllllllllllllllllllllllllllll')
   SOCKET.emit(REST_REQUEST, {
     method: 'patch',
     url: REST_URL + '/' + url + '/' + query + '/',

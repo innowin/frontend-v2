@@ -10,11 +10,11 @@ export function* getPostByIdentity(action) {
   try {
     yield fork(api.get, urls.COMMON.POST.GET_POST_BY_IDENTITY, results.COMMON.POST.GET_POST_BY_IDENTITY, `?post_identity_id=${postIdentity}`)
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.COMMON.GET_POST_BY_IDENTITY , payload:{data, postIdentity, userId}})
+    yield put({type: types.SUCCESS.COMMON.POST.GET_POST_BY_IDENTITY , payload:{data, postIdentity, userId}})
   } catch (error) {
     const {message} = error
     yield put({
-      type: types.ERRORS.COMMON.GET_POST_BY_IDENTITY,
+      type: types.ERRORS.COMMON.POST.GET_POST_BY_IDENTITY,
       payload: {message}
     })
   } finally {

@@ -96,7 +96,7 @@ class UserInfoEditForm extends React.Component<PropsUserInfoEditForm> {
                   name="firstName"
                   type="text"
                   component={renderTextField}
-                  label={translate['Username']}
+                  label={translate['First name']}
                   textFieldClass='form-control'
               />
             </div>
@@ -109,7 +109,7 @@ class UserInfoEditForm extends React.Component<PropsUserInfoEditForm> {
                   name="lastName"
                   type="text"
                   component={renderTextField}
-                  label={translate['Username']}
+                  label={translate['Last name']}
                   textFieldClass='form-control'
               />
             </div>
@@ -122,7 +122,7 @@ class UserInfoEditForm extends React.Component<PropsUserInfoEditForm> {
                   name="email"
                   type="text"
                   component={renderTextField}
-                  label={translate['Username']}
+                  label={translate['Email']}
                   textFieldClass='form-control'
               />
             </div>

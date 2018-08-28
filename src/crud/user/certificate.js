@@ -15,10 +15,10 @@ export const getCertificates = (userId, updateCertificates, handleErrorLoading) 
 
   socket.on(`UserCertificates-get/${userId}`, (res) => {
     if (res.detail) {
-      handleErrorLoading(res.detail)
+      handleErrorLoading(res.data.detail)
       return false
     }
-    updateCertificates(res, 'get')
+    updateCertificates(res.data, 'get')
     handleErrorLoading()
   })
 }
@@ -39,7 +39,7 @@ export const updateCertificate = (formValues, certificateId, updateView, hideEdi
       handleErrorLoading(res.detail)
       return false
     }
-    updateView(res)
+    updateView(res.data)
     handleErrorLoading()
     hideEdit()
   })
@@ -61,7 +61,7 @@ export const createCertificate = (formValues, updateCertificates, handleErrorLoa
         handleErrorLoading(res.detail)
         return false
       }
-      updateCertificates(res, 'post')
+      updateCertificates(res.data, 'post')
       handleErrorLoading()
       hideCreateForm()
     })
@@ -82,7 +82,7 @@ export const deleteCertificate = (certificates, certificate, updateCertificates,
 
   socket.on(`deleteCertificate-delete/${certificateId}`, (res) => {
     if (res.detail) {
-      handleErrorLoading(res.detail)
+      handleErrorLoading(res.data.detail)
       return false
     }
     const deletedIndex = certificates.indexOf(certificate)

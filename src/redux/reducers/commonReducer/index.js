@@ -7,6 +7,7 @@ import {combineReducers} from "redux";
 import category from "./category";
 import product from "./product";
 import posts from './post'
+import social from './social'
 
 export default combineReducers({
     category,
@@ -17,4 +18,5 @@ export default combineReducers({
     location,
     badges,
     posts,
+    social,
 })

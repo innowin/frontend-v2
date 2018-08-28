@@ -243,7 +243,7 @@ const users = (state = initialState.users, action) => {
         }
       }
     /** -------------------------- get posts by identity  -------------------------> **/
-    case types.COMMON.GET_POST_BY_IDENTITY:
+    case types.COMMON.POST.GET_POST_BY_IDENTITY:
       return {
         ...state,
         [userId]: {
@@ -255,7 +255,7 @@ const users = (state = initialState.users, action) => {
           }
         }
       }
-    case types.SUCCESS.COMMON.GET_POST_BY_IDENTITY:
+    case types.SUCCESS.COMMON.POST.GET_POST_BY_IDENTITY:
       const arrayOfPostId = data.map(post => post.id)
       return {
         ...state,
@@ -270,7 +270,7 @@ const users = (state = initialState.users, action) => {
         }
       }
       //TODO: mohammad check userId is not undefined and find current userId
-    case types.ERRORS.COMMON.GET_POST_BY_IDENTITY:
+    case types.ERRORS.COMMON.POST.GET_POST_BY_IDENTITY:
       return {
         ...state,
         [userId]: {
@@ -283,7 +283,7 @@ const users = (state = initialState.users, action) => {
         }
       }
     /** -------------------------- create post  -------------------------> **/
-    case types.COMMON.CREATE_POST:
+    case types.COMMON.POST.CREATE_POST:
       return {
         ...state,
         [userId]: {
@@ -295,7 +295,7 @@ const users = (state = initialState.users, action) => {
           }
         }
       }
-    case types.SUCCESS.COMMON.CREATE_POST:
+    case types.SUCCESS.COMMON.POST.CREATE_POST:
       return {
         ...state,
         [userId]: {
@@ -308,7 +308,7 @@ const users = (state = initialState.users, action) => {
           }
         }
       }
-    case types.ERRORS.COMMON.CREATE_POST:
+    case types.ERRORS.COMMON.POST.CREATE_POST:
       return {
         ...state,
         [userId]: {
@@ -321,7 +321,7 @@ const users = (state = initialState.users, action) => {
         }
       }
       /** -------------------------- update post  -------------------------> **/
-    case types.COMMON.UPDATE_POST:
+    case types.COMMON.POST.UPDATE_POST:
       return {
         ...state,
         [userId]: {
@@ -333,7 +333,7 @@ const users = (state = initialState.users, action) => {
           }
         }
       }
-    case types.ERRORS.COMMON.UPDATE_POST:
+    case types.ERRORS.COMMON.POST.UPDATE_POST:
       return {
         ...state,
         [userId]: {
@@ -346,7 +346,7 @@ const users = (state = initialState.users, action) => {
         }
       }
     /** -------------------------- delete post  -------------------------> **/
-    case types.COMMON.DELETE_POST:
+    case types.COMMON.POST.DELETE_POST:
       return {
         ...state,
         [userId]: {
@@ -358,7 +358,7 @@ const users = (state = initialState.users, action) => {
           }
         }
       }
-    case types.SUCCESS.COMMON.DELETE_POST:
+    case types.SUCCESS.COMMON.POST.DELETE_POST:
       const newDeletedPosts = previousPost.content.filter(id => id !== postId);
       return {
         ...state,
@@ -372,7 +372,7 @@ const users = (state = initialState.users, action) => {
           }
         }
       }
-    case types.ERRORS.COMMON.DELETE_POST:
+    case types.ERRORS.COMMON.POST.DELETE_POST:
       return {
         ...state,
         [userId]: {

@@ -29,7 +29,7 @@ export const updateSkill = (formValues, skillId, updateStateForView, hideEdit) =
 		if (res.detail) {
 			error = res.detail
 		}
-		updateStateForView(res, error, isLoading)
+		updateStateForView(res.data, error, isLoading)
 		hideEdit()
 	})
 }

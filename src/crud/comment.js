@@ -22,7 +22,7 @@ export const getCommentsByParent = (parentId, handleResult) => {
       const dateB = new Date(b.created_time);
       return dateB - dateA;
     });
-    handleResult(res);
+    handleResult(res.data);
     socket.off(`/base/comments/> list-${parentId}`, func)
   };
   socket.on(`/base/comments/> list-${parentId}`, func);

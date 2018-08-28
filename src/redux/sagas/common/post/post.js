@@ -12,23 +12,23 @@ import {deletePost} from './deletePost'
 /**********    %% WATCHERS %%    **********/
 
 function* watchFilterPostsByPostParentPostTypeLimitOffset() {
-	yield takeEvery(types.COMMON.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET, filterPostsByPostParentPostTypeLimitOffset)
+	yield takeEvery(types.COMMON.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET, filterPostsByPostParentPostTypeLimitOffset)
 }
 
 function* watchGetPostByIdentity() {
-  yield takeEvery(types.COMMON.GET_POST_BY_IDENTITY, getPostByIdentity)
+  yield takeEvery(types.COMMON.POST.GET_POST_BY_IDENTITY, getPostByIdentity)
 }
 
 function* watchCreatePost() {
-  yield takeEvery(types.COMMON.CREATE_POST, createPost)
+  yield takeEvery(types.COMMON.POST.CREATE_POST, createPost)
 }
 
 function* watchUpdatePost() {
-  yield takeEvery(types.COMMON.UPDATE_POST, updatePost)
+  yield takeEvery(types.COMMON.POST.UPDATE_POST, updatePost)
 }
 
 function* watchDeletePost() {
-  yield takeEvery(types.COMMON.DELETE_POST, deletePost)
+  yield takeEvery(types.COMMON.POST.DELETE_POST, deletePost)
 }
 
 export default {

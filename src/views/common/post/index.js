@@ -1,5 +1,7 @@
 // @flow
 /*global __*/
+
+//TODO: mohammad forms need change to redux form
 import * as React from "react";
 import PropTypes from 'prop-types';
 
@@ -69,8 +71,8 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
   }
 
   _update = (formValues :postType, postId :number) => {
-    const {updatePost} = this.props
-    updatePost(formValues, postId)
+    const {updatePost, userId} = this.props
+    updatePost(formValues, postId, userId)
   }
 
   _delete = () => {

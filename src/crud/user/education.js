@@ -17,7 +17,7 @@ export const createEducation = (formValues, handleResult) => {
     if (res.detail) {
       return false
     }
-    handleResult(res)
+    handleResult(res.data)
   })
 }
 
@@ -35,7 +35,7 @@ export const updateEducation = (educationId, formValues, hideEdit, handleResult)
     if (res.detail) {
       return false
     }
-    handleResult(res)
+    handleResult(res.data)
     hideEdit()
     socket.off(`user-education-update/${educationId}`, func)
   }
@@ -57,7 +57,7 @@ export const deleteEducation = (educationId, formValues, handleResult) => {
     if (res.detail) {
       return false
     }
-    handleResult(res)
+    handleResult(res.data)
   })
 }
 
