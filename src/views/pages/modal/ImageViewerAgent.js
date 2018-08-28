@@ -8,7 +8,8 @@ export class ImageViewerAgent extends React.Component{
   }
 
   handleClick(){
-    this.props.imageSelect(this.props.src,this.props.idx)
+    if(this.props.imageSelect)
+      this.props.imageSelect(this.props.src,this.props.idx)
   }
 
   render(){

@@ -51,50 +51,13 @@ class Socials extends React.Component<SocialsProps,{
     const {organizationId} = this.props;
   }
 
-  getFollowers(){//TODO backed changed follow_identity doesn't exist
-    // let {organization,followings,followers} = this.props.organization;
-    // for(var i = 0 ; i < followersList.length; i++){
-    //   socket.emit(REST_REQUEST,{
-    //     method: "get",
-    //     url: `${url}/users/identities/${followersList[i].follow_follower}/`,
-    //     result: `organizationFollowers-follower-get`,
-    //     token: TOKEN
-    //   })
+  deleteExchange(){
 
-    // }
   }
 
-  getFollowings(){
-    // let {followingsList} = this.state;
-    // for(var i = 0 ; i < followingsList.length; i++){
-    //   socket.emit(REST_REQUEST,{
-    //     method: "get",
-    //     url: `${url}/users/identities/${followingsList[i].follow_followed}/`,
-    //     result: `organizationFollowings-following-get`,
-    //     token: TOKEN
-    //   })
 
-    // }
-  }
-
-  deleteFollowing(id:number, index:number){
-    // const {followings, followingsList} = this.state;
-    // followings.splice(index,1);
-    // this.setState({...this.state, followings:followings}, ()=>{
-    //   socket.emit(REST_REQUEST,{
-    //     method: "del",
-    //     url: `${url}/organizations/follows/?follow_followed=${followingsList[index].follow_followed}`,
-    //     result: `organizationFollowing-delete`,
-    //     token: TOKEN
-    //   })
-    // });    
-  }
-  deleteExchange(id:number, index:number){ //TODO
-    // const {exchanges} = this.state;
-    // exchanges.splice(index,1);
-    // this.setState({...this.state, exchanges:exchanges}, ()=>{
-      
-    // });   
+  deleteFollowing(){
+    
   }
 
   render() {

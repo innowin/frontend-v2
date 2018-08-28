@@ -1,16 +1,16 @@
 // @flow
 import * as React from 'react'
-import StateLessTextInput from '../../common/inputs/StateLessTextInput'
-import StateLessTextarea from '../../common/inputs/StateLessTextarea'
+import StateLessTextInput from '../../../common/inputs/StateLessTextInput'
+import StateLessTextarea from '../../../common/inputs/StateLessTextarea'
 import Select from 'react-select';
-import {RadioButtonGroup} from '../../common/inputs/RadioButtonInput'
-import {categoriesData, LAYER1S} from './addingConributionData'
-import NextPrevBtns from './nextAndPrevBtns'
+import {RadioButtonGroup} from '../../../common/inputs/RadioButtonInput'
+import {categoriesData, LAYER1S} from '../addingConributionData'
+import NextPrevBtns from '../nextAndPrevBtns'
 import {reduxForm, Field} from "redux-form";
-import renderTextField from "../../common/inputs/reduxFormRenderTextField"
-import renderSelectField from "../../common/inputs/reduxFormRenderReactSelect"
-import renderTextArea from "../../common/inputs/reduxFormRenderTextArea"
-import renderRadioButtonGroup from "../../common/inputs/rdxRenderCircularRadioButtonGroup"
+import renderTextField from "../../../common/inputs/reduxFormRenderTextField"
+import renderSelectField from "../../../common/inputs/reduxFormRenderReactSelect"
+import renderTextArea from "../../../common/inputs/reduxFormRenderTextArea"
+import renderRadioButtonGroup from "../../../common/inputs/rdxRenderCircularRadioButtonGroup"
 import helpers from "src/consts/helperFunctions"
 import {connect} from "react-redux";
 

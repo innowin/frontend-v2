@@ -78,6 +78,7 @@ const results = {
         GET_COUNTRIES: 'common--get--countries--result',
         GET_PROVINCES: 'common-get-provinces-result',
         GET_CITIES: 'common-get-cities-result',
+        
     },
 
     EXCHANGE: {
@@ -86,7 +87,8 @@ const results = {
         GET_EXCHANGES_BY_MEMBER_IDENTITY: 'getExchangesByMemberIdentity',
         GET_EXCHANGE_BY_EX_ID: 'get-exchange-by-ex-id',
         DELETE_EXCHANGE_MEMBERSHIP: 'delete-exchange-membership',
-        CREATE_EXCHANGE: 'create-exchange'
+        CREATE_EXCHANGE: 'create-exchange',
+        ADD_TO_EXCHANGE:'add-to-exchange',
     },
     //contribution
     CREATE_PRODUCT: 'create-product',
