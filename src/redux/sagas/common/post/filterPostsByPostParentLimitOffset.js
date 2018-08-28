@@ -24,11 +24,11 @@ export function* filterPostsByPostParentPostTypeLimitOffset(action) {
 				filter
 		)
 		const data = yield take(socketChannel)
-		yield put({type: types.SUCCESS.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET , payload:{data}})
+		yield put({type: types.SUCCESS.COMMON.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET , payload:{data}})
 	} catch (err) {
 		const {message} = err
 		yield put({
-			type: types.ERRORS.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET,
+			type: types.ERRORS.COMMON.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET,
 			payload: {message}
 		})
 	} finally {

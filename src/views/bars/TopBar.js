@@ -87,7 +87,9 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
             }
             getFile(mediaId, mediaResult)
         }
-        verifyToken(client.getToken())
+        setTimeout(() =>
+            verifyToken(client.getToken())
+        , 1000)
     }
 
     _toggle = (e: SyntheticEvent<HTMLButtonElement>): void => {

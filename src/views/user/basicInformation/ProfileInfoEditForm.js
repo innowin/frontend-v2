@@ -40,8 +40,7 @@ type PropsProfileInfoEditForm = {
 
 class ProfileInfoEditForm extends Component<PropsProfileInfoEditForm> {
   componentDidMount() {
-    const {initialize} = this.props
-    const profile = this.props.profile.content
+    const {initialize, profile} = this.props
 
     const birthDateSplit = profile.birth_date.split('/')
     const defaultFormValue = {
@@ -77,9 +76,8 @@ class ProfileInfoEditForm extends Component<PropsProfileInfoEditForm> {
 
   _onSubmit = (values: ProfileInfoFormInputType): boolean | void => {
     // profile equals to initial value
-    const {actions, userId} = this.props
+    const {actions, userId, profile} = this.props
 
-    const profile = this.props.profile.content
     const {updateProfileByProfileId} = actions
     const profileId: number = profile.id
     const mobile = this.mobileInput.getValue()
@@ -116,8 +114,7 @@ class ProfileInfoEditForm extends Component<PropsProfileInfoEditForm> {
   }
 
   render() {
-    const {translate, handleSubmit} = this.props
-    const profile = this.props.profile.content
+    const {translate, handleSubmit, profile} = this.props
     return (
         <form onSubmit={handleSubmit(this._onSubmit)}>
           <div className="row">

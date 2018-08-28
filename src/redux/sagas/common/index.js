@@ -6,45 +6,51 @@ import badgeWatchers from "./badge/badge";
 import productWatchers from "./product/product";
 import fileWatchers from "./file/file";
 import postWatchers from './post/post'
+import socialWatchers from './social/social'
 
 export default [
-    // product watchers
-    productWatchers.watchGetProductInfo(),
-    productWatchers.watchUpdateProduct(),
-    productWatchers.watchCreateProduct(),
-    productWatchers.watchCreateProductPicture(),
+  // product watchers
+  productWatchers.watchGetProductInfo(),
+  productWatchers.watchUpdateProduct(),
+  productWatchers.watchCreateProduct(),
+  productWatchers.watchCreateProductPicture(),
 
-    // category watchers
-    categoryWatchers.watchGetCategoriesList(),
+  // category watchers
+  categoryWatchers.watchGetCategoriesList(),
 
-    // file watchers
-    fileWatchers.watchGetFile(),
-    fileWatchers.watchCreateFile(),
-    fileWatchers.watchUpdateFile(),
-    fileWatchers.watchDelFileMiddleWareData(),
+  // file watchers
+  fileWatchers.watchGetFile(),
+  fileWatchers.watchCreateFile(),
+  fileWatchers.watchUpdateFile(),
+  fileWatchers.watchDelFileMiddleWareData(),
 
-    // certificate watchers
-    certificateWatchers.watchGetObjectCertificates(),
-    certificateWatchers.watchCreateObjectCertificate(),
-    certificateWatchers.watchResetCreatingObjectCertStatus(),
+  // certificate watchers
+  certificateWatchers.watchGetObjectCertificates(),
+  certificateWatchers.watchCreateObjectCertificate(),
+  certificateWatchers.watchResetCreatingObjectCertStatus(),
 
-    // badge watchers
-    badgeWatchers.watchGetOrganBadges(),
-    badgeWatchers.watchGetUserBadges(),
+  // badge watchers
+  badgeWatchers.watchGetOrganBadges(),
+  badgeWatchers.watchGetUserBadges(),
 
-    // hashTag watchers
-    hashTagWatchers.watchGetHashTags(),
-    hashTagWatchers.watchCreateHashTagFor(),
+  // hashTag watchers
+  hashTagWatchers.watchGetHashTags(),
+  hashTagWatchers.watchCreateHashTagFor(),
 
-    // location
-    locationWatchers.watchGetCountries(),
-    locationWatchers.watchGetProvinces(),
-    locationWatchers.watchGetCities(),
+  // location
+  locationWatchers.watchGetCountries(),
+  locationWatchers.watchGetProvinces(),
+  locationWatchers.watchGetCities(),
 
-    // posts
-    postWatchers.watchFilterPostsByPostParentPostTypeLimitOffset(),
-    postWatchers.watchGetPostByIdentity(),
-    postWatchers.watchCreatePost(),
-    postWatchers.watchUpdatePost(),
-    postWatchers.watchDeletePost(),
+  // posts
+  postWatchers.watchFilterPostsByPostParentPostTypeLimitOffset(),
+  postWatchers.watchGetPostByIdentity(),
+  postWatchers.watchCreatePost(),
+  postWatchers.watchUpdatePost(),
+  postWatchers.watchDeletePost(),
+
+  // social
+  socialWatchers.watchGetFollowees(),
+  socialWatchers.watchGetFollowers(),
+  socialWatchers.watchDeleteFollowers(),
 ]

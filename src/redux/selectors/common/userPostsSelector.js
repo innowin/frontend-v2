@@ -10,7 +10,7 @@ export const makeUserPostsSelector = () => {
   return createSelector(
       [getUserPosts, getPostIdentity],
       (posts, postIdentity) => {
-        if (posts && posts !== undefined && postIdentity) {
+        if (posts && posts !== undefined && posts !== {} && postIdentity) {
           const arrayPost = helpers.filterNestedObjByNestedKey(posts, 'post_identity', 'id', postIdentity)
           return [...arrayPost]
         }

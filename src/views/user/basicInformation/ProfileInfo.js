@@ -70,18 +70,12 @@ class ProfileInfo extends React.Component<ProfileInfoProps, ProfileInfoState> {
   }
 }
 
-const mapUserInfoStateToProps = state => {
-  const userId = state.auth.client.profile.profile_user
-  return ({
-    isLoading: state.users[userId].profile.isLoading,
-  })
-}
-const mapUserInfoDispatchToProps = dispatch => ({
+const mapProfileInfoDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     updateProfileByProfileId: updateProfileByProfileId.updateProfile,
   }, dispatch)
 })
 
-ProfileInfo = connect(mapUserInfoStateToProps, mapUserInfoDispatchToProps)(ProfileInfo)
+ProfileInfo = connect(null, mapProfileInfoDispatchToProps)(ProfileInfo)
 
 export {ProfileInfo}

@@ -197,6 +197,16 @@ export default {
     },
     posts: {
       /* [postId]: {...postObject, error:null, isLoading: false}*/
+    },
+    social: {
+      followees: {
+        isLoading: false,
+        content: [],
+      },
+      followers: {
+        isLoading: false,
+        content: [],
+      },
     }
   },
 

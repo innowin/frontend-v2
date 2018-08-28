@@ -40,7 +40,7 @@ export const createPost = (formValues, updatePosts, handleErrorLoading, hideCrea
       handleErrorLoading(res.detail);
       return false;
     }
-    updatePosts(res, 'post');
+    updatePosts(res.data, 'post');
     handleErrorLoading();
     hideCreateForm();
     socket.off('/base/posts/-post', func)
@@ -64,7 +64,7 @@ export const updatePost = (formValues, postId, updateView, hideEdit, handleError
       handleErrorLoading(res.detail);
       return false;
     }
-    updateView(res);
+    updateView(res.data);
     handleErrorLoading();
     hideEdit();
     socket.off(`/base/posts/-patch/${postId}`, func)
@@ -115,7 +115,7 @@ export const getPost = (id, handleErrorLoading) => {
       }
       // handleErrorLoading();
       socket.off(`ggetPost-get/${id}`, func)
-      resolve(res);
+      resolve(res.data);
     };
     socket.on(`getPost-get/${id}`, func);
   })

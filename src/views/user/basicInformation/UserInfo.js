@@ -72,19 +72,12 @@ class UserInfo extends Component<UserInfoProps, UserInfoState> {
   }
 }
 
-const mapUserInfoStateToProps = state => {
-  const userId = state.auth.client.user.id
-  return ({
-    user: state.auth.client.user,
-    isLoading: state.users[userId].user.isLoading,
-  })
-}
 const mapUserInfoDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     updateUserByUserId: updateUserByUserIdAction.updateUser,
   }, dispatch)
 })
 
-UserInfo = connect(mapUserInfoStateToProps, mapUserInfoDispatchToProps)(UserInfo)
+UserInfo = connect(null, mapUserInfoDispatchToProps)(UserInfo)
 
 export {UserInfo}

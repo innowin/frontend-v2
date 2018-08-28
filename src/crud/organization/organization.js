@@ -17,7 +17,7 @@ export const getOrganization = (organId, handleResult) => {
       // TODO mohsen: handle error
       return false
     }
-    handleResult(res)
+    handleResult(res.data)
   });
 };
 
@@ -34,6 +34,6 @@ export const getMetaDataOrganization = (handleResult) => {
     if (res.detail) {
       return false
     }
-    handleResult(res)
+    handleResult(res.data)
   });
 };

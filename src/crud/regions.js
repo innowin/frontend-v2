@@ -13,7 +13,7 @@ export const getCountries = (handleResult) => {
     if (res.detail) {
       return false
     }
-    handleResult(res)
+    handleResult(res.data)
   });
 };
 
@@ -29,7 +29,7 @@ export const getProvinces = (countryId, handleResult) => {
     if (res.detail) {
       return false
     }
-    handleResult(res)
+    handleResult(res.data)
   });
 };
 
@@ -45,7 +45,7 @@ export const getTowns = (provinceId, handleResult) => {
     if (res.detail) {
       return false
     }
-    handleResult(res)
+    handleResult(res.data)
   });
 };
 

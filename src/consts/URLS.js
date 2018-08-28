@@ -91,6 +91,12 @@ const urls = {
             UPDATE_POST: 'base/posts',
             DELETE_POST: 'base/posts',
         },
+
+        SOCIAL: {
+            GET_FOLLOWEES: 'organizations/follows',
+            GET_FOLLOWERS: 'organizations/follows',
+            DELETE_FOLLOWERS: '/organizations/follows'
+        },
     }
 }
 export default urls

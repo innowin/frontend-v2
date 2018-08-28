@@ -70,6 +70,12 @@ const results = {
             DELETE_POST: 'delete-post',
         },
 
+        SOCIAL: {
+            GET_FOLLOWEES: 'get-followees',
+            GET_FOLLOWERS: 'get-followers',
+            DELETE_FOLLOWERS: 'delete-followers,'
+        },
+
         // hashTag
         GET_HASH_TAGS: 'common-get-hashTags-result',
         CREATE_HASH_TAG_FOR: 'common-create-hashTag-for-object-result',

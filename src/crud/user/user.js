@@ -17,7 +17,7 @@ export const getUser = (userId, handleResult) => {
     if (res.detail) {
       return false
     }
-    handleResult(res)
+    handleResult(res.data)
     socket.off(`/users/{id}/-get/getUser/${userId}`, func)
   }
   socket.on(`/users/{id}/-get/getUser/${userId}`, func)
@@ -42,7 +42,7 @@ export const updateUser = (formValues, userId, updateStateForView, hideEdit) => 
     if (res.detail) {
       return false
     }
-    updateStateForView(res)
+    updateStateForView(res.data)
     hideEdit()
     socket.off(`updateUser-patch-${userId}`, func)
   }
