@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import PropTypes from "prop-types"
 import FontAwesome from 'react-fontawesome'
 import RadioButtonInput from '../../common/inputs/RadioButtonInput'
+import {FileInput} from '../../common/inputs/FileInput'
 import SuperTag from './superTag'
 import {AgentSvgIcon, TipsIcon, ItemsAndPropertiesIcon, SocialIcon, CongratsTick} from "src/images/icons"
 import MemberItem from './member-item'
@@ -11,13 +12,15 @@ import GetUserActions from '../../../redux/actions/user/getUserActions';
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import CircularProgressbar from 'react-circular-progressbar';
+import {createFile, getFile} from "src/crud/media/media";
 class  PageOne extends Component{
   constructor(props){
     super(props)
     this.state= {
       selectedIdx:-1,
       images:[{file:'http://restful.daneshboom.ir/media/75f00defdde44fd4b0d8bee05617e9c7.jpg'},{file:"http://restful.daneshboom.ir/media/a6c0c4fea76d4b96ba6fe17d11a1afd3.jpg"}],
-      currentImage:""
+      currentImage:"",
+      isLoading:false
     }
     this.changeImage = this.changeImage.bind(this)
   }
@@ -29,8 +32,34 @@ class  PageOne extends Component{
       console.log(this.state.value);
     });
   }
+  showOpenFileDlg = () => {
+    this.inputOpenFileRef.click()
+  }
+  _handleChangeImage = (event) =>{
+    event.preventDefault();
+    const file = event.target.files[0]; 
+    if (file) {
+      // TODO mohsen: check maximum file-size with attention to fileType
+      let reader = new FileReader();
+      reader.onloadstart = () => {
+        this.setState({isLoading: true});
+      };
+      reader.onloadend = () => {
+        const fileName = file.name;
+        this._createFile(reader.result, fileName);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+  _createFile = (fileString, fileName) => {
+    const mediaResult = (res) => {
+      this.setState({...this.state, isLoading: false, currentImage:res.data.file, currentMedia: res.data})
+    };
+    createFile(fileString, mediaResult);
+  };
+
   render(){
-    const {images} = this.state
+    const {images,isLoading} = this.state
     let self = this
     const imgViews = images.map((val,idx)=>{
       return (
@@ -90,15 +119,29 @@ class  PageOne extends Component{
             <div className="row">
               <div className="col m-2">
                 <div className="row">
+                {
+                isLoading == true ? 
+                  <span>{__('Uploading...')}</span>
+                :
                   <ImageViewerAgent 
-                    imageSelect={()=>{}}
-                    src={this.state.currentImage}
+                  imageSelect={()=>{}}
+                  src={this.state.currentImage}
                   />
+                }
+                  
                 </div>
               </div>
 
               <div className="col m-2" dir='rtl'>
                 <div className="row">
+                  <div className="img-agent-small">
+                    <input type="file" 
+                    style={{display:'none'}}  
+                    ref={(inputOpenFileRef)=>{this.inputOpenFileRef = inputOpenFileRef}}
+                    onChange={this._handleChangeImage}/>
+                    {/* <FileInput type="file" style={{display:"none"}}  ref={(inputOpenFileRef)=>{this.inputOpenFileRef = inputOpenFileRef}}/> */}
+                    <ImageViewerAgent key={'chooser'} idx={-1} selected={false} src="http://www.arcdocendi.com/Forms/images/upload.png" imageSelect={this.showOpenFileDlg.bind(this)} />
+                  </div>
                   {imgViews}
                 </div>
                 

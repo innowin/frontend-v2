@@ -77,13 +77,12 @@ type StateHomeSideBar = {|
 
 type PropsHomeSideBar = {|
   identityId: number,
+  activeExchangeId: ?number,
   setExchangeId: Function,
   classNames?: string,
-  clientExchangeIdentities: {
-    content: (exchangeIdentityType)[],
-    isLoading: boolean,
-    isLoaded: boolean
-  },
+  clientExchanges: ({ id: number })[],
+  isLoading: boolean,
+  error: ?string,
   actions: {
     getExchangeIdentities: Function
   }
@@ -92,10 +91,9 @@ type PropsHomeSideBar = {|
 class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
   static propTypes = {
     identityId: PropTypes.number.isRequired,
+    activeExchangeId: PropTypes.number,
     setExchangeId: PropTypes.func.isRequired,
-    classNames: PropTypes.string,
-    clientExchangeIdentities: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired
+    classNames: PropTypes.string
   }
 
   constructor(props) {
@@ -105,29 +103,24 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
 
   _handleClick = (id) => {
     const {setExchangeId} = this.props
-    this.setState({...this.state, activeId: id}, () => setExchangeId(id))
+    setExchangeId(id)
   }
 
   componentDidMount() {
-    const {identityId, clientExchangeIdentities} = this.props
+    const {identityId, setExchangeId} = this.props
     const {getExchangeIdentities} = this.props.actions
-    if (clientExchangeIdentities && !clientExchangeIdentities.isLoaded) {
-      getExchangeIdentities(identityId)
-    }
+    getExchangeIdentities(identityId , setExchangeId)
   }
 
   render() {
-    const {clientExchangeIdentities, classNames} = this.props
-    const exchanges = (clientExchangeIdentities) ? (clientExchangeIdentities.content) : null
+    const {clientExchanges, classNames, activeExchangeId} = this.props
     return (
       <div className={classNames}>
         {
-          (exchanges && exchanges.length > 0) ? (
-            exchanges.map((item, i) => {
-              const exchange = item.exchange_identity_related_exchange
-              const {activeId} = this.state
+          (clientExchanges && clientExchanges.length > 0) ? (
+            clientExchanges.map((exchange, i) => {
               return (
-                (exchange.id === activeId) ?
+                (exchange.id === activeExchangeId) ?
                   <SideBarItem key={i + "HomeSideBar-active"} exchange={exchange} handleClick={this._handleClick}
                                active={true}/>
                   :
@@ -143,9 +136,24 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
 }
 
 
-const mapStateToProps = state => ({
-  clientExchangeIdentities: state.auth.client.exchange_identities
-})
+const mapStateToProps = state => {
+  const allExchanges = state.exchanges
+  const ids = state.auth.client.exchanges
+  const clientExchanges = ids.map((exchangeId) =>
+    (allExchanges[exchangeId] ? allExchanges[exchangeId].exchange.content : [])
+  )
+  const isLoading = ids.map((exchangeId) =>
+    (allExchanges[exchangeId] ? allExchanges[exchangeId].exchange.isLoading : false)
+  ).includes(true)
+  const error = ids.map((exchangeId) =>
+    (allExchanges[exchangeId] ? allExchanges[exchangeId].exchange.error : null)
+  )
+  return {
+    clientExchanges,
+    isLoading,
+    error
+  }
+}
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getExchangeIdentities: ExchangeActions.getExchangeIdentitiesByMemberIdentity

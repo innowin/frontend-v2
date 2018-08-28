@@ -50,7 +50,7 @@ function* updateOrganization(action) {
   const {organizationId, formValues, hideEdit} = payload;
   const socketChannel = yield call(api.createSocketChannel, results.ORG.UPDATE_ORGANIZATION_INFO)
   try {
-    yield fork(api.patch, urls.ORG.UPDATE_ORGANIZATION_INFO, results.ORG.UPDATE_ORGANIZATION_INFO, formValues, `${organizationId}/`)
+    yield fork(api.patch, urls.ORG.UPDATE_ORGANIZATION_INFO, results.ORG.UPDATE_ORGANIZATION_INFO, formValues, `${organizationId}`)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.ORG.UPDATE_ORGANIZATION_INFO, payload: data})
 
@@ -548,18 +548,36 @@ function* deleteOrgCustomer(action){
 
 function* agencyRequest(action){
   const payload = action.payload
-  const { description} = payload
+  const { description, hideLoading} = payload
   const socketChannel = yield call(api.createSocketChannel, results.ORG.AGENCY_REQUEST)
   try {
     yield fork(api.post, urls.ORG.AGENCY_REQUEST, results.ORG.AGENCY_REQUEST,{agent_request_description :description})
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.ORG.AGENCY_REQUEST, payload: {request:data}})
+    hideLoading("با موفقیت ثبت گشت")
   } catch (e) {
     const {message} = e
+    hideLoading('این درخواست قبلا ثبت شده است')
     yield put({type: types.ERRORS.ORG.AGENCY_REQUEST, payload: {type: types.ERRORS.ORG.AGENCY_REQUEST, error: message}})
-  } finally {
+  } finally {    
     socketChannel.close()
   }
+}
+
+function* addToExchange(action){
+  const payload = action.payload
+  const {identityId} = payload
+  const socketChannel = yield call(api.createSocketChannel, results.EXCHANGE.ADD_TO_EXCHANGE)
+  // try {
+  //   yield fork(api.post, urls.EXCHANGE.ADD_TO_EXCHANGE, results.EXCHANGE.ADD_TO_EXCHANGE,{agent_request_description :description})
+  //   const data = yield take(socketChannel)
+  //   yield put({type: types.SUCCESS.EXCHANGE.ADD_TO_EXCHANGE, payload: {request:data}})
+  // } catch (e) {
+  //   const {message} = e
+  //   yield put({type: types.ERRORS.EXCHANGE.ADD_TO_EXCHANGE, payload: {type: types.ERRORS.EXCHANGE.ADD_TO_EXCHANGE, error: message}})
+  // } finally {    
+  //   socketChannel.close()
+  // }
 }
 
 /**********    %% WATCHERS %%    **********/

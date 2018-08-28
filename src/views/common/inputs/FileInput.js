@@ -128,6 +128,7 @@ export class FileInput extends Component {
             onClick={this._onChangeClick}
             title={__('Choose file')}
             multiple={multiple}
+            ref = {(fileinput)=>{this.fileinput = fileinput}}
           />
           <span className="danesh-boom-custom-file-control">
               <span className="after">

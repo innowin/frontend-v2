@@ -13,7 +13,7 @@ type AgentFormProps ={
   actions:Object,
   agencyRequest:Object
 }
-class AgentForm  extends React.Component<AgentFormProps,{tags:Array<String>, description:string}> {
+class AgentForm  extends React.Component<AgentFormProps,{tags:Array<String>, description:string, loading:boolean}> {
   wrapperRef:Object;
   setWrapperRef:Function;
   handleClickOutside: Function;
@@ -23,6 +23,7 @@ class AgentForm  extends React.Component<AgentFormProps,{tags:Array<String>, des
   state = {
     tags: [],
     description:'',
+    loading:false
   };
   constructor(props:AgentFormProps) {
     super(props);
@@ -40,9 +41,15 @@ class AgentForm  extends React.Component<AgentFormProps,{tags:Array<String>, des
     document.removeEventListener('mousedown', this.handleClickOutside);
   }
 
+  hideLoading(message){
+    this.setState({...this.state, loading:false})
+    alert(message)
+  }
+
   sendReqeust(){
     const {agencyRequest} = this.props.actions;
-    agencyRequest(this.description.value)
+    agencyRequest(this.description.value, this.hideLoading.bind(this))
+    this.setState({...this.state, loading:true})
   }
 
   /**
@@ -72,32 +79,38 @@ class AgentForm  extends React.Component<AgentFormProps,{tags:Array<String>, des
 
   }
   render() {
-    const {tags} = this.state
+    const {tags, loading} = this.state
     const {agencyRequest} = this.props
     // const {isLoading, error} = agencyRequest
-    let isLoading = false
+    
     const tagsView = tags.map((val,idx)=>{
       return <LabelTag name={val} number={idx}/>
     })
-    if( isLoading == false){
+    
       return (
         <div className={this.props.active  ? "modal-page" : "modal-page hide" } tabIndex="-1" role="dialog" ref={this.setWrapperRef}>
           <div className="agent-from-title"><div className="agent-form-title-container"><AgentSvgIcon className="agent-form-agent-icon"/><span className="agent-from-title-text"> درخواست ارتقاء به کارگزار</span></div></div>
-          <div className="modal-bottom">
-            <label className="label float-right">شرحی از سوابق کاری خود را بنویسید</label>
-            <textarea type="text" name="description" id="description" ref={description => (this.description = description)} className="form-control gray-text-input job-description"/>
-  
-            <label className="label float-right mt-2">ویرایش برچسب ها</label>
-            <input type="text " onChange={this.onLabelChange.bind(this)} className="form-control gray-text-input"/>
-            <div className="modal-labels">
-              {tagsView}
-              {/* <LabelTag
-                name="تست"
-                number="2"
-              /> */}
+          
+          {loading == false  ? 
+            <div className="modal-bottom">
+              <label className="label float-right">شرحی از سوابق کاری خود را بنویسید</label>
+              <textarea type="text" name="description" id="description" ref={description => (this.description = description)} className="form-control gray-text-input job-description"/>
+    
+              <label className="label float-right mt-2">ویرایش برچسب ها</label>
+              <input type="text " onChange={this.onLabelChange.bind(this)} className="form-control gray-text-input"/>
+              <div className="modal-labels">
+                {tagsView}
+                {/* <LabelTag
+                  name="تست"
+                  number="2"
+                /> */}
+              </div>
+              
             </div>
+           : <div className="modal-bottom">
+           <h2>لطفا منتظر بمانید</h2>
+           </div>}
             
-          </div>
           <div className="modal-footers">
             <div className = "row">
               <div className="col">
@@ -114,9 +127,7 @@ class AgentForm  extends React.Component<AgentFormProps,{tags:Array<String>, des
           </div>
         </div>
       )
-    }else{
-      return(<span>صبر کنید</span>)
-    }
+  
     
     
   }

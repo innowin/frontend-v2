@@ -45,6 +45,7 @@ const urls = {
         GET_STAFF: 'organizations/staff',
         CREATE_CUSTOMER: 'organizations/customers',
         AGENCY_REQUEST: 'users/agent-requests',
+        
     },
     EXCHANGE: {
         GET_EXCHANGES: 'exchanges',
@@ -53,6 +54,7 @@ const urls = {
         GET_EXCHANGE_MEMBERS_BY_EX_ID: '/exchanges/identities/',
         DELETE_EXCHANGE_MEMBERSHIP: '/exchanges/identities/',
         CREATE_EXCHANGE: 'exchanges',
+        ADD_TO_EXCHANGE:'exchanges/identities',
 
     },
 
@@ -85,7 +87,7 @@ const urls = {
         CITY: 'base/towns',
 
         POST: {
-            FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET: '/base/posts/',
+            FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET: 'base/posts',
             GET_POST_BY_IDENTITY: 'base/posts',
             CREATE_POST: 'base/posts',
             UPDATE_POST: 'base/posts',
