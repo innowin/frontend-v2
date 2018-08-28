@@ -16,13 +16,12 @@ const getPostByIdentity = (postIdentity, userId) => {
   }
 }
 
-const createPost = (formValues, userId, resolveFunc: () => null) => {
+const createPost = (formValues, userId) => {
   return{
     type: types.COMMON.POST.CREATE_POST,
     payload: {
       formValues,
-      resolveFunc,
-      userId,
+      userId
     }
   }
 }

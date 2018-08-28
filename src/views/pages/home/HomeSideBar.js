@@ -48,12 +48,12 @@ export class SideBarItem extends Component<PropsSideBarItem> {
 
   render() {
     const {active} = this.props
-    const {link: imageId, name, description, id: exchangeId} = this.props.exchange
+    const {exchange_image, name, description, id: exchangeId} = this.props.exchange
     return (
       <div className={`item-wrapper ${ active ? 'active' : ''}`} onClick={this._onClickHandler}>
         <div className="header-exchange">
-          {!imageId ? <DefaultExchangeIcon className="default-logo"/> :
-            <img className="img-logo" src={imageId} alt="logo"/>
+          {!exchange_image ? <DefaultExchangeIcon className="default-logo"/> :
+            <img className="img-logo" src={exchange_image.file} alt="logo"/>
           }
           <div className="exchange-name">{name}</div>
         </div>
