@@ -18,7 +18,7 @@ export const getExchangePosts = (exchangeId, postType, limit = 100, offset = 0, 
 			handleErrorLoading(res.detail);
 			return false;
 		}
-		updatePosts(res.results, 'get');
+		updatePosts(res.data.results, 'get');
 		handleErrorLoading();
 		socket.off(`getExchangePosts-get-${exchangeId}`, func)
 	};
@@ -37,7 +37,7 @@ export const getExchangePostsByPostType = (exchangeId, postType, handleResult) =
 		if (res.detail) {
 			return false;
 		}
-		handleResult(res);
+		handleResult(res.data);
 		socket.off(`getExchangePostsByPostType-${exchangeId}-${postType}`, func)
 	};
 	socket.on(`getExchangePostsByPostType-${exchangeId}-${postType}`, func)
@@ -56,7 +56,7 @@ export const getExchangePostsHasProduct = (exchangeId, handleResult) => {
 		if (res.detail) {
 			return false;
 		}
-		handleResult(res);
+		handleResult(res.data);
 		socket.off(`getExchangePostsHasProduct-${exchangeId}`, func)
 	};
 	socket.on(`getExchangePostsHasProduct-${exchangeId}`, func)

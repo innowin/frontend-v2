@@ -208,6 +208,16 @@ export default {
     },
     posts: {
       // [postId]: {...data, isLoading:false, error:errorObject} isLoading and error are for update handling
+    },
+    social: {
+      followees: {
+        isLoading: false,
+        content: [],
+      },
+      followers: {
+        isLoading: false,
+        content: [],
+      },
     }
   },
 

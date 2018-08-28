@@ -25,7 +25,7 @@ export const updateOrganization = (formValues, organizationId, updateStateForVie
 		if (res.detail) {
 			error = res.detail;
 		}
-		updateStateForView(res, error, isLoading);
+		updateStateForView(res.data, error, isLoading);
 		hideEdit();
 	});
 };

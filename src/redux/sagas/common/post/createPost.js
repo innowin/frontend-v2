@@ -12,10 +12,14 @@ export function* createPost(action) {
     yield fork(api.post, urls.COMMON.POST.CREATE_POST, results.COMMON.POST.CREATE_POST, formValues)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.COMMON.CREATE_POST , payload:{data, userId}})
+    //TODO: change this at later and no need to get
+    const postIdentity = data.post_identity
+    yield put({type: types.SUCCESS.COMMON.POST.CREATE_POST , payload:{data, userId}})
+    yield put({type: types.COMMON.POST.GET_POST_BY_IDENTITY , payload:{postIdentity, userId}})
   } catch (error) {
     const {message} = error
     yield put({
-      type: types.ERRORS.COMMON.CREATE_POST,
+      type: types.ERRORS.COMMON.POST.CREATE_POST,
       payload: {message}
     })
   } finally {

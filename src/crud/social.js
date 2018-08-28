@@ -16,7 +16,7 @@ export const getFollowings = (identityId, handleError, handleResult) => {
     if (res.detail) {
       handleError(res.detail)
     }
-    handleResult(res);
+    handleResult(res.data);
     socket.off(`/organizations/follows/?follow_follower/${identityId}`, func)
   };
   socket.on(`/organizations/follows/?follow_follower/${identityId}`, func);
@@ -37,7 +37,7 @@ export const getFollowers = (identityId, handleError, handleResult) => {
     if (res.detail) {
       handleError(res.detail)
     }
-    handleResult(res);
+    handleResult(res.data);
     socket.off(`/organizations/follows/?follow_followed/${identityId}`, func)
   };
   socket.on(`/organizations/follows/?follow_followed/${identityId}`, func);
@@ -57,7 +57,7 @@ export const deleteFollow = (followedIdentityId, handleError, handleResult) => {
     if (res.detail) {
       handleError(res.detail)
     }
-    handleResult(res);
+    handleResult(res.data);
     socket.off(`organizationFollowing-delete/${followedIdentityId}`, func)
   };
   socket.on(`organizationFollowing-delete/${followedIdentityId}`, func);

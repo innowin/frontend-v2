@@ -1,3 +1,5 @@
+// @flow
+
 import * as React from "react"
 import PropTypes from "prop-types"
 import userInfoIcon from "../../../images/user/userinfo_svg"

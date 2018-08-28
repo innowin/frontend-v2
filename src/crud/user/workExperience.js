@@ -14,10 +14,10 @@ export const getWorkExperiences = (userId, updateWorkExperiences, handleErrorLoa
 
   socket.on(`userWorkExperiences-WorkExperiences-get/${userId}`, (res) => {
     if (res.detail) {
-      handleErrorLoading(res.detail)
+      handleErrorLoading(res.data.detail)
       return false
     }
-    updateWorkExperiences(res, 'get')
+    updateWorkExperiences(res.data, 'get')
     handleErrorLoading()
   })
 }
@@ -36,10 +36,10 @@ export const createWorkExperience = (formValues, updateWorkExperiences, handleEr
 
   socket.on('createWorkExperience-workExperience', (res) => {
     if (res.detail) {
-      handleErrorLoading(res.detail)
+      handleErrorLoading(res.data.detail)
       return false
     }
-    updateWorkExperiences(res, 'workExperience')
+    updateWorkExperiences(res.data, 'workExperience')
     handleErrorLoading()
     hideCreateForm()
   })
@@ -61,7 +61,7 @@ export const updateWorkExperience = (formValues, workExperienceId, updateView, h
       handleErrorLoading(res.detail)
       return false
     }
-    updateView(res)
+    updateView(res.data)
     handleErrorLoading()
     hideEdit()
   })

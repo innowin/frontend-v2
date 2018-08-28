@@ -1,4 +1,4 @@
-import commonTypes from './common'
+import commonTypes from './common/index'
 import contributionTypes from './contribution'
 import userTypes from './user'
 import orgTypes from './organization'
@@ -6,7 +6,6 @@ import authTypes from './auth'
 import exchangeTypes from './exchange'
 
 const types = {
-  RESET:'RESET',
   ERRORS: {
     COMMON: commonTypes.ERROR,
     AUTH: authTypes.ERROR,

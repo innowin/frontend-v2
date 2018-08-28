@@ -14,10 +14,10 @@ export const getProductRepresents = (productId, updateRepresents, handleErrorLoa
 
   socket.on(`productRepresents-Represents-get/${productId}`, (res) => {
     if (res.detail) {
-      handleErrorLoading(res.detail);
+      handleErrorLoading(res.data.detail);
       return false;
     }
-    updateRepresents(res, 'get');
+    updateRepresents(res.data, 'get');
     handleErrorLoading();
   });
 };
@@ -37,10 +37,10 @@ export const getExchangeRepresents = (exchangeId, updateRepresents, handleErrorL
 
   socket.on('EXCHANGE-LIST-POSTS',(res) => {
     if (res.detail) {
-      handleErrorLoading(res.detail);
+      handleErrorLoading(res.data.detail);
       return false;
     }
-    updateRepresents(res, 'get');
+    updateRepresents(res.data, 'get');
     handleErrorLoading();
   });
 };

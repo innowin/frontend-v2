@@ -33,7 +33,7 @@ type PropsTopBar = {|
     signOut: Function,
     push: Function,
     verifyToken: Function,
-    getFile:Function
+    getFile: Function
   },
   translate: { [string]: string },
 |}
@@ -83,7 +83,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     if (mediaId) {
       getFile(mediaId)
     }
-    verifyToken(client.getToken())
+    setTimeout(() => verifyToken(client.getToken()), 1000)
   }
 
   _toggle = (e: SyntheticEvent<HTMLButtonElement>): void => {
@@ -198,7 +198,7 @@ const mapStateToProps = state => {
   const profileMedia = (
     profileMediaId && state.common.file.list[profileMediaId]
     && state.common.file.list[profileMediaId].file
-    ) || null
+  ) || null
   return {
     isLoggedIn: state.auth.client.isLoggedIn,
     clientUser: state.auth.client.user,

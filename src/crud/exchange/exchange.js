@@ -16,7 +16,7 @@ export const getExchange = (exchangeId, handleResult) => {
 		if (res.detail) {
 			return false
 		}
-		handleResult(res)
+		handleResult(res.data)
 		socket.off(`GET_/exchanges/{id}/${exchangeId}`, func)
 	}
 	
@@ -35,7 +35,7 @@ export const getExchangesByMemberIdentity = (identityOfMember, handleError, hand
 		if (res.detail) {
 			handleError(res.detail)
 		}
-		handleResult(res)
+		handleResult(res.data)
 	})
 }
 //added type - should be added to common sagas post
@@ -52,7 +52,7 @@ export const getExchangePostComment = (postId) => {
 				reject(res.detail)
 			}
 			socket.off(`get-exchange-post/${postId}`)
-			resolve(res)
+			resolve(res.data)
 		})
 	})
 }
@@ -70,7 +70,7 @@ export const getExchangeMembers = (exchangeId, handleError, handleResult) => {
 		if (res.detail) {
 			handleError(res.result)
 		}
-		handleResult(res)
+		handleResult(res.data)
 		socket.off(`get-exchange-members-${exchangeId}`, func)
 	}
 	socket.on(`get-exchange-members-${exchangeId}`, func)
@@ -90,7 +90,7 @@ export const removeExchangeMembership = (id, handleError, handleResult = () => n
 			handleError(res.result)
 			return false
 		}
-		handleResult(res)
+		handleResult(res.data)
 		socket.off(`removeExchangeMembership-${id}`, func)
 	}
 	socket.on(`removeExchangeMembership-${id}`, func)

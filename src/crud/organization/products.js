@@ -31,7 +31,7 @@ export const updateProduct = (formValues, productId, updateStateForView, hideEdi
 			}
 		}
 	
-		updateStateForView(res, error, isLoading);
+		updateStateForView(res.data, error, isLoading);
 		hideEdit();
 	});
 };
@@ -65,7 +65,7 @@ export const createProduct = (formValues, updateStateForView, hideEdit) => {
 			}
 		}
 		
-		updateStateForView(res, error, isLoading);
+		updateStateForView(res.data, error, isLoading);
 		hideEdit();
 	});
 };
@@ -114,7 +114,7 @@ export const deleteProduct = (product, products, updateStateForView) => {
 			}
 		);
 
-		updateStateForView(res, error, isLoading);
+		updateStateForView(res.data, error, isLoading);
 	});
 };
 

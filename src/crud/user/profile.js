@@ -14,7 +14,7 @@ export const getProfile = (userId, handleResult) => {
     if (res.detail) {
       return false
     }
-    handleResult(res[0])
+    handleResult(res.data[0])
     socket.off(`/users/profiles/?profile_user=${userId}`, func)
   }
 

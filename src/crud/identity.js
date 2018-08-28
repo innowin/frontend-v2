@@ -17,7 +17,7 @@ export const getIdentity = (identityId, handleResult) => {
       // TODO mohsen: handle error
       return false
     }
-    handleResult(res)
+    handleResult(res.data)
     socket.off(`users/identities/{id}/-get/getIdentity/${identityId}`, func)
   };
   socket.on(`users/identities/{id}/-get/getIdentity/${identityId}`, func)
@@ -59,7 +59,7 @@ export const getIdentityByOrgan = (organId, handleResult) => {
       // TODO mohsen: handle error
       return false
     }
-    handleResult(res[0]);
+    handleResult(res.data[0]);
     socket.off(`users/identities/{id}_get_getIdentityByOrgan_${organId}`, func)
   };
   socket.on(`users/identities/{id}_get_getIdentityByOrgan_${organId}`, func);

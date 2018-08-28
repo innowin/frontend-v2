@@ -18,7 +18,7 @@ export const updatePost = (formValues, postId, updateView, hideEdit, handleError
       handleErrorLoading(res.detail);
       return false;
     }
-    updateView(res);
+    updateView(res.data);
     handleErrorLoading();
     hideEdit();
     socket.off(`/base/posts/-patch/${postId}`, func)

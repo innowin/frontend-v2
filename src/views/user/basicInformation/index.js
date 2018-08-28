@@ -16,7 +16,8 @@ import {ProfileInfo} from './ProfileInfo'
 import type {
   userProfileType,
   userEducationType,
-  userResearchType
+  userResearchType,
+  userType
 } from "src/consts/flowTypes/user/basicInformation"
 
 
@@ -24,7 +25,8 @@ import type {
 
 type EducationInfoProps = {
   education: userEducationType,
-  translate: {}
+  translate: {},
+  user: userType,
 }
 type EducationInfoState = {
   education: userEducationType,
@@ -266,6 +268,7 @@ type UserBasicInformationProps = {
   userId: number,
   translate: { [string]: string },
   profile: userProfileType,
+  user: userType,
 }
 
 export class UserBasicInformation extends Component<UserBasicInformationProps> {
@@ -274,10 +277,11 @@ export class UserBasicInformation extends Component<UserBasicInformationProps> {
     userId: PropTypes.number.isRequired,
     translate: PropTypes.object.isRequired,
     profile: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
   }
 
   render() {
-    const {userId, translate, profile} = this.props
+    const {userId, translate, profile, user} = this.props
     return (
       <div>
         <CategoryTitle
@@ -285,8 +289,8 @@ export class UserBasicInformation extends Component<UserBasicInformationProps> {
         />
         <FrameCard>
           <ListGroup>
-            <UserInfo {...{userId}} translate={translate}/>
-            <ProfileInfo {...{userId}} translate={translate} profile={profile}/>
+            <UserInfo {...{userId}} translate={translate} user={user.content} isLoading={user.isLoading}/>
+            <ProfileInfo {...{userId}} translate={translate} profile={profile.content} isLoading={profile.isLoading}/>
             <EducationsInfo {...{userId}} translate={translate}/>
             <ResearchesInfo {...{userId}} translate={translate}/>
           </ListGroup>

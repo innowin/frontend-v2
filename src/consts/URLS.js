@@ -17,6 +17,7 @@ const urls = {
         GET_PROFILE_BY_USER_ID: "users/profiles",
         GET_USER_IDENTITY: "users/identities",
         UPDATE_USER_BY_USER_ID: "users",
+        UPDATE_PROFILE_BY_PROFILE_ID: "users/profiles",
         GET_USERS:'users',
     },
     ORG: {
@@ -92,6 +93,12 @@ const urls = {
             CREATE_POST: 'base/posts',
             UPDATE_POST: 'base/posts',
             DELETE_POST: 'base/posts',
+        },
+
+        SOCIAL: {
+            GET_FOLLOWEES: 'organizations/follows',
+            GET_FOLLOWERS: 'organizations/follows',
+            DELETE_FOLLOWERS: '/organizations/follows'
         },
     }
 }

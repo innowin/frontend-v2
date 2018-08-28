@@ -69,8 +69,16 @@ const filterNestedObjByKey = (obj, wantedKey, wantedValue) => {
 const filterNestedObjByNestedKey = (obj, wantedKey, wantedNestedKey, wantedValue) => {
   return Object.keys(obj).reduce((acc, key) => {
     const item = obj[key]
-    if (item[wantedKey][wantedNestedKey] === wantedValue) return ([...acc, item])
-    else return acc
+    //TODO: mohammad check this and make it better
+    if(item[wantedKey]){
+      if(item[wantedKey][wantedNestedKey]) {
+        if (item[wantedKey][wantedNestedKey] === wantedValue) return ([...acc, item])
+        else return acc
+      }
+      else{
+        return item[wantedKey]
+      }
+    }
   }, {})
 }
 
