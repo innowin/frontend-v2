@@ -21,7 +21,8 @@ const city = (state = initialState.common.location.city, action) => {
                 ...state // need for more error handling.
             }
         /** ------------------- get cities ------------------> **/
-
+        case types.RESET:
+            return initialState.common.location.city
         default:
             return { ...state }
     }

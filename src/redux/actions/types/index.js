@@ -6,6 +6,7 @@ import authTypes from './auth'
 import exchangeTypes from './exchange'
 
 const types = {
+  RESET:'RESET',
   ERRORS: {
     COMMON: commonTypes.ERROR,
     AUTH: authTypes.ERROR,

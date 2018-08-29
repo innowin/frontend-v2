@@ -22,7 +22,8 @@ const country = (state = initialState.common.location.country, action) => {
                 ...state // need for more error handling.
             }
         /** ------------------- get countries ------------------> **/
-
+        case types.RESET:
+            return initialState.common.location.country
         default:
             return { ...state }
     }

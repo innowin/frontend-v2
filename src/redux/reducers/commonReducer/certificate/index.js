@@ -47,7 +47,8 @@ const certificate = (state = initialState.common.certificate, action) => {
                 ...state,
             }
         /** -------------- createCertificate -------------> **/
-
+        case types.RESET:
+            return initialState.common.certificate
         default:
             return state
     }

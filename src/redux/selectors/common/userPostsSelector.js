@@ -1,7 +1,7 @@
 import {createSelector} from 'reselect'
 import helpers from 'src/consts/helperFunctions'
 
-const getUserPosts = state => state.common.posts
+const getUserPosts = state => state.common.post.list
 
 const getPostIdentity = (state, props) => props.postIdentity
 

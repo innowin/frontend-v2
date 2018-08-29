@@ -1,6 +1,5 @@
 import React, {Component} from "react"
 import PropTypes from 'prop-types'
-import {getExchangePosts} from 'src/crud/post/exchangePost'
 import {FrameCard, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames"
 import {Post} from "src/views/common/post/index"
 import HomeCreatePost from "./CreatPostHome"
@@ -113,7 +112,7 @@ class HomePosts extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const exchangeId = ownProps.exchangeId
-  const allPosts = state.common.posts
+  const allPosts = state.common.post.list
   const exchangeIdPosts = (exchangeId && state.exchanges[exchangeId] && state.exchanges[exchangeId].posts
     && state.exchanges[exchangeId].posts.content) ||[]
   const posts = exchangeIdPosts.map(postId => (allPosts[postId]))

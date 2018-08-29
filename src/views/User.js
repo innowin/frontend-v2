@@ -147,7 +147,7 @@ const mapStateToProps = (state, ownProps) => {
   const profile = (stateUser && stateUser.profile) || defaultObject
   const identity = (stateUser && stateUser.identity) || defaultObject
   const badgesObjectInUser = (stateUser && stateUser.badges) || defaultObject2
-  const allBadges = state.common.badges
+  const allBadges = state.common.badge.list
   const badges = badgesObjectInUser.content.map(badgeId => allBadges[badgeId])
   return {
     userObject: user,

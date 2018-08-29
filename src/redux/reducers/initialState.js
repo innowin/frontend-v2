@@ -1,26 +1,20 @@
 import messages from 'src/translate/fa'
-import status from './statusChoices'
 
 
 export default {
   auth: {
     client: {
+      // token:null,
       identity: {},
       profile: {},
       user: {},
-      posts: [] /* id of user posts*/,
       organization: null,
+      posts: [], /* ids of posts that postIdentity of them is identity of this client*/
+      exchanges: [], /* ids of exchanges that this client is member of them*/
       rememberMe: null,
       user_type: null,
       isLoggedIn: false,
-      error: null,
-      exchanges: []
-    },
-    clients: {
-      users: [],
-      active_user: {},
-      visited_pages: {},
-      logged_in_time: {}
+      error: null
     }
   },
 
@@ -187,10 +181,14 @@ export default {
       list: {},
     },
     file: {
-      list: {}
+      list: {
+        // [fileId]: {} // object of file
+      }
     },
-    badges: {
-      // [badgeId]: {} // object of badge
+    badge: {
+      list:{
+        // [badgeId]: {} // object of badge
+      }
     },
     hashTag: {
       list: {} // list of the all hashTag.
@@ -206,8 +204,10 @@ export default {
         list: {},
       }
     },
-    posts: {
-      // [postId]: {...data, isLoading:false, error:errorObject} isLoading and error are for update handling
+    post: {
+      list:{
+        // [postId]: {...data, isLoading:false, error:errorObject}
+       }
     },
     social: {
       followees: {

@@ -41,7 +41,8 @@ const hashTag = (state = initialState.common.hashTag, action) => {
         //         ...state
         //     }
         // /** ------------------ create new hashTag for an obj -----> **/
-
+        case types.RESET:
+            return initialState.common.hashTag
         default:
             return { ...state }
     }
