@@ -10,6 +10,7 @@ const users = (state = initialState.users, action) => {
   const previousIdentity = (state[userId] && state[userId].identity) || defaultObject
   const previousBadges = (state[userId] && state[userId].badges) || defaultObject2
   const previousPost = (state[userId] && state[userId].posts) || defaultObject2
+  const previousFollows = (state[userId] && state[userId].social && state[userId].social.follows) || defaultObject2
 
   switch (action.type) {
     /** -------------------------- get user -------------------------> **/
@@ -290,7 +291,7 @@ const users = (state = initialState.users, action) => {
           ...state[userId],
           posts: {
             ...previousPost,
-            isLoading: false,
+            isLoading: true,
             error: null
           }
         }
@@ -328,7 +329,7 @@ const users = (state = initialState.users, action) => {
           ...state[userId],
           posts: {
             ...previousPost,
-            isLoading: false,
+            isLoading: true,
             error: null
           }
         }

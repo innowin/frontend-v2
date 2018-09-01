@@ -153,9 +153,9 @@ class Socials extends Component<PropsSocials, StateSocials> {
     getFollowings(identityId, this._handleError,
       (res) => this.setState({...this.state, followingsList: res}, () => this._getFollowings(res)))
 
-    this.props.actions.getFollowees(identityId)
-    this.props.actions.getFollowers(identityId)
-    this.props.actions.deleteFollowers(identityId)
+    // this.props.actions.getFollowees(identityId)
+    // this.props.actions.getFollowers(identityId)
+    // this.props.actions.deleteFollowers(identityId)
   }
 
   _deleteFollowing = (id, index) => {

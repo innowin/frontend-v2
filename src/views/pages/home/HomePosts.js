@@ -1,7 +1,7 @@
 import React, {Component} from "react"
 import PropTypes from 'prop-types'
 import {FrameCard, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames"
-import {Post} from "src/views/common/post/index"
+import {Post} from "src/views/common/post/Post"
 import HomeCreatePost from "./CreatPostHome"
 import {IDENTITY_ID} from "../../../consts/data"
 import {bindActionCreators} from "redux"

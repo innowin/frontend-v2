@@ -8,7 +8,6 @@ const auth = (state = initialState.auth, action) => {
   const {exchanges} = client
   const previousPost = (client && client.posts) || []
   switch (action.type) {
-
     /** -------------------------- sign in -------------------------> **/
     case types.AUTH.SET_TOKEN:
       return {
@@ -33,6 +32,9 @@ const auth = (state = initialState.auth, action) => {
           user_type,
           rememberMe,
           posts: [],
+          socials:{
+            follows:[]
+          },
           isLoggedIn: true,
           error: null,
         }

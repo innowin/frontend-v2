@@ -49,7 +49,7 @@ const post = (state = initialState.common.post, action) => {
         ...state,
         list:{
           ...state.list,
-          [postId]: {...state[postId], error: null, isLoading: true}
+          [postId]: {...state.list[postId], error: null, isLoading: true}
         }
       }
     case
@@ -67,7 +67,7 @@ const post = (state = initialState.common.post, action) => {
         ...state,
         list:{
           ...state.list,
-          [postId]: {...state[postId], isLoading: true, error: message}
+          [postId]: {...state.list[postId], isLoading: true, error: message}
         }
       }
     /** -------------------------- delete post -------------------------> **/
