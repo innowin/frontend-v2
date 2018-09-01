@@ -283,18 +283,6 @@
   transform: translate(0,50%);
 
 }
-// .progressbar li:before {
-// 	content: "&nbsp;";
-// 	counter-increment: step;
-// 	width: 40px;
-// 	line-height: 40px;
-// 	display: block;
-// 	font-size: 10px;
-// 	color: #333;
-// 	background: lightgray;
-// 	border-radius: 50%;
-// 	margin: 0 auto 5px auto;
-// }
 /*progressbar connectors*/
 .progressbar li:after {
 	content: '';
@@ -358,4 +346,31 @@
     fill:#3db8ab
   }
   margin: 0 auto;
+}
+
+.create-exchange-wrapper {
+  .close-btn {
+    color: $danger-color;
+    float: right;
+    cursor: pointer;
+  }
+  input, textarea {
+    font-size: $font-size-regular;
+  }
+  input {
+    height: 36px;
+    line-height: 36px;
+  }
+  .header {
+    font-size: $font-size-regular;
+  }
+  font-size: $font-size-regular;
+  .wrapper {
+    margin: 0 auto;
+  }
+  .progressive-wrapper {
+    padding: 40px 0;
+    max-width: 45%;
+    margin: 0 auto;
+  }
 }

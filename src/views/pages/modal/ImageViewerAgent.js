@@ -15,7 +15,7 @@ export class ImageViewerAgent extends React.Component{
   render(){
     return(
       <div className="img-agent">
-        <img src={this.props.src} 
+        <img src={this.props.src.file} 
           width="100%" 
           className={this.props.selected ? "selected":""}
           onClick={this.handleClick.bind(this)}/>

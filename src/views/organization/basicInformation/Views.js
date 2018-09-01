@@ -50,7 +50,6 @@ export const OrganizationMember = (props:OrganizationMemberProps) => {
 type OrganizationMembersViewProps = {
     showEdit: Function,
     members : Array<Object>,
-    showEdit: Function
 }
 export class OrganizationMembersView extends React.Component<OrganizationMembersViewProps> {
     static defaultProps = {
@@ -65,7 +64,7 @@ export class OrganizationMembersView extends React.Component<OrganizationMembers
                     {
                         members.map((member)=>{
                             return (
-                                <OrganizationMember key={member.id} jobTitle={member.position} firstName={member.staff_user.first_name} lastName={member.staff_user.last_name} userID={member.staff_user.id}/>
+                                <OrganizationMember jobTitle={member.position} firstName={member.staff_user.first_name} lastName={member.staff_user.last_name} userID={member.staff_user.id}/>
                             )
                         })
                     }

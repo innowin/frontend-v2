@@ -13,22 +13,43 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import CircularProgressbar from 'react-circular-progressbar';
 import {createFile, getFile} from "src/crud/media/media";
+import exchange from '../../../redux/actions/types/exchange';
+import MenuProgressive from '../progressive/penu-progressive'
+import {
+  WRAPPER_CLASS_NAMES,
+  PROGRESSIVE_STATUS_CHOICES,
+} from './createExchangeData'
+import NextPrevBtns from '../adding-contribution/nextAndPrevBtns'
 class  PageOne extends Component{
   constructor(props){
     super(props)
     this.state= {
       selectedIdx:-1,
-      images:[{file:'http://restful.daneshboom.ir/media/75f00defdde44fd4b0d8bee05617e9c7.jpg'},{file:"http://restful.daneshboom.ir/media/a6c0c4fea76d4b96ba6fe17d11a1afd3.jpg"}],
+      images:[{file:'http://restful.daneshboom.ir/media/75f00defdde44fd4b0d8bee05617e9c7.jpg',id:1},{file:"http://restful.daneshboom.ir/media/a6c0c4fea76d4b96ba6fe17d11a1afd3.jpg",id:2}],
       currentImage:"",
-      isLoading:false
+      isLoading:false,
+      private:props.private ||false,
+      name:props.name ||"" ,
+      link:props.link ||"",
+      exchange_image:props.exchange_image ||null // TODO amir change to default image
     }
     this.changeImage = this.changeImage.bind(this)
+    this.handleBack = this.handleBack.bind(this)
+    this.handleNext = this.handleNext.bind(this)
   }
-  componentDidMount(){
-
+  handleNext(){
+    this.props.saveState({name:this.state.name,link:this.state.link,exchange_image:this.state.exchange_image,private:this.state.private}).then(()=>{
+      this.props.handleNext()
+    })
+    
+  }
+  handleBack(){
+    this.props.saveState({name:"",link:"",exchange_image:null,private:false}).then(()=>{
+      this.props.handleBack()
+    })
   }
   changeImage(imageSrc,idx){
-    this.setState({...this.state,currentImage:imageSrc,selectedIdx:idx}, function () {
+    this.setState({...this.state,currentImage:imageSrc.file,selectedIdx:idx,exchange_image:imageSrc.id}, function () {
       console.log(this.state.value);
     });
   }
@@ -53,7 +74,7 @@ class  PageOne extends Component{
   }
   _createFile = (fileString, fileName) => {
     const mediaResult = (res) => {
-      this.setState({...this.state, isLoading: false, currentImage:res.data.file, currentMedia: res.data})
+      this.setState({...this.state, isLoading: false, currentImage:res.file, currentMedia: res, exchange_image:res.id})
     };
     createFile(fileString, mediaResult);
   };
@@ -63,7 +84,7 @@ class  PageOne extends Component{
     let self = this
     const imgViews = images.map((val,idx)=>{
       return (
-      <div className="img-agent-small"><ImageViewerAgent key={idx} idx={idx} selected={self.state.selectedIdx == idx ? true : false} src={val.file} imageSelect={this.changeImage} /></div>)
+      <div className="img-agent-small"><ImageViewerAgent key={idx} idx={idx} selected={self.state.selectedIdx == idx ? true : false} src={val} imageSelect={this.changeImage} /></div>)
     })
     return(<div>
       <div className="modal-hint ">
@@ -82,31 +103,31 @@ class  PageOne extends Component{
             <div className="row" dir="rtl">
               <div className="col">
                 <label className="label float-right"><strong>عنوان بورس:</strong></label>
-                <input type="text " className="form-control white-text-input"/>
+                <input type="text " onChange={(e)=>{this.setState({name:e.target.value})}} defaultValue={this.state.name} className="form-control white-text-input"/>
               </div>
             </div>
             <div className="row create-exchange-options">
               <div className="col">
                 <div className="form-check form-check-inline">
-                  <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option1"/>
+                  <input className="form-check-input" onChange={(e)=>{this.setState({private:!e.target.checked})}} type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option1" checked={!this.state.private}/>
                   <label className="form-check-label" htmlFor="inlineRadio2"><strong>عمومی</strong></label>
                 </div>
               </div>
               <div className="col">
                 <div className="form-check form-check-inline">
-                  <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"/>
-                  <label className="form-check-label" htmlFor="inlineRadio1"><strong>خصوصی</strong></label>
+                  <input className="form-check-input" onChange={(e)=>{this.setState({private:e.target.checked})}} type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked={this.state.private}/>
+                  <label className="form-check-label"  htmlFor="inlineRadio1"><strong>خصوصی</strong></label>
                 </div>
               </div>   
               <div className="col">
-                <label className="form-check-label float-right" dir="rtl"><strong>عمومیت:</strong></label>
+                <label className="form-check-label float-right" dir="rtl" ><strong>عمومیت:</strong></label>
               </div>         
             </div>
             <div className="row create-exchange-options" dir="ltr" >
                 <label htmlFor="exchangeUser" className="col-sm-2 exchangeUser-label"><strong>http://dbm.ir/</strong></label>
                 <div className="col-sm-10">
                   
-                  <input type="text" className="form-control  white-text-input" id="exchangeUser" placeholder="نام کاربری بورس" dir='rtl'/>
+                  <input type="text" onChange={(e)=>{this.setState({link:"http://dbm.ir/"+e.target.value})}} defaultValue={this.state.link.replace("http://dbm.ir/","")} className="form-control  white-text-input" id="exchangeUser" placeholder="نام کاربری بورس" dir='rtl'/>
                 </div>
             </div>
           </div>
@@ -150,6 +171,15 @@ class  PageOne extends Component{
           </div>
         </div>
       </div>
+      <div className="modal-footers">
+        <NextPrevBtns
+            prevBtnTitle="لغو"
+            nextBtnTitle="بعدی "
+            goToNextStep={this.handleNext}
+            isGoToNextBtnDisabled={false}
+            goToPrevStep={this.handleBack}
+        />
+      </div>
     </div>)
   }
   
@@ -158,7 +188,11 @@ class  PageOne extends Component{
 class PageTwo extends Component{
   constructor(props){
     super(props)
-    this.state={tags:[]}
+    this.state={
+      tags:props.tags || []  ,
+      description:props.description ||""}
+    this.handleNext = this.handleNext.bind(this)
+    this.handleBack = this.handleBack.bind(this)
   }
   handleRemoveTag(idx){
     let tags =  this.state.tags
@@ -167,6 +201,17 @@ class PageTwo extends Component{
       tags.splice(index, 1);
     }
     this.setState({tags:tags})
+  }
+  handleNext(){
+    this.props.saveState({tags:this.state.tags,description:this.state.description}).then(()=>{
+      this.props.handleNext()
+    })
+    
+  }
+  handleBack(){
+    this.props.saveState({tags:this.state.tags,description:this.state.description}).then(()=>{
+      this.props.handleBack()
+    })
   }
   render(){
     let tagsView = this.state.tags.map((val,idx)=>{
@@ -193,7 +238,7 @@ class PageTwo extends Component{
             <div className="row full-height" dir="rtl">
               <div className="col">
                 <label className="label float-right"><strong>توصیف بورس:</strong></label>
-                <textarea className="form-control white-text-input exchange-description full-height" id="" rows="3"></textarea>
+                <textarea className="form-control white-text-input exchange-description full-height" id="" rows="3" onChange={(e)=>{this.setState({...this.state,description:e.target.value})}}>{this.state.description}</textarea>
               </div>
             </div>
             <div className="row create-exchange-options" >
@@ -220,16 +265,25 @@ class PageTwo extends Component{
             <div className="row mt-2 full-height">
               <div className="col">
                 <div className="modal-labels-create-exchange">
-                  <SuperTag
+                  {/* <SuperTag
                     removeTag = {this.handleRemoveTag.bind(this)}
                     name="test"
                     number="2"
-                  />
+                  /> */}
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
+      <div className="modal-footers">
+        <NextPrevBtns
+            prevBtnTitle="قبل"
+            nextBtnTitle="بعدی"
+            goToNextStep={this.handleNext}
+            isGoToNextBtnDisabled={false}
+            goToPrevStep={this.handleBack}
+        />
       </div>
     </div>)
   }
@@ -246,11 +300,13 @@ class PageThree extends Component{
     const {getUsers} = this.props.actions
     getUsers()
   } 
+  changePage(){
+    this.props.saveState({})
+  }
   handleAddUser(index){
     const added = this.state.added
     let foundIndex = added.findIndex(function (cus) { return cus === index; }) 
     if( foundIndex == -1){
-      
       added.push(index)
       let su= this.state.selectedUsers+1
       this.setState({...this.state,added:added,selectedUsers:su})
@@ -331,7 +387,17 @@ class PageThree extends Component{
           />
         </div>
       </div>
-    </div>)
+      <div className="modal-footers">
+        <NextPrevBtns
+            prevBtnTitle="قبل"
+            nextBtnTitle="ارسال"
+            goToNextStep={this.props.handleNext}
+            isGoToNextBtnDisabled={false}
+            goToPrevStep={this.props.handleBack}
+        />
+      </div>
+    </div>
+    )
   }
   
 }
@@ -351,17 +417,20 @@ class PageFour extends Component{
       <div className="col-4 center-margin">
         <CongratsTick/>
       </div>
-      
+      <div className="modal-footers">
+        <NextPrevBtns
+            prevBtnTitle="پایان"
+            nextBtnTitle="اشتراک"
+            goToNextStep={this.props.handleNext}
+            isGoToNextBtnDisabled={false}
+            goToPrevStep={this.props.handleBack}
+        />
+      </div>
     </div>)
   }
 }
 
-const steps = [
-  {id: 0, component: <PageOne actions={null} />},
-  {id: 1, component: <PageTwo actions={null}/>},
-  {id: 2, component: <PageThree actions={null}/>},
-  {id: 3, component: <PageFour actions={null}/>},
-];
+
 
 class CreateExchangeForm extends Component {
   static propTypes = { 
@@ -370,13 +439,22 @@ class CreateExchangeForm extends Component {
   }
   constructor(props) {
     super(props);
-    const newCom = React.cloneElement(
-      steps[0].component,
-      {...this.props},
-    )
-    this.state = {page:0,pageContent:newCom}
+
+    this.saveState = this.saveState.bind(this)
     this.setWrapperRef = this.setWrapperRef.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
+    this.handleNext = this.handleNext.bind(this)
+    this.handleBack = this.handleBack.bind(this)
+
+    this.state = {page:1,
+      exchangeObj:{},
+      progressStatus: PROGRESSIVE_STATUS_CHOICES.ACTIVE,
+      progressSteps: [
+        {title: '1', icon: (<ItemsAndPropertiesIcon className="progress-step-icon"/>)},
+        {title: '2', icon: (<ItemsAndPropertiesIcon className="progress-step-icon"/>)},
+        {title: '3', icon: (<SocialIcon className="progress-step-icon"/>)},
+        {title: '4', icon: (<SocialIcon className="progress-step-icon"/>)},
+      ],}
   }
 
   componentDidMount() {
@@ -386,7 +464,24 @@ class CreateExchangeForm extends Component {
   componentWillUnmount() {
     document.removeEventListener('mousedown', this.handleClickOutside);
   }
-
+  _setStep = (newStep, status) => {
+    this.setState({
+          ...this.state,
+          page: newStep,
+          progressStatus: status,
+          wrapperClassName: WRAPPER_CLASS_NAMES.EXITING,
+        },
+        () => {
+          this._afterStepChanging()
+        })
+  }
+  _afterStepChanging = () => {
+    setTimeout(() => this.setState({
+      ...this.state,
+      progressStatus: PROGRESSIVE_STATUS_CHOICES.ACTIVE,
+      wrapperClassName: WRAPPER_CLASS_NAMES.ENTERED,
+    }), 10)
+  }
   /**
    * Set the wrapper ref
    */
@@ -400,73 +495,69 @@ class CreateExchangeForm extends Component {
   handleClickOutside(event) {
     if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
       this.props.hide();
-      const newCom = React.cloneElement(
-        steps[0].component,
-        {...this.props},
-      )
-      this.setState({page:0,pageContent:newCom})
+      
+      this.setState({page:1})
     }
   }
 
   handleNext(event){
-    let page = this.state.page
-    if(page < 3){
-      page+=1
+    let {progressSteps,page} = this.state
+    if (page < progressSteps.length + 1) {
+      this._setStep((page + 1), PROGRESSIVE_STATUS_CHOICES.GOING_NEXT)
     }
-    let found = steps.find(function(element) {
-      return element.id === page;
-    });
-    let self = this
-    // found.component.setProps({ actions: this.props.actions });
-    const newCom = React.cloneElement(
-      found.component,
-      {...self.props},
-    )
-    this.setState({...this.state,page,pageContent:newCom})
+    if(page == 4){
+      this.props.hide();
+      
+      this.setState({page:1})
+    }
   }
 
   handleBack(event){
-    let page = this.state.page
-    if(page > 0){
-      page-=1
+    let {progressSteps,page} = this.state
+    if (page !== 1) this._setStep((page - 1), PROGRESSIVE_STATUS_CHOICES.GOING_PREV)
+    if(page == 1){
+      this.props.hide();
+      this.setState({page:1})
     }
-    let found = steps.find(function(element) {
-      return element.id === page;
-    });
-    const newCom = React.cloneElement(
-      found.component,
-      {...this.props},
-    )
-    this.setState({...this.state,page,pageContent:newCom})
   }
 
   handleShare(event){
 
   }
 
+  saveState(pageState){
+    return new Promise((resolve,reject)=>{
+      this.setState({...this.state,exchangeObj:{...this.state.exchangeObj,...pageState}},()=>{
+        resolve()
+      })
+    })
+    
+  }
+  getPage(){
+    switch(this.state.page){
+      case 1:
+        return <PageOne {...this.state.exchangeObj} handleNext={this.handleNext} saveState={this.saveState} handleBack={this.handleBack}/>
+      case 2: 
+        return <PageTwo  {...this.state.exchangeObj} handleNext={this.handleNext} saveState={this.saveState} handleBack={this.handleBack}/>
+      case 3:
+        return <PageThree  {...this.state.exchangeObj} actions={this.props.actions} users={this.props.users} handleNext={this.handleNext} saveState={this.saveState} handleBack={this.handleBack}/>
+      case 4:
+        return <PageFour  {...this.state.exchangeObj} handleNext={this.handleNext} saveState={this.saveState} handleBack={this.handleBack}/>
+    }
+  }
   render() {
+    const pageContent = this.getPage()
+    const {progressSteps,page,progressStatus} = this.state
     return (
-      <div className={this.props.active  ? "modal-page" : "modal-page hide" } tabIndex="-1" role="dialog" ref={this.setWrapperRef}>
-        <ul className="progressbar" dir="rtl">
-            <li className={this.state.page >=0 ? "active": ""}><div className={this.state.page >=0 ? "icon-holder active ": "icon-holder"}><ItemsAndPropertiesIcon className="icon"/></div></li>
-            <li className={this.state.page >= 1 ? "active": ""}><div className={this.state.page >=1 ? "icon-holder active ": "icon-holder"}><ItemsAndPropertiesIcon className="icon" /></div></li>
-            <li className={this.state.page >= 2 ? "active": ""}><div className={this.state.page >=2 ? "icon-holder active ": "icon-holder"}><SocialIcon className="icon" /></div></li>
-        </ul>
-        {this.state.pageContent}
-        <div className="modal-footers">
-          <div className = "row">
-            <div className="col">
-              <button onClick={this.state.page === 0 ? this.props.hide : this.state.page === 3 ? this.handleShare.bind(this) : this.handleBack.bind(this)} className="modal-button link float-right">
-                {this.state.page === 0 ? "لغو" : this.state.page === 3 ? "اشتراک" :"قبلی"}
-              </button>
-            </div>
-            <div className="col">
-              <button onClick={this.state.page === 3 ? this.props.hide : this.handleNext.bind(this)}  className="modal-button primary float-left">
-                {this.state.page === 2 ? "ارسال" : this.state.page === 3 ? 'پایان': 'بعدی'}
-              </button>
-            </div>
-          </div>
+      <div className={this.props.active  ? "modal-page create-exchange-wrapper"  : "modal-page create-exchange-wrapper hide" } tabIndex="-1" role="dialog" ref={this.setWrapperRef}>
+        <div className="progressive-wrapper">
+          <MenuProgressive
+              steps={progressSteps}
+              activeStep={page}
+              status={progressStatus}
+          />
         </div>
+        {pageContent}
       </div>
     )
   }

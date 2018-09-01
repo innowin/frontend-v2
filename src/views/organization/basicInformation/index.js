@@ -35,7 +35,7 @@ export class OrganizationInfo extends React.Component<OrganizationInfoProps,{ ed
 	componentDidMount() {
 		const {organizationId} = this.props;
 		const {getOrganization} = this.props.actions;
-		getOrganization(organizationId)
+		// getOrganization(organizationId)
 	}
 	
 	render() {
@@ -48,13 +48,13 @@ export class OrganizationInfo extends React.Component<OrganizationInfoProps,{ ed
 						(edit) ? (
 								<OrganizationInfoItemWrapper>
 									<OrganizationInfoEditForm
-											organization={organization.content}
+											organization={organization}
 											hideEdit={this._hideEdit}
 											actions={this.props.actions}
 									/>
 								</OrganizationInfoItemWrapper>
 						) : (
-								<OrganizationInfoView organization={organization.content} showEdit={this._showEdit}/>
+								<OrganizationInfoView organization={organization} showEdit={this._showEdit}/>
 						)
 					}
 				</VerifyWrapper>
@@ -129,9 +129,8 @@ export class organizationBasicInformation extends React.Component<organizationBa
 	componentDidMount(){
 	}
 	render() {
-		const {organizationId, organs,organization} = this.props;
+		const {organizationId, organ,organization} = this.props;
 		const {getOrganization, getOrganizationMembers} = this.props.actions;
-		let organ = organs[organizationId].organization
 		return (
 				<div>
 					<CategoryTitle
