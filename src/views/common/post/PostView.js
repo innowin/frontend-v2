@@ -77,7 +77,7 @@ export class PostView extends Component {
                 <div onClick={showEdit} className="-item-edit-btnPost"><EditIcon/></div>
               </div>
 
-              <div className="-line-height">
+              <div className="description">
                 {post.post_description}
               </div>
 

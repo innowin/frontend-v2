@@ -6,6 +6,7 @@ import {getFile} from "../../../crud/media/media";
 import {VerifyWrapper} from "../cards/Frames";
 import {PostEditForm} from "./PostEditForm";
 import {PostView} from "./PostView";
+import client from "src/consts/client"
 
 type postPropTypes = {
   post: {
@@ -47,9 +48,7 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
       postIdentity_username: '',
       postIdentity_name: '',
       postIdentityImg: null,
-      edit: false,
-      error: false,
-      isLoading: true
+      edit: false
     }
   }
 
@@ -67,8 +66,9 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
   }
 
   _delete = () => {
-    const {deletePost, post, userId} = this.props
-    deletePost(post.id, userId)
+    const {deletePost, post} = this.props
+    const userId = client.getUserId()
+    deletePost(post.id, userId, post.post_parent.id, "identity")
   }
 
   _getIdentityDetails = (identity: identityType) => {
@@ -111,9 +111,10 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
   }
 
   render() {
-    const {post, postIdentity_username, postIdentity_name, postIdentityImg, edit, isLoading, error} = this.state;
+    const {post, postIdentity_username, postIdentity_name, postIdentityImg, edit} = this.state;
     return (
-        <VerifyWrapper isLoading={isLoading} error={error}>
+      // TODO mohsen: handle error and isLoading from state redux
+        <VerifyWrapper isLoading={false} error={false}>
           {edit ?
               <div className="-itemWrapperPost">
                 <PostEditForm

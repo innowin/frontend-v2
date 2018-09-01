@@ -58,7 +58,9 @@ class HomePosts extends Component {
     const limit = 100
     const offset = 0
     if (exchangeId && exchangeId !== nextProps.exchangeId) {
-      filterPostsByPostParentLimitOffset({parentId: exchangeId, postType: null, limit, offset})
+      filterPostsByPostParentLimitOffset({
+        postParentId: exchangeId, postType: null, limit, offset, postParentType:"exchange"
+      })
     }
   }
 
@@ -86,7 +88,7 @@ class HomePosts extends Component {
             <FrameCard className="-frameCardPost border-top-0">
               <ListGroup>
                 {
-                  (posts.length > 0) ? (posts.map((post) => (
+                  (Array.isArray(posts) && posts.length > 0) ? (posts.map((post) => (
                     <Post
                       posts={posts}
                       post={post}

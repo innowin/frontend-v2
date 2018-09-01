@@ -4,7 +4,7 @@ import messages from 'src/translate/fa'
 export default {
   auth: {
     client: {
-      // token:null,
+      token:null,
       identity: {},
       profile: {},
       user: {},
