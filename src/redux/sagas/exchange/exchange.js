@@ -4,7 +4,7 @@ import {takeEvery} from "redux-saga/effects"
 import {getExchangeIdentitiesByMemberIdentity, getExchangeByExId, getExchangeMembersByExId} from "./getExchange"
 import {deleteExchangeMembership} from './deleteExchangeMembership'
 import {createExchange} from './createExchange'
-
+import {addToExchange} from './addToExchange'
 
 /**********    %% WATCHERS %%    **********/
 
@@ -26,4 +26,8 @@ export function* watchDeleteExchangeMembership() {
 
 export function* watchCreateExchange() {
 	yield takeEvery(types.EXCHANGE.CREATE_EXCHANGE, createExchange)
+}
+
+export function* watchAddToExchange(){
+	yield takeEvery(types.EXCHANGE.ADD_TO_EXCHANGE, addToExchange)
 }

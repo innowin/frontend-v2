@@ -30,7 +30,9 @@ import {
   watchGetExchangesByMemberIdentity,
   watchGetExchangeByExId,
   watchGetExchangeMembersByExId,
-  watchDeleteExchangeMembership
+  watchDeleteExchangeMembership,
+  watchAddToExchange,
+  watchCreateExchange,
 } from "./exchange/exchange"
 import {watchGetUserByUserId, watchGetProfileByUserId, watchGetIdentityByUserId, watchGetUsers} from "./user/getUserSagas"
 import {watchCreateUserPerson, watchCreateUserOrgan,} from "./user/createUserSagas"
@@ -79,7 +81,9 @@ const rootSaga = function* () {
     watchDeleteExchangeMembership(),
     watchUpdateCustomer(),
     watchAgencyRequest(),
-
+    watchAddToExchange(),
+    watchCreateExchange(),
+    
     // user watchers
     userWatchers.watchUpdateUserByUserId(),
     userWatchers.watchUpdateProfileByProfileId(),

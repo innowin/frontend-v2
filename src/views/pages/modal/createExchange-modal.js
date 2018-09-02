@@ -14,7 +14,9 @@ import {connect} from 'react-redux'
 import CircularProgressbar from 'react-circular-progressbar';
 import {createFile, getFile} from "src/crud/media/media";
 import exchange from '../../../redux/actions/types/exchange';
+import ExchangeActions from '../../../redux/actions/exchangeActions';
 import MenuProgressive from '../progressive/penu-progressive'
+import {ClipLoader} from "react-spinners"
 import {
   WRAPPER_CLASS_NAMES,
   PROGRESSIVE_STATUS_CHOICES,
@@ -189,7 +191,7 @@ class PageTwo extends Component{
   constructor(props){
     super(props)
     this.state={
-      tags:props.tags || []  ,
+      tags:props.exchang_hashtag || []  ,
       description:props.description ||""}
     this.handleNext = this.handleNext.bind(this)
     this.handleBack = this.handleBack.bind(this)
@@ -203,13 +205,13 @@ class PageTwo extends Component{
     this.setState({tags:tags})
   }
   handleNext(){
-    this.props.saveState({tags:this.state.tags,description:this.state.description}).then(()=>{
+    this.props.saveState({exchang_hashtag:this.state.tags,description:this.state.description}).then(()=>{
       this.props.handleNext()
     })
     
   }
   handleBack(){
-    this.props.saveState({tags:this.state.tags,description:this.state.description}).then(()=>{
+    this.props.saveState({exchang_hashtag:this.state.tags,description:this.state.description}).then(()=>{
       this.props.handleBack()
     })
   }
@@ -293,7 +295,9 @@ class PageTwo extends Component{
 class PageThree extends Component{
   constructor(props){
     super(props)
-    this.state ={added:[],selectedUsers:0}
+    this.state ={added:props.addedUsers || [],selectedUsers:props.addedUsers ? props.addedUsers.length : 0}
+    this.handleNext = this.handleNext.bind(this)
+    this.handleBack = this.handleBack.bind(this)
 
   }
   componentDidMount(){
@@ -303,11 +307,12 @@ class PageThree extends Component{
   changePage(){
     this.props.saveState({})
   }
-  handleAddUser(index){
+  handleAddUser(index,user){
+    this.props.handleAddUser(user)
     const added = this.state.added
-    let foundIndex = added.findIndex(function (cus) { return cus === index; }) 
+    let foundIndex = added.findIndex(function (cus) { return cus.idx === index; }) 
     if( foundIndex == -1){
-      added.push(index)
+      added.push({idx:index,user:user})
       let su= this.state.selectedUsers+1
       this.setState({...this.state,added:added,selectedUsers:su})
     }else{
@@ -318,14 +323,31 @@ class PageThree extends Component{
       }
       this.setState({...this.state,added:added,selectedUsers:su})
     }
+
+  }
+
+  handleNext(){
+    const {added} = this.state
+    this.props.saveState({addedUsers:added}).then(()=>{
+      
+      this.props.createExchange()
+    })
+    
+  }
+  handleBack(){
+    const {added} = this.state
+    this.props.saveState({addedUsers:added}).then(()=>{
+      this.props.handleBack()
+    })
   }
   render(){
     const self = this
     let users = this.props.users.list
     let usersView = users.map((val,idx)=>{
-      return <MemberItem added = {self.state.added.findIndex(function (cus) { return cus === idx; }) != -1 ? true : false} 
+      return <MemberItem added = {self.state.added.findIndex(function (cus) { return cus.idx === idx; }) != -1 ? true : false} 
       index ={idx}
       key={idx}
+      user={val}
       onAdd = {this.handleAddUser.bind(this)}
       name={val.first_name + val.last_name} 
       img={val.profile_media}
@@ -391,9 +413,9 @@ class PageThree extends Component{
         <NextPrevBtns
             prevBtnTitle="قبل"
             nextBtnTitle="ارسال"
-            goToNextStep={this.props.handleNext}
+            goToNextStep={this.handleNext}
             isGoToNextBtnDisabled={false}
-            goToPrevStep={this.props.handleBack}
+            goToPrevStep={this.handleBack}
         />
       </div>
     </div>
@@ -421,9 +443,9 @@ class PageFour extends Component{
         <NextPrevBtns
             prevBtnTitle="پایان"
             nextBtnTitle="اشتراک"
-            goToNextStep={this.props.handleNext}
+            goToNextStep={this.props.handleShare}
             isGoToNextBtnDisabled={false}
-            goToPrevStep={this.props.handleBack}
+            goToPrevStep={this.props.finishForm}
         />
       </div>
     </div>)
@@ -445,8 +467,13 @@ class CreateExchangeForm extends Component {
     this.handleClickOutside = this.handleClickOutside.bind(this);
     this.handleNext = this.handleNext.bind(this)
     this.handleBack = this.handleBack.bind(this)
+    this.createExchange = this.createExchange.bind(this)
+    this.handleAddUser = this.handleAddUser.bind(this) 
+    this.handleShare = this.handleShare.bind(this)
+    this.finishForm = this.finishForm.bind(this)
 
     this.state = {page:1,
+      isLoading:false,
       exchangeObj:{},
       progressStatus: PROGRESSIVE_STATUS_CHOICES.ACTIVE,
       progressSteps: [
@@ -463,6 +490,23 @@ class CreateExchangeForm extends Component {
 
   componentWillUnmount() {
     document.removeEventListener('mousedown', this.handleClickOutside);
+  }
+
+  createExchange() {
+    const {exchangeObj} = this.state;
+    const addedUsers = exchangeObj.addedUsers
+    exchangeObj.addedUsers = undefined
+    exchangeObj.members_count = addedUsers.length
+    const {addToExchange, createExchange} = this.props.actions;
+    const users = this.props.users
+    for ( let i = 0 ; i < addedUsers.length ; i++){
+      addToExchange(users[addedUsers[i].user.id].identity.content.id)
+    }
+    
+    this.setState({...this.state,isLoading:true})
+    createExchange(exchangeObj,(res)=>{
+      this.setState({...this.state,page:4,isLoading:false,error:false})
+    })
   }
   _setStep = (newStep, status) => {
     this.setState({
@@ -522,7 +566,17 @@ class CreateExchangeForm extends Component {
   }
 
   handleShare(event){
+    // todo amir handle share button
+  }
 
+  finishForm(){
+    this.props.hide();
+    this.setState({page:1})
+  }
+
+  handleAddUser(user){
+    const {getIdentityByUserId} = this.props.actions
+    getIdentityByUserId(user.id)
   }
 
   saveState(pageState){
@@ -540,36 +594,51 @@ class CreateExchangeForm extends Component {
       case 2: 
         return <PageTwo  {...this.state.exchangeObj} handleNext={this.handleNext} saveState={this.saveState} handleBack={this.handleBack}/>
       case 3:
-        return <PageThree  {...this.state.exchangeObj} actions={this.props.actions} users={this.props.users} handleNext={this.handleNext} saveState={this.saveState} handleBack={this.handleBack}/>
+        return <PageThree  {...this.state.exchangeObj} actions={this.props.actions} createExchange={this.createExchange} users={this.props.users} handleAddUser ={this.handleAddUser} handleNext={this.handleNext} saveState={this.saveState} handleBack={this.handleBack}/>
       case 4:
-        return <PageFour  {...this.state.exchangeObj} handleNext={this.handleNext} saveState={this.saveState} handleBack={this.handleBack}/>
+        return <PageFour  {...this.state.exchangeObj} finishForm={this.props.finishForm} handleShare={this.props.handleShare} handleNext={this.handleNext} saveState={this.saveState} handleBack={this.handleBack}/>
     }
   }
   render() {
     const pageContent = this.getPage()
     const {progressSteps,page,progressStatus} = this.state
-    return (
-      <div className={this.props.active  ? "modal-page create-exchange-wrapper"  : "modal-page create-exchange-wrapper hide" } tabIndex="-1" role="dialog" ref={this.setWrapperRef}>
-        <div className="progressive-wrapper">
-          <MenuProgressive
-              steps={progressSteps}
-              activeStep={page}
-              status={progressStatus}
-          />
+    if(!this.state.isLoading){
+      return (
+        <div className={this.props.active  ? "modal-page create-exchange-wrapper"  : "modal-page create-exchange-wrapper hide" } tabIndex="-1" role="dialog" ref={this.setWrapperRef}>
+          
+          <div className="progressive-wrapper">
+            <MenuProgressive
+                steps={progressSteps}
+                activeStep={page}
+                status={progressStatus}
+            />
+          </div>
+          {pageContent}
         </div>
-        {pageContent}
-      </div>
-    )
+      )
+    }else{
+      return (
+        <div className={this.props.active  ? "modal-page create-exchange-wrapper"  : "modal-page create-exchange-wrapper hide" } tabIndex="-1" role="dialog" ref={this.setWrapperRef}>
+          <div className="full-page-loading">
+            <ClipLoader color="#999" size={40} margin="4px" loading={true}/>
+          </div>
+        </div>
+      )
+    }
+    
   }
 };
 
 const mapStateToProps = (state) => ({
   users: state.users,
- 
+  auth: state.auth
 })
 const mapDispatchToProps = dispatch => ({
 actions: bindActionCreators({
   getUsers: GetUserActions.getUsers ,
+  getIdentityByUserId : GetUserActions.getIdentityByUserId,
+  createExchange : ExchangeActions.createExchange,
+  addToExchange : ExchangeActions.addToExchange,
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(CreateExchangeForm)

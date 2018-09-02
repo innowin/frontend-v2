@@ -5,8 +5,9 @@ import urls from "src/consts/URLS"
 import {put, take, fork, call} from "redux-saga/effects"
 
 export function* createExchange(action) {
-  const {formValues, hideEdit} = action.payload;
+  const {formValues, finished} = action.payload;
 	const socketChannel = yield call(api.createSocketChannel, results.EXCHANGE.CREATE_EXCHANGE)
+	let data
 	try {
 		yield fork(
 				api.post,
@@ -14,7 +15,7 @@ export function* createExchange(action) {
 				results.EXCHANGE.CREATE_EXCHANGE,
 				formValues
 		)
-		const data = yield take(socketChannel)
+		data = yield take(socketChannel)
 		yield put({type: types.SUCCESS.EXCHANGE.CREATE_EXCHANGE, payload: {data}})
 	} catch (err) {
 		const {message} = err
@@ -23,6 +24,7 @@ export function* createExchange(action) {
 			payload: {message}
 		})
 	} finally {
+		finished(data)
 		socketChannel.close()
 	}
 }

@@ -564,21 +564,7 @@ function* agencyRequest(action){
   }
 }
 
-function* addToExchange(action){
-  const payload = action.payload
-  const {identityId} = payload
-  const socketChannel = yield call(api.createSocketChannel, results.EXCHANGE.ADD_TO_EXCHANGE)
-  // try {
-  //   yield fork(api.post, urls.EXCHANGE.ADD_TO_EXCHANGE, results.EXCHANGE.ADD_TO_EXCHANGE,{agent_request_description :description})
-  //   const data = yield take(socketChannel)
-  //   yield put({type: types.SUCCESS.EXCHANGE.ADD_TO_EXCHANGE, payload: {request:data}})
-  // } catch (e) {
-  //   const {message} = e
-  //   yield put({type: types.ERRORS.EXCHANGE.ADD_TO_EXCHANGE, payload: {type: types.ERRORS.EXCHANGE.ADD_TO_EXCHANGE, error: message}})
-  // } finally {    
-  //   socketChannel.close()
-  // }
-}
+
 
 /**********    %% WATCHERS %%    **********/
 

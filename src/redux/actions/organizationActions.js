@@ -223,6 +223,7 @@ const agencyRequest = (description, hideLoading) => ({
     }
 })
 
+
 const OrganizationActions = {
   getOrganization,
   getMetaDataOrganization,
@@ -262,6 +263,7 @@ const OrganizationActions = {
   getOrgStaff,
 
   agencyRequest,
+
 };
 
 export default OrganizationActions;

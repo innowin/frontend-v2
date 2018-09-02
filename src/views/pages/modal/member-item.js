@@ -6,7 +6,7 @@ class MemberItem extends Component {
     super(props)
   }
   handleClick(){
-    this.props.onAdd(this.props.index)
+    this.props.onAdd(this.props.index,this.props.user)
   }
   render(){
     const {added, name, skill} = this.props
