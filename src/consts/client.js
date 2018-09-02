@@ -2,7 +2,6 @@ import AES from 'crypto-js/aes'
 import cookie from 'src/consts/data'
 
 export const isAuthenticated = () => {
-    console.log("hi inside isAuthenticated: LS = ", window.localStorage.hasOwnProperty('token').toString(), " SS = ", window.sessionStorage.hasOwnProperty('token'))
     return window.localStorage.hasOwnProperty('token') || window.sessionStorage.hasOwnProperty('token')
 }
 

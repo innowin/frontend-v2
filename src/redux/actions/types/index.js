@@ -4,32 +4,35 @@ import userTypes from './user'
 import orgTypes from './organization'
 import authTypes from './auth'
 import exchangeTypes from './exchange'
+import entityTypes from './entity'
 
 const types = {
-  RESET:'RESET',
-  ERRORS: {
-    COMMON: commonTypes.ERROR,
-    AUTH: authTypes.ERROR,
-    CONT: contributionTypes.ERROR, // contribution errors
-    USER: userTypes.ERROR,
-    ORG: orgTypes.ERROR, // organization errors
+	RESET: 'RESET',
+	ERRORS: {
+		COMMON: commonTypes.ERROR,
+		AUTH: authTypes.ERROR,
+		CONT: contributionTypes.ERROR, // contribution errors
+		USER: userTypes.ERROR,
+		ORG: orgTypes.ERROR, // organization errors
 		EXCHANGE: exchangeTypes.ERROR,
-  },
-
-  SUCCESS: {
-    COMMON: commonTypes.SUCCESS,
-    AUTH: authTypes.SUCCESS,
-    CONT: contributionTypes.SUCCESS, // contribution success
-    USER: userTypes.SUCCESS,
-    ORG: orgTypes.SUCCESS, // organization success
+		ENTITY: entityTypes.ERROR,
+	},
+	SUCCESS: {
+		COMMON: commonTypes.SUCCESS,
+		AUTH: authTypes.SUCCESS,
+		CONT: contributionTypes.SUCCESS, // contribution success
+		USER: userTypes.SUCCESS,
+		ORG: orgTypes.SUCCESS, // organization success
 		EXCHANGE: exchangeTypes.SUCCESS,
-  },
-  COMMON: commonTypes.BASE,
-  AUTH: authTypes.BASE,
-  CONT: contributionTypes.BASE,
-  USER: userTypes.BASE,
-  ORG: orgTypes.BASE,
+		ENTITY: entityTypes.SUCCESS,
+	},
+	COMMON: commonTypes.BASE,
+	AUTH: authTypes.BASE,
+	CONT: contributionTypes.BASE,
+	USER: userTypes.BASE,
+	ORG: orgTypes.BASE,
 	EXCHANGE: exchangeTypes.BASE,
+	ENTITY: entityTypes.BASE,
 }
 
 export default types

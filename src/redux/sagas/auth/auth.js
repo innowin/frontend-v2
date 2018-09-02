@@ -13,9 +13,10 @@ import {put, take, fork, call, takeEvery} from "redux-saga/effects"
 function* signIn(action) {
   const {payload} = action
   const {username, password, rememberMe, reject} = payload
-  const socketChannel = yield call(api.createSocketChannel, results.SIGN_IN)
+	console.log('sagas - auth -auth.js - before create Socket channel', payload)
+	const socketChannel = yield call(api.createSocketChannel, results.SIGN_IN)
   try {
-    yield fork(api.post, urls.SIGN_IN, results.SIGN_IN, {username, password})
+		yield fork(api.post, urls.SIGN_IN, results.SIGN_IN, {username, password})
     let data = yield take(socketChannel)
     const {token} = data
     yield put({type: types.AUTH.SET_TOKEN, payload: {token}})
