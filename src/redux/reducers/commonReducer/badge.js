@@ -3,7 +3,7 @@ import types from '../../actions/types'
 
 // this badge function just set received success badges in user or organ or ...
 
-const badges = (state = initialState.common.badges, action) => {
+const badge = (state = initialState.common.badge, action) => {
   const {data} = action.payload || []
   // data's structure is : {[id]:{}}
   switch (action.type) {
@@ -12,7 +12,9 @@ const badges = (state = initialState.common.badges, action) => {
     case types.SUCCESS.COMMON.GET_USER_BADGES:
       return {
         ...state,
-        ...data
+        list:{
+          ...data
+        }
       }
 
     /** --------------------  get organ badges --------------------- **/
@@ -20,14 +22,16 @@ const badges = (state = initialState.common.badges, action) => {
     case types.SUCCESS.COMMON.GET_ORG_BADGES:
       return {
         ...state,
-        ...data
+        list:{
+          ...data
+        }
       }
 
     /** ----------------- reset -----------------> **/
     case types.RESET:
-      return initialState.common.badges
+      return initialState.common.badge
     default:
       return {...state}
   }
 }
-export default badges
+export default badge

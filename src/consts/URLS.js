@@ -55,7 +55,6 @@ const urls = {
 		CREATE_EXCHANGE: 'exchanges',
 		ADD_TO_EXCHANGE: 'exchanges/identities',
 	},
-	
 	CREATE_PRODUCT: 'products',
 	CREATE_Skill: 'users/skills',
 	COMMON: {
@@ -90,6 +89,12 @@ const urls = {
 			CREATE_POST: 'base/posts',
 			UPDATE_POST: 'base/posts',
 			DELETE_POST: 'base/posts',
+		},
+		
+		SOCIAL: {
+			GET_FOLLOWEES: 'organizations/follows',
+			GET_FOLLOWERS: 'organizations/follows',
+			DELETE_FOLLOWERS: '/organizations/follows'
 		},
 	}
 }

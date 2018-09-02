@@ -7,6 +7,7 @@ const createSocketChannel = (resultName) => {
   return eventChannel(emit => {
     const resultHandler = res => {
       if (res.status !== "OK") {
+        console.log('\n --- api --- >> createSocketChannel >> res is : \n', res)
         // below is for check user handle error
         if (typeof res.data === "object" && res.data.detail){
           emit(new Error(res.data.detail))

@@ -1,12 +1,13 @@
 import hashTag from "./hashTag";
-import file from "./fileReducer";
-import badges from "./badge";
+import file from "./file";
+import badge from "./badge";
 import certificate from "./certificate/index";
 import location from "./location";
 import {combineReducers} from "redux";
 import category from "./category";
 import product from "./product";
-import posts from './post'
+import post from './post'
+import social from './social'
 
 export default combineReducers({
     category,
@@ -15,6 +16,7 @@ export default combineReducers({
     file,
     hashTag,
     location,
-    badges,
-    posts,
+    badge,
+    post,
+    social,
 })

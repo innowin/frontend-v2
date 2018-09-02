@@ -4,24 +4,27 @@ import {Component} from "react"
 import PropTypes from "prop-types"
 import type {exchangeType} from "src/consts/flowTypes/exchange/exchange"
 import {connect} from "react-redux"
-import {deleteFollow} from "src/crud/social"
 import {ExchangesView, FollowersView, FollowingsView} from "./view"
 import {FrameCard, CategoryTitle, VerifyWrapper} from "src/views/common/cards/Frames"
 import {getExchangesByMemberIdentity, removeExchangeMembership} from "src/crud/exchange/exchange"
 import {getFile} from "src/crud/media/media"
-import {getFollowers, getFollowings} from "src/crud/social"
+import {getFollowers, getFollowings, deleteFollow} from "src/crud/social"
 import {getIdentity} from "src/crud/identity"
-import {getMessages} from "src/redux/selectors/translateSelector"
 import {getProfile} from "src/crud/user/profile"
+import {getMessages} from "src/redux/selectors/translateSelector"
 import type {userType} from "src/consts/flowTypes/user/basicInformation"
 import {bindActionCreators} from "redux"
 import ExchangeActions from "src/redux/actions/exchangeActions"
+import SocialActions from "../../../redux/actions/commonActions/socialActions";
 
 type PropsSocials = {
   userId: number,
   identityId: number,
   actions:{
-    getExchangesByMemberIdentity:Function
+    getExchangesByMemberIdentity:Function,
+    getFollowees: Function,
+    getFollowers: Function,
+    deleteFollowers: Function
   },
   translate: { [string]: string }
 }
@@ -63,7 +66,8 @@ class Socials extends Component<PropsSocials, StateSocials> {
   static propTypes = {
     userId: PropTypes.string.isRequired,
     identityId: PropTypes.number.isRequired,
-    translate: PropTypes.object.isRequired
+    translate: PropTypes.object.isRequired,
+    actions: PropTypes.object.isRequired,
   }
 
   _showExchangesEdit = () => {
@@ -148,6 +152,10 @@ class Socials extends Component<PropsSocials, StateSocials> {
     getFollowers(identityId, this._handleError, (res) => this._getFollowers(res))
     getFollowings(identityId, this._handleError,
       (res) => this.setState({...this.state, followingsList: res}, () => this._getFollowings(res)))
+
+    // this.props.actions.getFollowees(identityId)
+    // this.props.actions.getFollowers(identityId)
+    // this.props.actions.deleteFollowers(identityId)
   }
 
   _deleteFollowing = (id, index) => {
@@ -217,6 +225,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
       getExchangesByMemberIdentity: ExchangeActions.getExchangeIdentitiesByMemberIdentity,
+      getFollowees: SocialActions.getFollowees,
+      getFollowers: SocialActions.getFollowers,
+      deleteFollowers: SocialActions.deleteFollowers,
     },
     dispatch)
 })

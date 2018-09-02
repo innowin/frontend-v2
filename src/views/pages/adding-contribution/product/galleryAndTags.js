@@ -2,10 +2,10 @@
 import * as React from 'react'
 import Select from 'react-select'
 import FontAwesome from 'react-fontawesome'
-import {LAYER1S, newContributionMainCategories} from './addingConributionData'
-import {ImageUploadSvg, MoviesSvgIcon} from '../../../images/icons'
-import {CircularCheckbox} from '../../common/inputs/CircularCheckbox'
-import NextPrevBtns from './nextAndPrevBtns'
+import {LAYER1S, newContributionMainCategories} from '../addingConributionData'
+import {ImageUploadSvg, MoviesSvgIcon} from '../../../../images/icons'
+import {CircularCheckbox} from '../../../common/inputs/CircularCheckbox'
+import NextPrevBtns from '../nextAndPrevBtns'
 import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 
 

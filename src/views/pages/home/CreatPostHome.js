@@ -11,6 +11,7 @@ import {AttachFileIcon} from "src/images/icons";
 import {bindActionCreators} from "redux"
 import PostActions from "../../../redux/actions/commonActions/postActions"
 import {connect} from "react-redux";
+import client from "src/consts/client"
 
 const duration = 300;
 const defaultStyle = {
@@ -145,16 +146,17 @@ class HomeCreatePost extends Component {
     this.setState({...this.state, media, fileName})
   };
 
-  _hideCreateForm = () => {
-    this.setState({...this.state, media: {}, fileName: '', description: ''});
-    this.createPostFooter._reset_postType()
-  };
+  // _hideCreateForm = () => {
+  //   this.setState({...this.state, media: {}, fileName: '', description: ''});
+  //   this.createPostFooter._reset_postType()
+  // };
 
   _save = () => {
     const {actions} = this.props
     const {createPost} = actions
-    const formValues = this._getValues();
-    return createPost(formValues, this._hideCreateForm)
+    const formValues = this._getValues()
+    const userId = client.getUserId()
+    return createPost(formValues, userId, "exchange")
   };
 
   _handleChange = (e) => {

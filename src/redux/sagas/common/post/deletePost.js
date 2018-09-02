@@ -5,16 +5,17 @@ import types from 'src/redux/actions/types'
 import {put, take, fork, call} from "redux-saga/effects"
 
 export function* deletePost(action) {
-  const {postId, userId} = action.payload
+  const {postId, postOwnerId, postParentId, postParentType} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.POST.DELETE_POST)
   try {
     yield fork(api.del, urls.COMMON.POST.DELETE_POST, results.COMMON.POST.DELETE_POST, '', `${postId}`)
-    const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.COMMON.DELETE_POST , payload:{data, userId, postId}})
+    yield take(socketChannel)
+    yield put({type: types.SUCCESS.COMMON.POST.DELETE_POST ,
+      payload:{postId, postOwnerId, postParentId, postParentType}})
   } catch (error) {
     const {message} = error
     yield put({
-      type: types.ERRORS.COMMON.DELETE_POST,
+      type: types.ERRORS.COMMON.POST.DELETE_POST,
       payload: {message, postId}
     })
   } finally {

@@ -1,4 +1,4 @@
-import commonTypes from './common'
+import commonTypes from './common/index'
 import contributionTypes from './contribution'
 import userTypes from './user'
 import orgTypes from './organization'

@@ -217,6 +217,8 @@ const organization = (state = initialState.organization, action) => {
 			
 		case types.ERRORS.ORG.GET_ORGANIZATION_MEMBERS:
 			return {...state, members: []};
+    case types.RESET:
+      return initialState.organization
 		default:
 			return state;
 	}

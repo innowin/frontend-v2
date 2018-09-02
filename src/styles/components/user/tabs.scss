@@ -28,7 +28,7 @@
   padding: 10px 20px 15px 20px;
 
   .-img-col {
-    img ,svg{
+    img, svg {
       width: 45px;
       height: 45px;
     }
@@ -51,6 +51,13 @@
       .-line-height {
         line-height: 2.1;
       }
+    }
+    .description {
+      line-height: 2.1;
+      // TODO mohsen: handle long text
+      //overflow-x: hidden;
+      //max-width: 400px;
+      //text-overflow: ellipsis;
     }
     .-item-footerPost {
       display: flex;

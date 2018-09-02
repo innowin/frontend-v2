@@ -21,7 +21,8 @@ const province = (state = initialState.common.location.province, action) => {
                 ...state // need for more error handling.
             }
         /** ------------------- get provinces ------------------> **/
-
+        case types.RESET:
+            return initialState.common.location.province
         default:
             return { ...state }
     }

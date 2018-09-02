@@ -26,7 +26,7 @@ export const updateProduct = (formValues, productId, updateStateForView, hideEdi
 		if (res.detail) {
 			error = res.detail;
 		}
-		updateStateForView(res, error, isLoading);
+		updateStateForView(res.data, error, isLoading);
 		hideEdit();
 	});
 };

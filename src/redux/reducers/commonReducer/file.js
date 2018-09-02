@@ -3,16 +3,16 @@ import types from '../../actions/types'
 
 
 const file = (state = initialState.common.file, action) => {
-    const {data} = action.payload || {}
+    const {data, fileId} = action.payload || {}
     const list = state.list
 
     switch (action.type) {
         /** --------------------  get file --------------------- **/
-        case types.COMMON.GET_FILE:
-            return {
-                ...state,
-                list: {...list, [data.id]: data}
-            }
+        // case types.COMMON.GET_FILE:
+        //     return {
+        //         ...state,
+        //         list: {...list, [fileId]: data}
+        //     }
 
         case types.SUCCESS.COMMON.GET_FILE:
             return {
@@ -52,7 +52,6 @@ const file = (state = initialState.common.file, action) => {
 
         case types.RESET:
             return initialState.common.file
-
         default:
             return {...state}
     }

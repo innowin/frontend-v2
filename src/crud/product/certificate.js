@@ -26,7 +26,7 @@ export const updateCertificate = (formValues, certId, updateStateForView, hideEd
 		if (res.detail) {
 			error = res.detail;
 		}
-		updateStateForView(res, error, isLoading);
+		updateStateForView(res.data, error, isLoading);
 		hideEdit();
 	});
 };
@@ -57,7 +57,7 @@ export const createCertificate = (formValues,  updateStateForView, hideEdit,prod
 		isLoading = false;
 		if (res.detail) {
 			error = res.detail;
-			updateStateForView(res, error, isLoading);
+			updateStateForView(res.data, error, isLoading);
 			
 			return;
 		}
@@ -95,7 +95,7 @@ export const deleteCertificate = (certId, updateStateForView, hideEdit,productId
 		isLoading = false;
 		if (res.detail) {
 			error = res.detail;
-			updateStateForView(res, error, isLoading);
+			updateStateForView(res.data, error, isLoading);
 			
 			return;
 		}

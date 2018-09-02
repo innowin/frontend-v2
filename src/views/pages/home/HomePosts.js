@@ -1,8 +1,7 @@
 import React, {Component} from "react"
 import PropTypes from 'prop-types'
-import {getExchangePosts} from 'src/crud/post/exchangePost'
 import {FrameCard, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames"
-import {Post} from "src/views/common/post/index"
+import {Post} from "src/views/common/post/Post"
 import HomeCreatePost from "./CreatPostHome"
 import {IDENTITY_ID} from "../../../consts/data"
 import {bindActionCreators} from "redux"
@@ -59,7 +58,9 @@ class HomePosts extends Component {
     const limit = 100
     const offset = 0
     if (exchangeId && exchangeId !== nextProps.exchangeId) {
-      filterPostsByPostParentLimitOffset({parentId: exchangeId, postType: null, limit, offset})
+      filterPostsByPostParentLimitOffset({
+        postParentId: exchangeId, postType: null, limit, offset, postParentType:"exchange"
+      })
     }
   }
 
@@ -75,7 +76,6 @@ class HomePosts extends Component {
     const {isLoading, error, scrollLoading, scrollError} = this.state
     const {posts, exchangeId, className, actions} = this.props
     const {deletePost, updatePost} = actions
-    console.log("ddddddddddddddfffffffffd", posts)
     // TODO mohsen: choice postIdentity from client
     return (
       <VerifyWrapper isLoading={isLoading} error={error} className={className}>
@@ -88,7 +88,7 @@ class HomePosts extends Component {
             <FrameCard className="-frameCardPost border-top-0">
               <ListGroup>
                 {
-                  (posts.length > 0) ? (posts.map((post) => (
+                  (Array.isArray(posts) && posts.length > 0) ? (posts.map((post) => (
                     <Post
                       posts={posts}
                       post={post}
@@ -114,7 +114,7 @@ class HomePosts extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const exchangeId = ownProps.exchangeId
-  const allPosts = state.common.posts
+  const allPosts = state.common.post.list
   const exchangeIdPosts = (exchangeId && state.exchanges[exchangeId] && state.exchanges[exchangeId].posts
     && state.exchanges[exchangeId].posts.content) ||[]
   const posts = exchangeIdPosts.map(postId => (allPosts[postId]))

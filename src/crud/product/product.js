@@ -17,7 +17,7 @@ export const getProducts = (limit, handleResult) => {
       // TODO mohsen: handle error
       return false
     }
-    handleResult(res.results);
+    handleResult(res.data.results);
     
   };
   socket.on("products/>list-get", func)
@@ -60,7 +60,7 @@ export const getProduct = (productId, handleResult) => {
       // TODO mohsen: handle error
       return false
     }
-    handleResult(res);
+    handleResult(res.data);
     
   };
   socket.on(`products/{id}/-get/${productId}`, func)

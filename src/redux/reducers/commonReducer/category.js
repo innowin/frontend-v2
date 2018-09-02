@@ -33,7 +33,8 @@ const category = (state = initialState.common.category, action) => {
                     isLoaded: false
                 }// this is not completed and need for more error handling.
             }
-
+        case types.RESET:
+            return initialState.common.category
         default:
             return state
     }

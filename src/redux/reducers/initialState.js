@@ -1,26 +1,23 @@
 import messages from 'src/translate/fa'
-import status from './statusChoices'
 
 
 export default {
   auth: {
     client: {
+      token:null,
       identity: {},
       profile: {},
       user: {},
-      posts: [] /* id of user posts*/,
       organization: null,
+      posts: [], /* ids of posts that postIdentity of them is identity of this client*/
+      exchanges: [], /* ids of exchanges that this client is member of them*/
+      social:{
+        follows: [], /* ids of follows that this client is participates at them*/
+      },
       rememberMe: null,
       user_type: null,
       isLoggedIn: false,
-      error: null,
-      exchanges: []
-    },
-    clients: {
-      users: [],
-      active_user: {},
-      visited_pages: {},
-      logged_in_time: {}
+      error: null
     }
   },
 
@@ -46,11 +43,7 @@ export default {
            error:null
        },
        posts: {
-<<<<<<< HEAD
-         content:[1, 2, ...] list of posts have this user
-=======
          content:[1, 2, ...], list of posts id
->>>>>>> c048e233f67b04126704e360d55426552cb8492d
          isLoading:false,
          error: null
        },
@@ -59,6 +52,13 @@ export default {
            isLoading:false,
            error:null
        },
+       social: {
+         follows: {
+           content:[1, 2, ...], list of follows id
+           isLoading:false,
+           error:null
+         },
+       }
        ---------------- other ----------
        skills:{
            content:[{},{},...],  list of skill object
@@ -191,10 +191,14 @@ export default {
       list: {},
     },
     file: {
-      list: {}
+      list: {
+        // [fileId]: {} // object of file
+      }
     },
-    badges: {
-      // [badgeId]: {} // object of badge
+    badge: {
+      list:{
+        // [badgeId]: {} // object of badge
+      }
     },
     hashTag: {
       list: {} // list of the all hashTag.
@@ -210,8 +214,17 @@ export default {
         list: {},
       }
     },
-    posts: {
-      // [postId]: {...data, isLoading:false, error:errorObject} isLoading and error are for update handling
+    post: {
+      list:{
+        // [postId]: {...data, isLoading:false, error:errorObject}
+       }
+    },
+    social: {
+      follows: {
+        list:{
+          // [followId]: {...data, isLoading:false, error:errorObject}
+        }
+      },
     }
   },
 

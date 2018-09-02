@@ -76,8 +76,7 @@ class User extends Component<PropsUser> {
 
   render() {
     const {match, translate, profileObject, userObject, identityObject, badgesObject, badges} = this.props
-    {/* TODO: fake*/
-    }
+    {/* TODO: fake*/}
     const {path, url, params} = match
     const userId: number = +params.id
     const isLoading = userObject.isLoading || profileObject.isLoading || identityObject.isLoading
@@ -117,7 +116,7 @@ class User extends Component<PropsUser> {
                             profileMedia={profileObject.content.profile_media} postIdentity={identityObject.content.id}
               />
               <PrivateRoute path={`${path}/basicInformation`} component={UserBasicInformation} userId={userId}
-                            profile={profileObject}
+                            profile={profileObject} user={userObject}
               />
               <PrivateRoute path={`${path}/SocialConnections`} component={Social}
                             userId={userId}
@@ -148,7 +147,7 @@ const mapStateToProps = (state, ownProps) => {
   const profile = (stateUser && stateUser.profile) || defaultObject
   const identity = (stateUser && stateUser.identity) || defaultObject
   const badgesObjectInUser = (stateUser && stateUser.badges) || defaultObject2
-  const allBadges = state.common.badges
+  const allBadges = state.common.badge.list
   const badges = badgesObjectInUser.content.map(badgeId => allBadges[badgeId])
   return {
     userObject: user,
