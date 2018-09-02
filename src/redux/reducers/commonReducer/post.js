@@ -18,8 +18,7 @@ const post = (state = initialState.common.post, action) => {
         }
       }
     /** ------------------------------ get posts by parentId ---------------------- **/
-    case
-    types.SUCCESS.COMMON.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET:
+    case types.SUCCESS.COMMON.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET:
       const postResults = data.results
       postResults.map(post => {
         return indexedPost[post.id] = {...post, error: null}
@@ -32,8 +31,7 @@ const post = (state = initialState.common.post, action) => {
         }
       }
     /** -------------------------- create post -------------------------> **/
-    case
-    types.SUCCESS.COMMON.POST.CREATE_POST:
+    case types.SUCCESS.COMMON.POST.CREATE_POST:
       // TODO: mohammad full identity_object or just id
       return {
         ...state,
@@ -43,17 +41,15 @@ const post = (state = initialState.common.post, action) => {
         }
       }
     /** -------------------------- update post -------------------------> **/
-    case
-    types.COMMON.POST.UPDATE_POST:
+    case types.COMMON.POST.UPDATE_POST:
       return {
         ...state,
         list:{
           ...state.list,
-          [postId]: {...state[postId], error: null, isLoading: true}
+          [postId]: {...state.list[postId], error: null, isLoading: true}
         }
       }
-    case
-    types.SUCCESS.COMMON.POST.UPDATE_POST:
+    case types.SUCCESS.COMMON.POST.UPDATE_POST:
       return {
         ...state,
         list:{
@@ -61,24 +57,20 @@ const post = (state = initialState.common.post, action) => {
           [postId]: {...data, isLoading: false, error: null}
         }
       }
-    case
-    types.ERRORS.COMMON.POST.UPDATE_POST:
+    case types.ERRORS.COMMON.POST.UPDATE_POST:
       return {
         ...state,
         list:{
           ...state.list,
-          [postId]: {...state[postId], isLoading: true, error: message}
+          [postId]: {...state.list[postId], isLoading: true, error: message}
         }
       }
     /** -------------------------- delete post -------------------------> **/
-    case
-    types.SUCCESS.COMMON.POST.DELETE_POST:
+    case types.SUCCESS.COMMON.POST.DELETE_POST:
       const {[`${postId}`]: deleted, ...deleteRest} = state.list
       return {
         ...state,
-        list:{
-          ...deleteRest
-        }
+        list: deleteRest
       }
     case types.RESET:
       return initialState.common.post

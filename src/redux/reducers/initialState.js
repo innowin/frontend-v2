@@ -4,13 +4,16 @@ import messages from 'src/translate/fa'
 export default {
   auth: {
     client: {
-      // token:null,
+      token:null,
       identity: {},
       profile: {},
       user: {},
       organization: null,
       posts: [], /* ids of posts that postIdentity of them is identity of this client*/
       exchanges: [], /* ids of exchanges that this client is member of them*/
+      social:{
+        follows: [], /* ids of follows that this client is participates at them*/
+      },
       rememberMe: null,
       user_type: null,
       isLoggedIn: false,
@@ -49,6 +52,13 @@ export default {
            isLoading:false,
            error:null
        },
+       social: {
+         follows: {
+           content:[1, 2, ...], list of follows id
+           isLoading:false,
+           error:null
+         },
+       }
        ---------------- other ----------
        skills:{
            content:[{},{},...],  list of skill object
@@ -210,13 +220,10 @@ export default {
        }
     },
     social: {
-      followees: {
-        isLoading: false,
-        content: [],
-      },
-      followers: {
-        isLoading: false,
-        content: [],
+      follows: {
+        list:{
+          // [followId]: {...data, isLoading:false, error:errorObject}
+        }
       },
     }
   },

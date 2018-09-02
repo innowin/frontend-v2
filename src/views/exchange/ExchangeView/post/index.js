@@ -6,9 +6,8 @@ import {getProfile} from "../../../../crud/user/profile"
 import {getPost} from '../../../../crud/post/post'
 import {getIdentity} from "../../../../crud/identity"
 import {getExchangePostComment} from '../../../../crud/exchange/exchange'
-import {PostEditForm} from "src/views/common/post/Forms"
+import {PostEditForm} from "src/views/common/post/PostEditForm"
 import {ExchangePostView} from "./views"
-import {PostItemWrapper} from "../../../common/post/View"
 import {getFile} from "../../../../crud/media/media"
 
 export class ExchangePost extends Component {
@@ -111,14 +110,14 @@ export class ExchangePost extends Component {
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         {edit ?
-          <PostItemWrapper>
+          <div className="-itemWrapperPost">
             <PostEditForm
               post={post}
               hideEdit={this._hideEdit}
               deleteFunc={this._delete}
               updateFunc={this._update}
             />
-          </PostItemWrapper>
+          </div>
           :
           <ExchangePostView post={post}
                             comments={comments}

@@ -7,11 +7,10 @@ import {SupplyIcon, DemandIcon, NoFilterIcon} from "../../../../images/icons"
 import {deletePost, updatePost} from "src/crud/post/post"
 import {getProfile} from "../../../../crud/user/profile"
 import {getIdentity} from "../../../../crud/identity"
-import {PostEditForm} from "src/views/common/post/Forms"
+import {PostEditForm} from "src/views/common/post/PostEditForm"
 import {ExchangePostView} from "src/views/exchange/ExchangeView/posts/Views"
 import Masonry from "react-masonry-css"
 import cx from 'classnames'
-import {PostItemWrapper} from "../../../common/post/View"
 import {IDENTITY_ID} from "../../../../consts/data"
 import {getFile} from "../../../../crud/media/media"
 
@@ -97,14 +96,14 @@ export class ExchangePost extends Component {
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         {edit ?
-          <PostItemWrapper>
+          <div className="-itemWrapperPost">
             <PostEditForm
               post={post}
               hideEdit={this._hideEdit}
               deleteFunc={this._delete}
               updateFunc={this._update}
             />
-          </PostItemWrapper>
+          </div>
           :
           <ExchangePostView post={post}
                             postIdentityName={postIdentity_name}

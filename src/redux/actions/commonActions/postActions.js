@@ -1,48 +1,56 @@
 import types from '../types'
 
-const filterPostsByPostParentLimitOffset = ({parentId , postType , limit , offset}) => ({
+const filterPostsByPostParentLimitOffset = ({postParentId , postType, postParentType , limit , offset}) => ({
   type: types.COMMON.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET,
-	payload: {parentId , postType , limit , offset}
+	payload: {
+    postParentId,
+    postType,
+    limit,
+    offset,
+    postParentType
+  }
 })
 
 // TODO: mohammad organizationId and other id must be added
-const getPostByIdentity = (postIdentity, userId) => {
+const getPostByIdentity = (postIdentity, postOwnerId) => {
   return{
     type: types.COMMON.POST.GET_POST_BY_IDENTITY,
     payload: {
       postIdentity,
-      userId,
+      postOwnerId,
     }
   }
 }
 
-const createPost = (formValues, userId) => {
+const createPost = (formValues, postOwnerId, postParentType="identity") => {
   return{
     type: types.COMMON.POST.CREATE_POST,
     payload: {
       formValues,
-      userId
+      postOwnerId,
+      postParentType
     }
   }
 }
 
-const updatePost = (formValues, postId, userId) => {
+const updatePost = (formValues, postId, postOwnerId) => {
   return{
     type: types.COMMON.POST.UPDATE_POST,
     payload: {
       formValues,
       postId,
-      userId,
+      postOwnerId,
     }
   }
 }
 
-const deletePost = (postId, userId) => {
+const deletePost = (postId, postOwnerId, postParentId, postParentType="identity") => {
   return{
     type: types.COMMON.POST.DELETE_POST,
     payload: {
       postId,
-      userId,
+      postOwnerId,
+      postParentType
     }
   }
 }
