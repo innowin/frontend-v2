@@ -5,8 +5,8 @@ import helpers from 'src/consts/helperFunctions'
 const getCategories = (state, parentId) => {
     const allCategories = state.common.category.categories
     if (parentId) {
-        const content = helpers.filterNestedObjByKey(allCategories.content, 'category_parent', parentId)
-        return ({...state.category.categories, content: content})
+        const list = helpers.filterNestedObjByKey(allCategories.list, 'category_parent', parentId)
+        return ({...state.category.categories, list: list})
     }
     return allCategories
 }

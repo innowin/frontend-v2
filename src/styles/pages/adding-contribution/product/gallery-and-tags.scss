@@ -1,4 +1,4 @@
-@import "./common";
+@import "../common";
 
 
 .gallery-and-tags-wrapper {
@@ -57,22 +57,7 @@
   }
   .tags-search-box {
     margin: 24px 0;
-    .Select-control {
-      @extend %none-bordered-input;
-      .Select-clear-zone,
-      .Select-arrow-zone,
-      .Select-value,
-      .Select-input {
-        display: none;
-      }
-    }
-    .Select-control:hover {
-      box-shadow: none;
-    }
-    .Select.is-focused:not(.is-open) .Select-control {
-      box-shadow: none;
-      @extend %none-bordered-input;
-    }
+    @extend %none-bordered-select;
   }
 }
 

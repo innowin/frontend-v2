@@ -80,9 +80,19 @@ const filterNestedObjByNestedKey = (obj, wantedKey, wantedNestedKey, wantedValue
  to use that in react-select.
  EXAMPLE: addingContribution > initialInfo.
  **/
-const objToArrayAsOptions = (obj, valueKey, labelKey) => {
+const objToArrayAsOptions = (obj, valueKey, labelKey, otherKeys) => {
   // console.log('--- helper ---- >> objToArrayAsOptions >> obj >> ' , obj)
-  if (obj) return Object.values(obj).map(item => ({value: item[valueKey], label: item[labelKey]}))
+  if (obj) {
+    return Object.values(obj).map(item => {
+      const option = ({value: item[valueKey], label: item[labelKey]})
+      if (otherKeys) {
+        otherKeys.forEach(key => {
+          option[key] = item[key]
+        })
+      }
+      return option
+    })
+  }
 }
 
 

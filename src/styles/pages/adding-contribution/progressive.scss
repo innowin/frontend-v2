@@ -1,0 +1,35 @@
+.adding-contribution-wrapper .progressive-wrapper {
+  padding: 40px 0;
+  margin: 0 auto;
+  &.transition {
+    opacity: 0;
+    transition: all 0.3s;
+    max-width: 100px;
+  }
+  &.product {
+    opacity: 1;
+    transition: all 1.2s;
+    max-width: 500px;
+  }
+  &.skill {
+    opacity: 1;
+    transition: all 1.2s;
+    max-width: 150px;
+  }
+}
+
+@media (max-width: 850px) {
+  .adding-contribution-wrapper .progressive-wrapper {
+    &.product {
+      max-width: 400px;
+    }
+  }
+}
+
+@media (max-width: 560px) {
+  .adding-contribution-wrapper .progressive-wrapper {
+    &.product {
+      max-width: 90%;
+    }
+  }
+}

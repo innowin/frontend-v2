@@ -18,7 +18,7 @@ const category = (state = initialState.common.category, action) => {
             return {
                 ...state,
                 categories: {
-                    content: action.data,
+                    list: action.data,
                     isLoading: false,
                     isLoaded: true
                 }

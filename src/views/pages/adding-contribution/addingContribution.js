@@ -5,26 +5,18 @@ import TechnicalProperties from './product/technicalProperties'
 import NewContribution from './newConribution'
 import Certificates from './product/certificates'
 import {
-  newContributionMainCategories,
+  MainCategories,
   WRAPPER_CLASS_NAMES,
   PROGRESSIVE_STATUS_CHOICES,
   CERTIFICATES_IMG_IDS,
   tags,
-  TYPES
+  PROGRESS_STEPS,
+  LAYER1S
 } from './addingConributionData'
 import GalleryAndTags from './product/galleryAndTags'
-import {
-  ItemsAndPropertiesIcon,
-  CircularAddIcon,
-  CertificateIcon,
-  InformationIcon,
-  ContributionIcon
-} from '../../../images/icons'
 import {getMessages} from "../../../redux/selectors/translateSelector"
 import {connect} from "react-redux";
-import {LAYER1S, FILE_FIELDS} from './addingConributionData'
-import SuccessMessage from './successMessage'
-import {createSkillAction} from 'src/redux/actions/ContributionActions'
+import SuccessMessage from './product/successMessage'
 import FontAwesome from "react-fontawesome"
 import client from 'src/consts/client'
 import InitialInfoReduxForm, {INITIAL_INFO_FORM_NAME} from './product/reduxFormInitialInfo'
@@ -41,6 +33,8 @@ import {provinceSelector} from "src/redux/selectors/common/location/province"
 import {citySelector} from "src/redux/selectors/common/location/city"
 import {change} from 'redux-form';
 import nowCreatedProductIdSelector from "src/redux/selectors/common/product/getNowCreatedProductId"
+import SkillInfoForm from "./skill/infoForm";
+import SkillSuccessMessage from "./skill/successMessage"
 
 
 const reorder = (list, startIndex, endIndex) => {
@@ -57,13 +51,7 @@ class AddingContribution extends React.Component {
     this.state = {
       wrapperClassName: WRAPPER_CLASS_NAMES.ENTERING,
       activeStep: 1,
-      progressSteps: [
-        {title: 'آورده جدید', icon: (<CircularAddIcon className="progress-step-icon"/>)},
-        {title: 'اطلاعات اولیه', icon: (<InformationIcon className="progress-step-icon"/>)},
-        {title: 'مشخصات فنی', icon: (<ItemsAndPropertiesIcon className="progress-step-icon"/>)},
-        {title: 'گواهی‌نامه‌ها', icon: (<CertificateIcon className="progress-step-icon"/>)},
-        {title: 'مدیریت ویترین', icon: (<ContributionIcon className="progress-step-icon"/>)},
-      ],
+      progressSteps: PROGRESS_STEPS.product,
       progressStatus: PROGRESSIVE_STATUS_CHOICES.ACTIVE,
       newContributionData: {},
       testImage: '',
@@ -74,20 +62,9 @@ class AddingContribution extends React.Component {
 
   componentDidMount() {
     const {_getCategories, _getHashTags} = this.props
-    // const {newContributionData} = this.state
-    // const {technicalProperties} = newContributionData
-    // const properties = (technicalProperties && technicalProperties.slice()) || []
-    // const firstIndex = properties.length || 0
-    // for (let i = firstIndex; i < 9; i++) properties.push({id: i})
     _getCategories()
     _getHashTags()
-    // this.setState({
-    //     ...this.state,
-    //     newContributionData: {
-    //         ...this.state.newContributionData,
-    //         technicalProperties: properties
-    //     }
-    // })
+    this._newContributionMainCategoryHandler(MainCategories[0].value)
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -275,10 +252,10 @@ class AddingContribution extends React.Component {
   _submitHandler = () => {
     const {mainCategory} = this.state.newContributionData
     switch (mainCategory) {
-      case newContributionMainCategories[0].value: // in case product.
+      case MainCategories[0].value: // in case product.
         this._createProductHandler()
         break
-      case newContributionMainCategories[1].value: // in case skill.
+      case MainCategories[1].value: // in case skill.
         this._createSkillHandler()
         break
       default:
@@ -483,12 +460,31 @@ class AddingContribution extends React.Component {
 
   _newContributionMainCategoryHandler = (category) => {
     const data = {...this.state.newContributionData, mainCategory: category}
-    this.setState({...this.state, newContributionData: data})
+    this.setState({
+      ...this.state,
+      newContributionData: {
+        ...this.state.newContributionData,
+        mainCategory: 'transition'
+      }
+    })
+    setTimeout(() => this.setState({
+      ...this.state,
+      newContributionData: data,
+      progressSteps: PROGRESS_STEPS[category]
+    }), 300)
   }
   _handleModalVisibility = () => {
     const {handleModalVisibility} = this.props
     handleModalVisibility()
-    this.setState({...this.state, newContributionData: {}, activeStep: 1})
+
+    this.setState({
+      ...this.state,
+      newContributionData: {
+        mainCategory: MainCategories[0].value
+      },
+      activeStep: 1,
+      progressSteps: PROGRESS_STEPS[MainCategories[0].value]
+    })
   }
 
   _shareContribution = () => 1
@@ -499,7 +495,66 @@ class AddingContribution extends React.Component {
 
   _getCertificateHandler = () => 1
 
-  _switchContent = () => {
+  _switchContentByMainCategory = () => {
+    const {newContributionData} = this.state
+    const {mainCategory} = newContributionData
+    switch (mainCategory) {
+      case MainCategories[0].value:
+        return this._productContentHandler()
+      case MainCategories[1].value:
+        return this._skillContentHandler()
+      default:
+        return <span/>
+    }
+  }
+
+  _renderNewContribution = () => {
+    const {newContributionData} = this.state
+    return (
+        <NewContribution
+            categories={MainCategories}
+            goToNextStep={this._nextStep}
+            goToPrevStep={this._handleModalVisibility}
+            selectedCategory={newContributionData.mainCategory}
+            selectCategoryHandler={this._newContributionMainCategoryHandler}
+        />
+    )
+  }
+  _skillContentHandler = () => {
+    const {activeStep, newContributionData} = this.state
+    const {hashTags} = this.props
+    switch (activeStep) {
+      case 1:
+        return this._renderNewContribution()
+      case 2:
+        return (
+            <SkillInfoForm
+                goToNextStep={this._nextStep}
+                goToPrevStep={this._prevStep}
+                hashTags={hashTags}
+                // inputHandler={this._layer1InputsValueHandler}
+                // newContributionData={newContributionData}
+                // formVals={initialInfoFormState}
+                // categories={categories}
+                // countryChangeHandler={this._countryChangeHandler}
+                // provinces={provinces}
+                // provinceChangeHandler={this._provinceChangeHandler}
+                // cities={cities}
+            />
+        )
+      case 3:
+        return (
+            <SkillSuccessMessage
+                shareContribution={this._shareContribution}
+                finishHandler={this._handleModalVisibility}
+            />
+        )
+      default:
+        return <span/>
+    }
+  }
+
+  _productContentHandler = () => {
     const {newContributionData, activeStep, addingTechPropNow, newTechPropertyData} = this.state
 
     const {technicalProperties, [LAYER1S.NEW_CERT_INDEX]: newCertIndex} = newContributionData
@@ -510,15 +565,7 @@ class AddingContribution extends React.Component {
 
     switch (activeStep) {
       case 1:
-        return (
-            <NewContribution
-                categories={newContributionMainCategories}
-                goToNextStep={this._nextStep}
-                goToPrevStep={this._handleModalVisibility}
-                selectedCategory={newContributionData.mainCategory}
-                selectCategoryHandler={this._newContributionMainCategoryHandler}
-            />
-        )
+        return this._renderNewContribution()
       case 2:
         return (
             <InitialInfoReduxForm
@@ -594,12 +641,13 @@ class AddingContribution extends React.Component {
             />
         )
       default:
-        return (<span/>)
+        return <span />
     }
   }
 
   render() {
-    const {activeStep, progressSteps, progressStatus, wrapperClassName} = this.state
+    const {activeStep, progressSteps, progressStatus, wrapperClassName, newContributionData} = this.state
+    const {mainCategory} = newContributionData
     const {modalIsOpen} = this.props
     return (
         <div>
@@ -607,15 +655,16 @@ class AddingContribution extends React.Component {
             <ModalBody className="adding-contribution-wrapper">
               <FontAwesome name="times" size="2x" className="close-btn"
                            onClick={this._handleModalVisibility}/>
-              <div className="progressive-wrapper">
+              <div className={`progressive-wrapper ${mainCategory}`}>
                 <MenuProgressive
                     steps={progressSteps}
                     activeStep={activeStep}
                     status={progressStatus}
+                    // stepsClassName={mainCategory}
                 />
               </div>
               <div className={`wrapper ${wrapperClassName}`}>
-                {this._switchContent()}
+                {this._switchContentByMainCategory()}
               </div>
             </ModalBody>
           </Modal>
@@ -625,7 +674,6 @@ class AddingContribution extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-
   return {
     translator: getMessages(state),
     categories: categorySelector(state),

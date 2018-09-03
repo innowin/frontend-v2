@@ -2,7 +2,6 @@ import {createSelector} from 'reselect'
 
 
 const getHashTags = (state) => {
-    console.log('----- selector ----- >> getHashTags >> state is: ', state)
     return state.common.hashTag
 }
 

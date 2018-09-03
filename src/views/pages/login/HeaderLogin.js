@@ -22,18 +22,20 @@ const HeaderLogin = ({iosLink, androidLink, address, phoneNumber, logoCaption}) 
 							<div className="address">{address}</div>
 						</div>
 					</div>
-					<div className="app-icon-section">
-						<div className='icon ml-3'>
-							<a href={androidLink}>
-								<div><FontAwesome name="android"/></div>
-							</a>
-						</div>
-						<div className='icon'>
-							<a href={iosLink}>
-								<div><FontAwesome name="apple"/></div>
-							</a>
-						</div>
-					</div>
+          {/* ------------------- commented by ali orooji -----------------*/}
+					{/*<div className="app-icon-section">*/}
+						{/*<div className='icon ml-3'>*/}
+							{/*<a href={androidLink}>*/}
+								{/*<div><FontAwesome name="android"/></div>*/}
+							{/*</a>*/}
+						{/*</div>*/}
+						{/*<div className='icon'>*/}
+							{/*<a href={iosLink}>*/}
+								{/*<div><FontAwesome name="apple"/></div>*/}
+							{/*</a>*/}
+						{/*</div>*/}
+					{/*</div>*/}
+          {/* ------------------- commented by ali orooji -----------------*/}
 				</div>
 			</div>
 	)
