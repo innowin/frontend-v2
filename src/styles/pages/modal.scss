@@ -7,19 +7,19 @@
   min-height: 150px;
 }
 .modal-page {
-  overflow: scroll;
-  top:10px;
-  bottom: 10px;
-  position: fixed;
-  direction: rtl;
-  width: 80%;
-  z-index: 9999;
-  text-align: center;
-  left: 30%;
-  margin-left: -20%;
-  background-color: white;
-  border: 1px solid #959595;
-  padding: 30px;
+  // overflow: scroll;
+  // top:10px;
+  // bottom: 10px;
+  // position: fixed;
+  // direction: rtl;
+  // width: 80%;
+  // z-index: 9999;
+  // text-align: center;
+  // left: 30%;
+  // margin-left: -20%;
+  // background-color: white;
+  // border: 1px solid #959595;
+  // padding: 30px;
   input{
     font-size:12px;
   }
@@ -336,6 +336,7 @@
 .circle-progress{
   position: absolute;
   width: 90%;
+  text-align: center;
   .CircularProgressbar {
     width: 10%;
     transform: translate(-50%,0%);

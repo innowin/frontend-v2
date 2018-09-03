@@ -17,6 +17,7 @@ import exchange from '../../../redux/actions/types/exchange';
 import ExchangeActions from '../../../redux/actions/exchangeActions';
 import MenuProgressive from '../progressive/penu-progressive'
 import {ClipLoader} from "react-spinners"
+import {Modal, ModalBody} from 'reactstrap'
 import {
   WRAPPER_CLASS_NAMES,
   PROGRESSIVE_STATUS_CHOICES,
@@ -39,11 +40,24 @@ class  PageOne extends Component{
     this.handleBack = this.handleBack.bind(this)
     this.handleNext = this.handleNext.bind(this)
   }
+  showMessage(str){
+    this.messageInput.val(str)
+  }
+  _validateInput(){
+    if(this.state.name.length < 1){
+      this.nameInput.focus()
+      alert('لطفا نام بورس را وارد کنید')
+      return false
+    }else{
+      return true
+    }
+  }
   handleNext(){
-    this.props.saveState({name:this.state.name,link:this.state.link,exchange_image:this.state.exchange_image,private:this.state.private}).then(()=>{
-      this.props.handleNext()
-    })
-    
+    if(this._validateInput()){
+      this.props.saveState({name:this.state.name,link:this.state.link,exchange_image:this.state.exchange_image,private:this.state.private}).then(()=>{
+        this.props.handleNext()
+      })
+    }
   }
   handleBack(){
     this.props.saveState({name:"",link:"",exchange_image:null,private:false}).then(()=>{
@@ -51,7 +65,7 @@ class  PageOne extends Component{
     })
   }
   changeImage(imageSrc,idx){
-    this.setState({...this.state,currentImage:imageSrc.file,selectedIdx:idx,exchange_image:imageSrc.id}, function () {
+    this.setState({...this.state,isLoading: false, currentImage:imageSrc,selectedIdx:idx,exchange_image:imageSrc.id}, function () {
       console.log(this.state.value);
     });
   }
@@ -76,7 +90,7 @@ class  PageOne extends Component{
   }
   _createFile = (fileString, fileName) => {
     const mediaResult = (res) => {
-      this.setState({...this.state, isLoading: false, currentImage:res.file, currentMedia: res, exchange_image:res.id})
+      this.setState({...this.state, isLoading: false, currentImage:res, currentMedia: res, exchange_image:res.id})
     };
     createFile(fileString, mediaResult);
   };
@@ -105,19 +119,19 @@ class  PageOne extends Component{
             <div className="row" dir="rtl">
               <div className="col">
                 <label className="label float-right"><strong>عنوان بورس:</strong></label>
-                <input type="text " onChange={(e)=>{this.setState({name:e.target.value})}} defaultValue={this.state.name} className="form-control white-text-input"/>
+                <input type="text " required ref={(nameInput)=>{this.nameInput = nameInput}} onChange={(e)=>{this.setState({name:e.target.value})}} defaultValue={this.state.name} className="form-control white-text-input"/>
               </div>
             </div>
             <div className="row create-exchange-options">
               <div className="col">
                 <div className="form-check form-check-inline">
-                  <input className="form-check-input" onChange={(e)=>{this.setState({private:!e.target.checked})}} type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option1" checked={!this.state.private}/>
+                  <input className="form-check-input"  onChange={(e)=>{this.setState({private:!e.target.checked})}} type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option1" checked={!this.state.private}/>
                   <label className="form-check-label" htmlFor="inlineRadio2"><strong>عمومی</strong></label>
                 </div>
               </div>
               <div className="col">
                 <div className="form-check form-check-inline">
-                  <input className="form-check-input" onChange={(e)=>{this.setState({private:e.target.checked})}} type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked={this.state.private}/>
+                  <input className="form-check-input" ref={(isPrivateInput)=>{this.isPrivateInput = isPrivateInput}} onChange={(e)=>{this.setState({private:e.target.checked})}} type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked={this.state.private}/>
                   <label className="form-check-label"  htmlFor="inlineRadio1"><strong>خصوصی</strong></label>
                 </div>
               </div>   
@@ -129,7 +143,7 @@ class  PageOne extends Component{
                 <label htmlFor="exchangeUser" className="col-sm-2 exchangeUser-label"><strong>http://dbm.ir/</strong></label>
                 <div className="col-sm-10">
                   
-                  <input type="text" onChange={(e)=>{this.setState({link:"http://dbm.ir/"+e.target.value})}} defaultValue={this.state.link.replace("http://dbm.ir/","")} className="form-control  white-text-input" id="exchangeUser" placeholder="نام کاربری بورس" dir='rtl'/>
+                  <input type="text" ref={(exchangeLinkInput)=>{this.exchangeLinkInput = exchangeLinkInput}} onChange={(e)=>{this.setState({link:"http://dbm.ir/"+e.target.value})}} defaultValue={this.state.link.replace("http://dbm.ir/","")} className="form-control  white-text-input" id="exchangeUser" placeholder="نام کاربری بورس" dir='rtl'/>
                 </div>
             </div>
           </div>
@@ -142,16 +156,10 @@ class  PageOne extends Component{
             <div className="row">
               <div className="col m-2">
                 <div className="row">
-                {
-                isLoading == true ? 
-                  <span>{__('Uploading...')}</span>
-                :
                   <ImageViewerAgent 
                   imageSelect={()=>{}}
                   src={this.state.currentImage}
-                  />
-                }
-                  
+                  />                  
                 </div>
               </div>
 
@@ -163,7 +171,7 @@ class  PageOne extends Component{
                     ref={(inputOpenFileRef)=>{this.inputOpenFileRef = inputOpenFileRef}}
                     onChange={this._handleChangeImage}/>
                     {/* <FileInput type="file" style={{display:"none"}}  ref={(inputOpenFileRef)=>{this.inputOpenFileRef = inputOpenFileRef}}/> */}
-                    <ImageViewerAgent key={'chooser'} idx={-1} selected={false} src="http://www.arcdocendi.com/Forms/images/upload.png" imageSelect={this.showOpenFileDlg.bind(this)} />
+                    <ImageViewerAgent key={'chooser'} idx={-1} selected={false} src={{file:"http://www.arcdocendi.com/Forms/images/upload.png"}} imageSelect={this.showOpenFileDlg.bind(this)} />
                   </div>
                   {imgViews}
                 </div>
@@ -602,9 +610,28 @@ class CreateExchangeForm extends Component {
   render() {
     const pageContent = this.getPage()
     const {progressSteps,page,progressStatus} = this.state
+    return (
+      <div  >
+        <Modal className="exchanges-modal" size="lg" isOpen={this.props.active} backdrop={false}>
+          <ModalBody className="modal-page create-exchange-wrapper">
+            <FontAwesome name="times" size="2x" className="close-btn"
+                          onClick={this.props.hide}/>
+            <div className="progressive-wrapper">
+            <MenuProgressive
+                steps={progressSteps}
+                activeStep={page}
+                status={progressStatus}
+            />
+            </div>
+            {pageContent}
+          </ModalBody>
+        </Modal>
+      </div>
+    )
     if(!this.state.isLoading){
       return (
-        <div className={this.props.active  ? "modal-page create-exchange-wrapper"  : "modal-page create-exchange-wrapper hide" } tabIndex="-1" role="dialog" ref={this.setWrapperRef}>
+        
+        <div className={this.props.active  ? "modal-dialog exchanges-modal modal-lg modal-page create-exchange-wrapper"  : "modal-page create-exchange-wrapper hide" } tabIndex="-1" role="dialog" ref={this.setWrapperRef}>
           
           <div className="progressive-wrapper">
             <MenuProgressive
@@ -618,7 +645,7 @@ class CreateExchangeForm extends Component {
       )
     }else{
       return (
-        <div className={this.props.active  ? "modal-page create-exchange-wrapper"  : "modal-page create-exchange-wrapper hide" } tabIndex="-1" role="dialog" ref={this.setWrapperRef}>
+        <div className={this.props.active  ? " modal-page create-exchange-wrapper"  : "modal-page create-exchange-wrapper hide" } tabIndex="-1" role="dialog" ref={this.setWrapperRef}>
           <div className="full-page-loading">
             <ClipLoader color="#999" size={40} margin="4px" loading={true}/>
           </div>
