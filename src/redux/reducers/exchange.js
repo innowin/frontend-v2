@@ -20,7 +20,10 @@ const exchanges = (state = initialState.exchanges, action) => {
     //       }
     //     }
     //   }
-    case types.SUCCESS.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY:
+		case types.SUCCESS.EXCHANGE.GET_EXCHANGE_BY_EX_ID:
+			return slices.getExchangeByExId(state , action)
+	
+		case types.SUCCESS.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY:
       return {
         ...state,
         ...data
