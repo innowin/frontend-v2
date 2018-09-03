@@ -13,7 +13,7 @@ export const getCommentsByParent = (parentId, handleResult) => {
   );
 
   const func = (res) => {
-    if (res.detail) {
+    if (res.data.detail) {
       // TODO mohsen: handle error
       return false
     }

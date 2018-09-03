@@ -11,7 +11,7 @@ export const getPostViewerCount = (postId, handleResult) => {
     if (res.detail) {
       return false;
     }
-    handleResult(res.data);
+    handleResult(res);
     socket.off(`${postId}-getPostViewerCount`, func)
   };
   socket.on(`${postId}-getPostViewerCount`, func)
@@ -24,7 +24,7 @@ export const setPostViewer = (postId, getAddedView = () => null) => {
     result: `${postId}-addViewerForThisPost`
   });
   const func = (res) => {
-    if (res.detail) {
+    if (res.data.detail) {
       return false;
     }
     getAddedView();

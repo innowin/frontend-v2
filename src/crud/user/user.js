@@ -14,7 +14,7 @@ export const getUser = (userId, handleResult) => {
   )
 
   const func = (res) => {
-    if (res.detail) {
+    if (res.data.detail) {
       return false
     }
     handleResult(res.data)
@@ -39,7 +39,7 @@ export const updateUser = (formValues, userId, updateStateForView, hideEdit) => 
       }
     })
   const func = (res) => {
-    if (res.detail) {
+    if (res.data.detail) {
       return false
     }
     updateStateForView(res.data)

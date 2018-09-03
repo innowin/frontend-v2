@@ -13,7 +13,7 @@ export const getWorkExperiences = (userId, updateWorkExperiences, handleErrorLoa
     })
 
   socket.on(`userWorkExperiences-WorkExperiences-get/${userId}`, (res) => {
-    if (res.detail) {
+    if (res.data.detail) {
       handleErrorLoading(res.data.detail)
       return false
     }
@@ -35,7 +35,7 @@ export const createWorkExperience = (formValues, updateWorkExperiences, handleEr
   )
 
   socket.on('createWorkExperience-workExperience', (res) => {
-    if (res.detail) {
+    if (res.data.detail) {
       handleErrorLoading(res.data.detail)
       return false
     }
@@ -57,8 +57,8 @@ export const updateWorkExperience = (formValues, workExperienceId, updateView, h
   )
 
   socket.on(`updateWorkExperience-patch/${workExperienceId}`, (res) => {
-    if (res.detail) {
-      handleErrorLoading(res.detail)
+    if (res.data.detail) {
+      handleErrorLoading(res.data.detail)
       return false
     }
     updateView(res.data)
@@ -79,8 +79,8 @@ export const deleteWorkExperience = (workExperiences, workExperience, updateWork
   )
 
   socket.on(`deleteWorkExperience-delete/${workExperienceId}`, (res) => {
-    if (res.detail) {
-      handleErrorLoading(res.detail)
+    if (res.data.detail) {
+      handleErrorLoading(res.data.detail)
       return false
     }
     const deletedIndex = workExperiences.indexOf(workExperience)

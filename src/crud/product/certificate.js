@@ -23,8 +23,8 @@ export const updateCertificate = (formValues, certId, updateStateForView, hideEd
 	socket.on(`updateCertificate-patch/${certId}`, (res) => {
 		let error = false;
 		isLoading = false;
-		if (res.detail) {
-			error = res.detail;
+		if (res.data.detail) {
+			error = res.data.detail;
 		}
 		updateStateForView(res.data, error, isLoading);
 		hideEdit();
@@ -55,8 +55,8 @@ export const createCertificate = (formValues,  updateStateForView, hideEdit,prod
 	socket.on(`createCertificate-post/`, (res) => { //TODO picture is null problem 
 		let error = false;
 		isLoading = false;
-		if (res.detail) {
-			error = res.detail;
+		if (res.data.detail) {
+			error = res.data.detail;
 			updateStateForView(res.data, error, isLoading);
 			
 			return;
@@ -93,8 +93,8 @@ export const deleteCertificate = (certId, updateStateForView, hideEdit,productId
 	socket.on(`deleteCertificate-delete/${certId}`, (res) => {
 		let error = false;
 		isLoading = false;
-		if (res.detail) {
-			error = res.detail;
+		if (res.data.detail) {
+			error = res.data.detail;
 			updateStateForView(res.data, error, isLoading);
 			
 			return;

@@ -11,7 +11,7 @@ export const getProfile = (userId, handleResult) => {
   })
 
   const func = (res) => {
-    if (res.detail) {
+    if (res.data.detail) {
       return false
     }
     handleResult(res.data[0])
@@ -42,7 +42,7 @@ export const getProfile = (userId, handleResult) => {
 //   })
 //
 //   const func = (res) => {
-//     if (res.detail) {
+//     if (res.data.detail) {
 //       return false
 //     }
 //     updateStateForView(res)

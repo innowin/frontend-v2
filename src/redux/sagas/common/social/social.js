@@ -18,7 +18,7 @@ function* watchGetFollowers() {
 }
 
 function* watchDeleteFollowers() {
-  yield takeEvery(types.COMMON.SOCIAL.GET_FOLLOWERS, deleteFollowers)
+  yield takeEvery(types.COMMON.SOCIAL.DELETE_FOLLOWERS, deleteFollowers)
 }
 
 

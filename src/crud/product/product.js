@@ -13,7 +13,7 @@ export const getProducts = (limit, handleResult) => {
   );
   const func = (res) => {
     socket.off("products/>list-get", func)
-    if (res.detail) {
+    if (res.data.detail) {
       // TODO mohsen: handle error
       return false
     }
@@ -36,9 +36,9 @@ export const getProduct = (productId, handleResult) => {
       );
       const func = (res) => {
         socket.off(`products/{id}/-get/${productId}`, func)
-        if (res.detail) {
+        if (res.data.detail) {
           // TODO mohsen: handle error
-          reject(res.detail)
+          reject(res.data.detail)
         }
         resolve(res);
         
@@ -56,7 +56,7 @@ export const getProduct = (productId, handleResult) => {
   );
   const func = (res) => {
     socket.off(`products/{id}/-get/${productId}`, func)
-    if (res.detail) {
+    if (res.data.detail) {
       // TODO mohsen: handle error
       return false
     }

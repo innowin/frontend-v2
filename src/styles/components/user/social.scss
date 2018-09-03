@@ -19,6 +19,7 @@ $item-header-margin-right: 16px;
     .details{
       justify-content: space-between;
       padding-left: 3px;
+      align-items: center;
       .text-section{
         display: flex;
         flex-direction: column;
@@ -33,6 +34,9 @@ $item-header-margin-right: 16px;
           height: 50px;
           line-height: 2;
         }
+      }
+      .follow-section{
+        color: $success-color;
       }
     }
   }

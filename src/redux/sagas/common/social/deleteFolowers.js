@@ -5,7 +5,7 @@ import types from 'src/redux/actions/types'
 import {put, take, fork, call} from "redux-saga/effects"
 
 export function* deleteFollowers(action) {
-  const {followedIdentityId} = action.payload
+  const {followedIdentityId, followParentType} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.SOCIAL.DELETE_FOLLOWERS)
   try {
     yield fork(api.del, urls.COMMON.SOCIAL.DELETE_FOLLOWERS, results.COMMON.SOCIAL.DELETE_FOLLOWERS, `?follow_followed=${followedIdentityId}`)

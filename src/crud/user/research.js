@@ -14,7 +14,7 @@ export const createResearch = (researchId, formValues, handleResult) => {
     })
 
   socket.on(`user-research-create/${researchId}`, (res) => {
-    if (res.detail) {
+    if (res.data.detail) {
       return false
     }
     handleResult(res.data)
@@ -31,7 +31,7 @@ export const updateResearch = (researchId, formValues, hideEdit, handleResult) =
       token: TOKEN
     })
   const func = (res) => {
-    if (res.detail) {
+    if (res.data.detail) {
       return false
     }
     handleResult(res.data)
@@ -52,7 +52,7 @@ export const deleteResearch = (researchId, formValues, handleResult) => {
     })
 
   socket.on(`user-research-del/${researchId}`, (res) => {
-    if (res.detail) {
+    if (res.data.detail) {
       return false
     }
     handleResult(res.data)
@@ -69,7 +69,7 @@ export const getUserResearches = (userId, handleResult) => {
     }
   )
   const func = (res) => {
-    if (res.detail) {
+    if (res.data.detail) {
       return false
     }
     handleResult(res.data)

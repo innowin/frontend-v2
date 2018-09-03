@@ -13,7 +13,7 @@ export const getIdentity = (identityId, handleResult) => {
   );
 
   const func = (res) => {
-    if (res.detail) {
+    if (res.data.detail) {
       // TODO mohsen: handle error
       return false
     }
@@ -34,7 +34,7 @@ export const getIdentityByUser = (userId, handleResult) => {
   );
 
   const func = (res) => {
-    if (res.detail) {
+    if (res.data.detail) {
       // TODO mohsen: handle error
       return false
     }
@@ -55,7 +55,7 @@ export const getIdentityByOrgan = (organId, handleResult) => {
   );
 
   const func = (res) => {
-    if (res.detail) {
+    if (res.data.detail) {
       // TODO mohsen: handle error
       return false
     }

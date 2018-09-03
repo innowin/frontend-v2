@@ -1,28 +1,33 @@
 import types from '../types'
 
-const getFollowees = (identityId) => {
+const getFollowees = (followIdentity, followOwnerId, followParentType="identity") => {
   return{
     type: types.COMMON.SOCIAL.GET_FOLLOWEES,
     payload: {
-      identityId,
+      followIdentity,
+      followParentType,
+      followOwnerId,
     }
   }
 }
 
-const getFollowers= (identityId) => {
+const getFollowers= (followIdentity, followOwnerId, followParentType="identity") => {
   return{
     type: types.COMMON.SOCIAL.GET_FOLLOWERS,
     payload: {
-      identityId,
+      followIdentity,
+      followParentType,
+      followOwnerId,
     }
   }
 }
 
-const deleteFollowers= (followedIdentityId) => {
+const deleteFollowers= (followedIdentityId, followParentType="identity") => {
   return{
     type: types.COMMON.SOCIAL.DELETE_FOLLOWERS,
     payload: {
       followedIdentityId,
+      followParentType,
     }
   }
 }

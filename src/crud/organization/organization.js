@@ -13,7 +13,7 @@ export const getOrganization = (organId, handleResult) => {
   );
 
   socket.on("/organizations/{id}/-get", (res) => {
-    if (res.detail) {
+    if (res.data.detail) {
       // TODO mohsen: handle error
       return false
     }
@@ -31,7 +31,7 @@ export const getMetaDataOrganization = (handleResult) => {
   );
 
   socket.on("getMetaDataOrganization", (res) => {
-    if (res.detail) {
+    if (res.data.detail) {
       return false
     }
     handleResult(res.data)

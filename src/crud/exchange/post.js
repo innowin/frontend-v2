@@ -14,8 +14,8 @@ export const updatePost = (formValues, postId, updateView, hideEdit, handleError
   );
 
   const func = (res) => {
-    if (res.detail) {
-      handleErrorLoading(res.detail);
+    if (res.data.detail) {
+      handleErrorLoading(res.data.detail);
       return false;
     }
     updateView(res.data);
@@ -38,8 +38,8 @@ export const deletePost = ( post, hideEdit, handleErrorLoading) => {
   );
 
   const func = (res) => {
-    if (res.detail) {
-      handleErrorLoading(res.detail);
+    if (res.data.detail) {
+      handleErrorLoading(res.data.detail);
       return false;
     }
     handleErrorLoading();

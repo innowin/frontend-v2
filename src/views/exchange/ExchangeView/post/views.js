@@ -156,8 +156,8 @@ class PostComment extends Component{
       )
       socket.on(`get-comment-sender/${senderId}`,(res)=>{
         socket.off(`get-comment-sender/${senderId}`)
-        if(res.detail){
-          reject(res.detail)
+        if(res.data.detail){
+          reject(res.data.detail)
         }else{
           resolve(res)
         }

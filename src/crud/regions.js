@@ -10,7 +10,7 @@ export const getCountries = (handleResult) => {
     }
   );
   socket.on("getCountries", (res) => {
-    if (res.detail) {
+    if (res.data.detail) {
       return false
     }
     handleResult(res.data)
@@ -26,7 +26,7 @@ export const getProvinces = (countryId, handleResult) => {
     }
   );
   socket.on("getProvinces", (res) => {
-    if (res.detail) {
+    if (res.data.detail) {
       return false
     }
     handleResult(res.data)
@@ -42,7 +42,7 @@ export const getTowns = (provinceId, handleResult) => {
     }
   );
   socket.on("getTowns", (res) => {
-    if (res.detail) {
+    if (res.data.detail) {
       return false
     }
     handleResult(res.data)

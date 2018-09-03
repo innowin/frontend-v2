@@ -13,8 +13,8 @@ export const getPostsByIdentity = (IdentityId, updatePosts, handleErrorLoading) 
       token
     });
   const func = (res) => {
-    if (res.detail) {
-      handleErrorLoading(res.detail);
+    if (res.data.detail) {
+      handleErrorLoading(res.data.detail);
       return false;
     }
     updatePosts(res, 'get');
@@ -36,8 +36,8 @@ export const createPost = (formValues, updatePosts, handleErrorLoading, hideCrea
     }
   );
   const func = (res) => {
-    if (res.detail) {
-      handleErrorLoading(res.detail);
+    if (res.data.detail) {
+      handleErrorLoading(res.data.detail);
       return false;
     }
     updatePosts(res.data, 'post');
@@ -60,8 +60,8 @@ export const updatePost = (formValues, postId, updateView, hideEdit, handleError
   );
 
   const func = (res) => {
-    if (res.detail) {
-      handleErrorLoading(res.detail);
+    if (res.data.detail) {
+      handleErrorLoading(res.data.detail);
       return false;
     }
     updateView(res.data);
@@ -84,8 +84,8 @@ export const deletePost = (posts, post, updatePosts, hideEdit, handleErrorLoadin
   );
 
   const func = (res) => {
-    if (res.detail) {
-      handleErrorLoading(res.detail);
+    if (res.data.detail) {
+      handleErrorLoading(res.data.detail);
       return false;
     }
 
@@ -108,9 +108,9 @@ export const getPost = (id, handleErrorLoading) => {
         token
       });
     const func = (res) => {
-      if (res.detail) {
-        reject(res.detail);
-        // handleErrorLoading(res.detail);
+      if (res.data.detail) {
+        reject(res.data.detail);
+        // handleErrorLoading(res.data.detail);
         // return false;
       }
       // handleErrorLoading();

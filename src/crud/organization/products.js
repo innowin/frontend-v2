@@ -23,8 +23,8 @@ export const updateProduct = (formValues, productId, updateStateForView, hideEdi
 	socket.on(`updateProduct-organization-patch/${productId}`, (res) => {
 		let error = false;
 		isLoading = false;
-		if (res.detail) {
-			error = res.detail;
+		if (res.data.detail) {
+			error = res.data.detail;
 		}else{
 			if(formValues.picture_media !=null){
 				addPicture(formValues.picture_media, res.id)
@@ -57,8 +57,8 @@ export const createProduct = (formValues, updateStateForView, hideEdit) => {
 	socket.on(`createProduct-organization-post/`, (res) => {
 		let error = false;
 		isLoading = false;
-		if (res.detail) {
-			error = res.detail;
+		if (res.data.detail) {
+			error = res.data.detail;
 		}else{
 			if(formValues.picture_media !=null){
 				addPicture(formValues.picture_media, res.id)
@@ -90,8 +90,8 @@ export const deleteProduct = (product, products, updateStateForView) => {
 	socket.on(`deleteProduct-organization-delete/${productId}`, (res) => {
 		let error = false;
 		isLoading = false;
-		if (res.detail) {
-			error = res.detail;
+		if (res.data.detail) {
+			error = res.data.detail;
 		}
 
 
@@ -138,8 +138,8 @@ export const deletePicture = ( pictures, picture, updatePicturesList) => {
 	socket.on(`Product-picture-del/${picture.id}`, (res) => {
 		let error = false;
 		isLoading = false;
-		if (res.detail) {
-			error = res.detail;
+		if (res.data.detail) {
+			error = res.data.detail;
 		}
 		const deletedIndex = pictures.indexOf(picture);
     updatePicturesList(null, 'del', deletedIndex);
@@ -168,8 +168,8 @@ export const addPicture = (picture_media, picture_product) => {
 	socket.on(`Product-picture-add`, (res) => {
 		let error = false;
 		isLoading = false;
-		if (res.detail) {
-			error = res.detail;
+		if (res.data.detail) {
+			error = res.data.detail;
 		}
 
 		socket.emit(REST_REQUEST,

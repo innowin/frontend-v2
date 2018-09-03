@@ -13,7 +13,7 @@ export const getProductRepresents = (productId, updateRepresents, handleErrorLoa
     });
 
   socket.on(`productRepresents-Represents-get/${productId}`, (res) => {
-    if (res.detail) {
+    if (res.data.detail) {
       handleErrorLoading(res.data.detail);
       return false;
     }
@@ -36,7 +36,7 @@ export const getExchangeRepresents = (exchangeId, updateRepresents, handleErrorL
   });
 
   socket.on('EXCHANGE-LIST-POSTS',(res) => {
-    if (res.detail) {
+    if (res.data.detail) {
       handleErrorLoading(res.data.detail);
       return false;
     }
@@ -58,8 +58,8 @@ export const createRepresent = (formValues, updateRepresents, handleErrorLoading
   );
 
   socket.on('createRepresent-represent', (res) => {
-    if (res.detail) {
-      handleErrorLoading(res.detail);
+    if (res.data.detail) {
+      handleErrorLoading(res.data.detail);
       return false;
     }
     updateRepresents(res, 'represent');
@@ -80,8 +80,8 @@ export const updateRepresent = (formValues, representId, updateView, hideEdit, h
   );
 
   socket.on(`updateRepresent-patch/${representId}`, (res) => {
-    if (res.detail) {
-      handleErrorLoading(res.detail);
+    if (res.data.detail) {
+      handleErrorLoading(res.data.detail);
       return false;
     }
     updateView(res);
@@ -102,8 +102,8 @@ export const deleteRepresent = (represents, represent, updateRepresents, hideEdi
   );
 
   socket.on(`deleteRepresent-delete/${representId}`, (res) => {
-    if (res.detail) {
-      handleErrorLoading(res.detail);
+    if (res.data.detail) {
+      handleErrorLoading(res.data.detail);
       return false;
     }
     const deletedIndex = represents.indexOf(represent);

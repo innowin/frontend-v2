@@ -23,8 +23,8 @@ export const updateCustomer = (formValues, customerId, updateStateForView, hideE
 	socket.on(`updateCustomer-patch/${customerId}`, (res) => {
 		let error = false;
 		isLoading = false;
-		if (res.detail) {
-			error = res.detail;
+		if (res.data.detail) {
+			error = res.data.detail;
 		}
 		updateStateForView(res.data, error, isLoading);
 		hideEdit();
@@ -53,8 +53,8 @@ export const createCustomer = (formValues,  updateStateForView, hideEdit,organiz
 	socket.on(`createCustomer-post/`, (res) => {
 		let error = false;
 		isLoading = false;
-		if (res.detail) {
-			error = res.detail;
+		if (res.data.detail) {
+			error = res.data.detail;
 			updateStateForView(res, error, isLoading);
 			
 			return;
@@ -91,8 +91,8 @@ export const deleteCustomer = (customerId, updateStateForView, hideEdit,organiza
 	socket.on(`deleteCustomer-delete/${customerId}`, (res) => {
 		let error = false;
 		isLoading = false;
-		if (res.detail) {
-			error = res.detail;
+		if (res.data.detail) {
+			error = res.data.detail;
 			updateStateForView(res, error, isLoading);
 			
 			return;

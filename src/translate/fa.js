@@ -204,6 +204,7 @@ module.exports = {
   'Exchange': 'بورس',
   'Exchanges': 'بورس ها',
   'Social': 'اجتماعی',
+  'Followed': 'دنبال شده',
 
   // Product
   // Product Rating
