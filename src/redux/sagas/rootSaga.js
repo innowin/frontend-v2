@@ -26,7 +26,6 @@ import {watchGetOrganization} from "./organization/getOrganSagas"
 import {watchLSignIn, watchLSignOut, watchLSignInError} from './auth/auth'
 import authWatchers from './auth/auth'
 import watchUsernameCheck from "./user/checkUsernameSaga"
-import exchangeWatchers from "./exchange"
 import {
   watchGetExchangesByMemberIdentity,
   watchGetExchangeByExId,
@@ -34,13 +33,9 @@ import {
   watchDeleteExchangeMembership,
   watchAddToExchange,
   watchCreateExchange,
-} from "./exchange/exchange"
+} from "./exchange"
 import {watchGetUserByUserId, watchGetProfileByUserId, watchGetIdentityByUserId, watchGetUsers} from "./user/getUserSagas"
-	watchGetUserByUserId,
-	watchGetProfileByUserId,
-	watchGetIdentityByUserId,
-	watchGetUsers
-} from "./user/getUserSagas"
+
 import {watchCreateUserPerson, watchCreateUserOrgan,} from "./user/createUserSagas"
 // TODO: mohammad all user sagas must go to ./user/user.js and just one import here from ./user/user.js
 import userWatchers from './user/user'
@@ -101,59 +96,59 @@ const rootSaga = function* () {
     // common
     ...commonWatchers
   ])
-	yield all([
-		fork(watchUsernameCheck),
-		watchCreateUserPerson(),
-		watchCreateUserOrgan(),
-		watchGetUserByUserId(),
-		watchGetUsers(),
-		watchGetProfileByUserId(),
-		watchGetIdentityByUserId(),
-		watchLSignInError(),
-		watchLSignOut(),
-		watchLSignIn(),
-		watchGetCertificates(),
-		watchGetCustomers(),
-		watchGetOrganization(),
-		watchGetOrganizationMembers(),
-		watchGetOrgExchanges(),
-		watchGetOrgFollowers(),
-		watchGetOrgFollowings(),
-		watchGetProducts(),
-		watchUpdateOrganization(),
-		watchUpdateCustomer(),
-		watchUpdateOrgProduct(),
-		watchAddProductPicture(),
-		watchGetProductPictures(),
-		watchGetProductsSuccess(),
-		watchDeleteProduct(),
-		watchCreateCertificate(),
-		watchCreateOrgProduct(),
-		watchGetStaff(),
-		watchCreateCustomer(),
-		watchDeleteCustomer(),
+	// yield all([
+	// 	fork(watchUsernameCheck),
+	// 	watchCreateUserPerson(),
+	// 	watchCreateUserOrgan(),
+	// 	watchGetUserByUserId(),
+	// 	watchGetUsers(),
+	// 	watchGetProfileByUserId(),
+	// 	watchGetIdentityByUserId(),
+	// 	watchLSignInError(),
+	// 	watchLSignOut(),
+	// 	watchLSignIn(),
+	// 	watchGetCertificates(),
+	// 	watchGetCustomers(),
+	// 	watchGetOrganization(),
+	// 	watchGetOrganizationMembers(),
+	// 	watchGetOrgExchanges(),
+	// 	watchGetOrgFollowers(),
+	// 	watchGetOrgFollowings(),
+	// 	watchGetProducts(),
+	// 	watchUpdateOrganization(),
+	// 	watchUpdateCustomer(),
+	// 	watchUpdateOrgProduct(),
+	// 	watchAddProductPicture(),
+	// 	watchGetProductPictures(),
+	// 	watchGetProductsSuccess(),
+	// 	watchDeleteProduct(),
+	// 	watchCreateCertificate(),
+	// 	watchCreateOrgProduct(),
+	// 	watchGetStaff(),
+	// 	watchCreateCustomer(),
+	// 	watchDeleteCustomer(),
 		
-		//Exchange sagas
-		exchangeWatchers.watchGetExchangeByExId(),
-		exchangeWatchers.watchGetExchangeMembersByExId(),
-		exchangeWatchers.watchDeleteExchangeMembership(),
-		exchangeWatchers.watchGetExchangesByMemberIdentity(),
-		exchangeWatchers.watchCreateExchange(),
+	// 	//Exchange sagas
+	// 	exchangeWatchers.watchGetExchangeByExId(),
+	// 	exchangeWatchers.watchGetExchangeMembersByExId(),
+	// 	exchangeWatchers.watchDeleteExchangeMembership(),
+	// 	exchangeWatchers.watchGetExchangesByMemberIdentity(),
+	// 	exchangeWatchers.watchCreateExchange(),
 		
-		watchUpdateCustomer(),
-		watchAgencyRequest(),
+	// 	watchUpdateCustomer(),
+	// 	watchAgencyRequest(),
 		
-		// user watchers
-		userWatchers.watchUpdateUserByUserId(),
-		userWatchers.watchUpdateProfileByProfileId(),
+	// 	// user watchers
+	// 	userWatchers.watchUpdateUserByUserId(),
+	// 	userWatchers.watchUpdateProfileByProfileId(),
 		
-		// auth watchers
-		authWatchers.watchVerifyToken(),
+	// 	// auth watchers
+	// 	authWatchers.watchVerifyToken(),
 		
-		// NOTE: the common watchers pushed to common/index.js to prevent from conflict.
-		// common
-		...commonWatchers
-	])
+	// 	// NOTE: the common watchers pushed to common/index.js to prevent from conflict.
+	// 	// common
+	// 	...commonWatchers
+	// ])
 }
 
 export default rootSaga

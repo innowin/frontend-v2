@@ -8,7 +8,6 @@ import {deleteExchangeMembership} from './deleteExchangeMembership'
 import {getExchangeByExId} from "./getExchangeByExId"
 import {getExchangeIdentitiesByMemberIdentity} from "./getExchangeIdentities"
 import {getExchangeMembersByExId} from './getExchangeMembersByExId'
-import {createExchange} from './createExchange'
 import {addToExchange} from './addToExchange'
 
 /**********    %% WATCHERS %%    **********/
@@ -33,15 +32,14 @@ function* watchCreateExchange() {
 	yield takeEvery(types.EXCHANGE.CREATE_EXCHANGE, createExchange)
 }
 
-<<<<<<< HEAD:src/redux/sagas/exchange/exchange.js
-export function* watchAddToExchange(){
+function* watchAddToExchange(){
 	yield takeEvery(types.EXCHANGE.ADD_TO_EXCHANGE, addToExchange)
-=======
-export default {
+}
+export  {
 	watchGetExchangesByMemberIdentity,
 	watchGetExchangeByExId,
 	watchGetExchangeMembersByExId,
 	watchDeleteExchangeMembership,
 	watchCreateExchange,
->>>>>>> cf22ae4a07ba721b6a71f65b934af4f345c077bd:src/redux/sagas/exchange/index.js
+	watchAddToExchange
 }
