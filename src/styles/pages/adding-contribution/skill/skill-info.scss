@@ -1,0 +1,46 @@
+@import "../common";
+
+.skill-initial-info {
+  .form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 90px auto 40px;
+    max-width: 740px;
+    .form-column {
+      flex: 1 1 300px;
+      min-width: 300px;
+      padding: 0 20px;
+    }
+    .selected-tags {
+      @extend %none-bordered-input;
+      height: 124px;
+      overflow: auto;
+      margin-bottom: 0;
+      padding: 10px;
+    }
+    .title {
+      margin-bottom: 20px;
+    }
+    .title input {
+      @extend %none-bordered-input;
+      padding: 10px;
+    }
+    .desc textarea {
+      @extend %none-bordered-input;
+      height: 124px;
+      padding: 10px;
+    }
+  }
+  .tags-search-box {
+    margin-bottom: 20px;
+    @extend %none-bordered-select;
+    .Select {
+      margin: 0;
+    }
+  }
+  .next-prev-btns {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+}

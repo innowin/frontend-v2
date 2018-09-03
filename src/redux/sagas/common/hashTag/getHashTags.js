@@ -11,8 +11,6 @@ function* getHashTags(action) {
     try {
         yield fork(api.get, urls.COMMON.HASH_TAG_PARENT, results.COMMON.GET_HASH_TAGS)
         const data = yield take(socketChannel)
-        console.log('---- SAGA ---- >> getHashTags >> data is: ',
-            data)
         const normalData = helpers.arrayToIdKeyedObject(data)
         yield put({type: types.SUCCESS.COMMON.GET_HASH_TAGS, payload: {data: normalData}})
 

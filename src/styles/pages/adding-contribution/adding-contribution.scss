@@ -1,7 +1,9 @@
 @import "./next-and-prev-btns";
-@import "./initial-info";
-@import "./certificates";
+@import "product/initial-info";
+@import "product/certificates";
 @import "./new-contribution";
-@import "./gallery-and-tags";
-@import "./technical-properties";
-@import "./success-message";
+@import "product/gallery-and-tags";
+@import "product/technical-properties";
+@import "product/success-message";
+@import "./progressive";
+@import "./skill/skill-info";

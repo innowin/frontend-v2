@@ -3,13 +3,8 @@ import * as React from 'react'
 import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd' // !?
 import {SquareAdd, CongratsTick, EditIcon} from '../../../../images/icons'
 import NextPrevBtns from '../nextAndPrevBtns'
+import type {TechnicalPropertyType} from "../types"
 
-
-type TechnicalPropertyType = {
-    value: string,
-    title: string,
-    id: string
-}
 
 type TechnicalPropertiesProps = {
     properties: Array<TechnicalPropertyType>,
