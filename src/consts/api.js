@@ -3,13 +3,15 @@ import {REST_REQUEST} from "./Events"
 import {eventChannel} from 'redux-saga'
 import {apply, select} from "redux-saga/effects"
 
-
 const createSocketChannel = (resultName) => {
   return eventChannel(emit => {
     const resultHandler = res => {
       if (res.status !== "OK") {
         console.log('\n --- api --- >> createSocketChannel >> res is : \n', res)
         // below is for check user handle error
+        if (typeof res.data === "object" && res.data.detail){
+          emit(new Error(res.data.detail))
+        }
         if(res.data.non_field_errors){
           emit(new Error(res.data.non_field_errors))
           return;
