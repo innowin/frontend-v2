@@ -4,7 +4,6 @@ import slices from './exchangeSlices'
 
 // this badge function just set received success exchanges in user or organ or ...
 
-<<<<<<< HEAD
 // const exchanges = (state = initialState.exchanges, action) => {
 // 	const {data, postParent, exchangeId, message} = action.payload || {}
 // 	// const prevExchange = state[exchangeId] && state[exchangeId].exchange
@@ -67,18 +66,6 @@ import slices from './exchangeSlices'
 // }
 
 const exchanges = (state = initialState.exchanges, action) => {
-	switch (action.type) {
-		case types.SUCCESS.EXCHANGE.GET_EXCHANGE_BY_EX_ID:
-			return slices.getExchangeByExId(state , action)
-		
-		case types.RESET:
-			return initialState.exchanges
-		
-		default:
-			return state
-	}
-=======
-const exchanges = (state = initialState.exchanges, action) => {
   const {data, exchangeId, message, postParentId, postParentType, postId} = action.payload || {}
   // const prevExchange = state[exchangeId] && state[exchangeId].exchange
   switch (action.type) {
@@ -95,7 +82,10 @@ const exchanges = (state = initialState.exchanges, action) => {
     //       }
     //     }
     //   }
-    case types.SUCCESS.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY:
+		case types.SUCCESS.EXCHANGE.GET_EXCHANGE_BY_EX_ID:
+			return slices.getExchangeByExId(state , action)
+	
+		case types.SUCCESS.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY:
       return {
         ...state,
         ...data
@@ -177,6 +167,5 @@ const exchanges = (state = initialState.exchanges, action) => {
     default:
       return {...state}
   }
->>>>>>> e5a9619dc2511553757989df32dc6d19cd5bbc7a
 }
 export default exchanges
