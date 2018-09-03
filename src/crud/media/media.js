@@ -12,7 +12,7 @@ export const getFile = (mediaId, mediaResult) => {
     }
   );
   const func = (res) => {
-    if (res.detail) {
+    if (res.data.detail) {
       // TODO mohsen: handle error
       return false;
     }
@@ -38,7 +38,7 @@ export const createFile = (fileString, mediaResult) => {
   );
 
   const func = (res) => {
-    if (res.detail) {
+    if (res.data.detail) {
       // TODO mohsen: handle error
       return false;
     }

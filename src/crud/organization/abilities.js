@@ -25,8 +25,8 @@ export const updateAbility = (formValues, abilityId, updateStateForView, hideEdi
 	socket.on(`updateAbility-patch/${abilityId}`, (res) => {
 		let error = false;
 		isLoading = false;
-		if (res.detail) {
-			error = res.detail;
+		if (res.data.detail) {
+			error = res.data.detail;
 		}
 		updateStateForView(res.data, error, isLoading);
 		hideEdit();
@@ -55,8 +55,8 @@ export const createAbility = (formValues,  updateStateForView, hideEdit,organiza
 	socket.on(`createAbility-post/`, (res) => {
 		let error = false;
 		isLoading = false;
-		if (res.detail) {
-			error = res.detail;
+		if (res.data.detail) {
+			error = res.data.detail;
 			updateStateForView(res, error, isLoading);
 			
 			return;
@@ -93,8 +93,8 @@ export const deleteAbility = (formValues, certId, updateStateForView, hideEdit,o
 	socket.on(`deleteAbility-delete/${certId}`, (res) => {
 		let error = false;
 		isLoading = false;
-		if (res.detail) {
-			error = res.detail;
+		if (res.data.detail) {
+			error = res.data.detail;
 			updateStateForView(res, error, isLoading);
 			
 			return;

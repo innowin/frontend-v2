@@ -3,14 +3,36 @@ import types from '../../actions/types'
 
 const social = (state = initialState.common.social, action) => {
   const {data, message} = action.payload || []
+  const previousFollows = (state && state.follows) || {}
+  const indexedSocial = {}
 
   switch (action.type) {
       /** -------------------------- get following -------------------------> **/
     case types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWEES:
-      return {...state}
+      data.map(follow => indexedSocial[follow.id] = {...follow, error: null, isLoading: false})
+      return {
+        ...state,
+        follows:{
+          ...previousFollows,
+          list: {
+            ...previousFollows.list,
+            ...indexedSocial,
+          }
+        }
+      }
       /** -------------------------- get followers -------------------------> **/
     case types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWERS:
-      return {...state}
+      data.map(follow => indexedSocial[follow.id] = {...follow, error: null, isLoading: false})
+      return {
+        ...state,
+        follows:{
+          ...previousFollows,
+          list: {
+            ...previousFollows.list,
+            ...indexedSocial,
+          }
+        }
+      }
       /** -------------------------- delete followers -------------------------> **/
     case types.COMMON.SOCIAL.DELETE_FOLLOWERS:
       return {...state}

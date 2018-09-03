@@ -14,8 +14,8 @@ export const getCertificates = (userId, updateCertificates, handleErrorLoading) 
   )
 
   socket.on(`UserCertificates-get/${userId}`, (res) => {
-    if (res.detail) {
-      handleErrorLoading(res.data.detail)
+    if (res.data.detail) {
+      handleErrorLoading(res.data.data.detail)
       return false
     }
     updateCertificates(res.data, 'get')
@@ -35,8 +35,8 @@ export const updateCertificate = (formValues, certificateId, updateView, hideEdi
   )
 
   socket.on(`updateCertificate-patch/${certificateId}`, (res) => {
-    if (res.detail) {
-      handleErrorLoading(res.detail)
+    if (res.data.detail) {
+      handleErrorLoading(res.data.detail)
       return false
     }
     updateView(res.data)
@@ -57,8 +57,8 @@ export const createCertificate = (formValues, updateCertificates, handleErrorLoa
     )
 
     socket.on("createCertificate-post", (res) => {
-      if (res.detail) {
-        handleErrorLoading(res.detail)
+      if (res.data.detail) {
+        handleErrorLoading(res.data.detail)
         return false
       }
       updateCertificates(res.data, 'post')
@@ -81,7 +81,7 @@ export const deleteCertificate = (certificates, certificate, updateCertificates,
 
 
   socket.on(`deleteCertificate-delete/${certificateId}`, (res) => {
-    if (res.detail) {
+    if (res.data.detail) {
       handleErrorLoading(res.data.detail)
       return false
     }

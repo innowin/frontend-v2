@@ -26,8 +26,8 @@ export const updateSkill = (formValues, skillId, updateStateForView, hideEdit) =
 	socket.on(`updateSkill-patch/${skillId}`, (res) => {
 		let error = false
 		isLoading = false
-		if (res.detail) {
-			error = res.detail
+		if (res.data.detail) {
+			error = res.data.detail
 		}
 		updateStateForView(res.data, error, isLoading)
 		hideEdit()
@@ -59,8 +59,8 @@ export const createSkill = (formValues, skills, skill, updateSkills, hideEdit, h
 	emitting()
 
 	socket.on(`createSkill-post`, (res) => {
-		if (res.detail) {
-      handleErrorLoading(res.detail)
+		if (res.data.detail) {
+      handleErrorLoading(res.data.detail)
       return false
     }
     const deletedIndex = skills.indexOf(skill)
@@ -88,8 +88,8 @@ export const deleteSkill = (skill, skills, updateSkills, hideEdit, handleErrorLo
 	emitting()
 
 	socket.on(`deleteSkill-delete/${skill.id}/`, (res) => {
-		if (res.detail) {
-      handleErrorLoading(res.detail)
+		if (res.data.detail) {
+      handleErrorLoading(res.data.detail)
       return false
     }
     const deletedIndex = skills.indexOf(skill)

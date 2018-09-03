@@ -2,7 +2,7 @@ import initialState from "../initialState"
 import types from "../../actions/types/index"
 
 const users = (state = initialState.users, action) => {
-  const {userId, postOwnerId, data, message, postId} = action.payload || {}
+  const {userId, postOwnerId, followOwnerId, data, message, postId} = action.payload || {}
   const defaultObject = { content: {}, isLoading: false, error: null }
   const defaultObject2 = { content: [], isLoading: false, error: null }
   const previousUser = (state[userId] && state[userId].user) || defaultObject
@@ -10,7 +10,8 @@ const users = (state = initialState.users, action) => {
   const previousIdentity = (state[userId] && state[userId].identity) || defaultObject
   const previousBadges = (state[userId] && state[userId].badges) || defaultObject2
   const previousPost = (state[postOwnerId] && state[postOwnerId].posts) || defaultObject2
-  const previousFollows = (state[userId] && state[userId].social && state[userId].social.follows) || defaultObject2
+  const previousSocial = (state[followOwnerId] && state[followOwnerId].social) || {follows: {}}
+  const previousFollows = (state[followOwnerId] && state[followOwnerId].social && state[followOwnerId].social.follows) || defaultObject2
 
   switch (action.type) {
     /** -------------------------- get user -------------------------> **/
@@ -264,7 +265,7 @@ const users = (state = initialState.users, action) => {
           ...state[postOwnerId],
           posts: {
             ...previousPost,
-            content: arrayOfPostId,
+            content: [...new Set([...previousPost.content, ...arrayOfPostId])],
             isLoading: false,
             error: null
           }
@@ -382,6 +383,102 @@ const users = (state = initialState.users, action) => {
             ...previousPost,
             isLoading: false,
             error: message
+          }
+        }
+      }
+    /** -------------------------- get followers -------------------------> **/
+    case types.COMMON.SOCIAL.GET_FOLLOWERS:
+      return {
+        ...state,
+        [followOwnerId]: {
+          ...state[followOwnerId],
+          social: {
+            ...previousSocial,
+            follows:{
+              ...previousFollows,
+              isLoading: true,
+              error: null
+            }
+          }
+        }
+      }
+    case types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWERS:
+      const arrayOfFollowersId = data.map(follow => follow.id)
+      return {
+        ...state,
+        [followOwnerId]: {
+          ...state[followOwnerId],
+          social:{
+            ...previousSocial,
+            follows:{
+              ...previousFollows,
+              content: [...new Set([...previousFollows.content, ...arrayOfFollowersId])],
+              isLoading: false,
+              error: null
+            }
+          }
+        }
+      }
+    case types.ERRORS.COMMON.SOCIAL.GET_FOLLOWERS:
+      return {
+        ...state,
+        [followOwnerId]: {
+          ...state[followOwnerId],
+          social: {
+            ...previousSocial,
+            follows:{
+              ...previousFollows,
+              isLoading: false,
+              error: message
+            }
+          }
+        }
+      }
+    /** -------------------------- get followees -------------------------> **/
+    case types.COMMON.SOCIAL.GET_FOLLOWEES:
+      return {
+        ...state,
+        [followOwnerId]: {
+          ...state[followOwnerId],
+          social: {
+            ...previousSocial,
+            follows:{
+              ...previousFollows,
+              isLoading: true,
+              error: null
+            }
+          }
+        }
+      }
+    case types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWEES:
+      const arrayOfFolloweesId = data.map(follow => follow.id)
+      return {
+        ...state,
+        [followOwnerId]: {
+          ...state[followOwnerId],
+          social:{
+            ...previousSocial,
+            follows:{
+              ...previousFollows,
+              content: [...new Set([...previousFollows.content, ...arrayOfFolloweesId])],
+              isLoading: false,
+              error: null
+            }
+          }
+        }
+      }
+    case types.ERRORS.COMMON.SOCIAL.GET_FOLLOWEES:
+      return {
+        ...state,
+        [followOwnerId]: {
+          ...state[followOwnerId],
+          social: {
+            ...previousSocial,
+            follows:{
+              ...previousFollows,
+              isLoading: false,
+              error: message
+            }
           }
         }
       }

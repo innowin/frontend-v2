@@ -2,10 +2,11 @@ import initialState from './initialState'
 import types from '../actions/types'
 
 const auth = (state = initialState.auth, action) => {
-  const {data, postId, postIdentity, message} = action.payload || {}
+  const {data, postId, postIdentity, followIdentity, message} = action.payload || {}
   const {user, profile, identity} = data || {}
   const {client} = state
   const previousPost = (client && client.posts) || []
+  const previousFollows = (client && client.social && client.social.follows) || []
   switch (action.type) {
     /** -------------------------- sign in -------------------------> **/
     case types.AUTH.SET_TOKEN:
@@ -31,7 +32,7 @@ const auth = (state = initialState.auth, action) => {
           user_type,
           rememberMe,
           posts: [],
-          socials:{
+          social:{
             follows:[]
           },
           isLoggedIn: true,
@@ -130,6 +131,44 @@ const auth = (state = initialState.auth, action) => {
         client: {
           ...client,
           posts: [...newDeletedPosts]
+        }
+      }
+    /** -------------------------- get followers  -------------------------> **/
+    case types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWERS:
+      const arrayOfFollowersId = []
+      data.map(follower => {
+        if(followIdentity === state.client.identity.id && (!previousFollows.includes(follower.id))) {
+          return arrayOfFollowersId.push(follower.id)
+        }
+        return arrayOfFollowersId
+      })
+      return {
+        ...state,
+        client: {
+          ...client,
+          social:{
+            ...client.social,
+            follows: [...previousFollows, ...arrayOfFollowersId]
+          }
+        }
+      }
+    /** -------------------------- get followees  -------------------------> **/
+    case types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWEES:
+      const arrayOfFolloweesId = []
+      data.map(follower => {
+        if(followIdentity === state.client.identity.id && (!previousFollows.includes(follower.id))) {
+          return arrayOfFolloweesId.push(follower.id)
+        }
+        return arrayOfFolloweesId
+      })
+      return {
+        ...state,
+        client: {
+          ...client,
+          social:{
+            ...client.social,
+            follows: [...previousFollows, ...arrayOfFolloweesId]
+          }
         }
       }
     /** -------------------------- reset auth  -------------------------> **/

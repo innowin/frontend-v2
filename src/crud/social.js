@@ -13,8 +13,8 @@ export const getFollowings = (identityId, handleError, handleResult) => {
   );
 
   const func = (res) => {
-    if (res.detail) {
-      handleError(res.detail)
+    if (res.data.detail) {
+      handleError(res.data.detail)
     }
     handleResult(res.data);
     socket.off(`/organizations/follows/?follow_follower/${identityId}`, func)
@@ -34,8 +34,8 @@ export const getFollowers = (identityId, handleError, handleResult) => {
   );
 
   const func = (res) => {
-    if (res.detail) {
-      handleError(res.detail)
+    if (res.data.detail) {
+      handleError(res.data.detail)
     }
     handleResult(res.data);
     socket.off(`/organizations/follows/?follow_followed/${identityId}`, func)
@@ -54,8 +54,8 @@ export const deleteFollow = (followedIdentityId, handleError, handleResult) => {
   );
 
   const func = (res) => {
-    if (res.detail) {
-      handleError(res.detail)
+    if (res.data.detail) {
+      handleError(res.data.detail)
     }
     handleResult(res.data);
     socket.off(`organizationFollowing-delete/${followedIdentityId}`, func)

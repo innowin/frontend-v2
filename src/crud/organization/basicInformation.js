@@ -22,8 +22,8 @@ export const updateOrganization = (formValues, organizationId, updateStateForVie
 	socket.on(`updateBasicInformation-patch/${organizationId}`, (res) => {
 		let error = false;
 		isLoading = false;
-		if (res.detail) {
-			error = res.detail;
+		if (res.data.detail) {
+			error = res.data.detail;
 		}
 		updateStateForView(res.data, error, isLoading);
 		hideEdit();

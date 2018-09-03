@@ -27,9 +27,9 @@ function* getUserByUserId(action) {
 function* getProfileByUserId(action) {
   const {payload} = action
   const {userId} = payload
-  const socketChannel = yield call(api.createSocketChannel, results.USER.GET_PROFILE_BY_USER_ID)
+  const socketChannel = yield call(api.createSocketChannel, results.USER.GET_PROFILE_BY_USER_ID + userId)
   try {
-    yield fork(api.get, urls.USER.GET_PROFILE_BY_USER_ID, results.USER.GET_PROFILE_BY_USER_ID, `?profile_user=${userId}`)
+    yield fork(api.get, urls.USER.GET_PROFILE_BY_USER_ID, results.USER.GET_PROFILE_BY_USER_ID + userId, `?profile_user=${userId}`)
     const dataList = yield take(socketChannel)
     const data = dataList[0]
     yield put({type:types.SUCCESS.USER.GET_PROFILE_BY_USER_ID, payload:{data, userId}})

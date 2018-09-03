@@ -14,8 +14,8 @@ export const getExchangePosts = (exchangeId, postType, limit = 100, offset = 0, 
 		token,
 	});
 	const func = (res) => {
-		if (res.detail) {
-			handleErrorLoading(res.detail);
+		if (res.data.detail) {
+			handleErrorLoading(res.data.detail);
 			return false;
 		}
 		updatePosts(res.data.results, 'get');
@@ -34,7 +34,7 @@ export const getExchangePostsByPostType = (exchangeId, postType, handleResult) =
 		token
 	});
 	const func = (res) => {
-		if (res.detail) {
+		if (res.data.detail) {
 			return false;
 		}
 		handleResult(res.data);
@@ -53,7 +53,7 @@ export const getExchangePostsHasProduct = (exchangeId, handleResult) => {
 		token
 	});
 	const func = (res) => {
-		if (res.detail) {
+		if (res.data.detail) {
 			return false;
 		}
 		handleResult(res.data);

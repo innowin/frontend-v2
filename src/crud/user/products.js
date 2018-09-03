@@ -23,8 +23,8 @@ export const updateProduct = (formValues, productId, updateStateForView, hideEdi
 	socket.on(`updateProduct-patch/${productId}`, (res) => {
 		let error = false
 		isLoading = false
-		if (res.detail) {
-			error = res.detail
+		if (res.data.detail) {
+			error = res.data.detail
 		}
 		updateStateForView(res.data, error, isLoading)
 		hideEdit()
@@ -52,8 +52,8 @@ export const createProduct = (formValues, updateStateForView, hideEdit) => {
 	socket.on(`createProduct-post/`, (res) => {
 		let error = false
 		isLoading = false
-		if (res.detail) {
-			error = res.detail
+		if (res.data.detail) {
+			error = res.data.detail
 		}
 		updateStateForView(res.data, error, isLoading)
 		hideEdit()
@@ -80,8 +80,8 @@ export const deleteProduct = (formValues, productId, updateStateForView, hideEdi
 	socket.on(`deleteProduct-delete/${productId}`, (res) => {
 		let error = false
 		isLoading = false
-		if (res.detail) {
-			error = res.detail
+		if (res.data.detail) {
+			error = res.data.detail
 		}
 		updateStateForView(res.data, error, isLoading)
 		hideEdit()

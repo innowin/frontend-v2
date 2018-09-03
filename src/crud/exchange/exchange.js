@@ -13,7 +13,7 @@ export const getExchange = (exchangeId, handleResult) => {
 	})
 	
 	const func = (res) => {
-		if (res.detail) {
+		if (res.data.detail) {
 			return false
 		}
 		handleResult(res.data)
@@ -32,8 +32,8 @@ export const getExchangesByMemberIdentity = (identityOfMember, handleError, hand
 		token,
 	})
 	socket.on("EXCHANGE_LIST_HOME_SIDEBAR", res => {
-		if (res.detail) {
-			handleError(res.detail)
+		if (res.data.detail) {
+			handleError(res.data.detail)
 		}
 		handleResult(res.data)
 	})
@@ -48,8 +48,8 @@ export const getExchangePostComment = (postId) => {
 			token,
 		})
 		socket.on(`get-exchange-post/${postId}`, res => {
-			if (res.detail) {
-				reject(res.detail)
+			if (res.data.detail) {
+				reject(res.data.detail)
 			}
 			socket.off(`get-exchange-post/${postId}`)
 			resolve(res.data)
@@ -67,8 +67,8 @@ export const getExchangeMembers = (exchangeId, handleError, handleResult) => {
 	
 	
 	const func = (res) => {
-		if (res.detail) {
-			handleError(res.result)
+		if (res.data.detail) {
+			handleError(res.data.result)
 		}
 		handleResult(res.data)
 		socket.off(`get-exchange-members-${exchangeId}`, func)
@@ -86,8 +86,8 @@ export const removeExchangeMembership = (id, handleError, handleResult = () => n
 	})
 	
 	const func = (res) => {
-		if (res.detail) {
-			handleError(res.result)
+		if (res.data.detail) {
+			handleError(res.data.result)
 			return false
 		}
 		handleResult(res.data)

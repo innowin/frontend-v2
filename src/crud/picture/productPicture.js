@@ -13,7 +13,7 @@ export const getPictureProduct = (productId, handleResult) => {
       }
     );
     socket.on("products/pictures/?product-get", (res) => {
-      if (res.detail) {
+      if (res.data.detail) {
         // TODO mohsen: handle error
         return false
       }
