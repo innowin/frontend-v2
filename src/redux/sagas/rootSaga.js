@@ -32,8 +32,9 @@ import {
   watchGetExchangeMembersByExId,
   watchDeleteExchangeMembership
 } from "./exchange/exchange"
-import {watchGetUserByUserId, watchGetProfileByUserId, watchGetIdentityByUserId, watchGetUsers} from "./user/getUserSagas"
+import {watchGetUserByUserId, watchGetProfileByUserId, watchGetUsers} from "./user/getUserSagas"
 import {watchCreateUserPerson, watchCreateUserOrgan,} from "./user/createUserSagas"
+import identityWatchers from "./getIdentity"
 // TODO: mohammad all user sagas must go to ./user/user.js and just one import here from ./user/user.js
 import userWatchers from './user/user'
 import commonWatchers from './common/index'
@@ -47,7 +48,6 @@ const rootSaga = function* () {
     watchGetUserByUserId(),
     watchGetUsers(),
     watchGetProfileByUserId(),
-    watchGetIdentityByUserId(),
     watchLSignInError(),
     watchLSignOut(),
     watchLSignIn(),
@@ -86,6 +86,10 @@ const rootSaga = function* () {
 
     // auth watchers
     authWatchers.watchVerifyToken(),
+
+    // identity watchers
+    identityWatchers.watchGetUserIdentity(),
+    identityWatchers.watchGetOrgIdentity(),
 
     // NOTE: the common watchers pushed to common/index.js to prevent from conflict.
     // common

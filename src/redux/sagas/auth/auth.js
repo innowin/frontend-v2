@@ -4,6 +4,7 @@ import results from "src/consts/resultName"
 import types from "src/redux/actions/types"
 import urls from "src/consts/URLS"
 import {verifyToken} from './verifyToken'
+import {getOrgIdentity} from "../getIdentity"
 import {delay} from "redux-saga"
 import {put, take, fork, call, takeEvery} from "redux-saga/effects"
 
@@ -24,19 +25,22 @@ function* signIn(action) {
     let userType = 'person'
     let organizationId = null
     let organization = null
+    let identity = data.identity
     if (hasOrgan) {
       const organData = yield call(getOrganizationInSignIn, username)
       userType = 'org'
       organizationId = organData.id
       organization = organData
+      const organAction = {payload:{organizationId}}
+      identity = yield* call(getOrgIdentity, organAction)
     }
-    yield client.saveData(data.user.id, data.identity.id, userType, organizationId, rememberMe)
+    yield client.saveData(data.user.id, identity.id, userType, organizationId, rememberMe)
     if (!rememberMe) {
       yield client.setSessionLS(token)
     } else {
       yield client.setTokenLS(token)
     }
-    data = {...data, organization}
+    data = {...data, identity, organization}
     yield put({type: types.SUCCESS.AUTH.SIGN_IN, payload: {data, rememberMe: rememberMe}})
     // after set user & profile data in client should set user and profile data in users in redux state
     const userId = data.user.id

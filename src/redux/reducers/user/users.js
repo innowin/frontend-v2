@@ -10,7 +10,6 @@ const users = (state = initialState.users, action) => {
   const previousIdentity = (state[userId] && state[userId].identity) || defaultObject
   const previousBadges = (state[userId] && state[userId].badges) || defaultObject2
   const previousPost = (state[postOwnerId] && state[postOwnerId].posts) || defaultObject2
-  const previousFollows = (state[userId] && state[userId].social && state[userId].social.follows) || defaultObject2
 
   switch (action.type) {
     /** -------------------------- get user -------------------------> **/
@@ -96,7 +95,7 @@ const users = (state = initialState.users, action) => {
         }
       }
     /** -------------------------- get identity -------------------------> **/
-    case types.USER.GET_IDENTITY_BY_USER_ID:
+    case types.USER.GET_USER_IDENTITY:
       return {
         ...state,
         [userId]: {
@@ -108,7 +107,7 @@ const users = (state = initialState.users, action) => {
           }
         }
       }
-    case types.SUCCESS.USER.GET_IDENTITY_BY_USER_ID:
+    case types.SUCCESS.USER.GET_USER_IDENTITY:
       return {
         ...state,
         [userId]: {
@@ -120,7 +119,7 @@ const users = (state = initialState.users, action) => {
           }
         }
       }
-    case types.ERRORS.USER.GET_IDENTITY_BY_USER_ID:
+    case types.ERRORS.USER.GET_USER_IDENTITY:
       return {
         ...state,
         [userId]: {

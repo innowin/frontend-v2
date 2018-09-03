@@ -144,7 +144,7 @@ const organization = (state = initialState.organization, action) => {
 			return{...state,exchanges:{content:exchanges,isLoading:false,error:false}}
 
 		/** -------------------------- get user identity-------------------------> **/
-		case types.SUCCESS.ORG.GET_USER_IDENTITY:
+		case types.SUCCESS.ORG.GET_ORG_IDENTITY:
 			const identity = action.payload[0];
 			return{...state,identity:{content:identity,isLoading:false,error:false}}
 

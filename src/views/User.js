@@ -7,6 +7,7 @@ import BadgeActions from "src/redux/actions/commonActions/badgeActions"
 import Certificates from "./user/certificates/index"
 import ChatBar from "src/views/bars/ChatBar"
 import GetUserActions from "src/redux/actions/user/getUserActions"
+import GetIdentityActions from "src/redux/actions/identityActions"
 import Posts from "src/views/common/post/index"
 import PrivateRoute from "../consts/PrivateRoute"
 import Skills from "./user/skills/index"
@@ -37,7 +38,7 @@ type PropsUser = {
   actions: {
     getUserByUserId: Function,
     getProfileByUserId: Function,
-    getIdentityByUserId: Function,
+    getUserIdentity: Function,
     getUserBadges: Function,
   },
   translate: {},
@@ -68,10 +69,10 @@ class User extends Component<PropsUser> {
   componentDidMount() {
     const {params} = this.props.match
     const userId: number = +params.id
-    const {getUserByUserId, getProfileByUserId, getIdentityByUserId} = this.props.actions
+    const {getUserByUserId, getProfileByUserId, getUserIdentity} = this.props.actions
     getUserByUserId(userId)
     getProfileByUserId(userId)
-    getIdentityByUserId(userId)
+    getUserIdentity(userId)
   }
 
   render() {
@@ -162,7 +163,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getUserByUserId: GetUserActions.getUserByUserId,
     getProfileByUserId: GetUserActions.getProfileByUserId,
-    getIdentityByUserId: GetUserActions.getIdentityByUserId,
+    getUserIdentity: GetIdentityActions.getUserIdentity,
     getUserBadges: BadgeActions.getUserBadges
   }, dispatch)
 })

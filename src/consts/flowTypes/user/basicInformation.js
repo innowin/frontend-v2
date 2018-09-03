@@ -53,7 +53,6 @@ export type userEducationType = {|
   description: ?string,
 |}
 
-
 export type userResearchType = {|
   id: number,
   created_time: string,

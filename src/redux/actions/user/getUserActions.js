@@ -11,11 +11,6 @@ const getProfileByUserId = (userId:number) => ({
   payload:{userId}
 })
 
-const getIdentityByUserId = (userId:number) => ({
-  type:types.USER.GET_IDENTITY_BY_USER_ID,
-  payload:{userId}
-})
-
 const getUsers = () => ({
   type:types.USER.GET_USERS,
   payload:{}
@@ -24,7 +19,6 @@ const getUsers = () => ({
 const GetUserActions = {
   getUserByUserId,
   getProfileByUserId,
-  getIdentityByUserId,
   getUsers
 }
 

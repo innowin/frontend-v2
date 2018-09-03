@@ -4,8 +4,7 @@ import types from 'src/redux/actions/types'
 // this badge function just set received success exchanges in user or organ or ...
 
 const exchanges = (state = initialState.exchanges, action) => {
-  const {data, exchangeId, message, postParentId, postParentType, postId} = action.payload || {}
-  // const prevExchange = state[exchangeId] && state[exchangeId].exchange
+  const {data, exchangeId, message, postId, postOwnerId, postOwnerType, postParentId, postParentType} = action.payload || {}
   switch (action.type) {
     /** --------------------  get exchange --------------------- **/
     // case types.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY:
@@ -30,12 +29,13 @@ const exchanges = (state = initialState.exchanges, action) => {
       const postIds = postResults.map(post => post.id)
       if (postParentType === 'exchange' && postIds.length > 0) {
         const exchangeId = postParentId
+        const prevPostIds = (state[postParentId] && state[postParentId].posts) ? state[postParentId].posts.content : []
         return {
           ...state,
           [exchangeId]: {
             ...state[exchangeId],
             posts: {
-              content: postIds,
+              content: [ ...postIds, ...prevPostIds],
               isLoading: false,
               error:null
             }
@@ -43,7 +43,6 @@ const exchanges = (state = initialState.exchanges, action) => {
         }
       }
       return {...state}
-
     // case types.ERRORS.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY:
     //   return {
     //     ...state,
@@ -56,7 +55,6 @@ const exchanges = (state = initialState.exchanges, action) => {
     //       }
     //     }
     //   }
-
     /** -------------------------- create post  -------------------------> **/
     case types.SUCCESS.COMMON.POST.CREATE_POST:
       if (postParentType === 'exchange') {
@@ -83,13 +81,13 @@ const exchanges = (state = initialState.exchanges, action) => {
         const exchangeId = postParentId
         const prevPosts = state[exchangeId] && state[exchangeId].posts
         const prevPostsContent = prevPosts && prevPosts.content
-        const newDeletedPosts = prevPostsContent.filter(id => id !== postId)
+        const newPosts = prevPostsContent.filter(id => id !== postId)
         return {
           ...state,
           [exchangeId]: {
             ...state[exchangeId],
             posts: {
-              content: [...newDeletedPosts],
+              content: newPosts,
               isLoading: false,
               error: null
             }

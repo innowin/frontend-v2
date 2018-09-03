@@ -1,13 +1,13 @@
 const results = {
     SIGN_IN: 'sign-in',
     VERIFY_TOKEN: 'verify',
+    GET_IDENTITY: 'get-identity',
     USER: {
         USERNAME_CHECK: "USERNAME_CHECK",
         CREATE_USER_PERSON: "CREATE_USER_PERSON",
         CREATE_USER_ORGAN: "CREATE_USER_ORGAN",
         GET_USER_BY_USER_ID: "GET_USER_BY_USER_ID",
         GET_PROFILE_BY_USER_ID: "GET_PROFILE_BY_USER_ID",
-        GET_USER_IDENTITY: "GET_USER_IDENTITY",
         UPDATE_USER_BY_USER_ID: "UPDATE_USER_BY_USER_ID",
         UPDATE_PROFILE_BY_PROFILE_ID: 'UPDATE_PROFILE_BY_PROFILE_ID',
         GET_USERS: 'GET_USERS',
@@ -16,7 +16,6 @@ const results = {
         GET_ORGANIZATION: 'get-organization',
         GET_ORGANIZATION_MEMBERS: 'get-organization-members',
         UPDATE_ORGANIZATION_INFO: 'update-organization-info',
-        GET_USER_IDENTITY: 'get-user-identity',
         GET_ORG_FOLLOWERS: 'get-org-followers',
         GET_ORG_FOLLOWERS_IDENTITIES: 'get-org-followers-identities',
         GET_ORG_FOLLOWINGS: 'get-org-followings',
