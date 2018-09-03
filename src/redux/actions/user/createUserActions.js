@@ -13,7 +13,7 @@ const createUserOrgan = (formValues:{}, resolve:Function, reject:Function) => ({
 
 const CreateUserActions = {
   createUserPerson,
-  createUserOrgan
+  createUserOrgan,
 }
 
 export default CreateUserActions
