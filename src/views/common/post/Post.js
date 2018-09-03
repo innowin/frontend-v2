@@ -1,12 +1,11 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import type {postType} from "../../../consts/flowTypes/common/post";
-import {identityType} from "../../../consts/flowTypes/user/others";
+import {identityType} from "../../../consts/flowTypes/user/basicInformation";
 import {getFile} from "../../../crud/media/media";
 import {VerifyWrapper} from "../cards/Frames";
 import {PostEditForm} from "./PostEditForm";
 import {PostView} from "./PostView";
-import client from "src/consts/client"
 
 type postPropTypes = {
   post: {
@@ -67,8 +66,14 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
 
   _delete = () => {
     const {deletePost, post} = this.props
-    const userId = client.getUserId()
-    deletePost(post.id, userId, post.post_parent.id, "identity")
+    const postParent = post.post_parent
+    const postIdentityUser = post.post_identity.identity_user && post.post_identity.identity_user.id
+    const postIdentityOrgan = post.post_identity.identity_organization && post.post_identity.identity_organization.id
+    const postParentType = (postParent && postParent.child_name) || null
+    const postParentId = (postParent && postParent.id) || null
+    const postOwnerId = (postIdentityUser && postIdentityUser.id) || (postIdentityOrgan && postIdentityOrgan.id)
+    const postOwnerType = postIdentityUser ? 'person' : 'organization'
+    deletePost(post.id, postOwnerId, postOwnerType, postParentId, postParentType)
   }
 
   _getIdentityDetails = (identity: identityType) => {

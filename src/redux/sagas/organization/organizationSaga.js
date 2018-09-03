@@ -4,6 +4,7 @@ import {put, take, fork, takeEvery, call, all} from 'redux-saga/effects'
 import api from 'src/consts/api'
 import results from 'src/consts/resultName'
 import { addPicture } from '../../../crud/organization/products';
+import {getOrgIdentity} from "../getIdentity"
 
 function* createSimpleChannel(result, url, type, query = '') {
   const socketChannel = yield call(api.createSocketChannel, result)
@@ -137,28 +138,6 @@ function* getExchanges(action) {
   }
 }
 
-//10 get - org - identity
-function* getOrgIdentity(action) {
-  const payload = action.payload
-  const {organizationId} = payload;
-  const socketChannel = yield call(api.createSocketChannel, results.ORG.GET_USER_IDENTITY)
-  let res
-  try {
-    yield fork(api.get, urls.ORG.GET_USER_IDENTITY, results.ORG.GET_USER_IDENTITY, `?identity_organization=${organizationId}`)
-    const data = yield take(socketChannel)
-    res = data
-    yield put({type: types.SUCCESS.ORG.GET_USER_IDENTITY, payload: data})
-  } catch (e) {
-    const {message} = e
-    yield put({
-      type: types.ERRORS.ORG.GET_USER_IDENTITY,
-      payload: {type: types.ERRORS.ORG.GET_USER_IDENTITY, message}
-    })
-  } finally {
-    socketChannel.close()
-    return res
-  }
-}
 
 //11 get - org- followings identities
 function* getFollowingsIdentities(orgIdentity) {
@@ -185,7 +164,7 @@ function* getFollowing(follow_followed) {
   const socketChannel = yield call(api.createSocketChannel, results.ORG.GET_ORG_FOLLOWINGS)
   let data
   try {
-    yield fork(api.get, urls.ORG.GET_USER_IDENTITY, results.ORG.GET_ORG_FOLLOWINGS, `${follow_followed}`)
+    yield fork(api.get, urls.GET_IDENTITY, results.ORG.GET_ORG_FOLLOWINGS, `${follow_followed}`)
     data = yield take(socketChannel)
   } catch (e) {
     const {message} = e
@@ -224,7 +203,7 @@ function* getFollower(follow_follower) {
   const socketChannel = yield call(api.createSocketChannel, results.ORG.GET_ORG_FOLLOWERS)
   let data
   try {
-    yield fork(api.get, urls.ORG.GET_USER_IDENTITY, results.ORG.GET_ORG_FOLLOWERS, `${follow_follower}`)
+    yield fork(api.get, urls.GET_IDENTITY, results.ORG.GET_ORG_FOLLOWERS, `${follow_follower}`)
     data = yield take(socketChannel)
   } catch (e) {
     const {message} = e
@@ -581,11 +560,6 @@ export function* watchUpdateOrganization() {
 //6- get products
 export function* watchGetProducts() {
   yield takeEvery(types.ORG.GET_PRODUCTS, getProducts)
-}
-
-//7- get org identity
-export function* watchGetOrgIdentity() {
-  yield takeEvery(types.ORG.GET_USER_IDENTITY, getOrgIdentity)
 }
 
 // 8 - get org followers

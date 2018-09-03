@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import {FrameCard, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames"
 import {Post} from "src/views/common/post/Post"
 import HomeCreatePost from "./CreatPostHome"
-import {IDENTITY_ID} from "../../../consts/data"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import PostActions from "src/redux/actions/commonActions/postActions"
@@ -19,38 +18,28 @@ class HomePosts extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      posts: [],
       offset: 0,
-      activeScrollHeight: 0,
-      isLoading: false,
-      error: null,
-      scrollLoading: false,
-      scrollError: null,
+      activeScrollHeight: 0
     }
   }
 
-  // _onScroll = () => {
-  //   const {offset, activeScrollHeight} = this.state
-  //   const {posts, exchangeId} = this.props
-  //   const limit = 100
-  //   const scrollHeight = document.body.scrollHeight
-  //   if (exchangeId
-  //     && posts.length > (limit - 1)
-  //     && (~~(window.innerHeight + window.scrollY) >= (scrollHeight - 500))
-  //     && (scrollHeight > activeScrollHeight)) {
-  //     const newOffset = offset + 100
-  //     const scrollErrorLoading = (error = null) => (
-  //       this.setState({...this.state, scrollLoading: false, scrollError: error})
-  //     )
-  //     const addToPosts = (res, type) => {
-  //       const newPosts = [...posts, ...res]
-  //       this.setState({...this.state, posts: newPosts})
-  //     }
-  //     this.setState({...this.state, offset: newOffset, activeScrollHeight: scrollHeight, scrollLoading: true},
-  //       () => getExchangePosts(exchangeId, null, limit, newOffset, addToPosts, scrollErrorLoading)
-  //     )
-  //   }
-  // }
+  _onScroll = () => {
+    const {offset, activeScrollHeight} = this.state
+    const {posts, exchangeId, filterPostsByPostParentLimitOffset} = this.props
+    const limit = 100
+    const scrollHeight = document.body.scrollHeight
+    if (exchangeId
+      && posts.length > (limit - 1)
+      && (~~(window.innerHeight + window.scrollY) >= (scrollHeight - 500))
+      && (scrollHeight > activeScrollHeight)) {
+      const newOffset = offset + 100
+      this.setState({...this.state, offset: newOffset, activeScrollHeight: scrollHeight, scrollLoading: true},
+        () => filterPostsByPostParentLimitOffset({
+          postParentId:exchangeId, postType:null, postParentType:'exchange', limit, offset:newOffset
+        })
+      )
+    }
+  }
 
   componentDidUpdate(nextProps) {
     const {actions, exchangeId} = this.props
@@ -64,31 +53,37 @@ class HomePosts extends Component {
     }
   }
 
-  // componentDidMount() {
-  //   window.addEventListener('scroll', this._onScroll)
-  // }
-  //
-  // componentWillUnmount() {
-  //   window.removeEventListener('scroll', this._onScroll)
-  // }
+  componentDidMount() {
+    window.addEventListener('scroll', this._onScroll)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this._onScroll)
+  }
 
   render() {
-    const {isLoading, error, scrollLoading, scrollError} = this.state
-    const {posts, exchangeId, className, actions} = this.props
+    const {isLoading, error} = this.state
+    const {client, posts, exchangeId, className, actions} = this.props
     const {deletePost, updatePost} = actions
-    // TODO mohsen: choice postIdentity from client
+    const {identity, user_type} = client
+    const postOwnerId = (identity.identity_user && identity.identity_user.id)
+      || (identity.identity_organization && identity.identity_organization.id)
     return (
       <VerifyWrapper isLoading={isLoading} error={error} className={className}>
         {(exchangeId) ? (
           <div>
             <HomeCreatePost
-              postParent={exchangeId} postIdentity={+IDENTITY_ID}
+              postIdentityId={identity.id}
+              postOwnerId = {postOwnerId}
+              postOwnerType={user_type}
+              postParentId={exchangeId}
+              postParentType='exchange'
               handleErrorLoading={this._handleErrorLoading}
             />
             <FrameCard className="-frameCardPost border-top-0">
               <ListGroup>
                 {
-                  (Array.isArray(posts) && posts.length > 0) ? (posts.map((post) => (
+                  (posts.length > 0) ? (posts.map((post) => (
                     <Post
                       posts={posts}
                       post={post}
@@ -99,9 +94,7 @@ class HomePosts extends Component {
                   ))) : (<h1 className="mt-5">در این بورس پستی وجود ندارد!</h1>)
                 }
                 {
-                  (scrollLoading || scrollError) ? (
-                    <VerifyWrapper isLoading={scrollLoading} error={scrollError}/>
-                  ) : ('')
+                  // TODO mohsen: handle loading scroll and scrolling error
                 }
               </ListGroup>
             </FrameCard>
@@ -113,12 +106,16 @@ class HomePosts extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  const client = state.auth.client
   const exchangeId = ownProps.exchangeId
   const allPosts = state.common.post.list
   const exchangeIdPosts = (exchangeId && state.exchanges[exchangeId] && state.exchanges[exchangeId].posts
     && state.exchanges[exchangeId].posts.content) ||[]
   const posts = exchangeIdPosts.map(postId => (allPosts[postId]))
-  return {posts}
+  return {
+    client,
+    posts
+  }
 }
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({

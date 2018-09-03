@@ -2,7 +2,7 @@ import initialState from "../initialState"
 import types from "../../actions/types/index"
 
 const organs = (state = initialState.organs, action) => {
-  const {organizationId, data, message} = action.payload || {}
+  const {organizationId, data, message, postParentId, postOwnerType, postParentType, postId }= action.payload || {}
   const defaultObject = {content: {}, isLoading: false, error: null}
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const previousOrgan = (state[organizationId] && state[organizationId].organization) || defaultObject

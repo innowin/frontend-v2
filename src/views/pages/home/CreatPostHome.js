@@ -27,7 +27,7 @@ class CreatePostFooter extends Component {
 
   static propTypes = {
     getMedia: PropTypes.func.isRequired,
-  };
+  }
 
   constructor(props) {
     super(props);
@@ -40,18 +40,18 @@ class CreatePostFooter extends Component {
       fileName: this.AttachFileInput._getFileName(),
       validate: this.AttachFileInput._validate(),
     }
-  };
+  }
 
-  AttachBottom = () => <AttachFileIcon className="-h18"/>;
+  AttachBottom = () => <AttachFileIcon className="-h18"/>
 
-  _post_type = () => this.state.postType;
+  _post_type = () => this.state.postType
 
-  _reset_postType = () => this.setState({...this.state, postType: 'post'});
+  _reset_postType = () => this.setState({...this.state, postType: 'post'})
 
   _handle_post_type = (e) => {
     e.preventDefault();
-    this.setState({...this.state, postType: e.target.getAttribute("data-value")});
-  };
+    this.setState({...this.state, postType: e.target.getAttribute("data-value")})
+  }
 
   render() {
     const {postType} = this.state;
@@ -95,11 +95,14 @@ class CreatePostFooter extends Component {
 class HomeCreatePost extends Component {
   static defaultProps = {
     className: ''
-  };
+  }
 
   static propTypes = {
-    postParent: PropTypes.number.isRequired,
-    postIdentity: PropTypes.number.isRequired,
+    postIdentityId: PropTypes.number.isRequired,
+    postOwnerId: PropTypes.number.isRequired,
+    postOwnerType: PropTypes.string.isRequired,
+    postParentId: PropTypes.number.isRequired,
+    postParentType: PropTypes.string,
     handleErrorLoading: PropTypes.func,
     className: PropTypes.string,
   }
@@ -107,25 +110,29 @@ class HomeCreatePost extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      media: {}, fileName: '', description: '', descriptionValidate: false, textareaClass: 'closeTextarea',
+      media: {},
+      fileName: '',
+      description: '',
+      descriptionValidate: false,
+      textareaClass: 'closeTextarea',
       show: false
     }
   }
 
   _getValues = () => {
-    const {media} = this.createPostFooter._AttachFile();
-    const mediaId = media ? media.id : null;
-    const {postIdentity, postParent} = this.props;
+    const {media} = this.createPostFooter._AttachFile()
+    const mediaId = media ? media.id : null
+    const {postIdentityId, postParentId} = this.props
     // TODO mohsen: post_title is static but should be from post create
     return {
       post_picture: mediaId,
       post_description: this.state.description,
       post_title: 'title',
       post_type: this.createPostFooter._post_type(),
-      post_parent: postParent,
-      post_identity: postIdentity
+      post_parent: postParentId,
+      post_identity: postIdentityId
     }
-  };
+  }
 
   _formValidate = () => {
     let result = true;
@@ -136,28 +143,27 @@ class HomeCreatePost extends Component {
     for (let i = 0; i < validates.length; i++) {
       if (validates[i]) {
         result = false;
-        break;
+        break
       }
     }
     return result
-  };
+  }
 
   _getMedia = (media, fileName) => {
     this.setState({...this.state, media, fileName})
-  };
+  }
 
-  // _hideCreateForm = () => {
-  //   this.setState({...this.state, media: {}, fileName: '', description: ''});
-  //   this.createPostFooter._reset_postType()
-  // };
+  _hideCreateForm = () => {
+    this.setState({...this.state, media: {}, fileName: '', description: ''})
+    this.createPostFooter._reset_postType()
+  }
 
   _save = () => {
-    const {actions} = this.props
+    const {actions, postOwnerId, postOwnerType, postParentId, postParentType} = this.props
     const {createPost} = actions
     const formValues = this._getValues()
-    const userId = client.getUserId()
-    return createPost(formValues, userId, "exchange")
-  };
+    return createPost(formValues, postOwnerId, postOwnerType, postParentId, postParentType)
+  }
 
   _handleChange = (e) => {
     const val = e.target.value;
@@ -165,19 +171,19 @@ class HomeCreatePost extends Component {
     if (val.length > 300) {
       validate = "very long text"
     }
-    this.setState({...this.state, description: val, descriptionValidate: validate});
-  };
+    this.setState({...this.state, description: val, descriptionValidate: validate})
+  }
 
   _handleFocus = () => {
     this.setState({...this.state, textareaClass: "openTextarea", show: true})
-  };
+  }
 
   _handleClickOutForm = (e) => {
-    const {fileName, description} = this.state;
+    const {fileName, description} = this.state
     if (!e.target.closest('#HomeCreatePost') && !fileName && !description.trim()) {
       this.setState({...this.state, textareaClass: "closeTextarea", show: false})
     }
-  };
+  }
 
   _onSubmit = (e) => {
     e.preventDefault();
@@ -186,24 +192,25 @@ class HomeCreatePost extends Component {
       this.setState({...this.state, textareaClass: "closeTextarea", show: false})
     }
     return false;
-  };
+  }
 
   componentDidMount() {
-    document.addEventListener('click', this._handleClickOutForm);
+    document.addEventListener('click', this._handleClickOutForm)
   }
 
   componentWillUnmount() {
-    document.removeEventListener('click', this._handleClickOutForm);
+    document.removeEventListener('click', this._handleClickOutForm)
   }
 
   render() {
-    const {media, fileName, description, textareaClass, show} = this.state;
+    const {media, fileName, description, textareaClass, show} = this.state
     const {profile_media_file, className} = this.props;
+    // TODO handle description error that say: "Ensure description value has at least 5 characters."
     return (
       <form className={"-createPostHome " + className} id="HomeCreatePost" onSubmit={this._onSubmit}>
         {/*// TODO mohsen: handle src of img*/}
         {
-          (!profile_media_file) ? (<DefaultUserIcon className="-img-col"/>):(
+          (!profile_media_file) ? (<DefaultUserIcon className="-img-col"/>) : (
             <img className="-img-col rounded-circle" src={profile_media_file} alt=""/>)
         }
         <Transition in={show} timeout={duration}>

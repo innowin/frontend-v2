@@ -5,6 +5,7 @@ export default {
   auth: {
     client: {
       token:null,
+      // if user_type is person identity is identity of user but if user_type is organ identity is identity of organ
       identity: {},
       profile: {},
       user: {},
