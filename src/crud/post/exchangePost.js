@@ -3,7 +3,6 @@ import {REST_REQUEST} from "src/consts/Events"
 import {TOKEN as token} from 'src/consts/data'
 
 export const getExchangePosts = (exchangeId, postType, limit = 100, offset = 0, updatePosts, handleErrorLoading) => {
-
 	const url_ = (!postType) ? (`/base/posts/?post_parent=${exchangeId}&limit=${limit}&offset=${offset}`) : (
 			`/base/posts/?post_parent=${exchangeId}&post_type=${postType}&limit=${limit}&offset=${offset}`
 	);

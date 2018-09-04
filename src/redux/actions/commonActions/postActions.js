@@ -12,7 +12,7 @@ const filterPostsByPostParentLimitOffset = ({postParentId, postType, postParentT
 })
 
 // TODO: mohammad organizationId and other id must be added
-const getPostByIdentity = (postIdentity, postOwnerId) => {
+const getPostByIdentity = ({postIdentity, postOwnerId}) => {
   return {
     type: types.COMMON.POST.GET_POST_BY_IDENTITY,
     payload: {
@@ -22,7 +22,7 @@ const getPostByIdentity = (postIdentity, postOwnerId) => {
   }
 }
 
-const createPost = (formValues, postOwnerId, postOwnerType, postParentId, postParentType) => {
+const createPost = ({formValues, postOwnerId, postOwnerType, postParentId, postParentType}) => {
   return {
     type: types.COMMON.POST.CREATE_POST,
     payload: {
@@ -35,7 +35,7 @@ const createPost = (formValues, postOwnerId, postOwnerType, postParentId, postPa
   }
 }
 
-const updatePost = (formValues, postId, postOwnerId) => {
+const updatePost = ({formValues, postId, postOwnerId}) => {
   return {
     type: types.COMMON.POST.UPDATE_POST,
     payload: {
@@ -46,7 +46,7 @@ const updatePost = (formValues, postId, postOwnerId) => {
   }
 }
 
-const deletePost = (postId, postOwnerId, postOwnerType, postParentId, postParentType) => {
+const deletePost = ({postId, postOwnerId, postOwnerType, postParentId, postParentType}) => {
   return {
     type: types.COMMON.POST.DELETE_POST,
     payload: {

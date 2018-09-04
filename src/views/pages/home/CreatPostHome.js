@@ -162,7 +162,7 @@ class HomeCreatePost extends Component {
     const {actions, postOwnerId, postOwnerType, postParentId, postParentType} = this.props
     const {createPost} = actions
     const formValues = this._getValues()
-    return createPost(formValues, postOwnerId, postOwnerType, postParentId, postParentType)
+    return createPost({formValues, postOwnerId, postOwnerType, postParentId, postParentType})
   }
 
   _handleChange = (e) => {

@@ -61,7 +61,7 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
 
   _update = (formValues: postType, postId: number) => {
     const {updatePost, userId} = this.props
-    updatePost(formValues, postId, userId)
+    updatePost({formValues, postId, userId})
   }
 
   _delete = () => {
@@ -73,7 +73,7 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
     const postParentId = (postParent && postParent.id) || null
     const postOwnerId = (postIdentityUser && postIdentityUser.id) || (postIdentityOrgan && postIdentityOrgan.id)
     const postOwnerType = postIdentityUser ? 'person' : 'organization'
-    deletePost(post.id, postOwnerId, postOwnerType, postParentId, postParentType)
+    deletePost({postId:post.id, postOwnerId, postOwnerType, postParentId, postParentType})
   }
 
   _getIdentityDetails = (identity: identityType) => {
