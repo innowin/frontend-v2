@@ -4,7 +4,7 @@ import messages from 'src/translate/fa'
 export default {
   auth: {
     client: {
-      token:null,
+      token: null,
       // if user_type is person identity is identity of user but if user_type is organ identity is identity of organ
       identity: {},
       profile: {},
@@ -12,7 +12,7 @@ export default {
       organization: null,
       posts: [], /* ids of posts that postIdentity of them is identity of this client*/
       exchanges: [], /* ids of exchanges that this client is member of them*/
-      social:{
+      social: {
         follows: [], /* ids of follows that this client is participates at them*/
       },
       rememberMe: null,
@@ -23,7 +23,7 @@ export default {
   },
 
   users: {
-    list:[]
+    list: []
     /*
      [userId]: {
        ----------- info -----------
@@ -79,7 +79,9 @@ export default {
      }
     */
   },
-
+  skills: {
+    list: {}
+  },
   organization: {
     isLoading: false,
     error: {message: null},
@@ -172,10 +174,10 @@ export default {
     },
     product: {
       products: {
-          list: {},
-          nowCreatedId: null // the id of the product that is created now by the current user.
-          // this field sets in createProduct success
-          // and sets to null again by in createProduct request (base type).
+        list: {},
+        nowCreatedId: null // the id of the product that is created now by the current user.
+        // this field sets in createProduct success
+        // and sets to null again by in createProduct request (base type).
       },
       productPicture: {
         list: {}
@@ -197,12 +199,17 @@ export default {
       }
     },
     badge: {
-      list:{
+      list: {
         // [badgeId]: {} // object of badge
       }
     },
     hashTag: {
-      list: {} // list of the all hashTag.
+      mainHashTags: {
+        list: {} // list of the all hashTag.
+      },
+      objHashTags: {
+        list: {} // list of the object's hashTags
+      }
     },
     location: {
       country: {
@@ -216,19 +223,18 @@ export default {
       }
     },
     post: {
-      list:{
+      list: {
         // [postId]: {...data, isLoading:false, error:errorObject}
-       }
+      }
     },
     social: {
       follows: {
-        list:{
+        list: {
           // [followId]: {...data, isLoading:false, error:errorObject}
         }
       },
     }
   },
-
   intl: {
     locale: 'fa',
     messages: {...messages}

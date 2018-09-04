@@ -1,4 +1,4 @@
-import hashTag from "./hashTag";
+import hashTag from "./hashTag/hashTag";
 import file from "./file";
 import badge from "./badge";
 import certificate from "./certificate/index";

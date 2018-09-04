@@ -43,4 +43,38 @@
     max-width: 1000px;
     margin: 0 auto;
   }
+  .selected-tags {
+    .tag {
+      padding: 1px 10px;
+      position: relative;
+      display: inline-block;
+      background: $tag-background;
+      margin: 4.5px;
+      border-radius: 3px;
+      color: $text-lightest-color;
+    }
+    .tag span.fa.fa-times {
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      background: $tag-del-btn-background;
+      width: 16px;
+      height: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 40px;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+      pointer-events: none;
+    }
+    .tag:hover span.fa.fa-times {
+      opacity: 1;
+      visibility: visible;
+      transition: all 0.3s;
+      pointer-events: auto;
+      cursor: pointer;
+    }
+  }
 }

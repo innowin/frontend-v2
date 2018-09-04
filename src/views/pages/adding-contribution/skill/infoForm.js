@@ -1,19 +1,16 @@
 // @flow
 import * as React from 'react'
-import StateLessTextInput from '../../../common/inputs/StateLessTextInput'
-import StateLessTextarea from '../../../common/inputs/StateLessTextarea'
-import Select from 'react-select';
-import {RadioButtonGroup} from '../../../common/inputs/RadioButtonInput'
-import {LAYER1S} from '../addingConributionData'
 import NextPrevBtns from '../nextAndPrevBtns'
 import {reduxForm, Field} from "redux-form";
 import renderTextField from "../../../common/inputs/reduxFormRenderTextField"
 import renderSelectField from "../../../common/inputs/reduxFormRenderReactSelect"
 import renderTextArea from "../../../common/inputs/reduxFormRenderTextArea"
-import renderRadioButtonGroup from "../../../common/inputs/rdxRenderCircularRadioButtonGroup"
 import helpers from "src/consts/helperFunctions"
-import {connect} from "react-redux"
 import {skillFields} from "../addingConributionData"
+import type {TagAsOptionType} from "../types"
+import FontAwesome from 'react-fontawesome'
+
+
 const {objToArrayAsOptions, filterNestedObjByKey} = helpers
 
 const InfoFormValidate = (values) => {
@@ -30,39 +27,20 @@ const InfoFormValidate = (values) => {
   return errors
 }
 
-type CountryType = {
-  id: number,
-  name: string
-}
-
-type LocationType = {
-  list: { [number]: CountryType }
-}
-
-type CategoriesType = {
-  list: {},
-  isLoading: boolean,
-  isLoaded: boolean
+type SkillFormValsType = {
+  title: string,
+  description: string,
+  hashTags: Array<TagAsOptionType>
 }
 
 type InitialInfoProps = {
   goToNextStep: Function,
   goToPrevStep: Function,
-  newContributionData: {},
-  inputHandler: Function,
   handleSubmit: Function,
-  onSubmit: Function,
-  submitting: boolean,
   error: string,
-  submitFailed: boolean,
-  formVals: {},
-  categories: CategoriesType,
-  countries: LocationType,
-  countryChangeHandler: Function,
-  provinceChangeHandler: Function,
-  provinces: LocationType,
-  cities: LocationType,
-  hashTags: {}
+  formVals: SkillFormValsType,
+  hashTags: {},
+  tagHandler: Function
 }
 
 let InfoForm = (props: InitialInfoProps) => {
@@ -70,13 +48,15 @@ let InfoForm = (props: InitialInfoProps) => {
   const {
     goToNextStep,
     goToPrevStep,
-      hashTags,
+    hashTags,
     handleSubmit,
     error,
+    formVals,
+    tagHandler
   } = props
 
   const goToNextStepHandler = () => {
-    if(!error) goToNextStep()
+    if (!error) goToNextStep()
   }
 
   return (
@@ -91,18 +71,18 @@ let InfoForm = (props: InitialInfoProps) => {
             </div>
             <div className="form-column">
               <Field
-                     placeholder="برچسب‌ها"
-                     className="tags-search-box"
-                     name="hashTags"
-                     component={renderSelectField}
-                     label=""
-                     multi
-                     noResultsText={'چنین برچسبی وجود ندارد.'}
-                     options={
-                       objToArrayAsOptions(hashTags, 'id', 'title')
-                     }
+                  placeholder="برچسب‌ها"
+                  className="tags-search-box"
+                  name="hashTags"
+                  component={renderSelectField}
+                  label=""
+                  multi
+                  noResultsText={'چنین برچسبی وجود ندارد.'}
+                  options={
+                    objToArrayAsOptions(hashTags, 'id', 'title', ['usage'])
+                  }
               />
-              <div className="selected-tags">ss</div>
+              <Tags tagHandler={tagHandler} tags={formVals ? formVals.hashTags : []}/>
             </div>
           </div>
           <NextPrevBtns
@@ -114,10 +94,29 @@ let InfoForm = (props: InitialInfoProps) => {
   )
 }
 
-export const skillInfoForm = 'addingContributionSkillInfoForm'
+const Tags = (props) => {
+  const {tags, tagHandler} = props
+  return (
+      <div className="selected-tags">
+        {tags && tags.map(tag => <Tag handler={tagHandler} tag={tag} key={tag.label}/>)}
+      </div>
+  )
+}
+
+const Tag = (props) => {
+  const {tag, handler} = props
+  return (
+      <div className="tag">
+        <FontAwesome name="times" onClick={() => handler(tag.value)}/>
+        {tag.label}
+      </div>
+  )
+}
+
+export const skillInfoFormName = 'addingContributionSkillInfoForm'
 
 InfoForm = reduxForm({
-  form: skillInfoForm,
+  form: skillInfoFormName,
   validate: InfoFormValidate,
 })(InfoForm)
 

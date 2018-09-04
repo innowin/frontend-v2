@@ -223,10 +223,10 @@ const CategoryField = (props) => {
   )
 }
 
-export const INITIAL_INFO_FORM_NAME = 'addingContributionInitialInfoForm'
+export const initialInfoFormName = 'addingContributionInitialInfoForm'
 
 InitialInfoReduxForm = reduxForm({
-  form: INITIAL_INFO_FORM_NAME,
+  form: initialInfoFormName,
   validate: InitialInfoReduxFormValidate,
 })(InitialInfoReduxForm)
 

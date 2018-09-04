@@ -3,7 +3,7 @@
 
 import * as React from "react";
 
-type TagAsOptionType = { // type of tag when used in as option in react-select.
+export type TagAsOptionType = { // type of tag when used in as option in react-select.
   label: string,
   value: number,
   usage: number
