@@ -56,9 +56,9 @@ class User extends Component<PropsUser> {
     actions: PropTypes.object.isRequired
   }
 
-  componentDidUpdate(nextProps) {
+  componentDidUpdate(prevProps) {
     const {identityObject, actions} = this.props
-    if (identityObject.content.id && nextProps.identityObject !== identityObject) {
+    if (identityObject.content.id && prevProps.identityObject !== identityObject) {
       const {params} = this.props.match
       const userId: number = +params.id
       const {getUserBadges} = actions

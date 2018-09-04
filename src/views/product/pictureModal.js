@@ -53,8 +53,8 @@ export class PictureModal extends Component<PictureModalProps, PictureModalState
     this.state = {modal: false}
   }
 
-  componentWillReceiveProps(nextProps: PictureModalProps) {
-    this.setState({...this.state, modal: nextProps.isOpen})
+  componentWillReceiveProps(PrevProps: PictureModalProps) {
+    this.setState({...this.state, modal: PrevProps.isOpen})
   }
 
   _handleToggleModal = (e: SyntheticEvent<>) => {

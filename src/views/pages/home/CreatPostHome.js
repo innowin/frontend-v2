@@ -94,7 +94,8 @@ class CreatePostFooter extends Component {
 
 class HomeCreatePost extends Component {
   static defaultProps = {
-    className: ''
+    className: '',
+    postsCountInThisPage: 0
   }
 
   static propTypes = {
@@ -103,6 +104,7 @@ class HomeCreatePost extends Component {
     postOwnerType: PropTypes.string.isRequired,
     postParentId: PropTypes.number.isRequired,
     postParentType: PropTypes.string,
+    postsCountInThisPage: PropTypes.number,
     handleErrorLoading: PropTypes.func,
     className: PropTypes.string,
   }
@@ -153,11 +155,6 @@ class HomeCreatePost extends Component {
     this.setState({...this.state, media, fileName})
   }
 
-  _hideCreateForm = () => {
-    this.setState({...this.state, media: {}, fileName: '', description: ''})
-    this.createPostFooter._reset_postType()
-  }
-
   _save = () => {
     const {actions, postOwnerId, postOwnerType, postParentId, postParentType} = this.props
     const {createPost} = actions
@@ -188,10 +185,17 @@ class HomeCreatePost extends Component {
   _onSubmit = (e) => {
     e.preventDefault();
     if (this._formValidate()) {
-      this._save();
-      this.setState({...this.state, textareaClass: "closeTextarea", show: false})
+      this._save()
     }
     return false;
+  }
+
+  componentDidUpdate(prevProps) {
+    const {postsCountInThisPage} = this.props
+    if (prevProps.postsCountInThisPage < postsCountInThisPage) {
+      this.setState({...this.state, textareaClass: "closeTextarea", show: false, media: {}, fileName: '', description: ''
+      }, () => this.createPostFooter._reset_postType())
+    }
   }
 
   componentDidMount() {

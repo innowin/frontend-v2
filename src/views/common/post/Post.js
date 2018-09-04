@@ -15,8 +15,7 @@ type postPropTypes = {
   posts: [],
   updatePost: Function,
   profileMedia: string,
-  deletePost: Function,
-  userId: number,
+  deletePost: Function
 }
 
 type postStateTypes = {
@@ -36,8 +35,7 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
     posts: PropTypes.array.isRequired,
     updatePost: PropTypes.func.isRequired,
     profileMedia: PropTypes.string.isRequired,
-    deletePost: PropTypes.func.isRequired,
-    userId: PropTypes.number.isRequired,
+    deletePost: PropTypes.func.isRequired
   };
 
   constructor(props: postPropTypes) {
@@ -62,7 +60,7 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
     const {updatePost, post} = this.props
     const postIdentityUserId = post.post_identity.identity_user && post.post_identity.identity_user.id
     const postIdentityOrganId = post.post_identity.identity_organization && post.post_identity.identity_organization.id
-    const postOwnerId = (postIdentityUserId) || (postIdentityOrganId)
+    const postOwnerId = postIdentityUserId || postIdentityOrganId
     updatePost({formValues, postId, postOwnerId})
   }
 
@@ -73,7 +71,7 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
     const postIdentityOrganId = post.post_identity.identity_organization && post.post_identity.identity_organization.id
     const postParentType = (postParent && postParent.child_name) || null
     const postParentId = (postParent && postParent.id) || null
-    const postOwnerId = (postIdentityUserId) || (postIdentityOrganId)
+    const postOwnerId = postIdentityUserId || postIdentityOrganId
     const postOwnerType = postIdentityUserId ? constants.USER_TYPES.PERSON : constants.USER_TYPES.ORG
     deletePost({postId:post.id, postOwnerId, postOwnerType, postParentId, postParentType})
   }
