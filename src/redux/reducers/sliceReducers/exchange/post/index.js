@@ -1,4 +1,4 @@
-import filterPostsByPostParentLimitOffset from './filterPostsByPostParentLimitOffset'
+import filterPostsByPostParentLimitOffset from './filtePostsByParentLimitOffset'
 import createPost from "./createPost"
 import deletePost from "./deletePost"
 

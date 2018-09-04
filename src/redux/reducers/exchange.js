@@ -1,7 +1,6 @@
 import initialState from 'src/redux/reducers/initialState'
 import types from 'src/redux/actions/types'
-import exchangeSlice from './slice/exchangeSlices'
-import postSlice from "./slice/commonSlices/post"
+import exchangeSlice from './sliceReducers/exchange'
 
 // this badge function just set received success exchanges in user or organ or ...
 
@@ -14,13 +13,13 @@ const exchanges = (state = initialState.exchanges, action) => {
       return exchangeSlice.getExchangeIdentities.SUCCESS(state , action)
     /** ---------------------  get exchange posts ---------------------------**/
     case types.SUCCESS.COMMON.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET:
-      return postSlice.filterPostsByPostParentLimitOffset.SUCCESS(state, action)
+      return exchangeSlice.postsExchange.filterPostsByPostParentLimitOffset.SUCCESS(state, action)
     /** -------------------------- add one post to exchange posts  -------------------------> **/
     case types.SUCCESS.COMMON.POST.CREATE_POST:
-      return postSlice.createPost.SUCCESS(state, action)
+      return exchangeSlice.postsExchange.createPost.SUCCESS(state, action)
     /** -------------------------- delete one post from exchange posts  -------------------------> **/
     case types.SUCCESS.COMMON.POST.DELETE_POST:
-      return postSlice.deletePost.SUCCESS(state, action)
+      return exchangeSlice.postsExchange.deletePost.SUCCESS(state, action)
     /** ----------------- reset -----------------> **/
     case types.RESET:
       return initialState.exchanges
