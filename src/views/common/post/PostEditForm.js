@@ -32,9 +32,10 @@ export class PostEditForm extends Component {
   };
 
   _save = () => {
-    const {post, updateFunc} = this.props;
+    const {post, updateFunc, hideEdit} = this.props;
     const postId = post.id;
     const formValues = this.form._getValues();
+    hideEdit()
     return updateFunc(formValues, postId)
   };
 

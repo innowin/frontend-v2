@@ -1,8 +1,9 @@
 import initialState from "../initialState"
 import types from "../../actions/types/index"
+import constants from 'src/consts/constants'
 
 const users = (state = initialState.users, action) => {
-  const {userId, postOwnerId, followOwnerId, data, message, postId} = action.payload || {}
+  const {userId, postOwnerId, postOwnerType, followOwnerId, followOwnerType, data, message, postId} = action.payload || {}
   const defaultObject = { content: {}, isLoading: false, error: null }
   const defaultObject2 = { content: [], isLoading: false, error: null }
   const previousUser = (state[userId] && state[userId].user) || defaultObject
@@ -246,241 +247,327 @@ const users = (state = initialState.users, action) => {
       }
     /** -------------------------- get posts by identity  -------------------------> **/
     case types.COMMON.POST.GET_POST_BY_IDENTITY:
-      return {
-        ...state,
-        [postOwnerId]: {
-          ...state[postOwnerId],
-          posts: {
-            ...previousPost,
-            isLoading: true,
-            error: null
+      if(postOwnerType === constants.USER_TYPES.PERSON){
+        return {
+          ...state,
+          [postOwnerId]: {
+            ...state[postOwnerId],
+            posts: {
+              ...previousPost,
+              isLoading: true,
+              error: null
+            }
           }
         }
       }
+      else{
+        return {...state}
+      }
+
     case types.SUCCESS.COMMON.POST.GET_POST_BY_IDENTITY:
-      const arrayOfPostId = data.map(post => post.id)
-      return {
-        ...state,
-        [postOwnerId]: {
-          ...state[postOwnerId],
-          posts: {
-            ...previousPost,
-            content: [...new Set([...previousPost.content, ...arrayOfPostId])],
-            isLoading: false,
-            error: null
+      if(postOwnerType === constants.USER_TYPES.PERSON) {
+        const arrayOfPostId = data.map(post => post.id)
+        return {
+          ...state,
+          [postOwnerId]: {
+            ...state[postOwnerId],
+            posts: {
+              ...previousPost,
+              content: [...new Set([...previousPost.content, ...arrayOfPostId])],
+              isLoading: false,
+              error: null
+            }
           }
         }
+      }
+      else{
+        return {...state}
       }
       //TODO: mohammad check userId is not undefined and find current userId
     case types.ERRORS.COMMON.POST.GET_POST_BY_IDENTITY:
-      return {
-        ...state,
-        [postOwnerId]: {
-          ...state[postOwnerId],
-          posts: {
-            ...previousPost,
-            isLoading: false,
-            error: message
+      if(postOwnerType === constants.USER_TYPES.PERSON) {
+        return {
+          ...state,
+          [postOwnerId]: {
+            ...state[postOwnerId],
+            posts: {
+              ...previousPost,
+              isLoading: false,
+              error: message
+            }
           }
         }
+      }
+      else{
+        return {...state}
       }
     /** -------------------------- create post  -------------------------> **/
     case types.COMMON.POST.CREATE_POST:
-      return {
-        ...state,
-        [postOwnerId]: {
-          ...state[postOwnerId],
-          posts: {
-            ...previousPost,
-            isLoading: true,
-            error: null
+      if(postOwnerType === constants.USER_TYPES.PERSON) {
+        return {
+          ...state,
+          [postOwnerId]: {
+            ...state[postOwnerId],
+            posts: {
+              ...previousPost,
+              isLoading: true,
+              error: null
+            }
           }
         }
+      }
+      else{
+        return {...state}
       }
     case types.SUCCESS.COMMON.POST.CREATE_POST:
-      return {
-        ...state,
-        [postOwnerId]: {
-          ...state[postOwnerId],
-          posts: {
-            ...previousPost,
-            content: [...previousPost.content, data.id],
-            isLoading: false,
-            error: null
+      if(postOwnerType === constants.USER_TYPES.PERSON) {
+        return {
+          ...state,
+          [postOwnerId]: {
+            ...state[postOwnerId],
+            posts: {
+              ...previousPost,
+              content: [...previousPost.content, data.id],
+              isLoading: false,
+              error: null
+            }
           }
         }
       }
+      else{
+        return {...state}
+      }
     case types.ERRORS.COMMON.POST.CREATE_POST:
-      return {
-        ...state,
-        [postOwnerId]: {
-          ...state[postOwnerId],
-          posts: {
-            ...previousPost,
-            isLoading: false,
-            error: message
+      if(postOwnerType === constants.USER_TYPES.PERSON) {
+        return {
+          ...state,
+          [postOwnerId]: {
+            ...state[postOwnerId],
+            posts: {
+              ...previousPost,
+              isLoading: false,
+              error: message
+            }
           }
         }
+      }
+      else{
+        return {...state}
       }
       /** -------------------------- update post  -------------------------> **/
     case types.COMMON.POST.UPDATE_POST:
-      return {
-        ...state,
-        [postOwnerId]: {
-          ...state[postOwnerId],
-          posts: {
-            ...previousPost,
-            isLoading: true,
-            error: null
+      if(postOwnerType === constants.USER_TYPES.PERSON) {
+        return {
+          ...state,
+          [postOwnerId]: {
+            ...state[postOwnerId],
+            posts: {
+              ...previousPost,
+              isLoading: true,
+              error: null
+            }
           }
         }
       }
+      else{
+        return {...state}
+      }
     case types.ERRORS.COMMON.POST.UPDATE_POST:
-      return {
-        ...state,
-        [postOwnerId]: {
-          ...state[postOwnerId],
-          posts: {
-            ...previousPost,
-            isLoading: false,
-            error: message
+      if(postOwnerType === constants.USER_TYPES.PERSON) {
+        return {
+          ...state,
+          [postOwnerId]: {
+            ...state[postOwnerId],
+            posts: {
+              ...previousPost,
+              isLoading: false,
+              error: message
+            }
           }
         }
+      }
+      else{
+        return {...state}
       }
     /** -------------------------- delete post  -------------------------> **/
     case types.COMMON.POST.DELETE_POST:
-      return {
-        ...state,
-        [postOwnerId]: {
-          ...state[postOwnerId],
-          posts: {
-            ...previousPost,
-            isLoading: false,
-            error: null
+      if(postOwnerType === constants.USER_TYPES.PERSON) {
+        return {
+          ...state,
+          [postOwnerId]: {
+            ...state[postOwnerId],
+            posts: {
+              ...previousPost,
+              isLoading: false,
+              error: null
+            }
           }
         }
+      }
+      else{
+        return {...state}
       }
     case types.SUCCESS.COMMON.POST.DELETE_POST:
-      const newDeletedPosts = previousPost.content.filter(id => id !== postId);
-      return {
-        ...state,
-        [postOwnerId]: {
-          ...state[postOwnerId],
-          posts: {
-            ...previousPost,
-            content: [...newDeletedPosts],
-            isLoading: false,
-            error: null
+      if(postOwnerType === constants.USER_TYPES.PERSON) {
+        const newDeletedPosts = previousPost.content.filter(id => id !== postId);
+        return {
+          ...state,
+          [postOwnerId]: {
+            ...state[postOwnerId],
+            posts: {
+              ...previousPost,
+              content: [...newDeletedPosts],
+              isLoading: false,
+              error: null
+            }
           }
         }
       }
+      else{
+        return {...state}
+      }
     case types.ERRORS.COMMON.POST.DELETE_POST:
-      return {
-        ...state,
-        [postOwnerId]: {
-          ...state[postOwnerId],
-          posts: {
-            ...previousPost,
-            isLoading: false,
-            error: message
+      if(postOwnerType === constants.USER_TYPES.PERSON) {
+        return {
+          ...state,
+          [postOwnerId]: {
+            ...state[postOwnerId],
+            posts: {
+              ...previousPost,
+              isLoading: false,
+              error: message
+            }
           }
         }
+      }
+      else{
+        return {...state}
       }
     /** -------------------------- get followers -------------------------> **/
     case types.COMMON.SOCIAL.GET_FOLLOWERS:
-      return {
-        ...state,
-        [followOwnerId]: {
-          ...state[followOwnerId],
-          social: {
-            ...previousSocial,
-            follows:{
-              ...previousFollows,
-              isLoading: true,
-              error: null
+      if (followOwnerType === constants.USER_TYPES.PERSON) {
+        return {
+          ...state,
+          [followOwnerId]: {
+            ...state[followOwnerId],
+            social: {
+              ...previousSocial,
+              follows: {
+                ...previousFollows,
+                isLoading: true,
+                error: null
+              }
             }
           }
         }
+      }
+      else{
+        return {...state}
       }
     case types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWERS:
-      const arrayOfFollowersId = data.map(follow => follow.id)
-      return {
-        ...state,
-        [followOwnerId]: {
-          ...state[followOwnerId],
-          social:{
-            ...previousSocial,
-            follows:{
-              ...previousFollows,
-              content: [...new Set([...previousFollows.content, ...arrayOfFollowersId])],
-              isLoading: false,
-              error: null
+      if (followOwnerType === constants.USER_TYPES.PERSON) {
+        const arrayOfFollowersId = data.map(follow => follow.id)
+        return {
+          ...state,
+          [followOwnerId]: {
+            ...state[followOwnerId],
+            social: {
+              ...previousSocial,
+              follows: {
+                ...previousFollows,
+                content: [...new Set([...previousFollows.content, ...arrayOfFollowersId])],
+                isLoading: false,
+                error: null
+              }
             }
           }
         }
       }
+      else{
+        return {...state}
+      }
     case types.ERRORS.COMMON.SOCIAL.GET_FOLLOWERS:
-      return {
-        ...state,
-        [followOwnerId]: {
-          ...state[followOwnerId],
-          social: {
-            ...previousSocial,
-            follows:{
-              ...previousFollows,
-              isLoading: false,
-              error: message
+      if (followOwnerType === constants.USER_TYPES.PERSON) {
+        return {
+          ...state,
+          [followOwnerId]: {
+            ...state[followOwnerId],
+            social: {
+              ...previousSocial,
+              follows: {
+                ...previousFollows,
+                isLoading: false,
+                error: message
+              }
             }
           }
         }
+      }
+      else{
+        return {...state}
       }
     /** -------------------------- get followees -------------------------> **/
     case types.COMMON.SOCIAL.GET_FOLLOWEES:
-      return {
-        ...state,
-        [followOwnerId]: {
-          ...state[followOwnerId],
-          social: {
-            ...previousSocial,
-            follows:{
-              ...previousFollows,
-              isLoading: true,
-              error: null
+      if (followOwnerType === constants.USER_TYPES.PERSON) {
+        return {
+          ...state,
+          [followOwnerId]: {
+            ...state[followOwnerId],
+            social: {
+              ...previousSocial,
+              follows: {
+                ...previousFollows,
+                isLoading: true,
+                error: null
+              }
             }
           }
         }
+      }
+      else{
+        return {...state}
       }
     case types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWEES:
-      const arrayOfFolloweesId = data.map(follow => follow.id)
-      return {
-        ...state,
-        [followOwnerId]: {
-          ...state[followOwnerId],
-          social:{
-            ...previousSocial,
-            follows:{
-              ...previousFollows,
-              content: [...new Set([...previousFollows.content, ...arrayOfFolloweesId])],
-              isLoading: false,
-              error: null
+      if (followOwnerType === constants.USER_TYPES.PERSON) {
+        const arrayOfFolloweesId = data.map(follow => follow.id)
+        return {
+          ...state,
+          [followOwnerId]: {
+            ...state[followOwnerId],
+            social: {
+              ...previousSocial,
+              follows: {
+                ...previousFollows,
+                content: [...new Set([...previousFollows.content, ...arrayOfFolloweesId])],
+                isLoading: false,
+                error: null
+              }
             }
           }
         }
       }
+      else{
+        return {...state}
+      }
     case types.ERRORS.COMMON.SOCIAL.GET_FOLLOWEES:
-      return {
-        ...state,
-        [followOwnerId]: {
-          ...state[followOwnerId],
-          social: {
-            ...previousSocial,
-            follows:{
-              ...previousFollows,
-              isLoading: false,
-              error: message
+      if (followOwnerType === constants.USER_TYPES.PERSON) {
+        return {
+          ...state,
+          [followOwnerId]: {
+            ...state[followOwnerId],
+            social: {
+              ...previousSocial,
+              follows: {
+                ...previousFollows,
+                isLoading: false,
+                error: message
+              }
             }
           }
         }
+      }
+      else{
+        return {...state}
       }
     /** -------------------------- reset users -------------------------> **/
     case types.RESET:

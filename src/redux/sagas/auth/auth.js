@@ -1,6 +1,7 @@
 import api from "src/consts/api"
 import client from "src/consts/client"
 import results from "src/consts/resultName"
+import constants from 'src/consts/constants'
 import types from "src/redux/actions/types"
 import urls from "src/consts/URLS"
 import {verifyToken} from './verifyToken'
@@ -23,13 +24,13 @@ function* signIn(action) {
     yield put({type: types.AUTH.SET_TOKEN, payload: {token}})
     yield delay(500)
     const hasOrgan = data.profile.is_user_organization
-    let userType = 'person'
+    let userType = constants.USER_TYPES.PERSON
     let organizationId = null
     let organization = null
     let identity = data.identity
     if (hasOrgan) {
       const organData = yield call(getOrganizationInSignIn, username)
-      userType = 'org'
+      userType = constants.USER_TYPES.ORG
       organizationId = organData.id
       organization = organData
       const organAction = {payload:{organizationId}}
