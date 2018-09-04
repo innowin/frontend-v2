@@ -6,14 +6,14 @@ import {EditIcon, DefaultUserIcon} from "src/images/icons";
 import {VerifyWrapper} from "src/views/common/cards/Frames";
 import {SupplyIcon, DemandIcon} from "src/images/icons";
 import {getPostViewerCount, setPostViewer} from "src/crud/post/postViewerCount";
+import connect from "react-redux/es/connect/connect";
+import {getMessages} from "../../../redux/selectors/translateSelector";
 
-export class PostView extends Component {
+class PostView extends Component {
   static propTypes = {
     showEdit: PropTypes.func.isRequired,
     post: PropTypes.object.isRequired,
-    postIdentityImg: PropTypes.string,
-    postIdentityUsername: PropTypes.string.isRequired,
-    postIdentityName: PropTypes.string.isRequired,
+    profileMedia: PropTypes.string.isRequired,
   };
 
   constructor(props) {
@@ -39,13 +39,14 @@ export class PostView extends Component {
   };
 
   render() {
-    const {showEdit, post, postIdentityUsername, postIdentityImg} = this.props;
+    const {showEdit, post, profileMedia, translate} = this.props;
+
+    const {post_identity} = this.props.post
+    const user = post_identity.identity_user;
+    const organization = post_identity.identity_organization;
+
     const {viewerCount, isLoading, error} = this.state;
 
-    let {postIdentityName} = this.props;
-    if (postIdentityName === ' ') {
-      postIdentityName = "------"
-    }
     const supplyIcon = post.post_type === 'supply';
     const demandIcon = post.post_type === 'demand';
     const postIcon = post.post_type === 'post';
@@ -55,8 +56,8 @@ export class PostView extends Component {
           <div className="-itemWrapperPost">
             <div className="-img-col">
               {
-                (!postIdentityImg) ? (<DefaultUserIcon/>) : (
-                    <img className="rounded-circle" src={postIdentityImg} alt=""/>)
+                (!profileMedia) ? (<DefaultUserIcon/>) : (
+                    <img className="rounded-circle" src={profileMedia.file} alt=""/>)
               }
             </div>
             <div className="-content-col">
@@ -69,10 +70,14 @@ export class PostView extends Component {
                       ((demandIcon) && <DemandIcon height="24px"/>)
                     }
                   </span>
-                  <span className="mr-2">{postIdentityName}</span>
-                  <span className="mr-2 -green2">{postIdentityUsername}</span>
+                  <span className="mr-2">
+                    {user ? user.first_name + ' ' + user.last_name : (organization ? (organization.nike_name || organization.official_name) : '')}
+                  </span>
+                  <span className="mr-2 -green2">{
+                    (user) ? user.username : (organization ? organization.username : '')
+                  }</span>
                   <Moment className="mr-3 -green2" element="span" fromNow ago>{post.created_time}</Moment>
-                  <span className="mr-1 -green2"> پیش</span>
+                  <span className="mr-1 -green2">{translate['Last']}</span>
                 </div>
                 <div onClick={showEdit} className="-item-edit-btnPost"><EditIcon/></div>
               </div>
@@ -100,3 +105,10 @@ export class PostView extends Component {
     )
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    translate: getMessages(state),
+  }
+}
+export default connect(mapStateToProps)(PostView)

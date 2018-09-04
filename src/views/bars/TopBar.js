@@ -70,9 +70,10 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     }
   }
 
-  componentDidUpdate(nextProps: { isLoggedIn: boolean }) {
-    if (nextProps.isLoggedIn && nextProps.isLoggedIn !== this.props.isLoggedIn) {
-      this.props.actions.push('/login')
+  componentDidUpdate(prevProps: { isLoggedIn: boolean }) {
+    const {isLoggedIn, actions} = this.props
+    if (prevProps.isLoggedIn && prevProps.isLoggedIn !== isLoggedIn) {
+      actions.push('/login')
     }
   }
 

@@ -56,9 +56,9 @@ class User extends Component<PropsUser> {
     actions: PropTypes.object.isRequired
   }
 
-  componentDidUpdate(nextProps) {
+  componentDidUpdate(prevProps) {
     const {identityObject, actions} = this.props
-    if (identityObject.content.id && nextProps.identityObject !== identityObject) {
+    if (identityObject.content.id && prevProps.identityObject !== identityObject) {
       const {params} = this.props.match
       const userId: number = +params.id
       const {getUserBadges} = actions
@@ -122,6 +122,7 @@ class User extends Component<PropsUser> {
               <PrivateRoute path={`${path}/SocialConnections`} component={Social}
                             userId={userId}
                             identityId={identityObject.content.id}
+                            identityType='user'
               />
               <PrivateRoute path={`${path}/WorkExperiences`} component={WorkExperiences} userId={userId}/>
               <PrivateRoute path={`${path}/Skills`} component={Skills} userId={userId}/>

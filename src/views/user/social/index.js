@@ -4,6 +4,7 @@ import {Component} from "react"
 import PropTypes from "prop-types"
 import {connect} from "react-redux"
 
+import client from 'src/consts/client'
 import ExchangeActions from "src/redux/actions/exchangeActions"
 import GetUserActions from '../../../redux/actions/user/getUserActions'
 import OrganizationActions from "src/redux/actions/organizationActions"
@@ -143,8 +144,11 @@ class Socials extends Component<PropsSocials, StateSocials> {
         }
       })
 
-      getFollowees(identityId, userId)
-      getFollowers(identityId, userId)
+      const followIdentity = identityId
+      const followOwnerId = userId
+      const followOwnerType = client.getUserType()
+      getFollowers({followOwnerId, followIdentity, followOwnerType})
+      getFollowees({followOwnerId, followIdentity, followOwnerType})
       // this.props.actions.deleteFollowers(identityId)
     }
   }
@@ -189,13 +193,13 @@ class Socials extends Component<PropsSocials, StateSocials> {
                            edit={editExchanges}
                            translate={translate}
             />
-            <Followers followers={followers} translate={translate}/>
             <Followees edit={editFollowings}
                        deleteFollowing={this._deleteFollowing}
                        followees={followees}
                        showEdit={this._showEditFollowings}
                        translate={translate}
             />
+            <Followers followers={followers} translate={translate}/>
           </FrameCard>
         </VerifyWrapper>
     )
