@@ -1,6 +1,5 @@
-const SUCCESS = (state, action) => {
-  const {postId, postParentId, postParentType} = action.payload
-  if (postParentType === 'exchange') {
+const success = (state, action) => {
+  const {postId, postParentId} = action.payload
     const exchangeId = postParentId
     const prevPosts = state[exchangeId] && state[exchangeId].posts
     const prevPostsContent = prevPosts && prevPosts.content
@@ -16,23 +15,20 @@ const SUCCESS = (state, action) => {
         }
       }
     }
-  } else return {
-    ...state
-  }
 }
 
-const ERROR = (state, action) => {
+const error = (state, action) => {
 
 }
 
-const BASE = (state, action) => {
+const base = (state, action) => {
 
 }
 
 const deletePost = {
-  BASE,
-  ERROR,
-  SUCCESS
+  base,
+  error,
+  success
 }
 
 export default deletePost

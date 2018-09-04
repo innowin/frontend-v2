@@ -1,4 +1,4 @@
-const SUCCESS = (state, action) => {
+const success = (state, action) => {
 	const {data} = action.payload
 	return {
 		...state,
@@ -9,18 +9,18 @@ const SUCCESS = (state, action) => {
 	}
 }
 
-const ERROR = (state, action) => {
+const error = (state, action) => {
 
 }
 
-const BASE = (state, action) => {
+const base = (state, action) => {
 
 }
 
 const getExchangeByExId = {
-  BASE,
-  ERROR,
-  SUCCESS
+  base,
+  error,
+  success
 }
 
 export default getExchangeByExId

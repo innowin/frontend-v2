@@ -41,12 +41,12 @@ class HomePosts extends Component {
     }
   }
 
-  componentDidUpdate(nextProps) {
+  componentDidUpdate(prevProps) {
     const {actions, exchangeId} = this.props
     const {filterPostsByPostParentLimitOffset} = actions
     const limit = 100
     const offset = 0
-    if (exchangeId && exchangeId !== nextProps.exchangeId) {
+    if (exchangeId && exchangeId !== prevProps.exchangeId) {
       filterPostsByPostParentLimitOffset({
         postParentId: exchangeId, postType: null, limit, offset, postParentType:"exchange"
       })
@@ -79,6 +79,7 @@ class HomePosts extends Component {
               postParentId={exchangeId}
               postParentType='exchange'
               handleErrorLoading={this._handleErrorLoading}
+              postsCountInThisPage={posts.length}
             />
             <FrameCard className="-frameCardPost border-top-0">
               <ListGroup>

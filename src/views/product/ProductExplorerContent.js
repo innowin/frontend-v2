@@ -188,10 +188,10 @@ export default class ProductExplorerContent extends Component<ProductExplorerCon
         })
     }
 
-    componentWillReceiveProps(nextProps: ProductExplorerContentProps) {
+    componentWillReceiveProps(prevProps: ProductExplorerContentProps) {
         const {allProducts} = this.state
         // TODO mohsen: filter by activeContribution and handle filter by backEnd
-        const {activeCategory, activeSubcategory} = nextProps
+        const {activeCategory, activeSubcategory} = prevProps
         let filteredProducts = allProducts
         if (activeSubcategory) {
             filteredProducts = allProducts.filter((product) => (product.product_category.id === activeSubcategory))
