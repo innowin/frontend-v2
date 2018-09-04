@@ -122,6 +122,7 @@ class User extends Component<PropsUser> {
               <PrivateRoute path={`${path}/SocialConnections`} component={Social}
                             userId={userId}
                             identityId={identityObject.content.id}
+                            identityType='user'
               />
               <PrivateRoute path={`${path}/WorkExperiences`} component={WorkExperiences} userId={userId}/>
               <PrivateRoute path={`${path}/Skills`} component={Skills} userId={userId}/>

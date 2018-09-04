@@ -40,6 +40,7 @@ const social = (state = initialState.common.social, action) => {
       return {...state}
     case types.ERRORS.COMMON.SOCIAL.DELETE_FOLLOWERS:
       return {...state}
+      /** -------------------------- reset -------------------------> **/
     case types.RESET:
       return initialState.common.social
     default:

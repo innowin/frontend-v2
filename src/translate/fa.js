@@ -86,6 +86,7 @@ module.exports = {
 
   // user - posts
   'Post': "کاربرنما",
+  'Last': 'پیش',
 
   // user - common
   'Are you sure? Do you want delete it?': "آیا مطمئن به حذف هستید؟",
@@ -200,7 +201,7 @@ module.exports = {
 
   //User - Social
   'Followers': "دنبال کننده ها",
-  'Followings': "دنبال شونده ها",
+  'Followings': "دنبال شده ها",
   'Exchange': 'بورس',
   'Exchanges': 'بورس ها',
   'Social': 'اجتماعی',

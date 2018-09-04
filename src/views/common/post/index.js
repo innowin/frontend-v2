@@ -2,6 +2,7 @@
 /*global __*/
 
 //TODO: mohammad forms need change to redux form
+//FIXME: profileMedia for organization and home page need to fix
 import * as React from "react";
 import PropTypes from 'prop-types';
 
@@ -12,6 +13,8 @@ import PostActions from "../../../redux/actions/commonActions/postActions";
 import connect from "react-redux/es/connect/connect";
 import {makeUserPostsSelector} from 'src/redux/selectors/common/userPostsSelector'
 import {Post} from './Post'
+import client from 'src/consts/client'
+import constants from "../../../consts/constants";
 
 type postsPropsType = {
   id: number,
@@ -59,13 +62,14 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
   _create = (formValues) => {
     const {actions, id} = this.props
     const {createPost} = actions
-    createPost({formValues, id})
+    const postOwnerType = constants.USER_TYPES.PERSON
+    createPost({formValues, postOwnerId: id, postOwnerType})
   }
 
   componentDidMount() {
     const {actions, postIdentity, id} = this.props
     const {getPostByIdentity} = actions
-    getPostByIdentity({postIdentity, id})
+    getPostByIdentity({postIdentity, postOwnerId: id, postOwnerType: client.getUserType()})
   }
 
   render() {
