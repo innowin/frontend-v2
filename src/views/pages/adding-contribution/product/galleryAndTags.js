@@ -8,7 +8,7 @@ import {CircularCheckbox} from '../../../common/inputs/CircularCheckbox'
 import NextPrevBtns from '../nextAndPrevBtns'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import helpers from 'src/consts/helperFunctions'
-
+import type {TagAsOptionType} from "../types"
 type GalleryImageType = {}
 
 type NewContributionDataType = {
@@ -169,12 +169,6 @@ const TagsManager = (props: TagsManagerProps) => {
         <Tags deleteTag={deleteHandler} tags={selectedTags}/>
       </div>
   )
-}
-
-type TagAsOptionType = { // type of tag when used in as option in react-select.
-  label: string,
-  value: number,
-  usage: number
 }
 
 type TagsProps = {

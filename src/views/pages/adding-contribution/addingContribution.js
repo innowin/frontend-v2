@@ -19,7 +19,7 @@ import {connect} from "react-redux";
 import SuccessMessage from './product/successMessage'
 import FontAwesome from "react-fontawesome"
 import client from 'src/consts/client'
-import InitialInfoReduxForm, {INITIAL_INFO_FORM_NAME} from './product/reduxFormInitialInfo'
+import InitialInfoReduxForm, {initialInfoFormName} from './product/reduxFormInitialInfo'
 import {getFormValues} from 'src/redux/selectors/formValuesSelectors'
 import {categorySelector} from 'src/redux/selectors/common/category'
 import {getCategories} from 'src/redux/actions/commonActions/categoryActions'
@@ -33,8 +33,9 @@ import {provinceSelector} from "src/redux/selectors/common/location/province"
 import {citySelector} from "src/redux/selectors/common/location/city"
 import {change} from 'redux-form';
 import nowCreatedProductIdSelector from "src/redux/selectors/common/product/getNowCreatedProductId"
-import SkillInfoForm from "./skill/infoForm";
+import SkillInfoForm, {skillInfoFormName} from "./skill/infoForm";
 import SkillSuccessMessage from "./skill/successMessage"
+import {skillFields} from "./addingConributionData"
 
 
 const reorder = (list, startIndex, endIndex) => {
@@ -174,7 +175,7 @@ class AddingContribution extends React.Component {
     v && _getProvinces(v.value)
     if (initialInfoFormState[LAYER1S.COUNTRY]) {
       if (initialInfoFormState[LAYER1S.COUNTRY].value !== v.value) {
-        _changeFormSingleFieldValue(INITIAL_INFO_FORM_NAME, LAYER1S.PROVINCE, '')
+        _changeFormSingleFieldValue(initialInfoFormName, LAYER1S.PROVINCE, '')
       }
     }
 
@@ -185,7 +186,7 @@ class AddingContribution extends React.Component {
     v && _getCities(v.value)
     if (initialInfoFormState[LAYER1S.PROVINCE]) {
       if (initialInfoFormState[LAYER1S.PROVINCE].value !== v.value) {
-        _changeFormSingleFieldValue(INITIAL_INFO_FORM_NAME, LAYER1S.CITY, '')
+        _changeFormSingleFieldValue(initialInfoFormName, LAYER1S.CITY, '')
       }
     }
 
@@ -425,7 +426,12 @@ class AddingContribution extends React.Component {
       })
     }
   }
-
+  _skillFormTagHandler = (value) => {
+    const {skillInfoFormValues, _changeFormSingleFieldValue} = this.props
+    const {hashTags} = skillInfoFormValues
+    const newHashTags = hashTags.filter(tag => tag.value !== value)
+    _changeFormSingleFieldValue(skillInfoFormName, 'hashTags', newHashTags)
+  }
   _setStateForFileField = (input, key) => {
     const reader = new FileReader()
     if (input.files && key) {
@@ -522,7 +528,7 @@ class AddingContribution extends React.Component {
   }
   _skillContentHandler = () => {
     const {activeStep, newContributionData} = this.state
-    const {hashTags} = this.props
+    const {hashTags, skillInfoFormValues} = this.props
     switch (activeStep) {
       case 1:
         return this._renderNewContribution()
@@ -532,14 +538,9 @@ class AddingContribution extends React.Component {
                 goToNextStep={this._nextStep}
                 goToPrevStep={this._prevStep}
                 hashTags={hashTags}
-                // inputHandler={this._layer1InputsValueHandler}
-                // newContributionData={newContributionData}
-                // formVals={initialInfoFormState}
-                // categories={categories}
-                // countryChangeHandler={this._countryChangeHandler}
-                // provinces={provinces}
-                // provinceChangeHandler={this._provinceChangeHandler}
-                // cities={cities}
+                destroyOnUnmount={false}
+                formVals={skillInfoFormValues}
+                tagHandler={this._skillFormTagHandler}
             />
         )
       case 3:
@@ -678,6 +679,7 @@ const mapStateToProps = (state) => {
     translator: getMessages(state),
     categories: categorySelector(state),
     initialInfoFormState: getFormValues(state, 'addingContributionInitialInfoForm'),
+    skillInfoFormValues: getFormValues(state, skillInfoFormName),
     hashTags: hashTagsListSelector(state),
     countries: countrySelector(state),
     provinces: provinceSelector(state),
