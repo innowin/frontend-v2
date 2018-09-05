@@ -55,14 +55,31 @@ class User extends Component<PropsUser> {
     match: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired
   }
+  firstGetBadges: boolean
+
+  constructor(props) {
+    super(props)
+    this.firstGetBadges = true;
+  }
 
   componentDidUpdate(prevProps) {
+    const {params} = this.props.match
+    const userId: number = +params.id
     const {identityObject, actions} = this.props
-    if (identityObject.content.id && prevProps.identityObject !== identityObject) {
+    const {getUserByUserId, getProfileByUserId, getUserIdentity} = actions
+
+    if(+prevProps.match.params.id !== userId){
+      getUserByUserId(userId)
+      getProfileByUserId(userId)
+      getUserIdentity(userId)
+    }
+
+    if (this.firstGetBadges && identityObject.content.id && prevProps.identityObject !== identityObject) {
       const {params} = this.props.match
       const userId: number = +params.id
       const {getUserBadges} = actions
       getUserBadges(userId, identityObject.content.id)
+      this.firstGetBadges = false
     }
   }
 

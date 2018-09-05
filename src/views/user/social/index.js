@@ -11,7 +11,6 @@ import OrganizationActions from "src/redux/actions/organizationActions"
 import SocialActions from "../../../redux/actions/commonActions/socialActions"
 import type {exchangeType} from "src/consts/flowTypes/exchange/exchange"
 import {bindActionCreators} from "redux"
-import {deleteFollow} from "src/crud/social"
 import {ExchangesView} from "./view"
 import {Followees} from './Followees'
 import {Followers} from './Followers'
@@ -54,6 +53,8 @@ class Socials extends Component<PropsSocials, StateSocials> {
     translate: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
   }
+  firstStartFollower: boolean
+  firstStartFollowee: boolean
 
   constructor(props) {
     super(props)
@@ -67,7 +68,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
       error: false,
     }
 
-    this.firstStartFollower= true;
+    this.firstStartFollower = true;
     this.firstStartFollowee = true
   }
 
@@ -75,7 +76,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
     const {followers, actions, followees} = this.props
     const {getProfileByUserId, getOrganization} = actions
 
-    if (this.firstStartFollower && prevProps.followers !== followers && followers && prevProps.followers) {
+    if (this.firstStartFollower && prevProps.followers !== followers && followers.length > 0 && prevProps.followers.length > 0) {
       followers.forEach(follower => {
         if (follower.identity_user) {
           getProfileByUserId(follower.identity_user)
@@ -86,7 +87,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
       })
       this.firstStartFollower = false
     }
-    if (this.firstStartFollowee && prevProps.followees !== followees && followees && prevProps.followees) {
+    if (this.firstStartFollowee && prevProps.followees !== followees && followees.length > 0 && prevProps.followees.length > 0) {
       followees.forEach(followee => {
         if (followee.identity_user) {
           getProfileByUserId(followee.identity_user)

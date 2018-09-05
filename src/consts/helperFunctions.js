@@ -93,7 +93,7 @@ const getObjectOfArrayKeys = (array, objectArray) => {
     }
     else
       return [...acc]
-  }, {})
+  }, [])
 }
 
 
