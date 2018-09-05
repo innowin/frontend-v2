@@ -3,10 +3,11 @@ import types from '../actions/types'
 import constants from 'src/consts/constants'
 
 const auth = (state = initialState.auth, action) => {
-  const {data, postId, postIdentity, postOwnerType, followIdentity, message, followOwnerType} = action.payload || {}
+  const {data, postId, postIdentity, postOwnerType, followOwnerIdentity, message, followOwnerType, followId} = action.payload || {}
   const {user, profile, identity} = data || {}
   const {client} = state
   const previousPost = (client && client.posts) || []
+  const previousSocial= (client && client.social) || {}
   const previousFollows = (client && client.social && client.social.follows) || []
   switch (action.type) {
     /** -------------------------- sign in -------------------------> **/
@@ -154,7 +155,7 @@ const auth = (state = initialState.auth, action) => {
       if (followOwnerType === constants.USER_TYPES.PERSON){
         const arrayOfFollowersId = []
           data.map(follower => {
-            if (followIdentity === state.client.identity.id && (!previousFollows.includes(follower.id))) {
+            if (followOwnerIdentity === state.client.identity.id && (!previousFollows.includes(follower.id))) {
               return arrayOfFollowersId.push(follower.id)
             }
             return arrayOfFollowersId
@@ -178,7 +179,7 @@ const auth = (state = initialState.auth, action) => {
       if (followOwnerType === constants.USER_TYPES.PERSON) {
         const arrayOfFolloweesId = []
         data.map(follower => {
-          if (followIdentity === state.client.identity.id && (!previousFollows.includes(follower.id))) {
+          if (followOwnerIdentity === state.client.identity.id && (!previousFollows.includes(follower.id))) {
             return arrayOfFolloweesId.push(follower.id)
           }
           return arrayOfFolloweesId
@@ -196,6 +197,25 @@ const auth = (state = initialState.auth, action) => {
       }
       else{
         return {...state,}
+      }
+    /** -------------------------- delete follow  -------------------------> **/
+    case types.SUCCESS.COMMON.SOCIAL.DELETE_FOLLOW:
+      console.log('auth')
+      if(followOwnerType === constants.USER_TYPES.PERSON) {
+        const newDeletedFollows = previousFollows.filter(id => id !== followId);
+        return {
+          ...state,
+          client: {
+            ...client,
+            social:{
+              ...previousSocial,
+              follows: [...newDeletedFollows]
+            }
+          }
+        }
+      }
+      else{
+        return {...state}
       }
     /** -------------------------- reset auth  -------------------------> **/
     case types.RESET:

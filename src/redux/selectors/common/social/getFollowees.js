@@ -7,30 +7,32 @@ const getUserFollows = (state, props) => {
     return state.users[props.userId].social.follows.content
   else return undefined
 }
-const getIdentityId = (state, props) => props.identityId
+const getUsers = state => state.users
+const getOrgans = state => state.organs
 
-/** this selector selects followers by identity **/
-export const makeGetFolloweesSelector = (state) => {
+/** this selector selects followees by identity **/
+export const makeGetFolloweesSelector = (state, props) => {
   return createSelector(
-      [getFollows, getUserFollows, getIdentityId],
-      (follows, userFollows, identityId) => {
+      [getFollows, getUserFollows, getUsers, getOrgans],
+      (follows, userFollows, users, organs) => {
+        const identityId = props.identityId
         if (follows && Object.keys(follows).length !== 0 && follows.constructor === Object && userFollows && identityId) {
           const arrayFollows = helpers.getObjectOfArrayKeys(userFollows, follows)
           const followeeList = arrayFollows.filter(follow => follow.follow_follower.id === identityId).map(follow => {
             let id, img
             if(follow.follow_followed.identity_user){
               id = follow.follow_followed.identity_user
-              if(state.users[id] && state.users[id].profile.content.profile_media){
-                img = state.users[id].profile.content.profile_media.file
+              if(users[id] && users[id].profile.content.profile_media){
+                img = users[id].profile.content.profile_media.file
               }
               else{
-                img = null
+                img = ''
               }
             }
             else{
               id = follow.follow_followed.identity_organization
-              if(state.organs[id] && state.organs[id].organization.content.organization_logo){
-                img = state.organs[id].organization.content.organization_logo.file
+              if(organs[id] && organs[id].organization.content.organization_logo){
+                img = organs[id].organization.content.organization_logo.file
               }
               else{
                 img = ''
@@ -38,7 +40,8 @@ export const makeGetFolloweesSelector = (state) => {
             }
             return {
               ...follow.follow_followed,
-              img: img
+              img: img,
+              follow_id: follow.id,
             }
           })
           return [...followeeList]

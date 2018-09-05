@@ -72,7 +72,7 @@ const results = {
         SOCIAL: {
             GET_FOLLOWEES: 'get-followees',
             GET_FOLLOWERS: 'get-followers',
-            DELETE_FOLLOWERS: 'delete-followers,'
+            DELETE_FOLLOW: 'delete-followe,'
         },
 
         // hashTag

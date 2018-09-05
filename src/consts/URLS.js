@@ -97,7 +97,7 @@ const urls = {
     SOCIAL: {
       GET_FOLLOWEES: 'organizations/follows',
       GET_FOLLOWERS: 'organizations/follows',
-      DELETE_FOLLOWERS: '/organizations/follows'
+      DELETE_FOLLOW: 'organizations/follows'
     },
   }
 }

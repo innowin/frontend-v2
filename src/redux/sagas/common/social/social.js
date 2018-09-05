@@ -4,7 +4,7 @@ import {takeEvery} from "redux-saga/effects"
 /**********    %% WORKERS %%    **********/
 import {getFollowees} from './getFollowees'
 import {getFollowers} from './getFollowers'
-import {deleteFollowers} from './deleteFolowers'
+import {deleteFollow} from './deleteFollow'
 
 
 /**********    %% WATCHERS %%    **********/
@@ -17,13 +17,13 @@ function* watchGetFollowers() {
   yield takeEvery(types.COMMON.SOCIAL.GET_FOLLOWERS, getFollowers)
 }
 
-function* watchDeleteFollowers() {
-  yield takeEvery(types.COMMON.SOCIAL.DELETE_FOLLOWERS, deleteFollowers)
+function* watchDeleteFollow() {
+  yield takeEvery(types.COMMON.SOCIAL.DELETE_FOLLOW, deleteFollow)
 }
 
 
 export default {
   watchGetFollowees,
   watchGetFollowers,
-  watchDeleteFollowers,
+  watchDeleteFollow,
 }
