@@ -3,7 +3,7 @@ import types from "../../actions/types/index"
 import constants from 'src/consts/constants'
 
 const users = (state = initialState.users, action) => {
-  const {userId, postOwnerId, postOwnerType, followOwnerId, followOwnerType, data, message, postId} = action.payload || {}
+  const {userId, postOwnerId, postOwnerType, followOwnerId, followOwnerType, data, message, postId, followId} = action.payload || {}
   const defaultObject = { content: {}, isLoading: false, error: null }
   const defaultObject2 = { content: [], isLoading: false, error: null }
   const previousUser = (state[userId] && state[userId].user) || defaultObject
@@ -551,6 +551,69 @@ const users = (state = initialState.users, action) => {
       }
     case types.ERRORS.COMMON.SOCIAL.GET_FOLLOWEES:
       if (followOwnerType === constants.USER_TYPES.PERSON) {
+        return {
+          ...state,
+          [followOwnerId]: {
+            ...state[followOwnerId],
+            social: {
+              ...previousSocial,
+              follows: {
+                ...previousFollows,
+                isLoading: false,
+                error: message
+              }
+            }
+          }
+        }
+      }
+      else{
+        return {...state}
+      }
+    /** -------------------------- delete follow -------------------------> **/
+    case types.COMMON.SOCIAL.DELETE_FOLLOW:
+      if(followOwnerType === constants.USER_TYPES.PERSON) {
+        return {
+          ...state,
+          [followOwnerId]: {
+            ...state[followOwnerId],
+            social: {
+              ...previousSocial,
+              follows: {
+                ...previousFollows,
+                isLoading: true,
+                error: null
+              }
+            }
+          }
+        }
+      }
+      else{
+        return {...state}
+      }
+    case types.SUCCESS.COMMON.SOCIAL.DELETE_FOLLOW:
+      if(followOwnerType === constants.USER_TYPES.PERSON) {
+        const newDeletedFollowers = previousFollows.content.filter(id => id !== followId);
+        return {
+          ...state,
+          [followOwnerId]: {
+            ...state[followOwnerId],
+            social: {
+              ...previousSocial,
+              follows: {
+                ...previousFollows,
+                content: [...newDeletedFollowers],
+                isLoading: false,
+                error: null
+              }
+            }
+          }
+        }
+      }
+      else{
+        return {...state}
+      }
+    case types.ERRORS.COMMON.SOCIAL.DELETE_FOLLOW:
+      if(followOwnerType === constants.USER_TYPES.PERSON) {
         return {
           ...state,
           [followOwnerId]: {

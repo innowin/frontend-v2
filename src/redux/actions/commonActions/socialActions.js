@@ -1,32 +1,33 @@
 import types from '../types'
 
-const getFollowees = ({followIdentity, followOwnerId, followOwnerType}) => {
+const getFollowees = ({followOwnerIdentity, followOwnerId, followOwnerType}) => {
   return{
     type: types.COMMON.SOCIAL.GET_FOLLOWEES,
     payload: {
-      followIdentity,
+      followOwnerIdentity,
       followOwnerType,
       followOwnerId,
     }
   }
 }
 
-const getFollowers= ({followIdentity, followOwnerId, followOwnerType}) => {
+const getFollowers= ({followOwnerIdentity, followOwnerId, followOwnerType}) => {
   return{
     type: types.COMMON.SOCIAL.GET_FOLLOWERS,
     payload: {
-      followIdentity,
+      followOwnerIdentity,
       followOwnerType,
       followOwnerId,
     }
   }
 }
 
-const deleteFollowers= (followedIdentityId, followOwnerType) => {
+const deleteFollow= ({followId, followOwnerId, followOwnerType}) => {
   return{
-    type: types.COMMON.SOCIAL.DELETE_FOLLOWERS,
+    type: types.COMMON.SOCIAL.DELETE_FOLLOW,
     payload: {
-      followedIdentityId,
+      followId,
+      followOwnerId,
       followOwnerType,
     }
   }
@@ -35,7 +36,7 @@ const deleteFollowers= (followedIdentityId, followOwnerType) => {
 const SocialActions = {
   getFollowees,
   getFollowers,
-  deleteFollowers
+  deleteFollow
 }
 
 export default SocialActions

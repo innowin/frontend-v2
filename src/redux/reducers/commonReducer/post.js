@@ -66,11 +66,27 @@ const post = (state = initialState.common.post, action) => {
         }
       }
     /** -------------------------- delete post -------------------------> **/
+    case types.COMMON.POST.DELETE_POST:
+      return {
+        ...state,
+        list:{
+          ...state.list,
+          [postId]: {...state.list[postId], error: null, isLoading: true}
+        }
+      }
+    case types.ERRORS.COMMON.POST.DELETE_POST:
+      return {
+        ...state,
+        list:{
+          ...state.list,
+          [postId]: {...state.list[postId], isLoading: true, error: message}
+        }
+      }
     case types.SUCCESS.COMMON.POST.DELETE_POST:
       const {[`${postId}`]: deleted, ...deleteRest} = state.list
       return {
         ...state,
-        list: deleteRest
+        list: {...deleteRest}
       }
     case types.RESET:
       return initialState.common.post

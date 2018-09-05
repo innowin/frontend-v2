@@ -52,5 +52,5 @@ export default [
   // social
   socialWatchers.watchGetFollowees(),
   socialWatchers.watchGetFollowers(),
-  socialWatchers.watchDeleteFollowers(),
+  socialWatchers.watchDeleteFollow(),
 ]
