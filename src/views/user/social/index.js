@@ -75,8 +75,6 @@ class Socials extends Component<PropsSocials, StateSocials> {
     const {followers, actions, followees} = this.props
     const {getProfileByUserId, getOrganization} = actions
 
-    // const {firstStartFollower, firstStartFollowee} = this.state
-
     if (this.firstStartFollower && prevProps.followers !== followers && followers && prevProps.followers) {
       followers.forEach(follower => {
         if (follower.identity_user) {

@@ -48,11 +48,6 @@ export const Followees = (props: PropsFollowees) => {
                         <div className="name">{followee.name}</div>
                       </div>
                       {(edit) ?
-                          /*<button onClick={() => onDeleteFollowing(followee)}
-                                  className="d-block btn btn-outline-danger btn-sm mb-auto ">
-                            {translate['Delete']}
-                          </button>
-                          */
                           <FontAwesome name="trash" className='remove-follow pulse' onClick={() => onDeleteFollowing(followee)}/>
                           : <div className="follow-section">{followee.accepted ? translate['Followed'] : ''}</div>}
                     </div>
