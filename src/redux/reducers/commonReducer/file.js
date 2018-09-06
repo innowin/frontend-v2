@@ -53,7 +53,7 @@ const file = (state = initialState.common.file, action) => {
         case types.RESET:
             return initialState.common.file
         default:
-            return {...state}
+            return state
     }
 }
 export default file

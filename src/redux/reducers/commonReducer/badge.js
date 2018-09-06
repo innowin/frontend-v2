@@ -31,7 +31,7 @@ const badge = (state = initialState.common.badge, action) => {
     case types.RESET:
       return initialState.common.badge
     default:
-      return {...state}
+      return state
   }
 }
 export default badge

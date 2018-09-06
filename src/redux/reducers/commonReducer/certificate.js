@@ -1,5 +1,5 @@
-import initialState from '../../initialState'
-import types from '../../../actions/types'
+import initialState from '../initialState'
+import types from '../../actions/types/index'
 
 const certificate = (state = initialState.common.certificate, action) => {
     switch (action.type) {

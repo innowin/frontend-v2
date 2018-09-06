@@ -19,27 +19,27 @@ const exchanges = (state = initialState.exchanges, action) => {
       if (postParentType === 'exchange') {
         return postsExchange.filterPostsByPostParentLimitOffset.success(state, action)
       }
-      return {...state}
+      return state
 
     /** -------------------------- add one post to exchange posts  -------------------------> **/
     case types.SUCCESS.COMMON.POST.CREATE_POST :
       if (postParentType === 'exchange') {
         return postsExchange.createPost.success(state, action)
       }
-      return {...state}
+      return state
 
     /** -------------------------- delete one post from exchange posts  -------------------------> **/
     case types.SUCCESS.COMMON.POST.DELETE_POST:
       if (postParentType === 'exchange') {
         return postsExchange.deletePost.success(state, action)
       }
-      return {...state}
+      return state
 
     /** ----------------- reset -----------------> **/
     case types.RESET:
       return initialState.exchanges
     default:
-      return {...state}
+      return state
   }
 }
 export default exchanges
