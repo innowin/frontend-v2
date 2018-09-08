@@ -1,11 +1,9 @@
 const success = (state, action) => {
-  const newCert = action.data
+  const list = state.list
+  const {data} = action.payload || {}
   return {
     ...state,
-    list: {
-      ...state.list,
-      [newCert.id]: newCert
-    }
+    list: {...list, ...data}
   }
 }
 

@@ -14,6 +14,6 @@ const base = (state, action) => {}
 
 export default {
   success,
-  error,
-  base
+  // error,
+  // base
 }

@@ -1,31 +1,20 @@
 import initialState from '../../initialState';
 import types from '../../../actions/types';
+import replaceListWithData from "../../sliceReducers/utilsSlices/replaceListWithData";
 
 
 const province = (state = initialState.common.location.province, action) => {
-    switch (action.type) {
+  switch (action.type) {
 
-        /** <------------------- get provinces ------------------ **/
-        case types.COMMON.GET_PROVINCES:
-            return {
-                ...state,
-            }
+    case types.SUCCESS.COMMON.GET_PROVINCES:
+      return replaceListWithData.success()
 
-        case types.SUCCESS.COMMON.GET_PROVINCES:
-            return {
-                list: action.data,
-            }
+    case types.RESET:
+      return initialState.common.location.province
 
-        case types.ERRORS.COMMON.GET_PROVINCES:
-            return {
-                ...state // need for more error handling.
-            }
-        /** ------------------- get provinces ------------------> **/
-        case types.RESET:
-            return initialState.common.location.province
-        default:
-            return { ...state }
-    }
+    default:
+      return {...state}
+  }
 }
 
 export default province

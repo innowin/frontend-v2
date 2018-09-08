@@ -1,36 +1,15 @@
 import initialState from '../../initialState';
 import types from '../../../actions/types';
-
+import pushAnObjToStateList from "../../sliceReducers/utilsSlices/pushAnObjToStateList";
 
 const productPicture = (state=initialState.common.product.productPicture, action) => {
-    const {data} = action
-    const {list} = state
     switch (action.case) {
-        /** <----------------- createProductPicture -------------------**/
-        case types.COMMON.CREATE_PRODUCT_PICTURE:
-            return {
-                ...state
-            }
 
         case types.SUCCESS.COMMON.CREATE_PRODUCT_PICTURE:
-            return {
-                ...state,
-                list: {
-                    ...list,
-                    [data.id]: data
-                }
-            }
-
-        case types.ERRORS.COMMON.CREATE_PRODUCT_PICTURE:
-            return {
-                ...state
-            }
-        /** ----------------- createProductPicture ------------------>**/
+          return pushAnObjToStateList.success(state, action)
 
         default:
-            return {
-                ...state
-            }
+            return {...state}
     }
 }
 
