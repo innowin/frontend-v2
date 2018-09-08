@@ -17,8 +17,28 @@ const post = (state = initialState.common.post, action) => {
           ...indexedPost,
         }
       }
+    /** ------------------------------ get post viewer counts ---------------------- **/
+    case types.SUCCESS.COMMON.POST.GET_POST_VIEWER_COUNT:
+      return {
+        ...state,
+        list:{
+          ...state.list,
+          [postId]:{
+
+          }
+        }
+      }
+    /** ------------------------------ set post viewer ---------------------- **/
+    case types.SUCCESS.COMMON.POST.SET_POST_VIEWER:
+      return {
+        ...state,
+        list:{
+          ...state.list,
+          ...indexedPost,
+        }
+      }
     /** ------------------------------ get posts by parentId ---------------------- **/
-    case types.SUCCESS.COMMON.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET:
+    case types.SUCCESS.COMMON.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET:
       const postResults = data.results
       postResults.map(post => {
         return indexedPost[post.id] = {...post, error: null}
@@ -30,6 +50,7 @@ const post = (state = initialState.common.post, action) => {
           ...indexedPost,
         }
       }
+
     /** -------------------------- create post -------------------------> **/
     case types.SUCCESS.COMMON.POST.CREATE_POST:
       // TODO: mohammad full identity_object or just id

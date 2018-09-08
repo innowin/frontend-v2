@@ -23,6 +23,24 @@ const getPostByIdentity = ({postIdentity, postOwnerId, postOwnerType}) => {
   }
 }
 
+const getPostViewerCount = (postId) => {
+  return {
+    type: types.COMMON.POST.GET_POST_VIEWER_COUNT,
+    payload:{
+      postId
+    }
+  }
+}
+
+const setPostViewer = (postId) => {
+  return {
+    type: types.COMMON.POST.SET_POST_VIEWER,
+    payload:{
+      postId
+    }
+  }
+}
+
 const createPost = ({formValues, postOwnerId, postOwnerType, postParentId, postParentType}) => {
   return {
     type: types.COMMON.POST.CREATE_POST,
@@ -62,6 +80,8 @@ const deletePost = ({postId, postOwnerId, postOwnerType, postParentId, postParen
 
 const PostActions = {
   getPostByIdentity,
+  getPostViewerCount,
+  setPostViewer,
   createPost,
   updatePost,
   deletePost,

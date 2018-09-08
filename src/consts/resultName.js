@@ -64,6 +64,8 @@ const results = {
         POST: {
             FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET: 'filterPostsByPostParentLimitOffset',
             GET_POST_BY_IDENTITY: 'get-post-by-identity',
+            GET_POST_VIEWER_COUNT:'get-post-viewer-count',
+            SET_POST_VIEWER:'set-post-viewer',
             CREATE_POST: 'create-post',
             UPDATE_POST: 'update-post',
             DELETE_POST: 'delete-post',
