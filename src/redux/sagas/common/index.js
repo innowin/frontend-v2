@@ -45,6 +45,8 @@ export default [
   // posts
   postWatchers.watchFilterPostsByPostParentPostTypeLimitOffset(),
   postWatchers.watchGetPostByIdentity(),
+  postWatchers.watchGetPostViewerCount(),
+  postWatchers.watchSetPostViewer(),
   postWatchers.watchCreatePost(),
   postWatchers.watchUpdatePost(),
   postWatchers.watchDeletePost(),

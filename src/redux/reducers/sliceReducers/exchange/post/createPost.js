@@ -24,10 +24,8 @@ const base = (state, action) => {
 
 }
 
-const createPost = {
+export default {
   base,
   error,
   success
 }
-
-export default createPost

@@ -7,6 +7,7 @@ import {createPost} from './createPost'
 import {getPostByIdentity} from "./getPostByIdentity"
 import {updatePost} from './updatePost'
 import {deletePost} from './deletePost'
+import {getPostViewerCount, setPostViewer} from "./viewerCount"
 
 
 /**********    %% WATCHERS %%    **********/
@@ -17,6 +18,14 @@ function* watchFilterPostsByPostParentPostTypeLimitOffset() {
 
 function* watchGetPostByIdentity() {
   yield takeEvery(types.COMMON.POST.GET_POST_BY_IDENTITY, getPostByIdentity)
+}
+
+function* watchGetPostViewerCount(){
+  yield takeEvery(types.COMMON.POST.GET_VIEWS_COUNT, getPostViewerCount)
+}
+
+function* watchSetPostViewer() {
+  yield takeEvery(types.COMMON.POST.SET_POST_VIEWER, setPostViewer)
 }
 
 function* watchCreatePost() {
@@ -34,6 +43,8 @@ function* watchDeletePost() {
 export default {
   watchFilterPostsByPostParentPostTypeLimitOffset,
   watchGetPostByIdentity,
+  watchGetPostViewerCount,
+  watchSetPostViewer,
   watchCreatePost,
   watchUpdatePost,
   watchDeletePost,

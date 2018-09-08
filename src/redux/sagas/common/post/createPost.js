@@ -11,7 +11,7 @@ export function* createPost(action) {
   try {
     yield fork(api.post, urls.COMMON.POST.CREATE_POST, results.COMMON.POST.CREATE_POST, formValues)
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.COMMON.CREATE_POST ,
+    yield put({type: types.SUCCESS.COMMON.POST.CREATE_POST ,
       payload:{data, postOwnerId, postOwnerType, postParentId, postParentType}})
     const postIdentity = data.post_identity
     yield put({type: types.COMMON.POST.GET_POST_BY_IDENTITY , payload:{postIdentity, postOwnerId, postOwnerType}})

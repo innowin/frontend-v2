@@ -3,15 +3,35 @@ import types from '../../actions/types'
 import slices from '../sliceReducers/common/post'
 
 const post = (state = initialState.common.post, action) => {
-  const {data} = action.payload || []
+  const {data, postId} = action.payload || []
   const indexedPost = {}
 
   switch (action.type) {
     /** -------------------------- get post by identity -------------------------> **/
     case types.SUCCESS.COMMON.POST.GET_POST_BY_IDENTITY:
       return slices.getPostByIdentity.success(state, action)
+    /** ------------------------------ get post viewer counts ---------------------- **/
+    case types.SUCCESS.COMMON.POST.GET_POST_VIEWER_COUNT:
+      return {
+        ...state,
+        list:{
+          ...state.list,
+          [postId]:{
+
+          }
+        }
+      }
+    /** ------------------------------ set post viewer ---------------------- **/
+    case types.SUCCESS.COMMON.POST.SET_POST_VIEWER:
+      return {
+        ...state,
+        list:{
+          ...state.list,
+          ...indexedPost,
+        }
+      }
     /** ------------------------------ get posts by parentId ---------------------- **/
-    case types.SUCCESS.COMMON.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET:
+    case types.SUCCESS.COMMON.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET:
       const postResults = data.results
       postResults.map(post => {
         return indexedPost[post.id] = {...post, error: null}
@@ -23,6 +43,7 @@ const post = (state = initialState.common.post, action) => {
           ...indexedPost,
         }
       }
+
     /** -------------------------- create post -------------------------> **/
     case types.SUCCESS.COMMON.POST.CREATE_POST:
       return slices.createPost.success(state, action)
