@@ -21,7 +21,7 @@ function* watchGetPostByIdentity() {
 }
 
 function* watchGetPostViewerCount(){
-  yield takeEvery(types.COMMON.POST.GET_VIEWS_COUNT, getPostViewerCount)
+  yield takeEvery(types.COMMON.POST.GET_POST_VIEWER_COUNT, getPostViewerCount)
 }
 
 function* watchSetPostViewer() {

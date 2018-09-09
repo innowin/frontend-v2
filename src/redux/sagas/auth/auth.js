@@ -88,17 +88,17 @@ function* signOut() {
 
 /**********    %% WATCHERS %%    **********/
 //1 - sign In
-export function* watchLSignIn() {
+export function* watchSignIn() {
   yield takeEvery(types.AUTH.SIGN_IN, signIn)
 }
 
 //2 - sign out
-export function* watchLSignOut() {
+export function* watchSignOut() {
   yield takeEvery(types.AUTH.SIGN_OUT, signOut)
 }
 
 //3 - sign in error
-export function* watchLSignInError() {
+export function* watchSignInError() {
   yield takeEvery(types.ERRORS.AUTH.SIGN_IN, signOut)
 }
 

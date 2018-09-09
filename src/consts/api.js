@@ -1,8 +1,7 @@
-import {SOCKET, REST_URL, SOCKET as socket} from "./URLS"
+import {REST_URL, SOCKET as socket} from "./URLS"
 import {GET_VIEWS_COUNT, NEW_VIEW, REST_REQUEST} from "./Events"
 import {eventChannel} from 'redux-saga'
 import {apply, select} from "redux-saga/effects"
-import {TOKEN} from "./data";
 
 const createSocketChannel = (resultName) => {
   return eventChannel(emit => {
@@ -22,8 +21,8 @@ const createSocketChannel = (resultName) => {
       }
       emit(res.data)
     }
-    SOCKET.on(resultName, resultHandler)
-    return () => SOCKET.off(resultName, resultHandler)
+    socket.on(resultName, resultHandler)
+    return () => socket.off(resultName, resultHandler)
   })
 }
 
@@ -59,7 +58,7 @@ function* setPostViewer(postId, result) {
 
 // pre send request
 const getEmit = (url, resultName, query = "", token) => {
-  SOCKET.emit(REST_REQUEST, {
+  socket.emit(REST_REQUEST, {
     method: 'get',
     url: REST_URL + '/' + url + '/' + query,
     result: resultName,
@@ -68,7 +67,7 @@ const getEmit = (url, resultName, query = "", token) => {
 }
 
 const patchEmit = (url, resultName, data, query = "", token) => {
-  SOCKET.emit(REST_REQUEST, {
+  socket.emit(REST_REQUEST, {
     method: 'patch',
     url: REST_URL + '/' + url + '/' + query + '/',
     result: resultName,
@@ -78,7 +77,7 @@ const patchEmit = (url, resultName, data, query = "", token) => {
 }
 
 const delEmit = (url, resultName, data, query = "", token) => {
-  SOCKET.emit(REST_REQUEST, {
+  socket.emit(REST_REQUEST, {
     method: 'del',
     url: REST_URL + '/' + url + '/' + query + '/',
     result: resultName,
@@ -88,7 +87,7 @@ const delEmit = (url, resultName, data, query = "", token) => {
 }
 
 const postEmit = (url, resultName, data, query = "", token) => {
-  SOCKET.emit(REST_REQUEST, {
+  socket.emit(REST_REQUEST, {
     method: 'post',
     url: REST_URL + '/' + url + '/' + query,
     result: resultName,

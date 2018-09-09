@@ -23,7 +23,7 @@ import {
 } from './organization/organizationSaga'
 import {watchGetOrganization} from "./organization/getOrganSagas"
 // TODO: mohammad all auth sagas must go to ./auth/auth.js and just one import here from ./auth/auth.js
-import {watchLSignIn, watchLSignOut, watchLSignInError} from './auth/auth'
+import {watchSignIn, watchSignOut, watchSignInError} from './auth/auth'
 import authWatchers from './auth/auth'
 import watchUsernameCheck from "./user/checkUsernameSaga"
 import {
@@ -50,9 +50,9 @@ const rootSaga = function* () {
     watchGetUserByUserId(),
     watchGetUsers(),
     watchGetProfileByUserId(),
-    watchLSignInError(),
-    watchLSignOut(),
-    watchLSignIn(),
+    watchSignInError(),
+    watchSignOut(),
+    watchSignIn(),
     watchGetCertificates(),
     watchGetCustomers(),
     watchGetOrganization(),
@@ -83,7 +83,7 @@ const rootSaga = function* () {
     watchAgencyRequest(),
     watchAddToExchange(),
     watchCreateExchange(),
-    
+
     // user watchers
     userWatchers.watchUpdateUserByUserId(),
     userWatchers.watchUpdateProfileByProfileId(),
