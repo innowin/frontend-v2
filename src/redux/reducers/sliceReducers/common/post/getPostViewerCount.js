@@ -3,7 +3,7 @@ const base = (state, action) => {
   const prevPost = state.list[postId]
   return {
     ...state,
-    list:{
+    list: {
       ...state.list,
       [postId]: {...prevPost, error: null, isLoading: true}
     }
@@ -11,11 +11,14 @@ const base = (state, action) => {
 }
 
 const success = (state, action) => {
-  const {postId} = action.payload
-  const {[`${postId}`]: deleted, ...deleteRest} = state.list
+  const {data, postId} = action.payload
+  const prevPost = state.list[postId]
   return {
     ...state,
-    list: {...deleteRest}
+    list: {
+      ...state.list,
+      [postId]: {...prevPost, viewerCount: data, isLoading: false}
+    }
   }
 }
 
@@ -24,9 +27,9 @@ const error = (state, action) => {
   const prevPost = state.list[postId]
   return {
     ...state,
-    list:{
+    list: {
       ...state.list,
-      [postId]: {...prevPost, isLoading: true, error: message}
+      [postId]: {...prevPost, isLoading: false, error: message}
     }
   }
 }

@@ -2,8 +2,7 @@ const base = (state, action) => {
 }
 
 const success = (state, action) => {
-  const {data} = action.payload || []
-
+  const {data} = action.payload
   return {
     ...state,
     list:{

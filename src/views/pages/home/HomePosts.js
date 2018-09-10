@@ -115,9 +115,9 @@ const mapStateToProps = (state, ownProps) => {
   const client = state.auth.client
   const exchangeId = ownProps.exchangeId
   const allPosts = state.common.post.list
-  const exchangeIdPosts = (exchangeId && state.exchanges[exchangeId] && state.exchanges[exchangeId].posts
+  const exchangePostsIds = (exchangeId && state.exchanges[exchangeId] && state.exchanges[exchangeId].posts
     && state.exchanges[exchangeId].posts.content) || []
-  const posts = exchangeIdPosts.map(postId => (allPosts[postId]))
+  const posts = exchangePostsIds.map(postId => (allPosts[postId]))
   return {
     client,
     posts

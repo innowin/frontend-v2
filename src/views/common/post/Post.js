@@ -12,17 +12,12 @@ type postPropTypes = {
     post_identity: number,
     id: number,
   },
-  posts: [],
   updatePost: Function,
   profileMedia: string,
   deletePost: Function
 }
 
 type postStateTypes = {
-  post: {},
-  postIdentity_username: string,
-  postIdentity_name: string,
-  postIdentityImg: string | null,
   edit: boolean,
   error: {} | boolean,
   isLoading: boolean,
@@ -32,7 +27,6 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
 
   static propTypes = {
     post: PropTypes.object.isRequired,
-    posts: PropTypes.array.isRequired,
     updatePost: PropTypes.func.isRequired,
     profileMedia: PropTypes.string.isRequired,
     deletePost: PropTypes.func.isRequired
@@ -41,9 +35,6 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
   constructor(props: postPropTypes) {
     super(props)
     this.state = {
-      postIdentity_username: '',
-      postIdentity_name: '',
-      postIdentityImg: null,
       edit: false
     }
   }

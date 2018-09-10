@@ -1,16 +1,14 @@
-const base = (state, action) => {
-}
-
 const success = (state, action) => {
   const {data} = action.payload
-  const indexedPost = {}
-  data.forEach(post => {
+  const indexedPost ={}
+  const postResults = data.results
+  postResults.forEach(post => {
     const prevPost = state.list[post.id]
-    indexedPost[post.id] = {...prevPost, ...post, error: null, isLoading: false}
+    indexedPost[post.id] = {...prevPost, ...post, error: null}
   })
   return {
     ...state,
-    list: {
+    list:{
       ...state.list,
       ...indexedPost,
     }
@@ -18,10 +16,15 @@ const success = (state, action) => {
 }
 
 const error = (state, action) => {
+
+}
+
+const base = (state, action) => {
+
 }
 
 export default {
   base,
-  success,
   error,
+  success
 }

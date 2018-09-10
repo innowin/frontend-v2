@@ -5,14 +5,14 @@ import urls from "src/consts/URLS"
 import {put, take, fork, call} from "redux-saga/effects"
 
 export function* getExchangeMembersByExId(action) {
-	const {Id} = action.payload
+	const {id} = action.payload
 	const socketChannel = yield call(api.createSocketChannel, results.EXCHANGE.GET_EXCHANGE_MEMBERS_BY_EX_ID)
 	try {
 		yield fork(
 				api.get,
 				urls.EXCHANGE.GET_EXCHANGE_MEMBERS_BY_EX_ID,
 				results.EXCHANGE.GET_EXCHANGE_MEMBERS_BY_EX_ID,
-				`/${Id}`
+				`/${id}`
 		)
 		const data = yield take(socketChannel)
 		

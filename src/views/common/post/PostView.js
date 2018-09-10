@@ -5,7 +5,6 @@ import Moment from "react-moment";
 import {EditIcon, DefaultUserIcon} from "src/images/icons";
 import {VerifyWrapper} from "src/views/common/cards/Frames";
 import {SupplyIcon, DemandIcon} from "src/images/icons";
-import {getPostViewerCount, setPostViewer} from "src/crud/post/postViewerCount";
 import connect from "react-redux/es/connect/connect";
 import {getMessages} from "../../../redux/selectors/translateSelector";
 import {bindActionCreators} from "redux"
@@ -18,47 +17,37 @@ class PostView extends Component {
     profileMedia: PropTypes.string.isRequired,
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {viewerCount: 0, isLoading: false, error: false}
-  }
-
   _getViewerCount = () => {
     const {post, actions} = this.props
-    // const {getPostViewerCount} = actions
-    const postId = post.id;
-    this.setState({...this.state, isLoading: true}, () => (
-        getPostViewerCount(postId, (res) => this.setState({...this.state, viewerCount: res, isLoading: false}))
-    ))
+    const {getPostViewerCount} = actions
+    const postId = post.id
+    getPostViewerCount(postId)
   }
 
   _addViewer = (e) => {
     e.preventDefault()
     const {post, actions} = this.props
-    // const {setPostViewer} = actions
+    const {setPostViewer, getPostViewerCount} = actions
     const postId = post.id
-    setPostViewer(postId, () => this._getViewerCount())
+    setPostViewer(postId, getPostViewerCount)
   }
 
   componentDidMount() {
-    this._getViewerCount();
+    this._getViewerCount()
   }
 
   render() {
-    const {showEdit, post, profileMedia, translate} = this.props;
-
-    const {post_identity} = this.props.post
-    const user = post_identity.identity_user;
-    const organization = post_identity.identity_organization;
-
-    const {viewerCount, isLoading, error} = this.state;
-
-    const supplyIcon = post.post_type === 'supply';
-    const demandIcon = post.post_type === 'demand';
-    const postIcon = post.post_type === 'post';
+    const {showEdit, post, profileMedia, translate} = this.props
+    const {post_identity, viewerCount} = this.props.post
+    const user = post_identity.identity_user
+    const organization = post_identity.identity_organization
+    const supplyIcon = post.post_type === 'supply'
+    const demandIcon = post.post_type === 'demand'
+    const postIcon = post.post_type === 'post'
+    // TODO mohsen: handle isLoading && error by redux
 
     return (
-        <VerifyWrapper isLoading={isLoading} error={error}>
+        <VerifyWrapper isLoading={false} error={false}>
           <div className="-itemWrapperPost">
             <div className="-img-col">
               {
