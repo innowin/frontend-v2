@@ -2,9 +2,7 @@ const base = (state, action) => {
 }
 
 const success = (state, action) => {
-  const {data} = action.payload || []
-
-  // TODO: mohammad full identity_object or just id
+  const {data} = action.payload
   return {
     ...state,
     list:{

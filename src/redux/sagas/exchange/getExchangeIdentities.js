@@ -6,7 +6,7 @@ import {put, take, fork, call} from "redux-saga/effects"
 import helperFunctions from "src/consts/helperFunctions"
 
 export function* getExchangeIdentitiesByMemberIdentity(action) {
-  const {identityId, resolveFunc} = action.payload
+  const {identityId} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY)
   try {
     yield fork(
@@ -17,7 +17,6 @@ export function* getExchangeIdentitiesByMemberIdentity(action) {
     )
     const data1 = yield take(socketChannel)
     const data2 = data1.map(exchangeIdentity => (exchangeIdentity.exchange_identity_related_exchange))
-    resolveFunc(data2[0].id)
     const data = helperFunctions.arrayToDefaultObject(data2)
     yield put({type: types.SUCCESS.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY, payload: {data}})
   } catch (e) {

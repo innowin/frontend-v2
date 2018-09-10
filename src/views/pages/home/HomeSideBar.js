@@ -3,7 +3,7 @@ import * as React from "react"
 import {Component} from "react"
 import PropTypes from "prop-types"
 import ExchangeActions from "src/redux/actions/exchangeActions"
-import type {exchangeIdentityType, exchangeType} from "src/consts/flowTypes/exchange/exchange.js"
+import type {exchangeType} from "src/consts/flowTypes/exchange/exchange.js"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import {Link} from "react-router-dom"
@@ -106,10 +106,17 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
     setExchangeId(id)
   }
 
+  componentDidUpdate(prevProps) {
+    const {setExchangeId, clientExchanges} = this.props
+    if (!prevProps.activeExchangeId && clientExchanges.length > 0) {
+      setExchangeId(clientExchanges[0].id)
+    }
+  }
+
   componentDidMount() {
-    const {identityId, setExchangeId} = this.props
+    const {identityId} = this.props
     const {getExchangeIdentities} = this.props.actions
-    getExchangeIdentities(identityId , setExchangeId)
+    getExchangeIdentities(identityId)
   }
 
   render() {

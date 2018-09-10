@@ -14,13 +14,13 @@ export function* filterPostsByPostParentPostTypeLimitOffset(action) {
 	if(limit){ filter += `&limit=${limit}`}
 	if(offset){ filter = filter + `&offset=${offset}`}
 	if(postType){ filter = filter + `&post_type=${postType}`}
-	
-	const socketChannel = yield call(api.createSocketChannel, results.COMMON.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET)
+	const resultName = `${results.COMMON.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET}-${postParentId}`
+	const socketChannel = yield call(api.createSocketChannel, resultName)
 	try {
 		yield fork(
 				api.get,
 				urls.COMMON.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET,
-				results.COMMON.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET,
+        resultName,
 				filter
 		)
 		const data = yield take(socketChannel)

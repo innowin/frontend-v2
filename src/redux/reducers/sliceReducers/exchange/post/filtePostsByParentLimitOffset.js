@@ -15,7 +15,7 @@ const success = (state, action) => {
         }
       }
     }
-  }
+  }else return state
 }
 
 const error = (state, action) => {

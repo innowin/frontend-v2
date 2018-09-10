@@ -32,11 +32,12 @@ const getPostViewerCount = (postId) => {
   }
 }
 
-const setPostViewer = (postId) => {
+const setPostViewer = (postId, getPostViewerCount) => {
   return {
     type: types.COMMON.POST.SET_POST_VIEWER,
     payload:{
-      postId
+      postId,
+      getPostViewerCount
     }
   }
 }

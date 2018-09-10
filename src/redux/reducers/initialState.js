@@ -224,7 +224,7 @@ export default {
     },
     post: {
       list: {
-        // [postId]: {...data, isLoading:false, error:errorObject}
+        // [postId]: {...data, viewerCount:0, isLoading:false, error:errorObject}
       }
     },
     social: {
