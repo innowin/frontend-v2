@@ -14,10 +14,8 @@ const base = (state, action) => {
 
 }
 
-const getExchangeIdentities = {
+export default {
   base,
   error,
   success
 }
-
-export default getExchangeIdentities

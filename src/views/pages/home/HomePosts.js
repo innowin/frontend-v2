@@ -6,6 +6,7 @@ import HomeCreatePost from "./CreatPostHome"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import PostActions from "src/redux/actions/commonActions/postActions"
+import constant from "src/consts/constants"
 
 
 class HomePosts extends Component {
@@ -35,7 +36,11 @@ class HomePosts extends Component {
       const newOffset = offset + 100
       this.setState({...this.state, offset: newOffset, activeScrollHeight: scrollHeight, scrollLoading: true},
         () => filterPostsByPostParentLimitOffset({
-          postParentId:exchangeId, postType:null, postParentType:'exchange', limit, offset:newOffset
+          postParentId: exchangeId,
+          postType: null,
+          postParentType: constant.POST_PARENT.EXCHANGE,
+          limit,
+          offset: newOffset
         })
       )
     }
@@ -48,7 +53,7 @@ class HomePosts extends Component {
     const offset = 0
     if (exchangeId && exchangeId !== prevProps.exchangeId) {
       filterPostsByPostParentLimitOffset({
-        postParentId: exchangeId, postType: null, limit, offset, postParentType:"exchange"
+        postParentId: exchangeId, postType: null, limit, offset, postParentType: constant.POST_PARENT.EXCHANGE
       })
     }
   }
@@ -74,10 +79,10 @@ class HomePosts extends Component {
           <div>
             <HomeCreatePost
               postIdentityId={identity.id}
-              postOwnerId = {postOwnerId}
+              postOwnerId={postOwnerId}
               postOwnerType={user_type}
               postParentId={exchangeId}
-              postParentType='exchange'
+              postParentType={constant.POST_PARENT.EXCHANGE}
               handleErrorLoading={this._handleErrorLoading}
               postsCountInThisPage={posts.length}
             />
@@ -111,7 +116,7 @@ const mapStateToProps = (state, ownProps) => {
   const exchangeId = ownProps.exchangeId
   const allPosts = state.common.post.list
   const exchangeIdPosts = (exchangeId && state.exchanges[exchangeId] && state.exchanges[exchangeId].posts
-    && state.exchanges[exchangeId].posts.content) ||[]
+    && state.exchanges[exchangeId].posts.content) || []
   const posts = exchangeIdPosts.map(postId => (allPosts[postId]))
   return {
     client,

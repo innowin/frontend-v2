@@ -11,7 +11,7 @@ const success = (state, action) => {
         posts: {
           content: postIds,
           isLoading: false,
-          error:null
+          error: null
         }
       }
     }
@@ -26,10 +26,8 @@ const base = (state, action) => {
 
 }
 
-const filterPostsByPostParentLimitOffset = {
+export default {
   base,
   error,
   success
 }
-
-export default filterPostsByPostParentLimitOffset

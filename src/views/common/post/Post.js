@@ -36,7 +36,7 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
     updatePost: PropTypes.func.isRequired,
     profileMedia: PropTypes.string.isRequired,
     deletePost: PropTypes.func.isRequired
-  };
+  }
 
   constructor(props: postPropTypes) {
     super(props)

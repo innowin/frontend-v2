@@ -8,13 +8,15 @@ import {SupplyIcon, DemandIcon} from "src/images/icons";
 import {getPostViewerCount, setPostViewer} from "src/crud/post/postViewerCount";
 import connect from "react-redux/es/connect/connect";
 import {getMessages} from "../../../redux/selectors/translateSelector";
+import {bindActionCreators} from "redux"
+import PostActions from "../../../redux/actions/commonActions/postActions";
 
 class PostView extends Component {
   static propTypes = {
     showEdit: PropTypes.func.isRequired,
     post: PropTypes.object.isRequired,
     profileMedia: PropTypes.string.isRequired,
-  };
+  }
 
   constructor(props) {
     super(props);
@@ -22,21 +24,25 @@ class PostView extends Component {
   }
 
   _getViewerCount = () => {
-    const postId = this.props.post.id;
+    const {post, actions} = this.props
+    // const {getPostViewerCount} = actions
+    const postId = post.id;
     this.setState({...this.state, isLoading: true}, () => (
         getPostViewerCount(postId, (res) => this.setState({...this.state, viewerCount: res, isLoading: false}))
     ))
   }
 
   _addViewer = (e) => {
-    e.preventDefault();
-    const postId = this.props.post.id;
+    e.preventDefault()
+    const {post, actions} = this.props
+    // const {setPostViewer} = actions
+    const postId = post.id
     setPostViewer(postId, () => this._getViewerCount())
-  };
+  }
 
   componentDidMount() {
     this._getViewerCount();
-  };
+  }
 
   render() {
     const {showEdit, post, profileMedia, translate} = this.props;
@@ -111,4 +117,10 @@ const mapStateToProps = state => {
     translate: getMessages(state),
   }
 }
-export default connect(mapStateToProps)(PostView)
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({
+    getPostViewerCount:PostActions.getPostViewerCount,
+    setPostViewer: PostActions.setPostViewer
+    }, dispatch)
+})
+export default connect(mapStateToProps, mapDispatchToProps)(PostView)
