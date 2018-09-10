@@ -17,6 +17,13 @@ const social = (state = initialState.common.social, action) => {
       return slices.deleteFollow.success(state, action)
     case types.ERRORS.COMMON.SOCIAL.DELETE_FOLLOW:
       return slices.deleteFollow.error(state, action)
+    /** -------------------------- update follow -------------------------> **/
+    case types.COMMON.SOCIAL.UPDATE_FOLLOW:
+      return slices.updateFollow.base(state, action)
+    case types.SUCCESS.COMMON.SOCIAL.UPDATE_FOLLOW:
+      return slices.updateFollow.success(state, action)
+    case types.ERRORS.COMMON.SOCIAL.UPDATE_FOLLOW:
+      return slices.updateFollow.error(state, action)
     /** -------------------------- reset -------------------------> **/
     case types.RESET:
       return initialState.common.social

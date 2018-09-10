@@ -192,24 +192,11 @@ const users = (state = initialState.users, action) => {
     case types.ERRORS.COMMON.POST.GET_POST_BY_IDENTITY:
       return slices.getPostByIdentity.error(state, action)
     /** -------------------------- create post  -------------------------> **/
-    case types.COMMON.POST.CREATE_POST:
-      return slices.createPost.base(state, action)
     case types.SUCCESS.COMMON.POST.CREATE_POST:
       return slices.createPost.success(state, action)
-    case types.ERRORS.COMMON.POST.CREATE_POST:
-      return slices.createPost.error(state, action)
-    /** -------------------------- update post  -------------------------> **/
-    case types.COMMON.POST.UPDATE_POST:
-      return slices.updatePost.base(state, action)
-    case types.ERRORS.COMMON.POST.UPDATE_POST:
-      return slices.updatePost.error(state, action)
     /** -------------------------- delete post  -------------------------> **/
-    case types.COMMON.POST.DELETE_POST:
-      return slices.deletePost.base(state, action)
     case types.SUCCESS.COMMON.POST.DELETE_POST:
       return slices.deletePost.success(state, action)
-    case types.ERRORS.COMMON.POST.DELETE_POST:
-      return slices.deletePost.error(state, action)
     /** -------------------------- get followers -------------------------> **/
     case types.COMMON.SOCIAL.GET_FOLLOWERS:
       return slices.getFollowers.base(state, action)
@@ -225,12 +212,8 @@ const users = (state = initialState.users, action) => {
     case types.ERRORS.COMMON.SOCIAL.GET_FOLLOWEES:
       return slices.getFollowees.error(state, action)
     /** -------------------------- delete follow -------------------------> **/
-    case types.COMMON.SOCIAL.DELETE_FOLLOW:
-      return slices.deleteFollow.base(state, action)
     case types.SUCCESS.COMMON.SOCIAL.DELETE_FOLLOW:
       return slices.deleteFollow.success(state, action)
-    case types.ERRORS.COMMON.SOCIAL.DELETE_FOLLOW:
-      return slices.deleteFollow.error(state, action)
     /** -------------------------- reset users -------------------------> **/
     case types.RESET:
       return initialState.users

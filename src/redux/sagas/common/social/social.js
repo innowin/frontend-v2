@@ -5,6 +5,7 @@ import {takeEvery} from "redux-saga/effects"
 import {getFollowees} from './getFollowees'
 import {getFollowers} from './getFollowers'
 import {deleteFollow} from './deleteFollow'
+import {updateFollow} from './updateFollow'
 
 
 /**********    %% WATCHERS %%    **********/
@@ -21,9 +22,14 @@ function* watchDeleteFollow() {
   yield takeEvery(types.COMMON.SOCIAL.DELETE_FOLLOW, deleteFollow)
 }
 
+function* watchUpdateFollow() {
+  yield takeEvery(types.COMMON.SOCIAL.UPDATE_FOLLOW, updateFollow)
+}
+
 
 export default {
   watchGetFollowees,
   watchGetFollowers,
   watchDeleteFollow,
+  watchUpdateFollow,
 }

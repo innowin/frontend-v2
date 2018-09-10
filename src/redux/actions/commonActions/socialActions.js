@@ -33,10 +33,22 @@ const deleteFollow= ({followId, followOwnerId, followOwnerType}) => {
   }
 }
 
+const updateFollow= ({formValues, followId, followOwnerId}) => {
+  return{
+    type: types.COMMON.SOCIAL.DELETE_FOLLOW,
+    payload: {
+      formValues,
+      followId,
+      followOwnerId,
+    }
+  }
+}
+
 const SocialActions = {
   getFollowees,
   getFollowers,
-  deleteFollow
+  deleteFollow,
+  updateFollow,
 }
 
 export default SocialActions

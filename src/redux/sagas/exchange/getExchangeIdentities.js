@@ -16,8 +16,11 @@ export function* getExchangeIdentitiesByMemberIdentity(action) {
       `?identity_id=${identityId}`
     )
     const data1 = yield take(socketChannel)
-    const data2 = data1.map(exchangeIdentity => (exchangeIdentity.exchange_identity_related_exchange))
-    resolveFunc(data2[0].id)
+    const data2 = data1.map(exchangeIdentity => ({identity_id: exchangeIdentity.id,
+      related_identity: exchangeIdentity.exchange_identity_related_identity,
+      ...exchangeIdentity.exchange_identity_related_exchange}))
+    if(resolveFunc)
+      resolveFunc(data2[0].id)
     const data = helperFunctions.arrayToDefaultObject(data2)
     yield put({type: types.SUCCESS.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY, payload: {data}})
   } catch (e) {

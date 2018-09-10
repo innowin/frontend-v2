@@ -20,6 +20,7 @@ type postsPropsType = {
   id: number,
   profileMedia: string,
   postIdentity: number,
+  translate: {},
   actions: {
     getPostByIdentity: Function,
     createPost: Function,
@@ -44,6 +45,7 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
     posts: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
     error: PropTypes.object.isRequired,
+    translate: PropTypes.object.isRequired,
   };
 
   constructor(props: postsPropsType) {
@@ -73,13 +75,13 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
   }
 
   render() {
-    const {postIdentity, profileMedia, posts, isLoading, error, actions, id} = this.props
+    const {postIdentity, profileMedia, posts, isLoading, error, actions, id, translate} = this.props
     const {updatePost, deletePost} = actions
     const {createForm} = this.state;
     return (
       <VerifyWrapper isLoading={isLoading} error={error}>
         <CategoryTitle
-          title={__('Post')}
+          title={translate['Post']}
           showCreateForm={this._showCreateForm}
           createForm={createForm}
         />
@@ -126,6 +128,7 @@ const mapStateToProps  = () => {
 
     return {
       posts: userPostsSelector(state, props),
+      translate: state.intl.messages,
       isLoading: postObject.isLoading,
       error: postObject.error,
     }
