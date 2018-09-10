@@ -45,6 +45,21 @@ $item-header-margin-right: 16px;
       .follow-section{
         color: $success-color;
       }
+      .accept-follower{
+        margin: 0 5px;
+        color: $success-color;
+        font-size: 25px;
+      }
+      .reject-follower{
+        margin: 0 5px;
+        color: $error-color;
+        font-size: 25px;
+      }
+      .follow{
+        margin: 0 5px;
+        color: $success-color;
+        font-size: 25px;
+      }
     }
   }
 }

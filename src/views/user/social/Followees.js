@@ -13,15 +13,16 @@ type PropsFollowees = {
   showEdit: Function,
   followees: [],
   deleteFollow: Function,
-  translate: { [string]: string }
+  translate: { [string]: string },
+  userId: number,
 }
 
 export const Followees = (props: PropsFollowees) => {
-  const {edit, showEdit, followees, translate} = props
+  const {edit, showEdit, followees, translate, userId} = props
   const onDeleteFollowing = (followee) => {
     const {deleteFollow} = props
     const followId = followee.follow_id
-    const followOwnerId = followee.identity_user || followee.identity_organization
+    const followOwnerId = userId
     const followOwnerType = followee.identity_user ? constants.USER_TYPES.PERSON : constants.USER_TYPES.ORG
     deleteFollow({followId, followOwnerId, followOwnerType})
   }
@@ -47,9 +48,11 @@ export const Followees = (props: PropsFollowees) => {
                       <div className="text-section">
                         <div className="name">{followee.name}</div>
                       </div>
-                      {(edit) ?
-                          <FontAwesome name="trash" className='remove-follow pulse' onClick={() => onDeleteFollowing(followee)}/>
-                          : <div className="follow-section">{followee.accepted ? translate['Followed'] : ''}</div>}
+                      {(edit)
+                          ? <FontAwesome name="trash" className='remove-follow pulse'
+                                         onClick={() => onDeleteFollowing(followee)}/>
+                          : <div className="follow-section">{followee.accepted ? translate['Followed'] : translate['Wait for accept']}</div>
+                      }
                     </div>
                   </div>
               )
@@ -63,6 +66,7 @@ Followees.propTypes = {
   edit: PropTypes.bool,
   showEdit: PropTypes.func.isRequired,
   followees: PropTypes.arrayOf(PropTypes.object.isRequired),
-  deleteFollowing: PropTypes.func,
-  translate: PropTypes.object.isRequired
+  deleteFollow: PropTypes.func.isRequired,
+  translate: PropTypes.object.isRequired,
+  userId: PropTypes.number.isRequired,
 }

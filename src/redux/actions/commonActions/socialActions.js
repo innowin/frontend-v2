@@ -11,7 +11,7 @@ const getFollowees = ({followOwnerIdentity, followOwnerId, followOwnerType}) => 
   }
 }
 
-const getFollowers= ({followOwnerIdentity, followOwnerId, followOwnerType}) => {
+const getFollowers = ({followOwnerIdentity, followOwnerId, followOwnerType}) => {
   return{
     type: types.COMMON.SOCIAL.GET_FOLLOWERS,
     payload: {
@@ -22,7 +22,7 @@ const getFollowers= ({followOwnerIdentity, followOwnerId, followOwnerType}) => {
   }
 }
 
-const deleteFollow= ({followId, followOwnerId, followOwnerType}) => {
+const deleteFollow = ({followId, followOwnerId, followOwnerType}) => {
   return{
     type: types.COMMON.SOCIAL.DELETE_FOLLOW,
     payload: {
@@ -33,9 +33,9 @@ const deleteFollow= ({followId, followOwnerId, followOwnerType}) => {
   }
 }
 
-const updateFollow= ({formValues, followId, followOwnerId}) => {
+const updateFollow = ({formValues, followId, followOwnerId}) => {
   return{
-    type: types.COMMON.SOCIAL.DELETE_FOLLOW,
+    type: types.COMMON.SOCIAL.UPDATE_FOLLOW,
     payload: {
       formValues,
       followId,
@@ -44,11 +44,22 @@ const updateFollow= ({formValues, followId, followOwnerId}) => {
   }
 }
 
+const createFollow = ({formValues, followOwnerId, followOwnerType}) => {
+  return{
+    type: types.COMMON.SOCIAL.CREATE_FOLLOW,
+    payload: {
+      formValues,
+      followOwnerId,
+      followOwnerType
+    }
+  }
+}
 const SocialActions = {
   getFollowees,
   getFollowers,
   deleteFollow,
   updateFollow,
+  createFollow,
 }
 
 export default SocialActions

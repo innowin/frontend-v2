@@ -88,6 +88,9 @@ const auth = (state = initialState.auth, action) => {
     /** -------------------------- delete follow  -------------------------> **/
     case types.SUCCESS.COMMON.SOCIAL.DELETE_FOLLOW:
       return slices.deleteFollow.success(state, action)
+    /** -------------------------- delete follow  -------------------------> **/
+    case types.SUCCESS.COMMON.SOCIAL.CREATE_FOLLOW:
+      return slices.createFollow.success(state, action)
     /** -------------------------- reset  -------------------------> **/
     case types.RESET:
       return initialState.auth

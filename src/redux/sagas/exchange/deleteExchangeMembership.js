@@ -5,7 +5,9 @@ import urls from "src/consts/URLS"
 import {put, take, fork, call} from "redux-saga/effects"
 
 export function* deleteExchangeMembership(action) {
-	const {Id} = action.payload
+	const {id} = action.payload
+	console.log(id, 'iiiii')
+  const Id = -11
 	const socketChannel = yield call(api.createSocketChannel, results.EXCHANGE.DELETE_EXCHANGE_MEMBERSHIP)
 	try {
 		yield fork(api.del, urls.EXCHANGE.DELETE_EXCHANGE_MEMBERSHIP, results.EXCHANGE.DELETE_EXCHANGE_MEMBERSHIP, ``, `${Id}`)

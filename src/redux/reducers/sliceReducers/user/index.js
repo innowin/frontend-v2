@@ -1,3 +1,4 @@
+import createFollow from './createFollow'
 import createPost from './createPost'
 import deleteFollow from './deleteFollow'
 import deletePost from './deletePost'
@@ -8,6 +9,7 @@ import updateProfileByUserId from './updateProfileByUserId'
 import updateUserByUserId from './updateUserByUserId'
 
 export default {
+  createFollow,
   createPost,
   deleteFollow,
   deletePost,

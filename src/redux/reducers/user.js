@@ -214,6 +214,9 @@ const users = (state = initialState.users, action) => {
     /** -------------------------- delete follow -------------------------> **/
     case types.SUCCESS.COMMON.SOCIAL.DELETE_FOLLOW:
       return slices.deleteFollow.success(state, action)
+    /** -------------------------- create follow  -------------------------> **/
+    case types.SUCCESS.COMMON.SOCIAL.CREATE_FOLLOW:
+      return slices.createFollow.success(state, action)
     /** -------------------------- reset users -------------------------> **/
     case types.RESET:
       return initialState.users

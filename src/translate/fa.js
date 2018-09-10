@@ -206,6 +206,7 @@ module.exports = {
   'Exchanges': 'بورس ها',
   'Social': 'اجتماعی',
   'Followed': 'دنبال شده',
+  'Wait for accept': 'در انتظار تایید',
 
   // Product
   // Product Rating

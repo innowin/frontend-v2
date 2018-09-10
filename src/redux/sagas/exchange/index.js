@@ -25,7 +25,7 @@ function* watchGetExchangeMembersByExId() {
 }
 
 function* watchDeleteExchangeMembership() {
-	yield takeEvery(types.EXCHANGE.GET_EXCHANGE_MEMBERS_BY_EX_ID, deleteExchangeMembership)
+	yield takeEvery(types.EXCHANGE.DELETE_EXCHANGE_MEMBERSHIP, deleteExchangeMembership)
 }
 
 function* watchCreateExchange() {

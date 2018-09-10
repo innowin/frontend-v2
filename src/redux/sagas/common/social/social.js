@@ -6,6 +6,7 @@ import {getFollowees} from './getFollowees'
 import {getFollowers} from './getFollowers'
 import {deleteFollow} from './deleteFollow'
 import {updateFollow} from './updateFollow'
+import {createFollow} from './createFollow'
 
 
 /**********    %% WATCHERS %%    **********/
@@ -26,10 +27,15 @@ function* watchUpdateFollow() {
   yield takeEvery(types.COMMON.SOCIAL.UPDATE_FOLLOW, updateFollow)
 }
 
+function* watchCreateFollow() {
+  yield takeEvery(types.COMMON.SOCIAL.CREATE_FOLLOW, createFollow)
+}
+
 
 export default {
   watchGetFollowees,
   watchGetFollowers,
   watchDeleteFollow,
   watchUpdateFollow,
+  watchCreateFollow,
 }

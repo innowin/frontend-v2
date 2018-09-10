@@ -32,6 +32,8 @@ type PropsSocials = {
     deleteFollow: Function,
     getProfileByUserId: Function,
     getOrganization: Function,
+    updateFollow: Function,
+    createFollow: Function,
   },
   translate: { [string]: string },
   followers: [],
@@ -126,8 +128,8 @@ class Socials extends Component<PropsSocials, StateSocials> {
   }
 
   render() {
-    const {translate, followers, followees, actions, isLoading, error, exchanges} = this.props
-    const {deleteFollow, deleteExchangeMembership} = actions
+    const {translate, followers, followees, actions, isLoading, error, exchanges, identityId, userId} = this.props
+    const {deleteFollow, deleteExchangeMembership, updateFollow, createFollow} = actions
     const {editExchanges, editFollowings} = this.state
 
     return (
@@ -136,6 +138,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
               title={translate['Socials']}
           />
           <FrameCard className="frameCardSocial">
+            {/*FIXME: mohammad fix exchange part after changed in redux by */}
             <Exchanges removeMembership={deleteExchangeMembership}
                        exchanges={exchanges}
                        showEdit={this._showExchangesEdit}
@@ -147,9 +150,15 @@ class Socials extends Component<PropsSocials, StateSocials> {
                        followees={followees}
                        showEdit={this._showEditFollowings}
                        translate={translate}
+                       userId={userId}
             />
             <Followers followers={followers} translate={translate}
                        deleteFollow={deleteFollow}
+                       followees={followees}
+                       updateFollow={updateFollow}
+                       identityId={identityId}
+                       createFollow={createFollow}
+                       userId={userId}
             />
           </FrameCard>
         </VerifyWrapper>
@@ -186,6 +195,8 @@ const mapDispatchToProps = dispatch => ({
     getFollowees: SocialActions.getFollowees,
     getFollowers: SocialActions.getFollowers,
     deleteFollow: SocialActions.deleteFollow,
+    updateFollow: SocialActions.updateFollow,
+    createFollow: SocialActions.createFollow,
     getProfileByUserId: GetUserActions.getProfileByUserId,
     getOrganization: OrganizationActions.getOrganization,
   }, dispatch)

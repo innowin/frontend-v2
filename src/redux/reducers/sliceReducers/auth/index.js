@@ -1,3 +1,4 @@
+import createFollow from './createFollow'
 import createPost from './createPost'
 import deleteFollow from './deleteFollow'
 import deletePost from './deletePost'
@@ -9,6 +10,7 @@ import updateUserByUserId from './updateUserByUserId'
 import verifyToken from './verifyToken'
 
 export default {
+  createFollow,
   createPost,
   deleteFollow,
   deletePost,

@@ -99,6 +99,7 @@ const urls = {
       GET_FOLLOWERS: 'organizations/follows',
       DELETE_FOLLOW: 'organizations/follows',
       UPDATE_FOLLOW: 'organizations/follows',
+      CREATE_FOLLOW: 'organizations/follows',
     },
   }
 }
