@@ -19,7 +19,7 @@ import {removeExchangeMembership} from "src/crud/exchange/exchange"
 import {getMessages} from "src/redux/selectors/translateSelector"
 import {makeGetFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
 import {makeGetFollowersSelector} from 'src/redux/selectors/common/social/getFollowers'
-import {makeGetExchangesSelector} from 'src/redux/selectors/common/social/getExchanges'
+import {makeGetMembershipsSelector} from 'src/redux/selectors/common/social/getMemberships'
 
 type PropsSocials = {
   userId: number,
@@ -122,7 +122,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
       const followOwnerIdentity = identityId
       const followOwnerId = userId
 
-      getExchangesByMemberIdentity({identityId, membershipOwnerIdentity: identityType})
+      getExchangesByMemberIdentity({identityId, membershipOwnerType: identityType, membershipOwnerId: userId})
       getFollowers({followOwnerId, followOwnerIdentity, followOwnerType: identityType})
       getFollowees({followOwnerId, followOwnerIdentity, followOwnerType: identityType})
     }
@@ -170,7 +170,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
 const mapStateToProps = (state, ownProps) => {
   const getFollowersSelector = makeGetFollowersSelector(state, ownProps)
   const getFolloweesSelector = makeGetFolloweesSelector(state, ownProps)
-  const getExchangesSelector = makeGetExchangesSelector(state, ownProps)
+  const getExchangesSelector = makeGetMembershipsSelector(state, ownProps)
 
   return (state, props) => {
     const {userId} = props

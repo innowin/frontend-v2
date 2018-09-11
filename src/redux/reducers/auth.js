@@ -92,7 +92,7 @@ const auth = (state = initialState.auth, action) => {
     case types.SUCCESS.COMMON.SOCIAL.CREATE_FOLLOW:
       return slices.createFollow.success(state, action)
     /** -------------------------- get membership by member identity -------------------------> **/
-    case types.SUCCESS.COMMON.GET_MEMBERSHIP_BY_MEMBER_IDENTITY:
+    case types.SUCCESS.COMMON.MEMBERSHIP.GET_MEMBERSHIP_BY_MEMBER_IDENTITY:
       return slices.getMembershipByMemberIdentity.success(state, action)
     /** -------------------------- reset  -------------------------> **/
     case types.RESET:

@@ -11,19 +11,19 @@ import {SeeViewIcon, RefreshIcon, SettingIcon, DefaultExchangeIcon} from "src/im
 
 const DescriptionSideBarItem = ({description = '', className = ""}) => {
   return (
-    <div className={className}>
-      {description}
-    </div>
+      <div className={className}>
+        {description}
+      </div>
   )
 }
 
 const FooterSideBarItem = ({exchangeId, className = ""}) => {
   return (
-    <div className={className}>
-      <Link to={"/exchange/" + exchangeId}><SeeViewIcon height="15px" className="cursor-pointer"/></Link>
-      <SettingIcon height="16px" className="cursor-pointer mr-4"/>
-      <RefreshIcon height="16px" className="cursor-pointer mr-4"/>
-    </div>
+      <div className={className}>
+        <Link to={"/exchange/" + exchangeId}><SeeViewIcon height="15px" className="cursor-pointer"/></Link>
+        <SettingIcon height="16px" className="cursor-pointer mr-4"/>
+        <RefreshIcon height="16px" className="cursor-pointer mr-4"/>
+      </div>
   )
 }
 
@@ -50,22 +50,22 @@ export class SideBarItem extends Component<PropsSideBarItem> {
     const {active} = this.props
     const {exchange_image, name, description, id: exchangeId} = this.props.exchange
     return (
-      <div className={`item-wrapper ${ active ? 'active' : ''}`} onClick={this._onClickHandler}>
-        <div className="header-exchange">
-          {!exchange_image ? <DefaultExchangeIcon className="default-logo"/> :
-            <img className="img-logo" src={exchange_image.file} alt="logo"/>
+        <div className={`item-wrapper ${ active ? 'active' : ''}`} onClick={this._onClickHandler}>
+          <div className="header-exchange">
+            {!exchange_image ? <DefaultExchangeIcon className="default-logo"/> :
+                <img className="img-logo" src={exchange_image.file} alt="logo"/>
+            }
+            <div className="exchange-name">{name}</div>
+          </div>
+          {
+            (!active) ? ('') : (
+                <div className="active-content">
+                  <DescriptionSideBarItem description={description} className="active-description"/>
+                  <FooterSideBarItem exchangeId={exchangeId} className="active-footer"/>
+                </div>
+            )
           }
-          <div className="exchange-name">{name}</div>
         </div>
-        {
-          (!active) ? ('') : (
-            <div className="active-content">
-              <DescriptionSideBarItem description={description} className="active-description"/>
-              <FooterSideBarItem exchangeId={exchangeId} className="active-footer"/>
-            </div>
-          )
-        }
-      </div>
     )
   }
 }
@@ -87,6 +87,7 @@ type PropsHomeSideBar = {|
     getExchangeIdentities: Function
   },
   identityType: string,
+  id: number,
 |}
 
 class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
@@ -96,6 +97,7 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
     setExchangeId: PropTypes.func.isRequired,
     classNames: PropTypes.string,
     identityType: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
   }
 
   constructor(props) {
@@ -116,30 +118,32 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
   }
 
   componentDidMount() {
-    const {identityId, identityType} = this.props
+    const {identityId, identityType, id} = this.props
     const {getExchangeIdentities} = this.props.actions
-    getExchangeIdentities({identityId, membershipOwnerIdentity: identityType})
+    getExchangeIdentities({identityId, membershipOwnerType: identityType, membershipOwnerId: id})
   }
 
   render() {
     const {clientExchanges, classNames, activeExchangeId} = this.props
     return (
-      <div className={classNames}>
-        {
-          (clientExchanges && clientExchanges.length > 0) ? (
-            clientExchanges.map((exchange, i) => {
-              return (
-                (exchange.id === activeExchangeId) ?
-                  <SideBarItem key={i + "HomeSideBar-active"} exchange={exchange} handleClick={this._handleClick}
-                               active={true}/>
-                  :
-                  <SideBarItem key={i + "HomeSideBar-not-active"} exchange={exchange} handleClick={this._handleClick}
-                               active={false}/>
-              )
-            })
-          ) : (<p className="mt-3 pr-3"><b>شما عضو هیچ بورسی نیستید!</b></p>)
-        }
-      </div>
+        <div className={classNames}>
+          {
+            (clientExchanges && clientExchanges.length > 0) ? (
+                clientExchanges.map((exchange, i) => {
+                  return (
+                      (exchange.id === activeExchangeId) ?
+                          <SideBarItem key={i + "HomeSideBar-active"} exchange={exchange}
+                                       handleClick={this._handleClick}
+                                       active={true}/>
+                          :
+                          <SideBarItem key={i + "HomeSideBar-not-active"} exchange={exchange}
+                                       handleClick={this._handleClick}
+                                       active={false}/>
+                  )
+                })
+            ) : (<p className="mt-3 pr-3"><b>شما عضو هیچ بورسی نیستید!</b></p>)
+          }
+        </div>
     )
   }
 }
@@ -149,13 +153,13 @@ const mapStateToProps = state => {
   const allExchanges = state.exchanges.list
   const ids = state.auth.client.exchanges
   const clientExchanges = ids.map((exchangeId) =>
-    (allExchanges[exchangeId] ? allExchanges[exchangeId].exchange.content : [])
+      (allExchanges[exchangeId] ? allExchanges[exchangeId].exchange.content : [])
   )
   const isLoading = ids.map((exchangeId) =>
-    (allExchanges[exchangeId] ? allExchanges[exchangeId].exchange.isLoading : false)
+      (allExchanges[exchangeId] ? allExchanges[exchangeId].exchange.isLoading : false)
   ).includes(true)
   const error = ids.map((exchangeId) =>
-    (allExchanges[exchangeId] ? allExchanges[exchangeId].exchange.error : null)
+      (allExchanges[exchangeId] ? allExchanges[exchangeId].exchange.error : null)
   )
   return {
     clientExchanges,

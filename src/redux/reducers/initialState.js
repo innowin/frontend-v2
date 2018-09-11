@@ -15,7 +15,7 @@ export default {
       social: {
         follows: [], /* ids of follows that this client is participates at them*/
       },
-      membership: [], /* ids of exchanges that user is member of that*/
+      memberships: [], /* ids of exchanges that user is member of that*/
       rememberMe: null,
       user_type: null,
       isLoggedIn: false,
@@ -61,7 +61,7 @@ export default {
            error:null
          },
        },
-       membership: {
+       memberships: {
           content:[1, 2, ...], list of membership id
           isLoading:false,
           error:null

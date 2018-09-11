@@ -7,13 +7,13 @@ const getUserPosts = (state, props) => {
     return state.users[props.id].posts.content
   else return undefined
 }
-const getUserId = (state, props) => props.id
 
 /** this selector selects posts by postIdentity or without that. **/
-export const makeUserPostsSelector = () => {
+export const makeUserPostsSelector = (state, props) => {
   return createSelector(
-      [getPosts, getUserPosts, getUserId],
-      (posts, userPosts, userId) => {
+      [getPosts, getUserPosts],
+      (posts, userPosts) => {
+        const userId = props.id
         if (posts && Object.keys(posts).length !== 0 && posts.constructor === Object && userPosts && userId) {
           const arrayPost = helpers.getObjectOfArrayKeys(userPosts, posts)
           return [...arrayPost]

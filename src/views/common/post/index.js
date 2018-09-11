@@ -12,7 +12,6 @@ import PostActions from "../../../redux/actions/commonActions/postActions";
 import connect from "react-redux/es/connect/connect";
 import {makeUserPostsSelector} from 'src/redux/selectors/common/userPostsSelector'
 import {Post} from './Post'
-import client from 'src/consts/client'
 import constants from "../../../consts/constants";
 
 type postsPropsType = {
@@ -118,8 +117,8 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
   }
 }
 
-const mapStateToProps  = () => {
-  const userPostsSelector = makeUserPostsSelector()
+const mapStateToProps  = (state, ownProps) => {
+  const userPostsSelector = makeUserPostsSelector(state, ownProps)
   return (state, props) => {
 
     let userId = props.id

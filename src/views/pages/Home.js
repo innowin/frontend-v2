@@ -12,6 +12,7 @@ import constants from "../../consts/constants";
 type HomeProps = {|
   identityId: number,
   identityType: string,
+  id: number,
 |}
 
 class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
@@ -19,6 +20,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
   static propTypes = {
     identityId: PropTypes.number.isRequired,
     identityType: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
   }
 
   constructor(props) {
@@ -34,7 +36,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
   }
 
   render() {
-    const {identityId, identityType} = this.props
+    const {identityId, identityType, id} = this.props
     const {activeExchangeId} = this.state
     return (
       <div className="home-wrapper">
@@ -46,6 +48,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
                          identityId={identityId}
                          identityType={identityType}
                          activeExchangeId={activeExchangeId}
+                         id={id}
             />
             <HomePosts exchangeId={activeExchangeId} className="col-6"/>
             <div className="col-3 pl-0"/>
@@ -58,8 +61,10 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
 }
 
 const mapStateToProps = state => {
+  const id = state.auth.client.identity.identity_user ? state.auth.client.user.id : state.auth.client.organization.id
   const identityType = state.auth.client.identity.identity_user ? constants.USER_TYPES.PERSON : constants.USER_TYPES.ORG
   return {
+    id: id,
     identityId: state.auth.client.identity.id,
     identityType: identityType
   }

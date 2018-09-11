@@ -41,7 +41,7 @@ export const Exchanges = (props: PropsExchangesView) => {
                         <div className="description">{exchange.description}</div>
                       </div>
                       {(edit) ?
-                          <FontAwesome name="trash" className='remove-follow pulse' onClick={() => removeMembership(exchange.identity_id)}/>
+                          <FontAwesome name="trash" className='remove-follow pulse' onClick={() => removeMembership({identityId: exchange.id})}/>
                           : ('')
                       }
                     </div>
