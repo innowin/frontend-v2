@@ -8,7 +8,9 @@ export const makeGetExchangesSelector = (state, props) => {
       [getExchanges],
       (exchanges) => {
         const {identityId} = props
-        return Object.keys(exchanges).map(id => exchanges[id].exchange.content).filter(exchange => exchange.related_identity.id === identityId)
+        console.log(exchanges, 'exchangesss')
+        // return Object.keys(exchanges).map(id => exchanges[id].exchange.content).filter(exchange => exchange.related_identity.id === identityId)
+        return []
       }
   )
 }

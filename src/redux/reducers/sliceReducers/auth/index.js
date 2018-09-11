@@ -4,6 +4,7 @@ import deleteFollow from './deleteFollow'
 import deletePost from './deletePost'
 import getFollowees from './getFollowees'
 import getFollowers from './getFollowers'
+import getMembershipByMemberIdentity from './getMembershipByMemberIdentity'
 import getPostByIdentity from './getPostByIdentity'
 import updateProfileByProfileId from './updateProfileByProfileId'
 import updateUserByUserId from './updateUserByUserId'
@@ -16,6 +17,7 @@ export default {
   deletePost,
   getFollowees,
   getFollowers,
+  getMembershipByMemberIdentity,
   getPostByIdentity,
   updateProfileByProfileId,
   updateUserByUserId,

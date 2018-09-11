@@ -217,6 +217,13 @@ const users = (state = initialState.users, action) => {
     /** -------------------------- create follow  -------------------------> **/
     case types.SUCCESS.COMMON.SOCIAL.CREATE_FOLLOW:
       return slices.createFollow.success(state, action)
+    /** -------------------------- get membership by member identity  -------------------------> **/
+    case types.COMMON.MEMBERSHIP.GET_MEMBERSHIP_BY_MEMBER_IDENTITY:
+      return slices.getMembershipByMemberIdentity.base(state, action)
+    case types.SUCCESS.COMMON.MEMBERSHIP.GET_MEMBERSHIP_BY_MEMBER_IDENTITY:
+      return slices.getMembershipByMemberIdentity.success(state, action)
+    case types.ERRORS.COMMON.MEMBERSHIP.GET_MEMBERSHIP_BY_MEMBER_IDENTITY:
+      return slices.getMembershipByMemberIdentity.error(state, action)
     /** -------------------------- reset users -------------------------> **/
     case types.RESET:
       return initialState.users

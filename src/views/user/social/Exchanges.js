@@ -24,7 +24,7 @@ export const Exchanges = (props: PropsExchangesView) => {
         <ItemHeader title={translate['Joined exchanges'] + ` (${exchanges.length})`} showEdit={showEdit}/>
         <div className="members-wrapper row mr-0 ml-0">
           {
-            exchanges.map((exchange, i) => {
+            exchanges.map((exchange) => {
               return (
                   <div className="member-wrapper col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                     <div className="image-wrapper">

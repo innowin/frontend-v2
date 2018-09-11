@@ -4,28 +4,23 @@ const base = (state, action) => {
 }
 
 const success = (state, action) => {
-  const {data, postIdentity, postOwnerType} = action.payload || {}
+  const {data, postIdentity} = action.payload || {}
   const {client} = state
   const previousPost = (client && client.posts) || []
 
-  if(postOwnerType === constants.USER_TYPES.PERSON) {
-    const arrayOfPostId = []
-    data.map(post => {
-      if (postIdentity === state.client.identity.id && (!previousPost.includes(post.id))) {
-        return arrayOfPostId.push(post.id)
-      }
-      return arrayOfPostId
-    })
-    return {
-      ...state,
-      client: {
-        ...client,
-        posts: [...previousPost, ...arrayOfPostId]
-      }
+  const arrayOfPostId = []
+  data.map(post => {
+    if (postIdentity === state.client.identity.id && (!previousPost.includes(post.id))) {
+      return arrayOfPostId.push(post.id)
     }
-  }
-  else{
-    return state
+    return arrayOfPostId
+  })
+  return {
+    ...state,
+    client: {
+      ...client,
+      posts: [...previousPost, ...arrayOfPostId]
+    }
   }
 }
 

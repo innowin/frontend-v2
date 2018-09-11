@@ -15,6 +15,7 @@ export default {
       social: {
         follows: [], /* ids of follows that this client is participates at them*/
       },
+      membership: [], /* ids of exchanges that user is member of that*/
       rememberMe: null,
       user_type: null,
       isLoggedIn: false,
@@ -59,6 +60,11 @@ export default {
            isLoading:false,
            error:null
          },
+       },
+       membership: {
+          content:[1, 2, ...], list of membership id
+          isLoading:false,
+          error:null
        }
        ---------------- other ----------
        skills:{
@@ -235,6 +241,11 @@ export default {
           // [followId]: {...data, isLoading:false, error:errorObject}
         }
       },
+    },
+    membership: {
+      list: {
+        // [membershipId]: {...data, isLoading:false, error:errorObject}
+      }
     }
   },
   intl: {

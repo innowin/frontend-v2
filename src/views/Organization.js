@@ -26,6 +26,7 @@ import {OrganSideBar} from "src/views/bars/SideBar"
 import {Tabs} from "src/views/common/cards/Frames"
 import {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 import {VerifyWrapper} from "./common/cards/Frames"
+import constants from "../consts/constants";
 
 type PropsOrganization = {
 	organObject: organStateObject,
@@ -108,7 +109,7 @@ export class Organization extends Component<PropsOrganization> {
 							<Switch>
 								<Redirect exact from={`${url}/`} to={`${url}/Products`}/>
 								<PrivateRoute path={`${path}/Products`} component={Products} organizationId={organizationId}/>
-								<PrivateRoute path={`${path}/Posts`} component={Posts} id={organizationId} identityType='organization'/>
+								<PrivateRoute path={`${path}/Posts`} component={Posts} id={organizationId} identityType={constants.USER_TYPES.ORG}/>
 								<PrivateRoute exact path={`${path}/basicInformation`} component={BasicInformation}
 															organizationId={organizationId} organ={organObject.content}/>
 								<PrivateRoute path={`${path}/Customers`} component={Customers} organizationId={organizationId}/>

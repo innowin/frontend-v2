@@ -85,7 +85,8 @@ type PropsHomeSideBar = {|
   error: ?string,
   actions: {
     getExchangeIdentities: Function
-  }
+  },
+  identityType: string,
 |}
 
 class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
@@ -93,7 +94,8 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
     identityId: PropTypes.number.isRequired,
     activeExchangeId: PropTypes.number,
     setExchangeId: PropTypes.func.isRequired,
-    classNames: PropTypes.string
+    classNames: PropTypes.string,
+    identityType: PropTypes.string.isRequired,
   }
 
   constructor(props) {
@@ -114,9 +116,9 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
   }
 
   componentDidMount() {
-    const {identityId} = this.props
+    const {identityId, identityType} = this.props
     const {getExchangeIdentities} = this.props.actions
-    getExchangeIdentities(identityId)
+    getExchangeIdentities({identityId, membershipOwnerIdentity: identityType})
   }
 
   render() {

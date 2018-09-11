@@ -2,22 +2,26 @@
 import common from './common'
 import socialTypes from './social'
 import postTypes from './post'
+import membershipTypes from './membership'
 
 const ERROR = {
   SOCIAL: socialTypes.ERROR,
   POST: postTypes.ERROR,
+  MEMBERSHIP: membershipTypes.ERROR,
   ...common.ERROR
 }
 
 const SUCCESS = {
   SOCIAL: socialTypes.SUCCESS,
   POST: postTypes.SUCCESS,
+  MEMBERSHIP: membershipTypes.SUCCESS,
   ...common.SUCCESS
 }
 
 const BASE = {
   SOCIAL: socialTypes.BASE,
   POST: postTypes.BASE,
+  MEMBERSHIP: membershipTypes.BASE,
   ...common.BASE
 }
 

@@ -7,15 +7,18 @@ import ChatBar from "../bars/ChatBar"
 import HomeSideBar from "./home/HomeSideBar"
 import HomePosts from "./home/HomePosts"
 import {connect} from "react-redux"
+import constants from "../../consts/constants";
 
 type HomeProps = {|
-  identityId: number
+  identityId: number,
+  identityType: string,
 |}
 
 class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
 
   static propTypes = {
-    identityId: PropTypes.number.isRequired
+    identityId: PropTypes.number.isRequired,
+    identityType: PropTypes.string.isRequired,
   }
 
   constructor(props) {
@@ -31,7 +34,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
   }
 
   render() {
-    const {identityId} = this.props
+    const {identityId, identityType} = this.props
     const {activeExchangeId} = this.state
     return (
       <div className="home-wrapper">
@@ -41,6 +44,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
             <HomeSideBar setExchangeId={this._setExchangeId}
                          classNames="col-3 pr-0 pl-0 right-sidebar"
                          identityId={identityId}
+                         identityType={identityType}
                          activeExchangeId={activeExchangeId}
             />
             <HomePosts exchangeId={activeExchangeId} className="col-6"/>
@@ -53,9 +57,11 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
   }
 }
 
-const mapStateToProps = state => (
-  {
-    identityId: state.auth.client.identity.id
+const mapStateToProps = state => {
+  const identityType = state.auth.client.identity.identity_user ? constants.USER_TYPES.PERSON : constants.USER_TYPES.ORG
+  return {
+    identityId: state.auth.client.identity.id,
+    identityType: identityType
   }
-)
+}
 export default connect(mapStateToProps)(Home)

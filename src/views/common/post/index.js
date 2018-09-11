@@ -29,6 +29,7 @@ type postsPropsType = {
   posts: [],
   isLoading: boolean,
   error: string,
+  identityType: string,
 }
 
 type postsStatesType = {
@@ -45,6 +46,7 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
     isLoading: PropTypes.bool.isRequired,
     error: PropTypes.object.isRequired,
     translate: PropTypes.object.isRequired,
+    identityType: PropTypes.string.isRequired,
   };
 
   constructor(props: postsPropsType) {
@@ -68,13 +70,13 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
   }
 
   componentDidMount() {
-    const {actions, postIdentity, id} = this.props
+    const {actions, postIdentity, id, identityType} = this.props
     const {getPostByIdentity} = actions
-    getPostByIdentity({postIdentity, postOwnerId: id, postOwnerType: client.getUserType()})
+    getPostByIdentity({postIdentity, postOwnerId: id, postOwnerType: identityType})
   }
 
   render() {
-    const {postIdentity, profileMedia, posts, isLoading, error, actions, id, translate} = this.props
+    const {postIdentity, profileMedia, posts, isLoading, error, actions, translate} = this.props
     const {updatePost, deletePost} = actions
     const {createForm} = this.state;
     return (

@@ -41,6 +41,7 @@ type PropsSocials = {
   exchanges: (exchangeType)[],
   isLoading: boolean,
   error: null | {},
+  identityType: string,
 }
 type StateSocials = {
   editExchanges: boolean,
@@ -59,6 +60,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
     followees: PropTypes.array.isRequired,
     followers: PropTypes.array.isRequired,
     exchanges: PropTypes.array.isRequired,
+    identityType: PropTypes.string.isRequired,
   }
   firstStartFollower: boolean
   firstStartFollowee: boolean
@@ -113,17 +115,16 @@ class Socials extends Component<PropsSocials, StateSocials> {
   }
 
   componentDidMount() {
-    const {identityId, actions, userId} = this.props
+    const {identityId, actions, userId, identityType} = this.props
     const {getFollowees, getFollowers, getExchangesByMemberIdentity} = actions
 
     if (identityId) {
       const followOwnerIdentity = identityId
       const followOwnerId = userId
-      const followOwnerType = client.getUserType()
 
-      getExchangesByMemberIdentity(identityId)
-      getFollowers({followOwnerId, followOwnerIdentity, followOwnerType})
-      getFollowees({followOwnerId, followOwnerIdentity, followOwnerType})
+      getExchangesByMemberIdentity({identityId, membershipOwnerIdentity: identityType})
+      getFollowers({followOwnerId, followOwnerIdentity, followOwnerType: identityType})
+      getFollowees({followOwnerId, followOwnerIdentity, followOwnerType: identityType})
     }
   }
 
