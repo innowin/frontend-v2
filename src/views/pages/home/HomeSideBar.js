@@ -144,7 +144,7 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
 
 
 const mapStateToProps = state => {
-  const allExchanges = state.exchanges
+  const allExchanges = state.exchanges.list
   const ids = state.auth.client.exchanges
   const clientExchanges = ids.map((exchangeId) =>
     (allExchanges[exchangeId] ? allExchanges[exchangeId].exchange.content : [])

@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect'
 
-const getExchanges = state => state.exchanges
+const getExchanges = state => state.exchanges.list
 
 /** this selector selects exchanges by identity **/
 export const makeGetExchangesSelector = (state, props) => {

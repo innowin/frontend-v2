@@ -1,14 +1,14 @@
 const success = (state, action) => {
   const {data} = action.payload
   const exchangeId = data.post_parent
-  const prevPosts = state[exchangeId] && state[exchangeId].posts
+  const prevPosts = state.list[exchangeId] && state.list[exchangeId].posts
   const prevPostsContent = prevPosts && prevPosts.content
   return {
     ...state,
     list:{
       ...state.list,
       [exchangeId]: {
-        ...state[exchangeId],
+        ...state.list[exchangeId],
         posts: {
           content: [data.id, ...prevPostsContent],
           isLoading: false,

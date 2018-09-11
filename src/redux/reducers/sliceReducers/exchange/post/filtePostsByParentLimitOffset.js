@@ -9,7 +9,7 @@ const success = (state, action) => {
       list:{
         ...state.list,
         [exchangeId]: {
-          ...state[exchangeId],
+          ...state.list[exchangeId],
           posts: {
             content: postIds,
             isLoading: false,
