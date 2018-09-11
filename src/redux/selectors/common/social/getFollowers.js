@@ -42,6 +42,7 @@ export const makeGetFollowersSelector = (state, props) => {
               ...follow.follow_follower,
               img: img,
               follow_id: follow.id,
+              follow_accepted: follow.follow_accepted,
             }
           })
           return [...followerList]

@@ -16,7 +16,6 @@ export const makeGetMembershipsSelector = (state, props) => {
         const {userId} = props
         if (memberships && Object.keys(memberships).length !== 0 && memberships.constructor === Object && userMemberships && userId) {
           const arrayMemberships = helpers.getObjectOfArrayKeys(userMemberships, memberships)
-          console.log(arrayMemberships, 'aaaaaaaaaaaaaaaaaaaa')
           return arrayMemberships.map(membership => membership.exchange_identity_related_exchange)
         }
         return []

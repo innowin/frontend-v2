@@ -129,7 +129,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
   }
 
   render() {
-    const {translate, followers, followees, actions, isLoading, error, exchanges, identityId, userId} = this.props
+    const {translate, followers, followees, actions, isLoading, error, exchanges, identityId, userId, identityType} = this.props
     const {deleteFollow, deleteExchangeMembership, updateFollow, createFollow} = actions
     const {editExchanges, editFollowings} = this.state
 
@@ -160,6 +160,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
                        identityId={identityId}
                        createFollow={createFollow}
                        userId={userId}
+                       identityType={identityType}
             />
           </FrameCard>
         </VerifyWrapper>

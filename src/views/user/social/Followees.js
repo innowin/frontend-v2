@@ -51,7 +51,11 @@ export const Followees = (props: PropsFollowees) => {
                       {(edit)
                           ? <FontAwesome name="trash" className='remove-follow pulse'
                                          onClick={() => onDeleteFollowing(followee)}/>
-                          : <div className="follow-section">{followee.accepted ? translate['Followed'] : translate['Wait for accept']}</div>
+                          : <div className="follow-section">
+                            {followee.follow_accepted
+                                ? translate['Followed']
+                                : translate['Wait for accept']}
+                          </div>
                       }
                     </div>
                   </div>

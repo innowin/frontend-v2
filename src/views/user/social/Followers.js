@@ -17,35 +17,31 @@ type PropsFollowers = {
   createFollow: Function,
   identityId: number,
   userId: number,
+  identityType: string,
 }
 
 export const Followers = (props: PropsFollowers) => {
-  const {followers, translate, followees} = props
+  const {followers, translate, followees, identityType} = props
   const followeeIds = followees.map(followee => followee.id)
 
   const onDeleteFollow = (follower) => {
     const {deleteFollow, userId} = props
     const followId = follower.follow_id
-    const followOwnerId = userId
-    const followOwnerType = follower.identity_user ? constants.USER_TYPES.PERSON : constants.USER_TYPES.ORG
-    deleteFollow({followId, followOwnerId, followOwnerType})
+    deleteFollow({followId, followOwnerId: userId, followOwnerType: identityType})
   }
 
   const onAcceptFollow = (follower) => {
-    const {updateFollow, identityId, userId} = props
+    const {updateFollow, userId, identityType} = props
     const followId = follower.follow_id
-    const followOwnerId = userId
-    const formValues = {follow_follower: follower.id, follow_followed: identityId, follow_accepted: true}
-    console.log(follower, 'follower')
-    updateFollow({followId, formValues, followOwnerId})
+    const formValues = {follow_accepted: true}
+    updateFollow({followId, formValues, followOwnerId: userId, followOwnerType: identityType})
   }
 
   const onCreateFollow = (follower) => {
-    const {createFollow, identityId, userId} = props
+    const {createFollow, identityId, userId, identityType} = props
     const followOwnerId = userId
-    const followOwnerType = follower.identity_user ? constants.USER_TYPES.PERSON : constants.USER_TYPES.ORG
     const formValues = {follow_follower: identityId, follow_followed: follower.id}
-    createFollow({formValues, followOwnerId, followOwnerType})
+    createFollow({formValues, followOwnerId, followOwnerType: identityType})
   }
 
   return (
@@ -69,7 +65,7 @@ export const Followers = (props: PropsFollowers) => {
                       <div className="text-section">
                         <div className="name">{follower.name}</div>
                       </div>
-                      {!follower.accepted
+                      {!follower.follow_accepted
                           ?
                           <div>
                             <FontAwesome name="times-circle" className='reject-follower pulse' onClick={() => onDeleteFollow(follower)}/>
