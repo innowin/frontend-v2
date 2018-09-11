@@ -5,12 +5,15 @@ const success = (state, action) => {
   const prevPostsContent = prevPosts && prevPosts.content
   return {
     ...state,
-    [exchangeId]: {
-      ...state[exchangeId],
-      posts: {
-        content: [data.id, ...prevPostsContent],
-        isLoading: false,
-        error: null
+    list:{
+      ...state.list,
+      [exchangeId]: {
+        ...state[exchangeId],
+        posts: {
+          content: [data.id, ...prevPostsContent],
+          isLoading: false,
+          error: null
+        }
       }
     }
   }
