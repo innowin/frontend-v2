@@ -1,5 +1,4 @@
 // @flow
-/*global __*/
 
 //TODO: mohammad forms need change to redux form
 //FIXME: profileMedia for organization and home page need to fix
@@ -79,7 +78,8 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
     const {updatePost, deletePost} = actions
     const {createForm} = this.state;
     return (
-      <VerifyWrapper isLoading={isLoading} error={error}>
+      //<VerifyWrapper isLoading={isLoading} error={error}>
+      <div>
         <CategoryTitle
           title={translate['Post']}
           showCreateForm={this._showCreateForm}
@@ -96,15 +96,13 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
               </div>
             }
             {
-              posts ? posts.map((post) => (
+              posts ? posts.map(post => (
                 <Post
-                  posts={posts}
                   post={post}
                   updatePost={updatePost}
                   key={post.id + "Posts"}
                   profileMedia={profileMedia}
                   deletePost={deletePost}
-                  userId={id}
                 />
               ))
               : ''
@@ -112,7 +110,8 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
           </ListGroup>
 
         </FrameCard>
-      </VerifyWrapper>
+      </div>
+      // </VerifyWrapper>
     )
   }
 }

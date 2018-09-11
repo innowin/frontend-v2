@@ -85,17 +85,7 @@ const objToArrayAsOptions = (obj, valueKey, labelKey, otherKeys) => {
  an object like >> {[1]: {}, [2]: {}, [3]: {}, [4]: {}}
  and return object that keys are equal to array input like >> [{1 id attributes}, {2 id attributes}, {3 id attributes}]
  **/
-const getObjectOfArrayKeys = (array, objectArray) => {
-  return array.reduce((acc, arrayId) => {
-    if(Object.keys(objectArray).includes(`${arrayId}`)) {
-      const shadow = {...objectArray[arrayId]}
-      return [...acc, shadow]
-    }
-    else
-      return [...acc]
-  }, [])
-}
-
+const getObjectOfArrayKeys = (array, objectArray) => array.reduce((acc, arrayId) => [...acc, objectArray[arrayId]], [])
 
 export default {
   arrayToIdKeyedObject,

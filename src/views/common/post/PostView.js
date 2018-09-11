@@ -65,19 +65,19 @@ class PostView extends Component {
                       ((demandIcon) && <DemandIcon height="24px"/>)
                     }
                   </span>
-                  <span className="mr-2">
+                  <span className="mr-2 post-name">
                     {user ? user.first_name + ' ' + user.last_name : (organization ? (organization.nike_name || organization.official_name) : '')}
                   </span>
-                  <span className="mr-2 -green2">{
+                  <span className="mr-2 -green2 post-username">{
                     (user) ? user.username : (organization ? organization.username : '')
                   }</span>
-                  <Moment className="mr-3 -green2" element="span" fromNow ago>{post.created_time}</Moment>
-                  <span className="mr-1 -green2">{translate['Last']}</span>
+                  <Moment className="mr-3 -green2 post-date" element="span" fromNow ago>{post.created_time}</Moment>
+                  <span className="mr-1 -green2 post-date">{translate['Last']}</span>
                 </div>
                 <div onClick={showEdit} className="-item-edit-btnPost"><EditIcon/></div>
               </div>
 
-              <div className="description">
+              <div className="description post-content">
                 {post.post_description}
               </div>
 

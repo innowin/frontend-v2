@@ -19,8 +19,6 @@ type postPropTypes = {
 
 type postStateTypes = {
   edit: boolean,
-  error: {} | boolean,
-  isLoading: boolean,
 }
 
 export class Post extends React.Component<postPropTypes, postStateTypes> {
@@ -72,7 +70,7 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
     const {profileMedia, post} = this.props
     return (
       // TODO mohsen: handle error and isLoading from state redux
-        <VerifyWrapper isLoading={false} error={false}>
+        <VerifyWrapper isLoading={post.isLoading} error={post.error}>
           {edit ?
               <div className="-itemWrapperPost">
                 <PostEditForm
