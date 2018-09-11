@@ -13,7 +13,6 @@ type postPropTypes = {
     id: number,
   },
   updatePost: Function,
-  profileMedia: string,
   deletePost: Function
 }
 
@@ -28,7 +27,6 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
   static propTypes = {
     post: PropTypes.object.isRequired,
     updatePost: PropTypes.func.isRequired,
-    profileMedia: PropTypes.string.isRequired,
     deletePost: PropTypes.func.isRequired
   }
 
@@ -69,7 +67,7 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
 
   render() {
     const {edit} = this.state
-    const {profileMedia, post} = this.props
+    const {post} = this.props
     return (
       // TODO mohsen: handle error and isLoading from state redux
         <VerifyWrapper isLoading={false} error={false}>
@@ -85,7 +83,6 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
               :
               <PostView post={post}
                         showEdit={this._showEdit}
-                        profileMedia={profileMedia}
               />
           }
         </VerifyWrapper>

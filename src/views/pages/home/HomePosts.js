@@ -70,9 +70,10 @@ class HomePosts extends Component {
     const {isLoading, error} = this.state
     const {client, posts, exchangeId, className, actions} = this.props
     const {deletePost, updatePost} = actions
-    const {identity, user_type} = client
+    const {identity, profile, organization, user_type} = client
     const postOwnerId = (identity.identity_user && identity.identity_user.id)
       || (identity.identity_organization && identity.identity_organization.id)
+    const postOwnerImgId = (user_type === 'person') ? (profile.profile_media):(organization.organization_logo)
     return (
       <VerifyWrapper isLoading={isLoading} error={error} className={className}>
         {(exchangeId) ? (
@@ -81,6 +82,7 @@ class HomePosts extends Component {
               postIdentityId={identity.id}
               postOwnerId={postOwnerId}
               postOwnerType={user_type}
+              postOwnerImgId={postOwnerImgId}
               postParentId={exchangeId}
               postParentType={constant.POST_PARENT.EXCHANGE}
               handleErrorLoading={this._handleErrorLoading}
