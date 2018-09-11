@@ -35,6 +35,10 @@ function* signIn(action) {
       organization = organData
       const organAction = {payload:{organizationId}}
       identity = yield* call(getOrgIdentity, organAction)
+      const organLogoId = organization.organization_logo
+      if (organLogoId) {
+        yield put({type:types.COMMON.GET_FILE, payload:organLogoId})
+      }
     }
     yield client.saveData(data.user.id, identity.id, userType, organizationId, rememberMe)
     if (!rememberMe) {
@@ -48,8 +52,12 @@ function* signIn(action) {
     const userId = data.user.id
     const userData = data.user
     const profileData = data.profile
+    const profileMediaId = profileData.profile_media
     yield put({type: types.SUCCESS.USER.GET_USER_BY_USER_ID, payload: {data: userData, userId}})
     yield put({type: types.SUCCESS.USER.GET_PROFILE_BY_USER_ID, payload: {data: profileData, userId}})
+    if (profileMediaId) {
+      yield put({type:types.COMMON.GET_FILE, payload:profileMediaId})
+    }
   }
   catch (e) {
     const {message} = e

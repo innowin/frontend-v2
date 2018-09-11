@@ -14,7 +14,6 @@ class PostView extends Component {
   static propTypes = {
     showEdit: PropTypes.func.isRequired,
     post: PropTypes.object.isRequired,
-    profileMedia: PropTypes.string.isRequired,
   }
 
   _getViewerCount = () => {
@@ -37,8 +36,8 @@ class PostView extends Component {
   }
 
   render() {
-    const {showEdit, post, profileMedia, translate} = this.props
-    const {post_identity, viewerCount} = this.props.post
+    const {showEdit, post, translate} = this.props
+    const {post_identity, viewerCount, post_related_identity_image} = this.props.post
     const user = post_identity.identity_user
     const organization = post_identity.identity_organization
     const supplyIcon = post.post_type === 'supply'
@@ -51,8 +50,8 @@ class PostView extends Component {
           <div className="-itemWrapperPost">
             <div className="-img-col">
               {
-                (!profileMedia) ? (<DefaultUserIcon/>) : (
-                    <img className="rounded-circle" src={profileMedia.file} alt=""/>)
+                (!post_related_identity_image) ? (<DefaultUserIcon/>) : (
+                    <img className="rounded-circle" src={post_related_identity_image.file} alt=""/>)
               }
             </div>
             <div className="-content-col">

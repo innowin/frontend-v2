@@ -6,12 +6,15 @@ const success = (state, action) => {
   const newPosts = prevPostsContent.filter(id => id !== postId)
   return {
     ...state,
-    [exchangeId]: {
-      ...state[exchangeId],
-      posts: {
-        content: newPosts,
-        isLoading: false,
-        error: null
+    list: {
+      ...state.list,
+      [exchangeId]: {
+        ...state[exchangeId],
+        posts: {
+          content: newPosts,
+          isLoading: false,
+          error: null
+        }
       }
     }
   }

@@ -2,7 +2,10 @@ const success = (state, action) => {
   const {data} = action.payload
   return {
     ...state,
-    ...data
+    list:{
+      ...state.list,
+      ...data
+    }
   }
 }
 
