@@ -16,7 +16,7 @@ function* createProductPicture (action) {
         yield put({type: types.SUCCESS.COMMON.CREATE_PRODUCT_PICTURE, data})
         yield put({
             type: types.COMMON.ADD_PICTURE_ID_TO_PRODUCT,
-            payload: {productId: data.picture_product, pictureId: data.id}
+            payload: {destinationId: data.picture_product, relatedObjId: data.id}
         })
 
     } catch (error) {

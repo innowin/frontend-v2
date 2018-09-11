@@ -5,6 +5,7 @@ import {setDataByAction} from './helpers'
 const success = (state, action) => {
   const data = setDataByAction(action)
   return {
+    ...state,
     list: data,
   }
 }
