@@ -7,7 +7,7 @@ const country = (state = initialState.common.location.country, action) => {
   switch (action.type) {
 
     case types.SUCCESS.COMMON.GET_COUNTRIES:
-      return replaceListWithData.success()
+      return replaceListWithData.success(state, action)
 
     case types.RESET:
       return initialState.common.location.country

@@ -7,7 +7,7 @@ const city = (state = initialState.common.location.city, action) => {
   switch (action.type) {
 
     case types.SUCCESS.COMMON.GET_CITIES:
-      return replaceListWithData.success()
+      return replaceListWithData.success(state, action)
 
     case types.RESET:
       return initialState.common.location.city
