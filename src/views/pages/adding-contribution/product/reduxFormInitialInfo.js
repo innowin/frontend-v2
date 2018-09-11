@@ -134,6 +134,7 @@ let InitialInfoReduxForm = (props: InitialInfoProps) => {
 
               {[LAYER1S.CATEGORY_LAYER1, LAYER1S.CATEGORY_LAYER2, LAYER1S.CATEGORY_LAYER3].map(layerName => (
                     <CategoryField
+                        key={layerName}
                         layerName={layerName}
                         categories={setCategoriesObjByLevel(layerName)}
                     />

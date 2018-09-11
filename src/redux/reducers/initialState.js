@@ -192,11 +192,7 @@ export default {
       }
     },
     category: {
-      categories: {
-        content: {},
-        isLoading: false,
-        isLoaded: false
-      },
+        list: {},
     },
     certificate: {
       list: {},
