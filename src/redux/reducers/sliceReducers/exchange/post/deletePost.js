@@ -1,7 +1,7 @@
 const success = (state, action) => {
   const {postId, postParentId} = action.payload
   const exchangeId = postParentId
-  const prevPosts = state[exchangeId] && state[exchangeId].posts
+  const prevPosts = state.list[exchangeId] && state.list[exchangeId].posts
   const prevPostsContent = prevPosts && prevPosts.content
   const newPosts = prevPostsContent.filter(id => id !== postId)
   return {
@@ -9,7 +9,7 @@ const success = (state, action) => {
     list: {
       ...state.list,
       [exchangeId]: {
-        ...state[exchangeId],
+        ...state.list[exchangeId],
         posts: {
           content: newPosts,
           isLoading: false,
