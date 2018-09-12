@@ -2,7 +2,10 @@ const success = (state, action) => {
   const {data} = action.payload
   return {
     ...state,
-    ...data
+    list:{
+      ...state.list,
+      ...data
+    }
   }
 }
 
@@ -14,10 +17,8 @@ const base = (state, action) => {
 
 }
 
-const getExchangeIdentities = {
+export default {
   base,
   error,
   success
 }
-
-export default getExchangeIdentities

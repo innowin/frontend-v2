@@ -52,7 +52,7 @@ const urls = {
     GET_EXCHANGE_BY_EX_ID: 'exchanges',
     GET_EXCHANGES_BY_MEMBER_IDENTITY: 'exchanges/identities',
     GET_EXCHANGE_MEMBERS_BY_EX_ID: '/exchanges/identities/',
-    DELETE_EXCHANGE_MEMBERSHIP: '/exchanges/identities/',
+    DELETE_EXCHANGE_MEMBERSHIP: 'exchanges/identities',
     CREATE_EXCHANGE: 'exchanges',
     ADD_TO_EXCHANGE:'exchanges/identities',
 
@@ -97,7 +97,9 @@ const urls = {
     SOCIAL: {
       GET_FOLLOWEES: 'organizations/follows',
       GET_FOLLOWERS: 'organizations/follows',
-      DELETE_FOLLOWERS: '/organizations/follows'
+      DELETE_FOLLOW: 'organizations/follows',
+      UPDATE_FOLLOW: 'organizations/follows',
+      CREATE_FOLLOW: 'organizations/follows',
     },
   }
 }

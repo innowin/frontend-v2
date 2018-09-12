@@ -14,6 +14,7 @@ import {PhoneInput} from "src/views/common/inputs/PhoneInput"
 import type {
   userProfileType,
 } from "src/consts/flowTypes/user/basicInformation"
+import profileInfoValidation from "../../../helpers/validations/profileInfoBasicInformation"
 
 type ProfileInfoFormInputType = {
   day: string,
@@ -36,9 +37,27 @@ type PropsProfileInfoEditForm = {
     updateProfileByProfileId: Function,
   },
   userId: number,
+  submitFailed: string,
+  error: string,
 }
 
 class ProfileInfoEditForm extends Component<PropsProfileInfoEditForm> {
+  static propTypes = {
+    hideEdit: PropTypes.func.isRequired,
+    profile: PropTypes.object.isRequired,
+    translate: PropTypes.object.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    actions: PropTypes.object.isRequired,
+    initialize: PropTypes.func.isRequired,
+    userId: PropTypes.number.isRequired,
+    submitFailed: PropTypes.string.isRequired,
+    error: PropTypes.string.isRequired,
+  }
+  mobileInput: React.ElementRef<typeof CustomArrayInput>
+  phoneInput: React.ElementRef<typeof CustomArrayInput>
+  faxInput: React.ElementRef<typeof CustomInput>
+  webSiteInput: React.ElementRef<typeof ArrayInput>
+
   componentDidMount() {
     const {initialize, profile} = this.props
     const birthDateSplit = profile.birth_date === null ? [''] : profile.birth_date.split('/')
@@ -56,21 +75,6 @@ class ProfileInfoEditForm extends Component<PropsProfileInfoEditForm> {
       day: birthDateSplit[2] === undefined ? '' : birthDateSplit[2],
     }
     initialize(defaultFormValue);
-  }
-
-  mobileInput: React.ElementRef<typeof CustomArrayInput>
-  phoneInput: React.ElementRef<typeof CustomArrayInput>
-  faxInput: React.ElementRef<typeof CustomInput>
-  webSiteInput: React.ElementRef<typeof ArrayInput>
-
-  static propTypes = {
-    hideEdit: PropTypes.func.isRequired,
-    profile: PropTypes.object.isRequired,
-    translate: PropTypes.object.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
-    actions: PropTypes.object.isRequired,
-    initialize: PropTypes.func.isRequired,
-    userId: PropTypes.number.isRequired,
   }
 
   _onSubmit = (values: ProfileInfoFormInputType): boolean | void => {
@@ -113,7 +117,7 @@ class ProfileInfoEditForm extends Component<PropsProfileInfoEditForm> {
   }
 
   render() {
-    const {translate, handleSubmit, profile} = this.props
+    const {translate, handleSubmit, profile, submitFailed, error} = this.props
     return (
         <form onSubmit={handleSubmit(this._onSubmit)}>
           <div className="row">
@@ -232,6 +236,10 @@ class ProfileInfoEditForm extends Component<PropsProfileInfoEditForm> {
                   textFieldClass='form-control'
               />
             </div>
+
+            {submitFailed && <p className="error-message">{error}</p>}
+
+
             <div className="col-12 d-flex justify-content-end">
               <button type="button" className="btn btn-secondary mr-2" onClick={this.props.hideEdit}>
                 {translate['Cancel']}
@@ -246,6 +254,7 @@ class ProfileInfoEditForm extends Component<PropsProfileInfoEditForm> {
 
 ProfileInfoEditForm = reduxForm({
   form: 'profileInfoEditForm',
+  validate: profileInfoValidation,
 })(ProfileInfoEditForm)
 
 export {ProfileInfoEditForm}

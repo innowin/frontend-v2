@@ -45,6 +45,8 @@ export default [
   // posts
   postWatchers.watchFilterPostsByPostParentPostTypeLimitOffset(),
   postWatchers.watchGetPostByIdentity(),
+  postWatchers.watchGetPostViewerCount(),
+  postWatchers.watchSetPostViewer(),
   postWatchers.watchCreatePost(),
   postWatchers.watchUpdatePost(),
   postWatchers.watchDeletePost(),
@@ -52,5 +54,7 @@ export default [
   // social
   socialWatchers.watchGetFollowees(),
   socialWatchers.watchGetFollowers(),
-  socialWatchers.watchDeleteFollowers(),
+  socialWatchers.watchDeleteFollow(),
+  socialWatchers.watchUpdateFollow(),
+  socialWatchers.watchCreateFollow(),
 ]

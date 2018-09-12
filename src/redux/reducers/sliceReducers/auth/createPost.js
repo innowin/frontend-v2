@@ -1,0 +1,25 @@
+const base = (state, action) => {
+}
+
+const success = (state, action) => {
+  const {data} = action.payload || {}
+  const {client} = state
+  const previousPost = (client && client.posts) || []
+
+  return {
+    ...state,
+    client: {
+      ...client,
+      posts: [...previousPost, data.id]
+    }
+  }
+}
+
+const error = (state, action) => {
+}
+
+export default {
+  base,
+  success,
+  error,
+}

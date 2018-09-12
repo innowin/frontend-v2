@@ -15,7 +15,6 @@ import {put, take, fork, call, takeEvery} from "redux-saga/effects"
 function* signIn(action) {
   const {payload} = action
   const {username, password, rememberMe, reject} = payload
-	console.log('sagas - auth -auth.js - before create Socket channel', payload)
 	const socketChannel = yield call(api.createSocketChannel, results.SIGN_IN)
   try {
 		yield fork(api.post, urls.SIGN_IN, results.SIGN_IN, {username, password})
@@ -34,7 +33,11 @@ function* signIn(action) {
       organizationId = organData.id
       organization = organData
       const organAction = {payload:{organizationId}}
-      identity = yield* call(getOrgIdentity, organAction)
+      identity = yield call(getOrgIdentity, organAction)
+      const organLogoId = organization.organization_logo
+      if (organLogoId) {
+        yield put({type:types.COMMON.GET_FILE, payload:organLogoId})
+      }
     }
     yield client.saveData(data.user.id, identity.id, userType, organizationId, rememberMe)
     if (!rememberMe) {
@@ -48,8 +51,12 @@ function* signIn(action) {
     const userId = data.user.id
     const userData = data.user
     const profileData = data.profile
+    const profileMediaId = profileData.profile_media
     yield put({type: types.SUCCESS.USER.GET_USER_BY_USER_ID, payload: {data: userData, userId}})
     yield put({type: types.SUCCESS.USER.GET_PROFILE_BY_USER_ID, payload: {data: profileData, userId}})
+    if (profileMediaId) {
+      yield put({type:types.COMMON.GET_FILE, payload:profileMediaId})
+    }
   }
   catch (e) {
     const {message} = e
@@ -88,17 +95,17 @@ function* signOut() {
 
 /**********    %% WATCHERS %%    **********/
 //1 - sign In
-export function* watchLSignIn() {
+export function* watchSignIn() {
   yield takeEvery(types.AUTH.SIGN_IN, signIn)
 }
 
 //2 - sign out
-export function* watchLSignOut() {
+export function* watchSignOut() {
   yield takeEvery(types.AUTH.SIGN_OUT, signOut)
 }
 
 //3 - sign in error
-export function* watchLSignInError() {
+export function* watchSignInError() {
   yield takeEvery(types.ERRORS.AUTH.SIGN_IN, signOut)
 }
 

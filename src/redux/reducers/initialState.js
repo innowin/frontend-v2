@@ -15,6 +15,7 @@ export default {
       social: {
         follows: [], /* ids of follows that this client is participates at them*/
       },
+      memberships: [], /* ids of exchanges that user is member of that*/
       rememberMe: null,
       user_type: null,
       isLoggedIn: false,
@@ -59,6 +60,11 @@ export default {
            isLoading:false,
            error:null
          },
+       },
+       memberships: {
+          content:[1, 2, ...], list of membership id
+          isLoading:false,
+          error:null
        }
        ---------------- other ----------
        skills:{
@@ -149,22 +155,24 @@ export default {
   },
 
   exchanges: {
-    /*
-    [exchangeId]:{
-      ----------- info -----------------------
-      exchange:{
-        content: {},
-        isLoading: false,
+    list: {
+      /*
+   [exchangeId]:{
+     ----------- info -----------------------
+     exchange:{
+       content: {},
+       isLoading: false,
+       error: null
+     },
+     ------------------ common ------------
+     posts: {
+        content:[1, 2, ...] list of posts have this user
+        isLoading:false,
         error: null
-      },
-      ------------------ common ------------
-      posts: {
-         content:[1, 2, ...] list of posts have this user
-         isLoading:false,
-         error: null
-      },
+     },
+   }
+   */
     }
-    */
   },
 
   common: {
@@ -224,7 +232,7 @@ export default {
     },
     post: {
       list: {
-        // [postId]: {...data, isLoading:false, error:errorObject}
+        // [postId]: {...data, viewerCount:0, isLoading:false, error:errorObject}
       }
     },
     social: {
@@ -233,6 +241,11 @@ export default {
           // [followId]: {...data, isLoading:false, error:errorObject}
         }
       },
+    },
+    membership: {
+      list: {
+        // [membershipId]: {...data, isLoading:false, error:errorObject}
+      }
     }
   },
   intl: {

@@ -29,6 +29,7 @@ import type {
   listOfIdObject
 } from "src/consts/flowTypes/stateObjectType"
 import type {badgeType} from "src/consts/flowTypes/common/badges"
+import constants from 'src/consts/constants'
 
 type PropsUser = {
   match: {
@@ -55,14 +56,31 @@ class User extends Component<PropsUser> {
     match: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired
   }
+  firstGetBadges: boolean
+
+  constructor(props) {
+    super(props)
+    this.firstGetBadges = true;
+  }
 
   componentDidUpdate(prevProps) {
+    const {params} = this.props.match
+    const userId: number = +params.id
     const {identityObject, actions} = this.props
-    if (identityObject.content.id && prevProps.identityObject !== identityObject) {
+    const {getUserByUserId, getProfileByUserId, getUserIdentity} = actions
+
+    if(+prevProps.match.params.id !== userId){
+      getUserByUserId(userId)
+      getProfileByUserId(userId)
+      getUserIdentity(userId)
+    }
+
+    if (this.firstGetBadges && identityObject.content.id && prevProps.identityObject !== identityObject) {
       const {params} = this.props.match
       const userId: number = +params.id
       const {getUserBadges} = actions
       getUserBadges(userId, identityObject.content.id)
+      this.firstGetBadges = false
     }
   }
 
@@ -113,7 +131,7 @@ class User extends Component<PropsUser> {
             </Tabs>
             <Switch>
               <Redirect exact from={`${url}/`} to={`${url}/Posts`}/>
-              <PrivateRoute path={`${path}/Posts`} component={Posts} id={userId} identityType='user'
+              <PrivateRoute path={`${path}/Posts`} component={Posts} id={userId} identityType={constants.USER_TYPES.PERSON}
                             profileMedia={profileObject.content.profile_media} postIdentity={identityObject.content.id}
               />
               <PrivateRoute path={`${path}/basicInformation`} component={UserBasicInformation} userId={userId}
@@ -122,7 +140,7 @@ class User extends Component<PropsUser> {
               <PrivateRoute path={`${path}/SocialConnections`} component={Social}
                             userId={userId}
                             identityId={identityObject.content.id}
-                            identityType='user'
+                            identityType={constants.USER_TYPES.PERSON}
               />
               <PrivateRoute path={`${path}/WorkExperiences`} component={WorkExperiences} userId={userId}/>
               <PrivateRoute path={`${path}/Skills`} component={Skills} userId={userId}/>

@@ -11,42 +11,43 @@ import OrganizationActions from "src/redux/actions/organizationActions"
 import SocialActions from "../../../redux/actions/commonActions/socialActions"
 import type {exchangeType} from "src/consts/flowTypes/exchange/exchange"
 import {bindActionCreators} from "redux"
-import {deleteFollow} from "src/crud/social"
-import {ExchangesView} from "./view"
+import {Exchanges} from "./Exchanges"
 import {Followees} from './Followees'
 import {Followers} from './Followers'
 import {FrameCard, CategoryTitle, VerifyWrapper} from "src/views/common/cards/Frames"
-import {getExchangesByMemberIdentity, removeExchangeMembership} from "src/crud/exchange/exchange"
+import {removeExchangeMembership} from "src/crud/exchange/exchange"
 import {getMessages} from "src/redux/selectors/translateSelector"
 import {makeGetFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
 import {makeGetFollowersSelector} from 'src/redux/selectors/common/social/getFollowers'
+import {makeGetMembershipsSelector} from 'src/redux/selectors/common/social/getMemberships'
 
 type PropsSocials = {
   userId: number,
   identityId: number,
   actions: {
+    deleteExchangeMembership: Function,
     getExchangesByMemberIdentity: Function,
     getFollowees: Function,
     getFollowers: Function,
-    deleteFollowers: Function,
+    deleteFollow: Function,
     getProfileByUserId: Function,
     getOrganization: Function,
+    updateFollow: Function,
+    createFollow: Function,
   },
   translate: { [string]: string },
   followers: [],
   followees: [],
+  exchanges: (exchangeType)[],
+  isLoading: boolean,
+  error: null | {},
+  identityType: string,
 }
 type StateSocials = {
-  exchanges: (exchangeType)[],
-  exchangesImg: (?string)[],
-  exchangeIdentityIds: (number)[],
   editExchanges: boolean,
   editFollowings: boolean,
-  isLoading: boolean,
-  error: boolean | string,
-  firstStartFollower: boolean,
-  firstStartFollowee: boolean,
 }
+
 //FixMe: mohammad organization follower followees images not show correctly
 class Socials extends Component<PropsSocials, StateSocials> {
   static propTypes = {
@@ -54,31 +55,32 @@ class Socials extends Component<PropsSocials, StateSocials> {
     identityId: PropTypes.number.isRequired,
     translate: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    error: PropTypes.object.isRequired,
+    followees: PropTypes.array.isRequired,
+    followers: PropTypes.array.isRequired,
+    exchanges: PropTypes.array.isRequired,
+    identityType: PropTypes.string.isRequired,
   }
+  firstStartFollower: boolean
+  firstStartFollowee: boolean
 
   constructor(props) {
     super(props)
     this.state = {
-      exchanges: [],
-      exchangesImg: [],
-      exchangeIdentityIds: [],
       editExchanges: false,
       editFollowings: false,
-      isLoading: false,
-      error: false,
-
-      firstStartFollower: true,
-      firstStartFollowee: true,
     }
+
+    this.firstStartFollower = true;
+    this.firstStartFollowee = true
   }
 
   componentDidUpdate(prevProps, prevState) {
     const {followers, actions, followees} = this.props
     const {getProfileByUserId, getOrganization} = actions
 
-    const {firstStartFollower, firstStartFollowee} = this.state
-
-    if (firstStartFollower && prevProps.followers !== followers && followers && prevProps.followers) {
+    if (this.firstStartFollower && prevProps.followers !== followers && followers.length > 0 && prevProps.followers.length > 0) {
       followers.forEach(follower => {
         if (follower.identity_user) {
           getProfileByUserId(follower.identity_user)
@@ -87,10 +89,9 @@ class Socials extends Component<PropsSocials, StateSocials> {
           getOrganization(follower.identity_organization)
         }
       })
-
-      this.setState({...this.state, firstStartFollower: false})
+      this.firstStartFollower = false
     }
-    if (firstStartFollowee && prevProps.followees !== followees && followees && prevProps.followees) {
+    if (this.firstStartFollowee && prevProps.followees !== followees && followees.length > 0 && prevProps.followees.length > 0) {
       followees.forEach(followee => {
         if (followee.identity_user) {
           getProfileByUserId(followee.identity_user)
@@ -99,7 +100,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
           getOrganization(followee.identity_organization)
         }
       })
-      this.setState({...this.state, firstStartFollowee: false})
+      this.firstStartFollowee = false
     }
   }
 
@@ -113,71 +114,24 @@ class Socials extends Component<PropsSocials, StateSocials> {
     this.setState({...this.state, editFollowings: !editFollowings})
   }
 
-  _handleError = (error: boolean | string) => this.setState({...this.state, error: error, isLoading: false})
-
   componentDidMount() {
-    const {identityId, actions, userId} = this.props
-    const {getFollowees, getFollowers} = actions
+    const {identityId, actions, userId, identityType} = this.props
+    const {getFollowees, getFollowers, getExchangesByMemberIdentity} = actions
 
     if (identityId) {
-      // const {getExchangesByMemberIdentity} = actions
-      // getExchangesByMemberIdentity(identityId)
-
-      getExchangesByMemberIdentity(identityId, this._handleError, (results) => {
-        if (results && results.length > 0) {
-          let exchanges = []
-          let exchangesImg = []
-          let exchangeIdentityIds = []
-          results.forEach((res) => {
-            exchanges.push(res.exchange_identity_related_exchange)
-            exchangeIdentityIds.push(res.id)
-            if (res.exchange_identity_related_exchange.exchange_image) {
-              exchangesImg.push(res.exchange_identity_related_exchange.exchange_image.file)
-            } else {
-              exchangesImg.push(null)
-            }
-          })
-          this.setState({
-            ...this.state, exchanges: exchanges, exchangeIdentityIds: exchangeIdentityIds,
-            exchangesImg: exchangesImg
-          })
-        }
-      })
-
-      const followIdentity = identityId
+      const followOwnerIdentity = identityId
       const followOwnerId = userId
-      const followOwnerType = client.getUserType()
-      getFollowers({followOwnerId, followIdentity, followOwnerType})
-      getFollowees({followOwnerId, followIdentity, followOwnerType})
-      // this.props.actions.deleteFollowers(identityId)
+
+      getExchangesByMemberIdentity({identityId, membershipOwnerType: identityType, membershipOwnerId: userId})
+      getFollowers({followOwnerId, followOwnerIdentity, followOwnerType: identityType})
+      getFollowees({followOwnerId, followOwnerIdentity, followOwnerType: identityType})
     }
   }
 
-  _deleteFollowing = (id, index) => {
-    const {followingsList} = this.state
-    followingsList.splice(index, 1)
-    this.setState({...this.state, followingsList: followingsList}, () => {
-      deleteFollow(followingsList[index].follow_followed, this._handleError, (res) => {
-            this.setState({...this.state, followingsList: res})
-          }
-      )
-    })
-  }
-
-  _removeExchangeMembership = (id, index) => {
-    const {exchanges, exchangeIdentityIds} = this.state
-    exchanges.slice(0, index).concat(exchanges.slice(index + 1))
-    exchangeIdentityIds.slice(0, index).concat(exchangeIdentityIds.slice(index + 1))
-    removeExchangeMembership(id, this._handleError, () =>
-        this.setState({...this.state, exchanges: exchanges, exchangeIdentityIds: exchangeIdentityIds}))
-  }
-
   render() {
-    const {translate, followers, followees, actions} = this.props
-    const {
-      exchanges, exchangesImg, exchangeIdentityIds, /*followersImg, followersUser, followingsImg, followingsUser,*/
-      editExchanges, editFollowings, isLoading, error
-    } = this.state
+    const {translate, followers, followees, actions, isLoading, error, exchanges, identityId, userId} = this.props
+    const {deleteFollow, deleteExchangeMembership, updateFollow, createFollow} = actions
+    const {editExchanges, editFollowings} = this.state
 
     return (
         <VerifyWrapper isLoading={isLoading} error={error}>
@@ -185,33 +139,40 @@ class Socials extends Component<PropsSocials, StateSocials> {
               title={translate['Socials']}
           />
           <FrameCard className="frameCardSocial">
-            <ExchangesView removeMembership={this._removeExchangeMembership}
-                           exchanges={exchanges}
-                           exchangesImg={exchangesImg}
-                           exchangeIdentityIds={exchangeIdentityIds}
-                           showEdit={this._showExchangesEdit}
-                           edit={editExchanges}
-                           translate={translate}
+            {/*FIXME: mohammad fix exchange part after changed in redux by */}
+            <Exchanges removeMembership={deleteExchangeMembership}
+                       exchanges={exchanges}
+                       showEdit={this._showExchangesEdit}
+                       edit={editExchanges}
+                       translate={translate}
             />
             <Followees edit={editFollowings}
-                       deleteFollowing={this._deleteFollowing}
+                       deleteFollow={deleteFollow}
                        followees={followees}
                        showEdit={this._showEditFollowings}
                        translate={translate}
+                       userId={userId}
             />
-            <Followers followers={followers} translate={translate}/>
+            <Followers followers={followers} translate={translate}
+                       deleteFollow={deleteFollow}
+                       followees={followees}
+                       updateFollow={updateFollow}
+                       identityId={identityId}
+                       createFollow={createFollow}
+                       userId={userId}
+            />
           </FrameCard>
         </VerifyWrapper>
     )
   }
 }
 
-const mapStateToProps = (state) => {
-  const getFollowersSelector = makeGetFollowersSelector(state)
-  const getFolloweesSelector = makeGetFolloweesSelector(state)
+const mapStateToProps = (state, ownProps) => {
+  const getFollowersSelector = makeGetFollowersSelector(state, ownProps)
+  const getFolloweesSelector = makeGetFolloweesSelector(state, ownProps)
+  const getExchangesSelector = makeGetMembershipsSelector(state, ownProps)
 
   return (state, props) => {
-
     const {userId} = props
     const stateUser = state.users[userId]
     const defaultObject = {content: [], isLoading: false, error: null}
@@ -221,6 +182,7 @@ const mapStateToProps = (state) => {
       translate: getMessages(state),
       followers: getFollowersSelector(state, props),
       followees: getFolloweesSelector(state, props),
+      exchanges: getExchangesSelector(state, props),
       isLoading: followObject.isLoading,
       error: followObject.error,
     }
@@ -229,14 +191,16 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-        getExchangesByMemberIdentity: ExchangeActions.getExchangeIdentitiesByMemberIdentity,
-        getFollowees: SocialActions.getFollowees,
-        getFollowers: SocialActions.getFollowers,
-        deleteFollowers: SocialActions.deleteFollowers,
-        getProfileByUserId: GetUserActions.getProfileByUserId,
-        getOrganization: OrganizationActions.getOrganization,
-      },
-      dispatch)
+    getExchangesByMemberIdentity: ExchangeActions.getExchangeIdentitiesByMemberIdentity,
+    deleteExchangeMembership: ExchangeActions.deleteExchangeMembership,
+    getFollowees: SocialActions.getFollowees,
+    getFollowers: SocialActions.getFollowers,
+    deleteFollow: SocialActions.deleteFollow,
+    updateFollow: SocialActions.updateFollow,
+    createFollow: SocialActions.createFollow,
+    getProfileByUserId: GetUserActions.getProfileByUserId,
+    getOrganization: OrganizationActions.getOrganization,
+  }, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Socials)

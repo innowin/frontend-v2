@@ -35,8 +35,30 @@ $item-header-margin-right: 16px;
           line-height: 2;
         }
       }
+      .remove-follow{
+        color: lighten($primary-color, 50%);
+        font-size: 25px;
+      }
+      .remove-follow:hover{
+        color: lighten($primary-color, 40%);
+      }
       .follow-section{
         color: $success-color;
+      }
+      .accept-follower{
+        margin: 0 5px;
+        color: $success-color;
+        font-size: 25px;
+      }
+      .reject-follower{
+        margin: 0 5px;
+        color: $error-color;
+        font-size: 25px;
+      }
+      .follow{
+        margin: 0 5px;
+        color: $success-color;
+        font-size: 25px;
       }
     }
   }

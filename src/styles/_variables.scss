@@ -6,18 +6,23 @@ $font-family-serif:      vazir, Georgia, "Times New Roman", Times, serif !defaul
 @import "~bootstrap/scss/variables";
 
 //Color Variables
-$background-body-color: #f2f4f6;
+$background-color: #f7f7f7;
+$foreground-color: #14171a;
 $brand-inverse-color: #253545;
-$primary-color: #32485D;
+$primary-color: #253545;
+$primary-color-light1: #2c3e50;
+$primary-color-light2: #35495c;
+$primary-color-light3: #0084bf;
 $chat-box1-color: #CADFE0;
 $chat-box2-color: #F5F5F5;
 $sidebar-bottom-color: #606060;
 $frame-color: #688491;
 $error-color:lighten(crimson, 25%);
-$danger-color: #b74b48;
+$danger-color: #dd5145;
 $success-color: #4dab9f;
 $disable-color: #8c968c;
-$info-color: lighten(aqua, 20%);
+$warning-color: #ffc241;
+$info-color: #0084bf;
 $image-edit-btn-background: rgba(0, 0, 0, 0.3);
 $text-lightest-color: #fff;
 $eee-color: #eee;
@@ -31,7 +36,7 @@ $text-medium-dark: #848484;
 $text-input-border-color: #ccc;
 $input-border: rgba(0, 0, 0, 0.15);
 $input-focus-border: rgba(32, 99, 249, 0.45);
-$title-divider-color: #42ac97;
+$secondary-color: #42ac97;
 $tag-background: #b9b6b6;
 $tag-del-btn-background: #008057;
 // font-sizes
@@ -48,5 +53,10 @@ $font-size-medium: 15px;
 $font-size-regular: 12px;
 $font-size-small: 8px;
 $tag-font-size: 11px;
+
+$font-size-post-content: 12px;
+$font-size-post-username: 14px;
+$font-size-post-name: 14px;
+$font-size-post-date: 10px;
 
 $border-radius-size: 4px;

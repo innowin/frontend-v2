@@ -5,59 +5,53 @@ import Moment from "react-moment";
 import {EditIcon, DefaultUserIcon} from "src/images/icons";
 import {VerifyWrapper} from "src/views/common/cards/Frames";
 import {SupplyIcon, DemandIcon} from "src/images/icons";
-import {getPostViewerCount, setPostViewer} from "src/crud/post/postViewerCount";
 import connect from "react-redux/es/connect/connect";
 import {getMessages} from "../../../redux/selectors/translateSelector";
+import {bindActionCreators} from "redux"
+import PostActions from "../../../redux/actions/commonActions/postActions";
 
 class PostView extends Component {
   static propTypes = {
     showEdit: PropTypes.func.isRequired,
     post: PropTypes.object.isRequired,
-    profileMedia: PropTypes.string.isRequired,
-  };
-
-  constructor(props) {
-    super(props);
-    this.state = {viewerCount: 0, isLoading: false, error: false}
   }
 
   _getViewerCount = () => {
-    const postId = this.props.post.id;
-    this.setState({...this.state, isLoading: true}, () => (
-        getPostViewerCount(postId, (res) => this.setState({...this.state, viewerCount: res, isLoading: false}))
-    ))
+    const {post, actions} = this.props
+    const {getPostViewerCount} = actions
+    const postId = post.id
+    getPostViewerCount(postId)
   }
 
   _addViewer = (e) => {
-    e.preventDefault();
-    const postId = this.props.post.id;
-    setPostViewer(postId, () => this._getViewerCount())
-  };
+    e.preventDefault()
+    const {post, actions} = this.props
+    const {setPostViewer, getPostViewerCount} = actions
+    const postId = post.id
+    setPostViewer(postId, getPostViewerCount)
+  }
 
   componentDidMount() {
-    this._getViewerCount();
-  };
+    this._getViewerCount()
+  }
 
   render() {
-    const {showEdit, post, profileMedia, translate} = this.props;
-
-    const {post_identity} = this.props.post
-    const user = post_identity.identity_user;
-    const organization = post_identity.identity_organization;
-
-    const {viewerCount, isLoading, error} = this.state;
-
-    const supplyIcon = post.post_type === 'supply';
-    const demandIcon = post.post_type === 'demand';
-    const postIcon = post.post_type === 'post';
+    const {showEdit, post, translate} = this.props
+    const {post_identity, viewerCount, post_related_identity_image} = this.props.post
+    const user = post_identity.identity_user
+    const organization = post_identity.identity_organization
+    const supplyIcon = post.post_type === 'supply'
+    const demandIcon = post.post_type === 'demand'
+    const postIcon = post.post_type === 'post'
+    // TODO mohsen: handle isLoading && error by redux
 
     return (
-        <VerifyWrapper isLoading={isLoading} error={error}>
+        <VerifyWrapper isLoading={false} error={false}>
           <div className="-itemWrapperPost">
             <div className="-img-col">
               {
-                (!profileMedia) ? (<DefaultUserIcon/>) : (
-                    <img className="rounded-circle" src={profileMedia.file} alt=""/>)
+                (!post_related_identity_image) ? (<DefaultUserIcon/>) : (
+                    <img className="rounded-circle" src={post_related_identity_image.file} alt=""/>)
               }
             </div>
             <div className="-content-col">
@@ -70,19 +64,19 @@ class PostView extends Component {
                       ((demandIcon) && <DemandIcon height="24px"/>)
                     }
                   </span>
-                  <span className="mr-2">
+                  <span className="mr-2 post-name">
                     {user ? user.first_name + ' ' + user.last_name : (organization ? (organization.nike_name || organization.official_name) : '')}
                   </span>
-                  <span className="mr-2 -green2">{
+                  <span className="mr-2 -green2 post-username">{
                     (user) ? user.username : (organization ? organization.username : '')
                   }</span>
-                  <Moment className="mr-3 -green2" element="span" fromNow ago>{post.created_time}</Moment>
-                  <span className="mr-1 -green2">{translate['Last']}</span>
+                  <Moment className="mr-3 -green2 post-date" element="span" fromNow ago>{post.created_time}</Moment>
+                  <span className="mr-1 -green2 post-date">{translate['Last']}</span>
                 </div>
                 <div onClick={showEdit} className="-item-edit-btnPost"><EditIcon/></div>
               </div>
 
-              <div className="description">
+              <div className="description post-content">
                 {post.post_description}
               </div>
 
@@ -111,4 +105,10 @@ const mapStateToProps = state => {
     translate: getMessages(state),
   }
 }
-export default connect(mapStateToProps)(PostView)
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({
+    getPostViewerCount:PostActions.getPostViewerCount,
+    setPostViewer: PostActions.setPostViewer
+    }, dispatch)
+})
+export default connect(mapStateToProps, mapDispatchToProps)(PostView)

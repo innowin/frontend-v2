@@ -47,6 +47,19 @@
         padding-top: 2px;
         display: flex;
         flex-direction: row;
+
+        .post-name{
+          font-size: $font-size-post-name;
+        }
+        .post-username{
+          font-size: $font-size-post-username;
+        }
+        .post-date{
+          font-size: $font-size-post-date;
+        }
+        .post-name{
+          font-size: $font-size-post-name;
+        }
       }
       .-line-height {
         line-height: 2.1;
@@ -54,6 +67,7 @@
     }
     .description {
       line-height: 2.1;
+      font-size: $font-size-post-content;
       // TODO mohsen: handle long text
       //overflow-x: hidden;
       //max-width: 400px;

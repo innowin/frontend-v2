@@ -6,6 +6,7 @@ import HomeCreatePost from "./CreatPostHome"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import PostActions from "src/redux/actions/commonActions/postActions"
+import constant from "src/consts/constants"
 
 
 class HomePosts extends Component {
@@ -35,7 +36,11 @@ class HomePosts extends Component {
       const newOffset = offset + 100
       this.setState({...this.state, offset: newOffset, activeScrollHeight: scrollHeight, scrollLoading: true},
         () => filterPostsByPostParentLimitOffset({
-          postParentId:exchangeId, postType:null, postParentType:'exchange', limit, offset:newOffset
+          postParentId: exchangeId,
+          postType: null,
+          postParentType: constant.POST_PARENT.EXCHANGE,
+          limit,
+          offset: newOffset
         })
       )
     }
@@ -48,7 +53,7 @@ class HomePosts extends Component {
     const offset = 0
     if (exchangeId && exchangeId !== prevProps.exchangeId) {
       filterPostsByPostParentLimitOffset({
-        postParentId: exchangeId, postType: null, limit, offset, postParentType:"exchange"
+        postParentId: exchangeId, postType: null, limit, offset, postParentType: constant.POST_PARENT.EXCHANGE
       })
     }
   }
@@ -65,19 +70,23 @@ class HomePosts extends Component {
     const {isLoading, error} = this.state
     const {client, posts, exchangeId, className, actions} = this.props
     const {deletePost, updatePost} = actions
-    const {identity, user_type} = client
+    const {identity, profile, organization, user_type} = client
     const postOwnerId = (identity.identity_user && identity.identity_user.id)
       || (identity.identity_organization && identity.identity_organization.id)
+    const postOwnerImgId = (user_type === 'person') ? (profile.profile_media):(
+      (organization && organization.organization_logo) || null
+    )
     return (
       <VerifyWrapper isLoading={isLoading} error={error} className={className}>
         {(exchangeId) ? (
           <div>
             <HomeCreatePost
               postIdentityId={identity.id}
-              postOwnerId = {postOwnerId}
+              postOwnerId={postOwnerId}
               postOwnerType={user_type}
+              postOwnerImgId={postOwnerImgId}
               postParentId={exchangeId}
-              postParentType='exchange'
+              postParentType={constant.POST_PARENT.EXCHANGE}
               handleErrorLoading={this._handleErrorLoading}
               postsCountInThisPage={posts.length}
             />
@@ -110,9 +119,10 @@ const mapStateToProps = (state, ownProps) => {
   const client = state.auth.client
   const exchangeId = ownProps.exchangeId
   const allPosts = state.common.post.list
-  const exchangeIdPosts = (exchangeId && state.exchanges[exchangeId] && state.exchanges[exchangeId].posts
-    && state.exchanges[exchangeId].posts.content) ||[]
-  const posts = exchangeIdPosts.map(postId => (allPosts[postId]))
+  const allExchange = state.exchanges.list
+  const exchangePostsIds = (exchangeId && allExchange[exchangeId] && allExchange[exchangeId].posts
+    && allExchange[exchangeId].posts.content) || []
+  const posts = exchangePostsIds.map(postId => (allPosts[postId]))
   return {
     client,
     posts

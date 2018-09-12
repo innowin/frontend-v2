@@ -1,25 +1,30 @@
-import {ItemHeader, ItemWrapper} from "../../common/cards/Frames";
-import PropTypes from "prop-types";
 import * as React from "react";
-import SocialIcon from "../../../images/common/social_svg";
-import {Link} from "react-router-dom";
+import constants from 'src/consts/constants'
 import DefaultUserIcon from "../../../images/defaults/defaultUser_svg";
+import FontAwesome from 'react-fontawesome'
+import PropTypes from "prop-types";
+import SocialIcon from "../../../images/common/social_svg";
+import {ItemHeader, ItemWrapper} from "../../common/cards/Frames";
+import {Link} from "react-router-dom";
 
 
 type PropsFollowees = {
   edit: boolean,
   showEdit: Function,
   followees: [],
-  deleteFollowing: Function,
-  translate: { [string]: string }
+  deleteFollow: Function,
+  translate: { [string]: string },
+  userId: number,
 }
 
 export const Followees = (props: PropsFollowees) => {
-  const {edit, showEdit, followees, deleteFollowing, translate} = props
-
-  const onDeleteFollowing = () => {
-    const {deleteFollowing, following, index} = props
-    deleteFollowing(following.follow_follower, index)
+  const {edit, showEdit, followees, translate, userId} = props
+  const onDeleteFollowing = (followee) => {
+    const {deleteFollow} = props
+    const followId = followee.follow_id
+    const followOwnerId = userId
+    const followOwnerType = followee.identity_user ? constants.USER_TYPES.PERSON : constants.USER_TYPES.ORG
+    deleteFollow({followId, followOwnerId, followOwnerType})
   }
 
   return (
@@ -43,10 +48,11 @@ export const Followees = (props: PropsFollowees) => {
                       <div className="text-section">
                         <div className="name">{followee.name}</div>
                       </div>
-                      {(edit) ?
-                          <button onClick={onDeleteFollowing}
-                                  className="d-block btn btn-outline-danger btn-sm mb-auto ">{translate['Delete']}
-                          </button> : <div className="follow-section">{followee.accepted ? translate['Followed'] : ''}</div>}
+                      {(edit)
+                          ? <FontAwesome name="trash" className='remove-follow pulse'
+                                         onClick={() => onDeleteFollowing(followee)}/>
+                          : <div className="follow-section">{followee.accepted ? translate['Followed'] : translate['Wait for accept']}</div>
+                      }
                     </div>
                   </div>
               )
@@ -60,6 +66,7 @@ Followees.propTypes = {
   edit: PropTypes.bool,
   showEdit: PropTypes.func.isRequired,
   followees: PropTypes.arrayOf(PropTypes.object.isRequired),
-  deleteFollowing: PropTypes.func,
-  translate: PropTypes.object.isRequired
+  deleteFollow: PropTypes.func.isRequired,
+  translate: PropTypes.object.isRequired,
+  userId: PropTypes.number.isRequired,
 }

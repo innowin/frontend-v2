@@ -1,5 +1,5 @@
-import initialState from "../initialState"
-import types from "../../actions/types/index"
+import initialState from "./initialState"
+import types from "../actions/types/index"
 
 const organs = (state = initialState.organs, action) => {
   const {organizationId, data, message, postParentId, postOwnerType, postParentType, postId }= action.payload || {}

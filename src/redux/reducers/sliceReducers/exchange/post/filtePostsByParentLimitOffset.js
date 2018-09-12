@@ -6,16 +6,19 @@ const success = (state, action) => {
     const exchangeId = postParentId
     return {
       ...state,
-      [exchangeId]: {
-        ...state[exchangeId],
-        posts: {
-          content: postIds,
-          isLoading: false,
-          error:null
+      list:{
+        ...state.list,
+        [exchangeId]: {
+          ...state.list[exchangeId],
+          posts: {
+            content: postIds,
+            isLoading: false,
+            error: null
+          }
         }
       }
     }
-  }
+  }else return state
 }
 
 const error = (state, action) => {
@@ -26,10 +29,8 @@ const base = (state, action) => {
 
 }
 
-const filterPostsByPostParentLimitOffset = {
+export default {
   base,
   error,
   success
 }
-
-export default filterPostsByPostParentLimitOffset

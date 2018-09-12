@@ -12,38 +12,25 @@ type postPropTypes = {
     post_identity: number,
     id: number,
   },
-  posts: [],
   updatePost: Function,
-  profileMedia: string,
   deletePost: Function
 }
 
 type postStateTypes = {
-  post: {},
-  postIdentity_username: string,
-  postIdentity_name: string,
-  postIdentityImg: string | null,
   edit: boolean,
-  error: {} | boolean,
-  isLoading: boolean,
 }
 
 export class Post extends React.Component<postPropTypes, postStateTypes> {
 
   static propTypes = {
     post: PropTypes.object.isRequired,
-    posts: PropTypes.array.isRequired,
     updatePost: PropTypes.func.isRequired,
-    profileMedia: PropTypes.string.isRequired,
     deletePost: PropTypes.func.isRequired
-  };
+  }
 
   constructor(props: postPropTypes) {
     super(props)
     this.state = {
-      postIdentity_username: '',
-      postIdentity_name: '',
-      postIdentityImg: null,
       edit: false
     }
   }
@@ -78,10 +65,10 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
 
   render() {
     const {edit} = this.state
-    const {profileMedia, post} = this.props
+    const {post} = this.props
     return (
       // TODO mohsen: handle error and isLoading from state redux
-        <VerifyWrapper isLoading={false} error={false}>
+        <VerifyWrapper isLoading={post.isLoading} error={post.error}>
           {edit ?
               <div className="-itemWrapperPost">
                 <PostEditForm
@@ -94,7 +81,6 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
               :
               <PostView post={post}
                         showEdit={this._showEdit}
-                        profileMedia={profileMedia}
               />
           }
         </VerifyWrapper>

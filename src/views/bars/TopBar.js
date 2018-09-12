@@ -70,7 +70,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     }
   }
 
-  componentDidUpdate(prevProps: { isLoggedIn: boolean }) {
+  componentDidUpdate(prevProps) {
     const {isLoggedIn, actions} = this.props
     if (prevProps.isLoggedIn && prevProps.isLoggedIn !== isLoggedIn) {
       actions.push('/login')
@@ -195,6 +195,12 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 }
 
 const mapStateToProps = state => {
+  // const {identity, profile, organization, user_type} = state.auth.client
+  // const postOwnerId = (identity.identity_user && identity.identity_user.id)
+  //   || (identity.identity_organization && identity.identity_organization.id)
+  // const postOwnerImgId = (user_type === 'person') ? (profile.profile_media):(
+  //   (organization && organization.organization_logo) || null
+  // )
   const profileMediaId = state.auth.client.profile.profile_media
   const profileMedia = (
     profileMediaId && state.common.file.list[profileMediaId]

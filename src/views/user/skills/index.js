@@ -211,19 +211,19 @@ class Skills extends Component<PropsSkills ,StateSkills> {
     emitting()
     socket.on(`userSkills-Products-get/${userId}`, (res) => {
       if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false}
+        const newState = {...this.state, error: res.data.detail, isLoading: false}
         this.setState(newState)
       } else {
-        const newState = {...this.state, products: res, isLoading: false}
+        const newState = {...this.state, products: res.data, isLoading: false}
         this.setState(newState)
       }
     })
     socket.on(`userSkills-Skills-get/${userId}`, (res) => {
       if (res.detail) {
-        const newState = {...this.state, error: res.detail, isLoading: false}
+        const newState = {...this.state, error: res.data.detail, isLoading: false}
         this.setState(newState)
       } else {
-        const newState = {...this.state, skills: res, isLoading: false}
+        const newState = {...this.state, skills: res.data, isLoading: false}
         this.setState(newState)
       }
     })

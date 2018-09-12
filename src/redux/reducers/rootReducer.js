@@ -6,9 +6,14 @@ import {routerReducer} from 'react-router-redux'
 import {intlReducer} from './intl'
 import {reducer as formReducer} from 'redux-form'
 import exchanges from "./exchange"
-import organs from "./organization/index"
-import users from "./user/index"
+import organs from "./organ"
+import users from "./user"
 import common from "./commonReducer/index"
+import storage from 'redux-persist/lib/storage'
+import {persistReducer} from "redux-persist";
+
+
+const commonPersistConfig = {key: 'common', storage: storage,}
 
 const reducers = {
     auth,
@@ -16,7 +21,7 @@ const reducers = {
     organs,
     organization,
     exchanges,
-    common
+    common: persistReducer(commonPersistConfig, common)
 }
 
 //Don't change below code ,  Put your reducer on the upper object.

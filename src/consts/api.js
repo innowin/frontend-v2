@@ -1,28 +1,30 @@
-import {SOCKET, REST_URL} from "./URLS"
-import {REST_REQUEST} from "./Events"
+import {REST_URL, SOCKET as socket} from "./URLS"
+import {GET_VIEWS_COUNT, NEW_VIEW, REST_REQUEST} from "./Events"
 import {eventChannel} from 'redux-saga'
 import {apply, select} from "redux-saga/effects"
 
 const createSocketChannel = (resultName) => {
   return eventChannel(emit => {
     const resultHandler = res => {
-      if (res.status !== "OK") {
+      if (res.status === "FAILED") {
         console.log('\n --- api --- >> createSocketChannel >> res is : \n', res)
         // below is for check user handle error
-        if (typeof res.data === "object" && res.data.detail){
+        if (typeof res.data === "object" && res.data.detail) {
           emit(new Error(res.data.detail))
         }
-        if(res.data.non_field_errors){
+        if (res.data.non_field_errors) {
           emit(new Error(res.data.non_field_errors))
           return;
         }
         emit(new Error(res.data))
         return;
       }
-      emit(res.data)
+      if (res.data) {
+        emit(res.data)
+      } else emit(res)
     }
-    SOCKET.on(resultName, resultHandler)
-    return () => SOCKET.off(resultName, resultHandler)
+    socket.on(resultName, resultHandler)
+    return () => socket.off(resultName, resultHandler)
   })
 }
 
@@ -47,9 +49,18 @@ function* del(url, result, data, param = "") {
   yield apply({}, delEmit, [url, result, data, param, token])
 }
 
+function* getPostViewerCount(postId, result) {
+  yield apply({}, getPostViewerCountEmit, [postId, result])
+}
+
+function* setPostViewer(postId, result) {
+  const token = yield select((state) => state.auth.client.token)
+  yield apply({}, setPostViewerEmit, [postId, result, token])
+}
+
 // pre send request
 const getEmit = (url, resultName, query = "", token) => {
-  SOCKET.emit(REST_REQUEST, {
+  socket.emit(REST_REQUEST, {
     method: 'get',
     url: REST_URL + '/' + url + '/' + query,
     result: resultName,
@@ -58,7 +69,7 @@ const getEmit = (url, resultName, query = "", token) => {
 }
 
 const patchEmit = (url, resultName, data, query = "", token) => {
-  SOCKET.emit(REST_REQUEST, {
+  socket.emit(REST_REQUEST, {
     method: 'patch',
     url: REST_URL + '/' + url + '/' + query + '/',
     result: resultName,
@@ -68,7 +79,7 @@ const patchEmit = (url, resultName, data, query = "", token) => {
 }
 
 const delEmit = (url, resultName, data, query = "", token) => {
-  SOCKET.emit(REST_REQUEST, {
+  socket.emit(REST_REQUEST, {
     method: 'del',
     url: REST_URL + '/' + url + '/' + query + '/',
     result: resultName,
@@ -78,12 +89,36 @@ const delEmit = (url, resultName, data, query = "", token) => {
 }
 
 const postEmit = (url, resultName, data, query = "", token) => {
-  SOCKET.emit(REST_REQUEST, {
-    method: 'post',
-    url: REST_URL + '/' + url + '/' + query,
-    result: resultName,
-    data,
-    token
+  if(resultName !== 'CREATE_USER_PERSON' && resultName !== 'CREATE_USER_ORGAN'){
+    socket.emit(REST_REQUEST, {
+      method: 'post',
+      url: REST_URL + '/' + url + '/' + query,
+      result: resultName,
+      data,
+      token
+    })
+  } else {
+    socket.emit(REST_REQUEST, {
+      method: 'post',
+      url: REST_URL + '/' + url + '/' + query,
+      result: resultName,
+      data
+    })
+  }
+}
+
+export const getPostViewerCountEmit = (postId, resultName) => {
+  socket.emit(GET_VIEWS_COUNT, {
+    id: `post-${postId}`,
+    result: resultName
+  })
+}
+
+export const setPostViewerEmit = (postId, resultName, token) => {
+  socket.emit(NEW_VIEW, {
+    id: `post-${postId}`,
+    token,
+    result: resultName
   })
 }
 
@@ -92,6 +127,8 @@ const api = {
   get,
   post,
   patch,
-  del
+  del,
+  getPostViewerCount,
+  setPostViewer
 }
 export default api

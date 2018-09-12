@@ -1,8 +1,8 @@
 import types from './types'
 
-const getExchangeIdentitiesByMemberIdentity = (identityId, resolveFunc:() => null) => ({
+const getExchangeIdentitiesByMemberIdentity = ({identityId, membershipOwnerType, membershipOwnerId}) => ({
 	type: types.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY,
-	payload: {identityId, resolveFunc}
+	payload: {identityId, membershipOwnerType, membershipOwnerId}
 })
 
 const getExchangeByExId = (id) => ({
@@ -10,17 +10,12 @@ const getExchangeByExId = (id) => ({
 	payload:{id}
 })
 
-const getExchangesByMemberIdentity = (identity) => ({
-	type: types.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY,
-	payload:{identity}
-})
-
 const getExchangeMembersByExId = (id) => ({
 	type: types.EXCHANGE.GET_EXCHANGE_MEMBERS_BY_EX_ID,
 	payload:{id}
 })
 
-const deleteExchangeMembership = (identityId) => ({
+const deleteExchangeMembership = ({identityId}) => ({
 	type: types.EXCHANGE.DELETE_EXCHANGE_MEMBERSHIP,
 	payload:{identityId}
 })
@@ -42,7 +37,6 @@ const addToExchange = (identityId,exchangeIdentity) => ({
 const ExchangeActions =  {
 	getExchangeIdentitiesByMemberIdentity,
 	getExchangeByExId,
-	getExchangesByMemberIdentity,
 	getExchangeMembersByExId,
 	deleteExchangeMembership,
 	addToExchange,

@@ -11,7 +11,6 @@ import {AttachFileIcon} from "src/images/icons";
 import {bindActionCreators} from "redux"
 import PostActions from "../../../redux/actions/commonActions/postActions"
 import {connect} from "react-redux";
-import client from "src/consts/client"
 
 const duration = 300;
 const defaultStyle = {
@@ -102,6 +101,8 @@ class HomeCreatePost extends Component {
     postIdentityId: PropTypes.number.isRequired,
     postOwnerId: PropTypes.number.isRequired,
     postOwnerType: PropTypes.string.isRequired,
+    postOwnerImgId: PropTypes.number,
+    postOwnerImgLink: PropTypes.string,
     postParentId: PropTypes.number.isRequired,
     postParentType: PropTypes.string,
     postsCountInThisPage: PropTypes.number,
@@ -124,7 +125,7 @@ class HomeCreatePost extends Component {
   _getValues = () => {
     const {media} = this.createPostFooter._AttachFile()
     const mediaId = media ? media.id : null
-    const {postIdentityId, postParentId} = this.props
+    const {postIdentityId, postParentId, postOwnerImgId} = this.props
     // TODO mohsen: post_title is static but should be from post create
     return {
       post_picture: mediaId,
@@ -132,7 +133,8 @@ class HomeCreatePost extends Component {
       post_title: 'title',
       post_type: this.createPostFooter._post_type(),
       post_parent: postParentId,
-      post_identity: postIdentityId
+      post_identity: postIdentityId,
+      post_related_identity_image: postOwnerImgId
     }
   }
 
@@ -193,7 +195,8 @@ class HomeCreatePost extends Component {
   componentDidUpdate(prevProps) {
     const {postsCountInThisPage} = this.props
     if (prevProps.postsCountInThisPage < postsCountInThisPage) {
-      this.setState({...this.state, textareaClass: "closeTextarea", show: false, media: {}, fileName: '', description: ''
+      this.setState({
+        ...this.state, textareaClass: "closeTextarea", show: false, media: {}, fileName: '', description: ''
       }, () => this.createPostFooter._reset_postType())
     }
   }
@@ -208,14 +211,14 @@ class HomeCreatePost extends Component {
 
   render() {
     const {media, fileName, description, textareaClass, show} = this.state
-    const {profile_media_file, className} = this.props;
+    const {postOwnerImgLink, className} = this.props
     // TODO handle description error that say: "Ensure description value has at least 5 characters."
     return (
       <form className={"-createPostHome " + className} id="HomeCreatePost" onSubmit={this._onSubmit}>
         {/*// TODO mohsen: handle src of img*/}
         {
-          (!profile_media_file) ? (<DefaultUserIcon className="-img-col"/>) : (
-            <img className="-img-col rounded-circle" src={profile_media_file} alt=""/>)
+          (!postOwnerImgLink) ? (<DefaultUserIcon className="-img-col"/>) : (
+            <img className="-img-col rounded-circle" src={postOwnerImgLink} alt=""/>)
         }
         <Transition in={show} timeout={duration}>
           {(state) => (
@@ -252,9 +255,18 @@ class HomeCreatePost extends Component {
   }
 }
 
+const mapStateToProps = (state, ownProps) => {
+  const postOwnerImgId = ownProps.postOwnerImgId
+  const postOwnerImgLink = (postOwnerImgId
+    && state.common.file.list[postOwnerImgId]
+    && state.common.file.list[postOwnerImgId].file) || null
+  return {
+    postOwnerImgLink
+  }
+}
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     createPost: PostActions.createPost
   }, dispatch)
 })
-export default connect(null, mapDispatchToProps)(HomeCreatePost)
+export default connect(mapStateToProps, mapDispatchToProps)(HomeCreatePost)
