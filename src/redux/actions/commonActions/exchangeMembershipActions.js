@@ -10,9 +10,24 @@ const getExchangeMembershipByMemberIdentity = ({identityId, exchangeMembershipOw
   payload: {identityId, exchangeMembershipOwnerId, exchangeMembershipOwnerType}
 })
 
+const getExchangeMembershipByExchangeId = ({exchangeId}) => ({
+  type: types.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_EXCHANGE_ID,
+  payload: {exchangeId}
+})
+
+const createExchangeMembership = ({identityId, exchangeIdentity}) => ({
+  type: types.COMMON.EXCHANGE_MEMBERSHIP.CREATE_EXCHANGE_MEMBERSHIP,
+  payload: {
+    identityId,
+    exchangeIdentity
+  }
+})
+
 const ExchangeMembershipActions = {
   deleteExchangeMembership,
   getExchangeMembershipByMemberIdentity,
+  getExchangeMembershipByExchangeId,
+  createExchangeMembership,
 }
 
 export default ExchangeMembershipActions

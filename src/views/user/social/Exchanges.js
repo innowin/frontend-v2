@@ -22,11 +22,11 @@ export const Exchanges = (props: PropsExchangesView) => {
 
   const removeMembership = (exchange) => {
     const {removeMembership} = props
-    const membershipId = exchange.membership_id
-    const membershipOwnerId = exchange.membership_owner_id
-    const membershipOwnerType = exchange.membership_owner_type
+    const exchangeMembershipId = exchange.membership_id
+    const exchangeMembershipOwnerId = exchange.membership_owner_id
+    const exchangeMembershipOwnerType = exchange.membership_owner_type
     console.log(props, 'ppppppppppp')
-    removeMembership({membershipId, membershipOwnerId, membershipOwnerType})
+    removeMembership({exchangeMembershipId, exchangeMembershipOwnerId, exchangeMembershipOwnerType})
   }
 
   return (

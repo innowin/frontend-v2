@@ -18,7 +18,7 @@ const urls = {
     GET_PROFILE_BY_USER_ID: "users/profiles",
     UPDATE_USER_BY_USER_ID: "users",
     UPDATE_PROFILE_BY_PROFILE_ID: "users/profiles",
-    GET_USERS:'users',
+    GET_USERS: 'users',
   },
   ORG: {
     GET_ORGANIZATION: 'organizations',
@@ -51,9 +51,6 @@ const urls = {
     GET_EXCHANGES: 'exchanges',
     GET_EXCHANGE_BY_EX_ID: 'exchanges',
     CREATE_EXCHANGE: 'exchanges',
-    GET_EXCHANGE_MEMBERS_BY_EX_ID: 'exchanges/identities',
-    ADD_TO_EXCHANGE:'exchanges/identities',
-
   },
 
   CREATE_PRODUCT: 'products',
@@ -103,6 +100,8 @@ const urls = {
     EXCHANGE_MEMBERSHIP: {
       DELETE_EXCHANGE_MEMBERSHIP: 'exchanges/identities',
       GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY: 'exchanges/identities',
+      GET_EXCHANGE_MEMBERSHIP_BY_EXCHANGE_ID: 'exchanges/identities', // TODO: not complete
+      CREATE_EXCHANGE_MEMBERSHIP: 'exchanges/identities', // TODO: not complete
     }
   }
 }

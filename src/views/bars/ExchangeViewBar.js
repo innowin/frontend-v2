@@ -7,13 +7,12 @@ import exchangeActions from "src/redux/actions/exchangeActions"
 import {
 	getExchange,
 	getExchangeMembers,
-	getExchangeMemberIdentity,
-	getExchangeMember
 } from "../../crud/exchange/exchange"
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {ExchangeIcon} from "src/images/icons"
 import {getExchangePostsByPostType, getExchangePostsHasProduct} from "../../crud/post/exchangePost"
+import ExchangeMembershipActions from "../../redux/actions/commonActions/exchangeMembershipActions";
 
 class ExchangeViewBar extends Component {
 	static propTypes = {
@@ -82,9 +81,9 @@ class ExchangeViewBar extends Component {
 	
 	componentDidMount() {
 		const {actions ,exchangeId } = this.props
-		const {getExchangeMembersByExId,getExchangeByExId} = actions
+		const {getExchangeMembershipByExchangeId,getExchangeByExId} = actions
 		getExchangeByExId(exchangeId)
-		// getExchangeMembersByExId (exchangeId)
+		// getExchangeMembershipByExchangeId ({exchangeId})
 		// this._getExchange(exchangeId)
 		// this._getCounts(exchangeId)
 		this._getCounts(exchangeId)
@@ -186,7 +185,7 @@ class ExchangeViewBar extends Component {
 
 const StateToProps = (state) => ({translate:state.intl.messages,router: state.router})
 const DispatchToProps = dispatch => ({actions:bindActionCreators({
-	getExchangeMembersByExId: exchangeActions.getExchangeMembersByExId,
+	getExchangeMembershipByExchangeId: ExchangeMembershipActions.getExchangeMembershipByExchangeId,
 	getExchangeByExId: exchangeActions.getExchangeByExId
 },dispatch)})
 
