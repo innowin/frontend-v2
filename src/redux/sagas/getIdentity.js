@@ -30,7 +30,8 @@ export function* getOrgIdentity(action) {
   const socketChannel = yield call(api.createSocketChannel, results.GET_IDENTITY)
   try {
     yield fork(api.get, urls.GET_IDENTITY, results.GET_IDENTITY, `?identity_organization=${organizationId}`)
-    const data = yield take(socketChannel)
+    const dataList = yield take(socketChannel)
+    const data = dataList[0]
     yield put({type: types.SUCCESS.ORG.GET_ORG_IDENTITY, payload: data})
     // return data because of throw data to father function that maybe use from this function
     return data

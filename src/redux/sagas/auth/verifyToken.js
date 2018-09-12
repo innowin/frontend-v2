@@ -11,11 +11,14 @@ export function* verifyToken(action) {
   const socketChannel = yield call(api.createSocketChannel, results.VERIFY_TOKEN)
   try {
     yield fork(api.post, urls.VERIFY_TOKEN, results.VERIFY_TOKEN, {token})
-    const data = yield take(socketChannel)
-    yield put({type:types.SUCCESS.AUTH.VERIFY_TOKEN, payload:{data}})
+    yield take(socketChannel)
+    console.log("token is credible")
   } catch (e) {
     const {message} = e
-    yield put({type:types.ERRORS.AUTH.VERIFY_TOKEN, payload:{message}})
+    if(message === "Error decoding signature."){
+      console.log("token is not correct and error message is:", message)
+      yield put({type:types.AUTH.SIGN_OUT, payload:{}})
+    }
   } finally {
     socketChannel.close()
   }

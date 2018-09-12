@@ -15,7 +15,6 @@ import {put, take, fork, call, takeEvery} from "redux-saga/effects"
 function* signIn(action) {
   const {payload} = action
   const {username, password, rememberMe, reject} = payload
-	console.log('sagas - auth -auth.js - before create Socket channel', payload)
 	const socketChannel = yield call(api.createSocketChannel, results.SIGN_IN)
   try {
 		yield fork(api.post, urls.SIGN_IN, results.SIGN_IN, {username, password})
@@ -34,7 +33,7 @@ function* signIn(action) {
       organizationId = organData.id
       organization = organData
       const organAction = {payload:{organizationId}}
-      identity = yield* call(getOrgIdentity, organAction)
+      identity = yield call(getOrgIdentity, organAction)
       const organLogoId = organization.organization_logo
       if (organLogoId) {
         yield put({type:types.COMMON.GET_FILE, payload:organLogoId})

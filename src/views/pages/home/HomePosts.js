@@ -73,7 +73,9 @@ class HomePosts extends Component {
     const {identity, profile, organization, user_type} = client
     const postOwnerId = (identity.identity_user && identity.identity_user.id)
       || (identity.identity_organization && identity.identity_organization.id)
-    const postOwnerImgId = (user_type === 'person') ? (profile.profile_media):(organization.organization_logo)
+    const postOwnerImgId = (user_type === 'person') ? (profile.profile_media):(
+      (organization && organization.organization_logo) || null
+    )
     return (
       <VerifyWrapper isLoading={isLoading} error={error} className={className}>
         {(exchangeId) ? (
