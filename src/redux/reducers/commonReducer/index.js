@@ -10,7 +10,7 @@ import post from './post'
 import social from './social'
 import storage from "redux-persist/lib/storage";
 import {persistReducer} from "redux-persist";
-import membership from "./membership";
+import exchangeMembership from "./exchangeMembership";
 
 
 const locationPersistConfig = {key: 'location', storage: storage}
@@ -29,5 +29,5 @@ export default combineReducers({
   badge,
   post,
   social,
-  membership,
+  exchangeMembership,
 })

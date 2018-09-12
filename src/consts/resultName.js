@@ -79,6 +79,11 @@ const results = {
       CREATE_FOLLOW: 'create-follow',
     },
 
+    EXCHANGE_MEMBERSHIP: {
+      DELETE_EXCHANGE_MEMBERSHIP: 'delete-exchange-membership',
+      GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY: 'get-exchange-membership-by-member-identity'
+    },
+
     // hashTag
     GET_HASH_TAGS: 'common-get-hashTags-result',
     CREATE_HASH_TAG_FOR: 'common-create-hashTag-for-object-result',
@@ -93,9 +98,7 @@ const results = {
   EXCHANGE: {
     GET_EXCHANGES: 'get-exchanges',
     GET_EXCHANGE_BY_ID: 'get-exchanges-{id}',
-    GET_EXCHANGES_BY_MEMBER_IDENTITY: 'getExchangesByMemberIdentity',
     GET_EXCHANGE_BY_EX_ID: 'get-exchange-by-ex-id',
-    DELETE_EXCHANGE_MEMBERSHIP: 'delete-exchange-membership',
     CREATE_EXCHANGE: 'create-exchange',
     ADD_TO_EXCHANGE: 'add-to-exchange',
   },

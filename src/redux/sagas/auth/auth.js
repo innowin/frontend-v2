@@ -47,6 +47,14 @@ function* signIn(action) {
     const userId = data.user.id
     const userData = data.user
     const profileData = data.profile
+    const profileMediaId = profileData.profile_media
+    const profileBannerId = profileData.profile_banner
+    if (profileMediaId) {
+      yield put({type: types.COMMON.GET_FILE, payload: {fileId: profileMediaId}})
+    }
+    if (profileBannerId && profileBannerId !== profileMediaId) {
+      yield put({type: types.COMMON.GET_FILE, payload: {fileId: profileBannerId}})
+    }
     yield put({type: types.SUCCESS.USER.GET_USER_BY_USER_ID, payload: {data: userData, userId}})
     yield put({type: types.SUCCESS.USER.GET_PROFILE_BY_USER_ID, payload: {data: profileData, userId}})
   }

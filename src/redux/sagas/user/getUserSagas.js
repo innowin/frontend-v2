@@ -33,14 +33,6 @@ function* getProfileByUserId(action) {
     const dataList = yield take(socketChannel)
     const data = dataList[0]
     yield put({type: types.SUCCESS.USER.GET_PROFILE_BY_USER_ID, payload: {data, userId}})
-    const profileMediaId = data.profile_media
-    const profileBannerId = data.profile_banner
-    if (profileMediaId) {
-      yield put({type: types.COMMON.GET_FILE, payload: {fileId: profileMediaId}})
-    }
-    if (profileBannerId && profileBannerId !== profileMediaId) {
-      yield put({type: types.COMMON.GET_FILE, payload: {fileId: profileBannerId}})
-    }
   } catch (e) {
     const {message} = e
     yield put({type: types.ERRORS.USER.GET_PROFILE_BY_USER_ID, payload: {message, userId}})

@@ -1,9 +1,9 @@
 import getExchangeByExId from './getExchangeByExId'
-import getExchangeIdentities from "./getExchangeIdentities"
+import getExchangeMembershipByMemberIdentity from "./getExchangeMembershipByMemberIdentity"
 import postsExchange from "./post"
 
 export default {
 	getExchangeByExId,
-  getExchangeIdentities,
+  getExchangeMembershipByMemberIdentity,
   postsExchange
 }

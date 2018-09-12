@@ -22,7 +22,7 @@ export const makeGetFolloweesSelector = (state, props) => {
             let id, img
             if(follow.follow_followed.identity_user){
               id = follow.follow_followed.identity_user
-              if(users[id] && users[id].profile.content.profile_media){
+              if(users[id] && users[id].profile && users[id].profile.content.profile_media){
                 img = users[id].profile.content.profile_media.file
               }
               else{
@@ -31,7 +31,7 @@ export const makeGetFolloweesSelector = (state, props) => {
             }
             else{
               id = follow.follow_followed.identity_organization
-              if(organs[id] && organs[id].organization.content.organization_logo){
+              if(organs[id] && organs[id].organization && organs[id].organization.content.organization_logo){
                 img = organs[id].organization.content.organization_logo.file
               }
               else{
@@ -42,6 +42,7 @@ export const makeGetFolloweesSelector = (state, props) => {
               ...follow.follow_followed,
               img: img,
               follow_id: follow.id,
+              follow_accepted: follow.follow_accepted,
             }
           })
           return [...followeeList]

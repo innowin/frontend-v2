@@ -11,11 +11,10 @@ export default {
       user: {},
       organization: null,
       posts: [], /* ids of posts that postIdentity of them is identity of this client*/
-      exchanges: [], /* ids of exchanges that this client is member of them*/
       social: {
         follows: [], /* ids of follows that this client is participates at them*/
       },
-      memberships: [], /* ids of exchanges that user is member of that*/
+      exchangeMemberships: [], /* ids of exchanges that user is member of that*/
       rememberMe: null,
       user_type: null,
       isLoggedIn: false,
@@ -61,8 +60,8 @@ export default {
            error:null
          },
        },
-       memberships: {
-          content:[1, 2, ...], list of membership id
+       exchangeMemberships: {
+          content:[1, 2, ...], list of exchangeMembership id
           isLoading:false,
           error:null
        }
@@ -242,9 +241,9 @@ export default {
         }
       },
     },
-    membership: {
+    exchangeMembership: {
       list: {
-        // [membershipId]: {...data, isLoading:false, error:errorObject}
+        // [exchangeMembershipId]: {...data, isLoading:false, error:errorObject}
       }
     }
   },

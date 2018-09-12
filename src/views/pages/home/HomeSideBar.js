@@ -2,12 +2,16 @@
 import * as React from "react"
 import {Component} from "react"
 import PropTypes from "prop-types"
-import ExchangeActions from "src/redux/actions/exchangeActions"
+import ExchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
 import type {exchangeType} from "src/consts/flowTypes/exchange/exchange.js"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import {Link} from "react-router-dom"
 import {SeeViewIcon, RefreshIcon, SettingIcon, DefaultExchangeIcon} from "src/images/icons"
+import {makeGetExchangeMembershipsSelector} from 'src/redux/selectors/common/social/getExchangeMemberships'
+import {makeGetFollowersSelector} from "../../../redux/selectors/common/social/getFollowers";
+import {makeGetFolloweesSelector} from "../../../redux/selectors/common/social/getFollowees";
+import {getMessages} from "../../../redux/selectors/translateSelector";
 
 const DescriptionSideBarItem = ({description = '', className = ""}) => {
   return (
@@ -84,7 +88,7 @@ type PropsHomeSideBar = {|
   isLoading: boolean,
   error: ?string,
   actions: {
-    getExchangeIdentities: Function
+    getExchangeMembershipByMemberIdentity: Function
   },
   identityType: string,
   id: number,
@@ -119,8 +123,8 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
 
   componentDidMount() {
     const {identityId, identityType, id} = this.props
-    const {getExchangeIdentities} = this.props.actions
-    getExchangeIdentities({identityId, membershipOwnerType: identityType, membershipOwnerId: id})
+    const {getExchangeMembershipByMemberIdentity} = this.props.actions
+    getExchangeMembershipByMemberIdentity({identityId, exchangeMembershipOwnerType: identityType, exchangeMembershipOwnerId: id})
   }
 
   render() {
@@ -149,27 +153,20 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
 }
 
 
-const mapStateToProps = state => {
-  const allExchanges = state.exchanges.list
-  const ids = state.auth.client.exchanges
-  const clientExchanges = ids.map((exchangeId) =>
-      (allExchanges[exchangeId] ? allExchanges[exchangeId].exchange.content : [])
-  )
-  const isLoading = ids.map((exchangeId) =>
-      (allExchanges[exchangeId] ? allExchanges[exchangeId].exchange.isLoading : false)
-  ).includes(true)
-  const error = ids.map((exchangeId) =>
-      (allExchanges[exchangeId] ? allExchanges[exchangeId].exchange.error : null)
-  )
-  return {
-    clientExchanges,
-    isLoading,
-    error
+const mapStateToProps = (state, ownProps) => {
+  const allExchanges = state.common.exchangeMembership.list
+  const ids = state.auth.client.exchangeMemberships
+  const getExchangesSelector = makeGetExchangeMembershipsSelector(state, ownProps)
+
+  return (state, props) => {
+    return {
+      clientExchanges: getExchangesSelector(state, props),
+    }
   }
 }
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    getExchangeIdentities: ExchangeActions.getExchangeIdentitiesByMemberIdentity
+    getExchangeMembershipByMemberIdentity: ExchangeMembershipActions.getExchangeMembershipByMemberIdentity
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(HomeSideBar)

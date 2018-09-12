@@ -4,9 +4,9 @@ const base = (state, action) => {
 const success = (state, action) => {
   const {data} = action.payload
   const indexedMembership = {}
-  data.forEach(membership => {
-    const prevPost = state.list[membership.id]
-    indexedMembership[membership.id] = {...prevPost, ...membership, error: null, isLoading: false}
+  data.forEach(exchangeMembership => {
+    const prevMembership = state.list[exchangeMembership.id]
+    indexedMembership[exchangeMembership.id] = {...prevMembership, ...exchangeMembership, error: null, isLoading: false}
   })
   return {
     ...state,
