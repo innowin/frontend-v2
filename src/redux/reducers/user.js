@@ -219,11 +219,11 @@ const users = (state = initialState.users, action) => {
       return slices.createFollow.success(state, action)
     /** -------------------------- get exchange membership by member identity  -------------------------> **/
     case types.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
-      return slices.getMembershipByMemberIdentity.base(state, action)
+      return slices.getExchangeMembershipByMemberIdentity.base(state, action)
     case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
-      return slices.getMembershipByMemberIdentity.success(state, action)
+      return slices.getExchangeMembershipByMemberIdentity.success(state, action)
     case types.ERRORS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
-      return slices.getMembershipByMemberIdentity.error(state, action)
+      return slices.getExchangeMembershipByMemberIdentity.error(state, action)
     /** -------------------------- delete exchange membership  -------------------------> **/
     case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.DELETE_EXCHANGE_MEMBERSHIP:
       return slices.deleteExchangeMembership.success(state, action)

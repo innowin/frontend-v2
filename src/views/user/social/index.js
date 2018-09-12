@@ -4,7 +4,6 @@ import {Component} from "react"
 import PropTypes from "prop-types"
 import {connect} from "react-redux"
 
-import ExchangeActions from "src/redux/actions/exchangeActions"
 import GetUserActions from '../../../redux/actions/user/getUserActions'
 import OrganizationActions from "src/redux/actions/organizationActions"
 import SocialActions from "../../../redux/actions/commonActions/socialActions"
@@ -25,7 +24,7 @@ type PropsSocials = {
   identityId: number,
   actions: {
     deleteExchangeMembership: Function,
-    getExchangesByMemberIdentity: Function,
+    getExchangeMembershipByMemberIdentity: Function,
     getFollowees: Function,
     getFollowers: Function,
     deleteFollow: Function,
@@ -115,13 +114,13 @@ class Socials extends Component<PropsSocials, StateSocials> {
 
   componentDidMount() {
     const {identityId, actions, userId, identityType} = this.props
-    const {getFollowees, getFollowers, getExchangesByMemberIdentity} = actions
+    const {getFollowees, getFollowers, getExchangeMembershipByMemberIdentity} = actions
 
     if (identityId) {
       const followOwnerIdentity = identityId
       const followOwnerId = userId
 
-      getExchangesByMemberIdentity({identityId, membershipOwnerType: identityType, membershipOwnerId: userId})
+      getExchangeMembershipByMemberIdentity({identityId, exchangeMembershipOwnerType: identityType, exchangeMembershipOwnerId: userId})
       getFollowers({followOwnerId, followOwnerIdentity, followOwnerType: identityType})
       getFollowees({followOwnerId, followOwnerIdentity, followOwnerType: identityType})
     }
@@ -190,7 +189,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    getExchangesByMemberIdentity: ExchangeActions.getExchangeIdentitiesByMemberIdentity,
+    getExchangeMembershipByMemberIdentity: ExchangeMembershipActions.getExchangeMembershipByMemberIdentity,
     deleteExchangeMembership: ExchangeMembershipActions.deleteExchangeMembership,
     getFollowees: SocialActions.getFollowees,
     getFollowers: SocialActions.getFollowers,

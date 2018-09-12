@@ -1,7 +1,7 @@
-import getMembershipByMemberIdentity from './getMembershipByMemberIdentity'
+import getExchangeMembershipByMemberIdentity from './getExchangeMembershipByMemberIdentity'
 import deleteExchangeMembership from './deleteExchangeMembership'
 
 export default {
-  getMembershipByMemberIdentity,
+  getExchangeMembershipByMemberIdentity,
   deleteExchangeMembership,
 }

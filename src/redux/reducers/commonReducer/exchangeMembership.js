@@ -7,7 +7,7 @@ const exchangeMembership = (state = initialState.common.exchangeMembership, acti
   switch (action.type) {
     /** -------------------------- get exchange membership by member identity -------------------------> **/
     case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
-      return slices.getMembershipByMemberIdentity.success(state, action)
+      return slices.getExchangeMembershipByMemberIdentity.success(state, action)
     /** -------------------------- delete exchange membership -------------------------> **/
     case types.COMMON.EXCHANGE_MEMBERSHIP.DELETE_EXCHANGE_MEMBERSHIP:
       return slices.deleteExchangeMembership.base(state, action)

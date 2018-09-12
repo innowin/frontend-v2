@@ -7,14 +7,14 @@ import constants from "src/consts/constants"
 
 const exchanges = (state = initialState.exchanges, action) => {
   const {postParentType} = action.payload || {}
-  const {getExchangeByExId, postsExchange, getExchangeIdentities} = exchangeSlice
+  const {getExchangeByExId, postsExchange, getExchangeMembershipByMemberIdentity} = exchangeSlice
   const {POST_PARENT} = constants
   switch (action.type) {
     /** --------------------  get exchange --------------------- **/
     case types.SUCCESS.EXCHANGE.GET_EXCHANGE_BY_EX_ID:
       return getExchangeByExId.success(state, action)
-    case types.SUCCESS.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY:
-      return getExchangeIdentities.success(state, action)
+    case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
+      return getExchangeMembershipByMemberIdentity.success(state, action)
 
     /** ---------------------  get exchange posts ---------------------------**/
     case types.SUCCESS.COMMON.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET:

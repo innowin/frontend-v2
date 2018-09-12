@@ -5,8 +5,9 @@ import constants from "../../../../consts/constants";
 const getExchangeMemberships = state => state.common.exchangeMembership.list
 
 const getUserMemberships = (state, props) => {
-  if (state && state.users && state.users[props.userId] && state.users[props.userId].exchangeMemberships)
-    return state.users[props.userId].exchangeMemberships.content
+  const id = props.id || props.userId
+  if (state && state.users && state.users[id] && state.users[id].exchangeMemberships)
+    return state.users[id].exchangeMemberships.content
   else return undefined
 }
 
@@ -15,10 +16,9 @@ export const makeGetExchangeMembershipsSelector = (state, props) => {
   return createSelector(
       [getExchangeMemberships, getUserMemberships],
       (memberships, userMemberships) => {
-        const {userId} = props
-        if (memberships && Object.keys(memberships).length !== 0 && memberships.constructor === Object && userMemberships && userId) {
+        const id = props.id || props.userId
+        if (memberships && Object.keys(memberships).length !== 0 && memberships.constructor === Object && userMemberships && id) {
           const arrayMemberships = helpers.getObjectOfArrayKeys(userMemberships, memberships)
-          console.log(arrayMemberships, 'arrrrrrrrr')
           return arrayMemberships.map(membership => {
             const membershipOwnerIdentity = membership.exchange_identity_related_identity
             const membershipOwnerId = membershipOwnerIdentity.identity_user ? membershipOwnerIdentity.identity_user.id : membershipOwnerIdentity.identity_organization.id

@@ -51,8 +51,7 @@ const urls = {
     GET_EXCHANGES: 'exchanges',
     GET_EXCHANGE_BY_EX_ID: 'exchanges',
     CREATE_EXCHANGE: 'exchanges',
-    GET_EXCHANGES_BY_MEMBER_IDENTITY: 'exchanges/identities',
-    GET_EXCHANGE_MEMBERS_BY_EX_ID: '/exchanges/identities/',
+    GET_EXCHANGE_MEMBERS_BY_EX_ID: 'exchanges/identities',
     ADD_TO_EXCHANGE:'exchanges/identities',
 
   },
@@ -103,6 +102,7 @@ const urls = {
 
     EXCHANGE_MEMBERSHIP: {
       DELETE_EXCHANGE_MEMBERSHIP: 'exchanges/identities',
+      GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY: 'exchanges/identities',
     }
   }
 }

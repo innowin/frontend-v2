@@ -61,4 +61,5 @@ export default [
 
   // exchangeMembership
   exchangeMembershipWatchers.watchDeleteExchangeMembership(),
+  exchangeMembershipWatchers.watchGetExchangeMembershipByMemberIdentity(),
 ]

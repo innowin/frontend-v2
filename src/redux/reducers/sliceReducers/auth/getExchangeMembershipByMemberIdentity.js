@@ -17,7 +17,7 @@ const success = (state, action) => {
     ...state,
     client: {
       ...client,
-      exchangeMemberships: [...previousMembership, ...arrayOfMembershipId]
+      exchangeMemberships: [...previousMembership, ...arrayOfMembershipId],
     }
   }
 }

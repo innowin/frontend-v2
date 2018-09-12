@@ -49,16 +49,6 @@ const auth = (state = initialState.auth, action) => {
           error: errorMessage
         }
       }
-    /** -------------------------- get client exchanges -------------------------> **/
-    case types.SUCCESS.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY:
-      const ArrayOfExchangeId = Object.keys(data).map(id => +id)
-      return {
-        ...state,
-        client: {
-          ...client,
-          exchanges: ArrayOfExchangeId
-        }
-      }
     /** -------------------------- update user by user id -------------------------> **/
     case types.SUCCESS.USER.UPDATE_USER_BY_USER_ID:
       return slices.updateUserByUserId.success(state, action)
@@ -93,7 +83,7 @@ const auth = (state = initialState.auth, action) => {
       return slices.createFollow.success(state, action)
     /** -------------------------- get exchange membership by member identity -------------------------> **/
     case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
-      return slices.getMembershipByMemberIdentity.success(state, action)
+      return slices.getExchangeMembershipByMemberIdentity.success(state, action)
     /** -------------------------- delete exchange membership  -------------------------> **/
     case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.DELETE_EXCHANGE_MEMBERSHIP:
       return slices.deleteExchangeMembership.success(state, action)
