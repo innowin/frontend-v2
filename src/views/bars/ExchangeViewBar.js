@@ -84,10 +84,17 @@ class ExchangeViewBar extends Component {
 		const {actions ,exchangeId } = this.props
 		const {getExchangeMembersByExId,getExchangeByExId} = actions
 		getExchangeByExId(exchangeId)
+		console.log('props of side bar exchange :',this.props)
 		// getExchangeMembersByExId (exchangeId)
 		// this._getExchange(exchangeId)
 		// this._getCounts(exchangeId)
 		this._getCounts(exchangeId)
+	}
+	componentDidUpdate(prevProps) {
+		const {exchanges,exchangeId} = this.props
+		if(exchanges && exchanges.list && exchanges.list[exchangeId]) {
+			// this.setState({...this.state,exchange :exchanges.list[exchangeId]})
+		}
 	}
 	
 	render() {
@@ -184,7 +191,7 @@ class ExchangeViewBar extends Component {
 	}
 }
 
-const StateToProps = (state) => ({translate:state.intl.messages,router: state.router})
+const StateToProps = (state,props) => ({translate:state.intl.messages,router: state.router, exchanges:state.exchanges})
 const DispatchToProps = dispatch => ({actions:bindActionCreators({
 	getExchangeMembersByExId: exchangeActions.getExchangeMembersByExId,
 	getExchangeByExId: exchangeActions.getExchangeByExId
