@@ -50,10 +50,9 @@ const urls = {
   EXCHANGE: {
     GET_EXCHANGES: 'exchanges',
     GET_EXCHANGE_BY_EX_ID: 'exchanges',
+    CREATE_EXCHANGE: 'exchanges',
     GET_EXCHANGES_BY_MEMBER_IDENTITY: 'exchanges/identities',
     GET_EXCHANGE_MEMBERS_BY_EX_ID: '/exchanges/identities/',
-    DELETE_EXCHANGE_MEMBERSHIP: 'exchanges/identities',
-    CREATE_EXCHANGE: 'exchanges',
     ADD_TO_EXCHANGE:'exchanges/identities',
 
   },
@@ -101,6 +100,10 @@ const urls = {
       UPDATE_FOLLOW: 'organizations/follows',
       CREATE_FOLLOW: 'organizations/follows',
     },
+
+    EXCHANGE_MEMBERSHIP: {
+      DELETE_EXCHANGE_MEMBERSHIP: 'exchanges/identities',
+    }
   }
 }
 export default urls

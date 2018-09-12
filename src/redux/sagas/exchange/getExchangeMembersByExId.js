@@ -16,11 +16,11 @@ export function* getExchangeMembersByExId(action) {
 		)
 		const data = yield take(socketChannel)
 		
-		yield put({type: types.SUCCESS.EXCHANGE.DELETE_EXCHANGE_MEMBERSHIP, payload: {data}})
+		yield put({type: types.SUCCESS.EXCHANGE.GET_EXCHANGE_MEMBERS_BY_EX_ID, payload: {data}})
 	} catch (err) {
 		const {message} = err
 		yield put({
-			type: types.ERRORS.EXCHANGE.DELETE_EXCHANGE_MEMBERSHIP,
+			type: types.ERRORS.EXCHANGE.GET_EXCHANGE_MEMBERS_BY_EX_ID,
 			payload: {message}
 		})
 	} finally {

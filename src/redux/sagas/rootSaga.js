@@ -30,7 +30,6 @@ import {
   watchGetExchangesByMemberIdentity,
   watchGetExchangeByExId,
   watchGetExchangeMembersByExId,
-  watchDeleteExchangeMembership,
   watchAddToExchange,
   watchCreateExchange,
 } from "./exchange"
@@ -78,7 +77,6 @@ const rootSaga = function* () {
     watchGetExchangeByExId(),
     watchGetExchangesByMemberIdentity(),
     watchGetExchangeMembersByExId(),
-    watchDeleteExchangeMembership(),
     watchUpdateCustomer(),
     watchAgencyRequest(),
     watchAddToExchange(),

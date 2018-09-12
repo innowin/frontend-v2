@@ -4,12 +4,12 @@ const base = (state, action) => {
 const success = (state, action) => {
   const {data, identityId} = action.payload || {}
   const {client} = state
-  const previousMembership = (client && client.memberships) || []
+  const previousMembership = (client && client.exchangeMembership) || []
 
   const arrayOfMembershipId = []
-  data.map(membership => {
-    if (identityId === state.client.identity.id && (!previousMembership.includes(membership.id))) {
-      return arrayOfMembershipId.push(membership.id)
+  data.map(exchangeMembership => {
+    if (identityId === state.client.identity.id && (!previousMembership.includes(exchangeMembership.id))) {
+      return arrayOfMembershipId.push(exchangeMembership.id)
     }
     return arrayOfMembershipId
   })
@@ -17,7 +17,7 @@ const success = (state, action) => {
     ...state,
     client: {
       ...client,
-      memberships: [...previousMembership, ...arrayOfMembershipId]
+      exchangeMemberships: [...previousMembership, ...arrayOfMembershipId]
     }
   }
 }

@@ -10,16 +10,19 @@ export function* getExchangeIdentitiesByMemberIdentity(action) {
   const socketChannel = yield call(api.createSocketChannel, results.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY)
   try {
     yield fork(
-      api.get,
-      urls.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY,
-      results.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY,
-      `?identity_id=${identityId}`
+        api.get,
+        urls.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY,
+        results.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY,
+        `?identity_id=${identityId}`
     )
     const data1 = yield take(socketChannel)
     const data2 = data1.map(exchangeIdentity => (exchangeIdentity.exchange_identity_related_exchange))
     const data = helperFunctions.arrayToDefaultObject(data2)
     yield put({type: types.SUCCESS.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY, payload: {data}})
-    yield put({type: types.SUCCESS.COMMON.MEMBERSHIP.GET_MEMBERSHIP_BY_MEMBER_IDENTITY, payload: {data: data1, membershipOwnerType, membershipOwnerId, identityId}})
+    yield put({
+      type: types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY,
+      payload: {data: data1, exchangeMembershipOwnerId: membershipOwnerId, exchangeMembershipOwnerType: membershipOwnerType, identityId}
+    })
   } catch (e) {
     const {message} = e
     yield put({

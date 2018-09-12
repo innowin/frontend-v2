@@ -91,9 +91,12 @@ const auth = (state = initialState.auth, action) => {
     /** -------------------------- delete follow  -------------------------> **/
     case types.SUCCESS.COMMON.SOCIAL.CREATE_FOLLOW:
       return slices.createFollow.success(state, action)
-    /** -------------------------- get membership by member identity -------------------------> **/
-    case types.SUCCESS.COMMON.MEMBERSHIP.GET_MEMBERSHIP_BY_MEMBER_IDENTITY:
+    /** -------------------------- get exchange membership by member identity -------------------------> **/
+    case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
       return slices.getMembershipByMemberIdentity.success(state, action)
+    /** -------------------------- delete exchange membership  -------------------------> **/
+    case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.DELETE_EXCHANGE_MEMBERSHIP:
+      return slices.deleteExchangeMembership.success(state, action)
     /** -------------------------- reset  -------------------------> **/
     case types.RESET:
       return initialState.auth

@@ -1,5 +1,6 @@
 import createFollow from './createFollow'
 import createPost from './createPost'
+import deleteExchangeMembership from './deleteExchangeMembership'
 import deleteFollow from './deleteFollow'
 import deletePost from './deletePost'
 import getFollowees from './getFollowees'
@@ -13,6 +14,7 @@ import verifyToken from './verifyToken'
 export default {
   createFollow,
   createPost,
+  deleteExchangeMembership,
   deleteFollow,
   deletePost,
   getFollowees,

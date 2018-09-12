@@ -1,16 +1,16 @@
 import constants from "../../../../consts/constants";
 
 const base = (state, action) => {
-  const {membershipOwnerId, membershipOwnerType} = action.payload || {}
+  const {exchangeMembershipOwnerId, exchangeMembershipOwnerType} = action.payload || {}
   const defaultObject2 = { content: [], isLoading: false, error: null }
-  const previousMembership = (state[membershipOwnerId] && state[membershipOwnerId].memberships) || defaultObject2
+  const previousMembership = (state[exchangeMembershipOwnerId] && state[exchangeMembershipOwnerId].exchangeMemberships) || defaultObject2
 
-  if(membershipOwnerType === constants.USER_TYPES.PERSON){
+  if(exchangeMembershipOwnerType === constants.USER_TYPES.PERSON){
     return {
       ...state,
-      [membershipOwnerId]: {
-        ...state[membershipOwnerId],
-        memberships: {
+      [exchangeMembershipOwnerId]: {
+        ...state[exchangeMembershipOwnerId],
+        exchangeMemberships: {
           ...previousMembership,
           isLoading: true,
           error: null
@@ -24,17 +24,17 @@ const base = (state, action) => {
 }
 
 const success = (state, action) => {
-  const {membershipOwnerId, membershipOwnerType, data} = action.payload || {}
+  const {exchangeMembershipOwnerId, exchangeMembershipOwnerType, data} = action.payload || {}
   const defaultObject2 = { content: [], isLoading: false, error: null }
-  const previousMembership = (state[membershipOwnerId] && state[membershipOwnerId].memberships) || defaultObject2
+  const previousMembership = (state[exchangeMembershipOwnerId] && state[exchangeMembershipOwnerId].exchangeMemberships) || defaultObject2
 
-  if(membershipOwnerType === constants.USER_TYPES.PERSON) {
-    const arrayOfMembershipId = data.map(membership => membership.id)
+  if(exchangeMembershipOwnerType === constants.USER_TYPES.PERSON) {
+    const arrayOfMembershipId = data.map(exchangeMembership => exchangeMembership.id)
     return {
       ...state,
-      [membershipOwnerId]: {
-        ...state[membershipOwnerId],
-        memberships: {
+      [exchangeMembershipOwnerId]: {
+        ...state[exchangeMembershipOwnerId],
+        exchangeMemberships: {
           ...previousMembership,
           content: [...new Set([...previousMembership.content, ...arrayOfMembershipId])],
           isLoading: false,
@@ -49,16 +49,16 @@ const success = (state, action) => {
 }
 
 const error = (state, action) => {
-  const {membershipOwnerId, membershipOwnerType, message} = action.payload || {}
+  const {exchangeMembershipOwnerId, exchangeMembershipOwnerType, message} = action.payload || {}
   const defaultObject2 = { content: [], isLoading: false, error: null }
-  const previousMembership = (state[membershipOwnerId] && state[membershipOwnerId].memberships) || defaultObject2
+  const previousMembership = (state[exchangeMembershipOwnerId] && state[exchangeMembershipOwnerId].exchangeMemberships) || defaultObject2
 
-  if(membershipOwnerType === constants.USER_TYPES.PERSON) {
+  if(exchangeMembershipOwnerType === constants.USER_TYPES.PERSON) {
     return {
       ...state,
-      [membershipOwnerId]: {
-        ...state[membershipOwnerId],
-        memberships: {
+      [exchangeMembershipOwnerId]: {
+        ...state[exchangeMembershipOwnerId],
+        exchangeMemberships: {
           ...previousMembership,
           isLoading: false,
           error: message

@@ -15,11 +15,6 @@ const getExchangeMembersByExId = (id) => ({
   payload: {id}
 })
 
-const deleteExchangeMembership = ({membershipId, membershipOwnerId, membershipOwnerType}) => ({
-  type: types.EXCHANGE.DELETE_EXCHANGE_MEMBERSHIP,
-  payload: {membershipId, membershipOwnerId, membershipOwnerType}
-})
-
 const createExchange = (formValues, finished) => ({
   type: types.EXCHANGE.CREATE_EXCHANGE,
   payload: {formValues, finished}
@@ -38,7 +33,6 @@ const ExchangeActions = {
   getExchangeIdentitiesByMemberIdentity,
   getExchangeByExId,
   getExchangeMembersByExId,
-  deleteExchangeMembership,
   addToExchange,
   createExchange
 }
