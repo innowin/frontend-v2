@@ -27,11 +27,7 @@ import {watchSignIn, watchSignOut, watchSignInError} from './auth/auth'
 import authWatchers from './auth/auth'
 import watchUsernameCheck from "./user/checkUsernameSaga"
 import {
-  watchGetExchangesByMemberIdentity,
   watchGetExchangeByExId,
-  watchGetExchangeMembersByExId,
-  watchDeleteExchangeMembership,
-  watchAddToExchange,
   watchCreateExchange,
 } from "./exchange"
 import {watchGetUserByUserId, watchGetProfileByUserId, watchGetUsers} from "./user/getUserSagas"
@@ -76,12 +72,8 @@ const rootSaga = function* () {
 
     //Exchange sagas
     watchGetExchangeByExId(),
-    watchGetExchangesByMemberIdentity(),
-    watchGetExchangeMembersByExId(),
-    watchDeleteExchangeMembership(),
     watchUpdateCustomer(),
     watchAgencyRequest(),
-    watchAddToExchange(),
     watchCreateExchange(),
 
     // user watchers

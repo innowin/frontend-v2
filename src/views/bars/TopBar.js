@@ -27,7 +27,7 @@ type PropsTopBar = {|
   isLoggedIn: boolean,
   clientUser: userType,
   clientProfile: userProfileType,
-  profileMedia: ? string,
+  clientImgLink: ? string,
   clientOrganization: ?shortOrganizationType,
   actions: {
     signOut: Function,
@@ -123,7 +123,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   }
 
   render() {
-    const {collapseClassName, clientUser, clientOrganization, translate, profileMedia} = this.props
+    const {collapseClassName, clientUser, clientOrganization, translate, clientImgLink} = this.props
     const {collapse, collapseProfile, productWizardModalIsOpen} = this.state
     return (
       <div>
@@ -151,8 +151,8 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
           <img className="centerImgTopBar" src={logoDaneshBoom} alt="profile_img"/>
           <div className="dir-ltr d-flex flex-row">
             <div className="-ProfTopBarImg">
-              {!profileMedia ? <DefaultUserIcon onClickFunc={this._toggleProfile}/> :
-                <img src={profileMedia} alt="Person icon" onClick={this._toggleProfile}/>}
+              {!clientImgLink ? <DefaultUserIcon onClickFunc={this._toggleProfile}/> :
+                <img src={clientImgLink} alt="Person icon" onClick={this._toggleProfile}/>}
             </div>
             <div className="ml-4 -searchInput d-flex align-items-center">
               <i className="fa fa-search" aria-hidden="true"/>
@@ -195,22 +195,18 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 }
 
 const mapStateToProps = state => {
-  // const {identity, profile, organization, user_type} = state.auth.client
-  // const postOwnerId = (identity.identity_user && identity.identity_user.id)
-  //   || (identity.identity_organization && identity.identity_organization.id)
-  // const postOwnerImgId = (user_type === 'person') ? (profile.profile_media):(
-  //   (organization && organization.organization_logo) || null
-  // )
-  const profileMediaId = state.auth.client.profile.profile_media
-  const profileMedia = (
-    profileMediaId && state.common.file.list[profileMediaId]
-    && state.common.file.list[profileMediaId].file
-  ) || null
+  const {profile, organization, user_type} = state.auth.client
+  const clientImgId = (user_type === 'person') ? (profile.profile_media):(
+    (organization && organization.organization_logo) || null
+  )
+  const clientImgLink = (clientImgId &&
+    state.common.file.list[clientImgId] &&
+    state.common.file.list[clientImgId].file) || null
   return {
     isLoggedIn: state.auth.client.isLoggedIn,
     clientUser: state.auth.client.user,
     clientProfile: state.auth.client.profile,
-    profileMedia,
+    clientImgLink,
     clientOrganization: state.auth.client.organization,
     translate: state.intl.messages.topBar || {},
   }

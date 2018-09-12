@@ -6,7 +6,6 @@ import BadgeActions from "src/redux/actions/commonActions/badgeActions"
 import Certificates from "./organization/certificates/index"
 import ChatBar from "./bars/ChatBar"
 import Customers from "./organization/customers/index"
-import FileActions from "src/redux/actions/commonActions/fileActions"
 import OrganizationActions from "src/redux/actions/organizationActions"
 import Posts from "src/views/common/post/index"
 import PrivateRoute from "../consts/PrivateRoute"
@@ -41,7 +40,6 @@ type PropsOrganization = {
 	},
 	actions: {
 		getOrganizationByOrganId: Function,
-		getFile: Function,
 		getOrganBadges: Function
 	}
 }
@@ -67,8 +65,7 @@ export class Organization extends Component<PropsOrganization> {
 	}
 	
 	render() {
-		const {organObject, badgesObject, badges, organLogo, organBanner, translate, actions} = this.props
-		const {getFile} = actions
+		const {organObject, badgesObject, badges, organLogo, organBanner, translate} = this.props
 		const {path, url, params} = this.props.match
 		const organizationId = params.id
 		const isLoading = organObject.isLoading || badgesObject.isLoading //TODO mohsen: added get files isLoading
@@ -80,7 +77,6 @@ export class Organization extends Component<PropsOrganization> {
 						<OrganSideBar translate={translate}
 													organ={organObject.content}
 													badges={badges}
-													getFile={getFile}
 													organLogo={organLogo}
 													organBanner={organBanner}
 													className="-right-sidebar-wrapper user-sidebar-width pr-0 pl-0"
@@ -153,7 +149,6 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => ({
 	actions: bindActionCreators({
 		getOrganizationByOrganId: OrganizationActions.getOrganization,
-		getFile: FileActions.getFile,
 		getOrganBadges: BadgeActions.getOrganBadges
 	}, dispatch)
 })

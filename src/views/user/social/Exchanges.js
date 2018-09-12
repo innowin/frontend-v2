@@ -18,7 +18,17 @@ type PropsExchangesView = {
 }
 
 export const Exchanges = (props: PropsExchangesView) => {
-  const {exchanges, edit, showEdit, removeMembership, translate} = props
+  const {exchanges, edit, showEdit, translate} = props
+
+  const removeMembership = (exchange) => {
+    const {removeMembership} = props
+    const exchangeMembershipId = exchange.membership_id
+    const exchangeMembershipOwnerId = exchange.membership_owner_id
+    const exchangeMembershipOwnerType = exchange.membership_owner_type
+    console.log(props, 'ppppppppppp')
+    removeMembership({exchangeMembershipId, exchangeMembershipOwnerId, exchangeMembershipOwnerType})
+  }
+
   return (
       <ItemWrapper icon={<SocialIcon/>}>
         <ItemHeader title={translate['Joined exchanges'] + ` (${exchanges.length})`} showEdit={showEdit}/>
@@ -41,7 +51,7 @@ export const Exchanges = (props: PropsExchangesView) => {
                         <div className="description">{exchange.description}</div>
                       </div>
                       {(edit) ?
-                          <FontAwesome name="trash" className='remove-follow pulse' onClick={() => removeMembership({identityId: exchange.id})}/>
+                          <FontAwesome name="trash" className='remove-follow pulse' onClick={() => removeMembership(exchange)}/>
                           : ('')
                       }
                     </div>

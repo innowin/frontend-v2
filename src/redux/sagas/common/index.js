@@ -7,6 +7,7 @@ import productWatchers from "./product/product";
 import fileWatchers from "./file/file";
 import postWatchers from './post/post'
 import socialWatchers from './social/social'
+import exchangeMembershipWatchers from './exchangeMembership/exchangeMembership'
 
 export default [
   // product watchers
@@ -57,4 +58,10 @@ export default [
   socialWatchers.watchDeleteFollow(),
   socialWatchers.watchUpdateFollow(),
   socialWatchers.watchCreateFollow(),
+
+  // exchangeMembership
+  exchangeMembershipWatchers.watchDeleteExchangeMembership(),
+  exchangeMembershipWatchers.watchGetExchangeMembershipByMemberIdentity(),
+  exchangeMembershipWatchers.watchGetExchangeMembershipByExchangeId(),
+  exchangeMembershipWatchers.watchCreateExchangeMembership(),
 ]

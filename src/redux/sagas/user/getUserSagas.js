@@ -14,10 +14,10 @@ function* getUserByUserId(action) {
   try {
     yield fork(api.get, urls.USER.GET_USER_BY_USER_ID, results.USER.GET_USER_BY_USER_ID, `${userId}`)
     const data = yield take(socketChannel)
-    yield put({type:types.SUCCESS.USER.GET_USER_BY_USER_ID, payload:{data, userId}})
+    yield put({type: types.SUCCESS.USER.GET_USER_BY_USER_ID, payload: {data, userId}})
   } catch (e) {
     const {message} = e
-    yield put({type:types.ERRORS.USER.GET_USER_BY_USER_ID, payload:{message, userId}})
+    yield put({type: types.ERRORS.USER.GET_USER_BY_USER_ID, payload: {message, userId}})
   } finally {
     socketChannel.close()
   }
@@ -32,10 +32,10 @@ function* getProfileByUserId(action) {
     yield fork(api.get, urls.USER.GET_PROFILE_BY_USER_ID, results.USER.GET_PROFILE_BY_USER_ID + userId, `?profile_user=${userId}`)
     const dataList = yield take(socketChannel)
     const data = dataList[0]
-    yield put({type:types.SUCCESS.USER.GET_PROFILE_BY_USER_ID, payload:{data, userId}})
+    yield put({type: types.SUCCESS.USER.GET_PROFILE_BY_USER_ID, payload: {data, userId}})
   } catch (e) {
     const {message} = e
-    yield put({type:types.ERRORS.USER.GET_PROFILE_BY_USER_ID, payload:{message, userId}})
+    yield put({type: types.ERRORS.USER.GET_PROFILE_BY_USER_ID, payload: {message, userId}})
   } finally {
     socketChannel.close()
   }
@@ -43,21 +43,21 @@ function* getProfileByUserId(action) {
 
 function* getUsers(action) {
   const {payload} = action
-  let socketChannel 
-  try{
-     socketChannel = yield call(api.createSocketChannel, results.USER.GET_USERS)
-  }catch(e){
+  let socketChannel
+  try {
+    socketChannel = yield call(api.createSocketChannel, results.USER.GET_USERS)
+  } catch (e) {
     console.log(e)
   }
-  
+
   try {
     yield fork(api.get, urls.USER.GET_USERS, results.USER.GET_USERS, `?limit=50`)
     const dataList = yield take(socketChannel)
     const data = dataList.results
-    yield put({type:types.SUCCESS.USER.GET_USERS, payload:{data}})
+    yield put({type: types.SUCCESS.USER.GET_USERS, payload: {data}})
   } catch (e) {
     const {message} = e
-    yield put({type:types.ERRORS.USER.GET_USERS, payload:{message}})
+    yield put({type: types.ERRORS.USER.GET_USERS, payload: {message}})
   } finally {
     socketChannel.close()
   }
@@ -75,6 +75,6 @@ export function* watchGetProfileByUserId() {
   yield takeEvery(types.USER.GET_PROFILE_BY_USER_ID, getProfileByUserId)
 }
 
-export function* watchGetUsers(){
+export function* watchGetUsers() {
   yield takeEvery(types.USER.GET_USERS, getUsers)
 }

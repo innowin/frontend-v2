@@ -23,6 +23,7 @@ import {
   PROGRESSIVE_STATUS_CHOICES,
 } from './createExchangeData'
 import NextPrevBtns from '../adding-contribution/nextAndPrevBtns'
+import ExchangeMembershipActions from "../../../redux/actions/commonActions/exchangeMembershipActions";
 class  PageOne extends Component{
   constructor(props){
     super(props)
@@ -505,10 +506,10 @@ class CreateExchangeForm extends Component {
     const addedUsers = exchangeObj.addedUsers
     exchangeObj.addedUsers = undefined
     exchangeObj.members_count = addedUsers.length
-    const {addToExchange, createExchange} = this.props.actions;
+    const {createExchangeMembership, createExchange} = this.props.actions;
     const users = this.props.users
     for ( let i = 0 ; i < addedUsers.length ; i++){
-      addToExchange(users[addedUsers[i].user.id].identity.content.id)
+      createExchangeMembership({identityId: users[addedUsers[i].user.id].identity.content.id})
     }
     
     this.setState({...this.state,isLoading:true})
@@ -665,7 +666,7 @@ actions: bindActionCreators({
   getUsers: GetUserActions.getUsers ,
   getIdentityByUserId : GetUserActions.getIdentityByUserId,
   createExchange : ExchangeActions.createExchange,
-  addToExchange : ExchangeActions.addToExchange,
+  createExchangeMembership : ExchangeMembershipActions.createExchangeMembership,
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(CreateExchangeForm)
