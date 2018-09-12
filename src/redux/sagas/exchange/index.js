@@ -6,7 +6,7 @@ import {takeEvery} from "redux-saga/effects"
 import {createExchange} from './createExchange'
 import {deleteExchangeMembership} from './deleteExchangeMembership'
 import {getExchangeByExId} from "./getExchangeByExId"
-import {getExchangeIdentitiesByMemberIdentity} from "./getExchangeIdentities"
+import {getExchangeIdentitiesByMemberIdentity} from "./getExchangeIdentitiesByMemberIdentity"
 import {getExchangeMembersByExId} from './getExchangeMembersByExId'
 import {addToExchange} from './addToExchange'
 
