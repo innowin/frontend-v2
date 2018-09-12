@@ -69,22 +69,17 @@ class HomePosts extends Component {
   render() {
     const {isLoading, error} = this.state
     const {client, posts, exchangeId, className, actions} = this.props
+    const {clientId, clientImgId, clientIdentity, clientType} = client
     const {deletePost, updatePost} = actions
-    const {identity, profile, organization, user_type} = client
-    const postOwnerId = (identity.identity_user && identity.identity_user.id)
-      || (identity.identity_organization && identity.identity_organization.id)
-    const postOwnerImgId = (user_type === 'person') ? (profile.profile_media):(
-      (organization && organization.organization_logo) || null
-    )
     return (
       <VerifyWrapper isLoading={isLoading} error={error} className={className}>
         {(exchangeId) ? (
           <div>
             <HomeCreatePost
-              postIdentityId={identity.id}
-              postOwnerId={postOwnerId}
-              postOwnerType={user_type}
-              postOwnerImgId={postOwnerImgId}
+              postIdentityId={clientIdentity.id}
+              postOwnerId={clientId}
+              postOwnerType={clientType}
+              postOwnerImgId={clientImgId}
               postParentId={exchangeId}
               postParentType={constant.POST_PARENT.EXCHANGE}
               handleErrorLoading={this._handleErrorLoading}
@@ -117,6 +112,12 @@ class HomePosts extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const client = state.auth.client
+  const {identity, profile, organization, user_type} = client
+  const clientId = (identity.identity_user && identity.identity_user.id)
+    || (identity.identity_organization && identity.identity_organization.id)
+  const clientImgId = (user_type === 'person') ? (profile.profile_media):(
+    (organization && organization.organization_logo) || null
+  )
   const exchangeId = ownProps.exchangeId
   const allPosts = state.common.post.list
   const allExchange = state.exchanges.list
@@ -124,7 +125,12 @@ const mapStateToProps = (state, ownProps) => {
     && allExchange[exchangeId].posts.content) || []
   const posts = exchangePostsIds.map(postId => (allPosts[postId]))
   return {
-    client,
+    client:{
+      clientId,
+      clientImgId,
+      clientType: user_type,
+      clientIdentity:identity
+    },
     posts
   }
 }
