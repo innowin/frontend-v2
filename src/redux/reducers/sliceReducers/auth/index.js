@@ -8,7 +8,6 @@ import getMembershipByMemberIdentity from './getMembershipByMemberIdentity'
 import getPostByIdentity from './getPostByIdentity'
 import updateProfileByProfileId from './updateProfileByProfileId'
 import updateUserByUserId from './updateUserByUserId'
-import verifyToken from './verifyToken'
 
 export default {
   createFollow,
@@ -20,6 +19,5 @@ export default {
   getMembershipByMemberIdentity,
   getPostByIdentity,
   updateProfileByProfileId,
-  updateUserByUserId,
-  verifyToken,
+  updateUserByUserId
 }

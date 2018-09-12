@@ -62,11 +62,6 @@ const auth = (state = initialState.auth, action) => {
     /** -------------------------- update user by user id -------------------------> **/
     case types.SUCCESS.USER.UPDATE_USER_BY_USER_ID:
       return slices.updateUserByUserId.success(state, action)
-    /** -------------------------- verify token -------------------------> **/
-    case types.SUCCESS.AUTH.VERIFY_TOKEN:
-      return slices.verifyToken.success(state, action)
-    case types.ERRORS.AUTH.VERIFY_TOKEN:
-      return slices.verifyToken.error(state, action)
     /** -------------------------- update profile by profile id -------------------------> **/
     case types.SUCCESS.USER.UPDATE_PROFILE_BY_PROFILE_ID:
       return slices.updateProfileByProfileId.success(state, action)

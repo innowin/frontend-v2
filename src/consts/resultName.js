@@ -1,6 +1,6 @@
 const results = {
   SIGN_IN: 'sign-in',
-  VERIFY_TOKEN: 'verify',
+  VERIFY_TOKEN: 'verify-token',
   GET_IDENTITY: 'get-identity',
   USER: {
     USERNAME_CHECK: "USERNAME_CHECK",
