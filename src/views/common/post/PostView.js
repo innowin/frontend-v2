@@ -45,42 +45,50 @@ class PostView extends Component {
     const postIcon = post.post_type === 'post'
     // TODO mohsen: handle isLoading && error by redux
 
+    const name = user
+        ? ((user.first_name || user.last_name) ? user.first_name + ' ' + user.last_name : undefined)
+        : (organization ? (organization.nike_name || organization.official_name || undefined) : undefined)
+
     return (
         <VerifyWrapper isLoading={false} error={false}>
           <div className="-itemWrapperPost">
-            <div className="-img-col">
-              {
-                (!post_related_identity_image) ? (<DefaultUserIcon/>) : (
-                    <img className="rounded-circle" src={post_related_identity_image.file} alt=""/>)
-              }
-            </div>
-            <div className="-content-col">
-              <div className="-item-headerPost">
-                <div className="-item-titlePost">
-                  <span>
-                    {
-                      ((postIcon) && <i className="fa fa-share-alt" aria-hidden="true"/>) ||
-                      ((supplyIcon) && <SupplyIcon height="22px"/>) ||
-                      ((demandIcon) && <DemandIcon height="24px"/>)
-                    }
+            <div className="-item-headerPost">
+              <div className="-img-col">
+                {!post_related_identity_image
+                    ? (<DefaultUserIcon/>)
+                    : (<img className="rounded-circle" src={post_related_identity_image.file} alt=""/>)
+                }
+              </div>
+              <div className="-item-titlePost">
+                <div>
+                  {name && <span className="post-name">{name}</span>}
+                  <span className="-green2 post-username">
+                    {user ? user.username : (organization ? organization.username : '')}
                   </span>
-                  <span className="mr-2 post-name">
-                    {user ? user.first_name + ' ' + user.last_name : (organization ? (organization.nike_name || organization.official_name) : '')}
-                  </span>
-                  <span className="mr-2 -green2 post-username">{
-                    (user) ? user.username : (organization ? organization.username : '')
-                  }</span>
-                  <Moment className="mr-3 -green2 post-date" element="span" fromNow ago>{post.created_time}</Moment>
-                  <span className="mr-1 -green2 post-date">{translate['Last']}</span>
                 </div>
-                <div onClick={showEdit} className="-item-edit-btnPost"><EditIcon/></div>
+                <div className='post-date'>
+                  <Moment className="-green2" element="span" fromNow ago>{post.created_time}</Moment>
+                  <span className="-green2">{translate['Last']}</span>
+                </div>
               </div>
 
-              <div className="description post-content">
-                {post.post_description}
+              <div onClick={showEdit} className="-item-edit-btnPost"><EditIcon/></div>
+            </div>
+            <div className="post-content">
+              {post.post_description}
+            </div>
+            <div className="-item-footerPost">
+              <div className='footer-part'>
+                <span>{
+                  ((postIcon) && <i className="fa fa-share-alt" aria-hidden="true"/>) ||
+                  ((supplyIcon) && <SupplyIcon height="19px"/>) ||
+                  ((demandIcon) && <DemandIcon height="22px"/>)}
+                </span>
               </div>
-
-              <div className="-item-footerPost">
+              <div className='post-details footer-part'>
+                <div>
+                  <i className="fa fa-ellipsis-h cursor-pointer" aria-hidden="true" onClick={this._addViewer}/>
+                </div>
                 <div>
                   <span className="ml-1">{viewerCount}</span>
                   <i className="fa fa-eye" aria-hidden="true"/>
@@ -89,9 +97,6 @@ class PostView extends Component {
                   <span className="ml-1">\</span>
                   <i className="fa fa-share" aria-hidden="true"/>
                 </div>
-                <span>
-                  <i className="fa fa-ellipsis-h cursor-pointer" aria-hidden="true" onClick={this._addViewer}/>
-                </span>
               </div>
             </div>
           </div>
@@ -107,8 +112,8 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    getPostViewerCount:PostActions.getPostViewerCount,
+    getPostViewerCount: PostActions.getPostViewerCount,
     setPostViewer: PostActions.setPostViewer
-    }, dispatch)
+  }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(PostView)

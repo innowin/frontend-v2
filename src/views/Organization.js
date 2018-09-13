@@ -14,7 +14,7 @@ import PropTypes from "prop-types"
 import Social from "src/views/organization/social/index"
 import TopBar from "./bars/TopBar"
 import type {badgeType} from "src/consts/flowTypes/common/badges"
-import type {listOfIdObject, organStateObject} from "src/consts/flowTypes/stateObjectType"
+import type {identityStateObject, listOfIdObject, organStateObject} from "src/consts/flowTypes/stateObjectType"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import {ContributionIcon, postIcon, CertificateIcon, InformationIcon, SocialIcon, customerIcon} from "../images/icons"
@@ -41,7 +41,8 @@ type PropsOrganization = {
 	actions: {
 		getOrganizationByOrganId: Function,
 		getOrganBadges: Function
-	}
+	},
+  identityObject: identityStateObject,
 }
 
 export class Organization extends Component<PropsOrganization> {
@@ -53,7 +54,8 @@ export class Organization extends Component<PropsOrganization> {
 		organLogo: PropTypes.string,
 		translate: PropTypes.object.isRequired,
 		match: PropTypes.object.isRequired,
-		actions: PropTypes.object.isRequired
+		actions: PropTypes.object.isRequired,
+    identityObject: PropTypes.object.isRequired,
 	}
 	
 	componentDidMount() {
@@ -65,7 +67,7 @@ export class Organization extends Component<PropsOrganization> {
 	}
 	
 	render() {
-		const {organObject, badgesObject, badges, organLogo, organBanner, translate} = this.props
+		const {organObject, badgesObject, badges, organLogo, organBanner, translate, identityObject} = this.props
 		const {path, url, params} = this.props.match
 		const organizationId = params.id
 		const isLoading = organObject.isLoading || badgesObject.isLoading //TODO mohsen: added get files isLoading
@@ -105,7 +107,10 @@ export class Organization extends Component<PropsOrganization> {
 							<Switch>
 								<Redirect exact from={`${url}/`} to={`${url}/Products`}/>
 								<PrivateRoute path={`${path}/Products`} component={Products} organizationId={organizationId}/>
-								<PrivateRoute path={`${path}/Posts`} component={Posts} id={organizationId} identityType={constants.USER_TYPES.ORG}/>
+								<PrivateRoute path={`${path}/Posts`} component={Posts} id={organizationId}
+															identityType={constants.USER_TYPES.ORG}
+                              postIdentity={identityObject.content.id}
+								/>
 								<PrivateRoute exact path={`${path}/basicInformation`} component={BasicInformation}
 															organizationId={organizationId} organ={organObject.content}/>
 								<PrivateRoute path={`${path}/Customers`} component={Customers} organizationId={organizationId}/>
@@ -129,8 +134,9 @@ const mapStateToProps = (state, ownProps) => {
 	const defaultObject = {content: {}, isLoading: false, error: null}
 	const defaultObject2 = {content: [], isLoading: false, error: null}
 	const organ = (stateOrgan && stateOrgan.organization) || defaultObject
-	const bannerId = organ.content.organization_banner
-	const logoId = organ.content.organization_logo
+  const identity = (stateOrgan && stateOrgan.identity) || defaultObject
+  const bannerId = organ.content.organization_banner
+  const logoId = organ.content.organization_logo
 	const organBanner = (bannerId && state.common.file.list[bannerId] && state.common.file.list[bannerId].file) || null
 	const organLogo = (logoId && state.common.file.list[logoId] && state.common.file.list[logoId].file) || null
 	const badgesObjectInOrgan = (stateOrgan && stateOrgan.badges) || defaultObject2
@@ -142,6 +148,7 @@ const mapStateToProps = (state, ownProps) => {
 		badges,
 		organBanner,
 		organLogo,
+    identityObject: identity,
 		translate: getMessages(state)
 	}
 }
