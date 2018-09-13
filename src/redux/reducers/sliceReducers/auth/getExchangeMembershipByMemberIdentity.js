@@ -4,7 +4,7 @@ const base = (state, action) => {
 const success = (state, action) => {
   const {data, identityId} = action.payload || {}
   const {client} = state
-  const previousMembership = (client && client.exchangeMembership) || []
+  const previousMembership = (client && client.exchangeMemberships) || []
 
   const arrayOfMembershipId = []
   data.map(exchangeMembership => {

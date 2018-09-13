@@ -4,7 +4,7 @@ const base = (state, action) => {
 const success = (state, action) => {
   const {exchangeMembershipId} = action.payload || {}
   const {client} = state
-  const previousMembership = (client && client.exchangeMembership) || []
+  const previousMembership = (client && client.exchangeMemberships) || []
 
   const newDeletedMemberships = previousMembership.filter(id => id !== exchangeMembershipId);
   return {

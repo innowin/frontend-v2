@@ -52,6 +52,12 @@ const urls = {
     GET_EXCHANGE_BY_EX_ID: 'exchanges',
     CREATE_EXCHANGE: 'exchanges',
   },
+  WORK_EXPERIENCE: {
+    GET_USER_WORK_EXPERIENCES_BY_USER_ID: 'users/work-experiences',
+    UPDATE_USER_WORK_EXPERIENCES_BY_USER_ID: 'users/work-experiences',
+    CREATE_USER_WORK_EXPERIENCES_BY_USER_ID: 'users/work-experiences',
+    DELETE_USER_WORK_EXPERIENCES_BY_USER_ID: 'users/work-experiences',
+  },
 
   CREATE_PRODUCT: 'products',
   CREATE_Skill: 'users/skills',

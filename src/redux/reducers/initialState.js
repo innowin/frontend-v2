@@ -11,7 +11,7 @@ export default {
 			user: {},
 			organization: null,
 			posts: [], /* ids of posts that postIdentity of them is identity of this client*/
-			exchanges: [], /* ids of exchanges that this client is member of them*/
+      workExperiences: [], /* ids of workExperiences that this client is member of them*/
 			social: {
 				follows: [], /* ids of follows that this client is participates at them*/
 			},
@@ -72,10 +72,10 @@ export default {
 					 isLoading:false,
 					 error:null
 			 },
-			 workExperiences:{
-					 content:[{}, {} , ...],  list of workExperience object
-					 isLoading:false,
-					 error:null
+			 workExperiences: {
+				 content:[1, 2, ...], list of workExperience id
+				 isLoading:false,
+				 error: null
 			 },
 			 exchanges:{
 					 content:[1, 2, ...], list of exchanges id
@@ -150,6 +150,12 @@ export default {
 			 isLoading:false,
 			 error: null
 			},
+		---------------- others ----------------
+		employees: {
+			 content:[1, 2, ...], list of workExperience id
+			 isLoading:false,
+			 error: null,
+		 },
 	 }
 	*/
 	},
@@ -244,10 +250,17 @@ export default {
 		},
 		exchangeMembership: {
 			list: {
-				// [membershipId]: {...data, isLoading:false, error:errorObject}
+				// [exchangeMembershipId]: {...data, isLoading:false, error:errorObject}
 			}
 		}
 	},
+
+	workExperience: {
+    list: {
+      // [workExperienceId]: {...data, isLoading:false, error:errorObject}
+    }
+	},
+
 	intl: {
 		locale: 'fa',
 		messages: {...messages}

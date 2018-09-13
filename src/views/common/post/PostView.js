@@ -68,7 +68,7 @@ class PostView extends Component {
                 </div>
                 <div className='post-date'>
                   <Moment className="-green2" element="span" fromNow ago>{post.created_time}</Moment>
-                  <span className="-green2">{translate['Last']}</span>
+                  <span className="-green2"> {translate['Last']}</span>
                 </div>
               </div>
 

@@ -102,6 +102,12 @@ const results = {
     GET_EXCHANGE_BY_EX_ID: 'get-exchange-by-ex-id',
     CREATE_EXCHANGE: 'create-exchange',
   },
+  WORK_EXPERIENCE: {
+    GET_USER_WORK_EXPERIENCES_BY_USER_ID: 'get-user-work-experiences-by-user-id',
+    UPDATE_USER_WORK_EXPERIENCES_BY_USER_ID: 'update-user-work-experiences-by-user-id',
+    CREATE_USER_WORK_EXPERIENCES_BY_USER_ID: 'create-user-work-experiences-by-user-id',
+    DELETE_USER_WORK_EXPERIENCES_BY_USER_ID: 'delete-user-work-experiences-by-user-id',
+  },
   //contribution
   CREATE_PRODUCT: 'create-product',
   CREATE_Skill: 'create-skill',

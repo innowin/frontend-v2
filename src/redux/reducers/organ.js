@@ -1,8 +1,9 @@
 import initialState from "./initialState"
 import types from "../actions/types/index"
+import slices from "./sliceReducers/organ";
 
 const organs = (state = initialState.organs, action) => {
-  const {organizationId, data, message, postParentId, postOwnerType, postParentType, postId }= action.payload || {}
+  const {organizationId, data, message}= action.payload || {}
   const defaultObject = {content: {}, isLoading: false, error: null}
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const previousOrgan = (state[organizationId] && state[organizationId].organization) || defaultObject
@@ -102,7 +103,19 @@ const organs = (state = initialState.organs, action) => {
           }
         }
       }
-
+    /** -------------------------- get work experience by user id  -------------------------> **/
+    case types.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID:
+      return slices.getWorkExperienceByUserId.base(state, action)
+    case types.SUCCESS.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID:
+      return slices.getWorkExperienceByUserId.success(state, action)
+    case types.ERRORS.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID:
+      return slices.getWorkExperienceByUserId.error(state, action)
+    /** -------------------------- create work experience by user id -------------------------> **/
+    case types.SUCCESS.WORK_EXPERIENCE.CREATE_USER_WORK_EXPERIENCES_BY_USER_ID:
+      return slices.createWorkExperienceByUserId.success(state, action)
+    /** -------------------------- delete work experience by user id -------------------------> **/
+    case types.SUCCESS.WORK_EXPERIENCE.DELETE_USER_WORK_EXPERIENCES_BY_USER_ID:
+      return slices.deleteWorkExperienceByUserId.success(state, action)
     /** -------------------------- reset organs -------------------------> **/
     case types.RESET:
       return initialState.organs
