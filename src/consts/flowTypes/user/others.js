@@ -11,12 +11,16 @@ export type workExperienceType = {|
   work_experience_organization: number
 |}
 
-export type workExperienceFormValuesType = {|
-  name: ?string,
-  position: ?string,
-  from_date: ?string,
-  to_date: ?string,
-  work_experience_organization: number
+export type WorkExperienceFormInputType = {|
+  name: string,
+  position: string,
+  dayFromDate: string,
+  yearFromDate: string,
+  monthFromDate: string,
+  dayToDate: string,
+  yearToDate: string,
+  monthToDate: string,
+  workExperienceOrganization: string,
 |}
 
 export type certificateType = {|

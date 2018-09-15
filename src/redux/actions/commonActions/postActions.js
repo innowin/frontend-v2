@@ -11,7 +11,6 @@ const filterPostsByPostParentLimitOffset = ({postParentId, postType, postParentT
   }
 })
 
-// TODO: mohammad organizationId and other id must be added
 const getPostByIdentity = ({postIdentity, postOwnerId, postOwnerType}) => {
   return {
     type: types.COMMON.POST.GET_POST_BY_IDENTITY,

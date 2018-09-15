@@ -131,6 +131,13 @@ module.exports = {
   'FirstName': 'نام',
   'Web Site Format': 'http://www.abc.com',
 
+  'Telegram account is incorrect': 'حساب تلگرام اشتباه وارد شده است',
+  'National code is incorrect': 'کد ملی اشتباه وارد شده است',
+  'Day is incorrect': 'روز اشتباه وارد شده است',
+  'Month is incorrect': 'ماه اشتباه وارد شده است',
+  'Year is incorrect': 'سال اشتباه وارد شده است',
+  'Email is wrong': 'آدرس رایانامه اشتباه است',
+
   // user - researches
   'This number is not a correct year': "سال باید عدد ۴ رقمی معتبر باشد",
   'Page count must be positive': "تعداد صفحات باید عددی مثبت باشد",
@@ -154,6 +161,9 @@ module.exports = {
 
   // user - workExperience
   'WorkExperience': "تجربه کاری",
+  'Organization worked': 'سازمان مورد نظر',
+  'Name is wrong': 'نام وارد شده اشتباه است',
+  'Position is wrong': 'موقعیت شغلی وارد شده اشتباه است',
 
   // user - social
   'Socials': "ارتباط اجتماعی",

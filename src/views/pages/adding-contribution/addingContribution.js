@@ -1,4 +1,6 @@
-import React from 'react'
+// @flow
+import * as React from 'react'
+import {Component} from 'react'
 import {Modal, ModalBody} from 'reactstrap'
 import MenuProgressive from '../progressive/penu-progressive'
 import TechnicalProperties from './product/technicalProperties'
@@ -36,6 +38,7 @@ import nowCreatedProductIdSelector from "src/redux/selectors/common/product/getN
 import SkillInfoForm, {skillInfoFormName} from "./skill/infoForm";
 import SkillSuccessMessage from "./skill/successMessage"
 import {skillFields} from "./addingConributionData"
+import type {NewContributionDataType} from "./types"
 
 
 const reorder = (list, startIndex, endIndex) => {
@@ -46,7 +49,29 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-class AddingContribution extends React.Component {
+
+type AddingContributionProps = {
+
+}
+
+type ProgressStepType = {
+  title: string,
+  icon: React.Node
+}
+
+type ProgressStepsType = {
+  [string]: Array<ProgressStepType>
+}
+type AddingContributionState = {
+  wrapperClassName: string,
+  activeStep: number,
+  progressSteps: ProgressStepsType,
+  progressStatus: string,
+  newContributionData: NewContributionDataType,
+  addingTechPropNow: false,
+  newTechPropertyData: {},
+}
+class AddingContribution extends Component<AddingContributionProps, AddingContributionState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -55,7 +80,6 @@ class AddingContribution extends React.Component {
       progressSteps: PROGRESS_STEPS.product,
       progressStatus: PROGRESSIVE_STATUS_CHOICES.ACTIVE,
       newContributionData: {},
-      testImage: '',
       addingTechPropNow: false,
       newTechPropertyData: {},
     };

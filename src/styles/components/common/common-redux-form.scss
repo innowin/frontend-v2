@@ -1,0 +1,21 @@
+.redux-form-date-container{
+  margin: 15px 0;
+  width: 100%;
+
+  label{
+    margin-bottom: 15px;
+  }
+  .date-container{
+    display: flex;
+    flex-flow: row wrap;
+
+    .date-part-container{
+      flex: 0 0 30%;
+      min-width: 30%;
+      margin-left: 5%;
+    }
+    .date-part-container:last-child{
+      margin-left: 0
+    }
+  }
+}

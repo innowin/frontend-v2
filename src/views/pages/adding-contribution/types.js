@@ -12,17 +12,20 @@ export type TagAsOptionType = { // type of tag when used in as option in react-s
 type GalleryImageType = {
 
 }
-
-type NewContributionDataType = {
+type Certificate = {
+  title: string
+}
+export type NewContributionDataType = {
   tags: Array<TagAsOptionType>,
   mainGalleryImageIndex?: number,
   galleryImages: Array<GalleryImageType>,
-  mainCategory: string
+  mainCategory: string,
+  certificates: Array<Certificate>
 }
 
 
 export type TechnicalPropertyType = {
-  id: number,
+  id: number | string,
   value: string,
   title: string
 }

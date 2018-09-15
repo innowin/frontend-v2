@@ -12,13 +12,14 @@ const urls = {
   GET_IDENTITY: "users/identities",
   USER: {
     USERNAME_CHECK: "users/user_exist",
+    EMAIL_CHECK:"users/email_exist",
     CREATE_USER_PERSON: "users",
     CREATE_USER_ORGAN: "users/user-organization",
     GET_USER_BY_USER_ID: "users",
     GET_PROFILE_BY_USER_ID: "users/profiles",
     UPDATE_USER_BY_USER_ID: "users",
     UPDATE_PROFILE_BY_PROFILE_ID: "users/profiles",
-    GET_USERS:'users',
+    GET_USERS: 'users',
   },
   ORG: {
     GET_ORGANIZATION: 'organizations',
@@ -50,12 +51,13 @@ const urls = {
   EXCHANGE: {
     GET_EXCHANGES: 'exchanges',
     GET_EXCHANGE_BY_EX_ID: 'exchanges',
-    GET_EXCHANGES_BY_MEMBER_IDENTITY: 'exchanges/identities',
-    GET_EXCHANGE_MEMBERS_BY_EX_ID: '/exchanges/identities/',
-    DELETE_EXCHANGE_MEMBERSHIP: 'exchanges/identities',
     CREATE_EXCHANGE: 'exchanges',
-    ADD_TO_EXCHANGE:'exchanges/identities',
-
+  },
+  WORK_EXPERIENCE: {
+    GET_USER_WORK_EXPERIENCES_BY_USER_ID: 'users/work-experiences',
+    UPDATE_USER_WORK_EXPERIENCES_BY_USER_ID: 'users/work-experiences',
+    CREATE_USER_WORK_EXPERIENCES_BY_USER_ID: 'users/work-experiences',
+    DELETE_USER_WORK_EXPERIENCES_BY_USER_ID: 'users/work-experiences',
   },
 
   CREATE_PRODUCT: 'products',
@@ -101,6 +103,13 @@ const urls = {
       UPDATE_FOLLOW: 'organizations/follows',
       CREATE_FOLLOW: 'organizations/follows',
     },
+
+    EXCHANGE_MEMBERSHIP: {
+      DELETE_EXCHANGE_MEMBERSHIP: 'exchanges/identities',
+      GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY: 'exchanges/identities',
+      GET_EXCHANGE_MEMBERSHIP_BY_EXCHANGE_ID: 'exchanges/identities', // TODO: not complete
+      CREATE_EXCHANGE_MEMBERSHIP: 'exchanges/identities', // TODO: not complete
+    }
   }
 }
 export default urls

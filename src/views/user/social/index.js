@@ -4,29 +4,27 @@ import {Component} from "react"
 import PropTypes from "prop-types"
 import {connect} from "react-redux"
 
-import client from 'src/consts/client'
-import ExchangeActions from "src/redux/actions/exchangeActions"
 import GetUserActions from '../../../redux/actions/user/getUserActions'
 import OrganizationActions from "src/redux/actions/organizationActions"
 import SocialActions from "../../../redux/actions/commonActions/socialActions"
+import ExchangeMembershipActions from '../../../redux/actions/commonActions/exchangeMembershipActions'
 import type {exchangeType} from "src/consts/flowTypes/exchange/exchange"
 import {bindActionCreators} from "redux"
 import {Exchanges} from "./Exchanges"
 import {Followees} from './Followees'
 import {Followers} from './Followers'
 import {FrameCard, CategoryTitle, VerifyWrapper} from "src/views/common/cards/Frames"
-import {removeExchangeMembership} from "src/crud/exchange/exchange"
 import {getMessages} from "src/redux/selectors/translateSelector"
 import {makeGetFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
 import {makeGetFollowersSelector} from 'src/redux/selectors/common/social/getFollowers'
-import {makeGetExchangesSelector} from 'src/redux/selectors/common/social/getExchanges'
+import {makeGetExchangeMembershipsSelector} from 'src/redux/selectors/common/social/getExchangeMemberships'
 
 type PropsSocials = {
   userId: number,
   identityId: number,
   actions: {
     deleteExchangeMembership: Function,
-    getExchangesByMemberIdentity: Function,
+    getExchangeMembershipByMemberIdentity: Function,
     getFollowees: Function,
     getFollowers: Function,
     deleteFollow: Function,
@@ -41,6 +39,7 @@ type PropsSocials = {
   exchanges: (exchangeType)[],
   isLoading: boolean,
   error: null | {},
+  identityType: string,
 }
 type StateSocials = {
   editExchanges: boolean,
@@ -59,6 +58,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
     followees: PropTypes.array.isRequired,
     followers: PropTypes.array.isRequired,
     exchanges: PropTypes.array.isRequired,
+    identityType: PropTypes.string.isRequired,
   }
   firstStartFollower: boolean
   firstStartFollowee: boolean
@@ -113,22 +113,21 @@ class Socials extends Component<PropsSocials, StateSocials> {
   }
 
   componentDidMount() {
-    const {identityId, actions, userId} = this.props
-    const {getFollowees, getFollowers, getExchangesByMemberIdentity} = actions
+    const {identityId, actions, userId, identityType} = this.props
+    const {getFollowees, getFollowers, getExchangeMembershipByMemberIdentity} = actions
 
     if (identityId) {
       const followOwnerIdentity = identityId
       const followOwnerId = userId
-      const followOwnerType = client.getUserType()
 
-      getExchangesByMemberIdentity(identityId)
-      getFollowers({followOwnerId, followOwnerIdentity, followOwnerType})
-      getFollowees({followOwnerId, followOwnerIdentity, followOwnerType})
+      getExchangeMembershipByMemberIdentity({identityId, exchangeMembershipOwnerType: identityType, exchangeMembershipOwnerId: userId})
+      getFollowers({followOwnerId, followOwnerIdentity, followOwnerType: identityType})
+      getFollowees({followOwnerId, followOwnerIdentity, followOwnerType: identityType})
     }
   }
 
   render() {
-    const {translate, followers, followees, actions, isLoading, error, exchanges, identityId, userId} = this.props
+    const {translate, followers, followees, actions, isLoading, error, exchanges, identityId, userId, identityType} = this.props
     const {deleteFollow, deleteExchangeMembership, updateFollow, createFollow} = actions
     const {editExchanges, editFollowings} = this.state
 
@@ -138,7 +137,6 @@ class Socials extends Component<PropsSocials, StateSocials> {
               title={translate['Socials']}
           />
           <FrameCard className="frameCardSocial">
-            {/*FIXME: mohammad fix exchange part after changed in redux by */}
             <Exchanges removeMembership={deleteExchangeMembership}
                        exchanges={exchanges}
                        showEdit={this._showExchangesEdit}
@@ -159,6 +157,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
                        identityId={identityId}
                        createFollow={createFollow}
                        userId={userId}
+                       identityType={identityType}
             />
           </FrameCard>
         </VerifyWrapper>
@@ -169,7 +168,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
 const mapStateToProps = (state, ownProps) => {
   const getFollowersSelector = makeGetFollowersSelector(state, ownProps)
   const getFolloweesSelector = makeGetFolloweesSelector(state, ownProps)
-  const getExchangesSelector = makeGetExchangesSelector(state, ownProps)
+  const getExchangesSelector = makeGetExchangeMembershipsSelector(state, ownProps)
 
   return (state, props) => {
     const {userId} = props
@@ -190,8 +189,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    getExchangesByMemberIdentity: ExchangeActions.getExchangeIdentitiesByMemberIdentity,
-    deleteExchangeMembership: ExchangeActions.deleteExchangeMembership,
+    getExchangeMembershipByMemberIdentity: ExchangeMembershipActions.getExchangeMembershipByMemberIdentity,
+    deleteExchangeMembership: ExchangeMembershipActions.deleteExchangeMembership,
     getFollowees: SocialActions.getFollowees,
     getFollowers: SocialActions.getFollowers,
     deleteFollow: SocialActions.deleteFollow,

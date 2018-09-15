@@ -1,5 +1,4 @@
 // @flow
-/*global __*/
 
 //TODO: mohammad forms need change to redux form
 //FIXME: profileMedia for organization and home page need to fix
@@ -11,9 +10,8 @@ import {PostCreateForm} from "./PostCreateForm";
 import {bindActionCreators} from "redux";
 import PostActions from "../../../redux/actions/commonActions/postActions";
 import connect from "react-redux/es/connect/connect";
-import {makeUserPostsSelector} from 'src/redux/selectors/common/userPostsSelector'
+import {makeUserPostsSelector} from 'src/redux/selectors/common/post/userPostsSelector'
 import {Post} from './Post'
-import client from 'src/consts/client'
 import constants from "../../../consts/constants";
 
 type postsPropsType = {
@@ -30,6 +28,7 @@ type postsPropsType = {
   posts: [],
   isLoading: boolean,
   error: string,
+  identityType: string,
 }
 
 type postsStatesType = {
@@ -46,6 +45,7 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
     isLoading: PropTypes.bool.isRequired,
     error: PropTypes.object.isRequired,
     translate: PropTypes.object.isRequired,
+    identityType: PropTypes.string.isRequired,
   };
 
   constructor(props: postsPropsType) {
@@ -69,17 +69,18 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
   }
 
   componentDidMount() {
-    const {actions, postIdentity, id} = this.props
+    const {actions, postIdentity, id, identityType} = this.props
     const {getPostByIdentity} = actions
-    getPostByIdentity({postIdentity, postOwnerId: id, postOwnerType: client.getUserType()})
+    getPostByIdentity({postIdentity, postOwnerId: id, postOwnerType: identityType})
   }
 
   render() {
-    const {postIdentity, profileMedia, posts, isLoading, error, actions, id, translate} = this.props
+    const {postIdentity, profileMedia, posts, isLoading, error, actions, translate} = this.props
     const {updatePost, deletePost} = actions
     const {createForm} = this.state;
     return (
-      <VerifyWrapper isLoading={isLoading} error={error}>
+      //<VerifyWrapper isLoading={isLoading} error={error}>
+      <div>
         <CategoryTitle
           title={translate['Post']}
           showCreateForm={this._showCreateForm}
@@ -96,15 +97,13 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
               </div>
             }
             {
-              posts ? posts.map((post) => (
+              posts ? posts.map(post => (
                 <Post
-                  posts={posts}
                   post={post}
                   updatePost={updatePost}
                   key={post.id + "Posts"}
                   profileMedia={profileMedia}
                   deletePost={deletePost}
-                  userId={id}
                 />
               ))
               : ''
@@ -112,13 +111,14 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
           </ListGroup>
 
         </FrameCard>
-      </VerifyWrapper>
+      </div>
+      // </VerifyWrapper>
     )
   }
 }
 
-const mapStateToProps  = () => {
-  const userPostsSelector = makeUserPostsSelector()
+const mapStateToProps  = (state, ownProps) => {
+  const userPostsSelector = makeUserPostsSelector(state, ownProps)
   return (state, props) => {
 
     let userId = props.id

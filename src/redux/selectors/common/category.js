@@ -3,10 +3,10 @@ import helpers from 'src/consts/helperFunctions'
 
 
 const getCategories = (state, parentId) => {
-    const allCategories = state.common.category.categories
+    const allCategories = state.common.category
     if (parentId) {
         const list = helpers.filterNestedObjByKey(allCategories.list, 'category_parent', parentId)
-        return ({...state.category.categories, list: list})
+        return ({...state.category, list: list})
     }
     return allCategories
 }

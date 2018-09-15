@@ -1,3 +1,4 @@
+// @flow
 import * as React from "react"
 import connect from "react-redux/es/connect/connect"
 import PropTypes from "prop-types"

@@ -5,6 +5,7 @@ import orgTypes from './organization'
 import authTypes from './auth'
 import exchangeTypes from './exchange'
 import entityTypes from './entity'
+import workExperienceTypes from './workExperience'
 
 const types = {
 	RESET: 'RESET',
@@ -16,6 +17,7 @@ const types = {
 		ORG: orgTypes.ERROR, // organization errors
 		EXCHANGE: exchangeTypes.ERROR,
 		ENTITY: entityTypes.ERROR,
+		WORK_EXPERIENCE: workExperienceTypes.ERROR,
 	},
 	SUCCESS: {
 		COMMON: commonTypes.SUCCESS,
@@ -25,6 +27,7 @@ const types = {
 		ORG: orgTypes.SUCCESS, // organization success
 		EXCHANGE: exchangeTypes.SUCCESS,
 		ENTITY: entityTypes.SUCCESS,
+    WORK_EXPERIENCE: workExperienceTypes.SUCCESS,
 	},
 	COMMON: commonTypes.BASE,
 	AUTH: authTypes.BASE,
@@ -33,6 +36,7 @@ const types = {
 	ORG: orgTypes.BASE,
 	EXCHANGE: exchangeTypes.BASE,
 	ENTITY: entityTypes.BASE,
+  WORK_EXPERIENCE: workExperienceTypes.BASE,
 }
 
 export default types

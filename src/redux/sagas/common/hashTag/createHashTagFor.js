@@ -17,7 +17,7 @@ function* createHashTagFor (action) {
         console.log(`---- saga ----- >> createHashTag >> data is: `, data)
         yield put({
             type: setIdForParentType,
-            payload: {parentId: hashtag_base, hashTagId: related_parent}
+            payload: {destinationId: hashtag_base, relatedObjId: related_parent}
         })
 
     } catch (error) {

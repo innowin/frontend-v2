@@ -49,24 +49,9 @@ const auth = (state = initialState.auth, action) => {
           error: errorMessage
         }
       }
-    /** -------------------------- get client exchanges -------------------------> **/
-    case types.SUCCESS.EXCHANGE.GET_EXCHANGES_BY_MEMBER_IDENTITY:
-      const ArrayOfExchangeId = Object.keys(data).map(id => +id)
-      return {
-        ...state,
-        client: {
-          ...client,
-          exchanges: ArrayOfExchangeId
-        }
-      }
     /** -------------------------- update user by user id -------------------------> **/
     case types.SUCCESS.USER.UPDATE_USER_BY_USER_ID:
       return slices.updateUserByUserId.success(state, action)
-    /** -------------------------- verify token -------------------------> **/
-    case types.SUCCESS.AUTH.VERIFY_TOKEN:
-      return slices.verifyToken.success(state, action)
-    case types.ERRORS.AUTH.VERIFY_TOKEN:
-      return slices.verifyToken.error(state, action)
     /** -------------------------- update profile by profile id -------------------------> **/
     case types.SUCCESS.USER.UPDATE_PROFILE_BY_PROFILE_ID:
       return slices.updateProfileByProfileId.success(state, action)
@@ -91,6 +76,21 @@ const auth = (state = initialState.auth, action) => {
     /** -------------------------- delete follow  -------------------------> **/
     case types.SUCCESS.COMMON.SOCIAL.CREATE_FOLLOW:
       return slices.createFollow.success(state, action)
+    /** -------------------------- get exchange membership by member identity -------------------------> **/
+    case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
+      return slices.getExchangeMembershipByMemberIdentity.success(state, action)
+    /** -------------------------- delete exchange membership  -------------------------> **/
+    case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.DELETE_EXCHANGE_MEMBERSHIP:
+      return slices.deleteExchangeMembership.success(state, action)
+    /** -------------------------- get work experience by user id  -------------------------> **/
+    case types.SUCCESS.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID:
+      return slices.getWorkExperienceByUserId.success(state, action)
+    /** -------------------------- create work experience by user id -------------------------> **/
+    case types.SUCCESS.WORK_EXPERIENCE.CREATE_USER_WORK_EXPERIENCES_BY_USER_ID:
+      return slices.createWorkExperienceByUserId.success(state, action)
+    /** -------------------------- delete work experience by user id -------------------------> **/
+    case types.SUCCESS.WORK_EXPERIENCE.DELETE_USER_WORK_EXPERIENCES_BY_USER_ID:
+      return slices.deleteWorkExperienceByUserId.success(state, action)
     /** -------------------------- reset  -------------------------> **/
     case types.RESET:
       return initialState.auth

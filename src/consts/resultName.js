@@ -1,9 +1,10 @@
 const results = {
   SIGN_IN: 'sign-in',
-  VERIFY_TOKEN: 'verify',
+  VERIFY_TOKEN: 'verify-token',
   GET_IDENTITY: 'get-identity',
   USER: {
     USERNAME_CHECK: "USERNAME_CHECK",
+    EMAIL_CHECK:"EMAIL_CHECK",
     CREATE_USER_PERSON: "CREATE_USER_PERSON",
     CREATE_USER_ORGAN: "CREATE_USER_ORGAN",
     GET_USER_BY_USER_ID: "GET_USER_BY_USER_ID",
@@ -79,6 +80,13 @@ const results = {
       CREATE_FOLLOW: 'create-follow',
     },
 
+    EXCHANGE_MEMBERSHIP: {
+      DELETE_EXCHANGE_MEMBERSHIP: 'delete-exchange-membership',
+      GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY: 'get-exchange-membership-by-member-identity',
+      GET_EXCHANGE_MEMBERSHIP_BY_EXCHANGE_ID: 'get-exchange-membership-by-exchange-id',
+      CREATE_EXCHANGE_MEMBERSHIP: 'create-exchange-membership',
+    },
+
     // hashTag
     GET_HASH_TAGS: 'common-get-hashTags-result',
     CREATE_HASH_TAG_FOR: 'common-create-hashTag-for-object-result',
@@ -89,15 +97,16 @@ const results = {
     GET_CITIES: 'common-get-cities-result',
 
   },
-
   EXCHANGE: {
     GET_EXCHANGES: 'get-exchanges',
-    GET_EXCHANGE_BY_ID: 'get-exchanges-{id}',
-    GET_EXCHANGES_BY_MEMBER_IDENTITY: 'getExchangesByMemberIdentity',
     GET_EXCHANGE_BY_EX_ID: 'get-exchange-by-ex-id',
-    DELETE_EXCHANGE_MEMBERSHIP: 'delete-exchange-membership',
     CREATE_EXCHANGE: 'create-exchange',
-    ADD_TO_EXCHANGE: 'add-to-exchange',
+  },
+  WORK_EXPERIENCE: {
+    GET_USER_WORK_EXPERIENCES_BY_USER_ID: 'get-user-work-experiences-by-user-id',
+    UPDATE_USER_WORK_EXPERIENCES_BY_USER_ID: 'update-user-work-experiences-by-user-id',
+    CREATE_USER_WORK_EXPERIENCES_BY_USER_ID: 'create-user-work-experiences-by-user-id',
+    DELETE_USER_WORK_EXPERIENCES_BY_USER_ID: 'delete-user-work-experiences-by-user-id',
   },
   //contribution
   CREATE_PRODUCT: 'create-product',

@@ -15,7 +15,6 @@ import {put, take, fork, call, takeEvery} from "redux-saga/effects"
 function* signIn(action) {
   const {payload} = action
   const {username, password, rememberMe, reject} = payload
-	console.log('sagas - auth -auth.js - before create Socket channel', payload)
 	const socketChannel = yield call(api.createSocketChannel, results.SIGN_IN)
   try {
 		yield fork(api.post, urls.SIGN_IN, results.SIGN_IN, {username, password})
@@ -34,11 +33,7 @@ function* signIn(action) {
       organizationId = organData.id
       organization = organData
       const organAction = {payload:{organizationId}}
-      identity = yield* call(getOrgIdentity, organAction)
-      const organLogoId = organization.organization_logo
-      if (organLogoId) {
-        yield put({type:types.COMMON.GET_FILE, payload:organLogoId})
-      }
+      identity = yield call(getOrgIdentity, organAction)
     }
     yield client.saveData(data.user.id, identity.id, userType, organizationId, rememberMe)
     if (!rememberMe) {
@@ -53,11 +48,15 @@ function* signIn(action) {
     const userData = data.user
     const profileData = data.profile
     const profileMediaId = profileData.profile_media
+    const profileBannerId = profileData.profile_banner
+    if (profileMediaId) {
+      yield put({type: types.COMMON.GET_FILE, payload: {fileId: profileMediaId}})
+    }
+    if (profileBannerId && profileBannerId !== profileMediaId) {
+      yield put({type: types.COMMON.GET_FILE, payload: {fileId: profileBannerId}})
+    }
     yield put({type: types.SUCCESS.USER.GET_USER_BY_USER_ID, payload: {data: userData, userId}})
     yield put({type: types.SUCCESS.USER.GET_PROFILE_BY_USER_ID, payload: {data: profileData, userId}})
-    if (profileMediaId) {
-      yield put({type:types.COMMON.GET_FILE, payload:profileMediaId})
-    }
   }
   catch (e) {
     const {message} = e
@@ -71,19 +70,28 @@ function* signIn(action) {
 }
 
 function* getOrganizationInSignIn(username) {
-  const socketChannel = yield call(api.createSocketChannel, results.ORG.GET_ORGANIZATION)
+  const resultName1 = results.ORG.GET_ORGANIZATION + 1
+  const resultName2 = results.ORG.GET_ORGANIZATION + 2
+  const socketChannel1 = yield call(api.createSocketChannel, resultName1)
+  const socketChannel2 = yield call(api.createSocketChannel, resultName2)
   try {
-    yield fork(api.get, urls.ORG.GET_ORGANIZATION, results.ORG.GET_ORGANIZATION, `?username=${username}`)
-    const dataList = yield take(socketChannel)
+    yield fork(api.get, urls.ORG.GET_ORGANIZATION, resultName1, `?username=${username}`)
+    const dataList = yield take(socketChannel1)
+    const incompleteOrgan = dataList[0]
+    yield fork(api.get, urls.ORG.GET_ORGANIZATION, resultName2, incompleteOrgan.id)
+    const data = yield take(socketChannel2)
+    const organLogoId = data.organization_logo
+    if (organLogoId) {
+      yield put({type:types.COMMON.GET_FILE, payload:{fileId:organLogoId}})
+    }
     // return data for access father to organ data
-    return dataList[0]
-    // after set organization data in client don't required set organization data in organs in redux state
+    return data
   } catch (e) {
-    // don't has organizationId and don't required put this error
     // throw error for father function
     throw new Error(e)
   } finally {
-    socketChannel.close()
+    socketChannel1.close()
+    socketChannel2.close()
   }
 }
 

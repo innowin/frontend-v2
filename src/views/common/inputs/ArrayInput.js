@@ -96,7 +96,7 @@ export class ArrayInput extends Component {
             )
         });
         return (
-            <div className={cx("col-12 form-group", {'has-danger': this.state.error})}>
+            <div className={cx("form-group", {'has-danger': this.state.error})}>
                 {/*TODO keep-ltr */}
                 <label>{this.props.label}</label>
                 <div className="input-group">

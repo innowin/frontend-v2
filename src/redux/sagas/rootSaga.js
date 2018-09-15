@@ -27,11 +27,7 @@ import {watchSignIn, watchSignOut, watchSignInError} from './auth/auth'
 import authWatchers from './auth/auth'
 import watchUsernameCheck from "./user/checkUsernameSaga"
 import {
-  watchGetExchangesByMemberIdentity,
   watchGetExchangeByExId,
-  watchGetExchangeMembersByExId,
-  watchDeleteExchangeMembership,
-  watchAddToExchange,
   watchCreateExchange,
 } from "./exchange"
 import {watchGetUserByUserId, watchGetProfileByUserId, watchGetUsers} from "./user/getUserSagas"
@@ -40,7 +36,7 @@ import identityWatchers from "./getIdentity"
 // TODO: mohammad all user sagas must go to ./user/user.js and just one import here from ./user/user.js
 import userWatchers from './user/user'
 import commonWatchers from './common/index'
-
+import workExperienceWatchers from './workExperiences'
 
 const rootSaga = function* () {
   yield all([
@@ -76,12 +72,8 @@ const rootSaga = function* () {
 
     //Exchange sagas
     watchGetExchangeByExId(),
-    watchGetExchangesByMemberIdentity(),
-    watchGetExchangeMembersByExId(),
-    watchDeleteExchangeMembership(),
     watchUpdateCustomer(),
     watchAgencyRequest(),
-    watchAddToExchange(),
     watchCreateExchange(),
 
     // user watchers
@@ -94,6 +86,9 @@ const rootSaga = function* () {
     // identity watchers
     identityWatchers.watchGetUserIdentity(),
     identityWatchers.watchGetOrgIdentity(),
+
+    // work experiences
+    ...workExperienceWatchers,
 
     // NOTE: the common watchers pushed to common/index.js to prevent from conflict.
     // common
