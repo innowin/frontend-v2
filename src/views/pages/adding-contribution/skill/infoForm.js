@@ -7,7 +7,7 @@ import renderSelectField from "../../../common/inputs/reduxFormRenderReactSelect
 import renderTextArea from "../../../common/inputs/reduxFormRenderTextArea"
 import helpers from "src/consts/helperFunctions"
 import {skillFields} from "../addingConributionData"
-import type {TagAsOptionType} from "../types"
+import type {TagAsOptionType, SkillFormValsType} from "../types"
 import FontAwesome from 'react-fontawesome'
 
 
@@ -27,11 +27,6 @@ const InfoFormValidate = (values) => {
   return errors
 }
 
-type SkillFormValsType = {
-  title: string,
-  description: string,
-  hashTags: Array<TagAsOptionType>
-}
 
 type InitialInfoProps = {
   goToNextStep: Function,
