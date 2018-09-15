@@ -34,6 +34,7 @@ function* signIn(action) {
       organization = organData
       const organAction = {payload:{organizationId}}
       identity = yield call(getOrgIdentity, organAction)
+      yield put({type: types.SUCCESS.ORG.GET_ORGANIZATION, payload: {data:organization, organizationId}})
     }
     yield client.saveData(data.user.id, identity.id, userType, organizationId, rememberMe)
     if (!rememberMe) {

@@ -34,7 +34,7 @@ const organs = (state = initialState.organs, action) => {
             ...state.list[organizationId],
             organization: {
               ...previousOrgan,
-              content: {...data},
+              content: data,
               isLoading: false
             }
           }
