@@ -1,19 +1,16 @@
 // @flow
 import * as React from "react"
-import {Component} from "react"
 import PropTypes from 'prop-types'
 import {bindActionCreators} from "redux"
-import WorkExperienceCreateForm from "./WorkExperienceCreateForm"
 import {connect} from "react-redux"
-import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper, ItemWrapper} from "src/views/common/cards/Frames"
-import {
-  createWorkExperience,
-} from 'src/crud/user/workExperience'
-import {getMessages} from "../../../redux/selectors/translateSelector"
+
 import type {workExperienceType} from "src/consts/flowTypes/user/others"
-import WorkExperienceActions from "../../../redux/actions/workExperienceActions";
 import WorkExperience from './WorkExperience'
+import WorkExperienceActions from "../../../redux/actions/workExperienceActions";
+import WorkExperienceCreateForm from "./WorkExperienceCreateForm"
 import workExperienceIcon from "../../../images/user/workExperience_svg";
+import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper, ItemWrapper} from "src/views/common/cards/Frames"
+import {getMessages} from "../../../redux/selectors/translateSelector"
 import {makeGetWorkExperiences} from "../../../redux/selectors/user/userGetWorkExperiencesSelector";
 
 // flow type of WorkExperiences
@@ -36,15 +33,15 @@ type StateWorkExperiences = {
   resetState: boolean
 }
 
-class WorkExperiences extends Component<PropsWorkExperiences, StateWorkExperiences> {
+class WorkExperiences extends React.Component<PropsWorkExperiences, StateWorkExperiences> {
 
   static propTypes = {
     userId: PropTypes.number.isRequired,
     translate: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
     workExperiences: PropTypes.array.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    error: PropTypes.object.isRequired,
+    isLoading: PropTypes.bool,
+    error: PropTypes.object,
   }
 
   constructor(props) {
@@ -63,8 +60,11 @@ class WorkExperiences extends Component<PropsWorkExperiences, StateWorkExperienc
     this.setState({createForm: false})
   }
 
-  _create = (formValues:{}) => {
-    createWorkExperience(formValues, this._updateWorkExperiences, this._handleErrorLoading, this._hideCreateForm)
+  _create = ({formValues, userId}) => {
+    const {actions} = this.props
+    const {createWorkExperienceByUserId} = actions
+    //FixMe: mohammad organizationId need to change when organ select done
+    createWorkExperienceByUserId({userId, organizationId: formValues.workExperienceOrganization, formValues})
   }
 
   componentDidMount() {
@@ -72,16 +72,6 @@ class WorkExperiences extends Component<PropsWorkExperiences, StateWorkExperienc
     const {actions} = this.props
     const {getWorkExperienceByUserId} = actions
     getWorkExperienceByUserId({userId})
-    // TODO: mohammad create work experience not done (how get organization id?)
-    // createWorkExperienceByUserId({userId, organizationId: 8012,
-    //   formValues: {
-    //     name: 'به نام خدا',
-    //     position: 'شاخ0',
-    //     from_date: '1997/12/12',
-    //     to_date: '2005/12/12',
-    //     work_experience_organization: 8012,
-    //   }
-    // })
   }
 
   render() {
@@ -102,7 +92,8 @@ class WorkExperiences extends Component<PropsWorkExperiences, StateWorkExperienc
               createForm &&
               <ItemWrapper icon={workExperienceIcon}>
                 <WorkExperienceCreateForm hideCreateForm={this._hideCreateForm} create={this._create}
-                                          translate={translate}/>
+                                          translate={translate}
+                                          userId={userId}/>
               </ItemWrapper>
             }
             {

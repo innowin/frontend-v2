@@ -3,8 +3,9 @@ import type {workExperienceType} from "../../../consts/flowTypes/user/others";
 import {Component} from "react";
 import PropTypes from "prop-types";
 import * as React from "react";
-import WorkExperienceForm from "./WorkExperienceForm";
+import {WorkExperienceForm} from "./WorkExperienceForm";
 import {Confirm} from "../../common/cards/Confirm";
+import {WorkExperienceFormInputType} from 'src/consts/flowTypes/user/others'
 
 // flow type of WorkExperienceEditForm
 type PropsWorkExperienceEditForm = {
@@ -43,22 +44,31 @@ class WorkExperienceEditForm extends Component<PropsWorkExperienceEditForm, Stat
     this.setState({confirm: false})
   }
 
-  form: ?React.ElementRef<typeof WorkExperienceForm>
+  _onSubmit = (values: WorkExperienceFormInputType) => {
+    const {userId, workExperience, update, hideEdit} = this.props
 
-  _save = () => {
-    if (this.form && this.form._formValidate()) {
-      const {workExperience, update, userId, hideEdit} = this.props
-      const workExperienceId: number = workExperience.id
-      const formValues = this.form._getValues()
-      hideEdit()
-      update({formValues, workExperienceId, userId})
+    const workExperienceId: number = workExperience.id
+    const from_date = values.yearFromDate === '' || values.monthFromDate === '' || values.dayFromDate === '' ? '' : `${values.yearFromDate}/${values.monthFromDate}/${values.dayFromDate}`
+    const to_date = values.yearToDate === '' || values.monthToDate === '' || values.dayToDate === '' ? '' : `${values.yearToDate}/${values.monthToDate}/${values.dayToDate}`
+
+    const formFormat = {
+      name: workExperience.name === values.name ? null : values.name,
+      position: workExperience.position === values.position ? null : values.position,
+      from_date: workExperience.from_date === from_date ? null : from_date,
+      to_date: workExperience.to_date === to_date ? null : to_date,
+      work_experience_organization: workExperience.workExperienceOrganization
     }
-  }
 
-  _onSubmit = (e: SyntheticEvent<HTMLButtonElement>) => {
-    e.preventDefault()
-    this._save()
-    return null
+    const propertyNames = Object.getOwnPropertyNames(formFormat)
+
+    propertyNames.map(key => {
+      formFormat[key] === null ? delete(formFormat[key]) : ''
+      return formFormat
+    })
+
+    const formValues: {} = {...formFormat}
+    update({formValues, workExperienceId, userId})
+    hideEdit()
   }
 
   render() {
@@ -66,10 +76,7 @@ class WorkExperienceEditForm extends Component<PropsWorkExperienceEditForm, Stat
     const {hideEdit, workExperience, translate, deleteWorkExperience} = this.props
     return (
         confirm ? <Confirm cancelRemoving={this._cancelConfirm} remove={deleteWorkExperience}/>
-            : <WorkExperienceForm translate={translate} onSubmit={this._onSubmit} workExperience={workExperience}
-                                  ref={form => {
-                                    this.form = form
-                                  }}>
+            : <WorkExperienceForm translate={translate} onSubmit={this._onSubmit} workExperience={workExperience}>
               <div className="col-12 d-flex justify-content-end">
                 <button type="button" className="btn btn-outline-danger mr-auto" onClick={this._showConfirm}>
                   {translate['Delete']}

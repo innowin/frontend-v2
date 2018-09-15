@@ -69,7 +69,7 @@ export class CustomArrayInput extends Component {
             return <OutputComponent value={value} onRemove={this.handleRemove(i)} key={i}/>
         });
         return (
-            <div className={cx("col-12 form-group", {'has-danger': this.state.error})}>
+            <div className={cx("form-group", {'has-danger': this.state.error})}>
                 {/*TO DO : keep-ltr*/}
                 <label>{this.props.label}</label>
                 <InputComponent ref="inputComponent" onAdd={this.handleAdd}/>

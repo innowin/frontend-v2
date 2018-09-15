@@ -29,7 +29,7 @@ class WorkExperience extends React.Component<PropsWorkExperience, StateWorkExper
 
   constructor(props: PropsWorkExperience) {
     super(props)
-    this.state = {edit: false, workExperience: null}
+    this.state = {edit: false}
   }
 
   _showEdit = () => {
@@ -44,12 +44,10 @@ class WorkExperience extends React.Component<PropsWorkExperience, StateWorkExper
     const {userId, deleteWorkExperienceByUserId, workExperience} = this.props
     const organizationId = workExperience.work_experience_organization
     const workExperienceId = workExperience.id
-    console.log(workExperience, 'worrrrrrr')
     deleteWorkExperienceByUserId({userId, workExperienceId, organizationId})
   }
 
   // TODO mohammad: handle isLoading && error by redux
-
   render() {
     const {edit} = this.state
     const {workExperience} = this.props

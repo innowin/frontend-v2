@@ -161,6 +161,9 @@ module.exports = {
 
   // user - workExperience
   'WorkExperience': "تجربه کاری",
+  'Organization worked': 'سازمان مورد نظر',
+  'Name is wrong': 'نام وارد شده اشتباه است',
+  'Position is wrong': 'موقعیت شغلی وارد شده اشتباه است',
 
   // user - social
   'Socials': "ارتباط اجتماعی",
