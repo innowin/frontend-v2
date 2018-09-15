@@ -4,6 +4,7 @@ const results = {
   GET_IDENTITY: 'get-identity',
   USER: {
     USERNAME_CHECK: "USERNAME_CHECK",
+    EMAIL_CHECK:"EMAIL_CHECK",
     CREATE_USER_PERSON: "CREATE_USER_PERSON",
     CREATE_USER_ORGAN: "CREATE_USER_ORGAN",
     GET_USER_BY_USER_ID: "GET_USER_BY_USER_ID",
@@ -96,7 +97,6 @@ const results = {
     GET_CITIES: 'common-get-cities-result',
 
   },
-
   EXCHANGE: {
     GET_EXCHANGES: 'get-exchanges',
     GET_EXCHANGE_BY_EX_ID: 'get-exchange-by-ex-id',

@@ -12,6 +12,7 @@ const urls = {
   GET_IDENTITY: "users/identities",
   USER: {
     USERNAME_CHECK: "users/user_exist",
+    EMAIL_CHECK:"users/email_exist",
     CREATE_USER_PERSON: "users",
     CREATE_USER_ORGAN: "users/user-organization",
     GET_USER_BY_USER_ID: "users",
