@@ -4,8 +4,9 @@ import helpers from 'src/consts/helperFunctions'
 const getWorkExperiences = state => state.workExperience.list
 const getUserWorkExperiences = (state, props) => {
   const {userId} = props
-  if(state && state.users && state.users[userId] && state.users[userId].workExperiences)
-    return state.users[userId].workExperiences.content
+  const usersList = state.users.list
+  if(usersList[userId] && usersList[userId].workExperiences)
+    return usersList[userId].workExperiences.content
   else return undefined
 }
 

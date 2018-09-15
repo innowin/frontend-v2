@@ -3,8 +3,8 @@ import helpers from 'src/consts/helperFunctions'
 
 const getPosts = state => state.common.post.list
 const getUserPosts = (state, props) => {
-  if(state && state.users && state.users[props.id] && state.users[props.id].posts)
-    return state.users[props.id].posts.content
+  if(state && state.users.list && state.users.list[props.id] && state.users.list[props.id].posts)
+    return state.users.list[props.id].posts.content
   else return undefined
 }
 

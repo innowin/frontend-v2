@@ -59,6 +59,12 @@ const urls = {
     CREATE_USER_WORK_EXPERIENCES_BY_USER_ID: 'users/work-experiences',
     DELETE_USER_WORK_EXPERIENCES_BY_USER_ID: 'users/work-experiences',
   },
+  EDUCATION: {
+    GET_USER_EDUCATION_BY_USER_ID: 'users/educations',
+    CREATE_USER_EDUCATION_BY_USER_ID: 'users/educations',
+    DELETE_USER_EDUCATION_BY_USER_ID: 'users/educations',
+    UPDATE_USER_EDUCATION_BY_USER_ID: 'users/educations',
+  },
 
   CREATE_PRODUCT: 'products',
   CREATE_Skill: 'users/skills',

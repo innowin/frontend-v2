@@ -6,6 +6,7 @@ import PropTypes from "prop-types"
 import BadgeActions from "src/redux/actions/commonActions/badgeActions"
 import Certificates from "./user/certificates/index"
 import ChatBar from "src/views/bars/ChatBar"
+import Educations from 'src/views/user/educations'
 import GetUserActions from "src/redux/actions/user/getUserActions"
 import GetIdentityActions from "src/redux/actions/identityActions"
 import Posts from "src/views/common/post/index"
@@ -20,7 +21,7 @@ import {connect} from "react-redux"
 import {getMessages} from "src/redux/selectors/translateSelector"
 import {NavLink, Switch, Redirect} from "react-router-dom"
 import {Tabs, VerifyWrapper} from "./common/cards/Frames"
-import {InformationIcon, SkillIcon, CertificateIcon, workExperienceIcon, postIcon, SocialIcon} from "src/images/icons"
+import {InformationIcon, SkillIcon, CertificateIcon, workExperienceIcon, postIcon, SocialIcon, educationIcon} from "src/images/icons"
 import {UserSideBar} from "./bars/SideBar"
 import type {
   profileStateObject,
@@ -122,6 +123,9 @@ class User extends Component<PropsUser> {
                 <SocialIcon/>
               </NavLink>
               {/* TODO: mohammad add education and its route*/}
+              <NavLink className="-tab" to={`${url}/Educations`} activeClassName="-active">
+                <educationIcon/>
+              </NavLink>
               {/* FixMe: mohammad workExperiences and skills must be join to workExperiences and join their routes*/}
               <NavLink className="-tab" to={`${url}/WorkExperiences`}
                        activeClassName="-active">{workExperienceIcon}</NavLink>
@@ -142,6 +146,7 @@ class User extends Component<PropsUser> {
                             identityId={identityObject.content.id}
                             identityType={constants.USER_TYPES.PERSON}
               />
+              <PrivateRoute path={`${path}/Educations`} component={Educations} userId={userId}/>
               <PrivateRoute path={`${path}/WorkExperiences`} component={WorkExperiences} userId={userId}/>
               <PrivateRoute path={`${path}/Skills`} component={Skills} userId={userId}/>
               <PrivateRoute path={`${path}/Certificates`} component={Certificates} userId={userId}/>

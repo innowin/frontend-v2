@@ -12,6 +12,7 @@ import organization from './organization'
 import organs from "./organ"
 import users from "./user"
 import workExperience from './workExperience'
+import education from './education'
 import {intlReducer} from './intl'
 
 
@@ -25,6 +26,7 @@ const reducers = {
   exchanges,
   common: persistReducer(commonPersistConfig, common),
   workExperience,
+  education,
 }
 
 //Don't change below code ,  Put your reducer on the upper object.
