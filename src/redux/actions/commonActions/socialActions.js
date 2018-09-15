@@ -33,13 +33,14 @@ const deleteFollow = ({followId, followOwnerId, followOwnerType}) => {
   }
 }
 
-const updateFollow = ({formValues, followId, followOwnerId}) => {
+const updateFollow = ({formValues, followId, followOwnerId, followOwnerType}) => {
   return{
     type: types.COMMON.SOCIAL.UPDATE_FOLLOW,
     payload: {
       formValues,
       followId,
       followOwnerId,
+      followOwnerType,
     }
   }
 }

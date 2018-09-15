@@ -217,13 +217,16 @@ const users = (state = initialState.users, action) => {
     /** -------------------------- create follow  -------------------------> **/
     case types.SUCCESS.COMMON.SOCIAL.CREATE_FOLLOW:
       return slices.createFollow.success(state, action)
-    /** -------------------------- get membership by member identity  -------------------------> **/
-    case types.COMMON.MEMBERSHIP.GET_MEMBERSHIP_BY_MEMBER_IDENTITY:
-      return slices.getMembershipByMemberIdentity.base(state, action)
-    case types.SUCCESS.COMMON.MEMBERSHIP.GET_MEMBERSHIP_BY_MEMBER_IDENTITY:
-      return slices.getMembershipByMemberIdentity.success(state, action)
-    case types.ERRORS.COMMON.MEMBERSHIP.GET_MEMBERSHIP_BY_MEMBER_IDENTITY:
-      return slices.getMembershipByMemberIdentity.error(state, action)
+    /** -------------------------- get exchange membership by member identity  -------------------------> **/
+    case types.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
+      return slices.getExchangeMembershipByMemberIdentity.base(state, action)
+    case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
+      return slices.getExchangeMembershipByMemberIdentity.success(state, action)
+    case types.ERRORS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
+      return slices.getExchangeMembershipByMemberIdentity.error(state, action)
+    /** -------------------------- delete exchange membership  -------------------------> **/
+    case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.DELETE_EXCHANGE_MEMBERSHIP:
+      return slices.deleteExchangeMembership.success(state, action)
     /** -------------------------- reset users -------------------------> **/
     case types.RESET:
       return initialState.users

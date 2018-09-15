@@ -52,7 +52,6 @@ type PropsUserSideBar = {
   className?: string,
   translate: TranslatorType
 }
-
 export const UserSideBar = (props: PropsUserSideBar) => {
 
   const {user, profile, badges, translate, className} = props
@@ -90,41 +89,19 @@ UserSideBar.propTypes = {
   className: PropTypes.string
 }
 
+
+
+
 type PropsOrganSideBar = {
   organ: organizationType,
   badges: (badgeType)[],
   organLogo: ?string,
   organBanner: ?string,
-  getFile: Function,
   className?: string,
   translate: TranslatorType
 }
-
-export class OrganSideBar extends Component<PropsOrganSideBar> {
-
-  static propTypes = {
-    organ: PropTypes.object.isRequired,
-    badges: PropTypes.array.isRequired,
-    organLogo: PropTypes.string,
-    organBanner: PropTypes.string,
-    getFile: PropTypes.func.isRequired,
-    className: PropTypes.string,
-    translate: PropTypes.object.isRequired
-  }
-
-  componentDidMount() {
-    const {getFile, organ} = this.props
-    const {organization_logo, organization_banner} = organ
-    if (organization_logo) {
-      getFile(organization_logo)
-    }
-    if (organization_banner) {
-      getFile(organization_banner)
-    }
-  }
-
-  render() {
-    const {organ, badges, organLogo, organBanner, className, translate} = this.props
+export const OrganSideBar = (props: PropsOrganSideBar) => {
+    const {organ, badges, organLogo, organBanner, className, translate} = props
     const name = organ.nike_name || organ.official_name
     const badgesImg = badges.map(badge => (
       (!badge) ? '' : (badge.badge_related_badge_category.badge_related_media.file))
@@ -148,8 +125,17 @@ export class OrganSideBar extends Component<PropsOrganSideBar> {
         className={className}
       />
     )
-  }
 }
+OrganSideBar.propTypes = {
+  organ: PropTypes.object.isRequired,
+  badges: PropTypes.array.isRequired,
+  organLogo: PropTypes.string,
+  organBanner: PropTypes.string,
+  className: PropTypes.string,
+  translate: PropTypes.object.isRequired
+}
+
+
 
 type PropsSideBarContent = {
   sideBarType: string,

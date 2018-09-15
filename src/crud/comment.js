@@ -17,11 +17,11 @@ export const getCommentsByParent = (parentId, handleResult) => {
       // TODO mohsen: handle error
       return false
     }
-    res.sort(function (a, b) {
-      const dateA = new Date(a.created_time);
-      const dateB = new Date(b.created_time);
-      return dateB - dateA;
-    });
+    // res.sort(function (a, b) {
+    //   const dateA = new Date(a.created_time);
+    //   const dateB = new Date(b.created_time);
+    //   return dateB - dateA;
+    // });
     handleResult(res.data);
     socket.off(`/base/comments/> list-${parentId}`, func)
   };

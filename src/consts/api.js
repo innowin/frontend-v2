@@ -89,13 +89,22 @@ const delEmit = (url, resultName, data, query = "", token) => {
 }
 
 const postEmit = (url, resultName, data, query = "", token) => {
-  socket.emit(REST_REQUEST, {
-    method: 'post',
-    url: REST_URL + '/' + url + '/' + query,
-    result: resultName,
-    data,
-    token
-  })
+  if(resultName !== 'CREATE_USER_PERSON' && resultName !== 'CREATE_USER_ORGAN'){
+    socket.emit(REST_REQUEST, {
+      method: 'post',
+      url: REST_URL + '/' + url + '/' + query,
+      result: resultName,
+      data,
+      token
+    })
+  } else {
+    socket.emit(REST_REQUEST, {
+      method: 'post',
+      url: REST_URL + '/' + url + '/' + query,
+      result: resultName,
+      data
+    })
+  }
 }
 
 export const getPostViewerCountEmit = (postId, resultName) => {

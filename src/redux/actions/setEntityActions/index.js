@@ -6,6 +6,12 @@ const setEntityUser = (data:Object) => ({
 	payload: {data}
 })
 
+const setFile = (data:Object) => ({
+	type: types.ENTITY.SET_FILE,
+	payload: {data}
+})
+
 export default {
 	setEntityUser,
+	setFile,
 }

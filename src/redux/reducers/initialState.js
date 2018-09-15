@@ -15,11 +15,11 @@ export default {
       social: {
         follows: [], /* ids of follows that this client is participates at them*/
       },
-      memberships: [], /* ids of exchanges that user is member of that*/
       rememberMe: null,
       user_type: null,
       isLoggedIn: false,
-      error: null
+      error: null,
+      exchangeMemberships: [], /* ids of exchanges that user is member of that*/
     }
   },
 
@@ -192,7 +192,7 @@ export default {
       }
     },
     category: {
-        list: {},
+      list: {},
     },
     certificate: {
       list: {},
@@ -238,7 +238,7 @@ export default {
         }
       },
     },
-    membership: {
+    exchangeMembership: {
       list: {
         // [membershipId]: {...data, isLoading:false, error:errorObject}
       }
@@ -247,5 +247,5 @@ export default {
   intl: {
     locale: 'fa',
     messages: {...messages}
-  }
+  },
 }
