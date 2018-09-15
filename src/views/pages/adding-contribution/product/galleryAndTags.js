@@ -8,14 +8,7 @@ import {CircularCheckbox} from '../../../common/inputs/CircularCheckbox'
 import NextPrevBtns from '../nextAndPrevBtns'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import helpers from 'src/consts/helperFunctions'
-import type {TagAsOptionType} from "../types"
-type GalleryImageType = {}
-
-type NewContributionDataType = {
-  tags: Array<TagAsOptionType>,
-  mainGalleryImageIndex?: number,
-  galleryImages: Array<GalleryImageType>
-}
+import type {NewContributionDataType, TagAsOptionType} from "../types"
 
 type HashTagsContentType = {
   title: string,
@@ -59,7 +52,7 @@ const GalleryAndTags = (props: GalleryAndTagsProps) => {
   // hashTags keys are id. note: react-select by default need a 'label' a 'value'(can change this default)
 
   const tags = helpers.objToArrayAsOptions(hashTags, 'id', 'title', ['usage'])
-  const galleryImages: Array<GalleryImageType> = newContributionData.galleryImages || []
+  const galleryImages: any = newContributionData.galleryImages || []
 
   const mainImageIndex = newContributionData.mainGalleryImageIndex
 
@@ -147,7 +140,7 @@ type TagsManagerProps = {
   changeHandler: Function,
   tags: Array<TagAsOptionType>,
   deleteHandler: Function,
-  selectedTags: Array<TagAsOptionType>
+  selectedTags?: Array<TagAsOptionType>
 }
 
 const TagsManager = (props: TagsManagerProps) => {

@@ -22,7 +22,7 @@ const Desc = (props: DescProps) => {
 type MainCategoriesProps = {
   categories: Array<CategoryType>,
   selectCategoryHandler: Function,
-  selectedCategory: string
+  selectedCategory?: string
 }
 
 const MainCategories = (props: MainCategoriesProps) => {
@@ -61,7 +61,7 @@ type NewContributionProps = {
   categories: Array<CategoryType>,
   goToNextStep: Function,
   goToPrevStep: Function,
-  selectedCategory: string,
+  selectedCategory?: string,
   selectCategoryHandler: Function
 }
 

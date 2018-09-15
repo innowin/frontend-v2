@@ -38,7 +38,8 @@ import nowCreatedProductIdSelector from "src/redux/selectors/common/product/getN
 import SkillInfoForm, {skillInfoFormName} from "./skill/infoForm";
 import SkillSuccessMessage from "./skill/successMessage"
 import {skillFields} from "./addingConributionData"
-import type {NewContributionDataType} from "./types"
+import type {NewContributionDataType, SkillFormValsType} from "./types"
+import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 
 
 const reorder = (list, startIndex, endIndex) => {
@@ -51,25 +52,43 @@ const reorder = (list, startIndex, endIndex) => {
 
 
 type AddingContributionProps = {
-
+  _getCategories: Function,
+  _getHashTags: Function,
+  _getCountries: Function,
+  nowCreatedId: number,
+  _changeFormSingleFieldValue: Function,
+  _getProvinces: Function,
+  initialInfoFormState: {},
+  _getCities: Function,
+  _createProduct: Function,
+  skillInfoFormValues: SkillFormValsType,
+  handleModalVisibility: Function,
+  hashTags: {},
+  translator: TranslatorType,
+  categories: {},
+  countries: {},
+  provinces: {},
+  cities: {},
+  modalIsOpen: boolean
 }
 
 type ProgressStepType = {
   title: string,
   icon: React.Node
 }
-
-type ProgressStepsType = {
-  [string]: Array<ProgressStepType>
+type NewTechPropertyDataType = {
+  id?: number,
+  value?: string,
+  title?: string
 }
 type AddingContributionState = {
   wrapperClassName: string,
   activeStep: number,
-  progressSteps: ProgressStepsType,
+  progressSteps: Array<ProgressStepType>,
   progressStatus: string,
   newContributionData: NewContributionDataType,
-  addingTechPropNow: false,
-  newTechPropertyData: {},
+  addingTechPropNow: boolean,
+  newTechPropertyData: NewTechPropertyDataType,
 }
 class AddingContribution extends Component<AddingContributionProps, AddingContributionState> {
   constructor(props) {
@@ -115,7 +134,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
 
 
   _activationAddTechPropBlock = (e, key) => {
-    const isActive = key === 'click'
+    const isActive: boolean = (key === 'click')
     this.setState({
       ...this.state,
       addingTechPropNow: isActive
@@ -129,7 +148,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       return;
     }
     let sourceIndex, destinationIndex
-    const {technicalProperties} = this.state.newContributionData
+    const {technicalProperties=[]} = this.state.newContributionData
     if (source.droppableId === destination.droppableId) {
       sourceIndex = source.index
       destinationIndex = destination.index
@@ -241,7 +260,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       PRODUCT_OWNER
     } = LAYER1S
 
-    let attrs = technicalProperties.reduce((result, property) => {
+    let attrs = technicalProperties && technicalProperties.reduce((result, property) => {
       const newProperty = property.title ? {[property.title]: property.value} : {}
       return {
         ...result,
@@ -313,7 +332,8 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
 
   _deleteTag = (value) => {
     const {newContributionData} = this.state
-    const newTags = newContributionData.tags.filter(tag => tag.value !== value)
+    const {tags=[]} = newContributionData
+    const newTags = tags.filter(tag => tag.value !== value)
     this.setState({...this.state, newContributionData: {...newContributionData, tags: newTags}})
   }
 
@@ -352,7 +372,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
 
   _galleryImageDelete = (idx) => {
     const {newContributionData} = this.state
-    let galleryImages = (newContributionData.galleryImages && [...newContributionData.galleryImages]) || []
+    let galleryImages: any = (newContributionData.galleryImages && [...newContributionData.galleryImages]) || []
     galleryImages.splice(idx, 1)
     this.setState({
       ...this.state,
@@ -386,7 +406,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
   _galleryImageAddEdit = (input, idx) => {
     const {newContributionData} = this.state
     const reader = new FileReader()
-    let galleryImages = (newContributionData.galleryImages && [...newContributionData.galleryImages]) || []
+    let galleryImages: any = (newContributionData.galleryImages && [...newContributionData.galleryImages]) || []
     if (input.files) {
       reader.onload = () => {
         galleryImages.splice(idx, 1, reader.result)
@@ -428,7 +448,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       [NEW_CERT_NEED_FOR_VERIFY]: newContributionData[NEW_CERT_NEED_FOR_VERIFY],
     }
 
-    const newCertificates = (certificates && [...certificates]) || []
+    const newCertificates : any = (certificates && [...certificates]) || []
     const isEditing = (index === 0) || (index > 0)
     const deleteCount = isEditing ? 1 : 0 // determines that creating or updating.
     const start = isEditing ? index : newCertificates.length // if there is index we want to update a certificate. else we only
@@ -672,7 +692,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
 
   render() {
     const {activeStep, progressSteps, progressStatus, wrapperClassName, newContributionData} = this.state
-    const {mainCategory} = newContributionData
+    const {mainCategory=''} = newContributionData
     const {modalIsOpen} = this.props
     return (
         <div>
