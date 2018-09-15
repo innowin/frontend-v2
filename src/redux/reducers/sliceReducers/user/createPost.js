@@ -1,28 +1,31 @@
-import constants from "../../../../consts/constants";
+import constants from "src/consts/constants"
 
 const base = (state, action) => {
 }
 
 const success = (state, action) => {
   const {postOwnerId, postOwnerType, data} = action.payload || {}
-  const defaultObject2 = { content: [], isLoading: false, error: null }
-  const previousPost = (state[postOwnerId] && state[postOwnerId].posts) || defaultObject2
+  const defaultObject2 = {content: [], isLoading: false, error: null}
+  const previousPost = (state.list[postOwnerId] && state.list[postOwnerId].posts) || defaultObject2
 
-  if(postOwnerType === constants.USER_TYPES.PERSON) {
+  if (postOwnerType === constants.USER_TYPES.PERSON) {
     return {
       ...state,
-      [postOwnerId]: {
-        ...state[postOwnerId],
-        posts: {
-          ...previousPost,
-          content: [...previousPost.content, data.id],
-          isLoading: false,
-          error: null
+      list: {
+        ...state.list,
+        [postOwnerId]: {
+          ...state.list[postOwnerId],
+          posts: {
+            ...previousPost,
+            content: [...previousPost.content, data.id],
+            isLoading: false,
+            error: null
+          }
         }
       }
     }
   }
-  else{
+  else {
     return state
   }
 }

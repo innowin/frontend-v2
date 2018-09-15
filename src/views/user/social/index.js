@@ -172,7 +172,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return (state, props) => {
     const {userId} = props
-    const stateUser = state.users[userId]
+    const stateUser = state.users.list[userId]
     const defaultObject = {content: [], isLoading: false, error: null}
     const followObject = (stateUser && stateUser.social && stateUser.social.follow) || defaultObject
 

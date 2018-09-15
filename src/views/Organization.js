@@ -130,7 +130,7 @@ export class Organization extends Component<PropsOrganization> {
 const mapStateToProps = (state, ownProps) => {
 	const {params} = ownProps.match
 	const organId = +params.id
-	const stateOrgan = state.organs[organId]
+	const stateOrgan = state.organs.list[organId]
 	const defaultObject = {content: {}, isLoading: false, error: null}
 	const defaultObject2 = {content: [], isLoading: false, error: null}
 	const organ = (stateOrgan && stateOrgan.organization) || defaultObject

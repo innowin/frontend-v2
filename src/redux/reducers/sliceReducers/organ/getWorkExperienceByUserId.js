@@ -1,18 +1,18 @@
 const base = (state, action) => {
   const {data} = action.payload || {}
   let newState = {}
-  for (let key in data){
+  for (let key in data) {
     let workExperience = data[key]
     let organizationId = workExperience.work_experience_organization
-    let defaultObject2 = { content: [], isLoading: false, error: null }
-    let previousEmployees = (state[organizationId] && state[organizationId].employees) || defaultObject2
+    let defaultObject2 = {content: [], isLoading: false, error: null}
+    let previousEmployees = (state.list[organizationId] && state.list[organizationId].employees) || defaultObject2
     let previousNewStateEmployees = (newState[organizationId] && newState[organizationId].employees) || defaultObject2
 
     newState = {
       ...newState,
       [organizationId]: {
+        ...state.list[organizationId],
         ...newState[organizationId],
-        ...state[organizationId],
         employees: {
           ...previousEmployees,
           ...previousNewStateEmployees,
@@ -24,26 +24,29 @@ const base = (state, action) => {
   }
   return {
     ...state,
-    ...newState,
+    list: {
+      ...state.list,
+      ...newState
+    }
   }
 }
 
 const success = (state, action) => {
   const {data} = action.payload || {}
   let newState = {}
-  for (let key in data){
+  for (let key in data) {
     let workExperience = data[key]
     let organizationId = workExperience.work_experience_organization
     let arrayOfEmployeeId = [workExperience.id]
-    let defaultObject2 = { content: [], isLoading: false, error: null }
-    let previousEmployees = (state[organizationId] && state[organizationId].employees) || defaultObject2
+    let defaultObject2 = {content: [], isLoading: false, error: null}
+    let previousEmployees = (state.list[organizationId] && state.list[organizationId].employees) || defaultObject2
     let previousNewStateEmployees = (newState[organizationId] && newState[organizationId].employees) || defaultObject2
 
     newState = {
       ...newState,
       [organizationId]: {
+        ...state.list[organizationId],
         ...newState[organizationId],
-        ...state[organizationId],
         employees: {
           ...previousEmployees,
           ...previousNewStateEmployees,
@@ -56,25 +59,28 @@ const success = (state, action) => {
   }
   return {
     ...state,
-    ...newState,
+    list: {
+      ...state.list,
+      ...newState
+    }
   }
 }
 
 const error = (state, action) => {
   const {data, message} = action.payload || {}
   let newState = {}
-  for (let key in data){
+  for (let key in data) {
     let workExperience = data[key]
     let organizationId = workExperience.work_experience_organization
-    let defaultObject2 = { content: [], isLoading: false, error: null }
-    let previousEmployees = (state[organizationId] && state[organizationId].employees) || defaultObject2
+    let defaultObject2 = {content: [], isLoading: false, error: null}
+    let previousEmployees = (state.list[organizationId] && state.list[organizationId].employees) || defaultObject2
     let previousNewStateEmployees = (newState[organizationId] && newState[organizationId].employees) || defaultObject2
 
     newState = {
       ...newState,
       [organizationId]: {
+        ...state.list[organizationId],
         ...newState[organizationId],
-        ...state[organizationId],
         employees: {
           ...previousEmployees,
           ...previousNewStateEmployees,
@@ -86,7 +92,10 @@ const error = (state, action) => {
   }
   return {
     ...state,
-    ...newState,
+    list: {
+      ...state.list,
+      ...newState
+    }
   }
 }
 

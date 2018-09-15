@@ -5,143 +5,173 @@ import slices from './sliceReducers/user'
 
 const users = (state = initialState.users, action) => {
   const {userId, data, message} = action.payload || {}
-  const defaultObject = { content: {}, isLoading: false, error: null }
-  const defaultObject2 = { content: [], isLoading: false, error: null }
-  const previousUser = (state[userId] && state[userId].user) || defaultObject
-  const previousProfile = (state[userId] && state[userId].profile) || defaultObject
-  const previousIdentity = (state[userId] && state[userId].identity) || defaultObject
-  const previousBadges = (state[userId] && state[userId].badges) || defaultObject2
+  const defaultObject = {content: {}, isLoading: false, error: null}
+  const defaultObject2 = {content: [], isLoading: false, error: null}
+  const previousUser = (state.list[userId] && state.list[userId].user) || defaultObject
+  const previousProfile = (state.list[userId] && state.list[userId].profile) || defaultObject
+  const previousIdentity = (state.list[userId] && state.list[userId].identity) || defaultObject
+  const previousBadges = (state.list[userId] && state.list[userId].badges) || defaultObject2
 
   switch (action.type) {
-      /** -------------------------- get user -------------------------> **/
+    /** -------------------------- get user -------------------------> **/
     case types.USER.GET_USER_BY_USER_ID:
       return {
         ...state,
-        [userId]: {
-          ...state[userId],
-          user: {
-            ...previousUser,
-            isLoading: true,
-            error: null
+        list: {
+          ...state.list,
+          [userId]: {
+            ...state.list[userId],
+            user: {
+              ...previousUser,
+              isLoading: true,
+              error: null
+            }
           }
         }
       }
     case types.SUCCESS.USER.GET_USER_BY_USER_ID:
       return {
         ...state,
-        [userId]: {
-          ...state[userId],
-          user: {
-            ...previousUser,
-            content: {...data},
-            isLoading: false,
+        list: {
+          ...state.list,
+          [userId]: {
+            ...state.list[userId],
+            user: {
+              ...previousUser,
+              content: {...data},
+              isLoading: false,
+            }
           }
         }
       }
     case types.ERRORS.USER.GET_USER_BY_USER_ID:
       return {
         ...state,
-        [userId]: {
-          ...state[userId],
-          user: {
-            ...previousUser,
-            isLoading: false,
-            error: message
+        list: {
+          ...state.list,
+          [userId]: {
+            ...state.list[userId],
+            user: {
+              ...previousUser,
+              isLoading: false,
+              error: message
+            }
           }
         }
       }
     case types.SUCCESS.USER.GET_USERS:
-      return{
+      return {
         ...state,
-        list:data,
+        list: data,
         isLoading: false,
-        error:null
+        error: null
       }
-      /** -------------------------- get profile -------------------------> **/
+    /** -------------------------- get profile -------------------------> **/
     case types.USER.GET_PROFILE_BY_USER_ID:
       // initial structure build in first request for getProfile is called but profile isLoading is true:
       return {
         ...state,
-        [userId]: {
-          ...state[userId],
-          profile: {
-            ...previousProfile,
-            isLoading: true,
-            error: null
+        list: {
+          ...state.list,
+          [userId]: {
+            ...state.list[userId],
+            profile: {
+              ...previousProfile,
+              isLoading: true,
+              error: null
+            }
           }
         }
       }
     case types.SUCCESS.USER.GET_PROFILE_BY_USER_ID:
       return {
         ...state,
-        [userId]: {
-          ...state[userId],
-          profile: {
-            ...previousProfile,
-            content: {...data},
-            isLoading: false
+        list: {
+          ...state.list,
+          [userId]: {
+            ...state.list[userId],
+            profile: {
+              ...previousProfile,
+              content: {...data},
+              isLoading: false
+            }
           }
         }
       }
     case types.ERRORS.USER.GET_PROFILE_BY_USER_ID:
       return {
         ...state,
-        [userId]: {
-          ...state[userId],
-          profile: {
-            ...previousProfile,
-            error: message,
-            isLoading: false
+        list: {
+          ...state.list,
+          [userId]: {
+            ...state.list[userId],
+            profile: {
+              ...previousProfile,
+              error: message,
+              isLoading: false
+            }
           }
         }
       }
-      /** -------------------------- get identity -------------------------> **/
+    /** -------------------------- get identity -------------------------> **/
     case types.USER.GET_USER_IDENTITY:
       return {
         ...state,
-        [userId]: {
-          ...state[userId],
-          identity: {
-            ...previousIdentity,
-            isLoading: true,
-            error: null
+        list: {
+          ...state.list,
+          [userId]: {
+            ...state.list[userId],
+            identity: {
+              ...previousIdentity,
+              isLoading: true,
+              error: null
+            }
           }
         }
       }
     case types.SUCCESS.USER.GET_USER_IDENTITY:
       return {
         ...state,
-        [userId]: {
-          ...state[userId],
-          identity: {
-            ...previousIdentity,
-            content: {...data},
-            isLoading: false
+        list: {
+          ...state.list,
+          [userId]: {
+            ...state.list[userId],
+            identity: {
+              ...previousIdentity,
+              content: {...data},
+              isLoading: false
+            }
           }
         }
       }
     case types.ERRORS.USER.GET_USER_IDENTITY:
       return {
         ...state,
-        [userId]: {
-          ...state[userId],
-          identity: {
-            ...previousIdentity,
-            isLoading: false,
-            error: message
+        list: {
+          ...state.list,
+          [userId]: {
+            ...state.list[userId],
+            identity: {
+              ...previousIdentity,
+              isLoading: false,
+              error: message
+            }
           }
         }
       }
-      /** -------------------------- get badges -------------------------> **/
+    /** -------------------------- get badges -------------------------> **/
     case types.COMMON.SET_BADGES_IN_USER:
       return {
         ...state,
-        [userId]: {
-          ...state[userId],
-          badges: {
-            ...previousBadges,
-            isLoading: true,
-            error: null
+        list: {
+          ...state.list,
+          [userId]: {
+            ...state.list[userId],
+            badges: {
+              ...previousBadges,
+              isLoading: true,
+              error: null
+            }
           }
         }
       }
@@ -149,24 +179,30 @@ const users = (state = initialState.users, action) => {
       const ArrayOfBadgeId = data.map((badge) => badge.id)
       return {
         ...state,
-        [userId]: {
-          ...state[userId],
-          badges: {
-            ...previousBadges,
-            content: ArrayOfBadgeId,
-            isLoading: false
+        list: {
+          ...state.list,
+          [userId]: {
+            ...state.list[userId],
+            badges: {
+              ...previousBadges,
+              content: ArrayOfBadgeId,
+              isLoading: false
+            }
           }
         }
       }
     case types.ERRORS.COMMON.SET_BADGES_IN_USER:
       return {
         ...state,
-        [userId]: {
-          ...state[userId],
-          badges: {
-            ...previousBadges,
-            isLoading: false,
-            error: message
+        list: {
+          ...state.list,
+          [userId]: {
+            ...state.list[userId],
+            badges: {
+              ...previousBadges,
+              isLoading: false,
+              error: message
+            }
           }
         }
       }

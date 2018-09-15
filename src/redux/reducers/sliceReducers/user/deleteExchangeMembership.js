@@ -5,25 +5,28 @@ const base = (state, action) => {
 
 const success = (state, action) => {
   const {exchangeMembershipOwnerId, exchangeMembershipOwnerType, exchangeMembershipId} = action.payload || {}
-  const defaultObject2 = { content: [], isLoading: false, error: null }
-  const previousMembership = (state[exchangeMembershipOwnerId] && state[exchangeMembershipOwnerId].exchangeMemberships) || defaultObject2
+  const defaultObject2 = {content: [], isLoading: false, error: null}
+  const previousMembership = (state.list[exchangeMembershipOwnerId] && state.list[exchangeMembershipOwnerId].exchangeMemberships) || defaultObject2
 
-  if(exchangeMembershipOwnerType === constants.USER_TYPES.PERSON) {
+  if (exchangeMembershipOwnerType === constants.USER_TYPES.PERSON) {
     const newDeletedMemberships = previousMembership.content.filter(id => id !== exchangeMembershipId);
     return {
       ...state,
-      [exchangeMembershipOwnerId]: {
-        ...state[exchangeMembershipOwnerId],
-        exchangeMemberships: {
-          ...previousMembership,
-          content: [...newDeletedMemberships],
-          isLoading: false,
-          error: null
+      list: {
+        ...state.list,
+        [exchangeMembershipOwnerId]: {
+          ...state.list[exchangeMembershipOwnerId],
+          exchangeMemberships: {
+            ...previousMembership,
+            content: [...newDeletedMemberships],
+            isLoading: false,
+            error: null
+          }
         }
       }
     }
   }
-  else{
+  else {
     return state
   }
 }

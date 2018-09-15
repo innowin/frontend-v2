@@ -122,7 +122,7 @@ const mapStateToProps  = (state, ownProps) => {
   return (state, props) => {
 
     let userId = props.id
-    const stateUser = state.users[userId]
+    const stateUser = state.users.list[userId]
     const defaultObject = {content: [], isLoading: false, error: null}
     const postObject = (stateUser && stateUser.posts) || defaultObject
 

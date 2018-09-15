@@ -8,13 +8,13 @@ const getUserFollows = (state, props) => {
   else return undefined
 }
 const getUsers = state => state.users
-const getOrgans = state => state.organs
+const getOrgans = state => state.organs.list
 
 /** this selector selects followers by identity **/
 export const makeGetFollowersSelector = (state, props) => {
   return createSelector(
       [getFollows, getUserFollows, getUsers, getOrgans],
-      (follows, userFollows, users, organs) => {
+      (follows, userFollows, users, organsList) => {
         const identityId = props.identityId
         if (follows && Object.keys(follows).length !== 0 && follows.constructor === Object && userFollows && identityId) {
           const arrayFollows = helpers.getObjectOfArrayKeys(userFollows, follows)
@@ -31,8 +31,8 @@ export const makeGetFollowersSelector = (state, props) => {
             }
             else{
               id = follow.follow_follower.identity_organization
-              if(organs[id] && organs[id].organization && organs[id].organization.content.organization_logo){
-                img = organs[id].organization.content.organization_logo.file
+              if(organsList[id] && organsList[id].organization && organsList[id].organization.content.organization_logo){
+                img = organsList[id].organization.content.organization_logo.file
               }
               else{
                 img = ''
