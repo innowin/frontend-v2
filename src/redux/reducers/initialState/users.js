@@ -47,10 +47,10 @@ export default {
          isLoading:false,
          error:null
      },
-     workExperiences:{
-         content:[{}, {} , ...],  list of workExperience object
-         isLoading:false,
-         error:null
+     workExperiences: {
+				 content:[1, 2, ...], list of workExperience id
+				 isLoading:false,
+				 error: null
      },
      exchanges:{
          content:[1, 2, ...], list of exchanges id

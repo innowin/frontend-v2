@@ -10,7 +10,7 @@ import {PostCreateForm} from "./PostCreateForm";
 import {bindActionCreators} from "redux";
 import PostActions from "../../../redux/actions/commonActions/postActions";
 import connect from "react-redux/es/connect/connect";
-import {makeUserPostsSelector} from 'src/redux/selectors/common/userPostsSelector'
+import {makeUserPostsSelector} from 'src/redux/selectors/common/post/userPostsSelector'
 import {Post} from './Post'
 import constants from "../../../consts/constants";
 

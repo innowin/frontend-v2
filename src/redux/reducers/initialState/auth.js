@@ -16,5 +16,6 @@ export default {
     isLoggedIn: false,
     error: null,
     exchangeMemberships: [], /* ids of exchanges that user is member of that*/
+    workExperiences: [], /* ids of workExperiences that this client is member of them*/
   }
 }

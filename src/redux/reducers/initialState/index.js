@@ -6,6 +6,7 @@ import organsState from "./organs"
 import exchangesState from "./exchanges"
 import commonStates from "./common"
 import intlState from "./intl"
+import workExperienceState from './workExperience'
 
 
 export default {
@@ -15,6 +16,7 @@ export default {
   organization: organizationState,
   organs: organsState,
   exchanges: exchangesState,
+  workExperience: workExperienceState,
   common: {
     agencyRequest: commonStates.agencyRequestState,
     badge: commonStates.badgeState,

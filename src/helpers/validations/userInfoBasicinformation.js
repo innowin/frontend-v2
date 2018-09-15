@@ -19,7 +19,7 @@ const userInfoValidation = (values, {translate}) => {
     } else {
       requiredErrors.push(false)
     }
-    (requiredErrors.includes(true)) ? (errors._error = translate['Email is required']) : (errors._error = "")
+    (requiredErrors.includes(true)) ? (errors._error = translate['Fill required fields']) : (errors._error = "")
   })
 
   return errors

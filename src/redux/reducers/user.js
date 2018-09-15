@@ -227,6 +227,19 @@ const users = (state = initialState.users, action) => {
     /** -------------------------- delete exchange membership  -------------------------> **/
     case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.DELETE_EXCHANGE_MEMBERSHIP:
       return slices.deleteExchangeMembership.success(state, action)
+    /** -------------------------- get work experience by user id  -------------------------> **/
+    case types.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID:
+      return slices.getWorkExperienceByUserId.base(state, action)
+    case types.SUCCESS.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID:
+      return slices.getWorkExperienceByUserId.success(state, action)
+    case types.ERRORS.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID:
+      return slices.getWorkExperienceByUserId.error(state, action)
+    /** -------------------------- create work experience by user id -------------------------> **/
+    case types.SUCCESS.WORK_EXPERIENCE.CREATE_USER_WORK_EXPERIENCES_BY_USER_ID:
+      return slices.createWorkExperienceByUserId.success(state, action)
+    /** -------------------------- delete work experience by user id -------------------------> **/
+    case types.SUCCESS.WORK_EXPERIENCE.DELETE_USER_WORK_EXPERIENCES_BY_USER_ID:
+      return slices.deleteWorkExperienceByUserId.success(state, action)
     /** -------------------------- reset users -------------------------> **/
     case types.RESET:
       return initialState.users

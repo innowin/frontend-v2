@@ -8,12 +8,11 @@ import renderTextField from "../../common/inputs/reduxFormRenderTextField"
 import {ArrayInput} from "src/views/common/inputs/ArrayInput"
 import {CustomArrayInput} from "src/views/common/inputs/CustomArrayInput"
 import {CustomInput} from "src/views/common/inputs/CustomInput"
+import {ReduxFormDateInput} from 'src/views/common/inputs/reduxFormDateInput'
 import {Field, reduxForm} from "redux-form";
 import {outputComponent} from "src/views/common/OutputComponent"
 import {PhoneInput} from "src/views/common/inputs/PhoneInput"
-import type {
-  userProfileType,
-} from "src/consts/flowTypes/user/basicInformation"
+import type {userProfileType} from "src/consts/flowTypes/user/basicInformation"
 import profileInfoValidation from "../../../helpers/validations/profileInfoBasicInformation"
 
 type ProfileInfoFormInputType = {
@@ -106,7 +105,6 @@ class ProfileInfoEditForm extends Component<PropsProfileInfoEditForm> {
       formFormat[key] === null ? delete(formFormat[key]) : ''
       return formFormat
     })
-    // TODO: mohammad validation form and errors
     // TODO: mohammad mobile, phone, web_site not send to server(array forms)
     // they are array forms and must change the send format
 
@@ -120,132 +118,100 @@ class ProfileInfoEditForm extends Component<PropsProfileInfoEditForm> {
     const {translate, handleSubmit, profile, submitFailed, error} = this.props
     return (
         <form onSubmit={handleSubmit(this._onSubmit)}>
-          <div className="row">
-            <div className='user-basic-information-date-container'>
-              <label>
-                {translate['BirthDate'] + ": "}
-              </label>
-              <div className='date-container'>
-                <Field
-                    name="day"
-                    type="text"
-                    className='date-part-container'
-                    component={renderTextField}
-                    label={translate['Day']}
-                    textFieldClass='form-control'
-                />
-                <Field
-                    name="month"
-                    type="text"
-                    className='date-part-container'
-                    component={renderTextField}
-                    label={translate['Month']}
-                    textFieldClass='form-control'
-                />
-                <Field
-                    name="year"
-                    type="text"
-                    className='date-part-container'
-                    component={renderTextField}
-                    label={translate['Year']}
-                    textFieldClass='form-control'
-                />
-              </div>
-            </div>
-            <div className='col-12 form-group'>
-              <label>
-                {translate['National code'] + ": "}
-              </label>
-              <Field
-                  name="nationalCode"
-                  type="text"
-                  component={renderTextField}
-                  label={translate['Username']}
-                  textFieldClass='form-control'
-              />
-            </div>
-            <CustomArrayInput
-                label={translate['Mobile'] + ": "}
-                value={profile.mobile}
-                inputComponent={PhoneInput}
-                outputComponent={outputComponent}
-                ref={mobileInput => {
-                  this.mobileInput = mobileInput
-                }}
-            />
-            <CustomArrayInput
-                label={translate['Phone'] + ": "}
-                value={profile.phone}
-                inputComponent={PhoneInput}
-                outputComponent={outputComponent}
-                ref={phoneInput => {
-                  this.phoneInput = phoneInput
-                }}
-            />
-            <CustomInput
-                label={translate['Fax'] + ": "}
-                value={profile.fax}
-                ref={faxInput => {
-                  this.faxInput = faxInput
-                }}
-                inputComponent={PhoneInput}
-            />
-            <div className='col-12 form-group'>
-              <label>
-                {translate['Public email'] + ": "}
-              </label>
-              <Field
-                  name="publicEmail"
-                  type="email"
-                  component={renderTextField}
-                  label={translate['Public email']}
-                  textFieldClass='form-control'
-              />
-            </div>
-            <div className='col-12 form-group'>
-              <label>
-                {translate['Telegram account'] + ": "}
-              </label>
-              <Field
-                  name="telegramAccount"
-                  type="text"
-                  component={renderTextField}
-                  label={translate['Telegram account']}
-                  textFieldClass='form-control'
-              />
-            </div>
-            {/*TODO WEB INPUT*/}
-            <ArrayInput
-                name="webSite"
-                label={translate['Website'] + ": "}
-                placeholder={translate['Web Site Format']}
-                value={profile.web_site}
-                ref={webSiteInput => {
-                  this.webSiteInput = webSiteInput
-                }}
-            />
-            <div className='col-12 form-group'>
-              <label>
-                {translate['Description'] + ": "}
-              </label>
-              <Field
-                  name="description"
-                  type="text"
-                  component={renderTextArea}
-                  label={translate['Description']}
-                  textFieldClass='form-control'
-              />
-            </div>
+          <ReduxFormDateInput translate={translate} labelName={translate['BirthDate']} dayName='day' monthName='month' yearName='year'/>
 
-            {submitFailed && <p className="error-message">{error}</p>}
+          <div className='form-group'>
+            <label>
+              {translate['National code'] + ": "}
+            </label>
+            <Field
+                name="nationalCode"
+                type="text"
+                component={renderTextField}
+                label={translate['Username']}
+                textFieldClass='form-control'
+            />
+          </div>
+          <CustomArrayInput
+              label={translate['Mobile'] + ": "}
+              value={profile.mobile}
+              inputComponent={PhoneInput}
+              outputComponent={outputComponent}
+              ref={mobileInput => {
+                this.mobileInput = mobileInput
+              }}
+          />
+          <CustomArrayInput
+              label={translate['Phone'] + ": "}
+              value={profile.phone}
+              inputComponent={PhoneInput}
+              outputComponent={outputComponent}
+              ref={phoneInput => {
+                this.phoneInput = phoneInput
+              }}
+          />
+          <CustomInput
+              label={translate['Fax'] + ": "}
+              value={profile.fax}
+              ref={faxInput => {
+                this.faxInput = faxInput
+              }}
+              inputComponent={PhoneInput}
+          />
+          <div className='form-group'>
+            <label>
+              {translate['Public email'] + ": "}
+            </label>
+            <Field
+                name="publicEmail"
+                type="email"
+                component={renderTextField}
+                label={translate['Public email']}
+                textFieldClass='form-control'
+            />
+          </div>
+          <div className='form-group'>
+            <label>
+              {translate['Telegram account'] + ": "}
+            </label>
+            <Field
+                name="telegramAccount"
+                type="text"
+                component={renderTextField}
+                label={translate['Telegram account']}
+                textFieldClass='form-control'
+            />
+          </div>
+          {/*TODO WEB INPUT*/}
+          <ArrayInput
+              name="webSite"
+              label={translate['Website'] + ": "}
+              placeholder={translate['Web Site Format']}
+              value={profile.web_site}
+              ref={webSiteInput => {
+                this.webSiteInput = webSiteInput
+              }}
+          />
+          <div className='form-group'>
+            <label>
+              {translate['Description'] + ": "}
+            </label>
+            <Field
+                name="description"
+                type="text"
+                component={renderTextArea}
+                label={translate['Description']}
+                textFieldClass='form-control'
+            />
+          </div>
 
+          {submitFailed && <p className="error-message">{error}</p>}
 
-            <div className="col-12 d-flex justify-content-end">
-              <button type="button" className="btn btn-secondary mr-2" onClick={this.props.hideEdit}>
-                {translate['Cancel']}
-              </button>
-              <button type="submit" className="btn btn-success">{translate['Save']}</button>
-            </div>
+          <div className="d-flex justify-content-end">
+            <button type="button" className="btn btn-secondary mr-2" onClick={this.props.hideEdit}>
+              {translate['Cancel']}
+            </button>
+            <button type="submit" className="btn btn-success">{translate['Save']}</button>
           </div>
         </form>
     )

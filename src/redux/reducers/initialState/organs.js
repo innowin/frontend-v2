@@ -13,6 +13,12 @@ export default {
      isLoading:false,
      error: null
     },
+  ---------------- others ----------------
+		employees: {
+			 content:[1, 2, ...], list of workExperience id
+			 isLoading:false,
+			 error: null,
+		 },
  }
 */
 }

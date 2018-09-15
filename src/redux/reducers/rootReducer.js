@@ -1,35 +1,38 @@
 // @flow
 import {combineReducers} from 'redux'
-import auth from './auth'
-import organization from './organization'
-import {routerReducer} from 'react-router-redux'
-import {intlReducer} from './intl'
+import {persistReducer} from "redux-persist";
 import {reducer as formReducer} from 'redux-form'
+import {routerReducer} from 'react-router-redux'
+import storage from 'redux-persist/lib/storage'
+
+import auth from './auth'
+import common from "./commonReducer/index"
 import exchanges from "./exchange"
+import organization from './organization'
 import organs from "./organ"
 import users from "./user"
-import common from "./commonReducer/index"
-import storage from 'redux-persist/lib/storage'
-import {persistReducer} from "redux-persist";
+import workExperience from './workExperience'
+import {intlReducer} from './intl'
 
 
 const commonPersistConfig = {key: 'common', storage: storage,}
 
 const reducers = {
-    auth,
-    users,
-    organs,
-    organization,
-    exchanges,
-    common: persistReducer(commonPersistConfig, common)
+  auth,
+  users,
+  organs,
+  organization,
+  exchanges,
+  common: persistReducer(commonPersistConfig, common),
+  workExperience,
 }
 
 //Don't change below code ,  Put your reducer on the upper object.
 const rootReducer = combineReducers({
-    ...reducers,
-    intl: intlReducer,
-    router: routerReducer,
-    form: formReducer
+  ...reducers,
+  intl: intlReducer,
+  router: routerReducer,
+  form: formReducer
 })
 
 export default rootReducer

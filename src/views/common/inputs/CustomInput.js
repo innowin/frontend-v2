@@ -39,7 +39,7 @@ export class CustomInput extends Component {
     render() {
         const {inputComponent: InputComponent, value, required} = this.props;
         return (
-            <div className={cx("col-12 form-group", {'has-danger': this.state.error})}>
+            <div className={cx("form-group", {'has-danger': this.state.error})}>
                 {/*TO DO : keep-ltr*/}
                 <label>{this.props.label}</label>
                 <InputComponent ref="inputComponent" value={value} required={required}/>

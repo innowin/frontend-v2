@@ -1,11 +1,23 @@
+// @flow
 /*global __*/
 
-import React, {Component} from "react";
+import * as React from "react";
 import PropTypes from "prop-types";
 import {Confirm} from "../../common/cards/Confirm";
 import {PostForm} from "./PostForm";
 
-export class PostEditForm extends Component {
+type PropsPostEditForm = {
+  updateFunc: Function,
+  deleteFunc: Function,
+  hideEdit: Function,
+  post: {},
+  translate: {},
+}
+type StatePostEditForm = {
+  confirm: boolean,
+}
+
+export class PostEditForm extends React.Component<PropsPostEditForm, StatePostEditForm> {
 
   static propTypes = {
     updateFunc: PropTypes.func.isRequired,
@@ -31,19 +43,21 @@ export class PostEditForm extends Component {
     return this.props.deleteFunc()
   };
 
+  form: ?React.ElementRef<typeof PostForm>
+
   _save = () => {
-    const {post, updateFunc, hideEdit} = this.props;
-    const postId = post.id;
-    const formValues = this.form._getValues();
-    hideEdit()
-    return updateFunc(formValues, postId)
+    if(this.form && this.form._formValidate()){
+      const {post, updateFunc, hideEdit} = this.props;
+      const postId = post.id;
+      const formValues = this.form._getValues();
+      hideEdit()
+      return updateFunc(formValues, postId)
+    }
   };
 
   _onSubmit = (e) => {
     e.preventDefault();
-    if (this.form._formValidate()) {
-      this._save();
-    }
+    this._save();
     return false;
   };
 

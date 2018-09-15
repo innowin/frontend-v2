@@ -20,10 +20,11 @@
 }
 
 .-itemWrapperPost {
-  margin-bottom: 5px;
+  margin-bottom: 15px;
   border: 1px solid $eee-color;
   border-radius: 3px;
   padding: 18px 18px 13px 18px;
+  box-shadow: 0 2px 5px $box-shadow-color;
 
   .-item-headerPost{
     display: flex;
