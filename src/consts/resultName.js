@@ -108,6 +108,12 @@ const results = {
     CREATE_USER_WORK_EXPERIENCES_BY_USER_ID: 'create-user-work-experiences-by-user-id',
     DELETE_USER_WORK_EXPERIENCES_BY_USER_ID: 'delete-user-work-experiences-by-user-id',
   },
+  EDUCATION: {
+    GET_USER_EDUCATION_BY_USER_ID: 'get-user-education-by-user-id',
+    CREATE_USER_EDUCATION_BY_USER_ID: 'create-user-education-by-user-id',
+    DELETE_USER_EDUCATION_BY_USER_ID: 'delete-user-education-by-user-id',
+    UPDATE_USER_EDUCATION_BY_USER_ID: 'update-user-education-by-user-id'
+  },
   //contribution
   CREATE_PRODUCT: 'create-product',
   CREATE_Skill: 'create-skill',

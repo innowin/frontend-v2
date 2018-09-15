@@ -36,7 +36,8 @@ import identityWatchers from "./getIdentity"
 // TODO: mohammad all user sagas must go to ./user/user.js and just one import here from ./user/user.js
 import userWatchers from './user/user'
 import commonWatchers from './common/index'
-import workExperienceWatchers from './workExperiences'
+import workExperienceWatchers from './workExperience'
+import educationWatchers from './education'
 
 const rootSaga = function* () {
   yield all([
@@ -89,6 +90,9 @@ const rootSaga = function* () {
 
     // work experiences
     ...workExperienceWatchers,
+
+    // educations
+    ...educationWatchers,
 
     // NOTE: the common watchers pushed to common/index.js to prevent from conflict.
     // common

@@ -101,7 +101,7 @@ module.exports = {
   'To date': "تا تاریخ",
   'Average': "معدل",
   'Description': "توضیحات",
-  'Educations': "سوابق تحصیلی",
+  'Educations': "سوابق علمی",
 
   // user - BasicInformation
   'National code must be 10 digit ': "کد ملی باید عدد ۱۰ رقمی باشد",
