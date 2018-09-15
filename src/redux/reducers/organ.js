@@ -3,78 +3,90 @@ import types from "../actions/types/index"
 import slices from "./sliceReducers/organ";
 
 const organs = (state = initialState.organs, action) => {
-  const {organizationId, data, message}= action.payload || {}
+  const {organizationId, data, message} = action.payload || {}
   const defaultObject = {content: {}, isLoading: false, error: null}
   const defaultObject2 = {content: [], isLoading: false, error: null}
-  const previousOrgan = (state[organizationId] && state[organizationId].organization) || defaultObject
-  const previousBadges = (state[organizationId] && state[organizationId].badges) || defaultObject2
+  const previousOrgan = (state.list[organizationId] && state.list[organizationId].organization) || defaultObject
+  const previousBadges = (state.list[organizationId] && state.list[organizationId].badges) || defaultObject2
   switch (action.type) {
     /** -------------------------- get organ -------------------------> **/
     case types.ORG.GET_ORGANIZATION:
       return {
         ...state,
-        [organizationId]: {
-          ...state[organizationId],
-          organization:{
-            ...previousOrgan,
-            isLoading: true,
-            error: null
+        list: {
+          ...state.list,
+          [organizationId]: {
+            ...state.list[organizationId],
+            organization: {
+              ...previousOrgan,
+              isLoading: true,
+              error: null
+            }
           }
         }
       }
     case types.SUCCESS.ORG.GET_ORGANIZATION:
       return {
         ...state,
-        [organizationId]: {
-          ...state[organizationId],
-          organization:{
-            ...previousOrgan,
-            content: {...data},
-            isLoading: false
+        list: {
+          ...state.list,
+          [organizationId]: {
+            ...state.list[organizationId],
+            organization: {
+              ...previousOrgan,
+              content: {...data},
+              isLoading: false
+            }
           }
         }
       }
     case types.ERRORS.ORG.GET_ORGANIZATION:
       return {
         ...state,
-        [organizationId]: {
-          ...state[organizationId],
-          organization:{
-            ...previousOrgan,
-            isLoading: false,
-            error: message
-            
+        list: {
+          ...state.list,
+          [organizationId]: {
+            ...state.list[organizationId],
+            organization: {
+              ...previousOrgan,
+              isLoading: false,
+              error: message
+            }
           }
         }
       }
-
     /** -------------------------- update organization info-------------------------> **/
-		case types.SUCCESS.ORG.UPDATE_ORGANIZATION_INFO:
-    const updatedOrganization = action.payload
-    return {
-      ...state,
-      [updatedOrganization.id]: {
-        ...state[updatedOrganization.id],
-        organization:{
-          ...previousOrgan,
-          content: {...updatedOrganization},
-          isLoading: false,
-          error: message
-          
+    case types.SUCCESS.ORG.UPDATE_ORGANIZATION_INFO:
+      const updatedOrganization = action.payload
+      return {
+        ...state,
+        list:{
+          ...state.list,
+          [updatedOrganization.id]: {
+            ...state.list[updatedOrganization.id],
+            organization: {
+              ...previousOrgan,
+              content: {...updatedOrganization},
+              isLoading: false,
+              error: message
+
+            }
+          }
         }
       }
-    }
-
     /** -------------------------- badge -------------------------> **/
     case types.COMMON.SET_BADGES_IN_ORG:
       return {
         ...state,
-        [organizationId]: {
-          ...state[organizationId],
-          badges: {
-            ...previousBadges,
-            isLoading: true,
-            error: null
+        list:{
+          ...state.list,
+          [organizationId]: {
+            ...state.list[organizationId],
+            badges: {
+              ...previousBadges,
+              isLoading: true,
+              error: null
+            }
           }
         }
       }
@@ -82,24 +94,30 @@ const organs = (state = initialState.organs, action) => {
       const ArrayOfBadgeId = data.map((badge) => badge.id)
       return {
         ...state,
-        [organizationId]: {
-          ...state[organizationId],
-          badges: {
-            ...previousBadges,
-            content: ArrayOfBadgeId,
-            isLoading: false
+        list:{
+          ...state.list,
+          [organizationId]: {
+            ...state.list[organizationId],
+            badges: {
+              ...previousBadges,
+              content: ArrayOfBadgeId,
+              isLoading: false
+            }
           }
         }
       }
     case types.ERRORS.COMMON.SET_BADGES_IN_ORG:
       return {
         ...state,
-        [organizationId]: {
-          ...state[organizationId],
-          badges: {
-            ...previousBadges,
-            isLoading: false,
-            error: message
+        list:{
+          ...state.list,
+          [organizationId]: {
+            ...state.list[organizationId],
+            badges: {
+              ...previousBadges,
+              isLoading: false,
+              error: message
+            }
           }
         }
       }

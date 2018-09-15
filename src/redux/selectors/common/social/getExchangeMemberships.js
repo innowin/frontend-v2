@@ -6,8 +6,9 @@ const getExchangeMemberships = state => state.common.exchangeMembership.list
 
 const getUserMemberships = (state, props) => {
   const id = props.id || props.userId
-  if (state && state.users && state.users[id] && state.users[id].exchangeMemberships)
-    return state.users[id].exchangeMemberships.content
+  const usersList = state.users.list
+  if (usersList[id] && usersList[id].exchangeMemberships)
+    return usersList[id].exchangeMemberships.content
   else return undefined
 }
 

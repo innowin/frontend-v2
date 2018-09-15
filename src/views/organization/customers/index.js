@@ -113,7 +113,7 @@ export class Customers extends React.Component<CustomersProps,{createForm: boole
 		const {isLoading,error} = organization.customers;
 		const customers = organization.customers;
 		const {createForm} = this.state;
-		const organ = organs[organizationId].organization.content
+		const organ = organs.list[organizationId].organization.content
 		return (
 			<VerifyWrapper isLoading={isLoading} error={error}>
 				{

@@ -160,7 +160,7 @@ class User extends Component<PropsUser> {
 const mapStateToProps = (state, ownProps) => {
   const {params} = ownProps.match
   const userId = +params.id
-  const stateUser = state.users[userId]
+  const stateUser = state.users.list[userId]
   const defaultObject = {content: {}, isLoading: false, error: null}
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const user = (stateUser && stateUser.user) || defaultObject
