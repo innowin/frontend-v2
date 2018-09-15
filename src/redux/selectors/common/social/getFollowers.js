@@ -3,11 +3,13 @@ import helpers from 'src/consts/helperFunctions'
 
 const getFollows = state => state.common.social.follows.list
 const getUserFollows = (state, props) => {
-  if (state && state.users && state.users[props.userId] && state.users[props.userId].social && state.users[props.userId].social.follows)
-    return state.users[props.userId].social.follows.content
+  const id = props.userId || props.id
+  const usersList = state.users.list
+  if (usersList[id] && usersList[id].social && usersList[id].social.follows)
+    return usersList[id].social.follows.content
   else return undefined
 }
-const getUsers = state => state.users
+const getUsers = state => state.users.list
 const getOrgans = state => state.organs.list
 
 /** this selector selects followers by identity **/
