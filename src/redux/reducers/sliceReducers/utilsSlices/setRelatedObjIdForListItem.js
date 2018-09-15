@@ -2,12 +2,11 @@ const success = (state, action, relatedKey) => {
   const {list} = state
   const {destinationId, relatedObjId} = action.payload
   const oldObject = list[destinationId]
-  const newObject = oldObject[relatedKey] ? {
-    ...oldObject,
-    [relatedKey]: [...oldObject[relatedKey], relatedObjId]
-  } : {
-    ...oldObject,
-    [relatedKey]: [relatedObjId]
+  const relatedIds = oldObject[relatedKey] || []
+  relatedIds.push(relatedObjId)
+  const newObject = {
+      ...oldObject,
+    [relatedKey]: [...new Set(relatedIds)]
   }
   return {
     ...state,
