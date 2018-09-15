@@ -7,7 +7,7 @@ import type {TechnicalPropertyType} from "../types"
 
 
 type TechnicalPropertiesProps = {
-  properties: Array<TechnicalPropertyType>,
+  properties?: Array<TechnicalPropertyType>,
   activationAddPropBlock: Function,
   addingTechPropNow: boolean,
   inputFillHandler: Function,
@@ -86,7 +86,7 @@ const TechnicalProperties = (props: TechnicalPropertiesProps) => {
                           {reOrderedProperties.slice(rowNum - 3, rowNum).map((property, index) => (
                               <Draggable
                                   index={index}
-                                  key={`completeProperty${property.id}`}
+                                  key={property.id ? `completeProperty${property.id}` : property.id }
                                   draggableId={property.id}
                                   isDragDisabled={!property.title}
                               >
@@ -162,7 +162,7 @@ const TechnicalProperties = (props: TechnicalPropertiesProps) => {
 
 
 type InputsProps = {
-  id: string | number,
+  id?: number,
   newPropertyData: TechnicalPropertyType,
   inputFillHandler: Function,
   activationAddPropBlock: Function,
@@ -205,7 +205,7 @@ const Inputs = (props: InputsProps) => {
   return (
       <div>
         <div
-            id={`title-wrapper${id}`}
+            id={id? `title-wrapper${id}`: id}
             className={_setTitleWrapperClassName()}
         >
           <input
