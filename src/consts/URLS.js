@@ -20,6 +20,7 @@ const urls = {
     UPDATE_USER_BY_USER_ID: "users",
     UPDATE_PROFILE_BY_PROFILE_ID: "users/profiles",
     GET_USERS: 'users',
+    CREATE_SKILL: 'users/skills'
   },
   ORG: {
     GET_ORGANIZATION: 'organizations',
@@ -66,8 +67,6 @@ const urls = {
     UPDATE_USER_EDUCATION_BY_USER_ID: 'users/educations',
   },
 
-  CREATE_PRODUCT: 'products',
-  CREATE_Skill: 'users/skills',
   COMMON: {
     // product
     PRODUCT: 'products',

@@ -15,7 +15,6 @@ function* createFile(action) { // payload?
 
     const socketChannel = yield call(api.createSocketChannel, dynamicResult)
 
-    console.log('---- SAGA ---- >> createFile >> action is: ', action)
     try {
         const file = {file_string}
         yield fork(api.post, urls.COMMON.FILE, dynamicResult, file)
@@ -41,12 +40,10 @@ function* createFile(action) { // payload?
             }
         }
 
-        console.log('---- SAGA ---- >> createFile >> data is: ', data)
         yield put({type: types.SUCCESS.COMMON.CREATE_FILE, payload: {data}})
         yield put({type: nextActionType, payload})
 
     } catch (error) {
-        console.log('----- SAGA ----- >> createFile >> error is : \n', error)
         yield put({type: types.ERRORS.COMMON.CREATE_FILE, error})
 
     } finally {

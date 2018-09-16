@@ -12,6 +12,7 @@ const results = {
     UPDATE_USER_BY_USER_ID: "UPDATE_USER_BY_USER_ID",
     UPDATE_PROFILE_BY_PROFILE_ID: 'UPDATE_PROFILE_BY_PROFILE_ID',
     GET_USERS: 'GET_USERS',
+    CREATE_SKILL_RESULT: 'create-skill-result'
   },
   ORG: {
     GET_ORGANIZATION: 'get-organization',
@@ -114,8 +115,5 @@ const results = {
     DELETE_USER_EDUCATION_BY_USER_ID: 'delete-user-education-by-user-id',
     UPDATE_USER_EDUCATION_BY_USER_ID: 'update-user-education-by-user-id'
   },
-  //contribution
-  CREATE_PRODUCT: 'create-product',
-  CREATE_Skill: 'create-skill',
 }
 export default results

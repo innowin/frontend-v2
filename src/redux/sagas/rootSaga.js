@@ -80,6 +80,7 @@ const rootSaga = function* () {
     // user watchers
     userWatchers.watchUpdateUserByUserId(),
     userWatchers.watchUpdateProfileByProfileId(),
+    userWatchers.watchCreateSkill(),
 
     // auth watchers
     authWatchers.watchVerifyToken(),

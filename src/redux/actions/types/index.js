@@ -1,5 +1,4 @@
 import commonTypes from './common/index'
-import contributionTypes from './contribution'
 import userTypes from './user'
 import orgTypes from './organization'
 import authTypes from './auth'
@@ -13,7 +12,6 @@ const types = {
 	ERRORS: {
 		COMMON: commonTypes.ERROR,
 		AUTH: authTypes.ERROR,
-		CONT: contributionTypes.ERROR, // contribution errors
 		USER: userTypes.ERROR,
 		ORG: orgTypes.ERROR, // organization errors
 		EXCHANGE: exchangeTypes.ERROR,
@@ -24,7 +22,6 @@ const types = {
 	SUCCESS: {
 		COMMON: commonTypes.SUCCESS,
 		AUTH: authTypes.SUCCESS,
-		CONT: contributionTypes.SUCCESS, // contribution success
 		USER: userTypes.SUCCESS,
 		ORG: orgTypes.SUCCESS, // organization success
 		EXCHANGE: exchangeTypes.SUCCESS,
@@ -34,7 +31,6 @@ const types = {
 	},
 	COMMON: commonTypes.BASE,
 	AUTH: authTypes.BASE,
-	CONT: contributionTypes.BASE,
 	USER: userTypes.BASE,
 	ORG: orgTypes.BASE,
 	EXCHANGE: exchangeTypes.BASE,

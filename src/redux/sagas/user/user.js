@@ -1,12 +1,17 @@
 import {updateUserByUserId} from './updateUserByUserIdSaga'
 import {updateProfileByProfileId} from "./updateProfileByProfileIdSaga"
-
+import createSkill from "./createSkillSaga"
 import {takeEvery} from "../../../../node_modules/redux-saga/effects"
 import types from "../../actions/types"
 
 // update user by user id
 function* watchUpdateUserByUserId() {
   yield takeEvery(types.USER.UPDATE_USER_BY_USER_ID, updateUserByUserId)
+}
+
+// create skill
+function* watchCreateSkill() {
+  yield takeEvery(types.USER.CREATE_SKILL, createSkill)
 }
 
 // update profile by profile id
@@ -16,5 +21,6 @@ function* watchUpdateProfileByProfileId() {
 
 export default{
   watchUpdateUserByUserId,
-  watchUpdateProfileByProfileId
+  watchUpdateProfileByProfileId,
+  watchCreateSkill
 }
