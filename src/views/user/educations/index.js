@@ -4,25 +4,30 @@ import PropTypes from 'prop-types'
 import {connect} from "react-redux"
 
 import {getMessages} from "../../../redux/selectors/translateSelector"
-import {CategoryTitle, FrameCard, ListGroup} from "../../common/cards/Frames";
+import {CategoryTitle, FrameCard, ItemWrapper, ListGroup} from "../../common/cards/Frames";
 import {EducationInfo} from './EducationInfo'
-import {getUserEducations} from "../../../crud/user/education";
-import type {userEducationType} from "../../../consts/flowTypes/user/basicInformation";
 import {makeGetEducations} from "../../../redux/selectors/user/userGetEducationsSelector";
 import {bindActionCreators} from "redux";
 import EducationActions from "../../../redux/actions/educationActions";
+import workExperienceIcon from "../../../images/user/workExperience_svg";
+import EducationInfoCreateForm from "./EducationInfoCreateForm";
 
 // flow type of WorkExperiences
 type PropsEducations = {
   userId: number,
   translate: { [string]: string },
   educations: [],
-  actions:{
+  actions: {
     getEducationByUserId: Function,
-  }
+    updateEducationByUserId: Function,
+    deleteEducationByUserId: Function,
+    createWorkEducationByUserId: Function,
+  },
+  isLoading: boolean,
+  error: null | {},
 }
 type StateEducations = {
-  educations: [],
+  createForm: boolean,
 }
 
 class Educations extends React.Component<PropsEducations, StateEducations> {
@@ -31,41 +36,70 @@ class Educations extends React.Component<PropsEducations, StateEducations> {
     userId: PropTypes.number.isRequired,
     translate: PropTypes.object.isRequired,
     educations: PropTypes.array.isRequired,
+    actions: PropTypes.object.isRequired,
+    isLoading: PropTypes.bool,
+    error: PropTypes.object,
   }
 
   constructor(props: PropsEducations) {
     super(props)
     this.state = {
       createForm: false,
-      edit: false, resetState: false,
-      educations: [],
     }
+  }
+
+  _showCreateForm = () => {
+    this.setState({createForm: true})
+  }
+
+  _hideCreateForm = () => {
+    this.setState({createForm: false})
+  }
+
+  _create = ({formValues}) => {
+    const {actions, userId} = this.props
+    const {createWorkEducationByUserId} = actions
+    createWorkEducationByUserId({userId, formValues})
   }
 
   componentDidMount() {
     const {userId, actions} = this.props
     const {getEducationByUserId} = actions
-    getUserEducations(userId, (res: (userEducationType)[]) => {
-      this.setState({...this.state, educations: res})
-    })
     getEducationByUserId({userId})
   }
 
   render() {
-    const {translate, userId} = this.props
-    const {educations} = this.state
-
+    const {createForm} = this.state
+    const {translate, userId, educations, actions} = this.props
+    const {updateEducationByUserId, deleteEducationByUserId} = actions
     return (
         // <VerifyWrapper isLoading={isLoading} error={error}>
         <div>
-          <CategoryTitle title={translate['Educations']}/>
+          <CategoryTitle
+              title={translate['WorkExperience']}
+              showCreateForm={this._showCreateForm}
+              createForm={createForm}
+          />
           <FrameCard>
             <ListGroup>
               <div>
                 {
-                  educations.map((education, index) =>
-                    <EducationInfo education={education} key={index + "EducationsInfo"} translate={translate}/>
-                  )
+                  createForm &&
+                  <ItemWrapper icon={workExperienceIcon}>
+                    <EducationInfoCreateForm hideCreateForm={this._hideCreateForm} create={this._create}
+                                             translate={translate}
+                                             userId={userId}/>
+                  </ItemWrapper>
+                }
+                {
+                  educations.map((education, index) => (
+                      <EducationInfo userId={userId}
+                                     updateEducationByUserId={updateEducationByUserId}
+                                     deleteEducationByUserId={deleteEducationByUserId}
+                                     education={education}
+                                     key={index + "EducationsInfo"}
+                                     translate={translate}/>
+                  ))
                 }
               </div>
             </ListGroup>
@@ -98,6 +132,9 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getEducationByUserId: EducationActions.getEducationByUserId,
+    updateEducationByUserId: EducationActions.updateEducationByUserId,
+    deleteEducationByUserId: EducationActions.deleteEducationByUserId,
+    createWorkEducationByUserId: EducationActions.createEducationByUserId,
   }, dispatch)
 })
 

@@ -6,16 +6,14 @@ import PropTypes from "prop-types"
 
 import {FrameCard, CategoryTitle, VerifyWrapper, ListGroup} from "src/views/common/cards/Frames"
 import {getMessages} from "src/redux/selectors/translateSelector"
-import {getUserEducations} from "src/crud/user/education"
 import {getUserResearches} from "src/crud/user/research"
-import {ResearchInfoEditForm, EducationInfoEditForm} from "./Forms"
-import {researchIcon, educationIcon} from "src/images/icons"
-import {UserInfoItemWrapper, ResearchInfoView, EducationInfoView} from "./Views"
+import {ResearchInfoEditForm} from "./Forms"
+import {researchIcon} from "src/images/icons"
+import {UserInfoItemWrapper, ResearchInfoView} from "./Views"
 import {UserInfo} from './UserInfo'
 import {ProfileInfo} from './ProfileInfo'
 import type {
   userProfileType,
-  userEducationType,
   userResearchType,
   userType
 } from "src/consts/flowTypes/user/basicInformation"

@@ -6,10 +6,8 @@ import {Component} from "react"
 import {DateInput} from "src/views/common/inputs/DateInput"
 import {IntInput} from "src/views/common/inputs/IntInput"
 import {TextInput} from "src/views/common/inputs/TextInput"
-import {updateEducation} from "src/crud/user/education"
 import {updateResearch} from "src/crud/user/research"
 import type {
-  userEducationType,
   userResearchType
 } from "src/consts/flowTypes/user/basicInformation"
 

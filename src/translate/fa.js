@@ -96,12 +96,14 @@ module.exports = {
   // user - educations
   'Grade': "مقطع تحصیلی",
   'University': "آموزشگاه/ دانشگاه",
-  'Field of study': "رشته تحصیلی",
   'From date': "از تاریخ",
   'To date': "تا تاریخ",
   'Average': "معدل",
   'Description': "توضیحات",
   'Educations': "سوابق علمی",
+  'University is wrong' : 'دانشگاه اشتباه وارد شده است',
+  'Grade is wrong' : 'مقطع تحصیلی اشتباه وارد شده است',
+
 
   // user - BasicInformation
   'National code must be 10 digit ': "کد ملی باید عدد ۱۰ رقمی باشد",

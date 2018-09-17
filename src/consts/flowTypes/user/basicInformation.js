@@ -53,6 +53,20 @@ export type userEducationType = {|
   description: ?string,
 |}
 
+export type userEducationInputType = {|
+  grade: string,
+  university: string,
+  fieldOfStudy: string,
+  average: number,
+  dayFromDate: string,
+  yearFromDate: string,
+  monthFromDate: string,
+  dayToDate: string,
+  yearToDate: string,
+  monthToDate: string,
+  description: string,
+|}
+
 export type userResearchType = {|
   id: number,
   created_time: string,

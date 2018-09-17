@@ -65,7 +65,9 @@ const urls = {
     DELETE_USER_EDUCATION_BY_USER_ID: 'users/educations',
     UPDATE_USER_EDUCATION_BY_USER_ID: 'users/educations',
   },
-
+  RESEARCH: {
+    GET_USER_RESEARCH_BY_USER_ID: 'users/researches',
+  },
   CREATE_PRODUCT: 'products',
   CREATE_Skill: 'users/skills',
   COMMON: {

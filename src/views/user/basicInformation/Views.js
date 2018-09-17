@@ -3,7 +3,7 @@ import * as React from "react"
 import {Component} from "react"
 import PropTypes from "prop-types"
 import {list_of_badge} from "../../common/Functions"
-import {researchIcon, educationIcon} from "src/images/icons"
+import {researchIcon} from "src/images/icons"
 import {
   Field,
   FieldLabel,
@@ -12,7 +12,6 @@ import {
   ItemWrapper,
 } from "../../common/cards/Frames"
 import type {
-  userEducationType,
   userResearchType
 } from "src/consts/flowTypes/user/basicInformation"
 

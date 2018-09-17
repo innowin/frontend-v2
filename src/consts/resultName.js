@@ -114,6 +114,9 @@ const results = {
     DELETE_USER_EDUCATION_BY_USER_ID: 'delete-user-education-by-user-id',
     UPDATE_USER_EDUCATION_BY_USER_ID: 'update-user-education-by-user-id'
   },
+  RESEARCH: {
+    GET_USER_RESEARCH_BY_USER_ID: 'get-user-research-by-user-id',
+  },
   //contribution
   CREATE_PRODUCT: 'create-product',
   CREATE_Skill: 'create-skill',

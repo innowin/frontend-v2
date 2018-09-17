@@ -56,7 +56,12 @@ export default {
            content:[1, 2, ...], list of exchanges id
            isLoading:false,
            error:null
-       }
+       },
+       educations:{
+           content:[1, 2, ...], list of exchanges id
+           isLoading:false,
+           error:null
+       },
      }
     */
   }
