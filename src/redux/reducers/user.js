@@ -2,6 +2,7 @@ import initialState from "./initialState"
 import types from "../actions/types/index"
 
 import slices from './sliceReducers/user'
+import setRelatedObjIdForListItem from "./sliceReducers/utilsSlices/setRelatedObjIdForListItem";
 
 const users = (state = initialState.users, action) => {
   const {userId, data, message} = action.payload || {}
@@ -277,6 +278,10 @@ const users = (state = initialState.users, action) => {
     case types.SUCCESS.WORK_EXPERIENCE.DELETE_USER_WORK_EXPERIENCES_BY_USER_ID:
       return slices.deleteWorkExperienceByUserId.success(state, action)
     /** -------------------------- reset users -------------------------> **/
+    /** <----------------- add skill id to user ---------------**/
+    case types.USER.ADD_SKILL_ID_TO_USER:
+      return setRelatedObjIdForListItem.success(state, action, 'skills')
+      /** ------------------ add skill id to user -------------->**/
     case types.RESET:
       return initialState.users
     default:

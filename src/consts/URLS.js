@@ -20,7 +20,6 @@ const urls = {
     UPDATE_USER_BY_USER_ID: "users",
     UPDATE_PROFILE_BY_PROFILE_ID: "users/profiles",
     GET_USERS: 'users',
-    CREATE_SKILL: 'users/skills'
   },
   ORG: {
     GET_ORGANIZATION: 'organizations',
@@ -115,6 +114,7 @@ const urls = {
       GET_EXCHANGE_MEMBERSHIP_BY_EXCHANGE_ID: 'exchanges/identities', // TODO: not complete
       CREATE_EXCHANGE_MEMBERSHIP: 'exchanges/identities', // TODO: not complete
     }
-  }
+  },
+  SKILL: 'users/skills'
 }
 export default urls

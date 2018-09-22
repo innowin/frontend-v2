@@ -36,6 +36,8 @@ const products = (state = initialState.common.product.products, action) => {
     case types.COMMON.ADD_HASH_TAG_ID_TO_PRODUCT:
       return setRelatedObjIdForListItem.success(state, action, 'hashTags')
       /**  ---------------- addCertificateIdToProduct -------------- > **/
+    case types.RESET:
+      return initialState.common.product.products
 
     default:
       return state

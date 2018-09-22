@@ -35,9 +35,10 @@ import {provinceSelector} from "src/redux/selectors/common/location/province"
 import {citySelector} from "src/redux/selectors/common/location/city"
 import {change} from 'redux-form';
 import nowCreatedProductIdSelector from "src/redux/selectors/common/product/getNowCreatedProductId"
+import nowCreatedSkillIdSelector from "src/redux/selectors/skill/getNowCreatedSkillId"
 import SkillInfoForm, {skillInfoFormName} from "./skill/infoForm";
 import SkillSuccessMessage from "./skill/successMessage"
-import {createSkillAction} from "src/redux/actions/user/createSkillAction"
+import {createSkillAction} from "src/redux/actions/skill/createSkillAction"
 import type {NewContributionDataType, SkillFormValsType} from "./types"
 import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 
@@ -70,7 +71,8 @@ type AddingContributionProps = {
   provinces: {},
   cities: {},
   modalIsOpen: boolean,
-  _createSkillAction: Function
+  _createSkillAction: Function,
+  nowCreatedSkillId: number
 }
 
 type ProgressStepType = {
@@ -114,7 +116,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
 
   componentDidUpdate(prevProps, prevState) {
     // const prevActiveStep = prevState.activeStep
-    const {_getCountries, nowCreatedProductId} = this.props
+    const {_getCountries, nowCreatedProductId, nowCreatedSkillId} = this.props
     const {activeStep, newContributionData} = this.state
     if ((prevState.activeStep === 1) && (activeStep === 2)) {
       _getCountries()
@@ -130,7 +132,9 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
         }
       })
     }
-    if (!prevProps.nowCreatedProductId && nowCreatedProductId) this._nextStep()
+    if ((!prevProps.nowCreatedProductId && nowCreatedProductId)
+        ||
+        (!prevProps.nowCreatedSkillId && nowCreatedSkillId)) this._nextStep()
   }
 
 
@@ -733,7 +737,8 @@ const mapStateToProps = (state) => {
     provinces: provinceSelector(state),
     cities: citySelector(state),
     testToken: state.auth.client.token,
-    nowCreatedProductId: nowCreatedProductIdSelector(state)
+    nowCreatedProductId: nowCreatedProductIdSelector(state),
+    nowCreatedSkillId: nowCreatedSkillIdSelector(state)
   }
 };
 

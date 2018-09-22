@@ -1,25 +1,25 @@
 import {all, fork} from 'redux-saga/effects'
 import {
-	watchGetOrganizationMembers,
-	watchUpdateOrganization,
-	watchGetProducts,
-	watchGetOrgFollowers,
-	watchGetOrgFollowings,
-	watchGetOrgExchanges,
-	watchGetCustomers,
-	watchGetCertificates,
-	watchUpdateCustomer,
-	watchCreateOrgProduct,
-	watchUpdateOrgProduct,
-	watchAddProductPicture,
-	watchGetProductPictures,
-	watchGetProductsSuccess,
-	watchDeleteProduct,
-	watchCreateCertificate,
-	watchGetStaff,
-	watchCreateCustomer,
-	watchDeleteCustomer,
-	watchAgencyRequest,
+  watchGetOrganizationMembers,
+  watchUpdateOrganization,
+  watchGetProducts,
+  watchGetOrgFollowers,
+  watchGetOrgFollowings,
+  watchGetOrgExchanges,
+  watchGetCustomers,
+  watchGetCertificates,
+  watchUpdateCustomer,
+  watchCreateOrgProduct,
+  watchUpdateOrgProduct,
+  watchAddProductPicture,
+  watchGetProductPictures,
+  watchGetProductsSuccess,
+  watchDeleteProduct,
+  watchCreateCertificate,
+  watchGetStaff,
+  watchCreateCustomer,
+  watchDeleteCustomer,
+  watchAgencyRequest,
 } from './organization/organizationSaga'
 import {watchGetOrganization} from "./organization/getOrganSagas"
 // TODO: mohammad all auth sagas must go to ./auth/auth.js and just one import here from ./auth/auth.js
@@ -38,6 +38,8 @@ import userWatchers from './user/user'
 import commonWatchers from './common/index'
 import workExperienceWatchers from './workExperience'
 import educationWatchers from './education'
+import skillWatchers from './skill/skill'
+
 
 const rootSaga = function* () {
   yield all([
@@ -80,7 +82,9 @@ const rootSaga = function* () {
     // user watchers
     userWatchers.watchUpdateUserByUserId(),
     userWatchers.watchUpdateProfileByProfileId(),
-    userWatchers.watchCreateSkill(),
+
+    // skill
+    ...skillWatchers,
 
     // auth watchers
     authWatchers.watchVerifyToken(),
