@@ -49,7 +49,7 @@ export class EducationInfo extends React.Component<PropsEducation, StateEducatio
   // FixMe: mohammad isLoading and error come from redux
   render() {
     const {translate, updateEducationByUserId, userId, education} = this.props
-    const {edit, isLoading, error} = this.state
+    const {edit} = this.state
     return (
         <VerifyWrapper isLoading={false} error={false}>
           <ItemWrapper icon={educationIcon}>

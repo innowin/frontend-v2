@@ -1,141 +1,41 @@
 // @flow
 import * as React from "react"
-import PropTypes from 'prop-types'
 import {connect} from "react-redux"
 
 import {getMessages} from "../../../redux/selectors/translateSelector"
-import {CategoryTitle, FrameCard, ItemWrapper, ListGroup} from "../../common/cards/Frames";
-import {EducationInfo} from './EducationInfo'
-import {makeGetEducations} from "../../../redux/selectors/user/userGetEducationsSelector";
-import {bindActionCreators} from "redux";
-import EducationActions from "../../../redux/actions/educationActions";
-import workExperienceIcon from "../../../images/user/workExperience_svg";
-import EducationInfoCreateForm from "./EducationInfoCreateForm";
+import {CategoryTitle, FrameCard, ListGroup} from "../../common/cards/Frames";
+
+import EducationInfoContainer from './EducationInfoContainer'
+import ResearchesInfoContainer from "./ResearchesInfoContainer";
 
 // flow type of WorkExperiences
 type PropsEducations = {
   userId: number,
   translate: { [string]: string },
-  educations: [],
-  actions: {
-    getEducationByUserId: Function,
-    updateEducationByUserId: Function,
-    deleteEducationByUserId: Function,
-    createWorkEducationByUserId: Function,
-  },
-  isLoading: boolean,
-  error: null | {},
-}
-type StateEducations = {
-  createForm: boolean,
 }
 
-class Educations extends React.Component<PropsEducations, StateEducations> {
-
-  static propTypes = {
-    userId: PropTypes.number.isRequired,
-    translate: PropTypes.object.isRequired,
-    educations: PropTypes.array.isRequired,
-    actions: PropTypes.object.isRequired,
-    isLoading: PropTypes.bool,
-    error: PropTypes.object,
-  }
-
-  constructor(props: PropsEducations) {
-    super(props)
-    this.state = {
-      createForm: false,
-    }
-  }
-
-  _showCreateForm = () => {
-    this.setState({createForm: true})
-  }
-
-  _hideCreateForm = () => {
-    this.setState({createForm: false})
-  }
-
-  _create = ({formValues}) => {
-    const {actions, userId} = this.props
-    const {createWorkEducationByUserId} = actions
-    createWorkEducationByUserId({userId, formValues})
-  }
-
-  componentDidMount() {
-    const {userId, actions} = this.props
-    const {getEducationByUserId} = actions
-    getEducationByUserId({userId})
-  }
-
-  render() {
-    const {createForm} = this.state
-    const {translate, userId, educations, actions} = this.props
-    const {updateEducationByUserId, deleteEducationByUserId} = actions
+const Educations = (props: PropsEducations) => {
+    const {translate, userId} = props
     return (
-        // <VerifyWrapper isLoading={isLoading} error={error}>
         <div>
           <CategoryTitle
-              title={translate['WorkExperience']}
-              showCreateForm={this._showCreateForm}
-              createForm={createForm}
+              title={translate['Educations']}
           />
           <FrameCard>
             <ListGroup>
-              <div>
-                {
-                  createForm &&
-                  <ItemWrapper icon={workExperienceIcon}>
-                    <EducationInfoCreateForm hideCreateForm={this._hideCreateForm} create={this._create}
-                                             translate={translate}
-                                             userId={userId}/>
-                  </ItemWrapper>
-                }
-                {
-                  educations.map((education, index) => (
-                      <EducationInfo userId={userId}
-                                     updateEducationByUserId={updateEducationByUserId}
-                                     deleteEducationByUserId={deleteEducationByUserId}
-                                     education={education}
-                                     key={index + "EducationsInfo"}
-                                     translate={translate}/>
-                  ))
-                }
-              </div>
+              <EducationInfoContainer userId={userId} translate={translate}/>
+              <ResearchesInfoContainer userId={userId} translate={translate}/>
             </ListGroup>
           </FrameCard>
         </div>
-        // </VerifyWrapper>
     )
-  }
 }
 
 
-const mapStateToProps = (state, ownProps) => {
-  const getEducations = makeGetEducations(state, ownProps)
-
-  return (state, props) => {
-    const {userId} = props
-    const stateUser = state.users[userId]
-    const defaultObject = {content: [], isLoading: false, error: null}
-    const educationObject = (stateUser && stateUser.educations) || defaultObject
-
-    return {
-      translate: getMessages(state),
-      educations: getEducations(state, props),
-      isLoading: educationObject.isLoading,
-      error: educationObject.error,
-    }
+const mapStateToProps = (state, props) => {
+  return {
+    translate: getMessages(state),
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({
-    getEducationByUserId: EducationActions.getEducationByUserId,
-    updateEducationByUserId: EducationActions.updateEducationByUserId,
-    deleteEducationByUserId: EducationActions.deleteEducationByUserId,
-    createWorkEducationByUserId: EducationActions.createEducationByUserId,
-  }, dispatch)
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Educations)
+export default connect(mapStateToProps)(Educations)

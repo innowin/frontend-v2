@@ -96,6 +96,7 @@ module.exports = {
   // user - educations
   'Grade': "مقطع تحصیلی",
   'University': "آموزشگاه/ دانشگاه",
+  'Field of study': "رشته تحصیلی",
   'From date': "از تاریخ",
   'To date': "تا تاریخ",
   'Average': "معدل",
@@ -103,6 +104,9 @@ module.exports = {
   'Educations': "سوابق علمی",
   'University is wrong' : 'دانشگاه اشتباه وارد شده است',
   'Grade is wrong' : 'مقطع تحصیلی اشتباه وارد شده است',
+  'Field of study is wrong' : 'رشته تحصیلی اشتباه وارد شده است',
+  'Average is wrong': "میانگین اشتباه وارد شده است",
+  'Description is wrong': "توضیحات اشتباه وارد شده است",
 
 
   // user - BasicInformation
@@ -149,6 +153,15 @@ module.exports = {
   'Publication': 'انتشارات',
   'Page count': 'تعداد صفحات',
   'Researches': "سوابق پژوهشی",
+  'Research Link': 'لینک مقاله',
+  'Title is wrong': 'عنوان اشتباه است',
+  'Page is wrong': 'تعداد صفحه اشتباه است',
+  'Publication is wrong': 'انتشارات اشتباه است',
+  'Url is wrong': 'آدرس اینترنتی اشتباه است',
+  'Author is wrong': 'نویسنده اشتباه است',
+  'Research Link is wrong': 'لینک مقاله اشتباه است',
+
+
   ', ': '، ',
 
   // user - skills

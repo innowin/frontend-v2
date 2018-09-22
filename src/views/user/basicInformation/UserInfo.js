@@ -9,9 +9,9 @@ import {bindActionCreators} from "redux"
 import {Component} from "react"
 import {UserInfoEditForm} from './UserInfoEditForm'
 import {userInfoIcon} from "src/images/icons"
-import {UserInfoItemWrapper} from "./Views"
 import {UserInfoView} from './UserInfoView'
 import {VerifyWrapper} from "src/views/common/cards/Frames"
+import {ItemWrapper} from "src/views/common/cards/Frames"
 
 //UserInfo flowTypes
 type UserInfoProps = {|
@@ -56,14 +56,14 @@ class UserInfo extends Component<UserInfoProps, UserInfoState> {
     return (
         <VerifyWrapper isLoading={isLoading} error={error}>
           {(edit) ? (
-              <UserInfoItemWrapper icon={userInfoIcon}>
+              <ItemWrapper icon={userInfoIcon}>
                 <UserInfoEditForm
                     user={user}
                     hideEdit={this._hideEdit}
                     translate={translate}
                     actions={actions}
                 />
-              </UserInfoItemWrapper>
+              </ItemWrapper>
           ) : (
               <UserInfoView user={user} translate={translate} showEdit={this._showEdit}/>
           )

@@ -80,3 +80,13 @@ export type userResearchType = {|
   research_link: ?string,
   url: ?string
 |}
+
+export type userResearchInputType = {|
+  title: string,
+  pageCount: ?number,
+  year: ?number,
+  publication: ?string,
+  researchLink: ?string,
+  url: ?string,
+  author: Array<?string>,
+|}

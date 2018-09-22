@@ -116,6 +116,9 @@ const results = {
   },
   RESEARCH: {
     GET_USER_RESEARCH_BY_USER_ID: 'get-user-research-by-user-id',
+    CREATE_USER_RESEARCH_BY_USER_ID: 'create-user-research-by-user-id',
+    DELETE_USER_RESEARCH_BY_USER_ID: 'delete-user-research-by-user-id',
+    UPDATE_USER_RESEARCH_BY_USER_ID: 'update-user-research-by-user-id',
   },
   //contribution
   CREATE_PRODUCT: 'create-product',

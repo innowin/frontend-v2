@@ -14,7 +14,7 @@ import users from "./user"
 import workExperience from './workExperience'
 import education from './education'
 import {intlReducer} from './intl'
-
+import research from './research'
 
 const commonPersistConfig = {key: 'common', storage: storage,}
 
@@ -27,6 +27,7 @@ const reducers = {
   common: persistReducer(commonPersistConfig, common),
   workExperience,
   education,
+  research,
 }
 
 //Don't change below code ,  Put your reducer on the upper object.

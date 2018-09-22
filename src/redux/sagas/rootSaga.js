@@ -38,6 +38,7 @@ import userWatchers from './user/user'
 import commonWatchers from './common/index'
 import workExperienceWatchers from './workExperience'
 import educationWatchers from './education'
+import researchWatchers from './research'
 
 const rootSaga = function* () {
   yield all([
@@ -93,6 +94,9 @@ const rootSaga = function* () {
 
     // educations
     ...educationWatchers,
+
+    // research
+    ...researchWatchers,
 
     // NOTE: the common watchers pushed to common/index.js to prevent from conflict.
     // common

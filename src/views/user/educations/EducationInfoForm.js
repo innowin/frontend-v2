@@ -84,6 +84,19 @@ class EducationInfoForm extends Component<PropsEducationInfoForm> {
             />
           </div>
 
+          <div className='form-group'>
+            <label>
+              {translate['Field of study'] + ": "}
+            </label>
+            <Field
+                name="fieldOfStudy"
+                type="text"
+                component={renderTextField}
+                label={translate['Field of study']}
+                textFieldClass='form-control'
+            />
+          </div>
+
           <ReduxFormDateInput translate={translate} labelName={translate['From date']} dayName='dayFromDate'
                               monthName='monthFromDate' yearName='yearFromDate'/>
           <ReduxFormDateInput translate={translate} labelName={translate['To date']} dayName='dayToDate'

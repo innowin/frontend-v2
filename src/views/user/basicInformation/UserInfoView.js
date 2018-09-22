@@ -5,8 +5,8 @@ import PropTypes from "prop-types"
 import userInfoIcon from "../../../images/user/userinfo_svg"
 import {Field, FieldLabel, FieldValue, ItemHeader} from "../../common/cards/Frames"
 import {JalaliWithFarsiMonth} from "../../common/JalaliWithFarsiMonth"
-import {UserInfoItemWrapper} from "./Views"
 import type {userType} from "src/consts/flowTypes/user/basicInformation"
+import {ItemWrapper} from "src/views/common/cards/Frames"
 
 // flow type of UserInfoView
 type PropsUserInfoView = {
@@ -19,7 +19,7 @@ export const UserInfoView = (props: PropsUserInfoView) => {
   const {user, showEdit, translate} = props
 
   return (
-      <UserInfoItemWrapper icon={userInfoIcon}>
+      <ItemWrapper icon={userInfoIcon}>
         <ItemHeader title={translate['User info']} showEdit={showEdit}/>
         <Field>
           <FieldLabel label={translate['Username'] + ": "}/>
@@ -41,7 +41,7 @@ export const UserInfoView = (props: PropsUserInfoView) => {
           <FieldLabel label={translate['Date joined'] + ": "}/>
           <FieldValue value={JalaliWithFarsiMonth(user.date_joined)}/>
         </Field>
-      </UserInfoItemWrapper>
+      </ItemWrapper>
   )
 }
 

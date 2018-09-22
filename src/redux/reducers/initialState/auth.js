@@ -9,6 +9,7 @@ export default {
     posts: [], /* ids of posts that postIdentity of them is identity of this client*/
     exchanges: [], /* ids of exchanges that this client is member of them*/
     educations: [], /* ids of educations that client has them*/
+    researches: [], /* ids of researches that client has them*/
     social: {
       follows: [], /* ids of follows that this client is participates at them*/
     },

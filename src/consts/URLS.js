@@ -67,6 +67,9 @@ const urls = {
   },
   RESEARCH: {
     GET_USER_RESEARCH_BY_USER_ID: 'users/researches',
+    CREATE_USER_RESEARCH_BY_USER_ID: 'users/researches',
+    DELETE_USER_RESEARCH_BY_USER_ID: 'users/researches',
+    UPDATE_USER_RESEARCH_BY_USER_ID: 'users/researches',
   },
   CREATE_PRODUCT: 'products',
   CREATE_Skill: 'users/skills',

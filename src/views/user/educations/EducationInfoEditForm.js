@@ -52,7 +52,7 @@ class EducationInfoEditForm extends Component<PropsEducationInfoForm, StateEduca
     const formFormat = {
       grade: education.grade === values.grade ? null : values.grade,
       university: education.university === values.university ? null : values.university,
-      fieldOfStudy: education.field_of_study === values.fieldOfStudy ? null : values.fieldOfStudy,
+      field_of_study: education.field_of_study === values.fieldOfStudy ? null : values.fieldOfStudy,
       description: education.description === values.description ? null : values.description,
       average: education.average === values.average ? null : values.average,
       from_date: education.from_date === from_date ? null : from_date,

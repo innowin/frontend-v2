@@ -2,31 +2,28 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 
-import EducationInfoForm from './EducationInfoForm'
-import type {userEducationInputType} from "../../../consts/flowTypes/user/basicInformation";
+import ResearchInfoForm from './ResearchInfoForm'
+import type {userResearchInputType} from "../../../consts/flowTypes/user/basicInformation";
 
-type PropsEducationInfoForm = {
+type PropsResearchInfoCreateForm = {
   create: Function,
   hideCreateForm: Function,
   translate: { [string]: string },
   userId: number,
 }
 
-const EducationInfoCreateForm = (props: PropsEducationInfoForm) => {
-  const _onSubmit = (values: userEducationInputType) => {
+const ResearchInfoCreateForm = (props: PropsResearchInfoCreateForm) => {
+  const _onSubmit = (values: userResearchInputType) => {
     const {hideCreateForm, create} = props
 
-    const from_date = values.yearFromDate === '' || values.monthFromDate === '' || values.dayFromDate === '' ? '' : `${values.yearFromDate}/${values.monthFromDate}/${values.dayFromDate}`
-    const to_date = values.yearToDate === '' || values.monthToDate === '' || values.dayToDate === '' ? '' : `${values.yearToDate}/${values.monthToDate}/${values.dayToDate}`
-
     const formFormat = {
-      grade: values.grade,
-      university: values.university,
-      field_of_study: values.fieldOfStudy,
-      description: values.description,
-      average: values.average,
-      from_date: from_date ,
-      to_date: to_date,
+      title: values.title,
+      page_count: values.pageCount,
+      year: values.year,
+      publication: values.publication,
+      research_link: values.researchLink,
+      url: values.url,
+      author: values.author,
     }
 
     const propertyNames = Object.getOwnPropertyNames(formFormat)
@@ -43,7 +40,7 @@ const EducationInfoCreateForm = (props: PropsEducationInfoForm) => {
   const {translate, userId, hideEdit} = props
 
   return (
-      <EducationInfoForm userId={userId}
+      <ResearchInfoForm userId={userId}
                          translate={translate}
                          onSubmit={_onSubmit}>
         <div className="col-12 d-flex justify-content-end">
@@ -52,15 +49,15 @@ const EducationInfoCreateForm = (props: PropsEducationInfoForm) => {
           </button>
           <button type="submit" className="btn btn-success">{translate['Save']}</button>
         </div>
-      </EducationInfoForm>
+      </ResearchInfoForm>
   )
 }
 
-EducationInfoCreateForm.propTypes = {
+ResearchInfoCreateForm.propTypes = {
   hideCreateForm: PropTypes.func.isRequired,
   create: PropTypes.func.isRequired,
   translate: PropTypes.object.isRequired,
   userId: PropTypes.number.isRequired,
 }
 
-export default EducationInfoCreateForm
+export default ResearchInfoCreateForm

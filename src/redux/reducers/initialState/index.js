@@ -8,12 +8,13 @@ import commonStates from "./common"
 import intlState from "./intl"
 import workExperienceState from './workExperience'
 import educationState from './education'
-
+import researchState from './research'
 
 export default {
   auth: authState,
   users: usersState,
   skills: skillsState,
+  research: researchState,
   organization: organizationState,
   organs: organsState,
   exchanges: exchangesState,
