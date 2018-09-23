@@ -4,12 +4,13 @@ import {Field, FieldLabel, FieldValue, ItemHeader, VerifyWrapper} from "../../co
 import educationIcon from "../../../images/user/education_svg";
 import {ItemWrapper} from "../../common/cards/Frames";
 import EducationInfoEditForm from "./EducationInfoEditForm";
+import {userEducationType} from 'src/consts/flowTypes/user/basicInformation'
 
 //EducationInfo flowTypes
 type PropsEducation = {
   updateEducationByUserId: Function,
   deleteEducationByUserId: Function,
-  education: educationType,
+  education: userEducationType,
   userId: number,
   translate: { [string]: string },
 }

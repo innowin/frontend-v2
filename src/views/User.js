@@ -11,7 +11,7 @@ import GetUserActions from "src/redux/actions/user/getUserActions"
 import GetIdentityActions from "src/redux/actions/identityActions"
 import Posts from "src/views/common/post/index"
 import PrivateRoute from "../consts/PrivateRoute"
-import Skills from "./user/skills/index"
+import Contributions from "./user/contributions"
 import Social from "src/views/user/social/index"
 import TopBar from "src/views/bars/TopBar"
 import UserBasicInformation from "./user/basicInformation/index"
@@ -21,7 +21,7 @@ import {connect} from "react-redux"
 import {getMessages} from "src/redux/selectors/translateSelector"
 import {NavLink, Switch, Redirect} from "react-router-dom"
 import {Tabs, VerifyWrapper} from "./common/cards/Frames"
-import {InformationIcon, SkillIcon, CertificateIcon, workExperienceIcon, postIcon, SocialIcon, educationIcon} from "src/images/icons"
+import {InformationIcon, ContributionIcon, CertificateIcon, workExperienceIcon, postIcon, SocialIcon, educationIcon} from "src/images/icons"
 import {UserSideBar} from "./bars/SideBar"
 import type {
   profileStateObject,
@@ -118,7 +118,7 @@ class User extends Component<PropsUser> {
               <NavLink className="-tab" to={`${url}/basicInformation`} activeClassName="-active">
                 <InformationIcon/>
               </NavLink>
-              {/* TODO: mohammad add contributions and its route*/}
+              <NavLink className="-tab" to={`${url}/contributions`} activeClassName="-active"><ContributionIcon/></NavLink>
               <NavLink className="-tab" to={`${url}/SocialConnections`} activeClassName="-active">
                 <SocialIcon/>
               </NavLink>
@@ -129,7 +129,6 @@ class User extends Component<PropsUser> {
               {/* FixMe: mohammad workExperiences and skills must be join to workExperiences and join their routes*/}
               <NavLink className="-tab" to={`${url}/WorkExperiences`}
                        activeClassName="-active">{workExperienceIcon}</NavLink>
-              <NavLink className="-tab" to={`${url}/Skills`} activeClassName="-active"><SkillIcon/></NavLink>
               <NavLink className="-tab" to={`${url}/Certificates`}
                        activeClassName="-active"><CertificateIcon/></NavLink>
             </Tabs>
@@ -141,6 +140,7 @@ class User extends Component<PropsUser> {
               <PrivateRoute path={`${path}/basicInformation`} component={UserBasicInformation} userId={userId}
                             profile={profileObject} user={userObject}
               />
+              <PrivateRoute path={`${path}/contributions`} component={Contributions} userId={userId}/>
               <PrivateRoute path={`${path}/SocialConnections`} component={Social}
                             userId={userId}
                             identityId={identityObject.content.id}
@@ -148,7 +148,6 @@ class User extends Component<PropsUser> {
               />
               <PrivateRoute path={`${path}/Educations`} component={Educations} userId={userId}/>
               <PrivateRoute path={`${path}/WorkExperiences`} component={WorkExperiences} userId={userId}/>
-              <PrivateRoute path={`${path}/Skills`} component={Skills} userId={userId}/>
               <PrivateRoute path={`${path}/Certificates`} component={Certificates} userId={userId}/>
             </Switch>
           </div>

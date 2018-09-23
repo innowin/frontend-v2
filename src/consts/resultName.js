@@ -120,6 +120,11 @@ const results = {
     DELETE_USER_RESEARCH_BY_USER_ID: 'delete-user-research-by-user-id',
     UPDATE_USER_RESEARCH_BY_USER_ID: 'update-user-research-by-user-id',
   },
+  SKILL: {
+    GET_SKILL_BY_USER_ID: 'get-skill-by-user-id',
+    DELETE_SKILL_BY_USER_ID: 'delete-skill-by-user-id',
+    UPDATE_SKILL_BY_USER_ID: 'update-skill-by-user-id',
+  },
   //contribution
   CREATE_PRODUCT: 'create-product',
   CREATE_Skill: 'create-skill',

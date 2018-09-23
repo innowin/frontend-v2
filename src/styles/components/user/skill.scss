@@ -1,4 +1,10 @@
 @import "../../variables";
+
+.skill-view-container {
+	border: 1px solid $eee-color;
+	padding: 15px;
+	margin-bottom: 15px;
+}
 .skillDescription{
 	font-size: $font-size-boxText;
 	color:rgb(138, 138, 138);
