@@ -1,54 +1,16 @@
 import initialState from './initialState'
 import types from '../actions/types'
-import constants from 'src/consts/constants'
 import slices from './sliceReducers/auth'
 
 const auth = (state = initialState.auth, action) => {
-  const {data} = action.payload || {}
-  const {user, profile, identity} = data || {}
-  const {client} = state
-
   switch (action.type) {
     /** -------------------------- sign in -------------------------> **/
     case types.AUTH.SET_TOKEN:
-      return {
-        ...state,
-        client: {
-          ...client,
-          token: action.payload.token
-        }
-      }
+      return slices.setToken.base(state, action)
     case types.SUCCESS.AUTH.SIGN_IN:
-      const {rememberMe} = action.payload
-      const {organization} = data
-      const user_type = profile.is_user_organization ? constants.USER_TYPES.ORG : constants.USER_TYPES.PERSON
-      return {
-        ...state,
-        client: {
-          ...client,
-          user,
-          profile,
-          identity,
-          organization,
-          user_type,
-          rememberMe,
-          posts: [],
-          social: {
-            follows: []
-          },
-          isLoggedIn: true,
-          error: null,
-        }
-      }
+      return slices.signIn.success(state, action)
     case types.ERRORS.AUTH.SIGN_IN:
-      const {message: errorMessage} = action.payload
-      return {
-        ...state,
-        client: {
-          ...client,
-          error: errorMessage
-        }
-      }
+      return slices.signIn.error(state, action)
     /** -------------------------- update user by user id -------------------------> **/
     case types.SUCCESS.USER.UPDATE_USER_BY_USER_ID:
       return slices.updateUserByUserId.success(state, action)

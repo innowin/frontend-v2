@@ -10,12 +10,14 @@ import deletePost from './deletePost'
 import deleteResearchByUserId from './deleteResearchByUserId'
 import deleteWorkExperienceByUserId from './deleteWorkExperienceByUserId'
 import getEducationByUserId from './getEducationByUserId'
+import getExchangeMembershipByMemberIdentity from './getExchangeMembershipByMemberIdentity'
 import getFollowees from './getFollowees'
 import getFollowers from './getFollowers'
-import getExchangeMembershipByMemberIdentity from './getExchangeMembershipByMemberIdentity'
 import getPostByIdentity from './getPostByIdentity'
 import getResearchByUserId from './getResearchByUserId'
 import getWorkExperienceByUserId from './getWorkExperienceByUserId'
+import setToken from "./setToken"
+import signIn from "./signIn"
 import updateProfileByProfileId from './updateProfileByProfileId'
 import updateUserByUserId from './updateUserByUserId'
 
@@ -32,12 +34,14 @@ export default {
   deleteResearchByUserId,
   deleteWorkExperienceByUserId,
   getEducationByUserId,
+  getExchangeMembershipByMemberIdentity,
   getFollowees,
   getFollowers,
-  getExchangeMembershipByMemberIdentity,
   getPostByIdentity,
   getResearchByUserId,
   getWorkExperienceByUserId,
+  setToken,
+  signIn,
   updateProfileByProfileId,
   updateUserByUserId,
 }
