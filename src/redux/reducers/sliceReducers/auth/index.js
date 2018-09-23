@@ -8,11 +8,13 @@ import deleteFollow from './deleteFollow'
 import deletePost from './deletePost'
 import deleteWorkExperienceByUserId from './deleteWorkExperienceByUserId'
 import getEducationByUserId from './getEducationByUserId'
+import getExchangeMembershipByMemberIdentity from './getExchangeMembershipByMemberIdentity'
 import getFollowees from './getFollowees'
 import getFollowers from './getFollowers'
-import getExchangeMembershipByMemberIdentity from './getExchangeMembershipByMemberIdentity'
 import getPostByIdentity from './getPostByIdentity'
 import getWorkExperienceByUserId from './getWorkExperienceByUserId'
+import setToken from "./setToken"
+import signIn from "./signIn"
 import updateProfileByProfileId from './updateProfileByProfileId'
 import updateUserByUserId from './updateUserByUserId'
 
@@ -20,18 +22,20 @@ export default {
   createEducationByUserId,
   createFollow,
   createPost,
-  deleteEducationByUserId,
   createWorkExperienceByUserId,
+  deleteEducationByUserId,
   deleteExchangeMembership,
   deleteFollow,
   deletePost,
   deleteWorkExperienceByUserId,
   getEducationByUserId,
+  getExchangeMembershipByMemberIdentity,
   getFollowees,
   getFollowers,
-  getExchangeMembershipByMemberIdentity,
   getPostByIdentity,
   getWorkExperienceByUserId,
+  setToken,
+  signIn,
   updateProfileByProfileId,
   updateUserByUserId,
 }

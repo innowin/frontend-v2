@@ -25,28 +25,19 @@ import {watchGetOrganization} from "./organization/getOrganSagas"
 // TODO: mohammad all auth sagas must go to ./auth/auth.js and just one import here from ./auth/auth.js
 import {watchSignIn, watchSignOut, watchSignInError} from './auth/auth'
 import authWatchers from './auth/auth'
-import watchUsernameCheck from "./user/checkUsernameSaga"
+import userWatchers from "./user"
 import {
   watchGetExchangeByExId,
   watchCreateExchange,
 } from "./exchange"
-import {watchGetUserByUserId, watchGetProfileByUserId, watchGetUsers} from "./user/getUserSagas"
-import {watchCreateUserPerson, watchCreateUserOrgan,} from "./user/createUserSagas"
+
 import identityWatchers from "./getIdentity"
-// TODO: mohammad all user sagas must go to ./user/user.js and just one import here from ./user/user.js
-import userWatchers from './user/user'
 import commonWatchers from './common/index'
 import workExperienceWatchers from './workExperience'
 import educationWatchers from './education'
 
 const rootSaga = function* () {
   yield all([
-    fork(watchUsernameCheck),
-    watchCreateUserPerson(),
-    watchCreateUserOrgan(),
-    watchGetUserByUserId(),
-    watchGetUsers(),
-    watchGetProfileByUserId(),
     watchSignInError(),
     watchSignOut(),
     watchSignIn(),
@@ -77,16 +68,15 @@ const rootSaga = function* () {
     watchAgencyRequest(),
     watchCreateExchange(),
 
-    // user watchers
-    userWatchers.watchUpdateUserByUserId(),
-    userWatchers.watchUpdateProfileByProfileId(),
-
     // auth watchers
     authWatchers.watchVerifyToken(),
 
     // identity watchers
     identityWatchers.watchGetUserIdentity(),
     identityWatchers.watchGetOrgIdentity(),
+
+    // user watchers
+    ...userWatchers,
 
     // work experiences
     ...workExperienceWatchers,

@@ -1,27 +1,42 @@
-import {SOCKET as socket, REST_URL as url} from "src/consts/URLS"
-import {REST_REQUEST} from "src/consts/Events"
-
-
-const checkExist = (username, resolve) => {
-  socket.emit(REST_REQUEST, {
-    method: "post",
-    url: `${url}/users/user_exist/`,
-    data: {username: username},
-    result: "USERNAME_CHECK"
-  })
-  const func = (res) => {
-    resolve(res)
-    socket.off("USERNAME_CHECK", func)
+const checkUsernameEmail = async (username, email, checkUsername, checkEmail, translator, reject_, resolve_) => {
+  let errors
+  if (username) {
+    const usernamePromise = new Promise((resolve, reject) => {
+      checkUsername(username, resolve, reject)
+    })
+    await usernamePromise.then((res) => {
+      if (res === 1) {
+        errors = {...errors, username: translator['Username exists']}
+      }
+    })
   }
-  socket.on("USERNAME_CHECK", func)
+  if (email) {
+    const emailPromise = new Promise((resolve, reject) => {
+      checkEmail(email, resolve, reject)
+    })
+    await emailPromise.then((res) => {
+      if (res === 1) {
+        errors = {...errors, email: translator['Email exists']}
+      }
+    })
+  }
+  resolve_(errors)
 }
 
-const checkUsername = username => new Promise(resolve => checkExist(username, resolve))
+export const asyncValidateSignUp = (...validationArguments) => {
+  // validationArguments is array of [0:values, 1:f(action), 2:props, 3:field is active]
+  const username = validationArguments[0].username && validationArguments[0].username.trim()
+  const email = validationArguments[0].email && validationArguments[0].email.trim()
+  const checkUsername = validationArguments[2].actions.checkUsername
+  const checkEmail = validationArguments[2].actions.checkEmail
+  const translator = validationArguments[2].translator
 
-export const asyncValidate = values => {
-  return checkUsername(values.username).then((res) => {
-    if (res.data === 1) {
-      throw {username: 'این کاربر قبلا وجود داشته است!'}
+  const errorPromise = new Promise((resolve, reject) =>
+    checkUsernameEmail(username, email, checkUsername, checkEmail, translator, reject, resolve)
+  )
+  return errorPromise.then(e => {
+    if (e) {
+      throw e
     }
   })
 }

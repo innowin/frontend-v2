@@ -9,7 +9,9 @@ import {Field, reduxForm, SubmissionError} from "redux-form"
 import {getMessages} from "src/redux/selectors/translateSelector"
 import {RadioButtonGroup} from "../../common/inputs/RadioButtonInput"
 import {routerActions} from "react-router-redux"
-import {validateSignUpForm, asyncValidate} from "./signUpValidations"
+import {validateSignUpForm, asyncValidateSignUp} from "./signUpValidations"
+import CheckUsernameAction from "src/redux/actions/user/checkUsernameAction"
+import CheckEmailAction from "src/redux/actions/user/checkEmailAction"
 
 
 const SignUpForm = (props) => {
@@ -139,14 +141,17 @@ const mapDispatchToProps = dispatch => ({
     signIn: AuthActions.signIn,
     push: routerActions.push,
     createUserPerson: CreateUserActions.createUserPerson,
-    createUserOrgan: CreateUserActions.createUserOrgan
+    createUserOrgan: CreateUserActions.createUserOrgan,
+    checkUsername: CheckUsernameAction.checkUsername,
+    checkEmail: CheckEmailAction.checkEmail
   }, dispatch)
 })
 
 RegisterForm = reduxForm({
   form: 'RegisterForm',
   validate: validateSignUpForm,
-  asyncValidate: asyncValidate
+  asyncValidate: asyncValidateSignUp,
+  asyncBlurFields: ['username', 'email']
 })(RegisterForm)
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm)

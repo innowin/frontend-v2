@@ -120,8 +120,8 @@ const mapDispatchToProps = dispatch => ({
 SignInForm = reduxForm({
   form: 'SignInForm',
   validate: validateSignInForm,
-  // asyncValidate: asyncValidateSignIn,
-  // asyncBlurFields: ['username']
+  asyncValidate: asyncValidateSignIn,
+  asyncBlurFields: ['username']
 })(SignInForm)
 
 SignInForm = connect(mapStateToProps, mapDispatchToProps)(SignInForm)
