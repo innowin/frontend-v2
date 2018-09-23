@@ -290,14 +290,28 @@ const users = (state = initialState.users, action) => {
     case types.SUCCESS.EDUCATION.DELETE_USER_EDUCATION_BY_USER_ID:
       return slices.deleteEducationByUserId.success(state, action)
     /** -------------------------- get research by user id  -------------------------> **/
+    case types.RESEARCH.GET_USER_RESEARCH_BY_USER_ID:
+      return slices.getResearchByUserId.base(state, action)
     case types.SUCCESS.RESEARCH.GET_USER_RESEARCH_BY_USER_ID:
       return slices.getResearchByUserId.success(state, action)
+    case types.ERRORS.RESEARCH.GET_USER_RESEARCH_BY_USER_ID:
+      return slices.getResearchByUserId.error(state, action)
     /** -------------------------- create research by user id -------------------------> **/
     case types.SUCCESS.RESEARCH.CREATE_USER_RESEARCH_BY_USER_ID:
       return slices.createResearchByUserId.success(state, action)
     /** -------------------------- delete research by user id -------------------------> **/
     case types.SUCCESS.RESEARCH.DELETE_USER_RESEARCH_BY_USER_ID:
       return slices.deleteResearchByUserId.success(state, action)
+    /** -------------------------- get skill by user id  -------------------------> **/
+    case types.SKILL.GET_SKILL_BY_USER_ID:
+      return slices.getSkillByUserId.base(state, action)
+    case types.SUCCESS.SKILL.GET_SKILL_BY_USER_ID:
+      return slices.getSkillByUserId.success(state, action)
+    case types.ERRORS.SKILL.GET_SKILL_BY_USER_ID:
+      return slices.getSkillByUserId.error(state, action)
+    /** -------------------------- delete skill by user id -------------------------> **/
+    case types.SUCCESS.SKILL.DELETE_SKILL_BY_USER_ID:
+      return slices.deleteSkillByUserId.success(state, action)
     /** -------------------------- reset users -------------------------> **/
     case types.RESET:
       return initialState.users

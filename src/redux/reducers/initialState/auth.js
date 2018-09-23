@@ -10,8 +10,9 @@ export default {
     exchanges: [], /* ids of exchanges that this client is member of them*/
     educations: [], /* ids of educations that client has them*/
     researches: [], /* ids of researches that client has them*/
+    skills: [], /* ids of skills that client has them*/
     social: {
-      follows: [], /* ids of follows that this client is participates at them*/
+      follows: [], /* ids of follows that this client participates at them*/
     },
     rememberMe: null,
     user_type: null,

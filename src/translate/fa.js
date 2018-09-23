@@ -173,6 +173,7 @@ module.exports = {
   'Saving...': "در حال ذخیره سازی ...",
   'Tag Name': 'نام تگ',
   'Add Tag': 'اضافه تگ',
+  'Tag is wrong': 'برچسب اشتباه است',
 
   // user - workExperience
   'WorkExperience': "تجربه کاری",
@@ -232,6 +233,10 @@ module.exports = {
   'Social': 'اجتماعی',
   'Followed': 'دنبال شده',
   'Wait for accept': 'در انتظار تایید',
+
+  //user - contributions
+  'Contributions': 'آورده ها',
+
 
   // Product
   // Product Rating

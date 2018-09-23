@@ -8,6 +8,7 @@ import entityTypes from './entity'
 import workExperienceTypes from './workExperience'
 import educationTypes from './education'
 import researchTypes from './research'
+import skillTypes from './skill'
 
 const types = {
 	RESET: 'RESET',
@@ -22,6 +23,7 @@ const types = {
 		WORK_EXPERIENCE: workExperienceTypes.ERROR,
 		EDUCATION: educationTypes.ERROR,
 		RESEARCH: researchTypes.ERROR,
+		SKILL: skillTypes.ERROR,
   },
 	SUCCESS: {
 		COMMON: commonTypes.SUCCESS,
@@ -34,6 +36,7 @@ const types = {
     WORK_EXPERIENCE: workExperienceTypes.SUCCESS,
     EDUCATION: educationTypes.SUCCESS,
 		RESEARCH: researchTypes.SUCCESS,
+    SKILL: skillTypes.SUCCESS,
   },
 	COMMON: commonTypes.BASE,
 	AUTH: authTypes.BASE,
@@ -45,6 +48,7 @@ const types = {
   WORK_EXPERIENCE: workExperienceTypes.BASE,
   EDUCATION: educationTypes.BASE,
 	RESEARCH: researchTypes.BASE,
+  SKILL: skillTypes.BASE,
 }
 
 export default types

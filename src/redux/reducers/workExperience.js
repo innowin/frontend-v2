@@ -27,7 +27,7 @@ const users = (state = initialState.workExperience, action) => {
       return slices.deleteWorkExperienceByUserId.error(state, action)
     /** -------------------------- reset users -------------------------> **/
     case types.RESET:
-      return initialState.users
+      return initialState.workExperience
     default:
       return state
   }
