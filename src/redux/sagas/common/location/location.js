@@ -15,8 +15,8 @@ function* watchGetCities() {
     yield takeEvery(types.COMMON.GET_CITIES, getCities)
 }
 
-export default {
-    watchGetCountries,
-    watchGetProvinces,
-    watchGetCities
-}
+export default [
+    watchGetCountries(),
+    watchGetProvinces(),
+    watchGetCities()
+]

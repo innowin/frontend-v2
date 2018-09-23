@@ -14,7 +14,7 @@ function* watchCreateHashTagFor() {
 }
 
 
-export default {
-    watchGetHashTags,
-    watchCreateHashTagFor
-}
+export default [
+    watchGetHashTags(),
+    watchCreateHashTagFor()
+]

@@ -16,7 +16,7 @@ function* watchCreateExchange() {
 	yield takeEvery(types.EXCHANGE.CREATE_EXCHANGE, createExchange)
 }
 
-export  {
-	watchGetExchangeByExId,
-	watchCreateExchange,
-}
+export  default [
+	watchGetExchangeByExId(),
+	watchCreateExchange(),
+]

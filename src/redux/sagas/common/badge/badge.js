@@ -10,7 +10,7 @@ function* watchGetOrganBadges() {
   yield takeEvery(types.COMMON.GET_ORG_BADGES, getOrganBadges)
 }
 
-export default {
-  watchGetUserBadges,
-  watchGetOrganBadges
-}
+export default [
+  watchGetUserBadges(),
+  watchGetOrganBadges()
+]

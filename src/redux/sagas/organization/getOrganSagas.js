@@ -1,13 +1,11 @@
 import types from 'src/redux/actions/types'
 import urls from 'src/consts/URLS'
-import {put, take, fork, takeEvery, call} from 'redux-saga/effects'
+import {put, take, fork, call} from 'redux-saga/effects'
 import api from 'src/consts/api'
 import results from 'src/consts/resultName'
 
-/**********    %% WORKERS %%    **********/
 
-//1 - get organization by organId worker
-export function* getOrganization(action) {
+export function* getOrganizationByOrganId(action) {
   const payload = action.payload
   const {organizationId} = payload
   const socketChannel = yield call(api.createSocketChannel, results.ORG.GET_ORGANIZATION)
@@ -29,10 +27,4 @@ export function* getOrganization(action) {
   } finally {
     socketChannel.close()
   }
-}
-
-/**********    %% WATCHERS %%    **********/
-//1 -  get organization by organId
-export function* watchGetOrganization() {
-  yield takeEvery(types.ORG.GET_ORGANIZATION, getOrganization)
 }

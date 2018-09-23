@@ -22,9 +22,9 @@ function* watchCreateProductPicture() {
     yield takeEvery(types.COMMON.CREATE_PRODUCT_PICTURE, createProductPicture)
 }
 
-export default {
-    watchGetProductInfo,
-    watchUpdateProduct,
-    watchCreateProduct,
-    watchCreateProductPicture,
-}
+export default [
+    watchGetProductInfo(),
+    watchUpdateProduct(),
+    watchCreateProduct(),
+    watchCreateProductPicture(),
+]
