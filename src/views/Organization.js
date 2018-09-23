@@ -112,7 +112,7 @@ export class Organization extends Component<PropsOrganization> {
                               postIdentity={identityObject.content.id}
 								/>
 								<PrivateRoute exact path={`${path}/basicInformation`} component={BasicInformation}
-															organizationId={organizationId} organ={organObject.content}/>
+															organizationId={organizationId} organization={organObject.content}/>
 								<PrivateRoute path={`${path}/Customers`} component={Customers} organizationId={organizationId}/>
 								<PrivateRoute path={`${path}/SocialConnections`} component={Social} organizationId={organizationId}/>
 								<PrivateRoute path={`${path}/Certificates`} component={Certificates} organizationId={organizationId}/>
@@ -155,7 +155,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
 	actions: bindActionCreators({
-		getOrganizationByOrganId: OrganizationActions.getOrganization,
+		getOrganizationByOrganId: OrganizationActions.getOrganizationByOrganId,
 		getOrganBadges: BadgeActions.getOrganBadges
 	}, dispatch)
 })

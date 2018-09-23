@@ -8,6 +8,6 @@ function* watchGetCategoriesList() {
     yield takeEvery(types.COMMON.GET_CATEGORIES, getCategoriesList)
 }
 
-export default {
-    watchGetCategoriesList
-}
+export default [
+    watchGetCategoriesList()
+]

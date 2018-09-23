@@ -1,83 +1,30 @@
-import {all, fork} from 'redux-saga/effects'
-import {
-	watchGetOrganizationMembers,
-	watchUpdateOrganization,
-	watchGetProducts,
-	watchGetOrgFollowers,
-	watchGetOrgFollowings,
-	watchGetOrgExchanges,
-	watchGetCustomers,
-	watchGetCertificates,
-	watchUpdateCustomer,
-	watchCreateOrgProduct,
-	watchUpdateOrgProduct,
-	watchAddProductPicture,
-	watchGetProductPictures,
-	watchGetProductsSuccess,
-	watchDeleteProduct,
-	watchCreateCertificate,
-	watchGetStaff,
-	watchCreateCustomer,
-	watchDeleteCustomer,
-	watchAgencyRequest,
-} from './organization/organizationSaga'
-import {watchGetOrganization} from "./organization/getOrganSagas"
-// TODO: mohammad all auth sagas must go to ./auth/auth.js and just one import here from ./auth/auth.js
-import {watchSignIn, watchSignOut, watchSignInError} from './auth/auth'
-import authWatchers from './auth/auth'
-import userWatchers from "./user"
-import {
-  watchGetExchangeByExId,
-  watchCreateExchange,
-} from "./exchange"
-
-import identityWatchers from "./getIdentity"
+import {all} from 'redux-saga/effects'
+import authWatchers from './auth'
 import commonWatchers from './common/index'
-import workExperienceWatchers from './workExperience'
 import educationWatchers from './education'
+import exchangeWatchers from "./exchange"
+import identityWatchers from "./getIdentity"
+import organizationWatchers from "./organization"
 import researchWatchers from './research'
+import userWatchers from "./user"
+import workExperienceWatchers from './workExperience'
 
 const rootSaga = function* () {
   yield all([
-    watchSignInError(),
-    watchSignOut(),
-    watchSignIn(),
-    watchGetCertificates(),
-    watchGetCustomers(),
-    watchGetOrganization(),
-    watchGetOrganizationMembers(),
-    watchGetOrgExchanges(),
-    watchGetOrgFollowers(),
-    watchGetOrgFollowings(),
-    watchGetProducts(),
-    watchUpdateOrganization(),
-    watchUpdateCustomer(),
-    watchUpdateOrgProduct(),
-    watchAddProductPicture(),
-    watchGetProductPictures(),
-    watchGetProductsSuccess(),
-    watchDeleteProduct(),
-    watchCreateCertificate(),
-    watchCreateOrgProduct(),
-    watchGetStaff(),
-    watchCreateCustomer(),
-    watchDeleteCustomer(),
-
     //Exchange sagas
-    watchGetExchangeByExId(),
-    watchUpdateCustomer(),
-    watchAgencyRequest(),
-    watchCreateExchange(),
+    ...exchangeWatchers,
 
     // auth watchers
-    authWatchers.watchVerifyToken(),
+    ...authWatchers,
 
     // identity watchers
-    identityWatchers.watchGetUserIdentity(),
-    identityWatchers.watchGetOrgIdentity(),
+    ...identityWatchers,
 
     // user watchers
     ...userWatchers,
+
+    // organization watchers
+    ...organizationWatchers,
 
     // work experiences
     ...workExperienceWatchers,

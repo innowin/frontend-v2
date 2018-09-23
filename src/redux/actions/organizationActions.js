@@ -1,7 +1,7 @@
 import types from './types';
 
 //organization
-const getOrganization = (organizationId) => ({
+const getOrganizationByOrganId = (organizationId) => ({
 	type: types.ORG.GET_ORGANIZATION,
 	payload: {
 		organizationId
@@ -225,7 +225,7 @@ const agencyRequest = (description, hideLoading) => ({
 
 
 const OrganizationActions = {
-  getOrganization,
+  getOrganizationByOrganId,
   getMetaDataOrganization,
   getOrganizationMembers,
   getOrgFollowers,

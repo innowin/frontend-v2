@@ -29,7 +29,7 @@ type PropsSocials = {
     getFollowers: Function,
     deleteFollow: Function,
     getProfileByUserId: Function,
-    getOrganization: Function,
+    getOrganizationByOrganId: Function,
     updateFollow: Function,
     createFollow: Function,
   },
@@ -76,7 +76,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
 
   componentDidUpdate(prevProps, prevState) {
     const {followers, actions, followees} = this.props
-    const {getProfileByUserId, getOrganization} = actions
+    const {getProfileByUserId, getOrganizationByOrganId} = actions
 
     if (this.firstStartFollower && prevProps.followers !== followers && followers.length > 0 && prevProps.followers.length > 0) {
       followers.forEach(follower => {
@@ -84,7 +84,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
           getProfileByUserId(follower.identity_user)
         }
         else {
-          getOrganization(follower.identity_organization)
+          getOrganizationByOrganId(follower.identity_organization)
         }
       })
       this.firstStartFollower = false
@@ -95,7 +95,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
           getProfileByUserId(followee.identity_user)
         }
         else {
-          getOrganization(followee.identity_organization)
+          getOrganizationByOrganId(followee.identity_organization)
         }
       })
       this.firstStartFollowee = false
@@ -197,7 +197,7 @@ const mapDispatchToProps = dispatch => ({
     updateFollow: SocialActions.updateFollow,
     createFollow: SocialActions.createFollow,
     getProfileByUserId: GetUserActions.getProfileByUserId,
-    getOrganization: OrganizationActions.getOrganization,
+    getOrganizationByOrganId: OrganizationActions.getOrganizationByOrganId,
   }, dispatch)
 })
 

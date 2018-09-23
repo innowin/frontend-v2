@@ -17,8 +17,8 @@ function* watchResetCreatingObjectCertStatus () {
     yield takeEvery(types.COMMON.RESET_CREATE_CERTIFICATE_STATUS, resetCreatingObjectCertStatus)
 }
 
-export default {
-    watchGetObjectCertificates,
-    watchCreateObjectCertificate,
-    watchResetCreatingObjectCertStatus
-}
+export default [
+    watchGetObjectCertificates(),
+    watchCreateObjectCertificate(),
+    watchResetCreatingObjectCertStatus()
+]
