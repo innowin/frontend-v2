@@ -121,6 +121,16 @@ const organs = (state = initialState.organs, action) => {
           }
         }
       }
+    /** -------------------------- get exchange membership by member identity  -------------------------> **/
+    case types.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
+      return slices.getExchangeMembershipByMemberIdentity.base(state, action)
+    case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
+      return slices.getExchangeMembershipByMemberIdentity.success(state, action)
+    case types.ERRORS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
+      return slices.getExchangeMembershipByMemberIdentity.error(state, action)
+    /** -------------------------- delete exchange membership  -------------------------> **/
+    case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.DELETE_EXCHANGE_MEMBERSHIP:
+      return slices.deleteExchangeMembership.success(state, action)
     /** -------------------------- get work experience by user id  -------------------------> **/
     case types.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID:
       return slices.getWorkExperienceByUserId.base(state, action)
