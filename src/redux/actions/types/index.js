@@ -33,8 +33,8 @@ const types = {
     ENTITY: entityTypes.SUCCESS,
     WORK_EXPERIENCE: workExperienceTypes.SUCCESS,
     EDUCATION: educationTypes.SUCCESS,
-    RESEARCH: researchTypes.SUCCESS,
-    SKILL: skillTypes.SUCCESS
+		RESEARCH: researchTypes.SUCCESS,
+    SKILL: skillTypes.SUCCESS,
   },
   COMMON: commonTypes.BASE,
   AUTH: authTypes.BASE,
@@ -44,8 +44,8 @@ const types = {
   ENTITY: entityTypes.BASE,
   WORK_EXPERIENCE: workExperienceTypes.BASE,
   EDUCATION: educationTypes.BASE,
-  RESEARCH: researchTypes.BASE,
-  SKILL: skillTypes.BASE
+	RESEARCH: researchTypes.BASE,
+  SKILL: skillTypes.BASE,
 }
 
 export default types

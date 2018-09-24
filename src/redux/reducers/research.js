@@ -27,7 +27,7 @@ const users = (state = initialState.research, action) => {
       return slices.updateResearchByUserId.error(state, action)
     /** -------------------------- reset  -------------------------> **/
     case types.RESET:
-      return initialState.users
+      return initialState.research
     default:
       return state
   }

@@ -121,7 +121,10 @@ const results = {
     UPDATE_USER_RESEARCH_BY_USER_ID: 'update-user-research-by-user-id',
   },
   SKILL: {
-    CREATE_SKILL_RESULT: 'create-skill-result'
-  }
+    CREATE_SKILL_RESULT: 'create-skill-result',
+    GET_SKILL_BY_USER_ID: 'get-skill-by-user-id',
+    DELETE_SKILL_BY_USER_ID: 'delete-skill-by-user-id',
+    UPDATE_SKILL_BY_USER_ID: 'update-skill-by-user-id',
+  },
 }
 export default results

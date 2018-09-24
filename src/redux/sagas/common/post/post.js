@@ -40,12 +40,12 @@ function* watchDeletePost() {
   yield takeEvery(types.COMMON.POST.DELETE_POST, deletePost)
 }
 
-export default {
-  watchFilterPostsByPostParentPostTypeLimitOffset,
-  watchGetPostByIdentity,
-  watchGetPostViewerCount,
-  watchSetPostViewer,
-  watchCreatePost,
-  watchUpdatePost,
-  watchDeletePost,
-}
+export default [
+  watchCreatePost(),
+  watchDeletePost(),
+  watchFilterPostsByPostParentPostTypeLimitOffset(),
+  watchGetPostByIdentity(),
+  watchGetPostViewerCount(),
+  watchSetPostViewer(),
+  watchUpdatePost(),
+]

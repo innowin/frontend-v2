@@ -71,6 +71,11 @@ const urls = {
     DELETE_USER_RESEARCH_BY_USER_ID: 'users/researches',
     UPDATE_USER_RESEARCH_BY_USER_ID: 'users/researches',
   },
+  // SKILL: {
+  //   GET_SKILL_BY_USER_ID: 'users/skills',
+  //   DELETE_SKILL_BY_USER_ID: 'users/skills',
+  //   UPDATE_SKILL_BY_USER_ID: 'users/skills',
+  // },
   COMMON: {
     // product
     PRODUCT: 'products',

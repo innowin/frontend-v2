@@ -9,13 +9,17 @@ import deleteFollow from './deleteFollow'
 import deletePost from './deletePost'
 import deleteResearchByUserId from './deleteResearchByUserId'
 import deleteWorkExperienceByUserId from './deleteWorkExperienceByUserId'
+import deleteSkillByUserId from './deleteSkillByUserId'
 import getEducationByUserId from './getEducationByUserId'
+import getExchangeMembershipByMemberIdentity from './getExchangeMembershipByMemberIdentity'
 import getFollowees from './getFollowees'
 import getFollowers from './getFollowers'
-import getExchangeMembershipByMemberIdentity from './getExchangeMembershipByMemberIdentity'
 import getPostByIdentity from './getPostByIdentity'
 import getResearchByUserId from './getResearchByUserId'
+import getSkillByUserId from './getSkillByUserId'
 import getWorkExperienceByUserId from './getWorkExperienceByUserId'
+import setToken from "./setToken"
+import signIn from "./signIn"
 import updateProfileByProfileId from './updateProfileByProfileId'
 import updateUserByUserId from './updateUserByUserId'
 
@@ -32,12 +36,16 @@ export default {
   deleteResearchByUserId,
   deleteWorkExperienceByUserId,
   getEducationByUserId,
+  getExchangeMembershipByMemberIdentity,
   getFollowees,
   getFollowers,
-  getExchangeMembershipByMemberIdentity,
   getPostByIdentity,
   getResearchByUserId,
+  getSkillByUserId,
+  deleteSkillByUserId,
   getWorkExperienceByUserId,
+  setToken,
+  signIn,
   updateProfileByProfileId,
   updateUserByUserId,
 }

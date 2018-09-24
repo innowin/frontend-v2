@@ -43,7 +43,7 @@ export default {
        }
        ---------------- other ----------
        skills:{
-           content:[{},{},...],  list of skill object
+           content:[1, 2, ...], list of skill id
            isLoading:false,
            error:null
        },

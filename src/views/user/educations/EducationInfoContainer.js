@@ -3,7 +3,6 @@ import * as React from "react"
 import PropTypes from 'prop-types'
 import {connect} from "react-redux"
 
-import {getMessages} from "../../../redux/selectors/translateSelector"
 import {ItemWrapper} from "../../common/cards/Frames";
 import {EducationInfo} from './EducationInfo'
 import {makeGetEducations} from "../../../redux/selectors/user/userGetEducationsSelector";

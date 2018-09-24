@@ -1,6 +1,6 @@
 import authState from "./auth"
 import usersState from "./users"
-import skillsState from "./skills"
+import skillState from "./skill"
 import organizationState from "./organization"
 import organsState from "./organs"
 import exchangesState from "./exchanges"
@@ -13,7 +13,7 @@ import researchState from './research'
 export default {
   auth: authState,
   users: usersState,
-  skills: skillsState,
+  skill: skillState,
   research: researchState,
   organization: organizationState,
   organs: organsState,

@@ -4,15 +4,39 @@ import results from "src/consts/resultName"
 import constants from 'src/consts/constants'
 import types from "src/redux/actions/types"
 import urls from "src/consts/URLS"
-import {verifyToken} from './verifyToken'
 import {getOrgIdentity} from "../getIdentity"
 import {delay} from "redux-saga"
-import {put, take, fork, call, takeEvery} from "redux-saga/effects"
+import {put, take, fork, call} from "redux-saga/effects"
 
 /**********    %% WORKERS %%    **********/
 
-//1 - sign in worker
-function* signIn(action) {
+function* getOrganizationInSignIn(username) {
+  const resultName1 = results.ORG.GET_ORGANIZATION + 1
+  const resultName2 = results.ORG.GET_ORGANIZATION + 2
+  const socketChannel1 = yield call(api.createSocketChannel, resultName1)
+  const socketChannel2 = yield call(api.createSocketChannel, resultName2)
+  try {
+    yield fork(api.get, urls.ORG.GET_ORGANIZATION, resultName1, `?username=${username}`)
+    const dataList = yield take(socketChannel1)
+    const incompleteOrgan = dataList[0]
+    yield fork(api.get, urls.ORG.GET_ORGANIZATION, resultName2, incompleteOrgan.id)
+    const data = yield take(socketChannel2)
+    const organLogoId = data.organization_logo
+    if (organLogoId) {
+      yield put({type:types.COMMON.GET_FILE, payload:{fileId:organLogoId}})
+    }
+    // return data for access father to organ data
+    return data
+  } catch (e) {
+    // throw error for father function
+    throw new Error(e)
+  } finally {
+    socketChannel1.close()
+    socketChannel2.close()
+  }
+}
+
+export function* signIn(action) {
   const {payload} = action
   const {username, password, rememberMe, reject} = payload
 	const socketChannel = yield call(api.createSocketChannel, results.SIGN_IN)
@@ -70,60 +94,8 @@ function* signIn(action) {
   }
 }
 
-function* getOrganizationInSignIn(username) {
-  const resultName1 = results.ORG.GET_ORGANIZATION + 1
-  const resultName2 = results.ORG.GET_ORGANIZATION + 2
-  const socketChannel1 = yield call(api.createSocketChannel, resultName1)
-  const socketChannel2 = yield call(api.createSocketChannel, resultName2)
-  try {
-    yield fork(api.get, urls.ORG.GET_ORGANIZATION, resultName1, `?username=${username}`)
-    const dataList = yield take(socketChannel1)
-    const incompleteOrgan = dataList[0]
-    yield fork(api.get, urls.ORG.GET_ORGANIZATION, resultName2, incompleteOrgan.id)
-    const data = yield take(socketChannel2)
-    const organLogoId = data.organization_logo
-    if (organLogoId) {
-      yield put({type:types.COMMON.GET_FILE, payload:{fileId:organLogoId}})
-    }
-    // return data for access father to organ data
-    return data
-  } catch (e) {
-    // throw error for father function
-    throw new Error(e)
-  } finally {
-    socketChannel1.close()
-    socketChannel2.close()
-  }
-}
-
-//2 - Sign Out worker
-function* signOut() {
+export function* signOut() {
   yield call(client.clearData)
   yield put({type: types.RESET})
   yield put({type: types.AUTH.SIGN_OUT_FINISHED})
-}
-
-/**********    %% WATCHERS %%    **********/
-//1 - sign In
-export function* watchSignIn() {
-  yield takeEvery(types.AUTH.SIGN_IN, signIn)
-}
-
-//2 - sign out
-export function* watchSignOut() {
-  yield takeEvery(types.AUTH.SIGN_OUT, signOut)
-}
-
-//3 - sign in error
-export function* watchSignInError() {
-  yield takeEvery(types.ERRORS.AUTH.SIGN_IN, signOut)
-}
-
-//4 -verify Token
-function* watchVerifyToken() {
-  yield takeEvery(types.AUTH.VERIFY_TOKEN, verifyToken)
-}
-
-export default {
-  watchVerifyToken,
 }

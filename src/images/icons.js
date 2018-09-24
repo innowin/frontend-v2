@@ -27,6 +27,7 @@ import logoDaneshBoom from "./common/logoWhite.png"
 import MoviesSvgIcon from "./common/movies_svg_icon"
 import NoFilterIcon from "./common/noFilter_svg"
 import NotificationIcon from "./common/notification_svg"
+import NewSkillIcon from './user/new_skill_svg'
 import PayIcon from "./addingConribution/pay_icon_svg"
 import postIcon from "./user/post_svg"
 import PostSendIcon from "./common/postSend_svg"
@@ -76,6 +77,7 @@ export {
   MoviesSvgIcon,
   NoFilterIcon,
   NotificationIcon,
+  NewSkillIcon,
   PayIcon,
   postIcon,
   PostSendIcon,
@@ -93,5 +95,5 @@ export {
   TickSvgIcon,
   TipsIcon,
   userInfoIcon,
-  workExperienceIcon
+  workExperienceIcon,
 }

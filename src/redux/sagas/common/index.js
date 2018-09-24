@@ -11,57 +11,32 @@ import exchangeMembershipWatchers from './exchangeMembership/exchangeMembership'
 
 export default [
   // product watchers
-  productWatchers.watchGetProductInfo(),
-  productWatchers.watchUpdateProduct(),
-  productWatchers.watchCreateProduct(),
-  productWatchers.watchCreateProductPicture(),
+  ...productWatchers,
 
   // category watchers
-  categoryWatchers.watchGetCategoriesList(),
+  ...categoryWatchers,
 
   // file watchers
-  fileWatchers.watchGetFile(),
-  fileWatchers.watchCreateFile(),
-  fileWatchers.watchUpdateFile(),
-  fileWatchers.watchDelFileMiddleWareData(),
+  ...fileWatchers,
 
   // certificate watchers
-  certificateWatchers.watchGetObjectCertificates(),
-  certificateWatchers.watchCreateObjectCertificate(),
-  certificateWatchers.watchResetCreatingObjectCertStatus(),
+  ...certificateWatchers,
 
   // badge watchers
-  badgeWatchers.watchGetOrganBadges(),
-  badgeWatchers.watchGetUserBadges(),
+  ...badgeWatchers,
 
   // hashTag watchers
-  hashTagWatchers.watchGetHashTags(),
-  hashTagWatchers.watchCreateHashTagFor(),
+  ...hashTagWatchers,
 
   // location
-  locationWatchers.watchGetCountries(),
-  locationWatchers.watchGetProvinces(),
-  locationWatchers.watchGetCities(),
+  ...locationWatchers,
 
   // posts
-  postWatchers.watchFilterPostsByPostParentPostTypeLimitOffset(),
-  postWatchers.watchGetPostByIdentity(),
-  postWatchers.watchGetPostViewerCount(),
-  postWatchers.watchSetPostViewer(),
-  postWatchers.watchCreatePost(),
-  postWatchers.watchUpdatePost(),
-  postWatchers.watchDeletePost(),
+  ...postWatchers,
 
   // social
-  socialWatchers.watchGetFollowees(),
-  socialWatchers.watchGetFollowers(),
-  socialWatchers.watchDeleteFollow(),
-  socialWatchers.watchUpdateFollow(),
-  socialWatchers.watchCreateFollow(),
+  ...socialWatchers,
 
   // exchangeMembership
-  exchangeMembershipWatchers.watchDeleteExchangeMembership(),
-  exchangeMembershipWatchers.watchGetExchangeMembershipByMemberIdentity(),
-  exchangeMembershipWatchers.watchGetExchangeMembershipByExchangeId(),
-  exchangeMembershipWatchers.watchCreateExchangeMembership(),
+  ...exchangeMembershipWatchers,
 ]
