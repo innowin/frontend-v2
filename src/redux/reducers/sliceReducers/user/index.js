@@ -6,6 +6,7 @@ import createWorkExperienceByUserId from './createWorkExperienceByUserId'
 import deleteEducationByUserId from './deleteEducationByUserId'
 import deleteExchangeMembership from './deleteExchangeMembership'
 import deleteFollow from './deleteFollow'
+import deleteProduct from './deleteProduct'
 import deletePost from './deletePost'
 import deleteResearchByUserId from './deleteResearchByUserId'
 import deleteWorkExperienceByUserId from './deleteWorkExperienceByUserId'
@@ -15,6 +16,7 @@ import getFollowees from './getFollowees'
 import getFollowers from './getFollowers'
 import getExchangeMembershipByMemberIdentity from './getExchangeMembershipByMemberIdentity'
 import getPostByIdentity from './getPostByIdentity'
+import getProductsByIdentity from './getProductsByIdentity'
 import getResearchByUserId from './getResearchByUserId'
 import getSkillByUserId from './getSkillByUserId'
 import getWorkExperienceByUserId from './getWorkExperienceByUserId'
@@ -31,6 +33,7 @@ export default {
   deleteExchangeMembership,
   deleteFollow,
   deletePost,
+  deleteProduct,
   deleteResearchByUserId,
   deleteSkillByUserId,
   deleteWorkExperienceByUserId,
@@ -39,6 +42,7 @@ export default {
   getFollowers,
   getExchangeMembershipByMemberIdentity,
   getPostByIdentity,
+  getProductsByIdentity,
   getResearchByUserId,
   getSkillByUserId,
   getWorkExperienceByUserId,

@@ -1,34 +1,34 @@
-import type {skillFormValuesType, skillType} from "../../../consts/flowTypes/user/others";
+import type {ProductFormValuesType, ProductGetType} from "../../../consts/flowTypes/product/productTypes";
 import {Component} from "react";
 import PropTypes from "prop-types";
 import * as React from "react";
 import {Confirm} from "../../common/cards/Confirm";
-import SkillInfoForm from './SkillInfoForm'
+import ProductInfoForm from './ProductInfoForm'
 
-type PropsSkillEditForm = {
+type PropsProductEditForm = {
   update: Function,
-  deleteSkillByUserId: Function,
+  deleteProduct: Function,
   hideEdit: Function,
-  skill: skillType,
+  product: ProductGetType,
   translate: { [string]: string },
   userId: number,
 }
 
-type StateSkillEditForm = {
+type StateProductEditForm = {
   confirm: boolean
 }
 
-class SkillInfoEditForm extends Component<PropsSkillEditForm, StateSkillEditForm> {
+class ProductInfoEditForm extends Component<PropsProductEditForm, StateProductEditForm> {
   static propTypes = {
     update: PropTypes.func.isRequired,
     hideEdit: PropTypes.func.isRequired,
-    skill: PropTypes.object.isRequired,
+    product: PropTypes.object.isRequired,
     translate: PropTypes.object.isRequired,
-    deleteSkillByUserId: PropTypes.func.isRequired,
+    deleteProduct: PropTypes.func.isRequired,
     userId: PropTypes.number.isRequired,
   }
 
-  constructor(props: PropsSkillEditForm) {
+  constructor(props: PropsProductEditForm) {
     super(props)
     this.state = {confirm: false}
   }
@@ -41,16 +41,16 @@ class SkillInfoEditForm extends Component<PropsSkillEditForm, StateSkillEditForm
     this.setState({confirm: false})
   }
 
-  _onSubmit = (values: skillFormValuesType) => {
-    const {userId, skill, update, hideEdit} = this.props
+  _onSubmit = (values: ProductFormValuesType) => {
+    const {product, update, hideEdit} = this.props
 
-    const skillId: number = skill.id
+    const productId: number = product.id
 
     // FixMe: mohammad tag input not work
     const formFormat = {
-      title: skill.title === values.title ? null : values.title,
-      tag: skill.tag === values.tag ? null : values.tag,
-      description: skill.description === values.description ? null : values.description,
+      title: product.title === values.title ? null : values.title,
+      tag: product.tag === values.tag ? null : values.tag,
+      description: product.description === values.description ? null : values.description,
     }
 
     const propertyNames = Object.getOwnPropertyNames(formFormat)
@@ -61,17 +61,17 @@ class SkillInfoEditForm extends Component<PropsSkillEditForm, StateSkillEditForm
     })
 
     const formValues: {} = {...formFormat}
-    update({formValues, skillId, userId})
-    hideEdit()
+    update({formValues, productId})
+    // hideEdit()
   }
 
   render() {
     const {confirm} = this.state
-    const {hideEdit, translate, skill, deleteSkillByUserId} = this.props
+    const {hideEdit, translate, product, deleteProduct} = this.props
 
     return (
-        confirm ? <Confirm cancelRemoving={this._cancelConfirm} remove={deleteSkillByUserId}/>
-            : <SkillInfoForm onSubmit={this._onSubmit} skill={skill} translate={translate}>
+        confirm ? <Confirm cancelRemoving={this._cancelConfirm} remove={deleteProduct}/>
+            : <ProductInfoForm onSubmit={this._onSubmit} product={product} translate={translate}>
               <div className="col-12 d-flex justify-content-end">
                 <button type="button" className="btn btn-outline-danger mr-auto" onClick={this._showConfirm}>
                   {translate['Delete']}
@@ -81,9 +81,9 @@ class SkillInfoEditForm extends Component<PropsSkillEditForm, StateSkillEditForm
                 </button>
                 <button type="submit" className="btn btn-success">{translate['Save']}</button>
               </div>
-            </SkillInfoForm>
+            </ProductInfoForm>
     )
   }
 }
 
-export default SkillInfoEditForm
+export default ProductInfoEditForm

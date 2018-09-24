@@ -15,6 +15,8 @@ export default [
   productWatchers.watchUpdateProduct(),
   productWatchers.watchCreateProduct(),
   productWatchers.watchCreateProductPicture(),
+  productWatchers.watchGetProductsByIdentity(),
+  productWatchers.watchDeleteProductByIdentity(),
 
   // category watchers
   categoryWatchers.watchGetCategoriesList(),

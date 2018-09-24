@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import SkillInfoEditForm from "./SkillInfoEditForm";
 import * as React from "react";
 import {ItemHeader, ItemWrapper, VerifyWrapper} from "../../common/cards/Frames";
-import {userInfoIcon} from "src/images/icons";
+import {SkillIcon} from "src/images/icons";
 
 type PropsSkillInfo = {
   updateSkillByUserId: Function,
@@ -49,11 +49,11 @@ class SkillInfo extends Component<PropsSkillInfo, StateSkillInfo> {
   render() {
     const {translate, updateSkillByUserId, userId, skill} = this.props
     const {edit} = this.state
-    // TODO: mohammad change userIcon image to skillIcon
+    // TODO: mohammad SkillIcon not shown
     // FixMe: mohammad isLoading and error come from redux
     return (
         <VerifyWrapper isLoading={false} error={false}>
-          <ItemWrapper icon={userInfoIcon}>
+          <ItemWrapper icon={SkillIcon}>
             {edit ?
                 <SkillInfoEditForm
                     userId={userId}

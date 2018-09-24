@@ -7,7 +7,8 @@ import {ListGroup} from '../../common/cards/Frames'
 import {ProductInfoItemWrapper, ProductInfoView, ProductDescriptionView, ProductDescriptionWrapper} from "./Views"
 import type {ProductType, CategoryType} from "src/consts/flowTypes/product/productTypes"
 import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
-import {getProductInfo, updateProduct} from "src/redux/actions/commonActions/productActions"
+import {getProductInfo} from "src/redux/actions/commonActions/productActions"
+import ProductActions from 'src/redux/actions/commonActions/productActions'
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {ProductInformationForm} from "./Forms"
@@ -87,7 +88,7 @@ export class productBasicInformation extends Component<ProductInfoProps, Product
         const {product, _updateProduct, productId} = this.props
         const product_category = (values.product_category && values.product_category.value) || product.product_category
         const formData = {...values, product_category}
-        _updateProduct(productId, formData)
+        _updateProduct({productId, formValues: formData})
 
     }
 
@@ -172,7 +173,7 @@ const mapDispatchToProps = dispatch =>
     bindActionCreators(
         {
             _getProductInfo: id => getProductInfo(id),
-            _updateProduct: (id, values) => updateProduct(id, values),
+            _updateProduct: ({formValues, productId}) => ProductActions.updateProduct({formValues, productId}),
             _getCategories: () => getCategories()
         },
         dispatch

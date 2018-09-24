@@ -136,7 +136,7 @@ export class ProductContainer extends Component<ProductContainerProps, ProductCo
 type ProductListProps = {
     hideCreateForm: Function,
     createForm: boolean,
-    updateProductsList: Function,
+    updateProductList: Function,
     organizationId: number,
     organization: {},
     products: Array<ProductType>,
@@ -282,7 +282,7 @@ export class Products extends Component<ProductsProps,ProductsState> {
                 />
                 <FrameCard>
                     <ProductList
-                        updateProductsList={() => 1}
+                        updateProductList={() => 1}
                         updateStateForView={() => 1}
                         products={products}
                         categories={categories}

@@ -115,7 +115,7 @@ export class ProductList extends Component {
 	static propTypes = {
 		hideCreateForm: PropTypes.func.isRequired,
 		createForm: PropTypes.bool.isRequired,
-		updateProductsList: PropTypes.func.isRequired
+		updateProductList: PropTypes.func.isRequired
 	}
 
 	render() {
@@ -229,7 +229,7 @@ export class Products extends Component {
 				/>
 				<FrameCard>
 					<ProductList
-						updateProductsList={this.updateProductsList}
+						updateProductList={this.updateProductList}
 						updateStateForView={this.updateStateForView}
 						products={products}
 						categories={categories}

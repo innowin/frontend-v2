@@ -12,7 +12,7 @@ import SkillActions from "../../../redux/actions/skillActions";
 import connect from "react-redux/es/connect/connect";
 import * as React from "react";
 import SkillInfo from './SkillInfo'
-import {ContributionIcon} from "../../../images/icons";
+import {SkillIcon} from "../../../images/icons";
 import {makeGetSkills} from "../../../redux/selectors/user/userGetSkillSelector";
 
 type PropsSkills = {
@@ -36,7 +36,7 @@ type StateSkills = {
 class SkillInfoContainer extends Component<PropsSkills, StateSkills> {
 
   static propTypes = {
-    userId: PropTypes.string.isRequired,
+    userId: PropTypes.number.isRequired,
     translate: PropTypes.object.isRequired,
     skills: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
@@ -119,7 +119,7 @@ class SkillInfoContainer extends Component<PropsSkills, StateSkills> {
         <div>
           {
             createForm &&
-            <ItemWrapper icon={ContributionIcon}>
+            <ItemWrapper icon={SkillIcon}>
               <SkillInfoCreateForm hideCreateForm={this._hideCreateForm} create={this._create} translate={translate}
                                    userId={userId}/>
             </ItemWrapper>
