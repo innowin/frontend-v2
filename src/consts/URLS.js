@@ -71,8 +71,6 @@ const urls = {
     DELETE_USER_RESEARCH_BY_USER_ID: 'users/researches',
     UPDATE_USER_RESEARCH_BY_USER_ID: 'users/researches',
   },
-  CREATE_PRODUCT: 'products',
-  CREATE_Skill: 'users/skills',
   COMMON: {
     // product
     PRODUCT: 'products',
@@ -121,6 +119,7 @@ const urls = {
       GET_EXCHANGE_MEMBERSHIP_BY_EXCHANGE_ID: 'exchanges/identities', // TODO: not complete
       CREATE_EXCHANGE_MEMBERSHIP: 'exchanges/identities', // TODO: not complete
     }
-  }
+  },
+  SKILL: 'users/skills'
 }
 export default urls

@@ -4,7 +4,7 @@ import {persistReducer} from "redux-persist";
 import {reducer as formReducer} from 'redux-form'
 import {routerReducer} from 'react-router-redux'
 import storage from 'redux-persist/lib/storage'
-
+import skill from './skill'
 import auth from './auth'
 import common from "./commonReducer/index"
 import exchanges from "./exchange"
@@ -28,6 +28,7 @@ const reducers = {
   workExperience,
   education,
   research,
+  skill
 }
 
 //Don't change below code ,  Put your reducer on the upper object.

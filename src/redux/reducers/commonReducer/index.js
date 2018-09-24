@@ -1,4 +1,4 @@
-import hashTag from "./hashTag";
+// import hashTag from "./hashTag";
 import file from "./file";
 import badge from "./badge";
 import certificate from "./certificate";
@@ -11,20 +11,21 @@ import social from './social'
 import storage from "redux-persist/lib/storage";
 import {persistReducer} from "redux-persist";
 import exchangeMembership from "./exchangeMembership";
+import hashTag from "./hashTag/mainHashTags";
 
 
 const locationPersistConfig = {key: 'location', storage: storage}
 
 const productPersistConfig = {key: 'product', storage: storage}
 
-const hashTagPersistConfig = {key: 'hashTag', storage: storage}
+// const hashTagPersistConfig = {key: 'hashTag', storage: storage}
 
 export default combineReducers({
   category,
   product: persistReducer(productPersistConfig, product),
   certificate,
   file,
-  hashTag: persistReducer(hashTagPersistConfig, hashTag),
+  hashTag,
   location: persistReducer(locationPersistConfig, location),
   badge,
   post,

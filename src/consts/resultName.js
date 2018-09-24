@@ -120,8 +120,8 @@ const results = {
     DELETE_USER_RESEARCH_BY_USER_ID: 'delete-user-research-by-user-id',
     UPDATE_USER_RESEARCH_BY_USER_ID: 'update-user-research-by-user-id',
   },
-  //contribution
-  CREATE_PRODUCT: 'create-product',
-  CREATE_Skill: 'create-skill',
+  SKILL: {
+    CREATE_SKILL_RESULT: 'create-skill-result'
+  }
 }
 export default results

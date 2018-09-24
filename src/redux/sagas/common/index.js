@@ -26,7 +26,7 @@ export default [
   fileWatchers.watchDelFileMiddleWareData(),
 
   // certificate watchers
-  // certificateWatchers.watchGetObjectCertificates(),
+  certificateWatchers.watchGetObjectCertificates(),
   certificateWatchers.watchCreateObjectCertificate(),
   certificateWatchers.watchResetCreatingObjectCertStatus(),
 
@@ -36,7 +36,7 @@ export default [
 
   // hashTag watchers
   hashTagWatchers.watchGetHashTags(),
-  // hashTagWatchers.watchCreateHashTagFor(),
+  hashTagWatchers.watchCreateHashTagFor(),
 
   // location
   locationWatchers.watchGetCountries(),

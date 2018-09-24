@@ -199,6 +199,8 @@ export default class ProductSideView extends Component {
           productName={product.name}
           toggleModal={this.props.toggleModal}
         />
+        {console.log('---- view -- >> productBar >> props: ', this.props)}
+        {console.log('---- view -- >> productBar >> state: ', this.state)}
         <OwnerSection ownerName={ownerName} userProfile={userProfile}/>
         {
           (badgesImgUrl.length > 0) ? (

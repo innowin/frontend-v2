@@ -2,6 +2,7 @@ import initialState from "./initialState"
 import types from "../actions/types/index"
 
 import slices from './sliceReducers/user'
+import setRelatedObjIdForListItem from "./sliceReducers/utilsSlices/setRelatedObjIdForListItem";
 
 const users = (state = initialState.users, action) => {
   const {userId, data, message} = action.payload || {}
@@ -299,6 +300,10 @@ const users = (state = initialState.users, action) => {
     case types.SUCCESS.RESEARCH.DELETE_USER_RESEARCH_BY_USER_ID:
       return slices.deleteResearchByUserId.success(state, action)
     /** -------------------------- reset users -------------------------> **/
+    /** <----------------- add skill id to user ---------------**/
+    case types.USER.ADD_SKILL_ID_TO_USER:
+      return setRelatedObjIdForListItem.success(state, action, 'skills')
+      /** ------------------ add skill id to user -------------->**/
     case types.RESET:
       return initialState.users
     default:
