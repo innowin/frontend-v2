@@ -313,6 +313,16 @@ const users = (state = initialState.users, action) => {
     /** -------------------------- delete skill by user id -------------------------> **/
     case types.SUCCESS.SKILL.DELETE_SKILL_BY_USER_ID:
       return slices.deleteSkillByUserId.success(state, action)
+    /** -------------------------- get products by identity  -------------------------> **/
+    case types.COMMON.PRODUCT.GET_PRODUCTS_BY_IDENTITY:
+      return slices.getProductsByIdentity.base(state, action)
+    case types.SUCCESS.COMMON.PRODUCT.GET_PRODUCTS_BY_IDENTITY:
+      return slices.getProductsByIdentity.success(state, action)
+    case types.ERRORS.COMMON.PRODUCT.GET_PRODUCTS_BY_IDENTITY:
+      return slices.getProductsByIdentity.error(state, action)
+    /** -------------------------- delete product  -------------------------> **/
+    case types.SUCCESS.COMMON.PRODUCT.DELETE_PRODUCT:
+      return slices.deleteProduct.success(state, action)
     /** -------------------------- reset users -------------------------> **/
     /** <----------------- add skill id to user ---------------**/
     case types.USER.ADD_SKILL_ID_TO_USER:

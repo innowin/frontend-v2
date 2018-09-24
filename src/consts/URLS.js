@@ -48,34 +48,11 @@ const urls = {
     AGENCY_REQUEST: 'users/agent-requests',
 
   },
-  EXCHANGE: {
-    GET_EXCHANGES: 'exchanges',
-    GET_EXCHANGE_BY_EX_ID: 'exchanges',
-    CREATE_EXCHANGE: 'exchanges',
-  },
-  WORK_EXPERIENCE: {
-    GET_USER_WORK_EXPERIENCES_BY_USER_ID: 'users/work-experiences',
-    UPDATE_USER_WORK_EXPERIENCES_BY_USER_ID: 'users/work-experiences',
-    CREATE_USER_WORK_EXPERIENCES_BY_USER_ID: 'users/work-experiences',
-    DELETE_USER_WORK_EXPERIENCES_BY_USER_ID: 'users/work-experiences',
-  },
-  EDUCATION: {
-    GET_USER_EDUCATION_BY_USER_ID: 'users/educations',
-    CREATE_USER_EDUCATION_BY_USER_ID: 'users/educations',
-    DELETE_USER_EDUCATION_BY_USER_ID: 'users/educations',
-    UPDATE_USER_EDUCATION_BY_USER_ID: 'users/educations',
-  },
-  RESEARCH: {
-    GET_USER_RESEARCH_BY_USER_ID: 'users/researches',
-    CREATE_USER_RESEARCH_BY_USER_ID: 'users/researches',
-    DELETE_USER_RESEARCH_BY_USER_ID: 'users/researches',
-    UPDATE_USER_RESEARCH_BY_USER_ID: 'users/researches',
-  },
-  // SKILL: {
-  //   GET_SKILL_BY_USER_ID: 'users/skills',
-  //   DELETE_SKILL_BY_USER_ID: 'users/skills',
-  //   UPDATE_SKILL_BY_USER_ID: 'users/skills',
-  // },
+  EXCHANGE: 'exchanges',
+  WORK_EXPERIENCE: 'users/work-experiences',
+  EDUCATION: 'users/educations',
+  RESEARCH: 'users/researches',
+
   COMMON: {
     // product
     PRODUCT: 'products',
@@ -102,28 +79,13 @@ const urls = {
     PROVINCE: 'base/provinces',
     CITY: 'base/towns',
 
-    POST: {
-      FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET: 'base/posts',
-      GET_POST_BY_IDENTITY: 'base/posts',
-      CREATE_POST: 'base/posts',
-      UPDATE_POST: 'base/posts',
-      DELETE_POST: 'base/posts',
-    },
+    POST: 'base/posts',
 
     SOCIAL: {
-      GET_FOLLOWEES: 'organizations/follows',
-      GET_FOLLOWERS: 'organizations/follows',
-      DELETE_FOLLOW: 'organizations/follows',
-      UPDATE_FOLLOW: 'organizations/follows',
-      CREATE_FOLLOW: 'organizations/follows',
+      FOLLOW: 'organizations/follows',
     },
 
-    EXCHANGE_MEMBERSHIP: {
-      DELETE_EXCHANGE_MEMBERSHIP: 'exchanges/identities',
-      GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY: 'exchanges/identities',
-      GET_EXCHANGE_MEMBERSHIP_BY_EXCHANGE_ID: 'exchanges/identities', // TODO: not complete
-      CREATE_EXCHANGE_MEMBERSHIP: 'exchanges/identities', // TODO: not complete
-    }
+    EXCHANGE_MEMBERSHIP: 'exchanges/identities',
   },
   SKILL: 'users/skills'
 }

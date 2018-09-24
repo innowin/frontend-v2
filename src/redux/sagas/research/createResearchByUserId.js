@@ -9,7 +9,7 @@ export function* createResearchByUserId(action) {
   const {formValues, userId} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.RESEARCH.CREATE_USER_RESEARCH_BY_USER_ID)
   try {
-    yield fork(api.post, urls.RESEARCH.CREATE_USER_RESEARCH_BY_USER_ID, results.RESEARCH.CREATE_USER_RESEARCH_BY_USER_ID, formValues)
+    yield fork(api.post, urls.RESEARCH, results.RESEARCH.CREATE_USER_RESEARCH_BY_USER_ID, formValues)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.RESEARCH.CREATE_USER_RESEARCH_BY_USER_ID ,
       payload:{data, userId}})

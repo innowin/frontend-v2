@@ -9,7 +9,7 @@ export function* getSkillByUserId(action) {
   const {userId} = payload
   const socketChannel = yield call(api.createSocketChannel, results.SKILL.GET_SKILL_BY_USER_ID)
   try {
-    yield fork(api.get, urls.SKILL.GET_SKILL_BY_USER_ID, results.SKILL.GET_SKILL_BY_USER_ID, `?skill_user=${userId}`)
+    yield fork(api.get, urls.SKILL, results.SKILL.GET_SKILL_BY_USER_ID, `?skill_user=${userId}`)
     const data = yield take(socketChannel)
     yield put({type:types.SUCCESS.SKILL.GET_SKILL_BY_USER_ID, payload:{data, userId}})
   } catch (e) {

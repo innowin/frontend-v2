@@ -112,7 +112,7 @@ type StateCertificates = {
 
 export class Certificates extends Component<PropsCertificates, StateCertificates> {
   static propTypes = {
-    userId: PropTypes.string.isRequired,
+    userId: PropTypes.number.isRequired,
     translate: PropTypes.object.isRequired
   }
 

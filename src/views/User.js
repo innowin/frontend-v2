@@ -140,7 +140,10 @@ class User extends Component<PropsUser> {
               <PrivateRoute path={`${path}/basicInformation`} component={UserBasicInformation} userId={userId}
                             profile={profileObject} user={userObject}
               />
-              <PrivateRoute path={`${path}/contributions`} component={Contributions} userId={userId}/>
+              <PrivateRoute path={`${path}/contributions`} component={Contributions}
+                            userId={userId}
+                            identityId={identityObject.content.id}
+                            identityType={constants.USER_TYPES.PERSON}/>
               <PrivateRoute path={`${path}/SocialConnections`} component={Social}
                             userId={userId}
                             identityId={identityObject.content.id}

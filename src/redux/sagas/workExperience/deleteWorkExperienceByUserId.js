@@ -8,7 +8,7 @@ export function* deleteWorkExperienceByUserId(action) {
   const {workExperienceId, userId, organizationId} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.WORK_EXPERIENCE.DELETE_USER_WORK_EXPERIENCES_BY_USER_ID)
   try {
-    yield fork(api.del, urls.WORK_EXPERIENCE.DELETE_USER_WORK_EXPERIENCES_BY_USER_ID, results.WORK_EXPERIENCE.DELETE_USER_WORK_EXPERIENCES_BY_USER_ID, '', `${workExperienceId}`)
+    yield fork(api.del, urls.WORK_EXPERIENCE, results.WORK_EXPERIENCE.DELETE_USER_WORK_EXPERIENCES_BY_USER_ID, '', `${workExperienceId}`)
     yield take(socketChannel)
     yield put({
       type: types.SUCCESS.WORK_EXPERIENCE.DELETE_USER_WORK_EXPERIENCES_BY_USER_ID,

@@ -24,6 +24,11 @@ export default {
          isLoading:false,
          error: null
        },
+       products: {
+         content:[1, 2, ...], list of posts id
+         isLoading:false,
+         error: null
+       },
        certificates:{
            content:[1, 2, ...], list of certificates id
            isLoading:false,

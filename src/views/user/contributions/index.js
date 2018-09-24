@@ -4,14 +4,17 @@ import {getMessages} from "../../../redux/selectors/translateSelector";
 import connect from "react-redux/es/connect/connect";
 import * as React from "react";
 import SkillInfoContainer from './SkillInfoContainer'
+import ProductInfoContainer from './ProductInfoContainer'
 
 type PropsSkills = {
   userId: number,
-  translate: { [string]: string }
+  translate: { [string]: string },
+  identityType: string,
+  identityId: number,
 }
 
 const Contributions = (props: PropsSkills) => {
-  const {translate, userId} = props
+  const {translate, userId, identityType, identityId} = props
 
   return (
       <div>
@@ -20,6 +23,7 @@ const Contributions = (props: PropsSkills) => {
         />
         <FrameCard>
           <ListGroup>
+            <ProductInfoContainer userId={userId} translate={translate} identityType={identityType} identityId={identityId}/>
             <SkillInfoContainer userId={userId} translate={translate}/>
           </ListGroup>
         </FrameCard>
@@ -28,8 +32,10 @@ const Contributions = (props: PropsSkills) => {
 }
 
 Contributions.propTypes = {
-  userId: PropTypes.string.isRequired,
-  translate: PropTypes.object.isRequired
+  userId: PropTypes.number.isRequired,
+  translate: PropTypes.object.isRequired,
+  identityType: PropTypes.string.isRequired,
+  identityId: PropTypes.number.isRequired,
 }
 const mapStateToProps = state => ({
   translate: getMessages(state)

@@ -5,6 +5,8 @@ import updateListForAnObj from '../../sliceReducers/utilsSlices/updateListForAnO
 import createAnObj from '../../sliceReducers/utilsSlices/createAnObj'
 import setRelatedObjIdForListItem from '../../sliceReducers/utilsSlices/setRelatedObjIdForListItem'
 
+import slices from '../../sliceReducers/common/product'
+
 
 const products = (state = initialState.common.product.products, action) => {
   switch (action.type) {
@@ -13,11 +15,6 @@ const products = (state = initialState.common.product.products, action) => {
     case types.SUCCESS.COMMON.GET_PRODUCT_INFO:
       return pushAnObjToStateList.success(state, action)
       /** --------------- getProduct -------------- **/
-
-      /** <-------------- updateProduct ----------- **/
-    case types.SUCCESS.COMMON.UPDATE_PRODUCT:
-      return updateListForAnObj.success(state, action)
-      /** --------------- updateProduct ----------> **/
 
       /** --------------- createProduct ----------> **/
     case types.COMMON.CREATE_PRODUCT:
@@ -36,9 +33,27 @@ const products = (state = initialState.common.product.products, action) => {
     case types.COMMON.ADD_HASH_TAG_ID_TO_PRODUCT:
       return setRelatedObjIdForListItem.success(state, action, 'hashTags')
       /**  ---------------- addCertificateIdToProduct -------------- > **/
+    /**  <----------------get product by identity --------------  **/
+    case types.SUCCESS.COMMON.PRODUCT.GET_PRODUCTS_BY_IDENTITY:
+      return slices.getProductsByIdentity.success(state, action)
+    /** -------------------------- update product -------------------------> **/
+    case types.COMMON.PRODUCT.UPDATE_PRODUCT:
+      return slices.updateProduct.base(state, action)
+    case types.SUCCESS.COMMON.PRODUCT.UPDATE_PRODUCT:
+      return slices.updateProduct.success(state, action)
+    case types.ERRORS.COMMON.PRODUCT.UPDATE_PRODUCT:
+      return slices.updateProduct.error(state, action)
+    /** -------------------------- delete product -------------------------> **/
+    case types.COMMON.PRODUCT.DELETE_PRODUCT:
+      return slices.deleteProduct.base(state, action)
+    case types.SUCCESS.COMMON.PRODUCT.DELETE_PRODUCT:
+      return slices.deleteProduct.success(state, action)
+    case types.ERRORS.COMMON.PRODUCT.DELETE_PRODUCT:
+      return slices.deleteProduct.error(state, action)
+
+      /** -------------------------- reset -------------------------> **/
     case types.RESET:
       return initialState.common.product.products
-
     default:
       return state
   }

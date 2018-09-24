@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import * as React from "react";
 import {Confirm} from "../../common/cards/Confirm";
 import SkillInfoForm from './SkillInfoForm'
-import EducationInfoForm from "../educations/EducationInfoForm";
 
 type PropsSkillEditForm = {
   update: Function,

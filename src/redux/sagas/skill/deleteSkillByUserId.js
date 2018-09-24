@@ -8,7 +8,7 @@ export function* deleteSkillByUserId(action) {
   const {skillId, userId} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.SKILL.DELETE_SKILL_BY_USER_ID)
   try {
-    yield fork(api.del, urls.SKILL.DELETE_SKILL_BY_USER_ID, results.SKILL.DELETE_SKILL_BY_USER_ID, '', `${skillId}`)
+    yield fork(api.del, urls.SKILL, results.SKILL.DELETE_SKILL_BY_USER_ID, '', `${skillId}`)
     yield take(socketChannel)
     yield put({
       type: types.SUCCESS.SKILL.DELETE_SKILL_BY_USER_ID,

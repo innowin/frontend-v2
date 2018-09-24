@@ -8,7 +8,7 @@ export function* updateSkillByUserId(action) {
   const {formValues, skillId, userId} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.SKILL.UPDATE_SKILL_BY_USER_ID)
   try {
-    yield fork(api.patch, urls.SKILL.UPDATE_SKILL_BY_USER_ID, results.SKILL.UPDATE_SKILL_BY_USER_ID, formValues, `${skillId}`)
+    yield fork(api.patch, urls.SKILL, results.SKILL.UPDATE_SKILL_BY_USER_ID, formValues, `${skillId}`)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.SKILL.UPDATE_SKILL_BY_USER_ID , payload:{data, skillId, userId}})
   } catch (error) {

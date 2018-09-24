@@ -8,7 +8,7 @@ export function* updateEducationByUserId(action) {
   const {formValues, educationId, userId} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.EDUCATION.UPDATE_USER_EDUCATION_BY_USER_ID)
   try {
-    yield fork(api.patch, urls.EDUCATION.UPDATE_USER_EDUCATION_BY_USER_ID, results.EDUCATION.UPDATE_USER_EDUCATION_BY_USER_ID, formValues, `${educationId}`)
+    yield fork(api.patch, urls.EDUCATION, results.EDUCATION.UPDATE_USER_EDUCATION_BY_USER_ID, formValues, `${educationId}`)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.EDUCATION.UPDATE_USER_EDUCATION_BY_USER_ID , payload:{data, educationId, userId}})
   } catch (error) {

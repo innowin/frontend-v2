@@ -8,7 +8,7 @@ export function* deleteResearchByUserId(action) {
   const {researchId, userId} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.RESEARCH.DELETE_USER_RESEARCH_BY_USER_ID)
   try {
-    yield fork(api.del, urls.RESEARCH.DELETE_USER_RESEARCH_BY_USER_ID, results.RESEARCH.DELETE_USER_RESEARCH_BY_USER_ID, '', `${researchId}`)
+    yield fork(api.del, urls.RESEARCH, results.RESEARCH.DELETE_USER_RESEARCH_BY_USER_ID, '', `${researchId}`)
     yield take(socketChannel)
     yield put({
       type: types.SUCCESS.RESEARCH.DELETE_USER_RESEARCH_BY_USER_ID,

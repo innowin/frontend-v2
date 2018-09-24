@@ -8,7 +8,7 @@ export function* getFollowees(action) {
   const {followOwnerIdentity, followOwnerType, followOwnerId} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.SOCIAL.GET_FOLLOWEES)
   try {
-    yield fork(api.get, urls.COMMON.SOCIAL.GET_FOLLOWEES, results.COMMON.SOCIAL.GET_FOLLOWEES, `?follow_follower=${followOwnerIdentity}`)
+    yield fork(api.get, urls.COMMON.SOCIAL.FOLLOW, results.COMMON.SOCIAL.GET_FOLLOWEES, `?follow_follower=${followOwnerIdentity}`)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWEES , payload:{data, followOwnerId, followOwnerIdentity, followOwnerType}})
   } catch (error) {

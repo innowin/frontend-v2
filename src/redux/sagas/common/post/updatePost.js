@@ -8,7 +8,7 @@ export function* updatePost(action) {
   const {formValues, postId, postOwnerId} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.POST.UPDATE_POST)
   try {
-    yield fork(api.patch, urls.COMMON.POST.UPDATE_POST, results.COMMON.POST.UPDATE_POST, formValues, `${postId}`)
+    yield fork(api.patch, urls.COMMON.POST, results.COMMON.POST.UPDATE_POST, formValues, `${postId}`)
     const data = yield take(socketChannel)
     //TODO: change this at later and no need to get
     const postIdentity = data.post_identity

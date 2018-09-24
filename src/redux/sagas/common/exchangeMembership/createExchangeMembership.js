@@ -10,7 +10,7 @@ export function* createExchangeMembership(action){
   const {identityId,exchangeIdentity} = payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.EXCHANGE_MEMBERSHIP.CREATE_EXCHANGE_MEMBERSHIP)
   try {
-    yield fork(api.post, urls.COMMON.EXCHANGE_MEMBERSHIP.CREATE_EXCHANGE_MEMBERSHIP, results.COMMON.EXCHANGE_MEMBERSHIP.CREATE_EXCHANGE_MEMBERSHIP,{exchange_identity_related_exchange :exchangeIdentity,exchange_identity_related_identity:identityId})
+    yield fork(api.post, urls.COMMON.EXCHANGE_MEMBERSHIP, results.COMMON.EXCHANGE_MEMBERSHIP.CREATE_EXCHANGE_MEMBERSHIP,{exchange_identity_related_exchange :exchangeIdentity,exchange_identity_related_identity:identityId})
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.CREATE_EXCHANGE_MEMBERSHIP, payload: {request:data}})
   } catch (e) {

@@ -43,7 +43,6 @@ const results = {
   COMMON: {
     // product
     GET_PRODUCT_BASIC_INFO: 'get-product-basic-info-result',
-    UPDATE_PRODUCT: 'update-product-result',
     CREATE_PRODUCT: 'create-product-result',
     CREATE_PRODUCT_PICTURE: 'create-product-picture-result',
 
@@ -85,6 +84,12 @@ const results = {
       GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY: 'get-exchange-membership-by-member-identity',
       GET_EXCHANGE_MEMBERSHIP_BY_EXCHANGE_ID: 'get-exchange-membership-by-exchange-id',
       CREATE_EXCHANGE_MEMBERSHIP: 'create-exchange-membership',
+    },
+
+    PRODUCT: {
+      GET_PRODUCTS_BY_IDENTITY: 'get-products-by-identity',
+      UPDATE_PRODUCT: 'update-product',
+      DELETE_PRODUCT: 'delete-product',
     },
 
     // hashTag

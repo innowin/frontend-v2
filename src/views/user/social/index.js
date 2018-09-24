@@ -49,7 +49,7 @@ type StateSocials = {
 //FixMe: mohammad organization follower followees images not show correctly
 class Socials extends Component<PropsSocials, StateSocials> {
   static propTypes = {
-    userId: PropTypes.string.isRequired,
+    userId: PropTypes.number.isRequired,
     identityId: PropTypes.number.isRequired,
     translate: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
