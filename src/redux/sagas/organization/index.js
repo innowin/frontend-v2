@@ -3,6 +3,7 @@ import {takeEvery} from "redux-saga/effects"
 
 /**********    %% WORKERS %%    **********/
 import {getOrganizationByOrganId} from "./getOrganSagas"
+import {updateOrganization} from "./updateOrgan"
 import {
   addPictureProduct,
   agencyRequest,
@@ -22,10 +23,9 @@ import {
   getProductsSuccess,
   updateCertificate,
   updateCustomer,
-  updateOrganization,
   updateProduct,
   getFollowings,
-} from "./organizationSaga"
+} from "./organization"
 
 
 /**********    %% WATCHERS %%    **********/

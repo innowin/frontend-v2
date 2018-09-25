@@ -15,7 +15,7 @@ export function* getOrganizationMembers(action) {
     yield fork(api.get, urls.ORG.GET_ORGANIZATION_MEMBERS, results.ORG.GET_ORGANIZATION_MEMBERS, `?staff_organization=${organizationId}`)
     while (true) {
       const data = yield take(socketChannel)
-      yield put({type: types.SUCCESS.ORG.GET_ORGANIZATION_MEMBERS, payload: data})
+      yield put({type: types.SUCCESS.ORG.GET_ORGANIZATION_MEMBERS, payload: {data}})
     }
   } catch (e) {
     const {message} = e
@@ -25,26 +25,6 @@ export function* getOrganizationMembers(action) {
     })
   } finally {
     socketChannel.close()
-  }
-}
-
-export function* updateOrganization(action) {
-  const payload = action.payload
-  const {organizationId, formValues, hideEdit} = payload
-  const socketChannel = yield call(api.createSocketChannel, results.ORG.UPDATE_ORGANIZATION_INFO)
-  try {
-    yield fork(api.patch, urls.ORG.UPDATE_ORGANIZATION_INFO, results.ORG.UPDATE_ORGANIZATION_INFO, formValues, `${organizationId}`)
-    const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.ORG.UPDATE_ORGANIZATION_INFO, payload: data})
-  } catch (e) {
-    const {message} = e
-    yield put({
-      type: types.ERRORS.ORG.UPDATE_ORGANIZATION_INFO,
-      payload: {type: types.ERRORS.ORG.UPDATE_ORGANIZATION_INFO, message}
-    })
-  } finally {
-    socketChannel.close()
-    hideEdit()
   }
 }
 

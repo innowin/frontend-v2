@@ -5,7 +5,7 @@ import {Certificate, CertificateItemWrapper} from "./view";
 import {CertificateCreateForm} from "./forms";
 import {FrameCard, CategoryTitle, VerifyWrapper} from "../../common/cards/Frames";
 // import {createCertificate, deleteCertificate, updateCertificate} from '../../../crud/organization/certificate.js'
-import OrganizationActions from '../../../redux/actions/organizationActions';
+import OrganizationActions from '../../../redux/actions/organization/organizationActions'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 

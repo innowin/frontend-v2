@@ -1,4 +1,4 @@
-import types from './types';
+import types from '../types/index'
 
 //organization
 const getOrganizationByOrganId = (organizationId) => ({
@@ -55,6 +55,33 @@ const getOrgCertificates = (identityId) => ({
         identityId
     }
 })
+
+const updateCertificate = (formValues, certId, hideEdit) => ({
+  type: types.ORG.UPDATE_CERTIFICATE,
+  payload: {
+    ...formValues,
+    certId,
+    hideEdit
+  }
+})
+
+const createCertificate = (formValues, identityId , userId, hideEdit) => ({ //TODO amir add organizationId to formValues
+  type: types.ORG.CREATE_CERTIFICATE,
+  payload: {
+    formValues,
+    identityId,
+    userId,
+    hideEdit
+  }
+})
+
+const deleteCertificate = (certId) => ({
+  type: types.ORG.UPDATE_CERTIFICATE,
+  payload: {
+    certId
+  }
+})
+
 //abilities
 const getAbilities = (organizationId) => ({
     type: types.ORG.GET_ABILITIES,
@@ -92,32 +119,6 @@ const updateOrganization = (formValues, organizationId, hideEdit) => ({
         formValues,
         organizationId,
         hideEdit
-	}
-})
-
-const updateCertificate = (formValues, certId, hideEdit) => ({
-  type: types.ORG.UPDATE_CERTIFICATE,
-	payload: {
-    ...formValues,
-    certId,
-    hideEdit
-	}
-})
-
-const createCertificate = (formValues,identityId , userId, hideEdit) => ({ //TODO amir add organizationId to formValues
-  type: types.ORG.CREATE_CERTIFICATE,
-	payload: {
-        formValues,
-        identityId,
-        userId,
-        hideEdit
-	}
-})
-
-const deleteCertificate = (certId) => ({
-  type: types.ORG.UPDATE_CERTIFICATE,
-	payload: {
-    certId
 	}
 })
 

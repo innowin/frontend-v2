@@ -116,7 +116,7 @@ export class OrganizationInfoView extends React.Component<OrganizationInfoViewPr
                 </Field>
                 <Field>
                     <FieldLabel label={__('City') + ": "}/>
-                    <FieldValue value={organization.province}/>
+                    <FieldValue value={organization.city}/>
                 </Field>
             </OrganizationInfoItemWrapper>
         )
