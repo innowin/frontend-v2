@@ -15,7 +15,6 @@ import {getCategories} from "src/redux/actions/commonActions/categoryActions"
 import makeProductSelectorById from "src/redux/selectors/common/product/getProductById"
 import {categorySelector} from "../../../redux/selectors/common/category";
 
-
 type OwnerType = {
   name: string
 }

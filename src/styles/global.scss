@@ -33,6 +33,7 @@ input, textarea, button, select {
 
 @import "components/bars/bars";
 @import "components/bars/chatbar";
+@import "components/bars/product-bar";
 @import "components/common/cards/frames";
 @import "components/common/input-group-vertical";
 @import "components/common/inputs/circular-checkbox";
@@ -46,6 +47,7 @@ input, textarea, button, select {
 @import "components/common/media";
 @import "components/common/common-redux-form";
 @import "components/common/tooltip";
+@import "components/common/image/image";
 @import "components/exchange/exchangeView";
 @import "components/exchange/ExchangeView/index";
 @import "components/exchange/ExchangeView/post";

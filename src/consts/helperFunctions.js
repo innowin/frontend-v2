@@ -87,10 +87,19 @@ const objToArrayAsOptions = (obj, valueKey, labelKey, otherKeys) => {
  **/
 const getObjectOfArrayKeys = (array, objectArray) => array.reduce((acc, arrayId) => [...acc, objectArray[arrayId]], [])
 
+const abbreviation = (names, num) => names.reduce((result, part) => {
+  if (result.length < num + 1) {
+    if (part) return result + '‌' + part[0]
+  }
+  return result
+}, '')
+
+
 export default {
   arrayToIdKeyedObject,
   arrayToDefaultObject,
   deleteKeyFromObj,
+  abbreviation,
   filterNestedObjByKey,
   objToArrayAsOptions,
   getObjectOfArrayKeys,
