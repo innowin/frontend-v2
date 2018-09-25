@@ -5,7 +5,7 @@ import PropTypes from "prop-types"
 import {connect} from "react-redux"
 
 import GetUserActions from '../../../redux/actions/user/getUserActions'
-import OrganizationActions from "src/redux/actions/organizationActions"
+import OrganizationActions from "src/redux/actions/organization/organizationActions"
 import SocialActions from "../../../redux/actions/commonActions/socialActions"
 import ExchangeMembershipActions from '../../../redux/actions/commonActions/exchangeMembershipActions'
 import type {exchangeType} from "src/consts/flowTypes/exchange/exchange"

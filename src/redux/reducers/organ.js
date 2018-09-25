@@ -17,6 +17,22 @@ const organs = (state = initialState.organs, action) => {
       (state.list[organizationId] && state.list[organizationId].badges)
       : defaultObject2
   switch (action.type) {
+    /** -------------------------- get organ identity-------------------------> **/
+    case types.SUCCESS.ORG.GET_ORG_IDENTITY:
+      return {
+        ...state,
+        list: {
+          ...state.list,
+          [organizationId]: {
+            ...state.list[organizationId],
+            identity: {
+              content:data,
+              isLoading: false,
+              error: null
+            }
+          }
+        }
+      }
     /** -------------------------- get organ -------------------------> **/
     case types.ORG.GET_ORGANIZATION:
       return {
@@ -65,19 +81,31 @@ const organs = (state = initialState.organs, action) => {
       }
     /** -------------------------- update organization info-------------------------> **/
     case types.SUCCESS.ORG.UPDATE_ORGANIZATION_INFO:
-      const updatedOrganization = action.payload
       return {
         ...state,
         list:{
           ...state.list,
-          [updatedOrganization.id]: {
-            ...state.list[updatedOrganization.id],
+          [data.id]: {
+            ...state.list[data.id],
+            organization: {
+              content: data,
+              isLoading: false,
+              error: null
+            }
+          }
+        }
+      }
+    case types.ERRORS.ORG.UPDATE_ORGANIZATION_INFO:
+      return {
+        ...state,
+        list:{
+          ...state.list,
+          [organizationId]: {
+            ...state.list[organizationId],
             organization: {
               ...previousOrgan,
-              content: {...updatedOrganization},
               isLoading: false,
               error: message
-
             }
           }
         }

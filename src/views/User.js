@@ -154,7 +154,6 @@ class User extends Component<PropsUser> {
               <PrivateRoute path={`${path}/Certificates`} component={Certificates} userId={userId}/>
             </Switch>
           </div>
-
           <div className="col-md-2 col-sm-1 -left-sidebar-wrapper">
             <ChatBar/>
           </div>

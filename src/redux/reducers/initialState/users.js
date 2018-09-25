@@ -13,6 +13,11 @@ export default {
          isLoading:false,
          error:null
        },
+       identity:{
+         content:{},
+         isLoading: false,
+         error: null
+       }
       ------------ common --------------
        badges:{
            content:[1, 2, ...], list of badges id

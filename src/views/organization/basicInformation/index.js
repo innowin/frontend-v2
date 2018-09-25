@@ -9,7 +9,7 @@ import {
   OrganizationMembersView,
   OrganizationMembersWrapper
 } from "./Views"
-import OrganizationActions from 'src/redux/actions/organizationActions'
+import OrganizationActions from 'src/redux/actions/organization/organizationActions'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {getMessages} from "src/redux/selectors/translateSelector"
@@ -177,9 +177,8 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getOrganizationByOrganId: OrganizationActions.getOrganizationByOrganId,
     getOrganizationMembers: OrganizationActions.getOrganizationMembers,
-    updateOrganization: OrganizationActions.updateOrganization,
     getOrgStaff: OrganizationActions.getOrgStaff,
-
+    updateOrganization: OrganizationActions.updateOrganization,
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(organizationBasicInformation)

@@ -139,7 +139,7 @@ const users = (state = initialState.users, action) => {
             ...state.list[userId],
             identity: {
               ...previousIdentity,
-              content: {...data},
+              content: data,
               isLoading: false
             }
           }
