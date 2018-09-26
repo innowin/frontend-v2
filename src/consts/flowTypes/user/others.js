@@ -35,9 +35,6 @@ export type certificateType = {|
   certificate_identity: {},
   certificate_picture: number,
   certificate_logo: number,
-  // added this for show image not in server model
-  certificate_picture_file: string,
-  certificate_logo_file: string,
 |}
 
 export type certificateInputType = {|

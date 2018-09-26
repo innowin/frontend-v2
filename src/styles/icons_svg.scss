@@ -23,3 +23,16 @@ svg {
 .-whiteSvg svg path {
   fill: $text-lightest-color;
 }
+
+.-item-edit-btn {
+  svg {
+    fill: lighten($text-dark-color, 50%);
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+  }
+
+  &:hover svg {
+    fill: $text-dark-color;
+  }
+}

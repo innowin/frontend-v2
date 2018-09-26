@@ -31,6 +31,7 @@ import type {
 } from "src/consts/flowTypes/stateObjectType"
 import type {badgeType} from "src/consts/flowTypes/common/badges"
 import constants from 'src/consts/constants'
+import ParamActions from "../redux/actions/paramActions";
 
 type PropsUser = {
   match: {
@@ -42,6 +43,8 @@ type PropsUser = {
     getProfileByUserId: Function,
     getUserIdentity: Function,
     getUserBadges: Function,
+    removeParamUserId: Function,
+    setParamUserId: Function,
   },
   translate: {},
   profileObject: profileStateObject,
@@ -55,7 +58,7 @@ class User extends Component<PropsUser> {
 
   static propTypes = {
     match: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired
+    actions: PropTypes.object.isRequired,
   }
   firstGetBadges: boolean
 
@@ -87,11 +90,17 @@ class User extends Component<PropsUser> {
 
   componentDidMount() {
     const {params} = this.props.match
+    const {getUserByUserId, getProfileByUserId, getUserIdentity, setParamUserId} = this.props.actions
     const userId: number = +params.id
-    const {getUserByUserId, getProfileByUserId, getUserIdentity} = this.props.actions
     getUserByUserId(userId)
     getProfileByUserId(userId)
     getUserIdentity(userId)
+    setParamUserId({id: userId})
+  }
+
+  componentWillUnmount() {
+    const {removeParamUserId} = this.props.actions
+    removeParamUserId()
   }
 
   render() {
@@ -111,7 +120,9 @@ class User extends Component<PropsUser> {
                        user={userObject.content}
                        profile={profileObject.content}
                        badges={badges}
-                       className={`-right-sidebar-wrapper user-sidebar-width col pr-0 pl-0`}/>
+                       className={`-right-sidebar-wrapper user-sidebar-width col pr-0 pl-0`}
+                       paramId={params.id}
+          />
           <div className="col-md-6 col-sm-10 -content-wrapper">
             <Tabs>
               <NavLink className="-tab" to={`${url}/Posts`} activeClassName="-active">{postIcon}</NavLink>
@@ -192,7 +203,9 @@ const mapDispatchToProps = dispatch => ({
     getUserByUserId: GetUserActions.getUserByUserId,
     getProfileByUserId: GetUserActions.getProfileByUserId,
     getUserIdentity: GetIdentityActions.getUserIdentity,
-    getUserBadges: BadgeActions.getUserBadges
+    getUserBadges: BadgeActions.getUserBadges,
+    setParamUserId: ParamActions.setParamUserId,
+    removeParamUserId: ParamActions.removeParamUserId,
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(User)

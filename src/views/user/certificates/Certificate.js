@@ -7,12 +7,14 @@ import {CertificateEditForm} from "./CertificateEditForm";
 import * as React from "react";
 import type {certificateType} from "../../../consts/flowTypes/user/others";
 import constants from "../../../consts/constants";
+import type {paramType} from "../../../consts/flowTypes/paramType";
 
 type PropsCertificate = {
   certificate: certificateType,
   updateCertificate: Function,
   deleteCertificate: Function,
   translate: { [string]: string },
+  param: paramType,
 }
 
 type StateCertificate = {
@@ -26,6 +28,7 @@ export class Certificate extends Component<PropsCertificate, StateCertificate> {
     updateCertificate: PropTypes.func.isRequired,
     deleteCertificate: PropTypes.func.isRequired,
     translate: PropTypes.object.isRequired,
+    param: PropTypes.object.isRequired,
   }
 
   constructor(props: PropsCertificate) {
@@ -61,7 +64,7 @@ export class Certificate extends Component<PropsCertificate, StateCertificate> {
 
   render() {
     const {edit} = this.state
-    const {translate, certificate, updateCertificate} = this.props
+    const {translate, certificate, updateCertificate, param} = this.props
 
     return (
         <VerifyWrapper isLoading={false} error={false}>
@@ -73,7 +76,9 @@ export class Certificate extends Component<PropsCertificate, StateCertificate> {
                   deleteCertificate={this._delete}
                   update={updateCertificate}
               />
-              : <CertificateView certificate={certificate} showEdit={this._showEdit}/>
+              : <CertificateView certificate={certificate}
+                                 showEdit={this._showEdit}
+                                 param={param}/>
           }
         </VerifyWrapper>
     )

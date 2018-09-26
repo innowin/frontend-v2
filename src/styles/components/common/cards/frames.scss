@@ -107,7 +107,7 @@
       position: absolute;
       display: flex;
       white-space: nowrap;
-      overflow: hidden;
+      //overflow: hidden;
       text-overflow: ellipsis;
       top: -29px;
       left: 0;
@@ -116,15 +116,6 @@
       margin-left: 16px;
       .-item-title {
         flex: 1 1 auto;
-      }
-      .-item-edit-btn {
-        flex: 0 0 auto;
-        svg {
-          fill: $text-dark-color;
-          height: 16px;
-          width: 16px;
-          cursor: pointer;
-        }
       }
     }
     .-item-content {

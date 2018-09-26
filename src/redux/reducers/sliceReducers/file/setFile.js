@@ -1,4 +1,11 @@
 const setFile = (state, action) => {
-	return state
+  const {data} = action.payload
+  return {
+    ...state,
+    list: {
+      ...state.list,
+      [data.id]: data
+    }
+  }
 }
 export default setFile

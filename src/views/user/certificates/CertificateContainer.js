@@ -10,6 +10,7 @@ import {Certificate} from './Certificate'
 import {Component} from "react";
 import {makeUserCertificatesSelector} from "../../../redux/selectors/common/certificate/userCertificatesSelector";
 import CertificateIcon from "../../../images/user/certificate_svg";
+import type {paramType} from "../../../consts/flowTypes/paramType";
 
 type PropsCertificates = {
   id: number,
@@ -24,6 +25,7 @@ type PropsCertificates = {
   },
   isLoading: boolean,
   error: string,
+  param: paramType,
 }
 
 export class CertificateContainer extends Component<PropsCertificates> {
@@ -36,6 +38,7 @@ export class CertificateContainer extends Component<PropsCertificates> {
     actions: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
     error: PropTypes.string.isRequired,
+    param: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
@@ -45,7 +48,7 @@ export class CertificateContainer extends Component<PropsCertificates> {
   }
 
   render() {
-    const {translate, certificates, actions} = this.props
+    const {translate, certificates, actions, param} = this.props
     const {updateCertificate, deleteCertificate} = actions
 
     return (
@@ -61,6 +64,7 @@ export class CertificateContainer extends Component<PropsCertificates> {
                     updateCertificate={updateCertificate}
                     deleteCertificate={deleteCertificate}
                     key={"certificate" + certificate.id}
+                    param={param}
                 />
             ))
             /*</div>*/
@@ -82,6 +86,7 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
       certificates: userCertificatesSelector(state, props),
+      param: state.param,
       translate: state.intl.messages,
       isLoading: certificateObject.isLoading,
       error: certificateObject.error,

@@ -19,15 +19,7 @@ export const makeUserCertificatesSelector = (state, props) => {
         const userId = props.id || props.userId
         if (certificates && Object.keys(certificates).length !== 0 && certificates.constructor === Object && userCertificates && userId) {
           const arrayCertificate = helpers.getObjectOfArrayKeys(userCertificates, certificates)
-          return arrayCertificate.map(certificate => {
-            const certificatePictureFile = files[certificate.certificate_picture] && files[certificate.certificate_picture].file
-            const certificateLogoFile = files[certificate.certificate_logo] && files[certificate.certificate_logo].file
-            return {
-              certificate_picture_file: certificatePictureFile,
-              certificate_logo_file: certificateLogoFile,
-              ...certificate
-            }
-          })
+          return [...arrayCertificate]
         }
         return []
       }

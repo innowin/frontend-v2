@@ -82,6 +82,7 @@ export class Organization extends Component<PropsOrganization> {
 													organLogo={organLogo}
 													organBanner={organBanner}
 													className="-right-sidebar-wrapper user-sidebar-width pr-0 pl-0"
+                          paramId={params.id}
 						/>
 						<div className="col-md-6 col-sm-10 -content-wrapper">
 							<Tabs>

@@ -9,6 +9,7 @@ import intlState from "./intl"
 import workExperienceState from './workExperience'
 import educationState from './education'
 import researchState from './research'
+import paramState from './param'
 
 export default {
   auth: authState,
@@ -34,4 +35,5 @@ export default {
     social: commonStates.socialState
   },
   intl: intlState,
+  param: paramState,
 }

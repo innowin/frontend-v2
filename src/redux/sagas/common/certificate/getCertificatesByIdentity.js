@@ -10,10 +10,13 @@ export function* getCertificatesByIdentity(action) {
   try {
     yield fork(api.get, urls.COMMON.CERTIFICATE, results.COMMON.CERTIFICATE.GET_CERTIFICATES_BY_IDENTITY, `?certificate_identity=${identityId}`)
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.COMMON.CERTIFICATE.GET_CERTIFICATES_BY_IDENTITY , payload:{data, identityId, certificateOwnerId, certificateOwnerType}})
-    for(let certificate of data){
-      yield put({type: types.COMMON.GET_FILE, payload: {fileId: certificate.certificate_picture}})
-      yield put({type: types.COMMON.GET_FILE, payload: {fileId: certificate.certificate_logo}})
+    yield put({
+      type: types.SUCCESS.COMMON.CERTIFICATE.GET_CERTIFICATES_BY_IDENTITY,
+      payload: {data, identityId, certificateOwnerId, certificateOwnerType}
+    })
+    for (let certificate of data) {
+      yield put({type: types.ENTITY.SET_FILE, payload: {data: certificate.certificate_picture}})
+      yield put({type: types.ENTITY.SET_FILE, payload: {data: certificate.certificate_logo}})
     }
   } catch (error) {
     const {message} = error

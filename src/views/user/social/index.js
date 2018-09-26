@@ -18,6 +18,7 @@ import {getMessages} from "src/redux/selectors/translateSelector"
 import {makeGetFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
 import {makeGetFollowersSelector} from 'src/redux/selectors/common/social/getFollowers'
 import {makeGetExchangeMembershipsSelector} from 'src/redux/selectors/common/social/getExchangeMemberships'
+import type {paramType} from "../../../consts/flowTypes/paramType";
 
 type PropsSocials = {
   userId: number,
@@ -40,6 +41,7 @@ type PropsSocials = {
   isLoading: boolean,
   error: null | {},
   identityType: string,
+  param: paramType,
 }
 type StateSocials = {
   editExchanges: boolean,
@@ -59,6 +61,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
     followers: PropTypes.array.isRequired,
     exchanges: PropTypes.array.isRequired,
     identityType: PropTypes.string.isRequired,
+    param: PropTypes.object.isRequired,
   }
   firstStartFollower: boolean
   firstStartFollowee: boolean
@@ -127,9 +130,10 @@ class Socials extends Component<PropsSocials, StateSocials> {
   }
 
   render() {
-    const {translate, followers, followees, actions, isLoading, error, exchanges, identityId, userId, identityType} = this.props
+    const {translate, followers, followees, actions, isLoading, error, exchanges, identityId, userId, identityType, param} = this.props
     const {deleteFollow, deleteExchangeMembership, updateFollow, createFollow} = actions
     const {editExchanges, editFollowings} = this.state
+    const paramId = param.user || param.organ
 
     return (
         <VerifyWrapper isLoading={isLoading} error={error}>
@@ -158,6 +162,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
                        createFollow={createFollow}
                        userId={userId}
                        identityType={identityType}
+                       paramId={paramId}
             />
           </FrameCard>
         </VerifyWrapper>
@@ -178,6 +183,7 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
       translate: getMessages(state),
+      param: state.param,
       followers: getFollowersSelector(state, props),
       followees: getFolloweesSelector(state, props),
       exchanges: getExchangesSelector(state, props),

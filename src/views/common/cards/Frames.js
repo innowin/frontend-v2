@@ -7,6 +7,9 @@ import {EditIcon} from 'src/images/icons'
 import ErrorCard from "./ErrorCard"
 import {loadingCard} from "./LoadingCard"
 import client from "src/consts/client"
+import CheckOwner from "../CheckOwner";
+import {connect} from "react-redux"
+import type {paramType} from "src/consts/flowTypes/paramType";
 
 type div = React.Element<'div'>
 type PropsTabs = {
@@ -61,23 +64,36 @@ export const ListGroup = (props: PropsListGroup): div => {
 
 type PropsItemHeader = {
   showEdit?: Function,
-  title: string
+  title: string,
+  param: paramType,
 }
 
-export const ItemHeader = (props: PropsItemHeader): div => {
-  const {showEdit} = props
+let ItemHeader = (props: PropsItemHeader): div => {
+  const {showEdit, param} = props
+  const id = param.user || param.organ
   return (
       <div className="-item-header">
         <div className="-item-title">{props.title}</div>
-        <div className="-item-edit-btn"> 
-        {
-        (showEdit !== null) ?
-        <div onClick={showEdit}><EditIcon/></div> : <span/>
-        }
+        <div className="-item-edit-btn pulse">
+          {showEdit ?
+              <CheckOwner id={id}>
+                <div onClick={showEdit}><EditIcon/></div>
+              </CheckOwner>
+              : <span/>
+          }
         </div>
       </div>
   )
 }
+
+const mapStateItemHeaderToProps = (state, props) => {
+  return {
+    param: state.param
+  }
+}
+ItemHeader = connect(mapStateItemHeaderToProps)(ItemHeader)
+export {ItemHeader}
+
 ItemHeader.propTypes = {
   title: PropTypes.node,
   showEdit: PropTypes.func
@@ -107,29 +123,29 @@ type PropsCategoryTitle = {
   showCreateForm?: Function,
   showEditBtn?: boolean,
   showEditHandler?: Function,
-  //TODO: mohammad get userId from redux
-	userId?: string
+  param: paramType,
 }
 
-export const CategoryTitle = ({
+let CategoryTitle = ({
                                 title, createForm = true,
                                 showEditBtn = false,
                                 showCreateForm = () => false,
                                 showEditHandler = () => 0,
-																userId
+                                param,
                               }: PropsCategoryTitle): div => {
+  const id = param.user || param.organ
   return (
       <div className="category-title-container">
         <div className="-categoryTitle">
           <span>{title}</span>
           {
-            !createForm && client.checkIdWithQueryId(userId) &&
-            <button className="btn btn-sm btn-outline-success" onClick={showCreateForm}>
+            !createForm && param &&client.checkIdWithQueryId(id) &&
+            <button className="btn btn-sm btn-outline-success pulse" onClick={showCreateForm}>
               <FontAwesome name="plus"/>
             </button>
           }
-          {showEditBtn && client.checkIdWithQueryId(userId) &&
-            <div className="edit-btn-wrapper" onClick={showEditHandler}><EditIcon className="edit-btn"/></div>
+          {showEditBtn && param && client.checkIdWithQueryId(id) &&
+          <div className="edit-btn-wrapper" onClick={showEditHandler}><EditIcon className="edit-btn"/></div>
           }
         </div>
         <div className="category-divider"></div>
@@ -140,7 +156,15 @@ CategoryTitle.propTypes = {
   title: PropTypes.node,
   createForm: PropTypes.bool,
   showCreateForm: PropTypes.func,
+  param: PropTypes.object,
 }
+const mapStateCategoryTitleToProps = (state, props) => {
+  return {
+    param: state.param
+  }
+}
+CategoryTitle = connect(mapStateCategoryTitleToProps)(CategoryTitle)
+export {CategoryTitle}
 
 
 type PropsFieldLabel = {
