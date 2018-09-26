@@ -54,13 +54,19 @@ const results = {
     // category
     GET_CATEGORIES: 'common-get-categories-list-result',
 
-    // certificate
-    GET_CERTIFICATES: 'common-get-object-certificates-list-result',
-    CREATE_OBJECT_CERTIFICATE: 'common-create-object-certificate-result',
-
     // badge
     GET_USER_BADGES: "GET_USER_BADGES",
     GET_ORG_BADGES: "GET_ORG_BADGES",
+
+    CERTIFICATE: {
+      GET_CERTIFICATES: 'common-get-object-certificates-list-result',
+      CREATE_OBJECT_CERTIFICATE: 'common-create-object-certificate-result',
+
+      GET_CERTIFICATES_BY_IDENTITY: 'get-certificates-by-identity',
+      DELETE_CERTIFICATE: 'delete-certificate',
+      UPDATE_CERTIFICATE: 'update-certificate',
+    },
+
     POST: {
       FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET: 'filterPostsByPostParentLimitOffset',
       GET_POST_BY_IDENTITY: 'get-post-by-identity',

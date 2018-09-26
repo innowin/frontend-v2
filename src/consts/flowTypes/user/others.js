@@ -28,13 +28,30 @@ export type certificateType = {|
   created_time: string,
   updated_time: string,
   title: string,
-  certificate_user: number,
-  picture_media: ?number
+  delete_flag: boolean,
+  validation_flag: boolean,
+  validation_request_flag: boolean,
+  certificate_parent: {},
+  certificate_identity: {},
+  certificate_picture: number,
+  certificate_logo: number,
+  // added this for show image not in server model
+  certificate_picture_file: string,
+  certificate_logo_file: string,
+|}
+
+export type certificateInputType = {|
+  title: string,
+  certificatePicture: number,
+  certificateLogo: number,
 |}
 
 export type certificateFormValuesType = {|
   title: string,
-  picture_media: ?number
+  certificate_parent : number,
+  certificate_identity : number,
+  certificate_picture : number,
+  certificate_logo : number,
 |}
 
 export type skillType = {|

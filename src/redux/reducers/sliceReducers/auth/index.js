@@ -3,6 +3,7 @@ import createFollow from './createFollow'
 import createPost from './createPost'
 import createResearchByUserId from './createResearchByUserId'
 import createWorkExperienceByUserId from './createWorkExperienceByUserId'
+import deleteCertificate from './deleteCertificate'
 import deleteEducationByUserId from './deleteEducationByUserId'
 import deleteExchangeMembership from './deleteExchangeMembership'
 import deleteFollow from './deleteFollow'
@@ -13,6 +14,7 @@ import deleteWorkExperienceByUserId from './deleteWorkExperienceByUserId'
 import deleteSkillByUserId from './deleteSkillByUserId'
 import getEducationByUserId from './getEducationByUserId'
 import getExchangeMembershipByMemberIdentity from './getExchangeMembershipByMemberIdentity'
+import getCertificatesByIdentity from './getCertificatesByIdentity'
 import getFollowees from './getFollowees'
 import getFollowers from './getFollowers'
 import getPostByIdentity from './getPostByIdentity'
@@ -32,6 +34,7 @@ export default {
   createResearchByUserId,
   deleteEducationByUserId,
   createWorkExperienceByUserId,
+  deleteCertificate,
   deleteExchangeMembership,
   deleteFollow,
   deletePost,
@@ -40,6 +43,7 @@ export default {
   deleteWorkExperienceByUserId,
   getEducationByUserId,
   getExchangeMembershipByMemberIdentity,
+  getCertificatesByIdentity,
   getFollowees,
   getFollowers,
   getPostByIdentity,

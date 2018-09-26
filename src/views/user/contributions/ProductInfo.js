@@ -60,6 +60,7 @@ class ProductInfo extends Component<PropsProductInfo, StateProductInfo> {
     return (
         <VerifyWrapper isLoading={false} error={false}>
           <ItemWrapper icon={ContributionIcon}>
+            <ItemHeader title={translate['Products']}/>
             {edit ?
                 <ProductInfoEditForm
                     userId={userId}

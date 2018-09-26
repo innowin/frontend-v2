@@ -11,6 +11,7 @@ export default {
     researches: [], /* ids of researches that client has them*/
     skills: [], /* ids of skills that client has them*/
     products: [], /* ids of products that client has them*/
+    certificates: [], /* ids of certificates that client has them*/
     social: {
       follows: [], /* ids of follows that this client participates at them*/
     },

@@ -83,6 +83,12 @@ const auth = (state = initialState.auth, action) => {
     /** -------------------------- delete product  -------------------------> **/
     case types.SUCCESS.COMMON.PRODUCT.DELETE_PRODUCT:
       return slices.deleteProduct.success(state, action)
+    /** -------------- get Certificate -------------> **/
+    case types.SUCCESS.COMMON.CERTIFICATE.GET_CERTIFICATES_BY_IDENTITY:
+      return slices.getCertificatesByIdentity.success(state, action)
+    /** -------------------------- delete Certificate -------------------------> **/
+    case types.SUCCESS.COMMON.CERTIFICATE.DELETE_CERTIFICATE:
+      return slices.deleteCertificate.success(state, action)
     /** -------------------------- reset  -------------------------> **/
     case types.RESET:
       return initialState.auth

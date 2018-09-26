@@ -15,7 +15,7 @@ function* createObjectCertificate(action) { // action = {type, payload: {formDat
         certificate_identity: identityId
     }
 
-    const dynamicResult = results.COMMON.CREATE_OBJECT_CERTIFICATE + newCert.title
+    const dynamicResult = results.COMMON.CERTIFICATE.CREATE_OBJECT_CERTIFICATE + newCert.title
     const socketChannel = yield call(api.createSocketChannel, dynamicResult)
 
     try {

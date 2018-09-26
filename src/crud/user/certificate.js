@@ -15,7 +15,7 @@ export const getCertificates = (userId, updateCertificates, handleErrorLoading) 
 
   socket.on(`UserCertificates-get/${userId}`, (res) => {
     if (res.data.detail) {
-      handleErrorLoading(res.data.data.detail)
+      handleErrorLoading(res.data.detail)
       return false
     }
     updateCertificates(res.data, 'get')
