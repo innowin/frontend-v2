@@ -18,7 +18,7 @@ type postsPropsType = {
   id: number,
   profileMedia: string,
   postIdentity: number,
-  translate: {},
+  translate: {[string]: string},
   actions: {
     getPostByIdentity: Function,
     createPost: Function,

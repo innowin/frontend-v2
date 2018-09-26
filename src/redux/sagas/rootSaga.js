@@ -39,7 +39,6 @@ const rootSaga = function* () {
     // skill
     ...skillWatchers,
 
-    // NOTE: the common watchers pushed to common/index.js to prevent from conflict.
     // common
     ...commonWatchers
   ])

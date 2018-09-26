@@ -8,10 +8,7 @@ import {PostEditForm} from "./PostEditForm";
 import PostView from "./PostView";
 
 type postPropTypes = {
-  post: {
-    post_identity: number,
-    id: number,
-  },
+  post: postType,
   updatePost: Function,
   deletePost: Function
 }
@@ -68,7 +65,7 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
     const {post} = this.props
     return (
       // TODO mohsen: handle error and isLoading from state redux
-        <VerifyWrapper isLoading={post.isLoading} error={post.error}>
+        <VerifyWrapper isLoading={false} error={false}>
           {edit ?
               <div className="-itemWrapperPost">
                 <PostEditForm

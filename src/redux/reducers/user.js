@@ -328,6 +328,13 @@ const users = (state = initialState.users, action) => {
     case types.USER.ADD_SKILL_ID_TO_USER:
       return setRelatedObjIdForListItem.success(state, action, 'skills')
       /** ------------------ add skill id to user -------------->**/
+    /** -------------- get Certificate -------------> **/
+    case types.SUCCESS.COMMON.CERTIFICATE.GET_CERTIFICATES_BY_IDENTITY:
+      return slices.getCertificatesByIdentity.success(state, action)
+    /** -------------------------- delete Certificate -------------------------> **/
+    case types.SUCCESS.COMMON.CERTIFICATE.DELETE_CERTIFICATE:
+      return slices.deleteCertificate.success(state, action)
+    /** -------------- reset -------------> **/
     case types.RESET:
       return initialState.users
     default:

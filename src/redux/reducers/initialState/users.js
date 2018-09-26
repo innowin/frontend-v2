@@ -50,6 +50,11 @@ export default {
           content:[1, 2, ...], list of membership id
           isLoading:false,
           error:null
+       },
+       certificates: {
+          content:[1, 2, ...], list of certificate id
+          isLoading:false,
+          error:null
        }
        ---------------- other ----------
        skills:{

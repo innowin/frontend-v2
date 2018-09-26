@@ -76,6 +76,7 @@ module.exports = {
   // user - certificates
   'Title': "عنوان",
   'Picture': "عکس",
+  'Logo': "لوگو",
   'Cancel': "لغو",
   'Create': "ایجاد",
   'Delete': "حذف",
@@ -83,6 +84,7 @@ module.exports = {
 
   'Save': "ذخیره",
   'Certificates': "گواهی‌نامه‌ها",
+  'Certificates and badges': 'نشان ها و گواهی نامه ها',
 
   // user - posts
   'Post': "کاربرنما",
@@ -241,6 +243,8 @@ module.exports = {
   // Product
   // Product Rating
   'Ratings': 'دیدگاه ها و بازخورد ها',
+
+  'Products': 'محصولات',
 
   // TopBar
   topBar: {
