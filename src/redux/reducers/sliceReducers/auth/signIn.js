@@ -15,7 +15,11 @@ const success = (state, action) => {
       ...client,
       user,
       profile,
-      identity,
+      identity:{
+        content:identity.id,
+        isLoading:false,
+        error:null
+    },
       organization,
       user_type,
       rememberMe,

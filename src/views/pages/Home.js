@@ -61,11 +61,15 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
 }
 
 const mapStateToProps = state => {
-  const id = state.auth.client.identity.identity_user ? state.auth.client.user.id : state.auth.client.organization.id
-  const identityType = state.auth.client.identity.identity_user ? constants.USER_TYPES.PERSON : constants.USER_TYPES.ORG
+  const client = state.auth.client
+  const allIdentities = state.identities.list
+  const clientIdentityId = client.identity.content
+  const clientIdentity = (clientIdentityId && allIdentities[clientIdentityId]) ? allIdentities[clientIdentityId] : {}
+  const id = clientIdentity.identity_user ? client.user.id : (client.organization ? client.organization.id : null)
+  const identityType = clientIdentity.identity_user ? constants.USER_TYPES.PERSON : constants.USER_TYPES.ORG
   return {
     id: id,
-    identityId: state.auth.client.identity.id,
+    identityId: clientIdentityId,
     identityType: identityType
   }
 }

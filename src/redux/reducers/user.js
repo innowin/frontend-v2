@@ -10,7 +10,8 @@ const users = (state = initialState.users, action) => {
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const previousUser = (state.list[userId] && state.list[userId].user) || defaultObject
   const previousProfile = (state.list[userId] && state.list[userId].profile) || defaultObject
-  const previousIdentity = (state.list[userId] && state.list[userId].identity) || defaultObject
+  const previousIdentity = (state.list[userId] && state.list[userId].identity) ||
+    {content: null, isLoading: false, error: null}
   const previousBadges = (state.list[userId] && state.list[userId].badges) || defaultObject2
 
   switch (action.type) {
@@ -139,7 +140,7 @@ const users = (state = initialState.users, action) => {
             ...state.list[userId],
             identity: {
               ...previousIdentity,
-              content: data,
+              content: data.id,
               isLoading: false
             }
           }

@@ -9,13 +9,13 @@ const organs = (state = initialState.organs, action) => {
   // FIXME: commented by ali. because of an error.
   // const previousOrgan = (state.list[organizationId] && state.list[organizationId].organization) || defaultObject
   const previousOrgan = state.list
-      ? (state.list[organizationId] && state.list[organizationId].organization)
-      : defaultObject
+    ? (state.list[organizationId] && state.list[organizationId].organization)
+    : defaultObject
   // FIXME: commented by ali. because of an error.
   // const previousBadges = (state.list[organizationId] && state.list[organizationId].badges) || defaultObject2
   const previousBadges = state.list ?
-      (state.list[organizationId] && state.list[organizationId].badges)
-      : defaultObject2
+    (state.list[organizationId] && state.list[organizationId].badges)
+    : defaultObject2
   switch (action.type) {
     /** -------------------------- get organ identity-------------------------> **/
     case types.SUCCESS.ORG.GET_ORG_IDENTITY:
@@ -26,7 +26,7 @@ const organs = (state = initialState.organs, action) => {
           [organizationId]: {
             ...state.list[organizationId],
             identity: {
-              content:data,
+              content: data.id,
               isLoading: false,
               error: null
             }
@@ -83,7 +83,7 @@ const organs = (state = initialState.organs, action) => {
     case types.SUCCESS.ORG.UPDATE_ORGANIZATION_INFO:
       return {
         ...state,
-        list:{
+        list: {
           ...state.list,
           [data.id]: {
             ...state.list[data.id],
@@ -98,7 +98,7 @@ const organs = (state = initialState.organs, action) => {
     case types.ERRORS.ORG.UPDATE_ORGANIZATION_INFO:
       return {
         ...state,
-        list:{
+        list: {
           ...state.list,
           [organizationId]: {
             ...state.list[organizationId],
@@ -114,7 +114,7 @@ const organs = (state = initialState.organs, action) => {
     case types.COMMON.SET_BADGES_IN_ORG:
       return {
         ...state,
-        list:{
+        list: {
           ...state.list,
           [organizationId]: {
             ...state.list[organizationId],
@@ -130,7 +130,7 @@ const organs = (state = initialState.organs, action) => {
       const ArrayOfBadgeId = data.map((badge) => badge.id)
       return {
         ...state,
-        list:{
+        list: {
           ...state.list,
           [organizationId]: {
             ...state.list[organizationId],
@@ -145,7 +145,7 @@ const organs = (state = initialState.organs, action) => {
     case types.ERRORS.COMMON.SET_BADGES_IN_ORG:
       return {
         ...state,
-        list:{
+        list: {
           ...state.list,
           [organizationId]: {
             ...state.list[organizationId],

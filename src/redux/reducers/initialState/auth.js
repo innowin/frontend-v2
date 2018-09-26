@@ -2,7 +2,11 @@ export default {
   client: {
     token: null,
     // if user_type is person identity is identity of user but if user_type is organ identity is identity of organ
-    identity: {},
+    identity: {
+      content: null, // content is id of identity
+      isLoading: false,
+      error: null
+    },
     profile: {},
     user: {},
     organization: null,

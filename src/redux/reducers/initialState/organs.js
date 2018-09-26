@@ -5,7 +5,7 @@ export default {
 
     -------------- info -------------
      identity : {
-      content:{},
+      content: null,  id of identity
       isLoading:false,
       error: null
      }

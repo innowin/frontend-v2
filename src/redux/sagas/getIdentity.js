@@ -14,7 +14,7 @@ function* getUserIdentity(action) {
     yield fork(api.get, urls.GET_IDENTITY, results.GET_IDENTITY, `?identity_user=${userId}`)
     const dataList = yield take(socketChannel)
     const data = dataList[0]
-    yield put({type: types.SUCCESS.USER.GET_USER_IDENTITY, payload: {data, userId}})
+    yield put({type: types.SUCCESS.USER.GET_USER_IDENTITY, payload: {data:data, userId}})
   } catch (e) {
     const {message} = e
     yield put({type: types.ERRORS.USER.GET_USER_IDENTITY, payload: {message, userId}})
@@ -32,7 +32,7 @@ export function* getOrgIdentity(action) {
     yield fork(api.get, urls.GET_IDENTITY, results.GET_IDENTITY, `?identity_organization=${organizationId}`)
     const dataList = yield take(socketChannel)
     const data = dataList[0]
-    yield put({type: types.SUCCESS.ORG.GET_ORG_IDENTITY, payload: {data, organizationId}})
+    yield put({type: types.SUCCESS.ORG.GET_ORG_IDENTITY, payload: {data:data, organizationId}})
     // return data because of throw data to father function that maybe use from this function
     return data
   } catch (e) {

@@ -1,14 +1,13 @@
 /*global __*/
 //@flow
 import * as React from 'react'
-import {Certificate, CertificateItemWrapper} from "./view";
-import {CertificateCreateForm} from "./forms";
-import {FrameCard, CategoryTitle, VerifyWrapper} from "../../common/cards/Frames";
-// import {createCertificate, deleteCertificate, updateCertificate} from '../../../crud/organization/certificate.js'
+import {Certificate, CertificateItemWrapper} from "./view"
+import {CertificateCreateForm} from "./forms"
+import {FrameCard, CategoryTitle, VerifyWrapper} from "../../common/cards/Frames"
 import OrganizationActions from '../../../redux/actions/organization/organizationActions'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-
+import type {identityStateObject} from "../../../consts/flowTypes/stateObjectType"
 
 
 type CertificateContainerProps = {
@@ -52,16 +51,17 @@ type CertificateListProps = {
   createForm: boolean,
   organizationId: number,
   certificates: Array<Object>,
-  auth: Object,
+  clientIdentity:identityStateObject,
+  clientId: number,
   actions: Object
 }
 
 export class CertificateList extends React.Component<CertificateListProps> {
 
   create = (formValues: Object, hideEdit: Function) => {
-    const {organizationId, auth, actions} = this.props;
+    const {organizationId, clientId, clientIdentity, actions} = this.props;
     const {createCertificate} = actions
-    return createCertificate(formValues, auth.client.identity.id, auth.client.identity.identity_user.id, hideEdit);
+    return createCertificate(formValues, clientIdentity.content, clientId, hideEdit);
   };
 
   render() {
@@ -88,7 +88,8 @@ type CertificatesProps = {
   organizationId: number,
   actions: Object,
   organization: Object,
-  auth: Object,
+  clientIdentity: identityStateObject,
+  clientId: number
 }
 
 export class Certificates extends React.Component<CertificatesProps, { createForm: boolean, edit: boolean }> {
@@ -99,9 +100,9 @@ export class Certificates extends React.Component<CertificatesProps, { createFor
   }
 
   componentDidMount() {
-    const {auth} = this.props;
+    const {clientIdentity} = this.props;
     const {getCertificates} = this.props.actions;
-    getCertificates(auth.client.identity.id);
+    getCertificates(clientIdentity.content);
   }
 
   showCreateForm = () => {
@@ -113,7 +114,7 @@ export class Certificates extends React.Component<CertificatesProps, { createFor
   }
 
   render() {
-    const {organizationId, organization, auth, actions} = this.props
+    const {organizationId, organization, clientIdentity, clientId, actions} = this.props
     const {createForm} = this.state
     const certificates = organization.certificates
     const {isLoading, error} = certificates
@@ -128,7 +129,8 @@ export class Certificates extends React.Component<CertificatesProps, { createFor
             />
             <FrameCard>
               <CertificateList
-                auth={auth}
+                clientIdentity={clientIdentity}
+                clientId={clientId}
                 actions={actions}
                 certificates={certificates.content}
                 organizationId={organizationId}
@@ -142,10 +144,21 @@ export class Certificates extends React.Component<CertificatesProps, { createFor
     )
   }
 }
-const mapStateToProps = (state) => ({
-	organization:state.organization,
-	auth:state.auth
-})
+
+const mapStateToProps = (state) => {
+  const client = state.auth.client
+  const allIdentities = state.identities.list
+  const clientIdentityId = client.identity.content
+  const clientIdentity = (clientIdentityId && allIdentities[clientIdentityId]) ? allIdentities[clientIdentityId] : {
+    content: null, isLoading: false, error: null
+  }
+  const clientId = clientIdentity.identity_user ? client.user.id : (client.organization ? client.organization.id : null)
+  return {
+    organization: state.organization,
+    clientIdentity,
+    clientId
+  }
+}
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getCertificates: OrganizationActions.getOrgCertificates,
