@@ -19,7 +19,7 @@ type PropsFollowers = {
   identityId: number,
   userId: number,
   identityType: string,
-  paramId: string,
+  paramId: string | number,
 }
 
 export const Followers = (props: PropsFollowers) => {
@@ -104,5 +104,5 @@ Followers.propTypes = {
   identityType: PropTypes.string.isRequired,
   createFollow: PropTypes.func.isRequired,
   userId: PropTypes.number.isRequired,
-  paramId: PropTypes.string.isRequired,
+  paramId: PropTypes.number.isRequired,
 }
