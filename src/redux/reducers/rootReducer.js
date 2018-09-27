@@ -5,6 +5,7 @@ import {reducer as formReducer} from 'redux-form'
 import {routerReducer} from 'react-router-redux'
 import storage from 'redux-persist/lib/storage'
 import auth from './auth'
+import identities from "./identity"
 import common from "./commonReducer/index"
 import exchanges from "./exchange"
 import organization from './organization'
@@ -21,6 +22,7 @@ const commonPersistConfig = {key: 'common', storage: storage,}
 
 const reducers = {
   auth,
+  identities,
   users,
   organs,
   organization,

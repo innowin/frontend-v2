@@ -79,11 +79,11 @@ class User extends Component<PropsUser> {
       getUserIdentity(userId)
     }
 
-    if (this.firstGetBadges && identityObject.content.id && prevProps.identityObject !== identityObject) {
+    if (this.firstGetBadges && identityObject.content && prevProps.identityObject !== identityObject) {
       const {params} = this.props.match
       const userId: number = +params.id
       const {getUserBadges} = actions
-      getUserBadges(userId, identityObject.content.id)
+      getUserBadges(userId, identityObject.content)
       this.firstGetBadges = false
     }
   }
@@ -146,18 +146,18 @@ class User extends Component<PropsUser> {
             <Switch>
               <Redirect exact from={`${url}/`} to={`${url}/Posts`}/>
               <PrivateRoute path={`${path}/Posts`} component={Posts} id={userId} identityType={constants.USER_TYPES.PERSON}
-                            profileMedia={profileObject.content.profile_media} postIdentity={identityObject.content.id}
+                            profileMedia={profileObject.content.profile_media} postIdentity={identityObject.content}
               />
               <PrivateRoute path={`${path}/basicInformation`} component={UserBasicInformation} userId={userId}
                             profile={profileObject} user={userObject}
               />
               <PrivateRoute path={`${path}/contributions`} component={Contributions}
                             userId={userId}
-                            identityId={identityObject.content.id}
+                            identityId={identityObject.content}
                             identityType={constants.USER_TYPES.PERSON}/>
               <PrivateRoute path={`${path}/SocialConnections`} component={Social}
                             userId={userId}
-                            identityId={identityObject.content.id}
+                            identityId={identityObject.content}
                             identityType={constants.USER_TYPES.PERSON}
               />
               <PrivateRoute path={`${path}/Educations`} component={Educations} userId={userId}/>
@@ -185,7 +185,7 @@ const mapStateToProps = (state, ownProps) => {
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const user = (stateUser && stateUser.user) || defaultObject
   const profile = (stateUser && stateUser.profile) || defaultObject
-  const identity = (stateUser && stateUser.identity) || defaultObject
+  const identity = (stateUser && stateUser.identity) || {content: null, isLoading: false, error: null}
   const badgesObjectInUser = (stateUser && stateUser.badges) || defaultObject2
   const allBadges = state.common.badge.list
   const badges = badgesObjectInUser.content.map(badgeId => allBadges[badgeId])

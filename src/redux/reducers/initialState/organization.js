@@ -1,8 +1,4 @@
 export default {
-  identity: {
-    isLoaded: false,
-    content: ''
-  },
   staff: {
     isLoading: false,
     content: []

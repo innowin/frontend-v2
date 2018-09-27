@@ -129,8 +129,7 @@ export class ProductList extends React.Component<ProductListProps> {
 	create = (formValues:Object,hideEdit:Function) => {
 		const {organizationId, auth} = this.props;
 		const {createProduct} = this.props.actions
-		console.log(this.props)
-		return createProduct(formValues,auth.client.identity.id, hideEdit);
+		return createProduct(formValues,auth.client.identity.content, hideEdit);
 	};
 
 	render() {

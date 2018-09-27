@@ -9,7 +9,7 @@ const success = (state, action) => {
 
   const arrayOfProductId = []
   data.map(product => {
-    if (identityId === state.client.identity.id && (!previousProduct.includes(product.id))) {
+    if (identityId === state.client.identity.content && (!previousProduct.includes(product.id))) {
       return arrayOfProductId.push(product.id)
     }
     return arrayOfProductId

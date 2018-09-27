@@ -10,9 +10,11 @@ import workExperienceState from './workExperience'
 import educationState from './education'
 import researchState from './research'
 import paramState from './param'
+import identitiesState from "./identities"
 
 export default {
   auth: authState,
+  identities: identitiesState,
   users: usersState,
   skill: skillState,
   research: researchState,

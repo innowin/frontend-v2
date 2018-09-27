@@ -509,7 +509,7 @@ class CreateExchangeForm extends Component {
     const {createExchangeMembership, createExchange} = this.props.actions;
     const users = this.props.users
     for ( let i = 0 ; i < addedUsers.length ; i++){
-      createExchangeMembership({identityId: users[addedUsers[i].user.id].identity.content.id})
+      createExchangeMembership({identityId: users[addedUsers[i].user.id].identity.content})
     }
     
     this.setState({...this.state,isLoading:true})

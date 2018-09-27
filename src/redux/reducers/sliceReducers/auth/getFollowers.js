@@ -8,7 +8,7 @@ const success = (state, action) => {
 
   const arrayOfFollowersId = []
   data.map(follower => {
-    if (followOwnerIdentity === state.client.identity.id && (!previousFollows.includes(follower.id))) {
+    if (followOwnerIdentity === state.client.identity.content && (!previousFollows.includes(follower.id))) {
       return arrayOfFollowersId.push(follower.id)
     }
     return arrayOfFollowersId

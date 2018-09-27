@@ -42,15 +42,15 @@ export function* signIn(action) {
 	const socketChannel = yield call(api.createSocketChannel, results.SIGN_IN)
   try {
 		yield fork(api.post, urls.SIGN_IN, results.SIGN_IN, {username, password})
-    let data = yield take(socketChannel)
-    const {token} = data
+    const primaryData = yield take(socketChannel)
+    const {token} = primaryData
     yield put({type: types.AUTH.SET_TOKEN, payload: {token}})
     yield delay(500)
-    const hasOrgan = data.profile.is_user_organization
+    const hasOrgan = primaryData.profile.is_user_organization
     let userType = constants.USER_TYPES.PERSON
     let organizationId = null
     let organization = null
-    let identity = data.identity
+    let identity = primaryData.identity
     if (hasOrgan) {
       const organData = yield call(getOrganizationInSignIn, username)
       userType = constants.USER_TYPES.ORG
@@ -60,18 +60,18 @@ export function* signIn(action) {
       identity = yield call(getOrgIdentity, organAction)
       yield put({type: types.SUCCESS.ORG.GET_ORGANIZATION, payload: {data:organization, organizationId}})
     }
-    yield client.saveData(data.user.id, identity.id, userType, organizationId, rememberMe)
+    yield client.saveData(primaryData.user.id, identity.id, userType, organizationId, rememberMe)
     if (!rememberMe) {
       yield client.setSessionLS(token)
     } else {
       yield client.setTokenLS(token)
     }
-    data = {...data, identity, organization}
-    yield put({type: types.SUCCESS.AUTH.SIGN_IN, payload: {data, rememberMe: rememberMe}})
+    const finalData = {...primaryData, identity, organization}
+    yield put({type: types.SUCCESS.AUTH.SIGN_IN, payload: {data:finalData, rememberMe: rememberMe}})
     // after set user & profile data in client should set user and profile data in users in redux state
-    const userId = data.user.id
-    const userData = data.user
-    const profileData = data.profile
+    const userId = finalData.user.id
+    const userData = finalData.user
+    const profileData = finalData.profile
     const profileMediaId = profileData.profile_media
     const profileBannerId = profileData.profile_banner
     if (profileMediaId) {
@@ -82,6 +82,7 @@ export function* signIn(action) {
     }
     yield put({type: types.SUCCESS.USER.GET_USER_BY_USER_ID, payload: {data: userData, userId}})
     yield put({type: types.SUCCESS.USER.GET_PROFILE_BY_USER_ID, payload: {data: profileData, userId}})
+    yield put({type: types.SUCCESS.USER.GET_USER_IDENTITY, payload: {data: primaryData.identity, userId}})
   }
   catch (e) {
     const {message} = e

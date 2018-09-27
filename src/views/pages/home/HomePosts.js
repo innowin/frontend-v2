@@ -113,8 +113,11 @@ class HomePosts extends Component {
 const mapStateToProps = (state, ownProps) => {
   const client = state.auth.client
   const {identity, profile, organization, user_type} = client
-  const clientId = (identity.identity_user && identity.identity_user.id)
-    || (identity.identity_organization && identity.identity_organization.id)
+  const allIdentities = state.identities.list
+  const clientIdentityId = identity.content
+  const clientIdentity = (clientIdentityId && allIdentities[clientIdentityId]) ? allIdentities[clientIdentityId] : {}
+  const clientId = (clientIdentity.identity_user && clientIdentity.identity_user.id)
+    || (clientIdentity.identity_organization && clientIdentity.identity_organization.id) || null
   const clientImgId = (user_type === 'person') ? (profile.profile_media):(
     (organization && organization.organization_logo) || null
   )
@@ -129,7 +132,7 @@ const mapStateToProps = (state, ownProps) => {
       clientId,
       clientImgId,
       clientType: user_type,
-      clientIdentity:identity
+      clientIdentity
     },
     posts
   }
