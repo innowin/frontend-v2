@@ -1,4 +1,4 @@
 export default {
-  user: 0,
-
+  user: null,
+  organization: null
 }

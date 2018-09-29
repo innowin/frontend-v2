@@ -1,13 +1,17 @@
 const BASE = {
-  SET_PARAM_USER_ID: 'SET_PARAM_USER_ID',
-  REMOVE_PARAM_USER_ID: 'REMOVE_PARAM_USER_ID',
+  USER: {
+    SET_PARAM_USER_ID: 'SET_PARAM_USER_ID',
+    REMOVE_PARAM_USER_ID: 'REMOVE_PARAM_USER_ID',
+  },
+  ORG: {
+    SET_PARAM_ORG_ID: 'SET_PARAM_ORG_ID',
+    REMOVE_PARAM_ORG_ID: 'REMOVE_PARAM_ORG_ID',
+  }
 }
 
-const SUCCESS = {
-}
+const SUCCESS = {}
 
-const ERROR = {
-}
+const ERROR = {}
 
 
 export default {

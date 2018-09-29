@@ -16,7 +16,7 @@ type PropsCertificateView = {
 const CertificateView = (props: PropsCertificateView) => {
 
   const {certificate, showEdit, param} = props
-  const paramId = param.user || param.organ
+  const paramId = param.user || param.organization
   return (
       <div className="col-6 text-center certificate-col">
         <div className="row">

@@ -70,7 +70,7 @@ type PropsItemHeader = {
 
 let ItemHeader = (props: PropsItemHeader): div => {
   const {showEdit, param} = props
-  const id = param.user || param.organ
+  const id = param.user || param.organization
   return (
       <div className="-item-header">
         <div className="-item-title">{props.title}</div>
@@ -133,7 +133,7 @@ let CategoryTitle = ({
                                 showEditHandler = () => 0,
                                 param,
                               }: PropsCategoryTitle): div => {
-  const id = param.user || param.organ
+  const id = param.user || param.organization
   return (
       <div className="category-title-container">
         <div className="-categoryTitle">
@@ -148,7 +148,7 @@ let CategoryTitle = ({
           <div className="edit-btn-wrapper" onClick={showEditHandler}><EditIcon className="edit-btn"/></div>
           }
         </div>
-        <div className="category-divider"></div>
+        <div className="category-divider"/>
       </div>
   )
 }

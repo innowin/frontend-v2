@@ -133,7 +133,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
     const {translate, followers, followees, actions, isLoading, error, exchanges, identityId, userId, identityType, param} = this.props
     const {deleteFollow, deleteExchangeMembership, updateFollow, createFollow} = actions
     const {editExchanges, editFollowings} = this.state
-    const paramId = param.user || param.organ
+    const paramId = param.user || param.organization
 
     return (
         <VerifyWrapper isLoading={isLoading} error={error}>

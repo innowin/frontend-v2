@@ -4,17 +4,15 @@ import client from 'src/consts/client'
 import PropTypes from 'prop-types'
 
 type checkOwnerProps = {
-  id: number | string,
+  id: ?number,
   children?: React.Node,
   showForOwner?: boolean
 }
 
 const CheckOwner = ({children, id, showForOwner = true}: checkOwnerProps) => {
-  return (
-      showForOwner
-          ? (client.checkIdWithQueryId(+id) ? children : '')
-          : (client.checkIdWithQueryId(+id) ? '' : children)
-  )
+    return showForOwner
+      ? (client.checkIdWithQueryId(+id) ? children : '')
+      : (client.checkIdWithQueryId(+id) ? '' : children)
 }
 
 CheckOwner.propTypes = {

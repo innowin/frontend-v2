@@ -175,7 +175,7 @@ class User extends Component<PropsUser> {
                 <PrivateRoute path={`${path}/WorkExperiences`} component={WorkExperiences} userId={userId}/>
                 <PrivateRoute path={`${path}/Certificates`} component={Certificates}
                               id={userId}
-                              identityId={identityObject.content.id}
+                              identityId={identityObject.content}
                               identityType={constants.USER_TYPES.PERSON}/>
               </Switch>
             </div>
