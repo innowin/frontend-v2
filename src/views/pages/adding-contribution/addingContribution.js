@@ -28,7 +28,7 @@ import {getCategories} from 'src/redux/actions/commonActions/categoryActions'
 import {bindActionCreators} from "redux"
 import {getHashTags} from "src/redux/actions/commonActions/hashTagActions"
 import {hashTagsListSelector} from "src/redux/selectors/common/hashTag"
-import {createProductAsContribution} from "src/redux/actions/commonActions/productActions"
+import {createProductAsContribution} from "src/redux/actions/commonActions/productActions/productActions"
 import {getCountries, getProvinces, getCities} from "src/redux/actions/commonActions/location"
 import countrySelector from "src/redux/selectors/common/location/country"
 import {provinceSelector} from "src/redux/selectors/common/location/province"
@@ -726,8 +726,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
+const mapStateToProps = (state) => ({
     translator: getMessages(state),
     categories: categorySelector(state),
     initialInfoFormState: getFormValues(state, 'addingContributionInitialInfoForm'),
@@ -739,8 +738,7 @@ const mapStateToProps = (state) => {
     testToken: state.auth.client.token,
     nowCreatedProductId: nowCreatedProductIdSelector(state),
     nowCreatedSkillId: nowCreatedSkillIdSelector(state)
-  }
-};
+  })
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators(

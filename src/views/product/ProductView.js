@@ -71,7 +71,7 @@ class ProductView extends Component<ProductViewProps, ProductViewState> {
     return (
         <div className="row">
           {/*<div className={`${widthOfRightBar} -right-sidebar-wrapper`}>*/}
-          <SideBar visible={sideBarIsVisible} visibilityHandler={this._sideBarVisibilityHandler}/>
+          <SideBar productId={productId} visible={sideBarIsVisible} visibilityHandler={this._sideBarVisibilityHandler}/>
           {/*</div>*/}
           <div className="col-md-6 col-sm-9 -content-wrapper">
             <PictureModal className="pictureModal" isOpen={modal} files={modalFiles}

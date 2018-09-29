@@ -20,7 +20,7 @@ const error = (state, action) => {}
 const base = (state, action) => {}
 
 export default {
-  success,
+    success,
   // error,
   // base
 }

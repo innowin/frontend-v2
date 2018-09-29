@@ -4,6 +4,7 @@ import pushAnObjToStateList from '../../sliceReducers/utilsSlices/pushAnObjToSta
 import updateListForAnObj from '../../sliceReducers/utilsSlices/updateListForAnObj'
 import createAnObj from '../../sliceReducers/utilsSlices/createAnObj'
 import setRelatedObjIdForListItem from '../../sliceReducers/utilsSlices/setRelatedObjIdForListItem'
+import setRelatedObjectsForAnObj from '../../sliceReducers/utilsSlices/setRelatedObjectsForAnObj'
 
 
 const products = (state = initialState.common.product.products, action) => {
@@ -36,6 +37,10 @@ const products = (state = initialState.common.product.products, action) => {
     case types.COMMON.ADD_HASH_TAG_ID_TO_PRODUCT:
       return setRelatedObjIdForListItem.success(state, action, 'hashTags')
       /**  ---------------- addCertificateIdToProduct -------------- > **/
+
+    case types.SUCCESS.COMMON.GET_PRODUCT_PICTURES_BY_PRODUCT_ID:
+      return setRelatedObjectsForAnObj.success(state, action, 'pictures')
+
     case types.RESET:
       return initialState.common.product.products
 

@@ -46,6 +46,7 @@ const results = {
     UPDATE_PRODUCT: 'update-product-result',
     CREATE_PRODUCT: 'create-product-result',
     CREATE_PRODUCT_PICTURE: 'create-product-picture-result',
+    GET_PRODUCT_PICTURES_BY_PRODUCT_ID: 'get-product-pictures-by-product-id-result',
 
     // file
     GET_FILE: 'COMMON_GET_FILE',

@@ -53,6 +53,7 @@ const arrayToDefaultObject = (arr) => {
 const filterNestedObjByKey = (obj, wantedKey, wantedValue) => {
   return Object.keys(obj).reduce((acc, key) => {
     const item = obj[key]
+    // console.log(`${item.id}: ${wantedValue} === ${item[wantedKey]} `, item[wantedKey] === wantedValue)
     if (item[wantedKey] === wantedValue) return ({...acc, [key]: {...item}})
     else return acc
   }, {})
@@ -95,6 +96,20 @@ const abbreviation = (names, num) => names.reduce((result, part) => {
 }, '')
 
 
+const normalizer = (arr) => {
+  const ids = []
+  const idKeyedObj = {}
+  arr.forEach(item => {
+    ids.push(item.id)
+    idKeyedObj[item.id] = item
+  })
+  return {
+    ids,
+    idKeyedObj
+  }
+}
+
+
 export default {
   arrayToIdKeyedObject,
   arrayToDefaultObject,
@@ -103,4 +118,5 @@ export default {
   filterNestedObjByKey,
   objToArrayAsOptions,
   getObjectOfArrayKeys,
+  normalizer
 }

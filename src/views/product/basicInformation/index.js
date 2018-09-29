@@ -7,7 +7,7 @@ import {ListGroup} from '../../common/cards/Frames'
 import {ProductInfoItemWrapper, ProductInfoView, ProductDescriptionView, ProductDescriptionWrapper} from "./Views"
 import type {ProductType, CategoryType} from "src/consts/flowTypes/product/productTypes"
 import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
-import {getProductInfo, updateProduct} from "src/redux/actions/commonActions/productActions"
+import {getProductInfo, updateProduct} from "src/redux/actions/commonActions/productActions/productActions"
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {ProductInformationForm} from "./Forms"

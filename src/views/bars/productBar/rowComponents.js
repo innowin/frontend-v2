@@ -44,7 +44,7 @@ export const Badges = (props: BadgesProps) => {
   return (
       <BorderedPaddedWrapper className='badges'>
         {badges.map(badge => (
-            <VisibleOnLoadImage className="badge" img={badge} key={`badge_${badge.slice(0, 14)}`}/>
+            <VisibleOnLoadImage className="badge" img={badge} key={`badge_${badge.slice(badge.length - 16)}`}/>
         ))}
       </BorderedPaddedWrapper>
   )
@@ -98,19 +98,19 @@ export const ActBar = (props: ActBarProps) => {
 }
 
 type GalleryProps = {
-  images: Array<string>,
+  images?: Array<string>,
   mainImage: string,
   galleryModalDisplayHandler: Function
 }
 
 export const Gallery = (props: GalleryProps) => {
-  const {images, mainImage, galleryModalDisplayHandler} = props
+  const {images=[], mainImage, galleryModalDisplayHandler} = props
   return (
       <div className="gallery-wrapper">
         <VisibleOnLoadImage img={mainImage} className="main-image"/>
         <div className="items-wrapper">
           {images.map(img =>
-              <div key={`gallery-item-${img.slice(0, 14)}`} className="gallery-item">
+              <div key={`gallery-item-${img.slice(img.length - 16)}`} className="gallery-item">
                 <VisibleOnLoadImage className="gallery-image" img={img}/>
               </div>
           )}
