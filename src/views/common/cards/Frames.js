@@ -173,7 +173,7 @@ type PropsFieldLabel = {
 
 export const FieldLabel = (props: PropsFieldLabel): div => {
   return (
-      <div className="col-5">
+      <div className="field-label">
         {props.label}
       </div>
   )
@@ -189,7 +189,7 @@ type PropsFieldValue = {
 
 export const FieldValue = (props: PropsFieldValue) => {
   return (
-      <div className="col-7 font-weight-bold break-word">
+      <div className="field-value break-word">
         {props.value}
       </div>
   )

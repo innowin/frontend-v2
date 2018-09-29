@@ -29,13 +29,13 @@ const validateDescription = (desctiption, translate) => {
 }
 
 const validateDay = (day, translate) => {
-  if (!/^(0[1-9]|\d|[12]\d|3[01])$/.test(day)) {
+  if (!/^(0[1-9]|\d|[120]\d|3[01])$/.test(day)) {
     return translate['Day is incorrect']
   }
 }
 
 const validateMonth = (month, translate) => {
-  if (!/^(0[1-9]|\d|1[12])$/.test(month)) {
+  if (!/^(0[1-9]|\d|1[120])$/.test(month)) {
     return translate['Month is incorrect']
   }
 }

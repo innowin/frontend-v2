@@ -30,8 +30,19 @@ export const JalaliWithFarsiMonth = (date: string): string => {
   }
   if(date){
     const jalaliDate = jMoment(date, "YYYY-MM-DDTHH:mm:ss.SSZ")
+    console.log(`${jalaliDate.jDate()}.${jalaliDate.jMonth()}.${jalaliDate.jYear()}`)
     return `${jalaliDate.jDate()} ${convertTOFarsi(jalaliDate.jMonth())} ${jalaliDate.jYear()}`
     // the output is something like 26 فروردین 1397
+  }
+  return ''
+}
+
+export const JalaliDateWithDot = (date: string): string => {
+  // this function getting a date in format "YYYY-MM-DDTHH:mm:ss.SSZ" and return something 1397.02.01
+  if(date){
+    const jalaliDate = jMoment(date, "YYYY-MM-DDTHH:mm:ss.SSZ")
+    return `${jalaliDate.jYear()}.${jalaliDate.jMonth()}.${jalaliDate.jDate()}`
+    // the output is something like 1397.02.01
   }
   return ''
 }

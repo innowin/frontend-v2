@@ -3,7 +3,6 @@ import * as React from "react"
 import PropTypes from "prop-types"
 import {Component} from "react"
 
-import renderTextArea from "../../common/inputs/reduxFormRenderTextArea";
 import renderTextField from "../../common/inputs/reduxFormRenderTextField"
 import {ArrayInput} from "src/views/common/inputs/ArrayInput"
 import {CustomArrayInput} from "src/views/common/inputs/CustomArrayInput"
@@ -13,9 +12,9 @@ import {Field, reduxForm} from "redux-form";
 import {outputComponent} from "src/views/common/OutputComponent"
 import {PhoneInput} from "src/views/common/inputs/PhoneInput"
 import type {userProfileType} from "src/consts/flowTypes/user/basicInformation"
-import profileInfoValidation from "../../../helpers/validations/profileInfoBasicInformation"
+import contactInfoValidation from "../../../helpers/validations/contactInfoBasicInformation"
 
-type ProfileInfoFormInputType = {
+type ContactInfoFormInputType = {
   day: string,
   year: string,
   month: string,
@@ -23,10 +22,11 @@ type ProfileInfoFormInputType = {
   publicEmail: string,
   telegramAccount: string,
   description: string,
+  address: string,
 }
 
-// ProfileInfoEditForm flow type
-type PropsProfileInfoEditForm = {
+// ContactInfoEditForm flow type
+type PropsContactInfoEditForm = {
   hideEdit: Function,
   profile: userProfileType,
   translate: { [string]: string },
@@ -40,7 +40,7 @@ type PropsProfileInfoEditForm = {
   error: string,
 }
 
-class ProfileInfoEditForm extends Component<PropsProfileInfoEditForm> {
+class ContactInfoEditForm extends Component<PropsContactInfoEditForm> {
   static propTypes = {
     hideEdit: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
@@ -59,24 +59,20 @@ class ProfileInfoEditForm extends Component<PropsProfileInfoEditForm> {
 
   componentDidMount() {
     const {initialize, profile} = this.props
-    const birthDateSplit = profile.birth_date === null ? [''] : profile.birth_date.split('/')
     const defaultFormValue = {
-      nationalCode: profile.national_code,
+      address: profile.address,
       mobile: profile.mobile,
       phone: profile.phone,
-      fax: profile.fax,
       publicEmail: profile.public_email,
-      telegramAccount: profile.telegram_account,
       webSite: profile.web_site,
-      description: profile.description,
-      year: birthDateSplit[0],
-      month: birthDateSplit[1] === undefined ? '' : birthDateSplit[1],
-      day: birthDateSplit[2] === undefined ? '' : birthDateSplit[2],
+      // fax: profile.fax,
+      // telegramAccount: profile.telegram_account,
+      // description: profile.description,
     }
     initialize(defaultFormValue);
   }
 
-  _onSubmit = (values: ProfileInfoFormInputType): boolean | void => {
+  _onSubmit = (values: ContactInfoFormInputType): boolean | void => {
     // profile equals to initial value
     const {actions, userId, profile} = this.props
 
@@ -85,20 +81,18 @@ class ProfileInfoEditForm extends Component<PropsProfileInfoEditForm> {
     const mobile = this.mobileInput.getValue()
 
     const phone = this.phoneInput.getValue()
-    const fax = this.faxInput.getValue()
     const web_site = this.webSiteInput.getValue()
-    const birth_date = values.year === '' || values.month === '' || values.day === '' ? '' : `${values.year}/${values.month}/${values.day}`
+    // const fax = this.faxInput.getValue()
 
     const formFormat = {
-      public_email: profile.public_email === values.publicEmail ? null : values.publicEmail,
-      national_code: profile.national_code === values.nationalCode ? null : values.nationalCode,
+      address: profile.address === values.address ? null : values.address,
       mobile: profile.mobile === mobile ? null : mobile,
       phone: profile.phone === phone ? null : phone,
+      public_email: profile.public_email === values.publicEmail ? null : values.publicEmail,
       web_site: profile.web_site === web_site ? null : web_site,
-      fax: profile.fax === fax ? null : fax,
-      telegram_account: profile.telegram_account === values.telegramAccount ? null : values.telegramAccount,
-      description: profile.description === values.description ? null : values.description,
-      birth_date: profile.birth_date === birth_date ? null : birth_date,
+      // fax: profile.fax === fax ? null : fax,
+      // telegram_account: profile.telegram_account === values.telegramAccount ? null : values.telegramAccount,
+      // description: profile.description === values.description ? null : values.description,
     }
     const propertyNames = Object.getOwnPropertyNames(formFormat)
     propertyNames.map(key => {
@@ -118,29 +112,19 @@ class ProfileInfoEditForm extends Component<PropsProfileInfoEditForm> {
     const {translate, handleSubmit, profile, submitFailed, error} = this.props
     return (
         <form onSubmit={handleSubmit(this._onSubmit)}>
-          <ReduxFormDateInput translate={translate} labelName={translate['BirthDate']} dayName='day' monthName='month' yearName='year'/>
-
           <div className='form-group'>
             <label>
-              {translate['National code'] + ": "}
+              {translate['Address'] + ": "}
             </label>
             <Field
-                name="nationalCode"
+                name="address"
                 type="text"
                 component={renderTextField}
-                label={translate['Username']}
+                label={translate['Address']}
                 textFieldClass='form-control'
             />
           </div>
-          <CustomArrayInput
-              label={translate['Mobile'] + ": "}
-              value={profile.mobile}
-              inputComponent={PhoneInput}
-              outputComponent={outputComponent}
-              ref={mobileInput => {
-                this.mobileInput = mobileInput
-              }}
-          />
+          <ReduxFormDateInput translate={translate} labelName={translate['BirthDate']} dayName='day' monthName='month' yearName='year'/>
           <CustomArrayInput
               label={translate['Phone'] + ": "}
               value={profile.phone}
@@ -150,13 +134,24 @@ class ProfileInfoEditForm extends Component<PropsProfileInfoEditForm> {
                 this.phoneInput = phoneInput
               }}
           />
-          <CustomInput
-              label={translate['Fax'] + ": "}
-              value={profile.fax}
-              ref={faxInput => {
-                this.faxInput = faxInput
-              }}
+          <CustomArrayInput
+              label={translate['Mobile'] + ": "}
+              value={profile.mobile}
               inputComponent={PhoneInput}
+              outputComponent={outputComponent}
+              ref={mobileInput => {
+                this.mobileInput = mobileInput
+              }}
+          />
+          {/*TODO WEB INPUT*/}
+          <ArrayInput
+              name="webSite"
+              label={translate['Website'] + ": "}
+              placeholder={translate['Web Site Format']}
+              value={profile.web_site}
+              ref={webSiteInput => {
+                this.webSiteInput = webSiteInput
+              }}
           />
           <div className='form-group'>
             <label>
@@ -170,40 +165,41 @@ class ProfileInfoEditForm extends Component<PropsProfileInfoEditForm> {
                 textFieldClass='form-control'
             />
           </div>
-          <div className='form-group'>
-            <label>
-              {translate['Telegram account'] + ": "}
-            </label>
-            <Field
-                name="telegramAccount"
-                type="text"
-                component={renderTextField}
-                label={translate['Telegram account']}
-                textFieldClass='form-control'
-            />
-          </div>
-          {/*TODO WEB INPUT*/}
-          <ArrayInput
-              name="webSite"
-              label={translate['Website'] + ": "}
-              placeholder={translate['Web Site Format']}
-              value={profile.web_site}
-              ref={webSiteInput => {
-                this.webSiteInput = webSiteInput
-              }}
-          />
-          <div className='form-group'>
-            <label>
-              {translate['Description'] + ": "}
-            </label>
-            <Field
-                name="description"
-                type="text"
-                component={renderTextArea}
-                label={translate['Description']}
-                textFieldClass='form-control'
-            />
-          </div>
+
+
+
+          {/*<CustomInput*/}
+              {/*label={translate['Fax'] + ": "}*/}
+              {/*value={profile.fax}*/}
+              {/*ref={faxInput => {*/}
+                {/*this.faxInput = faxInput*/}
+              {/*}}*/}
+              {/*inputComponent={PhoneInput}*/}
+          {/*/>*/}
+          {/*<div className='form-group'>*/}
+            {/*<label>*/}
+              {/*{translate['Telegram account'] + ": "}*/}
+            {/*</label>*/}
+            {/*<Field*/}
+                {/*name="telegramAccount"*/}
+                {/*type="text"*/}
+                {/*component={renderTextField}*/}
+                {/*label={translate['Telegram account']}*/}
+                {/*textFieldClass='form-control'*/}
+            {/*/>*/}
+          {/*</div>*/}
+          {/*<div className='form-group'>*/}
+            {/*<label>*/}
+              {/*{translate['Description'] + ": "}*/}
+            {/*</label>*/}
+            {/*<Field*/}
+                {/*name="description"*/}
+                {/*type="text"*/}
+                {/*component={renderTextArea}*/}
+                {/*label={translate['Description']}*/}
+                {/*textFieldClass='form-control'*/}
+            {/*/>*/}
+          {/*</div>*/}
 
           {submitFailed && <p className="error-message">{error}</p>}
 
@@ -218,9 +214,9 @@ class ProfileInfoEditForm extends Component<PropsProfileInfoEditForm> {
   }
 }
 
-ProfileInfoEditForm = reduxForm({
-  form: 'profileInfoEditForm',
-  validate: profileInfoValidation,
-})(ProfileInfoEditForm)
+ContactInfoEditForm = reduxForm({
+  form: 'contactInfoEditForm',
+  validate: contactInfoValidation,
+})(ContactInfoEditForm)
 
-export {ProfileInfoEditForm}
+export {ContactInfoEditForm}

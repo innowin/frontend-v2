@@ -25,17 +25,15 @@ type UserInfoFormInputType = {|
   username: string,
   firstName: string,
   lastName: string,
-  email: string,
 |}
 
-class UserInfoEditForm extends React.Component<PropsUserInfoEditForm> {
+class BasicInfoEditForm extends React.Component<PropsUserInfoEditForm> {
   componentDidMount() {
     const {user, initialize} = this.props
     const defaultFormValue = {
       username: user.username,
       firstName: user.first_name,
       lastName: user.last_name,
-      email: user.email,
     }
     initialize(defaultFormValue);
   }
@@ -59,7 +57,6 @@ class UserInfoEditForm extends React.Component<PropsUserInfoEditForm> {
       username: user.username === values.username ? null : values.username,
       first_name: user.first_name === values.firstName ? null : values.firstName,
       last_name: user.last_name === values.lastName ? null : values.lastName,
-      email: user.email === values.email ? null : values.email,
     }
     const propertyNames = Object.getOwnPropertyNames(formFormat)
     propertyNames.map(key => {
@@ -102,19 +99,6 @@ class UserInfoEditForm extends React.Component<PropsUserInfoEditForm> {
             />
           </div>
 
-          <div className='form-group'>
-            <label>
-              {translate['Email'] + ": "}
-            </label>
-            <Field
-                name="email"
-                type="text"
-                component={renderTextField}
-                label={translate['Email']}
-                textFieldClass='form-control'
-            />
-          </div>
-
           {submitFailed && <p className="error-message">{error}</p>}
 
           <div className="col-12 d-flex justify-content-end">
@@ -128,9 +112,9 @@ class UserInfoEditForm extends React.Component<PropsUserInfoEditForm> {
   }
 }
 
-UserInfoEditForm = reduxForm({
+BasicInfoEditForm = reduxForm({
   form: 'userInfoEditForm',
   validate: userInfoValidation,
-})(UserInfoEditForm)
+})(BasicInfoEditForm)
 
-export {UserInfoEditForm}
+export default BasicInfoEditForm
