@@ -9,7 +9,7 @@ export function* getWorkExperienceByUserId(action) {
   const {userId} = payload
   const socketChannel = yield call(api.createSocketChannel, results.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID)
   try {
-    yield fork(api.get, urls.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID, results.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID, `?work_experience_user=${userId}`)
+    yield fork(api.get, urls.WORK_EXPERIENCE, results.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID, `?work_experience_user=${userId}`)
     const data = yield take(socketChannel)
     yield put({type:types.SUCCESS.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID, payload:{data, userId}})
   } catch (e) {

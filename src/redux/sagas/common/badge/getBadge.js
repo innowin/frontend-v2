@@ -40,3 +40,22 @@ export function* getOrganBadges(action) {
     socketChannel.close()
   }
 }
+
+// function* getBadges(action) {
+//   const {userId, relatedParentId, nextActionType} = action.payload
+//   const socketChannel = yield call(api.createSocketChannel, results.COMMON.GET_USER_BADGES)
+//   try {
+//     yield fork(api.get, urls.COMMON.BADGE, results.COMMON.GET_USER_BADGES, `?badge_related_parent=${identityId}`)
+//     const badges = yield take(socketChannel)
+//     const normalData = helpers.arrayToIdKeyedObject(badges)
+//     yield put({type: types.SUCCESS.COMMON.GET_USER_BADGES, payload: {data:normalData}})
+//     yield put({type:types.SUCCESS.COMMON.SET_BADGES_IN_USER, payload:{data:badges, userId}})
+//   } catch (e) {
+//     const {message} = e
+//     yield put({type: types.ERRORS.COMMON.SET_BADGES_IN_USER, payload: {message, userId}})
+//   } finally {
+//     socketChannel.close()
+//   }
+// }
+//
+// export default getBadges

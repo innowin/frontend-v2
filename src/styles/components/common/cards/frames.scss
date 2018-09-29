@@ -107,7 +107,7 @@
       position: absolute;
       display: flex;
       white-space: nowrap;
-      overflow: hidden;
+      //overflow: hidden;
       text-overflow: ellipsis;
       top: -29px;
       left: 0;
@@ -117,28 +117,19 @@
       .-item-title {
         flex: 1 1 auto;
       }
-      .-item-edit-btn {
-        flex: 0 0 auto;
-        svg {
-          fill: $text-dark-color;
-          height: 16px;
-          width: 16px;
-          cursor: pointer;
-        }
-      }
     }
     .-item-content {
       position: relative;
       margin-right: 39px;
-      margin-top: 31px;
+      //margin-top: 31px;
       border-top: 1px solid $frame-color;
       border-right: 1px solid $frame-color;
       padding: 16px 16px 50px 16px;
       color: $text-dark-color;
     }
-    &:last-child .-item-content {
-      padding: 16px;
-    }
+    //&:first-child .-item-content {
+    //  padding: 16px 16px 50px 16px;
+    //}
   }
 }
 

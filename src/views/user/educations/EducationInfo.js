@@ -1,71 +1,99 @@
 import * as React from "react";
-import type {userEducationType, userType} from "../../../consts/flowTypes/user/basicInformation";
 import PropTypes from "prop-types";
-import {VerifyWrapper} from "../../common/cards/Frames";
-import {EducationInfoView} from "./EducationView";
+import {Field, FieldLabel, FieldValue, ItemHeader, VerifyWrapper} from "../../common/cards/Frames";
 import educationIcon from "../../../images/user/education_svg";
-import {EducationInfoForm} from "./Forms";
 import {ItemWrapper} from "../../common/cards/Frames";
+import EducationInfoEditForm from "./EducationInfoEditForm";
+import {userEducationType} from 'src/consts/flowTypes/user/basicInformation'
 
 //EducationInfo flowTypes
-type EducationInfoProps = {
+type PropsEducation = {
+  updateEducationByUserId: Function,
+  deleteEducationByUserId: Function,
   education: userEducationType,
-  translate: {},
-  user: userType,
+  userId: number,
+  translate: { [string]: string },
 }
-type EducationInfoState = {
-  education: userEducationType,
-  error: boolean,
+type StateEducation = {
   edit: boolean,
-  isLoading: boolean
 }
 
-export class EducationInfo extends React.Component<EducationInfoProps, EducationInfoState> {
-  constructor(props: EducationInfoProps) {
-    super(props)
-    this.state = {education: {}, error: false, edit: false, isLoading: false}
-  }
-
+export class EducationInfo extends React.Component<PropsEducation, StateEducation> {
   static propTypes = {
     education: PropTypes.object.isRequired,
-    translate: PropTypes.object.isRequired
+    updateEducationByUserId: PropTypes.func.isRequired,
+    deleteEducationByUserId: PropTypes.func.isRequired,
+    translate: PropTypes.object.isRequired,
+    userId: PropTypes.number.isRequired,
+  }
+
+  constructor(props: PropsEducation) {
+    super(props)
+    this.state = {edit: false}
   }
 
   _showEdit = () => {
-    this.setState({...this.state, edit: true})
+    this.setState({edit: true})
   }
 
   _hideEdit = () => {
-    this.setState({...this.state, edit: false})
+    this.setState({edit: false})
   }
 
-  _updateStateForView = (res: userEducationType, error: boolean, isLoading: boolean) => {
-    this.setState({...this.state, education: res, error: error, isLoading: isLoading})
+  _delete = () => {
+    const {userId, deleteEducationByUserId, education} = this.props
+    const educationId = education.id
+    this._hideEdit()
+    deleteEducationByUserId({userId, educationId})
   }
 
-  componentDidMount() {
-    this.setState({...this.state, education: this.props.education})
-  }
-
+  // FixMe: mohammad isLoading and error come from redux
   render() {
-    const {translate} = this.props
-    const {education, edit, isLoading, error} = this.state
+    const {translate, updateEducationByUserId, userId, education} = this.props
+    const {edit} = this.state
     return (
-        <VerifyWrapper isLoading={isLoading} error={error}>
-          {
-            edit ? (
-                <ItemWrapper icon={educationIcon}>
-                  <EducationInfoForm
-                      education={education}
-                      hideEdit={this._hideEdit}
-                      updateStateForView={this._updateStateForView}
-                      translate={translate}
-                  />
-                </ItemWrapper>
+        <VerifyWrapper isLoading={false} error={false}>
+          <ItemWrapper icon={educationIcon}>
+            {edit ? (
+                <EducationInfoEditForm
+                    userId={userId}
+                    education={education}
+                    hideEdit={this._hideEdit}
+                    update={updateEducationByUserId}
+                    deleteEducationByUserId={this._delete}
+                    translate={translate}
+                />
             ) : (
-                <EducationInfoView education={education} showEdit={this._showEdit} translate={translate}/>
-            )
-          }
+                education &&
+                <div>
+                  <ItemHeader title={translate['EducationInfo']} showEdit={this._showEdit}/>
+                  <Field>
+                    <FieldLabel label={translate['University'] + ": "}/>
+                    <FieldValue value={education.university}/>
+                  </Field>
+                  <Field>
+                    <FieldLabel label={translate['Grade'] + ": "}/>
+                    <FieldValue value={education.grade}/>
+                  </Field>
+                  <Field>
+                    <FieldLabel label={translate['FromDate'] + ": "}/>
+                    <FieldValue value={education.from_date}/>
+                  </Field>
+                  <Field>
+                    <FieldLabel label={translate['ToDate'] + ": "}/>
+                    <FieldValue value={education.to_date}/>
+                  </Field>
+                  <Field>
+                    <FieldLabel label={translate['Average'] + ": "}/>
+                    <FieldValue value={education.average}/>
+                  </Field>
+                  <Field>
+                    <FieldLabel label={translate['Description'] + ": "}/>
+                    <FieldValue value={education.description}/>
+                  </Field>
+                </div>
+            )}
+          </ItemWrapper>
         </VerifyWrapper>
     )
   }

@@ -34,7 +34,7 @@ export class ProductView extends React.Component<ProductViewProps> {
 		return (
 			<div className="col-6 organizationProduct">
 				<div className=" productBox">
-							<div className="float-left -item-edit-btnProduct" onClick={showEdit}><EditIcon /></div>
+							<div className="float-left -item-edit-btn pulse" onClick={showEdit}><EditIcon /></div>
 							<div className="d-block m-2">{product.name}</div>
 							
 							{(pictures.length > 0) ? <ImageViewer

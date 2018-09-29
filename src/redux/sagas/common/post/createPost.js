@@ -9,7 +9,7 @@ export function* createPost(action) {
   const {formValues, postOwnerId, postOwnerType, postParentId, postParentType} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.POST.CREATE_POST)
   try {
-    yield fork(api.post, urls.COMMON.POST.CREATE_POST, results.COMMON.POST.CREATE_POST, formValues)
+    yield fork(api.post, urls.COMMON.POST, results.COMMON.POST.CREATE_POST, formValues)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.COMMON.POST.CREATE_POST ,
       payload:{data, postOwnerId, postOwnerType, postParentId, postParentType}})

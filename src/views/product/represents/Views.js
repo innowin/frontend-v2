@@ -41,7 +41,7 @@ const RepresentItemHeader = (props: RepresentItemHeaderProps) => {
 					<Moment className="mr-3 -green2" element="span" fromNow ago>{represent.created_time}</Moment>
 					<span className="mr-1 -green2"> پیش</span>
 				</div>
-				<div className="-item-edit-btnRepresent">
+				<div className="-item-edit-btn pulse">
 					<div onClick={showEdit}><EditIcon/></div>
 				</div>
 			</div>

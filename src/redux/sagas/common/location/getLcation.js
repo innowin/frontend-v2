@@ -8,11 +8,9 @@ import types from "../../../actions/types"
 
 export function* getCountries(action) {
     const socketChannel = yield call(api.createSocketChannel, results.COMMON.GET_COUNTRIES)
-    console.log('------- >>> getCountries >> action : ', action)
     try {
         yield fork(api.get, urls.COMMON.COUNTRY, results.COMMON.GET_COUNTRIES)
         const data = yield take(socketChannel)
-        console.log('------- >>> getCountries >> try >> data : ', data)
         const normalData = helpers.arrayToIdKeyedObject(data)
         yield put({type: types.SUCCESS.COMMON.GET_COUNTRIES, data: normalData})
 
@@ -29,8 +27,6 @@ export function* getProvinces(action) { // action: { payload: { parentId } }
     const {parentId} = action.payload
     const suffix = parentId ? `?province_related_country=${parentId}` : ''
     const socketChannel = yield call(api.createSocketChannel, results.COMMON.GET_PROVINCES)
-
-    console.log('------- >>> getProvinces >> action : ', action)
 
     try {
         yield fork(api.get, urls.COMMON.PROVINCE, results.COMMON.GET_PROVINCES, suffix)

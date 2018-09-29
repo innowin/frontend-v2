@@ -7,6 +7,7 @@ import DefaultUserIcon from "../../../images/defaults/defaultUser_svg";
 import PropTypes from "prop-types";
 import FontAwesome from "react-fontawesome";
 import constants from "../../../consts/constants";
+import CheckOwner from "../../common/CheckOwner";
 
 type PropsFollowers = {
   followers: [],
@@ -18,10 +19,11 @@ type PropsFollowers = {
   identityId: number,
   userId: number,
   identityType: string,
+  paramId: string | number,
 }
 
 export const Followers = (props: PropsFollowers) => {
-  const {followers, translate, followees, identityType} = props
+  const {followers, translate, followees, identityType, paramId} = props
   const followeeIds = followees.map(followee => followee.id)
 
   const onDeleteFollow = (follower) => {
@@ -67,16 +69,20 @@ export const Followers = (props: PropsFollowers) => {
                       </div>
                       {!follower.follow_accepted
                           ?
-                          <div>
-                            <FontAwesome name="times-circle" className='reject-follower pulse' onClick={() => onDeleteFollow(follower)}/>
-                            <FontAwesome name="check-circle" className='accept-follower pulse' onClick={() => onAcceptFollow(follower)}/>
-                          </div>
+
+                          <CheckOwner id={paramId}>
+                            <FontAwesome name="times-circle" className='reject-follower pulse'
+                                         onClick={() => onDeleteFollow(follower)}/>
+                            <FontAwesome name="check-circle" className='accept-follower pulse'
+                                         onClick={() => onAcceptFollow(follower)}/>
+                          </CheckOwner>
                           : <div className="follow-section">{translate['Followed']}</div>
                       }
                       {!followeeIds.includes(follower.id) &&
-                      <div>
-                        <FontAwesome name="plus-circle" className='follow pulse' onClick={() => onCreateFollow(follower)}/>
-                      </div>
+                      <CheckOwner id={paramId}>
+                        <FontAwesome name="plus-circle" className='follow pulse'
+                                     onClick={() => onCreateFollow(follower)}/>
+                      </CheckOwner>
                       }
                     </div>
                   </div>
@@ -95,6 +101,8 @@ Followers.propTypes = {
   deleteFollow: PropTypes.func.isRequired,
   updateFollow: PropTypes.func.isRequired,
   identityId: PropTypes.number.isRequired,
+  identityType: PropTypes.string.isRequired,
   createFollow: PropTypes.func.isRequired,
   userId: PropTypes.number.isRequired,
+  paramId: PropTypes.number.isRequired,
 }

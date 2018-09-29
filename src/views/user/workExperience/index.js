@@ -29,8 +29,6 @@ type PropsWorkExperiences = {
 }
 type StateWorkExperiences = {
   createForm: boolean,
-  edit: boolean,
-  resetState: boolean
 }
 
 class WorkExperiences extends React.Component<PropsWorkExperiences, StateWorkExperiences> {
@@ -48,7 +46,6 @@ class WorkExperiences extends React.Component<PropsWorkExperiences, StateWorkExp
     super(props)
     this.state = {
       createForm: false,
-      edit: false, resetState: false
     }
   }
 
@@ -60,8 +57,8 @@ class WorkExperiences extends React.Component<PropsWorkExperiences, StateWorkExp
     this.setState({createForm: false})
   }
 
-  _create = ({formValues, userId}) => {
-    const {actions} = this.props
+  _create = ({formValues}) => {
+    const {actions, userId} = this.props
     const {createWorkExperienceByUserId} = actions
     //FixMe: mohammad organizationId need to change when organ select done
     createWorkExperienceByUserId({userId, organizationId: formValues.workExperienceOrganization, formValues})

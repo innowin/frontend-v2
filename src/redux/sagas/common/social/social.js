@@ -32,10 +32,10 @@ function* watchCreateFollow() {
 }
 
 
-export default {
-  watchGetFollowees,
-  watchGetFollowers,
-  watchDeleteFollow,
-  watchUpdateFollow,
-  watchCreateFollow,
-}
+export default [
+  watchCreateFollow(),
+  watchDeleteFollow(),
+  watchGetFollowees(),
+  watchGetFollowers(),
+  watchUpdateFollow(),
+]

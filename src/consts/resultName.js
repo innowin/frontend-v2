@@ -43,7 +43,6 @@ const results = {
   COMMON: {
     // product
     GET_PRODUCT_BASIC_INFO: 'get-product-basic-info-result',
-    UPDATE_PRODUCT: 'update-product-result',
     CREATE_PRODUCT: 'create-product-result',
     CREATE_PRODUCT_PICTURE: 'create-product-picture-result',
 
@@ -55,13 +54,19 @@ const results = {
     // category
     GET_CATEGORIES: 'common-get-categories-list-result',
 
-    // certificate
-    GET_CERTIFICATES: 'common-get-object-certificates-list-result',
-    CREATE_OBJECT_CERTIFICATE: 'common-create-object-certificate-result',
-
     // badge
     GET_USER_BADGES: "GET_USER_BADGES",
     GET_ORG_BADGES: "GET_ORG_BADGES",
+
+    CERTIFICATE: {
+      GET_CERTIFICATES: 'common-get-object-certificates-list-result',
+      CREATE_OBJECT_CERTIFICATE: 'common-create-object-certificate-result',
+
+      GET_CERTIFICATES_BY_IDENTITY: 'get-certificates-by-identity',
+      DELETE_CERTIFICATE: 'delete-certificate',
+      UPDATE_CERTIFICATE: 'update-certificate',
+    },
+
     POST: {
       FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET: 'filterPostsByPostParentLimitOffset',
       GET_POST_BY_IDENTITY: 'get-post-by-identity',
@@ -85,6 +90,12 @@ const results = {
       GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY: 'get-exchange-membership-by-member-identity',
       GET_EXCHANGE_MEMBERSHIP_BY_EXCHANGE_ID: 'get-exchange-membership-by-exchange-id',
       CREATE_EXCHANGE_MEMBERSHIP: 'create-exchange-membership',
+    },
+
+    PRODUCT: {
+      GET_PRODUCTS_BY_IDENTITY: 'get-products-by-identity',
+      UPDATE_PRODUCT: 'update-product',
+      DELETE_PRODUCT: 'delete-product',
     },
 
     // hashTag
@@ -114,8 +125,17 @@ const results = {
     DELETE_USER_EDUCATION_BY_USER_ID: 'delete-user-education-by-user-id',
     UPDATE_USER_EDUCATION_BY_USER_ID: 'update-user-education-by-user-id'
   },
-  //contribution
-  CREATE_PRODUCT: 'create-product',
-  CREATE_Skill: 'create-skill',
+  RESEARCH: {
+    GET_USER_RESEARCH_BY_USER_ID: 'get-user-research-by-user-id',
+    CREATE_USER_RESEARCH_BY_USER_ID: 'create-user-research-by-user-id',
+    DELETE_USER_RESEARCH_BY_USER_ID: 'delete-user-research-by-user-id',
+    UPDATE_USER_RESEARCH_BY_USER_ID: 'update-user-research-by-user-id',
+  },
+  SKILL: {
+    CREATE_SKILL_RESULT: 'create-skill-result',
+    GET_SKILL_BY_USER_ID: 'get-skill-by-user-id',
+    DELETE_SKILL_BY_USER_ID: 'delete-skill-by-user-id',
+    UPDATE_SKILL_BY_USER_ID: 'update-skill-by-user-id',
+  },
 }
 export default results

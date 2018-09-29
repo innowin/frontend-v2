@@ -22,7 +22,7 @@ export type userStateObject = {|
 |}
 
 export type identityStateObject = {|
-  content: identityType | {},
+  content: ?number,
   isLoading: boolean,
   error: errorObjectType
 |}

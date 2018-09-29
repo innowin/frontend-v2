@@ -76,6 +76,7 @@ module.exports = {
   // user - certificates
   'Title': "عنوان",
   'Picture': "عکس",
+  'Logo': "لوگو",
   'Cancel': "لغو",
   'Create': "ایجاد",
   'Delete': "حذف",
@@ -83,6 +84,7 @@ module.exports = {
 
   'Save': "ذخیره",
   'Certificates': "گواهی‌نامه‌ها",
+  'Certificates and badges': 'نشان ها و گواهی نامه ها',
 
   // user - posts
   'Post': "کاربرنما",
@@ -102,6 +104,12 @@ module.exports = {
   'Average': "معدل",
   'Description': "توضیحات",
   'Educations': "سوابق علمی",
+  'University is wrong' : 'دانشگاه اشتباه وارد شده است',
+  'Grade is wrong' : 'مقطع تحصیلی اشتباه وارد شده است',
+  'Field of study is wrong' : 'رشته تحصیلی اشتباه وارد شده است',
+  'Average is wrong': "میانگین اشتباه وارد شده است",
+  'Description is wrong': "توضیحات اشتباه وارد شده است",
+
 
   // user - BasicInformation
   'National code must be 10 digit ': "کد ملی باید عدد ۱۰ رقمی باشد",
@@ -147,6 +155,15 @@ module.exports = {
   'Publication': 'انتشارات',
   'Page count': 'تعداد صفحات',
   'Researches': "سوابق پژوهشی",
+  'Research Link': 'لینک مقاله',
+  'Title is wrong': 'عنوان اشتباه است',
+  'Page is wrong': 'تعداد صفحه اشتباه است',
+  'Publication is wrong': 'انتشارات اشتباه است',
+  'Url is wrong': 'آدرس اینترنتی اشتباه است',
+  'Author is wrong': 'نویسنده اشتباه است',
+  'Research Link is wrong': 'لینک مقاله اشتباه است',
+
+
   ', ': '، ',
 
   // user - skills
@@ -158,6 +175,7 @@ module.exports = {
   'Saving...': "در حال ذخیره سازی ...",
   'Tag Name': 'نام تگ',
   'Add Tag': 'اضافه تگ',
+  'Tag is wrong': 'برچسب اشتباه است',
 
   // user - workExperience
   'WorkExperience': "تجربه کاری",
@@ -230,8 +248,12 @@ module.exports = {
 
 
   // Product
+  'Contributions': 'آورده ها',
+
   // Product Rating
   'Ratings': 'دیدگاه ها و بازخورد ها',
+
+  'Products': 'محصولات',
 
   // TopBar
   topBar: {

@@ -9,7 +9,7 @@ export function* createFollow(action) {
   const {formValues, followOwnerId, followOwnerType} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.SOCIAL.CREATE_FOLLOW)
   try {
-    yield fork(api.post, urls.COMMON.SOCIAL.CREATE_FOLLOW, results.COMMON.SOCIAL.CREATE_FOLLOW, formValues)
+    yield fork(api.post, urls.COMMON.SOCIAL.FOLLOW, results.COMMON.SOCIAL.CREATE_FOLLOW, formValues)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.COMMON.SOCIAL.CREATE_FOLLOW, payload: {data, followOwnerId, followOwnerType}})
     //TODO: remove this at later when server response changed

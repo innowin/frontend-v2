@@ -1,7 +1,8 @@
 export default {
-  isLoading: false,
-  error: {message: null},
-  content: {},
+  staff: {
+    isLoading: false,
+    content: []
+  },
   exchanges: {
     isLoading: false,
     content: []
@@ -34,13 +35,5 @@ export default {
   pictures: {
     isLoading: false,
     content: []
-  },
-  staff: {
-    isLoading: false,
-    content: []
-  },
-  identity: {
-    isLoaded: false,
-    content: ''
-  },
+  }
 }

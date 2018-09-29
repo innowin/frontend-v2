@@ -2,7 +2,13 @@ export default {
   list: {
         /*
     [organId]: {
+
     -------------- info -------------
+     identity : {
+      content: null,  id of identity
+      isLoading:false,
+      error: null
+     }
      organization: {
        content:{},
        isLoading:false,
@@ -21,6 +27,7 @@ export default {
          error: null,
        },
     }
+
     */
   }
 }

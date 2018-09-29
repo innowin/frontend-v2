@@ -25,7 +25,6 @@ export const Exchanges = (props: PropsExchangesView) => {
     const exchangeMembershipId = exchange.membership_id
     const exchangeMembershipOwnerId = exchange.membership_owner_id
     const exchangeMembershipOwnerType = exchange.membership_owner_type
-    console.log(props, 'ppppppppppp')
     removeMembership({exchangeMembershipId, exchangeMembershipOwnerId, exchangeMembershipOwnerType})
   }
 

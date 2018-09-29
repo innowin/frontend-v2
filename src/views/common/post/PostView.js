@@ -9,11 +9,13 @@ import connect from "react-redux/es/connect/connect";
 import {getMessages} from "../../../redux/selectors/translateSelector";
 import {bindActionCreators} from "redux"
 import PostActions from "../../../redux/actions/commonActions/postActions";
+import CheckOwner from '../CheckOwner'
 
 class PostView extends Component {
   static propTypes = {
     showEdit: PropTypes.func.isRequired,
     post: PropTypes.object.isRequired,
+    param: PropTypes.object.isRequired,
   }
 
   _getViewerCount = () => {
@@ -36,7 +38,7 @@ class PostView extends Component {
   }
 
   render() {
-    const {showEdit, post, translate} = this.props
+    const {showEdit, post, translate, param} = this.props
     const {post_identity, viewerCount, post_related_identity_image} = this.props.post
     const user = post_identity.identity_user
     const organization = post_identity.identity_organization
@@ -44,6 +46,7 @@ class PostView extends Component {
     const demandIcon = post.post_type === 'demand'
     const postIcon = post.post_type === 'post'
     // TODO mohsen: handle isLoading && error by redux
+    const paramId = param.user || param.organ
 
     const name = user
         ? ((user.first_name || user.last_name) ? user.first_name + ' ' + user.last_name : undefined)
@@ -72,7 +75,9 @@ class PostView extends Component {
                 </div>
               </div>
 
-              <div onClick={showEdit} className="-item-edit-btnPost"><EditIcon/></div>
+              <CheckOwner id={paramId}>
+                <div onClick={showEdit} className="-item-edit-btn -item-edit-btnPost pulse"><EditIcon/></div>
+              </CheckOwner>
             </div>
             <div className="post-content">
               {post.post_description}
@@ -108,6 +113,7 @@ class PostView extends Component {
 const mapStateToProps = state => {
   return {
     translate: getMessages(state),
+    param: state.param,
   }
 }
 const mapDispatchToProps = dispatch => ({

@@ -8,7 +8,7 @@ const success = (state, action) => {
 
   const arrayOfMembershipId = []
   data.map(exchangeMembership => {
-    if (identityId === state.client.identity.id && (!previousMembership.includes(exchangeMembership.id))) {
+    if (identityId === state.client.identity.content && (!previousMembership.includes(exchangeMembership.id))) {
       return arrayOfMembershipId.push(exchangeMembership.id)
     }
     return arrayOfMembershipId

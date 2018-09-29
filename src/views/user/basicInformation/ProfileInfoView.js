@@ -11,10 +11,8 @@ import {
   FieldValue,
   ItemHeader,
 } from "../../common/cards/Frames"
-import type {
-  userProfileType,
-} from "src/consts/flowTypes/user/basicInformation"
-import {UserInfoItemWrapper} from './Views'
+import type {userProfileType} from "src/consts/flowTypes/user/basicInformation"
+import {ItemWrapper} from "src/views/common/cards/Frames"
 
 // flow type of ProfileInfoView
 type PropsProfileInfoView = {
@@ -38,7 +36,7 @@ export class ProfileInfoView extends Component<PropsProfileInfoView> {
     const listPhone: listOfBadge = list_of_badge(profile.phone)
     const listWebSite: listOfBadge = list_of_badge(profile.web_site)
     return (
-        <UserInfoItemWrapper icon={userInfoIcon}>
+        <ItemWrapper icon={userInfoIcon}>
           <ItemHeader title={translate['Profile info']} showEdit={showEdit}/>
           <Field>
             <FieldLabel label={translate['BirthDate'] + ": "}/>
@@ -76,7 +74,7 @@ export class ProfileInfoView extends Component<PropsProfileInfoView> {
             <FieldLabel label={translate['Description'] + ": "}/>
             <FieldValue value={profile.description}/>
           </Field>
-        </UserInfoItemWrapper>
+        </ItemWrapper>
     )
   }
 }

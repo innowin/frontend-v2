@@ -6,9 +6,33 @@ const organs = (state = initialState.organs, action) => {
   const {organizationId, data, message} = action.payload || {}
   const defaultObject = {content: {}, isLoading: false, error: null}
   const defaultObject2 = {content: [], isLoading: false, error: null}
-  const previousOrgan = (state.list[organizationId] && state.list[organizationId].organization) || defaultObject
-  const previousBadges = (state.list[organizationId] && state.list[organizationId].badges) || defaultObject2
+  // FIXME: commented by ali. because of an error.
+  // const previousOrgan = (state.list[organizationId] && state.list[organizationId].organization) || defaultObject
+  const previousOrgan = state.list
+    ? (state.list[organizationId] && state.list[organizationId].organization)
+    : defaultObject
+  // FIXME: commented by ali. because of an error.
+  // const previousBadges = (state.list[organizationId] && state.list[organizationId].badges) || defaultObject2
+  const previousBadges = state.list ?
+    (state.list[organizationId] && state.list[organizationId].badges)
+    : defaultObject2
   switch (action.type) {
+    /** -------------------------- get organ identity-------------------------> **/
+    case types.SUCCESS.ORG.GET_ORG_IDENTITY:
+      return {
+        ...state,
+        list: {
+          ...state.list,
+          [organizationId]: {
+            ...state.list[organizationId],
+            identity: {
+              content: data.id,
+              isLoading: false,
+              error: null
+            }
+          }
+        }
+      }
     /** -------------------------- get organ -------------------------> **/
     case types.ORG.GET_ORGANIZATION:
       return {
@@ -57,19 +81,31 @@ const organs = (state = initialState.organs, action) => {
       }
     /** -------------------------- update organization info-------------------------> **/
     case types.SUCCESS.ORG.UPDATE_ORGANIZATION_INFO:
-      const updatedOrganization = action.payload
       return {
         ...state,
-        list:{
+        list: {
           ...state.list,
-          [updatedOrganization.id]: {
-            ...state.list[updatedOrganization.id],
+          [data.id]: {
+            ...state.list[data.id],
+            organization: {
+              content: data,
+              isLoading: false,
+              error: null
+            }
+          }
+        }
+      }
+    case types.ERRORS.ORG.UPDATE_ORGANIZATION_INFO:
+      return {
+        ...state,
+        list: {
+          ...state.list,
+          [organizationId]: {
+            ...state.list[organizationId],
             organization: {
               ...previousOrgan,
-              content: {...updatedOrganization},
               isLoading: false,
               error: message
-
             }
           }
         }
@@ -78,7 +114,7 @@ const organs = (state = initialState.organs, action) => {
     case types.COMMON.SET_BADGES_IN_ORG:
       return {
         ...state,
-        list:{
+        list: {
           ...state.list,
           [organizationId]: {
             ...state.list[organizationId],
@@ -94,7 +130,7 @@ const organs = (state = initialState.organs, action) => {
       const ArrayOfBadgeId = data.map((badge) => badge.id)
       return {
         ...state,
-        list:{
+        list: {
           ...state.list,
           [organizationId]: {
             ...state.list[organizationId],
@@ -109,7 +145,7 @@ const organs = (state = initialState.organs, action) => {
     case types.ERRORS.COMMON.SET_BADGES_IN_ORG:
       return {
         ...state,
-        list:{
+        list: {
           ...state.list,
           [organizationId]: {
             ...state.list[organizationId],
@@ -121,6 +157,16 @@ const organs = (state = initialState.organs, action) => {
           }
         }
       }
+    /** -------------------------- get exchange membership by member identity  -------------------------> **/
+    case types.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
+      return slices.getExchangeMembershipByMemberIdentity.base(state, action)
+    case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
+      return slices.getExchangeMembershipByMemberIdentity.success(state, action)
+    case types.ERRORS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
+      return slices.getExchangeMembershipByMemberIdentity.error(state, action)
+    /** -------------------------- delete exchange membership  -------------------------> **/
+    case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.DELETE_EXCHANGE_MEMBERSHIP:
+      return slices.deleteExchangeMembership.success(state, action)
     /** -------------------------- get work experience by user id  -------------------------> **/
     case types.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID:
       return slices.getWorkExperienceByUserId.base(state, action)

@@ -11,7 +11,7 @@ export function* createExchange(action) {
 	try {
 		yield fork(
 				api.post,
-				urls.EXCHANGE.CREATE_EXCHANGE,
+				urls.EXCHANGE,
 				results.EXCHANGE.CREATE_EXCHANGE,
 				formValues
 		)

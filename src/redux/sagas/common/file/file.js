@@ -21,9 +21,9 @@ function* watchDelFileMiddleWareData() {
   yield takeEvery(types.COMMON.DEL_MIDDLEWARE_FILE_DATA, delFileMiddlewareData)
 }
 
-export default {
-  watchGetFile,
-  watchCreateFile,
-  watchUpdateFile,
-  watchDelFileMiddleWareData
-}
+export default [
+  watchGetFile(),
+  watchCreateFile(),
+  watchUpdateFile(),
+  watchDelFileMiddleWareData()
+]

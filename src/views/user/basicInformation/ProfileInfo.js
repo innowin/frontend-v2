@@ -3,8 +3,7 @@ import * as React from "react"
 import connect from "react-redux/es/connect/connect"
 import PropTypes from "prop-types"
 
-import {VerifyWrapper} from "../../common/cards/Frames"
-import {UserInfoItemWrapper} from "./Views"
+import {ItemWrapper, VerifyWrapper} from "../../common/cards/Frames"
 import {ProfileInfoView} from './ProfileInfoView'
 import userInfoIcon from "../../../images/user/userinfo_svg"
 import {ProfileInfoEditForm} from "./ProfileInfoEditForm"
@@ -53,7 +52,7 @@ class ProfileInfo extends React.Component<ProfileInfoProps, ProfileInfoState> {
     return (
         <VerifyWrapper isLoading={isLoading} error={error}>
           {(edit) ? (
-              <UserInfoItemWrapper icon={userInfoIcon}>
+              <ItemWrapper icon={userInfoIcon}>
                 <ProfileInfoEditForm
                     profile={profile}
                     hideEdit={this._hideEdit}
@@ -61,7 +60,7 @@ class ProfileInfo extends React.Component<ProfileInfoProps, ProfileInfoState> {
                     actions={actions}
                     userId={userId}
                 />
-              </UserInfoItemWrapper>
+              </ItemWrapper>
           ) : (
               <ProfileInfoView profile={profile} showEdit={this._showEdit} translate={translate}/>
           )

@@ -10,7 +10,7 @@ export function* getExchangeByExId(action) {
 	try {
 		yield fork(
 				api.get,
-				urls.EXCHANGE.GET_EXCHANGE_BY_EX_ID,
+				urls.EXCHANGE,
 				results.EXCHANGE.GET_EXCHANGE_BY_EX_ID,
 				`${id}`
 		)

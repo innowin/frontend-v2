@@ -17,7 +17,7 @@ const provincePersistConfig = {
 }
 
 const cityPersistConfig = {
-  key: 'province',
+  key: 'city',
   storage: storage
 }
 

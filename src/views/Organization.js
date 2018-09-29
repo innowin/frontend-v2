@@ -6,7 +6,7 @@ import BadgeActions from "src/redux/actions/commonActions/badgeActions"
 import Certificates from "./organization/certificates/index"
 import ChatBar from "./bars/ChatBar"
 import Customers from "./organization/customers/index"
-import OrganizationActions from "src/redux/actions/organizationActions"
+import OrganizationActions from "src/redux/actions/organization/organizationActions"
 import Posts from "src/views/common/post/index"
 import PrivateRoute from "../consts/PrivateRoute"
 import Products from "./organization/products/index"
@@ -82,6 +82,7 @@ export class Organization extends Component<PropsOrganization> {
 													organLogo={organLogo}
 													organBanner={organBanner}
 													className="-right-sidebar-wrapper user-sidebar-width pr-0 pl-0"
+                          paramId={params.id}
 						/>
 						<div className="col-md-6 col-sm-10 -content-wrapper">
 							<Tabs>
@@ -109,10 +110,10 @@ export class Organization extends Component<PropsOrganization> {
 								<PrivateRoute path={`${path}/Products`} component={Products} organizationId={organizationId}/>
 								<PrivateRoute path={`${path}/Posts`} component={Posts} id={organizationId}
 															identityType={constants.USER_TYPES.ORG}
-                              postIdentity={identityObject.content.id}
+                              postIdentity={identityObject.content}
 								/>
 								<PrivateRoute exact path={`${path}/basicInformation`} component={BasicInformation}
-															organizationId={organizationId} organ={organObject.content}/>
+															organizationId={organizationId} organization={organObject.content}/>
 								<PrivateRoute path={`${path}/Customers`} component={Customers} organizationId={organizationId}/>
 								<PrivateRoute path={`${path}/SocialConnections`} component={Social} organizationId={organizationId}/>
 								<PrivateRoute path={`${path}/Certificates`} component={Certificates} organizationId={organizationId}/>
@@ -134,12 +135,12 @@ const mapStateToProps = (state, ownProps) => {
 	const defaultObject = {content: {}, isLoading: false, error: null}
 	const defaultObject2 = {content: [], isLoading: false, error: null}
 	const organ = (stateOrgan && stateOrgan.organization) || defaultObject
-  const identity = (stateOrgan && stateOrgan.identity) || defaultObject
+  const identity = (stateOrgan && stateOrgan.identity) || {content: null, isLoading: false, error: null}
   const bannerId = organ.content.organization_banner
   const logoId = organ.content.organization_logo
 	const organBanner = (bannerId && state.common.file.list[bannerId] && state.common.file.list[bannerId].file) || null
 	const organLogo = (logoId && state.common.file.list[logoId] && state.common.file.list[logoId].file) || null
-	const badgesObjectInOrgan = (stateOrgan && stateOrgan.badges) || defaultObject2
+	const badgesObjectInOrgan = (stateOrgan && stateOrgan.badges) ? stateOrgan.badges : defaultObject2
 	const allBadges = state.common.badge.list
 	const badges = badgesObjectInOrgan.content.map(badgeId => allBadges[badgeId])
 	return {
@@ -155,7 +156,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
 	actions: bindActionCreators({
-		getOrganizationByOrganId: OrganizationActions.getOrganization,
+		getOrganizationByOrganId: OrganizationActions.getOrganizationByOrganId,
 		getOrganBadges: BadgeActions.getOrganBadges
 	}, dispatch)
 })

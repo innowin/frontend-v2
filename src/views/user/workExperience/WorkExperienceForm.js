@@ -20,11 +20,8 @@ type PropsWorkExperienceForm = {
   error: string,
   handleSubmit: Function,
 }
-type StateWorkExperienceForm = {
-  edit: boolean
-}
 
-class WorkExperienceForm extends Component<PropsWorkExperienceForm, StateWorkExperienceForm> {
+class WorkExperienceForm extends Component<PropsWorkExperienceForm> {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
     workExperience: PropTypes.object,
@@ -33,11 +30,6 @@ class WorkExperienceForm extends Component<PropsWorkExperienceForm, StateWorkExp
     submitFailed: PropTypes.bool,
     error: PropTypes.string,
     handleSubmit: PropTypes.func,
-  }
-
-  constructor(props: PropsWorkExperienceForm) {
-    super(props)
-    this.state = {edit: false}
   }
 
   componentDidMount(){
@@ -100,8 +92,6 @@ class WorkExperienceForm extends Component<PropsWorkExperienceForm, StateWorkExp
           <ReduxFormDateInput translate={translate} labelName={translate['From date']} dayName='dayFromDate' monthName='monthFromDate' yearName='yearFromDate'/>
           <ReduxFormDateInput translate={translate} labelName={translate['To date']} dayName='dayToDate' monthName='monthToDate' yearName='yearToDate'/>
 
-          {submitFailed && <p className="error-message">{error}</p>}
-
           {/*FixMe: mohammad select organ from here or add new organ with 0 id*/}
           <div className='form-group'>
             <label>
@@ -116,6 +106,8 @@ class WorkExperienceForm extends Component<PropsWorkExperienceForm, StateWorkExp
                 disabled={true}
             />
           </div>
+
+          {submitFailed && <p className="error-message">{error}</p>}
 
           {this.props.children}
 

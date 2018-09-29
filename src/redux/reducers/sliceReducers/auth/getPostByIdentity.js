@@ -8,7 +8,7 @@ const success = (state, action) => {
 
   const arrayOfPostId = []
   data.map(post => {
-    if (postIdentity === state.client.identity.id && (!previousPost.includes(post.id))) {
+    if (postIdentity === state.client.identity.content && (!previousPost.includes(post.id))) {
       return arrayOfPostId.push(post.id)
     }
     return arrayOfPostId

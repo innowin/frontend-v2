@@ -1,10 +1,12 @@
 /*global __*/
 //@flow 
-import * as React from 'react';
+import * as React from 'react'
 import PropTypes from "prop-types"
 import {TextInput} from "src/views/common/inputs/TextInput"
 // import {updateOrganization} from "src/crud/organization/basicInformation"
 import {OrganizationMember} from './Views'
+
+
 
 type OrganizationMembersFormProps = {
 	onSubmit:Function,
@@ -152,7 +154,7 @@ export class OrganizationInfoForm extends React.Component<OrganizationInfoFormPr
 		return {
 			username: this.usernameInput.getValue(),
 			official_name: this.officialNameInput.getValue(),
-			national_name: this.nationalCodeInput.getValue(),
+      national_code: this.nationalCodeInput.getValue(),
 			country: this.countryInput.getValue(),
 			province: this.provinceInput.getValue(),
 			city: this.cityInput.getValue(),

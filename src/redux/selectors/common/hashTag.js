@@ -2,7 +2,7 @@ import {createSelector} from 'reselect'
 
 
 const getHashTags = (state) => {
-    return state.common.hashTag.mainHashTags || {}
+    return state.common.hashTag || {}
 }
 
 // a small selector for work with hashTags.

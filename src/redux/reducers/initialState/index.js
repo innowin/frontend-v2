@@ -1,6 +1,6 @@
 import authState from "./auth"
 import usersState from "./users"
-import skillsState from "./skills"
+import skillState from "./skill"
 import organizationState from "./organization"
 import organsState from "./organs"
 import exchangesState from "./exchanges"
@@ -8,12 +8,16 @@ import commonStates from "./common"
 import intlState from "./intl"
 import workExperienceState from './workExperience'
 import educationState from './education'
-
+import researchState from './research'
+import paramState from './param'
+import identitiesState from "./identities"
 
 export default {
   auth: authState,
+  identities: identitiesState,
   users: usersState,
-  skills: skillsState,
+  skill: skillState,
+  research: researchState,
   organization: organizationState,
   organs: organsState,
   exchanges: exchangesState,
@@ -33,4 +37,5 @@ export default {
     social: commonStates.socialState
   },
   intl: intlState,
+  param: paramState,
 }

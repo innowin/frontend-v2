@@ -9,7 +9,7 @@ export function* createEducationByUserId(action) {
   const {formValues, userId} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.EDUCATION.CREATE_USER_EDUCATION_BY_USER_ID)
   try {
-    yield fork(api.post, urls.EDUCATION.CREATE_USER_EDUCATION_BY_USER_ID, results.EDUCATION.CREATE_USER_EDUCATION_BY_USER_ID, formValues)
+    yield fork(api.post, urls.EDUCATION, results.EDUCATION.CREATE_USER_EDUCATION_BY_USER_ID, formValues)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.EDUCATION.CREATE_USER_EDUCATION_BY_USER_ID ,
       payload:{data, userId}})

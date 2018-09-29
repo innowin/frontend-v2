@@ -35,9 +35,10 @@ import {provinceSelector} from "src/redux/selectors/common/location/province"
 import {citySelector} from "src/redux/selectors/common/location/city"
 import {change} from 'redux-form';
 import nowCreatedProductIdSelector from "src/redux/selectors/common/product/getNowCreatedProductId"
+import nowCreatedSkillIdSelector from "src/redux/selectors/skill/getNowCreatedSkillId"
 import SkillInfoForm, {skillInfoFormName} from "./skill/infoForm";
 import SkillSuccessMessage from "./skill/successMessage"
-import {skillFields} from "./addingConributionData"
+import {createSkillAction} from "src/redux/actions/skill/createSkillAction"
 import type {NewContributionDataType, SkillFormValsType} from "./types"
 import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 
@@ -55,7 +56,7 @@ type AddingContributionProps = {
   _getCategories: Function,
   _getHashTags: Function,
   _getCountries: Function,
-  nowCreatedId: number,
+  nowCreatedProductId: number,
   _changeFormSingleFieldValue: Function,
   _getProvinces: Function,
   initialInfoFormState: {},
@@ -69,7 +70,9 @@ type AddingContributionProps = {
   countries: {},
   provinces: {},
   cities: {},
-  modalIsOpen: boolean
+  modalIsOpen: boolean,
+  _createSkillAction: Function,
+  nowCreatedSkillId: number
 }
 
 type ProgressStepType = {
@@ -113,7 +116,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
 
   componentDidUpdate(prevProps, prevState) {
     // const prevActiveStep = prevState.activeStep
-    const {_getCountries, nowCreatedId} = this.props
+    const {_getCountries, nowCreatedProductId, nowCreatedSkillId} = this.props
     const {activeStep, newContributionData} = this.state
     if ((prevState.activeStep === 1) && (activeStep === 2)) {
       _getCountries()
@@ -129,7 +132,9 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
         }
       })
     }
-    if (!prevProps.nowCreatedId && nowCreatedId) this._nextStep()
+    if ((!prevProps.nowCreatedProductId && nowCreatedProductId)
+        ||
+        (!prevProps.nowCreatedSkillId && nowCreatedSkillId)) this._nextStep()
   }
 
 
@@ -211,6 +216,9 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     }
   }
   _createSkillHandler = () => {
+    const {_createSkillAction, skillInfoFormValues} = this.props
+    // const {hashTags, ...initialValues} = skillInfoFormValues
+    _createSkillAction(skillInfoFormValues)
   }
 
   _countryChangeHandler = v => {
@@ -579,7 +587,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       case 2:
         return (
             <SkillInfoForm
-                goToNextStep={this._nextStep}
+                goToNextStep={this._submitHandler}
                 goToPrevStep={this._prevStep}
                 hashTags={hashTags}
                 destroyOnUnmount={false}
@@ -605,7 +613,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     const {technicalProperties, [LAYER1S.NEW_CERT_INDEX]: newCertIndex} = newContributionData
 
     const {
-      translator, categories, initialInfoFormState, hashTags, countries, provinces, cities, nowCreatedId
+      translator, categories, initialInfoFormState, hashTags, countries, provinces, cities, nowCreatedProductId
     } = this.props
 
     switch (activeStep) {
@@ -682,7 +690,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
                 findAgent={this._findAgent}
                 getCertificateHandler={this._getCertificateHandler}
                 finishHandler={this._handleModalVisibility}
-                nowCreatedId={nowCreatedId}
+                nowCreatedId={nowCreatedProductId}
             />
         )
       default:
@@ -729,7 +737,8 @@ const mapStateToProps = (state) => {
     provinces: provinceSelector(state),
     cities: citySelector(state),
     testToken: state.auth.client.token,
-    nowCreatedId: nowCreatedProductIdSelector(state)
+    nowCreatedProductId: nowCreatedProductIdSelector(state),
+    nowCreatedSkillId: nowCreatedSkillIdSelector(state)
   }
 };
 
@@ -742,7 +751,8 @@ const mapDispatchToProps = dispatch =>
           _getCountries: getCountries,
           _getProvinces: getProvinces,
           _getCities: getCities,
-          _changeFormSingleFieldValue: change
+          _changeFormSingleFieldValue: change,
+          _createSkillAction: createSkillAction
         },
         dispatch
     );

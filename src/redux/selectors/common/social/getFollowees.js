@@ -22,21 +22,21 @@ export const makeGetFolloweesSelector = (state, props) => {
           const arrayFollows = helpers.getObjectOfArrayKeys(userFollows, follows)
           const followeeList = arrayFollows.filter(follow => follow.follow_follower.id === identityId).map(follow => {
             let id, img
-            if(follow.follow_followed.identity_user){
+            if (follow.follow_followed.identity_user) {
               id = follow.follow_followed.identity_user
-              if(users[id] && users[id].profile && users[id].profile.content.profile_media){
+              if (users[id] && users[id].profile && users[id].profile.content.profile_media) {
                 img = users[id].profile.content.profile_media.file
               }
-              else{
+              else {
                 img = ''
               }
             }
-            else{
+            else {
               id = follow.follow_followed.identity_organization
-              if(organsList[id] && organsList[id].organization && organsList[id].organization.content.organization_logo){
+              if (organsList[id] && organsList[id].organization && organsList[id].organization.content && organsList[id].organization.content.organization_logo) {
                 img = organsList[id].organization.content.organization_logo.file
               }
-              else{
+              else {
                 img = ''
               }
             }

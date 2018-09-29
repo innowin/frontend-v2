@@ -10,7 +10,7 @@ import {REST_REQUEST} from "src/consts/Events"
 import {REST_URL as url, SOCKET as socket} from "src/consts/URLS"
 import {TOKEN} from "src/consts/data"
 import { IDENTITY_ID} from "../../../consts/data";
-import OrganizationActions from '../../../redux/actions/organizationActions';
+import OrganizationActions from 'src/redux/actions/organization/organizationActions'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 //TODO CRUD

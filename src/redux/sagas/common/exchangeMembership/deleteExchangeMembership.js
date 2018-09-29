@@ -8,7 +8,7 @@ export function* deleteExchangeMembership(action) {
   const {exchangeMembershipId, exchangeMembershipOwnerId, exchangeMembershipOwnerType} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.EXCHANGE_MEMBERSHIP.DELETE_EXCHANGE_MEMBERSHIP)
   try {
-    yield fork(api.del, urls.COMMON.EXCHANGE_MEMBERSHIP.DELETE_EXCHANGE_MEMBERSHIP, results.COMMON.EXCHANGE_MEMBERSHIP.DELETE_EXCHANGE_MEMBERSHIP, {}, `${exchangeMembershipId}`)
+    yield fork(api.del, urls.COMMON.EXCHANGE_MEMBERSHIP, results.COMMON.EXCHANGE_MEMBERSHIP.DELETE_EXCHANGE_MEMBERSHIP, {}, `${exchangeMembershipId}`)
     yield take(socketChannel)
     yield put({
       type: types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.DELETE_EXCHANGE_MEMBERSHIP,

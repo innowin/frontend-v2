@@ -27,7 +27,7 @@ const users = (state = initialState.education, action) => {
       return slices.updateEducationByUserId.error(state, action)
     /** -------------------------- reset  -------------------------> **/
     case types.RESET:
-      return initialState.users
+      return initialState.education
     default:
       return state
   }
