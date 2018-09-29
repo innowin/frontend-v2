@@ -214,9 +214,20 @@ module.exports = {
   'Followings': "دنبال شده ها",
   'Exchange': 'بورس',
   'Exchanges': 'بورس ها',
+  'Profile Picture': 'تصویر پروفایل',
+  'Exchange Picture': 'تصویر پروفایل',
   'Social': 'اجتماعی',
   'Followed': 'دنبال شده',
   'Wait for accept': 'در انتظار تایید',
+
+  //Exchanges
+  'Stream': "استریم",
+  'Statistic': "آماره",
+  'Info': "مشخصات",
+  'Members': "اعضا",
+  'Exchange Manager': "مدیریت بورس",
+  'Medals': "مدالها",
+
 
   // Product
   // Product Rating

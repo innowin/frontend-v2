@@ -1,11 +1,17 @@
 $topBarHeight: 67px;
+$sidebar-width: 340px;
+$feed-width: 680px;
 
 $font-family-sans-serif: vazir, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
 $font-family-serif:      vazir, Georgia, "Times New Roman", Times, serif !default;
 
 @import "~bootstrap/scss/variables";
 
+//Animation Time
+$animation-timing: .25s;
+
 //Color Variables
+$base-posts: #ffffff;
 $background-color: #f7f7f7;
 $foreground-color: #14171a;
 $brand-inverse-color: #253545;
@@ -40,6 +46,8 @@ $secondary-color: #42ac97;
 $tag-background: #b9b6b6;
 $tag-del-btn-background: #008057;
 $box-shadow-color: #cecece;
+$scroll-color: #c4c4c4;
+$scroll-color-hover: #939393;
 // font-sizes
 $font-size-verySmallText: 10px;
 $font-size-boxText: 12px;

@@ -45,8 +45,21 @@ import TickSvgIcon from "./common/tick_svg"
 import TipsIcon from "./common/tips_svg_icon"
 import userInfoIcon from "./user/userinfo_svg"
 import workExperienceIcon from "./user/workExperience_svg"
+import Stream from "./common/stream_svg"
+import Info from "./common/info_svg"
+import Statistic from "./common/statistic_svg"
+import Contacts from "./common/contacts_svg"
+import Medal from "./common/medal_svg"
+import Ticket from "./common/ticket_svg"
+
 
 export {
+  Stream,
+  Info,
+  Statistic,
+  Contacts,
+  Medal,
+  Ticket,
   AgentSvgIcon,
   AttachFileIcon,
   BookmarkIcon,
