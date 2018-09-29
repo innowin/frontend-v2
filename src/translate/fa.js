@@ -112,12 +112,13 @@ module.exports = {
 
 
   // user - BasicInformation
+  'Basic Information': 'مشخصات پایه',
   'National code must be 10 digit ': "کد ملی باید عدد ۱۰ رقمی باشد",
   'BirthDate': "تاریخ تولد",
   'Fax': "دورنگار",
-  'Mobile': "تلفن همراه",
+  'Mobile': "شماره موبایل",
   'National code': "کد ملی",
-  'Phone': "تلفن ثابت",
+  'Phone': "شماره تماس",
   'Public email': "رایانامه عمومی",
   'Telegram account': "حساب تلگرام",
   'First name': "نام",
@@ -126,9 +127,9 @@ module.exports = {
   'User info': "اطلاعات کاربری",
   'Organization info': "اطلاعات شرکت",
   'Organization members': "اعضای شرکت",
-  'Date joined': 'تاریخ پیوستن',
+  'Date joined': 'تاریخ پیوستن در دانش بوم',
 
-  'Profile info': 'اطلاعات تکمیلی',
+  'Contact info': 'اطلاعات تماس',
   'Website': "تارنما",
   'www...': "...www",
   'Basic information': "اطلاعات پایه",
@@ -139,12 +140,15 @@ module.exports = {
   'FirstName': 'نام',
   'Web Site Format': 'http://www.abc.com',
 
+  'Private info': 'مشخصات خصوصی',
+
   'Telegram account is incorrect': 'حساب تلگرام اشتباه وارد شده است',
   'National code is incorrect': 'کد ملی اشتباه وارد شده است',
   'Day is incorrect': 'روز اشتباه وارد شده است',
   'Month is incorrect': 'ماه اشتباه وارد شده است',
   'Year is incorrect': 'سال اشتباه وارد شده است',
   'Email is wrong': 'آدرس رایانامه اشتباه است',
+  'Address is incorrect': 'آدرس اشتباه وارد شده است',
 
   // user - researches
   'This number is not a correct year': "سال باید عدد ۴ رقمی معتبر باشد",

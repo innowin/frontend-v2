@@ -7,9 +7,9 @@ import type {userType} from "src/consts/flowTypes/user/basicInformation"
 import updateUserByUserIdAction from "../../../redux/actions/user/updateUserByUserIdAction"
 import {bindActionCreators} from "redux"
 import {Component} from "react"
-import {UserInfoEditForm} from './UserInfoEditForm'
-import {userInfoIcon} from "src/images/icons"
-import {UserInfoView} from './UserInfoView'
+import BasicInfoEditForm from './BasicInfoEditForm'
+import {InformationIcon} from "src/images/icons"
+import BasicInfoView from './BasicInfoView'
 import {VerifyWrapper} from "src/views/common/cards/Frames"
 import {ItemWrapper} from "src/views/common/cards/Frames"
 
@@ -28,7 +28,7 @@ type UserInfoState = {
   edit: boolean,
 }
 
-class UserInfo extends Component<UserInfoProps, UserInfoState> {
+class BasicInfo extends Component<UserInfoProps, UserInfoState> {
   constructor(props: UserInfoProps) {
     super(props)
     this.state = {error: false, edit: false}
@@ -55,19 +55,19 @@ class UserInfo extends Component<UserInfoProps, UserInfoState> {
     const {edit, error} = this.state
     return (
         <VerifyWrapper isLoading={isLoading} error={error}>
-          {(edit) ? (
-              <ItemWrapper icon={userInfoIcon}>
-                <UserInfoEditForm
+          <ItemWrapper icon={<InformationIcon/>}>
+            {(edit) ? (
+                <BasicInfoEditForm
                     user={user}
                     hideEdit={this._hideEdit}
                     translate={translate}
                     actions={actions}
                 />
-              </ItemWrapper>
-          ) : (
-              <UserInfoView user={user} translate={translate} showEdit={this._showEdit}/>
-          )
-          }
+            ) : (
+                <BasicInfoView user={user} translate={translate} showEdit={this._showEdit}/>
+            )
+            }
+          </ItemWrapper>
         </VerifyWrapper>
     )
   }
@@ -79,6 +79,6 @@ const mapUserInfoDispatchToProps = dispatch => ({
   }, dispatch)
 })
 
-UserInfo = connect(null, mapUserInfoDispatchToProps)(UserInfo)
+BasicInfo = connect(null, mapUserInfoDispatchToProps)(BasicInfo)
 
-export {UserInfo}
+export {BasicInfo}

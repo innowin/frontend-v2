@@ -17,7 +17,7 @@ const validateDay = (day, translate) => {
 }
 
 const validateMonth = (month, translate) => {
-  if (!/^(0[1-9]|\d|1[12])$/.test(month)) {
+  if (!/^(0[1-9]|\d|1[120])$/.test(month)) {
     return translate['Month is incorrect']
   }
 }
