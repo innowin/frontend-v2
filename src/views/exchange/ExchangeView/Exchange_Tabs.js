@@ -32,7 +32,8 @@ class Exchange_Tabs extends Component {
   render() {
     const {translate, exchangeId} = this.props
     return (
-        <div style={{width: "100%"}}>
+        <div style={{width: "99%"}}>
+          <div className={"exchange-center-background"}/>
           <div className={`exchange-navbar-center`}>
             <Stream width="27px" height="27px"
                     containerClass={this.state.selectedTab === "Stream" ? this.state.clickedSvgContainerStyle : this.state.normalSvgContainerStyle}

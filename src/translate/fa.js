@@ -239,7 +239,7 @@ module.exports = {
   'Wait for accept': 'در انتظار تایید',
 
   //Exchanges
-  'Stream': "استریم",
+  'Stream': "پست ها",
   'Statistic': "آماره",
   'Info': "مشخصات",
   'Members': "اعضا",

@@ -10,6 +10,8 @@ import {bindActionCreators} from "redux"
 import {ExchangeIcon} from "src/images/icons"
 import {getExchangePostsByPostType, getExchangePostsHasProduct} from "../../crud/post/exchangePost"
 import ExchangeMembershipActions from "../../redux/actions/commonActions/exchangeMembershipActions"
+import {DefaultUserIcon} from "src/images/icons"
+
 
 class ExchangeViewBar extends Component {
   static propTypes = {
@@ -119,7 +121,7 @@ class ExchangeViewBar extends Component {
                     <img className="rounded-circle exchangeViewBarImg" alt={translate["Exchange Picture"]}
                          src={exchange.link}/>
                     :
-                    <img className="rounded-circle exchangeViewBarImg" alt={translate["Exchange Picture"]}/>  // TODO mohsen put default profile picture
+                    <DefaultUserIcon width={'100px'} height={'100px'} className={'rounded-circle exchangeViewBarImg'}/>
               }
               <div className="exchangeName">
                 <ExchangeIcon/>

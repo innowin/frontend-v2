@@ -14,11 +14,17 @@
 .posts-frame {
   text-align: right;
   width: $feed-width - 20px;
-  margin: 15px 10px;
+  margin: 2px 8px 10px 8px;
   background-color: $base-posts;
   border-radius: 5px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .2);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, .2);
   padding: 10px 15px;
+  transition-duration: $animation-timing;
+}
+
+.posts-frame:hover {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, .2);
+  transition-duration: $animation-timing;
 }
 
 .post-user-picture {
@@ -26,6 +32,7 @@
   display: inline-block;
   vertical-align: top;
   font-size: $font-size-regular;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 1);
 }
 
 .post-user-name {

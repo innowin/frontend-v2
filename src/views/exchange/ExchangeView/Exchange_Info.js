@@ -2,6 +2,9 @@ import React, {Component} from "react"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import postActions from "src/redux/actions/commonActions/postActions"
+import {DefaultUserIcon} from "src/images/icons"
+import Moment from "react-moment"
+
 
 class Exchange_Info extends Component {
 
@@ -22,8 +25,12 @@ class Exchange_Info extends Component {
                   console.log(p)
                   return (
                       <div className={"posts-frame"}>
-                        <img alt={"عکس پروفایل"} src={p.post_related_identity_image !== null ? p.post_related_identity_image.file : null}
-                             width={"50px"} height={"50px"} className={"post-user-picture"}/>
+                        {p.post_related_identity_image !== null ? <img alt={"تصویر پروفایل"}
+                                                                       src={p.post_related_identity_image.file}
+                                                                       width={"50px"} height={"50px"}
+                                                                       className={"post-user-picture"}/>
+                            : <DefaultUserIcon
+                                height={"50px"} width={"50px"} className={"post-user-picture"}/>}
                         <div className={"posts-info"}>
                           <div className={"post-user-name"}>
                             {
@@ -34,7 +41,10 @@ class Exchange_Info extends Component {
                             }
                           </div>
                           <div className={"posts-date"}>
-                            <span>{p.created_time.slice(0, 10)} - {p.created_time.slice(11, 19)}</span>
+                            <span>
+                              <Moment element="span" fromNow ago>{p.created_time}</Moment><span> پیش - </span>
+                              <span>{p.created_time.slice(11, 19)}</span>
+                            </span>
                           </div>
                         </div>
                         <div className={"posts-description"}>

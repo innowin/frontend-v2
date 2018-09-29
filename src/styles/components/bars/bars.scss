@@ -235,6 +235,16 @@
   transform: rotate(-30deg);
 }
 
+.exchange-center-background {
+  top: 0;
+  background: linear-gradient(to bottom, $base-posts, $base-posts, $base-posts, $base-posts, transparent);
+  height: 250px;
+  width: $feed-width;
+  position: fixed;
+  right: calc(5% + 340px + 15px);
+  border-radius: 5px;
+}
+
 .exchange-navbar-center {
   top: $topBarHeight + 35;
   background-color: $base-posts;
