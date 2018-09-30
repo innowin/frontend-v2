@@ -10,6 +10,7 @@ import {getMessages} from "../../../redux/selectors/translateSelector";
 import {bindActionCreators} from "redux"
 import PostActions from "../../../redux/actions/commonActions/postActions";
 import CheckOwner from '../CheckOwner'
+import {Link} from "react-router-dom";
 
 class PostView extends Component {
   static propTypes = {
@@ -52,28 +53,34 @@ class PostView extends Component {
         ? ((user.first_name || user.last_name) ? user.first_name + ' ' + user.last_name : undefined)
         : (organization ? (organization.nike_name || organization.official_name || undefined) : undefined)
 
+    const url = user
+        ? `/user/${user.id}`
+        : `/organization/${organization.id}`
+
     return (
         <VerifyWrapper isLoading={false} error={false}>
           <div className="-itemWrapperPost">
             <div className="-item-headerPost">
-              <div className="-img-col">
-                {!post_related_identity_image
-                    ? (<DefaultUserIcon/>)
-                    : (<img className="rounded-circle" src={post_related_identity_image.file} alt=""/>)
-                }
-              </div>
-              <div className="-item-titlePost">
-                <div>
-                  {name && <span className="post-name">{name}</span>}
-                  <span className="-green2 post-username">
-                    {user ? user.username : (organization ? organization.username : '')}
-                  </span>
+              <Link to={url} className='link-post'>
+                <div className="-img-col">
+                  {!post_related_identity_image
+                      ? (<DefaultUserIcon/>)
+                      : (<img className="rounded-circle" src={post_related_identity_image.file} alt=""/>)
+                  }
                 </div>
-                <div className='post-date'>
-                  <Moment className="-green2" element="span" fromNow ago>{post.created_time}</Moment>
-                  <span className="-green2"> {translate['Last']}</span>
+                <div className="-item-titlePost">
+                  <div>
+                    {name && <span className="post-name">{name}</span>}
+                    <span className="-green2 post-username">
+                      {user ? user.username : (organization ? organization.username : '')}
+                    </span>
+                  </div>
+                  <div className='post-date'>
+                    <Moment className="-green2" element="span" fromNow ago>{post.created_time}</Moment>
+                    <span className="-green2"> {translate['Last']}</span>
+                  </div>
                 </div>
-              </div>
+              </Link>
 
               <CheckOwner id={paramId}>
                 <div onClick={showEdit} className="-item-edit-btn -item-edit-btnPost pulse"><EditIcon/></div>

@@ -1,7 +1,7 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import {Field, FieldLabel, FieldValue, ItemHeader, VerifyWrapper} from "../../common/cards/Frames";
-import educationIcon from "../../../images/user/education_svg";
+import EducationIcon from "../../../images/user/education_svg";
 import {ItemWrapper} from "../../common/cards/Frames";
 import EducationInfoEditForm from "./EducationInfoEditForm";
 import {userEducationType} from 'src/consts/flowTypes/user/basicInformation'
@@ -53,7 +53,7 @@ export class EducationInfo extends React.Component<PropsEducation, StateEducatio
     const {edit} = this.state
     return (
         <VerifyWrapper isLoading={false} error={false}>
-          <ItemWrapper icon={educationIcon}>
+          <ItemWrapper icon={<EducationIcon/>}>
             {edit ? (
                 <EducationInfoEditForm
                     userId={userId}

@@ -1,11 +1,11 @@
 import type {ProductGetType} from "../../../consts/flowTypes/product/productTypes";
 import {Component} from "react";
 import PropTypes from "prop-types";
-import ProductInfoEditForm from "./ProductInfoEditForm";
+import ProductInfoForm from "./ProductInfoForm";
 import * as React from "react";
-import {ItemHeader, ItemWrapper, VerifyWrapper} from "../../common/cards/Frames";
-import {ContributionIcon} from "src/images/icons";
+import {VerifyWrapper} from "../../common/cards/Frames";
 import constants from "../../../consts/constants";
+import ProductInfoView from "./ProductInfoView";
 
 type PropsProductInfo = {
   updateProduct: Function,
@@ -55,29 +55,19 @@ class ProductInfo extends Component<PropsProductInfo, StateProductInfo> {
   render() {
     const {translate, updateProduct, userId, product} = this.props
     const {edit} = this.state
-    // TODO: mohammad change userIcon image to productIcon
     // FixMe: mohammad isLoading and error come from redux
     return (
         <VerifyWrapper isLoading={false} error={false}>
-          <ItemWrapper icon={ContributionIcon}>
-            <ItemHeader title={translate['Products']}/>
-            {edit ?
-                <ProductInfoEditForm
-                    userId={userId}
-                    product={product}
-                    hideEdit={this._hideEdit}
-                    update={updateProduct}
-                    deleteProduct={this._delete}
-                    translate={translate}
-                />
-                :
-                <div className=''>
-                  <ItemHeader title={translate['Products']} showEdit={this._showEdit}/>
-                  <h6>{product.name}</h6>
-                  <p className=''>{product.description}</p>
-                </div>
-            }
-          </ItemWrapper>
+          {edit ? <ProductInfoForm
+                  userId={userId}
+                  product={product}
+                  hideEdit={this._hideEdit}
+                  update={updateProduct}
+                  deleteProduct={this._delete}
+                  translate={translate}
+              />
+              : <ProductInfoView translate={translate} product={product} showEdit={this._showEdit} userId={userId}/>
+          }
         </VerifyWrapper>
     )
   }

@@ -1,34 +1,93 @@
-import type {skillType} from "../../../consts/flowTypes/user/others";
-import * as React from "react";
-import {Component} from "react";
-import PropTypes from "prop-types";
-import {TextInput} from "../../common/inputs/TextInput";
-import {Field, reduxForm} from "redux-form";
-import renderTextField from "../../common/inputs/reduxFormRenderTextField";
-import renderTextArea from "../../common/inputs/reduxFormRenderTextArea";
-import skillInfoValidation from "../../../helpers/validations/userSkillInfo";
+// @flow
+import * as React from "react"
+import PropTypes from "prop-types"
+import {Field, reduxForm} from "redux-form"
 
-type PropsSkillForm = {
-  onSubmit: Function,
-  skill?: skillType,
+import renderTextArea from "../../common/inputs/reduxFormRenderTextArea"
+import renderTextField from "../../common/inputs/reduxFormRenderTextField"
+import skillInfoValidation from "../../../helpers/validations/userSkillInfo"
+import type {skillFormValuesType, skillType} from "../../../consts/flowTypes/user/others"
+import {Confirm} from "../../common/cards/Confirm"
+import {TextInput} from "../../common/inputs/TextInput"
+
+type PropsSkillEditForm = {
+  update: Function,
+  deleteSkillByUserId: Function,
+  hideEdit: Function,
+  skill: skillType,
   translate: { [string]: string },
-  children?: React.Node,
+  userId: number,
   initialize: Function,
   submitFailed: boolean,
   error: string,
   handleSubmit: Function,
 }
 
-class SkillInfoForm extends Component<PropsSkillForm> {
+type StateSkillEditForm = {
+  confirm: boolean,
+  tag: [],
+}
 
+class SkillInfoForm extends React.Component<PropsSkillEditForm, StateSkillEditForm> {
   static propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-    skill: PropTypes.object,
+    update: PropTypes.func.isRequired,
+    hideEdit: PropTypes.func.isRequired,
+    skill: PropTypes.object.isRequired,
     translate: PropTypes.object.isRequired,
-    initialize: PropTypes.func.isRequired,
+    deleteSkillByUserId: PropTypes.func.isRequired,
+    userId: PropTypes.number.isRequired,
     submitFailed: PropTypes.bool,
     error: PropTypes.string,
     handleSubmit: PropTypes.func,
+    initialize: PropTypes.func.isRequired,
+  }
+
+  constructor(props: PropsSkillEditForm) {
+    super(props)
+    this.state = {confirm: false, tag: []}
+  }
+
+  componentDidMount() {
+    const {initialize, skill} = this.props
+    if (skill) {
+      const defaultFormValue = {
+        title: skill.title,
+        description: skill.description,
+      }
+      initialize(defaultFormValue)
+    }
+  }
+
+  _showConfirm = () => {
+    this.setState({confirm: true})
+  }
+
+  _cancelConfirm = () => {
+    this.setState({confirm: false})
+  }
+
+  _onSubmit = (values: skillFormValuesType) => {
+    const {userId, skill, update, hideEdit} = this.props
+
+    const skillId: number = skill.id
+
+    // FixMe: mohammad tag input not work
+    const formFormat = {
+      title: skill.title === values.title ? null : values.title,
+      tag: skill.tag === values.tag ? null : values.tag,
+      description: skill.description === values.description ? null : values.description,
+    }
+
+    const propertyNames = Object.getOwnPropertyNames(formFormat)
+
+    propertyNames.map(key => {
+      formFormat[key] === null ? delete(formFormat[key]) : ''
+      return formFormat
+    })
+
+    const formValues: {} = {...formFormat}
+    update({formValues, skillId, userId})
+    hideEdit()
   }
 
   _deleteTag(tagIndex: number) {
@@ -43,80 +102,83 @@ class SkillInfoForm extends Component<PropsSkillForm> {
     this.setState({...this.state, tag: tag})
   }
 
-  componentDidMount() {
-    const {initialize, skill} = this.props
-    if(skill){
-      const defaultFormValue = {
-        title: skill.title,
-        description: skill.description,
-      }
-      initialize(defaultFormValue)
-    }
-  }
+  tagNameInput: HTMLInputElement
+  tags: HTMLDivElement
 
-  // FixMe: mohammad tag input not work
   render() {
-    const {onSubmit, translate, submitFailed, error, handleSubmit, skill} = this.props
+    const {confirm} = this.state
+    const {hideEdit, translate, skill, deleteSkillByUserId, submitFailed, error, handleSubmit} = this.props
     const tag = (skill) ? skill.tag : []
+
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className='form-group'>
-            <label>
-              {translate['Title'] + ": "}
-            </label>
-            <Field
-                name="title"
-                type="text"
-                component={renderTextField}
-                label={translate['Title']}
-                textFieldClass='form-control'
-            />
-          </div>
+        confirm
+            ? <Confirm cancelRemoving={this._cancelConfirm} remove={deleteSkillByUserId}/>
+            : <form onSubmit={handleSubmit(this._onSubmit)}>
+              <div className='form-group'>
+                <label>
+                  {translate['Title'] + ": "}
+                </label>
+                <Field
+                    name="title"
+                    type="text"
+                    component={renderTextField}
+                    label={translate['Title']}
+                    textFieldClass='form-control'
+                />
+              </div>
 
-          <div className='form-group'>
-            <label>
-              {translate['Description'] + ": "}
-            </label>
-            <Field
-                name="description"
-                type="text"
-                component={renderTextArea}
-                label={translate['Description']}
-                textFieldClass='form-control'
-            />
-          </div>
+              <div className='form-group'>
+                <label>
+                  {translate['Description'] + ": "}
+                </label>
+                <Field
+                    name="description"
+                    type="text"
+                    component={renderTextArea}
+                    label={translate['Description']}
+                    textFieldClass='form-control'
+                />
+              </div>
 
-          {/*//FixMe mohsen: handle below div*/}
-          <div className="skillTags m-1" name="tags" ref={input => {
-            this.tags = input
-          }}>
-            {tag.map((tag, index) =>
-                <div className="tagEdit m-1">
-                  <button className="tagCross btn btn-danger btn-sm" onClick={() => {
-                    this._deleteTag(index)
-                  }}>
-                  </button>
-                  <span className="badge badge-secondary skillTag m-1">{tag}</span>
-                </div>
-            )}
-          </div>
-          <div className="skillAddTagInput">
-            <input type="button" className="btn btn-primary m-2" value={translate['Add Tag']} onClick={() => {
-              this._addTag(this.tagNameInput)
-            }}/>
-            <TextInput
-                name="tagName"
-                label={translate['Tag Name'] + ": "}
-                ref={tagNameInput => {
-                  this.tagNameInput = tagNameInput
-                }}
-            />
-          </div>
+              {/*//FixMe mohsen: handle below div*/}
+              <div className="skillTags m-1" ref={input => {
+                this.tags = input
+              }}>
+                {tag.map((tag, index) =>
+                    <div className="tagEdit m-1">
+                      <button className="tagCross btn btn-danger btn-sm" onClick={() => {
+                        this._deleteTag(index)
+                      }}>
+                      </button>
+                      <span className="badge badge-secondary skillTag m-1">{tag}</span>
+                    </div>
+                )}
+              </div>
+              <div className="skillAddTagInput">
+                <input type="button" className="btn btn-primary m-2" value={translate['Add Tag']} onClick={() => {
+                  this._addTag(this.tagNameInput)
+                }}/>
+                <TextInput
+                    name="tagName"
+                    label={translate['Tag Name'] + ": "}
+                    ref={tagNameInput => {
+                      this.tagNameInput = tagNameInput
+                    }}
+                />
+              </div>
 
-          {submitFailed && <p className="error-message">{error}</p>}
+              {submitFailed && <p className="error-message">{error}</p>}
 
-          {this.props.children}
-        </form>
+              <div className="col-12 d-flex justify-content-end">
+                <button type="button" className="btn btn-outline-danger mr-auto" onClick={this._showConfirm}>
+                  {translate['Delete']}
+                </button>
+                <button type="button" className="btn btn-secondary mr-2" onClick={hideEdit}>
+                  {translate['Cancel']}
+                </button>
+                <button type="submit" className="btn btn-success">{translate['Save']}</button>
+              </div>
+            </form>
     )
   }
 }

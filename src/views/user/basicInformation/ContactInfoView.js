@@ -1,7 +1,6 @@
 // @flow
 import * as React from "react"
 import PropTypes from "prop-types"
-import {Component} from "react"
 
 import {list_of_badge} from "../../common/Functions"
 import {Field, FieldLabel, FieldValue, ItemHeader} from "../../common/cards/Frames"

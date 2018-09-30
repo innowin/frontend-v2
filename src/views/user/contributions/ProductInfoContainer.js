@@ -1,16 +1,15 @@
-import type {ProductGetType} from "../../../consts/flowTypes/product/productTypes";
-import {Component} from "react";
-import PropTypes from "prop-types";
-import {ItemWrapper} from "../../common/cards/Frames";
-import ProductInfoCreateForm from "./ProductInfoCreateForm";
-import {bindActionCreators} from "redux";
-import connect from "react-redux/es/connect/connect";
-import * as React from "react";
-import ProductInfo from './ProductInfo'
-import {ContributionIcon} from "../../../images/icons";
-import {makeGetProducts} from "../../../redux/selectors/common/product/userGetProductSelector";
+// @flow
+import * as React from "react"
+import PropTypes from "prop-types"
+import {connect} from "react-redux"
+import {bindActionCreators} from "redux"
 
 import ProductActions from "src/redux/actions/commonActions/productActions"
+import ProductInfo from './ProductInfo'
+import type {ProductGetType} from "../../../consts/flowTypes/product/productTypes"
+import {ContributionIcon} from "../../../images/icons"
+import {ItemHeader, ItemWrapper} from "../../common/cards/Frames"
+import {makeGetProducts} from "../../../redux/selectors/common/product/userGetProductSelector"
 
 type PropsProducts = {
   userId: number,
@@ -21,6 +20,7 @@ type PropsProducts = {
   actions: {
     getProductsByIdentity: Function,
     deleteProduct: Function,
+    updateProduct: Function,
   },
   isLoading: boolean,
   error: {} | string | null,
@@ -30,14 +30,14 @@ type StateProducts = {
   createForm: boolean,
 }
 
-class ProductInfoContainer extends Component<PropsProducts, StateProducts> {
+class ProductInfoContainer extends React.Component<PropsProducts, StateProducts> {
 
   static propTypes = {
     userId: PropTypes.number.isRequired,
     identityId: PropTypes.number.isRequired,
     identityType: PropTypes.string.isRequired,
     translate: PropTypes.object.isRequired,
-    products: PropTypes.object.isRequired,
+    products: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired,
     isLoading: PropTypes.bool,
     error: PropTypes.object,
@@ -58,12 +58,6 @@ class ProductInfoContainer extends Component<PropsProducts, StateProducts> {
     this.setState({createForm: false})
   }
 
-  _create = ({formValues}) => {
-    // const {actions, userId} = this.props
-    // const {createProductByIdentity} = actions
-    // createProductByIdentity({userId, formValues})
-  }
-
   componentDidMount() {
     const {actions, identityType, userId, identityId} = this.props
     const {getProductsByIdentity} = actions
@@ -74,18 +68,10 @@ class ProductInfoContainer extends Component<PropsProducts, StateProducts> {
     const {translate, products, userId, actions} = this.props
     const {updateProduct, deleteProduct} = actions
 
-    const {createForm} = this.state
     return (
         //<VerifyWrapper isLoading={isLoading} error={error}>
-        <div>
-          {
-            createForm &&
-            <ItemWrapper icon={ContributionIcon}>
-              <ProductInfoCreateForm hideCreateForm={this._hideCreateForm}
-                                     create={this._create} translate={translate}
-                                     userId={userId}/>
-            </ItemWrapper>
-          }
+        <ItemWrapper icon={<ContributionIcon/>}>
+          <ItemHeader title={translate['Products']}/>
           {
             products.map((product, index) => (
                 <ProductInfo
@@ -98,7 +84,7 @@ class ProductInfoContainer extends Component<PropsProducts, StateProducts> {
                 />
             ))
           }
-        </div>
+        </ItemWrapper>
         //</VerifyWrapper>
     )
   }

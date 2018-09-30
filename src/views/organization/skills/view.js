@@ -28,7 +28,7 @@ export class AbilityBody extends React.Component<AbilityBodyProps> {
     render() {
         const {description} = this.props;
         return (
-            <p className="skillDescription">
+            <p className="skill-description">
                 {description}
             </p>
         )

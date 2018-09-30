@@ -16,7 +16,7 @@ import DefaultProductIcon from "./defaults/defaultProduct_svg"
 import DefaultUserIcon from "./defaults/defaultUser_svg"
 import DemandIcon from "./common/demand_svg"
 import EditIcon from "./common/edit.svg"
-import educationIcon from "./user/education_svg"
+import EducationIcon from "./user/education_svg"
 import ExchangeExploreIcon from "./common/exchange_explore_svg"
 import ExchangeIcon from "./common/exchange_svg"
 import ForwardIcon from "./common/forward_svg"
@@ -33,6 +33,7 @@ import PayIcon from "./addingConribution/pay_icon_svg"
 import postIcon from "./user/post_svg"
 import PostSendIcon from "./common/postSend_svg"
 import RatingIcon from "./product/rating_svg"
+import RightArrow from "./common/right_arrow_svg"
 import RefreshIcon from "./common/refresh_svg"
 import researchIcon from "./user/research_svg"
 import SeeViewIcon from "./common/see_view_svg"
@@ -80,7 +81,7 @@ export {
   DefaultImageIcon,
   DemandIcon,
   EditIcon,
-  educationIcon,
+  EducationIcon,
   ExchangeExploreIcon,
   ExchangeIcon,
   ForwardIcon,
@@ -96,6 +97,7 @@ export {
   PayIcon,
   postIcon,
   PostSendIcon,
+  RightArrow,
   RatingIcon,
   RefreshIcon,
   researchIcon,

@@ -172,7 +172,7 @@ module.exports = {
 
   // user - skills
   'Tag': "برچسب",
-  'Skills': "مهارت‌ها",
+  'Skills': "توانمندی ها",
   'Work experiences': "سوابق کاری",
   'Position': "موقعیت",
   'Removing...': "در حال حذف ...",
@@ -253,6 +253,10 @@ module.exports = {
 
   // Product
   'Contributions': 'آورده ها',
+  'Price': 'قیمت',
+  'Call': 'تماس',
+  'Show more': 'نمایش گسترده',
+  'Toman': 'تومان',
 
   // Product Rating
   'Ratings': 'دیدگاه ها و بازخورد ها',

@@ -74,14 +74,14 @@ let ItemHeader = (props: PropsItemHeader): div => {
   return (
       <div className="-item-header">
         <div className="-item-title">{props.title}</div>
-        <div className="-item-edit-btn pulse">
-          {showEdit ?
+        {showEdit ?
+            <div className="-item-edit-btn pulse">
               <CheckOwner id={id}>
                 <div onClick={showEdit}><EditIcon/></div>
               </CheckOwner>
-              : <span/>
-          }
-        </div>
+            </div>
+            : ''
+        }
       </div>
   )
 }
@@ -127,19 +127,19 @@ type PropsCategoryTitle = {
 }
 
 let CategoryTitle = ({
-                                title, createForm = true,
-                                showEditBtn = false,
-                                showCreateForm = () => false,
-                                showEditHandler = () => 0,
-                                param,
-                              }: PropsCategoryTitle): div => {
+                       title, createForm = true,
+                       showEditBtn = false,
+                       showCreateForm = () => false,
+                       showEditHandler = () => 0,
+                       param,
+                     }: PropsCategoryTitle): div => {
   const id = param.user || param.organization
   return (
       <div className="category-title-container">
         <div className="-categoryTitle">
           <span>{title}</span>
           {
-            !createForm && param &&client.checkIdWithQueryId(id) &&
+            !createForm && param && client.checkIdWithQueryId(id) &&
             <button className="btn btn-sm btn-outline-success pulse" onClick={showCreateForm}>
               <FontAwesome name="plus"/>
             </button>
