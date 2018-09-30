@@ -12,8 +12,7 @@ const productPicture = (state = initialState.common.product.productPicture, acti
       return initialState.common.product.productPicture
 
     case types.SUCCESS.COMMON.GET_PRODUCT_PICTURES_BY_PRODUCT_ID: {
-      const act = {...action, payload: {data: action.payload.data.idKeyedObj}}
-      return appendListToStateList.success(state, act)
+      return appendListToStateList.success(state, action)
     }
 
     default:

@@ -41,6 +41,7 @@ export function* getOrganBadges(action) {
   }
 }
 
+
 // function* getBadges(action) {
 //   const {userId, relatedParentId, nextActionType} = action.payload
 //   const socketChannel = yield call(api.createSocketChannel, results.COMMON.GET_USER_BADGES)

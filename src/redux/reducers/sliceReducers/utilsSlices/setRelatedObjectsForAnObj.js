@@ -1,6 +1,5 @@
 const success = (state, action, relatedKey) => {
-  const {data = {}, destinationId} = action.payload
-  const {ids = []} = data
+  const {ids=[], destinationId} = action.payload
   const {list} = state
   const oldObj = list[destinationId] = {}
   const oldIds = oldObj[relatedKey] || []

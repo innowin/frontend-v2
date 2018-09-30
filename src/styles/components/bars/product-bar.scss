@@ -6,7 +6,7 @@
   padding: 0;
   position: fixed;
   width: 0;
-  height: 0;
+  height: 500px;
   right: 0;
   -webkit-transition: all 0.4s ease-out;
   -moz-transition: all 0.4s ease-out;
@@ -16,7 +16,6 @@
   opacity: 0;
   &.visible {
     box-shadow: -3px 5px 17px $box-shadow-color;
-    height: 500px;
     padding: 14px 14px 0;
     //overflow: auto;
     width: 300px;
@@ -120,10 +119,52 @@
       align-items: center;
       overflow: hidden;
     }
+    .more-btn {
+      cursor: pointer;
+      -webkit-transition: all 0.3s ease-out;
+      -moz-transition: all 0.3s ease-out;
+      -ms-transition: all 0.3s ease-out;
+      -o-transition: all 0.3s ease-out;
+      transition: all 0.3s ease-out;
+    }
+    .more-btn:hover {
+      background-color: $chat-box2-color;
+      -webkit-transition: all 0.3s ease-in;
+      -moz-transition: all 0.3s ease-in;
+      -ms-transition: all 0.3s ease-in;
+      -o-transition: all 0.3s ease-in;
+      transition: all 0.3s ease-in;
+    }
     .gallery-item .gallery-image {
       max-width: 60px;
       height: 40px;
       object-fit: contain;
     }
+  }
+}
+
+.gallery-modal {
+  .modal-body {
+    background-color: $chat-box2-color;
+    .close-btn:before {
+      font-style: $font-size-close-btn;
+      cursor: pointer;
+      color: $danger-color;
+    }
+  }
+  .image-gallery-image {
+    img {
+      height: 400px;
+      object-fit: contain;
+    }
+  }
+  .image-gallery-thumbnail img {
+    height: 100%;
+  }
+  .image-gallery-slide.center {
+    background-color: $chat-box2-color;
+  }
+  button::before {
+    color: $brand-inverse-color
   }
 }

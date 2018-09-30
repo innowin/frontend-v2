@@ -17,9 +17,11 @@ function* getProductPicturesByProductId(action) {
         `?picture_product=${productId}` // FIXME: in this moment the server isn't filtering the pictures.
     )
     const data = yield take(socketChannel)
+    const normalData = helpers.normalizer(data) || {}
     const payload = {
       destinationId: productId,
-      data: helpers.normalizer(data)
+      data: normalData.idKeyedObj,
+      ids: normalData.ids
     }
     yield put({type: types.SUCCESS.COMMON.GET_PRODUCT_PICTURES_BY_PRODUCT_ID, payload})
   } catch (error) {

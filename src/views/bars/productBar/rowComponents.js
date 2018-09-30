@@ -5,6 +5,9 @@ import VisibleOnLoadImage from '../../common/image/visibleOnLoadImage'
 import {Tag} from '../../common/tags/tag'
 import type {TagType} from '../../common/tags/tag'
 import {ChartIcon} from 'src/images/icons'
+import {Modal, ModalBody} from 'reactstrap'
+import ImageGallery from 'react-image-gallery'
+import FontAwesome from "react-fontawesome"
 
 
 type BorderedPaddedWrapperProps = {
@@ -104,7 +107,7 @@ type GalleryProps = {
 }
 
 export const Gallery = (props: GalleryProps) => {
-  const {images=[], mainImage, galleryModalDisplayHandler} = props
+  const {images = [], mainImage, galleryModalDisplayHandler} = props
   return (
       <div className="gallery-wrapper">
         <VisibleOnLoadImage img={mainImage} className="main-image"/>
@@ -114,10 +117,34 @@ export const Gallery = (props: GalleryProps) => {
                 <VisibleOnLoadImage className="gallery-image" img={img}/>
               </div>
           )}
-          <div onClick={galleryModalDisplayHandler} className="gallery-item more-btn">
-            بیشتر
-          </div>
+          {(images.length === 0 && !mainImage)?
+              <div className="gallery-item">عکس ندارد</div>
+              :
+              <div onClick={galleryModalDisplayHandler} className="gallery-item more-btn">بیشتر</div>
+          }
         </div>
       </div>
+  )
+}
+
+type GalleryImageType = {
+  original: string,
+  thumbnail: string
+}
+type GalleryModalProps = {
+  isOpen: boolean,
+  images: Array<GalleryImageType>,
+  visibilityHandler: Function
+}
+export const GalleryModal = (props: GalleryModalProps) => {
+  const {isOpen, images, visibilityHandler} = props
+  return (
+      <Modal size="lg" isOpen={isOpen} backdrop={false} className="gallery-modal">
+        <ModalBody>
+          <FontAwesome name="times" size="1x" className="close-btn"
+                       onClick={visibilityHandler}/>
+          <ImageGallery items={images}/>
+        </ModalBody>
+      </Modal>
   )
 }

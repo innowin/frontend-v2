@@ -32,7 +32,7 @@ const arrayToIdKeyedObject = (arr) => {
 }
 
 const arrayToDefaultObject = (arr) => {
-  const newArr = arr.map(data => ({exchange:{content: {...data}, isLoading: false, error: null}}))
+  const newArr = arr.map(data => ({exchange: {content: {...data}, isLoading: false, error: null}}))
   return newArr.reduce((acc, item) => {
     const shadow = {...item}
     return {
@@ -109,6 +109,16 @@ const normalizer = (arr) => {
   }
 }
 
+/*
+this function takes an object and an array(list of wanted keys) and create a new object that
+contains array(of keys) and correspond value as the same as in main object.
+*/
+const selectByKeyList = (obj, keyList) => {
+  return keyList.reduce((result, key) => {
+    if (obj[key]) return {...result, [key]: obj[key]}
+    return result
+  }, {})
+}
 
 export default {
   arrayToIdKeyedObject,
@@ -118,5 +128,6 @@ export default {
   filterNestedObjByKey,
   objToArrayAsOptions,
   getObjectOfArrayKeys,
-  normalizer
+  normalizer,
+  selectByKeyList
 }
