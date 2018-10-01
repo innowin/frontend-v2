@@ -21,8 +21,6 @@ class Exchange_Info extends Component {
       case "Stream":
         const {posts} = this.props
         const postsList = posts.list
-          console.log("Abel")
-          console.log(postsList)
         return (
             <StreamView postsList={postsList}/>
         )

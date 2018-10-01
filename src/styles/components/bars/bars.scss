@@ -296,6 +296,11 @@
 }
 
 //** ---------------------------        Sidebar(rightBar)      -------------------------------- **//
+.description-right-bar{
+  padding: 0 10px;
+  text-align: center;
+}
+
 .-right-sidebar-wrapper {
   z-index: 1000;
   position: fixed;

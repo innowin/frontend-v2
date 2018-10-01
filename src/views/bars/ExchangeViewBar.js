@@ -99,14 +99,14 @@ class ExchangeViewBar extends Component {
 
   render() {
     const {exchange, badgesImgUrl, demandCount, supplyCount, productCount, tags, members, isLoading, error} = this.state
-    const {translate} = this.props
+    const {translate, exchanges, exchangeId} = this.props
+    const currentExchange = exchanges.list[exchangeId]
     let membersView = members.map((val, idx) => (
         <div className="" key={idx}>
           <span>{val.username || val.name}</span>
-          <img src={val.profile_media || "#"}> </img>
+          <img alt={"."} src={val.profile_media || "#"}> </img>
         </div>)
     )
-    console.log(exchange)
     return (
         <VerifyWrapper isLoading={isLoading} error={error}>
           <div className="-sidebar-child-wrapper col">
@@ -117,9 +117,9 @@ class ExchangeViewBar extends Component {
                   <i className="fa fa-ellipsis-v menuBottom"> </i>
               }
               {
-                exchange.link !== undefined ?
+                currentExchange.exchange_image !== null ?
                     <img className="rounded-circle exchangeViewBarImg" alt={translate["Exchange Picture"]}
-                         src={exchange.link}/>
+                         src={currentExchange.exchange_image.file}/>
                     :
                     <DefaultUserIcon width={"100px"} height={"100px"} className={"rounded-circle exchangeViewBarImg"}/>
               }
@@ -127,25 +127,27 @@ class ExchangeViewBar extends Component {
                 <ExchangeIcon/>
                 <div>
                   <span className="fontSize-15px">{translate["Exchange"]}: </span>
-                  <span>{exchange.name === undefined ? "بدون نام" : exchange.name}</span>
+                  <span>{currentExchange.name === "" ? "بدون نام" : currentExchange.name}</span>
                 </div>
               </div>
               <span
-                  className="-grey1 fontSize-13px">{exchange.description === undefined ? "بدون توضیحات" : exchange.description}</span>
+                  className="-grey1 fontSize-13px description-right-bar">{currentExchange.description === "" ? "بدون توضیحات" : currentExchange.description}</span>
             </div>
+{/*
             {this.state.membersViewSide ?
                 <div className="numbersSection flex-column pl-3">
                   <div className="">
                     <span>اعضا:</span>
-                    <span>{membersView.length}</span>
+                    <span>{currentExchange.members_count}</span>
                   </div>
                   {membersView}
                 </div>
                 :
+*/}
                 <div className="numbersSection flex-column pl-3">
                   <div className="">
                     <span>اعضا:</span>
-                    <span>{membersView.length}</span>
+                    <span>{currentExchange.members_count}</span>
                   </div>
                   <div className="">
                     <span>عرضه:</span>
@@ -160,7 +162,7 @@ class ExchangeViewBar extends Component {
                     <span>{productCount}</span>
                   </div>
                 </div>
-            }
+
             {
               (badgesImgUrl.length > 0) ? (
                   <div className="flex-wrap pb-3">
