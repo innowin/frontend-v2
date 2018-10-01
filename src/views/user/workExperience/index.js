@@ -133,7 +133,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    // push: routerActions.push,
     getWorkExperienceByUserId: WorkExperienceActions.getWorkExperienceByUserId,
     updateWorkExperienceByUserId: WorkExperienceActions.updateWorkExperienceByUserId,
     createWorkExperienceByUserId: WorkExperienceActions.createWorkExperienceByUserId,

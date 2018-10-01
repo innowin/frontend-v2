@@ -1,12 +1,13 @@
-// flow type of EducationInfoForm
-import * as React from "react";
-import {Component} from "react";
-import PropTypes from "prop-types";
+// @flow
+import * as React from "react"
+import {Component} from "react"
+import PropTypes from "prop-types"
 
-import {Confirm} from "../../common/cards/Confirm";
+import {Confirm} from "../../common/cards/Confirm"
 import EducationInfoForm from './EducationInfoForm'
-import type {userEducationType, userEducationInputType} from "../../../consts/flowTypes/user/basicInformation";
+import type {userEducationType, userEducationInputType} from "../../../consts/flowTypes/user/basicInformation"
 
+// flow type of EducationInfoForm
 type PropsEducationInfoForm = {
   update: Function,
   deleteEducationByUserId: Function,

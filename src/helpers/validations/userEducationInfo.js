@@ -6,7 +6,7 @@ const validateUniversity = (university, translate) => {
 
 const validateGrade = (grade, translate) => {
   if (grade.length < 5) {
-    return translate['Grade is wrong']
+    return translate['Education grade is wrong']
   }
 }
 

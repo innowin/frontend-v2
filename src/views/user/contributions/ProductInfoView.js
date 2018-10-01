@@ -43,7 +43,11 @@ const ProductInfoView = (props: PropsProductInfo) => {
           <div className='product-content'>
             <BookmarkIcon
                 className={product.img ? 'contribution-bookmark product-bookmark' : 'contribution-bookmark product-bookmark-without-image'}/>
-            <p className='contribution-title'>{product.name}</p>
+            <div className={'contribution-title-container'}>
+              <Link className={'contribution-title-link'} to={`/product/${product.id}`}>
+                <p className='contribution-title'>{product.name}</p>
+              </Link>
+            </div>
             <Link to={url} className='product-owner-name'>
               <p>{product.product_owner.name}</p>
             </Link>
@@ -64,7 +68,9 @@ const ProductInfoView = (props: PropsProductInfo) => {
           </div>
           {product.img &&
           <div className='product-img-container'>
-            <img className='product-img' src={product.img}/>
+            <Link className={'contribution-title-link'} to={`/product/${product.id}`}>
+              <img className='product-img' src={product.img}/>
+            </Link>
           </div>
           }
         </div>

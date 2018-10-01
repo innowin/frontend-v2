@@ -7,8 +7,16 @@
   margin-top: 10px;
   margin-bottom: 15px;
 
-  .contribution-title {
-    font-size: $font-size-contribution-title ;
+  .contribution-title-container {
+    display: block;
+
+    .contribution-title-link {
+      color: $text-darkest-color;
+    }
+    .contribution-title {
+      display: inline-block;
+      font-size: $font-size-contribution-title ;
+    }
   }
   .contribution-edit {
     position: absolute;

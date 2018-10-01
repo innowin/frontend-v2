@@ -6,7 +6,7 @@ const validateTitle = (title, translate) => {
 
 const validatePageCount = (pageCount, translate) => {
   if (!/^\d+$/.test(pageCount)) {
-    return translate['Page Count is wrong']
+    return translate['`Page count is wrong`']
   }
 }
 

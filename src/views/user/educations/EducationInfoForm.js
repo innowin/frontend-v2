@@ -1,14 +1,14 @@
 // flow type of EducationInfoForm
-import * as React from "react";
-import {Component} from "react";
-import PropTypes from "prop-types";
+import * as React from "react"
+import {Component} from "react"
+import PropTypes from "prop-types"
 
-import type {userEducationType} from "../../../consts/flowTypes/user/basicInformation";
+import type {userEducationType} from "../../../consts/flowTypes/user/basicInformation"
 import {ReduxFormDateInput} from 'src/views/common/inputs/reduxFormDateInput'
-import {Field, reduxForm} from "redux-form";
-import educationInfoValidation from "../../../helpers/validations/userEducationInfo";
-import renderTextField from "../../common/inputs/reduxFormRenderTextField";
-import renderTextArea from "../../common/inputs/reduxFormRenderTextArea";
+import {Field, reduxForm} from "redux-form"
+import educationInfoValidation from "../../../helpers/validations/userEducationInfo"
+import renderTextField from "../../common/inputs/reduxFormRenderTextField"
+import renderTextArea from "../../common/inputs/reduxFormRenderTextArea"
 
 type PropsEducationInfoForm = {
   onSubmit: Function,
@@ -73,7 +73,7 @@ class EducationInfoForm extends Component<PropsEducationInfoForm> {
 
           <div className='form-group'>
             <label>
-              {translate['Grade'] + ": "}
+              {translate['Education grade'] + ": "}
             </label>
             <Field
                 name="grade"
