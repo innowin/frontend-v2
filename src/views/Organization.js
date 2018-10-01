@@ -11,7 +11,7 @@ import Posts from "src/views/common/post/index"
 import PrivateRoute from "../consts/PrivateRoute"
 import Products from "./organization/products/index"
 import PropTypes from "prop-types"
-import Social from "src/views/organization/social/index"
+import Social from "src/views/common/social/index"
 import TopBar from "./bars/TopBar"
 import type {badgeType} from "src/consts/flowTypes/common/badges"
 import type {identityStateObject, listOfIdObject, organStateObject} from "src/consts/flowTypes/stateObjectType"
@@ -78,7 +78,7 @@ export class Organization extends Component<PropsOrganization> {
 	render() {
 		const {organObject, badgesObject, badges, organLogo, organBanner, translate, identityObject} = this.props
 		const {path, url, params} = this.props.match
-		const organizationId = params.id
+		const organizationId = +params.id
 		const isLoading = organObject.isLoading || badgesObject.isLoading //TODO mohsen: added get files isLoading
 		const errorMessage = organObject.error || badgesObject.error //TODO mohsen:added get files error
 		return (
@@ -91,7 +91,7 @@ export class Organization extends Component<PropsOrganization> {
 													organLogo={organLogo}
 													organBanner={organBanner}
 													className="-right-sidebar-wrapper user-sidebar-width pr-0 pl-0"
-                          paramId={params.id}
+                          paramId={organizationId}
 						/>
 						<div className="col-md-6 col-sm-10 -content-wrapper">
 							<Tabs>
@@ -124,7 +124,11 @@ export class Organization extends Component<PropsOrganization> {
 								<PrivateRoute exact path={`${path}/basicInformation`} component={BasicInformation}
 															organizationId={organizationId} organization={organObject.content}/>
 								<PrivateRoute path={`${path}/Customers`} component={Customers} organizationId={organizationId}/>
-								<PrivateRoute path={`${path}/SocialConnections`} component={Social} organizationId={organizationId}/>
+								<PrivateRoute path={`${path}/SocialConnections`} component={Social}
+                              ownerId={organizationId}
+                              identityId={identityObject.content}
+                              identityType={constants.USER_TYPES.ORG}
+                />
 								<PrivateRoute path={`${path}/Certificates`} component={Certificates} organizationId={organizationId}/>
 							</Switch>
 						</div>

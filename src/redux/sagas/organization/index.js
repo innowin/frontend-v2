@@ -15,7 +15,6 @@ import {
   getCertificates,
   getCustomers,
   getExchanges,
-  getFollowers,
   getOrganizationMembers,
   getOrgStaff,
   getProductPicture,
@@ -23,8 +22,7 @@ import {
   getProductsSuccess,
   updateCertificate,
   updateCustomer,
-  updateProduct,
-  getFollowings,
+  updateProduct
 } from "./organization"
 
 
@@ -48,16 +46,6 @@ function* watchUpdateOrganization() {
 // get products
 function* watchGetProducts() {
   yield takeEvery(types.ORG.GET_PRODUCTS, getProducts)
-}
-
-// get org followers
-function* watchGetOrgFollowers() {
-  yield takeEvery(types.ORG.GET_ORG_FOLLOWERS, getFollowers)
-}
-
-// get org followings
-function* watchGetOrgFollowings() {
-  yield takeEvery(types.ORG.GET_ORG_FOLLOWINGS, getFollowings)
 }
 
 // get org exchanges
@@ -135,8 +123,6 @@ export default [
   watchGetOrganizationMembers(),
   watchUpdateOrganization(),
   watchGetProducts(),
-  watchGetOrgFollowers(),
-  watchGetOrgFollowings(),
   watchGetOrgExchanges(),
   watchGetCustomers(),
   watchGetCertificates(),
