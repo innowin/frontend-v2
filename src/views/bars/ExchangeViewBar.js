@@ -106,7 +106,7 @@ class ExchangeViewBar extends Component {
           <img src={val.profile_media || "#"}> </img>
         </div>)
     )
-    // console.log("Abel", exchange.link)
+    console.log(exchange)
     return (
         <VerifyWrapper isLoading={isLoading} error={error}>
           <div className="-sidebar-child-wrapper col">
@@ -121,7 +121,7 @@ class ExchangeViewBar extends Component {
                     <img className="rounded-circle exchangeViewBarImg" alt={translate["Exchange Picture"]}
                          src={exchange.link}/>
                     :
-                    <DefaultUserIcon width={'100px'} height={'100px'} className={'rounded-circle exchangeViewBarImg'}/>
+                    <DefaultUserIcon width={"100px"} height={"100px"} className={"rounded-circle exchangeViewBarImg"}/>
               }
               <div className="exchangeName">
                 <ExchangeIcon/>
@@ -130,7 +130,8 @@ class ExchangeViewBar extends Component {
                   <span>{exchange.name === undefined ? "بدون نام" : exchange.name}</span>
                 </div>
               </div>
-              <span className="-grey1 fontSize-13px">{exchange.description}</span>
+              <span
+                  className="-grey1 fontSize-13px">{exchange.description === undefined ? "بدون توضیحات" : exchange.description}</span>
             </div>
             {this.state.membersViewSide ?
                 <div className="numbersSection flex-column pl-3">

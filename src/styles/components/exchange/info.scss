@@ -1,0 +1,33 @@
+@import "../../variables";
+
+.info-frame {
+  text-align: right;
+  width: $feed-width - 6px;
+  margin: 2px 3px 10px 8px;
+  background-color: $base-posts;
+  border-radius: 5px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, .2);
+  padding: 12.5px 10px 15px 10px;
+  transition-duration: $animation-timing;
+}
+
+.info-frame:hover {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, .2);
+  transition-duration: $animation-timing;
+}
+
+.info-header {
+  width: 100%;
+  background-color: $white;
+  height: 30px;
+  font-weight: bold;
+  font-size: $font-size-medium;
+}
+
+.info-body {
+  width: 100%;
+  min-height: 30px;
+  padding-right: 70px;
+  line-height: 30px;
+  font-size: $font-size-post-content;
+}

@@ -2,8 +2,10 @@ import React from "react"
 
 const TicketSvg = (props) => {
   return (
-      <div className={props.containerClass} onClick={() => props.changeView("Exchange Manager")}>
-        <svg width={props.width} height={props.height} className={props.svgClass + " svg-rotate"}
+      <div className={props.containerClass ? props.containerClass : null}
+           onClick={() => props.changeView ? props.changeView("Exchange Manager") : null}>
+        <svg width={props.width} height={props.height}
+             className={props.svgClass ? props.svgClass + " svg-rotate" : null}
              viewBox="0 0 159740 100890">
           <g id="Layer_x0020_1">
             <metadata id="CorelCorpID_0Corel-Layer"/>

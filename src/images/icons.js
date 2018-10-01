@@ -52,6 +52,7 @@ import Statistic from "./common/statistic_svg"
 import Contacts from "./common/contacts_svg"
 import Medal from "./common/medal_svg"
 import Ticket from "./common/ticket_svg"
+import QuestionMark from "./common/questionMark_svg"
 
 
 export {
@@ -61,6 +62,7 @@ export {
   Contacts,
   Medal,
   Ticket,
+  QuestionMark,
   AgentSvgIcon,
   AttachFileIcon,
   BookmarkIcon,

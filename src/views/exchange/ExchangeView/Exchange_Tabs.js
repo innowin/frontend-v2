@@ -4,13 +4,15 @@ import {getMessages} from "src/redux/selectors/translateSelector"
 import {Stream, Info, Statistic, Contacts, Medal, Ticket,} from "src/images/icons"
 import Exchange_Info from "./Exchange_Info"
 import "src/styles/components/exchange/posts.scss"
+import "src/styles/components/exchange/info.scss"
 
 class Exchange_Tabs extends Component {
   constructor(props) {
     super(props)
     this.state =
         {
-          selectedTab: "Stream",
+          // selectedTab: "Stream",
+          selectedTab: "Info", // DEVELOP
         }
     this.setTab = this.setTab.bind(this)
   }

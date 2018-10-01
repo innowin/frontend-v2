@@ -11,10 +11,14 @@
   overflow-y: hidden;
 }
 
+.posts-frame-container{
+  transition-duration: $animation-timing;
+}
+
 .posts-frame {
   text-align: right;
-  width: $feed-width - 20px;
-  margin: 2px 8px 10px 8px;
+  width: $feed-width - 6px;
+  margin: 2px 3px 10px 8px;
   background-color: $base-posts;
   border-radius: 5px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, .2);
