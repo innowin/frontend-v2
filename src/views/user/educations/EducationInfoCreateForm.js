@@ -1,20 +1,21 @@
-// flow type of EducationInfoForm
-import * as React from "react";
-import PropTypes from "prop-types";
+// @flow
+import * as React from "react"
+import PropTypes from "prop-types"
 
 import EducationInfoForm from './EducationInfoForm'
-import type {userEducationInputType} from "../../../consts/flowTypes/user/basicInformation";
+import type {userEducationInputType} from "../../../consts/flowTypes/user/basicInformation"
 
+// flow type of EducationInfoForm
 type PropsEducationInfoForm = {
   create: Function,
-  hideCreateForm: Function,
+  hideEdit: Function,
   translate: { [string]: string },
   userId: number,
 }
 
 const EducationInfoCreateForm = (props: PropsEducationInfoForm) => {
   const _onSubmit = (values: userEducationInputType) => {
-    const {hideCreateForm, create} = props
+    const {hideEdit, create} = props
 
     const from_date = values.yearFromDate === '' || values.monthFromDate === '' || values.dayFromDate === '' ? '' : `${values.yearFromDate}/${values.monthFromDate}/${values.dayFromDate}`
     const to_date = values.yearToDate === '' || values.monthToDate === '' || values.dayToDate === '' ? '' : `${values.yearToDate}/${values.monthToDate}/${values.dayToDate}`
@@ -38,7 +39,7 @@ const EducationInfoCreateForm = (props: PropsEducationInfoForm) => {
 
     const formValues: {} = {...formFormat}
     create({formValues})
-    hideCreateForm()
+    hideEdit()
   }
   const {translate, userId, hideEdit} = props
 
@@ -57,10 +58,11 @@ const EducationInfoCreateForm = (props: PropsEducationInfoForm) => {
 }
 
 EducationInfoCreateForm.propTypes = {
-  hideCreateForm: PropTypes.func.isRequired,
+  hideEdit: PropTypes.func.isRequired,
   create: PropTypes.func.isRequired,
   translate: PropTypes.object.isRequired,
   userId: PropTypes.number.isRequired,
+  hideEdit: PropTypes.func.isRequired,
 }
 
 export default EducationInfoCreateForm

@@ -103,13 +103,13 @@ export class ResearchInfoForm extends Component<PropsResearchInfoForm> {
 
           <div className='form-group'>
             <label>
-              {translate['Page Count'] + ": "}
+              {translate['Page count'] + ": "}
             </label>
             <Field
                 name="pageCount"
                 type="text"
                 component={renderTextField}
-                label={translate['Page Count']}
+                label={translate['Page count']}
                 textFieldClass='form-control'
             />
           </div>

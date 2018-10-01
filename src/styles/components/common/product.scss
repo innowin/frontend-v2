@@ -25,14 +25,13 @@
       }
       .product-owner-name{
         color: $info-color;
-        text-decoration: none;
+        font-weight: bold;
         font-size: $font-size-contribution-content;
         display: inline-block;
 
         p {
           margin-bottom: 8px;
         }
-
         &:hover {
           color: darken($info-color, 10%);
         }
@@ -46,9 +45,13 @@
         p {
           margin-bottom: 8px;
 
-
+          span {
+            font-weight: bold;
+          }
         }
         .show-more {
+          font-weight: bold;
+
           .product-more-icon {
             transform: rotate(90deg);
             width: 13px;

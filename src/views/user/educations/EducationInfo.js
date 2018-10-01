@@ -1,9 +1,11 @@
-import * as React from "react";
-import PropTypes from "prop-types";
-import {Field, FieldLabel, FieldValue, ItemHeader, VerifyWrapper} from "../../common/cards/Frames";
-import EducationIcon from "../../../images/user/education_svg";
-import {ItemWrapper} from "../../common/cards/Frames";
-import EducationInfoEditForm from "./EducationInfoEditForm";
+// @flow
+import * as React from "react"
+import PropTypes from "prop-types"
+
+import EducationIcon from "../../../images/user/education_svg"
+import EducationInfoEditForm from "./EducationInfoEditForm"
+import {Field, FieldValue, ItemHeader, VerifyWrapper} from "../../common/cards/Frames"
+import {ItemWrapper} from "../../common/cards/Frames"
 import {userEducationType} from 'src/consts/flowTypes/user/basicInformation'
 
 //EducationInfo flowTypes
@@ -66,30 +68,15 @@ export class EducationInfo extends React.Component<PropsEducation, StateEducatio
             ) : (
                 education &&
                 <div>
-                  <ItemHeader title={translate['EducationInfo']} showEdit={this._showEdit}/>
+                  <ItemHeader title={`${translate['Grade']} ${education.grade}`} showEdit={this._showEdit}/>
                   <Field>
-                    <FieldLabel label={translate['University'] + ": "}/>
-                    <FieldValue value={education.university}/>
+                    <FieldValue value={`${education.field_of_study} - ${education.university} - ${translate['Average']} ${education.average}`}/>
                   </Field>
                   <Field>
-                    <FieldLabel label={translate['Grade'] + ": "}/>
-                    <FieldValue value={education.grade}/>
+                    <FieldValue value={`${education.from_date} - ${education.to_date}`}/>
                   </Field>
                   <Field>
-                    <FieldLabel label={translate['FromDate'] + ": "}/>
-                    <FieldValue value={education.from_date}/>
-                  </Field>
-                  <Field>
-                    <FieldLabel label={translate['ToDate'] + ": "}/>
-                    <FieldValue value={education.to_date}/>
-                  </Field>
-                  <Field>
-                    <FieldLabel label={translate['Average'] + ": "}/>
-                    <FieldValue value={education.average}/>
-                  </Field>
-                  <Field>
-                    <FieldLabel label={translate['Description'] + ": "}/>
-                    <FieldValue value={education.description}/>
+                    <p className='text-description'>{education.description}</p>
                   </Field>
                 </div>
             )}

@@ -1,10 +1,10 @@
-import {Component} from "react";
-import PropTypes from "prop-types";
-import * as React from "react";
-import type {userResearchInputType, userResearchType} from "../../../consts/flowTypes/user/basicInformation";
+// @flow
+import * as React from "react"
+import PropTypes from "prop-types"
 
+import type {userResearchInputType, userResearchType} from "../../../consts/flowTypes/user/basicInformation"
 import ResearchInfoForm from './ResearchInfoForm'
-import {Confirm} from "../../common/cards/Confirm";
+import {Confirm} from "../../common/cards/Confirm"
 
 // flow type of ResearchInfoEditForm
 type PropsResearchInfoEditForm = {
@@ -19,7 +19,7 @@ type StateResearchInfoEditForm = {
   confirm: boolean
 }
 
-class ResearchInfoEditForm extends Component<PropsResearchInfoEditForm, StateResearchInfoEditForm> {
+class ResearchInfoEditForm extends React.Component<PropsResearchInfoEditForm, StateResearchInfoEditForm> {
   state = {confirm: false}
 
   static propTypes = {
@@ -31,7 +31,7 @@ class ResearchInfoEditForm extends Component<PropsResearchInfoEditForm, StateRes
     userId: PropTypes.number.isRequired,
   }
 
-  constructor(props: PropsEducationInfoForm) {
+  constructor(props: PropsResearchInfoEditForm) {
     super(props)
     this.state = {confirm: false}
   }

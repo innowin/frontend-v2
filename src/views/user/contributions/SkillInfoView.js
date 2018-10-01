@@ -23,7 +23,7 @@ const SkillInfoView = (props: PropsSkillInfoView) => {
             <EditIcon/>
           </div>
         </CheckOwner>
-        <div>
+        <div className='contribution-title-container'>
           <BookmarkIcon className='contribution-bookmark skill-bookmark'/>
           <p className='contribution-title'>{skill.title}</p>
         </div>

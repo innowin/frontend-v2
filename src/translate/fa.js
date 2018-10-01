@@ -69,9 +69,8 @@ module.exports = {
   'FromDate': 'از تاریخ',
   'ToDate': 'تا تاریخ',
   'EducationInfo': 'اطلاعات تحصیلی',
-  'ResearchInfo': 'تحقیقات',
+  'ResearchInfo': 'سابقه پژوهشی',
   'Author': 'نویسنده',
-  'Page Count': 'تعداد صفحات',
 
   // user - certificates
   'Title': "عنوان",
@@ -96,7 +95,7 @@ module.exports = {
   'No, Cancel please.': "خیر",
 
   // user - educations
-  'Grade': "مقطع تحصیلی",
+  'Education grade': "مقطع تحصیلی",
   'University': "آموزشگاه/ دانشگاه",
   'Field of study': "رشته تحصیلی",
   'From date': "از تاریخ",
@@ -105,10 +104,13 @@ module.exports = {
   'Description': "توضیحات",
   'Educations': "سوابق علمی",
   'University is wrong' : 'دانشگاه اشتباه وارد شده است',
-  'Grade is wrong' : 'مقطع تحصیلی اشتباه وارد شده است',
+  'Education grade is wrong' : 'مقطع تحصیلی اشتباه وارد شده است',
   'Field of study is wrong' : 'رشته تحصیلی اشتباه وارد شده است',
   'Average is wrong': "میانگین اشتباه وارد شده است",
   'Description is wrong': "توضیحات اشتباه وارد شده است",
+  'Education': 'سابقه علمی',
+  'Research': 'سابقه پژوهشی',
+  'Grade': "مقطع",
 
 
   // user - BasicInformation
@@ -159,13 +161,15 @@ module.exports = {
   'Publication': 'انتشارات',
   'Page count': 'تعداد صفحات',
   'Researches': "سوابق پژوهشی",
+  'Page': 'صفحه',
   'Research Link': 'لینک مقاله',
   'Title is wrong': 'عنوان اشتباه است',
-  'Page is wrong': 'تعداد صفحه اشتباه است',
   'Publication is wrong': 'انتشارات اشتباه است',
   'Url is wrong': 'آدرس اینترنتی اشتباه است',
   'Author is wrong': 'نویسنده اشتباه است',
+  'Page count is wrong': 'تعداد صفحه اشتباه است',
   'Research Link is wrong': 'لینک مقاله اشتباه است',
+  'Download file': 'دانلود فایل',
 
 
   ', ': '، ',
@@ -182,7 +186,7 @@ module.exports = {
   'Tag is wrong': 'برچسب اشتباه است',
 
   // user - workExperience
-  'WorkExperience': "تجربه کاری",
+  'WorkExperience': "تجربیات کاری",
   'Organization worked': 'سازمان مورد نظر',
   'Name is wrong': 'نام وارد شده اشتباه است',
   'Position is wrong': 'موقعیت شغلی وارد شده اشتباه است',

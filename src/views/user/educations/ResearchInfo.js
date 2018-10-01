@@ -1,14 +1,14 @@
-//ResearchInfo flowTypes
-import type {userResearchType} from "../../../consts/flowTypes/user/basicInformation";
-import {Component} from "react";
-import PropTypes from "prop-types";
-import {Field, FieldLabel, FieldValue, ItemHeader, VerifyWrapper} from "../../common/cards/Frames";
-import {ItemWrapper} from "src/views/common/cards/Frames"
-import researchIcon from "../../../images/user/research_svg";
-import ResearchInfoEditForm from "./ResearchInfoEditForm";
-import * as React from "react";
-import {list_of_badge} from "../../common/Functions";
+// @flow
+import * as React from "react"
+import PropTypes from "prop-types"
 
+import ResearchInfoEditForm from "./ResearchInfoEditForm"
+import type {userResearchType} from "../../../consts/flowTypes/user/basicInformation"
+import {Field, FieldValue, ItemHeader, VerifyWrapper} from "../../common/cards/Frames"
+import {ItemWrapper} from "src/views/common/cards/Frames"
+import {EducationIcon} from "../../../images/icons"
+
+//ResearchInfo flowTypes
 type ResearchInfoProps = {
   research: userResearchType,
   updateResearchByUserId: Function,
@@ -20,9 +20,7 @@ type ResearchInfoState = {
   edit: boolean,
 }
 
-type listOfBadge = (?React.Element<'span'>)[]
-
-class ResearchInfo extends Component<ResearchInfoProps, ResearchInfoState> {
+class ResearchInfo extends React.Component<ResearchInfoProps, ResearchInfoState> {
   static propTypes = {
     research: PropTypes.object.isRequired,
     updateResearchByUserId: PropTypes.func.isRequired,
@@ -56,14 +54,9 @@ class ResearchInfo extends Component<ResearchInfoProps, ResearchInfoState> {
     const {translate, research, updateResearchByUserId, userId} = this.props
     const {edit} = this.state
 
-    let listAuthor: listOfBadge
-    if(research){
-      listAuthor = list_of_badge(research.author)
-    }
-
     return (
         <VerifyWrapper isLoading={false} error={false}>
-          <ItemWrapper icon={researchIcon}>
+          <ItemWrapper icon={<EducationIcon/>}>
             {edit ? (
                 <ResearchInfoEditForm
                     userId={userId}
@@ -78,32 +71,21 @@ class ResearchInfo extends Component<ResearchInfoProps, ResearchInfoState> {
                 <div>
                   <ItemHeader title={translate['ResearchInfo']} showEdit={this._showEdit}/>
                   <Field>
-                    <FieldLabel label={translate['Title'] + ": "}/>
-                    <FieldValue value={research.title}/>
+                    <a href={research.url}>
+                      <FieldValue value={research.title}/>
+                    </a>
                   </Field>
                   <Field>
-                    <FieldLabel label={translate['Author'] + ": "}/>
-                    <FieldValue value={<span className="dir-rtl">{listAuthor}</span>}/>
+                    <FieldValue
+                        value={`${research.publication}، ${research.year}، ${research.page_count} ${translate['Page']}`}/>
                   </Field>
                   <Field>
-                    <FieldLabel label={translate['Publication'] + ": "}/>
-                    <FieldValue value={research.publication}/>
+                    <FieldValue value={<span className="dir-rtl">{research.author.join('، ')}</span>}/>
                   </Field>
                   <Field>
-                    <FieldLabel label={translate['Year'] + ": "}/>
-                    <FieldValue value={research.year}/>
-                  </Field>
-                  <Field>
-                    <FieldLabel label={translate['Page Count'] + ": "}/>
-                    <FieldValue value={research.page_count}/>
-                  </Field>
-                  <Field>
-                    <FieldLabel label={translate['Research Link'] + ": "}/>
-                    <FieldValue value={research.research_link}/>
-                  </Field>
-                  <Field>
-                    <FieldLabel label={translate['Url'] + ": "}/>
-                    <FieldValue value={research.url}/>
+                    <a className='download-research' href={research.research_link}>
+                      <p className='download-file'>{translate['Download file']}</p>
+                    </a>
                   </Field>
                 </div>
             )}

@@ -1,20 +1,20 @@
 // flow type of EducationInfoForm
-import * as React from "react";
-import PropTypes from "prop-types";
+import * as React from "react"
+import PropTypes from "prop-types"
 
 import ResearchInfoForm from './ResearchInfoForm'
-import type {userResearchInputType} from "../../../consts/flowTypes/user/basicInformation";
+import type {userResearchInputType} from "../../../consts/flowTypes/user/basicInformation"
 
 type PropsResearchInfoCreateForm = {
   create: Function,
-  hideCreateForm: Function,
+  hideEdit: Function,
   translate: { [string]: string },
   userId: number,
 }
 
 const ResearchInfoCreateForm = (props: PropsResearchInfoCreateForm) => {
   const _onSubmit = (values: userResearchInputType) => {
-    const {hideCreateForm, create} = props
+    const {hideEdit, create} = props
 
     const formFormat = {
       title: values.title,
@@ -35,7 +35,7 @@ const ResearchInfoCreateForm = (props: PropsResearchInfoCreateForm) => {
 
     const formValues: {} = {...formFormat}
     create({formValues})
-    hideCreateForm()
+    hideEdit()
   }
   const {translate, userId, hideEdit} = props
 
@@ -54,7 +54,7 @@ const ResearchInfoCreateForm = (props: PropsResearchInfoCreateForm) => {
 }
 
 ResearchInfoCreateForm.propTypes = {
-  hideCreateForm: PropTypes.func.isRequired,
+  hideEdit: PropTypes.func.isRequired,
   create: PropTypes.func.isRequired,
   translate: PropTypes.object.isRequired,
   userId: PropTypes.number.isRequired,
