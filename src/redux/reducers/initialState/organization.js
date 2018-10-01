@@ -7,14 +7,6 @@ export default {
     isLoading: false,
     content: []
   },
-  followings: {
-    isLoading: false,
-    content: []
-  },
-  followers: {
-    isLoading: false,
-    content: []
-  },
   abilities: {
     isLoading: false,
     content: []

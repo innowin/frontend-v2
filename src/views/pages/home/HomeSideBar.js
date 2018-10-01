@@ -8,10 +8,7 @@ import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import {Link} from "react-router-dom"
 import {SeeViewIcon, RefreshIcon, SettingIcon, DefaultExchangeIcon} from "src/images/icons"
-import {makeGetExchangeMembershipsSelector} from 'src/redux/selectors/common/social/getExchangeMemberships'
-import {makeGetFollowersSelector} from "../../../redux/selectors/common/social/getFollowers";
-import {makeGetFolloweesSelector} from "../../../redux/selectors/common/social/getFollowees";
-import {getMessages} from "../../../redux/selectors/translateSelector";
+import {getExchangeMembershipsSelector} from 'src/redux/selectors/common/social/getExchangeMemberships'
 
 const DescriptionSideBarItem = ({description = '', className = ""}) => {
   return (
@@ -153,17 +150,9 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
 }
 
 
-const mapStateToProps = (state, ownProps) => {
-  const allExchanges = state.common.exchangeMembership.list
-  const ids = state.auth.client.exchangeMemberships
-  const getExchangesSelector = makeGetExchangeMembershipsSelector(state, ownProps)
-
-  return (state, props) => {
-    return {
-      clientExchanges: getExchangesSelector(state, props),
-    }
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+    clientExchanges: getExchangeMembershipsSelector(state, ownProps)
+})
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getExchangeMembershipByMemberIdentity: ExchangeMembershipActions.getExchangeMembershipByMemberIdentity

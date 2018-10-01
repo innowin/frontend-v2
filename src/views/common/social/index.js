@@ -15,13 +15,14 @@ import {Followees} from './Followees'
 import {Followers} from './Followers'
 import {FrameCard, CategoryTitle, VerifyWrapper} from "src/views/common/cards/Frames"
 import {getMessages} from "src/redux/selectors/translateSelector"
-import {makeGetFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
-import {makeGetFollowersSelector} from 'src/redux/selectors/common/social/getFollowers'
-import {makeGetExchangeMembershipsSelector} from 'src/redux/selectors/common/social/getExchangeMemberships'
-import type {paramType} from "../../../consts/flowTypes/paramType";
+import {getFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
+import {getFollowersSelector} from 'src/redux/selectors/common/social/getFollowers'
+import {getExchangeMembershipsSelector} from 'src/redux/selectors/common/social/getExchangeMemberships'
+import type {paramType} from "src/consts/flowTypes/paramType"
+import constants from "src/consts/constants"
 
 type PropsSocials = {
-  userId: number,
+  ownerId: number,
   identityId: number,
   actions: {
     deleteExchangeMembership: Function,
@@ -48,10 +49,9 @@ type StateSocials = {
   editFollowings: boolean,
 }
 
-//FixMe: mohammad organization follower followees images not show correctly
 class Socials extends Component<PropsSocials, StateSocials> {
   static propTypes = {
-    userId: PropTypes.number.isRequired,
+    ownerId: PropTypes.number.isRequired,
     identityId: PropTypes.number.isRequired,
     translate: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
@@ -72,15 +72,13 @@ class Socials extends Component<PropsSocials, StateSocials> {
       editExchanges: false,
       editFollowings: false,
     }
-
     this.firstStartFollower = true;
     this.firstStartFollowee = true
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     const {followers, actions, followees} = this.props
     const {getProfileByUserId, getOrganizationByOrganId} = actions
-
     if (this.firstStartFollower && prevProps.followers !== followers && followers.length > 0 && prevProps.followers.length > 0) {
       followers.forEach(follower => {
         if (follower.identity_user) {
@@ -116,80 +114,78 @@ class Socials extends Component<PropsSocials, StateSocials> {
   }
 
   componentDidMount() {
-    const {identityId, actions, userId, identityType} = this.props
+    const {identityId, actions, ownerId, identityType} = this.props
     const {getFollowees, getFollowers, getExchangeMembershipByMemberIdentity} = actions
 
     if (identityId) {
       const followOwnerIdentity = identityId
-      const followOwnerId = userId
+      const followOwnerId = ownerId
 
-      getExchangeMembershipByMemberIdentity({identityId, exchangeMembershipOwnerType: identityType, exchangeMembershipOwnerId: userId})
+      getExchangeMembershipByMemberIdentity({
+        identityId,
+        exchangeMembershipOwnerType: identityType,
+        exchangeMembershipOwnerId: ownerId
+      })
       getFollowers({followOwnerId, followOwnerIdentity, followOwnerType: identityType})
       getFollowees({followOwnerId, followOwnerIdentity, followOwnerType: identityType})
     }
   }
 
   render() {
-    const {translate, followers, followees, actions, isLoading, error, exchanges, identityId, userId, identityType, param} = this.props
+    const {translate, followers, followees, actions, isLoading, error, exchanges, identityId, ownerId, identityType, param} = this.props
     const {deleteFollow, deleteExchangeMembership, updateFollow, createFollow} = actions
     const {editExchanges, editFollowings} = this.state
-    const paramId = param.user || param.organization
+    const paramId = +(param.user || param.organization)
 
     return (
-        <VerifyWrapper isLoading={isLoading} error={error}>
-          <CategoryTitle
-              title={translate['Socials']}
+      <VerifyWrapper isLoading={isLoading} error={error}>
+        <CategoryTitle
+          title={translate['Socials']}
+        />
+        <FrameCard className="frameCardSocial">
+          <Exchanges removeMembership={deleteExchangeMembership}
+                     exchanges={exchanges}
+                     showEdit={this._showExchangesEdit}
+                     edit={editExchanges}
+                     translate={translate}
           />
-          <FrameCard className="frameCardSocial">
-            <Exchanges removeMembership={deleteExchangeMembership}
-                       exchanges={exchanges}
-                       showEdit={this._showExchangesEdit}
-                       edit={editExchanges}
-                       translate={translate}
-            />
-            <Followees edit={editFollowings}
-                       deleteFollow={deleteFollow}
-                       followees={followees}
-                       showEdit={this._showEditFollowings}
-                       translate={translate}
-                       userId={userId}
-            />
-            <Followers followers={followers} translate={translate}
-                       deleteFollow={deleteFollow}
-                       followees={followees}
-                       updateFollow={updateFollow}
-                       identityId={identityId}
-                       createFollow={createFollow}
-                       userId={userId}
-                       identityType={identityType}
-                       paramId={paramId}
-            />
-          </FrameCard>
-        </VerifyWrapper>
+          <Followees edit={editFollowings}
+                     deleteFollow={deleteFollow}
+                     followees={followees}
+                     showEdit={this._showEditFollowings}
+                     translate={translate}
+                     userId={ownerId}
+          />
+          <Followers followers={followers} translate={translate}
+                     deleteFollow={deleteFollow}
+                     followees={followees}
+                     updateFollow={updateFollow}
+                     identityId={identityId}
+                     createFollow={createFollow}
+                     userId={ownerId}
+                     identityType={identityType}
+                     paramId={paramId}
+          />
+        </FrameCard>
+      </VerifyWrapper>
     )
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const getFollowersSelector = makeGetFollowersSelector(state, ownProps)
-  const getFolloweesSelector = makeGetFolloweesSelector(state, ownProps)
-  const getExchangesSelector = makeGetExchangeMembershipsSelector(state, ownProps)
-
-  return (state, props) => {
-    const {userId} = props
-    const stateUser = state.users.list[userId]
-    const defaultObject = {content: [], isLoading: false, error: null}
-    const followObject = (stateUser && stateUser.social && stateUser.social.follow) || defaultObject
-
-    return {
-      translate: getMessages(state),
-      param: state.param,
-      followers: getFollowersSelector(state, props),
-      followees: getFolloweesSelector(state, props),
-      exchanges: getExchangesSelector(state, props),
-      isLoading: followObject.isLoading,
-      error: followObject.error,
-    }
+  const {ownerId, identityType} = ownProps
+  const stateOwner = (identityType === constants.USER_TYPES.PERSON) ? state.users.list[ownerId] :
+    state.organs.list[ownerId]
+  const defaultObject = {content: [], isLoading: false, error: null}
+  const followObject = (stateOwner && stateOwner.social && stateOwner.social.follows) || defaultObject
+  return {
+    translate: getMessages(state),
+    param: state.param,
+    followers: getFollowersSelector(state, ownProps),
+    followees: getFolloweesSelector(state, ownProps),
+    exchanges: getExchangeMembershipsSelector(state, ownProps),
+    isLoading: followObject.isLoading,
+    error: followObject.error,
   }
 }
 
