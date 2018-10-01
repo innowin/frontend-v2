@@ -4,27 +4,27 @@ import connect from "react-redux/es/connect/connect"
 import PropTypes from "prop-types"
 
 import {ItemWrapper, VerifyWrapper} from "../../common/cards/Frames"
-import {ProfileInfoView} from './ProfileInfoView'
-import userInfoIcon from "../../../images/user/userinfo_svg"
-import {ProfileInfoEditForm} from "./ProfileInfoEditForm"
+import ContactInfoView from './ContactInfoView'
+import {InformationIcon} from "src/images/icons"
+import {ContactInfoEditForm} from "./ContactInfoEditForm"
 import {bindActionCreators} from "redux";
-import updateProfileByProfileId from "../../../redux/actions/user/updateProfileByProfileIdAction";
+import updateProfileByProfileIdAction from "../../../redux/actions/user/updateProfileByProfileIdAction";
 
-//ProfileInfo flowTypes
-type ProfileInfoProps = {
+//ContactInfo flowTypes
+type ContactInfoProps = {
   userId: number,
   translate: {},
   profile: {},
   isLoading: boolean,
   actions: {},
 }
-type ProfileInfoState = {
+type ContactInfoState = {
   error: boolean,
   edit: boolean,
 }
 
-class ProfileInfo extends React.Component<ProfileInfoProps, ProfileInfoState> {
-  constructor(props: ProfileInfoProps) {
+class ContactInfo extends React.Component<ContactInfoProps, ContactInfoState> {
+  constructor(props: ContactInfoProps) {
     super(props)
     this.state = {error: false, edit: false, isLoading: false}
 
@@ -51,31 +51,31 @@ class ProfileInfo extends React.Component<ProfileInfoProps, ProfileInfoState> {
     const {edit, error} = this.state
     return (
         <VerifyWrapper isLoading={isLoading} error={error}>
+          <ItemWrapper icon={<InformationIcon/>}>
           {(edit) ? (
-              <ItemWrapper icon={userInfoIcon}>
-                <ProfileInfoEditForm
+                <ContactInfoEditForm
                     profile={profile}
                     hideEdit={this._hideEdit}
                     translate={translate}
                     actions={actions}
                     userId={userId}
                 />
-              </ItemWrapper>
           ) : (
-              <ProfileInfoView profile={profile} showEdit={this._showEdit} translate={translate}/>
+              <ContactInfoView profile={profile} showEdit={this._showEdit} translate={translate}/>
           )
           }
+          </ItemWrapper>
         </VerifyWrapper>
     )
   }
 }
 
-const mapProfileInfoDispatchToProps = dispatch => ({
+const mapContactInfoDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    updateProfileByProfileId: updateProfileByProfileId.updateProfile,
+    updateProfileByProfileId: updateProfileByProfileIdAction.updateProfile,
   }, dispatch)
 })
 
-ProfileInfo = connect(null, mapProfileInfoDispatchToProps)(ProfileInfo)
+ContactInfo = connect(null, mapContactInfoDispatchToProps)(ContactInfo)
 
-export {ProfileInfo}
+export {ContactInfo}

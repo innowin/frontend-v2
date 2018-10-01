@@ -5,5 +5,11 @@ export default {
   },
   POST_PARENT: {
     EXCHANGE: 'exchange'
+  },
+  PRODUCT: {
+    PRICE_TYPE: {
+      SPECIFIED: 'specified',
+      CALL: 'call',
+    }
   }
 }

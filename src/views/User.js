@@ -28,7 +28,7 @@ import {
   workExperienceIcon,
   postIcon,
   SocialIcon,
-  educationIcon
+  EducationIcon
 } from "src/images/icons"
 import {UserSideBar} from "./bars/SideBar"
 import type {
@@ -145,7 +145,7 @@ class User extends Component<PropsUser> {
                 </NavLink>
                 {/* TODO: mohammad add education and its route*/}
                 <NavLink className="-tab" to={`${url}/Educations`} activeClassName="-active">
-                  <educationIcon/>
+                  <EducationIcon/>
                 </NavLink>
                 {/* FixMe: mohammad workExperiences and skills must be join to workExperiences and join their routes*/}
                 <NavLink className="-tab" to={`${url}/WorkExperiences`}

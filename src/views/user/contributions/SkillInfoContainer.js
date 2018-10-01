@@ -1,19 +1,15 @@
-import type {skillType} from "../../../consts/flowTypes/user/others";
-import {Component} from "react";
-import PropTypes from "prop-types";
-import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS";
-import {REST_REQUEST} from "../../../consts/Events";
-import {TOKEN} from "../../../consts/data";
-import {createSkill} from "../../../crud/user/skills";
-import {ItemWrapper} from "../../common/cards/Frames";
-import SkillInfoCreateForm from "./SkillInfoCreateForm";
-import {bindActionCreators} from "redux";
-import SkillActions from "../../../redux/actions/skillActions";
-import connect from "react-redux/es/connect/connect";
-import * as React from "react";
+// @flow
+import * as React from "react"
+import PropTypes from "prop-types"
+import {bindActionCreators} from "redux"
+import {connect} from "react-redux"
+
+import NewSkillIcon from "../../../images/user/new_skill_svg"
+import SkillActions from "../../../redux/actions/skillActions"
 import SkillInfo from './SkillInfo'
-import {SkillIcon} from "../../../images/icons";
-import {makeGetSkills} from "../../../redux/selectors/user/userGetSkillSelector";
+import type {skillType} from "../../../consts/flowTypes/user/others"
+import {ItemHeader, ItemWrapper} from "../../common/cards/Frames"
+import {makeGetSkills} from "../../../redux/selectors/user/userGetSkillSelector"
 
 type PropsSkills = {
   userId: number,
@@ -30,100 +26,32 @@ type PropsSkills = {
 
 type StateSkills = {
   createForm: boolean,
-  products: [],
 }
 
-class SkillInfoContainer extends Component<PropsSkills, StateSkills> {
+class SkillInfoContainer extends React.Component<PropsSkills, StateSkills> {
 
   static propTypes = {
     userId: PropTypes.number.isRequired,
     translate: PropTypes.object.isRequired,
-    skills: PropTypes.object.isRequired,
+    skills: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired,
     isLoading: PropTypes.bool,
     error: PropTypes.object,
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      createForm: false,
-      products: [],
-    }
-  }
-
-  _showCreateForm = () => {
-    this.setState({createForm: true})
-  }
-
-  _hideCreateForm = () => {
-    this.setState({createForm: false})
-  }
-
-  _updateSkills = (res: skillType, type: string, deletedIndex: ?number = null) => {
-    const {skills} = this.state
-    if (type === 'get') {
-      this.setState({...this.state, skills: [...skills, ...res]})
-      return false
-    }
-    if (type === 'post') {
-      this.setState({...this.state, skills: [res, ...skills]})
-      return false
-    }
-    if (type === 'del' && deletedIndex) {
-      const remainSkills = skills.slice(0, deletedIndex).concat(skills.slice(deletedIndex + 1))
-      this.setState({...this.state, skills: remainSkills})
-    }
-  }
-
-  _create = (formValues, hideCreateForm) => {
-    const {skill, skills} = this.state
-    return createSkill(formValues, skills, skill, this._updateSkills, hideCreateForm)
   }
 
   componentDidMount() {
     const {userId, actions} = this.props
     const {getSkillByUserId} = actions
     getSkillByUserId({userId})
-
-    const emitting = () => {
-      //products
-      socket.emit(REST_REQUEST,
-          {
-            method: "get",
-            url: `${url}/products/?product_owner=${userId}`,
-            result: `userSkills-Products-get/${userId}`,
-            token: TOKEN
-          }
-      )
-    }
-
-    emitting()
-    socket.on(`userSkills-Products-get/${userId}`, (res) => {
-      if (res.detail) {
-        const newState = {...this.state, error: res.data.detail}
-        this.setState(newState)
-      } else {
-        const newState = {...this.state, products: res.data}
-        this.setState(newState)
-      }
-    })
   }
 
   render() {
     const {translate, skills, userId, actions} = this.props
     const {updateSkillByUserId, deleteSkillByUserId} = actions
-    const {createForm} = this.state
     return (
         //<VerifyWrapper isLoading={isLoading} error={error}>
-        <div>
-          {
-            createForm &&
-            <ItemWrapper icon={SkillIcon}>
-              <SkillInfoCreateForm hideCreateForm={this._hideCreateForm} create={this._create} translate={translate}
-                                   userId={userId}/>
-            </ItemWrapper>
-          }
+        <ItemWrapper icon={<NewSkillIcon/>}>
+          <ItemHeader title={translate['Skills']}/>
           {
             skills.map((skill, index) => (
                 <SkillInfo
@@ -136,7 +64,7 @@ class SkillInfoContainer extends Component<PropsSkills, StateSkills> {
                 />
             ))
           }
-        </div>
+        </ItemWrapper>
         //</VerifyWrapper>
     )
   }

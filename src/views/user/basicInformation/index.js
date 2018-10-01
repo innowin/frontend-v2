@@ -6,12 +6,14 @@ import PropTypes from "prop-types"
 
 import {FrameCard, CategoryTitle, ListGroup} from "src/views/common/cards/Frames"
 import {getMessages} from "src/redux/selectors/translateSelector"
-import {UserInfo} from './UserInfo'
-import {ProfileInfo} from './ProfileInfo'
+import {BasicInfo} from './BasicInfo'
+import {ContactInfo} from './ContactInfo'
+import {PrivateInfo} from './PrivateInfo'
 import type {
   userProfileType,
   userType
 } from "src/consts/flowTypes/user/basicInformation"
+import CheckOwner from "../../common/CheckOwner";
 
 //UserBasicInformation flowTypes
 type UserBasicInformationProps = {
@@ -39,8 +41,11 @@ export class UserBasicInformation extends Component<UserBasicInformationProps> {
         />
         <FrameCard>
           <ListGroup>
-            <UserInfo {...{userId}} translate={translate} user={user.content} isLoading={user.isLoading}/>
-            <ProfileInfo {...{userId}} translate={translate} profile={profile.content} isLoading={profile.isLoading}/>
+            <BasicInfo {...{userId}} translate={translate} user={user.content} isLoading={user.isLoading}/>
+            <ContactInfo {...{userId}} translate={translate} profile={profile.content} isLoading={profile.isLoading}/>
+            <CheckOwner id={userId}>
+              <PrivateInfo {...{userId}} user={user.content} translate={translate} profile={profile.content} isLoading={profile.isLoading}/>
+            </CheckOwner>
           </ListGroup>
         </FrameCard>
       </div>

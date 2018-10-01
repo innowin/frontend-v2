@@ -6,7 +6,7 @@ export const list_of_badge = (myValue: (?string)[]): (?React.Element<'span'>)[] 
     return (
         myValue.map((item, i) => {
           return (
-              <span key={i} className="badge badge-success mr-2">{item}</span>
+              <span key={i} className="badge badge-success badge-success-style">{item}</span>
           )
         })
     )

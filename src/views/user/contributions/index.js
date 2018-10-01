@@ -1,10 +1,12 @@
-import PropTypes from "prop-types";
-import {CategoryTitle, FrameCard, ListGroup} from "../../common/cards/Frames";
-import {getMessages} from "../../../redux/selectors/translateSelector";
-import connect from "react-redux/es/connect/connect";
-import * as React from "react";
-import SkillInfoContainer from './SkillInfoContainer'
+// @flow
+import * as React from "react"
+import PropTypes from "prop-types"
+import {connect} from "react-redux"
+
 import ProductInfoContainer from './ProductInfoContainer'
+import SkillInfoContainer from './SkillInfoContainer'
+import {CategoryTitle, FrameCard, ListGroup} from "../../common/cards/Frames"
+import {getMessages} from "../../../redux/selectors/translateSelector"
 
 type PropsSkills = {
   userId: number,

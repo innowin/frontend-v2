@@ -34,30 +34,36 @@
       margin-right: auto;
       padding-top: 2px;
     }
-
-    .-img-col {
-      img, svg {
-        width: 45px;
-        height: 45px;
-      }
-    }
-    .-item-titlePost{
+    .link-post {
       display: flex;
-      flex-direction: column;
-      padding: 0 8px;
+      flex-direction: row;
+      text-decoration: none;
 
-      .post-name{
-        font-size: $font-size-post-name;
-        padding: 0 8px;
+      .-img-col {
+        img, svg {
+          width: 45px;
+          height: 45px;
+        }
       }
-      .post-username{
-        font-size: $font-size-post-username;
+      .-item-titlePost{
+        display: flex;
+        flex-direction: column;
         padding: 0 8px;
-      }
-      .post-date{
-        font-size: $font-size-post-date;
-        margin-top: 3px;
-        padding: 0 8px;
+
+        .post-name{
+          font-size: $font-size-post-name;
+          color: $text-dark-color;
+          padding: 0 8px;
+        }
+        .post-username{
+          font-size: $font-size-post-username;
+          padding: 0 8px;
+        }
+        .post-date{
+          font-size: $font-size-post-date;
+          margin-top: 3px;
+          padding: 0 8px;
+        }
       }
     }
   }
