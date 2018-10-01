@@ -12,7 +12,7 @@ import GetIdentityActions from "src/redux/actions/identityActions"
 import Posts from "src/views/common/post/index"
 import PrivateRoute from "../consts/PrivateRoute"
 import Contributions from "./user/contributions"
-import Social from "src/views/user/social/index"
+import Social from "src/views/common/social/index"
 import TopBar from "src/views/bars/TopBar"
 import UserBasicInformation from "./user/basicInformation/index"
 import WorkExperiences from "./user/workExperience/index"
@@ -113,8 +113,6 @@ class User extends Component<PropsUser> {
 
   render() {
     const {match, translate, profileObject, userObject, identityObject, badgesObject, badges} = this.props
-    {/* TODO: fake*/
-    }
     const {path, url, params} = match
     const userId: number = +params.id
     const isLoading = userObject.isLoading || profileObject.isLoading || identityObject.isLoading
@@ -130,7 +128,7 @@ class User extends Component<PropsUser> {
                          profile={profileObject.content}
                          badges={badges}
                          className={`-right-sidebar-wrapper user-sidebar-width col pr-0 pl-0`}
-                         paramId={params.id}
+                         paramId={userId}
             />
             <div className="col-md-6 col-sm-10 -content-wrapper">
               <Tabs>
@@ -167,7 +165,7 @@ class User extends Component<PropsUser> {
                               identityId={identityObject.content}
                               identityType={constants.USER_TYPES.PERSON}/>
                 <PrivateRoute path={`${path}/SocialConnections`} component={Social}
-                              userId={userId}
+                              ownerId={userId}
                               identityId={identityObject.content}
                               identityType={constants.USER_TYPES.PERSON}
                 />
@@ -176,7 +174,8 @@ class User extends Component<PropsUser> {
                 <PrivateRoute path={`${path}/Certificates`} component={Certificates}
                               id={userId}
                               identityId={identityObject.content}
-                              identityType={constants.USER_TYPES.PERSON}/>
+                              identityType={constants.USER_TYPES.PERSON}
+                />
               </Switch>
             </div>
             <div className="col-md-2 col-sm-1 -left-sidebar-wrapper">

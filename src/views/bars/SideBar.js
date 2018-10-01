@@ -52,7 +52,7 @@ type PropsUserSideBar = {
   badges: (badgeType)[],
   className?: string,
   translate: TranslatorType,
-  paramId: string,
+  paramId: number,
 }
 export const UserSideBar = (props: PropsUserSideBar) => {
 
@@ -90,7 +90,7 @@ UserSideBar.propTypes = {
   profile: PropTypes.object.isRequired,
   badges: PropTypes.array.isRequired,
   className: PropTypes.string,
-  paramId: PropTypes.string,
+  paramId: PropTypes.number,
 }
 
 
@@ -103,7 +103,7 @@ type PropsOrganSideBar = {
   organBanner: ?string,
   className?: string,
   translate: TranslatorType,
-  paramId: string,
+  paramId: number,
 }
 export const OrganSideBar = (props: PropsOrganSideBar) => {
     const {organ, badges, organLogo, organBanner, className, translate, paramId} = props
@@ -139,7 +139,7 @@ OrganSideBar.propTypes = {
   organBanner: PropTypes.string,
   className: PropTypes.string,
   translate: PropTypes.object.isRequired,
-  paramId: PropTypes.string,
+  paramId: PropTypes.number,
 }
 
 
@@ -158,7 +158,7 @@ type PropsSideBarContent = {
   },
   translate: TranslatorType,
   className?: string,
-  paramId: string,
+  paramId: number,
 }
 
 class SideBarContent extends Component<PropsSideBarContent, { menuToggle: boolean }> {
@@ -173,7 +173,7 @@ class SideBarContent extends Component<PropsSideBarContent, { menuToggle: boolea
     socialNetworks: PropTypes.object.isRequired,
     translate: PropTypes.object.isRequired,
     className: PropTypes.string,
-    paramId: PropTypes.string,
+    paramId: PropTypes.number,
   }
 
   constructor(props) {

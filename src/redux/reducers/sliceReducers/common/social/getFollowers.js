@@ -5,7 +5,6 @@ const success = (state, action) => {
   const {data} = action.payload || []
   const previousFollows = (state && state.follows) || {}
   const indexedSocial = {}
-
   data.map(follow => indexedSocial[follow.id] = {...follow, error: null, isLoading: false})
   return {
     ...state,

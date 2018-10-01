@@ -2,10 +2,18 @@ import createWorkExperienceByUserId from './createWorkExperienceByUserId'
 import deleteWorkExperienceByUserId from './deleteWorkExperienceByUserId'
 import getWorkExperienceByUserId from './getWorkExperienceByUserId'
 import getExchangeMembershipByMemberIdentity from "./getExchangeMembershipByMemberIdentity"
+import getFollowees from "./getFollowees"
+import getFollowers from "./getFollowers"
+import createFollow from "./createFollow"
+import deleteFollow from "./deleteFollow"
 
 export default {
   createWorkExperienceByUserId,
   deleteWorkExperienceByUserId,
   getWorkExperienceByUserId,
-  getExchangeMembershipByMemberIdentity
+  getExchangeMembershipByMemberIdentity,
+  getFollowees,
+  getFollowers,
+  createFollow,
+  deleteFollow,
 }

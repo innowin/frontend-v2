@@ -154,28 +154,6 @@ const organization = (state = initialState.organization, action) => {
     case types.ERRORS.ORG.DELETE_PRODUCT:
       error = action.payload.error
       return{...state, errorMessage:error,products:{...state.products,isLoading:false,error:true}}
-
-		/** -------------------------- get organization follower-------------------------> **/
-		case types.ORG.GET_ORG_FOLLOWERS:
-			let followers = action.payload;
-			return{...state,followers:{content:[],isLoading:true,error:false}}	
-		case types.ERRORS.ORG.GET_ORG_FOLLOWERS:
-			let errorMsg = action.payload;
-			return{...state,errorMessage:errorMsg,followers:{content:[],isLoading:false,error:true}}	
-		case types.SUCCESS.ORG.GET_ORG_FOLLOWERS:
-			followers = action.payload;
-			return{...state,followers:{content:followers,isLoading:false,error:false}}	
-
-		/** -------------------------- get organization followings-------------------------> **/
-		case types.ORG.GET_ORG_FOLLOWINGS:
-			let followings = action.payload;
-			return{...state,followings:{content:[],isLoading:true,error:false}}	
-		case types.ERRORS.ORG.GET_ORG_FOLLOWINGS:
-			errorMsg = action.payload;
-			return{...state,errorMessage:errorMsg,followings:{content:[],isLoading:false,error:true}}	
-		case types.SUCCESS.ORG.GET_ORG_FOLLOWINGS:
-		followings = action.payload;
-			return{...state,followings:{content:followings,isLoading:false,error:false}}	
 		
 		/** -------------------------- get organization CERTIFICATE-------------------------> **/
 		case types.SUCCESS.ORG.GET_ORG_CERTIFICATES:
