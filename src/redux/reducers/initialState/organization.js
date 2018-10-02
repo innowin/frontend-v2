@@ -11,10 +11,6 @@ export default {
     isLoading: false,
     content: []
   },
-  certificates: {
-    isLoading: false,
-    content: []
-  },
   customers: {
     isLoading: false,
     error: false,

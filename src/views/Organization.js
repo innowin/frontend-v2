@@ -3,7 +3,7 @@ import React from "react"
 import {Component} from "react"
 
 import BadgeActions from "src/redux/actions/commonActions/badgeActions"
-import Certificates from "./organization/certificates/index"
+import Certificates from "./common/certificates/index"
 import ChatBar from "./bars/ChatBar"
 import Customers from "./organization/customers/index"
 import OrganizationActions from "src/redux/actions/organization/organizationActions"
@@ -131,7 +131,12 @@ export class Organization extends Component<PropsOrganization> {
                                 identityId={identityObject.content}
                                 identityType={constants.USER_TYPES.ORG}
                   />
-                  <PrivateRoute path={`${path}/Certificates`} component={Certificates} organizationId={organizationId}/>
+                  <PrivateRoute path={`${path}/Certificates`}
+                                component={Certificates}
+                                ownerId={organizationId}
+                                identityId={identityObject.content}
+                                identityType={constants.USER_TYPES.PERSON}
+                  />
                 </Switch>
               )
             }

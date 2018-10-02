@@ -4,7 +4,7 @@ import {Component} from "react"
 import PropTypes from "prop-types"
 
 import BadgeActions from "src/redux/actions/commonActions/badgeActions"
-import Certificates from "./user/certificates/index"
+import Certificates from "./common/certificates/index"
 import ChatBar from "src/views/bars/ChatBar"
 import Educations from "src/views/user/educations"
 import GetUserActions from "src/redux/actions/user/getUserActions"
@@ -175,7 +175,7 @@ class User extends Component<PropsUser> {
                   <PrivateRoute path={`${path}/Educations`} component={Educations} userId={userId}/>
                   <PrivateRoute path={`${path}/WorkExperiences`} component={WorkExperiences} userId={userId}/>
                   <PrivateRoute path={`${path}/Certificates`} component={Certificates}
-                                id={userId}
+                                ownerId={userId}
                                 identityId={identityObject.content}
                                 identityType={constants.USER_TYPES.PERSON}
                   />

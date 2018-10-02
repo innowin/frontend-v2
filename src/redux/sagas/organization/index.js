@@ -7,12 +7,10 @@ import {updateOrganization} from "./updateOrgan"
 import {
   addPictureProduct,
   agencyRequest,
-  createCertificate,
   createOrgCustomer,
   createProduct,
   deleteOrgCustomer,
   deleteProduct,
-  getCertificates,
   getCustomers,
   getExchanges,
   getOrganizationMembers,
@@ -20,7 +18,6 @@ import {
   getProductPicture,
   getProducts,
   getProductsSuccess,
-  updateCertificate,
   updateCustomer,
   updateProduct
 } from "./organization"
@@ -56,20 +53,6 @@ function* watchGetOrgExchanges() {
 // get org customers
 function* watchGetCustomers() {
   yield takeEvery(types.ORG.GET_ORG_CUSTOMERS, getCustomers)
-}
-
-// get org certificates
-function* watchGetCertificates() {
-  yield takeEvery(types.ORG.GET_ORG_CERTIFICATES, getCertificates)
-}
-
-function* watchCreateCertificate() {
-  yield takeEvery(types.ORG.CREATE_CERTIFICATE, createCertificate)
-}
-
-// update org certificate
-function* watchUpdateCertificate() {
-  yield takeEvery(types.ORG.UPDATE_CERTIFICATE, updateCertificate)
 }
 
 // update org customer
@@ -125,9 +108,6 @@ export default [
   watchGetProducts(),
   watchGetOrgExchanges(),
   watchGetCustomers(),
-  watchGetCertificates(),
-  watchCreateCertificate(),
-  watchUpdateCertificate(),
   watchUpdateCustomer(),
   watchCreateOrgProduct(),
   watchUpdateOrgProduct(),

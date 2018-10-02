@@ -8,12 +8,13 @@ import {bindActionCreators} from "redux";
 import {ItemHeader, ItemWrapper} from "../../common/cards/Frames";
 import {Certificate} from './Certificate'
 import {Component} from "react";
-import {makeUserCertificatesSelector} from "../../../redux/selectors/common/certificate/userCertificatesSelector";
+import {userCertificatesSelector} from "../../../redux/selectors/common/certificate/userCertificatesSelector";
 import CertificateIcon from "../../../images/user/certificate_svg";
 import type {paramType} from "../../../consts/flowTypes/paramType";
+import constants from "src/consts/constants"
 
 type PropsCertificates = {
-  id: number,
+  ownerId: number,
   identityId: number,
   identityType: string,
   certificates: (certificateType)[],
@@ -30,7 +31,7 @@ type PropsCertificates = {
 
 export class CertificateContainer extends Component<PropsCertificates> {
   static propTypes = {
-    id: PropTypes.number.isRequired,
+    ownerId: PropTypes.number.isRequired,
     translate: PropTypes.object.isRequired,
     certificates: PropTypes.array.isRequired,
     identityId: PropTypes.number.isRequired,
@@ -42,9 +43,9 @@ export class CertificateContainer extends Component<PropsCertificates> {
   }
 
   componentDidMount() {
-    const {actions, identityId, id, identityType} = this.props
+    const {actions, identityId, ownerId, identityType} = this.props
     const {getCertificatesByIdentity} = actions
-    getCertificatesByIdentity({identityId, certificateOwnerId: id, certificateOwnerType: identityType})
+    getCertificatesByIdentity({identityId, certificateOwnerId: ownerId, certificateOwnerType: identityType})
   }
 
   render() {
@@ -76,21 +77,17 @@ export class CertificateContainer extends Component<PropsCertificates> {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const userCertificatesSelector = makeUserCertificatesSelector(state, ownProps)
-  return (state, props) => {
-
-    let userId = props.id
-    const stateUser = state.users.list[userId]
-    const defaultObject = {content: [], isLoading: false, error: null}
-    const certificateObject = (stateUser && stateUser.certificates) || defaultObject
-
-    return {
-      certificates: userCertificatesSelector(state, props),
-      param: state.param,
-      translate: state.intl.messages,
-      isLoading: certificateObject.isLoading,
-      error: certificateObject.error,
-    }
+  const {ownerId, identityType} = ownProps
+  const stateOwner = (identityType === constants.USER_TYPES.PERSON) ? state.users.list[ownerId] :
+    state.organs.list[ownerId]
+  const defaultObject = {content: [], isLoading: false, error: null}
+  const certificateObject = (stateOwner && stateOwner.certificates) || defaultObject
+  return {
+    certificates: userCertificatesSelector(state, ownProps),
+    param: state.param,
+    translate: state.intl.messages,
+    isLoading: certificateObject.isLoading,
+    error: certificateObject.error,
   }
 }
 

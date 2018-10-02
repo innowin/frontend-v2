@@ -8,7 +8,7 @@ import CertificateContainer from './CertificateContainer'
 import connect from "react-redux/es/connect/connect";
 
 type PropsCertificates = {
-  id: number,
+  ownerId: number,
   identityId: number,
   identityType: string,
   translate: { [string]: string },
@@ -16,14 +16,14 @@ type PropsCertificates = {
 
 export class Index extends Component<PropsCertificates> {
   static propTypes = {
-    id: PropTypes.number.isRequired,
+    ownerId: PropTypes.number.isRequired,
     identityId: PropTypes.number.isRequired,
     identityType: PropTypes.string.isRequired,
     translate: PropTypes.object.isRequired,
   }
 
   render() {
-    const {translate, identityId, identityType, id} = this.props
+    const {translate, identityId, identityType, ownerId} = this.props
 
     return (
         //<VerifyWrapper isLoading={isLoading} error={error}>
@@ -33,7 +33,7 @@ export class Index extends Component<PropsCertificates> {
           />
           <FrameCard>
             <ListGroup>
-              <CertificateContainer id={id} identityId={identityId} identityType={identityType}/>
+              <CertificateContainer ownerId={ownerId} identityId={identityId} identityType={identityType}/>
             </ListGroup>
           </FrameCard>
         </div>
