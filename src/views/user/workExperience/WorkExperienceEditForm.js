@@ -48,8 +48,8 @@ class WorkExperienceEditForm extends Component<PropsWorkExperienceEditForm, Stat
     const {userId, workExperience, update, hideEdit} = this.props
 
     const workExperienceId: number = workExperience.id
-    const from_date = values.yearFromDate === '' || values.monthFromDate === '' || values.dayFromDate === '' ? '' : `${values.yearFromDate}/${values.monthFromDate}/${values.dayFromDate}`
-    const to_date = values.yearToDate === '' || values.monthToDate === '' || values.dayToDate === '' ? '' : `${values.yearToDate}/${values.monthToDate}/${values.dayToDate}`
+    const from_date = values.yearFromDate === '' || values.monthFromDate === '' || values.dayFromDate === '' ? '' : `${values.yearFromDate}.${values.monthFromDate}.${values.dayFromDate}`
+    const to_date = values.yearToDate === '' || values.monthToDate === '' || values.dayToDate === '' ? '' : `${values.yearToDate}.${values.monthToDate}.${values.dayToDate}`
 
     const formFormat = {
       name: workExperience.name === values.name ? null : values.name,

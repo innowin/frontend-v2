@@ -77,7 +77,7 @@ class ResearchInfo extends React.Component<ResearchInfoProps, ResearchInfoState>
                   </Field>
                   <Field>
                     <FieldValue
-                        value={`${research.publication}، ${research.year}، ${research.page_count} ${translate['Page']}`}/>
+                        value={`${research.publication ? research.publication + '، ' : ''}${research.year ? research.year + '، ' : ''}${research.page_count ? ' ' + translate['Page'] : ''}`}/>
                   </Field>
                   <Field>
                     <FieldValue value={<span className="dir-rtl">{research.author.join('، ')}</span>}/>

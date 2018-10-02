@@ -13,7 +13,7 @@ module.exports = {
   // auth
   'Organization national code must be 11 digit': "شناسه ملی باید یک عدد یازده رقمی باشد",
   'Login with google': "با حساب گوگل وارد شوید",
-  'All rights are reserved for Danesh Boom': "تمامی حقوق برای دانش بوم محفوظ است",
+  'All rights are reserved for Danesh Boom': "تمامی حقوق برای اینووین محفوظ است",
   'Register with other accounts': "ثبت نام با اکانت های دیگر",
   'Username': "نام کاربری",
   'Email': "رایانامه",
@@ -98,8 +98,6 @@ module.exports = {
   'Education grade': "مقطع تحصیلی",
   'University': "آموزشگاه/ دانشگاه",
   'Field of study': "رشته تحصیلی",
-  'From date': "از تاریخ",
-  'To date': "تا تاریخ",
   'Average': "معدل",
   'Description': "توضیحات",
   'Educations': "سوابق علمی",
@@ -129,7 +127,7 @@ module.exports = {
   'User info': "اطلاعات کاربری",
   'Organization info': "اطلاعات شرکت",
   'Organization members': "اعضای شرکت",
-  'Date joined': 'تاریخ پیوستن در دانش بوم',
+  'Date joined': 'تاریخ پیوستن در اینووین',
 
   'Contact info': 'اطلاعات تماس',
   'Website': "تارنما",
@@ -178,7 +176,8 @@ module.exports = {
   'Tag': "برچسب",
   'Skills': "توانمندی ها",
   'Work experiences': "سوابق کاری",
-  'Position': "موقعیت",
+  'Position': "موقعیت شغلی",
+  'Name work': 'محل کار',
   'Removing...': "در حال حذف ...",
   'Saving...': "در حال ذخیره سازی ...",
   'Tag Name': 'نام تگ',
@@ -189,7 +188,7 @@ module.exports = {
   'WorkExperience': "تجربیات کاری",
   'Organization worked': 'سازمان مورد نظر',
   'Name is wrong': 'نام وارد شده اشتباه است',
-  'Position is wrong': 'موقعیت شغلی وارد شده اشتباه است',
+  'Position is wrong': 'محل کار وارد شده اشتباه است',
 
   // user - social
   'Socials': "ارتباط اجتماعی",
@@ -202,7 +201,7 @@ module.exports = {
   'Logout': "خروج",
 
   // public
-  'Danesh Boom': "دانش بوم",
+  'Danesh Boom': "اینووین",
   'User Not Found': "کاربر یافت نشد!",
   'User': "کاربر",
   'Organization Not Found': "شرکت مورد نظر یافت نشد!",

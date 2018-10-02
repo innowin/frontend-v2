@@ -17,16 +17,16 @@ const EducationInfoCreateForm = (props: PropsEducationInfoForm) => {
   const _onSubmit = (values: userEducationInputType) => {
     const {hideEdit, create} = props
 
-    const from_date = values.yearFromDate === '' || values.monthFromDate === '' || values.dayFromDate === '' ? '' : `${values.yearFromDate}/${values.monthFromDate}/${values.dayFromDate}`
-    const to_date = values.yearToDate === '' || values.monthToDate === '' || values.dayToDate === '' ? '' : `${values.yearToDate}/${values.monthToDate}/${values.dayToDate}`
+    const from_date = (values.dayFromDate === undefined || values.monthFromDate === undefined || values.yearFromDate === undefined || values.yearFromDate === '' || values.monthFromDate === '' || values.dayFromDate === '') ? null : `${values.yearFromDate}.${values.monthFromDate}.${values.dayFromDate}`
+    const to_date = (values.dayToDate === undefined || values.monthToDate === undefined || values.yearToDate === undefined || values.yearToDate === '' || values.monthToDate === '' || values.dayToDate === '') ? null : `${values.yearToDate}.${values.monthToDate}.${values.dayToDate}`
 
     const formFormat = {
-      grade: values.grade,
-      university: values.university,
-      field_of_study: values.fieldOfStudy,
-      description: values.description,
-      average: values.average,
-      from_date: from_date ,
+      grade: values.grade ? values.grade : null,
+      university: values.university ? values.university : null,
+      field_of_study: values.fieldOfStudy ? values.fieldOfStudy : null,
+      description: values.description ? values.description : null,
+      average: values.average ? values.average : null,
+      from_date: from_date,
       to_date: to_date,
     }
 

@@ -16,17 +16,16 @@ const WorkExperienceCreateForm = (props: PropsWorkExperienceCreateForm) =>  {
 
   const _onSubmit = (values: WorkExperienceFormInputType) => {
     const {hideCreateForm, create, userId} = props
-
-    const from_date = values.yearFromDate === '' || values.monthFromDate === '' || values.dayFromDate === '' ? '' : `${values.yearFromDate}/${values.monthFromDate}/${values.dayFromDate}`
-    const to_date = values.yearToDate === '' || values.monthToDate === '' || values.dayToDate === '' ? '' : `${values.yearToDate}/${values.monthToDate}/${values.dayToDate}`
+    const from_date = (values.dayFromDate === undefined || values.monthFromDate === undefined || values.yearFromDate === undefined || values.yearFromDate === '' || values.monthFromDate === '' || values.dayFromDate === '') ? null : `${values.yearFromDate}.${values.monthFromDate}.${values.dayFromDate}`
+    const to_date = (values.dayToDate === undefined || values.monthToDate === undefined || values.yearToDate === undefined || values.yearToDate === '' || values.monthToDate === '' || values.dayToDate === '') ? null : `${values.yearToDate}.${values.monthToDate}.${values.dayToDate}`
 
     const formFormat = {
-      name: values.name,
-      position: values.position,
+      name: values.name ? values.name :  null,
+      position: values.position ? values.position : null,
       from_date: from_date,
       to_date: to_date,
-      work_experience_organization: values.workExperienceOrganization,
-      work_experience_user: userId,
+      work_experience_organization: values.workExperienceOrganization ? values.workExperienceOrganization : null,
+      work_experience_user: userId ? userId : null,
     }
 
     const propertyNames = Object.getOwnPropertyNames(formFormat)

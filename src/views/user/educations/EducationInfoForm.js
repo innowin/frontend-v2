@@ -35,8 +35,8 @@ class EducationInfoForm extends Component<PropsEducationInfoForm> {
   componentDidMount() {
     const {initialize, education} = this.props
     if(education){
-      const fromDateSplit = education.from_date === null ? [''] : education.from_date.split('/')
-      const toDateSplit = education.to_date === null ? [''] : education.to_date.split('/')
+      const fromDateSplit = education.from_date === null ? [''] : education.from_date.split('.')
+      const toDateSplit = education.to_date === null ? [''] : education.to_date.split('.')
       const defaultFormValue = {
         grade: education.grade,
         university: education.university,
@@ -97,9 +97,9 @@ class EducationInfoForm extends Component<PropsEducationInfoForm> {
             />
           </div>
 
-          <ReduxFormDateInput translate={translate} labelName={translate['From date']} dayName='dayFromDate'
+          <ReduxFormDateInput translate={translate} labelName={translate['FromDate']} dayName='dayFromDate'
                               monthName='monthFromDate' yearName='yearFromDate'/>
-          <ReduxFormDateInput translate={translate} labelName={translate['To date']} dayName='dayToDate'
+          <ReduxFormDateInput translate={translate} labelName={translate['ToDate']} dayName='dayToDate'
                               monthName='monthToDate' yearName='yearToDate'/>
 
           <div className='form-group'>

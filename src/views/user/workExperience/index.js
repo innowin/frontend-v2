@@ -61,7 +61,7 @@ class WorkExperiences extends React.Component<PropsWorkExperiences, StateWorkExp
     const {actions, userId} = this.props
     const {createWorkExperienceByUserId} = actions
     //FixMe: mohammad organizationId need to change when organ select done
-    createWorkExperienceByUserId({userId, organizationId: formValues.workExperienceOrganization, formValues})
+    createWorkExperienceByUserId({userId, organizationId: formValues.work_experience_organization, formValues})
   }
 
   componentDidMount() {
