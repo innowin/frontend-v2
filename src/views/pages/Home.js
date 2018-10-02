@@ -43,13 +43,17 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
         <TopBar collapseClassName="col-2"/>
         <main className="-main">
           <div className="row content">
-            <HomeSideBar setExchangeId={this._setExchangeId}
-                         classNames="col-3 pr-0 pl-0 right-sidebar"
-                         identityId={identityId}
-                         identityType={identityType}
-                         activeExchangeId={activeExchangeId}
-                         id={id}
-            />
+            {
+              (id && identityId && identityType) ? (
+                <HomeSideBar setExchangeId={this._setExchangeId}
+                             classNames="col-3 pr-0 pl-0 right-sidebar"
+                             identityId={identityId}
+                             identityType={identityType}
+                             activeExchangeId={activeExchangeId}
+                             id={id}
+                />
+              ) : ''
+            }
             <HomePosts exchangeId={activeExchangeId} className="col-6"/>
             <div className="col-3 pl-0"/>
           </div>
@@ -63,10 +67,11 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
 const mapStateToProps = state => {
   const client = state.auth.client
   const allIdentities = state.identities.list
-  const clientIdentityId = client.identity.content
+  const clientIdentityId = client.identity.content || null
   const clientIdentity = (clientIdentityId && allIdentities[clientIdentityId]) ? allIdentities[clientIdentityId] : {}
-  const id = clientIdentity.identity_user ? client.user.id : (client.organization ? client.organization.id : null)
-  const identityType = clientIdentity.identity_user ? constants.USER_TYPES.PERSON : constants.USER_TYPES.ORG
+  const id = clientIdentity.identity_user ? client.user.id : (client.organization ? client.organization.id : undefined)
+  const identityType = clientIdentity.identity_user ? constants.USER_TYPES.PERSON :
+    (clientIdentity.identity_organization ? constants.USER_TYPES.ORG : undefined)
   return {
     id: id,
     identityId: clientIdentityId,

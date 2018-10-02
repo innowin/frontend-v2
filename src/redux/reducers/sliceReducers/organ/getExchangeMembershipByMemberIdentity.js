@@ -2,8 +2,8 @@ import constants from "src/consts/constants"
 
 const base = (state, action) => {
   const {exchangeMembershipOwnerId, exchangeMembershipOwnerType} = action.payload || {}
-  const defaultObject2 = {content: [], isLoading: false, error: null}
-  const previousMembership = (state.list[exchangeMembershipOwnerId] && state.list[exchangeMembershipOwnerId].exchangeMemberships) || defaultObject2
+  const defaultObject = {content: [], isLoading: false, error: null}
+  const previousMembership = (state.list[exchangeMembershipOwnerId] && state.list[exchangeMembershipOwnerId].exchangeMemberships) || defaultObject
   if (exchangeMembershipOwnerType === constants.USER_TYPES.ORG) {
     return {
       ...state,
@@ -27,8 +27,8 @@ const base = (state, action) => {
 
 const success = (state, action) => {
   const {exchangeMembershipOwnerId, exchangeMembershipOwnerType, data} = action.payload || {}
-  const defaultObject2 = {content: [], isLoading: false, error: null}
-  const previousMembership = (state.list[exchangeMembershipOwnerId] && state.list[exchangeMembershipOwnerId].exchangeMemberships) || defaultObject2
+  const defaultObject = {content: [], isLoading: false, error: null}
+  const previousMembership = (state.list[exchangeMembershipOwnerId] && state.list[exchangeMembershipOwnerId].exchangeMemberships) || defaultObject
   if (exchangeMembershipOwnerType === constants.USER_TYPES.ORG) {
     const arrayOfMembershipId = data.map(exchangeMembership => exchangeMembership.id)
     return {
@@ -54,8 +54,8 @@ const success = (state, action) => {
 
 const error = (state, action) => {
   const {exchangeMembershipOwnerId, exchangeMembershipOwnerType, message} = action.payload || {}
-  const defaultObject2 = {content: [], isLoading: false, error: null}
-  const previousMembership = (state.list[exchangeMembershipOwnerId] && state.list[exchangeMembershipOwnerId].exchangeMemberships) || defaultObject2
+  const defaultObject = {content: [], isLoading: false, error: null}
+  const previousMembership = (state.list[exchangeMembershipOwnerId] && state.list[exchangeMembershipOwnerId].exchangeMemberships) || defaultObject
   if (exchangeMembershipOwnerType === constants.USER_TYPES.ORG) {
     return {
       ...state,

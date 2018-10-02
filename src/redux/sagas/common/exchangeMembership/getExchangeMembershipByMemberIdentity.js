@@ -26,7 +26,7 @@ export function* getExchangeMembershipByMemberIdentity(action) {
     const {message} = e
     yield put({
       type: types.ERRORS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY,
-      payload: {type: types.ERRORS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY, message}
+      payload: {message}
     })
   } finally {
     socketChannel.close()

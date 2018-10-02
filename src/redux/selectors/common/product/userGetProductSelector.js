@@ -15,6 +15,7 @@ const getUserProducts = (state, props) => {
     if (organsList[id] && organsList[id].products)
       return organsList[id].products.content
   }
+  return undefined
 }
 
 /** this selector selects products by productIdentity or without that. **/
