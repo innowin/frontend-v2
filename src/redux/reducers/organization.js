@@ -83,18 +83,6 @@ const organization = (state = initialState.organization, action) => {
 			error = action.payload.error
 			return{...state,errorMessage:error,customers:{content:[],isLoading:false,error:true}}
 
-		/** -------------------------- get organization certificates-------------------------> **/
-		case types.ORG.GET_ORG_CERTIFICATES:
-			return {...state,certificates:{...state.certificates,isLoading:true}}
-
-    case types.ERRORS.ORG.GET_ORG_CERTIFICATES:
-      error = action.payload.error
-      return{...state,errorMessage:error,certificates:{content:[],isLoading:false,error:true}}
-
-    /** -------------------------- create organization certificates-------------------------> **/
-		case types.ORG.CREATE_CERTIFICATE:
-			return {...state,certificates:{...state.certificates,isLoading:true}}
-
 		/** -------------------------- get organization product-------------------------> **/
 		case types.ORG.UPDATE_PRODUCT:
 			return {...state,products:{isLoading:true}}
@@ -154,18 +142,6 @@ const organization = (state = initialState.organization, action) => {
     case types.ERRORS.ORG.DELETE_PRODUCT:
       error = action.payload.error
       return{...state, errorMessage:error,products:{...state.products,isLoading:false,error:true}}
-		
-		/** -------------------------- get organization CERTIFICATE-------------------------> **/
-		case types.SUCCESS.ORG.GET_ORG_CERTIFICATES:
-			let certificates = action.payload;
-			return{...state,certificates:{...state.certificates, content:certificates,isLoading:false,error:false}}		
-
-		/** -------------------------- create organization CERTIFICATE-------------------------> **/
-		case types.SUCCESS.ORG.CREATE_CERTIFICATE:
-			let {certificate} = action.payload
-			let curCertificates = state.certificates.content;
-			curCertificates.push(certificate)
-			return{...state,certificates:{...state.certificates,content:curCertificates,isLoading:false,error:false}}
 
 		/** -------------------------- get agency request-----------------------------------> **/
 		case types.ORG.AGENCY_REQUEST:

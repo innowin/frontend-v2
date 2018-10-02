@@ -1,11 +1,10 @@
-import constants from "../../../../consts/constants";
+import constants from "src/consts/constants"
 
 const base = (state, action) => {
   const {certificateOwnerId, certificateOwnerType} = action.payload || {}
-  const defaultObject2 = {content: [], isLoading: false, error: null}
-  const previousCertificate = (state.list[certificateOwnerId] && state.list[certificateOwnerId].certificates) || defaultObject2
-
-  if (certificateOwnerType === constants.USER_TYPES.PERSON) {
+  const defaultObject = {content: [], isLoading: false, error: null}
+  const previousCertificate = (state.list[certificateOwnerId] && state.list[certificateOwnerId].certificates) || defaultObject
+  if (certificateOwnerType === constants.USER_TYPES.ORG) {
     return {
       ...state,
       list: {
@@ -28,10 +27,9 @@ const base = (state, action) => {
 
 const success = (state, action) => {
   const {certificateOwnerId, certificateOwnerType, data} = action.payload || {}
-  const defaultObject2 = {content: [], isLoading: false, error: null}
-  const previousCertificate = (state.list[certificateOwnerId] && state.list[certificateOwnerId].certificates) || defaultObject2
-
-  if (certificateOwnerType === constants.USER_TYPES.PERSON) {
+  const defaultObject = {content: [], isLoading: false, error: null}
+  const previousCertificate = (state.list[certificateOwnerId] && state.list[certificateOwnerId].certificates) || defaultObject
+  if (certificateOwnerType === constants.USER_TYPES.ORG) {
     const arrayOfCertificateId = data.map(certificate => certificate.id)
     return {
       ...state,
@@ -56,10 +54,9 @@ const success = (state, action) => {
 
 const error = (state, action) => {
   const {certificateOwnerId, certificateOwnerType, message} = action.payload || {}
-  const defaultObject2 = {content: [], isLoading: false, error: null}
-  const previousCertificate = (state.list[certificateOwnerId] && state.list[certificateOwnerId].certificates) || defaultObject2
-
-  if (certificateOwnerType === constants.USER_TYPES.PERSON) {
+  const defaultObject = {content: [], isLoading: false, error: null}
+  const previousCertificate = (state.list[certificateOwnerId] && state.list[certificateOwnerId].certificates) || defaultObject
+  if (certificateOwnerType === constants.USER_TYPES.ORG) {
     return {
       ...state,
       list: {

@@ -6,6 +6,8 @@ import getFollowees from "./getFollowees"
 import getFollowers from "./getFollowers"
 import createFollow from "./createFollow"
 import deleteFollow from "./deleteFollow"
+import getCertificatesByIdentity from "./getCertificatesByIdentity"
+import deleteCertificate from "./deleteCertificate"
 
 export default {
   createWorkExperienceByUserId,
@@ -16,4 +18,6 @@ export default {
   getFollowers,
   createFollow,
   deleteFollow,
+  getCertificatesByIdentity,
+  deleteCertificate,
 }

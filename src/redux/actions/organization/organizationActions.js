@@ -21,20 +21,6 @@ const getOrganizationMembers = (organizationId) => ({
 	}
 })
 
-const getOrgFollowers = (organizationId) =>({
-    type: types.ORG.GET_ORG_FOLLOWERS,
-	payload: {
-        organizationId
-	} 
-})
-
-const getOrgFollowings = (organizationId) =>({
-    type: types.ORG.GET_ORG_FOLLOWINGS,
-	payload: {
-        organizationId
-	} 
-})
-
 const getOrgExchanges= (organizationId) =>({
     type: types.ORG.GET_ORG_EXCHANGES,
 	payload: {
@@ -47,39 +33,6 @@ const getOrgCustomers = (organizationId) =>({
     payload: {
         organizationId
     }
-})
-
-const getOrgCertificates = (identityId) => ({
-    type:types.ORG.GET_ORG_CERTIFICATES,
-    payload: {
-        identityId
-    }
-})
-
-const updateCertificate = (formValues, certId, hideEdit) => ({
-  type: types.ORG.UPDATE_CERTIFICATE,
-  payload: {
-    ...formValues,
-    certId,
-    hideEdit
-  }
-})
-
-const createCertificate = (formValues, identityId , userId, hideEdit) => ({ //TODO amir add organizationId to formValues
-  type: types.ORG.CREATE_CERTIFICATE,
-  payload: {
-    formValues,
-    identityId,
-    userId,
-    hideEdit
-  }
-})
-
-const deleteCertificate = (certId) => ({
-  type: types.ORG.UPDATE_CERTIFICATE,
-  payload: {
-    certId
-  }
 })
 
 //abilities
@@ -194,6 +147,7 @@ const getProductPicture= (productId) =>({
         productId
     }
 })
+
 const addPicture = (picture_media, picture_product) => ({
   type: types.ORG.ADD_PRODUCT_PICTURE,
 	payload: {
@@ -229,8 +183,6 @@ const OrganizationActions = {
   getOrganizationByOrganId,
   getMetaDataOrganization,
   getOrganizationMembers,
-  getOrgFollowers,
-  getOrgFollowings,
   getOrgExchanges,
 
   getAbilities,
@@ -239,11 +191,6 @@ const OrganizationActions = {
   deleteAbility,
 
   updateOrganization,
-
-  getOrgCertificates,
-  updateCertificate,
-  createCertificate,
-  deleteCertificate,
   
   getOrgCustomers,
   updateCustomer,

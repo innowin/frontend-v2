@@ -192,6 +192,14 @@ const organs = (state = initialState.organs, action) => {
     /** -------------------------- delete work experience by user id -------------------------> **/
     case types.SUCCESS.WORK_EXPERIENCE.DELETE_USER_WORK_EXPERIENCES_BY_USER_ID:
       return slices.deleteWorkExperienceByUserId.success(state, action)
+
+    /** -------------- get organization certificates -------------> **/
+    case types.SUCCESS.COMMON.CERTIFICATE.GET_CERTIFICATES_BY_IDENTITY:
+      return slices.getCertificatesByIdentity.success(state, action)
+    /** -------------------------- delete organization certificate -------------------------> **/
+    case types.SUCCESS.COMMON.CERTIFICATE.DELETE_CERTIFICATE:
+      return slices.deleteCertificate.success(state, action)
+
     /** -------------------------- reset organs -------------------------> **/
     case types.RESET:
       return initialState.organs

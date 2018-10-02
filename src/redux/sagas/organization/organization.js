@@ -86,73 +86,6 @@ export function* getCustomers(action) { //TODO amir
   }
 }
 
-// get org certificates
-export function* getCertificates(action) { //TODO amir change URL nad QUERY
-  const payload = action.payload;
-  const {identityId} = payload;
-  const socketChannel = yield call(api.createSocketChannel, results.ORG.GET_ORG_CERTIFICATES)
-  try {
-    yield fork(api.get, urls.ORG.GET_ORG_CERTIFICATES, results.ORG.GET_ORG_CERTIFICATES, `?certificate_identity=${identityId}`)
-    const data = yield take(socketChannel)
-    if (typeof data === "string") {
-      yield put({
-        type: types.ERRORS.ORG.GET_ORG_CERTIFICATES,
-        payload: {type: types.ERRORS.ORG.GET_ORG_CERTIFICATES, error: "Request Failed"}
-      })
-    } else {
-      yield put({type: types.SUCCESS.ORG.GET_ORG_CERTIFICATES, payload: data})
-    }
-  } catch (e) {
-    const {message} = e
-    yield put({
-      type: types.ERRORS.ORG.GET_ORG_CERTIFICATES,
-      payload: {type: types.ERRORS.ORG.GET_ORG_CERTIFICATES, error: message}
-    })
-  } finally {
-    socketChannel.close()
-  }
-}
-
-export function* updateCertificate(action) { //TODO amir change URL nad QUERY
-  const payload = action.payload;
-  const {formValues, certId, hideEdit} = payload;
-  const socketChannel = yield call(api.createSocketChannel, results.ORG.UPDATE_CERTIFICATE)
-  try {
-    yield fork(api.patch, urls.UPDATE_CERTIFICATE, results.UPDATE_CERTIFICATE, formValues, `/${certId}`)
-    const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.ORG.UPDATE_CERTIFICATE, payload: data})
-  } catch (e) {
-    const {message} = e
-    yield put({
-      type: types.ERRORS.ORG.UPDATE_CERTIFICATE,
-      payload: {type: types.ERRORS.ORG.UPDATE_CERTIFICATE, error: message}
-    })
-  } finally {
-    socketChannel.close()
-    hideEdit()
-  }
-}
-
-export function* updateCustomer(action) { //TODO amir change URL nad QUERY
-  const payload = action.payload;
-  const {formValues, customerId, hideEdit} = payload;
-  const socketChannel = yield call(api.createSocketChannel, results.ORG.UPDATE_CUSTOMER)
-  try {
-    yield fork(api.patch, urls.ORG.UPDATE_CUSTOMER, results.ORG.UPDATE_CUSTOMER, formValues, `${customerId}`)
-    const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.ORG.UPDATE_CUSTOMER, payload: data})
-  } catch (e) {
-    const {message} = e
-    yield put({
-      type: types.ERRORS.ORG.UPDATE_CUSTOMER,
-      payload: {type: types.ERRORS.ORG.UPDATE_CUSTOMER, error: message}
-    })
-  } finally {
-    socketChannel.close()
-    hideEdit()
-  }
-}
-
 // create org products
 export function* createProduct(action) {
   const payload = action.payload;
@@ -298,29 +231,6 @@ export function* deleteProduct(action) {
   }
 }
 
-export function* createCertificate(action) {
-  const payload = action.payload;
-  const {formValues, identityId, userId, hideEdit} = payload;
-  // const identity = yield* getOrgIdentity(action)
-  formValues.certificate_identity = identityId
-  formValues.certificate_parent = userId
-  const socketChannel = yield call(api.createSocketChannel, results.ORG.CREATE_CERTIFICATE)
-  try {
-    yield fork(api.post, urls.ORG.CREATE_CERTIFICATE, results.ORG.CREATE_CERTIFICATE, formValues)
-    const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.ORG.CREATE_CERTIFICATE, payload: data})
-  } catch (e) {
-    const {message} = e
-    yield put({
-      type: types.ERRORS.ORG.CREATE_CERTIFICATE,
-      payload: {type: types.ERRORS.ORG.CREATE_CERTIFICATE, error: message}
-    })
-  } finally {
-    socketChannel.close()
-    hideEdit()
-  }
-}
-
 // get org staff
 export function* getOrgStaff(action) {
   const payload = action.payload;
@@ -356,6 +266,26 @@ export function* createOrgCustomer(action) {
     yield put({
       type: types.ERRORS.ORG.CREATE_CUSTOMER,
       payload: {type: types.ERRORS.ORG.CREATE_CUSTOMER, error: message}
+    })
+  } finally {
+    socketChannel.close()
+    hideEdit()
+  }
+}
+
+export function* updateCustomer(action) { //TODO amir change URL nad QUERY
+  const payload = action.payload;
+  const {formValues, customerId, hideEdit} = payload;
+  const socketChannel = yield call(api.createSocketChannel, results.ORG.UPDATE_CUSTOMER)
+  try {
+    yield fork(api.patch, urls.ORG.UPDATE_CUSTOMER, results.ORG.UPDATE_CUSTOMER, formValues, `${customerId}`)
+    const data = yield take(socketChannel)
+    yield put({type: types.SUCCESS.ORG.UPDATE_CUSTOMER, payload: data})
+  } catch (e) {
+    const {message} = e
+    yield put({
+      type: types.ERRORS.ORG.UPDATE_CUSTOMER,
+      payload: {type: types.ERRORS.ORG.UPDATE_CUSTOMER, error: message}
     })
   } finally {
     socketChannel.close()
