@@ -41,8 +41,8 @@ class PostView extends Component {
   render() {
     const {showEdit, post, translate, param} = this.props
     const {post_identity, viewerCount, post_related_identity_image} = this.props.post
-    const user = post_identity.identity_user
-    const organization = post_identity.identity_organization
+    const user = post_identity.identity_user || {}
+    const organization = post_identity.identity_organization || {}
     const supplyIcon = post.post_type === 'supply'
     const demandIcon = post.post_type === 'demand'
     const postIcon = post.post_type === 'post'

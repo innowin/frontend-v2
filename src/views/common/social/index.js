@@ -136,9 +136,10 @@ class Socials extends Component<PropsSocials, StateSocials> {
     const {deleteFollow, deleteExchangeMembership, updateFollow, createFollow} = actions
     const {editExchanges, editFollowings} = this.state
     const paramId = +(param.user || param.organization)
-
+    // TODO: handle isLoading & error
     return (
-      <VerifyWrapper isLoading={isLoading} error={error}>
+      <div>
+        {/*<VerifyWrapper isLoading={isLoading} error={error}>*/}
         <CategoryTitle
           title={translate['Socials']}
         />
@@ -167,7 +168,9 @@ class Socials extends Component<PropsSocials, StateSocials> {
                      paramId={paramId}
           />
         </FrameCard>
-      </VerifyWrapper>
+         {/* </VerifyWrapper> */}
+      </div>
+
     )
   }
 }

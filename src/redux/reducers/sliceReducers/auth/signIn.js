@@ -5,8 +5,7 @@ const base = (state, action) => {
 
 const success = (state, action) => {
   const {rememberMe, data} = action.payload
-  const {user, profile, identity} = data || {}
-  const {organization} = data
+  const {user, profile, identity, organization} = data || {}
   const {client} = state
   const user_type = profile.is_user_organization ? constants.USER_TYPES.ORG : constants.USER_TYPES.PERSON
   return {

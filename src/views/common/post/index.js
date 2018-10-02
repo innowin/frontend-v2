@@ -120,12 +120,10 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
 const mapStateToProps  = (state, ownProps) => {
   const userPostsSelector = makeUserPostsSelector(state, ownProps)
   return (state, props) => {
-
     let userId = props.id
     const stateUser = state.users.list[userId]
     const defaultObject = {content: [], isLoading: false, error: null}
     const postObject = (stateUser && stateUser.posts) || defaultObject
-
     return {
       posts: userPostsSelector(state, props),
       translate: state.intl.messages,
