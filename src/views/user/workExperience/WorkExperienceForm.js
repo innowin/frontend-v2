@@ -1,13 +1,12 @@
 // @flow
-import type {workExperienceType} from "../../../consts/flowTypes/user/others";
-import * as React from "react";
-import {Component} from "react";
-import PropTypes from "prop-types";
-import {Field, reduxForm} from "redux-form";
-import workExperienceValidation from "../../../helpers/validations/workExperienceValidation";
+import * as React from "react"
+import PropTypes from "prop-types"
+import {Field, reduxForm} from "redux-form"
 
 import renderTextField from "src/views/common/inputs/reduxFormRenderTextField"
-import {ReduxFormDateInput} from "../../common/inputs/reduxFormDateInput";
+import type {workExperienceType} from "../../../consts/flowTypes/user/others"
+import workExperienceValidation from "../../../helpers/validations/workExperienceValidation"
+import {ReduxFormDateInput} from "../../common/inputs/reduxFormDateInput"
 
 // flow type of WorkExperienceForm
 type PropsWorkExperienceForm = {
@@ -21,7 +20,7 @@ type PropsWorkExperienceForm = {
   handleSubmit: Function,
 }
 
-class WorkExperienceForm extends Component<PropsWorkExperienceForm> {
+class WorkExperienceForm extends React.Component<PropsWorkExperienceForm> {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
     workExperience: PropTypes.object,

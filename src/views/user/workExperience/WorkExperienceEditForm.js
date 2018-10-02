@@ -1,11 +1,11 @@
 // @flow
-import type {workExperienceType} from "../../../consts/flowTypes/user/others";
-import {Component} from "react";
-import PropTypes from "prop-types";
-import * as React from "react";
-import {WorkExperienceForm} from "./WorkExperienceForm";
-import {Confirm} from "../../common/cards/Confirm";
+import * as React from "react"
+import PropTypes from "prop-types"
+
+import type {workExperienceType} from "../../../consts/flowTypes/user/others"
+import {Confirm} from "../../common/cards/Confirm"
 import {WorkExperienceFormInputType} from 'src/consts/flowTypes/user/others'
+import {WorkExperienceForm} from "./WorkExperienceForm"
 
 // flow type of WorkExperienceEditForm
 type PropsWorkExperienceEditForm = {
@@ -20,7 +20,7 @@ type StateWorkExperienceEditForm = {
   confirm: boolean
 }
 
-class WorkExperienceEditForm extends Component<PropsWorkExperienceEditForm, StateWorkExperienceEditForm> {
+class WorkExperienceEditForm extends React.Component<PropsWorkExperienceEditForm, StateWorkExperienceEditForm> {
 
   static propTypes = {
     update: PropTypes.func.isRequired,

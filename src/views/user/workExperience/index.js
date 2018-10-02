@@ -11,7 +11,7 @@ import WorkExperienceCreateForm from "./WorkExperienceCreateForm"
 import workExperienceIcon from "../../../images/user/workExperience_svg";
 import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper, ItemWrapper} from "src/views/common/cards/Frames"
 import {getMessages} from "../../../redux/selectors/translateSelector"
-import {makeGetWorkExperiences} from "../../../redux/selectors/user/userGetWorkExperiencesSelector";
+import {makeGetWorkExperiences} from "../../../redux/selectors/user/userGetWorkExperiencesSelector"
 
 // flow type of WorkExperiences
 type PropsWorkExperiences = {
