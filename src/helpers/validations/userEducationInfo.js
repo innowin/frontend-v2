@@ -48,7 +48,7 @@ const validateYear = (year, translate) => {
 
 const userEducationInfo = (values, {translate}) => {
   const errors = {}
-  const requiredFields = ['fieldOfStudy']
+  const requiredFields = ['fieldOfStudy', 'grade', 'university']
 
   const {university, grade, fieldOfStudy, average, description, dayFromDate, monthFromDate, yearFromDate, dayToDate, monthToDate, yearToDate} = values
   if (university) errors.university = validateUniversity(university, translate)

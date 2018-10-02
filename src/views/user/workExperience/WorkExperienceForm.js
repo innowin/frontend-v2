@@ -1,13 +1,12 @@
 // @flow
-import type {workExperienceType} from "../../../consts/flowTypes/user/others";
-import * as React from "react";
-import {Component} from "react";
-import PropTypes from "prop-types";
-import {Field, reduxForm} from "redux-form";
-import workExperienceValidation from "../../../helpers/validations/workExperienceValidation";
+import * as React from "react"
+import PropTypes from "prop-types"
+import {Field, reduxForm} from "redux-form"
 
 import renderTextField from "src/views/common/inputs/reduxFormRenderTextField"
-import {ReduxFormDateInput} from "../../common/inputs/reduxFormDateInput";
+import type {workExperienceType} from "../../../consts/flowTypes/user/others"
+import workExperienceValidation from "../../../helpers/validations/workExperienceValidation"
+import {ReduxFormDateInput} from "../../common/inputs/reduxFormDateInput"
 
 // flow type of WorkExperienceForm
 type PropsWorkExperienceForm = {
@@ -21,7 +20,7 @@ type PropsWorkExperienceForm = {
   handleSubmit: Function,
 }
 
-class WorkExperienceForm extends Component<PropsWorkExperienceForm> {
+class WorkExperienceForm extends React.Component<PropsWorkExperienceForm> {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
     workExperience: PropTypes.object,
@@ -35,8 +34,8 @@ class WorkExperienceForm extends Component<PropsWorkExperienceForm> {
   componentDidMount(){
     const {initialize, workExperience} = this.props
     if(workExperience){
-      const fromDateSplit = workExperience.from_date === null ? [''] : workExperience.from_date.split('/')
-      const toDateSplit = workExperience.to_date === null ? [''] : workExperience.to_date.split('/')
+      const fromDateSplit = workExperience.from_date === null ? [''] : workExperience.from_date.split('.')
+      const toDateSplit = workExperience.to_date === null ? [''] : workExperience.to_date.split('.')
       const defaultFormValue = {
         name: workExperience.name,
         position: workExperience.position,
@@ -65,13 +64,13 @@ class WorkExperienceForm extends Component<PropsWorkExperienceForm> {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className='form-group'>
             <label>
-              {translate['Name'] + ": "}
+              {translate['Name work'] + ": "}
             </label>
             <Field
                 name="name"
                 type="text"
                 component={renderTextField}
-                label={translate['Name']}
+                label={translate['Name work']}
                 textFieldClass='form-control'
             />
           </div>
@@ -89,8 +88,8 @@ class WorkExperienceForm extends Component<PropsWorkExperienceForm> {
             />
           </div>
 
-          <ReduxFormDateInput translate={translate} labelName={translate['From date']} dayName='dayFromDate' monthName='monthFromDate' yearName='yearFromDate'/>
-          <ReduxFormDateInput translate={translate} labelName={translate['To date']} dayName='dayToDate' monthName='monthToDate' yearName='yearToDate'/>
+          <ReduxFormDateInput translate={translate} labelName={translate['FromDate']} dayName='dayFromDate' monthName='monthFromDate' yearName='yearFromDate'/>
+          <ReduxFormDateInput translate={translate} labelName={translate['ToDate']} dayName='dayToDate' monthName='monthToDate' yearName='yearToDate'/>
 
           {/*FixMe: mohammad select organ from here or add new organ with 0 id*/}
           <div className='form-group'>

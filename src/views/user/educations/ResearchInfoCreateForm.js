@@ -17,13 +17,13 @@ const ResearchInfoCreateForm = (props: PropsResearchInfoCreateForm) => {
     const {hideEdit, create} = props
 
     const formFormat = {
-      title: values.title,
-      page_count: values.pageCount,
-      year: values.year,
-      publication: values.publication,
-      research_link: values.researchLink,
-      url: values.url,
-      author: values.author,
+      title: values.title ? values.title : null,
+      page_count: values.pageCount ? values.pageCount : null,
+      year: values.year ? values.year : null,
+      publication: values.publication ? values.publication : null,
+      research_link: values.researchLink ? values.researchLink : null,
+      url: values.url ? values.url : null,
+      author: values.author ? values.author : null,
     }
 
     const propertyNames = Object.getOwnPropertyNames(formFormat)

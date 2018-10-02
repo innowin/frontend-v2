@@ -1,10 +1,11 @@
 // @flow
-import PropTypes from "prop-types";
-import type {workExperienceType} from "../../../consts/flowTypes/user/others";
-import {Field, FieldLabel, FieldValue, ItemHeader, ItemWrapper, VerifyWrapper} from "../../common/cards/Frames";
-import WorkExperienceEditForm from "./WorkExperienceEditForm";
-import * as React from "react";
-import workExperienceIcon from "../../../images/user/workExperience_svg";
+import * as React from "react"
+import PropTypes from "prop-types"
+
+import type {workExperienceType} from "../../../consts/flowTypes/user/others"
+import WorkExperienceEditForm from "./WorkExperienceEditForm"
+import workExperienceIcon from "../../../images/user/workExperience_svg"
+import {Field, FieldValue, ItemHeader, ItemWrapper, VerifyWrapper} from "../../common/cards/Frames"
 
 // flow type of WorkExperience
 type PropsWorkExperience = {
@@ -66,18 +67,12 @@ class WorkExperience extends React.Component<PropsWorkExperience, StateWorkExper
                 />
                 : workExperience &&
                 <div>
-                  <ItemHeader title={workExperience.name} showEdit={this._showEdit}/>
+                  <ItemHeader title={workExperience.position} showEdit={this._showEdit}/>
                   <Field>
-                    <FieldLabel label={translate['Position'] + ": "}/>
-                    <FieldValue value={workExperience.position}/>
+                    <FieldValue value={workExperience.name}/>
                   </Field>
                   <Field>
-                    <FieldLabel label={translate['From date'] + ": "}/>
-                    <FieldValue value={workExperience.from_date}/>
-                  </Field>
-                  <Field>
-                    <FieldLabel label={translate['To date'] + ": "}/>
-                    <FieldValue value={workExperience.to_date}/>
+                    <FieldValue value={(workExperience.from_date || workExperience.to_date) ? `${workExperience.from_date ? `${workExperience.from_date}` : ''}` + ' - ' +  `${workExperience.to_date ? `${workExperience.to_date}` : '' }` : ''}/>
                   </Field>
                 </div>
             }

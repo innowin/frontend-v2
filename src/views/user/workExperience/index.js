@@ -11,7 +11,7 @@ import WorkExperienceCreateForm from "./WorkExperienceCreateForm"
 import workExperienceIcon from "../../../images/user/workExperience_svg";
 import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper, ItemWrapper} from "src/views/common/cards/Frames"
 import {getMessages} from "../../../redux/selectors/translateSelector"
-import {makeGetWorkExperiences} from "../../../redux/selectors/user/userGetWorkExperiencesSelector";
+import {makeGetWorkExperiences} from "../../../redux/selectors/user/userGetWorkExperiencesSelector"
 
 // flow type of WorkExperiences
 type PropsWorkExperiences = {
@@ -61,7 +61,7 @@ class WorkExperiences extends React.Component<PropsWorkExperiences, StateWorkExp
     const {actions, userId} = this.props
     const {createWorkExperienceByUserId} = actions
     //FixMe: mohammad organizationId need to change when organ select done
-    createWorkExperienceByUserId({userId, organizationId: formValues.workExperienceOrganization, formValues})
+    createWorkExperienceByUserId({userId, organizationId: formValues.work_experience_organization, formValues})
   }
 
   componentDidMount() {
