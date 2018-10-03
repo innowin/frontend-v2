@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 import LabelTag from "../../common/tag-label.js"
 import {AgentSvgIcon, TipsIcon} from "src/images/icons"
 
-import OrganizationActions from '../../../redux/actions/organizationActions';
+import OrganizationActions from '../../../redux/actions/organization/organizationActions';
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 type AgentFormProps ={

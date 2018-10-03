@@ -10,7 +10,7 @@ export function* getExchangeMembershipByExchangeId(action) {
   try {
     yield fork(
         api.get,
-        urls.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_EXCHANGE_ID,
+        urls.COMMON.EXCHANGE_MEMBERSHIP,
         results.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_EXCHANGE_ID,
         `?exchange_id=${exchangeId}`
     )

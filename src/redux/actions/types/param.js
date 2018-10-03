@@ -1,0 +1,21 @@
+const BASE = {
+  USER: {
+    SET_PARAM_USER_ID: 'SET_PARAM_USER_ID',
+    REMOVE_PARAM_USER_ID: 'REMOVE_PARAM_USER_ID',
+  },
+  ORG: {
+    SET_PARAM_ORG_ID: 'SET_PARAM_ORG_ID',
+    REMOVE_PARAM_ORG_ID: 'REMOVE_PARAM_ORG_ID',
+  }
+}
+
+const SUCCESS = {}
+
+const ERROR = {}
+
+
+export default {
+  BASE,
+  ERROR,
+  SUCCESS,
+}

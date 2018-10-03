@@ -2,8 +2,6 @@ import initialState from '../../initialState'
 import types from '../../../actions/types/index'
 
 const objHashTag = (state = initialState.common.hashTag.objHashTags, action) => {
-  const list = state.list
-  const {data} = action.payload || {}
 
   switch (action.type) {
       // /** <----------------- create new hashTag for an obj ------ **/
@@ -24,9 +22,9 @@ const objHashTag = (state = initialState.common.hashTag.objHashTags, action) => 
       //     }
       // /** ------------------ create new hashTag for an obj -----> **/
     case types.RESET:
-      return initialState.common.hashTag
+      return initialState.common.hashTag.objHashTags
     default:
-      return { ...state }
+      return state
   }
 }
 

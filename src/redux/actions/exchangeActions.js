@@ -15,10 +15,16 @@ const getAllExchanges = (limit, offset) => ({
   payload: {limit, offset}
 })
 
+const searchExchangesByWord = (searchWord) => ({
+  type: types.EXCHANGE.SEARCH_EXCHANGES_BY_WORD,
+  payload: {searchWord}
+})
+
 const ExchangeActions = {
   getExchangeByExId,
   createExchange,
-  getAllExchanges
+  getAllExchanges,
+  searchExchangesByWord,
 }
 
 export default ExchangeActions;

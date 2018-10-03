@@ -66,6 +66,10 @@
   font-size: $font-size-smallText;
 }
 
+.fontSize-15px {
+  font-size: $font-size-smallIcon;
+}
+
 .max-w-100 {
   max-width: 100%;
 }
@@ -82,4 +86,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.field-label {
+  font-size: $font-size-field-label;
+  padding-right: 15px;
+}
+
+.field-value {
+  font-weight: bold;
+  font-size: $font-size-field-value;
+  //padding-top: 2px;
+  padding-right: 8px;
 }

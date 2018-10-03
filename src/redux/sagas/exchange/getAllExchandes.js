@@ -10,7 +10,7 @@ export function* getAllExchanges(action) {
   try {
     yield fork(
         api.get,
-        urls.EXCHANGE.GET_EXCHANGES,
+        urls.EXCHANGE,
         results.EXCHANGE.GET_EXCHANGES,
         `?limit=${limit}&offset=${offset}`
     )

@@ -2,18 +2,24 @@ import {REST_URL, SOCKET as socket} from "./URLS"
 import {GET_VIEWS_COUNT, NEW_VIEW, REST_REQUEST} from "./Events"
 import {eventChannel} from 'redux-saga'
 import {apply, select} from "redux-saga/effects"
+import results from "src/consts/resultName"
+
 
 const createSocketChannel = (resultName) => {
   return eventChannel(emit => {
     const resultHandler = res => {
       if (res.status === "FAILED") {
-        console.log('\n --- api --- >> createSocketChannel >> res is : \n', res)
+        console.log(`\n --- api --- >> createSocketChannel >> res  in ${resultName} is : \n`, res)
         // below is for check user handle error
         if (typeof res.data === "object" && res.data.detail) {
           emit(new Error(res.data.detail))
         }
         if (res.data.non_field_errors) {
           emit(new Error(res.data.non_field_errors))
+          return;
+        }
+        if (res.data === 0 && (resultName === 'USERNAME_CHECK' || resultName === 'EMAIL_CHECK')) {
+          emit(res.data)
           return;
         }
         emit(new Error(res.data))
@@ -32,6 +38,7 @@ const createSocketChannel = (resultName) => {
 function* get(url, result, param = "") {
   const token = yield select((state) => state.auth.client.token)
   yield apply({}, getEmit, [url, result, param, token])
+
 }
 
 function* post(url, result, data, param = "") {
@@ -89,7 +96,10 @@ const delEmit = (url, resultName, data, query = "", token) => {
 }
 
 const postEmit = (url, resultName, data, query = "", token) => {
-  if(resultName !== 'CREATE_USER_PERSON' && resultName !== 'CREATE_USER_ORGAN'){
+  if (resultName !== results.USER.USERNAME_CHECK
+    && resultName !== results.USER.EMAIL_CHECK
+    && resultName !== results.USER.CREATE_USER_PERSON
+    && resultName !== results.USER.CREATE_USER_ORGAN) {
     socket.emit(REST_REQUEST, {
       method: 'post',
       url: REST_URL + '/' + url + '/' + query,

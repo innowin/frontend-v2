@@ -5,25 +5,28 @@ const base = (state, action) => {
 
 const success = (state, action) => {
   const {postOwnerId, postOwnerType, postId} = action.payload || {}
-  const defaultObject2 = { content: [], isLoading: false, error: null }
-  const previousPost = (state[postOwnerId] && state[postOwnerId].posts) || defaultObject2
+  const defaultObject2 = {content: [], isLoading: false, error: null}
+  const previousPost = (state.list[postOwnerId] && state.list[postOwnerId].posts) || defaultObject2
 
-  if(postOwnerType === constants.USER_TYPES.PERSON) {
+  if (postOwnerType === constants.USER_TYPES.PERSON) {
     const newDeletedPosts = previousPost.content.filter(id => id !== postId);
     return {
       ...state,
-      [postOwnerId]: {
-        ...state[postOwnerId],
-        posts: {
-          ...previousPost,
-          content: [...newDeletedPosts],
-          isLoading: false,
-          error: null
+      list: {
+        ...state.list,
+        [postOwnerId]: {
+          ...state.list[postOwnerId],
+          posts: {
+            ...previousPost,
+            content: [...newDeletedPosts],
+            isLoading: false,
+            error: null
+          }
         }
       }
     }
   }
-  else{
+  else {
     return state
   }
 }

@@ -9,11 +9,14 @@ import connect from "react-redux/es/connect/connect";
 import {getMessages} from "../../../redux/selectors/translateSelector";
 import {bindActionCreators} from "redux"
 import PostActions from "../../../redux/actions/commonActions/postActions";
+import CheckOwner from '../CheckOwner'
+import {Link} from "react-router-dom";
 
 class PostView extends Component {
   static propTypes = {
     showEdit: PropTypes.func.isRequired,
     post: PropTypes.object.isRequired,
+    param: PropTypes.object.isRequired,
   }
 
   _getViewerCount = () => {
@@ -36,43 +39,51 @@ class PostView extends Component {
   }
 
   render() {
-    const {showEdit, post, translate} = this.props
+    const {showEdit, post, translate, param} = this.props
     const {post_identity, viewerCount, post_related_identity_image} = this.props.post
-    const user = post_identity.identity_user
-    const organization = post_identity.identity_organization
+    const user = post_identity.identity_user || {}
+    const organization = post_identity.identity_organization || {}
     const supplyIcon = post.post_type === 'supply'
     const demandIcon = post.post_type === 'demand'
     const postIcon = post.post_type === 'post'
-    // TODO mohsen: handle isLoading && error by redux
+    const paramId = param.user || param.organization
 
     const name = user
         ? ((user.first_name || user.last_name) ? user.first_name + ' ' + user.last_name : undefined)
         : (organization ? (organization.nike_name || organization.official_name || undefined) : undefined)
 
+    const url = user
+        ? `/user/${user.id}`
+        : `/organization/${organization.id}`
+
     return (
         <VerifyWrapper isLoading={false} error={false}>
           <div className="-itemWrapperPost">
             <div className="-item-headerPost">
-              <div className="-img-col">
-                {!post_related_identity_image
-                    ? (<DefaultUserIcon/>)
-                    : (<img className="rounded-circle" src={post_related_identity_image.file} alt=""/>)
-                }
-              </div>
-              <div className="-item-titlePost">
-                <div>
-                  {name && <span className="post-name">{name}</span>}
-                  <span className="-green2 post-username">
-                    {user ? user.username : (organization ? organization.username : '')}
-                  </span>
+              <Link to={url} className='link-post'>
+                <div className="-img-col">
+                  {!post_related_identity_image
+                      ? (<DefaultUserIcon/>)
+                      : (<img className="rounded-circle" src={post_related_identity_image.file} alt=""/>)
+                  }
                 </div>
-                <div className='post-date'>
-                  <Moment className="-green2" element="span" fromNow ago>{post.created_time}</Moment>
-                  <span className="-green2"> {translate['Last']}</span>
+                <div className="-item-titlePost">
+                  <div>
+                    {name && <span className="post-name">{name}</span>}
+                    <span className="-green2 post-username">
+                      {user ? user.username : (organization ? organization.username : '')}
+                    </span>
+                  </div>
+                  <div className='post-date'>
+                    <Moment className="-green2" element="span" fromNow ago>{post.created_time}</Moment>
+                    <span className="-green2"> {translate['Last']}</span>
+                  </div>
                 </div>
-              </div>
+              </Link>
 
-              <div onClick={showEdit} className="-item-edit-btnPost"><EditIcon/></div>
+              <CheckOwner id={paramId}>
+                <div onClick={showEdit} className="-item-edit-btn -item-edit-btnPost pulse"><EditIcon/></div>
+              </CheckOwner>
             </div>
             <div className="post-content">
               {post.post_description}
@@ -108,6 +119,7 @@ class PostView extends Component {
 const mapStateToProps = state => {
   return {
     translate: getMessages(state),
+    param: state.param,
   }
 }
 const mapDispatchToProps = dispatch => ({

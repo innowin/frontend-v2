@@ -8,7 +8,7 @@ export function* updateFollow(action) {
   const {followId, followOwnerId, formValues, followOwnerType} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.SOCIAL.UPDATE_FOLLOW)
   try {
-    yield fork(api.patch, urls.COMMON.SOCIAL.UPDATE_FOLLOW, results.COMMON.SOCIAL.UPDATE_FOLLOW, formValues, `${followId}`)
+    yield fork(api.patch, urls.COMMON.SOCIAL.FOLLOW, results.COMMON.SOCIAL.UPDATE_FOLLOW, formValues, `${followId}`)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.COMMON.SOCIAL.UPDATE_FOLLOW , payload:{data, followId, followOwnerId}})
 

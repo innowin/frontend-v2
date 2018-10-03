@@ -156,7 +156,6 @@
       transform: translate(0, -50%);
       border-top: 15px solid transparent;
       border-bottom: 15px solid transparent;
-
       border-left: 10px solid $primary-color;
       right: -6px;
     }
@@ -184,17 +183,138 @@
   transform: translate(50%, 50%)
 }
 
+//** ---------------------------        Navbar(centerBar)      -------------------------------- **//
+.svg-tabs {
+  fill: $primary-color;
+  margin: 13.5px;
+  transition-duration: $animation-timing;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.svg-tabs-clicked {
+  fill: $background-color;
+  margin: 14px;
+  transition-duration: $animation-timing;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.svg-container {
+  height: 57px;
+  width: 57px;
+  border: 1px solid $primary-color;
+  border-radius: 100px;
+  background-color: $background-color;
+  margin: 9.5px 40px 9.5px 9.5px;
+  transition-duration: $animation-timing;
+  display: inline-block;
+  vertical-align: top;
+  cursor: pointer;
+}
+
+.svg-container:hover {
+  background-color: rgba(37, 53, 69, 0.20);
+  transition-duration: $animation-timing;
+}
+
+.svg-container-clicked {
+  height: 57px;
+  width: 57px;
+  border: 1px solid $primary-color;
+  border-radius: 100px;
+  background-color: $primary-color;
+  margin: 9.5px 40px 9.5px 9.5px;
+  transition-duration: $animation-timing;
+  display: inline-block;
+  vertical-align: top;
+  cursor: pointer;
+}
+
+.svg-container-info-view{
+  background-color: $white;
+  transition-duration: $animation-timing;
+  display: inline-block;
+  vertical-align: top;
+  width: 30px;
+  margin: 0 20px;
+}
+
+.svg-info-view{
+  fill: $primary-color;
+  transition-duration: $animation-timing;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.svg-rotate {
+  transform: rotate(-30deg);
+}
+
+.exchange-center-background {
+  top: 0;
+  background: linear-gradient(to bottom, $base-posts, $base-posts, $base-posts, $base-posts, $base-posts, transparent);
+  height: 250px;
+  width: $feed-width;
+  position: fixed;
+  right: calc(5% + 340px + 15px);
+  border-radius: 5px;
+}
+
+.exchange-navbar-center {
+  top: $topBarHeight + 35;
+  background-color: $base-posts;
+  height: 75px;
+  width: $feed-width;
+  position: fixed;
+  right: calc(5% + 340px + 15px);
+  border-radius: 5px;
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.15);
+}
+
+.under-exchange-navbar-center {
+  top: $topBarHeight + 125px;
+  background-color: $base-posts;
+  height: 25px;
+  width: $feed-width;
+  position: fixed;
+  right: calc(5% + 340px + 15px);
+  border-radius: 5px;
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.15);
+  padding: 1px 40px;
+}
+
+.line-under-exchange-navbar-center {
+  top: $topBarHeight + 165px;
+  position: fixed;
+  width: $feed-width;
+  height: 5px;
+  right: calc(5% + 340px + 15px);
+  background-color: #42AC96;
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+}
+
 //** ---------------------------        Sidebar(rightBar)      -------------------------------- **//
+.description-right-bar{
+  padding: 0 10px;
+  text-align: center;
+}
+
 .-right-sidebar-wrapper {
   z-index: 1000;
   position: fixed;
-  top: $topBarHeight;
-  bottom: 0;
+  top: $topBarHeight + 35;
+  right: 5%;
+  width: $sidebar-width;
+  height: 590px;
   overflow-y: auto;
   background: $text-lightest-color;
-  -webkit-box-shadow: -2px 0px 14px rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: -2px 0px 14px rgba(0, 0, 0, 0.3);
-  box-shadow: -2px 0px 14px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 0 14px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 0 14px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  padding: 15px;
 }
 
 .user-sidebar-width {
@@ -316,10 +436,20 @@
 }
 
 .sidebarBottom {
-  border-color: $sidebar-bottom-color !important;
-  color: $sidebar-bottom-color !important;
+  cursor: pointer;
+  background-color: $primary-color !important;
+  border-color: $background-color !important;
+  color: $background-color !important;
   font-size: $font-size-boxText;
-  border-radius: 20px;
+  border-radius: 25px;
+  transition-duration: $animation-timing;
+}
+
+.sidebarBottom:hover {
+  background-color: $background-color !important;
+  border-color: $primary-color !important;
+  color: $primary-color !important;
+  transition-duration: $animation-timing;
 }
 
 .-grey1 {

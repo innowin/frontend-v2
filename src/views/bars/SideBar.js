@@ -10,6 +10,7 @@ import type {userProfileType, userType} from "src/consts/flowTypes/user/basicInf
 import {DefaultImageIcon} from "src/images/icons"
 import {DefaultUserIcon, DefaultOrganIcon} from "src/images/icons"
 import cx from "classnames"
+import CheckOwner from "../common/CheckOwner";
 
 const MenuBox = (props) => (
   <div className="menu-box pt-0 pb-0" id={props.id}>
@@ -50,11 +51,12 @@ type PropsUserSideBar = {
   profile: userProfileType,
   badges: (badgeType)[],
   className?: string,
-  translate: TranslatorType
+  translate: TranslatorType,
+  paramId: number,
 }
 export const UserSideBar = (props: PropsUserSideBar) => {
 
-  const {user, profile, badges, translate, className} = props
+  const {user, profile, badges, translate, className, paramId} = props
   const name = !(user.first_name && user.last_name) ? user.username : (user.first_name + " " + user.last_name)
   const picture = (profile.profile_media && profile.profile_media.file) || null
   const banner = (profile.profile_banner && profile.profile_banner.file) || null
@@ -78,6 +80,7 @@ export const UserSideBar = (props: PropsUserSideBar) => {
       className={className}
       chosenBadgesImg={chosenBadgesImg}
       socialNetworks={socialNetworks}
+      paramId={paramId}
     />
   )
 }
@@ -86,7 +89,8 @@ UserSideBar.propTypes = {
   user: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
   badges: PropTypes.array.isRequired,
-  className: PropTypes.string
+  className: PropTypes.string,
+  paramId: PropTypes.number,
 }
 
 
@@ -98,10 +102,11 @@ type PropsOrganSideBar = {
   organLogo: ?string,
   organBanner: ?string,
   className?: string,
-  translate: TranslatorType
+  translate: TranslatorType,
+  paramId: number,
 }
 export const OrganSideBar = (props: PropsOrganSideBar) => {
-    const {organ, badges, organLogo, organBanner, className, translate} = props
+    const {organ, badges, organLogo, organBanner, className, translate, paramId} = props
     const name = organ.nike_name || organ.official_name
     const badgesImg = badges.map(badge => (
       (!badge) ? '' : (badge.badge_related_badge_category.badge_related_media.file))
@@ -123,6 +128,7 @@ export const OrganSideBar = (props: PropsOrganSideBar) => {
         socialNetworks={socialNetworks}
         translate={translate}
         className={className}
+        paramId={paramId}
       />
     )
 }
@@ -132,7 +138,8 @@ OrganSideBar.propTypes = {
   organLogo: PropTypes.string,
   organBanner: PropTypes.string,
   className: PropTypes.string,
-  translate: PropTypes.object.isRequired
+  translate: PropTypes.object.isRequired,
+  paramId: PropTypes.number,
 }
 
 
@@ -150,7 +157,8 @@ type PropsSideBarContent = {
     linkedin_account: ?string,
   },
   translate: TranslatorType,
-  className?: string
+  className?: string,
+  paramId: number,
 }
 
 class SideBarContent extends Component<PropsSideBarContent, { menuToggle: boolean }> {
@@ -164,7 +172,8 @@ class SideBarContent extends Component<PropsSideBarContent, { menuToggle: boolea
     chosenBadgesImg: PropTypes.array.isRequired,
     socialNetworks: PropTypes.object.isRequired,
     translate: PropTypes.object.isRequired,
-    className: PropTypes.string
+    className: PropTypes.string,
+    paramId: PropTypes.number,
   }
 
   constructor(props) {
@@ -194,7 +203,7 @@ class SideBarContent extends Component<PropsSideBarContent, { menuToggle: boolea
 
   render() {
     const {menuToggle} = this.state
-    const {sideBarType, banner, picture, name, description, chosenBadgesImg, socialNetworks, translate: tr, className} = this.props
+    const {sideBarType, banner, picture, name, description, chosenBadgesImg, socialNetworks, translate: tr, className, paramId} = this.props
     const followNames = ["صابر منادی", "امیر امیری فر", "محسن فلاح", "یاسر رستگار", "علی اوروجی"] //TODO get followNames
     return (
       <div className={className}>
@@ -230,20 +239,22 @@ class SideBarContent extends Component<PropsSideBarContent, { menuToggle: boolea
             <span className="item">{followNames[1]}</span>
             <span>{` و ${followNames.length - 2 } نفر دیگر `}</span>
           </div>
-          <div className="flex-row pb-3">
-            <div className="w-50 pl-2 pb-2">
-              <button
-                type="button"
-                className="btn btn-outline-secondary btn-block sidebarBottom">{tr['Send Message']}
-              </button>
+          <CheckOwner showForOwner={false} id={paramId}>
+            <div className="flex-row pb-3">
+              <div className="w-50 pl-2 pb-2">
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary btn-block sidebarBottom">{tr['Send Message']}
+                </button>
+              </div>
+              <div className="w-50 pb-2">
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary btn-block sidebarBottom">{tr['Follow']}
+                </button>
+              </div>
             </div>
-            <div className="w-50 pb-2">
-              <button
-                type="button"
-                className="btn btn-outline-secondary btn-block sidebarBottom">{tr['Follow']}
-              </button>
-            </div>
-          </div>
+          </CheckOwner>
           <div className="social-network">
             <a href={socialNetworks.telegram_account || "#"} target="_blank">
               <i className={cx("fa fa-youtube-play", {'active': socialNetworks.telegram_account})}/>

@@ -13,7 +13,7 @@ module.exports = {
   // auth
   'Organization national code must be 11 digit': "شناسه ملی باید یک عدد یازده رقمی باشد",
   'Login with google': "با حساب گوگل وارد شوید",
-  'All rights are reserved for Danesh Boom': "تمامی حقوق برای دانش بوم محفوظ است",
+  'All rights are reserved for Danesh Boom': "تمامی حقوق برای اینووین محفوظ است",
   'Register with other accounts': "ثبت نام با اکانت های دیگر",
   'Username': "نام کاربری",
   'Email': "رایانامه",
@@ -69,13 +69,13 @@ module.exports = {
   'FromDate': 'از تاریخ',
   'ToDate': 'تا تاریخ',
   'EducationInfo': 'اطلاعات تحصیلی',
-  'ResearchInfo': 'تحقیقات',
+  'ResearchInfo': 'سابقه پژوهشی',
   'Author': 'نویسنده',
-  'Page Count': 'تعداد صفحات',
 
   // user - certificates
   'Title': "عنوان",
   'Picture': "عکس",
+  'Logo': "لوگو",
   'Cancel': "لغو",
   'Create': "ایجاد",
   'Delete': "حذف",
@@ -83,6 +83,7 @@ module.exports = {
 
   'Save': "ذخیره",
   'Certificates': "گواهی‌نامه‌ها",
+  'Certificates and badges': 'نشان ها و گواهی نامه ها',
 
   // user - posts
   'Post': "کاربرنما",
@@ -94,22 +95,30 @@ module.exports = {
   'No, Cancel please.': "خیر",
 
   // user - educations
-  'Grade': "مقطع تحصیلی",
+  'Education grade': "مقطع تحصیلی",
   'University': "آموزشگاه/ دانشگاه",
   'Field of study': "رشته تحصیلی",
-  'From date': "از تاریخ",
-  'To date': "تا تاریخ",
   'Average': "معدل",
   'Description': "توضیحات",
-  'Educations': "سوابق تحصیلی",
+  'Educations': "سوابق علمی",
+  'University is wrong' : 'دانشگاه اشتباه وارد شده است',
+  'Education grade is wrong' : 'مقطع تحصیلی اشتباه وارد شده است',
+  'Field of study is wrong' : 'رشته تحصیلی اشتباه وارد شده است',
+  'Average is wrong': "میانگین اشتباه وارد شده است",
+  'Description is wrong': "توضیحات اشتباه وارد شده است",
+  'Education': 'سابقه علمی',
+  'Research': 'سابقه پژوهشی',
+  'Grade': "مقطع",
+
 
   // user - BasicInformation
+  'Basic Information': 'مشخصات پایه',
   'National code must be 10 digit ': "کد ملی باید عدد ۱۰ رقمی باشد",
   'BirthDate': "تاریخ تولد",
   'Fax': "دورنگار",
-  'Mobile': "تلفن همراه",
+  'Mobile': "شماره موبایل",
   'National code': "کد ملی",
-  'Phone': "تلفن ثابت",
+  'Phone': "شماره تماس",
   'Public email': "رایانامه عمومی",
   'Telegram account': "حساب تلگرام",
   'First name': "نام",
@@ -118,9 +127,9 @@ module.exports = {
   'User info': "اطلاعات کاربری",
   'Organization info': "اطلاعات شرکت",
   'Organization members': "اعضای شرکت",
-  'Date joined': 'تاریخ پیوستن',
+  'Date joined': 'تاریخ پیوستن در اینووین',
 
-  'Profile info': 'اطلاعات تکمیلی',
+  'Contact info': 'اطلاعات تماس',
   'Website': "تارنما",
   'www...': "...www",
   'Basic information': "اطلاعات پایه",
@@ -131,12 +140,15 @@ module.exports = {
   'FirstName': 'نام',
   'Web Site Format': 'http://www.abc.com',
 
+  'Private info': 'مشخصات خصوصی',
+
   'Telegram account is incorrect': 'حساب تلگرام اشتباه وارد شده است',
   'National code is incorrect': 'کد ملی اشتباه وارد شده است',
   'Day is incorrect': 'روز اشتباه وارد شده است',
   'Month is incorrect': 'ماه اشتباه وارد شده است',
   'Year is incorrect': 'سال اشتباه وارد شده است',
   'Email is wrong': 'آدرس رایانامه اشتباه است',
+  'Address is incorrect': 'آدرس اشتباه وارد شده است',
 
   // user - researches
   'This number is not a correct year': "سال باید عدد ۴ رقمی معتبر باشد",
@@ -147,23 +159,36 @@ module.exports = {
   'Publication': 'انتشارات',
   'Page count': 'تعداد صفحات',
   'Researches': "سوابق پژوهشی",
+  'Page': 'صفحه',
+  'Research Link': 'لینک مقاله',
+  'Title is wrong': 'عنوان اشتباه است',
+  'Publication is wrong': 'انتشارات اشتباه است',
+  'Url is wrong': 'آدرس اینترنتی اشتباه است',
+  'Author is wrong': 'نویسنده اشتباه است',
+  'Page count is wrong': 'تعداد صفحه اشتباه است',
+  'Research Link is wrong': 'لینک مقاله اشتباه است',
+  'Download file': 'دانلود فایل',
+
+
   ', ': '، ',
 
   // user - skills
   'Tag': "برچسب",
-  'Skills': "مهارت‌ها",
+  'Skills': "توانمندی ها",
   'Work experiences': "سوابق کاری",
-  'Position': "موقعیت",
+  'Position': "موقعیت شغلی",
+  'Name work': 'محل کار',
   'Removing...': "در حال حذف ...",
   'Saving...': "در حال ذخیره سازی ...",
   'Tag Name': 'نام تگ',
   'Add Tag': 'اضافه تگ',
+  'Tag is wrong': 'برچسب اشتباه است',
 
   // user - workExperience
-  'WorkExperience': "تجربه کاری",
+  'WorkExperience': "تجربیات کاری",
   'Organization worked': 'سازمان مورد نظر',
   'Name is wrong': 'نام وارد شده اشتباه است',
-  'Position is wrong': 'موقعیت شغلی وارد شده اشتباه است',
+  'Position is wrong': 'محل کار وارد شده اشتباه است',
 
   // user - social
   'Socials': "ارتباط اجتماعی",
@@ -176,7 +201,7 @@ module.exports = {
   'Logout': "خروج",
 
   // public
-  'Danesh Boom': "دانش بوم",
+  'Danesh Boom': "اینووین",
   'User Not Found': "کاربر یافت نشد!",
   'User': "کاربر",
   'Organization Not Found': "شرکت مورد نظر یافت نشد!",
@@ -214,13 +239,32 @@ module.exports = {
   'Followings': "دنبال شده ها",
   'Exchange': 'بورس',
   'Exchanges': 'بورس ها',
+  'Profile Picture': 'تصویر پروفایل',
+  'Exchange Picture': 'تصویر پروفایل',
   'Social': 'اجتماعی',
   'Followed': 'دنبال شده',
   'Wait for accept': 'در انتظار تایید',
 
+  //Exchanges
+  'Stream': "پست ها",
+  'Statistic': "آماره",
+  'Info': "مشخصات",
+  'Members': "اعضا",
+  'Exchange Manager': "مدیریت بورس",
+  'Medals': "مدالها",
+
+
   // Product
+  'Contributions': 'آورده ها',
+  'Price': 'قیمت',
+  'Call': 'تماس',
+  'Show more': 'نمایش گسترده',
+  'Toman': 'تومان',
+
   // Product Rating
   'Ratings': 'دیدگاه ها و بازخورد ها',
+
+  'Products': 'محصولات',
 
   // TopBar
   topBar: {

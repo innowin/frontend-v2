@@ -1,6 +1,5 @@
 import {updateUserByUserId} from './updateUserByUserIdSaga'
 import {updateProfileByProfileId} from "./updateProfileByProfileIdSaga"
-
 import {takeEvery} from "../../../../node_modules/redux-saga/effects"
 import types from "../../actions/types"
 
@@ -16,5 +15,5 @@ function* watchUpdateProfileByProfileId() {
 
 export default{
   watchUpdateUserByUserId,
-  watchUpdateProfileByProfileId
+  watchUpdateProfileByProfileId,
 }

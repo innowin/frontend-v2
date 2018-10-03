@@ -1,0 +1,46 @@
+@import "../../variables";
+
+.education-add-container {
+  display: flex;
+  justify-content: space-around;
+
+  .education-add-button {
+    border: none;
+    background: $bootstrap-success;
+    padding: 10px;
+    font-size: $font-size-normalText;
+    font-weight: bold;
+    color: #ffffff;
+    border-radius: $border-radius-size;
+    outline: 0;
+  }
+}
+
+.text-description {
+  margin-right: 10px;
+  font-size: $font-size-description;
+  color: lighten($text-dark-color, 20%);
+}
+
+.download-research {
+  color: $danger-color;
+
+  .download-file {
+    font-size: $font-size-field-label;
+    font-weight: bold;
+    padding-right: 8px;
+  }
+
+  &:hover {
+    color: darken($danger-color, 10%);
+  }
+}
+
+.education-research-create-container {
+  margin: 20px;
+
+  .education-research-create-header {
+    font-size: 20px;
+    font-weight: bold;
+  }
+}

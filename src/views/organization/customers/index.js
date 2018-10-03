@@ -4,13 +4,10 @@ import * as React from 'react'
 import PropTypes from 'prop-types';
 import {Customer, CustomerItemWrapper} from "./view";
 import {CustomerCreateForm} from "./forms";
-import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper, ItemHeader} from "../../common/cards/Frames";
+import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper, ItemHeader} from "../../common/cards/Frames"
 // import {createCustomer, deleteCustomer, updateCustomer} from '../../../crud/organization/customer.js';
-import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
-import {REST_REQUEST} from "../../../consts/Events"
-import {TOKEN} from "src/consts/data"
 import {postIcon} from "src/images/icons";
-import OrganizationActions from '../../../redux/actions/organizationActions';
+import OrganizationActions from 'src/redux/actions/organization/organizationActions'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 type CustomerContainerProps = { 
@@ -113,7 +110,7 @@ export class Customers extends React.Component<CustomersProps,{createForm: boole
 		const {isLoading,error} = organization.customers;
 		const customers = organization.customers;
 		const {createForm} = this.state;
-		const organ = organs[organizationId].organization.content
+		const organ = organs.list[organizationId].organization.content
 		return (
 			<VerifyWrapper isLoading={isLoading} error={error}>
 				{

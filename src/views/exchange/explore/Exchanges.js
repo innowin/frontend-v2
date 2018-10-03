@@ -9,9 +9,12 @@ const Exchanges = (props) => {
       <div className="exchanges-explore">
         {
           exchanges ?
-              Object.values(exchanges).map((exchange, i) =>
-                  <Exchange key={i} data={exchange}/>
-              )
+              Object.values(exchanges).length > 0 ?
+                  Object.values(exchanges).map((exchange, i) =>
+                      <Exchange key={i} data={exchange}/>
+                  )
+                  :
+                  <div>بورسی یافت نشد!</div>
               :
               <ClipLoader/>
         }

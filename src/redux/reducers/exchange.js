@@ -7,7 +7,7 @@ import constants from "src/consts/constants"
 
 const exchanges = (state = initialState.exchanges, action) => {
   const {postParentType} = action.payload || {}
-  const {getExchangeByExId, postsExchange, getExchangeMembershipByMemberIdentity, getAllExchanges} = exchangeSlice
+  const {getExchangeByExId, postsExchange, getExchangeMembershipByMemberIdentity, getAllExchanges, searchExchangesByWord} = exchangeSlice
   const {POST_PARENT} = constants
   switch (action.type) {
       /** --------------------  get exchange by exchange id --------------------- **/
@@ -25,6 +25,9 @@ const exchanges = (state = initialState.exchanges, action) => {
         return postsExchange.filterPostsByPostParentLimitOffset.success(state, action)
       }
       return state
+      /** -------------------------- search exchanges by word  -------------------------> **/
+    case types.SUCCESS.EXCHANGE.SEARCH_EXCHANGES_BY_WORD:
+      return searchExchangesByWord.success(state, action)
       /** -------------------------- add one post to exchange posts  -------------------------> **/
     case types.SUCCESS.COMMON.POST.CREATE_POST :
       if (postParentType === POST_PARENT.EXCHANGE) {

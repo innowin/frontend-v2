@@ -4,27 +4,35 @@ import {persistReducer} from "redux-persist";
 import {reducer as formReducer} from 'redux-form'
 import {routerReducer} from 'react-router-redux'
 import storage from 'redux-persist/lib/storage'
-
 import auth from './auth'
+import identities from "./identity"
 import common from "./commonReducer/index"
 import exchanges from "./exchange"
 import organization from './organization'
 import organs from "./organ"
 import users from "./user"
 import workExperience from './workExperience'
+import education from './education'
 import {intlReducer} from './intl'
-
+import research from './research'
+import skill from './skill'
+import param from './param'
 
 const commonPersistConfig = {key: 'common', storage: storage,}
 
 const reducers = {
   auth,
+  identities,
   users,
   organs,
   organization,
   exchanges,
   common: persistReducer(commonPersistConfig, common),
   workExperience,
+  education,
+  research,
+  skill,
+  param,
 }
 
 //Don't change below code ,  Put your reducer on the upper object.

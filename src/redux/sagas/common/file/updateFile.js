@@ -11,10 +11,10 @@ export function* updateFile(action) { // payload?
         yield fork(api.patch, urls.COMMON.FILE, results.COMMON.UPDATE_FILE, formData, id)
         const data = yield take(socketChannel)
         console.log('updateFile saga worker success data is: ', data)
-        // yield put({type: types.SUCCESS.COMMON.UPDATE_PRODUCT, data})
+        // yield put({type: types.SUCCESS.COMMON.PRODUCT.UPDATE_PRODUCT, data})
     } catch (error) {
         console.log('updateFile saga worker error data is: ', error)
-        // yield put({type: types.ERRORS.COMMON.UPDATE_PRODUCT, error})
+        // yield put({type: types.ERRORS.COMMON.PRODUCT.UPDATE_PRODUCT, error})
     } finally {
         socketChannel.close()
     }

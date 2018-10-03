@@ -4,14 +4,14 @@ import * as React from 'react'
 import PropTypes from 'prop-types';
 import {Product, ProductItemWrapper} from "./view";
 import {ProductCreateForm, ProductEditForm} from "./forms";
-import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper, ItemWrapper, ItemHeader} from "../../common/cards/Frames";
+import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper, ItemWrapper, ItemHeader} from "../../common/cards/Frames"
 // import {createProduct, deleteProduct, updateProduct, addPicture, deletePicture} from '../../../crud/organization/products.js';
 import {REST_URL as url, SOCKET as socket} from "../../../consts/URLS"
 import {REST_REQUEST} from "../../../consts/Events"
 import {IDENTITY_ID,TOKEN} from '../../../consts/data'
 import client from '../../../consts/client'
 import {postIcon} from "src/images/icons";
-import OrganizationActions from '../../../redux/actions/organizationActions';
+import OrganizationActions from 'src/redux/actions/organization/organizationActions'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 //TODO amir
@@ -129,8 +129,7 @@ export class ProductList extends React.Component<ProductListProps> {
 	create = (formValues:Object,hideEdit:Function) => {
 		const {organizationId, auth} = this.props;
 		const {createProduct} = this.props.actions
-		console.log(this.props)
-		return createProduct(formValues,auth.client.identity.id, hideEdit);
+		return createProduct(formValues,auth.client.identity.content, hideEdit);
 	};
 
 	render() {

@@ -11,7 +11,7 @@ import WorkExperienceCreateForm from "./WorkExperienceCreateForm"
 import workExperienceIcon from "../../../images/user/workExperience_svg";
 import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper, ItemWrapper} from "src/views/common/cards/Frames"
 import {getMessages} from "../../../redux/selectors/translateSelector"
-import {makeGetWorkExperiences} from "../../../redux/selectors/user/userGetWorkExperiencesSelector";
+import {makeGetWorkExperiences} from "../../../redux/selectors/user/userGetWorkExperiencesSelector"
 
 // flow type of WorkExperiences
 type PropsWorkExperiences = {
@@ -29,8 +29,6 @@ type PropsWorkExperiences = {
 }
 type StateWorkExperiences = {
   createForm: boolean,
-  edit: boolean,
-  resetState: boolean
 }
 
 class WorkExperiences extends React.Component<PropsWorkExperiences, StateWorkExperiences> {
@@ -48,7 +46,6 @@ class WorkExperiences extends React.Component<PropsWorkExperiences, StateWorkExp
     super(props)
     this.state = {
       createForm: false,
-      edit: false, resetState: false
     }
   }
 
@@ -60,11 +57,11 @@ class WorkExperiences extends React.Component<PropsWorkExperiences, StateWorkExp
     this.setState({createForm: false})
   }
 
-  _create = ({formValues, userId}) => {
-    const {actions} = this.props
+  _create = ({formValues}) => {
+    const {actions, userId} = this.props
     const {createWorkExperienceByUserId} = actions
     //FixMe: mohammad organizationId need to change when organ select done
-    createWorkExperienceByUserId({userId, organizationId: formValues.workExperienceOrganization, formValues})
+    createWorkExperienceByUserId({userId, organizationId: formValues.work_experience_organization, formValues})
   }
 
   componentDidMount() {
@@ -121,7 +118,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return (state, props) => {
     const {userId} = props
-    const stateUser = state.users[userId]
+    const stateUser = state.users.list[userId]
     const defaultObject = {content: [], isLoading: false, error: null}
     const workExperienceObject = (stateUser && stateUser.workExperiences) || defaultObject
 
@@ -136,7 +133,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    // push: routerActions.push,
     getWorkExperienceByUserId: WorkExperienceActions.getWorkExperienceByUserId,
     updateWorkExperienceByUserId: WorkExperienceActions.updateWorkExperienceByUserId,
     createWorkExperienceByUserId: WorkExperienceActions.createWorkExperienceByUserId,

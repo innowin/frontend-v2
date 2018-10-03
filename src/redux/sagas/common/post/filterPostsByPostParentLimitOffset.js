@@ -19,7 +19,7 @@ export function* filterPostsByPostParentPostTypeLimitOffset(action) {
 	try {
 		yield fork(
 				api.get,
-				urls.COMMON.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET,
+				urls.COMMON.POST,
         resultName,
 				filter
 		)

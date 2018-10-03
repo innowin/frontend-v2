@@ -1,6 +1,6 @@
 export default {
-  list: []
-  /*
+  list: {
+    /*
    [userId]: {
      ----------- info -----------
      user: {
@@ -13,6 +13,11 @@ export default {
        isLoading:false,
        error:null
      },
+     identity:{
+       content:null,        id of identity
+       isLoading: false,
+       error: null
+     }
     ------------ common --------------
      badges:{
          content:[1, 2, ...], list of badges id
@@ -20,6 +25,11 @@ export default {
          error:null
      },
      posts: {
+       content:[1, 2, ...], list of posts id
+       isLoading:false,
+       error: null
+     },
+     products: {
        content:[1, 2, ...], list of posts id
        isLoading:false,
        error: null
@@ -43,20 +53,27 @@ export default {
      }
      ---------------- other ----------
      skills:{
-         content:[{},{},...],  list of skill object
+         content:[1, 2, ...], list of skill id
          isLoading:false,
          error:null
      },
      workExperiences: {
-				 content:[1, 2, ...], list of workExperience id
-				 isLoading:false,
-				 error: null
+         content:[1, 2, ...], list of workExperience id
+         isLoading:false,
+         error: null
      },
      exchanges:{
          content:[1, 2, ...], list of exchanges id
          isLoading:false,
          error:null
-     }
+     },
+     educations:{
+         content:[1, 2, ...], list of exchanges id
+         isLoading:false,
+         error:null
+     },
    }
   */
+
+  }
 }

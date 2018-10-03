@@ -1,23 +1,39 @@
 @import "../../variables";
-.skillDescription{
-	font-size: $font-size-boxText;
-	color:rgb(138, 138, 138);
+
+.skill-view-container {
+  .skill-bookmark {
+    position: absolute;
+    left: 40px;
+    top: 11px;
+  }
 }
-.-itemWrapperSkill{
-	border:1px solid darken($text-light-color, 2.2%);
-	padding:12px;
-	margin:10px;
+
+.skill-description {
+  font-size: $font-size-contribution-content;
 }
-.-itemEditBtn{
-	svg{
-		width:10px;
-	}
-	font-size: $font-size-verySmallText;
-	float:left;
-	cursor: pointer;
+
+.-itemWrapperSkill {
+  border: 1px solid darken($text-light-color, 2.2%);
+  padding: 12px;
+  margin: 10px;
 }
-.skillTags{
-	.skillTag{
-		background-color:rgba(110, 110, 110, 0.705)
-	}
+
+.-itemEditBtn {
+  svg {
+    width: 10px;
+  }
+  font-size: $font-size-verySmallText;
+  float: left;
+  cursor: pointer;
+}
+
+.skill-tags {
+  .skill-tag {
+    background-color: rgba(110, 110, 110, 0.705);
+    font-size: 12px;
+    font-weight: normal;
+    padding: 6px 14px;
+    margin-left: 8px;
+    margin-bottom: 8px;
+  }
 }

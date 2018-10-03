@@ -1,15 +1,18 @@
 const base = (state, action) => {
   const {userId} = action.payload || {}
-  const defaultObject = { content: {}, isLoading: false, error: null }
-  const previousUser = (state[userId] && state[userId].user) || defaultObject
+  const defaultObject = {content: {}, isLoading: false, error: null}
+  const previousUser = (state.list[userId] && state.list[userId].user) || defaultObject
 
   return {
     ...state,
-    [userId]: {
-      ...state[userId],
-      user: {
-        ...previousUser,
-        isLoading: true
+    list: {
+      ...state.list,
+      [userId]: {
+        ...state.list[userId],
+        user: {
+          ...previousUser,
+          isLoading: true
+        }
       }
     }
   }
@@ -17,18 +20,21 @@ const base = (state, action) => {
 
 const success = (state, action) => {
   const {userId, data} = action.payload || {}
-  const defaultObject = { content: {}, isLoading: false, error: null }
-  const previousUser = (state[userId] && state[userId].user) || defaultObject
+  const defaultObject = {content: {}, isLoading: false, error: null}
+  const previousUser = (state.list[userId] && state.list[userId].user) || defaultObject
 
   return {
     ...state,
-    [userId]: {
-      ...state[userId],
-      user: {
-        ...previousUser,
-        content: {...data},
-        isLoading: false,
-        error: null
+    list: {
+      ...state.list,
+      [userId]: {
+        ...state.list[userId],
+        user: {
+          ...previousUser,
+          content: {...data},
+          isLoading: false,
+          error: null
+        }
       }
     }
   }
@@ -36,17 +42,20 @@ const success = (state, action) => {
 
 const error = (state, action) => {
   const {userId, message} = action.payload || {}
-  const defaultObject = { content: {}, isLoading: false, error: null }
-  const previousUser = (state[userId] && state[userId].user) || defaultObject
+  const defaultObject = {content: {}, isLoading: false, error: null}
+  const previousUser = (state.list[userId] && state.list[userId].user) || defaultObject
 
   return {
     ...state,
-    [userId]: {
-      ...state[userId],
-      user: {
-        ...previousUser,
-        isLoading: false,
-        error: message
+    list: {
+      ...state.list,
+      [userId]: {
+        ...state.list[userId],
+        user: {
+          ...previousUser,
+          isLoading: false,
+          error: message
+        }
       }
     }
   }

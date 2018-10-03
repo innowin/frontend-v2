@@ -8,7 +8,7 @@ export function* deleteFollow(action) {
   const {followId, followOwnerId, followOwnerType} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.SOCIAL.DELETE_FOLLOW)
   try {
-    yield fork(api.del, urls.COMMON.SOCIAL.DELETE_FOLLOW, results.COMMON.SOCIAL.DELETE_FOLLOW, '', `${followId}`)
+    yield fork(api.del, urls.COMMON.SOCIAL.FOLLOW, results.COMMON.SOCIAL.DELETE_FOLLOW, '', `${followId}`)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.COMMON.SOCIAL.DELETE_FOLLOW , payload:{followId, followOwnerType, followOwnerId}})
   } catch (error) {

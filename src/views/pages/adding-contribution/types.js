@@ -9,25 +9,33 @@ export type TagAsOptionType = { // type of tag when used in as option in react-s
   usage: number
 }
 
-type GalleryImageType = {
-
-}
 type Certificate = {
   title: string
 }
+
+export type SkillFormValsType = {
+  title: string,
+  description: string,
+  hashTags: Array<TagAsOptionType>
+}
+
+
+
 export type NewContributionDataType = {
-  tags: Array<TagAsOptionType>,
+  tags?: Array<TagAsOptionType>,
   mainGalleryImageIndex?: number,
-  galleryImages: Array<GalleryImageType>,
-  mainCategory: string,
-  certificates: Array<Certificate>
+  galleryImages?: Array<string> | [],
+  mainCategory?: string,
+  certificates?: Array<Certificate> | [],
+  technicalProperties?: Array<TechnicalPropertyType>,
+  galleryVideo?: string
 }
 
 
 export type TechnicalPropertyType = {
-  id: number | string,
-  value: string,
-  title: string
+  id?: number,
+  value?: string,
+  title?: string
 }
 
 export type CitiesType = {

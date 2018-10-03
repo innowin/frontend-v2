@@ -3,78 +3,138 @@ import types from "../actions/types/index"
 import slices from "./sliceReducers/organ";
 
 const organs = (state = initialState.organs, action) => {
-  const {organizationId, data, message}= action.payload || {}
+  const {organizationId, data, message} = action.payload || {}
   const defaultObject = {content: {}, isLoading: false, error: null}
   const defaultObject2 = {content: [], isLoading: false, error: null}
-  const previousOrgan = (state[organizationId] && state[organizationId].organization) || defaultObject
-  const previousBadges = (state[organizationId] && state[organizationId].badges) || defaultObject2
+  const previousOrgan = (state.list[organizationId] && state.list[organizationId].organization) || defaultObject
+  const previousBadges = (state.list[organizationId] && state.list[organizationId].badges) || defaultObject2
   switch (action.type) {
+    /** -------------------------- get organ identity-------------------------> **/
+    case types.SUCCESS.ORG.GET_ORG_IDENTITY:
+      return {
+        ...state,
+        list: {
+          ...state.list,
+          [organizationId]: {
+            ...state.list[organizationId],
+            identity: {
+              content: data.id,
+              isLoading: false,
+              error: null
+            }
+          }
+        }
+      }
     /** -------------------------- get organ -------------------------> **/
     case types.ORG.GET_ORGANIZATION:
       return {
         ...state,
-        [organizationId]: {
-          ...state[organizationId],
-          organization:{
-            ...previousOrgan,
-            isLoading: true,
-            error: null
+        list: {
+          ...state.list,
+          [organizationId]: {
+            ...state.list[organizationId],
+            organization: {
+              ...previousOrgan,
+              isLoading: true,
+              error: null
+            }
           }
         }
       }
     case types.SUCCESS.ORG.GET_ORGANIZATION:
       return {
         ...state,
-        [organizationId]: {
-          ...state[organizationId],
-          organization:{
-            ...previousOrgan,
-            content: {...data},
-            isLoading: false
+        list: {
+          ...state.list,
+          [organizationId]: {
+            ...state.list[organizationId],
+            organization: {
+              ...previousOrgan,
+              content: data,
+              isLoading: false
+            }
           }
         }
       }
     case types.ERRORS.ORG.GET_ORGANIZATION:
       return {
         ...state,
-        [organizationId]: {
-          ...state[organizationId],
-          organization:{
-            ...previousOrgan,
-            isLoading: false,
-            error: message
-            
+        list: {
+          ...state.list,
+          [organizationId]: {
+            ...state.list[organizationId],
+            organization: {
+              ...previousOrgan,
+              isLoading: false,
+              error: message
+            }
           }
         }
       }
-
     /** -------------------------- update organization info-------------------------> **/
-		case types.SUCCESS.ORG.UPDATE_ORGANIZATION_INFO:
-    const updatedOrganization = action.payload
-    return {
-      ...state,
-      [updatedOrganization.id]: {
-        ...state[updatedOrganization.id],
-        organization:{
-          ...previousOrgan,
-          content: {...updatedOrganization},
-          isLoading: false,
-          error: message
-          
+    case types.SUCCESS.ORG.UPDATE_ORGANIZATION_INFO:
+      return {
+        ...state,
+        list: {
+          ...state.list,
+          [data.id]: {
+            ...state.list[data.id],
+            organization: {
+              content: data,
+              isLoading: false,
+              error: null
+            }
+          }
         }
       }
-    }
-
+    case types.ERRORS.ORG.UPDATE_ORGANIZATION_INFO:
+      return {
+        ...state,
+        list: {
+          ...state.list,
+          [organizationId]: {
+            ...state.list[organizationId],
+            organization: {
+              ...previousOrgan,
+              isLoading: false,
+              error: message
+            }
+          }
+        }
+      }
+    /** -------------------------- get followers -------------------------> **/
+    case types.COMMON.SOCIAL.GET_FOLLOWERS:
+      return slices.getFollowers.base(state, action)
+    case types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWERS:
+      return slices.getFollowers.success(state, action)
+    case types.ERRORS.COMMON.SOCIAL.GET_FOLLOWERS:
+      return slices.getFollowers.error(state, action)
+    /** -------------------------- get followees -------------------------> **/
+    case types.COMMON.SOCIAL.GET_FOLLOWEES:
+      return slices.getFollowees.base(state, action)
+    case types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWEES:
+      return slices.getFollowees.success(state, action)
+    case types.ERRORS.COMMON.SOCIAL.GET_FOLLOWEES:
+      return slices.getFollowees.error(state, action)
+    /** -------------------------- delete follow -------------------------> **/
+    case types.SUCCESS.COMMON.SOCIAL.DELETE_FOLLOW:
+      return slices.deleteFollow.success(state, action)
+    /** -------------------------- create follow  -------------------------> **/
+    case types.SUCCESS.COMMON.SOCIAL.CREATE_FOLLOW:
+      return slices.createFollow.success(state, action)
     /** -------------------------- badge -------------------------> **/
     case types.COMMON.SET_BADGES_IN_ORG:
       return {
         ...state,
-        [organizationId]: {
-          ...state[organizationId],
-          badges: {
-            ...previousBadges,
-            isLoading: true,
-            error: null
+        list: {
+          ...state.list,
+          [organizationId]: {
+            ...state.list[organizationId],
+            badges: {
+              ...previousBadges,
+              isLoading: true,
+              error: null
+            }
           }
         }
       }
@@ -82,27 +142,43 @@ const organs = (state = initialState.organs, action) => {
       const ArrayOfBadgeId = data.map((badge) => badge.id)
       return {
         ...state,
-        [organizationId]: {
-          ...state[organizationId],
-          badges: {
-            ...previousBadges,
-            content: ArrayOfBadgeId,
-            isLoading: false
+        list: {
+          ...state.list,
+          [organizationId]: {
+            ...state.list[organizationId],
+            badges: {
+              ...previousBadges,
+              content: ArrayOfBadgeId,
+              isLoading: false
+            }
           }
         }
       }
     case types.ERRORS.COMMON.SET_BADGES_IN_ORG:
       return {
         ...state,
-        [organizationId]: {
-          ...state[organizationId],
-          badges: {
-            ...previousBadges,
-            isLoading: false,
-            error: message
+        list: {
+          ...state.list,
+          [organizationId]: {
+            ...state.list[organizationId],
+            badges: {
+              ...previousBadges,
+              isLoading: false,
+              error: message
+            }
           }
         }
       }
+    /** -------------------------- get exchange membership by member identity  -------------------------> **/
+    case types.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
+      return slices.getExchangeMembershipByMemberIdentity.base(state, action)
+    case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
+      return slices.getExchangeMembershipByMemberIdentity.success(state, action)
+    case types.ERRORS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
+      return slices.getExchangeMembershipByMemberIdentity.error(state, action)
+    /** -------------------------- delete exchange membership  -------------------------> **/
+    case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.DELETE_EXCHANGE_MEMBERSHIP:
+      return slices.deleteExchangeMembership.success(state, action)
     /** -------------------------- get work experience by user id  -------------------------> **/
     case types.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID:
       return slices.getWorkExperienceByUserId.base(state, action)
@@ -116,6 +192,14 @@ const organs = (state = initialState.organs, action) => {
     /** -------------------------- delete work experience by user id -------------------------> **/
     case types.SUCCESS.WORK_EXPERIENCE.DELETE_USER_WORK_EXPERIENCES_BY_USER_ID:
       return slices.deleteWorkExperienceByUserId.success(state, action)
+
+    /** -------------- get organization certificates -------------> **/
+    case types.SUCCESS.COMMON.CERTIFICATE.GET_CERTIFICATES_BY_IDENTITY:
+      return slices.getCertificatesByIdentity.success(state, action)
+    /** -------------------------- delete organization certificate -------------------------> **/
+    case types.SUCCESS.COMMON.CERTIFICATE.DELETE_CERTIFICATE:
+      return slices.deleteCertificate.success(state, action)
+
     /** -------------------------- reset organs -------------------------> **/
     case types.RESET:
       return initialState.organs

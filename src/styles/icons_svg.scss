@@ -23,3 +23,25 @@ svg {
 .-whiteSvg svg path {
   fill: $text-lightest-color;
 }
+
+.-item-edit-btn {
+  svg {
+    fill: lighten($text-dark-color, 50%);
+    height: 16px;
+    width: 16px;
+    margin-top: 6px;
+  }
+
+  &:hover svg {
+    fill: $text-dark-color;
+  }
+}
+
+.user-lock-private {
+  position: absolute;
+  fill: lighten($text-dark-color, 0%);
+  height: 20px;
+  width: 20px;
+  left: 35px;
+  top: -25px;
+}

@@ -1,24 +1,13 @@
 export default {
-  isLoading: false,
-  error: {message: null},
-  content: {},
+  staff: {
+    isLoading: false,
+    content: []
+  },
   exchanges: {
     isLoading: false,
     content: []
   },
-  followings: {
-    isLoading: false,
-    content: []
-  },
-  followers: {
-    isLoading: false,
-    content: []
-  },
   abilities: {
-    isLoading: false,
-    content: []
-  },
-  certificates: {
     isLoading: false,
     content: []
   },
@@ -34,13 +23,5 @@ export default {
   pictures: {
     isLoading: false,
     content: []
-  },
-  staff: {
-    isLoading: false,
-    content: []
-  },
-  identity: {
-    isLoaded: false,
-    content: ''
-  },
+  }
 }

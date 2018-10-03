@@ -2,12 +2,10 @@ import api from "src/consts/api"
 import results from "src/consts/resultName"
 import types from "src/redux/actions/types"
 import urls from "src/consts/URLS"
-import {take, put, fork, call, takeEvery} from "redux-saga/effects"
+import {take, put, fork, call} from "redux-saga/effects"
 
-/**********    %% WORKERS %%    **********/
 
-//1 - check username exist worker
-function* getUserByUserId(action) {
+export function* getUserByUserId(action) {
   const {payload} = action
   const {userId} = payload
   const socketChannel = yield call(api.createSocketChannel, results.USER.GET_USER_BY_USER_ID)
@@ -23,8 +21,7 @@ function* getUserByUserId(action) {
   }
 }
 
-//2 - get profile by userId worker
-function* getProfileByUserId(action) {
+export function* getProfileByUserId(action) {
   const {payload} = action
   const {userId} = payload
   const socketChannel = yield call(api.createSocketChannel, results.USER.GET_PROFILE_BY_USER_ID + userId)
@@ -41,7 +38,7 @@ function* getProfileByUserId(action) {
   }
 }
 
-function* getUsers(action) {
+export function* getUsers(action) {
   const {payload} = action
   let socketChannel
   try {
@@ -61,20 +58,4 @@ function* getUsers(action) {
   } finally {
     socketChannel.close()
   }
-}
-
-/**********    %% WATCHERS %%    **********/
-
-//1 - check username is exist already
-export function* watchGetUserByUserId() {
-  yield takeEvery(types.USER.GET_USER_BY_USER_ID, getUserByUserId)
-}
-
-//2 - get profile by userId
-export function* watchGetProfileByUserId() {
-  yield takeEvery(types.USER.GET_PROFILE_BY_USER_ID, getProfileByUserId)
-}
-
-export function* watchGetUsers() {
-  yield takeEvery(types.USER.GET_USERS, getUsers)
 }

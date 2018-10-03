@@ -7,7 +7,7 @@ const social = (state = initialState.common.social, action) => {
     /** -------------------------- get followers -------------------------> **/
     case types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWERS:
       return slices.getFollowers.success(state, action)
-    /** -------------------------- get followees -------------------------> **/
+    /** -------------------------- get followers -------------------------> **/
     case types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWEES:
       return slices.getFollowees.success(state, action)
     /** -------------------------- delete follow -------------------------> **/

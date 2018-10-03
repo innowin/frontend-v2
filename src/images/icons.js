@@ -16,7 +16,7 @@ import DefaultProductIcon from "./defaults/defaultProduct_svg"
 import DefaultUserIcon from "./defaults/defaultUser_svg"
 import DemandIcon from "./common/demand_svg"
 import EditIcon from "./common/edit.svg"
-import educationIcon from "./user/education_svg"
+import EducationIcon from "./user/education_svg"
 import ExchangeExploreIcon from "./common/exchange_explore_svg"
 import ExchangeIcon from "./common/exchange_svg"
 import ForwardIcon from "./common/forward_svg"
@@ -24,13 +24,16 @@ import ImageUploadSvg from "./common/image_upload_svg"
 import InformationIcon from "./common/information_svg"
 import ItemsAndPropertiesIcon from "./common/ItemsAndProperties_svg"
 import logoDaneshBoom from "./common/logoWhite.png"
+import LockSvg from './common/lock_svg'
 import MoviesSvgIcon from "./common/movies_svg_icon"
 import NoFilterIcon from "./common/noFilter_svg"
 import NotificationIcon from "./common/notification_svg"
+import NewSkillIcon from './user/new_skill_svg'
 import PayIcon from "./addingConribution/pay_icon_svg"
 import postIcon from "./user/post_svg"
 import PostSendIcon from "./common/postSend_svg"
 import RatingIcon from "./product/rating_svg"
+import RightArrow from "./common/right_arrow_svg"
 import RefreshIcon from "./common/refresh_svg"
 import researchIcon from "./user/research_svg"
 import SeeViewIcon from "./common/see_view_svg"
@@ -45,8 +48,23 @@ import TickSvgIcon from "./common/tick_svg"
 import TipsIcon from "./common/tips_svg_icon"
 import userInfoIcon from "./user/userinfo_svg"
 import workExperienceIcon from "./user/workExperience_svg"
+import Stream from "./common/stream_svg"
+import Info from "./common/info_svg"
+import Statistic from "./common/statistic_svg"
+import Contacts from "./common/contacts_svg"
+import Medal from "./common/medal_svg"
+import Ticket from "./common/ticket_svg"
+import QuestionMark from "./common/questionMark_svg"
+
 
 export {
+  Stream,
+  Info,
+  Statistic,
+  Contacts,
+  Medal,
+  Ticket,
+  QuestionMark,
   AgentSvgIcon,
   AttachFileIcon,
   BookmarkIcon,
@@ -65,7 +83,7 @@ export {
   DefaultImageIcon,
   DemandIcon,
   EditIcon,
-  educationIcon,
+  EducationIcon,
   ExchangeExploreIcon,
   ExchangeIcon,
   ForwardIcon,
@@ -73,12 +91,15 @@ export {
   InformationIcon,
   ItemsAndPropertiesIcon,
   logoDaneshBoom,
+  LockSvg,
   MoviesSvgIcon,
   NoFilterIcon,
   NotificationIcon,
+  NewSkillIcon,
   PayIcon,
   postIcon,
   PostSendIcon,
+  RightArrow,
   RatingIcon,
   RefreshIcon,
   researchIcon,
@@ -93,5 +114,5 @@ export {
   TickSvgIcon,
   TipsIcon,
   userInfoIcon,
-  workExperienceIcon
+  workExperienceIcon,
 }

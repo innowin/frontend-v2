@@ -8,7 +8,7 @@ export function* deletePost(action) {
   const {postId, postOwnerId, postOwnerType, postParentId, postParentType} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.POST.DELETE_POST)
   try {
-    yield fork(api.del, urls.COMMON.POST.DELETE_POST, results.COMMON.POST.DELETE_POST, '', `${postId}`)
+    yield fork(api.del, urls.COMMON.POST, results.COMMON.POST.DELETE_POST, '', `${postId}`)
     yield take(socketChannel)
     yield put({type: types.SUCCESS.COMMON.POST.DELETE_POST ,
       payload:{postId, postOwnerId, postOwnerType, postParentId, postParentType}})

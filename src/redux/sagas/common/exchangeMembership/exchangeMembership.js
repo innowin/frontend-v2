@@ -26,9 +26,9 @@ function* watchCreateExchangeMembership(){
   yield takeEvery(types.COMMON.EXCHANGE_MEMBERSHIP.CREATE_EXCHANGE_MEMBERSHIP, createExchangeMembership)
 }
 
-export default{
-  watchDeleteExchangeMembership,
-  watchGetExchangeMembershipByMemberIdentity,
-  watchGetExchangeMembershipByExchangeId,
-  watchCreateExchangeMembership,
-}
+export default [
+  watchCreateExchangeMembership(),
+  watchDeleteExchangeMembership(),
+  watchGetExchangeMembershipByExchangeId(),
+  watchGetExchangeMembershipByMemberIdentity(),
+]

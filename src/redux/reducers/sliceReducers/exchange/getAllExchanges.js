@@ -4,10 +4,10 @@ const success = (state, action) => {
   data.results.forEach(exchange => {
     allExchanges[exchange.id] = {...exchange}
   })
-  
+
   return {
     ...state,
-    list: {...state.list, allExchanges: {...allExchanges}}
+    list: {...state.list, allExchanges: {...allExchanges}, searchByWord: []}
   }
 }
 

@@ -1,11 +1,17 @@
 $topBarHeight: 67px;
+$sidebar-width: 340px;
+$feed-width: 680px;
 
 $font-family-sans-serif: vazir, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
 $font-family-serif:      vazir, Georgia, "Times New Roman", Times, serif !default;
 
 @import "~bootstrap/scss/variables";
 
+//Animation Time
+$animation-timing: .25s;
+
 //Color Variables
+$base-posts: #ffffff;
 $background-color: #f7f7f7;
 $foreground-color: #14171a;
 $brand-inverse-color: #253545;
@@ -40,6 +46,9 @@ $secondary-color: #42ac97;
 $tag-background: #b9b6b6;
 $tag-del-btn-background: #008057;
 $box-shadow-color: #cecece;
+$scroll-color: #c4c4c4;
+$scroll-color-hover: #939393;
+$bootstrap-success: #5cb85c;
 // font-sizes
 $font-size-verySmallText: 10px;
 $font-size-boxText: 12px;
@@ -48,16 +57,26 @@ $font-size-normalText: 14px;
 $font-size-smallIcon: 15px;
 $font-size-normalIcon-titleText: 16px;
 $font-size-chatBarIcon: 27px;
+$font-size-badge: 10px;
 
 $font-size-header: 22px;
 $font-size-medium: 15px;
 $font-size-regular: 12px;
 $font-size-small: 8px;
 $tag-font-size: 11px;
+$font-size-description: 11px;
 
-$font-size-post-content: 12px;
+$font-size-post-content: 13px;
 $font-size-post-username: 14px;
 $font-size-post-name: 14px;
 $font-size-post-date: 10px;
 
 $border-radius-size: 4px;
+
+$font-size-field-label: 14px;
+$font-size-field-value: 14px;
+
+$font-size-item-title-frame: 15px;
+
+$font-size-contribution-title: 14px;
+$font-size-contribution-content: 12px;

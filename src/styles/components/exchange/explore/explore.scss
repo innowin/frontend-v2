@@ -149,12 +149,122 @@
   border-radius: 15px;
 }
 
-.exchanges-explore-sidebar-tag{
+.exchanges-explore-sidebar-tag {
   display: inline-block;
-  float: right;
+  flex-grow: 1;
 }
 
-.exchanges-explore-sidebar-tag-search{
+.exchanges-explore-sidebar-tag-search {
+  display: inline-block;
+  position: relative;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.exchanges-explore-sidebar-tag-input {
+  position: absolute;
+  left: 0;
+  z-index: -2;
+  top: 5px;
+  width: 0;
+  height: 0;
+  border-radius: 5px;
+  text-align: right;
+  border: 1px solid grey;
+  transition-duration: 0.3s;
+  animation-name: inputHideAnimation;
+  animation-duration: 0.3s;
+  opacity: 0;
+  &:focus {
+    border: 1px solid black;
+    outline: none;
+    transition-duration: 0.25s;
+  }
+}
+
+@keyframes inputHideAnimation {
+  from {
+    width: 120px;
+    height: 120%;
+    opacity: 1;
+  }
+  to {
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+}
+
+.exchanges-explore-sidebar-tag-input-show {
+  position: absolute;
+  left: 20px;
+  top: -5px;
+  width: 120px;
+  height: 100%;
+  border-radius: 5px;
+  text-align: right;
+  //border: 1px solid black;
+  transition-duration: 0.3s;
+  animation-name: inputAnimation;
+  animation-duration: 0.3s;
+  opacity: 1;
+  &:focus {
+    border: 1px solid black;
+    outline: none;
+    transition-duration: 0.25s;
+  }
+}
+
+@keyframes inputAnimation {
+  from {
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  to {
+    width: 120px;
+    height: 100%;
+    opacity: 1;
+  }
+}
+
+.exchanges-explore-sidebar-hashTags-search-container {
+  display: flex;
+  flex-wrap: wrap
+}
+
+.exchanges-explore-sidebar-hashTags-container {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  margin-top: 17px;
+}
+
+.exchanges-explore-sidebar-hashTags {
+  direction: rtl;
+  text-align: center;
+  padding: 2px 3px;
+  margin: 3px 1px;
+  color: white;
+  border-radius: 3px;
+}
+
+.exchanges-explore-sidebar-hashTags-title {
+  display: inline-block;
+  float: right;
+  padding: 0 8px;
+  background-color: $text-light-color;
+  border-bottom-right-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.exchanges-explore-sidebar-hashTags-usage {
   display: inline-block;
   float: left;
+  padding: 0 4px;
+  background-color: $info-color;
+  border-bottom-left-radius: 3px;
+  border-top-left-radius: 3px;
 }
+
