@@ -19,7 +19,7 @@ const getUsers = () => ({
 const GetUserActions = {
   getUserByUserId,
   getProfileByUserId,
-  getUsers
+  getUsers,
 }
 
 export default GetUserActions

@@ -31,3 +31,18 @@
   line-height: 30px;
   font-size: $font-size-post-content;
 }
+
+.info-exchange-owner-frame {
+  width: 98%;
+  border-radius: 5px;
+  background-color: $white;
+  box-shadow: 0 2px 9px rgba(0, 0, 0, .2);
+  padding: 10px 20px;
+  margin: 1%;
+}
+
+.info-exchange-username {
+  font-size: $font-size-post-name;
+  font-weight: bold;
+  margin: 0 10px;
+}
