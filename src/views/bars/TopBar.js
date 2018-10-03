@@ -154,7 +154,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
               {!clientImgLink ? <DefaultUserIcon onClickFunc={this._toggleProfile}/> :
                 <img src={clientImgLink} alt="Person icon" onClick={this._toggleProfile}/>}
             </div>
-            <div className="ml-4 -searchInput d-flex align-items-center">
+            <div className="-searchInput d-flex align-items-center">
               <i className="fa fa-search" aria-hidden="true"/>
               <input type="text" className="text-white" name="search" dir="auto"
                      ref={searchInput => {

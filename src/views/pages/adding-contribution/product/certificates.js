@@ -63,7 +63,7 @@ const Certificates = (props: CertificateProps) => {
                 'verification-request-wrapper edit' : 'verification-request-wrapper'}>
               <PayIcon className="pay-svg-icon"/>
               <CircularCheckbox
-                  label="درخواست اعتبارسنجی توسط اینووین"
+                  label="درخواست اعتبارسنجی توسط اینوین"
                   checked={newContributionData[NEW_CERT_NEED_FOR_VERIFY]}
                   onCheck={() => inputHandler(!newContributionData[NEW_CERT_NEED_FOR_VERIFY], NEW_CERT_NEED_FOR_VERIFY)}
               />
