@@ -46,7 +46,8 @@ class PostView extends Component {
     const supplyIcon = post.post_type === 'supply'
     const demandIcon = post.post_type === 'demand'
     const postIcon = post.post_type === 'post'
-    const paramId = param.user || param.organization
+    // TODO mohsen: handle isLoading && error by redux
+    const paramId = user ? param.user : param.organization
 
     const name = user
         ? ((user.first_name || user.last_name) ? user.first_name + ' ' + user.last_name : undefined)

@@ -34,10 +34,11 @@ export const Followees = (props: PropsFollowees) => {
           {
             followees.map((followee) => {
               const id = followee.identity_user || followee.identity_organization
+              const url = followee.identity_user ? `/user/${id}` : `/organization/${id}`
               return (
                   <div className="member-wrapper">
                     <div className="image-wrapper">
-                      <Link to={`/user/${id}`}>
+                      <Link to={url}>
                         {
                           (!followee.img) ? (<DefaultUserIcon/>) : (
                               <img alt="" className="rounded-circle" src={followee.img}/>)

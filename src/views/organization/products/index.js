@@ -201,7 +201,6 @@ export class Products extends React.Component<ProductsProps,
 	}
 
 	render() {
-		console.log("")
 		const {organizationId, actions, auth, organization} = this.props;
 		const {products} = organization
 		const {isLoading, error, categories} = products

@@ -68,12 +68,17 @@ class WorkExperience extends React.Component<PropsWorkExperience, StateWorkExper
                 : workExperience &&
                 <div>
                   <ItemHeader title={workExperience.position} showEdit={this._showEdit}/>
+                  {workExperience.name &&
                   <Field>
                     <FieldValue value={workExperience.name}/>
                   </Field>
+                  }
+                  {(workExperience.from_date || workExperience.to_date) &&
                   <Field>
-                    <FieldValue value={(workExperience.from_date || workExperience.to_date) ? `${workExperience.from_date ? `${workExperience.from_date}` : ''}` + ' - ' +  `${workExperience.to_date ? `${workExperience.to_date}` : '' }` : ''}/>
+                    <FieldValue
+                        value={`${workExperience.from_date ? `${workExperience.from_date}` : ''}` + ' - ' + `${workExperience.to_date ? `${workExperience.to_date}` : '' }`}/>
                   </Field>
+                  }
                 </div>
             }
           </ItemWrapper>

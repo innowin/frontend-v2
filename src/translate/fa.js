@@ -13,7 +13,7 @@ module.exports = {
   // auth
   'Organization national code must be 11 digit': "شناسه ملی باید یک عدد یازده رقمی باشد",
   'Login with google': "با حساب گوگل وارد شوید",
-  'All rights are reserved for Danesh Boom': "تمامی حقوق برای اینووین محفوظ است",
+  'All rights are reserved for Danesh Boom': "تمامی حقوق برای اینوین محفوظ است",
   'Register with other accounts': "ثبت نام با اکانت های دیگر",
   'Username': "نام کاربری",
   'Email': "رایانامه",
@@ -127,7 +127,7 @@ module.exports = {
   'User info': "اطلاعات کاربری",
   'Organization info': "اطلاعات شرکت",
   'Organization members': "اعضای شرکت",
-  'Date joined': 'تاریخ پیوستن در اینووین',
+  'Date joined': 'تاریخ پیوستن در اینوین',
 
   'Contact info': 'اطلاعات تماس',
   'Website': "تارنما",
@@ -201,7 +201,7 @@ module.exports = {
   'Logout': "خروج",
 
   // public
-  'Danesh Boom': "اینووین",
+  'Danesh Boom': "اینوین",
   'User Not Found': "کاربر یافت نشد!",
   'User': "کاربر",
   'Organization Not Found': "شرکت مورد نظر یافت نشد!",

@@ -27,6 +27,7 @@ import {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 import {VerifyWrapper} from "./common/cards/Frames"
 import constants from "../consts/constants";
 import ParamActions from "src/redux/actions/paramActions"
+import GetIdentityActions from "../redux/actions/identityActions";
 
 type PropsOrganization = {
   organObject: organStateObject,
@@ -44,6 +45,7 @@ type PropsOrganization = {
     getOrganBadges: Function,
     removeParamOrganId: Function,
     setParamOrganId: Function,
+    getOrgIdentity: Function,
   },
   identityObject: identityStateObject,
 }
@@ -64,8 +66,9 @@ export class Organization extends Component<PropsOrganization> {
   componentDidMount() {
     const {params} = this.props.match
     const organId = +params.id
-    const {getOrganizationByOrganId, getOrganBadges, setParamOrganId} = this.props.actions
+    const {getOrganizationByOrganId, getOrganBadges, setParamOrganId, getOrgIdentity} = this.props.actions
     getOrganizationByOrganId(organId)
+    getOrgIdentity(organId)
     getOrganBadges(organId)
     setParamOrganId({id: organId})
   }
@@ -182,6 +185,7 @@ const mapDispatchToProps = dispatch => ({
     getOrganBadges: BadgeActions.getOrganBadges,
     setParamOrganId: ParamActions.setParamOrganId,
     removeParamOrganId: ParamActions.removeParamOrganId,
+    getOrgIdentity: GetIdentityActions.getOrgIdentity
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Organization)
