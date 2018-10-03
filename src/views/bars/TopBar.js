@@ -125,6 +125,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   render() {
     const {collapseClassName, clientUser, clientOrganization, translate, clientImgLink} = this.props
     const {collapse, collapseProfile, productWizardModalIsOpen} = this.state
+    console.log(translate['Search in Danesh boom'], 'aaaa')
     return (
       <div>
         <AgentForm
@@ -156,7 +157,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
             </div>
             <div className="-searchInput d-flex align-items-center">
               <i className="fa fa-search" aria-hidden="true"/>
-              <input type="text" className="text-white" name="search" dir="auto"
+              <input type="text" className="text-white search-top-bar" name="search" dir="auto" placeholder={translate['Search in Danesh boom']}
                      ref={searchInput => {
                        this.searchInput = searchInput
                      }}/>

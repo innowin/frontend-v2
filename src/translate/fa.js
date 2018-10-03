@@ -271,5 +271,6 @@ module.exports = {
     'My Profile': 'پروفایل من',
     'My Organization': 'سازمان من',
     'Sign Out': 'خروج',
+    'Search in Danesh boom': 'جستجو در اینوین',
   },
 };
