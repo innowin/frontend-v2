@@ -70,23 +70,34 @@ class ResearchInfo extends React.Component<ResearchInfoProps, ResearchInfoState>
                 research &&
                 <div>
                   <ItemHeader title={translate['ResearchInfo']} showEdit={this._showEdit}/>
+                  {research.title &&
                   <Field>
-                    <a href={research.url}>
-                      <FieldValue value={research.title}/>
-                    </a>
+                    {research.url ?
+                        <a href={research.url}>
+                          <FieldValue value={research.title}/>
+                        </a>
+                        : <FieldValue value={research.title}/>
+                    }
                   </Field>
+                  }
+                  {(research.publication || research.url || research.year) &&
                   <Field>
                     <FieldValue
                         value={`${research.publication ? research.publication + '، ' : ''}${research.year ? research.year + '، ' : ''}${research.page_count ? ' ' + translate['Page'] : ''}`}/>
                   </Field>
+                  }
+                  {research.author &&
                   <Field>
                     <FieldValue value={<span className="dir-rtl">{research.author.join('، ')}</span>}/>
                   </Field>
+                  }
+                  {research.research_link &&
                   <Field>
                     <a className='download-research' href={research.research_link}>
                       <p className='download-file'>{translate['Download file']}</p>
                     </a>
                   </Field>
+                  }
                 </div>
             )}
           </ItemWrapper>
