@@ -1,25 +1,25 @@
 import {all, fork} from 'redux-saga/effects'
 import {
-	watchGetOrganizationMembers,
-	watchUpdateOrganization,
-	watchGetProducts,
-	watchGetOrgFollowers,
-	watchGetOrgFollowings,
-	watchGetOrgExchanges,
-	watchGetCustomers,
-	watchGetCertificates,
-	watchUpdateCustomer,
-	watchCreateOrgProduct,
-	watchUpdateOrgProduct,
-	watchAddProductPicture,
-	watchGetProductPictures,
-	watchGetProductsSuccess,
-	watchDeleteProduct,
-	watchCreateCertificate,
-	watchGetStaff,
-	watchCreateCustomer,
-	watchDeleteCustomer,
-	watchAgencyRequest,
+  watchGetOrganizationMembers,
+  watchUpdateOrganization,
+  watchGetProducts,
+  watchGetOrgFollowers,
+  watchGetOrgFollowings,
+  watchGetOrgExchanges,
+  watchGetCustomers,
+  watchGetCertificates,
+  watchUpdateCustomer,
+  watchCreateOrgProduct,
+  watchUpdateOrgProduct,
+  watchAddProductPicture,
+  watchGetProductPictures,
+  watchGetProductsSuccess,
+  watchDeleteProduct,
+  watchCreateCertificate,
+  watchGetStaff,
+  watchCreateCustomer,
+  watchDeleteCustomer,
+  watchAgencyRequest,
 } from './organization/organizationSaga'
 import {watchGetOrganization} from "./organization/getOrganSagas"
 // TODO: mohammad all auth sagas must go to ./auth/auth.js and just one import here from ./auth/auth.js
@@ -29,6 +29,7 @@ import watchUsernameCheck from "./user/checkUsernameSaga"
 import {
   watchGetExchangeByExId,
   watchCreateExchange,
+  watchGetAllExchanges
 } from "./exchange"
 import {watchGetUserByUserId, watchGetProfileByUserId, watchGetUsers} from "./user/getUserSagas"
 import {watchCreateUserPerson, watchCreateUserOrgan,} from "./user/createUserSagas"
@@ -69,27 +70,28 @@ const rootSaga = function* () {
     watchGetStaff(),
     watchCreateCustomer(),
     watchDeleteCustomer(),
-
+    
     //Exchange sagas
     watchGetExchangeByExId(),
     watchUpdateCustomer(),
     watchAgencyRequest(),
     watchCreateExchange(),
-
+    watchGetAllExchanges(),
+    
     // user watchers
     userWatchers.watchUpdateUserByUserId(),
     userWatchers.watchUpdateProfileByProfileId(),
-
+    
     // auth watchers
     authWatchers.watchVerifyToken(),
-
+    
     // identity watchers
     identityWatchers.watchGetUserIdentity(),
     identityWatchers.watchGetOrgIdentity(),
-
+    
     // work experiences
     ...workExperienceWatchers,
-
+    
     // NOTE: the common watchers pushed to common/index.js to prevent from conflict.
     // common
     ...commonWatchers

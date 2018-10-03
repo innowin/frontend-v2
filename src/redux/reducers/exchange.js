@@ -7,34 +7,37 @@ import constants from "src/consts/constants"
 
 const exchanges = (state = initialState.exchanges, action) => {
   const {postParentType} = action.payload || {}
-  const {getExchangeByExId, postsExchange, getExchangeMembershipByMemberIdentity} = exchangeSlice
+  const {getExchangeByExId, postsExchange, getExchangeMembershipByMemberIdentity, getAllExchanges} = exchangeSlice
   const {POST_PARENT} = constants
   switch (action.type) {
-    /** --------------------  get exchange by exchange id --------------------- **/
+      /** --------------------  get exchange by exchange id --------------------- **/
     case types.SUCCESS.EXCHANGE.GET_EXCHANGE_BY_EX_ID:
       return getExchangeByExId.success(state, action)
-    /** --------------------  get exchange membership by member identity --------------------- **/
+      /** --------------------  get all --------------------- **/
+    case types.SUCCESS.EXCHANGE.GET_EXCHANGES:
+      return getAllExchanges.success(state, action)
+      /** --------------------  get exchange membership by member identity --------------------- **/
     case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
       return getExchangeMembershipByMemberIdentity.success(state, action)
-    /** ---------------------  get exchange posts ---------------------------**/
+      /** ---------------------  get exchange posts ---------------------------**/
     case types.SUCCESS.COMMON.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET:
       if (postParentType === POST_PARENT.EXCHANGE) {
         return postsExchange.filterPostsByPostParentLimitOffset.success(state, action)
       }
       return state
-    /** -------------------------- add one post to exchange posts  -------------------------> **/
+      /** -------------------------- add one post to exchange posts  -------------------------> **/
     case types.SUCCESS.COMMON.POST.CREATE_POST :
       if (postParentType === POST_PARENT.EXCHANGE) {
         return postsExchange.createPost.success(state, action)
       }
       return state
-    /** -------------------------- delete one post from exchange posts  -------------------------> **/
+      /** -------------------------- delete one post from exchange posts  -------------------------> **/
     case types.SUCCESS.COMMON.POST.DELETE_POST:
       if (postParentType === POST_PARENT.EXCHANGE) {
         return postsExchange.deletePost.success(state, action)
       }
       return state
-    /** ----------------- reset -----------------> **/
+      /** ----------------- reset -----------------> **/
     case types.RESET:
       return initialState.exchanges
     default:

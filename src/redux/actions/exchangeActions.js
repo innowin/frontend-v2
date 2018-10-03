@@ -10,9 +10,15 @@ const createExchange = (formValues, finished) => ({
   payload: {formValues, finished}
 })
 
+const getAllExchanges = (limit, offset) => ({
+  type: types.EXCHANGE.GET_EXCHANGES,
+  payload: {limit, offset}
+})
+
 const ExchangeActions = {
   getExchangeByExId,
-  createExchange
+  createExchange,
+  getAllExchanges
 }
 
 export default ExchangeActions;

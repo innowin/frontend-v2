@@ -4,9 +4,10 @@ import Home from "./pages/Home"
 import Organization from "./Organization"
 import PrivateRoute from "../consts/PrivateRoute"
 import Product from "./Product"
-import ProductsTest from "./pages/adding-contribution/addingContribution"
 import User from "./User"
 import {Switch} from "react-router-dom"
+import Explore from './exchange/explore/Explore'
+
 
 class Layout extends Component {
   constructor(props) {
@@ -22,7 +23,7 @@ class Layout extends Component {
         <PrivateRoute path="/organization/:id" component={Organization}/>
         <PrivateRoute path="/exchange" component={Exchange}/>
         <PrivateRoute path="/product" component={Product}/>
-        <PrivateRoute path="/testOf" component={ProductsTest}/>
+        <PrivateRoute path="/testOf" component={Explore}/>
       </Switch>
     )
   }

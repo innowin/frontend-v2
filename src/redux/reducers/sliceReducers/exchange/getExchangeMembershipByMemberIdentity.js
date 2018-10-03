@@ -1,8 +1,8 @@
 const success = (state, action) => {
   const {exchangeData} = action.payload
   const nextExchange = {}
-
-  for(let id in exchangeData){
+  
+  for (let id in exchangeData) {
     nextExchange[id] = {
       ...state.list[id],
       exchange: exchangeData[id].exchange
@@ -10,7 +10,7 @@ const success = (state, action) => {
   }
   return {
     ...state,
-    list:{
+    list: {
       ...state.list,
       ...nextExchange
     }
