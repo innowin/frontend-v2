@@ -135,39 +135,40 @@ class Socials extends Component<PropsSocials, StateSocials> {
     const {translate, followers, followees, actions, isLoading, error, exchanges, identityId, ownerId, identityType, param} = this.props
     const {deleteFollow, deleteExchangeMembership, updateFollow, createFollow} = actions
     const {editExchanges, editFollowings} = this.state
-    const paramId = +(param.user || param.organization)
-
+    const paramId = identityType === constants.USER_TYPES.PERSON ? +param.user : +param.organization
     return (
-      <VerifyWrapper isLoading={isLoading} error={error}>
-        <CategoryTitle
-          title={translate['Socials']}
-        />
-        <FrameCard className="frameCardSocial">
-          <Exchanges removeMembership={deleteExchangeMembership}
-                     exchanges={exchanges}
-                     showEdit={this._showExchangesEdit}
-                     edit={editExchanges}
-                     translate={translate}
+        //<VerifyWrapper isLoading={isLoading} error={error}>
+        <div>
+          <CategoryTitle
+              title={translate['Socials']}
           />
-          <Followees edit={editFollowings}
-                     deleteFollow={deleteFollow}
-                     followees={followees}
-                     showEdit={this._showEditFollowings}
-                     translate={translate}
-                     userId={ownerId}
-          />
-          <Followers followers={followers} translate={translate}
-                     deleteFollow={deleteFollow}
-                     followees={followees}
-                     updateFollow={updateFollow}
-                     identityId={identityId}
-                     createFollow={createFollow}
-                     userId={ownerId}
-                     identityType={identityType}
-                     paramId={paramId}
-          />
-        </FrameCard>
-      </VerifyWrapper>
+          <FrameCard className="frameCardSocial">
+            <Exchanges removeMembership={deleteExchangeMembership}
+                       exchanges={exchanges}
+                       showEdit={this._showExchangesEdit}
+                       edit={editExchanges}
+                       translate={translate}
+            />
+            <Followees edit={editFollowings}
+                       deleteFollow={deleteFollow}
+                       followees={followees}
+                       showEdit={this._showEditFollowings}
+                       translate={translate}
+                       userId={ownerId}
+            />
+            <Followers followers={followers} translate={translate}
+                       deleteFollow={deleteFollow}
+                       followees={followees}
+                       updateFollow={updateFollow}
+                       identityId={identityId}
+                       createFollow={createFollow}
+                       userId={ownerId}
+                       identityType={identityType}
+                       paramId={paramId}
+            />
+          </FrameCard>
+        </div>
+        // </VerifyWrapper>
     )
   }
 }
@@ -175,7 +176,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
 const mapStateToProps = (state, ownProps) => {
   const {ownerId, identityType} = ownProps
   const stateOwner = (identityType === constants.USER_TYPES.PERSON) ? state.users.list[ownerId] :
-    state.organs.list[ownerId]
+      state.organs.list[ownerId]
   const defaultObject = {content: [], isLoading: false, error: null}
   const followObject = (stateOwner && stateOwner.social && stateOwner.social.follows) || defaultObject
   return {

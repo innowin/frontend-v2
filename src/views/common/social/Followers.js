@@ -52,10 +52,11 @@ export const Followers = (props: PropsFollowers) => {
           {
             followers.map((follower) => {
               const id = follower.identity_user || follower.identity_organization
+              const url = follower.identity_user ? `/user/${id}` : `/organization/${id}`
               return (
                   <div className="member-wrapper">
                     <div className="image-wrapper">
-                      <Link to={`/user/${id}`}>
+                      <Link to={url}>
                         {
                           (!follower.img) ? (<DefaultUserIcon/>) : (
                               <img alt="" className="rounded-circle" src={follower.img}/>)

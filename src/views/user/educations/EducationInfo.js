@@ -70,14 +70,20 @@ export class EducationInfo extends React.Component<PropsEducation, StateEducatio
                 <div>
                   <ItemHeader title={`${translate['Grade']} ${education.grade}`} showEdit={this._showEdit}/>
                   <Field>
-                    <FieldValue value={`${education.field_of_study} - ${education.university}${education.average ? ` - ${translate['Average']} ${education.average}` : ''}`}/>
+                    <FieldValue
+                        value={`${education.field_of_study} - ${education.university}${education.average ? ` - ${translate['Average']} ${education.average}` : ''}`}/>
                   </Field>
+                  {(education.from_date || education.to_date) &&
                   <Field>
-                    <FieldValue value={(education.from_date || education.to_date) ? `${education.from_date ? `${education.from_date}` : ''}` + ' - ' +  `${education.to_date ? `${education.to_date}` : '' }` : ''}/>
+                    <FieldValue
+                        value={`${education.from_date ? `${education.from_date}` : ''}` + ' - ' + `${education.to_date ? `${education.to_date}` : '' }`}/>
                   </Field>
+                  }
+                  {education.description &&
                   <Field>
                     <p className='text-description'>{education.description}</p>
                   </Field>
+                  }
                 </div>
             )}
           </ItemWrapper>
