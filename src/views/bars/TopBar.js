@@ -125,7 +125,6 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   render() {
     const {collapseClassName, clientUser, clientOrganization, translate, clientImgLink} = this.props
     const {collapse, collapseProfile, productWizardModalIsOpen} = this.state
-    console.log(translate['Search in Danesh boom'], 'aaaa')
     return (
       <div>
         <AgentForm
