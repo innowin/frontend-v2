@@ -38,6 +38,7 @@ const createSocketChannel = (resultName) => {
 function* get(url, result, param = "") {
   const token = yield select((state) => state.auth.client.token)
   yield apply({}, getEmit, [url, result, param, token])
+
 }
 
 function* post(url, result, data, param = "") {

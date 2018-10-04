@@ -7,7 +7,7 @@ import {ImageUploadSvg, MoviesSvgIcon} from '../../../../images/icons'
 import {CircularCheckbox} from '../../../common/inputs/CircularCheckbox'
 import NextPrevBtns from '../nextAndPrevBtns'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
-import helpers from 'src/consts/helperFunctions'
+import helpers from 'src/consts/helperFunctions/helperFunctions'
 import type {NewContributionDataType, TagAsOptionType} from "../types"
 
 type HashTagsContentType = {
