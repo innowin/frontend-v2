@@ -3,7 +3,7 @@ import results from "../../../../consts/resultName";
 import urls from "../../../../consts/URLS";
 import {call, put, fork, take} from "redux-saga/effects";
 import types from "../../../actions/types"
-import helpers from "../../../../consts/helperFunctions";
+import helpers from "../../../../consts/helperFunctions/helperFunctions";
 
 
 function* getObjectCertificates(action) { // action={type: , id: }

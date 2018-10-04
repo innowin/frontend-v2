@@ -1,5 +1,5 @@
 import {createSelector} from 'reselect'
-import helpers from 'src/consts/helperFunctions'
+import helpers from 'src/consts/helperFunctions/helperFunctions'
 
 const getWorkExperiences = state => state.workExperience.list
 const getUserWorkExperiences = (state, props) => {

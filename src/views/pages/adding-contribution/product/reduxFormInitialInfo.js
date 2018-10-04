@@ -7,7 +7,7 @@ import {reduxForm, Field} from "redux-form";
 import renderTextField from "../../../common/inputs/reduxFormRenderTextField"
 import renderSelectField from "../../../common/inputs/reduxFormRenderReactSelect"
 import renderTextArea from "../../../common/inputs/reduxFormRenderTextArea"
-import helpers from "src/consts/helperFunctions"
+import helpers from "src/consts/helperFunctions/helperFunctions"
 
 const {objToArrayAsOptions, filterNestedObjByKey} = helpers
 

@@ -6,6 +6,7 @@ import {deleteProduct} from './deleteProduct'
 import {updateProduct} from "./updateProduct"
 import types from "../../../actions/types"
 import {takeEvery} from "redux-saga/effects"
+import getProductPicturesByProductId from "./getProductPicturesByPorductId";
 
 
 function* watchGetProductInfo() {
@@ -32,6 +33,10 @@ function* watchDeleteProductByIdentity() {
   yield takeEvery(types.COMMON.PRODUCT.DELETE_PRODUCT, deleteProduct)
 }
 
+function* watchGetProductPicturesByProductId() {
+  yield takeEvery(types.COMMON.GET_PRODUCT_PICTURES_BY_PRODUCT_ID, getProductPicturesByProductId)
+}
+
 export default [
   watchGetProductInfo(),
   watchUpdateProduct(),
@@ -39,4 +44,5 @@ export default [
   watchCreateProductPicture(),
   watchGetProductsByIdentity(),
   watchDeleteProductByIdentity(),
+  watchGetProductPicturesByProductId()
 ]

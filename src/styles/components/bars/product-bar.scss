@@ -1,0 +1,170 @@
+@import "../../variables";
+
+.product-side-bar {
+  font-size: $font-size-regular;
+  overflow: hidden;
+  padding: 0;
+  position: fixed;
+  width: 0;
+  height: 500px;
+  right: 0;
+  -webkit-transition: all 0.4s ease-out;
+  -moz-transition: all 0.4s ease-out;
+  -ms-transition: all 0.4s ease-out;
+  -o-transition: all 0.4s ease-out;
+  transition: all 0.4s ease-out;
+  opacity: 0;
+  &.visible {
+    box-shadow: -3px 5px 17px $box-shadow-color;
+    padding: 14px 14px 0;
+    //overflow: auto;
+    width: 300px;
+    //min-height: 90vh;
+    //max-height: 100vh;
+    opacity: 1;
+    -webkit-transition: all 0.4s ease-in;
+    -moz-transition: all 0.4s ease-in;
+    -ms-transition: all 0.4s ease-in;
+    -o-transition: all 0.4s ease-in;
+    transition: all 0.4s ease-in;
+    .scroll-less-wrapper .wrapper {
+      padding-left: 17px;
+    }
+  }
+  .bordered-padded-wrapper {
+    border-bottom: 1px solid $sidebar-row-border-color;
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    min-height: 70px;
+    .owner-avatar.avatar {
+      margin-left: 12px;
+    }
+    &.badges, &.price, &.act-bar {
+      justify-content: space-between;
+    }
+    &.price .price-icon {
+      width: 20px;
+      height: 20px;
+    }
+    .badge {
+      display: inline-block;
+      flex: 1 1 50px;
+      max-width: 50px;
+      min-width: 50px;
+      height: 50px;
+      object-fit: contain;
+    }
+    &.tags .tag {
+      background: $tag-background;
+      color: $text-lightest-color;
+      margin: 3px;
+      padding: 1px 7px;
+      font-size: $tag-font-size;
+      border-radius: 3px;
+    }
+    &.act-bar {
+      border-bottom: none;
+    }
+    &.owner {
+      border-top: 1px solid $sidebar-row-border-color;
+    }
+  }
+  .act-bar {
+    .act-btn {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      height: 30px;
+      width: 110px;
+      font-size: $tag-font-size;
+      -webkit-border-radius: 120px;
+      -moz-border-radius: 120px;
+      border-radius: 120px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .act-btn:first-child {
+      border: 1px solid $brand-inverse-color;
+    }
+    .act-btn:nth-child(2) {
+      background: $brand-inverse-color;
+      color: $text-lightest-color;
+    }
+  }
+  .info {
+    padding: 0 8px;
+  }
+  .gallery-wrapper {
+    padding: 12px 0;
+    .items-wrapper {
+      display: flex;
+      justify-content: space-between;
+    }
+    .main-image {
+      width: 100%;
+      height: 145px;
+      object-fit: contain;
+      margin-bottom: 10px;
+      border: 1px solid $sidebar-row-border-color;
+    }
+    .gallery-item {
+      flex: 1 1 50px;
+      max-width: 60px;
+      height: 40px;
+      border: 1px solid $sidebar-row-border-color;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    .more-btn {
+      cursor: pointer;
+      -webkit-transition: all 0.3s ease-out;
+      -moz-transition: all 0.3s ease-out;
+      -ms-transition: all 0.3s ease-out;
+      -o-transition: all 0.3s ease-out;
+      transition: all 0.3s ease-out;
+    }
+    .more-btn:hover {
+      background-color: $chat-box2-color;
+      -webkit-transition: all 0.3s ease-in;
+      -moz-transition: all 0.3s ease-in;
+      -ms-transition: all 0.3s ease-in;
+      -o-transition: all 0.3s ease-in;
+      transition: all 0.3s ease-in;
+    }
+    .gallery-item .gallery-image {
+      max-width: 60px;
+      height: 40px;
+      object-fit: contain;
+    }
+  }
+}
+
+.gallery-modal {
+  .modal-body {
+    background-color: $chat-box2-color;
+    .close-btn:before {
+      font-style: $font-size-close-btn;
+      cursor: pointer;
+      color: $danger-color;
+    }
+  }
+  .image-gallery-image {
+    img {
+      height: 400px;
+      object-fit: contain;
+    }
+  }
+  .image-gallery-thumbnail img {
+    height: 100%;
+  }
+  .image-gallery-slide.center {
+    background-color: $chat-box2-color;
+  }
+  button::before {
+    color: $brand-inverse-color
+  }
+}
