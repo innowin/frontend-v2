@@ -9,6 +9,7 @@ const success = (state, action) => {
   const previousCertificate = (state.list[certificateOwnerId] && state.list[certificateOwnerId].certificates) || defaultObject
   if (certificateOwnerType === constants.USER_TYPES.ORG) {
     const newDeletedCertificates = previousCertificate.content.filter(id => id !== certificateId)
+    console.log("certificateOwnerType in succss delete:", certificateOwnerId, newDeletedCertificates)
     return {
       ...state,
       list: {
@@ -16,8 +17,7 @@ const success = (state, action) => {
         [certificateOwnerId]: {
           ...state.list[certificateOwnerId],
           certificates: {
-            ...previousCertificate,
-            content: [...newDeletedCertificates],
+            content: newDeletedCertificates,
             isLoading: false,
             error: null
           }

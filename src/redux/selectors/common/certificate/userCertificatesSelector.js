@@ -22,8 +22,10 @@ export const userCertificatesSelector = createSelector(
       [getOwnerId, getCertificates, getUserCertificates],
       (ownerId, certificates, userCertificates) => {
         if (certificates && Object.keys(certificates).length !== 0 && certificates.constructor === Object && userCertificates && ownerId) {
+          console.log("arrayCertificate11 are:", userCertificates, certificates)
           const arrayCertificate = helpers.getObjectOfArrayKeys(userCertificates, certificates)
-          return [...arrayCertificate]
+          console.log("arrayCertificate22 are:", arrayCertificate)
+          return arrayCertificate
         }
         return []
       }
