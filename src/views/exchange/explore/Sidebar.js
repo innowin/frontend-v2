@@ -1,33 +1,44 @@
-import React, {Component} from 'react'
+// @flow
+import * as React from 'react'
+import {Component} from 'react'
 import FontAwesome from 'react-fontawesome'
 import {connect} from 'react-redux'
 import {bindActionCreators} from "redux"
 import exchangeActions from "../../../redux/actions/exchangeActions"
-import {getExchanges} from "../../../redux/selectors/common/exchanges/GetAllExchanges"
 import {hashTagsListSelector} from 'src/redux/selectors/common/hashTag'
 import Select from 'react-select'
 
+type appProps =
+    {|
+      actions: any,
+      hashTags: any
+    |}
 
-class Sidebar extends Component {
+type appState =
+    {|
+      searchHashTags: boolean,
+      hashTags: any
+    |}
+
+class Sidebar extends Component <appProps, appState> {
 
   constructor(props) {
     super(props)
     this.state =
         {
           searchHashTags: false,
-          hashTags: []
+          hashTags: {}
         }
   }
 
   _handleChange = (e) => {
-    this.props.getFollowersChecked(e.target.checked)
+    // this.props.getFollowersChecked(e.target.checked)
   }
 
   handleHashTagsChange = (e) => {
-    let nowHashTags = this.state.hashTags.slice()
-    nowHashTags.push({title: e.value, usage: e.usage})
-
-    this.setState({hashTags: nowHashTags.slice()})
+    let nowHashTags = this.state.hashTags
+    nowHashTags[e.value] = {title: e.value, usage: e.usage}
+    this.setState({hashTags: nowHashTags})
   }
 
   showHashTagsSearch = () => {
@@ -47,7 +58,7 @@ class Sidebar extends Component {
         hashTags.push({value: p.title, label: p.title, usage: p.usage})
     )
 
-    let selectedHashTags = this.state.hashTags.map(hashTag =>
+    let selectedHashTags = Object.values(this.state.hashTags).map(hashTag =>
         <div className='exchanges-explore-sidebar-hashTags'>
           <div className='exchanges-explore-sidebar-hashTags-title'>{hashTag.title}</div>
           <div className='exchanges-explore-sidebar-hashTags-usage'>{hashTag.usage}</div>

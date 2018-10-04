@@ -3,7 +3,12 @@ import * as React from 'react'
 import Exchange from './Exchange'
 import {ClipLoader} from 'react-spinners'
 
-const Exchanges = (props) => {
+type appProps =
+    {|
+      exchanges: any
+    |}
+
+const Exchanges = (props: appProps) => {
   const {exchanges} = props
   return (
       <div className="exchanges-explore">

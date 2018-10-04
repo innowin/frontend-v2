@@ -7,7 +7,12 @@ const success = (state, action) => {
 
   return {
     ...state,
-    list: {...state.list, allExchanges: {...allExchanges}, searchByWord: []}
+    list: {
+      ...state.list,
+      allExchanges: {...state.list.allExchanges, ...allExchanges},
+      searchByWord: [],
+      searchByHashTag: []
+    }
   }
 }
 

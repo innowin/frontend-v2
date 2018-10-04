@@ -102,6 +102,28 @@
   font-size: $font-size-medium;
 }
 
+.exchange-model-detail-demand-logo {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: -4px;
+}
+
+.exchange-model-detail-demand-title {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.exchange-model-detail-dist-logo {
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 8px;
+}
+
+.exchange-model-detail-dist-title {
+  display: inline-block;
+  vertical-align: top;
+}
+
 .exchanges-explore-sidebar {
   position: fixed;
   box-shadow: 0 1px 15px 0 rgba(0, 0, 0, 0.4);
