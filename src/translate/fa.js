@@ -128,6 +128,7 @@ module.exports = {
   'Organization info': "اطلاعات شرکت",
   'Organization members': "اعضای شرکت",
   'Date joined': 'تاریخ پیوستن در اینوین',
+  'Of': 'از',
 
   'Contact info': 'اطلاعات تماس',
   'Website': "تارنما",

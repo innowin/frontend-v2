@@ -41,8 +41,24 @@
   margin: 1%;
 }
 
+.info-exchange-owner-image-frame{
+  vertical-align: top;
+  display: inline-block;
+  width: 14%;
+}
+
+.info-exchange-owner-image-frame-sibling{
+  vertical-align: top;
+  display: inline-block;
+  width: 50%;
+}
+
 .info-exchange-username {
   font-size: $font-size-post-name;
   font-weight: bold;
-  margin: 0 10px;
+}
+
+.info-exchange-education{
+  font-size: $font-size-exchange-education;
+  color: $font-color-exchange-education;
 }
