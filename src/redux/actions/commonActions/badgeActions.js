@@ -15,10 +15,16 @@ const getOrganBadges = (organizationId) => ({
   }
 })
 
+export const getBadges = (parentId, destinationId) => ({
+  type: types.COMMON.GET_BADGES,
+  payload: {parentId, destinationId}
+})
+
 
 const BadgeActions = {
   getUserBadges,
-  getOrganBadges
+  getOrganBadges,
+  getBadges
 }
 
 export default BadgeActions

@@ -21,14 +21,14 @@ export class CategoryType extends Component {
 		});
 		
 		socket.on('CATEGORY_TYPE_LIST', (res) => {
-			setList(res);
+			setList([]);
 		})
 	}
 	
 	componentWillUnmount(){
 		const {setList} = this.props;
 		socket.off('CATEGORY_TYPE_LIST',(res) => {
-			setList(res);
+			setList([]);
 		})
 	}
 	

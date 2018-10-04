@@ -30,11 +30,12 @@ input, textarea, button, select {
 @import "./pages/progressive";
 @import "./pages/modal";
 @import "./pages/adding-contribution/adding-contribution";
-
+@import "./components/exchange/explore/explore";
 @import "components/bars/bars";
 @import "components/bars/chatbar";
 @import "components/common/badge";
 @import "components/common/contribution";
+@import "components/bars/product-bar";
 @import "components/common/cards/frames";
 @import "components/common/input-group-vertical";
 @import "components/common/inputs/circular-checkbox";
@@ -49,6 +50,8 @@ input, textarea, button, select {
 @import "components/common/product";
 @import "components/common/common-redux-form";
 @import "components/common/tooltip";
+@import "components/common/wrappers/wrappers";
+@import "components/common/image/image";
 @import "components/exchange/exchangeView";
 @import "components/exchange/ExchangeView/index";
 @import "components/exchange/ExchangeView/post";

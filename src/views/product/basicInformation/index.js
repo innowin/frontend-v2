@@ -7,15 +7,13 @@ import {ListGroup} from '../../common/cards/Frames'
 import {ProductInfoItemWrapper, ProductInfoView, ProductDescriptionView, ProductDescriptionWrapper} from "./Views"
 import type {ProductType, CategoryType} from "src/consts/flowTypes/product/productTypes"
 import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
-import {getProductInfo} from "src/redux/actions/commonActions/productActions"
-import ProductActions from 'src/redux/actions/commonActions/productActions'
+import ProductActions, {getProductInfo} from "src/redux/actions/commonActions/productActions/productActions"
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {ProductInformationForm} from "./Forms"
 import {getCategories} from "src/redux/actions/commonActions/categoryActions"
 import makeProductSelectorById from "src/redux/selectors/common/product/getProductById"
 import {categorySelector} from "../../../redux/selectors/common/category";
-
 
 type OwnerType = {
   name: string

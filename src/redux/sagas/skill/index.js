@@ -5,6 +5,7 @@ import types from "../../actions/types"
 import {getSkillByUserId} from './getSkillByUserId'
 import {deleteSkillByUserId} from './deleteSkillByUserId'
 import {updateSkillByUserId} from './updateSkillByUserId'
+import createSkill from "./createSkillSaga";
 
 /**********    %% WATCHERS %%    **********/
 
@@ -20,9 +21,14 @@ function* watchUpdateSkillByUserId() {
   yield takeEvery(types.SKILL.UPDATE_SKILL_BY_USER_ID, updateSkillByUserId)
 }
 
+function* watchCreateSkill() {
+  yield takeEvery(types.SKILL.CREATE_SKILL, createSkill)
+}
+
 
 export default [
   watchGetSkillByUserId(),
   watchDeleteSkillByUserId(),
   watchUpdateSkillByUserId(),
+  watchCreateSkill()
 ]

@@ -3,7 +3,7 @@ import results from "src/consts/resultName"
 import types from "src/redux/actions/types/index"
 import urls from "src/consts/URLS"
 import {put, take, fork, call} from "redux-saga/effects"
-import helperFunctions from "src/consts/helperFunctions"
+import helperFunctions from "src/consts/helperFunctions/helperFunctions"
 
 export function* getExchangeMembershipByMemberIdentity(action) {
   const {identityId, exchangeMembershipOwnerType, exchangeMembershipOwnerId} = action.payload

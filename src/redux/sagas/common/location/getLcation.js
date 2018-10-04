@@ -2,7 +2,7 @@ import api from "../../../../consts/api";
 import results from "../../../../consts/resultName";
 import urls from "../../../../consts/URLS";
 import {call, put, fork, take} from "redux-saga/effects";
-import helpers from "../../../../consts/helperFunctions"
+import helpers from "../../../../consts/helperFunctions/helperFunctions"
 import types from "../../../actions/types"
 
 
