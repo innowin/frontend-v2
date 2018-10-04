@@ -2,7 +2,8 @@ import React, {Component} from "react"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import postActions from "src/redux/actions/commonActions/postActions"
-import exchangeActions from "../../../redux/actions/exchangeActions"
+import exchangeActions from "src/redux/actions/exchangeActions"
+import getUserAction from "src/redux/actions/user/getUserActions"
 import StreamView from "./StreamView"
 import InfoView from "./InfoView"
 
@@ -10,9 +11,10 @@ import InfoView from "./InfoView"
 class Exchange_Info extends Component {
 
   componentDidMount() {
-    const {actions, exchangeId} = this.props
+    const {actions, exchangeId, exchanges} = this.props
     actions.getPosts({postParentId: this.props.exchangeId, limit: 5, offset: 0})
     actions.getExchangeById(exchangeId)
+    actions.getUser(exchanges.list[exchangeId].owner.identity_user)
   }
 
   render() {
@@ -25,15 +27,20 @@ class Exchange_Info extends Component {
             <StreamView postsList={postsList}/>
         )
       case "Info":
-        const {exchange, exchangeId} = this.props
-        const currentExchange = exchange.list[exchangeId]
-          console.log(currentExchange)
+        const {exchanges, exchangeId, users} = this.props
+        const currentExchange = exchanges.list[exchangeId]
+        // const currentExchange = exchange.list[exchangeId].exchange.content
+        const owner = users.list[currentExchange.owner.identity_user]
         return (
-            <InfoView currentExchange={currentExchange}/>
+            <InfoView currentExchange={currentExchange} owner={owner}/>
+        )
+      case "Members":
+        return (
+            <div> </div>
         )
       default:
         return (
-            <div style={{textAlign: "center"}}>
+            <div style={{textAlign: "center", marginTop:'10px'}}>
               Undefined Data Type
             </div>
         )
@@ -43,13 +50,15 @@ class Exchange_Info extends Component {
 
 const mapStateToProps = (state) => ({
   posts: state.common.post,
-  exchange: state.exchanges
+  exchanges: state.exchanges,
+  users: state.users,
 })
 
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({
     getPosts: postActions.filterPostsByPostParentLimitOffset,
-    getExchangeById: exchangeActions.getExchangeByExId
+    getExchangeById: exchangeActions.getExchangeByExId,
+    getUser: getUserAction.getProfileByUserId,
   }, dispatch)
 })
 

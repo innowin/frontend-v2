@@ -1,5 +1,5 @@
 import {createSelector} from 'reselect'
-import helpers from 'src/consts/helperFunctions'
+import helpers from 'src/consts/helperFunctions/helperFunctions'
 
 const getResearches = state => state.research.list
 const getUserResearches = (state, props) => {

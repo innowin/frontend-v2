@@ -1,6 +1,7 @@
 import {createSelector} from 'reselect'
-import helpers from 'src/consts/helperFunctions'
 import constants from "../../../../consts/constants";
+import helpers from 'src/consts/helperFunctions/helperFunctions'
+
 
 const getFollows = state => state.common.social.follows.list
 const getUserFollows = (state, props) => {

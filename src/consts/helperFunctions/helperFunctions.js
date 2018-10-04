@@ -1,4 +1,4 @@
-import exchange from "../redux/actions/types/exchange";
+import exchange from "../../redux/actions/types/exchange";
 
 const deleteKeyFromObj = (obj, delKey) => {
 
@@ -32,7 +32,7 @@ const arrayToIdKeyedObject = (arr) => {
 }
 
 const arrayToDefaultObject = (arr) => {
-  const newArr = arr.map(data => ({exchange:{content: {...data}, isLoading: false, error: null}}))
+  const newArr = arr.map(data => ({exchange: {content: {...data}, isLoading: false, error: null}}))
   return newArr.reduce((acc, item) => {
     const shadow = {...item}
     return {
@@ -53,6 +53,7 @@ const arrayToDefaultObject = (arr) => {
 const filterNestedObjByKey = (obj, wantedKey, wantedValue) => {
   return Object.keys(obj).reduce((acc, key) => {
     const item = obj[key]
+    // console.log(`${item.id}: ${wantedValue} === ${item[wantedKey]} `, item[wantedKey] === wantedValue)
     if (item[wantedKey] === wantedValue) return ({...acc, [key]: {...item}})
     else return acc
   }, {})
@@ -87,11 +88,46 @@ const objToArrayAsOptions = (obj, valueKey, labelKey, otherKeys) => {
  **/
 const getObjectOfArrayKeys = (array, objectArray) => array.reduce((acc, arrayId) => [...acc, objectArray[arrayId]], [])
 
+const abbreviation = (names, num) => names.reduce((result, part) => {
+  if (result.length < num + 1) {
+    if (part) return result + '‌' + part[0]
+  }
+  return result
+}, '')
+
+
+const normalizer = (arr) => {
+  const ids = []
+  const idKeyedObj = {}
+  arr.forEach(item => {
+    ids.push(item.id)
+    idKeyedObj[item.id] = item
+  })
+  return {
+    ids,
+    idKeyedObj
+  }
+}
+
+/*
+this function takes an object and an array(list of wanted keys) and create a new object that
+contains array(of keys) and correspond value as the same as in main object.
+*/
+const selectByKeyList = (obj, keyList) => {
+  return keyList.reduce((result, key) => {
+    if (obj[key]) return {...result, [key]: obj[key]}
+    return result
+  }, {})
+}
+
 export default {
   arrayToIdKeyedObject,
   arrayToDefaultObject,
   deleteKeyFromObj,
+  abbreviation,
   filterNestedObjByKey,
   objToArrayAsOptions,
   getObjectOfArrayKeys,
+  normalizer,
+  selectByKeyList
 }

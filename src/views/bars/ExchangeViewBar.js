@@ -101,6 +101,7 @@ class ExchangeViewBar extends Component {
     const {exchange, badgesImgUrl, demandCount, supplyCount, productCount, tags, members, isLoading, error} = this.state
     const {translate, exchanges, exchangeId} = this.props
     const currentExchange = exchanges.list[exchangeId]
+    // const currentExchange = exchanges.list[exchangeId].exchange.content
     let membersView = members.map((val, idx) => (
         <div className="" key={idx}>
           <span>{val.username || val.name}</span>

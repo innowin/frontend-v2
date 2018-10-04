@@ -31,3 +31,34 @@
   line-height: 30px;
   font-size: $font-size-post-content;
 }
+
+.info-exchange-owner-frame {
+  width: 98%;
+  border-radius: 5px;
+  background-color: $white;
+  box-shadow: 0 2px 9px rgba(0, 0, 0, .2);
+  padding: 10px 20px;
+  margin: 1%;
+}
+
+.info-exchange-owner-image-frame{
+  vertical-align: top;
+  display: inline-block;
+  width: 14%;
+}
+
+.info-exchange-owner-image-frame-sibling{
+  vertical-align: top;
+  display: inline-block;
+  width: 50%;
+}
+
+.info-exchange-username {
+  font-size: $font-size-post-name;
+  font-weight: bold;
+}
+
+.info-exchange-education{
+  font-size: $font-size-exchange-education;
+  color: $font-color-exchange-education;
+}

@@ -1,6 +1,6 @@
 import types from '../types'
 
-const getFile = (fileId) => ({
+export const getFile = (fileId) => ({
   type: types.COMMON.GET_FILE,
   payload: {
     fileId

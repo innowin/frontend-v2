@@ -4,6 +4,7 @@ import pushAnObjToStateList from '../../sliceReducers/utilsSlices/pushAnObjToSta
 import updateListForAnObj from '../../sliceReducers/utilsSlices/updateListForAnObj'
 import createAnObj from '../../sliceReducers/utilsSlices/createAnObj'
 import setRelatedObjIdForListItem from '../../sliceReducers/utilsSlices/setRelatedObjIdForListItem'
+import setRelatedObjectsForAnObj from '../../sliceReducers/utilsSlices/setRelatedObjectsForAnObj'
 
 import slices from '../../sliceReducers/common/product'
 
@@ -52,6 +53,10 @@ const products = (state = initialState.common.product.products, action) => {
       return slices.deleteProduct.error(state, action)
 
       /** -------------------------- reset -------------------------> **/
+
+    case types.SUCCESS.COMMON.GET_PRODUCT_PICTURES_BY_PRODUCT_ID:
+      return setRelatedObjectsForAnObj.success(state, action, 'pictures')
+
     case types.RESET:
       return initialState.common.product.products
     default:

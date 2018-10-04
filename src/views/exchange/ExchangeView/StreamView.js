@@ -9,7 +9,7 @@ const StreamView = props => {
         {
           Object.values(postsList).reverse().map((p) => {
             return (
-                <div className={"posts-frame"}>
+                <div key={p.post_user.username + Math.floor((Math.random() * 1000) + 1)} className={"posts-frame"}>
                   {p.post_related_identity_image !== null ? <img alt={"تصویر پروفایل"}
                                                                  src={p.post_related_identity_image.file}
                                                                  width={"50px"} height={"50px"}
