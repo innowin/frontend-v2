@@ -11,28 +11,31 @@ import InfoView from "./InfoView"
 class Exchange_Info extends Component {
 
   componentDidMount() {
-    const {actions, exchangeId, exchange} = this.props
-    actions.getPosts({postParentId: this.props.exchangeId, limit: 5, offset: 0})
-    actions.getExchangeById(exchangeId)
-    actions.getUser(exchange.list[exchangeId].owner.identity_user)
+    const {actions, exchangeId, exchanges} = this.props
+    console.log("ABEL")
+    console.log(exchanges)
+    // actions.getPosts({postParentId: this.props.exchangeId, limit: 5, offset: 0})
+    // actions.getExchangeById(exchangeId)
+    // actions.getUser(exchange.list[exchangeId].owner.identity_user)
   }
 
   render() {
     const {activeTab} = this.props
     switch (activeTab) {
-      case "Stream":
-        const {posts} = this.props
-        const postsList = posts.list
-        return (
-            <StreamView postsList={postsList}/>
-        )
-      case "Info":
-        const {exchange, exchangeId, users} = this.props
-        const currentExchange = exchange.list[exchangeId]
-        const owner = users.list[currentExchange.owner.identity_user]
-        return (
-            <InfoView currentExchange={currentExchange} owner={owner}/>
-        )
+      // case "Stream":
+      //   const {posts} = this.props
+      //   const postsList = posts.list
+      //   return (
+      //       <StreamView postsList={postsList}/>
+      //   )
+      // case "Info":
+      //   const {exchange, exchangeId, users} = this.props
+      //   // const currentExchange = exchange.list[exchangeId]
+      //   const currentExchange = exchange.list[exchangeId].exchange.content
+      //   const owner = users.list[currentExchange.owner.identity_user]
+      //   return (
+      //       <InfoView currentExchange={currentExchange} owner={owner}/>
+      //   )
       default:
         return (
             <div style={{textAlign: "center"}}>
@@ -45,7 +48,7 @@ class Exchange_Info extends Component {
 
 const mapStateToProps = (state) => ({
   posts: state.common.post,
-  exchange: state.exchanges,
+  exchanges: state.exchanges,
   users: state.users,
 })
 
