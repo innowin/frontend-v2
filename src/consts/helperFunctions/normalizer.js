@@ -22,7 +22,7 @@ export const objNormalizer = (obj) => {
   const nestKeys = Object.keys(obj).filter(key => typeof obj[key] === "object")
   const flatKeys = Object.keys(obj).filter(key => typeof obj[key] !== "object")
   const data = flatKeys.forEach(key => {
-    normalData.data[key] =  obj[key]
+    normalData.data[key] = obj[key]
   })
   const otherData = nestKeys.reduce((res, key) => {
     const subObj = obj[key]
@@ -50,7 +50,8 @@ export const testNormalizer = (obj, hasFake) => {
       }
       else normalData.data[key] = obj[key]
     }
-    else if (Array.isArray(obj[key])) {}
+    else if (Array.isArray(obj[key])) {
+    }
     else {
       normalData.data[key] = obj[key].id
       const subObj = obj[key]
@@ -66,54 +67,67 @@ export const testNormalizer = (obj, hasFake) => {
 export const normalizerByWhile = (obj) => {
   const data = {}
   let currentKey = 'entity'
-  let checkingObjs = [{...obj}]
-  let currentObj = checkingObjs[checkingObjs.length -1]
-
-  do {
+  const fakeObj = {...obj}
+  const checkingObjs = [fakeObj]
+  console.log('normalizer >> checkingObjs1: ', checkingObjs)
+  let j = 0
+  while (checkingObjs.length > 0) {
+    let currentObj = checkingObjs[checkingObjs.length - 1]
+    console.log('normalizer >> checkingObjs: ', checkingObjs)
+    console.log('normalizer >> currentObj: ', currentObj)
     const flatKeys = Object.keys(currentObj).filter(key => typeof currentObj[key] !== 'object')
     const currentResult = {normalizerLengthField: Object.keys(currentObj).length}
     flatKeys.forEach(key => currentResult[key] = currentObj[key])
     const nestKeys = Object.keys(currentObj).filter(key => typeof currentObj[key] === 'object')
+    if (nestKeys.length === 0) {
+      const currentObjIndex = checkingObjs.findIndex(obj => obj.id === currentObj.id)
+      checkingObjs.splice(currentObjIndex, 1)
+    }
+    else {
+      for (let i = 0; i < nestKeys.length; i++) {
+        let nestKey = nestKeys[i]
+        if (Array.isArray(currentObj[nestKey])) {
 
-    for (let i = 0; i < nestKeys.length; i++) {
-      let nestKey = nestKeys[i]
-      if (Array.isArray(currentObj[nestKey])) {}
-      else {
-        currentResult[nestKey] = currentObj[nestKey].id
-        data[currentKey] = currentResult
-        currentKey = nestKey
-        checkingObjs.push({...currentObj[currentKey]})
+        }
+        else {
+          currentResult[nestKey] = currentObj[nestKey].id
+          checkingObjs.push({...currentObj[currentKey]})
+          currentKey = nestKey
+        }
       }
     }
-  } while (checkingObjs.length > 0)
+    j++
+    if (j === 2000) break
+    data[currentKey] = currentResult
+  }
   return data
 }
-const norm2= (obj) => {
-  const data = {}
-  let currentKey = 'entity'
-  let checkingObjs = [{...obj}]
-  let currentObj = checkingObjs[checkingObjs.length -1]
-  let hasObj = Object.values(currentObj).some(value => typeof value === 'object')
-
-  do {
-    const flatKeys = Object.keys(currentObj).filter(key => typeof currentObj[key] !== 'object')
-    const currentResult = {normalizerLengthField: Object.keys(currentObj).length}
-    flatKeys.forEach(key => currentResult[key] = currentObj[key])
-    const nestKeys = Object.keys(currentObj).filter(key => typeof currentObj[key] === 'object')
-    console.time('norm2')
-    for (let i = 0; i < nestKeys.length; i++) {
-      console.log('-------------- i is: ', i)
-      let nestKey = nestKeys[i]
-      if (Array.isArray(currentObj[nestKey])) {}
-      else {
-        currentResult[nestKey] = currentObj[nestKey].id
-        console.log(' ---------------- currentResult', currentResult)
-        data[currentKey] = currentResult
-        currentKey = nestKey
-        checkingObjs.push({...currentObj[currentKey]})
-      }
-    }
-    console.timeEnd('norm2')
-  } while (hasObj === true)
-  return data
-}
+// const norm2= (obj) => {
+//   const data = {}
+//   let currentKey = 'entity'
+//   let checkingObjs = [obj]
+//   let currentObj = checkingObjs[checkingObjs.length -1]
+//   let hasObj = Object.values(currentObj).some(value => typeof value === 'object')
+//
+//   do {
+//     const flatKeys = Object.keys(currentObj).filter(key => typeof currentObj[key] !== 'object')
+//     const currentResult = {normalizerLengthField: Object.keys(currentObj).length}
+//     flatKeys.forEach(key => currentResult[key] = currentObj[key])
+//     const nestKeys = Object.keys(currentObj).filter(key => typeof currentObj[key] === 'object')
+//     console.time('norm2')
+//     for (let i = 0; i < nestKeys.length; i++) {
+//       console.log('-------------- i is: ', i)
+//       let nestKey = nestKeys[i]
+//       if (Array.isArray(currentObj[nestKey])) {}
+//       else {
+//         currentResult[nestKey] = currentObj[nestKey].id
+//         console.log(' ---------------- currentResult', currentResult)
+//         data[currentKey] = currentResult
+//         currentKey = nestKey
+//         checkingObjs.push(currentObj[currentKey])
+//       }
+//     }
+//     console.timeEnd('norm2')
+//   } while (hasObj === true)
+//   return data
+// }
