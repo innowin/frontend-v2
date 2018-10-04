@@ -1,5 +1,5 @@
 import {createSelector} from 'reselect'
-import helpers from 'src/consts/helperFunctions'
+import helpers from 'src/consts/helperFunctions/helperFunctions'
 import constants from "src/consts/constants"
 
 const getOwnerId = (state, props) => props.ownerId

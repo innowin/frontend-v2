@@ -68,13 +68,13 @@ export const normalizerByWhile = (obj) => {
   let currentKey = 'entity'
   let checkingObjs = [{...obj}]
   let currentObj = checkingObjs[checkingObjs.length -1]
-  let hasObj = Object.values(currentObj).some(value => typeof value === 'object')
 
   do {
     const flatKeys = Object.keys(currentObj).filter(key => typeof currentObj[key] !== 'object')
     const currentResult = {normalizerLengthField: Object.keys(currentObj).length}
     flatKeys.forEach(key => currentResult[key] = currentObj[key])
     const nestKeys = Object.keys(currentObj).filter(key => typeof currentObj[key] === 'object')
+
     for (let i = 0; i < nestKeys.length; i++) {
       let nestKey = nestKeys[i]
       if (Array.isArray(currentObj[nestKey])) {}
@@ -85,7 +85,7 @@ export const normalizerByWhile = (obj) => {
         checkingObjs.push({...currentObj[currentKey]})
       }
     }
-  } while (hasObj === true)
+  } while (checkingObjs.length > 0)
   return data
 }
 const norm2= (obj) => {
