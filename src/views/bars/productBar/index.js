@@ -11,7 +11,8 @@ import {getProductPicturesByProductId} from "src/redux/actions/commonActions/pro
 import {getFile} from "src/redux/actions/commonActions/fileActions"
 import makePictureSelectorByProductId from '../../../redux/selectors/common/product/selectProducPicturesByProductId'
 import makeFileSelectorByIDList from '../../../redux/selectors/common/fileSlectorByIdList'
-
+import {getBadges} from "../../../redux/actions/commonActions/badgeActions"
+import {normalizer, objNormalizer, testNormalizer, normalizerByWhile} from "../../../consts/helperFunctions/normalizer"
 
 export type FileListObjectType = {
   [string]: FileType
@@ -41,11 +42,102 @@ type SideBarProps = {
   productId: string,
   getFile: Function,
   productPictures: ProductPicturesType,
-  galleryFiles: FileListObjectType
+  galleryFiles: FileListObjectType,
+  getBadges: Function
 }
 type SideBarState = {
   galleryModalIsOpen: boolean
 }
+
+// ---------------------------
+
+const arr = [
+  {
+    id: 1,
+    name: 'ali',
+    profile: {
+      id: 'p1',
+      family: 'some family'
+    },
+    org: {
+      id: 'org1',
+      title: 'some org',
+      office: {
+        id: 'office1',
+        address: 'some address',
+        door: {
+          id: 'door1',
+          type: 'wood'
+        }
+      }
+    }
+  },
+  {
+    id: 2,
+    name: 'mohsen',
+    profile: {
+      id: 'p2',
+      family: 'some family2'
+    },
+    org: {
+      id: 'org2',
+      title: 'some org2',
+      office: {
+        id: 'office2',
+        address: 'some address2',
+        door: {
+          id: 'door2',
+          type: 'wood2'
+        }
+      }
+    }
+  }
+]
+const obj = {
+  id: 1,
+  name: 'ali',
+  // profile: {
+  //   id: 'p1',
+  //   family: 'some family'
+  // },
+  // org: {
+  //   id: 'org1',
+  //   title: 'some org',
+  //   office: {
+  //     id: 'office1',
+  //     address: 'some address',
+  //     door: {
+  //       id: 'door1',
+  //       type: 'wood'
+  //     }
+  //   }
+  // }
+}
+
+
+
+// const objNormalizer2 = (obj) => {
+//   const nestKeys = Object.keys(obj).filter(key => typeof obj[key] === "object")
+//   const flatKeys = Object.keys(obj).filter(key => typeof obj[key] !== "object")
+//   const data = flatKeys.reduce((res, key) => {
+//     return {...res, [key]: obj[key]}
+//   }, {})
+//   const otherData = nestKeys.reduce((res, key) => {
+//     const subObj = obj[key]
+//     data[key] = subObj.id
+//     const withNestValueKeys = Object.keys(subObj).filter(theKey => typeof subObj[theKey] === "object")
+//     if (withNestValueKeys.length > 0) {
+//       return {...res, [key]: objNormalizer(obj[key])}
+//     }
+//     else return {...res, [key]: obj[key]}
+//   }, {})
+//   return {data, otherData}
+// }
+
+
+
+// ---------------------------
+
 
 class SideBar extends Component<SideBarProps, SideBarState> {
   constructor() {
@@ -56,9 +148,11 @@ class SideBar extends Component<SideBarProps, SideBarState> {
   }
 
   componentDidMount() {
-    const {productId, getProductPicturesByProductId} = this.props
+    const {productId, getProductPicturesByProductId, getBadges} = this.props
     getProductPicturesByProductId(productId)
     this._fileDispatchHandler()
+    getBadges(productId, productId)
+    // console.log('---------------------------------- views normalizerByWhile', normalizerByWhile(obj))
   }
 
   componentDidUpdate(prevProps) {
@@ -159,7 +253,8 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   getProductPicturesByProductId,
-  getFile
+  getFile,
+  getBadges
 }, dispatch)
 
 

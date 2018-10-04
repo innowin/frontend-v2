@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import helpers from 'src/consts/helperFunctions'
+import helpers from 'src/consts/helperFunctions/helperFunctions'
 import VisibleOnLoadImage from './visibleOnLoadImage'
 
 

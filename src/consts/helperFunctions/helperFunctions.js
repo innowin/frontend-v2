@@ -1,4 +1,4 @@
-import exchange from "../redux/actions/types/exchange";
+import exchange from "../../redux/actions/types/exchange";
 
 const deleteKeyFromObj = (obj, delKey) => {
 

@@ -1,5 +1,5 @@
 import {createSelector} from "reselect";
-import helpers from "../../../../consts/helperFunctions"
+import helpers from "../../../../consts/helperFunctions/helperFunctions"
 
 const getPictures = (state, productId) => {
   const {list = {}} = state.common.product.productPicture

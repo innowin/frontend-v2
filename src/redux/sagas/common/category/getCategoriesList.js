@@ -3,7 +3,7 @@ import api from "../../../../consts/api";
 import results from "../../../../consts/resultName";
 import urls from "../../../../consts/URLS";
 import types from "../../../actions/types";
-import helpers from "../../../../consts/helperFunctions";
+import helpers from "../../../../consts/helperFunctions/helperFunctions";
 
 function* getCategoriesList() {
     const socketChannel = yield call(api.createSocketChannel, results.COMMON.GET_CATEGORIES)

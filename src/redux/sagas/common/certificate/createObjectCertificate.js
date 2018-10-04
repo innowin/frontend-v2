@@ -3,7 +3,7 @@ import api from "../../../../consts/api"
 import results from "../../../../consts/resultName"
 import urls from "../../../../consts/URLS"
 import types from "../../../actions/types"
-import helpers from "src/consts/helperFunctions"
+import helpers from "src/consts/helperFunctions/helperFunctions"
 import client from "../../../../consts/client";
 
 
