@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 import {connect} from "react-redux"
 import {bindActionCreators} from "redux"
 
-import ProductActions from "src/redux/actions/commonActions/productActions"
+import ProductActions from "src/redux/actions/commonActions/productActions/productActions"
 import ProductInfo from './ProductInfo'
 import type {ProductGetType} from "../../../consts/flowTypes/product/productTypes"
 import {ContributionIcon} from "../../../images/icons"
