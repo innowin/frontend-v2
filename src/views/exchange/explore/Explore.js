@@ -9,7 +9,7 @@ import connect from 'react-redux/es/connect/connect'
 import exchangeActions from 'src/redux/actions/exchangeActions'
 import socialActions from 'src/redux/actions/commonActions/socialActions'
 import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges.js'
-import constant from "../../../consts/constants"
+import {ClipLoader} from "react-spinners"
 
 type appProps =
     {|
@@ -23,7 +23,7 @@ type appProps =
 type appState =
     {|
       offset: number,
-      activeScrollHeight: number
+      activeScrollHeight: number,
       scrollLoading: boolean
     |}
 
@@ -73,6 +73,7 @@ class Explore extends Component <appProps, appState> {
               console.log(checked)
             }}/>
             <Exchanges exchanges={this.props.allExchanges}/>
+            {/*{this.state.scrollLoading && <ClipLoader/>}*/}
           </div>
         </div>
     )
