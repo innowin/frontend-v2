@@ -23,7 +23,7 @@ type appProps =
 type appState =
     {|
       offset: number,
-      activeScrollHeight: number
+      activeScrollHeight: number,
       scrollLoading: boolean
     |}
 
