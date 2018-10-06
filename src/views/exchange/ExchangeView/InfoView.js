@@ -53,12 +53,12 @@ class InfoView extends Component {
                               height={"55px"} width={"55px"} className={"post-user-picture"}/>}
                     </div>
                     <div className={"info-exchange-owner-image-frame-sibling"}>
-                      <div className={"info-exchange-username"}> {profile.first_name || profile.last_name !== null ?
+                      <div className={"info-exchange-username"}> {profile.first_name || profile.last_name !== "" ?
                           profile.first_name + " " + profile.last_name : profile.username} </div>
                       <div className={"info-exchange-education"}>
-                        <span> {education[profile.id].grade} </span>
-                        <span> {education[profile.id].field_of_study} </span><span> {translate["Of"]} </span>
-                        <span> {education[profile.id].university} </span>
+                        <span> {!education[profile.id] ? "مقطع" : education[profile.id].grade} </span>
+                        <span> {!education[profile.id] ? "رشته" : education[profile.id].field_of_study} </span><span> {translate["Of"]} </span>
+                        <span> {!education[profile.id] ? "دانشگاه" : education[profile.id].university} </span>
                       </div>
                     </div>
                   </div>
