@@ -108,93 +108,96 @@ class ExchangeViewBar extends Component {
           <img alt={"."} src={val.profile_media || "#"}> </img>
         </div>)
     )
-    return (
-        <VerifyWrapper isLoading={isLoading} error={error}>
-          <div className="-sidebar-child-wrapper col">
-            <div className="align-items-center flex-column">
-              {this.state.membersViewSide ?
-                  <i className="fa fa-arrow-left menuBottom" onClick={this._handleMembersClick.bind(this)}> </i>
-                  :
-                  <i className="fa fa-ellipsis-v menuBottom"> </i>
+    if (currentExchange.exchange_image)
+      return (
+          <VerifyWrapper isLoading={isLoading} error={error}>
+            <div className="-sidebar-child-wrapper col">
+              <div className="align-items-center flex-column">
+                {this.state.membersViewSide ?
+                    <i className="fa fa-arrow-left menuBottom" onClick={this._handleMembersClick.bind(this)}> </i>
+                    :
+                    <i className="fa fa-ellipsis-v menuBottom"> </i>
+                }
+                {
+                  currentExchange.exchange_image !== null ?
+                      <img className="rounded-circle exchangeViewBarImg" alt={translate["Exchange Picture"]}
+                           src={currentExchange.exchange_image.file}/>
+                      :
+                      <DefaultUserIcon width={"100px"} height={"100px"}
+                                       className={"rounded-circle exchangeViewBarImg"}/>
+                }
+                <div className="exchangeName">
+                  <ExchangeIcon/>
+                  <div>
+                    <span className="fontSize-15px">{translate["Exchange"]}: </span>
+                    <span>{currentExchange.name === "" ? "بدون نام" : currentExchange.name}</span>
+                  </div>
+                </div>
+                <span
+                    className="-grey1 fontSize-13px description-right-bar">{currentExchange.description === "" ? "بدون توضیحات" : currentExchange.description}</span>
+              </div>
+              {/*
+               {this.state.membersViewSide ?
+               <div className="numbersSection flex-column pl-3">
+               <div className="">
+               <span>اعضا:</span>
+               <span>{currentExchange.members_count}</span>
+               </div>
+               {membersView}
+               </div>
+               :
+               */}
+              <div className="numbersSection flex-column pl-3">
+                <div className="">
+                  <span>اعضا:</span>
+                  <span>{currentExchange.members_count}</span>
+                </div>
+                <div className="">
+                  <span>عرضه:</span>
+                  <span>{supplyCount}</span>
+                </div>
+                <div className="">
+                  <span>تقاضا:</span>
+                  <span>{demandCount}</span>
+                </div>
+                <div className="">
+                  <span>محصول عرضه شده:</span>
+                  <span>{productCount}</span>
+                </div>
+              </div>
+
+              {
+                (badgesImgUrl.length > 0) ? (
+                    <div className="flex-wrap pb-3">
+                      <BadgesCard badgesImgUrl={badgesImgUrl}/>
+                    </div>
+                ) : ("")
               }
               {
-                currentExchange.exchange_image !== null ?
-                    <img className="rounded-circle exchangeViewBarImg" alt={translate["Exchange Picture"]}
-                         src={currentExchange.exchange_image.file}/>
-                    :
-                    <DefaultUserIcon width={"100px"} height={"100px"} className={"rounded-circle exchangeViewBarImg"}/>
+                (tags.length > 0) ? (
+                    <div className="flex-wrap pb-3">
+                      <TagsBox tags={tags}/>
+                    </div>) : ("")
               }
-              <div className="exchangeName">
-                <ExchangeIcon/>
-                <div>
-                  <span className="fontSize-15px">{translate["Exchange"]}: </span>
-                  <span>{currentExchange.name === "" ? "بدون نام" : currentExchange.name}</span>
+              <div className="row mr-0 ml-0 pb-3 exchangeViewSidebarBottom flex-wrap justify-content-around">
+                <div className="pb-2">
+                  <button
+                      type="button"
+                      className="btn btn-outline-secondary btn-block sidebarBottom">ارسال پیام به کارگزار
+                  </button>
                 </div>
-              </div>
-              <span
-                  className="-grey1 fontSize-13px description-right-bar">{currentExchange.description === "" ? "بدون توضیحات" : currentExchange.description}</span>
-            </div>
-{/*
-            {this.state.membersViewSide ?
-                <div className="numbersSection flex-column pl-3">
-                  <div className="">
-                    <span>اعضا:</span>
-                    <span>{currentExchange.members_count}</span>
-                  </div>
-                  {membersView}
+                <div className="pb-2">
+                  <button
+                      type="button"
+                      className="btn btn-outline-secondary btn-block sidebarBottom">درخواست عضویت
+                  </button>
                 </div>
-                :
-*/}
-                <div className="numbersSection flex-column pl-3">
-                  <div className="">
-                    <span>اعضا:</span>
-                    <span>{currentExchange.members_count}</span>
-                  </div>
-                  <div className="">
-                    <span>عرضه:</span>
-                    <span>{supplyCount}</span>
-                  </div>
-                  <div className="">
-                    <span>تقاضا:</span>
-                    <span>{demandCount}</span>
-                  </div>
-                  <div className="">
-                    <span>محصول عرضه شده:</span>
-                    <span>{productCount}</span>
-                  </div>
-                </div>
-
-            {
-              (badgesImgUrl.length > 0) ? (
-                  <div className="flex-wrap pb-3">
-                    <BadgesCard badgesImgUrl={badgesImgUrl}/>
-                  </div>
-              ) : ("")
-            }
-            {
-              (tags.length > 0) ? (
-                  <div className="flex-wrap pb-3">
-                    <TagsBox tags={tags}/>
-                  </div>) : ("")
-            }
-            <div className="row mr-0 ml-0 pb-3 exchangeViewSidebarBottom flex-wrap justify-content-around">
-              <div className="pb-2">
-                <button
-                    type="button"
-                    className="btn btn-outline-secondary btn-block sidebarBottom">ارسال پیام به کارگزار
-                </button>
-              </div>
-              <div className="pb-2">
-                <button
-                    type="button"
-                    className="btn btn-outline-secondary btn-block sidebarBottom">درخواست عضویت
-                </button>
               </div>
             </div>
-          </div>
 
-        </VerifyWrapper>
-    )
+          </VerifyWrapper>
+      )
+    else return null
   }
 }
 

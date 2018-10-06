@@ -14,7 +14,7 @@ class Exchange_Info extends Component {
     const {actions, exchangeId, exchanges} = this.props
     actions.getPosts({postParentId: this.props.exchangeId, limit: 5, offset: 0})
     actions.getExchangeById(exchangeId)
-    actions.getUser(exchanges.list[exchangeId].owner.identity_user)
+    if (exchanges.list[exchangeId].owner) actions.getUser(exchanges.list[exchangeId].owner.identity_user)
   }
 
   render() {
@@ -29,18 +29,25 @@ class Exchange_Info extends Component {
       case "Info":
         const {exchanges, exchangeId, users} = this.props
         const currentExchange = exchanges.list[exchangeId]
-        // const currentExchange = exchange.list[exchangeId].exchange.content
-        const owner = users.list[currentExchange.owner.identity_user]
-        return (
-            <InfoView currentExchange={currentExchange} owner={owner}/>
-        )
+        // const currentExchange = exchanges.list[exchangeId].exchange.content
+        if (currentExchange.owner) {
+          const owner = users.list[currentExchange.owner.identity_user]
+          if (owner)
+            return (
+                <InfoView currentExchange={currentExchange} owner={owner}/>
+            )
+          else return null
+        }
+        else return null
       case "Members":
         return (
-            <div> </div>
+            <div style={{textAlign: "center", marginTop: "10px"}}>
+              In Develop
+            </div>
         )
       default:
         return (
-            <div style={{textAlign: "center", marginTop:'10px'}}>
+            <div style={{textAlign: "center", marginTop: "10px"}}>
               Undefined Data Type
             </div>
         )

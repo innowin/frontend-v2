@@ -11,8 +11,8 @@ class Exchange_Tabs extends Component {
     super(props)
     this.state =
         {
-          // selectedTab: "Stream",
-          selectedTab: "Members", // DEVELOP
+          selectedTab: "Stream",
+          // selectedTab: "Members", // DEVELOP
         }
     this.setTab = this.setTab.bind(this)
   }
