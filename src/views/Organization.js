@@ -135,7 +135,7 @@ export class Organization extends Component<PropsOrganization> {
                                 component={Certificates}
                                 ownerId={organizationId}
                                 identityId={identityObject.content}
-                                identityType={constants.USER_TYPES.PERSON}
+                                identityType={constants.USER_TYPES.ORG}
                   />
                 </Switch>
               )

@@ -10,7 +10,6 @@ export function* getCertificatesByIdentity(action) {
   try {
     yield fork(api.get, urls.COMMON.CERTIFICATE, results.COMMON.CERTIFICATE.GET_CERTIFICATES_BY_IDENTITY, `?certificate_identity=${identityId}`)
     const data = yield take(socketChannel)
-    console.log("getCertificatesByIdentity saga data is:", data)
     yield put({
       type: types.SUCCESS.COMMON.CERTIFICATE.GET_CERTIFICATES_BY_IDENTITY,
       payload: {data, identityId, certificateOwnerId, certificateOwnerType}
