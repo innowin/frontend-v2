@@ -21,6 +21,8 @@ class ExchangeView extends Component <PropsExchangeView> {
   render() {
     const {params} = this.props.match
     const exchangeId = +params.id
+    console.log('exchangeId dfg dfgdfg ')
+    console.log(exchangeId)
     const widthOfRightBar = "col-md-2 col-sm-1"
     return (
         <div className="-main -userOrganBackgroundImg">

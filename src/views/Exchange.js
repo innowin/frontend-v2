@@ -17,8 +17,8 @@ class Exchange extends Component {
     const {path, url} = this.props.match
     return (
         <div>
-          <Link to={`${url}/Exchange_Explorer`}>Exchange Explorer</Link>
-          <Link to={`${url}`}>Exchange</Link>
+          {/*<Link to={`${url}/Exchange_Explorer`}>Exchange Explorer</Link>*/}
+          {/*<Link to={`${url}`}>Exchange</Link>*/}
           <div>
             <Switch>
               <PrivateRoute path={`${path}/Exchange_Explorer`} component={ExchangeExplorer}/>
