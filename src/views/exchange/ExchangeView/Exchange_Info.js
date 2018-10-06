@@ -31,12 +31,15 @@ class Exchange_Info extends Component {
 
   componentDidUpdate() {
     if (!this.state.gotOwner) {
-      const {
+      let {
         actions,
         exchangeId,
         exchanges
       } = this.props
-      actions.getUser(exchanges.list[exchangeId].owner.identity_user)
+      if (exchanges.list[exchangeId].owner) {
+        actions.getUser(exchanges.list[exchangeId].owner.identity_user)
+
+      }
     }
   }
 

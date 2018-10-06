@@ -39,10 +39,10 @@ class Exchange_Tabs extends Component {
   componentDidUpdate(){
     let {actions, exchangeId, exchanges} = this.props
     let {getUser, getEducationsByUserId} = actions
-    if(exchanges[exchangeId].owner.identity_user !== null && exchanges[exchangeId].owner.identity_user !== undefined)
+    if(exchanges[exchangeId].owner !== undefined && exchanges[exchangeId].owner.identity_user !== null)
     {
       getUser(exchanges[exchangeId].owner.identity_user)
-      getEducationsByUserId(exchanges[exchangeId].owner.identity_user)
+      getEducationsByUserId({userId: exchanges[exchangeId].owner.identity_user})
     }
   }
 

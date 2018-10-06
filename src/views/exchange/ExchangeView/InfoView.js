@@ -11,9 +11,8 @@ class InfoView extends Component {
   componentDidMount() {
     const {owner, actions} = this.props
     const profile = owner.profile.content.profile_user
-    console.log("PROFILE INFO")
-    console.log(profile)
-    actions.getEducationsByUserId({userId: profile.id})
+    if (profile)
+      actions.getEducationsByUserId({userId: profile.id})
   }
 
   render() {
@@ -22,8 +21,6 @@ class InfoView extends Component {
     const media = owner.profile.content.profile_media
     if (profile)
       if (education[profile.id]) {
-        console.log("EDUCATION")
-        console.log(education)
         return (
             <div>
               <div className={"info-frame"}>
