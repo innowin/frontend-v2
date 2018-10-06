@@ -9,7 +9,7 @@ const success = (state, action) => {
     ...state,
     list: {
       ...state.list,
-      allExchanges: {...state.list.allExchanges, ...allExchanges},
+      ...allExchanges,
       searchByWord: [],
       searchByHashTag: []
     }
