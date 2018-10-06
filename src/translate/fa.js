@@ -71,6 +71,7 @@ module.exports = {
   'EducationInfo': 'اطلاعات تحصیلی',
   'ResearchInfo': 'سابقه پژوهشی',
   'Author': 'نویسنده',
+  'Phone number is wrong': 'شماره تلفن اشتباه است',
 
   // user - certificates
   'Title': "عنوان",
@@ -212,6 +213,7 @@ module.exports = {
   // Organization - organizations
   'Official name': "نام رسمی",
   'Nike name': "نام مستعار",
+  'Organization name': 'نام شرکت',
   'Organization national code': "شناسه ملی",
   'Registration ads url': "پیوند آگهی ثبت شرکت",
   'Registrar organization': "سازمان ثبت کننده",
@@ -224,11 +226,14 @@ module.exports = {
   'Ownership type': "نوع مالکیت",
   'Business type': "نوع کسب و کار",
   'Biography': "خودنگاری",
+  'Organization biography': 'معرفی شرکت',
   'Correspondence language': "زبان مکاتبات",
   'Social network links': "پیوند های شبکه اجتماعی",
   'Staff count': "تعداد کارکنان",
   'Staff count must be positive': "تعداد کارکنان باید عددی مثبت باشد",
   'Account administrators': "مدیران حساب کاربری",
+  'Biography length is wrong': 'حداکثر طول 70 می باشد',
+  'Official name is wrong': 'نام رسمی شرکت اشتباه است',
 
   // Organization - customers
   'Registered By': "ثبت شده توسط شرکت ",

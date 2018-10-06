@@ -13,7 +13,8 @@ import {
   DefaultUserIcon,
   logoDaneshBoom,
   ExchangeExploreIcon,
-  NotificationIcon
+  NotificationIcon,
+  LogoWhiteSvg,
 } from "src/images/icons"
 import {Link} from "react-router-dom"
 import AgentForm from "../pages/modal/agentForm-modal"
@@ -148,7 +149,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
               className="-topBarIcons"/></Link>
             <Link className="mr-5" to={"/"}><NotificationIcon className="-topBarIcons"/></Link>
           </div>
-          <img className="centerImgTopBar" src={logoDaneshBoom} alt="profile_img"/>
+          <LogoWhiteSvg className="centerImgTopBar"/>
           <div className="dir-ltr d-flex flex-row">
             <div className="-ProfTopBarImg">
               {!clientImgLink ? <DefaultUserIcon onClickFunc={this._toggleProfile}/> :
