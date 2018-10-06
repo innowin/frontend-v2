@@ -12,7 +12,7 @@ class Exchange_Tabs extends Component {
     this.state =
         {
           // selectedTab: "Stream",
-          selectedTab: "Info", // DEVELOP
+          selectedTab: "Members", // DEVELOP
         }
     this.setTab = this.setTab.bind(this)
   }
