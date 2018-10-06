@@ -5,6 +5,11 @@ import {Stream, Info, Statistic, Contacts, Medal, Ticket,} from "src/images/icon
 import Exchange_Info from "./Exchange_Info"
 import "src/styles/components/exchange/posts.scss"
 import "src/styles/components/exchange/info.scss"
+import {bindActionCreators} from "redux"
+import postActions from "../../../redux/actions/commonActions/postActions"
+import exchangeActions from "../../../redux/actions/exchangeActions"
+import getUserAction from "../../../redux/actions/user/getUserActions"
+import educationActions from "../../../redux/actions/educationActions"
 
 class Exchange_Tabs extends Component {
   constructor(props) {
@@ -25,6 +30,20 @@ class Exchange_Tabs extends Component {
       normalSvgStyle: "svg-tabs",
       normalSvgContainerStyle: "svg-container"
     })
+    let {actions, exchangeId} = this.props
+    let {getPostsByExIdLimitOffset, getExchangeById} = actions
+    getPostsByExIdLimitOffset({postParentId: exchangeId, limit: 5, offset: 0})
+    getExchangeById(exchangeId)
+  }
+
+  componentDidUpdate(){
+    let {actions, exchangeId, exchanges} = this.props
+    let {getUser, getEducationsByUserId} = actions
+    if(exchanges[exchangeId].owner.identity_user !== null && exchanges[exchangeId].owner.identity_user !== undefined)
+    {
+      getUser(exchanges[exchangeId].owner.identity_user)
+      getEducationsByUserId(exchanges[exchangeId].owner.identity_user)
+    }
   }
 
   setTab(data) {
@@ -77,7 +96,18 @@ class Exchange_Tabs extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    translate: getMessages(state)
+    translate: getMessages(state),
+    exchanges: state.exchanges.list,
   }
 }
-export default connect(mapStateToProps)(Exchange_Tabs)
+
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators({
+    getPostsByExIdLimitOffset: postActions.filterPostsByPostParentLimitOffset,
+    getExchangeById: exchangeActions.getExchangeByExId,
+    getUser: getUserAction.getProfileByUserId,
+    getEducationsByUserId: educationActions.getEducationByUserId,
+  }, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Exchange_Tabs)

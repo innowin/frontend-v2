@@ -10,6 +10,10 @@ import {VerifyWrapper} from "../../common/cards/Frames"
 
 
 class Exchange_Info extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {gotOwner: false}
+  }
 
   componentDidMount() {
     const {
@@ -18,8 +22,22 @@ class Exchange_Info extends Component {
       exchanges
     } = this.props
     actions.getPosts({postParentId: exchangeId, limit: 5, offset: 0})
-    actions.getUser(exchanges.list[exchangeId].owner.identity_user)
-    // actions.getExchangeById(exchangeId)
+    if (exchanges.list[exchangeId].owner) {
+      actions.getUser(exchanges.list[exchangeId].owner.identity_user)
+      this.state.gotOwner = true
+    }
+    actions.getExchangeById(exchangeId)
+  }
+
+  componentDidUpdate() {
+    if (!this.state.gotOwner) {
+      const {
+        actions,
+        exchangeId,
+        exchanges
+      } = this.props
+      actions.getUser(exchanges.list[exchangeId].owner.identity_user)
+    }
   }
 
   render() {
@@ -34,13 +52,13 @@ class Exchange_Info extends Component {
       case "Info":
         const {exchanges, exchangeId, users} = this.props
         const currentExchange = exchanges.list[exchangeId]
-        // const currentExchange = exchanges.list[exchangeId].exchange.content
         if (currentExchange.owner) {
           const owner = users.list[currentExchange.owner.identity_user]
-          if (owner)
+          if (owner) {
             return (
                 <InfoView currentExchange={currentExchange} owner={owner}/>
             )
+          }
           else {
             return <VerifyWrapper isLoading={true} error={false}/>
           }
