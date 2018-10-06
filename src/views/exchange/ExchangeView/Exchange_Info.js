@@ -6,15 +6,20 @@ import exchangeActions from "src/redux/actions/exchangeActions"
 import getUserAction from "src/redux/actions/user/getUserActions"
 import StreamView from "./StreamView"
 import InfoView from "./InfoView"
+import {VerifyWrapper} from "../../common/cards/Frames"
 
 
 class Exchange_Info extends Component {
 
   componentDidMount() {
-    const {actions, exchangeId, exchanges} = this.props
-    actions.getPosts({postParentId: this.props.exchangeId, limit: 5, offset: 0})
-    actions.getExchangeById(exchangeId)
-    if (exchanges.list[exchangeId].owner) actions.getUser(exchanges.list[exchangeId].owner.identity_user)
+    const {
+      actions,
+      exchangeId,
+      exchanges
+    } = this.props
+    actions.getPosts({postParentId: exchangeId, limit: 5, offset: 0})
+    actions.getUser(exchanges.list[exchangeId].owner.identity_user)
+    // actions.getExchangeById(exchangeId)
   }
 
   render() {
@@ -36,9 +41,13 @@ class Exchange_Info extends Component {
             return (
                 <InfoView currentExchange={currentExchange} owner={owner}/>
             )
-          else return null
+          else {
+            return <VerifyWrapper isLoading={true} error={false}/>
+          }
         }
-        else return null
+        else {
+          return <VerifyWrapper isLoading={true} error={false}/>
+        }
       case "Members":
         return (
             <div style={{textAlign: "center", marginTop: "10px"}}>

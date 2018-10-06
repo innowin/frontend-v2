@@ -81,7 +81,7 @@ class ExchangeViewBar extends Component {
 
   componentDidMount() {
     const {actions, exchangeId} = this.props
-    const {getExchangeMembershipByExchangeId, getExchangeByExId} = actions
+    const {getExchangeByExId} = actions
     getExchangeByExId(exchangeId)
     // getExchangeMembersByExId (exchangeId)
     // getExchangeMembershipByExchangeId ({exchangeId})
@@ -102,15 +102,15 @@ class ExchangeViewBar extends Component {
     const {translate, exchanges, exchangeId} = this.props
     const currentExchange = exchanges.list[exchangeId]
     // const currentExchange = exchanges.list[exchangeId].exchange.content
-    let membersView = members.map((val, idx) => (
-        <div className="" key={idx}>
-          <span>{val.username || val.name}</span>
-          <img alt={"."} src={val.profile_media || "#"}> </img>
-        </div>)
-    )
+    // let membersView = members.map((val, idx) => (
+    //     <div className="" key={idx}>
+    //       <span>{val.username || val.name}</span>
+    //       <img alt={"."} src={val.profile_media || "#"}> </img>
+    //     </div>)
+    // )
     if (currentExchange.exchange_image)
       return (
-          <VerifyWrapper isLoading={isLoading} error={error}>
+          <VerifyWrapper isLoading={false} error={error}>
             <div className="-sidebar-child-wrapper col">
               <div className="align-items-center flex-column">
                 {this.state.membersViewSide ?
@@ -134,7 +134,8 @@ class ExchangeViewBar extends Component {
                   </div>
                 </div>
                 <span
-                    className="-grey1 fontSize-13px description-right-bar">{currentExchange.description === "" ? "بدون توضیحات" : currentExchange.description}</span>
+                    className="-grey1 fontSize-13px description-right-bar">{currentExchange.description === "" ? "بدون توضیحات" :
+                    currentExchange.description}</span>
               </div>
               {/*
                {this.state.membersViewSide ?
@@ -197,7 +198,9 @@ class ExchangeViewBar extends Component {
 
           </VerifyWrapper>
       )
-    else return null
+    else return (
+        <VerifyWrapper isLoading={true} error={false}/>
+    )
   }
 }
 

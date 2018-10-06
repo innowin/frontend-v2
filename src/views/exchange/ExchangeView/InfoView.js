@@ -10,8 +10,6 @@ class InfoView extends Component {
   componentDidMount() {
     const {owner} = this.props
     const profile = owner.profile.content.profile_user
-    console.log("ABEL")
-    console.log(owner)
     this.props.actions.getEducationsByUserId({userId: profile.id})
   }
 
