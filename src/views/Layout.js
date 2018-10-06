@@ -23,7 +23,6 @@ class Layout extends Component {
         <PrivateRoute path="/organization/:id" component={Organization}/>
         <PrivateRoute path="/exchange" component={Exchange}/>
         <PrivateRoute path="/product" component={Product}/>
-        <PrivateRoute path="/testOf" component={Explore}/>
       </Switch>
     )
   }
