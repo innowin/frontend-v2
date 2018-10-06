@@ -1,15 +1,37 @@
 // @flow
 import * as React from 'react'
 import {Component} from 'react'
-import Exchanges from './Exchanges'
-import Sidebar from './Sidebar'
+import Users from './Users'
+import Sidebar from './SideBar'
 import TopBar from '../../bars/TopBar'
 import {bindActionCreators} from 'redux'
 import connect from 'react-redux/es/connect/connect'
 import exchangeActions from 'src/redux/actions/exchangeActions'
-import socialActions from 'src/redux/actions/commonActions/socialActions'
 import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges.js'
 import {ClipLoader} from "react-spinners"
+
+
+const data = {
+  1: {
+    "username": "Hamed",
+    "first_name": "حامد",
+    "last_name": "رومی",
+    "profile_photo": "http://restful.daneshboom.ir/media/2fe29b711caf405cbc2344cad5661bd3.jpeg",
+    "banner": "https://marketplace.canva.com/MACq6BvCni8/1/0/thumbnail_large/canva-red-basic-stationery-etsy-banner-MACq6BvCni8.jpg",
+    "description": "طاقت فرسودگی ام هیچ نیست در پی ویران شدنی آنی ام/ دانشجوی دکترای آینده پژوهی، دانشکده مدیریت معروف! زیر پل فلان",
+    "is_following": true,
+  },
+  2: {
+    "username": "Saber",
+    "first_name": "صابر",
+    "last_name": "منادی",
+    "profile_photo": null,
+    "banner": "https://marketplace.canva.com/MACq6BvCni8/1/0/thumbnail_large/canva-red-basic-stationery-etsy-banner-MACq6BvCni8.jpg",
+    "description": "طاقت فرسودگی ام هیچ نیست در پی ویران شدنی آنی ام/ دانشجوی دکترای آینده پژوهی، دانشکده مدیریت معروف! زیر پل فلان",
+    "is_following": false,
+  }
+}
+
 
 type appProps =
     {|
@@ -38,11 +60,7 @@ class Explore extends Component <appProps, appState> {
   }
 
   componentDidMount() {
-    this.props.actions.getAllExchanges(24, this.state.offset)
-    // this.props.actions.getFollowers({
-    //   followOwnerIdentity: this.props.currentUserIdentity,
-    //   followOwnerType: this.props.currentUserType, followOwnerId: this.props.currentUserId
-    // })
+    // this.props.actions.getAllExchanges(24, this.state.offset)
     window.addEventListener('scroll', this.onScroll)
   }
 
@@ -54,13 +72,13 @@ class Explore extends Component <appProps, appState> {
     let {activeScrollHeight} = this.state
     let scrollHeight = document.body.scrollHeight
     if (((window.innerHeight + window.scrollY) >= (scrollHeight - 500)) && (scrollHeight > activeScrollHeight)) {
-      this.setState({
-            ...this.state,
-            activeScrollHeight: scrollHeight,
-            scrollLoading: true,
-            offset: this.state.offset + 24
-          },
-          () => this.props.actions.getAllExchanges(24, this.state.offset))
+      // this.setState({
+      //       ...this.state,
+      //       activeScrollHeight: scrollHeight,
+      //       scrollLoading: true,
+      //       offset: this.state.offset + 24
+      //     },
+          // () => this.props.actions.getAllExchanges(24, this.state.offset))
     }
   }
 
@@ -70,7 +88,8 @@ class Explore extends Component <appProps, appState> {
           <TopBar collapseClassName="col user-sidebar-width"/>
           <div style={{paddingTop: '55px'}}>
             <Sidebar/>
-            <Exchanges exchanges={this.props.allExchanges}/>
+            {/*TODO Hoseyn change the data*/}
+            <Users users={data}/>
             {/*{this.state.scrollLoading && <ClipLoader/>}*/}
           </div>
         </div>
@@ -79,16 +98,12 @@ class Explore extends Component <appProps, appState> {
 }
 
 const mapStateToProps = (state) => ({
-  allExchanges: getExchanges(state),
-  // currentUserType: state.auth.client.user_type,
-  // currentUserIdentity: state.auth.client.identity.content,
-  // currentUserId: state.auth.client.user.id,
+  //TODO Hoseyn change to get all users
+  // allExchanges: getExchanges(state),
 })
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    getAllExchanges: exchangeActions.getAllExchanges,
-    // getFollowers: socialActions.getFollowers,
+    // getAllExchanges: exchangeActions.getAllExchanges,
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Explore)
-

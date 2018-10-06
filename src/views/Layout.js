@@ -7,6 +7,7 @@ import Product from "./Product"
 import User from "./User"
 import {Switch} from "react-router-dom"
 import Explore from './exchange/explore/Explore'
+import User_Explorer from './user/explore/Explore'
 
 
 class Layout extends Component {
@@ -23,6 +24,7 @@ class Layout extends Component {
         <PrivateRoute path="/organization/:id" component={Organization}/>
         <PrivateRoute path="/exchange" component={Exchange}/>
         <PrivateRoute path="/product" component={Product}/>
+        <PrivateRoute path="/users/Users_Explorer" component={User_Explorer}/>
       </Switch>
     )
   }

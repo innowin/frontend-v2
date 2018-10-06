@@ -4,7 +4,6 @@ import {Component} from 'react'
 import FontAwesome from 'react-fontawesome'
 import {connect} from 'react-redux'
 import {bindActionCreators} from "redux"
-import exchangeActions from "../../../redux/actions/exchangeActions"
 import {hashTagsListSelector} from 'src/redux/selectors/common/hashTag'
 import Select from 'react-select'
 
@@ -48,7 +47,7 @@ class Sidebar extends Component <appProps, appState> {
   submitSearchByWord = (e) => {
     e.preventDefault()
     if (e.keyCode === 13) {
-      this.props.actions.searchByWord(e.target.value)
+
     }
   }
 
@@ -58,8 +57,8 @@ class Sidebar extends Component <appProps, appState> {
         hashTags.push({value: p.title, label: p.title, usage: p.usage})
     )
 
-    let selectedHashTags = Object.values(this.state.hashTags).map((hashTag,i) =>
-        <div key={i} className='exchanges-explore-sidebar-hashTags'>
+    let selectedHashTags = Object.values(this.state.hashTags).map(hashTag =>
+        <div className='exchanges-explore-sidebar-hashTags'>
           <div className='exchanges-explore-sidebar-hashTags-title'>{hashTag.title}</div>
           <div className='exchanges-explore-sidebar-hashTags-usage'>{hashTag.usage}</div>
         </div>
@@ -116,7 +115,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    searchByWord: exchangeActions.searchExchangesByWord,
+
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar)
