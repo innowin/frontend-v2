@@ -21,8 +21,8 @@ type appState =
 
 class Exchange extends Component <appProps, appState> {
   // componentDidMount() {
-    // this.props.actions.getMembers({exchangeId: this.props.data.id})
-    // console.log(this.props.members[this.props.data.id])
+  // this.props.actions.getMembers({exchangeId: this.props.data.id})
+  // console.log(this.props.members[this.props.data.id])
   // }
 
   render() {
@@ -30,39 +30,37 @@ class Exchange extends Component <appProps, appState> {
     // const images = data.followers.map(img =>
     //     <img src={img.image} key={data.followers.indexOf(img)} className='exchange-model-followers-avatar'/>
     // )
-    if (data.id)
-      return (
-          <div className='exchange-model'>
-            {data.is_following ? <div className='exchange-model-following'>دنبال شده</div> :
-                <button className='exchange-model-follow'>+</button>}
-            <Link to={`/exchange/${data.id}`} style={{textDecoration: 'none', color: 'black'}}>
-              {data.exchange_image ?
-                  <img src={data.exchange_image.file} alt={data.name} className='exchange-model-avatar'/>
-                  :
-                  <DefaultUserIcon width='80px' height='80px'/>
-              }
-              <div className='exchange-model-title'>
-                {data.name}
-              </div>
-              <div className='exchange-model-description'>
-                {data.description}
-              </div>
-              <hr/>
-              {/*{images}*/}
-              <div className='exchange-model-followers-count'>{data.members_count}</div>
-              <hr/>
-              <div className='exchange-model-detail'>
-                <Demand width='30px' className='exchange-model-detail-demand-logo'/>
-                <div className='exchange-model-detail-demand-title'>تقاضا</div>
-              </div>
-              <div className='exchange-model-detail'>
-                <Distribute width='20px' className='exchange-model-detail-dist-logo'/>
-                <div className='exchange-model-detail-dist-title'>عرضه</div>
-              </div>
-            </Link>
-          </div>
-      )
-    else return null
+    return (
+        <div className='exchange-model'>
+          {data.is_following ? <div className='exchange-model-following'>دنبال شده</div> :
+              <button className='exchange-model-follow'>+</button>}
+          <Link to={`/exchange/${data.id}`} style={{textDecoration: 'none', color: 'black'}}>
+            {data.exchange_image ?
+                <img src={data.exchange_image.file} alt={data.name} className='exchange-model-avatar'/>
+                :
+                <DefaultUserIcon width='80px' height='80px'/>
+            }
+            <div className='exchange-model-title'>
+              {data.name}
+            </div>
+            <div className='exchange-model-description'>
+              {data.description}
+            </div>
+            <hr/>
+            {/*{images}*/}
+            <div className='exchange-model-followers-count'>{data.members_count}</div>
+            <hr/>
+            <div className='exchange-model-detail'>
+              <Demand width='30px' className='exchange-model-detail-demand-logo'/>
+              <div className='exchange-model-detail-demand-title'>تقاضا</div>
+            </div>
+            <div className='exchange-model-detail'>
+              <Distribute width='20px' className='exchange-model-detail-dist-logo'/>
+              <div className='exchange-model-detail-dist-title'>عرضه</div>
+            </div>
+          </Link>
+        </div>
+    )
   }
 }
 

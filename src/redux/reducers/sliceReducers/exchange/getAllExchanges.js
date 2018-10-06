@@ -10,9 +10,9 @@ const success = (state, action) => {
     list: {
       ...state.list,
       ...allExchanges,
-      searchByWord: [],
-      searchByHashTag: []
-    }
+    },
+    searchByWord: [],
+    searchByHashTag: []
   }
 }
 
