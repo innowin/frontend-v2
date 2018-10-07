@@ -79,12 +79,13 @@ class User extends Component<PropsUser> {
     const {params} = this.props.match
     const userId: number = +params.id
     const {identityObject, actions} = this.props
-    const {getUserByUserId, getProfileByUserId, getUserIdentity} = actions
+    const {getUserByUserId, getProfileByUserId, getUserIdentity, setParamUserId} = actions
 
     if (+prevProps.match.params.id !== userId) {
       getUserByUserId(userId)
       getProfileByUserId(userId)
       getUserIdentity(userId)
+      setParamUserId({id: userId})
     }
 
     if (this.firstGetBadges && identityObject.content && prevProps.identityObject !== identityObject) {
