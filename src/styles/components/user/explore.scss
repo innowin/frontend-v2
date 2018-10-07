@@ -11,7 +11,7 @@
   background: white;
   border-radius: 5px;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
-  height: 325px;
+  height: 320px;
 }
 
 .user-banner {
@@ -78,6 +78,7 @@
   float: left;
   margin-left: 10px;
   transition-duration: 0.25s;
+  font-size: $font-size-normalText;
   &:hover {
     color: white;
     background-color: $tag-del-btn-background;
@@ -101,6 +102,7 @@
   margin-left: 10px;
   float: left;
   transition-duration: 0.25s;
+  font-size: $font-size-normalText;
   &:hover {
     background-color: white;
     color: $tag-del-btn-background;
@@ -111,6 +113,7 @@
   }
   &:active{
     background-color: $secondary-color;
+    color: white;
   }
 }
 
@@ -123,6 +126,15 @@
   display: inline-block;
   vertical-align: top;
   margin: 0 5px;
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
+}
+
+.kindOfId {
+  padding-bottom: 25px;
+  cursor: pointer;
+}
+
+.kindId{
+  float: right
 }

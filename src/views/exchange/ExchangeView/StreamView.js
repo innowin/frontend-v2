@@ -3,6 +3,9 @@ import DefaultUserIcon from "../../../images/defaults/defaultUser_svg"
 import Moment from "react-moment"
 
 const StreamView = props => {
+  window.scrollTo({
+    top: 0
+  })
   const {postsList} = props
   return (
       <div className={"posts-frame-container"}>

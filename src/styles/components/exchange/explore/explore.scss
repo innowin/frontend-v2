@@ -91,7 +91,7 @@
   height: 60px;
   border-radius: 50%;
   margin: 3px;
-  border: 1px solid grey;
+  border: 1px solid $text-light-color;
 }
 
 .exchange-model-detail {
@@ -168,8 +168,39 @@
 
 .exchanges-explore-sidebar-check {
   width: 90%;
-  margin: 20px auto;
-  border-radius: 15px;
+  margin: 10px auto;
+}
+
+.users-explore-sidebar-check {
+  width: 90%;
+  margin: 10px auto;
+  height: 155px;
+  opacity: 1;
+  transition-duration: 0.3s;
+}
+
+.collapseId {
+  height: 0;
+  opacity: 0;
+  width: 90%;
+  margin: 0 auto;
+  transition-duration: 0.3s;
+}
+
+.arrowDown {
+  float: left;
+  color: $text-light-color;
+  margin-left: 5px;
+  transform: rotate(90deg);
+  transition-duration: 0.3s;
+}
+
+.arrowUp {
+  float: left;
+  color: $text-light-color;
+  margin-left: 5px;
+  transform: rotate(270deg);
+  transition-duration: 0.3s;
 }
 
 .exchanges-explore-sidebar-tag {
@@ -194,7 +225,7 @@
   height: 0;
   border-radius: 5px;
   text-align: right;
-  border: 1px solid grey;
+  border: 1px solid $text-light-color;
   transition-duration: 0.3s;
   animation-name: inputHideAnimation;
   animation-duration: 0.3s;

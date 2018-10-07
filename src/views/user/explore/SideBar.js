@@ -26,7 +26,8 @@ class Sidebar extends Component <appProps, appState> {
     this.state =
         {
           searchHashTags: false,
-          hashTags: {}
+          hashTags: {},
+          collapse: false
         }
   }
 
@@ -51,6 +52,10 @@ class Sidebar extends Component <appProps, appState> {
     }
   }
 
+  collapse = () => {
+    this.setState({...this.state, collapse: !this.state.collapse})
+  }
+
   render() {
     let hashTags = []
     Object.values(this.props.hashTags).forEach(p =>
@@ -71,12 +76,38 @@ class Sidebar extends Component <appProps, appState> {
                    onKeyUp={this.submitSearchByWord}/>
             <FontAwesome name="search" className='exchanges-explore-sidebar-searchbox-icon'/>
           </div>
-          <div className='exchanges-explore-sidebar-check'>
+
+          <div className='kindOfId' onClick={this.collapse}>
+            <div className='kindId'>نوع شناسه:</div>
+            <div className={this.state.collapse ? 'arrowDown' : 'arrowUp'}>❮</div>
+          </div>
+
+          <div className={this.state.collapse ? 'users-explore-sidebar-check' : 'collapseId'}>
             <div className="product-explorer">
               <label className="label-wrapper">
                 <input type="checkbox" onChange={this._handleChange}/>
                 <span className="checkmark"></span>
-                دنبال
+                فرد
+              </label>
+              <label className="label-wrapper">
+                <input type="checkbox" onChange={this._handleChange}/>
+                <span className="checkmark"></span>
+                شرکت
+              </label>
+              <label className="label-wrapper">
+                <input type="checkbox" onChange={this._handleChange}/>
+                <span className="checkmark"></span>
+                کارگزار
+              </label>
+              <label className="label-wrapper">
+                <input type="checkbox" onChange={this._handleChange}/>
+                <span className="checkmark"></span>
+                دنبال کرده ها
+              </label>
+              <label className="label-wrapper">
+                <input type="checkbox" onChange={this._handleChange}/>
+                <span className="checkmark"></span>
+                دنبال شده ها
               </label>
             </div>
           </div>
@@ -86,7 +117,7 @@ class Sidebar extends Component <appProps, appState> {
               افزودن برچسب:
             </div>
             <div className='exchanges-explore-sidebar-tag-search'>
-              <FontAwesome name="search" onClick={this.showHashTagsSearch}/>
+              <FontAwesome name="search" style={{color: '#bababa'}} onClick={this.showHashTagsSearch}/>
               <Select
                   className={this.state.searchHashTags ? 'exchanges-explore-sidebar-tag-input-show' : 'exchanges-explore-sidebar-tag-input'}
                   onChange={this.handleHashTagsChange}
@@ -114,8 +145,6 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({
-
-  }, dispatch)
+  actions: bindActionCreators({}, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar)

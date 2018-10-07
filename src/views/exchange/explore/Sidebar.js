@@ -87,7 +87,7 @@ class Sidebar extends Component <appProps, appState> {
               افزودن برچسب:
             </div>
             <div className='exchanges-explore-sidebar-tag-search'>
-              <FontAwesome name="search" onClick={this.showHashTagsSearch}/>
+              <FontAwesome name="search" style={{color: '#bababa'}} onClick={this.showHashTagsSearch}/>
               <Select
                   className={this.state.searchHashTags ? 'exchanges-explore-sidebar-tag-input-show' : 'exchanges-explore-sidebar-tag-input'}
                   onChange={this.handleHashTagsChange}
