@@ -102,6 +102,23 @@ const organs = (state = initialState.organs, action) => {
           }
         }
       }
+
+
+    /** -------------------------- get posts by identity  -------------------------> **/
+    case types.COMMON.POST.GET_POST_BY_IDENTITY:
+      return slices.getPostByIdentity.base(state, action)
+    case types.SUCCESS.COMMON.POST.GET_POST_BY_IDENTITY:
+      return slices.getPostByIdentity.success(state, action)
+    case types.ERRORS.COMMON.POST.GET_POST_BY_IDENTITY:
+      return slices.getPostByIdentity.error(state, action)
+    /** -------------------------- create post  -------------------------> **/
+    case types.SUCCESS.COMMON.POST.CREATE_POST:
+      return slices.createPost.success(state, action)
+    /** -------------------------- delete post  -------------------------> **/
+    case types.SUCCESS.COMMON.POST.DELETE_POST:
+      return slices.deletePost.success(state, action)
+
+
     /** -------------------------- get followers -------------------------> **/
     case types.COMMON.SOCIAL.GET_FOLLOWERS:
       return slices.getFollowers.base(state, action)

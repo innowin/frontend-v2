@@ -116,8 +116,7 @@ const mapStateToProps = (state, ownProps) => {
   const allIdentities = state.identities.list
   const clientIdentityId = identity.content
   const clientIdentity = (clientIdentityId && allIdentities[clientIdentityId]) ? allIdentities[clientIdentityId] : {}
-  const clientId = (clientIdentity.identity_user && clientIdentity.identity_user.id)
-    || (clientIdentity.identity_organization && clientIdentity.identity_organization.id) || null
+  const clientId = (client.organization && client.organization.id) ||  (client.user && client.user.id)
   const clientImgId = (user_type === 'person') ? (profile.profile_media):(
     (organization && organization.organization_logo) || null
   )
