@@ -1,19 +1,19 @@
 // @flow
 import * as React from "react"
 import PropTypes from "prop-types"
-import {Field, reduxForm} from "redux-form";
+import {Field, reduxForm} from "redux-form"
 
-import userInfoValidation from 'src/helpers/validations/userInfoBasicinformation'
-import type {userType} from "src/consts/flowTypes/user/basicInformation"
+import organizationInfoValidation from 'src/helpers/validations/organizationInfoBasicInformation'
+import type {organizationType} from "src/consts/flowTypes/organization/organization"
 import renderTextField from "src/views/common/inputs/reduxFormRenderTextField"
 
-// flow type of UserInfoEditForm
-type PropsUserInfoEditForm = {|
+// flow type of OrganizationInfoEditForm
+type PropsOrganizationInfoEditForm = {|
   hideEdit: Function,
-  user: userType,
+  organization: organizationType,
   translate: { [string]: string },
   actions: {|
-    updateUserByUserId: Function,
+    updateOrganizationByOrganizationId: Function,
   |},
   initialize: Function,
   handleSubmit: Function,
@@ -21,46 +21,46 @@ type PropsUserInfoEditForm = {|
   error: string,
 |}
 
-type UserInfoFormInputType = {|
-  firstName: string,
-  lastName: string,
+type OrganizationInfoFormInputType = {|
+  nikeName: string,
 |}
 
-class BasicInfoEditForm extends React.Component<PropsUserInfoEditForm> {
+class BasicInfoEditForm extends React.Component<PropsOrganizationInfoEditForm> {
   componentDidMount() {
-    const {user, initialize} = this.props
+    const {organization, initialize} = this.props
     const defaultFormValue = {
-      firstName: user.first_name,
-      lastName: user.last_name,
+      nikeName: organization.nike_name,
     }
     initialize(defaultFormValue);
   }
 
   static propTypes = {
     hideEdit: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired,
+    organization: PropTypes.object.isRequired,
     translate: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
     initialize: PropTypes.func,
     handleSubmit: PropTypes.func,
+    submitFailed: PropTypes.bool,
+    error: PropTypes.string,
   }
 
-  _onSubmit = (values: UserInfoFormInputType): boolean | void => {
-    // user equals to initial value
-    const {user, actions} = this.props
-    const {updateUserByUserId} = actions
-    const userId: number = this.props.user.id
+  _onSubmit = (values: OrganizationInfoFormInputType): boolean | void => {
+    // organization equals to initial value
+    const {organization, actions, hideEdit} = this.props
+    const {updateOrganizationByOrganizationId} = actions
+    const organizationId: number = this.props.organization.id
 
     const formFormat = {
-      first_name: user.first_name === values.firstName ? null : values.firstName,
-      last_name: user.last_name === values.lastName ? null : values.lastName,
+      nike_name: organization.nike_name === values.nikeName ? null : values.nikeName,
     }
     const propertyNames = Object.getOwnPropertyNames(formFormat)
     propertyNames.map(key => {
       formFormat[key] === null ? delete(formFormat[key]) : ''
       return formFormat
     })
-    updateUserByUserId(formFormat, userId)
+    updateOrganizationByOrganizationId({formValues: formFormat, organizationId})
+    hideEdit()
     return false
   }
 
@@ -70,26 +70,13 @@ class BasicInfoEditForm extends React.Component<PropsUserInfoEditForm> {
         <form onSubmit={handleSubmit(this._onSubmit)} className=''>
           <div className='form-group'>
             <label>
-              {translate['First name'] + ": "}
+              {translate['Organization name'] + ": "}
             </label>
             <Field
-                name="firstName"
+                name="nikeName"
                 type="text"
                 component={renderTextField}
-                label={translate['First name']}
-                textFieldClass='form-control'
-            />
-          </div>
-
-          <div className='form-group'>
-            <label>
-              {translate['Last name'] + ": "}
-            </label>
-            <Field
-                name="lastName"
-                type="text"
-                component={renderTextField}
-                label={translate['Last name']}
+                label={translate['Organization name']}
                 textFieldClass='form-control'
             />
           </div>
@@ -108,8 +95,8 @@ class BasicInfoEditForm extends React.Component<PropsUserInfoEditForm> {
 }
 
 BasicInfoEditForm = reduxForm({
-  form: 'userInfoEditForm',
-  validate: userInfoValidation,
+  form: 'organizationBasicInfoEditForm',
+  validate: organizationInfoValidation,
 })(BasicInfoEditForm)
 
 export default BasicInfoEditForm
