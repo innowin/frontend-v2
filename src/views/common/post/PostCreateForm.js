@@ -11,6 +11,7 @@ export class PostCreateForm extends Component {
     create: PropTypes.func.isRequired,
     hideCreateForm: PropTypes.func.isRequired,
     postIdentity: PropTypes.number.isRequired,
+    postsLength: PropTypes.number.isRequired,
   };
 
   _save = () => {
@@ -26,6 +27,13 @@ export class PostCreateForm extends Component {
     }
     return false;
   };
+
+  componentDidUpdate(prevProps){
+    const {postsLength, hideCreateForm} = this.props
+    if (prevProps.postsLength < postsLength) {
+      hideCreateForm()
+    }
+  }
 
   render() {
     const {hideCreateForm, postIdentity} = this.props;

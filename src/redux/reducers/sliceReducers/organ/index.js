@@ -8,16 +8,22 @@ import createFollow from "./createFollow"
 import deleteFollow from "./deleteFollow"
 import getCertificatesByIdentity from "./getCertificatesByIdentity"
 import deleteCertificate from "./deleteCertificate"
+import createPost from "./createPost"
+import deletePost from "./deletePost"
+import getPostByIdentity from "./getPostByIdentity"
 
 export default {
+  createFollow,
+  createPost,
   createWorkExperienceByUserId,
+  deleteCertificate,
+  deleteFollow,
+  deletePost,
   deleteWorkExperienceByUserId,
-  getWorkExperienceByUserId,
+  getCertificatesByIdentity,
   getExchangeMembershipByMemberIdentity,
   getFollowees,
   getFollowers,
-  createFollow,
-  deleteFollow,
-  getCertificatesByIdentity,
-  deleteCertificate,
+  getPostByIdentity,
+  getWorkExperienceByUserId,
 }

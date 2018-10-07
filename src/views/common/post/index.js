@@ -10,9 +10,9 @@ import {PostCreateForm} from "./PostCreateForm";
 import {bindActionCreators} from "redux";
 import PostActions from "../../../redux/actions/commonActions/postActions";
 import connect from "react-redux/es/connect/connect";
-import {makeUserPostsSelector} from 'src/redux/selectors/common/post/userPostsSelector'
+import {userPostsSelector} from 'src/redux/selectors/common/post/userPostsSelector'
 import {Post} from './Post'
-import constants from "../../../consts/constants";
+import constants from "src/consts/constants"
 
 type postsPropsType = {
   id: number,
@@ -62,10 +62,9 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
   };
 
   _create = (formValues) => {
-    const {actions, id} = this.props
+    const {actions, id, identityType} = this.props
     const {createPost} = actions
-    const postOwnerType = constants.USER_TYPES.PERSON
-    createPost({formValues, postOwnerId: id, postOwnerType})
+    createPost({formValues, postOwnerId: id, postOwnerType:identityType})
   }
 
   componentDidMount() {
@@ -92,8 +91,11 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
             {
               createForm &&
               <div className="-itemWrapperPost">
-                <PostCreateForm hideCreateForm={this._hideCreateForm} create={this._create}
-                                postIdentity={postIdentity}/>
+                <PostCreateForm hideCreateForm={this._hideCreateForm}
+                                create={this._create}
+                                postIdentity={postIdentity}
+                                postsLength = {posts.length}
+                />
               </div>
             }
             {
@@ -118,18 +120,17 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
 }
 
 const mapStateToProps  = (state, ownProps) => {
-  const userPostsSelector = makeUserPostsSelector(state, ownProps)
-  return (state, props) => {
-    let userId = props.id
-    const stateUser = state.users.list[userId]
-    const defaultObject = {content: [], isLoading: false, error: null}
-    const postObject = (stateUser && stateUser.posts) || defaultObject
-    return {
-      posts: userPostsSelector(state, props),
-      translate: state.intl.messages,
-      isLoading: postObject.isLoading,
-      error: postObject.error,
-    }
+  const {identityType} = ownProps
+  const ownerId = ownProps.id
+  const stateOwner = (identityType === constants.USER_TYPES.PERSON) ? state.users.list[ownerId] :
+    (identityType === constants.USER_TYPES.ORG && state.organs.list[ownerId])
+  const defaultObject = {content: [], isLoading: false, error: null}
+  const postObject = (stateOwner && stateOwner.posts) || defaultObject
+  return {
+    posts: userPostsSelector(state, ownProps),
+    translate: state.intl.messages,
+    isLoading: postObject.isLoading,
+    error: postObject.error,
   }
 }
 

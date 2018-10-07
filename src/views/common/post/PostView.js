@@ -39,25 +39,24 @@ class PostView extends Component {
   }
 
   render() {
-    const {showEdit, post, translate, param} = this.props
+    const {showEdit, post, translate} = this.props
     const {post_identity, viewerCount, post_related_identity_image} = this.props.post
-    const user = post_identity.identity_user || {}
-    const organization = post_identity.identity_organization || {}
     const supplyIcon = post.post_type === 'supply'
     const demandIcon = post.post_type === 'demand'
     const postIcon = post.post_type === 'post'
-    // TODO mohsen: handle isLoading && error by redux
-    const isUser = Object.keys(user).length > 0
-    const paramId = isUser ? param.user : param.organization
-
-    const name = isUser
-        ? ((user.first_name || user.last_name) ? user.first_name + ' ' + user.last_name : undefined)
+    let user = {}
+    let organization = {}
+    let paramId = ''
+    let name = ''
+    let url = ''
+    if (post_identity.id) {
+      user = post_identity.identity_user
+      organization = post_identity.identity_organization
+      paramId = (user && user.id) || (organization && organization.id)
+      name = user ? ((user.first_name || user.last_name) ? user.first_name + ' ' + user.last_name : undefined)
         : (organization ? (organization.nike_name || organization.official_name || undefined) : undefined)
-
-    const url = isUser
-        ? `/user/${user.id}`
-        : `/organization/${organization.id}`
-
+      url = user ? `/user/${user.id}` : `/organization/${organization.id}`
+    }
     return (
         <VerifyWrapper isLoading={false} error={false}>
           <div className="-itemWrapperPost">
@@ -82,7 +81,6 @@ class PostView extends Component {
                   </div>
                 </div>
               </Link>
-
               <CheckOwner id={paramId}>
                 <div onClick={showEdit} className="-item-edit-btn -item-edit-btnPost pulse"><EditIcon/></div>
               </CheckOwner>
@@ -121,7 +119,6 @@ class PostView extends Component {
 const mapStateToProps = state => {
   return {
     translate: getMessages(state),
-    param: state.param,
   }
 }
 const mapDispatchToProps = dispatch => ({
