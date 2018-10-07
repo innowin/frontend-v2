@@ -22,9 +22,11 @@ class Exchange_Info extends Component {
       exchanges
     } = this.props
     actions.getPosts({postParentId: exchangeId, limit: 5, offset: 0})
-    if (exchanges.list[exchangeId].owner) {
-      actions.getUser(exchanges.list[exchangeId].owner.identity_user)
-      this.state.gotOwner = true
+    if (exchanges.list[exchangeId]) {
+      if (exchanges.list[exchangeId].owner) {
+        actions.getUser(exchanges.list[exchangeId].owner.identity_user)
+        this.state.gotOwner = true
+      }
     }
     actions.getExchangeById(exchangeId)
   }
@@ -36,24 +38,23 @@ class Exchange_Info extends Component {
         exchangeId,
         exchanges
       } = this.props
-      if (exchanges.list[exchangeId].owner) {
-        actions.getUser(exchanges.list[exchangeId].owner.identity_user)
-
+      if (exchanges.list[exchangeId]) {
+        if (exchanges.list[exchangeId].owner) {
+          actions.getUser(exchanges.list[exchangeId].owner.identity_user)
+        }
       }
     }
   }
 
   render() {
-    const {activeTab} = this.props
+    const {activeTab, exchangeId} = this.props
     switch (activeTab) {
       case "Stream":
-        const {posts} = this.props
-        const postsList = posts.list
         return (
-            <StreamView postsList={postsList}/>
+            <StreamView exchangeId={exchangeId}/>
         )
       case "Info":
-        const {exchanges, exchangeId, users} = this.props
+        const {exchanges, users} = this.props
         const currentExchange = exchanges.list[exchangeId]
         if (currentExchange.owner) {
           const owner = users.list[currentExchange.owner.identity_user]
@@ -86,7 +87,6 @@ class Exchange_Info extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  posts: state.common.post,
   exchanges: state.exchanges,
   users: state.users,
 })

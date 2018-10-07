@@ -25,6 +25,8 @@ import InformationIcon from "./common/information_svg"
 import ItemsAndPropertiesIcon from "./common/ItemsAndProperties_svg"
 import logoDaneshBoom from "./common/logoWhite.png"
 import LockSvg from './common/lock_svg'
+import LogoWhiteSvg from './common/logoWhite'
+import LogoColorSvg from './common/logoColor'
 import MoviesSvgIcon from "./common/movies_svg_icon"
 import NoFilterIcon from "./common/noFilter_svg"
 import NotificationIcon from "./common/notification_svg"
@@ -92,6 +94,8 @@ export {
   ItemsAndPropertiesIcon,
   logoDaneshBoom,
   LockSvg,
+  LogoWhiteSvg,
+  LogoColorSvg,
   MoviesSvgIcon,
   NoFilterIcon,
   NotificationIcon,

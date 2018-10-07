@@ -47,13 +47,14 @@ class PostView extends Component {
     const demandIcon = post.post_type === 'demand'
     const postIcon = post.post_type === 'post'
     // TODO mohsen: handle isLoading && error by redux
-    const paramId = user ? param.user : param.organization
+    const isUser = Object.keys(user).length > 0
+    const paramId = isUser ? param.user : param.organization
 
-    const name = user
+    const name = isUser
         ? ((user.first_name || user.last_name) ? user.first_name + ' ' + user.last_name : undefined)
         : (organization ? (organization.nike_name || organization.official_name || undefined) : undefined)
 
-    const url = user
+    const url = isUser
         ? `/user/${user.id}`
         : `/organization/${organization.id}`
 

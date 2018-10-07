@@ -122,7 +122,7 @@ export const OrganSideBar = (props: PropsOrganSideBar) => {
         sideBarType='organ'
         name={name}
         banner={organBanner}
-        description={organ.biography}
+        description={organ.description}
         picture={organLogo}
         chosenBadgesImg={chosenBadgesImg}
         socialNetworks={socialNetworks}

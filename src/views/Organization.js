@@ -18,7 +18,7 @@ import type {identityStateObject, listOfIdObject, organStateObject} from "src/co
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import {ContributionIcon, postIcon, CertificateIcon, InformationIcon, SocialIcon, customerIcon} from "../images/icons"
-import {default as BasicInformation} from "./organization/basicInformation/index"
+import OrganizationBasicInformation from "./organization/basicInformation/index"
 import {getMessages} from "../redux/selectors/translateSelector"
 import {NavLink, Switch, Redirect} from "react-router-dom"
 import {OrganSideBar} from "src/views/bars/SideBar"
@@ -126,7 +126,7 @@ export class Organization extends Component<PropsOrganization> {
                                 identityType={constants.USER_TYPES.ORG}
                                 postIdentity={identityObject.content}
                   />
-                  <PrivateRoute exact path={`${path}/basicInformation`} component={BasicInformation}
+                  <PrivateRoute exact path={`${path}/basicInformation`} component={OrganizationBasicInformation }
                                 organizationId={organizationId} organization={organObject.content}/>
                   <PrivateRoute path={`${path}/Customers`} component={Customers} organizationId={organizationId}/>
                   <PrivateRoute path={`${path}/SocialConnections`} component={Social}

@@ -32,7 +32,7 @@ class Exchange_Tabs extends Component {
     })
     let {actions, exchangeId} = this.props
     let {getPostsByExIdLimitOffset, getExchangeById} = actions
-    getPostsByExIdLimitOffset({postParentId: exchangeId, limit: 5, offset: 0})
+    getPostsByExIdLimitOffset({postParentId: 5387, limit: 5, offset: 0})
     getExchangeById(exchangeId)
   }
 

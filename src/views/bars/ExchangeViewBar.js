@@ -108,7 +108,7 @@ class ExchangeViewBar extends Component {
     //       <img alt={"."} src={val.profile_media || "#"}> </img>
     //     </div>)
     // )
-    if (currentExchange.exchange_image)
+    if (currentExchange)
       return (
           <VerifyWrapper isLoading={false} error={error}>
             <div className="-sidebar-child-wrapper col">

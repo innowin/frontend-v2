@@ -66,13 +66,9 @@ const deleteAbility = (abilityId) => ({
 })
 
 //basic information
-const updateOrganization = (formValues, organizationId, hideEdit) => ({
+const updateOrganization = ({formValues, organizationId}) => ({
 	type: types.ORG.UPDATE_ORGANIZATION_INFO,
-	payload: {
-        formValues,
-        organizationId,
-        hideEdit
-	}
+	payload: {formValues, organizationId}
 })
 
 const updateCustomer = (formValues, customerId, hideEdit) => ({
