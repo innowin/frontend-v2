@@ -194,7 +194,7 @@
 //** ---------------------------        Navbar(centerBar)      -------------------------------- **//
 .svg-tabs {
   fill: $primary-color;
-  margin: 13.5px;
+  margin: 10.25px;
   transition-duration: $animation-timing;
   display: inline-block;
   vertical-align: top;
@@ -202,19 +202,19 @@
 
 .svg-tabs-clicked {
   fill: $background-color;
-  margin: 14px;
+  margin: 10.25px;
   transition-duration: $animation-timing;
   display: inline-block;
   vertical-align: top;
 }
 
 .svg-container {
-  height: 57px;
-  width: 57px;
+  height: 45px;
+  width: 45px;
   border: 1px solid $primary-color;
   border-radius: 100px;
   background-color: $background-color;
-  margin: 9.5px 40px 9.5px 9.5px;
+  margin: 9.5px 20px 9.5px 20px;
   transition-duration: $animation-timing;
   display: inline-block;
   vertical-align: top;
@@ -222,24 +222,24 @@
 }
 
 .svg-container:hover {
-  background-color: rgba(37, 53, 69, 0.20);
+  background-color: rgba(37, 53, 69, 0.15);
   transition-duration: $animation-timing;
 }
 
 .svg-container-clicked {
-  height: 57px;
-  width: 57px;
+  height: 45px;
+  width: 45px;
   border: 1px solid $primary-color;
   border-radius: 100px;
   background-color: $primary-color;
-  margin: 9.5px 40px 9.5px 9.5px;
+  margin: 9.5px 20px 9.5px 20px;
   transition-duration: $animation-timing;
   display: inline-block;
   vertical-align: top;
   cursor: pointer;
 }
 
-.svg-container-info-view{
+.svg-container-info-view {
   background-color: $white;
   transition-duration: $animation-timing;
   display: inline-block;
@@ -248,7 +248,7 @@
   margin: 0 20px;
 }
 
-.svg-info-view{
+.svg-info-view {
   fill: $primary-color;
   transition-duration: $animation-timing;
   display: inline-block;
@@ -262,17 +262,17 @@
 .exchange-center-background {
   top: 0;
   background: linear-gradient(to bottom, $base-posts, $base-posts, $base-posts, $base-posts, $base-posts, transparent);
-  height: 250px;
-  width: $feed-width;
+  height: $exchange-tabs-height;
+  width: $feed-width + 10;
   position: fixed;
   right: calc(5% + 340px + 15px);
   border-radius: 5px;
 }
 
 .exchange-navbar-center {
-  top: $topBarHeight + 35;
+  top: $topBarHeight + 10;
   background-color: $base-posts;
-  height: 75px;
+  height: $exchange-title-height;
   width: $feed-width;
   position: fixed;
   right: calc(5% + 340px + 15px);
@@ -281,19 +281,19 @@
 }
 
 .under-exchange-navbar-center {
-  top: $topBarHeight + 125px;
+  top: $topBarHeight + $exchange-title-height + 22.5px;
   background-color: $base-posts;
-  height: 25px;
+  height: 27.5px;
   width: $feed-width;
   position: fixed;
   right: calc(5% + 340px + 15px);
   border-radius: 5px;
   box-shadow: 0 0 14px rgba(0, 0, 0, 0.15);
-  padding: 1px 40px;
+  padding: 1px 25px;
 }
 
 .line-under-exchange-navbar-center {
-  top: $topBarHeight + 165px;
+  top: $topBarHeight + 60px + $exchange-title-height;
   position: fixed;
   width: $feed-width;
   height: 5px;
@@ -304,7 +304,7 @@
 }
 
 //** ---------------------------        Sidebar(rightBar)      -------------------------------- **//
-.description-right-bar{
+.description-right-bar {
   padding: 0 10px;
   text-align: center;
 }
@@ -312,7 +312,7 @@
 .-right-sidebar-wrapper {
   z-index: 1000;
   position: fixed;
-  top: $topBarHeight + 35;
+  top: $topBarHeight + 10;
   right: 5%;
   width: $sidebar-width;
   height: 590px;

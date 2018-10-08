@@ -21,13 +21,13 @@
   margin: 2px 3px 10px 8px;
   background-color: $base-posts;
   border-radius: 5px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, .2);
+  box-shadow: 0 2px 5px $box-shadow-color;
   padding: 10px 15px;
   transition-duration: $animation-timing;
 }
 
 .posts-frame:hover {
-  box-shadow: 0 3px 6px rgba(0, 0, 0, .2);
+  box-shadow: 0 2px 5px $box-shadow-color;
   transition-duration: $animation-timing;
 }
 
@@ -42,11 +42,12 @@
 .post-user-name {
   font-weight: bold;
   padding: 2.5px 0;
+  font-size: $font-size-post-name;
 }
 
 .posts-description {
   padding: 10px 2.5px 2.5px 2.5px;
-  font-size: $font-size-normalText;
+  font-size: $font-size-post-content;
   line-height: 25px;
 }
 
@@ -59,7 +60,7 @@
 .posts-date {
   padding: 2.5px 0;
   color: $disable-color;
-  font-size: $font-size-smallText;
+  font-size: $font-size-post-date;
 }
 
 ::-webkit-scrollbar {

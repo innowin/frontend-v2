@@ -5,6 +5,7 @@ import {Stream, Info, Statistic, Contacts, Medal, Ticket,} from "src/images/icon
 import Exchange_Info from "./Exchange_Info"
 import "src/styles/components/exchange/posts.scss"
 import "src/styles/components/exchange/info.scss"
+import "src/styles/components/exchange/members.scss"
 import {bindActionCreators} from "redux"
 import postActions from "../../../redux/actions/commonActions/postActions"
 import exchangeActions from "../../../redux/actions/exchangeActions"
@@ -16,8 +17,8 @@ class Exchange_Tabs extends Component {
     super(props)
     this.state =
         {
-          selectedTab: "Stream",
-          // selectedTab: "Members", // DEVELOP
+          // selectedTab: "Stream",
+          selectedTab: "Members", // DEVELOP
         }
     this.setTab = this.setTab.bind(this)
   }
@@ -32,15 +33,14 @@ class Exchange_Tabs extends Component {
     })
     let {actions, exchangeId} = this.props
     let {getPostsByExIdLimitOffset, getExchangeById} = actions
-    getPostsByExIdLimitOffset({postParentId: 5387, limit: 5, offset: 0})
+    getPostsByExIdLimitOffset({postParentId: exchangeId, limit: 20, offset: 0})
     getExchangeById(exchangeId)
   }
 
-  componentDidUpdate(){
+  componentDidUpdate() {
     let {actions, exchangeId, exchanges} = this.props
     let {getUser, getEducationsByUserId} = actions
-    if(exchanges[exchangeId].owner !== undefined && exchanges[exchangeId].owner.identity_user !== null)
-    {
+    if (exchanges[exchangeId].owner !== undefined && exchanges[exchangeId].owner.identity_user !== null) {
       getUser(exchanges[exchangeId].owner.identity_user)
       getEducationsByUserId({userId: exchanges[exchangeId].owner.identity_user})
     }
@@ -56,27 +56,27 @@ class Exchange_Tabs extends Component {
         <div style={{width: "99%"}}>
           <div className={"exchange-center-background"}/>
           <div className={`exchange-navbar-center`}>
-            <Stream width="27px" height="27px"
+            <Stream width="22px" height="22px"
                     containerClass={this.state.selectedTab === "Stream" ? this.state.clickedSvgContainerStyle : this.state.normalSvgContainerStyle}
                     svgClass={this.state.selectedTab === "Stream" ? this.state.clickedSvgStyle : this.state.normalSvgStyle}
                     changeView={(data) => this.setTab(data)}/>
-            <Info width="27px" height="27px"
+            <Info width="22px" height="22px"
                   containerClass={this.state.selectedTab === "Info" ? this.state.clickedSvgContainerStyle : this.state.normalSvgContainerStyle}
                   svgClass={this.state.selectedTab === "Info" ? this.state.clickedSvgStyle : this.state.normalSvgStyle}
                   changeView={(data) => this.setTab(data)}/>
-            <Statistic width="27px" height="27px"
+            <Statistic width="22px" height="22px"
                        containerClass={this.state.selectedTab === "Statistic" ? this.state.clickedSvgContainerStyle : this.state.normalSvgContainerStyle}
                        svgClass={this.state.selectedTab === "Statistic" ? this.state.clickedSvgStyle : this.state.normalSvgStyle}
                        changeView={(data) => this.setTab(data)}/>
-            <Contacts width="28px" height="28px"
+            <Contacts width="22px" height="22px"
                       containerClass={this.state.selectedTab === "Members" ? this.state.clickedSvgContainerStyle : this.state.normalSvgContainerStyle}
                       svgClass={this.state.selectedTab === "Members" ? this.state.clickedSvgStyle : this.state.normalSvgStyle}
                       changeView={(data) => this.setTab(data)}/>
-            <Medal width="27px" height="27px"
+            <Medal width="22px" height="23px"
                    containerClass={this.state.selectedTab === "Medals" ? this.state.clickedSvgContainerStyle : this.state.normalSvgContainerStyle}
                    svgClass={this.state.selectedTab === "Medals" ? this.state.clickedSvgStyle : this.state.normalSvgStyle}
                    changeView={(data) => this.setTab(data)}/>
-            <Ticket width="27px" height="27px"
+            <Ticket width="22px" height="22px"
                     containerClass={this.state.selectedTab === "Exchange Manager" ? this.state.clickedSvgContainerStyle : this.state.normalSvgContainerStyle}
                     svgClass={this.state.selectedTab === "Exchange Manager" ? this.state.clickedSvgStyle : this.state.normalSvgStyle}
                     changeView={(data) => this.setTab(data)}/>

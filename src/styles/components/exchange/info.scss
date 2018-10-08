@@ -6,13 +6,13 @@
   margin: 2px 3px 10px 8px;
   background-color: $base-posts;
   border-radius: 5px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, .2);
+  box-shadow: 0 2px 5px $box-shadow-color;
   padding: 12.5px 10px 15px 10px;
   transition-duration: $animation-timing;
 }
 
 .info-frame:hover {
-  box-shadow: 0 3px 6px rgba(0, 0, 0, .2);
+  box-shadow: 0 2px 5px $box-shadow-color;
   transition-duration: $animation-timing;
 }
 
@@ -36,7 +36,7 @@
   width: 98%;
   border-radius: 5px;
   background-color: $white;
-  box-shadow: 0 2px 9px rgba(0, 0, 0, .2);
+  box-shadow: 0 1px 5px $box-shadow-color;
   padding: 10px 20px;
   margin: 1%;
 }

@@ -60,7 +60,7 @@
     "react-router-redux": "^5.0.0-alpha.9",
     "react-select": "^1.2.1",
     "react-spinners": "^0.2.6",
-    "react-transition-group": "^2.2.1",
+    "react-transition-group": "^2.5.0",
     "reactstrap": "^5.0.0-alpha.4",
     "redux": "^3.7.2",
     "redux-form": "^7.3.0",
@@ -134,4 +134,3 @@
     "sass-loader": "^6.0.6"
   }
 }
-

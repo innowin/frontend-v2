@@ -7,6 +7,7 @@ import getUserAction from "src/redux/actions/user/getUserActions"
 import StreamView from "./StreamView"
 import InfoView from "./InfoView"
 import {VerifyWrapper} from "../../common/cards/Frames"
+import MembersView from "./MembersView"
 
 
 class Exchange_Info extends Component {
@@ -72,9 +73,7 @@ class Exchange_Info extends Component {
         }
       case "Members":
         return (
-            <div style={{textAlign: "center", marginTop: "10px"}}>
-              In Develop
-            </div>
+            <MembersView/>
         )
       default:
         return (

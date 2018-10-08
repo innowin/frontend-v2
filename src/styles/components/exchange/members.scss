@@ -1,0 +1,12 @@
+@import "../../variables";
+
+.members-frame{
+  margin: 2px 3px 10px 8px;
+  width: 99.2%;
+  min-height: 50px;
+  border-radius: 5px;
+  padding: 10px 15px;
+  background-color: $white;
+  box-shadow: 0 2px 5px $box-shadow-color;
+  transition-duration: $animation-timing;
+}
