@@ -7,6 +7,7 @@ import TopBar from '../../bars/TopBar'
 import {bindActionCreators} from 'redux'
 import connect from 'react-redux/es/connect/connect'
 import exchangeActions from 'src/redux/actions/exchangeActions'
+import socialActions from 'src/redux/actions/commonActions/socialActions'
 import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges.js'
 import {ClipLoader} from "react-spinners"
 
@@ -61,6 +62,11 @@ class Explore extends Component <appProps, appState> {
 
   componentDidMount() {
     // this.props.actions.getAllExchanges(24, this.state.offset)
+    this.props.actions.getFollowees({
+      followOwnerIdentity: this.props.currentUserIdentity,
+      followOwnerType: this.props.currentUserType,
+      followOwnerId: this.props.currentUserId
+    })
     window.addEventListener('scroll', this.onScroll)
   }
 
@@ -78,7 +84,7 @@ class Explore extends Component <appProps, appState> {
       //       scrollLoading: true,
       //       offset: this.state.offset + 24
       //     },
-          // () => this.props.actions.getAllExchanges(24, this.state.offset))
+      // () => this.props.actions.getAllExchanges(24, this.state.offset))
     }
   }
 
@@ -100,10 +106,14 @@ class Explore extends Component <appProps, appState> {
 const mapStateToProps = (state) => ({
   //TODO Hoseyn change to get all users
   // allExchanges: getExchanges(state),
+  currentUserType: state.auth.client.user_type,
+  currentUserIdentity: state.auth.client.identity.content,
+  currentUserId: state.auth.client.user.id,
 })
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    // getAllExchanges: exchangeActions.getAllExchanges,
+    getAllExchanges: exchangeActions.getAllExchanges,
+    getFollowees: socialActions.getFollowees
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Explore)

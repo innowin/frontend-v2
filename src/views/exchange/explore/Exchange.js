@@ -8,6 +8,7 @@ import {connect} from 'react-redux'
 import Demand from 'src/images/common/demand_svg'
 import Distribute from 'src/images/common/supply_svg'
 import {Link} from 'react-router-dom'
+import exchangeMembership from "../../../redux/actions/commonActions/exchangeMembershipActions"
 
 type appProps =
     {|
@@ -25,6 +26,17 @@ class Exchange extends Component <appProps, appState> {
   // console.log(this.props.members[this.props.data.id])
   // }
 
+  follow = () => {
+    this.props.actions.follow({identityId: this.props.currentUserIdentity, exchangeIdentity: this.props.data.id})
+    setTimeout(() => {
+      this.props.actions.exchangeMembership({
+        identityId: this.props.currentUserIdentity,
+        exchangeMembershipOwnerId: this.props.currentUserId,
+        exchangeMembershipOwnerType: this.props.currentUserType
+      })
+    }, 500)
+  }
+
   render() {
     const {data} = this.props
     // const images = data.followers.map(img =>
@@ -32,8 +44,8 @@ class Exchange extends Component <appProps, appState> {
     // )
     return (
         <div className='exchange-model'>
-          {data.is_following ? <div className='exchange-model-following'>دنبال شده</div> :
-              <button className='exchange-model-follow'>+</button>}
+          {data.exchange ? <div className='exchange-model-following'>دنبال شده</div> :
+              <button className='exchange-model-follow' onClick={this.follow}>+</button>}
           <Link to={`/exchange/${data.id}`} style={{textDecoration: 'none', color: 'black'}}>
             {data.exchange_image ?
                 <img src={data.exchange_image.file} alt={data.name} className='exchange-model-avatar'/>
@@ -64,15 +76,17 @@ class Exchange extends Component <appProps, appState> {
   }
 }
 
-export default Exchange
 
-// const mapStateToProps = (state) => ({
-//   members: state.common.exchangeMembership.list,
-// })
-//
-// const mapDispatchToProps = dispatch => ({
-//   actions: bindActionCreators({
-//     getMembers: exchangeActions.getExchangeMembershipByExchangeId
-//   }, dispatch)
-// })
-// export default connect(mapStateToProps, mapDispatchToProps)(Exchange)
+const mapStateToProps = (state) => ({
+  currentUserType: state.auth.client.user_type,
+  currentUserIdentity: state.auth.client.identity.content,
+  currentUserId: state.auth.client.user.id,
+})
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({
+    follow: exchangeActions.createExchangeMembership,
+    exchangeMembership: exchangeMembership.getExchangeMembershipByMemberIdentity
+  }, dispatch)
+})
+export default connect(mapStateToProps, mapDispatchToProps)(Exchange)
