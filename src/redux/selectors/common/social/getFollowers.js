@@ -5,7 +5,8 @@ import helpers from 'src/consts/helperFunctions/helperFunctions'
 
 const getFollows = state => state.common.social.follows.list
 const getUserFollows = (state, props) => {
-  const {ownerId, identityType} = props
+  const ownerId = props.ownerId || (props.owner && props.owner.id)
+  const identityType = props.identityType || props.sideBarType
   if (identityType === constants.USER_TYPES.PERSON) {
     const usersList = state.users.list
     if (usersList[ownerId] && usersList[ownerId].social && usersList[ownerId].social.follows)
@@ -25,6 +26,7 @@ const getIdentityId = (state, props) => props.identityId
 export const getFollowersSelector = createSelector(
   [getFollows, getUserFollows, getUsers, getOrgans, getIdentityId],
   (follows, userFollows, users, organsList, identityId) => {
+    console.log(identityId, 'a')
     if (follows && Object.keys(follows).length !== 0 && follows.constructor === Object && userFollows && identityId) {
       const arrayFollows = helpers.getObjectOfArrayKeys(userFollows, follows)
       return arrayFollows.filter(follow => follow.follow_followed.id === identityId).map(follow => {

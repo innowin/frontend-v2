@@ -8,6 +8,7 @@ import ChatBar from "./bars/ChatBar"
 import Customers from "./organization/customers/index"
 import OrganizationActions from "src/redux/actions/organization/organizationActions"
 import Posts from "src/views/common/post/index"
+import PostExtendedView from 'src/views/common/post/PostView'
 import PrivateRoute from "../consts/PrivateRoute"
 import Products from "./organization/products/index"
 import PropTypes from "prop-types"
@@ -88,14 +89,17 @@ export class Organization extends Component<PropsOrganization> {
       <div className="-userOrganBackgroundImg">
         <TopBar collapseClassName="col user-sidebar-width"/>
         <VerifyWrapper isLoading={isLoading} error={errorMessage} className="-main row">
-          <OrganSideBar translate={translate}
-                        organ={organObject.content}
-                        badges={badges}
-                        organLogo={organLogo}
-                        organBanner={organBanner}
-                        className="-right-sidebar-wrapper user-sidebar-width pr-0 pl-0"
-                        paramId={organizationId}
-          />
+          {(!identityObject.content) ? '' : (
+              <OrganSideBar translate={translate}
+                            organ={organObject.content}
+                            badges={badges}
+                            organLogo={organLogo}
+                            organBanner={organBanner}
+                            className="-right-sidebar-wrapper user-sidebar-width pr-0 pl-0"
+                            paramId={organizationId}
+                            identityId={identityObject.content}
+              />
+          )}
           <div className="col-md-6 col-sm-10 -content-wrapper">
             <Tabs>
               <NavLink className="-tab" to={`${url}/Products`} activeClassName="-active">
@@ -122,10 +126,12 @@ export class Organization extends Component<PropsOrganization> {
                 <Switch>
                   <Redirect exact from={`${url}/`} to={`${url}/Products`}/>
                   <PrivateRoute path={`${path}/Products`} component={Products} organizationId={organizationId}/>
-                  <PrivateRoute path={`${path}/Posts`} component={Posts} id={organizationId}
+                  <PrivateRoute exact={true} path={`${path}/Posts`} component={Posts} id={organizationId}
                                 identityType={constants.USER_TYPES.ORG}
                                 postIdentity={identityObject.content}
                   />
+                  <PrivateRoute path={`${path}/Posts/:id`} component={PostExtendedView}
+                                extendedView={true}/>
                   <PrivateRoute exact path={`${path}/basicInformation`} component={OrganizationBasicInformation }
                                 organizationId={organizationId} organization={organObject.content}/>
                   <PrivateRoute path={`${path}/Customers`} component={Customers} organizationId={organizationId}/>

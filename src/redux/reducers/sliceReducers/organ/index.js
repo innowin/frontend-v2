@@ -11,6 +11,7 @@ import deleteCertificate from "./deleteCertificate"
 import createPost from "./createPost"
 import deletePost from "./deletePost"
 import getPostByIdentity from "./getPostByIdentity"
+import getPost from './getPost'
 
 export default {
   createFollow,
@@ -25,5 +26,6 @@ export default {
   getFollowees,
   getFollowers,
   getPostByIdentity,
+  getPost,
   getWorkExperienceByUserId,
 }

@@ -22,6 +22,7 @@ import AddingContribution from "../pages/adding-contribution/addingContribution"
 import CreateExchangeForm from "../pages/modal/createExchange-modal";
 import client from "src/consts/client"
 import FileActions from "../../redux/actions/commonActions/fileActions";
+import {SearchIcon} from "../../images/icons";
 
 type PropsTopBar = {|
   collapseClassName: string,
@@ -156,11 +157,11 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                 <img src={clientImgLink} alt="Person icon" onClick={this._toggleProfile}/>}
             </div>
             <div className="-searchInput d-flex align-items-center">
-              <i className="fa fa-search" aria-hidden="true"/>
               <input type="text" className="text-white search-top-bar" name="search" dir="auto" placeholder={translate['Search in Danesh boom']}
                      ref={searchInput => {
                        this.searchInput = searchInput
                      }}/>
+              <SearchIcon className='search-icon'/>
             </div>
           </div>
         </nav>
