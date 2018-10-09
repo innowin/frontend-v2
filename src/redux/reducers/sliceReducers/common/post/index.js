@@ -4,6 +4,7 @@ import getPostByIdentity from './getPostByIdentity'
 import updatePost from './updatePost'
 import getPostViewerCount from "./getPostViewerCount"
 import filterPostsByParentLimitOffset from "./filterPostsByParentLimitOffset"
+import getPost from './getPost'
 
 export default {
   createPost,
@@ -11,5 +12,6 @@ export default {
   getPostByIdentity,
   updatePost,
   getPostViewerCount,
-  filterPostsByParentLimitOffset
+  getPost,
+  filterPostsByParentLimitOffset,
 }

@@ -42,6 +42,7 @@ import SeeViewIcon from "./common/see_view_svg"
 import SettingIcon from "./common/setting_svg"
 import SkillIcon from "./user/skill_svg"
 import SocialIcon from "./common/social_svg"
+import SearchIcon from './common/search_svg'
 import SquareAdd from "./common/squareAdd_svg"
 import starIcon from "./common/star_svg"
 import SupplyIcon from "./common/supply_svg"
@@ -112,6 +113,7 @@ export {
   SkillIcon,
   SocialIcon,
   SquareAdd,
+  SearchIcon,
   starIcon,
   SupplyIcon,
   ThinDownArrow,

@@ -14,6 +14,9 @@ const post = (state = initialState.common.post, action) => {
     /** ------------------------------ get post viewer counts ---------------------- **/
     case types.SUCCESS.COMMON.POST.GET_POST_VIEWER_COUNT:
       return slices.getPostViewerCount.success(state, action)
+    /** ------------------------------ get post ---------------------- **/
+    case types.SUCCESS.COMMON.POST.GET_POST:
+      return slices.getPost.success(state, action)
     /** -------------------------- create post -------------------------> **/
     case types.SUCCESS.COMMON.POST.CREATE_POST:
       return slices.createPost.success(state, action)

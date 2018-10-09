@@ -4,6 +4,11 @@
 .topBar {
   height: $topBarHeight;
   background-color: $brand-inverse-color;
+
+  .search-icon {
+    width: 24px;
+    fill: $background-color;
+  }
 }
 
 .navbar-toggler {
@@ -49,13 +54,13 @@
   border: 1px solid $primary-color-light2;
   border-radius: 20px;
   background-color: $primary-color-light2;
-  padding: 5px 20px 5px 10px;
+  padding: 5px 10px 5px 20px;
   margin: 5px 5px 5px 40px;
   font-size: 14px;
 }
 
 .-searchInput input {
-  margin-left: 10px;
+  margin-right: 10px;
   border: none !important;
   background-color: transparent;
   outline: none;
@@ -312,7 +317,7 @@
 .-right-sidebar-wrapper {
   z-index: 1000;
   position: fixed;
-  top: $topBarHeight + 10;
+  top: $topBarHeight + 20;
   right: 5%;
   width: $sidebar-width;
   height: 590px;
@@ -322,7 +327,7 @@
   -moz-box-shadow: 0 0 14px rgba(0, 0, 0, 0.2);
   box-shadow: 0 0 14px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
-  padding: 15px;
+  padding: 0 15px 15px 15px;
 }
 
 .user-sidebar-width {
@@ -429,6 +434,12 @@
       }
     }
   }
+  .followed-text {
+    color: $success-color;
+    text-align: center;
+    font-size: $font-size-medium;
+    padding: 4px;
+  }
 }
 
 .-sidebar-child-wrapper > div {
@@ -445,19 +456,29 @@
 
 .sidebarBottom {
   cursor: pointer;
-  background-color: $primary-color !important;
-  border-color: $background-color !important;
-  color: $background-color !important;
+  background-color: $primary-color;
+  border-color: $background-color;
+  color: $background-color;
   font-size: $font-size-boxText;
   border-radius: 25px;
   transition-duration: $animation-timing;
+
+  &:hover {
+    background-color: $background-color;
+    border-color: $primary-color;
+    color: $primary-color !important;
+    transition-duration: $animation-timing;
+  }
 }
 
-.sidebarBottom:hover {
-  background-color: $background-color !important;
-  border-color: $primary-color !important;
-  color: $primary-color !important;
-  transition-duration: $animation-timing;
+.follow-button {
+  background-color: $success-color;
+
+  &:hover {
+    background-color: $background-color;
+    border-color: $success-color;
+    color: $success-color;
+  }
 }
 
 .-grey1 {

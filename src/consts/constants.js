@@ -11,5 +11,12 @@ export default {
       SPECIFIED: 'specified',
       CALL: 'call',
     }
+  },
+  POST: {
+    POST_TYPE: {
+      POST: 'post',
+      SUPPLY: 'supply',
+      DEMAND: 'demand',
+    }
   }
 }

@@ -13,6 +13,7 @@ import getFollowers from "./getFollowers"
 import getPostByIdentity from "./getPostByIdentity"
 import getProductsByIdentity from "./getProductsByIdentity"
 import getWorkExperienceByUserId from './getWorkExperienceByUserId'
+import getPost from './getPost'
 
 export default {
   createFollow,
@@ -29,5 +30,6 @@ export default {
   getFollowers,
   getPostByIdentity,
   getProductsByIdentity,
+  getPost,
   getWorkExperienceByUserId,
 }
