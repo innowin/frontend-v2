@@ -2,7 +2,7 @@
 import * as React from "react"
 
 import BookmarkIcon from "../../../images/product/bookmark"
-import CheckOwner from "../../common/CheckOwner"
+import CheckOwner from "../CheckOwner"
 import PropTypes from "prop-types"
 import type {skillType} from "../../../consts/flowTypes/user/others"
 import {EditIcon} from "../../../images/icons"

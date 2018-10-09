@@ -3,12 +3,12 @@ import * as React from "react"
 import PropTypes from "prop-types"
 import {Field, reduxForm} from "redux-form"
 
-import renderTextArea from "../../common/inputs/reduxFormRenderTextArea"
-import renderTextField from "../../common/inputs/reduxFormRenderTextField"
+import renderTextArea from "../inputs/reduxFormRenderTextArea"
+import renderTextField from "../inputs/reduxFormRenderTextField"
 import skillInfoValidation from "../../../helpers/validations/userSkillInfo"
 import type {skillFormValuesType, skillType} from "../../../consts/flowTypes/user/others"
-import {Confirm} from "../../common/cards/Confirm"
-import {TextInput} from "../../common/inputs/TextInput"
+import {Confirm} from "../cards/Confirm"
+import {TextInput} from "../inputs/TextInput"
 
 type PropsSkillEditForm = {
   update: Function,

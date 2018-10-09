@@ -4,7 +4,7 @@ import constants from "../../../../consts/constants";
 
 const getProducts = state => state.common.product.products.list
 const getUserProducts = (state, props) => {
-  const id = props.id || props.userId
+  const id = props.ownerId
   const identityType = props.identityType
   if (identityType === constants.USER_TYPES.PERSON) {
     const usersList = state.users.list
@@ -17,19 +17,17 @@ const getUserProducts = (state, props) => {
   }
   return undefined
 }
+const getOwnerId = (state , props) => props.ownerId
 
 /** this selector selects products by productIdentity or without that. **/
-export const makeGetProducts = (state, props) => {
-  return createSelector(
-      [getProducts, getUserProducts],
-      (products, userProducts) => {
-        const id = props.id || props.userId
-        if (products && Object.keys(products).length !== 0 && products.constructor === Object && userProducts && id) {
+export const getProductsSelector = createSelector(
+      [getProducts, getUserProducts, getOwnerId],
+      (products, userProducts, ownerId) => {
+        if (products && Object.keys(products).length !== 0 && products.constructor === Object && userProducts && ownerId) {
           const arrayProduct = helpers.getObjectOfArrayKeys(userProducts, products)
           return [...arrayProduct]
         }
         return []
       }
   )
-}
 

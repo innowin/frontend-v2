@@ -3,7 +3,7 @@ import {Component} from "react";
 import PropTypes from "prop-types";
 import ProductInfoForm from "./ProductInfoForm";
 import * as React from "react";
-import {VerifyWrapper} from "../../common/cards/Frames";
+import {VerifyWrapper} from "../cards/Frames";
 import constants from "../../../consts/constants";
 import ProductInfoView from "./ProductInfoView";
 
@@ -11,7 +11,7 @@ type PropsProductInfo = {
   updateProduct: Function,
   deleteProduct: Function,
   product: ProductGetType,
-  userId: number,
+  ownerId: number,
   translate: { [string]: string },
 }
 type StateProductInfo = {
@@ -24,7 +24,7 @@ class ProductInfo extends Component<PropsProductInfo, StateProductInfo> {
     updateProduct: PropTypes.func.isRequired,
     deleteProduct: PropTypes.func.isRequired,
     translate: PropTypes.object.isRequired,
-    userId: PropTypes.number.isRequired,
+    ownerId: PropTypes.number.isRequired,
   }
 
   constructor(props) {
@@ -53,20 +53,20 @@ class ProductInfo extends Component<PropsProductInfo, StateProductInfo> {
   }
 
   render() {
-    const {translate, updateProduct, userId, product} = this.props
+    const {translate, updateProduct, ownerId, product} = this.props
     const {edit} = this.state
     // FixMe: mohammad isLoading and error come from redux
     return (
         <VerifyWrapper isLoading={false} error={false}>
           {edit ? <ProductInfoForm
-                  userId={userId}
+                  ownerId={ownerId}
                   product={product}
                   hideEdit={this._hideEdit}
                   update={updateProduct}
                   deleteProduct={this._delete}
                   translate={translate}
               />
-              : <ProductInfoView translate={translate} product={product} showEdit={this._showEdit} userId={userId}/>
+              : <ProductInfoView translate={translate} product={product} showEdit={this._showEdit} ownerId={ownerId}/>
           }
         </VerifyWrapper>
     )

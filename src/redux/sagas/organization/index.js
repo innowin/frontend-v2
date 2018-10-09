@@ -10,16 +10,12 @@ import {
   createOrgCustomer,
   createProduct,
   deleteOrgCustomer,
-  deleteProduct,
   getCustomers,
-  getExchanges,
   getOrganizationMembers,
   getOrgStaff,
   getProductPicture,
-  getProducts,
   getProductsSuccess,
-  updateCustomer,
-  updateProduct
+  updateCustomer
 } from "./organization"
 
 
@@ -40,16 +36,6 @@ function* watchUpdateOrganization() {
   yield takeEvery(types.ORG.UPDATE_ORGANIZATION_INFO, updateOrganization)
 }
 
-// get products
-function* watchGetProducts() {
-  yield takeEvery(types.ORG.GET_PRODUCTS, getProducts)
-}
-
-// get org exchanges
-function* watchGetOrgExchanges() {
-  yield takeEvery(types.ORG.GET_ORG_EXCHANGES, getExchanges)
-}
-
 // get org customers
 function* watchGetCustomers() {
   yield takeEvery(types.ORG.GET_ORG_CUSTOMERS, getCustomers)
@@ -64,10 +50,6 @@ function* watchCreateOrgProduct() {
   yield takeEvery(types.ORG.CREATE_PRODUCT, createProduct)
 }
 
-function* watchUpdateOrgProduct() {
-  yield takeEvery(types.ORG.UPDATE_PRODUCT, updateProduct)
-}
-
 function* watchAddProductPicture() {
   yield takeEvery(types.ORG.ADD_PRODUCT_PICTURE, addPictureProduct)
 }
@@ -79,10 +61,6 @@ function* watchGetProductPictures() {
 // get products success
 function* watchGetProductsSuccess() {
   yield takeEvery(types.SUCCESS.ORG.GET_PRODUCTS, getProductsSuccess)
-}
-
-function* watchDeleteProduct() {
-  yield takeEvery(types.ORG.DELETE_PRODUCT, deleteProduct)
 }
 
 function* watchGetStaff() {
@@ -105,16 +83,12 @@ export default [
   watchGetOrganizationByOrganId(),
   watchGetOrganizationMembers(),
   watchUpdateOrganization(),
-  watchGetProducts(),
-  watchGetOrgExchanges(),
   watchGetCustomers(),
   watchUpdateCustomer(),
   watchCreateOrgProduct(),
-  watchUpdateOrgProduct(),
   watchAddProductPicture(),
   watchGetProductPictures(),
   watchGetProductsSuccess(),
-  watchDeleteProduct(),
   watchGetStaff(),
   watchCreateCustomer(),
   watchDeleteCustomer(),
