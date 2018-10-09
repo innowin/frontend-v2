@@ -15,7 +15,6 @@ const products = (state = initialState.common.product.products, action) => {
       /** <-------------- getProduct -------------- **/
     case types.SUCCESS.COMMON.GET_PRODUCT_INFO:
       return pushAnObjToStateList.success(state, action)
-      /** --------------- getProduct -------------- **/
 
       /** --------------- createProduct ----------> **/
     case types.COMMON.CREATE_PRODUCT:
@@ -23,20 +22,19 @@ const products = (state = initialState.common.product.products, action) => {
 
     case types.SUCCESS.COMMON.CREATE_PRODUCT:
       return createAnObj.success(state, action)
-      /** --------------- createProduct ----------> **/
 
       /** < ---------------- addPictureIdToProduct -------------- **/
     case types.COMMON.ADD_PICTURE_ID_TO_PRODUCT:
       return setRelatedObjIdForListItem.success(state, action, 'pictures')
-      /**  ---------------- addPictureIdToProduct -------------- > **/
 
       /**  <----------------addCertificateIdToProduct --------------  **/
     case types.COMMON.ADD_HASH_TAG_ID_TO_PRODUCT:
       return setRelatedObjIdForListItem.success(state, action, 'hashTags')
-      /**  ---------------- addCertificateIdToProduct -------------- > **/
+
     /**  <----------------get product by identity --------------  **/
     case types.SUCCESS.COMMON.PRODUCT.GET_PRODUCTS_BY_IDENTITY:
       return slices.getProductsByIdentity.success(state, action)
+
     /** -------------------------- update product -------------------------> **/
     case types.COMMON.PRODUCT.UPDATE_PRODUCT:
       return slices.updateProduct.base(state, action)
@@ -44,6 +42,7 @@ const products = (state = initialState.common.product.products, action) => {
       return slices.updateProduct.success(state, action)
     case types.ERRORS.COMMON.PRODUCT.UPDATE_PRODUCT:
       return slices.updateProduct.error(state, action)
+
     /** -------------------------- delete product -------------------------> **/
     case types.COMMON.PRODUCT.DELETE_PRODUCT:
       return slices.deleteProduct.base(state, action)

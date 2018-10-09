@@ -5,9 +5,9 @@ import PropTypes from "prop-types"
 import {Field, reduxForm} from "redux-form"
 
 import type {ProductFormValuesType, ProductGetType} from "../../../consts/flowTypes/product/productTypes"
-import {Confirm} from "../../common/cards/Confirm"
-import renderTextField from "../../common/inputs/reduxFormRenderTextField"
-import renderTextArea from "../../common/inputs/reduxFormRenderTextArea"
+import {Confirm} from "../cards/Confirm"
+import renderTextField from "../inputs/reduxFormRenderTextField"
+import renderTextArea from "../inputs/reduxFormRenderTextArea"
 import productInfoValidation from "../../../helpers/validations/userProductInfo"
 
 type PropsProductEditForm = {
@@ -16,7 +16,7 @@ type PropsProductEditForm = {
   hideEdit: Function,
   product: ProductGetType,
   translate: { [string]: string },
-  userId: number,
+  ownerId: number,
   initialize: Function,
   submitFailed: boolean,
   error: string,
@@ -34,7 +34,7 @@ class ProductInfoForm extends Component<PropsProductEditForm, StateProductEditFo
     product: PropTypes.object.isRequired,
     translate: PropTypes.object.isRequired,
     deleteProduct: PropTypes.func.isRequired,
-    userId: PropTypes.number.isRequired,
+    ownerId: PropTypes.number.isRequired,
     initialize: PropTypes.func.isRequired,
     submitFailed: PropTypes.bool,
     error: PropTypes.string,

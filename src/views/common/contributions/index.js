@@ -5,18 +5,18 @@ import {connect} from "react-redux"
 
 import ProductInfoContainer from './ProductInfoContainer'
 import SkillInfoContainer from './SkillInfoContainer'
-import {CategoryTitle, FrameCard, ListGroup} from "../../common/cards/Frames"
+import {CategoryTitle, FrameCard, ListGroup} from "../cards/Frames"
 import {getMessages} from "../../../redux/selectors/translateSelector"
 
 type PropsSkills = {
-  userId: number,
+  ownerId: number,
   translate: { [string]: string },
   identityType: string,
   identityId: number,
 }
 
 const Contributions = (props: PropsSkills) => {
-  const {translate, userId, identityType, identityId} = props
+  const {translate, ownerId, identityType, identityId} = props
 
   return (
       <div>
@@ -25,8 +25,16 @@ const Contributions = (props: PropsSkills) => {
         />
         <FrameCard>
           <ListGroup>
-            <ProductInfoContainer userId={userId} translate={translate} identityType={identityType} identityId={identityId}/>
-            <SkillInfoContainer userId={userId} translate={translate}/>
+            <ProductInfoContainer
+              ownerId={ownerId}
+              translate={translate}
+              identityType={identityType}
+              identityId={identityId}
+            />
+            <SkillInfoContainer
+              userId={ownerId}
+              translate={translate}
+            />
           </ListGroup>
         </FrameCard>
       </div>
@@ -34,7 +42,7 @@ const Contributions = (props: PropsSkills) => {
 }
 
 Contributions.propTypes = {
-  userId: PropTypes.number.isRequired,
+  ownerId: PropTypes.number.isRequired,
   translate: PropTypes.object.isRequired,
   identityType: PropTypes.string.isRequired,
   identityId: PropTypes.number.isRequired,

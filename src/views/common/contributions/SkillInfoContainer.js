@@ -8,7 +8,7 @@ import NewSkillIcon from "../../../images/user/new_skill_svg"
 import SkillActions from "../../../redux/actions/skillActions"
 import SkillInfo from './SkillInfo'
 import type {skillType} from "../../../consts/flowTypes/user/others"
-import {ItemHeader, ItemWrapper} from "../../common/cards/Frames"
+import {ItemHeader, ItemWrapper} from "../cards/Frames"
 import {makeGetSkills} from "../../../redux/selectors/user/userGetSkillSelector"
 
 type PropsSkills = {

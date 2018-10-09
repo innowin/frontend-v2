@@ -111,6 +111,20 @@ const organs = (state = initialState.organs, action) => {
       return slices.getPostByIdentity.success(state, action)
     case types.ERRORS.COMMON.POST.GET_POST_BY_IDENTITY:
       return slices.getPostByIdentity.error(state, action)
+
+
+    /** -------------------------- get products by identity  -------------------------> **/
+    case types.COMMON.PRODUCT.GET_PRODUCTS_BY_IDENTITY:
+      return slices.getProductsByIdentity.base(state, action)
+    case types.SUCCESS.COMMON.PRODUCT.GET_PRODUCTS_BY_IDENTITY:
+      return slices.getProductsByIdentity.success(state, action)
+    case types.ERRORS.COMMON.PRODUCT.GET_PRODUCTS_BY_IDENTITY:
+      return slices.getProductsByIdentity.error(state, action)
+    /** -------------------------- delete product  -------------------------> **/
+    case types.SUCCESS.COMMON.PRODUCT.DELETE_PRODUCT:
+      return slices.deleteProduct.success(state, action)
+
+
     /** -------------------------- create post  -------------------------> **/
     case types.SUCCESS.COMMON.POST.CREATE_POST:
       return slices.createPost.success(state, action)

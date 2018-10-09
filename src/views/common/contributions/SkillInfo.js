@@ -5,7 +5,7 @@ import PropTypes from "prop-types"
 import SkillInfoForm from "./SkillInfoForm"
 import SkillInfoView from "./SkillInfoView"
 import type {skillType} from "../../../consts/flowTypes/user/others"
-import {VerifyWrapper} from "../../common/cards/Frames"
+import {VerifyWrapper} from "../cards/Frames"
 
 type PropsSkillInfo = {
   updateSkillByUserId: Function,

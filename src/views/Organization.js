@@ -9,7 +9,6 @@ import Customers from "./organization/customers/index"
 import OrganizationActions from "src/redux/actions/organization/organizationActions"
 import Posts from "src/views/common/post/index"
 import PrivateRoute from "../consts/PrivateRoute"
-import Products from "./organization/products/index"
 import PropTypes from "prop-types"
 import Social from "src/views/common/social/index"
 import TopBar from "./bars/TopBar"
@@ -27,7 +26,8 @@ import {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 import {VerifyWrapper} from "./common/cards/Frames"
 import constants from "../consts/constants";
 import ParamActions from "src/redux/actions/paramActions"
-import GetIdentityActions from "../redux/actions/identityActions";
+import GetIdentityActions from "../redux/actions/identityActions"
+import Contributions from "./common/contributions"
 
 type PropsOrganization = {
   organObject: organStateObject,
@@ -98,7 +98,7 @@ export class Organization extends Component<PropsOrganization> {
           />
           <div className="col-md-6 col-sm-10 -content-wrapper">
             <Tabs>
-              <NavLink className="-tab" to={`${url}/Products`} activeClassName="-active">
+              <NavLink className="-tab" to={`${url}/contributions`} activeClassName="-active">
                 <ContributionIcon/>
               </NavLink>
               <NavLink className="-tab" to={`${url}/Posts`} activeClassName="-active">
@@ -120,15 +120,28 @@ export class Organization extends Component<PropsOrganization> {
             {
               (!identityObject.content) ? '' : (
                 <Switch>
-                  <Redirect exact from={`${url}/`} to={`${url}/Products`}/>
-                  <PrivateRoute path={`${path}/Products`} component={Products} organizationId={organizationId}/>
-                  <PrivateRoute path={`${path}/Posts`} component={Posts} id={organizationId}
+                  <Redirect exact from={`${url}/`} to={`${url}/contributions`}/>
+                  <PrivateRoute path={`${path}/contributions`}
+                                component={Contributions}
+                                ownerId={organizationId}
+                                identityId={identityObject.content}
+                                identityType={constants.USER_TYPES.ORG}
+                  />
+                  <PrivateRoute path={`${path}/Posts`}
+                                component={Posts}
+                                id={organizationId}
                                 identityType={constants.USER_TYPES.ORG}
                                 postIdentity={identityObject.content}
                   />
-                  <PrivateRoute exact path={`${path}/basicInformation`} component={OrganizationBasicInformation }
-                                organizationId={organizationId} organization={organObject.content}/>
-                  <PrivateRoute path={`${path}/Customers`} component={Customers} organizationId={organizationId}/>
+                  <PrivateRoute exact path={`${path}/basicInformation`}
+                                component={OrganizationBasicInformation }
+                                organizationId={organizationId}
+                                organization={organObject.content}
+                  />
+                  <PrivateRoute path={`${path}/Customers`}
+                                component={Customers}
+                                organizationId={organizationId}
+                  />
                   <PrivateRoute path={`${path}/SocialConnections`} component={Social}
                                 ownerId={organizationId}
                                 identityId={identityObject.content}

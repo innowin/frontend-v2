@@ -11,7 +11,7 @@ import GetUserActions from "src/redux/actions/user/getUserActions"
 import GetIdentityActions from "src/redux/actions/identityActions"
 import Posts from "src/views/common/post/index"
 import PrivateRoute from "../consts/PrivateRoute"
-import Contributions from "./user/contributions"
+import Contributions from "./common/contributions"
 import Social from "src/views/common/social/index"
 import TopBar from "src/views/bars/TopBar"
 import UserBasicInformation from "./user/basicInformation/index"
@@ -156,26 +156,41 @@ class User extends Component<PropsUser> {
               (!identityObject.content) ? '' : (
                 <Switch>
                   <Redirect exact from={`${url}/`} to={`${url}/Posts`}/>
-                  <PrivateRoute path={`${path}/Posts`} component={Posts} id={userId}
+                  <PrivateRoute path={`${path}/Posts`}
+                                component={Posts}
+                                id={userId}
                                 identityType={constants.USER_TYPES.PERSON}
                                 profileMedia={profileObject.content.profile_media}
                                 postIdentity={identityObject.content}
                   />
-                  <PrivateRoute path={`${path}/basicInformation`} component={UserBasicInformation} userId={userId}
-                                profile={profileObject} user={userObject}
-                  />
-                  <PrivateRoute path={`${path}/contributions`} component={Contributions}
+                  <PrivateRoute path={`${path}/basicInformation`}
+                                component={UserBasicInformation}
                                 userId={userId}
-                                identityId={identityObject.content}
-                                identityType={constants.USER_TYPES.PERSON}/>
-                  <PrivateRoute path={`${path}/SocialConnections`} component={Social}
+                                profile={profileObject}
+                                user={userObject}
+                  />
+                  <PrivateRoute path={`${path}/contributions`}
+                                component={Contributions}
                                 ownerId={userId}
                                 identityId={identityObject.content}
                                 identityType={constants.USER_TYPES.PERSON}
                   />
-                  <PrivateRoute path={`${path}/Educations`} component={Educations} userId={userId}/>
-                  <PrivateRoute path={`${path}/WorkExperiences`} component={WorkExperiences} userId={userId}/>
-                  <PrivateRoute path={`${path}/Certificates`} component={Certificates}
+                  <PrivateRoute path={`${path}/SocialConnections`}
+                                component={Social}
+                                ownerId={userId}
+                                identityId={identityObject.content}
+                                identityType={constants.USER_TYPES.PERSON}
+                  />
+                  <PrivateRoute path={`${path}/Educations`}
+                                component={Educations}
+                                userId={userId}
+                  />
+                  <PrivateRoute path={`${path}/WorkExperiences`}
+                                component={WorkExperiences}
+                                userId={userId}
+                  />
+                  <PrivateRoute path={`${path}/Certificates`}
+                                component={Certificates}
                                 ownerId={userId}
                                 identityId={identityObject.content}
                                 identityType={constants.USER_TYPES.PERSON}

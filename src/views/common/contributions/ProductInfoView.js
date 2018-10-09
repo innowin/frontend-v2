@@ -4,19 +4,19 @@ import {Link} from "react-router-dom"
 import PropTypes from "prop-types"
 
 import type {ProductGetType} from "../../../consts/flowTypes/product/productTypes"
-import CheckOwner from "../../common/CheckOwner"
+import CheckOwner from "../CheckOwner"
 import {EditIcon, BookmarkIcon, RightArrow} from "../../../images/icons"
 import constants from 'src/consts/constants'
 
 type PropsProductInfo = {
   product: ProductGetType,
   showEdit: Function,
-  userId: number,
+  ownerId: number,
   translate: { [string]: string }
 }
 
 const ProductInfoView = (props: PropsProductInfo) => {
-  const {product, showEdit, userId, translate} = props
+  const {product, showEdit, ownerId, translate} = props
   let url
   if (product.product_owner.identity_user) {
     url = `/user/${product.product_owner.identity_user.id}`
@@ -32,7 +32,7 @@ const ProductInfoView = (props: PropsProductInfo) => {
   return (
 
       <div className='contribution-view-container product-view-container'>
-        <CheckOwner id={userId}>
+        <CheckOwner id={ownerId}>
           <div className={product.img && 'product-edit-container'}>
             <div className="product-edit contribution-edit -item-edit-btn pulse" onClick={showEdit}>
               <EditIcon/>
@@ -86,7 +86,7 @@ const ProductInfoView = (props: PropsProductInfo) => {
 ProductInfoView.propTypes = {
   product: PropTypes.object.isRequired,
   showEdit: PropTypes.func.isRequired,
-  userId: PropTypes.number.isRequired,
+  ownerId: PropTypes.number.isRequired,
   translate: PropTypes.object.isRequired,
 }
 
