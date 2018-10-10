@@ -78,6 +78,7 @@ const results = {
       CREATE_POST: 'create-post',
       UPDATE_POST: 'update-post',
       DELETE_POST: 'delete-post',
+      GET_POST: 'get-post',
     },
 
     SOCIAL: {

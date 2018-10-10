@@ -23,7 +23,7 @@ const validatePublication = (publication, translate) => {
 }
 
 const validateUrl = (url, translate) => {
-  if (!/^(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/.test(url) && url.length < 5) {
+  if (!/^(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/.test(url) || url.length < 5) {
     return translate['Url is wrong']
   }
 }

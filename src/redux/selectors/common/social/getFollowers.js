@@ -5,7 +5,8 @@ import helpers from 'src/consts/helperFunctions/helperFunctions'
 
 const getFollows = state => state.common.social.follows.list
 const getUserFollows = (state, props) => {
-  const {ownerId, identityType} = props
+  const ownerId = props.ownerId || (props.owner && props.owner.id)
+  const identityType = props.identityType || props.sideBarType
   if (identityType === constants.USER_TYPES.PERSON) {
     const usersList = state.users.list
     if (usersList[ownerId] && usersList[ownerId].social && usersList[ownerId].social.follows)

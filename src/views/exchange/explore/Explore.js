@@ -7,9 +7,7 @@ import TopBar from '../../bars/TopBar'
 import {bindActionCreators} from 'redux'
 import connect from 'react-redux/es/connect/connect'
 import exchangeActions from 'src/redux/actions/exchangeActions'
-import exchangeMembership from 'src/redux/actions/commonActions/exchangeMembershipActions'
 import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges.js'
-import {ClipLoader} from "react-spinners"
 
 type appProps =
     {|
@@ -33,17 +31,13 @@ class Explore extends Component <appProps, appState> {
     this.state = {
       offset: 0,
       activeScrollHeight: 0,
-      scrollLoading: false
+      scrollLoading: false,
+      justFollowing: false
     }
   }
 
   componentDidMount() {
     this.props.actions.getAllExchanges(24, this.state.offset)
-    this.props.actions.exchangeMembership({
-      identityId: this.props.currentUserIdentity,
-      exchangeMembershipOwnerId: this.props.currentUserId,
-      exchangeMembershipOwnerType: this.props.currentUserType
-    })
     window.addEventListener('scroll', this.onScroll)
   }
 
@@ -70,8 +64,8 @@ class Explore extends Component <appProps, appState> {
         <div>
           <TopBar collapseClassName="col user-sidebar-width"/>
           <div style={{paddingTop: '55px'}}>
-            <Sidebar/>
-            <Exchanges exchanges={this.props.allExchanges}/>
+            <Sidebar justFollowing={(checked) => this.setState({...this.state, justFollowing: checked})}/>
+            <Exchanges exchanges={this.props.allExchanges} justFollowing={this.state.justFollowing}/>
             {/*{this.state.scrollLoading && <ClipLoader/>}*/}
           </div>
         </div>
@@ -81,14 +75,10 @@ class Explore extends Component <appProps, appState> {
 
 const mapStateToProps = (state) => ({
   allExchanges: getExchanges(state),
-  currentUserType: state.auth.client.user_type,
-  currentUserIdentity: state.auth.client.identity.content,
-  currentUserId: state.auth.client.user.id,
 })
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getAllExchanges: exchangeActions.getAllExchanges,
-    exchangeMembership: exchangeMembership.getExchangeMembershipByMemberIdentity
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Explore)

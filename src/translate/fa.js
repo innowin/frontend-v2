@@ -89,7 +89,11 @@ module.exports = {
 
   // user - posts
   'Post': "کاربرنما",
+  'Single post': "پست",
   'Last': 'پیش',
+  'Type post': 'نما',
+  'Type supply': 'عرضه',
+  'Type demand': 'تقاضا',
 
   // user - common
   'Are you sure? Do you want delete it?': "آیا مطمئن به حذف هستید؟",
@@ -152,6 +156,15 @@ module.exports = {
   'Year is incorrect': 'سال اشتباه وارد شده است',
   'Email is wrong': 'آدرس رایانامه اشتباه است',
   'Address is incorrect': 'آدرس اشتباه وارد شده است',
+
+  // user - link information
+  'Link Information': 'پیوند',
+  'Youtube': 'یوتیوب',
+  'Telegram': 'تلگرام',
+  'Instagram': 'اینستاگرام',
+  'LinkedIn': 'لینکداین',
+  'Web site': 'وب سایت',
+  'Account is incorrect': 'حساب کاربری اشتباه وارد شده است',
 
   // user - researches
   'This number is not a correct year': "سال باید عدد ۴ رقمی معتبر باشد",

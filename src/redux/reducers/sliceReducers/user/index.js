@@ -17,6 +17,7 @@ import getEducationByUserId from './getEducationByUserId'
 import getFollowees from './getFollowees'
 import getFollowers from './getFollowers'
 import getExchangeMembershipByMemberIdentity from './getExchangeMembershipByMemberIdentity'
+import getPost from './getPost'
 import getPostByIdentity from './getPostByIdentity'
 import getProductsByIdentity from './getProductsByIdentity'
 import getResearchByUserId from './getResearchByUserId'
@@ -46,6 +47,7 @@ export default {
   getFollowers,
   getExchangeMembershipByMemberIdentity,
   getPostByIdentity,
+  getPost,
   getProductsByIdentity,
   getResearchByUserId,
   getSkillByUserId,

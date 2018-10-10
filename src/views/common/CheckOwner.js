@@ -4,7 +4,7 @@ import client from 'src/consts/client'
 import PropTypes from 'prop-types'
 
 type checkOwnerProps = {
-  id: ?number,
+  id: ?number | ?string,
   children?: React.Node,
   showForOwner?: boolean
 }

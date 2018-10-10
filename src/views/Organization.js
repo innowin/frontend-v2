@@ -8,6 +8,7 @@ import ChatBar from "./bars/ChatBar"
 import Customers from "./organization/customers/index"
 import OrganizationActions from "src/redux/actions/organization/organizationActions"
 import Posts from "src/views/common/post/index"
+import PostExtendedView from 'src/views/common/post/PostView'
 import PrivateRoute from "../consts/PrivateRoute"
 import PropTypes from "prop-types"
 import Social from "src/views/common/social/index"
@@ -85,83 +86,86 @@ export class Organization extends Component<PropsOrganization> {
     const isLoading = organObject.isLoading || badgesObject.isLoading //TODO mohsen: added get files isLoading
     const errorMessage = organObject.error || badgesObject.error //TODO mohsen:added get files error
     return (
-      <div className="-userOrganBackgroundImg">
-        <TopBar collapseClassName="col user-sidebar-width"/>
-        <VerifyWrapper isLoading={isLoading} error={errorMessage} className="-main row">
-          <OrganSideBar translate={translate}
-                        organ={organObject.content}
-                        badges={badges}
-                        organLogo={organLogo}
-                        organBanner={organBanner}
-                        className="-right-sidebar-wrapper user-sidebar-width pr-0 pl-0"
-                        paramId={organizationId}
-          />
-          <div className="col-md-6 col-sm-10 -content-wrapper">
-            <Tabs>
-              <NavLink className="-tab" to={`${url}/contributions`} activeClassName="-active">
-                <ContributionIcon/>
-              </NavLink>
-              <NavLink className="-tab" to={`${url}/Posts`} activeClassName="-active">
-                {postIcon}
-              </NavLink>
-              <NavLink className="-tab" to={`${url}/basicInformation`} activeClassName="-active">
-                <InformationIcon/>
-              </NavLink>
-              <NavLink className="-tab" to={`${url}/SocialConnections`} activeClassName="-active">
-                <SocialIcon/>
-              </NavLink>
-              <NavLink className="-tab" to={`${url}/Customers`} activeClassName="-active">
-                {customerIcon()}
-              </NavLink>
-              <NavLink className="-tab" to={`${url}/Certificates`} activeClassName="-active">
-                <CertificateIcon/>
-              </NavLink>
-            </Tabs>
-            {
-              (!identityObject.content) ? '' : (
-                <Switch>
-                  <Redirect exact from={`${url}/`} to={`${url}/contributions`}/>
-                  <PrivateRoute path={`${path}/contributions`}
-                                component={Contributions}
-                                ownerId={organizationId}
-                                identityId={identityObject.content}
-                                identityType={constants.USER_TYPES.ORG}
-                  />
-                  <PrivateRoute path={`${path}/Posts`}
-                                component={Posts}
-                                id={organizationId}
-                                identityType={constants.USER_TYPES.ORG}
-                                postIdentity={identityObject.content}
-                  />
-                  <PrivateRoute exact path={`${path}/basicInformation`}
-                                component={OrganizationBasicInformation }
-                                organizationId={organizationId}
-                                organization={organObject.content}
-                  />
-                  <PrivateRoute path={`${path}/Customers`}
-                                component={Customers}
-                                organizationId={organizationId}
-                  />
-                  <PrivateRoute path={`${path}/SocialConnections`} component={Social}
-                                ownerId={organizationId}
-                                identityId={identityObject.content}
-                                identityType={constants.USER_TYPES.ORG}
-                  />
-                  <PrivateRoute path={`${path}/Certificates`}
-                                component={Certificates}
-                                ownerId={organizationId}
-                                identityId={identityObject.content}
-                                identityType={constants.USER_TYPES.ORG}
-                  />
-                </Switch>
-              )
-            }
-          </div>
-          <div className="col-md-2 col-sm-1 -left-sidebar-wrapper">
-            <ChatBar/>
-          </div>
-        </VerifyWrapper>
-      </div>
+        <div className="-userOrganBackgroundImg">
+          <TopBar collapseClassName="col user-sidebar-width"/>
+          <VerifyWrapper isLoading={isLoading} error={errorMessage} className="-main row">
+            {(!identityObject.content) ? '' : (
+                <OrganSideBar translate={translate}
+                              organ={organObject.content}
+                              badges={badges}
+                              organLogo={organLogo}
+                              organBanner={organBanner}
+                              className="-right-sidebar-wrapper user-sidebar-width pr-0 pl-0"
+                              paramId={organizationId}
+                              identityId={identityObject.content}
+                />
+            )}
+            <div className="col-md-6 col-sm-10 -content-wrapper">
+              <Tabs>
+                <NavLink className="-tab" to={`${url}/contributions`} activeClassName="-active">
+                  <ContributionIcon/>
+                </NavLink>
+                <NavLink className="-tab" to={`${url}/Posts`} activeClassName="-active">
+                  {postIcon}
+                </NavLink>
+                <NavLink className="-tab" to={`${url}/basicInformation`} activeClassName="-active">
+                  <InformationIcon/>
+                </NavLink>
+                <NavLink className="-tab" to={`${url}/SocialConnections`} activeClassName="-active">
+                  <SocialIcon/>
+                </NavLink>
+                <NavLink className="-tab" to={`${url}/Customers`} activeClassName="-active">
+                  {customerIcon()}
+                </NavLink>
+                <NavLink className="-tab" to={`${url}/Certificates`} activeClassName="-active">
+                  <CertificateIcon/>
+                </NavLink>
+              </Tabs>
+              {
+                (!identityObject.content) ? '' : (
+                    <Switch>
+                      <Redirect exact from={`${url}/`} to={`${url}/contributions`}/>
+                      <PrivateRoute path={`${path}/contributions`}
+                                    component={Contributions}
+                                    ownerId={organizationId}
+                                    identityId={identityObject.content}
+                                    identityType={constants.USER_TYPES.ORG}
+                      />
+                      <PrivateRoute exact={true} path={`${path}/Posts`} component={Posts} id={organizationId}
+                                    identityType={constants.USER_TYPES.ORG}
+                                    postIdentity={identityObject.content}
+                      />
+                      <PrivateRoute path={`${path}/Posts/:id`} component={PostExtendedView}
+                                    extendedView={true}/>
+                      <PrivateRoute exact path={`${path}/basicInformation`}
+                                    component={OrganizationBasicInformation}
+                                    organizationId={organizationId}
+                                    organization={organObject.content}
+                      />
+                      <PrivateRoute path={`${path}/Customers`}
+                                    component={Customers}
+                                    organizationId={organizationId}
+                      />
+                      <PrivateRoute path={`${path}/SocialConnections`} component={Social}
+                                    ownerId={organizationId}
+                                    identityId={identityObject.content}
+                                    identityType={constants.USER_TYPES.ORG}
+                      />
+                      <PrivateRoute path={`${path}/Certificates`}
+                                    component={Certificates}
+                                    ownerId={organizationId}
+                                    identityId={identityObject.content}
+                                    identityType={constants.USER_TYPES.ORG}
+                      />
+                    </Switch>
+                )
+              }
+            </div>
+            <div className="col-md-2 col-sm-1 -left-sidebar-wrapper">
+              <ChatBar/>
+            </div>
+          </VerifyWrapper>
+        </div>
     )
   }
 }

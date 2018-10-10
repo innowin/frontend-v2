@@ -111,8 +111,6 @@ const organs = (state = initialState.organs, action) => {
       return slices.getPostByIdentity.success(state, action)
     case types.ERRORS.COMMON.POST.GET_POST_BY_IDENTITY:
       return slices.getPostByIdentity.error(state, action)
-
-
     /** -------------------------- get products by identity  -------------------------> **/
     case types.COMMON.PRODUCT.GET_PRODUCTS_BY_IDENTITY:
       return slices.getProductsByIdentity.base(state, action)
@@ -123,16 +121,19 @@ const organs = (state = initialState.organs, action) => {
     /** -------------------------- delete product  -------------------------> **/
     case types.SUCCESS.COMMON.PRODUCT.DELETE_PRODUCT:
       return slices.deleteProduct.success(state, action)
-
-
+    /** -------------------------- get post  -------------------------> **/
+    case types.COMMON.POST.GET_POST:
+      return slices.getPost.base(state, action)
+    case types.SUCCESS.COMMON.POST.GET_POST:
+      return slices.getPost.success(state, action)
+    case types.ERRORS.COMMON.POST.GET_POST:
+      return slices.getPost.error(state, action)
     /** -------------------------- create post  -------------------------> **/
     case types.SUCCESS.COMMON.POST.CREATE_POST:
       return slices.createPost.success(state, action)
     /** -------------------------- delete post  -------------------------> **/
     case types.SUCCESS.COMMON.POST.DELETE_POST:
       return slices.deletePost.success(state, action)
-
-
     /** -------------------------- get followers -------------------------> **/
     case types.COMMON.SOCIAL.GET_FOLLOWERS:
       return slices.getFollowers.base(state, action)

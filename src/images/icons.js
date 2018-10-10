@@ -2,6 +2,7 @@ import AgentSvgIcon from "./addingConribution/agent_svg"
 import AttachFileIcon from "./common/attachFile_svg"
 import BookmarkIcon from "./product/bookmark"
 import CertificateIcon from "./user/certificate_svg"
+import CertificateTick from "./common/certificate_tick_svg"
 import ChartIcon from "./product/chart"
 import CircularAddIcon from "./common/circularAdd_svg"
 import CircularTickSvg from "./common/circularTick"
@@ -42,6 +43,7 @@ import SeeViewIcon from "./common/see_view_svg"
 import SettingIcon from "./common/setting_svg"
 import SkillIcon from "./user/skill_svg"
 import SocialIcon from "./common/social_svg"
+import SearchIcon from './common/search_svg'
 import SquareAdd from "./common/squareAdd_svg"
 import starIcon from "./common/star_svg"
 import SupplyIcon from "./common/supply_svg"
@@ -57,6 +59,10 @@ import Contacts from "./common/contacts_svg"
 import Medal from "./common/medal_svg"
 import Ticket from "./common/ticket_svg"
 import QuestionMark from "./common/questionMark_svg"
+import TelegramIcon from "./common/telegram_svg"
+import InstagramIcon from "./common/instagram_svg"
+import LinkedInIcon from "./common/linkedin_svg"
+import YoutubeIcon from "./common/youtube_svg"
 
 
 export {
@@ -64,6 +70,7 @@ export {
   Info,
   Statistic,
   Contacts,
+  CertificateTick,
   Medal,
   Ticket,
   QuestionMark,
@@ -112,6 +119,7 @@ export {
   SkillIcon,
   SocialIcon,
   SquareAdd,
+  SearchIcon,
   starIcon,
   SupplyIcon,
   ThinDownArrow,
@@ -119,4 +127,8 @@ export {
   TipsIcon,
   userInfoIcon,
   workExperienceIcon,
+  TelegramIcon,
+  InstagramIcon,
+  LinkedInIcon,
+  YoutubeIcon,
 }
