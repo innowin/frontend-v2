@@ -1,5 +1,7 @@
 @import "../../variables";
 
+$sidebar-profile-media-width: 80px;
+
 //** ----------------             topBar  -----------------------------------**//
 .topBar {
   height: $topBarHeight;
@@ -330,10 +332,43 @@
   min-width: 210px;
 }
 
-.-sidebar-child-wrapper {
+.editable-profile-img {
   position: relative;
-  .head-picture {
-    width: 80px;
+  .edit-nav {
+    cursor: pointer;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    &.edit-banner {
+      width: 100%;
+      top: 50%;
+    }
+    &.edit-media {
+      width: $sidebar-profile-media-width;
+      top: 0
+    }
+    .edit-background {
+      background: $sidebar-bottom-color;
+      height: 35px;
+      opacity: 0.8;
+    }
+    .edit-text {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      color: $base-posts;
+      font-size: $font-size-verySmallText;
+      width: 100%;
+    }
+  }
+}
+
+%sidebar-child-wrapper {
+  position: relative;
+  .profile-media {
+    width: $sidebar-profile-media-width;
     height: 80px;
     position: absolute;
     transform: translate(-50%, -50%);
@@ -431,6 +466,10 @@
   }
 }
 
+.-sidebar-child-wrapper {
+  @extend %sidebar-child-wrapper
+}
+
 .-sidebar-child-wrapper > div {
   display: flex;
   border-bottom: 1px solid lighten($text-lighter-color, 3.6%);
@@ -469,6 +508,19 @@
   padding-right: 10px;
   padding-left: 10px;
   margin-left: 5px;
+}
+
+//** ------ user-organ SideBar -------**//
+
+.sidebar-organ-user {
+  @extend %sidebar-child-wrapper
+}
+
+.sidebar-organ-user > div:not(:first-child) {
+  display: flex;
+  border-bottom: 1px solid lighten($text-lighter-color, 3.6%);
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 //**         Home Sidebar(List of exchanges)               **//

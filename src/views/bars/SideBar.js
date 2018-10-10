@@ -10,21 +10,27 @@ import type {userProfileType, userType} from "src/consts/flowTypes/user/basicInf
 import {DefaultImageIcon} from "src/images/icons"
 import {DefaultUserIcon, DefaultOrganIcon} from "src/images/icons"
 import cx from "classnames"
-import CheckOwner from "../common/CheckOwner";
+import CheckOwner from "../common/CheckOwner"
+import {TextareaInput} from "../common/inputs/TextareaInput"
+import {TextInput} from "../common/inputs/TextInput"
+import AttachFile from "../common/inputs/AttachFile"
 
-const MenuBox = (props) => (
-  <div className="menu-box pt-0 pb-0" id={props.id}>
-    <div>
-      <span>اشتراک گذاری نمایه</span>
-      <span>ویرایش ویترین</span>
+const MenuBox = (props) => {
+  const {editProfileFunc, id, editProfile} = props
+  return (
+    <div className="menu-box pt-0 pb-0" id={id}>
+      <div>
+        <span>اشتراک گذاری نمایه</span>
+        <span onClick={editProfileFunc}>{(!editProfile) ? 'ویرایش ویترین' : 'بستن ویرایش ویترین'}</span>
+      </div>
+      <div>
+        <span>بی صدا کردن اعلام</span>
+        <span>بلاک</span>
+        <span>گزارش تخلف</span>
+      </div>
     </div>
-    <div>
-      <span>بی صدا کردن اعلام</span>
-      <span>بلاک</span>
-      <span>گزارش تخلف</span>
-    </div>
-  </div>
-)
+  )
+}
 
 export const BadgesCard = (props: { badgesImg: (string)[] }) => {
   return (
@@ -94,8 +100,6 @@ UserSideBar.propTypes = {
 }
 
 
-
-
 type PropsOrganSideBar = {
   organ: organizationType,
   badges: (badgeType)[],
@@ -106,31 +110,31 @@ type PropsOrganSideBar = {
   paramId: number,
 }
 export const OrganSideBar = (props: PropsOrganSideBar) => {
-    const {organ, badges, organLogo, organBanner, className, translate, paramId} = props
-    const name = organ.nike_name || organ.official_name
-    const badgesImg = badges.map(badge => (
-      (!badge) ? '' : (badge.badge_related_badge_category.badge_related_media.file))
-    )
-    const chosenBadgesImg = badgesImg.slice(0, 4)
-    const socialNetworks = { //TODO organ socialNetWorks get from backEnd
-      telegram_account: '',
-      instagram_account: '',
-      linkedin_account: '',
-    }
-    return (
-      <SideBarContent
-        sideBarType='organ'
-        name={name}
-        banner={organBanner}
-        description={organ.description}
-        picture={organLogo}
-        chosenBadgesImg={chosenBadgesImg}
-        socialNetworks={socialNetworks}
-        translate={translate}
-        className={className}
-        paramId={paramId}
-      />
-    )
+  const {organ, badges, organLogo, organBanner, className, translate, paramId} = props
+  const name = organ.nike_name || organ.official_name
+  const badgesImg = badges.map(badge => (
+    (!badge) ? '' : (badge.badge_related_badge_category.badge_related_media.file))
+  )
+  const chosenBadgesImg = badgesImg.slice(0, 4)
+  const socialNetworks = { //TODO organ socialNetWorks get from backEnd
+    telegram_account: '',
+    instagram_account: '',
+    linkedin_account: '',
+  }
+  return (
+    <SideBarContent
+      sideBarType='organ'
+      name={name}
+      banner={organBanner}
+      description={organ.description}
+      picture={organLogo}
+      chosenBadgesImg={chosenBadgesImg}
+      socialNetworks={socialNetworks}
+      translate={translate}
+      className={className}
+      paramId={paramId}
+    />
+  )
 }
 OrganSideBar.propTypes = {
   organ: PropTypes.object.isRequired,
@@ -141,7 +145,6 @@ OrganSideBar.propTypes = {
   translate: PropTypes.object.isRequired,
   paramId: PropTypes.number,
 }
-
 
 
 type PropsSideBarContent = {
@@ -161,7 +164,16 @@ type PropsSideBarContent = {
   paramId: number,
 }
 
-class SideBarContent extends Component<PropsSideBarContent, { menuToggle: boolean }> {
+type StateSideBarContent = {
+  menuToggle: boolean,
+  editProfile: boolean,
+  media: Object,
+  banner: Object,
+  mediaFileName: ?string,
+  bannerFileName: ?string,
+}
+
+class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent> {
 
   static propTypes = {
     sideBarType: PropTypes.string.isRequired,
@@ -178,13 +190,62 @@ class SideBarContent extends Component<PropsSideBarContent, { menuToggle: boolea
 
   constructor(props) {
     super(props);
-    this.state = {menuToggle: false}
+    this.state = {
+      menuToggle: false,
+      editProfile: false,
+      media: {},
+      banner: {},
+      mediaFileName: '',
+      bannerFileName: '',
+    }
+  }
+
+  descriptionInput: React.ElementRef<typeof TextInput>
+  AttachBannerFileInput: React.ElementRef<typeof AttachFile>
+  AttachMediaFileInput: React.ElementRef<typeof AttachFile>
+
+  _getValues = () => {
+    // const {postIdentityId, postParentId, postOwnerImgId} = this.props
+    const bannerFileName = this.AttachBannerFileInput._getFileName()
+    const mediaFileName = this.AttachMediaFileInput._getFileName()
+    return {
+      // id: 1,
+      profile_banner: this.AttachBannerFileInput._getFile(),
+      profile_media: this.AttachMediaFileInput._getFile(),
+      description: this.descriptionInput,
+    }
+  }
+
+  _formValidate = () => {
+    let result = true;
+    const validates = [
+      this.AttachBannerFileInput._validate(),
+      this.AttachMediaFileInput._validate(),
+      this.descriptionInput.validate()
+    ];
+    for (let i = 0; i < validates.length; i++) {
+      if (validates[i]) {
+        result = false;
+        break
+      }
+    }
+    return result
   }
 
   _handleClickOutMenuBox = (e: any) => {
     if (!e.target.closest('#sidebar-menu-box') && !e.target.closest('.menuBottom')) {
       this.setState({...this.state, menuToggle: false})
     }
+  }
+
+  _editProfile = (e: any) => {
+    e.preventDefault()
+    const editProfile = !(this.state.editProfile)
+    this.setState({...this.state, editProfile})
+  }
+
+  _closeEditProfile = (e: any) => {
+    this.setState({...this.state, editProfile: false})
   }
 
 
@@ -201,32 +262,117 @@ class SideBarContent extends Component<PropsSideBarContent, { menuToggle: boolea
     this.setState({...this.state, menuToggle: !this.state.menuToggle})
   }
 
+  _getMedia = (media, fileName) => {
+    this.setState({...this.state, media, mediaFileName: fileName})
+  }
+
+  _getBanner = (media, fileName) => {
+    this.setState({...this.state, banner: media, bannerFileName: fileName})
+  }
+
+  AttachBottom = (className) => (
+    <div className={"edit-nav "+ className}>
+      <div className="edit-background"/>
+      <span className="edit-text">تصویر جدید</span>
+    </div>
+  )
+
+  _save = () => {
+    // const {actions, postOwnerId, postOwnerType, postParentId, postParentType} = this.props
+    // const {createPost} = actions
+    // const formValues = this._getValues()
+    // return createPost({formValues, postOwnerId, postOwnerType, postParentId, postParentType})
+  }
+
+  _handleSubmit = (e) => {
+    e.preventDefault();
+    if (this._formValidate()) {
+      this._save()
+    }
+    return false;
+  }
+
   render() {
-    const {menuToggle} = this.state
-    const {sideBarType, banner, picture, name, description, chosenBadgesImg, socialNetworks, translate: tr, className, paramId} = this.props
+    const {menuToggle, editProfile} = this.state
+    const {sideBarType, banner, picture, name, description, chosenBadgesImg, socialNetworks, translate: tr, paramId} = this.props
+    const className = this.props.className || ''
     const followNames = ["صابر منادی", "امیر امیری فر", "محسن فلاح", "یاسر رستگار", "علی اوروجی"] //TODO get followNames
     return (
-      <div className={className}>
-        {
-          (!banner) ? <DefaultImageIcon className="banner"/> :
-            <img alt="" src={banner} className="banner"/>
-        }
-        <div className="-sidebar-child-wrapper col">
+      <form className={className + ' pt-0'} onSubmit={this._handleSubmit}>
+        <div className="editable-profile-img">
           {
-            (!picture) ? (
-              (sideBarType === 'user') ? <DefaultUserIcon className="head-picture"/> :
-                <DefaultOrganIcon className="head-picture"/>
-            ) : (
-              <img className="rounded-circle head-picture" alt="" src={picture}/>)
+            (!banner) ? <DefaultImageIcon className="banner"/> : (<img alt="" src={banner} className="banner"/>)
           }
+          {
+            (!editProfile) ? '' : (
+              <AttachFile
+                ref={AttachBannerFileInput => {
+                  this.AttachBannerFileInput = AttachBannerFileInput
+                }}
+                getMedia={this._getMedia}
+                AttachBottom={() => this.AttachBottom('edit-banner')}
+              />
+            )
+          }
+        </div>
+        <div className="sidebar-organ-user col">
+          <div className="editable-profile-img">
+            {
+              (!picture) ? (
+                (sideBarType === 'user') ? <DefaultUserIcon className="profile-media"/> :
+                  <DefaultOrganIcon className="profile-media"/>
+              ) : (
+                <img className="rounded-circle profile-media" alt="" src={picture}/>)
+            }
+            {
+              (!editProfile) ? '' : (
+                  <AttachFile
+                    ref={AttachMediaFileInput => {
+                      this.AttachMediaFileInput = AttachMediaFileInput
+                    }}
+                    getMedia={this._getBanner}
+                    AttachBottom={() => this.AttachBottom('edit-media')}
+                  />
+              )
+            }
+          </div>
           <div className="align-items-center flex-column info-section">
             <i className="fa fa-ellipsis-v menuBottom" onClick={this._handleMenu}/>
             {
-              (!menuToggle) ? ('') : (<MenuBox id="sidebar-menu-box"/>)
+              (!menuToggle) ? ('') : (
+                <MenuBox id="sidebar-menu-box" editProfileFunc={this._editProfile} editProfile={editProfile}/>)
             }
             <span className="p-20px mt-4">{name}</span>
-            <span className="-grey1 text-center">{description}</span>
+            {
+              (!editProfile) ? (<span className="-grey1 text-center">{description}</span>) : (
+                <TextareaInput
+                  name="edit-description-input"
+                  label=''
+                  value={description}
+                  ref={descriptionInput => {
+                    this.descriptionInput = descriptionInput
+                  }}
+                />
+              )
+            }
           </div>
+          {
+            (!editProfile) ? '' : (
+              <div className="flex-row pb-3">
+                <div className="w-50 pl-2 pb-2">
+                  <button type="submit" className="btn btn-outline-secondary btn-block sidebarBottom">
+                    {tr['Save changes']}
+                  </button>
+                </div>
+                <div className="w-50 pb-2">
+                  <button type="button" className="btn btn-outline-secondary btn-block sidebarBottom"
+                          onClick={this._closeEditProfile}>
+                    {tr['Cancel']}
+                  </button>
+                </div>
+              </div>
+            )
+          }
           {
             (chosenBadgesImg.length > 0) ? (
               <div className="badgesCard">
@@ -270,7 +416,7 @@ class SideBarContent extends Component<PropsSideBarContent, { menuToggle: boolea
             </a>
           </div>
         </div>
-      </div>
+      </form>
     )
   }
 }
