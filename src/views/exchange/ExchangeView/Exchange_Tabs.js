@@ -9,17 +9,17 @@ import "src/styles/components/exchange/members.scss"
 import {bindActionCreators} from "redux"
 import postActions from "../../../redux/actions/commonActions/postActions"
 import exchangeActions from "../../../redux/actions/exchangeActions"
-import getUserAction from "../../../redux/actions/user/getUserActions"
+import getUserActions from "../../../redux/actions/user/getUserActions"
+import exchangeMembershipActions from "../../../redux/actions/commonActions/exchangeMembershipActions"
 import educationActions from "../../../redux/actions/educationActions"
 
 class Exchange_Tabs extends Component {
   constructor(props) {
     super(props)
-    this.state =
-        {
-          // selectedTab: "Stream",
-          selectedTab: "Members", // DEVELOP
-        }
+    this.state = {
+      // selectedTab: "Stream",
+      selectedTab: "Members", // DEVELOP
+    }
     this.setTab = this.setTab.bind(this)
   }
 
@@ -32,9 +32,10 @@ class Exchange_Tabs extends Component {
       normalSvgContainerStyle: "svg-container"
     })
     let {actions, exchangeId} = this.props
-    let {getPostsByExIdLimitOffset, getExchangeById} = actions
+    let {getPostsByExIdLimitOffset, getExchangeById, getExchangeMembers} = actions
     getPostsByExIdLimitOffset({postParentId: exchangeId, limit: 20, offset: 0})
     getExchangeById(exchangeId)
+    getExchangeMembers(exchangeId)
   }
 
   componentDidUpdate() {
@@ -105,8 +106,9 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({
     getPostsByExIdLimitOffset: postActions.filterPostsByPostParentLimitOffset,
     getExchangeById: exchangeActions.getExchangeByExId,
-    getUser: getUserAction.getProfileByUserId,
+    getUser: getUserActions.getProfileByUserId,
     getEducationsByUserId: educationActions.getEducationByUserId,
+    getExchangeMembers: exchangeMembershipActions.getExchangeMembershipByExchangeId,
   }, dispatch)
 })
 
