@@ -53,16 +53,18 @@ export class SideBarItem extends Component<PropsSideBarItem> {
     return (
         <div className={`item-wrapper ${ active ? 'active' : ''}`} onClick={this._onClickHandler}>
           <div className="header-exchange">
-            {!exchange_image ? <DefaultExchangeIcon className="default-logo"/> :
-                <img className="img-logo" src={exchange_image.file} alt="logo"/>
-            }
+            <Link to={"/exchange/" + exchangeId}>
+              {!exchange_image ? <DefaultExchangeIcon className="default-logo"/> :
+                  <img className="img-logo" src={exchange_image.file} alt="logo"/>
+              }
+            </Link>
             <div className="exchange-name">{name}</div>
           </div>
           {
             (!active) ? ('') : (
                 <div className="active-content">
-                  <DescriptionSideBarItem description={description} className="active-description"/>
-                  <FooterSideBarItem exchangeId={exchangeId} className="active-footer"/>
+                  {/*<DescriptionSideBarItem description={description} className="active-description"/>*/}
+                  {/*<FooterSideBarItem exchangeId={exchangeId} className="active-footer"/>*/}
                 </div>
             )
           }
@@ -121,7 +123,11 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
   componentDidMount() {
     const {identityId, identityType, id} = this.props
     const {getExchangeMembershipByMemberIdentity} = this.props.actions
-    getExchangeMembershipByMemberIdentity({identityId, exchangeMembershipOwnerType: identityType, exchangeMembershipOwnerId: id})
+    getExchangeMembershipByMemberIdentity({
+      identityId,
+      exchangeMembershipOwnerType: identityType,
+      exchangeMembershipOwnerId: id
+    })
   }
 
   render() {
@@ -151,7 +157,7 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
 
 
 const mapStateToProps = (state, ownProps) => ({
-    clientExchanges: getExchangeMembershipsSelector(state, ownProps)
+  clientExchanges: getExchangeMembershipsSelector(state, ownProps)
 })
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({

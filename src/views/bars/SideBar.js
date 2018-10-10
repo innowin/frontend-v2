@@ -15,7 +15,6 @@ import {bindActionCreators} from "redux";
 import connect from "react-redux/es/connect/connect";
 import SocialActions from "../../redux/actions/commonActions/socialActions";
 import constants from "../../consts/constants";
-import {getFolloweesSelector} from "../../redux/selectors/common/social/getFollowees";
 import {getFollowersSelector} from "../../redux/selectors/common/social/getFollowers";
 
 const MenuBox = (props) => (
@@ -240,8 +239,7 @@ class SideBarContent extends Component<PropsSideBarContent, { menuToggle: boolea
     const {menuToggle} = this.state
     const {sideBarType, banner, picture, name, description, chosenBadgesImg, socialNetworks, translate: tr, className, paramId, followers, clientIdentityId} = this.props
     const followNames = ["صابر منادی", "امیر امیری فر", "محسن فلاح", "یاسر رستگار", "علی اوروجی"] //TODO get followNames
-    const showFollow = !followers.map(follower => follower.id).includes(clientIdentityId)
-    console.log(followers, 'followers')
+    const showFollow = followers && !followers.map(follower => follower.id).includes(clientIdentityId)
     return (
         <div className={className}>
           {
@@ -300,17 +298,17 @@ class SideBarContent extends Component<PropsSideBarContent, { menuToggle: boolea
               </div>
             </CheckOwner>
             <div className="social-network">
-              <a href={socialNetworks.telegram_account || "#"} target="_blank">
-                <i className={cx("fa fa-youtube-play", {'active': socialNetworks.telegram_account})}/>
+              <a href={socialNetworks.youtube_account || "#"} target="_blank">
+                <i className={cx("fa fa-youtube-play", {'youtube-active': socialNetworks.youtube_account})}/>
               </a>
               <a href={socialNetworks.telegram_account || "#"} target="_blank">
-                <i className={cx("fa fa-telegram", {'active': socialNetworks.telegram_account})}/>
+                <i className={cx("fa fa-telegram", {'telegram-active': socialNetworks.telegram_account})}/>
               </a>
               <a href={socialNetworks.instagram_account || "#"} target="_blank">
-                <i className={cx("fa fa-instagram", {'active': socialNetworks.instagram_account})}/>
+                <i className={cx("fa fa-instagram", {'instagram-active': socialNetworks.instagram_account})}/>
               </a>
               <a href={socialNetworks.linkedin_account || "#"} target="_blank">
-                <i className={cx("fa fa-linkedin-square", {'active': socialNetworks.linkedin_account})}/>
+                <i className={cx("fa fa-linkedin-square", {'linkedin-active': socialNetworks.linkedin_account})}/>
               </a>
             </div>
           </div>

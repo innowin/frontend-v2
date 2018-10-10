@@ -9,6 +9,7 @@ import {getMessages} from "src/redux/selectors/translateSelector"
 import {BasicInfo} from './BasicInfo'
 import {ContactInfo} from './ContactInfo'
 import {PrivateInfo} from './PrivateInfo'
+import {LinkInfo} from './LinkInfo'
 import type {
   userProfileType,
   userType
@@ -43,6 +44,7 @@ export class UserBasicInformation extends Component<UserBasicInformationProps> {
           <ListGroup>
             <BasicInfo {...{userId}} translate={translate} user={user.content} isLoading={user.isLoading}/>
             <ContactInfo {...{userId}} translate={translate} profile={profile.content} isLoading={profile.isLoading}/>
+            <LinkInfo {...{userId}} translate={translate} profile={profile.content} isLoading={profile.isLoading}/>
             <CheckOwner id={userId}>
               <PrivateInfo {...{userId}} user={user.content} translate={translate} profile={profile.content} isLoading={profile.isLoading}/>
             </CheckOwner>

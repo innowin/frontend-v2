@@ -156,6 +156,15 @@ module.exports = {
   'Email is wrong': 'آدرس رایانامه اشتباه است',
   'Address is incorrect': 'آدرس اشتباه وارد شده است',
 
+  // user - link information
+  'Link Information': 'پیوند',
+  'Youtube': 'یوتیوب',
+  'Telegram': 'تلگرام',
+  'Instagram': 'اینستاگرام',
+  'LinkedIn': 'لینکداین',
+  'Web site': 'وب سایت',
+  'Account is incorrect': 'حساب کاربری اشتباه وارد شده است',
+
   // user - researches
   'This number is not a correct year': "سال باید عدد ۴ رقمی معتبر باشد",
   'Page count must be positive': "تعداد صفحات باید عددی مثبت باشد",

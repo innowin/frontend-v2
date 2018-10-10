@@ -2,6 +2,7 @@ import createFollow from "./createFollow"
 import createPost from "./createPost"
 import createWorkExperienceByUserId from './createWorkExperienceByUserId'
 import deleteCertificate from "./deleteCertificate"
+import deleteExchangeMembership from './deleteExchangeMembership'
 import deleteFollow from "./deleteFollow"
 import deletePost from "./deletePost"
 import deleteProduct from "./deleteProduct"
@@ -20,6 +21,7 @@ export default {
   createPost,
   createWorkExperienceByUserId,
   deleteCertificate,
+  deleteExchangeMembership,
   deleteFollow,
   deletePost,
   deleteProduct,
