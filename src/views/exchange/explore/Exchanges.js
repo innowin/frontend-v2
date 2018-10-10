@@ -9,7 +9,15 @@ type appProps =
       exchanges: any
     |}
 
-function render(exchanges, props) {
+function render(props) {
+  let {exchanges, justFollowing} = props
+
+  if (justFollowing) {
+    exchanges = Object.values(exchanges).filter(exchange =>
+      exchange.exchange
+    )
+  }
+
   if (Object.values(exchanges).length > 0) {
     return Object.values(exchanges).map((exchange, i) =>
         <Exchange key={i} data={exchange}/>
@@ -22,11 +30,10 @@ function render(exchanges, props) {
 }
 
 const Exchanges = (props: appProps) => {
-  const {exchanges} = props
   return (
       <div className="exchanges-explore">
         {
-          render(exchanges, props)
+          render(props)
         }
       </div>
   )

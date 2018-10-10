@@ -32,7 +32,7 @@ class Sidebar extends Component <appProps, appState> {
   }
 
   _handleChange = (e) => {
-    // this.props.getFollowersChecked(e.target.checked)
+    this.props.justFollowing(e.target.checked)
   }
 
   handleHashTagsChange = (e) => {
@@ -77,7 +77,7 @@ class Sidebar extends Component <appProps, appState> {
               <label className="label-wrapper">
                 <input type="checkbox" onChange={this._handleChange}/>
                 <span className="checkmark"></span>
-                دنبال
+                دنبال شده
               </label>
             </div>
           </div>

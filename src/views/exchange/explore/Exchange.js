@@ -8,7 +8,8 @@ import {connect} from 'react-redux'
 import Demand from 'src/images/common/demand_svg'
 import Distribute from 'src/images/common/supply_svg'
 import {Link} from 'react-router-dom'
-import exchangeMembership from "../../../redux/actions/commonActions/exchangeMembershipActions"
+import exchangeMembership from 'src/redux/actions/commonActions/exchangeMembershipActions'
+import {ClipLoader} from "react-spinners"
 
 type appProps =
     {|
@@ -21,20 +22,34 @@ type appState =
     {||}
 
 class Exchange extends Component <appProps, appState> {
+  constructor(props) {
+    super(props)
+    this.state =
+        {
+          followLoading: false
+        }
+  }
+
   // componentDidMount() {
   // this.props.actions.getMembers({exchangeId: this.props.data.id})
   // console.log(this.props.members[this.props.data.id])
   // }
 
+  renderFollowButton() {
+
+    if (this.props.data.exchange === undefined && this.state.followLoading) {
+      return <div className='exchange-model-following'><ClipLoader size={23}/></div>
+    }
+    else if (this.props.data.exchange === undefined) {
+      return <button className='exchange-model-follow' onClick={this.follow}>+</button>
+    }
+    else return <div className='exchange-model-following'>دنبال شده</div>
+
+  }
+
   follow = () => {
+    this.setState({...this.state, followLoading: true})
     this.props.actions.follow({identityId: this.props.currentUserIdentity, exchangeIdentity: this.props.data.id})
-    setTimeout(() => {
-      this.props.actions.exchangeMembership({
-        identityId: this.props.currentUserIdentity,
-        exchangeMembershipOwnerId: this.props.currentUserId,
-        exchangeMembershipOwnerType: this.props.currentUserType
-      })
-    }, 500)
   }
 
   render() {
@@ -44,8 +59,9 @@ class Exchange extends Component <appProps, appState> {
     // )
     return (
         <div className='exchange-model'>
-          {data.exchange ? <div className='exchange-model-following'>دنبال شده</div> :
-              <button className='exchange-model-follow' onClick={this.follow}>+</button>}
+          {
+            this.renderFollowButton()
+          }
           <Link to={`/exchange/${data.id}`} style={{textDecoration: 'none', color: 'black'}}>
             {data.exchange_image ?
                 <img src={data.exchange_image.file} alt={data.name} className='exchange-model-avatar'/>
@@ -78,9 +94,7 @@ class Exchange extends Component <appProps, appState> {
 
 
 const mapStateToProps = (state) => ({
-  currentUserType: state.auth.client.user_type,
   currentUserIdentity: state.auth.client.identity.content,
-  currentUserId: state.auth.client.user.id,
 })
 
 const mapDispatchToProps = dispatch => ({
