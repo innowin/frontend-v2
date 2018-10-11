@@ -82,6 +82,8 @@ const urls = {
 
     POST: 'base/posts',
 
+    COMMENT: 'base/comments',
+
     SOCIAL: {
       FOLLOW: 'organizations/follows',
     },

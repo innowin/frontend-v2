@@ -21,6 +21,9 @@ import PostSendIcon from "../../../images/common/postSend_svg";
 import {EditIcon} from "../../../images/icons";
 import CheckOwner from "../CheckOwner";
 import FileActions from "../../../redux/actions/commonActions/fileActions";
+import CommentActions from "../../../redux/actions/commonActions/commentActions";
+import {userCommentsSelector} from 'src/redux/selectors/common/comment/postCommentsSelector'
+import {JalaliDateWithDot} from "../JalaliWithFarsiMonth";
 
 type PostTypeProps = {
   post: postType,
@@ -57,7 +60,7 @@ type PostHeaderProps = {
   translate: { [string]: string },
   postRelatedIdentityImage: fileType,
   postIdentity: identityType,
-  showEdit: Function,
+  showEdit?: Function,
   extendedView: boolean,
 }
 const PostHeader = (props: PostHeaderProps) => {
@@ -143,7 +146,7 @@ const PostFooter = (props: postFooterProps) => {
         <div className='post-details footer-part'>
           <div className='items'>
             <i className="post-menu-bottom fa fa-ellipsis-h cursor-pointer" aria-hidden="true"
-               onClick={!extendedView && addView}/>
+               onClick={!extendedView ? addView : undefined}/>
             {!extendedView && menuToggle ?
                 <div className="menu-box-post pt-0 pb-0" id='sidebar-post-menu-box'>
                   <div>
@@ -167,6 +170,36 @@ const PostFooter = (props: postFooterProps) => {
       </div>
   )
 }
+
+type postCommentsProps = {
+  comments: fileType,
+  translate: {[string]: string}
+}
+const PostComments = (props: postCommentsProps) => {
+  const {comments, translate} = props
+
+  return (
+      <div className='comments-wrapper'>
+        {comments.map(comment =>
+            <div key={'comment ' + comment.id} className='comment-container'>
+              <div className='header'>
+                <h5 className='sender-name'>محمد هوشدار</h5>
+                <h5 className='sender-username'>@mhooshdar0</h5>
+                <div className='comment-date'>
+                  <Moment element="span" fromNow ago>{comments.created_time}</Moment>
+                  <span> {translate['Last']}</span>
+                </div>
+              </div>
+              <div className='content'>
+                <p className='replied-username'>@mhooshdar</p>
+                <p className='post-text'>{comment.text}</p>
+              </div>
+            </div>
+        )}
+      </div>
+  )
+}
+
 
 type postAddCommentProps = {
   userImage: fileType,
@@ -194,6 +227,7 @@ type postExtendedViewProps = {
     getPostViewerCount: Function,
     getPost: Function,
     getFile: Function,
+    getCommentsByParentId: Function,
   },
   match: {
     params: {
@@ -203,13 +237,14 @@ type postExtendedViewProps = {
   },
   translate: { [string]: string },
   post: postType,
-  postRelatedIdentityImage: fileType,
+  postRelatedIdentityImage?: fileType,
   postIdentity: identityType,
   param: paramType,
-  userImage: fileType,
+  userImage?: fileType,
   userImageId: number,
   extendedView: boolean,
-  showEdit: Function,
+  showEdit?: Function,
+  comments?: [],
 }
 type postViewState = {
   menuToggle: boolean,
@@ -222,10 +257,11 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     param: PropTypes.object.isRequired,
     translate: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
-    postRelatedIdentityImage: PropTypes.object.isRequired,
-    userImage: PropTypes.object.isRequired,
+    postRelatedIdentityImage: PropTypes.object,
+    userImage: PropTypes.object,
     extendedView: PropTypes.bool.isRequired,
-    showEdit: PropTypes.func.isRequired,
+    showEdit: PropTypes.func,
+    comments: PropTypes.array,
   }
 
   constructor(props) {
@@ -238,7 +274,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     if (extendedView) {
       const {actions, match} = this.props
       const {params, url} = match
-      const {getPost, getPostViewerCount, setPostViewer} = actions
+      const {getPost, getPostViewerCount, setPostViewer, getCommentsByParentId} = actions
       const postId = +params.id
 
       const isUser = !url.includes('org')
@@ -248,6 +284,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
       getPost({postId, postOwnerType, postOwnerId})
       setPostViewer(postId, getPostViewerCount)
+      getCommentsByParentId({parentId: postId})
     }
     else {
       this._getViewerCount()
@@ -258,7 +295,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   componentDidUpdate(prevProps, prevState) {
     const {userImageId, actions} = this.props
     const {getFile} = actions
-    if(!prevProps.userImageId && prevProps.userImageId !== userImageId) {
+    if (!prevProps.userImageId && prevProps.userImageId !== userImageId) {
       getFile(userImageId)
     }
   }
@@ -294,7 +331,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   render() {
-    const {post, translate, postIdentity, postRelatedIdentityImage, userImage, extendedView, showEdit} = this.props
+    const {post, translate, postIdentity, postRelatedIdentityImage, userImage, extendedView, showEdit, comments} = this.props
     const {menuToggle} = this.state
     let postDescription
     if (post) {
@@ -323,6 +360,9 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                         menuToggle={menuToggle} addView={this._addViewer}
             />
             {extendedView &&
+            <PostComments comments={comments} translate={translate}/>
+            }
+            {extendedView &&
             <PostAddComment userImage={userImage}/>
             }
           </div>
@@ -349,6 +389,8 @@ const mapStateToProps = (state, ownProps) => {
       postRelatedIdentityImage: state.common.file.list[postImageId],
       userImageId: prevUserImageId,
       userImage: state.common.file.list[prevUserImageId],
+      // selector at later
+      comments: userCommentsSelector(state, ownProps),
     }
   }
   else {
@@ -367,6 +409,7 @@ const mapDispatchToProps = dispatch => ({
     setPostViewer: PostActions.setPostViewer,
     getPost: PostActions.getPost,
     getFile: FileActions.getFile,
+    getCommentsByParentId: CommentActions.getCommentsByParentId,
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(PostView)

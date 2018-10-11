@@ -12,6 +12,7 @@ import storage from "redux-persist/lib/storage";
 import {persistReducer} from "redux-persist";
 import exchangeMembership from "./exchangeMembership";
 import hashTag from "./hashTag/mainHashTags";
+import comment from './comment'
 
 
 const locationPersistConfig = {key: 'location', storage: storage}
@@ -31,4 +32,5 @@ export default combineReducers({
   post,
   social,
   exchangeMembership,
+  comment,
 })

@@ -9,6 +9,7 @@ import locationState from "./location"
 import postState from "./post"
 import productState from "./product"
 import socialState from "./social"
+import commentState from "./comment"
 
 export default {
   agencyRequestState,
@@ -21,5 +22,6 @@ export default {
   locationState,
   postState,
   productState,
-  socialState
+  socialState,
+  commentState,
 }
