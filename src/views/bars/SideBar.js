@@ -20,14 +20,18 @@ import {bindActionCreators} from "redux";
 import {getFollowersSelector} from "../../redux/selectors/common/social/getFollowers";
 import {TextareaInput} from "../common/inputs/TextareaInput"
 import {TextInput} from "../common/inputs/TextInput"
+import updateProfile from "src/redux/actions/user/updateProfileByProfileIdAction"
+import OrganizationActions from "src/redux/actions/organization/organizationActions"
 
 const MenuBox = (props) => {
-  const {editProfileFunc, id, editProfile} = props
+  const {showEditProfileFunc, id, editProfile, paramId} = props
   return (
     <div className="menu-box pt-0 pb-0" id={id}>
       <div>
         <span>اشتراک گذاری نمایه</span>
-        <span onClick={editProfileFunc}>{(!editProfile) ? 'ویرایش ویترین' : 'بستن ویرایش ویترین'}</span>
+        <CheckOwner id={paramId}>
+          <span onClick={showEditProfileFunc}>{(!editProfile) ? 'ویرایش ویترین' : 'بستن ویرایش ویترین'}</span>
+        </CheckOwner>
       </div>
       <div>
         <span>بی صدا کردن اعلام</span>
@@ -98,6 +102,7 @@ export const UserSideBar = (props: PropsUserSideBar) => {
       paramId={paramId}
       identityId={identityId}
       owner={user}
+      profileId={profile.id}
     />
   )
 }
@@ -166,6 +171,11 @@ OrganSideBar.propTypes = {
 
 type PropsSideBarContent = {
   sideBarType: string,
+  identityId: number,
+  owner: userType | organizationType,
+  clientIdentityId?: number,
+  profileId?: number,
+  paramId: number,
   banner: ?string,
   picture: ?string,
   name: ?string,
@@ -179,22 +189,20 @@ type PropsSideBarContent = {
   },
   translate: TranslatorType,
   className?: string,
-  paramId: number,
   actions?: {
     createFollow: Function,
     getFollowers: Function,
+    updateProfile: Function,
+    updateOrganization: Function
   },
-  identityId: number,
-  owner: userType | organizationType,
-  clientIdentityId?: number,
   followers?: [],
 }
 
 type StateSideBarContent = {
   menuToggle: boolean,
   editProfile: boolean,
-  media: Object,
-  banner: Object,
+  uploadedMedia: ?string,
+  uploadedBanner: ?string,
   mediaFileName: ?string,
   bannerFileName: ?string,
 }
@@ -203,6 +211,11 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
 
   static propTypes = {
     sideBarType: PropTypes.string.isRequired,
+    identityId: PropTypes.number,
+    owner: PropTypes.object,
+    clientIdentityId: PropTypes.number,
+    profileId: PropTypes.number,
+    paramId: PropTypes.number,
     banner: PropTypes.string,
     picture: PropTypes.string,
     name: PropTypes.string,
@@ -211,11 +224,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     socialNetworks: PropTypes.object.isRequired,
     translate: PropTypes.object.isRequired,
     className: PropTypes.string,
-    paramId: PropTypes.number,
     actions: PropTypes.object,
-    identityId: PropTypes.number,
-    owner: PropTypes.object,
-    clientIdentityId: PropTypes.number,
     followers: PropTypes.array,
   }
 
@@ -224,8 +233,8 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     this.state = {
       menuToggle: false,
       editProfile: false,
-      media: {},
-      banner: {},
+      uploadedMedia: null,
+      uploadedBanner: null,
       mediaFileName: '',
       bannerFileName: '',
     }
@@ -236,14 +245,25 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
   AttachMediaFileInput: React.ElementRef<typeof AttachFile>
 
   _getValues = () => {
-    // const {postIdentityId, postParentId, postOwnerImgId} = this.props
-    const bannerFileName = this.AttachBannerFileInput._getFileName()
-    const mediaFileName = this.AttachMediaFileInput._getFileName()
-    return {
-      // id: 1,
-      profile_banner: this.AttachBannerFileInput._getFile(),
-      profile_media: this.AttachMediaFileInput._getFile(),
-      description: this.descriptionInput,
+    const {sideBarType, owner, profileId} = this.props
+    // const bannerFileName = this.AttachBannerFileInput._getFileName()
+    // const mediaFileName = this.AttachMediaFileInput._getFileName()
+    const banner = this.AttachBannerFileInput._getFile()
+    const media = this.AttachMediaFileInput._getFile()
+    if (sideBarType === constants.USER_TYPES.PERSON) {
+      return {
+        id: profileId,
+        profile_banner: (banner && banner.id) || null,
+        profile_media: (media && media.id) || null,
+        description: this.descriptionInput,
+      }
+    } else {
+      return {
+        id: owner.id,
+        organization_banner: (banner && banner.id) || null,
+        organization_logo: (media && media.id) || null,
+        description: this.descriptionInput,
+      }
     }
   }
 
@@ -269,7 +289,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     }
   }
 
-  _editProfile = (e: any) => {
+  _showEditProfileFunc = (e: any) => {
     e.preventDefault()
     const editProfile = !(this.state.editProfile)
     this.setState({...this.state, editProfile})
@@ -284,7 +304,8 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     // Without flow type: document.addEventListener('click', this._handleClickOutMenuBox)
     (document.addEventListener: Function)('click', this._handleClickOutMenuBox)
 
-    const {actions, identityId, sideBarType, owner} = this.props
+    const {actions, identityId, sideBarType, owner, banner, picture} = this.props
+    this.setState({...this.state, uploadedBanner: banner, uploadedMedia: picture})
     const {getFollowers} = actions || {}
     getFollowers({followOwnerIdentity: identityId, followOwnerType: sideBarType, followOwnerId: owner.id})
   }
@@ -297,12 +318,13 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     this.setState({...this.state, menuToggle: !this.state.menuToggle})
   }
 
-  _getMedia = (media, fileName) => {
-    this.setState({...this.state, media, mediaFileName: fileName})
+  _getMedia = (media = {}, fileName) => {
+    this.setState({...this.state, uploadedMedia: media.file, mediaFileName: fileName})
   }
 
-  _getBanner = (media, fileName) => {
-    this.setState({...this.state, banner: media, bannerFileName: fileName})
+  _getBanner = (media = {}, fileName) => {
+    console.log("getBanner:", media, fileName)
+    this.setState({...this.state, uploadedBanner: media.file, bannerFileName: fileName})
   }
 
   AttachBottom = (className) => (
@@ -313,10 +335,14 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
   )
 
   _save = () => {
-    // const {actions, postOwnerId, postOwnerType, postParentId, postParentType} = this.props
-    // const {createPost} = actions
-    // const formValues = this._getValues()
-    // return createPost({formValues, postOwnerId, postOwnerType, postParentId, postParentType})
+    const {actions, sideBarType, owner, profileId} = this.props
+    const {updateProfile, updateOrganization} = actions || {}
+    const formValues = this._getValues()
+    if (sideBarType === constants.USER_TYPES.PERSON) {
+      return updateProfile({formValues, profileId, userId: owner.id})
+    } else {
+      return updateOrganization({formValues, organizationId: owner.id})
+    }
   }
 
   _handleSubmit = (e) => {
@@ -336,16 +362,17 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
   }
 
   render() {
-    const {menuToggle, editProfile} = this.state
-    const {sideBarType, banner, picture, name, description, chosenBadgesImg, socialNetworks, translate: tr, paramId, followers, clientIdentityId} = this.props
+    const {menuToggle, editProfile, uploadedMedia, uploadedBanner} = this.state
+    const {sideBarType, name, description, chosenBadgesImg, socialNetworks, translate: tr, paramId, followers, clientIdentityId} = this.props
     const className = this.props.className || ''
-    const followNames = ["صابر منادی", "امیر امیری فر", "محسن فلاح", "یاسر رستگار", "علی اوروجی"] //TODO get followNames
+    // const followNames = ["صابر منادی", "امیر امیری فر", "محسن فلاح", "یاسر رستگار", "علی اوروجی"] //TODO get followNames
     const showFollow = followers && !followers.map(follower => follower.id).includes(clientIdentityId)
     return (
       <form className={className + ' pt-0'} onSubmit={this._handleSubmit}>
         <div className="editable-profile-img">
           {
-            (!banner) ? <DefaultImageIcon className="banner"/> : (<img alt="" src={banner} className="banner"/>)
+            (!uploadedBanner) ? <DefaultImageIcon className="banner"/> : (
+              <img alt="" src={uploadedBanner} className="banner"/>)
           }
           {
             (!editProfile) ? '' : (
@@ -353,7 +380,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
                 ref={AttachBannerFileInput => {
                   this.AttachBannerFileInput = AttachBannerFileInput
                 }}
-                getMedia={this._getMedia}
+                getMedia={this._getBanner}
                 AttachBottom={() => this.AttachBottom('edit-banner')}
               />
             )
@@ -362,11 +389,11 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
         <div className="sidebar-organ-user col">
           <div className="editable-profile-img">
             {
-              (!picture) ? (
+              (!uploadedMedia) ? (
                 (sideBarType === 'user') ? <DefaultUserIcon className="profile-media"/> :
                   <DefaultOrganIcon className="profile-media"/>
               ) : (
-                <img className="rounded-circle profile-media" alt="" src={picture}/>)
+                <img className="rounded-circle profile-media" alt="" src={uploadedMedia}/>)
             }
             {
               (!editProfile) ? '' : (
@@ -374,7 +401,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
                   ref={AttachMediaFileInput => {
                     this.AttachMediaFileInput = AttachMediaFileInput
                   }}
-                  getMedia={this._getBanner}
+                  getMedia={this._getMedia}
                   AttachBottom={() => this.AttachBottom('edit-media')}
                 />
               )
@@ -384,7 +411,10 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
             <i className="fa fa-ellipsis-v menuBottom" onClick={this._handleMenu}/>
             {
               (!menuToggle) ? ('') : (
-                <MenuBox id="sidebar-menu-box" editProfileFunc={this._editProfile} editProfile={editProfile}/>)
+                <MenuBox id="sidebar-menu-box"
+                         showEditProfileFunc={this._showEditProfileFunc}
+                         editProfile={editProfile}
+                         paramId={paramId}/>)
             }
             <span className="p-20px mt-4">{name}</span>
             {
@@ -424,7 +454,6 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
               </div>
             ) : ("")
           }
-
           {/*<div className="followNames">*/}
           {/*<span className="item">{followNames[0]}،</span>*/}
           {/*<span className="item">{followNames[1]}</span>*/}
@@ -473,9 +502,9 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
 }
 
 const mapStateToProps = (state, ownProps) => {
-
   return {
     clientIdentityId: state.auth.client.identity.content,
+
     followers: getFollowersSelector(state, ownProps),
   }
 }
@@ -484,6 +513,8 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     createFollow: SocialActions.createFollow,
     getFollowers: SocialActions.getFollowers,
+    updateProfile: updateProfile.updateProfile,
+    updateOrganization: OrganizationActions.updateOrganization,
   }, dispatch)
 })
 SideBarContent = connect(mapStateToProps, mapDispatchToProps)(SideBarContent)
