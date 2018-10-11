@@ -20,9 +20,19 @@ export default {
        isLoading:false,
        error: null
       },
+     products: {
+        content: [],
+        isLoading: false,
+        error : null
+     },
     ---------------- others ----------------
+      exchangeMemberships {
+          content: [],
+          isLoading: false,
+          error : null
+      }
       employees: {
-         content:[1, 2, ...], list of workExperience id
+         content:[],
          isLoading:false,
          error: null,
        },

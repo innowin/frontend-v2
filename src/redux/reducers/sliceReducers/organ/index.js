@@ -1,16 +1,19 @@
+import createFollow from "./createFollow"
+import createPost from "./createPost"
 import createWorkExperienceByUserId from './createWorkExperienceByUserId'
+import deleteCertificate from "./deleteCertificate"
+import deleteFollow from "./deleteFollow"
+import deletePost from "./deletePost"
+import deleteProduct from "./deleteProduct"
 import deleteWorkExperienceByUserId from './deleteWorkExperienceByUserId'
-import getWorkExperienceByUserId from './getWorkExperienceByUserId'
+import getCertificatesByIdentity from "./getCertificatesByIdentity"
 import getExchangeMembershipByMemberIdentity from "./getExchangeMembershipByMemberIdentity"
 import getFollowees from "./getFollowees"
 import getFollowers from "./getFollowers"
-import createFollow from "./createFollow"
-import deleteFollow from "./deleteFollow"
-import getCertificatesByIdentity from "./getCertificatesByIdentity"
-import deleteCertificate from "./deleteCertificate"
-import createPost from "./createPost"
-import deletePost from "./deletePost"
 import getPostByIdentity from "./getPostByIdentity"
+import getProductsByIdentity from "./getProductsByIdentity"
+import getWorkExperienceByUserId from './getWorkExperienceByUserId'
+import getPost from './getPost'
 
 export default {
   createFollow,
@@ -19,11 +22,14 @@ export default {
   deleteCertificate,
   deleteFollow,
   deletePost,
+  deleteProduct,
   deleteWorkExperienceByUserId,
   getCertificatesByIdentity,
   getExchangeMembershipByMemberIdentity,
   getFollowees,
   getFollowers,
   getPostByIdentity,
+  getProductsByIdentity,
+  getPost,
   getWorkExperienceByUserId,
 }

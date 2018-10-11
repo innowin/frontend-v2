@@ -20,6 +20,9 @@ const auth = (state = initialState.auth, action) => {
     /** -------------------------- get posts by identity  -------------------------> **/
     case types.SUCCESS.COMMON.POST.GET_POST_BY_IDENTITY:
       return slices.getPostByIdentity.success(state, action)
+    /** -------------------------- get post  -------------------------> **/
+    case types.SUCCESS.COMMON.POST.GET_POST:
+      return slices.getPost.success(state, action)
     /** -------------------------- create post  -------------------------> **/
     case types.SUCCESS.COMMON.POST.CREATE_POST:
       return slices.createPost.success(state, action)

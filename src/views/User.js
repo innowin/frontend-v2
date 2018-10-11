@@ -10,8 +10,9 @@ import Educations from "src/views/user/educations"
 import GetUserActions from "src/redux/actions/user/getUserActions"
 import GetIdentityActions from "src/redux/actions/identityActions"
 import Posts from "src/views/common/post/index"
+import PostExtendedView from 'src/views/common/post/PostView'
 import PrivateRoute from "../consts/PrivateRoute"
-import Contributions from "./user/contributions"
+import Contributions from "./common/contributions"
 import Social from "src/views/common/social/index"
 import TopBar from "src/views/bars/TopBar"
 import UserBasicInformation from "./user/basicInformation/index"
@@ -117,78 +118,84 @@ class User extends Component<PropsUser> {
     const {path, url, params} = match
     const userId: number = +params.id
     const isLoading = userObject.isLoading || profileObject.isLoading || identityObject.isLoading
-      || badgesObject.isLoading
+        || badgesObject.isLoading
     const errorMessage = userObject.error || profileObject.error || identityObject.error
-      || badgesObject.error
+        || badgesObject.error
     return (
-      <div className="-userOrganBackgroundImg">
-        <TopBar collapseClassName="col user-sidebar-width"/>
-        <VerifyWrapper isLoading={isLoading} error={errorMessage} className="-main row">
-          <UserSideBar translate={translate}
-                       user={userObject.content}
-                       profile={profileObject.content}
-                       badges={badges}
-                       className={`-right-sidebar-wrapper user-sidebar-width col pr-0 pl-0`}
-                       paramId={userId}
-          />
-          <div className="col-md-6 col-sm-10 -content-wrapper">
-            <Tabs>
-              <NavLink className="-tab" to={`${url}/Posts`} activeClassName="-active">{postIcon}</NavLink>
-              <NavLink className="-tab" to={`${url}/basicInformation`} activeClassName="-active">
-                <InformationIcon/>
-              </NavLink>
-              <NavLink className="-tab" to={`${url}/contributions`}
-                       activeClassName="-active"><ContributionIcon/></NavLink>
-              <NavLink className="-tab" to={`${url}/SocialConnections`} activeClassName="-active">
-                <SocialIcon/>
-              </NavLink>
-              {/* TODO: mohammad add education and its route*/}
-              <NavLink className="-tab" to={`${url}/Educations`} activeClassName="-active">
-                <EducationIcon/>
-              </NavLink>
-              {/* FixMe: mohammad workExperiences and skills must be join to workExperiences and join their routes*/}
-              <NavLink className="-tab" to={`${url}/WorkExperiences`}
-                       activeClassName="-active">{workExperienceIcon}</NavLink>
-              <NavLink className="-tab" to={`${url}/Certificates`}
-                       activeClassName="-active"><CertificateIcon/></NavLink>
-            </Tabs>
-            {
-              (!identityObject.content) ? '' : (
-                <Switch>
-                  <Redirect exact from={`${url}/`} to={`${url}/Posts`}/>
-                  <PrivateRoute path={`${path}/Posts`} component={Posts} id={userId}
-                                identityType={constants.USER_TYPES.PERSON}
-                                profileMedia={profileObject.content.profile_media}
-                                postIdentity={identityObject.content}
-                  />
-                  <PrivateRoute path={`${path}/basicInformation`} component={UserBasicInformation} userId={userId}
-                                profile={profileObject} user={userObject}
-                  />
-                  <PrivateRoute path={`${path}/contributions`} component={Contributions}
-                                userId={userId}
-                                identityId={identityObject.content}
-                                identityType={constants.USER_TYPES.PERSON}/>
-                  <PrivateRoute path={`${path}/SocialConnections`} component={Social}
-                                ownerId={userId}
-                                identityId={identityObject.content}
-                                identityType={constants.USER_TYPES.PERSON}
-                  />
-                  <PrivateRoute path={`${path}/Educations`} component={Educations} userId={userId}/>
-                  <PrivateRoute path={`${path}/WorkExperiences`} component={WorkExperiences} userId={userId}/>
-                  <PrivateRoute path={`${path}/Certificates`} component={Certificates}
-                                ownerId={userId}
-                                identityId={identityObject.content}
-                                identityType={constants.USER_TYPES.PERSON}
-                  />
-                </Switch>
-              )
-            }
-          </div>
-          <div className="col-md-2 col-sm-1 -left-sidebar-wrapper">
-            <ChatBar/>
-          </div>
-        </VerifyWrapper>
-      </div>
+        <div className="-userOrganBackgroundImg">
+          <TopBar collapseClassName="col user-sidebar-width"/>
+          <VerifyWrapper isLoading={isLoading} error={errorMessage} className="-main row">
+            {!identityObject.content ? '' : (
+                <UserSideBar translate={translate}
+                             user={userObject.content}
+                             profile={profileObject.content}
+                             badges={badges}
+                             className={`-right-sidebar-wrapper user-sidebar-width col pr-0 pl-0`}
+                             paramId={userId}
+                             identityId={identityObject.content}
+                />
+            )}
+            <div className="col-md-6 col-sm-10 -content-wrapper">
+              <Tabs>
+                <NavLink className="-tab" to={`${url}/Posts`} activeClassName="-active">{postIcon}</NavLink>
+                <NavLink className="-tab" to={`${url}/basicInformation`} activeClassName="-active">
+                  <InformationIcon/>
+                </NavLink>
+                <NavLink className="-tab" to={`${url}/contributions`}
+                         activeClassName="-active"><ContributionIcon/></NavLink>
+                <NavLink className="-tab" to={`${url}/SocialConnections`} activeClassName="-active">
+                  <SocialIcon/>
+                </NavLink>
+                {/* TODO: mohammad add education and its route*/}
+                <NavLink className="-tab" to={`${url}/Educations`} activeClassName="-active">
+                  <EducationIcon/>
+                </NavLink>
+                {/* FixMe: mohammad workExperiences and skills must be join to workExperiences and join their routes*/}
+                <NavLink className="-tab" to={`${url}/WorkExperiences`}
+                         activeClassName="-active">{workExperienceIcon}</NavLink>
+                <NavLink className="-tab" to={`${url}/Certificates`}
+                         activeClassName="-active"><CertificateIcon/></NavLink>
+              </Tabs>
+              {
+                (!identityObject.content) ? '' : (
+                    <Switch>
+                      <Redirect exact from={`${url}/`} to={`${url}/Posts`}/>
+                      <PrivateRoute exact={true} path={`${path}/Posts`} component={Posts} id={userId}
+                                    identityType={constants.USER_TYPES.PERSON}
+                                    profileMedia={profileObject.content.profile_media}
+                                    postIdentity={identityObject.content}
+                      />
+                      <PrivateRoute path={`${path}/Posts/:id`} component={PostExtendedView}
+                                    postIdentity={identityObject.content}
+                                    extendedView={true}/>
+                      <PrivateRoute path={`${path}/basicInformation`} component={UserBasicInformation} userId={userId}
+                                    profile={profileObject} user={userObject}
+                      />
+                      <PrivateRoute path={`${path}/contributions`} component={Contributions}
+                                    ownerId={userId}
+                                    identityId={identityObject.content}
+                                    identityType={constants.USER_TYPES.PERSON}/>
+                      <PrivateRoute path={`${path}/SocialConnections`} component={Social}
+                                    ownerId={userId}
+                                    identityId={identityObject.content}
+                                    identityType={constants.USER_TYPES.PERSON}
+                      />
+                      <PrivateRoute path={`${path}/Educations`} component={Educations} userId={userId}/>
+                      <PrivateRoute path={`${path}/WorkExperiences`} component={WorkExperiences} userId={userId}/>
+                      <PrivateRoute path={`${path}/Certificates`} component={Certificates}
+                                    ownerId={userId}
+                                    identityId={identityObject.content}
+                                    identityType={constants.USER_TYPES.PERSON}
+                      />
+                    </Switch>
+                )
+              }
+            </div>
+            <div className="col-md-2 col-sm-1 -left-sidebar-wrapper">
+              <ChatBar/>
+            </div>
+          </VerifyWrapper>
+        </div>
     )
   }
 }

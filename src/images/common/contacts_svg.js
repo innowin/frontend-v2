@@ -2,7 +2,7 @@ import React from "react"
 
 const ContactsSvg = (props) => {
   return (
-      <div className={props.containerClass} onClick={() => props.changeView("Members")}>
+      <div className={props.containerClass} onClick={() => props.changeView ? props.changeView("Members") : null}>
         <svg width={props.width} height={props.height} className={props.svgClass}
              viewBox="0 0 52160 40650">
           <g id="Layer_x0020_1">

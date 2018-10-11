@@ -25,6 +25,10 @@ class Layout extends Component {
         <PrivateRoute path="/exchange" component={Exchange}/>
         <PrivateRoute path="/product" component={Product}/>
         <PrivateRoute path="/users/Users_Explorer" component={User_Explorer}/>
+
+        {/*Added By Hoseyn : Prevent wrong paths*/}
+        {/*<PrivateRoute path="*" component={Home}/>*/}
+
       </Switch>
     )
   }

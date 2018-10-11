@@ -88,7 +88,11 @@ module.exports = {
 
   // user - posts
   'Post': "کاربرنما",
+  'Single post': "پست",
   'Last': 'پیش',
+  'Type post': 'نما',
+  'Type supply': 'عرضه',
+  'Type demand': 'تقاضا',
 
   // user - common
   'Are you sure? Do you want delete it?': "آیا مطمئن به حذف هستید؟",

@@ -2,7 +2,7 @@ const success = (state, action) => {
   const {data} = action.payload
   let allExchanges = {}
   data.results.forEach(exchange => {
-    allExchanges[exchange.id] = {...exchange}
+    allExchanges[exchange.id] = {...state.list[exchange.id], ...exchange}
   })
 
   return {

@@ -8,11 +8,12 @@ import ProductActions from "src/redux/actions/commonActions/productActions/produ
 import ProductInfo from './ProductInfo'
 import type {ProductGetType} from "../../../consts/flowTypes/product/productTypes"
 import {ContributionIcon} from "../../../images/icons"
-import {ItemHeader, ItemWrapper} from "../../common/cards/Frames"
-import {makeGetProducts} from "../../../redux/selectors/common/product/userGetProductSelector"
+import {ItemHeader, ItemWrapper} from "../cards/Frames"
+import {getProductsSelector} from "../../../redux/selectors/common/product/userGetProductSelector"
+import constants from "src/consts/constants"
 
 type PropsProducts = {
-  userId: number,
+  ownerId: number,
   identityId: number,
   identityType: string,
   translate: { [string]: string },
@@ -33,7 +34,7 @@ type StateProducts = {
 class ProductInfoContainer extends React.Component<PropsProducts, StateProducts> {
 
   static propTypes = {
-    userId: PropTypes.number.isRequired,
+    ownerId: PropTypes.number.isRequired,
     identityId: PropTypes.number.isRequired,
     identityType: PropTypes.string.isRequired,
     translate: PropTypes.object.isRequired,
@@ -59,13 +60,13 @@ class ProductInfoContainer extends React.Component<PropsProducts, StateProducts>
   }
 
   componentDidMount() {
-    const {actions, identityType, userId, identityId} = this.props
+    const {actions, identityType, ownerId, identityId} = this.props
     const {getProductsByIdentity} = actions
-    getProductsByIdentity({identityId, productOwnerId: userId, productOwnerType: identityType})
+    getProductsByIdentity({identityId, productOwnerId: ownerId, productOwnerType: identityType})
   }
 
   render() {
-    const {translate, products, userId, actions} = this.props
+    const {translate, products, ownerId, actions} = this.props
     const {updateProduct, deleteProduct} = actions
 
     return (
@@ -75,7 +76,7 @@ class ProductInfoContainer extends React.Component<PropsProducts, StateProducts>
           {
             products.map((product, index) => (
                 <ProductInfo
-                    userId={userId}
+                    ownerId={ownerId}
                     updateProduct={updateProduct}
                     deleteProduct={deleteProduct}
                     product={product}
@@ -91,19 +92,16 @@ class ProductInfoContainer extends React.Component<PropsProducts, StateProducts>
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const getProducts = makeGetProducts(state, ownProps)
-
-  return (state, props) => {
-    const {userId} = props
-    const stateUser = state.users[userId]
-    const defaultObject = {content: [], isLoading: false, error: null}
-    const productObject = (stateUser && stateUser.products) || defaultObject
-
-    return {
-      products: getProducts(state, props),
-      isLoading: productObject.isLoading,
-      error: productObject.error,
-    }
+  const {ownerId, identityType} = ownProps
+  const stateOwner = (identityType === constants.USER_TYPES.PERSON && state.users[ownerId]) || (
+    identityType === constants.USER_TYPES.ORG && state.organs[ownerId]
+  )
+  const defaultObject = {content: [], isLoading: false, error: null}
+  const productObject = (stateOwner && stateOwner.products) || defaultObject
+  return {
+    products: getProductsSelector(state, ownProps),
+    isLoading: productObject.isLoading,
+    error: productObject.error,
   }
 }
 

@@ -27,7 +27,7 @@ class Sidebar extends Component <appProps, appState> {
         {
           searchHashTags: false,
           hashTags: {},
-          collapse: false
+          collapse: true
         }
   }
 

@@ -18,6 +18,7 @@ import getCertificatesByIdentity from './getCertificatesByIdentity'
 import getFollowees from './getFollowees'
 import getFollowers from './getFollowers'
 import getPostByIdentity from './getPostByIdentity'
+import getPost from './getPost'
 import getProductsByIdentity from './getProductsByIdentity'
 import getResearchByUserId from './getResearchByUserId'
 import getSkillByUserId from './getSkillByUserId'
@@ -47,6 +48,7 @@ export default {
   getFollowees,
   getFollowers,
   getPostByIdentity,
+  getPost,
   getProductsByIdentity,
   getResearchByUserId,
   getSkillByUserId,

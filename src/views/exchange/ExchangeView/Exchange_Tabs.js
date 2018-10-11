@@ -12,6 +12,7 @@ import exchangeActions from "../../../redux/actions/exchangeActions"
 import getUserActions from "../../../redux/actions/user/getUserActions"
 import exchangeMembershipActions from "../../../redux/actions/commonActions/exchangeMembershipActions"
 import educationActions from "../../../redux/actions/educationActions"
+import {VerifyWrapper} from "../../common/cards/Frames"
 
 class Exchange_Tabs extends Component {
   constructor(props) {
@@ -32,18 +33,22 @@ class Exchange_Tabs extends Component {
       normalSvgContainerStyle: "svg-container"
     })
     let {actions, exchangeId} = this.props
-    let {getPostsByExIdLimitOffset, getExchangeById, getExchangeMembers} = actions
-    getPostsByExIdLimitOffset({postParentId: exchangeId, limit: 20, offset: 0})
-    getExchangeById(exchangeId)
-    getExchangeMembers(exchangeId)
+    if (exchangeId) {
+      let {getPostsByExIdLimitOffset, getExchangeById, getExchangeMembers} = actions
+      getPostsByExIdLimitOffset({postParentId: exchangeId, limit: 20, offset: 0})
+      getExchangeById(exchangeId)
+      getExchangeMembers({exchangeId: exchangeId})
+    }
   }
 
   componentDidUpdate() {
     let {actions, exchangeId, exchanges} = this.props
-    let {getUser, getEducationsByUserId} = actions
-    if (exchanges[exchangeId].owner !== undefined && exchanges[exchangeId].owner.identity_user !== null) {
-      getUser(exchanges[exchangeId].owner.identity_user)
-      getEducationsByUserId({userId: exchanges[exchangeId].owner.identity_user})
+    if (exchangeId) {
+      let {getUser, getEducationsByUserId} = actions
+      if (exchanges[exchangeId].owner !== undefined && exchanges[exchangeId].owner.identity_user !== null) {
+        getUser(exchanges[exchangeId].owner.identity_user)
+        getEducationsByUserId({userId: exchanges[exchangeId].owner.identity_user})
+      }
     }
   }
 
@@ -53,47 +58,46 @@ class Exchange_Tabs extends Component {
 
   render() {
     const {translate, exchangeId} = this.props
-    return (
-        <div style={{width: "99%"}}>
-          <div className={"exchange-center-background"}/>
-          <div className={`exchange-navbar-center`}>
-            <Stream width="22px" height="22px"
-                    containerClass={this.state.selectedTab === "Stream" ? this.state.clickedSvgContainerStyle : this.state.normalSvgContainerStyle}
-                    svgClass={this.state.selectedTab === "Stream" ? this.state.clickedSvgStyle : this.state.normalSvgStyle}
-                    changeView={(data) => this.setTab(data)}/>
-            <Info width="22px" height="22px"
-                  containerClass={this.state.selectedTab === "Info" ? this.state.clickedSvgContainerStyle : this.state.normalSvgContainerStyle}
-                  svgClass={this.state.selectedTab === "Info" ? this.state.clickedSvgStyle : this.state.normalSvgStyle}
-                  changeView={(data) => this.setTab(data)}/>
-            <Statistic width="22px" height="22px"
-                       containerClass={this.state.selectedTab === "Statistic" ? this.state.clickedSvgContainerStyle : this.state.normalSvgContainerStyle}
-                       svgClass={this.state.selectedTab === "Statistic" ? this.state.clickedSvgStyle : this.state.normalSvgStyle}
-                       changeView={(data) => this.setTab(data)}/>
-            <Contacts width="22px" height="22px"
-                      containerClass={this.state.selectedTab === "Members" ? this.state.clickedSvgContainerStyle : this.state.normalSvgContainerStyle}
-                      svgClass={this.state.selectedTab === "Members" ? this.state.clickedSvgStyle : this.state.normalSvgStyle}
+    if (exchangeId)
+      return (
+          <div style={{width: "99%"}}>
+            <div className={"exchange-center-background"}/>
+            <div className={`exchange-navbar-center`}>
+              <Stream width="22px" height="22px"
+                      containerClass={this.state.selectedTab === "Stream" ? this.state.clickedSvgContainerStyle : this.state.normalSvgContainerStyle}
+                      svgClass={this.state.selectedTab === "Stream" ? this.state.clickedSvgStyle : this.state.normalSvgStyle}
                       changeView={(data) => this.setTab(data)}/>
-            <Medal width="22px" height="23px"
-                   containerClass={this.state.selectedTab === "Medals" ? this.state.clickedSvgContainerStyle : this.state.normalSvgContainerStyle}
-                   svgClass={this.state.selectedTab === "Medals" ? this.state.clickedSvgStyle : this.state.normalSvgStyle}
-                   changeView={(data) => this.setTab(data)}/>
-            <Ticket width="22px" height="22px"
-                    containerClass={this.state.selectedTab === "Exchange Manager" ? this.state.clickedSvgContainerStyle : this.state.normalSvgContainerStyle}
-                    svgClass={this.state.selectedTab === "Exchange Manager" ? this.state.clickedSvgStyle : this.state.normalSvgStyle}
+              <Info width="22px" height="22px"
+                    containerClass={this.state.selectedTab === "Info" ? this.state.clickedSvgContainerStyle : this.state.normalSvgContainerStyle}
+                    svgClass={this.state.selectedTab === "Info" ? this.state.clickedSvgStyle : this.state.normalSvgStyle}
                     changeView={(data) => this.setTab(data)}/>
+              <Statistic width="22px" height="22px"
+                         containerClass={this.state.selectedTab === "Statistic" ? this.state.clickedSvgContainerStyle : this.state.normalSvgContainerStyle}
+                         svgClass={this.state.selectedTab === "Statistic" ? this.state.clickedSvgStyle : this.state.normalSvgStyle}
+                         changeView={(data) => this.setTab(data)}/>
+              <Contacts width="22px" height="22px"
+                        containerClass={this.state.selectedTab === "Members" ? this.state.clickedSvgContainerStyle : this.state.normalSvgContainerStyle}
+                        svgClass={this.state.selectedTab === "Members" ? this.state.clickedSvgStyle : this.state.normalSvgStyle}
+                        changeView={(data) => this.setTab(data)}/>
+              <Medal width="22px" height="23px"
+                     containerClass={this.state.selectedTab === "Medals" ? this.state.clickedSvgContainerStyle : this.state.normalSvgContainerStyle}
+                     svgClass={this.state.selectedTab === "Medals" ? this.state.clickedSvgStyle : this.state.normalSvgStyle}
+                     changeView={(data) => this.setTab(data)}/>
+              <Ticket width="22px" height="22px"
+                      containerClass={this.state.selectedTab === "Exchange Manager" ? this.state.clickedSvgContainerStyle : this.state.normalSvgContainerStyle}
+                      svgClass={this.state.selectedTab === "Exchange Manager" ? this.state.clickedSvgStyle : this.state.normalSvgStyle}
+                      changeView={(data) => this.setTab(data)}/>
+            </div>
+            <div className={`under-exchange-navbar-center`}>{translate[this.state.selectedTab]}</div>
+            <div className={`line-under-exchange-navbar-center`}/>
+            <div className={`exchange-content-view-frame`}>
+              <Exchange_Info activeTab={this.state.selectedTab} exchangeId={exchangeId}/>
+            </div>
           </div>
-          <div className={`under-exchange-navbar-center`}>
-            {translate[this.state.selectedTab]}
-          </div>
-          <div className={`line-under-exchange-navbar-center`}/>
-          <div className={`exchange-content-view-frame`}>
-            <Exchange_Info activeTab={this.state.selectedTab} exchangeId={exchangeId}/>
-          </div>
-        </div>
-    )
+      )
+    else return <VerifyWrapper isLoading={true} error={false}/>
   }
 }
-
 
 const mapStateToProps = (state) => {
   return {
@@ -101,7 +105,6 @@ const mapStateToProps = (state) => {
     exchanges: state.exchanges.list,
   }
 }
-
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({
     getPostsByExIdLimitOffset: postActions.filterPostsByPostParentLimitOffset,
@@ -111,5 +114,4 @@ const mapDispatchToProps = (dispatch) => ({
     getExchangeMembers: exchangeMembershipActions.getExchangeMembershipByExchangeId,
   }, dispatch)
 })
-
 export default connect(mapStateToProps, mapDispatchToProps)(Exchange_Tabs)
