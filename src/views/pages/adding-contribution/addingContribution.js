@@ -23,16 +23,17 @@ import FontAwesome from "react-fontawesome"
 import client from 'src/consts/client'
 import InitialInfoReduxForm, {initialInfoFormName} from './product/reduxFormInitialInfo'
 import {getFormValues} from 'src/redux/selectors/formValuesSelectors'
-import {categorySelector} from 'src/redux/selectors/common/category'
+import {makeCategorySelector} from 'src/redux/selectors/common/category/getCategoriesByParentId'
 import {getCategories} from 'src/redux/actions/commonActions/categoryActions'
 import {bindActionCreators} from "redux"
 import {getHashTags} from "src/redux/actions/commonActions/hashTagActions"
-import {hashTagsListSelector} from "src/redux/selectors/common/hashTag"
+import {hashTagsListSelector} from "src/redux/selectors/common/hashTags/hashTag"
 import {createProductAsContribution} from "src/redux/actions/commonActions/productActions/productActions"
 import {getCountries, getProvinces, getCities} from "src/redux/actions/commonActions/location"
-import countrySelector from "src/redux/selectors/common/location/country"
-import {provinceSelector} from "src/redux/selectors/common/location/province"
-import {citySelector} from "src/redux/selectors/common/location/city"
+import countrySelector from "src/redux/selectors/common/location/getCountry"
+import {provinceSelector} from "src/redux/selectors/common/location/getProvinceByCountry"
+import makeCitySelectorByProvinceId from "src/redux/selectors/common/location/getCityByProvince"
+import makeProvinceSelectorByCountryId from "src/redux/selectors/common/location/getProvinceByCountry"
 import {change} from 'redux-form';
 import nowCreatedProductIdSelector from "src/redux/selectors/common/product/getNowCreatedProductId"
 import nowCreatedSkillIdSelector from "src/redux/selectors/skill/getNowCreatedSkillId"
@@ -726,19 +727,28 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => {
+  const initialFormValues = getFormValues(state, 'addingContributionInitialInfoForm')
+  const provinceId = initialFormValues.product_related_province ? initialFormValues.product_related_province.value : ''
+  const countryId = initialFormValues.product_related_country ? initialFormValues.product_related_country.value : ''
+  const citySelectorByProvinceId = makeCitySelectorByProvinceId()
+  const provinceSelectorByProvinceId = makeProvinceSelectorByCountryId()
+  const categorySelector = makeCategorySelector()
+  // const provinces =
+  return {
     translator: getMessages(state),
     categories: categorySelector(state),
-    initialInfoFormState: getFormValues(state, 'addingContributionInitialInfoForm'),
+    initialInfoFormState: initialFormValues,
     skillInfoFormValues: getFormValues(state, skillInfoFormName),
     hashTags: hashTagsListSelector(state),
     countries: countrySelector(state),
-    provinces: provinceSelector(state),
-    cities: citySelector(state),
+    provinces: provinceSelectorByProvinceId(state, countryId),
+    cities: citySelectorByProvinceId(state, provinceId),
     testToken: state.auth.client.token,
     nowCreatedProductId: nowCreatedProductIdSelector(state),
     nowCreatedSkillId: nowCreatedSkillIdSelector(state)
-  })
+  }
+}
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators(

@@ -2,7 +2,7 @@ import io from 'socket.io-client'
 
 export const SOCKET_URL = 'http://socket.daneshboom.ir'
 export const REST_URL = 'http://restful.daneshboom.ir'
-
+export const DOMAIN = 'http//daneshboom.ir'
 //Socket
 export const SOCKET = io(SOCKET_URL)
 
@@ -57,6 +57,7 @@ const urls = {
     // product
     PRODUCT: 'products',
     PRODUCT_PICTURE: 'products/pictures',
+    PRICE: 'products/prices',
 
     // file
     FILE: 'files',

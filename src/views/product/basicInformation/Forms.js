@@ -10,8 +10,10 @@ import renderTextField from "../../common/inputs/reduxFormRenderTextField";
 import {Field, reduxForm} from "redux-form"
 import {BeatLoader} from "react-spinners"
 import renderSelectField from "../../common/inputs/reduxFormRenderReactSelect"
-import {ProductInfoItemWrapper, ProductDescriptionWrapper} from "./Views"
+import {ProductInfoItemWrapper} from "./Views"
 import renderTextArea from "../../common/inputs/reduxFormRenderTextArea"
+import {InformationIcon} from "../../../images/icons";
+import {ItemWrapper} from '../../common/cards/Frames'
 
 
 type ProductDescriptionFormProps = {
@@ -163,10 +165,10 @@ let ProductInformationForm = (props: ProductInformationFormProps) => {
     const {handleSubmit, onSubmit, translator, submitting, error, submitFailed, hideEdit, categoriesOptions} = props
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="product-form">
-            <ProductDescriptionWrapper translator={translator}>
-                <Field name="description" className="description" type="text"
+          <ItemWrapper icon={InformationIcon}>
+          <Field name="description" className="description" type="text"
                        component={renderTextArea} label={'desc'}/>
-            </ProductDescriptionWrapper>
+            </ItemWrapper>
             <ProductInfoItemWrapper translator={translator}>
                 <Field name="name" className="form-field" type="text" component={renderTextField}
                        label={'name'}/>

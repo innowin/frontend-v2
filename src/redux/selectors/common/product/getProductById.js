@@ -5,7 +5,7 @@ import {createSelector} from "reselect";
  this function filters the products (that takes from the state of the redux)
  by the wanted id.
  **/
-const getProductById = (state, id) => state.common.product.products.list && state.common.product.products.list[id]
+const getProductById = (state, id) => state.common.product.products.list[id]
 
 
 /**

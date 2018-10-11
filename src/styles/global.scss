@@ -30,6 +30,7 @@ input, textarea, button, select {
 @import "./pages/progressive";
 @import "./pages/modal";
 @import "./pages/adding-contribution/adding-contribution";
+@import "./pages/addingExchange/adding-exchange";
 @import "./components/exchange/explore/explore";
 @import "components/bars/bars";
 @import "components/bars/chatbar";
@@ -48,6 +49,7 @@ input, textarea, button, select {
 @import "components/common/list-group-addons";
 @import "components/common/media";
 @import "components/common/product";
+@import "components/common/tag/tag";
 @import "components/common/common-redux-form";
 @import "components/common/tooltip";
 @import "components/common/wrappers/wrappers";
@@ -74,6 +76,8 @@ input, textarea, button, select {
 @import "layout";
 @import "product/product-explorer";
 @import "product/product-view";
+@import "product/basic-information/basic-info";
+
 
 a, a:hover, a:active {
   text-decoration: none;

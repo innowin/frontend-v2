@@ -38,17 +38,26 @@ export const Owner = (props: OwnerType) => {
   )
 }
 
-type BadgesProps = {
-  badges?: Array<string>
+export type BadgeType = {
+  fileUrl: string,
+  id: string
+}
+export type BadgesProps = {
+  badges?: Array<BadgeType>
 }
 
 export const Badges = (props: BadgesProps) => {
   const {badges = []} = props
   return (
       <BorderedPaddedWrapper className='badges'>
-        {badges.map(badge => (
-            <VisibleOnLoadImage className="badge" img={badge} key={`badge_${badge.slice(badge.length - 16)}`}/>
-        ))}
+        {badges.map(badge => {
+            return (
+            <VisibleOnLoadImage
+                className="badge"
+                img={badge.fileUrl}
+                key={`side-bar-badge${badge.id}`}
+            />
+        )})}
       </BorderedPaddedWrapper>
   )
 }
@@ -100,8 +109,13 @@ export const ActBar = (props: ActBarProps) => {
   )
 }
 
+type GalleryImgType = {
+  id: string,
+  fileUrl: string
+}
+
 type GalleryProps = {
-  images?: Array<string>,
+  images?: Array<GalleryImgType>,
   mainImage: string,
   galleryModalDisplayHandler: Function
 }
@@ -112,10 +126,13 @@ export const Gallery = (props: GalleryProps) => {
       <div className="gallery-wrapper">
         <VisibleOnLoadImage img={mainImage} className="main-image"/>
         <div className="items-wrapper">
-          {images.map(img =>
-              <div key={`gallery-item-${img.slice(img.length - 16)}`} className="gallery-item">
-                <VisibleOnLoadImage className="gallery-image" img={img}/>
-              </div>
+          {images.map((img, index) => {
+            return (
+                <div id={index} key={`gallery-image-${img.id}`} className="gallery-item">
+                  <VisibleOnLoadImage className="gallery-image" img={img.fileUrl}/>
+                </div>
+            )
+          }
           )}
           {(images.length === 0 && !mainImage)?
               <div className="gallery-item">عکس ندارد</div>
@@ -141,7 +158,7 @@ export const GalleryModal = (props: GalleryModalProps) => {
   return (
       <Modal size="lg" isOpen={isOpen} backdrop={false} className="gallery-modal">
         <ModalBody>
-          <FontAwesome name="times" size="1x" className="close-btn"
+          <FontAwesome name="times" className="close-btn"
                        onClick={visibilityHandler}/>
           <ImageGallery items={images}/>
         </ModalBody>
