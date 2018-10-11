@@ -23,6 +23,7 @@
   margin-bottom: 15px;
   border: 1px solid $eee-color;
   border-radius: 3px;
+  background: #ffffff;
   //padding: 18px 18px 13px 18px;
   box-shadow: 0 2px 5px $box-shadow-color;
 
@@ -162,6 +163,42 @@
       .title {
         font-weight: bold;
         color: $success-color;
+      }
+    }
+  }
+  .comments-wrapper {
+    background: lighten($text-lighter-color, 7%);
+    border: 1px solid lighten($text-lighter-color, 2%);
+
+    .comment-container {
+      margin: 25px 18px 30px 25px;
+      .header {
+        display: flex;
+
+        .sender-name {
+          font-size: $font-size-normalText;
+          color: #000000;
+        }
+
+        .sender-username {
+          font-size: $font-size-normalText;
+          color: $text-light-color;
+          margin-right: 15px;
+        }
+        .comment-date {
+          font-size: $font-size-regular;
+          color: $text-light-color;
+          margin-right: auto;
+        }
+      }
+      .content {
+        display: flex;
+        font-size: $font-size-regular;
+
+        .replied-username {
+          color: $success-color;
+          margin-left: 15px;
+        }
       }
     }
   }

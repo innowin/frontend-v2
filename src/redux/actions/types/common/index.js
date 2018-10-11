@@ -5,6 +5,7 @@ import postTypes from './post'
 import productTypes from './product'
 import exchangeMembership from './exchangeMembership'
 import certificateTypes from './certificate'
+import commentTypes from './comment'
 
 const ERROR = {
   SOCIAL: socialTypes.ERROR,
@@ -12,6 +13,7 @@ const ERROR = {
   EXCHANGE_MEMBERSHIP: exchangeMembership.ERROR,
   PRODUCT: productTypes.ERROR,
   CERTIFICATE: certificateTypes.ERROR,
+  COMMENT: commentTypes.ERROR,
   ...common.ERROR
 }
 
@@ -21,6 +23,7 @@ const SUCCESS = {
   EXCHANGE_MEMBERSHIP: exchangeMembership.SUCCESS,
   PRODUCT: productTypes.SUCCESS,
   CERTIFICATE: certificateTypes.SUCCESS,
+  COMMENT: commentTypes.SUCCESS,
   ...common.SUCCESS
 }
 
@@ -30,6 +33,7 @@ const BASE = {
   EXCHANGE_MEMBERSHIP: exchangeMembership.BASE,
   PRODUCT: productTypes.BASE,
   CERTIFICATE: certificateTypes.BASE,
+  COMMENT: commentTypes.BASE,
   ...common.BASE
 }
 
