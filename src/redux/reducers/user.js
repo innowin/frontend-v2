@@ -64,7 +64,7 @@ const users = (state = initialState.users, action) => {
     case types.SUCCESS.USER.GET_USERS:
       return {
         ...state,
-        list: data,
+        list: {...state.list, ...data},
         isLoading: false,
         error: null
       }

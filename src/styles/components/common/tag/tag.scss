@@ -1,0 +1,11 @@
+@import "../../../variables";
+
+.tag {
+  background: $tag-background;
+  color: $text-lightest-color;
+  margin: 3px;
+  padding: 1px 7px;
+  font-size: $tag-font-size;
+  border-radius: 3px;
+  display: inline-block;
+}

@@ -31,6 +31,24 @@ const arrayToIdKeyedObject = (arr) => {
   }, {})
 }
 
+const arrayToIdKeyedObjectWithIds = (arr) => {
+
+  /**
+   this function converts an array of objects (that any object has 'id' in
+   its keys ) to an object with keys of ids and values of correspond object.
+   and an array of ids of objects.
+   [ {id: 1, num: 10}, {id: 2, num: 20} ] ===> { 1: {num: 10}, 2: {num: 20} }
+   **/
+  const items = {}
+  const ids = []
+  arr.forEach(obj => {
+    items[obj.id] = {...obj}
+    ids.push(obj.id)
+  })
+  return {items, ids}
+}
+
+
 const arrayToDefaultObject = (arr) => {
   const newArr = arr.map(data => ({exchange: {content: {...data}, isLoading: false, error: null}}))
   return newArr.reduce((acc, item) => {
@@ -123,6 +141,7 @@ const selectByKeyList = (obj, keyList) => {
 export default {
   arrayToIdKeyedObject,
   arrayToDefaultObject,
+  arrayToIdKeyedObjectWithIds,
   deleteKeyFromObj,
   abbreviation,
   filterNestedObjByKey,

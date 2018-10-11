@@ -5,6 +5,7 @@ module.exports = {
     'Choose as main image': 'انتخاب به عنوان نصویر اصلی',
     'No result found': 'چنین تگی وجود ندارد'
   },
+  'Product Overview': 'معرفی اجمالی محصول',
   // utils
   'Network error': "خطا در شبکه",
   'Internal server error': "خطا در سرور",
