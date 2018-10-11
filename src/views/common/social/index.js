@@ -133,7 +133,6 @@ class Socials extends Component<PropsSocials, StateSocials> {
 
   render() {
     const {translate, followers, followees, actions, isLoading, error, exchanges, identityId, ownerId, identityType, param} = this.props
-    console.log(followers, 'sssssss')
     const {deleteFollow, deleteExchangeMembership, updateFollow, createFollow} = actions
     const {editExchanges, editFollowings} = this.state
 

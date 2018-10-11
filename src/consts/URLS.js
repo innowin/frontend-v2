@@ -49,6 +49,7 @@ const urls = {
     AGENCY_REQUEST: 'users/agent-requests',
 
   },
+  EXCHANGE_EXPLORER: 'exchanges/explore',
   EXCHANGE: 'exchanges',
   WORK_EXPERIENCE: 'users/work-experiences',
   EDUCATION: 'users/educations',
@@ -81,6 +82,8 @@ const urls = {
     CITY: 'base/towns',
 
     POST: 'base/posts',
+
+    COMMENT: 'base/comments',
 
     SOCIAL: {
       FOLLOW: 'organizations/follows',

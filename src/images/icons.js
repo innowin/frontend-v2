@@ -2,6 +2,7 @@ import AgentSvgIcon from "./addingConribution/agent_svg"
 import AttachFileIcon from "./common/attachFile_svg"
 import BookmarkIcon from "./product/bookmark"
 import CertificateIcon from "./user/certificate_svg"
+import CertificateTick from "./common/certificate_tick_svg"
 import ChartIcon from "./product/chart"
 import CircularAddIcon from "./common/circularAdd_svg"
 import CircularTickSvg from "./common/circularTick"
@@ -58,6 +59,10 @@ import Contacts from "./common/contacts_svg"
 import Medal from "./common/medal_svg"
 import Ticket from "./common/ticket_svg"
 import QuestionMark from "./common/questionMark_svg"
+import TelegramIcon from "./common/telegram_svg"
+import InstagramIcon from "./common/instagram_svg"
+import LinkedInIcon from "./common/linkedin_svg"
+import YoutubeIcon from "./common/youtube_svg"
 
 
 export {
@@ -65,6 +70,7 @@ export {
   Info,
   Statistic,
   Contacts,
+  CertificateTick,
   Medal,
   Ticket,
   QuestionMark,
@@ -121,4 +127,8 @@ export {
   TipsIcon,
   userInfoIcon,
   workExperienceIcon,
+  TelegramIcon,
+  InstagramIcon,
+  LinkedInIcon,
+  YoutubeIcon,
 }

@@ -3,7 +3,6 @@ import * as React from "react"
 import PropTypes from "prop-types"
 
 import {Field, FieldLabel, FieldValue, ItemHeader} from "../../common/cards/Frames"
-import {JalaliDateWithDot} from "../../common/JalaliWithFarsiMonth"
 import type {organizationType} from "src/consts/flowTypes/organization/organization"
 
 // flow type of OrganizationInfoView

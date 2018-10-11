@@ -1,67 +1,50 @@
 @import "../../variables";
-.certificates-wrapper {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	
-	.certificate-wrapper {
-		display: flex;
-		justify-content: center;
-		flex: 1 1 230px;
-		min-width: 230px;
-		.certificate-col {
-			flex: 1 1 230px;
-			min-width: 230px;
-		}
-	}
-}
 
+.certificate-wrapper {
+  display: flex;
+  position: relative;
+  border: 1px solid $text-lighter-color;
+  margin: 10px 0 20px 0;
+  padding: 25px;
 
-.certificate{
-	display: flex;
-	justify-content: center;
-	.content{
-		margin-top: 4px;
-		width: 200px;
-		border:1px solid #c9c9c99c;
-		border-radius: 2px;
-	}
-	.certImage{
-		min-width:100px;
-		min-height: 100px;
-		max-width: 100%;
+  .-item-edit-contribution {
+    position: absolute;
+    left: 6px;
+    top: 0;
+  }
+  .content {
+    flex: 3;
+    .header {
+      display: flex;
+      justify-content: space-between;
+      .certificate-title {
+        font-size: $font-size-normalText;
+      }
+      .tick-icon {
+        width: 18px;
+        height: 18px;
+        fill: $primary-color-light3
+      }
+    }
+    .certificate-parent-name {
+      display: inline-block;
+      font-size: $font-size-normalText;
+      color: $primary-color-light3;
+      font-weight: bold;
 
-	}
-	img{
-		// padding-top: 5%;
-		// padding-bottom: 0;
-		// padding-right: 35%;
-		// padding-left: 35%;
-	}
-	h5{
-		padding:5px;
-		padding-bottom:0px;
-		padding-top:15px;
-		margin:0px;
-		font-size:$font-size-normalText;
-	}
-	.shareButton{
-		float:right;
-		padding-left:6px;
-		padding-right:6px;
-		padding-bottom:6px;
-		padding-top:0px;
-		svg{
-			width:10px;
-			height:10px;
-		}
-	}
-	.editButton{
-		cursor:pointer;
-		float:left;
-		svg{
-			width:15px;
-			height: 15px;
-		}
-	}
+      &:hover {
+        color: darken($primary-color-light3, 10%);
+      }
+    }
+  }
+  .logo-container {
+    margin-right: 20px;
+    flex: 2;
+    height: 140px;
+    img {
+      margin: auto;
+      display: block;
+      height: 140px;
+    }
+  }
 }

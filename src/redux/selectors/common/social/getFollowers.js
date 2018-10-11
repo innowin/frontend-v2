@@ -26,7 +26,6 @@ const getIdentityId = (state, props) => props.identityId
 export const getFollowersSelector = createSelector(
   [getFollows, getUserFollows, getUsers, getOrgans, getIdentityId],
   (follows, userFollows, users, organsList, identityId) => {
-    console.log(identityId, 'a')
     if (follows && Object.keys(follows).length !== 0 && follows.constructor === Object && userFollows && identityId) {
       const arrayFollows = helpers.getObjectOfArrayKeys(userFollows, follows)
       return arrayFollows.filter(follow => follow.follow_followed.id === identityId).map(follow => {
