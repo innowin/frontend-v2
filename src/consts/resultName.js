@@ -102,6 +102,10 @@ const results = {
       DELETE_PRODUCT: 'delete-product',
     },
 
+    COMMENT: {
+      GET_COMMENTS_BY_PARENT_ID: 'get-comments-by-parent-id',
+    },
+
     // hashTag
     GET_HASH_TAGS: 'common-get-hashTags-result',
     CREATE_HASH_TAG_FOR: 'common-create-hashTag-for-object-result',
