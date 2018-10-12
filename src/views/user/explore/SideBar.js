@@ -4,7 +4,7 @@ import {Component} from 'react'
 import FontAwesome from 'react-fontawesome'
 import {connect} from 'react-redux'
 import {bindActionCreators} from "redux"
-import {hashTagsListSelector} from 'src/redux/selectors/common/hashTag'
+import {hashTagsListSelector} from 'src/redux/selectors/common/hashTags/hashTag'
 import Select from 'react-select'
 
 type appProps =
