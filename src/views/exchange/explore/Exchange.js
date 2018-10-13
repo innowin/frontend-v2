@@ -13,118 +13,112 @@ import {ClipLoader} from "react-spinners"
 
 type appProps =
     {|
-        actions: any,
-        members: Array<number>,
-        data: any
+      actions: any,
+      members: Array<number>,
+      data: any
     |}
 
 type appState =
     {|
-        followLoading: boolean
+      followLoading: boolean
     |}
 
-class Exchange extends Component <appProps, appState>
-{
-    constructor(props)
-    {
-        super(props)
-        this.state =
-            {
-                followLoading: false,
-                // imageLoaded: false
+class Exchange extends Component <appProps, appState> {
+  constructor(props) {
+    super(props)
+    this.state =
+        {
+          followLoading: false,
+          // imageLoaded: false
+        }
+  }
+
+  // componentDidMount()
+  // {
+  //     if (this.props.data.exchange_image)
+  //     {
+  //         let profileImg = new Image()
+  //         profileImg.src = 'http://restful.daneshboom.ir/' + this.props.data.exchange_image.file
+  //         profileImg.onload = () =>
+  //         {
+  //             this.setState({...this.state, imageLoaded: true})
+  //         }
+  //     }
+  // this.props.actions.getMembers({exchangeId: this.props.data.id})
+  // console.log(this.props.members[this.props.data.id])
+  // }
+
+  renderFollowButton() {
+
+    if (this.props.data.exchange === undefined && this.state.followLoading) {
+      return <div className='exchange-model-following'><ClipLoader size={23}/></div>
+    }
+    else if (this.props.data.exchange === undefined) {
+      return <button className='exchange-model-follow' onClick={this.follow}>+</button>
+    }
+    else return <div className='exchange-model-following'>دنبال شده</div>
+
+  }
+
+  follow = () => {
+    this.setState({...this.state, followLoading: true})
+    this.props.actions.follow({identityId: this.props.currentUserIdentity, exchangeIdentity: this.props.data.id})
+  }
+
+  render() {
+    const {data} = this.props
+    // const images = data.followers.map(img =>
+    //     <img src={img.image} key={data.followers.indexOf(img)} className='exchange-model-followers-avatar'/>
+    // )
+    return (
+        <div className='exchange-model'>
+          {
+            this.renderFollowButton()
+          }
+          <Link to={`/exchange/${data.id}`} style={{textDecoration: 'none', color: 'black'}}>
+            {(data.exchange_image) ?
+                <img src={data.exchange_image.file.includes('restful.daneshboom.ir/') ? data.exchange_image.file : 'http://restful.daneshboom.ir/' + data.exchange_image.file} alt={data.name}
+                     className='exchange-model-avatar'/>
+                :
+                <DefaultUserIcon width='80px' height='80px'/>
             }
-    }
-
-    // componentDidMount()
-    // {
-    //     if (this.props.data.exchange_image)
-    //     {
-    //         let profileImg = new Image()
-    //         profileImg.src = 'http://restful.daneshboom.ir/' + this.props.data.exchange_image.file
-    //         profileImg.onload = () =>
-    //         {
-    //             this.setState({...this.state, imageLoaded: true})
-    //         }
-    //     }
-        // this.props.actions.getMembers({exchangeId: this.props.data.id})
-        // console.log(this.props.members[this.props.data.id])
-    // }
-
-    renderFollowButton()
-    {
-
-        if (this.props.data.exchange === undefined && this.state.followLoading)
-        {
-            return <div className='exchange-model-following'><ClipLoader size={23}/></div>
-        }
-        else if (this.props.data.exchange === undefined)
-        {
-            return <button className='exchange-model-follow' onClick={this.follow}>+</button>
-        }
-        else return <div className='exchange-model-following'>دنبال شده</div>
-
-    }
-
-    follow = () =>
-    {
-        this.setState({...this.state, followLoading: true})
-        this.props.actions.follow({identityId: this.props.currentUserIdentity, exchangeIdentity: this.props.data.id})
-    }
-
-    render()
-    {
-        const {data} = this.props
-        // const images = data.followers.map(img =>
-        //     <img src={img.image} key={data.followers.indexOf(img)} className='exchange-model-followers-avatar'/>
-        // )
-        return (
-            <div className='exchange-model'>
-                {
-                    this.renderFollowButton()
-                }
-                <Link to={`/exchange/${data.id}`} style={{textDecoration: 'none', color: 'black'}}>
-                    {(data.exchange_image) ?
-                        <img src={'http://restful.daneshboom.ir/' + data.exchange_image.file} alt={data.name} className='exchange-model-avatar'/>
-                        :
-                        <DefaultUserIcon width='80px' height='80px'/>
-                    }
-                    <div className='exchange-model-title'>
-                        {data.name}
-                    </div>
-                    <div className='exchange-model-description'>
-                        {data.description}
-                    </div>
-                    <hr/>
-                    {/*{images}*/}
-                    <div className='exchange-model-followers-count'>{data.members_count}</div>
-                    <hr/>
-                    <div className='exchange-model-detail'>
-                        <Demand width='30px' className='exchange-model-detail-demand-logo'/>
-                        <div className='exchange-model-detail-demand-title'>تقاضا</div>
-                        <span> </span>
-                        <div className='exchange-model-detail-demand-title'>{data.demand}</div>
-                    </div>
-                    <div className='exchange-model-detail'>
-                        <Distribute width='20px' className='exchange-model-detail-dist-logo'/>
-                        <div className='exchange-model-detail-dist-title'>عرضه</div>
-                        <span> </span>
-                        <div className='exchange-model-detail-dist-title'>{data.supply}</div>
-                    </div>
-                </Link>
+            <div className='exchange-model-title'>
+              {data.name}
             </div>
-        )
-    }
+            <div className='exchange-model-description'>
+              {data.description}
+            </div>
+            <hr/>
+            {/*{images}*/}
+            <div className='exchange-model-followers-count'>{data.members_count}</div>
+            <hr/>
+            <div className='exchange-model-detail'>
+              <Demand width='30px' className='exchange-model-detail-demand-logo'/>
+              <div className='exchange-model-detail-demand-title'>تقاضا</div>
+              <span> </span>
+              <div className='exchange-model-detail-demand-title'>{data.demand}</div>
+            </div>
+            <div className='exchange-model-detail'>
+              <Distribute width='20px' className='exchange-model-detail-dist-logo'/>
+              <div className='exchange-model-detail-dist-title'>عرضه</div>
+              <span> </span>
+              <div className='exchange-model-detail-dist-title'>{data.supply}</div>
+            </div>
+          </Link>
+        </div>
+    )
+  }
 }
 
 
 const mapStateToProps = (state) => ({
-    currentUserIdentity: state.auth.client.identity.content,
+  currentUserIdentity: state.auth.client.identity.content,
 })
 
 const mapDispatchToProps = dispatch => ({
-    actions: bindActionCreators({
-        follow: exchangeActions.createExchangeMembership,
-        // exchangeMembership: exchangeMembership.getExchangeMembershipByMemberIdentity
-    }, dispatch)
+  actions: bindActionCreators({
+    follow: exchangeActions.createExchangeMembership,
+    // exchangeMembership: exchangeMembership.getExchangeMembershipByMemberIdentity
+  }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Exchange)
