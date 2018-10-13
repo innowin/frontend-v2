@@ -48,17 +48,16 @@ class Exchange_Info extends Component {
   }
 
   render() {
-    const {activeTab, exchangeId} = this.props
+    const {activeTab, exchangeId, exchanges, users} = this.props
     switch (activeTab) {
       case "Stream":
         return (
             <StreamView exchangeId={exchangeId}/>
         )
       case "Info":
-        const {exchanges, users} = this.props
-        const currentExchange = exchanges.list[exchangeId]
+        let currentExchange = exchanges.list[exchangeId]
         if (currentExchange.owner) {
-          const owner = users.list[currentExchange.owner.identity_user]
+          let owner = users.list[currentExchange.owner.identity_user]
           if (owner) {
             return (
                 <InfoView currentExchange={currentExchange} owner={owner}/>
@@ -73,7 +72,7 @@ class Exchange_Info extends Component {
         }
       case "Members":
         return (
-            <MembersView/>
+            <MembersView exchangeId={exchangeId}/>
         )
       default:
         return (

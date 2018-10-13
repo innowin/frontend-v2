@@ -4,7 +4,7 @@ import {combineReducers} from "redux";
 import storage from "redux-persist/lib/storage";
 import {persistReducer} from "redux-persist";
 import createEncryptor from "redux-persist-transform-encrypt";
-
+import price from "./price"
 
 
 const productsEncryptor = createEncryptor({
@@ -26,7 +26,10 @@ const productsPersistConfig = {key: 'products', transforms: [productsEncryptor],
 
 const productPicturePersistConfig = {key: 'productPicture', transforms: [productPictureEncryptor], storage: storage}
 
+const pricePersistConfig = {key: 'price', storage: storage}
+
 export default combineReducers({
   products: persistReducer(productsPersistConfig, products),
-  productPicture: persistReducer(productPicturePersistConfig, productPicture)
+  productPicture: persistReducer(productPicturePersistConfig, productPicture),
+  price: persistReducer(pricePersistConfig, price)
 })

@@ -83,6 +83,7 @@
   background-color: $text-lightest-color;
   border-radius: $border-radius-size;
   padding: 45px 16px 16px 16px;
+  box-shadow: 0 0 1px #efefef; // fixme: temporary style.
   .-itemWrapper {
     position: relative;
     .-item-icon {

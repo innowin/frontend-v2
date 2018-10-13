@@ -8,6 +8,7 @@ import fileWatchers from "./file/file";
 import postWatchers from './post/post'
 import socialWatchers from './social/social'
 import exchangeMembershipWatchers from './exchangeMembership/exchangeMembership'
+import commentWatchers from './comment/comment'
 
 export default [
   // product watchers
@@ -36,6 +37,9 @@ export default [
 
   // social
   ...socialWatchers,
+
+  // comment
+  ...commentWatchers,
 
   // exchangeMembership
   ...exchangeMembershipWatchers,

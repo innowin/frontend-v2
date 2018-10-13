@@ -2,7 +2,7 @@ import io from 'socket.io-client'
 
 export const SOCKET_URL = 'http://socket.daneshboom.ir'
 export const REST_URL = 'http://restful.daneshboom.ir'
-
+export const DOMAIN = 'http//daneshboom.ir'
 //Socket
 export const SOCKET = io(SOCKET_URL)
 
@@ -49,6 +49,7 @@ const urls = {
     AGENCY_REQUEST: 'users/agent-requests',
 
   },
+  EXCHANGE_EXPLORER: 'exchanges/explore',
   EXCHANGE: 'exchanges',
   WORK_EXPERIENCE: 'users/work-experiences',
   EDUCATION: 'users/educations',
@@ -58,6 +59,7 @@ const urls = {
     // product
     PRODUCT: 'products',
     PRODUCT_PICTURE: 'products/pictures',
+    PRICE: 'products/prices',
 
     // file
     FILE: 'files',
@@ -81,6 +83,8 @@ const urls = {
     CITY: 'base/towns',
 
     POST: 'base/posts',
+
+    COMMENT: 'base/comments',
 
     SOCIAL: {
       FOLLOW: 'organizations/follows',

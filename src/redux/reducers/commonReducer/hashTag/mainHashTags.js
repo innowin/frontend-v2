@@ -3,7 +3,7 @@ import types from '../../../actions/types/index'
 import appendListToStateList from "../../sliceReducers/utilsSlices/appendListToStateList";
 
 
-const hashTag = (state = initialState.common.hashTag, action) => {
+const hashTags = (state = initialState.common.hashTag.hashTags, action) => {
   switch (action.type) {
 
       /** <------------------ get all hashTags ------------------ **/
@@ -12,11 +12,11 @@ const hashTag = (state = initialState.common.hashTag, action) => {
       /** ------------------ get all hashTags ------------------> **/
 
     case types.RESET:
-      return initialState.common.hashTag
+      return initialState.common.hashTag.hashTags
 
     default:
       return state
   }
 }
 
-export default hashTag
+export default hashTags

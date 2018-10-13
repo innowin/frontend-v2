@@ -19,18 +19,31 @@ type appProps =
     |}
 
 type appState =
-    {||}
+    {|
+      followLoading: boolean
+    |}
 
 class Exchange extends Component <appProps, appState> {
   constructor(props) {
     super(props)
     this.state =
         {
-          followLoading: false
+          followLoading: false,
+          // imageLoaded: false
         }
   }
 
-  // componentDidMount() {
+  // componentDidMount()
+  // {
+  //     if (this.props.data.exchange_image)
+  //     {
+  //         let profileImg = new Image()
+  //         profileImg.src = 'http://restful.daneshboom.ir/' + this.props.data.exchange_image.file
+  //         profileImg.onload = () =>
+  //         {
+  //             this.setState({...this.state, imageLoaded: true})
+  //         }
+  //     }
   // this.props.actions.getMembers({exchangeId: this.props.data.id})
   // console.log(this.props.members[this.props.data.id])
   // }
@@ -63,8 +76,9 @@ class Exchange extends Component <appProps, appState> {
             this.renderFollowButton()
           }
           <Link to={`/exchange/${data.id}`} style={{textDecoration: 'none', color: 'black'}}>
-            {data.exchange_image ?
-                <img src={data.exchange_image.file} alt={data.name} className='exchange-model-avatar'/>
+            {(data.exchange_image) ?
+                <img src={data.exchange_image.file.includes('restful.daneshboom.ir/') ? data.exchange_image.file : 'http://restful.daneshboom.ir/' + data.exchange_image.file} alt={data.name}
+                     className='exchange-model-avatar'/>
                 :
                 <DefaultUserIcon width='80px' height='80px'/>
             }
@@ -81,10 +95,14 @@ class Exchange extends Component <appProps, appState> {
             <div className='exchange-model-detail'>
               <Demand width='30px' className='exchange-model-detail-demand-logo'/>
               <div className='exchange-model-detail-demand-title'>تقاضا</div>
+              <span> </span>
+              <div className='exchange-model-detail-demand-title'>{data.demand}</div>
             </div>
             <div className='exchange-model-detail'>
               <Distribute width='20px' className='exchange-model-detail-dist-logo'/>
               <div className='exchange-model-detail-dist-title'>عرضه</div>
+              <span> </span>
+              <div className='exchange-model-detail-dist-title'>{data.supply}</div>
             </div>
           </Link>
         </div>
@@ -100,7 +118,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     follow: exchangeActions.createExchangeMembership,
-    exchangeMembership: exchangeMembership.getExchangeMembershipByMemberIdentity
+    // exchangeMembership: exchangeMembership.getExchangeMembershipByMemberIdentity
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Exchange)

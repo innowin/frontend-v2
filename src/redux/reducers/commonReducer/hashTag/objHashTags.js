@@ -1,26 +1,12 @@
 import initialState from '../../initialState'
 import types from '../../../actions/types/index'
+import appendListToStateList from '../../sliceReducers/utilsSlices/appendListToStateList'
 
-const objHashTag = (state = initialState.common.hashTag.objHashTags, action) => {
 
+const objHashTags = (state = initialState.common.hashTag.objHashTags, action) => {
   switch (action.type) {
-      // /** <----------------- create new hashTag for an obj ------ **/
-      // case types.COMMON.CREATE_HASH_TAG_FOR:
-      //     return {
-      //         ...state,
-      //     }
-      //
-      // case types.SUCCESS.CREATE_HASH_TAG_FOR:
-      //     return {
-      //         ...state,
-      //         list: {...list, [data.id]: data}
-      //     }
-      //
-      // case types.ERRORS.CREATE_HASH_TAG_FOR:
-      //     return {
-      //         ...state
-      //     }
-      // /** ------------------ create new hashTag for an obj -----> **/
+    case types.SUCCESS.COMMON.GET_OBJ_HASH_TAGS:
+      return appendListToStateList.success(state, action)
     case types.RESET:
       return initialState.common.hashTag.objHashTags
     default:
@@ -28,4 +14,4 @@ const objHashTag = (state = initialState.common.hashTag.objHashTags, action) => 
   }
 }
 
-export default objHashTag
+export default objHashTags

@@ -47,6 +47,7 @@ const results = {
     CREATE_PRODUCT: 'create-product-result',
     CREATE_PRODUCT_PICTURE: 'create-product-picture-result',
     GET_PRODUCT_PICTURES_BY_PRODUCT_ID: 'get-product-pictures-by-product-id-result',
+    GET_PRICE_BY_PRODUCT_ID: 'get-price-by-product-id-result',
 
     // file
     GET_FILE: 'COMMON_GET_FILE',
@@ -102,15 +103,22 @@ const results = {
       DELETE_PRODUCT: 'delete-product',
     },
 
+    COMMENT: {
+      GET_COMMENTS_BY_PARENT_ID: 'get-comments-by-parent-id',
+    },
+
     // hashTag
     GET_HASH_TAGS: 'common-get-hashTags-result',
     CREATE_HASH_TAG_FOR: 'common-create-hashTag-for-object-result',
+    GET_OBJ_HASH_TAGS: 'common-get-obj-hash-tags-result',
 
     // location
     GET_COUNTRIES: 'common--get--countries--result',
     GET_PROVINCES: 'common-get-provinces-result',
     GET_CITIES: 'common-get-cities-result',
-
+    GET_COUNTRY: 'common--get--country--result',
+    GET_PROVINCE: 'common-get-province-result',
+    GET_CITY: 'common-get-city-result',
   },
   EXCHANGE: {
     GET_EXCHANGES: 'get-exchanges',

@@ -34,7 +34,8 @@ export default {
     location: commonStates.locationState,
     post: commonStates.postState,
     product: commonStates.productState,
-    social: commonStates.socialState
+    social: commonStates.socialState,
+    comment: commonStates.commentState,
   },
   intl: intlState,
   param: paramState,

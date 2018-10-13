@@ -4,16 +4,24 @@ import {Component} from "react"
 import PropTypes from "prop-types"
 import {FrameCard, CategoryTitle, VerifyWrapper} from "../../common/cards/Frames"
 import {ListGroup} from '../../common/cards/Frames'
-import {ProductInfoItemWrapper, ProductInfoView, ProductDescriptionView, ProductDescriptionWrapper} from "./Views"
+import {ProductInfoView, ProductDescriptionView, TechnicalInfoView, HashTagsView} from "./Views"
 import type {ProductType, CategoryType} from "src/consts/flowTypes/product/productTypes"
 import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
+import type {ProvinceType, CountryType} from "./Views"
 import ProductActions, {getProductInfo} from "src/redux/actions/commonActions/productActions/productActions"
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {ProductInformationForm} from "./Forms"
 import {getCategories} from "src/redux/actions/commonActions/categoryActions"
 import makeProductSelectorById from "src/redux/selectors/common/product/getProductById"
-import {categorySelector} from "../../../redux/selectors/common/category";
+import makeCategorySelectorById from "../../../redux/selectors/common/category/getCategoryById";
+import {makeCategorySelector} from "../../../redux/selectors/common/category/getCategoriesByParentId";
+import makeCountrySelectorById from "../../../redux/selectors/common/location/getCountryById"
+import makeProvinceSelectorById from "../../../redux/selectors/common/location/getProvinceById"
+import {getCountryById, getProvinceById} from "../../../redux/actions/commonActions/location"
+import makeHashTagSelectorByParentId from "../../../redux/selectors/common/hashTags/getObjHashTags";
+import type {TagType} from "../../common/tags/tag";
+
 
 type OwnerType = {
   name: string
@@ -23,7 +31,7 @@ type ProductCategoryType = {
   name: string
 }
 
-type ProductInfoState = {
+type ProductBasicInformationState = {
   product: ProductType,
   product_category: ProductCategoryType,
   owner: OwnerType,
@@ -33,17 +41,24 @@ type ProductInfoState = {
   formData: ProductType
 }
 
-type ProductInfoProps = {
+type ProductBasicInformationProps = {
   productId: number,
   translator: TranslatorType,
   _getProductInfo: Function,
   _updateProduct: Function,
   product: ProductType,
   _getCategories: Function,
-  categories: { number: { name: string } }
+  categories: { number: { name: string } },
+  province: ProvinceType,
+  hashTags: Array<TagType>,
+  country: CountryType,
+  getCountryById: Function,
+  getProvinceById: Function,
+  getCityById: Function,
+  category: CategoryType
 }
 
-export class productBasicInformation extends Component<ProductInfoProps, ProductInfoState> {
+export class productBasicInformation extends Component<ProductBasicInformationProps, ProductBasicInformationState> {
 
   constructor() {
     super()
@@ -74,23 +89,6 @@ export class productBasicInformation extends Component<ProductInfoProps, Product
     productId: PropTypes.string.isRequired,
   }
 
-  _showEditHandler = (finalStatus: boolean) => {
-    this.setState({...this.state, edit: finalStatus})
-  }
-
-  _categoriesAsOptions = () => {
-    const {categories} = this.props
-    return Object.keys(categories).map(key => ({value: key, label: categories[key].name}))
-  }
-
-  _productFormSubmitHandler = (values: ProductType) => {
-    const {product, _updateProduct, productId} = this.props
-    const product_category = (values.product_category && values.product_category.value) || product.product_category
-    const formData = {...values, product_category}
-    _updateProduct({productId, formValues: formData})
-
-  }
-
   componentDidMount() {
     const {productId, product, _getProductInfo, _getCategories} = this.props
     _getProductInfo(productId)
@@ -113,9 +111,37 @@ export class productBasicInformation extends Component<ProductInfoProps, Product
     }
   }
 
+  componentDidUpdate(prevProps: ProductBasicInformationProps) {
+    const prevProduct = prevProps.product || {}
+    const {product, getCountryById, getProvinceById} = this.props
+    if (!prevProduct.product_related_country && product.product_related_country) {
+      getCountryById(product.product_related_country)
+    }
+    if (!prevProduct.product_related_province && product.product_related_province) {
+      getProvinceById(product.product_related_province)
+    }
+  }
+  _showEditHandler = (finalStatus: boolean) => {
+    this.setState({...this.state, edit: finalStatus})
+  }
+
+  _categoriesAsOptions = () => {
+    const {categories} = this.props
+    return Object.keys(categories).map(key => ({value: key, label: categories[key].name}))
+  }
+
+  _productFormSubmitHandler = (values: ProductType) => {
+    const {product, _updateProduct, productId} = this.props
+    const product_category = (values.product_category && values.product_category.value) || product.product_category
+    const formData = {...values, product_category}
+    _updateProduct({productId, formValues: formData})
+
+  }
+
+
   render() {
     const {product_category, owner, edit, isLoading, error, formData} = this.state
-    const {translator, product} = this.props
+    const {translator, product, province, country, category, hashTags} = this.props
     return (
 
         <div className="product-basic-information">
@@ -142,11 +168,23 @@ export class productBasicInformation extends Component<ProductInfoProps, Product
                       <ProductDescriptionView translator={translator} description={product.description}
                                               product_category={product_category} owner={owner}
                                               showEdit={() => this._showEditHandler(true)}>
-                        {console.log('product is: ', product)}
                       </ProductDescriptionView>
-                      <ProductInfoView translator={translator} product_category={product_category}
-                                       product={product}
-                                       owner={owner} showEdit={() => this._showEditHandler(true)}/>
+                      <ProductInfoView
+                          province={province.name}
+                          country={country.name}
+                          productId={product.id}
+                          category={category.name}
+                          translator={translator} product_category={product_category}
+                          owner={owner} showEdit={() => this._showEditHandler(true)}
+                      />
+                      <TechnicalInfoView
+                          attrs={product.attrs || {}}
+                          showEdit={() => this._showEditHandler(true)}
+                      />
+                      <HashTagsView
+                          showEdit={() => this._showEditHandler(true)}
+                          tags={hashTags}
+                      />
                     </div>
                 }
               </VerifyWrapper>
@@ -159,21 +197,33 @@ export class productBasicInformation extends Component<ProductInfoProps, Product
 }
 
 const mapStateToProps = (state, props) => {
-  const {productId} = props
+  const provinceSelectorById = makeProvinceSelectorById()
+  const countrySelectorById = makeCountrySelectorById()
   const productSelectorById = makeProductSelectorById()
-
+  const categorySelector = makeCategorySelector()
+  const categorySelectorById = makeCategorySelectorById()
+  const hashTagSelectorByParentId = makeHashTagSelectorByParentId()
+  const {productId} = props
+  const product = productSelectorById(state, productId)
+  const {product_related_country, product_related_province, product_category} = product
   return ({
-    product: productSelectorById(state, productId),
-    categories: categorySelector(state),
+    product,
+    country: countrySelectorById(state, product_related_country),
+    hashTags: hashTagSelectorByParentId(state, productId),
+    province: provinceSelectorById(state, product_related_province),
+    category: categorySelectorById(state, product_category),
+    categories: categorySelector(state, productId),
   })
 }
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators(
         {
-          _getProductInfo: id => getProductInfo(id),
-          _updateProduct: ({formValues, productId}) => ProductActions.updateProduct({formValues, productId}),
-          _getCategories: () => getCategories()
+          _getProductInfo:  getProductInfo,
+          _updateProduct: ProductActions.updateProduct,
+          _getCategories: getCategories,
+          getCountryById,
+          getProvinceById
         },
         dispatch
     );

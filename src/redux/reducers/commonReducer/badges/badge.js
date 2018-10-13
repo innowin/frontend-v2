@@ -1,9 +1,9 @@
-import initialState from '../initialState'
-import types from '../../actions/types'
-
+import initialState from '../../initialState/index'
+import types from '../../../actions/types/index'
+import appendListToStateList from '../../sliceReducers/utilsSlices/appendListToStateList'
 // this badge function just set received success badges in user or organ or ...
 
-const badge = (state = initialState.common.badge, action) => {
+const badge = (state = initialState.common.badge.badge, action) => {
   const {data} = action.payload || []
   // data's structure is : {[id]:{}}
   switch (action.type) {
@@ -16,8 +16,9 @@ const badge = (state = initialState.common.badge, action) => {
           ...data
         }
       }
-
-    /** --------------------  get organ badges --------------------- **/
+    case types.SUCCESS.COMMON.GET_BADGES:
+      return appendListToStateList.success(state, action)
+      /** --------------------  get organ badges --------------------- **/
     // parentId in this section is organId
     case types.SUCCESS.COMMON.GET_ORG_BADGES:
       return {

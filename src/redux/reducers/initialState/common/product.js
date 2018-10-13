@@ -7,5 +7,8 @@ export default {
   },
   productPicture: {
     list: {}
+  },
+  price: {
+    list: {}
   }
 }

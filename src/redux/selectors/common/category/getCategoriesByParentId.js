@@ -13,7 +13,7 @@ const getCategories = (state, parentId) => {
 
 
 /** this selector selects categories by parentId or without that. **/
-export const categorySelector = createSelector(
+export const makeCategorySelector = () => createSelector(
     getCategories,
     categories => categories
 )

@@ -40,8 +40,14 @@
     .owner-avatar.avatar {
       margin-left: 12px;
     }
-    &.badges, &.price, &.act-bar {
+    &.price, &.act-bar {
       justify-content: space-between;
+    }
+    &.badges {
+     justify-content: flex-start;
+    }
+    &.tags {
+      display: block;
     }
     &.price .price-icon {
       width: 20px;
@@ -49,19 +55,11 @@
     }
     .badge {
       display: inline-block;
-      flex: 1 1 50px;
-      max-width: 50px;
-      min-width: 50px;
+      flex: 1 1 60px;
+      max-width: 60px;
+      min-width: 60px;
       height: 50px;
       object-fit: contain;
-    }
-    &.tags .tag {
-      background: $tag-background;
-      color: $text-lightest-color;
-      margin: 3px;
-      padding: 1px 7px;
-      font-size: $tag-font-size;
-      border-radius: 3px;
     }
     &.act-bar {
       border-bottom: none;

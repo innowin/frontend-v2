@@ -3,7 +3,7 @@
 .exchange-content-view-frame {
   margin-top: $post-margin-top;
   margin-right: calc(5% + 340px + 30px);
-  border-radius: 5px;
+  border-radius: $border-radius-size;
   background-color: transparent;
   min-height: 20px;
   height: auto;
@@ -20,7 +20,7 @@
   width: $feed-width - 6px;
   margin: 2px 3px 10px 8px;
   background-color: $base-posts;
-  border-radius: 5px;
+  border-radius: $border-radius-size;
   box-shadow: 0 2px 5px $box-shadow-color;
   padding: 10px 15px;
   transition-duration: $animation-timing;
@@ -77,7 +77,7 @@
 
 ::-webkit-scrollbar-thumb {
   background: $scroll-color;
-  border-radius: 5px;
+  border-radius: $border-radius-size;
   transition-duration: $animation-timing;
 }
 
