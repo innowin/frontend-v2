@@ -36,7 +36,7 @@ class Exchange_Tabs extends Component {
     if (exchangeId) {
       let {getPostsByExIdLimitOffset, getExchangeById, getExchangeMembers} = actions
       getPostsByExIdLimitOffset({postParentId: exchangeId, limit: 20, offset: 0})
-      getExchangeById(exchangeId)
+      // getExchangeById(exchangeId)
       getExchangeMembers({exchangeId: exchangeId})
     }
   }

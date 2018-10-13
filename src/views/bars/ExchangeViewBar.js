@@ -11,6 +11,7 @@ import {ExchangeIcon} from "src/images/icons"
 import {getExchangePostsByPostType, getExchangePostsHasProduct} from "../../crud/post/exchangePost"
 import ExchangeMembershipActions from "../../redux/actions/commonActions/exchangeMembershipActions"
 import {DefaultUserIcon} from "src/images/icons"
+import {BeatLoader} from "react-spinners"
 
 
 class ExchangeViewBar extends Component {
@@ -31,6 +32,7 @@ class ExchangeViewBar extends Component {
       membersViewSide: false,
       isLoading: true,
       error: null,
+      followLoading: false,
     }
     this.follow = this.follow.bind(this)
   }
@@ -81,13 +83,16 @@ class ExchangeViewBar extends Component {
   }
 
   follow() {
-    this.props.actions.follow({identityId: this.props.currentUserIdentity, exchangeIdentity: this.props.data.id})
+    this.setState({...this.state, followLoading: true})
+    this.props.actions.follow({identityId: this.props.currentUserIdentity, exchangeIdentity: this.props.exchangeId})
   }
 
   componentDidMount() {
     const {actions, exchangeId} = this.props
     const {getExchangeByExId} = actions
-    getExchangeByExId(exchangeId)
+    if(!this.props.exchanges.list[exchangeId] && !this.props.exchanges.list[exchangeId].id){
+      getExchangeByExId(exchangeId)
+    }
     // getExchangeMembersByExId (exchangeId)
     // getExchangeMembershipByExchangeId ({exchangeId})
     // this._getExchange(exchangeId)
@@ -102,12 +107,39 @@ class ExchangeViewBar extends Component {
     }
   }
 
+  renderFollowBtn(currentExchange) {
+    if (currentExchange.exchange) {
+      return (
+          <div className="pb-2">
+            <button
+                type="button"
+                className="btn btn-outline-secondary btn-block sidebarBottom"
+                style={{width:'122.5px'}}>عضو شده
+            </button>
+          </div>
+      )
+    }
+    else if (this.state.followLoading) {
+      return <div className="pb-2" style={{width:'122.5px', textAlign:'center', marginTop:'7.5px'}}><BeatLoader size={15} color={"#acacac"}/></div>
+    }
+    else {
+      return (
+          <div className="pb-2">
+            <button
+                type="button"
+                className="btn btn-outline-secondary btn-block sidebarBottom"
+                style={{width:'122.5px'}}
+                onClick={this.follow}>درخواست عضویت
+            </button>
+          </div>
+      )
+    }
+  }
+
   render() {
-    const {exchange, badgesImgUrl, demandCount, supplyCount, productCount, tags, members, isLoading, error} = this.state
+    const {exchange, badgesImgUrl, demandCount, supplyCount, productCount, tags, members, isLoading, error, followLoading} = this.state
     const {translate, exchanges, exchangeId} = this.props
     const currentExchange = exchanges.list[exchangeId]
-    console.log("CUREX")
-    console.log(currentExchange)
     // const currentExchange = exchanges.list[exchangeId].exchange.content
     // let membersView = members.map((val, idx) => (
     //     <div className="" key={idx}>
@@ -128,7 +160,9 @@ class ExchangeViewBar extends Component {
                 {
                   currentExchange.exchange_image !== null ?
                       <img className="rounded-circle exchangeViewBarImg" alt={translate["Exchange Picture"]}
-                           src={currentExchange.exchange_image.file}/>
+                           src={currentExchange.exchange_image.file.includes("restful.daneshboom.ir/") ?
+                               currentExchange.exchange_image.file :
+                               "http://restful.daneshboom.ir/" + currentExchange.exchange_image.file}/>
                       :
                       <DefaultUserIcon width={"100px"} height={"100px"}
                                        className={"rounded-circle exchangeViewBarImg"}/>
@@ -187,25 +221,16 @@ class ExchangeViewBar extends Component {
                       <TagsBox tags={tags}/>
                     </div>) : ("")
               }
-              <div className="row mr-0 ml-0 pb-3 exchangeViewSidebarBottom flex-wrap justify-content-around">
+              <div className="row mr-0 ml-0 pb-3 flex-wrap justify-content-around">
                 <div className="pb-2">
                   <button
                       type="button"
                       className="btn btn-outline-secondary btn-block sidebarBottom">ارسال پیام به کارگزار
                   </button>
                 </div>
-                {!currentExchange.exchange ? <div className="pb-2">
-                  <button
-                      type="button"
-                      className="btn btn-outline-secondary btn-block sidebarBottom"
-                      onClick={this.follow}>درخواست عضویت
-                  </button>
-                </div> : <div className="pb-2">
-                  <button
-                      type="button"
-                      className="btn btn-outline-secondary btn-block sidebarBottom">عضو شده
-                  </button>
-                </div>}
+                {
+                  this.renderFollowBtn(currentExchange)
+                }
               </div>
             </div>
 
@@ -227,7 +252,7 @@ const DispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getExchangeMembershipByExchangeId: ExchangeMembershipActions.getExchangeMembershipByExchangeId,
     getExchangeByExId: exchangeActions.getExchangeByExId,
-    follow: exchangeActions.createExchangeMembership,
+    follow: ExchangeMembershipActions.createExchangeMembership,
   }, dispatch)
 })
 

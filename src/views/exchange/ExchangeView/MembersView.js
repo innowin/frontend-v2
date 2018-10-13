@@ -27,7 +27,6 @@ class MembersView extends Component {
     let {profiles} = this.props
     if (memberType === "USER")
       if (profiles[memberId].profile.content.profile_user) {
-        console.log(profiles[memberId].profile.content)
         return <div key={index}
                     className={this.state.viewType}>
           <div className={"member-follow"}><span className={"member-follow-plus"}> + </span></div>
@@ -136,9 +135,10 @@ class MembersView extends Component {
             {initialMembers.length > 0 ? initialMembers.map((p, index) => {
               return this.getMembers(p.id, p.type, index)
             }) : <VerifyWrapper isLoading={true} error={false}/>}
-            {!moreMembers ? <div className={"members-more"} onClick={this.setAllMembers}>
-              بارگذاری بیشتر
-            </div> : <div></div>}
+            {(!moreMembers) && initialMembers.length >= 6 ?
+                <div className={"members-more"} onClick={this.setAllMembers}>
+                  بارگذاری بیشتر
+                </div> : null}
           </div>
         </div>
     )

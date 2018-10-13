@@ -40,7 +40,7 @@ class ExchangeMemberBar extends Component {
       // TODO mohsen: socket.emit of tags
       getExchangeMember(exchangeId, (res)=>{
         // handle result
-        console.log(res)
+        // console.log(res)
       })
     };
     getExchange(exchangeId, handleResult)

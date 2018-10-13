@@ -29,7 +29,7 @@ class Exchange_Info extends Component {
         this.state.gotOwner = true
       }
     }
-    actions.getExchangeById(exchangeId)
+    // actions.getExchangeById(exchangeId)
   }
 
   componentDidUpdate() {
