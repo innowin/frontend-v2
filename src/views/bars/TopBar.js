@@ -16,7 +16,8 @@ import {
   ExchangeIcon,
   NotificationIcon,
   LogoWhiteSvg,
-  MainLbarArrow
+  ContributionIcon,
+  Contacts
 } from "src/images/icons"
 import {Link} from "react-router-dom"
 import AgentForm from "../pages/modal/agentForm-modal"
@@ -164,8 +165,8 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                   </div>
                   <div className='explore-menu'>
                     <Link to={'/exchange/Exchange_Explorer'} className='explore-menu-items'><ExchangeIcon className='explore-logos'/> بورس ها</Link>
-                    <Link to={'/users/Users_Explorer'} className='explore-menu-items'><ExchangeIcon className='explore-logos'/> شناسه ها (افراد و مجموعه ها)</Link>
-                    <Link to={'#'} className='explore-menu-items'><ExchangeIcon className='explore-logos'/> آورده ها (محصولات، توانمدی و ...)</Link>
+                    <Link to={'/users/Users_Explorer'} className='explore-menu-items'><Contacts svgClass='explore-logos' containerClass='explore-logos-container'/> شناسه ها (افراد و مجموعه ها)</Link>
+                    <Link to={'#'} className='explore-menu-items'><ContributionIcon className='explore-logos'/> آورده ها (محصولات، توانمدی و ...)</Link>
                   </div>
                 </div>
               </div>
