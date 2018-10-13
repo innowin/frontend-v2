@@ -164,8 +164,8 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                   </div>
                   <div className='explore-menu'>
                     <Link to={'/exchange/Exchange_Explorer'} className='explore-menu-items'><ExchangeIcon className='explore-logos'/> بورس ها</Link>
-                    <Link to={'/users/Users_Explorer'} className='explore-menu-items'><ExchangeIcon className='explore-logos'/> شناسه ها (افراد و مجموعه)</Link>
-                    <Link to={'#'} className='explore-menu-items'><ExchangeIcon className='explore-logos'/> آورده ها (محصولات، توانمدی ها و ...)</Link>
+                    <Link to={'/users/Users_Explorer'} className='explore-menu-items'><ExchangeIcon className='explore-logos'/> شناسه ها (افراد و مجموعه ها)</Link>
+                    <Link to={'#'} className='explore-menu-items'><ExchangeIcon className='explore-logos'/> آورده ها (محصولات، توانمدی و ...)</Link>
                   </div>
                 </div>
               </div>
