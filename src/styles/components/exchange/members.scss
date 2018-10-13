@@ -57,6 +57,47 @@
   opacity: 1;
   animation: switch;
   animation-duration: .75s;
+  position: relative;
+
+  .member-picture-container {
+    width: 150px;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .member-picture {
+    border-radius: 250px;
+    display: inline-block;
+    vertical-align: top;
+    font-size: $font-size-regular;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 1);
+    margin: 10px 0;
+  }
+
+  .member-follow {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    height: 20px;
+    width: 20px;
+    font-size: $font-size-smallText;
+    color: $primary-color-light3;
+    background-color: transparent;
+    font-weight: bold;
+    border-radius: $border-radius-less;
+    border: 1px solid $primary-color-light3;
+    cursor: pointer;
+    transition-duration: $animation-timing;
+    &:hover {
+      transition-duration: $animation-timing;
+      background-color: $primary-color-light3;
+      color: white;
+    }
+    .member-follow-plus {
+      position: relative;
+      top: -5px;
+    }
+  }
 }
 
 .member-row {
@@ -70,10 +111,105 @@
   animation: switchBack;
   animation-duration: .75s;
   box-shadow: 0 2px 5px $box-shadow-color;
+  position: relative;
+  z-index: 1;
+  &:first-child {
+    margin-top: 35px;
+  }
+  .member-follow {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    height: 20px;
+    width: 20px;
+    font-size: $font-size-smallText;
+    color: $primary-color-light3;
+    background-color: transparent;
+    font-weight: bold;
+    border-radius: $border-radius-less;
+    border: 1px solid $primary-color-light3;
+    cursor: pointer;
+    transition-duration: $animation-timing;
+    &:hover {
+      transition-duration: $animation-timing;
+      background-color: $primary-color-light3;
+      color: white;
+    }
+    .member-follow-plus {
+      position: relative;
+      top: -5px;
+      left: -5px;
+    }
+  }
+
+  .member-picture-container {
+    width: 75px;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .member-picture {
+    border-radius: 250px;
+    display: inline-block;
+    vertical-align: top;
+    font-size: $font-size-regular;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 1);
+    margin: 10px 0;
+  }
+
+  .member-name {
+    margin: 12px 0 0 0;
+    width: 400px;
+  }
+
+  .member-info-container {
+    width: 70%;
+  }
+
+  .member-description {
+    margin: 0;
+  }
 }
 
-.member-row:first-child {
-  margin-top: 35px;
+.member-description {
+  font-size: $font-size-description;
+  margin: 5px 0;
+  line-height: 20px;
+  color: $custom-control-disabled-description-color;
+  width: 95%;
+  overflow-y: hidden;
+}
+
+.member-info-container {
+  width: 100%;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.member-name {
+  font-size: $font-size-member-name;
+  font-weight: bold;
+  vertical-align: top;
+  display: inline-block;
+  color: $foreground-color;
+}
+
+.members-more {
+  width: 98%;
+  text-align: center;
+  font-size: $font-size-boxText;
+  font-weight: bold;
+  margin: 8px 4.8px 0 0;
+  border: 1px solid $scroll-color-hover;
+  cursor: pointer;
+  border-radius: $border-radius;
+  background-color: $more-button-color;
+  color: $foreground-color;
+  transition-duration: $animation-timing;
+  &:hover {
+    background-color: $more-button-color-hover;
+    transition-duration: $animation-timing;
+  }
 }
 
 .member-loading {
