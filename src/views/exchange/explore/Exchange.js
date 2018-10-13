@@ -19,7 +19,9 @@ type appProps =
     |}
 
 type appState =
-    {||}
+    {|
+        followLoading: boolean
+    |}
 
 class Exchange extends Component <appProps, appState>
 {
@@ -28,13 +30,24 @@ class Exchange extends Component <appProps, appState>
         super(props)
         this.state =
             {
-                followLoading: false
+                followLoading: false,
+                // imageLoaded: false
             }
     }
 
-    // componentDidMount() {
-    // this.props.actions.getMembers({exchangeId: this.props.data.id})
-    // console.log(this.props.members[this.props.data.id])
+    // componentDidMount()
+    // {
+    //     if (this.props.data.exchange_image)
+    //     {
+    //         let profileImg = new Image()
+    //         profileImg.src = 'http://restful.daneshboom.ir/' + this.props.data.exchange_image.file
+    //         profileImg.onload = () =>
+    //         {
+    //             this.setState({...this.state, imageLoaded: true})
+    //         }
+    //     }
+        // this.props.actions.getMembers({exchangeId: this.props.data.id})
+        // console.log(this.props.members[this.props.data.id])
     // }
 
     renderFollowButton()
@@ -70,7 +83,7 @@ class Exchange extends Component <appProps, appState>
                     this.renderFollowButton()
                 }
                 <Link to={`/exchange/${data.id}`} style={{textDecoration: 'none', color: 'black'}}>
-                    {data.exchange_image ?
+                    {(data.exchange_image) ?
                         <img src={'http://restful.daneshboom.ir/' + data.exchange_image.file} alt={data.name} className='exchange-model-avatar'/>
                         :
                         <DefaultUserIcon width='80px' height='80px'/>

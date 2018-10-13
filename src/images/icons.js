@@ -48,6 +48,7 @@ import SquareAdd from "./common/squareAdd_svg"
 import starIcon from "./common/star_svg"
 import SupplyIcon from "./common/supply_svg"
 import ThinDownArrow from "./common/thin_down_arrow_svg"
+import MainLbarArrow from "./common/mainLbararrow"
 import TickSvgIcon from "./common/tick_svg"
 import TipsIcon from "./common/tips_svg_icon"
 import userInfoIcon from "./user/userinfo_svg"
@@ -104,6 +105,7 @@ export {
   LogoWhiteSvg,
   LogoColorSvg,
   MoviesSvgIcon,
+  MainLbarArrow,
   NoFilterIcon,
   NotificationIcon,
   NewSkillIcon,
