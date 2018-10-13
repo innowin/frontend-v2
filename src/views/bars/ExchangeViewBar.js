@@ -32,6 +32,7 @@ class ExchangeViewBar extends Component {
       isLoading: true,
       error: null,
     }
+    this.follow = this.follow.bind(this)
   }
 
   _MockData = () => {
@@ -79,6 +80,10 @@ class ExchangeViewBar extends Component {
     this.setState({...this.state, membersViewSide: !this.state.membersViewSide})
   }
 
+  follow() {
+    this.props.actions.follow({identityId: this.props.currentUserIdentity, exchangeIdentity: this.props.data.id})
+  }
+
   componentDidMount() {
     const {actions, exchangeId} = this.props
     const {getExchangeByExId} = actions
@@ -101,6 +106,8 @@ class ExchangeViewBar extends Component {
     const {exchange, badgesImgUrl, demandCount, supplyCount, productCount, tags, members, isLoading, error} = this.state
     const {translate, exchanges, exchangeId} = this.props
     const currentExchange = exchanges.list[exchangeId]
+    console.log("CUREX")
+    console.log(currentExchange)
     // const currentExchange = exchanges.list[exchangeId].exchange.content
     // let membersView = members.map((val, idx) => (
     //     <div className="" key={idx}>
@@ -187,12 +194,18 @@ class ExchangeViewBar extends Component {
                       className="btn btn-outline-secondary btn-block sidebarBottom">ارسال پیام به کارگزار
                   </button>
                 </div>
-                <div className="pb-2">
+                {!currentExchange.exchange ? <div className="pb-2">
                   <button
                       type="button"
-                      className="btn btn-outline-secondary btn-block sidebarBottom">درخواست عضویت
+                      className="btn btn-outline-secondary btn-block sidebarBottom"
+                      onClick={this.follow}>درخواست عضویت
                   </button>
-                </div>
+                </div> : <div className="pb-2">
+                  <button
+                      type="button"
+                      className="btn btn-outline-secondary btn-block sidebarBottom">عضو شده
+                  </button>
+                </div>}
               </div>
             </div>
 
@@ -207,12 +220,14 @@ class ExchangeViewBar extends Component {
 const StateToProps = (state, props) => ({
   translate: state.intl.messages,
   router: state.router,
-  exchanges: state.exchanges
+  exchanges: state.exchanges,
+  currentUserIdentity: state.auth.client.identity.content,
 })
 const DispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getExchangeMembershipByExchangeId: ExchangeMembershipActions.getExchangeMembershipByExchangeId,
-    getExchangeByExId: exchangeActions.getExchangeByExId
+    getExchangeByExId: exchangeActions.getExchangeByExId,
+    follow: exchangeActions.createExchangeMembership,
   }, dispatch)
 })
 

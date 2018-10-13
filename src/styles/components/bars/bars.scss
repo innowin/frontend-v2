@@ -274,6 +274,7 @@
   position: fixed;
   right: calc(5% + 340px + 15px);
   border-radius: $border-radius-size;
+  z-index: 2;
 }
 
 .exchange-navbar-center {
@@ -285,6 +286,7 @@
   right: calc(5% + 340px + 15px);
   border-radius: $border-radius-size;
   box-shadow: 0 0 14px rgba(0, 0, 0, 0.15);
+  z-index: 2;
 }
 
 .under-exchange-navbar-center {
@@ -293,6 +295,7 @@
   height: 27.5px;
   width: $feed-width;
   position: fixed;
+  z-index: 2;
   right: calc(5% + 340px + 15px);
   border-radius: $border-radius-size;
   box-shadow: 0 0 14px rgba(0, 0, 0, 0.15);
@@ -302,6 +305,7 @@
 .line-under-exchange-navbar-center {
   top: $topBarHeight + 60px + $exchange-title-height;
   position: fixed;
+  z-index: 2;
   width: $feed-width;
   height: 5px;
   right: calc(5% + 340px + 15px);
