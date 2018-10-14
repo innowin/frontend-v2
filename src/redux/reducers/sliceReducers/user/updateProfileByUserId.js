@@ -28,7 +28,7 @@ const success = (state, action) => {
       [userId]: {
         ...state.list[userId],
         profile: {
-          content: {...data},
+          content: {...state.list[userId].profile, ...data},
           isLoading: false,
           error: null
         }

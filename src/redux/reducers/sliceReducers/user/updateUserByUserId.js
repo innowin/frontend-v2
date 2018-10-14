@@ -31,7 +31,7 @@ const success = (state, action) => {
         ...state.list[userId],
         user: {
           ...previousUser,
-          content: {...data},
+          content: {...previousUser.content, ...data},
           isLoading: false,
           error: null
         }

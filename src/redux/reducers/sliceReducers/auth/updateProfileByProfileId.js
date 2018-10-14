@@ -9,7 +9,7 @@ const success = (state, action) => {
     ...state,
     client: {
       ...client,
-      profile: {...data}
+      profile: {...client.profile, ...data}
     }
   }
 }

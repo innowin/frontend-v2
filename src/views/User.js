@@ -167,7 +167,8 @@ class User extends Component<PropsUser> {
                       />
                       <PrivateRoute path={`${path}/Posts/:id`} component={PostExtendedView}
                                     postIdentity={identityObject.content}
-                                    extendedView={true}/>
+                                    extendedView={true}
+                                    commentParentType= {constants.COMMENT_PARENT.POST}/>
                       <PrivateRoute path={`${path}/basicInformation`} component={UserBasicInformation} userId={userId}
                                     profile={profileObject} user={userObject}
                       />

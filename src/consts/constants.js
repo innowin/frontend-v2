@@ -18,5 +18,8 @@ export default {
       SUPPLY: 'supply',
       DEMAND: 'demand',
     }
+  },
+  COMMENT_PARENT: {
+    POST: 'post',
   }
 }

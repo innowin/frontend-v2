@@ -106,6 +106,21 @@ const objToArrayAsOptions = (obj, valueKey, labelKey, otherKeys) => {
  **/
 const getObjectOfArrayKeys = (array, objectArray) => array.reduce((acc, arrayId) => [...acc, objectArray[arrayId]], [])
 
+/**
+ this function takes:
+ an array like >> [1, 2, 3]
+ an object like >> {[1]: {}, [2]: {}, [3]: {}, [4]: {}}
+ and return object that keys are equal to array input like >> [{1 id attributes}, {2 id attributes}, {3 id attributes}]
+ **/
+const getObjectOfArrayKeysSortByCreateTime = (array, objectArray) => {
+  const sortedArray = array.sort((element1, element2) => {
+    let a = new Date(objectArray[element1].created_time);
+    let b = new Date(objectArray[element2].created_time);
+    return a > b ? -1 : a < b ? 1 : 0
+  })
+  return sortedArray.reduce((acc, arrayId) => [...acc, objectArray[arrayId]], [])
+}
+
 const abbreviation = (names, num) => names.reduce((result, part) => {
   if (result.length < num + 1) {
     if (part) return result + '‌' + part[0]
@@ -147,6 +162,7 @@ export default {
   filterNestedObjByKey,
   objToArrayAsOptions,
   getObjectOfArrayKeys,
+  getObjectOfArrayKeysSortByCreateTime,
   normalizer,
   selectByKeyList
 }
