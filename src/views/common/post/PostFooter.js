@@ -26,6 +26,7 @@ const PostFooter = (props: postFooterProps) => {
     viewerCount = post.viewerCount
     if (postIdentity && postIdentity.id) {
       user = postIdentity.identity_user
+      organization = postIdentity.identity_organization
       postUrl = user
           ? `/user/${user.id}/Posts/${post.id}`
           : `/organization/${organization.id}/Posts/${post.id}`
