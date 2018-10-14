@@ -7,7 +7,7 @@ const success = (state, action) => {
     ...state,
     list: {
       ...state.list,
-      [data.id] : {...data, error: null, isLoading: false},
+      [data.id] : {...state.list[data.id], ...data, error: null, isLoading: false},
     }
   }
 }

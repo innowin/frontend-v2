@@ -104,6 +104,8 @@ const results = {
 
     COMMENT: {
       GET_COMMENTS_BY_PARENT_ID: 'get-comments-by-parent-id',
+      CREATE_COMMENT: 'create-comment',
+      DELETE_COMMENT: 'delete-comment',
     },
 
     // hashTag

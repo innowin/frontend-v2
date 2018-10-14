@@ -136,7 +136,9 @@ export class Organization extends Component<PropsOrganization> {
                                     postIdentity={identityObject.content}
                       />
                       <PrivateRoute path={`${path}/Posts/:id`} component={PostExtendedView}
-                                    extendedView={true}/>
+                                    postIdentity={identityObject.content}
+                                    extendedView={true}
+                                    commentParentType= {constants.COMMENT_PARENT.POST}/>
                       <PrivateRoute exact path={`${path}/basicInformation`}
                                     component={OrganizationBasicInformation}
                                     organizationId={organizationId}

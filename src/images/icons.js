@@ -63,6 +63,7 @@ import TelegramIcon from "./common/telegram_svg"
 import InstagramIcon from "./common/instagram_svg"
 import LinkedInIcon from "./common/linkedin_svg"
 import YoutubeIcon from "./common/youtube_svg"
+import ReplyArrow from "./common/reply_arrow_svg"
 
 
 export {
@@ -131,4 +132,5 @@ export {
   InstagramIcon,
   LinkedInIcon,
   YoutubeIcon,
+  ReplyArrow,
 }
