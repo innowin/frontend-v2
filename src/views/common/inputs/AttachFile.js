@@ -1,7 +1,10 @@
 /*global __*/
 import React, {Component} from "react";
 import PropTypes from "prop-types";
-import {createFile} from "../../../crud/media/media";
+import {connect} from "react-redux"
+import {bindActionCreators} from "redux"
+import FileActions from "src/redux/actions/commonActions/fileActions"
+import types from "src/redux/actions/types"
 
 class AttachFile extends Component {
   static defaultProps = {
@@ -15,21 +18,30 @@ class AttachFile extends Component {
     // TODO mohsen: fileType: PropTypes.arrayOf(PropTypes.string.isRequired),
     // TODO mohsen: fileSize
     getMedia: PropTypes.func.isRequired,
-    AttachBottom: PropTypes.func.isRequired
+    AttachBottom: PropTypes.func.isRequired,
+    fileIdKey: PropTypes.string,
+    nextActionType: PropTypes.string,
+    nextActionData: PropTypes.object
   };
 
   constructor(props) {
     super(props);
-    this.state = {error: false, isLoading: false, fileName:'', media: {}};
+    this.state = {error: false, isLoading: false, fileName: '', media: {}};
   };
 
   _createFile = (fileString, fileName) => {
-    const mediaResult = (res) => {
-      this.setState({...this.state, isLoading: false, fileName, media:res});
-      this.props.getMedia(res, fileName)
-    };
-    createFile(fileString, mediaResult);
-  };
+    const {actions, fileIdKey, nextActionType, nextActionData} = this.props
+    const {createFile} = actions
+    // const mediaResult = (res) => {
+    //   this.props.getMedia(res, fileName)
+    //   this.setState({...this.state, isLoading: false, fileName, media: res})
+    // }
+    createFile({file_string: fileString, nextActionData, nextActionType, fileIdKey})
+  }
+
+  componentDidUpdate(prevProps){
+    // if(prevProps.)
+  }
 
   _handleChange = (event) => {
     event.preventDefault();
@@ -51,7 +63,7 @@ class AttachFile extends Component {
   };
 
   _onChangeClick = () => {
-    this.setState({...this.state, isLoading: false, fileName:'', media:{}});
+    this.setState({...this.state, isLoading: false, fileName: '', media: {}});
     this.props.getMedia({}, '')
   };
 
@@ -84,7 +96,7 @@ class AttachFile extends Component {
     const {AttachBottom} = this.props;
     if (isLoading) {
       return (
-          <span>{__('Uploading...')}</span>
+        <span>{__('Uploading...')}</span>
       )
     }
     return (
@@ -108,4 +120,17 @@ class AttachFile extends Component {
   }
 }
 
-export default AttachFile;
+const mapStateToProps = (state, ownProps) => {
+  const {} = ownProps
+  return {
+    files: state.common.file.list,
+    organization:state.organs.list[]
+  }
+}
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({
+    createFile: FileActions.createFile,
+    getFile: FileActions.getFile,
+  }, dispatch)
+})
+export default connect(mapStateToProps, mapDispatchToProps)(AttachFile)

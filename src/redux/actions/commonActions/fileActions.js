@@ -7,11 +7,9 @@ export const getFile = (fileId) => ({
   }
 })
 
-export const createFile = (formData) => ({
+export const createFile = ({file_string, nextActionData, nextActionType, fileIdKey, toWhatLayer}) => ({
   type: types.COMMON.CREATE_FILE,
-  payload: {
-    formData
-  }
+  payload: {file_string, nextActionData, nextActionType, fileIdKey, toWhatLayer}
 })
 
 export const updateFile = (payload) => ({

@@ -318,13 +318,14 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     this.setState({...this.state, menuToggle: !this.state.menuToggle})
   }
 
-  _getMedia = (media = {}, fileName) => {
-    this.setState({...this.state, uploadedMedia: media.file, mediaFileName: fileName})
-  }
-
   _getBanner = (media = {}, fileName) => {
     console.log("getBanner:", media, fileName)
     this.setState({...this.state, uploadedBanner: media.file, bannerFileName: fileName})
+  }
+
+  _getMedia = (media = {}, fileName) => {
+    console.log("getMedia:", media, fileName)
+    this.setState({...this.state, uploadedMedia: media.file, mediaFileName: fileName})
   }
 
   AttachBottom = (className) => (
@@ -367,6 +368,12 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     const className = this.props.className || ''
     // const followNames = ["صابر منادی", "امیر امیری فر", "محسن فلاح", "یاسر رستگار", "علی اوروجی"] //TODO get followNames
     const showFollow = followers && !followers.map(follower => follower.id).includes(clientIdentityId)
+    const bannerFileIdKey = (sideBarType === constants.USER_TYPES.PERSON) ? (
+      'profile_banner'
+    ) : 'organization_banner'
+    const mediaFileIdKey = (sideBarType === constants.USER_TYPES.PERSON) ? (
+      'profile_media'
+    ) : 'organization_logo'
     return (
       <form className={className + ' pt-0'} onSubmit={this._handleSubmit}>
         <div className="editable-profile-img">
@@ -382,6 +389,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
                 }}
                 getMedia={this._getBanner}
                 AttachBottom={() => this.AttachBottom('edit-banner')}
+                fileIdKey={bannerFileIdKey}
               />
             )
           }
@@ -403,6 +411,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
                   }}
                   getMedia={this._getMedia}
                   AttachBottom={() => this.AttachBottom('edit-media')}
+                  fileIdKey={mediaFileIdKey}
                 />
               )
             }
@@ -504,7 +513,6 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
 const mapStateToProps = (state, ownProps) => {
   return {
     clientIdentityId: state.auth.client.identity.content,
-
     followers: getFollowersSelector(state, ownProps),
   }
 }

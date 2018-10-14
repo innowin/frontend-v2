@@ -11,7 +11,7 @@ function* createFile(action) { // payload?
   // 'nextActionType' used in dynamicResult to avoid from creating two different object in database
   // with the same picture implicitly and unwanted, when creating multiple object and their files
   // in the same time.
-  const dynamicResult = `${results.COMMON.CREATE_FILE}--${nextActionType}--${file_string}`
+  const dynamicResult = `${results.COMMON.CREATE_FILE}--${nextActionType || ''}--${file_string}`
 
   const socketChannel = yield call(api.createSocketChannel, dynamicResult)
 
@@ -41,10 +41,9 @@ function* createFile(action) { // payload?
     }
 
     yield put({type: types.SUCCESS.COMMON.CREATE_FILE, payload: {data}})
-    yield put({type: nextActionType, payload})
+    if (nextActionType) yield put({type: nextActionType, payload})
 
   } catch (error) {
-    console.log('--- saga >> createFile >> error is: ', error)
     yield put({type: types.ERRORS.COMMON.CREATE_FILE, error})
 
   } finally {
