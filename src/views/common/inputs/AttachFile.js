@@ -122,10 +122,7 @@ class AttachFile extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const {} = ownProps
-  return {
-    files: state.common.file.list,
-    organization:state.organs.list[]
-  }
+  return {}
 }
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
