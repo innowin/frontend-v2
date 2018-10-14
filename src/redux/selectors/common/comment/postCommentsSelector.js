@@ -17,9 +17,9 @@ const getParentComments = (state, props) => {
 
 export const userCommentsSelector = createSelector(
     [getComments, getParentComments],
-    (posts, parentComments) => {
-      if (posts && Object.keys(posts).length !== 0 && posts.constructor === Object && parentComments) {
-        const arrayComment = helpers.getObjectOfArrayKeysSortByCreateTime(parentComments, posts)
+    (comments, parentComments) => {
+      if (comments && Object.keys(comments).length !== 0 && comments.constructor === Object && parentComments) {
+        const arrayComment = helpers.getObjectOfArrayKeysSortByCreateTime(parentComments, comments)
         return [...arrayComment]
       }
       return []

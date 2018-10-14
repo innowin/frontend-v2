@@ -63,7 +63,7 @@ export class PostForm extends Component {
       {value: 'demand', label: 'تقاضا'}
     ];
     return (
-        <form onSubmit={onSubmit} className="row w-100">
+        <form onSubmit={onSubmit} className="edit-form w-90">
           <SelectComponent
               name="post_type"
               label={__('Post type') + ": "}
