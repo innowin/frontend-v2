@@ -1,22 +1,13 @@
-@import "../../variables";
+@import "baisc-info";
+@import "more-info";
+@import "people";
+@import "successMessage";
 
-.exchanges-modal .success-message {
-  .success-image {
-    margin: 72px auto 0;
-    width: 220px;
-    display: block;
-    path {
-      fill: $success-color;
-    }
-  }
-  .message-text {
-    text-align: center;
-    margin: 30px auto;
-    color: $text-dark-color
-  }
-  .exchange-address {
-    text-align: center;
-    margin: 30px auto 40px;
-    color: $text-dark-color
-  }
+.steps {
+  max-width: 280px;
 }
+
+@media (max-width: 1170px) {}
+@media (max-width: 990px) {}
+@media (max-width: 780px) {}
+@media (max-width: 560px) {}

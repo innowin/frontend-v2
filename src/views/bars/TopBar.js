@@ -19,7 +19,8 @@ import {
 import {Link} from "react-router-dom"
 import AgentForm from "../pages/modal/agentForm-modal"
 import AddingContribution from "../pages/adding-contribution/addingContribution"
-import CreateExchangeForm from "../pages/modal/createExchange-modal";
+import CreateExchange from "../pages/modal/createExchange/createExchange"
+import CreateExchangeForm from "../pages/modal/prevCreateExchange/createExchange";
 import client from "src/consts/client"
 import FileActions from "../../redux/actions/commonActions/fileActions";
 import {SearchIcon} from "../../images/icons";
@@ -46,7 +47,7 @@ type StatesTopBar = {|
   collapseProfile: boolean,
   agentForm: boolean,
   productWizardModalIsOpen: boolean,
-  createExchangeForm: boolean,
+  createExchangeModalIsOpen: boolean,
 |}
 
 class TopBar extends Component<PropsTopBar, StatesTopBar> {
@@ -67,7 +68,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       collapse: false,
       collapseProfile: false,
       agentForm: false,
-      createExchangeForm: false,
+      createExchangeModalIsOpen: false,
       productWizardModalIsOpen: false
     }
   }
@@ -107,13 +108,8 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     this.setState({...this.state, agentForm: false})
   }
 
-  _handleNewExchange = () => {
-    //TODO: new exchange should be handled
-    this.setState({...this.state, createExchangeForm: true})
-  }
-
-  _handleHideNewExchange = () => {
-    this.setState({...this.state, createExchangeForm: false})
+  _createExchangeModalVisibilityHandler = () => {
+    this.setState({...this.state, createExchangeModalIsOpen: !this.state.createExchangeModalIsOpen})
   }
 
   _handleProductWizardModal = () => {
@@ -126,16 +122,16 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
   render() {
     const {collapseClassName, clientUser, clientOrganization, translate, clientImgLink} = this.props
-    const {collapse, collapseProfile, productWizardModalIsOpen} = this.state
+    const {collapse, collapseProfile, productWizardModalIsOpen, createExchangeModalIsOpen} = this.state
     return (
       <div>
         <AgentForm
           active={this.state.agentForm}
           hide={this._handleHideAgent}
         />
-        <CreateExchangeForm
-          active={this.state.createExchangeForm}
-          hide={this._handleHideNewExchange}
+        <CreateExchange
+            handleModalVisibility={this._createExchangeModalVisibilityHandler}
+            modalIsOpen={createExchangeModalIsOpen}
         />
         <nav className="navbar flex-row justify-content-between p-0 -white-i fixed-top topBar">
           <div className="d-flex align-items-center -whiteSvg">
@@ -168,7 +164,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
         <Collapse isOpen={collapse} className={`-topBar-right-collapse pr-0 pl-0 ${collapseClassName}`}>
           <ul>
             <li onClick={this._handleExchangeUpgrade}><i className="fa fa-home"/> درخواست ارتقاء به کارگزار</li>
-            <li onClick={this._handleNewExchange}><i className="fa fa-home"/> بورس جدید</li>
+            <li onClick={this._createExchangeModalVisibilityHandler}><i className="fa fa-home"/> بورس جدید</li>
             <li onClick={this._handleProductWizardModal}><i className="fa fa-home"/> آورده ی جدید</li>
           </ul>
         </Collapse>

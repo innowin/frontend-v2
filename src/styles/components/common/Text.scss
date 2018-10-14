@@ -1,0 +1,30 @@
+@import "../../variables";
+.tip {
+  background: $chat-box2-color;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .icon-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1 1 100px;
+    max-width: 100px;  }
+  .icon-wrapper .tip-icon {
+    width: 50px;
+    path {
+      fill: $success-color;
+    }
+  }
+  .text {
+
+      padding: 8px 0 8px 20px;
+      line-height: 24px;
+      flex: 1 1;
+      color: $text-medium-dark;
+    font-size: $font-size-regular;
+    p {
+      margin-bottom: 0;
+    }
+  }
+}

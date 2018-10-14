@@ -1,9 +1,9 @@
 import React from 'react'
 
 
-const MenuProgressive = ({activeStep, steps, status, stepsClassName}) => {
+const MenuProgressive = ({activeStep, steps, status, stepsClassName, className}) => {
     return (
-        <div className={`steps ${stepsClassName}`}>
+        <div className={`steps ${stepsClassName} ${className}`}>
             {steps && steps.map((step, index) =>
                 <div
                     key={`progressiveStepWrapper${index}`}
