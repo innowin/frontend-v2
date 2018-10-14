@@ -4,7 +4,7 @@ class StreamSvg extends React.Component {
   render() {
     return (
         <div className={this.props.containerClass} onClick={() => {
-          this.props.changeView("Stream")
+          this.props.changeView ? this.props.changeView("Stream") : null
         }}>
           <svg width={this.props.width} height={this.props.height} className={this.props.svgClass}
                viewBox="0 0 136790 136370">

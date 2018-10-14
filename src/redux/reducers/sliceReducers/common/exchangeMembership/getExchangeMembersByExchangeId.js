@@ -13,7 +13,7 @@ const success = (state, action) => {
       id: p.exchange_identity_related_identity.identity_user ? p.exchange_identity_related_identity.identity_user.id :
           p.exchange_identity_related_identity.identity_organization.id,
     })
-    console.log(p.exchange_identity_related_identity.identity_organization ? p.exchange_identity_related_identity.identity_organization.id : "")
+    // console.log(p.exchange_identity_related_identity.identity_organization ? p.exchange_identity_related_identity.identity_organization.id : "")
   })
   object[exchangeId] = members
   return {
