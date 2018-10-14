@@ -3,7 +3,7 @@ import types from '../../../actions/types/index'
 import appendListToStateList from '../../sliceReducers/utilsSlices/appendListToStateList'
 
 
-const badgeCategories = (state = initialState.common.badge.badgeCategory, action) => {
+const badgeCategories = (state = initialState.common.badges.badgeCategory, action) => {
   switch (action.type) {
     case types.SUCCESS.COMMON.GET_BADGES_CATEGORY:
       return appendListToStateList.success(state, action)

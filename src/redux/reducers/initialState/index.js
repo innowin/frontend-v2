@@ -25,7 +25,7 @@ export default {
   education: educationState,
   common: {
     agencyRequest: commonStates.agencyRequestState,
-    badge: commonStates.badgeState,
+    badges: commonStates.badgeState,
     category: commonStates.categoryState,
     certificate: commonStates.certificateState,
     exchangeMembership: commonStates.exchangeMembershipState,

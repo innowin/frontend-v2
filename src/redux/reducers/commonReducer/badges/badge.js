@@ -3,7 +3,7 @@ import types from '../../../actions/types/index'
 import appendListToStateList from '../../sliceReducers/utilsSlices/appendListToStateList'
 // this badge function just set received success badges in user or organ or ...
 
-const badge = (state = initialState.common.badge.badge, action) => {
+const badge = (state = initialState.common.badges.badge, action) => {
   const {data} = action.payload || []
   // data's structure is : {[id]:{}}
   switch (action.type) {
@@ -30,7 +30,7 @@ const badge = (state = initialState.common.badge.badge, action) => {
 
     /** ----------------- reset -----------------> **/
     case types.RESET:
-      return initialState.common.badge
+      return initialState.common.badges.badge
     default:
       return state
   }
