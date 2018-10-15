@@ -72,7 +72,8 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       collapseProfile: false,
       agentForm: false,
       createExchangeForm: false,
-      productWizardModalIsOpen: false
+      productWizardModalIsOpen: false,
+      mouseIsOverMenu: false
     }
   }
 
@@ -133,11 +134,27 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     this.props.actions.signOut()
   }
 
+  _handleMouseEnter = () => {
+    this.setState({...this.state, mouseIsOverMenu: true})
+  }
+
+  _handleMouseLeave = () => {
+    this.setState({...this.state, mouseIsOverMenu: false})
+  }
+
   render() {
     const {collapseClassName, clientUser, clientOrganization, translate, clientImgLink} = this.props
-    const {collapse, collapseProfile, productWizardModalIsOpen} = this.state
+    const {collapse, collapseProfile, exploreCollapse, productWizardModalIsOpen, mouseIsOverMenu} = this.state
+
+    // added to close all collapse menus when click outside
+    window.onclick = () => {
+      if (!mouseIsOverMenu && (collapse || exploreCollapse || collapseProfile)) {
+        this.setState({...this.state, collapse: false, exploreCollapse: false, collapseProfile: false})
+      }
+    }
+    //
     return (
-        <div>
+        <div onMouseEnter={this._handleMouseEnter} onMouseLeave={this._handleMouseLeave}>
           <AgentForm
               active={this.state.agentForm}
               hide={this._handleHideAgent}
@@ -165,7 +182,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                   </div>
                   <div className='explore-menu'>
                     <Link to={'/exchange/Exchange_Explorer'} className='explore-menu-items'><ExchangeIcon className='explore-logos'/> بورس ها</Link>
-                    <Link to={'/users/Users_Explorer'} className='explore-menu-items'><Contacts svgClass='explore-logos' containerClass='explore-logos-container'/> شناسه ها (افراد و مجموعه ها)</Link>
+                    <Link to={'/users/Users_Explorer'} className='explore-menu-items'><Contacts svgClass='explore-logos member-logo' containerClass='explore-logos-container'/> شناسه ها (افراد و مجموعه ها)</Link>
                     <Link to={'#'} className='explore-menu-items'><ContributionIcon className='explore-logos'/> آورده ها (محصولات، توانمدی و ...)</Link>
                   </div>
                 </div>

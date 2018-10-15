@@ -636,7 +636,7 @@
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   margin-top: -13px;
   background-color: white;
-  font-size: 14px;
+  font-size: 13px;
   border-radius: 3px;
 }
 
@@ -651,7 +651,7 @@
   transition-duration: 0.25s;
   &:hover {
     transition-duration: 0.25s;
-    background-color: $scroll-color;
+    background-color: $chat-box2-color;
     color: black;
   }
 }
@@ -662,6 +662,11 @@
   vertical-align: top;
   margin-top: 2px;
   margin-left: 4px;
+}
+
+.member-logo{
+  width: 17px;
+  margin-left: 2px;
 }
 
 .explore-logos-container{

@@ -12,9 +12,13 @@ type appProps =
 function render(props) {
   let {exchanges, justFollowing} = props
 
+  exchanges = Object.values(exchanges).filter(exchange =>
+      exchange.id
+  )
+
   if (justFollowing) {
     exchanges = Object.values(exchanges).filter(exchange =>
-      exchange.exchange
+        exchange.exchange
     )
   }
 
