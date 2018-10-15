@@ -3,10 +3,12 @@
 @import "people";
 @import "successMessage";
 
-.steps {
-  max-width: 280px;
+.exchanges-modal .create-exchange-wrapper {
+  font-size: $font-size-regular;
+  .steps {
+    max-width: 280px;
+  }
 }
-
 @media (max-width: 1170px) {}
 @media (max-width: 990px) {}
 @media (max-width: 780px) {}

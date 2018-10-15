@@ -1,13 +1,38 @@
-import React from "react"
-import PropTypes from "prop-types"
+// @flow
+import * as React from "react"
 
-export const RadioButtonGroup = ({label = '', name = '', selected = {}, items = [], handler = () => 1, className}) => {
+export type StrNumBool = string | number | boolean
+type ItemType = {
+  value: StrNumBool,
+  title: string
+}
+
+type Props = {
+  label?: string,
+  name: string,
+  selected: StrNumBool,
+  items: Array<ItemType>,
+  handler: (value: StrNumBool) => void,
+  className?: string
+}
+export const RadioButtonGroup = (props: Props) => {
+  const {
+    label = '',
+    name = '',
+    selected = {},
+    items = [],
+    handler = (value) => 1,
+    className
+  } = props
   return (
-    <div className={`${className} radio-button-group`}>
+    <div className={`${className || ''} radio-button-group`}>
       {(label) ? (<label>{label + " :"}</label>) : ('')}
       <div className="radio-btns-wrapper">
         {items.map(item => (
-          <div key={`radio${item.value}`} className="item" onClick={() => handler(item.value)}>
+          <div
+              key={`radio${String(item.value)}`}
+              className="item" onClick={() => handler(item.value)}
+          >
             <span className="title">{item.title}</span>
             <span
               className={item.value === selected ? 'selected radio-btn' : 'radio-btn'}
@@ -19,14 +44,4 @@ export const RadioButtonGroup = ({label = '', name = '', selected = {}, items = 
       <input value={selected} type="hidden" name={name}/>
     </div>
   )
-};
-
-RadioButtonGroup.propTypes = {
-  label: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  selected: PropTypes.oneOfType([
-    PropTypes.string, PropTypes.number
-  ]),
-  items: PropTypes.arrayOf(PropTypes.object),
-  handler: PropTypes.func.isRequired
 }

@@ -1,11 +1,12 @@
 // @flow
-import React from "react"
+import * as React from "react"
 
 
 export type ActType = {
   func: Function,
   title: string,
-  className?: string
+  className?: string,
+  icon?: React.Node
 }
 type Props = {
   className?: string,
@@ -17,7 +18,14 @@ export default (props: Props) => {
   return (
       <div className={`act-bar ${className || ''}`}>
         {acts.map(act => (
-            <div className={`act-btn ${act.className || ''}`} onClick={act.func}>{act.title}</div>
+            <div
+                key={`act-btn-${act.title}`}
+                className={`act-btn ${act.className || ''}`}
+                onClick={act.func}
+            >
+              {act.title}
+              {act.icon}
+            </div>
         ))}
       </div>
   )

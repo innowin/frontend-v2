@@ -18,3 +18,9 @@ export const WRAPPER_CLASS_NAMES = {
   ENTERED: 'entered',
   EXITING: 'exiting',
 }
+export const exchangeFields = {
+  desc: 'description',
+  link: 'link',
+  name: 'name',
+  private: 'private'
+}

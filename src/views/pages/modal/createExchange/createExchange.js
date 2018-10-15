@@ -10,6 +10,7 @@ import BasicInfo from "./basicInfo"
 import People from "./people"
 import MoreInfo from "./moreInfo"
 import SuccessMessage from "./successMessage"
+import {ThinDownArrow} from "../../../../images/icons"
 
 
 type CreateExchangeProps = {
@@ -20,7 +21,8 @@ type CreateExchangeProps = {
 type CreateExchangeState = {
   activeStep: number,
   progressStatus: string,
-  wrapperClassName: string
+  wrapperClassName: string,
+  formData: {[string]: string}
 }
 
 class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState> {
@@ -30,6 +32,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
       activeStep: 1,
       progressStatus: PROGRESSIVE_STATUS_CHOICES.ACTIVE,
       wrapperClassName: WRAPPER_CLASS_NAMES.ENTERING,
+      formData: {}
     }
   }
   _setStep = (newStep: number, status: string) => {
@@ -42,6 +45,18 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
         () => {
           this._afterStepChanging()
         })
+  }
+
+  _inputHandler = (fieldName: string) => {
+    return (value: string | number | boolean) => {
+      this.setState({
+        ...this.state,
+        formData: {
+            ...this.state.formData,
+          [fieldName]: value
+        }
+      })
+    }
   }
 
   _afterStepChanging = () => {
@@ -69,14 +84,37 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
     this.props.handleModalVisibility()
   }
   _setContent = () => {
-    const {activeStep} = this.state
+    const {activeStep, formData} = this.state
+    const basicInfoBtnBarActs = [
+          {
+            title: 'لغو',
+            func: this._handleModalVisibility
+          },
+          {
+            title: 'بعدی',
+            func: this._goToNextStep,
+            icon: (<ThinDownArrow className="left-arrow"/>)
+          },
+        ]
     switch (activeStep) {
       case 1:
         return (
             <BasicInfo
-              btnBarActs={[
-                {title: 'لغو', func: this._handleModalVisibility},
-                {title: 'بعدی', func: this._goToNextStep},
+              btnBarActs={basicInfoBtnBarActs}
+              formData={formData}
+              inputHandler={this._inputHandler}
+              selectedImage='https://gitlab.com/danesh-boom2/danesh-boom-frontend/uploads/a61cd966fb8a297cd13d38abf13b36b9/4.jpeg'
+              selectionImages={[
+                {id: '1', url: 'https://gitlab.com/danesh-boom2/danesh-boom-frontend/uploads/a61cd966fb8a297cd13d38abf13b36b9/4.jpeg'},
+                {id: '1', url: 'https://gitlab.com/danesh-boom2/danesh-boom-frontend/uploads/a61cd966fb8a297cd13d38abf13b36b9/4.jpeg'},
+                {id: '1', url: 'https://gitlab.com/danesh-boom2/danesh-boom-frontend/uploads/a61cd966fb8a297cd13d38abf13b36b9/4.jpeg'},
+                {id: '1', url: 'https://gitlab.com/danesh-boom2/danesh-boom-frontend/uploads/a61cd966fb8a297cd13d38abf13b36b9/4.jpeg'},
+                {id: '1', url: 'https://gitlab.com/danesh-boom2/danesh-boom-frontend/uploads/a61cd966fb8a297cd13d38abf13b36b9/4.jpeg'},
+                {id: '1', url: 'https://gitlab.com/danesh-boom2/danesh-boom-frontend/uploads/a61cd966fb8a297cd13d38abf13b36b9/4.jpeg'},
+                {id: '1', url: 'https://gitlab.com/danesh-boom2/danesh-boom-frontend/uploads/a61cd966fb8a297cd13d38abf13b36b9/4.jpeg'},
+                {id: '1', url: 'https://gitlab.com/danesh-boom2/danesh-boom-frontend/uploads/a61cd966fb8a297cd13d38abf13b36b9/4.jpeg'},
+                {id: '1', url: 'https://gitlab.com/danesh-boom2/danesh-boom-frontend/uploads/a61cd966fb8a297cd13d38abf13b36b9/4.jpeg'},
+                {id: '1', url: 'https://gitlab.com/danesh-boom2/danesh-boom-frontend/uploads/a61cd966fb8a297cd13d38abf13b36b9/4.jpeg'},
               ]}
             />
         )

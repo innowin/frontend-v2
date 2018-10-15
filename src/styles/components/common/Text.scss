@@ -19,12 +19,13 @@
   .text {
 
       padding: 8px 0 8px 20px;
-      line-height: 24px;
       flex: 1 1;
       color: $text-medium-dark;
     font-size: $font-size-regular;
     p {
       margin-bottom: 0;
+      line-height: 36px;
+      text-align: center;
     }
   }
 }

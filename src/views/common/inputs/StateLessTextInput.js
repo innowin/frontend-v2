@@ -1,17 +1,41 @@
-import React from 'react'
-// import cx from "classnames";
+// @flow
+import * as React from 'react'
 
-const StateLessTextInput = ({label = '', name = '', onChange = () => 1, value = ''}) => (
-    <div className="form-group">
+
+type Props = {
+  label?: string,
+  name?: string,
+  onChange: Function,
+  value: string,
+  extraContent?: React.Node,
+  className?: string,
+  dir?: string
+}
+const StateLessTextInput = (props: Props) => {
+  const {
+    label = '',
+    name = '',
+    onChange = () => 1,
+    value = '',
+    dir="auto",
+    className,
+    extraContent
+  } = props
+  return (
+      <div className={`${className || ''} form-group`}>
         <label>{label}</label>
-        <input
-            value={value}
-            type="text"
-            name={name}
-            className="form-control"
-            onChange={onChange}
-            dir="auto"
-        />
-    </div>
-)
+        <div className="input-wrapper">
+          {extraContent || ''}
+          <input
+              value={value}
+              type="text"
+              name={name}
+              className="form-control"
+              onChange={onChange}
+              dir={dir}
+          />
+        </div>
+      </div>
+  )
+}
 export default StateLessTextInput
