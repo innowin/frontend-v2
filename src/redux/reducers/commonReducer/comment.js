@@ -4,13 +4,21 @@ import slices from '../sliceReducers/common/comment'
 
 
 const file = (state = initialState.common.comment, action) => {
-  const {data} = action.payload || {}
-
   switch (action.type) {
-      /** -------------------------- get comments by parent id -------------------------> **/
+    /** -------------------------- get comments by parent id -------------------------> **/
     case types.SUCCESS.COMMON.COMMENT.GET_COMMENTS_BY_PARENT_ID:
       return slices.getCommentsByParentId.success(state, action)
-      /** ----------------- reset -----------------> **/
+    /** -------------------------- create comment -------------------------> **/
+    case types.SUCCESS.COMMON.COMMENT.CREATE_COMMENT:
+      return slices.createComment.success(state, action)
+    /** -------------------------- delete comment -------------------------> **/
+    case types.COMMON.COMMENT.DELETE_COMMENT:
+      return slices.deleteComment.base(state, action)
+    case types.SUCCESS.COMMON.COMMENT.DELETE_COMMENT:
+      return slices.deleteComment.success(state, action)
+    case types.ERRORS.COMMON.COMMENT.DELETE_COMMENT:
+      return slices.deleteComment.error(state, action)
+    /** ----------------- reset -----------------> **/
     case types.RESET:
       return initialState.common.comment
     default:

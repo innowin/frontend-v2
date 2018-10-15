@@ -94,6 +94,7 @@ module.exports = {
   'Type post': 'نما',
   'Type supply': 'عرضه',
   'Type demand': 'تقاضا',
+  'Send comment': 'فرستادن دیدگاه',
 
   // user - common
   'Are you sure? Do you want delete it?': "آیا مطمئن به حذف هستید؟",

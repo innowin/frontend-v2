@@ -136,7 +136,9 @@ export class Organization extends Component<PropsOrganization> {
                                     postIdentity={identityObject.content}
                       />
                       <PrivateRoute path={`${path}/Posts/:id`} component={PostExtendedView}
-                                    extendedView={true}/>
+                                    postIdentity={identityObject.content}
+                                    extendedView={true}
+                                    commentParentType= {constants.COMMENT_PARENT.POST}/>
                       <PrivateRoute exact path={`${path}/basicInformation`}
                                     component={OrganizationBasicInformation}
                                     organizationId={organizationId}
@@ -183,7 +185,7 @@ const mapStateToProps = (state, ownProps) => {
   const organBanner = (bannerId && state.common.file.list[bannerId] && state.common.file.list[bannerId].file) || null
   const organLogo = (logoId && state.common.file.list[logoId] && state.common.file.list[logoId].file) || null
   const badgesObjectInOrgan = (stateOrgan && stateOrgan.badges) ? stateOrgan.badges : defaultObject2
-  const allBadges = state.common.badge.list
+  const allBadges = state.common.badges.badge.list
   const badges = badgesObjectInOrgan.content.map(badgeId => allBadges[badgeId])
   return {
     organObject: organ,

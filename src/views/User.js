@@ -167,7 +167,8 @@ class User extends Component<PropsUser> {
                       />
                       <PrivateRoute path={`${path}/Posts/:id`} component={PostExtendedView}
                                     postIdentity={identityObject.content}
-                                    extendedView={true}/>
+                                    extendedView={true}
+                                    commentParentType= {constants.COMMENT_PARENT.POST}/>
                       <PrivateRoute path={`${path}/basicInformation`} component={UserBasicInformation} userId={userId}
                                     profile={profileObject} user={userObject}
                       />
@@ -210,7 +211,7 @@ const mapStateToProps = (state, ownProps) => {
   const profile = (stateUser && stateUser.profile) || defaultObject
   const identity = (stateUser && stateUser.identity) || {content: null, isLoading: false, error: null}
   const badgesObjectInUser = (stateUser && stateUser.badges) || defaultObject2
-  const allBadges = state.common.badge.list
+  const allBadges = state.common.badges.badge.list
   const badges = badgesObjectInUser.content.map(badgeId => allBadges[badgeId])
   return {
     userObject: user,
