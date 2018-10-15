@@ -29,10 +29,10 @@ class MembersView extends Component {
 
   getMembers(memberId, memberType, index) {
     let {profiles, organs, files} = this.props
-    if (memberType === "USER")
+    if (memberType === "USER") {
       // if (profiles[memberId].profile.content.profile_user) {
       if (!profiles[memberId].profile.isLoading) {
-        return <div key={index + memberId}
+        return <div key={index}
                     className={this.state.viewType}>
           <div className={"member-follow"}><span className={"member-follow-plus"}> + </span></div>
           <Link to={`/user/${memberId}`}>
@@ -61,16 +61,19 @@ class MembersView extends Component {
       }
       else return <div className={"member-loading"}>
         <ClipLoader color={"#cbcbcb"} size={90}/></div>
+    }
     if (memberType === "ORGANIZATION") {
       if (!organs[memberId].organization.isLoading) {
-        console.log(organs[memberId].organization.content)
-        return <div key={index + memberId}
+        // console.log(organs[memberId].organization.content)
+        return <div key={index}
                     className={this.state.viewType}>
           <div className={"member-follow"}><span className={"member-follow-plus"}> + </span></div>
           <Link to={`/organization/${memberId}`}>
             <div className={"member-picture-container"}>
               {organs[memberId].organization.content.organization_logo !== null ? <img alt={"تصویر پروفایل"}
-                                                                                       src={files[organs[memberId].organization.content.organization_logo].file}
+                                                                                       src={files[organs[memberId].organization.content.organization_logo] ?
+                                                                                           files[organs[memberId].organization.content.organization_logo].file :
+                                                                                           null}
                                                                                        width={"55px"} height={"55px"}
                                                                                        className={"member-picture"}/>
                   : <DefaultUserIcon

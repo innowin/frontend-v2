@@ -90,9 +90,9 @@ class ExchangeViewBar extends Component {
   componentDidMount() {
     const {actions, exchangeId} = this.props
     const {getExchangeByExId} = actions
-    if(!this.props.exchanges.list[exchangeId] && !this.props.exchanges.list[exchangeId].id){
-      getExchangeByExId(exchangeId)
-    }
+    // if(!this.props.exchanges.list[exchangeId] && !this.props.exchanges.list[exchangeId].id){
+    getExchangeByExId(exchangeId)
+    // }
     // getExchangeMembersByExId (exchangeId)
     // getExchangeMembershipByExchangeId ({exchangeId})
     // this._getExchange(exchangeId)
@@ -114,13 +114,14 @@ class ExchangeViewBar extends Component {
             <button
                 type="button"
                 className="btn btn-outline-secondary btn-block sidebarBottom"
-                style={{width:'122.5px'}}>عضو شده
+                style={{width: "122.5px"}}>عضو شده
             </button>
           </div>
       )
     }
     else if (this.state.followLoading) {
-      return <div className="pb-2" style={{width:'122.5px', textAlign:'center', marginTop:'7.5px'}}><BeatLoader size={15} color={"#acacac"}/></div>
+      return <div className="pb-2" style={{width: "122.5px", textAlign: "center", marginTop: "7.5px"}}><BeatLoader
+          size={15} color={"#acacac"}/></div>
     }
     else {
       return (
@@ -128,7 +129,7 @@ class ExchangeViewBar extends Component {
             <button
                 type="button"
                 className="btn btn-outline-secondary btn-block sidebarBottom"
-                style={{width:'122.5px'}}
+                style={{width: "122.5px"}}
                 onClick={this.follow}>درخواست عضویت
             </button>
           </div>
@@ -147,7 +148,7 @@ class ExchangeViewBar extends Component {
     //       <img alt={"."} src={val.profile_media || "#"}> </img>
     //     </div>)
     // )
-    if (currentExchange)
+    if (currentExchange.exchange_image)
       return (
           <VerifyWrapper isLoading={false} error={error}>
             <div className="-sidebar-child-wrapper col">

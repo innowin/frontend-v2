@@ -18,8 +18,9 @@ class Exchange_Tabs extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      // selectedTab: "Stream",
-      selectedTab: "Members", // DEVELOP
+      selectedTab: "Stream",
+      // selectedTab: "Members", // DEVELOP
+      getUserFlag: false,
     }
     this.setTab = this.setTab.bind(this)
   }
@@ -42,12 +43,15 @@ class Exchange_Tabs extends Component {
   }
 
   componentDidUpdate() {
-    let {actions, exchangeId, exchanges} = this.props
-    if (exchangeId) {
-      let {getUser, getEducationsByUserId} = actions
-      if (exchanges[exchangeId].owner !== undefined && exchanges[exchangeId].owner.identity_user !== null) {
-        getUser(exchanges[exchangeId].owner.identity_user)
-        getEducationsByUserId({userId: exchanges[exchangeId].owner.identity_user})
+    if (!this.state.getUserFlag) {
+      let {actions, exchangeId, exchanges} = this.props
+      if (exchangeId) {
+        let {getUser, getEducationsByUserId} = actions
+        if (exchanges[exchangeId].owner !== undefined && exchanges[exchangeId].owner.identity_user !== null) {
+          getUser(exchanges[exchangeId].owner.identity_user)
+          getEducationsByUserId({userId: exchanges[exchangeId].owner.identity_user})
+          this.setState({...this.state, getUserFlag: true})
+        }
       }
     }
   }

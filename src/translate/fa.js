@@ -272,7 +272,7 @@ module.exports = {
   'Info': "مشخصات",
   'Members': "اعضا",
   'Exchange Manager': "مدیریت بورس",
-  'Medals': "مدالها",
+  'Medals': "مدرک ها",
 
 
   // Product

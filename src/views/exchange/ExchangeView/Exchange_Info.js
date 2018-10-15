@@ -22,7 +22,7 @@ class Exchange_Info extends Component {
       exchangeId,
       exchanges
     } = this.props
-    actions.getPosts({postParentId: exchangeId, limit: 5, offset: 0})
+    // actions.getPosts({postParentId: exchangeId, limit: 5, offset: 0})
     if (exchanges.list[exchangeId]) {
       if (exchanges.list[exchangeId].owner) {
         actions.getUser(exchanges.list[exchangeId].owner.identity_user)
@@ -32,20 +32,20 @@ class Exchange_Info extends Component {
     // actions.getExchangeById(exchangeId)
   }
 
-  componentDidUpdate() {
-    if (!this.state.gotOwner) {
-      let {
-        actions,
-        exchangeId,
-        exchanges
-      } = this.props
-      if (exchanges.list[exchangeId]) {
-        if (exchanges.list[exchangeId].owner) {
-          actions.getUser(exchanges.list[exchangeId].owner.identity_user)
-        }
-      }
-    }
-  }
+  // componentDidUpdate() {
+  //   if (!this.state.gotOwner) {
+  //     let {
+  //       actions,
+  //       exchangeId,
+  //       exchanges
+  //     } = this.props
+  //     if (exchanges.list[exchangeId]) {
+  //       if (exchanges.list[exchangeId].owner) {
+  //         actions.getUser(exchanges.list[exchangeId].owner.identity_user)
+  //       }
+  //     }
+  //   }
+  // }
 
   render() {
     const {activeTab, exchangeId, exchanges, users} = this.props
