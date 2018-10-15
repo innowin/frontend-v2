@@ -608,7 +608,7 @@
   transition: ease-in 0.3s;
 }
 
-.explore-menu-container-hide{
+.explore-menu-container-hide {
   position: absolute;
   top: 32px;
   right: -112px;
@@ -625,7 +625,7 @@
   color: white;
 }
 
-.explore-menu-arrow-2{
+.explore-menu-arrow-2 {
   fill: white;
   width: 20px;
 }
@@ -664,11 +664,188 @@
   margin-left: 4px;
 }
 
-.member-logo{
+.member-logo {
   width: 17px;
   margin-left: 2px;
 }
 
-.explore-logos-container{
+.explore-logos-container {
   display: inline-block;
+}
+
+.makeDark {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1200;
+  top: 0;
+  left: 0;
+  transition-duration: 0.3s;
+}
+
+.makeDark-out {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0);
+  z-index: -1;
+  top: -1000px;
+  left: 0;
+  transition-duration: 0.3s;
+}
+
+.settingModal-sidebar-out {
+  position: fixed;
+  top: -1000px;
+  right: 9.55%;
+  z-index: 1202;
+  width: 20%;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+  flex-direction: column;
+  font-size: 13px;
+  background-color: white;
+  text-align: right;
+  transition-duration: 0.3s;
+}
+
+.settingModal-sidebar {
+  position: fixed;
+  top: 60px;
+  right: 9.55%;
+  z-index: 1202;
+  width: 20%;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+  flex-direction: column;
+  font-size: 13px;
+  background-color: white;
+  text-align: right;
+  transition-duration: 0.3s;
+}
+
+.settingModal-sidebar-item {
+  border-right: 5px solid transparent;
+  padding: 12px;
+  font-weight: normal;
+  color: $text-title-menu-color;
+  cursor: pointer;
+  transition-duration: 0.3s;
+}
+
+.settingModal-sidebar-item-selected {
+  border-right: 5px solid $success-color;
+  padding: 12px;
+  font-weight: bold;
+  color: black;
+  cursor: pointer;
+  transition-duration: 0.3s;
+}
+
+.settingModal-menu-out {
+  position: fixed;
+  top: -1000px;
+  right: 30%;
+  z-index: 1202;
+  width: 40%;
+  border-radius: 3px;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+  background-color: white;
+  transition-duration: 0.3s;
+}
+
+.settingModal-menu {
+  position: fixed;
+  top: 60px;
+  right: 30%;
+  z-index: 1202;
+  width: 40%;
+  border-radius: 3px;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+  background-color: white;
+  transition-duration: 0.3s;
+}
+
+.settingModal-menu-header {
+  font-size: 14px;
+  font-weight: bold;
+  padding: 15px 12px;
+  border-bottom: 1px solid $text-title-menu-color;
+}
+
+.settingModal-menu-general-title {
+  margin-right: 5%;
+  margin-left: 2%;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 20px;
+  display: inline-block;
+  width: 115px;
+  text-align: left;
+}
+
+.settingModal-menu-general-input {
+  border: none;
+  border-bottom: 1px solid $text-title-menu-color;
+  outline: none;
+  font-size: 13px;
+  text-align: right;
+  width: 200px;
+  transition-duration: 0.3s;
+  &:focus {
+    transition-duration: 0.3s;
+    border-bottom: 1px solid $success-color;
+  }
+}
+
+.settingModal-menu-general-input-password {
+  border: none;
+  border-bottom: 1px solid $text-title-menu-color;
+  outline: none;
+  font-size: 17px;
+  letter-spacing: 2px;
+  text-align: right;
+  width: 200px;
+  transition-duration: 0.3s;
+  &:focus {
+    transition-duration: 0.3s;
+    border-bottom: 1px solid $success-color;
+  }
+}
+
+.settingModal-menu-general-hint {
+  margin-right: calc(7% + 115px);
+  width: 420px;
+  font-size: 12px;
+  text-align: right;
+  color: $text-title-menu-color;
+  padding-bottom: 50px;
+}
+
+.settingModal-menu-general-save {
+  background-color: $success-color;
+  border: 1px solid transparent;
+  color: white;
+  position: absolute;
+  font-size: 13px;
+  border-radius: 20px;
+  padding: 3px 11px;
+  left: 25px;
+  bottom: 20px;
+  cursor: pointer;
+  transition-duration: 0.3s;
+  &:hover {
+    border: 1px solid $success-color;
+    color: $success-color;
+    background-color: white;
+    transition-duration: 0.3s;
+  }
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    background-color: $success-color;
+    border: 1px solid transparent;
+    color: white;
+    transition-duration: 0.3s;
+  }
 }

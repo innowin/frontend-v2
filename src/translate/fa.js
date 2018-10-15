@@ -293,5 +293,12 @@ module.exports = {
     'My Organization': 'سازمان من',
     'Sign Out': 'خروج',
     'Search in Danesh boom': 'جستجو در اینوین',
+    'General Settings': 'تنظیمات عمومی',
+    'Username': 'نام کاربری',
+    'Password': 'کلمه عبور',
+    'Contact Email': 'ایمیل ارتباطی',
+    'Manage Linked Accounts': 'مدیریت اکانت های لینک شده',
+    'Privacy': 'حریم خصوصی',
+    'Save Changes': 'ذخیره تغییرات',
   },
 };
