@@ -345,6 +345,12 @@ $sidebar-profile-media-width: 80px;
 
 .editable-profile-img {
   position: relative;
+  .css-1z10k3e{
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 0;
+    left: 50%;
+  }
   .edit-nav {
     cursor: pointer;
     position: absolute;
@@ -356,12 +362,15 @@ $sidebar-profile-media-width: 80px;
       top: 50%;
     }
     &.edit-media {
-      width: $sidebar-profile-media-width;
-      top: 0
+      width: $sidebar-profile-media-width - 10px;
+      top: 0;
+      .edit-background{
+        border-radius: 15%;
+      }
     }
     .edit-background {
       background: $sidebar-bottom-color;
-      height: 35px;
+      height: 30px;
       opacity: 0.8;
     }
     .edit-text {

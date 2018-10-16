@@ -14,6 +14,8 @@ export default {
        isLoading:false,
        error: null
      },
+     organLogoId: null, is number
+     organBannerId: null,  is number
     ---------------- common -----------
      badges:{
        content:[1, 2, ...], list of badges id

@@ -41,6 +41,7 @@ import type {
 import type {badgeType} from "src/consts/flowTypes/common/badges"
 import constants from "src/consts/constants"
 import ParamActions from "../redux/actions/paramActions"
+import type {fileType} from "../consts/flowTypes/common/fileType";
 
 type PropsUser = {
   match: {
@@ -57,6 +58,8 @@ type PropsUser = {
   },
   translate: {},
   profileObject: profileStateObject,
+  profileBanner:fileType | {},
+  profileMedia: fileType | {},
   userObject: userStateObject,
   identityObject: identityStateObject,
   badgesObject: listOfIdObject,
@@ -114,7 +117,7 @@ class User extends Component<PropsUser> {
   }
 
   render() {
-    const {match, translate, profileObject, userObject, identityObject, badgesObject, badges} = this.props
+    const {match, translate, profileObject,profileBanner, profileMedia, userObject, identityObject, badgesObject, badges} = this.props
     const {path, url, params} = match
     const userId: number = +params.id
     const isLoading = userObject.isLoading || profileObject.isLoading || identityObject.isLoading
@@ -129,6 +132,8 @@ class User extends Component<PropsUser> {
                 <UserSideBar translate={translate}
                              user={userObject.content}
                              profile={profileObject.content}
+                             profileBanner={profileBanner}
+                             profileMedia = {profileMedia}
                              badges={badges}
                              className={`-right-sidebar-wrapper user-sidebar-width col pr-0 pl-0`}
                              paramId={userId}
@@ -208,6 +213,10 @@ const mapStateToProps = (state, ownProps) => {
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const user = (stateUser && stateUser.user) || defaultObject
   const profile = (stateUser && stateUser.profile) || defaultObject
+  const profileBannerId = stateUser.profileBannerId
+  const profileMediaId = stateUser.profileMediaId
+  const profileBanner = (profileBannerId && state.common.file.list[profileBannerId]) || {}
+  const profileMedia = (profileMediaId && state.common.file.list[profileMediaId]) || {}
   const identity = (stateUser && stateUser.identity) || {content: null, isLoading: false, error: null}
   const badgesObjectInUser = (stateUser && stateUser.badges) || defaultObject2
   const allBadges = state.common.badges.badge.list
@@ -217,6 +226,8 @@ const mapStateToProps = (state, ownProps) => {
     profileObject: profile,
     identityObject: identity,
     badgesObject: badgesObjectInUser,
+    profileBanner,
+    profileMedia,
     badges,
     translate: getMessages(state)
   }

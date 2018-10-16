@@ -23,6 +23,8 @@ import {TextInput} from "../common/inputs/TextInput"
 import updateProfile from "src/redux/actions/user/updateProfileByProfileIdAction"
 import OrganizationActions from "src/redux/actions/organization/organizationActions"
 import types from "src/redux/actions/types"
+import type {fileType} from "../../consts/flowTypes/common/fileType";
+import {BeatLoader} from "react-spinners"
 
 const MenuBox = (props) => {
   const {showEditProfileFunc, id, editProfile, paramId} = props
@@ -67,6 +69,8 @@ export const TagsBox = (props: { tags: ({ title: string })[] }) => {
 type PropsUserSideBar = {
   user: userType,
   profile: userProfileType,
+  profileBanner: fileType | {},
+  profileMedia: fileType | {},
   badges: (badgeType)[],
   className?: string,
   translate: TranslatorType,
@@ -75,10 +79,8 @@ type PropsUserSideBar = {
 }
 export const UserSideBar = (props: PropsUserSideBar) => {
 
-  const {user, profile, badges, translate, className, paramId, identityId} = props
+  const {user, profile, profileBanner, profileMedia, badges, translate, className, paramId, identityId} = props
   const name = !(user.first_name && user.last_name) ? user.username : (user.first_name + " " + user.last_name)
-  const picture = (profile.profile_media && profile.profile_media.file) || null
-  const banner = (profile.profile_banner && profile.profile_banner.file) || null
   const badgesImg = badges.map(badge => (
     (!badge) ? '' : (badge.badge_related_badge_category.badge_related_media.file))
   )
@@ -93,9 +95,9 @@ export const UserSideBar = (props: PropsUserSideBar) => {
     <SideBarContent
       sideBarType={constants.USER_TYPES.PERSON}
       name={name}
-      banner={banner}
+      banner={profileBanner}
       description={profile.description}
-      picture={picture}
+      picture={profileMedia}
       translate={translate}
       className={className}
       chosenBadgesImg={chosenBadgesImg}
@@ -111,6 +113,8 @@ UserSideBar.propTypes = {
   translate: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
+  profileBanner: PropTypes.object,
+  profileMedia: PropTypes.object,
   badges: PropTypes.array.isRequired,
   className: PropTypes.string,
   paramId: PropTypes.number,
@@ -121,8 +125,8 @@ UserSideBar.propTypes = {
 type PropsOrganSideBar = {
   organ: organizationType,
   badges: (badgeType)[],
-  organLogo: ?string,
-  organBanner: ?string,
+  organLogo: fileType | {},
+  organBanner: fileType | {},
   className?: string,
   translate: TranslatorType,
   paramId: number,
@@ -161,8 +165,8 @@ export const OrganSideBar = (props: PropsOrganSideBar) => {
 OrganSideBar.propTypes = {
   organ: PropTypes.object.isRequired,
   badges: PropTypes.array.isRequired,
-  organLogo: PropTypes.string,
-  organBanner: PropTypes.string,
+  organLogo: PropTypes.object,
+  organBanner: PropTypes.object,
   className: PropTypes.string,
   translate: PropTypes.object.isRequired,
   paramId: PropTypes.number,
@@ -177,8 +181,8 @@ type PropsSideBarContent = {
   clientIdentityId?: number,
   profile?: userProfileType,
   paramId: number,
-  banner: ?string,
-  picture: ?string,
+  banner: fileType | Object,
+  picture: fileType | Object,
   name: ?string,
   description: ?string,
   chosenBadgesImg: (string)[],
@@ -201,11 +205,7 @@ type PropsSideBarContent = {
 
 type StateSideBarContent = {
   menuToggle: boolean,
-  editProfile: boolean,
-  uploadedMedia: ?string,
-  uploadedBanner: ?string,
-  mediaFileName: ?string,
-  bannerFileName: ?string,
+  editProfile: boolean
 }
 
 class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent> {
@@ -217,8 +217,8 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     clientIdentityId: PropTypes.number,
     profile: PropTypes.object,
     paramId: PropTypes.number,
-    banner: PropTypes.string,
-    picture: PropTypes.string,
+    banner: PropTypes.object,
+    picture: PropTypes.object,
     name: PropTypes.string,
     description: PropTypes.string,
     chosenBadgesImg: PropTypes.array.isRequired,
@@ -233,11 +233,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     super(props);
     this.state = {
       menuToggle: false,
-      editProfile: false,
-      uploadedMedia: null,
-      uploadedBanner: null,
-      mediaFileName: '',
-      bannerFileName: '',
+      editProfile: false
     }
   }
 
@@ -246,24 +242,20 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
   AttachMediaFileInput: React.ElementRef<typeof AttachFile>
 
   _getValues = () => {
-    const {sideBarType, owner, profile} = this.props
-    // const bannerFileName = this.AttachBannerFileInput._getFileName()
-    // const mediaFileName = this.AttachMediaFileInput._getFileName()
-    const banner = this.AttachBannerFileInput._getFile()
-    const media = this.AttachMediaFileInput._getFile()
-    if (sideBarType === constants.USER_TYPES.PERSON) {
+    const {sideBarType, owner, profile, banner, picture} = this.props
+    if (sideBarType === constants.USER_TYPES.PERSON && profile) {
       return {
         id: profile.id,
         profile_banner: (banner && banner.id) || null,
-        profile_media: (media && media.id) || null,
-        description: this.descriptionInput,
+        profile_media: (picture && picture.id) || null,
+        description: this.descriptionInput.getValue(),
       }
     } else {
       return {
         id: owner.id,
         organization_banner: (banner && banner.id) || null,
-        organization_logo: (media && media.id) || null,
-        description: this.descriptionInput,
+        organization_logo: (picture && picture.id) || null,
+        description: this.descriptionInput.getValue(),
       }
     }
   }
@@ -284,11 +276,6 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     return result
   }
 
-  _handleClickOutMenuBox = (e: any) => {
-    if (!e.target.closest('#sidebar-menu-box') && !e.target.closest('.menuBottom')) {
-      this.setState({...this.state, menuToggle: false})
-    }
-  }
 
   _showEditProfileFunc = (e: any) => {
     e.preventDefault()
@@ -300,48 +287,26 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     this.setState({...this.state, editProfile: false})
   }
 
-
-  componentDidMount() {
-    // Without flow type: document.addEventListener('click', this._handleClickOutMenuBox)
-    (document.addEventListener: Function)('click', this._handleClickOutMenuBox)
-
-    const {actions, identityId, sideBarType, owner, banner, picture} = this.props
-    this.setState({...this.state, uploadedBanner: banner, uploadedMedia: picture})
-    const {getFollowers} = actions || {}
-    getFollowers({followOwnerIdentity: identityId, followOwnerType: sideBarType, followOwnerId: owner.id})
-  }
-
-  componentWillUnmount() {
-    (document.removeEventListener: Function)('click', this._handleClickOutMenuBox)
-  }
-
   _handleMenu = () => {
     this.setState({...this.state, menuToggle: !this.state.menuToggle})
   }
 
-  _getBanner = (media = {}, fileName) => {
-    console.log("getBanner:", media, fileName)
-    this.setState({...this.state, uploadedBanner: media.file, bannerFileName: fileName})
-  }
-
-  _getMedia = (media = {}, fileName) => {
-    console.log("getMedia:", media, fileName)
-    this.setState({...this.state, uploadedMedia: media.file, mediaFileName: fileName})
-  }
-
-  AttachBottom = (className) => (
+  _AttachBottom = (className) => (
     <div className={"edit-nav " + className}>
       <div className="edit-background"/>
       <span className="edit-text">تصویر جدید</span>
     </div>
   )
 
+  _LoadingFile = () => <BeatLoader color="#999" size={10} margin="4px" loading={true}/>
+
   _save = () => {
     const {actions, sideBarType, owner, profile} = this.props
     const {updateProfile, updateOrganization} = actions || {}
+    const profileId = profile && profile.id
     const formValues = this._getValues()
     if (sideBarType === constants.USER_TYPES.PERSON) {
-      return updateProfile({formValues, profileId:profile.id, userId: owner.id})
+      return updateProfile({formValues, profileId, userId: owner.id})
     } else {
       return updateOrganization({formValues, organizationId: owner.id})
     }
@@ -363,42 +328,69 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     createFollow({formValues, followOwnerId, followOwnerType: sideBarType})
   }
 
+  _handleClickOutMenuBox = (e: any) => {
+    if (!e.target.closest('#sidebar-menu-box') && !e.target.closest('.menuBottom')) {
+      this.setState({...this.state, menuToggle: false})
+    }
+  }
+
+  componentDidMount() {
+    // Without flow type: document.addEventListener('click', this._handleClickOutMenuBox)
+    (document.addEventListener: Function)('click', this._handleClickOutMenuBox)
+
+    const {actions, identityId, sideBarType, owner} = this.props
+    const {getFollowers} = actions || {}
+    getFollowers({followOwnerIdentity: identityId, followOwnerType: sideBarType, followOwnerId: owner.id})
+  }
+
+  componentWillUnmount() {
+    (document.removeEventListener: Function)('click', this._handleClickOutMenuBox)
+  }
+
   render() {
-    const {menuToggle, editProfile, uploadedMedia, uploadedBanner} = this.state
-    const {sideBarType, name, description, chosenBadgesImg, socialNetworks, translate: tr, paramId, followers, clientIdentityId, profile, owner} = this.props
+    const {menuToggle, editProfile} = this.state
+    const {sideBarType, name, description, banner, picture, chosenBadgesImg, socialNetworks, translate: tr, paramId, followers, clientIdentityId, profile, owner} = this.props
     const className = this.props.className || ''
     // const followNames = ["صابر منادی", "امیر امیری فر", "محسن فلاح", "یاسر رستگار", "علی اور     organ = {organ}وجی"] //TODO get followNames
     const showFollow = followers && !followers.map(follower => follower.id).includes(clientIdentityId)
-    const bannerFileIdKey = (sideBarType === constants.USER_TYPES.PERSON) ? (
-      'profile_banner'
-    ) : 'organization_banner'
-    const mediaFileIdKey = (sideBarType === constants.USER_TYPES.PERSON) ? (
-      'profile_media'
-    ) : 'organization_logo'
-    const nextActionType = (sideBarType === constants.USER_TYPES.PERSON) ? (types.USER.UPDATE_PROFILE_BY_PROFILE_ID)
-        : types.ORG.UPDATE_ORGANIZATION_INFO
-    const bannerNextActionData = (sideBarType === constants.USER_TYPES.PERSON) ? (profile.profile_banner)
-        : owner.organization_banner
-    const mediaNextActionData = (sideBarType === constants.USER_TYPES.PERSON) ? (profile.profile_media)
-        : owner.organization_logo
+    const pictureId = picture.id
+    const bannerId = banner.id
+    const bannerFileIdKey = (sideBarType === constants.USER_TYPES.PERSON) ? 'profileBannerId': 'organBannerId'
+    const mediaFileIdKey = (sideBarType === constants.USER_TYPES.PERSON) ? 'profileMediaId' : 'organLogoId'
+    const nextActionType = (sideBarType === constants.USER_TYPES.PERSON)
+      ? (types.USER.SET_PROFILE_MEDIA)
+      : types.ORG.SET_ORGANIZATION_INFO_MEDIA
+    const nextActionData = ((sideBarType === constants.USER_TYPES.PERSON) && profile)
+      ? {userId: owner.id, profileMediaId:pictureId, profileBannerId:bannerId}
+      : {organizationId:owner.id, organLogoId:pictureId, organBannerId:bannerId}
+    const bannerCreateArguments = {
+      fileIdKey:bannerFileIdKey,
+      nextActionData,
+      nextActionType:nextActionType,
+    }
+    const mediaCreateArguments = {
+      fileIdKey:mediaFileIdKey,
+      nextActionType:nextActionType,
+      nextActionData,
+    }
     return (
       <form className={className + ' pt-0'} onSubmit={this._handleSubmit}>
         <div className="editable-profile-img">
           {
-            (!uploadedBanner) ? <DefaultImageIcon className="banner"/> : (
-              <img alt="" src={uploadedBanner} className="banner"/>)
+            (!bannerId) ? <DefaultImageIcon className="banner"/> : (
+              <img alt="" src={banner.file} className="banner"/>)
           }
           {
             (!editProfile) ? '' : (
               <AttachFile
                 ref={AttachBannerFileInput => {
-                  this.AttachBannerFileInput = AttachBannerFileInput
+                  this.AttachBannerFileInput = AttachBannerFileInput && AttachBannerFileInput.getWrappedInstance()
                 }}
-                getMedia={this._getBanner}
-                AttachBottom={() => this.AttachBottom('edit-banner')}
-                fileIdKey={bannerFileIdKey}
-                nextActionData={bannerNextActionData}
-                nextActionType={nextActionType}
+                AttachBottom={() => this._AttachBottom('edit-banner')}
+                createArguments={bannerCreateArguments}
+                mediaId={bannerId}
+                inputId="AttachBannerFileInput"
+                LoadingFile={this._LoadingFile}
               />
             )
           }
@@ -406,23 +398,23 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
         <div className="sidebar-organ-user col">
           <div className="editable-profile-img">
             {
-              (!uploadedMedia) ? (
+              (!pictureId) ? (
                 (sideBarType === 'user') ? <DefaultUserIcon className="profile-media"/> :
                   <DefaultOrganIcon className="profile-media"/>
               ) : (
-                <img className="rounded-circle profile-media" alt="" src={uploadedMedia}/>)
+                <img className="rounded-circle profile-media" alt="" src={picture.file}/>)
             }
             {
               (!editProfile) ? '' : (
                 <AttachFile
                   ref={AttachMediaFileInput => {
-                    this.AttachMediaFileInput = AttachMediaFileInput
+                    this.AttachMediaFileInput = AttachMediaFileInput && AttachMediaFileInput.getWrappedInstance()
                   }}
-                  getMedia={this._getMedia}
-                  AttachBottom={() => this.AttachBottom('edit-media')}
-                  fileIdKey={mediaFileIdKey}
-                  nextActionType={nextActionType}
-                  nextActionData={mediaNextActionData}
+                  AttachBottom={() => this._AttachBottom('edit-media')}
+                  createArguments={mediaCreateArguments}
+                  mediaId={pictureId}
+                  inputId="AttachMediaFileInput"
+                  LoadingFile={this._LoadingFile}
                 />
               )
             }

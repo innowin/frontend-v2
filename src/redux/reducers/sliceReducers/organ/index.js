@@ -15,6 +15,7 @@ import getPostByIdentity from "./getPostByIdentity"
 import getProductsByIdentity from "./getProductsByIdentity"
 import getWorkExperienceByUserId from './getWorkExperienceByUserId'
 import getPost from './getPost'
+import setOrganMedia from "./setOrganMedia"
 
 export default {
   createFollow,
@@ -30,8 +31,9 @@ export default {
   getExchangeMembershipByMemberIdentity,
   getFollowees,
   getFollowers,
+  getPost,
   getPostByIdentity,
   getProductsByIdentity,
-  getPost,
   getWorkExperienceByUserId,
+  setOrganMedia,
 }

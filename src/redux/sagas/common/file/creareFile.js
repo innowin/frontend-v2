@@ -3,6 +3,7 @@ import results from "../../../../consts/resultName";
 import urls from "../../../../consts/URLS";
 import {call, fork, take, put} from "redux-saga/effects";
 import types from '../../../actions/types'
+import uuid from 'uuid'
 
 
 function* createFile(action) { // payload?
@@ -11,7 +12,7 @@ function* createFile(action) { // payload?
   // 'nextActionType' used in dynamicResult to avoid from creating two different object in database
   // with the same picture implicitly and unwanted, when creating multiple object and their files
   // in the same time.
-  const dynamicResult = `${results.COMMON.CREATE_FILE}--${nextActionType || ''}--${file_string}`
+  const dynamicResult = `${results.COMMON.CREATE_FILE}--${uuid()}`
 
   const socketChannel = yield call(api.createSocketChannel, dynamicResult)
 

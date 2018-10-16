@@ -4,43 +4,30 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux"
 import {bindActionCreators} from "redux"
 import FileActions from "src/redux/actions/commonActions/fileActions"
-import types from "src/redux/actions/types"
 
 class AttachFile extends Component {
   static defaultProps = {
     customValidate: () => false,
     required: false,
-  };
+    LoadingFile: () => <span>{__('Uploading...')}</span>
+  }
 
   static propTypes = {
     required: PropTypes.bool,
     customValidate: PropTypes.func,
+    inputId: PropTypes.string.isRequired,
+    LoadingFile : PropTypes.func,
     // TODO mohsen: fileType: PropTypes.arrayOf(PropTypes.string.isRequired),
     // TODO mohsen: fileSize
-    getMedia: PropTypes.func.isRequired,
+    getMedia: PropTypes.func,
+    mediaId: PropTypes.number,
     AttachBottom: PropTypes.func.isRequired,
-    fileIdKey: PropTypes.string,
-    nextActionType: PropTypes.string,
-    nextActionData: PropTypes.object
-  };
-
-  constructor(props) {
-    super(props);
-    this.state = {error: false, isLoading: false, fileName: '', media: {}};
-  };
-
-  _createFile = (fileString, fileName) => {
-    const {actions, fileIdKey, nextActionType, nextActionData} = this.props
-    const {createFile} = actions
-    // const mediaResult = (res) => {
-    //   this.props.getMedia(res, fileName)
-    //   this.setState({...this.state, isLoading: false, fileName, media: res})
-    // }
-    createFile({file_string: fileString, nextActionData, nextActionType, fileIdKey})
+    createArguments: PropTypes.object,
   }
 
-  componentDidUpdate(prevProps){
-    // if(prevProps.)
+  constructor(props) {
+    super(props)
+    this.state = {error: false, isLoading: false, fileName: '', media: {}}
   }
 
   _handleChange = (event) => {
@@ -56,16 +43,18 @@ class AttachFile extends Component {
       };
       reader.onloadend = () => {
         const fileName = file.name;
-        this._createFile(reader.result, fileName);
+        this._createFile(reader.result);
+        this.setState({...this.state, fileName})
       };
       reader.readAsDataURL(file);
     }
-  };
+  }
 
   _onChangeClick = () => {
+    const {getMedia} = this.props
     this.setState({...this.state, isLoading: false, fileName: '', media: {}});
-    this.props.getMedia({}, '')
-  };
+    getMedia && getMedia({}, '')
+  }
 
   _validateFile = (file) => {
     const {required, customValidate} = this.props;
@@ -75,34 +64,47 @@ class AttachFile extends Component {
       }
     }
     return customValidate(file);
-  };
+  }
 
   _validate = () => {
     const error = this._validateFile(this.file);
     this.setState({error});
     return error;
-  };
+  }
 
   _getFile = () => {
-    return this.state.media;
-  };
+    return this.state.media
+  }
 
   _getFileName = () => {
     return this.state.fileName;
-  };
+  }
+
+  _createFile = (fileString) => {
+    const {actions, createArguments} = this.props
+    const {createFile} = actions
+    const {nextActionData, nextActionType, fileIdKey} = createArguments
+    createFile({file_string: fileString, nextActionData, nextActionType, fileIdKey})
+  }
+
+  componentDidUpdate(prevProps) {
+    const {mediaId, getMedia} = this.props
+    const {fileName} = this.state
+    if (prevProps.mediaId !== mediaId) {
+      getMedia && getMedia(mediaId, fileName)
+      this.setState({...this.state, isLoading: false, fileName, media: mediaId})
+    }
+  }
 
   render() {
     const {error, isLoading} = this.state;
-    const {AttachBottom} = this.props;
+    const {AttachBottom, LoadingFile, inputId} = this.props;
     if (isLoading) {
-      return (
-        <span>{__('Uploading...')}</span>
-      )
+      return <LoadingFile/>
     }
     return (
       <span>
-        <label htmlFor="file">
-          {/*// TODO mohsen: improve place of attach icon*/}
+        <label htmlFor={inputId}>
           <AttachBottom/>
         </label>
         <input
@@ -110,7 +112,7 @@ class AttachFile extends Component {
           className="custom-file-input w-100"
           onChange={this._handleChange}
           onClick={this._onChangeClick}
-          id="file"
+          id={inputId}
           hidden
         />
         {error &&
@@ -120,14 +122,10 @@ class AttachFile extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const {} = ownProps
-  return {}
-}
+
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     createFile: FileActions.createFile,
-    getFile: FileActions.getFile,
   }, dispatch)
 })
-export default connect(mapStateToProps, mapDispatchToProps)(AttachFile)
+export default connect(null, mapDispatchToProps, null, { withRef: true })(AttachFile)

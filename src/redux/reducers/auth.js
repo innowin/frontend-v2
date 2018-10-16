@@ -17,6 +17,12 @@ const auth = (state = initialState.auth, action) => {
     /** -------------------------- update profile by profile id -------------------------> **/
     case types.SUCCESS.USER.UPDATE_PROFILE_BY_PROFILE_ID:
       return slices.updateProfileByProfileId.success(state, action)
+
+    case types.SUCCESS.ORG.SET_ORGANIZATION_INFO_MEDIA:
+      return slices.setClientOrganMedia.success(state, action)
+
+    case types.SUCCESS.USER.SET_PROFILE_MEDIA:
+      return slices.setClientPersonMedia.success(state, action)
     /** -------------------------- get posts by identity  -------------------------> **/
     case types.SUCCESS.COMMON.POST.GET_POST_BY_IDENTITY:
       return slices.getPostByIdentity.success(state, action)
