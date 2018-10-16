@@ -849,3 +849,31 @@
     transition-duration: 0.3s;
   }
 }
+.act-bar {
+  display: flex;
+  justify-content: space-between;
+  .act-btn {
+    cursor: pointer;
+    position: relative;
+    background: $brand-inverse-color;
+    color: $text-lightest-color;
+    padding: 8px 14px;
+    font-size: $font-size-regular;
+    border-radius: 100px;
+    width: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    svg {
+      width: 16px;
+      position: absolute;
+      left: 10px;
+    }
+    svg path {
+      fill: $text-lightest-color;
+    }
+  }
+}
