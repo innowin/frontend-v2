@@ -42,7 +42,11 @@ class Customers extends React.Component<PropsCustomers, StatesCustomer> {
   _createCustomer = ({formValues}) => {
     const {actions, organizationId} = this.props
     const {createOrgCustomer} = actions
-    const generatedFormValues = {customer_organization: organizationId, customer_picture: 1, related_customer: 1, ...formValues}
+    const generatedFormValues = {
+      customer_organization: organizationId,
+      customer_picture: 1,
+      related_customer: 1, ...formValues
+    }
     createOrgCustomer({organizationId, formValues: generatedFormValues})
   }
 
@@ -63,13 +67,17 @@ class Customers extends React.Component<PropsCustomers, StatesCustomer> {
             </div>
             }
             {customerCreateForm &&
-            <div className='customer-create-container'>
-              <p className='customer-create-header'>{translate['Customer']}</p>
-              <CustomerInfoCreateForm hideEdit={this._hideCustomerCreateForm} create={this._createCustomer}
-                                      translate={translate}
-                                      organizationId={organizationId}/>
+            <FrameCard className='customer-tab'>
+              <ListGroup>
+                <div className='customer-create-container'>
+                  <p className='customer-create-header'>{translate['Customer']}</p>
+                  <CustomerInfoCreateForm hideEdit={this._hideCustomerCreateForm} create={this._createCustomer}
+                                          translate={translate}
+                                          organizationId={organizationId}/>
 
-            </div>
+                </div>
+              </ListGroup>
+            </FrameCard>
             }
           </CheckOwner>
           <FrameCard>

@@ -54,12 +54,11 @@
   }
 }
 
+.customer-tab {
+  padding-top: 0;
+}
 .customer-create-header {
-  margin: 20px;
-  margin-right: 0;
-
-  .customer-create-header {
-    font-size: 20px;
-    font-weight: bold;
-  }
+  margin: 20px 0 20px 20px;
+  font-size: 20px;
+  font-weight: bold;
 }
