@@ -28,14 +28,31 @@
       align-items: center;
       label {
         margin-bottom: 0;
+        margin-top: 5px;
       }
     }
-    .simple-form .link-input .input-wrapper{
+    .simple-form .link-input .input-wrapper {
       display: flex;
       align-items: center;
       flex-direction: row-reverse;
       .domain {
         direction: ltr;
+      }
+    }
+    .simple-form .form-group label {
+      margin-bottom: 14px;
+    }
+    .simple-form .radio-button-group {
+      .radio-btns-wrapper {
+        justify-content: space-between;
+        width: 200px;
+      }
+      .radio-btns-wrapper .item {
+        margin-left: 10px;
+      }
+      margin: 33px 0 27px;
+      .title {
+        font-size: $font-size-regular;
       }
     }
     .image-form {
@@ -79,6 +96,7 @@
       object-fit: contain;
       box-shadow: 0 0 1px #f5f3f3;
       margin: 3px 0;
+      cursor: pointer;
     }
     .image-selection-wrapper span {
       margin-bottom: 14px;

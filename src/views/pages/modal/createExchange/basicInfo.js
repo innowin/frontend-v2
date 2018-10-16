@@ -30,6 +30,7 @@ const SimpleForm = (props: SimpleFormProps) => {
             label="عنوان بورس"
             onChange={(e: SyntheticEvent<HTMLInputElement>) => nameHandler(e.currentTarget.value)}
             value={formData[exchangeFields.name]}
+            className="title-input"
         />
         <RadioButtonGroup
             handler={privateHandler}
