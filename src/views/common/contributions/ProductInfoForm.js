@@ -48,7 +48,7 @@ class ProductInfoForm extends Component<PropsProductEditForm, StateProductEditFo
 
   componentDidMount() {
     const {initialize, product} = this.props
-    if(product){
+    if (product) {
       const defaultFormValue = {
         name: product.name,
         description: product.description,
@@ -86,7 +86,7 @@ class ProductInfoForm extends Component<PropsProductEditForm, StateProductEditFo
 
     const formValues: {} = {...formFormat}
     update({formValues, productId})
-    // hideEdit()
+    hideEdit()
   }
 
   render() {

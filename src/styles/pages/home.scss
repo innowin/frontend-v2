@@ -10,55 +10,65 @@ $heightOfContentBox: 140px;
 .home-wrapper {
   .content {
     min-height: 100%;
-    @media screen and (max-width: 1920px) and (min-width: 1366px){
+    @media screen and (max-width: 1920px) and (min-width: 1366px) {
       margin: 0 138px;
     }
-    @media screen and (max-width: 1280px) and (min-width: 600px){
+    @media screen and (max-width: 1280px) and (min-width: 600px) {
       margin: 0 90px;
     }
-    @media screen and (max-width: 1366px) and (min-width: 1280px){
+    @media screen and (max-width: 1366px) and (min-width: 1280px) {
       margin: 0 97px;
     }
     .right-sidebar {
+      border-radius: $border-radius-size;
+      margin-top: 11px;
       overflow-y: auto;
       max-height: fit-content;
       background: $text-lightest-color;
-      -webkit-box-shadow: -2px 0px 14px rgba(0, 0, 0, 0.3);
-      -moz-box-shadow: -2px 0px 14px rgba(0, 0, 0, 0.3);
-      box-shadow: -2px 0px 14px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 1px 5px $box-shadow-color;
     }
+  }
+
+  .post-wrapper {
+    padding: 0 8px;
   }
 }
 
 .-createPostHome {
   display: flex;
   flex-direction: row;
-  margin: 10px 5px;
-  background-color: $chat-box2-color;
-  border-radius: 3px;
-  padding: 15px 20px 15px 20px;
+  margin: 11px 5px;
+  border-radius: $border-radius-size;
+  padding: 10px;
+  box-shadow: 0 1px 5px $box-shadow-color;
+  background: #fff;
 
   .-img-col {
-      width: 45px;
-      height: 45px;
+    margin-top: 2px;
+    width: 30px;
+    height: 30px;
   }
 
   .-content-col {
     display: flex;
     flex-grow: 1;
-    margin-right: 20px;
-    border-radius: 5px;
-    padding: 1px;
+    border-radius: $border-radius-size;
+    padding: 0 10px;
     background-color: $text-lightest-color;
     .-textBox {
       flex-grow: 1;
     }
-    textarea {
+    .post-text-field {
       flex: 1;
       outline: none;
       border: 0;
       float: right;
       resize: none;
+      padding-top: 6px;
+      &::placeholder {
+        color: $text-light-color;
+        font-size: $font-size-normalText;
+      }
     }
   }
 
@@ -103,6 +113,11 @@ $heightOfContentBox: 140px;
   .closeTextarea {
     flex-direction: row;
     justify-content: space-between;
+
+    .rightIcons, .-createPostFooter {
+      display: none;
+    }
+
     textarea {
       height: 100%;
       overflow-y: hidden;

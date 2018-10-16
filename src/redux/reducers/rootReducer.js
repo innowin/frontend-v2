@@ -17,6 +17,7 @@ import {intlReducer} from './intl'
 import research from './research'
 import skill from './skill'
 import param from './param'
+import customer from './customer'
 
 const commonPersistConfig = {key: 'common', storage: storage,}
 
@@ -33,6 +34,7 @@ const reducers = {
   research,
   skill,
   param,
+  customer,
 }
 
 //Don't change below code ,  Put your reducer on the upper object.

@@ -107,5 +107,16 @@ export type ProductGetType = {
 }
 
 export type ProductFormValuesType = {
-
+  name: string,
+  delete_flag: boolean,
+  name: string,
+  description: string,
+  attrs: {},
+  custom_attrs: {},
+  product_price_type : string,
+  product_owner: number,
+  product_category: number,
+  product_related_country: number,
+  product_related_province: number,
+  product_related_town: number,
 }

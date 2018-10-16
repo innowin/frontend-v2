@@ -2,22 +2,21 @@ import types from "src/redux/actions/types"
 import {takeEvery} from "redux-saga/effects"
 
 /**********    %% WORKERS %%    **********/
-import {getOrganizationByOrganId} from "./getOrganSagas"
+import {getOrganizationByOrganId} from "./getOrganizationByOrganId"
 import {updateOrganization} from "./updateOrgan"
+import {getCustomersByOrganizationId} from './getCustomersByOrganizationId'
+import {createOrgCustomer} from './createOrgCustomer'
+import {deleteOrgCustomer} from './deleteOrgCustomer'
+import {updateOrgCustomer} from './updateOrgCustomer'
 import {
   addPictureProduct,
   agencyRequest,
-  createOrgCustomer,
   createProduct,
-  deleteOrgCustomer,
-  getCustomers,
   getOrganizationMembers,
   getOrgStaff,
   getProductPicture,
   getProductsSuccess,
-  updateCustomer
 } from "./organization"
-
 
 /**********    %% WATCHERS %%    **********/
 
@@ -38,12 +37,22 @@ function* watchUpdateOrganization() {
 
 // get org customers
 function* watchGetCustomers() {
-  yield takeEvery(types.ORG.GET_ORG_CUSTOMERS, getCustomers)
+  yield takeEvery(types.ORG.GET_CUSTOMERS_BY_ORGANIZATION_ID, getCustomersByOrganizationId)
 }
 
 // update org customer
 function* watchUpdateCustomer() {
-  yield takeEvery(types.ORG.UPDATE_CUSTOMER, updateCustomer)
+  yield takeEvery(types.ORG.UPDATE_CUSTOMER, updateOrgCustomer)
+}
+
+// create org customer
+function* watchCreateCustomer() {
+  yield takeEvery(types.ORG.CREATE_CUSTOMER, createOrgCustomer)
+}
+
+// delete org customer
+function* watchDeleteCustomer() {
+  yield takeEvery(types.ORG.DELETE_CUSTOMER, deleteOrgCustomer)
 }
 
 function* watchCreateOrgProduct() {
@@ -65,14 +74,6 @@ function* watchGetProductsSuccess() {
 
 function* watchGetStaff() {
   yield takeEvery(types.ORG.GET_STAFF, getOrgStaff)
-}
-
-function* watchCreateCustomer() {
-  yield takeEvery(types.ORG.CREATE_CUSTOMER, createOrgCustomer)
-}
-
-function* watchDeleteCustomer() {
-  yield takeEvery(types.ORG.DELETE_CUSTOMER, deleteOrgCustomer)
 }
 
 function* watchAgencyRequest() {

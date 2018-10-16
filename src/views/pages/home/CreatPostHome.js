@@ -11,14 +11,15 @@ import {AttachFileIcon} from "src/images/icons";
 import {bindActionCreators} from "redux"
 import PostActions from "../../../redux/actions/commonActions/postActions"
 import {connect} from "react-redux";
+import {getMessages} from "../../../redux/selectors/translateSelector";
 
 const duration = 300;
 const defaultStyle = {
   transition: `all ${duration}ms ease-in-out`,
-  height: 60,
+  height: 40,
 };
 const transitionStyles = {
-  entering: {height: 60},
+  entering: {height: 40},
   entered: {height: 190}
 };
 
@@ -98,6 +99,7 @@ class HomeCreatePost extends Component {
   }
 
   static propTypes = {
+    translate: PropTypes.object.isRequired,
     postIdentityId: PropTypes.number.isRequired,
     postOwnerId: PropTypes.number.isRequired,
     postOwnerType: PropTypes.string.isRequired,
@@ -211,7 +213,7 @@ class HomeCreatePost extends Component {
 
   render() {
     const {media, fileName, description, textareaClass, show} = this.state
-    const {postOwnerImgLink, className} = this.props
+    const {postOwnerImgLink, className, translate} = this.props
     // TODO handle description error that say: "Ensure description value has at least 5 characters."
     return (
       <form className={"-createPostHome " + className} id="HomeCreatePost" onSubmit={this._onSubmit}>
@@ -226,8 +228,8 @@ class HomeCreatePost extends Component {
               className={"-content-col " + textareaClass}
               style={{...defaultStyle, ...transitionStyles[state]}}
             >
-              <div className="d-flex flex-row mb-2 -textBox">
-                <textarea onFocus={this._handleFocus} onChange={this._handleChange} value={description}/>
+              <div className="d-flex flex-row -textBox">
+                <textarea className='post-text-field' placeholder={translate['Be in zist boom']} onFocus={this._handleFocus} onChange={this._handleChange} value={description}/>
                 <div className="-img-content">
                   {(media.file) ? (
                     <div className="-fileBox">
@@ -261,7 +263,8 @@ const mapStateToProps = (state, ownProps) => {
     && state.common.file.list[postOwnerImgId]
     && state.common.file.list[postOwnerImgId].file) || null
   return {
-    postOwnerImgLink
+    postOwnerImgLink,
+    translate: getMessages(state),
   }
 }
 const mapDispatchToProps = dispatch => ({

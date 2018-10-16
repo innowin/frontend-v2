@@ -1,46 +1,64 @@
 @import "../../variables";
-.customer{
-	.content{
-		min-width: 100%;
-	}
-	.customerImage{
-		min-width:100px;
-		min-height: auto;
-		max-width: 100%;
 
-	}
-	img{
-		// padding-top: 5%;
-		// padding-bottom: 0;
-		// padding-right: 35%;
-		// padding-left: 35%;
-	}
-	h5{
-		padding:5px;
-		padding-bottom:0px;
-		padding-top:15px;
-		margin:0px;
-		font-size:$font-size-normalText;
-	}
-	.shareButton{
-		float:right;
-		padding-left:6px;
-		padding-right:6px;
-		padding-bottom:6px;
-		padding-top:0px;
-		svg{
-			width:10px;
-			height:10px;
-		}
-	}
-	.editButton{
-		cursor:pointer;
-		position: absolute;
-		left:0;
-		float:left;
-		svg{
-			width:15px;
-			height: 15px;
-		}
-	}
+.customers-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+
+  .customer-wrapper {
+    padding: 10px;
+    width: 50%;
+
+    .customer-view-container {
+      position: relative;
+      border: 1px solid $text-lighter-color;
+      padding: 15px;
+
+      .customer-edit {
+        position: absolute;
+        top: 0;
+        left: 5px;
+      }
+      .customer-image {
+        margin: 10px;
+        height: 120px;
+
+        img {
+          display: flex;
+          margin: auto;
+          height: 100%;
+        }
+      }
+      .customer-title {
+        text-align: center;
+        margin-bottom: 10px;
+        font-size: $font-size-regular;
+      }
+    }
+  }
+}
+
+.customer-add-container {
+  display: flex;
+  justify-content: space-around;
+
+  .customer-add-button {
+    border: none;
+    background: $bootstrap-success;
+    padding: 10px;
+    font-size: $font-size-normalText;
+    font-weight: bold;
+    color: #ffffff;
+    border-radius: $border-radius-size;
+    outline: 0;
+  }
+}
+
+.customer-create-header {
+  margin: 20px;
+  margin-right: 0;
+
+  .customer-create-header {
+    font-size: 20px;
+    font-weight: bold;
+  }
 }

@@ -24,9 +24,7 @@ const results = {
     GET_ORG_EXCHANGES: 'get-org-exchanges',
     GET_ORG_FOLLOWING: 'get-org-following',
     GET_ORG_FOLLOWINGS_IDENTITIES: 'get-org-followings-identities',
-    GET_ORG_CUSTOMERS: 'get-org-customers',
     GET_ORG_CERTIFICATES: 'get-org-certificates',
-    UPDATE_CUSTOMER: 'update-org-customer',
     CREATE_PRODUCT: 'create-org-product',
     GET_PRODUCT_CATEGORIES: 'get-product-category',
     GET_PRODUCTS: 'get-org-products',
@@ -37,9 +35,14 @@ const results = {
     DELETE_PRODUCT: 'delete-org-product',
     CREATE_CERTIFICATE: 'create-org-certificate',
     GET_STAFF: 'get-org-staff',
+
+    AGENCY_REQUEST: 'agent-request',
+
+    // customer
+    GET_CUSTOMERS_BY_ORGANIZATION_ID: 'get-org-customers',
     CREATE_CUSTOMER: 'create-org-customer',
     DELETE_CUSTOMER: 'delete-org-customer',
-    AGENCY_REQUEST: 'agent-request',
+    UPDATE_CUSTOMER: 'update-org-customer',
   },
   COMMON: {
     // product
