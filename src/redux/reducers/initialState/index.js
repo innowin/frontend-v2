@@ -11,6 +11,7 @@ import educationState from './education'
 import researchState from './research'
 import paramState from './param'
 import identitiesState from "./identities"
+import customerState from './customer'
 
 export default {
   auth: authState,
@@ -23,6 +24,7 @@ export default {
   exchanges: exchangesState,
   workExperience: workExperienceState,
   education: educationState,
+  customer: customerState,
   common: {
     agencyRequest: commonStates.agencyRequestState,
     badges: commonStates.badgeState,

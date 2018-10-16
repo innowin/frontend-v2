@@ -21,8 +21,8 @@ const skillInfoValidation = (values, {translate}) => {
   const requiredFields = []
 
   const {description, title, tag} = values
-  if (description) errors.university = validateDescription(description, translate)
-  if (title) errors.grade = validateTitle(title, translate)
+  if (description) errors.description = validateDescription(description, translate)
+  if (title) errors.title = validateTitle(title, translate)
   // if (tag) errors.tag = validateTag(tag, translate)
 
   let requiredErrors = []

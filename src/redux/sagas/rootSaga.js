@@ -1,6 +1,6 @@
 import {all} from 'redux-saga/effects'
 import authWatchers from './auth'
-import commonWatchers from './common/index'
+import commonWatchers from './common'
 import educationWatchers from './education'
 import exchangeWatchers from "./exchange"
 import identityWatchers from "./getIdentity"

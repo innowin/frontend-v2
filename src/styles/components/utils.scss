@@ -1,10 +1,13 @@
 @import "../variables";
 
-.-userOrganBackgroundImg {
-  background-image: url("../images/common/userOrganBackground.png");
+
+.pages-wrapper {
+  background-image: url("../images/common/background.png");
   background-repeat: no-repeat;
   background-position: top left;
   background-attachment: fixed;
+  background-color: lighten($primary-color-light3, 58%);
+  min-height: 100vh;
 }
 
 .dir-rtl {

@@ -47,6 +47,7 @@ module.exports = {
   'Password does not correct': "رمز ورود صحیح نمی باشد!",
 
   //common
+  'Be in zist boom': 'در زیست بوم باش...',
   'Required field': "فیلد الزامی",
   'Required fields should be filled': "موارد الزامی باید پر شوند",
   'Day': "روز",
@@ -95,6 +96,7 @@ module.exports = {
   'Type supply': 'عرضه',
   'Type demand': 'تقاضا',
   'Send comment': 'فرستادن دیدگاه',
+  'Delete post': 'حذف پست',
 
   // user - common
   'Are you sure? Do you want delete it?': "آیا مطمئن به حذف هستید؟",
@@ -254,6 +256,9 @@ module.exports = {
   // Organization - customers
   'Registered By': "ثبت شده توسط شرکت ",
   'Customers': "مشتریان",
+  'Customer': "مشتری",
+  'Customer picture': 'عکس مشتری',
+  'Related customer': 'مشتری مربوطه',
 
   //User - Social
   'Followers': "دنبال کننده ها",

@@ -54,7 +54,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
                 />
               ) : ''
             }
-            <HomePosts exchangeId={activeExchangeId} className="col-6"/>
+            <HomePosts exchangeId={activeExchangeId} className="col-6 post-wrapper"/>
             <div className="col-3 pl-0"/>
           </div>
           <ChatBar className="pr-0 pl-0 -left-sidebar-wrapper"/>

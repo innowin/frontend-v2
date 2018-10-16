@@ -3,7 +3,6 @@ import * as React from 'react'
 import {FrameCard, CategoryTitle} from "../../common/cards/Frames"
 import {ListGroup} from '../../common/cards/Frames'
 import BasicInfo from './BasicInfo'
-import OrganizationMembers from './OrganizationMembers'
 import OrganizationActions from 'src/redux/actions/organization/organizationActions'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
@@ -13,6 +12,7 @@ import Biography from "./Biography"
 import ContactInfo from "./ContactInfo"
 import PrivateInfo from './PrivateInfo'
 import CheckOwner from "../../common/CheckOwner"
+import {LinkInfo} from "./LinkInfo";
 
 
 type organizationBasicInformationProps = {
@@ -24,12 +24,9 @@ type organizationBasicInformationProps = {
 }
 
 class OrganizationBasicInformation extends React.Component<organizationBasicInformationProps> {
-  componentDidMount() {
-  }
 
   render() {
     const {organizationId, organization, translate, actions} = this.props;
-    const {getOrganizationByOrganId, getOrganizationMembers} = this.props.actions;
     return (
       <div>
         <CategoryTitle
@@ -40,14 +37,10 @@ class OrganizationBasicInformation extends React.Component<organizationBasicInfo
             <BasicInfo actions={actions} organizationId={organizationId} organization={organization} translate={translate} isLoading={organization.isLoading}/>
             <Biography actions={actions} organizationId={organizationId} organization={organization} translate={translate} isLoading={organization.isLoading}/>
             <ContactInfo actions={actions} organizationId={organizationId} organization={organization} translate={translate} isLoading={organization.isLoading}/>
+            <LinkInfo organizationId={organizationId} translate={translate} organization={organization} isLoading={organization.isLoading}/>
             <CheckOwner id={organizationId}>
               <PrivateInfo actions={actions} organizationId={organizationId} organization={organization} translate={translate} isLoading={organization.isLoading}/>
             </CheckOwner>
-            {/*<OrganizationMembers*/}
-              {/*members={this.props.organization.staff}*/}
-              {/*actions={this.props.actions}*/}
-              {/*organizationId={organizationId}*/}
-            {/*/>*/}
           </ListGroup>
         </FrameCard>
       </div>

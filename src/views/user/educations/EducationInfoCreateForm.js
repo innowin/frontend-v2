@@ -62,7 +62,6 @@ EducationInfoCreateForm.propTypes = {
   create: PropTypes.func.isRequired,
   translate: PropTypes.object.isRequired,
   userId: PropTypes.number.isRequired,
-  hideEdit: PropTypes.func.isRequired,
 }
 
 export default EducationInfoCreateForm

@@ -144,14 +144,14 @@ export class Organization extends Component<PropsOrganization> {
                                     organizationId={organizationId}
                                     organization={organObject.content}
                       />
-                      <PrivateRoute path={`${path}/Customers`}
-                                    component={Customers}
-                                    organizationId={organizationId}
-                      />
                       <PrivateRoute path={`${path}/SocialConnections`} component={Social}
                                     ownerId={organizationId}
                                     identityId={identityObject.content}
                                     identityType={constants.USER_TYPES.ORG}
+                      />
+                      <PrivateRoute path={`${path}/Customers`}
+                                    component={Customers}
+                                    organizationId={organizationId}
                       />
                       <PrivateRoute path={`${path}/Certificates`}
                                     component={Certificates}

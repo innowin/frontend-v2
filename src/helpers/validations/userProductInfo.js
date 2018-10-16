@@ -1,29 +1,28 @@
-const validateDescription = (university, translate) => {
-  if (university.length < 5) {
+const validateDescription = (description, translate) => {
+  if (description.length < 5) {
     return translate['Description is wrong']
   }
 }
 
-const validateTitle = (grade, translate) => {
-  if (grade.length < 5) {
-    return translate['Title is wrong']
+const validateName = (name, translate) => {
+  if (name.length < 5) {
+    return translate['Name is wrong']
   }
 }
 
-const validateTag = (fieldOfStudy, translate) => {
-  if (fieldOfStudy.length < 5) {
+const validateTag = (tag, translate) => {
+  if (tag.length < 5) {
     return translate['Tag is wrong']
   }
 }
 
-const skillInfoValidation = (values, {translate}) => {
+const productInfoValidation = (values, {translate}) => {
   const errors = {}
   const requiredFields = []
 
-  const {description, title, tag} = values
-  if (description) errors.university = validateDescription(description, translate)
-  if (title) errors.grade = validateTitle(title, translate)
-  // if (tag) errors.tag = validateTag(tag, translate)
+  const {description, name} = values
+  if (description) errors.description = validateDescription(description, translate)
+  if (name) errors.name = validateName(name, translate)
 
   let requiredErrors = []
   requiredFields.forEach(field => {
@@ -39,4 +38,4 @@ const skillInfoValidation = (values, {translate}) => {
   return errors
 }
 
-export default skillInfoValidation
+export default productInfoValidation

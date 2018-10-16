@@ -23,6 +23,7 @@ import PostHeader from "./PostHeader";
 import PostType from "./PostType";
 import PostFooter from "./PostFooter";
 import PostComments from "./PostComments";
+import {Confirm} from "../cards/Confirm";
 
 type postExtendedViewProps = {
   actions: {
@@ -33,6 +34,7 @@ type postExtendedViewProps = {
     getCommentsByParentId: Function,
     createComment: Function,
     deleteComment: Function,
+    deletePost: Function,
   },
   match: {
     params: {
@@ -54,6 +56,7 @@ type postExtendedViewProps = {
 }
 type postViewState = {
   menuToggle: boolean,
+  confirm: boolean,
 }
 
 class PostView extends React.Component<postExtendedViewProps, postViewState> {
@@ -73,7 +76,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
   constructor(props) {
     super(props)
-    this.state = {menuToggle: false}
+    this.state = {menuToggle: false, confirm: false}
     this.commentTextField = null
   }
 
@@ -96,8 +99,8 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     }
     else {
       this._getViewerCount()
-      document.addEventListener('click', this._handleClickOutMenuBox)
     }
+    document.addEventListener('click', this._handleClickOutMenuBox)
   }
 
   componentDidUpdate(prevProps) {
@@ -109,13 +112,10 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   componentWillUnmount() {
-    const {extendedView} = this.props
-    if (!extendedView) {
-      (document.removeEventListener: Function)('click', this._handleClickOutMenuBox)
-    }
+    document.removeEventListener('click', this._handleClickOutMenuBox)
   }
 
-  _addViewer = (e) => {
+  openMenu = (e) => {
     e.preventDefault()
     const {post, actions} = this.props
     const {setPostViewer, getPostViewerCount} = actions
@@ -157,6 +157,27 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     }
   }
 
+  _showConfirm = () => {
+    this.setState({confirm: true})
+  };
+
+  _cancelConfirm = () => {
+    this.setState({confirm: false})
+  };
+
+  _delete = () => {
+    const {actions, post} = this.props
+    const {deletePost} = actions
+    const postParent = post.post_parent
+    const postIdentityUserId = post.post_identity.identity_user && post.post_identity.identity_user.id
+    const postIdentityOrganId = post.post_identity.identity_organization && post.post_identity.identity_organization.id
+    const postParentType = (postParent && postParent.child_name) || null
+    const postParentId = (postParent && postParent.id) || null
+    const postOwnerId = postIdentityUserId || postIdentityOrganId
+    const postOwnerType = postIdentityUserId ? constants.USER_TYPES.PERSON : constants.USER_TYPES.ORG
+    deletePost({postId: post.id, postOwnerId, postOwnerType, postParentId, postParentType})
+  }
+
   deleteComment = (comment) => {
     const {actions, post, commentParentType} = this.props
     const {deleteComment} = actions
@@ -165,21 +186,25 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
   render() {
     const {post, translate, postIdentity, postRelatedIdentityImage, userImage, extendedView, showEdit, comments} = this.props
-    const {menuToggle} = this.state
+    const {menuToggle, confirm} = this.state
     let postDescription
     if (post) {
       postDescription = post.post_description
     }
 
     return (
-        post ?
-            <VerifyWrapper isLoading={false} error={false}>
+        confirm
+            ? <div className={extendedView ? 'post-view-container remove-post-container' : 'remove-post-container'}>
+              <Confirm cancelRemoving={this._cancelConfirm} remove={this._delete}/>
+            </div>
+            : post ?
+            <VerifyWrapper isLoading={false} error={false} className="-itemWrapperPost">
               {extendedView &&
               <CategoryTitle
                   title={translate['Single post']}
               />
               }
-              <div className="-itemWrapperPost">
+              <div className={extendedView && 'post-view-container'}>
                 {
                   post.post_type !== constants.POST.POST_TYPE.POST &&
                   <PostType translate={translate} post={post}/>
@@ -191,7 +216,8 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                   {postDescription}
                 </div>
                 <PostFooter post={post} postIdentity={postIdentity} translate={translate} extendedView={extendedView}
-                            menuToggle={menuToggle} addView={this._addViewer}
+                            menuToggle={menuToggle} openMenu={this.openMenu}
+                            deletePost={this._showConfirm}
                 />
                 {extendedView &&
                 <div className='add-comment'>
@@ -257,6 +283,7 @@ const mapDispatchToProps = dispatch => ({
     getPostViewerCount: PostActions.getPostViewerCount,
     setPostViewer: PostActions.setPostViewer,
     getPost: PostActions.getPost,
+    deletePost: PostActions.deletePost,
     getFile: FileActions.getFile,
     getCommentsByParentId: CommentActions.getCommentsByParentId,
     createComment: CommentActions.createComment,

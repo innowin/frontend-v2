@@ -4,9 +4,10 @@ body {
   overflow-x: hidden;
   height: 100%;
   font-family: "IRANSansWebFaNum", "Helvetica Neue", sans-serif !important;
-  background-image: url("../images/common/userOrganBackground.png");
+  //background-image: url("../images/common/background.png");
   background-repeat: no-repeat;
   background-size: cover;
+  background-color: red;
 }
 
 html {
