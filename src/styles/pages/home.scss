@@ -25,7 +25,7 @@ $heightOfContentBox: 140px;
       overflow-y: auto;
       max-height: fit-content;
       background: $text-lightest-color;
-      box-shadow: 0 1px 5px $box-shadow-color;
+      box-shadow: 0 3px 3px $box-shadow-color;
     }
   }
 
@@ -37,10 +37,10 @@ $heightOfContentBox: 140px;
 .-createPostHome {
   display: flex;
   flex-direction: row;
-  margin: 11px 5px;
+  margin: 11px 0 15px 0;
   border-radius: $border-radius-size;
   padding: 10px;
-  box-shadow: 0 1px 5px $box-shadow-color;
+  box-shadow: 0 3px 3px $box-shadow-color;
   background: #fff;
 
   .-img-col {

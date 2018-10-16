@@ -18,18 +18,20 @@ class Layout extends Component {
 
   render() {
     return (
-      <Switch>
-        <PrivateRoute exact={true} path="/" component={Home}/>
-        <PrivateRoute path="/user/:id" component={User}/>
-        <PrivateRoute path="/organization/:id" component={Organization}/>
-        <PrivateRoute path="/exchange" component={Exchange}/>
-        <PrivateRoute path="/product" component={Product}/>
-        <PrivateRoute path="/users/Users_Explorer" component={User_Explorer}/>
+        <div className='pages-wrapper'>
+          <Switch>
+            <PrivateRoute exact={true} path="/" component={Home}/>
+            <PrivateRoute path="/user/:id" component={User}/>
+            <PrivateRoute path="/organization/:id" component={Organization}/>
+            <PrivateRoute path="/exchange" component={Exchange}/>
+            <PrivateRoute path="/product" component={Product}/>
+            <PrivateRoute path="/users/Users_Explorer" component={User_Explorer}/>
 
-        {/*Added By Hoseyn : Prevent wrong paths*/}
-        {/*<PrivateRoute path="*" component={Home}/>*/}
+            {/*Added By Hoseyn : Prevent wrong paths*/}
+            {/*<PrivateRoute path="*" component={Home}/>*/}
 
-      </Switch>
+          </Switch>
+        </div>
     )
   }
 }
