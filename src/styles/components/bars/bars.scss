@@ -846,6 +846,52 @@ $sidebar-profile-media-width: 80px;
   transition-duration: 0.3s;
 }
 
+@media screen and (max-width: 1250px) {
+  .settingModal-menu {
+    position: fixed;
+    top: 60px;
+    right: 30%;
+    z-index: 1202;
+    opacity: 1;
+    width: 60%;
+    border-radius: 3px;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+    background-color: white;
+    transition-duration: 0.3s;
+  }
+}
+
+@media screen and (max-width: 860px) {
+
+  .settingModal-sidebar {
+    position: fixed;
+    top: 60px;
+    right: 1%;
+    z-index: 1202;
+    opacity: 1;
+    width: 19%;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+    flex-direction: column;
+    font-size: 13px;
+    background-color: white;
+    text-align: right;
+    transition-duration: 0.3s;
+  }
+
+  .settingModal-menu {
+    position: fixed;
+    top: 60px;
+    right: 20.5%;
+    z-index: 1202;
+    opacity: 1;
+    width: 79%;
+    border-radius: 3px;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+    background-color: white;
+    transition-duration: 0.3s;
+  }
+}
+
 .settingModal-menu-header {
   font-size: 14px;
   font-weight: bold;
@@ -895,7 +941,7 @@ $sidebar-profile-media-width: 80px;
 
 .settingModal-menu-general-hint {
   margin-right: calc(7% + 115px);
-  width: 420px;
+  margin-left: 3%;
   font-size: 12px;
   text-align: right;
   color: $text-title-menu-color;
@@ -1174,7 +1220,6 @@ $sidebar-profile-media-width: 80px;
 }
 
 .-ProfTopBarImg-svg-big {
-  cursor: pointer;
   margin: auto 0 auto 10px;
   height: 65px;
   width: 65px;
@@ -1183,7 +1228,6 @@ $sidebar-profile-media-width: 80px;
 
 .-ProfTopBarImg-svg-img-big {
   display: inline-block;
-  cursor: pointer;
   margin: auto 0 auto 10px;
   height: 65px;
   width: 65px;

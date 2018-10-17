@@ -198,14 +198,15 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                     {/*<MainLbarArrow className='explore-menu-arrow-2'/>*/}
                   </div>
                   <div className='explore-menu'>
-                    <Link to={'/exchange/Exchange_Explorer'} className='explore-menu-items'><ExchangeIcon
-                        className='explore-logos'/> بورس ها</Link>
-                    <Link to={'/users/Users_Explorer'} className='explore-menu-items'><Contacts
-                        svgClass='explore-logos member-logo' containerClass='explore-logos-container'/> شناسه ها (افراد
-                      و مجموعه
-                      ها)</Link>
-                    <Link to={'#'} className='explore-menu-items'><ContributionIcon className='explore-logos'/> آورده ها
-                      (محصولات، توانمدی و ...)</Link>
+                    <Link to={'/exchange/Exchange_Explorer'} className='explore-menu-items'>
+                      <ExchangeIcon className='explore-logos'/> بورس ها
+                    </Link>
+                    <Link to={'/users/Users_Explorer'} className='explore-menu-items'>
+                      <Contacts svgClass='explore-logos member-logo' containerClass='explore-logos-container'/> شناسه ها (افراد و مجموعه ها)
+                    </Link>
+                    <Link to={'#'} className='explore-menu-items'>
+                      <ContributionIcon className='explore-logos'/> آورده ها (محصولات، توانمدی و ...)
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -226,8 +227,8 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                   <div className='explore-menu'>
                     <div className='profile-menu-profile-section'>
                       <div className='profile-menu-profile-section-image'>
-                        {!clientImgLink ? <DefaultUserIcon className='-ProfTopBarImg-svg-big' onClickFunc={this._toggleProfile}/> :
-                            <img src={clientImgLink} className='-ProfTopBarImg-svg-img-big' alt="Person icon" onClick={this._toggleProfile}/>}
+                        {!clientImgLink ? <DefaultUserIcon className='-ProfTopBarImg-svg-big'/> :
+                            <img src={clientImgLink} className='-ProfTopBarImg-svg-img-big' alt="Person icon"/>}
                       </div>
                       <div className='profile-menu-profile-section-next-image'>
                         <div className='profile-menu-profile-section-next-image-first'>{clientUser && clientUser.first_name + ' ' + clientUser.last_name}</div>
