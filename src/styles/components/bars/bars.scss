@@ -129,17 +129,23 @@
 }
 
 .-ProfTopBarImg {
+  position: relative;
   display: flex;
-  img, svg {
-    cursor: pointer;
-    margin: auto 0 auto 10px;
-    height: 43px;
-    width: 43px;
-  }
-  img {
-    border-radius: 50%;
-  }
+}
 
+.-ProfTopBarImg-svg {
+  cursor: pointer;
+  margin: auto 0 auto 10px;
+  height: 40px;
+  width: 40px;
+}
+
+.-ProfTopBarImg-svg-img {
+  cursor: pointer;
+  margin: auto 0 auto 10px;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
 }
 
 .-outlineWhite {
@@ -600,7 +606,7 @@
 .explore-menu-container {
   position: absolute;
   top: 32px;
-  right: -112px;
+  right: -80px;
   width: 245px;
   text-align: center;
   overflow-y: hidden;
@@ -611,7 +617,7 @@
 .explore-menu-container-hide {
   position: absolute;
   top: 32px;
-  right: -112px;
+  right: -80px;
   width: 245px;
   text-align: center;
   overflow-y: hidden;
@@ -621,8 +627,9 @@
 
 .explore-menu-arrow {
   user-select: none;
-  position: relative;
   color: white;
+  text-align: right;
+  margin-right: 83px;
 }
 
 .explore-menu-arrow-2 {
@@ -631,6 +638,7 @@
 }
 
 .explore-menu {
+  direction: rtl;
   margin: auto;
   width: 98%;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
@@ -678,6 +686,7 @@
   width: 100%;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
+  opacity: 1;
   z-index: 1200;
   top: 0;
   left: 0;
@@ -689,17 +698,20 @@
   width: 100%;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0);
+  opacity: 0;
   z-index: -1;
-  top: -1000px;
+  top: 0;
   left: 0;
   transition-duration: 0.3s;
 }
 
 .settingModal-sidebar-out {
   position: fixed;
-  top: -1000px;
+  top: 60px;
   right: 9.55%;
-  z-index: 1202;
+  z-index: -1;
+  opacity: 0;
+  transform: scale(0.5);
   width: 20%;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   flex-direction: column;
@@ -714,6 +726,7 @@
   top: 60px;
   right: 9.55%;
   z-index: 1202;
+  opacity: 1;
   width: 20%;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   flex-direction: column;
@@ -743,10 +756,12 @@
 
 .settingModal-menu-out {
   position: fixed;
-  top: -1000px;
+  top: 60px;
   right: 30%;
-  z-index: 1202;
+  z-index: -1;
+  opacity: 0;
   width: 40%;
+  transform: scale(0.5);
   border-radius: 3px;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   background-color: white;
@@ -758,6 +773,7 @@
   top: 60px;
   right: 30%;
   z-index: 1202;
+  opacity: 1;
   width: 40%;
   border-radius: 3px;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
@@ -847,5 +863,321 @@
     border: 1px solid transparent;
     color: white;
     transition-duration: 0.3s;
+  }
+}
+
+.settingModal-menu-manage-hint {
+  font-size: 12px;
+  line-height: 20px;
+  color: $text-title-menu-color;
+  padding: 20px;
+  padding-bottom: 30px;
+}
+
+.settingModal-menu-manage-title {
+  vertical-align: top;
+  margin-right: 3%;
+  margin-left: 2%;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 0 20px;
+  display: inline-block;
+  width: 115px;
+  text-align: left;
+  padding-top: 2px;
+}
+
+.settingModal-menu-manage-logo {
+  vertical-align: top;
+  display: inline-block;
+  width: 22px;
+  fill: #0077B5;
+  margin-left: 0.5%;
+}
+
+.settingModal-menu-manage-address {
+  vertical-align: top;
+  display: inline-block;
+  width: 50%;
+  padding-top: 3px;
+  text-align: center;
+  font-size: 13px;
+  margin-left: 1%;
+}
+
+.settingModal-menu-manage-remove {
+  display: inline-block;
+  vertical-align: top;
+  background-color: $text-title-menu-color;
+  border: 1px solid transparent;
+  color: white;
+  font-size: 12px;
+  border-radius: 20px;
+  padding: 2px 0;
+  width: 80px;
+  cursor: pointer;
+  transition-duration: 0.3s;
+  &:hover {
+    border: 1px solid $text-title-menu-color;
+    color: $text-title-menu-color;
+    background-color: white;
+    transition-duration: 0.3s;
+  }
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    background-color: $text-title-menu-color;
+    border: 1px solid transparent;
+    color: white;
+    transition-duration: 0.3s;
+  }
+}
+
+.settingModal-menu-manage-add {
+  display: inline-block;
+  vertical-align: top;
+  background-color: $success-color;
+  border: 1px solid transparent;
+  color: white;
+  font-size: 12px;
+  border-radius: 20px;
+  padding: 2px 0;
+  width: 80px;
+  cursor: pointer;
+  transition-duration: 0.3s;
+  &:hover {
+    border: 1px solid $success-color;
+    color: $success-color;
+    background-color: white;
+    transition-duration: 0.3s;
+  }
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    background-color: $success-color;
+    border: 1px solid transparent;
+    color: white;
+    transition-duration: 0.3s;
+  }
+}
+
+.settingModal-menu-manage-container {
+  padding-bottom: 30px;
+}
+
+.settingModal-menu-privacy-who-follow-container {
+  text-align: right;
+  position: relative;
+  padding-bottom: 50px;
+  border-bottom: 1px solid $text-title-menu-color;
+}
+
+.settingModal-menu-privacy-header {
+  padding: 15px 12px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.settingModal-menu-privacy-who-follow {
+  padding: 0 12px;
+  font-size: 12px;
+  font-weight: bold;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.settingModal-menu-privacy-check-container {
+  display: inline-block;
+  padding-bottom: 20px;
+  vertical-align: top;
+  margin-right: 1.5%;
+  .checkmark {
+    position: absolute;
+    top: 2px;
+    right: 0;
+    height: 15px;
+    width: 15px;
+    border-radius: 3px;
+    border: 1px solid black;
+    background-color: white;
+    &:after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
+  }
+}
+
+.settingModal-menu-privacy-checkbox {
+  display: flex;
+  flex-flow: row wrap;
+  position: relative;
+  padding-right: 25px;
+  color: black;
+  cursor: pointer;
+  font-size: 12px;
+  user-select: none;
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    &:checked + .checkmark {
+      background-color: $success-color;
+      &:after {
+        display: block;
+      }
+    }
+  }
+  .checkmark:after {
+    left: 4px;
+    top: 0;
+    width: 6px;
+    height: 11.25px;
+    border: solid $text-lightest-color;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+  }
+}
+
+.settingModal-menu-privacy-hint {
+  font-size: 12px;
+  line-height: 20px;
+  color: $text-title-menu-color;
+  padding: 0 15px;
+  padding-bottom: 20px;
+}
+
+.settingModal-menu-privacy-delete-account {
+  background-color: white;
+  border: 1px solid $text-title-menu-color;
+  color: $text-title-menu-color;
+  position: absolute;
+  font-size: 12px;
+  border-radius: 20px;
+  width: 120px;
+  padding: 3px 11px;
+  left: 25px;
+  bottom: 20px;
+  cursor: pointer;
+  transition-duration: 0.3s;
+  &:hover {
+    border: 1px solid $text-title-menu-color;
+    color: white;
+    background-color: $text-title-menu-color;
+    transition-duration: 0.3s;
+  }
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    background-color: white;
+    border: 1px solid $text-title-menu-color;
+    color: $text-title-menu-color;
+    transition-duration: 0.3s;
+  }
+}
+
+.profile-menu-container {
+  position: absolute;
+  top: 43px;
+  left: 5px;
+  width: 320px;
+  text-align: right;
+  overflow-y: hidden;
+  height: 425px;
+  transition: ease-in 0.3s;
+}
+
+.profile-menu-container-hide {
+  position: absolute;
+  top: 43px;
+  left: 5px;
+  width: 320px;
+  text-align: right;
+  overflow-y: hidden;
+  height: 0;
+  transition: ease-out 0.3s;
+}
+
+.profile-menu-arrow {
+  user-select: none;
+  color: white;
+  text-align: left;
+  margin-left: 18px;
+}
+
+.-ProfTopBarImg-svg-big {
+  cursor: pointer;
+  margin: auto 0 auto 10px;
+  height: 65px;
+  width: 65px;
+  display: inline-block;
+}
+
+.-ProfTopBarImg-svg-img-big {
+  display: inline-block;
+  cursor: pointer;
+  margin: auto 0 auto 10px;
+  height: 65px;
+  width: 65px;
+  border-radius: 50%;
+}
+
+.profile-menu-profile-section {
+  padding: 15px 0;
+  border-bottom: 1px solid $text-title-menu-color;
+}
+
+.profile-menu-profile-section-image {
+  width: 100px;
+  text-align: center;
+  vertical-align: top;
+  display: inline-block;
+}
+
+.profile-menu-profile-section-next-image {
+  display: inline-block;
+  width: 210px;
+  vertical-align: top;
+}
+
+.profile-menu-profile-section-next-image-first {
+  font-weight: bold;
+  vertical-align: top;
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: black;
+}
+
+.profile-menu-profile-section-next-image-middle {
+  font-weight: bold;
+  vertical-align: top;
+  margin-bottom: 7px;
+  font-size: 12px;
+  color: $text-title-menu-color;
+  direction: ltr;
+}
+
+.profile-menu-profile-section-next-image-last {
+  font-weight: bold;
+  vertical-align: top;
+  font-size: 12px;
+  color: $info-color;
+}
+
+.profile-menu-second-section {
+  border-bottom: 1px solid $text-title-menu-color;
+}
+
+.profile-menu-second-section-item {
+  padding: 12px 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition-duration: 0.25s;
+  &:hover {
+    transition-duration: 0.25s;
+    background-color: $chat-box2-color;
   }
 }
