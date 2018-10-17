@@ -133,6 +133,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   }
 
   _handleSignOut = () => {
+    this.setState({...this.state, showSetting: false, exploreCollapse: false, collapseProfile: false})
     this.props.actions.signOut()
   }
 
@@ -145,7 +146,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   }
 
   _handleShowSetting = () => {
-    this.setState({...this.state, showSetting: true, collapse: false, exploreCollapse: false, collapseProfile: false})
+    this.setState({...this.state, showSetting: true, exploreCollapse: false, collapseProfile: false})
   }
 
   _handleHideSetting = () => {
@@ -162,7 +163,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
     // added to close all collapse menus when click outside
     window.onclick = () => {
-      if (!mouseIsOverMenu && (collapse || exploreCollapse || collapseProfile)) {
+      if (!mouseIsOverMenu && (exploreCollapse || collapseProfile)) {
         this.setState({...this.state, collapse: false, exploreCollapse: false, collapseProfile: false})
       }
     }
@@ -249,7 +250,6 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
                     <div className='profile-menu-second-section-item' onClick={this._handleSignOut}>{translate['Sign Out']}</div>
 
-
                   </div>
                 </div>
 
@@ -313,7 +313,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                  className={selectedSetting === 'Privacy' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}>
               {translate['Privacy']}
             </div>
-            <div id='Sign Out' onClick={this._handleSettingSelected}
+            <div onClick={this._handleSignOut}
                  className={selectedSetting === 'Sign Out' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}>
               {translate['Sign Out']}
             </div>

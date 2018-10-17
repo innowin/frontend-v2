@@ -297,7 +297,7 @@ module.exports = {
   topBar: {
     'My Profile': 'پروفایل من',
     'My Organization': 'سازمان من',
-    'Sign Out': 'خروج',
+    'Sign Out': 'خروج از حساب کاربری',
     'Search in Danesh boom': 'جستجو در اینوین',
     'General Settings': 'تنظیمات عمومی',
     'Username': 'نام کاربری',
