@@ -25,13 +25,13 @@ import ImageUploadSvg from "./common/image_upload_svg"
 import InformationIcon from "./common/information_svg"
 import ItemsAndPropertiesIcon from "./common/ItemsAndProperties_svg"
 import logoDaneshBoom from "./common/logoWhite.png"
-import LockSvg from './common/lock_svg'
-import LogoWhiteSvg from './common/logoWhite'
-import LogoColorSvg from './common/logoColor'
+import LockSvg from "./common/lock_svg"
+import LogoWhiteSvg from "./common/logoWhite"
+import LogoColorSvg from "./common/logoColor"
 import MoviesSvgIcon from "./common/movies_svg_icon"
 import NoFilterIcon from "./common/noFilter_svg"
 import NotificationIcon from "./common/notification_svg"
-import NewSkillIcon from './user/new_skill_svg'
+import NewSkillIcon from "./user/new_skill_svg"
 import PayIcon from "./addingConribution/pay_icon_svg"
 import postIcon from "./user/post_svg"
 import PostSendIcon from "./common/postSend_svg"
@@ -43,7 +43,7 @@ import SeeViewIcon from "./common/see_view_svg"
 import SettingIcon from "./common/setting_svg"
 import SkillIcon from "./user/skill_svg"
 import SocialIcon from "./common/social_svg"
-import SearchIcon from './common/search_svg'
+import SearchIcon from "./common/search_svg"
 import SquareAdd from "./common/squareAdd_svg"
 import starIcon from "./common/star_svg"
 import SupplyIcon from "./common/supply_svg"
@@ -65,9 +65,11 @@ import InstagramIcon from "./common/instagram_svg"
 import LinkedInIcon from "./common/linkedin_svg"
 import YoutubeIcon from "./common/youtube_svg"
 import ReplyArrow from "./common/reply_arrow_svg"
+import InnoWinLogo from "./common/innoWin_svg"
 
 
 export {
+  InnoWinLogo,
   Stream,
   Info,
   Statistic,
