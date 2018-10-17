@@ -24,11 +24,7 @@ type PropsSkills = {
   error: {} | string | null,
 }
 
-type StateSkills = {
-  createForm: boolean,
-}
-
-class SkillInfoContainer extends React.Component<PropsSkills, StateSkills> {
+class SkillInfoContainer extends React.Component<PropsSkills> {
 
   static propTypes = {
     userId: PropTypes.number.isRequired,

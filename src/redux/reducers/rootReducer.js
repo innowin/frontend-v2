@@ -17,8 +17,17 @@ import {intlReducer} from './intl'
 import research from './research'
 import skill from './skill'
 import param from './param'
+import customer from './customer'
+import createEncryptor from "redux-persist-transform-encrypt"
 
-const commonPersistConfig = {key: 'common', storage: storage,}
+const commonEncryptor = createEncryptor({
+  secretKey: 'common-secret-key-is:kjjjjsdfhhfflds;....fdsfhgfbhhbbbbddddddddddddddddu75',
+  onError: (error) => {
+    throw new Error(error)
+  }
+})
+
+const commonPersistConfig = {key: 'common',transforms: [commonEncryptor], storage: storage,}
 
 const reducers = {
   auth,
@@ -33,6 +42,7 @@ const reducers = {
   research,
   skill,
   param,
+  customer,
 }
 
 //Don't change below code ,  Put your reducer on the upper object.

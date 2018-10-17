@@ -16,17 +16,20 @@
   border-bottom: 0;
   border-right: 0;
   border-left: 0;
-  padding: 10px 5px;
+  padding: 0;
+  background-color: inherit;
 }
 
-.-itemWrapperPost {
-  margin-bottom: 15px;
-  border: 1px solid $eee-color;
+.post-view-container {
+  box-shadow: 0 3px 3px $box-shadow-color;
+  margin-bottom: 8px;
   border-radius: 3px;
   background: #ffffff;
-  //padding: 18px 18px 13px 18px;
-  box-shadow: 0 2px 5px $box-shadow-color;
-
+}
+.remove-post-container {
+  margin: 18px 18px 18px 18px;
+}
+.-itemWrapperPost {
   .edit-form {
     margin: 18px 18px 18px 18px;
   }
@@ -156,7 +159,7 @@
     font-size: $font-size-post-title-extended;
     color: $primary-color-light2;
     padding: 13px 18px;
-    border-bottom: 1px solid $text-lighter-color;
+    border-bottom: 1px solid lighten($text-lighter-color, 6%);
 
     .post-type {
       .title-label {

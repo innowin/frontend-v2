@@ -17,7 +17,7 @@ const ContactInfoView = (props: PropsOrganizationInfoView) => {
   //FixMe: mohammad address 2, phone 2
   return (
       <div>
-        <ItemHeader title={translate['Contact Information']} showEdit={showEdit}/>
+        <ItemHeader title={translate['Contact info']} showEdit={showEdit}/>
         <Field>
           <FieldLabel label={translate['Address'] + ": "}/>
           <FieldValue value={organization.address}/>

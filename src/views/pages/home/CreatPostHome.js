@@ -11,14 +11,15 @@ import {AttachFileIcon} from "src/images/icons";
 import {bindActionCreators} from "redux"
 import PostActions from "../../../redux/actions/commonActions/postActions"
 import {connect} from "react-redux";
+import {getMessages} from "../../../redux/selectors/translateSelector";
 
 const duration = 300;
 const defaultStyle = {
   transition: `all ${duration}ms ease-in-out`,
-  height: 60,
+  height: 40,
 };
 const transitionStyles = {
-  entering: {height: 60},
+  entering: {height: 40},
   entered: {height: 190}
 };
 
@@ -26,6 +27,7 @@ class CreatePostFooter extends Component {
 
   static propTypes = {
     getMedia: PropTypes.func.isRequired,
+    media: PropTypes.object,
   }
 
   constructor(props) {
@@ -53,10 +55,11 @@ class CreatePostFooter extends Component {
   }
 
   render() {
-    const {postType} = this.state;
-    const supplyMark = postType === 'supply';
-    const demandMark = postType === 'demand';
-    const postMark = postType === 'post';
+    const {postType} = this.state
+    const {media, getMedia} = this.props
+    const supplyMark = postType === 'supply'
+    const demandMark = postType === 'demand'
+    const postMark = postType === 'post'
     return (
       <div className="-createPostFooter">
         <div className="rightIcons">
@@ -73,8 +76,10 @@ class CreatePostFooter extends Component {
             ref={AttachFileInput => {
               this.AttachFileInput = AttachFileInput
             }}
-            getMedia={this.props.getMedia}
+            getMedia={getMedia}
             AttachBottom={this.AttachBottom}
+            mediaId={media.id}
+            inputId="AttachFileInput"
           />
           <i className="fa fa-smile-o mr-3" aria-hidden="true"/>
           <span className="mr-4">
@@ -98,6 +103,7 @@ class HomeCreatePost extends Component {
   }
 
   static propTypes = {
+    translate: PropTypes.object.isRequired,
     postIdentityId: PropTypes.number.isRequired,
     postOwnerId: PropTypes.number.isRequired,
     postOwnerType: PropTypes.string.isRequired,
@@ -211,7 +217,7 @@ class HomeCreatePost extends Component {
 
   render() {
     const {media, fileName, description, textareaClass, show} = this.state
-    const {postOwnerImgLink, className} = this.props
+    const {postOwnerImgLink, className, translate} = this.props
     // TODO handle description error that say: "Ensure description value has at least 5 characters."
     return (
       <form className={"-createPostHome " + className} id="HomeCreatePost" onSubmit={this._onSubmit}>
@@ -226,8 +232,8 @@ class HomeCreatePost extends Component {
               className={"-content-col " + textareaClass}
               style={{...defaultStyle, ...transitionStyles[state]}}
             >
-              <div className="d-flex flex-row mb-2 -textBox">
-                <textarea onFocus={this._handleFocus} onChange={this._handleChange} value={description}/>
+              <div className="d-flex flex-row -textBox">
+                <textarea className='post-text-field' placeholder={translate['Be in zist boom']} onFocus={this._handleFocus} onChange={this._handleChange} value={description}/>
                 <div className="-img-content">
                   {(media.file) ? (
                     <div className="-fileBox">
@@ -246,6 +252,7 @@ class HomeCreatePost extends Component {
                 ref={createPostFooter => {
                   this.createPostFooter = createPostFooter
                 }}
+                media = {media}
               />
             </div>
           )}
@@ -261,7 +268,8 @@ const mapStateToProps = (state, ownProps) => {
     && state.common.file.list[postOwnerImgId]
     && state.common.file.list[postOwnerImgId].file) || null
   return {
-    postOwnerImgLink
+    postOwnerImgLink,
+    translate: getMessages(state),
   }
 }
 const mapDispatchToProps = dispatch => ({

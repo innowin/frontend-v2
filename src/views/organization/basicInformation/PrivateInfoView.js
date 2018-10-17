@@ -18,7 +18,7 @@ const PrivateInfoView = (props: PropsOrganizationInfoView) => {
 
   return (
       <div>
-        <ItemHeader title={translate['Private Information']} showEdit={showEdit}/>
+        <ItemHeader title={translate['Private info']} showEdit={showEdit}/>
         <LockSvg className='user-lock-private'/>
         <Field>
           <FieldLabel label={translate['Official name'] + ": "}/>

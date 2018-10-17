@@ -14,6 +14,9 @@ import ResearchInfoCreateForm from "./ResearchInfoCreateForm"
 import {bindActionCreators} from "redux"
 import EducationActions from "../../../redux/actions/educationActions"
 import ResearchActions from "../../../redux/actions/researchActions"
+import {makeGetEducations} from "../../../redux/selectors/user/userGetEducationsSelector";
+import {makeGetResearches} from "../../../redux/selectors/user/userGetResearchesSelector";
+import type {userEducationType, userResearchType} from "../../../consts/flowTypes/user/basicInformation";
 
 // flow type of WorkExperiences
 type PropsEducations = {
@@ -23,6 +26,8 @@ type PropsEducations = {
     createEducationByUserId: Function,
     createResearchByUserId: Function,
   },
+  educations: userEducationType,
+  researches: userResearchType,
 }
 type StatesEducations = {
   educationCreateForm: boolean,
@@ -68,7 +73,7 @@ class Educations extends React.Component<PropsEducations, StatesEducations> {
   }
 
   render() {
-    const {translate, userId} = this.props
+    const {translate, userId, educations, researches} = this.props
     const {educationCreateForm, researchCreateForm} = this.state
     return (
         <div>
@@ -85,24 +90,32 @@ class Educations extends React.Component<PropsEducations, StatesEducations> {
             </div>
             }
             {educationCreateForm &&
-            <div className='education-research-create-container'>
-              <p className='education-research-create-header'>{translate['Education']}</p>
-              <EducationInfoCreateForm hideEdit={this._hideEducationCreateForm} create={this._createEducation}
-                                       translate={translate}
-                                       userId={userId}/>
+            <FrameCard className='education-tab'>
+              <ListGroup>
+                <div className='education-research-create-container'>
+                  <p className='education-research-create-header'>{translate['Education']}</p>
+                  <EducationInfoCreateForm hideEdit={this._hideEducationCreateForm} create={this._createEducation}
+                                           translate={translate}
+                                           userId={userId}/>
 
-            </div>
+                </div>
+              </ListGroup>
+            </FrameCard>
             }
             {researchCreateForm &&
-            <div className='education-research-create-container'>
-              <p className='education-research-create-header'>{translate['Research']}</p>
-              <ResearchInfoCreateForm hideEdit={this._hideResearchCreateForm} create={this._createResearch}
-                                      translate={translate}
-                                      userId={userId}/>
-            </div>
+            <FrameCard className='education-tab'>
+              <ListGroup>
+                <div className='education-research-create-container'>
+                  <p className='education-research-create-header'>{translate['Research']}</p>
+                  <ResearchInfoCreateForm hideEdit={this._hideResearchCreateForm} create={this._createResearch}
+                                          translate={translate}
+                                          userId={userId}/>
+                </div>
+              </ListGroup>
+            </FrameCard>
             }
           </CheckOwner>
-          <FrameCard>
+          <FrameCard className={educations.length === 0 && researches.length === 0 ? 'education-tab-frame' : ''}>
             <ListGroup>
               <EducationInfoContainer userId={userId} translate={translate}/>
               <ResearchesInfoContainer userId={userId} translate={translate}/>
@@ -116,11 +129,20 @@ class Educations extends React.Component<PropsEducations, StatesEducations> {
 Educations.propTypes = {
   userId: PropTypes.number.isRequired,
   translate: PropTypes.object.isRequired,
+  educations: PropTypes.array.isRequired,
+  researches: PropTypes.array.isRequired,
 }
 
-const mapStateToProps = (state, props) => {
-  return {
-    translate: getMessages(state),
+const mapStateToProps = (state, ownProps) => {
+  const getEducations = makeGetEducations(state, ownProps)
+  const getResearches = makeGetResearches(state, ownProps)
+
+  return (state, props) => {
+    return {
+      translate: getMessages(state),
+      educations: getEducations(state, props),
+      researches: getResearches(state, props),
+    }
   }
 }
 

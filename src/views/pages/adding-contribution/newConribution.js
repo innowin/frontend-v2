@@ -1,24 +1,9 @@
 // @flow
 import * as React from 'react'
 import NextPrevBtns from './nextAndPrevBtns'
-import {TipsIcon} from '../../../images/icons'
+import Desc from "../../common/Text/Tip"
 
-type DescProps = {
-  desc: string
-}
-const Desc = (props: DescProps) => {
-  const {desc} = props
-  return (
-      <div className="desc">
-        <div className="icon-wrapper">
-          <TipsIcon className="tip-icon"/>
-        </div>
-        <div className="text">
-          <p>{desc}</p>
-        </div>
-      </div>
-  )
-}
+
 type MainCategoriesProps = {
   categories: Array<CategoryType>,
   selectCategoryHandler: Function,

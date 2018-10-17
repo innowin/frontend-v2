@@ -47,6 +47,7 @@ module.exports = {
   'Password does not correct': "رمز ورود صحیح نمی باشد!",
 
   //common
+  'Be in zist boom': 'در زیست بوم باش...',
   'Required field': "فیلد الزامی",
   'Required fields should be filled': "موارد الزامی باید پر شوند",
   'Day': "روز",
@@ -73,6 +74,7 @@ module.exports = {
   'ResearchInfo': 'سابقه پژوهشی',
   'Author': 'نویسنده',
   'Phone number is wrong': 'شماره تلفن اشتباه است',
+  'Save changes':'ذخیره تغییرات',
 
   // user - certificates
   'Title': "عنوان",
@@ -95,6 +97,7 @@ module.exports = {
   'Type supply': 'عرضه',
   'Type demand': 'تقاضا',
   'Send comment': 'فرستادن دیدگاه',
+  'Delete post': 'حذف پست',
 
   // user - common
   'Are you sure? Do you want delete it?': "آیا مطمئن به حذف هستید؟",
@@ -254,6 +257,9 @@ module.exports = {
   // Organization - customers
   'Registered By': "ثبت شده توسط شرکت ",
   'Customers': "مشتریان",
+  'Customer': "مشتری",
+  'Customer picture': 'عکس مشتری',
+  'Related customer': 'مشتری مربوطه',
 
   //User - Social
   'Followers': "دنبال کننده ها",
@@ -293,5 +299,12 @@ module.exports = {
     'My Organization': 'سازمان من',
     'Sign Out': 'خروج',
     'Search in Danesh boom': 'جستجو در اینوین',
+    'General Settings': 'تنظیمات عمومی',
+    'Username': 'نام کاربری',
+    'Password': 'کلمه عبور',
+    'Contact Email': 'ایمیل ارتباطی',
+    'Manage Linked Accounts': 'مدیریت اکانت های لینک شده',
+    'Privacy': 'حریم خصوصی',
+    'Save Changes': 'ذخیره تغییرات',
   },
 };

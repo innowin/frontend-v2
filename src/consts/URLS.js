@@ -32,11 +32,8 @@ const urls = {
     GET_ORG_FOLLOWINGS_IDENTITIES: 'organizations/follows',
     GET_ORG_FOLLOWINGS: 'users/identities',
     GET_ORG_EXCHANGES: 'exchanges/identities',
-    GET_ORG_CUSTOMERS: 'organizations/customers',
     GET_ORG_CERTIFICATES: 'base/certificates',
     CREATE_CERTIFICATE: 'base/certificates',
-    UPDATE_CUSTOMER: 'organizations/customers',
-    DELETE_CUSTOMER: 'organizations/customers',
     CREATE_PRODUCT: 'products',
     GET_PRODUCT_CATEGORIES: 'products/category',
     UPDATE_PRODUCT: 'products',
@@ -45,9 +42,10 @@ const urls = {
     GET_PRODUCT_PRICE: 'products/prices',
     DELETE_PRODUCT: 'products',
     GET_STAFF: 'organizations/staff',
-    CREATE_CUSTOMER: 'organizations/customers',
     AGENCY_REQUEST: 'users/agent-requests',
 
+    // customer
+    CUSTOMER: 'organizations/customers',
   },
   EXCHANGE_EXPLORER: 'exchanges/explore',
   EXCHANGE: 'exchanges',

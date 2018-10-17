@@ -2,34 +2,43 @@
 import React, {Component} from 'react'
 import PropTypes from "prop-types"
 import FontAwesome from 'react-fontawesome'
-import RadioButtonInput from '../../common/inputs/RadioButtonInput'
-import {FileInput} from '../../common/inputs/FileInput'
-import SuperTag from './superTag'
-import {AgentSvgIcon, TipsIcon, ItemsAndPropertiesIcon, SocialIcon, CongratsTick} from "src/images/icons"
-import MemberItem from './member-item'
-import {ImageViewerAgent} from './ImageViewerAgent'
-import GetUserActions from '../../../redux/actions/user/getUserActions';
+import RadioButtonInput from '../../../common/inputs/RadioButtonInput'
+import {FileInput} from '../../../common/inputs/FileInput'
+import SuperTag from '../superTag'
+import {
+  AgentSvgIcon,
+  TipsIcon,
+  ItemsAndPropertiesIcon,
+  SocialIcon,
+  CongratsTick,
+  InformationIcon
+} from "src/images/icons"
+import MemberItem from '../member-item'
+import {ImageViewerAgent} from '../ImageViewerAgent'
+import GetUserActions from '../../../../redux/actions/user/getUserActions';
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import CircularProgressbar from 'react-circular-progressbar';
 import {createFile, getFile} from "src/crud/media/media";
-import exchange from '../../../redux/actions/types/exchange';
-import ExchangeActions from '../../../redux/actions/exchangeActions';
-import MenuProgressive from '../progressive/penu-progressive'
+import exchange from '../../../../redux/actions/types/exchange';
+import ExchangeActions from '../../../../redux/actions/exchangeActions';
+import MenuProgressive from '../../progressive/penu-progressive'
 import {ClipLoader} from "react-spinners"
 import {Modal, ModalBody} from 'reactstrap'
 import {
   WRAPPER_CLASS_NAMES,
   PROGRESSIVE_STATUS_CHOICES,
 } from './createExchangeData'
-import NextPrevBtns from '../adding-contribution/nextAndPrevBtns'
-import ExchangeMembershipActions from "../../../redux/actions/commonActions/exchangeMembershipActions";
-
+import NextPrevBtns from '../../adding-contribution/nextAndPrevBtns'
+import ExchangeMembershipActions from "../../../../redux/actions/commonActions/exchangeMembershipActions";
 
 class PageOne extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      // newState -------------------
+
+      // newState -------------------
       selectedIdx: -1,
       images: [{
         file: 'http://restful.daneshboom.ir/media/75f00defdde44fd4b0d8bee05617e9c7.jpg',
@@ -326,23 +335,23 @@ class PageTwo extends Component {
           <div className="col m-2" dir="ltr">
             <div className="row" dir="rtl">
               <div className="col">
-                <div className="input-group gray-text-input search-label-create-exchange">
-                  <input type="text " placeholder="جستو جو برچسب" className="form-control "/>
-                  <span>
-                    <i className="fa fa-search" aria-hidden="true"></i>
-                  </span>
-                </div>
+                {/*<div className="input-group gray-text-input search-label-create-exchange">*/}
+                  {/*<input type="text " placeholder="جستو جو برچسب" className="form-control "/>*/}
+                  {/*<span>*/}
+                    {/*<i className="fa fa-search" aria-hidden="true"></i>*/}
+                  {/*</span>*/}
+                {/*</div>*/}
               </div>
             </div>
             <div className="row mt-2 full-height">
               <div className="col">
-                <div className="modal-labels-create-exchange">
+                {/*<div className="modal-labels-create-exchange">*/}
                   {/* <SuperTag
                     removeTag = {this.handleRemoveTag.bind(this)}
                     name="test"
                     number="2"
                   /> */}
-                </div>
+                {/*</div>*/}
               </div>
             </div>
           </div>
@@ -557,10 +566,9 @@ class CreateExchangeForm extends Component {
       exchangeObj: {},
       progressStatus: PROGRESSIVE_STATUS_CHOICES.ACTIVE,
       progressSteps: [
-        {title: '1', icon: (<ItemsAndPropertiesIcon className="progress-step-icon"/>)},
-        {title: '2', icon: (<ItemsAndPropertiesIcon className="progress-step-icon"/>)},
-        {title: '3', icon: (<SocialIcon className="progress-step-icon"/>)},
-        {title: '4', icon: (<SocialIcon className="progress-step-icon"/>)},
+        {title: 'ایجاد بورس', icon: (<InformationIcon className="progress-step-icon"/>)},
+        {title: 'مشخصات بورس', icon: (<ItemsAndPropertiesIcon className="progress-step-icon"/>)},
+        {title: 'افزودن اعضا', icon: (<SocialIcon className="progress-step-icon"/>)},
       ],
     }
   }
@@ -676,19 +684,46 @@ class CreateExchangeForm extends Component {
   getPage() {
     switch (this.state.page) {
       case 1:
-        return <PageOne {...this.state.exchangeObj} handleNext={this.handleNext} saveState={this.saveState}
-                        handleBack={this.handleBack}/>
+        return (
+            <PageOne {...this.state.exchangeObj}
+                     handleNext={this.handleNext}
+                     saveState={this.saveState}
+                     handleBack={this.handleBack}
+            />
+        )
+
       case 2:
-        return <PageTwo  {...this.state.exchangeObj} handleNext={this.handleNext} saveState={this.saveState}
-                         handleBack={this.handleBack}/>
+        return (
+            <PageTwo  {...this.state.exchangeObj}
+                      handleNext={this.handleNext}
+                      saveState={this.saveState}
+                      handleBack={this.handleBack}
+            />
+        )
       case 3:
-        return <PageThree  {...this.state.exchangeObj} actions={this.props.actions} createExchange={this.createExchange}
-                           users={this.props.users} handleAddUser={this.handleAddUser} handleNext={this.handleNext}
-                           saveState={this.saveState} handleBack={this.handleBack}/>
+        return (
+            <PageThree
+                {...this.state.exchangeObj}
+                actions={this.props.actions}
+                createExchange={this.createExchange}
+                users={this.props.users}
+                handleAddUser={this.handleAddUser}
+                handleNext={this.handleNext}
+                saveState={this.saveState}
+                handleBack={this.handleBack}
+            />
+        )
       case 4:
-        return <PageFour  {...this.state.exchangeObj} finishForm={this.props.finishForm}
-                          handleShare={this.props.handleShare} handleNext={this.handleNext} saveState={this.saveState}
-                          handleBack={this.handleBack}/>
+        return (
+            <PageFour
+                {...this.state.exchangeObj}
+                finishForm={this.props.finishForm}
+                handleShare={this.props.handleShare}
+                handleNext={this.handleNext}
+                saveState={this.saveState}
+                handleBack={this.handleBack}
+            />
+        )
     }
   }
 

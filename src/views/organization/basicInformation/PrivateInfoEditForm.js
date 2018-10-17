@@ -3,7 +3,7 @@ import * as React from "react"
 import PropTypes from "prop-types"
 import {Field, reduxForm} from "redux-form"
 
-import organizationInfoValidation from 'src/helpers/validations/organizationInfoPrivateInformation'
+import organizationPrivateInfoValidation from 'src/helpers/validations/organizationInfoPrivateInformation'
 import type {organizationType} from "src/consts/flowTypes/organization/organization"
 import renderTextField from "src/views/common/inputs/reduxFormRenderTextField"
 
@@ -176,7 +176,7 @@ class PrivateInfoEditForm extends React.Component<PropsOrganizationInfoEditForm>
 
 PrivateInfoEditForm = reduxForm({
   form: 'organizationPrivateInfoEditForm',
-  validate: organizationInfoValidation,
+  validate: organizationPrivateInfoValidation,
 })(PrivateInfoEditForm)
 
 export default PrivateInfoEditForm
