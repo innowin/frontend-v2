@@ -4,7 +4,7 @@ const validateOfficialName = (officialName, translate) => {
   }
 }
 const validateEstablishedYear = (establishedYear, translate) => {
-  if (/^[0-9]+$/.test(establishedYear.length)) {
+  if (!/^[0-9]+$/.test(establishedYear.length)) {
     return translate['Year is incorrect']
   }
 }
@@ -19,7 +19,7 @@ const validateUrl = (url, translate) => {
   }
 }
 const validateStaffCount = (staffCount, translate) => {
-  if (/^[0-9]+$/.test(staffCount)) {
+  if (!/^[0-9]+$/.test(staffCount)) {
     return translate['Staff count must be positive']
   }
 }
@@ -30,7 +30,7 @@ const validateEmail = (email, translate) => {
 }
 
 
-const organizationContactInfoValidation = (values, {translate}) => {
+const organizationPrivateInfoValidation = (values, {translate}) => {
   const errors = {}
   const {officialName, nationalCode, establishedYear, email, registrationAdsUrl, staffCount} = values
   const requiredFields = []
@@ -41,7 +41,7 @@ const organizationContactInfoValidation = (values, {translate}) => {
   if (nationalCode) errors.nationalCode = validateNationalCode(nationalCode, translate)
   if (establishedYear) errors.establishedYear = validateEstablishedYear(establishedYear, translate)
   if (registrationAdsUrl) errors.registrationAdsUrl = validateUrl(registrationAdsUrl, translate)
-  if (staffCount) errors.registrationAdsUrl = validateStaffCount(staffCount, translate)
+  if (staffCount) errors.staffCount = validateStaffCount(staffCount, translate)
   if (email) errors.email = validateEmail(email, translate)
 
 
@@ -58,4 +58,4 @@ const organizationContactInfoValidation = (values, {translate}) => {
   return errors
 }
 
-export default organizationContactInfoValidation
+export default organizationPrivateInfoValidation

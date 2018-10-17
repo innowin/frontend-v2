@@ -115,6 +115,11 @@ const users = (state = initialState.users, action) => {
           }
         }
       }
+
+    case types.USER.SET_PROFILE_MEDIA:
+      return slices.setProfileMedia.success(state, action)
+    case types.SUCCESS.USER.SET_PROFILE_MEDIA:
+      return slices.setProfileMedia.success(state, action)
       /** -------------------------- get identity -------------------------> **/
     case types.USER.GET_USER_IDENTITY:
       return {
@@ -282,12 +287,12 @@ const users = (state = initialState.users, action) => {
     case types.SUCCESS.WORK_EXPERIENCE.DELETE_USER_WORK_EXPERIENCES_BY_USER_ID:
       return slices.deleteWorkExperienceByUserId.success(state, action)
       /** -------------------------- get education by user id  -------------------------> **/
-    // case types.EDUCATION.GET_USER_EDUCATION_BY_USER_ID:
-    //   return slices.getEducationByUserId.base(state, action)
-    // case types.SUCCESS.EDUCATION.GET_USER_EDUCATION_BY_USER_ID:
-    //   return slices.getEducationByUserId.success(state, action)
-    // case types.ERRORS.EDUCATION.GET_USER_EDUCATION_BY_USER_ID:
-    //   return slices.getEducationByUserId.error(state, action)
+    case types.EDUCATION.GET_USER_EDUCATION_BY_USER_ID:
+      return slices.getEducationByUserId.base(state, action)
+    case types.SUCCESS.EDUCATION.GET_USER_EDUCATION_BY_USER_ID:
+      return slices.getEducationByUserId.success(state, action)
+    case types.ERRORS.EDUCATION.GET_USER_EDUCATION_BY_USER_ID:
+      return slices.getEducationByUserId.error(state, action)
       /** -------------------------- create education by user id -------------------------> **/
     case types.SUCCESS.EDUCATION.CREATE_USER_EDUCATION_BY_USER_ID:
       return slices.createEducationByUserId.success(state, action)

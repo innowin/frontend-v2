@@ -1,5 +1,7 @@
 @import "../../variables";
 
+$sidebar-profile-media-width: 80px;
+
 //** ----------------             topBar  -----------------------------------**//
 .topBar {
   height: $topBarHeight;
@@ -272,6 +274,10 @@
   transform: rotate(-30deg);
 }
 
+.svg-rotate-neutral {
+  transform: rotate(+30deg);
+}
+
 .exchange-center-background {
   top: 0;
   background: linear-gradient(to bottom, $base-posts, $base-posts, $base-posts, $base-posts, $base-posts, transparent);
@@ -347,10 +353,52 @@
   min-width: 210px;
 }
 
-.-sidebar-child-wrapper {
+.editable-profile-img {
   position: relative;
-  .head-picture {
-    width: 80px;
+  .css-1z10k3e {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 0;
+    left: 50%;
+  }
+  .edit-nav {
+    cursor: pointer;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    &.edit-banner {
+      width: 100%;
+      top: 50%;
+    }
+    &.edit-media {
+      width: $sidebar-profile-media-width - 10px;
+      top: 0;
+      .edit-background {
+        border-radius: 15%;
+      }
+    }
+    .edit-background {
+      background: $sidebar-bottom-color;
+      height: 30px;
+      opacity: 0.8;
+    }
+    .edit-text {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      color: $base-posts;
+      font-size: $font-size-verySmallText;
+      width: 100%;
+    }
+  }
+}
+
+%sidebar-child-wrapper {
+  position: relative;
+  .profile-media {
+    width: $sidebar-profile-media-width;
     height: 80px;
     position: absolute;
     transform: translate(-50%, -50%);
@@ -463,6 +511,10 @@
   }
 }
 
+.-sidebar-child-wrapper {
+  @extend %sidebar-child-wrapper
+}
+
 .-sidebar-child-wrapper > div {
   display: flex;
   border-bottom: 1px solid lighten($text-lighter-color, 3.6%);
@@ -511,6 +563,19 @@
   padding-right: 10px;
   padding-left: 10px;
   margin-left: 5px;
+}
+
+//** ------ user-organ SideBar -------**//
+
+.sidebar-organ-user {
+  @extend %sidebar-child-wrapper
+}
+
+.sidebar-organ-user > div:not(:first-child) {
+  display: flex;
+  border-bottom: 1px solid lighten($text-lighter-color, 3.6%);
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 //**         Home Sidebar(List of exchanges)               **//
@@ -1169,6 +1234,7 @@
 
 .profile-menu-second-section {
   border-bottom: 1px solid $text-title-menu-color;
+  padding-bottom: 1px;
 }
 
 .profile-menu-second-section-item {
@@ -1179,5 +1245,34 @@
   &:hover {
     transition-duration: 0.25s;
     background-color: $chat-box2-color;
+  }
+}
+
+.act-bar {
+  display: flex;
+  justify-content: space-between;
+  .act-btn {
+    cursor: pointer;
+    position: relative;
+    background: $brand-inverse-color;
+    color: $text-lightest-color;
+    padding: 8px 14px;
+    font-size: $font-size-regular;
+    border-radius: 100px;
+    width: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    svg {
+      width: 16px;
+      position: absolute;
+      left: 10px;
+    }
+    svg path {
+      fill: $text-lightest-color;
+    }
   }
 }

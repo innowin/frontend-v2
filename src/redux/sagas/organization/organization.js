@@ -3,9 +3,6 @@ import urls from 'src/consts/URLS'
 import {put, take, fork, call} from 'redux-saga/effects'
 import api from 'src/consts/api'
 import results from 'src/consts/resultName'
-import {addPicture} from '../../../crud/organization/products'
-import {getOrgIdentity} from "../getIdentity"
-
 
 export function* getOrganizationMembers(action) {
   const payload = action.payload
@@ -27,9 +24,6 @@ export function* getOrganizationMembers(action) {
     socketChannel.close()
   }
 }
-
-
-
 
 export function* getProductCategories() {
   const socketChannel = yield call(api.createSocketChannel, results.ORG.GET_PRODUCT_CATEGORIES)
@@ -154,88 +148,6 @@ export function* getOrgStaff(action) {
     })
   } finally {
     socketChannel.close()
-  }
-}
-
-// get org customer
-export function* getCustomers(action) { //TODO amir
-  const payload = action.payload;
-  const {organizationId} = payload;
-  const socketChannel = yield call(api.createSocketChannel, results.ORG.GET_ORG_CUSTOMERS)
-  try {
-    yield fork(api.get, urls.ORG.GET_ORG_CUSTOMERS, results.ORG.GET_ORG_CUSTOMERS, `?customer_organization=${organizationId}`)
-    const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.ORG.GET_ORG_CUSTOMERS, payload: data})
-  } catch (e) {
-    const {message} = e
-    yield put({
-      type: types.ERRORS.ORG.GET_ORG_CUSTOMERS,
-      payload: {type: types.ERRORS.ORG.GET_ORG_CUSTOMERS, message}
-    })
-  } finally {
-    socketChannel.close()
-  }
-}
-
-// createOrgCustomer
-export function* createOrgCustomer(action) {
-  const payload = action.payload
-  const {organizationId, formValues, hideEdit} = payload
-  formValues.customer_organization = organizationId
-  const socketChannel = yield call(api.createSocketChannel, results.ORG.CREATE_CUSTOMER)
-  try {
-    yield fork(api.post, urls.ORG.CREATE_CUSTOMER, results.ORG.CREATE_CUSTOMER, formValues)
-    const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.ORG.CREATE_CUSTOMER, payload: {customer: data}})
-  } catch (e) {
-    const {message} = e
-    yield put({
-      type: types.ERRORS.ORG.CREATE_CUSTOMER,
-      payload: {type: types.ERRORS.ORG.CREATE_CUSTOMER, error: message}
-    })
-  } finally {
-    socketChannel.close()
-    hideEdit()
-  }
-}
-
-export function* updateCustomer(action) { //TODO amir change URL nad QUERY
-  const payload = action.payload;
-  const {formValues, customerId, hideEdit} = payload;
-  const socketChannel = yield call(api.createSocketChannel, results.ORG.UPDATE_CUSTOMER)
-  try {
-    yield fork(api.patch, urls.ORG.UPDATE_CUSTOMER, results.ORG.UPDATE_CUSTOMER, formValues, `${customerId}`)
-    const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.ORG.UPDATE_CUSTOMER, payload: data})
-  } catch (e) {
-    const {message} = e
-    yield put({
-      type: types.ERRORS.ORG.UPDATE_CUSTOMER,
-      payload: {type: types.ERRORS.ORG.UPDATE_CUSTOMER, error: message}
-    })
-  } finally {
-    socketChannel.close()
-    hideEdit()
-  }
-}
-
-export function* deleteOrgCustomer(action) {
-  const payload = action.payload
-  const {customerId, hideEdit} = payload
-  const socketChannel = yield call(api.createSocketChannel, results.ORG.DELETE_CUSTOMER)
-  try {
-    yield fork(api.del, urls.ORG.DELETE_CUSTOMER, results.ORG.DELETE_CUSTOMER, {}, `${customerId}`)
-    yield take(socketChannel)
-    yield put({type: types.SUCCESS.ORG.DELETE_CUSTOMER, payload: {customerId: customerId}})
-  } catch (e) {
-    const {message} = e
-    yield put({
-      type: types.ERRORS.ORG.DELETE_CUSTOMER,
-      payload: {type: types.ERRORS.ORG.DELETE_CUSTOMER, error: message}
-    })
-  } finally {
-    socketChannel.close()
-    hideEdit()
   }
 }
 

@@ -71,6 +71,13 @@ const organs = (state = initialState.organs, action) => {
           }
         }
       }
+
+    case types.ORG.SET_ORGANIZATION_INFO_MEDIA:
+      return slices.setOrganMedia.success(state, action)
+
+    case types.SUCCESS.ORG.SET_ORGANIZATION_INFO_MEDIA:
+      return slices.setOrganMedia.success(state, action)
+
     /** -------------------------- update organization info-------------------------> **/
     case types.SUCCESS.ORG.UPDATE_ORGANIZATION_INFO:
       return {
@@ -103,6 +110,7 @@ const organs = (state = initialState.organs, action) => {
         }
       }
 
+    /** -------------------------- create file-------------------------> **/
 
     /** -------------------------- get posts by identity  -------------------------> **/
     case types.COMMON.POST.GET_POST_BY_IDENTITY:
@@ -224,14 +232,25 @@ const organs = (state = initialState.organs, action) => {
     /** -------------------------- delete work experience by user id -------------------------> **/
     case types.SUCCESS.WORK_EXPERIENCE.DELETE_USER_WORK_EXPERIENCES_BY_USER_ID:
       return slices.deleteWorkExperienceByUserId.success(state, action)
-
     /** -------------- get organization certificates -------------> **/
     case types.SUCCESS.COMMON.CERTIFICATE.GET_CERTIFICATES_BY_IDENTITY:
       return slices.getCertificatesByIdentity.success(state, action)
     /** -------------------------- delete organization certificate -------------------------> **/
     case types.SUCCESS.COMMON.CERTIFICATE.DELETE_CERTIFICATE:
       return slices.deleteCertificate.success(state, action)
-
+    /** -------------------------- get organization customers -------------------------> **/
+    case types.ORG.GET_CUSTOMERS_BY_ORGANIZATION_ID:
+      return slices.getCustomersByOrganizationId.base(state, action)
+    case types.SUCCESS.ORG.GET_CUSTOMERS_BY_ORGANIZATION_ID:
+      return slices.getCustomersByOrganizationId.success(state, action)
+    case types.ERRORS.ORG.GET_CUSTOMERS_BY_ORGANIZATION_ID:
+      return slices.getCustomersByOrganizationId.error(state, action)
+    /** -------------------------- delete customer  -------------------------> **/
+    case types.SUCCESS.ORG.DELETE_CUSTOMER:
+      return slices.deleteCustomer.success(state, action)
+    /** -------------------------- create customer -------------------------> **/
+    case types.SUCCESS.ORG.CREATE_CUSTOMER:
+      return slices.createCustomer.success(state, action)
     /** -------------------------- reset organs -------------------------> **/
     case types.RESET:
       return initialState.organs

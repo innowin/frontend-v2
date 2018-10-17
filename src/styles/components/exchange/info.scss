@@ -11,11 +11,6 @@
   transition-duration: $animation-timing;
 }
 
-.info-frame:hover {
-  box-shadow: 0 2px 5px $box-shadow-color;
-  transition-duration: $animation-timing;
-}
-
 .info-header {
   width: 100%;
   background-color: $white;

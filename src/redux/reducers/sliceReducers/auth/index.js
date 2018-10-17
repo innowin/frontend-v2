@@ -1,9 +1,11 @@
+import createCustomer from './createCustomer'
 import createEducationByUserId from './createEducationByUserId'
 import createFollow from './createFollow'
 import createPost from './createPost'
 import createResearchByUserId from './createResearchByUserId'
 import createWorkExperienceByUserId from './createWorkExperienceByUserId'
 import deleteCertificate from './deleteCertificate'
+import deleteCustomer from './deleteCustomer'
 import deleteEducationByUserId from './deleteEducationByUserId'
 import deleteExchangeMembership from './deleteExchangeMembership'
 import deleteFollow from './deleteFollow'
@@ -15,6 +17,7 @@ import deleteSkillByUserId from './deleteSkillByUserId'
 import getEducationByUserId from './getEducationByUserId'
 import getExchangeMembershipByMemberIdentity from './getExchangeMembershipByMemberIdentity'
 import getCertificatesByIdentity from './getCertificatesByIdentity'
+import getCustomersByOrganizationId from './getCustomersByOrganizationId'
 import getFollowees from './getFollowees'
 import getFollowers from './getFollowers'
 import getPostByIdentity from './getPostByIdentity'
@@ -27,33 +30,40 @@ import setToken from "./setToken"
 import signIn from "./signIn"
 import updateProfileByProfileId from './updateProfileByProfileId'
 import updateUserByUserId from './updateUserByUserId'
+import setClientPersonMedia from "./setClientPersonMedia"
+import setClientOrganMedia from "./setClientOrganMedia"
 
 export default {
+  createCustomer,
   createEducationByUserId,
   createFollow,
   createPost,
   createResearchByUserId,
-  deleteEducationByUserId,
   createWorkExperienceByUserId,
   deleteCertificate,
+  deleteCustomer,
+  deleteEducationByUserId,
   deleteExchangeMembership,
   deleteFollow,
   deletePost,
   deleteProduct,
   deleteResearchByUserId,
+  deleteSkillByUserId,
   deleteWorkExperienceByUserId,
+  getCertificatesByIdentity,
   getEducationByUserId,
   getExchangeMembershipByMemberIdentity,
-  getCertificatesByIdentity,
+  getCustomersByOrganizationId,
   getFollowees,
   getFollowers,
-  getPostByIdentity,
   getPost,
+  getPostByIdentity,
   getProductsByIdentity,
   getResearchByUserId,
   getSkillByUserId,
-  deleteSkillByUserId,
   getWorkExperienceByUserId,
+  setClientPersonMedia,
+  setClientOrganMedia,
   setToken,
   signIn,
   updateProfileByProfileId,

@@ -2,7 +2,7 @@ import {REST_URL as url, SOCKET as socket} from "../../consts/URLS"
 import {REST_REQUEST} from "../../consts/Events"
 import {TOKEN} from '../../consts/data'
 
-export const updateCustomer = (formValues, customerId, updateStateForView, hideEdit) => {
+export const updateOrgCustomer = (formValues, customerId, updateStateForView, hideEdit) => {
 	let isLoading = false;
 	
 	const emitting = () => {
@@ -11,7 +11,7 @@ export const updateCustomer = (formValues, customerId, updateStateForView, hideE
 			{
 				method: "patch",
 				url: `${url}/organizations/customers/${customerId}/`,
-				result: `updateCustomer-patch/${customerId}`,
+				result: `updateOrgCustomer-patch/${customerId}`,
 				data :formValues,
 				token: TOKEN
 			}
@@ -20,7 +20,7 @@ export const updateCustomer = (formValues, customerId, updateStateForView, hideE
 
 	emitting();
 
-	socket.on(`updateCustomer-patch/${customerId}`, (res) => {
+	socket.on(`updateOrgCustomer-patch/${customerId}`, (res) => {
 		let error = false;
 		isLoading = false;
 		if (res.data.detail) {
@@ -31,7 +31,7 @@ export const updateCustomer = (formValues, customerId, updateStateForView, hideE
 	});
 };
 
-export const createCustomer = (formValues,  updateStateForView, hideEdit,organizationId) => {
+export const createOrgCustomer = (formValues,  updateStateForView, hideEdit,organizationId) => {
 	let isLoading = false;
 	formValues.customer_organization = organizationId;
 	console.log(TOKEN)
@@ -41,7 +41,7 @@ export const createCustomer = (formValues,  updateStateForView, hideEdit,organiz
 			{
 				method: "post",
 				url: `${url}/organizations/customers/`,
-				result: `createCustomer-post/`,
+				result: `createOrgCustomer-post/`,
 				data :formValues,
 				token: TOKEN
 			}
@@ -50,7 +50,7 @@ export const createCustomer = (formValues,  updateStateForView, hideEdit,organiz
 
 	emitting();
 
-	socket.on(`createCustomer-post/`, (res) => {
+	socket.on(`createOrgCustomer-post/`, (res) => {
 		let error = false;
 		isLoading = false;
 		if (res.data.detail) {
@@ -71,7 +71,7 @@ export const createCustomer = (formValues,  updateStateForView, hideEdit,organiz
 	});
 };
 
-export const deleteCustomer = (customerId, updateStateForView, hideEdit,organizationId) => {
+export const deleteOrgCustomer = (customerId, updateStateForView, hideEdit,organizationId) => {
 	let isLoading = false;
 	console.log(TOKEN)
 	const emitting = () => {
@@ -80,7 +80,7 @@ export const deleteCustomer = (customerId, updateStateForView, hideEdit,organiza
 			{
 				method: "delete",
 				url: `${url}/organizations/customers/${customerId}/`,
-				result: `deleteCustomer-delete/${customerId}`,
+				result: `deleteOrgCustomer-delete/${customerId}`,
 				token: TOKEN
 			}
 		);
@@ -88,7 +88,7 @@ export const deleteCustomer = (customerId, updateStateForView, hideEdit,organiza
 
 	emitting();
 
-	socket.on(`deleteCustomer-delete/${customerId}`, (res) => {
+	socket.on(`deleteOrgCustomer-delete/${customerId}`, (res) => {
 		let error = false;
 		isLoading = false;
 		if (res.data.detail) {

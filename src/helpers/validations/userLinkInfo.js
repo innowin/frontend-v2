@@ -1,5 +1,5 @@
 const validateAccount = (account, translate) => {
-  if (!/^@[a-zA-Z0-9]+$/.test(account) || account.length < 5) {
+  if (!/^[a-zA-Z0-9]+$/.test(account) || account.length < 2) {
     return translate['Account is incorrect']
   }
 }

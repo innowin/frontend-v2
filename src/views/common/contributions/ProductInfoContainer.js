@@ -27,11 +27,7 @@ type PropsProducts = {
   error: {} | string | null,
 }
 
-type StateProducts = {
-  createForm: boolean,
-}
-
-class ProductInfoContainer extends React.Component<PropsProducts, StateProducts> {
+class ProductInfoContainer extends React.Component<PropsProducts> {
 
   static propTypes = {
     ownerId: PropTypes.number.isRequired,
@@ -42,21 +38,6 @@ class ProductInfoContainer extends React.Component<PropsProducts, StateProducts>
     actions: PropTypes.object.isRequired,
     isLoading: PropTypes.bool,
     error: PropTypes.object,
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      createForm: false,
-    }
-  }
-
-  _showCreateForm = () => {
-    this.setState({createForm: true})
-  }
-
-  _hideCreateForm = () => {
-    this.setState({createForm: false})
   }
 
   componentDidMount() {

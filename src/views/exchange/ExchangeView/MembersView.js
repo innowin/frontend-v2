@@ -3,6 +3,7 @@ import {bindActionCreators} from "redux"
 import getUserAction from "src/redux/actions/user/getUserActions"
 import exchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
 import organizationActions from "src/redux/actions/organization/organizationActions"
+import identityActions from "src/redux/actions/identityActions"
 import connect from "react-redux/es/connect/connect"
 import Contacts from "../../../images/common/contacts_svg"
 import Stream from "src/images/common/stream_svg"
@@ -11,6 +12,9 @@ import {VerifyWrapper} from "../../common/cards/Frames"
 import {ClipLoader} from "react-spinners"
 import DefaultUserIcon from "../../../images/defaults/defaultUser_svg"
 import {Link} from "react-router-dom"
+import SocialActions from "../../../redux/actions/commonActions/socialActions"
+import constants from "src/consts/constants"
+import {getFolloweesSelector} from "src/redux/selectors/common/social/getFollowees"
 
 class MembersView extends Component {
   constructor(props) {
@@ -18,7 +22,13 @@ class MembersView extends Component {
     this.changeViewType = this.changeViewType.bind(this)
     this.getMembers = this.getMembers.bind(this)
     this.setAllMembers = this.setAllMembers.bind(this)
-    this.state = {initialMembers: [], viewType: "member-square", moreMembers: false}
+    this.state = {
+      initialMembers: [],
+      viewType: "member-square",
+      moreMembers: false,
+      followingUsers: [],
+      followingOrgans: []
+    }
   }
 
   changeViewType() {
@@ -27,14 +37,37 @@ class MembersView extends Component {
     } else this.setState({...this.state, viewType: "member-square"})
   }
 
+  follow(targetId, targetType) {
+    if (targetType === "USER") {
+      const {clientIdentityId, profiles, actions} = this.props
+      const identityId = profiles[targetId].identity.content
+      const {createFollow} = actions
+      const formValues = {follow_follower: clientIdentityId, follow_followed: identityId}
+      createFollow({formValues, followOwnerId: targetId, followOwnerType: constants.USER_TYPES.PERSON})
+      this.state.followingUsers.push(targetId)
+    }
+    if (targetType === "ORGANIZATION") {
+      const {clientIdentityId, organs, actions} = this.props
+      const identityId = organs[targetId].identity.content
+      const {createFollow} = actions
+      const formValues = {follow_follower: clientIdentityId, follow_followed: identityId}
+      createFollow({formValues, followOwnerId: targetId, followOwnerType: constants.USER_TYPES.PERSON})
+      this.state.followingOrgans.push(targetId)
+    }
+  }
+
   getMembers(memberId, memberType, index) {
-    let {profiles, organs, files} = this.props
+    let {profiles, organs, files, clientId} = this.props
+    let {followingUsers, followingOrgans} = this.state
     if (memberType === "USER") {
-      // if (profiles[memberId].profile.content.profile_user) {
-      if (!profiles[memberId].profile.isLoading) {
+      if (profiles[memberId].profile.content.profile_user) {
+        // if (!profiles[memberId].profile.isLoading) {
         return <div key={index}
                     className={this.state.viewType}>
-          <div className={"member-follow"}><span className={"member-follow-plus"}> + </span></div>
+          {followingUsers.indexOf(memberId) >= 0 ? <div className={"member-followed"}>دنبال شده</div>
+              : clientId !== memberId ?
+                  <div className={"member-follow"} onClick={() => this.follow(memberId, memberType)}><span
+                      className={"member-follow-plus"}> + </span></div> : <div className={"member-followed"}> </div>}
           <Link to={`/user/${memberId}`}>
             <div className={"member-picture-container"}>
               {profiles[memberId].profile.content.profile_media !== null ? <img alt={"تصویر پروفایل"}
@@ -59,15 +92,21 @@ class MembersView extends Component {
           </Link>
         </div>
       }
-      else return <div className={"member-loading"}>
-        <ClipLoader color={"#cbcbcb"} size={90}/></div>
+      else return <div className={this.state.viewType}>
+        <div className={"member-loading"}>
+          <ClipLoader color={"#cbcbcb"} size={60}/>
+        </div>
+      </div>
     }
     if (memberType === "ORGANIZATION") {
-      if (!organs[memberId].organization.isLoading) {
-        // console.log(organs[memberId].organization.content)
+      // if (!organs[memberId].organization.isLoading) {
+      if (organs[memberId].organization.content) {
         return <div key={index}
                     className={this.state.viewType}>
-          <div className={"member-follow"}><span className={"member-follow-plus"}> + </span></div>
+          {followingOrgans.indexOf(memberId) >= 0 ? <div className={"member-followed"}>دنبال شده</div>
+              : clientId !== memberId ?
+                  <div className={"member-follow"} onClick={() => this.follow(memberId, memberType)}><span
+                      className={"member-follow-plus"}> + </span></div> : <div className={"member-followed"}> </div>}
           <Link to={`/organization/${memberId}`}>
             <div className={"member-picture-container"}>
               {organs[memberId].organization.content.organization_logo !== null ? <img alt={"تصویر پروفایل"}
@@ -92,23 +131,28 @@ class MembersView extends Component {
             </div>
           </Link>
         </div>
-      } else return <div className={"member-loading"}>
-        <ClipLoader color={"#cbcbcb"} size={90}/></div>
+      } else return <div className={this.state.viewType}>
+        <div className={"member-loading"}>
+          <ClipLoader color={"#cbcbcb"} size={60}/>
+        </div>
+      </div>
     }
   }
 
   setAllMembers() {
     let {exchangeUsers, exchangeId, actions} = this.props
-    let {getUser, getOrganization} = actions
+    let {getUser, getOrganization, getUserIdentity, getOrgIdentity} = actions
     let temp = []
     if (exchangeUsers) {
       if (exchangeUsers[exchangeId]) {
         for (let i = 0; i < exchangeUsers[exchangeId].length; i++) {
           if (exchangeUsers[exchangeId][i]) {
             if (exchangeUsers[exchangeId][i].type === "USER") {
-              getUser(parseInt(exchangeUsers[exchangeId][i].id, 10))
+              getUser(exchangeUsers[exchangeId][i].id)
+              getUserIdentity(exchangeUsers[exchangeId][i].id)
             } else {
-              getOrganization(parseInt(exchangeUsers[exchangeId][i].id, 10))
+              getOrganization(exchangeUsers[exchangeId][i].id)
+              getOrgIdentity(exchangeUsers[exchangeId][i].id)
             }
             temp.push(exchangeUsers[exchangeId][i])
           }
@@ -119,44 +163,63 @@ class MembersView extends Component {
   }
 
   componentDidMount() {
-    let {exchangeUsers, exchangeId, actions} = this.props
-    let {getUser, getOrganization} = actions
+    window.scrollTo({
+      top: 0
+    })
+    let {exchangeUsers, exchangeId, getFollowingSelector, actions} = this.props
+    let {getUser, getOrganization, getUserIdentity, getOrgIdentity} = actions
+    let temp = []
     if (exchangeUsers) {
       if (exchangeUsers[exchangeId]) {
         for (let i = 0; i < 6; i++) {
-          let temp = this.state.initialMembers
           if (exchangeUsers[exchangeId][i]) {
             if (exchangeUsers[exchangeId][i].type === "USER") {
-              getUser(parseInt(exchangeUsers[exchangeId][i].id, 10))
+              getUser(exchangeUsers[exchangeId][i].id)
+              getUserIdentity(exchangeUsers[exchangeId][i].id)
             } else {
-              getOrganization(parseInt(exchangeUsers[exchangeId][i].id, 10))
+              getOrganization(exchangeUsers[exchangeId][i].id)
+              getOrgIdentity(exchangeUsers[exchangeId][i].id)
             }
             temp.push(exchangeUsers[exchangeId][i])
-            this.setState({...this.state, initialMembers: temp})
           }
         }
+        this.setState({...this.state, initialMembers: temp})
       }
     }
+
+    let tempUsers = []
+    let tempOrgans = []
+    for (let i = 0; i < getFollowingSelector.length; i++) {
+      if (getFollowingSelector[i].identity_user !== null) {
+        tempUsers.push(getFollowingSelector[i].identity_user)
+      }
+      else if (getFollowingSelector[i].identity_organization !== null) {
+        tempOrgans.push(getFollowingSelector[i].identity_organization)
+      }
+    }
+    this.setState({...this.state, followingUsers: tempUsers.slice(), followingOrgans: tempOrgans.slice()})
   }
 
   componentDidUpdate() {
     if (this.state.initialMembers.length < 1) {
       let {exchangeUsers, exchangeId, actions} = this.props
-      let {getUser, getOrganization} = actions
+      let {getUser, getOrganization, getUserIdentity, getOrgIdentity} = actions
+      let temp = []
       if (exchangeUsers) {
         if (exchangeUsers[exchangeId]) {
           for (let i = 0; i < 6; i++) {
-            let temp = this.state.initialMembers
             if (exchangeUsers[exchangeId][i]) {
               if (exchangeUsers[exchangeId][i].type === "USER") {
-                getUser(parseInt(exchangeUsers[exchangeId][i].id, 10))
+                getUser(exchangeUsers[exchangeId][i].id)
+                getUserIdentity(exchangeUsers[exchangeId][i].id)
               } else {
-                getOrganization(parseInt(exchangeUsers[exchangeId][i].id, 10))
+                getOrganization(exchangeUsers[exchangeId][i].id)
+                getOrgIdentity(exchangeUsers[exchangeId][i].id)
               }
               temp.push(exchangeUsers[exchangeId][i])
-              this.setState({...this.state, initialMembers: temp})
             }
           }
+          this.setState({...this.state, initialMembers: temp})
         }
       }
     }
@@ -195,13 +258,23 @@ const mapStateToProps = (state) => {
     organs: state.organs.list,
     profiles: state.users.list,
     files: state.common.file.list,
+    clientId: state.auth.client.user.id,
+    getFollowingSelector: getFolloweesSelector(state, {
+      identityId: state.auth.client.identity.content,
+      ownerId: state.auth.client.user.id,
+      identityType: state.auth.client.user_type,
+    })
   }
 }
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({
     getExchangeMembers: exchangeMembershipActions.getExchangeMembershipByExchangeId,
     getUser: getUserAction.getProfileByUserId,
-    getOrganization: organizationActions.getOrganizationByOrganId
+    getOrganization: organizationActions.getOrganizationByOrganId,
+    createFollow: SocialActions.createFollow,
+    getFollowingAction: SocialActions.getFollowees,
+    getUserIdentity: identityActions.getUserIdentity,
+    getOrgIdentity: identityActions.getOrgIdentity
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(MembersView)

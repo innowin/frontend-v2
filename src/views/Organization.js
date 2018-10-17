@@ -29,13 +29,14 @@ import constants from "../consts/constants";
 import ParamActions from "src/redux/actions/paramActions"
 import GetIdentityActions from "../redux/actions/identityActions"
 import Contributions from "./common/contributions"
+import type {fileType} from "../consts/flowTypes/common/fileType";
 
 type PropsOrganization = {
   organObject: organStateObject,
   badgesObject: listOfIdObject,
   badges: Array<badgeType>,
-  organBanner: ?string,
-  organLogo: ?string,
+  organBanner: fileType | {},
+  organLogo: fileType | {},
   translate: TranslatorType,
   match: {
     [string]: string,
@@ -56,8 +57,8 @@ export class Organization extends Component<PropsOrganization> {
     organObject: PropTypes.object.isRequired,
     badgesObject: PropTypes.object.isRequired,
     badges: PropTypes.array.isRequired,
-    organBanner: PropTypes.string,
-    organLogo: PropTypes.string,
+    organBanner: PropTypes.object,
+    organLogo: PropTypes.object,
     translate: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
@@ -144,14 +145,14 @@ export class Organization extends Component<PropsOrganization> {
                                     organizationId={organizationId}
                                     organization={organObject.content}
                       />
-                      <PrivateRoute path={`${path}/Customers`}
-                                    component={Customers}
-                                    organizationId={organizationId}
-                      />
                       <PrivateRoute path={`${path}/SocialConnections`} component={Social}
                                     ownerId={organizationId}
                                     identityId={identityObject.content}
                                     identityType={constants.USER_TYPES.ORG}
+                      />
+                      <PrivateRoute path={`${path}/Customers`}
+                                    component={Customers}
+                                    organizationId={organizationId}
                       />
                       <PrivateRoute path={`${path}/Certificates`}
                                     component={Certificates}
@@ -178,17 +179,16 @@ const mapStateToProps = (state, ownProps) => {
   const stateOrgan = state.organs.list[organId]
   const defaultObject = {content: {}, isLoading: false, error: null}
   const defaultObject2 = {content: [], isLoading: false, error: null}
-  const organ = (stateOrgan && stateOrgan.organization) || defaultObject
   const identity = (stateOrgan && stateOrgan.identity) || {content: null, isLoading: false, error: null}
-  const bannerId = organ.content.organization_banner
-  const logoId = organ.content.organization_logo
-  const organBanner = (bannerId && state.common.file.list[bannerId] && state.common.file.list[bannerId].file) || null
-  const organLogo = (logoId && state.common.file.list[logoId] && state.common.file.list[logoId].file) || null
+  const bannerId = stateOrgan.organBannerId || null
+  const logoId = stateOrgan.organLogoId || null
+  const organBanner = (bannerId && state.common.file.list[bannerId]) || {}
+  const organLogo = (logoId && state.common.file.list[logoId]) || {}
   const badgesObjectInOrgan = (stateOrgan && stateOrgan.badges) ? stateOrgan.badges : defaultObject2
-  const allBadges = state.common.badges.badge.list
+  const allBadges = state.common.badges.badge.badge.list
   const badges = badgesObjectInOrgan.content.map(badgeId => allBadges[badgeId])
   return {
-    organObject: organ,
+    organObject: (stateOrgan && stateOrgan.organization) || defaultObject,
     badgesObject: badgesObjectInOrgan,
     badges,
     organBanner,

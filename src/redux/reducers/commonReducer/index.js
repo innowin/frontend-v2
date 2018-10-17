@@ -7,16 +7,31 @@ import category from "./category"
 import product from "./product"
 import post from './post'
 import social from './social'
-import storage from "redux-persist/lib/storage"
-import {persistReducer} from "redux-persist"
-import exchangeMembership from "./exchangeMembership"
+import storage from "redux-persist/lib/storage";
+import {persistReducer} from "redux-persist";
+import exchangeMembership from "./exchangeMembership";
+import createEncryptor from "redux-persist-transform-encrypt";
 import comment from './comment'
 import hashTag from "./hashTag/index"
 import badges from "./badges/index"
 
-const locationPersistConfig = {key: 'location', storage: storage}
+const locationEncryptor = createEncryptor({
+  secretKey: 'location-secret-key-is:podicvbcvbdfsdkfpojjknwnrkilksdf;lsdlffjkghjh3834;jjfddd',
+  onError: (error) => {
+    throw new Error(error)
+  }
+})
 
-const productPersistConfig = {key: 'product', storage: storage}
+const productEncryptor = createEncryptor({
+  secretKey: 'product-secret-key-is:pf;kldkpokmcjmmmmmmmmmmmmmmmmddddmcnhndnslucvxcvcxgfdj0lkf',
+  onError: (error) => {
+    throw new Error(error)
+  }
+})
+
+const locationPersistConfig = {key: 'location',transforms: [locationEncryptor], storage: storage}
+
+const productPersistConfig = {key: 'product',transforms: [productEncryptor], storage: storage}
 
 const badgesPersistConfig = {key: 'badges', storage: storage}
 

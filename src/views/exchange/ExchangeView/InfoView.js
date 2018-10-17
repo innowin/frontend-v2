@@ -9,6 +9,9 @@ import {VerifyWrapper} from "../../common/cards/Frames"
 
 class InfoView extends Component {
   componentDidMount() {
+    window.scrollTo({
+      top: 0
+    })
     const {owner, actions} = this.props
     const profile = owner.profile.content.profile_user
     if (profile)
@@ -19,8 +22,10 @@ class InfoView extends Component {
     const {currentExchange, owner, education, translate} = this.props
     const profile = owner.profile.content.profile_user
     const media = owner.profile.content.profile_media
+    let ownerEducations = owner.educations
+
     if (profile)
-      if (education[profile.id]) {
+      if (!ownerEducations.isLoading) {
         return (
             <div>
               <div className={"info-frame"}>
@@ -56,9 +61,12 @@ class InfoView extends Component {
                       <div className={"info-exchange-username"}> {profile.first_name || profile.last_name !== "" ?
                           profile.first_name + " " + profile.last_name : profile.username} </div>
                       <div className={"info-exchange-education"}>
-                        <span> {!education[profile.id] ? "مقطع" : education[profile.id].grade} </span>
-                        <span> {!education[profile.id] ? "رشته" : education[profile.id].field_of_study} </span><span> {translate["Of"]} </span>
-                        <span> {!education[profile.id] ? "دانشگاه" : education[profile.id].university} </span>
+                         {ownerEducations.content.map((p, inx) => <div key={inx}> -
+                         <span> {!education[p] ? "مقطع" : education[p].grade} </span>
+                         <span> {!education[p] ? "رشته" : education[p].field_of_study} </span>
+                         <span> {translate["Of"]} </span>
+                         <span> {!education[p] ? "دانشگاه" : education[p].university} </span>
+                         </div>)}
                       </div>
                     </div>
                   </div>

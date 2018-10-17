@@ -65,7 +65,7 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
     const {post} = this.props
     return (
       // TODO mohsen: handle error and isLoading from state redux
-        <VerifyWrapper isLoading={false} error={false}>
+        <VerifyWrapper isLoading={false} error={false} className='post-view-container'>
           {edit ?
               <div className="-itemWrapperPost">
                 <PostEditForm

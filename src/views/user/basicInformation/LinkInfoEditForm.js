@@ -6,6 +6,7 @@ import {Field, reduxForm} from "redux-form";
 import userLinkInfoValidation from 'src/helpers/validations/userLinkInfo'
 import type {userProfileType} from "src/consts/flowTypes/user/basicInformation"
 import renderTextField from "src/views/common/inputs/reduxFormRenderTextField"
+import constants from "../../../consts/constants";
 
 //FixMe: mohammad web site is not array, change to array
 // flow type of UserInfoEditForm
@@ -35,9 +36,9 @@ class LinkInfoEditForm extends React.Component<PropsUserInfoEditForm> {
   componentDidMount() {
     const {profile, initialize} = this.props
     const defaultFormValue = {
-      telegramAccount: profile.telegram_account,
-      instagramAccount: profile.instagram_account,
-      linkedinAccount: profile.linkedin_account,
+      telegramAccount: profile.telegram_account.replace(constants.LINKS.TELEGRAM, ''),
+      instagramAccount: profile.instagram_account.replace(constants.LINKS.INSTAGRAM, ''),
+      linkedinAccount: profile.linkedin_account.replace(constants.LINKS.LINKEDIN, ''),
       webSite: profile.web_site.length > 0 ? profile.web_site[0] : '',
       // youtubeAccount: profile.youtube_account,
     }
@@ -61,11 +62,11 @@ class LinkInfoEditForm extends React.Component<PropsUserInfoEditForm> {
     const profileId: number = profile.id
 
     const formFormat = {
-      telegram_account: profile.telegram_account === values.telegramAccount ? null : values.telegramAccount,
-      instagram_account: profile.instagram_account === values.instagramAccount ? null : values.instagramAccount,
-      linkedin_account: profile.linkedin_account === values.linkedinAccount ? null : values.linkedinAccount,
+      telegram_account: profile.telegram_account === values.telegramAccount ? null : constants.LINKS.TELEGRAM + values.telegramAccount,
+      instagram_account: profile.instagram_account === values.instagramAccount ? null : constants.LINKS.INSTAGRAM + values.instagramAccount,
+      linkedin_account: profile.linkedin_account === values.linkedinAccount ? null : constants.LINKS.LINKEDIN + values.linkedinAccount,
       web_site: profile.web_site === values.webSite ? null : values.webSite,
-    // youtubeAccount: profile.youtube_account,
+      // youtubeAccount: profile.youtube_account,
     }
     const propertyNames = Object.getOwnPropertyNames(formFormat)
     propertyNames.map(key => {
@@ -85,39 +86,48 @@ class LinkInfoEditForm extends React.Component<PropsUserInfoEditForm> {
             <label>
               {translate['Telegram'] + ": "}
             </label>
-            <Field
-                name="telegramAccount"
-                type="text"
-                component={renderTextField}
-                label={translate['Telegram']}
-                textFieldClass='form-control'
-            />
+            <div className='link-container'>
+              <Field
+                  name="telegramAccount"
+                  type="text"
+                  component={renderTextField}
+                  label={translate['Telegram']}
+                  textFieldClass='form-control'
+              />
+              <span>{constants.LINKS.TELEGRAM}</span>
+            </div>
           </div>
 
           <div className='form-group'>
             <label>
               {translate['Instagram'] + ": "}
             </label>
-            <Field
-                name="instagramAccount"
-                type="text"
-                component={renderTextField}
-                label={translate['Instagram']}
-                textFieldClass='form-control'
-            />
+            <div className='link-container'>
+              <Field
+                  name="instagramAccount"
+                  type="text"
+                  component={renderTextField}
+                  label={translate['Instagram']}
+                  textFieldClass='form-control'
+              />
+              <span>{constants.LINKS.INSTAGRAM}</span>
+            </div>
           </div>
 
           <div className='form-group'>
             <label>
               {translate['LinkedIn'] + ": "}
             </label>
-            <Field
-                name="linkedinAccount"
-                type="text"
-                component={renderTextField}
-                label={translate['LinkedIn']}
-                textFieldClass='form-control'
-            />
+            <div className='link-container'>
+              <Field
+                  name="linkedinAccount"
+                  type="text"
+                  component={renderTextField}
+                  label={translate['LinkedIn']}
+                  textFieldClass='form-control'
+              />
+              <span>{constants.LINKS.LINKEDIN}</span>
+            </div>
           </div>
 
           <div className='form-group'>

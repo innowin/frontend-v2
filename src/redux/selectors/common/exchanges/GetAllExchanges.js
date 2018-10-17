@@ -23,5 +23,5 @@ const getAllExchanges = (state) => {
 
 export const getExchanges = createSelector(
     getAllExchanges,
-    exchagne => exchagne
+    exchange => exchange
 )

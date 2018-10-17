@@ -21,5 +21,11 @@ export default {
   },
   COMMENT_PARENT: {
     POST: 'post',
+  },
+  LINKS: {
+    TELEGRAM: 'https://t.me/',
+    INSTAGRAM: 'https://www.instagram.com/',
+    YOUTUBE: 'https://www.youtube.com/channel/',
+    LINKEDIN: 'https://www.linkedin.com/in/',
   }
 }
