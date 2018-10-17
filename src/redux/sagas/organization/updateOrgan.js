@@ -18,6 +18,7 @@ export function* updateOrganization(action) {
     )
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.ORG.UPDATE_ORGANIZATION_INFO, payload: {data}})
+    yield put({type:types.ORG.GET_ORGANIZATION, payload:{organizationId}})
   } catch (e) {
     const {message} = e
     yield put({type: types.ERRORS.ORG.UPDATE_ORGANIZATION_INFO, payload: {message, organizationId}})

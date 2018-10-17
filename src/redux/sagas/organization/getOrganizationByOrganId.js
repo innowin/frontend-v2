@@ -18,9 +18,11 @@ export function* getOrganizationByOrganId(action) {
     if (organLogoId) {
       yield put({type:types.COMMON.GET_FILE, payload:{fileId:organLogoId}})
     }
-    if (organBannerId && organLogoId !== organBannerId){
+    if (organBannerId && (organLogoId !== organBannerId)){
       yield put({type:types.COMMON.GET_FILE, payload:{fileId:organBannerId}})
     }
+    yield put({type: types.SUCCESS.ORG.SET_ORGANIZATION_INFO_MEDIA,
+      payload:{organizationId, organLogoId, organBannerId}})
   } catch (e) {
     const {message} = e
     yield put({type: types.ERRORS.ORG.GET_ORGANIZATION, payload: {message, organizationId}})

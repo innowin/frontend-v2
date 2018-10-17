@@ -22,7 +22,7 @@ const sagaMiddleware = createSagaMiddleware()
 const navMiddleware = routerMiddleware(history)
 
 const encryptor = createEncryptor({
-	secretKey: 'my-super-secret-key',
+	secretKey: 'root-secret-key-is:podifohgr903485kljdsjf88923.,sdf985rnhsdfh9823834;jjfddd',
 	onError: (error) => {
 		throw new Error(error)
 	}

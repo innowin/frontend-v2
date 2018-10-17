@@ -30,6 +30,8 @@ import setToken from "./setToken"
 import signIn from "./signIn"
 import updateProfileByProfileId from './updateProfileByProfileId'
 import updateUserByUserId from './updateUserByUserId'
+import setClientPersonMedia from "./setClientPersonMedia"
+import setClientOrganMedia from "./setClientOrganMedia"
 
 export default {
   createCustomer,
@@ -37,29 +39,31 @@ export default {
   createFollow,
   createPost,
   createResearchByUserId,
-  deleteEducationByUserId,
   createWorkExperienceByUserId,
   deleteCertificate,
   deleteCustomer,
+  deleteEducationByUserId,
   deleteExchangeMembership,
   deleteFollow,
   deletePost,
   deleteProduct,
   deleteResearchByUserId,
+  deleteSkillByUserId,
   deleteWorkExperienceByUserId,
+  getCertificatesByIdentity,
   getEducationByUserId,
   getExchangeMembershipByMemberIdentity,
-  getCertificatesByIdentity,
   getCustomersByOrganizationId,
   getFollowees,
   getFollowers,
-  getPostByIdentity,
   getPost,
+  getPostByIdentity,
   getProductsByIdentity,
   getResearchByUserId,
   getSkillByUserId,
-  deleteSkillByUserId,
   getWorkExperienceByUserId,
+  setClientPersonMedia,
+  setClientOrganMedia,
   setToken,
   signIn,
   updateProfileByProfileId,

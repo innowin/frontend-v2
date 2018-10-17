@@ -27,6 +27,7 @@ class CreatePostFooter extends Component {
 
   static propTypes = {
     getMedia: PropTypes.func.isRequired,
+    media: PropTypes.object,
   }
 
   constructor(props) {
@@ -54,10 +55,11 @@ class CreatePostFooter extends Component {
   }
 
   render() {
-    const {postType} = this.state;
-    const supplyMark = postType === 'supply';
-    const demandMark = postType === 'demand';
-    const postMark = postType === 'post';
+    const {postType} = this.state
+    const {media, getMedia} = this.props
+    const supplyMark = postType === 'supply'
+    const demandMark = postType === 'demand'
+    const postMark = postType === 'post'
     return (
       <div className="-createPostFooter">
         <div className="rightIcons">
@@ -74,8 +76,10 @@ class CreatePostFooter extends Component {
             ref={AttachFileInput => {
               this.AttachFileInput = AttachFileInput
             }}
-            getMedia={this.props.getMedia}
+            getMedia={getMedia}
             AttachBottom={this.AttachBottom}
+            mediaId={media.id}
+            inputId="AttachFileInput"
           />
           <i className="fa fa-smile-o mr-3" aria-hidden="true"/>
           <span className="mr-4">
@@ -248,6 +252,7 @@ class HomeCreatePost extends Component {
                 ref={createPostFooter => {
                   this.createPostFooter = createPostFooter
                 }}
+                media = {media}
               />
             </div>
           )}

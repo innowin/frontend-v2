@@ -74,6 +74,7 @@ module.exports = {
   'ResearchInfo': 'سابقه پژوهشی',
   'Author': 'نویسنده',
   'Phone number is wrong': 'شماره تلفن اشتباه است',
+  'Save changes':'ذخیره تغییرات',
 
   // user - certificates
   'Title': "عنوان",

@@ -71,6 +71,13 @@ const organs = (state = initialState.organs, action) => {
           }
         }
       }
+
+    case types.ORG.SET_ORGANIZATION_INFO_MEDIA:
+      return slices.setOrganMedia.success(state, action)
+
+    case types.SUCCESS.ORG.SET_ORGANIZATION_INFO_MEDIA:
+      return slices.setOrganMedia.success(state, action)
+
     /** -------------------------- update organization info-------------------------> **/
     case types.SUCCESS.ORG.UPDATE_ORGANIZATION_INFO:
       return {
@@ -103,6 +110,7 @@ const organs = (state = initialState.organs, action) => {
         }
       }
 
+    /** -------------------------- create file-------------------------> **/
 
     /** -------------------------- get posts by identity  -------------------------> **/
     case types.COMMON.POST.GET_POST_BY_IDENTITY:

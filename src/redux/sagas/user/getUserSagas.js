@@ -30,6 +30,17 @@ export function* getProfileByUserId(action) {
     const dataList = yield take(socketChannel)
     const data = dataList[0]
     yield put({type: types.SUCCESS.USER.GET_PROFILE_BY_USER_ID, payload: {data, userId}})
+    const {profile_media, profile_banner} = data
+    const profileMediaId = profile_media && profile_media.id
+    const profileBannerId = profile_banner && profile_banner.id
+    // TODO check profileMedia & profileBanner is not exist in common.files.list
+    if (profileMediaId) {
+      yield put({type:types.COMMON.GET_FILE, payload:{fileId:profileMediaId}})
+    }
+    if (profileBannerId && (profileMediaId !== profileBannerId)){
+      yield put({type:types.COMMON.GET_FILE, payload:{fileId:profileBannerId}})
+    }
+    yield put({type: types.SUCCESS.USER.SET_PROFILE_MEDIA, payload:{userId, profileMediaId, profileBannerId}})
   } catch (e) {
     const {message} = e
     yield put({type: types.ERRORS.USER.GET_PROFILE_BY_USER_ID, payload: {message, userId}})

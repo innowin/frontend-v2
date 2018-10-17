@@ -25,6 +25,7 @@ import getSkillByUserId from './getSkillByUserId'
 import getWorkExperienceByUserId from './getWorkExperienceByUserId'
 import updateProfileByUserId from './updateProfileByUserId'
 import updateUserByUserId from './updateUserByUserId'
+import setProfileMedia from "./setProfileMedia"
 
 export default {
   createEducationByUserId,
@@ -54,4 +55,5 @@ export default {
   getWorkExperienceByUserId,
   updateProfileByUserId,
   updateUserByUserId,
+  setProfileMedia,
 }
