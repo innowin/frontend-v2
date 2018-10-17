@@ -74,6 +74,21 @@
     margin: 10px 0;
   }
 
+  .member-loading {
+    margin-top: 60px;
+    vertical-align: top;
+    display: inline-block;
+  }
+
+  .member-followed {
+    position: absolute;
+    top: 5px;
+    left: 12px;
+    font-size: $font-size-followed;
+    color: $primary-color-light3;
+    font-weight: bold;
+  }
+
   .member-follow {
     position: absolute;
     top: 10px;
@@ -116,6 +131,12 @@
   &:first-child {
     margin-top: 35px;
   }
+
+  .member-loading {
+    text-align: center;
+    margin: 7.5px 20px;
+  }
+
   .member-follow {
     position: absolute;
     top: 10px;
@@ -210,12 +231,6 @@
     background-color: $more-button-color-hover;
     transition-duration: $animation-timing;
   }
-}
-
-.member-loading {
-  display: inline-block;
-  vertical-align: top;
-  margin: 10px 50px;
 }
 
 @keyframes switch {

@@ -171,7 +171,7 @@ class ExchangeViewBar extends Component {
                 <div className="exchangeName">
                   <ExchangeIcon/>
                   <div>
-                    <span className="fontSize-15px">{translate["Exchange"]}: </span>
+                    {/*<span className="fontSize-15px">{translate["Exchange"]}: </span>*/}
                     <span>{currentExchange.name === "" ? "بدون نام" : currentExchange.name}</span>
                   </div>
                 </div>

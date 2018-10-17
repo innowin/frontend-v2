@@ -266,6 +266,10 @@
   transform: rotate(-30deg);
 }
 
+.svg-rotate-neutral {
+  transform: rotate(+30deg);
+}
+
 .exchange-center-background {
   top: 0;
   background: linear-gradient(to bottom, $base-posts, $base-posts, $base-posts, $base-posts, $base-posts, transparent);
@@ -608,7 +612,7 @@
   transition: ease-in 0.3s;
 }
 
-.explore-menu-container-hide{
+.explore-menu-container-hide {
   position: absolute;
   top: 32px;
   right: -112px;
@@ -625,7 +629,7 @@
   color: white;
 }
 
-.explore-menu-arrow-2{
+.explore-menu-arrow-2 {
   fill: white;
   width: 20px;
 }
@@ -664,6 +668,6 @@
   margin-left: 4px;
 }
 
-.explore-logos-container{
+.explore-logos-container {
   display: inline-block;
 }

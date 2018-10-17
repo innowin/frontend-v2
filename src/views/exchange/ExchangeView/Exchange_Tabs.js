@@ -6,20 +6,22 @@ import Exchange_Info from "./Exchange_Info"
 import "src/styles/components/exchange/posts.scss"
 import "src/styles/components/exchange/info.scss"
 import "src/styles/components/exchange/members.scss"
+import "src/styles/components/exchange/manager.scss"
 import {bindActionCreators} from "redux"
-import postActions from "../../../redux/actions/commonActions/postActions"
-import exchangeActions from "../../../redux/actions/exchangeActions"
-import getUserActions from "../../../redux/actions/user/getUserActions"
-import exchangeMembershipActions from "../../../redux/actions/commonActions/exchangeMembershipActions"
-import educationActions from "../../../redux/actions/educationActions"
+import postActions from "src/redux/actions/commonActions/postActions"
+import exchangeActions from "src/redux/actions/exchangeActions"
+import getUserActions from "src/redux/actions/user/getUserActions"
+import exchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
+import educationActions from "src/redux/actions/educationActions"
 import {VerifyWrapper} from "../../common/cards/Frames"
+import SocialActions from "../../../redux/actions/commonActions/socialActions"
 
 class Exchange_Tabs extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedTab: "Stream",
-      // selectedTab: "Members", // DEVELOP
+      // selectedTab: "Stream",
+      selectedTab: "Exchange Manager", // DEVELOP
       getUserFlag: false,
     }
     this.setTab = this.setTab.bind(this)
@@ -33,9 +35,10 @@ class Exchange_Tabs extends Component {
       normalSvgStyle: "svg-tabs",
       normalSvgContainerStyle: "svg-container"
     })
-    let {actions, exchangeId} = this.props
+    let {actions, exchangeId, clientIdentityId, clientId, clientType} = this.props
     if (exchangeId) {
-      let {getPostsByExIdLimitOffset, getExchangeById, getExchangeMembers} = actions
+      let {getPostsByExIdLimitOffset, getExchangeById, getExchangeMembers, getFollowingAction} = actions
+      getFollowingAction({followOwnerIdentity: clientIdentityId, followOwnerId: clientId, followOwnerType: clientType})
       getPostsByExIdLimitOffset({postParentId: exchangeId, limit: 20, offset: 0})
       // getExchangeById(exchangeId)
       getExchangeMembers({exchangeId: exchangeId})
@@ -107,6 +110,9 @@ const mapStateToProps = (state) => {
   return {
     translate: getMessages(state),
     exchanges: state.exchanges.list,
+    clientIdentityId: state.auth.client.identity.content,
+    clientType: state.auth.client.user_type,
+    clientId: state.auth.client.user.id,
   }
 }
 const mapDispatchToProps = (dispatch) => ({
@@ -116,6 +122,7 @@ const mapDispatchToProps = (dispatch) => ({
     getUser: getUserActions.getProfileByUserId,
     getEducationsByUserId: educationActions.getEducationByUserId,
     getExchangeMembers: exchangeMembershipActions.getExchangeMembershipByExchangeId,
+    getFollowingAction: SocialActions.getFollowees,
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Exchange_Tabs)

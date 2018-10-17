@@ -6,6 +6,7 @@ import exchangeActions from "src/redux/actions/exchangeActions"
 import getUserAction from "src/redux/actions/user/getUserActions"
 import StreamView from "./StreamView"
 import InfoView from "./InfoView"
+import ExchangeManager from "./ExchangeManager"
 import {VerifyWrapper} from "../../common/cards/Frames"
 import MembersView from "./MembersView"
 
@@ -73,6 +74,10 @@ class Exchange_Info extends Component {
       case "Members":
         return (
             <MembersView exchangeId={exchangeId}/>
+        )
+      case "Exchange Manager":
+        return (
+            <ExchangeManager exchangeId={exchangeId}/>
         )
       default:
         return (

@@ -1,0 +1,20 @@
+@import "../../variables";
+
+.ticket-frame {
+  text-align: right;
+  width: $feed-width - 6px;
+  margin: 2px 3px 10px 8px;
+  background-color: $base-posts;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px $box-shadow-color;
+  padding: 15px 10px 12.5px 10px;
+  transition-duration: $animation-timing;
+}
+
+.ticket-header {
+  width: 100%;
+  background-color: $white;
+  height: 30px;
+  font-weight: bold;
+  font-size: $font-size-medium;
+}
