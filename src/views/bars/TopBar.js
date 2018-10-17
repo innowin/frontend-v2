@@ -4,8 +4,8 @@ import {Component} from "react"
 import PropTypes from "prop-types"
 import {Collapse} from "reactstrap"
 import AuthActions from "src/redux/actions/authActions"
-import {routerActions} from 'react-router-redux'
-import {bindActionCreators} from 'redux'
+import {routerActions} from "react-router-redux"
+import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import {userProfileType, userType} from "src/consts/flowTypes/user/basicInformation"
 import {shortOrganizationType} from "src/consts/flowTypes/organization/organization"
@@ -16,6 +16,7 @@ import {
   ExchangeIcon,
   NotificationIcon,
   LogoWhiteSvg,
+  InnoWinLogo,
   ContributionIcon,
   Contacts
 } from "src/images/icons"
@@ -23,7 +24,7 @@ import {Link} from "react-router-dom"
 import AgentForm from "../pages/modal/agentForm-modal"
 import AddingContribution from "../pages/adding-contribution/addingContribution"
 import CreateExchange from "../pages/modal/createExchange/createExchange"
-import CreateExchangeForm from "../pages/modal/prevCreateExchange/createExchange";
+import CreateExchangeForm from "../pages/modal/prevCreateExchange/createExchange"
 import client from "src/consts/client"
 import FileActions from "../../redux/actions/commonActions/fileActions"
 import {SearchIcon} from "../../images/icons"
@@ -79,14 +80,14 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       createExchangeModalIsOpen: false,
       productWizardModalIsOpen: false,
       mouseIsOverMenu: false,
-      selectedSetting: 'General Settings',
+      selectedSetting: "General Settings",
     }
   }
 
   componentDidUpdate(prevProps) {
     const {isLoggedIn, actions} = this.props
     if (prevProps.isLoggedIn && prevProps.isLoggedIn !== isLoggedIn) {
-      actions.push('/login')
+      actions.push("/login")
     }
   }
 
@@ -196,26 +197,26 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
               <div className="mr-5 top-bar-explore" onClick={this._toggleExplore}>
                 <ExchangeExploreIcon
                     className="-topBarIcons" ref={e => this.svg = e}/>
-                <div className={this.state.exploreCollapse ? 'explore-menu-container' : 'explore-menu-container-hide'}>
+                <div className={this.state.exploreCollapse ? "explore-menu-container" : "explore-menu-container-hide"}>
                   <div className='explore-menu-arrow'>
                     ▲
                     {/*<MainLbarArrow className='explore-menu-arrow-2'/>*/}
                   </div>
                   <div className='explore-menu'>
-                    <Link to={'/exchange/Exchange_Explorer'} className='explore-menu-items'><ExchangeIcon
+                    <Link to={"/exchange/Exchange_Explorer"} className='explore-menu-items'><ExchangeIcon
                         className='explore-logos'/> بورس ها</Link>
-                    <Link to={'/users/Users_Explorer'} className='explore-menu-items'><Contacts
+                    <Link to={"/users/Users_Explorer"} className='explore-menu-items'><Contacts
                         svgClass='explore-logos member-logo' containerClass='explore-logos-container'/> شناسه ها (افراد
                       و مجموعه
                       ها)</Link>
-                    <Link to={'#'} className='explore-menu-items'><ContributionIcon className='explore-logos'/> آورده ها
+                    <Link to={"#"} className='explore-menu-items'><ContributionIcon className='explore-logos'/> آورده ها
                       (محصولات، توانمدی و ...)</Link>
                   </div>
                 </div>
               </div>
               <Link className="mr-5" to={"/"}><NotificationIcon className="-topBarIcons"/></Link>
             </div>
-            <LogoWhiteSvg className="centerImgTopBar"/>
+            <InnoWinLogo svgClass={"centerImgTopBar"}/>
             <div className="dir-ltr d-flex flex-row">
               <div className="-ProfTopBarImg">
                 {!clientImgLink ? <DefaultUserIcon onClickFunc={this._toggleProfile}/> :
@@ -223,7 +224,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
               </div>
               <div className="-searchInput d-flex align-items-center">
                 <input type="text" className="text-white search-top-bar" name="search" dir="auto"
-                       placeholder={translate['Search in Danesh boom']}
+                       placeholder={translate["Search in Danesh boom"]}
                        ref={searchInput => {
                          this.searchInput = searchInput
                        }}/>
@@ -241,14 +242,14 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
           <Collapse isOpen={collapseProfile} className="-topBar-profile-collapse">
             <div className="text-center">
               <div className="card-block">
-                <Link to="#" onClick={this._handleSignOut}>{translate['Sign Out']}</Link>
+                <Link to="#" onClick={this._handleSignOut}>{translate["Sign Out"]}</Link>
                 {
                   (!clientOrganization) ? (
-                      <Link to={`/user/${clientUser.id}`}>{translate['My Profile']}</Link>) : (
-                      <Link to={`/organization/${clientOrganization.id}`}>{translate['My Organization']}</Link>
+                      <Link to={`/user/${clientUser.id}`}>{translate["My Profile"]}</Link>) : (
+                      <Link to={`/organization/${clientOrganization.id}`}>{translate["My Organization"]}</Link>
                   )
                 }
-                <Link to="#" onClick={this._handleShowSetting}>{translate['General Settings']}</Link>
+                <Link to="#" onClick={this._handleShowSetting}>{translate["General Settings"]}</Link>
               </div>
             </div>
           </Collapse>
@@ -261,29 +262,29 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
           {/*Settings Modal*/}
 
-          <div className={showSetting ? 'makeDark' : 'makeDark-out'} onClick={this._handleHideSetting}>
+          <div className={showSetting ? "makeDark" : "makeDark-out"} onClick={this._handleHideSetting}>
 
           </div>
 
-          <div className={showSetting ? 'settingModal-sidebar' : 'settingModal-sidebar-out'}>
+          <div className={showSetting ? "settingModal-sidebar" : "settingModal-sidebar-out"}>
             <div id='General Settings' onClick={this._handleSettingSelected}
-                 className={selectedSetting === 'General Settings' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}>
-              {translate['General Settings']}
+                 className={selectedSetting === "General Settings" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}>
+              {translate["General Settings"]}
             </div>
             <div id='Manage Linked Accounts' onClick={this._handleSettingSelected}
-                 className={selectedSetting === 'Manage Linked Accounts' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}>
-              {translate['Manage Linked Accounts']}
+                 className={selectedSetting === "Manage Linked Accounts" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}>
+              {translate["Manage Linked Accounts"]}
             </div>
             <div id='Privacy' onClick={this._handleSettingSelected}
-                 className={selectedSetting === 'Privacy' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}>
-              {translate['Privacy']}
+                 className={selectedSetting === "Privacy" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}>
+              {translate["Privacy"]}
             </div>
             <div id='Sign Out' onClick={this._handleSettingSelected}
-                 className={selectedSetting === 'Sign Out' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}>
-              {translate['Sign Out']}
+                 className={selectedSetting === "Sign Out" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}>
+              {translate["Sign Out"]}
             </div>
           </div>
-          <div className={showSetting ? 'settingModal-menu' : 'settingModal-menu-out'}>
+          <div className={showSetting ? "settingModal-menu" : "settingModal-menu-out"}>
             <div className='settingModal-menu-header'>{translate[selectedSetting]}</div>
             {this.renderSetting()}
           </div>
@@ -294,11 +295,11 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   }
 
   renderSetting() {
-    if (this.state.selectedSetting === 'General Settings') {
+    if (this.state.selectedSetting === "General Settings") {
       return (
-          <div style={{textAlign: 'right', position: 'relative', paddingBottom: '50px'}}>
+          <div style={{textAlign: "right", position: "relative", paddingBottom: "50px"}}>
             <div className='settingModal-menu-general-title'>
-              {this.props.translate['Username']}
+              {this.props.translate["Username"]}
             </div>
             <input type='text' className='settingModal-menu-general-input'/>
             <div className='settingModal-menu-general-hint'>حداقل 5 و حداکثر 32 کاراکتر dot و underline ، 9-0 ، Z-A شامل
@@ -306,7 +307,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
             </div>
 
             <div className='settingModal-menu-general-title'>
-              {this.props.translate['Password']}
+              {this.props.translate["Password"]}
             </div>
             <input type='password' className='settingModal-menu-general-input-password'/>
             <div className='settingModal-menu-general-hint'>رمز عبوری انتخاب کنید که برای دیگران به سختی قابل حدس زدن
@@ -314,14 +315,14 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
             </div>
 
             <div className='settingModal-menu-general-title'>
-              {this.props.translate['Contact Email']}
+              {this.props.translate["Contact Email"]}
             </div>
             <input type='email' className='settingModal-menu-general-input'/>
             <div className='settingModal-menu-general-hint'>این ایمیل برای ارتباط اینوین (مثلا بازیابی رمز عبور) با شما
               است و برای سایر کاربران قابل مشاهده نخواهد بود.
             </div>
 
-            <button className='settingModal-menu-general-save'>{this.props.translate['Save Changes']}</button>
+            <button className='settingModal-menu-general-save'>{this.props.translate["Save Changes"]}</button>
           </div>
       )
     }
@@ -331,7 +332,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
 const mapStateToProps = state => {
   const {profile, organization, user_type} = state.auth.client
-  const clientImgId = (user_type === 'person') ? (profile.profile_media) : (
+  const clientImgId = (user_type === "person") ? (profile.profile_media) : (
       (organization && organization.organization_logo) || null
   )
   const clientImgLink = (clientImgId &&

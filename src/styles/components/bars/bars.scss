@@ -52,6 +52,7 @@ $sidebar-profile-media-width: 80px;
   transform: translate(-50%, -50%);
   max-height: 35px;
   width: 35px;
+  fill: $background-color;
 }
 
 .-searchInput {
@@ -274,11 +275,12 @@ $sidebar-profile-media-width: 80px;
 
 .exchange-center-background {
   top: 0;
-  background: linear-gradient(to bottom, $base-posts, $base-posts, $base-posts, $base-posts, $base-posts, transparent);
+  background: linear-gradient(to bottom, $image-background-color, $image-background-color,
+      $image-background-color, $image-background-color, $image-background-color, transparent);
   height: $exchange-tabs-height;
   width: $feed-width + 10;
   position: fixed;
-  right: calc(5% + 340px + 15px);
+  right: calc(5% + 340px + 10px);
   border-radius: $border-radius-size;
   z-index: 2;
 }
