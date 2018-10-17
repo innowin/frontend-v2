@@ -280,7 +280,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
   _showEditProfileFunc = (e: any) => {
     e.preventDefault()
     const editProfile = !(this.state.editProfile)
-    this.setState({...this.state, editProfile})
+    this.setState({...this.state, editProfile, menuToggle: false})
   }
 
   _closeEditProfile = (e: any) => {
