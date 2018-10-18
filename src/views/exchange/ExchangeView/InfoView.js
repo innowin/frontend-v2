@@ -6,6 +6,7 @@ import educationActions from "src/redux/actions/educationActions"
 import connect from "react-redux/es/connect/connect"
 import {getMessages} from "src/redux/selectors/translateSelector"
 import {VerifyWrapper} from "../../common/cards/Frames"
+import {Link} from "react-router-dom"
 
 class InfoView extends Component {
   componentDidMount() {
@@ -49,6 +50,7 @@ class InfoView extends Component {
                 </div>
                 <div className={"info-body"}>
                   <div className={"info-exchange-owner-frame"}>
+                    <Link to={`/user/${profile.id}`}>
                     <div className={"info-exchange-owner-image-frame"}>
                       {media !== null ? <img alt={"تصویر پروفایل"}
                                              src={media.file}
@@ -57,6 +59,7 @@ class InfoView extends Component {
                           : <DefaultUserIcon
                               height={"55px"} width={"55px"} className={"post-user-picture"}/>}
                     </div>
+                    </Link>
                     <div className={"info-exchange-owner-image-frame-sibling"}>
                       <div className={"info-exchange-username"}> {profile.first_name || profile.last_name !== "" ?
                           profile.first_name + " " + profile.last_name : profile.username} </div>

@@ -40,7 +40,7 @@ export function* getProfileByUserId(action) {
     if (profileBannerId && (profileMediaId !== profileBannerId)){
       yield put({type:types.COMMON.GET_FILE, payload:{fileId:profileBannerId}})
     }
-    yield put({type: types.SUCCESS.USER.SET_PROFILE_MEDIA, payload:{userId, profileMediaId, profileBannerId}})
+    // yield put({type: types.SUCCESS.USER.SET_PROFILE_MEDIA, payload:{userId, profileMediaId, profileBannerId}})
   } catch (e) {
     const {message} = e
     yield put({type: types.ERRORS.USER.GET_PROFILE_BY_USER_ID, payload: {message, userId}})
