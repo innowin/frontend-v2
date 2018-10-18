@@ -7,7 +7,7 @@ export const getFile = (fileId) => ({
   }
 })
 
-export const createFile = ({file_string, nextActionData, nextActionType, fileIdKey, toWhatLayer}) => ({
+export const createFile = ({file_string, nextActionData = null, nextActionType = null, fileIdKey = null, toWhatLayer = null}) => ({
   type: types.COMMON.CREATE_FILE,
   payload: {file_string, nextActionData, nextActionType, fileIdKey, toWhatLayer}
 })

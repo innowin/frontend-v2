@@ -25,6 +25,7 @@ import OrganizationActions from "src/redux/actions/organization/organizationActi
 import types from "src/redux/actions/types"
 import type {fileType} from "../../consts/flowTypes/common/fileType";
 import {BeatLoader} from "react-spinners"
+import FileActions from "src/redux/actions/commonActions/fileActions";
 
 const MenuBox = (props) => {
   const {showEditProfileFunc, id, editProfile, paramId} = props
@@ -198,7 +199,8 @@ type PropsSideBarContent = {
     createFollow: Function,
     getFollowers: Function,
     updateProfile: Function,
-    updateOrganization: Function
+    updateOrganization: Function,
+    createFile: Function
   },
   followers?: [],
 }
@@ -349,7 +351,9 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
 
   render() {
     const {menuToggle, editProfile} = this.state
-    const {sideBarType, name, description, banner, picture, chosenBadgesImg, socialNetworks, translate: tr, paramId, followers, clientIdentityId, profile, owner} = this.props
+    const {sideBarType, name, description, banner, picture, chosenBadgesImg, socialNetworks,
+      translate: tr, paramId, followers, clientIdentityId, profile, owner, actions} = this.props
+    const {createFile} = actions || {}
     const className = this.props.className || ''
     // const followNames = ["صابر منادی", "امیر امیری فر", "محسن فلاح", "یاسر رستگار", "علی اور     organ = {organ}وجی"] //TODO get followNames
     const showFollow = followers && !followers.map(follower => follower.id).includes(clientIdentityId)
@@ -384,13 +388,14 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
             (!editProfile) ? '' : (
               <AttachFile
                 ref={AttachBannerFileInput => {
-                  this.AttachBannerFileInput = AttachBannerFileInput && AttachBannerFileInput.getWrappedInstance()
+                  this.AttachBannerFileInput = AttachBannerFileInput
                 }}
                 AttachBottom={() => this._AttachBottom('edit-banner')}
                 createArguments={bannerCreateArguments}
                 mediaId={bannerId}
                 inputId="AttachBannerFileInput"
                 LoadingFile={this._LoadingFile}
+                createFileAction={createFile}
               />
             )
           }
@@ -408,13 +413,14 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
               (!editProfile) ? '' : (
                 <AttachFile
                   ref={AttachMediaFileInput => {
-                    this.AttachMediaFileInput = AttachMediaFileInput && AttachMediaFileInput.getWrappedInstance()
+                    this.AttachMediaFileInput = AttachMediaFileInput
                   }}
                   AttachBottom={() => this._AttachBottom('edit-media')}
                   createArguments={mediaCreateArguments}
                   mediaId={pictureId}
                   inputId="AttachMediaFileInput"
                   LoadingFile={this._LoadingFile}
+                  createFileAction={createFile}
                 />
               )
             }
@@ -526,6 +532,7 @@ const mapDispatchToProps = dispatch => ({
     getFollowers: SocialActions.getFollowers,
     updateProfile: updateProfile.updateProfile,
     updateOrganization: OrganizationActions.updateOrganization,
+    createFile: FileActions.createFile,
   }, dispatch)
 })
 SideBarContent = connect(mapStateToProps, mapDispatchToProps)(SideBarContent)

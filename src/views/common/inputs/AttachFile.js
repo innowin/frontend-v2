@@ -1,13 +1,11 @@
 /*global __*/
-import React, {Component} from "react";
-import PropTypes from "prop-types";
-import {connect} from "react-redux"
-import {bindActionCreators} from "redux"
-import FileActions from "src/redux/actions/commonActions/fileActions"
+import React, {Component} from "react"
+import PropTypes from "prop-types"
 
-class AttachFile extends Component {
+export default class AttachFile extends Component {
   static defaultProps = {
     customValidate: () => false,
+    createArguments: {},
     required: false,
     LoadingFile: () => <span>{__('Uploading...')}</span>
   }
@@ -15,14 +13,15 @@ class AttachFile extends Component {
   static propTypes = {
     required: PropTypes.bool,
     customValidate: PropTypes.func,
+    createFileAction: PropTypes.func.isRequired,
     inputId: PropTypes.string.isRequired,
     LoadingFile : PropTypes.func,
-    // TODO mohsen: fileType: PropTypes.arrayOf(PropTypes.string.isRequired),
-    // TODO mohsen: fileSize
     getMedia: PropTypes.func,
     mediaId: PropTypes.number,
     AttachBottom: PropTypes.func.isRequired,
     createArguments: PropTypes.object,
+    // TODO mohsen: fileType: PropTypes.arrayOf(PropTypes.string.isRequired),
+    // TODO mohsen: fileSize
   }
 
   constructor(props) {
@@ -81,10 +80,9 @@ class AttachFile extends Component {
   }
 
   _createFile = (fileString) => {
-    const {actions, createArguments} = this.props
-    const {createFile} = actions
+    const {createArguments, createFileAction} = this.props
     const {nextActionData, nextActionType, fileIdKey} = createArguments
-    createFile({file_string: fileString, nextActionData, nextActionType, fileIdKey})
+    createFileAction({file_string: fileString, nextActionData, nextActionType, fileIdKey})
   }
 
   componentDidUpdate(prevProps) {
@@ -121,11 +119,3 @@ class AttachFile extends Component {
     )
   }
 }
-
-
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({
-    createFile: FileActions.createFile,
-  }, dispatch)
-})
-export default connect(null, mapDispatchToProps, null, { withRef: true })(AttachFile)

@@ -10,6 +10,7 @@ import {FileName} from "../../common/FileName";
 import {AttachFileIcon} from "src/images/icons";
 import {bindActionCreators} from "redux"
 import PostActions from "../../../redux/actions/commonActions/postActions"
+import FileActions from "src/redux/actions/commonActions/fileActions"
 import {connect} from "react-redux";
 import {getMessages} from "../../../redux/selectors/translateSelector";
 
@@ -27,6 +28,7 @@ class CreatePostFooter extends Component {
 
   static propTypes = {
     getMedia: PropTypes.func.isRequired,
+    createFile: PropTypes.func.isRequired,
     media: PropTypes.object,
   }
 
@@ -56,7 +58,7 @@ class CreatePostFooter extends Component {
 
   render() {
     const {postType} = this.state
-    const {media, getMedia} = this.props
+    const {media, getMedia, createFile} = this.props
     const supplyMark = postType === 'supply'
     const demandMark = postType === 'demand'
     const postMark = postType === 'post'
@@ -78,6 +80,7 @@ class CreatePostFooter extends Component {
             }}
             getMedia={getMedia}
             AttachBottom={this.AttachBottom}
+            createFileAction={createFile}
             mediaId={media.id}
             inputId="AttachFileInput"
           />
@@ -113,6 +116,7 @@ class HomeCreatePost extends Component {
     postParentType: PropTypes.string,
     postsCountInThisPage: PropTypes.number,
     handleErrorLoading: PropTypes.func,
+    createFile: PropTypes.func.isRequired,
     className: PropTypes.string,
   }
 
@@ -217,7 +221,8 @@ class HomeCreatePost extends Component {
 
   render() {
     const {media, fileName, description, textareaClass, show} = this.state
-    const {postOwnerImgLink, className, translate} = this.props
+    const {postOwnerImgLink, className, translate, actions} = this.props
+    const {createFile} = actions
     // TODO handle description error that say: "Ensure description value has at least 5 characters."
     return (
       <form className={"-createPostHome " + className} id="HomeCreatePost" onSubmit={this._onSubmit}>
@@ -253,6 +258,7 @@ class HomeCreatePost extends Component {
                   this.createPostFooter = createPostFooter
                 }}
                 media = {media}
+                createFile={createFile}
               />
             </div>
           )}
@@ -274,7 +280,8 @@ const mapStateToProps = (state, ownProps) => {
 }
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    createPost: PostActions.createPost
+    createPost: PostActions.createPost,
+    createFile: FileActions.createFile,
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(HomeCreatePost)
