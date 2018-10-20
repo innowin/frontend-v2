@@ -846,6 +846,7 @@ $sidebar-profile-media-width: 80px;
   z-index: 1202;
   opacity: 1;
   width: 40%;
+  max-height: 91vh;
   border-radius: 3px;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   background-color: white;
@@ -1197,16 +1198,17 @@ $sidebar-profile-media-width: 80px;
 }
 
 .settingModal-menu-privacy-who-follow {
-  padding: 0 12px;
+  padding-right: 12px;
   font-size: 12px;
   font-weight: bold;
   display: inline-block;
   vertical-align: top;
+  width: 49%;
 }
 
 .settingModal-menu-privacy-check-container {
   display: inline-block;
-  padding-bottom: 20px;
+  padding-bottom: 35px;
   vertical-align: top;
   margin-right: 1.5%;
   .checkmark {
@@ -1233,7 +1235,7 @@ $sidebar-profile-media-width: 80px;
   padding-right: 25px;
   color: black;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 11px;
   user-select: none;
   input {
     position: absolute;
