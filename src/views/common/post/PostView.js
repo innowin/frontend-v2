@@ -191,7 +191,6 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     if (post) {
       postDescription = post.post_description
     }
-
     return (
         confirm
             ? <div className={extendedView ? 'post-view-container remove-post-container' : 'remove-post-container'}>

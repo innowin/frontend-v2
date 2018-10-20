@@ -72,9 +72,6 @@ const organs = (state = initialState.organs, action) => {
         }
       }
 
-    case types.ORG.SET_ORGANIZATION_INFO_MEDIA:
-      return slices.setOrganMedia.success(state, action)
-
     case types.SUCCESS.ORG.SET_ORGANIZATION_INFO_MEDIA:
       return slices.setOrganMedia.success(state, action)
 

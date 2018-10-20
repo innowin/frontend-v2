@@ -86,3 +86,10 @@ input, textarea, button, select {
 a, a:hover, a:active {
   text-decoration: none;
 }
+
+button {
+  &:focus {
+    box-shadow: none !important;
+    outline: none !important;
+  }
+}

@@ -161,6 +161,9 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   render() {
     const {collapseClassName, clientUser, clientOrganization, translate, clientImgLink} = this.props
     const {collapse, collapseProfile, exploreCollapse, productWizardModalIsOpen, mouseIsOverMenu, selectedSetting, showSetting, createExchangeModalIsOpen} = this.state
+    const linkEditProfile = !clientOrganization
+        ? `/user/${clientUser.id}`
+        : `/organization/${clientOrganization.id}`
 
     // added to close all collapse menus when click outside
     window.onclick = () => {
@@ -203,7 +206,8 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                       <ExchangeIcon className='explore-logos'/> بورس ها
                     </Link>
                     <Link to={'/users/Users_Explorer'} className='explore-menu-items'>
-                      <Contacts svgClass='explore-logos member-logo' containerClass='explore-logos-container'/> شناسه ها (افراد و مجموعه ها)
+                      <Contacts svgClass='explore-logos member-logo' containerClass='explore-logos-container'/> شناسه ها
+                      (افراد و مجموعه ها)
                     </Link>
                     <Link to={'#'} className='explore-menu-items'>
                       <ContributionIcon className='explore-logos'/> آورده ها (محصولات، توانمدی و ...)
@@ -238,7 +242,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                         <div
                             className='profile-menu-profile-section-next-image-middle'>@{clientUser && clientUser.username}</div>
                         <Link className='profile-menu-profile-section-next-image-last'
-                              to={clientUser && `/user/${clientUser.id}`}>{translate["Edit Profile"]}</Link>
+                              to={linkEditProfile}>{translate["Edit Profile"]}</Link>
                       </div>
                     </div>
 

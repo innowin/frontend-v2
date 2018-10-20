@@ -358,8 +358,8 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     const bannerFileIdKey = (sideBarType === constants.USER_TYPES.PERSON) ? 'profileBannerId': 'organBannerId'
     const mediaFileIdKey = (sideBarType === constants.USER_TYPES.PERSON) ? 'profileMediaId' : 'organLogoId'
     const nextActionType = (sideBarType === constants.USER_TYPES.PERSON)
-      ? (types.USER.SET_PROFILE_MEDIA)
-      : types.ORG.SET_ORGANIZATION_INFO_MEDIA
+      ? (types.SUCCESS.USER.SET_PROFILE_MEDIA)
+      : types.SUCCESS.ORG.SET_ORGANIZATION_INFO_MEDIA
     const nextActionData = ((sideBarType === constants.USER_TYPES.PERSON) && profile)
       ? {userId: owner.id, profileMediaId:pictureId, profileBannerId:bannerId}
       : {organizationId:owner.id, organLogoId:pictureId, organBannerId:bannerId}

@@ -913,22 +913,24 @@ $sidebar-profile-media-width: 80px;
 }
 
 .settingModal-menu-general-input {
+  padding-bottom: 3px;
   border: none;
-  border-bottom: 1px solid $text-title-menu-color;
+  border-bottom: 1.5px solid $text-title-menu-color;
   outline: none;
-  font-size: 13px;
+  font-size: $font-size-regular;
   text-align: right;
   width: 200px;
   transition-duration: 0.3s;
   &:focus {
     transition-duration: 0.3s;
-    border-bottom: 1px solid $success-color;
+    border-bottom: 1.5px solid $success-color;
   }
 }
 
 .settingModal-menu-general-input-password {
+  padding-bottom: 3px;
   border: none;
-  border-bottom: 1px solid $text-title-menu-color;
+  border-bottom: 1.5px solid $text-title-menu-color;
   outline: none;
   font-size: 17px;
   letter-spacing: 2px;
@@ -937,7 +939,7 @@ $sidebar-profile-media-width: 80px;
   transition-duration: 0.3s;
   &:focus {
     transition-duration: 0.3s;
-    border-bottom: 1px solid $success-color;
+    border-bottom: 1.5px solid $success-color;
   }
 }
 
