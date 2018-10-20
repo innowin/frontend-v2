@@ -2,7 +2,6 @@
 import * as React from "react"
 import {Component} from "react"
 import PropTypes from "prop-types"
-import {Collapse} from "reactstrap"
 import AuthActions from "src/redux/actions/authActions"
 import {routerActions} from "react-router-redux"
 import {bindActionCreators} from "redux"
@@ -12,23 +11,20 @@ import {shortOrganizationType} from "src/consts/flowTypes/organization/organizat
 import {
   DefaultUserIcon,
   logoDaneshBoom,
-  ExchangeExploreIcon,
-  ExchangeIcon,
   NotificationIcon,
-  LogoWhiteSvg,
   InnoWinLogo,
-  ContributionIcon,
-  Contacts,
-  LinkedInIcon
 } from "src/images/icons"
 import {Link} from "react-router-dom"
 import AgentForm from "../pages/modal/agentForm-modal"
 import AddingContribution from "../pages/adding-contribution/addingContribution"
 import CreateExchange from "../pages/modal/createExchange/createExchange"
-import CreateExchangeForm from "../pages/modal/prevCreateExchange/createExchange"
 import client from "src/consts/client"
 import FileActions from "../../redux/actions/commonActions/fileActions"
 import {SearchIcon} from "../../images/icons"
+import GeneralSetting from "./TopBarComponents/GeneralSetting"
+import LinkedAccounts from "./TopBarComponents/LinkedAccounts"
+import Privacy from "./TopBarComponents/Privacy"
+import ExploreMenu from "./TopBarComponents/ExploreMenu"
 
 type PropsTopBar = {|
   collapseClassName: string,
@@ -80,7 +76,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       agentForm: false,
       createExchangeModalIsOpen: false,
       productWizardModalIsOpen: false,
-      mouseIsOverMenu: false,
+      mouseIsOverMenu: true,
       selectedSetting: "General Settings",
     }
   }
@@ -136,6 +132,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   _handleSignOut = () => {
     this.setState({...this.state, showSetting: false, exploreCollapse: false, collapseProfile: false})
     this.props.actions.signOut()
+    window.location.reload()
   }
 
   _handleMouseEnter = () => {
@@ -165,7 +162,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     // added to close all collapse menus when click outside
     window.onclick = () => {
       if (!mouseIsOverMenu && (exploreCollapse || collapseProfile)) {
-        this.setState({...this.state, collapse: false, exploreCollapse: false, collapseProfile: false})
+        this.setState({...this.state, exploreCollapse: false, collapseProfile: false})
       }
     }
     //
@@ -191,25 +188,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
               <Link to={"/"}><i className="fa fa-home mr-3" aria-hidden={true}/></Link>
               <div className="mr-5 top-bar-explore" onClick={this._toggleExplore}>
-                <ExchangeExploreIcon
-                    className="-topBarIcons" ref={e => this.svg = e}/>
-                <div className={exploreCollapse ? "explore-menu-container" : "explore-menu-container-hide"}>
-                  <div className='explore-menu-arrow'>
-                    ▲
-                    {/*<MainLbarArrow className='explore-menu-arrow-2'/>*/}
-                  </div>
-                  <div className='explore-menu'>
-                    <Link to={'/exchange/Exchange_Explorer'} className='explore-menu-items'>
-                      <ExchangeIcon className='explore-logos'/> بورس ها
-                    </Link>
-                    <Link to={'/users/Users_Explorer'} className='explore-menu-items'>
-                      <Contacts svgClass='explore-logos member-logo' containerClass='explore-logos-container'/> شناسه ها (افراد و مجموعه ها)
-                    </Link>
-                    <Link to={'#'} className='explore-menu-items'>
-                      <ContributionIcon className='explore-logos'/> آورده ها (محصولات، توانمدی و ...)
-                    </Link>
-                  </div>
-                </div>
+                <ExploreMenu exploreCollapse={exploreCollapse}/>
               </div>
               <Link className="mr-5" to={"/"}><NotificationIcon className="-topBarIcons"/></Link>
             </div>
@@ -257,7 +236,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                     <div className='profile-menu-second-section'>
                       <div className='profile-menu-second-section-item'
                            onClick={this._handleShowSetting}>{translate["General Settings"]}</div>
-                      <div className='profile-menu-second-section-item'>{translate["About Innovin"]}</div>
+                      <div className='profile-menu-second-section-item'>{translate["About Innowin"]}</div>
                       <div className='profile-menu-second-section-item'>{translate["Privacy"]}</div>
                     </div>
 
@@ -306,6 +285,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
           {/*ref={addProductWizard => {this.addProductWizard = addProductWizard}}*/}
           {/*className="addProductWizard"*/}
           {/*/>*/}
+
           <AddingContribution modalIsOpen={productWizardModalIsOpen}
                               handleModalVisibility={this._handleProductWizardModal}/>
 
@@ -347,104 +327,17 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
     if (selectedSetting === "General Settings") {
       return (
-          <div style={{textAlign: "right", position: "relative", paddingBottom: "50px"}}>
-            <div className='settingModal-menu-general-title'>
-              {this.props.translate["Username"]}
-            </div>
-            <input type='text' className='settingModal-menu-general-input'/>
-            <div className='settingModal-menu-general-hint'>حداقل 5 و حداکثر 32 کاراکتر dot و underline ، 9-0 ، Z-A شامل
-              حروف.
-            </div>
-
-            <div className='settingModal-menu-general-title'>
-              {this.props.translate["Password"]}
-            </div>
-            <input type='password' className='settingModal-menu-general-input-password'/>
-            <div className='settingModal-menu-general-hint'>رمز عبوری انتخاب کنید که برای دیگران به سختی قابل حدس زدن
-              باشد.
-            </div>
-
-            <div className='settingModal-menu-general-title'>
-              {this.props.translate["Contact Email"]}
-            </div>
-            <input type='email' className='settingModal-menu-general-input'/>
-            <div className='settingModal-menu-general-hint'>این ایمیل برای ارتباط اینوین (مثلا بازیابی رمز عبور) با شما
-              است و برای سایر کاربران قابل مشاهده نخواهد بود.
-            </div>
-
-            <button className='settingModal-menu-general-save'>{this.props.translate["Save Changes"]}</button>
-          </div>
+          <GeneralSetting hideSetting={this._handleHideSetting}/>
       )
     }
     else if (selectedSetting === "Manage Linked Accounts") {
       return (
-          <div>
-            <div className='settingModal-menu-manage-hint'>
-              بارگزاری مخاطبین شما در شبکه های دیگر، به اینوین کمک می کند تا پیشنهاد های دقیق تری برای گسترش ارتباطتتان
-              به شما ارائه کند. ما بدون اطلاع شما با هیچ یک از این افراد ارتباط (ایمیل، پیامک
-              و ...) نخواهیم گرفت.
-            </div>
-
-            <div className='settingModal-menu-manage-container'>
-              <div className='settingModal-menu-manage-title'>
-                {this.props.translate["Google"]}
-              </div>
-              <LinkedInIcon className='settingModal-menu-manage-logo'/>
-              <div className='settingModal-menu-manage-address'>testtest78@bullshit.com</div>
-              <button className='settingModal-menu-manage-remove'>{this.props.translate["Disconnect"]}</button>
-            </div>
-
-            <div className='settingModal-menu-manage-container'>
-              <div className='settingModal-menu-manage-title'>
-                {this.props.translate["Linkedin"]}
-              </div>
-              <LinkedInIcon className='settingModal-menu-manage-logo'/>
-              <div className='settingModal-menu-manage-address'>testtest78@bullshit.com</div>
-              <button className='settingModal-menu-manage-add'>{this.props.translate["Add"]}</button>
-            </div>
-
-          </div>
+          <LinkedAccounts/>
       )
     }
     else if (selectedSetting === "Privacy") {
       return (
-          <div>
-            <div className='settingModal-menu-privacy-who-follow-container'>
-              <div className='settingModal-menu-privacy-header'>{this.props.translate["Manage Followers"]}</div>
-              <div
-                  className='settingModal-menu-privacy-who-follow'>{this.props.translate["Who Should Can Follow You?"]}</div>
-
-              <div className='settingModal-menu-privacy-check-container'>
-                <form>
-                  <label className='settingModal-menu-privacy-checkbox'>
-                    <input type="radio" name="kind"/>
-                    <span className='checkmark'></span>
-                    {this.props.translate["All People"]}
-                  </label>
-
-                  <label className='settingModal-menu-privacy-checkbox'>
-                    <input type="radio" name="kind"/>
-                    <span className='checkmark'></span>
-                    {this.props.translate["Only Accepted Requests"]}
-                  </label>
-                </form>
-              </div>
-
-              <button className='settingModal-menu-general-save'>{this.props.translate["Save Changes"]}</button>
-            </div>
-
-            <div className='settingModal-menu-privacy-who-follow-container'>
-              <div className='settingModal-menu-privacy-header'>{this.props.translate["Delete Account"]}</div>
-              <div className='settingModal-menu-privacy-hint'>
-                با بسته شدن حساب کاربری شما در اینوین، شما در اینوین، تمام اطلاعات مربوط به آن، اعم از اطلاعات شناسه،
-                پیام ها و نظر ها، در شبکه نمایش داده نخواهد شد. شما می توانید حساب خود را طی 30
-                روز آینده بازیابی کنید. ممکن است این مهلت تا 40 روز ادامه داشته باشد.
-              </div>
-              <button
-                  className='settingModal-menu-privacy-delete-account'>{this.props.translate["Delete Account"]}</button>
-            </div>
-
-          </div>
+          <Privacy/>
       )
     }
   }

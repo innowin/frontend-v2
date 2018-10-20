@@ -752,7 +752,7 @@ $sidebar-profile-media-width: 80px;
   position: fixed;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.3);
   opacity: 1;
   z-index: 1200;
   top: 0;
@@ -773,12 +773,13 @@ $sidebar-profile-media-width: 80px;
 }
 
 .settingModal-sidebar-out {
+  overflow-y: scroll;
   position: fixed;
   top: 60px;
   right: 9.55%;
   z-index: -1;
   opacity: 0;
-  transform: scale(0.5);
+  transform: scale(0.7);
   width: 20%;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   flex-direction: column;
@@ -789,6 +790,7 @@ $sidebar-profile-media-width: 80px;
 }
 
 .settingModal-sidebar {
+  overflow-y: scroll;
   position: fixed;
   top: 60px;
   right: 9.55%;
@@ -822,13 +824,14 @@ $sidebar-profile-media-width: 80px;
 }
 
 .settingModal-menu-out {
+  overflow-y: scroll;
   position: fixed;
   top: 60px;
   right: 30%;
   z-index: -1;
   opacity: 0;
   width: 40%;
-  transform: scale(0.5);
+  transform: scale(0.7);
   border-radius: 3px;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   background-color: white;
@@ -836,12 +839,14 @@ $sidebar-profile-media-width: 80px;
 }
 
 .settingModal-menu {
+  overflow-y: scroll;
   position: fixed;
   top: 60px;
   right: 30%;
   z-index: 1202;
   opacity: 1;
   width: 40%;
+  max-height: 91vh;
   border-radius: 3px;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   background-color: white;
@@ -959,6 +964,7 @@ $sidebar-profile-media-width: 80px;
   border-radius: 20px;
   padding: 3px 11px;
   left: 25px;
+  width: 110px;
   bottom: 20px;
   cursor: pointer;
   transition-duration: 0.3s;
@@ -973,6 +979,97 @@ $sidebar-profile-media-width: 80px;
   }
   &:active {
     background-color: $success-color;
+    border: 1px solid transparent;
+    color: white;
+    transition-duration: 0.3s;
+  }
+}
+
+.settingModal-menu-general-saved {
+  background-color: $info-color;
+  border: 1px solid transparent;
+  color: white;
+  position: absolute;
+  font-size: 13px;
+  border-radius: 20px;
+  padding: 3px 11px;
+  width: 110px;
+  left: 25px;
+  bottom: 20px;
+  cursor: not-allowed;
+  transition-duration: 0.3s;
+  &:hover {
+    border: 1px solid $info-color;
+    color: $info-color;
+    background-color: white;
+    transition-duration: 0.3s;
+  }
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    background-color: $info-color;
+    border: 1px solid transparent;
+    color: white;
+    transition-duration: 0.3s;
+  }
+}
+
+.settingModal-menu-general-close{
+  background-color: $error-color;
+  border: 1px solid transparent;
+  color: white;
+  position: absolute;
+  font-size: 13px;
+  border-radius: 20px;
+  padding: 3px 11px;
+  width: 110px;
+  left: 150px;
+  bottom: 20px;
+  cursor: pointer;
+  transition-duration: 0.3s;
+  &:hover {
+    border: 1px solid $error-color;
+    color: $error-color;
+    background-color: white;
+    transition-duration: 0.3s;
+  }
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    background-color: $error-color;
+    border: 1px solid transparent;
+    color: white;
+    transition-duration: 0.3s;
+  }
+}
+
+.settingModal-menu-general-closed{
+  transform: scale(0);
+  background-color: $error-color;
+  border: 1px solid transparent;
+  color: white;
+  position: absolute;
+  font-size: 13px;
+  border-radius: 20px;
+  padding: 3px 11px;
+  width: 110px;
+  left: 150px;
+  bottom: 20px;
+  cursor: pointer;
+  transition-duration: 0.3s;
+  &:hover {
+    border: 1px solid $error-color;
+    color: $error-color;
+    background-color: white;
+    transition-duration: 0.3s;
+  }
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    background-color: $error-color;
     border: 1px solid transparent;
     color: white;
     transition-duration: 0.3s;
@@ -1087,6 +1184,13 @@ $sidebar-profile-media-width: 80px;
   border-bottom: 1px solid $text-title-menu-color;
 }
 
+.settingModal-menu-privacy-who-follow-container-no-border {
+  text-align: right;
+  position: relative;
+  padding-bottom: 50px;
+}
+
+
 .settingModal-menu-privacy-header {
   padding: 15px 12px;
   font-size: 14px;
@@ -1094,16 +1198,17 @@ $sidebar-profile-media-width: 80px;
 }
 
 .settingModal-menu-privacy-who-follow {
-  padding: 0 12px;
+  padding-right: 12px;
   font-size: 12px;
   font-weight: bold;
   display: inline-block;
   vertical-align: top;
+  width: 49%;
 }
 
 .settingModal-menu-privacy-check-container {
   display: inline-block;
-  padding-bottom: 20px;
+  padding-bottom: 35px;
   vertical-align: top;
   margin-right: 1.5%;
   .checkmark {
@@ -1130,7 +1235,7 @@ $sidebar-profile-media-width: 80px;
   padding-right: 25px;
   color: black;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 11px;
   user-select: none;
   input {
     position: absolute;

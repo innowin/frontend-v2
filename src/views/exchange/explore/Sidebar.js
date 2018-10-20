@@ -49,7 +49,12 @@ class Sidebar extends Component <appProps, appState> {
   submitSearchByWord = (e) => {
     e.preventDefault()
     if (e.keyCode === 13) {
-      this.props.actions.searchByWord(e.target.value)
+      if (e.target.value === '') {
+        this.props.actions.removeSearch()
+      }
+      else {
+        this.props.actions.searchByWord(e.target.value)
+      }
     }
   }
 
@@ -59,7 +64,7 @@ class Sidebar extends Component <appProps, appState> {
         hashTags.push({value: p.title, label: p.title, usage: p.usage})
     )
 
-    let selectedHashTags = Object.values(this.state.hashTags).map((hashTag,i) =>
+    let selectedHashTags = Object.values(this.state.hashTags).map((hashTag, i) =>
         <div key={i} className='exchanges-explore-sidebar-hashTags'>
           <div className='exchanges-explore-sidebar-hashTags-title'>{hashTag.title}</div>
           <div className='exchanges-explore-sidebar-hashTags-usage'>{hashTag.usage}</div>
@@ -118,6 +123,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     searchByWord: exchangeActions.searchExchangesByWord,
+    removeSearch: exchangeActions.removeSearchMode
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar)
