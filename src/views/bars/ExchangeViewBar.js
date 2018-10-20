@@ -160,7 +160,7 @@ class ExchangeViewBar extends Component {
                 }
                 {
                   currentExchange.exchange_image !== null ?
-                      <div className='rounded-circle-parent' ref={e => this.scroll = e}
+                      <div className='rounded-circle-parent-' ref={e => this.scroll = e}
                            onLoad={() => this.scroll.scrollLeft = 25}>
                         <img className="exchangeViewBarImg" alt={translate["Exchange Picture"]}
                              src={currentExchange.exchange_image.file.includes("restful.daneshboom.ir/") ?

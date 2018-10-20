@@ -18,7 +18,17 @@
   //width: 100px;
   margin: auto;
   height: 100px;
+  //border-radius: 50%;
   //border: .5px solid lighten($text-light-color, 3%);
+}
+
+.rounded-circle-parent- {
+  border-radius: 500px;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  border: .5px solid lighten($text-light-color, 3%);
+  box-shadow: 0 2px 4px 1px $box-shadow-color;
 }
 
 .exchangeViewSidebarBottom div {
