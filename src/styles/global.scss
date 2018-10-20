@@ -1,4 +1,5 @@
 @import "variables";
+
 body {
   direction: rtl;
   overflow-x: hidden;
@@ -82,7 +83,82 @@ input, textarea, button, select {
 @import "product/product-view";
 @import "product/basic-information/basic-info";
 
-
 a, a:hover, a:active {
   text-decoration: none;
+}
+
+.colMd3 {
+  vertical-align: top;
+  width: 446px;
+  margin: 0 8px;
+}
+
+.colMd6 {
+  vertical-align: top;
+  width: 908px;
+  margin: 0 8px;
+}
+
+.colMd9 {
+  vertical-align: top;
+  width: 1370px;
+  margin: 0 8px;
+}
+
+.colMd12 {
+  width: 1832px;
+  margin: auto;
+  overflow-x: hidden;
+}
+
+@media screen and (max-width: 1920px) {
+  .colMd3 {
+    vertical-align: top;
+    width: 323px;
+    margin: 0 8px;
+  }
+
+  .colMd6 {
+    vertical-align: top;
+    width: 662px;
+    margin: 0 8px;
+  }
+
+  .colMd9 {
+    vertical-align: top;
+    width: 1001px;
+    margin: 0 8px;
+  }
+
+  .colMd12 {
+    width: 1340px;
+    overflow-x: hidden;
+    margin: auto;
+  }
+}
+
+@media screen and (max-width: 1366px) {
+  .colMd3 {
+    vertical-align: top;
+    width: 302px;
+    margin: 0 8px;
+  }
+
+  .colMd6 {
+    vertical-align: top;
+    width: 620px;
+    margin: 0 8px;
+  }
+
+  .colMd9 {
+    vertical-align: top;
+    width: 938px;
+    margin: 0 8px;
+  }
+
+  .colMd12 {
+    width: 1256px;
+    margin: auto;
+    overflow-x: hidden;
+  }
 }

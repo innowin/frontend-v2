@@ -316,6 +316,6 @@ module.exports = {
     'Only Accepted Requests': 'تنها درخواست های تایید شده',
     'All People': 'همه به صورت آزادانه',
     'Who Should Can Follow You?':'چه کسانی بتوانند شما را دنبال کنند؟',
-    'About Innovin': 'درباره اینووین',
+    'About Innowin': 'درباره اینووین',
   },
 };

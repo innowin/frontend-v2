@@ -20,11 +20,17 @@ const searchExchangesByWord = (searchWord) => ({
   payload: {searchWord}
 })
 
+const removeSearchMode = (searchWord) => ({
+  type: types.EXCHANGE.REMOVE_SEARCH_MODE,
+  payload: {searchWord}
+})
+
 const ExchangeActions = {
   getExchangeByExId,
   createExchange,
   getAllExchanges,
   searchExchangesByWord,
+  removeSearchMode
 }
 
 export default ExchangeActions;

@@ -63,8 +63,8 @@ class Explore extends Component <appProps, appState> {
     return (
         <div>
           <TopBar collapseClassName="col user-sidebar-width"/>
-          <div style={{paddingTop: '55px'}}>
-            <Sidebar justFollowing={(checked) => this.setState({...this.state, justFollowing: checked})}/>
+          <Sidebar justFollowing={(checked) => this.setState({...this.state, justFollowing: checked})}/>
+          <div className='all-exchanges-container'>
             <Exchanges exchanges={this.props.allExchanges} justFollowing={this.state.justFollowing}/>
             {/*{this.state.scrollLoading && <ClipLoader/>}*/}
           </div>

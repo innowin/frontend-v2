@@ -51,12 +51,12 @@ class Exchange extends Component <appProps, appState> {
   renderFollowButton() {
 
     if (this.props.data.exchange === undefined && this.state.followLoading) {
-      return <div className='exchange-model-following'><ClipLoader size={23}/></div>
+      return <div className='exchange-model-following'><ClipLoader color='#008057' size={19}/></div>
     }
     else if (this.props.data.exchange === undefined) {
-      return <button className='exchange-model-follow' onClick={this.follow}>+</button>
+      return <button className='exchange-followed' onClick={this.follow}>دنبال کردن</button>
     }
-    else return <div className='exchange-model-following'>دنبال شده</div>
+    else return <button className='exchange-follow'>دنبال شده</button>
 
   }
 
@@ -72,13 +72,13 @@ class Exchange extends Component <appProps, appState> {
     // )
     return (
         <div className='exchange-model'>
-          {
-            this.renderFollowButton()
-          }
           <Link to={`/exchange/${data.id}`} style={{textDecoration: 'none', color: 'black'}}>
             {(data.exchange_image) ?
-                <img src={data.exchange_image.file.includes('restful.daneshboom.ir/') ? data.exchange_image.file : 'http://restful.daneshboom.ir/' + data.exchange_image.file} alt={data.name}
-                     className='exchange-model-avatar'/>
+                <div className='exchange-model-avatar-parent' ref={e => this.scroll = e}
+                     onLoad={() => this.scroll.scrollLeft = 20}>
+                  <img src={data.exchange_image.file.includes('restful.daneshboom.ir/') ? data.exchange_image.file : 'http://restful.daneshboom.ir/' + data.exchange_image.file} alt={data.name}
+                       className='exchange-model-avatar'/>
+                </div>
                 :
                 <DefaultUserIcon width='80px' height='80px'/>
             }
@@ -90,8 +90,8 @@ class Exchange extends Component <appProps, appState> {
             </div>
             <hr/>
             {/*{images}*/}
-            <div className='exchange-model-followers-count'>{data.members_count}</div>
-            <hr/>
+            {/*<div className='exchange-model-followers-count'>{data.members_count}</div>*/}
+
             <div className='exchange-model-detail'>
               <Demand width='30px' className='exchange-model-detail-demand-logo'/>
               <div className='exchange-model-detail-demand-title'>تقاضا</div>
@@ -104,7 +104,21 @@ class Exchange extends Component <appProps, appState> {
               <span> </span>
               <div className='exchange-model-detail-dist-title'>{data.supply}</div>
             </div>
+            <hr/>
+
+            <div className='exchange-baj-container'>
+              <DefaultUserIcon className='exchange-baj'/>
+              <DefaultUserIcon className='exchange-baj'/>
+              <DefaultUserIcon className='exchange-baj'/>
+            </div>
+
           </Link>
+
+          {
+            this.renderFollowButton()
+          }
+
+
         </div>
     )
   }
