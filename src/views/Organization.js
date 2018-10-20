@@ -180,12 +180,12 @@ const mapStateToProps = (state, ownProps) => {
   const defaultObject = {content: {}, isLoading: false, error: null}
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const identity = (stateOrgan && stateOrgan.identity) || {content: null, isLoading: false, error: null}
-  const bannerId = stateOrgan.organBannerId || null
-  const logoId = stateOrgan.organLogoId || null
+  const bannerId = (stateOrgan && stateOrgan.organBannerId) || null
+  const logoId = (stateOrgan && stateOrgan.organLogoId) || null
   const organBanner = (bannerId && state.common.file.list[bannerId]) || {}
   const organLogo = (logoId && state.common.file.list[logoId]) || {}
   const badgesObjectInOrgan = (stateOrgan && stateOrgan.badges) ? stateOrgan.badges : defaultObject2
-  const allBadges = state.common.badges.badge.badge.list
+  const allBadges = state.common.badges.badge.list
   const badges = badgesObjectInOrgan.content.map(badgeId => allBadges[badgeId])
   return {
     organObject: (stateOrgan && stateOrgan.organization) || defaultObject,

@@ -116,8 +116,6 @@ const users = (state = initialState.users, action) => {
         }
       }
 
-    case types.USER.SET_PROFILE_MEDIA:
-      return slices.setProfileMedia.success(state, action)
     case types.SUCCESS.USER.SET_PROFILE_MEDIA:
       return slices.setProfileMedia.success(state, action)
       /** -------------------------- get identity -------------------------> **/

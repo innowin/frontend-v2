@@ -1,3 +1,6 @@
+import type {userType} from "../user/basicInformation";
+import type {organizationType} from "../organization/organization";
+
 export type commentType = {
   id: number,
   created_time: string,
@@ -21,8 +24,8 @@ export type commentType = {
     accepted: boolean,
     mobile_verified: boolean,
     email_verified: boolean,
-    identity_user: number,
-    identity_organization: {}
+    identity_user: userType,
+    identity_organization: organizationType
   },
   comment_picture: {},
   comment_replied: {

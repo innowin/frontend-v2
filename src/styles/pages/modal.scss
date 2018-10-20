@@ -1,11 +1,15 @@
 @import '~react-circular-progressbar/dist/styles.css';
+@import "../variables";
+
 .modal-page.hide {
   display: none;
 }
-.job-description{
+
+.job-description {
   margin-top: 50px;
   min-height: 150px;
 }
+
 .modal-page {
   // overflow: scroll;
   // top:10px;
@@ -20,35 +24,35 @@
   // background-color: white;
   // border: 1px solid #959595;
   // padding: 30px;
-  input{
-    font-size:12px;
+  input {
+    font-size: 12px;
   }
-  label{
-    font-size:12px;
+  label {
+    font-size: 12px;
   }
   .modal-title {
 
   }
-  .agent-from-title{
+  .agent-from-title {
     margin-top: 0;
     margin-bottom: 1rem;
     font-size: 13px;
     display: flex;
-    .agent-form-title-container{
+    .agent-form-title-container {
       margin: 0 auto;
       transform: translate(0, 50%);
 
     }
-    .agent-from-title-text{
+    .agent-from-title-text {
       display: inline-block;
       margin: 10px;
       transform: translate(0, -50%);
     }
   }
-  
-  .agent-form-agent-icon{
+
+  .agent-form-agent-icon {
     display: inline-block;
-    width:30px;
+    width: 30px;
     background: #454545;
     fill: white;
     border-radius: 100%;
@@ -57,114 +61,114 @@
   .modal-content {
 
   }
-  .modal-hint{
-    margin-top: 30px!important;
+  .modal-hint {
+    margin-top: 30px !important;
     padding: 10px;
-    background-color:#ededed9e;
+    background-color: #ededed9e;
     width: 80%;
     margin: 0 auto;
     font-size: 13px;
-    .hint-icon{
+    .hint-icon {
       width: 30px;
       fill: green;
       font-size: 30px;
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%,-50%);
+      transform: translate(-50%, -50%);
     }
   }
-  .modal-body-create-exchange{
-    padding-top:30px;
+  .modal-body-create-exchange {
+    padding-top: 30px;
     width: 80%;
-    margin : 0 auto;
-    .exchange-description{
+    margin: 0 auto;
+    .exchange-description {
       resize: none;
     }
-    
+
   }
-  .modal-top-friends{
-    width:80%;
-    padding-top:30px;
+  .modal-top-friends {
+    width: 80%;
+    padding-top: 30px;
     margin: 0 auto;
-    .modal-hint-friends{
+    .modal-hint-friends {
       padding: 10px;
       margin: 0 auto;
       font-size: 13px;
-      .hint-icon{
+      .hint-icon {
         width: 30px;
         fill: green;
         font-size: 30px;
         position: absolute;
         top: 50%;
         left: 50%;
-        transform: translate(-50%,-50%);
+        transform: translate(-50%, -50%);
       }
     }
   }
-  .invite-member-box{
+  .invite-member-box {
     border: 1px solid lightgray;
-    border-radius:5px;
+    border-radius: 5px;
     overflow-y: scroll;
     overflow-x: hidden;
     max-height: 300px;
-    .member-item{
+    .member-item {
       flex: 1 1 33.3%;
       max-width: 33.3%;
       padding: 5px;
-      p{
-        font-size:10px;
+      p {
+        font-size: 10px;
         text-align: right;
       }
-      button{
+      button {
         border-radius: 3px;
         font-size: 10px;
-        color:white;
+        color: white;
         width: 80%;
       }
-      button.added { 
+      button.added {
         background-color: #3db8ab
       }
-      button.toadd{
+      button.toadd {
         background: white;
-        color:#3db8ab;
-        border-color:#3db8ab;
-        border:1px solid ;
-        
+        color: #3db8ab;
+        border-color: #3db8ab;
+        border: 1px solid;
+
       }
-      .member-img{
+      .member-img {
         border-radius: 5px;
-        width:100%;
-        height:100%;
+        width: 100%;
+        height: 100%;
       }
     }
   }
-  .modal-body-create-exchnage{
+  .modal-body-create-exchnage {
     margin-top: 30px !important;
     width: 80%;
     margin: 0 auto;
-    font-size:13px;
+    font-size: 13px;
   }
-  .create-exchange-options{
-    margin-top:40px;
+  .create-exchange-options {
+    margin-top: 40px;
   }
-  .exchangeUser-label{
-    padding:10px;
+  .exchangeUser-label {
+    padding: 10px;
   }
-  .search-label-create-exchange{
-    border-radius: 50px!important;
+  .search-label-create-exchange {
+    border-radius: 50px !important;
     font-size: 12px;
     span {
-      margin:10px;
-     }
-    
+      margin: 10px;
+    }
+
     input {
-      font-size:12px;
+      font-size: 12px;
       border: 0;
-      background:transparent;
+      background: transparent;
     }
   }
-  .modal-labels-create-exchange{
+  .modal-labels-create-exchange {
     text-align: right;
     padding: 10px;
     float: right;
@@ -172,27 +176,27 @@
     // height: 100%;
     width: 100%;
   }
-  .full-height{
+  .full-height {
     height: 100%
   }
   .modal-options {
     margin-top: 30px !important;
     width: 50%;
     margin: 0 auto;
-    font-size:13px;
+    font-size: 13px;
   }
   .modal-bottom {
     margin-top: 100px !important;
     width: 70%;
     margin: 0 auto;
-    font-size:13px;
+    font-size: 13px;
   }
-  .modal-labels{
+  .modal-labels {
     text-align: right;
-    padding-top:20px;
-    padding-bottom:20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
   }
-  .modal-label{
+  .modal-label {
     display: inline;
     padding-right: 2px;
     padding-left: 5px;
@@ -203,32 +207,33 @@
     margin: 0 auto;
 
   }
-  .modal-button{
+  .modal-button {
 
   }
-  .modal-button.link{
-    border:2px solid #1a2147;
+  .modal-button.link {
+    border: 2px solid #1a2147;
     background-color: white;
     color: #1a2147;
-    height: 30px; 
-    min-width: 200px;
-    border-radius: 30px;
-  }
-  .modal-button.primary{
-    border:2px solid #1a2147;
-    background-color: #1a2147;
-    color:white;
     height: 30px;
     min-width: 200px;
     border-radius: 30px;
   }
-  .gray-text-input{
+  .modal-button.primary {
+    border: 2px solid #1a2147;
+    background-color: #1a2147;
+    color: white;
+    height: 30px;
+    min-width: 200px;
+    border-radius: 30px;
+  }
+  .gray-text-input {
     background: #efefef;
     border: 0;
     border-radius: 0;
   }
 }
-// .radio-label { 
+
+// .radio-label {
 //   padding-right: 10px;
 // }
 
@@ -238,38 +243,40 @@
 
 /*progressbar*/
 .progressbar {
-	overflow: hidden;
-	counter-reset: step;
-	width: 30%;
+  overflow: hidden;
+  counter-reset: step;
+  width: 30%;
   margin: 0 auto 30px;
-  direction:rtl;
+  direction: rtl;
 }
+
 .progressbar li {
-	list-style-type: none;
-	color: white;
-	text-transform: uppercase;
-	font-size: 9px;
-	width: 33.33%;
-	float: right;
-	position: relative;
+  list-style-type: none;
+  color: white;
+  text-transform: uppercase;
+  font-size: 9px;
+  width: 33.33%;
+  float: right;
+  position: relative;
 }
+
 .progressbar {
-  .icon-holder{
-    svg{
-      fill:#2e2e2e9e;
-      
+  .icon-holder {
+    svg {
+      fill: #2e2e2e9e;
+
     }
-    
+
     border-radius: 50%;
     margin: 0 auto 5px auto;
     width: 40px;
     height: 40px;
     background: #d8d8d8;
   }
-  .icon-holder.active{
-    background:#1a2147;
-    svg{
-      fill:white;
+  .icon-holder.active {
+    background: #1a2147;
+    svg {
+      fill: white;
     }
   }
 }
@@ -280,71 +287,79 @@
   display: block;
   font-size: 10px;
   margin: 0 auto 5px auto;
-  transform: translate(0,50%);
+  transform: translate(0, 50%);
 
 }
+
 /*progressbar connectors*/
 .progressbar li:after {
-	content: '';
-	width: 100%;
-	height: 12px;
-	background: lightgray;
-	position: absolute;
-	left: -50%;
-	top: 13px;
-	z-index: -1; /*put it behind the numbers*/
-}
-.progressbar li:last-child:after {
-	/*connector not needed before the first step*/
-	content: none; 
-}
-/*marking active/completed steps green*/
-/*The number of the step and the connector before it = green*/
-.progressbar li.active:before,  .progressbar li.active:after{
-	background:#1a2147;
-	color: white;
-}
-.vtcha{
-	max-width: 100%;
-}
-.vtcha .item-box,.vtcha .target-box{
-	width: 170px;
-	margin: 10px auto 0;
+  content: '';
+  width: 100%;
+  height: 12px;
+  background: lightgray;
+  position: absolute;
+  left: -50%;
+  top: 13px;
+  z-index: -1; /*put it behind the numbers*/
 }
 
-.img-agent-small{
+.progressbar li:last-child:after {
+  /*connector not needed before the first step*/
+  content: none;
+}
+
+/*marking active/completed steps green*/
+/*The number of the step and the connector before it = green*/
+.progressbar li.active:before, .progressbar li.active:after {
+  background: #1a2147;
+  color: white;
+}
+
+.vtcha {
+  max-width: 100%;
+}
+
+.vtcha .item-box, .vtcha .target-box {
+  width: 170px;
+  margin: 10px auto 0;
+}
+
+.img-agent-small {
   flex: 0 0 33.33333%;
   max-width: 33.33333%;
   padding-left: 5px;
   padding-right: 5px;
-  
+
 }
-.img-agent img.selected{
+
+.img-agent img.selected {
   border: #3db8ab 5px solid;
   border-radius: 7px;
 }
 
-.super-tag{
+.super-tag {
   position: relative;
   float: right;
-  .close-img{
-    position:absolute;
+  .close-img {
+    position: absolute;
     top: 0;
     left: 0;
   }
 }
-.circle-progress{
+
+.circle-progress {
   position: absolute;
   width: 90%;
   text-align: center;
   .CircularProgressbar {
     width: 10%;
-    transform: translate(-50%,0%);
+    transform: translate(-50%, 0%);
   }
 }
-.center-margin{
-  svg{
-    fill:#3db8ab
+
+.center-margin {
+  svg {
+    fill: #3db8ab
   }
   margin: 0 auto;
 }
@@ -376,9 +391,9 @@
 //  }
 //}
 
-.full-page-loading{
-  margin:0 auto;
-  width:100%;
+.full-page-loading {
+  margin: 0 auto;
+  width: 100%;
   height: 300px;
   display: flex;
   align-items: center;
@@ -387,5 +402,187 @@
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem;
   background-color: #fff;
+}
 
+.common-modal, .common-modal-out {
+  position: fixed;
+  top: 60px;
+  z-index: 1202;
+  opacity: 1;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  background-color: white;
+  transition-duration: $modal-transition-time;
+}
+
+.common-modal-out {
+  z-index: -1;
+  opacity: 0;
+  transform: translateX(-50%) scale(0.5);
+}
+
+.password-modal {
+  border-radius: $border-radius-size;
+
+  .password-modal-header {
+    padding: 20px;
+    font-weight: bold;
+    font-size: $font-size-header;
+    border-bottom: 1px solid $text-input-border-color;
+  }
+  .password-modal-content {
+    padding: 20px 12% 20px 20px;
+    font-size: $font-size-regular;
+
+    .password-modal-title {
+      color: $text-light-color;
+      margin-bottom: 30px;
+    }
+    .password-modal-text {
+      margin-top: 25px;
+    }
+    .password-error {
+      color: $danger-color;
+    }
+    .activation-text {
+      margin-left: 30px;
+      font-weight: bold;
+    }
+    .password-step-container {
+      margin-bottom: 20px;
+
+      .password-text {
+        width: 60px;
+        display: inline-block;
+      }
+      .password-input-container {
+        position: relative;
+        display: inline-block;
+        margin-left: 30px;
+      }
+      .eye-icon {
+        position: absolute;
+        left: 3px;
+        top: 3px;
+        cursor: pointer;
+        color: $text-light-color;
+      }
+      .password-text-field {
+        padding-left: 20px;
+      }
+    }
+    .activation-input {
+      width: 20px;
+      margin-left: 10px;
+      text-align: center;
+      font-size: $font-size-medium;
+    }
+    .container {
+      cursor: pointer;
+
+      input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+      }
+      .checkmark {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 18px;
+        width: 18px;
+        border-radius: $border-radius-size;
+        background-color: #eee;
+
+        &:after {
+          content: "";
+          position: absolute;
+          display: none;
+          left: 5px;
+          top: 1px;
+          width: 7px;
+          height: 12px;
+          border: solid white;
+          border-width: 0 2px 2px 0;
+          transform: rotate(45deg);
+        }
+      }
+      .password-way-text {
+        padding-right: 25px;
+      }
+    }
+
+    .container:hover input ~ .checkmark {
+      background-color: #ccc;
+    }
+    .container input:checked ~ .checkmark {
+      background-color: $success-color;
+    }
+    .container input:checked ~ .checkmark:after {
+      display: block;
+    }
+  }
+
+  .password-modal-footer {
+    display: flex;
+    flex-direction: row-reverse;
+    margin: 0 20px 20px 20px;
+
+    .common-modal-button {
+      margin: 10px;
+      border: 1px solid transparent;
+      font-size: $font-size-normalText;
+      border-radius: 20px;
+      padding: 3px 28px;
+      width: 100px;
+      cursor: pointer;
+      transition-duration: $modal-transition-time;
+
+      &:hover {
+        background-color: white;
+        transition-duration: 0.3s;
+      }
+      &:focus {
+        outline: none;
+      }
+    }
+    .search-button {
+      border: 1px solid transparent;
+      background-color: $success-color;
+      color: white;
+
+      &:hover {
+        border: 1px solid $success-color;
+        color: $success-color;
+        background-color: white;
+      }
+    }
+    .back-button {
+      border: 1px solid #000;
+      color: #000;
+      background-color: #fff;
+
+      &:hover {
+        border: 1px solid transparent;
+        color: #fff;
+        background-color: #000;
+      }
+    }
+  }
+
+}
+
+@media screen and (max-width: 1280px) and (min-width: 600px) {
+  .common-modal, .common-modal {
+    width: 70%;
+  }
+}
+
+@media screen and (max-width: 599px) {
+  .common-modal, .common-modal {
+    width: 90%;
+  }
 }
