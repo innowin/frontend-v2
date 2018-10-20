@@ -32,11 +32,19 @@
 }
 
 .post-user-picture {
-  border-radius: 250px;
+  //border-radius: 250px;
   display: inline-block;
   vertical-align: top;
   font-size: $font-size-regular;
-  box-shadow: 0 0 1px rgba(0, 0, 0, 1);
+  //box-shadow: 0 0 1px rgba(0, 0, 0, 1);
+}
+
+.rounded-circle-info-parent {
+  border-radius: 250px;
+  width: 55px;
+  height: 55px;
+  overflow: hidden;
+  //border: .5px solid lighten($text-light-color, 3%);
 }
 
 .post-user-name {
@@ -61,6 +69,21 @@
   padding: 2.5px 0;
   color: $disable-color;
   font-size: $font-size-post-date;
+}
+
+.post-image-container{
+  width: 100%;
+  overflow: hidden;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 18px;
+  padding: 0 18px;
+}
+
+.post-image{
+  border-radius: 5px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
 }
 
 ::-webkit-scrollbar {

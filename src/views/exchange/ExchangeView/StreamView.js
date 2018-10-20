@@ -17,13 +17,12 @@ const StreamView = props => {
       {
         groupedByExchange[exchangeId] ?
           Object.values(groupedByExchange[exchangeId]).reverse().map((p) => {
-            console.log("ABEL")
-            console.log(p)
             return (
               <div className={"post-view-container"}>
                 <PostView post={p}
                   // showEdit={this._showEdit}
-                /></div>
+                />
+              </div>
               /*<div key={p.post_user.username + Math.floor((Math.random() * 1000) + 1)} className={"posts-frame"}>
                <Link to={`/user/${p.post_user.id}`}>
                {p.post_related_identity_image !== null ? <img alt={"تصویر پروفایل"}

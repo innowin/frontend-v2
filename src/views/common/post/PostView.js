@@ -1,29 +1,29 @@
 // @flow
-import * as React from "react";
-import PropTypes from "prop-types";
-import "moment/locale/fa";
+import * as React from "react"
+import PropTypes from "prop-types"
+import "moment/locale/fa"
 
-import {DefaultUserIcon} from "src/images/icons";
-import {CategoryTitle, VerifyWrapper} from "src/views/common/cards/Frames";
-import connect from "react-redux/es/connect/connect";
-import {getMessages} from "../../../redux/selectors/translateSelector";
+import {DefaultUserIcon} from "src/images/icons"
+import {CategoryTitle, VerifyWrapper} from "src/views/common/cards/Frames"
+import connect from "react-redux/es/connect/connect"
+import {getMessages} from "../../../redux/selectors/translateSelector"
 import {bindActionCreators} from "redux"
-import PostActions from "../../../redux/actions/commonActions/postActions";
-import type {postType} from "../../../consts/flowTypes/common/post";
-import type {paramType} from "../../../consts/flowTypes/paramType";
-import constants from "../../../consts/constants";
-import type {identityType} from "../../../consts/flowTypes/user/basicInformation";
-import type {fileType} from "../../../consts/flowTypes/common/fileType";
-import PostSendIcon from "../../../images/common/postSend_svg";
-import FileActions from "../../../redux/actions/commonActions/fileActions";
-import CommentActions from "../../../redux/actions/commonActions/commentActions";
-import {userCommentsSelector} from 'src/redux/selectors/common/comment/postCommentsSelector'
-import type {commentType} from "../../../consts/flowTypes/common/comment";
-import PostHeader from "./PostHeader";
-import PostType from "./PostType";
-import PostFooter from "./PostFooter";
-import PostComments from "./PostComments";
-import {Confirm} from "../cards/Confirm";
+import PostActions from "../../../redux/actions/commonActions/postActions"
+import type {postType} from "../../../consts/flowTypes/common/post"
+import type {paramType} from "../../../consts/flowTypes/paramType"
+import constants from "../../../consts/constants"
+import type {identityType} from "../../../consts/flowTypes/user/basicInformation"
+import type {fileType} from "../../../consts/flowTypes/common/fileType"
+import PostSendIcon from "../../../images/common/postSend_svg"
+import FileActions from "../../../redux/actions/commonActions/fileActions"
+import CommentActions from "../../../redux/actions/commonActions/commentActions"
+import {userCommentsSelector} from "src/redux/selectors/common/comment/postCommentsSelector"
+import type {commentType} from "../../../consts/flowTypes/common/comment"
+import PostHeader from "./PostHeader"
+import PostType from "./PostType"
+import PostFooter from "./PostFooter"
+import PostComments from "./PostComments"
+import {Confirm} from "../cards/Confirm"
 
 type postExtendedViewProps = {
   actions: {
@@ -88,9 +88,9 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       const {getPost, getPostViewerCount, setPostViewer, getCommentsByParentId} = actions
       const postId = +params.id
 
-      const isUser = !url.includes('org')
+      const isUser = !url.includes("org")
       const postOwnerType = isUser ? constants.USER_TYPES.PERSON : constants.USER_TYPES.ORG
-      const spliced = url.split('/')
+      const spliced = url.split("/")
       const postOwnerId = +spliced[2]
 
       getPost({postId, postOwnerType, postOwnerId})
@@ -100,7 +100,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     else {
       this._getViewerCount()
     }
-    document.addEventListener('click', this._handleClickOutMenuBox)
+    document.addEventListener("click", this._handleClickOutMenuBox)
   }
 
   componentDidUpdate(prevProps) {
@@ -112,7 +112,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   componentWillUnmount() {
-    document.removeEventListener('click', this._handleClickOutMenuBox)
+    document.removeEventListener("click", this._handleClickOutMenuBox)
   }
 
   openMenu = (e) => {
@@ -126,7 +126,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   _handleClickOutMenuBox = (e: any) => {
-    if (!e.target.closest('#sidebar-post-menu-box') && !e.target.closest('.post-menu-bottom')) {
+    if (!e.target.closest("#sidebar-post-menu-box") && !e.target.closest(".post-menu-bottom")) {
       this.setState({...this.state, menuToggle: false})
     }
   }
@@ -144,7 +144,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       const {createComment} = actions
       const formValues = {text: commentTextField.value, comment_parent: post.id}
       createComment({formValues, parentId: post.id, commentParentType})
-      commentTextField.value = ''
+      commentTextField.value = ""
     }
   }
 
@@ -159,11 +159,11 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
   _showConfirm = () => {
     this.setState({confirm: true})
-  };
+  }
 
   _cancelConfirm = () => {
     this.setState({confirm: false})
-  };
+  }
 
   _delete = () => {
     const {actions, post} = this.props
@@ -187,24 +187,25 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   render() {
     const {post, translate, postIdentity, postRelatedIdentityImage, userImage, extendedView, showEdit, comments} = this.props
     const {menuToggle, confirm} = this.state
-    let postDescription
+    let postDescription, postPicture
     if (post) {
       postDescription = post.post_description
+      postPicture = post.post_picture
     }
 
     return (
         confirm
-            ? <div className={extendedView ? 'post-view-container remove-post-container' : 'remove-post-container'}>
+            ? <div className={extendedView ? "post-view-container remove-post-container" : "remove-post-container"}>
               <Confirm cancelRemoving={this._cancelConfirm} remove={this._delete}/>
             </div>
             : post ?
             <VerifyWrapper isLoading={false} error={false} className="-itemWrapperPost">
               {extendedView &&
               <CategoryTitle
-                  title={translate['Single post']}
+                  title={translate["Single post"]}
               />
               }
-              <div className={extendedView && 'post-view-container'}>
+              <div className={extendedView && "post-view-container"}>
                 {
                   post.post_type !== constants.POST.POST_TYPE.POST &&
                   <PostType translate={translate} post={post}/>
@@ -215,6 +216,10 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                 <div className="post-content">
                   {postDescription}
                 </div>
+                {postPicture ?
+                    <div className={"post-image-container"}>
+                      <img src={postPicture.file} width={"100%"} alt={"عکس پست"} className={"post-image"}/>
+                    </div> : null}
                 <PostFooter post={post} postIdentity={postIdentity} translate={translate} extendedView={extendedView}
                             menuToggle={menuToggle} openMenu={this.openMenu}
                             deletePost={this._showConfirm}
@@ -227,7 +232,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                         : (<img className="rounded-circle" src={userImage.file} alt=""/>)
                     }
                   </div>
-                  <input className='add-comment-text-field' placeholder={translate['Send comment']}
+                  <input className='add-comment-text-field' placeholder={translate["Send comment"]}
                          ref={c => this.commentTextField = c}/>
                   <button onClick={() => this.createComment(this.commentTextField)} className='send-comment pulse'>
                     <PostSendIcon/>
@@ -241,7 +246,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                 }
               </div>
             </VerifyWrapper>
-            : ''
+            : ""
 
     )
   }

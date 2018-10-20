@@ -160,10 +160,13 @@ class ExchangeViewBar extends Component {
                 }
                 {
                   currentExchange.exchange_image !== null ?
-                      <img className="rounded-circle exchangeViewBarImg" alt={translate["Exchange Picture"]}
-                           src={currentExchange.exchange_image.file.includes("restful.daneshboom.ir/") ?
-                               currentExchange.exchange_image.file :
-                               "http://restful.daneshboom.ir/" + currentExchange.exchange_image.file}/>
+                      <div className='rounded-circle-parent' ref={e => this.scroll = e}
+                           onLoad={() => this.scroll.scrollLeft = 25}>
+                        <img className="exchangeViewBarImg" alt={translate["Exchange Picture"]}
+                             src={currentExchange.exchange_image.file.includes("restful.daneshboom.ir/") ?
+                                 currentExchange.exchange_image.file :
+                                 "http://restful.daneshboom.ir/" + currentExchange.exchange_image.file}/>
+                      </div>
                       :
                       <DefaultUserIcon width={"100px"} height={"100px"}
                                        className={"rounded-circle exchangeViewBarImg"}/>

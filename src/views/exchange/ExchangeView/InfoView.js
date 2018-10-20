@@ -51,25 +51,26 @@ class InfoView extends Component {
                 <div className={"info-body"}>
                   <div className={"info-exchange-owner-frame"}>
                     <Link to={`/user/${profile.id}`}>
-                    <div className={"info-exchange-owner-image-frame"}>
-                      {media !== null ? <img alt={"تصویر پروفایل"}
-                                             src={media.file}
-                                             width={"55px"} height={"55px"}
-                                             className={"post-user-picture"}/>
-                          : <DefaultUserIcon
-                              height={"55px"} width={"55px"} className={"post-user-picture"}/>}
-                    </div>
+                      <div className={"info-exchange-owner-image-frame"}>
+                        {media !== null ? <div className='rounded-circle-info-parent' ref={e => this.scroll = e}
+                                               onLoad={() => this.scroll.scrollLeft = 10}><img alt={"تصویر پروفایل"}
+                                                    src={media.file}
+                                                    height={"60px"}
+                                                    className={"post-user-picture"}/></div>
+                            : <DefaultUserIcon
+                                height={"55px"} width={"55px"} className={"post-user-picture"}/>}
+                      </div>
                     </Link>
                     <div className={"info-exchange-owner-image-frame-sibling"}>
                       <div className={"info-exchange-username"}> {profile.first_name || profile.last_name !== "" ?
                           profile.first_name + " " + profile.last_name : profile.username} </div>
                       <div className={"info-exchange-education"}>
-                         {ownerEducations.content.map((p, inx) => <div key={inx}> -
-                         <span> {!education[p] ? "مقطع" : education[p].grade} </span>
-                         <span> {!education[p] ? "رشته" : education[p].field_of_study} </span>
-                         <span> {translate["Of"]} </span>
-                         <span> {!education[p] ? "دانشگاه" : education[p].university} </span>
-                         </div>)}
+                        {ownerEducations.content.map((p, inx) => <div key={inx}> -
+                          <span> {!education[p] ? "مقطع" : education[p].grade} </span>
+                          <span> {!education[p] ? "رشته" : education[p].field_of_study} </span>
+                          <span> {translate["Of"]} </span>
+                          <span> {!education[p] ? "دانشگاه" : education[p].university} </span>
+                        </div>)}
                       </div>
                     </div>
                   </div>
