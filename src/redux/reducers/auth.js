@@ -107,6 +107,15 @@ const auth = (state = initialState.auth, action) => {
     /** -------------------------- create customer -------------------------> **/
     case types.SUCCESS.ORG.CREATE_CUSTOMER:
       return slices.createCustomer.success(state, action)
+    /** -------------------------- get ability by organization id  -------------------------> **/
+    case types.SUCCESS.ABILITY.GET_ABILITIES_BY_ORGANIZATION_ID:
+      return slices.getAbilitiesByOrganizationId.success(state, action)
+    /** -------------------------- delete ability -------------------------> **/
+    case types.SUCCESS.ABILITY.DELETE_ABILITY:
+      return slices.deleteAbility.success(state, action)
+    /** -------------------------- create ability -------------------------> **/
+    case types.SUCCESS.ABILITY.CREATE_ABILITY:
+      return slices.createAbility.success(state, action)
     /** -------------------------- reset  -------------------------> **/
     case types.RESET:
       return initialState.auth

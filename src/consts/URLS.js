@@ -52,6 +52,7 @@ const urls = {
   WORK_EXPERIENCE: 'users/work-experiences',
   EDUCATION: 'users/educations',
   RESEARCH: 'users/researches',
+  ABILITY: 'organizations/abilities',
 
   COMMON: {
     // product

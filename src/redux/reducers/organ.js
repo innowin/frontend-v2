@@ -248,6 +248,19 @@ const organs = (state = initialState.organs, action) => {
     /** -------------------------- create customer -------------------------> **/
     case types.SUCCESS.ORG.CREATE_CUSTOMER:
       return slices.createCustomer.success(state, action)
+    /** -------------------------- get organization customers -------------------------> **/
+    case types.ABILITY.GET_ABILITIES_BY_ORGANIZATION_ID:
+      return slices.getAbilitiesByOrganizationId.base(state, action)
+    case types.SUCCESS.ABILITY.GET_ABILITIES_BY_ORGANIZATION_ID:
+      return slices.getAbilitiesByOrganizationId.success(state, action)
+    case types.ERRORS.ABILITY.GET_ABILITIES_BY_ORGANIZATION_ID:
+      return slices.getAbilitiesByOrganizationId.error(state, action)
+    /** -------------------------- delete customer  -------------------------> **/
+    case types.SUCCESS.ABILITY.DELETE_ABILITY:
+      return slices.deleteAbility.success(state, action)
+    /** -------------------------- create customer -------------------------> **/
+    case types.SUCCESS.ABILITY.CREATE_ABILITY:
+      return slices.createAbility.success(state, action)
     /** -------------------------- reset organs -------------------------> **/
     case types.RESET:
       return initialState.organs

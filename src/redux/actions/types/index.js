@@ -9,6 +9,7 @@ import educationTypes from './education'
 import researchTypes from './research'
 import skillTypes from './skill'
 import paramTypes from './param'
+import abilityTypes from './ability'
 
 
 const types = {
@@ -25,6 +26,7 @@ const types = {
     RESEARCH: researchTypes.ERROR,
     SKILL: skillTypes.ERROR,
     PARAM: paramTypes.ERROR,
+    ABILITY: abilityTypes.ERROR,
   },
   SUCCESS: {
     COMMON: commonTypes.SUCCESS,
@@ -38,6 +40,7 @@ const types = {
 		RESEARCH: researchTypes.SUCCESS,
     SKILL: skillTypes.SUCCESS,
     PARAM: paramTypes.SUCCESS,
+    ABILITY: abilityTypes.SUCCESS,
   },
   COMMON: commonTypes.BASE,
   AUTH: authTypes.BASE,
@@ -50,6 +53,7 @@ const types = {
 	RESEARCH: researchTypes.BASE,
   SKILL: skillTypes.BASE,
   PARAM: paramTypes.BASE,
+  ABILITY: abilityTypes.BASE,
 }
 
 export default types

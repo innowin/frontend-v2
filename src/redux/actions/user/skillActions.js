@@ -1,4 +1,4 @@
-import types from "./types"
+import types from "../types/index"
 
 const getSkillByUserId = ({userId}) => ({
   type: types.SKILL.GET_SKILL_BY_USER_ID,

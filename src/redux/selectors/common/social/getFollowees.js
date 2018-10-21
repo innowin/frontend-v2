@@ -30,7 +30,7 @@ export const getFolloweesSelector = createSelector(
   (follows, userFollows, users, organsList, identityId, files) => {
     if (follows && Object.keys(follows).length !== 0 && follows.constructor === Object && userFollows && identityId) {
       const arrayFollows = helpers.getObjectOfArrayKeys(userFollows, follows)
-      const followeeList = arrayFollows.filter(follow => follow.follow_follower.id === identityId).map(follow => {
+      const followeeList = arrayFollows.filter(follow => follow && follow.follow_follower.id === identityId).map(follow => {
         let id, img
         if (follow.follow_followed.identity_user) {
           id = follow.follow_followed.identity_user

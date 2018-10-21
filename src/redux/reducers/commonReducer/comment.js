@@ -3,7 +3,7 @@ import types from '../../actions/types'
 import slices from '../sliceReducers/common/comment'
 
 
-const file = (state = initialState.common.comment, action) => {
+const comment = (state = initialState.common.comment, action) => {
   switch (action.type) {
     /** -------------------------- get comments by parent id -------------------------> **/
     case types.SUCCESS.COMMON.COMMENT.GET_COMMENTS_BY_PARENT_ID:
@@ -25,4 +25,4 @@ const file = (state = initialState.common.comment, action) => {
       return state
   }
 }
-export default file
+export default comment

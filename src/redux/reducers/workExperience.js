@@ -3,7 +3,7 @@ import types from "../actions/types/index"
 
 import slices from './sliceReducers/workExperience'
 
-const users = (state = initialState.workExperience, action) => {
+const workExperience = (state = initialState.workExperience, action) => {
   switch (action.type) {
     /** -------------------------- get work experience by user id  -------------------------> **/
     case types.SUCCESS.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID:
@@ -33,4 +33,4 @@ const users = (state = initialState.workExperience, action) => {
   }
 }
 
-export default users
+export default workExperience

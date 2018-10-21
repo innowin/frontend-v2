@@ -43,6 +43,7 @@ const results = {
     CREATE_CUSTOMER: 'create-org-customer',
     DELETE_CUSTOMER: 'delete-org-customer',
     UPDATE_CUSTOMER: 'update-org-customer',
+
   },
   COMMON: {
     // product
@@ -155,5 +156,11 @@ const results = {
     DELETE_SKILL_BY_USER_ID: 'delete-skill-by-user-id',
     UPDATE_SKILL_BY_USER_ID: 'update-skill-by-user-id',
   },
+  ABILITY: {
+    GET_ABILITIES_BY_ORGANIZATION_ID: 'get-org-abilities',
+    CREATE_ABILITY: 'create-org-ability',
+    DELETE_ABILITY: 'delete-org-ability',
+    UPDATE_ABILITY: 'update-org-ability',
+  }
 }
 export default results

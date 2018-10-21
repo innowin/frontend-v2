@@ -1,4 +1,4 @@
-import types from "./types"
+import types from "../types"
 
 const getResearchByUserId = ({userId}) => ({
   type: types.RESEARCH.GET_USER_RESEARCH_BY_USER_ID,
