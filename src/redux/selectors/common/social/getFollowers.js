@@ -22,10 +22,12 @@ const getUsers = state => state.users.list
 const getOrgans = state => state.organs.list
 const getIdentityId = (state, props) => props.identityId
 
+const getFiles = state => state.common.file.list
+
 /** this selector selects followers by identity **/
 export const getFollowersSelector = createSelector(
-  [getFollows, getUserFollows, getUsers, getOrgans, getIdentityId],
-  (follows, userFollows, users, organsList, identityId) => {
+  [getFollows, getUserFollows, getUsers, getOrgans, getIdentityId, getFiles],
+  (follows, userFollows, users, organsList, identityId, files) => {
     if (follows && Object.keys(follows).length !== 0 && follows.constructor === Object && userFollows && identityId) {
       const arrayFollows = helpers.getObjectOfArrayKeys(userFollows, follows)
       return arrayFollows.filter(follow => follow.follow_followed.id === identityId).map(follow => {
@@ -41,8 +43,10 @@ export const getFollowersSelector = createSelector(
         }
         else {
           id = follow.follow_follower.identity_organization
-          if (organsList[id] && organsList[id].organization && organsList[id].organization.content.organization_logo) {
-            img = organsList[id].organization.content.organization_logo.file
+          const logoId = organsList[id] && organsList[id].organization && organsList[id].organization.content.organization_logo
+
+          if (logoId && files[logoId]) {
+            img = files[logoId].file
           }
           else {
             img = ''
