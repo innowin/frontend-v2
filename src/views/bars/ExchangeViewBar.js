@@ -161,7 +161,8 @@ class ExchangeViewBar extends Component {
                 {
                   currentExchange.exchange_image !== null ?
                       <img className="rounded-circle exchangeViewBarImg" alt={translate["Exchange Picture"]}
-                           src={currentExchange.exchange_image.file.includes("restful.daneshboom.ir/") ?
+                           src={currentExchange.exchange_image.file &&
+                           currentExchange.exchange_image.file.includes("restful.daneshboom.ir/") ?
                                currentExchange.exchange_image.file :
                                "http://restful.daneshboom.ir/" + currentExchange.exchange_image.file}/>
                       :

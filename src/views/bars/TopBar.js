@@ -23,7 +23,6 @@ import {Link} from "react-router-dom"
 import AgentForm from "../pages/modal/agentForm-modal"
 import AddingContribution from "../pages/adding-contribution/addingContribution"
 import CreateExchange from "../pages/modal/createExchange/createExchange"
-import CreateExchangeForm from "../pages/modal/prevCreateExchange/createExchange";
 import client from "src/consts/client"
 import FileActions from "../../redux/actions/commonActions/fileActions"
 import {SearchIcon} from "../../images/icons"

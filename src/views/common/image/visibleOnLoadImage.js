@@ -8,7 +8,7 @@ type VisibleOnLoadImageProps = {
   className?: string
 }
 
-const VisibleOnLoadImage = (props: VisibleOnLoadImageProps) => {
+export default (props: VisibleOnLoadImageProps) => {
   const id = uuid()
   const {img, className = ''} = props
   const image = new Image()
@@ -23,4 +23,3 @@ const VisibleOnLoadImage = (props: VisibleOnLoadImageProps) => {
       <img id={id} className={`${className} visible-onload-image`} src={img} alt="b"/>
   )
 }
-export default VisibleOnLoadImage

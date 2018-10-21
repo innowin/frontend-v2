@@ -7,16 +7,21 @@ export const getFile = (fileId) => ({
   }
 })
 
-export const createFile = (formData) => ({
+export const createFile = (data) => ({
   type: types.COMMON.CREATE_FILE,
   payload: {
-    formData
+      ...data
   }
 })
 
 export const updateFile = (payload) => ({
   type: types.COMMON.UPDATE_FILE,
   payload
+})
+
+export const getFiles = (query) => ({
+  type: types.COMMON.GET_FILES,
+  payload: {query}
 })
 
 export const delMiddleWareFileData = () => ({ // this is not used yet, and may be remove.

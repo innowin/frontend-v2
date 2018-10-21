@@ -2,7 +2,8 @@ import initialState from 'src/redux/reducers/initialState'
 import types from 'src/redux/actions/types'
 import exchangeSlice from './sliceReducers/exchange'
 import constants from "src/consts/constants"
-
+import pushAnObjToStateList from "./sliceReducers/utilsSlices/pushAnObjToStateList"
+import createAnObj from "./sliceReducers/utilsSlices/createAnObj"
 // this badge function just set received success exchanges in user or organ or ...
 
 const exchanges = (state = initialState.exchanges, action) => {
@@ -10,6 +11,10 @@ const exchanges = (state = initialState.exchanges, action) => {
   const {getExchangeByExId, postsExchange, getExchangeMembershipByMemberIdentity, getAllExchanges, searchExchangesByWord} = exchangeSlice
   const {POST_PARENT} = constants
   switch (action.type) {
+    case types.EXCHANGE.CREATE_EXCHANGE:
+      return createAnObj.base(state, action)
+    case types.SUCCESS.EXCHANGE.CREATE_EXCHANGE:
+      return createAnObj.success(state, action)
       /** --------------------  get exchange by exchange id --------------------- **/
     case types.SUCCESS.EXCHANGE.GET_EXCHANGE_BY_EX_ID:
       return getExchangeByExId.success(state, action)

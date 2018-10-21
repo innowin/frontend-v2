@@ -51,6 +51,7 @@ const results = {
 
     // file
     GET_FILE: 'COMMON_GET_FILE',
+    GET_FILES: 'common-get-files-result',
     CREATE_FILE: 'common-create-file-result',
     UPDATE_FILE: 'common-update-file-result',
 

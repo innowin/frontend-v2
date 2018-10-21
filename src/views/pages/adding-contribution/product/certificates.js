@@ -80,7 +80,7 @@ const Certificates = (props: CertificateProps) => {
               <label>بارگذاری لوگو</label>
               <div className="file-btn">
                 انتخاب فایل
-                <input onChange={(e) => setStateForFileField(e.target, NEW_CERT_LOGO)} type="file"
+                <input onChange={(e) => setStateForFileField(e.currentTarget, NEW_CERT_LOGO)} type="file"
                        name="logo"/>
               </div>
             </div>

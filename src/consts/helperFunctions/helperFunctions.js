@@ -71,8 +71,9 @@ const arrayToDefaultObject = (arr) => {
 const filterNestedObjByKey = (obj, wantedKey, wantedValue) => {
   return Object.keys(obj).reduce((acc, key) => {
     const item = obj[key]
-    // console.log(`${item.id}: ${wantedValue} === ${item[wantedKey]} `, item[wantedKey] === wantedValue)
-    if (item[wantedKey] === wantedValue) return ({...acc, [key]: {...item}})
+    if (item[wantedKey] === wantedValue) {
+      return ({...acc, [key]: {...item}})
+    }
     else return acc
   }, {})
 }

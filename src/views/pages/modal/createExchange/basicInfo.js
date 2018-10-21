@@ -11,7 +11,7 @@ import {ImageUploadSvg} from '../../../../images/icons'
 import ScrollLessWrapper from '../../../common/wrappers/scrollLesWrapper'
 
 
-type HandlerType = (StrNumBool) => void
+export type HandlerType = (StrNumBool) => void
 
 type SimpleFormProps = {
   inputHandler: (string) => HandlerType,
@@ -54,16 +54,18 @@ const SimpleForm = (props: SimpleFormProps) => {
   )
 }
 
-type ImageType = {
+export type ImageType = {
   id: string,
-  url: string
+  file: string
 }
 type ImageFormProps = {
   images: Array<ImageType>,
-  selectedImage: string
+  selectedImage: string,
+  uploadHandler: Function,
+  imageHandler: (ImageType) => void
 }
 const ImageForm = (props: ImageFormProps) => {
-  const {images, selectedImage} = props
+  const {images, selectedImage, uploadHandler, imageHandler} = props
   return (
       <div className="image-form">
         <div className="image-selection-wrapper">
@@ -71,16 +73,26 @@ const ImageForm = (props: ImageFormProps) => {
           <div className="hide-scroll-wrapper">
             <div className='image-selection'>
               <div className="file-input-wrapper img-option">
-                <input type="file"/>
+                <input type="file" onChange={e => uploadHandler(e.currentTarget.files[0])}/>
                 <ImageUploadSvg/>
               </div>
               {images.map(img =>
-                  <img className="img-option" key={`img-option${img.id}`} src={img.url} alt={img.id}/>
+                  <img
+                      className="img-option"
+                      key={`img-option${img.id}`}
+                      src={img.file}
+                      alt={img.id}
+                      onClick={() => imageHandler(img)}
+                  />
               )}
             </div>
           </div>
         </div>
-        <img className="selected-image" src={selectedImage} alt="عکس انتخاب شده"/>
+        <img
+            className={`selected-image ${selectedImage ? 'show' : ''}`}
+            src={selectedImage}
+            alt="عکس انتخاب شده"
+        />
       </div>
   )
 }
@@ -89,10 +101,12 @@ type FormProps = {
   formData: { [string]: string },
   inputHandler: (string) => HandlerType,
   selectionImages: Array<ImageType>,
-  selectedImage: string
+  selectedImage: string,
+  uploadHandler: Function,
+  imageHandler: (ImageType) => void
 }
 const Form = (props: FormProps) => {
-  const {formData, inputHandler, selectionImages, selectedImage} = props
+  const {formData, inputHandler, selectionImages, selectedImage, uploadHandler, imageHandler} = props
   return (
       <div className="form">
         <SimpleForm
@@ -100,8 +114,10 @@ const Form = (props: FormProps) => {
             inputHandler={inputHandler}
         />
         <ImageForm
+            uploadHandler={uploadHandler}
             images={selectionImages}
             selectedImage={selectedImage}
+            imageHandler={imageHandler}
         />
       </div>
   )
@@ -111,11 +127,21 @@ type Props = {
   formData: { [string]: string },
   inputHandler: (string) => HandlerType,
   selectionImages: Array<ImageType>,
-  selectedImage: string
+  selectedImage: string,
+  uploadHandler: Function,
+  imageHandler: (ImageType) => void
 }
 
 export default (props: Props) => {
-  const {btnBarActs, formData, inputHandler, selectionImages, selectedImage} = props
+  const {
+    btnBarActs,
+    formData,
+    inputHandler,
+    selectionImages,
+    selectedImage,
+    uploadHandler,
+    imageHandler
+  } = props
   return (
       <div className="basic-info">
         <Tip
@@ -123,6 +149,8 @@ export default (props: Props) => {
             از بورس توضیح مختصر از بورس توضیح مختصر از بورس توضیح مختصر از بورس"
         />
         <Form
+            imageHandler={imageHandler}
+            uploadHandler={uploadHandler}
             formData={formData}
             inputHandler={inputHandler}
             selectedImage={selectedImage}
