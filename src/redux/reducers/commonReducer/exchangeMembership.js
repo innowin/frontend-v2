@@ -20,7 +20,7 @@ const exchangeMembership = (state = initialState.common.exchangeMembership, acti
       return slices.deleteExchangeMembership.error(state, action)
     /** -------------------------- reset -------------------------> **/
     case types.RESET:
-      return initialState.common.post
+      return initialState.common.exchangeMembership
     default:
       return state
   }

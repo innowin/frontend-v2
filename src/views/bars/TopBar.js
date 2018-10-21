@@ -161,6 +161,9 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   render() {
     const {collapseClassName, clientUser, clientOrganization, translate, clientImgLink} = this.props
     const {collapse, collapseProfile, exploreCollapse, productWizardModalIsOpen, mouseIsOverMenu, selectedSetting, showSetting, createExchangeModalIsOpen} = this.state
+    const linkEditProfile = !clientOrganization
+        ? `/user/${clientUser.id}`
+        : `/organization/${clientOrganization.id}`
 
     // added to close all collapse menus when click outside
     window.onclick = () => {
@@ -220,7 +223,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                         <div
                             className='profile-menu-profile-section-next-image-middle'>@{clientUser && clientUser.username}</div>
                         <Link className='profile-menu-profile-section-next-image-last'
-                              to={clientUser && `/user/${clientUser.id}`}>{translate["Edit Profile"]}</Link>
+                              to={linkEditProfile}>{translate["Edit Profile"]}</Link>
                       </div>
                     </div>
 

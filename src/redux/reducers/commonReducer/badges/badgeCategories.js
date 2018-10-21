@@ -9,7 +9,7 @@ const badgeCategories = (state = initialState.common.badges.badgeCategory, actio
       return appendListToStateList.success(state, action)
 
     case types.RESET:
-      return initialState.common.badge
+      return initialState.common.badges.badgeCategory
     default:
       return state
   }

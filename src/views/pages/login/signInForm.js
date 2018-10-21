@@ -13,43 +13,43 @@ import renderTextField from "src/views/common/inputs/reduxFormRenderTextField"
 import {getMessages} from "src/redux/selectors/translateSelector"
 
 const PureSignInForm = (props) => {
-  const {handleSubmit, onSubmit, submitting, translator, error, submitFailed} = props
+  const {handleSubmit, onSubmit, submitting, translator, error, submitFailed, recoveryPasswordClick} = props
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="sign-in-form">
-      <Field
-        name="username"
-        type="text"
-        component={renderTextField}
-        label={translator['Username']}
-        className="signup-field"
-      />
-      <Field
-        name="password"
-        type="password"
-        component={renderTextField}
-        label={translator['Password']}
-        className="signup-field"
-      />
-      <div>
-        <button
-          className="btn btn-primary btn-block login-submit-button cursor-pointer"
-          disabled={submitting}>
-          {!submitting ? translator['Login'] : (
-            <BeatLoader color="#fff" size={10} margin="auto"/>
-          )}
-        </button>
-      </div>
-      {submitFailed && <p className="error-message mt-2">{error}</p>}
-      <div className="remember-recovery">
-        <label htmlFor="rememberMe" className="cursor-pointer">
-          <Field name="rememberMe" id="rememberMe" component="input" type="checkbox"/>
-          {translator['Remember me']}
-        </label>
-        <span className="btn btn-link recovery-button">
-            {translator['Password recovery']}
-        </span>
-      </div>
-    </form>
+      <form onSubmit={handleSubmit(onSubmit)} className="sign-in-form">
+        <Field
+            name="username"
+            type="text"
+            component={renderTextField}
+            label={translator['Username']}
+            className="signup-field"
+        />
+        <Field
+            name="password"
+            type="password"
+            component={renderTextField}
+            label={translator['Password']}
+            className="signup-field"
+        />
+        <div>
+          <button
+              className="btn btn-primary btn-block login-submit-button cursor-pointer"
+              disabled={submitting} type='submit'>
+            {!submitting ? translator['Login'] : (
+                <BeatLoader color="#fff" size={10} margin="auto"/>
+            )}
+          </button>
+        </div>
+        {submitFailed && <p className="error-message mt-2">{error}</p>}
+        <div className="remember-recovery">
+          <label htmlFor="rememberMe" className="cursor-pointer">
+            <Field name="rememberMe" id="rememberMe" component="input" type="checkbox"/>
+            {translator['Remember me']}
+          </label>
+          <button className='btn btn-link recovery-button' type='button' onClick={recoveryPasswordClick}>
+            <span>{translator['Password recovery']}</span>
+          </button>
+        </div>
+      </form>
   )
 }
 
@@ -59,6 +59,7 @@ class SignInForm extends Component {
     translator: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
     actions: PropTypes.object,
+    recoveryPasswordClick: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
@@ -85,21 +86,22 @@ class SignInForm extends Component {
     const {translator} = this.props
     const promise = new Promise((resolve, reject) => signIn(values.username, values.password, values.rememberMe, reject))
     return promise
-      .catch(
-        (errorMessage) => {
-          throw new SubmissionError({_error: translator[errorMessage]})
-        }
-      )
+        .catch(
+            (errorMessage) => {
+              throw new SubmissionError({_error: translator[errorMessage]})
+            }
+        )
   }
 
   render() {
-    const {translator, ...reduxFormProps} = this.props
+    const {translator, recoveryPasswordClick, ...reduxFormProps} = this.props
     return (
-      <PureSignInForm
-        {...reduxFormProps}
-        translator={translator}
-        onSubmit={this._onSubmit}
-      />
+        <PureSignInForm
+            {...reduxFormProps}
+            translator={translator}
+            onSubmit={this._onSubmit}
+            recoveryPasswordClick={recoveryPasswordClick}
+        />
     )
   }
 }

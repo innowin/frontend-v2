@@ -214,8 +214,8 @@ const mapStateToProps = (state, ownProps) => {
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const user = (stateUser && stateUser.user) || defaultObject
   const profile = (stateUser && stateUser.profile) || defaultObject
-  const profileBannerId = stateUser.profileBannerId
-  const profileMediaId = stateUser.profileMediaId
+  const profileBannerId = (stateUser && stateUser.profileBannerId)|| (profile.content && profile.content.profile_banner && profile.content.profile_banner.id)
+  const profileMediaId = (stateUser && stateUser.profileMediaId) || (profile.content && profile.content.profile_media && profile.content.profile_media.id)
   const profileBanner = (profileBannerId && state.common.file.list[profileBannerId]) || {}
   const profileMedia = (profileMediaId && state.common.file.list[profileMediaId]) || {}
   const identity = (stateUser && stateUser.identity) || {content: null, isLoading: false, error: null}

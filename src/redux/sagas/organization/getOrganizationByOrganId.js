@@ -8,9 +8,9 @@ import results from 'src/consts/resultName'
 export function* getOrganizationByOrganId(action) {
   const payload = action.payload
   const {organizationId} = payload
-  const socketChannel = yield call(api.createSocketChannel, results.ORG.GET_ORGANIZATION)
+  const socketChannel = yield call(api.createSocketChannel, results.ORG.GET_ORGANIZATION + organizationId)
   try {
-    yield fork(api.get, urls.ORG.GET_ORGANIZATION, results.ORG.GET_ORGANIZATION, organizationId)
+    yield fork(api.get, urls.ORG.GET_ORGANIZATION, results.ORG.GET_ORGANIZATION + organizationId, organizationId)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.ORG.GET_ORGANIZATION, payload: {data, organizationId}})
     const organLogoId = data.organization_logo

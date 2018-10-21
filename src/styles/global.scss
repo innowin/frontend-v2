@@ -162,3 +162,9 @@ a, a:hover, a:active {
     overflow-x: hidden;
   }
 }
+button {
+  &:focus {
+    box-shadow: none !important;
+    outline: none !important;
+  }
+}
