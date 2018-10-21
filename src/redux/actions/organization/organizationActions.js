@@ -27,36 +27,6 @@ const getOrgExchanges = (organizationId) => ({
   }
 })
 
-//abilities
-const getAbilities = (organizationId) => ({
-  type: types.ORG.GET_ABILITIES,
-  payload: {
-    organizationId
-  }
-})
-const updateAbility = (formValues, abilityId) => ({
-  type: types.ORG.UPDATE_ABILITY,
-  payload: {
-    ...formValues,
-    abilityId
-  }
-})
-
-const createAbility = (formValues, organizationId) => ({//TODO amir add organization id to formvalues
-  type: types.ORG.CREATE_ABILITY,
-  payload: {
-    ...formValues,
-    organizationId
-  }
-})
-
-const deleteAbility = (abilityId) => ({
-  type: types.ORG.DELETE_ABILITY,
-  payload: {
-    abilityId
-  }
-})
-
 //basic information
 const updateOrganization = ({formValues, organizationId}) => ({
   type: types.ORG.UPDATE_ORGANIZATION_INFO,
@@ -146,11 +116,6 @@ const OrganizationActions = {
   getMetaDataOrganization,
   getOrganizationMembers,
   getOrgExchanges,
-
-  getAbilities,
-  updateAbility,
-  createAbility,
-  deleteAbility,
 
   updateOrganization,
 

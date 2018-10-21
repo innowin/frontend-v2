@@ -1,65 +1,70 @@
 @import "../../variables";
+
 $item-header-margin-right: 16px;
-.frameCardSocial{
-  .-item-content{
-    padding-left: 0!important;
-    padding-right: 0!important;
-    .member-wrapper{
+.frameCardSocial {
+  .-item-content {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    .member-wrapper {
       padding-right: $item-header-margin-right;
       padding-left: 0;
       padding-bottom: 10px;
     }
-    .-item-header{
-      margin-right:$item-header-margin-right ;
+    .-item-header {
+      margin-right: $item-header-margin-right;
       margin-left: 0;
-      .-item-title{
-        font-size:$font-size-normalText;
+      .-item-title {
+        font-size: $font-size-normalText;
       }
     }
-    .details{
+    .details {
       justify-content: space-between;
       padding-left: 3px;
       align-items: center;
-      .text-section{
+      .text-section {
         display: flex;
         flex-direction: column;
-        .name{
+        .name {
           margin-bottom: 5px;
           font-size: $font-size-normalText;
         }
         .description {
-          color:$text-title-menu-color;
+          color: $text-title-menu-color;
           font-size: $font-size-boxText;
           overflow: hidden;
           height: 50px;
           line-height: 2;
         }
       }
-      .remove-follow{
+      .remove-follow {
         color: lighten($primary-color, 50%);
         font-size: 25px;
       }
-      .remove-follow:hover{
+      .remove-follow:hover {
         color: lighten($primary-color, 40%);
       }
-      .follow-section{
+      .follow-section {
         color: $success-color;
+        line-height: 25px;
         font-size: $font-size-boxText;
       }
-      .accept-follower{
-        margin: 0 5px;
-        color: $success-color;
-        font-size: 25px;
-      }
-      .reject-follower{
-        margin: 0 5px;
-        color: $error-color;
-        font-size: 25px;
-      }
-      .follow{
-        margin: 0 5px;
-        color: $success-color;
-        font-size: 25px;
+      .follow-accept-part {
+        display: flex;
+        .accept-follower {
+          margin: 0 5px;
+          color: $success-color;
+          font-size: 25px;
+        }
+        .reject-follower {
+          margin: 0 5px;
+          color: $error-color;
+          font-size: 25px;
+        }
+        .follow {
+          margin: 0 5px;
+          color: $success-color;
+          font-size: 25px;
+        }
       }
     }
   }

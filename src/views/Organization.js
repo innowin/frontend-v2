@@ -160,6 +160,7 @@ export class Organization extends Component<PropsOrganization> {
                                     ownerId={organizationId}
                                     identityId={identityObject.content}
                                     identityType={constants.USER_TYPES.ORG}
+                                    isUser={false}
                       />
                       <PrivateRoute exact={true} path={`${path}/Posts`} component={Posts} id={organizationId}
                                     identityType={constants.USER_TYPES.ORG}

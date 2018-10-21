@@ -81,7 +81,7 @@ class PrivateInfoEditForm extends Component<PropsPrivateInfoEditForm> {
     })
 
     const formValues: {} = {...formFormat}
-    updateProfileByProfileId(formValues, profileId, userId)
+    updateProfileByProfileId({formValues, profileId, userId})
     formValues.email && updateUserByUserId(formValues, userId)
     this.props.hideEdit()
     return false

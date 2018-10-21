@@ -12,8 +12,8 @@ import CheckOwner from "../../common/CheckOwner"
 import EducationInfoCreateForm from "./EducationInfoCreateForm"
 import ResearchInfoCreateForm from "./ResearchInfoCreateForm"
 import {bindActionCreators} from "redux"
-import EducationActions from "../../../redux/actions/educationActions"
-import ResearchActions from "../../../redux/actions/researchActions"
+import EducationActions from "../../../redux/actions/user/educationActions"
+import ResearchActions from "../../../redux/actions/user/researchActions"
 import {makeGetEducations} from "../../../redux/selectors/user/userGetEducationsSelector";
 import {makeGetResearches} from "../../../redux/selectors/user/userGetResearchesSelector";
 import type {userEducationType, userResearchType} from "../../../consts/flowTypes/user/basicInformation";
