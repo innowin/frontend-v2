@@ -955,6 +955,30 @@ $sidebar-profile-media-width: 80px;
   padding-bottom: 50px;
 }
 
+.settingModal-menu-general-error{
+  margin-right: calc(7% + 115px);
+  margin-left: 3%;
+  font-size: 11px;
+  text-align: right;
+  color: red;
+  height: 0;
+  overflow: hidden;
+  transition-duration: 0.3s;
+}
+
+.settingModal-menu-general-error-show{
+  margin-right: calc(7% + 115px);
+  margin-left: 3%;
+  font-size: 11px;
+  text-align: right;
+  color: red;
+  margin-top: -10px;
+  padding-bottom: 8px;
+  height: 25px;
+  overflow: hidden;
+  transition-duration: 0.3s;
+}
+
 .settingModal-menu-general-save {
   background-color: $success-color;
   border: 1px solid transparent;

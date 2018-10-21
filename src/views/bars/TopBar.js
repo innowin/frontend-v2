@@ -149,6 +149,9 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
   _handleHideSetting = () => {
     this.setState({...this.state, showSetting: false})
+    setTimeout(() => {
+      this.setState({...this.state, selectedSetting: "General Settings"})
+    }, 500)
   }
 
   _handleSettingSelected = (e) => {
