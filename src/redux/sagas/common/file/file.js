@@ -4,9 +4,15 @@ import createFile from "./creareFile"
 import updateFile from "./updateFile"
 import getFile from "./getFile"
 import delFileMiddlewareData from "./delMiddlewareData"
+import getFiles from "./getFiles"
+
 
 function* watchGetFile() {
   yield takeEvery(types.COMMON.GET_FILE, getFile)
+}
+
+function* watchGetFiles() {
+  yield takeEvery(types.COMMON.GET_FILES, getFiles)
 }
 
 function* watchCreateFile() {
@@ -25,5 +31,6 @@ export default [
   watchGetFile(),
   watchCreateFile(),
   watchUpdateFile(),
-  watchDelFileMiddleWareData()
+  watchDelFileMiddleWareData(),
+  watchGetFiles()
 ]
