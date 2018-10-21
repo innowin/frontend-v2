@@ -4,7 +4,7 @@ const success = (state, action) => {
     ...state,
     list: {
       ...state.list,
-      [data.id]: {...data},
+      [data.id]: {...state.list[data.id], ...data},
     }
   }
 }
