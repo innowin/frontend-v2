@@ -6,6 +6,7 @@ import PropTypes from "prop-types"
 import {Confirm} from "../../common/cards/Confirm"
 import EducationInfoForm from './EducationInfoForm'
 import type {userEducationType, userEducationInputType} from "../../../consts/flowTypes/user/basicInformation"
+import constants from "../../../consts/constants";
 
 // flow type of EducationInfoForm
 type PropsEducationInfoForm = {
@@ -44,14 +45,24 @@ class EducationInfoEditForm extends Component<PropsEducationInfoForm, StateEduca
   }
 
   _onSubmit = (values: userEducationInputType) => {
-    const {userId, education, update, hideEdit} = this.props
+    const {userId, education, update, hideEdit, translate} = this.props
 
     const educationId: number = education.id
     const from_date = values.yearFromDate === '' || values.monthFromDate === '' || values.dayFromDate === '' ? '' : `${values.yearFromDate}.${values.monthFromDate}.${values.dayFromDate}`
     const to_date = values.yearToDate === '' || values.monthToDate === '' || values.dayToDate === '' ? '' : `${values.yearToDate}.${values.monthToDate}.${values.dayToDate}`
 
+    let grade
+    if(values.grade === translate['Bachelor']) {
+      grade = constants.SERVER_GRADES.BACHELOR
+    }
+    else if (values.grade === translate['Master']) {
+      grade = constants.SERVER_GRADES.MASTER
+    }
+    else if (values.grade === translate['Phd']) {
+      grade = constants.SERVER_GRADES.PHD
+    }
     const formFormat = {
-      grade: education.grade === values.grade ? null : values.grade,
+      grade: education.grade === grade ? null : grade,
       university: education.university === values.university ? null : values.university,
       field_of_study: education.field_of_study === values.fieldOfStudy ? null : values.fieldOfStudy,
       description: education.description === values.description ? null : values.description,

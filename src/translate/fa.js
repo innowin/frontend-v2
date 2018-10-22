@@ -98,6 +98,7 @@ module.exports = {
   'Add': "افزودن",
 
   'Save': "ذخیره",
+  'Certificate': 'گواهی‌نامه',
   'Certificates': "گواهی‌نامه‌ها",
   'Certificates and badges': 'نشان ها و گواهی نامه ها',
 
@@ -131,6 +132,9 @@ module.exports = {
   'Education': 'سابقه علمی',
   'Research': 'سابقه پژوهشی',
   'Grade': "مقطع",
+  'Bachelor': 'کارشناسی',
+  'Master': 'کارشناسی ارشد',
+  'Phd': 'دکتری',
 
 
   // user - BasicInformation
