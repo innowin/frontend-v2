@@ -2,11 +2,11 @@
 
 
 .pages-wrapper {
+  background-image: $image-background-color;
   background-image: url("../images/common/background.png");
   background-repeat: no-repeat;
   background-position: top left;
   background-attachment: fixed;
-  background-color: $image-background-color;
   min-height: 100vh;
 }
 
