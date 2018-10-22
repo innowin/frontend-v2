@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import "moment/locale/fa";
-import {DefaultUserIcon} from "src/images/icons";
+import {DefaultUserIcon, EditIcon} from "src/images/icons";
 import AttachFile from "src/views/common/inputs/AttachFile";
 import cx from 'classnames';
 import {SupplyIcon, DemandIcon, PostSendIcon} from "src/images/icons";
@@ -11,6 +11,7 @@ import {bindActionCreators} from "redux"
 import PostActions from "../../../redux/actions/commonActions/postActions"
 import FileActions from "src/redux/actions/commonActions/fileActions"
 import {connect} from "react-redux";
+import FontAwesome from 'react-fontawesome'
 import {getMessages} from "../../../redux/selectors/translateSelector";
 
 const duration = 300;
@@ -124,7 +125,8 @@ class HomeCreatePost extends Component {
       description: '',
       descriptionValidate: false,
       textareaClass: 'closeTextarea',
-      show: false
+      show: false,
+      resetByTrashIcon: false
     }
   }
 
@@ -179,11 +181,19 @@ class HomeCreatePost extends Component {
   }
 
   _handleClickOutForm = (e) => {
-    const {description} = this.state
+    const {description, resetByTrashIcon} = this.state
     const {temporaryFile} = this.props
-    if (!e.target.closest('#HomeCreatePost') && !temporaryFile.content && !description.trim()) {
+    const postFileLoading = temporaryFile.isLoading
+    if (
+      !e.target.closest('#HomeCreatePost') &&
+      !temporaryFile.content &&
+      !resetByTrashIcon &&
+      !postFileLoading &&
+      !description.trim()
+    ) {
       this.setState({...this.state, textareaClass: "closeTextarea", show: false})
     }
+    this.setState({...this.state, resetByTrashIcon: false})
   }
 
   _onSubmit = (e) => {
@@ -192,6 +202,13 @@ class HomeCreatePost extends Component {
       this._save()
     }
     return false;
+  }
+
+  _deletePicture = () => {
+    const {actions} = this.props
+    const {resetTemporaryFile} = actions
+    this.setState({...this.state, resetByTrashIcon: true})
+    resetTemporaryFile()
   }
 
   componentDidUpdate(prevProps) {
@@ -208,6 +225,9 @@ class HomeCreatePost extends Component {
 
   componentDidMount() {
     document.addEventListener('click', this._handleClickOutForm)
+    const {actions} = this.props
+    const {resetTemporaryFile} = actions
+    resetTemporaryFile()
   }
 
   componentWillUnmount() {
@@ -241,9 +261,10 @@ class HomeCreatePost extends Component {
                   {
                     (postFile) ? (
                     <div className="-fileBox">
-                      {/*attachFile same as attach from createPostFooter by editFile icon*/}
                       <label htmlFor={fileInputId}>
-                        <i className="fa fa-pencil-square-o" aria-hidden="true"/>
+                        <EditIcon className="edit-post-picture pulse"/>
+                        <FontAwesome name="trash" className='remove-post-picture pulse'
+                                     onClick={this._deletePicture}/>
                       </label>
                       <img className="contain-img" src={postFile.file} alt="imagePreview"/>
                     </div>
