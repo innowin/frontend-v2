@@ -168,8 +168,9 @@ $heightOfContentBox: 140px;
       }
     }
     .-createPostFooter {
-      animation: animate-createPostFooter 5000ms;
-      animation-fill-mode: backwards
+      animation: animate-createPostFooter 1000ms;
+      animation-fill-mode: backwards;
+      animation-delay: 500ms
     }
   }
 

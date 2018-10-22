@@ -4,6 +4,7 @@
 .pages-wrapper {
   background-image: $image-background-color;
   background-image: url("../images/common/background.png");
+  background-size: 63%;
   background-repeat: no-repeat;
   background-position: top left;
   background-attachment: fixed;
@@ -101,4 +102,12 @@
   font-size: $font-size-field-value;
   //padding-top: 2px;
   padding-right: 8px;
+}
+
+.covered-img{
+  object-fit: cover;
+}
+
+.contain-img{
+  object-fit: contain;
 }

@@ -29,11 +29,17 @@ export const delMiddleWareFileData = () => ({ // this is not used yet, and may b
   payload: {}
 })
 
+export const resetTemporaryFile = () => ({
+  type: types.COMMON.RESET_TEMPORARY_FILE,
+  payload:{}
+})
+
 const FileActions = {
   getFile,
   createFile,
   updateFile,
-  delMiddleWareFileData
+  delMiddleWareFileData,
+  resetTemporaryFile
 }
 
 export default FileActions
