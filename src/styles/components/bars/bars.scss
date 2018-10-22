@@ -149,6 +149,7 @@ $sidebar-profile-media-width: 80px;
   height: 40px;
   width: 40px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .-outlineWhite {
@@ -282,7 +283,7 @@ $sidebar-profile-media-width: 80px;
 .exchange-center-background {
   top: 0;
   background: linear-gradient(to bottom, $image-background-color, $image-background-color,
-      $image-background-color, $image-background-color, $image-background-color, transparent);
+          $image-background-color, $image-background-color, $image-background-color, transparent);
   height: $exchange-tabs-height;
   width: $feed-width + 10;
   position: fixed;
@@ -779,7 +780,7 @@ $sidebar-profile-media-width: 80px;
   right: 9.55%;
   z-index: -1;
   opacity: 0;
-  transform: scale(0.7);
+  transform: scale(0.9);
   width: 20%;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   flex-direction: column;
@@ -831,7 +832,7 @@ $sidebar-profile-media-width: 80px;
   z-index: -1;
   opacity: 0;
   width: 40%;
-  transform: scale(0.7);
+  transform: scale(0.9);
   border-radius: 3px;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   background-color: white;
@@ -937,7 +938,8 @@ $sidebar-profile-media-width: 80px;
   border: none;
   border-bottom: 1.5px solid $text-title-menu-color;
   outline: none;
-  font-size: 17px;
+  font-size: 16px;
+  height: 20px;
   letter-spacing: 2px;
   text-align: right;
   width: 200px;
@@ -957,7 +959,7 @@ $sidebar-profile-media-width: 80px;
   padding-bottom: 50px;
 }
 
-.settingModal-menu-general-error{
+.settingModal-menu-general-error {
   margin-right: calc(7% + 115px);
   margin-left: 3%;
   font-size: 11px;
@@ -968,7 +970,7 @@ $sidebar-profile-media-width: 80px;
   transition-duration: 0.3s;
 }
 
-.settingModal-menu-general-error-show{
+.settingModal-menu-general-error-show {
   margin-right: calc(7% + 115px);
   margin-left: 3%;
   font-size: 11px;
@@ -1041,7 +1043,7 @@ $sidebar-profile-media-width: 80px;
   }
 }
 
-.settingModal-menu-general-close{
+.settingModal-menu-general-close {
   background-color: $error-color;
   border: 1px solid transparent;
   color: white;
@@ -1054,6 +1056,9 @@ $sidebar-profile-media-width: 80px;
   bottom: 20px;
   cursor: pointer;
   transition-duration: 0.3s;
+  transform: scale(1);
+  opacity: 1;
+  z-index: 1202;
   &:hover {
     border: 1px solid $error-color;
     color: $error-color;
@@ -1071,8 +1076,10 @@ $sidebar-profile-media-width: 80px;
   }
 }
 
-.settingModal-menu-general-closed{
-  transform: scale(0);
+.settingModal-menu-general-closed {
+  transform: scale(0.7);
+  opacity: 0;
+  z-index: -1;
   background-color: $error-color;
   border: 1px solid transparent;
   color: white;
@@ -1215,7 +1222,6 @@ $sidebar-profile-media-width: 80px;
   position: relative;
   padding-bottom: 50px;
 }
-
 
 .settingModal-menu-privacy-header {
   padding: 15px 12px;
@@ -1365,9 +1371,11 @@ $sidebar-profile-media-width: 80px;
   height: 65px;
   width: 65px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .profile-menu-profile-section {
+  display: block;
   padding: 15px 0;
   border-bottom: 1px solid $text-title-menu-color;
 }
@@ -1452,4 +1460,45 @@ $sidebar-profile-media-width: 80px;
       fill: $text-lightest-color;
     }
   }
+}
+
+.introduce-badges-container {
+  direction: rtl;
+  padding: 20px;
+}
+
+.introduce-badges-item-container {
+  margin-bottom: 30px;
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.introduce-badges-media {
+  display: inline-block;
+  width: 50px;
+  vertical-align: top;
+  margin-left: 15px;
+}
+
+.introduce-badges-item-text-container {
+  display: inline-block;
+  vertical-align: top;
+  width: calc(100% - 75px);
+  text-align: justify;
+  text-align-last: right;
+  margin-top: -5px;
+}
+
+.introduce-badges-title {
+  display: inline-block;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.introduce-badges-description {
+  display: inline-block;
+  font-size: 12px;
+  color: $text-title-menu-color;
+  line-height: 23px;
 }

@@ -52,14 +52,10 @@
 
 .exchange-model-avatar {
   height: 80px;
-}
-
-.exchange-model-avatar-parent {
+  object-fit: cover;
   margin: 0 auto 18px auto;
   width: 80px;
-  height: 80px;
   border-radius: 50%;
-  overflow: hidden;
   box-shadow: 0 2px 3px 1px rgba(0,0,0,0.2)
 }
 

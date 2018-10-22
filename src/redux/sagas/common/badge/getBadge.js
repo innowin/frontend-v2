@@ -9,14 +9,14 @@ import {normalizer} from 'src/consts/helperFunctions/normalizer'
 
 export function* getUserBadges(action) {
   const {userId, identityId} = action.payload
-  yield put({type:types.COMMON.SET_BADGES_IN_USER, payload:{userId}})
+  yield put({type: types.COMMON.SET_BADGES_IN_USER, payload: {userId}})
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.GET_USER_BADGES)
   try {
     yield fork(api.get, urls.COMMON.BADGE, results.COMMON.GET_USER_BADGES, `?badge_related_parent=${identityId}`)
     const badges = yield take(socketChannel)
     const normalData = helpers.arrayToIdKeyedObject(badges)
-    yield put({type: types.SUCCESS.COMMON.GET_USER_BADGES, payload: {data:normalData}})
-    yield put({type:types.SUCCESS.COMMON.SET_BADGES_IN_USER, payload:{data:badges, userId}})
+    yield put({type: types.SUCCESS.COMMON.GET_USER_BADGES, payload: {data: normalData}})
+    yield put({type: types.SUCCESS.COMMON.SET_BADGES_IN_USER, payload: {data: badges, userId}})
   } catch (e) {
     const {message} = e
     yield put({type: types.ERRORS.COMMON.SET_BADGES_IN_USER, payload: {message, userId}})
@@ -27,14 +27,14 @@ export function* getUserBadges(action) {
 
 export function* getOrganBadges(action) {
   const {organizationId} = action.payload
-  yield put({type:types.COMMON.SET_BADGES_IN_ORG, payload:{organizationId}})
+  yield put({type: types.COMMON.SET_BADGES_IN_ORG, payload: {organizationId}})
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.GET_ORG_BADGES)
   try {
     yield fork(api.get, urls.COMMON.BADGE, results.COMMON.GET_ORG_BADGES, `?badge_related_parent=${organizationId}`)
     const badges = yield take(socketChannel)
     const normalData = helpers.arrayToIdKeyedObject(badges)
-    yield put({type: types.SUCCESS.COMMON.GET_ORG_BADGES, payload: {data:normalData}})
-    yield put({type:types.SUCCESS.COMMON.SET_BADGES_IN_ORG, payload:{data:badges, organizationId}})
+    yield put({type: types.SUCCESS.COMMON.GET_ORG_BADGES, payload: {data: normalData}})
+    yield put({type: types.SUCCESS.COMMON.SET_BADGES_IN_ORG, payload: {data: badges, organizationId}})
   } catch (e) {
     const {message} = e
     yield put({type: types.ERRORS.COMMON.SET_BADGES_IN_ORG, payload: {message, organizationId}})
@@ -57,6 +57,18 @@ export function* getBadges(action) {
     yield put({type: types.SUCCESS.COMMON.GET_BADGES_CATEGORY, payload: {data: badge_related_badge_category}})
     yield put({type: types.SUCCESS.COMMON.GET_FILES, payload: {data: badge_related_media}})
     yield put({type: types.SUCCESS.USER.GET_USERS, payload: {data: badge_related_user}})
+  } catch (e) {
+  } finally {
+    socketChannel.close()
+  }
+}
+
+export function* getAllBadges() {
+  const socketChannel = yield call(api.createSocketChannel, results.COMMON.GET_ALL_BADGES)
+  try {
+    yield fork(api.get, urls.COMMON.BADGE, results.COMMON.GET_ALL_BADGES)
+    const badges = yield take(socketChannel)
+    yield put({type: types.SUCCESS.COMMON.GET_ALL_BADGES, payload: {data: badges}})
   } catch (e) {
   } finally {
     socketChannel.close()

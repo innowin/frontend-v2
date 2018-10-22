@@ -25,6 +25,7 @@ import GeneralSetting from "./TopBarComponents/GeneralSetting"
 import LinkedAccounts from "./TopBarComponents/LinkedAccounts"
 import Privacy from "./TopBarComponents/Privacy"
 import ExploreMenu from "./TopBarComponents/ExploreMenu"
+import IntroduceBadges from "./TopBarComponents/IntroduceBadges"
 
 type PropsTopBar = {|
   collapseClassName: string,
@@ -52,7 +53,9 @@ type StatesTopBar = {|
   createExchangeModalIsOpen: boolean,
   mouseIsOverMenu: boolean,
   selectedSetting: string,
-  showSetting?: boolean
+  showSetting: boolean,
+  selectedAbout: string,
+  showAbout: boolean
 |}
 
 class TopBar extends Component<PropsTopBar, StatesTopBar> {
@@ -77,7 +80,10 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       createExchangeModalIsOpen: false,
       productWizardModalIsOpen: false,
       mouseIsOverMenu: true,
+      showSetting: false,
       selectedSetting: "General Settings",
+      showAbout: false,
+      selectedAbout: 'FAQ',
     }
   }
 
@@ -144,23 +150,34 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   }
 
   _handleShowSetting = () => {
-    this.setState({...this.state, showSetting: true, exploreCollapse: false, collapseProfile: false})
+    this.setState({...this.state, showSetting: true, exploreCollapse: false, collapseProfile: false, showAbout: false})
   }
 
   _handleHideSetting = () => {
-    this.setState({...this.state, showSetting: false})
+    this.setState({...this.state, showSetting: false, showAbout: false})
     setTimeout(() => {
-      this.setState({...this.state, selectedSetting: "General Settings"})
+      this.setState({...this.state, selectedSetting: "Privacy", selectedAbout: 'FAQ'})
+      setTimeout(() => {
+        this.setState({...this.state, selectedSetting: "General Settings"})
+      }, 10)
     }, 500)
+  }
+
+  _handleShowAbout = () => {
+    this.setState({...this.state, showAbout: true, exploreCollapse: false, collapseProfile: false, showSetting: false})
   }
 
   _handleSettingSelected = (e) => {
     this.setState({...this.state, selectedSetting: e.target.id})
   }
 
+  _handleAboutSelected = (e) => {
+    this.setState({...this.state, selectedAbout: e.target.id})
+  }
+
   render() {
     const {collapseClassName, clientUser, clientOrganization, translate, clientImgLink} = this.props
-    const {collapse, collapseProfile, exploreCollapse, productWizardModalIsOpen, mouseIsOverMenu, selectedSetting, showSetting, createExchangeModalIsOpen} = this.state
+    const {collapse, collapseProfile, exploreCollapse, productWizardModalIsOpen, mouseIsOverMenu, selectedSetting, selectedAbout, showSetting, showAbout, createExchangeModalIsOpen} = this.state
     const linkEditProfile = !clientOrganization
         ? `/user/${clientUser.id}`
         : `/organization/${clientOrganization.id}`
@@ -212,7 +229,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                     {/*<MainLbarArrow className='explore-menu-arrow-2'/>*/}
                   </div>
                   <div className='explore-menu'>
-                    <div className='profile-menu-profile-section'>
+                    <Link className='profile-menu-profile-section' to={linkEditProfile}>
                       <div className='profile-menu-profile-section-image'>
                         {!clientImgLink ? <DefaultUserIcon className='-ProfTopBarImg-svg-big'/> :
                             <img src={clientImgLink} className='-ProfTopBarImg-svg-img-big' alt="Person icon"/>}
@@ -222,10 +239,9 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                             className='profile-menu-profile-section-next-image-first'>{clientUser && clientUser.first_name + " " + clientUser.last_name}</div>
                         <div
                             className='profile-menu-profile-section-next-image-middle'>@{clientUser && clientUser.username}</div>
-                        <Link className='profile-menu-profile-section-next-image-last'
-                              to={linkEditProfile}>{translate["Edit Profile"]}</Link>
+                        <div className='profile-menu-profile-section-next-image-last'>{translate["Edit Profile"]}</div>
                       </div>
-                    </div>
+                    </Link>
 
                     <div className='profile-menu-second-section'>
                       <div className='profile-menu-second-section-item' onClick={this._handleExchangeUpgrade}>درخواست
@@ -240,9 +256,8 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                     </div>
 
                     <div className='profile-menu-second-section'>
-                      <div className='profile-menu-second-section-item'
-                           onClick={this._handleShowSetting}>{translate["General Settings"]}</div>
-                      <div className='profile-menu-second-section-item'>{translate["About Innowin"]}</div>
+                      <div className='profile-menu-second-section-item' onClick={this._handleShowSetting}>{translate["General Settings"]}</div>
+                      <div className='profile-menu-second-section-item' onClick={this._handleShowAbout}>{translate["About Innowin"]}</div>
                       <div className='profile-menu-second-section-item'>{translate["Privacy"]}</div>
                     </div>
 
@@ -295,11 +310,12 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
           <AddingContribution modalIsOpen={productWizardModalIsOpen}
                               handleModalVisibility={this._handleProductWizardModal}/>
 
-          {/*Settings Modal*/}
-          <div className={showSetting ? "makeDark" : "makeDark-out"} onClick={this._handleHideSetting}>
+
+          <div className={showSetting || showAbout ? "makeDark" : "makeDark-out"} onClick={this._handleHideSetting}>
             {/*dark div*/}
           </div>
 
+          {/*Settings Modal*/}
           <div className={showSetting ? "settingModal-sidebar" : "settingModal-sidebar-out"}>
             <div id='General Settings' onClick={this._handleSettingSelected}
                  className={selectedSetting === "General Settings" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}>
@@ -324,6 +340,31 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
           </div>
           {/*End Settings Modal*/}
 
+          {/*About Modal*/}
+          <div className={showAbout ? "settingModal-sidebar" : "settingModal-sidebar-out"}>
+            <div id='FAQ' onClick={this._handleAboutSelected}
+                 className={selectedAbout === "FAQ" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}>
+              {translate["FAQ"]}
+            </div>
+            <div id='Introduce Badges' onClick={this._handleAboutSelected}
+                 className={selectedAbout === "Introduce Badges" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}>
+              {translate["Introduce Badges"]}
+            </div>
+            <div id='Terms & Conditions' onClick={this._handleAboutSelected}
+                 className={selectedAbout === "Terms & Conditions" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}>
+              {translate["Terms & Conditions"]}
+            </div>
+            <div id='About Us' onClick={this._handleAboutSelected}
+                 className={selectedAbout === "About Us" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}>
+              {translate["About Us"]}
+            </div>
+          </div>
+          <div className={showAbout ? "settingModal-menu" : "settingModal-menu-out"}>
+            <div className='settingModal-menu-header'>{translate[selectedAbout]}</div>
+            {this.renderAbout()}
+          </div>
+          {/*End About Modal*/}
+
         </div>
     )
   }
@@ -346,6 +387,32 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
           <Privacy/>
       )
     }
+  }
+
+  renderAbout() {
+    let {selectedAbout} = this.state
+
+    // if (selectedAbout === "FAQ") {
+    //   return (
+    //       <GeneralSetting/>
+    //   )
+    // }
+    // else
+    if (selectedAbout === "Introduce Badges") {
+      return (
+          <IntroduceBadges/>
+      )
+    }
+    // else if (selectedAbout === "Terms & Conditions") {
+    //   return (
+    //       <Privacy/>
+    //   )
+    // }
+    // else if (selectedAbout === "About Us") {
+    //   return (
+    //       <Privacy/>
+    //   )
+    // }
   }
 
 }

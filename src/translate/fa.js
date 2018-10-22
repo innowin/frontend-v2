@@ -339,5 +339,9 @@ module.exports = {
     'Who Can Read Followers?': 'چه کسانی بتوانند دنبال کننده هایتان را بخوانند؟',
     'Who Can Read Followings?': 'چه کسانی بتوانند دنبال کرده هایتان را بخوانند؟',
     'Who Can Read Exchanges?': 'چه کسانی بتوانند بورس هایتان را بخوانند؟',
+    'FAQ': 'پرسش های متداول',
+    'Introduce Badges': 'معرفی نشان ها',
+    'Terms & Conditions': 'شرایط و مقررات سرویس دهی',
+    'About Us': 'درباره ما',
   },
 };

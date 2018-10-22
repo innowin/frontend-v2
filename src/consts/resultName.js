@@ -64,6 +64,7 @@ const results = {
     GET_USER_BADGES: "GET_USER_BADGES",
     GET_ORG_BADGES: "GET_ORG_BADGES",
     GET_BADGES: 'get-badges-result',
+    GET_ALL_BADGES: 'get-all-result',
 
     CERTIFICATE: {
       GET_CERTIFICATES: 'common-get-object-certificates-list-result',
