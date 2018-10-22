@@ -47,7 +47,7 @@ const PostHeader = (props: PostHeaderProps) => {
           <div className="-img-col">
             {!postRelatedIdentityImage
                 ? (<DefaultUserIcon/>)
-                : (<img className="rounded-circle" src={postRelatedIdentityImage.file} alt=""/>)
+                : (<img className="rounded-circle covered-img" src={postRelatedIdentityImage.file} alt=""/>)
             }
           </div>
           <div className="-item-titlePost">

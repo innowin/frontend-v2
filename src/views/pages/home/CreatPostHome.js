@@ -6,7 +6,6 @@ import AttachFile from "src/views/common/inputs/AttachFile";
 import cx from 'classnames';
 import {SupplyIcon, DemandIcon, PostSendIcon} from "src/images/icons";
 import Transition from 'react-transition-group/Transition'
-import {FileName} from "../../common/FileName";
 import {AttachFileIcon} from "src/images/icons";
 import {bindActionCreators} from "redux"
 import PostActions from "../../../redux/actions/commonActions/postActions"
@@ -17,19 +16,19 @@ import {getMessages} from "../../../redux/selectors/translateSelector";
 const duration = 300;
 const defaultStyle = {
   transition: `all ${duration}ms ease-in-out`,
-  height: 40,
+  height: 30,
 };
 const transitionStyles = {
-  entering: {height: 40},
+  entering: {height: 30},
   entered: {height: 190}
 };
 
 class CreatePostFooter extends Component {
 
   static propTypes = {
-    getMedia: PropTypes.func.isRequired,
     createFile: PropTypes.func.isRequired,
-    media: PropTypes.object,
+    fileInputId: PropTypes.string.isRequired,
+    postFileLoading: PropTypes.bool
   }
 
   constructor(props) {
@@ -39,13 +38,11 @@ class CreatePostFooter extends Component {
 
   _AttachFile = () => {
     return {
-      media: this.AttachFileInput._getFile(),
-      fileName: this.AttachFileInput._getFileName(),
-      validate: this.AttachFileInput._validate(),
+      validate: this.AttachFileInput._validate()
     }
   }
 
-  AttachBottom = () => <AttachFileIcon className="-h18"/>
+  AttachButton = () => <AttachFileIcon className="-h18"/>
 
   _post_type = () => this.state.postType
 
@@ -58,7 +55,7 @@ class CreatePostFooter extends Component {
 
   render() {
     const {postType} = this.state
-    const {media, getMedia, createFile} = this.props
+    const {fileInputId, createFile, postFileLoading} = this.props
     const supplyMark = postType === 'supply'
     const demandMark = postType === 'demand'
     const postMark = postType === 'post'
@@ -78,11 +75,10 @@ class CreatePostFooter extends Component {
             ref={AttachFileInput => {
               this.AttachFileInput = AttachFileInput
             }}
-            getMedia={getMedia}
-            AttachBottom={this.AttachBottom}
+            AttachButton={this.AttachButton}
             createFileAction={createFile}
-            mediaId={media.id}
-            inputId="AttachFileInput"
+            inputId={fileInputId}
+            isLoadingProp={postFileLoading}
           />
           <i className="fa fa-smile-o mr-3" aria-hidden="true"/>
           <span className="mr-4">
@@ -118,13 +114,13 @@ class HomeCreatePost extends Component {
     handleErrorLoading: PropTypes.func,
     createFile: PropTypes.func.isRequired,
     className: PropTypes.string,
+    actions: PropTypes.object,
+    temporaryFile: PropTypes.object,
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      media: {},
-      fileName: '',
       description: '',
       descriptionValidate: false,
       textareaClass: 'closeTextarea',
@@ -133,12 +129,11 @@ class HomeCreatePost extends Component {
   }
 
   _getValues = () => {
-    const {media} = this.createPostFooter._AttachFile()
-    const mediaId = media ? media.id : null
-    const {postIdentityId, postParentId, postOwnerImgId} = this.props
+    const {postIdentityId, postParentId, postOwnerImgId, temporaryFile} = this.props
     // TODO mohsen: post_title is static but should be from post create
+    const postPictureId = (temporaryFile.content && temporaryFile.content.id) || null
     return {
-      post_picture: mediaId,
+      post_picture: postPictureId,
       post_description: this.state.description,
       post_title: 'title',
       post_type: this.createPostFooter._post_type(),
@@ -163,10 +158,6 @@ class HomeCreatePost extends Component {
     return result
   }
 
-  _getMedia = (media, fileName) => {
-    this.setState({...this.state, media, fileName})
-  }
-
   _save = () => {
     const {actions, postOwnerId, postOwnerType, postParentId, postParentType} = this.props
     const {createPost} = actions
@@ -188,8 +179,9 @@ class HomeCreatePost extends Component {
   }
 
   _handleClickOutForm = (e) => {
-    const {fileName, description} = this.state
-    if (!e.target.closest('#HomeCreatePost') && !fileName && !description.trim()) {
+    const {description} = this.state
+    const {temporaryFile} = this.props
+    if (!e.target.closest('#HomeCreatePost') && !temporaryFile.content && !description.trim()) {
       this.setState({...this.state, textareaClass: "closeTextarea", show: false})
     }
   }
@@ -203,11 +195,14 @@ class HomeCreatePost extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const {postsCountInThisPage} = this.props
+    const {postsCountInThisPage, actions} = this.props
+    const {resetTemporaryFile} = actions
     if (prevProps.postsCountInThisPage < postsCountInThisPage) {
-      this.setState({
-        ...this.state, textareaClass: "closeTextarea", show: false, media: {}, fileName: '', description: ''
-      }, () => this.createPostFooter._reset_postType())
+      this.setState({...this.state, textareaClass: "closeTextarea", show: false, description: ''},
+        () => {
+        this.createPostFooter._reset_postType()
+        resetTemporaryFile()
+      })
     }
   }
 
@@ -220,16 +215,19 @@ class HomeCreatePost extends Component {
   }
 
   render() {
-    const {media, fileName, description, textareaClass, show} = this.state
-    const {postOwnerImgLink, className, translate, actions} = this.props
+    const {description, textareaClass, show} = this.state
+    const {postOwnerImgLink, className, translate, temporaryFile, actions} = this.props
     const {createFile} = actions
+    const postFile = temporaryFile.content
+    const postFileLoading = temporaryFile.isLoading
+    const fileInputId = 'AttachFileInput'
     // TODO handle description error that say: "Ensure description value has at least 5 characters."
     return (
       <form className={"-createPostHome " + className} id="HomeCreatePost" onSubmit={this._onSubmit}>
         {/*// TODO mohsen: handle src of img*/}
         {
           (!postOwnerImgLink) ? (<DefaultUserIcon className="-img-col"/>) : (
-            <img className="-img-col rounded-circle" src={postOwnerImgLink} alt=""/>)
+            <img className="-img-col rounded-circle covered-img" src={postOwnerImgLink} alt=""/>)
         }
         <Transition in={show} timeout={duration}>
           {(state) => (
@@ -240,25 +238,26 @@ class HomeCreatePost extends Component {
               <div className="d-flex flex-row -textBox">
                 <textarea className='post-text-field' placeholder={translate['Be in zist boom']} onFocus={this._handleFocus} onChange={this._handleChange} value={description}/>
                 <div className="-img-content">
-                  {(media.file) ? (
+                  {
+                    (postFile) ? (
                     <div className="-fileBox">
                       {/*attachFile same as attach from createPostFooter by editFile icon*/}
-                      <label htmlFor="file">
+                      <label htmlFor={fileInputId}>
                         <i className="fa fa-pencil-square-o" aria-hidden="true"/>
                       </label>
-                      <img src={media.file} alt="imagePreview"/>
+                      <img className="contain-img" src={postFile.file} alt="imagePreview"/>
                     </div>
-                  ) : ('')}
-                  <div className="-fileNameBox"><FileName fileName={fileName} className={"d-inline-block"}/></div>
+                  ) : ('')
+                  }
                 </div>
               </div>
               <CreatePostFooter
-                getMedia={this._getMedia}
                 ref={createPostFooter => {
                   this.createPostFooter = createPostFooter
                 }}
-                media = {media}
                 createFile={createFile}
+                fileInputId={fileInputId}
+                postFileLoading={postFileLoading}
               />
             </div>
           )}
@@ -273,15 +272,18 @@ const mapStateToProps = (state, ownProps) => {
   const postOwnerImgLink = (postOwnerImgId
     && state.common.file.list[postOwnerImgId]
     && state.common.file.list[postOwnerImgId].file) || null
+  const temporaryFile = state.common.file.temporaryFile
   return {
     postOwnerImgLink,
     translate: getMessages(state),
+    temporaryFile,
   }
 }
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     createPost: PostActions.createPost,
     createFile: FileActions.createFile,
+    resetTemporaryFile: FileActions.resetTemporaryFile,
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(HomeCreatePost)

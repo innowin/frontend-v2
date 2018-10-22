@@ -369,12 +369,12 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
       : {organizationId:owner.id, organLogoId:pictureId, organBannerId:bannerId}
     const bannerCreateArguments = {
       fileIdKey:bannerFileIdKey,
+      nextActionType,
       nextActionData,
-      nextActionType:nextActionType,
     }
     const mediaCreateArguments = {
       fileIdKey:mediaFileIdKey,
-      nextActionType:nextActionType,
+      nextActionType,
       nextActionData,
     }
     return (
@@ -382,7 +382,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
         <div className="editable-profile-img">
           {
             (!bannerId) ? <DefaultImageIcon className="banner"/> : (
-              <img alt="" src={banner.file} className="banner"/>)
+              <img alt="" src={banner.file} className="banner covered-img"/>)
           }
           {
             (!editProfile) ? '' : (
@@ -390,9 +390,8 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
                 ref={AttachBannerFileInput => {
                   this.AttachBannerFileInput = AttachBannerFileInput
                 }}
-                AttachBottom={() => this._AttachBottom('edit-banner')}
+                AttachButton={() => this._AttachBottom('edit-banner')}
                 createArguments={bannerCreateArguments}
-                mediaId={bannerId}
                 inputId="AttachBannerFileInput"
                 LoadingFile={this._LoadingFile}
                 createFileAction={createFile}
@@ -407,7 +406,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
                 (sideBarType === 'user') ? <DefaultUserIcon className="profile-media"/> :
                   <DefaultOrganIcon className="profile-media"/>
               ) : (
-                <img className="rounded-circle profile-media" alt="" src={picture.file}/>)
+                <img className="rounded-circle profile-media covered-img" alt="" src={picture.file}/>)
             }
             {
               (!editProfile) ? '' : (
@@ -415,9 +414,8 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
                   ref={AttachMediaFileInput => {
                     this.AttachMediaFileInput = AttachMediaFileInput
                   }}
-                  AttachBottom={() => this._AttachBottom('edit-media')}
+                  AttachButton={() => this._AttachBottom('edit-media')}
                   createArguments={mediaCreateArguments}
-                  mediaId={pictureId}
                   inputId="AttachMediaFileInput"
                   LoadingFile={this._LoadingFile}
                   createFileAction={createFile}
