@@ -5,7 +5,7 @@ import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 
 import NewSkillIcon from "../../../images/user/new_skill_svg"
-import SkillActions from "../../../redux/actions/skillActions"
+import SkillActions from "../../../redux/actions/user/skillActions"
 import SkillInfo from './SkillInfo'
 import type {skillType} from "../../../consts/flowTypes/user/others"
 import {ItemHeader, ItemWrapper} from "../cards/Frames"

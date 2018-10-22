@@ -9,6 +9,7 @@ import researchWatchers from './research'
 import skillWatchers from './skill'
 import userWatchers from "./user"
 import workExperienceWatchers from './workExperience'
+import abilityWatchers from './ability'
 
 const rootSaga = function* () {
   yield all([
@@ -40,7 +41,10 @@ const rootSaga = function* () {
     ...skillWatchers,
 
     // common
-    ...commonWatchers
+    ...commonWatchers,
+
+    //ability
+    ...abilityWatchers,
   ])
 }
 

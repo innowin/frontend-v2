@@ -103,7 +103,7 @@ class ContactInfoEditForm extends Component<PropsContactInfoEditForm> {
     // they are array forms and must change the send format
 
     const formValues: {} = {...formFormat}
-    updateProfileByProfileId(formValues, profileId, userId)
+    updateProfileByProfileId({formValues, profileId, userId})
     this.props.hideEdit()
     return false
   }

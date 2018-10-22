@@ -6,7 +6,7 @@ import {connect} from "react-redux"
 
 import type {workExperienceType} from "src/consts/flowTypes/user/others"
 import WorkExperience from './WorkExperience'
-import WorkExperienceActions from "../../../redux/actions/workExperienceActions";
+import WorkExperienceActions from "../../../redux/actions/user/workExperienceActions";
 import WorkExperienceCreateForm from "./WorkExperienceCreateForm"
 import workExperienceIcon from "../../../images/user/workExperience_svg";
 import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper, ItemWrapper} from "src/views/common/cards/Frames"

@@ -1,7 +1,9 @@
+import createAbility from './createAbility'
 import createCustomer from './createCustomer'
 import createFollow from "./createFollow"
 import createPost from "./createPost"
 import createWorkExperienceByUserId from './createWorkExperienceByUserId'
+import deleteAbility from './deleteAbility'
 import deleteCertificate from "./deleteCertificate"
 import deleteCustomer from './deleteCustomer'
 import deleteExchangeMembership from './deleteExchangeMembership'
@@ -9,6 +11,7 @@ import deleteFollow from "./deleteFollow"
 import deletePost from "./deletePost"
 import deleteProduct from "./deleteProduct"
 import deleteWorkExperienceByUserId from './deleteWorkExperienceByUserId'
+import getAbilitiesByOrganizationId from './getAbilitiesByOrganizationId'
 import getCertificatesByIdentity from "./getCertificatesByIdentity"
 import getExchangeMembershipByMemberIdentity from "./getExchangeMembershipByMemberIdentity"
 import getFollowees from "./getFollowees"
@@ -21,10 +24,12 @@ import getPost from './getPost'
 import setOrganMedia from "./setOrganMedia"
 
 export default {
+  createAbility,
   createCustomer,
   createFollow,
   createPost,
   createWorkExperienceByUserId,
+  deleteAbility,
   deleteCertificate,
   deleteCustomer,
   deleteExchangeMembership,
@@ -32,6 +37,7 @@ export default {
   deletePost,
   deleteProduct,
   deleteWorkExperienceByUserId,
+  getAbilitiesByOrganizationId,
   getCertificatesByIdentity,
   getExchangeMembershipByMemberIdentity,
   getFollowees,

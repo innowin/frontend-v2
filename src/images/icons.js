@@ -66,6 +66,7 @@ import LinkedInIcon from "./common/linkedin_svg"
 import YoutubeIcon from "./common/youtube_svg"
 import ReplyArrow from "./common/reply_arrow_svg"
 import InnoWinLogo from "./common/innoWin_svg"
+import ShareIcon from "./common/share"
 
 
 export {
@@ -137,4 +138,5 @@ export {
   LinkedInIcon,
   YoutubeIcon,
   ReplyArrow,
+  ShareIcon
 }

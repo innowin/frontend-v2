@@ -6,7 +6,7 @@ import * as React from "react"
 
 import ResearchInfo from './ResearchInfo'
 import {bindActionCreators} from "redux"
-import ResearchActions from "../../../redux/actions/researchActions"
+import ResearchActions from "../../../redux/actions/user/researchActions"
 import connect from "react-redux/es/connect/connect"
 import {makeGetResearches} from "../../../redux/selectors/user/userGetResearchesSelector"
 

@@ -19,6 +19,7 @@ export default {
     social: {
       follows: [], /* ids of follows that this client participates at them*/
     },
+    abilities: [],  /* ids of abilities that this organziation client has at them*/
     rememberMe: null,
     user_type: null,
     isLoggedIn: false,

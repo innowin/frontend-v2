@@ -65,6 +65,35 @@ export class Organization extends Component<PropsOrganization> {
     identityObject: PropTypes.object.isRequired,
   }
 
+  firstGetBadges: boolean
+
+  constructor(props: PropsOrganization) {
+    super(props)
+    this.firstGetBadges = true
+  }
+
+
+  componentDidUpdate(prevProps: PropsOrganization) {
+    const {params} = this.props.match
+    const organId: number = +params.id
+    const {identityObject, actions} = this.props
+    const {getOrganizationByOrganId, getOrgIdentity, setParamOrganId} = actions
+
+    if (+prevProps.match.params.id !== organId) {
+      getOrganizationByOrganId(organId)
+      getOrgIdentity(organId)
+      setParamOrganId({id: organId})
+    }
+
+    if (this.firstGetBadges && identityObject.content && prevProps.identityObject !== identityObject) {
+      const {params} = this.props.match
+      const organId: number = +params.id
+      const {getOrganBadges} = actions
+      getOrganBadges(organId)
+      this.firstGetBadges = false
+    }
+  }
+
   componentDidMount() {
     const {params} = this.props.match
     const organId = +params.id
@@ -131,6 +160,7 @@ export class Organization extends Component<PropsOrganization> {
                                     ownerId={organizationId}
                                     identityId={identityObject.content}
                                     identityType={constants.USER_TYPES.ORG}
+                                    isUser={false}
                       />
                       <PrivateRoute exact={true} path={`${path}/Posts`} component={Posts} id={organizationId}
                                     identityType={constants.USER_TYPES.ORG}

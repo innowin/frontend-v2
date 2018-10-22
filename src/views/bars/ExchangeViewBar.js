@@ -182,17 +182,7 @@ class ExchangeViewBar extends Component {
                     className="-grey1 fontSize-13px description-right-bar">{currentExchange.description === "" ? "بدون توضیحات" :
                     currentExchange.description}</span>
               </div>
-              {/*
-               {this.state.membersViewSide ?
-               <div className="numbersSection flex-column pl-3">
-               <div className="">
-               <span>اعضا:</span>
-               <span>{currentExchange.members_count}</span>
-               </div>
-               {membersView}
-               </div>
-               :
-               */}
+
               <div className="numbersSection flex-column pl-3">
                 <div className="">
                   <span>اعضا:</span>

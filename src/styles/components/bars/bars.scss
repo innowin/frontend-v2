@@ -1441,10 +1441,10 @@ $sidebar-profile-media-width: 80px;
     position: relative;
     background: $brand-inverse-color;
     color: $text-lightest-color;
-    padding: 8px 14px;
+    padding: 5px 14px;
     font-size: $font-size-regular;
     border-radius: 100px;
-    width: 120px;
+    width: 140px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1452,7 +1452,7 @@ $sidebar-profile-media-width: 80px;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     svg {
-      width: 16px;
+      width: 12px;
       position: absolute;
       left: 10px;
     }

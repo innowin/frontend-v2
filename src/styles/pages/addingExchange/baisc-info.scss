@@ -1,18 +1,8 @@
-@import "common";
+@import "../common";
 
 .create-exchange-wrapper .basic-info {
   max-width: 900px;
   margin: 90px auto;
-  .act-bar {
-    .act-btn:first-child {
-      background-color: $text-lightest-color;
-      border: 2px solid $brand-inverse-color;
-      color: $brand-inverse-color;
-    }
-    .act-btn:last-child svg {
-      transform: rotate3d(0, 0, 1, 90deg);
-    }
-  }
   .form {
     display: flex;
     justify-content: space-between;
@@ -66,8 +56,15 @@
       object-fit: contain;
       height: 200px;
       width: 200px;
-      box-shadow: 0 0 1px #f5f3f3;
+      box-shadow: none;
       margin-top: 33px;
+      opacity: 0;
+      transition: all 0.3s;
+      &.show {
+        opacity: 1;
+        box-shadow: 0 0 1px $images-box-shadow;
+        transition: all 0.5s;
+      }
     }
     .image-form .hide-scroll-wrapper {
       border: 1px solid #242424;
@@ -94,7 +91,7 @@
       width: 58px;
       height: 58px;
       object-fit: contain;
-      box-shadow: 0 0 1px #f5f3f3;
+      box-shadow: 0 0 1px $images-box-shadow;
       margin: 3px 0;
       cursor: pointer;
     }
@@ -105,7 +102,7 @@
     .file-input-wrapper {
       position: relative;
       overflow: hidden;
-      box-shadow: 0 0 1px #f5f3f3;
+      box-shadow: 0 0 1px $images-box-shadow;
       cursor: pointer;
       svg {
         position: absolute;

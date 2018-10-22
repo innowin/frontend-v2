@@ -516,7 +516,8 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
 const mapStateToProps = (state, ownProps) => {
   return {
     clientIdentityId: state.auth.client.identity.content,
-    followers: getFollowersSelector(state, ownProps),
+    followers: getFollowersSelector(state, ownProps), // fixMe: does not memoize. read the docs for correct call way.
+    //fixMe: actually should create a selector creator when we need props in this selector.
   }
 }
 
