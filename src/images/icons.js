@@ -45,10 +45,11 @@ import SkillIcon from "./user/skill_svg"
 import SocialIcon from "./common/social_svg"
 import SearchIcon from "./common/search_svg"
 import SquareAdd from "./common/squareAdd_svg"
-import starIcon from "./common/star_svg"
+import StarIcon from "./common/star_svg"
 import SupplyIcon from "./common/supply_svg"
 import ThinDownArrow from "./common/thin_down_arrow_svg"
 import MainLbarArrow from "./common/mainLbararrow"
+import TagIcon from './common/tag_icon'
 import TickSvgIcon from "./common/tick_svg"
 import TipsIcon from "./common/tips_svg_icon"
 import userInfoIcon from "./user/userinfo_svg"
@@ -126,13 +127,14 @@ export {
   SocialIcon,
   SquareAdd,
   SearchIcon,
-  starIcon,
+  StarIcon,
   SupplyIcon,
   ThinDownArrow,
   TickSvgIcon,
   TipsIcon,
   userInfoIcon,
   workExperienceIcon,
+  TagIcon,
   TelegramIcon,
   InstagramIcon,
   LinkedInIcon,

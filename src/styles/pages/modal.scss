@@ -387,6 +387,47 @@
   width: 50%;
   background-color: white;
   transition-duration: $modal-transition-time;
+
+  .common-modal-button {
+    margin: 10px;
+    border: 1px solid transparent;
+    font-size: $font-size-normalText;
+    border-radius: 20px;
+    padding: 3px 28px;
+    width: 100px;
+    cursor: pointer;
+    transition-duration: $modal-transition-time;
+
+    &:hover {
+      background-color: white;
+      transition-duration: 0.3s;
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+  .search-button {
+    border: 1px solid transparent;
+    background-color: $success-color;
+    color: white;
+
+    &:hover {
+      border: 1px solid $success-color;
+      color: $success-color;
+      background-color: white;
+    }
+  }
+  .back-button {
+    border: 1px solid #000;
+    color: #000;
+    background-color: #fff;
+
+    &:hover {
+      border: 1px solid transparent;
+      color: #fff;
+      background-color: #000;
+    }
+  }
 }
 
 .common-modal-out {
@@ -503,59 +544,105 @@
     display: flex;
     flex-direction: row-reverse;
     margin: 0 20px 20px 20px;
-
-    .common-modal-button {
-      margin: 10px;
-      border: 1px solid transparent;
-      font-size: $font-size-normalText;
-      border-radius: 20px;
-      padding: 3px 28px;
-      width: 100px;
-      cursor: pointer;
-      transition-duration: $modal-transition-time;
-
-      &:hover {
-        background-color: white;
-        transition-duration: 0.3s;
-      }
-      &:focus {
-        outline: none;
-      }
-    }
-    .search-button {
-      border: 1px solid transparent;
-      background-color: $success-color;
-      color: white;
-
-      &:hover {
-        border: 1px solid $success-color;
-        color: $success-color;
-        background-color: white;
-      }
-    }
-    .back-button {
-      border: 1px solid #000;
-      color: #000;
-      background-color: #fff;
-
-      &:hover {
-        border: 1px solid transparent;
-        color: #fff;
-        background-color: #000;
-      }
-    }
   }
 
 }
 
 @media screen and (max-width: 1280px) and (min-width: 600px) {
-  .common-modal, .common-modal {
+  .common-modal, .common-modal-out {
     width: 70%;
   }
 }
 
 @media screen and (max-width: 599px) {
-  .common-modal, .common-modal {
+  .common-modal, .common-modal-out {
     width: 90%;
+  }
+}
+
+.register-steps-modal {
+  position: fixed;
+  top: 40px;
+  border-radius: $border-radius-size;
+  width: 95%;
+  display: flex;
+
+  .left-side-register {
+    flex: 4;
+
+    .back-button {
+      border: 1px solid $success-color;
+      color: $success-color;
+      background-color: #ffffff;
+
+      &:hover {
+        border: 1px solid $success-color;
+        color: #ffffff;
+        background-color: $success-color;
+      }
+    }
+  }
+  .right-side-register {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: $success-color;
+    border-top-right-radius: $border-radius-size;
+    border-bottom-right-radius: $border-radius-size;
+    color: $text-lighter-color;
+    padding: 35px;
+
+    .right-side-part {
+      min-height: 150px;
+      text-align: justify;
+      position: relative;
+
+      .right-side-part-header {
+        font-size: $font-size-medium;
+        margin-bottom: 30px;
+      }
+      .right-side-part-description {
+        font-size: $font-size-regular;
+        line-height: 23px;
+      }
+      .right-side-part-icon {
+        position: absolute;
+        top: -10px;
+        left: -55px;
+        width: 40px;
+        height: 40px;
+        fill: $register-part-in-icon-color;
+        box-shadow: 0 3px 3px $box-shadow-color;
+        background-color: $register-part-icon-color;
+        border-radius: 50px;
+        border: 1px solid $box-shadow-color;
+        padding: 10px 10px;
+      }
+      .right-side-part-icon-active {
+        border: 1px solid #ffffff;
+        fill: $success-color;
+        background-color: #ffffff;
+      }
+    }
+  }
+  .right-side-part-active {
+    color: #ffffff;
+  }
+  .register-steps-modal-footer {
+    display: flex;
+    flex-direction: row-reverse;
+    margin: 0 20px 20px 20px;
+  }
+}
+
+@media screen and (max-width: 1280px) and (min-width: 600px) {
+  .register-steps-modal {
+    width: 95%;
+  }
+}
+
+@media screen and (max-width: 599px) {
+  .register-steps-modal {
+    width: 95%;
   }
 }

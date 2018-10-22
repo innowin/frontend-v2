@@ -3,6 +3,7 @@ import CarouselLogin from "./login/Carousel"
 import FooterLogin from "./login/FooterLogin"
 import HeaderLogin from "./login/HeaderLogin"
 import RegisterForm from "./login/SignUpForm"
+import RegisterStepsModal from './login/registerModal/RegisterStepsModal'
 import SignInForm from "./login/signInForm"
 import SocialLogin from "./login/SocialLogin"
 import PasswordRecovery from './login/PasswordRecovery'
@@ -23,6 +24,7 @@ class Login extends Component {
         logoCaption: 'اکوسیستم دانش بنیان'
       },
       showRecovery: false,
+      showRegisterModal: false,
     }
   }
 
@@ -37,13 +39,18 @@ class Login extends Component {
   _showRecoveryPassword = () => {
     this.setState({...this.state, showRecovery: true})
   }
-  _hideRecoveryClick = () => {
-    this.setState({...this.state, showRecovery: false})
+
+  _hideModalClick = () => {
+    this.setState({...this.state, showRecovery: false, showRegisterModal: false})
+  }
+
+  _onRegisterClisk = (value) => {
+    this.setState({...this.state, showRegisterModal: true})
   }
 
   render() {
     const {translate} = this.props
-    const {page, footer, header, showRecovery} = this.state
+    const {page, footer, header, showRecovery, showRegisterModal} = this.state
     const {year} = footer
     const {iosLink, androidLink, address, phoneNumber, logoCaption} = header
     const SignIn = (page === 'SignIn')
@@ -52,7 +59,12 @@ class Login extends Component {
 
     return (
         <div className="login-page  full-page-wrapper">
-          <PasswordRecovery showRecovery={showRecovery} hideRecoveryClick={this._hideRecoveryClick}
+          <div className={(showRecovery || showRegisterModal) ? "makeDark" : "makeDark-out"} onClick={this._hideModalClick}>
+            {/*dark div*/}
+          </div>
+          <PasswordRecovery showRecovery={showRecovery} hideRecoveryClick={this._hideModalClick}
+                            translate={translate}/>
+          <RegisterStepsModal showRegisterModal={showRegisterModal} hideRecoveryClick={this._hideModalClick}
                             translate={translate}/>
           <div className="login-container">
             <HeaderLogin iosLink={iosLink} androidLink={androidLink} address={address} phoneNumber={phoneNumber}
@@ -84,7 +96,7 @@ class Login extends Component {
                     <SignInForm initialValues={{rememberMe: true}}
                                 recoveryPasswordClick={this._showRecoveryPassword}
                     />}
-                    {SignUp && <RegisterForm/>}
+                    {SignUp && <RegisterForm onRegisterClick={this._onRegisterClisk}/>}
                   </div>
                   <div className="card-footer social-login">
                     <span>{translate['Register with other accounts']}</span>
