@@ -27,5 +27,10 @@ export default {
     INSTAGRAM: 'https://www.instagram.com/',
     YOUTUBE: 'https://www.youtube.com/channel/',
     LINKEDIN: 'https://www.linkedin.com/in/',
+  },
+  SERVER_GRADES: {
+    BACHELOR: 'Bachelor',
+    MASTER: 'Master',
+    PHD: 'Phd',
   }
 }

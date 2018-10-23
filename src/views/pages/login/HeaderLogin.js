@@ -9,7 +9,7 @@ const HeaderLogin = ({iosLink, androidLink, address, phoneNumber, logoCaption}) 
 				<div className="logo-wrapper col-lg-6 col-md-12 col-sm-12 mb-4">
 					<div className="logo"><LogoColorSvg className='logoLogin'/></div>
 					<div className="company-name">{__('Danesh Boom')}</div>
-					<div className="divider"></div>
+					<div className="divider"/>
 					<div className="logo-caption">{logoCaption}</div>
 				</div>
 				<div className="address-wrapper col-lg-6 col-md-12 col-sm-12">

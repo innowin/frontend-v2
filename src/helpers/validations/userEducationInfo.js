@@ -52,7 +52,7 @@ const userEducationInfo = (values, {translate}) => {
 
   const {university, grade, fieldOfStudy, average, description, dayFromDate, monthFromDate, yearFromDate, dayToDate, monthToDate, yearToDate} = values
   if (university) errors.university = validateUniversity(university, translate)
-  if (grade) errors.grade = validateGrade(grade, translate)
+  // if (grade) errors.grade = validateGrade(grade, translate)
   if (fieldOfStudy) errors.fieldOfStudy = validateFieldOfStudy(fieldOfStudy, translate)
   if (average) errors.average = validateAverage(average, translate)
   if (description) errors.description = validateDescription(description, translate)

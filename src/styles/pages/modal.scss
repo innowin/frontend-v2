@@ -387,6 +387,47 @@
   width: 50%;
   background-color: white;
   transition-duration: $modal-transition-time;
+
+  .common-modal-button {
+    margin: 10px;
+    border: 1px solid transparent;
+    font-size: $font-size-normalText;
+    border-radius: 20px;
+    padding: 3px 28px;
+    width: 100px;
+    cursor: pointer;
+    transition-duration: $modal-transition-time;
+
+    &:hover {
+      background-color: white;
+      transition-duration: 0.3s;
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+  .search-button {
+    border: 1px solid transparent;
+    background-color: $success-color;
+    color: white;
+
+    &:hover {
+      border: 1px solid $success-color;
+      color: $success-color;
+      background-color: white;
+    }
+  }
+  .back-button {
+    border: 1px solid #000;
+    color: #000;
+    background-color: #fff;
+
+    &:hover {
+      border: 1px solid transparent;
+      color: #fff;
+      background-color: #000;
+    }
+  }
 }
 
 .common-modal-out {
@@ -503,59 +544,367 @@
     display: flex;
     flex-direction: row-reverse;
     margin: 0 20px 20px 20px;
-
-    .common-modal-button {
-      margin: 10px;
-      border: 1px solid transparent;
-      font-size: $font-size-normalText;
-      border-radius: 20px;
-      padding: 3px 28px;
-      width: 100px;
-      cursor: pointer;
-      transition-duration: $modal-transition-time;
-
-      &:hover {
-        background-color: white;
-        transition-duration: 0.3s;
-      }
-      &:focus {
-        outline: none;
-      }
-    }
-    .search-button {
-      border: 1px solid transparent;
-      background-color: $success-color;
-      color: white;
-
-      &:hover {
-        border: 1px solid $success-color;
-        color: $success-color;
-        background-color: white;
-      }
-    }
-    .back-button {
-      border: 1px solid #000;
-      color: #000;
-      background-color: #fff;
-
-      &:hover {
-        border: 1px solid transparent;
-        color: #fff;
-        background-color: #000;
-      }
-    }
   }
 
 }
 
 @media screen and (max-width: 1280px) and (min-width: 600px) {
-  .common-modal, .common-modal {
+  .common-modal, .common-modal-out {
     width: 70%;
   }
 }
 
 @media screen and (max-width: 599px) {
-  .common-modal, .common-modal {
+  .common-modal, .common-modal-out {
     width: 90%;
+  }
+}
+
+.register-steps-modal {
+  position: fixed;
+  top: 40px;
+  border-radius: $border-radius-size;
+  width: 95%;
+  display: flex;
+
+  .left-side-register {
+    flex: 4;
+
+    .register-steps-modal-footer {
+      display: flex;
+      position: absolute;
+      left: 30px;
+      bottom: 30px;
+      flex-direction: row-reverse;
+      margin: 0 20px 20px 20px;
+
+      .back-button {
+        border: 1px solid $success-color;
+        color: $success-color;
+        background-color: #ffffff;
+
+        &:hover {
+          border: 1px solid $success-color;
+          color: #ffffff;
+          background-color: $success-color;
+        }
+      }
+    }
+    .register-steps-modal-content {
+      padding: 70px 7%;
+
+      .user-modal-container {
+        .user-type-container {
+          display: flex;
+          height: 150px;
+          flex-direction: row;
+          align-items: center;
+
+          .row-user-part {
+            width: 23%;
+
+            .user-type {
+              position: relative;
+              display: flex;
+              width: 130px;
+              height: 60px;
+              align-items: center;
+              justify-content: space-around;
+              padding: 0 15px;
+              color: $text-light-color;
+
+              .active-user-type-tick {
+                width: 26px;
+                height: 26px;
+                padding: 3px;
+                fill: $success-color;
+                border: 1.5px solid $success-color;
+                border-radius: 50px;
+                top: -13px;
+                background: #ffffff;
+                left: 0;
+                right: 0;
+                margin: auto;
+                position: absolute;
+              }
+
+              .one-person-icon {
+                width: 25px;
+                height: 25px;
+                fill: $text-light-color;
+              }
+              .social-person-icon {
+                width: 30px;
+                height: 30px;
+                fill: $text-light-color;
+              }
+
+              .one-person-icon-active {
+                fill: $success-color;
+              }
+              .social-person-icon-active {
+                fill: $success-color;
+              }
+            }
+            .user-type-active {
+              border: 1.5px solid $success-color;
+              border-radius: $border-radius-size;
+              color: $success-color;
+            }
+            .user-profile-container {
+              position: relative;
+              width: 100px;
+              height: 100px;
+              border-radius: 100px;
+              overflow: hidden;
+
+              .user-profile {
+                width: 100%;
+                height: 100%;
+              }
+              .select-text {
+                transition: $animation-timing all;
+                background-color: $frame-color;
+                font-size: $font-size-regular;
+                position: absolute;
+                bottom: 0;
+                padding-bottom: 4px;
+                left: 0;
+                text-align: center;
+                color: #ffffff;
+                width: 100%;
+              }
+            }
+
+            &:hover {
+              .select-text {
+                background-color: darken($frame-color, 10%);
+              }
+            }
+          }
+
+          .label-part {
+            display: flex;
+            align-items: center;
+            height: 100%;
+
+            .label-user-text {
+              font-size: $font-size-field-label;
+              margin: 0;
+              font-weight: bold;
+            }
+            .label-user-text-profile {
+              padding-right: 28px;
+            }
+            .required-icon {
+              padding-left: 20px;
+              font-size: 10px;
+              color: $danger-color;
+            }
+          }
+          .profile-part {
+            align-items: normal;
+          }
+
+          .username-input-container {
+            width: 76%;
+            display: flex;
+
+            .settingModal-menu-general-input {
+              width: 50%;
+              padding-bottom: 10px;
+            }
+            .validation-text {
+              padding-right: 30px;
+              color: $text-light-color;
+              font-size: $font-size-regular;
+            }
+          }
+        }
+        .profile-part-container {
+          align-items: normal;
+          height: 100px;
+        }
+      }
+      .extend-relations-social-accounts-container {
+        width: 100%;
+        font-size: $font-size-regular;
+        .social-text {
+          color: $text-light-color;
+        }
+        .account-container {
+          margin: 50px 0;
+          display: flex;
+          align-items: center;
+
+          .label-connect {
+            font-weight: bold;
+            margin: 0;
+            width: 20%;
+          }
+          .gmail-icon {
+            width: 20px;
+          }
+          .linkedin-icon {
+            width: 20px;
+            fill: $linkedin-icon-color;
+          }
+          .social-connect-text {
+            width: 40%;
+            text-align: center;
+          }
+          .add-button {
+            margin: 0;
+            background-color: $success-color;
+            border: 1px solid #fff;
+            color: #ffffff;
+
+            &:hover {
+              background-color: #ffffff;
+              color: $success-color;
+              border: 1px solid $success-color;
+            }
+          }
+          .remove-button {
+            margin: 0;
+            background-color: $text-light-color;
+            border: 1px solid $text-light-color;
+            color: #ffffff;
+            padding-left: 0;
+            padding-right: 0;
+
+            &:hover {
+              background-color: #ffffff;
+              color: $text-light-color;
+              border: 1px solid $text-light-color;
+            }
+          }
+        }
+      }
+      .extend-relations-users-container {
+        .users-text {
+          font-size: $font-size-regular;
+          font-weight: bold;
+          margin-bottom: 40px;
+        }
+        .users-container{
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-around;
+          overflow-y: auto;
+          height: 400px;
+
+          .user-container {
+            padding: 5px;
+            height: 250px;
+            max-width: 25%;
+            flex: 1 1 25%;
+          }
+        }
+      }
+    }
+  }
+  .right-side-register {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: $success-color;
+    border-top-right-radius: $border-radius-size;
+    border-bottom-right-radius: $border-radius-size;
+    color: $text-lighter-color;
+    padding: 35px;
+
+    .right-side-part {
+      min-height: 150px;
+      text-align: justify;
+      position: relative;
+
+      .right-side-part-header {
+        font-size: $font-size-medium;
+        margin-bottom: 30px;
+      }
+      .right-side-part-description {
+        font-size: $font-size-regular;
+        line-height: 23px;
+      }
+      .right-side-part-icon {
+        position: absolute;
+        top: -10px;
+        left: -55px;
+        width: 40px;
+        height: 40px;
+        fill: $register-part-in-icon-color;
+        box-shadow: 0 3px 3px $box-shadow-color;
+        background-color: $register-part-icon-color;
+        border-radius: 50px;
+        border: 1px solid $box-shadow-color;
+        padding: 10px 10px;
+      }
+      .right-side-part-icon-active {
+        border: 1px solid #ffffff;
+        fill: $success-color;
+        background-color: #ffffff;
+      }
+    }
+  }
+  .right-side-part-active {
+    color: #ffffff;
+  }
+}
+
+@media screen and (max-width: 1200px) and (min-width: 850px) {
+  .register-steps-modal {
+    width: 95%;
+
+    .left-side-register {
+      .register-steps-modal-content {
+        .extend-relations-users-container {
+          .users-container{
+            .user-container {
+              max-width: 33%;
+              flex: 1 1 33%;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 850px) and (min-width: 600px){
+  .register-steps-modal {
+    width: 95%;
+
+    .left-side-register {
+      .register-steps-modal-content {
+        .extend-relations-users-container {
+          .users-container{
+            .user-container {
+              max-width: 50%;
+              flex: 1 1 50%;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .register-steps-modal {
+    width: 95%;
+
+    .left-side-register {
+      .register-steps-modal-content {
+        .extend-relations-users-container {
+          .users-container{
+            .user-container {
+              max-width: 100%;
+              flex: 1 1 100%;
+            }
+          }
+        }
+      }
+    }
   }
 }

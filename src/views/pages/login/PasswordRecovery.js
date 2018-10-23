@@ -68,15 +68,11 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
   }
 
   render() {
-    const {showRecovery, hideRecoveryClick, translate} = this.props
+    const {showRecovery, translate} = this.props
     const {step, showPassword, showRepeatPassword} = this.state
 
     return (
         <div>
-          <div className={showRecovery ? "makeDark" : "makeDark-out"} onClick={hideRecoveryClick}>
-            {/*dark div*/}
-          </div>
-
           <div className={showRecovery ? "common-modal password-modal" : "common-modal-out password-modal"}>
             <div className='password-modal-header'>
               {translate['Forgot password']}
