@@ -1,5 +1,7 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
+import PropTypes from 'prop-types'
+
 import RightSideRegisterStepsModal from './RightSideRegisterStepsModal'
 import LeftSideRegisterStepsModal from './LeftSideRegisterStepsModal'
 
@@ -69,6 +71,12 @@ class RegisterStepsModal extends React.Component <registerStepsModalProps, regis
         </div>
     )
   }
+}
+
+RegisterStepsModal.propTypes = {
+  showRegisterModal: PropTypes.bool.isRequired,
+  hideRecoveryClick: PropTypes.func.isRequired,
+  translate: PropTypes.object.isRequired,
 }
 
 export default RegisterStepsModal

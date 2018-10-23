@@ -68,6 +68,10 @@ import YoutubeIcon from "./common/youtube_svg"
 import ReplyArrow from "./common/reply_arrow_svg"
 import InnoWinLogo from "./common/innoWin_svg"
 import ShareIcon from "./common/share"
+import TagSvg from './common/tag_svg'
+import OnePersonSvg from './common/one_person_svg'
+import SocialPersonSvg from './common/social_person_svg'
+import GmailSvg from './common/gmail_svg'
 
 
 export {
@@ -135,10 +139,14 @@ export {
   userInfoIcon,
   workExperienceIcon,
   TagIcon,
+  TagSvg,
   TelegramIcon,
   InstagramIcon,
   LinkedInIcon,
   YoutubeIcon,
   ReplyArrow,
-  ShareIcon
+  ShareIcon,
+  SocialPersonSvg,
+  OnePersonSvg,
+  GmailSvg,
 }
