@@ -726,7 +726,7 @@
           height: 100px;
         }
       }
-      .extend-relations-container {
+      .extend-relations-social-accounts-container {
         width: 100%;
         font-size: $font-size-regular;
         .social-text {
@@ -781,6 +781,27 @@
           }
         }
       }
+      .extend-relations-users-container {
+        .users-text {
+          font-size: $font-size-regular;
+          font-weight: bold;
+          margin-bottom: 40px;
+        }
+        .users-container{
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-around;
+          overflow-y: auto;
+          height: 400px;
+
+          .user-container {
+            padding: 5px;
+            height: 250px;
+            max-width: 25%;
+            flex: 1 1 25%;
+          }
+        }
+      }
     }
   }
   .right-side-register {
@@ -831,14 +852,59 @@
   }
 }
 
-@media screen and (max-width: 1280px) and (min-width: 600px) {
+@media screen and (max-width: 1200px) and (min-width: 850px) {
   .register-steps-modal {
     width: 95%;
+
+    .left-side-register {
+      .register-steps-modal-content {
+        .extend-relations-users-container {
+          .users-container{
+            .user-container {
+              max-width: 33%;
+              flex: 1 1 33%;
+            }
+          }
+        }
+      }
+    }
   }
 }
 
-@media screen and (max-width: 599px) {
+@media screen and (max-width: 850px) and (min-width: 600px){
   .register-steps-modal {
     width: 95%;
+
+    .left-side-register {
+      .register-steps-modal-content {
+        .extend-relations-users-container {
+          .users-container{
+            .user-container {
+              max-width: 50%;
+              flex: 1 1 50%;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .register-steps-modal {
+    width: 95%;
+
+    .left-side-register {
+      .register-steps-modal-content {
+        .extend-relations-users-container {
+          .users-container{
+            .user-container {
+              max-width: 100%;
+              flex: 1 1 100%;
+            }
+          }
+        }
+      }
+    }
   }
 }

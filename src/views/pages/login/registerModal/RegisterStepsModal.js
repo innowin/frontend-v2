@@ -52,6 +52,12 @@ class RegisterStepsModal extends React.Component <registerStepsModalProps, regis
 
     }
     else if (step === 3) {
+
+    }
+    else if (step === 4) {
+
+    }
+    else if (step === 5) {
       hideRecoveryClick()
       return
     }

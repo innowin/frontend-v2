@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import ContentUser from "./ContentUser"
 import ExtendRelationsSocialAccounts from './ExtendRelationsSocialAccounts'
 import constants from "../../../../consts/constants"
+import ExtendRelationsUsers from "./ExtendRelationsSocialUsers";
 
 type LeftSideRegisterStepsModalProps = {
   translate: { [string]: string },
@@ -56,6 +57,7 @@ class LeftSideRegisterStepsModal extends React.Component<LeftSideRegisterStepsMo
           <div className='register-steps-modal-content'>
             {step === 0 && <ContentUser translate={translate} changeType={this.changeType} type={user.type}/>}
             {step === 3 && <ExtendRelationsSocialAccounts translate={translate} social={user.social}/>}
+            {step === 4 && <ExtendRelationsUsers translate={translate}/>}
           </div>
           <div className='register-steps-modal-footer'>
             <button className='common-modal-button search-button'

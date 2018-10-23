@@ -27,9 +27,9 @@ const RightSideRegisterStepsModal = (props: RightSideRegisterStepsModalProps) =>
           {step === 2 && <p className='right-side-part-description'>{translate['Tags description']}</p>}
           <div className={step > 1 ? 'right-side-part-icon right-side-part-icon-active' : 'right-side-part-icon'}><TagSvg/></div>
         </div>
-        <div className={step === 3 ? 'right-side-part right-side-part-active': 'right-side-part'}>
+        <div className={step >= 3 ? 'right-side-part right-side-part-active': 'right-side-part'}>
           <h5 className='right-side-part-header'>{translate['Extend relations']}</h5>
-          {step === 3 && <p className='right-side-part-description'>{translate['Extend relations description']}</p>}
+          {step >= 3 && <p className='right-side-part-description'>{translate['Extend relations description']}</p>}
           <div className={step > 2 ? 'right-side-part-icon right-side-part-icon-active' : 'right-side-part-icon'}><ExchangeExploreIcon/></div>
         </div>
       </div>

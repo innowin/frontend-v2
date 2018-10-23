@@ -16,7 +16,7 @@ const ExtendRelationsSocialAccounts = (props: ContentUserProps) => {
   const {translate, social} = props
 
   return (
-      <div className='extend-relations-container'>
+      <div className='extend-relations-social-accounts-container'>
         <p className='social-text'>{translate['Social help text']}</p>
         <div className='account-container'>
           <p className='label-connect'>{translate['Connect to gmail']}</p>
