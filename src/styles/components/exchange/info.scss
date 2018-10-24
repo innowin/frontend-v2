@@ -36,13 +36,13 @@
   margin: 1%;
 }
 
-.info-exchange-owner-image-frame{
+.info-exchange-owner-image-frame {
   vertical-align: top;
   display: inline-block;
   width: 14%;
 }
 
-.info-exchange-owner-image-frame-sibling{
+.info-exchange-owner-image-frame-sibling {
   vertical-align: top;
   display: inline-block;
   width: 80%;
@@ -53,7 +53,81 @@
   font-weight: bold;
 }
 
-.info-exchange-education{
+.info-exchange-education {
   font-size: $font-size-exchange-education;
   color: $font-color-exchange-education;
+}
+
+.info-social {
+  font-size: 24px;
+  margin: 15px 7px 15px 0;
+  position: relative;
+
+  &:first-child {
+    margin-top: 10px;
+  }
+  &:last-child {
+    margin-bottom: 0;
+  }
+  .fa-youtube-play {
+    color: red;
+  }
+  .fa-telegram {
+    color: cornflowerblue;
+  }
+  .fa-instagram {
+    background: -webkit-linear-gradient(-60deg, yellow, red, blue);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+  }
+  .fa-linkedin {
+    color: royalblue;
+  }
+  .fa-link {
+    color: dimgrey;
+  }
+}
+
+.info-social-text {
+  position: absolute;
+  font-size: $font-size-boxText;
+  font-weight: bold;
+  margin-right: 15px;
+  top: -3px;
+}
+
+.info-social-text-address {
+  text-align: left;
+  direction: ltr;
+  position: absolute;
+  font-size: $font-size-boxText;
+  font-weight: bold;
+  margin-right: 15px;
+  top: -3px;
+  right: 17%;
+  width: 75%;
+  padding: 0 5px;
+  border-bottom: 1px solid lightgrey;
+  transition-duration: $animation-timing-long;
+  color: $disable-color;
+  cursor: default;
+
+  &:hover {
+    transition-duration: $animation-timing-long;
+    padding: 0 10px;
+    border-bottom: 1px solid dimgrey;
+  }
+}
+
+.info-social-text-address-input {
+  border: none;
+  color: $text-dark-color;
+  width: 40%;
+  margin: 0 5px;
+  font-size: $font-size-boxText;
+  font-weight: bold;
+  &:focus{
+    outline: none;
+  }
 }
