@@ -7,6 +7,7 @@ import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import PostActions from "src/redux/actions/commonActions/postActions"
 import constant from "src/consts/constants"
+import CreatePostNew from "../../common/post/CreatePostNew"
 
 
 class HomePosts extends Component {
@@ -85,6 +86,7 @@ class HomePosts extends Component {
               handleErrorLoading={this._handleErrorLoading}
               postsCountInThisPage={posts.length}
             />
+            {/*<CreatePostNew/>*/}
             <FrameCard className="-frameCardPost border-top-0">
               <ListGroup>
                 {

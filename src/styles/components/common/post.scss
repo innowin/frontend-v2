@@ -1,0 +1,278 @@
+@import '../../variables';
+
+.post-component-container {
+  width: 100%;
+  background-color: white;
+  border-radius: 3px;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  margin: 10px auto;
+}
+
+.post-component-header {
+  white-space: nowrap;
+  font-size: 13px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.post-component-header-item {
+  padding-top: 15px;
+}
+
+.post-component-header-img {
+  width: 45px;
+  height: 45px;
+  object-fit: cover;
+  margin-left: 18px;
+}
+
+.post-component-header-item-logo {
+  margin: -2px 10px 0 10px;
+  cursor: pointer;
+  fill: $brand-inverse-color
+}
+
+.post-component-header-item-logo-unselect {
+  margin: -2px 10px 0 10px;
+  fill: #BBBBBB;
+  cursor: pointer;
+  &:hover {
+    fill: $brand-inverse-color
+  }
+}
+
+.post-component-header-item-logo1 {
+  height: 16px;
+  margin: -2px 10px 0 10px;
+  cursor: pointer;
+  fill: $brand-inverse-color
+}
+
+.post-component-header-item-logo1-unselect {
+  height: 16px;
+  margin: -2px 10px 0 10px;
+  fill: #BBBBBB;
+  cursor: pointer;
+  &:hover {
+    fill: $brand-inverse-color
+  }
+}
+
+.post-component-header-item-logo2 {
+  margin-top: 0;
+  vertical-align: top;
+  cursor: pointer;
+  fill: $brand-inverse-color
+}
+
+.post-component-header-item-logo2-unselect {
+  margin-top: 0;
+  vertical-align: top;
+  fill: #BBBBBB;
+  cursor: pointer;
+  &:hover {
+    fill: $brand-inverse-color
+  }
+}
+
+.post-component-textarea {
+  width: 100%;
+  resize: none;
+  border-radius: 3px;
+  border: 1px solid #e7e7e7;
+  padding: 10px 15px;
+  font-size: 13px;
+  transition-duration: 0.3s;
+  height: 45px;
+  line-height: 26px;
+  &::placeholder {
+    color: #BBBBBB;
+  }
+  &:focus {
+    outline: none;
+    border: 1px solid #BBBBBB;
+    transition-duration: 0.3s;
+    height: 148px;
+  }
+}
+
+.post-component-textarea-open {
+  width: 100%;
+  resize: none;
+  border-radius: 3px;
+  border: 1px solid #e7e7e7;
+  padding: 10px 15px;
+  font-size: 13px;
+  transition-duration: 0.3s;
+  height: 148px;
+  line-height: 26px;
+  &::placeholder {
+    color: #BBBBBB;
+  }
+  &:focus {
+    outline: none;
+    border: 1px solid #BBBBBB;
+    transition-duration: 0.3s;
+  }
+}
+
+.post-component-footer {
+  margin-top: 8px;
+  clear: both;
+  position: relative;
+}
+
+.post-component-footer-items-style {
+  display: inline-block;
+  background-color: $success-color;
+  color: white;
+  font-size: 12px;
+  border-radius: 20px;
+  border: none;
+  padding: 1px 10px;
+  margin: 8px 2px;
+  vertical-align: top;
+}
+
+.post-component-footer-items-style-text {
+  display: inline-block;
+  vertical-align: top;
+  &:after {
+    content: "  ";
+  }
+}
+
+.post-component-footer-items-style-close {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 2px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.post-component-footer-send {
+  float: left;
+  clear: right;
+  display: inline-block;
+  margin: 8px 0;
+}
+
+.post-component-footer-send-btn {
+  display: inline-block;
+  background-color: $brand-inverse-color;
+  border: 1px solid transparent;
+  color: white;
+  font-size: 12px;
+  border-radius: 20px;
+  margin-left: 2px;
+  padding: 1px 25px;
+  cursor: pointer;
+  transition-duration: 0.3s;
+  &:hover {
+    border: 1px solid $brand-inverse-color;
+    color: $brand-inverse-color;
+    background-color: white;
+    transition-duration: 0.3s;
+  }
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    background-color: $brand-inverse-color;
+    border: 1px solid transparent;
+    color: white;
+    transition-duration: 0.3s;
+  }
+}
+
+.post-component-footer-send-attach {
+  fill: #BBBBBB;
+  margin-left: 10px;
+  width: 20px;
+  vertical-align: top;
+  margin-top: 5px;
+  cursor: pointer;
+  &:hover {
+    fill: $brand-inverse-color;
+  }
+}
+
+.post-component-footer-logo{
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 7px;
+  text-align: center;
+  fill: #BBBBBB;
+  color: #BBBBBB;
+  width: 30px;
+}
+
+.post-component-footer-attach-menu-container {
+  position: absolute;
+  top: 0;
+  left: -1px;
+  width: 140px;
+  text-align: center;
+  overflow-y: hidden;
+  height: 205px;
+  transition: ease-in 0.3s;
+  cursor: pointer;
+}
+
+.post-component-footer-attach-menu-container-hide{
+  position: absolute;
+  top: 0;
+  left: -1px;
+  width: 140px;
+  text-align: center;
+  overflow-y: hidden;
+  height: 0;
+  transition: ease-out 0.3s;
+}
+
+.post-component-footer-attach-menu {
+  direction: rtl;
+  margin: auto;
+  width: 98%;
+  margin-top: 2px;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+  background-color: white;
+  font-size: 13px;
+  border-radius: 3px;
+}
+
+.post-component-footer-contact-menu-container{
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 140px;
+  text-align: center;
+  overflow-y: hidden;
+  height: 205px;
+  transition: ease-in 0.3s;
+  cursor: pointer;
+}
+
+.post-component-footer-contact-menu-container-hide{
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 140px;
+  text-align: center;
+  overflow-y: hidden;
+  height: 0;
+  transition: ease-out 0.3s;
+}
+
+.post-component-footer-contact-menu {
+  direction: rtl;
+  margin: auto;
+  width: 98%;
+  margin-top: 2px;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+  background-color: white;
+  font-size: 13px;
+  border-radius: 3px;
+}
