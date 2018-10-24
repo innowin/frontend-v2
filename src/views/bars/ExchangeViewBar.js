@@ -113,7 +113,7 @@ class ExchangeViewBar extends Component {
           <div className="pb-2">
             <button
                 type="button"
-                className="btn btn-outline-secondary btn-block sidebarBottom"
+                className="btn btn-outline-secondary btn-block sidebarFollowBottom"
                 style={{width: "122.5px"}}>عضو شده
             </button>
           </div>
@@ -128,8 +128,8 @@ class ExchangeViewBar extends Component {
           <div className="pb-2">
             <button
                 type="button"
-                className="btn btn-outline-secondary btn-block sidebarBottom"
-                style={{width: "122.5px"}}
+                className="btn btn-outline-secondary btn-block sidebarFollowBottom"
+                style={{width: "122.5px", cursor:'pointer'}}
                 onClick={this.follow}>درخواست عضویت
             </button>
           </div>
@@ -215,6 +215,9 @@ class ExchangeViewBar extends Component {
                       <TagsBox tags={tags}/>
                     </div>) : ("")
               }
+              <div className="flex-wrap pb-3">
+                <TagsBox tags={tags}/>
+              </div>
               <div className="row mr-0 ml-0 pb-3 flex-wrap justify-content-around">
                 <div className="pb-2">
                   <button

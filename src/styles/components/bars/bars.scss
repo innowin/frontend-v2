@@ -547,6 +547,23 @@ $sidebar-profile-media-width: 80px;
   }
 }
 
+.sidebarFollowBottom{
+  cursor: default;
+  background-color: $success-color;
+  border-color: $background-color;
+  color: $background-color;
+  font-size: $font-size-boxText;
+  border-radius: 25px;
+  transition-duration: $animation-timing;
+
+  &:hover {
+    background-color: $background-color;
+    border-color: $success-color;
+    color: $success-color !important;
+    transition-duration: $animation-timing;
+  }
+}
+
 .follow-button {
   background-color: $success-color;
 

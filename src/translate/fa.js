@@ -58,6 +58,24 @@ module.exports = {
   'Fill required fields': "موارد الزامی را پر کنید.",
   'Password does not correct': "رمز ورود صحیح نمی باشد!",
 
+  // register modal
+  'Congratulations': 'تبریک',
+  'Favorites fields': 'زمینه های مورد علاقه',
+  'Tags': 'برچسب ها',
+  'Extend relations': 'گسترش ارتباط',
+  'Congratulations description': 'تبریک، شما اکنون عضو خانواده اینوین هستید. برای تجربه کاربری بهتر، در چهار گام میز کاربری شما را می سازیم. می توانید از هر مرحله گذر کنید.',
+  'Favorites fields description': 'حداقل یک و حداکثر پنج مورد از زمینه های علاقه مندی خود در اینوین را انتخاب کنید.',
+  'Tags description': 'انتخاب تعدادی برچسب، کمک می کند تا شبکه ارتباطی خود را دقیق تر گسترش دهید.',
+  'Extend relations description': 'می توانید تعدادی از افرادی را که علاقه مند به دنبال کردن آن ها هستید، پیدا و دنبال کنید.',
+  'User type': 'نوع حساب کاربری',
+  'Organ': 'مجموعه',
+  'Username validation error text': 'حداقل 5 و حداکثر 32، کاراکتر . _ 0-9 A-Z و شامل حروف',
+  'Social help text': 'با استفاده از سیستم امن اتصال به جی میل و لینکداین، اینوین شما را با کمک این دو شبکه به دوستانتان مرتبط می کند.',
+  'Connect to gmail': 'اتصال به اکانت جی میل',
+  'Connect to linkedin': 'اتصال به اکانت لینکداین',
+  'You can follow users': 'می توانید تعدادی از افراد را دنبال کنید',
+
+
   //common
   'Be in zist boom': 'در زیست بوم باش...',
   'Required field': "فیلد الزامی",
@@ -98,6 +116,7 @@ module.exports = {
   'Add': "افزودن",
 
   'Save': "ذخیره",
+  'Certificate': 'گواهی‌نامه',
   'Certificates': "گواهی‌نامه‌ها",
   'Certificates and badges': 'نشان ها و گواهی نامه ها',
 
@@ -115,6 +134,8 @@ module.exports = {
   'Are you sure? Do you want delete it?': "آیا مطمئن به حذف هستید؟",
   'Yes, Do it.': "آری",
   'No, Cancel please.': "خیر",
+  'Next': 'بعدی',
+  'Previous': 'قبلی',
 
   // user - educations
   'Education grade': "مقطع تحصیلی",
@@ -131,6 +152,9 @@ module.exports = {
   'Education': 'سابقه علمی',
   'Research': 'سابقه پژوهشی',
   'Grade': "مقطع",
+  'Bachelor': 'کارشناسی',
+  'Master': 'کارشناسی ارشد',
+  'Phd': 'دکتری',
 
 
   // user - BasicInformation

@@ -4,7 +4,7 @@ import {Component} from 'react'
 import PropTypes from 'prop-types'
 import {CertificateEditForm} from './forms'
 import {ItemWrapper} from "../../common/cards/Frames"
-import {CertificateIcon, starIcon, EditIcon} from "src/images/icons"
+import {CertificateIcon, StarIcon, EditIcon} from "src/images/icons"
 import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 
 type CertificateItemWrapperProps = {
@@ -37,7 +37,7 @@ export const CertificateView = (props: CertificateViewProps) => {
                         <img className="certImage" alt="" src={certificate.picture_media || "/static/media/defaultImg.94a29bce.png"} />
                         <h5>{certificate.title}</h5>
 
-                        <a className="shareButton">{starIcon}</a>
+                        <a className="shareButton"><StarIcon/></a>
                         <span>&nbsp</span>
                     </div>
                 </div>

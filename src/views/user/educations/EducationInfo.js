@@ -7,6 +7,7 @@ import EducationInfoEditForm from "./EducationInfoEditForm"
 import {Field, FieldValue, ItemHeader, VerifyWrapper} from "../../common/cards/Frames"
 import {ItemWrapper} from "../../common/cards/Frames"
 import {userEducationType} from 'src/consts/flowTypes/user/basicInformation'
+import constants from "../../../consts/constants";
 
 //EducationInfo flowTypes
 type PropsEducation = {
@@ -53,6 +54,19 @@ export class EducationInfo extends React.Component<PropsEducation, StateEducatio
   render() {
     const {translate, updateEducationByUserId, userId, education} = this.props
     const {edit} = this.state
+    let grade
+    if(education.grade === constants.SERVER_GRADES.BACHELOR) {
+      grade = translate['Bachelor']
+    }
+    else if (education.grade === constants.SERVER_GRADES.MASTER) {
+      grade = translate['Master']
+    }
+    else if (education.grade === constants.SERVER_GRADES.PHD) {
+      grade = translate['Phd']
+    }
+    else{
+      grade = education.grade
+    }
     return (
         <VerifyWrapper isLoading={false} error={false}>
           <ItemWrapper icon={<EducationIcon/>}>
@@ -68,7 +82,7 @@ export class EducationInfo extends React.Component<PropsEducation, StateEducatio
             ) : (
                 education &&
                 <div>
-                  <ItemHeader title={`${translate['Grade']} ${education.grade}`} showEdit={this._showEdit}/>
+                  <ItemHeader title={`${translate['Grade']} ${grade}`} showEdit={this._showEdit}/>
                   <Field>
                     <FieldValue
                         value={`${education.field_of_study} - ${education.university}${education.average ? ` - ${translate['Average']} ${education.average}` : ''}`}/>

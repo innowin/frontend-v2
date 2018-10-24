@@ -20,8 +20,8 @@ class Exchange_Tabs extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedTab: "Stream",
-      // selectedTab: "Exchange Manager", // DEVELOP
+      // selectedTab: "Stream",
+      selectedTab: "Info", // DEVELOP
       getUserFlag: false,
     }
     this.setTab = this.setTab.bind(this)

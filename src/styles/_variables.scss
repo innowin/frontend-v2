@@ -14,7 +14,9 @@ $font-family-serif:      vazir, Georgia, "Times New Roman", Times, serif !defaul
 @import "~bootstrap/scss/variables";
 
 //Animation Time
-$animation-timing: .25s;
+$animation-timing: .3s;
+$animation-timing-short: .15s;
+$animation-timing-long: .5s;
 $modal-transition-time: 0.3s;
 
 //Color Variables
@@ -69,6 +71,9 @@ $linkedin-icon-color: #0077b5;
 $instagram-icon-color: #fb3958;
 $youtube-icon-color: #ff0000;
 $website-icon-color: #002266;
+
+$register-part-icon-color: #eeeeee;
+$register-part-in-icon-color: #aaaaaa;
 
 // font-sizes
 $font-size-verySmallText: 10px;

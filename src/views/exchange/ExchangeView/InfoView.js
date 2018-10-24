@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import {Info, Ticket, QuestionMark,} from "src/images/icons"
+import {Info, Ticket, QuestionMark} from "src/images/icons"
 import DefaultUserIcon from "../../../images/defaults/defaultUser_svg"
 import {bindActionCreators} from "redux"
 import educationActions from "src/redux/actions/user/educationActions"
@@ -54,9 +54,10 @@ class InfoView extends Component {
                       <div className={"info-exchange-owner-image-frame"}>
                         {media !== null ? <div className='rounded-circle-info-parent' ref={e => this.scroll = e}
                                                onLoad={() => this.scroll.scrollLeft = 10}><img alt={"تصویر پروفایل"}
-                                                    src={media.file}
-                                                    height={"60px"}
-                                                    className={"post-user-picture"}/></div>
+                                                                                               src={media.file}
+                                                                                               height={"60px"}
+                                                                                               className={"post-user-picture"}/>
+                            </div>
                             : <DefaultUserIcon
                                 height={"55px"} width={"55px"} className={"post-user-picture"}/>}
                       </div>
@@ -97,7 +98,49 @@ class InfoView extends Component {
                   <span>پیوند</span>
                 </div>
                 <div className={"info-body"}>
+                  <span>
+                    <div className={"info-social"}>
+                      <i className={"fa fa-youtube-play youtube"}/>
+                      <span className={"info-social-text"}>
+                        یوتیوب:
+                      </span> <span className={"info-social-text-address"}> https://www.instagram.com/
+                      <input className={"info-social-text-address-input"} type={"text"}/></span>
+                    </div>
+                  </span>
 
+                  <span>
+                    <div className={"info-social"}>
+                      <i className={"fa fa-telegram"}/>
+                      <span className={"info-social-text"}>
+                        تلگرام:
+                      </span> <span className={"info-social-text-address"}> http://www.telegram.me/
+                      <input className={"info-social-text-address-input"} type={"text"}/></span>
+                    </div>
+                  </span>
+
+                  <div className={"info-social"}>
+                    <i className={"fa fa-instagram"}/>
+                    <span className={"info-social-text"}>
+                        اینستاگرام:
+                      </span> <span className={"info-social-text-address"}> https://www.youtube.com/channel/
+                    <input className={"info-social-text-address-input"} type={"text"}/></span>
+                  </div>
+
+                  <div className={"info-social"}>
+                    <i className={"fa fa-linkedin"}/>
+                    <span className={"info-social-text"}>
+                        لینکدین:
+                      </span> <span className={"info-social-text-address"}> https://www.linkedin.com/in/
+                    <input className={"info-social-text-address-input"} type={"text"}/></span>
+                  </div>
+
+                  <div className={"info-social"}>
+                    <i className={"fa fa-link"}/>
+                    <span className={"info-social-text"}>
+                        وبسایت:
+                      </span> <span className={"info-social-text-address"}>
+                    <input className={"info-social-text-address-input"} placeholder={"آدرس سایت شما"} type={"text"}/></span>
+                  </div>
                 </div>
               </div>
             </div>
