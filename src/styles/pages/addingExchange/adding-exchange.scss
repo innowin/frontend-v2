@@ -1,13 +1,33 @@
 @import "baisc-info";
-@import "more-info";
 @import "people";
 @import "successMessage";
+@import "more-info";
+
 
 .exchanges-modal .create-exchange-wrapper {
   font-size: $font-size-regular;
   .steps {
     max-width: 280px;
   }
+  .act-bar {
+    .act-btn:first-child {
+      background-color: $text-lightest-color;
+      border: 2px solid $brand-inverse-color;
+      color: $brand-inverse-color;
+      .right-arrow {
+        transform: rotate3d(0, 0, 1, -90deg);
+        left: auto;
+        right: 10px;
+      }
+      .right-arrow path {
+        fill: $brand-inverse-color;
+      }
+    }
+    .act-btn:last-child .left-arrow {
+      transform: rotate3d(0, 0, 1, 90deg);
+    }
+  }
+
 }
 @media (max-width: 1170px) {}
 @media (max-width: 990px) {}

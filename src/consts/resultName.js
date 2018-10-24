@@ -43,6 +43,7 @@ const results = {
     CREATE_CUSTOMER: 'create-org-customer',
     DELETE_CUSTOMER: 'delete-org-customer',
     UPDATE_CUSTOMER: 'update-org-customer',
+
   },
   COMMON: {
     // product
@@ -54,6 +55,7 @@ const results = {
 
     // file
     GET_FILE: 'COMMON_GET_FILE',
+    GET_FILES: 'common-get-files-result',
     CREATE_FILE: 'common-create-file-result',
     UPDATE_FILE: 'common-update-file-result',
 
@@ -64,6 +66,7 @@ const results = {
     GET_USER_BADGES: "GET_USER_BADGES",
     GET_ORG_BADGES: "GET_ORG_BADGES",
     GET_BADGES: 'get-badges-result',
+    GET_ALL_BADGES: 'get-all-result',
 
     CERTIFICATE: {
       GET_CERTIFICATES: 'common-get-object-certificates-list-result',
@@ -155,5 +158,11 @@ const results = {
     DELETE_SKILL_BY_USER_ID: 'delete-skill-by-user-id',
     UPDATE_SKILL_BY_USER_ID: 'update-skill-by-user-id',
   },
+  ABILITY: {
+    GET_ABILITIES_BY_ORGANIZATION_ID: 'get-org-abilities',
+    CREATE_ABILITY: 'create-org-ability',
+    DELETE_ABILITY: 'delete-org-ability',
+    UPDATE_ABILITY: 'update-org-ability',
+  }
 }
 export default results

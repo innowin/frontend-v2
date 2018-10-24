@@ -18,6 +18,7 @@ import research from './research'
 import skill from './skill'
 import param from './param'
 import customer from './customer'
+import ability from './ability'
 import createEncryptor from "redux-persist-transform-encrypt"
 
 const commonEncryptor = createEncryptor({
@@ -43,6 +44,7 @@ const reducers = {
   skill,
   param,
   customer,
+  ability,
 }
 
 //Don't change below code ,  Put your reducer on the upper object.

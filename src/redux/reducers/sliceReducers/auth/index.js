@@ -1,9 +1,11 @@
+import createAbility from './createAbility'
 import createCustomer from './createCustomer'
 import createEducationByUserId from './createEducationByUserId'
 import createFollow from './createFollow'
 import createPost from './createPost'
 import createResearchByUserId from './createResearchByUserId'
 import createWorkExperienceByUserId from './createWorkExperienceByUserId'
+import deleteAbility from './deleteAbility'
 import deleteCertificate from './deleteCertificate'
 import deleteCustomer from './deleteCustomer'
 import deleteEducationByUserId from './deleteEducationByUserId'
@@ -14,6 +16,7 @@ import deleteProduct from './deleteProduct'
 import deleteResearchByUserId from './deleteResearchByUserId'
 import deleteWorkExperienceByUserId from './deleteWorkExperienceByUserId'
 import deleteSkillByUserId from './deleteSkillByUserId'
+import getAbilitiesByOrganizationId from './getAbilitiesByOrganizationId'
 import getEducationByUserId from './getEducationByUserId'
 import getExchangeMembershipByMemberIdentity from './getExchangeMembershipByMemberIdentity'
 import getCertificatesByIdentity from './getCertificatesByIdentity'
@@ -34,12 +37,14 @@ import setClientPersonMedia from "./setClientPersonMedia"
 import setClientOrganMedia from "./setClientOrganMedia"
 
 export default {
+  createAbility,
   createCustomer,
   createEducationByUserId,
   createFollow,
   createPost,
   createResearchByUserId,
   createWorkExperienceByUserId,
+  deleteAbility,
   deleteCertificate,
   deleteCustomer,
   deleteEducationByUserId,
@@ -50,6 +55,7 @@ export default {
   deleteResearchByUserId,
   deleteSkillByUserId,
   deleteWorkExperienceByUserId,
+  getAbilitiesByOrganizationId,
   getCertificatesByIdentity,
   getEducationByUserId,
   getExchangeMembershipByMemberIdentity,

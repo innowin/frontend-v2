@@ -7,9 +7,11 @@ export const getFile = (fileId) => ({
   }
 })
 
-export const createFile = ({file_string, nextActionData, nextActionType, fileIdKey, toWhatLayer}) => ({
+export const createFile = (data) => ({
   type: types.COMMON.CREATE_FILE,
-  payload: {file_string, nextActionData, nextActionType, fileIdKey, toWhatLayer}
+  payload: {
+      ...data
+  }
 })
 
 export const updateFile = (payload) => ({
@@ -17,16 +19,27 @@ export const updateFile = (payload) => ({
   payload
 })
 
+export const getFiles = (query) => ({
+  type: types.COMMON.GET_FILES,
+  payload: {query}
+})
+
 export const delMiddleWareFileData = () => ({ // this is not used yet, and may be remove.
   type: types.COMMON.DEL_MIDDLEWARE_FILE_DATA,
   payload: {}
+})
+
+export const resetTemporaryFile = () => ({
+  type: types.COMMON.RESET_TEMPORARY_FILE,
+  payload:{}
 })
 
 const FileActions = {
   getFile,
   createFile,
   updateFile,
-  delMiddleWareFileData
+  delMiddleWareFileData,
+  resetTemporaryFile
 }
 
 export default FileActions

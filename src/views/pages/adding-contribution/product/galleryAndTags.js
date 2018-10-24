@@ -206,7 +206,7 @@ type TagProps = {
 
 }
 
-const Tag = (props: TagProps) => {
+export const Tag = (props: TagProps) => {
   const {tag, deleteTag} = props
   return (
       <div className="tag">

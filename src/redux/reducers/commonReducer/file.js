@@ -9,12 +9,12 @@ const file = (state = initialState.common.file, action) => {
   const list = state.list
 
   switch (action.type) {
-      /** --------------------  get file --------------------- **/
-      // case types.COMMON.GET_FILE:
-      //     return {
-      //         ...state,
-      //         list: {...list, [fileId]: data}
-      //     }
+    /** --------------------  get file --------------------- **/
+    // case types.COMMON.GET_FILE:
+    //     return {
+    //         ...state,
+    //         list: {...list, [fileId]: data}
+    //     }
     case types.SUCCESS.COMMON.GET_FILES:
       return appendListToStateList.success(state, action)
     case types.SUCCESS.COMMON.GET_FILE:
@@ -23,15 +23,20 @@ const file = (state = initialState.common.file, action) => {
         list: {...list, [data.id]: data}
       }
 
-      // case types.ERRORS.COMMON.GET_FILE:
-      //     return {
-      //         ...state, // is need for more data handling ?
-      //     }
+    // case types.ERRORS.COMMON.GET_FILE:
+    //     return {
+    //         ...state, // is need for more data handling ?
+    //     }
 
-      /** ------------------ create file -------------------> **/
+    /** ------------------ create file -------------------> **/
     case types.COMMON.CREATE_FILE:
       return {
         ...state,
+        temporaryFile: {
+          content: null,
+          isLoading: true,
+          error: null
+        }
       }
 
     case types.SUCCESS.COMMON.CREATE_FILE:
@@ -41,17 +46,41 @@ const file = (state = initialState.common.file, action) => {
         list: {...list, [data.id]: data}
       }
 
-      // case types.ERRORS.COMMON.CREATE_FILE:
-      //     return {
-      //         ...state,
-      //         middlewareFileData: {
-      //             isCreated: false,
-      //             isCreating: false,
-      //             content: {} // should be more handled.
-      //         }
-      //     }
+    case types.ERRORS.COMMON.CREATE_FILE:
+      return {
+        ...state,
+        // middlewareFileData: {
+        //     isCreated: false,
+        //     isCreating: false,
+        //     content: {} // should be more handled.
+        // TODO : handle error in create file and in temporaryFile
+        // }
+        temporaryFile: {
+          content: null,
+          isLoading: false,
+          error: null
+        }
+      }
 
-      /** ----------------- delete middleware file data -----------------> **/
+    /** ----------------- set created file in  temporaryFile -----------------> **/
+    case types.COMMON.SET_CREATED_FILE_IN_TEMPORARY_FILE:
+      return {
+        ...state,
+        temporaryFile: {
+          content: data,
+          isLoading: false,
+          error: null
+        }
+      }
+    case types.COMMON.RESET_TEMPORARY_FILE:
+      return {
+        ...state,
+        temporaryFile: {
+          content: null,
+          isLoading: false,
+          error: null
+        }
+      }
 
 
     /** ----------------- set data in file object -----------------> **/

@@ -12,7 +12,7 @@ import postActions from "src/redux/actions/commonActions/postActions"
 import exchangeActions from "src/redux/actions/exchangeActions"
 import getUserActions from "src/redux/actions/user/getUserActions"
 import exchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
-import educationActions from "src/redux/actions/educationActions"
+import educationActions from "src/redux/actions/user/educationActions"
 import {VerifyWrapper} from "../../common/cards/Frames"
 import SocialActions from "../../../redux/actions/commonActions/socialActions"
 

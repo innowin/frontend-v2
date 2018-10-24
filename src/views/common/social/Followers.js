@@ -67,23 +67,25 @@ export const Followers = (props: PropsFollowers) => {
                       <div className="text-section">
                         <div className="name">{follower.name}</div>
                       </div>
-                      {!follower.follow_accepted
-                          ?
+                      <div className='follow-accept-part'>
+                        {!follower.follow_accepted
+                            ?
 
-                          <CheckOwner id={paramId}>
-                            <FontAwesome name="times-circle" className='reject-follower pulse'
-                                         onClick={() => onDeleteFollow(follower)}/>
-                            <FontAwesome name="check-circle" className='accept-follower pulse'
-                                         onClick={() => onAcceptFollow(follower)}/>
-                          </CheckOwner>
-                          : <div className="follow-section">{translate['Followed']}</div>
-                      }
-                      {!followeeIds.includes(follower.id) &&
-                      <CheckOwner id={paramId}>
-                        <FontAwesome name="plus-circle" className='follow pulse'
-                                     onClick={() => onCreateFollow(follower)}/>
-                      </CheckOwner>
-                      }
+                            <CheckOwner id={paramId}>
+                              <FontAwesome name="times-circle" className='reject-follower pulse'
+                                           onClick={() => onDeleteFollow(follower)}/>
+                              <FontAwesome name="check-circle" className='accept-follower pulse'
+                                           onClick={() => onAcceptFollow(follower)}/>
+                            </CheckOwner>
+                            : <div className="follow-section">{translate['Followed']}</div>
+                        }
+                        {!followeeIds.includes(follower.id) &&
+                        <CheckOwner id={paramId}>
+                          <FontAwesome name="plus-circle" className='follow pulse'
+                                       onClick={() => onCreateFollow(follower)}/>
+                        </CheckOwner>
+                        }
+                      </div>
                     </div>
                   </div>
               )

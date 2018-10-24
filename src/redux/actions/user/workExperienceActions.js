@@ -1,4 +1,4 @@
-import types from "./types"
+import types from "../types/index"
 
 const getWorkExperienceByUserId = ({userId}) => ({
   type: types.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID,

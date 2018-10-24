@@ -1,4 +1,4 @@
-import types from "./types"
+import types from "../types/index"
 
 const getEducationByUserId = ({userId}) => ({
   type: types.EDUCATION.GET_USER_EDUCATION_BY_USER_ID,

@@ -3,6 +3,7 @@ import * as React from "react"
 import PropTypes from "prop-types"
 import {connect} from "react-redux"
 
+import AbilityInfoContainer from "./AbilityInfoContainer"
 import ProductInfoContainer from './ProductInfoContainer'
 import SkillInfoContainer from './SkillInfoContainer'
 import {CategoryTitle, FrameCard, ListGroup} from "../cards/Frames"
@@ -13,10 +14,11 @@ type PropsSkills = {
   translate: { [string]: string },
   identityType: string,
   identityId: number,
+  isUser: boolean,
 }
 
 const Contributions = (props: PropsSkills) => {
-  const {translate, ownerId, identityType, identityId} = props
+  const {translate, ownerId, identityType, identityId, isUser} = props
 
   return (
       <div>
@@ -26,15 +28,22 @@ const Contributions = (props: PropsSkills) => {
         <FrameCard>
           <ListGroup>
             <ProductInfoContainer
-              ownerId={ownerId}
-              translate={translate}
-              identityType={identityType}
-              identityId={identityId}
+                ownerId={ownerId}
+                translate={translate}
+                identityType={identityType}
+                identityId={identityId}
             />
-            <SkillInfoContainer
-              userId={ownerId}
-              translate={translate}
-            />
+            {
+              isUser ?
+                  <SkillInfoContainer
+                      userId={ownerId}
+                      translate={translate}
+                  />
+                  : <AbilityInfoContainer
+                      organizationId={ownerId}
+                      translate={translate}
+                  />
+            }
           </ListGroup>
         </FrameCard>
       </div>

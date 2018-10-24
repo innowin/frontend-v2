@@ -1,17 +1,23 @@
 const success = (state, action) => {
   const {exchangeData} = action.payload
   const nextExchange = {}
-  
+  const allExchanges = {...state.list}
+
+  for (let id in allExchanges) {
+    delete allExchanges[id]['exchange']
+  }
+
   for (let id in exchangeData) {
     nextExchange[id] = {
       ...state.list[id],
       exchange: exchangeData[id].exchange
     }
   }
+
   return {
     ...state,
     list: {
-      ...state.list,
+      ...allExchanges,
       ...nextExchange
     }
   }

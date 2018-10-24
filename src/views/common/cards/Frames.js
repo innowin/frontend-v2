@@ -140,7 +140,7 @@ let CategoryTitle = ({
           <span>{title}</span>
           {
             !createForm && param && client.checkIdWithQueryId(id) &&
-            <button className="btn btn-sm btn-outline-success pulse" onClick={showCreateForm}>
+            <button className="btn btn-sm btn-outline-success pulse add-user" onClick={showCreateForm}>
               <FontAwesome name="plus"/>
             </button>
           }

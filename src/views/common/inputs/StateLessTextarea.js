@@ -1,8 +1,19 @@
+// @flow
 import React from 'react'
 
-const StateLessTextarea = ({name = '', label = '', onChange = () => 1, value = ''}) => (
-    <div className="form-group">
-        <label>{label}</label>
+type Props = {
+  name?: string,
+  label?: string,
+  onChange: (SyntheticEvent<HTMLInputElement>) => void,
+  value: string,
+  className?: string
+}
+
+export default (props: Props) => {
+  const {name = '', label = '', onChange = (a) => a, value = '', className = ''} = props
+  return (
+      <div className={`form-group ${className}`}>
+        {label ? <label>{label}</label> : ''}
         <textarea
             name={name}
             className="form-control"
@@ -10,6 +21,6 @@ const StateLessTextarea = ({name = '', label = '', onChange = () => 1, value = '
             dir="auto"
             value={value}
         />
-    </div>
-)
-export default StateLessTextarea
+      </div>
+  )
+}

@@ -84,7 +84,8 @@ const validatePassword = (pass) => {
 
 export const validateSignUpForm = values => {
   const errors = {}
-  const requiredFields = ['username', 'email', 'password', 'passwordConfirm']
+  const requiredFields = ['email', 'password', 'passwordConfirm']
+  // const requiredFields = ['username', 'email', 'password', 'passwordConfirm']
   const {username, email, password, passwordConfirm} = values
 
   if (username) errors.username = validateUsername(username)

@@ -1,12 +1,8 @@
 @import "../variables";
 
-
 .pages-wrapper {
-  background-image: url("../images/common/background.png");
-  background-repeat: no-repeat;
-  background-position: top left;
-  background-attachment: fixed;
-  background-color: $image-background-color;
+  background: url("../images/common/background.png") no-repeat fixed top left, $image-background-color no-repeat fixed top left ;
+  //background-size: 63%;
   min-height: 100vh;
 }
 
@@ -101,4 +97,12 @@
   font-size: $font-size-field-value;
   //padding-top: 2px;
   padding-right: 8px;
+}
+
+.covered-img {
+  object-fit: cover;
+}
+
+.contain-img {
+  object-fit: contain;
 }

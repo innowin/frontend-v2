@@ -3,7 +3,7 @@ import types from "../actions/types/index"
 
 import slices from './sliceReducers/education'
 
-const users = (state = initialState.education, action) => {
+const education = (state = initialState.education, action) => {
   switch (action.type) {
     /** -------------------------- get education by user id  -------------------------> **/
     case types.SUCCESS.EDUCATION.GET_USER_EDUCATION_BY_USER_ID:
@@ -33,4 +33,4 @@ const users = (state = initialState.education, action) => {
   }
 }
 
-export default users
+export default education

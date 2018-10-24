@@ -150,12 +150,27 @@ $heightOfContentBox: 140px;
         label {
           position: absolute;
           left: 1px;
-          top: 1px;
-        }
-        i {
-          background-color: $text-lightest-color;
-          border-radius: 2px;
-          box-shadow: 1px 1px 10px 1px grey;
+          top: 5px;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          width: 100%;
+          padding-right: 5px;
+          padding-left: 2px;
+          .edit-post-picture {
+            fill: lighten($text-dark-color, 50%);
+            height: 16px;
+            width: 16px;
+            margin-top: 2px;
+            margin-left: 10px;
+            &:hover {
+              fill: $text-dark-color;
+            }
+          }
+          .remove-post-picture {
+            color: lighten($text-dark-color, 50%);
+            font-size: 20px;
+          }
         }
         img {
           height: inherit;
@@ -168,8 +183,9 @@ $heightOfContentBox: 140px;
       }
     }
     .-createPostFooter {
-      animation: animate-createPostFooter 5000ms;
-      animation-fill-mode: backwards
+      animation: animate-createPostFooter 1000ms;
+      animation-fill-mode: backwards;
+      animation-delay: 500ms
     }
   }
 

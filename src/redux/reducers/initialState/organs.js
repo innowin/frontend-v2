@@ -37,7 +37,17 @@ export default {
          content:[],
          isLoading:false,
          error: null,
-       },
+      },
+      customers: {
+         content:[],
+         isLoading:false,
+         error: null,
+      },
+      abilities: {
+         content:[],
+         isLoading:false,
+         error: null,
+      },
     }
 
     */

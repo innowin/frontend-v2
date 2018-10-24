@@ -8,6 +8,7 @@ import {bindActionCreators} from 'redux'
 import connect from 'react-redux/es/connect/connect'
 import exchangeActions from 'src/redux/actions/exchangeActions'
 import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges.js'
+import {PostCreateForm} from "../../common/post/PostCreateForm"
 
 type appProps =
     {|
@@ -68,6 +69,13 @@ class Explore extends Component <appProps, appState> {
             <Exchanges exchanges={this.props.allExchanges} justFollowing={this.state.justFollowing}/>
             {/*{this.state.scrollLoading && <ClipLoader/>}*/}
           </div>
+
+          {/*remove this*/}
+          {/*<div>*/}
+          {/*<PostCreateForm />*/}
+          {/*</div>*/}
+          {/*end*/}
+
         </div>
     )
   }

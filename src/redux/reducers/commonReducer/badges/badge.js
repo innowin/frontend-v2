@@ -7,28 +7,43 @@ const badge = (state = initialState.common.badges.badge, action) => {
   const {data} = action.payload || []
   // data's structure is : {[id]:{}}
   switch (action.type) {
-    /** --------------------  get user badges --------------------- **/
-    // parentId in this section is user identityId
+      /** --------------------  get user badges --------------------- **/
+      // parentId in this section is user identityId
     case types.SUCCESS.COMMON.GET_USER_BADGES:
       return {
         ...state,
-        list:{
+        list: {
           ...data
         }
       }
     case types.SUCCESS.COMMON.GET_BADGES:
       return appendListToStateList.success(state, action)
       /** --------------------  get organ badges --------------------- **/
-    // parentId in this section is organId
+      // parentId in this section is organId
     case types.SUCCESS.COMMON.GET_ORG_BADGES:
       return {
         ...state,
-        list:{
+        list: {
           ...data
         }
       }
 
-    /** ----------------- reset -----------------> **/
+      /** --------------------  get all badges for About tab --------------------- **/
+    case types.SUCCESS.COMMON.GET_ALL_BADGES:
+      let allBadges = []
+      for (let i = 0; i < data.length; i++) {
+        let addBadge = {}
+        addBadge.title = data[i].badge_related_badge_category.badge_title
+        addBadge.description = data[i].badge_related_badge_category.badge_description
+        addBadge.media = data[i].badge_related_badge_category.badge_related_media.file
+        allBadges.push(addBadge)
+      }
+      return {
+        ...state,
+        allBadges: allBadges.slice()
+      }
+
+      /** ----------------- reset -----------------> **/
     case types.RESET:
       return initialState.common.badges.badge
     default:
