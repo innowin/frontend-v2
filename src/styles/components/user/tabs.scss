@@ -26,6 +26,14 @@
   border-radius: 3px;
   background: #ffffff;
   padding: .09px;
+  transition-duration: $animation-timing;
+  //transform: translateZ(0);
+  //backface-visibility: hidden;
+  &:hover{
+    transition-duration: $animation-timing;
+    box-shadow: 0 13px 10px -6px $box-shadow-color;
+    transform: translateY(-3px);
+  }
 }
 .remove-post-container {
   margin: 18px 18px 18px 18px;

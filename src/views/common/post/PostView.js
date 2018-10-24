@@ -24,6 +24,7 @@ import PostType from "./PostType"
 import PostFooter from "./PostFooter"
 import PostComments from "./PostComments"
 import {Confirm} from "../cards/Confirm"
+import {ClipLoader} from "react-spinners"
 
 type postExtendedViewProps = {
   actions: {
@@ -81,7 +82,11 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   componentDidMount() {
-    const {extendedView} = this.props
+    const {extendedView, post, actions} = this.props
+    if (post.post_picture) {
+      let {getFile} = actions
+      getFile(post.post_picture.id)
+    }
     if (extendedView) {
       const {actions, match} = this.props
       const {params, url} = match
@@ -185,12 +190,13 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   render() {
-    const {post, translate, postIdentity, postRelatedIdentityImage, userImage, extendedView, showEdit, comments} = this.props
+    const {post, translate, postIdentity, postRelatedIdentityImage, userImage, extendedView, showEdit, comments, fileList} = this.props
     const {menuToggle, confirm} = this.state
-    let postDescription, postPicture
+    let postDescription, postPicture, postPictureId
     if (post) {
       postDescription = post.post_description
       postPicture = post.post_picture
+      postPictureId = post.post_picture
     }
     return (
         confirm
@@ -215,10 +221,20 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                 <div className="post-content">
                   {postDescription}
                 </div>
-                {postPicture ?
-                    <div className={"post-image-container"}>
-                      <img src={postPicture.file} width={"100%"} alt={"عکس پست"} className={"post-image"}/>
-                    </div> : null}
+                {!extendedView ?
+                    postPicture ?
+                        <div className={"post-image-container"}>
+                          <img src={postPicture.file} width={"100%"} alt={"عکس پست"} className={"post-image"}/>
+                        </div> : null
+                    :
+                    postPictureId ?
+                        <div className={"post-image-container"}>
+                          <img src={fileList[postPictureId] ? fileList[postPictureId].file : null} width={"100%"}
+                               alt={" "}
+                               className={"post-image"}/>
+                        </div> : null
+                }
+
                 <PostFooter post={post} postIdentity={postIdentity} translate={translate} extendedView={extendedView}
                             menuToggle={menuToggle} openMenu={this.openMenu}
                             deletePost={this._showConfirm}
@@ -270,6 +286,7 @@ const mapStateToProps = (state, ownProps) => {
       userImageId: prevUserImageId,
       userImage: state.common.file.list[prevUserImageId],
       comments: userCommentsSelector(state, ownProps),
+      fileList: state.common.file.list,
     }
   }
   else {
