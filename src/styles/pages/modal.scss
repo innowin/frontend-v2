@@ -589,6 +589,10 @@
           background-color: $success-color;
         }
       }
+      .footer-button {
+        padding: 3px 15px;
+        font-size: $font-size-regular;
+      }
     }
     .register-steps-modal-content {
       padding: 70px 7%;
@@ -787,7 +791,7 @@
           font-weight: bold;
           margin-bottom: 40px;
         }
-        .users-container{
+        .users-container {
           display: flex;
           flex-wrap: wrap;
           justify-content: space-around;
@@ -799,6 +803,275 @@
             height: 250px;
             max-width: 25%;
             flex: 1 1 25%;
+          }
+        }
+      }
+      .favorite-fields-container {
+        .favorite-fields-image-container {
+          display: flex;
+          flex-flow: row wrap;
+          align-content: flex-start;
+          overflow-y: auto;
+          height: 400px;
+          margin-bottom: 40px;
+
+          .favorite-container {
+            height: 150px;
+            max-width: 150px;
+            flex: 1 1 150px;
+            position: relative;
+            padding: 6px;
+            .favorite-name {
+              position: absolute;
+              margin: 0;
+              bottom: 15px;
+              right: 15px;
+              width: 100px;
+              font-size: $font-size-regular;
+              font-weight: bold;
+              color: #ffffff;
+            }
+            .favorite-image {
+              width: 100%;
+              height: 100%;
+              border-radius: $border-radius-size;
+              object-fit: cover;
+            }
+            .tick-icon {
+              width: 25px;
+              height: 25px;
+              border: 1.5px solid #ffffff;
+              fill: #ffffff;
+              padding: 3px;
+              border-radius: 50px;
+              position: absolute;
+              top: 15px;
+              left: 15px;
+            }
+          }
+        }
+        .favorite-fields-text-container {
+          display: flex;
+          flex-flow: row wrap;
+          max-width: 80%;
+
+          .favorite-text {
+            border: 1.5px solid $primary-color;
+            padding: 3px 10px;
+            font-weight: bold;
+            font-size: $font-size-regular;
+            border-radius: $border-radius-size;
+            margin: 5px;
+            text-align: center;
+          }
+          .select-field-text-container {
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            .required-icon {
+              color: $danger-color;
+              font-size: 10px;
+              margin-left: 12px;
+            }
+            .select-field-error {
+              color: $danger-color;
+              margin: 0;
+              font-size: $font-size-regular;
+            }
+          }
+        }
+      }
+      .tags-container {
+        .headers-container {
+          border-bottom: 1px solid $text-light-color;
+          display: flex;
+          justify-content: space-around;
+          .header {
+            flex: 1;
+            padding-bottom: 15px;
+            font-size: $font-size-regular;
+            font-weight: bold;
+            color: $text-light-color;
+            &:hover {
+              cursor: pointer;
+            }
+          }
+          .selected-header {
+            color: $success-color;
+          }
+          .search-container {
+            position: relative;
+            flex: 2;
+            margin-bottom: 5px;
+            .search-text-field {
+              position: absolute;
+              top: -10px;
+              left: 0;
+              border: 1px solid $text-lighter-color;
+              border-radius: 50px;
+              padding: 5px 10px 5px 25px;
+              outline: 0;
+              width: 100%;
+              font-size: $font-size-regular;
+            }
+            .search-icon {
+              z-index: 100;
+              position: absolute;
+              top: -3px;
+              font-size: 15px;
+              color: $text-light-color;
+              left: 8px;
+            }
+            .search-menu {
+              z-index: 200;
+              position: absolute;
+              width: 100%;
+              top: 20px;
+              border-radius: $border-radius-size;
+              box-shadow: 0 3px 3px $box-shadow-color;
+              left: 0;
+              background: #ffffff;
+
+              .search-tag-body {
+                height: 200px;
+                overflow-y: auto;
+                border-bottom: 1px solid $text-lighter-color;
+                padding: 5px;
+                display: flex;
+                flex-flow: row wrap;
+                justify-items: flex-start;
+                justify-content: flex-start;
+                align-content: flex-start;
+                align-items: flex-start;
+
+                .search-tag {
+                  display: flex;
+                  margin: 3px;
+                  border: 1px solid $primary-color;
+                  border-radius: $border-radius-size;
+
+                  .search-tag-text {
+                    padding: 3px 10px;
+                    color: $text-light-color;
+                    font-size: $font-size-regular;
+                  }
+
+                  .search-tag-number {
+                    background: $primary-color;
+                    font-size: 10px;
+                    color: #ffffff;
+                    display: block;
+                    padding: 8px 10px 4px 9px;
+                    border-top-left-radius: $border-radius-size;
+                    border-bottom-left-radius: $border-radius-size;
+                  }
+                }
+              }
+              .tag-create-container {
+                padding: 5px;
+                display: flex;
+                align-items: center;
+                min-height: 35px;
+
+                .create-tag-title {
+                  color: $text-light-color;
+                  font-size: $font-size-regular;
+                  margin-left: 5px;
+                }
+                .create-tag {
+                  display: flex;
+                  max-width: 70%;
+                  border: 1px solid $primary-color;
+                  border-radius: $border-radius-size;
+
+                  .create-tag-text {
+                    padding: 3px 10px;
+                    color: $text-light-color;
+                    font-size: $font-size-regular;
+                  }
+
+                  .plus-icon {
+                    background: $success-color;
+                    font-size: 10px;
+                    color: #ffffff;
+                    display: block;
+                    padding: 7px 10px 3px 9px;
+                    border-top-left-radius: $border-radius-size;
+                    border-bottom-left-radius: $border-radius-size;
+                  }
+                }
+              }
+            }
+          }
+        }
+        .tags-body-container {
+          display: flex;
+          flex-flow: row wrap;
+          height: 300px;
+          align-content: flex-start;
+          overflow-y: auto;
+          margin: 10px;
+          transition: all $animation-timing;
+          .tag-text {
+            border: 1.5px solid $primary-color;
+            padding: 3px 10px;
+            font-weight: bold;
+            font-size: $font-size-regular;
+            border-radius: $border-radius-size;
+            margin: 5px;
+            text-align: center;
+            transition: all $animation-timing;
+
+            &:hover {
+              cursor: pointer;
+              background-color: $primary-color;
+              color: #ffffff;
+            }
+          }
+          .tag-text-selected {
+            background-color: $primary-color;
+            color: #ffffff;
+            //&:hover {
+            //  cursor: pointer;
+            //  background-color: inherit;
+            //  color: $primary-color;
+            //}
+          }
+        }
+        .tags-body-container-blur {
+          filter: blur(3px);
+        }
+        .selected-tags-container {
+          .selected-tags-header {
+            font-size: $font-size-regular;
+            font-weight: bold;
+          }
+          .selected-tags-body {
+            border: 1px solid $text-light-color;
+            padding: 5px;
+
+            .selected-tag {
+              background: $primary-color;
+              border: 1.5px solid $primary-color;
+              padding: 3px 10px;
+              color: #ffffff;
+              font-weight: bold;
+              font-size: $font-size-regular;
+              border-radius: $border-radius-size;
+              margin: 5px;
+              text-align: center;
+              transition: all $animation-timing;
+              display: inline-block;
+
+              &:hover {
+                cursor: pointer;
+              }
+            }
+            .close-select-tag {
+              font-size: 12px;
+              color: #ffffff;
+              margin-right: 10px;
+            }
           }
         }
       }
@@ -859,7 +1132,7 @@
     .left-side-register {
       .register-steps-modal-content {
         .extend-relations-users-container {
-          .users-container{
+          .users-container {
             .user-container {
               max-width: 33%;
               flex: 1 1 33%;
@@ -871,18 +1144,23 @@
   }
 }
 
-@media screen and (max-width: 850px) and (min-width: 600px){
+@media screen and (max-width: 850px) and (min-width: 600px) {
   .register-steps-modal {
     width: 95%;
 
     .left-side-register {
       .register-steps-modal-content {
         .extend-relations-users-container {
-          .users-container{
+          .users-container {
             .user-container {
               max-width: 50%;
               flex: 1 1 50%;
             }
+          }
+        }
+        .favorite-fields-container {
+          .favorite-fields-text-container {
+            max-width: 70%;
           }
         }
       }
@@ -897,11 +1175,16 @@
     .left-side-register {
       .register-steps-modal-content {
         .extend-relations-users-container {
-          .users-container{
+          .users-container {
             .user-container {
               max-width: 100%;
               flex: 1 1 100%;
             }
+          }
+        }
+        .favorite-fields-container {
+          .favorite-fields-text-container {
+            max-width: 60%;
           }
         }
       }

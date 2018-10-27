@@ -74,6 +74,18 @@ module.exports = {
   'Connect to gmail': 'اتصال به اکانت جی میل',
   'Connect to linkedin': 'اتصال به اکانت لینکداین',
   'You can follow users': 'می توانید تعدادی از افراد را دنبال کنید',
+  'Start Inovin': 'آغاز اینوین',
+  'Inovin tour': 'تور اینوین',
+  'Complete profile': 'تکمیل پروفایل',
+  'Windows': 'پنجره ها',
+  'Select at least one favorite': 'برای ادامه، حداقل یک مورد از زمینه های علاقه مندی خود را انتخاب کنید.',
+  'Financial services': 'خدمات مالی',
+  'Commerce': 'بازرگانی',
+  'Confirmation and standard': 'تاییدیه و استاندارد',
+  'Home appliances': 'لوازم خانگی',
+  'Healthcare': 'بهداشت و سلامت',
+  'Selected tags': 'برچسب های انتخاب شده',
+  'Create tag': 'ایجاد برچسب',
 
 
   //common

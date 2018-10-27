@@ -1,3 +1,5 @@
+import * as React from "react";
+
 export default {
   USER_TYPES: {
     PERSON: 'person',
@@ -32,5 +34,12 @@ export default {
     BACHELOR: 'Bachelor',
     MASTER: 'Master',
     PHD: 'Phd',
+  },
+  TAG_FILTERS: {
+    FINANCIAL: 'financial',
+    COMMERCE: 'commerce',
+    CONFIRMATION: 'confirmation',
+    HOME: 'home',
+    HEALTHCARE: 'healthcare',
   }
 }

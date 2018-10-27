@@ -1,13 +1,12 @@
 @import "../../variables";
-.user-square-followed {
+.user-card-followed {
   background-color: #f6f6f6;
 }
-.user-square {
+.user-card {
   font-size: $font-size-regular;
   border-radius: $border-radius-size;
   box-shadow: 0 3px 3px $box-shadow-color;
   padding: 14px;
-  transition: $animation-timing;
   width: 100%;
   height: 100%;
   position: relative;
@@ -38,12 +37,34 @@
   .user-detail-container {
     text-align: center;
 
-    .user-square-name {
+    .user-card-name {
       font-weight: bold;
       margin: 15px;
     }
-    .user-square-desc {
+    .user-card-desc {
       color: $text-light-color;
+    }
+  }
+  .exchange-footer-container {
+    display: flex;
+    justify-content: space-around;
+    .demand-container {
+      display: flex;
+      font-weight: bold;
+      font-size: $font-size-medium;
+      margin-left: 5px;
+      .exchange-demand-icon {
+        width: 23px;
+        height: 20px;
+        margin-left: 7px;
+        opacity: 0.99;
+      }
+      .exchange-supply-icon {
+        width: 20px;
+        height: 20px;
+        margin-left: 10px;
+        opacity: 0.99;
+      }
     }
   }
 }
