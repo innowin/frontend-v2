@@ -9,13 +9,14 @@ const certificate = (state = initialState.common.certificate, action) => {
   switch (action.type) {
 
       /** <--------------- getCertificates -------------- **/
-    case types.SUCCESS.COMMON.GET_CERTIFICATES:
+    case types.SUCCESS.COMMON.CERTIFICATE.GET_CERTIFICATES:
       return appendListToStateList.success(state, action)
       /** --------------- getCertificates --------------> **/
 
       /** <-------------- createCertificate ------------- **/
-    case types.SUCCESS.COMMON.CREATE_OBJECT_CERTIFICATE:
-      return pushAnObjToStateList.success(state, action)
+    case types.SUCCESS.COMMON.CERTIFICATE.CREATE_OBJECT_CERTIFICATE:
+      // return pushAnObjToStateList.success(state, action)
+      return slices.createCertificate.success(state, action)
       /** -------------- createCertificate -------------> **/
 
     /** -------------- get Certificate -------------> **/

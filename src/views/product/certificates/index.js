@@ -222,7 +222,7 @@ export class Certificates extends Component<CertificatesProps, CertificatesState
                         certificate_parent: productId,
                         certificate_identity: IDENTITY_ID
                     }
-                    _createCertificate(data)
+                    _createCertificate({formValues: data})
                 })
             }
         }

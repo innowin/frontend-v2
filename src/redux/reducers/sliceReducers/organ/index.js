@@ -1,4 +1,5 @@
 import createAbility from './createAbility'
+import createCertificate from './createCertificate'
 import createCustomer from './createCustomer'
 import createFollow from "./createFollow"
 import createPost from "./createPost"
@@ -25,6 +26,7 @@ import setOrganMedia from "./setOrganMedia"
 
 export default {
   createAbility,
+  createCertificate,
   createCustomer,
   createFollow,
   createPost,

@@ -235,6 +235,9 @@ const organs = (state = initialState.organs, action) => {
     /** -------------------------- delete organization certificate -------------------------> **/
     case types.SUCCESS.COMMON.CERTIFICATE.DELETE_CERTIFICATE:
       return slices.deleteCertificate.success(state, action)
+    /** -------------------------- create Certificate  -------------------------> **/
+    case types.SUCCESS.COMMON.CERTIFICATE.CREATE_OBJECT_CERTIFICATE:
+      return slices.createCertificate.success(state, action)
     /** -------------------------- get organization customers -------------------------> **/
     case types.ORG.GET_CUSTOMERS_BY_ORGANIZATION_ID:
       return slices.getCustomersByOrganizationId.base(state, action)

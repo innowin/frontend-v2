@@ -1,3 +1,4 @@
+import createCertificate from './createCertificate'
 import createEducationByUserId from './createEducationByUserId'
 import createFollow from './createFollow'
 import createPost from './createPost'
@@ -28,6 +29,7 @@ import updateUserByUserId from './updateUserByUserId'
 import setProfileMedia from "./setProfileMedia"
 
 export default {
+  createCertificate,
   createEducationByUserId,
   createFollow,
   createPost,

@@ -3,32 +3,33 @@ import api from "../../../../consts/api"
 import results from "../../../../consts/resultName"
 import urls from "../../../../consts/URLS"
 import types from "../../../actions/types"
-import helpers from "src/consts/helperFunctions/helperFunctions"
 import client from "../../../../consts/client";
 
 
-function* createObjectCertificate(action) { // action = {type, payload: {formData} }
-    const identityId = client.getIdentityId()
+function* createObjectCertificate(action) { // action = {type, payload: {formValues, ownerId} }
+  const identityId = client.getIdentityId()
+  let {formValues, certificateOwnerId, certificateOwnerType} = action.payload
+  const newCert = {
+    ...formValues,
+    certificate_identity: identityId
+  }
 
-    const newCert = {
-        ...action.payload,
-        certificate_identity: identityId
-    }
+  const dynamicResult = results.COMMON.CERTIFICATE.CREATE_OBJECT_CERTIFICATE + newCert.title
+  const socketChannel = yield call(api.createSocketChannel, dynamicResult)
 
-    const dynamicResult = results.COMMON.CERTIFICATE.CREATE_OBJECT_CERTIFICATE + newCert.title
-    const socketChannel = yield call(api.createSocketChannel, dynamicResult)
+  try {
+    yield fork(api.post, urls.COMMON.CERTIFICATE, dynamicResult, newCert)
+    const data = yield take(socketChannel)
+    yield put({type: types.SUCCESS.COMMON.CERTIFICATE.CREATE_OBJECT_CERTIFICATE, payload: {certificateOwnerType, certificateOwnerId, data}})
+    yield put({type: types.COMMON.CERTIFICATE.GET_CERTIFICATES_BY_IDENTITY, payload: {identityId, certificateOwnerId, certificateOwnerType}})
 
-    try {
-        yield fork(api.post, urls.COMMON.CERTIFICATE, dynamicResult, newCert)
-        const data = yield take(socketChannel)
-        yield put({type: types.SUCCESS.COMMON.CREATE_OBJECT_CERTIFICATE, data: data})
+  } catch (error) {
+    const {message} = error
+    yield put({type: types.ERRORS.COMMON.CERTIFICATE.CREATE_OBJECT_CERTIFICATE, payload: {message}})
 
-    } catch (error) {
-        yield put({type: types.ERRORS.COMMON.CREATE_OBJECT_CERTIFICATE, error})
-
-    } finally {
-        socketChannel.close()
-    }
+  } finally {
+    socketChannel.close()
+  }
 }
 
 export default createObjectCertificate

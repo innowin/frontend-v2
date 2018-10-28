@@ -340,6 +340,9 @@ const users = (state = initialState.users, action) => {
       /** -------------------------- delete Certificate -------------------------> **/
     case types.SUCCESS.COMMON.CERTIFICATE.DELETE_CERTIFICATE:
       return slices.deleteCertificate.success(state, action)
+    /** -------------------------- create Certificate  -------------------------> **/
+    case types.SUCCESS.COMMON.CERTIFICATE.CREATE_OBJECT_CERTIFICATE:
+      return slices.createCertificate.success(state, action)
       /** -------------- reset -------------> **/
     case types.RESET:
       return initialState.users
