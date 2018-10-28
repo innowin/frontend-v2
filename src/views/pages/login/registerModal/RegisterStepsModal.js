@@ -69,11 +69,14 @@ class RegisterStepsModal extends React.Component <registerStepsModalProps, regis
     const {step} = this.state
 
     return (
-        <div className={showRegisterModal
-            ? "common-modal register-steps-modal"
-            : "common-modal-out register-steps-modal"}>
-          <RightSideRegisterStepsModal translate={translate} step={step}/>
-          <LeftSideRegisterStepsModal translate={translate} onNext={this.onNext} onBack={this.onBack} step={step}/>
+        <div style={!showRegisterModal ? {zIndex: 0} : {}} className='register-modal-wrapper'>
+          <div className={showRegisterModal
+              ? "common-modal register-steps-modal"
+              : "common-modal-out register-steps-modal"}>
+            <RightSideRegisterStepsModal translate={translate} step={step}/>
+            <LeftSideRegisterStepsModal onCompleteProfile={() => (5)} onStartTour={() => (5)} translate={translate} onNext={this.onNext}
+                                        onBack={this.onBack} step={step}/>
+          </div>
         </div>
     )
   }

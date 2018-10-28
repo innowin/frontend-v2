@@ -560,586 +560,605 @@
   }
 }
 
-.register-steps-modal {
-  position: absolute;
-  transform: translateY(1%);
-  top: 0;
-  left: 0;
-  margin: 2% 2% 3% 2%;
+.register-modal-wrapper {
+  position: fixed;
+  z-index: 1500;
+  overflow-y: scroll;
+  top: 50px;
+  bottom: 50px;
+  left: 50px;
+  right: 50px;
+  display: block;
   border-radius: $border-radius-size;
-  width: 96%;
-  display: flex;
 
-  .left-side-register {
-    flex: 4;
+  .register-steps-modal {
+    position: static;
+    width: 100%;
+    display: flex;
+    transform: translate(0, 0);
 
-    .register-steps-modal-footer {
-      display: flex;
-      position: absolute;
-      left: 30px;
-      bottom: 30px;
-      flex-direction: row-reverse;
-      margin: 0 20px 20px 20px;
+    .left-side-register {
+      flex: 4;
 
-      .back-button {
-        border: 1px solid $success-color;
-        color: $success-color;
-        background-color: #ffffff;
+      .register-steps-modal-footer {
+        display: flex;
+        position: absolute;
+        left: 30px;
+        bottom: 30px;
+        flex-direction: row-reverse;
+        margin: 0 20px 20px 20px;
 
-        &:hover {
+        .back-button {
           border: 1px solid $success-color;
-          color: #ffffff;
-          background-color: $success-color;
+          color: $success-color;
+          background-color: #ffffff;
+
+          &:hover {
+            border: 1px solid $success-color;
+            color: #ffffff;
+            background-color: $success-color;
+          }
+        }
+        .footer-button {
+          padding: 3px 15px;
+          font-size: $font-size-regular;
         }
       }
-      .footer-button {
-        padding: 3px 15px;
-        font-size: $font-size-regular;
-      }
-    }
-    .register-steps-modal-content {
-      padding: 70px 7%;
+      .register-steps-modal-content {
+        padding: 70px 7%;
 
-      .user-modal-container {
-        .user-type-container {
-          display: flex;
-          height: 150px;
-          flex-direction: row;
-          align-items: center;
+        .user-modal-container {
+          .user-type-container {
+            display: flex;
+            height: 150px;
+            flex-direction: row;
+            align-items: center;
 
-          .row-user-part {
-            width: 23%;
+            .row-user-part {
+              width: 23%;
 
-            .user-type {
-              position: relative;
-              display: flex;
-              width: 130px;
-              height: 60px;
-              align-items: center;
-              justify-content: space-around;
-              padding: 0 15px;
-              color: $text-light-color;
+              .user-type {
+                position: relative;
+                display: flex;
+                width: 130px;
+                height: 60px;
+                align-items: center;
+                justify-content: space-around;
+                padding: 0 15px;
+                color: $text-light-color;
 
-              .active-user-type-tick {
-                width: 26px;
-                height: 26px;
-                padding: 3px;
-                fill: $success-color;
+                .active-user-type-tick {
+                  width: 26px;
+                  height: 26px;
+                  padding: 3px;
+                  fill: $success-color;
+                  border: 1.5px solid $success-color;
+                  border-radius: 50px;
+                  top: -13px;
+                  background: #ffffff;
+                  left: 0;
+                  right: 0;
+                  margin: auto;
+                  position: absolute;
+                }
+
+                .one-person-icon {
+                  width: 25px;
+                  height: 25px;
+                  fill: $text-light-color;
+                }
+                .social-person-icon {
+                  width: 30px;
+                  height: 30px;
+                  fill: $text-light-color;
+                }
+
+                .one-person-icon-active {
+                  fill: $success-color;
+                }
+                .social-person-icon-active {
+                  fill: $success-color;
+                }
+              }
+              .user-type-active {
                 border: 1.5px solid $success-color;
-                border-radius: 50px;
-                top: -13px;
-                background: #ffffff;
-                left: 0;
-                right: 0;
-                margin: auto;
-                position: absolute;
+                border-radius: $border-radius-size;
+                color: $success-color;
+              }
+              .user-profile-container {
+                position: relative;
+                width: 100px;
+                height: 100px;
+                border-radius: 100px;
+                overflow: hidden;
+
+                .user-profile {
+                  width: 100%;
+                  height: 100%;
+                }
+                .select-text {
+                  transition: $animation-timing all;
+                  background-color: $frame-color;
+                  font-size: $font-size-regular;
+                  position: absolute;
+                  bottom: 0;
+                  padding-bottom: 4px;
+                  left: 0;
+                  text-align: center;
+                  color: #ffffff;
+                  width: 100%;
+                }
               }
 
-              .one-person-icon {
-                width: 25px;
-                height: 25px;
-                fill: $text-light-color;
+              &:hover {
+                .select-text {
+                  background-color: darken($frame-color, 10%);
+                }
               }
-              .social-person-icon {
-                width: 30px;
-                height: 30px;
-                fill: $text-light-color;
-              }
+            }
 
-              .one-person-icon-active {
-                fill: $success-color;
+            .label-part {
+              display: flex;
+              align-items: center;
+              height: 100%;
+
+              .label-user-text {
+                font-size: $font-size-field-label;
+                margin: 0;
+                font-weight: bold;
               }
-              .social-person-icon-active {
-                fill: $success-color;
+              .label-user-text-profile {
+                padding-right: 28px;
+              }
+              .required-icon {
+                padding-left: 20px;
+                font-size: 10px;
+                color: $danger-color;
               }
             }
-            .user-type-active {
-              border: 1.5px solid $success-color;
-              border-radius: $border-radius-size;
-              color: $success-color;
+            .profile-part {
+              align-items: normal;
             }
-            .user-profile-container {
+
+            .username-input-container {
+              width: 76%;
+              display: flex;
+
+              .settingModal-menu-general-input {
+                width: 50%;
+                padding-bottom: 10px;
+              }
+              .validation-text {
+                padding-right: 30px;
+                color: $text-light-color;
+                font-size: $font-size-regular;
+              }
+            }
+          }
+          .profile-part-container {
+            align-items: normal;
+            height: 100px;
+          }
+        }
+        .extend-relations-social-accounts-container {
+          width: 100%;
+          font-size: $font-size-regular;
+          .social-text {
+            color: $text-light-color;
+          }
+          .account-container {
+            margin: 50px 0;
+            display: flex;
+            align-items: center;
+
+            .label-connect {
+              font-weight: bold;
+              margin: 0;
+              width: 20%;
+            }
+            .gmail-icon {
+              width: 20px;
+            }
+            .linkedin-icon {
+              width: 20px;
+              fill: $linkedin-icon-color;
+            }
+            .social-connect-text {
+              width: 40%;
+              text-align: center;
+            }
+            .add-button {
+              margin: 0;
+              background-color: $success-color;
+              border: 1px solid #fff;
+              color: #ffffff;
+
+              &:hover {
+                background-color: #ffffff;
+                color: $success-color;
+                border: 1px solid $success-color;
+              }
+            }
+            .remove-button {
+              margin: 0;
+              background-color: $text-light-color;
+              border: 1px solid $text-light-color;
+              color: #ffffff;
+              padding-left: 0;
+              padding-right: 0;
+
+              &:hover {
+                background-color: #ffffff;
+                color: $text-light-color;
+                border: 1px solid $text-light-color;
+              }
+            }
+          }
+        }
+        .extend-relations-users-container {
+          .users-text {
+            font-size: $font-size-regular;
+            font-weight: bold;
+            margin-bottom: 40px;
+          }
+          .users-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            overflow-y: auto;
+            height: 400px;
+
+            .user-container {
+              padding: 5px;
+              height: 250px;
+              max-width: 25%;
+              flex: 1 1 25%;
+            }
+          }
+        }
+        .favorite-fields-container {
+          .favorite-fields-image-container {
+            display: flex;
+            flex-flow: row wrap;
+            align-content: flex-start;
+            overflow-y: auto;
+            height: 400px;
+            margin-bottom: 40px;
+
+            .favorite-container {
+              height: 150px;
+              max-width: 150px;
+              flex: 1 1 150px;
               position: relative;
-              width: 100px;
-              height: 100px;
-              border-radius: 100px;
-              overflow: hidden;
-
-              .user-profile {
+              padding: 6px;
+              .favorite-name {
+                position: absolute;
+                margin: 0;
+                bottom: 15px;
+                right: 15px;
+                width: 100px;
+                font-size: $font-size-regular;
+                font-weight: bold;
+                color: #ffffff;
+              }
+              .favorite-image {
                 width: 100%;
                 height: 100%;
+                border-radius: $border-radius-size;
+                object-fit: cover;
               }
-              .select-text {
-                transition: $animation-timing all;
-                background-color: $frame-color;
-                font-size: $font-size-regular;
+              .tick-icon {
+                width: 25px;
+                height: 25px;
+                border: 1.5px solid #ffffff;
+                fill: #ffffff;
+                padding: 3px;
+                border-radius: 50px;
                 position: absolute;
-                bottom: 0;
-                padding-bottom: 4px;
-                left: 0;
-                text-align: center;
-                color: #ffffff;
-                width: 100%;
-              }
-            }
-
-            &:hover {
-              .select-text {
-                background-color: darken($frame-color, 10%);
+                top: 15px;
+                left: 15px;
               }
             }
           }
-
-          .label-part {
+          .favorite-fields-text-container {
             display: flex;
-            align-items: center;
-            height: 100%;
+            flex-flow: row wrap;
+            max-width: 80%;
 
-            .label-user-text {
-              font-size: $font-size-field-label;
-              margin: 0;
-              font-weight: bold;
-            }
-            .label-user-text-profile {
-              padding-right: 28px;
-            }
-            .required-icon {
-              padding-left: 20px;
-              font-size: 10px;
-              color: $danger-color;
-            }
-          }
-          .profile-part {
-            align-items: normal;
-          }
-
-          .username-input-container {
-            width: 76%;
-            display: flex;
-
-            .settingModal-menu-general-input {
-              width: 50%;
-              padding-bottom: 10px;
-            }
-            .validation-text {
-              padding-right: 30px;
-              color: $text-light-color;
-              font-size: $font-size-regular;
-            }
-          }
-        }
-        .profile-part-container {
-          align-items: normal;
-          height: 100px;
-        }
-      }
-      .extend-relations-social-accounts-container {
-        width: 100%;
-        font-size: $font-size-regular;
-        .social-text {
-          color: $text-light-color;
-        }
-        .account-container {
-          margin: 50px 0;
-          display: flex;
-          align-items: center;
-
-          .label-connect {
-            font-weight: bold;
-            margin: 0;
-            width: 20%;
-          }
-          .gmail-icon {
-            width: 20px;
-          }
-          .linkedin-icon {
-            width: 20px;
-            fill: $linkedin-icon-color;
-          }
-          .social-connect-text {
-            width: 40%;
-            text-align: center;
-          }
-          .add-button {
-            margin: 0;
-            background-color: $success-color;
-            border: 1px solid #fff;
-            color: #ffffff;
-
-            &:hover {
-              background-color: #ffffff;
-              color: $success-color;
-              border: 1px solid $success-color;
-            }
-          }
-          .remove-button {
-            margin: 0;
-            background-color: $text-light-color;
-            border: 1px solid $text-light-color;
-            color: #ffffff;
-            padding-left: 0;
-            padding-right: 0;
-
-            &:hover {
-              background-color: #ffffff;
-              color: $text-light-color;
-              border: 1px solid $text-light-color;
-            }
-          }
-        }
-      }
-      .extend-relations-users-container {
-        .users-text {
-          font-size: $font-size-regular;
-          font-weight: bold;
-          margin-bottom: 40px;
-        }
-        .users-container {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: space-around;
-          overflow-y: auto;
-          height: 400px;
-
-          .user-container {
-            padding: 5px;
-            height: 250px;
-            max-width: 25%;
-            flex: 1 1 25%;
-          }
-        }
-      }
-      .favorite-fields-container {
-        .favorite-fields-image-container {
-          display: flex;
-          flex-flow: row wrap;
-          align-content: flex-start;
-          overflow-y: auto;
-          height: 400px;
-          margin-bottom: 40px;
-
-          .favorite-container {
-            height: 150px;
-            max-width: 150px;
-            flex: 1 1 150px;
-            position: relative;
-            padding: 6px;
-            .favorite-name {
-              position: absolute;
-              margin: 0;
-              bottom: 15px;
-              right: 15px;
-              width: 100px;
-              font-size: $font-size-regular;
-              font-weight: bold;
-              color: #ffffff;
-            }
-            .favorite-image {
-              width: 100%;
-              height: 100%;
-              border-radius: $border-radius-size;
-              object-fit: cover;
-            }
-            .tick-icon {
-              width: 25px;
-              height: 25px;
-              border: 1.5px solid #ffffff;
-              fill: #ffffff;
-              padding: 3px;
-              border-radius: 50px;
-              position: absolute;
-              top: 15px;
-              left: 15px;
-            }
-          }
-        }
-        .favorite-fields-text-container {
-          display: flex;
-          flex-flow: row wrap;
-          max-width: 80%;
-
-          .favorite-text {
-            border: 1.5px solid $primary-color;
-            padding: 3px 10px;
-            font-weight: bold;
-            font-size: $font-size-regular;
-            border-radius: $border-radius-size;
-            margin: 5px;
-            text-align: center;
-          }
-          .select-field-text-container {
-            display: flex;
-            align-items: center;
-            padding: 5px;
-            .required-icon {
-              color: $danger-color;
-              font-size: 10px;
-              margin-left: 12px;
-            }
-            .select-field-error {
-              color: $danger-color;
-              margin: 0;
-              font-size: $font-size-regular;
-            }
-          }
-        }
-      }
-      .tags-container {
-        .headers-container {
-          border-bottom: 1px solid $text-light-color;
-          display: flex;
-          justify-content: space-around;
-          .header {
-            flex: 1;
-            padding-bottom: 15px;
-            font-size: $font-size-regular;
-            font-weight: bold;
-            color: $text-light-color;
-            &:hover {
-              cursor: pointer;
-            }
-          }
-          .selected-header {
-            color: $success-color;
-          }
-          .search-container {
-            position: relative;
-            flex: 2;
-            margin-bottom: 5px;
-            .search-text-field {
-              position: absolute;
-              top: -10px;
-              left: 0;
-              border: 1px solid $text-lighter-color;
-              border-radius: 50px;
-              padding: 5px 10px 5px 25px;
-              outline: 0;
-              width: 100%;
-              font-size: $font-size-regular;
-            }
-            .search-icon {
-              z-index: 100;
-              position: absolute;
-              top: -3px;
-              font-size: 15px;
-              color: $text-light-color;
-              left: 8px;
-            }
-            .search-menu {
-              z-index: 200;
-              position: absolute;
-              width: 100%;
-              top: 20px;
-              border-radius: $border-radius-size;
-              box-shadow: 0 3px 3px $box-shadow-color;
-              left: 0;
-              background: #ffffff;
-
-              .search-tag-body {
-                height: 200px;
-                overflow-y: auto;
-                border-bottom: 1px solid $text-lighter-color;
-                padding: 5px;
-                display: flex;
-                flex-flow: row wrap;
-                justify-items: flex-start;
-                justify-content: flex-start;
-                align-content: flex-start;
-                align-items: flex-start;
-
-                .search-tag {
-                  display: flex;
-                  margin: 3px;
-                  border: 1px solid $primary-color;
-                  border-radius: $border-radius-size;
-
-                  .search-tag-text {
-                    padding: 3px 10px;
-                    color: $text-light-color;
-                    font-size: $font-size-regular;
-                  }
-
-                  .search-tag-number {
-                    background: $primary-color;
-                    font-size: 10px;
-                    color: #ffffff;
-                    display: block;
-                    padding: 8px 10px 4px 9px;
-                    border-top-left-radius: $border-radius-size;
-                    border-bottom-left-radius: $border-radius-size;
-                  }
-                }
-              }
-              .tag-create-container {
-                padding: 5px;
-                display: flex;
-                align-items: center;
-                min-height: 35px;
-
-                .create-tag-title {
-                  color: $text-light-color;
-                  font-size: $font-size-regular;
-                  margin-left: 5px;
-                }
-                .create-tag {
-                  display: flex;
-                  max-width: 70%;
-                  border: 1px solid $primary-color;
-                  border-radius: $border-radius-size;
-
-                  .create-tag-text {
-                    padding: 3px 10px;
-                    color: $text-light-color;
-                    font-size: $font-size-regular;
-                  }
-
-                  .plus-icon {
-                    background: $success-color;
-                    font-size: 10px;
-                    color: #ffffff;
-                    display: block;
-                    padding: 7px 10px 3px 9px;
-                    border-top-left-radius: $border-radius-size;
-                    border-bottom-left-radius: $border-radius-size;
-                  }
-                }
-              }
-            }
-          }
-        }
-        .tags-body-container {
-          display: flex;
-          flex-flow: row wrap;
-          height: 300px;
-          align-content: flex-start;
-          overflow-y: auto;
-          margin: 10px;
-          transition: all $animation-timing;
-          .tag-text {
-            border: 1.5px solid $primary-color;
-            padding: 3px 10px;
-            font-weight: bold;
-            font-size: $font-size-regular;
-            border-radius: $border-radius-size;
-            margin: 5px;
-            text-align: center;
-            transition: all $animation-timing;
-
-            &:hover {
-              cursor: pointer;
-              background-color: $primary-color;
-              color: #ffffff;
-            }
-          }
-          .tag-text-selected {
-            background-color: $primary-color;
-            color: #ffffff;
-            //&:hover {
-            //  cursor: pointer;
-            //  background-color: inherit;
-            //  color: $primary-color;
-            //}
-          }
-        }
-        .tags-body-container-blur {
-          filter: blur(3px);
-        }
-        .selected-tags-container {
-          .selected-tags-header {
-            font-size: $font-size-regular;
-            font-weight: bold;
-          }
-          .selected-tags-body {
-            border: 1px solid $text-light-color;
-            padding: 5px;
-
-            .selected-tag {
-              background: $primary-color;
+            .favorite-text {
               border: 1.5px solid $primary-color;
               padding: 3px 10px;
-              color: #ffffff;
+              font-weight: bold;
+              font-size: $font-size-regular;
+              border-radius: $border-radius-size;
+              margin: 5px;
+              text-align: center;
+            }
+            .select-field-text-container {
+              display: flex;
+              align-items: center;
+              padding: 5px;
+              .required-icon {
+                color: $danger-color;
+                font-size: 10px;
+                margin-left: 12px;
+              }
+              .select-field-error {
+                color: $danger-color;
+                margin: 0;
+                font-size: $font-size-regular;
+              }
+            }
+          }
+        }
+        .tags-container {
+          .headers-container {
+            border-bottom: 1px solid $text-light-color;
+            display: flex;
+            justify-content: space-around;
+            .header {
+              flex: 1;
+              padding-bottom: 15px;
+              font-size: $font-size-regular;
+              font-weight: bold;
+              color: $text-light-color;
+              &:hover {
+                cursor: pointer;
+              }
+            }
+            .selected-header {
+              color: $success-color;
+            }
+            .search-container {
+              position: relative;
+              flex: 2;
+              margin-bottom: 5px;
+              .search-text-field {
+                position: absolute;
+                top: -10px;
+                left: 0;
+                border: 1px solid $text-lighter-color;
+                border-radius: 50px;
+                padding: 5px 10px 5px 25px;
+                outline: 0;
+                width: 100%;
+                font-size: $font-size-regular;
+              }
+              .search-icon {
+                z-index: 100;
+                position: absolute;
+                top: -3px;
+                font-size: 15px;
+                color: $text-light-color;
+                left: 8px;
+              }
+              .search-menu {
+                z-index: 200;
+                position: absolute;
+                width: 100%;
+                top: 20px;
+                border-radius: $border-radius-size;
+                box-shadow: 0 3px 3px $box-shadow-color;
+                left: 0;
+                background: #ffffff;
+
+                .search-tag-body {
+                  height: 200px;
+                  overflow-y: auto;
+                  border-bottom: 1px solid $text-lighter-color;
+                  padding: 5px;
+                  display: flex;
+                  flex-flow: row wrap;
+                  justify-items: flex-start;
+                  justify-content: flex-start;
+                  align-content: flex-start;
+                  align-items: flex-start;
+
+                  .search-tag {
+                    display: flex;
+                    margin: 3px;
+                    border: 1px solid $primary-color;
+                    border-radius: $border-radius-size;
+
+                    .search-tag-text {
+                      padding: 3px 10px;
+                      color: $text-light-color;
+                      font-size: $font-size-regular;
+                    }
+
+                    .search-tag-number {
+                      background: $primary-color;
+                      font-size: 10px;
+                      color: #ffffff;
+                      display: block;
+                      padding: 8px 10px 4px 9px;
+                      border-top-left-radius: $border-radius-size;
+                      border-bottom-left-radius: $border-radius-size;
+                    }
+                  }
+                }
+                .tag-create-container {
+                  padding: 5px;
+                  display: flex;
+                  align-items: center;
+                  min-height: 35px;
+
+                  .create-tag-title {
+                    color: $text-light-color;
+                    font-size: $font-size-regular;
+                    margin-left: 5px;
+                  }
+                  .create-tag {
+                    display: flex;
+                    max-width: 70%;
+                    border: 1px solid $primary-color;
+                    border-radius: $border-radius-size;
+
+                    .create-tag-text {
+                      padding: 3px 10px;
+                      color: $text-light-color;
+                      font-size: $font-size-regular;
+                    }
+
+                    .plus-icon {
+                      background: $success-color;
+                      font-size: 10px;
+                      color: #ffffff;
+                      display: block;
+                      padding: 7px 10px 3px 9px;
+                      border-top-left-radius: $border-radius-size;
+                      border-bottom-left-radius: $border-radius-size;
+                    }
+                  }
+                }
+              }
+            }
+          }
+          .tags-body-container {
+            display: flex;
+            flex-flow: row wrap;
+            height: 300px;
+            align-content: flex-start;
+            overflow-y: auto;
+            margin: 10px;
+            transition: all $animation-timing;
+            .tag-text {
+              border: 1.5px solid $primary-color;
+              padding: 3px 10px;
               font-weight: bold;
               font-size: $font-size-regular;
               border-radius: $border-radius-size;
               margin: 5px;
               text-align: center;
               transition: all $animation-timing;
-              display: inline-block;
 
               &:hover {
                 cursor: pointer;
+                background-color: $primary-color;
+                color: #ffffff;
               }
             }
-            .close-select-tag {
-              font-size: 12px;
+            .tag-text-selected {
+              background-color: $primary-color;
               color: #ffffff;
-              margin-right: 10px;
+              //&:hover {
+              //  cursor: pointer;
+              //  background-color: inherit;
+              //  color: $primary-color;
+              //}
+            }
+          }
+          .tags-body-container-blur {
+            filter: blur(3px);
+          }
+          .selected-tags-container {
+            .selected-tags-header {
+              font-size: $font-size-regular;
+              font-weight: bold;
+            }
+            .selected-tags-body {
+              border: 1px solid $text-light-color;
+              padding: 5px;
+
+              .selected-tag {
+                background: $primary-color;
+                border: 1.5px solid $primary-color;
+                padding: 3px 10px;
+                color: #ffffff;
+                font-weight: bold;
+                font-size: $font-size-regular;
+                border-radius: $border-radius-size;
+                margin: 5px;
+                text-align: center;
+                transition: all $animation-timing;
+                display: inline-block;
+
+                &:hover {
+                  cursor: pointer;
+                }
+              }
+              .close-select-tag {
+                font-size: 12px;
+                color: #ffffff;
+                margin-right: 10px;
+              }
             }
           }
         }
       }
     }
-  }
-  .right-side-register {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    background-color: $success-color;
-    border-top-right-radius: $border-radius-size;
-    border-bottom-right-radius: $border-radius-size;
-    color: $text-lighter-color;
-    padding: 35px;
+    .right-side-register {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background-color: $success-color;
+      border-top-right-radius: $border-radius-size;
+      border-bottom-right-radius: $border-radius-size;
+      color: $text-lighter-color;
+      padding: 35px;
 
-    .right-side-part {
-      min-height: 150px;
-      text-align: justify;
-      position: relative;
+      .right-side-part {
+        min-height: 150px;
+        text-align: justify;
+        position: relative;
 
-      .right-side-part-header {
-        font-size: $font-size-medium;
-        margin-bottom: 30px;
-      }
-      .right-side-part-description {
-        font-size: $font-size-regular;
-        line-height: 23px;
-      }
-      .right-side-part-icon {
-        position: absolute;
-        top: -10px;
-        left: -55px;
-        width: 40px;
-        height: 40px;
-        fill: $register-part-in-icon-color;
-        box-shadow: 0 3px 3px $box-shadow-color;
-        background-color: $register-part-icon-color;
-        border-radius: 50px;
-        border: 1px solid $box-shadow-color;
-        padding: 10px 10px;
-      }
-      .right-side-part-icon-active {
-        border: 1px solid #ffffff;
-        fill: $success-color;
-        background-color: #ffffff;
+        .right-side-part-header {
+          font-size: $font-size-medium;
+          margin-bottom: 30px;
+        }
+        .right-side-part-description {
+          font-size: $font-size-regular;
+          line-height: 23px;
+        }
+        .right-side-part-icon {
+          position: absolute;
+          top: -10px;
+          left: -55px;
+          width: 40px;
+          height: 40px;
+          fill: $register-part-in-icon-color;
+          box-shadow: 0 3px 3px $box-shadow-color;
+          background-color: $register-part-icon-color;
+          border-radius: 50px;
+          border: 1px solid $box-shadow-color;
+          padding: 10px 10px;
+        }
+        .right-side-part-icon-active {
+          border: 1px solid #ffffff;
+          fill: $success-color;
+          background-color: #ffffff;
+        }
       }
     }
+    .right-side-part-active {
+      color: #ffffff;
+    }
   }
-  .right-side-part-active {
-    color: #ffffff;
-  }
+}
+.register-modal-wrapper-close {
+  position: fixed;
+  z-index: 0;
+  top: 50px;
+  bottom: 50px;
+  left: 50px;
+  right: 50px;
 }
 
 @media screen and (max-width: 1200px) and (min-width: 850px) {
-  .register-steps-modal {
-    width: 96%;
-    margin: 1% 2% 3% 2%;
-
-    .left-side-register {
-      .register-steps-modal-content {
-        .extend-relations-users-container {
-          .users-container {
-            .user-container {
-              max-width: 33%;
-              flex: 1 1 33%;
+  .register-modal-wrapper {
+    top: 30px;
+    bottom: 30px;
+    left: 30px;
+    right: 30px;
+    .register-steps-modal {
+      .left-side-register {
+        .register-steps-modal-content {
+          .extend-relations-users-container {
+            .users-container {
+              .user-container {
+                max-width: 33%;
+                flex: 1 1 33%;
+              }
             }
           }
         }
@@ -1149,23 +1168,26 @@
 }
 
 @media screen and (max-width: 850px) and (min-width: 600px) {
-  .register-steps-modal {
-    width: 96%;
-    margin: 1% 2% 3% 2%;
-
-    .left-side-register {
-      .register-steps-modal-content {
-        .extend-relations-users-container {
-          .users-container {
-            .user-container {
-              max-width: 50%;
-              flex: 1 1 50%;
+  .register-modal-wrapper {
+    top: 20px;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    .register-steps-modal {
+      .left-side-register {
+        .register-steps-modal-content {
+          .extend-relations-users-container {
+            .users-container {
+              .user-container {
+                max-width: 50%;
+                flex: 1 1 50%;
+              }
             }
           }
-        }
-        .favorite-fields-container {
-          .favorite-fields-text-container {
-            max-width: 70%;
+          .favorite-fields-container {
+            .favorite-fields-text-container {
+              max-width: 70%;
+            }
           }
         }
       }
@@ -1174,23 +1196,26 @@
 }
 
 @media screen and (max-width: 600px) {
-  .register-steps-modal {
-    width: 96%;
-    margin: 1% 2% 3% 2%;
-
-    .left-side-register {
-      .register-steps-modal-content {
-        .extend-relations-users-container {
-          .users-container {
-            .user-container {
-              max-width: 100%;
-              flex: 1 1 100%;
+  .register-modal-wrapper {
+    top: 20px;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    .register-steps-modal {
+      .left-side-register {
+        .register-steps-modal-content {
+          .extend-relations-users-container {
+            .users-container {
+              .user-container {
+                max-width: 100%;
+                flex: 1 1 100%;
+              }
             }
           }
-        }
-        .favorite-fields-container {
-          .favorite-fields-text-container {
-            max-width: 60%;
+          .favorite-fields-container {
+            .favorite-fields-text-container {
+              max-width: 60%;
+            }
           }
         }
       }
