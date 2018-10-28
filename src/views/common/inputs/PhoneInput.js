@@ -19,11 +19,11 @@ export class PhoneInput extends Component {
         if (countryCode === '' || cityCode === '' || phoneNumber === '') {
             return '';
         }
-        return `+${countryCode}-${cityCode}-${phoneNumber}`;
+        return `+${countryCode}${cityCode}${phoneNumber}`;
     }
 
     static parse(date = '') {
-        const pattern = /^\+(\d{1,3})-(\d{2,3})-(\d{3,14})$/;
+        const pattern = /^\+(\d{1,3})(\d{2,3})(\d{3,14})$/;
         const m = date.match(pattern);
         if (m) {
             return {countryCode: m[1], cityCode: m[2], phoneNumber: m[3]};

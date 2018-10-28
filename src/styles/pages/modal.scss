@@ -561,10 +561,13 @@
 }
 
 .register-steps-modal {
-  position: fixed;
-  top: 40px;
+  position: absolute;
+  transform: translateY(1%);
+  top: 0;
+  left: 0;
+  margin: 2% 2% 3% 2%;
   border-radius: $border-radius-size;
-  width: 95%;
+  width: 96%;
   display: flex;
 
   .left-side-register {
@@ -1127,7 +1130,8 @@
 
 @media screen and (max-width: 1200px) and (min-width: 850px) {
   .register-steps-modal {
-    width: 95%;
+    width: 96%;
+    margin: 1% 2% 3% 2%;
 
     .left-side-register {
       .register-steps-modal-content {
@@ -1146,7 +1150,8 @@
 
 @media screen and (max-width: 850px) and (min-width: 600px) {
   .register-steps-modal {
-    width: 95%;
+    width: 96%;
+    margin: 1% 2% 3% 2%;
 
     .left-side-register {
       .register-steps-modal-content {
@@ -1170,7 +1175,8 @@
 
 @media screen and (max-width: 600px) {
   .register-steps-modal {
-    width: 95%;
+    width: 96%;
+    margin: 1% 2% 3% 2%;
 
     .left-side-register {
       .register-steps-modal-content {

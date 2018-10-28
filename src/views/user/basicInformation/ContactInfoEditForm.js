@@ -7,7 +7,6 @@ import renderTextField from "../../common/inputs/reduxFormRenderTextField"
 import {ArrayInput} from "src/views/common/inputs/ArrayInput"
 import {CustomArrayInput} from "src/views/common/inputs/CustomArrayInput"
 import {CustomInput} from "src/views/common/inputs/CustomInput"
-import {ReduxFormDateInput} from 'src/views/common/inputs/reduxFormDateInput'
 import {Field, reduxForm} from "redux-form";
 import {outputComponent} from "src/views/common/OutputComponent"
 import {PhoneInput} from "src/views/common/inputs/PhoneInput"
@@ -86,10 +85,10 @@ class ContactInfoEditForm extends Component<PropsContactInfoEditForm> {
 
     const formFormat = {
       address: profile.address === values.address ? null : values.address,
-      mobile: profile.mobile === mobile ? null : mobile,
-      phone: profile.phone === phone ? null : phone,
+      mobile: mobile ? (profile.mobile.length > 0 && profile.mobile[0] === mobile ? null : mobile) : null,
+      phone: phone ? (profile.phone.length > 0 && profile.phone[0] === phone ? null : phone) : null,
       public_email: profile.public_email === values.publicEmail ? null : values.publicEmail,
-      web_site: profile.web_site === web_site ? null : web_site,
+      web_site: web_site ? (profile.web_site.length > 0 && profile.web_site[0] === web_site ? null : web_site) : null,
       // fax: profile.fax === fax ? null : fax,
       // telegram_account: profile.telegram_account === values.telegramAccount ? null : values.telegramAccount,
       // description: profile.description === values.description ? null : values.description,
@@ -124,7 +123,6 @@ class ContactInfoEditForm extends Component<PropsContactInfoEditForm> {
                 textFieldClass='form-control'
             />
           </div>
-          <ReduxFormDateInput translate={translate} labelName={translate['BirthDate']} dayName='day' monthName='month' yearName='year'/>
           <CustomArrayInput
               label={translate['Phone'] + ": "}
               value={profile.phone}
