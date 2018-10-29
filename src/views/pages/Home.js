@@ -8,6 +8,7 @@ import HomeSideBar from "./home/HomeSideBar"
 import HomePosts from "./home/HomePosts"
 import {connect} from "react-redux"
 import constants from "../../consts/constants";
+import UserDetailPanel from "../common/components/UserDetailPanel"
 
 type HomeProps = {|
   identityId: number,
@@ -55,7 +56,9 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
               ) : ''
             }
             <HomePosts exchangeId={activeExchangeId} className="col-6 post-wrapper"/>
-            <div className="col-3 pl-0"/>
+            <div className="col-3 pl-0 pr-0 user-detail-wrapper">
+              <UserDetailPanel/>
+            </div>
           </div>
           <ChatBar className="pr-0 pl-0 -left-sidebar-wrapper"/>
         </main>
@@ -75,7 +78,7 @@ const mapStateToProps = state => {
   return {
     id: id,
     identityId: clientIdentityId,
-    identityType: identityType
+    identityType: identityType,
   }
 }
 export default connect(mapStateToProps)(Home)

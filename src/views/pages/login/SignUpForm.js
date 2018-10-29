@@ -18,13 +18,13 @@ const SignUpForm = (props) => {
   const {handleSubmit, onSubmit, submitting, translator, error, submitFailed} = props
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="sign-up-form">
-      {/*<Field*/}
-        {/*name="username"*/}
-        {/*type="text"*/}
-        {/*component={renderTextField}*/}
-        {/*label={translator['Username']}*/}
-        {/*className="signup-field"*/}
-      {/*/>*/}
+      <Field
+        name="username"
+        type="text"
+        component={renderTextField}
+        label={translator['Username']}
+        className="signup-field"
+      />
       <Field name="email" type="email" component={renderTextField} label={translator['Email']}
              className="signup-field"/>
       <Field name="password" type="password" component={renderTextField} label={translator['Password']}
@@ -112,17 +112,17 @@ export class RegisterForm extends Component {
     const {translator, onRegisterClick, ...reduxFormProps} = this.props
     const {userType} = this.state
     const userTypeItems = [{value: USER_TYPES.PERSON, title: 'فرد'}, {value: USER_TYPES.ORGANIZATION, title: 'مجموعه'}]
-    // const onSubmitFunc = (userType === USER_TYPES.PERSON) ? (this._onSubmitPerson) : (this._onSubmitOrgan)
-    const onSubmitFunc = onRegisterClick
+    const onSubmitFunc = (userType === USER_TYPES.PERSON) ? (this._onSubmitPerson) : (this._onSubmitOrgan)
+    // const onSubmitFunc = onRegisterClick
     return (
       <div className="wrapper-form">
-        {/*<RadioButtonGroup*/}
-          {/*selected={userType}*/}
-          {/*handler={this._typeHandler}*/}
-          {/*items={userTypeItems}*/}
-          {/*name="userType"*/}
-          {/*label={''}*/}
-        {/*/>*/}
+        <RadioButtonGroup
+          selected={userType}
+          handler={this._typeHandler}
+          items={userTypeItems}
+          name="userType"
+          label={''}
+        />
         <SignUpForm
           {...reduxFormProps}
           translator={translator}

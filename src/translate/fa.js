@@ -117,6 +117,7 @@ module.exports = {
   'Author': 'نویسنده',
   'Phone number is wrong': 'شماره تلفن اشتباه است',
   'Save changes':'ذخیره تغییرات',
+  'Employees': 'کارمندان',
 
   // user - certificates
   'Title': "عنوان",
@@ -163,10 +164,18 @@ module.exports = {
   'Description is wrong': "توضیحات اشتباه وارد شده است",
   'Education': 'سابقه علمی',
   'Research': 'سابقه پژوهشی',
+  'Work experience': 'سابقه کاری',
+  'Education Experience': 'سابقه تحصیلی',
   'Grade': "مقطع",
   'Bachelor': 'کارشناسی',
   'Master': 'کارشناسی ارشد',
   'Phd': 'دکتری',
+
+  'And': 'و',
+  'Skill': 'توانمندی',
+  'Product': 'محصول',
+  'Badge': 'نشان',
+
 
 
   // user - BasicInformation
@@ -330,6 +339,7 @@ module.exports = {
 
 
   // Product
+  'Contribution': 'آورده',
   'Contributions': 'آورده ها',
   'Price': 'قیمت',
   'Call': 'تماس',

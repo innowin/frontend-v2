@@ -27,6 +27,9 @@ $heightOfContentBox: 140px;
       background: $text-lightest-color;
       box-shadow: 0 3px 3px $box-shadow-color;
     }
+    .user-detail-wrapper {
+      padding: 10px 8px;
+    }
   }
 
   .post-wrapper {
