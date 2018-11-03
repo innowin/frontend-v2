@@ -335,12 +335,24 @@ $sidebar-profile-media-width: 80px;
   text-align: center;
 }
 
-.-right-sidebar-wrapper {
+.-right-sidebar-wrapper-exchange {
   z-index: 1000;
   position: fixed;
   top: $topBarHeight + 10;
   right: 5%;
   width: $sidebar-width;
+  height: 590px;
+  overflow-y: auto;
+  background: $text-lightest-color;
+  -webkit-box-shadow: 0 0 14px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 0 14px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.2);
+  border-radius: $border-radius-size;
+  padding: 0 15px 15px 15px;
+}
+
+.-right-sidebar-wrapper {
+  margin-top: 10px;
   height: 590px;
   overflow-y: auto;
   background: $text-lightest-color;

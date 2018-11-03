@@ -118,19 +118,19 @@ export class Organization extends Component<PropsOrganization> {
     return (
         <div className="-userOrganBackgroundImg">
           <TopBar collapseClassName="col user-sidebar-width"/>
-          <VerifyWrapper isLoading={isLoading} error={errorMessage} className="-main row">
+          <VerifyWrapper isLoading={isLoading} error={errorMessage} className="-main row page-content">
             {(!identityObject.content) ? '' : (
                 <OrganSideBar translate={translate}
                               organ={organObject.content}
                               badges={badges}
                               organLogo={organLogo}
                               organBanner={organBanner}
-                              className="-right-sidebar-wrapper user-sidebar-width pr-0 pl-0"
+                              className="col-md-3 col-sm-1 -right-sidebar-wrapper pr-0 pl-0"
                               paramId={organizationId}
                               identityId={identityObject.content}
                 />
             )}
-            <div className="col-md-6 col-sm-10 -content-wrapper">
+            <div className="col-md-6 col-sm-10 center-column">
               <Tabs>
                 <NavLink className="-tab" to={`${url}/contributions`} activeClassName="-active">
                   <ContributionIcon/>
