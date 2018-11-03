@@ -30,9 +30,10 @@
   //transform: translateZ(0);
   //backface-visibility: hidden;
   &:hover{
-    transition-duration: $animation-timing;
+    //transition-duration: $animation-timing;
     box-shadow: 0 13px 10px -6px $box-shadow-color;
-    transform: translateY(-3px);
+    //transform: translateY(-3px);
+    //border: 2px solid $post-hover-border-color;
   }
 }
 .remove-post-container {
@@ -101,6 +102,10 @@
     //overflow-x: hidden;
     //max-width: 400px;
     //text-overflow: ellipsis;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   .-item-footerPost {
@@ -119,10 +124,19 @@
     .post-details {
       display: flex;
       position: relative;
+      align-items: center;
       flex-flow: row-reverse;
 
       .items {
         margin-right: 15%;
+        .post-menu-bottom {
+          padding: 7px 8px;
+          border-radius: 50px;
+          transition: all $animation-timing;
+          &:hover {
+            background-color: $eee-color;
+          }
+        }
       }
 
       .menu-box-post {
