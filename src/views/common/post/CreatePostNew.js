@@ -20,7 +20,12 @@ class CreatePostNew extends Component {
       enterAttach: true,
       contactMenu: false,
       labels: {},
-      search: ''
+      search: '',
+      context: false,
+      pageX: 0,
+      pageY: 0,
+      placeholder: 'در زیست بوم باش ...',
+      text: 'yes'
     }
   }
 
@@ -50,6 +55,12 @@ class CreatePostNew extends Component {
       }
     }
 
+    if (this.setWrapperThirdRef && !this.setWrapperThirdRef.contains(event.target)) {
+      if (this.state.context) {
+        this.setState({...this.state, context: !this.state.context})
+      }
+    }
+
   }
 
   handleSelectShare = () => {
@@ -70,26 +81,25 @@ class CreatePostNew extends Component {
     this.setState({...this.state, contactMenu: !this.state.contactMenu})
   }
 
-  handleOpen = (e) => {
-    if (e.target.value.length > 0) {
-      this.setState({open: true})
-    }
-    else {
-      this.setState({open: false})
-    }
-  }
-
   handleLabel(name) {
     let temp = {...this.state.labels}
     if (temp[name] === undefined) {
-      temp[name] = name
+      if (name === 'دنبال کنندگان' || name === 'دنبال کنندگانِ دنبال کنندگان' || temp['عمومی'] === undefined)
+        temp[name] = name
     }
     else {
+      if (name !== 'دنبال کنندگان' && name !== 'دنبال کنندگانِ دنبال کنندگان')
+        delete temp['عمومی']
       delete temp[name]
     }
 
     this.setState({...this.state, labels: {...temp}})
 
+  }
+
+  contextMenu = (e) => {
+    e.preventDefault()
+    this.setState({...this.state, pageX: e.pageX, pageY: e.pageY, context: true})
   }
 
   render() {
@@ -114,53 +124,63 @@ class CreatePostNew extends Component {
                           onClickFunc={this.handleSelectSupply}/>
             </div>
           </div>
-          <textarea className={this.state.open ? 'post-component-textarea-open' : 'post-component-textarea'} onChange={this.handleOpen} placeholder='در زیست بوم باش ...'/>
+
+          <div ref={e => this.div = e} className={this.state.open ? 'post-component-textarea-open' : 'post-component-textarea'} onContextMenu={this.contextMenu}
+               onFocus={() => this.setState({...this.state, placeholder: ''})}
+               onBlur={(e) => e.target.innerText === '' ? this.setState({...this.state, placeholder: 'در زیست بوم باش ...', open: false}) : this.setState({...this.state, open: true})}
+               style={{color: this.state.placeholder.length > 0 ? '#BBBBBB' : 'black'}}>
+            {this.state.placeholder}
+          </div>
+
           <div className='post-component-footer'>
 
             <div className='post-component-footer-logo' onClick={this.handleContact}>?</div>
+            <div className='post-component-footer-items-style-cont'>
+              {
+                Object.values(this.state.labels).map(label =>
+                    <div className='post-component-footer-items-style'>
+                      <div className='post-component-footer-items-style-text'>{label}</div>
+                      <div className='post-component-footer-items-style-close' onClick={() => this.handleLabel(label)}>✕</div>
+                    </div>)
+              }
 
-            {
-              Object.values(this.state.labels).map(label =>
-                  <div className='post-component-footer-items-style'>
-                    <div className='post-component-footer-items-style-text'>{label}</div>
-                    <div className='post-component-footer-items-style-close' onClick={() => this.handleLabel(label)}>✕</div>
-                  </div>)
-            }
+              <div className='post-component-footer-items-style-hide'/>
 
-            <div className='post-component-footer-send'>
-              <div style={{display: 'inline-block'}} onClick={this.handleAttach}>
-                <AttachFileIcon className='post-component-footer-send-attach'/>
-              </div>
-              <button className='post-component-footer-send-btn'>ارسال</button>
+              <div className='post-component-footer-send'>
+                <div style={{display: 'inline-block'}} onClick={this.handleAttach}>
+                  <AttachFileIcon className='post-component-footer-send-attach'/>
+                </div>
+                <button className='post-component-footer-send-btn'>ارسال</button>
 
-              <div ref={e => this.setWrapperRef = e} className={this.state.attachMenu ? 'post-component-footer-attach-menu-container' : "post-component-footer-attach-menu-container-hide"}>
-                <div className='post-component-footer-attach-menu'>
-                  <div className='explore-menu-items'>
-                    <AttachFileIcon className='post-component-footer-logos'/>
-                    فایل
-                  </div>
-                  <div className='explore-menu-items'>
-                    <Image className='post-component-footer-logos'/>
-                    عکس
-                  </div>
-                  <div className='explore-menu-items'>
-                    <ContributionIcon className='post-component-footer-logos'/>
-                    ویدئو
-                  </div>
-                  <div className='explore-menu-items'>
-                    <ContributionIcon className='post-component-footer-logos'/>
-                    محصول
-                  </div>
-                  <div className='explore-menu-items'>
-                    <ContributionIcon className='post-component-footer-logos'/>
-                    لینک
+                <div ref={e => this.setWrapperRef = e} className={this.state.attachMenu ? 'post-component-footer-attach-menu-container' : "post-component-footer-attach-menu-container-hide"}>
+                  <div className='post-component-footer-attach-menu'>
+                    <div className='explore-menu-items'>
+                      <AttachFileIcon className='post-component-footer-logos'/>
+                      فایل
+                    </div>
+                    <div className='explore-menu-items'>
+                      <Image className='post-component-footer-logos'/>
+                      عکس
+                    </div>
+                    <div className='explore-menu-items'>
+                      <ContributionIcon className='post-component-footer-logos'/>
+                      ویدئو
+                    </div>
+                    <div className='explore-menu-items'>
+                      <ContributionIcon className='post-component-footer-logos'/>
+                      محصول
+                    </div>
+                    <div className='explore-menu-items'>
+                      <ContributionIcon className='post-component-footer-logos'/>
+                      لینک
+                    </div>
                   </div>
                 </div>
+
               </div>
 
             </div>
 
-            <div style={{clear: 'both'}}></div>
 
             <div ref={e => this.setWrapperSecondRef = e} className={this.state.contactMenu ? 'post-component-footer-contact-menu-container' : "post-component-footer-contact-menu-container-hide"}>
               <div className='post-component-footer-contact-menu'>
@@ -211,7 +231,7 @@ class CreatePostNew extends Component {
                     {
                       exchangesArr.map(exchange =>
                           <label className='post-component-footer-checkbox'>
-                            <input type="checkbox" checked={this.state.labels[exchange.exchange_identity_related_exchange.name] !== undefined}
+                            <input type="checkbox" checked={this.state.labels[exchange.exchange_identity_related_exchange.name] !== undefined || this.state.labels['عمومی']}
                                    onClick={() => this.handleLabel(exchange.exchange_identity_related_exchange.name)}/>
                             <span className='checkmark'></span>
                             {exchange.exchange_identity_related_exchange.name}
@@ -227,7 +247,8 @@ class CreatePostNew extends Component {
                       followersArr.map(follow => {
                             return (
                                 <label className='post-component-footer-checkbox'>
-                                  <input type="checkbox" checked={this.state.labels[follow.follow_follower.name] !== undefined} onClick={() => this.handleLabel(follow.follow_follower.name)}/>
+                                  <input type="checkbox" checked={this.state.labels[follow.follow_follower.name] !== undefined || this.state.labels['عمومی']}
+                                         onClick={() => this.handleLabel(follow.follow_follower.name)}/>
                                   <span className='checkmark'></span>
                                   {follow.follow_follower.name}
                                 </label>
@@ -250,29 +271,34 @@ class CreatePostNew extends Component {
 
 
           </div>
+
+          <div ref={e => this.setWrapperThirdRef = e} className='post-component-context' style={{left: this.state.pageX, top: this.state.pageY, height: this.state.context ? '100px' : '0px'}}>
+            <div className='post-component-context-items'>ایمیل</div>
+            <div className='post-component-context-items'>تلفن</div>
+          </div>
+
         </div>
     )
   }
 }
 
-const
-    mapStateToProps = (state) => {
-      const clientImgId = (state.auth.client.user_type === 'person') ? (state.auth.client.profile.profile_media) : (
-          (state.auth.client.organization && state.auth.client.organization.organization_logo) || null
-      )
+const mapStateToProps = (state) => {
+  const clientImgId = (state.auth.client.user_type === 'person') ? (state.auth.client.profile.profile_media) : (
+      (state.auth.client.organization && state.auth.client.organization.organization_logo) || null
+  )
 
-      const userId = state.auth.client.user !== null ? state.auth.client.user.id : state.auth.client.organization.id
+  const userId = state.auth.client.user !== null ? state.auth.client.user.id : state.auth.client.organization.id
 
-      return ({
-        currentUserType: state.auth.client.user_type,
-        currentUserIdentity: state.auth.client.identity.content,
-        currentUserId: userId,
-        currentUserMedia: (state.common.file.list[clientImgId] && state.common.file.list[clientImgId].file) || null,
-        currentUserName: state.auth.client.user.first_name + ' ' + state.auth.client.user.last_name,
-        exchanges: state.common.exchangeMembership.list,
-        followers: state.common.social.follows.list,
-      })
-    }
+  return ({
+    currentUserType: state.auth.client.user_type,
+    currentUserIdentity: state.auth.client.identity.content,
+    currentUserId: userId,
+    currentUserMedia: (state.common.file.list[clientImgId] && state.common.file.list[clientImgId].file) || null,
+    currentUserName: state.auth.client.user.first_name + ' ' + state.auth.client.user.last_name,
+    exchanges: state.common.exchangeMembership.list,
+    followers: state.common.social.follows.list,
+  })
+}
 
 const
     mapDispatchToProps = dispatch => ({
