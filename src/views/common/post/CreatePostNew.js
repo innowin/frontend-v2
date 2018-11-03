@@ -7,6 +7,8 @@ import AttachFileIcon from "../../../images/common/attachFile_svg"
 import ContributionIcon from "../../../images/common/contribution_svg"
 import Image from "src/images/common/image_upload_svg"
 import Share from "src/images/common/share"
+import FontAwesome from "react-fontawesome"
+import socialActions from "../../../redux/actions/commonActions/socialActions"
 
 class CreatePostNew extends Component {
   constructor(props) {
@@ -17,10 +19,17 @@ class CreatePostNew extends Component {
       attachMenu: false,
       enterAttach: true,
       contactMenu: false,
+      labels: {},
+      search: ''
     }
   }
 
   componentDidMount() {
+    this.props.actions.getFollowers({
+      followOwnerIdentity: this.props.currentUserIdentity,
+      followOwnerType: this.props.currentUserType,
+      followOwnerId: this.props.currentUserId
+    })
     document.addEventListener('mousedown', this.handleClickOutside)
   }
 
@@ -70,7 +79,25 @@ class CreatePostNew extends Component {
     }
   }
 
+  handleLabel(name) {
+    let temp = {...this.state.labels}
+    if (temp[name] === undefined) {
+      temp[name] = name
+    }
+    else {
+      delete temp[name]
+    }
+
+    this.setState({...this.state, labels: {...temp}})
+
+  }
+
   render() {
+
+    const followersArr = Object.values(this.props.followers).filter(follow => follow.follow_follower.id !== this.props.currentUserIdentity && follow.follow_follower.name.includes(this.state.search))
+    const exchangesArr = Object.values(this.props.exchanges).filter(exchange => exchange.exchange_identity_related_exchange.name.includes(this.state.search))
+
+
     return (
         <div className='post-component-container'>
           <div className='post-component-header'>
@@ -92,54 +119,132 @@ class CreatePostNew extends Component {
 
             <div className='post-component-footer-logo' onClick={this.handleContact}>?</div>
 
-            <div className='post-component-footer-items-style'>
-              <div className='post-component-footer-items-style-text'>عمومی</div>
-              <div className='post-component-footer-items-style-close'>✕</div>
-            </div>
-
-            <div className='post-component-footer-items-style'>
-              <div className='post-component-footer-items-style-text'>فریلنسر</div>
-              <div className='post-component-footer-items-style-close'>✕</div>
-            </div>
-
-            <div className='post-component-footer-items-style'>
-              <div className='post-component-footer-items-style-text'>سپاهان تک</div>
-              <div className='post-component-footer-items-style-close'>✕</div>
-            </div>
+            {
+              Object.values(this.state.labels).map(label =>
+                  <div className='post-component-footer-items-style'>
+                    <div className='post-component-footer-items-style-text'>{label}</div>
+                    <div className='post-component-footer-items-style-close' onClick={() => this.handleLabel(label)}>✕</div>
+                  </div>)
+            }
 
             <div className='post-component-footer-send'>
               <div style={{display: 'inline-block'}} onClick={this.handleAttach}>
                 <AttachFileIcon className='post-component-footer-send-attach'/>
               </div>
               <button className='post-component-footer-send-btn'>ارسال</button>
-            </div>
 
-
-            <div ref={e => this.setWrapperRef = e} className={this.state.attachMenu ? 'post-component-footer-attach-menu-container' : "post-component-footer-attach-menu-container-hide"}>
-              <div className='post-component-footer-attach-menu'>
-                <div className='explore-menu-items'>
-                  <AttachFileIcon className='explore-logos'/>فایل
-                </div>
-                <div className='explore-menu-items'>
-                  <Image className='explore-logos'/>عکس
-                </div>
-                <div className='explore-menu-items'>
-                  <ContributionIcon className='explore-logos'/> ویدئو
-                </div>
-                <div className='explore-menu-items'>
-                  <ContributionIcon className='explore-logos'/>
-                  محصول
-                </div>
-                <div className='explore-menu-items'>
-                  <ContributionIcon className='explore-logos'/> لینک
+              <div ref={e => this.setWrapperRef = e} className={this.state.attachMenu ? 'post-component-footer-attach-menu-container' : "post-component-footer-attach-menu-container-hide"}>
+                <div className='post-component-footer-attach-menu'>
+                  <div className='explore-menu-items'>
+                    <AttachFileIcon className='post-component-footer-logos'/>
+                    فایل
+                  </div>
+                  <div className='explore-menu-items'>
+                    <Image className='post-component-footer-logos'/>
+                    عکس
+                  </div>
+                  <div className='explore-menu-items'>
+                    <ContributionIcon className='post-component-footer-logos'/>
+                    ویدئو
+                  </div>
+                  <div className='explore-menu-items'>
+                    <ContributionIcon className='post-component-footer-logos'/>
+                    محصول
+                  </div>
+                  <div className='explore-menu-items'>
+                    <ContributionIcon className='post-component-footer-logos'/>
+                    لینک
+                  </div>
                 </div>
               </div>
+
             </div>
 
+            <div style={{clear: 'both'}}></div>
 
             <div ref={e => this.setWrapperSecondRef = e} className={this.state.contactMenu ? 'post-component-footer-contact-menu-container' : "post-component-footer-contact-menu-container-hide"}>
-              <div className='post-component-footer-attach-menu'>
-                hello
+              <div className='post-component-footer-contact-menu'>
+                <div className='post-component-footer-contact-menu-icon'>
+                  ?
+                  <span>  </span>
+                  مخاطبین
+                </div>
+                <div className='post-component-footer-searchbox'>
+                  <input type='text' className='post-component-footer-searchbox-input' placeholder='جستجو' onChange={(e) => this.setState({...this.state, search: e.target.value})}
+                         onKeyUp={this.submitSearchByWord}/>
+                  <FontAwesome name="search" className='post-component-footer-searchbox-icon'/>
+                </div>
+
+                <div className='post-component-footer-contact-menu-content'>
+                  <div className='post-component-footer-check-container'>
+                    {
+                      'عمومی'.includes(this.state.search) ? <label className='post-component-footer-checkbox'>
+                            <input type="checkbox" checked={this.state.labels['عمومی'] !== undefined} onClick={() => this.handleLabel('عمومی')}/>
+                            <span className='checkmark'></span>
+                            عمومی
+                          </label>
+                          : null
+                    }
+
+                    {
+                      'دنبال کنندگان'.includes(this.state.search) ? <label className='post-component-footer-checkbox'>
+                            <input type="checkbox" checked={this.state.labels['دنبال کنندگان'] !== undefined} onClick={() => this.handleLabel('دنبال کنندگان')}/>
+                            <span className='checkmark'></span>
+                            دنبال کنندگان
+                          </label>
+                          : null
+                    }
+
+                    {
+                      'دنبال کنندگانِ دنبال کنندگان'.includes(this.state.search) ? <label className='post-component-footer-checkbox'>
+                            <input type="checkbox" checked={this.state.labels['دنبال کنندگانِ دنبال کنندگان'] !== undefined} onClick={() => this.handleLabel('دنبال کنندگانِ دنبال کنندگان')}/>
+                            <span className='checkmark'></span>
+                            دنبال کنندگانِ دنبال کنندگان
+                          </label>
+                          : null
+                    }
+                  </div>
+
+                  <div className='post-component-footer-contact-menu-content-title' style={{display: exchangesArr.length > 0 ? 'block' : 'none'}}>بورس ها</div>
+
+                  <div className='post-component-footer-check-container'>
+                    {
+                      exchangesArr.map(exchange =>
+                          <label className='post-component-footer-checkbox'>
+                            <input type="checkbox" checked={this.state.labels[exchange.exchange_identity_related_exchange.name] !== undefined}
+                                   onClick={() => this.handleLabel(exchange.exchange_identity_related_exchange.name)}/>
+                            <span className='checkmark'></span>
+                            {exchange.exchange_identity_related_exchange.name}
+                          </label>
+                      )
+                    }
+                  </div>
+
+                  <div className='post-component-footer-contact-menu-content-title' style={{display: followersArr.length > 0 ? 'block' : 'none'}}>دنبال کنندگان</div>
+
+                  <div className='post-component-footer-check-container'>
+                    {
+                      followersArr.map(follow => {
+                            return (
+                                <label className='post-component-footer-checkbox'>
+                                  <input type="checkbox" checked={this.state.labels[follow.follow_follower.name] !== undefined} onClick={() => this.handleLabel(follow.follow_follower.name)}/>
+                                  <span className='checkmark'></span>
+                                  {follow.follow_follower.name}
+                                </label>
+                            )
+                          }
+                      )
+                    }
+                  </div>
+
+                </div>
+
+                <div style={{textAlign: 'left'}}>
+                  <button className='post-component-footer-cancel-btn'>لغو</button>
+
+                  <button className='post-component-footer-submit-btn'>ثبت</button>
+                </div>
+
               </div>
             </div>
 
@@ -150,17 +255,33 @@ class CreatePostNew extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  const clientImgId = (state.auth.client.user_type === 'person') ? (state.auth.client.profile.profile_media) : (
-      (state.auth.client.organization && state.auth.client.organization.organization_logo) || null
-  )
-  return ({
-    currentUserMedia: (state.common.file.list[clientImgId] && state.common.file.list[clientImgId].file) || null,
-    currentUserName: state.auth.client.user.first_name + ' ' + state.auth.client.user.last_name
-  })
-}
+const
+    mapStateToProps = (state) => {
+      const clientImgId = (state.auth.client.user_type === 'person') ? (state.auth.client.profile.profile_media) : (
+          (state.auth.client.organization && state.auth.client.organization.organization_logo) || null
+      )
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({}, dispatch)
-})
-export default connect(mapStateToProps, mapDispatchToProps)(CreatePostNew)
+      const userId = state.auth.client.user !== null ? state.auth.client.user.id : state.auth.client.organization.id
+
+      return ({
+        currentUserType: state.auth.client.user_type,
+        currentUserIdentity: state.auth.client.identity.content,
+        currentUserId: userId,
+        currentUserMedia: (state.common.file.list[clientImgId] && state.common.file.list[clientImgId].file) || null,
+        currentUserName: state.auth.client.user.first_name + ' ' + state.auth.client.user.last_name,
+        exchanges: state.common.exchangeMembership.list,
+        followers: state.common.social.follows.list,
+      })
+    }
+
+const
+    mapDispatchToProps = dispatch => ({
+      actions: bindActionCreators({
+        getFollowers: socialActions.getFollowers
+      }, dispatch)
+    })
+export default connect(mapStateToProps, mapDispatchToProps)
+
+(
+    CreatePostNew
+)

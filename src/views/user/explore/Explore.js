@@ -103,13 +103,17 @@ class Explore extends Component <appProps, appState> {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => {
   //TODO Hoseyn change to get all users
   // allExchanges: getExchanges(state),
-  currentUserType: state.auth.client.user_type,
-  currentUserIdentity: state.auth.client.identity.content,
-  currentUserId: state.auth.client.user.id,
-})
+
+  const userId = state.auth.client.user !== null ? state.auth.client.user.id : state.auth.client.organization.id
+  return {
+    currentUserType: state.auth.client.user_type,
+    currentUserIdentity: state.auth.client.identity.content,
+    currentUserId: userId,
+  }
+}
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getAllExchanges: exchangeActions.getAllExchanges,
