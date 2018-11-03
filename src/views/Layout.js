@@ -18,7 +18,7 @@ class Layout extends Component {
 
   render() {
     return (
-        <div className='pages-wrapper'>
+        <div className='pages-wrapper global-wrapper'>
           <Switch>
             <PrivateRoute exact={true} path="/" component={Home}/>
             <PrivateRoute path="/user/:id" component={User}/>

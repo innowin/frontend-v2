@@ -127,7 +127,7 @@ class User extends Component<PropsUser> {
     return (
         <div className="-userOrganBackgroundImg">
           <TopBar collapseClassName="col user-sidebar-width"/>
-          <VerifyWrapper isLoading={isLoading} error={errorMessage} className="-main row">
+          <VerifyWrapper isLoading={isLoading} error={errorMessage} className="-main row page-content">
             {!identityObject.content ? '' : (
                 <UserSideBar translate={translate}
                              user={userObject.content}
@@ -135,12 +135,12 @@ class User extends Component<PropsUser> {
                              profileBanner={profileBanner}
                              profileMedia = {profileMedia}
                              badges={badges}
-                             className={`-right-sidebar-wrapper user-sidebar-width col pr-0 pl-0`}
+                             className={`col-md-3 col-sm-1 -right-sidebar-wrapper col pr-0 pl-0`}
                              paramId={userId}
                              identityId={identityObject.content}
                 />
             )}
-            <div className="col-md-6 col-sm-10 -content-wrapper">
+            <div className="col-md-6 col-sm-10 center-column">
               <Tabs>
                 <NavLink className="-tab" to={`${url}/Posts`} activeClassName="-active">{postIcon}</NavLink>
                 <NavLink className="-tab" to={`${url}/basicInformation`} activeClassName="-active">

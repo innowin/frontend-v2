@@ -26,7 +26,7 @@ class ExchangeView extends Component <PropsExchangeView> {
         <div className="-main -userOrganBackgroundImg">
           <TopBar collapseClassName={widthOfRightBar}/>
           <main className="row">
-            <div className={`-right-sidebar-wrapper`}>
+            <div className={`-right-sidebar-wrapper-exchange`}>
               <ExchangeViewBar exchangeId={exchangeId}/>
             </div>
             <Exchange_Tabs exchangeId={exchangeId}/>

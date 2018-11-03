@@ -40,10 +40,10 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
     const {identityId, identityType, id} = this.props
     const {activeExchangeId} = this.state
     return (
-      <div className="home-wrapper">
+      <div className="home-wrapper global-wrapper">
         <TopBar collapseClassName="col-2"/>
         <main className="-main">
-          <div className="row content">
+          <div className="row page-content">
             {
               (id && identityId && identityType) ? (
                 <HomeSideBar setExchangeId={this._setExchangeId}

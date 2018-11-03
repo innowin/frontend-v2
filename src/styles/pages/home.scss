@@ -8,7 +8,13 @@ $heightOfContentBox: 140px;
 }
 
 .home-wrapper {
-  .content {
+  .post-wrapper {
+    padding: 0 8px;
+  }
+}
+
+.global-wrapper {
+  .page-content {
     min-height: 100%;
     @media screen and (max-width: 1920px) and (min-width: 1366px) {
       margin: 0 138px;
@@ -30,10 +36,6 @@ $heightOfContentBox: 140px;
     .user-detail-wrapper {
       padding: 10px 8px;
     }
-  }
-
-  .post-wrapper {
-    padding: 0 8px;
   }
 }
 
