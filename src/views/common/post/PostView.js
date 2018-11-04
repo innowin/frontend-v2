@@ -189,6 +189,10 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     deleteComment({commentId: comment.id, parentId: post.id, commentParentType})
   }
 
+  handleClickTextField() {
+    // this.commentTextField.height =
+  }
+
   render() {
     const {post, translate, postIdentity, postRelatedIdentityImage, userImage, extendedView, showEdit, comments, fileList} = this.props
     const {menuToggle, confirm} = this.state
@@ -239,7 +243,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                             menuToggle={menuToggle} openMenu={this.openMenu}
                             deletePost={this._showConfirm}
                 />
-                {extendedView &&
+                {
                 <div className='add-comment'>
                   <div className="-img-col">
                     {!userImage
@@ -248,7 +252,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                     }
                   </div>
                   <input className='add-comment-text-field' placeholder={translate["Send comment"]}
-                         ref={c => this.commentTextField = c}/>
+                         ref={c => this.commentTextField = c} onClick={()=>this.handleClickTextField.bind(this)}/>
                   <button onClick={() => this.createComment(this.commentTextField)} className='send-comment pulse'>
                     <PostSendIcon/>
                   </button>
@@ -292,10 +296,13 @@ const mapStateToProps = (state, ownProps) => {
   else {
     const {post} = ownProps
     const postIdentity = post && post.post_identity
+    const prevUserImageId = (state.auth.organization && state.auth.organization.organization_logo) || state.auth.client.profile.profile_media
     return {
       postIdentity: postIdentity,
       postRelatedIdentityImage: post.post_related_identity_image,
       translate: getMessages(state),
+      userImageId: prevUserImageId,
+      userImage: state.common.file.list[prevUserImageId],
     }
   }
 }
