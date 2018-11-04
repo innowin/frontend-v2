@@ -2,24 +2,26 @@
 import * as React from 'react'
 import PropTypes from "prop-types"
 
-import ExchangeCard from '../../../common/components/ExchangeCard'
+import {favoriteType} from 'src/consts/flowTypes/favorite'
 import {TickSvgIcon} from "../../../../images/icons";
 import FontAwesome from "react-fontawesome";
+import {getFavoritesSelector} from "../../../../redux/selectors/favorite/getFavorites";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import FavoriteAction from "../../../../redux/actions/favoriteAction";
 
-// TODO: mohammad change this to flowTypes folder when know what is backend type
-type fieldType = {
-  id: number,
-  img: string,
-  name: string,
-}
 type ContentUserProps = {
   translate: { [string]: string },
+  favorites: Array<favoriteType>,
+  actions: {
+    getFavorites: Function,
+  },
 }
 
 type ContentUserState = {
-  selectedFavorites: Array<fieldType>,
-  //TODO: mohammad change this fields from state to props
-  fields: fieldType[]
+  selectedFavorites: Array<favoriteType>,
+  //TODO: mohammad change this favorites from state to props
+  favorites: favoriteType[]
 }
 
 class FavoriteFields extends React.Component<ContentUserProps, ContentUserState> {
@@ -27,7 +29,7 @@ class FavoriteFields extends React.Component<ContentUserProps, ContentUserState>
     super(props)
     this.state = {
       selectedFavorites: [],
-      fields: [
+      favorites: [
         {
           id: 1,
           img: 'http://restful.daneshboom.ir/media/8b01985545aa46f3b292e992abb8f881.jpg',
@@ -127,7 +129,13 @@ class FavoriteFields extends React.Component<ContentUserProps, ContentUserState>
     }
   }
 
-  selectField = (selectedField: fieldType) => {
+  componentDidMount() {
+    const {actions} = this.props
+    const {getFavorites} = actions
+    getFavorites()
+  }
+
+  selectField = (selectedField: favoriteType) => {
     let {selectedFavorites} = this.state
     if (selectedFavorites.includes(selectedField)) {
       this.setState({
@@ -145,14 +153,14 @@ class FavoriteFields extends React.Component<ContentUserProps, ContentUserState>
 
   render() {
     const {translate} = this.props
-    const {selectedFavorites, fields} = this.state
+    const {selectedFavorites, favorites} = this.state
 
     return (
         <div className='favorite-fields-container'>
           <div className='favorite-fields-image-container'>
-            {fields.map(field =>
+            {favorites.map(field =>
                 <div key={'field' + field.id} className='favorite-container pulse' onClick={() => this.selectField(field)}>
-                  <img className='favorite-image' src={field.img} alt='favorite field image'/>
+                  <img className='favorite-image' src={field.img} alt='favorite field'/>
                   <p className='favorite-name'>{field.name}</p>
                   {selectedFavorites.includes(field) && <TickSvgIcon className='tick-icon'/>}
                 </div>
@@ -161,7 +169,7 @@ class FavoriteFields extends React.Component<ContentUserProps, ContentUserState>
           <div className='favorite-fields-text-container'>
             {selectedFavorites.length > 0
                 ? selectedFavorites.map(selected =>
-                    <div className='favorite-text'>
+                    <div className='favorite-text' key={'selected favorite' + selected.id}>
                       {selected.name}
                     </div>)
                 : <div className='select-field-text-container'>
@@ -177,6 +185,19 @@ class FavoriteFields extends React.Component<ContentUserProps, ContentUserState>
 
 FavoriteFields.propTypes = {
   translate: PropTypes.object.isRequired,
+  favorites: PropTypes.array.isRequired,
+  actions: PropTypes.object.isRequired,
 }
 
-export default FavoriteFields
+const mapStateToProps = (state, ownProps) => {
+  return {
+    favorites: getFavoritesSelector(state, ownProps),
+  }
+}
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({
+    getFavorites: FavoriteAction.getFavorites,
+  }, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(FavoriteFields)
