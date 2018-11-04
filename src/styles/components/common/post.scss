@@ -26,6 +26,7 @@
   height: 45px;
   object-fit: cover;
   margin-left: 18px;
+  border-radius: 50%;
 }
 
 .post-component-header-item-logo {
@@ -87,9 +88,6 @@
   transition-duration: 0.3s;
   height: 45px;
   line-height: 26px;
-  &::placeholder {
-    color: #BBBBBB;
-  }
   &:focus {
     outline: none;
     border: 1px solid #BBBBBB;
@@ -108,9 +106,6 @@
   transition-duration: 0.3s;
   height: 148px;
   line-height: 26px;
-  &::placeholder {
-    color: #BBBBBB;
-  }
   &:focus {
     outline: none;
     border: 1px solid #BBBBBB;
@@ -120,8 +115,8 @@
 
 .post-component-footer {
   margin-top: 8px;
-  clear: both;
   position: relative;
+  transition-duration: 0.3s;
 }
 
 .post-component-footer-items-style {
@@ -134,6 +129,20 @@
   padding: 1px 10px;
   margin: 8px 2px;
   vertical-align: top;
+}
+
+.post-component-footer-items-style-hide {
+  display: inline-block;
+  background-color: $success-color;
+  color: white;
+  font-size: 12px;
+  border-radius: 20px;
+  border: none;
+  padding: 1px 0;
+  margin: 8px 2px;
+  vertical-align: top;
+  opacity: 0;
+  width: 1px;
 }
 
 .post-component-footer-items-style-text {
@@ -155,8 +164,8 @@
 
 .post-component-footer-send {
   float: left;
-  clear: right;
   display: inline-block;
+  vertical-align: top;
   margin: 8px 0;
   position: relative;
 }
@@ -215,7 +224,7 @@
 .post-component-footer-attach-menu-container {
   position: absolute;
   top: -7px;
-  left: -1px;
+  left: -3.5px;
   width: 122px;
   text-align: center;
   overflow-y: hidden;
@@ -229,7 +238,7 @@
 .post-component-footer-attach-menu-container-hide {
   position: absolute;
   top: -7px;
-  left: -1px;
+  left: -3.5px;
   width: 122px;
   text-align: center;
   overflow-y: hidden;
@@ -373,12 +382,12 @@
     border-width: 0 3px 3px 0;
     transform: rotate(45deg);
   }
-  &:first-child{
+  &:first-child {
     margin-top: 0;
   }
 }
 
-.post-component-footer-contact-menu-content-title{
+.post-component-footer-contact-menu-content-title {
   color: #BBBBBB;
   margin: 0 0 12px 0;
 }
@@ -421,7 +430,7 @@
   }
 }
 
-.post-component-footer-cancel-btn{
+.post-component-footer-cancel-btn {
   display: inline-block;
   background-color: white;
   border: 1px solid $brand-inverse-color;
@@ -448,5 +457,31 @@
     border: 1px solid $brand-inverse-color;
     color: $brand-inverse-color;
     transition-duration: 0.3s;
+  }
+}
+
+.post-component-footer-items-style-cont {
+  display: inline-block;
+  width: calc(100% - 30px);
+}
+
+.post-component-context {
+  background-color: $context-menu-background;
+  position: fixed;
+  width: 150px;
+  overflow-y: hidden;
+  transition-duration: 0.3s;
+  font-size: 13px;
+  border-radius: 3px;
+  box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.1)
+}
+
+.post-component-context-items {
+  padding: 5px 10px;
+  cursor: pointer;
+  transition-duration: 0.25s;
+  &:hover{
+    transition-duration: 0.25s;
+    background-color: $text-input-border-color;
   }
 }
