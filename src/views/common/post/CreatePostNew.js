@@ -9,6 +9,7 @@ import Image from "src/images/common/image_upload_svg"
 import Share from "src/images/common/share"
 import FontAwesome from "react-fontawesome"
 import socialActions from "../../../redux/actions/commonActions/socialActions"
+import DefaultUserIcon from "../../../images/defaults/defaultUser_svg"
 
 class CreatePostNew extends Component {
   constructor(props) {
@@ -25,7 +26,7 @@ class CreatePostNew extends Component {
       pageX: 0,
       pageY: 0,
       placeholder: 'در زیست بوم باش ...',
-      text: 'yes'
+      selectedText: '',
     }
   }
 
@@ -99,7 +100,7 @@ class CreatePostNew extends Component {
 
   contextMenu = (e) => {
     e.preventDefault()
-    this.setState({...this.state, pageX: e.pageX, pageY: e.pageY, context: true})
+    this.setState({...this.state, pageX: e.pageX, pageY: e.pageY, context: true, selectedText: window.getSelection().toString()})
   }
 
   render() {
@@ -112,7 +113,11 @@ class CreatePostNew extends Component {
         <div className='post-component-container'>
           <div className='post-component-header'>
             <div>
-              <img alt='profile' src={this.props.currentUserMedia} className='post-component-header-img'/>
+              {this.props.currentUserMedia !== null && this.props.currentUserMedia !== undefined ?
+                  <img alt='profile' src={this.props.currentUserMedia} className='post-component-header-img'/>
+                  :
+                  <DefaultUserIcon width='45px' height='45px'/>
+              }
               {this.props.currentUserName}
             </div>
             <div className='post-component-header-item'>
@@ -125,8 +130,9 @@ class CreatePostNew extends Component {
             </div>
           </div>
 
-          <div ref={e => this.div = e} className={this.state.open ? 'post-component-textarea-open' : 'post-component-textarea'} onContextMenu={this.contextMenu}
+          <div ref={e => this.text = e} className={this.state.open ? 'post-component-textarea-open' : 'post-component-textarea'} onContextMenu={this.contextMenu}
                onFocus={() => this.setState({...this.state, placeholder: ''})}
+               contentEditable={true}
                onBlur={(e) => e.target.innerText === '' ? this.setState({...this.state, placeholder: 'در زیست بوم باش ...', open: false}) : this.setState({...this.state, open: true})}
                style={{color: this.state.placeholder.length > 0 ? '#BBBBBB' : 'black'}}>
             {this.state.placeholder}
@@ -273,12 +279,30 @@ class CreatePostNew extends Component {
           </div>
 
           <div ref={e => this.setWrapperThirdRef = e} className='post-component-context' style={{left: this.state.pageX, top: this.state.pageY, height: this.state.context ? '100px' : '0px'}}>
-            <div className='post-component-context-items'>ایمیل</div>
-            <div className='post-component-context-items'>تلفن</div>
+            <div className='post-component-context-items' onClick={this.handleEmail}>
+              <FontAwesome name="envelope" style={{color: '#353535',width:'20px',fontSize:'13px'}}/>
+              ایمیل
+            </div>
+            <div className='post-component-context-items' onClick={this.handlePhone}>
+              <FontAwesome name="phone" style={{color: '#353535',width:'20px',fontSize:'15px'}}/>
+              تلفن
+            </div>
           </div>
 
         </div>
     )
+  }
+
+  handleEmail = () => {
+    let email = 'mailto:' + this.state.selectedText
+    let outEmail = `<a href=${email}>${this.state.selectedText}</a>`
+    this.text.innerHTML = this.text.innerText.replace(this.state.selectedText, outEmail)
+  }
+
+  handlePhone = () => {
+    let email = 'tel:' + this.state.selectedText
+    let outEmail = `<a href=${email}>${this.state.selectedText}</a>`
+    this.text.innerHTML = this.text.innerText.replace(this.state.selectedText, outEmail)
   }
 }
 
