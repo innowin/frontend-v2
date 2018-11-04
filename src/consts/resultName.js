@@ -163,6 +163,9 @@ const results = {
     CREATE_ABILITY: 'create-org-ability',
     DELETE_ABILITY: 'delete-org-ability',
     UPDATE_ABILITY: 'update-org-ability',
+  },
+  FAVORITE: {
+    GET_FAVORITES: 'get-favorite',
   }
 }
 export default results

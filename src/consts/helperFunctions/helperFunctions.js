@@ -1,5 +1,3 @@
-import exchange from "../../redux/actions/types/exchange";
-
 const deleteKeyFromObj = (obj, delKey) => {
 
   /**
@@ -101,6 +99,19 @@ const objToArrayAsOptions = (obj, valueKey, labelKey, otherKeys) => {
 
 /**
  this function takes:
+ an object like >> {[1]: {}, [2]: {}, [3]: {}, [4]: {}}
+ and return array >> [{id attributes}, {id attributes}, {id attributes}]
+ **/
+const changeObjectKeyValueToArray = (objectArray) => {
+  let resultArray
+  for (let object in objectArray) {
+    resultArray.push(object)
+  }
+  return resultArray
+}
+
+/**
+ this function takes:
  an array like >> [1, 2, 3]
  an object like >> {[1]: {}, [2]: {}, [3]: {}, [4]: {}}
  and return object that keys are equal to array input like >> [{1 id attributes}, {2 id attributes}, {3 id attributes}]
@@ -162,6 +173,7 @@ export default {
   abbreviation,
   filterNestedObjByKey,
   objToArrayAsOptions,
+  changeObjectKeyValueToArray,
   getObjectOfArrayKeys,
   getObjectOfArrayKeysSortByCreateTime,
   normalizer,

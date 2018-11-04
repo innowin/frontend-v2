@@ -13,6 +13,7 @@ import paramState from './param'
 import identitiesState from "./identities"
 import customerState from './customer'
 import abilityState from './ability'
+import favoriteState from './favorite'
 
 export default {
   auth: authState,
@@ -27,6 +28,7 @@ export default {
   education: educationState,
   customer: customerState,
   ability: abilityState,
+  favorite: favoriteState,
   common: {
     agencyRequest: commonStates.agencyRequestState,
     badges: commonStates.badgeState,
