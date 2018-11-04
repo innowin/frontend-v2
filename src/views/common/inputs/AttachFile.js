@@ -4,6 +4,7 @@ import PropTypes from "prop-types"
 
 export default class AttachFile extends Component {
   static defaultProps = {
+    className : '',
     customValidate: () => false,
     createArguments: {},
     required: false,
@@ -13,6 +14,7 @@ export default class AttachFile extends Component {
 
   static propTypes = {
     required: PropTypes.bool,
+    className: PropTypes.string,
     customValidate: PropTypes.func,
     createFileAction: PropTypes.func.isRequired,
     inputId: PropTypes.string.isRequired,
@@ -75,26 +77,24 @@ export default class AttachFile extends Component {
     const {error, isLoadingState} = this.state
     const {isLoadingProp} = this.props
     const isLoading = isLoadingProp || isLoadingState
-    const {AttachButton, LoadingFile, inputId} = this.props
+    const {AttachButton, LoadingFile, inputId, className} = this.props
     if (isLoading) {
       return <LoadingFile/>
     }
     return (
-      <span>
-        <label htmlFor={inputId}>
+        <label className={"attachLabel " + className} htmlFor={inputId}>
           <AttachButton/>
+          <input
+            type="file"
+            className="custom-file-input w-100"
+            onChange={this._handleChange}
+            onClick={this._onChangeClick}
+            id={inputId}
+            hidden
+          />
+          {error &&
+          <div className="form-control-feedback">{error}</div>}
         </label>
-        <input
-          type="file"
-          className="custom-file-input w-100"
-          onChange={this._handleChange}
-          onClick={this._onChangeClick}
-          id={inputId}
-          hidden
-        />
-        {error &&
-        <div className="form-control-feedback">{error}</div>}
-      </span>
     )
   }
 }

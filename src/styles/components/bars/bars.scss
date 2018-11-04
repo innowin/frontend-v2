@@ -559,7 +559,7 @@ $sidebar-profile-media-width: 80px;
   }
 }
 
-.sidebarFollowBottom{
+.sidebarFollowBottom {
   cursor: default;
   background-color: $success-color;
   border-color: $background-color;
@@ -754,6 +754,7 @@ $sidebar-profile-media-width: 80px;
   padding: 10px;
   text-align: right;
   transition-duration: 0.25s;
+  cursor: pointer;
   &:hover {
     transition-duration: 0.25s;
     background-color: $chat-box2-color;

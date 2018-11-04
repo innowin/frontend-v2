@@ -293,8 +293,8 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     this.setState({...this.state, menuToggle: !this.state.menuToggle})
   }
 
-  _AttachBottom = (className) => (
-    <div className={"edit-nav " + className}>
+  _AttachBottom = () => (
+    <div>
       <div className="edit-background"/>
       <span className="edit-text">تصویر جدید</span>
     </div>
@@ -390,11 +390,12 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
                 ref={AttachBannerFileInput => {
                   this.AttachBannerFileInput = AttachBannerFileInput
                 }}
-                AttachButton={() => this._AttachBottom('edit-banner')}
+                AttachButton={this._AttachBottom}
                 createArguments={bannerCreateArguments}
                 inputId="AttachBannerFileInput"
                 LoadingFile={this._LoadingFile}
                 createFileAction={createFile}
+                className="edit-nav edit-banner"
               />
             )
           }
@@ -414,11 +415,12 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
                   ref={AttachMediaFileInput => {
                     this.AttachMediaFileInput = AttachMediaFileInput
                   }}
-                  AttachButton={() => this._AttachBottom('edit-media')}
+                  AttachButton={this._AttachBottom}
                   createArguments={mediaCreateArguments}
                   inputId="AttachMediaFileInput"
                   LoadingFile={this._LoadingFile}
                   createFileAction={createFile}
+                  className="edit-nav edit-media"
                 />
               )
             }
