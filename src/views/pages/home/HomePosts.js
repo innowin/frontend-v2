@@ -2,7 +2,6 @@ import React, {Component} from "react"
 import PropTypes from 'prop-types'
 import {FrameCard, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames"
 import {Post} from "src/views/common/post/Post"
-import HomeCreatePost from "./CreatPostHome"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import PostActions from "src/redux/actions/commonActions/postActions"
@@ -69,25 +68,17 @@ class HomePosts extends Component {
 
   render() {
     const {isLoading, error} = this.state
-    const {client, posts, exchangeId, className, actions} = this.props
-    const {clientId, clientImgId, clientIdentity, clientType} = client
+    const {posts, exchangeId, className, actions} = this.props
     const {deletePost, updatePost} = actions
     return (
         <VerifyWrapper isLoading={isLoading} error={error} className={className}>
           {(exchangeId) ? (
               <div>
-                <HomeCreatePost
-                    postIdentityId={clientIdentity.id}
-                    postOwnerId={clientId}
-                    postOwnerType={clientType}
-                    postOwnerImgId={clientImgId}
-                    postParentId={exchangeId}
-                    postParentType={constant.POST_PARENT.EXCHANGE}
-                    handleErrorLoading={this._handleErrorLoading}
-                    postsCountInThisPage={posts.length}
+                <CreatePostNew
+                  postParentId={exchangeId}
+                  postParentType={constant.POST_PARENT.EXCHANGE}
+                  postsCountInThisPage={posts.length}
                 />
-
-                <CreatePostNew/>
 
                 <FrameCard className="-frameCardPost border-top-0">
                   <ListGroup>
@@ -115,15 +106,6 @@ class HomePosts extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const client = state.auth.client
-  const {identity, profile, organization, user_type} = client
-  const allIdentities = state.identities.list
-  const clientIdentityId = identity.content
-  const clientIdentity = (clientIdentityId && allIdentities[clientIdentityId]) ? allIdentities[clientIdentityId] : {}
-  const clientId = (client.organization && client.organization.id) || (client.user && client.user.id)
-  const clientImgId = (user_type === 'person') ? (profile.profile_media) : (
-      (organization && organization.organization_logo) || null
-  )
   const exchangeId = ownProps.exchangeId
   const allPosts = state.common.post.list
   const allExchange = state.exchanges.list
@@ -131,12 +113,6 @@ const mapStateToProps = (state, ownProps) => {
       && allExchange[exchangeId].posts.content) || []
   const posts = exchangePostsIds.map(postId => (allPosts[postId]))
   return {
-    client: {
-      clientId,
-      clientImgId,
-      clientType: user_type,
-      clientIdentity
-    },
     posts
   }
 }

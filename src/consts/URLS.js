@@ -91,6 +91,7 @@ const urls = {
 
     EXCHANGE_MEMBERSHIP: 'exchanges/identities',
   },
-  SKILL: 'users/skills'
+  SKILL: 'users/skills',
+  FAVORITE: 'base/favorites',
 }
 export default urls
