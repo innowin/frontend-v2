@@ -63,43 +63,12 @@ class Socials extends Component<PropsSocials, StateSocials> {
     identityType: PropTypes.string.isRequired,
     param: PropTypes.object.isRequired,
   }
-  firstStartFollower: boolean
-  firstStartFollowee: boolean
 
   constructor(props) {
     super(props)
     this.state = {
       editExchanges: false,
       editFollowings: false,
-    }
-    this.firstStartFollower = true;
-    this.firstStartFollowee = true
-  }
-
-  componentDidUpdate(prevProps) {
-    const {followers, actions, followees} = this.props
-    const {getProfileByUserId, getOrganizationByOrganId} = actions
-    if (this.firstStartFollower && prevProps.followers !== followers && followers.length > 0 && prevProps.followers.length > 0) {
-      followers.forEach(follower => {
-        if (follower.identity_user) {
-          getProfileByUserId(follower.identity_user)
-        }
-        else {
-          getOrganizationByOrganId(follower.identity_organization)
-        }
-      })
-      this.firstStartFollower = false
-    }
-    if (this.firstStartFollowee && prevProps.followees !== followees && followees.length > 0 && prevProps.followees.length > 0) {
-      followees.forEach(followee => {
-        if (followee.identity_user) {
-          getProfileByUserId(followee.identity_user)
-        }
-        else {
-          getOrganizationByOrganId(followee.identity_organization)
-        }
-      })
-      this.firstStartFollowee = false
     }
   }
 
