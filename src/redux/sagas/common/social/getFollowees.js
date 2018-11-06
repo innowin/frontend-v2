@@ -10,6 +10,7 @@ export function* getFollowees(action) {
   try {
     yield fork(api.get, urls.COMMON.SOCIAL.FOLLOW, results.COMMON.SOCIAL.GET_FOLLOWEES, `?follow_follower=${followOwnerIdentity}`)
     const dataList = yield take(socketChannel)
+    console.log('getFollowees >> dataList is: ', dataList)
     yield put({type: types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWEES , payload:{data:dataList, followOwnerId, followOwnerIdentity, followOwnerType}})
   } catch (error) {
     const {message} = error

@@ -26,6 +26,7 @@ import exchangeActions from "../../../../redux/actions/exchangeActions"
 import constants from "../../../../consts/constants";
 import type {PersonType} from "./people"
 import exchangeMembershipActions from "../../../../redux/actions/commonActions/exchangeMembershipActions"
+import {getFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
 
 
 type HashTagType = {
@@ -42,12 +43,13 @@ type CreateExchangeProps = {
   createFile: (any) => void,
   hisFiles: Array<ImageType>,
   hashTags: { [string]: HashTagType },
-  getFollowers: Function,
+  getFollowees: Function,
   social: Array<PersonType>,
   createExchange: Function,
   addMember: Function,
   createdExchange: { id: string, owner: string },
-  members: Array<{}>
+  members: Array<{}>,
+  auth: any
 }
 
 type CreateExchangeState = {
@@ -76,13 +78,24 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
   }
 
   componentDidMount() {
-    console.log('social is: ', this.props.social)
-    const {identity, getFollowers} = this.props
+    const {identity, getFollowees, auth} = this.props
     const query = `?identity=${identity}`
     getFiles(query)
-    // getFollowers({
-    //   followOwnerIdentity: identity, followOwnerType: constants.USER_TYPES.Person, followOwnerId: owner.id
-    // })
+    let getFolloweesPayload
+    if (auth.client.organization) {
+      getFolloweesPayload = {
+        followOwnerIdentity: auth.client.identity.content,
+        followOwnerType: constants.USER_TYPES.ORG,
+        followOwnerId: auth.client.organization.id
+      }
+    } else {
+      getFolloweesPayload = {
+        followOwnerIdentity: auth.client.identity.content,
+        followOwnerType: constants.USER_TYPES.PERSON,
+        followOwnerId: auth.client.user.id
+      }
+    }
+    getFollowees(getFolloweesPayload)
   }
 
   componentDidUpdate(prevProps) {
@@ -355,6 +368,21 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
 
 const mapStateToProps = (state) => {
   const identity = state.auth.client.identity.content
+  const auth = state.auth
+  // const {ownerId, identityType} = ownProps
+  const getFolloweesProps = auth.client.organization ?
+      {
+        identityId: auth.client.identity.content,
+        ownerId: auth.client.organization.id,
+        identityType: constants.USER_TYPES.ORG
+      }
+      :
+      {
+        identityId: auth.client.identity.content,
+        ownerId: auth.client.user.id,
+        identityType: constants.USER_TYPES.PERSON
+      }
+
   const fileSelectorByKeyValue = makeFileSelectorByKeyValue()
   const exchangeId = state.exchanges.nowCreatedId
   const members = state.common.exchangeMembership.list ?
@@ -372,9 +400,10 @@ const mapStateToProps = (state) => {
     identity,
     hisFiles: fileSelectorByKeyValue(state, 'identity', identity),
     hashTags: hashTagsListSelector(state),
-    social, // fixMe: should use followers in future.
+    social: getFolloweesSelector(state, getFolloweesProps),
     createdExchange: state.exchanges.list[exchangeId] || {},
-    members
+    members,
+    auth: state.auth,
   }
 }
 
@@ -382,7 +411,7 @@ const mapDispatchToProps = dispatch =>
     bindActionCreators(
         {
           getFiles,
-          getFollowers: socialActions.getFollowers,
+          getFollowees: socialActions.getFollowees,
           createFile,
           createExchange: exchangeActions.createExchange,
           addMember: exchangeMembershipActions.createExchangeMembership

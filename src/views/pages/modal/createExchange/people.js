@@ -9,6 +9,7 @@ import type {ActType} from "../../../common/BtnBar/BtnBar";
 import CircularProgressbar from 'react-circular-progressbar';
 import {exchangeIdentityFields} from "./createExchangeData"
 import FontAwesome from "react-fontawesome"
+import {DefaultUserIcon} from "../../../../images/icons"
 
 
 type BtnProps = {
@@ -70,7 +71,7 @@ const BtnBar = (props: BtnBarProps) => {
 }
 
 export type PersonType = {
-  file: string,
+  img: string,
   name: string,
   id: string
 }
@@ -112,7 +113,11 @@ const PersonInfo = (props: PersonInfoProps) => {
   const {person} = props
   return (
       <div className="person-info">
-        <Image className="person-img" img={person.file}/>
+        {person.img ?
+            <Image className="person-img" img={person.img}/>
+            :
+            <DefaultUserIcon className="person-img"/>
+        }
         <div className="info">
           <span className="name">{person.name}</span>
         </div>
