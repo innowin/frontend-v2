@@ -53,7 +53,7 @@
 .exchange-model-avatar {
   height: 80px;
   object-fit: cover;
-  margin: 0 auto 18px auto;
+  margin: 0 auto 8px auto;
   width: 80px;
   border-radius: 50%;
   box-shadow: 0 2px 3px 1px rgba(0,0,0,0.2)
@@ -126,8 +126,9 @@
   box-shadow: 0 1px 15px 0 rgba(0, 0, 0, 0.4);
   background-color: white;
   width: 280px;
-  height: 95vh;
-  overflow: scroll;
+  bottom: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
   z-index: 1;
   right: 0;
   top: 55px;

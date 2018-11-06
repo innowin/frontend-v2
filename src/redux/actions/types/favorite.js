@@ -1,0 +1,17 @@
+const BASE = {
+  GET_FAVORITES: 'GET_FAVORITES',
+}
+
+const SUCCESS = {
+  GET_FAVORITES: 'GET_FAVORITES_SUCCESS',
+}
+
+const ERROR = {
+  GET_FAVORITES: 'GET_FAVORITES_ERROR',
+}
+
+export default {
+  SUCCESS,
+  ERROR,
+  BASE
+}
