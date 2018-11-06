@@ -357,8 +357,10 @@ const mapStateToProps = (state) => {
   const identity = state.auth.client.identity.content
   const fileSelectorByKeyValue = makeFileSelectorByKeyValue()
   const exchangeId = state.exchanges.nowCreatedId
-  const members = Object.values(state.common.exchangeMembership.list).filter((m: any) =>
+  const members = state.common.exchangeMembership.list ?
+      Object.values(state.common.exchangeMembership.list).filter((m: any) =>
       m[exchangeIdentityFields.exchange].id === exchangeId)
+      : {}
   const social = SOCIAL.reduce((res, item) => {
     if (res.some(i => i.id === item.follow_follower.id)) return res
     else return [...res, {
