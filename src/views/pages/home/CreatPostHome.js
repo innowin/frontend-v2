@@ -205,29 +205,21 @@ class HomeCreatePost extends Component {
   }
 
   _deletePicture = () => {
-    const {actions} = this.props
-    const {resetTemporaryFile} = actions
     this.setState({...this.state, resetByTrashIcon: true})
-    resetTemporaryFile()
   }
 
   componentDidUpdate(prevProps) {
-    const {postsCountInThisPage, actions} = this.props
-    const {resetTemporaryFile} = actions
+    const {postsCountInThisPage} = this.props
     if (prevProps.postsCountInThisPage < postsCountInThisPage) {
       this.setState({...this.state, textareaClass: "closeTextarea", show: false, description: ''},
         () => {
         this.createPostFooter._reset_postType()
-        resetTemporaryFile()
       })
     }
   }
 
   componentDidMount() {
     document.addEventListener('click', this._handleClickOutForm)
-    const {actions} = this.props
-    const {resetTemporaryFile} = actions
-    resetTemporaryFile()
   }
 
   componentWillUnmount() {
@@ -303,8 +295,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     createPost: PostActions.createPost,
-    createFile: FileActions.createFile,
-    resetTemporaryFile: FileActions.resetTemporaryFile,
+    createFile: FileActions.createFile
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(HomeCreatePost)

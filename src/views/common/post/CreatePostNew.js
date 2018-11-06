@@ -16,8 +16,10 @@ import socialActions from "src/redux/actions/commonActions/socialActions"
 import SupplyIcon from "../../../images/common/supply_svg"
 import {getMessages} from "src/redux/selectors/translateSelector"
 import EditIcon from "../../../images/common/edit.svg"
+import {createFileFunc} from "src/views/common/Functions"
+import types from "../../../redux/actions/types"
 
-
+const timeStamp = new Date().toISOString()
 class CreatePostNew extends Component {
   static defaultProps = {
     className: '',
@@ -46,13 +48,13 @@ class CreatePostNew extends Component {
       pageY: 0,
       placeholder: 'در زیست بوم باش ...',
       selectedText: '',
+      postPhotos: [],
     }
   }
 
   componentDidMount() {
     const {actions} = this.props
-    const {resetTemporaryFile, getFollowers} = actions
-    resetTemporaryFile()
+    const {getFollowers} = actions
     getFollowers({
       followOwnerIdentity: this.props.currentUserIdentity,
       followOwnerType: this.props.currentUserType,
@@ -61,19 +63,24 @@ class CreatePostNew extends Component {
     document.addEventListener('mousedown', this.handleClickOutside)
   }
 
+  componentDidUpdate(prevProps) {
+    const {postsCountInThisPage} = this.props
+    if (prevProps.postsCountInThisPage < postsCountInThisPage) {
+      this._resetPost()
+    }
+  }
+
   componentWillUnmount() {
     document.removeEventListener('mousedown', this.handleClickOutside)
   }
 
   _resetPost = () => {
-    const {resetTemporaryFile} = this.props.actions
-    this.setState({...this.state, open: false, selected: 'post'}, () => resetTemporaryFile())
+    this.setState({...this.state, open: false, selected: 'post', postPhotos: []})
     this.text.innerText = ''
   }
 
   handleClickOutside = (event) => {
-    const {temporaryFile} = this.props
-    const postFileLoading = temporaryFile.isLoading
+    const {postPhotos} = this.state
     const description = this.text.innerText
 
 
@@ -97,7 +104,7 @@ class CreatePostNew extends Component {
     }
 
 
-    if (!temporaryFile.content && !postFileLoading && !description) this._resetPost()
+    if (!postPhotos && !description) this._resetPost()
   }
 
   handleSelectShare = () => {
@@ -156,10 +163,10 @@ class CreatePostNew extends Component {
 
   _getValues = () => {
     const {selected} = this.state
-    const {currentUserIdentity, postParentId, currentUserImgId, postPhotoId} = this.props
+    const {currentUserIdentity, postParentId, currentUserImgId, postPhotoIds} = this.props
     const description = this.text.innerText
     return {
-      post_picture: postPhotoId,
+      post_picture: postPhotoIds[0] || null,
       post_description: description,
       post_title: 'without title',
       post_type: selected,
@@ -187,8 +194,20 @@ class CreatePostNew extends Component {
 
   _save = () => {
     const {actions, currentUserId, currentUserType, postParentId, postParentType} = this.props
-    const {createPost} = actions
+    const {createPost, createFile} = actions
     const formValues = this._getValues()
+    const {postPhotos} = this.state
+    const nextActionTypesForPosPictures = types.COMMON.SET_FILE_IDS_IN_TEMP_FILE
+    const nextActionDataForPostPictures = {tempFileChildName: timeStamp}
+    const fileIdKey = 'fileId'
+    const postPicturesCreateArguments = {
+      fileIdKey,
+      nextActionType:nextActionTypesForPosPictures,
+      nextActionData:nextActionDataForPostPictures,
+    }
+    postPhotos.map(fileString => {
+      return createFileFunc(createFile, fileString, postPicturesCreateArguments)
+    })
     return createPost({
       formValues, postOwnerId: currentUserId, postOwnerType: currentUserType, postParentId, postParentType
     })
@@ -202,14 +221,15 @@ class CreatePostNew extends Component {
     return false;
   }
 
-  _deletePicture = () => {
-    const {resetTemporaryFile} = this.props.actions
-    resetTemporaryFile()
+  _handleBase64 = (fileString) => {
+    const {postPhotos} = this.state
+    this.setState({...this.state, postPhotos: [...postPhotos, fileString]})
   }
 
-  componentDidUpdate(prevProps) {
-    const {postsCountInThisPage} = this.props
-    if (prevProps.postsCountInThisPage < postsCountInThisPage) this._resetPost()
+  _deletePicture = (i) => {
+    const {postPhotos} = this.state
+    const newPostPhotos = postPhotos.slice(0, i).concat(postPhotos.slice(i + 1))
+    this.setState({...this.state, postPhotos: newPostPhotos})
   }
 
 
@@ -218,10 +238,8 @@ class CreatePostNew extends Component {
     const followersArr = Object.values(this.props.followers).filter(follow => follow.follow_follower.id !== this.props.currentUserIdentity && follow.follow_follower.name.includes(this.state.search))
     const exchangesArr = Object.values(this.props.exchanges).filter(exchange => exchange.exchange_identity_related_exchange.name.includes(this.state.search))
 
-    const {className, translate, temporaryFile, actions} = this.props
-    const {createFile} = actions
-    const postPhoto = temporaryFile.content
-    const postPhotoLoading = temporaryFile.isLoading
+    const {className, translate} = this.props
+    const {postPhotos} = this.state
     const photoInputId = 'AttachPhotoInput'
 
     return (
@@ -290,14 +308,12 @@ class CreatePostNew extends Component {
                     فایل
                   </div>
                   <AttachFile
-                    ref={AttachPhotoInput => {
-                      this.AttachPhotoInput = AttachPhotoInput
-                    }}
+                    ref={e => this.AttachPhotoInput = e}
                     AttachButton={this.AttachPhotoButton}
-                    createFileAction={createFile}
                     inputId={photoInputId}
-                    isLoadingProp={postPhotoLoading}
+                    // isLoadingProp={postPhotoLoading}
                     className='explore-menu-items'
+                    handleBase64={this._handleBase64}
                   />
                   <div className='explore-menu-items'>
                     <ContributionIcon className='post-component-footer-logos'/>
@@ -421,17 +437,21 @@ class CreatePostNew extends Component {
           </div>
         </div>
 
-
         {
-          (!postPhoto) ? '' : (
-            <div className="-fileBox">
-              <label htmlFor={photoInputId}>
-                <EditIcon className="edit-post-picture pulse"/>
-                <FontAwesome name="trash" className='remove-post-picture pulse'
-                             onClick={this._deletePicture}/>
-              </label>
-              <img className="contain-img" src={postPhoto.file} alt="imagePreview"/>
-            </div>
+          postPhotos.map((fileString, i) => {
+              return (
+                <div className="-fileBox">
+                  <label htmlFor={photoInputId}>
+                    <EditIcon className="edit-post-picture pulse"/>
+                  </label>
+                  <FontAwesome name="trash"
+                               className='remove-post-picture pulse'
+                               onClick={() => this._deletePicture(i)}
+                  />
+                  <img className="contain-img" src={fileString} alt="imagePreview"/>
+                </div>
+              )
+            }
           )
         }
 
@@ -475,8 +495,8 @@ const mapStateToProps = (state) => {
 
   const userId = (client.organization && client.organization.id) || (client.user && client.user.id)
 
-  const temporaryFile = state.common.file.temporaryFile
-  const postPhotoId = (temporaryFile.content && temporaryFile.content.id) || null
+  const tempPostPictures = state.temp.file[timeStamp]
+  const postPhotoIds = tempPostPictures || []
 
   return ({
     currentUserType: client.user_type,
@@ -487,8 +507,7 @@ const mapStateToProps = (state) => {
     currentUserName: client.user.first_name + ' ' + client.user.last_name,
     exchanges: state.common.exchangeMembership.list,
     followers: state.common.social.follows.list,
-    temporaryFile,
-    postPhotoId,
+    postPhotoIds,
     translate: getMessages(state)
   })
 }
@@ -498,8 +517,7 @@ const
     actions: bindActionCreators({
       getFollowers: socialActions.getFollowers,
       createPost: PostActions.createPost,
-      createFile: FileActions.createFile,
-      resetTemporaryFile: FileActions.resetTemporaryFile,
+      createFile: FileActions.createFile
     }, dispatch)
   })
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePostNew)
