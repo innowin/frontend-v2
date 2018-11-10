@@ -69,9 +69,10 @@ class CreatePostNew extends Component {
     document.removeEventListener("mousedown", this.handleClickOutside)
   }
 
-  _resetPost = () => {
-    this.props.actions.resetTemporaryFile()
-  }
+  // _resetPost = () => {
+  //   // this.props.actions.resetTemporaryFile()
+  //   console.log("JUST_RESET_POST_LOG")
+  // }
 
   handleClickOutside = (event) => {
     const {temporaryFile} = this.props
@@ -91,7 +92,7 @@ class CreatePostNew extends Component {
       }
     }
 
-    if (!temporaryFile.content && !postFileLoading && !description) this._resetPost()
+    // if (!temporaryFile.content && !postFileLoading && !description) this._resetPost()
   }
 
   handleSelectShare = () => {
@@ -197,10 +198,10 @@ class CreatePostNew extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    const {postsCountInThisPage} = this.props
-    if (prevProps.postsCountInThisPage < postsCountInThisPage) this._resetPost()
-  }
+  // componentDidUpdate(prevProps) {
+  //   const {postsCountInThisPage} = this.props
+  //   if (prevProps.postsCountInThisPage < postsCountInThisPage) this._resetPost()
+  // }
 
   render() {
     const followersArr = Object.values(this.props.followers).filter(follow => follow.follow_follower.id !== this.props.currentUserIdentity && follow.follow_follower.name.includes(this.state.search))
