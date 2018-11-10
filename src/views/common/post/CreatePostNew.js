@@ -20,6 +20,8 @@ import {createFileFunc} from "src/views/common/Functions"
 import types from "../../../redux/actions/types"
 
 const timeStamp = new Date().toISOString()
+
+
 class CreatePostNew extends Component {
   static defaultProps = {
     className: '',
@@ -195,7 +197,6 @@ class CreatePostNew extends Component {
   _save = () => {
     const {actions, currentUserId, currentUserType, postParentId, postParentType} = this.props
     const {createPost, createFile} = actions
-    const formValues = this._getValues()
     const {postPhotos} = this.state
     const nextActionTypesForPosPictures = types.COMMON.SET_FILE_IDS_IN_TEMP_FILE
     const nextActionDataForPostPictures = {tempFileChildName: timeStamp}
@@ -208,6 +209,7 @@ class CreatePostNew extends Component {
     postPhotos.map(fileString => {
       return createFileFunc(createFile, fileString, postPicturesCreateArguments)
     })
+    const formValues = this._getValues()
     return createPost({
       formValues, postOwnerId: currentUserId, postOwnerType: currentUserType, postParentId, postParentType
     })
