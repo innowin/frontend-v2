@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component} from "react"
 import PropTypes from "prop-types"
 import {bindActionCreators} from "redux"
 import connect from "react-redux/es/connect/connect"
@@ -16,11 +16,12 @@ import socialActions from "src/redux/actions/commonActions/socialActions"
 import SupplyIcon from "../../../images/common/supply_svg"
 import {getMessages} from "src/redux/selectors/translateSelector"
 import EditIcon from "../../../images/common/edit.svg"
-
+import "src/styles/components/common/comment.scss"
+import PostSendIcon from "../../../images/common/postSend_svg"
 
 class CreatePostNew extends Component {
   static defaultProps = {
-    className: '',
+    className: "",
     postsCountInThisPage: 0
   }
 
@@ -34,23 +35,24 @@ class CreatePostNew extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      selected: 'post',
+      selected: "post",
       open: false,
       attachMenu: false,
       enterAttach: true,
       contactMenu: false,
       labels: {},
-      search: '',
+      search: "",
       context: false,
       pageX: 0,
       pageY: 0,
-      placeholder: 'در زیست بوم باش ...',
-      selectedText: '',
+      placeholder: "",
+      selectedText: "",
+      commentBody: "comment-body"
     }
   }
 
   componentDidMount() {
-    const {actions} = this.props
+    const {actions, componentType, translate} = this.props
     const {resetTemporaryFile, getFollowers} = actions
     resetTemporaryFile()
     getFollowers({
@@ -58,23 +60,23 @@ class CreatePostNew extends Component {
       followOwnerType: this.props.currentUserType,
       followOwnerId: this.props.currentUserId
     })
-    document.addEventListener('mousedown', this.handleClickOutside)
+    document.addEventListener("mousedown", this.handleClickOutside)
+    componentType === "comment" && this.setState({...this.state, placeholder: translate["Send comment"]})
+    componentType === "post" && this.setState({...this.state, placeholder: translate["Be in zist boom"]})
   }
 
   componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClickOutside)
+    document.removeEventListener("mousedown", this.handleClickOutside)
   }
 
   _resetPost = () => {
-    const {resetTemporaryFile} = this.props.actions
-    this.setState({...this.state, open: false, selected: 'post'}, () => resetTemporaryFile())
-    this.text.innerText = ''
+    this.props.actions.resetTemporaryFile()
   }
 
   handleClickOutside = (event) => {
     const {temporaryFile} = this.props
     const postFileLoading = temporaryFile.isLoading
-    const description = this.text.innerText
+    const description = this.text ? this.text.innerText : null
 
 
     if (this.setWrapperRef && !this.setWrapperRef.contains(event.target)) {
@@ -101,13 +103,13 @@ class CreatePostNew extends Component {
   }
 
   handleSelectShare = () => {
-    this.setState({...this.state, selected: 'post'})
+    this.setState({...this.state, selected: "post"})
   }
   handleSelectDemand = () => {
-    this.setState({...this.state, selected: 'demand'})
+    this.setState({...this.state, selected: "demand"})
   }
   handleSelectSupply = () => {
-    this.setState({...this.state, selected: 'supply'})
+    this.setState({...this.state, selected: "supply"})
   }
 
   handleAttach = () => {
@@ -122,12 +124,12 @@ class CreatePostNew extends Component {
   handleLabel(name) {
     let temp = {...this.state.labels}
     if (temp[name] === undefined) {
-      if (name === 'دنبال کنندگان' || name === 'دنبال کنندگانِ دنبال کنندگان' || temp['عمومی'] === undefined)
+      if (name === "دنبال کنندگان" || name === "دنبال کنندگانِ دنبال کنندگان" || temp["عمومی"] === undefined)
         temp[name] = name
     }
     else {
-      if (name !== 'دنبال کنندگان' && name !== 'دنبال کنندگانِ دنبال کنندگان')
-        delete temp['عمومی']
+      if (name !== "دنبال کنندگان" && name !== "دنبال کنندگانِ دنبال کنندگان")
+        delete temp["عمومی"]
       delete temp[name]
     }
 
@@ -148,10 +150,10 @@ class CreatePostNew extends Component {
   }
 
   AttachPhotoButton = () => (
-    <div>
-      <Image className='post-component-footer-logos'/>
-      عکس
-    </div>
+      <div>
+        <Image className='post-component-footer-logos'/>
+        عکس
+      </div>
   )
 
   _getValues = () => {
@@ -161,7 +163,7 @@ class CreatePostNew extends Component {
     return {
       post_picture: postPhotoId,
       post_description: description,
-      post_title: 'without title',
+      post_title: "without title",
       post_type: selected,
       post_parent: postParentId,
       post_identity: currentUserIdentity,
@@ -171,14 +173,14 @@ class CreatePostNew extends Component {
 
   _formValidate = () => {
     // const {descriptionValidate} = this.state
-    let result = true;
+    let result = true
     const validates = [
       this.AttachPhotoInput.validate,
       // descriptionValidate
-    ];
+    ]
     for (let i = 0; i < validates.length; i++) {
       if (validates[i]) {
-        result = false;
+        result = false
         break
       }
     }
@@ -195,16 +197,26 @@ class CreatePostNew extends Component {
   }
 
   _onSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     if (this._formValidate()) {
       this._save()
     }
-    return false;
+    return false
   }
 
   _deletePicture = () => {
     const {resetTemporaryFile} = this.props.actions
     resetTemporaryFile()
+  }
+
+  createComment(commentTextField) {
+    if (commentTextField && commentTextField.value) {
+      const {actions, post, commentParentType} = this.props
+      const {createComment} = actions
+      const formValues = {text: commentTextField.value, comment_parent: post.id}
+      createComment({formValues, parentId: post.id, commentParentType})
+      commentTextField.value = ""
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -218,248 +230,326 @@ class CreatePostNew extends Component {
     const followersArr = Object.values(this.props.followers).filter(follow => follow.follow_follower.id !== this.props.currentUserIdentity && follow.follow_follower.name.includes(this.state.search))
     const exchangesArr = Object.values(this.props.exchanges).filter(exchange => exchange.exchange_identity_related_exchange.name.includes(this.state.search))
 
-    const {className, translate, temporaryFile, actions} = this.props
+    const {className, translate, temporaryFile, actions, componentType} = this.props
     const {createFile} = actions
     const postPhoto = temporaryFile.content
     const postPhotoLoading = temporaryFile.isLoading
-    const photoInputId = 'AttachPhotoInput'
+    const photoInputId = "AttachPhotoInput"
 
-    return (
-      <form className={'post-component-container ' + className} onSubmit={this._onSubmit}>
-        <div className='post-component-header'>
-          <div>
-            {this.props.currentUserMedia !== null && this.props.currentUserMedia !== undefined ?
-              <img alt='profile' src={this.props.currentUserMedia} className='post-component-header-img'/>
-              :
-              <DefaultUserIcon width='45px' height='45px'/>
-            }
-            {this.props.currentUserName}
-          </div>
-          <div className='post-component-header-item'>
-            <Share
-              className={this.state.selected === 'post' ? "post-component-header-item-logo1" : "post-component-header-item-logo1-unselect"}
-              onClick={this.handleSelectShare}/>
-            <DemandIcon height="22px"
-                        className={this.state.selected === 'demand' ? 'post-component-header-item-logo' : 'post-component-header-item-logo-unselect'}
-                        onClickFunc={this.handleSelectDemand}/>
-            <SupplyIcon height="18px"
-                        className={this.state.selected === 'supply' ? 'post-component-header-item-logo2' : 'post-component-header-item-logo2-unselect'}
-                        onClickFunc={this.handleSelectSupply}/>
-          </div>
-        </div>
-
-        <div ref={e => this.text = e}
-             className={this.state.open ? 'post-component-textarea-open' : 'post-component-textarea'}
-             onContextMenu={this.contextMenu}
-             onFocus={() => this.setState({...this.state, placeholder: ''})}
-             contentEditable={true}
-             onBlur={(e) => e.target.innerText === '' ?
-               this.setState({...this.state, placeholder: translate['Be in zist boom'], open: false}) :
-               this.setState({...this.state, open: true})}
-             style={{color: this.state.placeholder.length > 0 ? '#BBBBBB' : 'black'}}
-        >
-          {this.state.placeholder}
-        </div>
-
-        <div className='post-component-footer'>
-
-          <div className='post-component-footer-logo' onClick={this.handleContact}>?</div>
-          <div className='post-component-footer-items-style-cont'>
-            {
-              Object.values(this.state.labels).map(label =>
-                <div className='post-component-footer-items-style'>
-                  <div className='post-component-footer-items-style-text'>{label}</div>
-                  <div className='post-component-footer-items-style-close' onClick={() => this.handleLabel(label)}>✕
-                  </div>
-                </div>)
-            }
-
-            <div className='post-component-footer-items-style-hide'/>
-
-            <div className='post-component-footer-send'>
-              <div style={{display: 'inline-block'}} onClick={this.handleAttach}>
-                <AttachFileIcon className='post-component-footer-send-attach'/>
-              </div>
-              <button type="submit" className='post-component-footer-send-btn'>ارسال</button>
-
-              <div ref={e => this.setWrapperRef = e}
-                   className={this.state.attachMenu ? 'post-component-footer-attach-menu-container' : "post-component-footer-attach-menu-container-hide"}>
-                <div className='post-component-footer-attach-menu'>
-                  <div className='explore-menu-items'>
-                    <AttachFileIcon className='post-component-footer-logos'/>
-                    فایل
-                  </div>
-                  <AttachFile
-                    ref={AttachPhotoInput => {
-                      this.AttachPhotoInput = AttachPhotoInput
-                    }}
-                    AttachButton={this.AttachPhotoButton}
-                    createFileAction={createFile}
-                    inputId={photoInputId}
-                    isLoadingProp={postPhotoLoading}
-                    className='explore-menu-items'
-                  />
-                  <div className='explore-menu-items'>
-                    <ContributionIcon className='post-component-footer-logos'/>
-                    ویدئو
-                  </div>
-                  <div className='explore-menu-items'>
-                    <ContributionIcon className='post-component-footer-logos'/>
-                    محصول
-                  </div>
-                  <div className='explore-menu-items'>
-                    <ContributionIcon className='post-component-footer-logos'/>
-                    لینک
-                  </div>
+    switch (componentType) {
+      case "post":
+        return (
+            <form className={"post-component-container " + className} onSubmit={this._onSubmit}>
+              <div className='post-component-header'>
+                <div>
+                  {this.props.currentUserMedia !== null && this.props.currentUserMedia !== undefined ?
+                      <img alt='profile' src={this.props.currentUserMedia} className='post-component-header-img'/>
+                      :
+                      <DefaultUserIcon width='45px' height='45px'/>
+                  }
+                  {this.props.currentUserName}
+                </div>
+                <div className='post-component-header-item'>
+                  <Share
+                      className={this.state.selected === "post" ? "post-component-header-item-logo1" : "post-component-header-item-logo1-unselect"}
+                      onClick={this.handleSelectShare}/>
+                  <DemandIcon height="22px"
+                              className={this.state.selected === "demand" ? "post-component-header-item-logo" : "post-component-header-item-logo-unselect"}
+                              onClickFunc={this.handleSelectDemand}/>
+                  <SupplyIcon height="18px"
+                              className={this.state.selected === "supply" ? "post-component-header-item-logo2" : "post-component-header-item-logo2-unselect"}
+                              onClickFunc={this.handleSelectSupply}/>
                 </div>
               </div>
 
-            </div>
-
-          </div>
-
-        </div>
-
-        <div style={{clear: 'both'}}/>
-
-        <div ref={e => this.setWrapperSecondRef = e}
-             className={this.state.contactMenu ? 'post-component-footer-contact-menu-container' : "post-component-footer-contact-menu-container-hide"}>
-          <div className='post-component-footer-contact-menu'>
-            <div className='post-component-footer-contact-menu-icon'>
-              ?
-              <span>  </span>
-              مخاطبین
-            </div>
-            <div className='post-component-footer-searchbox'>
-              <input type='text' className='post-component-footer-searchbox-input' placeholder='جستجو'
-                     onChange={(e) => this.setState({...this.state, search: e.target.value})}
-                     onKeyUp={this.submitSearchByWord}/>
-              <FontAwesome name="search" className='post-component-footer-searchbox-icon'/>
-            </div>
-
-            <div className='post-component-footer-contact-menu-content'>
-              <div className='post-component-footer-check-container'>
-                {
-                  'عمومی'.includes(this.state.search) ? <label className='post-component-footer-checkbox'>
-                      <input type="checkbox" checked={this.state.labels['عمومی'] !== undefined}
-                             onClick={() => this.handleLabel('عمومی')}/>
-                      <span className='checkmark'/>
-                      عمومی
-                    </label>
-                    : null
-                }
-
-                {
-                  'دنبال کنندگان'.includes(this.state.search) ? <label className='post-component-footer-checkbox'>
-                      <input type="checkbox" checked={this.state.labels['دنبال کنندگان'] !== undefined}
-                             onClick={() => this.handleLabel('دنبال کنندگان')}/>
-                      <span className='checkmark'/>
-                      دنبال کنندگان
-                    </label>
-                    : null
-                }
-
-                {
-                  'دنبال کنندگانِ دنبال کنندگان'.includes(this.state.search) ?
-                    <label className='post-component-footer-checkbox'>
-                      <input type="checkbox" checked={this.state.labels['دنبال کنندگانِ دنبال کنندگان'] !== undefined}
-                             onClick={() => this.handleLabel('دنبال کنندگانِ دنبال کنندگان')}/>
-                      <span className='checkmark'/>
-                      دنبال کنندگانِ دنبال کنندگان
-                    </label>
-                    : null
-                }
+              <div ref={e => this.text = e}
+                   className={this.state.open ? "post-component-textarea-open" : "post-component-textarea"}
+                   onContextMenu={this.contextMenu}
+                   onFocus={() => this.setState({...this.state, placeholder: ""})}
+                   contentEditable={true}
+                   onBlur={(e) => e.target.innerText === "" ?
+                       this.setState({...this.state, placeholder: translate["Be in zist boom"], open: false}) :
+                       this.setState({...this.state, open: true})}
+                   style={{color: this.state.placeholder.length > 0 ? "#BBBBBB" : "black"}}
+              >
+                {this.state.placeholder}
               </div>
 
-              <div className='post-component-footer-contact-menu-content-title'
-                   style={{display: exchangesArr.length > 0 ? 'block' : 'none'}}>بورس ها
+              <div className='post-component-footer'>
+
+                <div className='post-component-footer-logo' onClick={this.handleContact}>?</div>
+                <div className='post-component-footer-items-style-cont'>
+                  {
+                    Object.values(this.state.labels).map(label =>
+                        <div className='post-component-footer-items-style'>
+                          <div className='post-component-footer-items-style-text'>{label}</div>
+                          <div className='post-component-footer-items-style-close'
+                               onClick={() => this.handleLabel(label)}>✕
+                          </div>
+                        </div>)
+                  }
+
+                  <div className='post-component-footer-items-style-hide'/>
+
+                  <div className='post-component-footer-send'>
+                    <div style={{display: "inline-block"}} onClick={this.handleAttach}>
+                      <AttachFileIcon className='post-component-footer-send-attach'/>
+                    </div>
+                    <button type="submit" className='post-component-footer-send-btn'>ارسال</button>
+
+                    <div ref={e => this.setWrapperRef = e}
+                         className={this.state.attachMenu ? "post-component-footer-attach-menu-container" : "post-component-footer-attach-menu-container-hide"}>
+                      <div className='post-component-footer-attach-menu'>
+                        <div className='explore-menu-items'>
+                          <AttachFileIcon className='post-component-footer-logos'/>
+                          فایل
+                        </div>
+                        <AttachFile
+                            ref={AttachPhotoInput => {
+                              this.AttachPhotoInput = AttachPhotoInput
+                            }}
+                            AttachButton={this.AttachPhotoButton}
+                            createFileAction={createFile}
+                            inputId={photoInputId}
+                            isLoadingProp={postPhotoLoading}
+                            className='explore-menu-items'
+                        />
+                        <div className='explore-menu-items'>
+                          <ContributionIcon className='post-component-footer-logos'/>
+                          ویدئو
+                        </div>
+                        <div className='explore-menu-items'>
+                          <ContributionIcon className='post-component-footer-logos'/>
+                          محصول
+                        </div>
+                        <div className='explore-menu-items'>
+                          <ContributionIcon className='post-component-footer-logos'/>
+                          لینک
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+
               </div>
 
-              <div className='post-component-footer-check-container'>
-                {
-                  exchangesArr.map(exchange =>
-                    <label className='post-component-footer-checkbox'>
-                      <input type="checkbox"
-                             checked={this.state.labels[exchange.exchange_identity_related_exchange.name] !== undefined || this.state.labels['عمومی']}
-                             onClick={() => this.handleLabel(exchange.exchange_identity_related_exchange.name)}/>
-                      <span className='checkmark'/>
-                      {exchange.exchange_identity_related_exchange.name}
-                    </label>
-                  )
+              <div style={{clear: "both"}}/>
+
+              <div ref={e => this.setWrapperSecondRef = e}
+                   className={this.state.contactMenu ? "post-component-footer-contact-menu-container" : "post-component-footer-contact-menu-container-hide"}>
+                <div className='post-component-footer-contact-menu'>
+                  <div className='post-component-footer-contact-menu-icon'>
+                    ?
+                    <span>  </span>
+                    مخاطبین
+                  </div>
+                  <div className='post-component-footer-searchbox'>
+                    <input type='text' className='post-component-footer-searchbox-input' placeholder='جستجو'
+                           onChange={(e) => this.setState({...this.state, search: e.target.value})}
+                           onKeyUp={this.submitSearchByWord}/>
+                    <FontAwesome name="search" className='post-component-footer-searchbox-icon'/>
+                  </div>
+
+                  <div className='post-component-footer-contact-menu-content'>
+                    <div className='post-component-footer-check-container'>
+                      {
+                        "عمومی".includes(this.state.search) ? <label className='post-component-footer-checkbox'>
+                              <input type="checkbox" checked={this.state.labels["عمومی"] !== undefined}
+                                     onClick={() => this.handleLabel("عمومی")}/>
+                              <span className='checkmark'/>
+                              عمومی
+                            </label>
+                            : null
+                      }
+
+                      {
+                        "دنبال کنندگان".includes(this.state.search) ? <label className='post-component-footer-checkbox'>
+                              <input type="checkbox" checked={this.state.labels["دنبال کنندگان"] !== undefined}
+                                     onClick={() => this.handleLabel("دنبال کنندگان")}/>
+                              <span className='checkmark'/>
+                              دنبال کنندگان
+                            </label>
+                            : null
+                      }
+
+                      {
+                        "دنبال کنندگانِ دنبال کنندگان".includes(this.state.search) ?
+                            <label className='post-component-footer-checkbox'>
+                              <input type="checkbox"
+                                     checked={this.state.labels["دنبال کنندگانِ دنبال کنندگان"] !== undefined}
+                                     onClick={() => this.handleLabel("دنبال کنندگانِ دنبال کنندگان")}/>
+                              <span className='checkmark'/>
+                              دنبال کنندگانِ دنبال کنندگان
+                            </label>
+                            : null
+                      }
+                    </div>
+
+                    <div className='post-component-footer-contact-menu-content-title'
+                         style={{display: exchangesArr.length > 0 ? "block" : "none"}}>بورس ها
+                    </div>
+
+                    <div className='post-component-footer-check-container'>
+                      {
+                        exchangesArr.map(exchange =>
+                            <label className='post-component-footer-checkbox'>
+                              <input type="checkbox"
+                                     checked={this.state.labels[exchange.exchange_identity_related_exchange.name] !== undefined || this.state.labels["عمومی"]}
+                                     onClick={() => this.handleLabel(exchange.exchange_identity_related_exchange.name)}/>
+                              <span className='checkmark'/>
+                              {exchange.exchange_identity_related_exchange.name}
+                            </label>
+                        )
+                      }
+                    </div>
+
+                    <div className='post-component-footer-contact-menu-content-title'
+                         style={{display: followersArr.length > 0 ? "block" : "none"}}>دنبال کنندگان
+                    </div>
+
+                    <div className='post-component-footer-check-container'>
+                      {
+                        followersArr.map(follow => {
+                              return (
+                                  <label className='post-component-footer-checkbox'>
+                                    <input type="checkbox"
+                                           checked={this.state.labels[follow.follow_follower.name] !== undefined || this.state.labels["عمومی"]}
+                                           onClick={() => this.handleLabel(follow.follow_follower.name)}/>
+                                    <span className='checkmark'/>
+                                    {follow.follow_follower.name}
+                                  </label>
+                              )
+                            }
+                        )
+                      }
+                    </div>
+                  </div>
+                  <div style={{textAlign: "left"}}>
+                    <button className='post-component-footer-cancel-btn'>لغو</button>
+                    <button className='post-component-footer-submit-btn'>ثبت</button>
+                  </div>
+                </div>
+              </div>
+              {
+                (!postPhoto) ? "" : (
+                    <div className="-fileBox">
+                      <label htmlFor={photoInputId}>
+                        <EditIcon className="edit-post-picture pulse"/>
+                        <FontAwesome name="trash" className='remove-post-picture pulse'
+                                     onClick={this._deletePicture}/>
+                      </label>
+                      <img className="contain-img" src={postPhoto.file} alt="imagePreview"/>
+                    </div>
+                )
+              }
+              <div ref={e => this.setWrapperThirdRef = e} className='post-component-context'
+                   style={{
+                     left: this.state.pageX,
+                     top: this.state.pageY,
+                     height: this.state.context ? "100px" : "0px"
+                   }}>
+                <div className='post-component-context-items' onClick={this.handleEmail}>
+                  <FontAwesome name="envelope" style={{color: "#353535", width: "20px", fontSize: "13px"}}/>
+                  ایمیل
+                </div>
+                <div className='post-component-context-items' onClick={this.handlePhone}>
+                  <FontAwesome name="phone" style={{color: "#353535", width: "20px", fontSize: "15px"}}/>
+                  تلفن
+                </div>
+              </div>
+
+            </form>
+        )
+      case "comment":
+        return (
+            <div className={"comment-container"}>
+              <div style={{display: "inline-block", width: "11%"}}>
+                {this.props.currentUserMedia !== null && this.props.currentUserMedia !== undefined ?
+                    <img alt='profile' src={this.props.currentUserMedia} className={"comment-owner"}/>
+                    :
+                    <DefaultUserIcon width='45px' height='45px'/>
                 }
               </div>
-
-              <div className='post-component-footer-contact-menu-content-title'
-                   style={{display: followersArr.length > 0 ? 'block' : 'none'}}>دنبال کنندگان
+              <div className={this.state.commentBody}>
+              <textarea ref={e => this.text = e}
+                        className={this.state.open ? "comment-text-area-open" : "comment-text-area"}
+                        placeholder={this.state.placeholder}
+                        onFocus={() => this.setState({...this.state, commentBody: "comment-body-focused"})}
+                        onBlur={(e) => e.target.value.length === 0 ? this.setState({
+                          ...this.state,
+                          open: false,
+                          commentBody: "comment-body"
+                        }) : this.setState({...this.state, open: true, commentBody: "comment-body"})}/>
+                <div className='comment-icons' contentEditable={false}>
+                  <span onClick={this.handleAttach}><AttachFileIcon className='post-component-footer-send-attach'/></span>
+                  <span onClick={() => this.createComment(this.text)}><PostSendIcon className='post-component-footer-send-attach'/></span>
+                  <div ref={e => this.setWrapperRef = e}
+                       className={this.state.attachMenu ? "post-component-footer-attach-menu-container" : "post-component-footer-attach-menu-container-hide"}>
+                    <div className='post-component-footer-attach-menu'>
+                      <div className='explore-menu-items'>
+                        <AttachFileIcon className='post-component-footer-logos'/>
+                        فایل
+                      </div>
+                      <AttachFile
+                          ref={AttachPhotoInput => {
+                            this.AttachPhotoInput = AttachPhotoInput
+                          }}
+                          AttachButton={this.AttachPhotoButton}
+                          createFileAction={createFile}
+                          inputId={photoInputId}
+                          isLoadingProp={postPhotoLoading}
+                          className='explore-menu-items'
+                      />
+                      <div className='explore-menu-items'>
+                        <ContributionIcon className='post-component-footer-logos'/>
+                        ویدئو
+                      </div>
+                      <div className='explore-menu-items'>
+                        <ContributionIcon className='post-component-footer-logos'/>
+                        محصول
+                      </div>
+                      <div className='explore-menu-items'>
+                        <ContributionIcon className='post-component-footer-logos'/>
+                        لینک
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-
-              <div className='post-component-footer-check-container'>
-                {
-                  followersArr.map(follow => {
-                      return (
-                        <label className='post-component-footer-checkbox'>
-                          <input type="checkbox"
-                                 checked={this.state.labels[follow.follow_follower.name] !== undefined || this.state.labels['عمومی']}
-                                 onClick={() => this.handleLabel(follow.follow_follower.name)}/>
-                          <span className='checkmark'/>
-                          {follow.follow_follower.name}
-                        </label>
-                      )
-                    }
-                  )
-                }
-              </div>
-
+              <div style={{clear: "both"}}/>
+              {
+                (!postPhoto) ? "" : (
+                    <div className="-fileBox">
+                      <label htmlFor={photoInputId}>
+                        <EditIcon className="edit-post-picture pulse"/>
+                        <FontAwesome name="trash" className='remove-post-picture pulse'
+                                     onClick={this._deletePicture}/>
+                      </label>
+                      <img className="contain-img" src={postPhoto.file} alt="imagePreview"/>
+                    </div>
+                )
+              }
             </div>
-
-            <div style={{textAlign: 'left'}}>
-              <button className='post-component-footer-cancel-btn'>لغو</button>
-
-              <button className='post-component-footer-submit-btn'>ثبت</button>
-            </div>
-
-          </div>
-        </div>
-
-
-        {
-          (!postPhoto) ? '' : (
-            <div className="-fileBox">
-              <label htmlFor={photoInputId}>
-                <EditIcon className="edit-post-picture pulse"/>
-                <FontAwesome name="trash" className='remove-post-picture pulse'
-                             onClick={this._deletePicture}/>
-              </label>
-              <img className="contain-img" src={postPhoto.file} alt="imagePreview"/>
-            </div>
-          )
-        }
-
-
-        <div ref={e => this.setWrapperThirdRef = e} className='post-component-context'
-             style={{left: this.state.pageX, top: this.state.pageY, height: this.state.context ? '100px' : '0px'}}>
-          <div className='post-component-context-items' onClick={this.handleEmail}>
-            <FontAwesome name="envelope" style={{color: '#353535', width: '20px', fontSize: '13px'}}/>
-            ایمیل
-          </div>
-          <div className='post-component-context-items' onClick={this.handlePhone}>
-            <FontAwesome name="phone" style={{color: '#353535', width: '20px', fontSize: '15px'}}/>
-            تلفن
-          </div>
-        </div>
-
-      </form>
-    )
+        )
+      default:
+        return (
+            <h2>
+              Component Type Needed
+            </h2>
+        )
+    }
   }
 
   handleEmail = () => {
-    let email = 'mailto:' + this.state.selectedText
+    let email = "mailto:" + this.state.selectedText
     let outEmail = `<a href=${email}>${this.state.selectedText}</a>`
     this.text.innerHTML = this.text.innerText.replace(this.state.selectedText, outEmail)
   }
 
   handlePhone = () => {
-    let email = 'tel:' + this.state.selectedText
+    let email = "tel:" + this.state.selectedText
     let outEmail = `<a href=${email}>${this.state.selectedText}</a>`
     this.text.innerHTML = this.text.innerText.replace(this.state.selectedText, outEmail)
   }
@@ -469,8 +559,8 @@ class CreatePostNew extends Component {
 const mapStateToProps = (state) => {
 
   const client = state.auth.client
-  const clientImgId = (client.user_type === 'person') ? (client.profile.profile_media) : (
-    (client.organization && client.organization.organization_logo) || null
+  const clientImgId = (client.user_type === "person") ? (client.profile.profile_media) : (
+      (client.organization && client.organization.organization_logo) || null
   )
 
   const userId = (client.organization && client.organization.id) || (client.user && client.user.id)
@@ -484,7 +574,7 @@ const mapStateToProps = (state) => {
     currentUserId: userId,
     currentUserImgId: clientImgId,
     currentUserMedia: (state.common.file.list[clientImgId] && state.common.file.list[clientImgId].file) || null,
-    currentUserName: client.user.first_name + ' ' + client.user.last_name,
+    currentUserName: client.user.first_name + " " + client.user.last_name,
     exchanges: state.common.exchangeMembership.list,
     followers: state.common.social.follows.list,
     temporaryFile,
@@ -494,12 +584,12 @@ const mapStateToProps = (state) => {
 }
 
 const
-  mapDispatchToProps = dispatch => ({
-    actions: bindActionCreators({
-      getFollowers: socialActions.getFollowers,
-      createPost: PostActions.createPost,
-      createFile: FileActions.createFile,
-      resetTemporaryFile: FileActions.resetTemporaryFile,
-    }, dispatch)
-  })
+    mapDispatchToProps = dispatch => ({
+      actions: bindActionCreators({
+        getFollowers: socialActions.getFollowers,
+        createPost: PostActions.createPost,
+        createFile: FileActions.createFile,
+        resetTemporaryFile: FileActions.resetTemporaryFile,
+      }, dispatch)
+    })
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePostNew)

@@ -79,6 +79,7 @@
 }
 
 .post-component-textarea {
+  overflow-y: auto;
   width: 100%;
   resize: none;
   border-radius: 3px;
@@ -97,6 +98,7 @@
 }
 
 .post-component-textarea-open {
+  overflow-y: auto;
   width: 100%;
   resize: none;
   border-radius: 3px;
@@ -201,13 +203,15 @@
 
 .post-component-footer-send-attach {
   fill: #BBBBBB;
-  margin-left: 10px;
   width: 20px;
   vertical-align: top;
-  margin-top: 5px;
+  margin: 3px 7.5px 0 7.5px;
   cursor: pointer;
+  display: inline-block;
+  transition-duration: $animation-timing;
   &:hover {
     fill: $brand-inverse-color;
+    transition-duration: $animation-timing;
   }
 }
 

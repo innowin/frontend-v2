@@ -29,16 +29,18 @@
   transition-duration: $animation-timing;
   //transform: translateZ(0);
   //backface-visibility: hidden;
-  &:hover{
-    //transition-duration: $animation-timing;
-    box-shadow: 0 13px 10px -6px $box-shadow-color;
-    //transform: translateY(-3px);
+  &:hover {
+    transition-duration: $animation-timing;
+    box-shadow: 0 13px 10px -7px $box-shadow-color;
+    transform: translateY(-2px);
     //border: 2px solid $post-hover-border-color;
   }
 }
+
 .remove-post-container {
   margin: 18px 18px 18px 18px;
 }
+
 .-itemWrapperPost {
   .edit-form {
     margin: 18px 18px 18px 18px;
@@ -97,15 +99,9 @@
     padding: 10px 0;
     margin-left: 18px;
     margin-right: 18px;
-
-    // TODO mohsen: handle long text
-    //overflow-x: hidden;
-    //max-width: 400px;
-    //text-overflow: ellipsis;
-
-    &:hover {
-      cursor: pointer;
-    }
+    //&:hover {
+    //  cursor: pointer; WHY POINTER ON POST CONTENT ?!?!?!?
+    //}
   }
 
   .-item-footerPost {
@@ -229,7 +225,6 @@
           outline: 0;
           padding: 0;
           height: 18px;
-
           margin-left: 15px;
           svg {
             width: 16px;
@@ -262,7 +257,6 @@
     text-decoration: none;
     padding: 13px 18px;
     border-top: 1px solid lighten($text-lighter-color, 2%);
-
 
     .-img-col {
       width: 45px;
