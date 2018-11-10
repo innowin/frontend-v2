@@ -91,14 +91,6 @@ class CreatePostNew extends Component {
       }
     }
 
-
-    if (this.setWrapperThirdRef && !this.setWrapperThirdRef.contains(event.target)) {
-      if (this.state.context) {
-        this.setState({...this.state, context: !this.state.context})
-      }
-    }
-
-
     if (!temporaryFile.content && !postFileLoading && !description) this._resetPost()
   }
 
@@ -132,21 +124,7 @@ class CreatePostNew extends Component {
         delete temp["عمومی"]
       delete temp[name]
     }
-
     this.setState({...this.state, labels: {...temp}})
-
-  }
-
-
-  contextMenu = (e) => {
-    e.preventDefault()
-    this.setState({
-      ...this.state,
-      pageX: e.pageX,
-      pageY: e.pageY,
-      context: true,
-      selectedText: window.getSelection().toString()
-    })
   }
 
   AttachPhotoButton = () => (
@@ -159,7 +137,7 @@ class CreatePostNew extends Component {
   _getValues = () => {
     const {selected} = this.state
     const {currentUserIdentity, postParentId, currentUserImgId, postPhotoId} = this.props
-    const description = this.text.innerText
+    const description = this.text.value
     return {
       post_picture: postPhotoId,
       post_description: description,
@@ -224,9 +202,7 @@ class CreatePostNew extends Component {
     if (prevProps.postsCountInThisPage < postsCountInThisPage) this._resetPost()
   }
 
-
   render() {
-
     const followersArr = Object.values(this.props.followers).filter(follow => follow.follow_follower.id !== this.props.currentUserIdentity && follow.follow_follower.name.includes(this.state.search))
     const exchangesArr = Object.values(this.props.exchanges).filter(exchange => exchange.exchange_identity_related_exchange.name.includes(this.state.search))
 
@@ -262,18 +238,14 @@ class CreatePostNew extends Component {
                 </div>
               </div>
 
-              <div ref={e => this.text = e}
-                   className={this.state.open ? "post-component-textarea-open" : "post-component-textarea"}
-                   onContextMenu={this.contextMenu}
-                   onFocus={() => this.setState({...this.state, placeholder: ""})}
-                   contentEditable={true}
-                   onBlur={(e) => e.target.innerText === "" ?
-                       this.setState({...this.state, placeholder: translate["Be in zist boom"], open: false}) :
-                       this.setState({...this.state, open: true})}
-                   style={{color: this.state.placeholder.length > 0 ? "#BBBBBB" : "black"}}
-              >
-                {this.state.placeholder}
-              </div>
+              <textarea ref={e => this.text = e}
+                        className={this.state.open ? "post-component-textarea-open" : "post-component-textarea"}
+                        placeholder='در زیست بوم باش ...'
+                        onBlur={(e) => e.target.value.length === 0 ? this.setState({
+                          ...this.state,
+                          open: false
+                        }) : this.setState({...this.state, open: true})}/>
+
 
               <div className='post-component-footer'>
 
@@ -327,137 +299,127 @@ class CreatePostNew extends Component {
                           لینک
                         </div>
                       </div>
+
                     </div>
 
+                  </div>
+
+                  <div ref={e => this.setWrapperSecondRef = e}
+                       className={this.state.contactMenu ? "post-component-footer-contact-menu-container" : "post-component-footer-contact-menu-container-hide"}>
+                    <div className='post-component-footer-contact-menu'>
+                      <div className='post-component-footer-contact-menu-icon'>
+                        ?
+                        <span>  </span>
+                        مخاطبین
+                      </div>
+                      <div className='post-component-footer-searchbox'>
+                        <input type='text' className='post-component-footer-searchbox-input' placeholder='جستجو'
+                               onChange={(e) => this.setState({...this.state, search: e.target.value})}
+                               onKeyUp={this.submitSearchByWord}/>
+                        <FontAwesome name="search" className='post-component-footer-searchbox-icon'/>
+                      </div>
+
+                      <div className='post-component-footer-contact-menu-content'>
+                        <div className='post-component-footer-check-container'>
+                          {
+                            "عمومی".includes(this.state.search) ? <label className='post-component-footer-checkbox'>
+                                  <input type="checkbox" checked={this.state.labels["عمومی"] !== undefined}
+                                         onClick={() => this.handleLabel("عمومی")}/>
+                                  <span className='checkmark'/>
+                                  عمومی
+                                </label>
+                                : null
+                          }
+
+                          {
+                            "دنبال کنندگان".includes(this.state.search) ?
+                                <label className='post-component-footer-checkbox'>
+                                  <input type="checkbox" checked={this.state.labels["دنبال کنندگان"] !== undefined}
+                                         onClick={() => this.handleLabel("دنبال کنندگان")}/>
+                                  <span className='checkmark'/>
+                                  دنبال کنندگان
+                                </label>
+                                : null
+                          }
+
+                          {
+                            "دنبال کنندگانِ دنبال کنندگان".includes(this.state.search) ?
+                                <label className='post-component-footer-checkbox'>
+                                  <input type="checkbox"
+                                         checked={this.state.labels["دنبال کنندگانِ دنبال کنندگان"] !== undefined}
+                                         onClick={() => this.handleLabel("دنبال کنندگانِ دنبال کنندگان")}/>
+                                  <span className='checkmark'/>
+                                  دنبال کنندگانِ دنبال کنندگان
+                                </label>
+                                : null
+                          }
+                        </div>
+
+                        <div className='post-component-footer-contact-menu-content-title'
+                             style={{display: exchangesArr.length > 0 ? "block" : "none"}}>بورس ها
+                        </div>
+
+                        <div className='post-component-footer-check-container'>
+                          {
+                            exchangesArr.map(exchange =>
+                                <label className='post-component-footer-checkbox'>
+                                  <input type="checkbox"
+                                         checked={this.state.labels[exchange.exchange_identity_related_exchange.name] !== undefined || this.state.labels["عمومی"]}
+                                         onClick={() => this.handleLabel(exchange.exchange_identity_related_exchange.name)}/>
+                                  <span className='checkmark'/>
+                                  {exchange.exchange_identity_related_exchange.name}
+                                </label>
+                            )
+                          }
+                        </div>
+
+                        <div className='post-component-footer-contact-menu-content-title'
+                             style={{display: followersArr.length > 0 ? "block" : "none"}}>دنبال کنندگان
+                        </div>
+
+                        <div className='post-component-footer-check-container'>
+                          {
+                            followersArr.map(follow => {
+                                  return (
+                                      <label className='post-component-footer-checkbox'>
+                                        <input type="checkbox"
+                                               checked={this.state.labels[follow.follow_follower.name] !== undefined || this.state.labels["عمومی"]}
+                                               onClick={() => this.handleLabel(follow.follow_follower.name)}/>
+                                        <span className='checkmark'/>
+                                        {follow.follow_follower.name}
+                                      </label>
+                                  )
+                                }
+                            )
+                          }
+                        </div>
+
+                      </div>
+
+                      <div style={{textAlign: "left"}}>
+                        <button className='post-component-footer-cancel-btn'>لغو</button>
+                        <button className='post-component-footer-submit-btn'>ثبت</button>
+                      </div>
+
+                    </div>
                   </div>
 
                 </div>
 
-              </div>
+                <div style={{clear: "both"}}/>
 
-              <div style={{clear: "both"}}/>
-
-              <div ref={e => this.setWrapperSecondRef = e}
-                   className={this.state.contactMenu ? "post-component-footer-contact-menu-container" : "post-component-footer-contact-menu-container-hide"}>
-                <div className='post-component-footer-contact-menu'>
-                  <div className='post-component-footer-contact-menu-icon'>
-                    ?
-                    <span>  </span>
-                    مخاطبین
-                  </div>
-                  <div className='post-component-footer-searchbox'>
-                    <input type='text' className='post-component-footer-searchbox-input' placeholder='جستجو'
-                           onChange={(e) => this.setState({...this.state, search: e.target.value})}
-                           onKeyUp={this.submitSearchByWord}/>
-                    <FontAwesome name="search" className='post-component-footer-searchbox-icon'/>
-                  </div>
-
-                  <div className='post-component-footer-contact-menu-content'>
-                    <div className='post-component-footer-check-container'>
-                      {
-                        "عمومی".includes(this.state.search) ? <label className='post-component-footer-checkbox'>
-                              <input type="checkbox" checked={this.state.labels["عمومی"] !== undefined}
-                                     onClick={() => this.handleLabel("عمومی")}/>
-                              <span className='checkmark'/>
-                              عمومی
-                            </label>
-                            : null
-                      }
-
-                      {
-                        "دنبال کنندگان".includes(this.state.search) ? <label className='post-component-footer-checkbox'>
-                              <input type="checkbox" checked={this.state.labels["دنبال کنندگان"] !== undefined}
-                                     onClick={() => this.handleLabel("دنبال کنندگان")}/>
-                              <span className='checkmark'/>
-                              دنبال کنندگان
-                            </label>
-                            : null
-                      }
-
-                      {
-                        "دنبال کنندگانِ دنبال کنندگان".includes(this.state.search) ?
-                            <label className='post-component-footer-checkbox'>
-                              <input type="checkbox"
-                                     checked={this.state.labels["دنبال کنندگانِ دنبال کنندگان"] !== undefined}
-                                     onClick={() => this.handleLabel("دنبال کنندگانِ دنبال کنندگان")}/>
-                              <span className='checkmark'/>
-                              دنبال کنندگانِ دنبال کنندگان
-                            </label>
-                            : null
-                      }
-                    </div>
-
-                    <div className='post-component-footer-contact-menu-content-title'
-                         style={{display: exchangesArr.length > 0 ? "block" : "none"}}>بورس ها
-                    </div>
-
-                    <div className='post-component-footer-check-container'>
-                      {
-                        exchangesArr.map(exchange =>
-                            <label className='post-component-footer-checkbox'>
-                              <input type="checkbox"
-                                     checked={this.state.labels[exchange.exchange_identity_related_exchange.name] !== undefined || this.state.labels["عمومی"]}
-                                     onClick={() => this.handleLabel(exchange.exchange_identity_related_exchange.name)}/>
-                              <span className='checkmark'/>
-                              {exchange.exchange_identity_related_exchange.name}
-                            </label>
-                        )
-                      }
-                    </div>
-
-                    <div className='post-component-footer-contact-menu-content-title'
-                         style={{display: followersArr.length > 0 ? "block" : "none"}}>دنبال کنندگان
-                    </div>
-
-                    <div className='post-component-footer-check-container'>
-                      {
-                        followersArr.map(follow => {
-                              return (
-                                  <label className='post-component-footer-checkbox'>
-                                    <input type="checkbox"
-                                           checked={this.state.labels[follow.follow_follower.name] !== undefined || this.state.labels["عمومی"]}
-                                           onClick={() => this.handleLabel(follow.follow_follower.name)}/>
-                                    <span className='checkmark'/>
-                                    {follow.follow_follower.name}
-                                  </label>
-                              )
-                            }
-                        )
-                      }
-                    </div>
-                  </div>
-                  <div style={{textAlign: "left"}}>
-                    <button className='post-component-footer-cancel-btn'>لغو</button>
-                    <button className='post-component-footer-submit-btn'>ثبت</button>
-                  </div>
-                </div>
-              </div>
-              {
-                (!postPhoto) ? "" : (
-                    <div className="-fileBox">
-                      <label htmlFor={photoInputId}>
-                        <EditIcon className="edit-post-picture pulse"/>
-                        <FontAwesome name="trash" className='remove-post-picture pulse'
-                                     onClick={this._deletePicture}/>
-                      </label>
-                      <img className="contain-img" src={postPhoto.file} alt="imagePreview"/>
-                    </div>
-                )
-              }
-              <div ref={e => this.setWrapperThirdRef = e} className='post-component-context'
-                   style={{
-                     left: this.state.pageX,
-                     top: this.state.pageY,
-                     height: this.state.context ? "100px" : "0px"
-                   }}>
-                <div className='post-component-context-items' onClick={this.handleEmail}>
-                  <FontAwesome name="envelope" style={{color: "#353535", width: "20px", fontSize: "13px"}}/>
-                  ایمیل
-                </div>
-                <div className='post-component-context-items' onClick={this.handlePhone}>
-                  <FontAwesome name="phone" style={{color: "#353535", width: "20px", fontSize: "15px"}}/>
-                  تلفن
-                </div>
+                {
+                  (!postPhoto) ? "" : (
+                      <div className="-fileBox">
+                        <label htmlFor={photoInputId}>
+                          <EditIcon className="edit-post-picture pulse"/>
+                          <FontAwesome name="trash" className='remove-post-picture pulse'
+                                       onClick={this._deletePicture}/>
+                        </label>
+                        <img className="contain-img" src={postPhoto.file} alt="imagePreview"/>
+                      </div>
+                  )
+                }
               </div>
 
             </form>
@@ -483,8 +445,10 @@ class CreatePostNew extends Component {
                           commentBody: "comment-body"
                         }) : this.setState({...this.state, open: true, commentBody: "comment-body"})}/>
                 <div className='comment-icons' contentEditable={false}>
-                  <span onClick={this.handleAttach}><AttachFileIcon className='post-component-footer-send-attach'/></span>
-                  <span onClick={() => this.createComment(this.text)}><PostSendIcon className='post-component-footer-send-attach'/></span>
+                  <span onClick={this.handleAttach}><AttachFileIcon
+                      className='post-component-footer-send-attach'/></span>
+                  <span onClick={() => this.createComment(this.text)}><PostSendIcon
+                      className='post-component-footer-send-attach'/></span>
                   <div ref={e => this.setWrapperRef = e}
                        className={this.state.attachMenu ? "post-component-footer-attach-menu-container" : "post-component-footer-attach-menu-container-hide"}>
                     <div className='post-component-footer-attach-menu'>
@@ -554,7 +518,6 @@ class CreatePostNew extends Component {
     this.text.innerHTML = this.text.innerText.replace(this.state.selectedText, outEmail)
   }
 }
-
 
 const mapStateToProps = (state) => {
 

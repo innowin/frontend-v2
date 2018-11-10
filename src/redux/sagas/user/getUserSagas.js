@@ -70,3 +70,35 @@ export function* getUsers(action) {
     socketChannel.close()
   }
 }
+
+export function* getAllUsers(action) {
+  const {limit, offset} = action.payload
+  const socketChannel = yield call(api.createSocketChannel, results.USER.GET_ALL_USERS)
+  try {
+    yield fork(
+        api.get,
+        urls.USER.GET_ALL_USERS,
+        results.USER.GET_ALL_USERS,
+        `?limit=${limit}&offset=${offset}`
+    )
+    const data = yield take(socketChannel)
+    yield put({type: types.SUCCESS.USER.GET_ALL_USERS, payload: {data}})
+// Added for get followees
+//     const identityId = yield select((state) => state.auth.client.identity.content)
+//     const exchangeMembershipOwnerId = yield select((state) => state.auth.client.user.id)
+//     const exchangeMembershipOwnerType = yield select((state) => state.auth.client.user_type)
+//     yield put({
+//       type: types.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY,
+//       payload: {identityId, exchangeMembershipOwnerId, exchangeMembershipOwnerType}
+//     })
+//end
+  } catch (err) {
+    const {message} = err
+    yield put({
+      type: types.ERROR.USER.GET_ALL_USERS,
+      payload: {message}
+    })
+  } finally {
+    socketChannel.close()
+  }
+}

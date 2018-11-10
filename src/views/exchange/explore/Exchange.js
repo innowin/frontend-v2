@@ -74,7 +74,7 @@ class Exchange extends Component <appProps, appState> {
         <div className='exchange-model'>
           <Link to={`/exchange/${data.id}`} style={{textDecoration: 'none', color: 'black'}}>
             {(data.exchange_image) ?
-                  <img src={data.exchange_image.file.includes('restful.daneshboom.ir/') ? data.exchange_image.file : 'http://restful.daneshboom.ir/' + data.exchange_image.file} alt={data.name}
+                  <img src={data.exchange_image.file.includes('restful.daneshboom.ir/') ? data.exchange_image.file : 'https://restful.daneshboom.ir/' + data.exchange_image.file} alt={data.name}
                        className='exchange-model-avatar'/>
                 :
                 <DefaultUserIcon width='80px' height='80px'/>

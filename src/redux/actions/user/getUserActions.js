@@ -16,10 +16,16 @@ const getUsers = () => ({
   payload:{}
 })
 
+const getAllUsers = (limit, offset) => ({
+  type:types.USER.GET_ALL_USERS,
+  payload: {limit, offset}
+})
+
 const GetUserActions = {
   getUserByUserId,
   getProfileByUserId,
   getUsers,
+  getAllUsers
 }
 
 export default GetUserActions

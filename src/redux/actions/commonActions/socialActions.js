@@ -1,6 +1,7 @@
 import types from '../types'
 
 const getFollowees = ({followOwnerIdentity, followOwnerId, followOwnerType}) => {
+  console.log('this is get followees action data: ', {followOwnerIdentity, followOwnerId, followOwnerType})
   return{
     type: types.COMMON.SOCIAL.GET_FOLLOWEES,
     payload: {

@@ -12,7 +12,7 @@ const makeFileSelectorByKeyValue = () => {
   return createSelector(
       [getFiles, getWantedKey, getWantedValue],
       (list, wantedKey, wantedValue) => {
-        const files = helpers.filterNestedObjByKey(list, wantedKey, wantedValue)
+        const files = list ? helpers.filterNestedObjByKey(list, wantedKey, wantedValue) : {}
         return Object.values(files).map(file => file)
       })
 }
