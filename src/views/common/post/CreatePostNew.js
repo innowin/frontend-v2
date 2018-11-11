@@ -15,10 +15,14 @@ import DefaultUserIcon from "../../../images/defaults/defaultUser_svg"
 import socialActions from "src/redux/actions/commonActions/socialActions"
 import SupplyIcon from "../../../images/common/supply_svg"
 import {getMessages} from "src/redux/selectors/translateSelector"
-import EditIcon from "../../../images/common/edit.svg"
 import "src/styles/components/common/comment.scss"
 import PostSendIcon from "../../../images/common/postSend_svg"
 import CommentActions from "../../../redux/actions/commonActions/commentActions"
+import {createFileFunc} from "src/views/common/Functions"
+import types from "../../../redux/actions/types"
+
+const timeStamp = new Date().toISOString()
+
 
 class CreatePostNew extends Component {
   static defaultProps = {
@@ -46,16 +50,16 @@ class CreatePostNew extends Component {
       context: false,
       pageX: 0,
       pageY: 0,
-      placeholder: "",
-      selectedText: "",
-      commentBody: "comment-body"
+      commentBody: "comment-body",
+      placeholder: '',
+      selectedText: '',
+      postPhotos: []
     }
   }
 
   componentDidMount() {
     const {actions, componentType, translate} = this.props
-    const {resetTemporaryFile, getFollowers} = actions
-    resetTemporaryFile()
+    const {getFollowers} = actions
     getFollowers({
       followOwnerIdentity: this.props.currentUserIdentity,
       followOwnerType: this.props.currentUserType,
@@ -66,20 +70,26 @@ class CreatePostNew extends Component {
     componentType === "post" && this.setState({...this.state, placeholder: translate["Be in zist boom"]})
   }
 
+  componentDidUpdate(prevProps) {
+    const {postsCountInThisPage} = this.props
+    if (prevProps.postsCountInThisPage < postsCountInThisPage) {
+      this._resetPost()
+    }
+  }
+
   componentWillUnmount() {
     document.removeEventListener("mousedown", this.handleClickOutside)
   }
 
-  // _resetPost = () => {
-  //   // this.props.actions.resetTemporaryFile()
-  //   console.log("JUST_RESET_POST_LOG")
-  // }
+
+  _resetPost = () => {
+    this.setState({...this.state, open: false, selected: 'post', postPhotos: []})
+    this.text.innerText = ''
+  }
 
   handleClickOutside = (event) => {
-    const {temporaryFile} = this.props
-    const postFileLoading = temporaryFile.isLoading
+    const {postPhotos} = this.state
     const description = this.text ? this.text.innerText : null
-
 
     if (this.setWrapperRef && !this.setWrapperRef.contains(event.target)) {
       if (this.state.attachMenu) {
@@ -93,7 +103,7 @@ class CreatePostNew extends Component {
       }
     }
 
-    // if (!temporaryFile.content && !postFileLoading && !description) this._resetPost()
+    if (!postPhotos && !description) this._resetPost()
   }
 
   handleSelectShare = () => {
@@ -138,10 +148,10 @@ class CreatePostNew extends Component {
 
   _getValues = () => {
     const {selected} = this.state
-    const {currentUserIdentity, postParentId, currentUserImgId, postPhotoId} = this.props
+    const {currentUserIdentity, postParentId, currentUserImgId, postPhotoIds} = this.props
     const description = this.text.value
     return {
-      post_picture: postPhotoId,
+      post_picture: postPhotoIds[0] || null,
       post_description: description,
       post_title: "without title",
       post_type: selected,
@@ -169,7 +179,19 @@ class CreatePostNew extends Component {
 
   _save = () => {
     const {actions, currentUserId, currentUserType, postParentId, postParentType} = this.props
-    const {createPost} = actions
+    const {createPost, createFile} = actions
+    const {postPhotos} = this.state
+    const nextActionTypesForPosPictures = types.COMMON.SET_FILE_IDS_IN_TEMP_FILE
+    const nextActionDataForPostPictures = {tempFileChildName: timeStamp}
+    const fileIdKey = 'fileId'
+    const postPicturesCreateArguments = {
+      fileIdKey,
+      nextActionType:nextActionTypesForPosPictures,
+      nextActionData:nextActionDataForPostPictures,
+    }
+    postPhotos.map(fileString => {
+      return createFileFunc(createFile, fileString, postPicturesCreateArguments)
+    })
     const formValues = this._getValues()
     return createPost({
       formValues, postOwnerId: currentUserId, postOwnerType: currentUserType, postParentId, postParentType
@@ -184,10 +206,11 @@ class CreatePostNew extends Component {
     return false
   }
 
-  _deletePicture = () => {
-    const {resetTemporaryFile} = this.props.actions
-    resetTemporaryFile()
+  _handleBase64 = (fileString) => {
+    const {postPhotos} = this.state
+    this.setState({...this.state, postPhotos: [...postPhotos, fileString]})
   }
+
 
   createComment(commentTextField) {
     if (commentTextField && commentTextField.value) {
@@ -199,20 +222,17 @@ class CreatePostNew extends Component {
     }
   }
 
-  // componentDidUpdate(prevProps) {
-  //   const {postsCountInThisPage} = this.props
-  //   if (prevProps.postsCountInThisPage < postsCountInThisPage) this._resetPost()
-  // }
+  _deletePicture = (i) => {
+    const {postPhotos} = this.state
+    const newPostPhotos = postPhotos.slice(0, i).concat(postPhotos.slice(i + 1))
+    this.setState({...this.state, postPhotos: newPostPhotos})
+  }
 
   render() {
     const followersArr = Object.values(this.props.followers).filter(follow => follow.follow_follower.id !== this.props.currentUserIdentity && follow.follow_follower.name.includes(this.state.search))
     const exchangesArr = Object.values(this.props.exchanges).filter(exchange => exchange.exchange_identity_related_exchange.name.includes(this.state.search))
-
-    const {className, translate, temporaryFile, actions, componentType} = this.props
-    const {createFile} = actions
-    const postPhoto = temporaryFile.content
-    const postPhotoLoading = temporaryFile.isLoading
-    const photoInputId = "AttachPhotoInput"
+    const {className, componentType, currentUserMedia, currentUserName} = this.props
+    const {postPhotos} = this.state
 
     switch (componentType) {
       case "post":
@@ -220,12 +240,12 @@ class CreatePostNew extends Component {
             <form className={"post-component-container " + className} onSubmit={this._onSubmit}>
               <div className='post-component-header'>
                 <div>
-                  {this.props.currentUserMedia !== null && this.props.currentUserMedia !== undefined ?
-                      <img alt='profile' src={this.props.currentUserMedia} className='post-component-header-img'/>
+                  {currentUserMedia !== null && currentUserMedia !== undefined ?
+                      <img alt='profile' src={currentUserMedia} className='post-component-header-img'/>
                       :
                       <DefaultUserIcon width='45px' height='45px'/>
                   }
-                  {this.props.currentUserName}
+                  {currentUserName}
                 </div>
                 <div className='post-component-header-item'>
                   <Share
@@ -279,14 +299,12 @@ class CreatePostNew extends Component {
                           فایل
                         </div>
                         <AttachFile
-                            ref={AttachPhotoInput => {
-                              this.AttachPhotoInput = AttachPhotoInput
-                            }}
-                            AttachButton={this.AttachPhotoButton}
-                            createFileAction={createFile}
-                            inputId={photoInputId}
-                            isLoadingProp={postPhotoLoading}
-                            className='explore-menu-items'
+                          ref={e => this.AttachPhotoInput = e}
+                          AttachButton={this.AttachPhotoButton}
+                          inputId='AttachPicturesInput'
+                          // isLoadingProp={postPhotoLoading}
+                          className='explore-menu-items'
+                          handleBase64={this._handleBase64}
                         />
                         <div className='explore-menu-items'>
                           <ContributionIcon className='post-component-footer-logos'/>
@@ -304,6 +322,19 @@ class CreatePostNew extends Component {
 
                     </div>
 
+                  </div>
+                  <div className="post-attached-pictures">
+                  {
+                    postPhotos.map((fileString, i) => {
+                        return (
+                          <div>
+                            <span onClick={() => this._deletePicture(i)} className='remove-post-picture pulse'>x</span>
+                            <img src={fileString} alt="imagePreview"/>
+                          </div>
+                        )
+                      }
+                    )
+                  }
                   </div>
 
                   <div ref={e => this.setWrapperSecondRef = e}
@@ -409,19 +440,6 @@ class CreatePostNew extends Component {
                 </div>
 
                 <div style={{clear: "both"}}/>
-
-                {
-                  (!postPhoto) ? "" : (
-                      <div className="-fileBox">
-                        <label htmlFor={photoInputId}>
-                          <EditIcon className="edit-post-picture pulse"/>
-                          <FontAwesome name="trash" className='remove-post-picture pulse'
-                                       onClick={this._deletePicture}/>
-                        </label>
-                        <img className="contain-img" src={postPhoto.file} alt="imagePreview"/>
-                      </div>
-                  )
-                }
               </div>
 
             </form>
@@ -459,14 +477,12 @@ class CreatePostNew extends Component {
                         فایل
                       </div>
                       <AttachFile
-                          ref={AttachPhotoInput => {
-                            this.AttachPhotoInput = AttachPhotoInput
-                          }}
-                          AttachButton={this.AttachPhotoButton}
-                          createFileAction={createFile}
-                          inputId={photoInputId}
-                          isLoadingProp={postPhotoLoading}
-                          className='explore-menu-items'
+                        ref={e => this.AttachPhotoInput = e}
+                        AttachButton={this.AttachPhotoButton}
+                        inputId='AttachPicturesInput'
+                        // isLoadingProp={postPhotoLoading}
+                        className='explore-menu-items'
+                        handleBase64={this._handleBase64}
                       />
                       <div className='explore-menu-items'>
                         <ContributionIcon className='post-component-footer-logos'/>
@@ -486,15 +502,14 @@ class CreatePostNew extends Component {
               </div>
               <div style={{clear: "both"}}/>
               {
-                (!postPhoto) ? "" : (
-                    <div className="-fileBox">
-                      <label htmlFor={photoInputId}>
-                        <EditIcon className="edit-post-picture pulse"/>
-                        <FontAwesome name="trash" className='remove-post-picture pulse'
-                                     onClick={this._deletePicture}/>
-                      </label>
-                      <img className="contain-img" src={postPhoto.file} alt="imagePreview"/>
-                    </div>
+                postPhotos.map((fileString, i) => {
+                    return (
+                      <div>
+                        <span onClick={() => this._deletePicture(i)} className='remove-post-picture pulse'>x</span>
+                        <img src={fileString} alt="imagePreview"/>
+                      </div>
+                    )
+                  }
                 )
               }
             </div>
@@ -530,8 +545,8 @@ const mapStateToProps = (state) => {
 
   const userId = (client.organization && client.organization.id) || (client.user && client.user.id)
 
-  const temporaryFile = state.common.file.temporaryFile
-  const postPhotoId = (temporaryFile.content && temporaryFile.content.id) || null
+  const tempPostPictures = state.temp.file[timeStamp]
+  const postPhotoIds = tempPostPictures || []
 
   return ({
     currentUserType: client.user_type,
@@ -542,20 +557,17 @@ const mapStateToProps = (state) => {
     currentUserName: client.user.first_name + " " + client.user.last_name,
     exchanges: state.common.exchangeMembership.list,
     followers: state.common.social.follows.list,
-    temporaryFile,
-    postPhotoId,
+    postPhotoIds,
     translate: getMessages(state)
   })
 }
 
-const
-    mapDispatchToProps = dispatch => ({
-      actions: bindActionCreators({
-        getFollowers: socialActions.getFollowers,
-        createPost: PostActions.createPost,
-        createFile: FileActions.createFile,
-        resetTemporaryFile: FileActions.resetTemporaryFile,
-        createComment: CommentActions.createComment,
-      }, dispatch)
-    })
+const mapDispatchToProps = dispatch => ({
+    actions: bindActionCreators({
+      getFollowers: socialActions.getFollowers,
+      createPost: PostActions.createPost,
+      createFile: FileActions.createFile,
+    createComment: CommentActions.createComment,
+    }, dispatch)
+  })
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePostNew)

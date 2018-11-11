@@ -42,7 +42,6 @@ function* createFile(action) { // payload?
     }
 
     yield put({type: types.SUCCESS.COMMON.CREATE_FILE, payload: {data}})
-    yield put({type: types.COMMON.SET_CREATED_FILE_IN_TEMPORARY_FILE, payload: {data}})
     if (nextActionType) yield put({type: nextActionType, payload})
 
   } catch (error) {

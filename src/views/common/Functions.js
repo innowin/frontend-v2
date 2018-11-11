@@ -15,3 +15,12 @@ export const list_of_badge = (myValue: (?string)[]): (?React.Element<'span'>)[] 
     return []
   }
 };
+
+type createArguments = {
+  nextActionData:{}, nextActionType:string, fileIdKey:?number | ?string
+}
+export const createFileFunc = (createFileAction:Function, fileString:string, createArguments:createArguments) => {
+  const {nextActionData, nextActionType, fileIdKey} = createArguments
+  const data = {file_string: fileString, nextActionData, nextActionType, fileIdKey}
+  createFileAction(data)
+}
