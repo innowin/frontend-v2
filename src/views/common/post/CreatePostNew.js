@@ -242,7 +242,6 @@ class CreatePostNew extends Component {
 
     const {className, translate} = this.props
     const {postPhotos} = this.state
-    const photoInputId = 'AttachPhotoInput'
 
     return (
       <form className={'post-component-container ' + className} onSubmit={this._onSubmit}>
@@ -312,7 +311,7 @@ class CreatePostNew extends Component {
                   <AttachFile
                     ref={e => this.AttachPhotoInput = e}
                     AttachButton={this.AttachPhotoButton}
-                    inputId={photoInputId}
+                    inputId='AttachPicturesInput'
                     // isLoadingProp={postPhotoLoading}
                     className='explore-menu-items'
                     handleBase64={this._handleBase64}
@@ -336,6 +335,20 @@ class CreatePostNew extends Component {
 
           </div>
 
+        </div>
+
+        <div className="post-attached-pictures">
+        {
+          postPhotos.map((fileString, i) => {
+              return (
+                <div>
+                  <span onClick={() => this._deletePicture(i)} className='remove-post-picture pulse'>x</span>
+                  <img src={fileString} alt="imagePreview"/>
+                </div>
+              )
+            }
+          )
+        }
         </div>
 
         <div style={{clear: 'both'}}/>
@@ -438,25 +451,6 @@ class CreatePostNew extends Component {
 
           </div>
         </div>
-
-        {
-          postPhotos.map((fileString, i) => {
-              return (
-                <div className="-fileBox">
-                  <label htmlFor={photoInputId}>
-                    <EditIcon className="edit-post-picture pulse"/>
-                  </label>
-                  <FontAwesome name="trash"
-                               className='remove-post-picture pulse'
-                               onClick={() => this._deletePicture(i)}
-                  />
-                  <img className="contain-img" src={fileString} alt="imagePreview"/>
-                </div>
-              )
-            }
-          )
-        }
-
 
         <div ref={e => this.setWrapperThirdRef = e} className='post-component-context'
              style={{left: this.state.pageX, top: this.state.pageY, height: this.state.context ? '100px' : '0px'}}>
