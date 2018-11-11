@@ -26,6 +26,7 @@ import PostComments from "./PostComments"
 import {Confirm} from "../cards/Confirm"
 import {ClipLoader} from "react-spinners"
 import CreatePostNew from "./CreatePostNew"
+import ProductInfoView from "../contributions/ProductInfoView";
 
 type postExtendedViewProps = {
   actions: {
@@ -84,7 +85,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
   componentDidMount() {
     const {extendedView, post, actions} = this.props
-    if (post.post_picture) {
+    if (post && post.post_picture) {
       let {getFile} = actions
       getFile(post.post_picture.id)
     }
@@ -219,12 +220,18 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   render() {
     const {post, translate, postIdentity, postRelatedIdentityImage, userImage, extendedView, showEdit, comments, fileList, commentParentType} = this.props
     const {menuToggle, confirm} = this.state
-    let postDescription, postPicture, postPictureId
+    let postDescription, postPicture, postPictureId, postIdentityUserId, postIdentityOrganId, postOwnerId = 0
+    console.log(post, 'posssttt')
     if (post) {
       postDescription = post.post_description
       postPicture = post.post_picture
       postPictureId = post.post_picture
+
+      postIdentityUserId = post.post_identity.identity_user && post.post_identity.identity_user.id
+      postIdentityOrganId = post.post_identity.identity_organization && post.post_identity.identity_organization.id
+      postOwnerId = postIdentityUserId || postIdentityOrganId
     }
+
     return (
         confirm
             ? <div className={extendedView ? "post-view-container remove-post-container" : "remove-post-container"}>
@@ -261,6 +268,14 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                                className={"post-image"}/>
                         </div> : null
                 }
+
+                {post && post.post_related_product &&
+                <div className='post-view-product-container'>
+                  <ProductInfoView product={post.post_related_product} ownerId={postOwnerId}
+                                   translate={translate}/>
+                </div>
+                }
+
 
                 <PostFooter post={post} postIdentity={postIdentity} translate={translate} extendedView={extendedView}
                             menuToggle={menuToggle} openMenu={this.openMenu}

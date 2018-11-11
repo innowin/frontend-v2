@@ -11,6 +11,11 @@ export function* getPostByIdentity(action) {
     yield fork(api.get, urls.COMMON.POST, results.COMMON.POST.GET_POST_BY_IDENTITY, `?post_identity_id=${postIdentity}`)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.COMMON.POST.GET_POST_BY_IDENTITY , payload:{data, postIdentity, postOwnerId, postOwnerType}})
+    for(let post of data){
+      if(post.post_related_product) {
+        yield put({type: types.COMMON.GET_PRODUCT_INFO, payload: {id: post.post_related_product.id}})
+      }
+    }
   } catch (error) {
     const {message} = error
     yield put({
