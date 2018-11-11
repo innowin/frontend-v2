@@ -10,19 +10,23 @@ import constants from 'src/consts/constants'
 
 type PropsProductInfo = {
   product: ProductGetType,
-  showEdit: Function,
+  showEdit?: Function,
   ownerId: number,
   translate: { [string]: string }
 }
 
 const ProductInfoView = (props: PropsProductInfo) => {
   const {product, showEdit, ownerId, translate} = props
-  let url
-  if (product.product_owner.identity_user) {
-    url = `/user/${product.product_owner.identity_user.id}`
-  }
-  else {
-    url = `/organization/${product.product_owner.identity_organization.id}`
+  let url = '', productOwner = product.product_owner
+  if (product) {
+    if (productOwner) {
+      if (productOwner.identity_user) {
+        url = `/user/${productOwner.identity_user.id || productOwner.identity_user}`
+      }
+      else {
+        url = `/organization/${productOwner.identity_organization.id || productOwner.identity_organization}`
+      }
+    }
   }
   // FixMe: mohammad isLoading and error come from redux
   // TODO: mohammad show modal for show more button
@@ -34,9 +38,11 @@ const ProductInfoView = (props: PropsProductInfo) => {
       <div className='contribution-view-container product-view-container'>
         <CheckOwner id={ownerId}>
           <div className={product.img && 'product-edit-container'}>
+            {showEdit &&
             <div className="product-edit contribution-edit -item-edit-btn pulse" onClick={showEdit}>
               <EditIcon/>
             </div>
+            }
           </div>
         </CheckOwner>
         <div className='product-content-container'>
@@ -49,7 +55,7 @@ const ProductInfoView = (props: PropsProductInfo) => {
               </Link>
             </div>
             <Link to={url} className='product-owner-name'>
-              <p>{product.product_owner.name}</p>
+              <p>{productOwner && productOwner.name}</p>
             </Link>
             <div className='price-show-container'>
               <p>{translate['Price'] + ': '}
@@ -85,7 +91,7 @@ const ProductInfoView = (props: PropsProductInfo) => {
 
 ProductInfoView.propTypes = {
   product: PropTypes.object.isRequired,
-  showEdit: PropTypes.func.isRequired,
+  showEdit: PropTypes.func,
   ownerId: PropTypes.number.isRequired,
   translate: PropTypes.object.isRequired,
 }
