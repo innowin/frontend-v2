@@ -2,6 +2,11 @@
 import * as React from 'react'
 import {Component} from 'react'
 import {DefaultUserIcon} from "src/images/icons"
+import {bindActionCreators} from "redux"
+import identityActions from "../../../redux/actions/identityActions"
+import connect from "react-redux/es/connect/connect"
+import socialActions from "../../../redux/actions/commonActions/socialActions"
+import {ClipLoader} from "react-spinners"
 
 type appProps =
     {|
@@ -14,6 +19,49 @@ type appState =
     {||}
 
 class User extends Component <appProps, appState> {
+  constructor(props) {
+    super(props)
+    this.state =
+        {
+          follow: false,
+          followLoading: false
+        }
+  }
+
+  follow = () => {
+
+    this.setState({followLoading: true}, () => {
+      if (this.props.identities[this.props.data.user.id] !== undefined && this.props.identities[this.props.data.user.id].identity.content !== null) {
+        const formValues = {follow_follower: this.props.currentUserIdentity, follow_followed: this.props.identities[this.props.data.user.id].identity.content}
+        this.props.actions.follow({formValues, followOwnerId: this.props.currentUserId, followOwnerType: this.props.currentUserType})
+      }
+      else {
+        this.setState({...this.state, follow: true})
+        this.props.actions.getUserIdentity(this.props.data.user.id)
+      }
+    })
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.state.follow && (this.props.identities[this.props.data.user.id] !== undefined && this.props.identities[this.props.data.user.id].identity.content !== null)) {
+      this.setState({...this.state, follow: false}, () => {
+        const formValues = {follow_follower: this.props.currentUserIdentity, follow_followed: nextProps.identities[this.props.data.user.id].identity.content}
+        this.props.actions.follow({formValues, followOwnerId: this.props.currentUserId, followOwnerType: this.props.currentUserType})
+      })
+    }
+  }
+
+  renderFollowed(data, followees) {
+    if (followees[data.user.id] !== undefined) {
+      return <button className='user-follow'>دنبال شده</button>
+    }
+    else if (this.state.followLoading) {
+      return <div className='user-follow-loading'><ClipLoader color='#008057' size={19}/></div>
+    }
+    else return <button className='user-followed' onClick={this.follow}>دنبال کردن</button>
+
+  }
+
   render() {
     const {data, followees} = this.props
     return (
@@ -47,14 +95,30 @@ class User extends Component <appProps, appState> {
             }
           </div>
 
-          {followees[data.user.id] !== undefined ?
-              <button className='user-follow'>دنبال شده</button>
-              :
-              <button className='user-followed'>دنبال کردن</button>
+          {
+            this.renderFollowed(data, followees)
           }
+
         </div>
     )
   }
 }
 
-export default User
+const mapStateToProps = (state) => {
+  const userId = state.auth.client.organization !== null ? state.auth.client.organization.id : state.auth.client.user.id
+  return {
+    currentUserType: state.auth.client.user_type,
+    currentUserIdentity: state.auth.client.identity.content,
+    currentUserId: userId,
+    identities: state.users.list,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators({
+    getUserIdentity: identityActions.getUserIdentity,
+    getOrgIdentity: identityActions.getOrgIdentity,
+    follow: socialActions.createFollow,
+  }, dispatch)
+})
+export default connect(mapStateToProps, mapDispatchToProps)(User)

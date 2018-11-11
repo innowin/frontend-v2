@@ -373,5 +373,16 @@
   width: 80px;
   padding-top: 3px;
   height: 27px;
+}
 
+.user-follow-loading {
+  font-size: $font-size-smallText;
+  border: 1px solid $tag-del-btn-background;
+  color: $tag-del-btn-background;
+  border-radius: 3px;
+  width: 80px;
+  padding-top: 3px;
+  height: 27px;
+  float: left;
+  margin-left: 10px;
 }
