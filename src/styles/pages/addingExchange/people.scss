@@ -126,10 +126,6 @@ span.bool-btn {
       transition: width 0.5s, opacity 0.3s;
     }
     .fa-spinner {
-      animation-name: spinner;
-      animation-duration: 0.7s;
-      animation-iteration-count: infinite;
-      animation-timing-function: linear;
       width: auto;
       opacity: 1;
       transition: width 0.5s, opacity 0.3s;
@@ -141,7 +137,12 @@ span.bool-btn {
     transition: all 0.3s;
   }
 }
-
+.fa-spinner {
+  animation-name: spinner;
+  animation-duration: 0.7s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
 @keyframes spinner {
   from {
     transform: rotate3d(0, 0, 0, 0deg)

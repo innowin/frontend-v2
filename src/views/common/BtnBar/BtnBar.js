@@ -1,5 +1,6 @@
 // @flow
 import * as React from "react"
+import FontAwesome from "react-fontawesome"
 
 
 export type ActType = {
@@ -10,20 +11,22 @@ export type ActType = {
 }
 type Props = {
   className?: string,
-  acts: Array<ActType>
+  acts: Array<ActType>,
+  processing?: boolean,
+  processingFunc?: Function
 }
 
 export default (props: Props) => {
-  const {acts, className} = props
+  const {acts, className, processing, processingFunc=() => console.log('processing now!')} = props
   return (
-      <div className={`act-bar ${className || ''}`}>
+      <div className={`act-bar ${className || ''} ${processing ? 'processing': ''}`}>
         {acts.map(act => (
             <div
                 key={`act-btn-${act.title}`}
                 className={`act-btn ${act.className || ''}`}
-                onClick={act.func}
+                onClick={processing ? processingFunc : act.func}
             >
-              {act.title}
+              {processing ? (<FontAwesome name="spinner"/>) : act.title}
               {act.icon}
             </div>
         ))}

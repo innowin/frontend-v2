@@ -104,6 +104,7 @@ type Props = {
   selectedTags: Array<TagAsOptionType>,
   tags: Array<TagAsOptionType>,
   tagAddHandler: (Array<TagAsOptionType>) => void,
+  processing: boolean
 }
 
 export default (props: Props) => {
@@ -114,7 +115,8 @@ export default (props: Props) => {
     tags,
     selectedTags,
     deleteTagHandler,
-    tagAddHandler
+    tagAddHandler,
+    processing
   } = props
   return (
       <div className="more-info">
@@ -130,7 +132,7 @@ export default (props: Props) => {
             selectedTags={selectedTags}
             tagAddHandler={tagAddHandler}
         />
-        <BtnBar acts={btnBarActs}/>
+        <BtnBar processingFunc={() => console.log('processing now!')} acts={btnBarActs} processing={processing}/>
       </div>
   )
 }
