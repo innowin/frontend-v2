@@ -18,6 +18,7 @@ import {getMessages} from "src/redux/selectors/translateSelector"
 import EditIcon from "../../../images/common/edit.svg"
 import "src/styles/components/common/comment.scss"
 import PostSendIcon from "../../../images/common/postSend_svg"
+import CommentActions from "../../../redux/actions/commonActions/commentActions"
 
 class CreatePostNew extends Component {
   static defaultProps = {
@@ -554,6 +555,7 @@ const
         createPost: PostActions.createPost,
         createFile: FileActions.createFile,
         resetTemporaryFile: FileActions.resetTemporaryFile,
+        createComment: CommentActions.createComment,
       }, dispatch)
     })
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePostNew)

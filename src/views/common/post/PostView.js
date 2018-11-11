@@ -217,7 +217,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   render() {
-    const {post, translate, postIdentity, postRelatedIdentityImage, userImage, extendedView, showEdit, comments, fileList} = this.props
+    const {post, translate, postIdentity, postRelatedIdentityImage, userImage, extendedView, showEdit, comments, fileList, commentParentType} = this.props
     const {menuToggle, confirm} = this.state
     let postDescription, postPicture, postPictureId
     if (post) {
@@ -286,6 +286,8 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                     // postParentId={exchangeId}
                     // postParentType={constant.POST_PARENT.EXCHANGE}
                     // postsCountInThisPage={posts.length}
+                    commentParentType={commentParentType}
+                    post={post}
                 />
                 {extendedView && comments.length > 0 &&
                 <PostComments comments={comments} translate={translate}
