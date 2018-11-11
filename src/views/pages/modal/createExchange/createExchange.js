@@ -61,7 +61,8 @@ type CreateExchangeState = {
   selectedTags: Array<TagAsOptionType>,
   searchKey?: string,
   created?: boolean,
-  inActPeopleIds: Array<string>
+  inActPeopleIds: Array<string>,
+  processing: boolean,
 }
 
 class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState> {
@@ -74,6 +75,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
       formData: {},
       selectedTags: [],
       inActPeopleIds: [], // ids of people that doing some action (like adding to exchange members) on theme in this time.
+      processing: false,
     }
   }
 
@@ -105,11 +107,13 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
     const prevLastFile = prevProps.hisFiles[prevProps.hisFiles.length - 1] || {}
     if (lastFile.id && prevLastFile.id) {
       if (lastFile.id !== prevLastFile.id) {
+        this._processingHandler()
         this._imageHandler(lastFile)
       }
     }
     if ((prevProps.createdExchange.id !== createdExchange.id) && createdExchange.id) {
       this.setState({...this.state, created: true})
+      this._processingHandler()
       this._goToNextStep()
     }
     const newInActPeopleIds = [...inActPeopleIds]
@@ -127,11 +131,15 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
       })
     }
   }
+  _processingHandler = () => this.setState({...this.state, processing: !this.state.processing})
 
   _createExchange = () => {
     // this._goToNextStep()
     // this.setState({...this.state, created: true})
-    if (!this.state.created) this.props.createExchange(this.state.formData)
+    if (!this.state.created) {
+      this._processingHandler()
+      this.props.createExchange(this.state.formData)
+    }
     else this._goToNextStep()
     // fixme: should update exchange if (this.state.created === true)
   }
@@ -171,17 +179,21 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
   }
 
   _uploadHandler = (fileString: any) => {
-    const {createFile} = this.props
     const reader = new FileReader()
     if (fileString) {
       reader.onload = () => {
         this.setState({
           ...this.state,
           selectedImage: reader.result
-        }, () => createFile({file_string: this.state.selectedImage}))
+        }, this._createFile)
       }
       reader.readAsDataURL(fileString)
     }
+  }
+  _createFile = () => {
+    const {createFile} = this.props
+    this._processingHandler()
+    createFile({file_string: this.state.selectedImage})
   }
   _imageHandler = (img: ImageType) => {
     this.setState({
@@ -237,7 +249,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
     searchKey: key
   })
   _setContent = () => {
-    const {activeStep, formData, selectedImage, selectedTags, searchKey = '', inActPeopleIds} = this.state
+    const {activeStep, formData, selectedImage, selectedTags, searchKey = '', inActPeopleIds, processing} = this.state
     const {hisFiles, hashTags, social, members, createdExchange} = this.props
     const tags = helpers.objToArrayAsOptions(hashTags, 'id', 'title', ['usage'])
     const basicInfoBtnBarActs = [
@@ -290,6 +302,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
       case 1:
         return (
             <BasicInfo
+                processing={processing}
                 btnBarActs={basicInfoBtnBarActs}
                 formData={formData}
                 uploadHandler={this._uploadHandler}
@@ -302,6 +315,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
       case 2:
         return (
             <MoreInfo
+                processing={processing}
                 inputHandler={this._inputHandler}
                 btnBarActs={moreInfoBtnBarActs}
                 deleteTagHandler={this._deleteTagHandler}
