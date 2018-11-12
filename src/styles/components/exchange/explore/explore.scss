@@ -176,6 +176,7 @@
   }
   &::placeholder {
     color: whitesmoke;
+    font-size: 14px;
   }
 }
 
@@ -223,6 +224,7 @@
 .exchanges-explore-sidebar-tag {
   display: inline-block;
   flex-grow: 1;
+  font-size: 14px;
 }
 
 .exchanges-explore-sidebar-tag-search {
@@ -271,7 +273,7 @@
 
 .exchanges-explore-sidebar-hashTags-search-container {
   display: flex;
-  flex-wrap: wrap
+  flex-wrap: wrap;
 }
 
 .exchanges-explore-sidebar-hashTags-container {

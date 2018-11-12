@@ -7,6 +7,7 @@ import identityActions from "../../../redux/actions/identityActions"
 import connect from "react-redux/es/connect/connect"
 import socialActions from "../../../redux/actions/commonActions/socialActions"
 import {ClipLoader} from "react-spinners"
+import {Link} from "react-router-dom"
 
 type appProps =
     {|
@@ -64,35 +65,36 @@ class User extends Component <appProps, appState> {
     const {data, followees} = this.props
     return (
         <div className='users-explore'>
-          {
-            data.profile.profile_banner !== null ?
-                <img src={'https://restful.daneshboom.ir/' + data.profile.profile_banner.file} className='user-banner' alt={data.user.last_name}/>
-                :
-                <img src='https://restful.daneshboom.ir//media/3f366e481437444d8f8cdd5afb528360.jpg' className='user-banner' alt={data.user.last_name}/>
-          }
-          {data.profile.profile_media !== null ?
-              <img src={'https://restful.daneshboom.ir/' + data.profile.profile_media.file} className='user-profile-photo' alt={data.user.last_name}/>
-              :
-              <DefaultUserIcon className='user-default-profile-photo'/>
-          }
-
-          <div>
-            <div className='user-name'>{data.user.first_name + ' ' + data.user.last_name}</div>
-            <div className='user-id'>@{data.user.username}</div>
-          </div>
-
-          <div className='user-description'>
-            {data.profile.description}
-          </div>
-
-          <div className='user-baj-container'>
+          <Link to={`/user/${data.user.id}`} style={{textDecoration: 'none', color: 'black'}}>
             {
-              data.badges.map((badge,i) =>
-                  <img key={i} src={'https://restful.daneshboom.ir/' + badge.badge_related_badge_category.badge_related_media.file} className='user-baj' alt='badge'/>
-              )
+              data.profile.profile_banner !== null ?
+                  <img src={'https://restful.daneshboom.ir/' + data.profile.profile_banner.file} className='user-banner' alt={data.user.last_name}/>
+                  :
+                  <img src='https://restful.daneshboom.ir//media/3f366e481437444d8f8cdd5afb528360.jpg' className='user-banner' alt={data.user.last_name}/>
             }
-          </div>
+            {data.profile.profile_media !== null ?
+                <img src={'https://restful.daneshboom.ir/' + data.profile.profile_media.file} className='user-profile-photo' alt={data.user.last_name}/>
+                :
+                <DefaultUserIcon className='user-default-profile-photo'/>
+            }
 
+            <div>
+              <div className='user-name'>{data.user.first_name + ' ' + data.user.last_name}</div>
+              <div className='user-id'>@{data.user.username}</div>
+            </div>
+
+            <div className='user-description'>
+              {data.profile.description}
+            </div>
+
+            <div className='user-baj-container'>
+              {
+                data.badges.map((badge, i) =>
+                    <img key={i} src={'https://restful.daneshboom.ir/' + badge.badge_related_badge_category.badge_related_media.file} className='user-baj' alt='badge'/>
+                )
+              }
+            </div>
+          </Link>
           {
             this.renderFollowed(data, followees)
           }

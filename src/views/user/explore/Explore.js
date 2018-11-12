@@ -78,12 +78,13 @@ class Explore extends Component <appProps, appState> {
         }
     )
     return (
-        <div>
+        <div className='all-exchanges-parent'>
           <TopBar collapseClassName="col user-sidebar-width"/>
-          <div style={{paddingTop: '55px'}}>
-            <Sidebar/>
+          <Sidebar/>
+          <div className='all-exchanges-container'>
             <Users followees={followees} users={this.props.allUsers}/>
-            {/*{this.state.scrollLoading && <ClipLoader/>}*/}
+            <div className='users-explore-hide'/>
+            <div className='users-explore-hide'/>
           </div>
         </div>
     )
