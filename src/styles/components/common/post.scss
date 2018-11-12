@@ -9,6 +9,7 @@
   margin: 10px auto;
 }
 
+/* -------------------------------   post header -------------------------*/
 .post-component-header {
   white-space: nowrap;
   font-size: 13px;
@@ -78,6 +79,7 @@
   }
 }
 
+/* -------------------------------   post textarea -------------------------*/
 .post-component-textarea {
   overflow-y: auto;
   width: 100%;
@@ -115,6 +117,7 @@
   }
 }
 
+/* -------------------------------   post footer -------------------------*/
 .post-component-footer {
   margin-top: 8px;
   position: relative;
@@ -141,7 +144,7 @@
   border-radius: 20px;
   border: none;
   padding: 1px 0;
-  margin: 8px 2px;
+  margin: 8px 0;
   vertical-align: top;
   opacity: 0;
   width: 1px;
@@ -168,7 +171,7 @@
   float: left;
   display: inline-block;
   vertical-align: top;
-  margin: 8px 0;
+  margin: 6px 0 8px 0;
   position: relative;
 }
 
@@ -228,8 +231,8 @@
 .post-component-footer-attach-menu-container {
   position: absolute;
   top: -7px;
-  left: -3.5px;
-  width: 122px;
+  left: 0;
+  width: 113px;
   text-align: center;
   overflow-y: hidden;
   height: 218px;
@@ -241,8 +244,8 @@
 .post-component-footer-attach-menu-container-hide {
   position: absolute;
   top: -7px;
-  left: -3.5px;
-  width: 122px;
+  left: 0;
+  width: 113px;
   text-align: center;
   overflow-y: hidden;
   height: 0;
@@ -468,23 +471,148 @@
   width: calc(100% - 30px);
 }
 
-.post-component-context {
-  background-color: $context-menu-background;
-  position: fixed;
-  width: 150px;
-  overflow-y: hidden;
-  transition-duration: 0.3s;
-  font-size: 13px;
-  border-radius: 3px;
-  box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.1)
+/* -------------------------------   post attached pictures -------------------------*/
+.post-attached-pictures {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  div {
+    position: relative;
+    span {
+      position: absolute;
+      top: 0;
+      left: 10px;
+      background-color: $eee-color;
+      height: 20px;
+      padding: 0 2px;
+    }
+    img {
+      width: 50px;
+      height: 50px;
+      margin-left: 10px;
+      object-fit: cover;
+    }
+  }
 }
 
-.post-component-context-items {
-  padding: 5px 10px;
-  cursor: pointer;
-  transition-duration: 0.25s;
-  &:hover{
-    transition-duration: 0.25s;
-    background-color: $text-input-border-color;
+.post-component-footer-link-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+  opacity: 1;
+  transition-duration: 0.3s;
+}
+
+.post-component-footer-link-modal-hide {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: -1;
+  opacity: 0;
+  transition-duration: 0.3s;
+}
+
+.post-component-footer-link-modal-container {
+  padding: 15px;
+  background-color: white;
+  border-radius: 3px;
+  position: fixed;
+  top: 40%;
+  width: 30%;
+  left: 35%;
+}
+
+.post-component-footer-link-modal-container-title {
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.post-component-footer-link-modal-container-input {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 8px 5px;
+  text-align: left;
+  direction: ltr;
+  border-radius: 3px;
+  border: 1px solid #e7e7e7;
+  &:focus {
+    outline: none;
+    border: 1px solid #BBBBBB;
   }
+}
+
+.post-component-footer-link-modal-container-buttons {
+  text-align: left;
+}
+
+.post-component-footer-link-modal-cancel-btn {
+  display: inline-block;
+  background-color: white;
+  border: 1px solid $brand-inverse-color;
+  color: $brand-inverse-color;
+  font-size: 12px;
+  border-radius: 20px;
+  margin-left: 2px;
+  padding: 2px 25px;
+  cursor: pointer;
+  transition-duration: 0.3s;
+  width: 75px;
+  &:hover {
+    border: 1px solid $brand-inverse-color;
+    color: white;
+    background-color: $brand-inverse-color;
+    transition-duration: 0.3s;
+  }
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    background-color: white;
+    border: 1px solid $brand-inverse-color;
+    color: $brand-inverse-color;
+    transition-duration: 0.3s;
+  }
+}
+
+.post-component-footer-link-modal-submit-btn {
+  display: inline-block;
+  background-color: $brand-inverse-color;
+  border: 1px solid transparent;
+  color: white;
+  font-size: 12px;
+  border-radius: 20px;
+  margin-left: 2px;
+  padding: 2px 25px;
+  cursor: pointer;
+  transition-duration: 0.3s;
+  width: 75px;
+  margin-right: 15px;
+  &:hover {
+    border: 1px solid $brand-inverse-color;
+    color: $brand-inverse-color;
+    background-color: white;
+    transition-duration: 0.3s;
+  }
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    background-color: $brand-inverse-color;
+    border: 1px solid transparent;
+    color: white;
+    transition-duration: 0.3s;
+  }
+}
+
+.post-component-footer-link{
+  display: inline-block;
+  font-size: 13px;
+  padding-top: 2px;
 }

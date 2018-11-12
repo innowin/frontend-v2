@@ -14,6 +14,9 @@ export function* getPost(action) {
     if (data.post_related_identity_image) {
       yield put({type: types.COMMON.GET_FILE, payload: {fileId: data.post_related_identity_image}})
     }
+    if(data.post_related_product) {
+      yield put({type: types.COMMON.GET_PRODUCT_INFO, payload: {id: data.post_related_product}})
+    }
     yield put({type: types.SUCCESS.COMMON.POST.GET_POST, payload: {data, postOwnerId, postOwnerType}})
   } catch (error) {
     const {message} = error

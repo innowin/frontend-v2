@@ -6,7 +6,6 @@ export default class AttachFile extends Component {
   static defaultProps = {
     className : '',
     customValidate: () => false,
-    createArguments: {},
     required: false,
     isLoadingProp: false,
     LoadingFile: () => <span>{__('Uploading...')}</span>
@@ -16,12 +15,11 @@ export default class AttachFile extends Component {
     required: PropTypes.bool,
     className: PropTypes.string,
     customValidate: PropTypes.func,
-    createFileAction: PropTypes.func.isRequired,
     inputId: PropTypes.string.isRequired,
     LoadingFile : PropTypes.func,
     AttachButton: PropTypes.func.isRequired,
-    createArguments: PropTypes.object,
-    isLoadingProp: PropTypes.bool
+    isLoadingProp: PropTypes.bool,
+    handleBase64: PropTypes.func.isRequired
     // TODO mohsen: fileType: PropTypes.arrayOf(PropTypes.string.isRequired),
     // TODO mohsen: fileSize
   }
@@ -31,15 +29,9 @@ export default class AttachFile extends Component {
     this.state = {error: false, isLoadingState: false}
   }
 
-  _createFile = (fileString) => {
-    const {createArguments, createFileAction} = this.props
-    const {nextActionData, nextActionType, fileIdKey} = createArguments
-    const data = {file_string: fileString, nextActionData, nextActionType, fileIdKey}
-    createFileAction(data)
-  }
-
   _handleChange = (event) => {
     event.preventDefault()
+    const {handleBase64}= this.props
     const file = event.target.files[0]
     const error = this._validateFile(file)
     this.setState({...this.state, error})
@@ -50,7 +42,7 @@ export default class AttachFile extends Component {
         this.setState({isLoadingState: true})
       }
       reader.onloadend = () => {
-        this._createFile(reader.result)
+        handleBase64(reader.result)
         this.setState({...this.state, isLoadingState: false})
       }
       reader.readAsDataURL(file)

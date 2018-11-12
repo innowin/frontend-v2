@@ -2,17 +2,16 @@ import React, {Component} from "react"
 import PropTypes from 'prop-types'
 import {getExchangePosts} from 'src/crud/post/exchangePost'
 import {VerifyWrapper} from "src/views/common/cards/Frames"
-import HomeCreatePost from "../../../pages/home/CreatPostHome"
 import {SupplyIcon, DemandIcon, NoFilterIcon} from "../../../../images/icons"
 import {deletePost, updatePost} from "src/crud/post/post"
 import {getProfile} from "../../../../crud/user/profile"
-import {getIdentity} from "../../../../crud/identity"
 import {PostEditForm} from "src/views/common/post/PostEditForm"
 import {ExchangePostView} from "src/views/exchange/ExchangeView/posts/Views"
 import Masonry from "react-masonry-css"
 import cx from 'classnames'
-import {IDENTITY_ID} from "../../../../consts/data"
 import {getFile} from "../../../../crud/media/media"
+import CreatePostNew from "src/views/common/post/CreatePostNew"
+import constant from "src/consts/constants"
 
 export class ExchangePost extends Component {
 
@@ -227,8 +226,12 @@ class ExchangePosts extends Component {
     return (
       <VerifyWrapper isLoading={isLoading} error={error} className="-exchangePosts">
         <div className="row mb-3">
-          <HomeCreatePost updatePosts={this._updatePosts} postParent={exchangeId} postIdentity={+IDENTITY_ID}
-                          handleErrorLoading={this._handleErrorLoading} className="createPost"/>
+          {/*<CreatePostNew*/}
+              {/*postParentId={exchangeId}*/}
+              {/*postParentType={constant.POST_PARENT.EXCHANGE}*/}
+              {/*postsCountInThisPage={posts.length}*/}
+              {/*className="createPost"*/}
+          {/*/>*/}
           <ExchangeFilterPosts _onClick={this._FilterPosts} postType={postType}/>
         </div>
         <Masonry

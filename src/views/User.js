@@ -19,7 +19,6 @@ import UserBasicInformation from "./user/basicInformation/index"
 import WorkExperiences from "./user/workExperience/index"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
-import {getMessages} from "src/redux/selectors/translateSelector"
 import {NavLink, Switch, Redirect} from "react-router-dom"
 import {Tabs, VerifyWrapper} from "./common/cards/Frames"
 import {
@@ -56,7 +55,6 @@ type PropsUser = {
     removeParamUserId: Function,
     setParamUserId: Function,
   },
-  translate: {},
   profileObject: profileStateObject,
   profileBanner:fileType | {},
   profileMedia: fileType | {},
@@ -117,7 +115,7 @@ class User extends Component<PropsUser> {
   }
 
   render() {
-    const {match, translate, profileObject,profileBanner, profileMedia, userObject, identityObject, badgesObject, badges} = this.props
+    const {match, profileObject,profileBanner, profileMedia, userObject, identityObject, badgesObject, badges} = this.props
     const {path, url, params} = match
     const userId: number = +params.id
     const isLoading = userObject.isLoading || profileObject.isLoading || identityObject.isLoading
@@ -129,7 +127,7 @@ class User extends Component<PropsUser> {
           <TopBar collapseClassName="col user-sidebar-width"/>
           <VerifyWrapper isLoading={isLoading} error={errorMessage} className="-main row page-content">
             {!identityObject.content ? '' : (
-                <UserSideBar translate={translate}
+                <UserSideBar
                              user={userObject.content}
                              profile={profileObject.content}
                              profileBanner={profileBanner}
@@ -231,7 +229,6 @@ const mapStateToProps = (state, ownProps) => {
     profileBanner,
     profileMedia,
     badges,
-    translate: getMessages(state)
   }
 }
 const mapDispatchToProps = dispatch => ({

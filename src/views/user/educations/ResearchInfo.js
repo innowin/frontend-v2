@@ -83,7 +83,7 @@ class ResearchInfo extends React.Component<ResearchInfoProps, ResearchInfoState>
                   {(research.publication || research.url || research.year) &&
                   <Field>
                     <FieldValue
-                        value={`${research.publication ? research.publication + translate[', '] : ''}${research.year ? research.year + translate[', '] : ''}${research.page_count ? ' ' + translate['Page'] : ''}`}/>
+                        value={`${research.publication ? research.publication + translate[', '] : ''}${research.year ? research.year + translate[', '] : ''}${research.page_count ? `${research.page_count} ${translate['Page']}` : ''}`}/>
                   </Field>
                   }
                   {research.author &&
