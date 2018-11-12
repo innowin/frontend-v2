@@ -32,6 +32,7 @@ class User extends Component <appProps, appState> {
 
     this.setState({followLoading: true}, () => {
       if (this.props.identities[this.props.data.user.id] !== undefined && this.props.identities[this.props.data.user.id].identity.content !== null) {
+        console.log(this.props.identities[this.props.data.user.id].identity.content)
         const formValues = {follow_follower: this.props.currentUserIdentity, follow_followed: this.props.identities[this.props.data.user.id].identity.content}
         this.props.actions.follow({formValues, followOwnerId: this.props.currentUserId, followOwnerType: this.props.currentUserType})
       }
@@ -45,6 +46,7 @@ class User extends Component <appProps, appState> {
   componentWillReceiveProps(nextProps) {
     if (this.state.follow && (this.props.identities[this.props.data.user.id] !== undefined && this.props.identities[this.props.data.user.id].identity.content !== null)) {
       this.setState({...this.state, follow: false}, () => {
+        console.log(this.props.identities[this.props.data.user.id].identity.content)
         const formValues = {follow_follower: this.props.currentUserIdentity, follow_followed: nextProps.identities[this.props.data.user.id].identity.content}
         this.props.actions.follow({formValues, followOwnerId: this.props.currentUserId, followOwnerType: this.props.currentUserType})
       })
@@ -59,7 +61,6 @@ class User extends Component <appProps, appState> {
       return <div className='user-follow-loading'><ClipLoader color='#008057' size={19}/></div>
     }
     else return <button className='user-followed' onClick={this.follow}>دنبال کردن</button>
-
   }
 
   render() {

@@ -48,12 +48,14 @@ class CreatePostNew extends Component {
       labels: {},
       search: "",
       context: false,
+      linkModal: false,
       pageX: 0,
       pageY: 0,
       commentBody: "comment-body",
       placeholder: '',
       selectedText: '',
-      postPhotos: []
+      postPhotos: [],
+      link: ''
     }
   }
 
@@ -93,13 +95,19 @@ class CreatePostNew extends Component {
 
     if (this.setWrapperRef && !this.setWrapperRef.contains(event.target)) {
       if (this.state.attachMenu) {
-        this.setState({...this.state, attachMenu: !this.state.attachMenu})
+        this.setState({...this.state, attachMenu: false})
       }
     }
 
     if (this.setWrapperSecondRef && !this.setWrapperSecondRef.contains(event.target)) {
       if (this.state.contactMenu) {
-        this.setState({...this.state, contactMenu: !this.state.contactMenu})
+        this.setState({...this.state, contactMenu: false})
+      }
+    }
+
+    if (this.setWrapperThirdRef && !this.setWrapperThirdRef.contains(event.target)) {
+      if (this.state.linkModal) {
+        this.setState({...this.state, linkModal: false})
       }
     }
 
@@ -137,6 +145,11 @@ class CreatePostNew extends Component {
       delete temp[name]
     }
     this.setState({...this.state, labels: {...temp}})
+  }
+
+  linkModal = () => {
+    this.setState({...this.state, linkModal: true, attachMenu: false})
+    this.link.focus()
   }
 
   AttachPhotoButton = () => (
@@ -186,8 +199,8 @@ class CreatePostNew extends Component {
     const fileIdKey = 'fileId'
     const postPicturesCreateArguments = {
       fileIdKey,
-      nextActionType:nextActionTypesForPosPictures,
-      nextActionData:nextActionDataForPostPictures,
+      nextActionType: nextActionTypesForPosPictures,
+      nextActionData: nextActionDataForPostPictures,
     }
     postPhotos.map(fileString => {
       return createFileFunc(createFile, fileString, postPicturesCreateArguments)
@@ -280,12 +293,18 @@ class CreatePostNew extends Component {
                           <div className='post-component-footer-items-style-close'
                                onClick={() => this.handleLabel(label)}>✕
                           </div>
-                        </div>)
+                        </div>
+                    )
                   }
 
-                  <div className='post-component-footer-items-style-hide'/>
+                  <div className='post-component-footer-items-style-hide'>
+                    <div className='post-component-footer-items-style-text'><span> </span></div>
+                  </div>
 
                   <div className='post-component-footer-send'>
+
+                    <div className='post-component-footer-link'>{this.state.link}</div>
+
                     <div style={{display: "inline-block"}} onClick={this.handleAttach}>
                       <AttachFileIcon className='post-component-footer-send-attach'/>
                     </div>
@@ -299,12 +318,12 @@ class CreatePostNew extends Component {
                           فایل
                         </div>
                         <AttachFile
-                          ref={e => this.AttachPhotoInput = e}
-                          AttachButton={this.AttachPhotoButton}
-                          inputId='AttachPicturesInput'
-                          // isLoadingProp={postPhotoLoading}
-                          className='explore-menu-items'
-                          handleBase64={this._handleBase64}
+                            ref={e => this.AttachPhotoInput = e}
+                            AttachButton={this.AttachPhotoButton}
+                            inputId='AttachPicturesInput'
+                            // isLoadingProp={postPhotoLoading}
+                            className='explore-menu-items'
+                            handleBase64={this._handleBase64}
                         />
                         <div className='explore-menu-items'>
                           <ContributionIcon className='post-component-footer-logos'/>
@@ -314,7 +333,7 @@ class CreatePostNew extends Component {
                           <ContributionIcon className='post-component-footer-logos'/>
                           محصول
                         </div>
-                        <div className='explore-menu-items'>
+                        <div className='explore-menu-items' onClick={this.linkModal}>
                           <ContributionIcon className='post-component-footer-logos'/>
                           لینک
                         </div>
@@ -324,17 +343,17 @@ class CreatePostNew extends Component {
 
                   </div>
                   <div className="post-attached-pictures">
-                  {
-                    postPhotos.map((fileString, i) => {
-                        return (
-                          <div>
-                            <span onClick={() => this._deletePicture(i)} className='remove-post-picture pulse'>x</span>
-                            <img src={fileString} alt="imagePreview"/>
-                          </div>
-                        )
-                      }
-                    )
-                  }
+                    {
+                      postPhotos.map((fileString, i) => {
+                            return (
+                                <div>
+                                  <span onClick={() => this._deletePicture(i)} className='remove-post-picture pulse'>x</span>
+                                  <img src={fileString} alt="imagePreview"/>
+                                </div>
+                            )
+                          }
+                      )
+                    }
                   </div>
 
                   <div ref={e => this.setWrapperSecondRef = e}
@@ -442,6 +461,21 @@ class CreatePostNew extends Component {
                 <div style={{clear: "both"}}/>
               </div>
 
+              <div className={this.state.linkModal ? 'post-component-footer-link-modal' : 'post-component-footer-link-modal-hide'}>
+
+                <div ref={e => this.setWrapperThirdRef = e} className='post-component-footer-link-modal-container'>
+                  <div className='post-component-footer-link-modal-container-title'>
+                    افزودن لینک
+                  </div>
+                  <input type='text' className='post-component-footer-link-modal-container-input' ref={e => this.link = e}/>
+                  <div className='post-component-footer-link-modal-container-buttons'>
+                    <button className='post-component-footer-link-modal-cancel-btn' onClick={() => this.setState({...this.state, linkModal: false})}>لغو</button>
+                    <button className='post-component-footer-link-modal-submit-btn' onClick={() => this.setState({...this.state, link: this.link.value, linkModal: false})}>ثبت</button>
+                  </div>
+                </div>
+
+              </div>
+
             </form>
         )
       case "comment":
@@ -477,12 +511,12 @@ class CreatePostNew extends Component {
                         فایل
                       </div>
                       <AttachFile
-                        ref={e => this.AttachPhotoInput = e}
-                        AttachButton={this.AttachPhotoButton}
-                        inputId='AttachPicturesInput'
-                        // isLoadingProp={postPhotoLoading}
-                        className='explore-menu-items'
-                        handleBase64={this._handleBase64}
+                          ref={e => this.AttachPhotoInput = e}
+                          AttachButton={this.AttachPhotoButton}
+                          inputId='AttachPicturesInput'
+                          // isLoadingProp={postPhotoLoading}
+                          className='explore-menu-items'
+                          handleBase64={this._handleBase64}
                       />
                       <div className='explore-menu-items'>
                         <ContributionIcon className='post-component-footer-logos'/>
@@ -503,13 +537,13 @@ class CreatePostNew extends Component {
               <div style={{clear: "both"}}/>
               {
                 postPhotos.map((fileString, i) => {
-                    return (
-                      <div>
-                        <span onClick={() => this._deletePicture(i)} className='remove-post-picture pulse'>x</span>
-                        <img src={fileString} alt="imagePreview"/>
-                      </div>
-                    )
-                  }
+                      return (
+                          <div>
+                            <span onClick={() => this._deletePicture(i)} className='remove-post-picture pulse'>x</span>
+                            <img src={fileString} alt="imagePreview"/>
+                          </div>
+                      )
+                    }
                 )
               }
             </div>
@@ -521,18 +555,6 @@ class CreatePostNew extends Component {
             </h2>
         )
     }
-  }
-
-  handleEmail = () => {
-    let email = "mailto:" + this.state.selectedText
-    let outEmail = `<a href=${email}>${this.state.selectedText}</a>`
-    this.text.innerHTML = this.text.innerText.replace(this.state.selectedText, outEmail)
-  }
-
-  handlePhone = () => {
-    let email = "tel:" + this.state.selectedText
-    let outEmail = `<a href=${email}>${this.state.selectedText}</a>`
-    this.text.innerHTML = this.text.innerText.replace(this.state.selectedText, outEmail)
   }
 }
 
@@ -563,11 +585,11 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    actions: bindActionCreators({
-      getFollowers: socialActions.getFollowers,
-      createPost: PostActions.createPost,
-      createFile: FileActions.createFile,
+  actions: bindActionCreators({
+    getFollowers: socialActions.getFollowers,
+    createPost: PostActions.createPost,
+    createFile: FileActions.createFile,
     createComment: CommentActions.createComment,
-    }, dispatch)
-  })
+  }, dispatch)
+})
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePostNew)
