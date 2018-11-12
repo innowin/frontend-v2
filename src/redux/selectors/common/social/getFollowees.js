@@ -2,6 +2,14 @@ import {createSelector} from 'reselect'
 import constants from "../../../../consts/constants";
 import helpers from 'src/consts/helperFunctions/helperFunctions'
 
+/*
+tip:
+ ownerId, identityType, identityId should be in props.
+
+ ownerId is the id of user or the id of organization.
+ identityType is type of user(ORG or PERSON).
+ identityId is the id of identity of follower.
+*/
 
 const getFollows = state => state.common.social.follows.list
 const getUserFollows = (state, props) => {

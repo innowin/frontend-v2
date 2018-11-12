@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types"
 import {FrameCard, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames"
 import {Post} from "src/views/common/post/Post"
 import {bindActionCreators} from "redux"
@@ -59,11 +59,11 @@ class HomePosts extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener('scroll', this._onScroll)
+    window.addEventListener("scroll", this._onScroll)
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this._onScroll)
+    window.removeEventListener("scroll", this._onScroll)
   }
 
   render() {
@@ -75,9 +75,10 @@ class HomePosts extends Component {
           {(exchangeId) ? (
               <div>
                 <CreatePostNew
-                  postParentId={exchangeId}
-                  postParentType={constant.POST_PARENT.EXCHANGE}
-                  postsCountInThisPage={posts.length}
+                    componentType={"post"}
+                    postParentId={exchangeId}
+                    postParentType={constant.POST_PARENT.EXCHANGE}
+                    postsCountInThisPage={posts.length}
                 />
 
                 <FrameCard className="-frameCardPost border-top-0">
@@ -99,7 +100,7 @@ class HomePosts extends Component {
                   </ListGroup>
                 </FrameCard>
               </div>
-          ) : ('')}
+          ) : ("")}
         </VerifyWrapper>
     )
   }

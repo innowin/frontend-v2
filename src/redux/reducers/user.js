@@ -68,6 +68,17 @@ const users = (state = initialState.users, action) => {
         isLoading: false,
         error: null
       }
+
+    case types.SUCCESS.USER.GET_ALL_USERS:
+      let objectData = {}
+      data.forEach(user =>
+          objectData[user.user.id] = user
+      )
+      return {
+        ...state,
+        allUsers: {...state.allUsers, ...objectData},
+      }
+
       /** -------------------------- get profile -------------------------> **/
     case types.USER.GET_PROFILE_BY_USER_ID:
       // initial structure build in first request for getProfile is called but profile isLoading is true:
@@ -340,7 +351,7 @@ const users = (state = initialState.users, action) => {
       /** -------------------------- delete Certificate -------------------------> **/
     case types.SUCCESS.COMMON.CERTIFICATE.DELETE_CERTIFICATE:
       return slices.deleteCertificate.success(state, action)
-    /** -------------------------- create Certificate  -------------------------> **/
+      /** -------------------------- create Certificate  -------------------------> **/
     case types.SUCCESS.COMMON.CERTIFICATE.CREATE_OBJECT_CERTIFICATE:
       return slices.createCertificate.success(state, action)
       /** -------------- reset -------------> **/

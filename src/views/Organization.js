@@ -19,11 +19,9 @@ import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import {ContributionIcon, postIcon, CertificateIcon, InformationIcon, SocialIcon, customerIcon} from "../images/icons"
 import OrganizationBasicInformation from "./organization/basicInformation/index"
-import {getMessages} from "../redux/selectors/translateSelector"
 import {NavLink, Switch, Redirect} from "react-router-dom"
 import {OrganSideBar} from "src/views/bars/SideBar"
 import {Tabs} from "src/views/common/cards/Frames"
-import {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 import {VerifyWrapper} from "./common/cards/Frames"
 import constants from "../consts/constants";
 import ParamActions from "src/redux/actions/paramActions"
@@ -37,7 +35,6 @@ type PropsOrganization = {
   badges: Array<badgeType>,
   organBanner: fileType | {},
   organLogo: fileType | {},
-  translate: TranslatorType,
   match: {
     [string]: string,
     params: { [string]: string }
@@ -59,7 +56,6 @@ export class Organization extends Component<PropsOrganization> {
     badges: PropTypes.array.isRequired,
     organBanner: PropTypes.object,
     organLogo: PropTypes.object,
-    translate: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
     identityObject: PropTypes.object.isRequired,
@@ -110,7 +106,7 @@ export class Organization extends Component<PropsOrganization> {
   }
 
   render() {
-    const {organObject, badgesObject, badges, organLogo, organBanner, translate, identityObject} = this.props
+    const {organObject, badgesObject, badges, organLogo, organBanner, identityObject} = this.props
     const {path, url, params} = this.props.match
     const organizationId = +params.id
     const isLoading = organObject.isLoading || badgesObject.isLoading //TODO mohsen: added get files isLoading
@@ -120,7 +116,7 @@ export class Organization extends Component<PropsOrganization> {
           <TopBar collapseClassName="col user-sidebar-width"/>
           <VerifyWrapper isLoading={isLoading} error={errorMessage} className="-main row page-content">
             {(!identityObject.content) ? '' : (
-                <OrganSideBar translate={translate}
+                <OrganSideBar
                               organ={organObject.content}
                               badges={badges}
                               organLogo={organLogo}
@@ -224,7 +220,6 @@ const mapStateToProps = (state, ownProps) => {
     organBanner,
     organLogo,
     identityObject: identity,
-    translate: getMessages(state)
   }
 }
 

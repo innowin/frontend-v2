@@ -129,7 +129,8 @@ type Props = {
   selectionImages: Array<ImageType>,
   selectedImage: string,
   uploadHandler: Function,
-  imageHandler: (ImageType) => void
+  imageHandler: (ImageType) => void,
+  processing: boolean
 }
 
 export default (props: Props) => {
@@ -140,7 +141,8 @@ export default (props: Props) => {
     selectionImages,
     selectedImage,
     uploadHandler,
-    imageHandler
+    imageHandler,
+      processing
   } = props
   return (
       <div className="basic-info">
@@ -156,7 +158,7 @@ export default (props: Props) => {
             selectedImage={selectedImage}
             selectionImages={selectionImages}
         />
-        <BtnBar acts={btnBarActs}/>
+        <BtnBar processing={processing} acts={btnBarActs}/>
       </div>
   )
 }

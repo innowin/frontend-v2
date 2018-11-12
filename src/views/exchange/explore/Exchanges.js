@@ -17,13 +17,13 @@ function render(props) {
   )
 
   if (justFollowing) {
-    exchanges = Object.values(exchanges).filter(exchange =>
+    exchanges = exchanges.filter(exchange =>
         exchange.exchange
     )
   }
 
-  if (Object.values(exchanges).length > 0) {
-    return Object.values(exchanges).map((exchange, i) =>
+  if (exchanges.length > 0) {
+    return exchanges.map((exchange, i) =>
         <Exchange key={i} data={exchange}/>
     )
   }

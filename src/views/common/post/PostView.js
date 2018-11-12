@@ -25,6 +25,8 @@ import PostFooter from "./PostFooter"
 import PostComments from "./PostComments"
 import {Confirm} from "../cards/Confirm"
 import {ClipLoader} from "react-spinners"
+import CreatePostNew from "./CreatePostNew"
+import ProductInfoView from "../contributions/ProductInfoView";
 
 type postExtendedViewProps = {
   actions: {
@@ -83,7 +85,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
   componentDidMount() {
     const {extendedView, post, actions} = this.props
-    if (post.post_picture) {
+    if (post && post.post_picture) {
       let {getFile} = actions
       getFile(post.post_picture.id)
     }
@@ -113,6 +115,28 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     const {getFile} = actions
     if (!prevProps.userImageId && prevProps.userImageId !== userImageId) {
       getFile(userImageId)
+    }
+
+    let allWords = this.text.innerText.split(" ")
+    let mailExp = new RegExp("^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$")
+    let urlExp = new RegExp("^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$")
+    for (let i = 0; i < allWords.length; i++) {
+      if (urlExp.test(allWords[i].trim())) {
+        allWords[i].includes("http://") || allWords[i].includes("https://") ?
+            this.text.innerHTML = this.text.innerHTML.replace(new RegExp(allWords[i], "g"), `<a target=_blank href=` + allWords[i] + `>${allWords[i]}</a>`)
+            :
+            this.text.innerHTML = this.text.innerHTML.replace(new RegExp(allWords[i], "g"), `<a target=_blank href=http://` + allWords[i] + `>${allWords[i]}</a>`)
+      }
+      else if (allWords[i].trim()[0] === "@" && allWords[i].length >= 6) {
+        this.text.innerHTML = this.text.innerHTML.replace(new RegExp(allWords[i], "g"), `<a href=` + allWords[i].slice(1, allWords[i].length) + `>${allWords[i]}</a>`)
+      }
+      else if (allWords[i].trim()[0] === "#" && allWords[i].length >= 3) {
+        this.text.innerHTML = this.text.innerHTML.replace(new RegExp(allWords[i], "g"), `<a href=` + allWords[i] + `>${allWords[i]}</a>`)
+      }
+      else if (mailExp.test(allWords[i].trim())) {
+        this.text.innerHTML = this.text.innerHTML.replace(new RegExp(allWords[i], "g"), `<a href=mailto:` + allWords[i] + `>${allWords[i]}</a>`)
+      }
+      // TODO Abel add phone number diagnosis
     }
   }
 
@@ -189,15 +213,25 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     deleteComment({commentId: comment.id, parentId: post.id, commentParentType})
   }
 
+  handleClickTextField() {
+    // this.commentTextField.height =
+  }
+
   render() {
-    const {post, translate, postIdentity, postRelatedIdentityImage, userImage, extendedView, showEdit, comments, fileList} = this.props
+    const {post, translate, postIdentity, postRelatedIdentityImage, userImage, extendedView, showEdit, comments, fileList, commentParentType} = this.props
     const {menuToggle, confirm} = this.state
-    let postDescription, postPicture, postPictureId
+    let postDescription, postPicture, postPictureId, postIdentityUserId, postIdentityOrganId, postOwnerId = 0
+    console.log(post, 'posssttt')
     if (post) {
       postDescription = post.post_description
       postPicture = post.post_picture
       postPictureId = post.post_picture
+
+      postIdentityUserId = post.post_identity.identity_user && post.post_identity.identity_user.id
+      postIdentityOrganId = post.post_identity.identity_organization && post.post_identity.identity_organization.id
+      postOwnerId = postIdentityUserId || postIdentityOrganId
     }
+
     return (
         confirm
             ? <div className={extendedView ? "post-view-container remove-post-container" : "remove-post-container"}>
@@ -218,7 +252,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                 <PostHeader post={post} translate={translate} postIdentity={postIdentity}
                             postRelatedIdentityImage={postRelatedIdentityImage} showEdit={showEdit}
                             extendedView={extendedView}/>
-                <div className="post-content">
+                <div className="post-content" ref={e => this.text = e}>
                   {postDescription}
                 </div>
                 {!extendedView ?
@@ -235,25 +269,41 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                         </div> : null
                 }
 
+                {post && post.post_related_product &&
+                <div className='post-view-product-container'>
+                  <ProductInfoView product={post.post_related_product} ownerId={postOwnerId}
+                                   translate={translate}/>
+                </div>
+                }
+
+
                 <PostFooter post={post} postIdentity={postIdentity} translate={translate} extendedView={extendedView}
                             menuToggle={menuToggle} openMenu={this.openMenu}
                             deletePost={this._showConfirm}
                 />
-                {extendedView &&
-                <div className='add-comment'>
-                  <div className="-img-col">
-                    {!userImage
-                        ? (<DefaultUserIcon/>)
-                        : (<img className="rounded-circle" src={userImage.file} alt=""/>)
-                    }
+                {/*{
+                  <div className='add-comment'>
+                    <div className="-img-col">
+                      {!userImage
+                          ? (<DefaultUserIcon/>)
+                          : (<img className="rounded-circle" src={userImage.file} alt=""/>)
+                      }
+                    </div>
+                    <input className='add-comment-text-field' placeholder={translate["Send comment"]}
+                           ref={c => this.commentTextField = c} onClick={() => this.handleClickTextField.bind(this)}/>
+                    <button onClick={() => this.createComment(this.commentTextField)} className='send-comment pulse'>
+                      <PostSendIcon/>
+                    </button>
                   </div>
-                  <input className='add-comment-text-field' placeholder={translate["Send comment"]}
-                         ref={c => this.commentTextField = c}/>
-                  <button onClick={() => this.createComment(this.commentTextField)} className='send-comment pulse'>
-                    <PostSendIcon/>
-                  </button>
-                </div>
-                }
+                }*/}
+                <CreatePostNew
+                    componentType={"comment"}
+                    // postParentId={exchangeId}
+                    // postParentType={constant.POST_PARENT.EXCHANGE}
+                    // postsCountInThisPage={posts.length}
+                    commentParentType={commentParentType}
+                    post={post}
+                />
                 {extendedView && comments.length > 0 &&
                 <PostComments comments={comments} translate={translate}
                               replyComment={(comment) => this.replyComment(comment, this.commentTextField)}
@@ -292,10 +342,13 @@ const mapStateToProps = (state, ownProps) => {
   else {
     const {post} = ownProps
     const postIdentity = post && post.post_identity
+    const prevUserImageId = (state.auth.organization && state.auth.organization.organization_logo) || state.auth.client.profile.profile_media
     return {
       postIdentity: postIdentity,
       postRelatedIdentityImage: post.post_related_identity_image,
       translate: getMessages(state),
+      userImageId: prevUserImageId,
+      userImage: state.common.file.list[prevUserImageId],
     }
   }
 }

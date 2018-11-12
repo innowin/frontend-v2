@@ -21,6 +21,7 @@ const urls = {
     UPDATE_USER_BY_USER_ID: "users",
     UPDATE_PROFILE_BY_PROFILE_ID: "users/profiles",
     GET_USERS: 'users',
+    GET_ALL_USERS: 'users/explore',
   },
   ORG: {
     GET_ORGANIZATION: 'organizations',

@@ -14,8 +14,6 @@ export default {
        isLoading:false,
        error:null
      },
-     profileBannerId: null, is number
-     profileMediaId: null, is number
 
      identity:{
        content:null,        id of identity
@@ -79,5 +77,6 @@ export default {
    }
   */
 
-  }
+  },
+  allUsers:{}
 }

@@ -33,21 +33,6 @@ class Exchange extends Component <appProps, appState> {
         }
   }
 
-  // componentDidMount()
-  // {
-  //     if (this.props.data.exchange_image)
-  //     {
-  //         let profileImg = new Image()
-  //         profileImg.src = 'http://restful.daneshboom.ir/' + this.props.data.exchange_image.file
-  //         profileImg.onload = () =>
-  //         {
-  //             this.setState({...this.state, imageLoaded: true})
-  //         }
-  //     }
-  // this.props.actions.getMembers({exchangeId: this.props.data.id})
-  // console.log(this.props.members[this.props.data.id])
-  // }
-
   renderFollowButton() {
 
     if (this.props.data.exchange === undefined && this.state.followLoading) {
@@ -57,12 +42,23 @@ class Exchange extends Component <appProps, appState> {
       return <button className='exchange-followed' onClick={this.follow}>دنبال کردن</button>
     }
     else return <button className='exchange-follow'>دنبال شده</button>
-
   }
 
   follow = () => {
     this.setState({...this.state, followLoading: true})
     this.props.actions.follow({identityId: this.props.currentUserIdentity, exchangeIdentity: this.props.data.id})
+  }
+
+  renderJoint() {
+    const {data,currentUserIdentity} = this.props
+    return data.joint_follows.map(user =>
+        {
+          if (user.follow_follower.id !== currentUserIdentity)
+          {
+            return <img src={'https://restful.daneshboom.ir/'} className='user-baj' alt='user'/>
+          }
+        }
+    )
   }
 
   render() {
@@ -74,8 +70,8 @@ class Exchange extends Component <appProps, appState> {
         <div className='exchange-model'>
           <Link to={`/exchange/${data.id}`} style={{textDecoration: 'none', color: 'black'}}>
             {(data.exchange_image) ?
-                  <img src={data.exchange_image.file.includes('restful.daneshboom.ir/') ? data.exchange_image.file : 'http://restful.daneshboom.ir/' + data.exchange_image.file} alt={data.name}
-                       className='exchange-model-avatar'/>
+                <img src={data.exchange_image.file.includes('restful.daneshboom.ir/') ? data.exchange_image.file : 'https://restful.daneshboom.ir/' + data.exchange_image.file} alt={data.name}
+                     className='exchange-model-avatar'/>
                 :
                 <DefaultUserIcon width='80px' height='80px'/>
             }
@@ -86,6 +82,7 @@ class Exchange extends Component <appProps, appState> {
               {data.description}
             </div>
             <hr/>
+
             {/*{images}*/}
             {/*<div className='exchange-model-followers-count'>{data.members_count}</div>*/}
 
@@ -103,11 +100,9 @@ class Exchange extends Component <appProps, appState> {
             </div>
             <hr/>
 
-            <div className='exchange-baj-container'>
-              <DefaultUserIcon className='exchange-baj'/>
-              <DefaultUserIcon className='exchange-baj'/>
-              <DefaultUserIcon className='exchange-baj'/>
-            </div>
+            {
+              this.renderJoint()
+            }
 
           </Link>
 

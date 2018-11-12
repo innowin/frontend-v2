@@ -9,31 +9,40 @@ type appProps =
       users: any
     |}
 
-function render(users, props) {
-  if (Object.values(users).length > 0) {
-    return Object.values(users).map((user, i) =>
-        <User key={i} data={user}/>
+function render(props) {
+  let {users} = props
+
+  users = Object.values(users)
+
+  // if (justFollowing) {
+  //   users = users.filter(user =>
+  //       user.exchange
+  //   )
+  // }
+
+  if (users.length > 0) {
+    return users.map((user, i) =>
+        <User followees={props.followees} key={i} data={user}/>
     )
   }
-  else if (props.searchingByWord.length !== 0 || props.searchingByHashTags.length !== 0) {
-    return (<div>فردی یافت نشد!</div>)
-  }
+  // else if (props.searchingByWord.length !== 0 || props.searchingByHashTags.length !== 0) {
+  //   return (<div>بورسی یافت نشد!</div>)
+  // }
   else return <ClipLoader/>
 }
 
-const Users = (props: appProps) => {
-  const {users} = props
+const Exchanges = (props: appProps) => {
   return (
       <div className="exchanges-explore">
         {
-          render(users, props)
+          render(props)
         }
       </div>
   )
 }
 const mapStateToProps = (state) => ({
-  searchingByWord: state.users.searchByWord,
-  searchingByHashTags: state.users.searchByHashTag,
+  searchingByWord: state.exchanges.searchByWord,
+  searchingByHashTags: state.exchanges.searchByHashTag,
 })
 
-export default connect(mapStateToProps, null)(Users)
+export default connect(mapStateToProps, null)(Exchanges)

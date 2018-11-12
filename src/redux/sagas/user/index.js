@@ -1,7 +1,7 @@
 import types from "../../actions/types"
 import {createUserOrgan, createUserPerson} from "./createUserSagas"
 import {emailCheck} from "./checkEmailSaga"
-import {getProfileByUserId, getUserByUserId, getUsers} from "./getUserSagas"
+import {getProfileByUserId, getUserByUserId, getUsers, getAllUsers} from "./getUserSagas"
 import {takeLatest, takeEvery} from "redux-saga/effects"
 import {updateProfileByProfileId} from "./updateProfileByProfileIdSaga"
 import {updateUserByUserId} from './updateUserByUserIdSaga'
@@ -31,6 +31,11 @@ function* watchGetProfileByUserId() {
 // get users
 function* watchGetUsers() {
   yield takeEvery(types.USER.GET_USERS, getUsers)
+}
+
+// get All users
+function* watchGetAllUsers() {
+  yield takeEvery(types.USER.GET_ALL_USERS, getAllUsers)
 }
 
 // watchCreateUserPerson
@@ -64,7 +69,9 @@ export default [
   watchGetProfileByUserId(),
   watchGetUserByUserId(),
   watchGetUsers(),
+  watchGetAllUsers(),
   // update user
   watchUpdateProfileByProfileId(),
   watchUpdateUserByUserId(),
+
 ]
