@@ -42,14 +42,14 @@ const SimpleForm = (props: SimpleFormProps) => {
             name={exchangeFields.private}
             selected={formData[exchangeFields.private]}
         />
-        <Input
-            name={exchangeFields.link}
-            className="link-input"
-            label="نام کاربری بورس"
-            onChange={(e: SyntheticEvent<HTMLInputElement>) => linkHandler(e.currentTarget.value)}
-            value={formData[exchangeFields.link]}
-            extraContent={<span className="domain">http://dbm.ir/</span>}
-        />
+        {/*<Input*/}
+            {/*name={exchangeFields.link}*/}
+            {/*className="link-input"*/}
+            {/*label="نام کاربری بورس"*/}
+            {/*onChange={(e: SyntheticEvent<HTMLInputElement>) => linkHandler(e.currentTarget.value)}*/}
+            {/*value={formData[exchangeFields.link]}*/}
+            {/*extraContent={<span className="domain">http://dbm.ir/</span>}*/}
+        {/*/>*/}
       </div>
   )
 }
