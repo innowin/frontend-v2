@@ -10,12 +10,22 @@ const temp = (state = initialState.temp, action) => {
     case types.COMMON.SET_FILE_IDS_IN_TEMP_FILE:
       const file = state.file
       const {tempFileChildName, fileId} = action.payload || {}
-      const restArray = file[tempFileChildName] || []
+      let data;
+      let existFile = file[tempFileChildName]
+      if (existFile) {
+        if (!(Array.isArray(existFile))) {
+          existFile = [file[tempFileChildName]]
+        }
+        data = [...existFile, fileId]
+      } else {
+        data = fileId
+      }
+
       return {
         ...state,
         file: {
           ...file,
-          [tempFileChildName]:[...restArray, fileId]
+          [tempFileChildName]: data
         }
       }
 
