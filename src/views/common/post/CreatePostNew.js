@@ -53,32 +53,9 @@ class CreatePostNew extends Component {
       commentBody: "comment-body",
       placeholder: '',
       selectedText: '',
-      postPhotos: []
+      postPhotos: [],
+      savingPost: false
     }
-  }
-
-  componentDidMount() {
-    const {actions, componentType, translate} = this.props
-    const {getFollowers} = actions
-    getFollowers({
-      followOwnerIdentity: this.props.currentUserIdentity,
-      followOwnerType: this.props.currentUserType,
-      followOwnerId: this.props.currentUserId
-    })
-    document.addEventListener("mousedown", this.handleClickOutside)
-    componentType === "comment" && this.setState({...this.state, placeholder: translate["Send comment"]})
-    componentType === "post" && this.setState({...this.state, placeholder: translate["Be in zist boom"]})
-  }
-
-  componentDidUpdate(prevProps) {
-    const {postsCountInThisPage} = this.props
-    if (prevProps.postsCountInThisPage < postsCountInThisPage) {
-      this._resetPost()
-    }
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener("mousedown", this.handleClickOutside)
   }
 
 
@@ -146,6 +123,29 @@ class CreatePostNew extends Component {
       </div>
   )
 
+  _handleBase64 = (fileString) => {
+    const {postPhotos} = this.state
+    this.setState({...this.state, postPhotos: [...postPhotos, fileString]})
+  }
+
+
+  createComment(commentTextField) {
+    if (commentTextField && commentTextField.value) {
+      const {actions, post, commentParentType} = this.props
+      const {createComment} = actions
+      const formValues = {text: commentTextField.value, comment_parent: post.id}
+      createComment({formValues, parentId: post.id, commentParentType})
+      commentTextField.value = ""
+    }
+  }
+
+  _deletePicture = (i) => {
+    const {postPhotos} = this.state
+    const newPostPhotos = postPhotos.slice(0, i).concat(postPhotos.slice(i + 1))
+    this.setState({...this.state, postPhotos: newPostPhotos})
+  }
+
+
   _getValues = () => {
     const {selected} = this.state
     const {currentUserIdentity, postParentId, currentUserImgId, postPhotoIds} = this.props
@@ -177,10 +177,13 @@ class CreatePostNew extends Component {
     return result
   }
 
-  _save = () => {
-    const {actions, currentUserId, currentUserType, postParentId, postParentType} = this.props
-    const {createPost, createFile} = actions
+
+
+  _preSave = () => {
+    this.setState({...this.state, savingPost: true})
     const {postPhotos} = this.state
+    const {actions} = this.props
+    const {createFile} = actions
     const nextActionTypesForPosPictures = types.COMMON.SET_FILE_IDS_IN_TEMP_FILE
     const nextActionDataForPostPictures = {tempFileChildName: timeStamp}
     const fileIdKey = 'fileId'
@@ -192,41 +195,58 @@ class CreatePostNew extends Component {
     postPhotos.map(fileString => {
       return createFileFunc(createFile, fileString, postPicturesCreateArguments)
     })
+  }
+
+  _save = () => {
+    const {actions, currentUserId, currentUserType, postParentId, postParentType} = this.props
+    const {createPost} = actions
     const formValues = this._getValues()
-    return createPost({
+    createPost({
       formValues, postOwnerId: currentUserId, postOwnerType: currentUserType, postParentId, postParentType
     })
+    this.setState({...this.state, savingPost: false})
   }
 
   _onSubmit = (e) => {
     e.preventDefault()
     if (this._formValidate()) {
-      this._save()
+      this._preSave()
     }
     return false
   }
 
-  _handleBase64 = (fileString) => {
-    const {postPhotos} = this.state
-    this.setState({...this.state, postPhotos: [...postPhotos, fileString]})
-  }
 
 
-  createComment(commentTextField) {
-    if (commentTextField && commentTextField.value) {
-      const {actions, post, commentParentType} = this.props
-      const {createComment} = actions
-      const formValues = {text: commentTextField.value, comment_parent: post.id}
-      createComment({formValues, parentId: post.id, commentParentType})
-      commentTextField.value = ""
+  componentDidUpdate(prevProps) {
+    const {postsCountInThisPage} = this.props
+    if (prevProps.postsCountInThisPage < postsCountInThisPage) {
+      this._resetPost()
+    }
+    const {postPhotoIds} = this.props
+    const {postPhotos, savingPost} = this.state
+    if(savingPost && postPhotos.length === postPhotoIds.length){
+      this._save()
     }
   }
 
-  _deletePicture = (i) => {
-    const {postPhotos} = this.state
-    const newPostPhotos = postPhotos.slice(0, i).concat(postPhotos.slice(i + 1))
-    this.setState({...this.state, postPhotos: newPostPhotos})
+  componentDidMount() {
+    const {actions, componentType, translate} = this.props
+    const {getFollowers} = actions
+    getFollowers({
+      followOwnerIdentity: this.props.currentUserIdentity,
+      followOwnerType: this.props.currentUserType,
+      followOwnerId: this.props.currentUserId
+    })
+    document.addEventListener("mousedown", this.handleClickOutside)
+    componentType === "comment" && this.setState({...this.state, placeholder: translate["Send comment"]})
+    componentType === "post" && this.setState({...this.state, placeholder: translate["Be in zist boom"]})
   }
+
+  componentWillUnmount() {
+    document.removeEventListener("mousedown", this.handleClickOutside)
+  }
+
+
 
   render() {
     const followersArr = Object.values(this.props.followers).filter(follow => follow.follow_follower.id !== this.props.currentUserIdentity && follow.follow_follower.name.includes(this.state.search))
@@ -521,18 +541,6 @@ class CreatePostNew extends Component {
             </h2>
         )
     }
-  }
-
-  handleEmail = () => {
-    let email = "mailto:" + this.state.selectedText
-    let outEmail = `<a href=${email}>${this.state.selectedText}</a>`
-    this.text.innerHTML = this.text.innerText.replace(this.state.selectedText, outEmail)
-  }
-
-  handlePhone = () => {
-    let email = "tel:" + this.state.selectedText
-    let outEmail = `<a href=${email}>${this.state.selectedText}</a>`
-    this.text.innerHTML = this.text.innerText.replace(this.state.selectedText, outEmail)
   }
 }
 
