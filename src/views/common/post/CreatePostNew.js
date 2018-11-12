@@ -54,7 +54,12 @@ class CreatePostNew extends Component {
       commentBody: "comment-body",
       placeholder: '',
       selectedText: '',
-      postPhotos: [],
+      postPictures: [],
+      errorAttachPicture: '',
+      postFile: '',
+      errorAttachFile: '',
+      postMedia: '',
+      errorAttachMedia: '',
       link: '',
       savingPost: false
     }
@@ -62,12 +67,12 @@ class CreatePostNew extends Component {
 
 
   _resetPost = () => {
-    this.setState({...this.state, open: false, selected: 'post', postPhotos: []})
+    this.setState({...this.state, open: false, selected: 'post', postPictures: [], postFile: '', postMedia: ''})
     this.text.innerText = ''
   }
 
   handleClickOutside = (event) => {
-    const {postPhotos} = this.state
+    const {postPictures} = this.state
     const description = this.text ? this.text.innerText : null
 
     if (this.setWrapperRef && !this.setWrapperRef.contains(event.target)) {
@@ -88,15 +93,17 @@ class CreatePostNew extends Component {
       }
     }
 
-    if (!postPhotos && !description) this._resetPost()
+    if (!postPictures && !description) this._resetPost()
   }
 
   handleSelectShare = () => {
     this.setState({...this.state, selected: "post"})
   }
+
   handleSelectDemand = () => {
     this.setState({...this.state, selected: "demand"})
   }
+
   handleSelectSupply = () => {
     this.setState({...this.state, selected: "supply"})
   }
@@ -129,16 +136,53 @@ class CreatePostNew extends Component {
     this.link.focus()
   }
 
-  AttachPhotoButton = () => (
-      <div>
-        <Image className='post-component-footer-logos'/>
-        عکس
-      </div>
+  AttachPictureButton = () => (
+    <div>
+      <Image className='post-component-footer-logos'/>
+      عکس
+    </div>
   )
 
-  _handleBase64 = (fileString) => {
-    const {postPhotos} = this.state
-    this.setState({...this.state, postPhotos: [...postPhotos, fileString]})
+  AttachFileButton = () => (
+    <div>
+      <AttachFileIcon className='post-component-footer-logos'/>
+      فایل
+    </div>
+  )
+
+  AttachMediaButton = () => (
+    <div>
+      <ContributionIcon className='post-component-footer-logos'/>
+      ویدئو
+    </div>
+  )
+
+  _handleBase64Picture = ({fileString, fileExtension, fileName}) => {
+    const allowablePictureFormat = ['jpg', 'jpeg', 'png']
+    const {postPictures} = this.state
+    const {translate} = this.props
+    if (allowablePictureFormat.includes(fileExtension))
+      this.setState({...this.state, postPictures: [...postPictures, fileString]})
+    else
+      this.setState({...this.state, errorAttachPicture: translate["This format is not allowed"]})
+  }
+
+  _handleBase64Media = ({fileString, fileExtension, fileName}) => {
+    const allowableMediaFormat = ['mp4', 'mp3']
+    const {translate} = this.props
+    if (allowableMediaFormat.includes(fileExtension))
+      this.setState({...this.state, postMedia: fileString})
+    else
+      this.setState({...this.state, errorAttachMedia: translate["This format is not allowed"]})
+  }
+
+  _handleBase64File = ({fileString, fileExtension, fileName}) => {
+    const allowableFileFormat = ['pdf', 'xlsx']
+    const {translate} = this.props
+    if (allowableFileFormat.includes(fileExtension))
+      this.setState({...this.state, postFile: fileString})
+    else
+      this.setState({...this.state, errorAttachFile: translate["This format is not allowed"]})
   }
 
 
@@ -153,18 +197,26 @@ class CreatePostNew extends Component {
   }
 
   _deletePicture = (i) => {
-    const {postPhotos} = this.state
-    const newPostPhotos = postPhotos.slice(0, i).concat(postPhotos.slice(i + 1))
-    this.setState({...this.state, postPhotos: newPostPhotos})
+    const {postPictures} = this.state
+    const newPostPictures = postPictures.slice(0, i).concat(postPictures.slice(i + 1))
+    this.setState({...this.state, postPictures: newPostPictures})
+  }
+
+  _deleteFile = () => {
+    this.setState({...this.state, postFile: ''})
+  }
+
+  _deleteMedia = () => {
+    this.setState({...this.state, postMedia: ''})
   }
 
 
   _getValues = () => {
     const {selected} = this.state
-    const {currentUserIdentity, postParentId, currentUserImgId, postPhotoIds} = this.props
+    const {currentUserIdentity, postParentId, currentUserImgId, postPictureIds} = this.props
     const description = this.text.value
     return {
-      post_picture: postPhotoIds[0] || null,
+      post_picture: postPictureIds[0] || null,
       post_description: description,
       post_title: "without title",
       post_type: selected,
@@ -178,7 +230,9 @@ class CreatePostNew extends Component {
     // const {descriptionValidate} = this.state
     let result = true
     const validates = [
-      this.AttachPhotoInput.validate,
+      this.AttachPictureInput.validate,
+      this.AttachFileInput.validate,
+      this.AttachMediaInput.validate,
       // descriptionValidate
     ]
     for (let i = 0; i < validates.length; i++) {
@@ -191,10 +245,9 @@ class CreatePostNew extends Component {
   }
 
 
-
   _preSave = () => {
     this.setState({...this.state, savingPost: true})
-    const {postPhotos} = this.state
+    const {postPictures} = this.state
     const {actions} = this.props
     const {createFile} = actions
     const nextActionTypesForPosPictures = types.COMMON.SET_FILE_IDS_IN_TEMP_FILE
@@ -205,7 +258,7 @@ class CreatePostNew extends Component {
       nextActionType: nextActionTypesForPosPictures,
       nextActionData: nextActionDataForPostPictures,
     }
-    postPhotos.map(fileString => {
+    postPictures.map(fileString => {
       return createFileFunc(createFile, fileString, postPicturesCreateArguments)
     })
   }
@@ -229,15 +282,14 @@ class CreatePostNew extends Component {
   }
 
 
-
   componentDidUpdate(prevProps) {
     const {postsCountInThisPage} = this.props
     if (prevProps.postsCountInThisPage < postsCountInThisPage) {
       this._resetPost()
     }
-    const {postPhotoIds} = this.props
-    const {postPhotos, savingPost} = this.state
-    if(savingPost && postPhotos.length === postPhotoIds.length){
+    const {postPictureIds} = this.props
+    const {postPictures, savingPost} = this.state
+    if (savingPost && postPictures.length === postPictureIds.length) {
       this._save()
     }
   }
@@ -260,255 +312,289 @@ class CreatePostNew extends Component {
   }
 
 
-
   render() {
     const followersArr = Object.values(this.props.followers).filter(follow => follow.follow_follower.id !== this.props.currentUserIdentity && follow.follow_follower.name.includes(this.state.search))
     const exchangesArr = Object.values(this.props.exchanges).filter(exchange => exchange.exchange_identity_related_exchange.name.includes(this.state.search))
     const {className, componentType, currentUserMedia, currentUserName} = this.props
-    const {postPhotos} = this.state
+    const {postPictures, postFile, postMedia, errorAttachPicture, errorAttachFile, errorAttachMedia} = this.state
 
     switch (componentType) {
       case "post":
         return (
-            <form className={"post-component-container " + className} onSubmit={this._onSubmit}>
-              <div className='post-component-header'>
-                <div>
-                  {currentUserMedia !== null && currentUserMedia !== undefined ?
-                      <img alt='profile' src={currentUserMedia} className='post-component-header-img'/>
-                      :
-                      <DefaultUserIcon width='45px' height='45px'/>
-                  }
-                  {currentUserName}
-                </div>
-                <div className='post-component-header-item'>
-                  <Share
-                      className={this.state.selected === "post" ? "post-component-header-item-logo1" : "post-component-header-item-logo1-unselect"}
-                      onClick={this.handleSelectShare}/>
-                  <DemandIcon height="22px"
-                              className={this.state.selected === "demand" ? "post-component-header-item-logo" : "post-component-header-item-logo-unselect"}
-                              onClickFunc={this.handleSelectDemand}/>
-                  <SupplyIcon height="18px"
-                              className={this.state.selected === "supply" ? "post-component-header-item-logo2" : "post-component-header-item-logo2-unselect"}
-                              onClickFunc={this.handleSelectSupply}/>
-                </div>
+          <form className={"post-component-container " + className} onSubmit={this._onSubmit}>
+            <div className='post-component-header'>
+              <div>
+                {currentUserMedia !== null && currentUserMedia !== undefined ?
+                  <img alt='profile' src={currentUserMedia} className='post-component-header-img'/>
+                  :
+                  <DefaultUserIcon width='45px' height='45px'/>
+                }
+                {currentUserName}
               </div>
+              <div className='post-component-header-item'>
+                <Share
+                  className={this.state.selected === "post" ? "post-component-header-item-logo1" : "post-component-header-item-logo1-unselect"}
+                  onClick={this.handleSelectShare}/>
+                <DemandIcon height="22px"
+                            className={this.state.selected === "demand" ? "post-component-header-item-logo" : "post-component-header-item-logo-unselect"}
+                            onClickFunc={this.handleSelectDemand}/>
+                <SupplyIcon height="18px"
+                            className={this.state.selected === "supply" ? "post-component-header-item-logo2" : "post-component-header-item-logo2-unselect"}
+                            onClickFunc={this.handleSelectSupply}/>
+              </div>
+            </div>
 
-              <textarea ref={e => this.text = e}
-                        className={this.state.open ? "post-component-textarea-open" : "post-component-textarea"}
-                        placeholder='در زیست بوم باش ...'
-                        onBlur={(e) => e.target.value.length === 0 ? this.setState({
-                          ...this.state,
-                          open: false
-                        }) : this.setState({...this.state, open: true})}/>
+            <textarea ref={e => this.text = e}
+                      className={this.state.open ? "post-component-textarea-open" : "post-component-textarea"}
+                      placeholder='در زیست بوم باش ...'
+                      onBlur={(e) => e.target.value.length === 0 ? this.setState({
+                        ...this.state,
+                        open: false
+                      }) : this.setState({...this.state, open: true})}/>
 
 
-              <div className='post-component-footer'>
+            <div className='post-component-footer'>
 
-                <div className='post-component-footer-logo' onClick={this.handleContact}>?</div>
-                <div className='post-component-footer-items-style-cont'>
+              <div className='post-component-footer-logo' onClick={this.handleContact}>?</div>
+              <div className='post-component-footer-items-style-cont'>
+                {
+                  Object.values(this.state.labels).map(label =>
+                    <div className='post-component-footer-items-style'>
+                      <div className='post-component-footer-items-style-text'>{label}</div>
+                      <div className='post-component-footer-items-style-close'
+                           onClick={() => this.handleLabel(label)}>✕
+                      </div>
+                    </div>
+                  )
+                }
+
+                <div className='post-component-footer-items-style-hide'>
+                  <div className='post-component-footer-items-style-text'><span> </span></div>
+                </div>
+
+                <div className='post-component-footer-send'>
+
+                  <div className='post-component-footer-link'>{this.state.link}</div>
+
+                  <div style={{display: "inline-block"}} onClick={this.handleAttach}>
+                    <AttachFileIcon className='post-component-footer-send-attach'/>
+                  </div>
+                  <button type="submit" className='post-component-footer-send-btn'>ارسال</button>
+
+                  <div ref={e => this.setWrapperRef = e}
+                       className={this.state.attachMenu ? "post-component-footer-attach-menu-container" : "post-component-footer-attach-menu-container-hide"}>
+                    <div className='post-component-footer-attach-menu'>
+                      <AttachFile
+                        ref={e => this.AttachFileInput = e}
+                        AttachButton={this.AttachFileButton}
+                        inputId='AttachFileInput'
+                        // isLoadingProp={postFileLoading}
+                        className='explore-menu-items'
+                        handleBase64={this._handleBase64File}
+                      />
+                      <AttachFile
+                        ref={e => this.AttachPictureInput = e}
+                        AttachButton={this.AttachPictureButton}
+                        inputId='AttachPicturesInput'
+                        // isLoadingProp={postPictureLoading}
+                        className='explore-menu-items'
+                        handleBase64={this._handleBase64Picture}
+                      />
+                      <AttachFile
+                        ref={e => this.AttachMediaInput = e}
+                        AttachButton={this.AttachMediaButton}
+                        inputId='AttachMediaInput'
+                        // isLoadingProp={postMediaLoading}
+                        className='explore-menu-items'
+                        handleBase64={this._handleBase64Media}
+                      />
+                      <div className='explore-menu-items'>
+                        <ContributionIcon className='post-component-footer-logos'/>
+                        محصول
+                      </div>
+                      <div className='explore-menu-items' onClick={this.linkModal}>
+                        <ContributionIcon className='post-component-footer-logos'/>
+                        لینک
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+                <div className="post-attached-pictures">
                   {
-                    Object.values(this.state.labels).map(label =>
-                        <div className='post-component-footer-items-style'>
-                          <div className='post-component-footer-items-style-text'>{label}</div>
-                          <div className='post-component-footer-items-style-close'
-                               onClick={() => this.handleLabel(label)}>✕
+                    postPictures.map((fileString, i) => {
+                        return (
+                          <div>
+                            <span onClick={() => this._deletePicture(i)} className='remove-post-picture pulse'>x</span>
+                            <img src={fileString} alt="imagePreview"/>
                           </div>
-                        </div>
+                        )
+                      }
                     )
                   }
-
-                  <div className='post-component-footer-items-style-hide'>
-                    <div className='post-component-footer-items-style-text'><span> </span></div>
-                  </div>
-
-                  <div className='post-component-footer-send'>
-
-                    <div className='post-component-footer-link'>{this.state.link}</div>
-
-                    <div style={{display: "inline-block"}} onClick={this.handleAttach}>
-                      <AttachFileIcon className='post-component-footer-send-attach'/>
-                    </div>
-                    <button type="submit" className='post-component-footer-send-btn'>ارسال</button>
-
-                    <div ref={e => this.setWrapperRef = e}
-                         className={this.state.attachMenu ? "post-component-footer-attach-menu-container" : "post-component-footer-attach-menu-container-hide"}>
-                      <div className='post-component-footer-attach-menu'>
-                        <div className='explore-menu-items'>
-                          <AttachFileIcon className='post-component-footer-logos'/>
-                          فایل
+                  {
+                    errorAttachPicture ? <div className="form-control-feedback">{errorAttachPicture}</div> : ''
+                  }
+                  {
+                    (postMedia) ? (
+                        <div>
+                          <span onClick={this._deleteMedia} className='remove-post-picture pulse'>x</span>
+                          <video width="50px" height="50px" controls>
+                            <source src={postMedia} type="video/mp4"/>
+                          </video>
                         </div>
-                        <AttachFile
-                            ref={e => this.AttachPhotoInput = e}
-                            AttachButton={this.AttachPhotoButton}
-                            inputId='AttachPicturesInput'
-                            // isLoadingProp={postPhotoLoading}
-                            className='explore-menu-items'
-                            handleBase64={this._handleBase64}
-                        />
-                        <div className='explore-menu-items'>
-                          <ContributionIcon className='post-component-footer-logos'/>
-                          ویدئو
-                        </div>
-                        <div className='explore-menu-items'>
-                          <ContributionIcon className='post-component-footer-logos'/>
-                          محصول
-                        </div>
-                        <div className='explore-menu-items' onClick={this.linkModal}>
-                          <ContributionIcon className='post-component-footer-logos'/>
-                          لینک
-                        </div>
+                      ): (errorAttachMedia ? <div className="form-control-feedback">{errorAttachMedia}</div> : '')
+
+                  }
+                  {
+                    (postFile) ? (
+                      <div>
+                        <span onClick={this._deleteFile} className='remove-post-picture pulse'>x</span>
                       </div>
-
-                    </div>
-
-                  </div>
-                  <div className="post-attached-pictures">
-                    {
-                      postPhotos.map((fileString, i) => {
-                            return (
-                                <div>
-                                  <span onClick={() => this._deletePicture(i)} className='remove-post-picture pulse'>x</span>
-                                  <img src={fileString} alt="imagePreview"/>
-                                </div>
-                            )
-                          }
-                      )
-                    }
-                  </div>
-
-                  <div ref={e => this.setWrapperSecondRef = e}
-                       className={this.state.contactMenu ? "post-component-footer-contact-menu-container" : "post-component-footer-contact-menu-container-hide"}>
-                    <div className='post-component-footer-contact-menu'>
-                      <div className='post-component-footer-contact-menu-icon'>
-                        ?
-                        <span>  </span>
-                        مخاطبین
-                      </div>
-                      <div className='post-component-footer-searchbox'>
-                        <input type='text' className='post-component-footer-searchbox-input' placeholder='جستجو'
-                               onChange={(e) => this.setState({...this.state, search: e.target.value})}
-                               onKeyUp={this.submitSearchByWord}/>
-                        <FontAwesome name="search" className='post-component-footer-searchbox-icon'/>
-                      </div>
-
-                      <div className='post-component-footer-contact-menu-content'>
-                        <div className='post-component-footer-check-container'>
-                          {
-                            "عمومی".includes(this.state.search) ? <label className='post-component-footer-checkbox'>
-                                  <input type="checkbox" checked={this.state.labels["عمومی"] !== undefined}
-                                         onClick={() => this.handleLabel("عمومی")}/>
-                                  <span className='checkmark'/>
-                                  عمومی
-                                </label>
-                                : null
-                          }
-
-                          {
-                            "دنبال کنندگان".includes(this.state.search) ?
-                                <label className='post-component-footer-checkbox'>
-                                  <input type="checkbox" checked={this.state.labels["دنبال کنندگان"] !== undefined}
-                                         onClick={() => this.handleLabel("دنبال کنندگان")}/>
-                                  <span className='checkmark'/>
-                                  دنبال کنندگان
-                                </label>
-                                : null
-                          }
-
-                          {
-                            "دنبال کنندگانِ دنبال کنندگان".includes(this.state.search) ?
-                                <label className='post-component-footer-checkbox'>
-                                  <input type="checkbox"
-                                         checked={this.state.labels["دنبال کنندگانِ دنبال کنندگان"] !== undefined}
-                                         onClick={() => this.handleLabel("دنبال کنندگانِ دنبال کنندگان")}/>
-                                  <span className='checkmark'/>
-                                  دنبال کنندگانِ دنبال کنندگان
-                                </label>
-                                : null
-                          }
-                        </div>
-
-                        <div className='post-component-footer-contact-menu-content-title'
-                             style={{display: exchangesArr.length > 0 ? "block" : "none"}}>بورس ها
-                        </div>
-
-                        <div className='post-component-footer-check-container'>
-                          {
-                            exchangesArr.map(exchange =>
-                                <label className='post-component-footer-checkbox'>
-                                  <input type="checkbox"
-                                         checked={this.state.labels[exchange.exchange_identity_related_exchange.name] !== undefined || this.state.labels["عمومی"]}
-                                         onClick={() => this.handleLabel(exchange.exchange_identity_related_exchange.name)}/>
-                                  <span className='checkmark'/>
-                                  {exchange.exchange_identity_related_exchange.name}
-                                </label>
-                            )
-                          }
-                        </div>
-
-                        <div className='post-component-footer-contact-menu-content-title'
-                             style={{display: followersArr.length > 0 ? "block" : "none"}}>دنبال کنندگان
-                        </div>
-
-                        <div className='post-component-footer-check-container'>
-                          {
-                            followersArr.map(follow => {
-                                  return (
-                                      <label className='post-component-footer-checkbox'>
-                                        <input type="checkbox"
-                                               checked={this.state.labels[follow.follow_follower.name] !== undefined || this.state.labels["عمومی"]}
-                                               onClick={() => this.handleLabel(follow.follow_follower.name)}/>
-                                        <span className='checkmark'/>
-                                        {follow.follow_follower.name}
-                                      </label>
-                                  )
-                                }
-                            )
-                          }
-                        </div>
-
-                      </div>
-
-                      <div style={{textAlign: "left"}}>
-                        <button className='post-component-footer-cancel-btn'>لغو</button>
-                        <button className='post-component-footer-submit-btn'>ثبت</button>
-                      </div>
-
-                    </div>
-                  </div>
-
+                    ): (errorAttachFile ? <div className="form-control-feedback">{errorAttachFile}</div> : '')
+                  }
                 </div>
 
-                <div style={{clear: "both"}}/>
-              </div>
+                <div ref={e => this.setWrapperSecondRef = e}
+                     className={this.state.contactMenu ? "post-component-footer-contact-menu-container" : "post-component-footer-contact-menu-container-hide"}>
+                  <div className='post-component-footer-contact-menu'>
+                    <div className='post-component-footer-contact-menu-icon'>
+                      ?
+                      <span>  </span>
+                      مخاطبین
+                    </div>
+                    <div className='post-component-footer-searchbox'>
+                      <input type='text' className='post-component-footer-searchbox-input' placeholder='جستجو'
+                             onChange={(e) => this.setState({...this.state, search: e.target.value})}
+                             onKeyUp={this.submitSearchByWord}/>
+                      <FontAwesome name="search" className='post-component-footer-searchbox-icon'/>
+                    </div>
 
-              <div className={this.state.linkModal ? 'post-component-footer-link-modal' : 'post-component-footer-link-modal-hide'}>
+                    <div className='post-component-footer-contact-menu-content'>
+                      <div className='post-component-footer-check-container'>
+                        {
+                          "عمومی".includes(this.state.search) ? <label className='post-component-footer-checkbox'>
+                              <input type="checkbox" checked={this.state.labels["عمومی"] !== undefined}
+                                     onClick={() => this.handleLabel("عمومی")}/>
+                              <span className='checkmark'/>
+                              عمومی
+                            </label>
+                            : null
+                        }
 
-                <div ref={e => this.setWrapperThirdRef = e} className='post-component-footer-link-modal-container'>
-                  <div className='post-component-footer-link-modal-container-title'>
-                    افزودن لینک
-                  </div>
-                  <input type='text' className='post-component-footer-link-modal-container-input' ref={e => this.link = e}/>
-                  <div className='post-component-footer-link-modal-container-buttons'>
-                    <button className='post-component-footer-link-modal-cancel-btn' onClick={() => this.setState({...this.state, linkModal: false})}>لغو</button>
-                    <button className='post-component-footer-link-modal-submit-btn' onClick={() => this.setState({...this.state, link: this.link.value, linkModal: false})}>ثبت</button>
+                        {
+                          "دنبال کنندگان".includes(this.state.search) ?
+                            <label className='post-component-footer-checkbox'>
+                              <input type="checkbox" checked={this.state.labels["دنبال کنندگان"] !== undefined}
+                                     onClick={() => this.handleLabel("دنبال کنندگان")}/>
+                              <span className='checkmark'/>
+                              دنبال کنندگان
+                            </label>
+                            : null
+                        }
+
+                        {
+                          "دنبال کنندگانِ دنبال کنندگان".includes(this.state.search) ?
+                            <label className='post-component-footer-checkbox'>
+                              <input type="checkbox"
+                                     checked={this.state.labels["دنبال کنندگانِ دنبال کنندگان"] !== undefined}
+                                     onClick={() => this.handleLabel("دنبال کنندگانِ دنبال کنندگان")}/>
+                              <span className='checkmark'/>
+                              دنبال کنندگانِ دنبال کنندگان
+                            </label>
+                            : null
+                        }
+                      </div>
+
+                      <div className='post-component-footer-contact-menu-content-title'
+                           style={{display: exchangesArr.length > 0 ? "block" : "none"}}>بورس ها
+                      </div>
+
+                      <div className='post-component-footer-check-container'>
+                        {
+                          exchangesArr.map(exchange =>
+                            <label className='post-component-footer-checkbox'>
+                              <input type="checkbox"
+                                     checked={this.state.labels[exchange.exchange_identity_related_exchange.name] !== undefined || this.state.labels["عمومی"]}
+                                     onClick={() => this.handleLabel(exchange.exchange_identity_related_exchange.name)}/>
+                              <span className='checkmark'/>
+                              {exchange.exchange_identity_related_exchange.name}
+                            </label>
+                          )
+                        }
+                      </div>
+
+                      <div className='post-component-footer-contact-menu-content-title'
+                           style={{display: followersArr.length > 0 ? "block" : "none"}}>دنبال کنندگان
+                      </div>
+
+                      <div className='post-component-footer-check-container'>
+                        {
+                          followersArr.map(follow => {
+                              return (
+                                <label className='post-component-footer-checkbox'>
+                                  <input type="checkbox"
+                                         checked={this.state.labels[follow.follow_follower.name] !== undefined || this.state.labels["عمومی"]}
+                                         onClick={() => this.handleLabel(follow.follow_follower.name)}/>
+                                  <span className='checkmark'/>
+                                  {follow.follow_follower.name}
+                                </label>
+                              )
+                            }
+                          )
+                        }
+                      </div>
+
+                    </div>
+
+                    <div style={{textAlign: "left"}}>
+                      <button className='post-component-footer-cancel-btn'>لغو</button>
+                      <button className='post-component-footer-submit-btn'>ثبت</button>
+                    </div>
+
                   </div>
                 </div>
 
               </div>
 
-            </form>
+              <div style={{clear: "both"}}/>
+            </div>
+
+            <div
+              className={this.state.linkModal ? 'post-component-footer-link-modal' : 'post-component-footer-link-modal-hide'}>
+
+              <div ref={e => this.setWrapperThirdRef = e} className='post-component-footer-link-modal-container'>
+                <div className='post-component-footer-link-modal-container-title'>
+                  افزودن لینک
+                </div>
+                <input type='text' className='post-component-footer-link-modal-container-input'
+                       ref={e => this.link = e}/>
+                <div className='post-component-footer-link-modal-container-buttons'>
+                  <button className='post-component-footer-link-modal-cancel-btn'
+                          onClick={() => this.setState({...this.state, linkModal: false})}>لغو
+                  </button>
+                  <button className='post-component-footer-link-modal-submit-btn'
+                          onClick={() => this.setState({...this.state, link: this.link.value, linkModal: false})}>ثبت
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+          </form>
         )
       case "comment":
         return (
-            <div className={"comment-container"}>
-              <div style={{display: "inline-block", width: "11%"}}>
-                {this.props.currentUserMedia !== null && this.props.currentUserMedia !== undefined ?
-                    <img alt='profile' src={this.props.currentUserMedia} className={"comment-owner"}/>
-                    :
-                    <DefaultUserIcon width='45px' height='45px'/>
-                }
-              </div>
-              <div className={this.state.commentBody}>
+          <div className={"comment-container"}>
+            <div style={{display: "inline-block", width: "11%"}}>
+              {this.props.currentUserMedia !== null && this.props.currentUserMedia !== undefined ?
+                <img alt='profile' src={this.props.currentUserMedia} className={"comment-owner"}/>
+                :
+                <DefaultUserIcon width='45px' height='45px'/>
+              }
+            </div>
+            <div className={this.state.commentBody}>
               <textarea ref={e => this.text = e}
                         className={this.state.open ? "comment-text-area-open" : "comment-text-area"}
                         placeholder={this.state.placeholder}
@@ -518,61 +604,61 @@ class CreatePostNew extends Component {
                           open: false,
                           commentBody: "comment-body"
                         }) : this.setState({...this.state, open: true, commentBody: "comment-body"})}/>
-                <div className='comment-icons' contentEditable={false}>
+              <div className='comment-icons' contentEditable={false}>
                   <span onClick={this.handleAttach}><AttachFileIcon
-                      className='post-component-footer-send-attach'/></span>
-                  <span onClick={() => this.createComment(this.text)}><PostSendIcon
-                      className='post-component-footer-send-attach'/></span>
-                  <div ref={e => this.setWrapperRef = e}
-                       className={this.state.attachMenu ? "post-component-footer-attach-menu-container" : "post-component-footer-attach-menu-container-hide"}>
-                    <div className='post-component-footer-attach-menu'>
-                      <div className='explore-menu-items'>
-                        <AttachFileIcon className='post-component-footer-logos'/>
-                        فایل
-                      </div>
-                      <AttachFile
-                          ref={e => this.AttachPhotoInput = e}
-                          AttachButton={this.AttachPhotoButton}
-                          inputId='AttachPicturesInput'
-                          // isLoadingProp={postPhotoLoading}
-                          className='explore-menu-items'
-                          handleBase64={this._handleBase64}
-                      />
-                      <div className='explore-menu-items'>
-                        <ContributionIcon className='post-component-footer-logos'/>
-                        ویدئو
-                      </div>
-                      <div className='explore-menu-items'>
-                        <ContributionIcon className='post-component-footer-logos'/>
-                        محصول
-                      </div>
-                      <div className='explore-menu-items'>
-                        <ContributionIcon className='post-component-footer-logos'/>
-                        لینک
-                      </div>
+                    className='post-component-footer-send-attach'/></span>
+                <span onClick={() => this.createComment(this.text)}><PostSendIcon
+                  className='post-component-footer-send-attach'/></span>
+                <div ref={e => this.setWrapperRef = e}
+                     className={this.state.attachMenu ? "post-component-footer-attach-menu-container" : "post-component-footer-attach-menu-container-hide"}>
+                  <div className='post-component-footer-attach-menu'>
+                    <div className='explore-menu-items'>
+                      <AttachFileIcon className='post-component-footer-logos'/>
+                      فایل
+                    </div>
+                    <AttachFile
+                      ref={e => this.AttachPictureInput = e}
+                      AttachButton={this.AttachPictureButton}
+                      inputId='AttachPicturesInput'
+                      // isLoadingProp={postPictureLoading}
+                      className='explore-menu-items'
+                      handleBase64={this._handleBase64}
+                    />
+                    <div className='explore-menu-items'>
+                      <ContributionIcon className='post-component-footer-logos'/>
+                      ویدئو
+                    </div>
+                    <div className='explore-menu-items'>
+                      <ContributionIcon className='post-component-footer-logos'/>
+                      محصول
+                    </div>
+                    <div className='explore-menu-items'>
+                      <ContributionIcon className='post-component-footer-logos'/>
+                      لینک
                     </div>
                   </div>
                 </div>
               </div>
-              <div style={{clear: "both"}}/>
-              {
-                postPhotos.map((fileString, i) => {
-                      return (
-                          <div>
-                            <span onClick={() => this._deletePicture(i)} className='remove-post-picture pulse'>x</span>
-                            <img src={fileString} alt="imagePreview"/>
-                          </div>
-                      )
-                    }
-                )
-              }
             </div>
+            <div style={{clear: "both"}}/>
+            {
+              postPictures.map((fileString, i) => {
+                  return (
+                    <div>
+                      <span onClick={() => this._deletePicture(i)} className='remove-post-picture pulse'>x</span>
+                      <img src={fileString} alt="imagePreview"/>
+                    </div>
+                  )
+                }
+              )
+            }
+          </div>
         )
       default:
         return (
-            <h2>
-              Component Type Needed
-            </h2>
+          <h2>
+            Component Type Needed
+          </h2>
         )
     }
   }
@@ -582,13 +668,13 @@ const mapStateToProps = (state) => {
 
   const client = state.auth.client
   const clientImgId = (client.user_type === "person") ? (client.profile.profile_media) : (
-      (client.organization && client.organization.organization_logo) || null
+    (client.organization && client.organization.organization_logo) || null
   )
 
   const userId = (client.organization && client.organization.id) || (client.user && client.user.id)
 
   const tempPostPictures = state.temp.file[timeStamp]
-  const postPhotoIds = tempPostPictures || []
+  const postPictureIds = tempPostPictures || []
 
   return ({
     currentUserType: client.user_type,
@@ -599,7 +685,7 @@ const mapStateToProps = (state) => {
     currentUserName: client.user.first_name + " " + client.user.last_name,
     exchanges: state.common.exchangeMembership.list,
     followers: state.common.social.follows.list,
-    postPhotoIds,
+    postPictureIds,
     translate: getMessages(state)
   })
 }

@@ -318,11 +318,11 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     }
   }
 
-  _handleBase64Banner = (fileString) => {
+  _handleBase64Banner = ({fileString, fileExtension, fileName}) => {
     this.setState({...this.state, bannerState: fileString})
   }
 
-  handleBase64Picture = (fileString) => {
+  handleBase64Picture = ({fileString, fileExtension, fileName}) => {
     this.setState({...this.state, pictureState: fileString})
   }
 
