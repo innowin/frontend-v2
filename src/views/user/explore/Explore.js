@@ -11,29 +11,6 @@ import socialActions from 'src/redux/actions/commonActions/socialActions'
 import userActions from 'src/redux/actions/user/getUserActions'
 import {getUsers} from 'src/redux/selectors/user/GetAllUsers'
 
-
-const data = {
-  1: {
-    "username": "Hamed",
-    "first_name": "حامد",
-    "last_name": "رومی",
-    "profile_photo": "http://restful.daneshboom.ir/media/2fe29b711caf405cbc2344cad5661bd3.jpeg",
-    "banner": "https://marketplace.canva.com/MACq6BvCni8/1/0/thumbnail_large/canva-red-basic-stationery-etsy-banner-MACq6BvCni8.jpg",
-    "description": "طاقت فرسودگی ام هیچ نیست در پی ویران شدنی آنی ام/ دانشجوی دکترای آینده پژوهی، دانشکده مدیریت معروف! زیر پل فلان",
-    "is_following": true,
-  },
-  2: {
-    "username": "Saber",
-    "first_name": "صابر",
-    "last_name": "منادی",
-    "profile_photo": null,
-    "banner": "https://marketplace.canva.com/MACq6BvCni8/1/0/thumbnail_large/canva-red-basic-stationery-etsy-banner-MACq6BvCni8.jpg",
-    "description": "طاقت فرسودگی ام هیچ نیست در پی ویران شدنی آنی ام/ دانشجوی دکترای آینده پژوهی، دانشکده مدیریت معروف! زیر پل فلان",
-    "is_following": false,
-  }
-}
-
-
 type appProps =
     {|
       actions: any,

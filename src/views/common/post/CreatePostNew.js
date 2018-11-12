@@ -3,8 +3,10 @@ import PropTypes from "prop-types"
 import {bindActionCreators} from "redux"
 import connect from "react-redux/es/connect/connect"
 import AttachFile from "src/views/common/inputs/AttachFile"
-import AttachFileIcon from "../../../images/common/attachFile_svg"
+import AttachFileIcon from "../../../images/common/attachFileNew_svg"
 import ContributionIcon from "../../../images/common/contribution_svg"
+import MovieIcon from "../../../images/common/movie_svg"
+import LinkIcon from "../../../images/common/link_svg"
 import DemandIcon from "../../../images/common/demand_svg"
 import FileActions from "src/redux/actions/commonActions/fileActions"
 import FontAwesome from "react-fontawesome"
@@ -160,9 +162,10 @@ class CreatePostNew extends Component {
 
 
   _getValues = () => {
-    const {selected} = this.state
+    const {selected, link} = this.state
     const {currentUserIdentity, postParentId, currentUserImgId, postPhotoIds} = this.props
     const description = this.text.value
+    const post_link = link.trim() !== '' ? link : null
     return {
       post_picture: postPhotoIds[0] || null,
       post_description: description,
@@ -170,7 +173,8 @@ class CreatePostNew extends Component {
       post_type: selected,
       post_parent: postParentId,
       post_identity: currentUserIdentity,
-      post_related_identity_image: currentUserImgId
+      post_related_identity_image: currentUserImgId,
+      post_link,
     }
   }
 
@@ -189,7 +193,6 @@ class CreatePostNew extends Component {
     }
     return result
   }
-
 
 
   _preSave = () => {
@@ -229,7 +232,6 @@ class CreatePostNew extends Component {
   }
 
 
-
   componentDidUpdate(prevProps) {
     const {postsCountInThisPage} = this.props
     if (prevProps.postsCountInThisPage < postsCountInThisPage) {
@@ -237,7 +239,7 @@ class CreatePostNew extends Component {
     }
     const {postPhotoIds} = this.props
     const {postPhotos, savingPost} = this.state
-    if(savingPost && postPhotos.length === postPhotoIds.length){
+    if (savingPost && postPhotos.length === postPhotoIds.length) {
       this._save()
     }
   }
@@ -258,7 +260,6 @@ class CreatePostNew extends Component {
   componentWillUnmount() {
     document.removeEventListener("mousedown", this.handleClickOutside)
   }
-
 
 
   render() {
@@ -346,15 +347,15 @@ class CreatePostNew extends Component {
                             handleBase64={this._handleBase64}
                         />
                         <div className='explore-menu-items'>
-                          <ContributionIcon className='post-component-footer-logos'/>
+                          <MovieIcon className='post-component-footer-logos-little'/>
                           ویدئو
                         </div>
                         <div className='explore-menu-items'>
-                          <ContributionIcon className='post-component-footer-logos'/>
+                          <ContributionIcon className='post-component-footer-logos-little'/>
                           محصول
                         </div>
                         <div className='explore-menu-items' onClick={this.linkModal}>
-                          <ContributionIcon className='post-component-footer-logos'/>
+                          <LinkIcon className='post-component-footer-logos-little'/>
                           لینک
                         </div>
                       </div>

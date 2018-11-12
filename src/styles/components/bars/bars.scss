@@ -760,6 +760,18 @@ $sidebar-profile-media-width: 80px;
     background-color: $chat-box2-color;
     border-radius: 3px;
     color: black;
+    .post-component-footer-logos{
+      fill: $primary-color;
+    }
+    .post-component-footer-logos-little{
+      fill: $primary-color;
+    }
+  }
+  &:first-child{
+    padding-top: 10px;
+  }
+  &:last-child{
+    padding-bottom: 8px;
   }
 }
 

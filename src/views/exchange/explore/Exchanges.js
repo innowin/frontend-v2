@@ -34,13 +34,7 @@ function render(props) {
 }
 
 const Exchanges = (props: appProps) => {
-  return (
-      <div className="exchanges-explore">
-        {
-          render(props)
-        }
-      </div>
-  )
+  return render(props)
 }
 const mapStateToProps = (state) => ({
   searchingByWord: state.exchanges.searchByWord,

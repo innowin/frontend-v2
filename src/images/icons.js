@@ -1,5 +1,6 @@
 import AgentSvgIcon from "./addingConribution/agent_svg"
 import AttachFileIcon from "./common/attachFile_svg"
+import AttachFileNewIcon from "./common/attachFileNew_svg"
 import BookmarkIcon from "./product/bookmark"
 import CertificateIcon from "./user/certificate_svg"
 import CertificateTick from "./common/certificate_tick_svg"
@@ -86,6 +87,7 @@ export {
   QuestionMark,
   AgentSvgIcon,
   AttachFileIcon,
+  AttachFileNewIcon,
   BookmarkIcon,
   CertificateIcon,
   ChartIcon,

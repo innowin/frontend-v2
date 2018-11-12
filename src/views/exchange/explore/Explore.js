@@ -8,7 +8,6 @@ import {bindActionCreators} from 'redux'
 import connect from 'react-redux/es/connect/connect'
 import exchangeActions from 'src/redux/actions/exchangeActions'
 import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges.js'
-import {PostCreateForm} from "../../common/post/PostCreateForm"
 
 type appProps =
     {|
@@ -62,20 +61,14 @@ class Explore extends Component <appProps, appState> {
 
   render() {
     return (
-        <div>
+        <div className='all-exchanges-parent'>
           <TopBar collapseClassName="col user-sidebar-width"/>
           <Sidebar justFollowing={(checked) => this.setState({...this.state, justFollowing: checked})}/>
           <div className='all-exchanges-container'>
             <Exchanges exchanges={this.props.allExchanges} justFollowing={this.state.justFollowing}/>
-            {/*{this.state.scrollLoading && <ClipLoader/>}*/}
+            <div className='exchange-model-hide'/>
+            <div className='exchange-model-hide'/>
           </div>
-
-          {/*remove this*/}
-          {/*<div>*/}
-          {/*<PostCreateForm />*/}
-          {/*</div>*/}
-          {/*end*/}
-
         </div>
     )
   }

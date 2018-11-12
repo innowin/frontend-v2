@@ -399,10 +399,20 @@
 }
 
 .post-component-footer-logos {
-  fill: $primary-color;
-  width: 20px;
+  fill: #BBBBBB;
+  width: 18px;
   vertical-align: top;
   margin-left: 8px;
+  transition-duration: 0.3s;
+}
+
+.post-component-footer-logos-little {
+  fill: #BBBBBB;
+  margin-right: 3px;
+  width: 15px;
+  vertical-align: top;
+  margin-left: 8px;
+  transition-duration: 0.3s;
 }
 
 .post-component-footer-submit-btn {

@@ -11,7 +11,7 @@
   background: white;
   border-radius: 5px;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
-  height: 320px;
+  height: 330px;
 }
 
 .user-banner {
@@ -25,6 +25,7 @@
   width: 80px;
   height: 80px;
   border-radius: 50%;
+  object-fit: cover;
   border: 3px solid white;
   margin-top: -40px;
   margin-bottom: 8px;
@@ -65,6 +66,8 @@
   text-align-last: right;
   line-height: 25px;
   height: 110px;
+  margin-bottom: 10px;
+  overflow-y: hidden;
   color: $text-title-menu-color;
 }
 
@@ -72,7 +75,7 @@
   border: 1px solid $tag-del-btn-background;
   color: $tag-del-btn-background;
   background-color: white;
-  cursor: pointer;
+  //cursor: pointer;
   border-radius: 3px;
   padding: 2px 10px;
   float: left;

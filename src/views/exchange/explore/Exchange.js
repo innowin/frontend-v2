@@ -81,7 +81,6 @@ class Exchange extends Component <appProps, appState> {
             <div className='exchange-model-description'>
               {data.description}
             </div>
-            <hr/>
 
             {/*{images}*/}
             {/*<div className='exchange-model-followers-count'>{data.members_count}</div>*/}
@@ -98,7 +97,6 @@ class Exchange extends Component <appProps, appState> {
               <span> </span>
               <div className='exchange-model-detail-dist-title'>{data.supply}</div>
             </div>
-            <hr/>
 
             {
               this.renderJoint()

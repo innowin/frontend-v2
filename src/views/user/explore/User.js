@@ -29,10 +29,8 @@ class User extends Component <appProps, appState> {
   }
 
   follow = () => {
-
     this.setState({followLoading: true}, () => {
-      if (this.props.identities[this.props.data.user.id] !== undefined && this.props.identities[this.props.data.user.id].identity.content !== null) {
-        console.log(this.props.identities[this.props.data.user.id].identity.content)
+      if (this.props.identities[this.props.data.user.id] && this.props.identities[this.props.data.user.id].identity && this.props.identities[this.props.data.user.id].identity.content) {
         const formValues = {follow_follower: this.props.currentUserIdentity, follow_followed: this.props.identities[this.props.data.user.id].identity.content}
         this.props.actions.follow({formValues, followOwnerId: this.props.currentUserId, followOwnerType: this.props.currentUserType})
       }
@@ -44,9 +42,8 @@ class User extends Component <appProps, appState> {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.state.follow && (this.props.identities[this.props.data.user.id] !== undefined && this.props.identities[this.props.data.user.id].identity.content !== null)) {
+    if (this.state.follow && (nextProps.identities[this.props.data.user.id] && nextProps.identities[this.props.data.user.id].identity && nextProps.identities[this.props.data.user.id].identity.content)) {
       this.setState({...this.state, follow: false}, () => {
-        console.log(this.props.identities[this.props.data.user.id].identity.content)
         const formValues = {follow_follower: this.props.currentUserIdentity, follow_followed: nextProps.identities[this.props.data.user.id].identity.content}
         this.props.actions.follow({formValues, followOwnerId: this.props.currentUserId, followOwnerType: this.props.currentUserType})
       })
@@ -90,8 +87,8 @@ class User extends Component <appProps, appState> {
 
           <div className='user-baj-container'>
             {
-              data.badges.map(badge =>
-                  <img src={'https://restful.daneshboom.ir/' + badge.badge_related_badge_category.badge_related_media.file} className='user-baj' alt='badge'/>
+              data.badges.map((badge,i) =>
+                  <img key={i} src={'https://restful.daneshboom.ir/' + badge.badge_related_badge_category.badge_related_media.file} className='user-baj' alt='badge'/>
               )
             }
           </div>
