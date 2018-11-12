@@ -54,18 +54,18 @@ class CreatePostNew extends Component {
       pageX: 0,
       pageY: 0,
       commentBody: "comment-body",
-      placeholder: '',
-      selectedText: '',
+      placeholder: "",
+      selectedText: "",
       postPhotos: [],
-      link: '',
+      link: "",
       savingPost: false
     }
   }
 
 
   _resetPost = () => {
-    this.setState({...this.state, open: false, selected: 'post', postPhotos: []})
-    this.text.innerText = ''
+    this.setState({...this.state, open: false, selected: "post", postPhotos: []})
+    this.text.innerText = ""
   }
 
   handleClickOutside = (event) => {
@@ -165,7 +165,7 @@ class CreatePostNew extends Component {
     const {selected, link} = this.state
     const {currentUserIdentity, postParentId, currentUserImgId, postPhotoIds} = this.props
     const description = this.text.value
-    const post_link = link.trim() !== '' ? link : null
+    const post_link = link.trim() !== "" ? link : null
     return {
       post_picture: postPhotoIds[0] || null,
       post_description: description,
@@ -202,7 +202,7 @@ class CreatePostNew extends Component {
     const {createFile} = actions
     const nextActionTypesForPosPictures = types.COMMON.SET_FILE_IDS_IN_TEMP_FILE
     const nextActionDataForPostPictures = {tempFileChildName: timeStamp}
-    const fileIdKey = 'fileId'
+    const fileIdKey = "fileId"
     const postPicturesCreateArguments = {
       fileIdKey,
       nextActionType: nextActionTypesForPosPictures,
@@ -266,7 +266,7 @@ class CreatePostNew extends Component {
     const followersArr = Object.values(this.props.followers).filter(follow => follow.follow_follower.id !== this.props.currentUserIdentity && follow.follow_follower.name.includes(this.state.search))
     const exchangesArr = Object.values(this.props.exchanges).filter(exchange => exchange.exchange_identity_related_exchange.name.includes(this.state.search))
     const {className, componentType, currentUserMedia, currentUserName} = this.props
-    const {postPhotos} = this.state
+    const {postPhotos, commentBody, open, attachMenu, selected, labels, link, contactMenu, search, linkModal} = this.state
 
     switch (componentType) {
       case "post":
@@ -283,19 +283,19 @@ class CreatePostNew extends Component {
                 </div>
                 <div className='post-component-header-item'>
                   <Share
-                      className={this.state.selected === "post" ? "post-component-header-item-logo1" : "post-component-header-item-logo1-unselect"}
+                      className={selected === "post" ? "post-component-header-item-logo1" : "post-component-header-item-logo1-unselect"}
                       onClick={this.handleSelectShare}/>
                   <DemandIcon height="22px"
-                              className={this.state.selected === "demand" ? "post-component-header-item-logo" : "post-component-header-item-logo-unselect"}
+                              className={selected === "demand" ? "post-component-header-item-logo" : "post-component-header-item-logo-unselect"}
                               onClickFunc={this.handleSelectDemand}/>
                   <SupplyIcon height="18px"
-                              className={this.state.selected === "supply" ? "post-component-header-item-logo2" : "post-component-header-item-logo2-unselect"}
+                              className={selected === "supply" ? "post-component-header-item-logo2" : "post-component-header-item-logo2-unselect"}
                               onClickFunc={this.handleSelectSupply}/>
                 </div>
               </div>
 
               <textarea ref={e => this.text = e}
-                        className={this.state.open ? "post-component-textarea-open" : "post-component-textarea"}
+                        className={open ? "post-component-textarea-open" : "post-component-textarea"}
                         placeholder='در زیست بوم باش ...'
                         onBlur={(e) => e.target.value.length === 0 ? this.setState({
                           ...this.state,
@@ -308,7 +308,7 @@ class CreatePostNew extends Component {
                 <div className='post-component-footer-logo' onClick={this.handleContact}>?</div>
                 <div className='post-component-footer-items-style-cont'>
                   {
-                    Object.values(this.state.labels).map(label =>
+                    Object.values(labels).map(label =>
                         <div className='post-component-footer-items-style'>
                           <div className='post-component-footer-items-style-text'>{label}</div>
                           <div className='post-component-footer-items-style-close'
@@ -324,7 +324,7 @@ class CreatePostNew extends Component {
 
                   <div className='post-component-footer-send'>
 
-                    <div className='post-component-footer-link'>{this.state.link}</div>
+                    <div className='post-component-footer-link'>{link}</div>
 
                     <div style={{display: "inline-block"}} onClick={this.handleAttach}>
                       <AttachFileIcon className='post-component-footer-send-attach'/>
@@ -332,7 +332,7 @@ class CreatePostNew extends Component {
                     <button type="submit" className='post-component-footer-send-btn'>ارسال</button>
 
                     <div ref={e => this.setWrapperRef = e}
-                         className={this.state.attachMenu ? "post-component-footer-attach-menu-container" : "post-component-footer-attach-menu-container-hide"}>
+                         className={attachMenu ? "post-component-footer-attach-menu-container" : "post-component-footer-attach-menu-container-hide"}>
                       <div className='post-component-footer-attach-menu'>
                         <div className='explore-menu-items'>
                           <AttachFileIcon className='post-component-footer-logos'/>
@@ -368,7 +368,8 @@ class CreatePostNew extends Component {
                       postPhotos.map((fileString, i) => {
                             return (
                                 <div>
-                                  <span onClick={() => this._deletePicture(i)} className='remove-post-picture pulse'>x</span>
+                                  <span onClick={() => this._deletePicture(i)}
+                                        className='remove-post-picture pulse'>x</span>
                                   <img src={fileString} alt="imagePreview"/>
                                 </div>
                             )
@@ -378,7 +379,7 @@ class CreatePostNew extends Component {
                   </div>
 
                   <div ref={e => this.setWrapperSecondRef = e}
-                       className={this.state.contactMenu ? "post-component-footer-contact-menu-container" : "post-component-footer-contact-menu-container-hide"}>
+                       className={contactMenu ? "post-component-footer-contact-menu-container" : "post-component-footer-contact-menu-container-hide"}>
                     <div className='post-component-footer-contact-menu'>
                       <div className='post-component-footer-contact-menu-icon'>
                         ?
@@ -395,8 +396,8 @@ class CreatePostNew extends Component {
                       <div className='post-component-footer-contact-menu-content'>
                         <div className='post-component-footer-check-container'>
                           {
-                            "عمومی".includes(this.state.search) ? <label className='post-component-footer-checkbox'>
-                                  <input type="checkbox" checked={this.state.labels["عمومی"] !== undefined}
+                            "عمومی".includes(search) ? <label className='post-component-footer-checkbox'>
+                                  <input type="checkbox" checked={labels["عمومی"] !== undefined}
                                          onClick={() => this.handleLabel("عمومی")}/>
                                   <span className='checkmark'/>
                                   عمومی
@@ -405,9 +406,9 @@ class CreatePostNew extends Component {
                           }
 
                           {
-                            "دنبال کنندگان".includes(this.state.search) ?
+                            "دنبال کنندگان".includes(search) ?
                                 <label className='post-component-footer-checkbox'>
-                                  <input type="checkbox" checked={this.state.labels["دنبال کنندگان"] !== undefined}
+                                  <input type="checkbox" checked={labels["دنبال کنندگان"] !== undefined}
                                          onClick={() => this.handleLabel("دنبال کنندگان")}/>
                                   <span className='checkmark'/>
                                   دنبال کنندگان
@@ -416,10 +417,10 @@ class CreatePostNew extends Component {
                           }
 
                           {
-                            "دنبال کنندگانِ دنبال کنندگان".includes(this.state.search) ?
+                            "دنبال کنندگانِ دنبال کنندگان".includes(search) ?
                                 <label className='post-component-footer-checkbox'>
                                   <input type="checkbox"
-                                         checked={this.state.labels["دنبال کنندگانِ دنبال کنندگان"] !== undefined}
+                                         checked={labels["دنبال کنندگانِ دنبال کنندگان"] !== undefined}
                                          onClick={() => this.handleLabel("دنبال کنندگانِ دنبال کنندگان")}/>
                                   <span className='checkmark'/>
                                   دنبال کنندگانِ دنبال کنندگان
@@ -437,7 +438,7 @@ class CreatePostNew extends Component {
                             exchangesArr.map(exchange =>
                                 <label className='post-component-footer-checkbox'>
                                   <input type="checkbox"
-                                         checked={this.state.labels[exchange.exchange_identity_related_exchange.name] !== undefined || this.state.labels["عمومی"]}
+                                         checked={labels[exchange.exchange_identity_related_exchange.name] !== undefined || labels["عمومی"]}
                                          onClick={() => this.handleLabel(exchange.exchange_identity_related_exchange.name)}/>
                                   <span className='checkmark'/>
                                   {exchange.exchange_identity_related_exchange.name}
@@ -456,7 +457,7 @@ class CreatePostNew extends Component {
                                   return (
                                       <label className='post-component-footer-checkbox'>
                                         <input type="checkbox"
-                                               checked={this.state.labels[follow.follow_follower.name] !== undefined || this.state.labels["عمومی"]}
+                                               checked={labels[follow.follow_follower.name] !== undefined || labels["عمومی"]}
                                                onClick={() => this.handleLabel(follow.follow_follower.name)}/>
                                         <span className='checkmark'/>
                                         {follow.follow_follower.name}
@@ -482,16 +483,21 @@ class CreatePostNew extends Component {
                 <div style={{clear: "both"}}/>
               </div>
 
-              <div className={this.state.linkModal ? 'post-component-footer-link-modal' : 'post-component-footer-link-modal-hide'}>
+              <div className={linkModal ? "post-component-footer-link-modal" : "post-component-footer-link-modal-hide"}>
 
                 <div ref={e => this.setWrapperThirdRef = e} className='post-component-footer-link-modal-container'>
                   <div className='post-component-footer-link-modal-container-title'>
                     افزودن لینک
                   </div>
-                  <input type='text' className='post-component-footer-link-modal-container-input' ref={e => this.link = e}/>
+                  <input type='text' className='post-component-footer-link-modal-container-input'
+                         ref={e => this.link = e}/>
                   <div className='post-component-footer-link-modal-container-buttons'>
-                    <button className='post-component-footer-link-modal-cancel-btn' onClick={() => this.setState({...this.state, linkModal: false})}>لغو</button>
-                    <button className='post-component-footer-link-modal-submit-btn' onClick={() => this.setState({...this.state, link: this.link.value, linkModal: false})}>ثبت</button>
+                    <button className='post-component-footer-link-modal-cancel-btn'
+                            onClick={() => this.setState({...this.state, linkModal: false})}>لغو
+                    </button>
+                    <button className='post-component-footer-link-modal-submit-btn'
+                            onClick={() => this.setState({...this.state, link: this.link.value, linkModal: false})}>ثبت
+                    </button>
                   </div>
                 </div>
 
@@ -503,16 +509,16 @@ class CreatePostNew extends Component {
         return (
             <div className={"comment-container"}>
               <div style={{display: "inline-block", width: "11%"}}>
-                {this.props.currentUserMedia !== null && this.props.currentUserMedia !== undefined ?
-                    <img alt='profile' src={this.props.currentUserMedia} className={"comment-owner"}/>
+                {currentUserMedia !== null && currentUserMedia !== undefined ?
+                    <img alt='profile' src={currentUserMedia} className={"comment-owner"}/>
                     :
                     <DefaultUserIcon width='45px' height='45px'/>
                 }
               </div>
               <div className={this.state.commentBody}>
               <textarea ref={e => this.text = e}
-                        className={this.state.open ? "comment-text-area-open" : "comment-text-area"}
-                        placeholder={this.state.placeholder}
+                        className={open ? "comment-text-area-open" : "comment-text-area"}
+                        placeholder={commentBody}
                         onFocus={() => this.setState({...this.state, commentBody: "comment-body-focused"})}
                         onBlur={(e) => e.target.value.length === 0 ? this.setState({
                           ...this.state,
@@ -525,7 +531,7 @@ class CreatePostNew extends Component {
                   <span onClick={() => this.createComment(this.text)}><PostSendIcon
                       className='post-component-footer-send-attach'/></span>
                   <div ref={e => this.setWrapperRef = e}
-                       className={this.state.attachMenu ? "post-component-footer-attach-menu-container" : "post-component-footer-attach-menu-container-hide"}>
+                       className={attachMenu ? "post-component-footer-attach-menu-container" : "post-component-footer-attach-menu-container-hide"}>
                     <div className='post-component-footer-attach-menu'>
                       <div className='explore-menu-items'>
                         <AttachFileIcon className='post-component-footer-logos'/>
