@@ -118,6 +118,8 @@ module.exports = {
   'Phone number is wrong': 'شماره تلفن اشتباه است',
   'Save changes':'ذخیره تغییرات',
   'Employees': 'کارمندان',
+   // common- post
+  'This format is not allowed': 'این نوع فایل معتبر نیست!',
 
   // user - certificates
   'Title': "عنوان",

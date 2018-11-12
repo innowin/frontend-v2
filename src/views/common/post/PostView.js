@@ -221,7 +221,6 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     const {post, translate, postIdentity, postRelatedIdentityImage, userImage, extendedView, showEdit, comments, fileList, commentParentType} = this.props
     const {menuToggle, confirm} = this.state
     let postDescription, postPicture, postPictureId, postIdentityUserId, postIdentityOrganId, postOwnerId = 0
-    console.log(post, 'posssttt')
     if (post) {
       postDescription = post.post_description
       postPicture = post.post_picture
