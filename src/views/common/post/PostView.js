@@ -25,7 +25,7 @@ import PostFooter from "./PostFooter"
 import PostComments from "./PostComments"
 import {Confirm} from "../cards/Confirm"
 import {ClipLoader} from "react-spinners"
-import CreatePostNew from "./CreatePostNew"
+import CreatePostNew from "./createPost/index"
 import ProductInfoView from "../contributions/ProductInfoView";
 
 type postExtendedViewProps = {
