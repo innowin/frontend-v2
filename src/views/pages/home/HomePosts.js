@@ -6,7 +6,7 @@ import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import PostActions from "src/redux/actions/commonActions/postActions"
 import constant from "src/consts/constants"
-import CreatePostNew from "../../common/post/CreatePostNew"
+import CreatePostNew from "../../common/post/createPost/index"
 
 
 class HomePosts extends Component {

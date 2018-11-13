@@ -61,7 +61,8 @@ export default class AttachFile extends Component {
 
   _validateFile = (file) => {
     const {required, customValidate} = this.props
-    const fileExtension = this._getExtension(file.name)
+    const fileName = file ? file.name : ''
+    const fileExtension = this._getExtension(fileName)
     if (required) {
       if (!file) {
         return __('Required field')
