@@ -11,10 +11,8 @@ import DefaultUserIcon from "src/images/defaults/defaultUser_svg"
 import socialActions from "src/redux/actions/commonActions/socialActions"
 import SupplyIcon from "src/images/common/supply_svg"
 import {getMessages} from "src/redux/selectors/translateSelector"
-import PostSendIcon from "src/images/common/postSend_svg"
 import CommentActions from "src/redux/actions/commonActions/commentActions"
 import {createFileFunc} from "src/views/common/Functions"
-import PostCommentNew from "src/views/common/post/PostCommentNew"
 import types from "src/redux/actions/types"
 import AttachMenu from "./attachMenu"
 import ContactMenu from "./contactMenu"
@@ -54,12 +52,14 @@ class CreatePost extends Component {
       placeholder: "",
       selectedText: "",
       postPictures: [],
-      errorAttachPicture: "",
-      postFile: "",
-      errorAttachFile: "",
-      postMedia: "",
-      errorAttachMedia: "",
-      link: "",
+      errorAttachPicture: '',
+      postFile: '',
+      errorAttachFile: '',
+      postMedia: '',
+      errorAttachMedia: '',
+      link: '',
+      description: '',
+      descriptionClass: '',
       savingPost: false
     }
   }
@@ -71,17 +71,16 @@ class CreatePost extends Component {
       open: false,
       selected: "post",
       postPictures: [],
-      postFile: "",
-      postMedia: "",
-      link: "",
+      postFile: '',
+      postMedia: '',
+      link: '',
+      description: '',
       labels: {},
     })
-    this.text.innerText = ""
   }
 
   handleClickOutside = (event) => {
-    const {attachMenu, contactMenu, linkModal, postPictures, postFile, postMedia, link, labels, savingPost} = this.state
-    const description = this.text ? this.text.innerText : null
+    const {attachMenu, contactMenu, linkModal, postPictures, postFile, postMedia, link, description, labels, savingPost} = this.state
     const needReset = !savingPost && !description && !postPictures && !postFile && !postMedia && !link && labels === {}
 
     if (this.setWrapperRef && !this.setWrapperRef.contains(event.target)) {
@@ -152,6 +151,34 @@ class CreatePost extends Component {
     this.setState({...this.state, postPictures: newPostPictures})
   }
 
+  _handleChangeText = (e) => {
+    const description = e.target.value
+    this.setState({...this.state, description}, () => checkCharacter(description))
+    const checkCharacter = (description) => {
+      const descriptionLength = description.trim().length
+      const resetDescriptionClass = () => setTimeout(() => this.setState({...this.state, descriptionClass: ''}), 3000)
+      if (descriptionLength === 0)
+        this.setState({...this.state, descriptionClass: ''})
+      if (descriptionLength > 0 && descriptionLength < 5)
+        this.setState({...this.state, open: true, descriptionClass: 'error-message'}, () => resetDescriptionClass())
+      if (descriptionLength > 5 && descriptionLength < 10)
+        this.setState({...this.state, descriptionClass: 'neutral-message'}, () => resetDescriptionClass())
+      if (descriptionLength > 10 && descriptionLength < 1490)
+        this.setState({...this.state, descriptionClass: ''})
+      if (descriptionLength > 1490 && descriptionLength < 1500)
+        this.setState({...this.state, descriptionClass: 'neutral-message'}, () => resetDescriptionClass())
+      else if (descriptionLength > 1500)
+        this.setState({...this.state, descriptionClass: 'error-message'}, () => resetDescriptionClass())
+    }
+  }
+
+  _handleBlurText = (e) => {
+    const descriptionLength = e.target.value.trim().length
+    if (descriptionLength === 0) {
+      this.setState({...this.state, open: false})
+    } else this.setState({...this.state, open: true})
+  }
+
   _deleteFile = () => {
     this.setState({...this.state, postFile: ""})
   }
@@ -162,9 +189,8 @@ class CreatePost extends Component {
 
 
   _getValues = () => {
-    const {selected, link} = this.state
+    const {selected, link, description} = this.state
     const {currentUserIdentity, postParentId, currentUserImgId, postPictureIds} = this.props
-    const description = this.text.value
     const post_link = link.trim() !== "" ? link : null
     return {
       post_picture: postPictureIds[0] || null,
@@ -179,13 +205,14 @@ class CreatePost extends Component {
   }
 
   _formValidate = () => {
-    const {descriptionValidate, errorAttachFile, errorAttachMedia, errorAttachPicture} = this.state
+    const {descriptionClass, errorAttachFile, errorAttachMedia, errorAttachPicture} = this.state
+    const descriptionError = (descriptionClass === 'error-message')
     let result = true
     const validates = [
       errorAttachFile,
       errorAttachMedia,
       errorAttachPicture,
-      // descriptionValidate
+      descriptionError
     ]
     for (let i = 0; i < validates.length; i++) {
       if (validates[i]) {
@@ -257,7 +284,6 @@ class CreatePost extends Component {
       followOwnerType: this.props.currentUserType,
       followOwnerId: this.props.currentUserId
     })
-    // componentType === "comment" && this.setState({...this.state, placeholder: translate["Send comment"]})
   }
 
   componentWillUnmount() {
@@ -269,7 +295,7 @@ class CreatePost extends Component {
     const {className, followers, exchanges, currentUserIdentity, currentUserMedia, currentUserName, translate} = this.props
     const {
       postPictures, open, attachMenu, selected, labels, link, contactMenu, linkModal
-      , postFile, postMedia, errorAttachPicture, errorAttachFile, errorAttachMedia
+      , postFile, postMedia, errorAttachPicture, errorAttachFile, errorAttachMedia, descriptionClass , description
     } = this.state
 
     return (
@@ -296,13 +322,20 @@ class CreatePost extends Component {
             </div>
           </div>
 
-          <textarea ref={e => this.text = e}
-                    className={open ? "post-component-textarea-open" : "post-component-textarea"}
-                    placeholder='در زیست بوم باش ...'
-                    onBlur={(e) => e.target.value.length === 0 ? this.setState({
-                      ...this.state,
-                      open: false
-                    }) : this.setState({...this.state, open: true})}/>
+            <div className='description-character'>
+              {descriptionClass &&
+                <span className={descriptionClass}>
+                  {description.trim().length + '/1500'}
+                </span>
+              }
+              <textarea
+                        className={open ? "post-component-textarea-open" : "post-component-textarea"}
+                        placeholder='در زیست بوم باش ...'
+                        value={description}
+                        onBlur={this._handleBlurText}
+                        onChange={this._handleChangeText}
+              />
+            </div>
 
           <div className='post-component-footer'>
 
