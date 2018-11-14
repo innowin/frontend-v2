@@ -26,7 +26,7 @@ import PostComments from "./PostComments"
 import {Confirm} from "../cards/Confirm"
 import {ClipLoader} from "react-spinners"
 import CreatePostNew from "./createPost/index"
-import ProductInfoView from "../contributions/ProductInfoView";
+import ProductInfoView from "../contributions/ProductInfoView"
 
 type postExtendedViewProps = {
   actions: {
@@ -117,26 +117,28 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       getFile(userImageId)
     }
 
-    let allWords = this.text.innerText.split(" ")
-    let mailExp = new RegExp("^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$")
-    let urlExp = new RegExp("^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$")
-    for (let i = 0; i < allWords.length; i++) {
-      if (urlExp.test(allWords[i].trim())) {
-        allWords[i].includes("http://") || allWords[i].includes("https://") ?
-            this.text.innerHTML = this.text.innerHTML.replace(new RegExp(allWords[i], "g"), `<a target=_blank href=` + allWords[i] + `>${allWords[i]}</a>`)
-            :
-            this.text.innerHTML = this.text.innerHTML.replace(new RegExp(allWords[i], "g"), `<a target=_blank href=http://` + allWords[i] + `>${allWords[i]}</a>`)
+    if (this.text) {
+      let allWords = this.text.innerText.split(" ")
+      let mailExp = new RegExp("^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$")
+      let urlExp = new RegExp("^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$")
+      for (let i = 0; i < allWords.length; i++) {
+        if (urlExp.test(allWords[i].trim())) {
+          allWords[i].includes("http://") || allWords[i].includes("https://") ?
+              this.text.innerHTML = this.text.innerHTML.replace(new RegExp(allWords[i], "g"), `<a target=_blank href=` + allWords[i] + `>${allWords[i]}</a>`)
+              :
+              this.text.innerHTML = this.text.innerHTML.replace(new RegExp(allWords[i], "g"), `<a target=_blank href=http://` + allWords[i] + `>${allWords[i]}</a>`)
+        }
+        else if (allWords[i].trim()[0] === "@" && allWords[i].length >= 6) {
+          this.text.innerHTML = this.text.innerHTML.replace(new RegExp(allWords[i], "g"), `<a href=` + allWords[i].slice(1, allWords[i].length) + `>${allWords[i]}</a>`)
+        }
+        else if (allWords[i].trim()[0] === "#" && allWords[i].length >= 3) {
+          this.text.innerHTML = this.text.innerHTML.replace(new RegExp(allWords[i], "g"), `<a href=` + allWords[i] + `>${allWords[i]}</a>`)
+        }
+        else if (mailExp.test(allWords[i].trim())) {
+          this.text.innerHTML = this.text.innerHTML.replace(new RegExp(allWords[i], "g"), `<a href=mailto:` + allWords[i] + `>${allWords[i]}</a>`)
+        }
+        // TODO Abel add phone number diagnosis
       }
-      else if (allWords[i].trim()[0] === "@" && allWords[i].length >= 6) {
-        this.text.innerHTML = this.text.innerHTML.replace(new RegExp(allWords[i], "g"), `<a href=` + allWords[i].slice(1, allWords[i].length) + `>${allWords[i]}</a>`)
-      }
-      else if (allWords[i].trim()[0] === "#" && allWords[i].length >= 3) {
-        this.text.innerHTML = this.text.innerHTML.replace(new RegExp(allWords[i], "g"), `<a href=` + allWords[i] + `>${allWords[i]}</a>`)
-      }
-      else if (mailExp.test(allWords[i].trim())) {
-        this.text.innerHTML = this.text.innerHTML.replace(new RegExp(allWords[i], "g"), `<a href=mailto:` + allWords[i] + `>${allWords[i]}</a>`)
-      }
-      // TODO Abel add phone number diagnosis
     }
   }
 
@@ -281,20 +283,20 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                             deletePost={this._showConfirm}
                 />
                 {/*{
-                  <div className='add-comment'>
-                    <div className="-img-col">
-                      {!userImage
-                          ? (<DefaultUserIcon/>)
-                          : (<img className="rounded-circle" src={userImage.file} alt=""/>)
-                      }
-                    </div>
-                    <input className='add-comment-text-field' placeholder={translate["Send comment"]}
-                           ref={c => this.commentTextField = c} onClick={() => this.handleClickTextField.bind(this)}/>
-                    <button onClick={() => this.createComment(this.commentTextField)} className='send-comment pulse'>
-                      <PostSendIcon/>
-                    </button>
-                  </div>
-                }*/}
+                 <div className='add-comment'>
+                 <div className="-img-col">
+                 {!userImage
+                 ? (<DefaultUserIcon/>)
+                 : (<img className="rounded-circle" src={userImage.file} alt=""/>)
+                 }
+                 </div>
+                 <input className='add-comment-text-field' placeholder={translate["Send comment"]}
+                 ref={c => this.commentTextField = c} onClick={() => this.handleClickTextField.bind(this)}/>
+                 <button onClick={() => this.createComment(this.commentTextField)} className='send-comment pulse'>
+                 <PostSendIcon/>
+                 </button>
+                 </div>
+                 }*/}
                 <CreatePostNew
                     componentType={"comment"}
                     // postParentId={exchangeId}
