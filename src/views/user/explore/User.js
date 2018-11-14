@@ -8,6 +8,8 @@ import connect from "react-redux/es/connect/connect"
 import socialActions from "../../../redux/actions/commonActions/socialActions"
 import {ClipLoader} from "react-spinners"
 import {Link} from "react-router-dom"
+import {REST_URL} from 'src/consts/URLS'
+import {mainImage} from "../../bars/productBar/data"
 
 type appProps =
     {|
@@ -25,8 +27,27 @@ class User extends Component <appProps, appState> {
     this.state =
         {
           follow: false,
-          followLoading: false
+          followLoading: false,
+          profileLoaded: false,
+          bannerLoaded: false,
         }
+  }
+
+  componentDidMount() {
+    if (this.props.data.profile.profile_banner) {
+      let banner = new Image()
+      banner.src = REST_URL + this.props.data.profile.profile_banner.file
+      banner.onload = () => {
+        this.setState({...this.state, bannerLoaded: true})
+      }
+    }
+    if (this.props.data.profile.profile_media) {
+      let profile = new Image()
+      profile.src = REST_URL + this.props.data.profile.profile_media.file
+      profile.onload = () => {
+        this.setState({...this.state, profileLoaded: true})
+      }
+    }
   }
 
   follow = () => {
@@ -52,7 +73,7 @@ class User extends Component <appProps, appState> {
   }
 
   renderFollowed(data, followees) {
-    if (followees[data.user.id] !== undefined) {
+    if (followees[data.user.id]) {
       return <button className='user-follow'>دنبال شده</button>
     }
     else if (this.state.followLoading) {
@@ -67,15 +88,16 @@ class User extends Component <appProps, appState> {
         <div className='users-explore'>
           <Link to={`/user/${data.user.id}`} style={{textDecoration: 'none', color: 'black'}}>
             {
-              data.profile.profile_banner !== null ?
-                  <img src={'https://restful.daneshboom.ir/' + data.profile.profile_banner.file} className='user-banner' alt={data.user.last_name}/>
+              data.profile.profile_banner && this.state.bannerLoaded ?
+                  <img src={REST_URL + data.profile.profile_banner.file} className='user-banner' alt={data.user.last_name}/>
                   :
                   <img src='https://restful.daneshboom.ir//media/3f366e481437444d8f8cdd5afb528360.jpg' className='user-banner' alt={data.user.last_name}/>
             }
-            {data.profile.profile_media !== null ?
-                <img src={'https://restful.daneshboom.ir/' + data.profile.profile_media.file} className='user-profile-photo' alt={data.user.last_name}/>
-                :
-                <DefaultUserIcon className='user-default-profile-photo'/>
+            {
+              data.profile.profile_media && this.state.profileLoaded ?
+                  <img src={REST_URL + data.profile.profile_media.file} className='user-profile-photo' alt={data.user.last_name}/>
+                  :
+                  <DefaultUserIcon className='user-default-profile-photo'/>
             }
 
             <div>
@@ -90,7 +112,7 @@ class User extends Component <appProps, appState> {
             <div className='user-baj-container'>
               {
                 data.badges.map((badge, i) =>
-                    <img key={i} src={'https://restful.daneshboom.ir/' + badge.badge_related_badge_category.badge_related_media.file} className='user-baj' alt='badge'/>
+                    <img key={i} src={REST_URL + badge.badge_related_badge_category.badge_related_media.file} className='user-baj' alt='badge'/>
                 )
               }
             </div>
@@ -105,7 +127,7 @@ class User extends Component <appProps, appState> {
 }
 
 const mapStateToProps = (state) => {
-  const userId = state.auth.client.organization !== null ? state.auth.client.organization.id : state.auth.client.user.id
+  const userId = state.auth.client.organization ? state.auth.client.organization.id : state.auth.client.user.id
   return {
     currentUserType: state.auth.client.user_type,
     currentUserIdentity: state.auth.client.identity.content,
