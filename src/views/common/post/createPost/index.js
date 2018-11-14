@@ -259,11 +259,11 @@ class CreatePost extends Component {
   componentDidMount() {
     const {actions, componentType, translate} = this.props
     const {getFollowers} = actions
-    getFollowers({
-      followOwnerIdentity: this.props.currentUserIdentity,
-      followOwnerType: this.props.currentUserType,
-      followOwnerId: this.props.currentUserId
-    })
+    // getFollowers({
+    //   followOwnerIdentity: this.props.currentUserIdentity,
+    //   followOwnerType: this.props.currentUserType,
+    //   followOwnerId: this.props.currentUserId
+    // })
     document.addEventListener("mousedown", this.handleClickOutside)
     componentType === "comment" && this.setState({...this.state, placeholder: translate["Send comment"]})
     componentType === "post" && this.setState({...this.state, placeholder: translate["Be in zist boom"]})
@@ -278,7 +278,7 @@ class CreatePost extends Component {
     const {className, followers, exchanges, componentType, currentUserIdentity, currentUserMedia, currentUserName, translate} = this.props
     const {
       postPictures, commentBody, open, attachMenu, selected, labels, link, contactMenu, linkModal
-      , postFile, postMedia, errorAttachPicture, errorAttachFile, errorAttachMedia
+      , postFile, postMedia, errorAttachPicture, errorAttachFile, errorAttachMedia, placeholder
     } = this.state
 
 
@@ -409,7 +409,7 @@ class CreatePost extends Component {
             <div className={commentBody}>
               <textarea ref={e => this.text = e}
                         className={open ? "comment-text-area-open" : "comment-text-area"}
-                        placeholder={commentBody}
+                        placeholder={placeholder}
                         onFocus={() => this.setState({...this.state, commentBody: "comment-body-focused"})}
                         onBlur={(e) => e.target.value.length === 0 ? this.setState({
                           ...this.state,
@@ -445,7 +445,6 @@ class CreatePost extends Component {
                 />
               </div>
             </div>
-            <div style={{clear: "both"}}/>
             {
               postPictures.map((fileString, i) => {
                   return (
