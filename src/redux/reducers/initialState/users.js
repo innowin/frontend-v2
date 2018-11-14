@@ -78,5 +78,7 @@ export default {
   */
 
   },
-  allUsers:{}
+  allUsers:{},
+  search: null,
+  loading: true
 }

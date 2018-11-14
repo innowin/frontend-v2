@@ -17,6 +17,6 @@ export default {
      }
      */
   },
-  searchByWord: [],
-  searchByHashTag: [],
+  searchByWord: null,
+  loading: true
 }

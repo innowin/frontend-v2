@@ -28,6 +28,7 @@
   object-fit: cover;
   margin-left: 18px;
   border-radius: 50%;
+  vertical-align: middle;
 }
 
 .post-component-header-item-logo {
@@ -114,6 +115,20 @@
     outline: none;
     border: 1px solid #BBBBBB;
     transition-duration: 0.3s;
+  }
+}
+
+
+.post-component-container{
+  .description-character {
+    position: relative;
+    span{
+      float: left;
+      font-size: 12px;
+      position: absolute;
+      top:3px;
+      left: 6px;
+    }
   }
 }
 

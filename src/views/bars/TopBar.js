@@ -84,13 +84,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       selectedSetting: "General Settings",
       showAbout: false,
       selectedAbout: 'FAQ',
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    const {isLoggedIn, actions} = this.props
-    if (prevProps.isLoggedIn && prevProps.isLoggedIn !== isLoggedIn) {
-      actions.push("/login")
+      profilePhotoLoaded: false,
     }
   }
 
@@ -102,6 +96,23 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       getFile(mediaId)
     }
     setTimeout(() => verifyToken(client.getToken()), 1000)
+
+    // Added for check profile photo url
+    if (this.props.clientImgLink) {
+      let profile = new Image()
+      profile.src = this.props.clientImgLink
+      profile.onload = () => {
+        this.setState({...this.state, profilePhotoLoaded: true})
+      }
+    }
+
+  }
+
+  componentDidUpdate(prevProps) {
+    const {isLoggedIn, actions} = this.props
+    if (prevProps.isLoggedIn && prevProps.isLoggedIn !== isLoggedIn) {
+      actions.push("/login")
+    }
   }
 
   //
@@ -219,9 +230,10 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
             <div className="dir-ltr d-flex flex-row">
 
               <div className="-ProfTopBarImg">
-                {!clientImgLink ? <DefaultUserIcon className='-ProfTopBarImg-svg' onClickFunc={this._toggleProfile}/> :
-                    <img src={clientImgLink} className='-ProfTopBarImg-svg-img' alt="Person icon"
-                         onClick={this._toggleProfile}/>}
+                {clientImgLink && this.state.profilePhotoLoaded ? <img src={clientImgLink} className='-ProfTopBarImg-svg-img' alt="Person icon" onClick={this._toggleProfile}/>
+                    :
+                    <DefaultUserIcon className='-ProfTopBarImg-svg' onClickFunc={this._toggleProfile}/>
+                }
 
                 <div className={collapseProfile ? "profile-menu-container" : "profile-menu-container-hide"}>
                   <div className='profile-menu-arrow'>
@@ -231,8 +243,10 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                   <div className='explore-menu'>
                     <Link className='profile-menu-profile-section' to={linkEditProfile}>
                       <div className='profile-menu-profile-section-image'>
-                        {!clientImgLink ? <DefaultUserIcon className='-ProfTopBarImg-svg-big'/> :
-                            <img src={clientImgLink} className='-ProfTopBarImg-svg-img-big' alt="Person icon"/>}
+                        {clientImgLink && this.state.profilePhotoLoaded ? <img src={clientImgLink} className='-ProfTopBarImg-svg-img-big' alt="Person icon"/>
+                            :
+                            <DefaultUserIcon className='-ProfTopBarImg-svg-big'/>
+                        }
                       </div>
                       <div className='profile-menu-profile-section-next-image'>
                         <div

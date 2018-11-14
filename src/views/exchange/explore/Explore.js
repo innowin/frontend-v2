@@ -8,6 +8,7 @@ import {bindActionCreators} from 'redux'
 import connect from 'react-redux/es/connect/connect'
 import exchangeActions from 'src/redux/actions/exchangeActions'
 import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges.js'
+import {ClipLoader} from "react-spinners"
 
 type appProps =
     {|
@@ -32,12 +33,13 @@ class Explore extends Component <appProps, appState> {
       offset: 0,
       activeScrollHeight: 0,
       scrollLoading: false,
-      justFollowing: false
+      justFollowing: false,
+      search: null
     }
   }
 
   componentDidMount() {
-    this.props.actions.getAllExchanges(24, this.state.offset)
+    this.props.actions.getAllExchanges(24, this.state.offset, null)
     window.addEventListener('scroll', this.onScroll)
   }
 
@@ -48,26 +50,35 @@ class Explore extends Component <appProps, appState> {
   onScroll = () => {
     let {activeScrollHeight} = this.state
     let scrollHeight = document.body.scrollHeight
-    if (((window.innerHeight + window.scrollY) >= (scrollHeight - 500)) && (scrollHeight > activeScrollHeight)) {
+    if (((window.innerHeight + window.scrollY) >= (scrollHeight - 250)) && (scrollHeight > activeScrollHeight)) {
       this.setState({
             ...this.state,
             activeScrollHeight: scrollHeight,
             scrollLoading: true,
             offset: this.state.offset + 24
           },
-          () => this.props.actions.getAllExchanges(24, this.state.offset))
+          () => this.props.actions.getAllExchanges(24, this.state.offset, this.state.search))
     }
+  }
+
+  search = (search) => {
+    this.setState({...this.state, search: search, offset: 0, activeScrollHeight: 0}, () => {
+      this.props.actions.getAllExchanges(24, 0, search)
+    })
   }
 
   render() {
     return (
         <div className='all-exchanges-parent'>
           <TopBar collapseClassName="col user-sidebar-width"/>
-          <Sidebar justFollowing={(checked) => this.setState({...this.state, justFollowing: checked})}/>
+          <Sidebar search={this.search} justFollowing={(checked) => this.setState({...this.state, justFollowing: checked})}/>
           <div className='all-exchanges-container'>
-            <Exchanges exchanges={this.props.allExchanges} justFollowing={this.state.justFollowing}/>
+            <Exchanges exchanges={this.props.allExchanges} justFollowing={this.state.justFollowing} loading={this.props.loading}/>
             <div className='exchange-model-hide'/>
             <div className='exchange-model-hide'/>
+            {
+              <div style={{width: '100%', textAlign: 'center', transitionDuration: '0.3s', overflowY: 'hidden', height: this.props.loading ? '40px' : '0px', opacity: this.props.loading ? '1' : '0'}}><ClipLoader/></div>
+            }
           </div>
         </div>
     )
@@ -76,6 +87,7 @@ class Explore extends Component <appProps, appState> {
 
 const mapStateToProps = (state) => ({
   allExchanges: getExchanges(state),
+  loading: state.exchanges.loading
 })
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({

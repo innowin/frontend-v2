@@ -25,15 +25,9 @@ function* watchGetAllExchanges()
     yield takeEvery(types.EXCHANGE.GET_EXCHANGES, getAllExchanges)
 }
 
-function* watchGetSearchExchangesByWord()
-{
-  yield takeEvery(types.EXCHANGE.SEARCH_EXCHANGES_BY_WORD, searchExchangesByWord)
-}
-
 export default [
     watchGetExchangeByExId(),
     watchCreateExchange(),
     watchGetAllExchanges(),
-    watchGetSearchExchangesByWord()
 ]
 

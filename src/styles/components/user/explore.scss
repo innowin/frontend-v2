@@ -15,7 +15,7 @@
   height: 330px;
 }
 
-.users-explore-hide{
+.users-explore-hide {
   padding-bottom: 25px;
   display: inline-block;
   margin: 5px 7px;
@@ -27,7 +27,7 @@
   border-radius: 5px;
   //box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   box-shadow: 0 3px 3px $box-shadow-color;
-  height: 330px;
+  height: 50px;
   visibility: hidden;
 }
 
@@ -80,7 +80,7 @@
   font-size: $font-size-smallText;
   padding: 10px;
   text-align: justify;
-  text-align-last: right;
+  text-align-last: initial;
   line-height: 25px;
   height: 110px;
   margin-bottom: 10px;
@@ -104,10 +104,10 @@
     background-color: $tag-del-btn-background;
     transition-duration: 0.25s;
   }
-  &:focus{
+  &:focus {
     outline: none;
   }
-  &:active{
+  &:active {
     background-color: $secondary-color;
   }
 }
@@ -128,21 +128,21 @@
     color: $tag-del-btn-background;
     transition-duration: 0.25s;
   }
-  &:focus{
+  &:focus {
     outline: none;
   }
-  &:active{
+  &:active {
     background-color: $secondary-color;
     color: white;
   }
 }
 
-.user-baj-container{
+.user-baj-container {
   float: right;
   margin-right: 5px;
 }
 
-.user-baj{
+.user-baj {
   display: inline-block;
   vertical-align: top;
   margin: 0 5px;
@@ -155,7 +155,28 @@
   cursor: pointer;
 }
 
-.kindId{
+.kindId {
   float: right;
   font-size: 14px;
+}
+
+.exchanges-explore-not-found {
+  position: absolute;
+  top: 128px;
+  left: 0;
+  text-align: center;
+  width: 100%;
+  animation-name: close;
+  animation-duration: 0.5s;
+  overflow-y: hidden;
+  opacity: 1;
+}
+
+@keyframes close {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

@@ -6,10 +6,10 @@ import Sidebar from './SideBar'
 import TopBar from '../../bars/TopBar'
 import {bindActionCreators} from 'redux'
 import connect from 'react-redux/es/connect/connect'
-import exchangeActions from 'src/redux/actions/exchangeActions'
 import socialActions from 'src/redux/actions/commonActions/socialActions'
 import userActions from 'src/redux/actions/user/getUserActions'
 import {getUsers} from 'src/redux/selectors/user/GetAllUsers'
+import {ClipLoader} from "react-spinners"
 
 type appProps =
     {|
@@ -17,7 +17,6 @@ type appProps =
       currentUserIdentity: number,
       currentUserType: string,
       currentUserId: number,
-      allExchanges: Array<any>
     |}
 
 type appState =
@@ -33,12 +32,12 @@ class Explore extends Component <appProps, appState> {
     this.state = {
       offset: 0,
       activeScrollHeight: 0,
-      scrollLoading: false
+      search: null
     }
   }
 
   componentDidMount() {
-    this.props.actions.getUsers(24, this.state.offset)
+    this.props.actions.getUsers(24, this.state.offset, null)
     this.props.actions.getFollowees({
       followOwnerIdentity: this.props.currentUserIdentity,
       followOwnerType: this.props.currentUserType,
@@ -54,15 +53,21 @@ class Explore extends Component <appProps, appState> {
   onScroll = () => {
     let {activeScrollHeight} = this.state
     let scrollHeight = document.body.scrollHeight
-    if (((window.innerHeight + window.scrollY) >= (scrollHeight - 500)) && (scrollHeight > activeScrollHeight)) {
-      // this.setState({
-      //       ...this.state,
-      //       activeScrollHeight: scrollHeight,
-      //       scrollLoading: true,
-      //       offset: this.state.offset + 24
-      //     },
-      // () => this.props.actions.getAllExchanges(24, this.state.offset))
+    console.log('scroll: ', window.innerHeight + window.scrollY)
+    if (((window.innerHeight + window.scrollY) >= (scrollHeight - 250)) && (scrollHeight > activeScrollHeight)) {
+      this.setState({
+            ...this.state,
+            activeScrollHeight: scrollHeight,
+            offset: this.state.offset + 24
+          },
+          () => this.props.actions.getUsers(24, this.state.offset, this.state.search))
     }
+  }
+
+  search = (search) => {
+    this.setState({...this.state, search: search, offset: 0, activeScrollHeight: 0}, () => {
+      this.props.actions.getUsers(24, 0, search)
+    })
   }
 
   render() {
@@ -80,11 +85,14 @@ class Explore extends Component <appProps, appState> {
     return (
         <div className='all-exchanges-parent'>
           <TopBar collapseClassName="col user-sidebar-width"/>
-          <Sidebar/>
+          <Sidebar search={this.search}/>
           <div className='all-exchanges-container'>
-            <Users followees={followees} users={this.props.allUsers}/>
+            <Users followees={followees} users={this.props.allUsers} loading={this.props.loading}/>
             <div className='users-explore-hide'/>
             <div className='users-explore-hide'/>
+            {
+              <div style={{width: '100%', textAlign: 'center', transitionDuration: '0.3s', overflowY: 'hidden', height: this.props.loading ? '40px' : '0px', opacity: this.props.loading ? '1' : '0'}}><ClipLoader/></div>
+            }
           </div>
         </div>
     )
@@ -99,11 +107,11 @@ const mapStateToProps = (state) => {
     currentUserId: userId,
     allUsers: getUsers(state),
     followees: state.common.social.follows.list,
+    loading: state.users.loading
   }
 }
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    getAllExchanges: exchangeActions.getAllExchanges,
     getFollowees: socialActions.getFollowees,
     getUsers: userActions.getAllUsers
   }, dispatch)

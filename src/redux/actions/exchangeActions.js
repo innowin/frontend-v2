@@ -10,27 +10,15 @@ const createExchange = (formValues, finished) => ({
   payload: {formValues, finished}
 })
 
-const getAllExchanges = (limit, offset) => ({
+const getAllExchanges = (limit, offset, search) => ({
   type: types.EXCHANGE.GET_EXCHANGES,
-  payload: {limit, offset}
-})
-
-const searchExchangesByWord = (searchWord) => ({
-  type: types.EXCHANGE.SEARCH_EXCHANGES_BY_WORD,
-  payload: {searchWord}
-})
-
-const removeSearchMode = (searchWord) => ({
-  type: types.EXCHANGE.REMOVE_SEARCH_MODE,
-  payload: {searchWord}
+  payload: {limit, offset, search}
 })
 
 const ExchangeActions = {
   getExchangeByExId,
   createExchange,
   getAllExchanges,
-  searchExchangesByWord,
-  removeSearchMode
 }
 
-export default ExchangeActions;
+export default ExchangeActions

@@ -35,10 +35,10 @@ export function* getProfileByUserId(action) {
     const profileBannerId = profile_banner && profile_banner.id
     // TODO check profileMedia & profileBanner is not exist in common.files.list
     if (profileMediaId) {
-      yield put({type:types.COMMON.GET_FILE, payload:{fileId:profileMediaId}})
+      yield put({type: types.COMMON.GET_FILE, payload: {fileId: profileMediaId}})
     }
-    if (profileBannerId && (profileMediaId !== profileBannerId)){
-      yield put({type:types.COMMON.GET_FILE, payload:{fileId:profileBannerId}})
+    if (profileBannerId && (profileMediaId !== profileBannerId)) {
+      yield put({type: types.COMMON.GET_FILE, payload: {fileId: profileBannerId}})
     }
     // yield put({type: types.SUCCESS.USER.SET_PROFILE_MEDIA, payload:{userId, profileMediaId, profileBannerId}})
   } catch (e) {
@@ -72,26 +72,19 @@ export function* getUsers(action) {
 }
 
 export function* getAllUsers(action) {
-  const {limit, offset} = action.payload
+  const {limit, offset, search} = action.payload
+  const params = search !== null ? `?username=${search}` : `?limit=${limit}&offset=${offset}`
+  yield put({type: types.SUCCESS.USER.GET_ALL_USERS, payload: {data: [], search, loading: true}})
   const socketChannel = yield call(api.createSocketChannel, results.USER.GET_ALL_USERS)
   try {
     yield fork(
         api.get,
         urls.USER.GET_ALL_USERS,
         results.USER.GET_ALL_USERS,
-        `?limit=${limit}&offset=${offset}`
+        params
     )
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.USER.GET_ALL_USERS, payload: {data}})
-// Added for get followees
-//     const identityId = yield select((state) => state.auth.client.identity.content)
-//     const exchangeMembershipOwnerId = yield select((state) => state.auth.client.user.id)
-//     const exchangeMembershipOwnerType = yield select((state) => state.auth.client.user_type)
-//     yield put({
-//       type: types.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY,
-//       payload: {identityId, exchangeMembershipOwnerId, exchangeMembershipOwnerType}
-//     })
-//end
+    yield put({type: types.SUCCESS.USER.GET_ALL_USERS, payload: {data, search, loading: false}})
   } catch (err) {
     const {message} = err
     yield put({
