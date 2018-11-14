@@ -5,17 +5,19 @@ import urls from "src/consts/URLS"
 import {put, take, fork, call, select} from "redux-saga/effects"
 
 export function* getAllExchanges(action) {
-  const {limit, offset} = action.payload
+  const {limit, offset, search} = action.payload
+  const params = search !== null ? `?name=${search}` : `?limit=${limit}&offset=${offset}`
+  yield put({type: types.SUCCESS.EXCHANGE.GET_EXCHANGES, payload: {data: {results: []}, search, loading: true}})
   const socketChannel = yield call(api.createSocketChannel, results.EXCHANGE.GET_EXCHANGES)
   try {
     yield fork(
         api.get,
         urls.EXCHANGE_EXPLORER,
         results.EXCHANGE.GET_EXCHANGES,
-        `?limit=${limit}&offset=${offset}`
+        params
     )
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.EXCHANGE.GET_EXCHANGES, payload: {data}})
+    yield put({type: types.SUCCESS.EXCHANGE.GET_EXCHANGES, payload: {data, search, loading: false}})
 // Added for get membership
     const identityId = yield select((state) => state.auth.client.identity.content)
     const exchangeMembershipOwnerId = yield select((state) => state.auth.client.user.id)

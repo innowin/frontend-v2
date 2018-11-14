@@ -48,7 +48,9 @@ class Sidebar extends Component <appProps, appState> {
   submitSearchByWord = (e) => {
     e.preventDefault()
     if (e.keyCode === 13) {
-
+      if (e.target.value.trim().length > 0)
+        this.props.search(e.target.value.trim())
+      else this.props.search(null)
     }
   }
 

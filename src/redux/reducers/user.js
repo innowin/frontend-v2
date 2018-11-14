@@ -77,6 +77,8 @@ const users = (state = initialState.users, action) => {
       return {
         ...state,
         allUsers: {...state.allUsers, ...objectData},
+        search: action.payload.search,
+        loading: action.payload.loading
       }
 
       /** -------------------------- get profile -------------------------> **/

@@ -25,10 +25,8 @@ function render(props) {
         <User followees={props.followees} key={i} data={user}/>
     )
   }
-  // else if (props.searchingByWord.length !== 0 || props.searchingByHashTags.length !== 0) {
-  //   return (<div>بورسی یافت نشد!</div>)
-  // }
-  else return <div style={{width: '100%', textAlign: 'center'}}><ClipLoader/></div>
+  else if (!props.loading) return <div className='exchanges-explore-not-found'>کاربری یافت نشد!</div>
+  else return null
 }
 
 const Exchanges = (props: appProps) => {
