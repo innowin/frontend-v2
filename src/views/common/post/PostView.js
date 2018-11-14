@@ -27,6 +27,7 @@ import {Confirm} from "../cards/Confirm"
 import {ClipLoader} from "react-spinners"
 import CreatePostNew from "./createPost/index"
 import ProductInfoView from "../contributions/ProductInfoView"
+import PostCommentNew from "./PostCommentNew"
 
 type postExtendedViewProps = {
   actions: {
@@ -297,11 +298,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                  </button>
                  </div>
                  }*/}
-                <CreatePostNew
-                    componentType={"comment"}
-                    // postParentId={exchangeId}
-                    // postParentType={constant.POST_PARENT.EXCHANGE}
-                    // postsCountInThisPage={posts.length}
+                <PostCommentNew
                     commentParentType={commentParentType}
                     post={post}
                 />
