@@ -60,7 +60,8 @@ class CreatePost extends Component {
       postMedia: "",
       errorAttachMedia: "",
       link: "",
-      savingPost: false
+      savingPost: false,
+      profileLoaded: false
     }
   }
 
@@ -248,7 +249,7 @@ class CreatePost extends Component {
   }
 
   componentDidMount() {
-    const {actions, translate} = this.props
+    const {actions, translate, currentUserMedia} = this.props
     document.addEventListener("mousedown", this.handleClickOutside)
     this.setState({...this.state, placeholder: translate["Be in zist boom"]})
     const {getFollowers} = actions
@@ -258,6 +259,16 @@ class CreatePost extends Component {
       followOwnerId: this.props.currentUserId
     })
     // componentType === "comment" && this.setState({...this.state, placeholder: translate["Send comment"]})
+
+    //Added for profile url check
+    if (currentUserMedia) {
+      let profile = new Image()
+      profile.src = currentUserMedia
+      profile.onload = () => {
+        this.setState({...this.state, profileLoaded: true})
+      }
+    }
+
   }
 
   componentWillUnmount() {
@@ -269,17 +280,17 @@ class CreatePost extends Component {
     const {className, followers, exchanges, currentUserIdentity, currentUserMedia, currentUserName, translate} = this.props
     const {
       postPictures, open, attachMenu, selected, labels, link, contactMenu, linkModal
-      , postFile, postMedia, errorAttachPicture, errorAttachFile, errorAttachMedia
+      , postFile, postMedia, errorAttachPicture, errorAttachFile, errorAttachMedia, profileLoaded
     } = this.state
 
     return (
         <form className={"post-component-container " + className} onSubmit={this._onSubmit}>
           <div className='post-component-header'>
             <div>
-              {currentUserMedia !== null && currentUserMedia !== undefined ?
+              {currentUserMedia &&profileLoaded ?
                   <img alt='profile' src={currentUserMedia} className='post-component-header-img'/>
                   :
-                  <DefaultUserIcon width='45px' height='45px'/>
+                  <DefaultUserIcon className='post-component-header-img'/>
               }
               {currentUserName}
             </div>

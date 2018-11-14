@@ -36,10 +36,28 @@ type PropsSideBarItem = {
 
 export class SideBarItem extends Component<PropsSideBarItem> {
 
+  constructor(props) {
+    super(props)
+    this.state =
+        {
+          imageLoaded: false
+        }
+  }
+
   static propTypes = {
     exchange: PropTypes.object.isRequired,
     handleClick: PropTypes.func.isRequired,
     active: PropTypes.bool
+  }
+
+  componentDidMount() {
+    if (this.props.exchange.exchange_image) {
+      let image = new Image()
+      image.src = this.props.exchange.exchange_image.file
+      image.onload = () => {
+        this.setState({...this.state, imageLoaded: true})
+      }
+    }
   }
 
   _onClickHandler = () => {
@@ -54,8 +72,10 @@ export class SideBarItem extends Component<PropsSideBarItem> {
         <div className={`item-wrapper ${ active ? 'active' : ''}`} onClick={this._onClickHandler}>
           <div className="header-exchange">
             <Link to={"/exchange/" + exchangeId}>
-              {!exchange_image ? <DefaultExchangeIcon className="default-logo"/> :
+              {exchange_image && this.state.imageLoaded ?
                   <img className="img-logo" src={exchange_image.file} alt="logo"/>
+                  :
+                  <DefaultExchangeIcon className="default-logo"/>
               }
             </Link>
             <div className="exchange-name">{name}</div>
