@@ -117,6 +117,20 @@
   }
 }
 
+
+.post-component-container{
+  .description-character {
+    position: relative;
+    span{
+      float: left;
+      font-size: 12px;
+      position: absolute;
+      top:3px;
+      left: 6px;
+    }
+  }
+}
+
 /* -------------------------------   post footer -------------------------*/
 .post-component-footer {
   margin-top: 8px;
