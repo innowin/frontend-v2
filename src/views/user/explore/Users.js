@@ -28,7 +28,7 @@ function render(props) {
   // else if (props.searchingByWord.length !== 0 || props.searchingByHashTags.length !== 0) {
   //   return (<div>بورسی یافت نشد!</div>)
   // }
-  else return <div style={{textAlign: 'center'}}><ClipLoader/></div>
+  else return <div style={{width: '100%', textAlign: 'center'}}><ClipLoader/></div>
 }
 
 const Exchanges = (props: appProps) => {

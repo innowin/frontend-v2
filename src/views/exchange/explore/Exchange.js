@@ -8,7 +8,7 @@ import {connect} from 'react-redux'
 import Demand from 'src/images/common/demand_svg'
 import Distribute from 'src/images/common/supply_svg'
 import {Link} from 'react-router-dom'
-import exchangeMembership from 'src/redux/actions/commonActions/exchangeMembershipActions'
+import {REST_URL} from 'src/consts/URLS'
 import {ClipLoader} from "react-spinners"
 
 type appProps =
@@ -29,8 +29,18 @@ class Exchange extends Component <appProps, appState> {
     this.state =
         {
           followLoading: false,
-          // imageLoaded: false
+          imageLoaded: false
         }
+  }
+
+  componentDidMount() {
+    if (this.props.data.exchange_image) {
+      let image = new Image()
+      image.src = this.props.data.exchange_image.file.includes(REST_URL) ? this.props.data.exchange_image.file : REST_URL + this.props.data.exchange_image.file
+      image.onload = () => {
+        this.setState({...this.state, imageLoaded: true})
+      }
+    }
   }
 
   renderFollowButton() {
@@ -49,17 +59,17 @@ class Exchange extends Component <appProps, appState> {
     this.props.actions.follow({identityId: this.props.currentUserIdentity, exchangeIdentity: this.props.data.id})
   }
 
-  renderJoint() {
-    const {data,currentUserIdentity} = this.props
-    return data.joint_follows.map(user =>
-        {
-          if (user.follow_follower.id !== currentUserIdentity)
-          {
-            return <img src={'https://restful.daneshboom.ir/'} className='user-baj' alt='user'/>
-          }
-        }
-    )
-  }
+  // renderJoint() {
+  //   const {data,currentUserIdentity} = this.props
+  //   return data.joint_follows.map(user =>
+  //       {
+  //         if (user.follow_follower.id !== currentUserIdentity)
+  //         {
+  //           return <img src={'https://restful.daneshboom.ir/'} className='user-baj' alt='user'/>
+  //         }
+  //       }
+  //   )
+  // }
 
   render() {
     const {data} = this.props
@@ -69,11 +79,11 @@ class Exchange extends Component <appProps, appState> {
     return (
         <div className='exchange-model'>
           <Link to={`/exchange/${data.id}`} style={{textDecoration: 'none', color: 'black'}}>
-            {(data.exchange_image) ?
-                <img src={data.exchange_image.file.includes('restful.daneshboom.ir/') ? data.exchange_image.file : 'https://restful.daneshboom.ir/' + data.exchange_image.file} alt={data.name}
-                     className='exchange-model-avatar'/>
-                :
-                <DefaultUserIcon width='80px' height='80px'/>
+            {
+              (data.exchange_image && this.state.imageLoaded) ?
+                  <img src={data.exchange_image.file.includes(REST_URL) ? data.exchange_image.file : REST_URL + data.exchange_image.file} alt={data.name} className='exchange-model-avatar'/>
+                  :
+                  <DefaultUserIcon className='exchange-model-avatar'/>
             }
             <div className='exchange-model-title'>
               {data.name}
@@ -98,9 +108,9 @@ class Exchange extends Component <appProps, appState> {
               <div className='exchange-model-detail-dist-title'>{data.supply}</div>
             </div>
 
-            {
-              this.renderJoint()
-            }
+            {/*{*/}
+            {/*this.renderJoint()*/}
+            {/*}*/}
 
           </Link>
 
