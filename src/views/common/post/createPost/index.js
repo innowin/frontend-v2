@@ -15,10 +15,10 @@ import PostSendIcon from "src/images/common/postSend_svg"
 import CommentActions from "src/redux/actions/commonActions/commentActions"
 import {createFileFunc} from "src/views/common/Functions"
 import types from "src/redux/actions/types"
-import AttachMenu from "./attachMenu";
-import ContactMenu from "./contactMenu";
-import LinkModal from "./linkModal";
-import ViewAttachedFiles from "./viewAttachedFiles";
+import AttachMenu from "./attachMenu"
+import ContactMenu from "./contactMenu"
+import LinkModal from "./linkModal"
+import ViewAttachedFiles from "./viewAttachedFiles"
 
 const timeStamp = new Date().toISOString()
 
@@ -50,15 +50,15 @@ class CreatePost extends Component {
       pageX: 0,
       pageY: 0,
       commentBody: "comment-body",
-      placeholder: '',
-      selectedText: '',
+      placeholder: "",
+      selectedText: "",
       postPictures: [],
-      errorAttachPicture: '',
-      postFile: '',
-      errorAttachFile: '',
-      postMedia: '',
-      errorAttachMedia: '',
-      link: '',
+      errorAttachPicture: "",
+      postFile: "",
+      errorAttachFile: "",
+      postMedia: "",
+      errorAttachMedia: "",
+      link: "",
       savingPost: false
     }
   }
@@ -68,14 +68,14 @@ class CreatePost extends Component {
     this.setState({
       ...this.state,
       open: false,
-      selected: 'post',
+      selected: "post",
       postPictures: [],
-      postFile: '',
-      postMedia: '',
-      link: '',
+      postFile: "",
+      postMedia: "",
+      link: "",
       labels: {},
     })
-    this.text.innerText = ''
+    this.text.innerText = ""
   }
 
   handleClickOutside = (event) => {
@@ -162,11 +162,11 @@ class CreatePost extends Component {
   }
 
   _deleteFile = () => {
-    this.setState({...this.state, postFile: ''})
+    this.setState({...this.state, postFile: ""})
   }
 
   _deleteMedia = () => {
-    this.setState({...this.state, postMedia: ''})
+    this.setState({...this.state, postMedia: ""})
   }
 
 
@@ -258,15 +258,17 @@ class CreatePost extends Component {
 
   componentDidMount() {
     const {actions, componentType, translate} = this.props
-    const {getFollowers} = actions
-    // getFollowers({
-    //   followOwnerIdentity: this.props.currentUserIdentity,
-    //   followOwnerType: this.props.currentUserType,
-    //   followOwnerId: this.props.currentUserId
-    // })
     document.addEventListener("mousedown", this.handleClickOutside)
+    if (componentType === "post") {
+      this.setState({...this.state, placeholder: translate["Be in zist boom"]})
+      const {getFollowers} = actions
+      getFollowers({
+        followOwnerIdentity: this.props.currentUserIdentity,
+        followOwnerType: this.props.currentUserType,
+        followOwnerId: this.props.currentUserId
+      })
+    }
     componentType === "comment" && this.setState({...this.state, placeholder: translate["Send comment"]})
-    componentType === "post" && this.setState({...this.state, placeholder: translate["Be in zist boom"]})
   }
 
   componentWillUnmount() {
@@ -285,128 +287,128 @@ class CreatePost extends Component {
     switch (componentType) {
       case "post":
         return (
-          <form className={"post-component-container " + className} onSubmit={this._onSubmit}>
-            <div className='post-component-header'>
-              <div>
-                {currentUserMedia !== null && currentUserMedia !== undefined ?
-                  <img alt='profile' src={currentUserMedia} className='post-component-header-img'/>
-                  :
-                  <DefaultUserIcon width='45px' height='45px'/>
-                }
-                {currentUserName}
-              </div>
-              <div className='post-component-header-item'>
-                <Share
-                  className={selected === "post" ? "post-component-header-item-logo1" : "post-component-header-item-logo1-unselect"}
-                  onClick={this.handleSelectShare}/>
-                <DemandIcon height="22px"
-                            className={selected === "demand" ? "post-component-header-item-logo" : "post-component-header-item-logo-unselect"}
-                            onClickFunc={this.handleSelectDemand}/>
-                <SupplyIcon height="18px"
-                            className={selected === "supply" ? "post-component-header-item-logo2" : "post-component-header-item-logo2-unselect"}
-                            onClickFunc={this.handleSelectSupply}/>
-              </div>
-            </div>
-
-            <textarea ref={e => this.text = e}
-                      className={open ? "post-component-textarea-open" : "post-component-textarea"}
-                      placeholder='در زیست بوم باش ...'
-                      onBlur={(e) => e.target.value.length === 0 ? this.setState({
-                        ...this.state,
-                        open: false
-                      }) : this.setState({...this.state, open: true})}/>
-
-            <div className='post-component-footer'>
-
-              <div className='post-component-footer-logo' onClick={this.handleContact}>?</div>
-              <div className='post-component-footer-items-style-cont'>
-
-                {
-                  Object.values(labels).map(label =>
-                    <div className='post-component-footer-items-style'>
-                      <div className='post-component-footer-items-style-text'>{label}</div>
-                      <div className='post-component-footer-items-style-close'
-                           onClick={() => this._handleLabel(label)}>✕
-                      </div>
-                    </div>
-                  )
-                }
-                <div className='post-component-footer-items-style-hide'>
-                  <div className='post-component-footer-items-style-text'><span> </span></div>
+            <form className={"post-component-container " + className} onSubmit={this._onSubmit}>
+              <div className='post-component-header'>
+                <div>
+                  {currentUserMedia !== null && currentUserMedia !== undefined ?
+                      <img alt='profile' src={currentUserMedia} className='post-component-header-img'/>
+                      :
+                      <DefaultUserIcon width='45px' height='45px'/>
+                  }
+                  {currentUserName}
                 </div>
+                <div className='post-component-header-item'>
+                  <Share
+                      className={selected === "post" ? "post-component-header-item-logo1" : "post-component-header-item-logo1-unselect"}
+                      onClick={this.handleSelectShare}/>
+                  <DemandIcon height="22px"
+                              className={selected === "demand" ? "post-component-header-item-logo" : "post-component-header-item-logo-unselect"}
+                              onClickFunc={this.handleSelectDemand}/>
+                  <SupplyIcon height="18px"
+                              className={selected === "supply" ? "post-component-header-item-logo2" : "post-component-header-item-logo2-unselect"}
+                              onClickFunc={this.handleSelectSupply}/>
+                </div>
+              </div>
 
-                <div className='post-component-footer-send'>
+              <textarea ref={e => this.text = e}
+                        className={open ? "post-component-textarea-open" : "post-component-textarea"}
+                        placeholder='در زیست بوم باش ...'
+                        onBlur={(e) => e.target.value.length === 0 ? this.setState({
+                          ...this.state,
+                          open: false
+                        }) : this.setState({...this.state, open: true})}/>
 
-                  <div className='post-component-footer-link'>{link}</div>
+              <div className='post-component-footer'>
 
-                  <div style={{display: "inline-block"}} onClick={this.handleAttach}>
-                    <AttachFileIcon className='post-component-footer-send-attach'/>
+                <div className='post-component-footer-logo' onClick={this.handleContact}>?</div>
+                <div className='post-component-footer-items-style-cont'>
+
+                  {
+                    Object.values(labels).map(label =>
+                        <div className='post-component-footer-items-style'>
+                          <div className='post-component-footer-items-style-text'>{label}</div>
+                          <div className='post-component-footer-items-style-close'
+                               onClick={() => this._handleLabel(label)}>✕
+                          </div>
+                        </div>
+                    )
+                  }
+                  <div className='post-component-footer-items-style-hide'>
+                    <div className='post-component-footer-items-style-text'><span> </span></div>
                   </div>
-                  <button type="submit" className='post-component-footer-send-btn'>ارسال</button>
-                  <AttachMenu
-                    ref={e => this.setWrapperRef = (e ? e.attachMenuRef : e)}
-                    attachMenu={attachMenu}
-                    handleFile={(fileString, error) =>
-                      this.setState({...this.state, postFile: fileString, errorAttachFile: error})
-                    }
-                    handleMedia={(fileString, error) =>
-                      this.setState({...this.state, postMedia: fileString, errorAttachMedia: error})
-                    }
-                    handlePictures={(fileString, error) =>
-                      this.setState({
-                        ...this.state, postPictures: [...postPictures, fileString],
-                        errorAttachPicture: error
-                      })
-                    }
-                    linkModalFunc={this._linkModalFunc}
-                    translate={translate}
+
+                  <div className='post-component-footer-send'>
+
+                    <div className='post-component-footer-link'>{link}</div>
+
+                    <div style={{display: "inline-block"}} onClick={this.handleAttach}>
+                      <AttachFileIcon className='post-component-footer-send-attach'/>
+                    </div>
+                    <button type="submit" className='post-component-footer-send-btn'>ارسال</button>
+                    <AttachMenu
+                        ref={e => this.setWrapperRef = (e ? e.attachMenuRef : e)}
+                        attachMenu={attachMenu}
+                        handleFile={(fileString, error) =>
+                            this.setState({...this.state, postFile: fileString, errorAttachFile: error})
+                        }
+                        handleMedia={(fileString, error) =>
+                            this.setState({...this.state, postMedia: fileString, errorAttachMedia: error})
+                        }
+                        handlePictures={(fileString, error) =>
+                            this.setState({
+                              ...this.state, postPictures: [...postPictures, fileString],
+                              errorAttachPicture: error
+                            })
+                        }
+                        linkModalFunc={this._linkModalFunc}
+                        translate={translate}
+                    />
+                  </div>
+                  <ContactMenu
+                      ref={e => this.setWrapperSecondRef = (e ? e.contactMenuRef : e)}
+                      contactMenu={contactMenu}
+                      labels={labels}
+                      followers={followers}
+                      exchanges={exchanges}
+                      currentUserIdentity={currentUserIdentity}
+                      handleLabel={this._handleLabel}
                   />
                 </div>
-                <ContactMenu
-                  ref={e => this.setWrapperSecondRef = (e ? e.contactMenuRef : e)}
-                  contactMenu={contactMenu}
-                  labels={labels}
-                  followers={followers}
-                  exchanges={exchanges}
-                  currentUserIdentity={currentUserIdentity}
-                  handleLabel={this._handleLabel}
-                />
+                <div style={{clear: "both"}}/>
               </div>
-              <div style={{clear: "both"}}/>
-            </div>
 
-            <ViewAttachedFiles
-              postPictures={postPictures}
-              errorAttachPicture={errorAttachPicture}
-              postMedia={postMedia}
-              errorAttachMedia={errorAttachMedia}
-              postFile={postFile}
-              errorAttachFile={errorAttachFile}
-              deletePicture={this._deletePicture}
-              deleteMedia={this._deleteMedia}
-              deleteFile={this._deleteFile}
-            />
+              <ViewAttachedFiles
+                  postPictures={postPictures}
+                  errorAttachPicture={errorAttachPicture}
+                  postMedia={postMedia}
+                  errorAttachMedia={errorAttachMedia}
+                  postFile={postFile}
+                  errorAttachFile={errorAttachFile}
+                  deletePicture={this._deletePicture}
+                  deleteMedia={this._deleteMedia}
+                  deleteFile={this._deleteFile}
+              />
 
-            <LinkModal
-              ref={e => this.setWrapperThirdRef = e ? e.linkModalRef : e}
-              linkModal={linkModal}
-              cancelFunc={() => this.setState({...this.state, linkModal: false})}
-              submitFunc={(linkString) => this.setState({...this.state, link: linkString, linkModal: false})}
-            />
+              <LinkModal
+                  ref={e => this.setWrapperThirdRef = e ? e.linkModalRef : e}
+                  linkModal={linkModal}
+                  cancelFunc={() => this.setState({...this.state, linkModal: false})}
+                  submitFunc={(linkString) => this.setState({...this.state, link: linkString, linkModal: false})}
+              />
 
-          </form>
+            </form>
         )
       case "comment":
         return (
-          <div className={"comment-container"}>
-            <div style={{display: "inline-block", width: "11%"}}>
-              {currentUserMedia !== null && currentUserMedia !== undefined ?
-                <img alt='profile' src={currentUserMedia} className={"comment-owner"}/>
-                :
-                <DefaultUserIcon width='45px' height='45px'/>
-              }
-            </div>
-            <div className={commentBody}>
+            <div className={"comment-container"}>
+              <div style={{display: "inline-block", width: "11%"}}>
+                {currentUserMedia !== null && currentUserMedia !== undefined ?
+                    <img alt='profile' src={currentUserMedia} className={"comment-owner"}/>
+                    :
+                    <DefaultUserIcon width='45px' height='45px'/>
+                }
+              </div>
+              <div className={commentBody}>
               <textarea ref={e => this.text = e}
                         className={open ? "comment-text-area-open" : "comment-text-area"}
                         placeholder={placeholder}
@@ -417,52 +419,52 @@ class CreatePost extends Component {
                           commentBody: "comment-body"
                         }) : this.setState({...this.state, open: true, commentBody: "comment-body"})}
               />
-              <div className='comment-icons' contentEditable={false}>
+                <div className='comment-icons' contentEditable={false}>
                   <span onClick={this.handleAttach}>
                     <AttachFileIcon className='post-component-footer-send-attach'/>
                   </span>
-                <span onClick={() => this.createComment(this.text)}>
+                  <span onClick={() => this.createComment(this.text)}>
                   <PostSendIcon className='post-component-footer-send-attach'/>
                 </span>
-                <AttachMenu
-                  ref={e => this.setWrapperRef = (e ? e.attachMenuRef : e)}
-                  attachMenu={attachMenu}
-                  handleFile={(fileString, error) =>
-                    this.setState({...this.state, postFile: fileString, errorAttachFile: error})
-                  }
-                  handleMedia={(fileString, error) =>
-                    this.setState({...this.state, postMedia: fileString, errorAttachMedia: error})
-                  }
-                  handlePictures={(fileString, error) =>
-                    this.setState({
-                      ...this.state,
-                      postPictures: [...postPictures, fileString],
-                      errorAttachPicture: error
-                    })
-                  }
-                  linkModalFunc={this._linkModalFunc}
-                  translate={translate}
-                />
+                  <AttachMenu
+                      ref={e => this.setWrapperRef = (e ? e.attachMenuRef : e)}
+                      attachMenu={attachMenu}
+                      handleFile={(fileString, error) =>
+                          this.setState({...this.state, postFile: fileString, errorAttachFile: error})
+                      }
+                      handleMedia={(fileString, error) =>
+                          this.setState({...this.state, postMedia: fileString, errorAttachMedia: error})
+                      }
+                      handlePictures={(fileString, error) =>
+                          this.setState({
+                            ...this.state,
+                            postPictures: [...postPictures, fileString],
+                            errorAttachPicture: error
+                          })
+                      }
+                      linkModalFunc={this._linkModalFunc}
+                      translate={translate}
+                  />
+                </div>
               </div>
+              {
+                postPictures.map((fileString, i) => {
+                      return (
+                          <div>
+                            <span onClick={() => this._deletePicture(i)} className='remove-post-picture pulse'>x</span>
+                            <img src={fileString} alt="imagePreview"/>
+                          </div>
+                      )
+                    }
+                )
+              }
             </div>
-            {
-              postPictures.map((fileString, i) => {
-                  return (
-                    <div>
-                      <span onClick={() => this._deletePicture(i)} className='remove-post-picture pulse'>x</span>
-                      <img src={fileString} alt="imagePreview"/>
-                    </div>
-                  )
-                }
-              )
-            }
-          </div>
         )
       default:
         return (
-          <h2>
-            Component Type Needed
-          </h2>
+            <h2>
+              Component Type Needed
+            </h2>
         )
     }
   }
@@ -472,7 +474,7 @@ const mapStateToProps = (state) => {
 
   const client = state.auth.client
   const clientImgId = (client.user_type === "person") ? (client.profile.profile_media) : (
-    (client.organization && client.organization.organization_logo) || null
+      (client.organization && client.organization.organization_logo) || null
   )
 
   const userId = (client.organization && client.organization.id) || (client.user && client.user.id)
