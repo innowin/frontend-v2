@@ -105,7 +105,7 @@ class User extends Component <appProps, appState> {
               <div className='user-id'>@{data.user.username}</div>
             </div>
 
-            <div className='user-description'>
+            <div className='user-description' style={new RegExp("^[A-Za-z]*$").test(data.profile.description[0]) ? {direction:'ltr'} : {direction:'rtl'}}>
               {data.profile.description}
             </div>
 
@@ -120,7 +120,6 @@ class User extends Component <appProps, appState> {
           {
             this.renderFollowed(data, followees)
           }
-
         </div>
     )
   }
