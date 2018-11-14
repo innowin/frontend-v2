@@ -4,10 +4,11 @@
   width: 100%;
   background-color: white;
   border-top: 1px solid #dddddd;
+  height: auto;
   //border-radius: 3px;
   //box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
   padding: 10px 18px 1px 18px;
-  margin: 10px auto;
+  margin: 1px;
 }
 
 .comment-body {
@@ -28,6 +29,7 @@
   display: inline-block;
   vertical-align: top;
   position: relative;
+  margin-bottom: 7.5px;
 }
 
 .comment-owner {
@@ -45,7 +47,7 @@
   resize: none;
   border-radius: 3px;
   border: none;
-  padding: 8.5px 15px 0 15px;
+  padding: 8.5px 15px 0 70px;
   font-size: 13px;
   transition-duration: $animation-timing-long;
   height: 35px;

@@ -5,7 +5,6 @@ import PostSendIcon from "../../../images/common/postSend_svg"
 import {bindActionCreators} from "redux"
 import CommentActions from "../../../redux/actions/commonActions/commentActions"
 import connect from "react-redux/es/connect/connect"
-import {getMessages} from "../../../redux/selectors/translateSelector"
 
 class PostCommentNew extends Component {
   constructor(props) {
@@ -32,7 +31,7 @@ class PostCommentNew extends Component {
     const {currentUserMedia} = this.props
     return (
         <div className={"comment-container"}>
-          <div style={{display: "inline-block", width: "11%"}}>
+          <div style={{display: "inline-block", width: "11%", height: "45px"}}>
             {currentUserMedia !== null && currentUserMedia !== undefined ?
                 <img alt='profile' src={currentUserMedia} className={"comment-owner"}/>
                 :
