@@ -36,10 +36,24 @@ class Exchange extends Component <appProps, appState> {
   componentDidMount() {
     if (this.props.data.exchange_image) {
       let image = new Image()
-      image.src = this.props.data.exchange_image.file.includes(REST_URL) ? this.props.data.exchange_image.file : REST_URL + this.props.data.exchange_image.file
+      image.src = this.props.data.exchange_image.file.includes('innowin.ir') ? this.props.data.exchange_image.file : REST_URL + this.props.data.exchange_image.file
       image.onload = () => {
         this.setState({...this.state, imageLoaded: true})
       }
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.data.id !== nextProps.data.id) {
+      this.setState({...this.state, imageLoaded: false}, () => {
+        if (nextProps.data.exchange_image) {
+          let image = new Image()
+          image.src = nextProps.data.exchange_image.file.includes('innowin.ir') ? nextProps.data.exchange_image.file : REST_URL + nextProps.data.exchange_image.file
+          image.onload = () => {
+            this.setState({...this.state, imageLoaded: true})
+          }
+        }
+      })
     }
   }
 
@@ -81,7 +95,7 @@ class Exchange extends Component <appProps, appState> {
           <Link to={`/exchange/${data.id}`} style={{textDecoration: 'none', color: 'black'}}>
             {
               (data.exchange_image && this.state.imageLoaded) ?
-                  <img src={data.exchange_image.file.includes(REST_URL) ? data.exchange_image.file : REST_URL + data.exchange_image.file} alt={data.name} className='exchange-model-avatar'/>
+                  <img src={data.exchange_image.file.includes('innowin.ir') ? data.exchange_image.file : REST_URL + data.exchange_image.file} alt={data.name} className='exchange-model-avatar'/>
                   :
                   <DefaultUserIcon className='exchange-model-avatar'/>
             }
