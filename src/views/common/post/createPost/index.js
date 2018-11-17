@@ -160,15 +160,15 @@ class CreatePost extends Component {
       if (descriptionLength === 0)
         this.setState({...this.state, descriptionClass: ''})
       if (descriptionLength > 0 && descriptionLength < 5)
-        this.setState({...this.state, open: true, descriptionClass: 'error-message'}, () => resetDescriptionClass())
+        this.setState({...this.state, open: true, descriptionClass: 'error-message'})
       if (descriptionLength > 5 && descriptionLength < 10)
-        this.setState({...this.state, descriptionClass: 'neutral-message'}, () => resetDescriptionClass())
+        this.setState({...this.state, descriptionClass: 'neutral-message'})
       if (descriptionLength > 10 && descriptionLength < 1490)
         this.setState({...this.state, descriptionClass: ''})
       if (descriptionLength > 1490 && descriptionLength < 1500)
-        this.setState({...this.state, descriptionClass: 'neutral-message'}, () => resetDescriptionClass())
+        this.setState({...this.state, descriptionClass: 'neutral-message'})
       else if (descriptionLength > 1500)
-        this.setState({...this.state, descriptionClass: 'error-message'}, () => resetDescriptionClass())
+        this.setState({...this.state, descriptionClass: 'error-message'})
     }
   }
 

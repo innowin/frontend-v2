@@ -117,15 +117,14 @@
   }
 }
 
-
-.post-component-container{
+.post-component-container {
   .description-character {
     position: relative;
-    span{
+    span {
       float: left;
       font-size: 12px;
       position: absolute;
-      top:3px;
+      top: 3px;
       left: 6px;
     }
   }
@@ -497,25 +496,33 @@
 
 /* -------------------------------   post attached pictures -------------------------*/
 .post-attached-pictures {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  div {
-    position: relative;
-    span {
-      position: absolute;
-      top: 0;
-      left: 10px;
-      background-color: $eee-color;
-      height: 20px;
-      padding: 0 2px;
+  .pictures-section {
+    display: flex;
+    flex-direction: row;
+    div {
+      position: relative;
+      span {
+        position: absolute;
+        top: 0;
+        left: 10px;
+        background-color: $eee-color;
+        height: 20px;
+        padding: 0 2px;
+      }
+      img {
+        width: 50px;
+        height: 50px;
+        margin-left: 10px;
+        object-fit: cover;
+      }
     }
-    img {
-      width: 50px;
-      height: 50px;
-      margin-left: 10px;
-      object-fit: cover;
-    }
+  }
+  .media-section {
+    width: 100%;
+    height: 400px;
+  }
+  .file-section {
+
   }
 }
 
@@ -635,7 +642,7 @@
   }
 }
 
-.post-component-footer-link{
+.post-component-footer-link {
   display: inline-block;
   font-size: 13px;
   padding-top: 2px;
