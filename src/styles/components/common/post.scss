@@ -219,6 +219,23 @@
     transition-duration: 0.3s;
   }
 }
+.post-component-footer-send-btn-inactive{
+  display: inline-block;
+  background-color: $brand-inverse-color;
+  border: 1px solid transparent;
+  color: white;
+  font-size: 12px;
+  border-radius: 20px;
+  margin-left: 2px;
+  padding: 1px 25px;
+  cursor: not-allowed;
+  transition-duration: 0.3s;
+  width: 75px;
+  &:hover {
+    color: $disable-color;
+    transition-duration: 0.3s;
+  }
+}
 
 .post-component-footer-send-attach {
   fill: #BBBBBB;

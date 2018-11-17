@@ -378,7 +378,9 @@ class CreatePost extends Component {
                 <div style={{display: "inline-block"}} onClick={this.handleAttach}>
                   <AttachFileIcon className='post-component-footer-send-attach'/>
                 </div>
-                <button type="submit" className='post-component-footer-send-btn'>ارسال</button>
+                <button type="submit"
+                        className={description.length > 4 ? "post-component-footer-send-btn" : "post-component-footer-send-btn-inactive"}>ارسال
+                </button>
                 <AttachMenu
                     ref={e => this.setWrapperRef = (e ? e.attachMenuRef : e)}
                     attachMenu={attachMenu}
