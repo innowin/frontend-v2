@@ -1,34 +1,37 @@
 @import "../../../variables";
 
-.exchanges-explore {
-  direction: rtl;
-  width: calc(100% - 285px);
-  margin-right: 285px;
-  display: flex;
-  //margin: auto;
-  flex-wrap: wrap;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: 15px;
-}
-
 .exchange-model {
   position: relative;
   padding: 15px 15px 25px 15px;
   display: inline-block;
   margin: 5px;
   text-align: center;
-  flex-grow: 0;
-  width: 330px;
-  flex-basis: 330px;
-  background: white;
+  flex-grow: 1;
+  width: 295px;
+  flex-basis: 295px;
+  background-color: $text-lightest-color;
   border-radius: 5px;
-  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+  //box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+  box-shadow: 0 3px 3px $box-shadow-color;
   height: 345px;
 }
 
-
+.exchange-model-hide{
+  position: relative;
+  padding: 15px 15px 25px 15px;
+  display: inline-block;
+  margin: 5px;
+  text-align: center;
+  flex-grow: 1;
+  width: 295px;
+  flex-basis: 295px;
+  background-color: $text-lightest-color;
+  border-radius: 5px;
+  //box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+  box-shadow: 0 3px 3px $box-shadow-color;
+  height: 25px;
+  visibility: hidden;
+}
 
 .exchange-model-follow {
   position: absolute;
@@ -56,7 +59,7 @@
   margin: 0 auto 8px auto;
   width: 80px;
   border-radius: 50%;
-  box-shadow: 0 2px 3px 1px rgba(0,0,0,0.2)
+  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.2)
 }
 
 .exchange-model-title {
@@ -70,7 +73,8 @@
   text-align-last: center;
   font-size: $font-size-smallText;
   line-height: 25px;
-  height: 70px;
+  height: 75px;
+  overflow-y: hidden;
 }
 
 .exchange-model-followers-avatar {
@@ -97,6 +101,10 @@
   text-align: center;
   font-weight: bold;
   font-size: $font-size-medium;
+  margin-top: 12px;
+  padding: 17px 0;
+  border-top: 1px solid #F1F1F1;
+  border-bottom: 1px solid #F1F1F1;
 }
 
 .exchange-model-detail-demand-logo {
@@ -123,17 +131,28 @@
 
 .exchanges-explore-sidebar {
   position: fixed;
-  box-shadow: 0 1px 15px 0 rgba(0, 0, 0, 0.4);
-  background-color: white;
-  width: 280px;
-  bottom: 0;
+  bottom: 15px;
   overflow-y: auto;
-  overflow-x: hidden;
   z-index: 1;
-  right: 0;
-  top: 55px;
+  top: 70px;
   padding: 15px;
   color: $text-dark-color;
+  border-radius: $border-radius-size;
+  overflow-y: auto;
+  background: $text-lightest-color;
+  box-shadow: 0 3px 3px $box-shadow-color;
+  @media screen and (max-width: 1920px) and (min-width: 1366px) {
+    right: 138px;
+    width: calc(0.25 * (100% - 276px));
+  }
+  @media screen and (max-width: 1280px) and (min-width: 600px) {
+    right: 90px;
+    width: calc(0.25 * (100% - 180px));
+  }
+  @media screen and (max-width: 1366px) and (min-width: 1280px) {
+    right: 97px;
+    width: calc(0.25 * (100% - 194px));
+  }
 }
 
 .exchanges-explore-sidebar-searchbox {
@@ -157,6 +176,7 @@
   }
   &::placeholder {
     color: whitesmoke;
+    font-size: 14px;
   }
 }
 
@@ -204,6 +224,7 @@
 .exchanges-explore-sidebar-tag {
   display: inline-block;
   flex-grow: 1;
+  font-size: 14px;
 }
 
 .exchanges-explore-sidebar-tag-search {
@@ -252,7 +273,7 @@
 
 .exchanges-explore-sidebar-hashTags-search-container {
   display: flex;
-  flex-wrap: wrap
+  flex-wrap: wrap;
 }
 
 .exchanges-explore-sidebar-hashTags-container {
@@ -289,10 +310,40 @@
   border-top-left-radius: 3px;
 }
 
-.all-exchanges-container {
-  padding-top: 55px;
+.all-exchanges-parent {
+  @media screen and (max-width: 1920px) and (min-width: 1366px) {
+    margin: 0 138px;
+  }
+  @media screen and (max-width: 1280px) and (min-width: 600px) {
+    margin: 0 90px;
+  }
+  @media screen and (max-width: 1366px) and (min-width: 1280px) {
+    margin: 0 97px;
+  }
 }
 
+.all-exchanges-container {
+  padding: 65px 15px 15px 15px;
+  @media screen and (max-width: 1920px) and (min-width: 1366px) {
+    width: 75%;
+    margin-right: 25%
+  }
+  @media screen and (max-width: 1280px) and (min-width: 600px) {
+    width: 75%;
+    margin-right: 25%
+  }
+  @media screen and (max-width: 1366px) and (min-width: 1280px) {
+    width: 75%;
+    margin-right: 25%
+  }
+  direction: rtl;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
 
 .exchange-follow {
   border: 1px solid $tag-del-btn-background;
@@ -306,12 +357,12 @@
   left: 15px;
   transition-duration: 0.25s;
   font-size: $font-size-normalText;
-  //&:hover {
-  //  color: white;
-  //  background-color: $tag-del-btn-background;
-  //  transition-duration: 0.25s;
-  //}
-  &:focus{
+  &:hover {
+    color: white;
+    background-color: $tag-del-btn-background;
+    transition-duration: 0.25s;
+  }
+  &:focus {
     outline: none;
   }
   //&:active{
@@ -337,30 +388,31 @@
     color: $tag-del-btn-background;
     transition-duration: 0.25s;
   }
-  &:focus{
+  &:focus {
     outline: none;
   }
-  &:active{
+  &:active {
     background-color: $secondary-color;
     color: white;
   }
 }
 
-.exchange-baj-container{
+.exchange-baj-container {
   position: absolute;
   bottom: 15px;
   right: 15px;
 }
 
-.exchange-baj{
+.exchange-baj {
   display: inline-block;
   vertical-align: top;
   margin: 0 5px;
   width: 27px;
   height: 27px;
-&:first-child{
-  margin-right: 0;
-}}
+  &:first-child {
+    margin-right: 0;
+  }
+}
 
 .exchange-model-following {
   position: absolute;

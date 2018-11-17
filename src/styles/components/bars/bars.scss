@@ -760,6 +760,18 @@ $sidebar-profile-media-width: 80px;
     background-color: $chat-box2-color;
     border-radius: 3px;
     color: black;
+    .post-component-footer-logos{
+      fill: $primary-color;
+    }
+    .post-component-footer-logos-little{
+      fill: $primary-color;
+    }
+  }
+  &:first-child{
+    padding-top: 10px;
+  }
+  &:last-child{
+    padding-bottom: 8px;
   }
 }
 
@@ -1482,6 +1494,7 @@ $sidebar-profile-media-width: 80px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    height: 30px;
     svg {
       width: 12px;
       position: absolute;
@@ -1490,6 +1503,9 @@ $sidebar-profile-media-width: 80px;
     svg path {
       fill: $text-lightest-color;
     }
+  }
+  &.processing .act-bar {
+    cursor: default;
   }
 }
 

@@ -1,15 +1,15 @@
 // @flow
 import * as React from 'react'
 import PropTypes from 'prop-types'
-import {getMessages} from "src/redux/selectors/translateSelector";
-import {connect} from "react-redux";
-import type {organizationType} from "src/consts/flowTypes/organization/organization";
-import type {userProfileType, userType} from "src/consts/flowTypes/user/basicInformation";
-import type {fileType} from "../../../consts/flowTypes/common/fileType";
-import {bindActionCreators} from "redux";
-import FileActions from "../../../redux/actions/commonActions/fileActions";
-import {DefaultUserIcon} from "../../../images/icons";
-import DefaultImageIcon from "../../../images/defaults/defaultImage_svg";
+import {getMessages} from "src/redux/selectors/translateSelector"
+import {connect} from "react-redux"
+import type {organizationType} from "src/consts/flowTypes/organization/organization"
+import type {userProfileType, userType} from "src/consts/flowTypes/user/basicInformation"
+import type {fileType} from "../../../consts/flowTypes/common/fileType"
+import {bindActionCreators} from "redux"
+import FileActions from "../../../redux/actions/commonActions/fileActions"
+import {DefaultUserIcon} from "../../../images/icons"
+import DefaultImageIcon from "../../../images/defaults/defaultImage_svg"
 
 type UserDetailPanelProps = {
   translate: { [string]: string },
@@ -26,6 +26,13 @@ type UserDetailPanelProps = {
 }
 
 class UserDetailPanel extends React.Component<UserDetailPanelProps> {
+  constructor(props) {
+    super(props)
+    this.state = {
+      bannerLoaded: false,
+      profileLoaded: false
+    }
+  }
 
   static propTypes = {
     translate: PropTypes.object.isRequired,
@@ -40,10 +47,26 @@ class UserDetailPanel extends React.Component<UserDetailPanelProps> {
   }
 
   componentDidMount() {
-    const {actions, bannerId, profileId} = this.props
+    const {actions, bannerId, profileId, bannerImage, profileImage} = this.props
     const {getFile} = actions
     getFile(profileId)
     getFile(bannerId)
+
+    //Added for profile url check
+    if (bannerImage && bannerImage.file) {
+      let profile = new Image()
+      profile.src = bannerImage.file
+      profile.onload = () => {
+        this.setState({...this.state, bannerLoaded: true})
+      }
+    }
+    if (profileImage && profileImage.file) {
+      let profile = new Image()
+      profile.src = profileImage.file
+      profile.onload = () => {
+        this.setState({...this.state, profileLoaded: true})
+      }
+    }
   }
 
   render() {
@@ -55,12 +78,12 @@ class UserDetailPanel extends React.Component<UserDetailPanelProps> {
     return (
         <div className='user-detail-panel-container'>
           <div className='image-part-container'>
-            {bannerImage && bannerImage.file
+            {bannerImage && bannerImage.file && this.state.bannerLoaded
                 ? <img className='banner covered-img' alt="profile banner"
                        src={bannerImage.file}/>
                 : <DefaultImageIcon className="banner covered-img"/>
             }
-            {profileImage && profileImage.file
+            {profileImage && profileImage.file && this.state.profileLoaded
                 ? <img className="rounded-circle profile-media covered-img" alt="profile"
                        src={profileImage.file}/>
                 : <DefaultUserIcon className="rounded-circle profile-media covered-img"/>

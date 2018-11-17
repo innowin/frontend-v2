@@ -48,7 +48,9 @@ class Sidebar extends Component <appProps, appState> {
   submitSearchByWord = (e) => {
     e.preventDefault()
     if (e.keyCode === 13) {
-
+      if (e.target.value.trim().length > 0)
+        this.props.search(e.target.value.trim())
+      else this.props.search(null)
     }
   }
 
@@ -72,7 +74,7 @@ class Sidebar extends Component <appProps, appState> {
     return (
         <div className='exchanges-explore-sidebar'>
           <div className='exchanges-explore-sidebar-searchbox'>
-            <input type='text' className='exchanges-explore-sidebar-searchbox-input' placeholder='جستجو'
+            <input type='text' className='exchanges-explore-sidebar-searchbox-input' placeholder='جستجوی شناسه'
                    onKeyUp={this.submitSearchByWord}/>
             <FontAwesome name="search" className='exchanges-explore-sidebar-searchbox-icon'/>
           </div>
@@ -100,12 +102,12 @@ class Sidebar extends Component <appProps, appState> {
                 کارگزار
               </label>
               <label className="label-wrapper">
-                <input type="checkbox" onChange={this._handleChange}/>
+                <input type="checkbox" onChange={(e) => this.props.justFollowed(e.target.checked)}/>
                 <span className="checkmark"></span>
                 دنبال کرده ها
               </label>
               <label className="label-wrapper">
-                <input type="checkbox" onChange={this._handleChange}/>
+                <input type="checkbox" onChange={(e) => this.props.justFollowing(e.target.checked)}/>
                 <span className="checkmark"></span>
                 دنبال شده ها
               </label>
@@ -132,7 +134,7 @@ class Sidebar extends Component <appProps, appState> {
             </div>
           </div>
           <hr/>
-          <div>
+          <div style={{fontSize: '14px'}}>
             فیلتر بر اساس نشان ها:
           </div>
         </div>

@@ -1,8 +1,6 @@
 // @flow
 import * as React from 'react'
 import Exchange from './Exchange'
-import {ClipLoader} from 'react-spinners'
-import {connect} from 'react-redux'
 
 type appProps =
     {|
@@ -27,24 +25,12 @@ function render(props) {
         <Exchange key={i} data={exchange}/>
     )
   }
-  else if (props.searchingByWord.length !== 0 || props.searchingByHashTags.length !== 0) {
-    return (<div>بورسی یافت نشد!</div>)
-  }
-  else return <ClipLoader/>
+  else if (!props.loading) return <div className='exchanges-explore-not-found'>بورسی یافت نشد!</div>
+  else return null
 }
 
 const Exchanges = (props: appProps) => {
-  return (
-      <div className="exchanges-explore">
-        {
-          render(props)
-        }
-      </div>
-  )
+  return render(props)
 }
-const mapStateToProps = (state) => ({
-  searchingByWord: state.exchanges.searchByWord,
-  searchingByHashTags: state.exchanges.searchByHashTag,
-})
 
-export default connect(mapStateToProps, null)(Exchanges)
+export default Exchanges

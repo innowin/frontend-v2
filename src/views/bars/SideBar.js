@@ -318,11 +318,11 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     }
   }
 
-  _handleBase64Banner = (fileString) => {
+  _handleBase64Banner = ({fileString, fileExtension, fileName}) => {
     this.setState({...this.state, bannerState: fileString})
   }
 
-  handleBase64Picture = (fileString) => {
+  handleBase64Picture = ({fileString, fileExtension, fileName}) => {
     this.setState({...this.state, pictureState: fileString})
   }
 
@@ -379,7 +379,6 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     const {saving, bannerState, pictureState} = this.state
     const {bannerTempId, pictureTempId} = this.props
     const completeCreatingFile = (bannerState ? bannerTempId : true) && (pictureState ? pictureTempId : true)
-    console.log("completeCreateFile:", bannerState ,bannerTempId, pictureState, pictureTempId)
     if (saving && completeCreatingFile) this._save()
   }
 
@@ -545,13 +544,13 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const bannerTemp = state.temp.file[bannerTempName] || {}
-  const pictureTemp = state.temp.file[pictureTempName] || {}
+  const bannerIdTemp = state.temp.file[bannerTempName] || null
+  const pictureIdTemp = state.temp.file[pictureTempName] || null
   return {
     translate: getMessages(state),
     clientIdentityId: state.auth.client.identity.content,
-    bannerTempId: bannerTemp.id,
-    pictureTempId: pictureTemp.id,
+    bannerTempId: bannerIdTemp,
+    pictureTempId: pictureIdTemp,
     followers: getFollowersSelector(state, ownProps), // fixMe: does not memoize. read the docs for correct call way.
     //fixMe: actually should create a selector creator when we need props in this selector.
   }

@@ -64,19 +64,19 @@ type CreateExchangeState = {
   inActPeopleIds: Array<string>,
   processing: boolean,
 }
-
+const initialState = {
+  activeStep: 1,
+  progressStatus: PROGRESSIVE_STATUS_CHOICES.ACTIVE,
+  wrapperClassName: WRAPPER_CLASS_NAMES.ENTERING,
+  formData: {},
+  selectedTags: [],
+  inActPeopleIds: [], // ids of people that doing some action (like adding to exchange members) on theme in this time.
+  processing: false,
+}
 class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState> {
   constructor() {
     super()
-    this.state = {
-      activeStep: 1,
-      progressStatus: PROGRESSIVE_STATUS_CHOICES.ACTIVE,
-      wrapperClassName: WRAPPER_CLASS_NAMES.ENTERING,
-      formData: {},
-      selectedTags: [],
-      inActPeopleIds: [], // ids of people that doing some action (like adding to exchange members) on theme in this time.
-      processing: false,
-    }
+    this.state = initialState
   }
 
   componentDidMount() {
@@ -242,6 +242,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
   }
 
   _handleModalVisibility = () => {
+    this.setState(initialState)
     this.props.handleModalVisibility()
   }
   _searchHandler = (key) => this.setState({

@@ -2,6 +2,8 @@
 import React, {Component} from "react"
 import PropTypes from "prop-types"
 
+const allowableFileFormat = ['jpg', 'jpeg', 'png', 'mp4', 'mp3', 'pdf', 'xlsx']
+
 export default class AttachFile extends Component {
   static defaultProps = {
     className : '',
@@ -29,10 +31,18 @@ export default class AttachFile extends Component {
     this.state = {error: false, isLoadingState: false}
   }
 
+  _getExtension = (fileName) => {
+    const parts = fileName.split('.')
+    const ext=parts.pop()
+    return ext.toLowerCase()
+  }
+
   _handleChange = (event) => {
     event.preventDefault()
     const {handleBase64}= this.props
     const file = event.target.files[0]
+    const fileName = file ? file.name : ''
+    const fileExtension = this._getExtension(fileName)
     const error = this._validateFile(file)
     this.setState({...this.state, error})
     if (file && !error) {
@@ -42,7 +52,7 @@ export default class AttachFile extends Component {
         this.setState({isLoadingState: true})
       }
       reader.onloadend = () => {
-        handleBase64(reader.result)
+        handleBase64({fileString:reader.result, fileExtension, fileName, error})
         this.setState({...this.state, isLoadingState: false})
       }
       reader.readAsDataURL(file)
@@ -50,19 +60,24 @@ export default class AttachFile extends Component {
   }
 
   _validateFile = (file) => {
-    const {required, customValidate} = this.props;
+    const {required, customValidate} = this.props
+    const fileName = file ? file.name : ''
+    const fileExtension = this._getExtension(fileName)
     if (required) {
       if (!file) {
-        return __('Required field');
+        return __('Required field')
       }
     }
-    return customValidate(file);
+    if (!allowableFileFormat.includes(fileExtension)) {
+      return __('This format is not allowed')
+    }
+    return customValidate(file)
   }
 
   _validate = () => {
-    const error = this._validateFile(this.file);
-    this.setState({error});
-    return error;
+    const error = this._validateFile(this.file)
+    this.setState({error})
+    return error
   }
 
   render() {

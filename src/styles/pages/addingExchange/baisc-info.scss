@@ -7,15 +7,21 @@
     display: flex;
     justify-content: space-between;
     margin: 40px auto;
+    flex-wrap: wrap;
     .simple-form {
       flex: 1 1 360px;
       max-width: 360px;
       min-width: 360px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin: 14px auto;
     }
     .simple-form .radio-button-group {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin: 0;
       label {
         margin-bottom: 0;
         margin-top: 5px;
@@ -47,9 +53,10 @@
     }
     .image-form {
       flex: 1 1 420px;
+      margin: 14px auto;
       max-width: 420px;
-      min-width: 420px;
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
     }
     .image-form img.selected-image {
@@ -57,7 +64,7 @@
       height: 200px;
       width: 200px;
       box-shadow: none;
-      margin-top: 33px;
+      margin: 33px auto 0;
       opacity: 0;
       transition: all 0.3s;
       &.show {
@@ -95,6 +102,9 @@
       margin: 3px 0;
       cursor: pointer;
     }
+    .image-selection-wrapper {
+      margin: 0 auto;
+    }
     .image-selection-wrapper span {
       margin-bottom: 14px;
       display: inline-block;
@@ -104,13 +114,23 @@
       overflow: hidden;
       box-shadow: 0 0 1px $images-box-shadow;
       cursor: pointer;
-      svg {
+      .upload-icon {
+        opacity: 1;
+        transition: opacity 0.3s;
         position: absolute;
         top: 9px;
         right: 5px;
         width: 40px;
         z-index: 1;
         cursor: pointer;
+      }
+      .fa-spinner {
+        position: absolute;
+        z-index: 1;
+        top: 21px;
+        right: 21px;
+        opacity: 0;
+        transition: opacity 0.3s;
       }
       input {
         position: absolute;
@@ -122,6 +142,23 @@
         z-index: 2;
         opacity: 0;
         cursor: pointer;
+      }
+      &.processing input {
+        pointer-events: none;
+      }
+      &.processing .upload-icon {
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      &.processing .fa-spinner {
+        opacity: 1;
+        transition: opacity 0.3s;
+      }
+    }
+    .file-input-wrapper.processing {
+      cursor: default;
+      input, .upload-icon {
+        cursor: default;
       }
     }
   }

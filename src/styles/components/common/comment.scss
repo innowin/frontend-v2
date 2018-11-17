@@ -16,8 +16,8 @@
   vertical-align: top;
   border-radius: $border-radius;
   border: 1px solid #e7e7e7;
-  height: auto;
   transition-duration: $animation-timing;
+  position: relative;
 }
 
 .comment-body-focused{
@@ -25,9 +25,9 @@
   border-radius: $border-radius;
   transition-duration: $animation-timing;
   width: 87.5%;
-  height: auto;
   display: inline-block;
   vertical-align: top;
+  position: relative;
 }
 
 .comment-owner {
@@ -41,11 +41,11 @@
 
 .comment-text-area {
   overflow-y: auto;
-  width: 80%;
+  width: 99%;
   resize: none;
   border-radius: 3px;
   border: none;
-  padding: 9px 15px;
+  padding: 8.5px 15px 0 15px;
   font-size: 13px;
   transition-duration: $animation-timing-long;
   height: 35px;
@@ -65,23 +65,24 @@
   resize: none;
   border-radius: 3px;
   border: none;
-  padding: 10px 15px;
+  padding: 8.5px 15px 0 70px;
   font-size: 13px;
   transition-duration: $animation-timing-long;
   height: 90px;
   line-height: 24px;
   &:focus {
     outline: none;
-    //transition-duration: $animation-timing-long;
+    transition-duration: $animation-timing-long;
   }
 }
 
 .comment-icons {
   width: 75px;
-  position: relative;
+  position: absolute;
+  bottom: 1px;
+  left: 7px;
   transition-duration: 0.3s;
   display: inline-block;
-  float: left;
   text-align: left;
   margin-top: 9px;
   margin-bottom: 9px;

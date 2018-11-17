@@ -22,12 +22,13 @@
   border: 2px solid $text-title-menu-color;
   min-height: 554px;
 }
-
+.close-btn {
+  color: $danger-color;
+  cursor: pointer;
+}
 .adding-contribution-wrapper {
   .close-btn {
-    color: $danger-color;
     float: right;
-    cursor: pointer;
   }
   input, textarea {
     font-size: $font-size-regular;

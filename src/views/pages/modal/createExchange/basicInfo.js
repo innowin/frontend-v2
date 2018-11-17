@@ -9,6 +9,7 @@ import {RadioButtonGroup} from "../../../common/inputs/RadioButtonInput"
 import type {StrNumBool} from "../../../common/inputs/RadioButtonInput"
 import {ImageUploadSvg} from '../../../../images/icons'
 import ScrollLessWrapper from '../../../common/wrappers/scrollLesWrapper'
+import FontAwesome from "react-fontawesome"
 
 
 export type HandlerType = (StrNumBool) => void
@@ -42,14 +43,14 @@ const SimpleForm = (props: SimpleFormProps) => {
             name={exchangeFields.private}
             selected={formData[exchangeFields.private]}
         />
-        <Input
-            name={exchangeFields.link}
-            className="link-input"
-            label="نام کاربری بورس"
-            onChange={(e: SyntheticEvent<HTMLInputElement>) => linkHandler(e.currentTarget.value)}
-            value={formData[exchangeFields.link]}
-            extraContent={<span className="domain">http://dbm.ir/</span>}
-        />
+        {/*<Input*/}
+        {/*name={exchangeFields.link}*/}
+        {/*className="link-input"*/}
+        {/*label="نام کاربری بورس"*/}
+        {/*onChange={(e: SyntheticEvent<HTMLInputElement>) => linkHandler(e.currentTarget.value)}*/}
+        {/*value={formData[exchangeFields.link]}*/}
+        {/*extraContent={<span className="domain">http://dbm.ir/</span>}*/}
+        {/*/>*/}
       </div>
   )
 }
@@ -62,19 +63,21 @@ type ImageFormProps = {
   images: Array<ImageType>,
   selectedImage: string,
   uploadHandler: Function,
-  imageHandler: (ImageType) => void
+  imageHandler: (ImageType) => void,
+  processing?: boolean
 }
 const ImageForm = (props: ImageFormProps) => {
-  const {images, selectedImage, uploadHandler, imageHandler} = props
+  const {images, selectedImage, uploadHandler, imageHandler, processing} = props
   return (
       <div className="image-form">
         <div className="image-selection-wrapper">
           <span>انتخاب تصویر</span>
           <div className="hide-scroll-wrapper">
             <div className='image-selection'>
-              <div className="file-input-wrapper img-option">
-                <input type="file" onChange={e => uploadHandler(e.currentTarget.files[0])}/>
-                <ImageUploadSvg/>
+              <div className={`file-input-wrapper img-option ${processing ? 'processing' : ''}`}>
+                <input type="file" onChange={!processing && (e => uploadHandler(e.currentTarget.files[0]))}/>
+                <FontAwesome name="spinner"/>
+                <ImageUploadSvg className="upload-icon"/>
               </div>
               {images.map(img =>
                   <img
@@ -103,10 +106,11 @@ type FormProps = {
   selectionImages: Array<ImageType>,
   selectedImage: string,
   uploadHandler: Function,
-  imageHandler: (ImageType) => void
+  imageHandler: (ImageType) => void,
+  processing?: boolean,
 }
 const Form = (props: FormProps) => {
-  const {formData, inputHandler, selectionImages, selectedImage, uploadHandler, imageHandler} = props
+  const {formData, inputHandler, selectionImages, selectedImage, uploadHandler, imageHandler, processing} = props
   return (
       <div className="form">
         <SimpleForm
@@ -114,6 +118,7 @@ const Form = (props: FormProps) => {
             inputHandler={inputHandler}
         />
         <ImageForm
+            processing={processing}
             uploadHandler={uploadHandler}
             images={selectionImages}
             selectedImage={selectedImage}
@@ -142,7 +147,7 @@ export default (props: Props) => {
     selectedImage,
     uploadHandler,
     imageHandler,
-      processing
+    processing
   } = props
   return (
       <div className="basic-info">
@@ -151,6 +156,7 @@ export default (props: Props) => {
             از بورس توضیح مختصر از بورس توضیح مختصر از بورس توضیح مختصر از بورس"
         />
         <Form
+            processing={processing}
             imageHandler={imageHandler}
             uploadHandler={uploadHandler}
             formData={formData}
