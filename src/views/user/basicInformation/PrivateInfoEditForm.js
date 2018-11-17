@@ -8,6 +8,9 @@ import {ReduxFormDateInput} from 'src/views/common/inputs/reduxFormDateInput'
 import {Field, reduxForm} from "redux-form";
 import type {userProfileType, userType} from "src/consts/flowTypes/user/basicInformation"
 import privateInfoValidation from "../../../helpers/validations/privateInfoBasicInformation"
+import {CustomArrayInput} from "../../common/inputs/CustomArrayInput";
+import {PhoneInput} from "../../common/inputs/PhoneInput";
+import {outputComponent} from "../../common/OutputComponent";
 
 type PrivateInfoFormInputType = {
   day: string,
@@ -47,12 +50,15 @@ class PrivateInfoEditForm extends Component<PropsPrivateInfoEditForm> {
     submitFailed: PropTypes.string.isRequired,
     error: PropTypes.string.isRequired,
   }
+
+  authMobileInput: React.ElementRef<typeof CustomArrayInput>
   componentDidMount() {
     const {initialize, profile, user} = this.props
     const birthDateSplit = profile.birth_date === null ? [''] : profile.birth_date.split('.')
     const defaultFormValue = {
       nationalCode: profile.national_code,
       email: user.email,
+      authMobile: profile.auth_mobile,
       year: birthDateSplit[0],
       month: birthDateSplit[1] === undefined ? '' : birthDateSplit[1],
       day: birthDateSplit[2] === undefined ? '' : birthDateSplit[2],
@@ -69,8 +75,11 @@ class PrivateInfoEditForm extends Component<PropsPrivateInfoEditForm> {
 
     const birth_date = values.year === '' || values.month === '' || values.day === '' ? '' : `${values.year}.${values.month}.${values.day}`
 
+    const authMobile = this.authMobileInput.getValue()
+
     const formFormat = {
       national_code: profile.national_code === values.nationalCode ? null : values.nationalCode,
+      authMobile: profile.auth_mobile === authMobile ? null : authMobile,
       birth_date: profile.birth_date === birth_date ? null : birth_date,
       email: user.email === values.email ? null : values.email,
     }
@@ -116,6 +125,16 @@ class PrivateInfoEditForm extends Component<PropsPrivateInfoEditForm> {
                 textFieldClass='form-control'
             />
           </div>
+
+          <CustomArrayInput
+              label={translate['Mobile'] + ": "}
+              value={profile.auth_mobile}
+              inputComponent={PhoneInput}
+              outputComponent={outputComponent}
+              ref={authMobileInput => {
+                this.authMobileInput = authMobileInput
+              }}
+          />
 
           {submitFailed && <p className="error-message">{error}</p>}
 

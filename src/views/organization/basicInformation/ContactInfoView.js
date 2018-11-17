@@ -22,18 +22,18 @@ const ContactInfoView = (props: PropsOrganizationInfoView) => {
           <FieldLabel label={translate['Address'] + ": "}/>
           <FieldValue value={organization.address}/>
         </Field>
-        <Field>
-          <FieldLabel label={translate['Address'] + " 2: "}/>
-          <FieldValue value={organization.address}/>
-        </Field>
+        {/*<Field>*/}
+          {/*<FieldLabel label={translate['Address'] + " 2: "}/>*/}
+          {/*<FieldValue value={organization.address}/>*/}
+        {/*</Field>*/}
         <Field>
           <FieldLabel label={translate['Phone'] + ": "}/>
           <FieldValue value={organization.phone}/>
         </Field>
-        <Field>
-          <FieldLabel label={translate['Phone'] + " 2: "}/>
-          <FieldValue value={organization.phone}/>
-        </Field>
+        {/*<Field>*/}
+          {/*<FieldLabel label={translate['Phone'] + " 2: "}/>*/}
+          {/*<FieldValue value={organization.phone}/>*/}
+        {/*</Field>*/}
         <Field>
           <FieldLabel label={translate['Website'] + ": "}/>
           <FieldValue value={organization.web_site}/>
