@@ -39,7 +39,7 @@ class Explore extends Component <appProps, appState> {
   }
 
   componentDidMount() {
-    this.props.actions.getAllExchanges(24, this.state.offset, null)
+    this.props.actions.getAllExchanges(24, 0, null)
     window.addEventListener('scroll', this.onScroll)
   }
 
@@ -61,23 +61,24 @@ class Explore extends Component <appProps, appState> {
     }
   }
 
-  search = (search) => {
-    this.setState({...this.state, search: search, offset: 0, activeScrollHeight: 0}, () => {
-      this.props.actions.getAllExchanges(24, 0, search)
-    })
-  }
+  search = (search) =>
+      this.setState({...this.state, search: search, offset: 0, activeScrollHeight: 0}, () => {
+        this.props.actions.getAllExchanges(24, 0, search)
+      })
+
+  justFollowing = (checked) => this.setState({...this.state, justFollowing: checked})
 
   render() {
     return (
         <div className='all-exchanges-parent'>
           <TopBar collapseClassName="col user-sidebar-width"/>
-          <Sidebar search={this.search} justFollowing={(checked) => this.setState({...this.state, justFollowing: checked})}/>
+          <Sidebar search={this.search} justFollowing={this.justFollowing}/>
           <div className='all-exchanges-container'>
             <Exchanges exchanges={this.props.allExchanges} justFollowing={this.state.justFollowing} loading={this.props.loading}/>
             <div className='exchange-model-hide'/>
             <div className='exchange-model-hide'/>
             {
-              <div style={{width: '100%', textAlign: 'center', transitionDuration: '0.3s', overflowY: 'hidden', height: this.props.loading ? '40px' : '0px', opacity: this.props.loading ? '1' : '0'}}><ClipLoader/></div>
+              <div className='exchanges-explore-search-loading' style={{height: this.props.loading ? '40px' : '0px', opacity: this.props.loading ? '1' : '0'}}><ClipLoader/></div>
             }
           </div>
         </div>

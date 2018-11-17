@@ -87,6 +87,7 @@ export function* getAllUsers(action) {
     yield put({type: types.SUCCESS.USER.GET_ALL_USERS, payload: {data, search, loading: false}})
   } catch (err) {
     const {message} = err
+    yield put({type: types.SUCCESS.USER.GET_ALL_USERS, payload: {data: [], search, loading: true}})
     yield put({
       type: types.ERROR.USER.GET_ALL_USERS,
       payload: {message}

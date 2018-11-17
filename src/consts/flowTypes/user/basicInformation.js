@@ -25,7 +25,8 @@ export type userProfileType = {|
   is_user_organization: boolean,
   profile_banner: ?number,
   profile_media: ?number,
-  [string]: ?string
+  [string]: ?string,
+  auth_mobile: string,
 |}
 
 export type identityType = {|

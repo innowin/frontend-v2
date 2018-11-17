@@ -102,12 +102,12 @@ class Sidebar extends Component <appProps, appState> {
                 کارگزار
               </label>
               <label className="label-wrapper">
-                <input type="checkbox" onChange={this._handleChange}/>
+                <input type="checkbox" onChange={(e) => this.props.justFollowed(e.target.checked)}/>
                 <span className="checkmark"></span>
                 دنبال کرده ها
               </label>
               <label className="label-wrapper">
-                <input type="checkbox" onChange={this._handleChange}/>
+                <input type="checkbox" onChange={(e) => this.props.justFollowing(e.target.checked)}/>
                 <span className="checkmark"></span>
                 دنبال شده ها
               </label>

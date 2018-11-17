@@ -1,5 +1,6 @@
 import React, {Component} from "react"
 import PropTypes from "prop-types"
+import Link from "../../../../images/common/link_svg"
 
 
 class LinkModal extends Component {
@@ -24,6 +25,7 @@ class LinkModal extends Component {
       <div className={linkModal ? "post-component-footer-link-modal" : "post-component-footer-link-modal-hide"}>
         <div ref={e => this.linkModalRef = e} className='post-component-footer-link-modal-container'>
           <div className='post-component-footer-link-modal-container-title'>
+            <Link className='post-component-footer-logos'/>
             افزودن لینک
           </div>
           <input type='text' className='post-component-footer-link-modal-container-input'

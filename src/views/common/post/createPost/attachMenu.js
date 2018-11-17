@@ -5,6 +5,9 @@ import AttachFile from "src/views/common/inputs/AttachFile"
 import AttachFileIcon from "src/images/common/attachFileNew_svg"
 import ContributionIcon from "src/images/common/contribution_svg"
 import Image from "src/images/common/image_upload_svg"
+import Link from "src/images/common/link_svg"
+import Movie from "src/images/common/movie_svg"
+
 
 
 class AttachMenu extends Component {
@@ -36,7 +39,7 @@ class AttachMenu extends Component {
 
   AttachMediaButton = () => (
     <div>
-      <ContributionIcon className='post-component-footer-logos'/>
+      <Movie className='post-component-footer-logos-little'/>
       ویدئو
     </div>
   )
@@ -92,11 +95,11 @@ class AttachMenu extends Component {
             handleBase64={this._handleBase64Media}
           />
           <div className='explore-menu-items'>
-            <ContributionIcon className='post-component-footer-logos'/>
+            <ContributionIcon className='post-component-footer-logos-little'/>
             محصول
           </div>
           <div className='explore-menu-items' onClick={linkModalFunc}>
-            <ContributionIcon className='post-component-footer-logos'/>
+            <Link className='post-component-footer-logos-little'/>
             لینک
           </div>
         </div>

@@ -10,31 +10,37 @@ type appProps =
     |}
 
 function render(props) {
-  let {users} = props
+  let {users, followees, followers, justFollowing, justFollowed} = props
 
   users = Object.values(users)
 
-  // if (justFollowing) {
-  //   users = users.filter(user =>
-  //       user.exchange
-  //   )
-  // }
+  if (justFollowing && justFollowed) {
+    users = users.filter(user =>
+        followees[user.user.id] || followers[user.user.id]
+    )
+  }
+  else if (justFollowing) {
+    users = users.filter(user =>
+        followees[user.user.id]
+    )
+  }
+  else if (justFollowed) {
+    users = users.filter(user =>
+        followers[user.user.id]
+    )
+  }
 
   if (users.length > 0) {
     return users.map((user, i) =>
-        <User followees={props.followees} key={i} data={user}/>
+        <User followees={followees} key={i} data={user}/>
     )
   }
   else if (!props.loading) return <div className='exchanges-explore-not-found'>کاربری یافت نشد!</div>
   else return null
 }
 
-const Exchanges = (props: appProps) => {
+const Users = (props: appProps) => {
   return render(props)
 }
-const mapStateToProps = (state) => ({
-  searchingByWord: state.exchanges.searchByWord,
-  searchingByHashTags: state.exchanges.searchByHashTag,
-})
 
-export default connect(mapStateToProps, null)(Exchanges)
+export default Users
