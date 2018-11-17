@@ -128,6 +128,7 @@
       position: absolute;
       top:3px;
       left: 6px;
+      transition-duration: $animation-timing-long;
     }
   }
 }
@@ -231,6 +232,16 @@
     fill: $brand-inverse-color;
     transition-duration: $animation-timing;
   }
+}
+
+.post-component-footer-send-attach-inactive {
+  fill: #BBBBBB;
+  width: 20px;
+  vertical-align: top;
+  margin: 3px 7.5px 0 7.5px;
+  cursor: not-allowed;
+  display: inline-block;
+  transition-duration: $animation-timing;
 }
 
 .post-component-footer-logo {

@@ -52,14 +52,14 @@ class CreatePost extends Component {
       placeholder: "",
       selectedText: "",
       postPictures: [],
-      errorAttachPicture: '',
-      postFile: '',
-      errorAttachFile: '',
-      postMedia: '',
-      errorAttachMedia: '',
-      link: '',
-      description: '',
-      descriptionClass: '',
+      errorAttachPicture: "",
+      postFile: "",
+      errorAttachFile: "",
+      postMedia: "",
+      errorAttachMedia: "",
+      link: "",
+      description: "",
+      descriptionClass: "",
       savingPost: false,
       profileLoaded: false
     }
@@ -72,10 +72,11 @@ class CreatePost extends Component {
       open: false,
       selected: "post",
       postPictures: [],
-      postFile: '',
-      postMedia: '',
-      link: '',
-      description: '',
+      postFile: "",
+      postMedia: "",
+      link: "",
+      description: "",
+      descriptionClass: "hide-message",
       labels: {},
     })
   }
@@ -154,27 +155,29 @@ class CreatePost extends Component {
 
   _handleChangeText = (e) => {
     const description = e.target.value
-    this.setState({...this.state, description}, () => checkCharacter(description))
+    if (description.length <= 1500) this.setState({...this.state, description}, () => checkCharacter(description))
+    else e.target.value = this.state.description
     const checkCharacter = (description) => {
       const descriptionLength = description.trim().length
-      const resetDescriptionClass = () => setTimeout(() => this.setState({...this.state, descriptionClass: ''}), 3000)
       if (descriptionLength === 0)
-        this.setState({...this.state, descriptionClass: ''})
+        this.setState({...this.state, descriptionClass: "hide-message"})
       if (descriptionLength > 0 && descriptionLength < 5)
-        this.setState({...this.state, open: true, descriptionClass: 'error-message'}, () => resetDescriptionClass())
-      if (descriptionLength > 5 && descriptionLength < 10)
-        this.setState({...this.state, descriptionClass: 'neutral-message'}, () => resetDescriptionClass())
-      if (descriptionLength > 10 && descriptionLength < 1490)
-        this.setState({...this.state, descriptionClass: ''})
+        this.setState({...this.state, open: true, descriptionClass: "error-message"})
+      if (descriptionLength >= 5 && descriptionLength < 1490)
+        this.setState({...this.state, descriptionClass: "neutral-message"})
       if (descriptionLength > 1490 && descriptionLength < 1500)
-        this.setState({...this.state, descriptionClass: 'neutral-message'}, () => resetDescriptionClass())
+        this.setState({...this.state, descriptionClass: "warning-message"})
       else if (descriptionLength > 1500)
-        this.setState({...this.state, descriptionClass: 'error-message'}, () => resetDescriptionClass())
+        this.setState({...this.state, descriptionClass: "error-message"})
     }
   }
 
   _handleBlurText = (e) => {
     const descriptionLength = e.target.value.trim().length
+    this.setState({
+      ...this.state,
+      descriptionClass: "hide-message"
+    })
     if (descriptionLength === 0) {
       this.setState({...this.state, open: false})
     } else this.setState({...this.state, open: true})
@@ -207,7 +210,7 @@ class CreatePost extends Component {
 
   _formValidate = () => {
     const {descriptionClass, errorAttachFile, errorAttachMedia, errorAttachPicture} = this.state
-    const descriptionError = (descriptionClass === 'error-message')
+    const descriptionError = (descriptionClass === "error-message")
     let result = true
     const validates = [
       errorAttachFile,
@@ -337,7 +340,7 @@ class CreatePost extends Component {
           <div className='description-character'>
             {descriptionClass &&
             <span className={descriptionClass}>
-                  {description.trim().length + '/1500'}
+                  {description.trim().length + "/1500"}
                 </span>
             }
             <textarea

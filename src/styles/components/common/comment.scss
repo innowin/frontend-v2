@@ -19,9 +19,10 @@
   border: 1px solid #e7e7e7;
   transition-duration: $animation-timing;
   position: relative;
+  margin-bottom: 7.5px;
 }
 
-.comment-body-focused{
+.comment-body-focused {
   border: 1px solid #BBBBBB;
   border-radius: $border-radius;
   transition-duration: $animation-timing;
@@ -88,4 +89,12 @@
   text-align: left;
   margin-top: 9px;
   margin-bottom: 9px;
+}
+
+.description-character {
+  font-size: 12px;
+  position: absolute;
+  top: 3px;
+  left: 6px;
+  transition-duration: $animation-timing-long;
 }
