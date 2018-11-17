@@ -25,7 +25,11 @@ type UserDetailPanelProps = {
   }
 }
 
-class UserDetailPanel extends React.Component<UserDetailPanelProps> {
+type UserDetailPanelStates = {
+  bannerLoaded: boolean,
+  profileLoaded: boolean
+}
+class UserDetailPanel extends React.Component<UserDetailPanelProps, UserDetailPanelStates> {
   constructor(props) {
     super(props)
     this.state = {
@@ -81,7 +85,7 @@ class UserDetailPanel extends React.Component<UserDetailPanelProps> {
             {bannerImage && bannerImage.file && this.state.bannerLoaded
                 ? <img className='banner covered-img' alt="profile banner"
                        src={bannerImage.file}/>
-                : <DefaultImageIcon className="banner covered-img"/>
+                : <div className='banner covered-img'/> // <DefaultImageIcon className="banner covered-img"/>
             }
             {profileImage && profileImage.file && this.state.profileLoaded
                 ? <img className="rounded-circle profile-media covered-img" alt="profile"
