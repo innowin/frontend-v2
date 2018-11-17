@@ -27,7 +27,7 @@
   border-radius: 5px;
   //box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   box-shadow: 0 3px 3px $box-shadow-color;
-  height: 50px;
+  height: 25px;
   visibility: hidden;
 }
 
@@ -179,4 +179,12 @@
   to {
     opacity: 1;
   }
+}
+
+.exchanges-explore-search-loading {
+  width: 100%;
+  text-align: center;
+  transition-duration: 0.3s;
+  overflow-y: hidden;
+  margin-top: 25px;
 }

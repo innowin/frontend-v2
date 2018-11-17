@@ -10,6 +10,7 @@ import socialActions from 'src/redux/actions/commonActions/socialActions'
 import userActions from 'src/redux/actions/user/getUserActions'
 import {getUsers} from 'src/redux/selectors/user/GetAllUsers'
 import {ClipLoader} from "react-spinners"
+import {getFollowList} from 'src/redux/selectors/common/social/getFollowList'
 
 type appProps =
     {|
@@ -32,13 +33,20 @@ class Explore extends Component <appProps, appState> {
     this.state = {
       offset: 0,
       activeScrollHeight: 0,
-      search: null
+      search: null,
+      justFollowing: false,
+      justFollowed: false
     }
   }
 
   componentDidMount() {
     this.props.actions.getUsers(24, this.state.offset, null)
     this.props.actions.getFollowees({
+      followOwnerIdentity: this.props.currentUserIdentity,
+      followOwnerType: this.props.currentUserType,
+      followOwnerId: this.props.currentUserId
+    })
+    this.props.actions.getFollowers({
       followOwnerIdentity: this.props.currentUserIdentity,
       followOwnerType: this.props.currentUserType,
       followOwnerId: this.props.currentUserId
@@ -53,7 +61,6 @@ class Explore extends Component <appProps, appState> {
   onScroll = () => {
     let {activeScrollHeight} = this.state
     let scrollHeight = document.body.scrollHeight
-    console.log('scroll: ', window.innerHeight + window.scrollY)
     if (((window.innerHeight + window.scrollY) >= (scrollHeight - 250)) && (scrollHeight > activeScrollHeight)) {
       this.setState({
             ...this.state,
@@ -64,34 +71,41 @@ class Explore extends Component <appProps, appState> {
     }
   }
 
-  search = (search) => {
-    this.setState({...this.state, search: search, offset: 0, activeScrollHeight: 0}, () => {
-      this.props.actions.getUsers(24, 0, search)
-    })
-  }
+  search = (search) =>
+      this.setState({...this.state, search: search, offset: 0, activeScrollHeight: 0}, () => {
+        this.props.actions.getUsers(24, 0, search)
+      })
+
+  justFollowing = (checked) => this.setState({...this.state, justFollowing: checked})
+
+  justFollowed = (checked) => this.setState({...this.state, justFollowed: checked})
 
   render() {
-    let followees = this.props.followees
-    Object.values(this.props.followees).forEach(follow => {
+    const list = this.props.followees
+    let followees = {}
+    let followers = {}
+
+    Object.values(list).forEach(follow => {
           if (follow.follow_followed.id === this.props.currentUserIdentity) {
-            delete followees[follow.id]
+            followers[follow.follow_follower.identity_user] = follow
           }
           else {
             followees[follow.follow_followed.identity_user] = follow
-            delete followees[follow.follow_followed.id]
           }
         }
     )
+
     return (
         <div className='all-exchanges-parent'>
           <TopBar collapseClassName="col user-sidebar-width"/>
-          <Sidebar search={this.search}/>
+          <Sidebar search={this.search} justFollowing={this.justFollowing} justFollowed={this.justFollowed}/>
           <div className='all-exchanges-container'>
-            <Users followees={followees} users={this.props.allUsers} loading={this.props.loading}/>
+            <Users followees={followees} followers={followers} users={this.props.allUsers} justFollowing={this.state.justFollowing} justFollowed={this.state.justFollowed}
+                   loading={this.props.loading}/>
             <div className='users-explore-hide'/>
             <div className='users-explore-hide'/>
             {
-              <div style={{width: '100%', textAlign: 'center', transitionDuration: '0.3s', overflowY: 'hidden', height: this.props.loading ? '40px' : '0px', opacity: this.props.loading ? '1' : '0'}}><ClipLoader/></div>
+              <div className='exchanges-explore-search-loading' style={{height: this.props.loading ? '40px' : '0px', opacity: this.props.loading ? '1' : '0'}}><ClipLoader/></div>
             }
           </div>
         </div>
@@ -106,13 +120,14 @@ const mapStateToProps = (state) => {
     currentUserIdentity: state.auth.client.identity.content,
     currentUserId: userId,
     allUsers: getUsers(state),
-    followees: state.common.social.follows.list,
+    followees: getFollowList(state),
     loading: state.users.loading
   }
 }
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getFollowees: socialActions.getFollowees,
+    getFollowers: socialActions.getFollowers,
     getUsers: userActions.getAllUsers
   }, dispatch)
 })
