@@ -71,11 +71,11 @@ export class SideBarItem extends Component<PropsSideBarItem> {
     return (
         <div className={`item-wrapper ${ active ? 'active' : ''}`} onClick={this._onClickHandler}>
           <div className="header-exchange">
-            <Link to={"/exchange/" + exchangeId}>
+            <Link to={"/exchange/" + exchangeId} className="default-logo">
               {exchange_image && this.state.imageLoaded ?
                   <img className="img-logo" src={exchange_image.file} alt="logo"/>
                   :
-                  <DefaultExchangeIcon className="default-logo"/>
+                  <DefaultExchangeIcon/>
               }
             </Link>
             <div className="exchange-name">{name}</div>

@@ -80,7 +80,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
   constructor(props) {
     super(props)
-    this.state = {menuToggle: false, confirm: false}
+    this.state = {menuToggle: false, confirm: false,wordsCheck: false}
     this.commentTextField = null
   }
 
@@ -118,10 +118,19 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       getFile(userImageId)
     }
 
-    if (this.text) {
+    if (this.text && !this.state.wordsCheck) {
+      this.setState({...this.state,wordsCheck : true})
       let allWords = this.text.innerText.split(" ")
+
       let mailExp = new RegExp("^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$")
+
       let urlExp = new RegExp("^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$")
+
+      // Phone Reg
+      let first = new RegExp("(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{4}[)]?))")
+      let second = new RegExp("([-\s\.]?[0-9]{3})")
+      let third = new RegExp("([-\s\.]?[0-9]{3,4})")
+
       for (let i = 0; i < allWords.length; i++) {
         if (urlExp.test(allWords[i].trim())) {
           allWords[i].includes("http://") || allWords[i].includes("https://") ?
@@ -138,6 +147,15 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
         else if (mailExp.test(allWords[i].trim())) {
           this.text.innerHTML = this.text.innerHTML.replace(new RegExp(allWords[i], "g"), `<a href=mailto:` + allWords[i] + `>${allWords[i]}</a>`)
         }
+        else if (
+            first.test(allWords[i].trim())
+            || second.test(allWords[i].trim())
+            || third.test(allWords[i].trim())
+        ) {
+          // this.text.innerHTML = this.text.innerHTML.replace(allWords[i], `HEEEEFSEDFSVKJASBVI`)
+          this.text.innerHTML = this.text.innerHTML.replace(allWords[i], `<a href=tel:` + allWords[i] + `>${allWords[i]}</a>`)
+        }
+
         // TODO Abel add phone number diagnosis
       }
     }
