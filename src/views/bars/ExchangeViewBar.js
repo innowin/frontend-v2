@@ -12,6 +12,7 @@ import {getExchangePostsByPostType, getExchangePostsHasProduct} from "../../crud
 import ExchangeMembershipActions from "../../redux/actions/commonActions/exchangeMembershipActions"
 import {DefaultUserIcon} from "src/images/icons"
 import {BeatLoader} from "react-spinners"
+import {REST_URL} from 'src/consts/URLS'
 
 
 class ExchangeViewBar extends Component {
@@ -33,6 +34,7 @@ class ExchangeViewBar extends Component {
       isLoading: true,
       error: null,
       followLoading: false,
+      imageLoaded: false
     }
     this.follow = this.follow.bind(this)
   }
@@ -88,7 +90,7 @@ class ExchangeViewBar extends Component {
   }
 
   componentDidMount() {
-    const {actions, exchangeId} = this.props
+    const {actions, exchangeId, exchanges} = this.props
     const {getExchangeByExId} = actions
     // if(!this.props.exchanges.list[exchangeId] && !this.props.exchanges.list[exchangeId].id){
     getExchangeByExId(exchangeId)
@@ -98,6 +100,15 @@ class ExchangeViewBar extends Component {
     // this._getExchange(exchangeId)
     // this._getCounts(exchangeId)
     this._getCounts(exchangeId)
+
+    const currentExchange = exchanges.list[exchangeId]
+    if (currentExchange.exchange_image) {
+      let image = new Image()
+      image.src = currentExchange.exchange_image.file.includes(REST_URL) ? currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file
+      image.onload = () => {
+        this.setState({...this.state, imageLoaded: true})
+      }
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -129,7 +140,7 @@ class ExchangeViewBar extends Component {
             <button
                 type="button"
                 className="btn btn-outline-secondary btn-block sidebarFollowBottom"
-                style={{width: "122.5px", cursor:'pointer'}}
+                style={{width: "122.5px", cursor: 'pointer'}}
                 onClick={this.follow}>درخواست عضویت
             </button>
           </div>
@@ -138,7 +149,7 @@ class ExchangeViewBar extends Component {
   }
 
   render() {
-    const {exchange, badgesImgUrl, demandCount, supplyCount, productCount, tags, members, isLoading, error, followLoading} = this.state
+    const {exchange, badgesImgUrl, demandCount, supplyCount, productCount, tags, members, isLoading, error, followLoading, imageLoaded} = this.state
     const {translate, exchanges, exchangeId} = this.props
     const currentExchange = exchanges.list[exchangeId]
     // const currentExchange = exchanges.list[exchangeId].exchange.content
@@ -148,7 +159,7 @@ class ExchangeViewBar extends Component {
     //       <img alt={"."} src={val.profile_media || "#"}> </img>
     //     </div>)
     // )
-    if (currentExchange.exchange_image)
+    if (currentExchange)
       return (
           <VerifyWrapper isLoading={false} error={error}>
             <div className="-sidebar-child-wrapper col">
@@ -159,17 +170,11 @@ class ExchangeViewBar extends Component {
                     <i className="fa fa-ellipsis-v menuBottom"> </i>
                 }
                 {
-                  currentExchange.exchange_image !== null ?
-                      <div className='rounded-circle-parent-' ref={e => this.scroll = e}
-                           onLoad={() => this.scroll.scrollLeft = 25}>
-                        <img className="exchangeViewBarImg" alt={translate["Exchange Picture"]}
-                             src={currentExchange.exchange_image.file.includes("restful.daneshboom.ir/") ?
-                                 currentExchange.exchange_image.file :
-                                 "http://restful.daneshboom.ir/" + currentExchange.exchange_image.file}/>
-                      </div>
+                  currentExchange.exchange_image && imageLoaded ?
+                      <img className="exchangeViewBarImg" alt={translate["Exchange Picture"]}
+                           src={currentExchange.exchange_image.file.includes(REST_URL) ? currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file}/>
                       :
-                      <DefaultUserIcon width={"100px"} height={"100px"}
-                                       className={"rounded-circle exchangeViewBarImg"}/>
+                      <DefaultUserIcon className="exchangeViewBarImg"/>
                 }
                 <div className="exchangeName">
                   <ExchangeIcon/>

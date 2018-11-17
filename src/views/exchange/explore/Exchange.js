@@ -43,6 +43,20 @@ class Exchange extends Component <appProps, appState> {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.data.id !== nextProps.data.id) {
+      this.setState({...this.state, imageLoaded: false}, () => {
+        if (nextProps.data.exchange_image) {
+          let image = new Image()
+          image.src = nextProps.data.exchange_image.file.includes(REST_URL) ? nextProps.data.exchange_image.file : REST_URL + nextProps.data.exchange_image.file
+          image.onload = () => {
+            this.setState({...this.state, imageLoaded: true})
+          }
+        }
+      })
+    }
+  }
+
   renderFollowButton() {
 
     if (this.props.data.exchange === undefined && this.state.followLoading) {
