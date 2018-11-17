@@ -104,7 +104,7 @@ class ExchangeViewBar extends Component {
     const currentExchange = exchanges.list[exchangeId]
     if (currentExchange.exchange_image) {
       let image = new Image()
-      image.src = currentExchange.exchange_image.file.includes(REST_URL) ? currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file
+      image.src = currentExchange.exchange_image.file.includes('innowin.ir') ? currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file
       image.onload = () => {
         this.setState({...this.state, imageLoaded: true})
       }
@@ -172,7 +172,7 @@ class ExchangeViewBar extends Component {
                 {
                   currentExchange.exchange_image && imageLoaded ?
                       <img className="exchangeViewBarImg" alt={translate["Exchange Picture"]}
-                           src={currentExchange.exchange_image.file.includes(REST_URL) ? currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file}/>
+                           src={currentExchange.exchange_image.file.includes('innowin.ir') ? currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file}/>
                       :
                       <DefaultUserIcon className="exchangeViewBarImg"/>
                 }
