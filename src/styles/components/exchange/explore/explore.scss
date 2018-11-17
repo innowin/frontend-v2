@@ -16,7 +16,7 @@
   height: 345px;
 }
 
-.exchange-model-hide{
+.exchange-model-hide {
   position: relative;
   padding: 15px 15px 25px 15px;
   display: inline-block;
@@ -29,7 +29,8 @@
   border-radius: 5px;
   //box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   box-shadow: 0 3px 3px $box-shadow-color;
-  height: 25px;
+  height: 0;
+  overflow: hidden;
   visibility: hidden;
 }
 
@@ -323,7 +324,7 @@
 }
 
 .all-exchanges-container {
-  padding: 65px 15px 15px 15px;
+  padding: 65px 15px 0 15px;
   @media screen and (max-width: 1920px) and (min-width: 1366px) {
     width: 75%;
     margin-right: 25%

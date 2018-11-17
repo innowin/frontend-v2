@@ -27,7 +27,8 @@
   border-radius: 5px;
   //box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   box-shadow: 0 3px 3px $box-shadow-color;
-  height: 25px;
+  height: 0;
+  overflow: hidden;
   visibility: hidden;
 }
 
@@ -187,4 +188,31 @@
   transition-duration: 0.3s;
   overflow-y: hidden;
   margin-top: 25px;
+}
+
+.fade-enter {
+  opacity: 0.01;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit.fade-exit-active {
+  opacity: 0.01;
+  transition: opacity 500ms ease-out;
+}
+
+.fade-appear {
+  opacity: 0.1;
+}
+
+.fade-appear.fade-appear-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
 }
