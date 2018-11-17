@@ -10,6 +10,8 @@ $sidebar-profile-media-width: 80px;
 
   .image-part-container {
     position: relative;
+    background-image: linear-gradient(-45deg, #f8f8f8 25%, #eee 25%, #eee 50%, #f8f8f8 50%, #f8f8f8 75%, #eee 75%, #eee 100%);
+    background-size: 30px 30px;
 
     .profile-media {
       width: $sidebar-profile-media-width;
