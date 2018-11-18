@@ -11,6 +11,7 @@ import userActions from 'src/redux/actions/user/getUserActions'
 import {getUsers} from 'src/redux/selectors/user/GetAllUsers'
 import {ClipLoader} from "react-spinners"
 import {getFollowList} from 'src/redux/selectors/common/social/getFollowList'
+import UserSkeleton from "./User_Skeleton"
 
 type appProps =
     {|

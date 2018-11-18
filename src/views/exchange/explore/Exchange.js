@@ -97,7 +97,7 @@ class Exchange extends Component <appProps, appState> {
               (data.exchange_image && this.state.imageLoaded) ?
                   <img src={data.exchange_image.file.includes('innowin.ir') ? data.exchange_image.file : REST_URL + data.exchange_image.file} alt={data.name} className='exchange-model-avatar'/>
                   :
-                  <DefaultUserIcon className='exchange-model-avatar'/>
+                  <DefaultUserIcon className='exchange-model-avatar-default'/>
             }
             <div className='exchange-model-title'>
               {data.name}
@@ -131,7 +131,6 @@ class Exchange extends Component <appProps, appState> {
           {
             this.renderFollowButton()
           }
-
 
         </div>
     )

@@ -60,6 +60,15 @@
   margin: 0 auto 8px auto;
   width: 80px;
   border-radius: 50%;
+  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.2);
+}
+
+.exchange-model-avatar-default {
+  height: 80px;
+  object-fit: cover;
+  margin: 0 auto 0 auto;
+  width: 80px;
+  border-radius: 50%;
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.2)
 }
 
@@ -67,6 +76,25 @@
   font-weight: bold;
   font-size: $font-size-medium;
   margin: 10px 0;
+}
+
+.exchange-model-title-skeleton {
+  font-weight: bold;
+  font-size: $font-size-medium;
+  margin: 10px 0;
+  background-color: #f3f3f3;
+  border-radius: 3px;
+}
+
+.exchange-model-description-skeleton {
+  text-align: justify;
+  text-align-last: center;
+  font-size: $font-size-smallText;
+  line-height: 25px;
+  height: 75px;
+  overflow-y: hidden;
+  background-color: #f3f3f3;
+  border-radius: 3px;
 }
 
 .exchange-model-description {
@@ -106,6 +134,26 @@
   padding: 17px 0;
   border-top: 1px solid #F1F1F1;
   border-bottom: 1px solid #F1F1F1;
+}
+
+.exchange-model-detail-skeleton {
+  display: inline-block;
+  width: 50%;
+  text-align: center;
+  font-weight: bold;
+  font-size: $font-size-medium;
+  margin-top: 12px;
+  padding: 7px 0;
+  border-top: 1px solid #F1F1F1;
+  border-bottom: 1px solid #F1F1F1;
+}
+
+.exchange-model-detail-skeleton-cont {
+  background-color: #f3f3f3;
+  padding: 10px 5px;
+  display: inline-block;
+  border-radius: 3px;
+  width: 50%;
 }
 
 .exchange-model-detail-demand-logo {
@@ -395,6 +443,23 @@
   &:active {
     background-color: $secondary-color;
     color: white;
+  }
+}
+
+.exchange-followed-skeleton {
+  border: none;
+  background-color: #f3f3f3;
+  border-radius: 3px;
+  padding: 2px 0;
+  width: 80px;
+  position: absolute;
+  overflow: hidden;
+  bottom: 15px;
+  left: 15px;
+  transition-duration: 0.25s;
+  font-size: $font-size-normalText;
+  &:focus {
+    outline: none;
   }
 }
 

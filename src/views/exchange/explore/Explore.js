@@ -9,6 +9,7 @@ import connect from 'react-redux/es/connect/connect'
 import exchangeActions from 'src/redux/actions/exchangeActions'
 import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges.js'
 import {ClipLoader} from "react-spinners"
+import Exchange_Skeleton from "./Exchange_Skeleton"
 
 type appProps =
     {|

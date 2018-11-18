@@ -1,13 +1,14 @@
 // @flow
 import * as React from 'react'
 import User from './User'
-import {ClipLoader} from 'react-spinners'
-import {connect} from 'react-redux'
+import UserSkeleton from './User_Skeleton'
 
 type appProps =
     {|
       users: any
     |}
+
+const loadingArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 function render(props) {
   let {users, followees, followers, justFollowing, justFollowed} = props
@@ -35,8 +36,12 @@ function render(props) {
         <User followees={followees} key={i} data={user}/>
     )
   }
-  else if (!props.loading) return <div className='exchanges-explore-not-found'>کاربری یافت نشد!</div>
-  else return null
+  else if (!props.loading) {
+    return <div className='exchanges-explore-not-found'>کاربری یافت نشد!</div>
+  }
+  else return loadingArr.map((user, i) =>
+        <UserSkeleton key={i}/>
+    )
 }
 
 const Users = (props: appProps) => {

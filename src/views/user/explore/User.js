@@ -105,17 +105,18 @@ class User extends Component <appProps, appState> {
 
   render() {
     const {data, followees} = this.props
+    const {profileLoaded, bannerLoaded} = this.state
     return (
         <div className='users-explore'>
           <Link to={`/user/${data.user.id}`} style={{textDecoration: 'none', color: 'black'}}>
             {
-              data.profile.profile_banner && this.state.bannerLoaded ?
+              data.profile.profile_banner && bannerLoaded ?
                   <img src={REST_URL + data.profile.profile_banner.file} className='user-banner' alt={data.user.last_name}/>
                   :
-                  <img src='https://restful.daneshboom.ir//media/3f366e481437444d8f8cdd5afb528360.jpg' className='user-banner' alt={data.user.last_name}/>
+                  <div className='user-banner'/>
             }
             {
-              data.profile.profile_media && this.state.profileLoaded ?
+              data.profile.profile_media && profileLoaded ?
                   <img src={REST_URL + data.profile.profile_media.file} className='user-profile-photo' alt={data.user.last_name}/>
                   :
                   <DefaultUserIcon className='user-default-profile-photo'/>
