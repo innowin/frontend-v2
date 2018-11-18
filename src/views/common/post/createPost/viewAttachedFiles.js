@@ -29,7 +29,7 @@ const ViewAttachedFiles = (props) => {
           (postMedia) ? (
               <div className="media-section">
                 <span onClick={deleteMedia} className='remove-post-picture pulse'>x</span>
-                <video width="100%" height="200px" controls poster="/images/w3html5.gif">
+                <video width="100%" height="200px" controls poster="">
                   <source src={postMedia} type="video/mp4"/>
                 </video>
               </div>
