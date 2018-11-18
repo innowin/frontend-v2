@@ -54,7 +54,7 @@ class PostCommentNew extends Component {
     const {currentUserMedia} = this.props
     return (
         <div className={"comment-container"}>
-          <div style={{display: "inline-block", width: "11%", height: "45px"}}>
+          <div>
             {currentUserMedia !== null && currentUserMedia !== undefined ?
                 <img alt='profile' src={currentUserMedia} className={"comment-owner"}/>
                 :
@@ -72,7 +72,9 @@ class PostCommentNew extends Component {
                       onFocus={() => this.setState({
                         ...this.state,
                         commentBody: "comment-body-focused",
-                        descriptionClass: comment.length < 5 ? "error-message" : comment.length > 750 ? "error-message" : "neutral-message"
+                        descriptionClass: comment.length < 5 ?
+                            comment.length === 0 ? "hide-message" : "error-message" :
+                            comment.length > 750 ? "error-message" : "neutral-message"
                       })}
                       onBlur={(e) => e.target.value.length === 0 ? this.setState({
                             ...this.state,
@@ -92,7 +94,8 @@ class PostCommentNew extends Component {
                     <AttachFileIcon className='post-component-footer-send-attach'/>
                   </span>
               <span onClick={() => this.createComment(this.text)}>
-                  <PostSendIcon className={comment.length > 4 ? "post-component-footer-send-attach" : "post-component-footer-send-attach-inactive"}/>
+                  <PostSendIcon
+                      className={comment.length > 4 ? "post-component-footer-send-attach" : "post-component-footer-send-attach-inactive"}/>
                 </span>
             </div>
           </div>
