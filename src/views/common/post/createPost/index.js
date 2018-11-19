@@ -52,16 +52,15 @@ class CreatePost extends Component {
       placeholder: "",
       selectedText: "",
       postPictures: [],
-      errorAttachPicture: "",
-      postFile: "",
-      errorAttachFile: "",
-      postMedia: "",
-      errorAttachMedia: "",
-      link: "",
-      description: "",
-      descriptionClass: "",
-      savingPost: false,
-      profileLoaded: false
+      errorAttachPicture: '',
+      postFile: '',
+      errorAttachFile: '',
+      postMedia: '',
+      errorAttachMedia: '',
+      link: '',
+      description: '',
+      profileLoaded: false,
+      savingPost: false
     }
   }
 
@@ -155,21 +154,7 @@ class CreatePost extends Component {
 
   _handleChangeText = (e) => {
     const description = e.target.value
-    if (description.length <= 1500) this.setState({...this.state, description}, () => checkCharacter(description))
-    else e.target.value = this.state.description
-    const checkCharacter = (description) => {
-      const descriptionLength = description.trim().length
-      if (descriptionLength === 0)
-        this.setState({...this.state, descriptionClass: "hide-message"})
-      if (descriptionLength > 0 && descriptionLength < 5)
-        this.setState({...this.state, open: true, descriptionClass: "error-message"})
-      if (descriptionLength >= 5 && descriptionLength < 1490)
-        this.setState({...this.state, descriptionClass: "neutral-message"})
-      if (descriptionLength > 1490 && descriptionLength < 1500)
-        this.setState({...this.state, descriptionClass: "warning-message"})
-      else if (descriptionLength > 1500)
-        this.setState({...this.state, descriptionClass: "error-message"})
-    }
+    this.setState({...this.state, description})
   }
 
   _handleBlurText = (e) => {
@@ -209,8 +194,9 @@ class CreatePost extends Component {
   }
 
   _formValidate = () => {
-    const {descriptionClass, errorAttachFile, errorAttachMedia, errorAttachPicture} = this.state
-    const descriptionError = (descriptionClass === "error-message")
+    const {description, errorAttachFile, errorAttachMedia, errorAttachPicture} = this.state
+    const descriptionLength = description.trim().length
+    const descriptionError = descriptionLength < 5 || descriptionLength > 1500
     let result = true
     const validates = [
       errorAttachFile,
@@ -309,130 +295,138 @@ class CreatePost extends Component {
   render() {
     const {className, followers, exchanges, currentUserIdentity, currentUserMedia, currentUserName, translate} = this.props
     const {
-      postPictures, open, attachMenu, selected, labels, link, contactMenu, linkModal
-      , postFile, postMedia, errorAttachPicture, errorAttachFile, errorAttachMedia, profileLoaded, descriptionClass, description
+      postPictures, open, attachMenu, selected, labels, link, contactMenu, linkModal, postFile, postMedia,
+      errorAttachPicture, errorAttachFile, errorAttachMedia, profileLoaded, description
     } = this.state
 
+    let descriptionClass = ''
+    const descriptionLength = description.trim().length
+    if ((descriptionLength > 0 && descriptionLength < 5) || descriptionLength > 1500)
+      descriptionClass = 'error-message'
+    else if ((descriptionLength > 5 && descriptionLength < 10) || (descriptionLength > 1490 && descriptionLength < 1500))
+      descriptionClass = 'neutral-message'
+
     return (
-        <form className={"post-component-container " + className} onSubmit={this._onSubmit}>
-          <div className='post-component-header'>
-            <div>
-              {currentUserMedia && profileLoaded ?
-                  <img alt='profile' src={currentUserMedia} className='post-component-header-img'/>
-                  :
-                  <DefaultUserIcon className='post-component-header-img'/>
-              }
-              {currentUserName}
-            </div>
-            <div className='post-component-header-item'>
-              <Share
-                  className={selected === "post" ? "post-component-header-item-logo1" : "post-component-header-item-logo1-unselect"}
-                  onClick={this.handleSelectShare}/>
-              <DemandIcon height="22px"
-                          className={selected === "demand" ? "post-component-header-item-logo" : "post-component-header-item-logo-unselect"}
-                          onClickFunc={this.handleSelectDemand}/>
-              <SupplyIcon height="18px"
-                          className={selected === "supply" ? "post-component-header-item-logo2" : "post-component-header-item-logo2-unselect"}
-                          onClickFunc={this.handleSelectSupply}/>
-            </div>
-          </div>
-
-          <div className='description-character'>
-            {descriptionClass &&
-            <span className={descriptionClass}>
-                  {description.trim().length + "/1500"}
-                </span>
+      <form className={"post-component-container " + className} onSubmit={this._onSubmit}>
+        <div className='post-component-header'>
+          <div>
+            {currentUserMedia && profileLoaded ?
+              <img alt='profile' src={currentUserMedia} className='post-component-header-img'/>
+              :
+              <DefaultUserIcon className='post-component-header-img'/>
             }
-            <textarea
-                className={open ? "post-component-textarea-open" : "post-component-textarea"}
-                placeholder='در زیست بوم باش ...'
-                value={description}
-                onBlur={this._handleBlurText}
-                onChange={this._handleChangeText}
-            />
+            {currentUserName}
           </div>
+          <div className='post-component-header-item'>
+            <Share
+              className={selected === "post" ? "post-component-header-item-logo1" : "post-component-header-item-logo1-unselect"}
+              onClick={this.handleSelectShare}/>
+            <DemandIcon height="22px"
+                        className={selected === "demand" ? "post-component-header-item-logo" : "post-component-header-item-logo-unselect"}
+                        onClickFunc={this.handleSelectDemand}/>
+            <SupplyIcon height="18px"
+                        className={selected === "supply" ? "post-component-header-item-logo2" : "post-component-header-item-logo2-unselect"}
+                        onClickFunc={this.handleSelectSupply}/>
+          </div>
+        </div>
 
-          <div className='post-component-footer'>
 
-            <div className='post-component-footer-logo' onClick={this.handleContact}>?</div>
-            <div className='post-component-footer-items-style-cont'>
+        <div className='description-character'>
+          {descriptionClass &&
+          <span className={descriptionClass}>
+                  {descriptionLength + '/1500'}
+                </span>
+          }
+          <textarea
+            className={open ? "post-component-textarea-open" : "post-component-textarea"}
+            placeholder='در زیست بوم باش ...'
+            value={description}
+            onBlur={this._handleBlurText}
+            onChange={this._handleChangeText}
+          />
+        </div>
 
-              {
-                Object.values(labels).map(label =>
-                    <div className='post-component-footer-items-style'>
-                      <div className='post-component-footer-items-style-text'>{label}</div>
-                      <div className='post-component-footer-items-style-close'
-                           onClick={() => this._handleLabel(label)}>✕
-                      </div>
-                    </div>
-                )
-              }
-              <div className='post-component-footer-items-style-hide'>
-                <div className='post-component-footer-items-style-text'><span> </span></div>
-              </div>
+        <div className='post-component-footer'>
 
-              <div className='post-component-footer-send'>
+          <div className='post-component-footer-logo' onClick={this.handleContact}>?</div>
+          <div className='post-component-footer-items-style-cont'>
 
-                <div className='post-component-footer-link'>{link}</div>
-
-                <div style={{display: "inline-block"}} onClick={this.handleAttach}>
-                  <AttachFileIcon className='post-component-footer-send-attach'/>
+            {
+              Object.values(labels).map(label =>
+                <div className='post-component-footer-items-style'>
+                  <div className='post-component-footer-items-style-text'>{label}</div>
+                  <div className='post-component-footer-items-style-close'
+                       onClick={() => this._handleLabel(label)}>✕
+                  </div>
                 </div>
-                <button type="submit"
-                        className={description.length > 4 ? "post-component-footer-send-btn" : "post-component-footer-send-btn-inactive"}>ارسال
-                </button>
-                <AttachMenu
-                    ref={e => this.setWrapperRef = (e ? e.attachMenuRef : e)}
-                    attachMenu={attachMenu}
-                    handleFile={(fileString, error) =>
-                        this.setState({...this.state, postFile: fileString, errorAttachFile: error})
-                    }
-                    handleMedia={(fileString, error) =>
-                        this.setState({...this.state, postMedia: fileString, errorAttachMedia: error})
-                    }
-                    handlePictures={(fileString, error) =>
-                        this.setState({
-                          ...this.state, postPictures: [...postPictures, fileString],
-                          errorAttachPicture: error
-                        })
-                    }
-                    linkModalFunc={this._linkModalFunc}
-                    translate={translate}
-                />
+              )
+            }
+            <div className='post-component-footer-items-style-hide'>
+              <div className='post-component-footer-items-style-text'><span> </span></div>
+            </div>
+
+            <div className='post-component-footer-send'>
+
+              <div className='post-component-footer-link'>{link}</div>
+
+              <div style={{display: "inline-block"}} onClick={this.handleAttach}>
+                <AttachFileIcon className='post-component-footer-send-attach'/>
               </div>
-              <ContactMenu
-                  ref={e => this.setWrapperSecondRef = (e ? e.contactMenuRef : e)}
-                  contactMenu={contactMenu}
-                  labels={labels}
-                  followers={followers}
-                  exchanges={exchanges}
-                  currentUserIdentity={currentUserIdentity}
-                  handleLabel={this._handleLabel}
+              <button type="submit"
+                      className={description.length > 4 ? "post-component-footer-send-btn" : "post-component-footer-send-btn-inactive"}>ارسال
+              </button>
+              <AttachMenu
+                ref={e => this.setWrapperRef = (e ? e.attachMenuRef : e)}
+                attachMenu={attachMenu}
+                handleFile={(fileString, error) =>
+                  this.setState({...this.state, postFile: fileString, errorAttachFile: error})
+                }
+                handleMedia={(fileString, error) =>
+                  this.setState({...this.state, postMedia: fileString, errorAttachMedia: error})
+                }
+                handlePictures={(fileString, error) =>
+                  this.setState({
+                    ...this.state, postPictures: [...postPictures, fileString],
+                    errorAttachPicture: error
+                  })
+                }
+                linkModalFunc={this._linkModalFunc}
+                translate={translate}
               />
             </div>
-            <div style={{clear: "both"}}/>
+            <ContactMenu
+              ref={e => this.setWrapperSecondRef = (e ? e.contactMenuRef : e)}
+              contactMenu={contactMenu}
+              labels={labels}
+              followers={followers}
+              exchanges={exchanges}
+              currentUserIdentity={currentUserIdentity}
+              handleLabel={this._handleLabel}
+            />
           </div>
+          <div style={{clear: "both"}}/>
+        </div>
 
-          <ViewAttachedFiles
-              postPictures={postPictures}
-              errorAttachPicture={errorAttachPicture}
-              postMedia={postMedia}
-              errorAttachMedia={errorAttachMedia}
-              postFile={postFile}
-              errorAttachFile={errorAttachFile}
-              deletePicture={this._deletePicture}
-              deleteMedia={this._deleteMedia}
-              deleteFile={this._deleteFile}
-          />
+        <ViewAttachedFiles
+          postPictures={postPictures}
+          errorAttachPicture={errorAttachPicture}
+          postMedia={postMedia}
+          errorAttachMedia={errorAttachMedia}
+          postFile={postFile}
+          errorAttachFile={errorAttachFile}
+          deletePicture={this._deletePicture}
+          deleteMedia={this._deleteMedia}
+          deleteFile={this._deleteFile}
+        />
 
-          <LinkModal
-              ref={e => this.setWrapperThirdRef = e ? e.linkModalRef : e}
-              linkModal={linkModal}
-              cancelFunc={() => this.setState({...this.state, linkModal: false})}
-              submitFunc={(linkString) => this.setState({...this.state, link: linkString, linkModal: false})}
-          />
+        <LinkModal
+          ref={e => this.setWrapperThirdRef = e ? e.linkModalRef : e}
+          linkModal={linkModal}
+          cancelFunc={() => this.setState({...this.state, linkModal: false})}
+          submitFunc={(linkString) => this.setState({...this.state, link: linkString, linkModal: false})}
+        />
 
-        </form>
+      </form>
     )
   }
 }
@@ -441,7 +435,7 @@ const mapStateToProps = (state) => {
 
   const client = state.auth.client
   const clientImgId = (client.user_type === "person") ? (client.profile.profile_media) : (
-      (client.organization && client.organization.organization_logo) || null
+    (client.organization && client.organization.organization_logo) || null
   )
 
   const userId = (client.organization && client.organization.id) || (client.user && client.user.id)
