@@ -272,7 +272,8 @@ class CreatePost extends Component {
     getFollowers({
       followOwnerIdentity: this.props.currentUserIdentity,
       followOwnerType: this.props.currentUserType,
-      followOwnerId: this.props.currentUserId
+      followOwnerId: this.props.currentUserId,
+      notProfile: true
     })
     // componentType === "comment" && this.setState({...this.state, placeholder: translate["Send comment"]})
 

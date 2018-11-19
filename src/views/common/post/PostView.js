@@ -77,8 +77,19 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
   constructor(props) {
     super(props)
-    this.state = {menuToggle: false, confirm: false, wordsCheck: false}
+    this.state = {
+      menuToggle: false,
+      confirm: false,
+      wordsCheck: false,
+      pictureLoaded: null
+    }
     this.commentTextField = null
+    this.handleRetry = this.handleRetry.bind(this)
+    this._delete = this._delete.bind(this)
+    this._showConfirm = this._showConfirm.bind(this)
+    this._cancelConfirm = this._cancelConfirm.bind(this)
+    this.openMenu = this.openMenu.bind(this)
+    this._handleClickOutMenuBox = this._handleClickOutMenuBox.bind(this)
   }
 
   componentDidMount() {
@@ -86,6 +97,15 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     if (post && post.post_picture) {
       let {getFile} = actions
       getFile(post.post_picture.id)
+
+      let picture = new Image()
+      picture.src = post.post_picture.file
+      picture.onload = () => {
+        this.setState({pictureLoaded: true})
+      }
+      picture.onerror = () => {
+        this.setState({pictureLoaded: false})
+      }
     }
     if (extendedView) {
       const {actions, match} = this.props
@@ -159,17 +179,16 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     document.removeEventListener("click", this._handleClickOutMenuBox)
   }
 
-  openMenu = (e) => {
+  openMenu(e) {
     e.preventDefault()
     const {post, actions} = this.props
     const {setPostViewer, getPostViewerCount} = actions
     const postId = post.id
     setPostViewer(postId, getPostViewerCount)
-
     this.setState({...this.state, menuToggle: !this.state.menuToggle})
   }
 
-  _handleClickOutMenuBox = (e: any) => {
+  _handleClickOutMenuBox(e: any) {
     if (!e.target.closest("#sidebar-post-menu-box") && !e.target.closest(".post-menu-bottom")) {
       this.setState({...this.state, menuToggle: false})
     }
@@ -201,15 +220,15 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     }
   }
 
-  _showConfirm = () => {
+  _showConfirm() {
     this.setState({confirm: true})
   }
 
-  _cancelConfirm = () => {
+  _cancelConfirm() {
     this.setState({confirm: false})
   }
 
-  _delete = () => {
+  _delete() {
     const {actions, post} = this.props
     const {deletePost} = actions
     const postParent = post.post_parent
@@ -228,23 +247,38 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     deleteComment({commentId: comment.id, parentId: post.id, commentParentType})
   }
 
-  handleClickTextField() {
-    // this.commentTextField.height =
+  handleRetry() {
+    this.setState({pictureLoaded: null}, () => {
+      const {post} = this.props
+      if (post && post.post_picture) {
+        let picture = new Image()
+        picture.src = post.post_picture.file
+        picture.onload = () => {
+          this.setState({pictureLoaded: true})
+        }
+        picture.onerror = () => {
+          this.setState({pictureLoaded: false})
+        }
+      }
+    })
   }
 
   render() {
     const {post, translate, postIdentity, postRelatedIdentityImage, userImage, extendedView, showEdit, comments, fileList, commentParentType} = this.props
-    const {menuToggle, confirm} = this.state
+    const {menuToggle, confirm, pictureLoaded} = this.state
     let postDescription, postPicture, postPictureId, postIdentityUserId, postIdentityOrganId, postOwnerId = 0
     if (post) {
       postDescription = post.post_description
       postPicture = post.post_picture
       postPictureId = post.post_picture
-
       postIdentityUserId = post.post_identity.identity_user && post.post_identity.identity_user.id
       postIdentityOrganId = post.post_identity.identity_organization && post.post_identity.identity_organization.id
       postOwnerId = postIdentityUserId || postIdentityOrganId
     }
+
+    // if (postPicture && pictureLoaded) {
+    //   this.picture.className = 'post-image-container-effect'
+    // }
 
     return (
         confirm
@@ -269,17 +303,25 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                 <div className="post-content" ref={e => this.text = e}>
                   {postDescription}
                 </div>
+
                 {!extendedView ?
                     postPicture ?
-                        <div className={"post-image-container"}>
-                          <img src={postPicture.file} width={"100%"} alt={"عکس پست"} className={"post-image"}/>
-                        </div> : null
+                        <div className={'post-image-container'}>
+                          <img src={postPicture.file} width={'100%'} alt='عکس پست' className={pictureLoaded === true ? 'post-image-effect' : 'post-image'}/>
+                          <div className={pictureLoaded === true ? 'post-image-loading-effect' : 'post-image-loading'}>
+                            {
+                              pictureLoaded === false ?
+                                  <div className='post-retry-image'>مشکل در بارگذاری عکس.<span className='post-retry-image-click' onClick={this.handleRetry}> تلاش مجدد </span></div>
+                                  :
+                                  <div className='bright-line'/>
+                            }
+                          </div>
+                        </div>
+                        : null
                     :
                     postPictureId ?
                         <div className={"post-image-container"}>
-                          <img src={fileList[postPictureId] ? fileList[postPictureId].file : null} width={"100%"}
-                               alt={" "}
-                               className={"post-image"}/>
+                          <img src={fileList[postPictureId] ? fileList[postPictureId].file : null} width={"100%"} alt={" "} className={"post-image"}/>
                         </div> : null
                 }
 

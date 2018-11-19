@@ -11,7 +11,7 @@ export function* getFollowers(action) {
     yield fork(api.get, urls.COMMON.SOCIAL.FOLLOW, results.COMMON.SOCIAL.GET_FOLLOWERS, `?follow_followed=${followOwnerIdentity}`)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWERS , payload:{data, followOwnerId, followOwnerIdentity, followOwnerType}})
-    if (!notProfile) {
+    if (notProfile !== undefined && notProfile === false) {
       for (let follow of data) {
         const follower = follow.follow_follower
         if (follower.identity_user) {
