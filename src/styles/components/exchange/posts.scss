@@ -175,9 +175,21 @@
   position: absolute;
   top: -25%;
   left: -50%;
-  animation: light 4s infinite ease-out;
+  animation: lighted-line 3s infinite ease-out;
   box-shadow: 0 0 70px 30px white;
   transform: rotate(45deg);
+  transition-duration: 0.3s;
+}
+
+@keyframes lighted-line {
+  0% {
+    left: -50%;
+    opacity: 0.7;
+  }
+  33%, 100% {
+    left: 150%;
+    opacity: 1;
+  }
 }
 
 ::-webkit-scrollbar {
