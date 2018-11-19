@@ -15,6 +15,7 @@ class PostCommentNew extends Component {
       descriptionClass: "hide-message",
       comment: "",
     }
+    this.handleChangeText = this.handleChangeText.bind(this)
   }
 
   createComment(commentTextField) {
@@ -28,7 +29,7 @@ class PostCommentNew extends Component {
     else console.log("Handle Notification for Illegal Comment")
   }
 
-  handleChangeText = (e) => {
+  handleChangeText(e) {
     const comment = e.target.value
     if (comment.length < 751) this.setState({...this.state, comment}, () => checkCharacter(comment))
     else e.target.value = this.state.comment
@@ -93,9 +94,8 @@ class PostCommentNew extends Component {
                   <span onClick={() => console.log("Handle Show Menu")}>
                     <AttachFileIcon className='post-component-footer-send-attach'/>
                   </span>
-              <span onClick={() => this.createComment(this.text)}>
-                  <PostSendIcon
-                      className={comment.length > 4 ? "post-component-footer-send-attach" : "post-component-footer-send-attach-inactive"}/>
+              <span onClick={this.createComment.bind(this, this.text)}>
+                  <PostSendIcon className={comment.length > 4 ? "post-component-footer-send-attach" : "post-component-footer-send-attach-inactive"}/>
                 </span>
             </div>
           </div>
