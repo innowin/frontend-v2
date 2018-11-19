@@ -293,37 +293,29 @@ $sidebar-profile-media-width: 80px;
 }
 
 .exchange-navbar-center {
-  top: $topBarHeight + 10;
+  margin-top: $standard-vertical-margin;
   background-color: $base-posts;
   height: $exchange-title-height;
   width: $feed-width;
-  position: fixed;
-  right: calc(5% + 340px + 15px);
   border-radius: $border-radius-size;
   box-shadow: 0 0 14px rgba(0, 0, 0, 0.15);
   z-index: 2;
 }
 
 .under-exchange-navbar-center {
-  top: $topBarHeight + $exchange-title-height + 22.5px;
+  margin-top: $standard-vertical-margin;
   background-color: $base-posts;
   height: 27.5px;
   width: $feed-width;
-  position: fixed;
-  z-index: 2;
-  right: calc(5% + 340px + 15px);
   border-radius: $border-radius-size;
   box-shadow: 0 0 14px rgba(0, 0, 0, 0.15);
   padding: 1px 25px;
 }
 
 .line-under-exchange-navbar-center {
-  top: $topBarHeight + 60px + $exchange-title-height;
-  position: fixed;
-  z-index: 2;
+  margin-top: $standard-vertical-margin;
   width: $feed-width;
   height: 5px;
-  right: calc(5% + 340px + 15px);
   background-color: #42AC96;
   box-shadow: 0 0 14px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
@@ -336,10 +328,9 @@ $sidebar-profile-media-width: 80px;
 }
 
 .-right-sidebar-wrapper-exchange {
-  z-index: 1000;
-  position: fixed;
-  top: $topBarHeight + 10;
-  right: 5%;
+  margin: $standard-horizontal-margin-px 7% 0 $standard-horizontal-margin-px;
+  vertical-align: top;
+  display: inline-block;
   width: $sidebar-width;
   height: 590px;
   overflow-y: auto;

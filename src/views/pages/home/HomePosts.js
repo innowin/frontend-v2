@@ -75,7 +75,6 @@ class HomePosts extends Component {
           {(exchangeId) ? (
               <div>
                 <CreatePostNew
-                    componentType={"post"}
                     postParentId={exchangeId}
                     postParentType={constant.POST_PARENT.EXCHANGE}
                     postsCountInThisPage={posts.length}
