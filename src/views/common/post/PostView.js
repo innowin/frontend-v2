@@ -164,13 +164,12 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
         else if (mailExp.test(word)) {
           this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a href=mailto:` + word + `>${word}</a>`)
         }
-        else if (first.test(word) || second.test(word) || third.test(word)) {
+        else if (!isNaN(word.replace(/\\+/g,'')) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
           word.includes('+') ?
               this.text.innerHTML = this.text.innerHTML.replace(new RegExp(`\\${word}`, "g"), `<a href=tel:` + word + `>${word}</a>`)
               :
               this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a href=tel:` + word + `>${word}</a>`)
         }
-        // TODO Abel add phone number diagnosis
       }
     }
   }
