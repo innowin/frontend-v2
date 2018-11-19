@@ -183,7 +183,7 @@
   bottom: 15px;
   overflow-y: auto;
   z-index: 1;
-  top: 70px;
+  top: 64px;
   padding: 15px;
   color: $text-dark-color;
   border-radius: $border-radius-size;
@@ -372,7 +372,7 @@
 }
 
 .all-exchanges-container {
-  padding: 65px 15px 0 15px;
+  padding: 59px 15px 0 15px;
   @media screen and (max-width: 1920px) and (min-width: 1366px) {
     width: 75%;
     margin-right: 25%
