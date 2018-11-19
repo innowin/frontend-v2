@@ -212,13 +212,14 @@
 }
 
 .exchanges-explore-sidebar-searchbox-input {
+  vertical-align: top;
   color: white;
-  width: 85%;
+  width: 89%;
   border: none;
   text-align: right;
   background-color: inherit;
   border-radius: 15px;
-  padding: 0px 15px;
+  padding: 0 15px;
   height: 35px;
   &:focus {
     outline: none;
@@ -230,7 +231,19 @@
 }
 
 .exchanges-explore-sidebar-searchbox-icon {
+  display: inline-block;
   color: white;
+  vertical-align: top;
+  margin-top: 9px;
+  cursor: pointer;
+}
+
+.exchanges-explore-sidebar-search-exit-icon {
+  display: inline-block;
+  color: white;
+  vertical-align: top;
+  margin-top: 7px;
+  cursor: pointer;
 }
 
 .exchanges-explore-sidebar-check {
