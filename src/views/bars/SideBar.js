@@ -388,7 +388,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
 
     const {actions, identityId, sideBarType, owner} = this.props
     const {getFollowers} = actions || {}
-    getFollowers({followOwnerIdentity: identityId, followOwnerType: sideBarType, followOwnerId: owner.id})
+    getFollowers({notProfile: true, followOwnerIdentity: identityId, followOwnerType: sideBarType, followOwnerId: owner.id})
   }
 
   componentWillUnmount() {
