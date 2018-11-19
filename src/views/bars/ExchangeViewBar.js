@@ -161,82 +161,79 @@ class ExchangeViewBar extends Component {
     // )
     if (currentExchange)
       return (
-          <VerifyWrapper isLoading={false} error={error}>
-            <div className="-sidebar-child-wrapper col">
-              <div className="align-items-center flex-column">
-                {this.state.membersViewSide ?
-                    <i className="fa fa-arrow-left menuBottom" onClick={this._handleMembersClick.bind(this)}> </i>
+          <div className="-sidebar-child-wrapper col">
+            <div className="align-items-center flex-column">
+              {this.state.membersViewSide ?
+                  <i className="fa fa-arrow-left menuBottom" onClick={this._handleMembersClick.bind(this)}> </i>
+                  :
+                  <i className="fa fa-ellipsis-v menuBottom"> </i>
+              }
+              {
+                currentExchange.exchange_image && imageLoaded ?
+                    <img className="exchangeViewBarImg" alt={translate["Exchange Picture"]}
+                         src={currentExchange.exchange_image.file.includes('innowin.ir') ? currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file}/>
                     :
-                    <i className="fa fa-ellipsis-v menuBottom"> </i>
-                }
-                {
-                  currentExchange.exchange_image && imageLoaded ?
-                      <img className="exchangeViewBarImg" alt={translate["Exchange Picture"]}
-                           src={currentExchange.exchange_image.file.includes('innowin.ir') ? currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file}/>
-                      :
-                      <DefaultUserIcon className="exchangeViewBarImg"/>
-                }
-                <div className="exchangeName">
-                  <ExchangeIcon/>
-                  <div>
-                    {/*<span className="fontSize-15px">{translate["Exchange"]}: </span>*/}
-                    <span>{currentExchange.name === "" ? "بدون نام" : currentExchange.name}</span>
-                  </div>
-                </div>
-                <span
-                    className="-grey1 fontSize-13px description-right-bar">{currentExchange.description === "" ? "بدون توضیحات" :
-                    currentExchange.description}</span>
-              </div>
-
-              <div className="numbersSection flex-column pl-3">
-                <div className="">
-                  <span>اعضا:</span>
-                  <span>{currentExchange.members_count}</span>
-                </div>
-                <div className="">
-                  <span>عرضه:</span>
-                  <span>{supplyCount}</span>
-                </div>
-                <div className="">
-                  <span>تقاضا:</span>
-                  <span>{demandCount}</span>
-                </div>
-                <div className="">
-                  <span>محصول عرضه شده:</span>
-                  <span>{productCount}</span>
-                </div>
-              </div>
-
-              {
-                (badgesImgUrl.length > 0) ? (
-                    <div className="flex-wrap pb-3">
-                      <BadgesCard badgesImgUrl={badgesImgUrl}/>
-                    </div>
-                ) : ("")
+                    <DefaultUserIcon className="exchangeViewBarImg"/>
               }
-              {
-                (tags.length > 0) ? (
-                    <div className="flex-wrap pb-3">
-                      <TagsBox tags={tags}/>
-                    </div>) : ("")
-              }
-              <div className="flex-wrap pb-3">
-                <TagsBox tags={tags}/>
-              </div>
-              <div className="row mr-0 ml-0 pb-3 flex-wrap justify-content-around">
-                <div className="pb-2">
-                  <button
-                      type="button"
-                      className="btn btn-outline-secondary btn-block sidebarBottom">ارسال پیام به کارگزار
-                  </button>
+              <div className="exchangeName">
+                <ExchangeIcon/>
+                <div>
+                  {/*<span className="fontSize-15px">{translate["Exchange"]}: </span>*/}
+                  <span>{currentExchange.name === "" ? "بدون نام" : currentExchange.name}</span>
                 </div>
-                {
-                  this.renderFollowBtn(currentExchange)
-                }
+              </div>
+              <span
+                  className="-grey1 fontSize-13px description-right-bar">{currentExchange.description === "" ? "بدون توضیحات" :
+                  currentExchange.description}</span>
+            </div>
+
+            <div className="numbersSection flex-column pl-3">
+              <div className="">
+                <span>اعضا:</span>
+                <span>{currentExchange.members_count}</span>
+              </div>
+              <div className="">
+                <span>عرضه:</span>
+                <span>{supplyCount}</span>
+              </div>
+              <div className="">
+                <span>تقاضا:</span>
+                <span>{demandCount}</span>
+              </div>
+              <div className="">
+                <span>محصول عرضه شده:</span>
+                <span>{productCount}</span>
               </div>
             </div>
 
-          </VerifyWrapper>
+            {
+              (badgesImgUrl.length > 0) ? (
+                  <div className="flex-wrap pb-3">
+                    <BadgesCard badgesImgUrl={badgesImgUrl}/>
+                  </div>
+              ) : ("")
+            }
+            {
+              (tags.length > 0) ? (
+                  <div className="flex-wrap pb-3">
+                    <TagsBox tags={tags}/>
+                  </div>) : ("")
+            }
+            <div className="flex-wrap pb-3">
+              <TagsBox tags={tags}/>
+            </div>
+            <div className="row mr-0 ml-0 pb-3 flex-wrap justify-content-around">
+              <div className="pb-2">
+                <button
+                    type="button"
+                    className="btn btn-outline-secondary btn-block sidebarBottom">ارسال پیام به کارگزار
+                </button>
+              </div>
+              {
+                this.renderFollowBtn(currentExchange)
+              }
+            </div>
+          </div>
       )
     else return (
         <VerifyWrapper isLoading={true} error={false}/>

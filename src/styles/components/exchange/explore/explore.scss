@@ -504,3 +504,32 @@
   float: left;
   margin-left: 10px;
 }
+
+.exchange-view-sidebar {
+  //position: fixed;
+  bottom: 15px;
+  overflow-y: auto;
+  z-index: 1;
+  top: 70px;
+  padding: 15px;
+  color: $text-dark-color;
+  border-radius: $border-radius-size;
+  overflow-y: auto;
+  background: $text-lightest-color;
+  box-shadow: 0 3px 3px $box-shadow-color;
+  width: 25%;
+  display: inline-block;
+  vertical-align: top;
+  //@media screen and (max-width: 1920px) and (min-width: 1366px) {
+    //right: 138px;
+    //width: calc(0.25 * (100% - 276px));
+  //}
+  //@media screen and (max-width: 1280px) and (min-width: 600px) {
+    //right: 90px;
+    //width: calc(0.25 * (100% - 180px));
+  //}
+  //@media screen and (max-width: 1366px) and (min-width: 1280px) {
+    //right: 97px;
+    //width: calc(0.25 * (100% - 194px));
+  //}
+}
