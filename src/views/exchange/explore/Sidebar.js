@@ -52,6 +52,9 @@ class Sidebar extends Component <appProps, appState> {
       if (e.target.value.trim().length > 0)
         this.props.search(e.target.value.trim())
       else this.props.search(null)
+
+      window.scrollTo({top: 0, behavior: 'smooth'})
+
     }
   }
 
