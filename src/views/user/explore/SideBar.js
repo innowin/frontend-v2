@@ -51,6 +51,9 @@ class Sidebar extends Component <appProps, appState> {
       if (e.target.value.trim().length > 0)
         this.props.search(e.target.value.trim())
       else this.props.search(null)
+
+      window.scrollTo({top: 0, behavior: 'smooth'})
+
     }
   }
 
@@ -146,7 +149,4 @@ const mapStateToProps = (state) => ({
   hashTags: hashTagsListSelector(state),
 })
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({}, dispatch)
-})
-export default connect(mapStateToProps, mapDispatchToProps)(Sidebar)
+export default connect(mapStateToProps, null)(Sidebar)

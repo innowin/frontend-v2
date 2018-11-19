@@ -14,7 +14,6 @@ import type {paramType} from "../../../consts/flowTypes/paramType"
 import constants from "../../../consts/constants"
 import type {identityType} from "../../../consts/flowTypes/user/basicInformation"
 import type {fileType} from "../../../consts/flowTypes/common/fileType"
-import PostSendIcon from "../../../images/common/postSend_svg"
 import FileActions from "../../../redux/actions/commonActions/fileActions"
 import CommentActions from "../../../redux/actions/commonActions/commentActions"
 import {userCommentsSelector} from "src/redux/selectors/common/comment/postCommentsSelector"
@@ -24,8 +23,6 @@ import PostType from "./PostType"
 import PostFooter from "./PostFooter"
 import PostComments from "./PostComments"
 import {Confirm} from "../cards/Confirm"
-import {ClipLoader} from "react-spinners"
-import CreatePostNew from "./createPost/index"
 import ProductInfoView from "../contributions/ProductInfoView"
 import PostCommentNew from "./PostCommentNew"
 
@@ -80,7 +77,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
   constructor(props) {
     super(props)
-    this.state = {menuToggle: false, confirm: false,wordsCheck: false}
+    this.state = {menuToggle: false, confirm: false, wordsCheck: false}
     this.commentTextField = null
   }
 
@@ -95,7 +92,6 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       const {params, url} = match
       const {getPost, getPostViewerCount, setPostViewer, getCommentsByParentId} = actions
       const postId = +params.id
-
       const isUser = !url.includes("org")
       const postOwnerType = isUser ? constants.USER_TYPES.PERSON : constants.USER_TYPES.ORG
       const spliced = url.split("/")
@@ -119,7 +115,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     }
 
     if (this.text && !this.state.wordsCheck) {
-      this.setState({...this.state,wordsCheck : true})
+      this.setState({...this.state, wordsCheck: true})
       let allWords = this.text.innerText.split(" ")
 
       let mailExp = new RegExp("^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$")
@@ -132,30 +128,28 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       let third = new RegExp("([-\s\.]?[0-9]{3,4})")
 
       for (let i = 0; i < allWords.length; i++) {
-        if (urlExp.test(allWords[i].trim())) {
-          allWords[i].includes("http://") || allWords[i].includes("https://") ?
-              this.text.innerHTML = this.text.innerHTML.replace(new RegExp(allWords[i], "g"), `<a target=_blank href=` + allWords[i] + `>${allWords[i]}</a>`)
+        let word = allWords[i].trim()
+        if (urlExp.test(word)) {
+          word.includes("http://") || word.includes("https://") ?
+              this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a target=_blank href=` + word + `>${word}</a>`)
               :
-              this.text.innerHTML = this.text.innerHTML.replace(new RegExp(allWords[i], "g"), `<a target=_blank href=http://` + allWords[i] + `>${allWords[i]}</a>`)
+              this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a target=_blank href=http://` + word + `>${word}</a>`)
         }
-        else if (allWords[i].trim()[0] === "@" && allWords[i].length >= 6) {
-          this.text.innerHTML = this.text.innerHTML.replace(new RegExp(allWords[i], "g"), `<a href=` + allWords[i].slice(1, allWords[i].length) + `>${allWords[i]}</a>`)
+        else if (word[0] === "@" && word.length >= 6) {
+          this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a href=` + word.slice(1, word.length) + `>${word}</a>`)
         }
-        else if (allWords[i].trim()[0] === "#" && allWords[i].length >= 3) {
-          this.text.innerHTML = this.text.innerHTML.replace(new RegExp(allWords[i], "g"), `<a href=` + allWords[i] + `>${allWords[i]}</a>`)
+        else if (word[0] === "#" && word.length >= 3) {
+          this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a href=` + word + `>${word}</a>`)
         }
-        else if (mailExp.test(allWords[i].trim())) {
-          this.text.innerHTML = this.text.innerHTML.replace(new RegExp(allWords[i], "g"), `<a href=mailto:` + allWords[i] + `>${allWords[i]}</a>`)
+        else if (mailExp.test(word)) {
+          this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a href=mailto:` + word + `>${word}</a>`)
         }
-        else if (
-            first.test(allWords[i].trim())
-            || second.test(allWords[i].trim())
-            || third.test(allWords[i].trim())
-        ) {
-          // this.text.innerHTML = this.text.innerHTML.replace(allWords[i], `HEEEEFSEDFSVKJASBVI`)
-          this.text.innerHTML = this.text.innerHTML.replace(allWords[i], `<a href=tel:` + allWords[i] + `>${allWords[i]}</a>`)
+        else if (first.test(word) || second.test(word) || third.test(word)) {
+          word.includes('+') ?
+              this.text.innerHTML = this.text.innerHTML.replace(new RegExp(`\\${word}`, "g"), `<a href=tel:` + word + `>${word}</a>`)
+              :
+              this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a href=tel:` + word + `>${word}</a>`)
         }
-
         // TODO Abel add phone number diagnosis
       }
     }
