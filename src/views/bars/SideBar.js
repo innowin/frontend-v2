@@ -319,15 +319,6 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     }
   }
 
-  _handleBase64Banner = ({fileString, fileExtension, fileName}) => {
-    this.setState({...this.state, bannerState: fileString})
-  }
-
-  _handleBase64Picture = ({fileString, fileExtension, fileName}) => {
-    this.setState({...this.state, pictureState: fileString})
-  }
-
-
 
 
   _preSave = () => {
@@ -421,7 +412,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
                 AttachButton={this._AttachBottom}
                 inputId="AttachBannerFileInput"
                 LoadingFile={this._LoadingFile}
-                handleBase64={this._handleBase64Banner}
+                handleBase64={(fileString) => this.setState({...this.state, bannerState: fileString})}
                 handleError={(error) => alert(error)}
                 className="edit-nav edit-banner"
                 ref={e => this.AttachBannerFileInput = e}
@@ -446,7 +437,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
                   AttachButton={this._AttachBottom}
                   inputId="AttachPictureFileInput"
                   LoadingFile={this._LoadingFile}
-                  handleBase64={this._handleBase64Picture}
+                  handleBase64={(fileString) => this.setState({...this.state, pictureState: fileString})}
                   handleError={(error) => alert(error)}
                   className="edit-nav edit-media"
                   ref={e => this.AttachPictureFileInput = e}
