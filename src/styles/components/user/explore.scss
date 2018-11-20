@@ -13,6 +13,8 @@
   //box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   box-shadow: 0 3px 3px $box-shadow-color;
   height: 330px;
+  position: relative;
+  overflow: hidden;
 }
 
 .users-explore-hide {
@@ -27,7 +29,8 @@
   border-radius: 5px;
   //box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   box-shadow: 0 3px 3px $box-shadow-color;
-  height: 25px;
+  height: 0;
+  overflow: hidden;
   visibility: hidden;
 }
 
@@ -36,6 +39,17 @@
   width: 100%;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
+  background-image: repeating-linear-gradient(-45deg, #eee, #eee 10px, 10px, #f8f8f8 20px);
+}
+
+.user-banner-skeleton {
+  height: 100px;
+  width: 100%;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  background-color: #f3f3f3;
+  position: relative;
+  overflow: hidden;
 }
 
 .user-profile-photo {
@@ -56,6 +70,15 @@
   margin-top: -40px;
 }
 
+.user-default-profile-photo-skeleton {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid white;
+  margin-top: -40px;
+  position: relative;
+}
+
 .user-name {
   padding-right: 10px;
   vertical-align: top;
@@ -74,6 +97,33 @@
   font-size: $font-size-normalText;
 }
 
+.user-name-skeleton {
+  margin-right: 10px;
+  vertical-align: top;
+  display: inline-block;
+  float: right;
+  font-size: $font-size-normalText;
+  background-color: #f3f3f3;
+  width: 80px;
+  border-radius: 3px;
+  position: relative;
+  overflow: hidden;
+}
+
+.user-id-skeleton {
+  margin-left: 10px;
+  width: 80px;
+  direction: ltr;
+  vertical-align: top;
+  display: inline-block;
+  float: left;
+  font-size: $font-size-normalText;
+  background-color: #f3f3f3;
+  border-radius: 3px;
+  position: relative;
+  overflow: hidden;
+}
+
 .user-description {
   clear: both;
   margin-top: 20px;
@@ -84,8 +134,16 @@
   line-height: 25px;
   height: 110px;
   margin-bottom: 10px;
-  overflow-y: hidden;
   color: $text-title-menu-color;
+  position: relative;
+  overflow: hidden;
+}
+
+.user-description-row-skeleton {
+  width: 100%;
+  background-color: #f3f3f3;
+  margin: 5px 0;
+  height: 23px;
 }
 
 .user-follow {
@@ -94,11 +152,12 @@
   background-color: white;
   //cursor: pointer;
   border-radius: 3px;
-  padding: 2px 10px;
+  padding: 2px 0;
   float: left;
   margin-left: 10px;
   transition-duration: 0.25s;
   font-size: $font-size-normalText;
+  width: 80px;
   &:hover {
     color: white;
     background-color: $tag-del-btn-background;
@@ -112,17 +171,35 @@
   }
 }
 
+.user-follow-skeleton {
+  background-color: #f3f3f3;
+  border: none;
+  border-radius: 3px;
+  padding: 2px 0;
+  float: left;
+  margin-left: 10px;
+  transition-duration: 0.25s;
+  font-size: $font-size-normalText;
+  width: 80px;
+  overflow: hidden;
+  position: relative;
+  &:focus {
+    outline: none;
+  }
+}
+
 .user-followed {
   border: 1px solid $tag-del-btn-background;
   background-color: $tag-del-btn-background;
   color: white;
   cursor: pointer;
   border-radius: 3px;
-  padding: 2px 10px;
+  padding: 2px 0;
   margin-left: 10px;
   float: left;
   transition-duration: 0.25s;
   font-size: $font-size-normalText;
+  width: 80px;
   &:hover {
     background-color: white;
     color: $tag-del-btn-background;
@@ -162,7 +239,7 @@
 
 .exchanges-explore-not-found {
   position: absolute;
-  top: 128px;
+  top: 132px;
   left: 0;
   text-align: center;
   width: 100%;
@@ -187,4 +264,54 @@
   transition-duration: 0.3s;
   overflow-y: hidden;
   margin-top: 25px;
+}
+
+.fade-enter {
+  opacity: 0.01;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit.fade-exit-active {
+  opacity: 0.01;
+  transition: opacity 500ms ease-out;
+}
+
+.fade-appear {
+  opacity: 0.1;
+}
+
+.fade-appear.fade-appear-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+#line {
+  width: 5px;
+  background: white;
+  height: 150%;
+  position: absolute;
+  top: -25%;
+  left: -50%;
+  animation: light 4s infinite ease-out;
+  box-shadow: 0 0 70px 30px white;
+  transform: rotate(45deg);
+}
+
+@keyframes light {
+  0% {
+    left: -50%;
+    opacity: 0.7;
+  }
+  22%, 100% {
+    left: 150%;
+    opacity: 1;
+  }
 }

@@ -1,17 +1,19 @@
 @import "../../variables";
 
 .exchange-content-view-frame {
-  margin-top: $post-margin-top;
-  margin-right: calc(5% + 340px + 30px);
+  margin-top: $standard-vertical-margin;
+  //margin-right: calc(5% + 340px + 30px);
+  display: inline-block;
+  vertical-align: top;
   border-radius: $border-radius-size;
   background-color: transparent;
   min-height: 20px;
   height: auto;
-  width: $feed-width;
+  width: 100%;
   overflow-y: hidden;
 }
 
-.posts-frame-container{
+.posts-frame-container {
   transition-duration: $animation-timing;
 }
 
@@ -32,11 +34,9 @@
 }
 
 .post-user-picture {
-  //border-radius: 250px;
   display: inline-block;
   vertical-align: top;
   font-size: $font-size-regular;
-  //box-shadow: 0 0 1px rgba(0, 0, 0, 1);
 }
 
 .rounded-circle-info-parent {
@@ -44,7 +44,6 @@
   width: 55px;
   height: 55px;
   overflow: hidden;
-  //border: .5px solid lighten($text-light-color, 3%);
 }
 
 .post-user-name {
@@ -71,19 +70,126 @@
   font-size: $font-size-post-date;
 }
 
-.post-image-container{
+.post-image-container {
   width: 100%;
-  overflow: hidden;
+  overflow-y: hidden;
   text-align: center;
-  //border-bottom: 1px solid #e0e0e0;
   margin-bottom: 18px;
-  //padding: 0 18px;
 }
 
-.post-image{
-  //border-radius: 5px;
-  //margin-bottom: 15px;
+.post-image-container-fade-out {
+  width: 100%;
+  overflow-y: hidden;
+  text-align: center;
+  margin-bottom: 18px;
+  opacity: 1;
+  height: 25px;
+  animation: fadeout 0.5s;
+}
+
+@keyframes fadeout {
+  from {
+    opacity: 1;
+    height: 350px;
+  }
+  to {
+    opacity: 1;
+    height: 25px;
+  }
+}
+
+.post-image {
   box-shadow: 0 2px 8px 2px $box-shadow-color;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.post-image-effect {
+  box-shadow: 0 2px 8px 2px $box-shadow-color;
+  animation: effect 2s;
+  overflow: hidden;
+}
+
+@keyframes effect {
+  0% {
+    opacity: 0;
+    height: 0;
+  }
+  49% {
+    opacity: 0;
+    height: 0;
+  }
+  50% {
+    opacity: 0.3;
+    height: auto;
+  }
+  100% {
+    opacity: 1
+  }
+}
+
+.post-image-loading {
+  position: relative;
+  overflow: hidden;
+  background-color: #f3f3f3;
+  box-shadow: 0 2px 8px 2px $box-shadow-color;
+  height: 350px;
+}
+
+.post-image-loading-effect {
+  position: relative;
+  overflow: hidden;
+  background-color: #f3f3f3;
+  box-shadow: 0 2px 8px 2px $box-shadow-color;
+  animation: fadetoout 1s;
+  opacity: 0;
+  height: 0;
+}
+
+@keyframes fadetoout {
+  from {
+    opacity: 1;
+    height: 350px;
+  }
+  to {
+    opacity: 0;
+    height: 350px;
+  }
+}
+
+.post-retry-image {
+  margin-top: 150px;
+  font-size: 14px;
+}
+
+.post-retry-image-click {
+  cursor: pointer;
+  color: blue;
+}
+
+.bright-line {
+  width: 5px;
+  background: white;
+  height: 150%;
+  position: absolute;
+  top: -25%;
+  left: -50%;
+  animation: lighted-line 3s infinite ease-out;
+  box-shadow: 0 0 70px 30px white;
+  transform: rotate(45deg);
+  transition-duration: 0.3s;
+}
+
+@keyframes lighted-line {
+  0% {
+    left: -50%;
+    opacity: 0.7;
+  }
+  33%, 100% {
+    left: 150%;
+    opacity: 1;
+  }
 }
 
 ::-webkit-scrollbar {

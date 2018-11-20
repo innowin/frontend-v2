@@ -2,7 +2,7 @@
 
 .info-frame {
   text-align: right;
-  width: $feed-width - 6px;
+  width: calc(100% - 6px);
   margin: 2px 3px 10px 8px;
   background-color: $base-posts;
   border-radius: 5px;

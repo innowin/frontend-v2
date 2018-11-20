@@ -1,7 +1,7 @@
 @import "../../variables";
 
 .members-frame {
-  width: $feed-width - 6px;
+  width: calc(100% - 6px);
   margin: 2px 3px 10px 8px;
   padding: 12.5px 10px 15px 10px;
   background-color: $white;

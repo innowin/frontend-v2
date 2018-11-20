@@ -81,53 +81,49 @@
 }
 
 /* -------------------------------   post textarea -------------------------*/
-.post-component-textarea {
-  overflow-y: auto;
-  width: 100%;
-  resize: none;
-  border-radius: 3px;
-  border: 1px solid #e7e7e7;
-  padding: 10px 15px;
-  font-size: 13px;
-  transition-duration: 0.3s;
-  height: 45px;
-  line-height: 26px;
-  &:focus {
-    outline: none;
-    border: 1px solid #BBBBBB;
+.post-component-description {
+  position: relative;
+  span {
+    font-size: 12px;
+    position: absolute;
+    top: 3px;
+    left: 6px;
+    transition-duration: $animation-timing-long;
+  }
+  .post-component-textarea {
+    overflow-y: auto;
+    width: 100%;
+    resize: none;
+    border-radius: 3px;
+    border: 1px solid #e7e7e7;
+    padding: 10px 15px;
+    font-size: 13px;
+    transition-duration: 0.3s;
+    height: 45px;
+    line-height: 26px;
+    &:focus {
+      outline: none;
+      border: 1px solid #BBBBBB;
+      transition-duration: 0.3s;
+      height: 148px;
+    }
+  }
+
+  .post-component-textarea-open {
+    overflow-y: auto;
+    width: 100%;
+    resize: none;
+    border-radius: 3px;
+    border: 1px solid #e7e7e7;
+    padding: 10px 15px;
+    font-size: 13px;
     transition-duration: 0.3s;
     height: 148px;
-  }
-}
-
-.post-component-textarea-open {
-  overflow-y: auto;
-  width: 100%;
-  resize: none;
-  border-radius: 3px;
-  border: 1px solid #e7e7e7;
-  padding: 10px 15px;
-  font-size: 13px;
-  transition-duration: 0.3s;
-  height: 148px;
-  line-height: 26px;
-  &:focus {
-    outline: none;
-    border: 1px solid #BBBBBB;
-    transition-duration: 0.3s;
-  }
-}
-
-
-.post-component-container{
-  .description-character {
-    position: relative;
-    span{
-      float: left;
-      font-size: 12px;
-      position: absolute;
-      top:3px;
-      left: 6px;
+    line-height: 26px;
+    &:focus {
+      outline: none;
+      border: 1px solid #BBBBBB;
+      transition-duration: 0.3s;
     }
   }
 }
@@ -219,6 +215,24 @@
   }
 }
 
+.post-component-footer-send-btn-inactive {
+  display: inline-block;
+  background-color: $brand-inverse-color;
+  border: 1px solid transparent;
+  color: white;
+  font-size: 12px;
+  border-radius: 20px;
+  margin-left: 2px;
+  padding: 1px 25px;
+  cursor: not-allowed;
+  transition-duration: 0.3s;
+  width: 75px;
+  &:hover {
+    color: $disable-color;
+    transition-duration: 0.3s;
+  }
+}
+
 .post-component-footer-send-attach {
   fill: #BBBBBB;
   width: 20px;
@@ -233,6 +247,16 @@
   }
 }
 
+.post-component-footer-send-attach-inactive {
+  fill: #BBBBBB;
+  width: 20px;
+  vertical-align: top;
+  margin: 3px 7.5px 0 7.5px;
+  cursor: not-allowed;
+  display: inline-block;
+  transition-duration: $animation-timing;
+}
+
 .post-component-footer-logo {
   display: inline-block;
   vertical-align: top;
@@ -241,6 +265,7 @@
   fill: #BBBBBB;
   color: #BBBBBB;
   width: 30px;
+  cursor: pointer;
 }
 
 .post-component-footer-attach-menu-container {
@@ -498,25 +523,33 @@
 
 /* -------------------------------   post attached pictures -------------------------*/
 .post-attached-pictures {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  div {
-    position: relative;
-    span {
-      position: absolute;
-      top: 0;
-      left: 10px;
-      background-color: $eee-color;
-      height: 20px;
-      padding: 0 2px;
+  .pictures-section {
+    display: flex;
+    flex-direction: row;
+    div {
+      position: relative;
+      span {
+        position: absolute;
+        top: 0;
+        left: 10px;
+        background-color: $eee-color;
+        height: 20px;
+        padding: 0 2px;
+      }
+      img {
+        width: 50px;
+        height: 50px;
+        margin-left: 10px;
+        object-fit: cover;
+      }
     }
-    img {
-      width: 50px;
-      height: 50px;
-      margin-left: 10px;
-      object-fit: cover;
-    }
+  }
+  .media-section {
+    width: 100%;
+    height: 400px;
+  }
+  .file-section {
+
   }
 }
 
@@ -637,7 +670,7 @@
   }
 }
 
-.post-component-footer-link{
+.post-component-footer-link {
   display: inline-block;
   font-size: 13px;
   padding-top: 2px;

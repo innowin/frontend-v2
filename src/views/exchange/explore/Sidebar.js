@@ -28,7 +28,8 @@ class Sidebar extends Component <appProps, appState> {
     this.state =
         {
           searchHashTags: false,
-          hashTags: {}
+          hashTags: {},
+          searchLength: 0
         }
   }
 
@@ -52,7 +53,21 @@ class Sidebar extends Component <appProps, appState> {
       if (e.target.value.trim().length > 0)
         this.props.search(e.target.value.trim())
       else this.props.search(null)
+
+      window.scrollTo({top: 0, behavior: 'smooth'})
+
     }
+  }
+
+  _handleLength = (e) => {
+    this.setState({...this.state, searchLength: e.target.value.length})
+  }
+
+  cancelSearchByClick = () => {
+    this.props.search(null)
+    this.setState({...this.state, searchLength: 0})
+    this.searchInput.value = ''
+    window.scrollTo({top: 0, behavior: 'smooth'})
   }
 
   render() {
@@ -72,8 +87,13 @@ class Sidebar extends Component <appProps, appState> {
         <div className='exchanges-explore-sidebar'>
           <div className='exchanges-explore-sidebar-searchbox'>
             <input type='text' className='exchanges-explore-sidebar-searchbox-input' placeholder='جستجو'
-                   onKeyUp={this.submitSearchByWord}/>
-            <FontAwesome name="search" className='exchanges-explore-sidebar-searchbox-icon'/>
+                   ref={e => this.searchInput = e} onKeyUp={this.submitSearchByWord} onChange={this._handleLength}/>
+            {
+              this.state.searchLength > 0 ?
+                  <div className='exchanges-explore-sidebar-search-exit-icon' onClick={this.cancelSearchByClick}>✕</div>
+                  :
+                  <FontAwesome name="search" className='exchanges-explore-sidebar-searchbox-icon'/>
+            }
           </div>
           <div className='exchanges-explore-sidebar-check'>
             <div className="product-explorer">

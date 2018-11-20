@@ -2,43 +2,39 @@ import React from "react"
 import PropTypes from "prop-types"
 
 const ViewAttachedFiles = (props) => {
-  const {
-    postPictures, errorAttachPicture, postMedia, errorAttachMedia, postFile, errorAttachFile,
-    deletePicture, deleteMedia, deleteFile
-  } = props
+  const {postPictures, postMedia, postFile, deletePicture, deleteMedia, deleteFile} = props
   return (
     <div className="post-attached-pictures">
       {
-        postPictures.map((fileString, i) => {
-            return (
-              <div>
-                <span onClick={() => deletePicture(i)} className='remove-post-picture pulse'>x</span>
-                <img src={fileString} alt="imagePreview"/>
-              </div>
-            )
-          }
-        )
-      }
-      {
-        errorAttachPicture ? <div className="form-control-feedback">{errorAttachPicture}</div> : ''
+        postPictures.length > 0 ?
+          <div className="pictures-section">
+            {
+              postPictures.map((fileString, i) => (
+                  <div key={i + "pictures-section"}>
+                    <span onClick={() => deletePicture(i)} className='remove-post-picture pulse'>x</span>
+                    <img src={fileString} alt="imagePreview"/>
+                  </div>
+                )
+              )
+            }
+          </div> : ''
       }
       {
         (postMedia) ? (
-          <div>
+          <div className="media-section">
             <span onClick={deleteMedia} className='remove-post-picture pulse'>x</span>
-            <video width="50px" height="50px" controls>
+            <video width="100%" height="200px" controls poster="">
               <source src={postMedia} type="video/mp4"/>
             </video>
           </div>
-        ) : (errorAttachMedia ? <div className="form-control-feedback">{errorAttachMedia}</div> : '')
-
+        ) : ''
       }
       {
         (postFile) ? (
-          <div>
+          <div className="file-section">
             <span onClick={deleteFile} className='remove-post-picture pulse'>x</span>
           </div>
-        ) : (errorAttachFile ? <div className="form-control-feedback">{errorAttachFile}</div> : '')
+        ) : ''
       }
     </div>
   )

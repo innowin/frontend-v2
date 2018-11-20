@@ -62,8 +62,7 @@ class MembersView extends Component {
     if (memberType === "USER") {
       if (profiles[memberId].profile.content.profile_user) {
         // if (!profiles[memberId].profile.isLoading) {
-        return <div key={index}
-                    className={this.state.viewType}>
+        return <div key={index} className={this.state.viewType}>
           {followingUsers.indexOf(memberId) >= 0 ? <div className={"member-followed"}>دنبال شده</div>
               : clientId !== memberId ?
                   <div className={"member-follow"} onClick={() => this.follow(memberId, memberType)}><span

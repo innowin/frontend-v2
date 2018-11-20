@@ -30,9 +30,10 @@
   //transform: translateZ(0);
   //backface-visibility: hidden;
   &:hover {
-    transition-duration: $animation-timing;
-    box-shadow: 0 13px 10px -7px $box-shadow-color;
-    transform: translateY(-2px);
+    // deleted for better performance (Hoseyn)
+    //transition-duration: $animation-timing;
+    //box-shadow: 0 13px 10px -7px $box-shadow-color;
+    //transform: translateY(-2px);
     //border: 2px solid $post-hover-border-color;
   }
   .post-view-product-container {
@@ -103,9 +104,6 @@
     margin-left: 18px;
     margin-right: 18px;
     text-align: justify;
-    //&:hover {
-    //  cursor: pointer; WHY POINTER ON POST CONTENT ?!?!?!?
-    //}
   }
 
   .-item-footerPost {

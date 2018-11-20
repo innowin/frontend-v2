@@ -27,7 +27,8 @@ class Sidebar extends Component <appProps, appState> {
         {
           searchHashTags: false,
           hashTags: {},
-          collapse: true
+          collapse: true,
+          searchLength: 0
         }
   }
 
@@ -38,11 +39,11 @@ class Sidebar extends Component <appProps, appState> {
   handleHashTagsChange = (e) => {
     let nowHashTags = this.state.hashTags
     nowHashTags[e.value] = {title: e.value, usage: e.usage}
-    this.setState({hashTags: nowHashTags})
+    this.setState({...this.state, hashTags: nowHashTags})
   }
 
   showHashTagsSearch = () => {
-    this.setState({searchHashTags: !this.state.searchHashTags})
+    this.setState({...this.state, searchHashTags: !this.state.searchHashTags})
   }
 
   submitSearchByWord = (e) => {
@@ -51,11 +52,25 @@ class Sidebar extends Component <appProps, appState> {
       if (e.target.value.trim().length > 0)
         this.props.search(e.target.value.trim())
       else this.props.search(null)
+
+      window.scrollTo({top: 0, behavior: 'smooth'})
+
     }
   }
 
   collapse = () => {
     this.setState({...this.state, collapse: !this.state.collapse})
+  }
+
+  _handleLength = (e) => {
+    this.setState({...this.state, searchLength: e.target.value.length})
+  }
+
+  cancelSearchByClick = () => {
+    this.props.search(null)
+    this.setState({...this.state, searchLength: 0})
+    this.searchInput.value = ''
+    window.scrollTo({top: 0, behavior: 'smooth'})
   }
 
   render() {
@@ -75,8 +90,13 @@ class Sidebar extends Component <appProps, appState> {
         <div className='exchanges-explore-sidebar'>
           <div className='exchanges-explore-sidebar-searchbox'>
             <input type='text' className='exchanges-explore-sidebar-searchbox-input' placeholder='جستجوی شناسه'
-                   onKeyUp={this.submitSearchByWord}/>
-            <FontAwesome name="search" className='exchanges-explore-sidebar-searchbox-icon'/>
+                   ref={e => this.searchInput = e} onKeyUp={this.submitSearchByWord} onChange={this._handleLength}/>
+            {
+              this.state.searchLength > 0 ?
+                  <div className='exchanges-explore-sidebar-search-exit-icon' onClick={this.cancelSearchByClick}>✕</div>
+                  :
+                  <FontAwesome name="search" className='exchanges-explore-sidebar-searchbox-icon'/>
+            }
           </div>
 
           <div className='kindOfId' onClick={this.collapse}>
@@ -146,7 +166,4 @@ const mapStateToProps = (state) => ({
   hashTags: hashTagsListSelector(state),
 })
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({}, dispatch)
-})
-export default connect(mapStateToProps, mapDispatchToProps)(Sidebar)
+export default connect(mapStateToProps, null)(Sidebar)

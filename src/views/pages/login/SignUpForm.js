@@ -17,31 +17,31 @@ import CheckEmailAction from "src/redux/actions/user/checkEmailAction"
 const SignUpForm = (props) => {
   const {handleSubmit, onSubmit, submitting, translator, error, submitFailed} = props
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="sign-up-form">
-      <Field
-        name="username"
-        type="text"
-        component={renderTextField}
-        label={translator['Username']}
-        className="signup-field"
-      />
-      <Field name="email" type="email" component={renderTextField} label={translator['Email']}
-             className="signup-field"/>
-      <Field name="password" type="password" component={renderTextField} label={translator['Password']}
-             className="signup-field"/>
-      <Field name="passwordConfirm" type="password" component={renderTextField}
-             label={translator['Repeat password']} className="signup-field"/>
-      <div>
-        <button
-          className="btn btn-primary btn-block login-submit-button mt-0 cursor-pointer"
-          disabled={submitting}>
-          {!submitting ? translator['Register'] : (
-            <BeatLoader color="#fff" size={10} margin="auto"/>
-          )}
-        </button>
-      </div>
-      {submitFailed && <p className="error-message">{error}</p>}
-    </form>
+      <form onSubmit={handleSubmit(onSubmit)} className="sign-up-form">
+        <Field
+            name="username"
+            type="text"
+            component={renderTextField}
+            label={translator['Username']}
+            className="signup-field"
+        />
+        <Field name="email" type="email" component={renderTextField} label={translator['Email']}
+               className="signup-field"/>
+        <Field name="password" type="password" component={renderTextField} label={translator['Password']}
+               className="signup-field"/>
+        <Field name="passwordConfirm" type="password" component={renderTextField}
+               label={translator['Repeat password']} className="signup-field"/>
+        <div>
+          <button
+              className="btn btn-primary btn-block login-submit-button mt-0 cursor-pointer"
+              disabled={submitting}>
+            {!submitting ? translator['Register'] : (
+                <BeatLoader color="#fff" size={10} margin="auto"/>
+            )}
+          </button>
+        </div>
+        {submitFailed && <p className="error-message">{error}</p>}
+      </form>
   )
 }
 
@@ -73,20 +73,20 @@ export class RegisterForm extends Component {
     const {translator} = this.props
     const promise = new Promise((resolve, reject) => createUserOrgan(values, resolve, reject))
     return promise
-      .then(
-        (res) => {
-          return new Promise((resolve, reject) => signIn(values.username, values.password, false, reject))
-          //TODO mohsen: test return error in sign in
-            .catch((errorMessage) => {
-              throw new SubmissionError({_error: translator[errorMessage]})
+        .then(
+            (res) => {
+              return new Promise((resolve, reject) => signIn(values.username, values.password, false, reject))
+              //TODO mohsen: test return error in sign in
+                  .catch((errorMessage) => {
+                    throw new SubmissionError({_error: translator[errorMessage]})
+                  })
             })
-        })
-      .catch(
-        (errorMessage) => {
-          //TODO mohsen: test return error in SubmissionError
-          throw new SubmissionError({_error: translator[errorMessage]})
-        }
-      )
+        .catch(
+            (errorMessage) => {
+              //TODO mohsen: test return error in SubmissionError
+              throw new SubmissionError({_error: translator[errorMessage]})
+            }
+        )
   }
 
   _onSubmitPerson = (values) => {
@@ -94,18 +94,18 @@ export class RegisterForm extends Component {
     const {translator} = this.props
     const promise = new Promise((resolve, reject) => createUserPerson(values, resolve, reject))
     return promise
-      .then(
-        (res) => {
-          return new Promise((resolve, reject) => signIn(values.username, values.password, false, reject))
-            .catch((errorMessage) => {
-              throw new SubmissionError({_error: translator[errorMessage]})
+        .then(
+            (res) => {
+              return new Promise((resolve, reject) => signIn(values.username, values.password, false, reject))
+                  .catch((errorMessage) => {
+                    throw new SubmissionError({_error: translator[errorMessage]})
+                  })
             })
-        })
-      .catch(
-        (errorMessage) => {
-          throw new SubmissionError({_error: translator[errorMessage]})
-        }
-      )
+        .catch(
+            (errorMessage) => {
+              throw new SubmissionError({_error: translator[errorMessage]})
+            }
+        )
   }
 
   render() {
@@ -115,20 +115,25 @@ export class RegisterForm extends Component {
     const onSubmitFunc = (userType === USER_TYPES.PERSON) ? (this._onSubmitPerson) : (this._onSubmitOrgan)
     // const onSubmitFunc = onRegisterClick
     return (
-      <div className="wrapper-form">
-        <RadioButtonGroup
-          selected={userType}
-          handler={this._typeHandler}
-          items={userTypeItems}
-          name="userType"
-          label={''}
-        />
-        <SignUpForm
-          {...reduxFormProps}
-          translator={translator}
-          onSubmit={onSubmitFunc}
-        />
-      </div>
+        <div className="wrapper-form">
+          <RadioButtonGroup
+              selected={userType}
+              handler={this._typeHandler}
+              items={userTypeItems}
+              name="userType"
+              label={''}
+          />
+          <SignUpForm
+              {...reduxFormProps}
+              translator={translator}
+              onSubmit={onSubmitFunc}
+          />
+          <div className="error-wrapper">
+            <span className={`error ${reduxFormProps.error ? 'show' : ''}`}>
+              {reduxFormProps.error}
+            </span>
+          </div>
+        </div>
     )
   }
 }
@@ -150,7 +155,7 @@ const mapDispatchToProps = dispatch => ({
 
 RegisterForm = reduxForm({
   form: 'RegisterForm',
-  // validate: validateSignUpForm,
+  validate: validateSignUpForm,
   asyncValidate: asyncValidateSignUp,
   asyncBlurFields: ['username', 'email']
 })(RegisterForm)

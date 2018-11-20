@@ -41,5 +41,11 @@ export default {
     CONFIRMATION: 'confirmation',
     HOME: 'home',
     HEALTHCARE: 'healthcare',
+  },
+  FILE_TYPE: {
+    PHOTO:['jpg', 'jpeg', 'png'],
+    FILE:['pdf', 'xlsx', 'doc', 'docx'],
+    VIDEO:['mp4'],
+    AUDIO:['mp3']
   }
 }

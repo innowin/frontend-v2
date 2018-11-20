@@ -14,7 +14,7 @@ import cx from "classnames"
 import AttachFile from "../common/inputs/AttachFile"
 import CheckOwner from "../common/CheckOwner"
 import connect from "react-redux/es/connect/connect";
-import constants from "../../consts/constants";
+import constants from "src/consts/constants";
 import SocialActions from "../../redux/actions/commonActions/socialActions";
 import {bindActionCreators} from "redux";
 import {getFollowersSelector} from "../../redux/selectors/common/social/getFollowers";
@@ -252,19 +252,20 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     const {sideBarType, owner, profile, banner, picture, bannerTempId, pictureTempId} = this.props
     const bannerId = bannerTempId || (banner ? banner.id : null)
     const pictureId = pictureTempId || (picture ? picture.id : null)
+    const descriptionValue = this.descriptionInput ? this.descriptionInput.getValue() : ''
     if (sideBarType === constants.USER_TYPES.PERSON && profile) {
       return {
         id: profile.id,
         profile_banner: bannerId,
         profile_media: pictureId,
-        description: this.descriptionInput.getValue(),
+        description: descriptionValue,
       }
     } else {
       return {
         id: owner.id,
         organization_banner: bannerId,
         organization_logo: pictureId,
-        description: this.descriptionInput.getValue(),
+        description: descriptionValue,
       }
     }
   }
@@ -322,7 +323,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     this.setState({...this.state, bannerState: fileString})
   }
 
-  handleBase64Picture = ({fileString, fileExtension, fileName}) => {
+  _handleBase64Picture = ({fileString, fileExtension, fileName}) => {
     this.setState({...this.state, pictureState: fileString})
   }
 
@@ -388,7 +389,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
 
     const {actions, identityId, sideBarType, owner} = this.props
     const {getFollowers} = actions || {}
-    getFollowers({followOwnerIdentity: identityId, followOwnerType: sideBarType, followOwnerId: owner.id})
+    getFollowers({notProfile: true, followOwnerIdentity: identityId, followOwnerType: sideBarType, followOwnerId: owner.id})
   }
 
   componentWillUnmount() {
@@ -421,8 +422,11 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
                 inputId="AttachBannerFileInput"
                 LoadingFile={this._LoadingFile}
                 handleBase64={this._handleBase64Banner}
+                handleError={(error) => alert(error)}
                 className="edit-nav edit-banner"
                 ref={e => this.AttachBannerFileInput = e}
+                allowableFormat={constants.FILE_TYPE.PHOTO}
+                translate={tr}
               />
             )
           }
@@ -442,9 +446,12 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
                   AttachButton={this._AttachBottom}
                   inputId="AttachPictureFileInput"
                   LoadingFile={this._LoadingFile}
-                  handleBase64={this.handleBase64Picture}
+                  handleBase64={this._handleBase64Picture}
+                  handleError={(error) => alert(error)}
                   className="edit-nav edit-media"
                   ref={e => this.AttachPictureFileInput = e}
+                  allowableFormat={constants.FILE_TYPE.PHOTO}
+                  translate={tr}
                 />
               )
             }

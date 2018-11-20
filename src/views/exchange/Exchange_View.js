@@ -23,10 +23,10 @@ class ExchangeView extends Component <PropsExchangeView> {
     const exchangeId = +params.id
     const widthOfRightBar = "col-md-2 col-sm-1"
     return (
-        <div className="-main -userOrganBackgroundImg">
+        <div className='all-exchanges-parent'>
           <TopBar collapseClassName={widthOfRightBar}/>
-          <main className="row">
-            <div className={`-right-sidebar-wrapper-exchange`}>
+          <main style={{paddingTop: '65px'}}>
+            <div className={`exchange-view-sidebar`}>
               <ExchangeViewBar exchangeId={exchangeId}/>
             </div>
             <Exchange_Tabs exchangeId={exchangeId}/>

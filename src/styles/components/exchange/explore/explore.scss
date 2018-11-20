@@ -16,7 +16,7 @@
   height: 345px;
 }
 
-.exchange-model-hide{
+.exchange-model-hide {
   position: relative;
   padding: 15px 15px 25px 15px;
   display: inline-block;
@@ -29,7 +29,8 @@
   border-radius: 5px;
   //box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   box-shadow: 0 3px 3px $box-shadow-color;
-  height: 25px;
+  height: 0;
+  overflow: hidden;
   visibility: hidden;
 }
 
@@ -59,6 +60,15 @@
   margin: 0 auto 8px auto;
   width: 80px;
   border-radius: 50%;
+  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.2);
+}
+
+.exchange-model-avatar-default {
+  height: 80px;
+  object-fit: cover;
+  margin: 0 auto 0 auto;
+  width: 80px;
+  border-radius: 50%;
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.2)
 }
 
@@ -66,6 +76,25 @@
   font-weight: bold;
   font-size: $font-size-medium;
   margin: 10px 0;
+}
+
+.exchange-model-title-skeleton {
+  font-weight: bold;
+  font-size: $font-size-medium;
+  margin: 10px 0;
+  background-color: #f3f3f3;
+  border-radius: 3px;
+}
+
+.exchange-model-description-skeleton {
+  text-align: justify;
+  text-align-last: center;
+  font-size: $font-size-smallText;
+  line-height: 25px;
+  height: 75px;
+  overflow-y: hidden;
+  background-color: #f3f3f3;
+  border-radius: 3px;
 }
 
 .exchange-model-description {
@@ -107,6 +136,26 @@
   border-bottom: 1px solid #F1F1F1;
 }
 
+.exchange-model-detail-skeleton {
+  display: inline-block;
+  width: 50%;
+  text-align: center;
+  font-weight: bold;
+  font-size: $font-size-medium;
+  margin-top: 12px;
+  padding: 7px 0;
+  border-top: 1px solid #F1F1F1;
+  border-bottom: 1px solid #F1F1F1;
+}
+
+.exchange-model-detail-skeleton-cont {
+  background-color: #f3f3f3;
+  padding: 10px 5px;
+  display: inline-block;
+  border-radius: 3px;
+  width: 50%;
+}
+
 .exchange-model-detail-demand-logo {
   display: inline-block;
   vertical-align: top;
@@ -134,7 +183,7 @@
   bottom: 15px;
   overflow-y: auto;
   z-index: 1;
-  top: 70px;
+  top: 64px;
   padding: 15px;
   color: $text-dark-color;
   border-radius: $border-radius-size;
@@ -163,13 +212,14 @@
 }
 
 .exchanges-explore-sidebar-searchbox-input {
+  vertical-align: top;
   color: white;
-  width: 85%;
+  width: 89%;
   border: none;
   text-align: right;
   background-color: inherit;
   border-radius: 15px;
-  padding: 0px 15px;
+  padding: 0 15px;
   height: 35px;
   &:focus {
     outline: none;
@@ -181,7 +231,19 @@
 }
 
 .exchanges-explore-sidebar-searchbox-icon {
+  display: inline-block;
   color: white;
+  vertical-align: top;
+  margin-top: 9px;
+  cursor: pointer;
+}
+
+.exchanges-explore-sidebar-search-exit-icon {
+  display: inline-block;
+  color: white;
+  vertical-align: top;
+  margin-top: 7px;
+  cursor: pointer;
 }
 
 .exchanges-explore-sidebar-check {
@@ -323,7 +385,7 @@
 }
 
 .all-exchanges-container {
-  padding: 65px 15px 15px 15px;
+  padding: 59px 15px 0 15px;
   @media screen and (max-width: 1920px) and (min-width: 1366px) {
     width: 75%;
     margin-right: 25%
@@ -397,6 +459,23 @@
   }
 }
 
+.exchange-followed-skeleton {
+  border: none;
+  background-color: #f3f3f3;
+  border-radius: 3px;
+  padding: 2px 0;
+  width: 80px;
+  position: absolute;
+  overflow: hidden;
+  bottom: 15px;
+  left: 15px;
+  transition-duration: 0.25s;
+  font-size: $font-size-normalText;
+  &:focus {
+    outline: none;
+  }
+}
+
 .exchange-baj-container {
   position: absolute;
   bottom: 15px;
@@ -437,4 +516,33 @@
   height: 27px;
   float: left;
   margin-left: 10px;
+}
+
+.exchange-view-sidebar {
+  //position: fixed;
+  bottom: 15px;
+  overflow-y: auto;
+  z-index: 1;
+  top: 70px;
+  padding: 15px;
+  color: $text-dark-color;
+  border-radius: $border-radius-size;
+  overflow-y: auto;
+  background: $text-lightest-color;
+  box-shadow: 0 3px 3px $box-shadow-color;
+  width: 25%;
+  display: inline-block;
+  vertical-align: top;
+  //@media screen and (max-width: 1920px) and (min-width: 1366px) {
+    //right: 138px;
+    //width: calc(0.25 * (100% - 276px));
+  //}
+  //@media screen and (max-width: 1280px) and (min-width: 600px) {
+    //right: 90px;
+    //width: calc(0.25 * (100% - 180px));
+  //}
+  //@media screen and (max-width: 1366px) and (min-width: 1280px) {
+    //right: 97px;
+    //width: calc(0.25 * (100% - 194px));
+  //}
 }
