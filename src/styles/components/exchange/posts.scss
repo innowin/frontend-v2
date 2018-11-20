@@ -159,8 +159,11 @@
 }
 
 .post-retry-image {
-  margin-top: 150px;
   font-size: 14px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .post-retry-image-click {
@@ -213,4 +216,16 @@
 ::-webkit-scrollbar-thumb:hover {
   background: $scroll-color-hover;
   transition-duration: $animation-timing;
+}
+
+.default-image {
+  position: absolute;
+  opacity: 0.5;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  fill: #ddd;
+  stroke: #ddd;
+  width: 50%;
+  height: 100%;
 }

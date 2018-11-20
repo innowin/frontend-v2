@@ -16,6 +16,7 @@ import DefaultImageIcon from "./defaults/defaultImage_svg"
 import DefaultOrganIcon from "./defaults/defaultOrganization_svg"
 import DefaultProductIcon from "./defaults/defaultProduct_svg"
 import DefaultUserIcon from "./defaults/defaultUser_svg"
+import DefaultImage from './defaults/defaultImage'
 import DemandIcon from "./common/demand_svg"
 import EditIcon from "./common/edit.svg"
 import EducationIcon from "./user/education_svg"
@@ -102,6 +103,7 @@ export {
   DefaultProductIcon,
   DefaultUserIcon,
   DefaultImageIcon,
+  DefaultImage,
   DemandIcon,
   EditIcon,
   EducationIcon,

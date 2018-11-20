@@ -7,7 +7,6 @@ import type {badgeType} from "../../consts/flowTypes/common/badges"
 import type {organizationType} from "src/consts/flowTypes/organization/organization"
 import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 import type {userProfileType, userType} from "src/consts/flowTypes/user/basicInformation"
-import {DefaultImageIcon} from "src/images/icons"
 import {DefaultUserIcon, DefaultOrganIcon} from "src/images/icons"
 import cx from "classnames"
 
@@ -412,7 +411,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
       <form className={className + ' pt-0'} onSubmit={this._handleSubmit}>
         <div className="editable-profile-img">
           {
-            (!bannerString) ? <DefaultImageIcon className="banner"/> : (
+            (!bannerString) ? <div className="background-strips banner covered-img"/> : (
               <img alt="" src={bannerString} className="banner covered-img"/>)
           }
           {
@@ -435,7 +434,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
           <div className="editable-profile-img">
             {
               (!pictureString) ? (
-                (sideBarType === 'user') ? <DefaultUserIcon className="profile-media"/> :
+                (sideBarType === constants.USER_TYPES.PERSON) ? <DefaultUserIcon className="profile-media"/> :
                   <DefaultOrganIcon className="profile-media"/>
               ) : (
                 <img className="rounded-circle profile-media covered-img" alt="" src={pictureString}/>)

@@ -3,7 +3,7 @@ import * as React from "react"
 import PropTypes from "prop-types"
 import "moment/locale/fa"
 
-import {DefaultUserIcon} from "src/images/icons"
+import {DefaultUserIcon, DefaultImage} from "src/images/icons"
 import {CategoryTitle, VerifyWrapper} from "src/views/common/cards/Frames"
 import connect from "react-redux/es/connect/connect"
 import {getMessages} from "../../../redux/selectors/translateSelector"
@@ -308,9 +308,13 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                         <div className={'post-image-container'}>
                           <img src={postPicture.file} width={'100%'} alt='عکس پست' className={pictureLoaded === true ? 'post-image-effect' : 'post-image'}/>
                           <div className={pictureLoaded === true ? 'post-image-loading-effect' : 'post-image-loading'}>
+                            <DefaultImage className='default-image'/>
                             {
                               pictureLoaded === false ?
-                                  <div className='post-retry-image'>مشکل در بارگذاری عکس.<span className='post-retry-image-click' onClick={this.handleRetry}> تلاش مجدد </span></div>
+                                  <div className='post-retry-image'>
+                                    مشکل در بارگذاری عکس.
+                                    <span className='post-retry-image-click' onClick={this.handleRetry}> تلاش مجدد </span>
+                                  </div>
                                   :
                                   <div className='bright-line'/>
                             }
