@@ -10,7 +10,7 @@ type appProps =
 
 const loadingArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
-function render(props) {
+const Users = (props: appProps) => {
   let {users, followees, followers, justFollowing, justFollowed} = props
 
   users = Object.values(users)
@@ -42,10 +42,6 @@ function render(props) {
   else return loadingArr.map((user, i) =>
         <UserSkeleton key={i}/>
     )
-}
-
-const Users = (props: appProps) => {
-  return render(props)
 }
 
 export default Users

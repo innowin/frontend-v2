@@ -8,10 +8,9 @@ type appProps =
       exchanges: any
     |}
 
-
 const loadingArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
-function render(props) {
+const Exchanges = (props: appProps) => {
   let {exchanges, justFollowing} = props
 
   exchanges = Object.values(exchanges).filter(exchange =>
@@ -35,10 +34,6 @@ function render(props) {
   else return loadingArr.map((exchange, i) =>
         <ExchangeSkeleton key={i}/>
     )
-}
-
-const Exchanges = (props: appProps) => {
-  return render(props)
 }
 
 export default Exchanges
