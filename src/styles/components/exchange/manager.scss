@@ -3,12 +3,191 @@
 .ticket-frame {
   text-align: right;
   width: calc(100% - 6px);
+  margin: 2px 3px 7px 8px;
+  background-color: $base-posts;
+  border-radius: 3px;
+  box-shadow: 0 2px 5px $box-shadow-color;
+  padding: 15px 0 12.5px 10px;
+  transition-duration: $animation-timing;
+}
+
+.ticket-body-main-frame {
+  text-align: right;
+  width: calc(100% - 6px);
   margin: 2px 3px 10px 8px;
   background-color: $base-posts;
-  border-radius: 5px;
+  border-radius: 3px;
   box-shadow: 0 2px 5px $box-shadow-color;
-  padding: 15px 10px 12.5px 10px;
   transition-duration: $animation-timing;
+  font-size: $font-size-regular;
+}
+
+.ticket-body-frame {
+  padding: 15px 10px 13px 10px;
+  display: flex;
+}
+
+.ticket-body-frame-section {
+  display: inline-block;
+  vertical-align: top;
+  width: 120px;
+  white-space: nowrap;
+  font-weight: bold;
+}
+
+.ticket-body-frame-section-name {
+  display: inline-block;
+  vertical-align: top;
+  color: $primary-color-light3;
+  text-align: center;
+  padding: 4px 0;
+  flex-grow: 2;
+  font-weight: bold;
+}
+
+.ticket-body-frame-section-time {
+  display: inline-block;
+  vertical-align: top;
+  color: $text-title-menu-color;
+  text-align: center;
+  padding: 5px 0;
+  font-size: $tag-font-size;
+  flex-grow: 1;
+}
+
+.ticket-body-frame-section-open {
+  display: inline-block;
+  vertical-align: top;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  border: 1px solid $primary-color-light3;
+  text-align: center;
+  cursor: pointer;
+  transition-duration: 0.3s;
+  &:hover {
+    background-color: $primary-color-light3;
+    .ticket-body-frame-section-open-sign {
+      color: white;
+      transition-duration: 0.3s;
+    }
+    .ticket-body-frame-section-open-sign-rotate {
+      color: white;
+      transition-duration: 0.3s;
+    }
+  }
+}
+
+.ticket-body-frame-section-open-pattren {
+  display: inline-block;
+  vertical-align: top;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  text-align: center;
+  margin-right: 1%;
+  transition-duration: 0.3s;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.ticket-body-frame-section-open-sign {
+  transition-duration: 0.3s;
+  display: inline-block;
+  vertical-align: top;
+  font-size: 17px;
+  font-weight: bold;
+  color: $primary-color-light3;
+}
+
+.ticket-body-frame-section-open-sign-rotate {
+  transition-duration: 0.3s;
+  display: inline-block;
+  vertical-align: top;
+  font-size: 17px;
+  font-weight: bold;
+  color: $primary-color-light3;
+  transform: rotate(-90deg);
+  margin-right: -1px;
+}
+
+.ticket-body-frame-section-open-red {
+  display: inline-block;
+  vertical-align: top;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  border: 1px solid $danger-color;
+  text-align: center;
+  cursor: pointer;
+  margin-right: 2%;
+  transition-duration: 0.3s;
+  &:hover {
+    background-color: $danger-color;
+    .ticket-body-frame-section-open-sign-little {
+      color: white;
+      transition-duration: 0.3s;
+    }
+  }
+}
+
+.ticket-body-frame-section-open-sign-little {
+  display: inline-block;
+  vertical-align: top;
+  font-size: 10px;
+  font-weight: bold;
+  color: $danger-color;
+  margin-top: 6px;
+  transition-duration: 0.3s;
+}
+
+.ticket-body-frame-section-open-green {
+  display: inline-block;
+  vertical-align: top;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  border: 1px solid $secondary-color;
+  background-color: $secondary-color;
+  text-align: center;
+  cursor: pointer;
+  margin-right: 2%;
+  transition-duration: 0.3s;
+  &:hover {
+    background-color: white;
+    .ticket-body-frame-section-open-sign-little-green {
+      color: $secondary-color;
+      transition-duration: 0.3s;
+    }
+  }
+}
+
+.ticket-body-frame-section-open-sign-little-green {
+  display: inline-block;
+  vertical-align: top;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+  margin-top: 5px;
+  transition-duration: 0.3s;
+}
+
+.ticket-body-frame-logo-container {
+  display: inline-block;
+}
+
+.ticket-body-frame-logo {
+  fill: $primary-color;
+  width: 15px;
+  height: 15px;
+  vertical-align: top;
+  margin: 5px 7px;
+}
+
+.ticket-body-frame-logo-content {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 3px;
 }
 
 .ticket-header {
@@ -17,4 +196,98 @@
   height: 30px;
   font-weight: bold;
   font-size: $font-size-medium;
+}
+
+.ticket-body-closed {
+  height: 0;
+  overflow: hidden;
+  transition-duration: 0.3s;
+  padding: 0 15px;
+  border: 1px solid transparent;
+}
+
+.ticket-body-opened {
+  height: 82px;
+  padding: 10px 15px;
+  overflow: auto;
+  transition-duration: 0.3s;
+  border: 1px solid $text-lighter-color;
+  border-radius: 3px;
+}
+
+.ticket-body-opened-img {
+  display: inline-block;
+  vertical-align: top;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.ticket-body-opened-img-name {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 15px;
+  margin-top: 5px;
+  font-size: $font-size-description;
+}
+
+.ticket-body-opened-img-name-desc {
+  margin-top: 10px;
+  color: $text-title-menu-color;
+}
+
+.ticket-body-opened-follow {
+  float: left;
+  margin-top: 5px;
+  border: 1px solid $primary-color-light3;
+  background-color: white;
+  color: $primary-color-light3;
+  transition-duration: 0.3s;
+  font-size: 11px;
+  height: 17px;
+  padding: 0 4px 0 4px ;
+  cursor: pointer;
+&:hover{
+  background-color: $primary-color-light3;
+  color: white;
+  transition-duration: 0.3s;
+}}
+
+.ticket-body-opened-followed {
+  float: left;
+  margin-top: 5px;
+  color: $primary-color-light3;
+  transition-duration: 0.3s;
+  font-size: 11px;
+}
+
+.ticket-body-frame-section-open-black {
+  display: inline-block;
+  vertical-align: top;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  border: 1px solid black;
+  text-align: center;
+  cursor: pointer;
+  margin-right: 2%;
+  transition-duration: 0.3s;
+  &:hover {
+    background-color: black;
+    .ticket-body-frame-section-open-sign-little-black {
+      color: white;
+      transition-duration: 0.3s;
+    }
+  }
+}
+
+.ticket-body-frame-section-open-sign-little-black {
+  display: inline-block;
+  vertical-align: top;
+  font-size: 10px;
+  font-weight: bold;
+  color: black;
+  margin-top: 6px;
+  transition-duration: 0.3s;
 }
