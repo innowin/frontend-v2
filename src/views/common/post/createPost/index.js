@@ -191,8 +191,9 @@ class CreatePost extends Component {
     const {selected, link, description} = this.state
     const {currentUserIdentity, postParentId, currentUserImgId, postPictureIds} = this.props
     const post_link = link.trim() !== "" ? link : null
+    const postPicturesIds_ = postPictureIds.slice(0, 3)[0] || null // just three pictures allowable
     return {
-      post_picture: postPictureIds[0] || null,
+      post_picture: postPicturesIds_,
       post_description: description,
       post_title: "without title",
       post_type: selected,
@@ -386,7 +387,11 @@ class CreatePost extends Component {
                 handlePictures={fileString =>
                   this.setState({...this.state, postPictures: [...postPictures, fileString]})
                 }
+                postPicturesLength={postPictures.length}
+                postMediaExist={Boolean(postMedia)}
+                postFileExist={Boolean(postFile)}
                 linkModalFunc={this._linkModalFunc}
+                AttachMenuId = "create-post-attach-menu-box"
                 translate={translate}
               />
             </div>
