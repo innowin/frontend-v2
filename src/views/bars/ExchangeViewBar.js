@@ -182,25 +182,26 @@ class ExchangeViewBar extends Component {
                   <span>{currentExchange.name === "" ? "بدون نام" : currentExchange.name}</span>
                 </div>
               </div>
-              <span
-                  className="-grey1 fontSize-13px description-right-bar">{currentExchange.description === "" ? "بدون توضیحات" :
+              <span className="-grey1 fontSize-13px description-right-bar">{currentExchange.description === "" ? "بدون توضیحات" :
                   currentExchange.description}</span>
             </div>
 
-            <div className="numbersSection flex-column pl-3">
-              <div className="">
+
+
+            <div className="numbersSection flex-column">
+              <div>
                 <span>اعضا:</span>
                 <span>{currentExchange.members_count}</span>
               </div>
-              <div className="">
+              <div>
                 <span>عرضه:</span>
                 <span>{supplyCount}</span>
               </div>
-              <div className="">
+              <div>
                 <span>تقاضا:</span>
                 <span>{demandCount}</span>
               </div>
-              <div className="">
+              <div>
                 <span>محصول عرضه شده:</span>
                 <span>{productCount}</span>
               </div>
@@ -241,7 +242,7 @@ class ExchangeViewBar extends Component {
   }
 }
 
-const StateToProps = (state, props) => ({
+const StateToProps = (state) => ({
   translate: state.intl.messages,
   router: state.router,
   exchanges: state.exchanges,

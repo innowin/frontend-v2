@@ -325,7 +325,9 @@ $sidebar-profile-media-width: 80px;
 //** ---------------------------        Sidebar(rightBar)      -------------------------------- **//
 .description-right-bar {
   padding: 0 10px;
-  text-align: center;
+  text-align: justify;
+  text-align-last: center;
+  line-height: 23px;
 }
 
 .-right-sidebar-wrapper-exchange {
