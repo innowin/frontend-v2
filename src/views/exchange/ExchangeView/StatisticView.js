@@ -158,7 +158,7 @@ const mapStateToProps = (state) =>
 {
   return {
     translate: getMessages(state),
-    // clientIdentityId: state.auth.client.identity.content,
+    clientIdentityId: state.auth.client.identity.content,
     // clientType: state.auth.client.user_type,
     // clientId: state.auth.client.user.id,
   }

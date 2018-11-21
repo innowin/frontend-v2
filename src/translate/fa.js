@@ -339,7 +339,7 @@ module.exports = {
   "Medals": "مدرک ها",
 
   //Statistic
-  "Activity Report": "گذارش فعالیت",
+  "Activity Report": "گزارش فعالیت",
   "Activity Chart": "نمودار فعالیت",
 
   // Product
