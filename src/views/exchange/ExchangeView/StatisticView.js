@@ -119,7 +119,7 @@ class StatisticView extends Component
             </div>
             <div className={"statistics-chart"}>
               <AreaChart width={620} height={300} data={data}
-                         margin={{top: 15, right: 119, left: 0, bottom: 10}}>
+                         margin={{top: 15, right: 119, left: 10, bottom: 10}}>
                 <defs>
                   <linearGradient id="color1" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="pink" stopOpacity={0.8}/>

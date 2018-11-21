@@ -11,14 +11,15 @@
 }
 
 .members-header-right {
-  width: 90%;
+  width: 89%;
   background-color: $white;
   height: 30px;
   font-weight: bold;
-  font-size: $font-size-medium;
+  font-size: $font-size-post-name;
   float: right;
   display: inline-block;
   vertical-align: top;
+  padding-right: 3px;
 }
 
 .members-header-left {
@@ -51,10 +52,10 @@
   width: 160px;
   height: 0;
   flex-grow: 1;
-  margin: 5px 5px;
+  //margin: 5px 5px;
   vertical-align: top;
   display: inline-block;
-  padding: 2px 12px;
+  //padding: 2px 12px;
   opacity: 0;
   animation: switch;
   animation-duration: .75s;
@@ -101,8 +102,8 @@
 
   .member-followed {
     position: absolute;
-    top: 5px;
-    left: 12px;
+    top: 1px;
+    left: 10px;
     font-size: $font-size-followed;
     color: $primary-color-light3;
     font-weight: bold;
@@ -148,7 +149,7 @@
   position: relative;
   z-index: 1;
   &:first-child {
-    margin-top: 35px;
+    margin-top: 5px;
   }
 
   .member-loading {
@@ -208,6 +209,15 @@
 
   .member-description {
     margin: 0;
+  }
+
+  .member-followed {
+    position: absolute;
+    top: 1px;
+    left: 10px;
+    font-size: $font-size-followed;
+    color: $primary-color-light3;
+    font-weight: bold;
   }
 }
 
