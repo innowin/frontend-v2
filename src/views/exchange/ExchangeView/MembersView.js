@@ -27,7 +27,8 @@ class MembersView extends Component {
       viewType: "member-square",
       moreMembers: false,
       followingUsers: [],
-      followingOrgans: []
+      followingOrgans: [],
+      requested: false
     }
   }
 
@@ -182,7 +183,7 @@ class MembersView extends Component {
             temp.push(exchangeUsers[exchangeId][i])
           }
         }
-        this.setState({...this.state, initialMembers: temp})
+        this.setState({...this.state, initialMembers: temp, requested: true})
       }
     }
 
@@ -200,7 +201,7 @@ class MembersView extends Component {
   }
 
   componentDidUpdate() {
-    if (this.state.initialMembers.length < 1) {
+    if (!this.state.requested) {
       let {exchangeUsers, exchangeId, actions} = this.props
       let {getUser, getOrganization, getUserIdentity, getOrgIdentity} = actions
       let temp = []
@@ -218,14 +219,14 @@ class MembersView extends Component {
               temp.push(exchangeUsers[exchangeId][i])
             }
           }
-          this.setState({...this.state, initialMembers: temp})
+          this.setState({...this.state, initialMembers: temp, requested: true})
         }
       }
     }
   }
 
   render() {
-    let {initialMembers, moreMembers, viewType} = this.state
+    let {initialMembers, moreMembers, viewType, requested} = this.state
     return (
         <div className={"members-frame"}>
           <div className={"members-header-right"}>
@@ -240,7 +241,9 @@ class MembersView extends Component {
           <div className={"members-body"}>
             {initialMembers.length > 0 ? initialMembers.map((p, index) => {
               return this.getMembers(p.id, p.type, index)
-            }) : <VerifyWrapper isLoading={true} error={false}/>}
+            }) : requested ? <div> </div>:<VerifyWrapper isLoading={true} error={false}/>}
+            <div className={"zero-height"}> </div>
+            <div className={"zero-height"}> </div>
             {(!moreMembers) && initialMembers.length >= 6 ?
                 <div className={"members-more"} onClick={this.setAllMembers}>
                   بارگذاری بیشتر

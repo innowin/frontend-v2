@@ -41,13 +41,32 @@
   line-height: 30px;
   font-size: $font-size-post-content;
   transition-duration: $animation-timing;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.zero-height{
+  background-color: $white;
+  text-align: center;
+  width: 160px;
+  height: 0;
+  flex-grow: 1;
+  margin: 5px 5px;
+  vertical-align: top;
+  display: inline-block;
+  padding: 2px 12px;
+  opacity: 0;
+  animation: switch;
+  animation-duration: .75s;
+  position: relative;
 }
 
 .member-square {
   background-color: $white;
   text-align: center;
-  width: 184px;
-  height: 200px;
+  width: 160px;
+  height: 185px;
+  flex-grow: 1;
   margin: 5px 5px;
   vertical-align: top;
   display: inline-block;
@@ -60,7 +79,7 @@
   position: relative;
 
   .member-picture-container {
-    width: 150px;
+    width: 100%;
     display: inline-block;
     vertical-align: top;
   }
