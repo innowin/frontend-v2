@@ -239,7 +239,7 @@
 
 .exchanges-explore-not-found {
   position: absolute;
-  top: 128px;
+  top: 132px;
   left: 0;
   text-align: center;
   width: 100%;
@@ -300,7 +300,7 @@
   position: absolute;
   top: -25%;
   left: -50%;
-  animation: light 1s infinite ease-out;
+  animation: light 4s infinite ease-out;
   box-shadow: 0 0 70px 30px white;
   transform: rotate(45deg);
 }
@@ -310,7 +310,7 @@
     left: -50%;
     opacity: 0.7;
   }
-  100% {
+  22%, 100% {
     left: 150%;
     opacity: 1;
   }

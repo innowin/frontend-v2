@@ -11,7 +11,6 @@ import userActions from 'src/redux/actions/user/getUserActions'
 import {getUsers} from 'src/redux/selectors/user/GetAllUsers'
 import {ClipLoader} from "react-spinners"
 import {getFollowList} from 'src/redux/selectors/common/social/getFollowList'
-import UserSkeleton from "./User_Skeleton"
 
 type appProps =
     {|
@@ -41,16 +40,18 @@ class Explore extends Component <appProps, appState> {
   }
 
   componentDidMount() {
-    this.props.actions.getUsers(24, this.state.offset, null)
+    // this.props.actions.getUsers(24, this.state.offset, null)
     this.props.actions.getFollowees({
       followOwnerIdentity: this.props.currentUserIdentity,
       followOwnerType: this.props.currentUserType,
-      followOwnerId: this.props.currentUserId
+      followOwnerId: this.props.currentUserId,
+      notProfile: true
     })
     this.props.actions.getFollowers({
       followOwnerIdentity: this.props.currentUserIdentity,
       followOwnerType: this.props.currentUserType,
-      followOwnerId: this.props.currentUserId
+      followOwnerId: this.props.currentUserId,
+      notProfile: true
     })
     window.addEventListener('scroll', this.onScroll)
   }

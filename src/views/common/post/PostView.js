@@ -3,7 +3,7 @@ import * as React from "react"
 import PropTypes from "prop-types"
 import "moment/locale/fa"
 
-import {DefaultUserIcon} from "src/images/icons"
+import {DefaultUserIcon, DefaultImage} from "src/images/icons"
 import {CategoryTitle, VerifyWrapper} from "src/views/common/cards/Frames"
 import connect from "react-redux/es/connect/connect"
 import {getMessages} from "../../../redux/selectors/translateSelector"
@@ -77,8 +77,19 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
   constructor(props) {
     super(props)
-    this.state = {menuToggle: false, confirm: false,wordsCheck: false}
+    this.state = {
+      menuToggle: false,
+      confirm: false,
+      wordsCheck: false,
+      pictureLoaded: null
+    }
     this.commentTextField = null
+    this.handleRetry = this.handleRetry.bind(this)
+    this._delete = this._delete.bind(this)
+    this._showConfirm = this._showConfirm.bind(this)
+    this._cancelConfirm = this._cancelConfirm.bind(this)
+    this.openMenu = this.openMenu.bind(this)
+    this._handleClickOutMenuBox = this._handleClickOutMenuBox.bind(this)
   }
 
   componentDidMount() {
@@ -86,13 +97,21 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     if (post && post.post_picture) {
       let {getFile} = actions
       getFile(post.post_picture.id)
+
+      let picture = new Image()
+      picture.src = post.post_picture.file
+      picture.onload = () => {
+        this.setState({pictureLoaded: true})
+      }
+      picture.onerror = () => {
+        this.setState({pictureLoaded: false})
+      }
     }
     if (extendedView) {
       const {actions, match} = this.props
       const {params, url} = match
       const {getPost, getPostViewerCount, setPostViewer, getCommentsByParentId} = actions
       const postId = +params.id
-
       const isUser = !url.includes("org")
       const postOwnerType = isUser ? constants.USER_TYPES.PERSON : constants.USER_TYPES.ORG
       const spliced = url.split("/")
@@ -116,7 +135,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     }
 
     if (this.text && !this.state.wordsCheck) {
-      this.setState({...this.state,wordsCheck : true})
+      this.setState({...this.state, wordsCheck: true})
       let allWords = this.text.innerText.split(" ")
 
       let mailExp = new RegExp("^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$")
@@ -129,31 +148,28 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       let third = new RegExp("([-\s\.]?[0-9]{3,4})")
 
       for (let i = 0; i < allWords.length; i++) {
-        if (urlExp.test(allWords[i].trim())) {
-          allWords[i].includes("http://") || allWords[i].includes("https://") ?
-              this.text.innerHTML = this.text.innerHTML.replace(new RegExp(allWords[i], "g"), `<a target=_blank href=` + allWords[i] + `>${allWords[i]}</a>`)
+        let word = allWords[i].trim()
+        if (urlExp.test(word)) {
+          word.includes("http://") || word.includes("https://") ?
+              this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a target=_blank href=` + word + `>${word}</a>`)
               :
-              this.text.innerHTML = this.text.innerHTML.replace(new RegExp(allWords[i], "g"), `<a target=_blank href=http://` + allWords[i] + `>${allWords[i]}</a>`)
+              this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a target=_blank href=http://` + word + `>${word}</a>`)
         }
-        else if (allWords[i].trim()[0] === "@" && allWords[i].length >= 6) {
-          this.text.innerHTML = this.text.innerHTML.replace(new RegExp(allWords[i], "g"), `<a href=` + allWords[i].slice(1, allWords[i].length) + `>${allWords[i]}</a>`)
+        else if (word[0] === "@" && word.length >= 6) {
+          this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a href=` + word.slice(1, word.length) + `>${word}</a>`)
         }
-        else if (allWords[i].trim()[0] === "#" && allWords[i].length >= 3) {
-          this.text.innerHTML = this.text.innerHTML.replace(new RegExp(allWords[i], "g"), `<a href=` + allWords[i] + `>${allWords[i]}</a>`)
+        else if (word[0] === "#" && word.length >= 3) {
+          this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a href=` + word + `>${word}</a>`)
         }
-        else if (mailExp.test(allWords[i].trim())) {
-          this.text.innerHTML = this.text.innerHTML.replace(new RegExp(allWords[i], "g"), `<a href=mailto:` + allWords[i] + `>${allWords[i]}</a>`)
+        else if (mailExp.test(word)) {
+          this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a href=mailto:` + word + `>${word}</a>`)
         }
-        else if (
-            first.test(allWords[i].trim())
-            || second.test(allWords[i].trim())
-            || third.test(allWords[i].trim())
-        ) {
-          // this.text.innerHTML = this.text.innerHTML.replace(allWords[i], `HEEEEFSEDFSVKJASBVI`)
-          this.text.innerHTML = this.text.innerHTML.replace(allWords[i], `<a href=tel:` + allWords[i] + `>${allWords[i]}</a>`)
+        else if (!isNaN(word.replace(/\\+/g,'')) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
+          word.includes('+') ?
+              this.text.innerHTML = this.text.innerHTML.replace(new RegExp(`\\${word}`, "g"), `<a href=tel:` + word + `>${word}</a>`)
+              :
+              this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a href=tel:` + word + `>${word}</a>`)
         }
-
-        // TODO Abel add phone number diagnosis
       }
     }
   }
@@ -162,17 +178,16 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     document.removeEventListener("click", this._handleClickOutMenuBox)
   }
 
-  openMenu = (e) => {
+  openMenu(e) {
     e.preventDefault()
     const {post, actions} = this.props
     const {setPostViewer, getPostViewerCount} = actions
     const postId = post.id
     setPostViewer(postId, getPostViewerCount)
-
     this.setState({...this.state, menuToggle: !this.state.menuToggle})
   }
 
-  _handleClickOutMenuBox = (e: any) => {
+  _handleClickOutMenuBox(e: any) {
     if (!e.target.closest("#sidebar-post-menu-box") && !e.target.closest(".post-menu-bottom")) {
       this.setState({...this.state, menuToggle: false})
     }
@@ -204,15 +219,15 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     }
   }
 
-  _showConfirm = () => {
+  _showConfirm() {
     this.setState({confirm: true})
   }
 
-  _cancelConfirm = () => {
+  _cancelConfirm() {
     this.setState({confirm: false})
   }
 
-  _delete = () => {
+  _delete() {
     const {actions, post} = this.props
     const {deletePost} = actions
     const postParent = post.post_parent
@@ -231,23 +246,38 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     deleteComment({commentId: comment.id, parentId: post.id, commentParentType})
   }
 
-  handleClickTextField() {
-    // this.commentTextField.height =
+  handleRetry() {
+    this.setState({pictureLoaded: null}, () => {
+      const {post} = this.props
+      if (post && post.post_picture) {
+        let picture = new Image()
+        picture.src = post.post_picture.file
+        picture.onload = () => {
+          this.setState({pictureLoaded: true})
+        }
+        picture.onerror = () => {
+          this.setState({pictureLoaded: false})
+        }
+      }
+    })
   }
 
   render() {
     const {post, translate, postIdentity, postRelatedIdentityImage, userImage, extendedView, showEdit, comments, fileList, commentParentType} = this.props
-    const {menuToggle, confirm} = this.state
+    const {menuToggle, confirm, pictureLoaded} = this.state
     let postDescription, postPicture, postPictureId, postIdentityUserId, postIdentityOrganId, postOwnerId = 0
     if (post) {
       postDescription = post.post_description
       postPicture = post.post_picture
       postPictureId = post.post_picture
-
       postIdentityUserId = post.post_identity.identity_user && post.post_identity.identity_user.id
       postIdentityOrganId = post.post_identity.identity_organization && post.post_identity.identity_organization.id
       postOwnerId = postIdentityUserId || postIdentityOrganId
     }
+
+    // if (postPicture && pictureLoaded) {
+    //   this.picture.className = 'post-image-container-effect'
+    // }
 
     return (
         confirm
@@ -272,17 +302,29 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                 <div className="post-content" ref={e => this.text = e}>
                   {postDescription}
                 </div>
+
                 {!extendedView ?
                     postPicture ?
-                        <div className={"post-image-container"}>
-                          <img src={postPicture.file} width={"100%"} alt={"عکس پست"} className={"post-image"}/>
-                        </div> : null
+                        <div className={'post-image-container'}>
+                          <img src={postPicture.file} width={'100%'} alt='عکس پست' className={pictureLoaded === true ? 'post-image-effect' : 'post-image'}/>
+                          <div className={pictureLoaded === true ? 'post-image-loading-effect' : 'post-image-loading'}>
+                            <DefaultImage className='default-image'/>
+                            {
+                              pictureLoaded === false ?
+                                  <div className='post-retry-image'>
+                                    مشکل در بارگذاری عکس.
+                                    <span className='post-retry-image-click' onClick={this.handleRetry}> تلاش مجدد </span>
+                                  </div>
+                                  :
+                                  <div className='bright-line'/>
+                            }
+                          </div>
+                        </div>
+                        : null
                     :
                     postPictureId ?
                         <div className={"post-image-container"}>
-                          <img src={fileList[postPictureId] ? fileList[postPictureId].file : null} width={"100%"}
-                               alt={" "}
-                               className={"post-image"}/>
+                          <img src={fileList[postPictureId] ? fileList[postPictureId].file : null} width={"100%"} alt={" "} className={"post-image"}/>
                         </div> : null
                 }
 

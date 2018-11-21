@@ -81,53 +81,49 @@
 }
 
 /* -------------------------------   post textarea -------------------------*/
-.post-component-textarea {
-  overflow-y: auto;
-  width: 100%;
-  resize: none;
-  border-radius: 3px;
-  border: 1px solid #e7e7e7;
-  padding: 10px 15px;
-  font-size: 13px;
-  transition-duration: 0.3s;
-  height: 45px;
-  line-height: 26px;
-  &:focus {
-    outline: none;
-    border: 1px solid #BBBBBB;
+.post-component-description {
+  position: relative;
+  span {
+    font-size: 12px;
+    position: absolute;
+    top: 3px;
+    left: 6px;
+    transition-duration: $animation-timing-long;
+  }
+  .post-component-textarea {
+    overflow-y: auto;
+    width: 100%;
+    resize: none;
+    border-radius: 3px;
+    border: 1px solid #e7e7e7;
+    padding: 10px 15px;
+    font-size: 13px;
+    transition-duration: 0.3s;
+    height: 45px;
+    line-height: 26px;
+    &:focus {
+      outline: none;
+      border: 1px solid #BBBBBB;
+      transition-duration: 0.3s;
+      height: 148px;
+    }
+  }
+
+  .post-component-textarea-open {
+    overflow-y: auto;
+    width: 100%;
+    resize: none;
+    border-radius: 3px;
+    border: 1px solid #e7e7e7;
+    padding: 10px 15px;
+    font-size: 13px;
     transition-duration: 0.3s;
     height: 148px;
-  }
-}
-
-.post-component-textarea-open {
-  overflow-y: auto;
-  width: 100%;
-  resize: none;
-  border-radius: 3px;
-  border: 1px solid #e7e7e7;
-  padding: 10px 15px;
-  font-size: 13px;
-  transition-duration: 0.3s;
-  height: 148px;
-  line-height: 26px;
-  &:focus {
-    outline: none;
-    border: 1px solid #BBBBBB;
-    transition-duration: 0.3s;
-  }
-}
-
-.post-component-container {
-  .description-character {
-    position: relative;
-    span {
-      float: left;
-      font-size: 12px;
-      position: absolute;
-      top: 3px;
-      left: 6px;
-      transition-duration: $animation-timing-long;
+    line-height: 26px;
+    &:focus {
+      outline: none;
+      border: 1px solid #BBBBBB;
+      transition-duration: 0.3s;
     }
   }
 }
@@ -218,7 +214,8 @@
     transition-duration: 0.3s;
   }
 }
-.post-component-footer-send-btn-inactive{
+
+.post-component-footer-send-btn-inactive {
   display: inline-block;
   background-color: $brand-inverse-color;
   border: 1px solid transparent;
@@ -268,6 +265,7 @@
   fill: #BBBBBB;
   color: #BBBBBB;
   width: 30px;
+  cursor: pointer;
 }
 
 .post-component-footer-attach-menu-container {

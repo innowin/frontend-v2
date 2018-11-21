@@ -67,7 +67,7 @@ class Exchange_Tabs extends Component {
     const {translate, exchangeId} = this.props
     if (exchangeId)
       return (
-          <div>
+          <div style={{display: 'inline-block', width: '49.1%', verticalAlign: 'top', margin: '0 0.6%'}}>
             {/*<div className={"exchange-center-background"}/>*/}
             <div className={`exchange-navbar-center`}>
               <Stream width="22px" height="22px"

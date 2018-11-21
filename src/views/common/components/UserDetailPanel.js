@@ -85,7 +85,7 @@ class UserDetailPanel extends React.Component<UserDetailPanelProps, UserDetailPa
             {bannerImage && bannerImage.file && this.state.bannerLoaded
                 ? <img className='banner covered-img' alt="profile banner"
                        src={bannerImage.file}/>
-                : <div className='banner covered-img'/> // <DefaultImageIcon className="banner covered-img"/>
+                : <div className='banner covered-img background-strips'/> // <DefaultImageIcon className="banner covered-img"/>
             }
             {profileImage && profileImage.file && this.state.profileLoaded
                 ? <img className="rounded-circle profile-media covered-img" alt="profile"

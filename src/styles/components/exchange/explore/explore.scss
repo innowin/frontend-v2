@@ -183,7 +183,7 @@
   bottom: 15px;
   overflow-y: auto;
   z-index: 1;
-  top: 70px;
+  top: 64px;
   padding: 15px;
   color: $text-dark-color;
   border-radius: $border-radius-size;
@@ -212,13 +212,14 @@
 }
 
 .exchanges-explore-sidebar-searchbox-input {
+  vertical-align: top;
   color: white;
-  width: 85%;
+  width: 89%;
   border: none;
   text-align: right;
   background-color: inherit;
   border-radius: 15px;
-  padding: 0px 15px;
+  padding: 0 15px;
   height: 35px;
   &:focus {
     outline: none;
@@ -230,7 +231,19 @@
 }
 
 .exchanges-explore-sidebar-searchbox-icon {
+  display: inline-block;
   color: white;
+  vertical-align: top;
+  margin-top: 9px;
+  cursor: pointer;
+}
+
+.exchanges-explore-sidebar-search-exit-icon {
+  display: inline-block;
+  color: white;
+  vertical-align: top;
+  margin-top: 7px;
+  cursor: pointer;
 }
 
 .exchanges-explore-sidebar-check {
@@ -372,7 +385,7 @@
 }
 
 .all-exchanges-container {
-  padding: 65px 15px 0 15px;
+  padding: 59px 15px 0 15px;
   @media screen and (max-width: 1920px) and (min-width: 1366px) {
     width: 75%;
     margin-right: 25%
@@ -503,4 +516,33 @@
   height: 27px;
   float: left;
   margin-left: 10px;
+}
+
+.exchange-view-sidebar {
+  //position: fixed;
+  bottom: 15px;
+  overflow-y: auto;
+  z-index: 1;
+  top: 70px;
+  padding: 15px;
+  color: $text-dark-color;
+  border-radius: $border-radius-size;
+  overflow-y: auto;
+  background: $text-lightest-color;
+  box-shadow: 0 3px 3px $box-shadow-color;
+  width: 25%;
+  display: inline-block;
+  vertical-align: top;
+  //@media screen and (max-width: 1920px) and (min-width: 1366px) {
+    //right: 138px;
+    //width: calc(0.25 * (100% - 276px));
+  //}
+  //@media screen and (max-width: 1280px) and (min-width: 600px) {
+    //right: 90px;
+    //width: calc(0.25 * (100% - 180px));
+  //}
+  //@media screen and (max-width: 1366px) and (min-width: 1280px) {
+    //right: 97px;
+    //width: calc(0.25 * (100% - 194px));
+  //}
 }

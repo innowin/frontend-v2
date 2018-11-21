@@ -7,14 +7,13 @@ import type {badgeType} from "../../consts/flowTypes/common/badges"
 import type {organizationType} from "src/consts/flowTypes/organization/organization"
 import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 import type {userProfileType, userType} from "src/consts/flowTypes/user/basicInformation"
-import {DefaultImageIcon} from "src/images/icons"
 import {DefaultUserIcon, DefaultOrganIcon} from "src/images/icons"
 import cx from "classnames"
 
 import AttachFile from "../common/inputs/AttachFile"
 import CheckOwner from "../common/CheckOwner"
 import connect from "react-redux/es/connect/connect";
-import constants from "../../consts/constants";
+import constants from "src/consts/constants";
 import SocialActions from "../../redux/actions/commonActions/socialActions";
 import {bindActionCreators} from "redux";
 import {getFollowersSelector} from "../../redux/selectors/common/social/getFollowers";
@@ -252,19 +251,20 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     const {sideBarType, owner, profile, banner, picture, bannerTempId, pictureTempId} = this.props
     const bannerId = bannerTempId || (banner ? banner.id : null)
     const pictureId = pictureTempId || (picture ? picture.id : null)
+    const descriptionValue = this.descriptionInput ? this.descriptionInput.getValue() : ''
     if (sideBarType === constants.USER_TYPES.PERSON && profile) {
       return {
         id: profile.id,
         profile_banner: bannerId,
         profile_media: pictureId,
-        description: this.descriptionInput.getValue(),
+        description: descriptionValue,
       }
     } else {
       return {
         id: owner.id,
         organization_banner: bannerId,
         organization_logo: pictureId,
-        description: this.descriptionInput.getValue(),
+        description: descriptionValue,
       }
     }
   }
@@ -317,15 +317,6 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
       this.setState({...this.state, menuToggle: false})
     }
   }
-
-  _handleBase64Banner = ({fileString, fileExtension, fileName}) => {
-    this.setState({...this.state, bannerState: fileString})
-  }
-
-  handleBase64Picture = ({fileString, fileExtension, fileName}) => {
-    this.setState({...this.state, pictureState: fileString})
-  }
-
 
 
 
@@ -388,7 +379,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
 
     const {actions, identityId, sideBarType, owner} = this.props
     const {getFollowers} = actions || {}
-    getFollowers({followOwnerIdentity: identityId, followOwnerType: sideBarType, followOwnerId: owner.id})
+    getFollowers({notProfile: true, followOwnerIdentity: identityId, followOwnerType: sideBarType, followOwnerId: owner.id})
   }
 
   componentWillUnmount() {
@@ -411,7 +402,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
       <form className={className + ' pt-0'} onSubmit={this._handleSubmit}>
         <div className="editable-profile-img">
           {
-            (!bannerString) ? <DefaultImageIcon className="banner"/> : (
+            (!bannerString) ? <div className="background-strips banner covered-img"/> : (
               <img alt="" src={bannerString} className="banner covered-img"/>)
           }
           {
@@ -420,9 +411,12 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
                 AttachButton={this._AttachBottom}
                 inputId="AttachBannerFileInput"
                 LoadingFile={this._LoadingFile}
-                handleBase64={this._handleBase64Banner}
+                handleBase64={(fileString) => this.setState({...this.state, bannerState: fileString})}
+                handleError={(error) => alert(error)}
                 className="edit-nav edit-banner"
                 ref={e => this.AttachBannerFileInput = e}
+                allowableFormat={constants.FILE_TYPE.PHOTO}
+                translate={tr}
               />
             )
           }
@@ -431,7 +425,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
           <div className="editable-profile-img">
             {
               (!pictureString) ? (
-                (sideBarType === 'user') ? <DefaultUserIcon className="profile-media"/> :
+                (sideBarType === constants.USER_TYPES.PERSON) ? <DefaultUserIcon className="profile-media"/> :
                   <DefaultOrganIcon className="profile-media"/>
               ) : (
                 <img className="rounded-circle profile-media covered-img" alt="" src={pictureString}/>)
@@ -442,9 +436,12 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
                   AttachButton={this._AttachBottom}
                   inputId="AttachPictureFileInput"
                   LoadingFile={this._LoadingFile}
-                  handleBase64={this.handleBase64Picture}
+                  handleBase64={(fileString) => this.setState({...this.state, pictureState: fileString})}
+                  handleError={(error) => alert(error)}
                   className="edit-nav edit-media"
                   ref={e => this.AttachPictureFileInput = e}
+                  allowableFormat={constants.FILE_TYPE.PHOTO}
+                  translate={tr}
                 />
               )
             }

@@ -116,6 +116,9 @@ a, a:hover, a:active {
   overflow-x: hidden;
 }
 
+.background-strips{
+  background-image: repeating-linear-gradient(-45deg, #eee, #eee 10px, #f8f8f8 10px, #f8f8f8 20px);
+}
 @media screen and (max-width: 1920px) {
   .colMd3 {
     vertical-align: top;

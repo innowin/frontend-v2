@@ -52,13 +52,11 @@ class CreatePost extends Component {
       placeholder: "",
       selectedText: "",
       postPictures: [],
-      errorAttachPicture: '',
       postFile: '',
-      errorAttachFile: '',
       postMedia: '',
-      errorAttachMedia: '',
       link: '',
       description: '',
+      descriptionClass: '',
       profileLoaded: false,
       savingPost: false
     }
@@ -84,7 +82,7 @@ class CreatePost extends Component {
     const {attachMenu, contactMenu, linkModal, postPictures, postFile, postMedia, link, description, labels, savingPost} = this.state
     const needReset = !savingPost && !description && !postPictures && !postFile && !postMedia && !link && labels === {}
 
-    if (this.setWrapperRef && !this.setWrapperRef.contains(event.target)) {
+    if (!event.target.closest('#create-post-attach-menu-box')) {
       if (attachMenu) {
         this.setState({...this.state, attachMenu: false})
       }
@@ -154,7 +152,19 @@ class CreatePost extends Component {
 
   _handleChangeText = (e) => {
     const description = e.target.value
-    this.setState({...this.state, description})
+    if (description.trim().length <= 1500)
+      this.setState({...this.state, description}, () => checkCharacter(description))
+    const checkCharacter = (description) => {
+      const descriptionLength = description.trim().length
+      if (descriptionLength === 0)
+        this.setState({...this.state, descriptionClass: "hide-message"})
+      if (descriptionLength > 0 && descriptionLength < 5)
+        this.setState({...this.state, descriptionClass: "error-message"})
+      if (descriptionLength >= 5 && descriptionLength < 1490)
+        this.setState({...this.state, descriptionClass: "neutral-message"})
+      if (descriptionLength > 1490 && descriptionLength < 1500)
+        this.setState({...this.state, descriptionClass: "warning-message"})
+    }
   }
 
   _handleBlurText = (e) => {
@@ -194,14 +204,12 @@ class CreatePost extends Component {
   }
 
   _formValidate = () => {
-    const {description, errorAttachFile, errorAttachMedia, errorAttachPicture} = this.state
+    const {description} = this.state
     const descriptionLength = description.trim().length
     const descriptionError = descriptionLength < 5 || descriptionLength > 1500
     let result = true
+    //Attached files don't required check validation before save.because don't add to attached files if be error
     const validates = [
-      errorAttachFile,
-      errorAttachMedia,
-      errorAttachPicture,
       descriptionError
     ]
     for (let i = 0; i < validates.length; i++) {
@@ -272,7 +280,8 @@ class CreatePost extends Component {
     getFollowers({
       followOwnerIdentity: this.props.currentUserIdentity,
       followOwnerType: this.props.currentUserType,
-      followOwnerId: this.props.currentUserId
+      followOwnerId: this.props.currentUserId,
+      notProfile: true
     })
     // componentType === "comment" && this.setState({...this.state, placeholder: translate["Send comment"]})
 
@@ -296,16 +305,7 @@ class CreatePost extends Component {
     const {className, followers, exchanges, currentUserIdentity, currentUserMedia, currentUserName, translate} = this.props
     const {
       postPictures, open, attachMenu, selected, labels, link, contactMenu, linkModal, postFile, postMedia,
-      errorAttachPicture, errorAttachFile, errorAttachMedia, profileLoaded, description
-    } = this.state
-
-    let descriptionClass = ''
-    const descriptionLength = description.trim().length
-    if ((descriptionLength > 0 && descriptionLength < 5) || descriptionLength > 1500)
-      descriptionClass = 'error-message'
-    else if ((descriptionLength > 5 && descriptionLength < 10) || (descriptionLength > 1490 && descriptionLength < 1500))
-      descriptionClass = 'neutral-message'
-
+      profileLoaded, description, descriptionClass} = this.state
     return (
       <form className={"post-component-container " + className} onSubmit={this._onSubmit}>
         <div className='post-component-header'>
@@ -331,11 +331,11 @@ class CreatePost extends Component {
         </div>
 
 
-        <div className='description-character'>
+        <div className='post-component-description'>
           {descriptionClass &&
           <span className={descriptionClass}>
-                  {descriptionLength + '/1500'}
-                </span>
+            {description.trim().length + '/1500'}
+          </span>
           }
           <textarea
             className={open ? "post-component-textarea-open" : "post-component-textarea"}
@@ -376,19 +376,15 @@ class CreatePost extends Component {
                       className={description.length > 4 ? "post-component-footer-send-btn" : "post-component-footer-send-btn-inactive"}>ارسال
               </button>
               <AttachMenu
-                ref={e => this.setWrapperRef = (e ? e.attachMenuRef : e)}
                 attachMenu={attachMenu}
-                handleFile={(fileString, error) =>
-                  this.setState({...this.state, postFile: fileString, errorAttachFile: error})
+                handleFile={fileString =>
+                  this.setState({...this.state, postFile: fileString})
                 }
-                handleMedia={(fileString, error) =>
-                  this.setState({...this.state, postMedia: fileString, errorAttachMedia: error})
+                handleMedia={fileString =>
+                  this.setState({...this.state, postMedia: fileString})
                 }
-                handlePictures={(fileString, error) =>
-                  this.setState({
-                    ...this.state, postPictures: [...postPictures, fileString],
-                    errorAttachPicture: error
-                  })
+                handlePictures={fileString =>
+                  this.setState({...this.state, postPictures: [...postPictures, fileString]})
                 }
                 linkModalFunc={this._linkModalFunc}
                 translate={translate}
@@ -409,11 +405,8 @@ class CreatePost extends Component {
 
         <ViewAttachedFiles
           postPictures={postPictures}
-          errorAttachPicture={errorAttachPicture}
           postMedia={postMedia}
-          errorAttachMedia={errorAttachMedia}
           postFile={postFile}
-          errorAttachFile={errorAttachFile}
           deletePicture={this._deletePicture}
           deleteMedia={this._deleteMedia}
           deleteFile={this._deleteFile}
