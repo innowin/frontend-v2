@@ -192,7 +192,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
   }
   _createFile = () => {
     const {createFile} = this.props
-    this._processingHandler()
+    // this._processingHandler()
     createFile({file_string: this.state.selectedImage})
   }
   _imageHandler = (img: ImageType) => {
