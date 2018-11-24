@@ -16,6 +16,7 @@ import DefaultImageIcon from "./defaults/defaultImage_svg"
 import DefaultOrganIcon from "./defaults/defaultOrganization_svg"
 import DefaultProductIcon from "./defaults/defaultProduct_svg"
 import DefaultUserIcon from "./defaults/defaultUser_svg"
+import DefaultImage from './defaults/defaultImage'
 import DemandIcon from "./common/demand_svg"
 import EditIcon from "./common/edit.svg"
 import EducationIcon from "./user/education_svg"
@@ -33,6 +34,7 @@ import MoviesSvgIcon from "./common/movies_svg_icon"
 import NoFilterIcon from "./common/noFilter_svg"
 import NotificationIcon from "./common/notification_svg"
 import NewSkillIcon from "./user/new_skill_svg"
+import OffersSvg from './common/offers_svg'
 import PayIcon from "./addingConribution/pay_icon_svg"
 import postIcon from "./user/post_svg"
 import PostSendIcon from "./common/postSend_svg"
@@ -102,6 +104,7 @@ export {
   DefaultProductIcon,
   DefaultUserIcon,
   DefaultImageIcon,
+  DefaultImage,
   DemandIcon,
   EditIcon,
   EducationIcon,
@@ -120,6 +123,7 @@ export {
   NoFilterIcon,
   NotificationIcon,
   NewSkillIcon,
+  OffersSvg,
   PayIcon,
   postIcon,
   PostSendIcon,

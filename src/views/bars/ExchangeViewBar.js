@@ -99,7 +99,8 @@ class ExchangeViewBar extends Component {
     // getExchangeMembershipByExchangeId ({exchangeId})
     // this._getExchange(exchangeId)
     // this._getCounts(exchangeId)
-    this._getCounts(exchangeId)
+
+    // this._getCounts(exchangeId)
 
     const currentExchange = exchanges.list[exchangeId]
     if (currentExchange.exchange_image) {
@@ -182,30 +183,32 @@ class ExchangeViewBar extends Component {
                   <span>{currentExchange.name === "" ? "بدون نام" : currentExchange.name}</span>
                 </div>
               </div>
-              <span
-                  className="-grey1 fontSize-13px description-right-bar">{currentExchange.description === "" ? "بدون توضیحات" :
+              <span className="-grey1 fontSize-13px description-right-bar">{currentExchange.description === "" ? "بدون توضیحات" :
                   currentExchange.description}</span>
             </div>
 
-            <div className="numbersSection flex-column pl-3">
-              <div className="">
+
+
+            <div className="numbersSection flex-column">
+              <div>
                 <span>اعضا:</span>
                 <span>{currentExchange.members_count}</span>
               </div>
-              <div className="">
+              <div>
                 <span>عرضه:</span>
-                <span>{supplyCount}</span>
+                <span>{null}</span>
               </div>
-              <div className="">
+              <div>
                 <span>تقاضا:</span>
-                <span>{demandCount}</span>
+                <span>{null}</span>
               </div>
-              <div className="">
+              <div>
                 <span>محصول عرضه شده:</span>
-                <span>{productCount}</span>
+                <span>{null}</span>
               </div>
             </div>
 
+{/*
             {
               (badgesImgUrl.length > 0) ? (
                   <div className="flex-wrap pb-3">
@@ -222,6 +225,15 @@ class ExchangeViewBar extends Component {
             <div className="flex-wrap pb-3">
               <TagsBox tags={tags}/>
             </div>
+*/}
+
+            <div className={"exchange-view-bar-socials"}>
+              <i className={"fa fa-telegram"}/>
+              <i className={"fa fa-instagram"}/>
+              <i className={"fa fa-linkedin"}/>
+              <i className={"fa fa-youtube-play youtube"}/>
+            </div>
+
             <div className="row mr-0 ml-0 pb-3 flex-wrap justify-content-around">
               <div className="pb-2">
                 <button
@@ -241,7 +253,7 @@ class ExchangeViewBar extends Component {
   }
 }
 
-const StateToProps = (state, props) => ({
+const StateToProps = (state) => ({
   translate: state.intl.messages,
   router: state.router,
   exchanges: state.exchanges,

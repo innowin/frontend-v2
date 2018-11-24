@@ -4,7 +4,6 @@ import {eventChannel} from 'redux-saga'
 import {apply, select} from "redux-saga/effects"
 import results from "src/consts/resultName"
 
-
 const createSocketChannel = (resultName) => {
   return eventChannel(emit => {
     const resultHandler = res => {
@@ -38,7 +37,6 @@ const createSocketChannel = (resultName) => {
 function* get(url, result, param = "") {
   const token = yield select((state) => state.auth.client.token)
   yield apply({}, getEmit, [url, result, param, token])
-
 }
 
 function* post(url, result, data, param = "") {

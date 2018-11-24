@@ -1,17 +1,30 @@
 import React from "react"
 import PropTypes from "prop-types"
 
+const RemoveFile = (props) => {
+  const {onClickFunc} = props
+  return <span onClick={onClickFunc} className='remove-file pulse'>x</span>
+}
+RemoveFile.PropTypes = {
+  onClickFunc: PropTypes.func.isRequired,
+}
+
 const ViewAttachedFiles = (props) => {
   const {postPictures, postMedia, postFile, deletePicture, deleteMedia, deleteFile} = props
+  const postPicturesIds_ = postPictures.slice(0, 3) // just three pictures allowable
+  const postPicturesLength = postPicturesIds_.length
+  let picturesClass = 'onePicture'
+  if (postPicturesLength === 2) picturesClass = 'twoPictures'
+  if (postPicturesLength === 3) picturesClass = 'threePictures'
   return (
-    <div className="post-attached-pictures">
+    <div className="post-attached-Media">
       {
-        postPictures.length > 0 ?
-          <div className="pictures-section">
+        postPicturesIds_.length > 0 ?
+          <div className={"pictures-section " + picturesClass}>
             {
-              postPictures.map((fileString, i) => (
+              postPicturesIds_.map((fileString, i) => (
                   <div key={i + "pictures-section"}>
-                    <span onClick={() => deletePicture(i)} className='remove-post-picture pulse'>x</span>
+                    <RemoveFile onClickFunc={() => deletePicture(i)}/>
                     <img src={fileString} alt="imagePreview"/>
                   </div>
                 )
@@ -22,7 +35,7 @@ const ViewAttachedFiles = (props) => {
       {
         (postMedia) ? (
           <div className="media-section">
-            <span onClick={deleteMedia} className='remove-post-picture pulse'>x</span>
+            <RemoveFile onClickFunc={deleteMedia}/>
             <video width="100%" height="200px" controls poster="">
               <source src={postMedia} type="video/mp4"/>
             </video>
@@ -32,7 +45,7 @@ const ViewAttachedFiles = (props) => {
       {
         (postFile) ? (
           <div className="file-section">
-            <span onClick={deleteFile} className='remove-post-picture pulse'>x</span>
+            <RemoveFile onClickFunc={deleteFile}/>
           </div>
         ) : ''
       }

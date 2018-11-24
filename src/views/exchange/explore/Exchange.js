@@ -31,6 +31,8 @@ class Exchange extends Component <appProps, appState> {
           followLoading: false,
           imageLoaded: false
         }
+
+    this.follow = this.follow.bind(this)
   }
 
   componentDidMount() {
@@ -45,7 +47,7 @@ class Exchange extends Component <appProps, appState> {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.data.id !== nextProps.data.id) {
-      this.setState({...this.state, imageLoaded: false}, () => {
+      this.setState({...this.state, imageLoaded: false, followLoading: false,}, () => {
         if (nextProps.data.exchange_image) {
           let image = new Image()
           image.src = nextProps.data.exchange_image.file.includes('innowin.ir') ? nextProps.data.exchange_image.file : REST_URL + nextProps.data.exchange_image.file
@@ -57,18 +59,7 @@ class Exchange extends Component <appProps, appState> {
     }
   }
 
-  renderFollowButton() {
-
-    if (this.props.data.exchange === undefined && this.state.followLoading) {
-      return <div className='exchange-model-following'><ClipLoader color='#008057' size={19}/></div>
-    }
-    else if (this.props.data.exchange === undefined) {
-      return <button className='exchange-followed' onClick={this.follow}>دنبال کردن</button>
-    }
-    else return <button className='exchange-follow'>دنبال شده</button>
-  }
-
-  follow = () => {
+  follow() {
     this.setState({...this.state, followLoading: true})
     this.props.actions.follow({identityId: this.props.currentUserIdentity, exchangeIdentity: this.props.data.id})
   }
@@ -84,6 +75,17 @@ class Exchange extends Component <appProps, appState> {
   //       }
   //   )
   // }
+
+  renderFollowButton() {
+    if (this.props.data.exchange === undefined && this.state.followLoading) {
+      return <div className='exchange-model-following'><ClipLoader color='#008057' size={19}/></div>
+    }
+    else if (this.props.data.exchange === undefined) {
+      return <button className='exchange-followed' onClick={this.follow}>دنبال کردن</button>
+    }
+    else return <button className='exchange-follow'>دنبال شده</button>
+  }
+
 
   render() {
     const {data} = this.props

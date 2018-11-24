@@ -1,9 +1,6 @@
 // @flow
 import * as React from 'react'
 import {DefaultUserIcon} from "src/images/icons"
-import Demand from 'src/images/common/demand_svg'
-import Distribute from 'src/images/common/supply_svg'
-
 
 const Exchange_Skeleton = () => {
   return (

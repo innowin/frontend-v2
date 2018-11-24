@@ -41,3 +41,29 @@
     }
   }
 }
+
+.exchange-view-bar-socials {
+  display: flex;
+  justify-content: space-around;
+  .fa-instagram {
+    font-size: 31px;
+    background: -webkit-linear-gradient(30deg, #ffd02a, #dc3b26, #8500ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+  }
+  .fa-linkedin {
+    font-size: 28px;
+    color: royalblue;
+  }
+  .fa-telegram {
+    font-size: 29px;
+    background: -webkit-linear-gradient(-30deg, cornflowerblue, rgb(66, 70, 255));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .fa-youtube-play {
+    font-size: 30px;
+    color: red;
+  }
+}

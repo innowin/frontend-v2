@@ -520,14 +520,13 @@
 
 .exchange-view-sidebar {
   //position: fixed;
-  bottom: 15px;
-  overflow-y: auto;
-  z-index: 1;
-  top: 70px;
-  padding: 15px;
+  //bottom: 15px;
+  //overflow-y: auto;
+  //z-index: 1;
+  //top: 70px;
+  padding: 15px 15px 0 15px;
   color: $text-dark-color;
   border-radius: $border-radius-size;
-  overflow-y: auto;
   background: $text-lightest-color;
   box-shadow: 0 3px 3px $box-shadow-color;
   width: 25%;

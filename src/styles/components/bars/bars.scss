@@ -325,7 +325,9 @@ $sidebar-profile-media-width: 80px;
 //** ---------------------------        Sidebar(rightBar)      -------------------------------- **//
 .description-right-bar {
   padding: 0 10px;
-  text-align: center;
+  text-align: justify;
+  text-align-last: center;
+  line-height: 23px;
 }
 
 .-right-sidebar-wrapper-exchange {
@@ -439,16 +441,19 @@ $sidebar-profile-media-width: 80px;
     flex-direction: column;
     align-items: start;
     border: 1px solid lighten($text-lighter-color, 3.6%);
-    border-radius: $border-radius-size;
     background-color: $text-lightest-color;
     width: 125px;
-    box-shadow: -2px 2px 5px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 7px 1px rgba(0, 0, 0, 0.15);
+    border-radius: $border-radius;
+    transition-duration: $animation-timing-short;
     > div {
       display: flex;
       flex-direction: column;
       width: 100%;
+      transition-duration: $animation-timing-short;
       &:first-child {
         border-bottom: 1px solid lighten($text-lighter-color, 3.6%);
+        transition-duration: $animation-timing-short;
       }
       span {
         padding-right: 10px;
@@ -456,11 +461,14 @@ $sidebar-profile-media-width: 80px;
         padding-top: 7px;
         padding-bottom: 7px;
         font-size: $font-size-boxText;
+        transition-duration: $animation-timing-short;
         &:last-child {
           padding-bottom: 13px;
+          transition-duration: $animation-timing-short;
         }
         &:hover {
           background-color: $eee-color;
+          transition-duration: $animation-timing-short;
         }
       }
     }
@@ -527,6 +535,10 @@ $sidebar-profile-media-width: 80px;
   border-bottom: 1px solid lighten($text-lighter-color, 3.6%);
   padding-top: 20px;
   padding-bottom: 20px;
+  &:last-child{
+    border-bottom: none;
+    padding-bottom: 0;
+  }
 }
 
 .banner {
@@ -749,17 +761,17 @@ $sidebar-profile-media-width: 80px;
     background-color: $chat-box2-color;
     border-radius: 3px;
     color: black;
-    .post-component-footer-logos{
+    .post-component-footer-logos {
       fill: $primary-color;
     }
-    .post-component-footer-logos-little{
+    .post-component-footer-logos-little {
       fill: $primary-color;
     }
   }
-  &:first-child{
+  &:first-child {
     padding-top: 10px;
   }
-  &:last-child{
+  &:last-child {
     padding-bottom: 8px;
   }
 }
@@ -809,11 +821,11 @@ $sidebar-profile-media-width: 80px;
   overflow-y: scroll;
   position: fixed;
   top: 60px;
-  right: 9.55%;
+  right: 9.05%;
   z-index: -1;
   opacity: 0;
   transform: scale(0.9);
-  width: 20%;
+  width: 20.5%;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   flex-direction: column;
   font-size: 13px;
@@ -826,10 +838,10 @@ $sidebar-profile-media-width: 80px;
   overflow-y: scroll;
   position: fixed;
   top: 60px;
-  right: 9.55%;
+  right: 9.05%;
   z-index: 1202;
   opacity: 1;
-  width: 20%;
+  width: 20.5%;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   flex-direction: column;
   font-size: 13px;
@@ -1501,9 +1513,27 @@ $sidebar-profile-media-width: 80px;
 .introduce-badges-container {
   direction: rtl;
   padding: 20px;
+  height: auto;
+  transition-duration: 0.3s;
+}
+
+.introduce-badges-container-loading {
+  direction: rtl;
+  padding: 20px;
+  height: 295px;
+  transition-duration: 0.3s;
+}
+
+.introduce-badges-container-empty {
+  direction: rtl;
+  padding: 20px;
+  height: 58px;
+  transition-duration: 0.3s;
 }
 
 .introduce-badges-item-container {
+  position: relative;
+  overflow: hidden;
   margin-bottom: 30px;
   &:last-child {
     margin-bottom: 0;
@@ -1517,24 +1547,125 @@ $sidebar-profile-media-width: 80px;
   margin-left: 15px;
 }
 
+.introduce-badges-media-skeleton {
+  display: inline-block;
+  width: 50px;
+  vertical-align: top;
+  margin-left: 15px;
+  fill: #ddd;
+  stroke: #ddd;
+}
+
 .introduce-badges-item-text-container {
   display: inline-block;
   vertical-align: top;
   width: calc(100% - 75px);
   text-align: justify;
   text-align-last: right;
-  margin-top: -5px;
 }
 
 .introduce-badges-title {
-  display: inline-block;
   font-weight: bold;
   font-size: 12px;
 }
 
 .introduce-badges-description {
-  display: inline-block;
+  margin-top: 3px;
   font-size: 12px;
   color: $text-title-menu-color;
   line-height: 23px;
+}
+
+.introduce-badges-title-skeleton {
+  position: relative;
+  overflow: hidden;
+  border-radius: 3px;
+  width: 60px;
+  font-weight: bold;
+  font-size: 12px;
+  background-color: #f3f3f3;
+  margin-bottom: 5px;
+}
+
+.introduce-badges-description-skeleton {
+  position: relative;
+  overflow: hidden;
+  border-radius: 3px;
+  font-size: 12px;
+  background-color: #f3f3f3;
+}
+
+.user-agreement-container {
+  direction: rtl;
+  padding: 5px 20px;
+}
+
+.user-agreement-title {
+  font-size: 16px;
+  color: $secondary-color;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.user-agreement-title2 {
+  font-size: 16px;
+  color: $secondary-color;
+  margin: 10px 0 5px 0;
+  font-weight: bold;
+}
+
+.user-agreement-titr {
+  font-size: 14px;
+  color: $primary-color;
+  margin: 10px 0 5px 0;
+  font-weight: bold;
+}
+
+.user-agreement-text {
+  color: $text-darker-color;
+  font-size: 12px;
+  line-height: 24px;
+  text-align: justify;
+  text-align-last: right;
+}
+
+.user-agreement-text-list {
+  color: $text-darker-color;
+  font-size: 12px;
+  line-height: 24px;
+  text-align: justify;
+  text-align-last: right;
+  margin-bottom: 8px;
+}
+
+.user-agreement-text-red {
+  color: $danger-color;
+  font-size: 12px;
+  line-height: 25px;
+  text-align: justify;
+  text-align-last: right;
+}
+
+.bright-line-badge {
+  width: 5px;
+  background: white;
+  height: 150%;
+  position: absolute;
+  top: -25%;
+  left: -50%;
+  animation: lighted-line-badge 4s infinite ease-out;
+  box-shadow: 0 0 70px 30px white;
+  transform: rotate(45deg);
+  transition-duration: 0.3s;
+}
+
+@keyframes lighted-line-badge {
+  0% {
+    left: -50%;
+    opacity: 0.7;
+  }
+  33%, 100% {
+    left: 150%;
+    opacity: 1;
+  }
 }

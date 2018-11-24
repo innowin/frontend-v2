@@ -6,9 +6,10 @@ import exchangeActions from "src/redux/actions/exchangeActions"
 import getUserAction from "src/redux/actions/user/getUserActions"
 import StreamView from "./StreamView"
 import InfoView from "./InfoView"
+import StatisticView from "./StatisticView"
 import ExchangeManager from "./ExchangeManager"
-import {VerifyWrapper} from "../../common/cards/Frames"
 import MembersView from "./MembersView"
+import {ClipLoader} from "react-spinners"
 
 
 class Exchange_Info extends Component {
@@ -50,30 +51,31 @@ class Exchange_Info extends Component {
 
   render() {
     const {activeTab, exchangeId, exchanges, users} = this.props
+    let currentExchange = exchanges.list[exchangeId]
     switch (activeTab) {
       case "Stream":
         return (
             <StreamView exchangeId={exchangeId}/>
         )
       case "Info":
-        let currentExchange = exchanges.list[exchangeId]
         if (currentExchange.owner) {
           let owner = users.list[currentExchange.owner.identity_user]
-          if (owner) {
+          if (owner)
             return (
                 <InfoView currentExchange={currentExchange} owner={owner}/>
             )
-          }
-          else {
-            return <VerifyWrapper isLoading={true} error={false}/>
-          }
+          else return <div className={"info-loading"}><ClipLoader color="#C2B9BD" size={45} margin="4px" loading={true}/></div>
         }
         else {
-          return <VerifyWrapper isLoading={true} error={false}/>
+          return <div className={"info-loading"}><ClipLoader color="#C2B9BD" size={45} margin="4px" loading={true}/></div>
         }
       case "Members":
         return (
             <MembersView exchangeId={exchangeId}/>
+        )
+      case "Statistic":
+        return (
+            <StatisticView exchangeId={exchangeId}/>
         )
       case "Exchange Manager":
         return (
@@ -82,7 +84,7 @@ class Exchange_Info extends Component {
       default:
         return (
             <div style={{textAlign: "center", marginTop: "10px"}}>
-              Undefined Data Type
+              Undefined Data Type: {activeTab}
             </div>
         )
     }

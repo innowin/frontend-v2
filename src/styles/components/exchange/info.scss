@@ -1,5 +1,16 @@
 @import "../../variables";
 
+.info-loading {
+  width: 99.7%;
+  margin: 0 auto 10px auto;
+  background-color: white;
+  border-radius: $border-radius;
+  height: 75px;
+  text-align: center;
+  box-shadow: 0 2px 5px $box-shadow-color;
+  padding: 15px;
+}
+
 .info-frame {
   text-align: right;
   width: calc(100% - 6px);
@@ -16,7 +27,7 @@
   background-color: $white;
   height: 30px;
   font-weight: bold;
-  font-size: $font-size-medium;
+  font-size: $font-size-post-name;
 }
 
 .info-body {
@@ -39,13 +50,14 @@
 .info-exchange-owner-image-frame {
   vertical-align: top;
   display: inline-block;
-  width: 14%;
+  width: 65px;
+  height: 50px;
 }
 
 .info-exchange-owner-image-frame-sibling {
   vertical-align: top;
   display: inline-block;
-  width: 80%;
+  width: 55%;
 }
 
 .info-exchange-username {
@@ -73,10 +85,12 @@
     color: red;
   }
   .fa-telegram {
-    color: cornflowerblue;
+    background: -webkit-linear-gradient(-30deg, cornflowerblue, rgb(66, 70, 255));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
   .fa-instagram {
-    background: -webkit-linear-gradient(-60deg, yellow, red, blue);
+    background: -webkit-linear-gradient(30deg, #ffd02a, #dc3b26, #5925c1);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: bold;
@@ -124,10 +138,10 @@
   border: none;
   color: $text-dark-color;
   width: 40%;
-  margin: 0 5px;
+  margin: 0;
   font-size: $font-size-boxText;
   font-weight: bold;
-  &:focus{
+  &:focus {
     outline: none;
   }
 }

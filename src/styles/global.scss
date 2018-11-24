@@ -67,6 +67,7 @@ input, textarea, button, select {
 @import "components/exchange/ExchangeView/index";
 @import "components/exchange/ExchangeView/post";
 @import "components/exchange/ExchangeView/view";
+@import "components/exchange/statics";
 @import "components/exchange/masonry";
 @import "components/login/Carousel";
 @import "components/login/ContentLogin";
@@ -81,6 +82,7 @@ input, textarea, button, select {
 @import "components/user/tabs";
 @import "components/user/education";
 @import "components/validation_styles";
+@import "/components/exchange/members.scss";
 @import "icons_svg";
 @import "layout";
 @import "product/product-explorer";
@@ -115,6 +117,9 @@ a, a:hover, a:active {
   overflow-x: hidden;
 }
 
+.background-strips{
+  background-image: repeating-linear-gradient(-45deg, #eee, #eee 10px, #f8f8f8 10px, #f8f8f8 20px);
+}
 @media screen and (max-width: 1920px) {
   .colMd3 {
     vertical-align: top;

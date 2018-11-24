@@ -1,11 +1,11 @@
 // @flow
-import * as React from "react";
-import PropTypes from "prop-types";
-import {Link} from "react-router-dom";
+import * as React from "react"
+import PropTypes from "prop-types"
+import {Link} from "react-router-dom"
 
-import type {postType} from "../../../consts/flowTypes/common/post";
-import type {identityType} from "../../../consts/flowTypes/user/basicInformation";
-import CheckOwner from "../CheckOwner";
+import type {postType} from "../../../consts/flowTypes/common/post"
+import type {identityType} from "../../../consts/flowTypes/user/basicInformation"
+import CheckOwner from "../CheckOwner"
 
 type postFooterProps = {
   post: postType,
@@ -18,12 +18,13 @@ type postFooterProps = {
 }
 
 const PostFooter = (props: postFooterProps) => {
-  const {post, extendedView, menuToggle, openMenu, postIdentity, translate, deletePost} = props
+  const {post, extendedView, menuToggle, openMenu, postIdentity, translate, deletePost, showComment} = props
   let viewerCount
-  let postUrl = ''
+  let postUrl = ""
   let user = {}
   let organization = {}
   let ownerId
+
 
   if (post) {
     viewerCount = post.viewerCount
@@ -50,15 +51,15 @@ const PostFooter = (props: postFooterProps) => {
                   <div>
                     {!extendedView &&
                     <Link to={postUrl}>
-                      <span>{translate['Show more']}</span>
+                      <span>{translate["Show more"]}</span>
                     </Link>
                     }
                     <CheckOwner id={ownerId}>
-                      <span onClick={deletePost}>{translate['Delete post']}</span>
+                      <span onClick={deletePost}>{translate["Delete post"]}</span>
                     </CheckOwner>
                   </div>
                 </div>
-                : ''
+                : ""
             }
           </div>
           {/*<div className='items'>*/}
@@ -66,8 +67,8 @@ const PostFooter = (props: postFooterProps) => {
           {/*<i className="fa fa-eye" aria-hidden="true"/>*/}
           {/*</div>*/}
           <div className='items'>
-            <span className="ml-1">\</span>
-            <i className="fa fa-share" aria-hidden="true"/>
+            <span className="ml-1"> </span>
+            <i className="fa fa-share cursor-pointer post-menu-bottom" aria-hidden="true" onClick={() => showComment()}/>
           </div>
         </div>
       </div>
@@ -82,6 +83,7 @@ PostFooter.propTypes = {
   postIdentity: PropTypes.object.isRequired,
   translate: PropTypes.object.isRequired,
   deletePost: PropTypes.func.isRequired,
+  showComment: PropTypes.func.isRequired
 }
 
 

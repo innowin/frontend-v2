@@ -7,7 +7,6 @@ import type {badgeType} from "../../consts/flowTypes/common/badges"
 import type {organizationType} from "src/consts/flowTypes/organization/organization"
 import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 import type {userProfileType, userType} from "src/consts/flowTypes/user/basicInformation"
-import {DefaultImageIcon} from "src/images/icons"
 import {DefaultUserIcon, DefaultOrganIcon} from "src/images/icons"
 import cx from "classnames"
 
@@ -319,15 +318,6 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     }
   }
 
-  _handleBase64Banner = ({fileString, fileExtension, fileName}) => {
-    this.setState({...this.state, bannerState: fileString})
-  }
-
-  _handleBase64Picture = ({fileString, fileExtension, fileName}) => {
-    this.setState({...this.state, pictureState: fileString})
-  }
-
-
 
 
   _preSave = () => {
@@ -412,7 +402,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
       <form className={className + ' pt-0'} onSubmit={this._handleSubmit}>
         <div className="editable-profile-img">
           {
-            (!bannerString) ? <DefaultImageIcon className="banner"/> : (
+            (!bannerString) ? <div className="background-strips banner covered-img"/> : (
               <img alt="" src={bannerString} className="banner covered-img"/>)
           }
           {
@@ -421,7 +411,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
                 AttachButton={this._AttachBottom}
                 inputId="AttachBannerFileInput"
                 LoadingFile={this._LoadingFile}
-                handleBase64={this._handleBase64Banner}
+                handleBase64={(fileString) => this.setState({...this.state, bannerState: fileString})}
                 handleError={(error) => alert(error)}
                 className="edit-nav edit-banner"
                 ref={e => this.AttachBannerFileInput = e}
@@ -435,7 +425,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
           <div className="editable-profile-img">
             {
               (!pictureString) ? (
-                (sideBarType === 'user') ? <DefaultUserIcon className="profile-media"/> :
+                (sideBarType === constants.USER_TYPES.PERSON) ? <DefaultUserIcon className="profile-media"/> :
                   <DefaultOrganIcon className="profile-media"/>
               ) : (
                 <img className="rounded-circle profile-media covered-img" alt="" src={pictureString}/>)
@@ -446,7 +436,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
                   AttachButton={this._AttachBottom}
                   inputId="AttachPictureFileInput"
                   LoadingFile={this._LoadingFile}
-                  handleBase64={this._handleBase64Picture}
+                  handleBase64={(fileString) => this.setState({...this.state, pictureState: fileString})}
                   handleError={(error) => alert(error)}
                   className="edit-nav edit-media"
                   ref={e => this.AttachPictureFileInput = e}

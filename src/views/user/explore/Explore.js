@@ -40,7 +40,7 @@ class Explore extends Component <appProps, appState> {
   }
 
   componentDidMount() {
-    // this.props.actions.getUsers(24, this.state.offset, null)
+    this.props.actions.getUsers(24, 0, null)
     this.props.actions.getFollowees({
       followOwnerIdentity: this.props.currentUserIdentity,
       followOwnerType: this.props.currentUserType,

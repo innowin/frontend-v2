@@ -3,7 +3,7 @@ import * as React from "react"
 import PropTypes from "prop-types"
 import "moment/locale/fa"
 
-import {DefaultUserIcon} from "src/images/icons"
+import {DefaultUserIcon, DefaultImage} from "src/images/icons"
 import {CategoryTitle, VerifyWrapper} from "src/views/common/cards/Frames"
 import connect from "react-redux/es/connect/connect"
 import {getMessages} from "../../../redux/selectors/translateSelector"
@@ -81,7 +81,8 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       menuToggle: false,
       confirm: false,
       wordsCheck: false,
-      pictureLoaded: null
+      pictureLoaded: null,
+      showComment: false
     }
     this.commentTextField = null
     this.handleRetry = this.handleRetry.bind(this)
@@ -90,6 +91,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     this._cancelConfirm = this._cancelConfirm.bind(this)
     this.openMenu = this.openMenu.bind(this)
     this._handleClickOutMenuBox = this._handleClickOutMenuBox.bind(this)
+    this.handleShowComment = this.handleShowComment.bind(this)
   }
 
   componentDidMount() {
@@ -164,8 +166,8 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
         else if (mailExp.test(word)) {
           this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a href=mailto:` + word + `>${word}</a>`)
         }
-        else if (!isNaN(word.replace(/\\+/g,'')) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
-          word.includes('+') ?
+        else if (!isNaN(word.replace(/\\+/g, "")) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
+          word.includes("+") ?
               this.text.innerHTML = this.text.innerHTML.replace(new RegExp(`\\${word}`, "g"), `<a href=tel:` + word + `>${word}</a>`)
               :
               this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a href=tel:` + word + `>${word}</a>`)
@@ -185,6 +187,11 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     const postId = post.id
     setPostViewer(postId, getPostViewerCount)
     this.setState({...this.state, menuToggle: !this.state.menuToggle})
+  }
+
+  handleShowComment = () => {
+    let {showComment} = this.state
+    this.setState({...this.state, showComment: !showComment})
   }
 
   _handleClickOutMenuBox(e: any) {
@@ -264,7 +271,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
   render() {
     const {post, translate, postIdentity, postRelatedIdentityImage, userImage, extendedView, showEdit, comments, fileList, commentParentType} = this.props
-    const {menuToggle, confirm, pictureLoaded} = this.state
+    const {menuToggle, confirm, pictureLoaded, showComment} = this.state
     let postDescription, postPicture, postPictureId, postIdentityUserId, postIdentityOrganId, postOwnerId = 0
     if (post) {
       postDescription = post.post_description
@@ -305,12 +312,18 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
                 {!extendedView ?
                     postPicture ?
-                        <div className={'post-image-container'}>
-                          <img src={postPicture.file} width={'100%'} alt='عکس پست' className={pictureLoaded === true ? 'post-image-effect' : 'post-image'}/>
-                          <div className={pictureLoaded === true ? 'post-image-loading-effect' : 'post-image-loading'}>
+                        <div className={"post-image-container"}>
+                          <img src={postPicture.file} width={"100%"} alt='عکس پست'
+                               className={pictureLoaded === true ? "post-image-effect" : "post-image"}/>
+                          <div className={pictureLoaded === true ? "post-image-loading-effect" : "post-image-loading"}>
+                            <DefaultImage className='default-image'/>
                             {
                               pictureLoaded === false ?
-                                  <div className='post-retry-image'>مشکل در بارگذاری عکس.<span className='post-retry-image-click' onClick={this.handleRetry}> تلاش مجدد </span></div>
+                                  <div className='post-retry-image'>
+                                    مشکل در بارگذاری عکس.
+                                    <span className='post-retry-image-click'
+                                          onClick={this.handleRetry}> تلاش مجدد </span>
+                                  </div>
                                   :
                                   <div className='bright-line'/>
                             }
@@ -320,7 +333,8 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                     :
                     postPictureId ?
                         <div className={"post-image-container"}>
-                          <img src={fileList[postPictureId] ? fileList[postPictureId].file : null} width={"100%"} alt={" "} className={"post-image"}/>
+                          <img src={fileList[postPictureId] ? fileList[postPictureId].file : null} width={"100%"}
+                               alt={" "} className={"post-image"}/>
                         </div> : null
                 }
 
@@ -335,6 +349,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                 <PostFooter post={post} postIdentity={postIdentity} translate={translate} extendedView={extendedView}
                             menuToggle={menuToggle} openMenu={this.openMenu}
                             deletePost={this._showConfirm}
+                            showComment={this.handleShowComment}
                 />
                 {/*{
                  <div className='add-comment'>
@@ -351,10 +366,13 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                  </button>
                  </div>
                  }*/}
-                <PostCommentNew
-                    commentParentType={commentParentType}
-                    post={post}
-                />
+
+                {
+                  showComment ? <PostCommentNew
+                      commentParentType={commentParentType}
+                      post={post}/> : null
+                }
+
                 {extendedView && comments.length > 0 &&
                 <PostComments comments={comments} translate={translate}
                               replyComment={(comment) => this.replyComment(comment, this.commentTextField)}
@@ -377,7 +395,6 @@ const mapStateToProps = (state, ownProps) => {
     const postIdentity = post && post.post_identity
     const postImageId = post && post.post_related_identity_image
     const prevUserImageId = (state.auth.organization && state.auth.organization.organization_logo) || state.auth.client.profile.profile_media
-
     return {
       translate: getMessages(state),
       param: state.param,
@@ -398,7 +415,7 @@ const mapStateToProps = (state, ownProps) => {
       postIdentity: postIdentity,
       postRelatedIdentityImage: post.post_related_identity_image,
       translate: getMessages(state),
-      userImageId: prevUserImageId,
+      // userImageId: prevUserImageId,
       userImage: state.common.file.list[prevUserImageId],
     }
   }

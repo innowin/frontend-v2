@@ -65,40 +65,41 @@ class Exchange_Tabs extends Component {
 
   render() {
     const {translate, exchangeId} = this.props
+    const {selectedTab, clickedSvgContainerStyle, normalSvgContainerStyle, clickedSvgStyle, normalSvgStyle} = this.state
     if (exchangeId)
       return (
           <div style={{display: 'inline-block', width: '49.1%', verticalAlign: 'top', margin: '0 0.6%'}}>
             {/*<div className={"exchange-center-background"}/>*/}
             <div className={`exchange-navbar-center`}>
               <Stream width="22px" height="22px"
-                      containerClass={this.state.selectedTab === "Stream" ? this.state.clickedSvgContainerStyle : this.state.normalSvgContainerStyle}
-                      svgClass={this.state.selectedTab === "Stream" ? this.state.clickedSvgStyle : this.state.normalSvgStyle}
+                      containerClass={selectedTab === "Stream" ? clickedSvgContainerStyle : normalSvgContainerStyle}
+                      svgClass={selectedTab === "Stream" ? clickedSvgStyle : normalSvgStyle}
                       changeView={(data) => this.setTab(data)}/>
               <Info width="22px" height="22px"
-                    containerClass={this.state.selectedTab === "Info" ? this.state.clickedSvgContainerStyle : this.state.normalSvgContainerStyle}
-                    svgClass={this.state.selectedTab === "Info" ? this.state.clickedSvgStyle : this.state.normalSvgStyle}
+                    containerClass={selectedTab === "Info" ? clickedSvgContainerStyle : normalSvgContainerStyle}
+                    svgClass={selectedTab === "Info" ? clickedSvgStyle : normalSvgStyle}
                     changeView={(data) => this.setTab(data)}/>
               <Statistic width="22px" height="22px"
-                         containerClass={this.state.selectedTab === "Statistic" ? this.state.clickedSvgContainerStyle : this.state.normalSvgContainerStyle}
-                         svgClass={this.state.selectedTab === "Statistic" ? this.state.clickedSvgStyle : this.state.normalSvgStyle}
+                         containerClass={selectedTab === "Statistic" ? clickedSvgContainerStyle : normalSvgContainerStyle}
+                         svgClass={selectedTab === "Statistic" ? clickedSvgStyle : normalSvgStyle}
                          changeView={(data) => this.setTab(data)}/>
               <Contacts width="22px" height="22px"
-                        containerClass={this.state.selectedTab === "Members" ? this.state.clickedSvgContainerStyle : this.state.normalSvgContainerStyle}
-                        svgClass={this.state.selectedTab === "Members" ? this.state.clickedSvgStyle : this.state.normalSvgStyle}
+                        containerClass={selectedTab === "Members" ? clickedSvgContainerStyle : normalSvgContainerStyle}
+                        svgClass={selectedTab === "Members" ? clickedSvgStyle : normalSvgStyle}
                         changeView={(data) => this.setTab(data)}/>
               <Medal width="22px" height="23px"
-                     containerClass={this.state.selectedTab === "Medals" ? this.state.clickedSvgContainerStyle : this.state.normalSvgContainerStyle}
-                     svgClass={this.state.selectedTab === "Medals" ? this.state.clickedSvgStyle : this.state.normalSvgStyle}
+                     containerClass={selectedTab === "Medals" ? clickedSvgContainerStyle : normalSvgContainerStyle}
+                     svgClass={selectedTab === "Medals" ? clickedSvgStyle : normalSvgStyle}
                      changeView={(data) => this.setTab(data)}/>
               <Ticket width="22px" height="22px"
-                      containerClass={this.state.selectedTab === "Exchange Manager" ? this.state.clickedSvgContainerStyle : this.state.normalSvgContainerStyle}
-                      svgClass={this.state.selectedTab === "Exchange Manager" ? this.state.clickedSvgStyle : this.state.normalSvgStyle}
+                      containerClass={selectedTab === "Exchange Manager" ? clickedSvgContainerStyle : normalSvgContainerStyle}
+                      svgClass={selectedTab === "Exchange Manager" ? clickedSvgStyle : normalSvgStyle}
                       changeView={(data) => this.setTab(data)}/>
             </div>
-            <div className={`under-exchange-navbar-center`}>{translate[this.state.selectedTab]}</div>
+            <div className={`under-exchange-navbar-center`}>{translate[selectedTab]}</div>
             <div className={`line-under-exchange-navbar-center`}/>
             <div className={`exchange-content-view-frame`}>
-              <Exchange_Info activeTab={this.state.selectedTab} exchangeId={exchangeId}/>
+              <Exchange_Info activeTab={selectedTab} exchangeId={exchangeId}/>
             </div>
           </div>
       )

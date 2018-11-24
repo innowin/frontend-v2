@@ -8,12 +8,7 @@ import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import {userProfileType, userType} from "src/consts/flowTypes/user/basicInformation"
 import {shortOrganizationType} from "src/consts/flowTypes/organization/organization"
-import {
-  DefaultUserIcon,
-  logoDaneshBoom,
-  NotificationIcon,
-  InnoWinLogo,
-} from "src/images/icons"
+import {DefaultUserIcon, NotificationIcon, InnoWinLogo} from "src/images/icons"
 import {Link} from "react-router-dom"
 import AgentForm from "../pages/modal/agentForm-modal"
 import AddingContribution from "../pages/adding-contribution/addingContribution"
@@ -26,6 +21,8 @@ import LinkedAccounts from "./TopBarComponents/LinkedAccounts"
 import Privacy from "./TopBarComponents/Privacy"
 import ExploreMenu from "./TopBarComponents/ExploreMenu"
 import IntroduceBadges from "./TopBarComponents/IntroduceBadges"
+import UserAgreement from "./TopBarComponents/UserAgreement"
+import AboutUs from "./TopBarComponents/AbouUs"
 
 type PropsTopBar = {|
   collapseClassName: string,
@@ -105,7 +102,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
         this.setState({...this.state, profilePhotoLoaded: true})
       }
     }
-
+    //
   }
 
   componentDidUpdate(prevProps) {
@@ -258,9 +255,9 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                     </Link>
 
                     <div className='profile-menu-second-section'>
-                      <div className='profile-menu-second-section-item' onClick={this._handleExchangeUpgrade}>درخواست
-                        ارتقاء به کارگزار
-                      </div>
+                      {/*<div className='profile-menu-second-section-item' onClick={this._handleExchangeUpgrade}>درخواست*/}
+                      {/*ارتقاء به کارگزار*/}
+                      {/*</div>*/}
                       <div className='profile-menu-second-section-item'
                            onClick={this._createExchangeModalVisibilityHandler}>ایجاد بورس جدید
                       </div>
@@ -293,33 +290,6 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
               </div>
             </div>
           </nav>
-
-          {/*<Collapse isOpen={collapse} className={`-topBar-right-collapse pr-0 pl-0 ${collapseClassName}`}>*/}
-          {/*<ul>*/}
-          {/*<li onClick={this._handleExchangeUpgrade}><i className="fa fa-home"/> درخواست ارتقاء به کارگزار</li>*/}
-          {/*<li onClick={this._createExchangeModalVisibilityHandler}><i className="fa fa-home"/> بورس جدید</li>*/}
-          {/*<li onClick={this._handleProductWizardModal}><i className="fa fa-home"/> آورده ی جدید</li>*/}
-          {/*</ul>*/}
-          {/*</Collapse>*/}
-          {/*<Collapse isOpen={collapseProfile} className="-topBar-profile-collapse">*/}
-          {/*<div className="text-center">*/}
-          {/*<div className="card-block">*/}
-          {/*<Link to="#" onClick={this._handleSignOut}>{translate['Sign Out']}</Link>*/}
-          {/*{*/}
-          {/*(!clientOrganization) ? (*/}
-          {/*<Link to={`/user/${clientUser.id}`}>{translate['My Profile']}</Link>) : (*/}
-          {/*<Link to={`/organization/${clientOrganization.id}`}>{translate['My Organization']}</Link>*/}
-          {/*)*/}
-          {/*}*/}
-          {/*<Link to="#" onClick={this._handleShowSetting}>{translate['General Settings']}</Link>*/}
-          {/*</div>*/}
-          {/*</div>*/}
-          {/*</Collapse>*/}
-
-          {/*<AddProductWizardModal*/}
-          {/*ref={addProductWizard => {this.addProductWizard = addProductWizard}}*/}
-          {/*className="addProductWizard"*/}
-          {/*/>*/}
 
           <AddingContribution modalIsOpen={productWizardModalIsOpen}
                               handleModalVisibility={this._handleProductWizardModal}/>
@@ -387,46 +357,31 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     let {selectedSetting} = this.state
 
     if (selectedSetting === "General Settings") {
-      return (
-          <GeneralSetting hideSetting={this._handleHideSetting}/>
-      )
+      return <GeneralSetting hideSetting={this._handleHideSetting}/>
     }
     else if (selectedSetting === "Manage Linked Accounts") {
-      return (
-          <LinkedAccounts/>
-      )
+      return <LinkedAccounts/>
     }
     else if (selectedSetting === "Privacy") {
-      return (
-          <Privacy/>
-      )
+      return <Privacy/>
     }
   }
 
   renderAbout() {
     let {selectedAbout} = this.state
 
-    // if (selectedAbout === "FAQ") {
-    //   return (
-    //       <GeneralSetting/>
-    //   )
-    // }
-    // else
-    if (selectedAbout === "Introduce Badges") {
-      return (
-          <IntroduceBadges/>
-      )
+    if (selectedAbout === "FAQ") {
+      return null
     }
-    // else if (selectedAbout === "Terms & Conditions") {
-    //   return (
-    //       <Privacy/>
-    //   )
-    // }
-    // else if (selectedAbout === "About Us") {
-    //   return (
-    //       <Privacy/>
-    //   )
-    // }
+    else if (selectedAbout === "Introduce Badges") {
+      return <IntroduceBadges/>
+    }
+    else if (selectedAbout === "Terms & Conditions") {
+      return <UserAgreement/>
+    }
+    else if (selectedAbout === "About Us") {
+      return <AboutUs/>
+    }
   }
 
 }

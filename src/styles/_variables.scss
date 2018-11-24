@@ -18,7 +18,7 @@ $font-family-serif:      vazir, Georgia, "Times New Roman", Times, serif !defaul
 
 //Animation Time
 $animation-timing: .3s;
-$animation-timing-short: .15s;
+$animation-timing-short: .2s;
 $animation-timing-long: .5s;
 $modal-transition-time: 0.3s;
 
@@ -47,7 +47,7 @@ $warning-color: #eaae3d;
 $info-color: #0084bf;
 $image-edit-btn-background: rgba(0, 0, 0, 0.3);
 $text-lightest-color: #fff;
-$eee-color: #eee;
+$eee-color: #f6f6f6;
 $text-lighter-color: #ddd;
 $text-light-color: #bababa;
 $text-title-menu-color: #999;
@@ -95,6 +95,7 @@ $font-size-followed: 10px;
 
 $font-size-header: 22px;
 $font-size-medium: 15px;
+$font-size-large: 18px;
 $font-size-regular: 12px;
 $font-size-smallest: 8px;
 $tag-font-size: 11px;
