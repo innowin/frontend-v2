@@ -99,7 +99,8 @@ class ExchangeViewBar extends Component {
     // getExchangeMembershipByExchangeId ({exchangeId})
     // this._getExchange(exchangeId)
     // this._getCounts(exchangeId)
-    this._getCounts(exchangeId)
+
+    // this._getCounts(exchangeId)
 
     const currentExchange = exchanges.list[exchangeId]
     if (currentExchange.exchange_image) {
@@ -195,15 +196,15 @@ class ExchangeViewBar extends Component {
               </div>
               <div>
                 <span>عرضه:</span>
-                <span>{supplyCount}</span>
+                <span>{null}</span>
               </div>
               <div>
                 <span>تقاضا:</span>
-                <span>{demandCount}</span>
+                <span>{null}</span>
               </div>
               <div>
                 <span>محصول عرضه شده:</span>
-                <span>{productCount}</span>
+                <span>{null}</span>
               </div>
             </div>
 

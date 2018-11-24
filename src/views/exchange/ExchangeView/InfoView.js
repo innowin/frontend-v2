@@ -7,6 +7,7 @@ import connect from "react-redux/es/connect/connect"
 import {getMessages} from "src/redux/selectors/translateSelector"
 import {VerifyWrapper} from "../../common/cards/Frames"
 import {Link} from "react-router-dom"
+import {ClipLoader} from "react-spinners"
 
 class InfoView extends Component {
   componentDidMount() {
@@ -139,15 +140,16 @@ class InfoView extends Component {
                     <span className={"info-social-text"}>
                         وبسایت:
                       </span> <span className={"info-social-text-address"}>
-                    <input className={"info-social-text-address-input"} placeholder={"آدرس سایت شما"} type={"text"}/></span>
+                    <input className={"info-social-text-address-input"} placeholder={"آدرس سایت شما"}
+                           type={"text"}/></span>
                   </div>
                 </div>
               </div>
             </div>
         )
       }
-      else return <VerifyWrapper isLoading={true} error={false}/>
-    else return <VerifyWrapper isLoading={true} error={false}/>
+      else return <div className={"info-loading"}><ClipLoader color="#C2B9BD" size={45} margin="4px" loading={true}/></div>
+    else return <div className={"info-loading"}><ClipLoader color="#C2B9BD" size={45} margin="4px" loading={true}/></div>
   }
 }
 

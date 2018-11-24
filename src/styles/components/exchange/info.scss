@@ -1,5 +1,16 @@
 @import "../../variables";
 
+.info-loading {
+  width: 99%;
+  margin: 0 auto 10px auto;
+  background-color: white;
+  border-radius: $border-radius;
+  height: 75px;
+  text-align: center;
+  box-shadow: 0 2px 5px $box-shadow-color;
+  padding: 15px;
+}
+
 .info-frame {
   text-align: right;
   width: calc(100% - 6px);
@@ -127,7 +138,7 @@
   margin: 0 5px;
   font-size: $font-size-boxText;
   font-weight: bold;
-  &:focus{
+  &:focus {
     outline: none;
   }
 }

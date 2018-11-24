@@ -53,6 +53,7 @@ class PostCommentNew extends Component {
   render() {
     const {commentBody, open, descriptionClass, comment} = this.state
     const {currentUserMedia} = this.props
+    console.log(currentUserMedia)
     return (
         <div className={"comment-container"}>
           <div>
@@ -104,19 +105,19 @@ class PostCommentNew extends Component {
   }
 }
 
-/*
  const mapStateToProps = (state) => {
  const client = state.auth.client
  const clientImgId = (client.user_type === "person") ? (client.profile.profile_media) : (
- (client.organization && client.organization.organization_logo) || null
- )
- const userId = (client.organization && client.organization.id) || (client.user && client.user.id)
+ (client.organization && client.organization.organization_logo) || null)
+ const currentUserMedia = state.common.file.list[clientImgId] ? state.common.file.list[clientImgId].file : null
+   return {
+     currentUserMedia
+   }
  }
- */
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     createComment: CommentActions.createComment,
   }, dispatch)
 })
-export default connect(null, mapDispatchToProps)(PostCommentNew)
+export default connect(mapStateToProps, mapDispatchToProps)(PostCommentNew)

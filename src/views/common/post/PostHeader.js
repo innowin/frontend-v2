@@ -32,7 +32,7 @@ class PostHeader extends React.Component {
   componentDidMount() {
     if (this.props.postRelatedIdentityImage) {
       let profile = new Image()
-      profile.src = this.props.postRelatedIdentityImage
+      profile.src = this.props.postRelatedIdentityImage.file
       profile.onload = () => {
         this.setState({profileLoaded: true})
       }
