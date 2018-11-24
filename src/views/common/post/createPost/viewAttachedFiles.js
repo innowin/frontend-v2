@@ -10,7 +10,7 @@ RemoveFile.PropTypes = {
 }
 
 const ViewAttachedFiles = (props) => {
-  const {postPictures, postMedia, postFile, deletePicture, deleteMedia, deleteFile} = props
+  const {postPictures, postMedia, deletePicture, deleteMedia} = props
   const postPicturesIds_ = postPictures.slice(0, 3) // just three pictures allowable
   const postPicturesLength = postPicturesIds_.length
   let picturesClass = 'onePicture'
@@ -42,13 +42,6 @@ const ViewAttachedFiles = (props) => {
           </div>
         ) : ''
       }
-      {
-        (postFile) ? (
-          <div className="file-section">
-            <RemoveFile onClickFunc={deleteFile}/>
-          </div>
-        ) : ''
-      }
     </div>
   )
 }
@@ -58,11 +51,8 @@ ViewAttachedFiles.PropTypes = {
   errorAttachPicture: PropTypes.string,
   postMedia: PropTypes.string,
   errorAttachMedia: PropTypes.string,
-  postFile: PropTypes.string,
-  errorAttachFile: PropTypes.string,
   deletePicture: PropTypes.func.isRequired,
   deleteMedia: PropTypes.func.isRequired,
-  deleteFile: PropTypes.func.isRequired
 }
 
 ViewAttachedFiles.defaultProps = {
@@ -70,8 +60,6 @@ ViewAttachedFiles.defaultProps = {
   errorAttachPicture: '',
   postMedia: '',
   errorAttachMedia: '',
-  postFile: '',
-  errorAttachFile: '',
 }
 
 export default ViewAttachedFiles

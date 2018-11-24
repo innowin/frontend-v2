@@ -348,15 +348,14 @@ class CreatePost extends Component {
               onChange={this._handleChangeText}
             />
           </div>
-
-          <ViewAttachedFiles
-            postPictures={postPictures}
-            postMedia={postMedia}
-            postFile={postFile}
-            deletePicture={this._deletePicture}
-            deleteMedia={this._deleteMedia}
-            deleteFile={this._deleteFile}
-          />
+          { (postPictures.length > 0 || postMedia) ?
+            <ViewAttachedFiles
+              postPictures={postPictures}
+              postMedia={postMedia}
+              deletePicture={this._deletePicture}
+              deleteMedia={this._deleteMedia}
+            /> : ''
+          }
         </div>
 
         <div className='post-component-footer'>
