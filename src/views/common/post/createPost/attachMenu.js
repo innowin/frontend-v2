@@ -29,19 +29,28 @@ const AttachMenu = (props) => {
       ویدئو
     </div>
   )
-  const {linkModalFunc, handlePictures, handleMedia, handleFile, translate} = props
+  const {AttachMenuId, linkModalFunc, handlePictures, handleMedia, handleFile,
+    postPicturesLength, postMediaExist, postFileExist, postLinkExist, translate} = props
   const attachMenu = props.attachMenu || false
+  const picturesAttachedDisabled = (postPicturesLength > 2 || postMediaExist || postFileExist || postLinkExist)
+    ? 'disabled-label' : ''
+  const FileAttachedDisabled = (postPicturesLength > 0 || postMediaExist || postFileExist || postLinkExist)
+    ? 'disabled-label' : ''
+  const MediaAttachedDisabled = (postPicturesLength > 0 || postMediaExist || postFileExist || postLinkExist)
+    ? 'disabled-label' : ''
+  const LinkAttachedDisabled = (postPicturesLength > 0 || postMediaExist || postFileExist || postLinkExist)
+    ? 'disabled-label' : ''
   return (
     <div
       className={attachMenu ? "post-component-footer-attach-menu-container" : "post-component-footer-attach-menu-container-hide"}
-      id="create-post-attach-menu-box"
+      id={AttachMenuId}
     >
       <div className='post-component-footer-attach-menu'>
         <AttachFile
           AttachButton={AttachFileButton}
           inputId='AttachFileInput'
           // isLoadingProp={postFileLoading}
-          className='explore-menu-items'
+          className={'explore-menu-items ' + FileAttachedDisabled}
           handleBase64={handleFile}
           handleError={(error) => alert(error)}
           allowableFormat={constants.FILE_TYPE.FILE}
@@ -51,7 +60,7 @@ const AttachMenu = (props) => {
           AttachButton={AttachPictureButton}
           inputId='AttachPicturesInput'
           // isLoadingProp={postPictureLoading}
-          className='explore-menu-items'
+          className={'explore-menu-items ' + picturesAttachedDisabled}
           handleBase64={handlePictures}
           handleError={(error) => alert(error)}
           allowableFormat={constants.FILE_TYPE.PHOTO}
@@ -61,7 +70,7 @@ const AttachMenu = (props) => {
           AttachButton={AttachMediaButton}
           inputId='AttachMediaInput'
           // isLoadingProp={postMediaLoading}
-          className='explore-menu-items'
+          className={'explore-menu-items '+ MediaAttachedDisabled}
           handleBase64={handleMedia}
           handleError={(error) => alert(error)}
           allowableFormat={constants.FILE_TYPE.VIDEO}
@@ -71,7 +80,7 @@ const AttachMenu = (props) => {
           <ContributionIcon className='post-component-footer-logos-little'/>
           محصول
         </div>
-        <div className='explore-menu-items' onClick={linkModalFunc}>
+        <div className={'explore-menu-items '+ LinkAttachedDisabled} onClick={linkModalFunc}>
           <Link className='post-component-footer-logos-little'/>
           لینک
         </div>
@@ -82,9 +91,14 @@ const AttachMenu = (props) => {
 
 AttachMenu.propTypes = {
   attachMenu: PropTypes.bool,
+  AttachMenuId: PropTypes.string.isRequired,
   handlePictures: PropTypes.func.isRequired,
   handleFile: PropTypes.func.isRequired,
   handleMedia: PropTypes.func.isRequired,
+  postPicturesLength:PropTypes.number,
+  postMediaExist:PropTypes.bool,
+  postFileExist:PropTypes.bool,
+  postLinkExist: PropTypes.bool,
   linkModalFunc: PropTypes.func.isRequired,
   translate: PropTypes.object.isRequired
 }
