@@ -306,7 +306,9 @@ class CreatePost extends Component {
     const {className, followers, exchanges, currentUserIdentity, currentUserMedia, currentUserName, translate} = this.props
     const {
       postPictures, open, attachMenu, selected, labels, link, contactMenu, linkModal, postFile, postMedia,
-      profileLoaded, description, descriptionClass} = this.state
+      profileLoaded, description, descriptionClass
+    } = this.state
+    const hasMediaClass = (postMedia || (postPictures.length > 0)) ? 'hasMedia' : ''
     return (
       <form className={"post-component-container " + className} onSubmit={this._onSubmit}>
         <div className='post-component-header'>
@@ -331,19 +333,29 @@ class CreatePost extends Component {
           </div>
         </div>
 
-
-        <div className='post-component-description'>
-          {descriptionClass &&
-          <span className={descriptionClass}>
+        <div className={"post-component-content " + hasMediaClass}>
+          <div className='post-component-description'>
+            {descriptionClass &&
+            <span className={descriptionClass}>
             {description.trim().length + '/1500'}
           </span>
-          }
-          <textarea
-            className={open ? "post-component-textarea-open" : "post-component-textarea"}
-            placeholder='در زیست بوم باش ...'
-            value={description}
-            onBlur={this._handleBlurText}
-            onChange={this._handleChangeText}
+            }
+            <textarea
+              className={open ? "post-component-textarea-open" : "post-component-textarea"}
+              placeholder='در زیست بوم باش ...'
+              value={description}
+              onBlur={this._handleBlurText}
+              onChange={this._handleChangeText}
+            />
+          </div>
+
+          <ViewAttachedFiles
+            postPictures={postPictures}
+            postMedia={postMedia}
+            postFile={postFile}
+            deletePicture={this._deletePicture}
+            deleteMedia={this._deleteMedia}
+            deleteFile={this._deleteFile}
           />
         </div>
 
@@ -379,19 +391,20 @@ class CreatePost extends Component {
               <AttachMenu
                 attachMenu={attachMenu}
                 handleFile={fileString =>
-                  this.setState({...this.state, postFile: fileString})
+                  this.setState({...this.state, attachMenu: false, postFile: fileString})
                 }
                 handleMedia={fileString =>
-                  this.setState({...this.state, postMedia: fileString})
+                  this.setState({...this.state, attachMenu: false, postMedia: fileString})
                 }
                 handlePictures={fileString =>
-                  this.setState({...this.state, postPictures: [...postPictures, fileString]})
+                  this.setState({...this.state, attachMenu: false, postPictures: [...postPictures, fileString]})
                 }
                 postPicturesLength={postPictures.length}
                 postMediaExist={Boolean(postMedia)}
                 postFileExist={Boolean(postFile)}
+                postLinkExist={Boolean(link)}
                 linkModalFunc={this._linkModalFunc}
-                AttachMenuId = "create-post-attach-menu-box"
+                AttachMenuId="create-post-attach-menu-box"
                 translate={translate}
               />
             </div>
@@ -407,15 +420,6 @@ class CreatePost extends Component {
           </div>
           <div style={{clear: "both"}}/>
         </div>
-
-        <ViewAttachedFiles
-          postPictures={postPictures}
-          postMedia={postMedia}
-          postFile={postFile}
-          deletePicture={this._deletePicture}
-          deleteMedia={this._deleteMedia}
-          deleteFile={this._deleteFile}
-        />
 
         <LinkModal
           ref={e => this.setWrapperThirdRef = e ? e.linkModalRef : e}

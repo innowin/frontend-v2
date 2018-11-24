@@ -30,11 +30,16 @@ const AttachMenu = (props) => {
     </div>
   )
   const {AttachMenuId, linkModalFunc, handlePictures, handleMedia, handleFile,
-    postPicturesLength, postMediaExist, postFileExist, translate} = props
+    postPicturesLength, postMediaExist, postFileExist, postLinkExist, translate} = props
   const attachMenu = props.attachMenu || false
-  const picturesAttachedDisabled = postPicturesLength > 2 ? 'disabled-label' : ''
-  const FileAttachedDisabled = postFileExist ? 'disabled-label' : ''
-  const MediaAttachedDisabled = postMediaExist ? 'disabled-label' : ''
+  const picturesAttachedDisabled = (postPicturesLength > 2 || postMediaExist || postFileExist || postLinkExist)
+    ? 'disabled-label' : ''
+  const FileAttachedDisabled = (postPicturesLength > 0 || postMediaExist || postFileExist || postLinkExist)
+    ? 'disabled-label' : ''
+  const MediaAttachedDisabled = (postPicturesLength > 0 || postMediaExist || postFileExist || postLinkExist)
+    ? 'disabled-label' : ''
+  const LinkAttachedDisabled = (postPicturesLength > 0 || postMediaExist || postFileExist || postLinkExist)
+    ? 'disabled-label' : ''
   return (
     <div
       className={attachMenu ? "post-component-footer-attach-menu-container" : "post-component-footer-attach-menu-container-hide"}
@@ -75,7 +80,7 @@ const AttachMenu = (props) => {
           <ContributionIcon className='post-component-footer-logos-little'/>
           محصول
         </div>
-        <div className='explore-menu-items' onClick={linkModalFunc}>
+        <div className={'explore-menu-items '+ LinkAttachedDisabled} onClick={linkModalFunc}>
           <Link className='post-component-footer-logos-little'/>
           لینک
         </div>
@@ -93,6 +98,7 @@ AttachMenu.propTypes = {
   postPicturesLength:PropTypes.number,
   postMediaExist:PropTypes.bool,
   postFileExist:PropTypes.bool,
+  postLinkExist: PropTypes.bool,
   linkModalFunc: PropTypes.func.isRequired,
   translate: PropTypes.object.isRequired
 }

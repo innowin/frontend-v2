@@ -80,50 +80,159 @@
   }
 }
 
+
 /* -------------------------------   post textarea -------------------------*/
-.post-component-description {
-  position: relative;
-  span {
-    font-size: 12px;
-    position: absolute;
-    top: 3px;
-    left: 6px;
-    transition-duration: $animation-timing-long;
-  }
-  .post-component-textarea {
-    overflow-y: auto;
-    width: 100%;
-    resize: none;
-    border-radius: 3px;
-    border: 1px solid #e7e7e7;
-    padding: 8px 15px;
-    font-size: 13px;
-    transition-duration: 0.3s;
-    height: 45px;
-    line-height: 26px;
-    &:focus {
-      outline: none;
-      border: 1px solid #BBBBBB;
+.post-component-content {
+  border: 1px #e7e7e7 solid;
+  border-radius: 5px;
+  overflow: hidden;
+
+  .post-component-description {
+    position: relative;
+    span {
+      font-size: 12px;
+      position: absolute;
+      top: 3px;
+      left: 6px;
+      transition-duration: $animation-timing-long;
+    }
+    .post-component-textarea {
+      overflow-y: auto;
+      width: 100%;
+      resize: none;
+      border: none;
+      padding: 8px 15px;
+      font-size: 13px;
       transition-duration: 0.3s;
-      height: 148px;
+      height: 45px;
+      line-height: 26px;
+      margin-bottom: -8px;
+      &:focus {
+        outline: none;
+        border: 1px solid #BBBBBB;
+        transition-duration: 0.3s;
+        height: 100px;
+      }
+    }
+
+    .post-component-textarea-open {
+      overflow-y: auto;
+      width: 100%;
+      resize: none;
+      border: none;
+      padding: 10px 15px;
+      font-size: 13px;
+      transition-duration: 0.3s;
+      height: 100px;
+      line-height: 26px;
+      margin-bottom: -8px;
+      &:focus {
+        outline: none;
+        border: 1px solid #BBBBBB;
+        transition-duration: 0.3s;
+      }
     }
   }
 
-  .post-component-textarea-open {
-    overflow-y: auto;
-    width: 100%;
-    resize: none;
-    border-radius: 3px;
-    border: 1px solid #e7e7e7;
-    padding: 10px 15px;
-    font-size: 13px;
-    transition-duration: 0.3s;
-    height: 148px;
-    line-height: 26px;
-    &:focus {
-      outline: none;
-      border: 1px solid #BBBBBB;
-      transition-duration: 0.3s;
+  .post-attached-Media {
+    margin-top: -2px;
+    .pictures-section {
+      display: flow-root;
+      div {
+        position: relative;
+        .remove-file {
+          position: absolute;
+          top: 15px;
+          left: 15px;
+          background-color: $eee-color;
+          border-radius: 50%;
+          height: 40px;
+          width: 40px;
+          padding: 0 2px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 1;
+        }
+        img {
+          object-fit: cover;
+          width: 100%;
+          height: 100%;
+        }
+      }
+      &.onePicture {
+        height: 340px;
+        div {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      &.twoPictures {
+        height: 290px;
+        div {
+          width: 50%;
+          height: 100%;
+          &:nth-child(1) {
+            float: right;
+            border-left: 0.75px white solid;
+          }
+          &:nth-child(2) {
+            float: left;
+            border-right: 0.75px white solid;
+          }
+        }
+      }
+      &.threePictures {
+        height: 260px;
+        div {
+          &:nth-child(1) {
+            width: 66.5%;
+            float: right;
+            border-left: 0.75px white solid;
+            height: 100%;
+          }
+          &:nth-child(2) {
+            width: 33.5%;
+            float: left;
+            height: 50%;
+            border-right: 0.75px white solid;
+            border-bottom: 1px white solid;
+          }
+          &:nth-child(3) {
+            width: 33.5%;
+            float: left;
+            height: 50%;
+            border-right: 0.5px white solid;
+            border-top: 1px white solid;
+          }
+        }
+      }
+    }
+    .media-section {
+      width: 100%;
+      position: relative;
+      border-top: 1px white solid;
+      video {
+        object-fit: initial;
+        height: 340px;
+      }
+      .remove-file {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background-color: $eee-color;
+        border-radius: 50%;
+        height: 40px;
+        width: 40px;
+        padding: 0 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1;
+      }
+    }
+    .file-section {
+
     }
   }
 }
@@ -656,81 +765,5 @@
     border: 1px solid transparent;
     color: white;
     transition-duration: 0.3s;
-  }
-}
-
-/* -------------------------------   post attached pictures -------------------------*/
-.post-attached-pictures {
-  .pictures-section {
-    display: flow-root;
-    div {
-      position: relative;
-      .remove-file {
-        position: absolute;
-        top: 15px;
-        left: 15px;
-        background-color: $eee-color;
-        border-radius: 50%;
-        height: 40px;
-        width: 40px;
-        padding: 0 2px;
-      }
-      img {
-        object-fit: cover;
-        width: 100%;
-        height: 100%;
-      }
-    }
-    &.onePicture div {
-      width: 100%;
-      height: 250px;
-    }
-    &.twoPictures div {
-      width: 50%;
-      height: 250px;
-      &:nth-child(1) {
-        float: right;
-      }
-      &:nth-child(2) {
-        float: left;
-      }
-    }
-    &.threePictures div {
-      width: 50%;
-      &:nth-child(1) {
-        float: right;
-        height: 250px;
-      }
-      &:nth-child(2) {
-        float: left;
-        height: 125px;
-      }
-      &:nth-child(3) {
-        float: left;
-        height: 125px;
-      }
-    }
-  }
-  .media-section {
-    margin-top: 20px;
-    width: 100%;
-    position: relative;
-    .remove-file {
-      position: absolute;
-      top: 15px;
-      left: 15px;
-      background-color: $eee-color;
-      border-radius: 50%;
-      height: 40px;
-      width: 40px;
-      padding: 0 2px;
-    }
-    video {
-      object-fit: initial;
-      height: 250px;
-    }
-  }
-  .file-section {
-
   }
 }

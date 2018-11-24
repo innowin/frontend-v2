@@ -17,7 +17,7 @@ const ViewAttachedFiles = (props) => {
   if (postPicturesLength === 2) picturesClass = 'twoPictures'
   if (postPicturesLength === 3) picturesClass = 'threePictures'
   return (
-    <div className="post-attached-pictures">
+    <div className="post-attached-Media">
       {
         postPicturesIds_.length > 0 ?
           <div className={"pictures-section " + picturesClass}>
