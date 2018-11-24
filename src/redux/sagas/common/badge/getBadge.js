@@ -64,11 +64,12 @@ export function* getBadges(action) {
 }
 
 export function* getAllBadges() {
+  yield put({type: types.SUCCESS.COMMON.GET_ALL_BADGES, payload: {data: [], loading: true}})
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.GET_ALL_BADGES)
   try {
     yield fork(api.get, urls.COMMON.BADGE, results.COMMON.GET_ALL_BADGES)
     const badges = yield take(socketChannel)
-    yield put({type: types.SUCCESS.COMMON.GET_ALL_BADGES, payload: {data: badges}})
+    yield put({type: types.SUCCESS.COMMON.GET_ALL_BADGES, payload: {data: badges, loading: false}})
   } catch (e) {
   } finally {
     socketChannel.close()

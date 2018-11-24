@@ -67,15 +67,8 @@ class User extends Component <appProps, appState> {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.state.follow && (nextProps.identities[this.props.data.user.id] && nextProps.identities[this.props.data.user.id].identity && nextProps.identities[this.props.data.user.id].identity.content)) {
-      this.setState({...this.state, follow: false}, () => {
-        const formValues = {follow_follower: this.props.currentUserIdentity, follow_followed: nextProps.identities[this.props.data.user.id].identity.content}
-        this.props.actions.follow({formValues, followOwnerId: this.props.currentUserId, followOwnerType: this.props.currentUserType})
-      })
-    }
-
     if (this.props.data.user.id !== nextProps.data.user.id) {
-      this.setState({...this.state, bannerLoaded: false, profileLoaded: false}, () => {
+      this.setState({...this.state, bannerLoaded: false, profileLoaded: false, follow: false, followLoading: false}, () => {
         if (nextProps.data.profile.profile_banner) {
           let banner = new Image()
           banner.src = REST_URL + nextProps.data.profile.profile_banner.file
@@ -91,6 +84,12 @@ class User extends Component <appProps, appState> {
             this.setState({...this.state, profileLoaded: true})
           }
         }
+      })
+    }
+    else if (this.state.follow && (nextProps.identities[this.props.data.user.id] && nextProps.identities[this.props.data.user.id].identity && nextProps.identities[this.props.data.user.id].identity.content)) {
+      this.setState({...this.state, follow: false}, () => {
+        const formValues = {follow_follower: this.props.currentUserIdentity, follow_followed: nextProps.identities[this.props.data.user.id].identity.content}
+        this.props.actions.follow({formValues, followOwnerId: this.props.currentUserId, followOwnerType: this.props.currentUserType})
       })
     }
   }

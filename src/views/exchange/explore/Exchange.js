@@ -47,7 +47,7 @@ class Exchange extends Component <appProps, appState> {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.data.id !== nextProps.data.id) {
-      this.setState({...this.state, imageLoaded: false}, () => {
+      this.setState({...this.state, imageLoaded: false, followLoading: false,}, () => {
         if (nextProps.data.exchange_image) {
           let image = new Image()
           image.src = nextProps.data.exchange_image.file.includes('innowin.ir') ? nextProps.data.exchange_image.file : REST_URL + nextProps.data.exchange_image.file
