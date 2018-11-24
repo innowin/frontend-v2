@@ -6,7 +6,6 @@ import PrivateRoute from "../consts/PrivateRoute"
 import Product from "./Product"
 import User from "./User"
 import {Switch} from "react-router-dom"
-import Explore from './exchange/explore/Explore'
 import User_Explorer from './user/explore/Explore'
 
 

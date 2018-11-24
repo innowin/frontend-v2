@@ -1,13 +1,10 @@
 export default {
   badge: {
-    list: {
-
-    },
-    allBadges: []
+    list: {},
+    allBadges: [],
+    loading: true
   },
   badgeCategory: {
-    list: {
-
-    }
+    list: {}
   }
 }

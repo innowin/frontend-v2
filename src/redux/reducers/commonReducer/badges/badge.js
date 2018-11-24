@@ -31,6 +31,7 @@ const badge = (state = initialState.common.badges.badge, action) => {
       /** --------------------  get all badges for About tab --------------------- **/
     case types.SUCCESS.COMMON.GET_ALL_BADGES:
       let allBadges = []
+      const {loading} = action.payload
       for (let i = 0; i < data.length; i++) {
         let addBadge = {}
         addBadge.title = data[i].badge_related_badge_category.badge_title
@@ -40,7 +41,8 @@ const badge = (state = initialState.common.badges.badge, action) => {
       }
       return {
         ...state,
-        allBadges: allBadges.slice()
+        allBadges: allBadges.slice(),
+        loading: loading
       }
 
       /** ----------------- reset -----------------> **/
