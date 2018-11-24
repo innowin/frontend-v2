@@ -208,6 +208,7 @@ class ExchangeViewBar extends Component {
               </div>
             </div>
 
+{/*
             {
               (badgesImgUrl.length > 0) ? (
                   <div className="flex-wrap pb-3">
@@ -224,6 +225,15 @@ class ExchangeViewBar extends Component {
             <div className="flex-wrap pb-3">
               <TagsBox tags={tags}/>
             </div>
+*/}
+
+            <div className={"exchange-view-bar-socials"}>
+              <i className={"fa fa-telegram"}/>
+              <i className={"fa fa-instagram"}/>
+              <i className={"fa fa-linkedin"}/>
+              <i className={"fa fa-youtube-play youtube"}/>
+            </div>
+
             <div className="row mr-0 ml-0 pb-3 flex-wrap justify-content-around">
               <div className="pb-2">
                 <button

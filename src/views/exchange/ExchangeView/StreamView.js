@@ -1,10 +1,11 @@
 import React from "react"
-import DefaultUserIcon from "../../../images/defaults/defaultUser_svg"
-import Moment from "react-moment"
+// import DefaultUserIcon from "../../../images/defaults/defaultUser_svg"
+// import Moment from "react-moment"
 import connect from "react-redux/es/connect/connect"
-import {VerifyWrapper} from "../../common/cards/Frames"
-import {Link} from "react-router-dom"
+// import {VerifyWrapper} from "../../common/cards/Frames"
+// import {Link} from "react-router-dom"
 import PostView from "../../common/post/PostView"
+import {ClipLoader} from "react-spinners"
 
 const StreamView = props => {
   window.scrollTo({
@@ -59,7 +60,7 @@ const StreamView = props => {
             )
           })
           :
-          <VerifyWrapper isLoading={true} error={false}/>
+            <div className={"info-loading"}><ClipLoader color="#C2B9BD" size={45} margin="4px" loading={true}/></div>
       }
     </div>
   )

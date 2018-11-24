@@ -101,39 +101,58 @@ class InfoView extends Component {
                 <div className={"info-body"}>
                   <span>
                     <div className={"info-social"}>
-                      <i className={"fa fa-youtube-play youtube"}/>
-                      <span className={"info-social-text"}>
-                        یوتیوب:
-                      </span> <span className={"info-social-text-address"}> https://www.instagram.com/
-                      <input className={"info-social-text-address-input"} type={"text"}/></span>
-                    </div>
-                  </span>
-
-                  <span>
-                    <div className={"info-social"}>
                       <i className={"fa fa-telegram"}/>
                       <span className={"info-social-text"}>
                         تلگرام:
-                      </span> <span className={"info-social-text-address"}> http://www.telegram.me/
-                      <input className={"info-social-text-address-input"} type={"text"}/></span>
+                      </span>
+                      <div className={"info-social-text-address"}>
+                        <div style={{display: "inline-block", width: "140px"}}>
+                          http://www.telegram.me/
+                         </div>
+                      <input className={"info-social-text-address-input"} style={{width: "calc(100% - 140px)"}} type={"text"}/>
+                      </div>
                     </div>
                   </span>
 
                   <div className={"info-social"}>
                     <i className={"fa fa-instagram"}/>
                     <span className={"info-social-text"}>
-                        اینستاگرام:
-                      </span> <span className={"info-social-text-address"}> https://www.youtube.com/channel/
-                    <input className={"info-social-text-address-input"} type={"text"}/></span>
+                      اینستاگرام:
+                    </span>
+                    <div className={"info-social-text-address"}>
+                      <div style={{display: "inline-block", width: "160px"}}>
+                        https://www.instagram.com/
+                      </div>
+                      <input className={"info-social-text-address-input"} style={{width: "calc(100% - 160px)"}} type={"text"}/>
+                    </div>
                   </div>
 
                   <div className={"info-social"}>
                     <i className={"fa fa-linkedin"}/>
                     <span className={"info-social-text"}>
-                        لینکدین:
-                      </span> <span className={"info-social-text-address"}> https://www.linkedin.com/in/
-                    <input className={"info-social-text-address-input"} type={"text"}/></span>
+                      لینکدین:
+                    </span>
+                    <div className={"info-social-text-address"}>
+                      <div style={{display: "inline-block", width: "160px"}}>
+                        https://www.linkedin.com/in/
+                      </div>
+                      <input className={"info-social-text-address-input"} style={{width: "calc(100% - 160px)"}} type={"text"}/>
+                    </div>
                   </div>
+
+                  <span>
+                    <div className={"info-social"}>
+                      <i className={"fa fa-youtube-play youtube"}/>
+                      <span className={"info-social-text"}>
+                        یوتیوب:
+                      </span>
+                      <div className={"info-social-text-address"}>
+                         <div style={{display: "inline-block", width: "195px"}}>
+                        https://www.youtube.com/channel/
+                      </div>
+                      <input className={"info-social-text-address-input"} style={{width: "calc(100% - 195px)"}} type={"text"}/></div>
+                    </div>
+                  </span>
 
                   <div className={"info-social"}>
                     <i className={"fa fa-link"}/>
@@ -148,8 +167,10 @@ class InfoView extends Component {
             </div>
         )
       }
-      else return <div className={"info-loading"}><ClipLoader color="#C2B9BD" size={45} margin="4px" loading={true}/></div>
-    else return <div className={"info-loading"}><ClipLoader color="#C2B9BD" size={45} margin="4px" loading={true}/></div>
+      else return <div className={"info-loading"}><ClipLoader color="#C2B9BD" size={45} margin="4px" loading={true}/>
+      </div>
+    else return <div className={"info-loading"}><ClipLoader color="#C2B9BD" size={45} margin="4px" loading={true}/>
+    </div>
   }
 }
 
