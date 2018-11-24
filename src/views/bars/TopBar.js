@@ -291,33 +291,6 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
             </div>
           </nav>
 
-          {/*<Collapse isOpen={collapse} className={`-topBar-right-collapse pr-0 pl-0 ${collapseClassName}`}>*/}
-          {/*<ul>*/}
-          {/*<li onClick={this._handleExchangeUpgrade}><i className="fa fa-home"/> درخواست ارتقاء به کارگزار</li>*/}
-          {/*<li onClick={this._createExchangeModalVisibilityHandler}><i className="fa fa-home"/> بورس جدید</li>*/}
-          {/*<li onClick={this._handleProductWizardModal}><i className="fa fa-home"/> آورده ی جدید</li>*/}
-          {/*</ul>*/}
-          {/*</Collapse>*/}
-          {/*<Collapse isOpen={collapseProfile} className="-topBar-profile-collapse">*/}
-          {/*<div className="text-center">*/}
-          {/*<div className="card-block">*/}
-          {/*<Link to="#" onClick={this._handleSignOut}>{translate['Sign Out']}</Link>*/}
-          {/*{*/}
-          {/*(!clientOrganization) ? (*/}
-          {/*<Link to={`/user/${clientUser.id}`}>{translate['My Profile']}</Link>) : (*/}
-          {/*<Link to={`/organization/${clientOrganization.id}`}>{translate['My Organization']}</Link>*/}
-          {/*)*/}
-          {/*}*/}
-          {/*<Link to="#" onClick={this._handleShowSetting}>{translate['General Settings']}</Link>*/}
-          {/*</div>*/}
-          {/*</div>*/}
-          {/*</Collapse>*/}
-
-          {/*<AddProductWizardModal*/}
-          {/*ref={addProductWizard => {this.addProductWizard = addProductWizard}}*/}
-          {/*className="addProductWizard"*/}
-          {/*/>*/}
-
           <AddingContribution modalIsOpen={productWizardModalIsOpen}
                               handleModalVisibility={this._handleProductWizardModal}/>
 

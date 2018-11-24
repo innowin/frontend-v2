@@ -1503,9 +1503,27 @@ $sidebar-profile-media-width: 80px;
 .introduce-badges-container {
   direction: rtl;
   padding: 20px;
+  height: auto;
+  transition-duration: 0.3s;
+}
+
+.introduce-badges-container-loading {
+  direction: rtl;
+  padding: 20px;
+  height: 295px;
+  transition-duration: 0.3s;
+}
+
+.introduce-badges-container-empty {
+  direction: rtl;
+  padding: 20px;
+  height: 58px;
+  transition-duration: 0.3s;
 }
 
 .introduce-badges-item-container {
+  position: relative;
+  overflow: hidden;
   margin-bottom: 30px;
   &:last-child {
     margin-bottom: 0;
@@ -1519,26 +1537,52 @@ $sidebar-profile-media-width: 80px;
   margin-left: 15px;
 }
 
+.introduce-badges-media-skeleton {
+  display: inline-block;
+  width: 50px;
+  vertical-align: top;
+  margin-left: 15px;
+  fill: #ddd;
+  stroke: #ddd;
+}
+
 .introduce-badges-item-text-container {
   display: inline-block;
   vertical-align: top;
   width: calc(100% - 75px);
   text-align: justify;
   text-align-last: right;
-  margin-top: -5px;
 }
 
 .introduce-badges-title {
-  display: inline-block;
   font-weight: bold;
   font-size: 12px;
 }
 
 .introduce-badges-description {
-  display: inline-block;
+  margin-top: 3px;
   font-size: 12px;
   color: $text-title-menu-color;
   line-height: 23px;
+}
+
+.introduce-badges-title-skeleton {
+  position: relative;
+  overflow: hidden;
+  border-radius: 3px;
+  width: 60px;
+  font-weight: bold;
+  font-size: 12px;
+  background-color: #f3f3f3;
+  margin-bottom: 5px;
+}
+
+.introduce-badges-description-skeleton {
+  position: relative;
+  overflow: hidden;
+  border-radius: 3px;
+  font-size: 12px;
+  background-color: #f3f3f3;
 }
 
 .user-agreement-container {
@@ -1590,4 +1634,28 @@ $sidebar-profile-media-width: 80px;
   line-height: 25px;
   text-align: justify;
   text-align-last: right;
+}
+
+.bright-line-badge {
+  width: 5px;
+  background: white;
+  height: 150%;
+  position: absolute;
+  top: -25%;
+  left: -50%;
+  animation: lighted-line-badge 4s infinite ease-out;
+  box-shadow: 0 0 70px 30px white;
+  transform: rotate(45deg);
+  transition-duration: 0.3s;
+}
+
+@keyframes lighted-line-badge {
+  0% {
+    left: -50%;
+    opacity: 0.7;
+  }
+  33%, 100% {
+    left: 150%;
+    opacity: 1;
+  }
 }

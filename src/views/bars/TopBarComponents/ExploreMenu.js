@@ -9,8 +9,7 @@ const ExploreMenu = (props) => {
   const {exploreCollapse} = props
   return (
       <div>
-        <ExchangeExploreIcon
-            className="-topBarIcons" ref={e => this.svg = e}/>
+        <ExchangeExploreIcon className="-topBarIcons"/>
         <div className={exploreCollapse ? "explore-menu-container" : "explore-menu-container-hide"}>
           <div className='explore-menu-arrow'>
             ▲
