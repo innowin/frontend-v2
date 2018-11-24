@@ -31,6 +31,8 @@ class Exchange extends Component <appProps, appState> {
           followLoading: false,
           imageLoaded: false
         }
+
+    this.follow = this.follow.bind(this)
   }
 
   componentDidMount() {
@@ -57,18 +59,7 @@ class Exchange extends Component <appProps, appState> {
     }
   }
 
-  renderFollowButton() {
-
-    if (this.props.data.exchange === undefined && this.state.followLoading) {
-      return <div className='exchange-model-following'><ClipLoader color='#008057' size={19}/></div>
-    }
-    else if (this.props.data.exchange === undefined) {
-      return <button className='exchange-followed' onClick={this.follow}>دنبال کردن</button>
-    }
-    else return <button className='exchange-follow'>دنبال شده</button>
-  }
-
-  follow = () => {
+  follow() {
     this.setState({...this.state, followLoading: true})
     this.props.actions.follow({identityId: this.props.currentUserIdentity, exchangeIdentity: this.props.data.id})
   }
@@ -84,6 +75,17 @@ class Exchange extends Component <appProps, appState> {
   //       }
   //   )
   // }
+
+  renderFollowButton() {
+    if (this.props.data.exchange === undefined && this.state.followLoading) {
+      return <div className='exchange-model-following'><ClipLoader color='#008057' size={19}/></div>
+    }
+    else if (this.props.data.exchange === undefined) {
+      return <button className='exchange-followed' onClick={this.follow}>دنبال کردن</button>
+    }
+    else return <button className='exchange-follow'>دنبال شده</button>
+  }
+
 
   render() {
     const {data} = this.props

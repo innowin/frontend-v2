@@ -6,6 +6,7 @@ import exchangeActions from "src/redux/actions/exchangeActions"
 import getUserAction from "src/redux/actions/user/getUserActions"
 import StreamView from "./StreamView"
 import InfoView from "./InfoView"
+import StatisticView from "./StatisticView"
 import ExchangeManager from "./ExchangeManager"
 import {VerifyWrapper} from "../../common/cards/Frames"
 import MembersView from "./MembersView"
@@ -75,6 +76,10 @@ class Exchange_Info extends Component {
         return (
             <MembersView exchangeId={exchangeId}/>
         )
+      case "Statistic":
+        return (
+            <StatisticView exchangeId={exchangeId}/>
+        )
       case "Exchange Manager":
         return (
             <ExchangeManager exchangeId={exchangeId}/>
@@ -82,7 +87,7 @@ class Exchange_Info extends Component {
       default:
         return (
             <div style={{textAlign: "center", marginTop: "10px"}}>
-              Undefined Data Type
+              Undefined Data Type: {activeTab}
             </div>
         )
     }

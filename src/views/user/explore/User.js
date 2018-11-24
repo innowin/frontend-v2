@@ -31,9 +31,11 @@ class User extends Component <appProps, appState> {
           bannerLoaded: false,
           checkMedia: true
         }
+
+    this.follow = this.follow.bind(this)
   }
 
-  follow = () => {
+  follow() {
     this.setState({followLoading: true}, () => {
       if (this.props.identities[this.props.data.user.id] && this.props.identities[this.props.data.user.id].identity && this.props.identities[this.props.data.user.id].identity.content) {
         const formValues = {follow_follower: this.props.currentUserIdentity, follow_followed: this.props.identities[this.props.data.user.id].identity.content}

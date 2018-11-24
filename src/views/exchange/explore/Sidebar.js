@@ -5,7 +5,6 @@ import FontAwesome from 'react-fontawesome'
 import {connect} from 'react-redux'
 import {bindActionCreators} from "redux"
 import exchangeActions from "../../../redux/actions/exchangeActions"
-import {getExchanges} from "../../../redux/selectors/common/exchanges/GetAllExchanges"
 import {hashTagsListSelector} from 'src/redux/selectors/common/hashTags/hashTag'
 import Select from 'react-select'
 
