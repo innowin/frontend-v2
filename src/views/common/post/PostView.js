@@ -136,44 +136,44 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       getFile(userImageId)
     }
 
-    if (this.text && !this.state.wordsCheck) {
-      this.setState({...this.state, wordsCheck: true})
-      let allWords = this.text.innerText.split(" ")
-
-      let mailExp = new RegExp("^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$")
-
-      let urlExp = new RegExp("^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$")
-
-      // Phone Reg
-      let first = new RegExp("(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{4}[)]?))")
-      let second = new RegExp("([-\s\.]?[0-9]{3})")
-      let third = new RegExp("([-\s\.]?[0-9]{3,4})")
-
-      for (let i = 0; i < allWords.length; i++) {
-        let word = allWords[i].trim()
-        if (urlExp.test(word)) {
-          word.includes("http://") || word.includes("https://") ?
-              this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a target=_blank href=` + word + `>${word}</a>`)
-              :
-              this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a target=_blank href=http://` + word + `>${word}</a>`)
-        }
-        else if (word[0] === "@" && word.length >= 6) {
-          this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a href=` + word.slice(1, word.length) + `>${word}</a>`)
-        }
-        else if (word[0] === "#" && word.length >= 3) {
-          this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a href=` + word + `>${word}</a>`)
-        }
-        else if (mailExp.test(word)) {
-          this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a href=mailto:` + word + `>${word}</a>`)
-        }
-        else if (!isNaN(word.replace(/\\+/g, "")) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
-          word.includes("+") ?
-              this.text.innerHTML = this.text.innerHTML.replace(new RegExp(`\\${word}`, "g"), `<a href=tel:` + word + `>${word}</a>`)
-              :
-              this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a href=tel:` + word + `>${word}</a>`)
-        }
-      }
-    }
+    // if (this.text && !this.state.wordsCheck) {
+    //   this.setState({...this.state, wordsCheck: true})
+    //   let allWords = this.text.innerText.split(" ")
+    //
+    //   let mailExp = new RegExp("^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$")
+    //
+    //   let urlExp = new RegExp("^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$")
+    //
+    //   // Phone Reg
+    //   let first = new RegExp("(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{4}[)]?))")
+    //   let second = new RegExp("([-\s\.]?[0-9]{3})")
+    //   let third = new RegExp("([-\s\.]?[0-9]{3,4})")
+    //
+    //   for (let i = 0; i < allWords.length; i++) {
+    //     let word = allWords[i].trim()
+    //     if (urlExp.test(word)) {
+    //       word.includes("http://") || word.includes("https://") ?
+    //           this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a target=_blank href=` + word + `>${word}</a>`)
+    //           :
+    //           this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a target=_blank href=http://` + word + `>${word}</a>`)
+    //     }
+    //     else if (word[0] === "@" && word.length >= 6) {
+    //       this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a href=` + word.slice(1, word.length) + `>${word}</a>`)
+    //     }
+    //     else if (word[0] === "#" && word.length >= 3) {
+    //       this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a href=` + word + `>${word}</a>`)
+    //     }
+    //     else if (mailExp.test(word)) {
+    //       this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a href=mailto:` + word + `>${word}</a>`)
+    //     }
+    //     else if (!isNaN(word.replace(/\\+/g, "")) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
+    //       word.includes("+") ?
+    //           this.text.innerHTML = this.text.innerHTML.replace(new RegExp(`\\${word}`, "g"), `<a href=tel:` + word + `>${word}</a>`)
+    //           :
+    //           this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a href=tel:` + word + `>${word}</a>`)
+    //     }
+    //   }
+    // }
   }
 
   componentWillUnmount() {
@@ -313,8 +313,6 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                 {!extendedView ?
                     postPicture ?
                         <div className={"post-image-container"}>
-                          <img src={postPicture.file} width={"100%"} alt='عکس پست'
-                               className={pictureLoaded === true ? "post-image-effect" : "post-image"}/>
                           <div className={pictureLoaded === true ? "post-image-loading-effect" : "post-image-loading"}>
                             <DefaultImage className='default-image'/>
                             {
@@ -328,6 +326,8 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                                   <div className='bright-line'/>
                             }
                           </div>
+                          <img src={postPicture.file} width={"100%"} alt='عکس پست'
+                               className={pictureLoaded === true ? "post-image-effect" : "post-image"}/>
                         </div>
                         : null
                     :
