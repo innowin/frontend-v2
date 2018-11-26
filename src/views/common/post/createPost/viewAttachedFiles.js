@@ -16,7 +16,6 @@ const ViewAttachedFiles = (props) => {
   let picturesClass = "onePicture"
   if (postPicturesLength === 2) picturesClass = "twoPictures"
   if (postPicturesLength === 3) picturesClass = "threePictures"
-  console.log(focused)
   return (
       <div className="post-attached-Media">
         {

@@ -313,8 +313,6 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                 {!extendedView ?
                     postPicture ?
                         <div className={"post-image-container"}>
-                          <img src={postPicture.file} width={"100%"} alt='عکس پست'
-                               className={pictureLoaded === true ? "post-image-effect" : "post-image"}/>
                           <div className={pictureLoaded === true ? "post-image-loading-effect" : "post-image-loading"}>
                             <DefaultImage className='default-image'/>
                             {
@@ -328,6 +326,8 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                                   <div className='bright-line'/>
                             }
                           </div>
+                          <img src={postPicture.file} width={"100%"} alt='عکس پست'
+                               className={pictureLoaded === true ? "post-image-effect" : "post-image"}/>
                         </div>
                         : null
                     :

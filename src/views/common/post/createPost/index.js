@@ -60,6 +60,7 @@ class CreatePost extends Component {
       profileLoaded: false,
       savingPost: false,
       focused: false,
+      keys: []
     }
   }
 
@@ -264,6 +265,26 @@ class CreatePost extends Component {
     return false
   }
 
+  _onSubmitShiftEnter() {
+    if (this._formValidate()) {
+      this._preSave()
+    }
+  }
+
+  _handleShiftEnter = (e) => {
+    if (e.keyCode === 16 || e.keyCode === 13) {
+      let keys = this.state.keys.slice()
+      keys[e.keyCode] = true
+      this.setState({...this.state, keys: keys})
+      if (e.keyCode === 13 && keys[13] && keys[16]) {
+        e.preventDefault()
+        this.setState({...this.state, keys: []}, () => {
+          this._onSubmitShiftEnter()
+        })
+      }
+    }
+    else this.setState({...this.state, keys: []})
+  }
 
   componentDidUpdate(prevProps) {
     const {postsCountInThisPage, postPictureIds} = this.props
@@ -352,6 +373,7 @@ class CreatePost extends Component {
                   onBlur={this._handleBlurText}
                   onChange={this._handleChangeText}
                   onFocus={this._handleFocusText}
+                  onKeyDown={this._handleShiftEnter}
               />
             </div>
 
