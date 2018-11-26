@@ -78,9 +78,7 @@ class Explore extends Component <appProps, appState> {
             <Exchanges exchanges={this.props.allExchanges} justFollowing={this.state.justFollowing} loading={this.props.loading}/>
             <div className='exchange-model-hide'/>
             <div className='exchange-model-hide'/>
-            {
-              <div className='exchanges-explore-search-loading' style={{height: this.props.loading ? '40px' : '0px', opacity: this.props.loading ? '1' : '0'}}><ClipLoader/></div>
-            }
+            <div className={this.props.loading ? 'exchanges-explore-search-loading' : 'exchanges-explore-search-loading-hide'}><ClipLoader/></div>
           </div>
         </div>
     )

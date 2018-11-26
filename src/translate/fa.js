@@ -379,7 +379,7 @@ module.exports = {
     "All People": "همه به صورت آزادانه",
     "Only Followers": "فقط دنبال کننده ها",
     "Nobody": "هیچکس",
-    "About Innowin": "درباره اینووین",
+    "About Innowin": "خط مشی حریم خصوصی",
     "Who Should Can Follow You?": "چه کسانی بتوانند شما را دنبال کنند؟",
     "Who Can Read Base Info?": "چه کسانی بتوانند مشخصات پایه شما را بخوانند؟",
     "Who Can Read Activity?": "چه کسانی بتوانند فعالیت های شما را ببینند؟",

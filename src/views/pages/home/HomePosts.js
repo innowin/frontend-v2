@@ -91,7 +91,7 @@ class HomePosts extends Component {
                               deletePost={deletePost}
                               updatePost={updatePost}
                           />
-                      ))) : (<h1 className="mt-5">در این بورس پستی وجود ندارد!</h1>)
+                      ))) : (<p className="mt-5">در این بورس پستی وجود ندارد!</p>)
                     }
                     {
                       // TODO mohsen: handle loading scroll and scrolling error
