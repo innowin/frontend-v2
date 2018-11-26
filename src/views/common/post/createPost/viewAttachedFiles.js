@@ -10,46 +10,49 @@ RemoveFile.PropTypes = {
 }
 
 const ViewAttachedFiles = (props) => {
-  const {postPictures, postMedia, postFile, deletePicture, deleteMedia, deleteFile} = props
+  const {postPictures, postMedia, postFile, deletePicture, deleteMedia, deleteFile, focused} = props
   const postPicturesIds_ = postPictures.slice(0, 3) // just three pictures allowable
   const postPicturesLength = postPicturesIds_.length
-  let picturesClass = 'onePicture'
-  if (postPicturesLength === 2) picturesClass = 'twoPictures'
-  if (postPicturesLength === 3) picturesClass = 'threePictures'
+  let picturesClass = "onePicture"
+  if (postPicturesLength === 2) picturesClass = "twoPictures"
+  if (postPicturesLength === 3) picturesClass = "threePictures"
+  console.log(focused)
   return (
-    <div className="post-attached-Media">
-      {
-        postPicturesIds_.length > 0 ?
-          <div className={"pictures-section " + picturesClass}>
-            {
-              postPicturesIds_.map((fileString, i) => (
-                  <div key={i + "pictures-section"}>
-                    <RemoveFile onClickFunc={() => deletePicture(i)}/>
-                    <img src={fileString} alt="imagePreview"/>
-                  </div>
-                )
-              )
-            }
-          </div> : ''
-      }
-      {
-        (postMedia) ? (
-          <div className="media-section">
-            <RemoveFile onClickFunc={deleteMedia}/>
-            <video width="100%" height="200px" controls poster="">
-              <source src={postMedia} type="video/mp4"/>
-            </video>
-          </div>
-        ) : ''
-      }
-      {
-        (postFile) ? (
-          <div className="file-section">
-            <RemoveFile onClickFunc={deleteFile}/>
-          </div>
-        ) : ''
-      }
-    </div>
+      <div className="post-attached-Media">
+        {
+          postPicturesIds_.length > 0 ?
+              <div className={"pictures-section " + picturesClass} style={focused ?
+                  {marginTop: "-6px", border: "1px solid #bbbbbb"} :
+                  {marginTop: "-7px", border: "1px solid #e7e7e7"}}>
+                {
+                  postPicturesIds_.map((fileString, i) => (
+                          <div key={i + "pictures-section"}>
+                            <RemoveFile onClickFunc={() => deletePicture(i)}/>
+                            <img src={fileString} alt="imagePreview"/>
+                          </div>
+                      )
+                  )
+                }
+              </div> : ""
+        }
+        {
+          (postMedia) ? (
+              <div className="media-section">
+                <RemoveFile onClickFunc={deleteMedia}/>
+                <video width="100%" height="200px" controls poster="">
+                  <source src={postMedia} type="video/mp4"/>
+                </video>
+              </div>
+          ) : ""
+        }
+        {
+          (postFile) ? (
+              <div className="file-section">
+                <RemoveFile onClickFunc={deleteFile}/>
+              </div>
+          ) : ""
+        }
+      </div>
   )
 }
 
@@ -67,11 +70,11 @@ ViewAttachedFiles.PropTypes = {
 
 ViewAttachedFiles.defaultProps = {
   postPictures: [],
-  errorAttachPicture: '',
-  postMedia: '',
-  errorAttachMedia: '',
-  postFile: '',
-  errorAttachFile: '',
+  errorAttachPicture: "",
+  postMedia: "",
+  errorAttachMedia: "",
+  postFile: "",
+  errorAttachFile: "",
 }
 
 export default ViewAttachedFiles

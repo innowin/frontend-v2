@@ -83,8 +83,8 @@
 
 /* -------------------------------   post textarea -------------------------*/
 .post-component-content {
-  border: 1px #e7e7e7 solid;
-  border-radius: 5px;
+  //border: 1px #e7e7e7 solid;
+  border-radius: $border-radius;
   overflow: hidden;
 
   .post-component-description {
@@ -100,13 +100,14 @@
       overflow-y: auto;
       width: 100%;
       resize: none;
-      border: none;
-      padding: 8px 15px;
+      border: 1px #e7e7e7 solid;
+      border-radius: $border-radius;
+      padding: 7px 15px 9px 15px;
       font-size: 13px;
       transition-duration: 0.3s;
       height: 45px;
       line-height: 26px;
-      margin-bottom: -8px;
+      margin-bottom: -6px;
       &:focus {
         outline: none;
         border: 1px solid #BBBBBB;
@@ -119,13 +120,14 @@
       overflow-y: auto;
       width: 100%;
       resize: none;
-      border: none;
-      padding: 10px 15px;
+      border-radius: $border-radius;
+      border: 1px #e7e7e7 solid;
+      padding: 7px 15px 9px 15px;
       font-size: 13px;
       transition-duration: 0.3s;
       height: 100px;
       line-height: 26px;
-      margin-bottom: -8px;
+      margin-bottom: -6px;
       &:focus {
         outline: none;
         border: 1px solid #BBBBBB;

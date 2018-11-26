@@ -52,13 +52,14 @@ class CreatePost extends Component {
       placeholder: "",
       selectedText: "",
       postPictures: [],
-      postFile: '',
-      postMedia: '',
-      link: '',
-      description: '',
-      descriptionClass: '',
+      postFile: "",
+      postMedia: "",
+      link: "",
+      description: "",
+      descriptionClass: "",
       profileLoaded: false,
-      savingPost: false
+      savingPost: false,
+      focused: false,
     }
   }
 
@@ -82,7 +83,7 @@ class CreatePost extends Component {
     const {attachMenu, contactMenu, linkModal, postPictures, postFile, postMedia, link, description, labels, savingPost} = this.state
     const needReset = !savingPost && !description && !postPictures && !postFile && !postMedia && !link && labels === {}
 
-    if (!event.target.closest('#create-post-attach-menu-box')) {
+    if (!event.target.closest("#create-post-attach-menu-box")) {
       if (attachMenu) {
         this.setState({...this.state, attachMenu: false})
       }
@@ -121,6 +122,10 @@ class CreatePost extends Component {
 
   handleContact = () => {
     this.setState({...this.state, contactMenu: !this.state.contactMenu})
+  }
+
+  _handleFocusText = () => {
+    this.setState({...this.state, focused: true})
   }
 
 
@@ -168,14 +173,14 @@ class CreatePost extends Component {
   }
 
   _handleBlurText = (e) => {
-    const descriptionLength = e.target.value.trim().length
     this.setState({
       ...this.state,
       descriptionClass: "hide-message"
     })
+    const descriptionLength = e.target.value.trim().length
     if (descriptionLength === 0) {
-      this.setState({...this.state, open: false})
-    } else this.setState({...this.state, open: true})
+      this.setState({...this.state, open: false, focused: false})
+    } else this.setState({...this.state, open: true, focused: false})
   }
 
   _deleteFile = () => {
@@ -306,129 +311,131 @@ class CreatePost extends Component {
     const {className, followers, exchanges, currentUserIdentity, currentUserMedia, currentUserName, translate} = this.props
     const {
       postPictures, open, attachMenu, selected, labels, link, contactMenu, linkModal, postFile, postMedia,
-      profileLoaded, description, descriptionClass
+      profileLoaded, description, descriptionClass, focused
     } = this.state
-    const hasMediaClass = (postMedia || (postPictures.length > 0)) ? 'hasMedia' : ''
+    const hasMediaClass = (postMedia || (postPictures.length > 0)) ? "hasMedia" : ""
     return (
-      <form className={"post-component-container " + className} onSubmit={this._onSubmit}>
-        <div className='post-component-header'>
-          <div>
-            {currentUserMedia && profileLoaded ?
-              <img alt='profile' src={currentUserMedia} className='post-component-header-img'/>
-              :
-              <DefaultUserIcon className='post-component-header-img'/>
-            }
-            {currentUserName}
-          </div>
-          <div className='post-component-header-item'>
-            <Share
-              className={selected === "post" ? "post-component-header-item-logo1" : "post-component-header-item-logo1-unselect"}
-              onClick={this.handleSelectShare}/>
-            <DemandIcon height="22px"
-                        className={selected === "demand" ? "post-component-header-item-logo" : "post-component-header-item-logo-unselect"}
-                        onClickFunc={this.handleSelectDemand}/>
-            <SupplyIcon height="18px"
-                        className={selected === "supply" ? "post-component-header-item-logo2" : "post-component-header-item-logo2-unselect"}
-                        onClickFunc={this.handleSelectSupply}/>
-          </div>
-        </div>
-
-        <div className={"post-component-content " + hasMediaClass}>
-          <div className='post-component-description'>
-            {descriptionClass &&
-            <span className={descriptionClass}>
-            {description.trim().length + '/1500'}
-          </span>
-            }
-            <textarea
-              className={open ? "post-component-textarea-open" : "post-component-textarea"}
-              placeholder='در زیست بوم باش ...'
-              value={description}
-              onBlur={this._handleBlurText}
-              onChange={this._handleChangeText}
-            />
-          </div>
-
-          <ViewAttachedFiles
-            postPictures={postPictures}
-            postMedia={postMedia}
-            postFile={postFile}
-            deletePicture={this._deletePicture}
-            deleteMedia={this._deleteMedia}
-            deleteFile={this._deleteFile}
-          />
-        </div>
-
-        <div className='post-component-footer'>
-
-          <div className='post-component-footer-logo' onClick={this.handleContact}>?</div>
-          <div className='post-component-footer-items-style-cont'>
-
-            {
-              Object.values(labels).map(label =>
-                <div className='post-component-footer-items-style'>
-                  <div className='post-component-footer-items-style-text'>{label}</div>
-                  <div className='post-component-footer-items-style-close'
-                       onClick={() => this._handleLabel(label)}>✕
-                  </div>
-                </div>
-              )
-            }
-            <div className='post-component-footer-items-style-hide'>
-              <div className='post-component-footer-items-style-text'><span> </span></div>
+        <form className={"post-component-container " + className} onSubmit={this._onSubmit}>
+          <div className='post-component-header'>
+            <div>
+              {currentUserMedia && profileLoaded ?
+                  <img alt='profile' src={currentUserMedia} className='post-component-header-img'/>
+                  :
+                  <DefaultUserIcon className='post-component-header-img'/>
+              }
+              {currentUserName}
             </div>
+            <div className='post-component-header-item'>
+              <Share
+                  className={selected === "post" ? "post-component-header-item-logo1" : "post-component-header-item-logo1-unselect"}
+                  onClick={this.handleSelectShare}/>
+              <DemandIcon height="22px"
+                          className={selected === "demand" ? "post-component-header-item-logo" : "post-component-header-item-logo-unselect"}
+                          onClickFunc={this.handleSelectDemand}/>
+              <SupplyIcon height="18px"
+                          className={selected === "supply" ? "post-component-header-item-logo2" : "post-component-header-item-logo2-unselect"}
+                          onClickFunc={this.handleSelectSupply}/>
+            </div>
+          </div>
 
-            <div className='post-component-footer-send'>
-
-              <div className='post-component-footer-link'>{link}</div>
-
-              <div style={{display: "inline-block"}} onClick={this.handleAttach}>
-                <AttachFileIcon className='post-component-footer-send-attach'/>
-              </div>
-              <button type="submit"
-                      className={description.length > 4 ? "post-component-footer-send-btn" : "post-component-footer-send-btn-inactive"}>ارسال
-              </button>
-              <AttachMenu
-                attachMenu={attachMenu}
-                handleFile={fileString =>
-                  this.setState({...this.state, attachMenu: false, postFile: fileString})
-                }
-                handleMedia={fileString =>
-                  this.setState({...this.state, attachMenu: false, postMedia: fileString})
-                }
-                handlePictures={fileString =>
-                  this.setState({...this.state, attachMenu: false, postPictures: [...postPictures, fileString]})
-                }
-                postPicturesLength={postPictures.length}
-                postMediaExist={Boolean(postMedia)}
-                postFileExist={Boolean(postFile)}
-                postLinkExist={Boolean(link)}
-                linkModalFunc={this._linkModalFunc}
-                AttachMenuId="create-post-attach-menu-box"
-                translate={translate}
+          <div className={"post-component-content " + hasMediaClass}>
+            <div className='post-component-description'>
+              {descriptionClass &&
+              <span className={descriptionClass}>
+            {description.trim().length + "/1500"}
+          </span>
+              }
+              <textarea
+                  className={open ? "post-component-textarea-open" : "post-component-textarea"}
+                  placeholder='در زیست بوم باش ...'
+                  value={description}
+                  onBlur={this._handleBlurText}
+                  onChange={this._handleChangeText}
+                  onFocus={this._handleFocusText}
               />
             </div>
-            <ContactMenu
-              ref={e => this.setWrapperSecondRef = (e ? e.contactMenuRef : e)}
-              contactMenu={contactMenu}
-              labels={labels}
-              followers={followers}
-              exchanges={exchanges}
-              currentUserIdentity={currentUserIdentity}
-              handleLabel={this._handleLabel}
+
+            <ViewAttachedFiles
+                postPictures={postPictures}
+                postMedia={postMedia}
+                postFile={postFile}
+                deletePicture={this._deletePicture}
+                deleteMedia={this._deleteMedia}
+                deleteFile={this._deleteFile}
+                focused={focused}
             />
           </div>
-          <div style={{clear: "both"}}/>
-        </div>
 
-        <LinkModal
-          ref={e => this.setWrapperThirdRef = e ? e.linkModalRef : e}
-          linkModal={linkModal}
-          cancelFunc={() => this.setState({...this.state, linkModal: false})}
-          submitFunc={(linkString) => this.setState({...this.state, link: linkString, linkModal: false})}
-        />
+          <div className='post-component-footer'>
 
-      </form>
+            <div className='post-component-footer-logo' onClick={this.handleContact}>?</div>
+            <div className='post-component-footer-items-style-cont'>
+
+              {
+                Object.values(labels).map(label =>
+                    <div className='post-component-footer-items-style'>
+                      <div className='post-component-footer-items-style-text'>{label}</div>
+                      <div className='post-component-footer-items-style-close'
+                           onClick={() => this._handleLabel(label)}>✕
+                      </div>
+                    </div>
+                )
+              }
+              <div className='post-component-footer-items-style-hide'>
+                <div className='post-component-footer-items-style-text'><span> </span></div>
+              </div>
+
+              <div className='post-component-footer-send'>
+
+                <div className='post-component-footer-link'>{link}</div>
+
+                <div style={{display: "inline-block"}} onClick={this.handleAttach}>
+                  <AttachFileIcon className='post-component-footer-send-attach'/>
+                </div>
+                <button type="submit"
+                        className={description.length > 4 ? "post-component-footer-send-btn" : "post-component-footer-send-btn-inactive"}>ارسال
+                </button>
+                <AttachMenu
+                    attachMenu={attachMenu}
+                    handleFile={fileString =>
+                        this.setState({...this.state, attachMenu: false, postFile: fileString})
+                    }
+                    handleMedia={fileString =>
+                        this.setState({...this.state, attachMenu: false, postMedia: fileString})
+                    }
+                    handlePictures={fileString =>
+                        this.setState({...this.state, attachMenu: false, postPictures: [...postPictures, fileString]})
+                    }
+                    postPicturesLength={postPictures.length}
+                    postMediaExist={Boolean(postMedia)}
+                    postFileExist={Boolean(postFile)}
+                    postLinkExist={Boolean(link)}
+                    linkModalFunc={this._linkModalFunc}
+                    AttachMenuId="create-post-attach-menu-box"
+                    translate={translate}
+                />
+              </div>
+              <ContactMenu
+                  ref={e => this.setWrapperSecondRef = (e ? e.contactMenuRef : e)}
+                  contactMenu={contactMenu}
+                  labels={labels}
+                  followers={followers}
+                  exchanges={exchanges}
+                  currentUserIdentity={currentUserIdentity}
+                  handleLabel={this._handleLabel}
+              />
+            </div>
+            <div style={{clear: "both"}}/>
+          </div>
+
+          <LinkModal
+              ref={e => this.setWrapperThirdRef = e ? e.linkModalRef : e}
+              linkModal={linkModal}
+              cancelFunc={() => this.setState({...this.state, linkModal: false})}
+              submitFunc={(linkString) => this.setState({...this.state, link: linkString, linkModal: false})}
+          />
+
+        </form>
     )
   }
 }
@@ -437,7 +444,7 @@ const mapStateToProps = (state) => {
 
   const client = state.auth.client
   const clientImgId = (client.user_type === "person") ? (client.profile.profile_media) : (
-    (client.organization && client.organization.organization_logo) || null
+      (client.organization && client.organization.organization_logo) || null
   )
 
   const userId = (client.organization && client.organization.id) || (client.user && client.user.id)

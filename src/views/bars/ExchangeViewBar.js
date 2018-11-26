@@ -196,15 +196,15 @@ class ExchangeViewBar extends Component {
               </div>
               <div>
                 <span>عرضه:</span>
-                <span>{null}</span>
+                <span>؟</span>
               </div>
               <div>
                 <span>تقاضا:</span>
-                <span>{null}</span>
+                <span>؟</span>
               </div>
               <div>
                 <span>محصول عرضه شده:</span>
-                <span>{null}</span>
+                <span>؟</span>
               </div>
             </div>
 
@@ -228,7 +228,7 @@ class ExchangeViewBar extends Component {
 */}
 
             <div className={"exchange-view-bar-socials"}>
-              <i className={"fa fa-telegram"}/>
+              <i className={"fa fa-telegram"}/> {/* disable-logo class for non social exchange fields*/}
               <i className={"fa fa-instagram"}/>
               <i className={"fa fa-linkedin"}/>
               <i className={"fa fa-youtube-play youtube"}/>

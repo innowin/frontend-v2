@@ -52,18 +52,22 @@
     -webkit-text-fill-color: transparent;
     font-weight: bold;
   }
-  .fa-linkedin {
-    font-size: 28px;
-    color: royalblue;
-  }
   .fa-telegram {
     font-size: 29px;
     background: -webkit-linear-gradient(-30deg, cornflowerblue, rgb(66, 70, 255));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+  .fa-linkedin {
+    font-size: 28px;
+    color: royalblue;
+  }
   .fa-youtube-play {
     font-size: 30px;
     color: red;
+  }
+
+  .disable-logo{
+    color: $disable-color
   }
 }
