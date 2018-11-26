@@ -208,24 +208,22 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
               modalIsOpen={createExchangeModalIsOpen}
           />
           <nav className="navbar flex-row justify-content-between p-0 -white-i fixed-top topBar">
+
             <div className="d-flex align-items-center">
 
-              {/*<button type="button"*/}
-              {/*className={`navbar-toggler my-auto mr-2 -outlineWhite ${collapse ? "active" : ""}`}*/}
-              {/*onClick={this._toggle}>*/}
-              {/*{!collapse ? <i className="fa fa-bars cursor-pointer" aria-hidden={true}/> :*/}
-              {/*<i className=" text-danger fa fa-close cursor-pointer" aria-hidden={true}/>}*/}
-              {/*</button>*/}
-
               <Link to={"/"}><i className="fa fa-home mr-3" aria-hidden={true}/></Link>
+
               <div className="mr-5 top-bar-explore" onClick={this._toggleExplore}>
                 <ExploreMenu exploreCollapse={exploreCollapse}/>
               </div>
-              <Link className="mr-5" to={"/"}><NotificationIcon className="-topBarIcons"/></Link>
-            </div>
-            <InnoWinLogo svgClass={"centerImgTopBar"}/>
-            <div className="dir-ltr d-flex flex-row">
 
+              <Link className="mr-5" to={"/"}><NotificationIcon className="-topBarIcons"/></Link>
+
+            </div>
+
+            <InnoWinLogo svgClass={"centerImgTopBar"}/>
+
+            <div className="dir-ltr d-flex flex-row">
               <div className="-ProfTopBarImg">
                 {clientImgLink && this.state.profilePhotoLoaded ? <img src={clientImgLink} className='-ProfTopBarImg-svg-img' alt="Person icon" onClick={this._toggleProfile}/>
                     :
@@ -281,13 +279,14 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
               </div>
 
               <div className="-searchInput d-flex align-items-center">
-                <input type="text" className="text-white search-top-bar" name="search" dir="auto"
+                <input type="text" className="text-white" name="search" dir="auto"
                        placeholder={translate["Search in Danesh boom"]}
                        ref={searchInput => {
                          this.searchInput = searchInput
                        }}/>
                 <SearchIcon className='search-icon'/>
               </div>
+
             </div>
           </nav>
 

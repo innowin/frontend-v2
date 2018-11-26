@@ -7,8 +7,8 @@
   margin: 5px 10px 5px 0;
   text-align: center;
   flex-grow: 1;
-  width: 260px;
-  flex-basis: 260px;
+  width: 270px;
+  flex-basis: 270px;
   background-color: $text-lightest-color;
   border-radius: 5px;
   box-shadow: 0 3px 3px $box-shadow-color;
@@ -20,8 +20,8 @@
   display: inline-block;
   text-align: center;
   flex-grow: 1;
-  width: 260px;
-  flex-basis: 260px;
+  width: 270px;
+  flex-basis: 270px;
   background-color: $text-lightest-color;
   border-radius: 5px;
   box-shadow: 0 3px 3px $box-shadow-color;
@@ -175,9 +175,10 @@
 }
 
 .exchanges-explore-sidebar {
+  overflow-x: hidden;
+  overflow-y: auto;
   position: fixed;
   bottom: 15px;
-  overflow-y: auto;
   z-index: 1;
   top: 64px;
   padding: 15px;

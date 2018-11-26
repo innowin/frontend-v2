@@ -23,12 +23,25 @@ class GeneralSetting extends Component {
       let formPassword = null
       let formEmail = null
 
-      if (username !== this.props.username && (username.length > 4)) {
-        formUsername = username
+      if (username !== this.props.username && (username.length > 4) && (username.length < 33)) {
+        if (!/^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]+$/.test(username)) {
+          error = true
+          this.usernameError.className = 'settingModal-menu-general-error-show'
+          this.usernameError.innerText = 'نام کاربری غیر قابل قبول است. لطفا تنها از حروف انگلیسی  یا اعداد یا کاراکتر ـ استفاده نمایید.'
+        }
+        else {
+          formUsername = username
+        }
       }
       else if (username.length < 5) {
         error = true
         this.usernameError.className = 'settingModal-menu-general-error-show'
+        this.usernameError.innerText = 'لطفا نام کاربری با طول حداقل 5 کاراکتر وارد کنید!'
+      }
+      else if (username.length > 32) {
+        error = true
+        this.usernameError.className = 'settingModal-menu-general-error-show'
+        this.usernameError.innerText = 'لطفا نام کاربری با طول حداکثر 32 کاراکتر وارد کنید!'
       }
 
       if (password !== '') {
@@ -68,7 +81,6 @@ class GeneralSetting extends Component {
         }
       }
 
-
       if (email !== this.props.email) {
         let atpos = email.indexOf("@")
         let dotpos = email.lastIndexOf(".")
@@ -90,7 +102,7 @@ class GeneralSetting extends Component {
 
         const propertyNames = Object.keys(formFormat)
         propertyNames.map(key =>
-            formFormat[key] === null ? delete(formFormat[key]) : ''
+            formFormat[key] === null ? delete(formFormat[key]) : null
         )
 
         this.props.actions.updateUserByUserId(formFormat, this.props.userId)
@@ -110,13 +122,15 @@ class GeneralSetting extends Component {
   }
 
   handleUsernameChange = (e) => {
-    if (e.target.value.length > 4) {
+    e.target.value = e.target.value.replace(/ /g, '')
+    if (e.target.value.length > 4 && e.target.value.length < 33 && /^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]+$/.test(e.target.value)) {
       this.usernameError.className = 'settingModal-menu-general-error'
     }
   }
 
   handleEmailChange = (e) => {
-    let email = e.target.value
+    e.target.value = e.target.value.replace(/ /g, '')
+    let email = e.target.value.replace(/ /g, '')
     if (email !== this.props.email) {
       let atpos = email.indexOf("@")
       let dotpos = email.lastIndexOf(".")
@@ -165,9 +179,7 @@ class GeneralSetting extends Component {
             {this.props.translate["Username"]}
           </div>
           <input type='text' defaultValue={this.props.username} ref={e => this.username = e} className='settingModal-menu-general-input' onChange={this.handleUsernameChange}/>
-          <div ref={e => this.usernameError = e} className='settingModal-menu-general-error'>
-            لطفا نام کاربری با طول حداقل 5 کاراکتر وارد کنید!
-          </div>
+          <div ref={e => this.usernameError = e} className='settingModal-menu-general-error'/>
           <div className='settingModal-menu-general-hint'>حداقل 5 و حداکثر 32 کاراکتر dot و underline ، 9-0 ، Z-A شامل
             حروف.
           </div>
