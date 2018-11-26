@@ -18,6 +18,7 @@ import AttachMenu from "./attachMenu"
 import ContactMenu from "./contactMenu"
 import LinkModal from "./linkModal"
 import ViewAttachedFiles from "./viewAttachedFiles"
+import {ContactMenuIcon} from "src/images/icons"
 
 const timeStamp = new Date().toISOString()
 
@@ -359,11 +360,11 @@ class CreatePost extends Component {
             </div>
           </div>
 
-          <div className={"post-component-content " + hasMediaClass}>
-            <div className='post-component-description'>
-              {descriptionClass &&
-              <span className={descriptionClass}>
-            {description.trim().length + "/1500"}
+        <div className={"post-component-content " + hasMediaClass}>
+          <div className='post-component-description'>
+            {descriptionClass &&
+            <span className={descriptionClass}>
+            {description && description.trim().length + '/1500'}
           </span>
               }
               <textarea
@@ -390,7 +391,7 @@ class CreatePost extends Component {
 
           <div className='post-component-footer'>
 
-            <div className='post-component-footer-logo' onClick={this.handleContact}>?</div>
+            <ContactMenuIcon className="post-component-footer-contact-menu-icon" onClickFunc={this.handleContact}/>
             <div className='post-component-footer-items-style-cont'>
 
               {
@@ -447,7 +448,6 @@ class CreatePost extends Component {
                   handleLabel={this._handleLabel}
               />
             </div>
-            <div style={{clear: "both"}}/>
           </div>
 
           <LinkModal
