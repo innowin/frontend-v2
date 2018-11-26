@@ -4,7 +4,7 @@
   position: relative;
   padding: 15px 15px 25px 15px;
   display: inline-block;
-  margin: 5px;
+  margin: 5px 10px 5px 0;
   text-align: center;
   flex-grow: 1;
   width: 295px;
@@ -20,7 +20,7 @@
   position: relative;
   padding: 15px 15px 25px 15px;
   display: inline-block;
-  margin: 5px;
+  margin: 5px 10px 5px 0;
   text-align: center;
   flex-grow: 1;
   width: 295px;
@@ -385,7 +385,7 @@
 }
 
 .all-exchanges-container {
-  padding: 59px 15px 0 15px;
+  padding: 59px 0 0 0;
   @media screen and (max-width: 1920px) and (min-width: 1366px) {
     width: 75%;
     margin-right: 25%
