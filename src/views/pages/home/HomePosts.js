@@ -67,7 +67,6 @@ class HomePosts extends PureComponent {
   }
 
   render() {
-    console.log('hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
     const {isLoading, error} = this.state
     const {posts, exchangeId, className, actions} = this.props
     const {deletePost, updatePost} = actions

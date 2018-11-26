@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import {Component} from 'react'
+import {PureComponent} from 'react'
 import Users from './Users'
 import Sidebar from './SideBar'
 import TopBar from '../../bars/TopBar'
@@ -27,7 +27,7 @@ type appState =
       scrollLoading: boolean
     |}
 
-class Explore extends Component <appProps, appState> {
+class Explore extends PureComponent <appProps, appState> {
   constructor(props) {
     super(props)
     this.state = {

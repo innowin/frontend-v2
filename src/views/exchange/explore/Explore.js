@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import {Component} from 'react'
+import {PureComponent} from 'react'
 import Exchanges from './Exchanges'
 import Sidebar from './Sidebar'
 import TopBar from '../../bars/TopBar'
@@ -9,7 +9,6 @@ import connect from 'react-redux/es/connect/connect'
 import exchangeActions from 'src/redux/actions/exchangeActions'
 import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges.js'
 import {ClipLoader} from "react-spinners"
-import Exchange_Skeleton from "./Exchange_Skeleton"
 
 type appProps =
     {|
@@ -27,7 +26,7 @@ type appState =
       scrollLoading: boolean
     |}
 
-class Explore extends Component <appProps, appState> {
+class Explore extends PureComponent <appProps, appState> {
   constructor(props) {
     super(props)
     this.state = {
