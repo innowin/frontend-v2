@@ -17,7 +17,6 @@ import constants from "src/consts/constants";
 import SocialActions from "../../redux/actions/commonActions/socialActions";
 import {bindActionCreators} from "redux";
 import {getFollowersSelector} from "../../redux/selectors/common/social/getFollowers";
-import {TextareaInput} from "../common/inputs/TextareaInput"
 import {TextInput} from "../common/inputs/TextInput"
 import updateProfile from "src/redux/actions/user/updateProfileByProfileIdAction"
 import OrganizationActions from "src/redux/actions/organization/organizationActions"
@@ -212,6 +211,8 @@ type StateSideBarContent = {
   editProfile: boolean,
   bannerState: ?string,
   pictureState: ?string,
+  descriptionState: ?string,
+  descriptionClass: ?string,
   saving: boolean,
 }
 
@@ -240,41 +241,45 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
       bannerState: '',
       pictureState: '',
       saving: false,
+      descriptionState: "",
+      descriptionClass: "hide-message",
     }
   }
 
-  descriptionInput: React.ElementRef<typeof TextInput>
   AttachBannerFileInput: React.ElementRef<typeof AttachFile>
   AttachPictureFileInput: React.ElementRef<typeof AttachFile>
 
   _getValues = () => {
     const {sideBarType, owner, profile, banner, picture, bannerTempId, pictureTempId} = this.props
+    const {descriptionState} = this.state
     const bannerId = bannerTempId || (banner ? banner.id : null)
     const pictureId = pictureTempId || (picture ? picture.id : null)
-    const descriptionValue = this.descriptionInput ? this.descriptionInput.getValue() : ''
     if (sideBarType === constants.USER_TYPES.PERSON && profile) {
       return {
         id: profile.id,
         profile_banner: bannerId,
         profile_media: pictureId,
-        description: descriptionValue,
+        description: descriptionState,
       }
     } else {
       return {
         id: owner.id,
         organization_banner: bannerId,
         organization_logo: pictureId,
-        description: descriptionValue,
+        description: descriptionState,
       }
     }
   }
 
   _formValidate = () => {
     let result = true;
+    const {descriptionState} = this.state
+    const descriptionLength = descriptionState ? descriptionState.trim().length : 0
+    const descriptionError = descriptionLength > 700
     const validates = [
-      this.AttachBannerFileInput._validate(),
-      this.AttachPictureFileInput._validate(),
-      this.descriptionInput.validate()
+      this.AttachBannerFileInput && this.AttachBannerFileInput._validate(),
+      this.AttachPictureFileInput && this.AttachPictureFileInput._validate(),
+      descriptionError
     ];
     for (let i = 0; i < validates.length; i++) {
       if (validates[i]) {
@@ -318,6 +323,23 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     }
   }
 
+  _checkCharacter = (description) => {
+    const descriptionLength = description ? description.trim().length : 0
+    if (descriptionLength === 0)
+      this.setState({...this.state, descriptionClass: "hide-message"})
+    if (descriptionLength > 0 && descriptionLength < 690)
+      this.setState({...this.state, descriptionClass: "neutral-message"})
+    if (descriptionLength > 690 && descriptionLength < 700)
+      this.setState({...this.state, descriptionClass: "warning-message"})
+  }
+
+  _handleChangeText = (e) => {
+    const description = e.target.value
+    if (description.trim().length <= 700)
+      this.setState({...this.state, descriptionState: description}, () => this._checkCharacter(description))
+  }
+
+  _handleBlurText = (e) => {this.setState({...this.state, descriptionClass: ""})}
 
 
   _preSave = () => {
@@ -365,7 +387,6 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
   }
 
 
-
   componentDidUpdate() {
     const {saving, bannerState, pictureState} = this.state
     const {bannerTempId, pictureTempId} = this.props
@@ -377,9 +398,15 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     // Without flow type: document.addEventListener('click', this._handleClickOutMenuBox)
     (document.addEventListener: Function)('click', this._handleClickOutMenuBox)
 
-    const {actions, identityId, sideBarType, owner} = this.props
+    const {actions, identityId, sideBarType, owner, description} = this.props
     const {getFollowers} = actions || {}
-    getFollowers({notProfile: true, followOwnerIdentity: identityId, followOwnerType: sideBarType, followOwnerId: owner.id})
+    getFollowers({
+      notProfile: true,
+      followOwnerIdentity: identityId,
+      followOwnerType: sideBarType,
+      followOwnerId: owner.id
+    })
+    this.setState({...this.state, descriptionState: description}, () => this._checkCharacter(description))
   }
 
   componentWillUnmount() {
@@ -388,9 +415,9 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
 
 
   render() {
-    const {menuToggle, editProfile, bannerState, pictureState} = this.state
+    const {menuToggle, editProfile, bannerState, pictureState, descriptionState, descriptionClass} = this.state
     const {
-      sideBarType, name, description, banner, picture, chosenBadgesImg, socialNetworks,
+      sideBarType, name, banner, picture, chosenBadgesImg, socialNetworks,
       translate: tr, paramId, followers, clientIdentityId
     } = this.props
     const className = this.props.className || ''
@@ -457,15 +484,19 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
             }
             <span className="p-20px mt-4">{name}</span>
             {
-              (!editProfile) ? (<span className="-grey1 text-center">{description}</span>) : (
-                <TextareaInput
-                  name="edit-description-input"
-                  label=''
-                  value={description}
-                  ref={descriptionInput => {
-                    this.descriptionInput = descriptionInput
-                  }}
-                />
+              (!editProfile) ? (<span className="-grey1 text-center">{descriptionState}</span>) : (
+                <div className='description'>
+                  {descriptionClass &&
+                  <span className={descriptionClass}>
+                    {descriptionState && descriptionState.trim().length + '/700'}
+                  </span>
+                  }
+                  <textarea
+                    value={descriptionState}
+                    onBlur={this._handleBlurText}
+                    onChange={this._handleChangeText}
+                  />
+                </div>
               )
             }
           </div>

@@ -338,7 +338,7 @@ class CreatePost extends Component {
           <div className='post-component-description'>
             {descriptionClass &&
             <span className={descriptionClass}>
-            {description.trim().length + '/1500'}
+            {description && description.trim().length + '/1500'}
           </span>
             }
             <textarea
