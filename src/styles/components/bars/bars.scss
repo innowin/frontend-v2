@@ -374,19 +374,10 @@ $sidebar-profile-media-width: 80px;
     cursor: pointer;
     position: absolute;
     left: 50%;
+    top: 50%;
     transform: translate(-50%, -50%);
+    width: 100%;
     text-align: center;
-    &.edit-banner {
-      width: 100%;
-      top: 50%;
-    }
-    &.edit-media {
-      width: $sidebar-profile-media-width - 10px;
-      top: 0;
-      .edit-background {
-        border-radius: 15%;
-      }
-    }
     .edit-background {
       background: $sidebar-bottom-color;
       height: 30px;
@@ -407,12 +398,19 @@ $sidebar-profile-media-width: 80px;
 %sidebar-child-wrapper {
   position: relative;
   .profile-media {
-    width: $sidebar-profile-media-width;
-    height: 80px;
     position: absolute;
     transform: translate(-50%, -50%);
     top: 0;
     left: 50%;
+    width: $sidebar-profile-media-width;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: auto;
+    svg , img{
+      width: 100%;
+      height: 100%;
+    }
   }
   .info-section {
     padding-bottom: 90px;
