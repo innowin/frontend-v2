@@ -1,3 +1,6 @@
+import constants from "src/consts/constants"
+
+
 export default {
   list: {
     /*
@@ -78,7 +81,12 @@ export default {
   */
 
   },
-  allUsers:{},
+  allUsers: {},
   search: null,
-  loading: true
+  loading: true,
+  resetPassword: {
+    step_name: null,
+    isLoading: false,
+    error: null
+  },
 }
