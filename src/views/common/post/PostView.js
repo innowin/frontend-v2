@@ -127,7 +127,8 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     }
 
     if (this.text) {
-      let allWords = this.text.innerText.split(" ")
+      let allWords = this.text.innerText.replace(/\n/g , ' ')
+      allWords = allWords.split(" ")
 
       let mailExp = new RegExp("^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$")
 
