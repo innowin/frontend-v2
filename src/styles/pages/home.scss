@@ -16,15 +16,29 @@ $heightOfContentBox: 140px;
 .global-wrapper {
   .page-content {
     min-height: 100%;
+    //@media screen and (max-width: 1920px) and (min-width: 1366px) {
+    //  margin: 0 138px;
+    //}
+    //@media screen and (max-width: 1366px) and (min-width: 1280px) {
+    //  margin: 0 97px;
+    //}
+    //@media screen and (max-width: 1280px) and (min-width: 600px) {
+    //  margin: 0 90px;
+    //}
+
     @media screen and (max-width: 1920px) and (min-width: 1366px) {
       margin: 0 138px;
     }
-    @media screen and (max-width: 1280px) and (min-width: 600px) {
-      margin: 0 90px;
-    }
     @media screen and (max-width: 1366px) and (min-width: 1280px) {
-      margin: 0 97px;
+      margin: 0 80px;
     }
+    @media screen and (max-width: 1280px) and (min-width: 800px) {
+      margin: 0 30px;
+    }
+    @media screen and (max-width: 800px) and (min-width: 0px) {
+      margin: 0 10px;
+    }
+
     .right-sidebar {
       border-radius: $border-radius-size;
       margin-top: 11px;

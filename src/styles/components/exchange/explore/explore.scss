@@ -7,27 +7,23 @@
   margin: 5px 10px 5px 0;
   text-align: center;
   flex-grow: 1;
-  width: 295px;
-  flex-basis: 295px;
+  width: 270px;
+  flex-basis: 270px;
   background-color: $text-lightest-color;
   border-radius: 5px;
-  //box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   box-shadow: 0 3px 3px $box-shadow-color;
   height: 345px;
 }
 
 .exchange-model-hide {
   position: relative;
-  padding: 15px 15px 25px 15px;
   display: inline-block;
-  margin: 5px 10px 5px 0;
   text-align: center;
   flex-grow: 1;
-  width: 295px;
-  flex-basis: 295px;
+  width: 270px;
+  flex-basis: 270px;
   background-color: $text-lightest-color;
   border-radius: 5px;
-  //box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   box-shadow: 0 3px 3px $box-shadow-color;
   height: 0;
   overflow: hidden;
@@ -179,39 +175,45 @@
 }
 
 .exchanges-explore-sidebar {
+  overflow-x: hidden;
+  overflow-y: auto;
   position: fixed;
   bottom: 15px;
-  overflow-y: auto;
   z-index: 1;
   top: 64px;
   padding: 15px;
   color: $text-dark-color;
   border-radius: $border-radius-size;
-  overflow-y: auto;
   background: $text-lightest-color;
   box-shadow: 0 3px 3px $box-shadow-color;
   @media screen and (max-width: 1920px) and (min-width: 1366px) {
     right: 138px;
     width: calc(0.25 * (100% - 276px));
   }
-  @media screen and (max-width: 1280px) and (min-width: 600px) {
-    right: 90px;
-    width: calc(0.25 * (100% - 180px));
-  }
   @media screen and (max-width: 1366px) and (min-width: 1280px) {
-    right: 97px;
-    width: calc(0.25 * (100% - 194px));
+    right: 80px;
+    width: calc(0.25 * (100% - 160px));
+  }
+  @media screen and (max-width: 1280px) and (min-width: 800px) {
+    right: 30px;
+    width: calc(0.25 * (100% - 60px));
+  }
+  @media screen and (max-width: 800px) and (min-width: 0px) {
+    right: 10px;
+    width: calc(0.25 * (100% - 20px));
   }
 }
 
 .exchanges-explore-sidebar-searchbox {
-  width: 90%;
+  display: flex;
   margin: 20px auto;
   border-radius: 15px;
   background-color: $text-light-color;
+  white-space: nowrap;
 }
 
 .exchanges-explore-sidebar-searchbox-input {
+  flex-grow: 1;
   vertical-align: top;
   color: white;
   width: 89%;
@@ -219,7 +221,7 @@
   text-align: right;
   background-color: inherit;
   border-radius: 15px;
-  padding: 0 15px;
+  padding: 0 5%;
   height: 35px;
   &:focus {
     outline: none;
@@ -235,6 +237,7 @@
   color: white;
   vertical-align: top;
   margin-top: 9px;
+  margin-left: 10px;
   cursor: pointer;
 }
 
@@ -243,6 +246,7 @@
   color: white;
   vertical-align: top;
   margin-top: 7px;
+  margin-left: 10px;
   cursor: pointer;
 }
 
@@ -373,31 +377,25 @@
 }
 
 .all-exchanges-parent {
+  transition-duration: 0.3s;
   @media screen and (max-width: 1920px) and (min-width: 1366px) {
     margin: 0 138px;
   }
-  @media screen and (max-width: 1280px) and (min-width: 600px) {
-    margin: 0 90px;
-  }
   @media screen and (max-width: 1366px) and (min-width: 1280px) {
-    margin: 0 97px;
+    margin: 0 80px;
+  }
+  @media screen and (max-width: 1280px) and (min-width: 800px) {
+    margin: 0 30px;
+  }
+  @media screen and (max-width: 800px) and (min-width: 0px) {
+    margin: 0 10px;
   }
 }
 
 .all-exchanges-container {
   padding: 59px 0 0 0;
-  @media screen and (max-width: 1920px) and (min-width: 1366px) {
-    width: 75%;
-    margin-right: 25%
-  }
-  @media screen and (max-width: 1280px) and (min-width: 600px) {
-    width: 75%;
-    margin-right: 25%
-  }
-  @media screen and (max-width: 1366px) and (min-width: 1280px) {
-    width: 75%;
-    margin-right: 25%
-  }
+  width: 75%;
+  margin-right: 25%;
   direction: rtl;
   display: flex;
   flex-wrap: wrap;
@@ -533,15 +531,15 @@
   display: inline-block;
   vertical-align: top;
   //@media screen and (max-width: 1920px) and (min-width: 1366px) {
-    //right: 138px;
-    //width: calc(0.25 * (100% - 276px));
+  //right: 138px;
+  //width: calc(0.25 * (100% - 276px));
   //}
   //@media screen and (max-width: 1280px) and (min-width: 600px) {
-    //right: 90px;
-    //width: calc(0.25 * (100% - 180px));
+  //right: 90px;
+  //width: calc(0.25 * (100% - 180px));
   //}
   //@media screen and (max-width: 1366px) and (min-width: 1280px) {
-    //right: 97px;
-    //width: calc(0.25 * (100% - 194px));
+  //right: 97px;
+  //width: calc(0.25 * (100% - 194px));
   //}
 }

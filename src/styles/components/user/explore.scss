@@ -6,11 +6,10 @@
   margin: 5px 10px 5px 0;
   text-align: center;
   flex-grow: 1;
-  width: 290px;
-  flex-basis: 290px;
+  width: 270px;
+  flex-basis: 270px;
   background: white;
   border-radius: 5px;
-  //box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   box-shadow: 0 3px 3px $box-shadow-color;
   height: 330px;
   position: relative;
@@ -18,16 +17,13 @@
 }
 
 .users-explore-hide {
-  padding-bottom: 25px;
   display: inline-block;
-  margin: 5px 10px 5px 0;
   text-align: center;
   flex-grow: 1;
-  width: 290px;
-  flex-basis: 290px;
+  width: 270px;
+  flex-basis: 270px;
   background: white;
   border-radius: 5px;
-  //box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   box-shadow: 0 3px 3px $box-shadow-color;
   height: 0;
   overflow: hidden;
@@ -264,6 +260,18 @@
   transition-duration: 0.3s;
   overflow-y: hidden;
   margin-top: 25px;
+  height: 40px;
+  opacity: 1;
+}
+
+.exchanges-explore-search-loading-hide {
+  width: 100%;
+  text-align: center;
+  transition-duration: 0.3s;
+  overflow-y: hidden;
+  margin-top: 10px;
+  height: 0;
+  opacity: 0;
 }
 
 .fade-enter {

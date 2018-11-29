@@ -80,7 +80,6 @@
   }
 }
 
-
 /* -------------------------------   post textarea -------------------------*/
 .post-component-content {
   //border: 1px #e7e7e7 solid;
@@ -292,7 +291,7 @@
 
 .post-component-footer-items-style-cont {
   display: inline-block;
-  width: calc(100% - 30px);
+  width: calc(100% - 38px);
 }
 
 // post-component-footer-send
@@ -440,6 +439,21 @@
   border-radius: 3px;
   padding: 10px;
   height: 390px;
+  .contact-menu-icon {
+    display: flex;
+    float: right;
+    svg {
+      width: 20px;
+      height: 20px;
+      margin-right: 3px;
+      path {
+        fill: #72CCBF;
+      }
+    }
+    span {
+      margin-right: 12px;
+    }
+  }
 }
 
 .post-component-footer-contact-menu-container {
@@ -451,7 +465,6 @@
   overflow-y: hidden;
   height: 395px;
   transition: ease-in 0.3s;
-  cursor: pointer;
   z-index: 1;
 }
 
@@ -468,7 +481,13 @@
 
 .post-component-footer-contact-menu-icon {
   float: right;
-  //font-weight: bold;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin: 7px 8px 0 8px;
+  path {
+    fill: #72CCBF
+  }
 }
 
 .post-component-footer-contact-menu-content {

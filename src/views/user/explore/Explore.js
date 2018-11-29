@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import {Component} from 'react'
+import {PureComponent} from 'react'
 import Users from './Users'
 import Sidebar from './SideBar'
 import TopBar from '../../bars/TopBar'
@@ -27,7 +27,7 @@ type appState =
       scrollLoading: boolean
     |}
 
-class Explore extends Component <appProps, appState> {
+class Explore extends PureComponent <appProps, appState> {
   constructor(props) {
     super(props)
     this.state = {
@@ -106,9 +106,7 @@ class Explore extends Component <appProps, appState> {
                    loading={this.props.loading}/>
             <div className='users-explore-hide'/>
             <div className='users-explore-hide'/>
-            {
-              <div className='exchanges-explore-search-loading' style={{height: this.props.loading ? '40px' : '0px', opacity: this.props.loading ? '1' : '0'}}><ClipLoader/></div>
-            }
+            <div className={this.props.loading ? 'exchanges-explore-search-loading' : 'exchanges-explore-search-loading-hide'}><ClipLoader/></div>
           </div>
         </div>
     )

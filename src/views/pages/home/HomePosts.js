@@ -1,4 +1,4 @@
-import React, {Component} from "react"
+import React, {PureComponent} from "react"
 import PropTypes from "prop-types"
 import {FrameCard, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames"
 import {Post} from "src/views/common/post/Post"
@@ -9,7 +9,7 @@ import constant from "src/consts/constants"
 import CreatePostNew from "../../common/post/createPost/index"
 
 
-class HomePosts extends Component {
+class HomePosts extends PureComponent {
 
   static propTypes = {
     exchangeId: PropTypes.number,
@@ -91,7 +91,7 @@ class HomePosts extends Component {
                               deletePost={deletePost}
                               updatePost={updatePost}
                           />
-                      ))) : (<h1 className="mt-5">در این بورس پستی وجود ندارد!</h1>)
+                      ))) : (<div className="empty-posts">در این بورس پستی وجود ندارد!</div>)
                     }
                     {
                       // TODO mohsen: handle loading scroll and scrolling error
