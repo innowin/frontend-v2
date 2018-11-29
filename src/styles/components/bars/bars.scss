@@ -283,7 +283,7 @@ $sidebar-profile-media-width: 80px;
 .exchange-center-background {
   top: 0;
   background: linear-gradient(to bottom, $image-background-color, $image-background-color,
-          $image-background-color, $image-background-color, $image-background-color, transparent);
+      $image-background-color, $image-background-color, $image-background-color, transparent);
   height: $exchange-tabs-height;
   width: $feed-width + 10;
   position: fixed;
@@ -535,7 +535,7 @@ $sidebar-profile-media-width: 80px;
   border-bottom: 1px solid lighten($text-lighter-color, 3.6%);
   padding-top: 20px;
   padding-bottom: 20px;
-  &:last-child{
+  &:last-child {
     border-bottom: none;
     padding-bottom: 0;
   }
@@ -554,6 +554,7 @@ $sidebar-profile-media-width: 80px;
   font-size: $font-size-boxText;
   border-radius: 25px;
   transition-duration: $animation-timing;
+  min-width: 122.5px;
 
   &:hover {
     background-color: $background-color;
@@ -1667,5 +1668,73 @@ $sidebar-profile-media-width: 80px;
   33%, 100% {
     left: 150%;
     opacity: 1;
+  }
+}
+
+/*  Admin Menu on Exchange  */
+.exchange-admin-menu-disable {
+  position: absolute;
+  top: 15px;
+  left: 10px;
+  width: 120px;
+  overflow: hidden;
+  background-color: $white;
+  transition-duration: $animation-timing;
+  border-radius: $border-radius;
+  box-shadow: 0 2px 5px 1px $box-shadow-color;
+  text-align: center;
+  z-index: 102;
+  height: 0;
+  opacity: 0;
+  font-size: $font-size-description;
+}
+
+.exchange-admin-menu {
+  position: absolute;
+  top: 15px;
+  left: 10px;
+  width: 120px;
+  overflow: hidden;
+  background-color: $white;
+  transition-duration: $animation-timing;
+  border-radius: $border-radius;
+  box-shadow: 0 2px 5px 1px $box-shadow-color;
+  text-align: center;
+  z-index: 102;
+  height: 30px;
+  opacity: 1;
+  font-size: $font-size-description;
+}
+
+.exchange-admin-menu-child {
+  width: 100%;
+  padding: 7.5px;
+  background-color: $white;
+  cursor: pointer;
+  transition-duration: $animation-timing;
+
+  &:hover {
+    background-color: $more-button-color-hover;
+    transition-duration: $animation-timing;
+  }
+}
+
+.edit-exchange-profile-picture-container {
+  position: relative;
+  overflow: auto;
+
+  .edit-exchange-profile-picture {
+    position: absolute;
+    top: 38px;
+    left: 0;
+    width: 100%;
+    padding: 4px;
+    text-align: center;
+    font-size: $font-size-regular;
+    font-weight: bold;
+    background-color: rgba(51, 51, 51, 0.4);
+    border-radius: $border-radius-more;
+    color: $text-dark-color;
+    cursor: pointer;
   }
 }

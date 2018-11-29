@@ -337,6 +337,7 @@ module.exports = {
   "Members": "اعضا",
   "Exchange Manager": "مدیریت بورس",
   "Medals": "مدرک ها",
+  "Edit Exchange": "ویرایش بورس",
 
   //Statistic
   "Activity Report": "گزارش فعالیت",
