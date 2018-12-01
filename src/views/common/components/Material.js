@@ -1,6 +1,15 @@
 import React from 'react'
+import PropTypes from "prop-types"
 
 class Material extends React.Component {
+
+  static propTypes = {
+    className: PropTypes.string,
+    onClick: PropTypes.func,
+    content: PropTypes.any.isRequired,
+    backgroundColor: PropTypes.string,
+  }
+
   constructor(props) {
     super(props)
     this.onMouseDown = this.onMouseDown.bind(this)
