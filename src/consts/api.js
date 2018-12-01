@@ -73,12 +73,13 @@ const getEmit = (url, resultName, query = "", token) => {
   })
 }
 
-const patchEmit = (url, resultName, data, query = "", token) => {
+const patchEmit = (urll, resultName, data, query = "", token) => {
+  let url
+  query === "" ? url = REST_URL + '/' + urll + '/' : url = REST_URL + '/' + urll + '/' + query + '/'
   socket.emit(REST_REQUEST, {
     method: 'patch',
-    // url: REST_URL + '/' + url + '/' + query + '/',
-    url: REST_URL + '/' + url + '/',
     result: resultName,
+    url,
     data,
     token
   })
