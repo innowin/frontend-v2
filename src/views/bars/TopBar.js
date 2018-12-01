@@ -23,6 +23,7 @@ import ExploreMenu from "./TopBarComponents/ExploreMenu"
 import IntroduceBadges from "./TopBarComponents/IntroduceBadges"
 import UserAgreement from "./TopBarComponents/UserAgreement"
 import AboutUs from "./TopBarComponents/AbouUs"
+import Material from "../common/components/Material"
 
 type PropsTopBar = {|
   collapseClassName: string,
@@ -236,42 +237,41 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                     {/*<MainLbarArrow className='explore-menu-arrow-2'/>*/}
                   </div>
                   <div className='explore-menu'>
-                    <Link className='profile-menu-profile-section' to={linkEditProfile}>
-                      <div className='profile-menu-profile-section-image'>
-                        {clientImgLink && this.state.profilePhotoLoaded ? <img src={clientImgLink} className='-ProfTopBarImg-svg-img-big' alt="Person icon"/>
-                            :
-                            <DefaultUserIcon className='-ProfTopBarImg-svg-big'/>
-                        }
+
+                    <Link to={linkEditProfile}>
+                      <Material className='profile-menu-profile-section' content={<div>
+                        <div className='profile-menu-profile-section-image'>
+                          {clientImgLink && this.state.profilePhotoLoaded ? <img src={clientImgLink} className='-ProfTopBarImg-svg-img-big' alt="Person icon"/>
+                              :
+                              <DefaultUserIcon className='-ProfTopBarImg-svg-big'/>
+                          }
+                        </div>
+                        <div className='profile-menu-profile-section-next-image'>
+                          <div
+                              className='profile-menu-profile-section-next-image-first'>{clientUser && clientUser.first_name + " " + clientUser.last_name}</div>
+                          <div
+                              className='profile-menu-profile-section-next-image-middle'>@{clientUser && clientUser.username}</div>
+                          <div className='profile-menu-profile-section-next-image-last'>{translate["Edit Profile"]}</div>
+                        </div>
                       </div>
-                      <div className='profile-menu-profile-section-next-image'>
-                        <div
-                            className='profile-menu-profile-section-next-image-first'>{clientUser && clientUser.first_name + " " + clientUser.last_name}</div>
-                        <div
-                            className='profile-menu-profile-section-next-image-middle'>@{clientUser && clientUser.username}</div>
-                        <div className='profile-menu-profile-section-next-image-last'>{translate["Edit Profile"]}</div>
-                      </div>
+                      }/>
                     </Link>
 
                     <div className='profile-menu-second-section'>
                       {/*<div className='profile-menu-second-section-item' onClick={this._handleExchangeUpgrade}>درخواست*/}
                       {/*ارتقاء به کارگزار*/}
                       {/*</div>*/}
-                      <div className='profile-menu-second-section-item'
-                           onClick={this._createExchangeModalVisibilityHandler}>ایجاد بورس جدید
-                      </div>
-                      <div className='profile-menu-second-section-item' onClick={this._handleProductWizardModal}>ایجاد
-                        آورده جدید
-                      </div>
+                      <Material className='profile-menu-second-section-item' onClick={this._createExchangeModalVisibilityHandler} content='ایجاد بورس جدید'/>
+                      <Material className='profile-menu-second-section-item' onClick={this._handleProductWizardModal} content='ایجاد آورده جدید'/>
                     </div>
 
                     <div className='profile-menu-second-section'>
-                      <div className='profile-menu-second-section-item' onClick={this._handleShowSetting}>{translate["General Settings"]}</div>
-                      <div className='profile-menu-second-section-item' onClick={this._handleShowAbout}>{translate["About Innowin"]}</div>
-                      <div className='profile-menu-second-section-item'>{translate["Privacy"]}</div>
+                      <Material className='profile-menu-second-section-item' onClick={this._handleShowSetting} content={translate["General Settings"]}/>
+                      <Material className='profile-menu-second-section-item' onClick={this._handleShowAbout} content={translate["About Innowin"]}/>
+                      <Material className='profile-menu-second-section-item' content={translate["Privacy"]}/>
                     </div>
 
-                    <div className='profile-menu-second-section-item'
-                         onClick={this._handleSignOut}>{translate["Sign Out"]}</div>
+                    <Material className='profile-menu-second-section-item' onClick={this._handleSignOut} content={translate["Sign Out"]}/>
 
                   </div>
                 </div>

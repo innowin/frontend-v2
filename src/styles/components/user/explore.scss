@@ -33,6 +33,7 @@
 .user-banner {
   height: 100px;
   width: 100%;
+  object-fit: cover;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
   background-image: repeating-linear-gradient(-45deg, #eee, #eee 10px, 10px, #f8f8f8 20px);
@@ -161,9 +162,6 @@
   }
   &:focus {
     outline: none;
-  }
-  &:active {
-    background-color: $secondary-color;
   }
 }
 

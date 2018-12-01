@@ -644,7 +644,6 @@ $sidebar-profile-media-width: 80px;
 .item-wrapper {
   display: flex;
   flex-direction: column;
-  padding: 10px 10px 10px 30px;
   position: relative;
 
   &:after {
@@ -688,6 +687,7 @@ $sidebar-profile-media-width: 80px;
     flex-flow: row;
     cursor: pointer;
     align-items: center;
+    padding: 10px 10px 10px 30px;
     .exchange-name {
       padding: 0 20px 0 0;
       color: $text-light-color;
@@ -1493,6 +1493,7 @@ $sidebar-profile-media-width: 80px;
 }
 
 .profile-menu-second-section-item {
+  display: block;
   padding: 12px 15px;
   font-weight: bold;
   cursor: pointer;
