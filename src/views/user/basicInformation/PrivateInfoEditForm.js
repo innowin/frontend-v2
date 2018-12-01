@@ -108,7 +108,7 @@ class PrivateInfoEditForm extends Component<PropsPrivateInfoEditForm> {
                 name="nationalCode"
                 type="text"
                 component={renderTextField}
-                label={translate['Username']}
+                label={translate['National code']}
                 textFieldClass='form-control'
             />
           </div>
