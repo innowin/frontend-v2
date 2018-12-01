@@ -38,11 +38,37 @@ $sidebar-profile-media-width: 80px;
   font-size: 24px;
 }
 
-.-topBarIcons {
+.-topBarIcons-cont {
   cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  text-align: center;
+  transition-duration: 0.5s;
+}
+
+.-topBarIcons-cont-open {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.15);
+  transition-duration: 0.5s;
+}
+
+.-topBarIcons {
   fill: $background-color;
   height: 20px;
-  margin-top: 4px;
+  vertical-align: top;
+  margin-top: 5px;
+}
+
+.notif-icon {
+  fill: $background-color;
+  height: 20px;
+  vertical-align: top;
+  margin-top: 3px;
 }
 
 .centerImgTopBar {
@@ -144,8 +170,7 @@ $sidebar-profile-media-width: 80px;
 }
 
 .-ProfTopBarImg-svg-img {
-  cursor: pointer;
-  margin: auto 0 auto 10px;
+  margin-top: 2.7px;
   height: 40px;
   width: 40px;
   border-radius: 50%;
@@ -283,7 +308,7 @@ $sidebar-profile-media-width: 80px;
 .exchange-center-background {
   top: 0;
   background: linear-gradient(to bottom, $image-background-color, $image-background-color,
-      $image-background-color, $image-background-color, $image-background-color, transparent);
+          $image-background-color, $image-background-color, $image-background-color, transparent);
   height: $exchange-tabs-height;
   width: $feed-width + 10;
   position: fixed;
@@ -726,10 +751,23 @@ $sidebar-profile-media-width: 80px;
   position: relative;
 }
 
+.top-bar-home {
+  margin-right: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  text-align: center;
+}
+
+.top-bar-home-logo {
+  vertical-align: top;
+  margin: 3px;
+}
+
 .explore-menu-container {
   position: absolute;
   top: 32px;
-  right: -80px;
+  right: -75px;
   width: 245px;
   text-align: center;
   overflow-y: hidden;
@@ -740,7 +778,7 @@ $sidebar-profile-media-width: 80px;
 .explore-menu-container-hide {
   position: absolute;
   top: 32px;
-  right: -80px;
+  right: -75px;
   width: 245px;
   text-align: center;
   overflow-y: hidden;
@@ -772,6 +810,7 @@ $sidebar-profile-media-width: 80px;
 }
 
 .explore-menu-items {
+  text-decoration: none;
   position: relative;
   z-index: 2;
   display: block;
@@ -1792,4 +1831,27 @@ $sidebar-profile-media-width: 80px;
   resize: vertical;
   width: 100%;
   line-height: 22px;
+}
+
+.topbar-profile-img {
+  cursor: pointer;
+  margin-top: 4px;
+  margin-left: 8px;
+  width: 45px;
+  height: 45px;
+  text-align: center;
+  border-radius: 50%;
+  transition-duration: 0.5s;
+}
+
+.topbar-profile-img-open {
+  cursor: pointer;
+  margin-top: 4px;
+  margin-left: 8px;
+  width: 45px;
+  height: 45px;
+  text-align: center;
+  border-radius: 50%;
+  transition-duration: 0.5s;
+  background-color: rgba(255, 255, 255, 0.15);
 }

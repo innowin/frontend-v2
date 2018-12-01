@@ -14,6 +14,7 @@ class Material extends React.Component {
       let rect = target.getBoundingClientRect()
       let ripple = document.createElement('span')
       ripple.className = 'ripple'
+      if (this.props.backgroundColor) ripple.style.backgroundColor = this.props.backgroundColor
       ripple.style.height = ripple.style.width = Math.max(rect.width, rect.height) + 'px'
       target.appendChild(ripple)
       let top = e.pageY - rect.top - ripple.offsetHeight / 2 - window.scrollY
@@ -37,6 +38,7 @@ class Material extends React.Component {
       let rect = target.getBoundingClientRect()
       let ripple = document.createElement('span')
       ripple.className = 'rippleSlow'
+      if (this.props.backgroundColor) ripple.style.backgroundColor = this.props.backgroundColor
       ripple.style.height = ripple.style.width = Math.max(rect.width, rect.height) + 'px'
       target.appendChild(ripple)
       this.ripple = ripple

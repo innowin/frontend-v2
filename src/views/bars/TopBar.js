@@ -24,6 +24,7 @@ import IntroduceBadges from "./TopBarComponents/IntroduceBadges"
 import UserAgreement from "./TopBarComponents/UserAgreement"
 import AboutUs from "./TopBarComponents/AbouUs"
 import Material from "../common/components/Material"
+import {REST_URL} from "../../consts/URLS"
 
 type PropsTopBar = {|
   collapseClassName: string,
@@ -113,6 +114,20 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.clientImgLink !== nextProps.clientImgLink) {
+      this.setState({...this.state, profilePhotoLoaded: false}, () => {
+        if (nextProps.clientImgLink) {
+          let profile = new Image()
+          profile.src = nextProps.clientImgLink
+          profile.onload = () => {
+            this.setState({...this.state, profilePhotoLoaded: true})
+          }
+        }
+      })
+    }
+  }
+
   //
   // _toggle = (e: SyntheticEvent<HTMLButtonElement>): void => {
   //   e.preventDefault()
@@ -186,7 +201,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
   render() {
     const {collapseClassName, clientUser, clientOrganization, translate, clientImgLink} = this.props
-    const {collapse, collapseProfile, exploreCollapse, productWizardModalIsOpen, mouseIsOverMenu, selectedSetting, selectedAbout, showSetting, showAbout, createExchangeModalIsOpen} = this.state
+    const {collapse, collapseProfile, exploreCollapse, productWizardModalIsOpen, mouseIsOverMenu, selectedSetting, selectedAbout, showSetting, showAbout, createExchangeModalIsOpen, profilePhotoLoaded} = this.state
     const linkEditProfile = !clientOrganization
         ? `/user/${clientUser.id}`
         : `/organization/${clientOrganization.id}`
@@ -212,13 +227,15 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
             <div className="d-flex align-items-center">
 
-              <Link to={"/"}><i className="fa fa-home mr-3" aria-hidden={true}/></Link>
+              <Material backgroundColor='#eee' className='top-bar-home' content={
+                <Link to={"/"}><i className="fa fa-home top-bar-home-logo" aria-hidden={true}/></Link>
+              }/>
 
               <div className="mr-5 top-bar-explore" onClick={this._toggleExplore}>
                 <ExploreMenu exploreCollapse={exploreCollapse}/>
               </div>
 
-              <Link className="mr-5" to={"/"}><NotificationIcon className="-topBarIcons"/></Link>
+              <Link className="mr-5" to={"/"}><NotificationIcon className="notif-icon"/></Link>
 
             </div>
 
@@ -226,15 +243,17 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
             <div className="dir-ltr d-flex flex-row">
               <div className="-ProfTopBarImg">
-                {clientImgLink && this.state.profilePhotoLoaded ? <img src={clientImgLink} className='-ProfTopBarImg-svg-img' alt="Person icon" onClick={this._toggleProfile}/>
+
+                {clientImgLink && profilePhotoLoaded ? <Material backgroundColor='#eee' className={collapseProfile ? 'topbar-profile-img-open' : 'topbar-profile-img'}
+                                                                 content={<img src={clientImgLink} className='-ProfTopBarImg-svg-img' alt="Person icon" onClick={this._toggleProfile}/>}/>
                     :
-                    <DefaultUserIcon className='-ProfTopBarImg-svg' onClickFunc={this._toggleProfile}/>
+                    <Material backgroundColor='#eee' className={collapseProfile ? 'topbar-profile-img-open' : 'topbar-profile-img'}
+                              content={<DefaultUserIcon className='-ProfTopBarImg-svg-img' onClickFunc={this._toggleProfile}/>}/>
                 }
 
                 <div className={collapseProfile ? "profile-menu-container" : "profile-menu-container-hide"}>
                   <div className='profile-menu-arrow'>
                     ▲
-                    {/*<MainLbarArrow className='explore-menu-arrow-2'/>*/}
                   </div>
                   <div className='explore-menu'>
 
@@ -258,9 +277,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                     </Link>
 
                     <div className='profile-menu-second-section'>
-                      {/*<div className='profile-menu-second-section-item' onClick={this._handleExchangeUpgrade}>درخواست*/}
-                      {/*ارتقاء به کارگزار*/}
-                      {/*</div>*/}
+                      {/*<Material className='profile-menu-second-section-item' onClick={this._handleExchangeUpgrade} content='درخواست ارتقاء به کارگزار'/>*/}
                       <Material className='profile-menu-second-section-item' onClick={this._createExchangeModalVisibilityHandler} content='ایجاد بورس جدید'/>
                       <Material className='profile-menu-second-section-item' onClick={this._handleProductWizardModal} content='ایجاد آورده جدید'/>
                     </div>

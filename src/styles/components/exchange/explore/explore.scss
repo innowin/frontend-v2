@@ -588,7 +588,8 @@
   overflow: hidden;
   position: relative;
   user-select: none;
-  direction: ltr
+  direction: ltr;
+  vertical-align: top;
 }
 
 .material:focus {
