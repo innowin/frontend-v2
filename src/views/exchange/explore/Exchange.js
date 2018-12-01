@@ -10,6 +10,7 @@ import Distribute from 'src/images/common/supply_svg'
 import {Link} from 'react-router-dom'
 import {REST_URL} from 'src/consts/URLS'
 import {ClipLoader} from "react-spinners"
+import Material from "../../common/components/Material"
 
 type appProps =
     {|
@@ -81,9 +82,9 @@ class Exchange extends Component <appProps, appState> {
       return <div className='exchange-model-following'><ClipLoader color='#008057' size={19}/></div>
     }
     else if (this.props.data.exchange === undefined) {
-      return <button className='exchange-followed' onClick={this.follow}>دنبال کردن</button>
+      return <Material className='exchange-followed' content='دنبال کردن' onClick={this.follow}/>
     }
-    else return <button className='exchange-follow'>دنبال شده</button>
+    else return <Material className='exchange-follow' content='دنبال شده'/>
   }
 
 

@@ -9,6 +9,7 @@ import {connect} from "react-redux"
 import {Link} from "react-router-dom"
 import {SeeViewIcon, RefreshIcon, SettingIcon, DefaultExchangeIcon} from "src/images/icons"
 import {getExchangeMembershipsSelector} from 'src/redux/selectors/common/social/getExchangeMemberships'
+import Material from "../../common/components/Material"
 
 const DescriptionSideBarItem = ({description = '', className = ""}) => {
   return (
@@ -70,24 +71,18 @@ export class SideBarItem extends Component<PropsSideBarItem> {
     const {exchange_image, name, description, id: exchangeId} = this.props.exchange
     return (
         <div className={`item-wrapper ${ active ? 'active' : ''}`} onClick={this._onClickHandler}>
-          <div className="header-exchange">
-            <Link to={"/exchange/" + exchangeId} className="default-logo">
-              {exchange_image && this.state.imageLoaded ?
-                  <img className="img-logo" src={exchange_image.file} alt="logo"/>
-                  :
-                  <DefaultExchangeIcon/>
-              }
-            </Link>
-            <div className="exchange-name">{name}</div>
-          </div>
-          {
-            (!active) ? ('') : (
-                <div className="active-content">
-                  {/*<DescriptionSideBarItem description={description} className="active-description"/>*/}
-                  {/*<FooterSideBarItem exchangeId={exchangeId} className="active-footer"/>*/}
-                </div>
-            )
-          }
+          <Material content={
+            <div className="header-exchange">
+              <Link to={"/exchange/" + exchangeId} className="default-logo">
+                {exchange_image && this.state.imageLoaded ?
+                    <img className="img-logo" src={exchange_image.file} alt="logo"/>
+                    :
+                    <DefaultExchangeIcon/>
+                }
+              </Link>
+              <div className="exchange-name">{name}</div>
+            </div>
+          }/>
         </div>
     )
   }
@@ -157,16 +152,9 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
           {
             (clientExchanges && clientExchanges.length > 0) ? (
                 clientExchanges.map((exchange, i) => {
-                  return (
-                      (exchange.id === activeExchangeId) ?
-                          <SideBarItem key={i + "HomeSideBar-active"} exchange={exchange}
-                                       handleClick={this._handleClick}
-                                       active={true}/>
-                          :
-                          <SideBarItem key={i + "HomeSideBar-not-active"} exchange={exchange}
-                                       handleClick={this._handleClick}
-                                       active={false}/>
-                  )
+                  return <SideBarItem key={i} exchange={exchange}
+                                      handleClick={this._handleClick}
+                                      active={exchange.id === activeExchangeId}/>
                 })
             ) : (<p className="mt-3 pr-3"><b>شما عضو هیچ بورسی نیستید!</b></p>)
           }
