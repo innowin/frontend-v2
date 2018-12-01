@@ -142,7 +142,7 @@ class ExchangeViewBar extends Component {
   handleClickOutside(event) {
     const {exchanges, exchangeId, currentUserId} = this.props
     const currentExchange = exchanges.list[exchangeId]
-    if (currentExchange.owner.identity_user === currentUserId)
+    if (currentExchange && currentExchange.owner && currentExchange.owner.identity_user === currentUserId)
       if (this.exchangeAdminMenu && !this.exchangeAdminMenu.contains(event.target)) {
         this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
       }
@@ -227,11 +227,11 @@ class ExchangeViewBar extends Component {
       return (
           <div className="-sidebar-child-wrapper col">
             <div className="align-items-center flex-column">
-              {currentUserId !== (currentExchange.owner && currentExchange.owner.identity_user) ?
+              {currentUserId !== (currentExchange.owner && currentExchange.owner.identity_user) || adminView ?
                   null
                   :
                   <div>
-                    <div className="fa fa-ellipsis-v menuBottom post-menu-bottom" onClick={this.handleAdminMenu}/>
+                    <div className="fa fa-ellipsis-v menuBottom bubble-more" onClick={this.handleAdminMenu}/>
                     <div className={"exchange-admin-menu-disable"} ref={e => this.exchangeAdminMenu = e}>
                       <div className={"exchange-admin-menu-child"} onClick={this.handleAdminView}>
                         {translate["Edit Exchange"]}
@@ -250,7 +250,13 @@ class ExchangeViewBar extends Component {
                              src={currentExchange.exchange_image.file.includes("innowin.ir") ?
                                  currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file}/>
                         :
-                        <DefaultUserIcon className="exchangeViewBarImg"/>
+                        currentExchange.exchange.content.exchange_image ?
+                            <img className="exchangeViewBarImg" alt={translate["Exchange Picture"]}
+                                 src={currentExchange.exchange.content.exchange_image.file.includes("innowin.ir") ?
+                                     currentExchange.exchange.content.exchange_image.file :
+                                     REST_URL + currentExchange.exchange.content.exchange_image.file}/>
+                            :
+                            <DefaultUserIcon className="exchangeViewBarImg"/>
 
                     :
 
@@ -264,13 +270,23 @@ class ExchangeViewBar extends Component {
                                    currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file}/>
                         </div>
                         :
-                        <div className={"edit-exchange-profile-picture-container"}>
-                          <div className={"edit-exchange-profile-picture"}>
-                            تصویر جدید
-                          </div>
-                          <DefaultUserIcon className="exchangeViewBarImg"/>
-                        </div>
-
+                        currentExchange.exchange.content.exchange_image ?
+                            <div className={"edit-exchange-profile-picture-container"}>
+                              <div className={"edit-exchange-profile-picture"}>
+                                تصویر جدید
+                              </div>
+                              <img className="exchangeViewBarImg" alt={translate["Exchange Picture"]}
+                                   src={currentExchange.exchange.content.exchange_image.file.includes("innowin.ir") ?
+                                       currentExchange.exchange.content.exchange_image.file :
+                                       REST_URL + currentExchange.exchange.content.exchange_image.file}/>
+                            </div>
+                            :
+                            <div className={"edit-exchange-profile-picture-container"}>
+                              <div className={"edit-exchange-profile-picture"}>
+                                تصویر جدید
+                              </div>
+                              <DefaultUserIcon className="exchangeViewBarImg"/>
+                            </div>
               }
 
               <div className="exchangeName">
@@ -281,7 +297,7 @@ class ExchangeViewBar extends Component {
                     !adminView ?
                         <span>{currentExchange.name === "" ? "بدون نام" : currentExchange.name}</span>
                         :
-                        <input ref={e => this.editName = e} style={{borderRadius: "3px", textAlign: "center", border: "1px solid grey", padding: "5px", fontSize: "14px"}}
+                        <input ref={e => this.editName = e} className={"edit-exchange-name-input"}
                                defaultValue={currentExchange.name === "" ? "بدون نام" : currentExchange.name}/>
                   }
                 </div>
@@ -291,10 +307,7 @@ class ExchangeViewBar extends Component {
                     <span className="-grey1 fontSize-13px description-right-bar">{currentExchange.description === "" ? "بدون توضیحات" :
                         currentExchange.description}</span>
                     :
-                    <textarea ref={e => this.editDescription = e} style={{
-                      borderRadius: "3px", textAlign: "center", border: "1px solid grey", padding: "4px",
-                      fontSize: "13px", resize: "vertical", width: "100%", lineHeight: "21px"
-                    }}
+                    <textarea ref={e => this.editDescription = e} className={"edit-exchange-description-input"}
                               defaultValue={currentExchange.description === "" ? "بدون نام" : currentExchange.description}/>
               }
 
