@@ -4,6 +4,7 @@ import getExchangeMembershipByMemberIdentity from "./getExchangeMembershipByMemb
 import postsExchange from "./post"
 import searchExchangesByWord from './searchExchangesByWord'
 import removeExchangesSearchMode from './removeExchangesSearchMode'
+import editExchange from './editExchange'
 
 
 export default {
@@ -12,5 +13,6 @@ export default {
   getExchangeMembershipByMemberIdentity,
   postsExchange,
   searchExchangesByWord,
-  removeExchangesSearchMode
+  removeExchangesSearchMode,
+  editExchange
 }

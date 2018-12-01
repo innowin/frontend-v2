@@ -580,6 +580,7 @@ $sidebar-profile-media-width: 80px;
   border-radius: 25px;
   transition-duration: $animation-timing;
   min-width: 122.5px;
+  height: 33px;
 
   &:hover {
     background-color: $background-color;
@@ -1727,7 +1728,7 @@ $sidebar-profile-media-width: 80px;
   box-shadow: 0 2px 5px 1px $box-shadow-color;
   text-align: center;
   z-index: 102;
-  height: 30px;
+  height: 62px;
   opacity: 1;
   font-size: $font-size-description;
 }
@@ -1758,9 +1759,17 @@ $sidebar-profile-media-width: 80px;
     text-align: center;
     font-size: $font-size-regular;
     font-weight: bold;
-    background-color: rgba(51, 51, 51, 0.4);
+    background-color: rgba(255, 255, 255, 0.3);
     border-radius: $border-radius-more;
     color: $text-dark-color;
     cursor: pointer;
+  }
+}
+
+.post-menu-bottom {
+  border-radius: 50%;
+  transition: all $animation-timing;
+  &:hover {
+    background-color: $eee-color;
   }
 }
