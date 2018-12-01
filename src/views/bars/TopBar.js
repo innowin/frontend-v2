@@ -218,7 +218,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                 <ExploreMenu exploreCollapse={exploreCollapse}/>
               </div>
 
-              <Link className="mr-5" to={"/"}><NotificationIcon className="-topBarIcons"/></Link>
+              {/*<Link className="mr-5" to={"/"}><NotificationIcon className="-topBarIcons"/></Link>*/}
 
             </div>
 

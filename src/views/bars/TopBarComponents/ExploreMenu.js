@@ -23,7 +23,7 @@ const ExploreMenu = (props) => {
               <Contacts svgClass='explore-logos member-logo' containerClass='explore-logos-container'/> شناسه ها (افراد و مجموعه ها)
             </Link>
             <Link to={'#'} className='explore-menu-items'>
-              <ContributionIcon className='explore-logos'/> آورده ها (محصولات، توانمدی و ...)
+              <ContributionIcon className='explore-logos'/> آورده ها (محصولات، توانمندی و ...)
             </Link>
           </div>
         </div>
