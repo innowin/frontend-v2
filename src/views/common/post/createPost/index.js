@@ -321,7 +321,20 @@ class CreatePost extends Component {
         this.setState({...this.state, profileLoaded: true})
       }
     }
+  }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.currentUserMedia !== nextProps.currentUserMedia) {
+      this.setState({...this.state, profileLoaded: false}, () => {
+        if (nextProps.currentUserMedia) {
+          let profile = new Image()
+          profile.src = nextProps.currentUserMedia
+          profile.onload = () => {
+            this.setState({...this.state, profileLoaded: true})
+          }
+        }
+      })
+    }
   }
 
   componentWillUnmount() {
@@ -360,10 +373,10 @@ class CreatePost extends Component {
             </div>
           </div>
 
-        <div className={"post-component-content " + hasMediaClass}>
-          <div className='post-component-description'>
-            {descriptionClass &&
-            <span className={descriptionClass}>
+          <div className={"post-component-content " + hasMediaClass}>
+            <div className='post-component-description'>
+              {descriptionClass &&
+              <span className={descriptionClass}>
             {description && description.trim().length + '/1500'}
           </span>
               }

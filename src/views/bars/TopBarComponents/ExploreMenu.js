@@ -4,26 +4,43 @@ import {Link} from "react-router-dom"
 import ExchangeIcon from "../../../images/common/exchange_svg"
 import Contacts from "../../../images/common/contacts_svg"
 import ContributionIcon from "../../../images/common/contribution_svg"
+import Material from "../../common/components/Material"
 
 const ExploreMenu = (props) => {
   const {exploreCollapse} = props
   return (
       <div>
-        <ExchangeExploreIcon className="-topBarIcons"/>
+        <Material backgroundColor='#eee' className={exploreCollapse ? "-topBarIcons-cont-open" : "-topBarIcons-cont"} content={
+          <ExchangeExploreIcon className={'-topBarIcons'}/>
+        }/>
         <div className={exploreCollapse ? "explore-menu-container" : "explore-menu-container-hide"}>
           <div className='explore-menu-arrow'>
             ▲
-            {/*<MainLbarArrow className='explore-menu-arrow-2'/>*/}
           </div>
           <div className='explore-menu'>
-            <Link to={'/exchange/Exchange_Explorer'} className='explore-menu-items'>
-              <ExchangeIcon className='explore-logos'/> بورس ها
+
+            <Link to={'/exchange/Exchange_Explorer'}>
+              <Material className='explore-menu-items' content={
+                <div>
+                  <ExchangeIcon className='explore-logos'/>بورس ها
+                </div>
+              }/>
             </Link>
-            <Link to={'/users/Users_Explorer'} className='explore-menu-items'>
-              <Contacts svgClass='explore-logos member-logo' containerClass='explore-logos-container'/> شناسه ها (افراد و مجموعه ها)
+
+            <Link to={'/users/Users_Explorer'}>
+              <Material className='explore-menu-items' content={
+                <div>
+                  <Contacts svgClass='explore-logos member-logo' containerClass='explore-logos-container'/> شناسه ها (افراد و مجموعه ها)
+                </div>
+              }/>
             </Link>
-            <Link to={'#'} className='explore-menu-items'>
-              <ContributionIcon className='explore-logos'/> آورده ها (محصولات، توانمندی و ...)
+
+            <Link to={'#'}>
+              <Material className='explore-menu-items' content={
+                <div>
+                  <ContributionIcon className='explore-logos'/> آورده ها (محصولات، توانمندی و ...)
+                </div>
+              }/>
             </Link>
           </div>
         </div>

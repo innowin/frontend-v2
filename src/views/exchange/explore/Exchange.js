@@ -148,7 +148,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     follow: exchangeActions.createExchangeMembership,
-    // exchangeMembership: exchangeMembership.getExchangeMembershipByMemberIdentity
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Exchange)
