@@ -11,7 +11,7 @@ import {ExchangeIcon} from "src/images/icons"
 import {getExchangePostsByPostType, getExchangePostsHasProduct} from "../../crud/post/exchangePost"
 import ExchangeMembershipActions from "../../redux/actions/commonActions/exchangeMembershipActions"
 import {DefaultUserIcon} from "src/images/icons"
-import {BeatLoader} from "react-spinners"
+import {BeatLoader, ClipLoader} from "react-spinners"
 import {REST_URL} from "src/consts/URLS"
 
 
@@ -35,7 +35,8 @@ class ExchangeViewBar extends Component {
       error: null,
       followLoading: false,
       imageLoaded: false,
-      adminView: false
+      adminView: false,
+      loadingEdit: false
     }
     this.follow = this.follow.bind(this)
     this.exchangeAdminMenu = React.createRef()
@@ -44,6 +45,7 @@ class ExchangeViewBar extends Component {
     this.handleAdminMenu = this.handleAdminMenu.bind(this)
     this.handleClickOutside = this.handleClickOutside.bind(this)
     this.handleAdminView = this.handleAdminView.bind(this)
+    this.handleDeleteExchange = this.handleDeleteExchange.bind(this)
     this.handleEditButton = this.handleEditButton.bind(this)
   }
 
@@ -122,10 +124,14 @@ class ExchangeViewBar extends Component {
     document.addEventListener("mousedown", this.handleClickOutside)
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState, snapShot) {
     const {exchanges, exchangeId} = this.props
-    if (exchanges && exchanges.list && exchanges.list[exchangeId]) {
-      // this.setState({...this.state,exchange :exchanges.list[exchangeId]})
+    const currentExchange = exchanges.list[exchangeId]
+
+    if (currentExchange !== prevProps.exchanges.list[exchangeId]) {
+      if (this.state.loadingEdit) {
+        this.setState({...this.state, adminView: false, loadingEdit: false})
+      }
     }
   }
 
@@ -134,9 +140,12 @@ class ExchangeViewBar extends Component {
   }
 
   handleClickOutside(event) {
-    if (this.exchangeAdminMenu && !this.exchangeAdminMenu.contains(event.target)) {
-      this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
-    }
+    const {exchanges, exchangeId, currentUserId} = this.props
+    const currentExchange = exchanges.list[exchangeId]
+    if (currentExchange.owner.identity_user === currentUserId)
+      if (this.exchangeAdminMenu && !this.exchangeAdminMenu.contains(event.target)) {
+        this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
+      }
   }
 
   renderFollowBtn(currentExchange) {
@@ -178,15 +187,35 @@ class ExchangeViewBar extends Component {
     this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
   }
 
+  handleDeleteExchange() {
+    this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
+    console.log("DELETE_EXCHANGE")
+  }
+
   handleEditButton() {
-    alert(this.editDescription.value)
-    alert(this.editName.value)
+    // alert(this.editDescription.value)
+    const {actions, exchangeId} = this.props
+    const {editExchange} = actions
+    let formValues = {
+      exchange_id: exchangeId,
+      exchange_description: this.editDescription && this.editDescription.value,
+      exchange_name: this.editName && this.editName.value,
+      exchange_media: null
+    }
+    editExchange(formValues)
+    this.setState({...this.state, loadingEdit: true})
+    // alert(this.editName.value)
   }
 
   render() {
-    const {exchange, badgesImgUrl, demandCount, supplyCount, productCount, tags, members, isLoading, error, followLoading, imageLoaded, adminView} = this.state
-    const {translate, exchanges, exchangeId} = this.props
+    const {
+      exchange, badgesImgUrl, demandCount, supplyCount, productCount, tags,
+      members, isLoading, error, followLoading, imageLoaded, adminView, loadingEdit
+    } = this.state
+    const {translate, exchanges, exchangeId, currentUserId} = this.props
     const currentExchange = exchanges.list[exchangeId]
+    // console.log(currentExchange.owner.identity_user)
+
     // const currentExchange = exchanges.list[exchangeId].exchange.content
     // let membersView = members.map((val, idx) => (
     //     <div className="" key={idx}>
@@ -198,14 +227,17 @@ class ExchangeViewBar extends Component {
       return (
           <div className="-sidebar-child-wrapper col">
             <div className="align-items-center flex-column">
-              {this.state.membersViewSide ?
-                  <i className="fa fa-ellipsis-v menuBottom"> </i>
+              {currentUserId !== (currentExchange.owner && currentExchange.owner.identity_user) ?
+                  null
                   :
                   <div>
-                    <div className="fa fa-ellipsis-v menuBottom" onClick={this.handleAdminMenu}/>
+                    <div className="fa fa-ellipsis-v menuBottom post-menu-bottom" onClick={this.handleAdminMenu}/>
                     <div className={"exchange-admin-menu-disable"} ref={e => this.exchangeAdminMenu = e}>
                       <div className={"exchange-admin-menu-child"} onClick={this.handleAdminView}>
                         {translate["Edit Exchange"]}
+                      </div>
+                      <div className={"exchange-admin-menu-child"} onClick={this.handleDeleteExchange}>
+                        {translate["Delete Exchange"]}
                       </div>
                     </div>
                   </div>
@@ -223,7 +255,7 @@ class ExchangeViewBar extends Component {
                     :
 
                     currentExchange.exchange_image && imageLoaded ?
-                        <div  className={"edit-exchange-profile-picture-container"}>
+                        <div className={"edit-exchange-profile-picture-container"}>
                           <div className={"edit-exchange-profile-picture"}>
                             تصویر جدید
                           </div>
@@ -342,11 +374,19 @@ class ExchangeViewBar extends Component {
                   :
                   <div className="row mr-0 ml-0 pb-3 flex-wrap justify-content-around">
                     <div className="pb-2">
-                      <button
-                          type="button"
-                          className="btn btn-outline-secondary btn-block sidebarBottom"
-                          onClick={this.handleEditButton}> تایید
-                      </button>
+                      {!loadingEdit ?
+                          <button
+                              type="button"
+                              className="btn btn-outline-secondary btn-block sidebarBottom"
+                              onClick={this.handleEditButton}> تایید
+                          </button>
+                          :
+                          <div
+                              className="btn btn-outline-secondary btn-block sidebarBottom">
+                            <ClipLoader color="#dcdcdc" size={15} loading={true}/>
+                          </div>
+                      }
+
                     </div>
                     <div className="pb-2">
                       <button
@@ -368,16 +408,23 @@ class ExchangeViewBar extends Component {
   }
 }
 
-const StateToProps = (state) => ({
-  translate: state.intl.messages,
-  router: state.router,
-  exchanges: state.exchanges,
-  currentUserIdentity: state.auth.client.identity.content,
-})
+const StateToProps = (state) => {
+  const client = state.auth.client
+  const userId = (client.organization && client.organization.id) || (client.user && client.user.id)
+
+  return ({
+    translate: state.intl.messages,
+    router: state.router,
+    exchanges: state.exchanges,
+    currentUserIdentity: state.auth.client.identity.content,
+    currentUserId: userId,
+  })
+}
 const DispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getExchangeMembershipByExchangeId: ExchangeMembershipActions.getExchangeMembershipByExchangeId,
     getExchangeByExId: exchangeActions.getExchangeByExId,
+    editExchange: exchangeActions.editExchange,
     follow: ExchangeMembershipActions.createExchangeMembership,
   }, dispatch)
 })

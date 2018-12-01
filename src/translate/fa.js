@@ -338,6 +338,7 @@ module.exports = {
   "Exchange Manager": "مدیریت بورس",
   "Medals": "مدرک ها",
   "Edit Exchange": "ویرایش بورس",
+  "Delete Exchange": "حذف بورس",
 
   //Statistic
   "Activity Report": "گزارش فعالیت",

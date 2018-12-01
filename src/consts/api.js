@@ -76,7 +76,8 @@ const getEmit = (url, resultName, query = "", token) => {
 const patchEmit = (url, resultName, data, query = "", token) => {
   socket.emit(REST_REQUEST, {
     method: 'patch',
-    url: REST_URL + '/' + url + '/' + query + '/',
+    // url: REST_URL + '/' + url + '/' + query + '/',
+    url: REST_URL + '/' + url + '/',
     result: resultName,
     data,
     token
