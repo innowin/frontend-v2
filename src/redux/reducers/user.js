@@ -32,7 +32,7 @@ const users = (state = initialState.users, action) => {
       return {
         ...state,
         resetPassword: {
-          userId: data.userId,
+          userId,
           step_name: constants.RESET_PASSWORD_STEP.REQUEST,
           isLoading: false,
           error: null
@@ -53,17 +53,19 @@ const users = (state = initialState.users, action) => {
       return {
         ...state,
         resetPassword: {
-          userId: data.userId,
+          userId,
           step_name: constants.RESET_PASSWORD_STEP.CHECK_CODE,
           isLoading: true,
           error: null
         }
       }
     case types.SUCCESS.USER.PASSWORD_RESET_BY_SMS_CHECK_CODE:
+      const {VerificationCode} = action.payload || {}
       return {
         ...state,
         resetPassword: {
-          userId: null,
+          VerificationCode,
+          userId,
           step_name: constants.RESET_PASSWORD_STEP.CHECK_CODE,
           isLoading: false,
           error: null
@@ -73,7 +75,7 @@ const users = (state = initialState.users, action) => {
       return {
         ...state,
         resetPassword: {
-          userId: null,
+          userId,
           step_name: constants.RESET_PASSWORD_STEP.CHECK_CODE,
           isLoading: false,
           error: message
@@ -86,7 +88,6 @@ const users = (state = initialState.users, action) => {
       return {
         ...state,
         resetPassword: {
-          userId: null,
           step_name: constants.RESET_PASSWORD_STEP.RESET,
           isLoading: true,
           error: null
@@ -96,7 +97,6 @@ const users = (state = initialState.users, action) => {
       return {
         ...state,
         resetPassword: {
-          userId: null,
           step_name: constants.RESET_PASSWORD_STEP.RESET,
           isLoading: false,
           error: null
@@ -106,7 +106,6 @@ const users = (state = initialState.users, action) => {
       return {
         ...state,
         resetPassword: {
-          userId: null,
           step_name: constants.RESET_PASSWORD_STEP.RESET,
           isLoading: false,
           error: message

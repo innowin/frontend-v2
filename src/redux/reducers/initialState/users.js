@@ -1,6 +1,3 @@
-import constants from "src/consts/constants"
-
-
 export default {
   list: {
     /*
@@ -86,6 +83,8 @@ export default {
   loading: true,
   resetPassword: {
     step_name: null,
+    userId:null,
+    VerificationCode: null,
     isLoading: false,
     error: null
   },

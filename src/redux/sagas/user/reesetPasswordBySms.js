@@ -13,8 +13,12 @@ export function* resetPasswordBySmsRequest(action) {
     const _data = {mobile: phoneNumber}
     yield fork(api.post, urls.USER.PASSWORD_RESET_BY_SMS_REQUEST, results.USER.PASSWORD_RESET_BY_SMS_REQUEST, _data)
     const data = yield take(socketChannel)
-    const userId = data.user_id
-    yield put({type: types.SUCCESS.USER.PASSWORD_RESET_BY_SMS_REQUEST, payload: {data}})
+    if(data.status === "SUCCESS") {
+      const userId = data.user_id
+      yield put({type: types.SUCCESS.USER.PASSWORD_RESET_BY_SMS_REQUEST, payload: {userId}})
+    } else {
+      throw new Error(data.status)
+    }
   } catch (e) {
     const {message} = e
     yield put({type: types.ERRORS.USER.PASSWORD_RESET_BY_SMS_REQUEST, payload: {message}})
@@ -31,7 +35,11 @@ export function* resetPasswordBySmsCheckCode(action) {
     const _data = {user_id: userId, code: VerificationCode}
     yield fork(api.post, urls.USER.PASSWORD_RESET_BY_SMS_CHECK_CODE, results.USER.PASSWORD_RESET_BY_SMS_CHECK_CODE, _data)
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.USER.PASSWORD_RESET_BY_SMS_CHECK_CODE, payload: {data, userId, VerificationCode}})
+    if (data.status === "OK"){
+      yield put({type: types.SUCCESS.USER.PASSWORD_RESET_BY_SMS_CHECK_CODE, payload: {userId, VerificationCode}})
+    } else {
+      throw new Error(data.status)
+    }
   } catch (e) {
     const {message} = e
     yield put({type: types.ERRORS.USER.PASSWORD_RESET_BY_SMS_CHECK_CODE, payload: {message, userId}})
@@ -48,10 +56,14 @@ export function* resetPasswordBySms(action) {
     const _data = {user_id: userId, code: VerificationCode, password, confirm_password: passwordConfirm}
     yield fork(api.post, urls.USER.PASSWORD_RESET_BY_SMS, results.USER.PASSWORD_RESET_BY_SMS, _data)
     const data = yield take(socketChannel)
-    yield put({
-      type: types.SUCCESS.USER.PASSWORD_RESET_BY_SMS,
-      payload: {data, userId, VerificationCode, password, passwordConfirm}
-    })
+    if (data.status === "SUCCESS"){
+      yield put({
+        type: types.SUCCESS.USER.PASSWORD_RESET_BY_SMS,
+        payload: {data, userId}
+      })
+    } else {
+      throw new Error(data.status)
+    }
   } catch (e) {
     const {message} = e
     yield put({type: types.ERRORS.USER.PASSWORD_RESET_BY_SMS, payload: {message, userId}})
