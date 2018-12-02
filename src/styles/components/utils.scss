@@ -103,6 +103,11 @@
   object-fit: cover;
 }
 
+.covered-svg {
+  object-fit: cover;
+  margin-bottom: -8px;
+}
+
 .contain-img {
   object-fit: contain;
 }

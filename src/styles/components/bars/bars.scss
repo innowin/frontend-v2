@@ -669,6 +669,7 @@ $sidebar-profile-media-width: 80px;
   display: flex;
   flex-direction: column;
   position: relative;
+  transition-duration: 0.6s;
 
   &:after {
     content: '';
@@ -685,8 +686,10 @@ $sidebar-profile-media-width: 80px;
   }
 
   &.active {
+    transition-duration: 0.6s;
     background-color: $chat-box2-color;
     .exchange-name {
+      transition-duration: 0.6s;
       color: lighten($text-darkest-color, 10%) !important;
     }
 
@@ -703,6 +706,7 @@ $sidebar-profile-media-width: 80px;
       top: -1px;
       left: 0;
       background-color: $text-lighter-color;
+      transition-duration: 0.6s;
     }
   }
 
