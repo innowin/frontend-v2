@@ -9,10 +9,10 @@ import results from "../../consts/resultName"
 function* getUserIdentity(action) {
   const {payload} = action
   const {userId} = payload
-  const resultName = results.GET_IDENTITY + userId
+  const resultName = results.USER.GET_IDENTITY + userId
   const socketChannel = yield call(api.createSocketChannel, resultName)
   try {
-    yield fork(api.get, urls.GET_IDENTITY, resultName, `?identity_user=${userId}`)
+    yield fork(api.get, urls.USER.GET_IDENTITY, resultName, `?identity_user=${userId}`)
     const dataList = yield take(socketChannel)
     const data = dataList[0]
     yield put({type: types.SUCCESS.USER.GET_USER_IDENTITY, payload: {data, userId}})
@@ -28,10 +28,10 @@ function* getUserIdentity(action) {
 export function* getOrgIdentity(action) {
   const payload = action.payload
   const {organizationId} = payload
-  const resultName = results.GET_IDENTITY + organizationId
+  const resultName = results.USER.GET_IDENTITY + organizationId
   const socketChannel = yield call(api.createSocketChannel, resultName)
   try {
-    yield fork(api.get, urls.GET_IDENTITY, resultName, `?identity_organization=${organizationId}`)
+    yield fork(api.get, urls.USER.GET_IDENTITY, resultName, `?identity_organization=${organizationId}`)
     const dataList = yield take(socketChannel)
     const data = dataList[0]
     yield put({type: types.SUCCESS.ORG.GET_ORG_IDENTITY, payload: {data, organizationId}})
