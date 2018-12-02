@@ -82,7 +82,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       showSetting: false,
       selectedSetting: "General Settings",
       showAbout: false,
-      selectedAbout: 'FAQ',
+      selectedAbout: "FAQ",
       profilePhotoLoaded: false,
     }
   }
@@ -180,7 +180,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   _handleHideSetting = () => {
     this.setState({...this.state, showSetting: false, showAbout: false})
     setTimeout(() => {
-      this.setState({...this.state, selectedSetting: "Privacy", selectedAbout: 'FAQ'})
+      this.setState({...this.state, selectedSetting: "Privacy", selectedAbout: "FAQ"})
       setTimeout(() => {
         this.setState({...this.state, selectedSetting: "General Settings"})
       }, 10)
@@ -235,7 +235,8 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                 <ExploreMenu exploreCollapse={exploreCollapse}/>
               </div>
 
-              <Link className="mr-5" to={"/"}><NotificationIcon className="notif-icon"/></Link>
+              {/*<Link className="mr-5" to={"/"}><NotificationIcon className="-topBarIcons"/></Link>*/}
+              {/*<Link className="mr-5" to={"/"}><NotificationIcon className="notif-icon"/></Link>*/}
 
             </div>
 
@@ -244,10 +245,13 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
             <div className="dir-ltr d-flex flex-row">
               <div className="-ProfTopBarImg">
 
-                {clientImgLink && profilePhotoLoaded ? <Material backgroundColor='#eee' className={collapseProfile ? 'topbar-profile-img-open' : 'topbar-profile-img'}
-                                                                 content={<img src={clientImgLink} className='-ProfTopBarImg-svg-img' alt="Person icon" onClick={this._toggleProfile}/>}/>
+                {clientImgLink && profilePhotoLoaded ? <Material backgroundColor='#eee'
+                                                                 className={collapseProfile ? "topbar-profile-img-open" : "topbar-profile-img"}
+                                                                 content={<img src={clientImgLink}
+                                                                               className='-ProfTopBarImg-svg-img' alt="Person icon"
+                                                                               onClick={this._toggleProfile}/>}/>
                     :
-                    <Material backgroundColor='#eee' className={collapseProfile ? 'topbar-profile-img-open' : 'topbar-profile-img'}
+                    <Material backgroundColor='#eee' className={collapseProfile ? "topbar-profile-img-open" : "topbar-profile-img"}
                               content={<DefaultUserIcon className='-ProfTopBarImg-svg-img' onClickFunc={this._toggleProfile}/>}/>
                 }
 

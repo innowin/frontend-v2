@@ -13,6 +13,7 @@ import ExchangeMembershipActions from "../../redux/actions/commonActions/exchang
 import {DefaultUserIcon} from "src/images/icons"
 import {BeatLoader, ClipLoader} from "react-spinners"
 import {REST_URL} from "src/consts/URLS"
+import {getExchangeMembershipsSelector} from "../../redux/selectors/common/social/getExchangeMemberships"
 
 
 class ExchangeViewBar extends Component {
@@ -43,10 +44,12 @@ class ExchangeViewBar extends Component {
     this.editDescription = React.createRef()
     this.editName = React.createRef()
     this.handleAdminMenu = this.handleAdminMenu.bind(this)
+    this.handleMenu = this.handleMenu.bind(this)
     this.handleClickOutside = this.handleClickOutside.bind(this)
     this.handleAdminView = this.handleAdminView.bind(this)
     this.handleDeleteExchange = this.handleDeleteExchange.bind(this)
     this.handleEditButton = this.handleEditButton.bind(this)
+    this.handleUnfollowExchange = this.handleUnfollowExchange.bind(this)
   }
 
   _MockData = () => {
@@ -124,7 +127,7 @@ class ExchangeViewBar extends Component {
     document.addEventListener("mousedown", this.handleClickOutside)
   }
 
-  componentDidUpdate(prevProps, prevState, snapShot) {
+  componentWillReceiveProps(prevProps, nextProps) {
     const {exchanges, exchangeId} = this.props
     const currentExchange = exchanges.list[exchangeId]
 
@@ -142,10 +145,14 @@ class ExchangeViewBar extends Component {
   handleClickOutside(event) {
     const {exchanges, exchangeId, currentUserId} = this.props
     const currentExchange = exchanges.list[exchangeId]
-    if (currentExchange && currentExchange.owner && currentExchange.owner.identity_user === currentUserId)
+    if (currentExchange && currentExchange.owner && currentExchange.owner.identity_user === currentUserId) {
       if (this.exchangeAdminMenu && !this.exchangeAdminMenu.contains(event.target)) {
         this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
       }
+    } else if (currentExchange.exchange)
+        if (this.exchangeAdminMenu && !this.exchangeAdminMenu.contains(event.target)) {
+      this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
+    }
   }
 
   renderFollowBtn(currentExchange) {
@@ -182,6 +189,10 @@ class ExchangeViewBar extends Component {
     this.exchangeAdminMenu.className = "exchange-admin-menu"
   }
 
+  handleMenu() {
+    this.exchangeAdminMenu.className = "exchange-admin-menu-member"
+  }
+
   handleAdminView() {
     this.setState({...this.state, adminView: true})
     this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
@@ -207,6 +218,30 @@ class ExchangeViewBar extends Component {
     // alert(this.editName.value)
   }
 
+  handleUnfollowExchange() {
+    const {exchanges, exchangeId, currentUserId, currentUserIdentity, currentUserType, exchangesIdentities, actions} = this.props
+    const currentExchange = exchanges.list[exchangeId]
+    if (currentExchange.exchange) {
+      const {unFollow, getExchangeMembershipByMemberIdentity} = actions
+      getExchangeMembershipByMemberIdentity({
+        identityId: currentUserIdentity,
+        exchangeMembershipOwnerId: currentUserId,
+        exchangeMembershipOwnerType: currentUserType,
+      })
+      // console.log(exchangesIdentities)
+      let exchangeMembershipIdTemp
+      exchangeMembershipIdTemp = Object.values(exchangesIdentities).filter(memberships => memberships.exchange_identity_related_exchange.id === +exchangeId)
+      exchangeMembershipIdTemp[0] && unFollow({
+        exchangeMembershipId: exchangeMembershipIdTemp[0].id,
+        exchangeMembershipOwnerId: currentUserId,
+        exchangeMembershipOwnerType: currentUserType
+      })
+
+      this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
+      this.props.actions.getAllExchanges(24, 0, null) // Temporary
+    }
+  }
+
   render() {
     const {
       exchange, badgesImgUrl, demandCount, supplyCount, productCount, tags,
@@ -227,8 +262,16 @@ class ExchangeViewBar extends Component {
       return (
           <div className="-sidebar-child-wrapper col">
             <div className="align-items-center flex-column">
-              {currentUserId !== (currentExchange.owner && currentExchange.owner.identity_user) || adminView ?
-                  null
+              {currentUserId !== (currentExchange.owner && currentExchange.owner.identity_user) && !adminView ?
+                  currentExchange.exchange ?
+                      <div>
+                        <div className="fa fa-ellipsis-v menuBottom bubble-more" onClick={this.handleMenu}/>
+                        <div className={"exchange-admin-menu-disable"} ref={e => this.exchangeAdminMenu = e}>
+                          <div className={"exchange-admin-menu-child"} onClick={this.handleUnfollowExchange}>
+                            {translate["Unfollow Exchange"]}
+                          </div>
+                        </div>
+                      </div> : null
                   :
                   <div>
                     <div className="fa fa-ellipsis-v menuBottom bubble-more" onClick={this.handleAdminMenu}/>
@@ -250,7 +293,7 @@ class ExchangeViewBar extends Component {
                              src={currentExchange.exchange_image.file.includes("innowin.ir") ?
                                  currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file}/>
                         :
-                        currentExchange.exchange.content.exchange_image ?
+                        currentExchange.exchange && currentExchange.exchange.content.exchange_image ?
                             <img className="exchangeViewBarImg" alt={translate["Exchange Picture"]}
                                  src={currentExchange.exchange.content.exchange_image.file.includes("innowin.ir") ?
                                      currentExchange.exchange.content.exchange_image.file :
@@ -270,7 +313,7 @@ class ExchangeViewBar extends Component {
                                    currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file}/>
                         </div>
                         :
-                        currentExchange.exchange.content.exchange_image ?
+                        currentExchange.exchange && currentExchange.exchange.content.exchange_image ?
                             <div className={"edit-exchange-profile-picture-container"}>
                               <div className={"edit-exchange-profile-picture"}>
                                 تصویر جدید
@@ -421,7 +464,7 @@ class ExchangeViewBar extends Component {
   }
 }
 
-const StateToProps = (state) => {
+const StateToProps = (state, ownProps) => {
   const client = state.auth.client
   const userId = (client.organization && client.organization.id) || (client.user && client.user.id)
 
@@ -431,6 +474,8 @@ const StateToProps = (state) => {
     exchanges: state.exchanges,
     currentUserIdentity: state.auth.client.identity.content,
     currentUserId: userId,
+    currentUserType: client.user_type,
+    exchangesIdentities: state.common.exchangeMembership.list,
   })
 }
 const DispatchToProps = dispatch => ({
@@ -439,6 +484,9 @@ const DispatchToProps = dispatch => ({
     getExchangeByExId: exchangeActions.getExchangeByExId,
     editExchange: exchangeActions.editExchange,
     follow: ExchangeMembershipActions.createExchangeMembership,
+    unFollow: ExchangeMembershipActions.deleteExchangeMembership,
+    getExchangeMembershipByMemberIdentity: ExchangeMembershipActions.getExchangeMembershipByMemberIdentity,
+    getAllExchanges: exchangeActions.getAllExchanges,
   }, dispatch)
 })
 

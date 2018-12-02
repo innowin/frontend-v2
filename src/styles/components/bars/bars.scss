@@ -1770,6 +1770,23 @@ $sidebar-profile-media-width: 80px;
   font-size: $font-size-description;
 }
 
+.exchange-admin-menu-member {
+  position: absolute;
+  top: 15px;
+  left: 10px;
+  width: 120px;
+  overflow: hidden;
+  background-color: $white;
+  transition-duration: $animation-timing;
+  border-radius: $border-radius;
+  box-shadow: 0 2px 5px 1px $box-shadow-color;
+  text-align: center;
+  z-index: 102;
+  height: 31px;
+  opacity: 1;
+  font-size: $font-size-description;
+}
+
 .exchange-admin-menu-child {
   width: 100%;
   padding: 7.5px;

@@ -38,7 +38,7 @@ const ExploreMenu = (props) => {
             <Link to={'#'}>
               <Material className='explore-menu-items' content={
                 <div>
-                  <ContributionIcon className='explore-logos'/> آورده ها (محصولات، توانمدی و ...)
+                  <ContributionIcon className='explore-logos'/> آورده ها (محصولات، توانمندی و ...)
                 </div>
               }/>
             </Link>
