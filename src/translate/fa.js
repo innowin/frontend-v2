@@ -186,6 +186,7 @@ module.exports = {
   "Fax": "دورنگار",
   "Mobile": "شماره موبایل",
   "National code": "کد ملی",
+  "National code 10": "کد ملی ده رقمی",
   "Phone": "شماره تماس",
   "Public email": "رایانامه عمومی",
   "Telegram account": "حساب تلگرام",

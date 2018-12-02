@@ -1,5 +1,5 @@
 const validateTitle = (title, translate) => {
-  if (title.length < 5) {
+  if (title.length < 1) {
     return translate['Title is wrong']
   }
 }

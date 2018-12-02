@@ -48,7 +48,7 @@ class InfoView extends Component {
                   <Ticket width="22px" height="22px"
                           containerClass={"svg-container-info-view"}
                           svgClass={"svg-info-view"}/>
-                  <span>کارگذار</span>
+                  <span>کارگزار</span>
                 </div>
                 <div className={"info-body"}>
                   <div className={"info-exchange-owner-frame"}>
