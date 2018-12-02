@@ -63,7 +63,7 @@ class Material extends React.Component {
   }
 
   render() {
-    return <div ref={e => this.container = e} className={this.props.className ? "material " + this.props.className : "material"}
+    return <div ref={e => this.container = e} id={this.props.id} className={this.props.className ? "material " + this.props.className : "material"}
                 onMouseDown={this.onMouseDown} onMouseUp={this.handleButtonRelease} onClick={this.props.onClick}>
       <div className='material-content'>
         {this.props.content}
