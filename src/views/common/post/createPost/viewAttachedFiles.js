@@ -49,7 +49,7 @@ const ViewAttachedFiles = (props) => {
   )
 }
 
-ViewAttachedFiles.PropTypes = {
+ViewAttachedFiles.propTypes = {
   postPictures: PropTypes.array,
   errorAttachPicture: PropTypes.string,
   postMedia: PropTypes.string,

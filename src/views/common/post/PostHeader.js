@@ -17,12 +17,15 @@ type PostHeaderProps = {
   postRelatedIdentityImage: fileType,
   postIdentity: identityType,
   showEdit?: Function,
-  extendedView: boolean,
+  extendedView?: boolean,
+}
+type PostHeaderStates = {
+  profileLoaded: boolean,
 }
 
-class PostHeader extends React.Component {
+class PostHeader extends React.Component<PostHeaderProps, PostHeaderStates> {
 
-  constructor(props) {
+  constructor(props: PostHeaderProps) {
     super(props)
     this.state = {
       profileLoaded: false
@@ -97,7 +100,7 @@ PostHeader.propTypes = {
   postRelatedIdentityImage: PropTypes.object.isRequired,
   postIdentity: PropTypes.object.isRequired,
   showEdit: PropTypes.func,
-  extendedView: PropTypes.bool.isRequired,
+  extendedView: PropTypes.bool,
 }
 
 export default PostHeader

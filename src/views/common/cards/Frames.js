@@ -214,7 +214,7 @@ type PropsVerifyWrapper = {
   retry?: Function,
   children?: React.Node,
   className?: string,
-  isLoading: boolean
+  isLoading?: boolean
 }
 
 export const VerifyWrapper = ({error, retry = () => alert("retry"), ...props}: PropsVerifyWrapper): div => {
@@ -233,7 +233,7 @@ export const VerifyWrapper = ({error, retry = () => alert("retry"), ...props}: P
   return loadingCard()
 }
 VerifyWrapper.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool,
   error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   retry: PropTypes.func,
   className: PropTypes.string

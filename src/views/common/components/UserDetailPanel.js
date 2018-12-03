@@ -9,16 +9,14 @@ import type {fileType} from "../../../consts/flowTypes/common/fileType"
 import {bindActionCreators} from "redux"
 import FileActions from "../../../redux/actions/commonActions/fileActions"
 import {DefaultUserIcon} from "../../../images/icons"
-import DefaultImageIcon from "../../../images/defaults/defaultImage_svg"
-import {REST_URL} from "../../../consts/URLS"
 
 type UserDetailPanelProps = {
   translate: { [string]: string },
-  organization: organizationType,
+  organization?: organizationType,
   profile: userProfileType,
   user: userType,
-  profileImage: fileType,
-  bannerImage: fileType,
+  profileImage?: fileType,
+  bannerImage?: fileType,
   profileId: number,
   bannerId: number,
   actions: {
@@ -43,12 +41,12 @@ class UserDetailPanel extends React.Component<UserDetailPanelProps, UserDetailPa
   static propTypes = {
     translate: PropTypes.object.isRequired,
     profile: PropTypes.object.isRequired,
-    organization: PropTypes.object.isRequired,
+    organization: PropTypes.object,
     user: PropTypes.object.isRequired,
     profileId: PropTypes.number.isRequired,
     bannerId: PropTypes.number.isRequired,
-    profileImage: PropTypes.object.isRequired,
-    bannerImage: PropTypes.object.isRequired,
+    profileImage: PropTypes.object,
+    bannerImage: PropTypes.object,
     actions: PropTypes.object.isRequired,
   }
 

@@ -47,31 +47,35 @@ type postExtendedViewProps = {
   post: postType,
   postRelatedIdentityImage?: fileType,
   postIdentity: identityType,
-  param: paramType,
+  param?: paramType,
   userImage?: fileType,
   userImageId: number,
-  extendedView: boolean,
+  extendedView?: boolean,
   showEdit?: Function,
-  comments: Array<commentType>,
+  comments?: Array<commentType>,
   commentParentType: string,
+  fileList: [],
 }
 type postViewState = {
   menuToggle: boolean,
   confirm: boolean,
+  pictureLoaded: null | boolean,
+  showComment: boolean,
 }
 
 class PostView extends React.Component<postExtendedViewProps, postViewState> {
   static propTypes = {
     post: PropTypes.object.isRequired,
     postIdentity: PropTypes.object.isRequired,
-    param: PropTypes.object.isRequired,
+    param: PropTypes.object,
     translate: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
     postRelatedIdentityImage: PropTypes.object,
     userImage: PropTypes.object,
-    extendedView: PropTypes.bool.isRequired,
+    extendedView: PropTypes.bool,
     showEdit: PropTypes.func,
-    comments: PropTypes.array.isRequired,
+    comments: PropTypes.array,
+    fileList: PropTypes.array,
   }
   commentTextField: ?HTMLInputElement
 
