@@ -1,13 +1,14 @@
-import {createStore, applyMiddleware} from 'redux'
+import createEncryptor from 'redux-persist-transform-encrypt'
+import createHistory from 'history/createBrowserHistory'
 import createSagaMiddleware from 'redux-saga'
+import migrations from 'src/redux/migrations'
 import rootReducer from '../reducers/rootReducer'
 import rootSaga from '../sagas/rootSaga'
-import {createLogger} from 'redux-logger'
-import {routerMiddleware} from 'react-router-redux'
-import {persistReducer} from 'redux-persist'
-import createHistory from 'history/createBrowserHistory'
-import createEncryptor from 'redux-persist-transform-encrypt'
 import storage from 'redux-persist/lib/storage'
+import {createLogger} from 'redux-logger'
+import {createStore, applyMiddleware} from 'redux'
+import {persistReducer, createMigrate} from 'redux-persist'
+import {routerMiddleware} from 'react-router-redux'
 
 //creating logger
 const logger = createLogger({
@@ -27,7 +28,7 @@ const encryptor = createEncryptor({
 		throw new Error(error)
 	}
 })
-const persistConfig = {key: 'root',transforms: [encryptor],storage, blacklist:['form', 'param']}
+const persistConfig = {key: 'root',transforms: [encryptor],storage,version: migrations.LATEST_VERSION,migrate: createMigrate(migrations.ROOT, { debug: true }), blacklist:['form', 'param']}
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 const configureStore = () => {

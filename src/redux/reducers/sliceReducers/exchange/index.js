@@ -5,6 +5,7 @@ import postsExchange from "./post"
 import searchExchangesByWord from './searchExchangesByWord'
 import removeExchangesSearchMode from './removeExchangesSearchMode'
 import editExchange from './editExchange'
+import deleteExchange from './deleteExchange'
 
 
 export default {
@@ -14,5 +15,6 @@ export default {
   postsExchange,
   searchExchangesByWord,
   removeExchangesSearchMode,
-  editExchange
+  editExchange,
+  deleteExchange
 }

@@ -138,6 +138,7 @@ const results = {
     GET_EXCHANGE_BY_EX_ID: 'get-exchange-by-ex-id',
     CREATE_EXCHANGE: 'create-exchange',
     EDIT_EXCHANGE: 'edit-exchange',
+    DELETE_EXCHANGE: 'delete-exchange',
   },
   WORK_EXPERIENCE: {
     GET_USER_WORK_EXPERIENCES_BY_USER_ID: 'get-user-work-experiences-by-user-id',

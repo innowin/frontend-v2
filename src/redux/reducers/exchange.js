@@ -1,6 +1,6 @@
-import initialState from 'src/redux/reducers/initialState'
-import types from 'src/redux/actions/types'
-import exchangeSlice from './sliceReducers/exchange'
+import initialState from "src/redux/reducers/initialState"
+import types from "src/redux/actions/types"
+import exchangeSlice from "./sliceReducers/exchange"
 import constants from "src/consts/constants"
 import pushAnObjToStateList from "./sliceReducers/utilsSlices/pushAnObjToStateList"
 import createAnObj from "./sliceReducers/utilsSlices/createAnObj"
@@ -8,16 +8,20 @@ import createAnObj from "./sliceReducers/utilsSlices/createAnObj"
 
 const exchanges = (state = initialState.exchanges, action) => {
   const {postParentType} = action.payload || {}
-  const {getExchangeByExId, postsExchange, getExchangeMembershipByMemberIdentity, getAllExchanges, searchExchangesByWord,removeExchangesSearchMode, editExchange} = exchangeSlice
+  const {getExchangeByExId, postsExchange, getExchangeMembershipByMemberIdentity, getAllExchanges, searchExchangesByWord,
+    removeExchangesSearchMode, editExchange, deleteExchange} = exchangeSlice
   const {POST_PARENT} = constants
   switch (action.type) {
     case types.EXCHANGE.CREATE_EXCHANGE:
       return createAnObj.base(state, action)
     case types.SUCCESS.EXCHANGE.CREATE_EXCHANGE:
       return createAnObj.success(state, action)
-      /** --------------------  get exchange by exchange id --------------------- **/
+      /** --------------------  edit exchange --------------------- **/
     case types.SUCCESS.EXCHANGE.EDIT_EXCHANGE:
       return editExchange.success(state, action)
+      /** --------------------  delete exchange --------------------- **/
+    case types.SUCCESS.EXCHANGE.DELETE_EXCHANGE:
+      return deleteExchange.success(state, action)
       /** --------------------  get exchange by exchange id --------------------- **/
     case types.SUCCESS.EXCHANGE.GET_EXCHANGE_BY_EX_ID:
       return getExchangeByExId.success(state, action)

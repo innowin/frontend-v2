@@ -15,6 +15,11 @@ const editExchange = (formValues) => ({
   payload: {formValues}
 })
 
+const deleteExchange = (id) => ({
+  type: types.EXCHANGE.DELETE_EXCHANGE,
+  payload: {id}
+})
+
 const getAllExchanges = (limit, offset, search) => ({
   type: types.EXCHANGE.GET_EXCHANGES,
   payload: {limit, offset, search}
@@ -24,6 +29,7 @@ const ExchangeActions = {
   getExchangeByExId,
   createExchange,
   editExchange,
+  deleteExchange,
   getAllExchanges,
 }
 

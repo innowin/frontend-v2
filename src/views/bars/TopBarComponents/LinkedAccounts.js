@@ -18,7 +18,7 @@ class LinkedAccounts extends Component {
               {this.props.translate["Google"]}
             </div>
             <LinkedInIcon className='settingModal-menu-manage-logo'/>
-            <div className='settingModal-menu-manage-address'>testtest78@bullshit.com</div>
+            <div className='settingModal-menu-manage-address'>something@website.com</div>
             <button className='settingModal-menu-manage-remove'>{this.props.translate["Disconnect"]}</button>
           </div>
 
@@ -27,7 +27,7 @@ class LinkedAccounts extends Component {
               {this.props.translate["Linkedin"]}
             </div>
             <LinkedInIcon className='settingModal-menu-manage-logo'/>
-            <div className='settingModal-menu-manage-address'>testtest78@bullshit.com</div>
+            <div className='settingModal-menu-manage-address'>something@website.com</div>
             <button className='settingModal-menu-manage-add'>{this.props.translate["Add"]}</button>
           </div>
 
