@@ -47,31 +47,35 @@ type postExtendedViewProps = {
   post: postType,
   postRelatedIdentityImage?: fileType,
   postIdentity: identityType,
-  param: paramType,
+  param?: paramType,
   userImage?: fileType,
   userImageId: number,
-  extendedView: boolean,
+  extendedView?: boolean,
   showEdit?: Function,
-  comments: Array<commentType>,
+  comments?: Array<commentType>,
   commentParentType: string,
+  fileList: [],
 }
 type postViewState = {
   menuToggle: boolean,
   confirm: boolean,
+  pictureLoaded: null | boolean,
+  showComment: boolean,
 }
 
 class PostView extends React.Component<postExtendedViewProps, postViewState> {
   static propTypes = {
     post: PropTypes.object.isRequired,
     postIdentity: PropTypes.object.isRequired,
-    param: PropTypes.object.isRequired,
+    param: PropTypes.object,
     translate: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
     postRelatedIdentityImage: PropTypes.object,
     userImage: PropTypes.object,
-    extendedView: PropTypes.bool.isRequired,
+    extendedView: PropTypes.bool,
     showEdit: PropTypes.func,
-    comments: PropTypes.array.isRequired,
+    comments: PropTypes.array,
+    fileList: PropTypes.array,
   }
   commentTextField: ?HTMLInputElement
 
@@ -132,7 +136,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
       let mailExp = new RegExp("^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$")
 
-      let urlExp = new RegExp("^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$")
+      let urlExp = new RegExp("^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[A-Za-z0-9]+([\\-\\.]{1}[A-Za-z0-9]+)*\\.[A-Za-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$")
 
       // Phone Reg
       let first = new RegExp("(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{4}[)]?))")
@@ -356,7 +360,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                  <div className="-img-col">
                  {!userImage
                  ? (<DefaultUserIcon/>)
-                 : (<img className="rounded-circle" src={userImage.file} alt=""/>)
+                 : (<img className="rounded-circle object-fit-cover" src={userImage.file} alt=""/>)
                  }
                  </div>
                  <input className='add-comment-text-field' placeholder={translate["Send comment"]}

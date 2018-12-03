@@ -9,12 +9,13 @@ import CheckOwner from "../CheckOwner"
 
 type postFooterProps = {
   post: postType,
-  extendedView: boolean,
+  extendedView?: boolean,
   menuToggle: boolean,
   openMenu: Function,
   postIdentity: identityType,
   translate: { [string]: string },
   deletePost: Function,
+  showComment: Function,
 }
 
 const PostFooter = (props: postFooterProps) => {
@@ -77,13 +78,13 @@ const PostFooter = (props: postFooterProps) => {
 
 PostFooter.propTypes = {
   post: PropTypes.object.isRequired,
-  extendedView: PropTypes.bool.isRequired,
+  extendedView: PropTypes.bool,
   menuToggle: PropTypes.bool.isRequired,
   openMenu: PropTypes.func.isRequired,
   postIdentity: PropTypes.object.isRequired,
   translate: PropTypes.object.isRequired,
   deletePost: PropTypes.func.isRequired,
-  showComment: PropTypes.func.isRequired
+  showComment: PropTypes.func.isRequired,
 }
 
 

@@ -16,8 +16,9 @@ class InfoView extends Component {
     })
     const {owner, actions} = this.props
     const profile = owner.profile.content.profile_user
-    if (profile)
-      actions.getEducationsByUserId({userId: profile.id})
+    if (profile) {
+      actions.getEducationsByUserId({userId: !isNaN(profile.id) ? profile.id : profile})
+    }
   }
 
   render() {

@@ -18,6 +18,7 @@
 
 .users-explore-hide {
   display: inline-block;
+  margin: 0 10px 0 0;
   text-align: center;
   flex-grow: 1;
   width: 270px;
@@ -26,8 +27,9 @@
   border-radius: 5px;
   box-shadow: 0 3px 3px $box-shadow-color;
   height: 0;
+  position: relative;
   overflow: hidden;
-  visibility: hidden;
+  opacity: 0;
 }
 
 .user-banner {

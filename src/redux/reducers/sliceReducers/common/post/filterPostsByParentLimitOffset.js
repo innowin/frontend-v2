@@ -12,12 +12,6 @@ const success = (state, action) => {
       ...state.list,
       ...indexedPost,
     },
-    groupedByExchange: {
-      ...state.groupedByExchange,
-      [postParentId]: {
-        ...indexedPost,
-      }
-    }
   }
 }
 

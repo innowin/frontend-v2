@@ -17,7 +17,9 @@
 
 .exchange-model-hide {
   position: relative;
+  padding: 0 15px;
   display: inline-block;
+  margin: 0 10px 0 0;
   text-align: center;
   flex-grow: 1;
   width: 270px;
@@ -25,9 +27,9 @@
   background-color: $text-lightest-color;
   border-radius: 5px;
   box-shadow: 0 3px 3px $box-shadow-color;
-  height: 0;
   overflow: hidden;
-  visibility: hidden;
+  height: 0;
+  opacity: 0;
 }
 
 .exchange-model-follow {
@@ -194,11 +196,11 @@
     right: 80px;
     width: calc(0.25 * (100% - 160px));
   }
-  @media screen and (max-width: 1280px) and (min-width: 800px) {
+  @media screen and (max-width: 1280px) and (min-width: 900px) {
     right: 30px;
     width: calc(0.25 * (100% - 60px));
   }
-  @media screen and (max-width: 800px) and (min-width: 0px) {
+  @media screen and (max-width: 900px) and (min-width: 0px) {
     right: 10px;
     width: calc(0.25 * (100% - 20px));
   }
@@ -384,10 +386,10 @@
   @media screen and (max-width: 1366px) and (min-width: 1280px) {
     margin: 0 80px;
   }
-  @media screen and (max-width: 1280px) and (min-width: 800px) {
+  @media screen and (max-width: 1280px) and (min-width: 900px) {
     margin: 0 30px;
   }
-  @media screen and (max-width: 800px) and (min-width: 0px) {
+  @media screen and (max-width: 900px) and (min-width: 0px) {
     margin: 0 10px;
   }
 }

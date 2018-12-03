@@ -389,7 +389,7 @@ const mapStateToProps = (state) => {
       {
         identityId: auth.client.identity.content,
         ownerId: auth.client.organization.id,
-        identityType: constants.USER_TYPES.ORG
+        identityType: constants.USER_TYPES.ORG,
       }
       :
       {

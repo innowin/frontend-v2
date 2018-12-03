@@ -10,6 +10,7 @@ import exchangeActions from 'src/redux/actions/exchangeActions'
 import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges.js'
 import {ClipLoader} from "react-spinners"
 import RightArrowSvg from "../../../images/common/right_arrow_svg"
+import StickersMenu from "../../common/components/StickersMenu"
 
 type appProps =
     {|
@@ -85,10 +86,11 @@ class Explore extends PureComponent <appProps, appState> {
   render() {
     return (
         <div className='all-exchanges-parent'>
-          <TopBar collapseClassName="col user-sidebar-width"/>
+          {/*<TopBar collapseClassName="col user-sidebar-width"/>*/}
           <Sidebar search={this.search} justFollowing={this.justFollowing}/>
           <div className='all-exchanges-container'>
             <Exchanges exchanges={this.props.allExchanges} justFollowing={this.state.justFollowing} loading={this.props.loading}/>
+            <div className='exchange-model-hide'/>
             <div className='exchange-model-hide'/>
             <div className='exchange-model-hide'/>
             <div className={this.props.loading ? 'exchanges-explore-search-loading' : 'exchanges-explore-search-loading-hide'}><ClipLoader/></div>

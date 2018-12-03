@@ -113,7 +113,7 @@ export class Organization extends Component<PropsOrganization> {
     const errorMessage = organObject.error || badgesObject.error //TODO mohsen:added get files error
     return (
         <div className="-userOrganBackgroundImg">
-          <TopBar collapseClassName="col user-sidebar-width"/>
+          {/*<TopBar collapseClassName="col user-sidebar-width"/>*/}
           <VerifyWrapper isLoading={isLoading} error={errorMessage} className="-main row page-content">
             {(!identityObject.content) ? '' : (
                 <OrganSideBar

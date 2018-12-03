@@ -14,6 +14,7 @@ import {DefaultUserIcon} from "src/images/icons"
 import {BeatLoader, ClipLoader} from "react-spinners"
 import {REST_URL} from "src/consts/URLS"
 import {getExchangeMembershipsSelector} from "../../redux/selectors/common/social/getExchangeMemberships"
+import {Link} from "react-router-dom"
 
 
 class ExchangeViewBar extends Component {
@@ -124,6 +125,14 @@ class ExchangeViewBar extends Component {
         this.setState({...this.state, imageLoaded: true})
       }
     }
+    else if (currentExchange.exchange.content.exchange_image) {
+      let image = new Image()
+      image.src = currentExchange.exchange.content.exchange_image.file.includes("innowin.ir") ?
+          currentExchange.exchange.content.exchange_image.file : REST_URL + currentExchange.exchange.content.exchange_image.file
+      image.onload = () => {
+        this.setState({...this.state, imageLoaded: true})
+      }
+    }
 
     document.addEventListener("mousedown", this.handleClickOutside)
   }
@@ -150,7 +159,7 @@ class ExchangeViewBar extends Component {
       if (this.exchangeAdminMenu && !this.exchangeAdminMenu.contains(event.target)) {
         this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
       }
-    } else if (currentExchange.exchange)
+    } else if (currentExchange && currentExchange.exchange)
       if (this.exchangeAdminMenu && !this.exchangeAdminMenu.contains(event.target)) {
         this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
       }
@@ -159,35 +168,27 @@ class ExchangeViewBar extends Component {
   renderFollowBtn(currentExchange) {
     if (currentExchange.exchange && !this.state.unFollowed) {
       return (
-          <div className="pb-2">
-            <button
-                type="button"
-                className="btn btn-outline-secondary btn-block sidebarFollowBottom"
-                style={{width: "122.5px"}}>عضو شده
-            </button>
-          </div>
+          <button
+              type="button"
+              className="sidebarFollowBottom">عضو شده
+          </button>
       )
     }
     else if (this.state.followLoading) {
-      return <div className="pb-2">
-        <button
-            type="button"
-            className="btn btn-outline-secondary btn-block sidebarFollowBottom"
-            style={{width: "122.5px"}}>
-          <BeatLoader size={7} color={"#4dab9f"} margin={2}/>
-        </button>
-      </div>
+      return (
+          <button type="button" className="sidebarFollowBottom">
+            <BeatLoader size={7} color={"#4dab9f"} margin={2}/>
+          </button>
+      )
     }
     else {
       return (
-          <div className="pb-2">
-            <button
-                type="button"
-                className="btn btn-outline-secondary btn-block sidebarFollowBottom"
-                style={{width: "122.5px", cursor: "pointer"}}
-                onClick={this.follow}>درخواست عضویت
-            </button>
-          </div>
+          <button
+              type="button"
+              className="sidebarFollowBottom"
+              style={{cursor: "pointer"}}
+              onClick={this.follow}>درخواست عضویت
+          </button>
       )
     }
   }
@@ -207,7 +208,9 @@ class ExchangeViewBar extends Component {
 
   handleDeleteExchange() {
     this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
-    console.log("DELETE_EXCHANGE")
+    const {actions, exchangeId} = this.props
+    const {deleteExchange} = actions
+    deleteExchange(exchangeId)
   }
 
   handleEditButton() {
@@ -294,9 +297,11 @@ class ExchangeViewBar extends Component {
                       <div className={"exchange-admin-menu-child"} onClick={this.handleAdminView}>
                         {translate["Edit Exchange"]}
                       </div>
-                      <div className={"exchange-admin-menu-child"} onClick={this.handleDeleteExchange}>
-                        {translate["Delete Exchange"]}
-                      </div>
+                      <Link to={`/`} className={"exchange-admin-menu-child-delete"}>
+                        <div className={"exchange-admin-menu-child"} onClick={this.handleDeleteExchange}>
+                          {translate["Delete Exchange"]}
+                        </div>
+                      </Link>
                     </div>
                   </div>
               }{/*<i className="fa fa-arrow-left menuBottom" onClick={this._handleMembersClick.bind(this)}> </i>*/}
@@ -353,20 +358,38 @@ class ExchangeViewBar extends Component {
                   {/*<span className="fontSize-15px">{translate["Exchange"]}: </span>*/}
                   {
                     !adminView ?
-                        <span>{currentExchange.name === "" ? "بدون نام" : currentExchange.name}</span>
+                        <span>
+                          {
+                            currentExchange.name === "" ? "بدون نام" :
+                                currentExchange.name ? currentExchange.name :
+                                    currentExchange.exchange.content.name === "" ? "بدون نام" : currentExchange.exchange.content.name
+                          }
+                          </span>
                         :
                         <input ref={e => this.editName = e} className={"edit-exchange-name-input"}
-                               defaultValue={currentExchange.name === "" ? "بدون نام" : currentExchange.name}/>
+                               defaultValue={
+                                 currentExchange.name === "" ? "بدون نام" :
+                                     currentExchange.name ? currentExchange.name :
+                                         currentExchange.exchange.content.name === "" ? "بدون نام" : currentExchange.exchange.content.name}/>
                   }
                 </div>
               </div>
               {
                 !adminView ?
-                    <span className="-grey1 fontSize-13px description-right-bar">{currentExchange.description === "" ? "بدون توضیحات" :
-                        currentExchange.description}</span>
+                    <span className="-grey1 fontSize-13px description-right-bar">
+                      {
+                        currentExchange.description === "" ? "بدون توضیحات" :
+                            currentExchange.description ? currentExchange.description :
+                                currentExchange.exchange.content.description === "" ? "بدون توضیحات" : currentExchange.exchange.content.description
+                      }
+                        </span>
                     :
                     <textarea ref={e => this.editDescription = e} className={"edit-exchange-description-input"}
-                              defaultValue={currentExchange.description === "" ? "بدون نام" : currentExchange.description}/>
+                              defaultValue={
+                                currentExchange.description === "" ? "بدون توضیحات" :
+                                    currentExchange.description ? currentExchange.description :
+                                        currentExchange.exchange.content.description === "" ? "بدون توضیحات" : currentExchange.exchange.content.description
+                              }/>
               }
 
             </div>
@@ -377,7 +400,11 @@ class ExchangeViewBar extends Component {
                   <div className="numbersSection flex-column">
                     <div>
                       <span>اعضا:</span>
-                      <span>{currentExchange.members_count}</span>
+                      <span>
+                        {currentExchange.members_count === null ? 0 :
+                            currentExchange.members_count ? currentExchange.members_count :
+                                currentExchange.exchange.content.members_count === null ? 0 : currentExchange.exchange.content.members_count}
+                      </span>
                     </div>
                     <div>
                       <span>عرضه:</span>
@@ -431,42 +458,35 @@ class ExchangeViewBar extends Component {
 
             {
               !adminView ?
-                  <div className="row mr-0 ml-0 pb-3 flex-wrap justify-content-around">
-                    <div className="pb-2">
-                      <button
-                          type="button"
-                          className="btn btn-outline-secondary btn-block sidebarBottom">ارسال پیام به کارگزار
-                      </button>
-                    </div>
+                  <div className="sidebarBottomParent">
+                    <button
+                        type="button"
+                        className="sidebarBottom">ارسال پیام به کارگزار
+                    </button>
                     {
                       this.renderFollowBtn(currentExchange)
                     }
                   </div>
                   :
-                  <div className="row mr-0 ml-0 pb-3 flex-wrap justify-content-around">
-                    <div className="pb-2">
-                      {!loadingEdit ?
-                          <button
-                              type="button"
-                              className="btn btn-outline-secondary btn-block sidebarBottom"
-                              onClick={this.handleEditButton}> تایید
-                          </button>
-                          :
-                          <div
-                              className="btn btn-outline-secondary btn-block sidebarBottom">
-                            <ClipLoader color="#dcdcdc" size={15} loading={true}/>
-                          </div>
-                      }
-
-                    </div>
-                    <div className="pb-2">
-                      <button
-                          type="button"
-                          className="btn btn-outline-secondary btn-block sidebarFollowBottom"
-                          style={{width: "122.5px", cursor: "pointer"}}
-                          onClick={() => this.setState({...this.state, adminView: false})}> لغو
-                      </button>
-                    </div>
+                  <div className="sidebarBottomParent">
+                    {!loadingEdit ?
+                        <button
+                            type="button"
+                            className="sidebarBottom"
+                            onClick={this.handleEditButton}> تایید
+                        </button>
+                        :
+                        <div
+                            className="sidebarBottom">
+                          <ClipLoader color="#dcdcdc" size={15} loading={true}/>
+                        </div>
+                    }
+                    <button
+                        type="button"
+                        className="sidebarFollowBottom"
+                        style={{cursor: "pointer"}}
+                        onClick={() => this.setState({...this.state, adminView: false})}> لغو
+                    </button>
                   </div>
             }
 
@@ -498,6 +518,7 @@ const DispatchToProps = dispatch => ({
     getExchangeMembershipByExchangeId: ExchangeMembershipActions.getExchangeMembershipByExchangeId,
     getExchangeByExId: exchangeActions.getExchangeByExId,
     editExchange: exchangeActions.editExchange,
+    deleteExchange: exchangeActions.deleteExchange,
     follow: ExchangeMembershipActions.createExchangeMembership,
     unFollow: ExchangeMembershipActions.deleteExchangeMembership,
     getExchangeMembershipByMemberIdentity: ExchangeMembershipActions.getExchangeMembershipByMemberIdentity,
