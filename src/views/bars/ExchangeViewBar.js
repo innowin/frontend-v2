@@ -125,6 +125,14 @@ class ExchangeViewBar extends Component {
         this.setState({...this.state, imageLoaded: true})
       }
     }
+    else if (currentExchange.exchange.content.exchange_image) {
+      let image = new Image()
+      image.src = currentExchange.exchange.content.exchange_image.file.includes("innowin.ir") ?
+          currentExchange.exchange.content.exchange_image.file : REST_URL + currentExchange.exchange.content.exchange_image.file
+      image.onload = () => {
+        this.setState({...this.state, imageLoaded: true})
+      }
+    }
 
     document.addEventListener("mousedown", this.handleClickOutside)
   }
@@ -350,20 +358,38 @@ class ExchangeViewBar extends Component {
                   {/*<span className="fontSize-15px">{translate["Exchange"]}: </span>*/}
                   {
                     !adminView ?
-                        <span>{currentExchange.name === "" ? "بدون نام" : currentExchange.name}</span>
+                        <span>
+                          {
+                            currentExchange.name === "" ? "بدون نام" :
+                                currentExchange.name ? currentExchange.name :
+                                    currentExchange.exchange.content.name === "" ? "بدون نام" : currentExchange.exchange.content.name
+                          }
+                          </span>
                         :
                         <input ref={e => this.editName = e} className={"edit-exchange-name-input"}
-                               defaultValue={currentExchange.name === "" ? "بدون نام" : currentExchange.name}/>
+                               defaultValue={
+                                 currentExchange.name === "" ? "بدون نام" :
+                                     currentExchange.name ? currentExchange.name :
+                                         currentExchange.exchange.content.name === "" ? "بدون نام" : currentExchange.exchange.content.name}/>
                   }
                 </div>
               </div>
               {
                 !adminView ?
-                    <span className="-grey1 fontSize-13px description-right-bar">{currentExchange.description === "" ? "بدون توضیحات" :
-                        currentExchange.description}</span>
+                    <span className="-grey1 fontSize-13px description-right-bar">
+                      {
+                        currentExchange.description === "" ? "بدون توضیحات" :
+                            currentExchange.description ? currentExchange.description :
+                                currentExchange.exchange.content.description === "" ? "بدون توضیحات" : currentExchange.exchange.content.description
+                      }
+                        </span>
                     :
                     <textarea ref={e => this.editDescription = e} className={"edit-exchange-description-input"}
-                              defaultValue={currentExchange.description === "" ? "بدون نام" : currentExchange.description}/>
+                              defaultValue={
+                                currentExchange.description === "" ? "بدون توضیحات" :
+                                    currentExchange.description ? currentExchange.description :
+                                        currentExchange.exchange.content.description === "" ? "بدون توضیحات" : currentExchange.exchange.content.description
+                              }/>
               }
 
             </div>
@@ -374,7 +400,11 @@ class ExchangeViewBar extends Component {
                   <div className="numbersSection flex-column">
                     <div>
                       <span>اعضا:</span>
-                      <span>{currentExchange.members_count}</span>
+                      <span>
+                        {currentExchange.members_count === null ? 0 :
+                            currentExchange.members_count ? currentExchange.members_count :
+                                currentExchange.exchange.content.members_count === null ? 0 : currentExchange.exchange.content.members_count}
+                      </span>
                     </div>
                     <div>
                       <span>عرضه:</span>
@@ -438,7 +468,7 @@ class ExchangeViewBar extends Component {
                     }
                   </div>
                   :
-                  <div className="">
+                  <div className="sidebarBottomParent">
                     {!loadingEdit ?
                         <button
                             type="button"

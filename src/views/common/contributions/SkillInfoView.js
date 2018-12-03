@@ -31,7 +31,7 @@ const SkillInfoView = (props: PropsSkillInfoView) => {
           {skill.description}
         </p>
         <div className="skill-tags">
-          {skill.tag.map((tag, index) => <span className="badge badge-secondary skill-tag">{tag}</span>)}
+          {skill.tag.map((tag, index) => <span className="badge badge-secondary skill-tag">{tag}</span>)``}
         </div>
       </div>
   )
