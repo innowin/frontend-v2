@@ -7,6 +7,7 @@ import CertificateTick from "./common/certificate_tick_svg"
 import ChartIcon from "./product/chart"
 import CircularAddIcon from "./common/circularAdd_svg"
 import CircularTickSvg from "./common/circularTick"
+import CloseIconSvg from './common/close_icon_svg'
 import CongratsTick from "./addingConribution/congratsTick_svg"
 import ConsultIcon from "./user/consult_svg_icon"
 import ContactMenuIcon from "./common/contact_menu_svg"
@@ -88,6 +89,7 @@ export {
   ChartIcon,
   CircularAddIcon,
   CircularTickSvg,
+  CloseIconSvg,
   CongratsTick,
   ConsultIcon,
   ContactMenuIcon,
