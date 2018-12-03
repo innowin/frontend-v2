@@ -1,9 +1,7 @@
 // @flow
 import {combineReducers} from 'redux'
-import {persistReducer} from "redux-persist";
 import {reducer as formReducer} from 'redux-form'
 import {routerReducer} from 'react-router-redux'
-import storage from 'redux-persist/lib/storage'
 import auth from './auth'
 import identities from "./identity"
 import common from "./commonReducer/index"
@@ -21,16 +19,6 @@ import customer from './customer'
 import ability from './ability'
 import favorite from './favorite'
 import temp from "./temp"
-import createEncryptor from "redux-persist-transform-encrypt"
-
-const commonEncryptor = createEncryptor({
-  secretKey: 'common-secret-key-is:kjjjjsdfhhfflds;....fdsfhgfbhhbbbbddddddddddddddddu75',
-  onError: (error) => {
-    throw new Error(error)
-  }
-})
-
-const commonPersistConfig = {key: 'common',transforms: [commonEncryptor], storage: storage,}
 
 const reducers = {
   auth,
@@ -39,7 +27,7 @@ const reducers = {
   organs,
   organization,
   exchanges,
-  common: persistReducer(commonPersistConfig, common),
+  common,
   workExperience,
   education,
   research,

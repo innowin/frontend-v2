@@ -12,16 +12,16 @@ import UserDetailPanel from "../common/components/UserDetailPanel"
 
 type HomeProps = {|
   identityId: number,
-  identityType: string,
-  id: number,
+  identityType?: string,
+  id?: number,
 |}
 
 class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
 
   static propTypes = {
     identityId: PropTypes.number.isRequired,
-    identityType: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
+    identityType: PropTypes.string,
+    id: PropTypes.number,
   }
 
   constructor(props) {

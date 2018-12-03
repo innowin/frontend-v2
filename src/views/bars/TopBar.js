@@ -54,7 +54,8 @@ type StatesTopBar = {|
   selectedSetting: string,
   showSetting: boolean,
   selectedAbout: string,
-  showAbout: boolean
+  showAbout: boolean,
+  profilePhotoLoaded: boolean,
 |}
 
 class TopBar extends Component<PropsTopBar, StatesTopBar> {
