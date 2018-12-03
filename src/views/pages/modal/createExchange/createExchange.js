@@ -402,7 +402,7 @@ const mapStateToProps = (state) => {
   const exchangeId = state.exchanges.nowCreatedId
   const members = state.common.exchangeMembership.list ?
       Object.values(state.common.exchangeMembership.list).filter((m: any) =>
-      m[exchangeIdentityFields.exchange].id === exchangeId)
+          m[exchangeIdentityFields.exchange] && m[exchangeIdentityFields.exchange].id === exchangeId)
       : {}
   const social = SOCIAL.reduce((res, item) => {
     if (res.some(i => i.id === item.follow_follower.id)) return res
