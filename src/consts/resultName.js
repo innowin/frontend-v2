@@ -1,7 +1,6 @@
 const results = {
   SIGN_IN: 'sign-in',
   VERIFY_TOKEN: 'verify-token',
-  GET_IDENTITY: 'get-identity',
   USER: {
     USERNAME_CHECK: "USERNAME_CHECK",
     EMAIL_CHECK:"EMAIL_CHECK",
@@ -14,6 +13,10 @@ const results = {
     UPDATE_PROFILE_BY_PROFILE_ID: 'UPDATE_PROFILE_BY_PROFILE_ID',
     GET_USERS: 'GET_USERS',
     GET_ALL_USERS: 'GET_ALL_USERS',
+    GET_IDENTITY: 'get-identity',
+    PASSWORD_RESET_BY_SMS_REQUEST:'password_reset_by_sms_request',
+    PASSWORD_RESET_BY_SMS_CHECK_CODE:'password_reset_by_sms_check_code',
+    PASSWORD_RESET_BY_SMS:'password_reset_by_sms',
   },
   ORG: {
     GET_ORGANIZATION: 'get-organization',
@@ -134,6 +137,7 @@ const results = {
     SEARCH_EXCHANGES_BY_WORD: 'search-exchanges-by-word',
     GET_EXCHANGE_BY_EX_ID: 'get-exchange-by-ex-id',
     CREATE_EXCHANGE: 'create-exchange',
+    EDIT_EXCHANGE: 'edit-exchange',
   },
   WORK_EXPERIENCE: {
     GET_USER_WORK_EXPERIENCES_BY_USER_ID: 'get-user-work-experiences-by-user-id',

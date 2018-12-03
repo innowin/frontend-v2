@@ -10,7 +10,7 @@ export const SOCKET = io(SOCKET_URL, {secure: true, extraHeader: {'Access-Contro
 const urls = {
   SIGN_IN: "api-token-auth",
   VERIFY_TOKEN: "api-token-verify",
-  GET_IDENTITY: "users/identities",
+
   USER: {
     USERNAME_CHECK: "users/user_exist",
     EMAIL_CHECK: "users/email_exist",
@@ -23,6 +23,11 @@ const urls = {
     UPDATE_PROFILE_BY_PROFILE_ID: "users/profiles",
     GET_USERS: "users",
     GET_ALL_USERS: "users/explore",
+    GET_IDENTITY: "users/identities",
+    PASSWORD_RESET_BY_SMS_REQUEST:'users/password_reset_by_sms_request',
+    PASSWORD_RESET_BY_SMS_CHECK_CODE:'users/password_reset_by_sms_check_code',
+    PASSWORD_RESET_BY_SMS:'users/password_reset_by_sms',
+
   },
   ORG: {
     GET_ORGANIZATION: "organizations",

@@ -9,6 +9,7 @@ import socialActions from "../../../redux/actions/commonActions/socialActions"
 import {ClipLoader} from "react-spinners"
 import {Link} from "react-router-dom"
 import {REST_URL} from 'src/consts/URLS'
+import Material from "../../common/components/Material"
 
 type appProps =
     {|
@@ -96,12 +97,12 @@ class User extends Component <appProps, appState> {
 
   renderFollowed(data, followees) {
     if (followees[data.user.id]) {
-      return <button className='user-follow'>دنبال شده</button>
+      return <Material className='user-follow' content='دنبال شده'/>
     }
     else if (this.state.followLoading) {
-      return <div className='user-follow-loading'><ClipLoader color='#008057' size={19}/></div>
+      return <Material className='user-follow-loading' content={<ClipLoader color='#008057' size={19}/>}/>
     }
-    else return <button className='user-followed' onClick={this.follow}>دنبال کردن</button>
+    else return <Material className='user-followed' content='دنبال کردن' onClick={this.follow}/>
   }
 
   render() {

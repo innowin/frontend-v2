@@ -18,6 +18,7 @@ import AttachMenu from "./attachMenu"
 import ContactMenu from "./contactMenu"
 import LinkModal from "./linkModal"
 import ViewAttachedFiles from "./viewAttachedFiles"
+import {ContactMenuIcon} from "src/images/icons"
 
 const timeStamp = new Date().toISOString()
 
@@ -52,13 +53,15 @@ class CreatePost extends Component {
       placeholder: "",
       selectedText: "",
       postPictures: [],
-      postFile: '',
-      postMedia: '',
-      link: '',
-      description: '',
-      descriptionClass: '',
+      postFile: "",
+      postMedia: "",
+      link: "",
+      description: "",
+      descriptionClass: "",
       profileLoaded: false,
-      savingPost: false
+      savingPost: false,
+      focused: false,
+      keys: []
     }
   }
 
@@ -82,7 +85,7 @@ class CreatePost extends Component {
     const {attachMenu, contactMenu, linkModal, postPictures, postFile, postMedia, link, description, labels, savingPost} = this.state
     const needReset = !savingPost && !description && !postPictures && !postFile && !postMedia && !link && labels === {}
 
-    if (!event.target.closest('#create-post-attach-menu-box')) {
+    if (!event.target.closest("#create-post-attach-menu-box")) {
       if (attachMenu) {
         this.setState({...this.state, attachMenu: false})
       }
@@ -121,6 +124,10 @@ class CreatePost extends Component {
 
   handleContact = () => {
     this.setState({...this.state, contactMenu: !this.state.contactMenu})
+  }
+
+  _handleFocusText = () => {
+    this.setState({...this.state, focused: true})
   }
 
 
@@ -168,14 +175,14 @@ class CreatePost extends Component {
   }
 
   _handleBlurText = (e) => {
-    const descriptionLength = e.target.value.trim().length
     this.setState({
       ...this.state,
       descriptionClass: "hide-message"
     })
+    const descriptionLength = e.target.value.trim().length
     if (descriptionLength === 0) {
-      this.setState({...this.state, open: false})
-    } else this.setState({...this.state, open: true})
+      this.setState({...this.state, open: false, focused: false})
+    } else this.setState({...this.state, open: true, focused: false})
   }
 
   _deleteFile = () => {
@@ -259,10 +266,47 @@ class CreatePost extends Component {
     return false
   }
 
+  _onSubmitShiftEnter() {
+    if (this._formValidate()) {
+      this._preSave()
+    }
+  }
 
-  componentDidUpdate(prevProps) {
+  _handleShiftEnter = (e) => {
+    if (e.keyCode === 16 || e.keyCode === 13) {
+      let keys = this.state.keys.slice()
+      keys[e.keyCode] = true
+      this.setState({...this.state, keys: keys})
+      if (e.keyCode === 13 && keys[13] && keys[16]) {
+        e.preventDefault()
+        this.setState({...this.state, keys: []}, () => {
+          this._onSubmitShiftEnter()
+        })
+      }
+    }
+    else this.setState({...this.state, keys: []})
+  }
+
+  _showLink = (link) => {
+    if (link) {
+      let urlExp = new RegExp("^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$")
+      let word = link.trim()
+      if (urlExp.test(word)) {
+        word.includes("http://") || word.includes("https://") ?
+          this.link.innerHTML = link.replace(new RegExp(word, "g"), `<a target=_blank href=` + word + `>${word}</a>`)
+          :
+          this.link.innerHTML = link.replace(new RegExp(word, "g"), `<a target=_blank href=http://` + word + `>${word}</a>`)
+      }
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
     const {postsCountInThisPage, postPictureIds} = this.props
-    const {postPictures, savingPost} = this.state
+    const {postPictures, savingPost, link} = this.state
+
+    if (prevState.link !== link) {
+      this._showLink(link)
+    }
 
     if (prevProps.postsCountInThisPage < postsCountInThisPage) {
       this._resetPost()
@@ -294,7 +338,20 @@ class CreatePost extends Component {
         this.setState({...this.state, profileLoaded: true})
       }
     }
+  }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.currentUserMedia !== nextProps.currentUserMedia) {
+      this.setState({...this.state, profileLoaded: false}, () => {
+        if (nextProps.currentUserMedia) {
+          let profile = new Image()
+          profile.src = nextProps.currentUserMedia
+          profile.onload = () => {
+            this.setState({...this.state, profileLoaded: true})
+          }
+        }
+      })
+    }
   }
 
   componentWillUnmount() {
@@ -306,9 +363,9 @@ class CreatePost extends Component {
     const {className, followers, exchanges, currentUserIdentity, currentUserMedia, currentUserName, translate} = this.props
     const {
       postPictures, open, attachMenu, selected, labels, link, contactMenu, linkModal, postFile, postMedia,
-      profileLoaded, description, descriptionClass
+      profileLoaded, description, descriptionClass, focused
     } = this.state
-    const hasMediaClass = (postMedia || (postPictures.length > 0)) ? 'hasMedia' : ''
+    const hasMediaClass = (postMedia || (postPictures.length > 0)) ? "hasMedia" : ""
     return (
       <form className={"post-component-container " + className} onSubmit={this._onSubmit}>
         <div className='post-component-header'>
@@ -333,11 +390,11 @@ class CreatePost extends Component {
           </div>
         </div>
 
-        <div className={"post-component-content " + hasMediaClass}>
-          <div className='post-component-description'>
-            {descriptionClass &&
-            <span className={descriptionClass}>
-            {description.trim().length + '/1500'}
+          <div className={"post-component-content " + hasMediaClass}>
+            <div className='post-component-description'>
+              {descriptionClass &&
+              <span className={descriptionClass}>
+            {description && description.trim().length + '/1500'}
           </span>
             }
             <textarea
@@ -346,6 +403,8 @@ class CreatePost extends Component {
               value={description}
               onBlur={this._handleBlurText}
               onChange={this._handleChangeText}
+              onFocus={this._handleFocusText}
+              onKeyDown={this._handleShiftEnter}
             />
           </div>
 
@@ -356,12 +415,13 @@ class CreatePost extends Component {
             deletePicture={this._deletePicture}
             deleteMedia={this._deleteMedia}
             deleteFile={this._deleteFile}
+            focused={focused}
           />
         </div>
 
         <div className='post-component-footer'>
 
-          <div className='post-component-footer-logo' onClick={this.handleContact}>?</div>
+          <ContactMenuIcon className="post-component-footer-contact-menu-icon" onClickFunc={this.handleContact}/>
           <div className='post-component-footer-items-style-cont'>
 
             {
@@ -380,7 +440,7 @@ class CreatePost extends Component {
 
             <div className='post-component-footer-send'>
 
-              <div className='post-component-footer-link'>{link}</div>
+              <div className='post-component-footer-link' ref={e => this.link = e}>{link}</div>
 
               <div style={{display: "inline-block"}} onClick={this.handleAttach}>
                 <AttachFileIcon className='post-component-footer-send-attach'/>
@@ -418,7 +478,6 @@ class CreatePost extends Component {
               handleLabel={this._handleLabel}
             />
           </div>
-          <div style={{clear: "both"}}/>
         </div>
 
         <LinkModal

@@ -47,7 +47,7 @@ class InfoView extends Component {
                   <Ticket width="22px" height="22px"
                           containerClass={"svg-container-info-view"}
                           svgClass={"svg-info-view"}/>
-                  <span>کارگذار</span>
+                  <span>کارگزار</span>
                 </div>
                 <div className={"info-body"}>
                   <div className={"info-exchange-owner-frame"}>
@@ -167,9 +167,13 @@ class InfoView extends Component {
             </div>
         )
       }
-      else return <div className={"info-loading"}><ClipLoader color="#C2B9BD" size={45} margin="4px" loading={true}/>
+      else return <div className={"info-loading"}>
+        {console.log("OWNER EDUCATIONS UNDEFINED!")}
+        <ClipLoader color="#C2B9BD" size={45} margin="4px" loading={true}/>
       </div>
-    else return <div className={"info-loading"}><ClipLoader color="#C2B9BD" size={45} margin="4px" loading={true}/>
+    else return <div className={"info-loading"}>
+      {console.log("OWNER PROFILE NOT EXIST!")}
+      <ClipLoader color="#C2B9BD" size={45} margin="4px" loading={true}/>
     </div>
   }
 }

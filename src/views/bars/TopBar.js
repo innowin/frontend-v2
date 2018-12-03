@@ -23,6 +23,8 @@ import ExploreMenu from "./TopBarComponents/ExploreMenu"
 import IntroduceBadges from "./TopBarComponents/IntroduceBadges"
 import UserAgreement from "./TopBarComponents/UserAgreement"
 import AboutUs from "./TopBarComponents/AbouUs"
+import Material from "../common/components/Material"
+import {REST_URL} from "../../consts/URLS"
 
 type PropsTopBar = {|
   collapseClassName: string,
@@ -80,7 +82,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       showSetting: false,
       selectedSetting: "General Settings",
       showAbout: false,
-      selectedAbout: 'FAQ',
+      selectedAbout: "FAQ",
       profilePhotoLoaded: false,
     }
   }
@@ -109,6 +111,20 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     const {isLoggedIn, actions} = this.props
     if (prevProps.isLoggedIn && prevProps.isLoggedIn !== isLoggedIn) {
       actions.push("/login")
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.clientImgLink !== nextProps.clientImgLink) {
+      this.setState({...this.state, profilePhotoLoaded: false}, () => {
+        if (nextProps.clientImgLink) {
+          let profile = new Image()
+          profile.src = nextProps.clientImgLink
+          profile.onload = () => {
+            this.setState({...this.state, profilePhotoLoaded: true})
+          }
+        }
+      })
     }
   }
 
@@ -164,7 +180,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   _handleHideSetting = () => {
     this.setState({...this.state, showSetting: false, showAbout: false})
     setTimeout(() => {
-      this.setState({...this.state, selectedSetting: "Privacy", selectedAbout: 'FAQ'})
+      this.setState({...this.state, selectedSetting: "Privacy", selectedAbout: "FAQ"})
       setTimeout(() => {
         this.setState({...this.state, selectedSetting: "General Settings"})
       }, 10)
@@ -175,17 +191,17 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     this.setState({...this.state, showAbout: true, exploreCollapse: false, collapseProfile: false, showSetting: false})
   }
 
-  _handleSettingSelected = (e) => {
-    this.setState({...this.state, selectedSetting: e.target.id})
+  _handleSettingSelected = (target) => {
+    this.setState({...this.state, selectedSetting: target})
   }
 
-  _handleAboutSelected = (e) => {
-    this.setState({...this.state, selectedAbout: e.target.id})
+  _handleAboutSelected = (target) => {
+    this.setState({...this.state, selectedAbout: target})
   }
 
   render() {
     const {collapseClassName, clientUser, clientOrganization, translate, clientImgLink} = this.props
-    const {collapse, collapseProfile, exploreCollapse, productWizardModalIsOpen, mouseIsOverMenu, selectedSetting, selectedAbout, showSetting, showAbout, createExchangeModalIsOpen} = this.state
+    const {collapse, collapseProfile, exploreCollapse, productWizardModalIsOpen, mouseIsOverMenu, selectedSetting, selectedAbout, showSetting, showAbout, createExchangeModalIsOpen, profilePhotoLoaded} = this.state
     const linkEditProfile = !clientOrganization
         ? `/user/${clientUser.id}`
         : `/organization/${clientOrganization.id}`
@@ -208,72 +224,73 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
               modalIsOpen={createExchangeModalIsOpen}
           />
           <nav className="navbar flex-row justify-content-between p-0 -white-i fixed-top topBar">
+
             <div className="d-flex align-items-center">
 
-              {/*<button type="button"*/}
-              {/*className={`navbar-toggler my-auto mr-2 -outlineWhite ${collapse ? "active" : ""}`}*/}
-              {/*onClick={this._toggle}>*/}
-              {/*{!collapse ? <i className="fa fa-bars cursor-pointer" aria-hidden={true}/> :*/}
-              {/*<i className=" text-danger fa fa-close cursor-pointer" aria-hidden={true}/>}*/}
-              {/*</button>*/}
+              <Material backgroundColor='#eee' className='top-bar-home' content={
+                <Link to={"/"}><i className="fa fa-home top-bar-home-logo" aria-hidden={true}/></Link>
+              }/>
 
-              <Link to={"/"}><i className="fa fa-home mr-3" aria-hidden={true}/></Link>
               <div className="mr-5 top-bar-explore" onClick={this._toggleExplore}>
                 <ExploreMenu exploreCollapse={exploreCollapse}/>
               </div>
-              <Link className="mr-5" to={"/"}><NotificationIcon className="-topBarIcons"/></Link>
-            </div>
-            <InnoWinLogo svgClass={"centerImgTopBar"}/>
-            <div className="dir-ltr d-flex flex-row">
 
+              {/*<Link className="mr-5" to={"/"}><NotificationIcon className="-topBarIcons"/></Link>*/}
+              {/*<Link className="mr-5" to={"/"}><NotificationIcon className="notif-icon"/></Link>*/}
+
+            </div>
+
+            <InnoWinLogo svgClass={"centerImgTopBar"}/>
+
+            <div className="dir-ltr d-flex flex-row">
               <div className="-ProfTopBarImg">
-                {clientImgLink && this.state.profilePhotoLoaded ? <img src={clientImgLink} className='-ProfTopBarImg-svg-img' alt="Person icon" onClick={this._toggleProfile}/>
+
+                {clientImgLink && profilePhotoLoaded ? <Material backgroundColor='#eee' onClick={this._toggleProfile}
+                                                                 className={collapseProfile ? "topbar-profile-img-open" : "topbar-profile-img"}
+                                                                 content={<img src={clientImgLink} className='-ProfTopBarImg-svg-img' alt="Person icon"/>}/>
                     :
-                    <DefaultUserIcon className='-ProfTopBarImg-svg' onClickFunc={this._toggleProfile}/>
+                    <Material backgroundColor='#eee' className={collapseProfile ? "topbar-profile-img-open" : "topbar-profile-img"}
+                              content={<DefaultUserIcon className='-ProfTopBarImg-svg-img' onClickFunc={this._toggleProfile}/>}/>
                 }
 
                 <div className={collapseProfile ? "profile-menu-container" : "profile-menu-container-hide"}>
                   <div className='profile-menu-arrow'>
                     ▲
-                    {/*<MainLbarArrow className='explore-menu-arrow-2'/>*/}
                   </div>
                   <div className='explore-menu'>
-                    <Link className='profile-menu-profile-section' to={linkEditProfile}>
-                      <div className='profile-menu-profile-section-image'>
-                        {clientImgLink && this.state.profilePhotoLoaded ? <img src={clientImgLink} className='-ProfTopBarImg-svg-img-big' alt="Person icon"/>
-                            :
-                            <DefaultUserIcon className='-ProfTopBarImg-svg-big'/>
-                        }
+
+                    <Link to={linkEditProfile}>
+                      <Material className='profile-menu-profile-section' content={<div>
+                        <div className='profile-menu-profile-section-image'>
+                          {clientImgLink && profilePhotoLoaded ? <img src={clientImgLink} className='-ProfTopBarImg-svg-img-big' alt="Person icon"/>
+                              :
+                              <DefaultUserIcon className='-ProfTopBarImg-svg-big'/>
+                          }
+                        </div>
+                        <div className='profile-menu-profile-section-next-image'>
+                          <div
+                              className='profile-menu-profile-section-next-image-first'>{clientUser && clientUser.first_name + " " + clientUser.last_name}</div>
+                          <div
+                              className='profile-menu-profile-section-next-image-middle'>@{clientUser && clientUser.username}</div>
+                          <div className='profile-menu-profile-section-next-image-last'>{translate["Edit Profile"]}</div>
+                        </div>
                       </div>
-                      <div className='profile-menu-profile-section-next-image'>
-                        <div
-                            className='profile-menu-profile-section-next-image-first'>{clientUser && clientUser.first_name + " " + clientUser.last_name}</div>
-                        <div
-                            className='profile-menu-profile-section-next-image-middle'>@{clientUser && clientUser.username}</div>
-                        <div className='profile-menu-profile-section-next-image-last'>{translate["Edit Profile"]}</div>
-                      </div>
+                      }/>
                     </Link>
 
                     <div className='profile-menu-second-section'>
-                      {/*<div className='profile-menu-second-section-item' onClick={this._handleExchangeUpgrade}>درخواست*/}
-                      {/*ارتقاء به کارگزار*/}
-                      {/*</div>*/}
-                      <div className='profile-menu-second-section-item'
-                           onClick={this._createExchangeModalVisibilityHandler}>ایجاد بورس جدید
-                      </div>
-                      <div className='profile-menu-second-section-item' onClick={this._handleProductWizardModal}>ایجاد
-                        آورده جدید
-                      </div>
+                      {/*<Material className='profile-menu-second-section-item' onClick={this._handleExchangeUpgrade} content='درخواست ارتقاء به کارگزار'/>*/}
+                      <Material className='profile-menu-second-section-item' onClick={this._createExchangeModalVisibilityHandler} content='ایجاد بورس جدید'/>
+                      <Material className='profile-menu-second-section-item' onClick={this._handleProductWizardModal} content='ایجاد آورده جدید'/>
                     </div>
 
                     <div className='profile-menu-second-section'>
-                      <div className='profile-menu-second-section-item' onClick={this._handleShowSetting}>{translate["General Settings"]}</div>
-                      <div className='profile-menu-second-section-item' onClick={this._handleShowAbout}>{translate["About Innowin"]}</div>
-                      <div className='profile-menu-second-section-item'>{translate["Privacy"]}</div>
+                      <Material className='profile-menu-second-section-item' onClick={this._handleShowSetting} content={translate["General Settings"]}/>
+                      <Material className='profile-menu-second-section-item' onClick={this._handleShowAbout} content={translate["About Innowin"]}/>
+                      <Material className='profile-menu-second-section-item' content={translate["Privacy"]}/>
                     </div>
 
-                    <div className='profile-menu-second-section-item'
-                         onClick={this._handleSignOut}>{translate["Sign Out"]}</div>
+                    <Material className='profile-menu-second-section-item' onClick={this._handleSignOut} content={translate["Sign Out"]}/>
 
                   </div>
                 </div>
@@ -281,13 +298,14 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
               </div>
 
               <div className="-searchInput d-flex align-items-center">
-                <input type="text" className="text-white search-top-bar" name="search" dir="auto"
+                <input type="text" className="text-white" name="search" dir="auto"
                        placeholder={translate["Search in Danesh boom"]}
                        ref={searchInput => {
                          this.searchInput = searchInput
                        }}/>
                 <SearchIcon className='search-icon'/>
               </div>
+
             </div>
           </nav>
 
@@ -298,26 +316,22 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
           <div className={showSetting || showAbout ? "makeDark" : "makeDark-out"} onClick={this._handleHideSetting}>
             {/*dark div*/}
           </div>
-
           {/*Settings Modal*/}
           <div className={showSetting ? "settingModal-sidebar" : "settingModal-sidebar-out"}>
-            <div id='General Settings' onClick={this._handleSettingSelected}
-                 className={selectedSetting === "General Settings" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}>
-              {translate["General Settings"]}
-            </div>
-            <div id='Manage Linked Accounts' onClick={this._handleSettingSelected}
-                 className={selectedSetting === "Manage Linked Accounts" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}>
-              {translate["Manage Linked Accounts"]}
-            </div>
-            <div id='Privacy' onClick={this._handleSettingSelected}
-                 className={selectedSetting === "Privacy" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}>
-              {translate["Privacy"]}
-            </div>
-            <div onClick={this._handleSignOut}
-                 className={selectedSetting === "Sign Out" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}>
-              {translate["Sign Out"]}
-            </div>
+            <Material onClick={() => this._handleSettingSelected('General Settings')}
+                      className={selectedSetting === "General Settings" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}
+                      content={translate["General Settings"]}/>
+            <Material onClick={() => this._handleSettingSelected('Manage Linked Accounts')}
+                      className={selectedSetting === "Manage Linked Accounts" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}
+                      content={translate["Manage Linked Accounts"]}/>
+            <Material onClick={() => this._handleSettingSelected('Privacy')}
+                      className={selectedSetting === "Privacy" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}
+                      content={translate["Privacy"]}/>
+            <Material onClick={this._handleSignOut}
+                      className={selectedSetting === "Sign Out" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}
+                      content={translate["Sign Out"]}/>
           </div>
+
           <div className={showSetting ? "settingModal-menu" : "settingModal-menu-out"}>
             <div className='settingModal-menu-header'>{translate[selectedSetting]}</div>
             {this.renderSetting()}
@@ -326,22 +340,18 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
           {/*About Modal*/}
           <div className={showAbout ? "settingModal-sidebar" : "settingModal-sidebar-out"}>
-            <div id='FAQ' onClick={this._handleAboutSelected}
-                 className={selectedAbout === "FAQ" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}>
-              {translate["FAQ"]}
-            </div>
-            <div id='Introduce Badges' onClick={this._handleAboutSelected}
-                 className={selectedAbout === "Introduce Badges" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}>
-              {translate["Introduce Badges"]}
-            </div>
-            <div id='Terms & Conditions' onClick={this._handleAboutSelected}
-                 className={selectedAbout === "Terms & Conditions" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}>
-              {translate["Terms & Conditions"]}
-            </div>
-            <div id='About Us' onClick={this._handleAboutSelected}
-                 className={selectedAbout === "About Us" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}>
-              {translate["About Us"]}
-            </div>
+            <Material onClick={() => this._handleAboutSelected('FAQ')}
+                      className={selectedAbout === "FAQ" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}
+                      content={translate["FAQ"]}/>
+            <Material onClick={() => this._handleAboutSelected('Introduce Badges')}
+                      className={selectedAbout === "Introduce Badges" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}
+                      content={translate["Introduce Badges"]}/>
+            <Material onClick={() => this._handleAboutSelected('Terms & Conditions')}
+                      className={selectedAbout === "Terms & Conditions" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}
+                      content={translate["Terms & Conditions"]}/>
+            <Material onClick={() => this._handleAboutSelected('About Us')}
+                      className={selectedAbout === "About Us" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}
+                      content={translate["About Us"]}/>
           </div>
           <div className={showAbout ? "settingModal-menu" : "settingModal-menu-out"}>
             <div className='settingModal-menu-header'>{translate[selectedAbout]}</div>

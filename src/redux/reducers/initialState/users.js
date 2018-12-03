@@ -78,7 +78,14 @@ export default {
   */
 
   },
-  allUsers:{},
+  allUsers: {},
   search: null,
-  loading: true
+  loading: true,
+  resetPassword: {
+    step_name: null,
+    userId:null,
+    VerificationCode: null,
+    isLoading: false,
+    error: null
+  },
 }

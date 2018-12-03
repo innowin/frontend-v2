@@ -10,6 +10,11 @@ const createExchange = (formValues, finished) => ({
   payload: {formValues, finished}
 })
 
+const editExchange = (formValues) => ({
+  type: types.EXCHANGE.EDIT_EXCHANGE,
+  payload: {formValues}
+})
+
 const getAllExchanges = (limit, offset, search) => ({
   type: types.EXCHANGE.GET_EXCHANGES,
   payload: {limit, offset, search}
@@ -18,6 +23,7 @@ const getAllExchanges = (limit, offset, search) => ({
 const ExchangeActions = {
   getExchangeByExId,
   createExchange,
+  editExchange,
   getAllExchanges,
 }
 

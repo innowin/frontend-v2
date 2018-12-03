@@ -80,7 +80,6 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     this.state = {
       menuToggle: false,
       confirm: false,
-      wordsCheck: false,
       pictureLoaded: null,
       showComment: false
     }
@@ -126,19 +125,10 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     else {
       this._getViewerCount()
     }
-    document.addEventListener("click", this._handleClickOutMenuBox)
-  }
 
-  componentDidUpdate(prevProps) {
-    const {userImageId, actions} = this.props
-    const {getFile} = actions
-    if (!prevProps.userImageId && prevProps.userImageId !== userImageId) {
-      getFile(userImageId)
-    }
-
-    if (this.text && !this.state.wordsCheck) {
-      this.setState({...this.state, wordsCheck: true})
-      let allWords = this.text.innerText.split(" ")
+    if (this.text) {
+      let allWords = this.text.innerText.replace(/\n/g , ' ')
+      allWords = allWords.split(" ")
 
       let mailExp = new RegExp("^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$")
 
@@ -173,6 +163,16 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
               this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a href=tel:` + word + `>${word}</a>`)
         }
       }
+    }
+
+    document.addEventListener("click", this._handleClickOutMenuBox)
+  }
+
+  componentDidUpdate(prevProps) {
+    const {userImageId, actions} = this.props
+    const {getFile} = actions
+    if (!prevProps.userImageId && prevProps.userImageId !== userImageId) {
+      getFile(userImageId)
     }
   }
 
@@ -313,8 +313,6 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                 {!extendedView ?
                     postPicture ?
                         <div className={"post-image-container"}>
-                          <img src={postPicture.file} width={"100%"} alt='عکس پست'
-                               className={pictureLoaded === true ? "post-image-effect" : "post-image"}/>
                           <div className={pictureLoaded === true ? "post-image-loading-effect" : "post-image-loading"}>
                             <DefaultImage className='default-image'/>
                             {
@@ -328,6 +326,8 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                                   <div className='bright-line'/>
                             }
                           </div>
+                          <img src={postPicture.file} width={"100%"} alt='عکس پست'
+                               className={pictureLoaded === true ? "post-image-effect" : "post-image"}/>
                         </div>
                         : null
                     :

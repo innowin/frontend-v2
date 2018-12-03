@@ -8,13 +8,16 @@ import createAnObj from "./sliceReducers/utilsSlices/createAnObj"
 
 const exchanges = (state = initialState.exchanges, action) => {
   const {postParentType} = action.payload || {}
-  const {getExchangeByExId, postsExchange, getExchangeMembershipByMemberIdentity, getAllExchanges, searchExchangesByWord,removeExchangesSearchMode} = exchangeSlice
+  const {getExchangeByExId, postsExchange, getExchangeMembershipByMemberIdentity, getAllExchanges, searchExchangesByWord,removeExchangesSearchMode, editExchange} = exchangeSlice
   const {POST_PARENT} = constants
   switch (action.type) {
     case types.EXCHANGE.CREATE_EXCHANGE:
       return createAnObj.base(state, action)
     case types.SUCCESS.EXCHANGE.CREATE_EXCHANGE:
       return createAnObj.success(state, action)
+      /** --------------------  get exchange by exchange id --------------------- **/
+    case types.SUCCESS.EXCHANGE.EDIT_EXCHANGE:
+      return editExchange.success(state, action)
       /** --------------------  get exchange by exchange id --------------------- **/
     case types.SUCCESS.EXCHANGE.GET_EXCHANGE_BY_EX_ID:
       return getExchangeByExId.success(state, action)

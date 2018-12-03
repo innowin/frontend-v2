@@ -1,11 +1,11 @@
 const validateName = (name, translate) => {
-  if (name.length < 5) {
+  if (name.length < 1) {
     return translate['Name is wrong']
   }
 }
 
 const validatePosition = (name, translate) => {
-  if (name.length < 5) {
+  if (name.length < 1) {
     return translate['Position is wrong']
   }
 }

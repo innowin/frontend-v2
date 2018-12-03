@@ -87,6 +87,7 @@
 
   .member-picture {
     border-radius: 250px;
+    object-fit: cover;
     display: inline-block;
     vertical-align: top;
     font-size: $font-size-regular;
@@ -191,6 +192,7 @@
 
   .member-picture {
     border-radius: 250px;
+    object-fit: cover;
     display: inline-block;
     vertical-align: top;
     font-size: $font-size-regular;

@@ -73,11 +73,13 @@ const getEmit = (url, resultName, query = "", token) => {
   })
 }
 
-const patchEmit = (url, resultName, data, query = "", token) => {
+const patchEmit = (urll, resultName, data, query = "", token) => {
+  let url
+  query === "" ? url = REST_URL + '/' + urll + '/' : url = REST_URL + '/' + urll + '/' + query + '/'
   socket.emit(REST_REQUEST, {
     method: 'patch',
-    url: REST_URL + '/' + url + '/' + query + '/',
     result: resultName,
+    url,
     data,
     token
   })
@@ -97,7 +99,11 @@ const postEmit = (url, resultName, data, query = "", token) => {
   if (resultName !== results.USER.USERNAME_CHECK
     && resultName !== results.USER.EMAIL_CHECK
     && resultName !== results.USER.CREATE_USER_PERSON
-    && resultName !== results.USER.CREATE_USER_ORGAN) {
+    && resultName !== results.USER.CREATE_USER_ORGAN
+    && resultName !== results.USER.PASSWORD_RESET_BY_SMS_REQUEST
+    && resultName !== results.USER.PASSWORD_RESET_BY_SMS_CHECK_CODE
+    && resultName !== results.USER.PASSWORD_RESET_BY_SMS
+  ) {
     socket.emit(REST_REQUEST, {
       method: 'post',
       url: REST_URL + '/' + url + '/' + query,

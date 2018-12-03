@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import {Component} from 'react'
+import {PureComponent} from 'react'
 import Users from './Users'
 import Sidebar from './SideBar'
 import TopBar from '../../bars/TopBar'
@@ -11,6 +11,7 @@ import userActions from 'src/redux/actions/user/getUserActions'
 import {getUsers} from 'src/redux/selectors/user/GetAllUsers'
 import {ClipLoader} from "react-spinners"
 import {getFollowList} from 'src/redux/selectors/common/social/getFollowList'
+import RightArrowSvg from "../../../images/common/right_arrow_svg"
 
 type appProps =
     {|
@@ -27,7 +28,7 @@ type appState =
       scrollLoading: boolean
     |}
 
-class Explore extends Component <appProps, appState> {
+class Explore extends PureComponent <appProps, appState> {
   constructor(props) {
     super(props)
     this.state = {
@@ -35,7 +36,8 @@ class Explore extends Component <appProps, appState> {
       activeScrollHeight: 0,
       search: null,
       justFollowing: false,
-      justFollowed: false
+      justFollowed: false,
+      scrollButton: false
     }
   }
 
@@ -71,6 +73,11 @@ class Explore extends Component <appProps, appState> {
           },
           () => this.props.actions.getUsers(24, this.state.offset, this.state.search))
     }
+
+    if (window.scrollY > 1000)
+      this.setState({...this.state, scrollButton: true})
+    else this.setState({...this.state, scrollButton: false})
+
   }
 
   search = (search) =>
@@ -81,6 +88,14 @@ class Explore extends Component <appProps, appState> {
   justFollowing = (checked) => this.setState({...this.state, justFollowing: checked})
 
   justFollowed = (checked) => this.setState({...this.state, justFollowed: checked})
+
+  goUp = () =>
+  {
+    window.scroll({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }
 
   render() {
     const list = this.props.followees
@@ -106,9 +121,10 @@ class Explore extends Component <appProps, appState> {
                    loading={this.props.loading}/>
             <div className='users-explore-hide'/>
             <div className='users-explore-hide'/>
-            {
-              <div className='exchanges-explore-search-loading' style={{height: this.props.loading ? '40px' : '0px', opacity: this.props.loading ? '1' : '0'}}><ClipLoader/></div>
-            }
+            <div className={this.props.loading ? 'exchanges-explore-search-loading' : 'exchanges-explore-search-loading-hide'}><ClipLoader/></div>
+          </div>
+          <div className={this.state.scrollButton ? 'go-up-logo-cont' : 'go-up-logo-cont-hide'} onClick={this.goUp}>
+            <RightArrowSvg className='go-up-logo'/>
           </div>
         </div>
     )

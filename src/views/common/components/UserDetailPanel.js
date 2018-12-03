@@ -10,6 +10,7 @@ import {bindActionCreators} from "redux"
 import FileActions from "../../../redux/actions/commonActions/fileActions"
 import {DefaultUserIcon} from "../../../images/icons"
 import DefaultImageIcon from "../../../images/defaults/defaultImage_svg"
+import {REST_URL} from "../../../consts/URLS"
 
 type UserDetailPanelProps = {
   translate: { [string]: string },
@@ -29,6 +30,7 @@ type UserDetailPanelStates = {
   bannerLoaded: boolean,
   profileLoaded: boolean
 }
+
 class UserDetailPanel extends React.Component<UserDetailPanelProps, UserDetailPanelStates> {
   constructor(props) {
     super(props)
@@ -73,7 +75,29 @@ class UserDetailPanel extends React.Component<UserDetailPanelProps, UserDetailPa
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.bannerImage !== nextProps.bannerImage || this.props.profileImage !== nextProps.profileImage) {
+      this.setState({...this.state, bannerLoaded: false, profileLoaded: false}, () => {
+        if (nextProps.bannerImage && nextProps.bannerImage.file) {
+          let profile = new Image()
+          profile.src = nextProps.bannerImage.file
+          profile.onload = () => {
+            this.setState({...this.state, bannerLoaded: true})
+          }
+        }
+        if (nextProps.profileImage && nextProps.profileImage.file) {
+          let profile = new Image()
+          profile.src = nextProps.profileImage.file
+          profile.onload = () => {
+            this.setState({...this.state, profileLoaded: true})
+          }
+        }
+      })
+    }
+  }
+
   render() {
+    const {bannerLoaded, profileLoaded} = this.state
     const {user, translate, profile, organization, profileImage, bannerImage} = this.props
     const isUser = organization === null
     const name = isUser
@@ -82,12 +106,12 @@ class UserDetailPanel extends React.Component<UserDetailPanelProps, UserDetailPa
     return (
         <div className='user-detail-panel-container'>
           <div className='image-part-container'>
-            {bannerImage && bannerImage.file && this.state.bannerLoaded
+            {bannerImage && bannerImage.file && bannerLoaded
                 ? <img className='banner covered-img' alt="profile banner"
                        src={bannerImage.file}/>
                 : <div className='banner covered-img background-strips'/> // <DefaultImageIcon className="banner covered-img"/>
             }
-            {profileImage && profileImage.file && this.state.profileLoaded
+            {profileImage && profileImage.file && profileLoaded
                 ? <img className="rounded-circle profile-media covered-img" alt="profile"
                        src={profileImage.file}/>
                 : <DefaultUserIcon className="rounded-circle profile-media covered-img"/>

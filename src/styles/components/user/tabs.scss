@@ -98,6 +98,7 @@
   }
 
   .post-content {
+    white-space: pre-wrap;
     line-height: 2.1;
     font-size: $font-size-post-content;
     padding: 10px 0;
@@ -310,4 +311,10 @@
 
 .-green2 {
   color: lighten($text-light-color, .5%);
+}
+
+.empty-posts {
+  text-align: center;
+  width: 100%;
+  margin-top: 50px;
 }

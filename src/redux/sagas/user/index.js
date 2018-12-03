@@ -6,6 +6,7 @@ import {takeLatest, takeEvery} from "redux-saga/effects"
 import {updateProfileByProfileId} from "./updateProfileByProfileIdSaga"
 import {updateUserByUserId} from './updateUserByUserIdSaga'
 import {usernameCheck} from "./checkUsernameSaga"
+import {resetPasswordBySmsRequest, resetPasswordBySmsCheckCode, resetPasswordBySms} from "./reesetPasswordBySms"
 
 
 // check username exist
@@ -58,6 +59,18 @@ function* watchUpdateProfileByProfileId() {
   yield takeEvery(types.USER.UPDATE_PROFILE_BY_PROFILE_ID, updateProfileByProfileId)
 }
 
+function* watchResetPasswordBySmsRequest(){
+  yield takeEvery(types.USER.PASSWORD_RESET_BY_SMS_REQUEST, resetPasswordBySmsRequest)
+}
+
+function* watchResetPasswordBySmsCheckCode(){
+  yield takeEvery(types.USER.PASSWORD_RESET_BY_SMS_CHECK_CODE, resetPasswordBySmsCheckCode)
+}
+
+function* watchResetPasswordBySms(){
+  yield takeEvery(types.USER.PASSWORD_RESET_BY_SMS, resetPasswordBySms)
+}
+
 export default [
   // create user
   watchCreateUserOrgan(),
@@ -73,5 +86,8 @@ export default [
   // update user
   watchUpdateProfileByProfileId(),
   watchUpdateUserByUserId(),
-
+  // reset password by sms
+  watchResetPasswordBySmsRequest(),
+  watchResetPasswordBySmsCheckCode(),
+  watchResetPasswordBySms(),
 ]

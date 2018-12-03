@@ -186,6 +186,7 @@ module.exports = {
   "Fax": "دورنگار",
   "Mobile": "شماره موبایل",
   "National code": "کد ملی",
+  "National code 10": "کد ملی ده رقمی",
   "Phone": "شماره تماس",
   "Public email": "رایانامه عمومی",
   "Telegram account": "حساب تلگرام",
@@ -337,6 +338,10 @@ module.exports = {
   "Members": "اعضا",
   "Exchange Manager": "مدیریت بورس",
   "Medals": "مدرک ها",
+  "Edit Exchange": "ویرایش بورس",
+  "Delete Exchange": "حذف بورس",
+  "Unfollow Exchange": "لغو عضویت بورس",
+  "Add Exchange to Favorite": "افزودن بورس به علاقه مندی ها",
 
   //Statistic
   "Activity Report": "گزارش فعالیت",
@@ -379,7 +384,7 @@ module.exports = {
     "All People": "همه به صورت آزادانه",
     "Only Followers": "فقط دنبال کننده ها",
     "Nobody": "هیچکس",
-    "About Innowin": "درباره اینووین",
+    "About Innowin": "خط مشی حریم خصوصی",
     "Who Should Can Follow You?": "چه کسانی بتوانند شما را دنبال کنند؟",
     "Who Can Read Base Info?": "چه کسانی بتوانند مشخصات پایه شما را بخوانند؟",
     "Who Can Read Activity?": "چه کسانی بتوانند فعالیت های شما را ببینند؟",

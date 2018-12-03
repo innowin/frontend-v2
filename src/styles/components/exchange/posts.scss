@@ -74,7 +74,7 @@
   width: 100%;
   overflow-y: hidden;
   text-align: center;
-  margin-bottom: 18px;
+  padding: 0;
 }
 
 .post-image-container-fade-out {
@@ -99,16 +99,15 @@
 }
 
 .post-image {
-  box-shadow: 0 2px 8px 2px $box-shadow-color;
   opacity: 0;
   height: 0;
   overflow: hidden;
 }
 
 .post-image-effect {
-  box-shadow: 0 2px 8px 2px $box-shadow-color;
   animation: effect 2s;
   overflow: hidden;
+  margin-bottom: 18px;
 }
 
 @keyframes effect {
@@ -121,11 +120,12 @@
     height: 0;
   }
   50% {
-    opacity: 0.3;
+    opacity: 0.1;
     height: auto;
   }
   100% {
-    opacity: 1
+    opacity: 1;
+    height: auto;
   }
 }
 
@@ -133,7 +133,6 @@
   position: relative;
   overflow: hidden;
   background-color: #f3f3f3;
-  box-shadow: 0 2px 8px 2px $box-shadow-color;
   height: 350px;
 }
 
@@ -141,7 +140,6 @@
   position: relative;
   overflow: hidden;
   background-color: #f3f3f3;
-  box-shadow: 0 2px 8px 2px $box-shadow-color;
   animation: fadetoout 1s;
   opacity: 0;
   height: 0;
@@ -221,9 +219,8 @@
 .default-image {
   position: absolute;
   opacity: 0.5;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 0;
+  left: 25%;
   fill: #ddd;
   stroke: #ddd;
   width: 50%;

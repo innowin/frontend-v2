@@ -38,7 +38,7 @@ const AttachMenu = (props) => {
     ? 'disabled-label' : ''
   const MediaAttachedDisabled = (postPicturesLength > 0 || postMediaExist || postFileExist || postLinkExist)
     ? 'disabled-label' : ''
-  const LinkAttachedDisabled = (postPicturesLength > 0 || postMediaExist || postFileExist || postLinkExist)
+  const LinkAttachedDisabled = (postPicturesLength > 0 || postMediaExist || postFileExist)
     ? 'disabled-label' : ''
   return (
     <div
