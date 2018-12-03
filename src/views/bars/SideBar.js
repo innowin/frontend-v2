@@ -17,7 +17,6 @@ import constants from "src/consts/constants";
 import SocialActions from "../../redux/actions/commonActions/socialActions";
 import {bindActionCreators} from "redux";
 import {getFollowersSelector} from "../../redux/selectors/common/social/getFollowers";
-import {TextInput} from "../common/inputs/TextInput"
 import updateProfile from "src/redux/actions/user/updateProfileByProfileIdAction"
 import OrganizationActions from "src/redux/actions/organization/organizationActions"
 import types from "src/redux/actions/types"
@@ -291,9 +290,16 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
   }
 
   _handleEditProfile = (e: any) => {
+    const {description} = this.props
     e.preventDefault()
     const editProfile = !(this.state.editProfile)
-    this.setState({...this.state, editProfile, menuToggle: false, bannerState: '', pictureState: ''})
+    this.setState({...this.state,
+      editProfile,
+      menuToggle: false,
+      bannerState: '',
+      pictureState: '',
+      descriptionState: description
+    })
   }
 
   _handleMenu = () => {
@@ -418,7 +424,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     const {menuToggle, editProfile, bannerState, pictureState, descriptionState, descriptionClass} = this.state
     const {
       sideBarType, name, banner, picture, chosenBadgesImg, socialNetworks,
-      translate: tr, paramId, followers, clientIdentityId
+      translate: tr, paramId, followers, clientIdentityId, description
     } = this.props
     const className = this.props.className || ''
     // const followNames = ["صابر منادی", "امیر امیری فر", "محسن فلاح", "یاسر رستگار", "علی اور     organ = {organ}وجی"] //TODO get followNames
@@ -440,7 +446,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
                 LoadingFile={this._LoadingFile}
                 handleBase64={(fileString) => this.setState({...this.state, bannerState: fileString})}
                 handleError={(error) => alert(error)}
-                className="edit-nav edit-banner"
+                className="edit-nav"
                 ref={e => this.AttachBannerFileInput = e}
                 allowableFormat={constants.FILE_TYPE.PHOTO}
                 translate={tr}
@@ -449,13 +455,13 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
           }
         </div>
         <div className="sidebar-organ-user col">
-          <div className="editable-profile-img">
+          <div className="editable-profile-img profile-media">
             {
               (!pictureString) ? (
-                (sideBarType === constants.USER_TYPES.PERSON) ? <DefaultUserIcon className="profile-media"/> :
-                  <DefaultOrganIcon className="profile-media"/>
+                (sideBarType === constants.USER_TYPES.PERSON) ? <DefaultUserIcon/> :
+                  <DefaultOrganIcon/>
               ) : (
-                <img className="rounded-circle profile-media covered-img" alt="" src={pictureString}/>)
+                <img className="covered-img" alt="" src={pictureString}/>)
             }
             {
               (!editProfile) ? '' : (
@@ -465,7 +471,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
                   LoadingFile={this._LoadingFile}
                   handleBase64={(fileString) => this.setState({...this.state, pictureState: fileString})}
                   handleError={(error) => alert(error)}
-                  className="edit-nav edit-media"
+                  className="edit-nav"
                   ref={e => this.AttachPictureFileInput = e}
                   allowableFormat={constants.FILE_TYPE.PHOTO}
                   translate={tr}
@@ -484,7 +490,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
             }
             <span className="p-20px mt-4">{name}</span>
             {
-              (!editProfile) ? (<span className="-grey1 text-center">{descriptionState}</span>) : (
+              (!editProfile) ? (<span className="-grey1 text-center">{description}</span>) : (
                 <div className='description'>
                   {descriptionClass &&
                   <span className={descriptionClass}>

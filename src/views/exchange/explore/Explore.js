@@ -9,6 +9,7 @@ import connect from 'react-redux/es/connect/connect'
 import exchangeActions from 'src/redux/actions/exchangeActions'
 import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges.js'
 import {ClipLoader} from "react-spinners"
+import RightArrowSvg from "../../../images/common/right_arrow_svg"
 
 type appProps =
     {|
@@ -34,7 +35,8 @@ class Explore extends PureComponent <appProps, appState> {
       activeScrollHeight: 0,
       scrollLoading: false,
       justFollowing: false,
-      search: null
+      search: null,
+      scrollButton: false
     }
   }
 
@@ -59,6 +61,11 @@ class Explore extends PureComponent <appProps, appState> {
           },
           () => this.props.actions.getAllExchanges(24, this.state.offset, this.state.search))
     }
+
+    if (window.scrollY > 1000)
+      this.setState({...this.state, scrollButton: true})
+    else this.setState({...this.state, scrollButton: false})
+
   }
 
   search = (search) =>
@@ -67,6 +74,13 @@ class Explore extends PureComponent <appProps, appState> {
       })
 
   justFollowing = (checked) => this.setState({...this.state, justFollowing: checked})
+
+  goUp = () => {
+    window.scroll({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }
 
   render() {
     return (
@@ -78,6 +92,9 @@ class Explore extends PureComponent <appProps, appState> {
             <div className='exchange-model-hide'/>
             <div className='exchange-model-hide'/>
             <div className={this.props.loading ? 'exchanges-explore-search-loading' : 'exchanges-explore-search-loading-hide'}><ClipLoader/></div>
+          </div>
+          <div className={this.state.scrollButton ? 'go-up-logo-cont' : 'go-up-logo-cont-hide'} onClick={this.goUp}>
+            <RightArrowSvg className='go-up-logo'/>
           </div>
         </div>
     )

@@ -186,6 +186,7 @@ module.exports = {
   "Fax": "دورنگار",
   "Mobile": "شماره موبایل",
   "National code": "کد ملی",
+  "National code 10": "کد ملی ده رقمی",
   "Phone": "شماره تماس",
   "Public email": "رایانامه عمومی",
   "Telegram account": "حساب تلگرام",
@@ -339,6 +340,8 @@ module.exports = {
   "Medals": "مدرک ها",
   "Edit Exchange": "ویرایش بورس",
   "Delete Exchange": "حذف بورس",
+  "Unfollow Exchange": "لغو عضویت بورس",
+  "Add Exchange to Favorite": "افزودن بورس به علاقه مندی ها",
 
   //Statistic
   "Activity Report": "گزارش فعالیت",

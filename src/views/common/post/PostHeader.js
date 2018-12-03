@@ -65,7 +65,7 @@ class PostHeader extends React.Component {
           <Link to={url} className='link-post'>
             <div className="-img-col">
               {postRelatedIdentityImage && this.state.profileLoaded ? <img className="rounded-circle covered-img" src={postRelatedIdentityImage.file} alt=""/>
-                  : <DefaultUserIcon className="rounded-circle covered-img"/>
+                  : <DefaultUserIcon className="rounded-circle covered-svg"/>
               }
             </div>
             <div className="-item-titlePost">

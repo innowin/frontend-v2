@@ -38,11 +38,37 @@ $sidebar-profile-media-width: 80px;
   font-size: 24px;
 }
 
-.-topBarIcons {
+.-topBarIcons-cont {
   cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  text-align: center;
+  transition-duration: 0.5s;
+}
+
+.-topBarIcons-cont-open {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.15);
+  transition-duration: 0.5s;
+}
+
+.-topBarIcons {
   fill: $background-color;
   height: 20px;
-  margin-top: 4px;
+  vertical-align: top;
+  margin-top: 5px;
+}
+
+.notif-icon {
+  fill: $background-color;
+  height: 20px;
+  vertical-align: top;
+  margin-top: 3px;
 }
 
 .centerImgTopBar {
@@ -144,8 +170,7 @@ $sidebar-profile-media-width: 80px;
 }
 
 .-ProfTopBarImg-svg-img {
-  cursor: pointer;
-  margin: auto 0 auto 10px;
+  margin-top: 2.7px;
   height: 40px;
   width: 40px;
   border-radius: 50%;
@@ -283,7 +308,7 @@ $sidebar-profile-media-width: 80px;
 .exchange-center-background {
   top: 0;
   background: linear-gradient(to bottom, $image-background-color, $image-background-color,
-      $image-background-color, $image-background-color, $image-background-color, transparent);
+          $image-background-color, $image-background-color, $image-background-color, transparent);
   height: $exchange-tabs-height;
   width: $feed-width + 10;
   position: fixed;
@@ -374,31 +399,23 @@ $sidebar-profile-media-width: 80px;
     cursor: pointer;
     position: absolute;
     left: 50%;
+    top: 50%;
     transform: translate(-50%, -50%);
+    width: 100%;
     text-align: center;
-    &.edit-banner {
-      width: 100%;
-      top: 50%;
-    }
-    &.edit-media {
-      width: $sidebar-profile-media-width - 10px;
-      top: 0;
-      .edit-background {
-        border-radius: 15%;
-      }
-    }
     .edit-background {
-      background: $sidebar-bottom-color;
+      background-color: rgba(255, 255, 255, 0.5);
       height: 30px;
-      opacity: 0.8;
+      position: absolute;
     }
     .edit-text {
       position: absolute;
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
-      color: $base-posts;
+      color: $text-dark-color;
       font-size: $font-size-verySmallText;
+      font-weight: bold;
       width: 100%;
     }
   }
@@ -407,12 +424,19 @@ $sidebar-profile-media-width: 80px;
 %sidebar-child-wrapper {
   position: relative;
   .profile-media {
-    width: $sidebar-profile-media-width;
-    height: 80px;
     position: absolute;
     transform: translate(-50%, -50%);
     top: 0;
     left: 50%;
+    width: $sidebar-profile-media-width;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: auto;
+    svg , img{
+      width: 100%;
+      height: 100%;
+    }
   }
   .info-section {
     padding-bottom: 90px;
@@ -451,7 +475,7 @@ $sidebar-profile-media-width: 80px;
     margin: 15px 0 -10px 10px;
     cursor: pointer;
     display: block;
-    width: 15px;
+    width: 25px;
     height: 25px;
     text-align: center;
     line-height: 25px;
@@ -645,8 +669,8 @@ $sidebar-profile-media-width: 80px;
 .item-wrapper {
   display: flex;
   flex-direction: column;
-  padding: 10px 10px 10px 30px;
   position: relative;
+  transition-duration: 0.6s;
 
   &:after {
     content: '';
@@ -663,8 +687,10 @@ $sidebar-profile-media-width: 80px;
   }
 
   &.active {
+    transition-duration: 0.6s;
     background-color: $chat-box2-color;
     .exchange-name {
+      transition-duration: 0.6s;
       color: lighten($text-darkest-color, 10%) !important;
     }
 
@@ -681,6 +707,7 @@ $sidebar-profile-media-width: 80px;
       top: -1px;
       left: 0;
       background-color: $text-lighter-color;
+      transition-duration: 0.6s;
     }
   }
 
@@ -689,6 +716,7 @@ $sidebar-profile-media-width: 80px;
     flex-flow: row;
     cursor: pointer;
     align-items: center;
+    padding: 10px 10px 10px 30px;
     .exchange-name {
       padding: 0 20px 0 0;
       color: $text-light-color;
@@ -728,10 +756,23 @@ $sidebar-profile-media-width: 80px;
   position: relative;
 }
 
+.top-bar-home {
+  margin-right: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  text-align: center;
+}
+
+.top-bar-home-logo {
+  vertical-align: top;
+  margin: 3px;
+}
+
 .explore-menu-container {
   position: absolute;
   top: 32px;
-  right: -80px;
+  right: -75px;
   width: 245px;
   text-align: center;
   overflow-y: hidden;
@@ -742,7 +783,7 @@ $sidebar-profile-media-width: 80px;
 .explore-menu-container-hide {
   position: absolute;
   top: 32px;
-  right: -80px;
+  right: -75px;
   width: 245px;
   text-align: center;
   overflow-y: hidden;
@@ -774,6 +815,7 @@ $sidebar-profile-media-width: 80px;
 }
 
 .explore-menu-items {
+  text-decoration: none;
   position: relative;
   z-index: 2;
   display: block;
@@ -884,6 +926,7 @@ $sidebar-profile-media-width: 80px;
   color: $text-title-menu-color;
   cursor: pointer;
   transition-duration: 0.3s;
+  display: block;
 }
 
 .settingModal-sidebar-item-selected {
@@ -893,6 +936,7 @@ $sidebar-profile-media-width: 80px;
   color: black;
   cursor: pointer;
   transition-duration: 0.3s;
+  display: block;
 }
 
 .settingModal-menu-out {
@@ -1494,6 +1538,7 @@ $sidebar-profile-media-width: 80px;
 }
 
 .profile-menu-second-section-item {
+  display: block;
   padding: 12px 15px;
   font-weight: bold;
   cursor: pointer;
@@ -1732,6 +1777,23 @@ $sidebar-profile-media-width: 80px;
   font-size: $font-size-description;
 }
 
+.exchange-admin-menu-member {
+  position: absolute;
+  top: 15px;
+  left: 10px;
+  width: 120px;
+  overflow: hidden;
+  background-color: $white;
+  transition-duration: $animation-timing;
+  border-radius: $border-radius;
+  box-shadow: 0 2px 5px 1px $box-shadow-color;
+  text-align: center;
+  z-index: 102;
+  height: 31px;
+  opacity: 1;
+  font-size: $font-size-description;
+}
+
 .exchange-admin-menu-child {
   width: 100%;
   padding: 7.5px;
@@ -1748,10 +1810,11 @@ $sidebar-profile-media-width: 80px;
 .edit-exchange-profile-picture-container {
   position: relative;
   overflow: auto;
+  border-radius: 50%;
 
   .edit-exchange-profile-picture {
     position: absolute;
-    top: 38px;
+    top: 37.5px;
     left: 0;
     width: 100%;
     padding: 4px;
@@ -1759,16 +1822,60 @@ $sidebar-profile-media-width: 80px;
     font-size: $font-size-regular;
     font-weight: bold;
     background-color: rgba(255, 255, 255, 0.3);
-    border-radius: $border-radius-more;
     color: $text-dark-color;
     cursor: pointer;
+    //border-radius: $border-radius-more;
   }
 }
 
-.post-menu-bottom {
+.bubble-more {
   border-radius: 50%;
-  transition: all $animation-timing;
+  transition: all $animation-timing-long;
+  padding-top: 2px;
   &:hover {
+    transition: all $animation-timing-long;
     background-color: $eee-color;
   }
+}
+
+.edit-exchange-name-input {
+  border-radius: 3px;
+  text-align: center;
+  border: 1px solid grey;
+  padding: 5px;
+  font-size: 14px
+}
+
+.edit-exchange-description-input {
+  border-radius: 3px;
+  text-align: center;
+  border: 1px solid grey;
+  padding: 4px;
+  font-size: 13px;
+  resize: vertical;
+  width: 100%;
+  line-height: 22px;
+}
+
+.topbar-profile-img {
+  cursor: pointer;
+  margin-top: 4px;
+  margin-left: 8px;
+  width: 45px;
+  height: 45px;
+  text-align: center;
+  border-radius: 50%;
+  transition-duration: 0.5s;
+}
+
+.topbar-profile-img-open {
+  cursor: pointer;
+  margin-top: 4px;
+  margin-left: 8px;
+  width: 45px;
+  height: 45px;
+  text-align: center;
+  border-radius: 50%;
+  transition-duration: 0.5s;
+  background-color: rgba(255, 255, 255, 0.15);
 }

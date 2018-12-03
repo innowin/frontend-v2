@@ -412,9 +412,8 @@
   border-radius: 3px;
   padding: 2px 0;
   width: 80px;
-  position: absolute;
-  bottom: 15px;
-  left: 15px;
+  margin-top: 13px;
+  float: left;
   transition-duration: 0.25s;
   font-size: $font-size-normalText;
   &:hover {
@@ -425,9 +424,6 @@
   &:focus {
     outline: none;
   }
-  //&:active{
-  //  background-color: $secondary-color;
-  //}
 }
 
 .exchange-followed {
@@ -438,9 +434,8 @@
   border-radius: 3px;
   padding: 2px 0;
   width: 80px;
-  position: absolute;
-  bottom: 15px;
-  left: 15px;
+  float: left;
+  margin-top: 13px;
   transition-duration: 0.25s;
   font-size: $font-size-normalText;
   &:hover {
@@ -542,4 +537,109 @@
   //right: 97px;
   //width: calc(0.25 * (100% - 194px));
   //}
+}
+
+.go-up-logo-cont-hide {
+  position: fixed;
+  bottom: -50px;
+  right: 45px;
+  background-color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  text-align: center;
+  transition-duration: 0.5s;
+}
+
+.go-up-logo-cont {
+  position: fixed;
+  z-index: 2;
+  opacity: 1;
+  bottom: 15px;
+  right: 45px;
+  background-color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  text-align: center;
+  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition-duration: 0.5s;
+  &:hover {
+    transition-duration: 0.25s;
+    transform: scale(1.05) translateY(-5px);
+    background-color: $primary-color;
+    .go-up-logo {
+      fill: white;
+    }
+  }
+}
+
+.go-up-logo {
+  transition-duration: 0.25s;
+  margin-top: 15px;
+  width: 10px;
+  fill: $primary-color;
+  transform: rotate(-90deg);
+}
+
+.material {
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+  user-select: none;
+  direction: ltr;
+  vertical-align: top;
+}
+
+.material:focus {
+  outline: none;
+}
+
+.material-content {
+  direction: rtl;
+  padding: 0;
+  margin: 0;
+}
+
+.ripple {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 100%;
+  transform: scale(0);
+  opacity: 0;
+  pointer-events: none;
+  animation: ripple 0.6s ease-out;
+}
+
+@keyframes ripple {
+  from {
+    transform: scale(0);
+    opacity: 1;
+  }
+  to {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.rippleSlow {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 100%;
+  transform: scale(0);
+  opacity: 0;
+  pointer-events: none;
+  animation: rippleSlow 1.5s ease-out;
+}
+
+@keyframes rippleSlow {
+  from {
+    transform: scale(0);
+    opacity: 1;
+  }
+  to {
+    transform: scale(2);
+    opacity: 0;
+  }
 }

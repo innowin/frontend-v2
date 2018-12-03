@@ -13,7 +13,7 @@ class LinkModal extends Component {
     submitFunc: PropTypes.func.isRequired
   }
 
-  componentDidUpdate(){
+  componentDidUpdate() {
     const {linkModal} = this.props
     linkModal && this.link.focus()
   }
@@ -35,7 +35,7 @@ class LinkModal extends Component {
                     onClick={cancelFunc}>لغو
             </button>
             <button className='post-component-footer-link-modal-submit-btn'
-                    onClick={()=> submitFunc(this.link.value)}>ثبت
+                    onClick={() => submitFunc(this.link.value)}>ثبت
             </button>
           </div>
         </div>

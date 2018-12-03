@@ -43,9 +43,14 @@ export default {
     HEALTHCARE: 'healthcare',
   },
   FILE_TYPE: {
-    PHOTO:['jpg', 'jpeg', 'png'],
-    FILE:['pdf', 'xlsx', 'doc', 'docx'],
-    VIDEO:['mp4'],
-    AUDIO:['mp3']
-  }
+    PHOTO: ['jpg', 'jpeg', 'png'],
+    FILE: ['pdf', 'xlsx', 'doc', 'docx'],
+    VIDEO: ['mp4'],
+    AUDIO: ['mp3']
+  },
+  RESET_PASSWORD_STEP: {
+    REQUEST: 'request_step',
+    CHECK_CODE: 'check_code_step',
+    RESET: 'reset_step'
+  },
 }

@@ -86,7 +86,7 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
         <CategoryTitle
           title={translate['Post']}
           showCreateForm={this._showCreateForm}
-          createForm={createForm}
+          // createForm={createForm}
         />
         <FrameCard className="-frameCardPost">
 
