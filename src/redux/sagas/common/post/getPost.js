@@ -21,7 +21,7 @@ export function* getPost(action) {
   } catch (error) {
     const {message} = error
     yield put({
-      type: types.ERRORS.COMMON.POST.UPDATE_POST,
+      type: types.ERRORS.COMMON.POST.GET_POST,
       payload: {message, postId}
     })
   } finally {

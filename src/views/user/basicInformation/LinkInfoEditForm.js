@@ -73,7 +73,8 @@ class LinkInfoEditForm extends React.Component<PropsUserInfoEditForm> {
       formFormat[key] === null ? delete(formFormat[key]) : ''
       return formFormat
     })
-    updateProfileByUserId(formFormat, profileId, userId)
+    const formValues: {} = {...formFormat}
+    updateProfileByUserId({formValues, profileId, userId})
     hideEdit()
     return false
   }
