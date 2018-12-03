@@ -7,6 +7,7 @@ import Product from "./Product"
 import User from "./User"
 import {Switch} from "react-router-dom"
 import User_Explorer from './user/explore/Explore'
+import TopBar from "./bars/TopBar"
 
 
 class Layout extends Component {
@@ -18,6 +19,9 @@ class Layout extends Component {
   render() {
     return (
         <div className='pages-wrapper global-wrapper'>
+
+          <TopBar collapseClassName="col user-sidebar-width"/>
+
           <Switch>
             <PrivateRoute exact={true} path="/" component={Home}/>
             <PrivateRoute path="/user/:id" component={User}/>

@@ -84,7 +84,7 @@
 .post-component-content {
   //border: 1px #e7e7e7 solid;
   border-radius: $border-radius;
-  overflow: hidden;
+  //overflow: hidden;
 
   .post-component-description {
     position: relative;
@@ -101,7 +101,7 @@
       resize: none;
       border: 1px #e7e7e7 solid;
       border-radius: $border-radius;
-      padding: 7px 15px 9px 15px;
+      padding: 7px 15px 9px 23px;
       font-size: 13px;
       transition-duration: 0.3s;
       height: 45px;
@@ -121,7 +121,7 @@
       resize: none;
       border-radius: $border-radius;
       border: 1px #e7e7e7 solid;
-      padding: 7px 15px 9px 15px;
+      padding: 7px 15px 9px 23px;
       font-size: 13px;
       transition-duration: 0.3s;
       height: 100px;
@@ -787,4 +787,8 @@
     color: white;
     transition-duration: 0.3s;
   }
+}
+
+.object-fit-cover{
+  object-fit: cover;
 }

@@ -41,7 +41,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
     const {activeExchangeId} = this.state
     return (
       <div className="home-wrapper global-wrapper">
-        <TopBar collapseClassName="col-2"/>
+        {/*<TopBar collapseClassName="col-2"/>*/}
         <main className="-main">
           <div className="row page-content">
             {

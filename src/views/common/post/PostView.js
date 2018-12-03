@@ -136,7 +136,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
       let mailExp = new RegExp("^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$")
 
-      let urlExp = new RegExp("^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$")
+      let urlExp = new RegExp("^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[A-Za-z0-9]+([\\-\\.]{1}[A-Za-z0-9]+)*\\.[A-Za-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$")
 
       // Phone Reg
       let first = new RegExp("(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{4}[)]?))")
@@ -360,7 +360,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                  <div className="-img-col">
                  {!userImage
                  ? (<DefaultUserIcon/>)
-                 : (<img className="rounded-circle" src={userImage.file} alt=""/>)
+                 : (<img className="rounded-circle object-fit-cover" src={userImage.file} alt=""/>)
                  }
                  </div>
                  <input className='add-comment-text-field' placeholder={translate["Send comment"]}

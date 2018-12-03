@@ -18,48 +18,58 @@ class Material extends React.Component {
   }
 
   handleButtonRelease(e) {
-    clearTimeout(this.buttonPressTimer)
-    if (!this.ripple) {
-      let target = this.container
-      let rect = target.getBoundingClientRect()
-      let ripple = document.createElement("span")
-      ripple.className = "ripple"
-      if (this.props.backgroundColor) ripple.style.backgroundColor = this.props.backgroundColor
-      ripple.style.height = ripple.style.width = Math.max(rect.width, rect.height) + "px"
-      target.appendChild(ripple)
-      let top = e.pageY - rect.top - ripple.offsetHeight / 2 - window.scrollY
-      let left = e.pageX - rect.left - ripple.offsetWidth / 2 - window.scrollX
-      ripple.style.top = top + "px"
-      ripple.style.left = left + "px"
-      setTimeout(() => {
-        target.removeChild(ripple)
-      }, 600)
+    try {
+      clearTimeout(this.buttonPressTimer)
+      if (!this.ripple) {
+        let target = this.container
+        let rect = target.getBoundingClientRect()
+        let ripple = document.createElement("span")
+        ripple.className = "ripple"
+        if (this.props.backgroundColor) ripple.style.backgroundColor = this.props.backgroundColor
+        ripple.style.height = ripple.style.width = Math.max(rect.width, rect.height) + "px"
+        target.appendChild(ripple)
+        let top = e.pageY - rect.top - ripple.offsetHeight / 2 - window.scrollY
+        let left = e.pageX - rect.left - ripple.offsetWidth / 2 - window.scrollX
+        ripple.style.top = top + "px"
+        ripple.style.left = left + "px"
+        setTimeout(() => {
+          target.removeChild(ripple)
+        }, 600)
+      }
+      else {
+        this.ripple = null
+      }
     }
-    else {
-      this.ripple = null
+    catch (e) {
+      console.log('Material Effect Failed!')
     }
   }
 
   onMouseDown(e) {
-    let pageY = e.pageY
-    let pageX = e.pageX
-    this.buttonPressTimer = setTimeout(() => {
-      let target = this.container
-      let rect = target.getBoundingClientRect()
-      let ripple = document.createElement("span")
-      ripple.className = "rippleSlow"
-      if (this.props.backgroundColor) ripple.style.backgroundColor = this.props.backgroundColor
-      ripple.style.height = ripple.style.width = Math.max(rect.width, rect.height) + "px"
-      target.appendChild(ripple)
-      this.ripple = ripple
-      let top = pageY - rect.top - ripple.offsetHeight / 2 - window.scrollY
-      let left = pageX - rect.left - ripple.offsetWidth / 2 - window.scrollX
-      ripple.style.top = top + "px"
-      ripple.style.left = left + "px"
-      setTimeout(() => {
-        target.removeChild(ripple)
-      }, 1500)
-    }, 300)
+    try {
+      let pageY = e.pageY
+      let pageX = e.pageX
+      this.buttonPressTimer = setTimeout(() => {
+        let target = this.container
+        let rect = target.getBoundingClientRect()
+        let ripple = document.createElement("span")
+        ripple.className = "rippleSlow"
+        if (this.props.backgroundColor) ripple.style.backgroundColor = this.props.backgroundColor
+        ripple.style.height = ripple.style.width = Math.max(rect.width, rect.height) + "px"
+        target.appendChild(ripple)
+        this.ripple = ripple
+        let top = pageY - rect.top - ripple.offsetHeight / 2 - window.scrollY
+        let left = pageX - rect.left - ripple.offsetWidth / 2 - window.scrollX
+        ripple.style.top = top + "px"
+        ripple.style.left = left + "px"
+        setTimeout(() => {
+          target.removeChild(ripple)
+        }, 1500)
+      }, 300)
+    }
+    catch (e) {
+      console.log('Material Effect Failed!')
+    }
   }
 
   render() {

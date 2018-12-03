@@ -25,6 +25,7 @@ import {BeatLoader} from "react-spinners"
 import FileActions from "src/redux/actions/commonActions/fileActions";
 import {getMessages} from "src/redux/selectors/translateSelector"
 import {createFileFunc} from "src/views/common/Functions"
+import Material from "../common/components/Material"
 
 
 const timeStamp = new Date().toISOString()
@@ -538,18 +539,12 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
           <CheckOwner showForOwner={false} id={paramId}>
             <div className="flex-row pb-3">
               <div className="w-50 pl-2 pb-2">
-                <button
-                  type="button"
-                  className="btn btn-outline-secondary btn-block sidebarBottom">{tr && tr['Send Message']}
-                </button>
+                <Material
+                  className="btn btn-outline-secondary btn-block sidebarBottom" content={tr && tr['Send Message']}/>
               </div>
               {showFollow ?
                 <div className="w-50 pb-2">
-                  <button
-                    type="button"
-                    className="btn btn-outline-secondary btn-block sidebarBottom follow-button"
-                    onClick={this._createFollow}>{tr && tr['Follow']}
-                  </button>
+                  <Material className="btn btn-outline-secondary btn-block sidebarBottom follow-button" onClick={this._createFollow} content={tr && tr['Follow']}/>
                 </div>
                 : <div className="w-50 pl-2 pb-2 followed-text">
                   {tr && tr['Followed']}

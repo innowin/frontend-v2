@@ -59,7 +59,7 @@ export const Followers = (props: PropsFollowers) => {
                       <Link to={url}>
                         {
                           (!follower.img) ? (<DefaultUserIcon/>) : (
-                              <img alt="" className="rounded-circle" src={follower.img}/>)
+                              <img alt="" className="rounded-circle object-fit-cover" src={follower.img}/>)
                         }
                       </Link>
                     </div>
