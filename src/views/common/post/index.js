@@ -1,7 +1,6 @@
 // @flow
 
 //TODO: mohammad forms need change to redux form
-//FIXME: profileMedia for organization and home page need to fix
 import * as React from "react";
 import PropTypes from 'prop-types';
 
@@ -16,8 +15,7 @@ import constants from "src/consts/constants"
 import client from 'src/consts/client'
 
 type postsPropsType = {
-  id: number,
-  profileMedia: string,
+  id: number| string,
   postIdentity: number,
   translate: {[string]: string},
   actions: {
@@ -28,7 +26,7 @@ type postsPropsType = {
   },
   posts: [],
   isLoading: boolean,
-  error: string,
+  error?: string,
   identityType: string,
   userImageId: number,
 }
@@ -39,13 +37,12 @@ type postsStatesType = {
 
 class Posts extends React.Component<postsPropsType, postsStatesType> {
   static propTypes = {
-    id: PropTypes.string.isRequired,
-    profileMedia: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     postIdentity: PropTypes.number.isRequired,
     actions: PropTypes.object.isRequired,
     posts: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    error: PropTypes.object.isRequired,
+    error: PropTypes.object,
     translate: PropTypes.object.isRequired,
     identityType: PropTypes.string.isRequired,
     userImageId: PropTypes.number.isRequired,
@@ -77,7 +74,7 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
   }
 
   render() {
-    const {postIdentity, profileMedia, posts, isLoading, error, actions, translate, userImageId} = this.props
+    const {postIdentity, posts, isLoading, error, actions, translate, userImageId} = this.props
     const {updatePost, deletePost} = actions
     const {createForm} = this.state;
     return (
@@ -108,7 +105,6 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
                   post={post}
                   updatePost={updatePost}
                   key={post.id + "Posts"}
-                  profileMedia={profileMedia}
                   deletePost={deletePost}
                 />
               ))

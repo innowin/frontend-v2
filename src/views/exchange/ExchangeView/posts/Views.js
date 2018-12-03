@@ -38,7 +38,7 @@ class PostItemHeader extends Component {
           <div>
             {
               (!postIdentityFile) ? (<DefaultUserIcon className="default-icon"/>) : (
-                <img className="rounded-circle" src={postIdentityFile} alt=""/>
+                <img className="rounded-circle object-fit-cover" src={postIdentityFile} alt=""/>
               )
             }
             <span className="mr-3">{name}</span>

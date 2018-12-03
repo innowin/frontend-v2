@@ -124,7 +124,7 @@ class User extends Component<PropsUser> {
         || badgesObject.error
     return (
         <div className="-userOrganBackgroundImg">
-          <TopBar collapseClassName="col user-sidebar-width"/>
+          {/*<TopBar collapseClassName="col user-sidebar-width"/>*/}
           <VerifyWrapper isLoading={isLoading} error={errorMessage} className="-main row page-content">
             {!identityObject.content ? '' : (
                 <UserSideBar

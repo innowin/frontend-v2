@@ -308,7 +308,7 @@ $sidebar-profile-media-width: 80px;
 .exchange-center-background {
   top: 0;
   background: linear-gradient(to bottom, $image-background-color, $image-background-color,
-      $image-background-color, $image-background-color, $image-background-color, transparent);
+          $image-background-color, $image-background-color, $image-background-color, transparent);
   height: $exchange-tabs-height;
   width: $feed-width + 10;
   position: fixed;
@@ -602,7 +602,7 @@ $sidebar-profile-media-width: 80px;
 
   .sidebarBottom {
     flex-grow: 1;
-    cursor: pointer;
+    cursor: pointer!important;
     background-color: $primary-color;
     color: $background-color;
     font-size: $font-size-boxText;
@@ -647,7 +647,7 @@ $sidebar-profile-media-width: 80px;
 
 .follow-button {
   background-color: $success-color;
-
+  cursor: pointer!important;
   &:hover {
     background-color: $background-color;
     border-color: $success-color;
@@ -744,6 +744,7 @@ $sidebar-profile-media-width: 80px;
       width: 50px;
       height: 50px;
       border-radius: 50%;
+      object-fit: cover;
     }
   }
 
@@ -1821,10 +1822,10 @@ $sidebar-profile-media-width: 80px;
   }
 }
 
-.exchange-admin-menu-child-delete{
+.exchange-admin-menu-child-delete {
   color: $error-color;
 
-  &:hover{
+  &:hover {
     color: $error-color-hover;
   }
 }
