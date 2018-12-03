@@ -37,7 +37,8 @@ class ExchangeViewBar extends Component {
       followLoading: false,
       imageLoaded: false,
       adminView: false,
-      loadingEdit: false
+      loadingEdit: false,
+      unFollowed: false
     }
     this.follow = this.follow.bind(this)
     this.exchangeAdminMenu = React.createRef()
@@ -98,7 +99,7 @@ class ExchangeViewBar extends Component {
   }
 
   follow() {
-    this.setState({...this.state, followLoading: true})
+    this.setState({...this.state, followLoading: true, unFollowed: false})
     this.props.actions.follow({identityId: this.props.currentUserIdentity, exchangeIdentity: this.props.exchangeId})
   }
 
@@ -150,13 +151,13 @@ class ExchangeViewBar extends Component {
         this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
       }
     } else if (currentExchange.exchange)
-        if (this.exchangeAdminMenu && !this.exchangeAdminMenu.contains(event.target)) {
-      this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
-    }
+      if (this.exchangeAdminMenu && !this.exchangeAdminMenu.contains(event.target)) {
+        this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
+      }
   }
 
   renderFollowBtn(currentExchange) {
-    if (currentExchange.exchange) {
+    if (currentExchange.exchange && !this.state.unFollowed) {
       return (
           <div className="pb-2">
             <button
@@ -168,8 +169,14 @@ class ExchangeViewBar extends Component {
       )
     }
     else if (this.state.followLoading) {
-      return <div className="pb-2" style={{width: "122.5px", textAlign: "center", marginTop: "7.5px"}}><BeatLoader
-          size={15} color={"#acacac"}/></div>
+      return <div className="pb-2">
+        <button
+            type="button"
+            className="btn btn-outline-secondary btn-block sidebarFollowBottom"
+            style={{width: "122.5px"}}>
+          <BeatLoader size={7} color={"#4dab9f"} margin={2}/>
+        </button>
+      </div>
     }
     else {
       return (
@@ -229,23 +236,30 @@ class ExchangeViewBar extends Component {
         exchangeMembershipOwnerType: currentUserType,
       })
       // console.log(exchangesIdentities)
-      let exchangeMembershipIdTemp
-      exchangeMembershipIdTemp = Object.values(exchangesIdentities).filter(memberships => memberships.exchange_identity_related_exchange.id === +exchangeId)
-      exchangeMembershipIdTemp[0] && unFollow({
-        exchangeMembershipId: exchangeMembershipIdTemp[0].id,
-        exchangeMembershipOwnerId: currentUserId,
-        exchangeMembershipOwnerType: currentUserType
+      let exchangeMembershipIdTemp = null
+      exchangeMembershipIdTemp = Object.values(exchangesIdentities).filter(memberships => {
+        if (memberships.exchange_identity_related_exchange)
+          return memberships.exchange_identity_related_exchange.id === exchangeId
+        else return null
       })
-      console.log(exchangeMembershipIdTemp[0])
+      if (exchangeMembershipIdTemp !== null && exchangeMembershipIdTemp[0] !== undefined)
+        unFollow({
+          exchangeMembershipId: exchangeMembershipIdTemp[0].id,
+          exchangeMembershipOwnerId: currentUserId,
+          exchangeMembershipOwnerType: currentUserType
+        })
+      else console.log("exchangeMembershipIdTemp: ", exchangeMembershipIdTemp)
+
+      // console.log(exchangeMembershipIdTemp[0])
 
       this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
-      this.props.actions.getAllExchanges(24, 0, null) // Temporary
+      this.setState({...this.state, unFollowed: true, followLoading: false})
     }
   }
 
   render() {
     const {
-      exchange, badgesImgUrl, demandCount, supplyCount, productCount, tags,
+      exchange, badgesImgUrl, demandCount, supplyCount, productCount, tags, unFollowed,
       members, isLoading, error, followLoading, imageLoaded, adminView, loadingEdit
     } = this.state
     const {translate, exchanges, exchangeId, currentUserId} = this.props
@@ -264,7 +278,7 @@ class ExchangeViewBar extends Component {
           <div className="-sidebar-child-wrapper col">
             <div className="align-items-center flex-column">
               {currentUserId !== (currentExchange.owner && currentExchange.owner.identity_user) && !adminView ?
-                  currentExchange.exchange ?
+                  currentExchange.exchange && !unFollowed ?
                       <div>
                         <div className="fa fa-ellipsis-v menuBottom bubble-more" onClick={this.handleMenu}/>
                         <div className={"exchange-admin-menu-disable"} ref={e => this.exchangeAdminMenu = e}>
