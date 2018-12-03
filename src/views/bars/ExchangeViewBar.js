@@ -236,6 +236,7 @@ class ExchangeViewBar extends Component {
         exchangeMembershipOwnerId: currentUserId,
         exchangeMembershipOwnerType: currentUserType
       })
+      console.log(exchangeMembershipIdTemp[0])
 
       this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
       this.props.actions.getAllExchanges(24, 0, null) // Temporary
