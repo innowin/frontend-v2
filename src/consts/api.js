@@ -85,10 +85,12 @@ const patchEmit = (urll, resultName, data, query = "", token) => {
   })
 }
 
-const delEmit = (url, resultName, data, query = "", token) => {
+const delEmit = (urll, resultName, data, query = "", token) => {
+  let url
+  query === "" ? url = REST_URL + '/' + urll + '/' : url = REST_URL + '/' + urll + '/' + query + '/'
   socket.emit(REST_REQUEST, {
     method: 'del',
-    url: REST_URL + '/' + url + '/' + query + '/',
+    url,
     result: resultName,
     data,
     token

@@ -308,7 +308,7 @@ $sidebar-profile-media-width: 80px;
 .exchange-center-background {
   top: 0;
   background: linear-gradient(to bottom, $image-background-color, $image-background-color,
-          $image-background-color, $image-background-color, $image-background-color, transparent);
+      $image-background-color, $image-background-color, $image-background-color, transparent);
   height: $exchange-tabs-height;
   width: $feed-width + 10;
   position: fixed;
@@ -433,7 +433,7 @@ $sidebar-profile-media-width: 80px;
     border-radius: 50%;
     overflow: hidden;
     margin: auto;
-    svg , img{
+    svg, img {
       width: 100%;
       height: 100%;
     }
@@ -595,39 +595,53 @@ $sidebar-profile-media-width: 80px;
   height: 115px;
 }
 
-.sidebarBottom {
-  cursor: pointer;
-  background-color: $primary-color;
-  border-color: $background-color;
-  color: $background-color;
-  font-size: $font-size-boxText;
-  border-radius: 25px;
-  transition-duration: $animation-timing;
-  min-width: 122.5px;
-  height: 33px;
+.sidebarBottomParent {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 
-  &:hover {
-    background-color: $background-color;
-    border-color: $primary-color;
-    color: $primary-color !important;
+  .sidebarBottom {
+    flex-grow: 1;
+    cursor: pointer;
+    background-color: $primary-color;
+    color: $background-color;
+    font-size: $font-size-boxText;
+    border-radius: 25px;
     transition-duration: $animation-timing;
+    border: 1.5px solid $background-color;
+    height: 33px;
+    margin: auto auto 20px 5px;
+    width: 110px;
+
+    &:hover {
+      background-color: $background-color;
+      border-color: $primary-color;
+      color: $primary-color !important;
+      transition-duration: $animation-timing;
+      font-weight: bold;
+    }
   }
-}
 
-.sidebarFollowBottom {
-  cursor: default;
-  background-color: $success-color;
-  border-color: $background-color;
-  color: $background-color;
-  font-size: $font-size-boxText;
-  border-radius: 25px;
-  transition-duration: $animation-timing;
-
-  &:hover {
-    background-color: $background-color;
-    border-color: $success-color;
-    color: $success-color !important;
+  .sidebarFollowBottom {
+    flex-grow: 1;
+    cursor: default;
+    background-color: $success-color;
+    border: 1.5px solid $background-color;
+    color: $background-color;
+    font-size: $font-size-boxText;
+    border-radius: 25px;
     transition-duration: $animation-timing;
+    height: 33px;
+    margin: auto 5px 20px auto;
+    width: 110px;
+
+    &:hover {
+      background-color: $background-color;
+      border-color: $success-color;
+      color: $success-color !important;
+      transition-duration: $animation-timing;
+      font-weight: bold;
+    }
   }
 }
 
@@ -1804,6 +1818,14 @@ $sidebar-profile-media-width: 80px;
   &:hover {
     background-color: $more-button-color-hover;
     transition-duration: $animation-timing;
+  }
+}
+
+.exchange-admin-menu-child-delete{
+  color: $error-color;
+
+  &:hover{
+    color: $error-color-hover;
   }
 }
 
