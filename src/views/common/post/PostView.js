@@ -356,7 +356,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                  <div className="-img-col">
                  {!userImage
                  ? (<DefaultUserIcon/>)
-                 : (<img className="rounded-circle" src={userImage.file} alt=""/>)
+                 : (<img className="rounded-circle object-fit-cover" src={userImage.file} alt=""/>)
                  }
                  </div>
                  <input className='add-comment-text-field' placeholder={translate["Send comment"]}

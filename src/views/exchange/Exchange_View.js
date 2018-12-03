@@ -24,7 +24,7 @@ class ExchangeView extends Component <PropsExchangeView> {
     const widthOfRightBar = "col-md-2 col-sm-1"
     return (
         <div className='all-exchanges-parent'>
-          <TopBar collapseClassName={widthOfRightBar}/>
+          {/*<TopBar collapseClassName={widthOfRightBar}/>*/}
           <main style={{paddingTop: '65px'}}>
             <div className={`exchange-view-sidebar`}>
               <ExchangeViewBar exchangeId={exchangeId}/>

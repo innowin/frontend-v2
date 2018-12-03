@@ -1,0 +1,101 @@
+@import '../../variables';
+
+.stickers-container {
+  position: relative;
+  display: inline-block;
+  user-select: none;
+  cursor: pointer;
+}
+
+.stickers-menu-container {
+  position: absolute;
+  top: 25px;
+  left: 0;
+  border: 1px solid #eee;
+  background-color: #fcfcfc;
+  border-radius: 5px;
+  padding: 5px;
+  height: 200px;
+  width: 255px;
+  overflow: hidden;
+  opacity: 1;
+  z-index: 1;
+  transition-duration: 0.3s;
+  line-height: 30px;
+  letter-spacing: 3px;
+  text-align: center;
+  font-size: 19px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.stickers-menu-container-close {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 1px solid #eee;
+  background-color: #F5F5F5;
+  border-radius: 5px;
+  padding: 0 5px;
+  height: 0;
+  width: 255px;
+  overflow: hidden;
+  opacity: 0;
+  z-index: -2;
+  transition-duration: 0.3s;
+  line-height: 30px;
+  letter-spacing: 3px;
+  text-align: center;
+  font-size: 19px;
+}
+
+.stickers-menu-tabs {
+  display: flex;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.stickers-menu-tab {
+  display: inline-block;
+  flex-grow: 1;
+  padding-top: 5px;
+  background-color: #F5F5F5;
+  cursor: pointer;
+  color: red;
+}
+
+.stickers-menu-tab-select {
+  display: inline-block;
+  color: red;
+  flex-grow: 1;
+  padding-top: 5px;
+  background-color: #ececec;
+  cursor: pointer;
+}
+
+.emoji-logo {
+  fill: #BBBBBB;
+  width: 20px;
+}
+
+.emoji-inline-block {
+  display: inline-block;
+}
+
+.emoji-open {
+  position: absolute;
+  bottom: 2px;
+  left: 7px;
+  transition-duration: 0.2s;
+  opacity: 1;
+  z-index: 1;
+}
+
+.emoji-close {
+  position: absolute;
+  bottom: 6px;
+  left: 7px;
+  transition-duration: 0.2s;
+  opacity: 1;
+  z-index: 1;
+}

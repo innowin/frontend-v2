@@ -40,7 +40,7 @@ export const Exchanges = (props: PropsExchangesView) => {
                       <Link to={`/exchange/${exchange.id}`}>
                         {
                           (!exchange.exchange_image) ? (<DefaultExchangeIcon/>) : (
-                              <img alt="" src={exchange.exchange_image.file} className="rounded-circle"/>)
+                              <img alt="" src={exchange.exchange_image.file} className="rounded-circle object-fit-cover"/>)
                         }
                       </Link>
                     </div>

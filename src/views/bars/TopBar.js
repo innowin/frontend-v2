@@ -174,7 +174,10 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   }
 
   _handleShowSetting = () => {
-    this.setState({...this.state, showSetting: true, exploreCollapse: false, collapseProfile: false, showAbout: false})
+    setTimeout(() => {
+      this.setState({...this.state, collapseProfile: false})
+    }, 350)
+    this.setState({...this.state, showSetting: true, exploreCollapse: false, showAbout: false})
   }
 
   _handleHideSetting = () => {
@@ -188,7 +191,16 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   }
 
   _handleShowAbout = () => {
-    this.setState({...this.state, showAbout: true, exploreCollapse: false, collapseProfile: false, showSetting: false})
+    setTimeout(() => {
+      this.setState({...this.state, collapseProfile: false})
+    }, 350)
+    this.setState({...this.state, showSetting: false, exploreCollapse: false, showAbout: true})
+  }
+
+  _handleCloseProfile = () => {
+    setTimeout(() =>
+            this.setState({...this.state, collapseProfile: false})
+        , 350)
   }
 
   _handleSettingSelected = (target) => {
@@ -259,7 +271,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                   </div>
                   <div className='explore-menu'>
 
-                    <Link to={linkEditProfile}>
+                    <Link to={linkEditProfile} onClick={this._handleCloseProfile}>
                       <Material className='profile-menu-profile-section' content={<div>
                         <div className='profile-menu-profile-section-image'>
                           {clientImgLink && profilePhotoLoaded ? <img src={clientImgLink} className='-ProfTopBarImg-svg-img-big' alt="Person icon"/>
