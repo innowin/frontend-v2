@@ -29,7 +29,7 @@ const Exchanges = (props: appProps) => {
     )
   }
   else if (!props.loading) {
-    return <div className='exchanges-explore-not-found'>بورسی یافت نشد!</div>
+    return <div className='exchanges-explore-not-found'>پنجرهی یافت نشد!</div>
   }
   else return loadingArr.map((exchange, i) =>
         <ExchangeSkeleton key={i}/>

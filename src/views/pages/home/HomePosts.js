@@ -115,7 +115,7 @@ class HomePosts extends PureComponent
                               deletePost={deletePost}
                               updatePost={updatePost}
                           />
-                      ))) : (<div className="empty-posts">در این بورس پستی وجود ندارد!</div>)
+                      ))) : (<div className="empty-posts">در این پنجره پستی وجود ندارد!</div>)
                     }
                     {
                       // TODO mohsen: handle loading scroll and scrolling error
