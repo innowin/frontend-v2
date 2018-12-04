@@ -50,6 +50,7 @@
     "react-dev-utils": "^4.2.1",
     "react-dom": "^16.2.0",
     "react-fontawesome": "^1.6.1",
+    "react-helmet": "^5.2.0",
     "react-image-gallery": "^0.8.7",
     "react-intl": "^2.4.0",
     "react-intl-redux": "^2.0.0",
