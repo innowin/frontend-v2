@@ -602,7 +602,7 @@ $sidebar-profile-media-width: 80px;
 
   .sidebarBottom {
     flex-grow: 1;
-    cursor: pointer!important;
+    cursor: pointer !important;
     background-color: $primary-color;
     color: $background-color;
     font-size: $font-size-boxText;
@@ -647,7 +647,7 @@ $sidebar-profile-media-width: 80px;
 
 .follow-button {
   background-color: $success-color;
-  cursor: pointer!important;
+  cursor: pointer !important;
   &:hover {
     background-color: $background-color;
     border-color: $success-color;
@@ -919,7 +919,8 @@ $sidebar-profile-media-width: 80px;
 }
 
 .settingModal-sidebar {
-  overflow-y: scroll;
+  overflow: hidden;
+  border-radius: 3px;
   position: fixed;
   top: 60px;
   right: 9.05%;

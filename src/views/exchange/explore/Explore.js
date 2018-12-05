@@ -3,14 +3,12 @@ import * as React from 'react'
 import {PureComponent} from 'react'
 import Exchanges from './Exchanges'
 import Sidebar from './Sidebar'
-import TopBar from '../../bars/TopBar'
 import {bindActionCreators} from 'redux'
 import connect from 'react-redux/es/connect/connect'
 import exchangeActions from 'src/redux/actions/exchangeActions'
 import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges.js'
 import {ClipLoader} from "react-spinners"
 import RightArrowSvg from "../../../images/common/right_arrow_svg"
-import StickersMenu from "../../common/components/StickersMenu"
 
 type appProps =
     {|
