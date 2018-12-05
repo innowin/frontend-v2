@@ -167,9 +167,9 @@ class MembersView extends Component {
       top: 0
     })
     let {exchangeUsers, exchangeId, getFollowingSelector, actions} = this.props
-    let {getUser, getOrganization, getUserIdentity, getOrgIdentity, getExchangeMembers} = actions
+    let {getUser, getOrganization, getUserIdentity, getOrgIdentity} = actions
 
-    getExchangeMembers({exchangeId}) //n
+    // getExchangeMembers({exchangeId}) //n
 
     let temp = []
     if (exchangeUsers) {
@@ -278,7 +278,7 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({
-    getExchangeMembers: exchangeMembershipActions.getExchangeMembershipByExchangeId,
+    // getExchangeMembers: exchangeMembershipActions.getExchangeMembershipByExchangeId,
     getUser: getUserAction.getProfileByUserId,
     getOrganization: organizationActions.getOrganizationByOrganId,
     createFollow: SocialActions.createFollow,

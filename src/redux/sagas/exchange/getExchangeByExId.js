@@ -17,8 +17,6 @@ export function* getExchangeByExId(action) {
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.EXCHANGE.GET_EXCHANGE_BY_EX_ID, payload: {data}})
 
-    // TEMP
-    //
     const identityId = yield select((state) => state.auth.client.identity.content)
     const exchangeMembershipOwnerId = yield select((state) => state.auth.client.user.id)
     const exchangeMembershipOwnerType = yield select((state) => state.auth.client.user_type)
