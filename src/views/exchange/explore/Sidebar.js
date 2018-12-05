@@ -124,9 +124,9 @@ class Sidebar extends Component <appProps, appState> {
             </div>
           </div>
           <hr/>
-          <div style={{fontSize: '14px'}}>
-            فیلتر بر اساس نشان ها:
-          </div>
+          {/*<div style={{fontSize: '14px'}}>*/}
+            {/*فیلتر بر اساس نشان ها:*/}
+          {/*</div>*/}
         </div>
     )
   }

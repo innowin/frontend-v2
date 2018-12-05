@@ -289,11 +289,11 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
       }
     ]
     const successMessageActs = [
-      {
-        title: 'به اشتراک بگذارید',
-        func: () => console.log('created successFully'),
-        icon: (<ShareIcon className="right-arrow"/>)
-      },
+      // {
+      //   title: 'به اشتراک بگذارید',
+      //   func: () => console.log('created successFully'),
+      //   icon: (<ShareIcon className="right-arrow"/>)
+      // },
       {
         title: 'پایان',
         func: this._handleModalVisibility,
