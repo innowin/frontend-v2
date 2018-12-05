@@ -2,12 +2,15 @@ import React from 'react';
 import PropTypes from "prop-types";
 
 const DefaultOrganIcon = ({className='', onClickFunc= () => null, ...props}) => (
-  <svg viewBox="0 0 32 32" className={className} height={props.height} width={props.width}>
+  <svg viewBox="0 0 128 128" className={className} style={{fill: "gray", padding: "10px", }}>
     <g>
-      <path d="M28.713,2.422H3.287c-0.57,0-1.037,0.468-1.037,1.038v25.079c0,0.57,0.467,1.038,1.037,1.038h25.426   c0.57,0,1.037-0.468,1.037-1.038V3.46C29.75,2.89,29.283,2.422,28.713,2.422z M26.822,22.971H4.875V5.221h21.947V22.971z" fill="#515151"/>
-      <circle cx="9.104" cy="9.75" fill="#515151" r="3.048"/>
-      <path d="M20.002,11.301c-0.536-0.96-1.453-0.983-2.037-0.05l-2.871,4.587c-0.584,0.933-1.747,1.229-2.585,0.658   c-0.839-0.571-2.106-0.352-2.818,0.486l-2.86,3.371c-0.712,0.84-0.394,1.525,0.706,1.525h16.378c1.1,0,1.561-0.785,1.024-1.746   L20.002,11.301z" fill="#515151"/>
-      <rect className="-rectSvg" width="100%" height="100%" onClick={onClickFunc}/>
+      <path fillRule="evenodd" clipRule="evenodd" d="M28,40h-8v8h8V40z M60,32h-8v8h8V32z M76,32h-8v8h8V32z M92,32h-8v8h8V32z
+			 M60,16h-8v8h8V16z M76,16h-8v8h8V16z M92,16h-8v8h8V16z M60,64h-8v8h8V64z M76,64h-8v8h8V64z M92,64h-8v8h8V64z M60,80h-8v8h8V80
+			z M92,80h-8v8h8V80z M60,96h-8v8h8V96z M92,96h-8v8h8V96z M60,48h-8v8h8V48z M76,48h-8v8h8V48z M92,48h-8v8h8V48z M28,56h-8v8h8
+			V56z M28,72h-8v8h8V72z M28,88h-8v8h8V88z M28,104h-8v8h8V104z M76,80h-8v8h8V80z M116,56h-8V8c0-4.422-3.578-8-8-8H44
+			c-4.422,0-8,3.578-8,8v16H12c-4.422,0-8,3.578-8,8v88c0,4.422,3.578,8,8,8h104c4.422,0,8-3.578,8-8V64
+			C124,59.578,120.422,56,116,56z M36,120H12V32h24V120z M100,120H76V96h-8v24H44V8h56V120z M116,120h-8v-8h8V120z M116,104h-8v-8h8
+			V104z M116,88h-8v-8h8V88z M116,72h-8v-8h8V72z"/>
     </g>
   </svg>
 )

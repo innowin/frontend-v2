@@ -84,7 +84,6 @@ class Explore extends PureComponent <appProps, appState> {
   render() {
     return (
         <div className='all-exchanges-parent'>
-          {/*<TopBar collapseClassName="col user-sidebar-width"/>*/}
           <Sidebar search={this.search} justFollowing={this.justFollowing}/>
           <div className='all-exchanges-container'>
             <Exchanges exchanges={this.props.allExchanges} justFollowing={this.state.justFollowing} loading={this.props.loading}/>

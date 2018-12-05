@@ -34,7 +34,7 @@ const PrivateInfoView = (props: PropsPrivateInfoView) => {
         </Field>
         <Field>
           <FieldLabel label={translate['Phone'] + ": "}/>
-          <FieldValue value={user.auth_mobile}/>
+          <FieldValue value={profile.auth_mobile}/>
         </Field>
       </div>
   )

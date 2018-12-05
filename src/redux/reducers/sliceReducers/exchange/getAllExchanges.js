@@ -9,7 +9,16 @@ const success = (state, action) => {
     data.is_joined = exchange.is_joined
     data.supply = exchange.supply
     data.demand = exchange.demand
-    allExchanges[exchange.exchange.id] = {...state.list[exchange.exchange.id], exchange: {content: {...data}, isLoading: false, error: null}}
+    state.list[exchange.exchange.id] ?
+        allExchanges[exchange.exchange.id] = {
+          ...state.list[exchange.exchange.id],
+          exchange: {...state.list[exchange.exchange.id].exchange, content: {...state.list[exchange.exchange.id].exchange.content, ...data}, isLoading: false, error: null}
+        }
+        :
+        allExchanges[exchange.exchange.id] = {
+          ...state.list[exchange.exchange.id],
+          exchange: {content: {...data}, isLoading: false, error: null}
+        }
   })
 
   return {

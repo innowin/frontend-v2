@@ -647,10 +647,11 @@
 }
 
 .sidebar-skeleton {
+  position: relative;
+  overflow: hidden;
   text-align: center;
   display: inline-block;
   margin-top: 64px;
-  overflow-x: hidden;
   overflow-y: auto;
   color: $text-dark-color;
   border-radius: $border-radius-size;
@@ -663,8 +664,8 @@
 .container-skeleton {
   display: inline-block;
   vertical-align: top;
-  width: 48.5%;
-  margin: 54px 0.75% 0 0.75%;
+  width: 48.7%;
+  margin: 54px 0.65% 0 0.65%;
   direction: rtl;
 }
 
@@ -688,6 +689,8 @@
 
 .container-skeleton-content-cont {
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
   margin-bottom: 10px;
   border-radius: 3px;
   background: #ffffff;
@@ -717,4 +720,57 @@
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
   background-image: repeating-linear-gradient(-45deg, #eee, #eee 10px, 10px, #f8f8f8 20px);
+}
+
+.user-default-profile-name {
+  margin: 15px auto 10px auto;
+  width: 45%;
+  background-color: #f3f3f3;
+}
+
+.user-default-profile-desc {
+  margin: 5px 15px;
+  font-size: 14px;
+  background-color: #f3f3f3;
+}
+
+.user-default-profile-btn-cont {
+  padding: 17px 0;
+  border-top: 1px solid #E6E6E6;
+  border-bottom: 1px solid #E6E6E6;
+  width: 90%;
+  white-space: nowrap;
+  margin: 17px auto 0 auto;
+}
+
+.user-default-profile-logos-cont {
+  width: 90%;
+  margin: 0 auto 17px auto;
+  border-bottom: 1px solid #E6E6E6;
+  white-space: nowrap;
+}
+
+.user-default-profile-logo {
+  display: inline-block;
+  color: #bababa;
+  width: 25%;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.user-default-logo {
+ transform: scale(1.6);
+}
+
+.user-default-skeleton {
+  background-color: #f3f3f3;
+  border-radius: 3px;
+}
+
+.user-default-profile-btn {
+  margin: 5px 4px;
+  font-size: 14px;
+  width: 47.5%;
+  vertical-align: top;
+  display: inline-block;
 }

@@ -318,8 +318,35 @@
     left: -50%;
     opacity: 0.7;
   }
-  40%, 100% {
+  40% {
     left: 150%;
+    opacity: 1;
+  }
+  100% {
+    left: 150%;
+    opacity: 1;
+  }
+}
+
+#lineSide {
+  width: 5px;
+  background: white;
+  height: 100vh;
+  position: absolute;
+  top: -25%;
+  left: -80%;
+  animation: lightSide 2.5s infinite ease-out;
+  box-shadow: 0 0 70px 30px white;
+  transform: rotate(30deg);
+}
+
+@keyframes lightSide {
+  0%, 25% {
+    left: -80%;
+    opacity: 0.7;
+  }
+  60%, 100% {
+    left: 200%;
     opacity: 1;
   }
 }
