@@ -13,8 +13,6 @@ const loadingArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 const Exchanges = (props: appProps) => {
   let {exchanges, justFollowing} = props
 
-  console.log('ex : ', exchanges)
-
   exchanges = Object.values(exchanges).filter(exchange =>
       exchange.exchange ?
           exchange.exchange.content.id

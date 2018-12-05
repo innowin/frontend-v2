@@ -131,7 +131,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     }
 
     if (this.text) {
-      let allWords = this.text.innerText.replace(/\n/g , ' ')
+      let allWords = this.text.innerText.replace(/\n/g, ' ')
       allWords = allWords.split(" ")
 
       let mailExp = new RegExp("^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$")
@@ -151,10 +151,10 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
               :
               this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a target=_blank href=http://` + word + `>${word}</a>`)
         }
-        else if (word[0] === "@" && word.length >= 6) {
+        else if (word[0] === "@" && word.length >= 6 && !word.substring(1, word.length).includes("@")) {
           this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a href=` + word.slice(1, word.length) + `>${word}</a>`)
         }
-        else if (word[0] === "#" && word.length >= 3) {
+        else if (word[0] === "#" && word.length >= 3 && !word.substring(1, word.length).includes("#")) {
           this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a href=` + word + `>${word}</a>`)
         }
         else if (mailExp.test(word)) {
