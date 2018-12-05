@@ -23,7 +23,7 @@ class InfoView extends Component {
     if (exchanges[exchangeId] && exchanges[exchangeId].exchange.content && exchanges[exchangeId].exchange.content.owner) {
       const currentExchange = exchanges[exchangeId].exchange.content
       const ownerId = parseInt(currentExchange.owner.identity_user, 10) // only users, should organization be check to
-      if (users[ownerId].profile && users[ownerId].profile.content) {
+      if (users[ownerId].profile && users[ownerId].profile.content && users[ownerId].educations.content) {
         const ownerProfile = users[ownerId] && users[ownerId].profile.content.profile_user
         const ownerMedia = users[ownerId] && users[ownerId].profile.content.profile_media
         const ownerEducations = users[ownerId] && users[ownerId].educations.content
