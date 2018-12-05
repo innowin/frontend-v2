@@ -81,7 +81,7 @@ const Form = (props: FormType) => {
   return (
       <div className="form">
         <TextArea
-            label="توصیف بورس"
+            label="توصیف پنجره"
             className="exchange-desc"
             onChange={(e: SyntheticEvent<HTMLInputElement>) => DescHandler(e.currentTarget.value)}
             value={desc}
@@ -121,8 +121,8 @@ export default (props: Props) => {
   return (
       <div className="more-info">
         <Tip
-            desc="توضیح مختصر از بورس توضیح مختصر از بورس توضیح
-             مختصر از بورس توضیح مختصر از بورس توضیح مختصر از بورس توضیح"
+            desc="توضیح مختصر از پنجره توضیح مختصر از پنجره توضیح
+             مختصر از پنجره توضیح مختصر از پنجره توضیح مختصر از پنجره توضیح"
         />
         <Form
             inputHandler={inputHandler}

@@ -28,7 +28,7 @@ const SimpleForm = (props: SimpleFormProps) => {
       <div className="simple-form">
         <Input
             name={exchangeFields.name}
-            label="عنوان بورس"
+            label="عنوان پنجره"
             onChange={(e: SyntheticEvent<HTMLInputElement>) => nameHandler(e.currentTarget.value)}
             value={formData[exchangeFields.name]}
             className="title-input"
@@ -46,7 +46,7 @@ const SimpleForm = (props: SimpleFormProps) => {
         {/*<Input*/}
         {/*name={exchangeFields.link}*/}
         {/*className="link-input"*/}
-        {/*label="نام کاربری بورس"*/}
+        {/*label="نام کاربری پنجره"*/}
         {/*onChange={(e: SyntheticEvent<HTMLInputElement>) => linkHandler(e.currentTarget.value)}*/}
         {/*value={formData[exchangeFields.link]}*/}
         {/*extraContent={<span className="domain">http://dbm.ir/</span>}*/}
@@ -152,8 +152,8 @@ export default (props: Props) => {
   return (
       <div className="basic-info">
         <Tip
-            desc="توضیح مختصر از بورس توضیح مختصر از بورس توضیح مختصر از بورس توضیح مختصر از بورس توضیح مختصر از بورس توضیح
-            از بورس توضیح مختصر از بورس توضیح مختصر از بورس توضیح مختصر از بورس"
+            desc="توضیح مختصر از پنجره توضیح مختصر از پنجره توضیح مختصر از پنجره توضیح مختصر از پنجره توضیح مختصر از پنجره توضیح
+            از پنجره توضیح مختصر از پنجره توضیح مختصر از پنجره توضیح مختصر از پنجره"
         />
         <Form
             processing={processing}

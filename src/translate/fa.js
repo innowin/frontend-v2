@@ -70,9 +70,9 @@ module.exports = {
   "User type": "نوع حساب کاربری",
   "Organ": "مجموعه",
   "Username validation error text": "حداقل 5 و حداکثر 32، کاراکتر . _ 0-9 A-Z و شامل حروف",
-  "Social help text": "با استفاده از سیستم امن اتصال به جی میل و لینکداین، اینوین شما را با کمک این دو شبکه به دوستانتان مرتبط می کند.",
+  "Social help text": "با استفاده از سیستم امن اتصال به جی میل و لینکدین، اینوین شما را با کمک این دو شبکه به دوستانتان مرتبط می کند.",
   "Connect to gmail": "اتصال به اکانت جی میل",
-  "Connect to linkedin": "اتصال به اکانت لینکداین",
+  "Connect to linkedin": "اتصال به اکانت لینکدین",
   "You can follow users": "می توانید تعدادی از افراد را دنبال کنید",
   "Start Inovin": "آغاز اینوین",
   "Inovin tour": "تور اینوین",
@@ -225,7 +225,7 @@ module.exports = {
   "Youtube": "یوتیوب",
   "Telegram": "تلگرام",
   "Instagram": "اینستاگرام",
-  "LinkedIn": "لینکداین",
+  "LinkedIn": "لینکدین",
   "Web site": "وب سایت",
   "Account is incorrect": "حساب کاربری اشتباه وارد شده است",
 
@@ -271,7 +271,7 @@ module.exports = {
 
   // user - social
   "Socials": "ارتباط اجتماعی",
-  "Joined exchanges": "بورس های عضو شده",
+  "Joined exchanges": "پنجره های عضو شده",
 
   // UserDropDown.js
   "Profile": "پروفایل",
@@ -323,8 +323,8 @@ module.exports = {
   //User - Social
   "Followers": "دنبال کننده ها",
   "Followings": "دنبال شده ها",
-  "Exchange": "بورس",
-  "Exchanges": "بورس ها",
+  "Exchange": "پنجره",
+  "Exchanges": "پنجره ها",
   "Profile Picture": "تصویر پروفایل",
   "Exchange Picture": "تصویر پروفایل",
   "Social": "اجتماعی",
@@ -336,12 +336,12 @@ module.exports = {
   "Statistic": "آماره",
   "Info": "مشخصات",
   "Members": "اعضا",
-  "Exchange Manager": "مدیریت بورس",
+  "Exchange Manager": "مدیریت پنجره",
   "Medals": "مدرک ها",
-  "Edit Exchange": "ویرایش بورس",
-  "Delete Exchange": "حذف بورس",
-  "Unfollow Exchange": "لغو عضویت بورس",
-  "Add Exchange to Favorite": "افزودن بورس به علاقه مندی ها",
+  "Edit Exchange": "ویرایش پنجره",
+  "Delete Exchange": "حذف پنجره",
+  "Unfollow Exchange": "لغو عضویت پنجره",
+  "Add Exchange to Favorite": "افزودن پنجره به علاقه مندی ها",
 
   //Statistic
   "Activity Report": "گزارش فعالیت",
@@ -376,7 +376,7 @@ module.exports = {
     "Add": "افزودن",
     "Disconnect": "قطع ارتباط",
     "Google": "گوگل",
-    "Linkedin": "لینکداین",
+    "Linkedin": "لینکدین",
     "Manage Followers": "مدیریت دنبال کنندگان",
     "Delete Account": "حذف حساب کاربری",
     "Edit Profile": "ویرایش پروفایل",
@@ -393,7 +393,7 @@ module.exports = {
     "Who Can Read Certificates?": "چه کسانی بتوانند مدارک شما را بخوانند؟",
     "Who Can Read Followers?": "چه کسانی بتوانند دنبال کننده هایتان را بخوانند؟",
     "Who Can Read Followings?": "چه کسانی بتوانند دنبال کرده هایتان را بخوانند؟",
-    "Who Can Read Exchanges?": "چه کسانی بتوانند بورس هایتان را بخوانند؟",
+    "Who Can Read Exchanges?": "چه کسانی بتوانند پنجره هایتان را بخوانند؟",
     "FAQ": "پرسش های متداول",
     "Introduce Badges": "معرفی نشان ها",
     "Terms & Conditions": "شرایط و مقررات سرویس دهی",

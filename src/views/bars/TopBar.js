@@ -293,7 +293,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
                     <div className='profile-menu-second-section'>
                       {/*<Material className='profile-menu-second-section-item' onClick={this._handleExchangeUpgrade} content='درخواست ارتقاء به کارگزار'/>*/}
-                      <Material className='profile-menu-second-section-item' onClick={this._createExchangeModalVisibilityHandler} content='ایجاد بورس جدید'/>
+                      <Material className='profile-menu-second-section-item' onClick={this._createExchangeModalVisibilityHandler} content='ایجاد پنجره جدید'/>
                       <Material className='profile-menu-second-section-item' onClick={this._handleProductWizardModal} content='ایجاد آورده جدید'/>
                     </div>
 

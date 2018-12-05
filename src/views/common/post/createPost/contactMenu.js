@@ -89,7 +89,7 @@ class ContactMenu extends Component {
               </div>
 
               <div className='post-component-footer-contact-menu-content-title'
-                   style={{display: exchangesArr.length > 0 ? "block" : "none"}}>بورس ها
+                   style={{display: exchangesArr.length > 0 ? "block" : "none"}}>پنجره ها
               </div>
 
               <div className='post-component-footer-check-container'>

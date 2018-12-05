@@ -21,6 +21,7 @@ import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import {NavLink, Switch, Redirect} from "react-router-dom"
 import {Tabs, VerifyWrapper} from "./common/cards/Frames"
+import {Helmet} from "react-helmet"
 import {
   InformationIcon,
   ContributionIcon,
@@ -41,6 +42,7 @@ import type {badgeType} from "src/consts/flowTypes/common/badges"
 import constants from "src/consts/constants"
 import ParamActions from "../redux/actions/paramActions"
 import type {fileType} from "../consts/flowTypes/common/fileType";
+import {getMessages} from "../redux/selectors/translateSelector";
 
 type PropsUser = {
   match: {
@@ -62,6 +64,7 @@ type PropsUser = {
   identityObject: identityStateObject,
   badgesObject: listOfIdObject,
   badges: Array<badgeType>,
+  translate: { [string]: string }
 }
 
 class User extends Component<PropsUser> {
@@ -115,16 +118,47 @@ class User extends Component<PropsUser> {
   }
 
   render() {
-    const {match, profileObject,profileBanner, profileMedia, userObject, identityObject, badgesObject, badges} = this.props
+    const {match, profileObject,profileBanner, profileMedia, userObject, identityObject, badgesObject, badges, translate} = this.props
     const {path, url, params} = match
     const userId: number = +params.id
     const isLoading = userObject.isLoading || profileObject.isLoading || identityObject.isLoading
         || badgesObject.isLoading
     const errorMessage = userObject.error || profileObject.error || identityObject.error
         || badgesObject.error
+
+    const title = `${translate['Danesh Boom']} - ${userObject.content.username}`
+    const description = translate['User']
     return (
         <div className="-userOrganBackgroundImg">
           {/*<TopBar collapseClassName="col user-sidebar-width"/>*/}
+          <Helmet>
+            <title>{title}</title>
+            <meta name="description" content={description}/>
+
+            <meta property="og:type" content="website"/>
+            {profileMedia &&
+              <meta property="og:image" content={profileMedia.file}/>
+            }
+            <meta property="og:title" content={title}/>
+            <meta property="og:description" content={description}/>
+
+            <meta property="twitter:card" content="summary"/>
+            {profileMedia &&
+            <meta property="twitter:image" content={profileMedia.file}/>
+            }
+            <meta property="twitter:title" content={title}/>
+            <meta property="twitter:description" content={description}/>
+
+            <script type="application/ld+json">{`
+              {
+                "@context": "http://schema.org",
+                "@type": "Person",
+                "name": "${userObject.content.username}",
+                "image": "${profileMedia && profileMedia.file}"
+              }
+            `}</script>
+
+          </Helmet>
           <VerifyWrapper isLoading={isLoading} error={errorMessage} className="-main row page-content">
             {!identityObject.content ? '' : (
                 <UserSideBar
@@ -227,6 +261,7 @@ const mapStateToProps = (state, ownProps) => {
     identityObject: identity,
     badgesObject: badgesObjectInUser,
     profileBanner,
+    translate: getMessages(state),
     profileMedia,
     badges,
   }
