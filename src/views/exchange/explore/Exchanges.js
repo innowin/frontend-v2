@@ -13,19 +13,21 @@ const loadingArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 const Exchanges = (props: appProps) => {
   let {exchanges, justFollowing} = props
 
+  console.log('ex : ',exchanges)
+
   exchanges = Object.values(exchanges).filter(exchange =>
-      exchange.id
+      exchange.exchange.content.id
   )
 
   if (justFollowing) {
     exchanges = exchanges.filter(exchange =>
-        exchange.exchange
+        exchange.exchange.content.exchange
     )
   }
 
   if (exchanges.length > 0) {
     return exchanges.map((exchange, i) =>
-        <Exchange key={i} data={exchange}/>
+        <Exchange key={i} data={exchange.exchange.content}/>
     )
   }
   else if (!props.loading) {
