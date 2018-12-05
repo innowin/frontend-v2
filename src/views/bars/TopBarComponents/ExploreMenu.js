@@ -22,7 +22,7 @@ const ExploreMenu = (props) => {
             <Link to={'/exchange/Exchange_Explorer'}>
               <Material className='explore-menu-items' content={
                 <div>
-                  <ExchangeIcon className='explore-logos'/>پنجره ها
+                  <ExchangeIcon className='explore-logos'/> پنجره ها
                 </div>
               }/>
             </Link>
