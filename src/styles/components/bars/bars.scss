@@ -818,12 +818,16 @@ $sidebar-profile-media-width: 80px;
   width: 20px;
 }
 
+.explore-text-decoration-none {
+  text-decoration: none;
+  color: black;
+}
+
 .explore-menu {
   direction: rtl;
-  margin: auto;
+  margin: -13px auto 0 auto;
   width: 98%;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
-  margin-top: -13px;
   background-color: white;
   font-size: 13px;
   border-radius: 3px;
@@ -834,7 +838,6 @@ $sidebar-profile-media-width: 80px;
   position: relative;
   z-index: 2;
   display: block;
-  text-decoration: none;
   color: black;
   padding: 7.5px;
   text-align: right;
@@ -904,7 +907,7 @@ $sidebar-profile-media-width: 80px;
 .settingModal-sidebar-out {
   overflow-y: scroll;
   position: fixed;
-  top: 60px;
+  top: 65px;
   right: 9.05%;
   z-index: -1;
   opacity: 0;
@@ -922,7 +925,7 @@ $sidebar-profile-media-width: 80px;
   overflow: hidden;
   border-radius: 3px;
   position: fixed;
-  top: 60px;
+  top: 65px;
   right: 9.05%;
   z-index: 1202;
   opacity: 1;
@@ -958,7 +961,7 @@ $sidebar-profile-media-width: 80px;
 .settingModal-menu-out {
   overflow-y: scroll;
   position: fixed;
-  top: 60px;
+  top: 65px;
   right: 30%;
   z-index: -1;
   opacity: 0;
@@ -973,7 +976,7 @@ $sidebar-profile-media-width: 80px;
 .settingModal-menu {
   overflow-y: scroll;
   position: fixed;
-  top: 60px;
+  top: 65px;
   right: 30%;
   z-index: 1202;
   opacity: 1;
@@ -988,7 +991,7 @@ $sidebar-profile-media-width: 80px;
 @media screen and (max-width: 1250px) {
   .settingModal-menu {
     position: fixed;
-    top: 60px;
+    top: 65px;
     right: 30%;
     z-index: 1202;
     opacity: 1;
@@ -1019,7 +1022,7 @@ $sidebar-profile-media-width: 80px;
 
   .settingModal-menu {
     position: fixed;
-    top: 60px;
+    top: 65px;
     right: 20.5%;
     z-index: 1202;
     opacity: 1;
