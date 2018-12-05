@@ -52,7 +52,7 @@ class InfoView extends Component {
                   <div className={"info-exchange-owner-frame"}>
                     <Link to={`/user/${ownerProfile && ownerProfile.id}`}>
                       <div className={"info-exchange-owner-image-frame"}>
-                        {ownerMedia !== null ? <div className='rounded-circle-info-parent' ref={e => this.scroll = e}
+                        {ownerMedia && ownerMedia !== null  ? <div className='rounded-circle-info-parent' ref={e => this.scroll = e}
                                                     onLoad={() => this.scroll.scrollLeft = 10}><img alt={"تصویر پروفایل"}
                                                                                                     src={ownerMedia.file}
                                                                                                     height={"60px"}
