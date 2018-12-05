@@ -14,7 +14,7 @@ import {DefaultUserIcon} from "src/images/icons"
 import {BeatLoader, ClipLoader} from "react-spinners"
 import {REST_URL} from "src/consts/URLS"
 import {getExchangeMembershipsSelector} from "../../redux/selectors/common/social/getExchangeMemberships"
-import {Link} from "react-router-dom"
+import {Link, Redirect} from "react-router-dom"
 
 
 class ExchangeViewBar extends Component {
@@ -39,7 +39,8 @@ class ExchangeViewBar extends Component {
       imageLoaded: false,
       adminView: false,
       loadingEdit: false,
-      unFollowed: false
+      unFollowed: false,
+      notFound: false
     }
     this.follow = this.follow.bind(this)
     this.exchangeAdminMenu = React.createRef()
@@ -118,14 +119,14 @@ class ExchangeViewBar extends Component {
     // this._getCounts(exchangeId)
 
     const currentExchange = exchanges.list[exchangeId]
-    if (currentExchange.exchange_image) {
+    if (currentExchange && currentExchange.exchange_image) {
       let image = new Image()
       image.src = currentExchange.exchange_image.file.includes("innowin.ir") ? currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file
       image.onload = () => {
         this.setState({...this.state, imageLoaded: true})
       }
     }
-    else if (currentExchange.exchange.content.exchange_image) {
+    else if (currentExchange && currentExchange.exchange.content.exchange_image) {
       let image = new Image()
       image.src = currentExchange.exchange.content.exchange_image.file.includes("innowin.ir") ?
           currentExchange.exchange.content.exchange_image.file : REST_URL + currentExchange.exchange.content.exchange_image.file
@@ -133,6 +134,9 @@ class ExchangeViewBar extends Component {
         this.setState({...this.state, imageLoaded: true})
       }
     }
+    else this.setState({
+        notFound: true
+      })
 
     document.addEventListener("mousedown", this.handleClickOutside)
   }
@@ -263,7 +267,7 @@ class ExchangeViewBar extends Component {
   render() {
     const {
       exchange, badgesImgUrl, demandCount, supplyCount, productCount, tags, unFollowed,
-      members, isLoading, error, followLoading, imageLoaded, adminView, loadingEdit
+      members, isLoading, error, followLoading, imageLoaded, adminView, loadingEdit, notFound
     } = this.state
     const {translate, exchanges, exchangeId, currentUserId} = this.props
     const currentExchange = exchanges.list[exchangeId]
@@ -276,7 +280,7 @@ class ExchangeViewBar extends Component {
     //       <img alt={"."} src={val.profile_media || "#"}> </img>
     //     </div>)
     // )
-    if (currentExchange)
+    if (currentExchange && !notFound)
       return (
           <div className="-sidebar-child-wrapper col">
             <div className="align-items-center flex-column">
@@ -493,9 +497,7 @@ class ExchangeViewBar extends Component {
 
           </div>
       )
-    else return (
-        <VerifyWrapper isLoading={true} error={false}/>
-    )
+    else return <Redirect to="/"/>
   }
 }
 

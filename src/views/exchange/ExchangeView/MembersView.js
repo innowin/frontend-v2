@@ -167,7 +167,8 @@ class MembersView extends Component {
       top: 0
     })
     let {exchangeUsers, exchangeId, getFollowingSelector, actions} = this.props
-    let {getUser, getOrganization, getUserIdentity, getOrgIdentity} = actions
+    let {getUser, getOrganization, getUserIdentity, getOrgIdentity, getExchangeMembers} = actions
+    getExchangeMembers(exchangeId)
     let temp = []
     if (exchangeUsers) {
       if (exchangeUsers[exchangeId]) {
@@ -241,7 +242,12 @@ class MembersView extends Component {
           <div className={"members-body"}>
             {initialMembers.length > 0 ? initialMembers.map((p, index) => {
               return this.getMembers(p.id, p.type, index)
-            }) : requested ? <div> </div>:<VerifyWrapper isLoading={true} error={false}/>}
+            }) : requested ? <div> </div>
+                :
+                <div style={{textAlign:"center", width: "92%"}}>
+                <ClipLoader color={"#cbcbcb"} size={40} loading={true}/>
+                </div>
+            }
             <div className={"zero-height"}> </div>
             <div className={"zero-height"}> </div>
             {(!moreMembers) && initialMembers.length >= 6 ?

@@ -156,7 +156,7 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
                                       handleClick={this._handleClick}
                                       active={exchange.id === activeExchangeId}/>
                 })
-            ) : (<p className="mt-3 pr-3"><b>شما عضو هیچ بورسی نیستید!</b></p>)
+            ) : (<p className="mt-3 pr-3"><b>شما عضو هیچ پنجرهی نیستید!</b></p>)
           }
         </div>
     )

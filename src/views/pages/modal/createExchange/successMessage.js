@@ -16,8 +16,8 @@ export default (props: Props) => {
   return (
       <div className="success-message">
         <CongratsTick className="success-image"/>
-        <p className="message-text">عملیات افزودن بورس جدید با فیکیت انجام شد.</p>
-        <p className="exchange-address">آدرس بورس:‌ {DOMAIN + '/exchange/' + exchangeId}</p>
+        <p className="message-text">عملیات افزودن پنجره جدید با فیکیت انجام شد.</p>
+        <p className="exchange-address">آدرس پنجره:‌ {DOMAIN + '/exchange/' + exchangeId}</p>
         <BtnBar
             acts={acts}
         />

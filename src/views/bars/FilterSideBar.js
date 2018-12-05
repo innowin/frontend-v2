@@ -32,7 +32,7 @@ export default class ProductFilterSidebar extends Component {
 			},
 			extra : {
 				extraHeader: "پارامترهای تکمیلی",
-				extraLabels:["عرضه شده در بورس",'نمایش آورده های دارای قیمت'],
+				extraLabels:["عرضه شده در پنجره",'نمایش آورده های دارای قیمت'],
 			},
 			
 		}

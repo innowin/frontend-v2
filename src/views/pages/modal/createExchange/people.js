@@ -190,7 +190,7 @@ const Header = (props: HeaderProps) => {
   return (
       <div className="header">
         <Tip
-            desc="شما میتوانید در ابندا تا سقف ۵۰ کاربر را مستقیما عضو بورس کنید."
+            desc="شما میتوانید در ابندا تا سقف ۵۰ کاربر را مستقیما عضو پنجره کنید."
         />
         <Input
             onChange={(e: SyntheticEvent<HTMLInputElement>) => searchHandler(e.currentTarget.value)}
