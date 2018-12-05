@@ -75,11 +75,12 @@ class PrivateInfoEditForm extends Component<PropsPrivateInfoEditForm> {
 
     const birth_date = values.year === '' || values.month === '' || values.day === '' ? '' : `${values.year}.${values.month}.${values.day}`
 
-    const authMobile = this.authMobileInput.getValue()
+    const authMobile = this.authMobileInput.getValue().replace('+98', '0')
+
 
     const formFormat = {
       national_code: profile.national_code === values.nationalCode ? null : values.nationalCode,
-      authMobile: profile.auth_mobile === authMobile ? null : authMobile,
+      auth_mobile: profile.auth_mobile === authMobile ? null : authMobile,
       birth_date: profile.birth_date === birth_date ? null : birth_date,
       email: user.email === values.email ? null : values.email,
     }
