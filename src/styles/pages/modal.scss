@@ -2,46 +2,54 @@
 @import "../variables";
 
 .modal-page.hide {
-  display: none;
+  overflow-y: scroll;
+  position: fixed;
+  top: 60px;
+  right: 30%;
+  z-index: -1;
+  opacity: 0;
+  width: 40%;
+  transform: scale(0.9);
+  border-radius: 3px;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+  background-color: white;
+  transition-duration: 0.3s;
 }
 
 .job-description {
   margin-top: 50px;
   min-height: 150px;
+  resize: none;
+  font-size: 13px;
 }
 
 .modal-page {
-  // overflow: scroll;
-  // top:10px;
-  // bottom: 10px;
-  // position: fixed;
-  // direction: rtl;
-  // width: 80%;
-  // z-index: 9999;
-  // text-align: center;
-  // left: 30%;
-  // margin-left: -20%;
-  // background-color: white;
-  // border: 1px solid #959595;
-  // padding: 30px;
+  overflow-y: scroll;
+  position: fixed;
+  top: 65px;
+  right: 30%;
+  z-index: 1202;
+  opacity: 1;
+  width: 40%;
+  max-height: 91vh;
+  border-radius: 3px;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+  background-color: white;
+  transition-duration: 0.3s;
+
   input {
     font-size: 12px;
   }
   label {
     font-size: 12px;
   }
-  .modal-title {
-
-  }
   .agent-from-title {
     margin-top: 0;
-    margin-bottom: 1rem;
     font-size: 13px;
     display: flex;
     .agent-form-title-container {
       margin: 0 auto;
       transform: translate(0, 50%);
-
     }
     .agent-from-title-text {
       display: inline-block;
@@ -180,15 +188,13 @@
     height: 100%
   }
   .modal-options {
-    margin-top: 30px !important;
+    margin: 30px auto 0 auto;
     width: 50%;
-    margin: 0 auto;
     font-size: 13px;
   }
   .modal-bottom {
-    margin-top: 100px !important;
+    margin: 50px auto 0 auto;
     width: 70%;
-    margin: 0 auto;
     font-size: 13px;
   }
   .modal-labels {
@@ -202,34 +208,66 @@
     padding-left: 5px;
   }
   .modal-footers {
-    margin-top: 50px !important;
-    width: 80%;
-    margin: 0 auto;
-
-  }
-  .modal-button {
-
+    margin: 0 auto 25px auto;
+    width: 70%;
+    text-align: left;
   }
   .modal-button.link {
     border: 2px solid #1a2147;
     background-color: white;
     color: #1a2147;
     height: 30px;
-    min-width: 200px;
+    width: 18%;
+    font-size: 13px;
     border-radius: 30px;
+    cursor: pointer;
   }
   .modal-button.primary {
     border: 2px solid #1a2147;
     background-color: #1a2147;
     color: white;
     height: 30px;
-    min-width: 200px;
+    width: 18%;
+    margin-right: 10px;
+    font-size: 13px;
     border-radius: 30px;
+    cursor: pointer;
   }
   .gray-text-input {
     background: #efefef;
     border: 0;
-    border-radius: 0;
+    border-radius: 3px;
+  }
+}
+
+
+@media screen and (max-width: 1250px) {
+  .modal-page {
+    position: fixed;
+    top: 65px;
+    right: 20%;
+    z-index: 1202;
+    opacity: 1;
+    width: 60%;
+    border-radius: 3px;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+    background-color: white;
+    transition-duration: 0.3s;
+  }
+}
+
+@media screen and (max-width: 860px) {
+  .modal-page {
+    position: fixed;
+    top: 65px;
+    right: 10.5%;
+    z-index: 1202;
+    opacity: 1;
+    width: 79%;
+    border-radius: 3px;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+    background-color: white;
+    transition-duration: 0.3s;
   }
 }
 
@@ -1136,6 +1174,7 @@
     }
   }
 }
+
 .register-modal-wrapper-close {
   position: fixed;
   z-index: 0;
