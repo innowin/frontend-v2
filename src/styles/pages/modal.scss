@@ -601,7 +601,7 @@
 .register-modal-wrapper {
   position: fixed;
   z-index: 1500;
-  overflow-y: scroll;
+  overflow-y: hidden;
   top: 50px;
   bottom: 50px;
   left: 50px;

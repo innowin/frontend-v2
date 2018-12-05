@@ -194,26 +194,19 @@
 }
 
 ::-webkit-scrollbar {
-  width: 4px;
-  transition-duration: $animation-timing;
-  display: none;
+  width: $scroll-bar-width;
 }
 
 ::-webkit-scrollbar-track {
   box-shadow: inset 0 0 5px $background-color;
-  border-radius: 10px;
-  transition-duration: $animation-timing;
+  background-color: $background-color;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: $scroll-color;
-  border-radius: $border-radius-size;
-  transition-duration: $animation-timing;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: $scroll-color-hover;
-  transition-duration: $animation-timing;
+  background: $primary-color;
+  &:hover{
+    background: $primary-color-light1;
+  }
 }
 
 .default-image {
