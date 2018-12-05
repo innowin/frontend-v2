@@ -8,11 +8,18 @@ const success = (state, action) => {
   }
 
   for (let id in exchangeData) {
-    nextExchange[id] = {
-      ...state.list[id],
-      exchange: {...state.list[id].exchange, content: {...state.list[id].exchange.content, exchange: exchangeData[id].exchange}}
-    }
+    state.list[id] && state.list[id].exchange ?
+        nextExchange[id] = {
+          ...state.list[id],
+          exchange: {...state.list[id].exchange, content: {...state.list[id].exchange.content, exchange: exchangeData[id].exchange}}
+        }
+        :
+        nextExchange[id] = {
+          ...state.list[id],
+          exchange: {content: {exchange: exchangeData[id].exchange}}
+        }
   }
+
 
   return {
     ...state,
