@@ -4,7 +4,15 @@ const success = (state, action) => {
     ...state,
     list: {
       ...state.list,
-      [data.id]: {...state.list[data.id], ...data},
+      [data.id]: {
+        ...state.list[data.id],
+        exchange: {
+          content: {...state.list[data.id].exchange.content, ...data},
+          isLoading: false,
+          error: null
+        }
+      }
+
     }
   }
 }

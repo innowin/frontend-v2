@@ -8,98 +8,109 @@ import {getMessages} from "src/redux/selectors/translateSelector"
 import {VerifyWrapper} from "../../common/cards/Frames"
 import {Link} from "react-router-dom"
 import {ClipLoader} from "react-spinners"
+import getUserAction from "../../../redux/actions/user/getUserActions"
+import exchangeActions from "../../../redux/actions/exchangeActions"
 
 class InfoView extends Component {
   componentDidMount() {
     window.scrollTo({
       top: 0
     })
-    const {owner, actions} = this.props
-    const profile = owner.profile.content.profile_user
-    if (profile) {
-      actions.getEducationsByUserId({userId: !isNaN(profile.id) ? profile.id : profile})
-    }
+    this.props.actions.getExchangeByExId(2515)
+
+    // const {actions, currentExchange} = this.props
+    // if (currentExchange && currentExchange.content) {
+    //   const ownerIdentity = currentExchange.owner.id
+    // } else if (currentExchange) {
+    //   const ownerIdentity = currentExchange.owner.id
+    // }
+    // const ownerIdentity = currentExchange.owner.id
+    // console.log(currentExchange)
+    // const ownerId = currentExchange.owner.identity_user && currentExchange.owner.identity_organization
+    // actions.getEducationsByUserId({userId: !isNaN(ownerId) ? ownerId : null})
+    // actions.getUserProfile(ownerId)
   }
 
   render() {
-    const {currentExchange, owner, education, translate} = this.props
-    const profile = owner.profile.content.profile_user
-    const media = owner.profile.content.profile_media
-    let ownerEducations = owner.educations
+    const {currentExchange, educations, users, translate} = this.props
 
-    if (profile)
-      if (!ownerEducations.isLoading) {
-        return (
-            <div>
-              <div className={"info-frame"}>
-                <div className={"info-header"}>
-                  <Info width="22px" height="22px"
+    // const ownerId = currentExchange.owner.identity_user && currentExchange.owner.identity_organization
+    // const ownerProfile = users[ownerId].profile
+    // const ownerEducations = users[ownerId].educations
+
+
+    if (false) {
+      return (
+          {/*<div>
+            <div className={"info-frame"}>
+              <div className={"info-header"}>
+                <Info width="22px" height="22px"
+                      containerClass={"svg-container-info-view"}
+                      svgClass={"svg-info-view"}/>
+                <span>معرفی</span>
+              </div>
+              <div className={"info-body"}>
+                {currentExchange.description}
+              </div>
+            </div>
+
+            <div className={"info-frame"}>
+              <div className={"info-header"}>
+                <Ticket width="22px" height="22px"
                         containerClass={"svg-container-info-view"}
                         svgClass={"svg-info-view"}/>
-                  <span>معرفی</span>
-                </div>
-                <div className={"info-body"}>
-                  {currentExchange.description}
-                </div>
+                <span>کارگزار</span>
               </div>
-
-              <div className={"info-frame"}>
-                <div className={"info-header"}>
-                  <Ticket width="22px" height="22px"
-                          containerClass={"svg-container-info-view"}
-                          svgClass={"svg-info-view"}/>
-                  <span>کارگزار</span>
-                </div>
-                <div className={"info-body"}>
-                  <div className={"info-exchange-owner-frame"}>
-                    <Link to={`/user/${profile.id}`}>
-                      <div className={"info-exchange-owner-image-frame"}>
-                        {media !== null ? <div className='rounded-circle-info-parent' ref={e => this.scroll = e}
-                                               onLoad={() => this.scroll.scrollLeft = 10}><img alt={"تصویر پروفایل"}
-                                                                                               src={media.file}
-                                                                                               height={"60px"}
-                                                                                               className={"post-user-picture"}/>
-                            </div>
-                            : <DefaultUserIcon
-                                height={"55px"} width={"55px"} className={"post-user-picture"}/>}
-                      </div>
-                    </Link>
-                    <div className={"info-exchange-owner-image-frame-sibling"}>
-                      <div className={"info-exchange-username"}> {profile.first_name || profile.last_name !== "" ?
-                          profile.first_name + " " + profile.last_name : profile.username} </div>
-                      <div className={"info-exchange-education"}>
-                        {ownerEducations.content.map((p, inx) => <div key={inx}> -
-                          <span> {!education[p] ? "مقطع" : education[p].grade} </span>
-                          <span> {!education[p] ? "رشته" : education[p].field_of_study} </span>
-                          <span> {translate["Of"]} </span>
-                          <span> {!education[p] ? "دانشگاه" : education[p].university} </span>
-                        </div>)}
-                      </div>
+              <div className={"info-body"}>
+                <div className={"info-exchange-owner-frame"}>
+                  <Link to={`/user/${profile.id}`}>
+                    <div className={"info-exchange-owner-image-frame"}>
+                      {media !== null ? <div className='rounded-circle-info-parent' ref={e => this.scroll = e}
+                                             onLoad={() => this.scroll.scrollLeft = 10}><img alt={"تصویر پروفایل"}
+                                                                                             src={media.file}
+                                                                                             height={"60px"}
+                                                                                             className={"post-user-picture"}/>
+                          </div>
+                          : <DefaultUserIcon
+                              height={"55px"} width={"55px"} className={"post-user-picture"}/>}
+                    </div>
+                  </Link>
+                  <div className={"info-exchange-owner-image-frame-sibling"}>
+                    <div className={"info-exchange-username"}> {profile.first_name || profile.last_name !== "" ?
+                        profile.first_name + " " + profile.last_name : profile.username} </div>
+                    <div className={"info-exchange-education"}>
+                      {ownerEducations.content.map((p, inx) => <div key={inx}> -
+                        <span> {!education[p] ? "مقطع" : education[p].grade} </span>
+                        <span> {!education[p] ? "رشته" : education[p].field_of_study} </span>
+                        <span> {translate["Of"]} </span>
+                        <span> {!education[p] ? "دانشگاه" : education[p].university} </span>
+                      </div>)}
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
 
-              <div className={"info-frame"}>
-                <div className={"info-header"}>
-                  <QuestionMark width="22px" height="22px"
-                                containerClass={"svg-container-info-view"}
-                                svgClass={"svg-info-view"}/> {/* TODO Add svg for Label ( Hashtags ) */}
-                  <span>برچسب</span>
-                </div>
-                <div className={"info-body"}>
-
-                </div>
+            <div className={"info-frame"}>
+              <div className={"info-header"}>
+                <QuestionMark width="22px" height="22px"
+                              containerClass={"svg-container-info-view"}
+                              svgClass={"svg-info-view"}/>  TODO Add svg for Label ( Hashtags )
+                <span>برچسب</span>
               </div>
+              <div className={"info-body"}>
 
-              <div className={"info-frame"}>
-                <div className={"info-header"}>
-                  <QuestionMark width="22px" height="22px"
-                                containerClass={"svg-container-info-view"}
-                                svgClass={"svg-info-view"}/> {/* TODO Add svg for Links ( link link :| )*/}
-                  <span>پیوند</span>
-                </div>
-                <div className={"info-body"}>
+              </div>
+            </div>
+
+            <div className={"info-frame"}>
+              <div className={"info-header"}>
+                <QuestionMark width="22px" height="22px"
+                              containerClass={"svg-container-info-view"}
+                              svgClass={"svg-info-view"}/>  TODO Add svg for Links ( link link :| )
+                <span>پیوند</span>
+              </div>
+              <div className={"info-body"}>
                   <span>
                     <div className={"info-social"}>
                       <i className={"fa fa-telegram"}/>
@@ -115,33 +126,33 @@ class InfoView extends Component {
                     </div>
                   </span>
 
-                  <div className={"info-social"}>
-                    <i className={"fa fa-instagram"}/>
-                    <span className={"info-social-text"}>
+                <div className={"info-social"}>
+                  <i className={"fa fa-instagram"}/>
+                  <span className={"info-social-text"}>
                       اینستاگرام:
                     </span>
-                    <div className={"info-social-text-address"}>
-                      <div style={{display: "inline-block", width: "160px"}}>
-                        https://www.instagram.com/
-                      </div>
-                      <input className={"info-social-text-address-input"} style={{width: "calc(100% - 160px)"}} type={"text"}/>
+                  <div className={"info-social-text-address"}>
+                    <div style={{display: "inline-block", width: "160px"}}>
+                      https://www.instagram.com/
                     </div>
+                    <input className={"info-social-text-address-input"} style={{width: "calc(100% - 160px)"}} type={"text"}/>
                   </div>
+                </div>
 
-                  <div className={"info-social"}>
-                    <i className={"fa fa-linkedin"}/>
-                    <span className={"info-social-text"}>
+                <div className={"info-social"}>
+                  <i className={"fa fa-linkedin"}/>
+                  <span className={"info-social-text"}>
                       لینکدین:
                     </span>
-                    <div className={"info-social-text-address"}>
-                      <div style={{display: "inline-block", width: "160px"}}>
-                        https://www.linkedin.com/in/
-                      </div>
-                      <input className={"info-social-text-address-input"} style={{width: "calc(100% - 160px)"}} type={"text"}/>
+                  <div className={"info-social-text-address"}>
+                    <div style={{display: "inline-block", width: "160px"}}>
+                      https://www.linkedin.com/in/
                     </div>
+                    <input className={"info-social-text-address-input"} style={{width: "calc(100% - 160px)"}} type={"text"}/>
                   </div>
+                </div>
 
-                  <span>
+                <span>
                     <div className={"info-social"}>
                       <i className={"fa fa-youtube-play youtube"}/>
                       <span className={"info-social-text"}>
@@ -155,38 +166,38 @@ class InfoView extends Component {
                     </div>
                   </span>
 
-                  <div className={"info-social"}>
-                    <i className={"fa fa-link"}/>
-                    <span className={"info-social-text"}>
+                <div className={"info-social"}>
+                  <i className={"fa fa-link"}/>
+                  <span className={"info-social-text"}>
                         وبسایت:
                       </span> <span className={"info-social-text-address"}>
                     <input className={"info-social-text-address-input"} placeholder={"آدرس سایت شما"}
                            type={"text"}/></span>
-                  </div>
                 </div>
               </div>
             </div>
-        )
-      }
-      else return <div className={"info-loading"}>
-        {console.log("OWNER EDUCATIONS UNDEFINED!")}
-        <ClipLoader color="#C2B9BD" size={45} margin="4px" loading={true}/>
-      </div>
+          </div>*/}
+      )
+    }
     else return <div className={"info-loading"}>
-      {console.log("OWNER PROFILE NOT EXIST!")}
+      {console.log("OWNER EDUCATIONS UNDEFINED!")}
       <ClipLoader color="#C2B9BD" size={45} margin="4px" loading={true}/>
     </div>
   }
 }
 
 const mapStateToProps = (state) => ({
-  education: state.education.list,
-  translate: getMessages(state)
+  educations: state.education.list,
+  users: state.users.list,
+  translate: getMessages(state),
 })
 
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({
     getEducationsByUserId: educationActions.getEducationByUserId,
+    getUserProfile: getUserAction.getProfileByUserId,
+
+    getExchangeByExId: exchangeActions.getExchangeByExId,
   }, dispatch)
 })
 

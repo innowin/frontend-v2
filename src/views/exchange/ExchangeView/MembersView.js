@@ -168,7 +168,9 @@ class MembersView extends Component {
     })
     let {exchangeUsers, exchangeId, getFollowingSelector, actions} = this.props
     let {getUser, getOrganization, getUserIdentity, getOrgIdentity, getExchangeMembers} = actions
-    getExchangeMembers(exchangeId)
+
+    getExchangeMembers({exchangeId}) //n
+
     let temp = []
     if (exchangeUsers) {
       if (exchangeUsers[exchangeId]) {

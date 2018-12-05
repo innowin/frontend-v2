@@ -58,17 +58,9 @@ class Exchange_Info extends Component {
             <StreamView exchangeId={exchangeId}/>
         )
       case "Info":
-        if (currentExchange.owner) {
-          let owner = users.list[currentExchange.owner.identity_user]
-          if (owner)
-            return (
-                <InfoView currentExchange={currentExchange} owner={owner}/>
-            )
-          else return <div className={"info-loading"}><ClipLoader color="#C2B9BD" size={45} margin="4px" loading={true}/></div>
-        }
-        else {
-          return <div className={"info-loading"}><ClipLoader color="#C2B9BD" size={45} margin="4px" loading={true}/></div>
-        }
+        return (
+            <InfoView currentExchange={currentExchange}/>
+        )
       case "Members":
         return (
             <MembersView exchangeId={exchangeId}/>
