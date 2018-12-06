@@ -974,7 +974,7 @@ $sidebar-profile-media-width: 80px;
 }
 
 .settingModal-menu {
-  overflow-y: scroll;
+  overflow: auto;
   position: fixed;
   top: 65px;
   right: 30%;
@@ -986,6 +986,25 @@ $sidebar-profile-media-width: 80px;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   background-color: white;
   transition-duration: 0.3s;
+}
+
+
+.settingModal-menu::-webkit-scrollbar {
+  width: $scroll-bar-width;
+  border-radius: 3px;
+}
+
+.settingModal-menu::-webkit-scrollbar-track {
+  background-color: white;
+  border-radius: 3px;
+}
+
+.settingModal-menu::-webkit-scrollbar-thumb {
+  background: darkgrey;
+  border-radius: 3px;
+  &:hover{
+    background: grey;
+  }
 }
 
 @media screen and (max-width: 1250px) {

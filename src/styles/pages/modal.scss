@@ -2,7 +2,7 @@
 @import "../variables";
 
 .modal-page.hide {
-  overflow-y: scroll;
+  overflow-y: hidden;
   position: fixed;
   top: 60px;
   right: 30%;
@@ -24,7 +24,7 @@
 }
 
 .modal-page {
-  overflow-y: scroll;
+  overflow: hidden;
   position: fixed;
   top: 65px;
   right: 30%;

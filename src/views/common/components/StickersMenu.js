@@ -42,7 +42,7 @@ class StickersMenu extends Component {
         <div ref={e => this.menu = e} className='stickers-container'>
           <div className='emoji-inline-block' onClick={this.handleOpen}><EmojiSvg className='emoji-logo'/></div>
           <div className={this.state.open ? 'stickers-menu-container' : 'stickers-menu-container-close'}>
-            <div style={{overflow: 'auto', height: '150px'}}>
+            <div className='stickers-menu-scroll'>
               {
                 this.state[this.state.tab].map((emoji,i) =>
                     <div key={i} onClick={() => this.props.output(emoji)} style={{width: '30px', display: 'inline-block', overflow: 'hidden', color: 'black'}}>{emoji}</div>

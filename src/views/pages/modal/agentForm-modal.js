@@ -93,10 +93,10 @@ class AgentForm extends React.Component<AgentFormProps, { tags: Array<String>, d
                         <LabelTag name={val} number={idx}/>
                     )
                   }
-                  {/* <LabelTag
-                  name="تست"
-                  number="2"
-                /> */}
+                  {/*<LabelTag*/}
+                      {/*name="تست"*/}
+                      {/*number="2"*/}
+                  {/*/>*/}
                 </div>
 
               </div>
@@ -117,17 +117,13 @@ class AgentForm extends React.Component<AgentFormProps, { tags: Array<String>, d
             </div>
           </div>
 
-
         </div>
     )
-
-
   }
 }
 
 const mapStateToProps = (state) => ({
   agencyRequest: state.common.agencyRequest,
-
 })
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({

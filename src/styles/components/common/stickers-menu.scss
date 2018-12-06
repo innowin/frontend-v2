@@ -28,6 +28,29 @@
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
 }
 
+.stickers-menu-scroll {
+  overflow: auto;
+  height: 150px;
+}
+
+.stickers-menu-scroll::-webkit-scrollbar {
+  width: $scroll-bar-width;
+  border-radius: 3px;
+}
+
+.stickers-menu-scroll::-webkit-scrollbar-track {
+  background-color: #FCFCFC;
+  border-radius: 3px;
+}
+
+.stickers-menu-scroll::-webkit-scrollbar-thumb {
+  background: lightgrey;
+  border-radius: 3px;
+  &:hover {
+    background: darkgrey;
+  }
+}
+
 .stickers-menu-container-close {
   position: absolute;
   top: 0;
