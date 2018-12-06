@@ -34,7 +34,8 @@ const success = (state, action) => {
         ...state.list[userId],
         researches: {
           ...previousResearch,
-          content: [...new Set([...previousResearch.content, ...arrayOfResearchId])],
+          // content: [...new Set([...previousResearch.content, ...arrayOfResearchId])],
+          content: arrayOfResearchId,
           isLoading: false,
           error: null
         }

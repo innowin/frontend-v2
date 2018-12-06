@@ -40,7 +40,8 @@ const success = (state, action) => {
         [productOwnerId]: {
           ...state.list[productOwnerId],
           products: {
-            content: [...new Set([...previousProduct.content, ...arrayOfProductId])],
+            // content: [...new Set([...previousProduct.content, ...arrayOfProductId])],
+            content: arrayOfProductId,
             isLoading: false,
             error: null
           }

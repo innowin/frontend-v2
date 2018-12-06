@@ -34,7 +34,8 @@ const success = (state, action) => {
         ...state.list[userId],
         skills: {
           ...previousSkill,
-          content: [...new Set([...previousSkill.content, ...arrayOfSkillId])],
+          // content: [...new Set([...previousSkill.content, ...arrayOfSkillId])],
+          content: arrayOfSkillId,
           isLoading: false,
           error: null
         }
