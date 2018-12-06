@@ -41,7 +41,8 @@ const success = (state, action) => {
           ...state.list[postOwnerId],
           posts: {
             ...previousPost,
-            content: [...new Set([...previousPost.content, ...arrayOfPostId])],
+            // content: [...new Set([...previousPost.content, ...arrayOfPostId])],
+            cotnent: arrayOfPostId,
             isLoading: false,
             error: null
           }

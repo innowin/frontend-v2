@@ -34,7 +34,8 @@ const success = (state, action) => {
         ...state.list[userId],
         educations: {
           ...previousEducation,
-          content: [...new Set([...previousEducation.content, ...arrayOfEducationId])],
+          // content: [...new Set([...previousEducation.content, ...arrayOfEducationId])],
+          content: arrayOfEducationId,
           isLoading: false,
           error: null
         }

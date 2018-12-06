@@ -17,7 +17,8 @@ const success = (state, action) => {
     ...state,
     client: {
       ...client,
-      abilities: [...previousAbility, ...arrayOfAbilityId]
+      // abilities: [...previousAbility, ...arrayOfAbilityId]
+      abilities: arrayOfAbilityId,
     }
   }
 }

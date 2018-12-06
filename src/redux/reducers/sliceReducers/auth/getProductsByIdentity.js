@@ -18,7 +18,8 @@ const success = (state, action) => {
     ...state,
     client: {
       ...client,
-      products: [...previousProduct, ...arrayOfProductId]
+      // products: [...previousProduct, ...arrayOfProductId],
+      products: arrayOfProductId,
     }
   }
 }
