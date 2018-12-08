@@ -281,6 +281,8 @@ module.exports = {
 
   // public
   "Danesh Boom": "اینوین",
+  "InnoWin": "اینوین",
+  "Home": "خانه",
   "User Not Found": "کاربر یافت نشد!",
   "User": "کاربر",
   "Organization Not Found": "شرکت مورد نظر یافت نشد!",
