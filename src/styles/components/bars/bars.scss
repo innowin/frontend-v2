@@ -261,11 +261,11 @@ $sidebar-profile-media-width: 80px;
   display: inline-block;
   vertical-align: top;
   cursor: pointer;
-}
 
-.svg-container:hover {
-  background-color: rgba(37, 53, 69, 0.15);
-  transition-duration: $animation-timing;
+  &:hover {
+    background-color: rgba(37, 53, 69, 0.15);
+    transition-duration: $animation-timing;
+  }
 }
 
 .svg-container-clicked {
@@ -341,7 +341,7 @@ $sidebar-profile-media-width: 80px;
 .line-under-exchange-navbar-center {
   margin-top: $standard-vertical-margin;
   width: 100%;
-  height: 5px;
+  height: 7px;
   background-color: #42AC96;
   box-shadow: 0 0 14px rgba(0, 0, 0, 0.1);
   border-radius: 15px;

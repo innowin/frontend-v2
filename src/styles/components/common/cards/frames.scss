@@ -2,6 +2,8 @@
 
 .tab-container{
   margin: 10px 0;
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.15);
+  border-radius: $border-radius-size;
   .-tabs {
     display: flex;
     justify-content: flex-start;
@@ -16,24 +18,41 @@
       width: 45px;
       border-radius: 50%;
       position: relative;
-      margin-left: 30px;
+      margin-left: 36px;
+      transition-duration: $animation-timing;
 
       svg {
-        width: 20px;
-        height: 20px;
+        width: 22px;
+        height: 22px;
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+        fill: $primary-color;
       }
     }
     .-tab:last-child{
       margin-left: 0;
     }
-    a.-tab:hover, a.-active {
-      background-color: $brand-inverse-color;
+    .-tab:first-child{
+      margin-right: 9px;
+    }
+    a.-tab:hover{
+      background-color: rgba(37, 53, 69, 0.15);
+      transition-duration: $animation-timing;
+    }
+    a.-active {
+      background-color: $primary-color;
+      transition-duration: $animation-timing;
       & > svg {
-        fill: $text-lightest-color;
+        fill: $background-color;
+        transition-duration: $animation-timing;
+      }
+      &:hover{
+        background-color: $primary-color;
+        & > svg {
+          fill: $background-color;
+        }
       }
     }
   }
@@ -58,12 +77,15 @@
 
 .category-title-container{
   .-categoryTitle {
-    background-color: #fff;
+    background-color: white;
+    box-shadow: 0 0 14px rgba(0, 0, 0, 0.15);
     border-radius: $border-radius-size;
-    padding: 5px 17px;
+    padding: 1px 25px;
     margin-bottom: 12px;
     display: flex;
     justify-content: space-between;
+    font-size: 1rem;
+    height: 28px;
     .edit-btn-wrapper {
       display: inline-flex;
       align-items: center;
@@ -77,7 +99,7 @@
     height: 24px;
   }
   .category-divider{
-    border: 4px solid $secondary-color;
+    border: 3px solid $secondary-color;
     border-radius: $border-radius-size;
     margin-bottom: 12px;
   }
