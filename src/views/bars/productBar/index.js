@@ -6,8 +6,8 @@ import type {BadgeType} from './rowComponents'
 import {ownerData} from './data'
 import ScrollLessWrapper from '../../common/wrappers/scrollLesWrapper'
 import {bindActionCreators} from "redux"
-import {connect} from "react-redux";
-import makeProductSelectorById from "../../../redux/selectors/common/product/getProductById";
+import {connect} from "react-redux"
+import makeProductSelectorById from "../../../redux/selectors/common/product/getProductById"
 import {getProductPicturesByProductId} from "src/redux/actions/commonActions/productActions/productPicturesAction"
 import {getFile} from "src/redux/actions/commonActions/fileActions"
 import makePictureSelectorByProductId from '../../../redux/selectors/common/product/selectProducPicturesByProductId'
@@ -67,7 +67,7 @@ class SideBar extends Component<SideBarProps, SideBarState> {
   }
 
   componentDidMount() {
-      const {productId, getProductPicturesByProductId, getBadges, getPriceByProductId, getObjHashTags} = this.props
+    const {productId, getProductPicturesByProductId, getBadges, getPriceByProductId, getObjHashTags} = this.props
     getProductPicturesByProductId(productId)
     // this._fileDispatchHandler()
     getBadges(productId, productId)
@@ -112,28 +112,34 @@ class SideBar extends Component<SideBarProps, SideBarState> {
   ]
 
   render() {
-    const {className, visible, visibilityHandler, badges, lastPrice, hashTags} = this.props
+    const {visible, visibilityHandler, badges, lastPrice, hashTags} = this.props
     const {mainImage, images} = this._setGalleryData()
     const {galleryModalIsOpen} = this.state
     const modalGalleryImages = images.map(image => ({original: image.fileUrl, thumbnail: image.fileUrl}))
     mainImage && modalGalleryImages.push({original: mainImage, thumbnail: mainImage})
     return (
-        <div id="product-side-bar" className={`${visible ? 'visible' : ''} ${className || ''} product-side-bar`}>
+        <div className='product-side-bar'>
           <ScrollLessWrapper points="left">
-            <FontAwesome name="times" className="close-btn"
-                         onClick={visibilityHandler}/>
+            {/*<FontAwesome name="times" className="close-btn"*/}
+            {/*onClick={visibilityHandler}/>*/}
+
+            <div style={{textAlign: 'right', fontWeight: 'bold', paddingBottom: '12px', display: 'inline-block', float: 'right'}}>{this.props.product.name}</div>
+            <i className='fa fa-ellipsis-v menu-dots'/>
+
+            <div style={{clear:'both'}}/>
+
             <Gallery
                 mainImage={mainImage}
                 images={images && images.slice(0, 3)}
                 galleryModalDisplayHandler={this._galleryModalVisibilityHandler}
             />
-            <div className="info">
-              <Owner ownerName={ownerData.name} ownerImg={ownerData.file}/>
-              <Badges badges={badges}/>
-              <Price price={lastPrice}/>
-              <Tags tags={hashTags.slice(0, 3)}/>
-              <ActBar acts={this.acts}/>
-            </div>
+
+            <Owner ownerName={ownerData.name} ownerImg={ownerData.file}/>
+            <Badges badges={badges}/>
+            <Price price={lastPrice}/>
+            <Tags tags={hashTags.slice(0, 3)}/>
+            <ActBar acts={this.acts}/>
+
           </ScrollLessWrapper>
           <GalleryModal
               images={modalGalleryImages}

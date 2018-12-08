@@ -51,13 +51,14 @@ export const Badges = (props: BadgesProps) => {
   return (
       <BorderedPaddedWrapper className='badges'>
         {badges.map(badge => {
-            return (
-            <VisibleOnLoadImage
-                className="badge"
-                img={badge.fileUrl}
-                key={`side-bar-badge${badge.id}`}
-            />
-        )})}
+          return (
+              <VisibleOnLoadImage
+                  className="badge"
+                  img={badge.fileUrl}
+                  key={`side-bar-badge${badge.id}`}
+              />
+          )
+        })}
       </BorderedPaddedWrapper>
   )
 }
@@ -121,24 +122,20 @@ type GalleryProps = {
 }
 
 export const Gallery = (props: GalleryProps) => {
-  const {images = [], mainImage, galleryModalDisplayHandler} = props
+  const {images, mainImage, galleryModalDisplayHandler} = props
+
   return (
-      <div className="gallery-wrapper">
-        <VisibleOnLoadImage img={mainImage} className="main-image"/>
+      <div className="gallery-wrapper" style={mainImage ? {paddingBottom: '12px'} : {height: '0'}}>
+        {
+          mainImage && <VisibleOnLoadImage img={mainImage} className="main-image"/>
+        }
         <div className="items-wrapper">
-          {images.map((img, index) => {
-            return (
-                <div id={index} key={`gallery-image-${img.id}`} className="gallery-item">
-                  <VisibleOnLoadImage className="gallery-image" img={img.fileUrl}/>
-                </div>
-            )
-          }
+          {images.map((img, index) =>
+              <div id={index} key={index} className="gallery-item">
+                <VisibleOnLoadImage className="gallery-image" img={img.fileUrl}/>
+              </div>
           )}
-          {(images.length === 0 && !mainImage)?
-              <div className="gallery-item">عکس ندارد</div>
-              :
-              <div onClick={galleryModalDisplayHandler} className="gallery-item more-btn">بیشتر</div>
-          }
+          {!(images.length === 0 && !mainImage) && <div onClick={galleryModalDisplayHandler} className="gallery-item more-btn">بیشتر</div>}
         </div>
       </div>
   )
