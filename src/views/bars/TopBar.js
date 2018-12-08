@@ -155,10 +155,16 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   }
   _createExchangeModalVisibilityHandler = () => {
     this.setState({...this.state, createExchangeModalIsOpen: !this.state.createExchangeModalIsOpen})
+    setTimeout(() =>
+            this.setState({...this.state, collapseProfile: false})
+        , 350)
   }
 
   _handleProductWizardModal = () => {
     this.setState({...this.state, productWizardModalIsOpen: !this.state.productWizardModalIsOpen})
+    setTimeout(() =>
+            this.setState({...this.state, collapseProfile: false})
+        , 350)
   }
 
   _handleSignOut = () => {

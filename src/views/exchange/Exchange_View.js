@@ -12,6 +12,9 @@ import ExchangeMembershipActions from "../../redux/actions/commonActions/exchang
 import exchangeActions from "../../redux/actions/exchangeActions"
 import connect from "react-redux/es/connect/connect"
 import postActions from "../../redux/actions/commonActions/postActions"
+import {Helmet} from "react-helmet"
+import constants from "../../consts/constants"
+import {getMessages} from "../../redux/selectors/translateSelector"
 
 type PropsExchangeView = {|
   match: { params: Object },
@@ -31,12 +34,25 @@ class ExchangeView extends Component <PropsExchangeView> {
   }
 
   render() {
+    const {translate} = this.props
     const {params} = this.props.match
     const exchangeId = +params.id
     const widthOfRightBar = "col-md-2 col-sm-1"
+    const title = `${translate['InnoWin']} - ${translate['Exchange']}`
+    const description = `${translate['Exchange']}`
     return (
         <div className='all-exchanges-parent'>
           {/*<TopBar collapseClassName={widthOfRightBar}/>*/}
+          <Helmet>
+            <title>{title}</title>
+            <meta name="description" content={description}/>
+
+            <meta property="og:title" content={title}/>
+            <meta property="og:description" content={description}/>
+
+            <meta property="twitter:title" content={title}/>
+            <meta property="twitter:description" content={description}/>
+          </Helmet>
           <main style={{paddingTop: "65px"}}>
             <div className={`exchange-view-sidebar`}>
               <ExchangeViewBar exchangeId={exchangeId}/>
@@ -63,4 +79,10 @@ const DispatchToProps = dispatch => ({
   }, dispatch)
 })
 
-export default connect(null, DispatchToProps)(ExchangeView)
+const mapStateToProps = state => {
+  return {
+    translate: getMessages(state),
+  }
+}
+
+export default connect(mapStateToProps, DispatchToProps)(ExchangeView)

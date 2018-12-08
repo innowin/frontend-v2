@@ -12,6 +12,8 @@ import {getUsers} from 'src/redux/selectors/user/GetAllUsers'
 import {ClipLoader} from "react-spinners"
 import {getFollowList} from 'src/redux/selectors/common/social/getFollowList'
 import RightArrowSvg from "../../../images/common/right_arrow_svg"
+import {getMessages} from "../../../redux/selectors/translateSelector"
+import {Helmet} from "react-helmet"
 
 type appProps =
     {|
@@ -101,6 +103,10 @@ class Explore extends PureComponent <appProps, appState> {
     const list = this.props.followees
     let followees = {}
     let followers = {}
+    const {translate} = this.props
+    const title = `${translate['InnoWin']} - ${translate['Users']}`
+    const description = `${translate['Users']}`
+
 
     Object.values(list).forEach(follow => {
           if (follow.follow_followed.id === this.props.currentUserIdentity) {
@@ -114,6 +120,16 @@ class Explore extends PureComponent <appProps, appState> {
 
     return (
         <div className='all-exchanges-parent'>
+          <Helmet>
+            <title>{title}</title>
+            <meta name="description" content={description}/>
+
+            <meta property="og:title" content={title}/>
+            <meta property="og:description" content={description}/>
+
+            <meta property="twitter:title" content={title}/>
+            <meta property="twitter:description" content={description}/>
+          </Helmet>
           {/*<TopBar collapseClassName="col user-sidebar-width"/>*/}
           <Sidebar search={this.search} justFollowing={this.justFollowing} justFollowed={this.justFollowed}/>
           <div className='all-exchanges-container'>
@@ -140,7 +156,8 @@ const mapStateToProps = (state) => {
     currentUserId: userId,
     allUsers: getUsers(state),
     followees: getFollowList(state),
-    loading: state.users.loading
+    loading: state.users.loading,
+    translate: getMessages(state),
   }
 }
 const mapDispatchToProps = dispatch => ({

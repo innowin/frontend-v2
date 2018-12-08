@@ -285,6 +285,7 @@ module.exports = {
   "Home": "خانه",
   "User Not Found": "کاربر یافت نشد!",
   "User": "کاربر",
+  "Users": "کاربر ها",
   "Organization Not Found": "شرکت مورد نظر یافت نشد!",
   "Organization": "شرکت",
   "Person": "فرد",
