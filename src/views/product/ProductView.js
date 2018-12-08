@@ -75,9 +75,9 @@ class ProductView extends Component<ProductViewProps, ProductViewState> {
                           toggleModal={this._toggleModal}
                           selectedFileIndex={selectedFileIndex}/>
             <Tabs>
-              <NavLink className="-tab" to={`${url}/Posts`} activeClassName="-active">{postIcon}</NavLink>
               <NavLink className="-tab" to={`${url}/basicInformation`}
-                activeClassName="-active"><InformationIcon/></NavLink>
+                       activeClassName="-active"><InformationIcon/></NavLink>
+              <NavLink className="-tab" to={`${url}/Posts`} activeClassName="-active">{postIcon}</NavLink>
               <NavLink className="-tab" to={`${url}/Certificates`}
                 activeClassName="-active"><CertificateIcon/></NavLink>
               <NavLink className="-tab" to={`${url}/Ratings`}
@@ -87,7 +87,7 @@ class ProductView extends Component<ProductViewProps, ProductViewState> {
             </Tabs>
             <div>
               <Switch>
-                <Redirect exact from={`${url}/`} to={`${url}/Posts`}/>
+                <Redirect exact from={`${url}/`} to={`${url}/basicInformation`}/>
                 <PropsRoute path={`${path}/Posts`} component={ProductPosts} productId={productId} translator={translator}/>
                 <PropsRoute path={`${path}/basicInformation`} component={ProductBasicInformation}
                             productId={productId} translator={translator}/>

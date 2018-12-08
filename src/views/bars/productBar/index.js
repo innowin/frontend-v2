@@ -123,10 +123,10 @@ class SideBar extends Component<SideBarProps, SideBarState> {
             {/*<FontAwesome name="times" className="close-btn"*/}
             {/*onClick={visibilityHandler}/>*/}
 
-            <div style={{textAlign: 'right', fontWeight: 'bold', paddingBottom: '12px', display: 'inline-block', float: 'right'}}>{this.props.product.name}</div>
-            <i className='fa fa-ellipsis-v menu-dots'/>
-
-            <div style={{clear:'both'}}/>
+            <div style={{height: '35px'}}>
+              <div className='menu-side-name'>{this.props.product.name}</div>
+              <i className='fa fa-ellipsis-v menu-dots'/>
+            </div>
 
             <Gallery
                 mainImage={mainImage}
