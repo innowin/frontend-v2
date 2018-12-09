@@ -30,7 +30,8 @@ const success = (state, action) => {
       [organizationId]: {
         ...state.list[organizationId],
         abilities: {
-          content: [...new Set([...previousAbility.content, ...arrayOfAbilityId])],
+          // content: [...new Set([...previousAbility.content, ...arrayOfAbilityId])],
+          content: arrayOfAbilityId,
           isLoading: false,
           error: null
         }

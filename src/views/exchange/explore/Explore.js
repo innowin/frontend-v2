@@ -3,14 +3,14 @@ import * as React from 'react'
 import {PureComponent} from 'react'
 import Exchanges from './Exchanges'
 import Sidebar from './Sidebar'
-import TopBar from '../../bars/TopBar'
 import {bindActionCreators} from 'redux'
 import connect from 'react-redux/es/connect/connect'
 import exchangeActions from 'src/redux/actions/exchangeActions'
 import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges.js'
 import {ClipLoader} from "react-spinners"
 import RightArrowSvg from "../../../images/common/right_arrow_svg"
-import StickersMenu from "../../common/components/StickersMenu"
+import {Helmet} from "react-helmet"
+import {getMessages} from "../../../redux/selectors/translateSelector"
 
 type appProps =
     {|
@@ -84,9 +84,22 @@ class Explore extends PureComponent <appProps, appState> {
   }
 
   render() {
+    const {translate} = this.props
+    const title = `${translate['InnoWin']} - ${translate['Exchanges']}`
+    const description = `${translate['Exchanges']}`
+
     return (
         <div className='all-exchanges-parent'>
-          {/*<TopBar collapseClassName="col user-sidebar-width"/>*/}
+          <Helmet>
+            <title>{title}</title>
+            <meta name="description" content={description}/>
+
+            <meta property="og:title" content={title}/>
+            <meta property="og:description" content={description}/>
+
+            <meta property="twitter:title" content={title}/>
+            <meta property="twitter:description" content={description}/>
+          </Helmet>
           <Sidebar search={this.search} justFollowing={this.justFollowing}/>
           <div className='all-exchanges-container'>
             <Exchanges exchanges={this.props.allExchanges} justFollowing={this.state.justFollowing} loading={this.props.loading}/>
@@ -105,7 +118,8 @@ class Explore extends PureComponent <appProps, appState> {
 
 const mapStateToProps = (state) => ({
   allExchanges: getExchanges(state),
-  loading: state.exchanges.loading
+  loading: state.exchanges.loading,
+  translate: getMessages(state),
 })
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({

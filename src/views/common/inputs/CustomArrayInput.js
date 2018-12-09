@@ -18,7 +18,7 @@ export class CustomArrayInput extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {arrayValue: this.props.value || [], error: false};
+    this.state = {arrayValue: (typeof this.props.value !== 'string' ? this.props.value : [this.props.value]) || [], error: false};
   };
 
   handleAdd = () => {

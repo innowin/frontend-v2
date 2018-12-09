@@ -14,18 +14,24 @@ const Exchanges = (props: appProps) => {
   let {exchanges, justFollowing} = props
 
   exchanges = Object.values(exchanges).filter(exchange =>
-      exchange.id
+      exchange.exchange ?
+          exchange.exchange.content.id
+          :
+          exchange.exchange
   )
 
   if (justFollowing) {
     exchanges = exchanges.filter(exchange =>
-        exchange.exchange
+        exchange.exchange ?
+            exchange.exchange.content.exchange
+            :
+            exchange.exchange
     )
   }
 
   if (exchanges.length > 0) {
     return exchanges.map((exchange, i) =>
-        <Exchange key={i} data={exchange}/>
+        <Exchange key={i} data={exchange.exchange ? exchange.exchange.content : exchange.exchange}/>
     )
   }
   else if (!props.loading) {

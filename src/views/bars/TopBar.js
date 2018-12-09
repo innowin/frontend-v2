@@ -135,29 +135,36 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   //   this.setState({...this.state, collapse: !this.state.collapse, exploreCollapse: false})
   // }
 
-  _toggleExplore = (e: SyntheticEvent<HTMLButtonElement>): void => {
-    e.preventDefault()
+  _toggleExplore = () => {
     this.setState({...this.state, exploreCollapse: !this.state.exploreCollapse, collapseProfile: false})
   }
 
-  _toggleProfile = (e: SyntheticEvent<HTMLButtonElement>): void => {
-    e.preventDefault()
+  _toggleProfile = () => {
     this.setState({...this.state, collapseProfile: !this.state.collapseProfile, exploreCollapse: false})
   }
 
-  _handleExchangeUpgrade = (e) => {
+  _handleExchangeUpgrade = () => {
     this.setState({...this.state, agentForm: true})
+    setTimeout(() =>
+            this.setState({...this.state, collapseProfile: false})
+        , 350)
   }
 
-  _handleHideAgent = (e) => {
+  _handleHideAgent = () => {
     this.setState({...this.state, agentForm: false})
   }
   _createExchangeModalVisibilityHandler = () => {
     this.setState({...this.state, createExchangeModalIsOpen: !this.state.createExchangeModalIsOpen})
+    setTimeout(() =>
+            this.setState({...this.state, collapseProfile: false})
+        , 350)
   }
 
   _handleProductWizardModal = () => {
     this.setState({...this.state, productWizardModalIsOpen: !this.state.productWizardModalIsOpen})
+    setTimeout(() =>
+            this.setState({...this.state, collapseProfile: false})
+        , 350)
   }
 
   _handleSignOut = () => {
@@ -214,7 +221,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
   render() {
     const {collapseClassName, clientUser, clientOrganization, translate, clientImgLink} = this.props
-    const {collapse, collapseProfile, exploreCollapse, productWizardModalIsOpen, mouseIsOverMenu, selectedSetting, selectedAbout, showSetting, showAbout, createExchangeModalIsOpen, profilePhotoLoaded} = this.state
+    const {collapse, collapseProfile, exploreCollapse, productWizardModalIsOpen, mouseIsOverMenu, selectedSetting, selectedAbout, showSetting, showAbout, createExchangeModalIsOpen, profilePhotoLoaded,agentForm} = this.state
     const linkEditProfile = !clientOrganization
         ? `/user/${clientUser.id}`
         : `/organization/${clientOrganization.id}`
@@ -229,13 +236,15 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     return (
         <div onMouseEnter={this._handleMouseEnter} onMouseLeave={this._handleMouseLeave}>
           <AgentForm
-              active={this.state.agentForm}
+              active={agentForm}
               hide={this._handleHideAgent}
           />
+
           <CreateExchange
               handleModalVisibility={this._createExchangeModalVisibilityHandler}
               modalIsOpen={createExchangeModalIsOpen}
           />
+
           <nav className="navbar flex-row justify-content-between p-0 -white-i fixed-top topBar">
 
             <div className="d-flex align-items-center">
@@ -292,7 +301,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                     </Link>
 
                     <div className='profile-menu-second-section'>
-                      {/*<Material className='profile-menu-second-section-item' onClick={this._handleExchangeUpgrade} content='درخواست ارتقاء به کارگزار'/>*/}
+                      <Material className='profile-menu-second-section-item' onClick={this._handleExchangeUpgrade} content='درخواست ارتقاء به کارگزار'/>
                       <Material className='profile-menu-second-section-item' onClick={this._createExchangeModalVisibilityHandler} content='ایجاد پنجره جدید'/>
                       <Material className='profile-menu-second-section-item' onClick={this._handleProductWizardModal} content='ایجاد آورده جدید'/>
                     </div>
@@ -326,7 +335,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                               handleModalVisibility={this._handleProductWizardModal}/>
 
 
-          <div className={showSetting || showAbout ? "makeDark" : "makeDark-out"} onClick={this._handleHideSetting}>
+          <div className={showSetting || showAbout || agentForm ? "makeDark" : "makeDark-out"} onClick={this._handleHideSetting}>
             {/*dark div*/}
           </div>
           {/*Settings Modal*/}

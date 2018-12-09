@@ -34,6 +34,7 @@ const ProductActions = {
   getProductsByIdentity,
   updateProduct,
   deleteProduct,
+  getProductInfo,
 }
 
 export default ProductActions

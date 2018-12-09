@@ -79,18 +79,18 @@ const validatePassword = (pass) => {
   const validate = condition1 || condition2 || condition3 || condition4 || condition5 || condition6 || condition7
     || condition8 || condition9 || condition10 || condition11 || condition12
   if (pass.length < 8) return 'رمز ورود باید حداقل ۸ حرف باشد.'
-  else if (!validate) return 'این رمز ضعیف است. رمز ورود حداقل دارای یک عدد یا یک حرف بزرگ یا علامت باشد.'
+  // else if (!validate) return 'این رمز ضعیف است. رمز ورود حداقل دارای یک عدد یا یک حرف بزرگ یا علامت باشد.'
 }
 
 export const validateSignUpForm = values => {
   const errors = {}
-  const requiredFields = ['email', 'password', 'passwordConfirm', 'username']
+  const requiredFields = ['email', 'password', 'username']
   const {username, email, password, passwordConfirm} = values
 
   if (username) errors.username = validateUsername(username)
   if (email) errors.email = validateEmail(email)
   if (password) errors.password = validatePassword(password)
-  if (passwordConfirm && passwordConfirm !== password) errors.passwordConfirm = 'دو رمز وارد شده یکسان نیستند.'
+  // if (passwordConfirm && passwordConfirm !== password) errors.passwordConfirm = 'دو رمز وارد شده یکسان نیستند.'
 
   requiredFields.forEach(field => {
     if (!values[field]) {

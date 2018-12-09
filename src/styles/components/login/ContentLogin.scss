@@ -222,6 +222,7 @@
     animation-name: error-message;
     animation-duration: 0.6s;
     margin-bottom: 7px;
+    margin-top: 5px;
     font-size: $font-size-regular;
     position: relative;
   }
@@ -233,6 +234,14 @@
     font-size: $font-size-normalIcon-titleText;
     padding: 0.52rem;
     margin-top: 0.8rem;
+  }
+
+  .error-wrapper {
+    .error {
+      color: red;
+      font-size: $font-size-regular;
+      margin-top: 6px;
+    }
   }
 }
 

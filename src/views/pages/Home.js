@@ -9,6 +9,8 @@ import HomePosts from "./home/HomePosts"
 import {connect} from "react-redux"
 import constants from "../../consts/constants";
 import UserDetailPanel from "../common/components/UserDetailPanel"
+import {getMessages} from "../../redux/selectors/translateSelector"
+import {Helmet} from "react-helmet"
 
 type HomeProps = {|
   identityId: number,
@@ -37,11 +39,23 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
   }
 
   render() {
-    const {identityId, identityType, id} = this.props
+    const {identityId, identityType, id, translate} = this.props
     const {activeExchangeId} = this.state
+    const title = `${translate['InnoWin']} - ${translate['Home']}`
+    const description = `${translate['Home']}`
     return (
       <div className="home-wrapper global-wrapper">
         {/*<TopBar collapseClassName="col-2"/>*/}
+        <Helmet>
+          <title>{title}</title>
+          <meta name="description" content={description}/>
+
+          <meta property="og:title" content={title}/>
+          <meta property="og:description" content={description}/>
+
+          <meta property="twitter:title" content={title}/>
+          <meta property="twitter:description" content={description}/>
+        </Helmet>
         <main className="-main">
           <div className="row page-content">
             {
@@ -79,6 +93,7 @@ const mapStateToProps = state => {
     id: id,
     identityId: clientIdentityId,
     identityType: identityType,
+    translate: getMessages(state),
   }
 }
 export default connect(mapStateToProps)(Home)

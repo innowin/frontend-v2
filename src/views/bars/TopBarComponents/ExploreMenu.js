@@ -19,15 +19,15 @@ const ExploreMenu = (props) => {
           </div>
           <div className='explore-menu'>
 
-            <Link to={'/exchange/Exchange_Explorer'}>
+            <Link style={{textDecoration: 'none', color: 'black'}} to={'/exchange/Exchange_Explorer'}>
               <Material className='explore-menu-items' content={
                 <div>
-                  <ExchangeIcon className='explore-logos'/>پنجره ها
+                  <ExchangeIcon className='explore-logos'/> پنجره ها
                 </div>
               }/>
             </Link>
 
-            <Link to={'/users/Users_Explorer'}>
+            <Link style={{textDecoration: 'none', color: 'black'}} to={'/users/Users_Explorer'}>
               <Material className='explore-menu-items' content={
                 <div>
                   <Contacts svgClass='explore-logos member-logo' containerClass='explore-logos-container'/> شناسه ها (افراد و مجموعه ها)
@@ -35,7 +35,7 @@ const ExploreMenu = (props) => {
               }/>
             </Link>
 
-            <Link to={'#'}>
+            <Link style={{textDecoration: 'none', color: 'black'}} to={'#'}>
               <Material className='explore-menu-items' content={
                 <div>
                   <ContributionIcon className='explore-logos'/> آورده ها (محصولات، توانمندی و ...)

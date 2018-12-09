@@ -209,7 +209,7 @@
 .ticket-body-opened {
   height: 82px;
   padding: 10px 15px;
-  overflow: auto;
+  overflow: hidden;
   transition-duration: 0.3s;
   border: 1px solid $text-lighter-color;
   border-radius: 3px;

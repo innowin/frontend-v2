@@ -106,16 +106,11 @@ class ExchangeViewBar extends Component {
   }
 
   componentDidMount() {
-    const {actions, exchangeId, exchanges} = this.props
-    const {getExchangeByExId} = actions
-    // if(!this.props.exchanges.list[exchangeId] && !this.props.exchanges.list[exchangeId].id){
-    getExchangeByExId(exchangeId)
-    // }
+    const {exchangeId, exchanges} = this.props
+
     // getExchangeMembersByExId (exchangeId)
-    // getExchangeMembershipByExchangeId ({exchangeId})
     // this._getExchange(exchangeId)
     // this._getCounts(exchangeId)
-
     // this._getCounts(exchangeId)
 
     const currentExchange = exchanges.list[exchangeId]
@@ -158,15 +153,18 @@ class ExchangeViewBar extends Component {
 
   handleClickOutside(event) {
     const {exchanges, exchangeId, currentUserId} = this.props
-    const currentExchange = exchanges.list[exchangeId]
-    if (currentExchange && currentExchange.owner && currentExchange.owner.identity_user === currentUserId) {
-      if (this.exchangeAdminMenu && !this.exchangeAdminMenu.contains(event.target)) {
-        this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
+    if (exchanges.list[exchangeId]) {
+      const currentExchange = exchanges.list[exchangeId].exchange.content
+      if (currentExchange && currentExchange.owner && currentExchange.owner.identity_user === currentUserId) {
+        if (this.exchangeAdminMenu && !this.exchangeAdminMenu.contains(event.target)) {
+          this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
+        }
+      } else if (currentExchange && currentExchange.exchange) {
+        if (this.exchangeAdminMenu && !this.exchangeAdminMenu.contains(event.target)) {
+          this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
+        }
       }
-    } else if (currentExchange && currentExchange.exchange)
-      if (this.exchangeAdminMenu && !this.exchangeAdminMenu.contains(event.target)) {
-        this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
-      }
+    }
   }
 
   renderFollowBtn(currentExchange) {
@@ -270,17 +268,8 @@ class ExchangeViewBar extends Component {
       members, isLoading, error, followLoading, imageLoaded, adminView, loadingEdit, notFound
     } = this.state
     const {translate, exchanges, exchangeId, currentUserId} = this.props
-    const currentExchange = exchanges.list[exchangeId]
-    // console.log(currentExchange.owner.identity_user)
-
-    // const currentExchange = exchanges.list[exchangeId].exchange.content
-    // let membersView = members.map((val, idx) => (
-    //     <div className="" key={idx}>
-    //       <span>{val.username || val.name}</span>
-    //       <img alt={"."} src={val.profile_media || "#"}> </img>
-    //     </div>)
-    // )
-    if (currentExchange && !notFound)
+    if (exchanges.list[exchangeId]) {
+      const currentExchange = exchanges.list[exchangeId].exchange && exchanges.list[exchangeId].exchange.content
       return (
           <div className="-sidebar-child-wrapper col">
             <div className="align-items-center flex-column">
@@ -426,27 +415,6 @@ class ExchangeViewBar extends Component {
                   :
                   null
             }
-
-
-            {/*
-             {
-             (badgesImgUrl.length > 0) ? (
-             <div className="flex-wrap pb-3">
-             <BadgesCard badgesImgUrl={badgesImgUrl}/>
-             </div>
-             ) : ("")
-             }
-             {
-             (tags.length > 0) ? (
-             <div className="flex-wrap pb-3">
-             <TagsBox tags={tags}/>
-             </div>) : ("")
-             }
-             <div className="flex-wrap pb-3">
-             <TagsBox tags={tags}/>
-             </div>
-             */}
-
             {
               !adminView ?
                   <div className={"exchange-view-bar-socials"}>
@@ -493,11 +461,16 @@ class ExchangeViewBar extends Component {
                     </button>
                   </div>
             }
-
-
           </div>
       )
-    else return <Redirect to="/"/>
+    }
+    else {
+      return (
+          <div style={{textAlign: "center", margin: "35px 10px 45px 10px"}}>
+            بورس مورد نظر یافت نشد!
+          </div>
+      )
+    }
   }
 }
 

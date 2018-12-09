@@ -17,7 +17,8 @@ const success = (state, action) => {
     ...state,
     client: {
       ...client,
-      workExperiences: [...previousWorkExperience, ...arrayOfWorkExperienceId]
+      // workExperiences: [...previousWorkExperience, ...arrayOfWorkExperienceId],
+      workExperiences: arrayOfWorkExperienceId,
     }
   }
 }

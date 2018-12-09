@@ -39,13 +39,13 @@ class StickersMenu extends Component {
 
   render() {
     return (
-        <div className='stickers-container'>
+        <div ref={e => this.menu = e} className='stickers-container'>
           <div className='emoji-inline-block' onClick={this.handleOpen}><EmojiSvg className='emoji-logo'/></div>
-          <div ref={e => this.menu = e} className={this.state.open ? 'stickers-menu-container' : 'stickers-menu-container-close'}>
-            <div style={{overflow: 'auto', height: '150px'}}>
+          <div className={this.state.open ? 'stickers-menu-container' : 'stickers-menu-container-close'}>
+            <div className='stickers-menu-scroll'>
               {
-                this.state[this.state.tab].map(emoji =>
-                    <div onClick={() => this.props.output(emoji)} style={{width: '30px', display: 'inline-block', overflow: 'hidden', color: 'black'}}>{emoji}</div>
+                this.state[this.state.tab].map((emoji,i) =>
+                    <div key={i} onClick={() => this.props.output(emoji)} style={{width: '30px', display: 'inline-block', overflow: 'hidden', color: 'black'}}>{emoji}</div>
                 )
               }
             </div>

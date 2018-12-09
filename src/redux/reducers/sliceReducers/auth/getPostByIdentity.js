@@ -17,7 +17,8 @@ const success = (state, action) => {
     ...state,
     client: {
       ...client,
-      posts: [...previousPost, ...arrayOfPostId]
+      // posts: [...previousPost, ...arrayOfPostId],
+      posts: arrayOfPostId,
     }
   }
 }

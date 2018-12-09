@@ -14,9 +14,10 @@ const success = (state, action) => {
         ...state.list,
         [parentId]: {
           ...previousPost,
-          comments: previousPost.comments
-              ? [...new Set([...previousPost.comments, ...arrayOfCommentId])]
-              : arrayOfCommentId
+          // comments: previousPost.comments
+          //     ? [...new Set([...previousPost.comments, ...arrayOfCommentId])]
+          //     : arrayOfCommentId,
+          comments: arrayOfCommentId,
         }
       }
     }

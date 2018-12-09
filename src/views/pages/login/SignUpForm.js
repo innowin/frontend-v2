@@ -29,8 +29,8 @@ const SignUpForm = (props) => {
                className="signup-field"/>
         <Field name="password" type="password" component={renderTextField} label={translator['Password']}
                className="signup-field"/>
-        <Field name="passwordConfirm" type="password" component={renderTextField}
-               label={translator['Repeat password']} className="signup-field"/>
+        {/*<Field name="passwordConfirm" type="password" component={renderTextField}*/}
+               {/*label={translator['Repeat password']} className="signup-field"/>*/}
         <div>
           <button
               className="btn btn-primary btn-block login-submit-button mt-0 cursor-pointer"
@@ -115,7 +115,7 @@ export class RegisterForm extends Component {
     const onSubmitFunc = (userType === USER_TYPES.PERSON) ? (this._onSubmitPerson) : (this._onSubmitOrgan)
     // const onSubmitFunc = onRegisterClick
     return (
-        <div className="wrapper-form">
+        <div className="s">
           <RadioButtonGroup
               selected={userType}
               handler={this._typeHandler}
@@ -128,11 +128,11 @@ export class RegisterForm extends Component {
               translator={translator}
               onSubmit={onSubmitFunc}
           />
-          <div className="error-wrapper">
-            <span className={`error ${reduxFormProps.error ? 'show' : ''}`}>
-              {reduxFormProps.error}
-            </span>
-          </div>
+          {/*<div className="error-wrapper">*/}
+            {/*<span className={`error ${reduxFormProps.error ? 'show' : ''}`}>*/}
+              {/*{reduxFormProps.error}*/}
+            {/*</span>*/}
+          {/*</div>*/}
         </div>
     )
   }

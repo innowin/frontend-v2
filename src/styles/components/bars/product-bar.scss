@@ -1,36 +1,49 @@
 @import "../../variables";
 
-.product-side-bar {
-  font-size: $font-size-regular;
-  overflow: hidden;
-  padding: 0;
-  position: fixed;
-  width: 0;
-  height: 500px;
-  right: 0;
-  -webkit-transition: all 0.4s ease-out;
-  -moz-transition: all 0.4s ease-out;
-  -ms-transition: all 0.4s ease-out;
-  -o-transition: all 0.4s ease-out;
-  transition: all 0.4s ease-out;
-  opacity: 0;
-  &.visible {
-    box-shadow: -3px 5px 17px $box-shadow-color;
-    padding: 14px 14px 0;
-    //overflow: auto;
-    width: 300px;
-    //min-height: 90vh;
-    //max-height: 100vh;
-    opacity: 1;
-    -webkit-transition: all 0.4s ease-in;
-    -moz-transition: all 0.4s ease-in;
-    -ms-transition: all 0.4s ease-in;
-    -o-transition: all 0.4s ease-in;
-    transition: all 0.4s ease-in;
-    .scroll-less-wrapper .wrapper {
-      padding-left: 17px;
-    }
+.product-container {
+  display: inline-block;
+  vertical-align: top;
+  width: 48.7%;
+  margin: 0px 0.65% 0 0.65%;
+  direction: rtl;
+}
+
+.menu-dots {
+  color: lightgrey;
+  float: left;
+  vertical-align: top;
+  border-radius: 50%;
+  transition: all $animation-timing-long;
+  padding-top: 2px;
+  cursor: pointer;
+  font-size: 17px;
+  &:hover {
+    transition: all $animation-timing-long;
+    background-color: $eee-color;
   }
+}
+
+.menu-side-name {
+  text-align: right;
+  font-weight: bold;
+  display: inline-block;
+  float: right;
+}
+
+.product-side-bar {
+  vertical-align: top;
+  position: relative;
+  text-align: center;
+  display: inline-block;
+  margin-top: 10px;
+  overflow: auto;
+  color: $text-dark-color;
+  border-radius: $border-radius-size;
+  background: $text-lightest-color;
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.2);
+  width: 25%;
+  padding: 15px;
+  font-size: 13px;
   .bordered-padded-wrapper {
     border-bottom: 1px solid $sidebar-row-border-color;
     display: flex;
@@ -44,7 +57,7 @@
       justify-content: space-between;
     }
     &.badges {
-     justify-content: flex-start;
+      justify-content: flex-start;
     }
     &.tags {
       display: block;
@@ -59,7 +72,7 @@
       max-width: 60px;
       min-width: 60px;
       height: 50px;
-      object-fit: contain;
+      object-fit: cover;
     }
     &.act-bar {
       border-bottom: none;
@@ -91,11 +104,8 @@
       color: $text-lightest-color;
     }
   }
-  .info {
-    padding: 0 8px;
-  }
   .gallery-wrapper {
-    padding: 12px 0;
+    padding: 0;
     .items-wrapper {
       display: flex;
       justify-content: space-between;
@@ -103,7 +113,7 @@
     .main-image {
       width: 100%;
       height: 145px;
-      object-fit: contain;
+      object-fit: cover;
       margin-bottom: 10px;
       border: 1px solid $sidebar-row-border-color;
     }
@@ -119,24 +129,16 @@
     }
     .more-btn {
       cursor: pointer;
-      -webkit-transition: all 0.3s ease-out;
-      -moz-transition: all 0.3s ease-out;
-      -ms-transition: all 0.3s ease-out;
-      -o-transition: all 0.3s ease-out;
       transition: all 0.3s ease-out;
     }
     .more-btn:hover {
       background-color: $chat-box2-color;
-      -webkit-transition: all 0.3s ease-in;
-      -moz-transition: all 0.3s ease-in;
-      -ms-transition: all 0.3s ease-in;
-      -o-transition: all 0.3s ease-in;
       transition: all 0.3s ease-in;
     }
     .gallery-item .gallery-image {
       max-width: 60px;
       height: 40px;
-      object-fit: contain;
+      object-fit: cover;
     }
   }
 }
@@ -153,7 +155,7 @@
   .image-gallery-image {
     img {
       height: 400px;
-      object-fit: contain;
+      object-fit: cover;
     }
   }
   .image-gallery-thumbnail img {
@@ -166,3 +168,36 @@
     color: $brand-inverse-color
   }
 }
+
+.product-certificates {
+  border: 1px solid #eee;
+  padding: 15px;
+  font-size: 13px;
+  margin-top: 7px;
+  width: 103%;
+}
+
+.product-certificates-text {
+  display: inline-block;
+  width: 57%;
+  margin-left: 3%;
+  height: 120px;
+  vertical-align: top;
+  line-height: 30px;
+}
+
+.product-certificates-text-title {
+  color: $info-color;
+  font-weight: bold;
+}
+
+.product-certificates-img {
+  border: 1px solid #eee;
+  fill: #ddd;
+  stroke: #ddd;
+  width: 40%;
+  height: 120px;
+  object-fit: cover;
+  vertical-align: top;
+}
+

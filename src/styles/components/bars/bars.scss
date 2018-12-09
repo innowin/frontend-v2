@@ -261,11 +261,11 @@ $sidebar-profile-media-width: 80px;
   display: inline-block;
   vertical-align: top;
   cursor: pointer;
-}
 
-.svg-container:hover {
-  background-color: rgba(37, 53, 69, 0.15);
-  transition-duration: $animation-timing;
+  &:hover {
+    background-color: rgba(37, 53, 69, 0.15);
+    transition-duration: $animation-timing;
+  }
 }
 
 .svg-container-clicked {
@@ -341,7 +341,7 @@ $sidebar-profile-media-width: 80px;
 .line-under-exchange-navbar-center {
   margin-top: $standard-vertical-margin;
   width: 100%;
-  height: 5px;
+  height: 7px;
   background-color: #42AC96;
   box-shadow: 0 0 14px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
@@ -602,13 +602,13 @@ $sidebar-profile-media-width: 80px;
 
   .sidebarBottom {
     flex-grow: 1;
-    cursor: pointer!important;
+    cursor: pointer !important;
     background-color: $primary-color;
     color: $background-color;
     font-size: $font-size-boxText;
     border-radius: 25px;
     transition-duration: $animation-timing;
-    border: 1.5px solid $background-color;
+    border: 1.5px solid $primary-color;
     height: 33px;
     margin: auto auto 20px 5px;
     width: 110px;
@@ -626,14 +626,14 @@ $sidebar-profile-media-width: 80px;
     flex-grow: 1;
     cursor: default;
     background-color: $success-color;
-    border: 1.5px solid $background-color;
+    border: 1.5px solid $success-color;
     color: $background-color;
     font-size: $font-size-boxText;
     border-radius: 25px;
     transition-duration: $animation-timing;
     height: 33px;
     margin: auto 5px 20px auto;
-    width: 110px;
+    //width: 110px;
 
     &:hover {
       background-color: $background-color;
@@ -647,7 +647,7 @@ $sidebar-profile-media-width: 80px;
 
 .follow-button {
   background-color: $success-color;
-  cursor: pointer!important;
+  cursor: pointer !important;
   &:hover {
     background-color: $background-color;
     border-color: $success-color;
@@ -818,12 +818,16 @@ $sidebar-profile-media-width: 80px;
   width: 20px;
 }
 
+.explore-text-decoration-none {
+  text-decoration: none;
+  color: black;
+}
+
 .explore-menu {
   direction: rtl;
-  margin: auto;
+  margin: -13px auto 0 auto;
   width: 98%;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
-  margin-top: -13px;
   background-color: white;
   font-size: 13px;
   border-radius: 3px;
@@ -834,7 +838,6 @@ $sidebar-profile-media-width: 80px;
   position: relative;
   z-index: 2;
   display: block;
-  text-decoration: none;
   color: black;
   padding: 7.5px;
   text-align: right;
@@ -904,7 +907,7 @@ $sidebar-profile-media-width: 80px;
 .settingModal-sidebar-out {
   overflow-y: scroll;
   position: fixed;
-  top: 60px;
+  top: 65px;
   right: 9.05%;
   z-index: -1;
   opacity: 0;
@@ -919,9 +922,10 @@ $sidebar-profile-media-width: 80px;
 }
 
 .settingModal-sidebar {
-  overflow-y: scroll;
+  overflow: hidden;
+  border-radius: 3px;
   position: fixed;
-  top: 60px;
+  top: 65px;
   right: 9.05%;
   z-index: 1202;
   opacity: 1;
@@ -957,7 +961,7 @@ $sidebar-profile-media-width: 80px;
 .settingModal-menu-out {
   overflow-y: scroll;
   position: fixed;
-  top: 60px;
+  top: 65px;
   right: 30%;
   z-index: -1;
   opacity: 0;
@@ -970,9 +974,9 @@ $sidebar-profile-media-width: 80px;
 }
 
 .settingModal-menu {
-  overflow-y: scroll;
+  overflow: auto;
   position: fixed;
-  top: 60px;
+  top: 65px;
   right: 30%;
   z-index: 1202;
   opacity: 1;
@@ -984,10 +988,29 @@ $sidebar-profile-media-width: 80px;
   transition-duration: 0.3s;
 }
 
+
+.settingModal-menu::-webkit-scrollbar {
+  width: $scroll-bar-width;
+  border-radius: 3px;
+}
+
+.settingModal-menu::-webkit-scrollbar-track {
+  background-color: white;
+  border-radius: 3px;
+}
+
+.settingModal-menu::-webkit-scrollbar-thumb {
+  background: darkgrey;
+  border-radius: 3px;
+  &:hover{
+    background: grey;
+  }
+}
+
 @media screen and (max-width: 1250px) {
   .settingModal-menu {
     position: fixed;
-    top: 60px;
+    top: 65px;
     right: 30%;
     z-index: 1202;
     opacity: 1;
@@ -1018,7 +1041,7 @@ $sidebar-profile-media-width: 80px;
 
   .settingModal-menu {
     position: fixed;
-    top: 60px;
+    top: 65px;
     right: 20.5%;
     z-index: 1202;
     opacity: 1;
@@ -1566,7 +1589,7 @@ $sidebar-profile-media-width: 80px;
 
 .act-bar {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   .act-btn {
     cursor: pointer;
     position: relative;

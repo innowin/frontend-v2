@@ -7,7 +7,6 @@ import ProductExplorerContent from "./ProductExplorerContent"
 import type {ContributionType} from "src/consts/flowTypes/product/productTypes"
 
 type ProductExplorerProps = {
-    widthOfRightBar: string
 }
 type ProductExplorerState = {
     activeCategory: ?number,
@@ -17,7 +16,6 @@ type ProductExplorerState = {
 
 export default class ProductExplorer extends Component<ProductExplorerProps, ProductExplorerState> {
     static propTypes = {
-        widthOfRightBar: PropTypes.string.isRequired
     }
 
     constructor() {
@@ -57,10 +55,9 @@ export default class ProductExplorer extends Component<ProductExplorerProps, Pro
 
     render(){
         const {activeCategory, activeSubcategory, activeContribution} = this.state
-        const {widthOfRightBar} = this.props
         return (
             <div className="product-explorer">
-                <div className={`${widthOfRightBar} -right-sidebar-wrapper`}>
+                <div className={`col-md-3 col-sm-2 -right-sidebar-wrapper`}>
                     <ProductFilterSidebar getActiveCategory={this._getActiveCategory}
                                           getActiveSubcategory={this._getActiveSubcategory}
                                           getActiveContribution={this._getActiveContribution}

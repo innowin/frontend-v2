@@ -17,7 +17,8 @@ const success = (state, action) => {
     ...state,
     client: {
       ...client,
-      certificates: [...previousCertificate, ...arrayOfCertificateId]
+      // certificates: [...previousCertificate, ...arrayOfCertificateId],
+      certificates: arrayOfCertificateId,
     }
   }
 }
