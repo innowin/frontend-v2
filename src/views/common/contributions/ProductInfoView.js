@@ -12,19 +12,20 @@ type PropsProductInfo = {
   product: ProductGetType,
   showEdit?: Function,
   ownerId: number,
-  translate: { [string]: string }
+  onClick?: Function,
+  translate: { [string]: string },
+  selected?: boolean,
 }
 
 const ProductInfoView = (props: PropsProductInfo) => {
-  const {product, showEdit, ownerId, translate} = props
+  const {product, showEdit, ownerId, translate, onClick, selected} = props
   let url = '', productOwner = product.product_owner
   if (product) {
     if (productOwner) {
       if (productOwner.identity_user) {
-        url = `/user/${productOwner.identity_user.id || productOwner.identity_user}`
-      }
-      else {
-        url = `/organization/${productOwner.identity_organization.id || productOwner.identity_organization}`
+        url = `/user/${productOwner.identity_user && (productOwner.identity_user.id || productOwner.identity_user)}`
+      } else {
+        url = `/organization/${productOwner.identity_organization && (productOwner.identity_organization.id || productOwner.identity_organization)}`
       }
     }
   }
@@ -35,7 +36,8 @@ const ProductInfoView = (props: PropsProductInfo) => {
   // FixMe: product skill need to get from server
   return (
 
-      <div className='contribution-view-container product-view-container'>
+      <div className={selected ? 'selected-props contribution-view-container product-view-container'
+          : 'contribution-view-container product-view-container'} onClick={onClick}>
         <CheckOwner id={ownerId}>
           <div className={product.img && 'product-edit-container'}>
             {showEdit &&
@@ -94,6 +96,8 @@ ProductInfoView.propTypes = {
   showEdit: PropTypes.func,
   ownerId: PropTypes.number.isRequired,
   translate: PropTypes.object.isRequired,
+  onClick: PropTypes.func,
+  selected: PropTypes.bool,
 }
 
 export default ProductInfoView

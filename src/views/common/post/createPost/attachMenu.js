@@ -29,7 +29,7 @@ const AttachMenu = (props) => {
       ویدئو
     </div>
   )
-  const {AttachMenuId, linkModalFunc, handlePictures, handleMedia, handleFile,
+  const {AttachMenuId, linkModalFunc, addProductModalFunc, handlePictures, handleMedia, handleFile,
     postPicturesLength, postMediaExist, postFileExist, postLinkExist, translate} = props
   const attachMenu = props.attachMenu || false
   const picturesAttachedDisabled = (postPicturesLength > 2 || postMediaExist || postFileExist || postLinkExist)
@@ -76,7 +76,7 @@ const AttachMenu = (props) => {
           allowableFormat={constants.FILE_TYPE.VIDEO}
           translate={translate}
         />
-        <div className='explore-menu-items'>
+        <div className='explore-menu-items' onClick={addProductModalFunc}>
           <ContributionIcon className='post-component-footer-logos-little'/>
           محصول
         </div>
@@ -100,6 +100,7 @@ AttachMenu.propTypes = {
   postFileExist:PropTypes.bool,
   postLinkExist: PropTypes.bool,
   linkModalFunc: PropTypes.func.isRequired,
+  addProductModalFunc: PropTypes.func.isRequired,
   translate: PropTypes.object.isRequired
 }
 
