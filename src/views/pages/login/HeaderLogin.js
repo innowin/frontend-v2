@@ -19,7 +19,7 @@ const HeaderLogin = ({iosLink, androidLink, address, phoneNumber, logoCaption}) 
             </div>
             <div className='address-wrapper-text'>
               <div className="phone-number">{phoneNumber}</div>
-              <div className="address">{address}</div>
+              {/*<div className="address">{address}</div>*/}
             </div>
           </div>
           {/* ------------------- commented by ali orooji -----------------*/}

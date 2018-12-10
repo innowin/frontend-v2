@@ -18,7 +18,7 @@
       width: 45px;
       border-radius: 50%;
       position: relative;
-      margin-left: 36px;
+      margin-left: 25px;
       transition-duration: $animation-timing;
 
       svg {
@@ -64,6 +64,23 @@
       .-tab {
         height: 35px;
         width: 35px;
+        margin-left: 15px;
+
+        svg {
+          width: 15px;
+          height: 15px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 930px) and (max-width: 1250px) {
+  .tab-container {
+    .-tabs {
+      .-tab {
+        height: 40px;
+        width: 40px;
         margin-left: 15px;
 
         svg {

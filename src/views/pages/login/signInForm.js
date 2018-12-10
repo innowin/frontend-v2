@@ -11,46 +11,65 @@ import {asyncValidateSignIn, validateSignInForm} from "./signInValidations"
 import {Field, reduxForm, SubmissionError} from "redux-form"
 import renderTextField from "src/views/common/inputs/reduxFormRenderTextField"
 import {getMessages} from "src/redux/selectors/translateSelector"
+import FontAwesome from "react-fontawesome";
 
-const PureSignInForm = (props) => {
-  const {handleSubmit, onSubmit, submitting, translator, error, submitFailed, recoveryPasswordClick} = props
-  return (
-      <form onSubmit={handleSubmit(onSubmit)} className="sign-in-form">
-        <Field
-            name="username"
-            type="text"
-            component={renderTextField}
-            label={translator['Username']}
-            className="signup-field"
-        />
-        <Field
-            name="password"
-            type="password"
-            component={renderTextField}
-            label={translator['Password']}
-            className="signup-field"
-        />
-        <div>
-          <button
-              className="btn btn-primary btn-block login-submit-button cursor-pointer"
-              disabled={submitting} type='submit'>
-            {!submitting ? translator['Login'] : (
-                <BeatLoader color="#fff" size={10} margin="auto"/>
-            )}
-          </button>
-        </div>
-        {submitFailed && <p className="error-message mt-2">{error}</p>}
-        <div className="remember-recovery">
-          <label htmlFor="rememberMe" className="cursor-pointer">
-            <Field name="rememberMe" id="rememberMe" component="input" type="checkbox"/>
-            {translator['Remember me']}
-          </label>
-          <button className='btn btn-link recovery-button' type='button' onClick={recoveryPasswordClick}>
-            <span>{translator['Password recovery']}</span>
-          </button>
-        </div>
-      </form>
-  )
+class PureSignInForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showPassword: false,
+    }
+  }
+
+  _changeStatePassword = () => {
+    this.setState({...this.state, showPassword: !this.state.showPassword})
+  }
+
+  render() {
+    const {handleSubmit, onSubmit, submitting, translator, error, submitFailed, recoveryPasswordClick} = this.props
+    const {showPassword} = this.state
+    return (
+        <form onSubmit={handleSubmit(onSubmit)} className="sign-in-form">
+          <Field
+              name="username"
+              type="text"
+              component={renderTextField}
+              label={translator['Username']}
+              className="signup-field"
+          />
+          <div className='password-container'>
+            <FontAwesome className='eye-icon pulse' name={showPassword ? 'eye-slash' : 'eye'}
+                         onClick={this._changeStatePassword}/>
+            <Field
+                name="password"
+                type={showPassword ? 'text' : 'password'}
+                component={renderTextField}
+                label={translator['Password']}
+                className="signup-field"
+            />
+          </div>
+          <div>
+            <button
+                className="btn btn-primary btn-block login-submit-button cursor-pointer"
+                disabled={submitting} type='submit'>
+              {!submitting ? translator['Login'] : (
+                  <BeatLoader color="#fff" size={10} margin="auto"/>
+              )}
+            </button>
+          </div>
+          {submitFailed && <p className="error-message mt-2">{error}</p>}
+          <div className="remember-recovery">
+            <label htmlFor="rememberMe" className="cursor-pointer">
+              <Field name="rememberMe" id="rememberMe" component="input" type="checkbox"/>
+              {translator['Remember me']}
+            </label>
+            <button className='btn btn-link recovery-button' type='button' onClick={recoveryPasswordClick}>
+              <span>{translator['Password recovery']}</span>
+            </button>
+          </div>
+        </form>
+    )
+  }
 }
 
 class SignInForm extends Component {
