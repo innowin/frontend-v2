@@ -53,4 +53,10 @@ export default {
     CHECK_CODE: 'check_code_step',
     RESET: 'reset_step'
   },
+  TOAST_TYPE: {
+    SUCCESS: 'success',
+    REMOVE: 'remove',
+    INFO: 'info',
+    ERROR: 'error',
+  }
 }

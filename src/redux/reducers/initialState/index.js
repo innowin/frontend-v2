@@ -15,6 +15,7 @@ import customerState from './customer'
 import abilityState from './ability'
 import favoriteState from './favorite'
 import tempState from "./temp"
+import toastState from './toast'
 
 export default {
   auth: authState,
@@ -47,4 +48,5 @@ export default {
   intl: intlState,
   param: paramState,
   temp: tempState,
+  toast: toastState,
 }
