@@ -34,7 +34,7 @@ const success = (state, action) => {
         workExperiences: {
           ...previousWorkExperience,
           // content: [...new Set([...previousWorkExperience.content, ...arrayOfWorkExperienceId])],
-          cotnent: arrayOfWorkExperienceId,
+          content: arrayOfWorkExperienceId,
           isLoading: false,
           error: null
         }

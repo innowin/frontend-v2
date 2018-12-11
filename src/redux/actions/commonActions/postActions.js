@@ -35,7 +35,8 @@ const getPostByIdentity = ({postIdentity, postOwnerId, postOwnerType}) => {
 
 const getPostViewerCount = (postId) => {
   return {
-    type: types.COMMON.POST.GET_POST_VIEWER_COUNT,
+    // type: types.COMMON.POST.GET_POST_VIEWER_COUNT,
+    type: '',
     payload: {
       postId
     }
