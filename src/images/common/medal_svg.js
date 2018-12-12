@@ -2,8 +2,8 @@ import React from "react"
 
 const MedalSvg = (props) => {
   return (
-      <div className={props.containerClass} onClick={() => props.changeView("Medals")}>
-        <svg width={props.width} height={props.height} className={props.svgClass}
+      <div className={props.containerClass ? props.containerClass : null} onClick={() => props.changeView ? props.changeView("Medals") : null}>
+        <svg width={props.width ? props.width : null} height={props.height ? props.height : null} className={props.svgClass ? props.svgClass : null}
              viewBox="0 0 28350 36640">
           <g id="Layer_x0020_1">
             <metadata id="CorelCorpID_0Corel-Layer"/>

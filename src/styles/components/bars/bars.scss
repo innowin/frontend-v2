@@ -905,7 +905,7 @@ $sidebar-profile-media-width: 80px;
 }
 
 .settingModal-sidebar-out {
-  overflow-y: scroll;
+  overflow-y: hidden;
   position: fixed;
   top: 65px;
   right: 9.05%;

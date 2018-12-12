@@ -11,6 +11,7 @@ import constants from "../../consts/constants";
 import UserDetailPanel from "../common/components/UserDetailPanel"
 import {getMessages} from "../../redux/selectors/translateSelector"
 import {Helmet} from "react-helmet"
+import AddingContribution from "./adding-contribution/addingContribution"
 
 type HomeProps = {|
   identityId: number,
@@ -45,6 +46,9 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
     const description = `${translate['Home']}`
     return (
       <div className="home-wrapper global-wrapper">
+          <AddingContribution modalIsOpen={true}
+                              handleModalVisibility={this._handleProductWizardModal}/>
+
         {/*<TopBar collapseClassName="col-2"/>*/}
         <Helmet>
           <title>{title}</title>
