@@ -11,7 +11,7 @@ import {ClipLoader} from 'react-spinners'
 import {getFollowList} from 'src/redux/selectors/common/social/getFollowList'
 import {getMessages} from '../../../redux/selectors/translateSelector'
 import {getUsers} from 'src/redux/selectors/user/GetAllUsers'
-import {Helmet} from 'react-helmet'
+// import {Helmet} from 'react-helmet'
 import {PureComponent} from 'react'
 
 type appProps =
@@ -50,11 +50,10 @@ class Explore extends PureComponent <appProps, appState> {
   }
 
   componentDidMount() {
-    const {currentUserIdentity, currentUserType, currentUserId} = this.props
-
-    this.props.actions.getUsers(24, 0, null)
-    this.props.actions.getFollowees({followOwnerIdentity: currentUserIdentity, followOwnerType: currentUserType, followOwnerId: currentUserId, notProfile: true})
-    this.props.actions.getFollowers({followOwnerIdentity: currentUserIdentity, followOwnerType: currentUserType, followOwnerId: currentUserId, notProfile: true})
+    const {currentUserIdentity, currentUserType, currentUserId, actions} = this.props
+    actions.getUsers(24, 0, null)
+    actions.getFollowees({followOwnerIdentity: currentUserIdentity, followOwnerType: currentUserType, followOwnerId: currentUserId, notProfile: true})
+    actions.getFollowers({followOwnerIdentity: currentUserIdentity, followOwnerType: currentUserType, followOwnerId: currentUserId, notProfile: true})
     window.addEventListener('scroll', this._onScroll)
   }
 
@@ -102,9 +101,8 @@ class Explore extends PureComponent <appProps, appState> {
     const list = this.props.followees
     let followees = {}
     let followers = {}
-    const title = `${translate['InnoWin']} - ${translate['Users']}`
-    const description = `${translate['Users']}`
-
+    // const title = `${translate['InnoWin']} - ${translate['Users']}`
+    // const description = `${translate['Users']}`
 
     Object.values(list).forEach((follow: Object) => {
           if (follow.follow_followed.id === this.props.currentUserIdentity) {
@@ -118,15 +116,16 @@ class Explore extends PureComponent <appProps, appState> {
 
     return (
         <div className='all-exchanges-parent'>
-          <Helmet>
-            <title>{title}</title>
-            <meta name="description" content={description}/>
-            <meta property="og:title" content={title}/>
-            <meta property="og:description" content={description}/>
-            <meta property="twitter:title" content={title}/>
-            <meta property="twitter:description" content={description}/>
-          </Helmet>
-          {/*<TopBar collapseClassName="col user-sidebar-width"/>*/}
+
+          {/*<Helmet>*/}
+          {/*<title>{title}</title>*/}
+          {/*<meta name="description" content={description}/>*/}
+          {/*<meta property="og:title" content={title}/>*/}
+          {/*<meta property="og:description" content={description}/>*/}
+          {/*<meta property="twitter:title" content={title}/>*/}
+          {/*<meta property="twitter:description" content={description}/>*/}
+          {/*</Helmet>*/}
+
           <Sidebar search={this._search} justFollowing={this._justFollowing} justFollowed={this._justFollowed}/>
           <div className='all-exchanges-container'>
             <Users followees={followees} followers={followers} users={allUsers} justFollowing={justFollowing} justFollowed={justFollowed} loading={loading}/>

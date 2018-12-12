@@ -1,18 +1,23 @@
-import React, {Component} from "react"
-import {bindActionCreators} from "redux"
-import {connect} from "react-redux"
-import postActions from "src/redux/actions/commonActions/postActions"
-import exchangeActions from "src/redux/actions/exchangeActions"
-import getUserAction from "src/redux/actions/user/getUserActions"
+// @flow
+import * as React from "react"
+import {Component} from "react"
+// import {bindActionCreators} from "redux"
+// import {connect} from "react-redux"
+// import postActions from "src/redux/actions/commonActions/postActions"
+// import exchangeActions from "src/redux/actions/exchangeActions"
+// import getUserAction from "src/redux/actions/user/getUserActions"
 import StreamView from "./StreamView"
 import InfoView from "./InfoView"
 import StatisticView from "./StatisticView"
 import ExchangeManager from "./ExchangeManager"
 import MembersView from "./MembersView"
-import {ClipLoader} from "react-spinners"
+// import {ClipLoader} from "react-spinners"
 
-
-export default class Exchange_Info extends Component {
+type props = {
+  activeTab: string,
+  exchangeId: number,
+}
+export default class Exchange_Info extends Component<props> {
   // constructor(props) {
   //   super(props)
   //   this.state = {gotOwner: false}
@@ -74,7 +79,7 @@ export default class Exchange_Info extends Component {
         return (
             <ExchangeManager exchangeId={exchangeId}/>
         )
-      default:
+      default:  // TODO:Abel gonna delete inline style after exchange medals (certificates) fixed
         return (
             <div style={{textAlign: "center", marginTop: "10px"}}>
               Undefined Data Type: {activeTab}

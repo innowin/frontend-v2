@@ -1,56 +1,70 @@
 // @flow
-import * as React from 'react'
-import {Component} from 'react'
-import {Modal, ModalBody} from 'reactstrap'
-import MenuProgressive from '../progressive/penu-progressive'
-import TechnicalProperties from './product/technicalProperties'
-import NewContribution from './newConribution'
-import Certificates from './product/certificates'
+import * as React from "react"
+import Certificates from "./product/certificates"
+import MenuProgressive from "../progressive/penu-progressive"
+import NewContribution from "./newConribution"
+import TechnicalProperties from "./product/technicalProperties"
+import {Component} from "react"
+import {Modal, ModalBody} from "reactstrap"
 import {
-  MainCategories,
-  WRAPPER_CLASS_NAMES,
-  PROGRESSIVE_STATUS_CHOICES,
   CERTIFICATES_IMG_IDS,
-  tags,
+  LAYER1S,
+  MainCategories,
   PROGRESS_STEPS,
-  LAYER1S
-} from './addingConributionData'
-import GalleryAndTags from './product/galleryAndTags'
-import {getMessages} from "../../../redux/selectors/translateSelector"
-import {connect} from "react-redux";
-import SuccessMessage from './product/successMessage'
-import FontAwesome from "react-fontawesome"
-import client from 'src/consts/client'
-import InitialInfoReduxForm, {initialInfoFormName} from './product/reduxFormInitialInfo'
-import {getFormValues} from 'src/redux/selectors/formValuesSelectors'
-import {makeCategorySelector} from 'src/redux/selectors/common/category/getCategoriesByParentId'
-import {getCategories} from 'src/redux/actions/commonActions/categoryActions'
-import {bindActionCreators} from "redux"
-import {getHashTags} from "src/redux/actions/commonActions/hashTagActions"
-import {hashTagsListSelector} from "src/redux/selectors/common/hashTags/hashTag"
-import {createProductAsContribution} from "src/redux/actions/commonActions/productActions/productActions"
-import {getCountries, getProvinces, getCities} from "src/redux/actions/commonActions/location"
+  PROGRESSIVE_STATUS_CHOICES,
+  tags,
+  WRAPPER_CLASS_NAMES,
+} from "./addingConributionData"
+import client from "src/consts/client"
 import countrySelector from "src/redux/selectors/common/location/getCountry"
-import {provinceSelector} from "src/redux/selectors/common/location/getProvinceByCountry"
+import Desc from "../../common/Text/Tip"
+import FontAwesome from "react-fontawesome"
+import GalleryAndTags from "./product/galleryAndTags"
+import InitialInfoReduxForm, {initialInfoFormName} from "./product/reduxFormInitialInfo"
 import makeCitySelectorByProvinceId from "src/redux/selectors/common/location/getCityByProvince"
 import makeProvinceSelectorByCountryId from "src/redux/selectors/common/location/getProvinceByCountry"
-import {change} from 'redux-form';
+import NextPrevBtns from "./nextAndPrevBtns"
 import nowCreatedProductIdSelector from "src/redux/selectors/common/product/getNowCreatedProductId"
 import nowCreatedSkillIdSelector from "src/redux/selectors/skill/getNowCreatedSkillId"
-import SkillInfoForm, {skillInfoFormName} from "./skill/infoForm";
+import SkillInfoForm, {skillInfoFormName} from "./skill/infoForm"
 import SkillSuccessMessage from "./skill/successMessage"
-import {createSkillAction} from "src/redux/actions/skill/createSkillAction"
+import SuccessMessage from "./product/successMessage"
 import type {NewContributionDataType, SkillFormValsType} from "./types"
 import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
+import {bindActionCreators} from "redux"
+import {change} from "redux-form"
+import {connect} from "react-redux"
+import {createProductAsContribution} from "src/redux/actions/commonActions/productActions/productActions"
+import {createSkillAction} from "src/redux/actions/skill/createSkillAction"
+import {getCategories} from "src/redux/actions/commonActions/categoryActions"
+import {getCountries, getProvinces, getCities} from "src/redux/actions/commonActions/location"
+import {getFormValues} from "src/redux/selectors/formValuesSelectors"
+import {getHashTags} from "src/redux/actions/commonActions/hashTagActions"
+import {getMessages} from "../../../redux/selectors/translateSelector"
+import {hashTagsListSelector} from "src/redux/selectors/common/hashTags/hashTag"
+import {makeCategorySelector} from "src/redux/selectors/common/category/getCategoriesByParentId"
+import {provinceSelector} from "src/redux/selectors/common/location/getProvinceByCountry"
+import {
+  CertificateIcon,
+  CircularAddIcon,
+  ConsultIcon,
+  ContributionIcon,
+  InformationIcon,
+  ItemsAndPropertiesIcon,
+  Medal,
+  QuestionMark,
+  SkillIcon,
+  TipsIcon,
+} from "src/images/icons"
 
 
 const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
+  const result = Array.from(list)
+  const [removed] = result.splice(startIndex, 1)
+  result.splice(endIndex, 0, removed)
 
-  return result;
-};
+  return result
+}
 
 
 type AddingContributionProps = {
@@ -86,17 +100,20 @@ type NewTechPropertyDataType = {
   title?: string
 }
 type AddingContributionState = {
-  wrapperClassName: string,
   activeStep: number,
-  progressSteps: Array<ProgressStepType>,
-  progressStatus: string,
-  newContributionData: NewContributionDataType,
   addingTechPropNow: boolean,
+  newContributionData: NewContributionDataType,
   newTechPropertyData: NewTechPropertyDataType,
+  progressStatus: string,
+  progressSteps: Array<ProgressStepType>,
+  wrapperClassName: string,
+  currentLevel: string,
+  selectedType: string,
 }
+
 class AddingContribution extends Component<AddingContributionProps, AddingContributionState> {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       wrapperClassName: WRAPPER_CLASS_NAMES.ENTERING,
       activeStep: 1,
@@ -105,7 +122,18 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       newContributionData: {},
       addingTechPropNow: false,
       newTechPropertyData: {},
-    };
+
+      currentLevel: "two",
+      selectedType: "Product"
+    }
+
+    const self: any = this
+    self.nextLevel = self.nextLevel.bind(self)
+    self.previousLevel = self.previousLevel.bind(self)
+    self.renderProgressBar = self.renderProgressBar.bind(self)
+    self.renderCurrentLevel = self.renderCurrentLevel.bind(self)
+    self.renderFooter = self.renderFooter.bind(self)
+    self.closeModal = self.closeModal.bind(self)
   }
 
   componentDidMount() {
@@ -115,7 +143,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     this._newContributionMainCategoryHandler(MainCategories[0].value)
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState, ss) {
     // const prevActiveStep = prevState.activeStep
     const {_getCountries, nowCreatedProductId, nowCreatedSkillId} = this.props
     const {activeStep, newContributionData} = this.state
@@ -140,21 +168,20 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
 
 
   _activationAddTechPropBlock = (e, key) => {
-    const isActive: boolean = (key === 'click')
+    const isActive: boolean = (key === "click")
     this.setState({
       ...this.state,
       addingTechPropNow: isActive
     })
 
   }
-
   _techPropertiesOrderHandler = (result) => {
-    const {source, destination} = result;
+    const {source, destination} = result
     if (!destination) {
-      return;
+      return
     }
     let sourceIndex, destinationIndex
-    const {technicalProperties=[]} = this.state.newContributionData
+    const {technicalProperties = []} = this.state.newContributionData
     if (source.droppableId === destination.droppableId) {
       sourceIndex = source.index
       destinationIndex = destination.index
@@ -166,7 +193,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
         technicalProperties.slice(),
         sourceIndex,
         destinationIndex
-    );
+    )
     this.setState({
       ...this.state,
       newContributionData: {
@@ -175,7 +202,6 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       },
     })
   }
-
   _techPropInputFillHandler = (e) => {
     const element = e.target
     const {newTechPropertyData} = this.state
@@ -194,9 +220,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       newTechPropertyData: newPropertyData
     })
   }
-
   _setNewTechPropertyDate = property => this.setState({...this.state, newTechPropertyData: property})
-
   _addOrEditTechProperty = () => {
     const {newContributionData, newTechPropertyData} = this.state
     const {technicalProperties} = newContributionData
@@ -221,29 +245,26 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     // const {hashTags, ...initialValues} = skillInfoFormValues
     _createSkillAction(skillInfoFormValues)
   }
-
   _countryChangeHandler = v => {
     const {_changeFormSingleFieldValue, _getProvinces, initialInfoFormState = {}} = this.props
     v && _getProvinces(v.value)
     if (initialInfoFormState[LAYER1S.COUNTRY]) {
       if (initialInfoFormState[LAYER1S.COUNTRY].value !== v.value) {
-        _changeFormSingleFieldValue(initialInfoFormName, LAYER1S.PROVINCE, '')
+        _changeFormSingleFieldValue(initialInfoFormName, LAYER1S.PROVINCE, "")
       }
     }
 
   } // used in initialInfo
-
   _provinceChangeHandler = v => {
     const {_changeFormSingleFieldValue, _getCities, initialInfoFormState = {}} = this.props
     v && _getCities(v.value)
     if (initialInfoFormState[LAYER1S.PROVINCE]) {
       if (initialInfoFormState[LAYER1S.PROVINCE].value !== v.value) {
-        _changeFormSingleFieldValue(initialInfoFormName, LAYER1S.CITY, '')
+        _changeFormSingleFieldValue(initialInfoFormName, LAYER1S.CITY, "")
       }
     }
 
   } // used in initialInfo
-
   _createProductHandler = () => {
     const identityId = client.getIdentityId()
     const {newContributionData} = this.state
@@ -301,7 +322,6 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     }
     _createProduct(formData)
   }
-
   _submitHandler = () => {
     const {mainCategory} = this.state.newContributionData
     switch (mainCategory) {
@@ -315,7 +335,6 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
         return
     }
   }
-
   _tagsSelectionHandler = (resultTags) => {
     // const {newContributionData} = this.state
     // const tags = (newContributionData.tags && [...newContributionData.tags, ...resultTags]) || [...resultTags]
@@ -333,19 +352,16 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       this._setStep((activeStep + 1), PROGRESSIVE_STATUS_CHOICES.GOING_NEXT)
     }
   }
-
   _prevStep = () => {
     const {activeStep} = this.state
     if (activeStep !== 1) this._setStep((activeStep - 1), PROGRESSIVE_STATUS_CHOICES.GOING_PREV)
   }
-
   _deleteTag = (value) => {
     const {newContributionData} = this.state
-    const {tags=[]} = newContributionData
+    const {tags = []} = newContributionData
     const newTags = tags.filter(tag => tag.value !== value)
     this.setState({...this.state, newContributionData: {...newContributionData, tags: newTags}})
   }
-
   _certificatesImagesHandler = (e, id) => {
     const {newContributionData} = this.state
     let imgId = id
@@ -360,7 +376,6 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     const input = e.target
     this._setStateForFileField(input, imgId)
   }
-
   _certificateIndexHandler = (idx) => {
     const {certificates} = this.state.newContributionData
     const cert = (certificates && certificates[idx]) || {}
@@ -378,7 +393,6 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       }
     })
   }
-
   _galleryImageDelete = (idx) => {
     const {newContributionData} = this.state
     let galleryImages: any = (newContributionData.galleryImages && [...newContributionData.galleryImages]) || []
@@ -402,7 +416,6 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       }
     })
   }
-
   _layer1InputsValueHandler = (value, key) => {
     this.setState({
       ...this.state,
@@ -457,7 +470,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       [NEW_CERT_NEED_FOR_VERIFY]: newContributionData[NEW_CERT_NEED_FOR_VERIFY],
     }
 
-    const newCertificates : any = (certificates && [...certificates]) || []
+    const newCertificates: any = (certificates && [...certificates]) || []
     const isEditing = (index === 0) || (index > 0)
     const deleteCount = isEditing ? 1 : 0 // determines that creating or updating.
     const start = isEditing ? index : newCertificates.length // if there is index we want to update a certificate. else we only
@@ -470,10 +483,10 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
         newContributionData: {
           ...newContributionData,
           certificates: newCertificates,
-          [LAYER1S.NEW_CERT_TITLE]: '',
-          [LAYER1S.NEW_CERT_IMAGE]: '',
-          [LAYER1S.NEW_CERT_LOGO]: '',
-          [LAYER1S.NEW_CERT_INDEX]: '',
+          [LAYER1S.NEW_CERT_TITLE]: "",
+          [LAYER1S.NEW_CERT_IMAGE]: "",
+          [LAYER1S.NEW_CERT_LOGO]: "",
+          [LAYER1S.NEW_CERT_INDEX]: "",
           [LAYER1S.NEW_CERT_NEED_FOR_VERIFY]: false,
         },
       })
@@ -483,7 +496,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     const {skillInfoFormValues, _changeFormSingleFieldValue} = this.props
     const {hashTags} = skillInfoFormValues
     const newHashTags = hashTags.filter(tag => tag.value !== value)
-    _changeFormSingleFieldValue(skillInfoFormName, 'hashTags', newHashTags)
+    _changeFormSingleFieldValue(skillInfoFormName, "hashTags", newHashTags)
   }
   _setStateForFileField = (input, key) => {
     const reader = new FileReader()
@@ -508,7 +521,6 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
           this._afterStepChanging()
         })
   }
-
   _afterStepChanging = () => {
     setTimeout(() => this.setState({
       ...this.state,
@@ -516,14 +528,13 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       wrapperClassName: WRAPPER_CLASS_NAMES.ENTERED,
     }), 10)
   }
-
   _newContributionMainCategoryHandler = (category) => {
     const data = {...this.state.newContributionData, mainCategory: category}
     this.setState({
       ...this.state,
       newContributionData: {
         ...this.state.newContributionData,
-        mainCategory: 'transition'
+        mainCategory: "transition"
       }
     })
     setTimeout(() => this.setState({
@@ -545,15 +556,10 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       progressSteps: PROGRESS_STEPS[MainCategories[0].value]
     })
   }
-
   _shareContribution = () => 1
-
   _introToExchange = () => 1
-
   _findAgent = () => 1
-
   _getCertificateHandler = () => 1
-
   _switchContentByMainCategory = () => {
     const {newContributionData} = this.state
     const {mainCategory} = newContributionData
@@ -566,7 +572,6 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
         return <span/>
     }
   }
-
   _renderNewContribution = () => {
     const {newContributionData} = this.state
     return (
@@ -607,7 +612,6 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
         return <span/>
     }
   }
-
   _productContentHandler = () => {
     const {newContributionData, activeStep, addingTechPropNow, newTechPropertyData} = this.state
 
@@ -695,42 +699,286 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
             />
         )
       default:
-        return <span />
+        return <span/>
     }
+  }
+
+  nextLevel() {
+    let {currentLevel} = this.state
+    switch (currentLevel) {
+      case "one":
+        this.setState({...this.state, currentLevel: "two"})
+        break
+      case "two":
+        this.setState({...this.state, currentLevel: "three"})
+        break
+      case "three":
+        this.setState({...this.state, currentLevel: "four"})
+        break
+      case "four":
+        this.setState({...this.state, currentLevel: "five"})
+        break
+      default :
+        this.setState({...this.state, currentLevel: "one"})
+        break
+    }
+  }
+
+  previousLevel() {
+    let {currentLevel} = this.state
+    switch (currentLevel) {
+      case "two":
+        this.setState({...this.state, currentLevel: "one"})
+        break
+      case "three":
+        this.setState({...this.state, currentLevel: "two"})
+        break
+      case "four":
+        this.setState({...this.state, currentLevel: "three"})
+        break
+      case "five":
+        this.setState({...this.state, currentLevel: "four"})
+        break
+      default :
+        this.setState({...this.state, currentLevel: "one"})
+        break
+    }
+  }
+
+  renderProgressBar() {
+    let {currentLevel} = this.state
+    return (
+        <div className={"contribution-progress-bar"}>
+          <div className={"level-container-active"}>
+            <CircularAddIcon className={"progress-step-icon level-container-svg add"}/>
+            <div className={"level-container-text"}>
+              آوردۀ جدید
+            </div>
+          </div>
+          <div className={currentLevel !== "one" ? "level-container-active" : "level-container"}>
+            <InformationIcon className={"progress-step-icon level-container-svg info " + currentLevel}/>
+            <div className={"level-container-text"}>
+              اطلاعات اولیه
+            </div>
+          </div>
+          <div className={currentLevel !== "one" && currentLevel !== "two" ? "level-container-active" : "level-container"}>
+            <ItemsAndPropertiesIcon className={"progress-step-icon level-container-svg items " + currentLevel}/>
+            <div className={"level-container-text"}>
+              مشخصات فنّی
+            </div>
+          </div>
+          <div className={currentLevel === "four" || currentLevel === "five" ? "level-container-active" : "level-container"}>
+            <Medal width="24px" height="25px" svgClass={"level-container-svg medal " + currentLevel}/>
+            <div className={"level-container-text"}>
+              گواهینامه ها
+            </div>
+          </div>
+          <div className={currentLevel === "five" ? "level-container-active" : "level-container"}>
+            <ContributionIcon className={"progress-step-icon level-container-svg contribution " + currentLevel}/>
+            <div className={"level-container-text"}>
+              مدیریت ویترین
+            </div>
+          </div>
+          <div className={"level-bar"}/>
+          <div className={"level-bar-progress " + currentLevel}/>
+        </div>
+    )
+  }
+
+  _changeSelectedType = (selected) => {
+    this.setState({...this.state, selectedType: selected})
+  }
+
+  renderCurrentLevel() {
+    let {currentLevel, selectedType} = this.state
+    switch (currentLevel) {
+      case "one":
+        return (
+            <div>
+              <div className="contribution-description">
+                <div className="icon-wrapper">
+                  <TipsIcon className="tip-icon"/>
+                </div>
+                <div className="contribution-desc-txt">
+                  <p>
+                    آورده در سامانه اینوین دارایی توامندی یا ارزشی‌ست که کاربران اعم از مجموعه‌ها و افراد ارایه
+                    می‌دهند. قابلیت عرضه در پنجره‌ها کارگزاری و انجام معامله آن وجود دارد. محصولات تولیدی
+                    توانمندی‌ها تاییدیه‌ها گواهی‌نامه‌ها خدمات مشاوره. زیرساخت‌های قابل اشتراک از انواع آورده در
+                    سامانه دانشبوم هستند.
+                  </p>
+                </div>
+              </div>
+              <div className={"contribution-description-options-area"}>
+                <div className={"text"}>انتخاب نوع آورده:</div>
+                <div className={"contribution-description-options"}>
+                  <div
+                      onClick={() => this._changeSelectedType("Product")}
+                      className={selectedType === "Product" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
+                    <ContributionIcon className={"option-contribution-svg"}/>
+                    <div className={"option-contribution-text"}>محصول</div>
+                  </div>
+                  <div
+                      onClick={() => this._changeSelectedType("Ability")}
+                      className={selectedType === "Ability" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
+                    <SkillIcon className="option-contribution-svg-smaller"/>
+                    <div className={"option-contribution-text"}>توانمندی</div>
+                  </div>
+                  <div
+                      onClick={() => this._changeSelectedType("Certificate")}
+                      className={selectedType === "Certificate" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
+                    <CertificateIcon className="option-contribution-svg-smaller"/>
+                    <div className={"option-contribution-text"}>تاییدیه</div>
+                  </div>
+                  <div
+                      onClick={() => this._changeSelectedType("Consultation")}
+                      className={selectedType === "Consultation" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
+                    <ConsultIcon className="option-contribution-svg-small"/>
+                    <div className={"option-contribution-text"}>مشاوره</div>
+                  </div>
+                  <div
+                      onClick={() => this._changeSelectedType("Substructure")}
+                      className={selectedType === "Substructure" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
+                    <QuestionMark width="20px" height="20px" svgClass={"option-contribution-svg"}/>
+                    <div className={"option-contribution-text"}>زیرساخت قابل اشتراک</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        )
+      case "two":
+        return (
+            <div className="contribution-description">
+              <div className="icon-wrapper">
+                <TipsIcon className="tip-icon"/>
+              </div>
+              <div className="contribution-desc-txt">
+                <p>
+                  مرحله ی دوم
+                </p>
+              </div>
+            </div>
+        )
+      case "three":
+        return (
+            <div className="contribution-description">
+              <div className="icon-wrapper">
+                <TipsIcon className="tip-icon"/>
+              </div>
+              <div className="contribution-desc-txt">
+                <p>
+                  مرحله ی سوم
+                </p>
+              </div>
+            </div>
+        )
+      case "four":
+        return (
+            <div className="contribution-description">
+              <div className="icon-wrapper">
+                <TipsIcon className="tip-icon"/>
+              </div>
+              <div className="contribution-desc-txt">
+                <p>
+                  مرحله ی چهارم
+                </p>
+              </div>
+            </div>
+        )
+      case "five":
+        return (
+            <div className="contribution-description">
+              <div className="icon-wrapper">
+                <TipsIcon className="tip-icon"/>
+              </div>
+              <div className="contribution-desc-txt">
+                <p>
+                  مرحله ی پنجم
+                </p>
+              </div>
+            </div>
+        )
+      default:
+        return (
+            <div className="contribution-description">
+              <div className="contribution-desc-txt">
+                <p>
+                  Undefined Level
+                </p>
+              </div>
+            </div>
+        )
+    }
+  }
+
+  renderFooter() {
+    let {currentLevel} = this.state
+    return (
+        <div className={"contribution-footer"}>
+          <button className={"next-button"}>
+            {
+              currentLevel === "five" ?
+                  <div onClick={() => this.closeModal()}>
+                    ثبت
+                  </div>
+                  :
+                  <div onClick={() => this.nextLevel()}>
+                    بعدی
+                  </div>
+            }
+          </button>
+
+          <button className={currentLevel === "one" ? "previous-button-hidden" : "previous-button"} onClick={() => this.previousLevel()}>
+            قبلی
+          </button>
+
+        </div>
+    )
+  }
+
+  closeModal() {
+    this.setState({...this.state, currentLevel: "one"}, this.props.handleModalVisibility())
   }
 
   render() {
     const {activeStep, progressSteps, progressStatus, wrapperClassName, newContributionData} = this.state
-    const {mainCategory=''} = newContributionData
+    const {mainCategory = ""} = newContributionData
+    const {currentLevel} = this.state
     const {modalIsOpen} = this.props
     return (
-        <div>
-          <Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>
-            <ModalBody className="adding-contribution-wrapper">
-              <FontAwesome name="times" size="2x" className="close-btn"
-                           onClick={this._handleModalVisibility}/>
-              <div className={`progressive-wrapper ${mainCategory}`}>
-                <MenuProgressive
-                    steps={progressSteps}
-                    activeStep={activeStep}
-                    status={progressStatus}
-                    // stepsClassName={mainCategory}
-                />
-              </div>
-              <div className={`wrapper ${wrapperClassName}`}>
-                {this._switchContentByMainCategory()}
-              </div>
-            </ModalBody>
-          </Modal>
+        <div className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}>
+          {this.renderProgressBar()}
+
+          {this.renderCurrentLevel()}
+
+          {this.renderFooter()}
+
+          {/*<Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>
+           <ModalBody className="adding-contribution-wrapper">
+           <FontAwesome name="times" size="2x" className="close-btn"
+           onClick={this._handleModalVisibility}/>
+           <div className={`progressive-wrapper ${mainCategory}`}>
+           <MenuProgressive
+           steps={progressSteps}
+           activeStep={activeStep}
+           status={progressStatus}
+           // stepsClassName={mainCategory}
+           />
+           </div>
+           <div className={`wrapper ${wrapperClassName}`}>
+           {this._switchContentByMainCategory()}
+           </div>
+           </ModalBody>
+           </Modal>*/}
+
         </div>
-    );
+    )
   }
 }
 
 const mapStateToProps = (state) => {
-  const initialFormValues = getFormValues(state, 'addingContributionInitialInfoForm')
-  const provinceId = initialFormValues.product_related_province ? initialFormValues.product_related_province.value : ''
-  const countryId = initialFormValues.product_related_country ? initialFormValues.product_related_country.value : ''
+  const initialFormValues = getFormValues(state, "addingContributionInitialInfoForm")
+  const provinceId = initialFormValues.product_related_province ? initialFormValues.product_related_province.value : ""
+  const countryId = initialFormValues.product_related_country ? initialFormValues.product_related_country.value : ""
   const citySelectorByProvinceId = makeCitySelectorByProvinceId()
   const provinceSelectorByProvinceId = makeProvinceSelectorByCountryId()
   const categorySelector = makeCategorySelector()
@@ -763,7 +1011,7 @@ const mapDispatchToProps = dispatch =>
           _createSkillAction: createSkillAction
         },
         dispatch
-    );
+    )
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddingContribution)

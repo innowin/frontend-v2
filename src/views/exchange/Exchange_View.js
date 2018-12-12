@@ -18,7 +18,8 @@ import {getMessages} from "../../redux/selectors/translateSelector"
 
 type PropsExchangeView = {|
   match: { params: Object },
-  handleSignOut: Function
+  handleSignOut: Function,
+  actions: any,
 |}
 
 class ExchangeView extends Component <PropsExchangeView> {
@@ -28,32 +29,34 @@ class ExchangeView extends Component <PropsExchangeView> {
 
   componentDidMount() {
     let exchangeId = +parseInt(this.props.match.params.id, 10)
-    this.props.actions.getExchangeByExId(exchangeId)
-    this.props.actions.getPostsByExIdLimitOffset({postParentId: exchangeId, limit: 20, offset: 0})
-
+    const {actions} = this.props
+    actions.getExchangeByExId(exchangeId)
+    actions.getPostsByExIdLimitOffset({postParentId: exchangeId, limit: 20, offset: 0})
   }
 
   render() {
-    const {translate} = this.props
+    // const {translate} = this.props
     const {params} = this.props.match
     const exchangeId = +params.id
     const widthOfRightBar = "col-md-2 col-sm-1"
-    const title = `${translate['InnoWin']} - ${translate['Exchange']}`
-    const description = `${translate['Exchange']}`
+    // const title = `${translate['InnoWin']} - ${translate['Exchange']}`
+    // const description = `${translate['Exchange']}`
     return (
         <div className='all-exchanges-parent'>
           {/*<TopBar collapseClassName={widthOfRightBar}/>*/}
-          <Helmet>
-            <title>{title}</title>
-            <meta name="description" content={description}/>
+          {/*
+           <Helmet>
+           <title>{title}</title>
+           <meta name="description" content={description}/>
 
-            <meta property="og:title" content={title}/>
-            <meta property="og:description" content={description}/>
+           <meta property="og:title" content={title}/>
+           <meta property="og:description" content={description}/>
 
-            <meta property="twitter:title" content={title}/>
-            <meta property="twitter:description" content={description}/>
-          </Helmet>
-          <main style={{paddingTop: "65px"}}>
+           <meta property="twitter:title" content={title}/>
+           <meta property="twitter:description" content={description}/>
+           </Helmet>
+           */}
+          <main className={"exchange-page"}>
             <div className={`exchange-view-sidebar`}>
               <ExchangeViewBar exchangeId={exchangeId}/>
             </div>
@@ -79,10 +82,10 @@ const DispatchToProps = dispatch => ({
   }, dispatch)
 })
 
-const mapStateToProps = state => {
-  return {
-    translate: getMessages(state),
-  }
-}
+// const mapStateToProps = state => {
+//   return {
+//     translate: getMessages(state),
+//   }
+// }
 
-export default connect(mapStateToProps, DispatchToProps)(ExchangeView)
+export default connect(null, DispatchToProps)(ExchangeView)

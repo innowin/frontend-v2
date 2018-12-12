@@ -322,6 +322,17 @@ $sidebar-profile-media-width: 80px;
   z-index: 2;
 }
 
+.exchange-page{
+  padding-top: $topBarHeight + 11px;
+}
+
+.exchange-navbar-container {
+  display: inline-block;
+  width: 49.1%;
+  vertical-align: top;
+  margin: 0 0.6%;
+}
+
 .exchange-navbar-center {
   background-color: $base-posts;
   height: $exchange-title-height;
@@ -910,7 +921,7 @@ $sidebar-profile-media-width: 80px;
 }
 
 .settingModal-sidebar-out {
-  overflow-y: scroll;
+  overflow-y: hidden;
   position: fixed;
   top: 65px;
   right: 9.05%;

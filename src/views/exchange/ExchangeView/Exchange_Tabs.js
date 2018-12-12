@@ -1,12 +1,9 @@
+// @flow
 import React, {Component} from "react"
 import {connect} from "react-redux"
 import {getMessages} from "src/redux/selectors/translateSelector"
 import {Stream, Info, Statistic, Contacts, Medal, Ticket,} from "src/images/icons"
 import Exchange_Info from "./Exchange_Info"
-import "src/styles/components/exchange/posts.scss"
-import "src/styles/components/exchange/info.scss"
-import "src/styles/components/exchange/members.scss"
-import "src/styles/components/exchange/manager.scss"
 import {bindActionCreators} from "redux"
 // import postActions from "src/redux/actions/commonActions/postActions"
 // import exchangeActions from "src/redux/actions/exchangeActions"
@@ -17,26 +14,48 @@ import exchangeMembershipActions from "src/redux/actions/commonActions/exchangeM
 import SocialActions from "../../../redux/actions/commonActions/socialActions"
 import educationActions from "../../../redux/actions/user/educationActions"
 
-class Exchange_Tabs extends Component {
+type states={
+  selectedTab: string,
+  clickedSvgStyle: string,
+  clickedSvgContainerStyle: string,
+  normalSvgStyle: string,
+  normalSvgContainerStyle: string
+}
+type props={
+  translate: {[string]: string},
+  exchangeId: number,
+  actions: any,
+  clientIdentityId: ?number,
+  clientId: ?number,
+  clientType: string,
+  exchanges: Object,
+}
+
+class Exchange_Tabs extends Component<props, states> {
   constructor(props) {
     super(props)
     this.state = {
       selectedTab: "Stream",
-      // selectedTab: "Info", // DEVELOP
-      // getUserFlag: false,
-    }
-    this.setTab = this.setTab.bind(this)
-  }
-
-  componentDidMount() {
-    this.setState({
-      ...this.state,
       clickedSvgStyle: "svg-tabs-clicked",
       clickedSvgContainerStyle: "svg-container-clicked",
       normalSvgStyle: "svg-tabs",
       normalSvgContainerStyle: "svg-container"
-    })
 
+      // selectedTab: "Info", // DEVELOP
+      // getUserFlag: false,
+    }
+    const self: any = this
+    self.setTab = self.setTab.bind(self)
+  }
+
+  componentDidMount() {
+    // this.setState({
+    //   ...this.state,
+    //   clickedSvgStyle: "svg-tabs-clicked",
+    //   clickedSvgContainerStyle: "svg-container-clicked",
+    //   normalSvgStyle: "svg-tabs",
+    //   normalSvgContainerStyle: "svg-container"
+    // })
     let {actions, exchangeId, clientIdentityId, clientId, clientType, exchanges} = this.props
     if (exchangeId) {
       let {getExchangeMembers, getFollowingAction, getUser} = actions
@@ -61,7 +80,7 @@ class Exchange_Tabs extends Component {
     const {translate, exchangeId} = this.props
     const {selectedTab, clickedSvgContainerStyle, normalSvgContainerStyle, clickedSvgStyle, normalSvgStyle} = this.state
     return (
-        <div style={{display: "inline-block", width: "49.1%", verticalAlign: "top", margin: "0 0.6%"}}>
+        <div className={"exchange-navbar-container"}>
           <div className={`exchange-navbar-center`}>
             <Stream width="22px" height="22px"
                     containerClass={selectedTab === "Stream" ? clickedSvgContainerStyle : normalSvgContainerStyle}
