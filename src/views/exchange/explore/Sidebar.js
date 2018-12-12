@@ -3,21 +3,23 @@ import * as React from 'react'
 import {Component} from 'react'
 import FontAwesome from 'react-fontawesome'
 import {connect} from 'react-redux'
-import {bindActionCreators} from "redux"
-import exchangeActions from "../../../redux/actions/exchangeActions"
+import {bindActionCreators} from 'redux'
+import exchangeActions from '../../../redux/actions/exchangeActions'
 import {hashTagsListSelector} from 'src/redux/selectors/common/hashTags/hashTag'
 import Select from 'react-select'
 
 type appProps =
     {|
-      // actions: any,
-      // hashTags: any
+      search: Function,
+      justFollowing: Function,
+      hashTags: Object
     |}
 
 type appState =
     {|
       searchHashTags: boolean,
-      hashTags: any
+      hashTags: Object,
+      searchLength: number
     |}
 
 class Sidebar extends Component <appProps, appState> {
@@ -36,17 +38,17 @@ class Sidebar extends Component <appProps, appState> {
     this.props.justFollowing(e.target.checked)
   }
 
-  handleHashTagsChange = (e) => {
+  _handleHashTagsChange = (e) => {
     let nowHashTags = this.state.hashTags
     nowHashTags[e.value] = {title: e.value, usage: e.usage}
     this.setState({hashTags: nowHashTags})
   }
 
-  showHashTagsSearch = () => {
+  _showHashTagsSearch = () => {
     this.setState({searchHashTags: !this.state.searchHashTags})
   }
 
-  submitSearchByWord = (e) => {
+  _submitSearchByWord = (e) => {
     e.preventDefault()
     if (e.keyCode === 13) {
       if (e.target.value.trim().length > 0)
@@ -62,20 +64,25 @@ class Sidebar extends Component <appProps, appState> {
     this.setState({...this.state, searchLength: e.target.value.length})
   }
 
-  cancelSearchByClick = () => {
+  _cancelSearchByClick = () => {
+    const self : any = this
     this.props.search(null)
     this.setState({...this.state, searchLength: 0})
-    this.searchInput.value = ''
+    self.searchInput.value = ''
     window.scrollTo({top: 0, behavior: 'smooth'})
   }
 
   render() {
+    const {searchLength, searchHashTags} = this.state
+
+    const self : any = this
+
     let hashTags = []
-    Object.values(this.props.hashTags).forEach(p =>
+    Object.values(this.props.hashTags).forEach((p:Object) =>
         hashTags.push({value: p.title, label: p.title, usage: p.usage})
     )
 
-    let selectedHashTags = Object.values(this.state.hashTags).map((hashTag, i) =>
+    let selectedHashTags = Object.values(this.state.hashTags).map((hashTag:Object, i:number) =>
         <div key={i} className='exchanges-explore-sidebar-hashTags'>
           <div className='exchanges-explore-sidebar-hashTags-title'>{hashTag.title}</div>
           <div className='exchanges-explore-sidebar-hashTags-usage'>{hashTag.usage}</div>
@@ -86,10 +93,10 @@ class Sidebar extends Component <appProps, appState> {
         <div className='exchanges-explore-sidebar'>
           <div className='exchanges-explore-sidebar-searchbox'>
             <input type='text' className='exchanges-explore-sidebar-searchbox-input' placeholder='جستجو'
-                   ref={e => this.searchInput = e} onKeyUp={this.submitSearchByWord} onChange={this._handleLength}/>
+                   ref={e => self.searchInput = e} onKeyUp={this._submitSearchByWord} onChange={this._handleLength}/>
             {
-              this.state.searchLength > 0 ?
-                  <div className='exchanges-explore-sidebar-search-exit-icon' onClick={this.cancelSearchByClick}>✕</div>
+              searchLength > 0 ?
+                  <div className='exchanges-explore-sidebar-search-exit-icon' onClick={this._cancelSearchByClick}>✕</div>
                   :
                   <FontAwesome name="search" className='exchanges-explore-sidebar-searchbox-icon'/>
             }
@@ -109,10 +116,10 @@ class Sidebar extends Component <appProps, appState> {
               افزودن برچسب:
             </div>
             <div className='exchanges-explore-sidebar-tag-search'>
-              <FontAwesome name="search" style={{color: '#bababa'}} onClick={this.showHashTagsSearch}/>
+              <FontAwesome name="search" style={{color: '#bababa'}} onClick={this._showHashTagsSearch}/>
               <Select
-                  className={this.state.searchHashTags ? 'exchanges-explore-sidebar-tag-input-show' : 'exchanges-explore-sidebar-tag-input'}
-                  onChange={this.handleHashTagsChange}
+                  className={searchHashTags ? 'exchanges-explore-sidebar-tag-input-show' : 'exchanges-explore-sidebar-tag-input'}
+                  onChange={this._handleHashTagsChange}
                   options={hashTags}
                   placeholder=''
               />
@@ -125,7 +132,7 @@ class Sidebar extends Component <appProps, appState> {
           </div>
           <hr/>
           {/*<div style={{fontSize: '14px'}}>*/}
-            {/*فیلتر بر اساس نشان ها:*/}
+          {/*فیلتر بر اساس نشان ها:*/}
           {/*</div>*/}
         </div>
     )

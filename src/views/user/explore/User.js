@@ -1,21 +1,26 @@
 // @flow
 import * as React from 'react'
+import connect from 'react-redux/es/connect/connect'
+import identityActions from '../../../redux/actions/identityActions'
+import Material from '../../common/components/Material'
+import socialActions from '../../../redux/actions/commonActions/socialActions'
+import {bindActionCreators} from 'redux'
+import {ClipLoader} from 'react-spinners'
 import {Component} from 'react'
 import {DefaultUserIcon} from 'src/images/icons'
-import {bindActionCreators} from 'redux'
-import identityActions from '../../../redux/actions/identityActions'
-import connect from 'react-redux/es/connect/connect'
-import socialActions from '../../../redux/actions/commonActions/socialActions'
-import {ClipLoader} from 'react-spinners'
 import {Link} from 'react-router-dom'
 import {REST_URL} from 'src/consts/URLS'
-import Material from '../../common/components/Material'
 
 type appProps =
     {|
       actions: any,
       members: Array<number>,
-      data: any
+      data: any,
+      identities: Object,
+      currentUserIdentity: Object,
+      currentUserId: Object,
+      currentUserType: Object,
+      followees: Object
     |}
 
 type appState =
@@ -39,21 +44,7 @@ class User extends Component <appProps, appState> {
           checkMedia: true
         }
     const self: any = this
-    self.follow = this.follow.bind(this)
-  }
-
-  follow() {
-    const {identities, actions, currentUserIdentity, currentUserId, currentUserType, data} = this.props
-    this.setState({followLoading: true}, () => {
-      if (identities[data.user.id] && identities[data.user.id].identity && identities[data.user.id].identity.content) {
-        const formValues = {follow_follower: currentUserIdentity, follow_followed: identities[data.user.id].identity.content}
-        actions.follow({formValues, followOwnerId: currentUserId, followOwnerType: currentUserType})
-      }
-      else {
-        this.setState({...this.state, follow: true})
-        actions.getUserIdentity(data.user.id)
-      }
-    })
+    self._follow = this._follow.bind(this)
   }
 
   componentDidMount() {
@@ -107,7 +98,21 @@ class User extends Component <appProps, appState> {
     }
   }
 
-  renderFollowed(data, followees) {
+  _follow() {
+    const {identities, actions, currentUserIdentity, currentUserId, currentUserType, data} = this.props
+    this.setState({followLoading: true}, () => {
+      if (identities[data.user.id] && identities[data.user.id].identity && identities[data.user.id].identity.content) {
+        const formValues = {follow_follower: currentUserIdentity, follow_followed: identities[data.user.id].identity.content}
+        actions.follow({formValues, followOwnerId: currentUserId, followOwnerType: currentUserType})
+      }
+      else {
+        this.setState({...this.state, follow: true})
+        actions.getUserIdentity(data.user.id)
+      }
+    })
+  }
+
+  _renderFollowed(data, followees) {
     const {followLoading} = this.state
 
     if (followees[data.user.id]) {
@@ -116,7 +121,7 @@ class User extends Component <appProps, appState> {
     else if (followLoading) {
       return <Material className='user-follow-loading' content={<ClipLoader color='#008057' size={19}/>}/>
     }
-    else return <Material className='user-followed' content='دنبال کردن' onClick={this.follow}/>
+    else return <Material className='user-followed' content='دنبال کردن' onClick={this._follow}/>
   }
 
   render() {
@@ -157,7 +162,7 @@ class User extends Component <appProps, appState> {
             </div>
           </Link>
           {
-            this.renderFollowed(data, followees)
+            this._renderFollowed(data, followees)
           }
         </div>
     )

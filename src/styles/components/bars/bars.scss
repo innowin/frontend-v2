@@ -6,6 +6,11 @@ $sidebar-profile-media-width: 80px;
 .topBar {
   height: $topBarHeight;
   background-color: $brand-inverse-color;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 3;
 
   .search-icon {
     width: 24px;
@@ -108,7 +113,7 @@ $sidebar-profile-media-width: 80px;
   right: 0;
   top: $topBarHeight;
   background-color: lighten($primary-color, 1.5%);
-  z-index: 1010;
+  z-index: 4;
   img {
     height: 150px;
   }
@@ -138,7 +143,7 @@ $sidebar-profile-media-width: 80px;
   left: 0;
   top: $topBarHeight;
   background-color: $brand-inverse-color;
-  z-index: 1010;
+  z-index: 4;
   width: 22rem;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-bottom-right-radius: 0.25rem;
@@ -479,13 +484,13 @@ $sidebar-profile-media-width: 80px;
     height: 25px;
     text-align: center;
     line-height: 25px;
-    z-index: 101;
+    z-index: 2;
   }
   .menu-box {
     position: absolute;
     top: 30px;
     left: 20px;
-    z-index: 100;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -886,7 +891,7 @@ $sidebar-profile-media-width: 80px;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.3);
   opacity: 1;
-  z-index: 1200;
+  z-index: 3;
   top: 0;
   left: 0;
   transition-duration: 0.3s;
@@ -921,13 +926,25 @@ $sidebar-profile-media-width: 80px;
   transition-duration: 0.3s;
 }
 
+.settingModal-sidebar-out::-webkit-scrollbar {
+  display: none;
+}
+
+.settingModal-sidebar-out::-webkit-scrollbar-track {
+  display: none;
+}
+
+.settingModal-sidebar-out::-webkit-scrollbar-thumb {
+  display: none;
+}
+
 .settingModal-sidebar {
   overflow: hidden;
   border-radius: 3px;
   position: fixed;
   top: 65px;
   right: 9.05%;
-  z-index: 1202;
+  z-index: 4;
   opacity: 1;
   width: 20.5%;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
@@ -973,12 +990,24 @@ $sidebar-profile-media-width: 80px;
   transition-duration: 0.3s;
 }
 
+.settingModal-menu-out::-webkit-scrollbar {
+  display: none;
+}
+
+.settingModal-menu-out::-webkit-scrollbar-track {
+  display: none;
+}
+
+.settingModal-menu-out::-webkit-scrollbar-thumb {
+  display: none;
+}
+
 .settingModal-menu {
   overflow: auto;
   position: fixed;
   top: 65px;
   right: 30%;
-  z-index: 1202;
+  z-index: 4;
   opacity: 1;
   width: 40%;
   max-height: 91vh;
@@ -987,7 +1016,6 @@ $sidebar-profile-media-width: 80px;
   background-color: white;
   transition-duration: 0.3s;
 }
-
 
 .settingModal-menu::-webkit-scrollbar {
   width: $scroll-bar-width;
@@ -1002,7 +1030,7 @@ $sidebar-profile-media-width: 80px;
 .settingModal-menu::-webkit-scrollbar-thumb {
   background: darkgrey;
   border-radius: 3px;
-  &:hover{
+  &:hover {
     background: grey;
   }
 }
@@ -1012,8 +1040,20 @@ $sidebar-profile-media-width: 80px;
     position: fixed;
     top: 65px;
     right: 30%;
-    z-index: 1202;
+    z-index: 4;
     opacity: 1;
+    width: 60%;
+    border-radius: 3px;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+    background-color: white;
+    transition-duration: 0.3s;
+  }
+  .settingModal-menu-out {
+    position: fixed;
+    top: 65px;
+    right: 30%;
+    z-index: -1;
+    opacity: 0;
     width: 60%;
     border-radius: 3px;
     box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
@@ -1026,9 +1066,9 @@ $sidebar-profile-media-width: 80px;
 
   .settingModal-sidebar {
     position: fixed;
-    top: 60px;
+    top: 65px;
     right: 1%;
-    z-index: 1202;
+    z-index: 4;
     opacity: 1;
     width: 19%;
     box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
@@ -1043,8 +1083,21 @@ $sidebar-profile-media-width: 80px;
     position: fixed;
     top: 65px;
     right: 20.5%;
-    z-index: 1202;
+    z-index: 4;
     opacity: 1;
+    width: 79%;
+    border-radius: 3px;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+    background-color: white;
+    transition-duration: 0.3s;
+  }
+
+  .settingModal-menu-out {
+    position: fixed;
+    top: 65px;
+    right: 20.5%;
+    z-index: -1;
+    opacity: 0;
     width: 79%;
     border-radius: 3px;
     box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
@@ -1211,7 +1264,7 @@ $sidebar-profile-media-width: 80px;
   transition-duration: 0.3s;
   transform: scale(1);
   opacity: 1;
-  z-index: 1202;
+  z-index: 4;
   &:hover {
     border: 1px solid $error-color;
     color: $error-color;
@@ -1792,7 +1845,7 @@ $sidebar-profile-media-width: 80px;
   border-radius: $border-radius;
   box-shadow: 0 2px 5px 1px $box-shadow-color;
   text-align: center;
-  z-index: 102;
+  z-index: 3;
   height: 0;
   opacity: 0;
   font-size: $font-size-description;
@@ -1809,7 +1862,7 @@ $sidebar-profile-media-width: 80px;
   border-radius: $border-radius;
   box-shadow: 0 2px 5px 1px $box-shadow-color;
   text-align: center;
-  z-index: 102;
+  z-index: 3;
   height: 62px;
   opacity: 1;
   font-size: $font-size-description;
@@ -1826,7 +1879,7 @@ $sidebar-profile-media-width: 80px;
   border-radius: $border-radius;
   box-shadow: 0 2px 5px 1px $box-shadow-color;
   text-align: center;
-  z-index: 102;
+  z-index: 3;
   height: 31px;
   opacity: 1;
   font-size: $font-size-description;

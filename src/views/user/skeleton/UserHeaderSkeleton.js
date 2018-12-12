@@ -1,12 +1,12 @@
-import React from 'react'
-import {CategoryTitle, Tabs} from "../../common/cards/Frames"
-import postIcon from "../../../images/user/post_svg"
-import InformationIcon from "../../../images/common/information_svg"
-import ContributionIcon from "../../../images/common/contribution_svg"
-import SocialIcon from "../../../images/common/social_svg"
-import EducationIcon from "../../../images/user/education_svg"
-import workExperienceIcon from "../../../images/user/workExperience_svg"
 import CertificateIcon from "../../../images/user/certificate_svg"
+import ContributionIcon from "../../../images/common/contribution_svg"
+import EducationIcon from "../../../images/user/education_svg"
+import InformationIcon from "../../../images/common/information_svg"
+import postIcon from "../../../images/user/post_svg"
+import React from 'react'
+import SocialIcon from "../../../images/common/social_svg"
+import workExperienceIcon from "../../../images/user/workExperience_svg"
+import {CategoryTitle, Tabs} from "../../common/cards/Frames"
 
 const UserHeaderSkeleton = () => <div>
   <Tabs>

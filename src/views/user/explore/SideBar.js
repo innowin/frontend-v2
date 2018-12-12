@@ -1,10 +1,10 @@
 // @flow
 import * as React from 'react'
-import {Component} from 'react'
 import FontAwesome from 'react-fontawesome'
+import Select from 'react-select'
+import {Component} from 'react'
 import {connect} from 'react-redux'
 import {hashTagsListSelector} from 'src/redux/selectors/common/hashTags/hashTag'
-import Select from 'react-select'
 
 type appProps =
     {|
@@ -30,7 +30,7 @@ class Sidebar extends Component <appProps, appState> {
     this.state =
         {
           searchHashTags: false,
-          hashTags: {},
+          hashTags: Object,
           collapse: true,
           searchLength: 0
         }
@@ -41,17 +41,17 @@ class Sidebar extends Component <appProps, appState> {
     // this.props.getFollowersChecked(e.target.checked)
   }
 
-  handleHashTagsChange = (e) => {
+  _handleHashTagsChange = (e) => {
     let nowHashTags = this.state.hashTags
     nowHashTags[e.value] = {title: e.value, usage: e.usage}
     this.setState({...this.state, hashTags: nowHashTags})
   }
 
-  showHashTagsSearch = () => {
+  _showHashTagsSearch = () => {
     this.setState({...this.state, searchHashTags: !this.state.searchHashTags})
   }
 
-  submitSearchByWord = (e) => {
+  _submitSearchByWord = (e) => {
     e.preventDefault()
     if (e.keyCode === 13) {
       if (e.target.value.trim().length > 0)
@@ -63,7 +63,7 @@ class Sidebar extends Component <appProps, appState> {
     }
   }
 
-  collapse = () => {
+  _collapse = () => {
     this.setState({...this.state, collapse: !this.state.collapse})
   }
 
@@ -71,7 +71,7 @@ class Sidebar extends Component <appProps, appState> {
     this.setState({...this.state, searchLength: e.target.value.length})
   }
 
-  cancelSearchByClick = () => {
+  _cancelSearchByClick = () => {
     const self: any = this
     this.props.search(null)
     this.setState({...this.state, searchLength: 0})
@@ -80,14 +80,18 @@ class Sidebar extends Component <appProps, appState> {
   }
 
   render() {
+
+    const {justFollowed, justFollowing} = this.props
+    const {searchHashTags, searchLength, collapse} = this.state
+
     const self: any = this
 
     let hashTags = []
-    Object.values(this.props.hashTags).forEach(p =>
+    Object.values(this.props.hashTags).forEach((p: Object) =>
         hashTags.push({value: p.title, label: p.title, usage: p.usage})
     )
 
-    let selectedHashTags = Object.values(this.state.hashTags).map(hashTag =>
+    let selectedHashTags = Object.values(this.state.hashTags).map((hashTag: Object) =>
         <div className='exchanges-explore-sidebar-hashTags'>
           <div className='exchanges-explore-sidebar-hashTags-title'>{hashTag.title}</div>
           <div className='exchanges-explore-sidebar-hashTags-usage'>{hashTag.usage}</div>
@@ -98,21 +102,21 @@ class Sidebar extends Component <appProps, appState> {
         <div className='exchanges-explore-sidebar'>
           <div className='exchanges-explore-sidebar-searchbox'>
             <input type='text' className='exchanges-explore-sidebar-searchbox-input' placeholder='جستجوی شناسه'
-                   ref={e => self.searchInput = e} onKeyUp={this.submitSearchByWord} onChange={this._handleLength}/>
+                   ref={e => self.searchInput = e} onKeyUp={this._submitSearchByWord} onChange={this._handleLength}/>
             {
-              this.state.searchLength > 0 ?
-                  <div className='exchanges-explore-sidebar-search-exit-icon' onClick={this.cancelSearchByClick}>✕</div>
+              searchLength > 0 ?
+                  <div className='exchanges-explore-sidebar-search-exit-icon' onClick={this._cancelSearchByClick}>✕</div>
                   :
                   <FontAwesome name="search" className='exchanges-explore-sidebar-searchbox-icon'/>
             }
           </div>
 
-          <div className='kindOfId' onClick={this.collapse}>
+          <div className='kindOfId' onClick={this._collapse}>
             <div className='kindId'>نوع شناسه:</div>
-            <div className={this.state.collapse ? 'arrowDown' : 'arrowUp'}>❮</div>
+            <div className={collapse ? 'arrowDown' : 'arrowUp'}>❮</div>
           </div>
 
-          <div className={this.state.collapse ? 'users-explore-sidebar-check' : 'collapseId'}>
+          <div className={collapse ? 'users-explore-sidebar-check' : 'collapseId'}>
             <div className="product-explorer">
               <label className="label-wrapper">
                 <input type="checkbox" onChange={this._handleChange}/>
@@ -130,12 +134,12 @@ class Sidebar extends Component <appProps, appState> {
                 کارگزار
               </label>
               <label className="label-wrapper">
-                <input type="checkbox" onChange={(e) => this.props.justFollowed(e.target.checked)}/>
+                <input type="checkbox" onChange={(e) => justFollowed(e.target.checked)}/>
                 <span className="checkmark"></span>
                 دنبال کرده ها
               </label>
               <label className="label-wrapper">
-                <input type="checkbox" onChange={(e) => this.props.justFollowing(e.target.checked)}/>
+                <input type="checkbox" onChange={(e) => justFollowing(e.target.checked)}/>
                 <span className="checkmark"></span>
                 دنبال شده ها
               </label>
@@ -147,10 +151,10 @@ class Sidebar extends Component <appProps, appState> {
               افزودن برچسب:
             </div>
             <div className='exchanges-explore-sidebar-tag-search'>
-              <FontAwesome name="search" style={{color: '#bababa'}} onClick={this.showHashTagsSearch}/>
+              <FontAwesome name="search" style={{color: '#bababa'}} onClick={this._showHashTagsSearch}/>
               <Select
-                  className={this.state.searchHashTags ? 'exchanges-explore-sidebar-tag-input-show' : 'exchanges-explore-sidebar-tag-input'}
-                  onChange={this.handleHashTagsChange}
+                  className={searchHashTags ? 'exchanges-explore-sidebar-tag-input-show' : 'exchanges-explore-sidebar-tag-input'}
+                  onChange={this._handleHashTagsChange}
                   options={hashTags}
                   placeholder=''
               />

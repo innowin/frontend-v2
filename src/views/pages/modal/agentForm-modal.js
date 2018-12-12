@@ -1,12 +1,12 @@
 //@flow
-import React, {Component} from "react"
-import PropTypes from "prop-types"
-import LabelTag from "../../common/tag-label.js"
-import {AgentSvgIcon, TipsIcon} from "src/images/icons"
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
+import LabelTag from '../../common/tag-label.js'
+import {AgentSvgIcon, TipsIcon} from 'src/images/icons'
 
-import OrganizationActions from "../../../redux/actions/organization/organizationActions"
-import {bindActionCreators} from "redux"
-import {connect} from "react-redux"
+import OrganizationActions from '../../../redux/actions/organization/organizationActions'
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
 
 type AgentFormProps = {
   hide: Function,
@@ -24,22 +24,23 @@ class AgentForm extends React.Component<AgentFormProps, { tags: Array<String>, d
 
   state = {
     tags: [],
-    description: "",
+    description: '',
     loading: false
   }
 
   constructor(props: AgentFormProps) {
     super(props)
-    this.handleClickOutside = this.handleClickOutside.bind(this)
-    this.sendRequest = this.sendRequest.bind(this)
+    const self: any = this
+    self.handleClickOutside = this.handleClickOutside.bind(this)
+    self.sendRequest = this.sendRequest.bind(this)
   }
 
   componentDidMount() {
-    document.addEventListener("mousedown", this.handleClickOutside)
+    document.addEventListener('mousedown', this.handleClickOutside)
   }
 
   componentWillUnmount() {
-    document.removeEventListener("mousedown", this.handleClickOutside)
+    document.removeEventListener('mousedown', this.handleClickOutside)
   }
 
   hideLoading(message) {
@@ -48,8 +49,9 @@ class AgentForm extends React.Component<AgentFormProps, { tags: Array<String>, d
   }
 
   sendRequest() {
+    const self: any = this
     const {agencyRequest} = this.props.actions
-    agencyRequest(this.description.value, this.hideLoading.bind(this))
+    agencyRequest(self.description.value, this.hideLoading.bind(this))
     this.setState({...this.state, loading: true})
   }
 
@@ -59,24 +61,25 @@ class AgentForm extends React.Component<AgentFormProps, { tags: Array<String>, d
     }
   }
 
-  onLabelChange(event: Event) {
+  onLabelChange(event: any) {
     let val = event.target.value
     if (val.length < 1) {
       this.setState({tags: []})
       return
     }
-    let tags = val.split(",")
+    let tags = val.split(',')
     this.setState({tags: tags})
 
   }
 
   render() {
+    const self: any = this
     const {tags, loading} = this.state
     const {agencyRequest} = this.props
     // const {isLoading, error} = agencyRequest
 
     return (
-        <div className={this.props.active ? "modal-page" : "modal-page hide"} ref={e => this.wrapperRef = e}>
+        <div className={this.props.active ? 'modal-page' : 'modal-page hide'} ref={e => self.wrapperRef = e}>
           <div className="agent-from-title">
             <div className="agent-form-title-container">
               <AgentSvgIcon className="agent-form-agent-icon"/>

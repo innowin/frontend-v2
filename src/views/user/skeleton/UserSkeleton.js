@@ -1,7 +1,7 @@
 import * as React from "react"
 import PostSkeleton from "./PostSkeleton"
-import UserSideSkeleton from "./UserSideSkeleton"
 import UserHeaderSkeleton from "./UserHeaderSkeleton"
+import UserSideSkeleton from "./UserSideSkeleton"
 
 class UserSkeleton extends React.Component {
 

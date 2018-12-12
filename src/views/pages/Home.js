@@ -1,15 +1,13 @@
 // @flow
 import * as React from "react"
-import {Component} from "react"
-import ReactDOM from "react-dom"
-import PropTypes from "prop-types"
-import TopBar from "../bars/TopBar"
 import ChatBar from "../bars/ChatBar"
-import HomeSideBar from "./home/HomeSideBar"
-import HomePosts from "./home/HomePosts"
-import {connect} from "react-redux"
 import constants from "../../consts/constants";
+import HomePosts from "./home/HomePosts"
+import HomeSideBar from "./home/HomeSideBar"
+import PropTypes from "prop-types"
 import UserDetailPanel from "../common/components/UserDetailPanel"
+import {Component} from "react"
+import {connect} from "react-redux"
 import {getMessages} from "../../redux/selectors/translateSelector"
 import {Helmet} from "react-helmet"
 

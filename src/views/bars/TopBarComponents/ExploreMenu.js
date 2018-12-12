@@ -1,10 +1,10 @@
-import React from 'react'
-import ExchangeExploreIcon from "../../../images/common/exchange_explore_svg"
-import {Link} from "react-router-dom"
-import ExchangeIcon from "../../../images/common/exchange_svg"
 import Contacts from "../../../images/common/contacts_svg"
 import ContributionIcon from "../../../images/common/contribution_svg"
+import ExchangeExploreIcon from "../../../images/common/exchange_explore_svg"
+import ExchangeIcon from "../../../images/common/exchange_svg"
 import Material from "../../common/components/Material"
+import React from 'react'
+import {Link} from "react-router-dom"
 
 const ExploreMenu = (props) => {
   const {exploreCollapse} = props

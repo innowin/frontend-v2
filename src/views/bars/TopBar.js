@@ -1,30 +1,29 @@
 // @flow
 import * as React from "react"
-import {Component} from "react"
-import PropTypes from "prop-types"
+import AboutUs from "./TopBarComponents/AbouUs"
+import AddingContribution from "../pages/adding-contribution/addingContribution"
+import AgentForm from "../pages/modal/agentForm-modal"
 import AuthActions from "src/redux/actions/authActions"
-import {routerActions} from "react-router-redux"
+import client from "src/consts/client"
+import CreateExchange from "../pages/modal/createExchange/createExchange"
+import ExploreMenu from "./TopBarComponents/ExploreMenu"
+import FileActions from "../../redux/actions/commonActions/fileActions"
+import GeneralSetting from "./TopBarComponents/GeneralSetting"
+import IntroduceBadges from "./TopBarComponents/IntroduceBadges"
+import LinkedAccounts from "./TopBarComponents/LinkedAccounts"
+import Material from "../common/components/Material"
+import Privacy from "./TopBarComponents/Privacy"
+import PropTypes from "prop-types"
+import UserAgreement from "./TopBarComponents/UserAgreement"
 import {bindActionCreators} from "redux"
+import {Component} from "react"
 import {connect} from "react-redux"
-import {userProfileType, userType} from "src/consts/flowTypes/user/basicInformation"
-import {shortOrganizationType} from "src/consts/flowTypes/organization/organization"
 import {DefaultUserIcon, NotificationIcon, InnoWinLogo} from "src/images/icons"
 import {Link} from "react-router-dom"
-import AgentForm from "../pages/modal/agentForm-modal"
-import AddingContribution from "../pages/adding-contribution/addingContribution"
-import CreateExchange from "../pages/modal/createExchange/createExchange"
-import client from "src/consts/client"
-import FileActions from "../../redux/actions/commonActions/fileActions"
+import {routerActions} from "react-router-redux"
 import {SearchIcon} from "../../images/icons"
-import GeneralSetting from "./TopBarComponents/GeneralSetting"
-import LinkedAccounts from "./TopBarComponents/LinkedAccounts"
-import Privacy from "./TopBarComponents/Privacy"
-import ExploreMenu from "./TopBarComponents/ExploreMenu"
-import IntroduceBadges from "./TopBarComponents/IntroduceBadges"
-import UserAgreement from "./TopBarComponents/UserAgreement"
-import AboutUs from "./TopBarComponents/AbouUs"
-import Material from "../common/components/Material"
-import {REST_URL} from "../../consts/URLS"
+import {shortOrganizationType} from "src/consts/flowTypes/organization/organization"
+import {userProfileType, userType} from "src/consts/flowTypes/user/basicInformation"
 
 type PropsTopBar = {|
   collapseClassName: string,
@@ -89,7 +88,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   }
 
   componentDidMount() {
-    const {actions, clientProfile} = this.props
+    const {actions, clientProfile,clientImgLink} = this.props
     const {verifyToken, getFile} = actions
     const mediaId = clientProfile.profile_media
     if (mediaId) {
@@ -98,9 +97,9 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     setTimeout(() => verifyToken(client.getToken()), 1000)
 
     // Added for check profile photo url
-    if (this.props.clientImgLink) {
+    if (clientImgLink) {
       let profile = new Image()
-      profile.src = this.props.clientImgLink
+      profile.src = clientImgLink
       profile.onload = () => {
         this.setState({...this.state, profilePhotoLoaded: true})
       }
@@ -245,7 +244,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
               modalIsOpen={createExchangeModalIsOpen}
           />
 
-          <nav className="navbar flex-row justify-content-between p-0 -white-i fixed-top topBar">
+          <nav className="navbar flex-row justify-content-between p-0 -white-i topBar">
 
             <div className="d-flex align-items-center">
 

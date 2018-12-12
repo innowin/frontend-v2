@@ -1,19 +1,18 @@
 // @flow
 import * as React from 'react'
-import {PureComponent} from 'react'
-import Users from './Users'
-import Sidebar from './SideBar'
-import TopBar from '../../bars/TopBar'
-import {bindActionCreators} from 'redux'
 import connect from 'react-redux/es/connect/connect'
+import RightArrowSvg from '../../../images/common/right_arrow_svg'
+import Sidebar from './SideBar'
 import socialActions from 'src/redux/actions/commonActions/socialActions'
 import userActions from 'src/redux/actions/user/getUserActions'
-import {getUsers} from 'src/redux/selectors/user/GetAllUsers'
-import {ClipLoader} from "react-spinners"
+import Users from './Users'
+import {bindActionCreators} from 'redux'
+import {ClipLoader} from 'react-spinners'
 import {getFollowList} from 'src/redux/selectors/common/social/getFollowList'
-import RightArrowSvg from "../../../images/common/right_arrow_svg"
-import {getMessages} from "../../../redux/selectors/translateSelector"
-import {Helmet} from "react-helmet"
+import {getMessages} from '../../../redux/selectors/translateSelector'
+import {getUsers} from 'src/redux/selectors/user/GetAllUsers'
+import {Helmet} from 'react-helmet'
+import {PureComponent} from 'react'
 
 type appProps =
     {|
@@ -21,13 +20,20 @@ type appProps =
       currentUserIdentity: number,
       currentUserType: string,
       currentUserId: number,
+      translate: Object,
+      loading: boolean,
+      allUsers: Object,
+      followees: Object
     |}
 
 type appState =
     {|
       offset: number,
       activeScrollHeight: number,
-      scrollLoading: boolean
+      search: ?string,
+      justFollowing: boolean,
+      justFollowed: boolean,
+      scrollButton: boolean,
     |}
 
 class Explore extends PureComponent <appProps, appState> {
@@ -44,29 +50,21 @@ class Explore extends PureComponent <appProps, appState> {
   }
 
   componentDidMount() {
+    const {currentUserIdentity, currentUserType, currentUserId} = this.props
+
     this.props.actions.getUsers(24, 0, null)
-    this.props.actions.getFollowees({
-      followOwnerIdentity: this.props.currentUserIdentity,
-      followOwnerType: this.props.currentUserType,
-      followOwnerId: this.props.currentUserId,
-      notProfile: true
-    })
-    this.props.actions.getFollowers({
-      followOwnerIdentity: this.props.currentUserIdentity,
-      followOwnerType: this.props.currentUserType,
-      followOwnerId: this.props.currentUserId,
-      notProfile: true
-    })
-    window.addEventListener('scroll', this.onScroll)
+    this.props.actions.getFollowees({followOwnerIdentity: currentUserIdentity, followOwnerType: currentUserType, followOwnerId: currentUserId, notProfile: true})
+    this.props.actions.getFollowers({followOwnerIdentity: currentUserIdentity, followOwnerType: currentUserType, followOwnerId: currentUserId, notProfile: true})
+    window.addEventListener('scroll', this._onScroll)
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.onScroll)
+    window.removeEventListener('scroll', this._onScroll)
   }
 
-  onScroll = () => {
+  _onScroll = () => {
     let {activeScrollHeight} = this.state
-    let scrollHeight = document.body.scrollHeight
+    let scrollHeight = document.body ? document.body.scrollHeight : 0
     if (((window.innerHeight + window.scrollY) >= (scrollHeight - 250)) && (scrollHeight > activeScrollHeight)) {
       this.setState({
             ...this.state,
@@ -82,17 +80,16 @@ class Explore extends PureComponent <appProps, appState> {
 
   }
 
-  search = (search) =>
+  _search = (search) =>
       this.setState({...this.state, search: search, offset: 0, activeScrollHeight: 0}, () => {
         this.props.actions.getUsers(24, 0, search)
       })
 
-  justFollowing = (checked) => this.setState({...this.state, justFollowing: checked})
+  _justFollowing = (checked) => this.setState({...this.state, justFollowing: checked})
 
-  justFollowed = (checked) => this.setState({...this.state, justFollowed: checked})
+  _justFollowed = (checked) => this.setState({...this.state, justFollowed: checked})
 
-  goUp = () =>
-  {
+  _goUp = () => {
     window.scroll({
       top: 0,
       behavior: 'smooth'
@@ -100,15 +97,16 @@ class Explore extends PureComponent <appProps, appState> {
   }
 
   render() {
+    const {translate, loading, allUsers} = this.props
+    const {justFollowing, justFollowed, scrollButton} = this.state
     const list = this.props.followees
     let followees = {}
     let followers = {}
-    const {translate} = this.props
     const title = `${translate['InnoWin']} - ${translate['Users']}`
     const description = `${translate['Users']}`
 
 
-    Object.values(list).forEach(follow => {
+    Object.values(list).forEach((follow: Object) => {
           if (follow.follow_followed.id === this.props.currentUserIdentity) {
             followers[follow.follow_follower.identity_user] = follow
           }
@@ -123,24 +121,21 @@ class Explore extends PureComponent <appProps, appState> {
           <Helmet>
             <title>{title}</title>
             <meta name="description" content={description}/>
-
             <meta property="og:title" content={title}/>
             <meta property="og:description" content={description}/>
-
             <meta property="twitter:title" content={title}/>
             <meta property="twitter:description" content={description}/>
           </Helmet>
           {/*<TopBar collapseClassName="col user-sidebar-width"/>*/}
-          <Sidebar search={this.search} justFollowing={this.justFollowing} justFollowed={this.justFollowed}/>
+          <Sidebar search={this._search} justFollowing={this._justFollowing} justFollowed={this._justFollowed}/>
           <div className='all-exchanges-container'>
-            <Users followees={followees} followers={followers} users={this.props.allUsers} justFollowing={this.state.justFollowing} justFollowed={this.state.justFollowed}
-                   loading={this.props.loading}/>
+            <Users followees={followees} followers={followers} users={allUsers} justFollowing={justFollowing} justFollowed={justFollowed} loading={loading}/>
             <div className='users-explore-hide'/>
             <div className='users-explore-hide'/>
             <div className='users-explore-hide'/>
-            <div className={this.props.loading ? 'exchanges-explore-search-loading' : 'exchanges-explore-search-loading-hide'}><ClipLoader/></div>
+            <div className={loading ? 'exchanges-explore-search-loading' : 'exchanges-explore-search-loading-hide'}><ClipLoader/></div>
           </div>
-          <div className={this.state.scrollButton ? 'go-up-logo-cont' : 'go-up-logo-cont-hide'} onClick={this.goUp}>
+          <div className={scrollButton ? 'go-up-logo-cont' : 'go-up-logo-cont-hide'} onClick={this._goUp}>
             <RightArrowSvg className='go-up-logo'/>
           </div>
         </div>

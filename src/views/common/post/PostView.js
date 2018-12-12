@@ -87,17 +87,22 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       pictureLoaded: null,
       showComment: false
     }
-    this.commentTextField = null
-    this.handleRetry = this.handleRetry.bind(this)
-    this._delete = this._delete.bind(this)
-    this._showConfirm = this._showConfirm.bind(this)
-    this._cancelConfirm = this._cancelConfirm.bind(this)
-    this.openMenu = this.openMenu.bind(this)
-    this._handleClickOutMenuBox = this._handleClickOutMenuBox.bind(this)
-    this.handleShowComment = this.handleShowComment.bind(this)
+
+    const self : any = this
+
+    self.commentTextField = null
+    self.handleRetry = this.handleRetry.bind(this)
+    self._delete = this._delete.bind(this)
+    self._showConfirm = this._showConfirm.bind(this)
+    self._cancelConfirm = this._cancelConfirm.bind(this)
+    self.openMenu = this.openMenu.bind(this)
+    self._handleClickOutMenuBox = this._handleClickOutMenuBox.bind(this)
+    self.handleShowComment = this.handleShowComment.bind(this)
   }
 
   componentDidMount() {
+    const self : any = this
+
     const {extendedView, post, actions} = this.props
     if (post && post.post_picture) {
       let {getFile} = actions
@@ -130,8 +135,8 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       this._getViewerCount()
     }
 
-    if (this.text) {
-      let allWords = this.text.innerText.replace(/\n/g, ' ')
+    if (self.text) {
+      let allWords = self.text.innerText.replace(/\n/g, ' ')
       allWords = allWords.split(" ")
 
       let mailExp = new RegExp("^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$")
@@ -147,24 +152,24 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
         let word = allWords[i].trim()
         if (urlExp.test(word)) {
           word.includes("http://") || word.includes("https://") ?
-              this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a target=_blank href=` + word + `>${word}</a>`)
+              self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, "g"), `<a target=_blank href=` + word + `>${word}</a>`)
               :
-              this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a target=_blank href=http://` + word + `>${word}</a>`)
+              self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, "g"), `<a target=_blank href=http://` + word + `>${word}</a>`)
         }
         else if (word[0] === "@" && word.length >= 6 && !word.substring(1, word.length).includes("@")) {
-          this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a href=` + word.slice(1, word.length) + `>${word}</a>`)
+          self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, "g"), `<a href=` + word.slice(1, word.length) + `>${word}</a>`)
         }
         else if (word[0] === "#" && word.length >= 3 && !word.substring(1, word.length).includes("#")) {
-          this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a href=` + word + `>${word}</a>`)
+          self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, "g"), `<a href=` + word + `>${word}</a>`)
         }
         else if (mailExp.test(word)) {
-          this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a href=mailto:` + word + `>${word}</a>`)
+          self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, "g"), `<a href=mailto:` + word + `>${word}</a>`)
         }
         else if (!isNaN(word.replace(/\\+/g, "")) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
           word.includes("+") ?
-              this.text.innerHTML = this.text.innerHTML.replace(new RegExp(`\\${word}`, "g"), `<a href=tel:` + word + `>${word}</a>`)
+              self.text.innerHTML = self.text.innerHTML.replace(new RegExp(`\\${word}`, "g"), `<a href=tel:` + word + `>${word}</a>`)
               :
-              this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, "g"), `<a href=tel:` + word + `>${word}</a>`)
+              self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, "g"), `<a href=tel:` + word + `>${word}</a>`)
         }
       }
     }
@@ -274,6 +279,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   render() {
+    const self : any = this
     const {post, translate, postIdentity, postRelatedIdentityImage, userImage, extendedView, showEdit, comments, fileList, commentParentType} = this.props
     const {menuToggle, confirm, pictureLoaded, showComment} = this.state
     let postDescription, postPicture, postPictureId, postIdentityUserId, postIdentityOrganId, postOwnerId = 0
@@ -310,7 +316,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                 <PostHeader post={post} translate={translate} postIdentity={postIdentity}
                             postRelatedIdentityImage={postRelatedIdentityImage} showEdit={showEdit}
                             extendedView={extendedView}/>
-                <div className="post-content" ref={e => this.text = e}>
+                <div className="post-content" ref={e => self.text = e}>
                   {postDescription}
                 </div>
 
@@ -377,7 +383,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                       post={post}/> : null
                 }
 
-                {extendedView && comments.length > 0 &&
+                {extendedView && comments && comments.length > 0 &&
                 <PostComments comments={comments} translate={translate}
                               replyComment={(comment) => this.replyComment(comment, this.commentTextField)}
                               deleteComment={this.deleteComment}/>
