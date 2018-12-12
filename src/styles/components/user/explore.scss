@@ -78,20 +78,28 @@
   position: relative;
 }
 
+.user-name-id-cont {
+  display: flex;
+  white-space: nowrap;
+  flex-wrap: nowrap;
+}
+
 .user-name {
+  text-align: right;
+  flex-grow: 1;
   padding-right: 10px;
   vertical-align: top;
   display: inline-block;
-  float: right;
   font-size: $font-size-normalText;
 }
 
 .user-id {
+  text-align: left;
+  flex-grow: 1;
   padding-left: 10px;
   direction: ltr;
   vertical-align: top;
   display: inline-block;
-  float: left;
   color: $text-title-menu-color;
   font-size: $font-size-normalText;
 }
@@ -124,6 +132,19 @@
 }
 
 .user-description {
+  font-size: $font-size-smallText;
+  padding: 10px;
+  text-align: justify;
+  text-align-last: initial;
+  line-height: 25px;
+  height: 110px;
+  margin-bottom: 10px;
+  color: $text-title-menu-color;
+  position: relative;
+  overflow: hidden;
+}
+
+.user-description-skeleton {
   clear: both;
   margin-top: 20px;
   font-size: $font-size-smallText;
@@ -154,6 +175,7 @@
   padding: 2px 0;
   float: left;
   margin-left: 10px;
+  margin-top: 3px;
   transition-duration: 0.25s;
   font-size: $font-size-normalText;
   width: 80px;
@@ -174,6 +196,7 @@
   padding: 2px 0;
   float: left;
   margin-left: 10px;
+  margin-top: 3px;
   transition-duration: 0.25s;
   font-size: $font-size-normalText;
   width: 80px;
@@ -192,6 +215,7 @@
   border-radius: 3px;
   padding: 2px 0;
   margin-left: 10px;
+  margin-top: 3px;
   float: left;
   transition-duration: 0.25s;
   font-size: $font-size-normalText;
