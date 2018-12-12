@@ -34,9 +34,9 @@ const createSocketChannel = (resultName) => {
 }
 
 //1 - req -sending requests
-function* get(url, result, param = "") {
+function* get(url, result, param = "", data, noToken) {
   const token = yield select((state) => state.auth.client.token)
-  yield apply({}, getEmit, [url, result, param, token])
+  yield apply({}, getEmit, [url, result, param, token, data, noToken])
 }
 
 function* post(url, result, data, param = "") {
@@ -64,13 +64,24 @@ function* setPostViewer(postId, result) {
 }
 
 // pre send request
-const getEmit = (url, resultName, query = "", token) => {
-  socket.emit(REST_REQUEST, {
-    method: 'get',
-    url: REST_URL + '/' + url + '/' + query,
-    result: resultName,
-    token
-  })
+const getEmit = (url, resultName, query = "", token, data, noToken) => {
+  if(noToken) {
+    socket.emit(REST_REQUEST, {
+      method: 'get',
+      url: REST_URL + '/' + url + '/' + query,
+      result: resultName,
+      data,
+    })
+  }
+  else {
+    socket.emit(REST_REQUEST, {
+      method: 'get',
+      url: REST_URL + '/' + url + '/' + query,
+      result: resultName,
+      token,
+      data,
+    })
+  }
 }
 
 const patchEmit = (urll, resultName, data, query = "", token) => {

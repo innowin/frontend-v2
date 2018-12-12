@@ -17,11 +17,39 @@ const users = (state = initialState.users, action) => {
 
   switch (action.type) {
     /** ---------------------------- reset user password  by sms--------------------> **/
+    // ----------------- search user
+    case types.USER.SEARCH_USER:
+      return {
+        ...state,
+        recoveryPassword: {
+          searchUserData: {},
+          isLoading: true,
+          error: null
+        }
+      }
+    case types.SUCCESS.USER.SEARCH_USER:
+      return {
+        ...state,
+        recoveryPassword: {
+          searchUserData: data,
+          isLoading: false,
+          error: null
+        }
+      }
+    case types.ERRORS.USER.SEARCH_USER:
+      return {
+        ...state,
+        recoveryPassword: {
+          searchUserData: {},
+          isLoading: false,
+          error: message
+        }
+      }
     // ---------------- request
     case types.USER.PASSWORD_RESET_BY_SMS_REQUEST:
       return {
         ...state,
-        resetPassword: {
+        recoveryPassword: {
           userId: null,
           step_name: constants.RESET_PASSWORD_STEP.REQUEST,
           isLoading: true,
@@ -31,7 +59,7 @@ const users = (state = initialState.users, action) => {
     case types.SUCCESS.USER.PASSWORD_RESET_BY_SMS_REQUEST:
       return {
         ...state,
-        resetPassword: {
+        recoveryPassword: {
           userId,
           step_name: constants.RESET_PASSWORD_STEP.REQUEST,
           isLoading: false,
@@ -41,7 +69,7 @@ const users = (state = initialState.users, action) => {
     case types.ERRORS.USER.PASSWORD_RESET_BY_SMS_REQUEST:
       return {
         ...state,
-        resetPassword: {
+        recoveryPassword: {
           userId: null,
           step_name: constants.RESET_PASSWORD_STEP.REQUEST,
           isLoading: false,
@@ -52,7 +80,7 @@ const users = (state = initialState.users, action) => {
     case types.USER.PASSWORD_RESET_BY_SMS_CHECK_CODE:
       return {
         ...state,
-        resetPassword: {
+        recoveryPassword: {
           userId,
           step_name: constants.RESET_PASSWORD_STEP.CHECK_CODE,
           isLoading: true,
@@ -63,7 +91,7 @@ const users = (state = initialState.users, action) => {
       const {VerificationCode} = action.payload || {}
       return {
         ...state,
-        resetPassword: {
+        recoveryPassword: {
           VerificationCode,
           userId,
           step_name: constants.RESET_PASSWORD_STEP.CHECK_CODE,
@@ -74,20 +102,18 @@ const users = (state = initialState.users, action) => {
     case types.ERRORS.USER.PASSWORD_RESET_BY_SMS_CHECK_CODE:
       return {
         ...state,
-        resetPassword: {
+        recoveryPassword: {
           userId,
           step_name: constants.RESET_PASSWORD_STEP.CHECK_CODE,
           isLoading: false,
           error: message
         }
       }
-
-
     // -------------------- reset finally
     case types.USER.PASSWORD_RESET_BY_SMS:
       return {
         ...state,
-        resetPassword: {
+        recoveryPassword: {
           step_name: constants.RESET_PASSWORD_STEP.RESET,
           isLoading: true,
           error: null
@@ -96,7 +122,7 @@ const users = (state = initialState.users, action) => {
     case types.SUCCESS.USER.PASSWORD_RESET_BY_SMS:
       return {
         ...state,
-        resetPassword: {
+        recoveryPassword: {
           step_name: constants.RESET_PASSWORD_STEP.RESET,
           isLoading: false,
           error: null
@@ -105,13 +131,25 @@ const users = (state = initialState.users, action) => {
     case types.ERRORS.USER.PASSWORD_RESET_BY_SMS:
       return {
         ...state,
-        resetPassword: {
+        recoveryPassword: {
           step_name: constants.RESET_PASSWORD_STEP.RESET,
           isLoading: false,
           error: message
         }
       }
-
+   // ------------------------------------ reset initial state of recoveryPassword
+    case types.USER.RESET_RECOVERY_PASSWORD_REDUX_STATE:
+      return {
+          ...state,
+        recoveryPassword: {
+          VerificationCode: '',
+          userId: null,
+          searchUserData: {},
+          step_name: '',
+          isLoading: false,
+          error: null
+        }
+      }
 
     /** -------------------------- get user -------------------------> **/
     case types.USER.GET_USER_BY_USER_ID:

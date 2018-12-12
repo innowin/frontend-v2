@@ -81,7 +81,7 @@ class BasicInfoEditForm extends React.Component<PropsUserInfoEditForm> {
             />
           </div>
 
-          <div className='form-group'>
+          <div className='form-group render-text-field-container'>
             <label>
               {translate['Last name'] + ": "}
             </label>
@@ -93,6 +93,17 @@ class BasicInfoEditForm extends React.Component<PropsUserInfoEditForm> {
                 textFieldClass='form-control'
             />
           </div>
+
+          {/*<div className='form-group render-text-field-container'>*/}
+            {/*<Field*/}
+                {/*labelName={translate['Last name'] + ": "}*/}
+                {/*name="lastName"*/}
+                {/*type="text"*/}
+                {/*component={renderTextField}*/}
+                {/*// label={translate['Last name']}*/}
+                {/*textFieldClass='form-control'*/}
+            {/*/>*/}
+          {/*</div>*/}
 
           {submitFailed && <p className="error-message">{error}</p>}
 
