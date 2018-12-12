@@ -98,10 +98,10 @@ class Login extends Component {
                     />}
                     {SignUp && <RegisterForm onRegisterClick={this._onRegisterClisk}/>}
                   </div>
-                  <div className="card-footer social-login">
-                    <span>{translate['Register with other accounts']}</span>
-                    <SocialLogin/>
-                  </div>
+                  {/*<div className="card-footer social-login">*/}
+                    {/*<span>{translate['Register with other accounts']}</span>*/}
+                    {/*<SocialLogin/>*/}
+                  {/*</div>*/}
                 </div>
               </div>
             </div>

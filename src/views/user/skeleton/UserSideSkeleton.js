@@ -1,6 +1,6 @@
-import React from 'react'
 import DefaultUserIcon from "../../../images/defaults/defaultUser_svg"
 import Material from "../../common/components/Material"
+import React from 'react'
 
 const UserSideSkeleton = () => <div className='sidebar-skeleton'>
   <div id="lineSide"/>

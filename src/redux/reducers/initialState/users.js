@@ -81,10 +81,11 @@ export default {
   allUsers: {},
   search: null,
   loading: true,
-  resetPassword: {
-    step_name: null,
+  recoveryPassword: {
+    step_name: '',
     userId:null,
-    VerificationCode: null,
+    VerificationCode: '',
+    searchUserData: {},
     isLoading: false,
     error: null
   },

@@ -1,5 +1,5 @@
 // @flow
-import types from "../types"
+import types from '../types'
 
 const getUserByUserId = (userId: number) => ({
   type: types.USER.GET_USER_BY_USER_ID,
@@ -16,7 +16,7 @@ const getUsers = () => ({
   payload: {}
 })
 
-const getAllUsers = (limit, offset, search) => ({
+const getAllUsers = (limit: number, offset: number, search: ?string) => ({
   type: types.USER.GET_ALL_USERS,
   payload: {limit, offset, search}
 })

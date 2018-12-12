@@ -1,11 +1,13 @@
 // @flow
 import * as React from 'react'
 import Exchange from './Exchange'
-import ExchangeSkeleton from "./Exchange_Skeleton"
+import ExchangeSkeleton from './Exchange_Skeleton'
 
 type appProps =
     {|
-      exchanges: any
+      exchanges: { exchange: {} },
+      justFollowing: boolean,
+      loading: boolean
     |}
 
 const loadingArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -13,7 +15,7 @@ const loadingArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 const Exchanges = (props: appProps) => {
   let {exchanges, justFollowing} = props
 
-  exchanges = Object.values(exchanges).filter(exchange =>
+  exchanges = Object.values(exchanges).filter((exchange: Object) =>
       exchange.exchange ?
           exchange.exchange.content.id
           :
@@ -21,7 +23,7 @@ const Exchanges = (props: appProps) => {
   )
 
   if (justFollowing) {
-    exchanges = exchanges.filter(exchange =>
+    exchanges = exchanges.filter((exchange: Object) =>
         exchange.exchange ?
             exchange.exchange.content.exchange
             :
@@ -30,16 +32,24 @@ const Exchanges = (props: appProps) => {
   }
 
   if (exchanges.length > 0) {
-    return exchanges.map((exchange, i) =>
-        <Exchange key={i} data={exchange.exchange ? exchange.exchange.content : exchange.exchange}/>
-    )
+    return <React.Fragment>
+      {
+        exchanges.map((exchange: Object, i: number): any =>
+            <Exchange key={i} data={exchange.exchange ? exchange.exchange.content : exchange.exchange}/>
+        )
+      }
+    </React.Fragment>
   }
   else if (!props.loading) {
     return <div className='exchanges-explore-not-found'>پنجرهی یافت نشد!</div>
   }
-  else return loadingArr.map((exchange, i) =>
-        <ExchangeSkeleton key={i}/>
-    )
+  else return <React.Fragment>
+      {
+        loadingArr.map((exchange: Object, i: number): any =>
+            <ExchangeSkeleton key={i}/>
+        )
+      }
+    </React.Fragment>
 }
 
 export default Exchanges

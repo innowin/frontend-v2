@@ -1,30 +1,29 @@
 // @flow
 import * as React from "react"
-import {Component} from "react"
-import PropTypes from "prop-types"
+import AboutUs from "./TopBarComponents/AbouUs"
+import AddingContribution from "../pages/adding-contribution/addingContribution"
+import AgentForm from "../pages/modal/agentForm-modal"
 import AuthActions from "src/redux/actions/authActions"
-import {routerActions} from "react-router-redux"
+import client from "src/consts/client"
+import CreateExchange from "../pages/modal/createExchange/createExchange"
+import ExploreMenu from "./TopBarComponents/ExploreMenu"
+import FileActions from "../../redux/actions/commonActions/fileActions"
+import GeneralSetting from "./TopBarComponents/GeneralSetting"
+import IntroduceBadges from "./TopBarComponents/IntroduceBadges"
+import LinkedAccounts from "./TopBarComponents/LinkedAccounts"
+import Material from "../common/components/Material"
+import Privacy from "./TopBarComponents/Privacy"
+import PropTypes from "prop-types"
+import UserAgreement from "./TopBarComponents/UserAgreement"
 import {bindActionCreators} from "redux"
+import {Component} from "react"
 import {connect} from "react-redux"
-import {userProfileType, userType} from "src/consts/flowTypes/user/basicInformation"
-import {shortOrganizationType} from "src/consts/flowTypes/organization/organization"
 import {DefaultUserIcon, NotificationIcon, InnoWinLogo} from "src/images/icons"
 import {Link} from "react-router-dom"
-import AgentForm from "../pages/modal/agentForm-modal"
-import AddingContribution from "../pages/adding-contribution/addingContribution"
-import CreateExchange from "../pages/modal/createExchange/createExchange"
-import client from "src/consts/client"
-import FileActions from "../../redux/actions/commonActions/fileActions"
+import {routerActions} from "react-router-redux"
 import {SearchIcon} from "../../images/icons"
-import GeneralSetting from "./TopBarComponents/GeneralSetting"
-import LinkedAccounts from "./TopBarComponents/LinkedAccounts"
-import Privacy from "./TopBarComponents/Privacy"
-import ExploreMenu from "./TopBarComponents/ExploreMenu"
-import IntroduceBadges from "./TopBarComponents/IntroduceBadges"
-import UserAgreement from "./TopBarComponents/UserAgreement"
-import AboutUs from "./TopBarComponents/AbouUs"
-import Material from "../common/components/Material"
-import {REST_URL} from "../../consts/URLS"
+import {shortOrganizationType} from "src/consts/flowTypes/organization/organization"
+import {userProfileType, userType} from "src/consts/flowTypes/user/basicInformation"
 
 type PropsTopBar = {|
   collapseClassName: string,
@@ -89,7 +88,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   }
 
   componentDidMount() {
-    const {actions, clientProfile} = this.props
+    const {actions, clientProfile,clientImgLink} = this.props
     const {verifyToken, getFile} = actions
     const mediaId = clientProfile.profile_media
     if (mediaId) {
@@ -98,9 +97,9 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     setTimeout(() => verifyToken(client.getToken()), 1000)
 
     // Added for check profile photo url
-    if (this.props.clientImgLink) {
+    if (clientImgLink) {
       let profile = new Image()
-      profile.src = this.props.clientImgLink
+      profile.src = clientImgLink
       profile.onload = () => {
         this.setState({...this.state, profilePhotoLoaded: true})
       }
@@ -189,7 +188,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   }
 
   _handleHideSetting = () => {
-    this.setState({...this.state, showSetting: false, showAbout: false})
+    this.setState({...this.state, showSetting: false, showAbout: false, productWizardModalIsOpen: false})
     setTimeout(() => {
       this.setState({...this.state, selectedSetting: "Privacy", selectedAbout: "FAQ"})
       setTimeout(() => {
@@ -221,7 +220,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
   render() {
     const {collapseClassName, clientUser, clientOrganization, translate, clientImgLink} = this.props
-    const {collapse, collapseProfile, exploreCollapse, productWizardModalIsOpen, mouseIsOverMenu, selectedSetting, selectedAbout, showSetting, showAbout, createExchangeModalIsOpen, profilePhotoLoaded,agentForm} = this.state
+    const {collapse, collapseProfile, exploreCollapse, productWizardModalIsOpen, mouseIsOverMenu, selectedSetting, selectedAbout, showSetting, showAbout, createExchangeModalIsOpen, profilePhotoLoaded, agentForm} = this.state
     const linkEditProfile = !clientOrganization
         ? `/user/${clientUser.id}`
         : `/organization/${clientOrganization.id}`
@@ -245,7 +244,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
               modalIsOpen={createExchangeModalIsOpen}
           />
 
-          <nav className="navbar flex-row justify-content-between p-0 -white-i fixed-top topBar">
+          <nav className="navbar flex-row justify-content-between p-0 -white-i topBar">
 
             <div className="d-flex align-items-center">
 
@@ -335,18 +334,18 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                               handleModalVisibility={this._handleProductWizardModal}/>
 
 
-          <div className={showSetting || showAbout || agentForm ? "makeDark" : "makeDark-out"} onClick={this._handleHideSetting}>
+          <div className={showSetting || showAbout || agentForm || productWizardModalIsOpen ? "makeDark" : "makeDark-out"} onClick={this._handleHideSetting}>
             {/*dark div*/}
           </div>
           {/*Settings Modal*/}
           <div className={showSetting ? "settingModal-sidebar" : "settingModal-sidebar-out"}>
-            <Material onClick={() => this._handleSettingSelected('General Settings')}
+            <Material onClick={() => this._handleSettingSelected("General Settings")}
                       className={selectedSetting === "General Settings" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}
                       content={translate["General Settings"]}/>
-            <Material onClick={() => this._handleSettingSelected('Manage Linked Accounts')}
+            <Material onClick={() => this._handleSettingSelected("Manage Linked Accounts")}
                       className={selectedSetting === "Manage Linked Accounts" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}
                       content={translate["Manage Linked Accounts"]}/>
-            <Material onClick={() => this._handleSettingSelected('Privacy')}
+            <Material onClick={() => this._handleSettingSelected("Privacy")}
                       className={selectedSetting === "Privacy" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}
                       content={translate["Privacy"]}/>
             <Material onClick={this._handleSignOut}
@@ -362,16 +361,16 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
           {/*About Modal*/}
           <div className={showAbout ? "settingModal-sidebar" : "settingModal-sidebar-out"}>
-            <Material onClick={() => this._handleAboutSelected('FAQ')}
+            <Material onClick={() => this._handleAboutSelected("FAQ")}
                       className={selectedAbout === "FAQ" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}
                       content={translate["FAQ"]}/>
-            <Material onClick={() => this._handleAboutSelected('Introduce Badges')}
+            <Material onClick={() => this._handleAboutSelected("Introduce Badges")}
                       className={selectedAbout === "Introduce Badges" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}
                       content={translate["Introduce Badges"]}/>
-            <Material onClick={() => this._handleAboutSelected('Terms & Conditions')}
+            <Material onClick={() => this._handleAboutSelected("Terms & Conditions")}
                       className={selectedAbout === "Terms & Conditions" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}
                       content={translate["Terms & Conditions"]}/>
-            <Material onClick={() => this._handleAboutSelected('About Us')}
+            <Material onClick={() => this._handleAboutSelected("About Us")}
                       className={selectedAbout === "About Us" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}
                       content={translate["About Us"]}/>
           </div>

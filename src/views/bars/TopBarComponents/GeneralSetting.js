@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
-import {bindActionCreators} from "redux"
 import connect from "react-redux/es/connect/connect"
+import React, {Component} from 'react'
 import updateUserByUserIdAction from "../../../redux/actions/user/updateUserByUserIdAction"
+import {bindActionCreators} from "redux"
 
 class GeneralSetting extends Component {
   constructor(props) {

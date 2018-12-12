@@ -80,8 +80,8 @@ class ProductView extends Component<ProductViewProps, ProductViewState> {
               <NavLink className="-tab" to={`${url}/Posts`} activeClassName="-active">{postIcon}</NavLink>
               <NavLink className="-tab" to={`${url}/Certificates`}
                 activeClassName="-active"><CertificateIcon/></NavLink>
-              <NavLink className="-tab" to={`${url}/Ratings`}
-                activeClassName="-active"><RatingIcon/></NavLink>
+              {/*<NavLink className="-tab" to={`${url}/Ratings`}*/}
+                {/*activeClassName="-active"><RatingIcon/></NavLink>*/}
               {/*<NavLink className="-tab" to={`${url}/Represents`}*/}
                        {/*activeClassName="-active">{postIcon}</NavLink>*/}
             </Tabs>

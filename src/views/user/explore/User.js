@@ -1,25 +1,36 @@
 // @flow
 import * as React from 'react'
+import connect from 'react-redux/es/connect/connect'
+import identityActions from '../../../redux/actions/identityActions'
+import Material from '../../common/components/Material'
+import socialActions from '../../../redux/actions/commonActions/socialActions'
+import {bindActionCreators} from 'redux'
+import {ClipLoader} from 'react-spinners'
 import {Component} from 'react'
-import {DefaultUserIcon} from "src/images/icons"
-import {bindActionCreators} from "redux"
-import identityActions from "../../../redux/actions/identityActions"
-import connect from "react-redux/es/connect/connect"
-import socialActions from "../../../redux/actions/commonActions/socialActions"
-import {ClipLoader} from "react-spinners"
-import {Link} from "react-router-dom"
+import {DefaultUserIcon} from 'src/images/icons'
+import {Link} from 'react-router-dom'
 import {REST_URL} from 'src/consts/URLS'
-import Material from "../../common/components/Material"
 
 type appProps =
     {|
       actions: any,
       members: Array<number>,
-      data: any
+      data: any,
+      identities: Object,
+      currentUserIdentity: Object,
+      currentUserId: Object,
+      currentUserType: Object,
+      followees: Object
     |}
 
 type appState =
-    {||}
+    {|
+      follow: boolean,
+      followLoading: boolean,
+      profileLoaded: boolean,
+      bannerLoaded: boolean,
+      checkMedia: boolean
+    |}
 
 class User extends Component <appProps, appState> {
   constructor(props) {
@@ -32,35 +43,23 @@ class User extends Component <appProps, appState> {
           bannerLoaded: false,
           checkMedia: true
         }
-
-    this.follow = this.follow.bind(this)
-  }
-
-  follow() {
-    this.setState({followLoading: true}, () => {
-      if (this.props.identities[this.props.data.user.id] && this.props.identities[this.props.data.user.id].identity && this.props.identities[this.props.data.user.id].identity.content) {
-        const formValues = {follow_follower: this.props.currentUserIdentity, follow_followed: this.props.identities[this.props.data.user.id].identity.content}
-        this.props.actions.follow({formValues, followOwnerId: this.props.currentUserId, followOwnerType: this.props.currentUserType})
-      }
-      else {
-        this.setState({...this.state, follow: true})
-        this.props.actions.getUserIdentity(this.props.data.user.id)
-      }
-    })
+    const self: any = this
+    self._follow = this._follow.bind(this)
   }
 
   componentDidMount() {
-    if (this.props.data.profile.profile_banner) {
+    const {data} = this.props
+    if (data.profile.profile_banner) {
       let banner = new Image()
-      banner.src = REST_URL + this.props.data.profile.profile_banner.file
+      banner.src = REST_URL + data.profile.profile_banner.file
       banner.onload = () => {
         this.setState({...this.state, bannerLoaded: true})
       }
     }
 
-    if (this.props.data.profile.profile_media) {
+    if (data.profile.profile_media) {
       let profile = new Image()
-      profile.src = REST_URL + this.props.data.profile.profile_media.file
+      profile.src = REST_URL + data.profile.profile_media.file
       profile.onload = () => {
         this.setState({...this.state, profileLoaded: true})
       }
@@ -68,7 +67,11 @@ class User extends Component <appProps, appState> {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.data.user.id !== nextProps.data.user.id) {
+
+    const {data, currentUserType, currentUserId, currentUserIdentity, actions} = this.props
+    const {follow} = this.state
+
+    if (data.user.id !== nextProps.data.user.id) {
       this.setState({...this.state, bannerLoaded: false, profileLoaded: false, follow: false, followLoading: false}, () => {
         if (nextProps.data.profile.profile_banner) {
           let banner = new Image()
@@ -87,50 +90,67 @@ class User extends Component <appProps, appState> {
         }
       })
     }
-    else if (this.state.follow && (nextProps.identities[this.props.data.user.id] && nextProps.identities[this.props.data.user.id].identity && nextProps.identities[this.props.data.user.id].identity.content)) {
+    else if (follow && (nextProps.identities[data.user.id] && nextProps.identities[data.user.id].identity && nextProps.identities[data.user.id].identity.content)) {
       this.setState({...this.state, follow: false}, () => {
-        const formValues = {follow_follower: this.props.currentUserIdentity, follow_followed: nextProps.identities[this.props.data.user.id].identity.content}
-        this.props.actions.follow({formValues, followOwnerId: this.props.currentUserId, followOwnerType: this.props.currentUserType})
+        const formValues = {follow_follower: currentUserIdentity, follow_followed: nextProps.identities[data.user.id].identity.content}
+        actions.follow({formValues, followOwnerId: currentUserId, followOwnerType: currentUserType})
       })
     }
   }
 
-  renderFollowed(data, followees) {
+  _follow() {
+    const {identities, actions, currentUserIdentity, currentUserId, currentUserType, data} = this.props
+    this.setState({followLoading: true}, () => {
+      if (identities[data.user.id] && identities[data.user.id].identity && identities[data.user.id].identity.content) {
+        const formValues = {follow_follower: currentUserIdentity, follow_followed: identities[data.user.id].identity.content}
+        actions.follow({formValues, followOwnerId: currentUserId, followOwnerType: currentUserType})
+      }
+      else {
+        this.setState({...this.state, follow: true})
+        actions.getUserIdentity(data.user.id)
+      }
+    })
+  }
+
+  _renderFollowed(data, followees) {
+    const {followLoading} = this.state
+
     if (followees[data.user.id]) {
       return <Material className='user-follow' content='دنبال شده'/>
     }
-    else if (this.state.followLoading) {
+    else if (followLoading) {
       return <Material className='user-follow-loading' content={<ClipLoader color='#008057' size={19}/>}/>
     }
-    else return <Material className='user-followed' content='دنبال کردن' onClick={this.follow}/>
+    else return <Material className='user-followed' content='دنبال کردن' onClick={this._follow}/>
   }
 
   render() {
     const {data, followees} = this.props
+    const {profile} = data
     const {profileLoaded, bannerLoaded} = this.state
     return (
         <div className='users-explore'>
           <Link to={`/user/${data.user.id}`} style={{textDecoration: 'none', color: 'black'}}>
             {
-              data.profile.profile_banner && bannerLoaded ?
-                  <img src={REST_URL + data.profile.profile_banner.file} className='user-banner' alt={data.user.last_name}/>
+              profile.profile_banner && bannerLoaded ?
+                  <img src={REST_URL + profile.profile_banner.file} className='user-banner' alt={data.user.last_name}/>
                   :
                   <div className='user-banner'/>
             }
             {
-              data.profile.profile_media && profileLoaded ?
-                  <img src={REST_URL + data.profile.profile_media.file} className='user-profile-photo' alt={data.user.last_name}/>
+              profile.profile_media && profileLoaded ?
+                  <img src={REST_URL + profile.profile_media.file} className='user-profile-photo' alt={data.user.last_name}/>
                   :
                   <DefaultUserIcon className='user-default-profile-photo'/>
             }
 
-            <div>
+            <div className='user-name-id-cont'>
               <div className='user-name'>{data.user.first_name + ' ' + data.user.last_name}</div>
               <div className='user-id'>@{data.user.username}</div>
             </div>
 
-            <div className='user-description' style={new RegExp("^[A-Za-z]*$").test(data.profile.description[0]) ? {direction: 'ltr'} : {direction: 'rtl'}}>
-              {data.profile.description}
+            <div className='user-description' style={new RegExp('^[A-Za-z]*$').test(profile.description[0]) ? {direction: 'ltr'} : {direction: 'rtl'}}>
+              {profile.description}
             </div>
 
             <div className='user-baj-container'>
@@ -142,7 +162,7 @@ class User extends Component <appProps, appState> {
             </div>
           </Link>
           {
-            this.renderFollowed(data, followees)
+            this._renderFollowed(data, followees)
           }
         </div>
     )

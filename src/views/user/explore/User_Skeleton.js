@@ -21,7 +21,7 @@ const User_Skeleton = () => {
           </div>
         </div>
 
-        <div className='user-description'>
+        <div className='user-description-skeleton'>
           <div className='user-description-row-skeleton'/>
           <div className='user-description-row-skeleton'/>
           <div className='user-description-row-skeleton'/>

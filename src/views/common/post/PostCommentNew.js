@@ -1,12 +1,28 @@
-import React, {Component} from "react"
-import DefaultUserIcon from "../../../images/defaults/defaultUser_svg"
-import AttachFileIcon from "../../../images/common/attachFileNew_svg"
-import PostSendIcon from "../../../images/common/postSend_svg"
+// @flow
+import * as React from "react"
+import CommentActions from "src/redux/actions/commonActions/commentActions"
+import {AttachFileIcon, DefaultUserIcon, PostSendIcon} from "src/images/icons"
 import {bindActionCreators} from "redux"
-import CommentActions from "../../../redux/actions/commonActions/commentActions"
-import connect from "react-redux/es/connect/connect"
+import {Component} from "react"
+import {connect} from "react-redux"
+import {getMessages} from "src/redux/selectors/translateSelector"
 
-class PostCommentNew extends Component {
+type props = {
+  actions: any,
+  commentParentType: ?string,
+  currentUserMedia: ?number,
+  post: { id: number },
+  translate: { [string]: string },
+}
+
+type states = {
+  comment: string,
+  commentBody: string,
+  descriptionClass: string,
+  open: boolean,
+}
+
+class PostCommentNew extends Component<props, states> {
   constructor(props) {
     super(props)
     this.state = {
@@ -15,7 +31,8 @@ class PostCommentNew extends Component {
       descriptionClass: "hide-message",
       comment: "",
     }
-    this.handleChangeText = this.handleChangeText.bind(this)
+    const self: any = this
+    self._handleChangeText = self._handleChangeText.bind(self)
   }
 
   createComment(commentTextField) {
@@ -29,7 +46,7 @@ class PostCommentNew extends Component {
     else console.log("Handle Notification for Illegal Comment")
   }
 
-  handleChangeText(e) {
+  _handleChangeText(e) {
     const comment = e.target.value
     if (comment.length < 751) this.setState({...this.state, comment}, () => checkCharacter(comment))
     else e.target.value = this.state.comment
@@ -52,8 +69,9 @@ class PostCommentNew extends Component {
 
   render() {
     const {commentBody, open, descriptionClass, comment} = this.state
-    const {currentUserMedia} = this.props
-    console.log(currentUserMedia)
+    const {currentUserMedia, translate} = this.props
+    const self: any = this
+    // console.log(currentUserMedia)
     return (
         <div className={"comment-container"}>
           <div>
@@ -67,10 +85,10 @@ class PostCommentNew extends Component {
             {descriptionClass &&
             <span className={descriptionClass + " description-character"}> {comment.trim().length + "/750"} </span>
             }
-            <textarea ref={e => this.text = e}
+            <textarea ref={e => self.text = e}
                       className={open ? "comment-text-area-open" : "comment-text-area"}
-                      placeholder={"فرستادن دیدگاه"}
-                      onChange={this.handleChangeText}
+                      placeholder={translate["Send comment"]}
+                      onChange={this._handleChangeText}
                       onFocus={() => this.setState({
                         ...this.state,
                         commentBody: "comment-body-focused",
@@ -95,7 +113,7 @@ class PostCommentNew extends Component {
                   <span onClick={() => console.log("Handle Show Menu")}>
                     <AttachFileIcon className='post-component-footer-send-attach'/>
                   </span>
-              <span onClick={this.createComment.bind(this, this.text)}>
+              <span onClick={this.createComment.bind(this, self.text)}>
                   <PostSendIcon className={comment.length > 4 ? "post-component-footer-send-attach" : "post-component-footer-send-attach-inactive"}/>
                 </span>
             </div>
@@ -105,15 +123,18 @@ class PostCommentNew extends Component {
   }
 }
 
- const mapStateToProps = (state) => {
- const client = state.auth.client
- const clientImgId = (client.user_type === "person") ? (client.profile.profile_media) : (
- (client.organization && client.organization.organization_logo) || null)
- const currentUserMedia = state.common.file.list[clientImgId] ? state.common.file.list[clientImgId].file : null
-   return {
-     currentUserMedia
-   }
- }
+const mapStateToProps = (state) => {
+  const client = state.auth.client
+  const clientImgId = (client.user_type === "person") ? (client.profile.profile_media) : (
+      (client.organization && client.organization.organization_logo) || null)
+  const {common} = state
+  const {file} = common
+  const currentUserMedia = file.list[clientImgId] ? file.list[clientImgId].file : null
+  return {
+    currentUserMedia,
+    translate: getMessages(state),
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({

@@ -1,31 +1,36 @@
 // @flow
 import * as React from 'react'
-import {PureComponent} from 'react'
-import Exchanges from './Exchanges'
-import Sidebar from './Sidebar'
-import {bindActionCreators} from 'redux'
 import connect from 'react-redux/es/connect/connect'
 import exchangeActions from 'src/redux/actions/exchangeActions'
+import Exchanges from './Exchanges'
+import RightArrowSvg from '../../../images/common/right_arrow_svg'
+import Sidebar from './Sidebar'
+import {bindActionCreators} from 'redux'
+import {ClipLoader} from 'react-spinners'
 import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges.js'
-import {ClipLoader} from "react-spinners"
-import RightArrowSvg from "../../../images/common/right_arrow_svg"
-import {Helmet} from "react-helmet"
-import {getMessages} from "../../../redux/selectors/translateSelector"
+import {getMessages} from '../../../redux/selectors/translateSelector'
+import {PureComponent} from 'react'
+// import {Helmet} from 'react-helmet'
 
 type appProps =
     {|
-      actions: any,
+      actions: { getAllExchanges: Function },
       currentUserIdentity: number,
       currentUserType: string,
       currentUserId: number,
-      allExchanges: Array<any>
+      allExchanges: any,
+      translate: Object,
+      loading: boolean
     |}
 
 type appState =
     {|
       offset: number,
       activeScrollHeight: number,
-      scrollLoading: boolean
+      scrollLoading: boolean,
+      justFollowing: boolean,
+      search: ?string,
+      scrollButton: boolean
     |}
 
 class Explore extends PureComponent <appProps, appState> {
@@ -43,16 +48,16 @@ class Explore extends PureComponent <appProps, appState> {
 
   componentDidMount() {
     this.props.actions.getAllExchanges(24, 0, null)
-    window.addEventListener('scroll', this.onScroll)
+    window.addEventListener('scroll', this._onScroll)
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.onScroll)
+    window.removeEventListener('scroll', this._onScroll)
   }
 
-  onScroll = () => {
+  _onScroll = () => {
     let {activeScrollHeight} = this.state
-    let scrollHeight = document.body.scrollHeight
+    let scrollHeight = document.body ? document.body.scrollHeight : 0
     if (((window.innerHeight + window.scrollY) >= (scrollHeight - 250)) && (scrollHeight > activeScrollHeight)) {
       this.setState({
             ...this.state,
@@ -69,14 +74,15 @@ class Explore extends PureComponent <appProps, appState> {
 
   }
 
-  search = (search) =>
+
+  _search = (search) =>
       this.setState({...this.state, search: search, offset: 0, activeScrollHeight: 0}, () => {
         this.props.actions.getAllExchanges(24, 0, search)
       })
 
-  justFollowing = (checked) => this.setState({...this.state, justFollowing: checked})
+  _justFollowing = (checked) => this.setState({...this.state, justFollowing: checked})
 
-  goUp = () => {
+  _goUp = () => {
     window.scroll({
       top: 0,
       behavior: 'smooth'
@@ -84,31 +90,32 @@ class Explore extends PureComponent <appProps, appState> {
   }
 
   render() {
-    const {translate} = this.props
-    const title = `${translate['InnoWin']} - ${translate['Exchanges']}`
-    const description = `${translate['Exchanges']}`
+    const {translate, allExchanges, loading} = this.props
+    const {justFollowing, scrollButton} = this.state
+    // const title = `${translate['InnoWin']} - ${translate['Exchanges']}`
+    // const description = `${translate['Exchanges']}`
 
     return (
         <div className='all-exchanges-parent'>
-          <Helmet>
-            <title>{title}</title>
-            <meta name="description" content={description}/>
+          {/*<Helmet>*/}
+            {/*<title>{title}</title>*/}
+            {/*<meta name="description" content={description}/>*/}
 
-            <meta property="og:title" content={title}/>
-            <meta property="og:description" content={description}/>
+            {/*<meta property="og:title" content={title}/>*/}
+            {/*<meta property="og:description" content={description}/>*/}
 
-            <meta property="twitter:title" content={title}/>
-            <meta property="twitter:description" content={description}/>
-          </Helmet>
-          <Sidebar search={this.search} justFollowing={this.justFollowing}/>
+            {/*<meta property="twitter:title" content={title}/>*/}
+            {/*<meta property="twitter:description" content={description}/>*/}
+          {/*</Helmet>*/}
+          <Sidebar search={this._search} justFollowing={this._justFollowing}/>
           <div className='all-exchanges-container'>
-            <Exchanges exchanges={this.props.allExchanges} justFollowing={this.state.justFollowing} loading={this.props.loading}/>
+            <Exchanges exchanges={allExchanges} justFollowing={justFollowing} loading={loading}/>
             <div className='exchange-model-hide'/>
             <div className='exchange-model-hide'/>
             <div className='exchange-model-hide'/>
-            <div className={this.props.loading ? 'exchanges-explore-search-loading' : 'exchanges-explore-search-loading-hide'}><ClipLoader/></div>
+            <div className={loading ? 'exchanges-explore-search-loading' : 'exchanges-explore-search-loading-hide'}><ClipLoader/></div>
           </div>
-          <div className={this.state.scrollButton ? 'go-up-logo-cont' : 'go-up-logo-cont-hide'} onClick={this.goUp}>
+          <div className={scrollButton ? 'go-up-logo-cont' : 'go-up-logo-cont-hide'} onClick={this._goUp}>
             <RightArrowSvg className='go-up-logo'/>
           </div>
         </div>

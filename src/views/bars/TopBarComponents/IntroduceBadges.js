@@ -1,10 +1,10 @@
+import Badge from './Badge'
+import badgeActions from "src/redux/actions/commonActions/badgeActions"
+import BadgeSkeleton from './Badge_Skeleton'
+import connect from "react-redux/es/connect/connect"
 import React, {Component} from 'react'
 import {bindActionCreators} from "redux"
-import connect from "react-redux/es/connect/connect"
-import badgeActions from "src/redux/actions/commonActions/badgeActions"
 import {getBadges} from 'src/redux/selectors/common/badge/getAllBadges'
-import Badge from './Badge'
-import BadgeSkeleton from './Badge_Skeleton'
 
 class IntroduceBadges extends Component {
   componentDidMount() {
@@ -25,7 +25,7 @@ class IntroduceBadges extends Component {
                 !loading && badges.length === 0 ?
                     <div className='introduce-badges-title'>نشانی وجود ندارد</div>
                     :
-                    arr.map(badge =>
+                    arr.map(() =>
                         <BadgeSkeleton/>
                     )
           }

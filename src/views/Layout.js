@@ -8,6 +8,7 @@ import User from "./User"
 import {Switch} from "react-router-dom"
 import User_Explorer from './user/explore/Explore'
 import TopBar from "./bars/TopBar"
+import ToastContainer from "./common/components/ToastContainer";
 
 
 class Layout extends Component {
@@ -34,6 +35,7 @@ class Layout extends Component {
             {/*<PrivateRoute path="*" component={Home}/>*/}
 
           </Switch>
+          <ToastContainer/>
         </div>
     )
   }

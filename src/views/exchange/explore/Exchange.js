@@ -1,27 +1,29 @@
 // @flow
 import * as React from 'react'
-import {Component} from 'react'
-import {DefaultUserIcon} from "src/images/icons"
-import {bindActionCreators} from 'redux'
-import exchangeActions from 'src/redux/actions/commonActions/exchangeMembershipActions'
-import {connect} from 'react-redux'
 import Demand from 'src/images/common/demand_svg'
 import Distribute from 'src/images/common/supply_svg'
+import exchangeActions from 'src/redux/actions/commonActions/exchangeMembershipActions'
+import Material from "../../common/components/Material"
+import {bindActionCreators} from 'redux'
+import {ClipLoader} from "react-spinners"
+import {Component} from 'react'
+import {connect} from 'react-redux'
+import {DefaultUserIcon} from "src/images/icons"
 import {Link} from 'react-router-dom'
 import {REST_URL} from 'src/consts/URLS'
-import {ClipLoader} from "react-spinners"
-import Material from "../../common/components/Material"
 
 type appProps =
     {|
       actions: any,
       members: Array<number>,
-      data: any
+      data: Object,
+      currentUserIdentity:{}
     |}
 
 type appState =
     {|
-      followLoading: boolean
+      followLoading: boolean,
+      imageLoaded: boolean
     |}
 
 class Exchange extends Component <appProps, appState> {
@@ -32,8 +34,8 @@ class Exchange extends Component <appProps, appState> {
           followLoading: false,
           imageLoaded: false
         }
-
-    this.follow = this.follow.bind(this)
+    const self : any = this
+    self._follow = this._follow.bind(this)
   }
 
   componentDidMount() {
@@ -60,7 +62,7 @@ class Exchange extends Component <appProps, appState> {
     }
   }
 
-  follow() {
+  _follow() {
     this.setState({...this.state, followLoading: true})
     this.props.actions.follow({identityId: this.props.currentUserIdentity, exchangeIdentity: this.props.data.id})
   }
@@ -77,12 +79,12 @@ class Exchange extends Component <appProps, appState> {
   //   )
   // }
 
-  renderFollowButton() {
+  _renderFollowButton() {
     if (this.props.data.exchange === undefined && this.state.followLoading) {
       return <div className='exchange-model-following'><ClipLoader color='#008057' size={19}/></div>
     }
     else if (this.props.data.exchange === undefined) {
-      return <Material className='exchange-followed' content='دنبال کردن' onClick={this.follow}/>
+      return <Material className='exchange-followed' content='دنبال کردن' onClick={this._follow}/>
     }
     else return <Material className='exchange-follow' content='دنبال شده'/>
   }
@@ -132,7 +134,7 @@ class Exchange extends Component <appProps, appState> {
           </Link>
 
           {
-            this.renderFollowButton()
+            this._renderFollowButton()
           }
 
         </div>

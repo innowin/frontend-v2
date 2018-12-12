@@ -9,10 +9,16 @@ import connect from "react-redux/es/connect/connect"
 import PostView from "../../common/post/PostView"
 
 type ProductPostsProps = {
-  translator: TranslatorType
+  translator: TranslatorType,
+  productId: number,
+  actions: {
+    getPosts: Function,
+  },
+  products: [],
+  posts: [],
 }
 
-class ProductPosts extends React.Component {
+class ProductPosts extends React.Component<ProductPostsProps> {
 
   componentDidMount() {
     this.props.actions.getPosts({postRelatedProductId: this.props.productId})

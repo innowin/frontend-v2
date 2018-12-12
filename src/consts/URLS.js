@@ -27,7 +27,7 @@ const urls = {
     PASSWORD_RESET_BY_SMS_REQUEST:'users/password_reset_by_sms_request',
     PASSWORD_RESET_BY_SMS_CHECK_CODE:'users/password_reset_by_sms_check_code',
     PASSWORD_RESET_BY_SMS:'users/password_reset_by_sms',
-
+    SEARCH_USER: 'users/search_users',
   },
   ORG: {
     GET_ORGANIZATION: "organizations",

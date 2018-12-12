@@ -39,7 +39,7 @@ const success = (state, action) => {
           ...state.list[postOwnerId],
           posts: {
             // content: [...new Set([...previousPost.content, ...arrayOfPostId])],
-            cotnent: arrayOfPostId,
+            content: arrayOfPostId,
             isLoading: false,
             error: null
           }

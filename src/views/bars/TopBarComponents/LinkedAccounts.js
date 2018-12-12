@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
-import LinkedInIcon from "../../../images/common/linkedin_svg"
-import {bindActionCreators} from "redux"
 import connect from "react-redux/es/connect/connect"
+import LinkedInIcon from "../../../images/common/linkedin_svg"
+import React, {Component} from 'react'
+import {bindActionCreators} from "redux"
 
 class LinkedAccounts extends Component {
   render() {

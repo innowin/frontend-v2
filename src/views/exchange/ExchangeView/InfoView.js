@@ -1,17 +1,26 @@
-import React, {Component} from "react"
-import {Info, Ticket, QuestionMark} from "src/images/icons"
-import DefaultUserIcon from "../../../images/defaults/defaultUser_svg"
-import connect from "react-redux/es/connect/connect"
-import {getMessages} from "src/redux/selectors/translateSelector"
-import {Link} from "react-router-dom"
+// @flow
+import * as React from "react"
 import {ClipLoader} from "react-spinners"
+import {Component} from "react"
+import {connect} from "react-redux"
+import {getMessages} from "src/redux/selectors/translateSelector"
+import {Info, Ticket, QuestionMark, DefaultUserIcon} from "src/images/icons"
+import {Link} from "react-router-dom"
 // import {bindActionCreators} from "redux"
 // import educationActions from "src/redux/actions/user/educationActions"
 // import {VerifyWrapper} from "../../common/cards/Frames"
 // import getUserAction from "../../../redux/actions/user/getUserActions"
 // import exchangeActions from "../../../redux/actions/exchangeActions"
 
-class InfoView extends Component {
+type props = {
+  educations: Object,
+  exchangeId: number,
+  exchanges: Object,
+  translate: { [string]: string },
+  users: Object,
+}
+
+class InfoView extends Component<props> {
   componentDidMount() {
     window.scrollTo({
       top: 0
@@ -52,11 +61,11 @@ class InfoView extends Component {
                   <div className={"info-exchange-owner-frame"}>
                     <Link to={`/user/${ownerProfile && ownerProfile.id}`}>
                       <div className={"info-exchange-owner-image-frame"}>
-                        {ownerMedia && ownerMedia !== null  ? <div className='rounded-circle-info-parent' ref={e => this.scroll = e}
-                                                    onLoad={() => this.scroll.scrollLeft = 10}><img alt={"تصویر پروفایل"}
-                                                                                                    src={ownerMedia.file}
-                                                                                                    height={"60px"}
-                                                                                                    className={"post-user-picture"}/>
+                        {ownerMedia && ownerMedia !== null ? <div className='rounded-circle-info-parent' ref={e => this.scroll = e}
+                                                                  onLoad={() => this.scroll.scrollLeft = 10}><img alt={"تصویر پروفایل"}
+                                                                                                                  src={ownerMedia.file}
+                                                                                                                  height={"60px"}
+                                                                                                                  className={"post-user-picture"}/>
                             </div>
                             : <DefaultUserIcon
                                 height={"55px"} width={"55px"} className={"post-user-picture"}/>}
@@ -94,7 +103,7 @@ class InfoView extends Component {
                 <div className={"info-header"}>
                   <QuestionMark width="22px" height="22px"
                                 containerClass={"svg-container-info-view"}
-                                svgClass={"svg-info-view"}/> {/* TODO Add svg for Links ( link link :| ) */}
+                                svgClass={"svg-info-view"}/> {/* TODO:Abel Add svg for Links ( link link :| ) */}
                   <span>پیوند</span>
                 </div>
                 <div className={"info-body"}>
@@ -105,7 +114,7 @@ class InfoView extends Component {
              تلگرام:
              </span>
              <div className={"info-social-text-address"}>
-             <div style={{display: "inline-block", width: "140px"}}>
+             <div style={{display: "inline-block", width: "140px"}}>{/* TODO:Abel delete inline styles after back-end links fixed */}
              http://www.telegram.me/
              </div>
              <input className={"info-social-text-address-input"} style={{width: "calc(100% - 140px)"}} type={"text"}/>

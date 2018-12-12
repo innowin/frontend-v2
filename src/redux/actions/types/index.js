@@ -11,6 +11,7 @@ import skillTypes from './skill'
 import paramTypes from './param'
 import abilityTypes from './ability'
 import favoriteTypes from './favorite'
+import toastTypes from './toast'
 
 
 const types = {
@@ -29,6 +30,7 @@ const types = {
     PARAM: paramTypes.ERROR,
     ABILITY: abilityTypes.ERROR,
     FAVORITE: favoriteTypes.ERROR,
+    TOAST: toastTypes.ERROR,
   },
   SUCCESS: {
     COMMON: commonTypes.SUCCESS,
@@ -44,6 +46,7 @@ const types = {
     PARAM: paramTypes.SUCCESS,
     ABILITY: abilityTypes.SUCCESS,
     FAVORITE: favoriteTypes.SUCCESS,
+    TOAST: toastTypes.SUCCESS,
   },
   COMMON: commonTypes.BASE,
   AUTH: authTypes.BASE,
@@ -58,6 +61,7 @@ const types = {
   PARAM: paramTypes.BASE,
   ABILITY: abilityTypes.BASE,
   FAVORITE: favoriteTypes.BASE,
+  TOAST: toastTypes.BASE,
 }
 
 export default types

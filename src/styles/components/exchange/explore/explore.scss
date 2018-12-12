@@ -511,6 +511,7 @@
   height: 27px;
   float: left;
   margin-left: 10px;
+  margin-top: 3px;
 }
 
 .exchange-view-sidebar {
@@ -523,7 +524,7 @@
   color: $text-dark-color;
   border-radius: $border-radius-size;
   background: $text-lightest-color;
-  box-shadow: 0 3px 3px $box-shadow-color;
+  box-shadow: 0 0 13px $box-shadow-color;
   width: 25%;
   display: inline-block;
   vertical-align: top;

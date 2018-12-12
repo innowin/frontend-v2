@@ -53,7 +53,7 @@ class PostComments extends React.Component<postCommentsProps, {}> {
                       ) : ''
 
                   return (
-                      <div key={'comment ' + comment.id} className='comment-container'>
+                      <div key={'comment ' + comment.id} className='comment-container-extended-view'>
                         <div className='header'>
                           <h5 className='sender-name'>{name}</h5>
                           <h5 className='sender-username'>{comment.comment_sender.name}</h5>
