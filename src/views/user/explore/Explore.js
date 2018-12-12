@@ -103,9 +103,9 @@ class Explore extends PureComponent <appProps, appState> {
     const list = this.props.followees
     let followees = {}
     let followers = {}
-    const {translate} = this.props
-    const title = `${translate['InnoWin']} - ${translate['Users']}`
-    const description = `${translate['Users']}`
+    // const {translate} = this.props
+    // const title = `${translate['InnoWin']} - ${translate['Users']}`
+    // const description = `${translate['Users']}`
 
 
     Object.values(list).forEach(follow => {
@@ -120,6 +120,7 @@ class Explore extends PureComponent <appProps, appState> {
 
     return (
         <div className='all-exchanges-parent'>
+{/*
           <Helmet>
             <title>{title}</title>
             <meta name="description" content={description}/>
@@ -130,6 +131,7 @@ class Explore extends PureComponent <appProps, appState> {
             <meta property="twitter:title" content={title}/>
             <meta property="twitter:description" content={description}/>
           </Helmet>
+*/}
           {/*<TopBar collapseClassName="col user-sidebar-width"/>*/}
           <Sidebar search={this.search} justFollowing={this.justFollowing} justFollowed={this.justFollowed}/>
           <div className='all-exchanges-container'>

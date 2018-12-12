@@ -61,8 +61,8 @@ class AddProductModal extends Component {
             <div className='my-products-container'>
               <span className='product-title'>محصولات من</span>
               <div className='products'>
-                {products.map(product =>
-                    <div className='product-wrapper'>
+                {products.map((product, key) =>
+                    <div className='product-wrapper' key={key}>
                       <ProductInfoView selected={product === selectedProduct}
                                        onClick={() => this._selectProduct(product)} translate={translate}
                                        product={product} ownerId={ownerId}/>

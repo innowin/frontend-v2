@@ -1,27 +1,42 @@
-import React, {Component} from "react"
-import {bindActionCreators} from "redux"
-import getUserAction from "src/redux/actions/user/getUserActions"
-import exchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
-import organizationActions from "src/redux/actions/organization/organizationActions"
-import identityActions from "src/redux/actions/identityActions"
-import connect from "react-redux/es/connect/connect"
-import Contacts from "../../../images/common/contacts_svg"
-import Stream from "src/images/common/stream_svg"
-import QuestionMark from "src/images/common/questionMark_svg"
-import {VerifyWrapper} from "../../common/cards/Frames"
-import {ClipLoader} from "react-spinners"
-import DefaultUserIcon from "../../../images/defaults/defaultUser_svg"
-import {Link} from "react-router-dom"
-import SocialActions from "../../../redux/actions/commonActions/socialActions"
+// @flow
+import * as React from "react"
 import constants from "src/consts/constants"
+import getUserAction from "src/redux/actions/user/getUserActions"
+import identityActions from "src/redux/actions/identityActions"
+import organizationActions from "src/redux/actions/organization/organizationActions"
+import SocialActions from "../../../redux/actions/commonActions/socialActions"
+import {bindActionCreators} from "redux"
+import {ClipLoader} from "react-spinners"
+import {Component} from "react"
+import {connect} from "react-redux"
+import {DefaultUserIcon, Contacts, QuestionMark, Stream} from "src/images/icons"
 import {getFolloweesSelector} from "src/redux/selectors/common/social/getFollowees"
+import {Link} from "react-router-dom"
+// import exchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
+// import {VerifyWrapper} from "../../common/cards/Frames"
 
-class MembersView extends Component {
+type props = {
+  actions: any,
+  clientId: number,
+  clientIdentityId: ?number,
+  exchangeId: number,
+  exchangeUsers: Object,
+  files: Object,
+  organs: Object,
+  profiles: Object,
+}
+type states = {
+  followingOrgans: [],
+  followingUsers: [],
+  initialMembers: [],
+  moreMembers: boolean,
+  requested: boolean,
+  viewType: string,
+}
+
+class MembersView extends Component<props, states> {
   constructor(props) {
     super(props)
-    this.changeViewType = this.changeViewType.bind(this)
-    this.getMembers = this.getMembers.bind(this)
-    this.setAllMembers = this.setAllMembers.bind(this)
     this.state = {
       initialMembers: [],
       viewType: "member-square",
@@ -30,6 +45,10 @@ class MembersView extends Component {
       followingOrgans: [],
       requested: false
     }
+    const self: any = this
+    self.changeViewType = self.changeViewType.bind(self)
+    self.getMembers = self.getMembers.bind(self)
+    self.setAllMembers = self.setAllMembers.bind(self)
   }
 
   changeViewType() {
@@ -67,7 +86,7 @@ class MembersView extends Component {
           {followingUsers.indexOf(memberId) >= 0 ? <div className={"member-followed"}>دنبال شده</div>
               : clientId !== memberId ?
                   <div className={"member-follow"} onClick={() => this.follow(memberId, memberType)}><span
-                      className={"member-follow-plus"}> + </span></div> : <div className={"member-followed"}> </div>}
+                      className={"member-follow-plus"}> + </span></div> : <div className={"member-followed"}/>}
           <Link to={`/user/${memberId}`}>
             <div className={"member-picture-container"}>
               {profiles[memberId].profile.content.profile_media !== null ? <img alt={"تصویر پروفایل"}
@@ -106,7 +125,7 @@ class MembersView extends Component {
           {followingOrgans.indexOf(memberId) >= 0 ? <div className={"member-followed"}>دنبال شده</div>
               : clientId !== memberId ?
                   <div className={"member-follow"} onClick={() => this.follow(memberId, memberType)}><span
-                      className={"member-follow-plus"}> + </span></div> : <div className={"member-followed"}> </div>}
+                      className={"member-follow-plus"}> + </span></div> : <div className={"member-followed"}/>}
           <Link to={`/organization/${memberId}`}>
             <div className={"member-picture-container"}>
               {organs[memberId].organization.content.organization_logo !== null ? <img alt={"تصویر پروفایل"}
@@ -203,7 +222,7 @@ class MembersView extends Component {
     this.setState({...this.state, followingUsers: tempUsers.slice(), followingOrgans: tempOrgans.slice()})
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prev, nex, ss) {
     if (!this.state.requested) {
       let {exchangeUsers, exchangeId, actions} = this.props
       let {getUser, getOrganization, getUserIdentity, getOrgIdentity} = actions
@@ -244,14 +263,14 @@ class MembersView extends Component {
           <div className={"members-body"}>
             {initialMembers.length > 0 ? initialMembers.map((p, index) => {
               return this.getMembers(p.id, p.type, index)
-            }) : requested ? <div> </div>
+            }) : requested ? <div/>
                 :
-                <div style={{textAlign:"center", width: "92%"}}>
-                <ClipLoader color={"#cbcbcb"} size={40} loading={true}/>
+                <div style={{textAlign: "center", width: "92%"}}>
+                  <ClipLoader color={"#cbcbcb"} size={40} loading={true}/>
                 </div>
             }
-            <div className={"zero-height"}> </div>
-            <div className={"zero-height"}> </div>
+            <div className={"zero-height"}/>
+            <div className={"zero-height"}/>
             {(!moreMembers) && initialMembers.length >= 6 ?
                 <div className={"members-more"} onClick={this.setAllMembers}>
                   بارگذاری بیشتر

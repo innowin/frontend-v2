@@ -1,7 +1,9 @@
+// @flow
+
 import React, {Component} from "react"
 import {Info, Ticket, QuestionMark} from "src/images/icons"
 import DefaultUserIcon from "../../../images/defaults/defaultUser_svg"
-import connect from "react-redux/es/connect/connect"
+import {connect} from "react-redux"
 import {getMessages} from "src/redux/selectors/translateSelector"
 import {Link} from "react-router-dom"
 import {ClipLoader} from "react-spinners"
@@ -11,7 +13,15 @@ import {ClipLoader} from "react-spinners"
 // import getUserAction from "../../../redux/actions/user/getUserActions"
 // import exchangeActions from "../../../redux/actions/exchangeActions"
 
-class InfoView extends Component {
+type props = {
+  educations: Object,
+  users: Object,
+  translate: { [string]: string },
+  exchanges: Object,
+  exchangeId: number,
+}
+
+class InfoView extends Component<props> {
   componentDidMount() {
     window.scrollTo({
       top: 0
@@ -52,11 +62,11 @@ class InfoView extends Component {
                   <div className={"info-exchange-owner-frame"}>
                     <Link to={`/user/${ownerProfile && ownerProfile.id}`}>
                       <div className={"info-exchange-owner-image-frame"}>
-                        {ownerMedia && ownerMedia !== null  ? <div className='rounded-circle-info-parent' ref={e => this.scroll = e}
-                                                    onLoad={() => this.scroll.scrollLeft = 10}><img alt={"تصویر پروفایل"}
-                                                                                                    src={ownerMedia.file}
-                                                                                                    height={"60px"}
-                                                                                                    className={"post-user-picture"}/>
+                        {ownerMedia && ownerMedia !== null ? <div className='rounded-circle-info-parent' ref={e => this.scroll = e}
+                                                                  onLoad={() => this.scroll.scrollLeft = 10}><img alt={"تصویر پروفایل"}
+                                                                                                                  src={ownerMedia.file}
+                                                                                                                  height={"60px"}
+                                                                                                                  className={"post-user-picture"}/>
                             </div>
                             : <DefaultUserIcon
                                 height={"55px"} width={"55px"} className={"post-user-picture"}/>}

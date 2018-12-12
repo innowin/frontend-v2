@@ -128,11 +128,12 @@ class User extends Component<PropsUser> {
     const errorMessage = userObject.error || profileObject.error || identityObject.error
         || badgesObject.error
 
-    const title = `${translate['Danesh Boom']} - ${userObject.content.username}`
-    const description = translate['User']
+    // const title = `${translate['Danesh Boom']} - ${userObject.content.username}`
+    // const description = translate['User']
     return (
         <div className="-userOrganBackgroundImg">
           {/*<TopBar collapseClassName="col user-sidebar-width"/>*/}
+{/*
           <Helmet>
             <title>{title}</title>
             <meta name="description" content={description}/>
@@ -161,6 +162,7 @@ class User extends Component<PropsUser> {
             `}</script>
 
           </Helmet>
+*/}
           {/*<VerifyWrapper isLoading={isLoading} error={errorMessage} className="-main row page-content">*/}
             {isLoading
                 ? <UserSkeleton/>
