@@ -9,12 +9,10 @@ type ScrollLessWrapperProps = {
 }
 
 const ScrollLessWrapper = (props: ScrollLessWrapperProps) => {
-  const {children, className, points='right'} = props
+  const {children, className, points = 'right'} = props
   return (
       <div className={`scroll-less-wrapper ${points} ${className || ''}`}>
-        <div className="wrapper">
           {children}
-        </div>
       </div>
   )
 }

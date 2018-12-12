@@ -44,7 +44,7 @@ const LinkInfoView = (props: PropsUserInfoView) => {
         <Field>
           <ExchangeExploreIcon className='icon web-site-icon'/>
           <FieldLabel label={translate['Web site'] + ": "}/>
-          <FieldValue value={profile.web_site}/>
+          <FieldValue value={profile.web_site.replace('[]', '')}/>
         </Field>
       </div>
   )

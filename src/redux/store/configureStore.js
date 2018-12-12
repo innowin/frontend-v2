@@ -36,7 +36,7 @@ const persistConfig = {
   storage,
   version: migrations.LATEST_VERSION,
   migrate: createMigrate(migrations.ROOT, {debug: true}),
-  blacklist: ['form', 'param'],
+  blacklist: ['form', 'param', 'toast'],
   stateReconciler: autoMergeLevel2,
 }
 const persistedReducer = persistReducer(persistConfig, rootReducer)

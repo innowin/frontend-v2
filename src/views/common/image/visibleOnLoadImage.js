@@ -15,7 +15,7 @@ export default (props: VisibleOnLoadImageProps) => {
   image.onload = () => {
     const element = document.getElementById(id)
     if (element && !element.className.includes('is-visible')) {
-        element.className += ' is-visible'
+      element.className += ' is-visible'
     }
   }
   image.src = img

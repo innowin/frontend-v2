@@ -17,6 +17,9 @@ const products = (state = initialState.common.product.products, action) => {
     case types.SUCCESS.COMMON.GET_PRODUCT_INFO:
       return pushAnObjToStateList.success(state, action)
 
+    case types.SUCCESS.COMMON.POST.FILTER_POSTS_BY_POST_RELATED_PRODUCT:
+      return slices.addPostsRelatedProductIdsToProduct.success(state, action)
+
       /** --------------- createProduct ----------> **/
     case types.COMMON.CREATE_PRODUCT:
       return createAnObj.base(state, action)

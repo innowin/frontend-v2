@@ -123,7 +123,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       const postOwnerId = +spliced[2]
 
       getPost({postId, postOwnerType, postOwnerId})
-      setPostViewer(postId, getPostViewerCount)
+      // setPostViewer(postId, getPostViewerCount)
       getCommentsByParentId({parentId: postId, commentParentType: constants.COMMENT_PARENT.POST})
     }
     else {
@@ -189,7 +189,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     const {post, actions} = this.props
     const {setPostViewer, getPostViewerCount} = actions
     const postId = post.id
-    setPostViewer(postId, getPostViewerCount)
+    // setPostViewer(postId, getPostViewerCount)
     this.setState({...this.state, menuToggle: !this.state.menuToggle})
   }
 
@@ -208,7 +208,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     const {post, actions} = this.props
     const {getPostViewerCount} = actions
     const postId = post.id
-    getPostViewerCount(postId)
+    // getPostViewerCount(postId)
   }
 
   createComment = (commentTextField) => {

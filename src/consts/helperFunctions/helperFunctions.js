@@ -103,9 +103,9 @@ const objToArrayAsOptions = (obj, valueKey, labelKey, otherKeys) => {
  and return array >> [{id attributes}, {id attributes}, {id attributes}]
  **/
 const changeObjectKeyValueToArray = (objectArray) => {
-  let resultArray
-  for (let object in objectArray) {
-    resultArray.push(object)
+  let resultArray = []
+  for (let id in objectArray) {
+    resultArray.push({id: id, ...objectArray[id]})
   }
   return resultArray
 }

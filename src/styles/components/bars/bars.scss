@@ -608,7 +608,7 @@ $sidebar-profile-media-width: 80px;
     font-size: $font-size-boxText;
     border-radius: 25px;
     transition-duration: $animation-timing;
-    border: 1.5px solid $background-color;
+    border: 1.5px solid $primary-color;
     height: 33px;
     margin: auto auto 20px 5px;
     width: 110px;
@@ -626,14 +626,14 @@ $sidebar-profile-media-width: 80px;
     flex-grow: 1;
     cursor: default;
     background-color: $success-color;
-    border: 1.5px solid $background-color;
+    border: 1.5px solid $success-color;
     color: $background-color;
     font-size: $font-size-boxText;
     border-radius: 25px;
     transition-duration: $animation-timing;
     height: 33px;
     margin: auto 5px 20px auto;
-    width: 110px;
+    //width: 110px;
 
     &:hover {
       background-color: $background-color;

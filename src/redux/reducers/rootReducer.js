@@ -19,6 +19,7 @@ import customer from './customer'
 import ability from './ability'
 import favorite from './favorite'
 import temp from "./temp"
+import toast from './toast'
 
 const reducers = {
   auth,
@@ -37,6 +38,7 @@ const reducers = {
   customer,
   ability,
   favorite,
+  toast,
 }
 
 //Don't change below code ,  Put your reducer on the upper object.

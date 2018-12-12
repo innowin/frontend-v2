@@ -12,37 +12,57 @@ import {routerActions} from "react-router-redux"
 import {validateSignUpForm, asyncValidateSignUp} from "./signUpValidations"
 import CheckUsernameAction from "src/redux/actions/user/checkUsernameAction"
 import CheckEmailAction from "src/redux/actions/user/checkEmailAction"
+import FontAwesome from "react-fontawesome";
 
 
-const SignUpForm = (props) => {
-  const {handleSubmit, onSubmit, submitting, translator, error, submitFailed} = props
-  return (
-      <form onSubmit={handleSubmit(onSubmit)} className="sign-up-form">
-        <Field
-            name="username"
-            type="text"
-            component={renderTextField}
-            label={translator['Username']}
-            className="signup-field"
-        />
-        <Field name="email" type="email" component={renderTextField} label={translator['Email']}
-               className="signup-field"/>
-        <Field name="password" type="password" component={renderTextField} label={translator['Password']}
-               className="signup-field"/>
-        <Field name="passwordConfirm" type="password" component={renderTextField}
-               label={translator['Repeat password']} className="signup-field"/>
-        <div>
-          <button
-              className="btn btn-primary btn-block login-submit-button mt-0 cursor-pointer"
-              disabled={submitting}>
-            {!submitting ? translator['Register'] : (
-                <BeatLoader color="#fff" size={10} margin="auto"/>
-            )}
-          </button>
-        </div>
-        {submitFailed && <p className="error-message">{error}</p>}
-      </form>
-  )
+class SignUpForm extends React.Component<> {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      showPassword: false,
+    }
+  }
+
+  _changeStatePassword = () => {
+    this.setState({...this.state, showPassword: !this.state.showPassword})
+  }
+
+  render() {
+    const {handleSubmit, onSubmit, submitting, translator, error, submitFailed} = this.props
+    const {showPassword} = this.state
+    return (
+        <form onSubmit={handleSubmit(onSubmit)} className="sign-up-form">
+          <Field
+              name="username"
+              type="text"
+              component={renderTextField}
+              label={translator['Username']}
+              className="signup-field"
+          />
+          <Field name="email" type="email" component={renderTextField} label={translator['Email']}
+                 className="signup-field"/>
+          <div className='password-container'>
+            <FontAwesome className='eye-icon pulse' name={showPassword ? 'eye-slash' : 'eye'}
+                         onClick={this._changeStatePassword}/>
+            <Field name="password" type={showPassword ? 'text' : 'password'} component={renderTextField} label={translator['Password']}
+                   className="signup-field"/>
+          </div>
+          {/*<Field name="passwordConfirm" type="password" component={renderTextField}*/}
+          {/*label={translator['Repeat password']} className="signup-field"/>*/}
+          <div>
+            <button
+                className="btn btn-primary btn-block login-submit-button mt-0 cursor-pointer"
+                disabled={submitting}>
+              {!submitting ? translator['Register'] : (
+                  <BeatLoader color="#fff" size={10} margin="auto"/>
+              )}
+            </button>
+          </div>
+          {submitFailed && <p className="error-message">{error}</p>}
+        </form>
+    )
+  }
 }
 
 const USER_TYPES = {
@@ -115,7 +135,7 @@ export class RegisterForm extends Component {
     const onSubmitFunc = (userType === USER_TYPES.PERSON) ? (this._onSubmitPerson) : (this._onSubmitOrgan)
     // const onSubmitFunc = onRegisterClick
     return (
-        <div className="wrapper-form">
+        <div className="s">
           <RadioButtonGroup
               selected={userType}
               handler={this._typeHandler}
@@ -128,11 +148,11 @@ export class RegisterForm extends Component {
               translator={translator}
               onSubmit={onSubmitFunc}
           />
-          <div className="error-wrapper">
-            <span className={`error ${reduxFormProps.error ? 'show' : ''}`}>
-              {reduxFormProps.error}
-            </span>
-          </div>
+          {/*<div className="error-wrapper">*/}
+          {/*<span className={`error ${reduxFormProps.error ? 'show' : ''}`}>*/}
+          {/*{reduxFormProps.error}*/}
+          {/*</span>*/}
+          {/*</div>*/}
         </div>
     )
   }

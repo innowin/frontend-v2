@@ -1,6 +1,7 @@
 // @flow
 import * as React from "react"
 import {Component} from "react"
+import ReactDOM from "react-dom"
 import PropTypes from "prop-types"
 import TopBar from "../bars/TopBar"
 import ChatBar from "../bars/ChatBar"
@@ -17,6 +18,7 @@ type HomeProps = {|
   identityId: number,
   identityType?: string,
   id?: number,
+  translate: {[string]: string}
 |}
 
 class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {

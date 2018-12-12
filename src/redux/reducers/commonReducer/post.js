@@ -11,6 +11,9 @@ const post = (state = initialState.common.post, action) => {
     /** ------------------------------ get posts by parentId ---------------------- **/
     case types.SUCCESS.COMMON.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET:
       return slices.filterPostsByParentLimitOffset.success(state, action)
+
+    case types.SUCCESS.COMMON.POST.FILTER_POSTS_BY_POST_RELATED_PRODUCT:
+      return slices.filterPostsByPostRelatedProduct.success(state, action)
     /** ------------------------------ get post viewer counts ---------------------- **/
     case types.SUCCESS.COMMON.POST.GET_POST_VIEWER_COUNT:
       return slices.getPostViewerCount.success(state, action)

@@ -20,6 +20,8 @@ import LinkModal from "./linkModal"
 import ViewAttachedFiles from "./viewAttachedFiles"
 import {ContactMenuIcon} from "src/images/icons"
 import StickersMenu from "../../components/StickersMenu"
+import AddProductModal from "./addProductModal";
+import ProductInfoView from "../../contributions/ProductInfoView";
 
 const timeStamp = new Date().toISOString()
 
@@ -48,6 +50,7 @@ class CreatePost extends Component {
       labels: {},
       context: false,
       linkModal: false,
+      addProductModal: false,
       pageX: 0,
       pageY: 0,
       commentBody: "comment-body",
@@ -62,7 +65,9 @@ class CreatePost extends Component {
       profileLoaded: false,
       savingPost: false,
       focused: false,
-      keys: []
+      keys: [],
+      selectedProduct: undefined,
+      selectedProductId: undefined,
     }
   }
 
@@ -79,11 +84,13 @@ class CreatePost extends Component {
       description: "",
       descriptionClass: "hide-message",
       labels: {},
+      selectedProduct: undefined,
+      selectedProductId: undefined,
     })
   }
 
   handleClickOutside = (event) => {
-    const {attachMenu, contactMenu, linkModal, postPictures, postFile, postMedia, link, description, labels, savingPost} = this.state
+    const {attachMenu, contactMenu, linkModal, addProductModal, postPictures, postFile, postMedia, link, description, labels, savingPost} = this.state
     const needReset = !savingPost && !description && !postPictures && !postFile && !postMedia && !link && labels === {}
 
     if (!event.target.closest("#create-post-attach-menu-box")) {
@@ -101,6 +108,12 @@ class CreatePost extends Component {
     if (this.setWrapperThirdRef && !this.setWrapperThirdRef.contains(event.target)) {
       if (linkModal) {
         this.setState({...this.state, linkModal: false})
+      }
+    }
+
+    if (this.setWrapperFourthRef && !this.setWrapperFourthRef.contains(event.target)) {
+      if (addProductModal) {
+        this.setState({...this.state, addProductModal: false})
       }
     }
 
@@ -138,8 +151,7 @@ class CreatePost extends Component {
     if (temp[name] === undefined) {
       if (name === "دنبال کنندگان" || name === "دنبال کنندگانِ دنبال کنندگان" || temp["عمومی"] === undefined)
         temp[name] = name
-    }
-    else {
+    } else {
       if (name !== "دنبال کنندگان" && name !== "دنبال کنندگانِ دنبال کنندگان")
         delete temp["عمومی"]
       delete temp[name]
@@ -151,6 +163,9 @@ class CreatePost extends Component {
     this.setState({...this.state, linkModal: true, attachMenu: false})
   }
 
+  _addProductModalFunc = () => {
+    this.setState({...this.state, addProductModal: true, attachMenu: false})
+  }
 
   _deletePicture = (i) => {
     const {postPictures} = this.state
@@ -224,7 +239,7 @@ class CreatePost extends Component {
 
 
   _getValues = () => {
-    const {selected, link, description} = this.state
+    const {selected, link, description, selectedProduct} = this.state
     const {currentUserIdentity, postParentId, currentUserImgId, postPictureIds} = this.props
     const post_link = link.trim() !== "" ? link : null
     const postPicturesIds_ = postPictureIds.slice(0, 3)[0] || null // just three pictures allowable
@@ -236,6 +251,7 @@ class CreatePost extends Component {
       post_parent: postParentId,
       post_identity: currentUserIdentity,
       post_related_identity_image: currentUserImgId,
+      post_related_product: selectedProduct ? selectedProduct.id : '',
       post_link,
     }
   }
@@ -312,8 +328,7 @@ class CreatePost extends Component {
           this._onSubmitShiftEnter()
         })
       }
-    }
-    else this.setState({...this.state, keys: []})
+    } else this.setState({...this.state, keys: []})
   }
 
   _showLink = (link) => {
@@ -389,10 +404,10 @@ class CreatePost extends Component {
 
 
   render() {
-    const {className, followers, exchanges, currentUserIdentity, currentUserMedia, currentUserName, translate} = this.props
+    const {className, followers, exchanges, currentUserIdentity, currentUserMedia, currentUserName, translate, currentUserId} = this.props
     const {
       postPictures, open, attachMenu, selected, labels, link, contactMenu, linkModal, postFile, postMedia,
-      profileLoaded, description, descriptionClass, focused
+      profileLoaded, description, descriptionClass, focused, addProductModal, selectedProduct
     } = this.state
     const hasMediaClass = (postMedia || (postPictures.length > 0)) ? "hasMedia" : ""
     return (
@@ -452,6 +467,10 @@ class CreatePost extends Component {
             />
           </div>
 
+          {selectedProduct &&
+          <ProductInfoView translate={translate} product={selectedProduct} ownerId={currentUserId}/>
+          }
+
           <div className='post-component-footer'>
 
             <ContactMenuIcon className="post-component-footer-contact-menu-icon" onClickFunc={this.handleContact}/>
@@ -497,6 +516,7 @@ class CreatePost extends Component {
                     postFileExist={Boolean(postFile)}
                     postLinkExist={Boolean(link)}
                     linkModalFunc={this._linkModalFunc}
+                    addProductModalFunc={this._addProductModalFunc}
                     AttachMenuId="create-post-attach-menu-box"
                     translate={translate}
                 />
@@ -512,12 +532,32 @@ class CreatePost extends Component {
               />
             </div>
           </div>
-
           <LinkModal
               ref={e => this.setWrapperThirdRef = e ? e.linkModalRef : e}
               linkModal={linkModal}
               cancelFunc={() => this.setState({...this.state, linkModal: false})}
               submitFunc={(linkString) => this.setState({...this.state, link: linkString, linkModal: false})}
+          />
+          <AddProductModal
+              ref={e => this.setWrapperFourthRef = e ? e.addProductModal : e}
+              addProductModal={addProductModal}
+              cancelFunc={() => this.setState({
+                ...this.state,
+                addProductModal: false,
+                selectedProductId: undefined,
+                selectedProduct: undefined
+              })}
+              submitFunc={(product, productId) => {
+
+                console.log(productId, 'ppppppppp')
+                this.setState({
+                  ...this.state,
+                  selectedProduct: productId === undefined ? product : undefined,
+                  selectedProductId: productId,
+                  addProductModal: false
+                })
+              }}
+              // selectProduct={(product) => this.setState({...this.state, selectedProduct: product})}
           />
 
         </form>

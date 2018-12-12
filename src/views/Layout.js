@@ -8,6 +8,7 @@ import User from "./User"
 import {Switch} from "react-router-dom"
 import User_Explorer from './user/explore/Explore'
 import TopBar from "./bars/TopBar"
+import ToastContainer from "./common/components/ToastContainer";
 
 
 class Layout extends Component {
@@ -30,10 +31,11 @@ class Layout extends Component {
             <PrivateRoute path="/product" component={Product}/>
             <PrivateRoute path="/users/Users_Explorer" component={User_Explorer}/>
 
-            {/*Added By Hoseyn : Prevent wrong paths*/}
+            {/*Prevent wrong paths*/}
             {/*<PrivateRoute path="*" component={Home}/>*/}
 
           </Switch>
+          <ToastContainer/>
         </div>
     )
   }

@@ -1,0 +1,84 @@
+@import "../../variables";
+.toast-container {
+  position: fixed;
+  bottom: 15px;
+  left: 15px;
+
+  .fade-enter {
+    opacity: 0.01;
+  }
+  .fade-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+  }
+  .fade-exit {
+    opacity: 1;
+  }
+  .fade-exit-active {
+    opacity: 0.01;
+    transition: opacity 500ms ease-in;
+  }
+
+  .toast-child-container {
+    border-radius: $border-radius-size;
+    box-shadow: 0 3px 3px $box-shadow-color;
+    background-color: $background-color;
+    margin-bottom: 15px;
+    display: flex;
+    flex-flow: row wrap;
+    width: 300px;
+
+    .image-type-container {
+      padding: 10px 12px 5px 12px;
+      border-radius: 0 $border-radius-size $border-radius-size 0;
+
+      .image-type{
+        width: 20px;
+        height: 20px;
+        fill: $background-color;
+
+        border: 1.5px solid $background-color;
+        border-radius: 50px;
+        padding: 3px;
+        stroke: $background-color;
+      }
+    }
+    .success-image-container {
+      background: $success-color;
+    }
+    .remove-image-container {
+      background: $warning-color;
+    }
+    .info-image-container {
+      background: $info-color;
+    }
+    .error-image-container {
+      background: $danger-color;
+    }
+
+    .content-container {
+      flex: 1;
+      position: relative;
+
+      .content-text {
+        padding: 10px 10px 10px 30px;
+        font-size: $font-size-small;
+        margin-bottom: 4px;
+      }
+      .close-button-container {
+        background: inherit;
+        border: 0;
+        outline: 0;
+        position: absolute;
+        top: 5px;
+        left: 5px;
+
+        .close-button {
+          width: 10px;
+          height: 10px;
+          stroke: $primary-color;
+        }
+      }
+    }
+  }
+}
