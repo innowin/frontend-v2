@@ -7,25 +7,30 @@ import {bindActionCreators} from 'redux'
 import connect from 'react-redux/es/connect/connect'
 import exchangeActions from 'src/redux/actions/exchangeActions'
 import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges.js'
-import {ClipLoader} from "react-spinners"
-import RightArrowSvg from "../../../images/common/right_arrow_svg"
-import {Helmet} from "react-helmet"
-import {getMessages} from "../../../redux/selectors/translateSelector"
+import {ClipLoader} from 'react-spinners'
+import RightArrowSvg from '../../../images/common/right_arrow_svg'
+import {Helmet} from 'react-helmet'
+import {getMessages} from '../../../redux/selectors/translateSelector'
 
 type appProps =
     {|
-      actions: any,
+      actions: { getAllExchanges: Function },
       currentUserIdentity: number,
       currentUserType: string,
       currentUserId: number,
-      allExchanges: Array<any>
+      allExchanges: Array<any>,
+      translate: Object,
+      loading: boolean
     |}
 
 type appState =
     {|
       offset: number,
       activeScrollHeight: number,
-      scrollLoading: boolean
+      scrollLoading: boolean,
+      justFollowing: boolean,
+      search: ?string,
+      scrollButton: boolean
     |}
 
 class Explore extends PureComponent <appProps, appState> {

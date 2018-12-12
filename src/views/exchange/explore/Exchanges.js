@@ -1,11 +1,13 @@
 // @flow
 import * as React from 'react'
 import Exchange from './Exchange'
-import ExchangeSkeleton from "./Exchange_Skeleton"
+import ExchangeSkeleton from './Exchange_Skeleton'
 
 type appProps =
     {|
-      exchanges: any
+      exchanges: {exchange:{}},
+      justFollowing: boolean,
+      loading: boolean
     |}
 
 const loadingArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -30,7 +32,7 @@ const Exchanges = (props: appProps) => {
   }
 
   if (exchanges.length > 0) {
-    return exchanges.map((exchange, i) =>
+    return exchanges.map((exchange:any, i:any) =>
         <Exchange key={i} data={exchange.exchange ? exchange.exchange.content : exchange.exchange}/>
     )
   }

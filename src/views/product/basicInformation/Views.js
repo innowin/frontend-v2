@@ -77,7 +77,7 @@ export const ProductInfoView = (props: ProductInfoViewProps) => {
     {value: category, label: 'طبقه‌بندی دسته', key: 1},
     {value: `${province}-${country}`, label: 'محدوده جغرافیایی', key: 2},
     {value: `${DOMAIN}/product/${productId}/basicInformation`, label: 'لینک محصول', key: 3},
-    {value: '۹۷.۰۲.۰۱', label: 'تاریخ ثبت در دانش‌بوم', key: 4},
+    {value: '۹۷.۰۲.۰۱', label: 'تاریخ ثبت در اینوین', key: 4},
     {value: 'گروه آینده‌سازان(فیک)', label: 'ارائه دهنده محصول', key: 5},
   ]
   return (

@@ -8,14 +8,19 @@ import Select from 'react-select'
 
 type appProps =
     {|
-      // actions: any,
-      // hashTags: any
+      hashTags: Object,
+      search: Function,
+      justFollowing: Function,
+      justFollowed: Function,
+      justFollowing: Function,
     |}
 
 type appState =
     {|
       searchHashTags: boolean,
-      hashTags: any
+      hashTags: Object,
+      collapse: boolean,
+      searchLength: number
     |}
 
 class Sidebar extends Component <appProps, appState> {
@@ -30,6 +35,7 @@ class Sidebar extends Component <appProps, appState> {
           searchLength: 0
         }
   }
+
 
   _handleChange = (e) => {
     // this.props.getFollowersChecked(e.target.checked)
@@ -66,13 +72,16 @@ class Sidebar extends Component <appProps, appState> {
   }
 
   cancelSearchByClick = () => {
+    const self: any = this
     this.props.search(null)
     this.setState({...this.state, searchLength: 0})
-    this.searchInput.value = ''
+    self.searchInput.value = ''
     window.scrollTo({top: 0, behavior: 'smooth'})
   }
 
   render() {
+    const self: any = this
+
     let hashTags = []
     Object.values(this.props.hashTags).forEach(p =>
         hashTags.push({value: p.title, label: p.title, usage: p.usage})
@@ -89,7 +98,7 @@ class Sidebar extends Component <appProps, appState> {
         <div className='exchanges-explore-sidebar'>
           <div className='exchanges-explore-sidebar-searchbox'>
             <input type='text' className='exchanges-explore-sidebar-searchbox-input' placeholder='جستجوی شناسه'
-                   ref={e => this.searchInput = e} onKeyUp={this.submitSearchByWord} onChange={this._handleLength}/>
+                   ref={e => self.searchInput = e} onKeyUp={this.submitSearchByWord} onChange={this._handleLength}/>
             {
               this.state.searchLength > 0 ?
                   <div className='exchanges-explore-sidebar-search-exit-icon' onClick={this.cancelSearchByClick}>✕</div>
@@ -154,7 +163,7 @@ class Sidebar extends Component <appProps, appState> {
           </div>
           <hr/>
           {/*<div style={{fontSize: '14px'}}>*/}
-            {/*فیلتر بر اساس نشان ها:*/}
+          {/*فیلتر بر اساس نشان ها:*/}
           {/*</div>*/}
         </div>
     )

@@ -311,21 +311,21 @@ class CreatePost extends Component {
     return false
   }
 
-  _onSubmitShiftEnter() {
+  _onSubmitControlEnter() {
     if (this._formValidate()) {
       this._preSave()
     }
   }
 
   _handleShiftEnter = (e) => {
-    if (e.keyCode === 16 || e.keyCode === 13) {
+    if (e.keyCode === 17 || e.keyCode === 13) {
       let keys = this.state.keys.slice()
       keys[e.keyCode] = true
       this.setState({...this.state, keys: keys})
-      if (e.keyCode === 13 && keys[13] && keys[16]) {
+      if (e.keyCode === 13 && keys[13] && keys[17]) {
         e.preventDefault()
         this.setState({...this.state, keys: []}, () => {
-          this._onSubmitShiftEnter()
+          this._onSubmitControlEnter()
         })
       }
     } else this.setState({...this.state, keys: []})
