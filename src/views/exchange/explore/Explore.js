@@ -9,8 +9,8 @@ import {bindActionCreators} from 'redux'
 import {ClipLoader} from 'react-spinners'
 import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges.js'
 import {getMessages} from '../../../redux/selectors/translateSelector'
-import {Helmet} from 'react-helmet'
 import {PureComponent} from 'react'
+// import {Helmet} from 'react-helmet'
 
 type appProps =
     {|

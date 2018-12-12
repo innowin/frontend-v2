@@ -47,7 +47,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
     return (
         <div className="home-wrapper global-wrapper">
 
-          {/*Todo abel delete modal */}
+          {/*TODO:abel delete modal */}
           {/*<AddingContribution modalIsOpen={true}*/}
           {/*handleModalVisibility={this._handleProductWizardModal}/>*/}
 

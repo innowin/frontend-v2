@@ -1,11 +1,11 @@
-import React from "react"
+import * as React from "react"
+import PostView from "src/views/common/post/PostView"
+import {ClipLoader} from "react-spinners"
+import {connect} from "react-redux"
 // import DefaultUserIcon from "../../../images/defaults/defaultUser_svg"
 // import Moment from "react-moment"
-import connect from "react-redux/es/connect/connect"
 // import {VerifyWrapper} from "../../common/cards/Frames"
 // import {Link} from "react-router-dom"
-import PostView from "../../common/post/PostView"
-import {ClipLoader} from "react-spinners"
 
 const StreamView = props => {
   window.scrollTo({

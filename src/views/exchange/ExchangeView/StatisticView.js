@@ -1,6 +1,6 @@
 import * as React from "react"
 import {AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip} from "recharts"
-import {Component} from "react"
+import {PureComponent} from "react"
 import {connect} from "react-redux"
 import {getMessages} from "src/redux/selectors/translateSelector"
 import {QuestionMark, OffersSvg, DemandIcon, SupplyIcon, Stream} from "src/images/icons"
@@ -16,7 +16,7 @@ const data = [
   {name: "فروردین", ["عرضه"]: 73, ["تقاضا"]: 89, ["اعضا"]: 70},
 ]
 
-class StatisticView extends Component {
+class StatisticView extends PureComponent {
   render() {
     const {translate} = this.props
     return (
