@@ -1,14 +1,14 @@
-import React, {Component} from "react"
-import CarouselLogin from "./login/Carousel"
-import FooterLogin from "./login/FooterLogin"
-import HeaderLogin from "./login/HeaderLogin"
-import RegisterForm from "./login/SignUpForm"
+import React, {Component} from 'react'
+import CarouselLogin from './login/Carousel'
+import FooterLogin from './login/FooterLogin'
+import HeaderLogin from './login/HeaderLogin'
+import RegisterForm from './login/SignUpForm'
 import RegisterStepsModal from './login/registerModal/RegisterStepsModal'
-import SignInForm from "./login/signInForm"
-import SocialLogin from "./login/SocialLogin"
+import SignInForm from './login/signInForm'
+import SocialLogin from './login/SocialLogin'
 import PasswordRecovery from './login/PasswordRecovery'
-import {getMessages} from "../../redux/selectors/translateSelector";
-import connect from "react-redux/es/connect/connect";
+import {getMessages} from '../../redux/selectors/translateSelector'
+import connect from 'react-redux/es/connect/connect'
 
 class Login extends Component {
   constructor(props) {
@@ -21,7 +21,7 @@ class Login extends Component {
         androidLink: '#',
         address: 'انقلاب روبروی دانشگاه تهران مجتمع پارسا',
         phoneNumber: '02166972207',
-        logoCaption: 'اکوسیستم دانش بنیان'
+        logoCaption: 'پنجره نوآوری'
       },
       showRecovery: false,
       showRegisterModal: false,
@@ -55,22 +55,24 @@ class Login extends Component {
     const {iosLink, androidLink, address, phoneNumber, logoCaption} = header
     const SignIn = (page === 'SignIn')
     const SignUp = (page === 'SignUp')
-    const animateFormClass = (SignIn) ? ("sign-in-form-animate") : ("sign-up-form-animate")
+    const animateFormClass = (SignIn) ? ('sign-in-form-animate') : ('sign-up-form-animate')
 
     return (
         <div className="login-page  full-page-wrapper">
-          <div className={(showRecovery || showRegisterModal) ? "makeDark" : "makeDark-out"} onClick={this._hideModalClick}>
+          <div className={(showRecovery || showRegisterModal) ? 'makeDark' : 'makeDark-out'} onClick={this._hideModalClick}>
             {/*dark div*/}
           </div>
           <PasswordRecovery showRecovery={showRecovery} hideRecoveryClick={this._hideModalClick}
                             translate={translate}/>
           <RegisterStepsModal showRegisterModal={showRegisterModal} hideRecoveryClick={this._hideModalClick}
-                            translate={translate}/>
+                              translate={translate}/>
           <div className="login-container">
             <HeaderLogin iosLink={iosLink} androidLink={androidLink} address={address} phoneNumber={phoneNumber}
                          logoCaption={logoCaption}/>
-            <div className="row content mr-0">
+            <div className="row content mr-0" style={{direction: 'rtl'}}>
+
               <CarouselLogin/>
+
               <div className={`col-12 col-md-6 col-lg-5 login-wrapper ${animateFormClass}`}>
                 <div className="card">
                   <div className="login-tab">
@@ -99,11 +101,14 @@ class Login extends Component {
                     {SignUp && <RegisterForm onRegisterClick={this._onRegisterClisk}/>}
                   </div>
                   {/*<div className="card-footer social-login">*/}
-                    {/*<span>{translate['Register with other accounts']}</span>*/}
-                    {/*<SocialLogin/>*/}
+                  {/*<span>{translate['Register with other accounts']}</span>*/}
+                  {/*<SocialLogin/>*/}
                   {/*</div>*/}
                 </div>
               </div>
+
+
+
             </div>
             <FooterLogin year={year}/>
           </div>
