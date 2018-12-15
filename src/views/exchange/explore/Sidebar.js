@@ -41,11 +41,11 @@ class Sidebar extends Component <appProps, appState> {
   _handleHashTagsChange = (e) => {
     let nowHashTags = this.state.hashTags
     nowHashTags[e.value] = {title: e.value, usage: e.usage}
-    this.setState({hashTags: nowHashTags})
+    this.setState({...this.state, hashTags: nowHashTags})
   }
 
   _showHashTagsSearch = () => {
-    this.setState({searchHashTags: !this.state.searchHashTags})
+    this.setState({...this.state, searchHashTags: !this.state.searchHashTags})
   }
 
   _submitSearchByWord = (e) => {

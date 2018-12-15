@@ -56,6 +56,7 @@ import {
   SkillIcon,
   TipsIcon,
 } from "src/images/icons"
+import InteliInput from "./InteliInput"
 
 
 const reorder = (list, startIndex, endIndex) => {
@@ -109,6 +110,9 @@ type AddingContributionState = {
   wrapperClassName: string,
   currentLevel: string,
   selectedType: string,
+  selectedCatLvlOne: string,
+  selectedCatLvlTwo: string,
+  selectedCatLvlThree: string,
 }
 
 class AddingContribution extends Component<AddingContributionProps, AddingContributionState> {
@@ -123,8 +127,11 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       addingTechPropNow: false,
       newTechPropertyData: {},
 
-      currentLevel: "two",
-      selectedType: "Product"
+      currentLevel: "one",
+      selectedType: "Product",
+      selectedCatLvlOne: "",
+      selectedCatLvlTwo: "",
+      selectedCatLvlThree: "",
     }
 
     const self: any = this
@@ -133,7 +140,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     self.renderProgressBar = self.renderProgressBar.bind(self)
     self.renderCurrentLevel = self.renderCurrentLevel.bind(self)
     self.renderFooter = self.renderFooter.bind(self)
-    self.closeModal = self.closeModal.bind(self)
+    self._closeModal = self._closeModal.bind(self)
   }
 
   componentDidMount() {
@@ -789,8 +796,26 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     this.setState({...this.state, selectedType: selected})
   }
 
+  _handleCatLvlChange(text, level) {
+    console.log(text)
+    if (level === "one") {
+      this.setState({...this.state, selectedCatLvlOne: text})
+    } else if (level === "two") {
+      this.setState({...this.state, selectedCatLvlTwo: text})
+    } else if (level === "three") {
+      this.setState({...this.state, selectedCatLvlThree: text})
+    }
+  }
+
   renderCurrentLevel() {
-    let {currentLevel, selectedType} = this.state
+    let {
+      currentLevel,
+      selectedType,
+      selectedCatLvlOne,
+      selectedCatLvlTwo,
+      selectedCatLvlThree,
+      inteliMenu,
+    } = this.state
     switch (currentLevel) {
       case "one":
         return (
@@ -846,15 +871,37 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
             </div>
         )
       case "two":
+        let namesList = [{value: "رضا"}, {value: "حسین"}, {value: "ابوالفضل"}, {value: "امیر"}, {value: "امیرحسین"},]
         return (
-            <div className="contribution-description">
-              <div className="icon-wrapper">
-                <TipsIcon className="tip-icon"/>
+            <div className="contribution-product-two">
+              <div className={"gray-text-input-label-container"}>
+                <label className="gray-text-input-label">عنوان آورده:</label>
+                <input type="text" className="form-control gray-text-input"/>
               </div>
-              <div className="contribution-desc-txt">
-                <p>
-                  مرحله ی دوم
-                </p>
+              <div className={"gray-text-input-label-container"}>
+                <label className="gray-text-input-label">محدوده جغرافیایی:</label>
+                <input type="text" className="form-control gray-text-input"/>
+              </div>
+              <div className={"gray-text-input-label-container"}>
+                <label className="gray-text-input-label">طبقه اول دسته بندی:</label>
+                <InteliInput handleChange={(text) => this._handleCatLvlChange(text, "one")} list={namesList}/>
+              </div>
+              <div className={"gray-text-input-label-container"}>
+                <label className="gray-text-input-label">قیمت:</label>
+                <input type="text" className="form-control gray-text-input"/>
+              </div>
+              <div className={"gray-text-input-label-container"}>
+                <label className="gray-text-input-label">طبقه دوم دسته بندی:</label>
+                <input type="text" className="form-control gray-text-input"/>
+
+                <div className={"gray-text-input-label-container full"}>
+                  <label className="gray-text-input-label">طبقه سوم دسته بندی:</label>
+                  <input type="text" className="form-control gray-text-input"/>
+                </div>
+              </div>
+              <div className={"gray-text-input-label-container"}>
+                <label className="gray-text-input-label">توصیف اجمالی محصول:</label>
+                <textarea name="description" className="form-control gray-textarea-input"/>
               </div>
             </div>
         )
@@ -917,7 +964,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
           <button className={"next-button"}>
             {
               currentLevel === "five" ?
-                  <div onClick={() => this.closeModal()}>
+                  <div onClick={() => this._closeModal()}>
                     ثبت
                   </div>
                   :
@@ -935,14 +982,13 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     )
   }
 
-  closeModal() {
+  _closeModal() {
     this.setState({...this.state, currentLevel: "one"}, this.props.handleModalVisibility())
   }
 
   render() {
     const {activeStep, progressSteps, progressStatus, wrapperClassName, newContributionData} = this.state
     const {mainCategory = ""} = newContributionData
-    const {currentLevel} = this.state
     const {modalIsOpen} = this.props
     return (
         <div className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}>
@@ -975,43 +1021,49 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
   }
 }
 
-const mapStateToProps = (state) => {
-  const initialFormValues = getFormValues(state, "addingContributionInitialInfoForm")
-  const provinceId = initialFormValues.product_related_province ? initialFormValues.product_related_province.value : ""
-  const countryId = initialFormValues.product_related_country ? initialFormValues.product_related_country.value : ""
-  const citySelectorByProvinceId = makeCitySelectorByProvinceId()
-  const provinceSelectorByProvinceId = makeProvinceSelectorByCountryId()
-  const categorySelector = makeCategorySelector()
-  // const provinces =
-  return {
-    translator: getMessages(state),
-    categories: categorySelector(state),
-    initialInfoFormState: initialFormValues,
-    skillInfoFormValues: getFormValues(state, skillInfoFormName),
-    hashTags: hashTagsListSelector(state),
-    countries: countrySelector(state),
-    provinces: provinceSelectorByProvinceId(state, countryId),
-    cities: citySelectorByProvinceId(state, provinceId),
-    testToken: state.auth.client.token,
-    nowCreatedProductId: nowCreatedProductIdSelector(state),
-    nowCreatedSkillId: nowCreatedSkillIdSelector(state)
-  }
-}
+const
+    mapStateToProps = (state) => {
+      const initialFormValues = getFormValues(state, "addingContributionInitialInfoForm")
+      const provinceId = initialFormValues.product_related_province ? initialFormValues.product_related_province.value : ""
+      const countryId = initialFormValues.product_related_country ? initialFormValues.product_related_country.value : ""
+      const citySelectorByProvinceId = makeCitySelectorByProvinceId()
+      const provinceSelectorByProvinceId = makeProvinceSelectorByCountryId()
+      const categorySelector = makeCategorySelector()
+      // const provinces =
+      return {
+        translator: getMessages(state),
+        categories: categorySelector(state),
+        initialInfoFormState: initialFormValues,
+        skillInfoFormValues: getFormValues(state, skillInfoFormName),
+        hashTags: hashTagsListSelector(state),
+        countries: countrySelector(state),
+        provinces: provinceSelectorByProvinceId(state, countryId),
+        cities: citySelectorByProvinceId(state, provinceId),
+        testToken: state.auth.client.token,
+        nowCreatedProductId: nowCreatedProductIdSelector(state),
+        nowCreatedSkillId: nowCreatedSkillIdSelector(state)
+      }
+    }
 
-const mapDispatchToProps = dispatch =>
-    bindActionCreators(
-        {
-          _getCategories: getCategories,
-          _getHashTags: getHashTags,
-          _createProduct: createProductAsContribution,
-          _getCountries: getCountries,
-          _getProvinces: getProvinces,
-          _getCities: getCities,
-          _changeFormSingleFieldValue: change,
-          _createSkillAction: createSkillAction
-        },
-        dispatch
-    )
+const
+    mapDispatchToProps = dispatch =>
+        bindActionCreators(
+            {
+              _getCategories: getCategories,
+              _getHashTags: getHashTags,
+              _createProduct: createProductAsContribution,
+              _getCountries: getCountries,
+              _getProvinces: getProvinces,
+              _getCities: getCities,
+              _changeFormSingleFieldValue: change,
+              _createSkillAction: createSkillAction
+            },
+            dispatch
+        )
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddingContribution)
+export default connect(mapStateToProps, mapDispatchToProps)
+
+(
+    AddingContribution
+)

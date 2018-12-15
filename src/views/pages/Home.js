@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-// import AddingContribution from "./adding-contribution/addingContribution"
+import AddingContribution from "./adding-contribution/addingContribution"
 import ChatBar from '../bars/ChatBar'
 import constants from 'src/consts/constants'
 import HomePosts from './home/HomePosts'
@@ -47,9 +47,9 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
     return (
         <div className="home-wrapper global-wrapper">
 
-          {/*TODO:abel delete modal */}
-          {/*<AddingContribution modalIsOpen={true}*/}
-          {/*handleModalVisibility={this._handleProductWizardModal}/>*/}
+          {/*TODO:Abel delete modal */}
+          <AddingContribution modalIsOpen={true}
+          handleModalVisibility={null}/>
 
           {/*<TopBar collapseClassName="col-2"/>*/}
 
