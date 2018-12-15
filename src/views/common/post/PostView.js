@@ -95,9 +95,9 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     self._delete = this._delete.bind(this)
     self._showConfirm = this._showConfirm.bind(this)
     self._cancelConfirm = this._cancelConfirm.bind(this)
-    self.openMenu = this.openMenu.bind(this)
+    self._openMenu = this._openMenu.bind(this)
     self._handleClickOutMenuBox = this._handleClickOutMenuBox.bind(this)
-    self.handleShowComment = this.handleShowComment.bind(this)
+    self._handleShowComment = this._handleShowComment.bind(this)
   }
 
   componentDidMount() {
@@ -189,7 +189,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     document.removeEventListener("click", this._handleClickOutMenuBox)
   }
 
-  openMenu(e) {
+  _openMenu(e) {
     e.preventDefault()
     const {post, actions} = this.props
     const {setPostViewer, getPostViewerCount} = actions
@@ -198,7 +198,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     this.setState({...this.state, menuToggle: !this.state.menuToggle})
   }
 
-  handleShowComment = () => {
+  _handleShowComment = () => {
     let {showComment} = this.state
     this.setState({...this.state, showComment: !showComment})
   }
@@ -357,9 +357,9 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
 
                 <PostFooter post={post} postIdentity={postIdentity} translate={translate} extendedView={extendedView}
-                            menuToggle={menuToggle} openMenu={this.openMenu}
+                            menuToggle={menuToggle} openMenu={this._openMenu}
                             deletePost={this._showConfirm}
-                            showComment={this.handleShowComment}
+                            showComment={this._handleShowComment}
                 />
                 {/*{
                  <div className='add-comment'>
@@ -383,11 +383,13 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                       post={post}/> : null
                 }
 
+{/*
                 {extendedView && comments && comments.length > 0 &&
                 <PostComments comments={comments} translate={translate}
                               replyComment={(comment) => this.replyComment(comment, this.commentTextField)}
                               deleteComment={this.deleteComment}/>
                 }
+*/}
               </div>
             </VerifyWrapper>
             : ""

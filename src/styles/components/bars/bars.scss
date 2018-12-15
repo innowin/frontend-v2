@@ -261,11 +261,26 @@ $sidebar-profile-media-width: 80px;
   border: 1px solid $primary-color;
   border-radius: 100px;
   background-color: $background-color;
-  margin: 1.5% 3% 1.5% 3%;
   transition-duration: $animation-timing;
   display: inline-block;
   vertical-align: top;
   cursor: pointer;
+
+  @media screen and (max-width: 1920px) and (min-width: 1366px) {
+    margin: 1.5% 3% 1.5% 3%;
+  }
+  @media screen and (max-width: 1366px) and (min-width: 1280px) {
+    margin: 1.5% 3% 1.5% 3%;
+  }
+  @media screen and (max-width: 1280px) and (min-width: 900px) {
+    margin: 1.5% 3% 1.5% 3%;
+  }
+  @media screen and (max-width: 900px) and (min-width: 700px) {
+    margin: 1.5% 1.5% 1.5% 1.5%;
+  }
+  @media screen and (max-width: 700px) and (min-width: 0px) {
+    margin: 1.5% .5% 1.5% .5%;
+  }
 
   &:hover {
     background-color: rgba(37, 53, 69, 0.15);
@@ -279,11 +294,25 @@ $sidebar-profile-media-width: 80px;
   border: 1px solid $primary-color;
   border-radius: 100px;
   background-color: $primary-color;
-  margin: 1.5% 3% 1.5% 3%;
   transition-duration: $animation-timing;
   display: inline-block;
   vertical-align: top;
   cursor: pointer;
+  @media screen and (max-width: 1920px) and (min-width: 1366px) {
+    margin: 1.5% 3% 1.5% 3%;
+  }
+  @media screen and (max-width: 1366px) and (min-width: 1280px) {
+    margin: 1.5% 3% 1.5% 3%;
+  }
+  @media screen and (max-width: 1280px) and (min-width: 900px) {
+    margin: 1.5% 3% 1.5% 3%;
+  }
+  @media screen and (max-width: 900px) and (min-width: 700px) {
+    margin: 1.5% 1.5% 1.5% 1.5%;
+  }
+  @media screen and (max-width: 700px) and (min-width: 0px) {
+    margin: 1.5% .5% 1.5% .5%;
+  }
 }
 
 .svg-container-info-view {
@@ -341,7 +370,7 @@ $sidebar-profile-media-width: 80px;
   box-shadow: 0 0 14px rgba(0, 0, 0, 0.15);
   z-index: 2;
   white-space: nowrap;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .under-exchange-navbar-center {

@@ -5,7 +5,7 @@ import {Link} from "react-router-dom"
 
 import type {postType} from "../../../consts/flowTypes/common/post"
 import type {identityType} from "../../../consts/flowTypes/user/basicInformation"
-import CheckOwner from "../CheckOwner"
+import checkOwner from "../CheckOwner"
 
 type postFooterProps = {
   post: postType,
@@ -55,9 +55,9 @@ const PostFooter = (props: postFooterProps) => {
                       <span>{translate["Show more"]}</span>
                     </Link>
                     }
-                    <CheckOwner id={ownerId}>
-                      <span onClick={deletePost}>{translate["Delete post"]}</span>
-                    </CheckOwner>
+                    {
+                      checkOwner({id: ownerId, children: <span onClick={deletePost}>{translate["Delete post"]}</span>})
+                    }
                   </div>
                 </div>
                 : ""

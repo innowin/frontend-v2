@@ -45,7 +45,7 @@ class Exchange_Tabs extends Component<props, states> {
       // getUserFlag: false,
     }
     const self: any = this
-    self.setTab = self.setTab.bind(self)
+    self._setTab = self._setTab.bind(self)
   }
 
   componentDidMount() {
@@ -72,7 +72,7 @@ class Exchange_Tabs extends Component<props, states> {
     }
   }
 
-  setTab(data) {
+  _setTab(data) {
     this.setState({...this.state, selectedTab: data})
   }
 
@@ -85,27 +85,27 @@ class Exchange_Tabs extends Component<props, states> {
             <Stream width="22px" height="22px"
                     containerClass={selectedTab === "Stream" ? clickedSvgContainerStyle : normalSvgContainerStyle}
                     svgClass={selectedTab === "Stream" ? clickedSvgStyle : normalSvgStyle}
-                    changeView={(data) => this.setTab(data)}/>
+                    changeView={(data) => this._setTab(data)}/>
             <Info width="22px" height="22px"
                   containerClass={selectedTab === "Info" ? clickedSvgContainerStyle : normalSvgContainerStyle}
                   svgClass={selectedTab === "Info" ? clickedSvgStyle : normalSvgStyle}
-                  changeView={(data) => this.setTab(data)}/>
+                  changeView={(data) => this._setTab(data)}/>
             <Statistic width="22px" height="22px"
                        containerClass={selectedTab === "Statistic" ? clickedSvgContainerStyle : normalSvgContainerStyle}
                        svgClass={selectedTab === "Statistic" ? clickedSvgStyle : normalSvgStyle}
-                       changeView={(data) => this.setTab(data)}/>
+                       changeView={(data) => this._setTab(data)}/>
             <Contacts width="22px" height="22px"
                       containerClass={selectedTab === "Members" ? clickedSvgContainerStyle : normalSvgContainerStyle}
                       svgClass={selectedTab === "Members" ? clickedSvgStyle : normalSvgStyle}
-                      changeView={(data) => this.setTab(data)}/>
+                      changeView={(data) => this._setTab(data)}/>
             <Medal width="22px" height="23px"
                    containerClass={selectedTab === "Medals" ? clickedSvgContainerStyle : normalSvgContainerStyle}
                    svgClass={selectedTab === "Medals" ? clickedSvgStyle : normalSvgStyle}
-                   changeView={(data) => this.setTab(data)}/>
+                   changeView={(data) => this._setTab(data)}/>
             <Ticket width="22px" height="22px"
                     containerClass={selectedTab === "Exchange Manager" ? clickedSvgContainerStyle : normalSvgContainerStyle}
                     svgClass={selectedTab === "Exchange Manager" ? clickedSvgStyle : normalSvgStyle}
-                    changeView={(data) => this.setTab(data)}/>
+                    changeView={(data) => this._setTab(data)}/>
           </div>
           <div className={`under-exchange-navbar-center`}>{translate[selectedTab]}</div>
           <div className={`line-under-exchange-navbar-center`}/>

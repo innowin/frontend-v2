@@ -1,4 +1,3 @@
-// @flow
 import * as React from "react"
 import Moment from "react-moment"
 import PropTypes from 'prop-types'
