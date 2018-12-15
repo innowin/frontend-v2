@@ -1,11 +1,12 @@
 // @flow
-import * as React from "react"
-import PropTypes from "prop-types"
-import {Link} from "react-router-dom"
+import * as React from 'react'
+import PropTypes from 'prop-types'
+import {Link} from 'react-router-dom'
 
-import type {postType} from "../../../consts/flowTypes/common/post"
-import type {identityType} from "../../../consts/flowTypes/user/basicInformation"
-import CheckOwner from "../CheckOwner"
+import type {postType} from '../../../consts/flowTypes/common/post'
+import type {identityType} from '../../../consts/flowTypes/user/basicInformation'
+import CheckOwner from '../CheckOwner'
+import EditIcon from '../../../images/common/edit.svg'
 
 type postFooterProps = {
   post: postType,
@@ -19,9 +20,9 @@ type postFooterProps = {
 }
 
 const PostFooter = (props: postFooterProps) => {
-  const {post, extendedView, menuToggle, openMenu, postIdentity, translate, deletePost, showComment} = props
+  const {post, extendedView, menuToggle, openMenu, postIdentity, translate, deletePost, showComment, showEdit} = props
   let viewerCount
-  let postUrl = ""
+  let postUrl = ''
   let user = {}
   let organization = {}
   let ownerId
@@ -50,17 +51,21 @@ const PostFooter = (props: postFooterProps) => {
             {menuToggle ?
                 <div className="menu-box-post pt-0 pb-0" id='sidebar-post-menu-box'>
                   <div>
-                    {!extendedView &&
-                    <Link to={postUrl}>
-                      <span>{translate["Show more"]}</span>
-                    </Link>
+                    {
+                      !extendedView &&
+                      <Link to={postUrl}>
+                        <span>{translate['Show more']}</span>
+                      </Link>
                     }
                     <CheckOwner id={ownerId}>
-                      <span onClick={deletePost}>{translate["Delete post"]}</span>
+                      <span onClick={showEdit}>ویرایش پست</span>
+                    </CheckOwner>
+                    <CheckOwner id={ownerId}>
+                      <span onClick={deletePost}>{translate['Delete post']}</span>
                     </CheckOwner>
                   </div>
                 </div>
-                : ""
+                : ''
             }
           </div>
           {/*<div className='items'>*/}

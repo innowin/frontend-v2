@@ -1,11 +1,11 @@
 // @flow
-import * as React from "react"
-import Certificates from "./product/certificates"
-import MenuProgressive from "../progressive/penu-progressive"
-import NewContribution from "./newConribution"
-import TechnicalProperties from "./product/technicalProperties"
-import {Component} from "react"
-import {Modal, ModalBody} from "reactstrap"
+import * as React from 'react'
+import Certificates from './product/certificates'
+import MenuProgressive from '../progressive/penu-progressive'
+import NewContribution from './newConribution'
+import TechnicalProperties from './product/technicalProperties'
+import {Component} from 'react'
+import {Modal, ModalBody} from 'reactstrap'
 import {
   CERTIFICATES_IMG_IDS,
   LAYER1S,
@@ -14,36 +14,36 @@ import {
   PROGRESSIVE_STATUS_CHOICES,
   tags,
   WRAPPER_CLASS_NAMES,
-} from "./addingConributionData"
-import client from "src/consts/client"
-import countrySelector from "src/redux/selectors/common/location/getCountry"
-import Desc from "../../common/Text/Tip"
-import FontAwesome from "react-fontawesome"
-import GalleryAndTags from "./product/galleryAndTags"
-import InitialInfoReduxForm, {initialInfoFormName} from "./product/reduxFormInitialInfo"
-import makeCitySelectorByProvinceId from "src/redux/selectors/common/location/getCityByProvince"
-import makeProvinceSelectorByCountryId from "src/redux/selectors/common/location/getProvinceByCountry"
-import NextPrevBtns from "./nextAndPrevBtns"
-import nowCreatedProductIdSelector from "src/redux/selectors/common/product/getNowCreatedProductId"
-import nowCreatedSkillIdSelector from "src/redux/selectors/skill/getNowCreatedSkillId"
-import SkillInfoForm, {skillInfoFormName} from "./skill/infoForm"
-import SkillSuccessMessage from "./skill/successMessage"
-import SuccessMessage from "./product/successMessage"
-import type {NewContributionDataType, SkillFormValsType} from "./types"
-import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
-import {bindActionCreators} from "redux"
-import {change} from "redux-form"
-import {connect} from "react-redux"
-import {createProductAsContribution} from "src/redux/actions/commonActions/productActions/productActions"
-import {createSkillAction} from "src/redux/actions/skill/createSkillAction"
-import {getCategories} from "src/redux/actions/commonActions/categoryActions"
-import {getCountries, getProvinces, getCities} from "src/redux/actions/commonActions/location"
-import {getFormValues} from "src/redux/selectors/formValuesSelectors"
-import {getHashTags} from "src/redux/actions/commonActions/hashTagActions"
-import {getMessages} from "../../../redux/selectors/translateSelector"
-import {hashTagsListSelector} from "src/redux/selectors/common/hashTags/hashTag"
-import {makeCategorySelector} from "src/redux/selectors/common/category/getCategoriesByParentId"
-import {provinceSelector} from "src/redux/selectors/common/location/getProvinceByCountry"
+} from './addingConributionData'
+import client from 'src/consts/client'
+import countrySelector from 'src/redux/selectors/common/location/getCountry'
+import Desc from '../../common/Text/Tip'
+import FontAwesome from 'react-fontawesome'
+import GalleryAndTags from './product/galleryAndTags'
+import InitialInfoReduxForm, {initialInfoFormName} from './product/reduxFormInitialInfo'
+import makeCitySelectorByProvinceId from 'src/redux/selectors/common/location/getCityByProvince'
+import makeProvinceSelectorByCountryId from 'src/redux/selectors/common/location/getProvinceByCountry'
+import NextPrevBtns from './nextAndPrevBtns'
+import nowCreatedProductIdSelector from 'src/redux/selectors/common/product/getNowCreatedProductId'
+import nowCreatedSkillIdSelector from 'src/redux/selectors/skill/getNowCreatedSkillId'
+import SkillInfoForm, {skillInfoFormName} from './skill/infoForm'
+import SkillSuccessMessage from './skill/successMessage'
+import SuccessMessage from './product/successMessage'
+import type {NewContributionDataType, SkillFormValsType} from './types'
+import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
+import {bindActionCreators} from 'redux'
+import {change} from 'redux-form'
+import {connect} from 'react-redux'
+import {createProductAsContribution} from 'src/redux/actions/commonActions/productActions/productActions'
+import {createSkillAction} from 'src/redux/actions/skill/createSkillAction'
+import {getCategories} from 'src/redux/actions/commonActions/categoryActions'
+import {getCountries, getProvinces, getCities} from 'src/redux/actions/commonActions/location'
+import {getFormValues} from 'src/redux/selectors/formValuesSelectors'
+import {getHashTags} from 'src/redux/actions/commonActions/hashTagActions'
+import {getMessages} from '../../../redux/selectors/translateSelector'
+import {hashTagsListSelector} from 'src/redux/selectors/common/hashTags/hashTag'
+import {makeCategorySelector} from 'src/redux/selectors/common/category/getCategoriesByParentId'
+import {provinceSelector} from 'src/redux/selectors/common/location/getProvinceByCountry'
 import {
   CertificateIcon,
   CircularAddIcon,
@@ -55,7 +55,8 @@ import {
   QuestionMark,
   SkillIcon,
   TipsIcon,
-} from "src/images/icons"
+} from 'src/images/icons'
+import Material from '../../common/components/Material'
 
 
 const reorder = (list, startIndex, endIndex) => {
@@ -123,8 +124,8 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       addingTechPropNow: false,
       newTechPropertyData: {},
 
-      currentLevel: "two",
-      selectedType: "Product"
+      currentLevel: 'two',
+      selectedType: 'Product'
     }
 
     const self: any = this
@@ -168,7 +169,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
 
 
   _activationAddTechPropBlock = (e, key) => {
-    const isActive: boolean = (key === "click")
+    const isActive: boolean = (key === 'click')
     this.setState({
       ...this.state,
       addingTechPropNow: isActive
@@ -250,7 +251,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     v && _getProvinces(v.value)
     if (initialInfoFormState[LAYER1S.COUNTRY]) {
       if (initialInfoFormState[LAYER1S.COUNTRY].value !== v.value) {
-        _changeFormSingleFieldValue(initialInfoFormName, LAYER1S.PROVINCE, "")
+        _changeFormSingleFieldValue(initialInfoFormName, LAYER1S.PROVINCE, '')
       }
     }
 
@@ -260,7 +261,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     v && _getCities(v.value)
     if (initialInfoFormState[LAYER1S.PROVINCE]) {
       if (initialInfoFormState[LAYER1S.PROVINCE].value !== v.value) {
-        _changeFormSingleFieldValue(initialInfoFormName, LAYER1S.CITY, "")
+        _changeFormSingleFieldValue(initialInfoFormName, LAYER1S.CITY, '')
       }
     }
 
@@ -483,10 +484,10 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
         newContributionData: {
           ...newContributionData,
           certificates: newCertificates,
-          [LAYER1S.NEW_CERT_TITLE]: "",
-          [LAYER1S.NEW_CERT_IMAGE]: "",
-          [LAYER1S.NEW_CERT_LOGO]: "",
-          [LAYER1S.NEW_CERT_INDEX]: "",
+          [LAYER1S.NEW_CERT_TITLE]: '',
+          [LAYER1S.NEW_CERT_IMAGE]: '',
+          [LAYER1S.NEW_CERT_LOGO]: '',
+          [LAYER1S.NEW_CERT_INDEX]: '',
           [LAYER1S.NEW_CERT_NEED_FOR_VERIFY]: false,
         },
       })
@@ -496,7 +497,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     const {skillInfoFormValues, _changeFormSingleFieldValue} = this.props
     const {hashTags} = skillInfoFormValues
     const newHashTags = hashTags.filter(tag => tag.value !== value)
-    _changeFormSingleFieldValue(skillInfoFormName, "hashTags", newHashTags)
+    _changeFormSingleFieldValue(skillInfoFormName, 'hashTags', newHashTags)
   }
   _setStateForFileField = (input, key) => {
     const reader = new FileReader()
@@ -534,7 +535,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       ...this.state,
       newContributionData: {
         ...this.state.newContributionData,
-        mainCategory: "transition"
+        mainCategory: 'transition'
       }
     })
     setTimeout(() => this.setState({
@@ -706,20 +707,20 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
   nextLevel() {
     let {currentLevel} = this.state
     switch (currentLevel) {
-      case "one":
-        this.setState({...this.state, currentLevel: "two"})
+      case 'one':
+        this.setState({...this.state, currentLevel: 'two'})
         break
-      case "two":
-        this.setState({...this.state, currentLevel: "three"})
+      case 'two':
+        this.setState({...this.state, currentLevel: 'three'})
         break
-      case "three":
-        this.setState({...this.state, currentLevel: "four"})
+      case 'three':
+        this.setState({...this.state, currentLevel: 'four'})
         break
-      case "four":
-        this.setState({...this.state, currentLevel: "five"})
+      case 'four':
+        this.setState({...this.state, currentLevel: 'five'})
         break
       default :
-        this.setState({...this.state, currentLevel: "one"})
+        this.setState({...this.state, currentLevel: 'one'})
         break
     }
   }
@@ -727,20 +728,20 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
   previousLevel() {
     let {currentLevel} = this.state
     switch (currentLevel) {
-      case "two":
-        this.setState({...this.state, currentLevel: "one"})
+      case 'two':
+        this.setState({...this.state, currentLevel: 'one'})
         break
-      case "three":
-        this.setState({...this.state, currentLevel: "two"})
+      case 'three':
+        this.setState({...this.state, currentLevel: 'two'})
         break
-      case "four":
-        this.setState({...this.state, currentLevel: "three"})
+      case 'four':
+        this.setState({...this.state, currentLevel: 'three'})
         break
-      case "five":
-        this.setState({...this.state, currentLevel: "four"})
+      case 'five':
+        this.setState({...this.state, currentLevel: 'four'})
         break
       default :
-        this.setState({...this.state, currentLevel: "one"})
+        this.setState({...this.state, currentLevel: 'one'})
         break
     }
   }
@@ -748,39 +749,39 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
   renderProgressBar() {
     let {currentLevel} = this.state
     return (
-        <div className={"contribution-progress-bar"}>
-          <div className={"level-container-active"}>
-            <CircularAddIcon className={"progress-step-icon level-container-svg add"}/>
-            <div className={"level-container-text"}>
+        <div className={'contribution-progress-bar'}>
+          <div className={'level-container-active'}>
+            <CircularAddIcon className={'progress-step-icon level-container-svg add'}/>
+            <div className={'level-container-text'}>
               آوردۀ جدید
             </div>
           </div>
-          <div className={currentLevel !== "one" ? "level-container-active" : "level-container"}>
-            <InformationIcon className={"progress-step-icon level-container-svg info " + currentLevel}/>
-            <div className={"level-container-text"}>
+          <div className={currentLevel !== 'one' ? 'level-container-active' : 'level-container'}>
+            <InformationIcon className={'progress-step-icon level-container-svg info ' + currentLevel}/>
+            <div className={'level-container-text'}>
               اطلاعات اولیه
             </div>
           </div>
-          <div className={currentLevel !== "one" && currentLevel !== "two" ? "level-container-active" : "level-container"}>
-            <ItemsAndPropertiesIcon className={"progress-step-icon level-container-svg items " + currentLevel}/>
-            <div className={"level-container-text"}>
+          <div className={currentLevel !== 'one' && currentLevel !== 'two' ? 'level-container-active' : 'level-container'}>
+            <ItemsAndPropertiesIcon className={'progress-step-icon level-container-svg items ' + currentLevel}/>
+            <div className={'level-container-text'}>
               مشخصات فنّی
             </div>
           </div>
-          <div className={currentLevel === "four" || currentLevel === "five" ? "level-container-active" : "level-container"}>
-            <Medal width="24px" height="25px" svgClass={"level-container-svg medal " + currentLevel}/>
-            <div className={"level-container-text"}>
+          <div className={currentLevel === 'four' || currentLevel === 'five' ? 'level-container-active' : 'level-container'}>
+            <Medal width="24px" height="25px" svgClass={'level-container-svg medal ' + currentLevel}/>
+            <div className={'level-container-text'}>
               گواهینامه ها
             </div>
           </div>
-          <div className={currentLevel === "five" ? "level-container-active" : "level-container"}>
-            <ContributionIcon className={"progress-step-icon level-container-svg contribution " + currentLevel}/>
-            <div className={"level-container-text"}>
+          <div className={currentLevel === 'five' ? 'level-container-active' : 'level-container'}>
+            <ContributionIcon className={'progress-step-icon level-container-svg contribution ' + currentLevel}/>
+            <div className={'level-container-text'}>
               مدیریت ویترین
             </div>
           </div>
-          <div className={"level-bar"}/>
-          <div className={"level-bar-progress " + currentLevel}/>
+          <div className={'level-bar'}/>
+          <div className={'level-bar-progress ' + currentLevel}/>
         </div>
     )
   }
@@ -792,7 +793,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
   renderCurrentLevel() {
     let {currentLevel, selectedType} = this.state
     switch (currentLevel) {
-      case "one":
+      case 'one':
         return (
             <div>
               <div className="contribution-description">
@@ -808,44 +809,59 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
                   </p>
                 </div>
               </div>
-              <div className={"contribution-description-options-area"}>
-                <div className={"text"}>انتخاب نوع آورده:</div>
-                <div className={"contribution-description-options"}>
-                  <div
-                      onClick={() => this._changeSelectedType("Product")}
-                      className={selectedType === "Product" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
-                    <ContributionIcon className={"option-contribution-svg"}/>
-                    <div className={"option-contribution-text"}>محصول</div>
-                  </div>
-                  <div
-                      onClick={() => this._changeSelectedType("Ability")}
-                      className={selectedType === "Ability" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
-                    <SkillIcon className="option-contribution-svg-smaller"/>
-                    <div className={"option-contribution-text"}>توانمندی</div>
-                  </div>
-                  <div
-                      onClick={() => this._changeSelectedType("Certificate")}
-                      className={selectedType === "Certificate" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
-                    <CertificateIcon className="option-contribution-svg-smaller"/>
-                    <div className={"option-contribution-text"}>تاییدیه</div>
-                  </div>
-                  <div
-                      onClick={() => this._changeSelectedType("Consultation")}
-                      className={selectedType === "Consultation" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
-                    <ConsultIcon className="option-contribution-svg-small"/>
-                    <div className={"option-contribution-text"}>مشاوره</div>
-                  </div>
-                  <div
-                      onClick={() => this._changeSelectedType("Substructure")}
-                      className={selectedType === "Substructure" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
-                    <QuestionMark width="20px" height="20px" svgClass={"option-contribution-svg"}/>
-                    <div className={"option-contribution-text"}>زیرساخت قابل اشتراک</div>
-                  </div>
+              <div className={'contribution-description-options-area'}>
+                <div className={'text'}>انتخاب نوع آورده:</div>
+                <div className={'contribution-description-options'}>
+
+                  <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === 'Product' ? 'contribution-material-block-active' : 'contribution-material-block'} content={
+                    <div onClick={() => this._changeSelectedType('Product')}
+                         className={selectedType === 'Product' ? 'contribution-description-option-block-active' : 'contribution-description-option-block'}>
+                      <ContributionIcon className={'option-contribution-svg'}/>
+                      <div className={'option-contribution-text'}>محصول</div>
+                    </div>
+                  }/>
+
+                  <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === 'Ability' ? 'contribution-material-block-active' : 'contribution-material-block'} content={
+                    <div
+                        onClick={() => this._changeSelectedType('Ability')}
+                        className={selectedType === 'Ability' ? 'contribution-description-option-block-active' : 'contribution-description-option-block'}>
+                      <SkillIcon className="option-contribution-svg-smaller"/>
+                      <div className={'option-contribution-text'}>توانمندی</div>
+                    </div>
+                  }/>
+
+                  <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === 'Certificate' ? 'contribution-material-block-active' : 'contribution-material-block'} content={
+                    <div
+                        onClick={() => this._changeSelectedType('Certificate')}
+                        className={selectedType === 'Certificate' ? 'contribution-description-option-block-active' : 'contribution-description-option-block'}>
+                      <CertificateIcon className="option-contribution-svg-smaller"/>
+                      <div className={'option-contribution-text'}>تاییدیه</div>
+                    </div>
+                  }/>
+
+                  <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === 'Consultation' ? 'contribution-material-block-active' : 'contribution-material-block'} content={
+                    <div
+                        onClick={() => this._changeSelectedType('Consultation')}
+                        className={selectedType === 'Consultation' ? 'contribution-description-option-block-active' : 'contribution-description-option-block'}>
+                      <ConsultIcon className="option-contribution-svg-small"/>
+                      <div className={'option-contribution-text'}>مشاوره</div>
+                    </div>
+                  }/>
+
+                  <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === 'Substructure' ? 'contribution-material-block-active' : 'contribution-material-block'} content={
+                    <div
+                        onClick={() => this._changeSelectedType('Substructure')}
+                        className={selectedType === 'Substructure' ? 'contribution-description-option-block-active' : 'contribution-description-option-block'}>
+                      <QuestionMark width="20px" height="20px" svgClass={'option-contribution-svg'}/>
+                      <div className={'option-contribution-text'}>زیرساخت قابل اشتراک</div>
+                    </div>
+                  }/>
+
                 </div>
               </div>
             </div>
         )
-      case "two":
+      case 'two':
         return (
             <div className="contribution-description">
               <div className="icon-wrapper">
@@ -858,7 +874,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
               </div>
             </div>
         )
-      case "three":
+      case 'three':
         return (
             <div className="contribution-description">
               <div className="icon-wrapper">
@@ -871,7 +887,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
               </div>
             </div>
         )
-      case "four":
+      case 'four':
         return (
             <div className="contribution-description">
               <div className="icon-wrapper">
@@ -884,7 +900,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
               </div>
             </div>
         )
-      case "five":
+      case 'five':
         return (
             <div className="contribution-description">
               <div className="icon-wrapper">
@@ -913,10 +929,10 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
   renderFooter() {
     let {currentLevel} = this.state
     return (
-        <div className={"contribution-footer"}>
-          <button className={"next-button"}>
+        <div className={'contribution-footer'}>
+          <button className={'next-button'}>
             {
-              currentLevel === "five" ?
+              currentLevel === 'five' ?
                   <div onClick={() => this.closeModal()}>
                     ثبت
                   </div>
@@ -927,7 +943,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
             }
           </button>
 
-          <button className={currentLevel === "one" ? "previous-button-hidden" : "previous-button"} onClick={() => this.previousLevel()}>
+          <button className={currentLevel === 'one' ? 'previous-button-hidden' : 'previous-button'} onClick={() => this.previousLevel()}>
             قبلی
           </button>
 
@@ -936,16 +952,16 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
   }
 
   closeModal() {
-    this.setState({...this.state, currentLevel: "one"}, this.props.handleModalVisibility())
+    this.setState({...this.state, currentLevel: 'one'}, this.props.handleModalVisibility())
   }
 
   render() {
     const {activeStep, progressSteps, progressStatus, wrapperClassName, newContributionData} = this.state
-    const {mainCategory = ""} = newContributionData
+    const {mainCategory = ''} = newContributionData
     const {currentLevel} = this.state
     const {modalIsOpen} = this.props
     return (
-        <div className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}>
+        <div className={modalIsOpen ? 'contribution-modal-container' : 'contribution-modal-container-out'}>
           {this.renderProgressBar()}
 
           {this.renderCurrentLevel()}
@@ -976,9 +992,9 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
 }
 
 const mapStateToProps = (state) => {
-  const initialFormValues = getFormValues(state, "addingContributionInitialInfoForm")
-  const provinceId = initialFormValues.product_related_province ? initialFormValues.product_related_province.value : ""
-  const countryId = initialFormValues.product_related_country ? initialFormValues.product_related_country.value : ""
+  const initialFormValues = getFormValues(state, 'addingContributionInitialInfoForm')
+  const provinceId = initialFormValues.product_related_province ? initialFormValues.product_related_province.value : ''
+  const countryId = initialFormValues.product_related_country ? initialFormValues.product_related_country.value : ''
   const citySelectorByProvinceId = makeCitySelectorByProvinceId()
   const provinceSelectorByProvinceId = makeProvinceSelectorByCountryId()
   const categorySelector = makeCategorySelector()

@@ -84,11 +84,11 @@ class PostHeader extends React.Component<PostHeaderProps, PostHeaderStates> {
               </div>
             </div>
           </Link>
-          {!extendedView &&
-          <CheckOwner id={paramId}>
-            <div onClick={showEdit} className="-item-edit-btn -item-edit-btnPost pulse"><EditIcon/></div>
-          </CheckOwner>
-          }
+          {/*{!extendedView &&*/}
+          {/*<CheckOwner id={paramId}>*/}
+            {/*<div onClick={showEdit} className="-item-edit-btn -item-edit-btnPost pulse"><EditIcon/></div>*/}
+          {/*</CheckOwner>*/}
+          {/*}*/}
         </div>
     )
   }
