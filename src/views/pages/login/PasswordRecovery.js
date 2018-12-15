@@ -32,7 +32,7 @@ type passwordRecoveryProps = {
       email: string,
       username: string,
     }
-  }
+  },
 }
 
 type passwordRecoveryStates = {
@@ -210,7 +210,7 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
                     onChange={this._changePhoneInput}
                 />
                 {recoveryError === constants.ERRORS.USER_SEARCH.NOT_FOUND &&
-                <span className="not-found-user-error error-message mt-2">کاربری یافت نشد!</span>
+                <span className="not-found-user-error error-message mt-2">{translate['User Not Found']}</span>
                 }
               </Fragment>
               }
@@ -265,8 +265,10 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
                        ref={e => this.activationCode1 = e}
                        onChange={this._changeActiveCodeInput}
                 />
-                {activationCodeInput.length !== 5 && <span className="validation-code-error error-message mt-2">کد را کامل وارد کنید!</span>}
-                {recoveryPasswordObject.error && <span className="validation-code-error error-message mt-2">کد وارد شده صحیح نمی باشد!</span>}
+                {activationCodeInput.length !== 5 &&
+                <span className="validation-code-error error-message mt-2">{translate['Complete the validation code']}</span>}
+                {recoveryPasswordObject.error && <span
+                    className="validation-code-error error-message mt-2">{translate['Incorrect validation code']}</span>}
               </Fragment>
               }
               {step === 3 &&
@@ -345,6 +347,6 @@ const mapDispatchToProps = dispatch => ({
   }, dispatch)
 })
 const mapStateToProps = state => ({
-  recoveryPasswordObject: recoveryPasswordSelector(state)
+  recoveryPasswordObject: recoveryPasswordSelector(state),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(PasswordRecovery)
