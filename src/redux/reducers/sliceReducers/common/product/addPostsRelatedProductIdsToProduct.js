@@ -4,7 +4,7 @@ const base = (state, action) => {
 const success = (state, action) => {
   const {data, postRelatedProductId} = action.payload
   let arrOfIds = []
-  data.results.forEach(id => arrOfIds.push(id.id))
+  data.forEach(id => arrOfIds.push(id.id))
   const indexedProduct = {}
   const prevProduct = state.list[postRelatedProductId]
   indexedProduct[postRelatedProductId] = {...prevProduct, relatedPosts: arrOfIds, error: null, isLoading: false}

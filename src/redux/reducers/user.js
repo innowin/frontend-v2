@@ -22,6 +22,7 @@ const users = (state = initialState.users, action) => {
       return {
         ...state,
         recoveryPassword: {
+          ...state.recoveryPassword,
           searchUserData: {},
           isLoading: true,
           error: null
@@ -31,6 +32,7 @@ const users = (state = initialState.users, action) => {
       return {
         ...state,
         recoveryPassword: {
+          ...state.recoveryPassword,
           searchUserData: data,
           isLoading: false,
           error: null
@@ -40,6 +42,7 @@ const users = (state = initialState.users, action) => {
       return {
         ...state,
         recoveryPassword: {
+          ...state.recoveryPassword,
           searchUserData: {},
           isLoading: false,
           error: message
@@ -50,6 +53,7 @@ const users = (state = initialState.users, action) => {
       return {
         ...state,
         recoveryPassword: {
+          ...state.recoveryPassword,
           userId: null,
           step_name: constants.RESET_PASSWORD_STEP.REQUEST,
           isLoading: true,
@@ -60,6 +64,7 @@ const users = (state = initialState.users, action) => {
       return {
         ...state,
         recoveryPassword: {
+          ...state.recoveryPassword,
           userId,
           step_name: constants.RESET_PASSWORD_STEP.REQUEST,
           isLoading: false,
@@ -70,6 +75,7 @@ const users = (state = initialState.users, action) => {
       return {
         ...state,
         recoveryPassword: {
+          ...state.recoveryPassword,
           userId: null,
           step_name: constants.RESET_PASSWORD_STEP.REQUEST,
           isLoading: false,
@@ -81,6 +87,7 @@ const users = (state = initialState.users, action) => {
       return {
         ...state,
         recoveryPassword: {
+          ...state.recoveryPassword,
           userId,
           step_name: constants.RESET_PASSWORD_STEP.CHECK_CODE,
           isLoading: true,
@@ -92,6 +99,7 @@ const users = (state = initialState.users, action) => {
       return {
         ...state,
         recoveryPassword: {
+          ...state.recoveryPassword,
           VerificationCode,
           userId,
           step_name: constants.RESET_PASSWORD_STEP.CHECK_CODE,
@@ -103,6 +111,7 @@ const users = (state = initialState.users, action) => {
       return {
         ...state,
         recoveryPassword: {
+          ...state.recoveryPassword,
           userId,
           step_name: constants.RESET_PASSWORD_STEP.CHECK_CODE,
           isLoading: false,
@@ -114,6 +123,7 @@ const users = (state = initialState.users, action) => {
       return {
         ...state,
         recoveryPassword: {
+          ...state.recoveryPassword,
           step_name: constants.RESET_PASSWORD_STEP.RESET,
           isLoading: true,
           error: null
@@ -123,6 +133,7 @@ const users = (state = initialState.users, action) => {
       return {
         ...state,
         recoveryPassword: {
+          ...state.recoveryPassword,
           step_name: constants.RESET_PASSWORD_STEP.RESET,
           isLoading: false,
           error: null
@@ -132,6 +143,7 @@ const users = (state = initialState.users, action) => {
       return {
         ...state,
         recoveryPassword: {
+          ...state.recoveryPassword,
           step_name: constants.RESET_PASSWORD_STEP.RESET,
           isLoading: false,
           error: message

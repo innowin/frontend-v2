@@ -58,5 +58,11 @@ export default {
     REMOVE: 'remove',
     INFO: 'info',
     ERROR: 'error',
+  },
+  ERRORS: {
+    USER_SEARCH: {
+      NOT_FOUND: 'NOT_FOUND', // user not found
+    },
+
   }
 }
