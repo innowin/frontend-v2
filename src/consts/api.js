@@ -25,6 +25,10 @@ const createSocketChannel = (resultName) => {
         return;
       }
       if (res.data) {
+        if (res.data.results && res.data.count) {
+          emit(res.data.results)
+          return;
+        }
         emit(res.data)
       } else emit(res)
     }
@@ -34,14 +38,14 @@ const createSocketChannel = (resultName) => {
 }
 
 //1 - req -sending requests
-function* get(url, result, param = "", data, noToken) {
+function* get(url, result, param = "", noToken) {
   const token = yield select((state) => state.auth.client.token)
-  yield apply({}, getEmit, [url, result, param, token, data, noToken])
+  yield apply({}, getEmit, [url, result, param, token, noToken])
 }
 
-function* post(url, result, data, param = "") {
+function* post(url, result, data, param = "", noToken) {
   const token = yield select((state) => state.auth.client.token)
-  yield apply({}, postEmit, [url, result, data, param, token])
+  yield apply({}, postEmit, [url, result, data, param, token, noToken])
 }
 
 function* patch(url, result, data, param = "") {
@@ -64,22 +68,19 @@ function* setPostViewer(postId, result) {
 }
 
 // pre send request
-const getEmit = (url, resultName, query = "", token, data, noToken) => {
-  if(noToken) {
+const getEmit = (url, resultName, query = "", token, noToken) => {
+  if (noToken) {
     socket.emit(REST_REQUEST, {
       method: 'get',
       url: REST_URL + '/' + url + '/' + query,
       result: resultName,
-      data,
     })
-  }
-  else {
+  } else {
     socket.emit(REST_REQUEST, {
       method: 'get',
       url: REST_URL + '/' + url + '/' + query,
       result: resultName,
       token,
-      data,
     })
   }
 }
@@ -108,28 +109,21 @@ const delEmit = (urll, resultName, data, query = "", token) => {
   })
 }
 
-const postEmit = (url, resultName, data, query = "", token) => {
-  if (resultName !== results.USER.USERNAME_CHECK
-    && resultName !== results.USER.EMAIL_CHECK
-    && resultName !== results.USER.CREATE_USER_PERSON
-    && resultName !== results.USER.CREATE_USER_ORGAN
-    && resultName !== results.USER.PASSWORD_RESET_BY_SMS_REQUEST
-    && resultName !== results.USER.PASSWORD_RESET_BY_SMS_CHECK_CODE
-    && resultName !== results.USER.PASSWORD_RESET_BY_SMS
-  ) {
+const postEmit = (url, resultName, data, query = "", token, noToken) => {
+  if (noToken) {
     socket.emit(REST_REQUEST, {
       method: 'post',
       url: REST_URL + '/' + url + '/' + query,
       result: resultName,
       data,
-      token
     })
   } else {
     socket.emit(REST_REQUEST, {
       method: 'post',
       url: REST_URL + '/' + url + '/' + query,
       result: resultName,
-      data
+      data,
+      token
     })
   }
 }

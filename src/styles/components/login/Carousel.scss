@@ -6,19 +6,23 @@
   flex-direction: row;
   justify-content: flex-start;
 }
-.carousel-btn-bar-wrapper{
+
+.carousel-btn-bar-wrapper {
   align-items: center;
   display: flex;
+
   ul {
-    list-style-type:none;
+    list-style-type: none;
     display: flex;
     flex-direction: column;
     margin: 0 15px;
+
     li span {
       font-size: 12px;
     }
   }
 }
+
 .login-slide {
   margin: 0 15px;
 }
@@ -27,9 +31,15 @@
   font-size: 15px;
   // align-self: flex-start;
 }
+
 .login-slide-desc {
   line-height: 30px;
   font-size: 13px;
+  width: 250px;
+  white-space: nowrap;
+
+  // Added for stay in middle
+  margin-top: 20px;
 }
 
 .login-slide-enter {
@@ -39,27 +49,29 @@
 
 .login-slide-enter-active {
   opacity: 1;
-  transform: translate3d(0px,0px,0px);
+  transform: translate3d(0px, 0px, 0px);
   transition: opacity 1000ms, transform 1000ms ease-in;
 }
 
 .login-slide-exit {
   opacity: 0;
-  transform: translate3d(0px,12px,0px);
+  transform: translate3d(0px, 12px, 0px);
   transition: opacity 1000ms ease-out, transform 1000ms ease-out;
 }
+
 .login-slide-header-enter {
   opacity: 0.01;
-  transform: translate3d(0px,12px,0px);
+  transform: translate3d(0px, 12px, 0px);
 }
 
 .login-slide-header-enter-active {
   opacity: 1;
-  transform: translate3d(0px,0px,0px);
+  transform: translate3d(0px, 0px, 0px);
   transition: opacity 1000ms, transform 1000ms;
 }
+
 .login-slide-header-exit-active {
   opacity: 0.1;
-  transform: translate3d(0px,0px,0px);
+  transform: translate3d(0px, 0px, 0px);
   transition: opacity 1000ms, transform 1000ms;
 }
