@@ -10,7 +10,7 @@ export function* searchUser(action) {
   const dataToServer = {input}
   const socketChannel = yield call(api.createSocketChannel, results.USER.SEARCH_USER)
   try {
-    yield fork(api.get, urls.USER.SEARCH_USER, results.USER.SEARCH_USER, '', dataToServer, true)
+    yield fork(api.post, urls.USER.SEARCH_USER, results.USER.SEARCH_USER, dataToServer, '', true)
     const data = yield take(socketChannel)
     if(data.status) {
       yield put({type: types.ERRORS.USER.SEARCH_USER, payload: {message: data.status}})

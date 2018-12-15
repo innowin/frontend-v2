@@ -1,7 +1,7 @@
 const success = (state, action) => {
   const {data, search, loading} = action.payload
   let allExchanges = {}
-  data.results.forEach(exchange => {
+  data.forEach(exchange => {
     // commented for unFollow exchange bug ; better to change in future
     // allExchanges[exchange.id] = {...state.list[exchange.id], ...exchange}
     let data = {...exchange.exchange}
