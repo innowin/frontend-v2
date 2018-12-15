@@ -81,7 +81,7 @@ class BasicInfoEditForm extends React.Component<PropsUserInfoEditForm> {
             />
           </div>
 
-          <div className='form-group render-text-field-container'>
+          <div className='form-group'>
             <label>
               {translate['Last name'] + ": "}
             </label>
