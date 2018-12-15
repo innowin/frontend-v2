@@ -20,8 +20,8 @@ import LinkModal from "./linkModal"
 import ViewAttachedFiles from "./viewAttachedFiles"
 import {ContactMenuIcon} from "src/images/icons"
 import StickersMenu from "../../components/StickersMenu"
-import AddProductModal from "./addProductModal";
-import ProductInfoView from "../../contributions/ProductInfoView";
+import AddProductModal from "./addProductModal"
+import ProductInfoView from "../../contributions/ProductInfoView"
 
 const timeStamp = new Date().toISOString()
 
@@ -274,6 +274,38 @@ class CreatePost extends Component {
     return result
   }
 
+  _onSubmitControlEnter() {
+    if (this._formValidate()) {
+      this._preSave()
+    }
+  }
+
+  _handleShiftEnter = (e) => {
+    if (e.keyCode === 17 || e.keyCode === 13) {
+      let keys = this.state.keys.slice()
+      keys[e.keyCode] = true
+      this.setState({...this.state, keys: keys})
+      if (e.keyCode === 13 && keys[13] && keys[17]) {
+        e.preventDefault()
+        this.setState({...this.state, keys: []}, () => {
+          this._onSubmitControlEnter()
+        })
+      }
+    } else this.setState({...this.state, keys: []})
+  }
+
+  _showLink = (link) => {
+    if (link) {
+      let urlExp = new RegExp("^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$")
+      let word = link.trim()
+      if (urlExp.test(word)) {
+        word.includes("http://") || word.includes("https://") ?
+            this.link.innerHTML = link.replace(new RegExp(word, "g"), `<a target=_blank href=` + word + `>${word}</a>`)
+            :
+            this.link.innerHTML = link.replace(new RegExp(word, "g"), `<a target=_blank href=http://` + word + `>${word}</a>`)
+      }
+    }
+  }
 
   _preSave = () => {
     this.setState({...this.state, savingPost: true})
@@ -309,39 +341,6 @@ class CreatePost extends Component {
       this._preSave()
     }
     return false
-  }
-
-  _onSubmitControlEnter() {
-    if (this._formValidate()) {
-      this._preSave()
-    }
-  }
-
-  _handleShiftEnter = (e) => {
-    if (e.keyCode === 17 || e.keyCode === 13) {
-      let keys = this.state.keys.slice()
-      keys[e.keyCode] = true
-      this.setState({...this.state, keys: keys})
-      if (e.keyCode === 13 && keys[13] && keys[17]) {
-        e.preventDefault()
-        this.setState({...this.state, keys: []}, () => {
-          this._onSubmitControlEnter()
-        })
-      }
-    } else this.setState({...this.state, keys: []})
-  }
-
-  _showLink = (link) => {
-    if (link) {
-      let urlExp = new RegExp("^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$")
-      let word = link.trim()
-      if (urlExp.test(word)) {
-        word.includes("http://") || word.includes("https://") ?
-            this.link.innerHTML = link.replace(new RegExp(word, "g"), `<a target=_blank href=` + word + `>${word}</a>`)
-            :
-            this.link.innerHTML = link.replace(new RegExp(word, "g"), `<a target=_blank href=http://` + word + `>${word}</a>`)
-      }
-    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -575,7 +574,7 @@ const mapStateToProps = (state) => {
   const userId = (client.organization && client.organization.id) || (client.user && client.user.id)
 
   const tempPostPictures = state.temp.file[timeStamp]
-  const postPictureIds = tempPostPictures || []
+  const postPictureIds = tempPostPictures ? (Array.isArray(tempPostPictures)? tempPostPictures: [tempPostPictures]): []
 
   return ({
     currentUserType: client.user_type,
