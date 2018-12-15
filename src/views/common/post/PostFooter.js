@@ -58,7 +58,7 @@ const PostFooter = (props: postFooterProps) => {
                       </Link>
                     }
                     <CheckOwner id={ownerId}>
-                      <span onClick={showEdit}>ویرایش پست</span>
+                      <span onClick={showEdit}>{translate['Edit Post']}</span>
                     </CheckOwner>
                     <CheckOwner id={ownerId}>
                       <span onClick={deletePost}>{translate['Delete post']}</span>

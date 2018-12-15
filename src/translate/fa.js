@@ -144,6 +144,7 @@ module.exports = {
   "Type demand": "تقاضا",
   "Send comment": "فرستادن دیدگاه",
   "Delete post": "حذف پست",
+  "Edit Post": "ویرایش پست",
 
   // user - common
   "Are you sure? Do you want delete it?": "آیا مطمئن به حذف هستید؟",
