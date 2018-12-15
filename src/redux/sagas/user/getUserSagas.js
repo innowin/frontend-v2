@@ -60,8 +60,7 @@ export function* getUsers(action) {
 
   try {
     yield fork(api.get, urls.USER.GET_USERS, results.USER.GET_USERS, `?limit=50`)
-    const dataList = yield take(socketChannel)
-    const data = dataList.results
+    const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.USER.GET_USERS, payload: {data}})
   } catch (e) {
     const {message} = e

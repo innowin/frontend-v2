@@ -50,10 +50,10 @@ type StatesTopBar = {|
   productWizardModalIsOpen: boolean,
   createExchangeModalIsOpen: boolean,
   mouseIsOverMenu: boolean,
-  selectedSetting: string,
   showSetting: boolean,
-  selectedAbout: string,
+  selectedSetting: string,
   showAbout: boolean,
+  selectedAbout: string,
   profilePhotoLoaded: boolean,
 |}
 

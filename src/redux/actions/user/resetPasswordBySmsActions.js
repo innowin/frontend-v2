@@ -1,9 +1,9 @@
 // @flow
 import types from "../types"
 
-const resetPasswordBySmsRequest = (phoneNumber: number) => ({
+const resetPasswordBySmsRequest = (userId: number) => ({
   type: types.USER.PASSWORD_RESET_BY_SMS_REQUEST,
-  payload: {phoneNumber}
+  payload: {userId}
 })
 
 const resetPasswordBySmsCheckCode = (userId: number, VerificationCode: number) => ({

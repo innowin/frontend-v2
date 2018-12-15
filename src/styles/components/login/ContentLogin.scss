@@ -74,7 +74,7 @@
 
   .login-wrapper {
     flex: 1 1 300px;
-    order: 2;
+    //order: 2;
     max-width: 345px;
     min-width: 300px;
     &.sign-in-form-animate {
@@ -96,12 +96,11 @@
     color: $text-lightest-color;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: flex-end;
     flex: 2 2 500px;
-    order: 1;
     min-width: 500px;
     max-width: 800px;
-    margin-top: 54px;
+    margin-top: 70px;
   }
 }
 

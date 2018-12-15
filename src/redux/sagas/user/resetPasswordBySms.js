@@ -7,11 +7,11 @@ import {take, put, fork, call} from "redux-saga/effects"
 
 export function* resetPasswordBySmsRequest(action) {
   const {payload} = action
-  const {phoneNumber} = payload
+  const {userId} = payload
   const socketChannel = yield call(api.createSocketChannel, results.USER.PASSWORD_RESET_BY_SMS_REQUEST)
   try {
-    const _data = {mobile: phoneNumber}
-    yield fork(api.post, urls.USER.PASSWORD_RESET_BY_SMS_REQUEST, results.USER.PASSWORD_RESET_BY_SMS_REQUEST, _data)
+    const _data = {user_id: userId}
+    yield fork(api.post, urls.USER.PASSWORD_RESET_BY_SMS_REQUEST, results.USER.PASSWORD_RESET_BY_SMS_REQUEST, _data, '', true)
     const data = yield take(socketChannel)
     if(data.status === "SUCCESS") {
       const userId = data.user_id
@@ -33,7 +33,7 @@ export function* resetPasswordBySmsCheckCode(action) {
   const socketChannel = yield call(api.createSocketChannel, results.USER.PASSWORD_RESET_BY_SMS_CHECK_CODE)
   try {
     const _data = {user_id: userId, code: VerificationCode}
-    yield fork(api.post, urls.USER.PASSWORD_RESET_BY_SMS_CHECK_CODE, results.USER.PASSWORD_RESET_BY_SMS_CHECK_CODE, _data)
+    yield fork(api.post, urls.USER.PASSWORD_RESET_BY_SMS_CHECK_CODE, results.USER.PASSWORD_RESET_BY_SMS_CHECK_CODE, _data, '', true)
     const data = yield take(socketChannel)
     if (data.status === "OK"){
       yield put({type: types.SUCCESS.USER.PASSWORD_RESET_BY_SMS_CHECK_CODE, payload: {userId, VerificationCode}})
@@ -54,7 +54,7 @@ export function* resetPasswordBySms(action) {
   const socketChannel = yield call(api.createSocketChannel, results.USER.PASSWORD_RESET_BY_SMS)
   try {
     const _data = {user_id: userId, code: VerificationCode, password, confirm_password: passwordConfirm}
-    yield fork(api.post, urls.USER.PASSWORD_RESET_BY_SMS, results.USER.PASSWORD_RESET_BY_SMS, _data)
+    yield fork(api.post, urls.USER.PASSWORD_RESET_BY_SMS, results.USER.PASSWORD_RESET_BY_SMS, _data, '', true)
     const data = yield take(socketChannel)
     if (data.status === "SUCCESS"){
       yield put({
