@@ -364,6 +364,10 @@ module.exports = {
 
   "Products": "محصولات",
 
+  // recovery password
+  'Complete the validation code': 'کد را کامل وارد کنید!',
+  'Incorrect validation code': 'کد وارد شده صحیح نمی باشد!',
+
   // TopBar
   topBar: {
     "My Profile": "پروفایل من",
