@@ -1,0 +1,29 @@
+@import "../../../variables";
+
+.render-text-field-container {
+  position: relative;
+  label {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    transition: all $animation-timing;
+    color: $text-light-color;
+    font-size: $font-size-13;
+  }
+  .label-top {
+    top: -20px;
+    color: $info-color;
+    font-size: $font-size-medium;
+  }
+  input {
+    border: 0;
+    border-bottom: 1.5px solid $text-light-color;
+    border-radius: 0;
+    transition: all $animation-timing;
+    font-size: $font-size-regular;
+
+    &:focus {
+      border-bottom: 1.5px solid $success-color;
+    }
+  }
+}
