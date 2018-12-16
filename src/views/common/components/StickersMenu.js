@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {EmojiSvg} from "../../../images/icons"
+import {EmojiSvg} from '../../../images/icons'
 
 class StickersMenu extends Component {
   constructor(props) {
@@ -41,10 +41,11 @@ class StickersMenu extends Component {
     return (
         <div ref={e => this.menu = e} className='stickers-container'>
           <div className='emoji-inline-block' onClick={this.handleOpen}><EmojiSvg className='emoji-logo'/></div>
-          <div className={this.state.open ? 'stickers-menu-container' : 'stickers-menu-container-close'}>
+          <div className={this.state.open ? 'stickers-menu-container' : 'stickers-menu-container-close'}
+               style={this.props.ltr ? {right: '0'} : {left: '0'}}>
             <div className='stickers-menu-scroll'>
               {
-                this.state[this.state.tab].map((emoji,i) =>
+                this.state[this.state.tab].map((emoji, i) =>
                     <div key={i} onClick={() => this.props.output(emoji)} style={{width: '30px', display: 'inline-block', overflow: 'hidden', color: 'black'}}>{emoji}</div>
                 )
               }

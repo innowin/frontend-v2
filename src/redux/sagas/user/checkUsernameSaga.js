@@ -9,7 +9,7 @@ export function* usernameCheck(action) {
   const {username, resolve, reject} = payload
   const socketChannel = yield call(api.createSocketChannel, results.USER.USERNAME_CHECK)
   try {
-    yield fork(api.post, urls.USER.USERNAME_CHECK, results.USER.USERNAME_CHECK, {username})
+    yield fork(api.post, urls.USER.USERNAME_CHECK, results.USER.USERNAME_CHECK, {username}, '', true)
     const res = yield take(socketChannel)
     resolve(res)
   } catch (e) {

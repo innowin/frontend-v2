@@ -13,15 +13,15 @@ const HeaderLogin = ({iosLink, androidLink, address, phoneNumber, logoCaption}) 
           <div className="logo-caption">{logoCaption}</div>
         </div>
         <div className="address-wrapper col-lg-6 col-md-12 col-sm-12">
-          <div className="address-section ml-5">
-            <div className='icon phone-icon'>
-              <div><FontAwesome name="phone"/></div>
-            </div>
-            <div className='address-wrapper-text'>
-              <div className="phone-number">{phoneNumber}</div>
-              {/*<div className="address">{address}</div>*/}
-            </div>
-          </div>
+          {/*<div className="address-section ml-5">*/}
+          {/*<div className='icon phone-icon'>*/}
+          {/*<div><FontAwesome name="phone"/></div>*/}
+          {/*</div>*/}
+          {/*<div className='address-wrapper-text'>*/}
+          {/*<div className="phone-number">{phoneNumber}</div>*/}
+          {/*<div className="address">{address}</div>*/}
+          {/*</div>*/}
+          {/*</div>*/}
           {/* ------------------- commented by ali orooji -----------------*/}
           {/*<div className="app-icon-section">*/}
           {/*<div className='icon ml-3'>*/}

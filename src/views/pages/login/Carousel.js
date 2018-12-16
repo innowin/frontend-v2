@@ -11,17 +11,17 @@ class CarouselLogin extends Component {
       slides: [
         {
           id: `login-slide-${uuid()}`,
-          header: 'هویت تخصصی‌تان را تعریف کنید',
+          // header: 'هویت تخصصی‌تان را تعریف کنید',
           desc: 'با اینوین هویت تخصصی‌تان را تعریف کنید',
         },
         {
           id: `login-slide-${uuid()}`,
-          header: 'ارتباطات کاری‌تان را توسعه دهید',
+          // header: 'ارتباطات کاری‌تان را توسعه دهید',
           desc: 'با اینوین ارتباطات کاری‌تان را توسعه دهید',
         },
         {
           id: `login-slide-${uuid()}`,
-          header: 'به پنجره حرفه‌ای‌ها وارد شوید',
+          // header: 'به پنجره حرفه‌ای‌ها وارد شوید',
           desc: 'با اینوین به پنجره حرفه‌ای‌ها وارد شوید',
         },
       ],
@@ -36,7 +36,7 @@ class CarouselLogin extends Component {
   }
 
   componentWillUnmount() {
-    clearInterval(this.interval);
+    clearInterval(this.interval)
   }
 
   _contentHandler = (id) => {
@@ -84,7 +84,7 @@ class CarouselLogin extends Component {
                                     >
                                       <header className="login-slide-header">{slide.header}</header>
                                     </CSSTransition>
-                                    <br/>
+                                    {/*<br/>*/}
                                     <p className="login-slide-desc">{slide.desc}</p>
                                   </div>
                               )
@@ -122,4 +122,4 @@ const BtnBar = ({slides, activeId, handler}) => (
     </div>
 )
 
-export default CarouselLogin;
+export default CarouselLogin

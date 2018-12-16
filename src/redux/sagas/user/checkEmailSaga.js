@@ -9,7 +9,7 @@ export function* emailCheck(action) {
   const {email, resolve, reject} = payload
   const socketChannel = yield call(api.createSocketChannel, results.USER.EMAIL_CHECK)
   try {
-    yield fork(api.post, urls.USER.EMAIL_CHECK, results.USER.EMAIL_CHECK, {email})
+    yield fork(api.post, urls.USER.EMAIL_CHECK, results.USER.EMAIL_CHECK, {email}, '', true)
     const res = yield take(socketChannel)
     resolve(res)
   } catch (e) {

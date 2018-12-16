@@ -17,7 +17,7 @@ export function* createUserPerson(action) {
       email,
       password
     }
-    yield fork(api.post, urls.USER.CREATE_USER_PERSON, results.USER.CREATE_USER_PERSON, data)
+    yield fork(api.post, urls.USER.CREATE_USER_PERSON, results.USER.CREATE_USER_PERSON, data, '', true)
     const res = yield take(socketChannel)
     resolve(res)
   } catch (e) {
@@ -43,7 +43,7 @@ export function* createUserOrgan(action) {
       "organization.email": email,
       "organization.official_name": `${username}_official`
     }
-    yield fork(api.post, urls.USER.CREATE_USER_ORGAN, results.USER.CREATE_USER_ORGAN, data)
+    yield fork(api.post, urls.USER.CREATE_USER_ORGAN, results.USER.CREATE_USER_ORGAN, data, '', true)
     const res = yield take(socketChannel)
     resolve(res)
   } catch (e) {

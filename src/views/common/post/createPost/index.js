@@ -1,34 +1,34 @@
-import React, {Component} from "react"
-import PropTypes from "prop-types"
-import {bindActionCreators} from "redux"
-import connect from "react-redux/es/connect/connect"
-import AttachFileIcon from "src/images/common/attachFileNew_svg"
-import DemandIcon from "src/images/common/demand_svg"
-import FileActions from "src/redux/actions/commonActions/fileActions"
-import PostActions from "src/redux/actions/commonActions/postActions"
-import Share from "src/images/common/share"
-import DefaultUserIcon from "src/images/defaults/defaultUser_svg"
-import socialActions from "src/redux/actions/commonActions/socialActions"
-import SupplyIcon from "src/images/common/supply_svg"
-import {getMessages} from "src/redux/selectors/translateSelector"
-import CommentActions from "src/redux/actions/commonActions/commentActions"
-import {createFileFunc} from "src/views/common/Functions"
-import types from "src/redux/actions/types"
-import AttachMenu from "./attachMenu"
-import ContactMenu from "./contactMenu"
-import LinkModal from "./linkModal"
-import ViewAttachedFiles from "./viewAttachedFiles"
-import {ContactMenuIcon} from "src/images/icons"
-import StickersMenu from "../../components/StickersMenu"
-import AddProductModal from "./addProductModal";
-import ProductInfoView from "../../contributions/ProductInfoView";
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
+import {bindActionCreators} from 'redux'
+import connect from 'react-redux/es/connect/connect'
+import AttachFileIcon from 'src/images/common/attachFileNew_svg'
+import DemandIcon from 'src/images/common/demand_svg'
+import FileActions from 'src/redux/actions/commonActions/fileActions'
+import PostActions from 'src/redux/actions/commonActions/postActions'
+import Share from 'src/images/common/share'
+import DefaultUserIcon from 'src/images/defaults/defaultUser_svg'
+import socialActions from 'src/redux/actions/commonActions/socialActions'
+import SupplyIcon from 'src/images/common/supply_svg'
+import {getMessages} from 'src/redux/selectors/translateSelector'
+import CommentActions from 'src/redux/actions/commonActions/commentActions'
+import {createFileFunc} from 'src/views/common/Functions'
+import types from 'src/redux/actions/types'
+import AttachMenu from './attachMenu'
+import ContactMenu from './contactMenu'
+import LinkModal from './linkModal'
+import ViewAttachedFiles from './viewAttachedFiles'
+import {ContactMenuIcon} from 'src/images/icons'
+import StickersMenu from '../../components/StickersMenu'
+import AddProductModal from './addProductModal'
+import ProductInfoView from '../../contributions/ProductInfoView'
 
 const timeStamp = new Date().toISOString()
 
 
 class CreatePost extends Component {
   static defaultProps = {
-    className: "",
+    className: '',
     postsCountInThisPage: 0
   }
 
@@ -42,7 +42,7 @@ class CreatePost extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      selected: "post",
+      selected: 'post',
       open: false,
       attachMenu: false,
       enterAttach: true,
@@ -53,15 +53,15 @@ class CreatePost extends Component {
       addProductModal: false,
       pageX: 0,
       pageY: 0,
-      commentBody: "comment-body",
-      placeholder: "",
-      selectedText: "",
+      commentBody: 'comment-body',
+      placeholder: '',
+      selectedText: '',
       postPictures: [],
-      postFile: "",
-      postMedia: "",
-      link: "",
-      description: "",
-      descriptionClass: "",
+      postFile: '',
+      postMedia: '',
+      link: '',
+      description: '',
+      descriptionClass: '',
       profileLoaded: false,
       savingPost: false,
       focused: false,
@@ -76,13 +76,13 @@ class CreatePost extends Component {
     this.setState({
       ...this.state,
       open: false,
-      selected: "post",
+      selected: 'post',
       postPictures: [],
-      postFile: "",
-      postMedia: "",
-      link: "",
-      description: "",
-      descriptionClass: "hide-message",
+      postFile: '',
+      postMedia: '',
+      link: '',
+      description: '',
+      descriptionClass: 'hide-message',
       labels: {},
       selectedProduct: undefined,
       selectedProductId: undefined,
@@ -93,7 +93,7 @@ class CreatePost extends Component {
     const {attachMenu, contactMenu, linkModal, addProductModal, postPictures, postFile, postMedia, link, description, labels, savingPost} = this.state
     const needReset = !savingPost && !description && !postPictures && !postFile && !postMedia && !link && labels === {}
 
-    if (!event.target.closest("#create-post-attach-menu-box")) {
+    if (!event.target.closest('#create-post-attach-menu-box')) {
       if (attachMenu) {
         this.setState({...this.state, attachMenu: false})
       }
@@ -121,15 +121,15 @@ class CreatePost extends Component {
   }
 
   handleSelectShare = () => {
-    this.setState({...this.state, selected: "post"})
+    this.setState({...this.state, selected: 'post'})
   }
 
   handleSelectDemand = () => {
-    this.setState({...this.state, selected: "demand"})
+    this.setState({...this.state, selected: 'demand'})
   }
 
   handleSelectSupply = () => {
-    this.setState({...this.state, selected: "supply"})
+    this.setState({...this.state, selected: 'supply'})
   }
 
   handleAttach = () => {
@@ -149,11 +149,11 @@ class CreatePost extends Component {
     const {labels} = this.state
     let temp = {...labels}
     if (temp[name] === undefined) {
-      if (name === "دنبال کنندگان" || name === "دنبال کنندگانِ دنبال کنندگان" || temp["عمومی"] === undefined)
+      if (name === 'دنبال کنندگان' || name === 'دنبال کنندگانِ دنبال کنندگان' || temp['عمومی'] === undefined)
         temp[name] = name
     } else {
-      if (name !== "دنبال کنندگان" && name !== "دنبال کنندگانِ دنبال کنندگان")
-        delete temp["عمومی"]
+      if (name !== 'دنبال کنندگان' && name !== 'دنبال کنندگانِ دنبال کنندگان')
+        delete temp['عمومی']
       delete temp[name]
     }
     this.setState({...this.state, labels: {...temp}})
@@ -180,13 +180,13 @@ class CreatePost extends Component {
     const checkCharacter = (description) => {
       const descriptionLength = description.trim().length
       if (descriptionLength === 0)
-        this.setState({...this.state, descriptionClass: "hide-message"})
+        this.setState({...this.state, descriptionClass: 'hide-message'})
       if (descriptionLength > 0 && descriptionLength < 5)
-        this.setState({...this.state, descriptionClass: "error-message"})
+        this.setState({...this.state, descriptionClass: 'error-message'})
       if (descriptionLength >= 5 && descriptionLength < 1490)
-        this.setState({...this.state, descriptionClass: "neutral-message"})
+        this.setState({...this.state, descriptionClass: 'neutral-message'})
       if (descriptionLength > 1490 && descriptionLength < 1500)
-        this.setState({...this.state, descriptionClass: "warning-message"})
+        this.setState({...this.state, descriptionClass: 'warning-message'})
     }
   }
 
@@ -208,20 +208,20 @@ class CreatePost extends Component {
     const checkCharacter = (description) => {
       const descriptionLength = description.trim().length
       if (descriptionLength === 0)
-        this.setState({...this.state, descriptionClass: "hide-message"})
+        this.setState({...this.state, descriptionClass: 'hide-message'})
       if (descriptionLength > 0 && descriptionLength < 5)
-        this.setState({...this.state, descriptionClass: "error-message"})
+        this.setState({...this.state, descriptionClass: 'error-message'})
       if (descriptionLength >= 5 && descriptionLength < 1490)
-        this.setState({...this.state, descriptionClass: "neutral-message"})
+        this.setState({...this.state, descriptionClass: 'neutral-message'})
       if (descriptionLength > 1490 && descriptionLength < 1500)
-        this.setState({...this.state, descriptionClass: "warning-message"})
+        this.setState({...this.state, descriptionClass: 'warning-message'})
     }
   }
 
   _handleBlurText = (e) => {
     this.setState({
       ...this.state,
-      descriptionClass: "hide-message"
+      descriptionClass: 'hide-message'
     })
     const descriptionLength = e.target.value.trim().length
     if (descriptionLength === 0) {
@@ -230,23 +230,23 @@ class CreatePost extends Component {
   }
 
   _deleteFile = () => {
-    this.setState({...this.state, postFile: ""})
+    this.setState({...this.state, postFile: ''})
   }
 
   _deleteMedia = () => {
-    this.setState({...this.state, postMedia: ""})
+    this.setState({...this.state, postMedia: ''})
   }
 
 
   _getValues = () => {
     const {selected, link, description, selectedProduct} = this.state
     const {currentUserIdentity, postParentId, currentUserImgId, postPictureIds} = this.props
-    const post_link = link.trim() !== "" ? link : null
+    const post_link = link.trim() !== '' ? link : null
     const postPicturesIds_ = postPictureIds.slice(0, 3)[0] || null // just three pictures allowable
     return {
       post_picture: postPicturesIds_,
       post_description: description,
-      post_title: "without title",
+      post_title: 'without title',
       post_type: selected,
       post_parent: postParentId,
       post_identity: currentUserIdentity,
@@ -274,6 +274,38 @@ class CreatePost extends Component {
     return result
   }
 
+  _onSubmitControlEnter() {
+    if (this._formValidate()) {
+      this._preSave()
+    }
+  }
+
+  _handleShiftEnter = (e) => {
+    if (e.keyCode === 17 || e.keyCode === 13) {
+      let keys = this.state.keys.slice()
+      keys[e.keyCode] = true
+      this.setState({...this.state, keys: keys})
+      if (e.keyCode === 13 && keys[13] && keys[17]) {
+        e.preventDefault()
+        this.setState({...this.state, keys: []}, () => {
+          this._onSubmitControlEnter()
+        })
+      }
+    } else this.setState({...this.state, keys: []})
+  }
+
+  _showLink = (link) => {
+    if (link) {
+      let urlExp = new RegExp('^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$')
+      let word = link.trim()
+      if (urlExp.test(word)) {
+        word.includes('http://') || word.includes('https://') ?
+            this.link.innerHTML = link.replace(new RegExp(word, 'g'), `<a target=_blank href=` + word + `>${word}</a>`)
+            :
+            this.link.innerHTML = link.replace(new RegExp(word, 'g'), `<a target=_blank href=http://` + word + `>${word}</a>`)
+      }
+    }
+  }
 
   _preSave = () => {
     this.setState({...this.state, savingPost: true})
@@ -282,7 +314,7 @@ class CreatePost extends Component {
     const {createFile} = actions
     const nextActionTypesForPosPictures = types.COMMON.SET_FILE_IDS_IN_TEMP_FILE
     const nextActionDataForPostPictures = {tempFileChildName: timeStamp}
-    const fileIdKey = "fileId"
+    const fileIdKey = 'fileId'
     const postPicturesCreateArguments = {
       fileIdKey,
       nextActionType: nextActionTypesForPosPictures,
@@ -311,39 +343,6 @@ class CreatePost extends Component {
     return false
   }
 
-  _onSubmitControlEnter() {
-    if (this._formValidate()) {
-      this._preSave()
-    }
-  }
-
-  _handleShiftEnter = (e) => {
-    if (e.keyCode === 17 || e.keyCode === 13) {
-      let keys = this.state.keys.slice()
-      keys[e.keyCode] = true
-      this.setState({...this.state, keys: keys})
-      if (e.keyCode === 13 && keys[13] && keys[17]) {
-        e.preventDefault()
-        this.setState({...this.state, keys: []}, () => {
-          this._onSubmitControlEnter()
-        })
-      }
-    } else this.setState({...this.state, keys: []})
-  }
-
-  _showLink = (link) => {
-    if (link) {
-      let urlExp = new RegExp("^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$")
-      let word = link.trim()
-      if (urlExp.test(word)) {
-        word.includes("http://") || word.includes("https://") ?
-            this.link.innerHTML = link.replace(new RegExp(word, "g"), `<a target=_blank href=` + word + `>${word}</a>`)
-            :
-            this.link.innerHTML = link.replace(new RegExp(word, "g"), `<a target=_blank href=http://` + word + `>${word}</a>`)
-      }
-    }
-  }
-
   componentDidUpdate(prevProps, prevState) {
     const {postsCountInThisPage, postPictureIds} = this.props
     const {postPictures, savingPost, link} = this.state
@@ -363,8 +362,8 @@ class CreatePost extends Component {
 
   componentDidMount() {
     const {actions, translate, currentUserMedia} = this.props
-    document.addEventListener("mousedown", this.handleClickOutside)
-    this.setState({...this.state, placeholder: translate["Be in zist boom"]})
+    document.addEventListener('mousedown', this.handleClickOutside)
+    this.setState({...this.state, placeholder: translate['Be in zist boom']})
     const {getFollowers} = actions
     getFollowers({
       followOwnerIdentity: this.props.currentUserIdentity,
@@ -399,7 +398,7 @@ class CreatePost extends Component {
   }
 
   componentWillUnmount() {
-    document.removeEventListener("mousedown", this.handleClickOutside)
+    document.removeEventListener('mousedown', this.handleClickOutside)
   }
 
 
@@ -409,9 +408,9 @@ class CreatePost extends Component {
       postPictures, open, attachMenu, selected, labels, link, contactMenu, linkModal, postFile, postMedia,
       profileLoaded, description, descriptionClass, focused, addProductModal, selectedProduct
     } = this.state
-    const hasMediaClass = (postMedia || (postPictures.length > 0)) ? "hasMedia" : ""
+    const hasMediaClass = (postMedia || (postPictures.length > 0)) ? 'hasMedia' : ''
     return (
-        <form className={"post-component-container " + className} onSubmit={this._onSubmit}>
+        <form className={'post-component-container ' + className} onSubmit={this._onSubmit}>
           <div className='post-component-header'>
             <div>
               {currentUserMedia && profileLoaded ?
@@ -423,25 +422,33 @@ class CreatePost extends Component {
             </div>
             <div className='post-component-header-item'>
               <Share
-                  className={selected === "post" ? "post-component-header-item-logo1" : "post-component-header-item-logo1-unselect"}
+                  className={selected === 'post' ? 'post-component-header-item-logo1' : 'post-component-header-item-logo1-unselect'}
                   onClick={this.handleSelectShare}/>
               <DemandIcon height="22px"
-                          className={selected === "demand" ? "post-component-header-item-logo" : "post-component-header-item-logo-unselect"}
+                          className={selected === 'demand' ? 'post-component-header-item-logo' : 'post-component-header-item-logo-unselect'}
                           onClickFunc={this.handleSelectDemand}/>
               <SupplyIcon height="18px"
-                          className={selected === "supply" ? "post-component-header-item-logo2" : "post-component-header-item-logo2-unselect"}
+                          className={selected === 'supply' ? 'post-component-header-item-logo2' : 'post-component-header-item-logo2-unselect'}
                           onClickFunc={this.handleSelectSupply}/>
             </div>
           </div>
 
-          <div className={"post-component-content " + hasMediaClass}>
+          <div className={'post-component-content ' + hasMediaClass}>
             <div className='post-component-description'>
               {descriptionClass &&
-              <span className={descriptionClass}>{description && description.trim().length + '/1500'}</span>
+              <span className={descriptionClass + ' post-character'}
+                    style={description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0]) ? {right: '6px'} : {left: '6px'}}>
+                {description && description.trim().length + '/1500'}
+              </span>
               }
               <textarea
                   ref={e => this.text = e}
-                  className={open ? "post-component-textarea-open" : "post-component-textarea"}
+                  className={open ? 'post-component-textarea-open' : 'post-component-textarea'}
+                  style={
+                    description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0]) ?
+                        {direction: 'ltr', padding: open || focused ? '13px 23px 9px 15px' : '7px 23px 9px 15px'} :
+                        {direction: 'rtl', padding: open || focused ? '13px 15px 9px 23px' : '7px 15px 9px 23px'}
+                  }
                   placeholder='در زیست بوم باش ...'
                   value={description}
                   onBlur={this._handleBlurText}
@@ -450,8 +457,8 @@ class CreatePost extends Component {
                   onKeyDown={this._handleShiftEnter}
               />
 
-              <div className={open || focused ? 'emoji-open' : 'emoji-close'}>
-                <StickersMenu output={this.handleEmoji}/>
+              <div className={open || focused ? 'emoji-open' : 'emoji-close'} style={description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0]) ? {right: '7px'} : {left: '7px'}}>
+                <StickersMenu ltr={description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0])} output={this.handleEmoji}/>
               </div>
 
             </div>
@@ -494,11 +501,11 @@ class CreatePost extends Component {
 
                 <div className='post-component-footer-link' ref={e => this.link = e}>{link}</div>
 
-                <div style={{display: "inline-block"}} onClick={this.handleAttach}>
+                <div style={{display: 'inline-block'}} onClick={this.handleAttach}>
                   <AttachFileIcon className='post-component-footer-send-attach'/>
                 </div>
                 <button type="submit"
-                        className={description.length > 4 ? "post-component-footer-send-btn" : "post-component-footer-send-btn-inactive"}>ارسال
+                        className={description.length > 4 ? 'post-component-footer-send-btn' : 'post-component-footer-send-btn-inactive'}>ارسال
                 </button>
                 <AttachMenu
                     attachMenu={attachMenu}
@@ -568,14 +575,14 @@ class CreatePost extends Component {
 const mapStateToProps = (state) => {
 
   const client = state.auth.client
-  const clientImgId = (client.user_type === "person") ? (client.profile.profile_media) : (
+  const clientImgId = (client.user_type === 'person') ? (client.profile.profile_media) : (
       (client.organization && client.organization.organization_logo) || null
   )
 
   const userId = (client.organization && client.organization.id) || (client.user && client.user.id)
 
   const tempPostPictures = state.temp.file[timeStamp]
-  const postPictureIds = tempPostPictures || []
+  const postPictureIds = tempPostPictures ? (Array.isArray(tempPostPictures) ? tempPostPictures : [tempPostPictures]) : []
 
   return ({
     currentUserType: client.user_type,
@@ -583,7 +590,7 @@ const mapStateToProps = (state) => {
     currentUserId: userId,
     currentUserImgId: clientImgId,
     currentUserMedia: (state.common.file.list[clientImgId] && state.common.file.list[clientImgId].file) || null,
-    currentUserName: client.user.first_name + " " + client.user.last_name,
+    currentUserName: client.user.first_name + ' ' + client.user.last_name,
     exchanges: state.common.exchangeMembership.list,
     followers: state.common.social.follows.list,
     postPictureIds,

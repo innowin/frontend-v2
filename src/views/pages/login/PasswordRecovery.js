@@ -7,6 +7,7 @@ import {bindActionCreators} from "redux"
 import ResetPassword from "src/redux/actions/user/resetPasswordBySmsActions"
 import {recoveryPasswordSelector} from "src/redux/selectors/user/recoveryPasswordSelector"
 import PropTypes from 'prop-types'
+import constants from "../../../consts/constants";
 
 type passwordRecoveryProps = {
   showRecovery: boolean,
@@ -31,7 +32,7 @@ type passwordRecoveryProps = {
       email: string,
       username: string,
     }
-  }
+  },
 }
 
 type passwordRecoveryStates = {
@@ -39,9 +40,10 @@ type passwordRecoveryStates = {
   showPassword: boolean,
   showRepeatPassword: boolean,
   userIdentifierInputValue: ?string,
-  onSuccessDisabled: boolean,
   password: string,
   passwordConfirm: string,
+  clickedButton: boolean,
+  activationCodeInput: string,
 }
 
 class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordRecoveryStates> {
@@ -52,13 +54,13 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
       showPassword: false,
       showRepeatPassword: false,
       userIdentifierInputValue: '',
-      onSuccessDisabled: true,
       password: '',
       passwordConfirm: '',
+      clickedButton: false,
+      activationCodeInput: '',
     }
   }
 
-  userIdentifier: ?HTMLInputElement
   emailChecked: ?HTMLInputElement
   phoneChecked: ?HTMLInputElement
   activationCode1: ? HTMLInputElement
@@ -70,93 +72,94 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
   passwordConfirm: ?HTMLInputElement
 
   componentDidUpdate(prevProps: passwordRecoveryProps) {
-    const {showRecovery, actions} = this.props
+    const {showRecovery, actions, recoveryPasswordObject, hideRecoveryClick} = this.props
     const {resetRecoveryPasswordReduxState} = actions
-    if (prevProps.showRecovery !== showRecovery) {
-      showRecovery ? this.setState({...this.state, step: 0}) : resetRecoveryPasswordReduxState()
+    const {isLoading: recoveryIsLoading, error: recoveryError} = recoveryPasswordObject
+    const {clickedButton, step} = this.state
+    if (prevProps.showRecovery !== showRecovery && !recoveryIsLoading) {
+      showRecovery ? this.setState({
+        ...this.state,
+        step: 0,
+        userIdentifierInputValue: ''
+      }) : resetRecoveryPasswordReduxState()
+    }
+
+    if (clickedButton && !recoveryIsLoading && !recoveryError) {
+      if (step === 1) {
+        const {userIdentifierInputValue} = this.state
+        const emailChecked = this.emailChecked ? this.emailChecked.checked : false
+        const phoneChecked = this.phoneChecked ? this.phoneChecked.checked : false
+        userIdentifierInputValue && phoneChecked && !emailChecked && this.setState({
+          ...this.state,
+          step: step + 1,
+          clickedButton: false
+        })
+      } else if (step === 3) {
+        hideRecoveryClick()
+        this.setState({...this.state, clickedButton: false, userIdentifierInputValue: ''})
+      } else {
+        this.setState({...this.state, step: step + 1, clickedButton: false})
+      }
     }
   }
 
-  changeStatePassword = () => {
+  componentDidMount(): void {
+    const {actions} = this.props
+    const {resetRecoveryPasswordReduxState} = actions
+    resetRecoveryPasswordReduxState()
+  }
+
+  _changeStatePassword = () => {
     this.setState({...this.state, showPassword: !this.state.showPassword})
   }
 
-  changeStateRepeatPassword = () => {
+  _changeStateRepeatPassword = () => {
     this.setState({...this.state, showRepeatPassword: !this.state.showRepeatPassword})
   }
 
-  onBack = () => {
+  _onBack = () => {
     const {step} = this.state
+    const {recoveryPasswordObject} = this.props
+    const {isLoading: recoveryIsLoading} = recoveryPasswordObject
 
-    if (step >= 1) {
-      this.setState({...this.state, step: step - 1})
+    if (!recoveryIsLoading) {
+      if (step >= 1) {
+        this.setState({...this.state, step: step - 1})
+      }
     }
   }
 
-  onSuccess = () => {
-    const {hideRecoveryClick, actions, recoveryPasswordObject} = this.props
+  _onSuccess = () => {
+    const {actions, recoveryPasswordObject} = this.props
     const {resetPasswordBySmsRequest, resetPasswordBySmsCheckCode, resetPasswordBySms, searchUser} = actions
-    const {userId, VerificationCode, isLoading: recoveryIsloading, error: recoveryError, searchUserData} = recoveryPasswordObject
-    const {step, userIdentifierInputValue} = this.state
-    if (step === 0) {
-      searchUser({input: userIdentifierInputValue})
-      this.setState({...this.state, step: step + 1})
-    }
-    if (step === 1) {
-      const emailChecked = this.emailChecked ? this.emailChecked.checked : false
-      const phoneChecked = this.phoneChecked ? this.phoneChecked.checked : false
-      userIdentifierInputValue && phoneChecked && !emailChecked ?
-          // resetPasswordBySmsRequest(searchUserData.mobile)
-          resetPasswordBySmsRequest(userIdentifierInputValue)
-          : alert("قسمت ایمیل غیر فعال هست!")
-      this.setState({...this.state, step: step + 1})
-    } else if (step === 2) {
-      const code1 = this.activationCode1 ? this.activationCode1.value : ''
-      const code2 = this.activationCode2 ? this.activationCode2.value : ''
-      const code3 = this.activationCode3 ? this.activationCode3.value : ''
-      const code4 = this.activationCode4 ? this.activationCode4.value : ''
-      const code5 = this.activationCode5 ? this.activationCode5.value : ''
-      const activationCode = code1 + code2 + code3 + code4 + code5
-      ;(activationCode.length === 5 && userId)
-          ? resetPasswordBySmsCheckCode(userId, activationCode)
-          : alert("کد وارد شده اشتباه می باشد!")
-      this.setState({...this.state, step: step + 1})
-    } else if (step === 3) {
-      // const password = this.password ? this.password.value : false
-      // const passwordConfirm = this.passwordConfirm ? this.passwordConfirm.value : false
-      // if (password && (password === passwordConfirm)) {
-      //   resetPasswordBySms(userId, VerificationCode, password, passwordConfirm)
-      //   hideRecoveryClick()
-      // } else {
-      //   alert("دو پسوورد یکی نیستند!")
-      // }
-
-      const {password, passwordConfirm} = this.state
-      if (password !== '' && (password === passwordConfirm)) {
-        resetPasswordBySms(userId, VerificationCode, password, passwordConfirm)
-        hideRecoveryClick()
-      } else {
-        alert("دو پسوورد یکی نیستند!")
+    const {userId, VerificationCode, isLoading: recoveryIsLoading} = recoveryPasswordObject
+    const {step, userIdentifierInputValue, activationCodeInput} = this.state
+    if (!recoveryIsLoading) {
+      this.setState({...this.state, clickedButton: true})
+      if (step === 0) {
+        searchUser({input: userIdentifierInputValue})
+      } else if (step === 1) {
+        const emailChecked = this.emailChecked ? this.emailChecked.checked : false
+        const phoneChecked = this.phoneChecked ? this.phoneChecked.checked : false
+        userIdentifierInputValue && phoneChecked && !emailChecked ?
+            resetPasswordBySmsRequest(recoveryPasswordObject.searchUserData.id)
+            : alert("قسمت ایمیل غیر فعال هست!")
+      } else if (step === 2) {
+        if (activationCodeInput.length === 5) {
+          resetPasswordBySmsCheckCode(userId, activationCodeInput)
+        }
+      } else if (step === 3) {
+        const {password, passwordConfirm} = this.state
+        if (password !== '' && (password === passwordConfirm)) {
+          resetPasswordBySms(userId, VerificationCode, password, passwordConfirm)
+        }
       }
     }
   }
 
   _changePhoneInput = (e) => {
-    // const {userIdentifierInputValue} = this.state
-    // const phoneRegex = new RegExp("^09\\d{9}$")
-    // if (value) {
-    //   if (englishCharacter.test(value)) {
-    //     const disabled = !(phoneRegex.test(value))
-    //     this.setState({...this.state, userIdentifierInputValue: value, onSuccessDisabled: disabled})
-    //   } else this.setState({...this.state, userIdentifierInputValue})
-    // } else this.setState({...this.state, userIdentifierInputValue: ''})
-    // const englishCharacter = new RegExp("^[A-Za-z0-9@_+$.#-]+$")
     const value = e.target.value
-    if (value) {
-      this.setState({...this.state, userIdentifierInputValue: value, onSuccessDisabled: false})
-    } else {
-      this.setState({...this.state, userIdentifierInputValue: value, onSuccessDisabled: true})
-    }
+    this.setState({...this.state, userIdentifierInputValue: value})
   }
 
   _changeActiveCodeInput = (e) => {
@@ -167,6 +170,15 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
     if (myLength > 0) {
       element.previousElementSibling.focus()
     }
+
+    const code1 = this.activationCode1 ? this.activationCode1.value : ''
+    const code2 = this.activationCode2 ? this.activationCode2.value : ''
+    const code3 = this.activationCode3 ? this.activationCode3.value : ''
+    const code4 = this.activationCode4 ? this.activationCode4.value : ''
+    const code5 = this.activationCode5 ? this.activationCode5.value : ''
+    const activationCode = code1 + code2 + code3 + code4 + code5
+
+    this.setState({...this.state, activationCodeInput: activationCode})
   }
 
   _changePassword = (element) => {
@@ -178,7 +190,8 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
 
   render() {
     const {showRecovery, translate, recoveryPasswordObject} = this.props
-    const {step, showPassword, showRepeatPassword, onSuccessDisabled, userIdentifierInputValue, password, passwordConfirm} = this.state
+    const {step, showPassword, showRepeatPassword, userIdentifierInputValue, password, passwordConfirm, activationCodeInput} = this.state
+    const {isLoading: recoveryIsLoading, error: recoveryError} = recoveryPasswordObject
 
     return (
         <div>
@@ -195,34 +208,31 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
                     placeholder={translate['Username, email, phone']}
                     value={userIdentifierInputValue}
                     onChange={this._changePhoneInput}
-                    ref={e => this.userIdentifier = e}
                 />
+                {recoveryError === constants.ERRORS.USER_SEARCH.NOT_FOUND &&
+                <span className="not-found-user-error error-message mt-2">{translate['User Not Found']}</span>
+                }
               </Fragment>
               }
               {step === 1 &&
               <Fragment>
-                {recoveryPasswordObject.error
-                    ? <span className="error-message mt-2">کاربری یافت نشد!</span>
-                    : <Fragment>
-                      <p className='password-modal-title'>{translate['Pick a way for creating new password']}</p>
-                      {recoveryPasswordObject.searchUserData.mobile &&
-                      <label className="container">
-                        <input type="radio" defaultChecked name="radio-step-1" ref={e => this.phoneChecked = e}/>
-                        <span className="checkmark"/>
-                        <p className='password-way-text'>
-                          {translate['Send verification code to phone'] + ' ' + recoveryPasswordObject.searchUserData.mobile}
-                        </p>
-                      </label>
-                      }
-                      {recoveryPasswordObject.searchUserData.email &&
-                      <label className="container">
-                        <input type="radio" name="radio-step-1" ref={e => this.emailChecked = e}/>
-                        <span className="checkmark"/>
-                        <p className='password-way-text'>{translate['Send recovery link to'] +
-                        recoveryPasswordObject.searchUserData.email}</p>
-                      </label>
-                      }
-                    </Fragment>
+                <p className='password-modal-title'>{translate['Pick a way for creating new password']}</p>
+                {recoveryPasswordObject.searchUserData.mobile &&
+                <label className="container">
+                  <input type="radio" defaultChecked name="radio-step-1" ref={e => this.phoneChecked = e}/>
+                  <span className="checkmark"/>
+                  <p className='password-way-text'>
+                    {translate['Send verification code to phone'] + ' ' + recoveryPasswordObject.searchUserData.mobile}
+                  </p>
+                </label>
+                }
+                {recoveryPasswordObject.searchUserData.email &&
+                <label className="container">
+                  <input type="radio" name="radio-step-1" ref={e => this.emailChecked = e}/>
+                  <span className="checkmark"/>
+                  <p className='password-way-text'>{translate['Send recovery link to'] +
+                  recoveryPasswordObject.searchUserData.email}</p>
+                </label>
                 }
               </Fragment>
               }
@@ -255,7 +265,10 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
                        ref={e => this.activationCode1 = e}
                        onChange={this._changeActiveCodeInput}
                 />
-                {recoveryPasswordObject.error && <span className="error-message mt-2">کد وارد شده صحیح نمی باشد!</span>}
+                {activationCodeInput.length !== 5 &&
+                <span className="validation-code-error error-message mt-2">{translate['Complete the validation code']}</span>}
+                {recoveryPasswordObject.error && <span
+                    className="validation-code-error error-message mt-2">{translate['Incorrect validation code']}</span>}
               </Fragment>
               }
               {step === 3 &&
@@ -265,7 +278,7 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
                   <span className='activation-text password-text'>{translate['Password']}</span>
                   <div className='password-input-container'>
                     <FontAwesome className='eye-icon pulse' name={showPassword ? 'eye-slash' : 'eye'}
-                                 onClick={this.changeStatePassword}/>
+                                 onClick={this._changeStatePassword}/>
                     <input type={showPassword ? 'text' : 'password'}
                            className='password-text-field settingModal-menu-general-input-password'
                            ref={e => this.password = e}
@@ -277,7 +290,7 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
                   <span className='activation-text password-text'>{translate['Repeat password']}</span>
                   <div className='password-input-container'>
                     <FontAwesome className='eye-icon pulse' name={showRepeatPassword ? 'eye-slash' : 'eye'}
-                                 onClick={this.changeStateRepeatPassword}/>
+                                 onClick={this._changeStateRepeatPassword}/>
                     <input type={showRepeatPassword ? 'text' : 'password'}
                            className='password-text-field settingModal-menu-general-input-password'
                            ref={e => this.passwordConfirm = e}
@@ -293,8 +306,8 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
               }
             </div>
             <div className='password-modal-footer'>
-              <button className='common-modal-button search-button' disabled={onSuccessDisabled}
-                      onClick={this.onSuccess}>
+              <button className='common-modal-button search-button' disabled={recoveryIsLoading}
+                      onClick={this._onSuccess}>
                 {step === 0 &&
                 translate['search']
                 }
@@ -306,7 +319,8 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
                 }
               </button>
               {step !== 0 &&
-              <button className='common-modal-button back-button' onClick={this.onBack}>{translate['Back']}</button>
+              <button className='common-modal-button back-button' disabled={recoveryIsLoading}
+                      onClick={this._onBack}>{translate['Back']}</button>
               }
             </div>
           </div>
@@ -333,6 +347,6 @@ const mapDispatchToProps = dispatch => ({
   }, dispatch)
 })
 const mapStateToProps = state => ({
-  recoveryPasswordObject: recoveryPasswordSelector(state)
+  recoveryPasswordObject: recoveryPasswordSelector(state),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(PasswordRecovery)
