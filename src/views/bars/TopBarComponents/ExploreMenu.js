@@ -10,7 +10,7 @@ const ExploreMenu = (props) => {
   const {exploreCollapse} = props
   return (
       <div>
-        <Material backgroundColor='#eee' className={exploreCollapse ? "-topBarIcons-cont-open" : "-topBarIcons-cont"} content={
+        <Material backgroundColor='rgba(238, 238, 238,0.8)' className={exploreCollapse ? "-topBarIcons-cont-open" : "-topBarIcons-cont"} content={
           <ExchangeExploreIcon className={'-topBarIcons'}/>
         }/>
         <div className={exploreCollapse ? "explore-menu-container" : "explore-menu-container-hide"}>

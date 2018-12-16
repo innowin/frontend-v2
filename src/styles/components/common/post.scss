@@ -41,6 +41,7 @@
   margin: -2px 10px 0 10px;
   fill: #BBBBBB;
   cursor: pointer;
+
   &:hover {
     fill: $brand-inverse-color
   }
@@ -58,6 +59,7 @@
   margin: -2px 10px 0 10px;
   fill: #BBBBBB;
   cursor: pointer;
+
   &:hover {
     fill: $brand-inverse-color
   }
@@ -75,9 +77,17 @@
   vertical-align: top;
   fill: #BBBBBB;
   cursor: pointer;
+
   &:hover {
     fill: $brand-inverse-color
   }
+}
+
+.post-character {
+  transition-duration: 0.3s;
+  font-size: 12px;
+  position: absolute;
+  top: 3px;
 }
 
 /* -------------------------------   post textarea -------------------------*/
@@ -88,25 +98,19 @@
 
   .post-component-description {
     position: relative;
-    span {
-      font-size: 12px;
-      position: absolute;
-      top: 3px;
-      left: 6px;
-      transition-duration: $animation-timing-long;
-    }
+
     .post-component-textarea {
       overflow-y: auto;
       width: 100%;
       resize: none;
       border: 1px #e7e7e7 solid;
       border-radius: $border-radius;
-      padding: 7px 15px 9px 23px;
       font-size: 13px;
       transition-duration: 0.3s;
       height: 45px;
       line-height: 26px;
       margin-bottom: -6px;
+
       &:focus {
         outline: none;
         border: 1px solid #BBBBBB;
@@ -121,12 +125,12 @@
       resize: none;
       border-radius: $border-radius;
       border: 1px #e7e7e7 solid;
-      padding: 7px 15px 9px 23px;
       font-size: 13px;
       transition-duration: 0.3s;
       height: 100px;
       line-height: 26px;
       margin-bottom: -6px;
+
       &:focus {
         outline: none;
         border: 1px solid #BBBBBB;
@@ -137,10 +141,13 @@
 
   .post-attached-Media {
     margin-top: -2px;
+
     .pictures-section {
       display: flow-root;
+
       div {
         position: relative;
+
         .remove-file {
           position: absolute;
           top: 15px;
@@ -155,36 +162,45 @@
           justify-content: center;
           z-index: 1;
         }
+
         img {
           object-fit: cover;
           width: 100%;
           height: 100%;
         }
       }
+
       &.onePicture {
         height: 340px;
+
         div {
           width: 100%;
           height: 100%;
         }
       }
+
       &.twoPictures {
         height: 290px;
+
         div {
           width: 50%;
           height: 100%;
+
           &:nth-child(1) {
             float: right;
             border-left: 0.75px white solid;
           }
+
           &:nth-child(2) {
             float: left;
             border-right: 0.75px white solid;
           }
         }
       }
+
       &.threePictures {
         height: 260px;
+
         div {
           &:nth-child(1) {
             width: 66.5%;
@@ -192,6 +208,7 @@
             border-left: 0.75px white solid;
             height: 100%;
           }
+
           &:nth-child(2) {
             width: 33.5%;
             float: left;
@@ -199,6 +216,7 @@
             border-right: 0.75px white solid;
             border-bottom: 1px white solid;
           }
+
           &:nth-child(3) {
             width: 33.5%;
             float: left;
@@ -209,14 +227,17 @@
         }
       }
     }
+
     .media-section {
       width: 100%;
       position: relative;
       border-top: 1px white solid;
+
       video {
         object-fit: initial;
         height: 340px;
       }
+
       .remove-file {
         position: absolute;
         top: 15px;
@@ -232,6 +253,7 @@
         z-index: 1;
       }
     }
+
     .file-section {
 
     }
@@ -276,6 +298,7 @@
 .post-component-footer-items-style-text {
   display: inline-block;
   vertical-align: top;
+
   &:after {
     content: "  ";
   }
@@ -316,15 +339,18 @@
   cursor: pointer;
   transition-duration: 0.3s;
   width: 75px;
+
   &:hover {
     border: 1px solid $brand-inverse-color;
     color: $brand-inverse-color;
     background-color: white;
     transition-duration: 0.3s;
   }
+
   &:focus {
     outline: none;
   }
+
   &:active {
     background-color: $brand-inverse-color;
     border: 1px solid transparent;
@@ -345,6 +371,7 @@
   cursor: not-allowed;
   transition-duration: 0.3s;
   width: 75px;
+
   &:hover {
     color: $disable-color;
     transition-duration: 0.3s;
@@ -359,6 +386,7 @@
   cursor: pointer;
   display: inline-block;
   transition-duration: $animation-timing;
+
   &:hover {
     fill: $brand-inverse-color;
     transition-duration: $animation-timing;
@@ -410,6 +438,7 @@
   border-radius: 3px;
   transition: ease-in 0.3s;
   z-index: 10;
+
   .disabled-label {
     pointer-events: none;
     color: $register-part-in-icon-color;
@@ -440,17 +469,21 @@
   border-radius: 3px;
   padding: 10px;
   height: 390px;
+
   .contact-menu-icon {
     display: flex;
     float: right;
+
     svg {
       width: 20px;
       height: 20px;
       margin-right: 3px;
+
       path {
         fill: #72CCBF;
       }
     }
+
     span {
       margin-right: 12px;
     }
@@ -486,6 +519,7 @@
   height: 20px;
   cursor: pointer;
   margin: 3px 8px 0 8px;
+
   path {
     fill: #72CCBF
   }
@@ -521,9 +555,11 @@
   border-radius: 15px;
   padding: 0 5px;
   height: 25px;
+
   &:focus {
     outline: none;
   }
+
   &::placeholder {
     color: $text-light-color;
   }
@@ -544,14 +580,17 @@
   cursor: pointer;
   font-size: 11px;
   user-select: none;
+
   input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
+
     &:checked + .checkmark {
       background-color: $brand-inverse-color;
     }
   }
+
   .checkmark:after {
     left: 4px;
     top: 0;
@@ -561,6 +600,7 @@
     border-width: 0 3px 3px 0;
     transform: rotate(45deg);
   }
+
   &:first-child {
     margin-top: 0;
   }
@@ -569,6 +609,7 @@
 .post-component-footer-check-container {
   vertical-align: top;
   margin-right: 1.5%;
+
   .checkmark {
     position: absolute;
     top: 2px;
@@ -619,15 +660,18 @@
   width: 75px;
   margin-top: 17px;
   margin-right: 15px;
+
   &:hover {
     border: 1px solid $brand-inverse-color;
     color: $brand-inverse-color;
     background-color: white;
     transition-duration: 0.3s;
   }
+
   &:focus {
     outline: none;
   }
+
   &:active {
     background-color: $brand-inverse-color;
     border: 1px solid transparent;
@@ -649,15 +693,18 @@
   transition-duration: 0.3s;
   width: 75px;
   margin-top: 17px;
+
   &:hover {
     border: 1px solid $brand-inverse-color;
     color: white;
     background-color: $brand-inverse-color;
     transition-duration: 0.3s;
   }
+
   &:focus {
     outline: none;
   }
+
   &:active {
     background-color: white;
     border: 1px solid $brand-inverse-color;
@@ -721,6 +768,7 @@
   border-radius: 3px;
   border: 1px solid #e7e7e7;
   font-size: 14px;
+
   &:focus {
     outline: none;
     border: 1px solid #BBBBBB;
@@ -743,15 +791,18 @@
   cursor: pointer;
   transition-duration: 0.3s;
   width: 75px;
+
   &:hover {
     border: 1px solid $brand-inverse-color;
     color: white;
     background-color: $brand-inverse-color;
     transition-duration: 0.3s;
   }
+
   &:focus {
     outline: none;
   }
+
   &:active {
     background-color: white;
     border: 1px solid $brand-inverse-color;
@@ -773,15 +824,18 @@
   transition-duration: 0.3s;
   width: 75px;
   margin-right: 15px;
+
   &:hover {
     border: 1px solid $brand-inverse-color;
     color: $brand-inverse-color;
     background-color: white;
     transition-duration: 0.3s;
   }
+
   &:focus {
     outline: none;
   }
+
   &:active {
     background-color: $brand-inverse-color;
     border: 1px solid transparent;
@@ -790,7 +844,7 @@
   }
 }
 
-.object-fit-cover{
+.object-fit-cover {
   object-fit: cover;
 }
 
@@ -810,36 +864,44 @@
     padding-top: 5px;
     align-items: center;
     margin-bottom: 15px;
+
     .post-component-footer-link-modal-container-input {
       margin-bottom: 0;
       flex: 7;
     }
+
     .product-title {
       font-size: $font-size-regular;
       flex: 2;
     }
   }
+
   .my-products-container {
     display: flex;
     padding-right: 5px;
     padding-top: 5px;
     margin-bottom: 15px;
+
     .product-title {
       font-size: $font-size-regular;
       flex: 2;
     }
+
     .products {
       flex: 7;
       height: 300px;
       overflow-y: auto;
       border: 1px $text-lighter-color solid;
       border-radius: $border-radius-size;
+
       .selected-props {
         border: 1px $primary-color solid;
       }
+
       .product-wrapper {
         cursor: pointer;
       }
+
       .product-view-container {
         margin: 15px;
       }

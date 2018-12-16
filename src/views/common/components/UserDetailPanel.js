@@ -112,11 +112,11 @@ class UserDetailPanel extends React.Component<UserDetailPanelProps, UserDetailPa
                 : <div className='banner covered-img background-strips'/> // <DefaultImageIcon className="banner covered-img"/>
             }
             {profileImage && profileImage.file && profileLoaded ?
-                <Link to={isUser ? `/user/${user.id}` : `/user/${organization.id}`}>
+                <Link to={isUser ? `/user/${user.id}` : `/organization/${organization.id}`}>
                   <img className="rounded-circle profile-media covered-img" alt="profile" src={profileImage.file}/>
                 </Link>
                 :
-                <Link to={isUser ? `/user/${user.id}` : `/user/${organization.id}`}>
+                <Link to={isUser ? `/user/${user.id}` : `/organization/${organization.id}`}>
                   <DefaultUserIcon className="rounded-circle profile-media covered-img"/>
                 </Link>
             }

@@ -311,7 +311,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                 <PostHeader post={post} translate={translate} postIdentity={postIdentity}
                             postRelatedIdentityImage={postRelatedIdentityImage} showEdit={showEdit}
                             extendedView={extendedView}/>
-                <div className="post-content" ref={e => self.text = e}>
+                <div className="post-content" style={new RegExp('^[A-Za-z]*$').test(postDescription[0]) ? {direction: 'ltr'} : {direction: 'rtl'}} ref={e => self.text = e}>
                   {postDescription}
                 </div>
 

@@ -10,7 +10,6 @@
 .stickers-menu-container {
   position: absolute;
   top: 25px;
-  left: 0;
   border: 1px solid #eee;
   background-color: #fcfcfc;
   border-radius: 5px;
@@ -108,7 +107,6 @@
 .emoji-open {
   position: absolute;
   bottom: 2px;
-  left: 7px;
   transition-duration: 0.2s;
   opacity: 1;
   z-index: 1;
@@ -117,7 +115,6 @@
 .emoji-close {
   position: absolute;
   bottom: 6px;
-  left: 7px;
   transition-duration: 0.2s;
   opacity: 1;
   z-index: 1;
