@@ -220,7 +220,7 @@
   width: 32%;
   flex-grow: 1;
 
-  &.full{
+  &.full {
     width: 100%;
     margin: 15px 0 12px 0;
   }
@@ -235,12 +235,13 @@
 .gray-text-input {
   background: #f5f5f5;
   border: 1px solid #f4f4f4;
-  border-radius: 3px;
+  border-radius: $border-radius;
   height: 35px;
   font-size: $font-size-post-content;
   transition-duration: $animation-timing;
   direction: rtl;
   text-align: right;
+
   &:focus {
     border: 1px solid #e1e1e1;
     background: #f2f2f2;
@@ -248,7 +249,82 @@
   }
 }
 
-.gray-textarea-input{
+.relative-type {
+  position: relative;
+}
+
+.inteli-menu::-webkit-scrollbar {
+  width: $scroll-bar-width;
+  border-radius: $border-radius;
+}
+
+.inteli-menu::-webkit-scrollbar-track {
+  background-color: #f2f2f2;
+  border-radius: $border-radius;
+}
+
+.inteli-menu::-webkit-scrollbar-thumb {
+  background: #c5c5c5;
+  border-radius: $border-radius;
+
+  &:hover {
+    background: #aaaaaa;
+  }
+}
+
+.inteli-menu {
+  position: absolute;
+  height: 120px;
+  width: 100%;
+  background-color: transparent;
+  top: 34px;
+  left: 0;
+  transition-duration: $animation-timing;
+  overflow: auto;
+  border-radius: $border-radius;
+  opacity: 1;
+  z-index: 10;
+}
+
+.inteli-menu-hide {
+  position: absolute;
+  height: 0;
+  width: 100%;
+  background-color: transparent;
+  top: 15px;
+  left: 0;
+  transition-duration: $animation-timing-long;
+  overflow: auto;
+  border-radius: $border-radius;
+  opacity: 0;
+}
+
+.inteli-more-svg {
+  position: absolute;
+  transform: rotate(180deg);
+  width: 14px;
+  fill: $disable-color;
+  top: 15px;
+  left: 10px;
+  cursor: pointer;
+}
+
+.inteli-menu-item {
+  font-size: $font-size-post-content;
+  text-align: center;
+  padding: 5px;
+  width: 100%;
+  background-color: $background-color;
+  transition-duration: $animation-timing;
+  cursor: pointer;
+
+  &:hover {
+    transition-duration: $animation-timing;
+    background-color: #f7f7f7;
+  }
+}
+
+.gray-textarea-input {
   background: #f5f5f5;
   border: 1px solid #f4f4f4;
   border-radius: 3px;
@@ -370,6 +446,12 @@
   color: $primary-color;
   margin: 5px 5px;
 }
+
+
+.contribution-radio {
+  font-size: 10px;
+}
+
 
 .contribution-footer {
   width: 100%;

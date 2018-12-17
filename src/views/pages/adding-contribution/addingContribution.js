@@ -56,7 +56,8 @@ import {
   SkillIcon,
   TipsIcon,
 } from "src/images/icons"
-import InteliInput from "./InteliInput"
+import InteliInput from "src/views/common/inputs/InteliInput"
+import {RadioButtonGroup} from "src/views/common/inputs/RadioButtonInput"
 
 
 const reorder = (list, startIndex, endIndex) => {
@@ -132,6 +133,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       selectedCatLvlOne: "",
       selectedCatLvlTwo: "",
       selectedCatLvlThree: "",
+      priceType: "معین"
     }
 
     const self: any = this
@@ -815,6 +817,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       selectedCatLvlTwo,
       selectedCatLvlThree,
       inteliMenu,
+      priceType
     } = this.state
     switch (currentLevel) {
       case "one":
@@ -871,7 +874,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
             </div>
         )
       case "two":
-        let namesList = [{value: "رضا"}, {value: "حسین"}, {value: "ابوالفضل"}, {value: "امیر"}, {value: "امیرحسین"},]
+        let namesList = ["کامپیوتر", "الکترونیک", "نرم افزار", "سخت افزار", "طراحی", "انیمیشن", "احمد"]
         return (
             <div className="contribution-product-two">
               <div className={"gray-text-input-label-container"}>
@@ -888,15 +891,24 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
               </div>
               <div className={"gray-text-input-label-container"}>
                 <label className="gray-text-input-label">قیمت:</label>
-                <input type="text" className="form-control gray-text-input"/>
+                <RadioButtonGroup
+                    selected={priceType}
+                    handler={this._priceHandler}
+                    items={[{value: "معین", title: "معین"}, {value: "تماس با عرضه کننده", title: "تماس با عرضه کننده"}]}
+                    name="userType"
+                    label={""}
+                    className={"contribution"}
+                    contribution={"contribution"}
+                />
+                <input type="text" className="form-control gray-text-input" style={{textAlign: "left"}} placeholder={"IRR"}/>
               </div>
               <div className={"gray-text-input-label-container"}>
                 <label className="gray-text-input-label">طبقه دوم دسته بندی:</label>
-                <input type="text" className="form-control gray-text-input"/>
+                <InteliInput handleChange={(text) => this._handleCatLvlChange(text, "two")} list={namesList}/>
 
                 <div className={"gray-text-input-label-container full"}>
                   <label className="gray-text-input-label">طبقه سوم دسته بندی:</label>
-                  <input type="text" className="form-control gray-text-input"/>
+                  <InteliInput handleChange={(text) => this._handleCatLvlChange(text, "three")} list={namesList}/>
                 </div>
               </div>
               <div className={"gray-text-input-label-container"}>
@@ -984,6 +996,10 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
 
   _closeModal() {
     this.setState({...this.state, currentLevel: "one"}, this.props.handleModalVisibility())
+  }
+
+  _priceHandler = (value) => {
+    this.setState({...this.state, priceType: value})
   }
 
   render() {

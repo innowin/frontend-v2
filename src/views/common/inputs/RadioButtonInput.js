@@ -22,10 +22,11 @@ export const RadioButtonGroup = (props: Props) => {
     selected = {},
     items = [],
     handler = (value) => 1,
-    className
+    className,
+    contribution
   } = props
   return (
-    <div className={`${className || ''} radio-button-group`}>
+    <div className={`radio-button-group ${className || ''}`}>
       {(label) ? (<label>{label + " :"}</label>) : ('')}
       <div className="radio-btns-wrapper">
         {items.map(item => (
@@ -33,7 +34,7 @@ export const RadioButtonGroup = (props: Props) => {
               key={`radio${String(item.value)}`}
               className="item" onClick={() => handler(item.value)}
           >
-            <span className="title">{item.title}</span>
+            <span className={`title ${contribution || ''}`}>{item.title}</span>
             <span
               className={item.value === selected ? 'selected radio-btn' : 'radio-btn'}
             >
