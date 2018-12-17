@@ -7,6 +7,7 @@ class InteliInput extends Component {
   static propTypes = {
     list: PropTypes.arrayOf(String).isRequired,
     handleChange: PropTypes.func.isRequired,
+    className: PropTypes.string
   }
 
   constructor(props) {
@@ -113,10 +114,11 @@ class InteliInput extends Component {
 
   render() {
     const {found} = this.state
+    const {className} = this.props
     return (
         <div className={"relative-type"}>
           <div contentEditable
-               className="form-control gray-text-input"
+               className={`form-control gray-text-input ${className && className}`}
                onBlur={(e) => this._handleBlur(e)}
                onKeyUp={(e) => this._handleMenu(e)}
                onClick={(e) => this._showMenu(e)}
