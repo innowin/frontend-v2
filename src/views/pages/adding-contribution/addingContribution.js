@@ -1024,14 +1024,18 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     const {currentLevel} = this.state
     const {modalIsOpen} = this.props
     return (
-        <div className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}>
+        <div
+            // className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}
+        >
+{/*
           {this.renderProgressBar()}
 
           {this.renderCurrentLevel()}
 
           {this.renderFooter()}
+*/}
 
-          {/*<Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>
+          <Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>
            <ModalBody className="adding-contribution-wrapper">
            <FontAwesome name="times" size="2x" className="close-btn"
            onClick={this._handleModalVisibility}/>
@@ -1047,7 +1051,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
            {this._switchContentByMainCategory()}
            </div>
            </ModalBody>
-           </Modal>*/}
+           </Modal>
 
         </div>
     )

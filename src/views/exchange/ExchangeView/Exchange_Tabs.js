@@ -13,6 +13,7 @@ import exchangeMembershipActions from "src/redux/actions/commonActions/exchangeM
 // import {VerifyWrapper} from "../../common/cards/Frames"
 import SocialActions from "../../../redux/actions/commonActions/socialActions"
 import educationActions from "../../../redux/actions/user/educationActions"
+import checkOwner from "../../common/CheckOwner"
 
 type states={
   selectedTab: string,
@@ -39,7 +40,8 @@ class Exchange_Tabs extends Component<props, states> {
       clickedSvgStyle: "svg-tabs-clicked",
       clickedSvgContainerStyle: "svg-container-clicked",
       normalSvgStyle: "svg-tabs",
-      normalSvgContainerStyle: "svg-container"
+      normalSvgContainerStyle: "svg-container",
+      ownerId: null
 
       // selectedTab: "Info", // DEVELOP
       // getUserFlag: false,
@@ -54,9 +56,10 @@ class Exchange_Tabs extends Component<props, states> {
     //   clickedSvgStyle: "svg-tabs-clicked",
     //   clickedSvgContainerStyle: "svg-container-clicked",
     //   normalSvgStyle: "svg-tabs",
-    //   normalSvgContainerStyle: "svg-container"
     // })
+    //   normalSvgContainerStyle: "svg-container"
     let {actions, exchangeId, clientIdentityId, clientId, clientType, exchanges} = this.props
+
     if (exchangeId) {
       let {getExchangeMembers, getFollowingAction, getUser} = actions
       getFollowingAction({followOwnerIdentity: clientIdentityId, followOwnerId: clientId, followOwnerType: clientType, notProfile: true})
@@ -70,6 +73,12 @@ class Exchange_Tabs extends Component<props, states> {
             exchanges[exchangeId].exchange.content.exchange ? exchanges[exchangeId].exchange.content.exchange.content.owner.identity_user : null
       })
     }
+    this.setState({...this.state, ownerId: // Exchange owner for management tab authentication
+          exchanges[exchangeId].exchange.content.owner ?
+              exchanges[exchangeId].exchange.content.owner.identity_user :
+              exchanges[exchangeId].exchange.content.exchange ? exchanges[exchangeId].exchange.content.exchange.content.owner.identity_user : null
+    })
+
   }
 
   _setTab(data) {
@@ -78,6 +87,7 @@ class Exchange_Tabs extends Component<props, states> {
 
   render() {
     const {translate, exchangeId} = this.props
+    const {ownerId} = this.state
     const {selectedTab, clickedSvgContainerStyle, normalSvgContainerStyle, clickedSvgStyle, normalSvgStyle} = this.state
     return (
         <div className={"exchange-navbar-container"}>
@@ -102,10 +112,14 @@ class Exchange_Tabs extends Component<props, states> {
                    containerClass={selectedTab === "Medals" ? clickedSvgContainerStyle : normalSvgContainerStyle}
                    svgClass={selectedTab === "Medals" ? clickedSvgStyle : normalSvgStyle}
                    changeView={(data) => this._setTab(data)}/>
-            <Ticket width="22px" height="22px"
-                    containerClass={selectedTab === "Exchange Manager" ? clickedSvgContainerStyle : normalSvgContainerStyle}
-                    svgClass={selectedTab === "Exchange Manager" ? clickedSvgStyle : normalSvgStyle}
-                    changeView={(data) => this._setTab(data)}/>
+            {
+              checkOwner({id: ownerId, children:
+                    <Ticket width="22px" height="22px"
+                            containerClass={selectedTab === "Exchange Manager" ? clickedSvgContainerStyle : normalSvgContainerStyle}
+                            svgClass={selectedTab === "Exchange Manager" ? clickedSvgStyle : normalSvgStyle}
+                            changeView={(data) => this._setTab(data)}/>
+              })
+            }
           </div>
           <div className={`under-exchange-navbar-center`}>{translate[selectedTab]}</div>
           <div className={`line-under-exchange-navbar-center`}/>

@@ -8,9 +8,10 @@
   }
   .categories-wrapper .categories {
     display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;
+    justify-content: right;
     .category {
+      margin-left: 7.5%;
       border: 3px solid $chat-box2-color;
       flex: 0 0 150px;
       border-radius: 20px;

@@ -14,7 +14,7 @@ const MainCategories = (props: MainCategoriesProps) => {
   const {categories, selectCategoryHandler, selectedCategory} = props
   return (
       <div className="categories-wrapper">
-        <h5 className="header">انتخاب نوع آورده</h5>
+        <h5 className="header">انتخاب نوع آورده:</h5>
         <div className="categories">
           {categories && categories.map(category =>
               <div
@@ -27,7 +27,7 @@ const MainCategories = (props: MainCategoriesProps) => {
                 <div className="image">
                   {category.svg}
                 </div>
-                <div className="title">{category.title}</div>
+                <div className="title">{category.label}</div>
               </div>
           )}
         </div>

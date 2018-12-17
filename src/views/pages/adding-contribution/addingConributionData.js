@@ -20,21 +20,21 @@ export const MainCategories = [  // need for fetching and creating this list dyn
     svg: (<SkillIcon className="new-contribution-category-image skill-icon"/>),
     label: 'توانمندی',
   },
-  {
-    value: 'certificate',
-    svg: (<CertificateIcon className="new-contribution-category-image"/>),
-    label: 'تاییدیه',
-  },
-  {
-    value: '4',
-    svg: (<ConsultIcon className="new-contribution-category-image"/>),
-    label: 'مشاوره',
-  },
-  {
-    value: '5',
-    svg: (<div className="new-contribution-category-image">?</div>),
-    label: 'زیرساخت قابل اشتراک',
-  },
+  // {
+  //   value: 'certificate',
+  //   svg: (<CertificateIcon className="new-contribution-category-image"/>),
+  //   label: 'تاییدیه',
+  // },
+  // {
+  //   value: '4',
+  //   svg: (<ConsultIcon className="new-contribution-category-image"/>),
+  //   label: 'مشاوره',
+  // },
+  // {
+  //   value: '5',
+  //   svg: (<div className="new-contribution-category-image">?</div>),
+  //   label: 'زیرساخت قابل اشتراک',
+  // },
 ]
 
 export const WRAPPER_CLASS_NAMES = {
