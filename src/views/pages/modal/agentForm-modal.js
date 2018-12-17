@@ -64,11 +64,11 @@ class AgentForm extends React.Component<AgentFormProps, { tags: Array<String>, d
   onLabelChange(event: any) {
     let val = event.target.value
     if (val.length < 1) {
-      this.setState({tags: []})
+      this.setState({...this.state,tags: []})
       return
     }
     let tags = val.split(',')
-    this.setState({tags: tags})
+    this.setState({...this.state,tags: tags})
 
   }
 
