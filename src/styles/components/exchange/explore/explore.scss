@@ -628,22 +628,21 @@
 
 .rippleSlow {
   position: absolute;
-  background: rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.1);
   border-radius: 100%;
-  transform: scale(0);
-  opacity: 0;
+  transform: scale(2);
   pointer-events: none;
   animation: rippleSlow 1.5s ease-out;
+  transition-duration: 0.5s;
 }
+
 
 @keyframes rippleSlow {
   from {
     transform: scale(0);
-    opacity: 1;
   }
   to {
     transform: scale(2);
-    opacity: 0;
   }
 }
 

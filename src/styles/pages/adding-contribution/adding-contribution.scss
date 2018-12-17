@@ -394,32 +394,40 @@
 
 .contribution-description-option-block {
   align-items: center;
-  border-radius: 20px;
-  border: 2px solid $primary-color;
-  cursor: pointer;
   display: flex;
   flex-direction: column;
   height: 160px;
-  justify-content: center;
-  margin: 0 0 15px 5px;
-  opacity: .5;
-  transition-duration: $animation-timing;
   width: 160px;
+  justify-content: center;
+  transition-duration: $animation-timing;
 }
 
 .contribution-description-option-block-active {
   align-items: center;
-  border-radius: 20px;
-  border: 2px solid $primary-color;
-  cursor: pointer;
   display: flex;
   flex-direction: column;
   height: 160px;
+  width: 160px;
   justify-content: center;
+  transition-duration: $animation-timing;
+}
+
+.contribution-material-block-active {
+  border-radius: 20px;
+  border: 2px solid $primary-color;
+  cursor: pointer;
   margin: 0 0 15px 5px;
   opacity: 1;
   transition-duration: $animation-timing;
-  width: 160px;
+}
+
+.contribution-material-block {
+  border-radius: 20px;
+  border: 2px solid $primary-color;
+  cursor: pointer;
+  margin: 0 0 15px 5px;
+  opacity: 0.5;
+  transition-duration: $animation-timing;
 }
 
 .option-contribution-svg {

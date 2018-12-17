@@ -1,30 +1,30 @@
 // @flow
-import * as React from "react"
-import PropTypes from "prop-types"
-import "moment/locale/fa"
+import * as React from 'react'
+import PropTypes from 'prop-types'
+import 'moment/locale/fa'
 
-import {DefaultUserIcon, DefaultImage} from "src/images/icons"
-import {CategoryTitle, VerifyWrapper} from "src/views/common/cards/Frames"
-import connect from "react-redux/es/connect/connect"
-import {getMessages} from "../../../redux/selectors/translateSelector"
-import {bindActionCreators} from "redux"
-import PostActions from "../../../redux/actions/commonActions/postActions"
-import type {postType} from "../../../consts/flowTypes/common/post"
-import type {paramType} from "../../../consts/flowTypes/paramType"
-import constants from "../../../consts/constants"
-import type {identityType} from "../../../consts/flowTypes/user/basicInformation"
-import type {fileType} from "../../../consts/flowTypes/common/fileType"
-import FileActions from "../../../redux/actions/commonActions/fileActions"
-import CommentActions from "../../../redux/actions/commonActions/commentActions"
-import {userCommentsSelector} from "src/redux/selectors/common/comment/postCommentsSelector"
-import type {commentType} from "../../../consts/flowTypes/common/comment"
-import PostHeader from "./PostHeader"
-import PostType from "./PostType"
-import PostFooter from "./PostFooter"
-import PostComments from "./PostComments"
-import {Confirm} from "../cards/Confirm"
-import ProductInfoView from "../contributions/ProductInfoView"
-import PostCommentNew from "./PostCommentNew"
+import {DefaultUserIcon, DefaultImage} from 'src/images/icons'
+import {CategoryTitle, VerifyWrapper} from 'src/views/common/cards/Frames'
+import connect from 'react-redux/es/connect/connect'
+import {getMessages} from '../../../redux/selectors/translateSelector'
+import {bindActionCreators} from 'redux'
+import PostActions from '../../../redux/actions/commonActions/postActions'
+import type {postType} from '../../../consts/flowTypes/common/post'
+import type {paramType} from '../../../consts/flowTypes/paramType'
+import constants from '../../../consts/constants'
+import type {identityType} from '../../../consts/flowTypes/user/basicInformation'
+import type {fileType} from '../../../consts/flowTypes/common/fileType'
+import FileActions from '../../../redux/actions/commonActions/fileActions'
+import CommentActions from '../../../redux/actions/commonActions/commentActions'
+import {userCommentsSelector} from 'src/redux/selectors/common/comment/postCommentsSelector'
+import type {commentType} from '../../../consts/flowTypes/common/comment'
+import PostHeader from './PostHeader'
+import PostType from './PostType'
+import PostFooter from './PostFooter'
+import PostComments from './PostComments'
+import {Confirm} from '../cards/Confirm'
+import ProductInfoView from '../contributions/ProductInfoView'
+import PostCommentNew from './PostCommentNew'
 
 type postExtendedViewProps = {
   actions: {
@@ -88,7 +88,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       showComment: false
     }
 
-    const self : any = this
+    const self: any = this
 
     self.commentTextField = null
     self.handleRetry = this.handleRetry.bind(this)
@@ -101,7 +101,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   componentDidMount() {
-    const self : any = this
+    const self: any = this
 
     const {extendedView, post, actions} = this.props
     if (post && post.post_picture) {
@@ -122,59 +122,54 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       const {params, url} = match
       const {getPost, getPostViewerCount, setPostViewer, getCommentsByParentId} = actions
       const postId = +params.id
-      const isUser = !url.includes("org")
+      const isUser = !url.includes('org')
       const postOwnerType = isUser ? constants.USER_TYPES.PERSON : constants.USER_TYPES.ORG
-      const spliced = url.split("/")
+      const spliced = url.split('/')
       const postOwnerId = +spliced[2]
 
       getPost({postId, postOwnerType, postOwnerId})
       // setPostViewer(postId, getPostViewerCount)
       getCommentsByParentId({parentId: postId, commentParentType: constants.COMMENT_PARENT.POST})
-    }
-    else {
+    } else {
       this._getViewerCount()
     }
 
     if (self.text) {
       let allWords = self.text.innerText.replace(/\n/g, ' ')
-      allWords = allWords.split(" ")
+      allWords = allWords.split(' ')
 
-      let mailExp = new RegExp("^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$")
+      let mailExp = new RegExp('^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$')
 
-      let urlExp = new RegExp("^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[A-Za-z0-9]+([\\-\\.]{1}[A-Za-z0-9]+)*\\.[A-Za-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$")
+      let urlExp = new RegExp('^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[A-Za-z0-9]+([\\-\\.]{1}[A-Za-z0-9]+)*\\.[A-Za-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$')
 
       // Phone Reg
-      let first = new RegExp("(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{4}[)]?))")
-      let second = new RegExp("([-\s\.]?[0-9]{3})")
-      let third = new RegExp("([-\s\.]?[0-9]{3,4})")
+      let first = new RegExp('(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{4}[)]?))')
+      let second = new RegExp('([-\s\.]?[0-9]{3})')
+      let third = new RegExp('([-\s\.]?[0-9]{3,4})')
 
       for (let i = 0; i < allWords.length; i++) {
         let word = allWords[i].trim()
         if (urlExp.test(word)) {
-          word.includes("http://") || word.includes("https://") ?
-              self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, "g"), `<a target=_blank href=` + word + `>${word}</a>`)
+          word.includes('http://') || word.includes('https://') ?
+              self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a title=` + word + ` target=_blank href=` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word} </a>`)
               :
-              self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, "g"), `<a target=_blank href=http://` + word + `>${word}</a>`)
-        }
-        else if (word[0] === "@" && word.length >= 6 && !word.substring(1, word.length).includes("@")) {
-          self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, "g"), `<a href=` + word.slice(1, word.length) + `>${word}</a>`)
-        }
-        else if (word[0] === "#" && word.length >= 3 && !word.substring(1, word.length).includes("#")) {
-          self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, "g"), `<a href=` + word + `>${word}</a>`)
-        }
-        else if (mailExp.test(word)) {
-          self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, "g"), `<a href=mailto:` + word + `>${word}</a>`)
-        }
-        else if (!isNaN(word.replace(/\\+/g, "")) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
-          word.includes("+") ?
-              self.text.innerHTML = self.text.innerHTML.replace(new RegExp(`\\${word}`, "g"), `<a href=tel:` + word + `>${word}</a>`)
+              self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a title=` + word + ` target=_blank href=http://` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
+        } else if (word[0] === '@' && word.length >= 6 && !word.substring(1, word.length).includes('@')) {
+          self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=` + word.slice(1, word.length) + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
+        } else if (word[0] === '#' && word.length >= 3 && !word.substring(1, word.length).includes('#')) {
+          self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
+        } else if (mailExp.test(word)) {
+          self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=mailto:` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
+        } else if (!isNaN(word.replace(/\\+/g, '')) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
+          word.includes('+') ?
+              self.text.innerHTML = self.text.innerHTML.replace(new RegExp(`\\${word}`, 'g'), `<a href=tel:` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
               :
-              self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, "g"), `<a href=tel:` + word + `>${word}</a>`)
+              self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=tel:` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
         }
       }
     }
 
-    document.addEventListener("click", this._handleClickOutMenuBox)
+    document.addEventListener('click', this._handleClickOutMenuBox)
   }
 
   componentDidUpdate(prevProps) {
@@ -186,7 +181,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   componentWillUnmount() {
-    document.removeEventListener("click", this._handleClickOutMenuBox)
+    document.removeEventListener('click', this._handleClickOutMenuBox)
   }
 
   _openMenu(e) {
@@ -204,7 +199,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   _handleClickOutMenuBox(e: any) {
-    if (!e.target.closest("#sidebar-post-menu-box") && !e.target.closest(".post-menu-bottom")) {
+    if (!e.target.closest('#sidebar-post-menu-box') && !e.target.closest('.post-menu-bottom')) {
       this.setState({...this.state, menuToggle: false})
     }
   }
@@ -222,7 +217,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       const {createComment} = actions
       const formValues = {text: commentTextField.value, comment_parent: post.id}
       createComment({formValues, parentId: post.id, commentParentType})
-      commentTextField.value = ""
+      commentTextField.value = ''
     }
   }
 
@@ -279,7 +274,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   render() {
-    const self : any = this
+    const self: any = this
     const {post, translate, postIdentity, postRelatedIdentityImage, userImage, extendedView, showEdit, comments, fileList, commentParentType} = this.props
     const {menuToggle, confirm, pictureLoaded, showComment} = this.state
     let postDescription, postPicture, postPictureId, postIdentityUserId, postIdentityOrganId, postOwnerId = 0
@@ -298,17 +293,17 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
     return (
         confirm
-            ? <div className={extendedView ? "post-view-container remove-post-container" : "remove-post-container"}>
+            ? <div className={extendedView ? 'post-view-container remove-post-container' : 'remove-post-container'}>
               <Confirm cancelRemoving={this._cancelConfirm} remove={this._delete}/>
             </div>
             : post ?
             <VerifyWrapper isLoading={false} error={false} className="-itemWrapperPost">
               {extendedView &&
               <CategoryTitle
-                  title={translate["Single post"]}
+                  title={translate['Single post']}
               />
               }
-              <div className={extendedView && "post-view-container"}>
+              <div className={extendedView && 'post-view-container'}>
                 {
                   post.post_type !== constants.POST.POST_TYPE.POST &&
                   <PostType translate={translate} post={post}/>
@@ -316,14 +311,14 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                 <PostHeader post={post} translate={translate} postIdentity={postIdentity}
                             postRelatedIdentityImage={postRelatedIdentityImage} showEdit={showEdit}
                             extendedView={extendedView}/>
-                <div className="post-content" ref={e => self.text = e}>
+                <div className="post-content" style={new RegExp('^[A-Za-z]*$').test(postDescription[0]) ? {direction: 'ltr'} : {direction: 'rtl'}} ref={e => self.text = e}>
                   {postDescription}
                 </div>
 
                 {!extendedView ?
                     postPicture ?
-                        <div className={"post-image-container"}>
-                          <div className={pictureLoaded === true ? "post-image-loading-effect" : "post-image-loading"}>
+                        <div className={'post-image-container'}>
+                          <div className={pictureLoaded === true ? 'post-image-loading-effect' : 'post-image-loading'}>
                             <DefaultImage className='default-image'/>
                             {
                               pictureLoaded === false ?
@@ -336,15 +331,15 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                                   <div className='bright-line'/>
                             }
                           </div>
-                          <img src={postPicture.file} width={"100%"} alt='عکس پست'
-                               className={pictureLoaded === true ? "post-image-effect" : "post-image"}/>
+                          <img src={postPicture.file} width={'100%'} alt='عکس پست'
+                               className={pictureLoaded === true ? 'post-image-effect' : 'post-image'}/>
                         </div>
                         : null
                     :
                     postPictureId ?
-                        <div className={"post-image-container"}>
-                          <img src={fileList[postPictureId] ? fileList[postPictureId].file : null} width={"100%"}
-                               alt={" "} className={"post-image"}/>
+                        <div className={'post-image-container'}>
+                          <img src={fileList[postPictureId] ? fileList[postPictureId].file : null} width={'100%'}
+                               alt={' '} className={'post-image'}/>
                         </div> : null
                 }
 
@@ -360,6 +355,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                             menuToggle={menuToggle} openMenu={this._openMenu}
                             deletePost={this._showConfirm}
                             showComment={this._handleShowComment}
+                            showEdit={showEdit}
                 />
                 {/*{
                  <div className='add-comment'>
@@ -392,7 +388,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 */}
               </div>
             </VerifyWrapper>
-            : ""
+            : ''
 
     )
   }
@@ -418,8 +414,7 @@ const mapStateToProps = (state, ownProps) => {
       comments: userCommentsSelector(state, ownProps),
       fileList: state.common.file.list,
     }
-  }
-  else {
+  } else {
     const {post} = ownProps
     const postIdentity = post && post.post_identity
     const prevUserImageId = (state.auth.organization && state.auth.organization.organization_logo) || state.auth.client.profile.profile_media

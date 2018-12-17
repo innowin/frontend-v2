@@ -80,10 +80,10 @@ const AttachMenu = (props) => {
           <ContributionIcon className='post-component-footer-logos-little'/>
           محصول
         </div>
-        <div className={'explore-menu-items '+ LinkAttachedDisabled} onClick={linkModalFunc}>
-          <Link className='post-component-footer-logos-little'/>
-          لینک
-        </div>
+        {/*<div className={'explore-menu-items '+ LinkAttachedDisabled} onClick={linkModalFunc}>*/}
+          {/*<Link className='post-component-footer-logos-little'/>*/}
+          {/*لینک*/}
+        {/*</div>*/}
       </div>
     </div>
   )

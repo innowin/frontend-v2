@@ -1,8 +1,8 @@
-import api from "src/consts/api"
-import results from "src/consts/resultName"
-import types from "src/redux/actions/types"
-import urls from "src/consts/URLS"
-import {take, put, fork, call} from "redux-saga/effects"
+import api from 'src/consts/api'
+import results from 'src/consts/resultName'
+import types from 'src/redux/actions/types'
+import urls from 'src/consts/URLS'
+import {take, put, fork, call} from 'redux-saga/effects'
 
 
 export function* getUserByUserId(action) {

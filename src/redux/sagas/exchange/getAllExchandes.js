@@ -1,13 +1,13 @@
-import api from "src/consts/api"
-import results from "src/consts/resultName"
-import types from "src/redux/actions/types"
-import urls from "src/consts/URLS"
-import {put, take, fork, call, select} from "redux-saga/effects"
+import api from 'src/consts/api'
+import results from 'src/consts/resultName'
+import types from 'src/redux/actions/types'
+import urls from 'src/consts/URLS'
+import {put, take, fork, call, select} from 'redux-saga/effects'
 
 export function* getAllExchanges(action) {
   const {limit, offset, search} = action.payload
   const params = search !== null ? `?name=${search}` : `?limit=${limit}&offset=${offset}`
-  yield put({type: types.SUCCESS.EXCHANGE.GET_EXCHANGES, payload: {data: {results: []}, search, loading: true}})
+  yield put({type: types.SUCCESS.EXCHANGE.GET_EXCHANGES, payload: {data: [], search, loading: true}})
   const socketChannel = yield call(api.createSocketChannel, results.EXCHANGE.GET_EXCHANGES)
   try {
     yield fork(

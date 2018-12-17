@@ -3,21 +3,22 @@ import * as React from 'react'
 import Demand from 'src/images/common/demand_svg'
 import Distribute from 'src/images/common/supply_svg'
 import exchangeActions from 'src/redux/actions/commonActions/exchangeMembershipActions'
-import Material from "../../common/components/Material"
+import Material from '../../common/components/Material'
 import {bindActionCreators} from 'redux'
-import {ClipLoader} from "react-spinners"
+import {ClipLoader} from 'react-spinners'
 import {Component} from 'react'
 import {connect} from 'react-redux'
-import {DefaultUserIcon} from "src/images/icons"
+import {DefaultUserIcon} from 'src/images/icons'
 import {Link} from 'react-router-dom'
 import {REST_URL} from 'src/consts/URLS'
+import {getMessages} from '../../../redux/selectors/translateSelector'
 
 type appProps =
     {|
       actions: any,
       members: Array<number>,
       data: Object,
-      currentUserIdentity:{}
+      currentUserIdentity: {}
     |}
 
 type appState =
@@ -34,7 +35,7 @@ class Exchange extends Component <appProps, appState> {
           followLoading: false,
           imageLoaded: false
         }
-    const self : any = this
+    const self: any = this
     self._follow = this._follow.bind(this)
   }
 
@@ -82,16 +83,14 @@ class Exchange extends Component <appProps, appState> {
   _renderFollowButton() {
     if (this.props.data.exchange === undefined && this.state.followLoading) {
       return <div className='exchange-model-following'><ClipLoader color='#008057' size={19}/></div>
-    }
-    else if (this.props.data.exchange === undefined) {
-      return <Material className='exchange-followed' content='دنبال کردن' onClick={this._follow}/>
-    }
-    else return <Material className='exchange-follow' content='دنبال شده'/>
+    } else if (this.props.data.exchange === undefined) {
+      return <Material className='exchange-followed' content={this.props.translate['Follow']} onClick={this._follow}/>
+    } else return <Material className='exchange-follow' content={this.props.translate['Followed']}/>
   }
 
 
   render() {
-    const {data} = this.props
+    const {data, translate} = this.props
     // const images = data.followers.map(img =>
     //     <img src={img.image} key={data.followers.indexOf(img)} className='exchange-model-followers-avatar'/>
     // )
@@ -116,13 +115,13 @@ class Exchange extends Component <appProps, appState> {
 
             <div className='exchange-model-detail'>
               <Demand width='30px' className='exchange-model-detail-demand-logo'/>
-              <div className='exchange-model-detail-demand-title'>تقاضا</div>
+              <div className='exchange-model-detail-demand-title'>{translate['Type demand']}</div>
               <span> </span>
               <div className='exchange-model-detail-demand-title'>{data.demand}</div>
             </div>
             <div className='exchange-model-detail'>
               <Distribute width='20px' className='exchange-model-detail-dist-logo'/>
-              <div className='exchange-model-detail-dist-title'>عرضه</div>
+              <div className='exchange-model-detail-dist-title'>{translate['Type supply']}</div>
               <span> </span>
               <div className='exchange-model-detail-dist-title'>{data.supply}</div>
             </div>
@@ -145,6 +144,7 @@ class Exchange extends Component <appProps, appState> {
 
 const mapStateToProps = (state) => ({
   currentUserIdentity: state.auth.client.identity.content,
+  translate: getMessages(state),
 })
 
 const mapDispatchToProps = dispatch => ({

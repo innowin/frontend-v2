@@ -58,6 +58,7 @@ import {
 } from "src/images/icons"
 import InteliInput from "src/views/common/inputs/InteliInput"
 import {RadioButtonGroup} from "src/views/common/inputs/RadioButtonInput"
+import Material from "../../common/components/Material"
 
 
 const reorder = (list, startIndex, endIndex) => {
@@ -839,42 +840,57 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
               <div className={"contribution-description-options-area"}>
                 <div className={"text"}>انتخاب نوع آورده:</div>
                 <div className={"contribution-description-options"}>
-                  <div
-                      onClick={() => this._changeSelectedType("Product")}
-                      className={selectedType === "Product" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
-                    <ContributionIcon className={"option-contribution-svg"}/>
-                    <div className={"option-contribution-text"}>محصول</div>
-                  </div>
-                  <div
-                      onClick={() => this._changeSelectedType("Ability")}
-                      className={selectedType === "Ability" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
-                    <SkillIcon className="option-contribution-svg-smaller"/>
-                    <div className={"option-contribution-text"}>توانمندی</div>
-                  </div>
-                  <div
-                      onClick={() => this._changeSelectedType("Certificate")}
-                      className={selectedType === "Certificate" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
-                    <CertificateIcon className="option-contribution-svg-smaller"/>
-                    <div className={"option-contribution-text"}>تاییدیه</div>
-                  </div>
-                  <div
-                      onClick={() => this._changeSelectedType("Consultation")}
-                      className={selectedType === "Consultation" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
-                    <ConsultIcon className="option-contribution-svg-small"/>
-                    <div className={"option-contribution-text"}>مشاوره</div>
-                  </div>
-                  <div
-                      onClick={() => this._changeSelectedType("Substructure")}
-                      className={selectedType === "Substructure" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
-                    <QuestionMark width="20px" height="20px" svgClass={"option-contribution-svg"}/>
-                    <div className={"option-contribution-text"}>زیرساخت قابل اشتراک</div>
-                  </div>
+
+                  <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === "Product" ? "contribution-material-block-active" : "contribution-material-block"} content={
+                    <div onClick={() => this._changeSelectedType("Product")}
+                         className={selectedType === "Product" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
+                      <ContributionIcon className={"option-contribution-svg"}/>
+                      <div className={"option-contribution-text"}>محصول</div>
+                    </div>
+                  }/>
+
+                  <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === "Ability" ? "contribution-material-block-active" : "contribution-material-block"} content={
+                    <div
+                        onClick={() => this._changeSelectedType("Ability")}
+                        className={selectedType === "Ability" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
+                      <SkillIcon className="option-contribution-svg-smaller"/>
+                      <div className={"option-contribution-text"}>توانمندی</div>
+                    </div>
+                  }/>
+
+                  <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === "Certificate" ? "contribution-material-block-active" : "contribution-material-block"} content={
+                    <div
+                        onClick={() => this._changeSelectedType("Certificate")}
+                        className={selectedType === "Certificate" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
+                      <CertificateIcon className="option-contribution-svg-smaller"/>
+                      <div className={"option-contribution-text"}>تاییدیه</div>
+                    </div>
+                  }/>
+
+                  <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === "Consultation" ? "contribution-material-block-active" : "contribution-material-block"} content={
+                    <div
+                        onClick={() => this._changeSelectedType("Consultation")}
+                        className={selectedType === "Consultation" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
+                      <ConsultIcon className="option-contribution-svg-small"/>
+                      <div className={"option-contribution-text"}>مشاوره</div>
+                    </div>
+                  }/>
+
+                  <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === "Substructure" ? "contribution-material-block-active" : "contribution-material-block"} content={
+                    <div
+                        onClick={() => this._changeSelectedType("Substructure")}
+                        className={selectedType === "Substructure" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
+                      <QuestionMark width="20px" height="20px" svgClass={"option-contribution-svg"}/>
+                      <div className={"option-contribution-text"}>زیرساخت قابل اشتراک</div>
+                    </div>
+                  }/>
+
                 </div>
               </div>
             </div>
         )
       case "two":
-        let namesList = ["کامپیوتر", "الکترونیک", "نرم افزار", "سخت افزار", "طراحی", "انیمیشن", "احمد"]
+        let namesList = ["کامپیوتر", "الکترونیک", "نرم افزار", "سخت افزار", "طراحی", "انیمیشن"]
         return (
             <div className="contribution-product-two">
               <div className={"gray-text-input-label-container"}>
@@ -1005,6 +1021,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
   render() {
     const {activeStep, progressSteps, progressStatus, wrapperClassName, newContributionData} = this.state
     const {mainCategory = ""} = newContributionData
+    const {currentLevel} = this.state
     const {modalIsOpen} = this.props
     return (
         <div className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}>
@@ -1037,49 +1054,42 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
   }
 }
 
-const
-    mapStateToProps = (state) => {
-      const initialFormValues = getFormValues(state, "addingContributionInitialInfoForm")
-      const provinceId = initialFormValues.product_related_province ? initialFormValues.product_related_province.value : ""
-      const countryId = initialFormValues.product_related_country ? initialFormValues.product_related_country.value : ""
-      const citySelectorByProvinceId = makeCitySelectorByProvinceId()
-      const provinceSelectorByProvinceId = makeProvinceSelectorByCountryId()
-      const categorySelector = makeCategorySelector()
-      // const provinces =
-      return {
-        translator: getMessages(state),
-        categories: categorySelector(state),
-        initialInfoFormState: initialFormValues,
-        skillInfoFormValues: getFormValues(state, skillInfoFormName),
-        hashTags: hashTagsListSelector(state),
-        countries: countrySelector(state),
-        provinces: provinceSelectorByProvinceId(state, countryId),
-        cities: citySelectorByProvinceId(state, provinceId),
-        testToken: state.auth.client.token,
-        nowCreatedProductId: nowCreatedProductIdSelector(state),
-        nowCreatedSkillId: nowCreatedSkillIdSelector(state)
-      }
-    }
+const mapStateToProps = (state) => {
+  const initialFormValues = getFormValues(state, "addingContributionInitialInfoForm")
+  const provinceId = initialFormValues.product_related_province ? initialFormValues.product_related_province.value : ""
+  const countryId = initialFormValues.product_related_country ? initialFormValues.product_related_country.value : ""
+  const citySelectorByProvinceId = makeCitySelectorByProvinceId()
+  const provinceSelectorByProvinceId = makeProvinceSelectorByCountryId()
+  const categorySelector = makeCategorySelector()
 
-const
-    mapDispatchToProps = dispatch =>
-        bindActionCreators(
-            {
-              _getCategories: getCategories,
-              _getHashTags: getHashTags,
-              _createProduct: createProductAsContribution,
-              _getCountries: getCountries,
-              _getProvinces: getProvinces,
-              _getCities: getCities,
-              _changeFormSingleFieldValue: change,
-              _createSkillAction: createSkillAction
-            },
-            dispatch
-        )
+  // const provinces =
+  return {
+    translator: getMessages(state),
+    categories: categorySelector(state),
+    initialInfoFormState: initialFormValues,
+    skillInfoFormValues: getFormValues(state, skillInfoFormName),
+    hashTags: hashTagsListSelector(state),
+    countries: countrySelector(state),
+    provinces: provinceSelectorByProvinceId(state, countryId),
+    cities: citySelectorByProvinceId(state, provinceId),
+    testToken: state.auth.client.token,
+    nowCreatedProductId: nowCreatedProductIdSelector(state),
+    nowCreatedSkillId: nowCreatedSkillIdSelector(state),
+  }
+}
 
+const mapDispatchToProps = dispatch =>
+    bindActionCreators(
+        {
+          _getCategories: getCategories,
+          _getHashTags: getHashTags,
+          _createProduct: createProductAsContribution,
+          _getCountries: getCountries,
+          _getProvinces: getProvinces,
+          _getCities: getCities,
+          _changeFormSingleFieldValue: change,
+          _createSkillAction: createSkillAction
+        },
+        dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)
-
-(
-    AddingContribution
-)
+export default connect(mapStateToProps, mapDispatchToProps)(AddingContribution)

@@ -1,21 +1,22 @@
 import React, {Component} from 'react'
-import PropTypes from "prop-types"
-import AuthActions from "src/redux/actions/authActions"
-import CheckUsernameAction from "src/redux/actions/user/checkUsernameAction"
-import client from "src/consts/client"
-import {BeatLoader} from "react-spinners"
-import {bindActionCreators} from "redux"
-import {connect} from "react-redux"
-import {routerActions} from "react-router-redux"
-import {asyncValidateSignIn, validateSignInForm} from "./signInValidations"
-import {Field, reduxForm, SubmissionError} from "redux-form"
-import renderTextField from "src/views/common/inputs/reduxFormRenderTextField"
-import {getMessages} from "src/redux/selectors/translateSelector"
-import FontAwesome from "react-fontawesome";
+import PropTypes from 'prop-types'
+import AuthActions from 'src/redux/actions/authActions'
+import CheckUsernameAction from 'src/redux/actions/user/checkUsernameAction'
+import client from 'src/consts/client'
+import {BeatLoader} from 'react-spinners'
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
+import {routerActions} from 'react-router-redux'
+import {asyncValidateSignIn, validateSignInForm} from './signInValidations'
+import {Field, reduxForm, SubmissionError} from 'redux-form'
+import renderTextField from 'src/views/common/inputs/reduxFormRenderTextField'
+import {getMessages} from 'src/redux/selectors/translateSelector'
+import FontAwesome from 'react-fontawesome'
+import Material from '../../common/components/Material'
 
 class PureSignInForm extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       showPassword: false,
     }

@@ -2,10 +2,10 @@
 import * as React from "react"
 import PropTypes from "prop-types"
 import {Link} from "react-router-dom"
-
 import type {postType} from "../../../consts/flowTypes/common/post"
 import type {identityType} from "../../../consts/flowTypes/user/basicInformation"
 import checkOwner from "../CheckOwner"
+import EditIcon from "../../../images/common/edit.svg"
 
 type postFooterProps = {
   post: postType,
@@ -19,7 +19,7 @@ type postFooterProps = {
 }
 
 const PostFooter = (props: postFooterProps) => {
-  const {post, extendedView, menuToggle, openMenu, postIdentity, translate, deletePost, showComment} = props
+  const {post, extendedView, menuToggle, openMenu, postIdentity, translate, deletePost, showComment, showEdit} = props
   let viewerCount
   let postUrl = ""
   let user = {}
@@ -50,13 +50,17 @@ const PostFooter = (props: postFooterProps) => {
             {menuToggle ?
                 <div className="menu-box-post pt-0 pb-0" id='sidebar-post-menu-box'>
                   <div>
-                    {!extendedView &&
-                    <Link to={postUrl}>
-                      <span>{translate["Show more"]}</span>
-                    </Link>
+                    {
+                      !extendedView &&
+                      <Link to={postUrl}>
+                        <span>{translate["Show more"]}</span>
+                      </Link>
                     }
                     {
                       checkOwner({id: ownerId, children: <span onClick={deletePost}>{translate["Delete post"]}</span>})
+                    }
+                    {
+                      checkOwner({id: ownerId, children: <span onClick={showEdit}>{translate["Edit Post"]}</span>})
                     }
                   </div>
                 </div>

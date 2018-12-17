@@ -144,6 +144,7 @@ module.exports = {
   "Type demand": "تقاضا",
   "Send comment": "فرستادن دیدگاه",
   "Delete post": "حذف پست",
+  "Edit Post": "ویرایش پست",
 
   // user - common
   "Are you sure? Do you want delete it?": "آیا مطمئن به حذف هستید؟",
@@ -362,6 +363,10 @@ module.exports = {
   "Ratings": "دیدگاه ها و بازخورد ها",
 
   "Products": "محصولات",
+
+  // recovery password
+  'Complete the validation code': 'کد را کامل وارد کنید!',
+  'Incorrect validation code': 'کد وارد شده صحیح نمی باشد!',
 
   // TopBar
   topBar: {
