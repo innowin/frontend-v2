@@ -111,10 +111,10 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       let picture = new Image()
       picture.src = post.post_picture.file
       picture.onload = () => {
-        this.setState({pictureLoaded: true})
+        this.setState({...this.state,pictureLoaded: true})
       }
       picture.onerror = () => {
-        this.setState({pictureLoaded: false})
+        this.setState({...this.state,pictureLoaded: false})
       }
     }
     if (extendedView) {
@@ -231,11 +231,11 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   _showConfirm() {
-    this.setState({confirm: true})
+    this.setState({...this.state,confirm: true})
   }
 
   _cancelConfirm() {
-    this.setState({confirm: false})
+    this.setState({...this.state,confirm: false})
   }
 
   _delete() {
@@ -258,16 +258,16 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   handleRetry() {
-    this.setState({pictureLoaded: null}, () => {
+    this.setState({...this.state,pictureLoaded: null}, () => {
       const {post} = this.props
       if (post && post.post_picture) {
         let picture = new Image()
         picture.src = post.post_picture.file
         picture.onload = () => {
-          this.setState({pictureLoaded: true})
+          this.setState({...this.state,pictureLoaded: true})
         }
         picture.onerror = () => {
-          this.setState({pictureLoaded: false})
+          this.setState({...this.state,pictureLoaded: false})
         }
       }
     })

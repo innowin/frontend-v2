@@ -54,11 +54,11 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
   }
 
   _showCreateForm = () => {
-    this.setState({createForm: true})
+    this.setState({...this.state,createForm: true})
   };
 
   _hideCreateForm = () => {
-    this.setState({createForm: false})
+    this.setState({...this.state,createForm: false})
   };
 
   _create = (formValues) => {
