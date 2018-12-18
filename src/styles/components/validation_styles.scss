@@ -79,3 +79,21 @@
   transition-duration: $animation-timing-long;
   color: darken($error-color, 30%);
 }
+
+.no-error {
+  transition: all $animation-timing;
+  font-size: 0;
+  color: $error-color;
+  flex: 1 1 100%;
+  min-width: 200px;
+  height: 5px;
+}
+.form-error {
+  color: $error-color;
+  font-size: $font-size-regular;
+  margin-top: 5px;
+  transition: all $animation-timing;
+  flex: 1 1 100%;
+  min-width: 200px;
+  height: 17px;
+}

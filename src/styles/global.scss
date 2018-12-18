@@ -53,6 +53,9 @@ input, textarea, button, select {
 @import "components/common/inputs/radio-button-input";
 @import "components/common/inputs/select-input";
 @import "components/common/inputs/render-text-field";
+@import "components/common/inputs/tick-radio";
+@import "components/common/inputs/tick-checkbox";
+@import "components/common/edit-form-button";
 @import "components/common/label";
 @import "components/common/list-group-addons";
 @import "components/common/media";
@@ -84,6 +87,7 @@ input, textarea, button, select {
 @import "components/organization/basicInformation";
 @import "components/organization/customers";
 @import "components/organization/products";
+@import "components/user/basic-information";
 @import "components/user/certificates";
 @import "components/user/education";
 @import "components/user/skill";

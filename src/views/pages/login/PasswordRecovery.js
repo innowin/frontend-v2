@@ -218,7 +218,7 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
               <Fragment>
                 <p className='password-modal-title'>{translate['Pick a way for creating new password']}</p>
                 {recoveryPasswordObject.searchUserData.mobile &&
-                <label className="container">
+                <label className="container-checkmark">
                   <input type="radio" defaultChecked name="radio-step-1" ref={e => this.phoneChecked = e}/>
                   <span className="checkmark"/>
                   <p className='password-way-text'>

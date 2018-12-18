@@ -1,0 +1,15 @@
+.date-join-container {
+  color: $info-color;
+  display: block;
+  font-size: $font-size-13;
+  .date-value {
+    color: $primary-color;
+    font-size: $font-size-regular;
+    font-weight: bold;
+  }
+}
+
+.show-date-container {
+  position: relative;
+  font-size: $font-size-regular;
+}
