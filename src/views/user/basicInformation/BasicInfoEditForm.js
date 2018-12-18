@@ -105,7 +105,7 @@ class BasicInfoEditForm extends React.Component<PropsUserInfoEditForm> {
               </label>
             </div>
 
-            {submitFailed && <p className="error-message">{error}</p>}
+            {submitFailed && <p className="form-error error-message">{error}</p>}
 
             <EditFormButtons onCancelClick={hideEdit} translate={translate}/>
 

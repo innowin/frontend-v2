@@ -123,7 +123,7 @@ class LinkInfoEditForm extends React.Component<PropsUserInfoEditForm> {
                 nextText={constants.LINKS.LINKEDIN}
             />
 
-            {submitFailed && <p className="error-message">{error}</p>}
+            {submitFailed && <p className="form-error error-message">{error}</p>}
 
             <EditFormButtons onCancelClick={hideEdit} translate={translate}/>
           </form>

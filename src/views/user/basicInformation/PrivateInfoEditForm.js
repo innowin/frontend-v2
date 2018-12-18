@@ -133,7 +133,7 @@ class PrivateInfoEditForm extends Component<PropsPrivateInfoEditForm> {
                 tipText={translate['Mobile not shown to the others']}
             />
 
-            {submitFailed && <p className="error-message">{error}</p>}
+            {submitFailed && <p className="error-message form-error">{error}</p>}
 
             <EditFormButtons translate={translate} onCancelClick={hideEdit}/>
           </form>
