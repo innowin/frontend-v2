@@ -141,7 +141,7 @@ class CreatePost extends Component {
   }
 
   _handleFocusText = () => {
-    this.setState({...this.state, focused: true})
+    this.setState({...this.state, open: true, focused: true})
   }
 
 
@@ -191,31 +191,33 @@ class CreatePost extends Component {
   }
 
   handleEmoji = (emoji) => {
-    this.text.focus()
-    if (this.text.selectionStart) {
-      let x = this.text.selectionStart
-      let y = this.text.selectionEnd
-      this.text.value = this.text.value.substring(0, x) + emoji + this.text.value.substring(y, this.text.value.length)
-      this.text.selectionStart = parseInt(x, 10) + emoji.length
-      this.text.selectionEnd = parseInt(y, 10) + emoji.length
-    } else {
-      this.text.value += emoji
-    }
+    this.setState({...this.state, open: true},()=>{
+      this.text.focus()
+      if (this.text.selectionStart) {
+        let x = this.text.selectionStart
+        let y = this.text.selectionEnd
+        this.text.value = this.text.value.substring(0, x) + emoji + this.text.value.substring(y, this.text.value.length)
+        this.text.selectionStart = parseInt(x, 10) + emoji.length
+        this.text.selectionEnd = parseInt(y, 10) + emoji.length
+      } else {
+        this.text.value += emoji
+      }
 
-    const description = this.text.value
-    if (description.trim().length <= 1500)
-      this.setState({...this.state, description}, () => checkCharacter(description))
-    const checkCharacter = (description) => {
-      const descriptionLength = description.trim().length
-      if (descriptionLength === 0)
-        this.setState({...this.state, descriptionClass: 'hide-message'})
-      if (descriptionLength > 0 && descriptionLength < 5)
-        this.setState({...this.state, descriptionClass: 'error-message'})
-      if (descriptionLength >= 5 && descriptionLength < 1490)
-        this.setState({...this.state, descriptionClass: 'neutral-message'})
-      if (descriptionLength > 1490 && descriptionLength < 1500)
-        this.setState({...this.state, descriptionClass: 'warning-message'})
-    }
+      const description = this.text.value
+      if (description.trim().length <= 1500)
+        this.setState({...this.state, description}, () => checkCharacter(description))
+      const checkCharacter = (description) => {
+        const descriptionLength = description.trim().length
+        if (descriptionLength === 0)
+          this.setState({...this.state, descriptionClass: 'hide-message'})
+        if (descriptionLength > 0 && descriptionLength < 5)
+          this.setState({...this.state, descriptionClass: 'error-message'})
+        if (descriptionLength >= 5 && descriptionLength < 1490)
+          this.setState({...this.state, descriptionClass: 'neutral-message'})
+        if (descriptionLength > 1490 && descriptionLength < 1500)
+          this.setState({...this.state, descriptionClass: 'warning-message'})
+      }
+    })
   }
 
   _handleBlurText = (e) => {
@@ -411,13 +413,13 @@ class CreatePost extends Component {
     const hasMediaClass = (postMedia || (postPictures.length > 0)) ? 'hasMedia' : ''
     return (
         <form className={'post-component-container ' + className} onSubmit={this._onSubmit}>
-          <div className='post-component-header'>
-            <div>
-              {currentUserMedia && profileLoaded ?
-                  <img alt='profile' src={currentUserMedia} className='post-component-header-img'/>
-                  :
-                  <DefaultUserIcon className='post-component-header-img'/>
-              }
+          <div className={open ? 'post-component-header' : 'post-component-header-hide'}>
+            {currentUserMedia && profileLoaded ?
+                <img alt='profile' src={currentUserMedia} className='post-component-header-img'/>
+                :
+                <DefaultUserIcon className='post-component-header-img'/>
+            }
+            <div className={open ? 'post-not-collapse-username' : 'post-collapse-username'}>
               {currentUserName}
             </div>
             <div className='post-component-header-item'>
@@ -478,7 +480,7 @@ class CreatePost extends Component {
           <ProductInfoView translate={translate} product={selectedProduct} ownerId={currentUserId}/>
           }
 
-          <div className='post-component-footer'>
+          <div className={open ? 'post-component-footer' : 'post-component-footer-hide'}>
 
             <ContactMenuIcon className="post-component-footer-contact-menu-icon" onClickFunc={this.handleContact}/>
             <div className='post-component-footer-items-style-cont'>
