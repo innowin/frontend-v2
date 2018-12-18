@@ -212,6 +212,9 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
                 {recoveryError === constants.ERRORS.USER_SEARCH.NOT_FOUND &&
                 <span className="not-found-user-error error-message mt-2">{translate['User Not Found']}</span>
                 }
+                {userIdentifierInputValue === '' &&
+                <span className="not-found-user-error error-message mt-2">{translate['Fill required fields']}</span>
+                }
               </Fragment>
               }
               {step === 1 &&
@@ -227,7 +230,7 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
                 </label>
                 }
                 {recoveryPasswordObject.searchUserData.email &&
-                <label className="container">
+                <label className="container-checkmark">
                   <input type="radio" name="radio-step-1" ref={e => this.emailChecked = e}/>
                   <span className="checkmark"/>
                   <p className='password-way-text'>{translate['Send recovery link to'] +
@@ -266,7 +269,8 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
                        onChange={this._changeActiveCodeInput}
                 />
                 {activationCodeInput.length !== 5 &&
-                <span className="validation-code-error error-message mt-2">{translate['Complete the validation code']}</span>}
+                <span
+                    className="validation-code-error error-message mt-2">{translate['Complete the validation code']}</span>}
                 {recoveryPasswordObject.error && <span
                     className="validation-code-error error-message mt-2">{translate['Incorrect validation code']}</span>}
               </Fragment>
@@ -306,7 +310,8 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
               }
             </div>
             <div className='password-modal-footer'>
-              <button className='common-modal-button search-button' disabled={recoveryIsLoading}
+              <button className='common-modal-button search-button'
+                      disabled={recoveryIsLoading || (step === 0 && userIdentifierInputValue === '')}
                       onClick={this._onSuccess}>
                 {step === 0 &&
                 translate['search']
