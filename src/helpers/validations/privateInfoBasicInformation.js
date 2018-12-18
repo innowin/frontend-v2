@@ -36,8 +36,21 @@ const validateAuthMobile = (authMobile, translate) => {
 
 const privateInfoBasicInformation = (values, {translate}) => {
   const errors = {}
-
+  const requiredFields = ['email']
   const {email, nationalCode, day, month, year, authMobile} = values
+
+  let requiredErrors = []
+  requiredFields.forEach(field => {
+    if (!values[field]) {
+      // errors[field] = true
+      errors[field] = translate['Fill required fields']
+      requiredErrors.push(true)
+    } else {
+      requiredErrors.push(false)
+    }
+    (requiredErrors.includes(true)) ? (errors._error = translate['Fill required fields']) : (errors._error = "")
+  })
+
   if (email) errors.email = validateEmail(email, translate)
   if (nationalCode) errors.nationalCode = validateNationalCode(nationalCode, translate)
   if (day) errors.day = validateDay(day, translate)

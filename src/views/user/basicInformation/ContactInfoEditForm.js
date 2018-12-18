@@ -140,7 +140,7 @@ class ContactInfoEditForm extends Component<PropsContactInfoEditForm> {
                 tipText={translate['This email is for public view']}
             />
 
-            {submitFailed && <p className="error-message">{error}</p>}
+            {submitFailed && <p className="form-error error-message">{error}</p>}
 
             <EditFormButtons onCancelClick={hideEdit} translate={translate}/>
 
