@@ -61,6 +61,7 @@ type postViewState = {
   confirm: boolean,
   pictureLoaded: null | boolean,
   showComment: boolean,
+  commentOn: commentType,
 }
 
 class PostView extends React.Component<postExtendedViewProps, postViewState> {
@@ -85,10 +86,11 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       menuToggle: false,
       confirm: false,
       pictureLoaded: null,
-      showComment: false
+      showComment: false,
+      commentOn: undefined,
     }
 
-    const self : any = this
+    const self: any = this
 
     self.commentTextField = null
     self.handleRetry = this.handleRetry.bind(this)
@@ -101,7 +103,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   componentDidMount() {
-    const self : any = this
+    const self: any = this
 
     const {extendedView, post, actions} = this.props
     if (post && post.post_picture) {
@@ -130,8 +132,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       getPost({postId, postOwnerType, postOwnerId})
       // setPostViewer(postId, getPostViewerCount)
       getCommentsByParentId({parentId: postId, commentParentType: constants.COMMENT_PARENT.POST})
-    }
-    else {
+    } else {
       this._getViewerCount()
     }
 
@@ -155,17 +156,13 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
               self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, "g"), `<a target=_blank href=` + word + `>${word}</a>`)
               :
               self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, "g"), `<a target=_blank href=http://` + word + `>${word}</a>`)
-        }
-        else if (word[0] === "@" && word.length >= 6 && !word.substring(1, word.length).includes("@")) {
+        } else if (word[0] === "@" && word.length >= 6 && !word.substring(1, word.length).includes("@")) {
           self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, "g"), `<a href=` + word.slice(1, word.length) + `>${word}</a>`)
-        }
-        else if (word[0] === "#" && word.length >= 3 && !word.substring(1, word.length).includes("#")) {
+        } else if (word[0] === "#" && word.length >= 3 && !word.substring(1, word.length).includes("#")) {
           self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, "g"), `<a href=` + word + `>${word}</a>`)
-        }
-        else if (mailExp.test(word)) {
+        } else if (mailExp.test(word)) {
           self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, "g"), `<a href=mailto:` + word + `>${word}</a>`)
-        }
-        else if (!isNaN(word.replace(/\\+/g, "")) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
+        } else if (!isNaN(word.replace(/\\+/g, "")) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
           word.includes("+") ?
               self.text.innerHTML = self.text.innerHTML.replace(new RegExp(`\\${word}`, "g"), `<a href=tel:` + word + `>${word}</a>`)
               :
@@ -200,7 +197,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
   handleShowComment = () => {
     let {showComment} = this.state
-    this.setState({...this.state, showComment: !showComment})
+    this.setState({...this.state, showComment: !showComment, commentOn: undefined})
   }
 
   _handleClickOutMenuBox(e: any) {
@@ -226,13 +223,8 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     }
   }
 
-  replyComment = (comment, commentTextField) => {
-    if (commentTextField && commentTextField.value) {
-      const {actions, post, commentParentType} = this.props
-      const {createComment} = actions
-      const formValues = {text: commentTextField.value, comment_parent: post.id, comment_replied: comment.id}
-      createComment({formValues, parentId: post.id, commentParentType})
-    }
+  _setCommentOn = (comment) => {
+    this.setState({...this.state, commentOn: comment, showComment: true})
   }
 
   _showConfirm() {
@@ -279,9 +271,9 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   render() {
-    const self : any = this
+    const self: any = this
     const {post, translate, postIdentity, postRelatedIdentityImage, userImage, extendedView, showEdit, comments, fileList, commentParentType} = this.props
-    const {menuToggle, confirm, pictureLoaded, showComment} = this.state
+    const {menuToggle, confirm, pictureLoaded, showComment, commentOn} = this.state
     let postDescription, postPicture, postPictureId, postIdentityUserId, postIdentityOrganId, postOwnerId = 0
     if (post) {
       postDescription = post.post_description
@@ -380,12 +372,14 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                 {
                   showComment ? <PostCommentNew
                       commentParentType={commentParentType}
-                      post={post}/> : null
+                      post={post}
+                      handleShowComment={this.handleShowComment}
+                      commentOn={commentOn}/> : null
                 }
 
                 {extendedView && comments && comments.length > 0 &&
                 <PostComments comments={comments} translate={translate}
-                              replyComment={(comment) => this.replyComment(comment, this.commentTextField)}
+                              replyComment={(comment) => this._setCommentOn(comment)}
                               deleteComment={this.deleteComment}/>
                 }
               </div>
@@ -416,8 +410,7 @@ const mapStateToProps = (state, ownProps) => {
       comments: userCommentsSelector(state, ownProps),
       fileList: state.common.file.list,
     }
-  }
-  else {
+  } else {
     const {post} = ownProps
     const postIdentity = post && post.post_identity
     const prevUserImageId = (state.auth.organization && state.auth.organization.organization_logo) || state.auth.client.profile.profile_media
