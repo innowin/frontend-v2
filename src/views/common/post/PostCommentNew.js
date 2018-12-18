@@ -6,6 +6,7 @@ import {bindActionCreators} from "redux"
 import {Component} from "react"
 import {connect} from "react-redux"
 import {getMessages} from "src/redux/selectors/translateSelector"
+import type {commentType} from "../../../consts/flowTypes/common/comment";
 
 type props = {
   actions: any,
@@ -13,6 +14,8 @@ type props = {
   currentUserMedia: ?number,
   post: { id: number },
   translate: { [string]: string },
+  handleShowComment: Function,
+  commentOn: commentType,
 }
 
 type states = {
@@ -35,15 +38,23 @@ class PostCommentNew extends Component<props, states> {
     self._handleChangeText = self._handleChangeText.bind(self)
   }
 
-  createComment(commentTextField) {
+  createComment(commentOn, commentTextField) {
+    const {handleShowComment} = this.props
     if (commentTextField && commentTextField.value && commentTextField.value.length > 4 && commentTextField.value.length <= 750) {
       const {actions, post, commentParentType} = this.props
       const {createComment} = actions
-      const formValues = {text: commentTextField.value, comment_parent: post.id}
-      createComment({formValues, parentId: post.id, commentParentType})
+      let formValues
+      if (commentOn) {
+        formValues = {text: commentTextField.value, comment_parent: post.id, comment_replied: commentOn.id}
+      }
+      else {
+        formValues = {text: commentTextField.value, comment_parent: post.id}
+      }
       commentTextField.value = ""
+      createComment({formValues, parentId: post.id, commentParentType})
     }
     else console.log("Handle Notification for Illegal Comment")
+    handleShowComment()
   }
 
   _handleChangeText(e) {
@@ -69,7 +80,7 @@ class PostCommentNew extends Component<props, states> {
 
   render() {
     const {commentBody, open, descriptionClass, comment} = this.state
-    const {currentUserMedia, translate} = this.props
+    const {currentUserMedia, translate, commentOn} = this.props
     const self: any = this
     // console.log(currentUserMedia)
     return (
@@ -113,7 +124,7 @@ class PostCommentNew extends Component<props, states> {
                   <span onClick={() => console.log("Handle Show Menu")}>
                     <AttachFileIcon className='post-component-footer-send-attach'/>
                   </span>
-              <span onClick={this.createComment.bind(this, self.text)}>
+              <span onClick={this.createComment.bind(this, commentOn, self.text)}>
                   <PostSendIcon className={comment.length > 4 ? "post-component-footer-send-attach" : "post-component-footer-send-attach-inactive"}/>
                 </span>
             </div>

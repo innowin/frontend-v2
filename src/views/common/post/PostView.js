@@ -61,6 +61,7 @@ type postViewState = {
   confirm: boolean,
   pictureLoaded: null | boolean,
   showComment: boolean,
+  commentOn: commentType,
 }
 
 class PostView extends React.Component<postExtendedViewProps, postViewState> {
@@ -85,7 +86,8 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       menuToggle: false,
       confirm: false,
       pictureLoaded: null,
-      showComment: false
+      showComment: false,
+      commentOn: undefined,
     }
 
     const self: any = this
@@ -111,10 +113,10 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       let picture = new Image()
       picture.src = post.post_picture.file
       picture.onload = () => {
-        this.setState({...this.state,pictureLoaded: true})
+        this.setState({...this.state, pictureLoaded: true})
       }
       picture.onerror = () => {
-        this.setState({...this.state,pictureLoaded: false})
+        this.setState({...this.state, pictureLoaded: false})
       }
     }
     if (extendedView) {
@@ -195,7 +197,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
   _handleShowComment = () => {
     let {showComment} = this.state
-    this.setState({...this.state, showComment: !showComment})
+    this.setState({...this.state, showComment: !showComment, commentOn: undefined})
   }
 
   _handleClickOutMenuBox(e: any) {
@@ -221,21 +223,16 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     }
   }
 
-  replyComment = (comment, commentTextField) => {
-    if (commentTextField && commentTextField.value) {
-      const {actions, post, commentParentType} = this.props
-      const {createComment} = actions
-      const formValues = {text: commentTextField.value, comment_parent: post.id, comment_replied: comment.id}
-      createComment({formValues, parentId: post.id, commentParentType})
-    }
+  _setCommentOn = (comment) => {
+    this.setState({...this.state, commentOn: comment, showComment: true})
   }
 
   _showConfirm() {
-    this.setState({...this.state,confirm: true})
+    this.setState({...this.state, confirm: true})
   }
 
   _cancelConfirm() {
-    this.setState({...this.state,confirm: false})
+    this.setState({...this.state, confirm: false})
   }
 
   _delete() {
@@ -258,16 +255,16 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   handleRetry() {
-    this.setState({...this.state,pictureLoaded: null}, () => {
+    this.setState({...this.state, pictureLoaded: null}, () => {
       const {post} = this.props
       if (post && post.post_picture) {
         let picture = new Image()
         picture.src = post.post_picture.file
         picture.onload = () => {
-          this.setState({...this.state,pictureLoaded: true})
+          this.setState({...this.state, pictureLoaded: true})
         }
         picture.onerror = () => {
-          this.setState({...this.state,pictureLoaded: false})
+          this.setState({...this.state, pictureLoaded: false})
         }
       }
     })
@@ -276,7 +273,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   render() {
     const self: any = this
     const {post, translate, postIdentity, postRelatedIdentityImage, userImage, extendedView, showEdit, comments, fileList, commentParentType} = this.props
-    const {menuToggle, confirm, pictureLoaded, showComment} = this.state
+    const {menuToggle, confirm, pictureLoaded, showComment, commentOn} = this.state
     let postDescription, postPicture, postPictureId, postIdentityUserId, postIdentityOrganId, postOwnerId = 0
     if (post) {
       postDescription = post.post_description
@@ -311,7 +308,9 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                 <PostHeader post={post} translate={translate} postIdentity={postIdentity}
                             postRelatedIdentityImage={postRelatedIdentityImage} showEdit={showEdit}
                             extendedView={extendedView}/>
-                <div className="post-content" style={new RegExp('^[A-Za-z]*$').test(postDescription[0]) ? {direction: 'ltr'} : {direction: 'rtl'}} ref={e => self.text = e}>
+                <div className="post-content"
+                     style={new RegExp('^[A-Za-z]*$').test(postDescription[0]) ? {direction: 'ltr'} : {direction: 'rtl'}}
+                     ref={e => self.text = e}>
                   {postDescription}
                 </div>
 
@@ -376,16 +375,16 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                 {
                   showComment ? <PostCommentNew
                       commentParentType={commentParentType}
-                      post={post}/> : null
+                      post={post}
+                      handleShowComment={this._handleShowComment}
+                      commentOn={commentOn}/> : null
                 }
 
-{/*
                 {extendedView && comments && comments.length > 0 &&
                 <PostComments comments={comments} translate={translate}
-                              replyComment={(comment) => this.replyComment(comment, this.commentTextField)}
+                              replyComment={(comment) => this._setCommentOn(comment)}
                               deleteComment={this.deleteComment}/>
                 }
-*/}
               </div>
             </VerifyWrapper>
             : ''
