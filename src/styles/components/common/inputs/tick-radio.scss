@@ -1,5 +1,7 @@
 .container-checkmark {
   cursor: pointer;
+  position: relative;
+  display: block;
 
   /* Hide the browser's default radio button */
   input {
