@@ -1,3 +1,5 @@
+@import "../../variables";
+
 .redux-form-date-container{
   margin: 15px 0;
   width: 100%;
@@ -16,6 +18,29 @@
     }
     .date-part-container:last-child{
       margin-left: 0
+    }
+  }
+}
+
+.redux-form-date-container-m {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+
+  .redux-form-date-parts-container {
+    flex: 0 1 47%;
+    min-width: 200px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+
+    .select-field-m {
+      flex: 0 1 30%;
+      border: 0 solid red;
+      outline: 0;
+      border-bottom: 1.5px solid $text-light-color;
+      font-size: $font-size-regular;
+      max-width: 100px;
     }
   }
 }

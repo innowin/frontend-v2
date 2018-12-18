@@ -9,7 +9,7 @@ const validateAddress = (address, translate) => {
   }
 }
 const validatePhone = (phone, translate) => {
-  if (!/^\+[0-9]{12}$/.test(phone)) {
+  if (!/^\d{11}$/.test(phone)) {
     return translate['Phone number is wrong']
   }
 }

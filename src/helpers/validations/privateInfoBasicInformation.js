@@ -28,15 +28,22 @@ const validateNationalCode = (nationalCode, translate) => {
   }
 }
 
+const validateAuthMobile = (authMobile, translate) => {
+  if (!/^[0-9]{11}$/.test(authMobile)) {
+    return translate['Phone number is wrong']
+  }
+}
+
 const privateInfoBasicInformation = (values, {translate}) => {
   const errors = {}
 
-  const {email, nationalCode, day, month, year} = values
+  const {email, nationalCode, day, month, year, authMobile} = values
   if (email) errors.email = validateEmail(email, translate)
   if (nationalCode) errors.nationalCode = validateNationalCode(nationalCode, translate)
   if (day) errors.day = validateDay(day, translate)
   if (month) errors.month = validateMonth(month, translate)
   if (year) errors.year = validateYear(year, translate)
+  if (year) errors.authMobile = validateAuthMobile(authMobile, translate)
 
   return errors
 }
