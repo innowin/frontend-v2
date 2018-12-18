@@ -193,26 +193,6 @@
   }
 }
 
-::-webkit-scrollbar {
-  width: $scroll-bar-width;
-}
-
-::-webkit-scrollbar-track {
-  background-color: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: $image-edit-btn-background;
-  border-radius: 10px;
-  transition: all .3s ease-out;
-  box-shadow: inset 1px 0 5px -1px $primary-color;
-
-  &:hover{
-    background: $scroll-color-hover;
-    box-shadow: inset 1px 0 5px -1px $primary-color;
-  }
-}
-
 .default-image {
   position: absolute;
   opacity: 0.5;
