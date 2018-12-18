@@ -198,13 +198,18 @@
 }
 
 ::-webkit-scrollbar-track {
-  background-color: $primary-color-light4;
+  background-color: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: $primary-color;
+  background: $image-edit-btn-background;
+  border-radius: 10px;
+  transition: all .3s ease-out;
+  box-shadow: inset 1px 0 5px -1px $primary-color;
+
   &:hover{
-    background: $primary-color-light1;
+    background: $scroll-color-hover;
+    box-shadow: inset 1px 0 5px -1px $primary-color;
   }
 }
 
