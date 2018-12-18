@@ -25,7 +25,7 @@ const createSocketChannel = (resultName) => {
         return;
       }
       if (res.data) {
-        if (res.data.results && res.data.count) {
+        if (res.data.results && res.data.count >= 0) {
           emit(res.data.results)
           return;
         }
