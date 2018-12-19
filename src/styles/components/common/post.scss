@@ -306,22 +306,24 @@
 
 /* -------------------------------   post footer -------------------------*/
 .post-component-footer {
-  margin-top: 8px;
+  margin-top: 10px;
   position: relative;
-  padding-top: 8px;
+  padding-top: 6px;
   height: 42px;
   overflow: visible;
   opacity: 1;
-  transition: opacity 0.7s linear 0.5s, padding-top 0.7s linear 0.2s, height 0.7s linear 0.2s, margin-top 0.7s linear 0.2s;
+  transition: height 0.7s linear 0.2s, margin-top 0.7s linear 0.2s, padding-top 0.7s linear 0.2s, opacity 0.7s linear 0.5s;
+  //text-align: left;
 }
 
 .post-component-footer-hide {
   position: relative;
   height: 0;
   overflow: hidden;
-  padding-top: 8px;
+  padding-top: 6px;
   opacity: 0;
   transition-duration: 0.5s;
+  //text-align: left;
 }
 
 // post-component-footer-items
@@ -334,7 +336,6 @@
   border: none;
   padding: 1px 10px;
   margin: 3px 2px;
-  vertical-align: top;
 }
 
 .post-component-footer-items-style-hide {
@@ -369,18 +370,14 @@
   font-size: 11px;
 }
 
-.post-component-footer-items-style-cont {
-  display: inline-block;
-  width: calc(100% - 38px);
-}
-
 // post-component-footer-send
 .post-component-footer-send {
-  float: left;
   display: inline-block;
   vertical-align: top;
-  margin: 0px 0 8px 0;
+  margin: 0 0 8px 0;
   position: relative;
+  float: left;
+  width: 115px;
 }
 
 .post-component-footer-send-btn {
@@ -570,11 +567,11 @@
 }
 
 .post-component-footer-contact-menu-icon {
-  float: right;
   width: 20px;
   height: 20px;
   cursor: pointer;
   margin: 3px 8px 0 8px;
+  vertical-align: top;
 
   path {
     fill: #72CCBF

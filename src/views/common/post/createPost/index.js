@@ -485,64 +485,60 @@ class CreatePost extends Component {
 
           <div className={open ? 'post-component-footer' : 'post-component-footer-hide'}>
 
-            <ContactMenuIcon className="post-component-footer-contact-menu-icon" onClickFunc={this.handleContact}/>
-            <div className='post-component-footer-items-style-cont'>
+            {/*<ContactMenuIcon className="post-component-footer-contact-menu-icon" onClickFunc={this.handleContact}/>*/}
 
-              {
-                Object.values(labels).map(label =>
-                    <div className='post-component-footer-items-style'>
-                      <div className='post-component-footer-items-style-text'>{label}</div>
-                      <div className='post-component-footer-items-style-close'
-                           onClick={() => this._handleLabel(label)}>✕
-                      </div>
-                    </div>
-                )
-              }
-              <div className='post-component-footer-items-style-hide'>
-                <div className='post-component-footer-items-style-text'><span> </span></div>
+            {/*{*/}
+              {/*Object.values(labels).map(label =>*/}
+                  {/*<div className='post-component-footer-items-style'>*/}
+                    {/*<div className='post-component-footer-items-style-text'>{label}</div>*/}
+                    {/*<div className='post-component-footer-items-style-close'*/}
+                         {/*onClick={() => this._handleLabel(label)}>✕*/}
+                    {/*</div>*/}
+                  {/*</div>*/}
+              {/*)*/}
+            {/*}*/}
+
+            <div className='post-component-footer-send'>
+              <div className='post-component-footer-link' ref={e => this.link = e}>{link}</div>
+              <div style={{display: 'inline-block'}} onClick={this.handleAttach}>
+                <AttachFileIcon className='post-component-footer-send-attach'/>
               </div>
+              <button type="submit"
+                      className={description.length > 4 ? 'post-component-footer-send-btn' : 'post-component-footer-send-btn-inactive'}>ارسال
+              </button>
 
-              <div className='post-component-footer-send'>
-
-                <div className='post-component-footer-link' ref={e => this.link = e}>{link}</div>
-
-                <div style={{display: 'inline-block'}} onClick={this.handleAttach}>
-                  <AttachFileIcon className='post-component-footer-send-attach'/>
-                </div>
-                <button type="submit"
-                        className={description.length > 4 ? 'post-component-footer-send-btn' : 'post-component-footer-send-btn-inactive'}>ارسال
-                </button>
-                <AttachMenu
-                    attachMenu={attachMenu}
-                    handleFile={fileString =>
-                        this.setState({...this.state, attachMenu: false, postFile: fileString})
-                    }
-                    handleMedia={fileString =>
-                        this.setState({...this.state, attachMenu: false, postMedia: fileString})
-                    }
-                    handlePictures={fileString =>
-                        this.setState({...this.state, attachMenu: false, postPictures: [...postPictures, fileString]})
-                    }
-                    postPicturesLength={postPictures.length}
-                    postMediaExist={Boolean(postMedia)}
-                    postFileExist={Boolean(postFile)}
-                    postLinkExist={Boolean(link)}
-                    linkModalFunc={this._linkModalFunc}
-                    addProductModalFunc={this._addProductModalFunc}
-                    AttachMenuId="create-post-attach-menu-box"
-                    translate={translate}
-                />
-              </div>
-              <ContactMenu
-                  ref={e => this.setWrapperSecondRef = (e ? e.contactMenuRef : e)}
-                  contactMenu={contactMenu}
-                  labels={labels}
-                  followers={followers}
-                  exchanges={exchanges}
-                  currentUserIdentity={currentUserIdentity}
-                  handleLabel={this._handleLabel}
+              <AttachMenu
+                  attachMenu={attachMenu}
+                  handleFile={fileString =>
+                      this.setState({...this.state, attachMenu: false, postFile: fileString})
+                  }
+                  handleMedia={fileString =>
+                      this.setState({...this.state, attachMenu: false, postMedia: fileString})
+                  }
+                  handlePictures={fileString =>
+                      this.setState({...this.state, attachMenu: false, postPictures: [...postPictures, fileString]})
+                  }
+                  postPicturesLength={postPictures.length}
+                  postMediaExist={Boolean(postMedia)}
+                  postFileExist={Boolean(postFile)}
+                  postLinkExist={Boolean(link)}
+                  linkModalFunc={this._linkModalFunc}
+                  addProductModalFunc={this._addProductModalFunc}
+                  AttachMenuId="create-post-attach-menu-box"
+                  translate={translate}
               />
             </div>
+
+            <ContactMenu
+                ref={e => this.setWrapperSecondRef = (e ? e.contactMenuRef : e)}
+                contactMenu={contactMenu}
+                labels={labels}
+                followers={followers}
+                exchanges={exchanges}
+                currentUserIdentity={currentUserIdentity}
+                handleLabel={this._handleLabel}
+            />
+
           </div>
           <LinkModal
               ref={e => this.setWrapperThirdRef = e ? e.linkModalRef : e}

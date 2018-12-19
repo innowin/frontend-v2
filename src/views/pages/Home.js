@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import AddingContribution from "./adding-contribution/addingContribution"
+import AddingContribution from './adding-contribution/addingContribution'
 import ChatBar from '../bars/ChatBar'
 import constants from 'src/consts/constants'
 import HomePosts from './home/HomePosts'
@@ -10,6 +10,9 @@ import UserDetailPanel from '../common/components/UserDetailPanel'
 import {Component} from 'react'
 import {connect} from 'react-redux'
 import {getMessages} from 'src/redux/selectors/translateSelector'
+import CloseIcon from '../../images/common/close_icon_svg'
+import {BeeBackground} from '../../images/icons'
+import BeePanel from '../common/components/BeePanel'
 // import {Helmet} from "react-helmet"
 
 type HomeProps = {|
@@ -79,7 +82,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
               }
               <HomePosts exchangeId={activeExchangeId} className="col-6 post-wrapper"/>
               <div className="col-3 pl-0 pr-0 user-detail-wrapper">
-
+                <BeePanel/>
               </div>
             </div>
             <ChatBar className="pr-0 pl-0 -left-sidebar-wrapper"/>
