@@ -4,19 +4,30 @@ import PropTypes from "prop-types"
 import {connect} from "react-redux"
 
 import {CategoryTitle, FrameCard, ListGroup} from "../../common/cards/Frames"
-import {getMessages} from "../../../redux/selectors/translateSelector"
+import {getMessages} from "src/redux/selectors/translateSelector"
 import CustomerInfoContainer from "./CustomerContainer";
 import {bindActionCreators} from "redux";
-import CustomerActions from "../../../redux/actions/organization/customerActions";
+import CustomerActions from "src/redux/actions/organization/customerActions";
 import CustomerInfoCreateForm from "./CustomerInfoCreateForm";
 import CheckOwner from "../../common/CheckOwner";
+import FileActions from "src/redux/actions/commonActions/fileActions";
+import getCustomersSelector from "src/redux/selectors/organization/organGetCustomersSelector";
+import type {CustomerType} from "src/consts/flowTypes/organization/customer";
+
 
 type PropsCustomers = {
   organizationId: number,
   translate: { [string]: string },
   actions: {
     createOrgCustomer: Function,
-  }
+    createFile: Function,
+    getCustomersByOrganizationId: Function,
+    updateOrgCustomer: Function,
+    deleteOrgCustomer: Function,
+  },
+  customers: (CustomerType)[],
+  customerObjectIsLoading: boolean,
+  customerObjectError: {} | string | null,
 }
 type StatesCustomer = {
   customerCreateForm: boolean,
@@ -39,71 +50,86 @@ class Customers extends React.Component<PropsCustomers, StatesCustomer> {
     this.setState({customerCreateForm: false})
   }
 
-  _createCustomer = ({formValues}) => {
+
+  componentDidMount() {
     const {actions, organizationId} = this.props
-    const {createOrgCustomer} = actions
-    const generatedFormValues = {
-      customer_organization: organizationId,
-      customer_picture: 1,
-      related_customer: 1, ...formValues
-    }
-    createOrgCustomer({organizationId, formValues: generatedFormValues})
+    const {getCustomersByOrganizationId} = actions
+    getCustomersByOrganizationId({organizationId})
   }
 
   render() {
-    const {translate, organizationId} = this.props
+    const {translate, organizationId, actions, customers, customerObjectError, customerObjectIsLoading} = this.props
+    const {createFile, createOrgCustomer, updateOrgCustomer, deleteOrgCustomer} = actions
     const {customerCreateForm} = this.state
 
     return (
-        <div>
-          <CategoryTitle
-              title={translate['Customers']}
-          />
-          <CheckOwner id={organizationId}>
-            {!(customerCreateForm) &&
-            <div className='customer-add-container'>
-              <button className='customer-add-button pulse'
-                      onClick={this._showCustomerCreateForm}>{`${translate['Add']} ${translate['Customer']}`}</button>
-            </div>
-            }
-            {customerCreateForm &&
-            <FrameCard className='customer-tab'>
-              <ListGroup>
-                <div className='customer-create-container'>
-                  <p className='customer-create-header'>{translate['Customer']}</p>
-                  <CustomerInfoCreateForm hideEdit={this._hideCustomerCreateForm} create={this._createCustomer}
-                                          translate={translate}
-                                          organizationId={organizationId}/>
-
-                </div>
-              </ListGroup>
-            </FrameCard>
-            }
-          </CheckOwner>
-          <FrameCard>
+      <div>
+        <CategoryTitle
+          title={translate['Customers']}
+        />
+        <CheckOwner id={organizationId}>
+          {!(customerCreateForm) &&
+          <div className='customer-add-container'>
+            <button className='customer-add-button pulse'
+                    onClick={this._showCustomerCreateForm}>{`${translate['Add']} ${translate['Customer']}`}</button>
+          </div>
+          }
+          {customerCreateForm &&
+          <FrameCard className='customer-tab'>
             <ListGroup>
-              <CustomerInfoContainer
-                  organizationId={organizationId}
+                <p className='customer-create-header'>{translate['Customer']}</p>
+                <CustomerInfoCreateForm
+                  hideEdit={this._hideCustomerCreateForm}
+                  createOrgCustomer={createOrgCustomer}
                   translate={translate}
-              />
+                  organizationId={organizationId}
+                  createFile={createFile}
+                />
             </ListGroup>
           </FrameCard>
-        </div>
+          }
+        </CheckOwner>
+        <FrameCard>
+          <ListGroup>
+            <CustomerInfoContainer
+              organizationId={organizationId}
+              translate={translate}
+              updateOrgCustomer={updateOrgCustomer}
+              deleteOrgCustomer={deleteOrgCustomer}
+              customers={customers}
+              error={customerObjectError}
+              isLoading={customerObjectIsLoading}
+            />
+          </ListGroup>
+        </FrameCard>
+      </div>
     )
   }
 }
 
 Customers.propTypes = {
   organizationId: PropTypes.number.isRequired,
-  translate: PropTypes.object.isRequired,
 }
-const mapStateToProps = state => ({
-  translate: getMessages(state)
-})
+
+const mapStateToProps = (state, ownProps) => {
+  const {organizationId} = ownProps
+  const defaultObject = {content: [], isLoading: false, error: null}
+  const customerObject = (state.organs[organizationId] && state.organs[organizationId].customers) || defaultObject
+  return {
+    customers: getCustomersSelector(state, ownProps),
+    customerObjectIsLoading: customerObject.isLoading,
+    customerObjectError: customerObject.error,
+    translate: getMessages(state)
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
+    createFile: FileActions.createFile,
+    getCustomersByOrganizationId: CustomerActions.getCustomersByOrganizationId,
     createOrgCustomer: CustomerActions.createOrgCustomer,
+    updateOrgCustomer: CustomerActions.updateOrgCustomer,
+    deleteOrgCustomer: CustomerActions.deleteOrgCustomer,
   }, dispatch)
 })
 
