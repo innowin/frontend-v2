@@ -134,7 +134,72 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       selectedCatLvlOne: "",
       selectedCatLvlTwo: "",
       selectedCatLvlThree: "",
-      priceType: "معین"
+      priceType: "معین",
+      productFeatures: [
+        {
+          id: 1,
+          title: "",
+          amount: "",
+          filled: false,
+          order: "order-1",
+        },
+        {
+          id: 2,
+          title: "",
+          amount: "",
+          filled: false,
+          order: "order-2",
+        },
+        {
+          id: 3,
+          title: "",
+          amount: "",
+          filled: false,
+          order: "order-3",
+        },
+        {
+          id: 4,
+          title: "",
+          amount: "",
+          filled: false,
+          order: "order-4",
+        },
+        {
+          id: 5,
+          title: "",
+          amount: "",
+          filled: false,
+          order: "order-5",
+        },
+        {
+          id: 6,
+          title: "",
+          amount: "",
+          filled: false,
+          order: "order-6",
+        },
+        {
+          id: 7,
+          title: "",
+          amount: "",
+          filled: false,
+          order: "order-7",
+        },
+        {
+          id: 8,
+          title: "",
+          amount: "",
+          filled: false,
+          order: "order-8",
+        },
+        {
+          id: 9,
+          title: "",
+          amount: "",
+          filled: false,
+          order: "order-9",
+        },
+      ],
     }
 
     const self: any = this
@@ -818,7 +883,8 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       selectedCatLvlTwo,
       selectedCatLvlThree,
       inteliMenu,
-      priceType
+      priceType,
+      productFeatures,
     } = this.state
     switch (currentLevel) {
       case "one":
@@ -937,15 +1003,24 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
         return (
             <div className="contribution-product-two">
 
-              <div>
-                <div>
+              {
+                productFeatures.map((p, k) =>
+                    <div className={"product-features-frame-container"} key={k}>
+                      <input
+                          type={"text"} className={productFeatures[k].filled ? "product-features-frame-filled" : "product-features-frame"}
+                          placeholder={productFeatures[k - 1] ? productFeatures[k - 1].filled ? "عنوان ویژگی" : "" : "عنوان ویژگی (مثلا اندازه قطر داخلی)"}
+                          disabled={productFeatures[k - 1] ? !productFeatures[k - 1].filled : false}>
 
-                </div>
-                <div>
+                      </input>
+                      <input
+                          type={"text"} className={"product-features-frame"}
+                          placeholder={productFeatures[k - 1] ? productFeatures[k - 1].filled ? "مقدار ویژگی" : "" : "مقدار ویژگی (مثلا 110 میلی متر)"}
+                          disabled={productFeatures[k - 1] ? !productFeatures[k - 1].filled : false}>
 
-                </div>
-              </div>
-
+                      </input>
+                    </div>
+                )
+              }
             </div>
         )
       case "four":
@@ -1027,19 +1102,15 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     const {modalIsOpen} = this.props
     return (
         <div
-            // className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}
+            className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}
         >
-
-{/*
           {this.renderProgressBar()}
 
           {this.renderCurrentLevel()}
 
           {this.renderFooter()}
-*/}
-
-
-          <Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>
+          {/*
+           <Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>
            <ModalBody className="adding-contribution-wrapper">
            <FontAwesome name="times" size="2x" className="close-btn"
            onClick={this._handleModalVisibility}/>
@@ -1056,7 +1127,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
            </div>
            </ModalBody>
            </Modal>
-
+           */}
 
 
         </div>

@@ -456,11 +456,9 @@
   margin: 5px 5px;
 }
 
-
 .contribution-radio {
   font-size: 10px;
 }
-
 
 .contribution-footer {
   width: 100%;
@@ -543,6 +541,37 @@
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   background-color: white;
   transition-duration: $animation-timing;
+}
+
+.product-features-frame-container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 15px 20px 15px;
+  flex-wrap: wrap;
+  width: 220px;
+  flex-grow: 1;
+}
+
+.product-features-frame {
+  background-color: transparent;
+  height: 34px;
+  margin-bottom: 15px;
+  border: 1.5px dashed #cdcdcd;
+  padding: 5px 12px;
+  color: $text-dark-color;
+  overflow: hidden;
+  font-size: $font-size-regular;
+  transition-duration: $animation-timing;
+
+  &:focus {
+    outline: 0 solid transparent;
+    border: 1.5px dashed #a8a8a8;
+    transition-duration: $animation-timing;
+  }
+}
+
+.product-features-frame-filled{
+
 }
 
 @media screen and (max-width: 1920px) and (min-width: 1366px) {
