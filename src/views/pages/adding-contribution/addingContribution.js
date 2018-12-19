@@ -129,7 +129,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       addingTechPropNow: false,
       newTechPropertyData: {},
 
-      currentLevel: "one",
+      currentLevel: "three",
       selectedType: "Product",
       selectedCatLvlOne: "",
       selectedCatLvlTwo: "",
@@ -935,14 +935,14 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
         )
       case "three":
         return (
-            <div className="contribution-description">
-              <div className="icon-wrapper">
-                <TipsIcon className="tip-icon"/>
-              </div>
-              <div className="contribution-desc-txt">
-                <p>
-                  مرحله ی سوم
-                </p>
+            <div className="contribution-product-two">
+              <div>
+                <div>
+
+                </div>
+                <div>
+
+                </div>
               </div>
             </div>
         )
@@ -1027,6 +1027,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
         <div
             // className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}
         >
+
 {/*
           {this.renderProgressBar()}
 
@@ -1034,6 +1035,8 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
 
           {this.renderFooter()}
 */}
+
+
 
           <Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>
            <ModalBody className="adding-contribution-wrapper">
@@ -1052,6 +1055,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
            </div>
            </ModalBody>
            </Modal>
+
 
         </div>
     )

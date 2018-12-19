@@ -5,7 +5,7 @@ import {Link} from "react-router-dom"
 import type {postType} from "../../../consts/flowTypes/common/post"
 import type {identityType} from "../../../consts/flowTypes/user/basicInformation"
 import checkOwner from "../CheckOwner"
-import EditIcon from "../../../images/common/edit.svg"
+import {CommentSvg} from "src/images/icons"
 
 type postFooterProps = {
   post: postType,
@@ -71,9 +71,10 @@ const PostFooter = (props: postFooterProps) => {
           {/*<span className="ml-1">{viewerCount}</span>*/}
           {/*<i className="fa fa-eye" aria-hidden="true"/>*/}
           {/*</div>*/}
-          <div className='items'>
+          <div className='items cursor-pointer post-menu-bottom bubble-more comment-svg-container' onClick={() => showComment()}>
             <span className="ml-1"> </span>
-            <i className="fa fa-share cursor-pointer post-menu-bottom" aria-hidden="true" onClick={() => showComment()}/>
+            {/*<i className="fa fa-share cursor-pointer post-menu-bottom" aria-hidden="true" onClick={() => showComment()}/>*/}
+            <CommentSvg height={"16.5px"} width={"16.5px"} className={"comment-svg"}/>
           </div>
         </div>
       </div>
