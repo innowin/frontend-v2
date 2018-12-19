@@ -90,7 +90,7 @@ class CreatePost extends Component {
   }
 
   handleClickOutside = (event) => {
-    const {attachMenu, contactMenu, linkModal, addProductModal, postPictures, postFile, postMedia, link, description, labels, savingPost} = this.state
+    const {attachMenu, contactMenu, linkModal, addProductModal, postPictures, postFile, postMedia, link, description, labels, savingPost, open} = this.state
     const needReset = !savingPost && !description && !postPictures && !postFile && !postMedia && !link && labels === {}
 
     if (!event.target.closest('#create-post-attach-menu-box')) {
@@ -114,6 +114,12 @@ class CreatePost extends Component {
     if (this.setWrapperFourthRef && !this.setWrapperFourthRef.contains(event.target)) {
       if (addProductModal) {
         this.setState({...this.state, addProductModal: false})
+      }
+    }
+
+    if (this.form && !this.form.contains(event.target)) {
+      if (open && (description.length === 0)) {
+        this.setState({...this.state, open: false})
       }
     }
 
@@ -175,7 +181,7 @@ class CreatePost extends Component {
 
   _handleChangeText = (e) => {
     const description = e.target.value
-    if (description.trim().length <= 1500)
+    if (description.trim().length <= 4096)
       this.setState({...this.state, description}, () => checkCharacter(description))
     const checkCharacter = (description) => {
       const descriptionLength = description.trim().length
@@ -183,15 +189,15 @@ class CreatePost extends Component {
         this.setState({...this.state, descriptionClass: 'hide-message'})
       if (descriptionLength > 0 && descriptionLength < 5)
         this.setState({...this.state, descriptionClass: 'error-message'})
-      if (descriptionLength >= 5 && descriptionLength < 1490)
+      if (descriptionLength >= 5 && descriptionLength < 4070)
         this.setState({...this.state, descriptionClass: 'neutral-message'})
-      if (descriptionLength > 1490 && descriptionLength < 1500)
+      if (descriptionLength > 4070 && descriptionLength < 4096)
         this.setState({...this.state, descriptionClass: 'warning-message'})
     }
   }
 
   handleEmoji = (emoji) => {
-    this.setState({...this.state, open: true},()=>{
+    this.setState({...this.state, open: true}, () => {
       this.text.focus()
       if (this.text.selectionStart) {
         let x = this.text.selectionStart
@@ -204,7 +210,7 @@ class CreatePost extends Component {
       }
 
       const description = this.text.value
-      if (description.trim().length <= 1500)
+      if (description.trim().length <= 4070)
         this.setState({...this.state, description}, () => checkCharacter(description))
       const checkCharacter = (description) => {
         const descriptionLength = description.trim().length
@@ -212,23 +218,20 @@ class CreatePost extends Component {
           this.setState({...this.state, descriptionClass: 'hide-message'})
         if (descriptionLength > 0 && descriptionLength < 5)
           this.setState({...this.state, descriptionClass: 'error-message'})
-        if (descriptionLength >= 5 && descriptionLength < 1490)
+        if (descriptionLength >= 5 && descriptionLength < 4070)
           this.setState({...this.state, descriptionClass: 'neutral-message'})
-        if (descriptionLength > 1490 && descriptionLength < 1500)
+        if (descriptionLength > 4070 && descriptionLength < 4096)
           this.setState({...this.state, descriptionClass: 'warning-message'})
       }
     })
   }
 
-  _handleBlurText = (e) => {
+  _handleBlurText = () => {
     this.setState({
       ...this.state,
-      descriptionClass: 'hide-message'
+      descriptionClass: 'hide-message',
+      focused: false
     })
-    const descriptionLength = e.target.value.trim().length
-    if (descriptionLength === 0) {
-      this.setState({...this.state, open: false, focused: false})
-    } else this.setState({...this.state, open: true, focused: false})
   }
 
   _deleteFile = () => {
@@ -261,7 +264,7 @@ class CreatePost extends Component {
   _formValidate = () => {
     const {description} = this.state
     const descriptionLength = description.trim().length
-    const descriptionError = descriptionLength < 5 || descriptionLength > 1500
+    const descriptionError = descriptionLength < 5 || descriptionLength > 4096
     let result = true
     //Attached files don't required check validation before save.because don't add to attached files if be error
     const validates = [
@@ -412,7 +415,7 @@ class CreatePost extends Component {
     } = this.state
     const hasMediaClass = (postMedia || (postPictures.length > 0)) ? 'hasMedia' : ''
     return (
-        <form className={'post-component-container ' + className} onSubmit={this._onSubmit}>
+        <form className={'post-component-container ' + className} ref={e => this.form = e} onSubmit={this._onSubmit}>
           <div className={open ? 'post-component-header' : 'post-component-header-hide'}>
             {currentUserMedia && profileLoaded ?
                 <img alt='profile' src={currentUserMedia} className='post-component-header-img'/>
@@ -440,7 +443,7 @@ class CreatePost extends Component {
               {descriptionClass &&
               <span className={descriptionClass + ' post-character'}
                     style={description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0]) ? {right: '6px'} : {left: '6px'}}>
-                {description && description.trim().length + '/1500'}
+                {description && description.trim().length + '/4096'}
               </span>
               }
               <textarea
@@ -451,7 +454,7 @@ class CreatePost extends Component {
                         {direction: 'ltr', padding: open || focused ? '13px 23px 9px 15px' : '7px 23px 9px 15px'} :
                         {direction: 'rtl', padding: open || focused ? '13px 15px 9px 23px' : '7px 15px 9px 23px'}
                   }
-                  placeholder='در زیست بوم باش ...'
+                  placeholder='مسئله خود را بنویسید...'
                   value={description}
                   onBlur={this._handleBlurText}
                   onChange={this._handleChangeText}

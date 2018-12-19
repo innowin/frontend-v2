@@ -637,7 +637,8 @@ $sidebar-profile-media-width: 80px;
 
 .banner {
   width: 100%;
-  height: 115px;
+  height: 105px;
+  object-fit: cover;
 }
 
 .sidebarBottomParent {
@@ -730,44 +731,48 @@ $sidebar-profile-media-width: 80px;
   flex-direction: column;
   position: relative;
   transition-duration: 0.6s;
-
-  &:after {
-    content: '';
-    width: calc(100% - 80px);
-    display: block;
-    position: absolute;
-    height: 1px;
-    bottom: 0;
-    left: 0;
-    background-color: $text-lighter-color;
-  }
-  &:last-child:after {
-    height: 0;
-  }
+  border: 1px solid transparent;
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 0 2px;
+  //
+  //&:after {
+  //  content: '';
+  //  width: calc(100% - 80px);
+  //  display: block;
+  //  position: absolute;
+  //  height: 1px;
+  //  bottom: 0;
+  //  left: 0;
+  //  background-color: $text-lighter-color;
+  //}
+  //&:last-child:after {
+  //  height: 0;
+  //}
 
   &.active {
     transition-duration: 0.6s;
-    background-color: $chat-box2-color;
-    .exchange-name {
-      transition-duration: 0.6s;
-      color: lighten($text-darkest-color, 10%) !important;
-    }
+    //background-color: $chat-box2-color;
+    border: 1px solid #E7E7E7;
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 0 2px;
 
-    &:after {
-      width: 100%;
-    }
+    //&:after {
+    //  width: 100%;
+    //}
 
-    &:before {
-      content: '';
-      width: 100%;
-      display: block;
-      position: absolute;
-      height: 1px;
-      top: -1px;
-      left: 0;
-      background-color: $text-lighter-color;
-      transition-duration: 0.6s;
-    }
+    //&:before {
+    //  content: '';
+    //  width: 100%;
+    //  display: block;
+    //  position: absolute;
+    //  height: 1px;
+    //  top: -1px;
+    //  left: 0;
+    //  background-color: $text-lighter-color;
+    //  transition-duration: 0.6s;
+    //}
   }
 
   .header-exchange {
@@ -776,20 +781,25 @@ $sidebar-profile-media-width: 80px;
     cursor: pointer;
     align-items: center;
     padding: 10px 10px 10px 30px;
+    transition-duration: 0.6s;
     .exchange-name {
+      transition-duration: 0.6s;
       padding: 0 20px 0 0;
-      color: $text-light-color;
       font-size: $font-size-normalText;
     }
     .default-logo {
       width: 50px;
       height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      transition-duration: 0.6s;
     }
     .img-logo {
       width: 50px;
       height: 50px;
       border-radius: 50%;
       object-fit: cover;
+      transition-duration: 0.6s;
     }
   }
 

@@ -42,10 +42,7 @@ $heightOfContentBox: 140px;
     .right-sidebar {
       border-radius: $border-radius-size;
       margin-top: 11px;
-      overflow-y: auto;
-      max-height: fit-content;
-      background: $text-lightest-color;
-      box-shadow: 0 3px 3px $box-shadow-color;
+      //overflow-y: auto;
     }
     .user-detail-wrapper {
       padding: 10px 8px;

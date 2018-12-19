@@ -1,17 +1,18 @@
 // @flow
-import * as React from "react"
-import {Component} from "react"
-import PropTypes from "prop-types"
-import ExchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
-import type {exchangeType} from "src/consts/flowTypes/exchange/exchange.js"
-import {bindActionCreators} from "redux"
-import {connect} from "react-redux"
-import {Link} from "react-router-dom"
-import {SeeViewIcon, RefreshIcon, SettingIcon, DefaultExchangeIcon} from "src/images/icons"
+import * as React from 'react'
+import {Component} from 'react'
+import PropTypes from 'prop-types'
+import ExchangeMembershipActions from 'src/redux/actions/commonActions/exchangeMembershipActions'
+import type {exchangeType} from 'src/consts/flowTypes/exchange/exchange.js'
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
+import {SeeViewIcon, RefreshIcon, SettingIcon, DefaultExchangeIcon} from 'src/images/icons'
 import {getExchangeMembershipsSelector} from 'src/redux/selectors/common/social/getExchangeMemberships'
-import Material from "../../common/components/Material"
+import Material from '../../common/components/Material'
+import UserDetailPanel from '../../common/components/UserDetailPanel'
 
-const DescriptionSideBarItem = ({description = '', className = ""}) => {
+const DescriptionSideBarItem = ({description = '', className = ''}) => {
   return (
       <div className={className}>
         {description}
@@ -19,10 +20,10 @@ const DescriptionSideBarItem = ({description = '', className = ""}) => {
   )
 }
 
-const FooterSideBarItem = ({exchangeId, className = ""}) => {
+const FooterSideBarItem = ({exchangeId, className = ''}) => {
   return (
       <div className={className}>
-        <Link to={"/exchange/" + exchangeId}><SeeViewIcon height="15px" className="cursor-pointer"/></Link>
+        <Link to={'/exchange/' + exchangeId}><SeeViewIcon height="15px" className="cursor-pointer"/></Link>
         <SettingIcon height="16px" className="cursor-pointer mr-4"/>
         <RefreshIcon height="16px" className="cursor-pointer mr-4"/>
       </div>
@@ -70,10 +71,10 @@ export class SideBarItem extends Component<PropsSideBarItem> {
     const {active} = this.props
     const {exchange_image, name, description, id: exchangeId} = this.props.exchange
     return (
-        <div className={`item-wrapper ${ active ? 'active' : ''}`} onClick={this._onClickHandler}>
+        <div className={`item-wrapper ${active ? 'active' : ''}`} onClick={this._onClickHandler}>
           <Material content={
             <div className="header-exchange">
-              <Link to={"/exchange/" + exchangeId} className="default-logo">
+              <Link to={'/exchange/' + exchangeId} className="default-logo">
                 {exchange_image && this.state.imageLoaded ?
                     <img className="img-logo" src={exchange_image.file} alt="logo"/>
                     :
@@ -149,15 +150,22 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
     const {clientExchanges, classNames, activeExchangeId} = this.props
     return (
         <div className={classNames}>
-          {
-            (clientExchanges && clientExchanges.length > 0) ? (
-                clientExchanges.map((exchange, i) => {
-                  return <SideBarItem key={i} exchange={exchange}
-                                      handleClick={this._handleClick}
-                                      active={exchange.id === activeExchangeId}/>
-                })
-            ) : (<p className="mt-3 pr-3"><b>شما عضو هیچ پنجره ای نیستید!</b></p>)
-          }
+          <UserDetailPanel/>
+          <div className='home-sidebar-cont-title'>
+            <div className='home-sidebar-cont-item'>پنجره ها</div>
+            <Link to='/Exchange/Exchange_Explorer' className='home-sidebar-cont-item-more'>بیشتر</Link>
+          </div>
+          <div className='home-sidebar-cont'>
+              {
+                (clientExchanges && clientExchanges.length > 0) ? (
+                    clientExchanges.map((exchange, i) => {
+                      return <SideBarItem key={i} exchange={exchange}
+                                          handleClick={this._handleClick}
+                                          active={exchange.id === activeExchangeId}/>
+                    })
+                ) : (<p className="mt-3 pr-3"><b>شما عضو هیچ پنجره ای نیستید!</b></p>)
+              }
+          </div>
         </div>
     )
   }
