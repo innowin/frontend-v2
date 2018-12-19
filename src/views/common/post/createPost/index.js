@@ -485,7 +485,10 @@ class CreatePost extends Component {
 
           <div className={open ? 'post-component-footer' : 'post-component-footer-hide'}>
 
-            <ContactMenuIcon className="post-component-footer-contact-menu-icon" onClickFunc={this.handleContact}/>
+            {/*should be back in future !*/}
+            {/*<ContactMenuIcon className="post-component-footer-contact-menu-icon" onClickFunc={this.handleContact}/>*/}
+            <div className="post-component-footer-contact-menu-icon"/>
+
             <div className='post-component-footer-items-style-cont'>
 
               {
