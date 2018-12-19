@@ -42,6 +42,7 @@ import logoDaneshBoom from "./common/logoWhite.png"
 import LogoWhiteSvg from "./common/logoWhite"
 import MainLbarArrow from "./common/mainLbararrow"
 import Medal from "./common/medal_svg"
+import MoreOptionSvg from "./common/more-option-svg"
 import MoviesSvgIcon from "./common/movies_svg_icon"
 import NewSkillIcon from "./user/new_skill_svg"
 import NoFilterIcon from "./common/noFilter_svg"
@@ -126,6 +127,7 @@ export {
   LogoWhiteSvg,
   MainLbarArrow,
   Medal,
+  MoreOptionSvg,
   MoviesSvgIcon,
   NewSkillIcon,
   NoFilterIcon,
