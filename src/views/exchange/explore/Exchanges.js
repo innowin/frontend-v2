@@ -45,8 +45,8 @@ const Exchanges = (props: appProps) => {
   }
   else return <React.Fragment>
       {
-        loadingArr.map((exchange: Object, i: number): any =>
-            <ExchangeSkeleton key={i}/>
+        loadingArr.map((exchange: Object): any =>
+            <ExchangeSkeleton key={exchange}/>
         )
       }
     </React.Fragment>

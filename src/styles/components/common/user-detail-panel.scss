@@ -42,13 +42,17 @@ $sidebar-profile-media-width: 80px;
       .user-detail-username {
         font-weight: bold;
         color: $primary-color;
-        margin-bottom: 30px;
+        padding: 0;
+        margin: 0;
+        //margin-bottom: 30px;
       }
       .user-detail-username-value {
         text-align: left;
         direction: ltr;
         color: $text-light-color;
-        margin-bottom: 30px;
+        padding: 0;
+        margin: 0;
+        //margin-bottom: 30px;
       }
     }
   }
