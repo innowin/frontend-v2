@@ -7,10 +7,15 @@ import {connect} from "react-redux"
 // import {VerifyWrapper} from "../../common/cards/Frames"
 // import {Link} from "react-router-dom"
 
+let scroll = false
+
 const StreamView = props => {
-  window.scrollTo({
-    top: 0
-  })
+  if (!scroll) {
+    window.scrollTo({
+      top: 0
+    })
+    scroll = true
+  }
   const {posts, exchangeId, exchanges} = props
 
   if (exchanges[exchangeId] && exchanges[exchangeId].exchange.content && exchanges[exchangeId].exchange.content.owner) {
