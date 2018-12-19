@@ -73,7 +73,7 @@ class Material extends React.Component {
     }
   }
 
-  handleLeave(e) {
+  handleLeave() {
     try {
       clearTimeout(this.buttonPressTimer)
       if (this.ripple) {

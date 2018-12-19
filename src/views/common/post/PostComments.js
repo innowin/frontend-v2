@@ -71,7 +71,7 @@ class PostComments extends React.Component<postCommentsProps, {}> {
                         </div>
                         <div className='content'>
                           {comment.comment_replied && comment.comment_replied.comment_sender &&
-                          <p className='replied-username'>{comment.comment_replied.comment_sender.name}</p>
+                          <p className='replied-username'>{'@' + comment.comment_replied.comment_sender.name}</p>
                           }
                           <p className='post-text'>{comment.text}</p>
                         </div>
