@@ -23,9 +23,9 @@ const CustomerInfoView = (props: PropsCustomerInfo) => {
           </div>
         </CheckOwner>
         <div className='customer-image'>
-          <img src={customer.customer_picture.file}/>
+          <img src={customer && customer.customer_picture.file}/>
         </div>
-        <div className='customer-title'>{customer.title}</div>
+        <div className='customer-title'>{customer && customer.title}</div>
       </div>
   )
 }

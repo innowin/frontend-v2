@@ -46,6 +46,7 @@ import MoviesSvgIcon from './common/movies_svg_icon'
 import NewSkillIcon from './user/new_skill_svg'
 import NoFilterIcon from './common/noFilter_svg'
 import NotificationIcon from './common/notification_svg'
+import MoreOptionSvg from './common/more-option-svg'
 import OffersSvg from './common/offers_svg'
 import OnePersonSvg from './common/one_person_svg'
 import PayIcon from './addingConribution/pay_icon_svg'
@@ -126,6 +127,7 @@ export {
   LogoWhiteSvg,
   MainLbarArrow,
   Medal,
+  MoreOptionSvg,
   MoviesSvgIcon,
   NewSkillIcon,
   NoFilterIcon,

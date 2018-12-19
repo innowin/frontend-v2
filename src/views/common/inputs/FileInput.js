@@ -102,7 +102,7 @@ export class FileInput extends Component {
     let selectText = __('Select');
     if (media) {
       imagePreview = (
-        <img className="media-preview mt-1" src={media.file} alt="imagePreview"/>
+        <img className="media-preview" src={media.file} alt="imagePreview"/>
       );
       selectText = __('Change')
     }

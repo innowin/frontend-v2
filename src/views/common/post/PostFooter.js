@@ -5,7 +5,7 @@ import {Link} from "react-router-dom"
 import type {postType} from "../../../consts/flowTypes/common/post"
 import type {identityType} from "../../../consts/flowTypes/user/basicInformation"
 import checkOwner from "../CheckOwner"
-import {CommentSvg} from "src/images/icons"
+import {CommentSvg, MoreOptionSvg} from "src/images/icons"
 
 type postFooterProps = {
   post: postType,
@@ -45,8 +45,10 @@ const PostFooter = (props: postFooterProps) => {
         </div>
         <div className='post-details footer-part'>
           <div className='items'>
-            <i className="post-menu-bottom fa fa-ellipsis-h cursor-pointer" aria-hidden="true"
-               onClick={openMenu}/>
+            {/*<i className="post-menu-bottom fa fa-ellipsis-h cursor-pointer" aria-hidden="true" onClick={openMenu}/>*/}
+            <div className='items cursor-pointer post-menu-bottom bubble-more more-option-svg-container' onClick={openMenu}>
+              <MoreOptionSvg className={"more-option-svg"}/>
+            </div>
             {menuToggle ?
                 <div className="menu-box-post pt-0 pb-0" id='sidebar-post-menu-box'>
                   <div>
@@ -74,7 +76,7 @@ const PostFooter = (props: postFooterProps) => {
           <div className='items cursor-pointer post-menu-bottom bubble-more comment-svg-container' onClick={() => showComment()}>
             <span className="ml-1"> </span>
             {/*<i className="fa fa-share cursor-pointer post-menu-bottom" aria-hidden="true" onClick={() => showComment()}/>*/}
-            <CommentSvg height={"16.5px"} width={"16.5px"} className={"comment-svg"}/>
+            <CommentSvg className={"comment-svg"}/>
           </div>
         </div>
       </div>

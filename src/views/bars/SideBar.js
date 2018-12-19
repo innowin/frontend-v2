@@ -28,7 +28,7 @@ import {createFileFunc} from 'src/views/common/Functions'
 import Material from '../common/components/Material'
 
 
-const timeStamp = new Date().toISOString()
+const timeStamp = +new Date()
 const pictureTempName = timeStamp + 'picture'
 const bannerTempName = timeStamp + 'banner'
 
@@ -359,8 +359,8 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     const {actions} = this.props
     const {bannerState, pictureState} = this.state
     const {createFile} = actions || {}
-    const nextActionDataForBanner = {tempFileChildName: bannerTempName}
-    const nextActionDataForPicture = {tempFileChildName: pictureTempName}
+    const nextActionDataForBanner = {tempFileKeyName: bannerTempName}
+    const nextActionDataForPicture = {tempFileKeyName: pictureTempName}
     const nextActionType = types.COMMON.SET_FILE_IDS_IN_TEMP_FILE
     const fileIdKey = 'fileId'
     const bannerCreateArguments = {

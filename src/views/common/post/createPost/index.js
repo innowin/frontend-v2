@@ -23,7 +23,7 @@ import StickersMenu from '../../components/StickersMenu'
 import AddProductModal from './addProductModal'
 import ProductInfoView from '../../contributions/ProductInfoView'
 
-const timeStamp = new Date().toISOString()
+const timeStamp = +new Date()
 
 
 class CreatePost extends Component {
@@ -318,7 +318,7 @@ class CreatePost extends Component {
     const {actions} = this.props
     const {createFile} = actions
     const nextActionTypesForPosPictures = types.COMMON.SET_FILE_IDS_IN_TEMP_FILE
-    const nextActionDataForPostPictures = {tempFileChildName: timeStamp}
+    const nextActionDataForPostPictures = {tempFileKeyName: timeStamp}
     const fileIdKey = 'fileId'
     const postPicturesCreateArguments = {
       fileIdKey,
@@ -563,8 +563,6 @@ class CreatePost extends Component {
                 selectedProduct: undefined
               })}
               submitFunc={(product, productId) => {
-
-                console.log(productId, 'ppppppppp')
                 this.setState({
                   ...this.state,
                   selectedProduct: productId === undefined ? product : undefined,

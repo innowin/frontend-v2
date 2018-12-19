@@ -936,6 +936,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       case "three":
         return (
             <div className="contribution-product-two">
+
               <div>
                 <div>
 
@@ -944,6 +945,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
 
                 </div>
               </div>
+
             </div>
         )
       case "four":
@@ -1037,7 +1039,6 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
 */}
 
 
-
           <Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>
            <ModalBody className="adding-contribution-wrapper">
            <FontAwesome name="times" size="2x" className="close-btn"
@@ -1055,6 +1056,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
            </div>
            </ModalBody>
            </Modal>
+
 
 
         </div>
