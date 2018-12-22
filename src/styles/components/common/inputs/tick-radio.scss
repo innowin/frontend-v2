@@ -32,6 +32,10 @@
 
   .password-way-text {
     padding-right: 25px;
+    .phone-number {
+      display: inline-block;
+      direction: ltr;
+    }
   }
 }
 /* On mouse-over, add a grey background color */

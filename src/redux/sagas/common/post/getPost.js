@@ -11,12 +11,17 @@ export function* getPost(action) {
     yield fork(api.get, urls.COMMON.POST, results.COMMON.POST.GET_POST, `${postId}`)
     const data = yield take(socketChannel)
     // yield put({type: types.COMMON.POST.GET_POST_VIEWER_COUNT, payload: {postId: data.id}})
-    if (data.post_related_identity_image) {
-      yield put({type: types.COMMON.GET_FILE, payload: {fileId: data.post_related_identity_image}})
-    }
-    if(data.post_related_product) {
-      yield put({type: types.COMMON.GET_PRODUCT_INFO, payload: {id: data.post_related_product}})
-    }
+
+    console.log(data, 'dataaa')
+    // if (data.post_related_identity_image) {
+    //   yield put({type: types.COMMON.GET_FILE, payload: {fileId: data.post_related_identity_image}})
+    // }
+    // if (data.post_parent) {
+    //   yield put({type: types.COMMON.GET_FILE, payload: {fileId: data.post_picture}})
+    // }
+    // if(data.post_related_product) {
+    //   yield put({type: types.COMMON.GET_PRODUCT_INFO, payload: {id: data.post_related_product}})
+    // }
     yield put({type: types.SUCCESS.COMMON.POST.GET_POST, payload: {data, postOwnerId, postOwnerType}})
   } catch (error) {
     const {message} = error

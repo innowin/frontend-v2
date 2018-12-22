@@ -483,7 +483,7 @@ $sidebar-profile-media-width: 80px;
 
 %sidebar-child-wrapper {
   position: relative;
-
+  height: 80%;
   .profile-media {
     position: absolute;
     transform: translate(-50%, -50%);
@@ -503,7 +503,7 @@ $sidebar-profile-media-width: 80px;
 
   .info-section {
     padding-bottom: 90px;
-
+    border-bottom: 0 !important;
     .description {
       position: relative;
       width: 90%;
@@ -628,6 +628,11 @@ $sidebar-profile-media-width: 80px;
 
   .social-network {
     display: flex;
+    bottom: 0;
+    right: 20px;
+    width: calc(100% - 40px);
+    position: absolute;
+    border-top: 1px solid lighten($text-lighter-color, 3.6%);
     flex-direction: row;
     justify-content: space-around;
 

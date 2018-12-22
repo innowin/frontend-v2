@@ -3,7 +3,7 @@ import * as React from 'react'
 import PropTypes from 'prop-types'
 import 'moment/locale/fa'
 
-import {DefaultUserIcon, DefaultImage} from 'src/images/icons'
+import {DefaultImage} from 'src/images/icons'
 import {CategoryTitle, VerifyWrapper} from 'src/views/common/cards/Frames'
 import connect from 'react-redux/es/connect/connect'
 import {getMessages} from '../../../redux/selectors/translateSelector'
@@ -105,13 +105,16 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   componentDidMount() {
     const self: any = this
 
-    const {extendedView, post, actions} = this.props
+    const {extendedView, post} = this.props
     if (post && post.post_picture) {
-      let {getFile} = actions
-      getFile(post.post_picture.id)
-
+      const {post, extendedView, fileList} = this.props
+      let postPicture, postPictureId
+      if (post) {
+        postPicture = post.post_picture
+        postPictureId = post.post_picture
+      }
       let picture = new Image()
-      picture.src = post.post_picture.file
+      picture.src = (!extendedView ? (postPicture ? postPicture.file : '') : (postPictureId ? (fileList[postPictureId] ? fileList[postPictureId].file : '') : ''))
       picture.onload = () => {
         this.setState({...this.state, pictureLoaded: true})
       }
@@ -283,6 +286,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       postIdentityOrganId = post.post_identity.identity_organization && post.post_identity.identity_organization.id
       postOwnerId = postIdentityUserId || postIdentityOrganId
     }
+    const postImageUrl = (!extendedView ? (postPicture ? postPicture.file : null) : (postPictureId ? (fileList[postPictureId] ? fileList[postPictureId].file : null) : null))
 
     // if (postPicture && pictureLoaded) {
     //   this.picture.className = 'post-image-container-effect'
@@ -314,32 +318,26 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                   {postDescription}
                 </div>
 
-                {!extendedView ?
-                    postPicture ?
-                        <div className={'post-image-container'}>
-                          <div className={pictureLoaded === true ? 'post-image-loading-effect' : 'post-image-loading'}>
-                            <DefaultImage className='default-image'/>
-                            {
-                              pictureLoaded === false ?
-                                  <div className='post-retry-image'>
-                                    مشکل در بارگذاری عکس.
-                                    <span className='post-retry-image-click'
-                                          onClick={this.handleRetry}> تلاش مجدد </span>
-                                  </div>
-                                  :
-                                  <div className='bright-line'/>
-                            }
-                          </div>
-                          <img src={postPicture.file} width={'100%'} alt='عکس پست'
-                               className={pictureLoaded === true ? 'post-image-effect' : 'post-image'}/>
+                {
+                  postImageUrl ?
+                      <div className={'post-image-container'}>
+                        <div className={pictureLoaded === true ? 'post-image-loading-effect' : 'post-image-loading'}>
+                          <DefaultImage className='default-image'/>
+                          {
+                            pictureLoaded === false ?
+                                <div className='post-retry-image'>
+                                  مشکل در بارگذاری عکس.
+                                  <span className='post-retry-image-click'
+                                        onClick={this.handleRetry}> تلاش مجدد </span>
+                                </div>
+                                :
+                                <div className='bright-line'/>
+                          }
                         </div>
-                        : null
-                    :
-                    postPictureId ?
-                        <div className={'post-image-container'}>
-                          <img src={fileList[postPictureId] ? fileList[postPictureId].file : null} width={'100%'}
-                               alt={' '} className={'post-image'}/>
-                        </div> : null
+                        <img src={postImageUrl} width={'100%'} alt='عکس پست'
+                             className={pictureLoaded === true ? 'post-image-effect' : 'post-image'}/>
+                      </div>
+                      : null
                 }
 
                 {post && post.post_related_product &&
