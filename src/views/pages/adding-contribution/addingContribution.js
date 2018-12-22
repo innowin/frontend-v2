@@ -209,6 +209,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     self.renderCurrentLevel = self.renderCurrentLevel.bind(self)
     self.renderFooter = self.renderFooter.bind(self)
     self._closeModal = self._closeModal.bind(self)
+    self._setProductFeature = self._setProductFeature.bind(self)
   }
 
   componentDidMount() {
@@ -864,6 +865,25 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     this.setState({...this.state, selectedType: selected})
   }
 
+  _setProductFeature(value, index, type) {
+    if (type === "blur") {
+      let {productFeatures} = this.state
+      let features = productFeatures.slice()
+      if (features[index].title.length > 1 && features[index].amount.length > 1) {
+        features[index].filled = true
+        this.setState({...this.state, productFeatures: features.slice()})
+      } else {
+        features[index].filled = false
+        this.setState({...this.state, productFeatures: features.slice()})
+      }
+    } else {
+      let {productFeatures} = this.state
+      let features = productFeatures.slice()
+      features[index][type] = value
+      this.setState({...this.state, productFeatures: features.slice()})
+    }
+  }
+
   _handleCatLvlChange(text, level) {
     console.log(text)
     if (level === "one") {
@@ -1009,14 +1029,18 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
                       <input
                           type={"text"} className={productFeatures[k].filled ? "product-features-frame-filled" : "product-features-frame"}
                           placeholder={productFeatures[k - 1] ? productFeatures[k - 1].filled ? "عنوان ویژگی" : "" : "عنوان ویژگی (مثلا اندازه قطر داخلی)"}
-                          disabled={productFeatures[k - 1] ? !productFeatures[k - 1].filled : false}>
-
+                          disabled={productFeatures[k - 1] ? !productFeatures[k - 1].filled : false}
+                          onChange={(e) => this._setProductFeature(e.target.value, k, "title")}
+                          onBlur={(e) => this._setProductFeature(e.target.value, k, "blur")}
+                      >
                       </input>
                       <input
-                          type={"text"} className={"product-features-frame"}
+                          type={"text"} className={productFeatures[k].filled ? "product-features-frame-filled" : "product-features-frame"}
                           placeholder={productFeatures[k - 1] ? productFeatures[k - 1].filled ? "مقدار ویژگی" : "" : "مقدار ویژگی (مثلا 110 میلی متر)"}
-                          disabled={productFeatures[k - 1] ? !productFeatures[k - 1].filled : false}>
-
+                          disabled={productFeatures[k - 1] ? !productFeatures[k - 1].filled : false}
+                          onChange={(e) => this._setProductFeature(e.target.value, k, "amount")}
+                          onBlur={(e) => this._setProductFeature(e.target.value, k, "blur")}
+                      >
                       </input>
                     </div>
                 )
@@ -1066,17 +1090,10 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     let {currentLevel} = this.state
     return (
         <div className={"contribution-footer"}>
-          <button className={"next-button"}>
-            {
-              currentLevel === "five" ?
-                  <div onClick={() => this._closeModal()}>
-                    ثبت
-                  </div>
-                  :
-                  <div onClick={() => this.nextLevel()}>
-                    بعدی
-                  </div>
-            }
+          <button className={"next-button"} onClick={() => currentLevel === "five" ? this._closeModal() : this.nextLevel()}>
+            <div>
+              {currentLevel === "five" ? "ثبت" : "بعدی"}
+            </div>
           </button>
 
           <button className={currentLevel === "one" ? "previous-button-hidden" : "previous-button"} onClick={() => this.previousLevel()}>
@@ -1104,6 +1121,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
         <div
             // className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}
         >
+
 {/*
           {this.renderProgressBar()}
 

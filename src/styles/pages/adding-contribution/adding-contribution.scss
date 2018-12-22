@@ -571,7 +571,21 @@
 }
 
 .product-features-frame-filled{
+  background-color: #fafafa;
+  height: 34px;
+  margin-bottom: 15px;
+  border: 1.5px solid #cdcdcd;
+  padding: 5px 12px;
+  color: $text-dark-color;
+  overflow: hidden;
+  font-size: $font-size-regular;
+  transition-duration: $animation-timing;
 
+  &:focus {
+    outline: 0 solid transparent;
+    border: 1.5px solid #a8a8a8;
+    transition-duration: $animation-timing;
+  }
 }
 
 @media screen and (max-width: 1920px) and (min-width: 1366px) {

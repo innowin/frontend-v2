@@ -108,10 +108,12 @@ class Exchange_Tabs extends Component<props, states> {
                       containerClass={selectedTab === "Members" ? clickedSvgContainerStyle : normalSvgContainerStyle}
                       svgClass={selectedTab === "Members" ? clickedSvgStyle : normalSvgStyle}
                       changeView={(data) => this._setTab(data)}/>
+{/*
             <Medal width="22px" height="23px"
                    containerClass={selectedTab === "Medals" ? clickedSvgContainerStyle : normalSvgContainerStyle}
                    svgClass={selectedTab === "Medals" ? clickedSvgStyle : normalSvgStyle}
                    changeView={(data) => this._setTab(data)}/>
+*/}
             {
               checkOwner({id: ownerId, children:
                     <Ticket width="22px" height="22px"
