@@ -5,6 +5,11 @@ import {TickSvgIcon, CloseIconSvg, InformationIcon} from "src/images/icons";
 import constants from "src/consts/constants";
 import type {toastType} from "src/consts/flowTypes/toast";
 
+import errorFile from 'src/sounds/toast/error.mp3'
+import warningFile from 'src/sounds/toast/warning.mp3'
+import successFile from 'src/sounds/toast/success.mp3'
+import infoFile from 'src/sounds/toast/info.mp3'
+
 type ToastProps = {
   toast: toastType,
   removeToast: Function,
@@ -18,7 +23,30 @@ class Toast extends React.Component <ToastProps, ToastState> {
 
   componentDidMount(): void {
     const {removeToast, toast} = this.props
+    const {type} = toast
+
     setTimeout(() => removeToast(toast.id), 5000)
+
+    switch (type) {
+      case constants.TOAST_TYPE.SUCCESS:
+        this.successSound = new Audio(successFile);
+        this.successSound.play();
+        break
+      case constants.TOAST_TYPE.ERROR:
+        this.errorSound = new Audio(errorFile);
+        this.errorSound.play();
+        break
+      case constants.TOAST_TYPE.REMOVE:
+        this.warningSound = new Audio(warningFile);
+        this.warningSound.play();
+        break
+      case constants.TOAST_TYPE.INFO:
+        this.infoSound = new Audio(infoFile);
+        this.infoSound.play();
+        break
+      default:
+        break
+    }
   }
 
   render() {

@@ -23,15 +23,15 @@ const ToastContainer = (props: ToastProps) => {
   const createToast = () => {
     const {actions} = props
     const {addToast} = actions
-    addToast({data: {id: 1, type: constants.TOAST_TYPE.SUCCESS, content: {text: 'آورده شما با موفقت ثبت شد'}}})
-    addToast({
-      data: {
-        id: 2,
-        type: constants.TOAST_TYPE.INFO,
-        content: {text: 'می توانید اولویت نمایش آورده ها را تغییر دهید. برای ویرایش هر آورده به پروفایل آورده مراجعه کنید.'}
-      }
-    })
-    addToast({data: {id: 3, type: constants.TOAST_TYPE.ERROR, content: {text: 'شما مجاز به انجام این کار نیستید.'}}})
+    // addToast({data: {id: 1, type: constants.TOAST_TYPE.SUCCESS, content: {text: 'آورده شما با موفقت ثبت شد'}}})
+    // addToast({
+    //   data: {
+    //     id: 2,
+    //     type: constants.TOAST_TYPE.INFO,
+    //     content: {text: 'می توانید اولویت نمایش آورده ها را تغییر دهید. برای ویرایش هر آورده به پروفایل آورده مراجعه کنید.'}
+    //   }
+    // })
+    // addToast({data: {id: 3, type: constants.TOAST_TYPE.ERROR, content: {text: 'شما مجاز به انجام این کار نیستید.'}}})
     addToast({data: {id: 4, type: constants.TOAST_TYPE.REMOVE, content: {text: 'پست شما پاک شد.'}}})
   }
 
@@ -44,7 +44,7 @@ const ToastContainer = (props: ToastProps) => {
   const {toasts} = props
   return (
       <div className='toast-container'>
-        {/*<button onClick={createToast}>asdasd</button>*/}
+        <button onClick={createToast}>تست تست</button>
         <TransitionGroup>
           {toasts.map(toast =>
               <CSSTransition key={toast.id} timeout={500} classNames='fade'>
