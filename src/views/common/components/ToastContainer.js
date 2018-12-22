@@ -44,7 +44,7 @@ const ToastContainer = (props: ToastProps) => {
   const {toasts} = props
   return (
       <div className='toast-container'>
-        <button onClick={createToast}>تست تست</button>
+        {/*<button onClick={createToast}>تست تست</button>*/}
         <TransitionGroup>
           {toasts.map(toast =>
               <CSSTransition key={toast.id} timeout={500} classNames='fade'>
