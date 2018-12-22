@@ -1102,14 +1102,16 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     const {modalIsOpen} = this.props
     return (
         <div
-            className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}
+            // className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}
         >
+{/*
           {this.renderProgressBar()}
 
           {this.renderCurrentLevel()}
 
           {this.renderFooter()}
-          {/*
+*/}
+
            <Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>
            <ModalBody className="adding-contribution-wrapper">
            <FontAwesome name="times" size="2x" className="close-btn"
@@ -1127,7 +1129,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
            </div>
            </ModalBody>
            </Modal>
-           */}
+
 
 
         </div>

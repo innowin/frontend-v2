@@ -51,8 +51,8 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
         <div className="home-wrapper global-wrapper">
 
           {/*TODO:Abel delete modal */}
-          <AddingContribution modalIsOpen={true}
-          handleModalVisibility={null}/>
+          {/*<AddingContribution modalIsOpen={true}*/}
+          {/*handleModalVisibility={null}/>*/}
 
           {/*<TopBar collapseClassName="col-2"/>*/}
 
