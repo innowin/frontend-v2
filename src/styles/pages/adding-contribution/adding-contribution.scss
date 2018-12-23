@@ -57,26 +57,31 @@
   top: 38px;
   background-color: $primary-color;
   transition-duration: $animation-timing-long;
+
   &.one {
     right: 15%;
     left: 85%;
     transition-duration: $animation-timing-long;
   }
+
   &.two {
     right: 15%;
     left: 67%;
     transition-duration: $animation-timing-long;
   }
+
   &.three {
     right: 15%;
     left: 50%;
     transition-duration: $animation-timing-long;
   }
+
   &.four {
     right: 15%;
     left: 33%;
     transition-duration: $animation-timing-long;
   }
+
   &.five {
     right: 15%;
     left: 15%;
@@ -97,7 +102,8 @@
   transition-duration: $animation-timing;
 
   .add {
-    left: 13%;
+    width: 32px;
+    left: 12.3%;
     fill: $primary-color;
   }
 
@@ -199,22 +205,161 @@
   width: 150%;
 }
 
+.contribution-product-two {
+  width: 75%;
+  padding: 1% 2%;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  //height: 50vh;
+}
+
+.gray-text-input-label-container {
+  text-align: right;
+  margin: 2px 30px 12px 35px;
+  width: 32%;
+  flex-grow: 1;
+
+  &.full {
+    width: 100%;
+    margin: 15px 0 12px 0;
+  }
+}
+
+.gray-text-input-label {
+  font-size: $font-size-post-content;
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+.gray-text-input {
+  background: #f5f5f5;
+  border: 1px solid #f4f4f4;
+  border-radius: $border-radius;
+  height: 35px;
+  font-size: $font-size-post-content;
+  transition-duration: $animation-timing;
+  direction: rtl;
+  text-align: right;
+
+  &:focus {
+    border: 1px solid #e1e1e1;
+    background: #f2f2f2;
+    transition-duration: $animation-timing;
+  }
+}
+
+.relative-type {
+  position: relative;
+}
+
+.inteli-menu::-webkit-scrollbar {
+  width: $scroll-bar-width;
+  border-radius: $border-radius;
+}
+
+.inteli-menu::-webkit-scrollbar-track {
+  background-color: #f2f2f2;
+  border-radius: $border-radius;
+}
+
+.inteli-menu::-webkit-scrollbar-thumb {
+  background: #c5c5c5;
+  border-radius: $border-radius;
+
+  &:hover {
+    background: #aaaaaa;
+  }
+}
+
+.inteli-menu {
+  position: absolute;
+  height: 120px;
+  width: 100%;
+  background-color: transparent;
+  top: 34px;
+  left: 0;
+  transition-duration: $animation-timing;
+  overflow: auto;
+  border-radius: $border-radius;
+  opacity: 1;
+  z-index: 10;
+}
+
+.inteli-menu-hide {
+  position: absolute;
+  height: 0;
+  width: 100%;
+  background-color: transparent;
+  top: 15px;
+  left: 0;
+  transition-duration: $animation-timing-long;
+  overflow: auto;
+  border-radius: $border-radius;
+  opacity: 0;
+}
+
+.inteli-more-svg {
+  position: absolute;
+  transform: rotate(180deg);
+  width: 14px;
+  fill: $disable-color;
+  top: 15px;
+  left: 10px;
+  cursor: pointer;
+}
+
+.inteli-menu-item {
+  font-size: $font-size-post-content;
+  text-align: center;
+  padding: 5px;
+  width: 100%;
+  background-color: $background-color;
+  transition-duration: $animation-timing;
+  cursor: pointer;
+
+  &:hover {
+    transition-duration: $animation-timing;
+    background-color: #f7f7f7;
+  }
+}
+
+.gray-textarea-input {
+  background: #f5f5f5;
+  border: 1px solid #f4f4f4;
+  border-radius: 3px;
+  font-size: $font-size-post-content;
+  height: 117px;
+  resize: none;
+  transition-duration: $animation-timing;
+
+  &:focus {
+    border: 1px solid #e1e1e1;
+    background: #f2f2f2;
+    transition-duration: $animation-timing;
+  }
+}
+
 .contribution-description {
   width: 75%;
   background-color: #f5f5f5;
   border-radius: $border-radius;
   padding: 1% 2%;
   margin: 20px auto;
+
   .icon-wrapper {
     display: inline-block;
     vertical-align: top;
     width: 10%;
     padding-top: 10px;
   }
+
   .tip-icon {
     width: 50px;
     fill: $secondary-color;
   }
+
   .contribution-desc-txt {
     display: inline-block;
     vertical-align: top;
@@ -230,6 +375,7 @@
   width: 75%;
   margin: auto;
   padding: 2px;
+
   .text {
     text-align: right;
     font-size: $font-size-post-content;
@@ -291,22 +437,27 @@
   fill: $primary-color;
 }
 
-.option-contribution-svg-small{
+.option-contribution-svg-small {
   width: 55px;
   margin: 10px 30px;
   fill: $primary-color;
 }
 
-.option-contribution-svg-smaller{
+.option-contribution-svg-smaller {
   width: 49px;
   margin: 10px 30px;
   fill: $primary-color;
 }
+
 .option-contribution-text {
   font-weight: bold;
   font-size: $font-size-post-username;
   color: $primary-color;
   margin: 5px 5px;
+}
+
+.contribution-radio {
+  font-size: 10px;
 }
 
 .contribution-footer {
@@ -328,6 +479,7 @@
     padding-bottom: 3px;
     border-radius: 25px;
     height: 30px;
+
     &:hover {
       color: $primary-color;
       border: 1.25px solid $primary-color;
@@ -335,6 +487,7 @@
       transition-duration: $animation-timing;
     }
   }
+
   .previous-button {
     order: 1;
     width: 130px;
@@ -348,6 +501,7 @@
     border-radius: 25px;
     height: 30px;
     opacity: 1;
+
     &:hover {
       color: $secondary-color;
       border: 1.25px solid $secondary-color;
@@ -355,6 +509,7 @@
       transition-duration: $animation-timing;
     }
   }
+
   .previous-button-hidden {
     order: 1;
     width: 130px;
@@ -386,6 +541,51 @@
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   background-color: white;
   transition-duration: $animation-timing;
+}
+
+.product-features-frame-container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 15px 20px 15px;
+  flex-wrap: wrap;
+  width: 220px;
+  flex-grow: 1;
+}
+
+.product-features-frame {
+  background-color: transparent;
+  height: 34px;
+  margin-bottom: 15px;
+  border: 1.5px dashed #cdcdcd;
+  padding: 5px 12px;
+  color: $text-dark-color;
+  overflow: hidden;
+  font-size: $font-size-regular;
+  transition-duration: $animation-timing;
+
+  &:focus {
+    outline: 0 solid transparent;
+    border: 1.5px dashed #a8a8a8;
+    transition-duration: $animation-timing;
+  }
+}
+
+.product-features-frame-filled{
+  background-color: #fafafa;
+  height: 34px;
+  margin-bottom: 15px;
+  border: 1.5px solid #cdcdcd;
+  padding: 5px 12px;
+  color: $text-dark-color;
+  overflow: hidden;
+  font-size: $font-size-regular;
+  transition-duration: $animation-timing;
+
+  &:focus {
+    outline: 0 solid transparent;
+    border: 1.5px solid #a8a8a8;
+    transition-duration: $animation-timing;
+  }
 }
 
 @media screen and (max-width: 1920px) and (min-width: 1366px) {

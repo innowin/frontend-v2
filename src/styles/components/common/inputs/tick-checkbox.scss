@@ -1,0 +1,50 @@
+.container-radio {
+  cursor: pointer;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  .checkmark {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 18px;
+    width: 18px;
+    border-radius: $border-radius-size;
+    background-color: #eee;
+
+    &:after {
+      content: "";
+      position: absolute;
+      display: none;
+      left: 5px;
+      top: 1px;
+      width: 7px;
+      height: 12px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+  }
+  .password-way-text {
+    padding-right: 25px;
+    .phone-number {
+      display: inline-block;
+      direction: ltr;
+    }
+  }
+}
+
+.container-radio:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+.container-radio input:checked ~ .checkmark {
+  background-color: $success-color;
+}
+.container-radio input:checked ~ .checkmark:after {
+  display: block;
+}

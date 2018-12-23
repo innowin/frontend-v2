@@ -8,7 +8,7 @@ const Exchange_Skeleton = () => {
 
         <DefaultUserIcon className='exchange-model-avatar-default'/>
 
-        <div style={{position: 'relative', overflow: 'hidden'}}>
+        <div className='skeleton-overflow-hidden'>
           <div id="line"/>
           <div className='exchange-model-title-skeleton'><span> </span></div>
           <div className='exchange-model-description-skeleton'><span> </span></div>

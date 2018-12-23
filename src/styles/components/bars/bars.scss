@@ -114,24 +114,29 @@ $sidebar-profile-media-width: 80px;
   top: $topBarHeight;
   background-color: lighten($primary-color, 1.5%);
   z-index: 4;
+
   img {
     height: 150px;
   }
+
   ul {
     padding: 0;
     list-style-type: none;
     margin-bottom: 0;
+
     li {
       display: flex;
       align-items: center;
       font-size: 12px;
       color: $text-lightest-color;
       cursor: pointer;
+
       i {
         padding: 15px;
         font-size: 30px;
       }
     }
+
     li:hover {
       background-color: darken($primary-color, 3%);
     }
@@ -147,9 +152,11 @@ $sidebar-profile-media-width: 80px;
   width: 22rem;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-bottom-right-radius: 0.25rem;
+
   > div {
     height: 75px;
   }
+
   a {
     color: $text-lightest-color;
     margin-left: 20px;
@@ -157,6 +164,7 @@ $sidebar-profile-media-width: 80px;
     text-decoration: none;
     display: inline-block;
   }
+
   a:hover {
     color: $info-color;
   }
@@ -193,14 +201,17 @@ $sidebar-profile-media-width: 80px;
   padding-left: 0;
   position: fixed;
   left: 20px;
+
   a {
     color: $primary-color;
     font-size: $font-size-chatBarIcon;
     line-height: 48px;
+
     &:hover, &.active {
       color: $text-lightest-color;
       background-color: $primary-color;
     }
+
     &.active:after {
       content: '';
       display: block;
@@ -261,11 +272,26 @@ $sidebar-profile-media-width: 80px;
   border: 1px solid $primary-color;
   border-radius: 100px;
   background-color: $background-color;
-  margin: 1.5% 3% 1.5% 3%;
   transition-duration: $animation-timing;
   display: inline-block;
   vertical-align: top;
   cursor: pointer;
+
+  @media screen and (max-width: 1920px) and (min-width: 1366px) {
+    margin: 1.5% 3% 1.5% 3%;
+  }
+  @media screen and (max-width: 1366px) and (min-width: 1280px) {
+    margin: 1.5% 3% 1.5% 3%;
+  }
+  @media screen and (max-width: 1280px) and (min-width: 900px) {
+    margin: 1.5% 3% 1.5% 3%;
+  }
+  @media screen and (max-width: 900px) and (min-width: 700px) {
+    margin: 1.5% 1.5% 1.5% 1.5%;
+  }
+  @media screen and (max-width: 700px) and (min-width: 0px) {
+    margin: 1.5% .5% 1.5% .5%;
+  }
 
   &:hover {
     background-color: rgba(37, 53, 69, 0.15);
@@ -279,11 +305,25 @@ $sidebar-profile-media-width: 80px;
   border: 1px solid $primary-color;
   border-radius: 100px;
   background-color: $primary-color;
-  margin: 1.5% 3% 1.5% 3%;
   transition-duration: $animation-timing;
   display: inline-block;
   vertical-align: top;
   cursor: pointer;
+  @media screen and (max-width: 1920px) and (min-width: 1366px) {
+    margin: 1.5% 3% 1.5% 3%;
+  }
+  @media screen and (max-width: 1366px) and (min-width: 1280px) {
+    margin: 1.5% 3% 1.5% 3%;
+  }
+  @media screen and (max-width: 1280px) and (min-width: 900px) {
+    margin: 1.5% 3% 1.5% 3%;
+  }
+  @media screen and (max-width: 900px) and (min-width: 700px) {
+    margin: 1.5% 1.5% 1.5% 1.5%;
+  }
+  @media screen and (max-width: 700px) and (min-width: 0px) {
+    margin: 1.5% .5% 1.5% .5%;
+  }
 }
 
 .svg-container-info-view {
@@ -313,7 +353,7 @@ $sidebar-profile-media-width: 80px;
 .exchange-center-background {
   top: 0;
   background: linear-gradient(to bottom, $image-background-color, $image-background-color,
-          $image-background-color, $image-background-color, $image-background-color, transparent);
+      $image-background-color, $image-background-color, $image-background-color, transparent);
   height: $exchange-tabs-height;
   width: $feed-width + 10;
   position: fixed;
@@ -322,7 +362,7 @@ $sidebar-profile-media-width: 80px;
   z-index: 2;
 }
 
-.exchange-page{
+.exchange-page {
   padding-top: $topBarHeight + 11px;
 }
 
@@ -341,7 +381,7 @@ $sidebar-profile-media-width: 80px;
   box-shadow: 0 0 14px rgba(0, 0, 0, 0.15);
   z-index: 2;
   white-space: nowrap;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .under-exchange-navbar-center {
@@ -405,12 +445,15 @@ $sidebar-profile-media-width: 80px;
 
 .editable-profile-img {
   position: relative;
+  background-color: #ffffff;
+
   .css-1z10k3e {
     position: absolute;
     transform: translate(-50%, -50%);
     top: 0;
     left: 50%;
   }
+
   .edit-nav {
     cursor: pointer;
     position: absolute;
@@ -419,11 +462,13 @@ $sidebar-profile-media-width: 80px;
     transform: translate(-50%, -50%);
     width: 100%;
     text-align: center;
+
     .edit-background {
       background-color: rgba(255, 255, 255, 0.5);
       height: 30px;
       position: absolute;
     }
+
     .edit-text {
       position: absolute;
       left: 50%;
@@ -439,6 +484,7 @@ $sidebar-profile-media-width: 80px;
 
 %sidebar-child-wrapper {
   position: relative;
+  height: 80%;
   .profile-media {
     position: absolute;
     transform: translate(-50%, -50%);
@@ -449,22 +495,27 @@ $sidebar-profile-media-width: 80px;
     border-radius: 50%;
     overflow: hidden;
     margin: auto;
+
     svg, img {
       width: 100%;
       height: 100%;
     }
   }
+
   .info-section {
     padding-bottom: 90px;
+    border-bottom: 0 !important;
     .description {
       position: relative;
       width: 90%;
+
       span {
         font-size: 12px;
         position: absolute;
         top: 3px;
         left: 6px;
       }
+
       textarea {
         width: 100%;
         resize: none;
@@ -475,6 +526,7 @@ $sidebar-profile-media-width: 80px;
         height: 115px;
         line-height: 26px;
         margin-bottom: -8px;
+
         &:focus {
           outline: none;
           border: 1px solid #BBBBBB;
@@ -482,6 +534,7 @@ $sidebar-profile-media-width: 80px;
       }
     }
   }
+
   .menuBottom {
     position: absolute;
     top: 0;
@@ -497,6 +550,7 @@ $sidebar-profile-media-width: 80px;
     line-height: 25px;
     z-index: 2;
   }
+
   .menu-box {
     position: absolute;
     top: 30px;
@@ -511,15 +565,18 @@ $sidebar-profile-media-width: 80px;
     box-shadow: 0 1px 7px 1px rgba(0, 0, 0, 0.15);
     border-radius: $border-radius;
     transition-duration: $animation-timing-short;
+
     > div {
       display: flex;
       flex-direction: column;
       width: 100%;
       transition-duration: $animation-timing-short;
+
       &:first-child {
         border-bottom: 1px solid lighten($text-lighter-color, 3.6%);
         transition-duration: $animation-timing-short;
       }
+
       span {
         padding-right: 10px;
         cursor: pointer;
@@ -527,10 +584,12 @@ $sidebar-profile-media-width: 80px;
         padding-bottom: 7px;
         font-size: $font-size-boxText;
         transition-duration: $animation-timing-short;
+
         &:last-child {
           padding-bottom: 13px;
           transition-duration: $animation-timing-short;
         }
+
         &:hover {
           background-color: $eee-color;
           transition-duration: $animation-timing-short;
@@ -538,14 +597,17 @@ $sidebar-profile-media-width: 80px;
       }
     }
   }
+
   .badgesCard {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     padding-top: 15px;
     padding-bottom: 15px;
+
     span {
       margin: 5px 5px 0 5px;
+
       img {
         width: 45px;
         height: 45px;
@@ -553,41 +615,58 @@ $sidebar-profile-media-width: 80px;
       }
     }
   }
+
   .followNames {
     span {
       &.item {
         color: cornflowerblue
       }
+
       font-size: 14px;
       padding-right: 5px;
     }
   }
+
   .social-network {
     display: flex;
+    bottom: 0;
+    right: 20px;
+    width: calc(100% - 40px);
+    position: absolute;
+    border-top: 1px solid lighten($text-lighter-color, 3.6%);
     flex-direction: row;
     justify-content: space-around;
+
     i {
       font-size: 25px;
       color: $text-light-color;
+
       &.telegram-active {
         color: $telegram-icon-color;
       }
+
       &.instagram-active {
         color: $instagram-icon-color;
       }
+
       &.linkedin-active {
         color: $linkedin-icon-color;
       }
+
       &.youtube-active {
         color: $youtube-icon-color;
       }
     }
   }
+
   .followed-text {
     color: $success-color;
     text-align: center;
-    font-size: $font-size-medium;
+    font-size: $font-size-regular;
     padding: 4px;
+    display: flex;
+    align-items: center;
+    flex: 0 1 40%;
   }
 }
 
@@ -600,6 +679,7 @@ $sidebar-profile-media-width: 80px;
   border-bottom: 1px solid lighten($text-lighter-color, 3.6%);
   padding-top: 20px;
   padding-bottom: 20px;
+
   &:last-child {
     border-bottom: none;
     padding-bottom: 0;
@@ -608,7 +688,8 @@ $sidebar-profile-media-width: 80px;
 
 .banner {
   width: 100%;
-  height: 115px;
+  height: 105px;
+  object-fit: cover;
 }
 
 .sidebarBottomParent {
@@ -628,6 +709,8 @@ $sidebar-profile-media-width: 80px;
     height: 33px;
     margin: auto auto 20px 5px;
     width: 110px;
+    text-align: center;
+    padding: 7px;
 
     &:hover {
       background-color: $background-color;
@@ -659,11 +742,24 @@ $sidebar-profile-media-width: 80px;
       font-weight: bold;
     }
   }
+
+  .side-user {
+    margin: 0;
+    flex: 0 1 40%;
+  }
+  .side-user-follow {
+    margin: 0;
+    flex: 0 1 40%;
+  }
 }
 
 .follow-button {
   background-color: $success-color;
   cursor: pointer !important;
+  color: #ffffff;
+  font-size: $font-size-regular;
+  border-radius: 50px;
+
   &:hover {
     background-color: $background-color;
     border-color: $success-color;
@@ -701,44 +797,48 @@ $sidebar-profile-media-width: 80px;
   flex-direction: column;
   position: relative;
   transition-duration: 0.6s;
-
-  &:after {
-    content: '';
-    width: calc(100% - 80px);
-    display: block;
-    position: absolute;
-    height: 1px;
-    bottom: 0;
-    left: 0;
-    background-color: $text-lighter-color;
-  }
-  &:last-child:after {
-    height: 0;
-  }
+  border: 1px solid transparent;
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 0 2px;
+  //
+  //&:after {
+  //  content: '';
+  //  width: calc(100% - 80px);
+  //  display: block;
+  //  position: absolute;
+  //  height: 1px;
+  //  bottom: 0;
+  //  left: 0;
+  //  background-color: $text-lighter-color;
+  //}
+  //&:last-child:after {
+  //  height: 0;
+  //}
 
   &.active {
     transition-duration: 0.6s;
-    background-color: $chat-box2-color;
-    .exchange-name {
-      transition-duration: 0.6s;
-      color: lighten($text-darkest-color, 10%) !important;
-    }
+    //background-color: $chat-box2-color;
+    border: 1px solid #E7E7E7;
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 0 2px;
 
-    &:after {
-      width: 100%;
-    }
+    //&:after {
+    //  width: 100%;
+    //}
 
-    &:before {
-      content: '';
-      width: 100%;
-      display: block;
-      position: absolute;
-      height: 1px;
-      top: -1px;
-      left: 0;
-      background-color: $text-lighter-color;
-      transition-duration: 0.6s;
-    }
+    //&:before {
+    //  content: '';
+    //  width: 100%;
+    //  display: block;
+    //  position: absolute;
+    //  height: 1px;
+    //  top: -1px;
+    //  left: 0;
+    //  background-color: $text-lighter-color;
+    //  transition-duration: 0.6s;
+    //}
   }
 
   .header-exchange {
@@ -747,25 +847,34 @@ $sidebar-profile-media-width: 80px;
     cursor: pointer;
     align-items: center;
     padding: 10px 10px 10px 30px;
+    transition-duration: 0.6s;
+
     .exchange-name {
+      transition-duration: 0.6s;
       padding: 0 20px 0 0;
-      color: $text-light-color;
       font-size: $font-size-normalText;
     }
+
     .default-logo {
       width: 50px;
       height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      transition-duration: 0.6s;
     }
+
     .img-logo {
       width: 50px;
       height: 50px;
       border-radius: 50%;
       object-fit: cover;
+      transition-duration: 0.6s;
     }
   }
 
   .active-content {
     color: $text-light-color;
+
     .active-description {
       padding-right: 10px;
       font-size: $font-size-normalText;
@@ -773,11 +882,14 @@ $sidebar-profile-media-width: 80px;
       overflow: hidden;
       height: 60px;
     }
+
     .active-footer {
       margin-top: 25px;
+
       svg path {
         fill: $text-light-color
       }
+
       float: left;
     }
   }
@@ -859,21 +971,26 @@ $sidebar-profile-media-width: 80px;
   text-align: right;
   transition-duration: 0.25s;
   cursor: pointer;
+
   &:hover {
     transition-duration: 0.25s;
     background-color: $chat-box2-color;
     border-radius: 3px;
     color: black;
+
     .post-component-footer-logos {
       fill: $primary-color;
     }
+
     .post-component-footer-logos-little {
       fill: $primary-color;
     }
   }
+
   &:first-child {
     padding-top: 10px;
   }
+
   &:last-child {
     padding-bottom: 8px;
   }
@@ -1041,6 +1158,7 @@ $sidebar-profile-media-width: 80px;
 .settingModal-menu::-webkit-scrollbar-thumb {
   background: darkgrey;
   border-radius: 3px;
+
   &:hover {
     background: grey;
   }
@@ -1144,6 +1262,7 @@ $sidebar-profile-media-width: 80px;
   text-align: right;
   width: 200px;
   transition-duration: 0.3s;
+
   &:focus {
     transition-duration: 0.3s;
     border-bottom: 1.5px solid $success-color;
@@ -1161,6 +1280,7 @@ $sidebar-profile-media-width: 80px;
   text-align: right;
   width: 200px;
   transition-duration: 0.3s;
+
   &:focus {
     transition-duration: 0.3s;
     border-bottom: 1.5px solid $success-color;
@@ -1213,15 +1333,18 @@ $sidebar-profile-media-width: 80px;
   bottom: 20px;
   cursor: pointer;
   transition-duration: 0.3s;
+
   &:hover {
     border: 1px solid $success-color;
     color: $success-color;
     background-color: white;
     transition-duration: 0.3s;
   }
+
   &:focus {
     outline: none;
   }
+
   &:active {
     background-color: $success-color;
     border: 1px solid transparent;
@@ -1243,15 +1366,18 @@ $sidebar-profile-media-width: 80px;
   bottom: 20px;
   cursor: not-allowed;
   transition-duration: 0.3s;
+
   &:hover {
     border: 1px solid $info-color;
     color: $info-color;
     background-color: white;
     transition-duration: 0.3s;
   }
+
   &:focus {
     outline: none;
   }
+
   &:active {
     background-color: $info-color;
     border: 1px solid transparent;
@@ -1276,15 +1402,18 @@ $sidebar-profile-media-width: 80px;
   transform: scale(1);
   opacity: 1;
   z-index: 4;
+
   &:hover {
     border: 1px solid $error-color;
     color: $error-color;
     background-color: white;
     transition-duration: 0.3s;
   }
+
   &:focus {
     outline: none;
   }
+
   &:active {
     background-color: $error-color;
     border: 1px solid transparent;
@@ -1309,15 +1438,18 @@ $sidebar-profile-media-width: 80px;
   bottom: 20px;
   cursor: pointer;
   transition-duration: 0.3s;
+
   &:hover {
     border: 1px solid $error-color;
     color: $error-color;
     background-color: white;
     transition-duration: 0.3s;
   }
+
   &:focus {
     outline: none;
   }
+
   &:active {
     background-color: $error-color;
     border: 1px solid transparent;
@@ -1377,15 +1509,18 @@ $sidebar-profile-media-width: 80px;
   width: 80px;
   cursor: pointer;
   transition-duration: 0.3s;
+
   &:hover {
     border: 1px solid $text-title-menu-color;
     color: $text-title-menu-color;
     background-color: white;
     transition-duration: 0.3s;
   }
+
   &:focus {
     outline: none;
   }
+
   &:active {
     background-color: $text-title-menu-color;
     border: 1px solid transparent;
@@ -1406,15 +1541,18 @@ $sidebar-profile-media-width: 80px;
   width: 80px;
   cursor: pointer;
   transition-duration: 0.3s;
+
   &:hover {
     border: 1px solid $success-color;
     color: $success-color;
     background-color: white;
     transition-duration: 0.3s;
   }
+
   &:focus {
     outline: none;
   }
+
   &:active {
     background-color: $success-color;
     border: 1px solid transparent;
@@ -1460,6 +1598,7 @@ $sidebar-profile-media-width: 80px;
   padding-bottom: 35px;
   vertical-align: top;
   margin-right: 1.5%;
+
   .checkmark {
     position: absolute;
     top: 2px;
@@ -1469,6 +1608,7 @@ $sidebar-profile-media-width: 80px;
     border-radius: 3px;
     border: 1px solid black;
     background-color: white;
+
     &:after {
       content: "";
       position: absolute;
@@ -1486,17 +1626,21 @@ $sidebar-profile-media-width: 80px;
   cursor: pointer;
   font-size: 11px;
   user-select: none;
+
   input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
+
     &:checked + .checkmark {
       background-color: $success-color;
+
       &:after {
         display: block;
       }
     }
   }
+
   .checkmark:after {
     left: 4px;
     top: 0;
@@ -1529,15 +1673,18 @@ $sidebar-profile-media-width: 80px;
   bottom: 20px;
   cursor: pointer;
   transition-duration: 0.3s;
+
   &:hover {
     border: 1px solid $text-title-menu-color;
     color: white;
     background-color: $text-title-menu-color;
     transition-duration: 0.3s;
   }
+
   &:focus {
     outline: none;
   }
+
   &:active {
     background-color: white;
     border: 1px solid $text-title-menu-color;
@@ -1645,6 +1792,7 @@ $sidebar-profile-media-width: 80px;
   font-weight: bold;
   cursor: pointer;
   transition-duration: 0.25s;
+
   &:hover {
     transition-duration: 0.25s;
     background-color: $chat-box2-color;
@@ -1654,6 +1802,7 @@ $sidebar-profile-media-width: 80px;
 .act-bar {
   display: flex;
   justify-content: center;
+
   .act-btn {
     cursor: pointer;
     position: relative;
@@ -1670,15 +1819,18 @@ $sidebar-profile-media-width: 80px;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     height: 30px;
+
     svg {
       width: 12px;
       position: absolute;
       left: 10px;
     }
+
     svg path {
       fill: $text-lightest-color;
     }
   }
+
   &.processing .act-bar {
     cursor: default;
   }
@@ -1709,6 +1861,7 @@ $sidebar-profile-media-width: 80px;
   position: relative;
   overflow: hidden;
   margin-bottom: 30px;
+
   &:last-child {
     margin-bottom: 0;
   }
@@ -1931,7 +2084,7 @@ $sidebar-profile-media-width: 80px;
     text-align: center;
     font-size: $font-size-regular;
     font-weight: bold;
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.6);
     color: $text-dark-color;
     cursor: pointer;
     //border-radius: $border-radius-more;
@@ -1942,6 +2095,7 @@ $sidebar-profile-media-width: 80px;
   border-radius: 50%;
   transition: all $animation-timing-long;
   padding-top: 2px;
+
   &:hover {
     transition: all $animation-timing-long;
     background-color: $eee-color;
@@ -1965,7 +2119,26 @@ $sidebar-profile-media-width: 80px;
   resize: vertical;
   width: 100%;
   line-height: 22px;
+  height: 150px;
 }
+
+.edit-exchange-description-input::-webkit-scrollbar {
+  width: $scroll-bar-width;
+}
+
+.edit-exchange-description-input::-webkit-scrollbar-track {
+  background-color: #FFFFFF;
+}
+
+.edit-exchange-description-input::-webkit-scrollbar-thumb {
+  background: #e0e0e0;
+  border-radius: $border-radius;
+  &:hover{
+    background: #d0d0d0;
+    cursor: pointer;
+  }
+}
+
 
 .topbar-profile-img {
   cursor: pointer;

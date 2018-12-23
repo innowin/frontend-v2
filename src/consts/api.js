@@ -2,7 +2,6 @@ import {REST_URL, SOCKET as socket} from "./URLS"
 import {GET_VIEWS_COUNT, NEW_VIEW, REST_REQUEST} from "./Events"
 import {eventChannel} from 'redux-saga'
 import {apply, select} from "redux-saga/effects"
-import results from "src/consts/resultName"
 
 const createSocketChannel = (resultName) => {
   return eventChannel(emit => {
@@ -25,7 +24,7 @@ const createSocketChannel = (resultName) => {
         return;
       }
       if (res.data) {
-        if (res.data.results && res.data.count) {
+        if (res.data.results && res.data.count >= 0) {
           emit(res.data.results)
           return;
         }

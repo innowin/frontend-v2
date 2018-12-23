@@ -3,6 +3,7 @@
 body {
   direction: rtl;
   overflow-x: hidden;
+  overflow-y: scroll;
   height: 100%;
   font-family: "IRANSansWebFaNum", "Helvetica Neue", sans-serif !important;
   //background-image: url("../images/common/background.png");
@@ -53,10 +54,14 @@ input, textarea, button, select {
 @import "components/common/inputs/radio-button-input";
 @import "components/common/inputs/select-input";
 @import "components/common/inputs/render-text-field";
+@import "components/common/inputs/tick-radio";
+@import "components/common/inputs/tick-checkbox";
+@import "components/common/edit-form-button";
 @import "components/common/label";
 @import "components/common/list-group-addons";
 @import "components/common/media";
 @import "components/common/post";
+@import "components/common/post-footer.scss";
 @import "components/common/product";
 @import "components/common/stickers-menu";
 @import "components/common/tag/tag";
@@ -84,6 +89,7 @@ input, textarea, button, select {
 @import "components/organization/basicInformation";
 @import "components/organization/customers";
 @import "components/organization/products";
+@import "components/user/basic-information";
 @import "components/user/certificates";
 @import "components/user/education";
 @import "components/user/skill";
@@ -183,4 +189,29 @@ button {
     box-shadow: none !important;
     outline: none !important;
   }
+}
+
+::-webkit-scrollbar {
+  width: $scroll-bar-width;
+}
+
+::-webkit-scrollbar-track {
+  background-color: $background-color;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $primary-color;
+  //border-radius: 10px;
+  transition: all .3s ease-out;
+  box-shadow: inset 1px 0 5px -1px $primary-color;
+
+  &:hover{
+    background: $primary-color-light2;
+    box-shadow: inset 1px 0 5px -1px $primary-color;
+    transition: all .3s ease-out;
+  }
+}
+
+body, html{
+  scrollbar-color: $primary-color $background-color ;
 }

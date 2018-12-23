@@ -1,12 +1,12 @@
 // @flow
-import * as React from 'react'
-import {Component} from 'react'
-import FontAwesome from 'react-fontawesome'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import exchangeActions from '../../../redux/actions/exchangeActions'
-import {hashTagsListSelector} from 'src/redux/selectors/common/hashTags/hashTag'
-import Select from 'react-select'
+import * as React from "react"
+import {Component} from "react"
+import FontAwesome from "react-fontawesome"
+import {connect} from "react-redux"
+import {bindActionCreators} from "redux"
+import exchangeActions from "../../../redux/actions/exchangeActions"
+import {hashTagsListSelector} from "src/redux/selectors/common/hashTags/hashTag"
+import Select from "react-select"
 
 type appProps =
     {|
@@ -41,11 +41,11 @@ class Sidebar extends Component <appProps, appState> {
   _handleHashTagsChange = (e) => {
     let nowHashTags = this.state.hashTags
     nowHashTags[e.value] = {title: e.value, usage: e.usage}
-    this.setState({hashTags: nowHashTags})
+    this.setState({...this.state, hashTags: nowHashTags})
   }
 
   _showHashTagsSearch = () => {
-    this.setState({searchHashTags: !this.state.searchHashTags})
+    this.setState({...this.state, searchHashTags: !this.state.searchHashTags})
   }
 
   _submitSearchByWord = (e) => {
@@ -55,7 +55,7 @@ class Sidebar extends Component <appProps, appState> {
         this.props.search(e.target.value.trim())
       else this.props.search(null)
 
-      window.scrollTo({top: 0, behavior: 'smooth'})
+      window.scrollTo({top: 0, behavior: "smooth"})
 
     }
   }
@@ -65,24 +65,24 @@ class Sidebar extends Component <appProps, appState> {
   }
 
   _cancelSearchByClick = () => {
-    const self : any = this
+    const self: any = this
     this.props.search(null)
     this.setState({...this.state, searchLength: 0})
-    self.searchInput.value = ''
-    window.scrollTo({top: 0, behavior: 'smooth'})
+    self.searchInput.value = ""
+    window.scrollTo({top: 0, behavior: "smooth"})
   }
 
   render() {
     const {searchLength, searchHashTags} = this.state
 
-    const self : any = this
+    const self: any = this
 
     let hashTags = []
-    Object.values(this.props.hashTags).forEach((p:Object) =>
+    Object.values(this.props.hashTags).forEach((p: Object) =>
         hashTags.push({value: p.title, label: p.title, usage: p.usage})
     )
 
-    let selectedHashTags = Object.values(this.state.hashTags).map((hashTag:Object, i:number) =>
+    let selectedHashTags = Object.values(this.state.hashTags).map((hashTag: Object, i: number) =>
         <div key={i} className='exchanges-explore-sidebar-hashTags'>
           <div className='exchanges-explore-sidebar-hashTags-title'>{hashTag.title}</div>
           <div className='exchanges-explore-sidebar-hashTags-usage'>{hashTag.usage}</div>
@@ -116,9 +116,9 @@ class Sidebar extends Component <appProps, appState> {
               افزودن برچسب:
             </div>
             <div className='exchanges-explore-sidebar-tag-search'>
-              <FontAwesome name="search" style={{color: '#bababa'}} onClick={this._showHashTagsSearch}/>
+              <FontAwesome name="search" style={{color: "#bababa"}} onClick={this._showHashTagsSearch}/>
               <Select
-                  className={searchHashTags ? 'exchanges-explore-sidebar-tag-input-show' : 'exchanges-explore-sidebar-tag-input'}
+                  className={searchHashTags ? "exchanges-explore-sidebar-tag-input-show" : "exchanges-explore-sidebar-tag-input"}
                   onChange={this._handleHashTagsChange}
                   options={hashTags}
                   placeholder=''

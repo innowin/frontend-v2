@@ -9,12 +9,16 @@ const temp = (state = initialState.temp, action) => {
     /** ----------------- set created file in  temporaryFile -----------------> **/
     case types.COMMON.SET_FILE_IDS_IN_TEMP_FILE:
       const file = state.file
-      const {tempFileChildName, fileId} = action.payload || {}
+      let lastKey = state.lastKey
+      const {tempFileKeyName, fileId} = action.payload || {}
+      if (Number.isInteger(tempFileKeyName)) {
+        lastKey = [...lastKey, tempFileKeyName]
+      }
       let data;
-      let existFile = file[tempFileChildName]
+      let existFile = file[tempFileKeyName]
       if (existFile) {
         if (!(Array.isArray(existFile))) {
-          existFile = [file[tempFileChildName]]
+          existFile = [file[tempFileKeyName]]
         }
         data = [...existFile, fileId]
       } else {
@@ -25,8 +29,9 @@ const temp = (state = initialState.temp, action) => {
         ...state,
         file: {
           ...file,
-          [tempFileChildName]: data
-        }
+          [tempFileKeyName]: data
+        },
+        lastKey
       }
 
     /** ----------------- reset -----------------> **/

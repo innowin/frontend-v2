@@ -128,37 +128,37 @@ class UserDetailPanel extends React.Component<UserDetailPanelProps, UserDetailPa
               <p className='user-detail-label user-detail-username'>{name}</p>
               <p className='user-detail-value user-detail-username-value'>@{user.username}</p>
             </div>
-            <div className='user-detail-row'>
-              <p>{translate["Contribution"]}</p>
-              <p className='user-detail-value'>{`2 ${translate["Skill"]} ${translate["And"]} 5 ${translate["Product"]}`}</p>
-            </div>
-            {isUser ?
-                <React.Fragment>
-                  <div className='user-detail-row'>
-                    <p>{translate["Work experience"]}</p>
-                    <p className='user-detail-value'>{`2 ${translate["Year"]} ${translate["And"]} 5 ${translate["Month"]}`}</p>
-                  </div>
-                  <div className='user-detail-row'>
-                    <p> {translate["Education Experience"]}</p>
-                    <p className='user-detail-value'>گرایش مهندسی برق</p>
-                  </div>
-                </React.Fragment>
-                :
-                <React.Fragment>
-                  <div className='user-detail-row'>
-                    <p>{translate["Employees"]}</p>
-                    <p className='user-detail-value'>{`${organization.staff_count ? organization.staff_count : 0} نفر`}</p>
-                  </div>
-                  <div className='user-detail-row'>
-                    <p>{translate["Customers"]}</p>
-                    <p className='user-detail-value'>{`2 ${translate["Customer"]}`}</p>
-                  </div>
-                  <div className='user-detail-row'>
-                    <p>{translate["Certificate"]}</p>
-                    <p className='user-detail-value'>{`2 ${translate["Certificate"]} ${translate["And"]} 5 ${translate["Badge"]}`}</p>
-                  </div>
-                </React.Fragment>
-            }
+            {/*<div className='user-detail-row'>*/}
+              {/*<p>{translate["Contribution"]}</p>*/}
+              {/*<p className='user-detail-value'>{`2 ${translate["Skill"]} ${translate["And"]} 5 ${translate["Product"]}`}</p>*/}
+            {/*</div>*/}
+            {/*{isUser ?*/}
+                {/*<React.Fragment>*/}
+                  {/*<div className='user-detail-row'>*/}
+                    {/*<p>{translate["Work experience"]}</p>*/}
+                    {/*<p className='user-detail-value'>{`2 ${translate["Year"]} ${translate["And"]} 5 ${translate["Month"]}`}</p>*/}
+                  {/*</div>*/}
+                  {/*<div className='user-detail-row'>*/}
+                    {/*<p> {translate["Education Experience"]}</p>*/}
+                    {/*<p className='user-detail-value'>گرایش مهندسی برق</p>*/}
+                  {/*</div>*/}
+                {/*</React.Fragment>*/}
+                {/*:*/}
+                {/*<React.Fragment>*/}
+                  {/*<div className='user-detail-row'>*/}
+                    {/*<p>{translate["Employees"]}</p>*/}
+                    {/*<p className='user-detail-value'>{`${organization.staff_count ? organization.staff_count : 0} نفر`}</p>*/}
+                  {/*</div>*/}
+                  {/*<div className='user-detail-row'>*/}
+                    {/*<p>{translate["Customers"]}</p>*/}
+                    {/*<p className='user-detail-value'>{`2 ${translate["Customer"]}`}</p>*/}
+                  {/*</div>*/}
+                  {/*<div className='user-detail-row'>*/}
+                    {/*<p>{translate["Certificate"]}</p>*/}
+                    {/*<p className='user-detail-value'>{`2 ${translate["Certificate"]} ${translate["And"]} 5 ${translate["Badge"]}`}</p>*/}
+                  {/*</div>*/}
+                {/*</React.Fragment>*/}
+            {/*}*/}
           </div>
         </div>
     )

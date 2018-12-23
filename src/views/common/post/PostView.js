@@ -3,7 +3,7 @@ import * as React from 'react'
 import PropTypes from 'prop-types'
 import 'moment/locale/fa'
 
-import {DefaultUserIcon, DefaultImage} from 'src/images/icons'
+import {DefaultImage} from 'src/images/icons'
 import {CategoryTitle, VerifyWrapper} from 'src/views/common/cards/Frames'
 import connect from 'react-redux/es/connect/connect'
 import {getMessages} from '../../../redux/selectors/translateSelector'
@@ -61,6 +61,7 @@ type postViewState = {
   confirm: boolean,
   pictureLoaded: null | boolean,
   showComment: boolean,
+  commentOn: commentType,
 }
 
 class PostView extends React.Component<postExtendedViewProps, postViewState> {
@@ -85,7 +86,8 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       menuToggle: false,
       confirm: false,
       pictureLoaded: null,
-      showComment: false
+      showComment: false,
+      commentOn: undefined,
     }
 
     const self: any = this
@@ -95,26 +97,29 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     self._delete = this._delete.bind(this)
     self._showConfirm = this._showConfirm.bind(this)
     self._cancelConfirm = this._cancelConfirm.bind(this)
-    self.openMenu = this.openMenu.bind(this)
+    self._openMenu = this._openMenu.bind(this)
     self._handleClickOutMenuBox = this._handleClickOutMenuBox.bind(this)
-    self.handleShowComment = this.handleShowComment.bind(this)
+    self._handleShowComment = this._handleShowComment.bind(this)
   }
 
   componentDidMount() {
     const self: any = this
 
-    const {extendedView, post, actions} = this.props
+    const {extendedView, post} = this.props
     if (post && post.post_picture) {
-      let {getFile} = actions
-      getFile(post.post_picture.id)
-
+      const {post, extendedView, fileList} = this.props
+      let postPicture, postPictureId
+      if (post) {
+        postPicture = post.post_picture
+        postPictureId = post.post_picture
+      }
       let picture = new Image()
-      picture.src = post.post_picture.file
+      picture.src = (!extendedView ? (postPicture ? postPicture.file : '') : (postPictureId ? (fileList[postPictureId] ? fileList[postPictureId].file : '') : ''))
       picture.onload = () => {
-        this.setState({pictureLoaded: true})
+        this.setState({...this.state, pictureLoaded: true})
       }
       picture.onerror = () => {
-        this.setState({pictureLoaded: false})
+        this.setState({...this.state, pictureLoaded: false})
       }
     }
     if (extendedView) {
@@ -173,6 +178,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   componentDidUpdate(prevProps) {
+    const self: any = this
     const {userImageId, actions} = this.props
     const {getFile} = actions
     if (!prevProps.userImageId && prevProps.userImageId !== userImageId) {
@@ -180,11 +186,32 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     }
   }
 
+  componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
+    if (this.props.post !== nextProps.post) {
+      const {post, extendedView, fileList} = nextProps
+      if (post && post.post_picture) {
+        let postPicture, postPictureId
+        if (post) {
+          postPicture = post.post_picture
+          postPictureId = post.post_picture
+        }
+        let picture = new Image()
+        picture.src = (!extendedView ? (postPicture ? postPicture.file : '') : (postPictureId ? (fileList[postPictureId] ? fileList[postPictureId].file : '') : ''))
+        picture.onload = () => {
+          this.setState({...this.state, pictureLoaded: true})
+        }
+        picture.onerror = () => {
+          this.setState({...this.state, pictureLoaded: false})
+        }
+      }
+    }
+  }
+
   componentWillUnmount() {
     document.removeEventListener('click', this._handleClickOutMenuBox)
   }
 
-  openMenu(e) {
+  _openMenu(e) {
     e.preventDefault()
     const {post, actions} = this.props
     const {setPostViewer, getPostViewerCount} = actions
@@ -193,9 +220,9 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     this.setState({...this.state, menuToggle: !this.state.menuToggle})
   }
 
-  handleShowComment = () => {
+  _handleShowComment = () => {
     let {showComment} = this.state
-    this.setState({...this.state, showComment: !showComment})
+    this.setState({...this.state, showComment: !showComment, commentOn: undefined})
   }
 
   _handleClickOutMenuBox(e: any) {
@@ -221,21 +248,16 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     }
   }
 
-  replyComment = (comment, commentTextField) => {
-    if (commentTextField && commentTextField.value) {
-      const {actions, post, commentParentType} = this.props
-      const {createComment} = actions
-      const formValues = {text: commentTextField.value, comment_parent: post.id, comment_replied: comment.id}
-      createComment({formValues, parentId: post.id, commentParentType})
-    }
+  _setCommentOn = (comment) => {
+    this.setState({...this.state, commentOn: comment, showComment: true})
   }
 
   _showConfirm() {
-    this.setState({confirm: true})
+    this.setState({...this.state, confirm: true})
   }
 
   _cancelConfirm() {
-    this.setState({confirm: false})
+    this.setState({...this.state, confirm: false})
   }
 
   _delete() {
@@ -258,16 +280,16 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   handleRetry() {
-    this.setState({pictureLoaded: null}, () => {
+    this.setState({...this.state, pictureLoaded: null}, () => {
       const {post} = this.props
       if (post && post.post_picture) {
         let picture = new Image()
         picture.src = post.post_picture.file
         picture.onload = () => {
-          this.setState({pictureLoaded: true})
+          this.setState({...this.state, pictureLoaded: true})
         }
         picture.onerror = () => {
-          this.setState({pictureLoaded: false})
+          this.setState({...this.state, pictureLoaded: false})
         }
       }
     })
@@ -276,7 +298,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   render() {
     const self: any = this
     const {post, translate, postIdentity, postRelatedIdentityImage, userImage, extendedView, showEdit, comments, fileList, commentParentType} = this.props
-    const {menuToggle, confirm, pictureLoaded, showComment} = this.state
+    const {menuToggle, confirm, pictureLoaded, showComment, commentOn} = this.state
     let postDescription, postPicture, postPictureId, postIdentityUserId, postIdentityOrganId, postOwnerId = 0
     if (post) {
       postDescription = post.post_description
@@ -286,6 +308,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       postIdentityOrganId = post.post_identity.identity_organization && post.post_identity.identity_organization.id
       postOwnerId = postIdentityUserId || postIdentityOrganId
     }
+    const postImageUrl = (!extendedView ? (postPicture ? postPicture.file : null) : (postPictureId ? (fileList[postPictureId] ? fileList[postPictureId].file : null) : null))
 
     // if (postPicture && pictureLoaded) {
     //   this.picture.className = 'post-image-container-effect'
@@ -311,36 +334,32 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                 <PostHeader post={post} translate={translate} postIdentity={postIdentity}
                             postRelatedIdentityImage={postRelatedIdentityImage} showEdit={showEdit}
                             extendedView={extendedView}/>
-                <div className="post-content" style={new RegExp('^[A-Za-z]*$').test(postDescription[0]) ? {direction: 'ltr'} : {direction: 'rtl'}} ref={e => self.text = e}>
+                <div className="post-content"
+                     style={new RegExp('^[A-Za-z]*$').test(postDescription[0]) ? {direction: 'ltr'} : {direction: 'rtl'}}
+                     ref={e => self.text = e}>
                   {postDescription}
                 </div>
 
-                {!extendedView ?
-                    postPicture ?
-                        <div className={'post-image-container'}>
-                          <div className={pictureLoaded === true ? 'post-image-loading-effect' : 'post-image-loading'}>
-                            <DefaultImage className='default-image'/>
-                            {
-                              pictureLoaded === false ?
-                                  <div className='post-retry-image'>
-                                    مشکل در بارگذاری عکس.
-                                    <span className='post-retry-image-click'
-                                          onClick={this.handleRetry}> تلاش مجدد </span>
-                                  </div>
-                                  :
-                                  <div className='bright-line'/>
-                            }
-                          </div>
-                          <img src={postPicture.file} width={'100%'} alt='عکس پست'
-                               className={pictureLoaded === true ? 'post-image-effect' : 'post-image'}/>
+                {
+                  postImageUrl ?
+                      <div className={'post-image-container'}>
+                        <div className={pictureLoaded === true ? 'post-image-loading-effect' : 'post-image-loading'}>
+                          <DefaultImage className='default-image'/>
+                          {
+                            pictureLoaded === false ?
+                                <div className='post-retry-image'>
+                                  مشکل در بارگذاری عکس.
+                                  <span className='post-retry-image-click'
+                                        onClick={this.handleRetry}> تلاش مجدد </span>
+                                </div>
+                                :
+                                <div className='bright-line'/>
+                          }
                         </div>
-                        : null
-                    :
-                    postPictureId ?
-                        <div className={'post-image-container'}>
-                          <img src={fileList[postPictureId] ? fileList[postPictureId].file : null} width={'100%'}
-                               alt={' '} className={'post-image'}/>
-                        </div> : null
+                        <img src={postImageUrl} width={'100%'} alt='عکس پست'
+                             className={pictureLoaded === true ? 'post-image-effect' : 'post-image'}/>
+                      </div>
+                      : null
                 }
 
                 {post && post.post_related_product &&
@@ -352,9 +371,9 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
 
                 <PostFooter post={post} postIdentity={postIdentity} translate={translate} extendedView={extendedView}
-                            menuToggle={menuToggle} openMenu={this.openMenu}
+                            menuToggle={menuToggle} openMenu={this._openMenu}
                             deletePost={this._showConfirm}
-                            showComment={this.handleShowComment}
+                            showComment={this._handleShowComment}
                             showEdit={showEdit}
                 />
                 {/*{
@@ -376,12 +395,14 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                 {
                   showComment ? <PostCommentNew
                       commentParentType={commentParentType}
-                      post={post}/> : null
+                      post={post}
+                      handleShowComment={this._handleShowComment}
+                      commentOn={commentOn}/> : null
                 }
 
                 {extendedView && comments && comments.length > 0 &&
                 <PostComments comments={comments} translate={translate}
-                              replyComment={(comment) => this.replyComment(comment, this.commentTextField)}
+                              replyComment={(comment) => this._setCommentOn(comment)}
                               deleteComment={this.deleteComment}/>
                 }
               </div>

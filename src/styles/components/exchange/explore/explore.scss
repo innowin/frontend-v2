@@ -45,6 +45,7 @@
   border: 1px solid $primary-color-light3;
   cursor: pointer;
   transition-duration: 0.3s;
+
   &:hover {
     transition-duration: 0.3s;
     background-color: $primary-color-light3;
@@ -225,9 +226,11 @@
   border-radius: 15px;
   padding: 0 5%;
   height: 35px;
+
   &:focus {
     outline: none;
   }
+
   &::placeholder {
     color: whitesmoke;
     font-size: 14px;
@@ -298,6 +301,7 @@
 .exchanges-explore-sidebar-tag-search {
   display: inline-block;
   position: relative;
+
   &:hover {
     cursor: pointer;
   }
@@ -315,6 +319,7 @@
   width: 0;
   height: 0;
   opacity: 0;
+
   &:focus {
     border: 1px solid black;
     outline: none;
@@ -332,6 +337,7 @@
   width: 120px;
   height: 100%;
   opacity: 1;
+
   &:focus {
     border: 1px solid black;
     outline: none;
@@ -418,11 +424,13 @@
   float: left;
   transition-duration: 0.25s;
   font-size: $font-size-normalText;
+
   &:hover {
     color: white;
     background-color: $tag-del-btn-background;
     transition-duration: 0.25s;
   }
+
   &:focus {
     outline: none;
   }
@@ -440,14 +448,17 @@
   margin-top: 13px;
   transition-duration: 0.25s;
   font-size: $font-size-normalText;
+
   &:hover {
     background-color: white;
     color: $tag-del-btn-background;
     transition-duration: 0.25s;
   }
+
   &:focus {
     outline: none;
   }
+
   &:active {
     background-color: $secondary-color;
     color: white;
@@ -466,6 +477,7 @@
   left: 15px;
   transition-duration: 0.25s;
   font-size: $font-size-normalText;
+
   &:focus {
     outline: none;
   }
@@ -483,6 +495,7 @@
   margin: 0 5px;
   width: 27px;
   height: 27px;
+
   &:first-child {
     margin-right: 0;
   }
@@ -568,10 +581,12 @@
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   transition-duration: 0.5s;
+
   &:hover {
     transition-duration: 0.25s;
     transform: scale(1.05) translateY(-5px);
     background-color: $primary-color;
+
     .go-up-logo {
       fill: white;
     }
@@ -702,11 +717,14 @@
   display: inline-block;
   direction: ltr;
   margin-right: 8%;
+  height: 30px;
+  width: 30px;
   .post-menu-bottom {
     padding: 7px 8px;
     color: #C2C2C2;
     border-radius: 50px;
     transition: all $animation-timing;
+
     &:hover {
       background-color: $eee-color;
     }
@@ -759,7 +777,7 @@
 }
 
 .user-default-logo {
- transform: scale(1.6);
+  transform: scale(1.6);
 }
 
 .user-default-skeleton {
@@ -773,4 +791,9 @@
   width: 47.5%;
   vertical-align: top;
   display: inline-block;
+}
+
+.skeleton-overflow-hidden {
+  overflow: hidden;
+  position: relative;
 }

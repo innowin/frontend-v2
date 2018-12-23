@@ -39,7 +39,7 @@ class Material extends React.Component {
       } else {
         this.ripple.style.opacity = '0'
         setTimeout(() => {
-          if (this.ripple) {
+          if (this.ripple && this.container) {
             this.container.removeChild(this.ripple)
             this.ripple = null
           }
@@ -60,7 +60,7 @@ class Material extends React.Component {
         let ripple = document.createElement('span')
         ripple.className = 'rippleSlow'
         if (this.props.backgroundColor) ripple.style.backgroundColor = this.props.backgroundColor
-        ripple.style.height = ripple.style.width = Math.max(rect.width, rect.height) + 'px'
+        ripple.style.height = ripple.style.width = parseInt(1.3 * Math.max(rect.width, rect.height), 10) + 'px'
         target.appendChild(ripple)
         this.ripple = ripple
         let top = pageY - rect.top - ripple.offsetHeight / 2 - window.scrollY
@@ -73,13 +73,13 @@ class Material extends React.Component {
     }
   }
 
-  handleLeave(e) {
+  handleLeave() {
     try {
       clearTimeout(this.buttonPressTimer)
       if (this.ripple) {
         this.ripple.style.opacity = '0'
         setTimeout(() => {
-          if (this.ripple) {
+          if (this.ripple && this.container) {
             this.container.removeChild(this.ripple)
             this.ripple = null
           }

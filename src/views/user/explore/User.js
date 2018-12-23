@@ -8,6 +8,7 @@ import {bindActionCreators} from 'redux'
 import {ClipLoader} from 'react-spinners'
 import {Component} from 'react'
 import {DefaultUserIcon} from 'src/images/icons'
+import {getMessages} from 'src/redux/selectors/translateSelector'
 import {Link} from 'react-router-dom'
 import {REST_URL} from 'src/consts/URLS'
 
@@ -20,7 +21,8 @@ type appProps =
       currentUserIdentity: Object,
       currentUserId: Object,
       currentUserType: Object,
-      followees: Object
+      followees: Object,
+      translate: { [string]: string }
     |}
 
 type appState =
@@ -89,8 +91,7 @@ class User extends Component <appProps, appState> {
           }
         }
       })
-    }
-    else if (follow && (nextProps.identities[data.user.id] && nextProps.identities[data.user.id].identity && nextProps.identities[data.user.id].identity.content)) {
+    } else if (follow && (nextProps.identities[data.user.id] && nextProps.identities[data.user.id].identity && nextProps.identities[data.user.id].identity.content)) {
       this.setState({...this.state, follow: false}, () => {
         const formValues = {follow_follower: currentUserIdentity, follow_followed: nextProps.identities[data.user.id].identity.content}
         actions.follow({formValues, followOwnerId: currentUserId, followOwnerType: currentUserType})
@@ -104,8 +105,7 @@ class User extends Component <appProps, appState> {
       if (identities[data.user.id] && identities[data.user.id].identity && identities[data.user.id].identity.content) {
         const formValues = {follow_follower: currentUserIdentity, follow_followed: identities[data.user.id].identity.content}
         actions.follow({formValues, followOwnerId: currentUserId, followOwnerType: currentUserType})
-      }
-      else {
+      } else {
         this.setState({...this.state, follow: true})
         actions.getUserIdentity(data.user.id)
       }
@@ -114,14 +114,12 @@ class User extends Component <appProps, appState> {
 
   _renderFollowed(data, followees) {
     const {followLoading} = this.state
-
+    const {translate} = this.props
     if (followees[data.user.id]) {
-      return <Material className='user-follow' content='دنبال شده'/>
-    }
-    else if (followLoading) {
+      return <Material className='user-follow' content={translate['Followed']}/>
+    } else if (followLoading) {
       return <Material className='user-follow-loading' content={<ClipLoader color='#008057' size={19}/>}/>
-    }
-    else return <Material className='user-followed' content='دنبال کردن' onClick={this._follow}/>
+    } else return <Material className='user-followed' content={translate['Follow']} onClick={this._follow}/>
   }
 
   render() {
@@ -176,6 +174,7 @@ const mapStateToProps = (state) => {
     currentUserIdentity: state.auth.client.identity.content,
     currentUserId: userId,
     identities: state.users.list,
+    translate: getMessages(state),
   }
 }
 
@@ -186,4 +185,5 @@ const mapDispatchToProps = (dispatch) => ({
     follow: socialActions.createFollow,
   }, dispatch)
 })
+
 export default connect(mapStateToProps, mapDispatchToProps)(User)

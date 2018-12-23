@@ -193,21 +193,6 @@
   }
 }
 
-::-webkit-scrollbar {
-  width: $scroll-bar-width;
-}
-
-::-webkit-scrollbar-track {
-  background-color: $primary-color-light4;
-}
-
-::-webkit-scrollbar-thumb {
-  background: $primary-color;
-  &:hover{
-    background: $primary-color-light1;
-  }
-}
-
 .default-image {
   position: absolute;
   opacity: 0.5;

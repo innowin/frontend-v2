@@ -157,6 +157,21 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
     }
   }
 
+  _onKeyPress = (target) => {
+    const {step, userIdentifierInputValue, password, passwordConfirm} = this.state
+    const {recoveryPasswordObject} = this.props
+    const {isLoading: recoveryIsLoading} = recoveryPasswordObject
+    const disabled = recoveryIsLoading || (step === 0 && userIdentifierInputValue === '') || (step === 3 && passwordConfirm !== password && password !== '')
+
+    if (step === 1) {
+      // this._onSuccess()
+      // return
+    }
+    if (!disabled && target.charCode === 13) {
+      this._onSuccess()
+    }
+  }
+
   _changePhoneInput = (e) => {
     const value = e.target.value
     this.setState({...this.state, userIdentifierInputValue: value})
@@ -208,9 +223,13 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
                     placeholder={translate['Username, email, phone']}
                     value={userIdentifierInputValue}
                     onChange={this._changePhoneInput}
+                    onKeyPress={this._onKeyPress}
                 />
                 {recoveryError === constants.ERRORS.USER_SEARCH.NOT_FOUND &&
                 <span className="not-found-user-error error-message mt-2">{translate['User Not Found']}</span>
+                }
+                {userIdentifierInputValue === '' &&
+                <span className="not-found-user-error error-message mt-2">{translate['Fill required fields']}</span>
                 }
               </Fragment>
               }
@@ -218,20 +237,22 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
               <Fragment>
                 <p className='password-modal-title'>{translate['Pick a way for creating new password']}</p>
                 {recoveryPasswordObject.searchUserData.mobile &&
-                <label className="container">
+                <label className="container-checkmark">
                   <input type="radio" defaultChecked name="radio-step-1" ref={e => this.phoneChecked = e}/>
                   <span className="checkmark"/>
                   <p className='password-way-text'>
-                    {translate['Send verification code to phone'] + ' ' + recoveryPasswordObject.searchUserData.mobile}
+                    {translate['Send verification code to phone'] + ' '}
+                    <span className='phone-number'>
+                      {recoveryPasswordObject.searchUserData.mobile}
+                    </span>
                   </p>
                 </label>
                 }
                 {recoveryPasswordObject.searchUserData.email &&
-                <label className="container">
+                <label className="container-checkmark">
                   <input type="radio" name="radio-step-1" ref={e => this.emailChecked = e}/>
                   <span className="checkmark"/>
-                  <p className='password-way-text'>{translate['Send recovery link to'] +
-                  recoveryPasswordObject.searchUserData.email}</p>
+                  <p className='password-way-text'>{translate['Send recovery link to'] + ' ' + recoveryPasswordObject.searchUserData.email}</p>
                 </label>
                 }
               </Fragment>
@@ -244,6 +265,7 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
                        maxLength={1}
                        ref={e => this.activationCode5 = e}
                        onChange={this._changeActiveCodeInput}
+                       onKeyPress={this._onKeyPress}
                 />
                 <input tabIndex='4' className='settingModal-menu-general-input activation-input'
                        maxLength={1}
@@ -266,7 +288,8 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
                        onChange={this._changeActiveCodeInput}
                 />
                 {activationCodeInput.length !== 5 &&
-                <span className="validation-code-error error-message mt-2">{translate['Complete the validation code']}</span>}
+                <span
+                    className="validation-code-error error-message mt-2">{translate['Complete the validation code']}</span>}
                 {recoveryPasswordObject.error && <span
                     className="validation-code-error error-message mt-2">{translate['Incorrect validation code']}</span>}
               </Fragment>
@@ -283,6 +306,7 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
                            className='password-text-field settingModal-menu-general-input-password'
                            ref={e => this.password = e}
                            onChange={this._changePassword}
+                           onKeyPress={this._onKeyPress}
                     />
                   </div>
                 </div>
@@ -295,6 +319,7 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
                            className='password-text-field settingModal-menu-general-input-password'
                            ref={e => this.passwordConfirm = e}
                            onChange={this._changePasswordConfirm}
+                           onKeyPress={this._onKeyPress}
                     />
                   </div>
                   {passwordConfirm !== password &&
@@ -306,7 +331,8 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
               }
             </div>
             <div className='password-modal-footer'>
-              <button className='common-modal-button search-button' disabled={recoveryIsLoading}
+              <button className='common-modal-button search-button'
+                      disabled={recoveryIsLoading || (step === 0 && userIdentifierInputValue === '') || (step === 3 && passwordConfirm !== password && password !== '')}
                       onClick={this._onSuccess}>
                 {step === 0 &&
                 translate['search']

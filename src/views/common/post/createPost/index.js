@@ -23,7 +23,7 @@ import StickersMenu from '../../components/StickersMenu'
 import AddProductModal from './addProductModal'
 import ProductInfoView from '../../contributions/ProductInfoView'
 
-const timeStamp = new Date().toISOString()
+const timeStamp = +new Date()
 
 
 class CreatePost extends Component {
@@ -68,11 +68,14 @@ class CreatePost extends Component {
       keys: [],
       selectedProduct: undefined,
       selectedProductId: undefined,
+      scrollHeight: 0,
+      textLength: 0
     }
   }
 
 
   _resetPost = () => {
+    this.text.innerText = ''
     this.setState({
       ...this.state,
       open: false,
@@ -90,7 +93,7 @@ class CreatePost extends Component {
   }
 
   handleClickOutside = (event) => {
-    const {attachMenu, contactMenu, linkModal, addProductModal, postPictures, postFile, postMedia, link, description, labels, savingPost} = this.state
+    const {attachMenu, contactMenu, linkModal, addProductModal, postPictures, postFile, postMedia, link, description, labels, savingPost, open} = this.state
     const needReset = !savingPost && !description && !postPictures && !postFile && !postMedia && !link && labels === {}
 
     if (!event.target.closest('#create-post-attach-menu-box')) {
@@ -114,6 +117,12 @@ class CreatePost extends Component {
     if (this.setWrapperFourthRef && !this.setWrapperFourthRef.contains(event.target)) {
       if (addProductModal) {
         this.setState({...this.state, addProductModal: false})
+      }
+    }
+
+    if (this.form && !this.form.contains(event.target)) {
+      if (open && (description.length === 0)) {
+        this.setState({...this.state, open: false})
       }
     }
 
@@ -141,7 +150,7 @@ class CreatePost extends Component {
   }
 
   _handleFocusText = () => {
-    this.setState({...this.state, focused: true})
+    this.setState({...this.state, open: true, focused: true})
   }
 
 
@@ -173,60 +182,52 @@ class CreatePost extends Component {
     this.setState({...this.state, postPictures: newPostPictures})
   }
 
-  _handleChangeText = (e) => {
-    const description = e.target.value
-    if (description.trim().length <= 1500)
-      this.setState({...this.state, description}, () => checkCharacter(description))
-    const checkCharacter = (description) => {
-      const descriptionLength = description.trim().length
-      if (descriptionLength === 0)
-        this.setState({...this.state, descriptionClass: 'hide-message'})
-      if (descriptionLength > 0 && descriptionLength < 5)
-        this.setState({...this.state, descriptionClass: 'error-message'})
-      if (descriptionLength >= 5 && descriptionLength < 1490)
-        this.setState({...this.state, descriptionClass: 'neutral-message'})
-      if (descriptionLength > 1490 && descriptionLength < 1500)
-        this.setState({...this.state, descriptionClass: 'warning-message'})
-    }
-  }
-
   handleEmoji = (emoji) => {
-    this.text.focus()
-    if (this.text.selectionStart) {
-      let x = this.text.selectionStart
-      let y = this.text.selectionEnd
-      this.text.value = this.text.value.substring(0, x) + emoji + this.text.value.substring(y, this.text.value.length)
-      this.text.selectionStart = parseInt(x, 10) + emoji.length
-      this.text.selectionEnd = parseInt(y, 10) + emoji.length
-    } else {
-      this.text.value += emoji
-    }
+    this.setState({...this.state, open: true}, () => {
 
-    const description = this.text.value
-    if (description.trim().length <= 1500)
-      this.setState({...this.state, description}, () => checkCharacter(description))
-    const checkCharacter = (description) => {
-      const descriptionLength = description.trim().length
-      if (descriptionLength === 0)
-        this.setState({...this.state, descriptionClass: 'hide-message'})
-      if (descriptionLength > 0 && descriptionLength < 5)
-        this.setState({...this.state, descriptionClass: 'error-message'})
-      if (descriptionLength >= 5 && descriptionLength < 1490)
-        this.setState({...this.state, descriptionClass: 'neutral-message'})
-      if (descriptionLength > 1490 && descriptionLength < 1500)
-        this.setState({...this.state, descriptionClass: 'warning-message'})
-    }
+      this.text.focus()
+      if (this.text.selectionStart) {
+        let x = this.text.selectionStart
+        let y = this.text.selectionEnd
+        this.text.innerText = this.text.innerText.substring(0, x) + emoji + this.text.innerText.substring(y, this.text.innerText.length)
+        this.text.selectionStart = parseInt(x, 10) + emoji.length
+        this.text.selectionEnd = parseInt(y, 10) + emoji.length
+      } else {
+        this.text.innerText += emoji
+      }
+
+      // let range = window.getSelection().getRangeAt(0)
+      // let preCaretRange = range.cloneRange()
+      // preCaretRange.selectNodeContents(this.text)
+      // preCaretRange.setEnd(range.endContainer, range.endOffset)
+      // let caretOffset = preCaretRange.toString().length
+      //
+      // console.log(preCaretRange)
+
+      // this.text.innerText = this.text.innerText.substring(0, caretOffset) + emoji + this.text.innerText.substring((caretOffset), this.text.innerText.length)
+
+      const description = this.text.innerText
+      if (description.trim().length <= 4070)
+        this.setState({...this.state, description}, () => {
+          const descriptionLength = description.trim().length
+          if (descriptionLength === 0)
+            this.setState({...this.state, descriptionClass: 'hide-message'})
+          if (descriptionLength > 0 && descriptionLength < 5)
+            this.setState({...this.state, descriptionClass: 'error-message'})
+          if (descriptionLength >= 5 && descriptionLength < 4070)
+            this.setState({...this.state, descriptionClass: 'neutral-message'})
+          if (descriptionLength > 4070 && descriptionLength < 4096)
+            this.setState({...this.state, descriptionClass: 'warning-message'})
+        })
+    })
   }
 
-  _handleBlurText = (e) => {
+  _handleBlurText = () => {
     this.setState({
       ...this.state,
-      descriptionClass: 'hide-message'
+      descriptionClass: 'hide-message',
+      focused: false
     })
-    const descriptionLength = e.target.value.trim().length
-    if (descriptionLength === 0) {
-      this.setState({...this.state, open: false, focused: false})
-    } else this.setState({...this.state, open: true, focused: false})
   }
 
   _deleteFile = () => {
@@ -259,7 +260,7 @@ class CreatePost extends Component {
   _formValidate = () => {
     const {description} = this.state
     const descriptionLength = description.trim().length
-    const descriptionError = descriptionLength < 5 || descriptionLength > 1500
+    const descriptionError = descriptionLength < 5 || descriptionLength > 4096
     let result = true
     //Attached files don't required check validation before save.because don't add to attached files if be error
     const validates = [
@@ -281,7 +282,9 @@ class CreatePost extends Component {
   }
 
   _handleShiftEnter = (e) => {
-    if (e.keyCode === 17 || e.keyCode === 13) {
+
+    if (this.text.innerText.length > 4096) this.text.innerText = this.state.description
+    else if (e.keyCode === 17 || e.keyCode === 13) {
       let keys = this.state.keys.slice()
       keys[e.keyCode] = true
       this.setState({...this.state, keys: keys})
@@ -313,7 +316,7 @@ class CreatePost extends Component {
     const {actions} = this.props
     const {createFile} = actions
     const nextActionTypesForPosPictures = types.COMMON.SET_FILE_IDS_IN_TEMP_FILE
-    const nextActionDataForPostPictures = {tempFileChildName: timeStamp}
+    const nextActionDataForPostPictures = {tempFileKeyName: timeStamp}
     const fileIdKey = 'fileId'
     const postPicturesCreateArguments = {
       fileIdKey,
@@ -357,6 +360,30 @@ class CreatePost extends Component {
 
     if (savingPost && postPictures.length === postPictureIds.length) {
       this._save()
+    }
+  }
+
+  _autoGrow = () => {
+    const scrollHeight = this.text.scrollHeight
+    const description = this.text.innerText
+    if (description.trim().length <= 4096)
+      this.setState({...this.state, scrollHeight, description}, () => {
+        const descriptionLength = description.trim().length
+        if (descriptionLength === 0)
+          this.setState({...this.state, descriptionClass: 'hide-message'})
+        if (descriptionLength > 0 && descriptionLength < 5)
+          this.setState({...this.state, descriptionClass: 'error-message'})
+        if (descriptionLength >= 5 && descriptionLength < 4070)
+          this.setState({...this.state, descriptionClass: 'neutral-message'})
+        if (descriptionLength > 4070 && descriptionLength < 4096)
+          this.setState({...this.state, descriptionClass: 'warning-message'})
+      })
+
+    if ((scrollHeight > 250) && (scrollHeight !== this.state.scrollHeight) && (this.text.className !== 'post-component-textarea-open show-scroll')) {
+      this.text.className = 'post-component-textarea-open show-scroll'
+      setTimeout(() =>
+              this.text.className = 'post-component-textarea-open hide-scroll'
+          , 1000)
     }
   }
 
@@ -410,17 +437,17 @@ class CreatePost extends Component {
     } = this.state
     const hasMediaClass = (postMedia || (postPictures.length > 0)) ? 'hasMedia' : ''
     return (
-        <form className={'post-component-container ' + className} onSubmit={this._onSubmit}>
-          <div className='post-component-header'>
-            <div>
-              {currentUserMedia && profileLoaded ?
-                  <img alt='profile' src={currentUserMedia} className='post-component-header-img'/>
-                  :
-                  <DefaultUserIcon className='post-component-header-img'/>
-              }
+        <form className={'post-component-container ' + className} ref={e => this.form = e} onSubmit={this._onSubmit}>
+          <div className={open ? 'post-component-header' : 'post-component-header-hide'}>
+            {currentUserMedia && profileLoaded ?
+                <img alt='profile' src={currentUserMedia} className='post-component-header-img'/>
+                :
+                <DefaultUserIcon className='post-component-header-img'/>
+            }
+            <div className={open ? 'post-not-collapse-username' : 'post-collapse-username'}>
               {currentUserName}
             </div>
-            <div className='post-component-header-item'>
+            <div className={open ? 'post-component-header-item' : 'post-component-header-item-hide'}>
               <Share
                   className={selected === 'post' ? 'post-component-header-item-logo1' : 'post-component-header-item-logo1-unselect'}
                   onClick={this.handleSelectShare}/>
@@ -438,24 +465,27 @@ class CreatePost extends Component {
               {descriptionClass &&
               <span className={descriptionClass + ' post-character'}
                     style={description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0]) ? {right: '6px'} : {left: '6px'}}>
-                {description && description.trim().length + '/1500'}
+                {description && description.trim().length + '/4096'}
               </span>
               }
-              <textarea
+              <div
+                  contentEditable={true}
                   ref={e => this.text = e}
-                  className={open ? 'post-component-textarea-open' : 'post-component-textarea'}
+                  className={open ? 'post-component-textarea-open scroll-hide' : 'post-component-textarea'}
                   style={
                     description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0]) ?
-                        {direction: 'ltr', padding: open || focused ? '13px 23px 9px 15px' : '7px 23px 9px 15px'} :
-                        {direction: 'rtl', padding: open || focused ? '13px 15px 9px 23px' : '7px 15px 9px 23px'}
+                        {direction: 'ltr', padding: open || focused ? '13px 23px 9px 15px' : '8px 23px 9px 15px'} :
+                        {direction: 'rtl', padding: open || focused ? '13px 15px 9px 23px' : '8px 15px 9px 23px'}
                   }
-                  placeholder='در زیست بوم باش ...'
-                  value={description}
                   onBlur={this._handleBlurText}
-                  onChange={this._handleChangeText}
                   onFocus={this._handleFocusText}
                   onKeyDown={this._handleShiftEnter}
+                  onKeyUp={this._autoGrow}
               />
+
+              <div onClick={() => this.text.focus()} className={this.text && this.text.innerText.length > 0 ? 'post-placeholder-hide' : open ? 'post-placeholder-open' : 'post-placeholder'}>
+                مسئله خود را بنویسید...
+              </div>
 
               <div className={open || focused ? 'emoji-open' : 'emoji-close'} style={description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0]) ? {right: '7px'} : {left: '7px'}}>
                 <StickersMenu ltr={description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0])} output={this.handleEmoji}/>
@@ -478,66 +508,62 @@ class CreatePost extends Component {
           <ProductInfoView translate={translate} product={selectedProduct} ownerId={currentUserId}/>
           }
 
-          <div className='post-component-footer'>
+          <div className={open ? 'post-component-footer' : 'post-component-footer-hide'}>
 
-            <ContactMenuIcon className="post-component-footer-contact-menu-icon" onClickFunc={this.handleContact}/>
-            <div className='post-component-footer-items-style-cont'>
+            {/*<ContactMenuIcon className="post-component-footer-contact-menu-icon" onClickFunc={this.handleContact}/>*/}
 
-              {
-                Object.values(labels).map(label =>
-                    <div className='post-component-footer-items-style'>
-                      <div className='post-component-footer-items-style-text'>{label}</div>
-                      <div className='post-component-footer-items-style-close'
-                           onClick={() => this._handleLabel(label)}>✕
-                      </div>
-                    </div>
-                )
-              }
-              <div className='post-component-footer-items-style-hide'>
-                <div className='post-component-footer-items-style-text'><span> </span></div>
+            {/*{*/}
+            {/*Object.values(labels).map(label =>*/}
+            {/*<div className='post-component-footer-items-style'>*/}
+            {/*<div className='post-component-footer-items-style-text'>{label}</div>*/}
+            {/*<div className='post-component-footer-items-style-close'*/}
+            {/*onClick={() => this._handleLabel(label)}>✕*/}
+            {/*</div>*/}
+            {/*</div>*/}
+            {/*)*/}
+            {/*}*/}
+
+            <div className='post-component-footer-send'>
+              <div className='post-component-footer-link' ref={e => this.link = e}>{link}</div>
+              <div style={{display: 'inline-block'}} onClick={this.handleAttach}>
+                <AttachFileIcon className='post-component-footer-send-attach'/>
               </div>
+              <button type="submit"
+                      className={description.length > 4 ? 'post-component-footer-send-btn' : 'post-component-footer-send-btn-inactive'}>ارسال
+              </button>
 
-              <div className='post-component-footer-send'>
-
-                <div className='post-component-footer-link' ref={e => this.link = e}>{link}</div>
-
-                <div style={{display: 'inline-block'}} onClick={this.handleAttach}>
-                  <AttachFileIcon className='post-component-footer-send-attach'/>
-                </div>
-                <button type="submit"
-                        className={description.length > 4 ? 'post-component-footer-send-btn' : 'post-component-footer-send-btn-inactive'}>ارسال
-                </button>
-                <AttachMenu
-                    attachMenu={attachMenu}
-                    handleFile={fileString =>
-                        this.setState({...this.state, attachMenu: false, postFile: fileString})
-                    }
-                    handleMedia={fileString =>
-                        this.setState({...this.state, attachMenu: false, postMedia: fileString})
-                    }
-                    handlePictures={fileString =>
-                        this.setState({...this.state, attachMenu: false, postPictures: [...postPictures, fileString]})
-                    }
-                    postPicturesLength={postPictures.length}
-                    postMediaExist={Boolean(postMedia)}
-                    postFileExist={Boolean(postFile)}
-                    postLinkExist={Boolean(link)}
-                    linkModalFunc={this._linkModalFunc}
-                    addProductModalFunc={this._addProductModalFunc}
-                    AttachMenuId="create-post-attach-menu-box"
-                    translate={translate}
-                />
-              </div>
-              <ContactMenu
-                  ref={e => this.setWrapperSecondRef = (e ? e.contactMenuRef : e)}
-                  contactMenu={contactMenu}
-                  labels={labels}
-                  followers={followers}
-                  exchanges={exchanges}
-                  currentUserIdentity={currentUserIdentity}
-                  handleLabel={this._handleLabel}
+              <AttachMenu
+                  attachMenu={attachMenu}
+                  handleFile={fileString =>
+                      this.setState({...this.state, attachMenu: false, postFile: fileString})
+                  }
+                  handleMedia={fileString =>
+                      this.setState({...this.state, attachMenu: false, postMedia: fileString})
+                  }
+                  handlePictures={fileString =>
+                      this.setState({...this.state, attachMenu: false, postPictures: [...postPictures, fileString]})
+                  }
+                  postPicturesLength={postPictures.length}
+                  postMediaExist={Boolean(postMedia)}
+                  postFileExist={Boolean(postFile)}
+                  postLinkExist={Boolean(link)}
+                  linkModalFunc={this._linkModalFunc}
+                  addProductModalFunc={this._addProductModalFunc}
+                  AttachMenuId="create-post-attach-menu-box"
+                  translate={translate}
               />
             </div>
+
+            <ContactMenu
+                ref={e => this.setWrapperSecondRef = (e ? e.contactMenuRef : e)}
+                contactMenu={contactMenu}
+                labels={labels}
+                followers={followers}
+                exchanges={exchanges}
+                currentUserIdentity={currentUserIdentity}
+                handleLabel={this._handleLabel}
+            />
+
           </div>
           <LinkModal
               ref={e => this.setWrapperThirdRef = e ? e.linkModalRef : e}
@@ -555,8 +581,6 @@ class CreatePost extends Component {
                 selectedProduct: undefined
               })}
               submitFunc={(product, productId) => {
-
-                console.log(productId, 'ppppppppp')
                 this.setState({
                   ...this.state,
                   selectedProduct: productId === undefined ? product : undefined,

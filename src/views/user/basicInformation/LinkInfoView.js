@@ -41,11 +41,6 @@ const LinkInfoView = (props: PropsUserInfoView) => {
           <FieldLabel label={translate['LinkedIn'] + ": "}/>
           <FieldValue value={profile.linkedin_account}/>
         </Field>
-        <Field>
-          <ExchangeExploreIcon className='icon web-site-icon'/>
-          <FieldLabel label={translate['Web site'] + ": "}/>
-          <FieldValue value={profile.web_site.replace('[]', '')}/>
-        </Field>
       </div>
   )
 }

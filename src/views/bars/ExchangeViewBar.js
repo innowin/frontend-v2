@@ -37,7 +37,7 @@ class ExchangeViewBar extends Component {
       error: null,
       followLoading: false,
       imageLoaded: false,
-      adminView: false,
+      editView: false,
       loadingEdit: false,
       unFollowed: false,
       notFound: false
@@ -49,56 +49,53 @@ class ExchangeViewBar extends Component {
     this.handleAdminMenu = this.handleAdminMenu.bind(this)
     this.handleMenu = this.handleMenu.bind(this)
     this.handleClickOutside = this.handleClickOutside.bind(this)
-    this.handleAdminView = this.handleAdminView.bind(this)
+    this.handleEditView = this.handleEditView.bind(this)
     this.handleDeleteExchange = this.handleDeleteExchange.bind(this)
     this.handleEditButton = this.handleEditButton.bind(this)
     this.handleUnfollowExchange = this.handleUnfollowExchange.bind(this)
   }
 
-  _MockData = () => {
-    this._test()
-    const tags = [{title: "چادر مشکی"}, {title: "پوشاک مردانه"}]
-    const badges = ["http://restful.daneshboom.ir/media/14ba7946fe394deca765cad2fc02c848.jpeg"]
-    this.setState({...this.state, tags: tags, badgesImgUrl: badges})
-  }
-
-  _getExchange = (exchangeId) => {
-    var self = this
-    const handleResult = (res) => {
-      this.setState({...this.state, exchange: res, loading: true})
-      // TODO mohsen: socket.emit of badges
-      // TODO mohsen: socket.emit of tags
-      getExchangeMembers(exchangeId, (err) => {
-      }, (identities) => {
-        var members = []
-        var j = 0
-        //callback hell 201 requests just to get user names and profile Media TODO amir
-        // TODO amir: tell backend to fix this mess
-        for (var i = 0; i < identities.length; i++) {
-          var member = identities[i].exchange_identity_related_identity
-          members.push(member) //todo add profile media to identity_user
-          j = j + 1
-          if (j >= identities.length) {
-            self.setState({...self.state, members: members, loading: false})
-          }
-        }
-      })
-    }
-    getExchange(exchangeId, handleResult)
-  }
-
-  _getCounts = (exchangeId) => {
-    const handleCountProduct = (res) => this.setState({...this.state, productCount: res.length, isLoading: false})
-    const handleCountSupply = (res) => this.setState({...this.state, supplyCount: res.length},
-        () => getExchangePostsHasProduct(exchangeId, handleCountProduct))
-    const handleCountDemand = (res) => this.setState({...this.state, demandCount: res.length},
-        () => getExchangePostsByPostType(exchangeId, "supply", handleCountSupply))
-    getExchangePostsByPostType(exchangeId, "demand", handleCountDemand)
-  }
-
-  _handleMembersClick = (e) => {
-    this.setState({...this.state, membersViewSide: !this.state.membersViewSide})
-  }
+  // _MockData = () => {
+  //   this._test()
+  //   const tags = [{title: "چادر مشکی"}, {title: "پوشاک مردانه"}]
+  //   const badges = ["http://restful.daneshboom.ir/media/14ba7946fe394deca765cad2fc02c848.jpeg"]
+  //   this.setState({...this.state, tags: tags, badgesImgUrl: badges})
+  // }
+  // _getExchange = (exchangeId) => {
+  //   var self = this
+  //   const handleResult = (res) => {
+  //     this.setState({...this.state, exchange: res, loading: true})
+  //     // TODO mohsen: socket.emit of badges
+  //     // TODO mohsen: socket.emit of tags
+  //     getExchangeMembers(exchangeId, (err) => {
+  //     }, (identities) => {
+  //       var members = []
+  //       var j = 0
+  //       //callback hell 201 requests just to get user names and profile Media TODO amir
+  //       // TODO amir: tell backend to fix this mess
+  //       for (var i = 0; i < identities.length; i++) {
+  //         var member = identities[i].exchange_identity_related_identity
+  //         members.push(member) //todo add profile media to identity_user
+  //         j = j + 1
+  //         if (j >= identities.length) {
+  //           self.setState({...self.state, members: members, loading: false})
+  //         }
+  //       }
+  //     })
+  //   }
+  //   getExchange(exchangeId, handleResult)
+  // }
+  // _getCounts = (exchangeId) => {
+  //   const handleCountProduct = (res) => this.setState({...this.state, productCount: res.length, isLoading: false})
+  //   const handleCountSupply = (res) => this.setState({...this.state, supplyCount: res.length},
+  //       () => getExchangePostsHasProduct(exchangeId, handleCountProduct))
+  //   const handleCountDemand = (res) => this.setState({...this.state, demandCount: res.length},
+  //       () => getExchangePostsByPostType(exchangeId, "supply", handleCountSupply))
+  //   getExchangePostsByPostType(exchangeId, "demand", handleCountDemand)
+  // }
+  // _handleMembersClick = (e) => {
+  //   this.setState({...this.state, membersViewSide: !this.state.membersViewSide})
+  // }
 
   follow() {
     this.setState({...this.state, followLoading: true, unFollowed: false})
@@ -120,18 +117,14 @@ class ExchangeViewBar extends Component {
       image.onload = () => {
         this.setState({...this.state, imageLoaded: true})
       }
-    }
-    else if (currentExchange && currentExchange.exchange.content.exchange_image) {
+    } else if (currentExchange && currentExchange.exchange.content.exchange_image) {
       let image = new Image()
       image.src = currentExchange.exchange.content.exchange_image.file.includes("innowin.ir") ?
           currentExchange.exchange.content.exchange_image.file : REST_URL + currentExchange.exchange.content.exchange_image.file
       image.onload = () => {
         this.setState({...this.state, imageLoaded: true})
       }
-    }
-    else this.setState({
-        notFound: true
-      })
+    } else this.setState({...this.state, notFound: true})
 
     document.addEventListener("mousedown", this.handleClickOutside)
   }
@@ -142,7 +135,7 @@ class ExchangeViewBar extends Component {
 
     if (currentExchange !== prevProps.exchanges.list[exchangeId]) {
       if (this.state.loadingEdit) {
-        this.setState({...this.state, adminView: false, loadingEdit: false})
+        this.setState({...this.state, editView: false, loadingEdit: false})
       }
     }
   }
@@ -175,15 +168,13 @@ class ExchangeViewBar extends Component {
               className="sidebarFollowBottom">عضو شده
           </button>
       )
-    }
-    else if (this.state.followLoading) {
+    } else if (this.state.followLoading) {
       return (
           <button type="button" className="sidebarFollowBottom">
             <BeatLoader size={7} color={"#4dab9f"} margin={2}/>
           </button>
       )
-    }
-    else {
+    } else {
       return (
           <button
               type="button"
@@ -203,8 +194,8 @@ class ExchangeViewBar extends Component {
     this.exchangeAdminMenu.className = "exchange-admin-menu-member"
   }
 
-  handleAdminView() {
-    this.setState({...this.state, adminView: true})
+  handleEditView() {
+    this.setState({...this.state, editView: true})
     this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
   }
 
@@ -216,18 +207,22 @@ class ExchangeViewBar extends Component {
   }
 
   handleEditButton() {
-    // alert(this.editDescription.value)
-    const {actions, exchangeId} = this.props
-    const {editExchange} = actions
-    let formValues = {
-      exchange_id: exchangeId,
-      exchange_description: this.editDescription && this.editDescription.value,
-      exchange_name: this.editName && this.editName.value,
-      exchange_media: null
-    }
-    editExchange(formValues)
-    this.setState({...this.state, loadingEdit: true})
+    // alert(this.editDescription.value.length)
     // alert(this.editName.value)
+    if (this.editDescription && this.editDescription.value.length <= 100) {
+      const {actions, exchangeId} = this.props
+      const {editExchange, getExchangeByExId} = actions
+      let formValues = {
+        exchange_id: exchangeId,
+        exchange_description: this.editDescription && this.editDescription.value,
+        exchange_name: this.editName && this.editName.value,
+        exchange_media: null
+      }
+      editExchange(formValues)
+      // getExchangeByExId(exchangeId)
+      this.setState({...this.state, loadingEdit: true})
+    }
+    else console.log("Description Length is too much")
   }
 
   handleUnfollowExchange() {
@@ -265,7 +260,7 @@ class ExchangeViewBar extends Component {
   render() {
     const {
       exchange, badgesImgUrl, demandCount, supplyCount, productCount, tags, unFollowed,
-      members, isLoading, error, followLoading, imageLoaded, adminView, loadingEdit, notFound
+      members, isLoading, error, followLoading, imageLoaded, editView, loadingEdit, notFound
     } = this.state
     const {translate, exchanges, exchangeId, currentUserId} = this.props
     if (exchanges.list[exchangeId]) {
@@ -273,7 +268,7 @@ class ExchangeViewBar extends Component {
       return (
           <div className="-sidebar-child-wrapper col">
             <div className="align-items-center flex-column">
-              {currentUserId !== (currentExchange.owner && currentExchange.owner.identity_user) && !adminView ?
+              {currentUserId !== (currentExchange.owner && currentExchange.owner.identity_user) && !editView ?
                   currentExchange.exchange && !unFollowed ?
                       <div>
                         <div className="fa fa-ellipsis-v menuBottom bubble-more" onClick={this.handleMenu}/>
@@ -287,7 +282,7 @@ class ExchangeViewBar extends Component {
                   <div>
                     <div className="fa fa-ellipsis-v menuBottom bubble-more" onClick={this.handleAdminMenu}/>
                     <div className={"exchange-admin-menu-disable"} ref={e => this.exchangeAdminMenu = e}>
-                      <div className={"exchange-admin-menu-child"} onClick={this.handleAdminView}>
+                      <div className={"exchange-admin-menu-child"} onClick={this.handleEditView}>
                         {translate["Edit Exchange"]}
                       </div>
                       <Link to={`/`} className={"exchange-admin-menu-child-delete"}>
@@ -299,7 +294,7 @@ class ExchangeViewBar extends Component {
                   </div>
               }{/*<i className="fa fa-arrow-left menuBottom" onClick={this._handleMembersClick.bind(this)}> </i>*/}
               {
-                !adminView ?
+                !editView ?
 
                     currentExchange.exchange_image && imageLoaded ?
                         <img className="exchangeViewBarImg" alt={translate["Exchange Picture"]}
@@ -350,7 +345,7 @@ class ExchangeViewBar extends Component {
                 <div>
                   {/*<span className="fontSize-15px">{translate["Exchange"]}: </span>*/}
                   {
-                    !adminView ?
+                    !editView ?
                         <span>
                           {
                             currentExchange.name === "" ? "بدون نام" :
@@ -368,7 +363,7 @@ class ExchangeViewBar extends Component {
                 </div>
               </div>
               {
-                !adminView ?
+                !editView ?
                     <span className="-grey1 fontSize-13px description-right-bar">
                       {
                         currentExchange.description === "" ? "بدون توضیحات" :
@@ -389,7 +384,7 @@ class ExchangeViewBar extends Component {
 
 
             {
-              !adminView ?
+              !editView ?
                   <div className="numbersSection flex-column">
                     <div>
                       <span>اعضا:</span>
@@ -416,12 +411,12 @@ class ExchangeViewBar extends Component {
                   null
             }
             {
-              !adminView ?
-                  <div className={"exchange-view-bar-socials"}>
-                    <i className={"fa fa-telegram"}/> {/* disable-logo class for non social exchange fields*/}
-                    <i className={"fa fa-instagram"}/>
-                    <i className={"fa fa-linkedin"}/>
-                    <i className={"fa fa-youtube-play youtube"}/>
+              !editView ?
+                  <div className={"exchange-view-bar-socials"}> {/* TODO: ABEL disable-logo class for non social exchange fields*/}
+                    <i className={"fa fa-youtube-play youtube disable-logo"}/>
+                    <i className={"fa fa-telegram disable-logo"}/>
+                    <i className={"fa fa-instagram disable-logo"}/>
+                    <i className={"fa fa-linkedin-square disable-logo"}/>
                   </div>
                   :
                   null
@@ -429,7 +424,7 @@ class ExchangeViewBar extends Component {
 
 
             {
-              !adminView ?
+              !editView ?
                   <div className="sidebarBottomParent">
                     <button
                         type="button"
@@ -450,21 +445,20 @@ class ExchangeViewBar extends Component {
                         :
                         <div
                             className="sidebarBottom">
-                          <ClipLoader color="#dcdcdc" size={15} loading={true}/>
+                          <ClipLoader color="#35495c" size={17} loading={true}/>
                         </div>
                     }
                     <button
                         type="button"
                         className="sidebarFollowBottom"
                         style={{cursor: "pointer"}}
-                        onClick={() => this.setState({...this.state, adminView: false})}> لغو
+                        onClick={() => this.setState({...this.state, editView: false})}> لغو
                     </button>
                   </div>
             }
           </div>
       )
-    }
-    else {
+    } else {
       return (
           <div style={{textAlign: "center", margin: "35px 10px 45px 10px"}}>
             بورس مورد نظر یافت نشد!

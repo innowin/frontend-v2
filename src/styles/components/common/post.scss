@@ -7,19 +7,41 @@
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
   padding: 18px 18px 8px 18px;
   margin: 10px auto;
+  position: relative;
 }
 
 /* -------------------------------   post header -------------------------*/
 .post-component-header {
-  white-space: nowrap;
   font-size: 13px;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 18px;
+  margin-bottom: 10px;
+  height: 50px;
+  overflow: hidden;
+  transition-duration: 0.4s;
+}
+
+.post-component-header-hide {
+  font-size: 13px;
+  height: 0;
+  overflow: hidden;
+  transition-duration: 0.5s;
 }
 
 .post-component-header-item {
   padding-top: 15px;
+  display: inline-block;
+  width: 50%;
+  text-align: left;
+  opacity: 1;
+  transition-duration: 0.5s;
+}
+
+.post-component-header-item-hide {
+  padding-top: 15px;
+  display: inline-block;
+  width: 50%;
+  text-align: left;
+  opacity: 0;
+  transition-duration: 0.5s;
 }
 
 .post-component-header-img {
@@ -29,6 +51,45 @@
   margin-left: 18px;
   border-radius: 50%;
   vertical-align: middle;
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 2;
+  transition-duration: 0.3s;
+}
+
+.post-not-collapse-username {
+  display: inline-block;
+  width: 50%;
+  padding-right: 60px;
+  vertical-align: top;
+  margin-top: 13px;
+  transition-duration: 0.5s;
+  opacity: 1;
+  transition-delay: 0.1s;
+}
+
+.post-collapse-username {
+  display: inline-block;
+  width: 50%;
+  //padding-right: 60px;
+  vertical-align: top;
+  margin-top: 13px;
+  opacity: 0;
+  transition-duration: 0.5s;
+}
+
+.post-component-header-img-collapsed {
+  width: 45px;
+  height: 45px;
+  object-fit: cover;
+  margin-left: 18px;
+  border-radius: 50%;
+  vertical-align: middle;
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  transition-duration: 0.3s;
 }
 
 .post-component-header-item-logo {
@@ -100,41 +161,36 @@
     position: relative;
 
     .post-component-textarea {
-      overflow-y: auto;
-      width: 100%;
+      overflow-y: hidden;
+      width: calc(100% - 63px);
+      margin-right: 63px;
       resize: none;
       border: 1px #e7e7e7 solid;
       border-radius: $border-radius;
       font-size: 13px;
-      transition-duration: 0.3s;
+      transition-duration: 0.5s;
       height: 45px;
       line-height: 26px;
-      margin-bottom: -6px;
-
-      &:focus {
-        outline: none;
-        border: 1px solid #BBBBBB;
-        transition-duration: 0.3s;
-        height: 100px;
-      }
+      margin-bottom: 4px;
     }
 
     .post-component-textarea-open {
       overflow-y: auto;
       width: 100%;
+      min-height: 102px;
+      max-height: 250px;
+      transition-delay: 0.02s;
+      transition-duration: 0.5s;
       resize: none;
       border-radius: $border-radius;
       border: 1px #e7e7e7 solid;
       font-size: 13px;
-      transition-duration: 0.3s;
-      height: 100px;
       line-height: 26px;
-      margin-bottom: -6px;
+      margin-bottom: 4px;
 
       &:focus {
         outline: none;
         border: 1px solid #BBBBBB;
-        transition-duration: 0.3s;
       }
     }
   }
@@ -262,10 +318,24 @@
 
 /* -------------------------------   post footer -------------------------*/
 .post-component-footer {
-  margin-top: 8px;
+  margin-top: 10px;
   position: relative;
-  transition-duration: 0.3s;
-  padding-top: 8px;
+  padding-top: 6px;
+  height: 42px;
+  overflow: visible;
+  opacity: 1;
+  transition: height 0.5s linear 0s, margin-top 0.5s linear 0s, padding-top 0.5s linear 0s, opacity 0.5s linear 0.3s;
+  //text-align: left;
+}
+
+.post-component-footer-hide {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  padding-top: 6px;
+  opacity: 0;
+  transition-duration: 0.5s;
+  //text-align: left;
 }
 
 // post-component-footer-items
@@ -278,7 +348,6 @@
   border: none;
   padding: 1px 10px;
   margin: 3px 2px;
-  vertical-align: top;
 }
 
 .post-component-footer-items-style-hide {
@@ -313,18 +382,14 @@
   font-size: 11px;
 }
 
-.post-component-footer-items-style-cont {
-  display: inline-block;
-  width: calc(100% - 38px);
-}
-
 // post-component-footer-send
 .post-component-footer-send {
-  float: left;
   display: inline-block;
   vertical-align: top;
-  margin: 0px 0 8px 0;
+  margin: 0 0 8px 0;
   position: relative;
+  float: left;
+  //width: 115px;
 }
 
 .post-component-footer-send-btn {
@@ -514,11 +579,11 @@
 }
 
 .post-component-footer-contact-menu-icon {
-  float: right;
   width: 20px;
   height: 20px;
   cursor: pointer;
   margin: 3px 8px 0 8px;
+  vertical-align: top;
 
   path {
     fill: #72CCBF
@@ -906,5 +971,57 @@
         margin: 15px;
       }
     }
+  }
+}
+
+.show-scroll::-webkit-scrollbar {
+  transition-duration: 0.3s;
+  width: 5px;
+  border-radius: 2px;
+}
+
+.show-scroll::-webkit-scrollbar-track {
+  transition-duration: 0.3s;
+  background-color: $background-color;
+  border-radius: 2px;
+}
+
+.show-scroll::-webkit-scrollbar-thumb {
+  transition-duration: 0.3s;
+  background: $primary-color;
+  //border-radius: 10px;
+  transition: all .3s ease-out;
+  box-shadow: inset 1px 0 5px -1px $primary-color;
+  border-radius: 2px;
+
+  &:hover {
+    background: $primary-color-light2;
+    box-shadow: inset 1px 0 5px -1px $primary-color;
+    transition: all .3s ease-out;
+  }
+}
+
+
+.hide-scroll::-webkit-scrollbar {
+  transition-duration: 0.3s;
+  width: 0;
+}
+
+.hide-scroll::-webkit-scrollbar-track {
+  transition-duration: 0.3s;
+  background-color: $background-color;
+}
+
+.hide-scroll::-webkit-scrollbar-thumb {
+  transition-duration: 0.3s;
+  background: $primary-color;
+  //border-radius: 10px;
+  transition: all .3s ease-out;
+  box-shadow: inset 1px 0 5px -1px $primary-color;
+
+  &:hover {
+    background: $primary-color-light2;
+    box-shadow: inset 1px 0 5px -1px $primary-color;
+    transition: all .3s ease-out;
   }
 }

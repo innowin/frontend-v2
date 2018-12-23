@@ -9,16 +9,17 @@ import {ClipLoader} from 'react-spinners'
 import {Component} from 'react'
 import {connect} from 'react-redux'
 import {DefaultUserIcon} from 'src/images/icons'
+import {getMessages} from 'src/redux/selectors/translateSelector'
 import {Link} from 'react-router-dom'
 import {REST_URL} from 'src/consts/URLS'
-import {getMessages} from '../../../redux/selectors/translateSelector'
 
 type appProps =
     {|
       actions: any,
       members: Array<number>,
       data: Object,
-      currentUserIdentity: {}
+      currentUserIdentity: {},
+      translate: { [string]: string }
     |}
 
 type appState =

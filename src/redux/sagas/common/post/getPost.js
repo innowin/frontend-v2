@@ -14,6 +14,9 @@ export function* getPost(action) {
     if (data.post_related_identity_image) {
       yield put({type: types.COMMON.GET_FILE, payload: {fileId: data.post_related_identity_image}})
     }
+    if (data.post_parent) {
+      yield put({type: types.COMMON.GET_FILE, payload: {fileId: data.post_picture}})
+    }
     if(data.post_related_product) {
       yield put({type: types.COMMON.GET_PRODUCT_INFO, payload: {id: data.post_related_product}})
     }

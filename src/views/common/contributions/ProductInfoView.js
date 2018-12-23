@@ -70,7 +70,7 @@ const ProductInfoView = (props: PropsProductInfo) => {
               <div className='show-more'>{translate['Show more']}<RightArrow className='product-more-icon'/></div>
             </div>
             <div className="skill-tags">
-              {['ویژگی 1', 'ویژگی 2', 'ویژگی 3'].map((tag, index) => <span
+              {['ویژگی 1', 'ویژگی 2', 'ویژگی 3'].map((tag, index) => <span key={'hashtag ' + index}
                   className="badge badge-secondary skill-tag">{tag}</span>)}
             </div>
           </div>

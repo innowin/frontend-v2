@@ -28,7 +28,7 @@ import {createFileFunc} from 'src/views/common/Functions'
 import Material from '../common/components/Material'
 
 
-const timeStamp = new Date().toISOString()
+const timeStamp = +new Date()
 const pictureTempName = timeStamp + 'picture'
 const bannerTempName = timeStamp + 'banner'
 
@@ -359,8 +359,8 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     const {actions} = this.props
     const {bannerState, pictureState} = this.state
     const {createFile} = actions || {}
-    const nextActionDataForBanner = {tempFileChildName: bannerTempName}
-    const nextActionDataForPicture = {tempFileChildName: pictureTempName}
+    const nextActionDataForBanner = {tempFileKeyName: bannerTempName}
+    const nextActionDataForPicture = {tempFileKeyName: pictureTempName}
     const nextActionType = types.COMMON.SET_FILE_IDS_IN_TEMP_FILE
     const fileIdKey = 'fileId'
     const bannerCreateArguments = {
@@ -542,16 +542,13 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
             {/*<span>{` و ${followNames.length - 2 } نفر دیگر `}</span>*/}
             {/*</div>*/}
             <CheckOwner showForOwner={false} id={paramId}>
-              <div className="flex-row pb-3">
-                <div className="w-50 pl-2 pb-2">
-                  <Material
-                      className="btn btn-outline-secondary btn-block sidebarBottom" content={tr && tr['Send Message']}/>
-                </div>
+              <div className="sidebarBottomParent">
+                <Material
+                    className="btn btn-outline-secondary sidebarBottom side-user" content={tr && tr['Send Message']}/>
                 {showFollow ?
-                    <div className="w-50 pb-2">
-                      <Material className="btn btn-outline-secondary btn-block sidebarBottom follow-button" onClick={this._createFollow} content={tr && tr['Follow']}/>
-                    </div>
-                    : <div className="w-50 pl-2 pb-2 followed-text">
+                    <Material className="btn btn-outline-secondary sidebarFollowBottom follow-button side-user-follow"
+                              onClick={this._createFollow} content={tr && tr['Follow']}/>
+                    : <div className="followed-text">
                       {tr && tr['Followed']}
                     </div>
                 }

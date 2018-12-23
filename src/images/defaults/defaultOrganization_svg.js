@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from "prop-types";
 
 const DefaultOrganIcon = ({className='', onClickFunc= () => null, ...props}) => (
-  <svg viewBox="0 0 128 128" className={className} style={{fill: "gray", padding: "10px", }}>
+  <svg viewBox="0 0 128 128" className={className} style={{fill: "gray", padding: "12px", }}>
     <g>
       <path fillRule="evenodd" clipRule="evenodd" d="M28,40h-8v8h8V40z M60,32h-8v8h8V32z M76,32h-8v8h8V32z M92,32h-8v8h8V32z
 			 M60,16h-8v8h8V16z M76,16h-8v8h8V16z M92,16h-8v8h8V16z M60,64h-8v8h8V64z M76,64h-8v8h8V64z M92,64h-8v8h8V64z M60,80h-8v8h8V80
