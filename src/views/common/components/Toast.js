@@ -21,11 +21,19 @@ type ToastState = {
 
 class Toast extends React.Component <ToastProps, ToastState> {
 
+  successSound: HTMLAudioElement
+  errorSound: HTMLAudioElement
+  warningSound: HTMLAudioElement
+  infoSound: HTMLAudioElement
+  removeTimeOut: number
+  timeOutTime: number
+
   componentDidMount(): void {
     const {removeToast, toast} = this.props
     const {type} = toast
+    this.timeOutTime = 4000
 
-    setTimeout(() => removeToast(toast.id), 4000)
+    this.removeTimeOut = setTimeout(() => removeToast(toast.id), this.timeOutTime)
 
     switch (type) {
       case constants.TOAST_TYPE.SUCCESS:
@@ -49,11 +57,20 @@ class Toast extends React.Component <ToastProps, ToastState> {
     }
   }
 
+  _onHoverToast = () => {
+    clearTimeout(this.removeTimeOut)
+  }
+
+  _outHoverToast = () => {
+    const {removeToast, toast} = this.props
+    this.removeTimeOut = setTimeout(() => removeToast(toast.id), this.timeOutTime / 2)
+  }
+
   render() {
     const {toast, removeToast} = this.props
     const {type, content} = toast
     return (
-        <div className='toast-child-container'>
+        <div className='toast-child-container' onMouseEnter={this._onHoverToast} onMouseLeave={this._outHoverToast}>
           <div className='toast-child-transition'>
             <div className='toast-child-transition-front'>
               <div className={type === constants.TOAST_TYPE.SUCCESS ? 'image-type-container success-image-container'

@@ -662,8 +662,11 @@ $sidebar-profile-media-width: 80px;
   .followed-text {
     color: $success-color;
     text-align: center;
-    font-size: $font-size-medium;
+    font-size: $font-size-regular;
     padding: 4px;
+    display: flex;
+    align-items: center;
+    flex: 0 1 40%;
   }
 }
 
@@ -739,11 +742,23 @@ $sidebar-profile-media-width: 80px;
       font-weight: bold;
     }
   }
+
+  .side-user {
+    margin: 0;
+    flex: 0 1 40%;
+  }
+  .side-user-follow {
+    margin: 0;
+    flex: 0 1 40%;
+  }
 }
 
 .follow-button {
   background-color: $success-color;
   cursor: pointer !important;
+  color: #ffffff;
+  font-size: $font-size-regular;
+  border-radius: 50px;
 
   &:hover {
     background-color: $background-color;

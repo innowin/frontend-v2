@@ -542,16 +542,13 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
             {/*<span>{` و ${followNames.length - 2 } نفر دیگر `}</span>*/}
             {/*</div>*/}
             <CheckOwner showForOwner={false} id={paramId}>
-              <div className="flex-row pb-3">
-                <div className="w-50 pl-2 pb-2">
-                  <Material
-                      className="btn btn-outline-secondary btn-block sidebarBottom" content={tr && tr['Send Message']}/>
-                </div>
+              <div className="sidebarBottomParent">
+                <Material
+                    className="btn btn-outline-secondary sidebarBottom side-user" content={tr && tr['Send Message']}/>
                 {showFollow ?
-                    <div className="w-50 pb-2">
-                      <Material className="btn btn-outline-secondary btn-block sidebarBottom follow-button" onClick={this._createFollow} content={tr && tr['Follow']}/>
-                    </div>
-                    : <div className="w-50 pl-2 pb-2 followed-text">
+                    <Material className="btn btn-outline-secondary sidebarFollowBottom follow-button side-user-follow"
+                              onClick={this._createFollow} content={tr && tr['Follow']}/>
+                    : <div className="followed-text">
                       {tr && tr['Followed']}
                     </div>
                 }

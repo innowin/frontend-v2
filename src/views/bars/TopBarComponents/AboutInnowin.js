@@ -1,6 +1,6 @@
 import React from 'react'
 
-const AboutUs = () => {
+const AboutInnowin = () => {
   return (
       <div className='user-agreement-container'>
 
@@ -251,4 +251,4 @@ const AboutUs = () => {
   )
 }
 
-export default AboutUs
+export default AboutInnowin

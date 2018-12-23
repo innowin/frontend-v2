@@ -1,6 +1,7 @@
 // @flow
 import * as React from 'react'
-import AboutUs from './TopBarComponents/AbouUs'
+import AboutInnowin from './TopBarComponents/AboutInnowin'
+import AboutUs from './TopBarComponents/AboutUs'
 import AddingContribution from '../pages/adding-contribution/addingContribution'
 import AgentForm from '../pages/modal/agentForm-modal'
 import AuthActions from 'src/redux/actions/authActions'
@@ -319,8 +320,8 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                       <Material className='profile-menu-second-section-item' onClick={this._handleShowSetting}
                                 content={topBarTranslate['General Settings']}/>
                       <Material className='profile-menu-second-section-item' onClick={this._handleShowAbout}
-                                content={topBarTranslate['About Innowin']}/>
-                      <Material className='profile-menu-second-section-item' content={topBarTranslate['Privacy']}/>
+                                content={topBarTranslate['About Us']}/>
+                      {/*<Material className='profile-menu-second-section-item' content={topBarTranslate['Privacy']}/>*/}
                     </div>
 
                     <Material className='profile-menu-second-section-item' onClick={this._handleSignOut}
@@ -385,6 +386,9 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
             <Material onClick={() => this._handleAboutSelected('Terms & Conditions')}
                       className={selectedAbout === 'Terms & Conditions' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}
                       content={topBarTranslate['Terms & Conditions']}/>
+            <Material onClick={() => this._handleAboutSelected('About Innowin')}
+                      className={selectedAbout === 'About Innowin' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}
+                      content={topBarTranslate['About Innowin']}/>
             <Material onClick={() => this._handleAboutSelected('About Us')}
                       className={selectedAbout === 'About Us' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}
                       content={topBarTranslate['About Us']}/>
@@ -420,6 +424,8 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       return <IntroduceBadges/>
     } else if (selectedAbout === 'Terms & Conditions') {
       return <UserAgreement/>
+    } else if (selectedAbout === 'About Innowin') {
+      return <AboutInnowin/>
     } else if (selectedAbout === 'About Us') {
       return <AboutUs/>
     }
