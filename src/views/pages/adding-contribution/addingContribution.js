@@ -1119,9 +1119,8 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     const {modalIsOpen} = this.props
     return (
         <div
-            // className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}
+            className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}
         >
-
 {/*
           {this.renderProgressBar()}
 
@@ -1147,7 +1146,6 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
            </div>
            </ModalBody>
            </Modal>
-
 
 
         </div>
