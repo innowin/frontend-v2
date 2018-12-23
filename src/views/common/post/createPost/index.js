@@ -68,11 +68,14 @@ class CreatePost extends Component {
       keys: [],
       selectedProduct: undefined,
       selectedProductId: undefined,
+      scrollHeight: 0,
+      textLength: 0
     }
   }
 
 
   _resetPost = () => {
+    this.text.innerText = ''
     this.setState({
       ...this.state,
       open: false,
@@ -179,50 +182,43 @@ class CreatePost extends Component {
     this.setState({...this.state, postPictures: newPostPictures})
   }
 
-  _handleChangeText = (e) => {
-    const description = e.target.value
-    if (description.trim().length <= 4096)
-      this.setState({...this.state, description}, () => checkCharacter(description))
-    const checkCharacter = (description) => {
-      const descriptionLength = description.trim().length
-      if (descriptionLength === 0)
-        this.setState({...this.state, descriptionClass: 'hide-message'})
-      if (descriptionLength > 0 && descriptionLength < 5)
-        this.setState({...this.state, descriptionClass: 'error-message'})
-      if (descriptionLength >= 5 && descriptionLength < 4070)
-        this.setState({...this.state, descriptionClass: 'neutral-message'})
-      if (descriptionLength > 4070 && descriptionLength < 4096)
-        this.setState({...this.state, descriptionClass: 'warning-message'})
-    }
-  }
-
   handleEmoji = (emoji) => {
     this.setState({...this.state, open: true}, () => {
+
       this.text.focus()
       if (this.text.selectionStart) {
         let x = this.text.selectionStart
         let y = this.text.selectionEnd
-        this.text.value = this.text.value.substring(0, x) + emoji + this.text.value.substring(y, this.text.value.length)
+        this.text.innerText = this.text.innerText.substring(0, x) + emoji + this.text.innerText.substring(y, this.text.innerText.length)
         this.text.selectionStart = parseInt(x, 10) + emoji.length
         this.text.selectionEnd = parseInt(y, 10) + emoji.length
       } else {
-        this.text.value += emoji
+        this.text.innerText += emoji
       }
 
-      const description = this.text.value
+      // let range = window.getSelection().getRangeAt(0)
+      // let preCaretRange = range.cloneRange()
+      // preCaretRange.selectNodeContents(this.text)
+      // preCaretRange.setEnd(range.endContainer, range.endOffset)
+      // let caretOffset = preCaretRange.toString().length
+      //
+      // console.log(preCaretRange)
+
+      // this.text.innerText = this.text.innerText.substring(0, caretOffset) + emoji + this.text.innerText.substring((caretOffset), this.text.innerText.length)
+
+      const description = this.text.innerText
       if (description.trim().length <= 4070)
-        this.setState({...this.state, description}, () => checkCharacter(description))
-      const checkCharacter = (description) => {
-        const descriptionLength = description.trim().length
-        if (descriptionLength === 0)
-          this.setState({...this.state, descriptionClass: 'hide-message'})
-        if (descriptionLength > 0 && descriptionLength < 5)
-          this.setState({...this.state, descriptionClass: 'error-message'})
-        if (descriptionLength >= 5 && descriptionLength < 4070)
-          this.setState({...this.state, descriptionClass: 'neutral-message'})
-        if (descriptionLength > 4070 && descriptionLength < 4096)
-          this.setState({...this.state, descriptionClass: 'warning-message'})
-      }
+        this.setState({...this.state, description}, () => {
+          const descriptionLength = description.trim().length
+          if (descriptionLength === 0)
+            this.setState({...this.state, descriptionClass: 'hide-message'})
+          if (descriptionLength > 0 && descriptionLength < 5)
+            this.setState({...this.state, descriptionClass: 'error-message'})
+          if (descriptionLength >= 5 && descriptionLength < 4070)
+            this.setState({...this.state, descriptionClass: 'neutral-message'})
+          if (descriptionLength > 4070 && descriptionLength < 4096)
+            this.setState({...this.state, descriptionClass: 'warning-message'})
+        })
     })
   }
 
@@ -286,7 +282,9 @@ class CreatePost extends Component {
   }
 
   _handleShiftEnter = (e) => {
-    if (e.keyCode === 17 || e.keyCode === 13) {
+
+    if (this.text.innerText.length > 4096) this.text.innerText = this.state.description
+    else if (e.keyCode === 17 || e.keyCode === 13) {
       let keys = this.state.keys.slice()
       keys[e.keyCode] = true
       this.setState({...this.state, keys: keys})
@@ -365,6 +363,30 @@ class CreatePost extends Component {
     }
   }
 
+  _autoGrow = () => {
+    const scrollHeight = this.text.scrollHeight
+    const description = this.text.innerText
+    if (description.trim().length <= 4096)
+      this.setState({...this.state, scrollHeight, description}, () => {
+        const descriptionLength = description.trim().length
+        if (descriptionLength === 0)
+          this.setState({...this.state, descriptionClass: 'hide-message'})
+        if (descriptionLength > 0 && descriptionLength < 5)
+          this.setState({...this.state, descriptionClass: 'error-message'})
+        if (descriptionLength >= 5 && descriptionLength < 4070)
+          this.setState({...this.state, descriptionClass: 'neutral-message'})
+        if (descriptionLength > 4070 && descriptionLength < 4096)
+          this.setState({...this.state, descriptionClass: 'warning-message'})
+      })
+
+    if ((scrollHeight > 250) && (scrollHeight !== this.state.scrollHeight) && (this.text.className !== 'post-component-textarea-open show-scroll')) {
+      this.text.className = 'post-component-textarea-open show-scroll'
+      setTimeout(() =>
+              this.text.className = 'post-component-textarea-open hide-scroll'
+          , 1000)
+    }
+  }
+
   componentDidMount() {
     const {actions, translate, currentUserMedia} = this.props
     document.addEventListener('mousedown', this.handleClickOutside)
@@ -425,7 +447,7 @@ class CreatePost extends Component {
             <div className={open ? 'post-not-collapse-username' : 'post-collapse-username'}>
               {currentUserName}
             </div>
-            <div className='post-component-header-item'>
+            <div className={open ? 'post-component-header-item' : 'post-component-header-item-hide'}>
               <Share
                   className={selected === 'post' ? 'post-component-header-item-logo1' : 'post-component-header-item-logo1-unselect'}
                   onClick={this.handleSelectShare}/>
@@ -446,21 +468,24 @@ class CreatePost extends Component {
                 {description && description.trim().length + '/4096'}
               </span>
               }
-              <textarea
+              <div
+                  contentEditable={true}
                   ref={e => this.text = e}
-                  className={open ? 'post-component-textarea-open' : 'post-component-textarea'}
+                  className={open ? 'post-component-textarea-open scroll-hide' : 'post-component-textarea'}
                   style={
                     description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0]) ?
-                        {direction: 'ltr', padding: open || focused ? '13px 23px 9px 15px' : '7px 23px 9px 15px'} :
-                        {direction: 'rtl', padding: open || focused ? '13px 15px 9px 23px' : '7px 15px 9px 23px'}
+                        {direction: 'ltr', padding: open || focused ? '13px 23px 9px 15px' : '8px 23px 9px 15px'} :
+                        {direction: 'rtl', padding: open || focused ? '13px 15px 9px 23px' : '8px 15px 9px 23px'}
                   }
-                  placeholder='مسئله خود را بنویسید...'
-                  value={description}
                   onBlur={this._handleBlurText}
-                  onChange={this._handleChangeText}
                   onFocus={this._handleFocusText}
                   onKeyDown={this._handleShiftEnter}
+                  onKeyUp={this._autoGrow}
               />
+
+              <div onClick={() => this.text.focus()} className={this.text && this.text.innerText.length > 0 ? 'post-placeholder-hide' : open ? 'post-placeholder-open' : 'post-placeholder'}>
+                مسئله خود را بنویسید...
+              </div>
 
               <div className={open || focused ? 'emoji-open' : 'emoji-close'} style={description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0]) ? {right: '7px'} : {left: '7px'}}>
                 <StickersMenu ltr={description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0])} output={this.handleEmoji}/>
@@ -488,14 +513,14 @@ class CreatePost extends Component {
             {/*<ContactMenuIcon className="post-component-footer-contact-menu-icon" onClickFunc={this.handleContact}/>*/}
 
             {/*{*/}
-              {/*Object.values(labels).map(label =>*/}
-                  {/*<div className='post-component-footer-items-style'>*/}
-                    {/*<div className='post-component-footer-items-style-text'>{label}</div>*/}
-                    {/*<div className='post-component-footer-items-style-close'*/}
-                         {/*onClick={() => this._handleLabel(label)}>✕*/}
-                    {/*</div>*/}
-                  {/*</div>*/}
-              {/*)*/}
+            {/*Object.values(labels).map(label =>*/}
+            {/*<div className='post-component-footer-items-style'>*/}
+            {/*<div className='post-component-footer-items-style-text'>{label}</div>*/}
+            {/*<div className='post-component-footer-items-style-close'*/}
+            {/*onClick={() => this._handleLabel(label)}>✕*/}
+            {/*</div>*/}
+            {/*</div>*/}
+            {/*)*/}
             {/*}*/}
 
             <div className='post-component-footer-send'>

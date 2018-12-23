@@ -81,6 +81,7 @@ import userInfoIcon from './user/userinfo_svg'
 import workExperienceIcon from './user/workExperience_svg'
 import YoutubeIcon from './common/youtube_svg'
 import BeeBackground from './bee/beeBackground'
+import Bee from './bee/bee'
 
 export {
   AgentSvgIcon,
@@ -165,5 +166,6 @@ export {
   userInfoIcon,
   workExperienceIcon,
   YoutubeIcon,
-  BeeBackground
+  BeeBackground,
+  Bee
 }

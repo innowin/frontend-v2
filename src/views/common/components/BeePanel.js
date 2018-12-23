@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import BeeBackground from '../../../images/bee/beeBackground'
+import {Bee} from '../../../images/icons'
 
 class BeePanel extends Component {
 
@@ -52,6 +53,7 @@ class BeePanel extends Component {
 
             <div className='bee-background-cont'>
               <BeeBackground className='bee-background'/>
+              <Bee className='bee'/>
             </div>
 
             <div className='bee-buttons'>
@@ -68,6 +70,7 @@ class BeePanel extends Component {
 
             <div className='bee-background-cont'>
               <BeeBackground className='bee-background'/>
+              <Bee className='bee'/>
             </div>
 
             <div className='bee-text-name'>نام و نام خانوادگی</div>
@@ -97,6 +100,7 @@ class BeePanel extends Component {
 
             <div className='bee-background-cont'>
               <BeeBackground className='bee-background'/>
+              <Bee className='bee'/>
             </div>
 
             <div className='bee-text-name'>مقطع</div>
@@ -130,6 +134,7 @@ class BeePanel extends Component {
 
             <div className='bee-background-cont'>
               <BeeBackground className='bee-background'/>
+              <Bee className='bee'/>
             </div>
 
             <div className='bee-text-name'>عنوان شغلی</div>
@@ -161,6 +166,7 @@ class BeePanel extends Component {
 
             <div className='bee-background-cont'>
               <BeeBackground className='bee-background'/>
+              <Bee className='bee'/>
             </div>
 
             <div className='bee-text-name'>عنوان شغلی</div>
@@ -190,6 +196,7 @@ class BeePanel extends Component {
 
             <div className='bee-background-cont'>
               <BeeBackground className='bee-background'/>
+              <Bee className='bee'/>
             </div>
 
             <div className='bee-button-complete'>

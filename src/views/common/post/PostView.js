@@ -178,10 +178,32 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   componentDidUpdate(prevProps) {
+    const self: any = this
     const {userImageId, actions} = this.props
     const {getFile} = actions
     if (!prevProps.userImageId && prevProps.userImageId !== userImageId) {
       getFile(userImageId)
+    }
+  }
+
+  componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
+    if (this.props.post !== nextProps.post) {
+      const {post, extendedView, fileList} = nextProps
+      if (post && post.post_picture) {
+        let postPicture, postPictureId
+        if (post) {
+          postPicture = post.post_picture
+          postPictureId = post.post_picture
+        }
+        let picture = new Image()
+        picture.src = (!extendedView ? (postPicture ? postPicture.file : '') : (postPictureId ? (fileList[postPictureId] ? fileList[postPictureId].file : '') : ''))
+        picture.onload = () => {
+          this.setState({...this.state, pictureLoaded: true})
+        }
+        picture.onerror = () => {
+          this.setState({...this.state, pictureLoaded: false})
+        }
+      }
     }
   }
 

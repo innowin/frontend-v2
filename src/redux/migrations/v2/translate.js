@@ -10,6 +10,7 @@ export default state => ({
     "Repeat password": "تکرار رمز عبور",
     "Password recovery": "بازیابی رمز عبور",
     "Password not equal to repeated": "رمز عبور انتخابی با تکرار آن یکسان نیست.",
+    "Edit Post": "ویرایش پست",
     topBar: {
       ...state.messages.topBar,
       "Password": "رمز عبور",

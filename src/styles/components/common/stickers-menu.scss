@@ -45,6 +45,7 @@
 .stickers-menu-scroll::-webkit-scrollbar-thumb {
   background: lightgrey;
   border-radius: 3px;
+
   &:hover {
     background: darkgrey;
   }
@@ -114,8 +115,50 @@
 
 .emoji-close {
   position: absolute;
-  bottom: 6px;
+  bottom: 4px;
   transition-duration: 0.2s;
   opacity: 1;
   z-index: 1;
+}
+
+.post-placeholder {
+  transition-duration: 0.5s;
+  width: calc(100% - 80px);
+  cursor: text;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-size: 13px;
+  color: grey;
+  position: absolute;
+  right: 77px;
+  top: 12px;
+}
+
+.post-placeholder-open {
+  transition-delay: 0.02s;
+  transition-duration: 0.5s;
+  width: 100%;
+  cursor: text;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-size: 13px;
+  color: grey;
+  position: absolute;
+  right: 16px;
+  top: 17px;
+}
+
+.post-placeholder-hide {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-size: 13px;
+  color: grey;
+  position: absolute;
+  display: none;
 }

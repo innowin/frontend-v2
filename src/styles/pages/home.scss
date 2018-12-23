@@ -278,11 +278,21 @@ $heightOfContentBox: 140px;
 .bee-background-cont {
   text-align: center;
   padding: 20px 0;
+  position: relative;
 }
 
 .bee-background {
   width: 180px;
   transition-duration: 0.3s;
+}
+
+.bee {
+  width: 65px;
+  transition-duration: 0.3s;
+  position: absolute;
+  right: 50%;
+  top: 50%;
+  transform: translate(50%, -50%);
 }
 
 .bee-buttons {
@@ -436,4 +446,45 @@ $heightOfContentBox: 140px;
     width: 100%;
   }
 
+}
+
+.bee-fil0 {
+  fill: #161A1B
+}
+
+.bee-fil5 {
+  fill: #D1D2D4;
+}
+
+.bee-fil2 {
+  fill: #F2B80D
+}
+
+.bee-fil4 {
+  fill: #F9CC12
+}
+
+.bee-fil7 {
+  fill: #FCE616
+}
+
+.bee-fil6 {
+  fill: #FCE717
+}
+
+.bee-fil {
+  fill: #FEFEFE;
+}
+
+
+.bee-fil3 {
+  fill: #FEFEFE;
+}
+
+.bee-fil1 {
+  fill: #FFE716
+}
+
+.bee-fil8 {
+  fill: #FFFFFD
 }
