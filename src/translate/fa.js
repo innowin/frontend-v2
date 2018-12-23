@@ -415,4 +415,8 @@ module.exports = {
     "Terms & Conditions": "شرایط و مقررات سرویس دهی",
     "About Us": "درباره ما",
   },
+
+  // toast messages
+  'Create post done': 'پست شما با موفقت ثبت شد',
+  'Post removed': 'پست شما پاک شد',
 }

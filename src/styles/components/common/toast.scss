@@ -4,80 +4,123 @@
   bottom: 15px;
   left: 15px;
 
-  .fade-enter {
-    opacity: 0.01;
+  .test-enter {
+    .toast-child-transition {
+      transform: rotateX(-90deg);
+      opacity: 0.01;
+    }
   }
-  .fade-enter-active {
-    opacity: 1;
-    transition: opacity 500ms ease-in;
+  .test-enter-active {
+    .toast-child-transition {
+      transform: rotateX(0);
+      opacity: 1;
+    }
   }
-  .fade-exit {
-    opacity: 1;
+  .test-exit {
+    .toast-child-transition {
+      transform: rotateX(0);
+      opacity: 1;
+    }
   }
-  .fade-exit-active {
-    opacity: 0.01;
-    transition: opacity 500ms ease-in;
+  .test-exit-active {
+    .toast-child-transition {
+      transform: rotateX(-90deg);
+      opacity: 0.01;
+    }
   }
 
   .toast-child-container {
-    border-radius: $border-radius-size;
-    box-shadow: 0 3px 3px $box-shadow-color;
-    background-color: $background-color;
-    margin-bottom: 15px;
-    display: flex;
-    flex-flow: row wrap;
+    position: relative;
+    perspective: 800px;
     width: 300px;
 
-    .image-type-container {
-      padding: 10px 12px 5px 12px;
-      border-radius: 0 $border-radius-size $border-radius-size 0;
-
-      .image-type{
-        width: 20px;
-        height: 20px;
-        fill: $background-color;
-
-        border: 1.5px solid $background-color;
-        border-radius: 50px;
-        padding: 3px;
-        stroke: $background-color;
-      }
-    }
-    .success-image-container {
-      background: $success-color;
-    }
-    .remove-image-container {
-      background: $warning-color;
-    }
-    .info-image-container {
-      background: $info-color;
-    }
-    .error-image-container {
-      background: $danger-color;
-    }
-
-    .content-container {
-      flex: 1;
+    .toast-child-transition {
+      transform-style: preserve-3d;
       position: relative;
+      transition: all 0.7s ease-out;
 
-      .content-text {
-        padding: 10px 10px 10px 30px;
-        font-size: $font-size-small;
-        margin-bottom: 4px;
-      }
-      .close-button-container {
-        background: inherit;
-        border: 0;
-        outline: 0;
-        position: absolute;
-        top: 5px;
-        left: 5px;
+      .toast-child-transition-front {
+        backface-visibility: hidden;
+        display: flex;
+        flex-flow: row wrap;
+        border-radius: $border-radius-size;
+        box-shadow: 0 3px 3px $box-shadow-color;
+        background-color: $background-color;
+        margin-bottom: 15px;
+        width: 100%;
+        height: 50px;
+        align-items: center;
 
-        .close-button {
-          width: 10px;
-          height: 10px;
-          stroke: $primary-color;
+        .image-type-container {
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0 15px;
+          border-radius: 0 $border-radius-size $border-radius-size 0;
+
+          .image-type{
+            width: 20px;
+            height: 20px;
+            fill: $background-color;
+
+            border: 1.5px solid $background-color;
+            border-radius: 50px;
+            padding: 3px;
+            stroke: $background-color;
+          }
         }
+        .success-image-container {
+          background: $success-color;
+        }
+        .remove-image-container {
+          background: $warning-color;
+        }
+        .info-image-container {
+          background: $info-color;
+        }
+        .error-image-container {
+          background: $danger-color;
+        }
+
+        .content-container {
+          flex: 1;
+          position: relative;
+          height: 100%;
+          align-items: center;
+          display: flex;
+
+          .content-text {
+            padding: 10px 10px 10px 30px;
+            font-size: $font-size-small;
+            margin-bottom: 4px;
+          }
+          .close-button-container {
+            background: inherit;
+            border: 0;
+            outline: 0;
+            position: absolute;
+            top: 5px;
+            left: 5px;
+
+            .close-button {
+              width: 10px;
+              height: 10px;
+              stroke: $primary-color;
+            }
+          }
+        }
+      }
+      .toast-child-transition-front-back {
+        backface-visibility: hidden;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 50px;
+        background: $background-color;
+        border-radius: $border-radius-size;
+        box-shadow: 0 3px 3px $box-shadow-color;
+        transform: rotateX(-180deg);
       }
     }
   }

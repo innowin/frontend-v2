@@ -13,6 +13,8 @@ export default state => ({
     topBar: {
       ...state.messages.topBar,
       "Password": "رمز عبور",
-    }
+    },
+    'Create post done': 'پست شما با موفقت ثبت شد',
+    'Post removed': 'پست شما پاک شد',
   },
 })

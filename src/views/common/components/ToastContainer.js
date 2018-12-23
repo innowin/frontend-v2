@@ -32,7 +32,7 @@ const ToastContainer = (props: ToastProps) => {
     //   }
     // })
     // addToast({data: {id: 3, type: constants.TOAST_TYPE.ERROR, content: {text: 'شما مجاز به انجام این کار نیستید.'}}})
-    addToast({data: {id: 4, type: constants.TOAST_TYPE.REMOVE, content: {text: 'پست شما پاک شد.'}}})
+    addToast({data: {id: 4, type: constants.TOAST_TYPE.WARNING, content: {text: 'پست شما پاک شد.'}}})
   }
 
   const deleteToast = (toastId) => {
@@ -47,7 +47,7 @@ const ToastContainer = (props: ToastProps) => {
         {/*<button onClick={createToast}>تست تست</button>*/}
         <TransitionGroup>
           {toasts.map(toast =>
-              <CSSTransition key={toast.id} timeout={500} classNames='fade'>
+              <CSSTransition key={toast.id} timeout={700} classNames='test'>
                 <Toast toast={toast} removeToast={() => deleteToast(toast.id)}/>
               </CSSTransition>
           )}

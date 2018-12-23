@@ -80,6 +80,7 @@ import TipsIcon from './common/tips_svg_icon'
 import userInfoIcon from './user/userinfo_svg'
 import workExperienceIcon from './user/workExperience_svg'
 import YoutubeIcon from './common/youtube_svg'
+import WarningIcon from './common/warning-sign'
 import BeeBackground from './bee/beeBackground'
 
 export {
@@ -165,5 +166,6 @@ export {
   userInfoIcon,
   workExperienceIcon,
   YoutubeIcon,
-  BeeBackground
+  BeeBackground,
+  WarningIcon,
 }
