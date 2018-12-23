@@ -1127,9 +1127,8 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
           {this.renderCurrentLevel()}
 
           {this.renderFooter()}
+          <Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>
 */}
-
-           <Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>
            <ModalBody className="adding-contribution-wrapper">
            <FontAwesome name="times" size="2x" className="close-btn"
            onClick={this._handleModalVisibility}/>
@@ -1145,7 +1144,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
            {this._switchContentByMainCategory()}
            </div>
            </ModalBody>
-           </Modal>
+           {/*</Modal>*/}
 
 
         </div>

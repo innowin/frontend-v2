@@ -15,6 +15,7 @@ export default state => ({
       ...state.messages.topBar,
       "Password": "رمز عبور",
       'Phone setting description': 'یک شماره موبایل وارد کنید. این شماره برای ارتباط اینوین (مثلا بازیابی رمز عبور) با شما است و برای سایر کاربران قابل مشاهده نخواهد بود.',
+      'Darbare Innowin': 'درباره اینوین',
     },
     'Create post done': 'پست شما با موفقت ثبت شد',
     'Post removed': 'پست شما پاک شد',

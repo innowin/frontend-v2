@@ -320,7 +320,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                       <Material className='profile-menu-second-section-item' onClick={this._handleShowSetting}
                                 content={topBarTranslate['General Settings']}/>
                       <Material className='profile-menu-second-section-item' onClick={this._handleShowAbout}
-                                content={topBarTranslate['About Us']}/>
+                                content={topBarTranslate['Darbare Innowin']}/>
                       {/*<Material className='profile-menu-second-section-item' content={topBarTranslate['Privacy']}/>*/}
                     </div>
 
