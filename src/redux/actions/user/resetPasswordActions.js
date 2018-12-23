@@ -23,12 +23,18 @@ const searchUser = ({input}) => ({
   payload: {input}
 })
 
+const resetPasswordByEmailRequest = ({userId}) => ({
+  type: types.USER.PASSWORD_RECOVERY_BY_EMAIL,
+  payload: {userId}
+})
+
 const ResetPassword = {
   resetPasswordBySmsRequest,
   resetPasswordBySmsCheckCode,
   resetPasswordBySms,
   resetRecoveryPasswordReduxState,
   searchUser,
+  resetPasswordByEmailRequest,
 }
 
 export default ResetPassword

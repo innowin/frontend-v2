@@ -48,6 +48,40 @@ const users = (state = initialState.users, action) => {
           error: message
         }
       }
+    // -------------------- request by email
+    case types.USER.PASSWORD_RECOVERY_BY_EMAIL:
+      return {
+        ...state,
+        recoveryPassword: {
+          ...state.recoveryPassword,
+          userId: null,
+          step_name: constants.RESET_PASSWORD_STEP.REQUEST,
+          isLoading: true,
+          error: null
+        }
+      }
+    case types.SUCCESS.USER.PASSWORD_RECOVERY_BY_EMAIL:
+      return {
+        ...state,
+        recoveryPassword: {
+          ...state.recoveryPassword,
+          userId,
+          step_name: constants.RESET_PASSWORD_STEP.REQUEST,
+          isLoading: false,
+          error: null
+        }
+      }
+    case types.ERRORS.USER.PASSWORD_RECOVERY_BY_EMAIL:
+      return {
+        ...state,
+        recoveryPassword: {
+          ...state.recoveryPassword,
+          userId: null,
+          step_name: constants.RESET_PASSWORD_STEP.REQUEST,
+          isLoading: false,
+          error: message
+        }
+      }
     // ---------------- request
     case types.USER.PASSWORD_RESET_BY_SMS_REQUEST:
       return {

@@ -3,6 +3,7 @@ import results from "src/consts/resultName"
 import types from "src/redux/actions/types"
 import urls from "src/consts/URLS"
 import {take, put, fork, call} from "redux-saga/effects"
+import constants from "../../../consts/constants";
 
 
 export function* resetPasswordBySmsRequest(action) {
@@ -13,7 +14,7 @@ export function* resetPasswordBySmsRequest(action) {
     const _data = {user_id: userId}
     yield fork(api.post, urls.USER.PASSWORD_RESET_BY_SMS_REQUEST, results.USER.PASSWORD_RESET_BY_SMS_REQUEST, _data, '', true)
     const data = yield take(socketChannel)
-    if(data.status === "SUCCESS") {
+    if(data.status === constants.SUCCESS_MESSAGES.SUCCESS) {
       const userId = data.user_id
       yield put({type: types.SUCCESS.USER.PASSWORD_RESET_BY_SMS_REQUEST, payload: {userId}})
     } else {
@@ -35,7 +36,7 @@ export function* resetPasswordBySmsCheckCode(action) {
     const _data = {user_id: userId, code: VerificationCode}
     yield fork(api.post, urls.USER.PASSWORD_RESET_BY_SMS_CHECK_CODE, results.USER.PASSWORD_RESET_BY_SMS_CHECK_CODE, _data, '', true)
     const data = yield take(socketChannel)
-    if (data.status === "OK"){
+    if (data.status === constants.SUCCESS_MESSAGES.OK){
       yield put({type: types.SUCCESS.USER.PASSWORD_RESET_BY_SMS_CHECK_CODE, payload: {userId, VerificationCode}})
     } else {
       throw new Error(data.status)
@@ -56,7 +57,7 @@ export function* resetPasswordBySms(action) {
     const _data = {user_id: userId, code: VerificationCode, password, confirm_password: passwordConfirm}
     yield fork(api.post, urls.USER.PASSWORD_RESET_BY_SMS, results.USER.PASSWORD_RESET_BY_SMS, _data, '', true)
     const data = yield take(socketChannel)
-    if (data.status === "SUCCESS"){
+    if (data.status === constants.SUCCESS_MESSAGES.SUCCESS){
       yield put({
         type: types.SUCCESS.USER.PASSWORD_RESET_BY_SMS,
         payload: {data, userId}

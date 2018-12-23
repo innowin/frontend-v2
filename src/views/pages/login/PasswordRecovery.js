@@ -4,7 +4,7 @@ import {Fragment} from 'react'
 import FontAwesome from "react-fontawesome";
 import {connect} from "react-redux"
 import {bindActionCreators} from "redux"
-import ResetPassword from "src/redux/actions/user/resetPasswordBySmsActions"
+import ResetPassword from "src/redux/actions/user/resetPasswordActions"
 import {recoveryPasswordSelector} from "src/redux/selectors/user/recoveryPasswordSelector"
 import PropTypes from 'prop-types'
 import constants from "../../../consts/constants";
@@ -19,6 +19,7 @@ type passwordRecoveryProps = {
     resetPasswordBySms: Function,
     resetRecoveryPasswordReduxState: Function,
     searchUser: Function,
+    resetPasswordByEmailRequest: Function,
   },
   recoveryPasswordObject: {
     userId: ?number,
@@ -94,6 +95,12 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
           step: step + 1,
           clickedButton: false
         })
+
+        userIdentifierInputValue && !phoneChecked && emailChecked && this.setState({
+          ...this.state,
+          step: step + 1,
+          clickedButton: false
+        })
       } else if (step === 3) {
         hideRecoveryClick()
         this.setState({...this.state, clickedButton: false, userIdentifierInputValue: ''})
@@ -131,7 +138,7 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
 
   _onSuccess = () => {
     const {actions, recoveryPasswordObject} = this.props
-    const {resetPasswordBySmsRequest, resetPasswordBySmsCheckCode, resetPasswordBySms, searchUser} = actions
+    const {resetPasswordBySmsRequest, resetPasswordBySmsCheckCode, resetPasswordBySms, searchUser, resetPasswordByEmailRequest} = actions
     const {userId, VerificationCode, isLoading: recoveryIsLoading} = recoveryPasswordObject
     const {step, userIdentifierInputValue, activationCodeInput} = this.state
     if (!recoveryIsLoading) {
@@ -141,9 +148,9 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
       } else if (step === 1) {
         const emailChecked = this.emailChecked ? this.emailChecked.checked : false
         const phoneChecked = this.phoneChecked ? this.phoneChecked.checked : false
-        userIdentifierInputValue && phoneChecked && !emailChecked ?
-            resetPasswordBySmsRequest(recoveryPasswordObject.searchUserData.id)
-            : alert("قسمت ایمیل غیر فعال هست!")
+        userIdentifierInputValue && phoneChecked && !emailChecked
+            ? resetPasswordBySmsRequest(recoveryPasswordObject.searchUserData.id)
+            : resetPasswordByEmailRequest({userId: recoveryPasswordObject.searchUserData.id})
       } else if (step === 2) {
         if (activationCodeInput.length === 5) {
           resetPasswordBySmsCheckCode(userId, activationCodeInput)
@@ -369,6 +376,7 @@ const mapDispatchToProps = dispatch => ({
     resetPasswordBySmsCheckCode: ResetPassword.resetPasswordBySmsCheckCode,
     resetPasswordBySms: ResetPassword.resetPasswordBySms,
     resetRecoveryPasswordReduxState: ResetPassword.resetRecoveryPasswordReduxState,
+    resetPasswordByEmailRequest: ResetPassword.resetPasswordByEmailRequest,
     searchUser: ResetPassword.searchUser,
   }, dispatch)
 })
