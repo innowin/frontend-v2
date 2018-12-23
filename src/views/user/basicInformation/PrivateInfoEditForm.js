@@ -1,14 +1,12 @@
 // @flow
 import * as React from "react"
 import PropTypes from "prop-types"
-import {Component} from "react"
 
 import renderTextField from "../../common/inputs/reduxFormRenderTextField"
 import {ReduxFormDateInput} from 'src/views/common/inputs/reduxFormDateInput'
 import {Field, reduxForm} from "redux-form";
 import type {userProfileType, userType} from "src/consts/flowTypes/user/basicInformation"
 import privateInfoValidation from "../../../helpers/validations/privateInfoBasicInformation"
-import {CustomArrayInput} from "../../common/inputs/CustomArrayInput";
 import EditFormButtons from "../../common/components/EditFormButtons";
 import {Fragment} from "react";
 import {ItemHeader} from "../../common/cards/Frames";
@@ -39,7 +37,7 @@ type PropsPrivateInfoEditForm = {
   error: string,
 }
 
-class PrivateInfoEditForm extends Component<PropsPrivateInfoEditForm> {
+class PrivateInfoEditForm extends React.Component<PropsPrivateInfoEditForm> {
   static propTypes = {
     hideEdit: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,

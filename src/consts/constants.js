@@ -56,7 +56,7 @@ export default {
   },
   TOAST_TYPE: {
     SUCCESS: 'success',
-    REMOVE: 'remove',
+    WARNING: 'warning',
     INFO: 'info',
     ERROR: 'error',
   },

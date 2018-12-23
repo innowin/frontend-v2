@@ -1,5 +1,5 @@
 const validateBiography = (biography, translate) => {
-  if (biography.length > 70) {
+  if (biography.length > 700) {
     return translate['Biography length is wrong']
   }
 }

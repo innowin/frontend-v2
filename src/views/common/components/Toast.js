@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
 import PropTypes from 'prop-types'
-import {TickSvgIcon, CloseIconSvg, InformationIcon} from "src/images/icons";
+import {TickSvgIcon, CloseIconSvg, InformationIcon, WarningIcon} from "src/images/icons";
 import constants from "src/consts/constants";
 import type {toastType} from "src/consts/flowTypes/toast";
 
@@ -25,7 +25,7 @@ class Toast extends React.Component <ToastProps, ToastState> {
     const {removeToast, toast} = this.props
     const {type} = toast
 
-    setTimeout(() => removeToast(toast.id), 5000)
+    setTimeout(() => removeToast(toast.id), 4000)
 
     switch (type) {
       case constants.TOAST_TYPE.SUCCESS:
@@ -36,7 +36,7 @@ class Toast extends React.Component <ToastProps, ToastState> {
         this.errorSound = new Audio(errorFile);
         this.errorSound.play();
         break
-      case constants.TOAST_TYPE.REMOVE:
+      case constants.TOAST_TYPE.WARNING:
         this.warningSound = new Audio(warningFile);
         this.warningSound.play();
         break
@@ -54,23 +54,28 @@ class Toast extends React.Component <ToastProps, ToastState> {
     const {type, content} = toast
     return (
         <div className='toast-child-container'>
-          <div className={type === constants.TOAST_TYPE.SUCCESS ? 'image-type-container success-image-container'
-              : type === constants.TOAST_TYPE.INFO ? 'image-type-container info-image-container'
-                  : type === constants.TOAST_TYPE.ERROR ? 'image-type-container error-image-container'
-                      : type === constants.TOAST_TYPE.REMOVE ? 'image-type-container remove-image-container'
-                          : 'image-type-container'}>
-            {type === constants.TOAST_TYPE.SUCCESS ? <TickSvgIcon className='image-type'/>
-                : type === constants.TOAST_TYPE.INFO ? <InformationIcon className='image-type'/>
-                    : type === constants.TOAST_TYPE.ERROR ? <CloseIconSvg className='image-type'/>
-                        : type === constants.TOAST_TYPE.REMOVE ? <TickSvgIcon className='image-type'/>
-                            : ''
-            }
-          </div>
-          <div className='content-container'>
-            <p className='content-text'>{content.text}</p>
-            <button className='close-button-container pulse' onClick={() => removeToast(toast.id)}>
-              <CloseIconSvg className='close-button'/>
-            </button>
+          <div className='toast-child-transition'>
+            <div className='toast-child-transition-front'>
+              <div className={type === constants.TOAST_TYPE.SUCCESS ? 'image-type-container success-image-container'
+                  : type === constants.TOAST_TYPE.INFO ? 'image-type-container info-image-container'
+                      : type === constants.TOAST_TYPE.ERROR ? 'image-type-container error-image-container'
+                          : type === constants.TOAST_TYPE.WARNING ? 'image-type-container remove-image-container'
+                              : 'image-type-container'}>
+                {type === constants.TOAST_TYPE.SUCCESS ? <TickSvgIcon className='image-type'/>
+                    : type === constants.TOAST_TYPE.INFO ? <InformationIcon className='image-type'/>
+                        : type === constants.TOAST_TYPE.ERROR ? <CloseIconSvg className='image-type'/>
+                            : type === constants.TOAST_TYPE.WARNING ? <WarningIcon className='image-type'/>
+                                : ''
+                }
+              </div>
+              <div className='content-container'>
+                <p className='content-text'>{content.text}</p>
+                <button className='close-button-container pulse' onClick={() => removeToast(toast.id)}>
+                  <CloseIconSvg className='close-button'/>
+                </button>
+              </div>
+            </div>
+            <div className='toast-child-transition-front-back'/>
           </div>
         </div>
     )

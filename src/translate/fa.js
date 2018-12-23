@@ -28,8 +28,8 @@ module.exports = {
   "Acceptable": "قابل قبول",
   "Username length should be greater than 4": "نام کاربری باید بیشتر از ۴ حرف باشد",
   "Retry": "سعی مجدد",
-  "Password is required": "گذرواژه الزامی است",
-  "Different password": "عدم تطابق گذرواژه و تکرار آن",
+  "Password is required": "رمز عبور الزامی است",
+  "Different password": "عدم تطابق رمز عبور و تکرار آن",
   "Username is required": "نام‌کاربری الزامی است",
   "Email is required": "رایانامه الزامی است",
   "Invalid email": "رایانامه‌ نامعتبر",
@@ -322,7 +322,7 @@ module.exports = {
   "Staff count": "تعداد کارکنان",
   "Staff count must be positive": "تعداد کارکنان باید عددی مثبت باشد",
   "Account administrators": "مدیران حساب کاربری",
-  "Biography length is wrong": "حداکثر طول 70 می باشد",
+  "Biography length is wrong": "حداکثر طول 700 می باشد",
   "Official name is wrong": "نام رسمی شرکت اشتباه است",
 
   // Organization - customers
@@ -414,5 +414,10 @@ module.exports = {
     "Introduce Badges": "معرفی نشان ها",
     "Terms & Conditions": "شرایط و مقررات سرویس دهی",
     "About Us": "درباره ما",
+    'Phone setting description': 'یک شماره موبایل وارد کنید. این شماره برای ارتباط اینوین (مثلا بازیابی رمز عبور) با شما است و برای سایر کاربران قابل مشاهده نخواهد بود.',
   },
+
+  // toast messages
+  'Create post done': 'پست شما با موفقت ثبت شد',
+  'Post removed': 'پست شما پاک شد',
 }
