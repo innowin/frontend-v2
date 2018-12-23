@@ -1,5 +1,4 @@
-import temp from './temp'
-import translate from "../v2/translate";
+import translate from "../v3/translate";
 
 export default {
   ROOT: state => ({

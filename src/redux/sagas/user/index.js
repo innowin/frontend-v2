@@ -8,6 +8,7 @@ import {updateUserByUserId} from './updateUserByUserIdSaga'
 import {usernameCheck} from "./checkUsernameSaga"
 import {resetPasswordBySmsRequest, resetPasswordBySmsCheckCode, resetPasswordBySms} from "./resetPasswordBySms"
 import {searchUser} from './searchUser'
+import {resetPasswordByEmailRequest} from './resetPasswordByEmail'
 
 
 // check username exist
@@ -72,6 +73,10 @@ function* watchResetPasswordBySms(){
   yield takeEvery(types.USER.PASSWORD_RESET_BY_SMS, resetPasswordBySms)
 }
 
+function* watchResetPasswordByEmailRequest(){
+  yield takeEvery(types.USER.PASSWORD_RECOVERY_BY_EMAIL, resetPasswordByEmailRequest)
+}
+
 function* watchSearchUser(){
   yield takeEvery(types.USER.SEARCH_USER, searchUser)
 }
@@ -96,4 +101,5 @@ export default [
   watchResetPasswordBySmsCheckCode(),
   watchResetPasswordBySms(),
   watchSearchUser(),
+  watchResetPasswordByEmailRequest(),
 ]

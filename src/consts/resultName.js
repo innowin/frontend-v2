@@ -17,6 +17,7 @@ const results = {
     PASSWORD_RESET_BY_SMS_REQUEST:'password_reset_by_sms_request',
     PASSWORD_RESET_BY_SMS_CHECK_CODE:'password_reset_by_sms_check_code',
     PASSWORD_RESET_BY_SMS:'password_reset_by_sms',
+    PASSWORD_RECOVERY_BY_EMAIL: 'password-recovery-by-email',
     SEARCH_USER: 'search_password',
   },
   ORG: {

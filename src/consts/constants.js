@@ -64,6 +64,13 @@ export default {
     USER_SEARCH: {
       NOT_FOUND: 'NOT_FOUND', // user not found
     },
-
+    PASSWORD_RECOVERY_BY_EMAIL: {
+      USER_NOT_FOUND: 'User not found',
+    },
+  },
+  SUCCESS_MESSAGES: {
+    SUCCESS: 'SUCCESS',
+    OK: 'OK',
+    CODE_SENDED: 'code sended',
   }
 }
