@@ -18,6 +18,7 @@ export function* createExchange(action) {
     data = yield take(socketChannel)
     console.log('----saga >> add exchange data is: ', data)
     yield put({type: types.SUCCESS.EXCHANGE.CREATE_EXCHANGE, payload: {data}})
+    yield put({type: types.EXCHANGE.GET_EXCHANGE_BY_EX_ID, payload: {id: data.id}})
   } catch (err) {
     const {message} = err
     yield put({
