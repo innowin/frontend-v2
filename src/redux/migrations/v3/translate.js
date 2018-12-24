@@ -4,6 +4,8 @@ export default state => ({
     ...state.messages,
     topBar: {
       ...state.messages.topBar,
+      'Home page': 'صفحه اصلی',
+      'Explore': 'اکسپلور',
     },
   },
 })

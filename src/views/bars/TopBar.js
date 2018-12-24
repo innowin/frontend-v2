@@ -19,7 +19,7 @@ import UserAgreement from './TopBarComponents/UserAgreement'
 import {bindActionCreators} from 'redux'
 import {Component} from 'react'
 import {connect} from 'react-redux'
-import {DefaultUserIcon, NotificationIcon, InnoWinLogo} from 'src/images/icons'
+import {DefaultUserIcon, NotificationIcon, InnoWinLogo, ExchangeExploreIcon} from 'src/images/icons'
 import {Link} from 'react-router-dom'
 import {routerActions} from 'react-router-redux'
 import {SearchIcon} from '../../images/icons'
@@ -39,7 +39,7 @@ type PropsTopBar = {|
     verifyToken: Function,
     getFile: Function
   },
-  translate: { topBar: { [string]: string } },
+  translate: { topBar: { [string]: string }, [string]: string },
 |}
 
 type StatesTopBar = {|
@@ -251,12 +251,25 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
             <div className="d-flex align-items-center">
 
               <Material backgroundColor='rgba(238, 238, 238,0.8)' className='top-bar-home' content={
-                <Link to={'/'}><i className="fa fa-home top-bar-home-logo" aria-hidden={true}/></Link>
+                <Link to={'/'}><i className="fa fa-home top-bar-home-logo" aria-hidden={true}/>
+                  <p className='top-bar-title'>{topBarTranslate['Home page']}</p>
+                </Link>
               }/>
 
-              <div className="mr-5 top-bar-explore" onClick={this._toggleExplore}>
+              <Material backgroundColor='rgba(238, 238, 238,0.8)' className="top-bar-explore"
+                        onClick={this._toggleExplore} content={
+                <React.Fragment>
+                  <div className="-topBarIcons-cont">
+                    <ExchangeExploreIcon className='-topBarIcons'/>
+                  </div>
+                  <p className='top-bar-title'>{topBarTranslate['Explore']}</p>
+                </React.Fragment>
+              }/>
+
+              <div className='explore-menu-wrappper'>
                 <ExploreMenu exploreCollapse={exploreCollapse}/>
               </div>
+
 
               {/*<Link className="mr-5" to={"/"}><NotificationIcon className="-topBarIcons"/></Link>*/}
               {/*<Link className="mr-5" to={"/"}><NotificationIcon className="notif-icon"/></Link>*/}

@@ -1,4 +1,4 @@
-import translate from "../v3/translate";
+import translate from "./translate";
 
 export default {
   ROOT: state => ({
