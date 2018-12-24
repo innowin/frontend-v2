@@ -11,11 +11,6 @@ $sidebar-profile-media-width: 80px;
   right: 0;
   left: 0;
   z-index: 3;
-
-  .search-icon {
-    width: 24px;
-    fill: $background-color;
-  }
 }
 
 .navbar-toggler {
@@ -44,12 +39,11 @@ $sidebar-profile-media-width: 80px;
 }
 
 .-topBarIcons-cont {
-  cursor: pointer;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  text-align: center;
-  transition-duration: 0.5s;
+  margin: 5px auto;
+  width: 20px;
+  height: 20px;
+  fill: $background-color;
+  vertical-align: top;
 }
 
 .-topBarIcons-cont-open {
@@ -60,13 +54,6 @@ $sidebar-profile-media-width: 80px;
   text-align: center;
   background-color: rgba(255, 255, 255, 0.15);
   transition-duration: 0.5s;
-}
-
-.-topBarIcons {
-  fill: $background-color;
-  height: 20px;
-  vertical-align: top;
-  margin-top: 5px;
 }
 
 .notif-icon {
@@ -87,25 +74,34 @@ $sidebar-profile-media-width: 80px;
 }
 
 .-searchInput {
-  border: 1px solid $primary-color-light2;
-  border-radius: 20px;
-  background-color: $primary-color-light2;
-  padding: 5px 10px 5px 20px;
-  margin: 5px 5px 5px 40px;
-  font-size: 14px;
-}
+  display: flex;
+  position: relative;
+  align-items: center;
+  height: 100%;
+  margin-left: 30px;
 
-.-searchInput input {
-  margin-right: 10px;
-  border: none !important;
-  background-color: transparent;
-  outline: none;
-  text-align: right;
-
-  &::placeholder {
-    color: darken(#ffffff, 15%);
+  .search-icon {
+    width: 20px;
+    position: absolute;
+    fill: $background-color;
+    left: 10px;
   }
 
+  input {
+    height: 40px;
+    border: 1.5px solid #000000;
+    border-radius: 20px;
+    background-color: $primary-color-light2;
+    padding: 5px 10px 5px 35px;
+    font-size: $font-size-regular;
+    outline: none;
+    text-align: right;
+    min-width: 200px;
+
+    &::placeholder {
+      color: darken(#ffffff, 15%);
+    }
+  }
 }
 
 .-topBar-right-collapse {
@@ -173,6 +169,7 @@ $sidebar-profile-media-width: 80px;
 .-ProfTopBarImg {
   position: relative;
   display: flex;
+  align-items: center;
 }
 
 .-ProfTopBarImg-svg {
@@ -353,7 +350,7 @@ $sidebar-profile-media-width: 80px;
 .exchange-center-background {
   top: 0;
   background: linear-gradient(to bottom, $image-background-color, $image-background-color,
-      $image-background-color, $image-background-color, $image-background-color, transparent);
+          $image-background-color, $image-background-color, $image-background-color, transparent);
   height: $exchange-tabs-height;
   width: $feed-width + 10;
   position: fixed;
@@ -485,6 +482,7 @@ $sidebar-profile-media-width: 80px;
 %sidebar-child-wrapper {
   position: relative;
   height: 80%;
+
   .profile-media {
     position: absolute;
     transform: translate(-50%, -50%);
@@ -505,6 +503,7 @@ $sidebar-profile-media-width: 80px;
   .info-section {
     padding-bottom: 90px;
     border-bottom: 0 !important;
+
     .description {
       position: relative;
       width: 90%;
@@ -747,6 +746,7 @@ $sidebar-profile-media-width: 80px;
     margin: 0;
     flex: 0 1 40%;
   }
+
   .side-user-follow {
     margin: 0;
     flex: 0 1 40%;
@@ -841,6 +841,10 @@ $sidebar-profile-media-width: 80px;
     //}
   }
 
+  &:last-child {
+    padding-bottom: 10px;
+  }
+
   .header-exchange {
     display: flex;
     flex-flow: row;
@@ -897,14 +901,26 @@ $sidebar-profile-media-width: 80px;
 
 .top-bar-explore {
   position: relative;
+  height: 55px;
+  width: 80px;
+  margin-right: 15px;
+  cursor: pointer;
+  border-radius: 50px;
+  text-align: center;
 }
 
 .top-bar-home {
   margin-right: 10px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
+  width: 80px;
+  height: 55px;
+  border-radius: 50px;
   text-align: center;
+  cursor: pointer;
+}
+
+.top-bar-title {
+  color: #FFFFFF;
+  font-size: $font-size-regular;
 }
 
 .top-bar-home-logo {
@@ -912,33 +928,37 @@ $sidebar-profile-media-width: 80px;
   margin: 3px;
 }
 
-.explore-menu-container {
-  position: absolute;
-  top: 32px;
-  right: -75px;
-  width: 245px;
-  text-align: center;
-  overflow-y: hidden;
-  height: 140px;
-  transition: ease-in 0.3s;
+.explore-menu-wrappper {
+  position: relative;
+  .explore-menu-container {
+    position: absolute;
+    top: 20px;
+    right: -158px;
+    width: 245px;
+    text-align: center;
+    overflow-y: hidden;
+    height: 140px;
+    transition: ease-in 0.3s;
+  }
+
+  .explore-menu-container-hide {
+    position: absolute;
+    top: 20px;
+    right: -158px;
+    width: 245px;
+    text-align: center;
+    overflow-y: hidden;
+    height: 0;
+    transition: ease-out 0.3s;
+  }
 }
 
-.explore-menu-container-hide {
-  position: absolute;
-  top: 32px;
-  right: -75px;
-  width: 245px;
-  text-align: center;
-  overflow-y: hidden;
-  height: 0;
-  transition: ease-out 0.3s;
-}
 
 .explore-menu-arrow {
   user-select: none;
   color: white;
   text-align: right;
-  margin-right: 83px;
+  margin-right: 110px;
 }
 
 .explore-menu-arrow-2 {
@@ -1719,7 +1739,7 @@ $sidebar-profile-media-width: 80px;
   user-select: none;
   color: white;
   text-align: left;
-  margin-left: 18px;
+  margin-left: 28px;
 }
 
 .-ProfTopBarImg-svg-big {
@@ -2133,7 +2153,8 @@ $sidebar-profile-media-width: 80px;
 .edit-exchange-description-input::-webkit-scrollbar-thumb {
   background: #e0e0e0;
   border-radius: $border-radius;
-  &:hover{
+
+  &:hover {
     background: #d0d0d0;
     cursor: pointer;
   }
@@ -2142,8 +2163,7 @@ $sidebar-profile-media-width: 80px;
 
 .topbar-profile-img {
   cursor: pointer;
-  margin-top: 4px;
-  margin-left: 8px;
+  margin-left: 20px;
   width: 45px;
   height: 45px;
   text-align: center;
@@ -2153,8 +2173,7 @@ $sidebar-profile-media-width: 80px;
 
 .topbar-profile-img-open {
   cursor: pointer;
-  margin-top: 4px;
-  margin-left: 8px;
+  margin-left: 20px;
   width: 45px;
   height: 45px;
   text-align: center;

@@ -203,7 +203,7 @@ button {
   background: $primary-color;
   //border-radius: 10px;
   transition: all .3s ease-out;
-  box-shadow: inset 1px 0 5px -1px $primary-color;
+  //box-shadow: inset 1px 0 5px -1px $primary-color;
 
   &:hover{
     background: $primary-color-light2;

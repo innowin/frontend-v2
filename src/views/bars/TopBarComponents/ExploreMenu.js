@@ -1,6 +1,5 @@
 import Contacts from "../../../images/common/contacts_svg"
 import ContributionIcon from "../../../images/common/contribution_svg"
-import ExchangeExploreIcon from "../../../images/common/exchange_explore_svg"
 import ExchangeIcon from "../../../images/common/exchange_svg"
 import Material from "../../common/components/Material"
 import React from 'react'
@@ -10,9 +9,6 @@ const ExploreMenu = (props) => {
   const {exploreCollapse} = props
   return (
       <div>
-        <Material backgroundColor='rgba(238, 238, 238,0.8)' className={exploreCollapse ? "-topBarIcons-cont-open" : "-topBarIcons-cont"} content={
-          <ExchangeExploreIcon className={'-topBarIcons'}/>
-        }/>
         <div className={exploreCollapse ? "explore-menu-container" : "explore-menu-container-hide"}>
           <div className='explore-menu-arrow'>
             ▲
