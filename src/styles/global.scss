@@ -193,22 +193,23 @@ button {
 
 ::-webkit-scrollbar {
   width: $scroll-bar-width;
+  border-radius: $border-radius-size;
+  box-shadow: none;
 }
 
 ::-webkit-scrollbar-track {
   background-color: $background-color;
+  border-radius: $border-radius-size;
+  box-shadow: none;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: $primary-color;
-  //border-radius: 10px;
-  transition: all .3s ease-out;
-  box-shadow: inset 1px 0 5px -1px $primary-color;
+  border-radius: $border-radius-size;
+  background: $scroll-color;
+  box-shadow: none;
 
   &:hover{
-    background: $primary-color-light2;
-    box-shadow: inset 1px 0 5px -1px $primary-color;
-    transition: all .3s ease-out;
+    background: $scroll-color-hover;
   }
 }
 

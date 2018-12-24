@@ -11,8 +11,9 @@
   flex-basis: 270px;
   background-color: $text-lightest-color;
   border-radius: 5px;
-  box-shadow: 0 3px 3px $box-shadow-color;
+  box-shadow: 0 3px 3px 1.5px $box-shadow-color;
   height: 345px;
+  overflow: hidden;
 }
 
 .exchange-model-hide {
@@ -62,6 +63,27 @@
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.2);
 }
 
+.exchange-model-avatar-back {
+  position: absolute;
+  width: 250%;
+  filter: blur(20px);
+  opacity: .6;
+  z-index: 1;
+  object-fit: cover;
+  transform: translate(47.5%, -30%);
+}
+
+.exchange-model-detail-filter {
+  background-color: white;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  filter: blur(35px);
+  opacity: .75;
+  z-index: -1;
+}
+
 .exchange-model-avatar-default {
   height: 80px;
   object-fit: cover;
@@ -75,6 +97,7 @@
   font-weight: bold;
   font-size: $font-size-medium;
   margin: 10px 0;
+  z-index: 2;
 }
 
 .exchange-model-title-skeleton {
@@ -103,6 +126,7 @@
   line-height: 25px;
   height: 75px;
   overflow-y: hidden;
+  z-index: 2;
 }
 
 .exchange-model-followers-avatar {
@@ -416,7 +440,7 @@
 .exchange-follow {
   border: 1px solid $tag-del-btn-background;
   color: $tag-del-btn-background;
-  background-color: white;
+  background-color: transparent;
   border-radius: 3px;
   padding: 2px 0;
   width: 80px;
@@ -424,6 +448,7 @@
   float: left;
   transition-duration: 0.25s;
   font-size: $font-size-normalText;
+  z-index: 2;
 
   &:hover {
     color: white;
@@ -448,9 +473,10 @@
   margin-top: 13px;
   transition-duration: 0.25s;
   font-size: $font-size-normalText;
+  z-index: 2;
 
   &:hover {
-    background-color: white;
+    background-color: transparent;
     color: $tag-del-btn-background;
     transition-duration: 0.25s;
   }
@@ -502,16 +528,19 @@
 }
 
 .exchange-model-following {
-  position: absolute;
-  bottom: 15px;
-  left: 15px;
-  font-size: $font-size-smallText;
-  border: 1px solid $tag-del-btn-background;
-  color: $tag-del-btn-background;
+  height: 26px;
+  background-color: transparent;
   border-radius: 3px;
+  border: 1px solid $tag-del-btn-background;
+  color: white;
+  cursor: pointer;
+  float: left;
+  font-size: $font-size-smallText;
+  margin-top: 13px;
+  padding: 2.5px 0;
+  transition-duration: 0.25s;
   width: 80px;
-  padding-top: 3px;
-  height: 27px;
+  z-index: 2;
 }
 
 .user-follow-loading {
@@ -719,6 +748,7 @@
   margin-right: 8%;
   height: 30px;
   width: 30px;
+
   .post-menu-bottom {
     padding: 7px 8px;
     color: #C2C2C2;

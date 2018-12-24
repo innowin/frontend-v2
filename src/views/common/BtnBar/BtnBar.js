@@ -19,7 +19,7 @@ type Props = {
 export default (props: Props) => {
   const {acts, className, processing, processingFunc=() => console.log('processing now!')} = props
   return (
-      <div className={`act-bar ${className || ''} ${processing ? 'processing': ''}`}>
+      <div style={{display:"flex", justifyContent:"space-between", margin:"0 20px"}} className={`act-bar ${className || ''} ${processing ? 'processing': ''}`}>
         {acts.map(act => (
             <div
                 key={`act-btn-${act.title}`}

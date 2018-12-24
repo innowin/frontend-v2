@@ -348,7 +348,7 @@ class ExchangeViewBar extends Component {
                     !editView ?
                         <span>
                           {
-                            currentExchange.name === "" ? "بدون نام" :
+                            currentExchange && currentExchange.name === "" ? "بدون نام" :
                                 currentExchange.name ? currentExchange.name :
                                     currentExchange.exchange.content.name === "" ? "بدون نام" : currentExchange.exchange.content.name
                           }

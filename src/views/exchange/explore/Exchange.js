@@ -1,17 +1,17 @@
 // @flow
-import * as React from 'react'
-import Demand from 'src/images/common/demand_svg'
-import Distribute from 'src/images/common/supply_svg'
-import exchangeActions from 'src/redux/actions/commonActions/exchangeMembershipActions'
-import Material from '../../common/components/Material'
-import {bindActionCreators} from 'redux'
-import {ClipLoader} from 'react-spinners'
-import {Component} from 'react'
-import {connect} from 'react-redux'
-import {DefaultUserIcon} from 'src/images/icons'
-import {getMessages} from 'src/redux/selectors/translateSelector'
-import {Link} from 'react-router-dom'
-import {REST_URL} from 'src/consts/URLS'
+import * as React from "react"
+import Demand from "src/images/common/demand_svg"
+import Distribute from "src/images/common/supply_svg"
+import exchangeActions from "src/redux/actions/commonActions/exchangeMembershipActions"
+import Material from "../../common/components/Material"
+import {bindActionCreators} from "redux"
+import {ClipLoader} from "react-spinners"
+import {Component} from "react"
+import {connect} from "react-redux"
+import {DefaultUserIcon} from "src/images/icons"
+import {getMessages} from "src/redux/selectors/translateSelector"
+import {Link} from "react-router-dom"
+import {REST_URL} from "src/consts/URLS"
 
 type appProps =
     {|
@@ -43,7 +43,7 @@ class Exchange extends Component <appProps, appState> {
   componentDidMount() {
     if (this.props.data.exchange_image) {
       let image = new Image()
-      image.src = this.props.data.exchange_image.file.includes('innowin.ir') ? this.props.data.exchange_image.file : REST_URL + this.props.data.exchange_image.file
+      image.src = this.props.data.exchange_image.file.includes("innowin.ir") ? this.props.data.exchange_image.file : REST_URL + this.props.data.exchange_image.file
       image.onload = () => {
         this.setState({...this.state, imageLoaded: true})
       }
@@ -55,7 +55,7 @@ class Exchange extends Component <appProps, appState> {
       this.setState({...this.state, imageLoaded: false, followLoading: false,}, () => {
         if (nextProps.data.exchange_image) {
           let image = new Image()
-          image.src = nextProps.data.exchange_image.file.includes('innowin.ir') ? nextProps.data.exchange_image.file : REST_URL + nextProps.data.exchange_image.file
+          image.src = nextProps.data.exchange_image.file.includes("innowin.ir") ? nextProps.data.exchange_image.file : REST_URL + nextProps.data.exchange_image.file
           image.onload = () => {
             this.setState({...this.state, imageLoaded: true})
           }
@@ -85,8 +85,8 @@ class Exchange extends Component <appProps, appState> {
     if (this.props.data.exchange === undefined && this.state.followLoading) {
       return <div className='exchange-model-following'><ClipLoader color='#008057' size={19}/></div>
     } else if (this.props.data.exchange === undefined) {
-      return <Material className='exchange-followed' content={this.props.translate['Follow']} onClick={this._follow}/>
-    } else return <Material className='exchange-follow' content={this.props.translate['Followed']}/>
+      return <Material className='exchange-followed' content={this.props.translate["Follow"]} onClick={this._follow}/>
+    } else return <Material className='exchange-follow' content={this.props.translate["Followed"]}/>
   }
 
 
@@ -97,46 +97,53 @@ class Exchange extends Component <appProps, appState> {
     // )
     return (
         <div className='exchange-model'>
-          <Link to={`/exchange/${data.id}`} style={{textDecoration: 'none', color: 'black'}}>
+          <div style={{position: "absolute", zIndex:"2", width:"90%"}}>
+            <Link to={`/exchange/${data.id}`} style={{textDecoration: "none", color: "black"}}>
+              {
+                (data.exchange_image && this.state.imageLoaded) ?
+                    <img src={data.exchange_image.file.includes("innowin.ir") ?
+                        data.exchange_image.file : REST_URL + data.exchange_image.file} alt={data.name} className='exchange-model-avatar'/>
+                    :
+                    <DefaultUserIcon className='exchange-model-avatar-default'/>
+              }
+              <div className='exchange-model-title'>
+                {data.name}
+              </div>
+              <div className='exchange-model-description'>
+                {data.description}
+              </div>
+
+              {/*{images}*/}
+              {/*<div className='exchange-model-followers-count'>{data.members_count}</div>*/}
+
+              <div className='exchange-model-detail'>
+                <Demand width='30px' className='exchange-model-detail-demand-logo'/>
+                <div className='exchange-model-detail-demand-title'>{translate["Type demand"]}</div>
+                <span> </span>
+                <div className='exchange-model-detail-demand-title'>{data.demand}</div>
+              </div>
+              <div className='exchange-model-detail'>
+                <Distribute width='20px' className='exchange-model-detail-dist-logo'/>
+                <div className='exchange-model-detail-dist-title'>{translate["Type supply"]}</div>
+                <span> </span>
+                <div className='exchange-model-detail-dist-title'>{data.supply}</div>
+              </div>
+
+              {/*{*/}
+              {/*this.renderJoint()*/}
+              {/*}*/}
+
+            </Link>
             {
-              (data.exchange_image && this.state.imageLoaded) ?
-                  <img src={data.exchange_image.file.includes('innowin.ir') ? data.exchange_image.file : REST_URL + data.exchange_image.file} alt={data.name} className='exchange-model-avatar'/>
-                  :
-                  <DefaultUserIcon className='exchange-model-avatar-default'/>
+              this._renderFollowButton()
             }
-            <div className='exchange-model-title'>
-              {data.name}
-            </div>
-            <div className='exchange-model-description'>
-              {data.description}
-            </div>
-
-            {/*{images}*/}
-            {/*<div className='exchange-model-followers-count'>{data.members_count}</div>*/}
-
-            <div className='exchange-model-detail'>
-              <Demand width='30px' className='exchange-model-detail-demand-logo'/>
-              <div className='exchange-model-detail-demand-title'>{translate['Type demand']}</div>
-              <span> </span>
-              <div className='exchange-model-detail-demand-title'>{data.demand}</div>
-            </div>
-            <div className='exchange-model-detail'>
-              <Distribute width='20px' className='exchange-model-detail-dist-logo'/>
-              <div className='exchange-model-detail-dist-title'>{translate['Type supply']}</div>
-              <span> </span>
-              <div className='exchange-model-detail-dist-title'>{data.supply}</div>
-            </div>
-
-            {/*{*/}
-            {/*this.renderJoint()*/}
-            {/*}*/}
-
-          </Link>
-
-          {
-            this._renderFollowButton()
-          }
-
+            {/*<div className={"exchange-model-detail-filter"}/>*/}
+          </div>
+          {/*{ // IMAGE BLUR ON BACK*/}
+            {/*(data.exchange_image && this.state.imageLoaded) ?*/}
+                {/*<img src={data.exchange_image.file.includes("innowin.ir") ?*/}
+                    {/*data.exchange_image.file : REST_URL + data.exchange_image.file} alt={data.name} className='exchange-model-avatar-back'/> : null*/}
+          {/*}*/}
         </div>
     )
   }
