@@ -73,7 +73,7 @@ class PostComments extends React.Component<postCommentsProps, {}> {
                           {comment.comment_replied && comment.comment_replied.comment_sender &&
                           <p className='replied-username'>{'@' + comment.comment_replied.comment_sender.name}</p>
                           }
-                          <p className='post-text'>{comment.text}</p>
+                          <p className='post-text-comment'>{comment.text}</p>
                         </div>
                       </div>
                   )

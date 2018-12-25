@@ -259,6 +259,10 @@
           color: $success-color;
           margin-left: 15px;
         }
+        .post-text-comment {
+          white-space: pre-wrap;
+          text-align: justify;
+        }
       }
     }
   }

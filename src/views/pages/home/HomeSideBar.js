@@ -7,7 +7,7 @@ import type {exchangeType} from 'src/consts/flowTypes/exchange/exchange.js'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {SeeViewIcon, RefreshIcon, SettingIcon, DefaultExchangeIcon} from 'src/images/icons'
+import {SeeViewIcon, RefreshIcon, SettingIcon, DefaultExchangeIcon, ChannelIcon} from 'src/images/icons'
 import {getExchangeMembershipsSelector} from 'src/redux/selectors/common/social/getExchangeMemberships'
 import Material from '../../common/components/Material'
 import UserDetailPanel from '../../common/components/UserDetailPanel'
@@ -78,7 +78,7 @@ export class SideBarItem extends Component<PropsSideBarItem> {
                 {exchange_image && this.state.imageLoaded ?
                     <img className="img-logo" src={exchange_image.file} alt="logo"/>
                     :
-                    <DefaultExchangeIcon/>
+                    <ChannelIcon className='default-channel-icon'/>
                 }
               </Link>
               <div className="exchange-name">{name}</div>
@@ -156,15 +156,15 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
             <Link to='/Exchange/Exchange_Explorer' className='home-sidebar-cont-item-more'>بیشتر</Link>
           </div>
           <div className='home-sidebar-cont'>
-              {
-                (clientExchanges && clientExchanges.length > 0) ? (
-                    clientExchanges.map((exchange, i) => {
-                      return <SideBarItem key={i} exchange={exchange}
-                                          handleClick={this._handleClick}
-                                          active={exchange.id === activeExchangeId}/>
-                    })
-                ) : (<p className="mt-3 pr-3"><b>شما عضو هیچ پنجره ای نیستید!</b></p>)
-              }
+            {
+              (clientExchanges && clientExchanges.length > 0) ? (
+                  clientExchanges.map((exchange, i) => {
+                    return <SideBarItem key={i} exchange={exchange}
+                                        handleClick={this._handleClick}
+                                        active={exchange.id === activeExchangeId}/>
+                  })
+              ) : (<p className="mt-3 pr-3"><b>شما عضو هیچ پنجره ای نیستید!</b></p>)
+            }
           </div>
           <div className='exchanges-last'/>
         </div>

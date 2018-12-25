@@ -247,14 +247,15 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
           />
 
           <nav className="navbar flex-row justify-content-between p-0 -white-i topBar">
-
             <div className="d-flex align-items-center">
-
-              <Material backgroundColor='rgba(238, 238, 238,0.8)' className='top-bar-home' content={
-                <Link to={'/'}><i className="fa fa-home top-bar-home-logo" aria-hidden={true}/>
-                  <p className='top-bar-title'>{topBarTranslate['Home page']}</p>
-                </Link>
-              }/>
+              <Link to={'/'}>
+                <Material backgroundColor='rgba(238, 238, 238,0.8)' className='top-bar-home' content={
+                  <React.Fragment>
+                    <i className="fa fa-home top-bar-home-logo" aria-hidden={true}/>
+                    <p className='top-bar-title'>{topBarTranslate['Home page']}</p>
+                  </React.Fragment>
+                }/>
+              </Link>
 
               <Material backgroundColor='rgba(238, 238, 238,0.8)' className="top-bar-explore"
                         onClick={this._toggleExplore} content={
