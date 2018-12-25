@@ -34,26 +34,33 @@ class Toast extends React.Component <ToastProps, ToastState> {
     this.timeOutTime = 4000
 
     this.removeTimeOut = setTimeout(() => removeToast(toast.id), this.timeOutTime)
-
+    let audio
     switch (type) {
       case constants.TOAST_TYPE.SUCCESS:
         this.successSound = new Audio(successFile);
-        this.successSound.play();
+        audio = this.successSound.play();
         break
       case constants.TOAST_TYPE.ERROR:
         this.errorSound = new Audio(errorFile);
-        this.errorSound.play();
+        audio = this.errorSound.play();
         break
       case constants.TOAST_TYPE.WARNING:
         this.warningSound = new Audio(warningFile);
-        this.warningSound.play();
+        audio = this.warningSound.play();
         break
       case constants.TOAST_TYPE.INFO:
         this.infoSound = new Audio(infoFile);
-        this.infoSound.play();
+        audio = this.infoSound.play();
         break
       default:
         break
+    }
+    if (audio !== undefined) {
+      audio.then(_ => {
+        // console.log('played')
+      }).catch(error => {
+        console.error('error play sound', error)
+      });
     }
   }
 

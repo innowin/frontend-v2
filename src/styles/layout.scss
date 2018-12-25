@@ -38,7 +38,7 @@
   width: calc(100% - 7px);
   pointer-events: none;
   height: 80px;
-  background-image: linear-gradient(to bottom, transparent 30%, $full-bg-color 80%);
+  background-image: linear-gradient(to bottom, rgba($full-bg-color-rgb, 0) 30%, $full-bg-color 80%);
   position: absolute;
   transform: translateY(-95%);
   left: 0;

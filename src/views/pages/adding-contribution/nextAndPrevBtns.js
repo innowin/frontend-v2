@@ -25,7 +25,7 @@ const NextPrevBtns = (props: NextPrevBtbsProps) => {
 
     return (
         <div className="next-prev-btns">
-            {console.log('the guy is disabled is : ', isGoToNextBtnDisabled)}
+            {/*{console.log('the guy is disabled is : ', isGoToNextBtnDisabled)}*/}
             <div onClick={goToPrevStep} className="prev pointer">
                 <ThinDownArrow className="right-arrow"/>
                 {prevBtnTitle}
