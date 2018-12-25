@@ -4,6 +4,7 @@ import AttachFileNewIcon from './common/attachFileNew_svg'
 import BookmarkIcon from './product/bookmark'
 import CertificateIcon from './user/certificate_svg'
 import CertificateTick from './common/certificate_tick_svg'
+import ChannelIcon from './common/channel_svg'
 import ChartIcon from './product/chart'
 import CircularAddIcon from './common/circularAdd_svg'
 import CircularTickSvg from './common/circularTick'
@@ -91,6 +92,7 @@ export {
   BookmarkIcon,
   CertificateIcon,
   CertificateTick,
+  ChannelIcon,
   ChartIcon,
   CircularAddIcon,
   CircularTickSvg,

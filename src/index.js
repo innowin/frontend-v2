@@ -9,12 +9,14 @@ import {Provider} from "react-redux"
 import {withRouter} from "react-router-dom"
 import {persistStore} from 'redux-persist'
 import {PersistGate} from 'redux-persist/integration/react'
+import detectUserAgent from 'src/helpers/detectUserAgent'
 
 const WrappedApp = withRouter(App)
 const store = configureStore()
 export const persistor = persistStore(store)
 // persistor.purge()
 runSaga()
+detectUserAgent()
 
 ReactDOM.render(
 		<Provider store={store}>

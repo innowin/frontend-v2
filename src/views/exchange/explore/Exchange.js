@@ -118,13 +118,13 @@ class Exchange extends Component <appProps, appState> {
               <Demand width='30px' className='exchange-model-detail-demand-logo'/>
               <div className='exchange-model-detail-demand-title'>{translate['Type demand']}</div>
               <span> </span>
-              <div className='exchange-model-detail-demand-title'>{data.demand}</div>
+              <div className='exchange-model-detail-demand-title'>{data.demand_count}</div>
             </div>
             <div className='exchange-model-detail'>
               <Distribute width='20px' className='exchange-model-detail-dist-logo'/>
               <div className='exchange-model-detail-dist-title'>{translate['Type supply']}</div>
               <span> </span>
-              <div className='exchange-model-detail-dist-title'>{data.supply}</div>
+              <div className='exchange-model-detail-dist-title'>{data.supply_count}</div>
             </div>
 
             {/*{*/}
