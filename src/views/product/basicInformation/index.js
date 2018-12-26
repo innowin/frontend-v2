@@ -142,6 +142,7 @@ export class productBasicInformation extends Component<ProductBasicInformationPr
   render() {
     const {product_category, owner, edit, isLoading, error, formData} = this.state
     const {translator, product, province, country, category, hashTags} = this.props
+    console.log('product:' , product)
     return (
 
         <div className="product-basic-information">
@@ -170,6 +171,7 @@ export class productBasicInformation extends Component<ProductBasicInformationPr
                                               showEdit={() => this._showEditHandler(true)}>
                       </ProductDescriptionView>
                       <ProductInfoView
+                          created_time={product.created_time}
                           province={province.name}
                           country={country.name}
                           productId={product.id}

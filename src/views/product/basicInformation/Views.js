@@ -13,6 +13,7 @@ import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 import {DOMAIN} from "src/consts/URLS"
 import {Tag} from '../../common/tags/tag'
 import type {TagType} from "../../common/tags/tag";
+import Moment from 'react-moment'
 
 
 type ProductDescriptionViewProps = {
@@ -25,7 +26,7 @@ export const ProductDescriptionView = (props: ProductDescriptionViewProps) => {
   const {description, showEdit, translator} = props
   return (
       <ItemWrapper icon={<InformationIcon/>}>
-        <ItemHeader title={translator['Description']} showEdit={showEdit}/>
+        <ItemHeader title={translator['Description']} showEdit={showEdit} param={null}/>
         <div className="product-desc">{description}
         </div>
       </ItemWrapper>
@@ -72,19 +73,19 @@ type ProductInfoViewProps = {
 }
 
 export const ProductInfoView = (props: ProductInfoViewProps) => {
-  const {category, owner, showEdit, translator, province, country, productId} = props
+  const {category, owner, showEdit, created_time, province, country, productId} = props
   const fields = [
     {value: category, label: 'طبقه‌بندی دسته', key: 1},
     {value: `${province}-${country}`, label: 'محدوده جغرافیایی', key: 2},
     {value: `${DOMAIN}/product/${productId}/basicInformation`, label: 'لینک محصول', key: 3},
-    {value: '۹۷.۰۲.۰۱', label: 'تاریخ ثبت در اینوین', key: 4},
-    {value: 'گروه آینده‌سازان(فیک)', label: 'ارائه دهنده محصول', key: 5},
+    {value: <span><Moment element="span" fromNow ago>{created_time}</Moment> پیش</span>, label: 'تاریخ ثبت در اینوین', key: 4},
+    {value: owner.name, label: 'ارائه دهنده محصول', key: 5}
   ]
   return (
       <ProductInfoItemWrapper>
-        <ItemHeader title='مشخصات اولیه' showEdit={showEdit}/>
+        <ItemHeader title='مشخصات اولیه' showEdit={showEdit} param={null}/>
         {fields.map(({label, value, key}) => (
-            <Field key={`product-info-field-${key}`}>
+            <Field key={key}>
               <FieldLabel label={`${label}: `}/>
               <FieldValue value={value}/>
             </Field>

@@ -937,11 +937,11 @@ $sidebar-profile-media-width: 80px;
   margin: 3px;
 }
 
-.explore-menu-wrappper {
+.explore-menu-wrapper {
   position: relative;
   .explore-menu-container {
     position: absolute;
-    top: 20px;
+    top: 22px;
     right: -158px;
     width: 245px;
     text-align: center;
@@ -952,7 +952,7 @@ $sidebar-profile-media-width: 80px;
 
   .explore-menu-container-hide {
     position: absolute;
-    top: 20px;
+    top: 22px;
     right: -158px;
     width: 245px;
     text-align: center;
@@ -1724,8 +1724,8 @@ $sidebar-profile-media-width: 80px;
 
 .profile-menu-container {
   position: absolute;
-  top: 43px;
-  left: 5px;
+  top: 54px;
+  left: 7px;
   width: 320px;
   text-align: right;
   overflow-y: hidden;
@@ -1735,8 +1735,8 @@ $sidebar-profile-media-width: 80px;
 
 .profile-menu-container-hide {
   position: absolute;
-  top: 43px;
-  left: 5px;
+  top: 54px;
+  left: 7px;
   width: 320px;
   text-align: right;
   overflow-y: hidden;
