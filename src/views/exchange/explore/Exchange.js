@@ -97,12 +97,13 @@ class Exchange extends Component <appProps, appState> {
     // )
     return (
         <div className='exchange-model'>
-          <div style={{position: "absolute", zIndex:"2", width:"90%"}}>
+          <div style={{position: "absolute", zIndex: "2", width: "90%"}}>
             <Link to={`/exchange/${data.id}`} style={{textDecoration: "none", color: "black"}}>
               {
                 (data.exchange_image && this.state.imageLoaded) ?
                     <img src={data.exchange_image.file.includes("innowin.ir") ?
-                        data.exchange_image.file : REST_URL + data.exchange_image.file} alt={data.name} className='exchange-model-avatar'/>
+                        data.exchange_image.file : REST_URL + data.exchange_image.file} alt={data.name}
+                         className='exchange-model-avatar'/>
                     :
                     <DefaultUserIcon className='exchange-model-avatar-default'/>
               }
@@ -140,9 +141,9 @@ class Exchange extends Component <appProps, appState> {
             {/*<div className={"exchange-model-detail-filter"}/>*/}
           </div>
           {/*{ // IMAGE BLUR ON BACK*/}
-            {/*(data.exchange_image && this.state.imageLoaded) ?*/}
-                {/*<img src={data.exchange_image.file.includes("innowin.ir") ?*/}
-                    {/*data.exchange_image.file : REST_URL + data.exchange_image.file} alt={data.name} className='exchange-model-avatar-back'/> : null*/}
+          {/*(data.exchange_image && this.state.imageLoaded) ?*/}
+          {/*<img src={data.exchange_image.file.includes("innowin.ir") ?*/}
+          {/*data.exchange_image.file : REST_URL + data.exchange_image.file} alt={data.name} className='exchange-model-avatar-back'/> : null*/}
           {/*}*/}
         </div>
     )

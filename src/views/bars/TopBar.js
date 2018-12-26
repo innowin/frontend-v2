@@ -1,30 +1,30 @@
 // @flow
-import * as React from "react"
-import AboutInnowin from "./TopBarComponents/AboutInnowin"
-import AboutUs from "./TopBarComponents/AboutUs"
-import AddingContribution from "../pages/adding-contribution/addingContribution"
-import AgentForm from "../pages/modal/agentForm-modal"
-import AuthActions from "src/redux/actions/authActions"
-import client from "src/consts/client"
-import CreateExchange from "../pages/modal/createExchange/createExchange"
-import ExploreMenu from "./TopBarComponents/ExploreMenu"
-import FileActions from "../../redux/actions/commonActions/fileActions"
-import GeneralSetting from "./TopBarComponents/GeneralSetting"
-import IntroduceBadges from "./TopBarComponents/IntroduceBadges"
-import LinkedAccounts from "./TopBarComponents/LinkedAccounts"
-import Material from "../common/components/Material"
-import Privacy from "./TopBarComponents/Privacy"
-import PropTypes from "prop-types"
-import UserAgreement from "./TopBarComponents/UserAgreement"
-import {bindActionCreators} from "redux"
-import {Component} from "react"
-import {connect} from "react-redux"
-import {DefaultUserIcon, NotificationIcon, InnoWinLogo} from "src/images/icons"
-import {Link} from "react-router-dom"
-import {routerActions} from "react-router-redux"
-import {SearchIcon} from "../../images/icons"
-import {shortOrganizationType} from "src/consts/flowTypes/organization/organization"
-import {userProfileType, userType} from "src/consts/flowTypes/user/basicInformation"
+import * as React from 'react'
+import AboutInnowin from './TopBarComponents/AboutInnowin'
+import AboutUs from './TopBarComponents/AboutUs'
+import AddingContribution from '../pages/adding-contribution/addingContribution'
+import AgentForm from '../pages/modal/agentForm-modal'
+import AuthActions from 'src/redux/actions/authActions'
+import client from 'src/consts/client'
+import CreateExchange from '../pages/modal/createExchange/createExchange'
+import ExploreMenu from './TopBarComponents/ExploreMenu'
+import FileActions from '../../redux/actions/commonActions/fileActions'
+import GeneralSetting from './TopBarComponents/GeneralSetting'
+import IntroduceBadges from './TopBarComponents/IntroduceBadges'
+import LinkedAccounts from './TopBarComponents/LinkedAccounts'
+import Material from '../common/components/Material'
+import Privacy from './TopBarComponents/Privacy'
+import PropTypes from 'prop-types'
+import UserAgreement from './TopBarComponents/UserAgreement'
+import {bindActionCreators} from 'redux'
+import {Component} from 'react'
+import {connect} from 'react-redux'
+import {DefaultUserIcon, NotificationIcon, InnoWinLogo, ExchangeExploreIcon} from 'src/images/icons'
+import {Link} from 'react-router-dom'
+import {routerActions} from 'react-router-redux'
+import {SearchIcon} from '../../images/icons'
+import {shortOrganizationType} from 'src/consts/flowTypes/organization/organization'
+import {userProfileType, userType} from 'src/consts/flowTypes/user/basicInformation'
 
 type PropsTopBar = {|
   collapseClassName: string,
@@ -39,7 +39,7 @@ type PropsTopBar = {|
     verifyToken: Function,
     getFile: Function
   },
-  translate: { topBar: { [string]: string } },
+  translate: { topBar: { [string]: string }, [string]: string },
 |}
 
 type StatesTopBar = {|
@@ -247,16 +247,30 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
           />
 
           <nav className="navbar flex-row justify-content-between p-0 -white-i topBar">
-
             <div className="d-flex align-items-center">
+              <Link to={'/'}>
+                <Material backgroundColor='rgba(238, 238, 238,0.8)' className='top-bar-home' content={
+                  <React.Fragment>
+                    <i className="fa fa-home top-bar-home-logo" aria-hidden={true}/>
+                    <p className='top-bar-title'>{topBarTranslate['Home page']}</p>
+                  </React.Fragment>
+                }/>
+              </Link>
 
-              <Material backgroundColor='rgba(238, 238, 238,0.8)' className='top-bar-home' content={
-                <Link to={"/"}><i className="fa fa-home top-bar-home-logo" aria-hidden={true}/></Link>
+              <Material backgroundColor='rgba(238, 238, 238,0.8)' className="top-bar-explore"
+                        onClick={this._toggleExplore} content={
+                <React.Fragment>
+                  <div className="-topBarIcons-cont">
+                    <ExchangeExploreIcon className='-topBarIcons'/>
+                  </div>
+                  <p className='top-bar-title'>{topBarTranslate['Explore']}</p>
+                </React.Fragment>
               }/>
 
-              <div className="mr-5 top-bar-explore" onClick={this._toggleExplore}>
+              <div className='explore-menu-wrappper'>
                 <ExploreMenu exploreCollapse={exploreCollapse}/>
               </div>
+
 
               {/*<Link className="mr-5" to={"/"}><NotificationIcon className="-topBarIcons"/></Link>*/}
               {/*<Link className="mr-5" to={"/"}><NotificationIcon className="notif-icon"/></Link>*/}

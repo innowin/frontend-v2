@@ -1,7 +1,7 @@
 @import "../variables";
 
 .pages-wrapper {
-  background: url("../images/common/background.png") no-repeat fixed top left, $image-background-color-gradient no-repeat fixed top left;
+  background: url("../images/common/background.png") no-repeat fixed top left, $full-bg-color no-repeat fixed top left;
   //background-size: 63%;
   min-height: 100vh;
 }

@@ -86,7 +86,7 @@ class Exchange_Tabs extends Component<props, states> {
   }
 
   render() {
-    const {translate, exchangeId} = this.props
+    const {translate, exchangeId, exchanges} = this.props
     const {ownerId} = this.state
     const {selectedTab, clickedSvgContainerStyle, normalSvgContainerStyle, clickedSvgStyle, normalSvgStyle} = this.state
     return (
@@ -126,7 +126,7 @@ class Exchange_Tabs extends Component<props, states> {
           <div className={`under-exchange-navbar-center`}>{translate[selectedTab]}</div>
           <div className={`line-under-exchange-navbar-center`}/>
           <div className={`exchange-content-view-frame`}>
-            <Exchange_Info activeTab={selectedTab} exchangeId={exchangeId}/>
+            <Exchange_Info activeTab={selectedTab} currentExchange={exchanges[exchangeId]} exchangeId={exchangeId}/>
           </div>
         </div>
     )
