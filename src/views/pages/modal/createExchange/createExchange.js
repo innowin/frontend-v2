@@ -355,7 +355,10 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
     const {modalIsOpen} = this.props
     const pageContent = this._setContent()
     return (
-        <div>
+        <div
+            // className={modalIsOpen ? "create-exchange-modal-container" : "create-exchange-modal-container-out"}
+        >
+
           <Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>
             <ModalBody className="create-exchange-wrapper">
               <FontAwesome
@@ -364,18 +367,19 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
                   className="close-btn"
                   onClick={this._handleModalVisibility}
               />
-              {/*<div className="progressive-wrapper">*/}
+              <div className="progressive-wrapper">
               <MenuProgressive
                   steps={progressiveSteps}
                   activeStep={activeStep}
                   status={progressStatus}
               />
-              {/*</div>*/}
+              </div>
               <div className={`wrapper ${wrapperClassName}`}>
                 {pageContent}
               </div>
             </ModalBody>
           </Modal>
+
         </div>
     )
   }

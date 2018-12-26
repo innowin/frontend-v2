@@ -535,12 +535,12 @@
   z-index: -1;
   opacity: 0;
   transform: scale(0.85);
-  min-height: 20vh;
+  min-height: 85vh;
   max-height: 91vh;
   border-radius: 3px;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   background-color: white;
-  transition-duration: $animation-timing;
+  transition-duration: $animation-timing-long;
 }
 
 .product-features-frame-container {

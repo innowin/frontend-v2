@@ -10,11 +10,13 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-color: red;
+  scrollbar-color: $primary-color $background-color ;
 }
 
 html {
   height: 100%;
   font-family: "IRANSansWebFaNum", "Helvetica Neue", sans-serif !important;
+  scrollbar-color: $primary-color $background-color ;
 }
 
 input, textarea, button, select {
@@ -211,8 +213,4 @@ button {
   &:hover{
     background: $scroll-color-hover;
   }
-}
-
-body, html{
-  scrollbar-color: $primary-color $background-color ;
 }

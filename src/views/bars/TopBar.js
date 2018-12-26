@@ -1,30 +1,30 @@
 // @flow
-import * as React from 'react'
-import AboutInnowin from './TopBarComponents/AboutInnowin'
-import AboutUs from './TopBarComponents/AboutUs'
-import AddingContribution from '../pages/adding-contribution/addingContribution'
-import AgentForm from '../pages/modal/agentForm-modal'
-import AuthActions from 'src/redux/actions/authActions'
-import client from 'src/consts/client'
-import CreateExchange from '../pages/modal/createExchange/createExchange'
-import ExploreMenu from './TopBarComponents/ExploreMenu'
-import FileActions from '../../redux/actions/commonActions/fileActions'
-import GeneralSetting from './TopBarComponents/GeneralSetting'
-import IntroduceBadges from './TopBarComponents/IntroduceBadges'
-import LinkedAccounts from './TopBarComponents/LinkedAccounts'
-import Material from '../common/components/Material'
-import Privacy from './TopBarComponents/Privacy'
-import PropTypes from 'prop-types'
-import UserAgreement from './TopBarComponents/UserAgreement'
-import {bindActionCreators} from 'redux'
-import {Component} from 'react'
-import {connect} from 'react-redux'
-import {DefaultUserIcon, NotificationIcon, InnoWinLogo} from 'src/images/icons'
-import {Link} from 'react-router-dom'
-import {routerActions} from 'react-router-redux'
-import {SearchIcon} from '../../images/icons'
-import {shortOrganizationType} from 'src/consts/flowTypes/organization/organization'
-import {userProfileType, userType} from 'src/consts/flowTypes/user/basicInformation'
+import * as React from "react"
+import AboutInnowin from "./TopBarComponents/AboutInnowin"
+import AboutUs from "./TopBarComponents/AboutUs"
+import AddingContribution from "../pages/adding-contribution/addingContribution"
+import AgentForm from "../pages/modal/agentForm-modal"
+import AuthActions from "src/redux/actions/authActions"
+import client from "src/consts/client"
+import CreateExchange from "../pages/modal/createExchange/createExchange"
+import ExploreMenu from "./TopBarComponents/ExploreMenu"
+import FileActions from "../../redux/actions/commonActions/fileActions"
+import GeneralSetting from "./TopBarComponents/GeneralSetting"
+import IntroduceBadges from "./TopBarComponents/IntroduceBadges"
+import LinkedAccounts from "./TopBarComponents/LinkedAccounts"
+import Material from "../common/components/Material"
+import Privacy from "./TopBarComponents/Privacy"
+import PropTypes from "prop-types"
+import UserAgreement from "./TopBarComponents/UserAgreement"
+import {bindActionCreators} from "redux"
+import {Component} from "react"
+import {connect} from "react-redux"
+import {DefaultUserIcon, NotificationIcon, InnoWinLogo} from "src/images/icons"
+import {Link} from "react-router-dom"
+import {routerActions} from "react-router-redux"
+import {SearchIcon} from "../../images/icons"
+import {shortOrganizationType} from "src/consts/flowTypes/organization/organization"
+import {userProfileType, userType} from "src/consts/flowTypes/user/basicInformation"
 
 type PropsTopBar = {|
   collapseClassName: string,
@@ -81,9 +81,9 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       productWizardModalIsOpen: false,
       mouseIsOverMenu: true,
       showSetting: false,
-      selectedSetting: 'General Settings',
+      selectedSetting: "General Settings",
       showAbout: false,
-      selectedAbout: 'FAQ',
+      selectedAbout: "FAQ",
       profilePhotoLoaded: false,
     }
   }
@@ -111,7 +111,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   componentDidUpdate(prevProps) {
     const {isLoggedIn, actions} = this.props
     if (prevProps.isLoggedIn && prevProps.isLoggedIn !== isLoggedIn) {
-      actions.push('/login')
+      actions.push("/login")
     }
   }
 
@@ -189,11 +189,11 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   }
 
   _handleHideSetting = () => {
-    this.setState({...this.state, showSetting: false, showAbout: false, productWizardModalIsOpen: false})
+    this.setState({...this.state, showSetting: false, showAbout: false, productWizardModalIsOpen: false, createExchangeModalIsOpen: false})
     setTimeout(() => {
-      this.setState({...this.state, selectedSetting: 'Privacy', selectedAbout: 'FAQ'})
+      this.setState({...this.state, selectedSetting: "Privacy", selectedAbout: "FAQ"})
       setTimeout(() => {
-        this.setState({...this.state, selectedSetting: 'General Settings'})
+        this.setState({...this.state, selectedSetting: "General Settings"})
       }, 10)
     }, 500)
   }
@@ -251,7 +251,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
             <div className="d-flex align-items-center">
 
               <Material backgroundColor='rgba(238, 238, 238,0.8)' className='top-bar-home' content={
-                <Link to={'/'}><i className="fa fa-home top-bar-home-logo" aria-hidden={true}/></Link>
+                <Link to={"/"}><i className="fa fa-home top-bar-home-logo" aria-hidden={true}/></Link>
               }/>
 
               <div className="mr-5 top-bar-explore" onClick={this._toggleExplore}>
@@ -263,24 +263,24 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
             </div>
 
-            <InnoWinLogo svgClass={'centerImgTopBar'}/>
+            <InnoWinLogo svgClass={"centerImgTopBar"}/>
 
             <div className="dir-ltr d-flex flex-row">
               <div className="-ProfTopBarImg">
 
                 {clientImgLink && profilePhotoLoaded ?
                     <Material backgroundColor='rgba(238, 238, 238,0.8)' onClick={this._toggleProfile}
-                              className={collapseProfile ? 'topbar-profile-img-open' : 'topbar-profile-img'}
+                              className={collapseProfile ? "topbar-profile-img-open" : "topbar-profile-img"}
                               content={<img src={clientImgLink} className='-ProfTopBarImg-svg-img'
                                             alt="Person icon"/>}/>
                     :
                     <Material backgroundColor='rgba(238, 238, 238,0.8)'
-                              className={collapseProfile ? 'topbar-profile-img-open' : 'topbar-profile-img'}
+                              className={collapseProfile ? "topbar-profile-img-open" : "topbar-profile-img"}
                               content={<DefaultUserIcon className='-ProfTopBarImg-svg-img'
                                                         onClickFunc={this._toggleProfile}/>}/>
                 }
 
-                <div className={collapseProfile ? 'profile-menu-container' : 'profile-menu-container-hide'}>
+                <div className={collapseProfile ? "profile-menu-container" : "profile-menu-container-hide"}>
                   <div className='profile-menu-arrow'>
                     ▲
                   </div>
@@ -297,11 +297,11 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                         </div>
                         <div className='profile-menu-profile-section-next-image'>
                           <div
-                              className='profile-menu-profile-section-next-image-first'>{clientUser && clientUser.first_name + ' ' + clientUser.last_name}</div>
+                              className='profile-menu-profile-section-next-image-first'>{clientUser && clientUser.first_name + " " + clientUser.last_name}</div>
                           <div
                               className='profile-menu-profile-section-next-image-middle'>@{clientUser && clientUser.username}</div>
                           <div
-                              className='profile-menu-profile-section-next-image-last'>{topBarTranslate['Edit Profile']}</div>
+                              className='profile-menu-profile-section-next-image-last'>{topBarTranslate["Edit Profile"]}</div>
                         </div>
                       </div>
                       }/>
@@ -318,14 +318,14 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
                     <div className='profile-menu-second-section'>
                       <Material className='profile-menu-second-section-item' onClick={this._handleShowSetting}
-                                content={topBarTranslate['General Settings']}/>
+                                content={topBarTranslate["General Settings"]}/>
                       <Material className='profile-menu-second-section-item' onClick={this._handleShowAbout}
-                                content={topBarTranslate['Darbare Innowin']}/>
+                                content={topBarTranslate["Darbare Innowin"]}/>
                       {/*<Material className='profile-menu-second-section-item' content={topBarTranslate['Privacy']}/>*/}
                     </div>
 
                     <Material className='profile-menu-second-section-item' onClick={this._handleSignOut}
-                              content={topBarTranslate['Sign Out']}/>
+                              content={topBarTranslate["Sign Out"]}/>
 
                   </div>
                 </div>
@@ -334,7 +334,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
               <div className="-searchInput d-flex align-items-center">
                 <input type="text" className="text-white" name="search" dir="auto"
-                       placeholder={topBarTranslate['Search in Danesh boom']}
+                       placeholder={topBarTranslate["Search in Danesh boom"]}
                        ref={searchInput => {
                          this.searchInput = searchInput
                        }}/>
@@ -349,51 +349,51 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
 
           <div
-              className={showSetting || showAbout || agentForm || productWizardModalIsOpen ? 'makeDark' : 'makeDark-out'}
+              className={showSetting || showAbout || agentForm || productWizardModalIsOpen || createExchangeModalIsOpen ? "makeDark" : "makeDark-out"}
               onClick={this._handleHideSetting}>
             {/*dark div*/}
           </div>
           {/*Settings Modal*/}
-          <div className={showSetting ? 'settingModal-sidebar' : 'settingModal-sidebar-out'}>
-            <Material onClick={() => this._handleSettingSelected('General Settings')}
-                      className={selectedSetting === 'General Settings' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}
-                      content={topBarTranslate['General Settings']}/>
-            <Material onClick={() => this._handleSettingSelected('Manage Linked Accounts')}
-                      className={selectedSetting === 'Manage Linked Accounts' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}
-                      content={topBarTranslate['Manage Linked Accounts']}/>
-            <Material onClick={() => this._handleSettingSelected('Privacy')}
-                      className={selectedSetting === 'Privacy' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}
-                      content={topBarTranslate['Privacy']}/>
+          <div className={showSetting ? "settingModal-sidebar" : "settingModal-sidebar-out"}>
+            <Material onClick={() => this._handleSettingSelected("General Settings")}
+                      className={selectedSetting === "General Settings" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}
+                      content={topBarTranslate["General Settings"]}/>
+            <Material onClick={() => this._handleSettingSelected("Manage Linked Accounts")}
+                      className={selectedSetting === "Manage Linked Accounts" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}
+                      content={topBarTranslate["Manage Linked Accounts"]}/>
+            <Material onClick={() => this._handleSettingSelected("Privacy")}
+                      className={selectedSetting === "Privacy" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}
+                      content={topBarTranslate["Privacy"]}/>
             {/*<Material onClick={this._handleSignOut}*/}
             {/*className={selectedSetting === 'Sign Out' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}*/}
             {/*content={topBarTranslate['Sign Out']}/>*/}
           </div>
 
-          <div className={showSetting ? 'settingModal-menu' : 'settingModal-menu-out'}>
+          <div className={showSetting ? "settingModal-menu" : "settingModal-menu-out"}>
             <div className='settingModal-menu-header'>{topBarTranslate[selectedSetting]}</div>
             {this.renderSetting()}
           </div>
           {/*End Settings Modal*/}
 
           {/*About Modal*/}
-          <div className={showAbout ? 'settingModal-sidebar' : 'settingModal-sidebar-out'}>
-            <Material onClick={() => this._handleAboutSelected('FAQ')}
-                      className={selectedAbout === 'FAQ' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}
-                      content={topBarTranslate['FAQ']}/>
-            <Material onClick={() => this._handleAboutSelected('Introduce Badges')}
-                      className={selectedAbout === 'Introduce Badges' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}
-                      content={topBarTranslate['Introduce Badges']}/>
-            <Material onClick={() => this._handleAboutSelected('Terms & Conditions')}
-                      className={selectedAbout === 'Terms & Conditions' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}
-                      content={topBarTranslate['Terms & Conditions']}/>
-            <Material onClick={() => this._handleAboutSelected('About Innowin')}
-                      className={selectedAbout === 'About Innowin' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}
-                      content={topBarTranslate['About Innowin']}/>
-            <Material onClick={() => this._handleAboutSelected('About Us')}
-                      className={selectedAbout === 'About Us' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}
-                      content={topBarTranslate['About Us']}/>
+          <div className={showAbout ? "settingModal-sidebar" : "settingModal-sidebar-out"}>
+            <Material onClick={() => this._handleAboutSelected("FAQ")}
+                      className={selectedAbout === "FAQ" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}
+                      content={topBarTranslate["FAQ"]}/>
+            <Material onClick={() => this._handleAboutSelected("Introduce Badges")}
+                      className={selectedAbout === "Introduce Badges" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}
+                      content={topBarTranslate["Introduce Badges"]}/>
+            <Material onClick={() => this._handleAboutSelected("Terms & Conditions")}
+                      className={selectedAbout === "Terms & Conditions" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}
+                      content={topBarTranslate["Terms & Conditions"]}/>
+            <Material onClick={() => this._handleAboutSelected("About Innowin")}
+                      className={selectedAbout === "About Innowin" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}
+                      content={topBarTranslate["About Innowin"]}/>
+            <Material onClick={() => this._handleAboutSelected("About Us")}
+                      className={selectedAbout === "About Us" ? "settingModal-sidebar-item-selected" : "settingModal-sidebar-item"}
+                      content={topBarTranslate["About Us"]}/>
           </div>
-          <div className={showAbout ? 'settingModal-menu' : 'settingModal-menu-out'}>
+          <div className={showAbout ? "settingModal-menu" : "settingModal-menu-out"}>
             <div className='settingModal-menu-header'>{topBarTranslate[selectedAbout]}</div>
             {this.renderAbout()}
           </div>
@@ -406,11 +406,11 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   renderSetting() {
     let {selectedSetting} = this.state
 
-    if (selectedSetting === 'General Settings') {
+    if (selectedSetting === "General Settings") {
       return <GeneralSetting hideSetting={this._handleHideSetting}/>
-    } else if (selectedSetting === 'Manage Linked Accounts') {
+    } else if (selectedSetting === "Manage Linked Accounts") {
       return <LinkedAccounts/>
-    } else if (selectedSetting === 'Privacy') {
+    } else if (selectedSetting === "Privacy") {
       return <Privacy/>
     }
   }
@@ -418,15 +418,15 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   renderAbout() {
     let {selectedAbout} = this.state
 
-    if (selectedAbout === 'FAQ') {
+    if (selectedAbout === "FAQ") {
       return null
-    } else if (selectedAbout === 'Introduce Badges') {
+    } else if (selectedAbout === "Introduce Badges") {
       return <IntroduceBadges/>
-    } else if (selectedAbout === 'Terms & Conditions') {
+    } else if (selectedAbout === "Terms & Conditions") {
       return <UserAgreement/>
-    } else if (selectedAbout === 'About Innowin') {
+    } else if (selectedAbout === "About Innowin") {
       return <AboutInnowin/>
-    } else if (selectedAbout === 'About Us') {
+    } else if (selectedAbout === "About Us") {
       return <AboutUs/>
     }
   }
@@ -435,7 +435,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
 const mapStateToProps = state => {
   const {profile, organization, user_type} = state.auth.client
-  const clientImgId = (user_type === 'person') ? (profile.profile_media) : (
+  const clientImgId = (user_type === "person") ? (profile.profile_media) : (
       (organization && organization.organization_logo) || null
   )
   const clientImgLink = (clientImgId &&
