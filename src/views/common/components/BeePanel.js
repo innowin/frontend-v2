@@ -11,7 +11,7 @@ import EducationActions from '../../../redux/actions/user/educationActions'
 import updateUserByUserIdAction from '../../../redux/actions/user/updateUserByUserIdAction'
 import GetUserActions from '../../../redux/actions/user/getUserActions'
 import WorkExperienceActions from '../../../redux/actions/user/workExperienceActions'
-import GetIdentityActions from '../../../redux/actions/identityActions'
+import {Link} from 'react-router-dom'
 
 class BeePanel extends Component {
 
@@ -175,7 +175,7 @@ class BeePanel extends Component {
 
   renderLevel() {
     const {level, image, name, graduate, job, bio} = this.state
-    const {translate} = this.props
+    const {translate, currentUserId} = this.props
     if (image + name + graduate + job + bio === 100) {
       return (
           <div>
@@ -194,7 +194,7 @@ class BeePanel extends Component {
             </div>
 
             <div className='bee-button-submit-cont'>
-              <button className='bee-button-submit'>مشاهده پروفایل</button>
+              <Link to={`/user/${currentUserId}`} className='bee-button-submit'>مشاهده پروفایل</Link>
             </div>
 
           </div>

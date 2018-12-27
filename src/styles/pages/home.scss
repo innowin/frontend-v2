@@ -294,6 +294,20 @@ $heightOfContentBox: 140px;
   right: 50%;
   top: 50%;
   transform: translate(50%, -50%);
+  animation: bee ease 2s infinite;
+}
+
+
+@keyframes bee {
+  0% {
+    transform: translate(50%, -50%);
+  }
+  50% {
+    transform: translate(50%, -55%);
+  }
+  100% {
+    transform: translate(50%, -50%);
+  }
 }
 
 .bee-buttons {
@@ -444,6 +458,12 @@ $heightOfContentBox: 140px;
   width: 100px;
   margin-bottom: 15px;
   transition-duration: 0.3s;
+  text-decoration: none;
+
+  &:hover {
+    transition-duration: 0.3s;
+    color: #e9e9e9;
+  }
 }
 
 @media screen and (max-width: 900px) {
@@ -456,18 +476,23 @@ $heightOfContentBox: 140px;
 @media screen and (max-width: 750px) {
   .bee-background {
     width: 120px;
+    transition-duration: 0.3s;
   }
 
   .bee-button-cancel {
     width: 100%;
+    transition-duration: 0.3s;
   }
 
   .bee-button-choose {
     width: 100%;
+    transition-duration: 0.3s;
   }
 
   .bee-button-submit {
     width: 100%;
+    text-decoration: none;
+    transition-duration: 0.3s;
   }
 
 }
