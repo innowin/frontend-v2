@@ -6,19 +6,18 @@ const success = (state, action) => {
   const {client} = state
   const previousAbility = (client && client.abilities) || []
 
-  const arrayOfAbilityId = []
   data.map(ability => {
     if (state.client.organization && organizationId === state.client.organization.id && (!previousAbility.includes(ability.id))) {
-      return arrayOfAbilityId.push(ability.id)
+      return previousAbility.push(ability.id)
     }
-    return arrayOfAbilityId
+    return previousAbility
   })
   return {
     ...state,
     client: {
       ...client,
       // abilities: [...previousAbility, ...arrayOfAbilityId]
-      abilities: arrayOfAbilityId,
+      abilities: previousAbility,
     }
   }
 }

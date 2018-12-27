@@ -304,8 +304,18 @@
   position: absolute;
   transform: rotate(180deg);
   width: 14px;
-  fill: $disable-color;
+  fill: $text-light-color;
   top: 15px;
+  left: 10px;
+  cursor: pointer;
+}
+
+.inteli-search-svg {
+  position: absolute;
+  width: 14px;
+  font-size: 13px;
+  color: $text-light-color;
+  top: 11px;
   left: 10px;
   cursor: pointer;
 }

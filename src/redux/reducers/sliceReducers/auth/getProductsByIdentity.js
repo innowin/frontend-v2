@@ -7,19 +7,18 @@ const success = (state, action) => {
   const {client} = state
   const previousProduct = (client && client.products) || []
 
-  const arrayOfProductId = []
   data.map(product => {
     if (identityId === state.client.identity.content && (!previousProduct.includes(product.id))) {
-      return arrayOfProductId.push(product.id)
+      return previousProduct.push(product.id)
     }
-    return arrayOfProductId
+    return previousProduct
   })
   return {
     ...state,
     client: {
       ...client,
       // products: [...previousProduct, ...arrayOfProductId],
-      products: arrayOfProductId,
+      products: previousProduct,
     }
   }
 }

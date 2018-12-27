@@ -149,7 +149,7 @@ const mapStateToProps = (state) => {
     currentUserId: userId,
     allUsers: getUsers(state),
     followees: getFollowList(state),
-    loading: state.users.loading,
+    loading: state.users.isLoading,
     translate: getMessages(state),
   }
 }

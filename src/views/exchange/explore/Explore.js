@@ -125,7 +125,7 @@ class Explore extends PureComponent <appProps, appState> {
 
 const mapStateToProps = (state) => ({
   allExchanges: getExchanges(state),
-  loading: state.exchanges.loading,
+  loading: state.exchanges.isLoading,
   translate: getMessages(state),
 })
 const mapDispatchToProps = dispatch => ({

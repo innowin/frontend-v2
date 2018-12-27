@@ -323,6 +323,11 @@ $heightOfContentBox: 140px;
   color: #FFF;
   cursor: pointer;
   transition-duration: 0.3s;
+
+  &:active {
+    background-color: #FFD63D;
+    transition-duration: 0.3s;
+  }
 }
 
 .bee-text-name {
@@ -388,6 +393,24 @@ $heightOfContentBox: 140px;
   padding: 5px;
   margin: 10px 0 18px 0;
   transition-duration: 0.3s;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
+    transition-duration: 0.3s;
+    border: 1px solid $tag-del-btn-background;
+  }
+}
+
+.bee-inteli-text-box {
+  border-radius: 3px;
+  border: 1px solid $register-part-in-icon-color;
+  text-align: right;
+  width: 100%;
+  font-size: 12px;
+  margin: 10px 0 18px 0;
+  transition-duration: 0.3s;
+  padding: 8px 8px 0 8px;
 
   &:focus {
     outline: none;

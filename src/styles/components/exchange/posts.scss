@@ -75,6 +75,8 @@
   overflow-y: hidden;
   text-align: center;
   padding: 0;
+  user-select: none;
+  cursor: default;
 }
 
 .post-image-container-fade-out {
@@ -105,7 +107,7 @@
 }
 
 .post-image-effect {
-  animation: effect 2s linear;
+  animation: effect 1s linear;
   overflow: hidden;
   margin-bottom: 18px;
 }
@@ -140,7 +142,7 @@
   position: relative;
   overflow: hidden;
   background-color: #f3f3f3;
-  animation: fadetoout 1s linear;
+  animation: fadetoout 0.5s linear;
   opacity: 0;
   height: 0;
 }

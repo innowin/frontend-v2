@@ -56,11 +56,25 @@
 
 .exchange-model-avatar {
   height: 80px;
-  object-fit: cover;
   margin: 0 auto 8px auto;
   width: 80px;
   border-radius: 50%;
+  overflow: hidden;
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.2);
+}
+
+.exchange-model-avatar-img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.exchange-model-avatar-default {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  padding: 10px;
+  fill: $text-light-color;
 }
 
 .exchange-model-avatar-back {
@@ -82,15 +96,6 @@
   filter: blur(35px);
   opacity: .75;
   z-index: -1;
-}
-
-.exchange-model-avatar-default {
-  height: 80px;
-  object-fit: cover;
-  margin: 0 auto 0 auto;
-  width: 80px;
-  border-radius: 50%;
-  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.2)
 }
 
 .exchange-model-title {

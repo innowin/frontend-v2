@@ -51,17 +51,17 @@ class User extends Component <appProps, appState> {
 
   componentDidMount() {
     const {data} = this.props
-    if (data.profile.profile_banner) {
+    if (data.profile.content.profile_banner) {
       let banner = new Image()
-      banner.src = REST_URL + data.profile.profile_banner.file
+      banner.src = data.profile.content.profile_banner.file.includes('innowin.ir') ? data.profile.content.profile_banner.file : REST_URL + data.profile.content.profile_banner.file
       banner.onload = () => {
         this.setState({...this.state, bannerLoaded: true})
       }
     }
 
-    if (data.profile.profile_media) {
+    if (data.profile.content.profile_media) {
       let profile = new Image()
-      profile.src = REST_URL + data.profile.profile_media.file
+      profile.src = data.profile.content.profile_media.file.includes('innowin.ir') ? data.profile.content.profile_media.file : REST_URL + data.profile.content.profile_media.file
       profile.onload = () => {
         this.setState({...this.state, profileLoaded: true})
       }
@@ -69,31 +69,30 @@ class User extends Component <appProps, appState> {
   }
 
   componentWillReceiveProps(nextProps) {
-
     const {data, currentUserType, currentUserId, currentUserIdentity, actions} = this.props
     const {follow} = this.state
 
-    if (data.user.id !== nextProps.data.user.id) {
+    if (data.profile.content.profile_user.id !== nextProps.data.profile.content.profile_user.id) {
       this.setState({...this.state, bannerLoaded: false, profileLoaded: false, follow: false, followLoading: false}, () => {
-        if (nextProps.data.profile.profile_banner) {
+        if (nextProps.data.profile.content.profile_banner) {
           let banner = new Image()
-          banner.src = REST_URL + nextProps.data.profile.profile_banner.file
+          banner.src = nextProps.data.profile.content.profile_banner.file.includes('innowin.ir') ? nextProps.data.profile.content.profile_banner.file : REST_URL + nextProps.data.profile.content.profile_banner.file
           banner.onload = () => {
             this.setState({...this.state, bannerLoaded: true})
           }
         }
 
-        if (nextProps.data.profile.profile_media) {
+        if (nextProps.data.profile.content.profile_media) {
           let profile = new Image()
-          profile.src = REST_URL + nextProps.data.profile.profile_media.file
+          profile.src = nextProps.data.profile.content.profile_media.file.includes('innowin.ir') ? nextProps.data.profile.content.profile_media.file : REST_URL + nextProps.data.profile.content.profile_media.file
           profile.onload = () => {
             this.setState({...this.state, profileLoaded: true})
           }
         }
       })
-    } else if (follow && (nextProps.identities[data.user.id] && nextProps.identities[data.user.id].identity && nextProps.identities[data.user.id].identity.content)) {
+    } else if (follow && (nextProps.identities[data.profile.content.profile_user.id] && nextProps.identities[data.profile.content.profile_user.id].identity && nextProps.identities[data.profile.content.profile_user.id].identity.content)) {
       this.setState({...this.state, follow: false}, () => {
-        const formValues = {follow_follower: currentUserIdentity, follow_followed: nextProps.identities[data.user.id].identity.content}
+        const formValues = {follow_follower: currentUserIdentity, follow_followed: nextProps.identities[data.profile.content.profile_user.id].identity.content}
         actions.follow({formValues, followOwnerId: currentUserId, followOwnerType: currentUserType})
       })
     }
@@ -102,12 +101,12 @@ class User extends Component <appProps, appState> {
   _follow() {
     const {identities, actions, currentUserIdentity, currentUserId, currentUserType, data} = this.props
     this.setState({followLoading: true}, () => {
-      if (identities[data.user.id] && identities[data.user.id].identity && identities[data.user.id].identity.content) {
-        const formValues = {follow_follower: currentUserIdentity, follow_followed: identities[data.user.id].identity.content}
+      if (identities[data.profile.content.profile_user.id] && identities[data.profile.content.profile_user.id].identity && identities[data.profile.content.profile_user.id].identity.content) {
+        const formValues = {follow_follower: currentUserIdentity, follow_followed: identities[data.profile.content.profile_user.id].identity.content}
         actions.follow({formValues, followOwnerId: currentUserId, followOwnerType: currentUserType})
       } else {
         this.setState({...this.state, follow: true})
-        actions.getUserIdentity(data.user.id)
+        actions.getUserIdentity(data.profile.content.profile_user.id)
       }
     })
   }
@@ -115,7 +114,7 @@ class User extends Component <appProps, appState> {
   _renderFollowed(data, followees) {
     const {followLoading} = this.state
     const {translate} = this.props
-    if (followees[data.user.id]) {
+    if (followees[data.profile.content.profile_user.id]) {
       return <Material className='user-follow' content={translate['Followed']}/>
     } else if (followLoading) {
       return <Material className='user-follow-loading' content={<ClipLoader color='#008057' size={19}/>}/>
@@ -124,27 +123,29 @@ class User extends Component <appProps, appState> {
 
   render() {
     const {data, followees} = this.props
-    const {profile} = data
+    const profile = data.profile.content
+    const {badges} = data.badges || []
+    const user = data.profile.content.profile_user
     const {profileLoaded, bannerLoaded} = this.state
     return (
         <div className='users-explore'>
-          <Link to={`/user/${data.user.id}`} style={{textDecoration: 'none', color: 'black'}}>
+          <Link to={`/user/${user.id}`} style={{textDecoration: 'none', color: 'black'}}>
             {
               profile.profile_banner && bannerLoaded ?
-                  <img src={REST_URL + profile.profile_banner.file} className='user-banner' alt={data.user.last_name}/>
+                  <img src={profile.profile_banner.file.includes('innowin.ir') ? profile.profile_banner.file : REST_URL + profile.profile_banner.file} className='user-banner' alt={user.last_name}/>
                   :
                   <div className='user-banner'/>
             }
             {
               profile.profile_media && profileLoaded ?
-                  <img src={REST_URL + profile.profile_media.file} className='user-profile-photo' alt={data.user.last_name}/>
+                  <img src={profile.profile_media.file.includes('innowin.ir') ? profile.profile_media.file : REST_URL + profile.profile_media.file} className='user-profile-photo' alt={user.last_name}/>
                   :
                   <DefaultUserIcon className='user-default-profile-photo'/>
             }
 
             <div className='user-name-id-cont'>
-              <div className='user-name'>{data.user.first_name + ' ' + data.user.last_name}</div>
-              <div className='user-id'>@{data.user.username}</div>
+              <div className='user-name'>{user.first_name + ' ' + user.last_name}</div>
+              <div className='user-id'>@{user.username}</div>
             </div>
 
             <div className='user-description' style={new RegExp('^[A-Za-z]*$').test(profile.description[0]) ? {direction: 'ltr'} : {direction: 'rtl'}}>
@@ -153,8 +154,8 @@ class User extends Component <appProps, appState> {
 
             <div className='user-baj-container'>
               {
-                data.badges.map((badge, i) =>
-                    <img key={i} src={REST_URL + badge.badge_related_badge_category.badge_related_media.file} className='user-baj' alt='badge'/>
+                badges && badges.map((badge, i) =>
+                    <img key={i} src={badge.badge_related_badge_category.badge_related_media.file} className='user-baj' alt='badge'/>
                 )
               }
             </div>
@@ -167,23 +168,29 @@ class User extends Component <appProps, appState> {
   }
 }
 
-const mapStateToProps = (state) => {
-  const userId = state.auth.client.organization ? state.auth.client.organization.id : state.auth.client.user.id
-  return {
-    currentUserType: state.auth.client.user_type,
-    currentUserIdentity: state.auth.client.identity.content,
-    currentUserId: userId,
-    identities: state.users.list,
-    translate: getMessages(state),
-  }
-}
+const
+    mapStateToProps = (state) => {
+      const userId = state.auth.client.organization ? state.auth.client.organization.id : state.auth.client.user.id
+      return {
+        currentUserType: state.auth.client.user_type,
+        currentUserIdentity: state.auth.client.identity.content,
+        currentUserId: userId,
+        identities: state.users.list,
+        translate: getMessages(state),
+      }
+    }
 
-const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators({
-    getUserIdentity: identityActions.getUserIdentity,
-    getOrgIdentity: identityActions.getOrgIdentity,
-    follow: socialActions.createFollow,
-  }, dispatch)
-})
+const
+    mapDispatchToProps = (dispatch) => ({
+      actions: bindActionCreators({
+        getUserIdentity: identityActions.getUserIdentity,
+        getOrgIdentity: identityActions.getOrgIdentity,
+        follow: socialActions.createFollow,
+      }, dispatch)
+    })
 
-export default connect(mapStateToProps, mapDispatchToProps)(User)
+export default connect(mapStateToProps, mapDispatchToProps)
+
+(
+    User
+)

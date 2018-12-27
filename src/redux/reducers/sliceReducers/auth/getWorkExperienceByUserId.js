@@ -6,19 +6,18 @@ const success = (state, action) => {
   const {client} = state
   const previousWorkExperience = (client && client.workExperiences) || []
 
-  const arrayOfWorkExperienceId = []
   data.map(workExperience => {
     if (userId === state.client.user.id && (!previousWorkExperience.includes(workExperience.id))) {
-      return arrayOfWorkExperienceId.push(workExperience.id)
+      return previousWorkExperience.push(workExperience.id)
     }
-    return arrayOfWorkExperienceId
+    return previousWorkExperience
   })
   return {
     ...state,
     client: {
       ...client,
       // workExperiences: [...previousWorkExperience, ...arrayOfWorkExperienceId],
-      workExperiences: arrayOfWorkExperienceId,
+      workExperiences: previousWorkExperience,
     }
   }
 }

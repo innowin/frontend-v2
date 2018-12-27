@@ -6,19 +6,18 @@ const success = (state, action) => {
   const {client} = state
   const previousCertificate = (client && client.certificates) || []
 
-  const arrayOfCertificateId = []
   data.map(certificate => {
     if (identityId === state.client.identity.id && (!previousCertificate.includes(certificate.id))) {
-      return arrayOfCertificateId.push(certificate.id)
+      return previousCertificate.push(certificate.id)
     }
-    return arrayOfCertificateId
+    return previousCertificate
   })
   return {
     ...state,
     client: {
       ...client,
       // certificates: [...previousCertificate, ...arrayOfCertificateId],
-      certificates: arrayOfCertificateId,
+      certificates: previousCertificate,
     }
   }
 }
