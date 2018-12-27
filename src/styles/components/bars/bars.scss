@@ -869,6 +869,7 @@ $sidebar-profile-media-width: 80px;
       display: inline-block;
       border: 1px solid $text-light-color;
     }
+
     .default-channel-icon {
       width: 100%;
       height: 100%;
@@ -939,6 +940,7 @@ $sidebar-profile-media-width: 80px;
 
 .explore-menu-wrapper {
   position: relative;
+
   .explore-menu-container {
     position: absolute;
     top: 22px;
@@ -1069,7 +1071,7 @@ $sidebar-profile-media-width: 80px;
 .settingModal-sidebar-out {
   overflow-y: hidden;
   position: fixed;
-  top: 65px;
+  top: 75px;
   right: 9.05%;
   z-index: -1;
   opacity: 0;
@@ -1099,7 +1101,7 @@ $sidebar-profile-media-width: 80px;
   overflow: hidden;
   border-radius: 3px;
   position: fixed;
-  top: 65px;
+  top: 75px;
   right: 9.05%;
   z-index: 4;
   opacity: 1;
@@ -1135,7 +1137,7 @@ $sidebar-profile-media-width: 80px;
 .settingModal-menu-out {
   overflow-y: scroll;
   position: fixed;
-  top: 65px;
+  top: 75px;
   right: 30%;
   z-index: -1;
   opacity: 0;
@@ -1162,7 +1164,7 @@ $sidebar-profile-media-width: 80px;
 .settingModal-menu {
   overflow: auto;
   position: fixed;
-  top: 65px;
+  top: 75px;
   right: 30%;
   z-index: 4;
   opacity: 1;
@@ -1196,7 +1198,7 @@ $sidebar-profile-media-width: 80px;
 @media screen and (max-width: 1250px) {
   .settingModal-menu {
     position: fixed;
-    top: 65px;
+    top: 75px;
     right: 30%;
     z-index: 4;
     opacity: 1;
@@ -1208,7 +1210,7 @@ $sidebar-profile-media-width: 80px;
   }
   .settingModal-menu-out {
     position: fixed;
-    top: 65px;
+    top: 75px;
     right: 30%;
     z-index: -1;
     opacity: 0;
@@ -1224,7 +1226,7 @@ $sidebar-profile-media-width: 80px;
 
   .settingModal-sidebar {
     position: fixed;
-    top: 65px;
+    top: 75px;
     right: 1%;
     z-index: 4;
     opacity: 1;
@@ -1239,7 +1241,7 @@ $sidebar-profile-media-width: 80px;
 
   .settingModal-menu {
     position: fixed;
-    top: 65px;
+    top: 75px;
     right: 20.5%;
     z-index: 4;
     opacity: 1;
@@ -1252,7 +1254,7 @@ $sidebar-profile-media-width: 80px;
 
   .settingModal-menu-out {
     position: fixed;
-    top: 65px;
+    top: 75px;
     right: 20.5%;
     z-index: -1;
     opacity: 0;
