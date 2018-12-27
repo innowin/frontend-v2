@@ -471,7 +471,7 @@ class CreatePost extends Component {
               <div
                   contentEditable={true}
                   ref={e => this.text = e}
-                  className={open ? 'post-component-textarea-open scroll-hide' : 'post-component-textarea'}
+                  className={open ? 'post-component-textarea-open hide-scroll' : 'post-component-textarea'}
                   style={
                     description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0]) ?
                         {direction: 'ltr', padding: open || focused ? '13px 23px 9px 15px' : '8px 23px 9px 15px'} :

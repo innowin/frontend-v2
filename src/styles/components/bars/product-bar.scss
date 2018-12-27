@@ -118,6 +118,7 @@
       border: 1px solid $sidebar-row-border-color;
     }
     .gallery-item {
+      cursor: pointer;
       flex: 1 1 50px;
       max-width: 60px;
       height: 40px;

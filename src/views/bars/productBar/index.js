@@ -120,8 +120,6 @@ class SideBar extends Component<SideBarProps, SideBarState> {
     return (
         <div className='product-side-bar'>
           <ScrollLessWrapper points="left">
-            {/*<FontAwesome name="times" className="close-btn"*/}
-            {/*onClick={visibilityHandler}/>*/}
 
             <div style={{height: '35px'}}>
               <div className='menu-side-name'>{this.props.product.name}</div>
