@@ -49,6 +49,7 @@ import NoFilterIcon from './common/noFilter_svg'
 import NotificationIcon from './common/notification_svg'
 import MoreOptionSvg from './common/more-option-svg'
 import OffersSvg from './common/offers_svg'
+import UploadIcon from './common/upload_svg'
 import OnePersonSvg from './common/one_person_svg'
 import PayIcon from './addingConribution/pay_icon_svg'
 import postIcon from './user/post_svg'
@@ -89,6 +90,8 @@ export {
   AgentSvgIcon,
   AttachFileIcon,
   AttachFileNewIcon,
+  Bee,
+  BeeBackground,
   BookmarkIcon,
   CertificateIcon,
   CertificateTick,
@@ -166,10 +169,9 @@ export {
   Ticket,
   TickSvgIcon,
   TipsIcon,
+  UploadIcon,
   userInfoIcon,
+  WarningIcon,
   workExperienceIcon,
   YoutubeIcon,
-  BeeBackground,
-  Bee,
-  WarningIcon,
 }

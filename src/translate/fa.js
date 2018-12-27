@@ -108,6 +108,7 @@ module.exports = {
   "Choose file": "فایل را انتخاب کنید",
   "Select": "انتخاب",
   "Uploading...": "در حال بارگذاری...",
+  "Upload Picture": "انتخاب تصویر",
   "Change": "تغییر",
   "search": "جستجو",
   "FromDate": "از تاریخ",
@@ -131,7 +132,7 @@ module.exports = {
   "Add": "افزودن",
 
   "Save": "ذخیره",
-  'Submit': 'ثبت',
+  "Submit": "ثبت",
   "Certificate": "گواهی‌نامه",
   "Certificates": "گواهی‌نامه‌ها",
   "Certificates and badges": "نشان ها و گواهی نامه ها",
@@ -200,13 +201,13 @@ module.exports = {
   "Organization members": "اعضای شرکت",
   "Date joined": "تاریخ پیوستن در اینوین",
   "Of": "از",
-  'Show join date in profile': 'نمایش تاریخ عضویت در پروفایل',
-  'Editing': 'در حال ویرایش...',
-  'Mobile not shown to the others': 'شماره خصوصی به کاربران نمایش داده نمی شود.',
-  'Private email not shown to the others': 'ایمیل خصوصی به کاربران نمایش داده نمی شود.',
-  'This address is for public view': 'این آدرس برای نمایش عمومی است.',
-  'This number is for public view': 'این شماره برای نمایش عمومی است.',
-  'This email is for public view': 'این ایمیل برای نمایش عمومی است.',
+  "Show join date in profile": "نمایش تاریخ عضویت در پروفایل",
+  "Editing": "در حال ویرایش...",
+  "Mobile not shown to the others": "شماره خصوصی به کاربران نمایش داده نمی شود.",
+  "Private email not shown to the others": "ایمیل خصوصی به کاربران نمایش داده نمی شود.",
+  "This address is for public view": "این آدرس برای نمایش عمومی است.",
+  "This number is for public view": "این شماره برای نمایش عمومی است.",
+  "This email is for public view": "این ایمیل برای نمایش عمومی است.",
 
   "Contact info": "اطلاعات تماس",
   "Website": "تارنما",
@@ -354,6 +355,9 @@ module.exports = {
   "Delete Exchange": "حذف پنجره",
   "Unfollow Exchange": "لغو عضویت پنجره",
   "Add Exchange to Favorite": "افزودن پنجره به علاقه مندی ها",
+  "Create New Exchange": "ایجاد پنجرۀ جدید",
+  "Exchange Name": "نام پنجره",
+  "Exchange Description": "درباره پنجره",
 
   //Statistic
   "Activity Report": "گزارش فعالیت",
@@ -373,8 +377,8 @@ module.exports = {
   "Products": "محصولات",
 
   // recovery password
-  'Complete the validation code': 'کد را کامل وارد کنید!',
-  'Incorrect validation code': 'کد وارد شده صحیح نمی باشد!',
+  "Complete the validation code": "کد را کامل وارد کنید!",
+  "Incorrect validation code": "کد وارد شده صحیح نمی باشد!",
 
   // TopBar
   topBar: {
@@ -414,13 +418,13 @@ module.exports = {
     "Introduce Badges": "معرفی نشان ها",
     "Terms & Conditions": "شرایط و مقررات سرویس دهی",
     "About Us": "درباره ما",
-    'Darbare Innowin': 'درباره اینوین',
-    'Phone setting description': 'یک شماره موبایل وارد کنید. این شماره برای ارتباط اینوین (مثلا بازیابی رمز عبور) با شما است و برای سایر کاربران قابل مشاهده نخواهد بود.',
-    'Home page': 'صفحه اصلی',
-    'Explore': 'اکسپلور',
+    "Darbare Innowin": "درباره اینوین",
+    "Phone setting description": "یک شماره موبایل وارد کنید. این شماره برای ارتباط اینوین (مثلا بازیابی رمز عبور) با شما است و برای سایر کاربران قابل مشاهده نخواهد بود.",
+    "Home page": "صفحه اصلی",
+    "Explore": "اکسپلور",
   },
 
   // toast messages
-  'Create post done': 'پست شما با موفقت ثبت شد',
-  'Post removed': 'پست شما پاک شد',
+  "Create post done": "پست شما با موفقت ثبت شد",
+  "Post removed": "پست شما پاک شد",
 }

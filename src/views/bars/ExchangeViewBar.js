@@ -111,7 +111,7 @@ class ExchangeViewBar extends Component {
     // this._getCounts(exchangeId)
 
     const currentExchange = exchanges.list[exchangeId]
-    if (currentExchange && currentExchange.exchange_image) {
+    if (currentExchange && currentExchange.exchange_image && currentExchange.exchange_image.file) {
       let image = new Image()
       image.src = currentExchange.exchange_image.file.includes("innowin.ir") ? currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file
       image.onload = () => {
