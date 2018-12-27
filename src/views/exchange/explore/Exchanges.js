@@ -31,20 +31,19 @@ const Exchanges = (props: appProps) => {
     )
   }
 
-  // if (exchanges.length > 0) {
-  //   return <React.Fragment>
-  //     {
-  //       exchanges.map((exchange: Object, i: number): any =>
-  //           <Exchange key={i} data={exchange.exchange ? exchange.exchange.content : exchange.exchange}/>
-  //       )
-  //     }
-  //   </React.Fragment>
-  // }
-  // else if (!props.loading) {
-  //   return <div className='exchanges-explore-not-found'>پنجرهی یافت نشد!</div>
-  // }
-  // else
+  if (exchanges.length > 0) {
     return <React.Fragment>
+      {
+        exchanges.map((exchange: Object, i: number): any =>
+            <Exchange key={i} data={exchange.exchange ? exchange.exchange.content : exchange.exchange}/>
+        )
+      }
+    </React.Fragment>
+  }
+  else if (!props.loading) {
+    return <div className='exchanges-explore-not-found'>پنجرهی یافت نشد!</div>
+  }
+  else return <React.Fragment>
       {
         loadingArr.map((exchange: Object): any =>
             <ExchangeSkeleton key={exchange}/>
