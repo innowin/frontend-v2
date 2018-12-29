@@ -45,6 +45,7 @@ const results = {
 
     // customer
     GET_CUSTOMERS_BY_ORGANIZATION_ID: 'get-org-customers',
+    GET_CUSTOMER_BY_CUSTOMER_ID:'get-org-customer',
     CREATE_CUSTOMER: 'create-org-customer',
     DELETE_CUSTOMER: 'delete-org-customer',
     UPDATE_CUSTOMER: 'update-org-customer',
