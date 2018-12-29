@@ -1,5 +1,4 @@
 import React from 'react'
-import {SelectComponent} from "../SelectComponent";
 
 const renderSelectField = ({
     input,  

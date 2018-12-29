@@ -6,21 +6,17 @@ import CustomerInfoForm from './CustomerInfoForm'
 
 // flow type of CustomerInfoForm
 type PropsCustomerInfoForm = {
-  createOrgCustomer: Function,
   hideEdit: Function,
   translate: { [string]: string },
   organizationId: number,
-  createFile: Function
 }
 
 const CustomerInfoCreateForm = (props: PropsCustomerInfoForm) => {
-  const {translate, organizationId, createOrgCustomer, hideEdit, createFile} = props
+  const {translate, organizationId, hideEdit} = props
 
   return (
     <CustomerInfoForm organizationId={organizationId}
                       translate={translate}
-                      createFile={createFile}
-                      createOrgCustomer={createOrgCustomer}
                       hideEdit={hideEdit}
     >
       <div className="col-12 d-flex justify-content-end">
@@ -35,10 +31,8 @@ const CustomerInfoCreateForm = (props: PropsCustomerInfoForm) => {
 
 CustomerInfoCreateForm.propTypes = {
   hideEdit: PropTypes.func.isRequired,
-  createOrgCustomer: PropTypes.func.isRequired,
   translate: PropTypes.object.isRequired,
   organizationId: PropTypes.number.isRequired,
-  createFile: PropTypes.func.isRequired
 }
 
 export default CustomerInfoCreateForm

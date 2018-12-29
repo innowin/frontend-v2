@@ -1,11 +1,13 @@
-import getCustomersByOrganizationId from './getCustomersByOrganizationId'
-import deleteCustomer from './deleteCustomer'
-import updateCustomer from './updateCustomer'
 import createCustomer from './createCustomer'
+import deleteCustomer from './deleteCustomer'
+import getCustomerByCustomerId from "./getCustomerByCustomerId"
+import getCustomersByOrganizationId from './getCustomersByOrganizationId'
+import updateCustomer from './updateCustomer'
 
 export default {
   createCustomer,
-  getCustomersByOrganizationId,
   deleteCustomer,
+  getCustomerByCustomerId,
+  getCustomersByOrganizationId,
   updateCustomer,
 }

@@ -9,6 +9,31 @@ const getAllUsers = (state) => {
 }
 
 export const getUsers = createSelector(
-    getAllUsers,
-    user => user
+  getAllUsers,
+  user => user
 )
+
+
+const getSearchedUsers_ = (state) => {
+  const {allUsers} = state.users
+  const {search} = state.users
+  delete allUsers[state.auth.client.organization ? state.auth.client.organization.id : state.auth.client.user.id]
+  const allUsersArray = Object.values(allUsers)
+  if (state.users.search)
+    return allUsersArray.filter(
+      user => (user.user.username.includes(search) || user.user.first_name.includes(search) || user.user.last_name.includes(search))
+    )
+  else return []
+}
+
+export const getSearchedUsers = createSelector(
+  getSearchedUsers_,
+  user => user
+)
+
+const getSearchWord_ = state => {
+  const {search} = state.users
+  return search
+}
+
+export const getSearchWord = createSelector(getSearchWord_, search => search)
