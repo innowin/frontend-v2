@@ -295,6 +295,10 @@ $heightOfContentBox: 140px;
   top: 50%;
   transform: translate(50%, -50%);
   animation: bee ease 2s infinite;
+
+  &:hover {
+    animation: bee ease 1s infinite;
+  }
 }
 
 
@@ -328,6 +332,7 @@ $heightOfContentBox: 140px;
 }
 
 .bee-button-choose {
+  position: relative;
   border: none;
   border-radius: 3px;
   font-size: 11px;
@@ -343,6 +348,16 @@ $heightOfContentBox: 140px;
     transition-duration: 0.3s;
   }
 }
+
+.bee-button-input {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+}
+
 
 .bee-text-name {
   text-align: right;

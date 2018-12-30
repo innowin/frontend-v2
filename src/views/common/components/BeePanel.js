@@ -12,6 +12,9 @@ import {Bee} from 'src/images/icons'
 import {bindActionCreators} from 'redux'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {Link} from 'react-router-dom'
+import {createFile, getFiles} from 'src/redux/actions/commonActions/fileActions'
+import makeFileSelectorByKeyValue from 'src/redux/selectors/common/file/selectFilsByKeyValue'
+import updateProfile from '../../../redux/actions/user/updateProfileByProfileIdAction'
 
 class BeePanel extends Component {
 
@@ -24,7 +27,6 @@ class BeePanel extends Component {
       graduate: 0,
       job: 0,
       bio: 0,
-
       maghta: '',
       major: '',
       college: ''
@@ -32,64 +34,76 @@ class BeePanel extends Component {
   }
 
   componentDidMount(): void {
-    const {currentUserMedia, currentUserName, profile, currentUserEducation, currentUserWork, currentUserId, actions} = this.props
-    actions.getUserByUserId(currentUserId)
-    actions.getProfileByUserId(currentUserId)
-    actions.getEducationByUserId({userId: currentUserId})
-    actions.getWorkExperienceByUserId({userId: currentUserId})
+    if (this.props.currentUserType === 'person') {
+      const {currentUserMedia, currentUserName, profile, currentUserEducation, currentUserWork, currentUserId, actions} = this.props
+      actions.getUserByUserId(currentUserId)
+      actions.getProfileByUserId(currentUserId)
+      actions.getEducationByUserId({userId: currentUserId})
+      actions.getWorkExperienceByUserId({userId: currentUserId})
 
-    let image = 0
-    let name = 0
-    let graduate = 0
-    let job = 0
-    let bio = 0
+      let image = 0
+      let name = 0
+      let graduate = 0
+      let job = 0
+      let bio = 0
 
-    if (currentUserMedia) {
-      image = 30
-    }
-    if (currentUserName.trim().length > 0) {
-      name = 20
-    }
-    if (profile && profile.description && profile.description.trim().length > 0) {
-      bio = 20
-    }
-    if (currentUserEducation.length > 0) {
-      graduate = 15
-    }
-    if (currentUserWork.length > 0) {
-      job = 15
-    }
+      if (currentUserMedia) {
+        image = 30
+      }
+      if (currentUserName.trim().length > 0) {
+        name = 20
+      }
+      if (profile && profile.description && profile.description.trim().length > 0) {
+        bio = 20
+      }
+      if (currentUserEducation.length > 0) {
+        graduate = 15
+      }
+      if (currentUserWork.length > 0) {
+        job = 15
+      }
 
-    this.setState({...this.state, image, name, graduate, job, bio})
-
+      this.setState({...this.state, image, name, graduate, job, bio})
+    }
   }
 
   componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
-    const {currentUserMedia, currentUserName, profile, currentUserEducation, currentUserWork} = nextProps
+    if (this.props.currentUserType === 'person') {
+      const {currentUserMedia, currentUserName, profile, currentUserEducation, currentUserWork, currentUserId, currentUserProfileId, actions} = nextProps
 
-    let image = 0
-    let name = 0
-    let graduate = 0
-    let job = 0
-    let bio = 0
+      let image = 0
+      let name = 0
+      let graduate = 0
+      let job = 0
+      let bio = 0
 
-    if (currentUserMedia) {
-      image = 30
-    }
-    if (currentUserName.trim().length > 0) {
-      name = 20
-    }
-    if (profile && profile.description && profile.description.trim().length > 0) {
-      bio = 20
-    }
-    if (currentUserEducation.length > 0) {
-      graduate = 15
-    }
-    if (currentUserWork.length > 0) {
-      job = 15
-    }
+      if (currentUserMedia) {
+        image = 30
+      }
+      if (currentUserName.trim().length > 0) {
+        name = 20
+      }
+      if (profile && profile.description && profile.description.trim().length > 0) {
+        bio = 20
+      }
+      if (currentUserEducation.length > 0) {
+        graduate = 15
+      }
+      if (currentUserWork.length > 0) {
+        job = 15
+      }
 
-    this.setState({...this.state, image, name, graduate, job, bio})
+      const {clientFiles} = nextProps
+      const lastFile = clientFiles[clientFiles.length - 1] || {}
+      const prevLastFile = this.props.clientFiles[this.props.clientFiles.length - 1] || {}
+      if (lastFile.id && prevLastFile.id) {
+        if (lastFile.id !== prevLastFile.id) {
+          actions.updateProfile({formValues: {profile_media: lastFile.id}, profileId: currentUserProfileId, userId: currentUserId})
+        }
+      }
+
+      this.setState({...this.state, image, name, graduate, job, bio})
+    }
   }
 
   _handleCancel = () => {
@@ -99,8 +113,18 @@ class BeePanel extends Component {
     else this.setState({...this.state, level: 1})
   }
 
-  _handleChooseProfile = () => {
-    this.setState({...this.state, level: 2})
+  _handleChooseProfile = (e) => {
+    const {actions} = this.props
+
+    e.preventDefault()
+    let reader = new FileReader()
+    let file = e.target.files[0]
+    if (file) {
+      reader.readAsDataURL(file)
+      reader.onloadend = () => {
+        actions.createFile({file_string: reader.result})
+      }
+    }
   }
 
   _handleName = () => {
@@ -114,9 +138,11 @@ class BeePanel extends Component {
       let grade
       if (this.state.maghta === translate['Bachelor']) {
         grade = constants.SERVER_GRADES.BACHELOR
-      } else if (this.state.maghta === translate['Master']) {
+      }
+      else if (this.state.maghta === translate['Master']) {
         grade = constants.SERVER_GRADES.MASTER
-      } else if (this.state.maghta === translate['Phd']) {
+      }
+      else if (this.state.maghta === translate['Phd']) {
         grade = constants.SERVER_GRADES.PHD
       }
 
@@ -128,7 +154,8 @@ class BeePanel extends Component {
 
       const formValues: {} = {...formFormat}
       actions.createEducationByUserId({userId: currentUserId, formValues})
-    } else alert('لطفا ابتدا موارد لازم را انتخاب کنید')
+    }
+    else alert('لطفا ابتدا موارد لازم را انتخاب کنید')
   }
 
   _handleJob = () => {
@@ -144,7 +171,8 @@ class BeePanel extends Component {
       setTimeout(() => {
         actions.getWorkExperienceByUserId({userId: currentUserId})
       }, 500)
-    } else alert('error')
+    }
+    else alert('error')
   }
 
   _handleBio = () => {
@@ -158,7 +186,8 @@ class BeePanel extends Component {
         actions.getUserByUserId(currentUserId)
         actions.getProfileByUserId(currentUserId)
       }, 500)
-    } else alert('لطفا ابتدا بیوگرافی را تایپ نمایید')
+    }
+    else alert('لطفا ابتدا بیوگرافی را تایپ نمایید')
   }
 
   _handleSelectMaghta = (select) => {
@@ -198,7 +227,8 @@ class BeePanel extends Component {
             </div>
           </div>
       )
-    } else if (level === 1) {
+    }
+    else if (level === 1) {
       if (image === 0)
         return (
             <div>
@@ -212,12 +242,16 @@ class BeePanel extends Component {
 
               <div className='bee-buttons'>
                 <button className='bee-button-cancel' onClick={this._handleCancel}>فعلا نه</button>
-                <button className='bee-button-choose' onClick={this._handleChooseProfile}>انتخاب عکس</button>
+                <button className='bee-button-choose'>
+                  <input type='file' className='bee-button-input' onChange={this._handleChooseProfile}/>
+                  انتخاب عکس
+                </button>
               </div>
             </div>
         )
       else this.setState({...this.state, level: this.state.level + 1})
-    } else if (level === 2) {
+    }
+    else if (level === 2) {
       if (name === 0)
         return (
             <div>
@@ -247,7 +281,8 @@ class BeePanel extends Component {
             </div>
         )
       else this.setState({...this.state, level: this.state.level + 1})
-    } else if (level === 3) {
+    }
+    else if (level === 3) {
       if (graduate === 0)
         return (
             <div>
@@ -283,7 +318,8 @@ class BeePanel extends Component {
             </div>
         )
       else this.setState({...this.state, level: this.state.level + 1})
-    } else if (level === 4) {
+    }
+    else if (level === 4) {
       if (job === 0)
         return (
             <div>
@@ -317,7 +353,8 @@ class BeePanel extends Component {
             </div>
         )
       else this.setState({...this.state, level: this.state.level + 1})
-    } else if (level === 5) {
+    }
+    else if (level === 5) {
       if (bio === 0)
         return (
             <div>
@@ -356,17 +393,18 @@ class BeePanel extends Component {
   render() {
     if (this.props.currentUserType === 'person')
       return (
-          <div className='bee-panel-cont'>
+          <React.Fragment>
             {
               this.renderLevel()
             }
-          </div>
+          </React.Fragment>
       )
     else return null
   }
 }
 
 const mapStateToProps = (state) => {
+  const identity = state.auth.client.identity.content
   const client = state.auth.client
   const clientImgId = (client.user_type === 'person') ?
       (client.profile.profile_media)
@@ -379,16 +417,20 @@ const mapStateToProps = (state) => {
   const defaultObject = {content: {}, isLoading: false, error: null}
   const profile = (stateUser && stateUser.profile) || defaultObject
 
+  const fileSelectorByKeyValue = makeFileSelectorByKeyValue()
+
   return ({
     currentUserType: client.user_type,
     currentUserIdentity: client.identity.content,
     currentUserId: userId,
+    currentUserProfileId: client.profile.id,
     currentUserImgId: clientImgId,
     currentUserMedia: (state.common.file.list[clientImgId] && state.common.file.list[clientImgId].file) || null,
     currentUserName: client.user.first_name + ' ' + client.user.last_name,
     currentUserBio: client.profile.description,
     currentUserEducation: client.educations,
     currentUserWork: client.workExperiences,
+    clientFiles: fileSelectorByKeyValue(state, 'identity', identity),
     translate: getMessages(state),
     profile: profile.content
   })
@@ -403,6 +445,9 @@ const mapDispatchToProps = dispatch => ({
     createWorkExperienceByUserId: WorkExperienceActions.createWorkExperienceByUserId,
     getEducationByUserId: EducationActions.getEducationByUserId,
     getWorkExperienceByUserId: WorkExperienceActions.getWorkExperienceByUserId,
+    createFile,
+    getFiles,
+    updateProfile: updateProfile.updateProfile,
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(BeePanel)
