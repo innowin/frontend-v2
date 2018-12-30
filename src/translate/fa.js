@@ -109,6 +109,7 @@ module.exports = {
   "Select": "انتخاب",
   "Uploading...": "در حال بارگذاری...",
   "Upload Picture": "انتخاب تصویر",
+  "Upload Video": "انتخاب ویدیو",
   "Change": "تغییر",
   "search": "جستجو",
   "FromDate": "از تاریخ",
@@ -370,6 +371,8 @@ module.exports = {
   "Call": "تماس",
   "Show more": "نمایش گسترده",
   "Toman": "تومان",
+  "Product Video": "ویدیو محصول",
+  "Product Gallery": "آلبوم تصاویر محصول",
 
   // Product Rating
   "Ratings": "دیدگاه ها و بازخورد ها",

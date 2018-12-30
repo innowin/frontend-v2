@@ -141,6 +141,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       selectedCatLvlTwo: "",
       selectedCatLvlThree: "",
       selectedImage: [],
+      selectedImageTemp: "",
       selectedImageId: [],
       processing: false,
       priceType: "معین",
@@ -916,16 +917,18 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
   renderCurrentLevel() {
     let {
       currentLevel,
-      selectedType,
-      selectedCatLvlOne,
-      selectedCatLvlTwo,
-      selectedCatLvlThree,
       inteliMenu,
       priceType,
-      productFeatures,
-      selectedImage,
       processing,
+      productFeatures,
+      selectedCatLvlOne,
+      selectedCatLvlThree,
+      selectedCatLvlTwo,
+      selectedImage,
+      selectedImageId,
+      selectedType,
     } = this.state
+    let {translator} = this.props
     switch (currentLevel) {
       case "one":
         return (
@@ -1042,57 +1045,124 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       case "three":
         return (
             <div className="contribution-product-three">
-              <label className="gray-text-input-label">آلبوم تصاویر: </label>
-              <div className={"create-exchange-upload"}>
+              <div className="create-product-title-container">
+                <label className="gray-text-input-label">{translator["Product Gallery"]}:</label>
+              </div>
+              <div className={"create-product-upload-container"}>
                 {processing ?
                     <ClipLoader color="#253545" size={20} loading={true}/>
                     :
-                    <UploadIcon className={"create-exchange-upload-svg"}/>
+                    <UploadIcon className={"create-product-upload-svg"}/>
                 }
-                <input type="file" onChange={!processing ? (e => this._uploadHandler(e.currentTarget.files[0])) : console.log("Still Uploading")}/>
+                {!processing ?
+                    <input type="file" accept="image/*" onChange={e => this._uploadHandler(e.currentTarget.files[0])}/>
+                    : null}
+              </div>
+              <div className={"product-gallery-container"}>
+                <div className={"product-gallery-item-container"}>
+                  {selectedImage[0] ?
+                      <div>
+                        <img src={selectedImage[0]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
+                        <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(0)}>✕</div>
+                      </div>
+                      :
+                      null
+                  }
+                </div>
+                <div className={"product-gallery-item-container"}>
+                  {selectedImage[1] ?
+                      <div>
+                        <img src={selectedImage[1]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
+                        <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(1)}>✕</div>
+                      </div>
+                      :
+                      null
+                  }
+                </div>
+                <div className={"product-gallery-item-container"}>
+                  {selectedImage[2] ?
+                      <div>
+                        <img src={selectedImage[2]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
+                        <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(2)}>✕</div>
+                      </div>
+                      :
+                      null
+                  }
+                </div>
+                <div className={"product-gallery-item-container"}>
+                  {selectedImage[3] ?
+                      <div>
+                        <img src={selectedImage[3]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
+                        <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(3)}>✕</div>
+                      </div>
+                      :
+                      null
+                  }
+                </div>
+                <div className={"product-gallery-item-container"}>
+                  {selectedImage[4] ?
+                      <div>
+                        <img src={selectedImage[4]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
+                        <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(4)}>✕</div>
+                      </div>
+                      :
+                      null
+                  }
+                </div>
+              </div>
+
+              <div className="create-product-title-container">
+                <label className="gray-text-input-label">{translator["Product Video"]}:</label>
+              </div>
+              <div className={"create-product-upload-container"}>
+                <UploadIcon className={"create-product-upload-svg"}/>
+                <input type="file" accept="video/*" onChange={null}/>
+              </div>
+              <div className={"product-gallery-container"}>
+                <div className={"product-gallery-item-container"}/>
               </div>
             </div>
         )
-      case "four":
-        return (
-            <div className="contribution-description">
-              <div className="icon-wrapper">
-                <TipsIcon className="tip-icon"/>
-              </div>
-              <div className="contribution-desc-txt">
-                <p>
-                  مرحله ی چهارم
-                </p>
-              </div>
-            </div>
-        )
-      case "five":
-        return (
-            <div className="contribution-product-two">
-              {
-                productFeatures.map((p, k) =>
-                    <div className={"product-features-frame-container"} key={k}>
-                      <input
-                          type={"text"} className={productFeatures[k].filled ? "product-features-frame-filled" : "product-features-frame"}
-                          placeholder={productFeatures[k - 1] ? productFeatures[k - 1].filled ? "عنوان ویژگی" : "" : "عنوان ویژگی (مثلا اندازه قطر داخلی)"}
-                          disabled={productFeatures[k - 1] ? !productFeatures[k - 1].filled : false}
-                          onChange={(e) => this._setProductFeature(e.target.value, k, "title")}
-                          onBlur={(e) => this._setProductFeature(e.target.value, k, "blur")}
-                      >
-                      </input>
-                      <input
-                          type={"text"} className={productFeatures[k].filled ? "product-features-frame-filled" : "product-features-frame"}
-                          placeholder={productFeatures[k - 1] ? productFeatures[k - 1].filled ? "مقدار ویژگی" : "" : "مقدار ویژگی (مثلا 110 میلی متر)"}
-                          disabled={productFeatures[k - 1] ? !productFeatures[k - 1].filled : false}
-                          onChange={(e) => this._setProductFeature(e.target.value, k, "amount")}
-                          onBlur={(e) => this._setProductFeature(e.target.value, k, "blur")}
-                      >
-                      </input>
-                    </div>
-                )
-              }
-            </div>
-        )
+        // case "four":
+        //   return (
+        //       <div className="contribution-description">
+        //         <div className="icon-wrapper">
+        //           <TipsIcon className="tip-icon"/>
+        //         </div>
+        //         <div className="contribution-desc-txt">
+        //           <p>
+        //             مرحله ی چهارم
+        //           </p>
+        //         </div>
+        //       </div>
+        //   )
+        // case "five":
+        //   return (
+        //       <div className="contribution-product-two">
+        //         {
+        //           productFeatures.map((p, k) =>
+        //               <div className={"product-features-frame-container"} key={k}>
+        //                 <input
+        //                     type={"text"} className={productFeatures[k].filled ? "product-features-frame-filled" : "product-features-frame"}
+        //                     placeholder={productFeatures[k - 1] ? productFeatures[k - 1].filled ? "عنوان ویژگی" : "" : "عنوان ویژگی (مثلا اندازه قطر داخلی)"}
+        //                     disabled={productFeatures[k - 1] ? !productFeatures[k - 1].filled : false}
+        //                     onChange={(e) => this._setProductFeature(e.target.value, k, "title")}
+        //                     onBlur={(e) => this._setProductFeature(e.target.value, k, "blur")}
+        //                 >
+        //                 </input>
+        //                 <input
+        //                     type={"text"} className={productFeatures[k].filled ? "product-features-frame-filled" : "product-features-frame"}
+        //                     placeholder={productFeatures[k - 1] ? productFeatures[k - 1].filled ? "مقدار ویژگی" : "" : "مقدار ویژگی (مثلا 110 میلی متر)"}
+        //                     disabled={productFeatures[k - 1] ? !productFeatures[k - 1].filled : false}
+        //                     onChange={(e) => this._setProductFeature(e.target.value, k, "amount")}
+        //                     onBlur={(e) => this._setProductFeature(e.target.value, k, "blur")}
+        //                 >
+        //                 </input>
+        //               </div>
+        //           )
+        //         }
+        //       </div>
+        //   )
       default:
         return (
             <div className="contribution-description">
@@ -1137,11 +1207,9 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     if (fileString) {
       reader.readAsDataURL(fileString)
       reader.onload = () => {
-        let temp = this.state.selectedImage
-        temp.push(reader.result)
         this.setState({
           ...this.state,
-          selectedImage: temp.slice()
+          selectedImageTemp: reader.result
         }, this._createFile)
       }
     }
@@ -1149,8 +1217,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
   _createFile = () => {
     const {createFile} = this.props
     this.setState({...this.state, processing: true})
-    console.log("PROCESS...")
-    createFile({file_string: this.state.selectedImage[this.state.selectedImage.length - 1]})
+    createFile({file_string: this.state.selectedImageTemp})
   }
   _imageHandler = (img: ImageType) => {
     let imgs = this.state.selectedImage
@@ -1165,40 +1232,47 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     })
   }
 
+  _deleteImage = (index: number) => {
+    let {selectedImage, selectedImageId} = this.state
+    let img = selectedImage
+    let ids = selectedImageId
+    img.splice(index, 1)
+    ids.splice(index, 1)
+    this.setState({...this.state, selectedImage: img.slice(), selectedImageId: ids.slice()})
+  }
+
   render() {
-    console.log(this.state.selectedImage)
-    console.log(this.state.selectedImageId)
     const {activeStep, progressSteps, progressStatus, wrapperClassName, newContributionData} = this.state
     const {mainCategory = ""} = newContributionData
     const {currentLevel} = this.state
     const {modalIsOpen} = this.props
     return (
         <div
-            // className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}
+            className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}
         >
-          {/*{this.renderProgressBar()}*/}
+          {this.renderProgressBar()}
 
-          {/*{this.renderCurrentLevel()}*/}
+          {this.renderCurrentLevel()}
 
-          {/*{this.renderFooter()}*/}
+          {this.renderFooter()}
 
-          <Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>
-            <ModalBody className="adding-contribution-wrapper">
-              <FontAwesome name="times" size="2x" className="close-btn"
-                           onClick={this._handleModalVisibility}/>
-              <div className={`progressive-wrapper ${mainCategory}`}>
-                <MenuProgressive
-                    steps={progressSteps}
-                    activeStep={activeStep}
-                    status={progressStatus}
-                    // stepsClassName={mainCategory}
-                />
-              </div>
-              <div className={`wrapper ${wrapperClassName}`}>
-                {this._switchContentByMainCategory()}
-              </div>
-            </ModalBody>
-          </Modal>
+          {/*<Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>*/}
+          {/*<ModalBody className="adding-contribution-wrapper">*/}
+          {/*<FontAwesome name="times" size="2x" className="close-btn"*/}
+          {/*onClick={this._handleModalVisibility}/>*/}
+          {/*<div className={`progressive-wrapper ${mainCategory}`}>*/}
+          {/*<MenuProgressive*/}
+          {/*steps={progressSteps}*/}
+          {/*activeStep={activeStep}*/}
+          {/*status={progressStatus}*/}
+          {/*// stepsClassName={mainCategory}*/}
+          {/*/>*/}
+          {/*</div>*/}
+          {/*<div className={`wrapper ${wrapperClassName}`}>*/}
+          {/*{this._switchContentByMainCategory()}*/}
+          {/*</div>*/}
+          {/*</ModalBody>*/}
+          {/*</Modal>*/}
 
         </div>
     )

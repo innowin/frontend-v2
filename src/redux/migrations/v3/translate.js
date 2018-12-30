@@ -11,5 +11,8 @@ export default state => ({
     "Exchange Name": "نام پنجره",
     "Exchange Description": "درباره پنجره",
     "Upload Picture": "انتخاب تصویر",
+    "Product Video": "ویدیو محصول",
+    "Product Gallery": "آلبوم تصاویر محصول",
+    "Upload Video": "انتخاب ویدیو",
   },
 })
