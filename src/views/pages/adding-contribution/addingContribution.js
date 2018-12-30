@@ -225,14 +225,15 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
   componentDidMount() {
     const {_getCategories, _getHashTags} = this.props
     _getCategories()
-    _getHashTags()
-    this._newContributionMainCategoryHandler(MainCategories[0].value)
+    // _getHashTags()
+    // this._newContributionMainCategoryHandler(MainCategories[0].value)
   }
 
   componentDidUpdate(prevProps, prevState, ss) {
     // const prevActiveStep = prevState.activeStep
-    const {_getCountries, nowCreatedProductId, nowCreatedSkillId, clientFiles} = this.props
+    const {_getCountries, nowCreatedProductId, nowCreatedSkillId, clientFiles, categories} = this.props
     const {activeStep, newContributionData} = this.state
+    console.log("CATS ", this.props.categories)
     const lastFile = clientFiles[clientFiles.length - 1] || {}
     const prevLastFile = prevProps.clientFiles[prevProps.clientFiles.length - 1] || {}
     if (lastFile.id && prevLastFile.id) {
@@ -999,7 +1000,16 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
             </div>
         )
       case "two":
-        let namesList = ["کامپیوتر", "الکترونیک", "نرم افزار", "سخت افزار", "طراحی", "انیمیشن"]
+        let namesList = [
+          {name: "کامپیوتر", id: 1},
+          {name: "نرم افزار", id: 2},
+          {name: "سخت افزار", id: 3},
+          {name: "شبکه", id: 4},
+          {name: "برق", id: 5},
+          {name: "زبان", id: 6},
+          {name: "ریاضی", id: 7},
+          {name: "شیمی", id: 8},
+        ]
         return (
             <div className="contribution-product-two">
               <div className={"gray-text-input-label-container"}>
@@ -1244,37 +1254,35 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
   render() {
     const {activeStep, progressSteps, progressStatus, wrapperClassName, newContributionData} = this.state
     const {mainCategory = ""} = newContributionData
-    const {currentLevel} = this.state
+    // const {currentLevel} = this.state
     const {modalIsOpen} = this.props
-
-    console.log(this.props.categories)
     return (
         <div
-            // className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}
+            className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}
         >
-          {/*{this.renderProgressBar()}*/}
+          {this.renderProgressBar()}
 
-          {/*{this.renderCurrentLevel()}*/}
+          {this.renderCurrentLevel()}
 
-          {/*{this.renderFooter()}*/}
+          {this.renderFooter()}
 
-          <Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>
-          <ModalBody className="adding-contribution-wrapper">
-          <FontAwesome name="times" size="2x" className="close-btn"
-          onClick={this._handleModalVisibility}/>
-          <div className={`progressive-wrapper ${mainCategory}`}>
-          <MenuProgressive
-          steps={progressSteps}
-          activeStep={activeStep}
-          status={progressStatus}
-          // stepsClassName={mainCategory}
-          />
-          </div>
-          <div className={`wrapper ${wrapperClassName}`}>
-          {this._switchContentByMainCategory()}
-          </div>
-          </ModalBody>
-          </Modal>
+          {/*<Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>*/}
+          {/*<ModalBody className="adding-contribution-wrapper">*/}
+          {/*<FontAwesome name="times" size="2x" className="close-btn"*/}
+          {/*onClick={this._handleModalVisibility}/>*/}
+          {/*<div className={`progressive-wrapper ${mainCategory}`}>*/}
+          {/*<MenuProgressive*/}
+          {/*steps={progressSteps}*/}
+          {/*activeStep={activeStep}*/}
+          {/*status={progressStatus}*/}
+          {/*// stepsClassName={mainCategory}*/}
+          {/*/>*/}
+          {/*</div>*/}
+          {/*<div className={`wrapper ${wrapperClassName}`}>*/}
+          {/*{this._switchContentByMainCategory()}*/}
+          {/*</div>*/}
+          {/*</ModalBody>*/}
+          {/*</Modal>*/}
 
         </div>
     )
