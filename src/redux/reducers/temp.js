@@ -3,17 +3,13 @@ import types from './../actions/types'
 
 
 const temp = (state = initialState.temp, action) => {
+  const file = state.file
+  const {tempFileKeyName, fileId} = action.payload || {}
 
   switch (action.type) {
 
     /** ----------------- set created file in  temporaryFile -----------------> **/
     case types.COMMON.SET_FILE_IDS_IN_TEMP_FILE:
-      const file = state.file
-      let lastKey = state.lastKey
-      const {tempFileKeyName, fileId} = action.payload || {}
-      if (Number.isInteger(tempFileKeyName)) {
-        lastKey = [...lastKey, tempFileKeyName]
-      }
       let data;
       let existFile = file[tempFileKeyName]
       if (existFile) {
@@ -30,8 +26,15 @@ const temp = (state = initialState.temp, action) => {
         file: {
           ...file,
           [tempFileKeyName]: data
-        },
-        lastKey
+        }
+      }
+
+    /** -----------------   remove file from  temporaryFile -----------------> **/
+    case types.COMMON.REMOVE_FILE_FROM_TEMP_FILE:
+      const {[`${tempFileKeyName}`]: deleted, ...rest} = file
+      return {
+        ...state,
+        file: {...rest}
       }
 
     /** ----------------- reset -----------------> **/

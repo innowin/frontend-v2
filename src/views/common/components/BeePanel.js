@@ -1,17 +1,17 @@
 import React, {Component} from 'react'
 import BeeBackground from 'src/images/bee/beeBackground'
 import connect from 'react-redux/es/connect/connect'
+import constants from 'src/consts/constants'
+import EducationActions from 'src/redux/actions/user/educationActions'
+import FontAwesome from 'react-fontawesome'
+import GetUserActions from 'src/redux/actions/user/getUserActions'
+import InteliInput from '../inputs/InteliInput'
+import updateUserByUserIdAction from 'src/redux/actions/user/updateUserByUserIdAction'
+import WorkExperienceActions from 'src/redux/actions/user/workExperienceActions'
 import {Bee} from 'src/images/icons'
 import {bindActionCreators} from 'redux'
-import InteliInput from '../inputs/InteliInput'
-import FontAwesome from 'react-fontawesome'
-import constants from '../../../consts/constants'
-import {getMessages} from '../../../redux/selectors/translateSelector'
-import EducationActions from '../../../redux/actions/user/educationActions'
-import updateUserByUserIdAction from '../../../redux/actions/user/updateUserByUserIdAction'
-import GetUserActions from '../../../redux/actions/user/getUserActions'
-import WorkExperienceActions from '../../../redux/actions/user/workExperienceActions'
-import GetIdentityActions from '../../../redux/actions/identityActions'
+import {getMessages} from 'src/redux/selectors/translateSelector'
+import {Link} from 'react-router-dom'
 
 class BeePanel extends Component {
 
@@ -175,7 +175,7 @@ class BeePanel extends Component {
 
   renderLevel() {
     const {level, image, name, graduate, job, bio} = this.state
-    const {translate} = this.props
+    const {translate, currentUserId} = this.props
     if (image + name + graduate + job + bio === 100) {
       return (
           <div>
@@ -194,9 +194,8 @@ class BeePanel extends Component {
             </div>
 
             <div className='bee-button-submit-cont'>
-              <button className='bee-button-submit'>مشاهده پروفایل</button>
+              <Link to={`/user/${currentUserId}`} className='bee-button-submit'>مشاهده پروفایل</Link>
             </div>
-
           </div>
       )
     } else if (level === 1) {
