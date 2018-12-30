@@ -135,16 +135,21 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       addingTechPropNow: false,
       newTechPropertyData: {},
 
+      cats: [],
+      catLvlOne: [],
+      catLvlTwo: [],
+      catLvlThree: [],
       currentLevel: "two",
-      selectedType: "Product",
-      selectedCatLvlOne: "",
-      selectedCatLvlTwo: "",
-      selectedCatLvlThree: "",
-      selectedImage: [],
-      selectedImageTemp: "",
-      selectedImageId: [],
-      processing: false,
       priceType: "معین",
+      processing: false,
+      productName: "",
+      selectedCatLvlOne: "",
+      selectedCatLvlThree: "",
+      selectedCatLvlTwo: "",
+      selectedImage: [],
+      selectedImageId: [],
+      selectedImageTemp: "",
+      selectedType: "Product",
       // productFeatures: [
       //   {
       //     id: 1,
@@ -232,8 +237,12 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
   componentDidUpdate(prevProps, prevState, ss) {
     // const prevActiveStep = prevState.activeStep
     const {_getCountries, nowCreatedProductId, nowCreatedSkillId, clientFiles, categories} = this.props
-    const {activeStep, newContributionData} = this.state
-    console.log("CATS ", this.props.categories)
+    const {activeStep, newContributionData, catLvlOne} = this.state
+
+    if (catLvlOne.length < 1) {
+      let catsArray = Object.values(this.props.categories.list).filter(p => p.category_parent === null)
+      this.setState({...this.state, catLvlOne: catsArray.slice()})
+    }
     const lastFile = clientFiles[clientFiles.length - 1] || {}
     const prevLastFile = prevProps.clientFiles[prevProps.clientFiles.length - 1] || {}
     if (lastFile.id && prevLastFile.id) {
@@ -904,14 +913,21 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     }
   }
 
-  _handleCatLvlChange(text, level) {
-    console.log(text)
+  _handleCatLvlChange(cat, level) {
+    let {categories} = this.props
     if (level === "one") {
-      this.setState({...this.state, selectedCatLvlOne: text})
+      let selected = Object.values(categories.list).filter(p => p.id === cat.id)
+      let childes = Object.values(categories.list).filter(p => p.category_parent === cat.id)
+      console.log(selected[0])
+      this.setState({...this.state, selectedCatLvlOne: selected[0], catLvlTwo: childes.slice()})
     } else if (level === "two") {
-      this.setState({...this.state, selectedCatLvlTwo: text})
+      let selected = Object.values(categories.list).filter(p => p.id === cat.id)
+      console.log(selected[0])
+      this.setState({...this.state, selectedCatLvlTwo: selected[0]})
     } else if (level === "three") {
-      this.setState({...this.state, selectedCatLvlThree: text})
+      let selected = Object.values(categories.list).filter(p => p.id === cat.id)
+      console.log(selected[0])
+      this.setState({...this.state, selectedCatLvlThree: selected[0]})
     }
   }
 
@@ -928,6 +944,10 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       selectedImage,
       selectedImageId,
       selectedType,
+      cats,
+      catLvlOne,
+      catLvlTwo,
+      catLvlThree,
     } = this.state
     let {translator} = this.props
     switch (currentLevel) {
@@ -1000,21 +1020,12 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
             </div>
         )
       case "two":
-        let namesList = [
-          {name: "کامپیوتر", id: 1},
-          {name: "نرم افزار", id: 2},
-          {name: "سخت افزار", id: 3},
-          {name: "شبکه", id: 4},
-          {name: "برق", id: 5},
-          {name: "زبان", id: 6},
-          {name: "ریاضی", id: 7},
-          {name: "شیمی", id: 8},
-        ]
         return (
             <div className="contribution-product-two">
               <div className={"gray-text-input-label-container"}>
                 <label className="gray-text-input-label">عنوان آورده:</label>
-                <input type="text" className="form-control gray-text-input"/>
+                <input type="text" className="form-control gray-text-input"
+                       onChange={(e) => this.setState({...this.state, productName: e.target.value})}/>
               </div>
               <div className={"gray-text-input-label-container"}>
                 <label className="gray-text-input-label">محدوده جغرافیایی:</label>
@@ -1023,14 +1034,14 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
 
               <div className={"gray-text-input-label-container"}>
                 <label className="gray-text-input-label">طبقه اول دسته بندی:</label>
-                <InteliInput handleChange={(text) => this._handleCatLvlChange(text, "one")} list={namesList}/>
+                <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "one")} list={catLvlOne}/>
                 <div className={"gray-text-input-label-container full"}>
                   <label className="gray-text-input-label">طبقه دوم دسته بندی:</label>
-                  <InteliInput handleChange={(text) => this._handleCatLvlChange(text, "two")} list={namesList}/>
+                  <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "two")} list={catLvlTwo}/>
                 </div>
                 <div className={"gray-text-input-label-container full"}>
                   <label className="gray-text-input-label">طبقه سوم دسته بندی:</label>
-                  <InteliInput handleChange={(text) => this._handleCatLvlChange(text, "three")} list={namesList}/>
+                  <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "three")} list={catLvlThree}/>
                 </div>
               </div>
               <div className={"gray-text-input-label-container"}>
@@ -1258,31 +1269,31 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     const {modalIsOpen} = this.props
     return (
         <div
-            // className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}
+            className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}
         >
-          {/*{this.renderProgressBar()}*/}
+          {this.renderProgressBar()}
 
-          {/*{this.renderCurrentLevel()}*/}
+          {this.renderCurrentLevel()}
 
-          {/*{this.renderFooter()}*/}
+          {this.renderFooter()}
 
-          <Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>
-          <ModalBody className="adding-contribution-wrapper">
-          <FontAwesome name="times" size="2x" className="close-btn"
-          onClick={this._handleModalVisibility}/>
-          <div className={`progressive-wrapper ${mainCategory}`}>
-          <MenuProgressive
-          steps={progressSteps}
-          activeStep={activeStep}
-          status={progressStatus}
-          // stepsClassName={mainCategory}
-          />
-          </div>
-          <div className={`wrapper ${wrapperClassName}`}>
-          {this._switchContentByMainCategory()}
-          </div>
-          </ModalBody>
-          </Modal>
+          {/*<Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>*/}
+          {/*<ModalBody className="adding-contribution-wrapper">*/}
+          {/*<FontAwesome name="times" size="2x" className="close-btn"*/}
+          {/*onClick={this._handleModalVisibility}/>*/}
+          {/*<div className={`progressive-wrapper ${mainCategory}`}>*/}
+          {/*<MenuProgressive*/}
+          {/*steps={progressSteps}*/}
+          {/*activeStep={activeStep}*/}
+          {/*status={progressStatus}*/}
+          {/*// stepsClassName={mainCategory}*/}
+          {/*/>*/}
+          {/*</div>*/}
+          {/*<div className={`wrapper ${wrapperClassName}`}>*/}
+          {/*{this._switchContentByMainCategory()}*/}
+          {/*</div>*/}
+          {/*</ModalBody>*/}
+          {/*</Modal>*/}
 
         </div>
     )

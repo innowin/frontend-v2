@@ -33,6 +33,18 @@ class InteliInput extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
+    if (this.props.list && this.props.list.length !== nextProps.list.length) {
+      let names = []
+      let ids = []
+      for (let i = 0; i < nextProps.list.length; i++) {
+        names.push(nextProps.list[i].name)
+        ids.push(nextProps.list[i].id)
+      }
+      this.setState({...this.state, list: names, ids: ids})
+    }
+  }
+
   _handleMenu(e) {
     if (e.target.innerText.length > 0) {
       const {list} = this.state
