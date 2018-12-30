@@ -307,7 +307,15 @@ const users = (state = initialState.users, action) => {
         isLoading: action.payload.isLoading
       }
 
-      /** -------------------------- get profile -------------------------> **/
+    /** -------------------------- reset search user -------------------------> **/
+    case types.USER.RESET_SEARCH_USER:
+      return {
+        ...state,
+        search: null,
+        loading: false
+      }
+
+    /** -------------------------- get profile -------------------------> **/
     case types.USER.GET_PROFILE_BY_USER_ID:
       // initial structure build in first request for getProfile is called but profile isLoading is true:
       return {

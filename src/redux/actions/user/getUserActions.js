@@ -21,11 +21,17 @@ const getAllUsers = (limit: number, offset: number, search: ?string) => ({
   payload: {limit, offset, search}
 })
 
+const resetSearchUser = () => ({
+  type: types.USER.RESET_SEARCH_USER,
+  payload:{}
+})
+
 const GetUserActions = {
-  getUserByUserId,
+  getAllUsers,
   getProfileByUserId,
+  getUserByUserId,
   getUsers,
-  getAllUsers
+  resetSearchUser,
 }
 
 export default GetUserActions
