@@ -135,7 +135,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       addingTechPropNow: false,
       newTechPropertyData: {},
 
-      currentLevel: "three",
+      currentLevel: "two",
       selectedType: "Product",
       selectedCatLvlOne: "",
       selectedCatLvlTwo: "",
@@ -1246,33 +1246,35 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     const {mainCategory = ""} = newContributionData
     const {currentLevel} = this.state
     const {modalIsOpen} = this.props
+
+    console.log(this.props.categories)
     return (
         <div
-            className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}
+            // className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}
         >
-          {this.renderProgressBar()}
+          {/*{this.renderProgressBar()}*/}
 
-          {this.renderCurrentLevel()}
+          {/*{this.renderCurrentLevel()}*/}
 
-          {this.renderFooter()}
+          {/*{this.renderFooter()}*/}
 
-          {/*<Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>*/}
-          {/*<ModalBody className="adding-contribution-wrapper">*/}
-          {/*<FontAwesome name="times" size="2x" className="close-btn"*/}
-          {/*onClick={this._handleModalVisibility}/>*/}
-          {/*<div className={`progressive-wrapper ${mainCategory}`}>*/}
-          {/*<MenuProgressive*/}
-          {/*steps={progressSteps}*/}
-          {/*activeStep={activeStep}*/}
-          {/*status={progressStatus}*/}
-          {/*// stepsClassName={mainCategory}*/}
-          {/*/>*/}
-          {/*</div>*/}
-          {/*<div className={`wrapper ${wrapperClassName}`}>*/}
-          {/*{this._switchContentByMainCategory()}*/}
-          {/*</div>*/}
-          {/*</ModalBody>*/}
-          {/*</Modal>*/}
+          <Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>
+          <ModalBody className="adding-contribution-wrapper">
+          <FontAwesome name="times" size="2x" className="close-btn"
+          onClick={this._handleModalVisibility}/>
+          <div className={`progressive-wrapper ${mainCategory}`}>
+          <MenuProgressive
+          steps={progressSteps}
+          activeStep={activeStep}
+          status={progressStatus}
+          // stepsClassName={mainCategory}
+          />
+          </div>
+          <div className={`wrapper ${wrapperClassName}`}>
+          {this._switchContentByMainCategory()}
+          </div>
+          </ModalBody>
+          </Modal>
 
         </div>
     )
