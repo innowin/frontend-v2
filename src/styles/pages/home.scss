@@ -295,6 +295,10 @@ $heightOfContentBox: 140px;
   top: 50%;
   transform: translate(50%, -50%);
   animation: bee ease 2s infinite;
+
+  //&:hover {
+  //  animation: bee ease 1s infinite;
+  //}
 }
 
 
@@ -327,12 +331,31 @@ $heightOfContentBox: 140px;
   transition-duration: 0.3s;
 }
 
-.bee-button-choose {
+.bee-button-loading {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
   border: none;
   border-radius: 3px;
   font-size: 11px;
-  padding: 2px 0;
+  height: 20px;
   width: 65px;
+  overflow: hidden;
+  background-color: $warning-color;
+  cursor: pointer;
+  transition-duration: 0.3s;
+}
+
+.bee-button-choose {
+  position: relative;
+  border: none;
+  border-radius: 3px;
+  font-size: 11px;
+  width: 65px;
+  height: 20px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
   background-color: $warning-color;
   color: #FFF;
   cursor: pointer;
@@ -344,7 +367,24 @@ $heightOfContentBox: 140px;
   }
 }
 
+.bee-button-input {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+}
+
+
 .bee-text-name {
+  text-align: right;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.bee-text-last-name {
+  margin-top: 15px;
   text-align: right;
   font-size: 12px;
   font-weight: bold;
@@ -357,7 +397,7 @@ $heightOfContentBox: 140px;
   width: 100%;
   font-size: 12px;
   padding: 5px;
-  margin: 10px 0;
+  margin-top: 10px;
   transition-duration: 0.3s;
 
   &:focus {
@@ -405,7 +445,7 @@ $heightOfContentBox: 140px;
   width: 100%;
   font-size: 12px;
   padding: 5px;
-  margin: 10px 0 18px 0;
+  margin-top: 10px;
   transition-duration: 0.3s;
 
   &:focus {
@@ -422,7 +462,7 @@ $heightOfContentBox: 140px;
   text-align: right;
   width: 100%;
   font-size: 12px;
-  margin: 10px 0 18px 0;
+  margin-top: 10px;
   transition-duration: 0.3s;
   padding: 8px 8px 0 8px;
 
@@ -464,6 +504,50 @@ $heightOfContentBox: 140px;
     transition-duration: 0.3s;
     color: #e9e9e9;
   }
+}
+
+.bee-bio-error {
+  font-size: 11px;
+  height: 18px;
+  overflow: hidden;
+  color: $error-color;
+  opacity: 1;
+  transition-duration: 0.3s;
+  margin-bottom: 10px;
+}
+
+
+.bee-bio-error-hide {
+  font-size: 11px;
+  height: 0;
+  overflow: hidden;
+  color: $error-color;
+  opacity: 0;
+  transition-duration: 0.3s;
+  margin-bottom: 10px;
+}
+
+
+.bee-job-error {
+  font-size: 11px;
+  height: 18px;
+  overflow: hidden;
+  color: $error-color;
+  opacity: 1;
+  transition-duration: 0.3s;
+  margin-top: 5px;
+  margin-bottom: 18px;
+}
+
+
+.bee-job-error-hide {
+  font-size: 11px;
+  height: 0;
+  overflow: hidden;
+  color: $error-color;
+  opacity: 0;
+  transition-duration: 0.3s;
+  margin-bottom: 18px;
 }
 
 @media screen and (max-width: 900px) {

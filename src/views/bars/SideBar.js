@@ -384,7 +384,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     const {updateProfile, updateOrganization, removeFileFromTemp} = actions || {}
     const formValues = this._getValues()
     if (sideBarType === constants.USER_TYPES.PERSON) {
-      updateProfile({formValues, profileId, userId: owner.id})
+      updateProfile({formValues: formValues, profileId:profileId, userId: owner.id})
     } else {
       updateOrganization({formValues, organizationId: owner.id})
     }
