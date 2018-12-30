@@ -15,6 +15,7 @@ import {Link} from 'react-router-dom'
 import {createFile, getFiles} from 'src/redux/actions/commonActions/fileActions'
 import makeFileSelectorByKeyValue from 'src/redux/selectors/common/file/selectFilsByKeyValue'
 import updateProfile from '../../../redux/actions/user/updateProfileByProfileIdAction'
+import {ClipLoader} from 'react-spinners'
 
 class BeePanel extends Component {
 
@@ -22,14 +23,30 @@ class BeePanel extends Component {
     super(props)
     this.state = {
       level: 1,
+
       image: 0,
       name: 0,
       graduate: 0,
       job: 0,
       bio: 0,
+
+      imageLoading: false,
+
+      nameText: '',
+      lastNameText: '',
+      nameSubmitted: false,
+
       maghta: '',
       major: '',
-      college: ''
+      college: '',
+      educationSubmitted: false,
+
+      bioText: '',
+      bioSubmitted: false,
+
+      jobTitle: '',
+      jobWork: '',
+      jobSubmitted: false
     }
   }
 
@@ -115,20 +132,31 @@ class BeePanel extends Component {
 
   _handleChooseProfile = (e) => {
     const {actions} = this.props
-
     e.preventDefault()
     let reader = new FileReader()
     let file = e.target.files[0]
     if (file) {
       reader.readAsDataURL(file)
       reader.onloadend = () => {
-        actions.createFile({file_string: reader.result})
+        this.setState({...this.state, imageLoading: true}, () => actions.createFile({file_string: reader.result}))
       }
     }
   }
 
   _handleName = () => {
-    this.setState({...this.state, level: 3})
+    if (this.state.nameText.trim().length > 0 && this.state.lastNameText.trim().length > 0) {
+      const {actions, currentUserId} = this.props
+      const formFormat = {
+        first_name: this.state.nameText,
+        last_name: this.state.lastNameText
+      }
+      actions.updateUserByUserId(formFormat, currentUserId)
+      setTimeout(() => {
+        actions.getUserByUserId(currentUserId)
+        actions.getProfileByUserId(currentUserId)
+      }, 500)
+    }
+    else this.setState({...this.state, nameSubmitted: true})
   }
 
   _handleGraduate = () => {
@@ -155,15 +183,15 @@ class BeePanel extends Component {
       const formValues: {} = {...formFormat}
       actions.createEducationByUserId({userId: currentUserId, formValues})
     }
-    else alert('لطفا ابتدا موارد لازم را انتخاب کنید')
+    else this.setState({...this.state, educationSubmitted: true})
   }
 
   _handleJob = () => {
-    if (this.workRole.value.length > 0 && this.workName.value.length > 0) {
+    if (this.state.jobTitle.length > 0 && this.state.jobWork.length > 0) {
       const {actions, currentUserId} = this.props
       const formFormat = {
-        name: this.workRole.value,
-        position: this.workName.value,
+        name: this.state.jobTitle,
+        position: this.state.jobWork,
         work_experience_organization: 2506,
       }
       const formValues: {} = {...formFormat}
@@ -172,14 +200,14 @@ class BeePanel extends Component {
         actions.getWorkExperienceByUserId({userId: currentUserId})
       }, 500)
     }
-    else alert('error')
+    else this.setState({...this.state, jobSubmitted: true})
   }
 
   _handleBio = () => {
-    if (this.bio.value.length > 0) {
+    if (this.state.bioText.length > 0) {
       const {actions, currentUserId} = this.props
       const formFormat = {
-        description: this.bio.value
+        description: this.state.bioText
       }
       actions.updateUserByUserId(formFormat, currentUserId)
       setTimeout(() => {
@@ -187,7 +215,7 @@ class BeePanel extends Component {
         actions.getProfileByUserId(currentUserId)
       }, 500)
     }
-    else alert('لطفا ابتدا بیوگرافی را تایپ نمایید')
+    else this.setState({...this.state, bioSubmitted: true})
   }
 
   _handleSelectMaghta = (select) => {
@@ -202,16 +230,36 @@ class BeePanel extends Component {
     this.setState({...this.state, college: select})
   }
 
+  _handleBioChange = (e) => {
+    this.setState({...this.state, bioText: e.target.value.trim()})
+  }
+
+  _handleJobTitleChange = (e) => {
+    this.setState({...this.state, jobTitle: e.target.value.trim()})
+  }
+
+  _handleJobWorkChange = (e) => {
+    this.setState({...this.state, jobWork: e.target.value.trim()})
+  }
+
+  _handleNameChange = (e) => {
+    this.setState({...this.state, nameText: e.target.value.trim()})
+  }
+
+  _handleLastNameChange = (e) => {
+    this.setState({...this.state, lastNameText: e.target.value.trim()})
+  }
+
   renderLevel() {
     const {level, image, name, graduate, job, bio} = this.state
     const {translate, currentUserId} = this.props
     if (image + name + graduate + job + bio === 100) {
       return (
           <div>
-            <div className='bee-text'>عالیه!</div>
+            <div className='bee-text'>{translate['Awesome']}</div>
             <div className='bee-close'>✕</div>
 
-            <div className='bee-text-graduate'>تبریک، پروفایل شما کامل شد.</div>
+            <div className='bee-text-graduate'>{translate['Congrats, Your Profile Have Been Completed.']}</div>
 
             <div className='bee-background-cont'>
               <BeeBackground className='bee-background'/>
@@ -223,7 +271,7 @@ class BeePanel extends Component {
             </div>
 
             <div className='bee-button-submit-cont'>
-              <Link to={`/user/${currentUserId}`} className='bee-button-submit'>مشاهده پروفایل</Link>
+              <Link to={`/user/${currentUserId}`} className='bee-button-submit'>{translate['View Profile']}</Link>
             </div>
           </div>
       )
@@ -232,7 +280,7 @@ class BeePanel extends Component {
       if (image === 0)
         return (
             <div>
-              <div className='bee-text'>یک عکس برای پروفایل خود انتخاب کنید.</div>
+              <div className='bee-text'>{translate['Choose a Photo For Profile']}</div>
               <div className='bee-close'>✕</div>
 
               <div className='bee-background-cont'>
@@ -241,11 +289,18 @@ class BeePanel extends Component {
               </div>
 
               <div className='bee-buttons'>
-                <button className='bee-button-cancel' onClick={this._handleCancel}>فعلا نه</button>
+                <button className='bee-button-cancel' onClick={this._handleCancel}>{translate['Not Now']}</button>
+
                 <button className='bee-button-choose'>
                   <input type='file' className='bee-button-input' onChange={this._handleChooseProfile}/>
-                  انتخاب عکس
+                  {
+                    this.state.imageLoading ?
+                        <ClipLoader size={10} color='#FFF'/>
+                        :
+                        translate['Choose Photo']
+                  }
                 </button>
+
               </div>
             </div>
         )
@@ -255,7 +310,7 @@ class BeePanel extends Component {
       if (name === 0)
         return (
             <div>
-              <div className='bee-text'>نام خود را وارد کنید.</div>
+              <div className='bee-text'>{translate['Enter Your Name']}</div>
               <div className='bee-close'>✕</div>
 
               <div className='bee-background-cont'>
@@ -263,19 +318,24 @@ class BeePanel extends Component {
                 <Bee className='bee'/>
               </div>
 
-              <div className='bee-text-name'>نام و نام خانوادگی</div>
-              <input type='text' className='bee-name-text-box'/>
+              <div className='bee-text-name'>{translate['First name']}</div>
+              <input type='text' className='bee-name-text-box' onChange={this._handleNameChange}/>
+              <div className={this.state.nameSubmitted && this.state.nameText.length === 0 ? 'bee-job-error' : 'bee-job-error-hide'}>{translate['Please Enter Your Name!']}</div>
+
+              <div className='bee-text-last-name'>{translate['Last name']}</div>
+              <input type='text' className='bee-name-text-box' onChange={this._handleLastNameChange}/>
+              <div className={this.state.nameSubmitted && this.state.lastNameText.length === 0 ? 'bee-job-error' : 'bee-job-error-hide'}>{translate['Please Enter Your Last Name!']}</div>
 
               <div className='bee-loading'>
                 <div className='bee-loading-nav'>
                   <div className='bee-loading-fill' style={{width: (image + name + graduate + job + bio) + '%'}}/>
                 </div>
-                <div>تکمیل پروفایل {image + name + graduate + job + bio}%</div>
+                <div>{translate['Complement of profile']} {image + name + graduate + job + bio}%</div>
               </div>
 
               <div className='bee-buttons'>
-                <button className='bee-button-cancel' onClick={this._handleCancel}>فعلا نه</button>
-                <button className='bee-button-choose' onClick={this._handleName}>ثبت</button>
+                <button className='bee-button-cancel' onClick={this._handleCancel}>{translate['Not Now']}</button>
+                <button className='bee-button-choose' onClick={this._handleName}>{translate['Submit']}</button>
               </div>
 
             </div>
@@ -286,33 +346,38 @@ class BeePanel extends Component {
       if (graduate === 0)
         return (
             <div>
-              <div className='bee-text'>آخرین مقطع تحصیلی</div>
+              <div className='bee-text'>{translate['Last Education Major']}</div>
               <div className='bee-close'>✕</div>
 
-              <div className='bee-text-graduate'>آخرین مقطع تحصیلی خود را وارد کنید. شما می توانید در ادامه، از داخل صفحه پروفایل مقاطع دیگر را نیز وارد نمایید</div>
+              <div className='bee-text-graduate'>{translate['Enter Your Last Education Major. You Can Change It Later']}</div>
 
               <div className='bee-background-cont'>
                 <BeeBackground className='bee-background'/>
                 <Bee className='bee'/>
               </div>
 
-              <div className='bee-text-name'>مقطع</div>
+              <div className='bee-text-name'>{translate['Grade']}</div>
               <InteliInput handleChange={this._handleSelectMaghta} list={[translate['Bachelor'], translate['Phd'], translate['Master']]} className='bee-inteli-text-box'/>
-              <div className='bee-text-name'>رشته تحصیلی</div>
+              <div className={this.state.educationSubmitted && this.state.maghta.length === 0 ? 'bee-job-error' : 'bee-job-error-hide'}>{translate['Please Select Grade!']}</div>
+
+              <div className='bee-text-name'>{translate['Field of study']}</div>
               <InteliInput icon={<FontAwesome name='search' className='inteli-search-svg'/>} handleChange={this._handleSelectMajor} list={['نرم افزار']} className='bee-inteli-text-box'/>
-              <div className='bee-text-name'>دانشگاه</div>
+              <div className={this.state.educationSubmitted && this.state.major.length === 0 ? 'bee-job-error' : 'bee-job-error-hide'}>{translate['Please Select Major!']}</div>
+
+              <div className='bee-text-name'>{translate['University']}</div>
               <InteliInput icon={<FontAwesome name='search' className='inteli-search-svg'/>} handleChange={this._handleSelectCollege} list={['دانشگاه تهران']} className='bee-inteli-text-box'/>
+              <div className={this.state.educationSubmitted && this.state.college.length === 0 ? 'bee-job-error' : 'bee-job-error-hide'}>{translate['Please Select College!']}</div>
 
               <div className='bee-loading'>
                 <div className='bee-loading-nav'>
                   <div className='bee-loading-fill' style={{width: (image + name + graduate + job + bio) + '%'}}/>
                 </div>
-                <div>تکمیل پروفایل {image + name + graduate + job + bio}%</div>
+                <div>{translate['Complement of profile']} {image + name + graduate + job + bio}%</div>
               </div>
 
               <div className='bee-buttons'>
-                <button className='bee-button-cancel' onClick={this._handleCancel}>فعلا نه</button>
-                <button className='bee-button-choose' onClick={this._handleGraduate}>ثبت</button>
+                <button className='bee-button-cancel' onClick={this._handleCancel}>{translate['Not Now']}</button>
+                <button className='bee-button-choose' onClick={this._handleGraduate}>{translate['Submit']}</button>
               </div>
 
             </div>
@@ -323,31 +388,34 @@ class BeePanel extends Component {
       if (job === 0)
         return (
             <div>
-              <div className='bee-text'>شغل</div>
+              <div className='bee-text'>{translate['Job']}</div>
               <div className='bee-close'>✕</div>
 
-              <div className='bee-text-graduate'>سابقه کاری، پروفایل حرفه ای تری از شما معرفی می کند.</div>
+              <div className='bee-text-graduate'>{translate['Resume Will Introduce a More Professional Profile.']}</div>
 
               <div className='bee-background-cont'>
                 <BeeBackground className='bee-background'/>
                 <Bee className='bee'/>
               </div>
 
-              <div className='bee-text-name'>عنوان شغلی</div>
-              <input ref={e => this.workRole = e} type='text' className='bee-graduate-text-box' placeholder='مثال: مدیر اجرایی'/>
-              <div className='bee-text-name'>محل کار</div>
-              <input ref={e => this.workName = e} type='text' className='bee-name-text-box' placeholder='مثال: پژوهشکده رویان'/>
+              <div className='bee-text-name'>{translate['Job Title']}</div>
+              <input onChange={this._handleJobTitleChange} type='text' className='bee-graduate-text-box' placeholder={translate['Example: Administration Manager']}/>
+              <div className={this.state.jobSubmitted && this.state.jobTitle.length === 0 ? 'bee-job-error' : 'bee-job-error-hide'}>{translate['Please Enter Job Title!']}</div>
+
+              <div className='bee-text-name'>{translate['Name work']}</div>
+              <input onChange={this._handleJobWorkChange} type='text' className='bee-name-text-box' placeholder={translate['Example: Royan Institute']}/>
+              <div className={this.state.jobSubmitted && this.state.jobWork.length === 0 ? 'bee-job-error' : 'bee-job-error-hide'}>{translate['Please Enter Name work!']}</div>
 
               <div className='bee-loading'>
                 <div className='bee-loading-nav'>
                   <div className='bee-loading-fill' style={{width: (image + name + graduate + job + bio) + '%'}}/>
                 </div>
-                <div>تکمیل پروفایل {image + name + graduate + job + bio}%</div>
+                <div>{translate['Complement of profile']} {image + name + graduate + job + bio}%</div>
               </div>
 
               <div className='bee-buttons'>
-                <button className='bee-button-cancel' onClick={this._handleCancel}>فعلا نه</button>
-                <button className='bee-button-choose' onClick={this._handleJob}>ثبت</button>
+                <button className='bee-button-cancel' onClick={this._handleCancel}>{translate['Not Now']}</button>
+                <button className='bee-button-choose' onClick={this._handleJob}>{translate['Submit']}</button>
               </div>
 
             </div>
@@ -358,24 +426,24 @@ class BeePanel extends Component {
       if (bio === 0)
         return (
             <div>
-              <div className='bee-text'>بیوگرافی</div>
+              <div className='bee-text'>{translate['Bio']}</div>
               <div className='bee-close'>✕</div>
 
-              <div className='bee-text-graduate'>معرفی کوتاهی از خود، فعالیت ها یا علاقه مندی هایتان بنویسید.</div>
+              <div className='bee-text-graduate'>{translate['Write a Short Introduction Of Yourself, Your Activities Or Your Interests']}</div>
 
               <div className='bee-background-cont'>
                 <BeeBackground className='bee-background'/>
                 <Bee className='bee'/>
               </div>
 
-              <div className='bee-text-name'>عنوان شغلی</div>
-              <textarea ref={e => this.bio = e} className='bee-name-text-box' placeholder='مثال: 23 ساله | طراح صنعتی'/>
+              <textarea onChange={this._handleBioChange} className='bee-name-text-box' placeholder={translate['Example: 23 Years Old | Industrial Designer']}/>
+              <div className={this.state.bioSubmitted && this.state.bioText.length === 0 ? 'bee-bio-error' : 'bee-bio-error-hide'}>{translate['Please Enter Bio Text!']}</div>
 
               <div className='bee-loading'>
                 <div className='bee-loading-nav'>
                   <div className='bee-loading-fill' style={{width: (image + name + graduate + job + bio) + '%'}}/>
                 </div>
-                <div>تکمیل پروفایل {image + name + graduate + job + bio}%</div>
+                <div>{translate['Complement of profile']} {image + name + graduate + job + bio}%</div>
               </div>
 
               <div className='bee-buttons'>
@@ -393,11 +461,11 @@ class BeePanel extends Component {
   render() {
     if (this.props.currentUserType === 'person')
       return (
-          <React.Fragment>
+          <div className='bee-panel-cont'>
             {
               this.renderLevel()
             }
-          </React.Fragment>
+          </div>
       )
     else return null
   }
