@@ -230,8 +230,8 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
   componentDidMount() {
     const {_getCategories, _getHashTags} = this.props
     _getCategories()
-    // _getHashTags()
-    // this._newContributionMainCategoryHandler(MainCategories[0].value)
+    _getHashTags()
+    this._newContributionMainCategoryHandler(MainCategories[0].value)
   }
 
   componentDidUpdate(prevProps, prevState, ss) {
