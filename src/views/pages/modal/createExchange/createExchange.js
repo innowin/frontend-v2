@@ -372,7 +372,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
 
   _handleCreateExchange() {
     let {name, description, exchangeImage, isPrivate} = this.state
-    if (name.length > 3 && name.length <= 40 && description.length < 100) {
+    if (name.length > 3 && name.length <= 32 && description.length < 100) {
       let {createExchange, handleModalVisibility} = this.props
       let formValues = {
         name: name,
@@ -410,8 +410,8 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
               </label>
               <input type={"text"} className={"create-exchange-name-input"} placeholder={translate["Exchange Name"]}
                      onChange={(e) => this.setState({...this.state, name: e.target.value})}/>
-              <div className={name.length < 40 ? "create-exchange-name-input-limit" : "create-exchange-name-input-limited"}>
-                {name.length} / 40
+              <div className={name.length < 32 ? "create-exchange-name-input-limit" : "create-exchange-name-input-limited"}>
+                {name.length} / 32
               </div>
             </div>
             <div>

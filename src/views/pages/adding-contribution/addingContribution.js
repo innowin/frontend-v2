@@ -55,10 +55,16 @@ import {
   QuestionMark,
   SkillIcon,
   TipsIcon,
+  UploadIcon,
 } from "src/images/icons"
 import InteliInput from "src/views/common/inputs/InteliInput"
 import {RadioButtonGroup} from "src/views/common/inputs/RadioButtonInput"
 import Material from "../../common/components/Material"
+import type {ImageType} from "../modal/createExchange/basicInfo"
+import {exchangeFields} from "../modal/createExchange/createExchangeData"
+import {createFile, getFiles} from "src/redux/actions/commonActions/fileActions"
+import makeFileSelectorByKeyValue from "src/redux/selectors/common/file/selectFilsByKeyValue"
+import {ClipLoader} from "react-spinners"
 
 
 const reorder = (list, startIndex, endIndex) => {
@@ -129,77 +135,80 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       addingTechPropNow: false,
       newTechPropertyData: {},
 
-      currentLevel: "one",
+      currentLevel: "three",
       selectedType: "Product",
       selectedCatLvlOne: "",
       selectedCatLvlTwo: "",
       selectedCatLvlThree: "",
+      selectedImage: [],
+      selectedImageId: [],
+      processing: false,
       priceType: "معین",
-      productFeatures: [
-        {
-          id: 1,
-          title: "",
-          amount: "",
-          filled: false,
-          order: "order-1",
-        },
-        {
-          id: 2,
-          title: "",
-          amount: "",
-          filled: false,
-          order: "order-2",
-        },
-        {
-          id: 3,
-          title: "",
-          amount: "",
-          filled: false,
-          order: "order-3",
-        },
-        {
-          id: 4,
-          title: "",
-          amount: "",
-          filled: false,
-          order: "order-4",
-        },
-        {
-          id: 5,
-          title: "",
-          amount: "",
-          filled: false,
-          order: "order-5",
-        },
-        {
-          id: 6,
-          title: "",
-          amount: "",
-          filled: false,
-          order: "order-6",
-        },
-        {
-          id: 7,
-          title: "",
-          amount: "",
-          filled: false,
-          order: "order-7",
-        },
-        {
-          id: 8,
-          title: "",
-          amount: "",
-          filled: false,
-          order: "order-8",
-        },
-        {
-          id: 9,
-          title: "",
-          amount: "",
-          filled: false,
-          order: "order-9",
-        },
-      ],
+      // productFeatures: [
+      //   {
+      //     id: 1,
+      //     title: "",
+      //     amount: "",
+      //     filled: false,
+      //     order: "order-1",
+      //   },
+      //   {
+      //     id: 2,
+      //     title: "",
+      //     amount: "",
+      //     filled: false,
+      //     order: "order-2",
+      //   },
+      //   {
+      //     id: 3,
+      //     title: "",
+      //     amount: "",
+      //     filled: false,
+      //     order: "order-3",
+      //   },
+      //   {
+      //     id: 4,
+      //     title: "",
+      //     amount: "",
+      //     filled: false,
+      //     order: "order-4",
+      //   },
+      //   {
+      //     id: 5,
+      //     title: "",
+      //     amount: "",
+      //     filled: false,
+      //     order: "order-5",
+      //   },
+      //   {
+      //     id: 6,
+      //     title: "",
+      //     amount: "",
+      //     filled: false,
+      //     order: "order-6",
+      //   },
+      //   {
+      //     id: 7,
+      //     title: "",
+      //     amount: "",
+      //     filled: false,
+      //     order: "order-7",
+      //   },
+      //   {
+      //     id: 8,
+      //     title: "",
+      //     amount: "",
+      //     filled: false,
+      //     order: "order-8",
+      //   },
+      //   {
+      //     id: 9,
+      //     title: "",
+      //     amount: "",
+      //     filled: false,
+      //     order: "order-9",
+      //   },
+      // ],
     }
 
     const self: any = this
@@ -221,8 +230,15 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
 
   componentDidUpdate(prevProps, prevState, ss) {
     // const prevActiveStep = prevState.activeStep
-    const {_getCountries, nowCreatedProductId, nowCreatedSkillId} = this.props
+    const {_getCountries, nowCreatedProductId, nowCreatedSkillId, clientFiles} = this.props
     const {activeStep, newContributionData} = this.state
+    const lastFile = clientFiles[clientFiles.length - 1] || {}
+    const prevLastFile = prevProps.clientFiles[prevProps.clientFiles.length - 1] || {}
+    if (lastFile.id && prevLastFile.id) {
+      if (lastFile.id !== prevLastFile.id) {
+        this._imageHandler(lastFile)
+      }
+    }
     if ((prevState.activeStep === 1) && (activeStep === 2)) {
       _getCountries()
       const {technicalProperties} = newContributionData
@@ -788,12 +804,12 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       case "two":
         this.setState({...this.state, currentLevel: "three"})
         break
-      case "three":
-        this.setState({...this.state, currentLevel: "four"})
-        break
-      case "four":
-        this.setState({...this.state, currentLevel: "five"})
-        break
+        // case "three":
+        //   this.setState({...this.state, currentLevel: "four"})
+        //   break
+        // case "four":
+        //   this.setState({...this.state, currentLevel: "five"})
+        //   break
       default :
         this.setState({...this.state, currentLevel: "one"})
         break
@@ -809,12 +825,12 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       case "three":
         this.setState({...this.state, currentLevel: "two"})
         break
-      case "four":
-        this.setState({...this.state, currentLevel: "three"})
-        break
-      case "five":
-        this.setState({...this.state, currentLevel: "four"})
-        break
+        // case "four":
+        //   this.setState({...this.state, currentLevel: "three"})
+        //   break
+        // case "five":
+        //   this.setState({...this.state, currentLevel: "four"})
+        //   break
       default :
         this.setState({...this.state, currentLevel: "one"})
         break
@@ -837,19 +853,21 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
               اطلاعات اولیه
             </div>
           </div>
+          {/* NOT AVAILABLE FOR NOW
+           <div className={currentLevel !== "one" && currentLevel !== "two" ? "level-container-active" : "level-container"}>
+           <ItemsAndPropertiesIcon className={"progress-step-icon level-container-svg items " + currentLevel}/>
+           <div className={"level-container-text"}>
+           مشخصات فنّی
+           </div>
+           </div>
+           <div className={currentLevel === "four" || currentLevel === "five" ? "level-container-active" : "level-container"}>
+           <Medal width="24px" height="25px" svgClass={"level-container-svg medal " + currentLevel}/>
+           <div className={"level-container-text"}>
+           گواهینامه ها
+           </div>
+           </div>
+           */}
           <div className={currentLevel !== "one" && currentLevel !== "two" ? "level-container-active" : "level-container"}>
-            <ItemsAndPropertiesIcon className={"progress-step-icon level-container-svg items " + currentLevel}/>
-            <div className={"level-container-text"}>
-              مشخصات فنّی
-            </div>
-          </div>
-          <div className={currentLevel === "four" || currentLevel === "five" ? "level-container-active" : "level-container"}>
-            <Medal width="24px" height="25px" svgClass={"level-container-svg medal " + currentLevel}/>
-            <div className={"level-container-text"}>
-              گواهینامه ها
-            </div>
-          </div>
-          <div className={currentLevel === "five" ? "level-container-active" : "level-container"}>
             <ContributionIcon className={"progress-step-icon level-container-svg contribution " + currentLevel}/>
             <div className={"level-container-text"}>
               مدیریت ویترین
@@ -905,6 +923,8 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       inteliMenu,
       priceType,
       productFeatures,
+      selectedImage,
+      processing,
     } = this.state
     switch (currentLevel) {
       case "one":
@@ -943,34 +963,34 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
                       <div className={"option-contribution-text"}>توانمندی</div>
                     </div>
                   }/>
+                  {/* // NOT AVAILABLE FOR NOW
+                   <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === "Certificate" ? "contribution-material-block-active" : "contribution-material-block"} content={
+                   <div
+                   onClick={() => this._changeSelectedType("Certificate")}
+                   className={selectedType === "Certificate" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
+                   <CertificateIcon className="option-contribution-svg-smaller"/>
+                   <div className={"option-contribution-text"}>تاییدیه</div>
+                   </div>
+                   }/>
 
-                  <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === "Certificate" ? "contribution-material-block-active" : "contribution-material-block"} content={
-                    <div
-                        onClick={() => this._changeSelectedType("Certificate")}
-                        className={selectedType === "Certificate" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
-                      <CertificateIcon className="option-contribution-svg-smaller"/>
-                      <div className={"option-contribution-text"}>تاییدیه</div>
-                    </div>
-                  }/>
+                   <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === "Consultation" ? "contribution-material-block-active" : "contribution-material-block"} content={
+                   <div
+                   onClick={() => this._changeSelectedType("Consultation")}
+                   className={selectedType === "Consultation" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
+                   <ConsultIcon className="option-contribution-svg-small"/>
+                   <div className={"option-contribution-text"}>مشاوره</div>
+                   </div>
+                   }/>
 
-                  <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === "Consultation" ? "contribution-material-block-active" : "contribution-material-block"} content={
-                    <div
-                        onClick={() => this._changeSelectedType("Consultation")}
-                        className={selectedType === "Consultation" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
-                      <ConsultIcon className="option-contribution-svg-small"/>
-                      <div className={"option-contribution-text"}>مشاوره</div>
-                    </div>
-                  }/>
-
-                  <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === "Substructure" ? "contribution-material-block-active" : "contribution-material-block"} content={
-                    <div
-                        onClick={() => this._changeSelectedType("Substructure")}
-                        className={selectedType === "Substructure" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
-                      <QuestionMark width="20px" height="20px" svgClass={"option-contribution-svg"}/>
-                      <div className={"option-contribution-text"}>زیرساخت قابل اشتراک</div>
-                    </div>
-                  }/>
-
+                   <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === "Substructure" ? "contribution-material-block-active" : "contribution-material-block"} content={
+                   <div
+                   onClick={() => this._changeSelectedType("Substructure")}
+                   className={selectedType === "Substructure" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
+                   <QuestionMark width="20px" height="20px" svgClass={"option-contribution-svg"}/>
+                   <div className={"option-contribution-text"}>زیرساخت قابل اشتراک</div>
+                   </div>
+                   }/>
+                   */}
                 </div>
               </div>
             </div>
@@ -987,27 +1007,14 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
                 <label className="gray-text-input-label">محدوده جغرافیایی:</label>
                 <input type="text" className="form-control gray-text-input"/>
               </div>
+
               <div className={"gray-text-input-label-container"}>
                 <label className="gray-text-input-label">طبقه اول دسته بندی:</label>
                 <InteliInput handleChange={(text) => this._handleCatLvlChange(text, "one")} list={namesList}/>
-              </div>
-              <div className={"gray-text-input-label-container"}>
-                <label className="gray-text-input-label">قیمت:</label>
-                <RadioButtonGroup
-                    selected={priceType}
-                    handler={this._priceHandler}
-                    items={[{value: "معین", title: "معین"}, {value: "تماس با عرضه کننده", title: "تماس با عرضه کننده"}]}
-                    name="userType"
-                    label={""}
-                    className={"contribution"}
-                    contribution={"contribution"}
-                />
-                <input type="text" className="form-control gray-text-input" style={{textAlign: "left"}} placeholder={"IRR"}/>
-              </div>
-              <div className={"gray-text-input-label-container"}>
-                <label className="gray-text-input-label">طبقه دوم دسته بندی:</label>
-                <InteliInput handleChange={(text) => this._handleCatLvlChange(text, "two")} list={namesList}/>
-
+                <div className={"gray-text-input-label-container full"}>
+                  <label className="gray-text-input-label">طبقه دوم دسته بندی:</label>
+                  <InteliInput handleChange={(text) => this._handleCatLvlChange(text, "two")} list={namesList}/>
+                </div>
                 <div className={"gray-text-input-label-container full"}>
                   <label className="gray-text-input-label">طبقه سوم دسته بندی:</label>
                   <InteliInput handleChange={(text) => this._handleCatLvlChange(text, "three")} list={namesList}/>
@@ -1017,12 +1024,51 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
                 <label className="gray-text-input-label">توصیف اجمالی محصول:</label>
                 <textarea name="description" className="form-control gray-textarea-input"/>
               </div>
+              {/*<div className={"gray-text-input-label-container"}>
+               <label className="gray-text-input-label">قیمت:</label>
+               <RadioButtonGroup
+               selected={priceType}
+               handler={this._priceHandler}
+               items={[{value: "معین", title: "معین"}, {value: "تماس با عرضه کننده", title: "تماس با عرضه کننده"}]}
+               name="userType"
+               label={""}
+               className={"contribution"}
+               contribution={"contribution"}
+               />
+               <input type="text" className="form-control gray-text-input" style={{textAlign: "left"}} placeholder={"IRR"}/>
+               </div>*/}
             </div>
         )
       case "three":
         return (
+            <div className="contribution-product-three">
+              <label className="gray-text-input-label">آلبوم تصاویر: </label>
+              <div className={"create-exchange-upload"}>
+                {processing ?
+                    <ClipLoader color="#253545" size={20} loading={true}/>
+                    :
+                    <UploadIcon className={"create-exchange-upload-svg"}/>
+                }
+                <input type="file" onChange={!processing ? (e => this._uploadHandler(e.currentTarget.files[0])) : console.log("Still Uploading")}/>
+              </div>
+            </div>
+        )
+      case "four":
+        return (
+            <div className="contribution-description">
+              <div className="icon-wrapper">
+                <TipsIcon className="tip-icon"/>
+              </div>
+              <div className="contribution-desc-txt">
+                <p>
+                  مرحله ی چهارم
+                </p>
+              </div>
+            </div>
+        )
+      case "five":
+        return (
             <div className="contribution-product-two">
-
               {
                 productFeatures.map((p, k) =>
                     <div className={"product-features-frame-container"} key={k}>
@@ -1047,32 +1093,6 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
               }
             </div>
         )
-      case "four":
-        return (
-            <div className="contribution-description">
-              <div className="icon-wrapper">
-                <TipsIcon className="tip-icon"/>
-              </div>
-              <div className="contribution-desc-txt">
-                <p>
-                  مرحله ی چهارم
-                </p>
-              </div>
-            </div>
-        )
-      case "five":
-        return (
-            <div className="contribution-description">
-              <div className="icon-wrapper">
-                <TipsIcon className="tip-icon"/>
-              </div>
-              <div className="contribution-desc-txt">
-                <p>
-                  مرحله ی پنجم
-                </p>
-              </div>
-            </div>
-        )
       default:
         return (
             <div className="contribution-description">
@@ -1090,9 +1110,9 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     let {currentLevel} = this.state
     return (
         <div className={"contribution-footer"}>
-          <button className={"next-button"} onClick={() => currentLevel === "five" ? this._closeModal() : this.nextLevel()}>
+          <button className={"next-button"} onClick={() => currentLevel === "three" ? this._closeModal() : this.nextLevel()}>
             <div>
-              {currentLevel === "five" ? "ثبت" : "بعدی"}
+              {currentLevel === "three" ? "ثبت" : "بعدی"}
             </div>
           </button>
 
@@ -1112,7 +1132,42 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     this.setState({...this.state, priceType: value})
   }
 
+  _uploadHandler = (fileString: any) => {
+    const reader = new FileReader()
+    if (fileString) {
+      reader.readAsDataURL(fileString)
+      reader.onload = () => {
+        let temp = this.state.selectedImage
+        temp.push(reader.result)
+        this.setState({
+          ...this.state,
+          selectedImage: temp.slice()
+        }, this._createFile)
+      }
+    }
+  }
+  _createFile = () => {
+    const {createFile} = this.props
+    this.setState({...this.state, processing: true})
+    console.log("PROCESS...")
+    createFile({file_string: this.state.selectedImage[this.state.selectedImage.length - 1]})
+  }
+  _imageHandler = (img: ImageType) => {
+    let imgs = this.state.selectedImage
+    let ids = this.state.selectedImageId
+    imgs.push(img.file)
+    ids.push(img.id)
+    this.setState({
+      ...this.state,
+      selectedImage: imgs.slice(),
+      selectedImageId: ids.slice(),
+      processing: false,
+    })
+  }
+
   render() {
+    console.log(this.state.selectedImage)
+    console.log(this.state.selectedImageId)
     const {activeStep, progressSteps, progressStatus, wrapperClassName, newContributionData} = this.state
     const {mainCategory = ""} = newContributionData
     const {currentLevel} = this.state
@@ -1121,11 +1176,11 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
         <div
             // className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}
         >
-           {/*{this.renderProgressBar()}*/}
+          {/*{this.renderProgressBar()}*/}
 
-           {/*{this.renderCurrentLevel()}*/}
+          {/*{this.renderCurrentLevel()}*/}
 
-           {/*{this.renderFooter()}*/}
+          {/*{this.renderFooter()}*/}
 
           <Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>
             <ModalBody className="adding-contribution-wrapper">
@@ -1151,12 +1206,14 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
 }
 
 const mapStateToProps = (state) => {
+  const identity = state.auth.client.identity.content
   const initialFormValues = getFormValues(state, "addingContributionInitialInfoForm")
   const provinceId = initialFormValues.product_related_province ? initialFormValues.product_related_province.value : ""
   const countryId = initialFormValues.product_related_country ? initialFormValues.product_related_country.value : ""
   const citySelectorByProvinceId = makeCitySelectorByProvinceId()
   const provinceSelectorByProvinceId = makeProvinceSelectorByCountryId()
   const categorySelector = makeCategorySelector()
+  const fileSelectorByKeyValue = makeFileSelectorByKeyValue()
 
   // const provinces =
   return {
@@ -1167,6 +1224,8 @@ const mapStateToProps = (state) => {
     hashTags: hashTagsListSelector(state),
     countries: countrySelector(state),
     provinces: provinceSelectorByProvinceId(state, countryId),
+    identity,
+    clientFiles: fileSelectorByKeyValue(state, "identity", identity),
     cities: citySelectorByProvinceId(state, provinceId),
     testToken: state.auth.client.token,
     nowCreatedProductId: nowCreatedProductIdSelector(state),
@@ -1184,7 +1243,9 @@ const mapDispatchToProps = dispatch =>
           _getProvinces: getProvinces,
           _getCities: getCities,
           _changeFormSingleFieldValue: change,
-          _createSkillAction: createSkillAction
+          _createSkillAction: createSkillAction,
+          createFile,
+          getFiles,
         },
         dispatch)
 
