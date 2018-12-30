@@ -6,16 +6,16 @@ import EducationActions from 'src/redux/actions/user/educationActions'
 import FontAwesome from 'react-fontawesome'
 import GetUserActions from 'src/redux/actions/user/getUserActions'
 import InteliInput from '../inputs/InteliInput'
+import makeFileSelectorByKeyValue from 'src/redux/selectors/common/file/selectFilsByKeyValue'
+import updateProfile from 'src/redux/actions/user/updateProfileByProfileIdAction'
 import updateUserByUserIdAction from 'src/redux/actions/user/updateUserByUserIdAction'
 import WorkExperienceActions from 'src/redux/actions/user/workExperienceActions'
 import {Bee} from 'src/images/icons'
 import {bindActionCreators} from 'redux'
+import {ClipLoader} from 'react-spinners'
+import {createFile, getFiles} from 'src/redux/actions/commonActions/fileActions'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {Link} from 'react-router-dom'
-import {createFile, getFiles} from 'src/redux/actions/commonActions/fileActions'
-import makeFileSelectorByKeyValue from 'src/redux/selectors/common/file/selectFilsByKeyValue'
-import updateProfile from '../../../redux/actions/user/updateProfileByProfileIdAction'
-import {ClipLoader} from 'react-spinners'
 
 class BeePanel extends Component {
 
@@ -219,15 +219,15 @@ class BeePanel extends Component {
   }
 
   _handleSelectMaghta = (select) => {
-    this.setState({...this.state, maghta: select})
+    this.setState({...this.state, maghta: select.name})
   }
 
   _handleSelectMajor = (select) => {
-    this.setState({...this.state, major: select})
+    this.setState({...this.state, major: select.name})
   }
 
   _handleSelectCollege = (select) => {
-    this.setState({...this.state, college: select})
+    this.setState({...this.state, college: select.name})
   }
 
   _handleBioChange = (e) => {
@@ -295,7 +295,7 @@ class BeePanel extends Component {
                   <input type='file' className='bee-button-input' onChange={this._handleChooseProfile}/>
                   {
                     this.state.imageLoading ?
-                        <ClipLoader size={10} color='#FFF'/>
+                        <ClipLoader size={12} color='grey'/>
                         :
                         translate['Choose Photo']
                   }
@@ -357,15 +357,15 @@ class BeePanel extends Component {
               </div>
 
               <div className='bee-text-name'>{translate['Grade']}</div>
-              <InteliInput handleChange={this._handleSelectMaghta} list={[translate['Bachelor'], translate['Phd'], translate['Master']]} className='bee-inteli-text-box'/>
+              <InteliInput handleChange={this._handleSelectMaghta} list={[{name: translate['Bachelor'], id: 1}, {name: translate['Phd'], id: 2}, {name: translate['Master'], id: 3}]} className='bee-inteli-text-box'/>
               <div className={this.state.educationSubmitted && this.state.maghta.length === 0 ? 'bee-job-error' : 'bee-job-error-hide'}>{translate['Please Select Grade!']}</div>
 
               <div className='bee-text-name'>{translate['Field of study']}</div>
-              <InteliInput icon={<FontAwesome name='search' className='inteli-search-svg'/>} handleChange={this._handleSelectMajor} list={['نرم افزار']} className='bee-inteli-text-box'/>
+              <InteliInput icon={<FontAwesome name='search' className='inteli-search-svg'/>} handleChange={this._handleSelectMajor} list={[{name: 'نرم افزار', id: 1}]} className='bee-inteli-text-box'/>
               <div className={this.state.educationSubmitted && this.state.major.length === 0 ? 'bee-job-error' : 'bee-job-error-hide'}>{translate['Please Select Major!']}</div>
 
               <div className='bee-text-name'>{translate['University']}</div>
-              <InteliInput icon={<FontAwesome name='search' className='inteli-search-svg'/>} handleChange={this._handleSelectCollege} list={['دانشگاه تهران']} className='bee-inteli-text-box'/>
+              <InteliInput icon={<FontAwesome name='search' className='inteli-search-svg'/>} handleChange={this._handleSelectCollege} list={[{name: 'دانشگاه تهران', id: 1}]} className='bee-inteli-text-box'/>
               <div className={this.state.educationSubmitted && this.state.college.length === 0 ? 'bee-job-error' : 'bee-job-error-hide'}>{translate['Please Select College!']}</div>
 
               <div className='bee-loading'>
