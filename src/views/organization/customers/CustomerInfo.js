@@ -6,17 +6,17 @@ import * as React from "react";
 import {VerifyWrapper} from "../../common/cards/Frames";
 import CustomerInfoView from "./CustomerInfoView";
 import {bindActionCreators} from "redux";
-import FileActions from "src/redux/actions/commonActions/fileActions";
 import {connect} from "react-redux";
+import CustomerActions from "../../../redux/actions/organization/customerActions";
 
 type PropsCustomerInfo = {
-  updateOrgCustomer: Function,
-  deleteOrgCustomer: Function,
-  getFile: Function,
   customer: CustomerType,
   customerPictureLink: ?string,
   organizationId: number,
   translate: { [string]: string },
+  actions:{
+    deleteOrgCustomer: Function
+  }
 }
 type StateCustomerInfo = {
   edit: boolean,
@@ -25,8 +25,6 @@ type StateCustomerInfo = {
 class CustomerInfo extends Component<PropsCustomerInfo, StateCustomerInfo> {
   static propTypes = {
     customer: PropTypes.object.isRequired,
-    updateOrgCustomer: PropTypes.func.isRequired,
-    deleteOrgCustomer: PropTypes.func.isRequired,
     translate: PropTypes.object.isRequired,
     organizationId: PropTypes.number.isRequired,
   }
@@ -53,7 +51,8 @@ class CustomerInfo extends Component<PropsCustomerInfo, StateCustomerInfo> {
   }
 
   _delete = () => {
-    const {deleteOrgCustomer, customer} = this.props
+    const {actions, customer} = this.props
+    const {deleteOrgCustomer} = actions
     const customerId = customer ? customer.id :null
     const organizationId = customer ? customer.customer_organization : null
     customerId && deleteOrgCustomer({customerId, organizationId})
@@ -61,8 +60,7 @@ class CustomerInfo extends Component<PropsCustomerInfo, StateCustomerInfo> {
   }
 
   render() {
-    const {translate, actions, updateOrgCustomer, organizationId, customer, customerPictureLink} = this.props
-    const {getFile} = actions
+    const {translate, organizationId, customer, customerPictureLink} = this.props
     const {edit, confirm} = this.state
     // FixMe: mohammad isLoading and error come from redux
     return (
@@ -72,9 +70,7 @@ class CustomerInfo extends Component<PropsCustomerInfo, StateCustomerInfo> {
             customer={customer}
             customerPictureLink={customerPictureLink}
             hideEdit={this._hideEdit}
-            updateOrgCustomer={updateOrgCustomer}
             deleteOrgCustomer={this._delete}
-            getFile={getFile}
             translate={translate}
             confirm={confirm}
             showConfirm={this._showEditConfirm}
@@ -101,7 +97,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    getFile: FileActions.getFile,
+    deleteOrgCustomer: CustomerActions.deleteOrgCustomer
   }, dispatch)
 })
 

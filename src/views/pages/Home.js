@@ -1,19 +1,19 @@
 // @flow
-import * as React from "react"
-import AddingContribution from "./adding-contribution/addingContribution"
-import ChatBar from "../bars/ChatBar"
-import constants from "src/consts/constants"
-import HomePosts from "./home/HomePosts"
-import HomeSideBar from "./home/HomeSideBar"
-import PropTypes from "prop-types"
-import UserDetailPanel from "../common/components/UserDetailPanel"
-import {Component} from "react"
-import {connect} from "react-redux"
-import {getMessages} from "src/redux/selectors/translateSelector"
-import CloseIcon from "../../images/common/close_icon_svg"
-import {BeeBackground} from "../../images/icons"
-import BeePanel from "../common/components/BeePanel"
-import CreateExchange from "src/views/pages/modal/createExchange/createExchange"
+import * as React from 'react'
+import AddingContribution from './adding-contribution/addingContribution'
+import ChatBar from '../bars/ChatBar'
+import constants from 'src/consts/constants'
+import HomePosts from './home/HomePosts'
+import HomeSideBar from './home/HomeSideBar'
+import PropTypes from 'prop-types'
+import UserDetailPanel from '../common/components/UserDetailPanel'
+import {Component} from 'react'
+import {connect} from 'react-redux'
+import {getMessages} from 'src/redux/selectors/translateSelector'
+import CloseIcon from '../../images/common/close_icon_svg'
+import {BeeBackground} from '../../images/icons'
+import BeePanel from '../common/components/BeePanel'
+import CreateExchange from 'src/views/pages/modal/createExchange/createExchange'
 // import {Helmet} from "react-helmet"
 
 type HomeProps = {|
@@ -55,7 +55,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
           {/*<AddingContribution modalIsOpen={true}*/}
           {/*handleModalVisibility={null}/>*/}
           {/*<CreateExchange modalIsOpen={true}*/}
-                          {/*handleModalVisibility={null}/>*/}
+          {/*handleModalVisibility={null}/>*/}
 
           {/*<TopBar collapseClassName="col-2"/>*/}
 
@@ -81,11 +81,11 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
                                  activeExchangeId={activeExchangeId}
                                  id={id}
                     />
-                ) : ""
+                ) : ''
               }
               <HomePosts exchangeId={activeExchangeId} className="col-6 post-wrapper"/>
               <div className="col-3 pl-0 pr-0 user-detail-wrapper">
-                <BeePanel/>
+                  <BeePanel/>
               </div>
             </div>
             <ChatBar className="pr-0 pl-0 -left-sidebar-wrapper"/>

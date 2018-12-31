@@ -86,6 +86,8 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       selectedAbout: 'FAQ',
       profilePhotoLoaded: false,
     }
+
+    this._handleCloseOutside = this._handleCloseOutside.bind(this)
   }
 
   componentDidMount() {
@@ -106,6 +108,9 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       }
     }
     //
+
+    document.addEventListener('mousedown', this._handleCloseOutside)
+
   }
 
   componentDidUpdate(prevProps) {
@@ -126,6 +131,20 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
           }
         }
       })
+    }
+  }
+
+  componentWillUnmount(): void {
+    document.removeEventListener('mousedown', this._handleCloseOutside)
+  }
+
+  _handleCloseOutside(e) {
+    if (this.state.exploreCollapse && this.exploreRef && !this.exploreRef.contains(e.target)) {
+      this.setState({...this.state, exploreCollapse: false, collapseProfile: false})
+    }
+
+    if (this.state.collapseProfile && this.profileRef && !this.profileRef.contains(e.target)) {
+      this.setState({...this.state, exploreCollapse: false, collapseProfile: false})
     }
   }
 
@@ -226,14 +245,6 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     const linkEditProfile = !clientOrganization
         ? `/user/${clientUser.id}`
         : `/organization/${clientOrganization.id}`
-
-    // added to close all collapse menus when click outside
-    window.onclick = () => {
-      if (!mouseIsOverMenu && (exploreCollapse || collapseProfile)) {
-        this.setState({...this.state, exploreCollapse: false, collapseProfile: false})
-      }
-    }
-    //
     return (
         <div onMouseEnter={this._handleMouseEnter} onMouseLeave={this._handleMouseLeave}>
           <AgentForm
@@ -267,8 +278,8 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                 </React.Fragment>
               }/>
 
-              <div className='explore-menu-wrapper'>
-                <ExploreMenu exploreCollapse={exploreCollapse}/>
+              <div className='explore-menu-wrapper' ref={e => this.exploreRef = e}>
+                <ExploreMenu _toggleExplore={this._toggleExplore} exploreCollapse={exploreCollapse}/>
               </div>
 
 
@@ -294,7 +305,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                                                         onClickFunc={this._toggleProfile}/>}/>
                 }
 
-                <div className={collapseProfile ? 'profile-menu-container' : 'profile-menu-container-hide'}>
+                <div ref={e => this.profileRef = e} className={collapseProfile ? 'profile-menu-container' : 'profile-menu-container-hide'}>
                   <div className='profile-menu-arrow'>
                     ▲
                   </div>
@@ -422,9 +433,11 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
     if (selectedSetting === 'General Settings') {
       return <GeneralSetting hideSetting={this._handleHideSetting}/>
-    } else if (selectedSetting === 'Manage Linked Accounts') {
+    }
+    else if (selectedSetting === 'Manage Linked Accounts') {
       return <LinkedAccounts/>
-    } else if (selectedSetting === 'Privacy') {
+    }
+    else if (selectedSetting === 'Privacy') {
       return <Privacy/>
     }
   }
@@ -434,13 +447,17 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
     if (selectedAbout === 'FAQ') {
       return null
-    } else if (selectedAbout === 'Introduce Badges') {
+    }
+    else if (selectedAbout === 'Introduce Badges') {
       return <IntroduceBadges/>
-    } else if (selectedAbout === 'Terms & Conditions') {
+    }
+    else if (selectedAbout === 'Terms & Conditions') {
       return <UserAgreement/>
-    } else if (selectedAbout === 'About Innowin') {
+    }
+    else if (selectedAbout === 'About Innowin') {
       return <AboutInnowin/>
-    } else if (selectedAbout === 'About Us') {
+    }
+    else if (selectedAbout === 'About Us') {
       return <AboutUs/>
     }
   }

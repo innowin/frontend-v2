@@ -1,12 +1,16 @@
 import initialState from "./initialState"
 import types from "../actions/types/index"
 import slices from './sliceReducers/customer'
+import getCustomerByCustomerId from "./sliceReducers/customer/getCustomerByCustomerId";
 
 const customer = (state = initialState.customer, action) => {
   switch (action.type) {
-    /** -------------------------- get org customers -------------------------> **/
+    /** -------------------------- get org customers by organization id-------------------------> **/
     case types.SUCCESS.ORG.GET_CUSTOMERS_BY_ORGANIZATION_ID:
       return slices.getCustomersByOrganizationId.success(state, action)
+    /** -------------------------- get customer by customer id-------------------------> **/
+    case types.SUCCESS.ORG.GET_CUSTOMER_BY_CUSTOMER_ID:
+      return slices.getCustomerByCustomerId.success(state, action)
     /** -------------------------- create customer -------------------------> **/
     case types.SUCCESS.ORG.CREATE_CUSTOMER:
       return slices.createCustomer.success(state, action)

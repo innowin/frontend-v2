@@ -10,8 +10,8 @@ export function* createOrgCustomer(action) {
   try {
     yield fork(api.post, urls.ORG.CUSTOMER, results.ORG.CREATE_CUSTOMER, formValues)
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.ORG.CREATE_CUSTOMER ,
-      payload:{data, organizationId}})
+    yield put({type: types.SUCCESS.ORG.CREATE_CUSTOMER, payload: {data, organizationId}})
+    yield put({type: types.ORG.GET_CUSTOMER_BY_CUSTOMER_ID, payload: {customerId: data.id}})
   } catch (error) {
     const {message} = error
     yield put({

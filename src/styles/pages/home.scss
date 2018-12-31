@@ -295,6 +295,10 @@ $heightOfContentBox: 140px;
   top: 50%;
   transform: translate(50%, -50%);
   animation: bee ease 2s infinite;
+
+  //&:hover {
+  //  animation: bee ease 1s infinite;
+  //}
 }
 
 
@@ -315,36 +319,94 @@ $heightOfContentBox: 140px;
 }
 
 .bee-button-cancel {
+  padding: 2px;
+  font-size: 10px;
+  height: 25px;
+  width: 76px;
+  border: 1.5px solid $register-part-in-icon-color;
+  border-radius: 30px;
+  cursor: pointer;
+  margin-bottom: 7px;
+  transition-duration: 0.3s;
+  text-decoration: none;
+  margin-left: 10px;
+  background-color: $background-color;
+  color: $register-part-in-icon-color;
+
+  &:hover{
+    color: $background-color;
+    background-color: $register-part-in-icon-color;
+    transition-duration: 0.3s;
+    font-weight: bold;
+  }
+
+}
+
+.bee-button-loading {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
   border: none;
   border-radius: 3px;
   font-size: 11px;
-  padding: 2px 0;
+  height: 20px;
   width: 65px;
-  margin-left: 10px;
-  background-color: $register-part-icon-color;
-  color: $register-part-in-icon-color;
+  overflow: hidden;
+  background-color: $bee-color;
   cursor: pointer;
   transition-duration: 0.3s;
 }
 
 .bee-button-choose {
-  border: none;
-  border-radius: 3px;
-  font-size: 11px;
-  padding: 2px 0;
-  width: 65px;
-  background-color: $warning-color;
-  color: #FFF;
+  padding: 2px;
+  font-size: 10px;
+  height: 25px;
+  width: 76px;
+  border: 1.5px solid $bee-color;
+  border-radius: 30px;
   cursor: pointer;
+  color: #FFF;
+  //margin-bottom: 15px;
   transition-duration: 0.3s;
+  text-decoration: none;
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $bee-color;
+
+  &:hover{
+    font-weight: bold;
+    background-color: #FFF;
+    color: $bee-color;
+    transition-duration: 0.3s;
+    cursor: pointer;
+  }
 
   &:active {
-    background-color: #FFD63D;
+    background-color: #cf9d35;
     transition-duration: 0.3s;
   }
 }
 
+.bee-button-input {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+}
+
+
 .bee-text-name {
+  text-align: right;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.bee-text-last-name {
+  margin-top: 15px;
   text-align: right;
   font-size: 12px;
   font-weight: bold;
@@ -357,7 +419,7 @@ $heightOfContentBox: 140px;
   width: 100%;
   font-size: 12px;
   padding: 5px;
-  margin: 10px 0;
+  margin-top: 10px;
   transition-duration: 0.3s;
 
   &:focus {
@@ -386,7 +448,7 @@ $heightOfContentBox: 140px;
 .bee-loading-fill {
   height: 5px;
   border-radius: 3px;
-  background-color: $warning-color;
+  background-color: $bee-color;
   transition-duration: 0.3s;
 }
 
@@ -405,7 +467,7 @@ $heightOfContentBox: 140px;
   width: 100%;
   font-size: 12px;
   padding: 5px;
-  margin: 10px 0 18px 0;
+  margin-top: 10px;
   transition-duration: 0.3s;
 
   &:focus {
@@ -422,7 +484,7 @@ $heightOfContentBox: 140px;
   text-align: right;
   width: 100%;
   font-size: 12px;
-  margin: 10px 0 18px 0;
+  margin-top: 10px;
   transition-duration: 0.3s;
   padding: 8px 8px 0 8px;
 
@@ -438,32 +500,98 @@ $heightOfContentBox: 140px;
   text-align: center;
   direction: ltr;
   margin-bottom: 15px;
-  color: $warning-color;
+  color: $bee-color;
   font-weight: bold;
   font-size: 16px;
 }
 
 .bee-button-submit-cont {
   text-align: center;
+  margin-bottom: 13px;
+  text-decoration: none;
+  color: #FFF;
+}
+
+
+.create-exchange-success-button {
+  margin-left: 15px;
+
+  background-color: $primary-color;
+  color: white;
+
+
+
+  &:hover {
+    border: 1.5px solid $primary-color;
+    background-color: white;
+    color: $primary-color;
+    transition-duration: $animation-timing;
+  }
 }
 
 .bee-button-submit {
-  border: none;
-  border-radius: 3px;
   font-size: 11px;
-  padding: 2px 5px;
+  height: 27px;
+  width: 76px;
+  padding: 3px 10px;
+  border: 1.5px solid $tag-del-btn-background;
+  border-radius: 30px;
+  cursor: pointer;
   background-color: $tag-del-btn-background;
   color: #FFF;
-  cursor: pointer;
-  width: 100px;
-  margin-bottom: 15px;
   transition-duration: 0.3s;
   text-decoration: none;
 
   &:hover {
     transition-duration: 0.3s;
-    color: #e9e9e9;
+    color: $tag-del-btn-background;
+    background-color: #FFF;
+    text-decoration: none;
   }
+}
+
+.bee-bio-error {
+  font-size: 11px;
+  height: 18px;
+  overflow: hidden;
+  color: $error-color;
+  opacity: 1;
+  transition-duration: 0.3s;
+  margin-bottom: 10px;
+}
+
+
+.bee-bio-error-hide {
+  font-size: 11px;
+  height: 0;
+  overflow: hidden;
+  color: $error-color;
+  opacity: 0;
+  transition-duration: 0.3s;
+  margin-bottom: 10px;
+}
+
+
+.bee-job-error {
+  font-size: 11px;
+  height: 18px;
+  overflow: hidden;
+  color: $error-color;
+  opacity: 1;
+  transition-duration: 0.3s;
+  margin-top: 5px;
+  margin-bottom: 18px;
+}
+
+
+.bee-job-error-hide {
+  font-size: 11px;
+  height: 0;
+  overflow: hidden;
+  color: $error-color;
+  opacity: 0;
+  transition-duration: 0.3s;
+  margin-bottom: 18px;
 }
 
 @media screen and (max-width: 900px) {
@@ -473,7 +601,7 @@ $heightOfContentBox: 140px;
   }
 }
 
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 830px) {
   .bee-background {
     width: 120px;
     transition-duration: 0.3s;
