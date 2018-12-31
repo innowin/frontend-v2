@@ -241,7 +241,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
 
     if (catLvlOne.length < 1) {
       let catsArray = Object.values(this.props.categories.list).filter(p => p.category_parent === null)
-      this.setState({...this.state, catLvlOne: catsArray.slice()})
+      // this.setState({...this.state, catLvlOne: catsArray.slice()})
     }
     const lastFile = clientFiles[clientFiles.length - 1] || {}
     const prevLastFile = prevProps.clientFiles[prevProps.clientFiles.length - 1] || {}
@@ -256,13 +256,13 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       const properties = (technicalProperties && technicalProperties.slice()) || []
       const firstIndex = properties.length || 0
       for (let i = firstIndex; i < 9; i++) properties.push({id: i})
-      this.setState({
-        ...this.state,
-        newContributionData: {
-          ...this.state.newContributionData,
-          technicalProperties: properties
-        }
-      })
+      // this.setState({
+      //   ...this.state,
+      //   newContributionData: {
+      //     ...this.state.newContributionData,
+      //     technicalProperties: properties
+      //   }
+      // })
     }
     if ((!prevProps.nowCreatedProductId && nowCreatedProductId)
         ||
