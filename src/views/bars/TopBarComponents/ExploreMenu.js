@@ -6,8 +6,10 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 
 const ExploreMenu = (props) => {
-  const {exploreCollapse} = props
-  const _toggle = () => props._toggleExplore()
+  const {exploreCollapse, _toggleExplore} = props
+  const _toggle = () => {
+    _toggleExplore(true)
+  }
   return (
       <div>
         <div className={exploreCollapse ? 'explore-menu-container' : 'explore-menu-container-hide'}>
