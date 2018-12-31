@@ -173,8 +173,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
         collapseProfile: false,
         currentPage: constants.TOP_BAR_PAGES.EXPLORE
       })
-    }
-    else {
+    } else {
       this.setState({
         ...this.state,
         exploreCollapse: !this.state.exploreCollapse,
@@ -261,7 +260,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
   _handleCloseProfile = () => {
     setTimeout(() =>
-            this.setState({...this.state, collapseProfile: false})
+            this.setState({...this.state, collapseProfile: false, currentPage: constants.TOP_BAR_PAGES.PROFILE})
         , 350)
   }
 
