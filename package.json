@@ -1,6 +1,6 @@
 {
-  "name": "danesh-boom-frontend",
-  "version": "0.1.0",
+  "name": "innowin-front-end",
+  "version": "0.1.3-LTS",
   "private": true,
   "dependencies": {
     "autoprefixer": "7.1.6",
@@ -32,7 +32,6 @@
     "fs-extra": "3.0.1",
     "history": "^4.7.2",
     "html-webpack-plugin": "2.29.0",
-    "jest": "20.0.4",
     "moment": "^2.12.1",
     "moment-jalali": "^0.3.9",
     "moment-timezone": "^0.5.14",
@@ -82,10 +81,13 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "start": "yarn dev",
-    "dev": "node scripts/start.js",
+    "start:lts": "PORT=3001 node scripts/start.js",
+    "start:dev": "PORT=3000 node scripts/start.js",
+    "start": "yarn postinstall && yarn dev",
+    "dev": "HTTPS=true node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom"
+    "test": "node scripts/test.js  --env=jsdom",
+    "postinstall": "sh $(pwd)/$(dirname \"./dev-certificate/server.pem\")/linker.sh"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -132,7 +134,11 @@
   "devDependencies": {
     "flow-bin": "0.59.0",
     "i18n-webpack-plugin": "^1.0.0",
+    "jest": "^23.6.0",
     "node-sass": "^4.7.2",
+    "prettier": "^1.15.3",
+    "react-test-renderer": "^16.7.0",
+    "redux-mock-store": "^1.5.3",
     "sass-loader": "^6.0.6"
   }
 }
