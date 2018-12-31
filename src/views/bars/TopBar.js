@@ -19,12 +19,21 @@ import UserAgreement from './TopBarComponents/UserAgreement'
 import {bindActionCreators} from 'redux'
 import {Component} from 'react'
 import {connect} from 'react-redux'
-import {DefaultUserIcon, NotificationIcon, InnoWinLogo, ExchangeExploreIcon} from 'src/images/icons'
+import {
+  DefaultUserIcon,
+  NotificationIcon,
+  InnoWinLogo,
+  ExchangeExploreIcon,
+  HomeSvg,
+  HomeSvgSelected,
+  ExchangeExploreIconSelected
+} from 'src/images/icons'
 import {Link} from 'react-router-dom'
 import {routerActions} from 'react-router-redux'
 import {SearchIcon} from '../../images/icons'
 import {shortOrganizationType} from 'src/consts/flowTypes/organization/organization'
 import {userProfileType, userType} from 'src/consts/flowTypes/user/basicInformation'
+import constants from "../../consts/constants";
 
 type PropsTopBar = {|
   collapseClassName: string,
@@ -56,6 +65,7 @@ type StatesTopBar = {|
   showAbout: boolean,
   selectedAbout: string,
   profilePhotoLoaded: boolean,
+  currentPage: string,
 |}
 
 class TopBar extends Component<PropsTopBar, StatesTopBar> {
@@ -85,6 +95,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       showAbout: false,
       selectedAbout: 'FAQ',
       profilePhotoLoaded: false,
+      currentPage: constants.TOP_BAR_PAGES.HOME,
     }
 
     this._handleCloseOutside = this._handleCloseOutside.bind(this)
@@ -154,8 +165,22 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   //   this.setState({...this.state, collapse: !this.state.collapse, exploreCollapse: false})
   // }
 
-  _toggleExplore = () => {
-    this.setState({...this.state, exploreCollapse: !this.state.exploreCollapse, collapseProfile: false})
+  _toggleExplore = (changePage) => {
+    if (changePage === true) {
+      this.setState({
+        ...this.state,
+        exploreCollapse: !this.state.exploreCollapse,
+        collapseProfile: false,
+        currentPage: constants.TOP_BAR_PAGES.EXPLORE
+      })
+    }
+    else {
+      this.setState({
+        ...this.state,
+        exploreCollapse: !this.state.exploreCollapse,
+        collapseProfile: false,
+      })
+    }
   }
 
   _toggleProfile = () => {
@@ -208,13 +233,23 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   }
 
   _handleHideSetting = () => {
-    this.setState({...this.state, showSetting: false, showAbout: false, productWizardModalIsOpen: false, createExchangeModalIsOpen: false})
+    this.setState({
+      ...this.state,
+      showSetting: false,
+      showAbout: false,
+      productWizardModalIsOpen: false,
+      createExchangeModalIsOpen: false
+    })
     setTimeout(() => {
       this.setState({...this.state, selectedSetting: 'Privacy', selectedAbout: 'FAQ'})
       setTimeout(() => {
         this.setState({...this.state, selectedSetting: 'General Settings'})
       }, 10)
     }, 500)
+  }
+
+  _homeClick = () => {
+    this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.HOME})
   }
 
   _handleShowAbout = () => {
@@ -259,21 +294,25 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
           <nav className="navbar flex-row justify-content-between p-0 -white-i topBar">
             <div className="d-flex align-items-center">
-              <Link to={'/'}>
+              <Link to={'/'} onClick={this._homeClick}>
                 <Material backgroundColor='rgba(238, 238, 238,0.8)' className='top-bar-home' content={
                   <React.Fragment>
-                    <i className="fa fa-home top-bar-home-logo" aria-hidden={true}/>
+                    {this.state.currentPage === constants.TOP_BAR_PAGES.HOME
+                        ? <HomeSvgSelected className='home-icon'/>
+                        : <HomeSvg className='home-icon'/>
+                    }
                     <p className='top-bar-title'>{topBarTranslate['Home page']}</p>
                   </React.Fragment>
                 }/>
               </Link>
 
-              <Material backgroundColor='rgba(238, 238, 238,0.8)' className="top-bar-explore"
+              <Material backgroundColor='rgba(238, 238, 238,0.8)' className="top-bar-explore -topBarIcons-cont"
                         onClick={this._toggleExplore} content={
                 <React.Fragment>
-                  <div className="-topBarIcons-cont">
-                    <ExchangeExploreIcon className='-topBarIcons'/>
-                  </div>
+                  {this.state.currentPage === constants.TOP_BAR_PAGES.EXPLORE
+                      ? <ExchangeExploreIconSelected className='-topBarIcons'/>
+                      : <ExchangeExploreIcon className='-topBarIcons'/>
+                  }
                   <p className='top-bar-title'>{topBarTranslate['Explore']}</p>
                 </React.Fragment>
               }/>
@@ -305,7 +344,8 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                                                         onClickFunc={this._toggleProfile}/>}/>
                 }
 
-                <div ref={e => this.profileRef = e} className={collapseProfile ? 'profile-menu-container' : 'profile-menu-container-hide'}>
+                <div ref={e => this.profileRef = e}
+                     className={collapseProfile ? 'profile-menu-container' : 'profile-menu-container-hide'}>
                   <div className='profile-menu-arrow'>
                     ▲
                   </div>
@@ -433,11 +473,9 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
     if (selectedSetting === 'General Settings') {
       return <GeneralSetting hideSetting={this._handleHideSetting}/>
-    }
-    else if (selectedSetting === 'Manage Linked Accounts') {
+    } else if (selectedSetting === 'Manage Linked Accounts') {
       return <LinkedAccounts/>
-    }
-    else if (selectedSetting === 'Privacy') {
+    } else if (selectedSetting === 'Privacy') {
       return <Privacy/>
     }
   }
@@ -447,17 +485,13 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
     if (selectedAbout === 'FAQ') {
       return null
-    }
-    else if (selectedAbout === 'Introduce Badges') {
+    } else if (selectedAbout === 'Introduce Badges') {
       return <IntroduceBadges/>
-    }
-    else if (selectedAbout === 'Terms & Conditions') {
+    } else if (selectedAbout === 'Terms & Conditions') {
       return <UserAgreement/>
-    }
-    else if (selectedAbout === 'About Innowin') {
+    } else if (selectedAbout === 'About Innowin') {
       return <AboutInnowin/>
-    }
-    else if (selectedAbout === 'About Us') {
+    } else if (selectedAbout === 'About Us') {
       return <AboutUs/>
     }
   }

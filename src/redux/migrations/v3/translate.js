@@ -5,7 +5,7 @@ export default state => ({
     topBar: {
       ...state.messages.topBar,
       'Home page': 'صفحه اصلی',
-      'Explore': 'اکسپلور',
+      'Explore': 'بگرد',
     },
     "Create New Exchange": "ایجاد پنجرۀ جدید",
     "Exchange Name": "نام پنجره",

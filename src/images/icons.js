@@ -27,9 +27,12 @@ import EditIcon from './common/edit.svg'
 import EducationIcon from './user/education_svg'
 import EmojiSvg from './common/emoji'
 import ExchangeExploreIcon from './common/exchange_explore_svg'
+import ExchangeExploreIconSelected from './common/exchange_explore_svg_selected'
 import ExchangeIcon from './common/exchange_svg'
 import ForwardIcon from './common/forward_svg'
 import GmailSvg from './common/gmail_svg'
+import HomeSvg from './common/home_svg'
+import HomeSvgSelected from './common/home_svg_selected'
 import ImageUploadSvg from './common/image_upload_svg'
 import Info from './common/info_svg'
 import InformationIcon from './common/information_svg'
@@ -118,9 +121,12 @@ export {
   EducationIcon,
   EmojiSvg,
   ExchangeExploreIcon,
+  ExchangeExploreIconSelected,
   ExchangeIcon,
   ForwardIcon,
   GmailSvg,
+  HomeSvg,
+  HomeSvgSelected,
   ImageUploadSvg,
   Info,
   InformationIcon,
