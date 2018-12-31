@@ -1,5 +1,5 @@
 const success = (state, action) => {
-  const {data, search, loading} = action.payload
+  const {data, search, isLoading} = action.payload
   let allExchanges = {}
   data.forEach(exchange => {
     // commented for unFollow exchange bug ; better to change in future
@@ -28,7 +28,7 @@ const success = (state, action) => {
       ...allExchanges,
     },
     searchByWord: search,
-    loading: loading
+    isLoading: isLoading
   }
 }
 

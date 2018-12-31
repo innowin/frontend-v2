@@ -1,13 +1,14 @@
 // @flow
 import * as React from 'react'
 import Avatar from '../../common/image/avatar'
-import VisibleOnLoadImage from '../../common/image/visibleOnLoadImage'
-import {Tag} from '../../common/tags/tag'
-import type {TagType} from '../../common/tags/tag'
-import {ChartIcon} from 'src/images/icons'
-import {Modal, ModalBody} from 'reactstrap'
+import FontAwesome from 'react-fontawesome'
 import ImageGallery from 'react-image-gallery'
-import FontAwesome from "react-fontawesome"
+import type {TagType} from '../../common/tags/tag'
+import VisibleOnLoadImage from '../../common/image/visibleOnLoadImage'
+import {ChartIcon} from 'src/images/icons'
+import {ClipLoader} from 'react-spinners'
+import {Modal, ModalBody} from 'reactstrap'
+import {Tag} from '../../common/tags/tag'
 
 
 type BorderedPaddedWrapperProps = {
@@ -28,14 +29,43 @@ type OwnerType = {
 }
 
 
-export const Owner = (props: OwnerType) => {
-  const {ownerName, ownerImg} = props
-  return (
-      <BorderedPaddedWrapper className='owner'>
-        <Avatar raised className="owner-avatar" size="medium" img={ownerImg} name={ownerName}/>
-        ‍<span>{ownerName}</span>
-      </BorderedPaddedWrapper>
-  )
+export class Owner extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      imageLoaded: null
+    }
+  }
+
+  componentDidMount(): void {
+    const {ownerImg} = this.props
+    let img = new Image()
+    img.src = ownerImg
+    img.onload = () => {
+      this.setState({...this.state, imageLoaded: true})
+    }
+    img.onerror = () => {
+      this.setState({...this.state, imageLoaded: false})
+    }
+  }
+
+  render() {
+    const {ownerName, ownerImg} = this.props
+    return (
+        <BorderedPaddedWrapper className='owner'>
+          {
+            this.state.imageLoaded === null ?
+                <div style={{padding: '10px 8px 0 8px'}}><ClipLoader color={'#cbcbcb'} size={30}/></div>
+                :
+                this.state.imageLoaded ?
+                    <Avatar raised className="owner-avatar" size="medium" img={ownerImg} name={ownerName}/>
+                    :
+                    null
+          }
+          ‍<span>{ownerName}</span>
+        </BorderedPaddedWrapper>
+    )
+  }
 }
 
 export type BadgeType = {
@@ -121,24 +151,50 @@ type GalleryProps = {
   galleryModalDisplayHandler: Function
 }
 
-export const Gallery = (props: GalleryProps) => {
-  const {images, mainImage, galleryModalDisplayHandler} = props
+export class Gallery extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      mainLoaded: null
+    }
+  }
 
-  return (
-      <div className="gallery-wrapper" style={mainImage ? {paddingBottom: '12px'} : {height: '0'}}>
-        {
-          mainImage && <VisibleOnLoadImage img={mainImage} className="main-image"/>
-        }
-        <div className="items-wrapper">
-          {images.map((img, index) =>
-              <div id={index} key={index} className="gallery-item">
-                <VisibleOnLoadImage className="gallery-image" img={img.fileUrl}/>
-              </div>
-          )}
-          {!(images.length === 0 && !mainImage) && <div onClick={galleryModalDisplayHandler} className="gallery-item more-btn">بیشتر</div>}
-        </div>
-      </div>
-  )
+  componentDidMount(): void {
+    const {mainImage} = this.props
+    let main = new Image()
+    main.src = mainImage
+    main.onload = () => {
+      this.setState({...this.state, mainLoaded: true})
+    }
+    main.onerror = () => {
+      this.setState({...this.state, mainLoaded: false})
+    }
+  }
+
+  render() {
+    const {images, mainImage, galleryModalDisplayHandler} = this.props
+    const {mainLoaded} = this.state
+    if (mainImage && mainLoaded)
+      return (
+          <div className="gallery-wrapper" style={{paddingBottom: '12px'}}>
+            {
+              mainImage && mainLoaded && <VisibleOnLoadImage img={mainImage} className="main-image"/>
+            }
+            <div className="items-wrapper">
+              {images.map((img, index) =>
+                  <div id={index} key={index} className="gallery-item" onClick={galleryModalDisplayHandler}>
+                    <VisibleOnLoadImage className="gallery-image" img={img.fileUrl}/>
+                  </div>
+              )}
+              {!(images.length === 0 && !mainImage) && <div onClick={galleryModalDisplayHandler} className="gallery-item more-btn">بیشتر</div>}
+            </div>
+          </div>
+      )
+    if (mainImage && mainLoaded === null)
+      return <div className="gallery-wrapper" style={{paddingBottom: '12px'}}><ClipLoader color={'#cbcbcb'} size={60}/></div>
+    if (!mainImage || mainLoaded === false)
+      return null
+  }
 }
 
 type GalleryImageType = {

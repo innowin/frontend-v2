@@ -1,12 +1,17 @@
 // @flow
 import * as React from 'react'
-import {DefaultUserIcon} from "src/images/icons"
+import {DefaultUserIcon} from 'src/images/icons'
+import ChannelIcon from '../../../images/common/channel_svg'
+import {REST_URL} from '../../../consts/URLS'
+import {Link} from 'react-router-dom'
 
 const Exchange_Skeleton = () => {
   return (
       <div className='exchange-model'>
 
-        <DefaultUserIcon className='exchange-model-avatar-default'/>
+        <div className='exchange-model-avatar'>
+          <ChannelIcon className='exchange-model-avatar-default'/>
+        </div>
 
         <div className='skeleton-overflow-hidden'>
           <div id="line"/>
@@ -26,7 +31,9 @@ const Exchange_Skeleton = () => {
           </div>
         </div>
 
-        <button className='exchange-followed-skeleton'><span> </span><div id="line"/></button>
+        <button className='exchange-followed-skeleton'><span> </span>
+          <div id="line"/>
+        </button>
 
       </div>
   )

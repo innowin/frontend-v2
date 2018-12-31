@@ -10,11 +10,13 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-color: red;
+  scrollbar-color: $primary-color $background-color ;
 }
 
 html {
   height: 100%;
   font-family: "IRANSansWebFaNum", "Helvetica Neue", sans-serif !important;
+  scrollbar-color: $primary-color $background-color ;
 }
 
 input, textarea, button, select {
@@ -101,6 +103,8 @@ input, textarea, button, select {
 @import "product/basic-information/basic-info";
 @import "product/product-explorer";
 @import "product/product-view";
+
+@import "fallbackStyles/index";
 
 a, a:hover, a:active {
   text-decoration: none;
@@ -193,25 +197,22 @@ button {
 
 ::-webkit-scrollbar {
   width: $scroll-bar-width;
+  border-radius: $border-radius-size;
+  box-shadow: none;
 }
 
 ::-webkit-scrollbar-track {
   background-color: $background-color;
+  border-radius: $border-radius-size;
+  box-shadow: none;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: $primary-color;
-  //border-radius: 10px;
-  transition: all .3s ease-out;
-  box-shadow: inset 1px 0 5px -1px $primary-color;
+  border-radius: $border-radius-size;
+  background: $scroll-color;
+  box-shadow: none;
 
   &:hover{
-    background: $primary-color-light2;
-    box-shadow: inset 1px 0 5px -1px $primary-color;
-    transition: all .3s ease-out;
+    background: $scroll-color-hover;
   }
-}
-
-body, html{
-  scrollbar-color: $primary-color $background-color ;
 }

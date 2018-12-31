@@ -18,5 +18,5 @@ export default {
      */
   },
   searchByWord: null,
-  loading: true
+  isLoading: true
 }

@@ -1,4 +1,4 @@
-$topBarHeight: 54px;
+$topBarHeight: 70px;
 
 // Heights & Widths
 $sidebar-width: 340px;
@@ -25,6 +25,8 @@ $modal-transition-time: 0.3s;
 
 //Color Variables
 $image-background-color: #F1F4F9; // in-use
+$full-bg-color: #f8f9fc;
+$full-bg-color-rgb: rgb(248, 249, 252);
 $image-background-color-gradient: linear-gradient(to bottom right, #F1F4F9, #FBFBFB);
 $base-posts: #ffffff;
 $background-color: #fbfbfb;
@@ -48,6 +50,7 @@ $danger-color: #dd5145;
 $success-color: #4dab9f;
 $disable-color: #959595;
 $warning-color: #eaae3d;
+$bee-color: #FFC241;
 $info-color: #0084bf;
 $image-edit-btn-background: rgba(0, 0, 0, 0.3);
 $text-lightest-color: #fff;

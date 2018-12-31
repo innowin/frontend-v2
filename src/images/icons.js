@@ -4,6 +4,7 @@ import AttachFileNewIcon from './common/attachFileNew_svg'
 import BookmarkIcon from './product/bookmark'
 import CertificateIcon from './user/certificate_svg'
 import CertificateTick from './common/certificate_tick_svg'
+import ChannelIcon from './common/channel_svg'
 import ChartIcon from './product/chart'
 import CircularAddIcon from './common/circularAdd_svg'
 import CircularTickSvg from './common/circularTick'
@@ -26,9 +27,12 @@ import EditIcon from './common/edit.svg'
 import EducationIcon from './user/education_svg'
 import EmojiSvg from './common/emoji'
 import ExchangeExploreIcon from './common/exchange_explore_svg'
+import ExchangeExploreIconSelected from './common/exchange_explore_svg_selected'
 import ExchangeIcon from './common/exchange_svg'
 import ForwardIcon from './common/forward_svg'
 import GmailSvg from './common/gmail_svg'
+import HomeSvg from './common/home_svg'
+import HomeSvgSelected from './common/home_svg_selected'
 import ImageUploadSvg from './common/image_upload_svg'
 import Info from './common/info_svg'
 import InformationIcon from './common/information_svg'
@@ -48,6 +52,7 @@ import NoFilterIcon from './common/noFilter_svg'
 import NotificationIcon from './common/notification_svg'
 import MoreOptionSvg from './common/more-option-svg'
 import OffersSvg from './common/offers_svg'
+import UploadIcon from './common/upload_svg'
 import OnePersonSvg from './common/one_person_svg'
 import PayIcon from './addingConribution/pay_icon_svg'
 import postIcon from './user/post_svg'
@@ -88,9 +93,12 @@ export {
   AgentSvgIcon,
   AttachFileIcon,
   AttachFileNewIcon,
+  Bee,
+  BeeBackground,
   BookmarkIcon,
   CertificateIcon,
   CertificateTick,
+  ChannelIcon,
   ChartIcon,
   CircularAddIcon,
   CircularTickSvg,
@@ -113,9 +121,12 @@ export {
   EducationIcon,
   EmojiSvg,
   ExchangeExploreIcon,
+  ExchangeExploreIconSelected,
   ExchangeIcon,
   ForwardIcon,
   GmailSvg,
+  HomeSvg,
+  HomeSvgSelected,
   ImageUploadSvg,
   Info,
   InformationIcon,
@@ -164,10 +175,9 @@ export {
   Ticket,
   TickSvgIcon,
   TipsIcon,
+  UploadIcon,
   userInfoIcon,
+  WarningIcon,
   workExperienceIcon,
   YoutubeIcon,
-  BeeBackground,
-  Bee,
-  WarningIcon,
 }

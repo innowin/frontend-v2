@@ -5,10 +5,10 @@ import Distribute from 'src/images/common/supply_svg'
 import exchangeActions from 'src/redux/actions/commonActions/exchangeMembershipActions'
 import Material from '../../common/components/Material'
 import {bindActionCreators} from 'redux'
+import {ChannelIcon} from '../../../images/icons'
 import {ClipLoader} from 'react-spinners'
 import {Component} from 'react'
 import {connect} from 'react-redux'
-import {DefaultUserIcon} from 'src/images/icons'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {Link} from 'react-router-dom'
 import {REST_URL} from 'src/consts/URLS'
@@ -97,46 +97,56 @@ class Exchange extends Component <appProps, appState> {
     // )
     return (
         <div className='exchange-model'>
-          <Link to={`/exchange/${data.id}`} style={{textDecoration: 'none', color: 'black'}}>
+          <div style={{position: 'absolute', zIndex: '2', width: '90%'}}>
+            <Link to={`/exchange/${data.id}`} style={{textDecoration: 'none', color: 'black'}}>
+              <div className='exchange-model-avatar'>
+                {
+                  (data.exchange_image && this.state.imageLoaded) ?
+                      <img src={data.exchange_image.file.includes('innowin.ir') ?
+                          data.exchange_image.file : REST_URL + data.exchange_image.file} alt={data.name}
+                           className='exchange-model-avatar-img'/>
+                      :
+                      <ChannelIcon className='exchange-model-avatar-default'/>
+                }
+              </div>
+              <div className='exchange-model-title'>
+                {data.name}
+              </div>
+              <div className='exchange-model-description'>
+                {data.description}
+              </div>
+
+              {/*{images}*/}
+              {/*<div className='exchange-model-followers-count'>{data.members_count}</div>*/}
+
+              <div className='exchange-model-detail'>
+                <Demand width='30px' className='exchange-model-detail-demand-logo'/>
+                <div className='exchange-model-detail-demand-title'>{translate['Type demand']}</div>
+                <span> </span>
+                <div className='exchange-model-detail-demand-title'>{data.demand}</div>
+              </div>
+              <div className='exchange-model-detail'>
+                <Distribute width='20px' className='exchange-model-detail-dist-logo'/>
+                <div className='exchange-model-detail-dist-title'>{translate['Type supply']}</div>
+                <span> </span>
+                <div className='exchange-model-detail-dist-title'>{data.supply}</div>
+              </div>
+
+              {/*{*/}
+              {/*this.renderJoint()*/}
+              {/*}*/}
+
+            </Link>
             {
-              (data.exchange_image && this.state.imageLoaded) ?
-                  <img src={data.exchange_image.file.includes('innowin.ir') ? data.exchange_image.file : REST_URL + data.exchange_image.file} alt={data.name} className='exchange-model-avatar'/>
-                  :
-                  <DefaultUserIcon className='exchange-model-avatar-default'/>
+              this._renderFollowButton()
             }
-            <div className='exchange-model-title'>
-              {data.name}
-            </div>
-            <div className='exchange-model-description'>
-              {data.description}
-            </div>
-
-            {/*{images}*/}
-            {/*<div className='exchange-model-followers-count'>{data.members_count}</div>*/}
-
-            <div className='exchange-model-detail'>
-              <Demand width='30px' className='exchange-model-detail-demand-logo'/>
-              <div className='exchange-model-detail-demand-title'>{translate['Type demand']}</div>
-              <span> </span>
-              <div className='exchange-model-detail-demand-title'>{data.demand}</div>
-            </div>
-            <div className='exchange-model-detail'>
-              <Distribute width='20px' className='exchange-model-detail-dist-logo'/>
-              <div className='exchange-model-detail-dist-title'>{translate['Type supply']}</div>
-              <span> </span>
-              <div className='exchange-model-detail-dist-title'>{data.supply}</div>
-            </div>
-
-            {/*{*/}
-            {/*this.renderJoint()*/}
-            {/*}*/}
-
-          </Link>
-
-          {
-            this._renderFollowButton()
-          }
-
+            {/*<div className={"exchange-model-detail-filter"}/>*/}
+          </div>
+          {/*{ // IMAGE BLUR ON BACK*/}
+          {/*(data.exchange_image && this.state.imageLoaded) ?*/}
+          {/*<img src={data.exchange_image.file.includes("innowin.ir") ?*/}
+          {/*data.exchange_image.file : REST_URL + data.exchange_image.file} alt={data.name} className='exchange-model-avatar-back'/> : null*/}
+          {/*}*/}
         </div>
     )
   }

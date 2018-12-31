@@ -13,6 +13,7 @@ import {getMessages} from 'src/redux/selectors/translateSelector'
 import CloseIcon from '../../images/common/close_icon_svg'
 import {BeeBackground} from '../../images/icons'
 import BeePanel from '../common/components/BeePanel'
+import CreateExchange from 'src/views/pages/modal/createExchange/createExchange'
 // import {Helmet} from "react-helmet"
 
 type HomeProps = {|
@@ -53,6 +54,8 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
           {/*TODO:Abel delete modal */}
           {/*<AddingContribution modalIsOpen={true}*/}
           {/*handleModalVisibility={null}/>*/}
+          {/*<CreateExchange modalIsOpen={true}*/}
+          {/*handleModalVisibility={null}/>*/}
 
           {/*<TopBar collapseClassName="col-2"/>*/}
 
@@ -82,7 +85,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
               }
               <HomePosts exchangeId={activeExchangeId} className="col-6 post-wrapper"/>
               <div className="col-3 pl-0 pr-0 user-detail-wrapper">
-                <BeePanel/>
+                  <BeePanel/>
               </div>
             </div>
             <ChatBar className="pr-0 pl-0 -left-sidebar-wrapper"/>

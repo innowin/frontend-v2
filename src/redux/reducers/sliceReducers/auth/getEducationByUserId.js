@@ -6,19 +6,18 @@ const success = (state, action) => {
   const {client} = state
   const previousEducation = (client && client.educations) || []
 
-  const arrayOfEducationId = []
   data.map(education => {
     if (userId === state.client.user.id && (!previousEducation.includes(education.id))) {
-      return arrayOfEducationId.push(education.id)
+      return previousEducation.push(education.id)
     }
-    return arrayOfEducationId
+    return previousEducation
   })
   return {
     ...state,
     client: {
       ...client,
       // educations: [...previousEducation, ...arrayOfEducationId],
-      educations: arrayOfEducationId,
+      educations: previousEducation,
     }
   }
 }

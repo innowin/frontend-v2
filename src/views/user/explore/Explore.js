@@ -62,21 +62,22 @@ class Explore extends PureComponent <appProps, appState> {
   }
 
   _onScroll = () => {
-    let {activeScrollHeight} = this.state
-    let scrollHeight = document.body ? document.body.scrollHeight : 0
-    if (((window.innerHeight + window.scrollY) >= (scrollHeight - 250)) && (scrollHeight > activeScrollHeight)) {
-      this.setState({
-            ...this.state,
-            activeScrollHeight: scrollHeight,
-            offset: this.state.offset + 24
-          },
-          () => this.props.actions.getUsers(24, this.state.offset, this.state.search))
+    if (Object.values(this.props.allUsers).length > 0) {
+      let {activeScrollHeight} = this.state
+      let scrollHeight = document.body ? document.body.scrollHeight : 0
+      if (((window.innerHeight + window.scrollY) >= (scrollHeight - 250)) && (scrollHeight > activeScrollHeight)) {
+        this.setState({
+              ...this.state,
+              activeScrollHeight: scrollHeight,
+              offset: this.state.offset + 24
+            },
+            () => this.props.actions.getUsers(24, this.state.offset, this.state.search))
+      }
+
+      if (window.scrollY > 1000)
+        this.setState({...this.state, scrollButton: true})
+      else this.setState({...this.state, scrollButton: false})
     }
-
-    if (window.scrollY > 1000)
-      this.setState({...this.state, scrollButton: true})
-    else this.setState({...this.state, scrollButton: false})
-
   }
 
   _search = (search) =>
@@ -149,7 +150,7 @@ const mapStateToProps = (state) => {
     currentUserId: userId,
     allUsers: getUsers(state),
     followees: getFollowList(state),
-    loading: state.users.loading,
+    loading: state.users.isLoading,
     translate: getMessages(state),
   }
 }

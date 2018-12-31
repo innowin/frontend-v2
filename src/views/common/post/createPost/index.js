@@ -12,6 +12,7 @@ import socialActions from 'src/redux/actions/commonActions/socialActions'
 import SupplyIcon from 'src/images/common/supply_svg'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import CommentActions from 'src/redux/actions/commonActions/commentActions'
+import TempActions from "src/redux/actions/tempActions"
 import {createFileFunc} from 'src/views/common/Functions'
 import types from 'src/redux/actions/types'
 import AttachMenu from './attachMenu'
@@ -23,7 +24,7 @@ import StickersMenu from '../../components/StickersMenu'
 import AddProductModal from './addProductModal'
 import ProductInfoView from '../../contributions/ProductInfoView'
 
-const timeStamp = +new Date()
+const createPostPicturesTempKeyName = "createPostPicturesTempKeyName"
 
 
 class CreatePost extends Component {
@@ -303,9 +304,9 @@ class CreatePost extends Component {
       let word = link.trim()
       if (urlExp.test(word)) {
         word.includes('http://') || word.includes('https://') ?
-            this.link.innerHTML = link.replace(new RegExp(word, 'g'), `<a target=_blank href=` + word + `>${word}</a>`)
-            :
-            this.link.innerHTML = link.replace(new RegExp(word, 'g'), `<a target=_blank href=http://` + word + `>${word}</a>`)
+          this.link.innerHTML = link.replace(new RegExp(word, 'g'), `<a target=_blank href=` + word + `>${word}</a>`)
+          :
+          this.link.innerHTML = link.replace(new RegExp(word, 'g'), `<a target=_blank href=http://` + word + `>${word}</a>`)
       }
     }
   }
@@ -316,7 +317,7 @@ class CreatePost extends Component {
     const {actions} = this.props
     const {createFile} = actions
     const nextActionTypesForPosPictures = types.COMMON.SET_FILE_IDS_IN_TEMP_FILE
-    const nextActionDataForPostPictures = {tempFileKeyName: timeStamp}
+    const nextActionDataForPostPictures = {tempFileKeyName: createPostPicturesTempKeyName}
     const fileIdKey = 'fileId'
     const postPicturesCreateArguments = {
       fileIdKey,
@@ -330,11 +331,12 @@ class CreatePost extends Component {
 
   _save = () => {
     const {actions, currentUserId, currentUserType, postParentId, postParentType} = this.props
-    const {createPost} = actions
+    const {createPost, removeFileFromTemp} = actions
     const formValues = this._getValues()
     createPost({
       formValues, postOwnerId: currentUserId, postOwnerType: currentUserType, postParentId, postParentType
     })
+    removeFileFromTemp(createPostPicturesTempKeyName)
     this.setState({...this.state, savingPost: false})
   }
 
@@ -382,8 +384,8 @@ class CreatePost extends Component {
     if ((scrollHeight > 250) && (scrollHeight !== this.state.scrollHeight) && (this.text.className !== 'post-component-textarea-open show-scroll')) {
       this.text.className = 'post-component-textarea-open show-scroll'
       setTimeout(() =>
-              this.text.className = 'post-component-textarea-open hide-scroll'
-          , 1000)
+          this.text.className = 'post-component-textarea-open hide-scroll'
+        , 1000)
     }
   }
 
@@ -437,161 +439,164 @@ class CreatePost extends Component {
     } = this.state
     const hasMediaClass = (postMedia || (postPictures.length > 0)) ? 'hasMedia' : ''
     return (
-        <form className={'post-component-container ' + className} ref={e => this.form = e} onSubmit={this._onSubmit}>
-          <div className={open ? 'post-component-header' : 'post-component-header-hide'}>
-            {currentUserMedia && profileLoaded ?
-                <img alt='profile' src={currentUserMedia} className='post-component-header-img'/>
-                :
-                <DefaultUserIcon className='post-component-header-img'/>
-            }
-            <div className={open ? 'post-not-collapse-username' : 'post-collapse-username'}>
-              {currentUserName}
-            </div>
-            <div className={open ? 'post-component-header-item' : 'post-component-header-item-hide'}>
-              <Share
-                  className={selected === 'post' ? 'post-component-header-item-logo1' : 'post-component-header-item-logo1-unselect'}
-                  onClick={this.handleSelectShare}/>
-              <DemandIcon height="22px"
-                          className={selected === 'demand' ? 'post-component-header-item-logo' : 'post-component-header-item-logo-unselect'}
-                          onClickFunc={this.handleSelectDemand}/>
-              <SupplyIcon height="18px"
-                          className={selected === 'supply' ? 'post-component-header-item-logo2' : 'post-component-header-item-logo2-unselect'}
-                          onClickFunc={this.handleSelectSupply}/>
-            </div>
+      <form className={'post-component-container ' + className} ref={e => this.form = e} onSubmit={this._onSubmit}>
+        <div className={open ? 'post-component-header' : 'post-component-header-hide'}>
+          {currentUserMedia && profileLoaded ?
+            <img alt='profile' src={currentUserMedia} className='post-component-header-img'/>
+            :
+            <DefaultUserIcon className='post-component-header-img'/>
+          }
+          <div className={open ? 'post-not-collapse-username' : 'post-collapse-username'}>
+            {currentUserName}
           </div>
+          <div className={open ? 'post-component-header-item' : 'post-component-header-item-hide'}>
+            <Share
+              className={selected === 'post' ? 'post-component-header-item-logo1' : 'post-component-header-item-logo1-unselect'}
+              onClick={this.handleSelectShare}/>
+            <DemandIcon height="22px"
+                        className={selected === 'demand' ? 'post-component-header-item-logo' : 'post-component-header-item-logo-unselect'}
+                        onClickFunc={this.handleSelectDemand}/>
+            <SupplyIcon height="18px"
+                        className={selected === 'supply' ? 'post-component-header-item-logo2' : 'post-component-header-item-logo2-unselect'}
+                        onClickFunc={this.handleSelectSupply}/>
+          </div>
+        </div>
 
-          <div className={'post-component-content ' + hasMediaClass}>
-            <div className='post-component-description'>
-              {descriptionClass &&
-              <span className={descriptionClass + ' post-character'}
-                    style={description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0]) ? {right: '6px'} : {left: '6px'}}>
+        <div className={'post-component-content ' + hasMediaClass}>
+          <div className='post-component-description'>
+            {descriptionClass &&
+            <span className={descriptionClass + ' post-character'}
+                  style={description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0]) ? {right: '6px'} : {left: '6px'}}>
                 {description && description.trim().length + '/4096'}
               </span>
+            }
+            <div
+              contentEditable={true}
+              ref={e => this.text = e}
+              className={open ? 'post-component-textarea-open hide-scroll' : 'post-component-textarea'}
+              style={
+                description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0]) ?
+                  {direction: 'ltr', padding: open || focused ? '13px 23px 9px 15px' : '8px 23px 9px 15px'} :
+                  {direction: 'rtl', padding: open || focused ? '13px 15px 9px 23px' : '8px 15px 9px 23px'}
               }
-              <div
-                  contentEditable={true}
-                  ref={e => this.text = e}
-                  className={open ? 'post-component-textarea-open scroll-hide' : 'post-component-textarea'}
-                  style={
-                    description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0]) ?
-                        {direction: 'ltr', padding: open || focused ? '13px 23px 9px 15px' : '8px 23px 9px 15px'} :
-                        {direction: 'rtl', padding: open || focused ? '13px 15px 9px 23px' : '8px 15px 9px 23px'}
-                  }
-                  onBlur={this._handleBlurText}
-                  onFocus={this._handleFocusText}
-                  onKeyDown={this._handleShiftEnter}
-                  onKeyUp={this._autoGrow}
-              />
+              onBlur={this._handleBlurText}
+              onFocus={this._handleFocusText}
+              onKeyDown={this._handleShiftEnter}
+              onKeyUp={this._autoGrow}
+            />
 
-              <div onClick={() => this.text.focus()} className={this.text && this.text.innerText.length > 0 ? 'post-placeholder-hide' : open ? 'post-placeholder-open' : 'post-placeholder'}>
-                مسئله خود را بنویسید...
-              </div>
-
-              <div className={open || focused ? 'emoji-open' : 'emoji-close'} style={description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0]) ? {right: '7px'} : {left: '7px'}}>
-                <StickersMenu ltr={description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0])} output={this.handleEmoji}/>
-              </div>
-
+            <div onClick={() => this.text.focus()}
+                 className={this.text && this.text.innerText.length > 0 ? 'post-placeholder-hide' : open ? 'post-placeholder-open' : 'post-placeholder'}>
+              مسئله خود را بنویسید...
             </div>
 
-            <ViewAttachedFiles
-                postPictures={postPictures}
-                postMedia={postMedia}
-                postFile={postFile}
-                deletePicture={this._deletePicture}
-                deleteMedia={this._deleteMedia}
-                deleteFile={this._deleteFile}
-                focused={focused}
+            <div className={open || focused ? 'emoji-open' : 'emoji-close'}
+                 style={description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0]) ? {right: '7px'} : {left: '7px'}}>
+              <StickersMenu ltr={description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0])}
+                            output={this.handleEmoji}/>
+            </div>
+
+          </div>
+
+          <ViewAttachedFiles
+            postPictures={postPictures}
+            postMedia={postMedia}
+            postFile={postFile}
+            deletePicture={this._deletePicture}
+            deleteMedia={this._deleteMedia}
+            deleteFile={this._deleteFile}
+            focused={focused}
+          />
+        </div>
+
+        {selectedProduct &&
+        <ProductInfoView translate={translate} product={selectedProduct} ownerId={currentUserId}/>
+        }
+
+        <div className={open ? 'post-component-footer' : 'post-component-footer-hide'}>
+
+          {/*<ContactMenuIcon className="post-component-footer-contact-menu-icon" onClickFunc={this.handleContact}/>*/}
+
+          {/*{*/}
+          {/*Object.values(labels).map(label =>*/}
+          {/*<div className='post-component-footer-items-style'>*/}
+          {/*<div className='post-component-footer-items-style-text'>{label}</div>*/}
+          {/*<div className='post-component-footer-items-style-close'*/}
+          {/*onClick={() => this._handleLabel(label)}>✕*/}
+          {/*</div>*/}
+          {/*</div>*/}
+          {/*)*/}
+          {/*}*/}
+
+          <div className='post-component-footer-send'>
+            <div className='post-component-footer-link' ref={e => this.link = e}>{link}</div>
+            <div style={{display: 'inline-block'}} onClick={this.handleAttach}>
+              <AttachFileIcon className='post-component-footer-send-attach'/>
+            </div>
+            <button type="submit"
+                    className={description.length > 4 ? 'post-component-footer-send-btn' : 'post-component-footer-send-btn-inactive'}>ارسال
+            </button>
+
+            <AttachMenu
+              attachMenu={attachMenu}
+              handleFile={fileString =>
+                this.setState({...this.state, attachMenu: false, postFile: fileString})
+              }
+              handleMedia={fileString =>
+                this.setState({...this.state, attachMenu: false, postMedia: fileString})
+              }
+              handlePictures={fileString =>
+                this.setState({...this.state, attachMenu: false, postPictures: [...postPictures, fileString]})
+              }
+              postPicturesLength={postPictures.length}
+              postMediaExist={Boolean(postMedia)}
+              postFileExist={Boolean(postFile)}
+              postLinkExist={Boolean(link)}
+              linkModalFunc={this._linkModalFunc}
+              addProductModalFunc={this._addProductModalFunc}
+              AttachMenuId="create-post-attach-menu-box"
+              translate={translate}
             />
           </div>
 
-          {selectedProduct &&
-          <ProductInfoView translate={translate} product={selectedProduct} ownerId={currentUserId}/>
-          }
-
-          <div className={open ? 'post-component-footer' : 'post-component-footer-hide'}>
-
-            {/*<ContactMenuIcon className="post-component-footer-contact-menu-icon" onClickFunc={this.handleContact}/>*/}
-
-            {/*{*/}
-            {/*Object.values(labels).map(label =>*/}
-            {/*<div className='post-component-footer-items-style'>*/}
-            {/*<div className='post-component-footer-items-style-text'>{label}</div>*/}
-            {/*<div className='post-component-footer-items-style-close'*/}
-            {/*onClick={() => this._handleLabel(label)}>✕*/}
-            {/*</div>*/}
-            {/*</div>*/}
-            {/*)*/}
-            {/*}*/}
-
-            <div className='post-component-footer-send'>
-              <div className='post-component-footer-link' ref={e => this.link = e}>{link}</div>
-              <div style={{display: 'inline-block'}} onClick={this.handleAttach}>
-                <AttachFileIcon className='post-component-footer-send-attach'/>
-              </div>
-              <button type="submit"
-                      className={description.length > 4 ? 'post-component-footer-send-btn' : 'post-component-footer-send-btn-inactive'}>ارسال
-              </button>
-
-              <AttachMenu
-                  attachMenu={attachMenu}
-                  handleFile={fileString =>
-                      this.setState({...this.state, attachMenu: false, postFile: fileString})
-                  }
-                  handleMedia={fileString =>
-                      this.setState({...this.state, attachMenu: false, postMedia: fileString})
-                  }
-                  handlePictures={fileString =>
-                      this.setState({...this.state, attachMenu: false, postPictures: [...postPictures, fileString]})
-                  }
-                  postPicturesLength={postPictures.length}
-                  postMediaExist={Boolean(postMedia)}
-                  postFileExist={Boolean(postFile)}
-                  postLinkExist={Boolean(link)}
-                  linkModalFunc={this._linkModalFunc}
-                  addProductModalFunc={this._addProductModalFunc}
-                  AttachMenuId="create-post-attach-menu-box"
-                  translate={translate}
-              />
-            </div>
-
-            <ContactMenu
-                ref={e => this.setWrapperSecondRef = (e ? e.contactMenuRef : e)}
-                contactMenu={contactMenu}
-                labels={labels}
-                followers={followers}
-                exchanges={exchanges}
-                currentUserIdentity={currentUserIdentity}
-                handleLabel={this._handleLabel}
-            />
-
-          </div>
-          <LinkModal
-              ref={e => this.setWrapperThirdRef = e ? e.linkModalRef : e}
-              linkModal={linkModal}
-              cancelFunc={() => this.setState({...this.state, linkModal: false})}
-              submitFunc={(linkString) => this.setState({...this.state, link: linkString, linkModal: false})}
-          />
-          <AddProductModal
-              ref={e => this.setWrapperFourthRef = e ? e.addProductModal : e}
-              addProductModal={addProductModal}
-              cancelFunc={() => this.setState({
-                ...this.state,
-                addProductModal: false,
-                selectedProductId: undefined,
-                selectedProduct: undefined
-              })}
-              submitFunc={(product, productId) => {
-                this.setState({
-                  ...this.state,
-                  selectedProduct: productId === undefined ? product : undefined,
-                  selectedProductId: productId,
-                  addProductModal: false
-                })
-              }}
-              // selectProduct={(product) => this.setState({...this.state, selectedProduct: product})}
+          <ContactMenu
+            ref={e => this.setWrapperSecondRef = (e ? e.contactMenuRef : e)}
+            contactMenu={contactMenu}
+            labels={labels}
+            followers={followers}
+            exchanges={exchanges}
+            currentUserIdentity={currentUserIdentity}
+            handleLabel={this._handleLabel}
           />
 
-        </form>
+        </div>
+        <LinkModal
+          ref={e => this.setWrapperThirdRef = e ? e.linkModalRef : e}
+          linkModal={linkModal}
+          cancelFunc={() => this.setState({...this.state, linkModal: false})}
+          submitFunc={(linkString) => this.setState({...this.state, link: linkString, linkModal: false})}
+        />
+        <AddProductModal
+          ref={e => this.setWrapperFourthRef = e ? e.addProductModal : e}
+          addProductModal={addProductModal}
+          cancelFunc={() => this.setState({
+            ...this.state,
+            addProductModal: false,
+            selectedProductId: undefined,
+            selectedProduct: undefined
+          })}
+          submitFunc={(product, productId) => {
+            this.setState({
+              ...this.state,
+              selectedProduct: productId === undefined ? product : undefined,
+              selectedProductId: productId,
+              addProductModal: false
+            })
+          }}
+          // selectProduct={(product) => this.setState({...this.state, selectedProduct: product})}
+        />
+
+      </form>
     )
   }
 }
@@ -600,12 +605,12 @@ const mapStateToProps = (state) => {
 
   const client = state.auth.client
   const clientImgId = (client.user_type === 'person') ? (client.profile.profile_media) : (
-      (client.organization && client.organization.organization_logo) || null
+    (client.organization && client.organization.organization_logo) || null
   )
 
   const userId = (client.organization && client.organization.id) || (client.user && client.user.id)
 
-  const tempPostPictures = state.temp.file[timeStamp]
+  const tempPostPictures = state.temp.file[createPostPicturesTempKeyName]
   const postPictureIds = tempPostPictures ? (Array.isArray(tempPostPictures) ? tempPostPictures : [tempPostPictures]) : []
 
   return ({
@@ -627,6 +632,7 @@ const mapDispatchToProps = dispatch => ({
     getFollowers: socialActions.getFollowers,
     createPost: PostActions.createPost,
     createFile: FileActions.createFile,
+    removeFileFromTemp: TempActions.removeFileFromTemp,
     createComment: CommentActions.createComment,
   }, dispatch)
 })

@@ -10,7 +10,6 @@ import {bindActionCreators} from "redux";
 import CustomerActions from "src/redux/actions/organization/customerActions";
 import CustomerInfoCreateForm from "./CustomerInfoCreateForm";
 import CheckOwner from "../../common/CheckOwner";
-import FileActions from "src/redux/actions/commonActions/fileActions";
 import getCustomersSelector from "src/redux/selectors/organization/organGetCustomersSelector";
 import type {CustomerType} from "src/consts/flowTypes/organization/customer";
 
@@ -19,11 +18,7 @@ type PropsCustomers = {
   organizationId: number,
   translate: { [string]: string },
   actions: {
-    createOrgCustomer: Function,
-    createFile: Function,
     getCustomersByOrganizationId: Function,
-    updateOrgCustomer: Function,
-    deleteOrgCustomer: Function,
   },
   customers: (CustomerType)[],
   customerObjectIsLoading: boolean,
@@ -58,8 +53,7 @@ class Customers extends React.Component<PropsCustomers, StatesCustomer> {
   }
 
   render() {
-    const {translate, organizationId, actions, customers, customerObjectError, customerObjectIsLoading} = this.props
-    const {createFile, createOrgCustomer, updateOrgCustomer, deleteOrgCustomer} = actions
+    const {translate, organizationId, customers, customerObjectError, customerObjectIsLoading} = this.props
     const {customerCreateForm} = this.state
 
     return (
@@ -80,10 +74,8 @@ class Customers extends React.Component<PropsCustomers, StatesCustomer> {
                 <p className='customer-create-header'>{translate['Customer']}</p>
                 <CustomerInfoCreateForm
                   hideEdit={this._hideCustomerCreateForm}
-                  createOrgCustomer={createOrgCustomer}
                   translate={translate}
                   organizationId={organizationId}
-                  createFile={createFile}
                 />
             </ListGroup>
           </FrameCard>
@@ -94,8 +86,6 @@ class Customers extends React.Component<PropsCustomers, StatesCustomer> {
             <CustomerInfoContainer
               organizationId={organizationId}
               translate={translate}
-              updateOrgCustomer={updateOrgCustomer}
-              deleteOrgCustomer={deleteOrgCustomer}
               customers={customers}
               error={customerObjectError}
               isLoading={customerObjectIsLoading}
@@ -125,11 +115,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    createFile: FileActions.createFile,
     getCustomersByOrganizationId: CustomerActions.getCustomersByOrganizationId,
-    createOrgCustomer: CustomerActions.createOrgCustomer,
-    updateOrgCustomer: CustomerActions.updateOrgCustomer,
-    deleteOrgCustomer: CustomerActions.deleteOrgCustomer,
   }, dispatch)
 })
 

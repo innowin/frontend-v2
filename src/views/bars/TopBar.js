@@ -19,12 +19,21 @@ import UserAgreement from './TopBarComponents/UserAgreement'
 import {bindActionCreators} from 'redux'
 import {Component} from 'react'
 import {connect} from 'react-redux'
-import {DefaultUserIcon, NotificationIcon, InnoWinLogo} from 'src/images/icons'
+import {
+  DefaultUserIcon,
+  NotificationIcon,
+  InnoWinLogo,
+  ExchangeExploreIcon,
+  HomeSvg,
+  HomeSvgSelected,
+  ExchangeExploreIconSelected
+} from 'src/images/icons'
 import {Link} from 'react-router-dom'
 import {routerActions} from 'react-router-redux'
 import {SearchIcon} from '../../images/icons'
 import {shortOrganizationType} from 'src/consts/flowTypes/organization/organization'
 import {userProfileType, userType} from 'src/consts/flowTypes/user/basicInformation'
+import constants from "../../consts/constants";
 
 type PropsTopBar = {|
   collapseClassName: string,
@@ -39,7 +48,7 @@ type PropsTopBar = {|
     verifyToken: Function,
     getFile: Function
   },
-  translate: { topBar: { [string]: string } },
+  translate: { topBar: { [string]: string }, [string]: string },
 |}
 
 type StatesTopBar = {|
@@ -56,6 +65,7 @@ type StatesTopBar = {|
   showAbout: boolean,
   selectedAbout: string,
   profilePhotoLoaded: boolean,
+  currentPage: string,
 |}
 
 class TopBar extends Component<PropsTopBar, StatesTopBar> {
@@ -85,7 +95,10 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       showAbout: false,
       selectedAbout: 'FAQ',
       profilePhotoLoaded: false,
+      currentPage: constants.TOP_BAR_PAGES.HOME,
     }
+
+    this._handleCloseOutside = this._handleCloseOutside.bind(this)
   }
 
   componentDidMount() {
@@ -106,6 +119,9 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       }
     }
     //
+
+    document.addEventListener('mousedown', this._handleCloseOutside)
+
   }
 
   componentDidUpdate(prevProps) {
@@ -129,14 +145,41 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     }
   }
 
+  componentWillUnmount(): void {
+    document.removeEventListener('mousedown', this._handleCloseOutside)
+  }
+
+  _handleCloseOutside(e) {
+    if (this.state.exploreCollapse && this.exploreRef && !this.exploreRef.contains(e.target)) {
+      this.setState({...this.state, exploreCollapse: false, collapseProfile: false})
+    }
+
+    if (this.state.collapseProfile && this.profileRef && !this.profileRef.contains(e.target)) {
+      this.setState({...this.state, exploreCollapse: false, collapseProfile: false})
+    }
+  }
+
   //
   // _toggle = (e: SyntheticEvent<HTMLButtonElement>): void => {
   //   e.preventDefault()
   //   this.setState({...this.state, collapse: !this.state.collapse, exploreCollapse: false})
   // }
 
-  _toggleExplore = () => {
-    this.setState({...this.state, exploreCollapse: !this.state.exploreCollapse, collapseProfile: false})
+  _toggleExplore = (changePage) => {
+    if (changePage === true) {
+      this.setState({
+        ...this.state,
+        exploreCollapse: !this.state.exploreCollapse,
+        collapseProfile: false,
+        currentPage: constants.TOP_BAR_PAGES.EXPLORE
+      })
+    } else {
+      this.setState({
+        ...this.state,
+        exploreCollapse: !this.state.exploreCollapse,
+        collapseProfile: false,
+      })
+    }
   }
 
   _toggleProfile = () => {
@@ -189,13 +232,23 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   }
 
   _handleHideSetting = () => {
-    this.setState({...this.state, showSetting: false, showAbout: false, productWizardModalIsOpen: false})
+    this.setState({
+      ...this.state,
+      showSetting: false,
+      showAbout: false,
+      productWizardModalIsOpen: false,
+      createExchangeModalIsOpen: false
+    })
     setTimeout(() => {
       this.setState({...this.state, selectedSetting: 'Privacy', selectedAbout: 'FAQ'})
       setTimeout(() => {
         this.setState({...this.state, selectedSetting: 'General Settings'})
       }, 10)
     }, 500)
+  }
+
+  _homeClick = () => {
+    this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.HOME})
   }
 
   _handleShowAbout = () => {
@@ -207,7 +260,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
   _handleCloseProfile = () => {
     setTimeout(() =>
-            this.setState({...this.state, collapseProfile: false})
+            this.setState({...this.state, collapseProfile: false, currentPage: constants.TOP_BAR_PAGES.PROFILE})
         , 350)
   }
 
@@ -226,14 +279,6 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     const linkEditProfile = !clientOrganization
         ? `/user/${clientUser.id}`
         : `/organization/${clientOrganization.id}`
-
-    // added to close all collapse menus when click outside
-    window.onclick = () => {
-      if (!mouseIsOverMenu && (exploreCollapse || collapseProfile)) {
-        this.setState({...this.state, exploreCollapse: false, collapseProfile: false})
-      }
-    }
-    //
     return (
         <div onMouseEnter={this._handleMouseEnter} onMouseLeave={this._handleMouseLeave}>
           <AgentForm
@@ -247,16 +292,34 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
           />
 
           <nav className="navbar flex-row justify-content-between p-0 -white-i topBar">
-
             <div className="d-flex align-items-center">
+              <Link to={'/'} onClick={this._homeClick}>
+                <Material backgroundColor='rgba(238, 238, 238,0.8)' className='top-bar-home' content={
+                  <React.Fragment>
+                    {this.state.currentPage === constants.TOP_BAR_PAGES.HOME
+                        ? <HomeSvgSelected className='home-icon'/>
+                        : <HomeSvg className='home-icon'/>
+                    }
+                    <p className='top-bar-title'>{topBarTranslate['Home page']}</p>
+                  </React.Fragment>
+                }/>
+              </Link>
 
-              <Material backgroundColor='rgba(238, 238, 238,0.8)' className='top-bar-home' content={
-                <Link to={'/'}><i className="fa fa-home top-bar-home-logo" aria-hidden={true}/></Link>
+              <Material backgroundColor='rgba(238, 238, 238,0.8)' className="top-bar-explore -topBarIcons-cont"
+                        onClick={this._toggleExplore} content={
+                <React.Fragment>
+                  {this.state.currentPage === constants.TOP_BAR_PAGES.EXPLORE
+                      ? <ExchangeExploreIconSelected className='-topBarIcons'/>
+                      : <ExchangeExploreIcon className='-topBarIcons'/>
+                  }
+                  <p className='top-bar-title'>{topBarTranslate['Explore']}</p>
+                </React.Fragment>
               }/>
 
-              <div className="mr-5 top-bar-explore" onClick={this._toggleExplore}>
-                <ExploreMenu exploreCollapse={exploreCollapse}/>
+              <div className='explore-menu-wrapper' ref={e => this.exploreRef = e}>
+                <ExploreMenu _toggleExplore={this._toggleExplore} exploreCollapse={exploreCollapse}/>
               </div>
+
 
               {/*<Link className="mr-5" to={"/"}><NotificationIcon className="-topBarIcons"/></Link>*/}
               {/*<Link className="mr-5" to={"/"}><NotificationIcon className="notif-icon"/></Link>*/}
@@ -280,7 +343,8 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                                                         onClickFunc={this._toggleProfile}/>}/>
                 }
 
-                <div className={collapseProfile ? 'profile-menu-container' : 'profile-menu-container-hide'}>
+                <div ref={e => this.profileRef = e}
+                     className={collapseProfile ? 'profile-menu-container' : 'profile-menu-container-hide'}>
                   <div className='profile-menu-arrow'>
                     ▲
                   </div>
@@ -349,7 +413,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
 
           <div
-              className={showSetting || showAbout || agentForm || productWizardModalIsOpen ? 'makeDark' : 'makeDark-out'}
+              className={showSetting || showAbout || agentForm || productWizardModalIsOpen || createExchangeModalIsOpen ? 'makeDark' : 'makeDark-out'}
               onClick={this._handleHideSetting}>
             {/*dark div*/}
           </div>

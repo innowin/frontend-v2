@@ -78,9 +78,8 @@ export default {
   */
 
   },
-  allUsers: {},
   search: null,
-  loading: true,
+  isLoading: true,
   recoveryPassword: {
     step_name: '',
     userId:null,

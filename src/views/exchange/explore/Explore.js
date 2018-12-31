@@ -47,7 +47,7 @@ class Explore extends PureComponent <appProps, appState> {
   }
 
   componentDidMount() {
-    this.props.actions.getAllExchanges(24, 0, null)
+    this.props.actions.getAllExchanges(250, 0, null)
     window.addEventListener('scroll', this._onScroll)
   }
 
@@ -56,22 +56,22 @@ class Explore extends PureComponent <appProps, appState> {
   }
 
   _onScroll = () => {
-    let {activeScrollHeight} = this.state
-    let scrollHeight = document.body ? document.body.scrollHeight : 0
-    if (((window.innerHeight + window.scrollY) >= (scrollHeight - 250)) && (scrollHeight > activeScrollHeight)) {
-      this.setState({
-            ...this.state,
-            activeScrollHeight: scrollHeight,
-            scrollLoading: true,
-            offset: this.state.offset + 24
-          },
-          () => this.props.actions.getAllExchanges(24, this.state.offset, this.state.search))
+    if (Object.values(this.props.allExchanges).length > 0) {
+      let {activeScrollHeight} = this.state
+      let scrollHeight = document.body ? document.body.scrollHeight : 0
+      if (((window.innerHeight + window.scrollY) >= (scrollHeight - 250)) && (scrollHeight > activeScrollHeight)) {
+        this.setState({
+              ...this.state,
+              activeScrollHeight: scrollHeight,
+              scrollLoading: true,
+              offset: this.state.offset + 24
+            },
+            () => this.props.actions.getAllExchanges(24, this.state.offset, this.state.search))
+      }
+      if (window.scrollY > 1000)
+        this.setState({...this.state, scrollButton: true})
+      else this.setState({...this.state, scrollButton: false})
     }
-
-    if (window.scrollY > 1000)
-      this.setState({...this.state, scrollButton: true})
-    else this.setState({...this.state, scrollButton: false})
-
   }
 
 
@@ -98,14 +98,14 @@ class Explore extends PureComponent <appProps, appState> {
     return (
         <div className='all-exchanges-parent'>
           {/*<Helmet>*/}
-            {/*<title>{title}</title>*/}
-            {/*<meta name="description" content={description}/>*/}
+          {/*<title>{title}</title>*/}
+          {/*<meta name="description" content={description}/>*/}
 
-            {/*<meta property="og:title" content={title}/>*/}
-            {/*<meta property="og:description" content={description}/>*/}
+          {/*<meta property="og:title" content={title}/>*/}
+          {/*<meta property="og:description" content={description}/>*/}
 
-            {/*<meta property="twitter:title" content={title}/>*/}
-            {/*<meta property="twitter:description" content={description}/>*/}
+          {/*<meta property="twitter:title" content={title}/>*/}
+          {/*<meta property="twitter:description" content={description}/>*/}
           {/*</Helmet>*/}
           <Sidebar search={this._search} justFollowing={this._justFollowing}/>
           <div className='all-exchanges-container'>
@@ -125,7 +125,7 @@ class Explore extends PureComponent <appProps, appState> {
 
 const mapStateToProps = (state) => ({
   allExchanges: getExchanges(state),
-  loading: state.exchanges.loading,
+  loading: state.exchanges.isLoading,
   translate: getMessages(state),
 })
 const mapDispatchToProps = dispatch => ({

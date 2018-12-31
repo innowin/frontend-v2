@@ -1,6 +1,9 @@
-import * as React from "react";
-
 export default {
+  TOP_BAR_PAGES: {
+    HOME: 'home',
+    EXPLORE: 'explore',
+    PROFILE: 'profile',
+  },
   USER_TYPES: {
     PERSON: 'person',
     ORG: 'org',

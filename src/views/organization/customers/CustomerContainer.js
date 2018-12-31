@@ -12,14 +12,12 @@ type PropsCustomers = {
   organizationId: number,
   translate: { [string]: string },
   customers: (CustomerType)[],
-  deleteOrgCustomer: Function,
-  updateOrgCustomer: Function,
   isLoading: boolean,
   error: {} | string | null,
 }
 
 const CustomerInfoContainer = (props: PropsCustomers) => {
-  const {translate, customers, organizationId, updateOrgCustomer, deleteOrgCustomer, isLoading, error} = props
+  const {translate, customers, organizationId, isLoading, error} = props
   return (
     //<VerifyWrapper isLoading={isLoading} error={error}>
     <ItemWrapper icon={<ContributionIcon/>}>
@@ -29,8 +27,6 @@ const CustomerInfoContainer = (props: PropsCustomers) => {
           customers.map((customer, index) => (
             <CustomerInfo
               organizationId={organizationId}
-              updateOrgCustomer={updateOrgCustomer}
-              deleteOrgCustomer={deleteOrgCustomer}
               customer={customer}
               key={index + "CustomerInfo"}
               translate={translate}
@@ -47,8 +43,6 @@ CustomerInfoContainer.propTypes = {
   organizationId: PropTypes.number.isRequired,
   translate: PropTypes.object.isRequired,
   customers: PropTypes.array.isRequired,
-  deleteOrgCustomer: PropTypes.func.isRequired,
-  updateOrgCustomer: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
   error: PropTypes.object,
 }

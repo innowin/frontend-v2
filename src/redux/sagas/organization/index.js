@@ -5,6 +5,7 @@ import {takeEvery} from "redux-saga/effects"
 import {getOrganizationByOrganId} from "./getOrganizationByOrganId"
 import {updateOrganization} from "./updateOrgan"
 import {getCustomersByOrganizationId} from './getCustomersByOrganizationId'
+import {getCustomerByCustomerId} from "./getCustomerByCustomerId"
 import {createOrgCustomer} from './createOrgCustomer'
 import {deleteOrgCustomer} from './deleteOrgCustomer'
 import {updateOrgCustomer} from './updateOrgCustomer'
@@ -38,6 +39,11 @@ function* watchUpdateOrganization() {
 // get org customers
 function* watchGetCustomers() {
   yield takeEvery(types.ORG.GET_CUSTOMERS_BY_ORGANIZATION_ID, getCustomersByOrganizationId)
+}
+
+// get org customer by customerId
+function* watchGetCustomerByCustomerId() {
+  yield takeEvery(types.ORG.GET_CUSTOMER_BY_CUSTOMER_ID, getCustomerByCustomerId)
 }
 
 // update org customer
@@ -85,6 +91,7 @@ export default [
   watchGetOrganizationMembers(),
   watchUpdateOrganization(),
   watchGetCustomers(),
+  watchGetCustomerByCustomerId(),
   watchUpdateCustomer(),
   watchCreateOrgProduct(),
   watchAddProductPicture(),

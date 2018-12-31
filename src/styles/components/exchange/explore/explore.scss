@@ -11,8 +11,9 @@
   flex-basis: 270px;
   background-color: $text-lightest-color;
   border-radius: 5px;
-  box-shadow: 0 3px 3px $box-shadow-color;
+  box-shadow: 0 3px 3px 1.5px $box-shadow-color;
   height: 345px;
+  overflow: hidden;
 }
 
 .exchange-model-hide {
@@ -55,26 +56,53 @@
 
 .exchange-model-avatar {
   height: 80px;
-  object-fit: cover;
   margin: 0 auto 8px auto;
   width: 80px;
   border-radius: 50%;
+  overflow: hidden;
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.2);
 }
 
-.exchange-model-avatar-default {
-  height: 80px;
+.exchange-model-avatar-img{
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  margin: 0 auto 0 auto;
-  width: 80px;
-  border-radius: 50%;
-  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.2)
+}
+
+.exchange-model-avatar-default {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  padding: 10px;
+  fill: $text-light-color;
+}
+
+.exchange-model-avatar-back {
+  position: absolute;
+  width: 250%;
+  filter: blur(20px);
+  opacity: .6;
+  z-index: 1;
+  object-fit: cover;
+  transform: translate(47.5%, -30%);
+}
+
+.exchange-model-detail-filter {
+  background-color: white;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  filter: blur(35px);
+  opacity: .75;
+  z-index: -1;
 }
 
 .exchange-model-title {
   font-weight: bold;
   font-size: $font-size-medium;
   margin: 10px 0;
+  z-index: 2;
 }
 
 .exchange-model-title-skeleton {
@@ -103,6 +131,7 @@
   line-height: 25px;
   height: 75px;
   overflow-y: hidden;
+  z-index: 2;
 }
 
 .exchange-model-followers-avatar {
@@ -183,7 +212,7 @@
   position: fixed;
   bottom: 15px;
   z-index: 1;
-  top: 64px;
+  top: 75px;
   padding: 15px;
   color: $text-dark-color;
   border-radius: $border-radius-size;
@@ -401,7 +430,7 @@
 }
 
 .all-exchanges-container {
-  padding: 59px 0 0 0;
+  padding: 70px 0 0 0;
   width: 75%;
   margin-right: 25%;
   direction: rtl;
@@ -416,7 +445,7 @@
 .exchange-follow {
   border: 1px solid $tag-del-btn-background;
   color: $tag-del-btn-background;
-  background-color: white;
+  background-color: transparent;
   border-radius: 3px;
   padding: 2px 0;
   width: 80px;
@@ -424,6 +453,7 @@
   float: left;
   transition-duration: 0.25s;
   font-size: $font-size-normalText;
+  z-index: 2;
 
   &:hover {
     color: white;
@@ -448,9 +478,10 @@
   margin-top: 13px;
   transition-duration: 0.25s;
   font-size: $font-size-normalText;
+  z-index: 2;
 
   &:hover {
-    background-color: white;
+    background-color: transparent;
     color: $tag-del-btn-background;
     transition-duration: 0.25s;
   }
@@ -502,16 +533,19 @@
 }
 
 .exchange-model-following {
-  position: absolute;
-  bottom: 15px;
-  left: 15px;
-  font-size: $font-size-smallText;
-  border: 1px solid $tag-del-btn-background;
-  color: $tag-del-btn-background;
+  height: 26px;
+  background-color: transparent;
   border-radius: 3px;
+  border: 1px solid $tag-del-btn-background;
+  color: white;
+  cursor: pointer;
+  float: left;
+  font-size: $font-size-smallText;
+  margin-top: 13px;
+  padding: 2.5px 0;
+  transition-duration: 0.25s;
   width: 80px;
-  padding-top: 3px;
-  height: 27px;
+  z-index: 2;
 }
 
 .user-follow-loading {
@@ -666,7 +700,7 @@
   overflow: hidden;
   text-align: center;
   display: inline-block;
-  margin-top: 64px;
+  margin-top: 75px;
   overflow-y: auto;
   color: $text-dark-color;
   border-radius: $border-radius-size;
@@ -680,7 +714,7 @@
   display: inline-block;
   vertical-align: top;
   width: 48.7%;
-  margin: 54px 0.65% 0 0.65%;
+  margin: 65px 0.65% 0 0.65%;
   direction: rtl;
 }
 
@@ -719,6 +753,7 @@
   margin-right: 8%;
   height: 30px;
   width: 30px;
+
   .post-menu-bottom {
     padding: 7px 8px;
     color: #C2C2C2;

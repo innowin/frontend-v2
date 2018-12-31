@@ -7,26 +7,27 @@ import {Modal, ModalBody} from "reactstrap"
 import MenuProgressive from "../../progressive/penu-progressive"
 import {
   PROGRESSIVE_STATUS_CHOICES, WRAPPER_CLASS_NAMES, exchangeFields, SOCIAL, exchangeIdentityFields
-} from "./createExchangeData";
+} from "./createExchangeData"
 import BasicInfo from "./basicInfo"
 import People from "./people"
 import MoreInfo from "./moreInfo"
 import SuccessMessage from "./successMessage"
-import {ThinDownArrow, ShareIcon} from "../../../../images/icons"
+import {ThinDownArrow, ShareIcon, ImageUploadSvg, UploadIcon} from "src/images/icons"
 import {createFile, getFiles} from "../../../../redux/actions/commonActions/fileActions"
-import {bindActionCreators} from "redux";
-import {connect} from "react-redux";
+import {bindActionCreators} from "redux"
+import {connect} from "react-redux"
 import makeFileSelectorByKeyValue from "../../../../redux/selectors/common/file/selectFilsByKeyValue"
 import type {ImageType} from "./basicInfo"
-import {hashTagsListSelector} from "../../../../redux/selectors/common/hashTags/hashTag";
+import {hashTagsListSelector} from "../../../../redux/selectors/common/hashTags/hashTag"
 import helpers from "../../../../consts/helperFunctions/helperFunctions"
 import type {TagAsOptionType} from "../../adding-contribution/types"
 import socialActions from "../../../../redux/actions/commonActions/socialActions"
 import exchangeActions from "../../../../redux/actions/exchangeActions"
-import constants from "../../../../consts/constants";
+import constants from "../../../../consts/constants"
 import type {PersonType} from "./people"
 import exchangeMembershipActions from "../../../../redux/actions/commonActions/exchangeMembershipActions"
-import {getFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
+import {getFolloweesSelector} from "src/redux/selectors/common/social/getFollowees"
+import {ClipLoader} from "react-spinners"
 
 
 type HashTagType = {
@@ -73,10 +74,17 @@ const initialState = {
   inActPeopleIds: [], // ids of people that doing some action (like adding to exchange members) on theme in this time.
   processing: false,
 }
+
 class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState> {
   constructor() {
     super()
-    this.state = initialState
+    this.state = {
+      ...initialState,
+      name: "",
+      isPrivate: false,
+      description: "",
+      exchangeImage: null,
+    }
   }
 
   componentDidMount() {
@@ -100,37 +108,43 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
     getFollowees(getFolloweesPayload)
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     const {hisFiles, createdExchange, members} = this.props
     const {inActPeopleIds} = this.state
     const lastFile = hisFiles[hisFiles.length - 1] || {}
     const prevLastFile = prevProps.hisFiles[prevProps.hisFiles.length - 1] || {}
     if (lastFile.id && prevLastFile.id) {
       if (lastFile.id !== prevLastFile.id) {
-        this._processingHandler()
         this._imageHandler(lastFile)
       }
     }
-    if ((prevProps.createdExchange.id !== createdExchange.id) && createdExchange.id) {
-      this.setState({...this.state, created: true})
-      this._processingHandler()
-      this._goToNextStep()
+    if (prevState.exchangeImage !== this.state.exchangeImage && this.state.exchangeImage !== null) {
+      this.setState({...this.state, processing: false})
+      console.log("NO PROCESS")
     }
-    const newInActPeopleIds = [...inActPeopleIds]
-    inActPeopleIds.forEach(id => {
-      const isInMembers = members.some(m => m[exchangeIdentityFields.identity].id === id)
-      const wasInMembers = prevProps.members.some(m => m[exchangeIdentityFields.identity].id === id)
-      if ((isInMembers && !wasInMembers) || (!isInMembers && wasInMembers)) {
-        newInActPeopleIds.splice(newInActPeopleIds.indexOf(id), 1)
-      }
-    })
-    if (inActPeopleIds.length !== newInActPeopleIds.length) {
-      this.setState({
-        ...this.state,
-        inActPeopleIds: newInActPeopleIds
-      })
-    }
+    /*
+     if ((prevProps.createdExchange.id !== createdExchange.id) && createdExchange.id) {
+     this.setState({...this.state, created: true})
+     this._processingHandler()
+     this._goToNextStep()
+     }
+     const newInActPeopleIds = [...inActPeopleIds]
+     inActPeopleIds.forEach(id => {
+     const isInMembers = members.some(m => m[exchangeIdentityFields.identity].id === id)
+     const wasInMembers = prevProps.members.some(m => m[exchangeIdentityFields.identity].id === id)
+     if ((isInMembers && !wasInMembers) || (!isInMembers && wasInMembers)) {
+     newInActPeopleIds.splice(newInActPeopleIds.indexOf(id), 1)
+     }
+     })
+     if (inActPeopleIds.length !== newInActPeopleIds.length) {
+     this.setState({
+     ...this.state,
+     inActPeopleIds: newInActPeopleIds
+     })
+     }
+     */
   }
+
   _processingHandler = () => this.setState({...this.state, processing: !this.state.processing})
 
   _createExchange = () => {
@@ -139,8 +153,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
     if (!this.state.created) {
       this._processingHandler()
       this.props.createExchange(this.state.formData)
-    }
-    else this._goToNextStep()
+    } else this._goToNextStep()
     // fixme: should update exchange if (this.state.created === true)
   }
   _addMember = (id) => {
@@ -192,13 +205,15 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
   }
   _createFile = () => {
     const {createFile} = this.props
-    // this._processingHandler()
+    this.setState({...this.state, processing: true})
+    console.log("PROCESS...")
     createFile({file_string: this.state.selectedImage})
   }
   _imageHandler = (img: ImageType) => {
     this.setState({
       ...this.state,
       selectedImage: img.file,
+      exchangeImage: img.id,
       formData: {
         ...this.state.formData,
         [exchangeFields.image]: img.id
@@ -250,40 +265,40 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
     searchKey: key
   })
   _setContent = () => {
-    const {activeStep, formData, selectedImage, selectedTags, searchKey = '', inActPeopleIds, processing} = this.state
+    const {activeStep, formData, selectedImage, selectedTags, searchKey = "", inActPeopleIds, processing} = this.state
     const {hisFiles, hashTags, social, members, createdExchange} = this.props
-    const tags = helpers.objToArrayAsOptions(hashTags, 'id', 'title', ['usage'])
+    const tags = helpers.objToArrayAsOptions(hashTags, "id", "title", ["usage"])
     const basicInfoBtnBarActs = [
       {
-        title: 'لغو',
+        title: "لغو",
         func: this._handleModalVisibility
       },
       {
-        title: 'بعدی',
+        title: "بعدی",
         func: this._goToNextStep,
         icon: (<ThinDownArrow className="left-arrow"/>)
       }
     ]
     const moreInfoBtnBarActs = [
       {
-        title: 'قبلی',
+        title: "قبلی",
         func: this._goToPrevStep,
         icon: (<ThinDownArrow className="right-arrow"/>)
       },
       {
-        title: 'بعدی',
+        title: "بعدی",
         func: this._createExchange,
         icon: (<ThinDownArrow className="left-arrow"/>)
       }
     ]
     const peopleBtnBarActs = [
       {
-        title: 'قبلی',
+        title: "قبلی",
         func: this._goToPrevStep,
         icon: (<ThinDownArrow className="right-arrow"/>)
       },
       {
-        title: 'بعدی',
+        title: "بعدی",
         func: this._goToNextStep,
         icon: (<ThinDownArrow className="left-arrow"/>)
       }
@@ -295,7 +310,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
       //   icon: (<ShareIcon className="right-arrow"/>)
       // },
       {
-        title: 'پایان',
+        title: "پایان",
         func: this._handleModalVisibility,
       }
     ]
@@ -309,7 +324,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
                 uploadHandler={this._uploadHandler}
                 imageHandler={this._imageHandler}
                 inputHandler={this._inputHandler}
-                selectedImage={selectedImage || ''}
+                selectedImage={selectedImage || ""}
                 selectionImages={hisFiles}
             />
         )
@@ -320,7 +335,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
                 inputHandler={this._inputHandler}
                 btnBarActs={moreInfoBtnBarActs}
                 deleteTagHandler={this._deleteTagHandler}
-                desc={formData ? formData[exchangeFields.desc] : ''}
+                desc={formData ? formData[exchangeFields.desc] : ""}
                 selectedTags={selectedTags}
                 tagAddHandler={this._tagAddHandler}
                 tags={tags}
@@ -350,32 +365,114 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
     }
   }
 
+  _handleCloseModal() {
+    let {handleModalVisibility} = this.props
+    handleModalVisibility()
+  }
+
+  _handleCreateExchange() {
+    let {name, description, exchangeImage, isPrivate} = this.state
+    if (name.length > 3 && name.length <= 32 && description.length < 100) {
+      let {createExchange, handleModalVisibility} = this.props
+      let formValues = {
+        name: name,
+        private: isPrivate,
+        description: description,
+        exchange_image: exchangeImage,
+      }
+      createExchange(formValues)
+      handleModalVisibility()
+    } else {
+      console.log("Illegal Length")
+    }
+  }
+
   render() {
-    const {activeStep, progressStatus, wrapperClassName} = this.state
-    const {modalIsOpen} = this.props
+    const {activeStep, progressStatus, wrapperClassName, name, description, processing, selectedImage} = this.state
+    const {modalIsOpen, translate} = this.props
     const pageContent = this._setContent()
     return (
-        <div>
-          <Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>
-            <ModalBody className="create-exchange-wrapper">
-              <FontAwesome
-                  name="times"
-                  size="2x"
-                  className="close-btn"
-                  onClick={this._handleModalVisibility}
-              />
-              {/*<div className="progressive-wrapper">*/}
-              <MenuProgressive
-                  steps={progressiveSteps}
-                  activeStep={activeStep}
-                  status={progressStatus}
-              />
-              {/*</div>*/}
-              <div className={`wrapper ${wrapperClassName}`}>
-                {pageContent}
+        <div
+            className={modalIsOpen ? "create-exchange-modal-container" : "create-exchange-modal-container-out"}
+        >
+
+          <div className={"create-exchange-header"}>
+            {translate["Create New Exchange"]}
+          </div>
+          <div className={"create-exchange-header-desc"}>
+            پنجره، گروهی متشکل از ارائه‌دهندگان و متقاضیان محصولات، خدمات و مهارت هاست.
+          </div>
+
+          <div className={"create-exchange-inputs"}>
+            <div>
+              <label>
+                {translate["Exchange Name"]} <span className={"secondary-color"}>*</span>
+              </label>
+              <input type={"text"} className={"create-exchange-name-input"} placeholder={translate["Exchange Name"]}
+                     onChange={(e) => this.setState({...this.state, name: e.target.value})}/>
+              <div className={name.length < 32 ? "create-exchange-name-input-limit" : "create-exchange-name-input-limited"}>
+                {name.length} / 32
               </div>
-            </ModalBody>
-          </Modal>
+            </div>
+            <div>
+              <label>
+                {translate["Exchange Description"]}
+              </label>
+              <textarea className={"create-exchange-desc-input"} placeholder={"موضوع فعالیت این پنجره چیست؟"}
+                        onChange={(e) => this.setState({...this.state, description: e.target.value})}/>
+              <div className={description.length < 100 ? "create-exchange-desc-input-limit" : "create-exchange-desc-input-limited"}>
+                {description.length} / 100
+              </div>
+            </div>
+            <div>
+              <label>
+                {translate["Upload Picture"]}
+              </label>
+              <div className={"create-exchange-upload"}>
+                {selectedImage !== undefined && selectedImage !== null && !processing ?
+                    <img alt={"image"} src={selectedImage} className={"create-exchange-upload-image"}/>
+                    :
+                    <UploadIcon className={"create-exchange-upload-svg"}/>
+                }
+                <input type="file" onChange={!processing ? (e => this._uploadHandler(e.currentTarget.files[0])) : console.log("Still Uploading")}/>
+              </div>
+            </div>
+          </div>
+
+          <div className={"create-exchange-buttons"}>
+            <button className={"create-exchange-success-button"} onClick={() => !processing ? this._handleCreateExchange() : null}>
+              {processing ?
+                  <ClipLoader color="#35495c" size={17} loading={true}/>
+                  :
+                  translate["Create"]
+              }
+            </button>
+            <button className={"create-exchange-cancel-button"} onClick={() => this._handleCloseModal()}>
+              {translate["Cancel"]}
+            </button>
+          </div>
+
+          {/*<Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>*/}
+          {/*<ModalBody className="create-exchange-wrapper">*/}
+          {/*<FontAwesome*/}
+          {/*name="times"*/}
+          {/*size="2x"*/}
+          {/*className="close-btn"*/}
+          {/*onClick={this._handleModalVisibility}*/}
+          {/*/>*/}
+          {/*<div className="progressive-wrapper">*/}
+          {/*<MenuProgressive*/}
+          {/*steps={progressiveSteps}*/}
+          {/*activeStep={activeStep}*/}
+          {/*status={progressStatus}*/}
+          {/*/>*/}
+          {/*</div>*/}
+          {/*<div className={`wrapper ${wrapperClassName}`}>*/}
+          {/*{pageContent}*/}
+          {/*</div>*/}
+          {/*</ModalBody>*/}
+          {/*</Modal>*/}
+
         </div>
     )
   }
@@ -408,17 +505,18 @@ const mapStateToProps = (state) => {
     if (res.some(i => i.id === item.follow_follower.id)) return res
     else return [...res, {
       ...item.follow_follower,
-      file: 'http://restful.daneshboom.ir/media/75f00defdde44fd4b0d8bee05617e9c7.jpg',
+      file: "http://restful.daneshboom.ir/media/75f00defdde44fd4b0d8bee05617e9c7.jpg",
     }]
   }, [])
   return {
     identity,
-    hisFiles: fileSelectorByKeyValue(state, 'identity', identity),
+    hisFiles: fileSelectorByKeyValue(state, "identity", identity),
     hashTags: hashTagsListSelector(state),
     social: getFolloweesSelector(state, getFolloweesProps),
     createdExchange: state.exchanges.list[exchangeId] || {},
     members,
     auth: state.auth,
+    translate: state.intl.messages || {},
   }
 }
 
@@ -429,8 +527,8 @@ const mapDispatchToProps = dispatch =>
           getFollowees: socialActions.getFollowees,
           createFile,
           createExchange: exchangeActions.createExchange,
-          addMember: exchangeMembershipActions.createExchangeMembership
+          addMember: exchangeMembershipActions.createExchangeMembership,
         },
         dispatch
-    );
+    )
 export default connect(mapStateToProps, mapDispatchToProps)(CreateExchange)

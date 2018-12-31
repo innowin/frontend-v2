@@ -7,7 +7,7 @@ import {put, take, fork, call, select} from 'redux-saga/effects'
 export function* getAllExchanges(action) {
   const {limit, offset, search} = action.payload
   const params = search !== null ? `?name=${search}` : `?limit=${limit}&offset=${offset}`
-  yield put({type: types.SUCCESS.EXCHANGE.GET_EXCHANGES, payload: {data: [], search, loading: true}})
+  yield put({type: types.SUCCESS.EXCHANGE.GET_EXCHANGES, payload: {data: [], search, isLoading: true}})
   const socketChannel = yield call(api.createSocketChannel, results.EXCHANGE.GET_EXCHANGES)
   try {
     yield fork(
@@ -17,7 +17,7 @@ export function* getAllExchanges(action) {
         params
     )
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.EXCHANGE.GET_EXCHANGES, payload: {data, search, loading: false}})
+    yield put({type: types.SUCCESS.EXCHANGE.GET_EXCHANGES, payload: {data, search, isLoading: false}})
 // Added for get membership
     const identityId = yield select((state) => state.auth.client.identity.content)
     const exchangeMembershipOwnerId = yield select((state) => state.auth.client.user.id)
