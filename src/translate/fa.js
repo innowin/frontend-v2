@@ -424,7 +424,7 @@ module.exports = {
     'Darbare Innowin': 'درباره اینوین',
     'Phone setting description': 'یک شماره موبایل وارد کنید. این شماره برای ارتباط اینوین (مثلا بازیابی رمز عبور) با شما است و برای سایر کاربران قابل مشاهده نخواهد بود.',
     'Home page': 'صفحه اصلی',
-    'Explore': 'اکسپلور',
+    'Explore': 'بگرد',
   },
 
   // toast messages

@@ -4,6 +4,7 @@ export default state => ({
     ...state.messages,
     topBar: {
       ...state.messages.topBar,
+      "Explore": "بگرد"
     },
   },
 })
