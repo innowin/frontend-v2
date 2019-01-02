@@ -5,7 +5,7 @@ import VERSION_3 from './v3'
 import VERSION_4 from './v4'
 
 export default {
-  LATEST_VERSION: 3,
+  LATEST_VERSION: 4,
   ROOT: {
     0: VERSION_0.ROOT,
     1: VERSION_1.ROOT,
