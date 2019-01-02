@@ -110,12 +110,16 @@ class BeePanel extends Component {
         job = 15
       }
 
-      const {clientFiles} = nextProps
-      const lastFile = clientFiles[clientFiles.length - 1] || {}
-      const prevLastFile = this.props.clientFiles[this.props.clientFiles.length - 1] || {}
-      if (lastFile.id && prevLastFile.id) {
-        if (lastFile.id !== prevLastFile.id) {
-          actions.updateProfile({formValues: {profile_media: lastFile.id}, profileId: currentUserProfileId, userId: currentUserId})
+      if (this.state.imageLoading) {
+        const {clientFiles} = nextProps
+        const lastFile = clientFiles[clientFiles.length - 1] || {}
+        const prevLastFile = this.props.clientFiles[this.props.clientFiles.length - 1] || {}
+        if (lastFile.id && prevLastFile.id) {
+          if (lastFile.id !== prevLastFile.id) {
+            this.setState({...this.state, imageLoading: false}, () => {
+              actions.updateProfile({formValues: {profile_media: lastFile.id}, profileId: currentUserProfileId, userId: currentUserId})
+            })
+          }
         }
       }
 
