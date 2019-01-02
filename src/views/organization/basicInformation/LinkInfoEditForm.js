@@ -5,8 +5,8 @@ import {Field, reduxForm} from "redux-form";
 
 import userLinkInfoValidation from 'src/helpers/validations/userLinkInfo'
 import renderTextField from "src/views/common/inputs/reduxFormRenderTextField"
-import type {organizationType} from "../../../consts/flowTypes/organization/organization";
-import constants from "../../../consts/constants";
+import type {organizationType} from "src/consts/flowTypes/organization/organization";
+import constants from "src/consts/constants";
 
 //FixMe: mohammad web site is not array, change to array
 // flow type of OrganizationInfoEditForm
@@ -33,18 +33,6 @@ type LinkInfoFormInputType = {|
 |}
 
 class LinkInfoEditForm extends React.Component<PropsOrganizationInfoEditForm> {
-  componentDidMount() {
-    const {organization, initialize} = this.props
-    const defaultFormValue = {
-      telegramAccount: organization.telegram_account.replace(constants.LINKS.TELEGRAM, ''),
-      instagramAccount: organization.instagram_account.replace(constants.LINKS.INSTAGRAM, ''),
-      linkedinAccount: organization.linkedin_account.replace(constants.LINKS.LINKEDIN, ''),
-      webSite: organization.web_site,
-      // youtubeAccount: organization.youtube_account,
-    }
-    initialize(defaultFormValue);
-  }
-
   static propTypes = {
     hideEdit: PropTypes.func.isRequired,
     organization: PropTypes.object.isRequired,
@@ -54,7 +42,19 @@ class LinkInfoEditForm extends React.Component<PropsOrganizationInfoEditForm> {
     initialize: PropTypes.func,
     handleSubmit: PropTypes.func,
   }
-
+  
+  componentDidMount() {
+    const {organization, initialize} = this.props
+    const defaultFormValue = {
+      telegramAccount: organization.telegram_account && organization.telegram_account.replace(constants.LINKS.TELEGRAM, ''),
+      instagramAccount: organization.instagram_account && organization.instagram_account.replace(constants.LINKS.INSTAGRAM, ''),
+      linkedinAccount: organization.linkedin_account && organization.linkedin_account.replace(constants.LINKS.LINKEDIN, ''),
+      webSite: organization.web_site,
+      // youtubeAccount: organization.youtube_account,
+    }
+    initialize(defaultFormValue);
+  }
+  
   _onSubmit = (values: LinkInfoFormInputType): boolean | void => {
     // organization equals to initial value
     const {organization, actions, hideEdit, organizationId} = this.props
