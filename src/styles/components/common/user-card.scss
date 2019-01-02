@@ -1,0 +1,70 @@
+@import "../../variables";
+.user-card-followed {
+  background-color: #f6f6f6;
+}
+.user-card {
+  font-size: $font-size-regular;
+  border-radius: $border-radius-size;
+  box-shadow: 0 3px 3px $box-shadow-color;
+  padding: 14px;
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  .followed-text {
+    position: absolute;
+    left: 15px;
+    color: $success-color;
+    font-weight: bold;
+  }
+  .follow-plus {
+    font-size: 12px;
+    border: 1.5px solid $success-color;
+    border-radius: $border-radius-size;
+    padding: 4px 5px 3px 5px;
+    color: $success-color;
+    position: absolute;
+    left: 15px;
+  }
+
+  .user-image {
+    width: 80px;
+    height: 80px;
+    display: block;
+    margin: 15px auto 0 auto;
+    border-radius: 100px;
+  }
+  .user-detail-container {
+    text-align: center;
+
+    .user-card-name {
+      font-weight: bold;
+      margin: 15px;
+    }
+    .user-card-desc {
+      color: $text-light-color;
+    }
+  }
+  .exchange-footer-container {
+    display: flex;
+    justify-content: space-around;
+    .demand-container {
+      display: flex;
+      font-weight: bold;
+      font-size: $font-size-medium;
+      margin-left: 5px;
+      .exchange-demand-icon {
+        width: 23px;
+        height: 20px;
+        margin-left: 7px;
+        opacity: 0.99;
+      }
+      .exchange-supply-icon {
+        width: 20px;
+        height: 20px;
+        margin-left: 10px;
+        opacity: 0.99;
+      }
+    }
+  }
+}

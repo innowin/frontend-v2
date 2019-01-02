@@ -4,15 +4,11 @@ import PropTypes from "prop-types"
 import {Component} from "react"
 
 import renderTextField from "../../common/inputs/reduxFormRenderTextField"
-import {ArrayInput} from "src/views/common/inputs/ArrayInput"
-import {CustomArrayInput} from "src/views/common/inputs/CustomArrayInput"
-import {CustomInput} from "src/views/common/inputs/CustomInput"
-import {ReduxFormDateInput} from 'src/views/common/inputs/reduxFormDateInput'
 import {Field, reduxForm} from "redux-form";
-import {outputComponent} from "src/views/common/OutputComponent"
-import {PhoneInput} from "src/views/common/inputs/PhoneInput"
 import type {userProfileType} from "src/consts/flowTypes/user/basicInformation"
 import contactInfoValidation from "../../../helpers/validations/contactInfoBasicInformation"
+import {ItemHeader} from "../../common/cards/Frames";
+import EditFormButtons from "../../common/components/EditFormButtons";
 
 type ContactInfoFormInputType = {
   day: string,
@@ -23,6 +19,9 @@ type ContactInfoFormInputType = {
   telegramAccount: string,
   description: string,
   address: string,
+  mobile: string,
+  phone: string,
+  webSite: string,
 }
 
 // ContactInfoEditForm flow type
@@ -52,10 +51,6 @@ class ContactInfoEditForm extends Component<PropsContactInfoEditForm> {
     submitFailed: PropTypes.string.isRequired,
     error: PropTypes.string.isRequired,
   }
-  mobileInput: React.ElementRef<typeof CustomArrayInput>
-  phoneInput: React.ElementRef<typeof CustomArrayInput>
-  faxInput: React.ElementRef<typeof CustomInput>
-  webSiteInput: React.ElementRef<typeof ArrayInput>
 
   componentDidMount() {
     const {initialize, profile} = this.props
@@ -65,9 +60,6 @@ class ContactInfoEditForm extends Component<PropsContactInfoEditForm> {
       phone: profile.phone,
       publicEmail: profile.public_email,
       webSite: profile.web_site,
-      // fax: profile.fax,
-      // telegramAccount: profile.telegram_account,
-      // description: profile.description,
     }
     initialize(defaultFormValue);
   }
@@ -78,138 +70,82 @@ class ContactInfoEditForm extends Component<PropsContactInfoEditForm> {
 
     const {updateProfileByProfileId} = actions
     const profileId: number = profile.id
-    const mobile = this.mobileInput.getValue()
-
-    const phone = this.phoneInput.getValue()
-    const web_site = this.webSiteInput.getValue()
-    // const fax = this.faxInput.getValue()
 
     const formFormat = {
       address: profile.address === values.address ? null : values.address,
-      mobile: profile.mobile === mobile ? null : mobile,
-      phone: profile.phone === phone ? null : phone,
+      mobile: profile.mobile === values.mobile ? null : values.mobile,
+      phone: profile.phone === values.phone ? null : values.phone,
       public_email: profile.public_email === values.publicEmail ? null : values.publicEmail,
-      web_site: profile.web_site === web_site ? null : web_site,
-      // fax: profile.fax === fax ? null : fax,
-      // telegram_account: profile.telegram_account === values.telegramAccount ? null : values.telegramAccount,
-      // description: profile.description === values.description ? null : values.description,
+      web_site: profile.web_site === values.webSite ? null : values.webSite,
     }
     const propertyNames = Object.getOwnPropertyNames(formFormat)
     propertyNames.map(key => {
-      formFormat[key] === null ? delete(formFormat[key]) : ''
+      formFormat[key] === null ? delete (formFormat[key]) : ''
       return formFormat
     })
-    // TODO: mohammad mobile, phone, web_site not send to server(array forms)
-    // they are array forms and must change the send format
 
     const formValues: {} = {...formFormat}
-    updateProfileByProfileId(formValues, profileId, userId)
+    updateProfileByProfileId({formValues, profileId, userId})
     this.props.hideEdit()
     return false
   }
 
   render() {
-    const {translate, handleSubmit, profile, submitFailed, error} = this.props
+    const {translate, handleSubmit, submitFailed, error, hideEdit} = this.props
     return (
-        <form onSubmit={handleSubmit(this._onSubmit)}>
-          <div className='form-group'>
-            <label>
-              {translate['Address'] + ": "}
-            </label>
+        <React.Fragment>
+          <ItemHeader title={translate['Contact info']} editText={translate['Editing']}/>
+          <form onSubmit={handleSubmit(this._onSubmit)}>
             <Field
                 name="address"
                 type="text"
                 component={renderTextField}
                 label={translate['Address']}
-                textFieldClass='form-control'
+                isNew={true}
+                tipText={translate['This address is for public view']}
             />
-          </div>
-          <ReduxFormDateInput translate={translate} labelName={translate['BirthDate']} dayName='day' monthName='month' yearName='year'/>
-          <CustomArrayInput
-              label={translate['Phone'] + ": "}
-              value={profile.phone}
-              inputComponent={PhoneInput}
-              outputComponent={outputComponent}
-              ref={phoneInput => {
-                this.phoneInput = phoneInput
-              }}
-          />
-          <CustomArrayInput
-              label={translate['Mobile'] + ": "}
-              value={profile.mobile}
-              inputComponent={PhoneInput}
-              outputComponent={outputComponent}
-              ref={mobileInput => {
-                this.mobileInput = mobileInput
-              }}
-          />
-          {/*TODO WEB INPUT*/}
-          <ArrayInput
-              name="webSite"
-              label={translate['Website'] + ": "}
-              placeholder={translate['Web Site Format']}
-              value={profile.web_site}
-              ref={webSiteInput => {
-                this.webSiteInput = webSiteInput
-              }}
-          />
-          <div className='form-group'>
-            <label>
-              {translate['Public email'] + ": "}
-            </label>
+            <Field
+                name="mobile"
+                type="text"
+                component={renderTextField}
+                label={translate['Mobile']}
+                isNew={true}
+                ltr={true}
+                tipText={translate['This number is for public view']}
+            />
+            <Field
+                name="phone"
+                type="text"
+                component={renderTextField}
+                label={translate['Phone']}
+                isNew={true}
+                ltr={true}
+                tipText={translate['This number is for public view']}
+            />
+            <Field
+                name="webSite"
+                type="text"
+                component={renderTextField}
+                label={translate['Website']}
+                isNew={true}
+                ltr={true}
+            />
             <Field
                 name="publicEmail"
                 type="email"
                 component={renderTextField}
                 label={translate['Public email']}
-                textFieldClass='form-control'
+                isNew={true}
+                ltr={true}
+                tipText={translate['This email is for public view']}
             />
-          </div>
 
+            {submitFailed && <p className="form-error error-message">{error}</p>}
 
+            <EditFormButtons onCancelClick={hideEdit} translate={translate}/>
 
-          {/*<CustomInput*/}
-              {/*label={translate['Fax'] + ": "}*/}
-              {/*value={profile.fax}*/}
-              {/*ref={faxInput => {*/}
-                {/*this.faxInput = faxInput*/}
-              {/*}}*/}
-              {/*inputComponent={PhoneInput}*/}
-          {/*/>*/}
-          {/*<div className='form-group'>*/}
-            {/*<label>*/}
-              {/*{translate['Telegram account'] + ": "}*/}
-            {/*</label>*/}
-            {/*<Field*/}
-                {/*name="telegramAccount"*/}
-                {/*type="text"*/}
-                {/*component={renderTextField}*/}
-                {/*label={translate['Telegram account']}*/}
-                {/*textFieldClass='form-control'*/}
-            {/*/>*/}
-          {/*</div>*/}
-          {/*<div className='form-group'>*/}
-            {/*<label>*/}
-              {/*{translate['Description'] + ": "}*/}
-            {/*</label>*/}
-            {/*<Field*/}
-                {/*name="description"*/}
-                {/*type="text"*/}
-                {/*component={renderTextArea}*/}
-                {/*label={translate['Description']}*/}
-                {/*textFieldClass='form-control'*/}
-            {/*/>*/}
-          {/*</div>*/}
-
-          {submitFailed && <p className="error-message">{error}</p>}
-
-          <div className="d-flex justify-content-end">
-            <button type="button" className="btn btn-secondary mr-2" onClick={this.props.hideEdit}>
-              {translate['Cancel']}
-            </button>
-            <button type="submit" className="btn btn-success">{translate['Save']}</button>
-          </div>
-        </form>
+          </form>
+        </React.Fragment>
     )
   }
 }

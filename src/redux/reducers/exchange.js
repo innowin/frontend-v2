@@ -1,15 +1,27 @@
-import initialState from 'src/redux/reducers/initialState'
-import types from 'src/redux/actions/types'
-import exchangeSlice from './sliceReducers/exchange'
+import initialState from "src/redux/reducers/initialState"
+import types from "src/redux/actions/types"
+import exchangeSlice from "./sliceReducers/exchange"
 import constants from "src/consts/constants"
-
+import pushAnObjToStateList from "./sliceReducers/utilsSlices/pushAnObjToStateList"
+import createAnObj from "./sliceReducers/utilsSlices/createAnObj"
 // this badge function just set received success exchanges in user or organ or ...
 
 const exchanges = (state = initialState.exchanges, action) => {
   const {postParentType} = action.payload || {}
-  const {getExchangeByExId, postsExchange, getExchangeMembershipByMemberIdentity, getAllExchanges, searchExchangesByWord} = exchangeSlice
+  const {getExchangeByExId, postsExchange, getExchangeMembershipByMemberIdentity, getAllExchanges, searchExchangesByWord,
+    removeExchangesSearchMode, editExchange, deleteExchange} = exchangeSlice
   const {POST_PARENT} = constants
   switch (action.type) {
+    case types.EXCHANGE.CREATE_EXCHANGE:
+      return createAnObj.base(state, action)
+    case types.SUCCESS.EXCHANGE.CREATE_EXCHANGE:
+      return createAnObj.success(state, action)
+      /** --------------------  edit exchange --------------------- **/
+    case types.SUCCESS.EXCHANGE.EDIT_EXCHANGE:
+      return editExchange.success(state, action)
+      /** --------------------  delete exchange --------------------- **/
+    case types.SUCCESS.EXCHANGE.DELETE_EXCHANGE:
+      return deleteExchange.success(state, action)
       /** --------------------  get exchange by exchange id --------------------- **/
     case types.SUCCESS.EXCHANGE.GET_EXCHANGE_BY_EX_ID:
       return getExchangeByExId.success(state, action)
@@ -28,6 +40,9 @@ const exchanges = (state = initialState.exchanges, action) => {
       /** -------------------------- search exchanges by word  -------------------------> **/
     case types.SUCCESS.EXCHANGE.SEARCH_EXCHANGES_BY_WORD:
       return searchExchangesByWord.success(state, action)
+
+    case types.EXCHANGE.REMOVE_SEARCH_MODE:
+      return removeExchangesSearchMode.success(state, action)
       /** -------------------------- add one post to exchange posts  -------------------------> **/
     case types.SUCCESS.COMMON.POST.CREATE_POST :
       if (postParentType === POST_PARENT.EXCHANGE) {

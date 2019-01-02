@@ -11,6 +11,17 @@ const filterPostsByPostParentLimitOffset = ({postParentId, postType, postParentT
   }
 })
 
+const filterPostsByPostRelatedProduct = ({postRelatedProductId, postType, postParentType, limit, offset}) => ({
+  type: types.COMMON.POST.FILTER_POSTS_BY_POST_RELATED_PRODUCT,
+  payload: {
+    postRelatedProductId,
+    postType,
+    limit,
+    offset,
+    postParentType
+  }
+})
+
 const getPostByIdentity = ({postIdentity, postOwnerId, postOwnerType}) => {
   return {
     type: types.COMMON.POST.GET_POST_BY_IDENTITY,
@@ -24,8 +35,9 @@ const getPostByIdentity = ({postIdentity, postOwnerId, postOwnerType}) => {
 
 const getPostViewerCount = (postId) => {
   return {
-    type: types.COMMON.POST.GET_POST_VIEWER_COUNT,
-    payload:{
+    // type: types.COMMON.POST.GET_POST_VIEWER_COUNT,
+    type: '',
+    payload: {
       postId
     }
   }
@@ -34,10 +46,17 @@ const getPostViewerCount = (postId) => {
 const setPostViewer = (postId, getPostViewerCount) => {
   return {
     type: types.COMMON.POST.SET_POST_VIEWER,
-    payload:{
+    payload: {
       postId,
       getPostViewerCount
     }
+  }
+}
+
+const getPost = ({postId, postOwnerType, postOwnerId}) => {
+  return {
+    type: types.COMMON.POST.GET_POST,
+    payload: {postId, postOwnerType, postOwnerId}
   }
 }
 
@@ -82,10 +101,12 @@ const PostActions = {
   getPostByIdentity,
   getPostViewerCount,
   setPostViewer,
+  getPost,
   createPost,
   updatePost,
   deletePost,
   filterPostsByPostParentLimitOffset,
+  filterPostsByPostRelatedProduct
 }
 
 export default PostActions

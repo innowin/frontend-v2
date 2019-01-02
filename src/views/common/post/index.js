@@ -1,7 +1,6 @@
 // @flow
 
 //TODO: mohammad forms need change to redux form
-//FIXME: profileMedia for organization and home page need to fix
 import * as React from "react";
 import PropTypes from 'prop-types';
 
@@ -10,13 +9,13 @@ import {PostCreateForm} from "./PostCreateForm";
 import {bindActionCreators} from "redux";
 import PostActions from "../../../redux/actions/commonActions/postActions";
 import connect from "react-redux/es/connect/connect";
-import {makeUserPostsSelector} from 'src/redux/selectors/common/post/userPostsSelector'
+import {userPostsSelector} from 'src/redux/selectors/common/post/userPostsSelector'
 import {Post} from './Post'
-import constants from "../../../consts/constants";
+import constants from "src/consts/constants"
+import client from 'src/consts/client'
 
 type postsPropsType = {
-  id: number,
-  profileMedia: string,
+  id: number| string,
   postIdentity: number,
   translate: {[string]: string},
   actions: {
@@ -27,8 +26,9 @@ type postsPropsType = {
   },
   posts: [],
   isLoading: boolean,
-  error: string,
+  error?: string,
   identityType: string,
+  userImageId: number,
 }
 
 type postsStatesType = {
@@ -37,15 +37,15 @@ type postsStatesType = {
 
 class Posts extends React.Component<postsPropsType, postsStatesType> {
   static propTypes = {
-    id: PropTypes.string.isRequired,
-    profileMedia: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     postIdentity: PropTypes.number.isRequired,
     actions: PropTypes.object.isRequired,
     posts: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    error: PropTypes.object.isRequired,
+    error: PropTypes.object,
     translate: PropTypes.object.isRequired,
     identityType: PropTypes.string.isRequired,
+    userImageId: PropTypes.number.isRequired,
   };
 
   constructor(props: postsPropsType) {
@@ -54,18 +54,17 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
   }
 
   _showCreateForm = () => {
-    this.setState({createForm: true})
+    this.setState({...this.state,createForm: true})
   };
 
   _hideCreateForm = () => {
-    this.setState({createForm: false})
+    this.setState({...this.state,createForm: false})
   };
 
   _create = (formValues) => {
-    const {actions, id} = this.props
+    const {actions, id, identityType} = this.props
     const {createPost} = actions
-    const postOwnerType = constants.USER_TYPES.PERSON
-    createPost({formValues, postOwnerId: id, postOwnerType})
+    createPost({formValues, postOwnerId: id, postOwnerType:identityType})
   }
 
   componentDidMount() {
@@ -75,7 +74,7 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
   }
 
   render() {
-    const {postIdentity, profileMedia, posts, isLoading, error, actions, translate} = this.props
+    const {postIdentity, posts, isLoading, error, actions, translate, userImageId} = this.props
     const {updatePost, deletePost} = actions
     const {createForm} = this.state;
     return (
@@ -84,7 +83,7 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
         <CategoryTitle
           title={translate['Post']}
           showCreateForm={this._showCreateForm}
-          createForm={createForm}
+          // createForm={createForm}
         />
         <FrameCard className="-frameCardPost">
 
@@ -92,8 +91,12 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
             {
               createForm &&
               <div className="-itemWrapperPost">
-                <PostCreateForm hideCreateForm={this._hideCreateForm} create={this._create}
-                                postIdentity={postIdentity}/>
+                <PostCreateForm hideCreateForm={this._hideCreateForm}
+                                create={this._create}
+                                postIdentity={postIdentity}
+                                postsLength = {posts.length}
+                                userImageId={userImageId}
+                />
               </div>
             }
             {
@@ -102,7 +105,6 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
                   post={post}
                   updatePost={updatePost}
                   key={post.id + "Posts"}
-                  profileMedia={profileMedia}
                   deletePost={deletePost}
                 />
               ))
@@ -118,18 +120,21 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
 }
 
 const mapStateToProps  = (state, ownProps) => {
-  const userPostsSelector = makeUserPostsSelector(state, ownProps)
-  return (state, props) => {
-    let userId = props.id
-    const stateUser = state.users.list[userId]
-    const defaultObject = {content: [], isLoading: false, error: null}
-    const postObject = (stateUser && stateUser.posts) || defaultObject
-    return {
-      posts: userPostsSelector(state, props),
-      translate: state.intl.messages,
-      isLoading: postObject.isLoading,
-      error: postObject.error,
-    }
+  const {identityType} = ownProps
+  const ownerId = ownProps.id
+  const stateOwner = (identityType === constants.USER_TYPES.PERSON) ? state.users.list[ownerId] :
+    (identityType === constants.USER_TYPES.ORG && state.organs.list[ownerId])
+  const defaultObject = {content: [], isLoading: false, error: null}
+  const postObject = (stateOwner && stateOwner.posts) || defaultObject
+  const userType = client.getUserType()
+  const userImageId = (userType === constants.USER_TYPES.PERSON) ? state.auth.client.profile.profile_media :
+      (userType === constants.USER_TYPES.ORG && state.auth.client.organization.organization_logo)
+  return {
+    posts: userPostsSelector(state, ownProps),
+    userImageId,
+    translate: state.intl.messages,
+    isLoading: postObject.isLoading,
+    error: postObject.error,
   }
 }
 

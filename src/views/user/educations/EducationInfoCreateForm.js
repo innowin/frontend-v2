@@ -4,6 +4,7 @@ import PropTypes from "prop-types"
 
 import EducationInfoForm from './EducationInfoForm'
 import type {userEducationInputType} from "../../../consts/flowTypes/user/basicInformation"
+import constants from "../../../consts/constants";
 
 // flow type of EducationInfoForm
 type PropsEducationInfoForm = {
@@ -20,8 +21,19 @@ const EducationInfoCreateForm = (props: PropsEducationInfoForm) => {
     const from_date = (values.dayFromDate === undefined || values.monthFromDate === undefined || values.yearFromDate === undefined || values.yearFromDate === '' || values.monthFromDate === '' || values.dayFromDate === '') ? null : `${values.yearFromDate}.${values.monthFromDate}.${values.dayFromDate}`
     const to_date = (values.dayToDate === undefined || values.monthToDate === undefined || values.yearToDate === undefined || values.yearToDate === '' || values.monthToDate === '' || values.dayToDate === '') ? null : `${values.yearToDate}.${values.monthToDate}.${values.dayToDate}`
 
+    let grade
+    if(values.grade === translate['Bachelor']) {
+      grade = constants.SERVER_GRADES.BACHELOR
+    }
+    else if (values.grade === translate['Master']) {
+      grade = constants.SERVER_GRADES.MASTER
+    }
+    else if (values.grade === translate['Phd']) {
+      grade = constants.SERVER_GRADES.PHD
+    }
+
     const formFormat = {
-      grade: values.grade ? values.grade : null,
+      grade: grade ? grade : null,
       university: values.university ? values.university : null,
       field_of_study: values.fieldOfStudy ? values.fieldOfStudy : null,
       description: values.description ? values.description : null,
@@ -62,7 +74,6 @@ EducationInfoCreateForm.propTypes = {
   create: PropTypes.func.isRequired,
   translate: PropTypes.object.isRequired,
   userId: PropTypes.number.isRequired,
-  hideEdit: PropTypes.func.isRequired,
 }
 
 export default EducationInfoCreateForm

@@ -4,20 +4,20 @@ import client from 'src/consts/client'
 import PropTypes from 'prop-types'
 
 type checkOwnerProps = {
-  id: ?number,
+  id: ?number | ?string,
   children?: React.Node,
   showForOwner?: boolean
 }
 
-const CheckOwner = ({children, id, showForOwner = true}: checkOwnerProps) => {
+const checkOwner = ({children, id, showForOwner = true}: checkOwnerProps) => {
     return showForOwner
       ? (client.checkIdWithQueryId(+id) ? children : '')
       : (client.checkIdWithQueryId(+id) ? '' : children)
 }
 
-CheckOwner.propTypes = {
+checkOwner.propTypes = {
   id: PropTypes.number.isRequired,
   showForOwner: PropTypes.bool,
 }
 
-export default CheckOwner
+export default checkOwner

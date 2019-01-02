@@ -16,5 +16,7 @@ export default {
        },
      }
      */
-  }
+  },
+  searchByWord: null,
+  isLoading: true
 }

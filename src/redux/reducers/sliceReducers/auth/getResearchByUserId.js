@@ -17,7 +17,8 @@ const success = (state, action) => {
     ...state,
     client: {
       ...client,
-      researches: [...previousResearch, ...arrayOfResearchId]
+      // researches: [...previousResearch, ...arrayOfResearchId],
+      researches: arrayOfResearchId,
     }
   }
 }

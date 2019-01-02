@@ -1,7 +1,6 @@
 const results = {
   SIGN_IN: 'sign-in',
   VERIFY_TOKEN: 'verify-token',
-  GET_IDENTITY: 'get-identity',
   USER: {
     USERNAME_CHECK: "USERNAME_CHECK",
     EMAIL_CHECK:"EMAIL_CHECK",
@@ -13,6 +12,13 @@ const results = {
     UPDATE_USER_BY_USER_ID: "UPDATE_USER_BY_USER_ID",
     UPDATE_PROFILE_BY_PROFILE_ID: 'UPDATE_PROFILE_BY_PROFILE_ID',
     GET_USERS: 'GET_USERS',
+    GET_ALL_USERS: 'GET_ALL_USERS',
+    GET_IDENTITY: 'get-identity',
+    PASSWORD_RESET_BY_SMS_REQUEST:'password_reset_by_sms_request',
+    PASSWORD_RESET_BY_SMS_CHECK_CODE:'password_reset_by_sms_check_code',
+    PASSWORD_RESET_BY_SMS:'password_reset_by_sms',
+    PASSWORD_RECOVERY_BY_EMAIL: 'password-recovery-by-email',
+    SEARCH_USER: 'search_password',
   },
   ORG: {
     GET_ORGANIZATION: 'get-organization',
@@ -24,9 +30,7 @@ const results = {
     GET_ORG_EXCHANGES: 'get-org-exchanges',
     GET_ORG_FOLLOWING: 'get-org-following',
     GET_ORG_FOLLOWINGS_IDENTITIES: 'get-org-followings-identities',
-    GET_ORG_CUSTOMERS: 'get-org-customers',
     GET_ORG_CERTIFICATES: 'get-org-certificates',
-    UPDATE_CUSTOMER: 'update-org-customer',
     CREATE_PRODUCT: 'create-org-product',
     GET_PRODUCT_CATEGORIES: 'get-product-category',
     GET_PRODUCTS: 'get-org-products',
@@ -37,9 +41,16 @@ const results = {
     DELETE_PRODUCT: 'delete-org-product',
     CREATE_CERTIFICATE: 'create-org-certificate',
     GET_STAFF: 'get-org-staff',
+
+    AGENCY_REQUEST: 'agent-request',
+
+    // customer
+    GET_CUSTOMERS_BY_ORGANIZATION_ID: 'get-org-customers',
+    GET_CUSTOMER_BY_CUSTOMER_ID:'get-org-customer',
     CREATE_CUSTOMER: 'create-org-customer',
     DELETE_CUSTOMER: 'delete-org-customer',
-    AGENCY_REQUEST: 'agent-request',
+    UPDATE_CUSTOMER: 'update-org-customer',
+
   },
   COMMON: {
     // product
@@ -47,9 +58,11 @@ const results = {
     CREATE_PRODUCT: 'create-product-result',
     CREATE_PRODUCT_PICTURE: 'create-product-picture-result',
     GET_PRODUCT_PICTURES_BY_PRODUCT_ID: 'get-product-pictures-by-product-id-result',
+    GET_PRICE_BY_PRODUCT_ID: 'get-price-by-product-id-result',
 
     // file
     GET_FILE: 'COMMON_GET_FILE',
+    GET_FILES: 'common-get-files-result',
     CREATE_FILE: 'common-create-file-result',
     UPDATE_FILE: 'common-update-file-result',
 
@@ -60,6 +73,7 @@ const results = {
     GET_USER_BADGES: "GET_USER_BADGES",
     GET_ORG_BADGES: "GET_ORG_BADGES",
     GET_BADGES: 'get-badges-result',
+    GET_ALL_BADGES: 'get-all-result',
 
     CERTIFICATE: {
       GET_CERTIFICATES: 'common-get-object-certificates-list-result',
@@ -72,12 +86,14 @@ const results = {
 
     POST: {
       FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET: 'filterPostsByPostParentLimitOffset',
+      FILTER_POSTS_BY_POST_RELATED_PRODUCT: 'FILTER_POSTS_BY_POST_RELATED_PRODUCT',
       GET_POST_BY_IDENTITY: 'get-post-by-identity',
       GET_POST_VIEWER_COUNT: 'get-post-viewer-count',
       SET_POST_VIEWER: 'set-post-viewer',
       CREATE_POST: 'create-post',
       UPDATE_POST: 'update-post',
       DELETE_POST: 'delete-post',
+      GET_POST: 'get-post',
     },
 
     SOCIAL: {
@@ -101,21 +117,32 @@ const results = {
       DELETE_PRODUCT: 'delete-product',
     },
 
+    COMMENT: {
+      GET_COMMENTS_BY_PARENT_ID: 'get-comments-by-parent-id',
+      CREATE_COMMENT: 'create-comment',
+      DELETE_COMMENT: 'delete-comment',
+    },
+
     // hashTag
     GET_HASH_TAGS: 'common-get-hashTags-result',
     CREATE_HASH_TAG_FOR: 'common-create-hashTag-for-object-result',
+    GET_OBJ_HASH_TAGS: 'common-get-obj-hash-tags-result',
 
     // location
     GET_COUNTRIES: 'common--get--countries--result',
     GET_PROVINCES: 'common-get-provinces-result',
     GET_CITIES: 'common-get-cities-result',
-
+    GET_COUNTRY: 'common--get--country--result',
+    GET_PROVINCE: 'common-get-province-result',
+    GET_CITY: 'common-get-city-result',
   },
   EXCHANGE: {
     GET_EXCHANGES: 'get-exchanges',
     SEARCH_EXCHANGES_BY_WORD: 'search-exchanges-by-word',
     GET_EXCHANGE_BY_EX_ID: 'get-exchange-by-ex-id',
     CREATE_EXCHANGE: 'create-exchange',
+    EDIT_EXCHANGE: 'edit-exchange',
+    DELETE_EXCHANGE: 'delete-exchange',
   },
   WORK_EXPERIENCE: {
     GET_USER_WORK_EXPERIENCES_BY_USER_ID: 'get-user-work-experiences-by-user-id',
@@ -141,5 +168,14 @@ const results = {
     DELETE_SKILL_BY_USER_ID: 'delete-skill-by-user-id',
     UPDATE_SKILL_BY_USER_ID: 'update-skill-by-user-id',
   },
+  ABILITY: {
+    GET_ABILITIES_BY_ORGANIZATION_ID: 'get-org-abilities',
+    CREATE_ABILITY: 'create-org-ability',
+    DELETE_ABILITY: 'delete-org-ability',
+    UPDATE_ABILITY: 'update-org-ability',
+  },
+  FAVORITE: {
+    GET_FAVORITES: 'get-favorite',
+  }
 }
 export default results

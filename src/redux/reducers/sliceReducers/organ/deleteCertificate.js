@@ -16,8 +16,7 @@ const success = (state, action) => {
         [certificateOwnerId]: {
           ...state.list[certificateOwnerId],
           certificates: {
-            ...previousCertificate,
-            content: [...newDeletedCertificates],
+            content: newDeletedCertificates,
             isLoading: false,
             error: null
           }

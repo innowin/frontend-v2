@@ -2,8 +2,6 @@ import {REST_URL, SOCKET as socket} from "./URLS"
 import {GET_VIEWS_COUNT, NEW_VIEW, REST_REQUEST} from "./Events"
 import {eventChannel} from 'redux-saga'
 import {apply, select} from "redux-saga/effects"
-import results from "src/consts/resultName"
-
 
 const createSocketChannel = (resultName) => {
   return eventChannel(emit => {
@@ -26,6 +24,10 @@ const createSocketChannel = (resultName) => {
         return;
       }
       if (res.data) {
+        if (res.data.results && res.data.count >= 0) {
+          emit(res.data.results)
+          return;
+        }
         emit(res.data)
       } else emit(res)
     }
@@ -35,15 +37,14 @@ const createSocketChannel = (resultName) => {
 }
 
 //1 - req -sending requests
-function* get(url, result, param = "") {
+function* get(url, result, param = "", noToken) {
   const token = yield select((state) => state.auth.client.token)
-  yield apply({}, getEmit, [url, result, param, token])
-
+  yield apply({}, getEmit, [url, result, param, token, noToken])
 }
 
-function* post(url, result, data, param = "") {
+function* post(url, result, data, param = "", noToken) {
   const token = yield select((state) => state.auth.client.token)
-  yield apply({}, postEmit, [url, result, data, param, token])
+  yield apply({}, postEmit, [url, result, data, param, token, noToken])
 }
 
 function* patch(url, result, data, param = "") {
@@ -66,53 +67,62 @@ function* setPostViewer(postId, result) {
 }
 
 // pre send request
-const getEmit = (url, resultName, query = "", token) => {
-  socket.emit(REST_REQUEST, {
-    method: 'get',
-    url: REST_URL + '/' + url + '/' + query,
-    result: resultName,
-    token
-  })
+const getEmit = (url, resultName, query = "", token, noToken) => {
+  if (noToken) {
+    socket.emit(REST_REQUEST, {
+      method: 'get',
+      url: REST_URL + '/' + url + '/' + query,
+      result: resultName,
+    })
+  } else {
+    socket.emit(REST_REQUEST, {
+      method: 'get',
+      url: REST_URL + '/' + url + '/' + query,
+      result: resultName,
+      token,
+    })
+  }
 }
 
-const patchEmit = (url, resultName, data, query = "", token) => {
+const patchEmit = (urll, resultName, data, query = "", token) => {
+  let url
+  query === "" ? url = REST_URL + '/' + urll + '/' : url = REST_URL + '/' + urll + '/' + query + '/'
   socket.emit(REST_REQUEST, {
     method: 'patch',
-    url: REST_URL + '/' + url + '/' + query + '/',
     result: resultName,
+    url,
     data,
     token
   })
 }
 
-const delEmit = (url, resultName, data, query = "", token) => {
+const delEmit = (urll, resultName, data, query = "", token) => {
+  let url
+  query === "" ? url = REST_URL + '/' + urll + '/' : url = REST_URL + '/' + urll + '/' + query + '/'
   socket.emit(REST_REQUEST, {
     method: 'del',
-    url: REST_URL + '/' + url + '/' + query + '/',
+    url,
     result: resultName,
     data,
     token
   })
 }
 
-const postEmit = (url, resultName, data, query = "", token) => {
-  if (resultName !== results.USER.USERNAME_CHECK
-    && resultName !== results.USER.EMAIL_CHECK
-    && resultName !== results.USER.CREATE_USER_PERSON
-    && resultName !== results.USER.CREATE_USER_ORGAN) {
+const postEmit = (url, resultName, data, query = "", token, noToken) => {
+  if (noToken) {
     socket.emit(REST_REQUEST, {
       method: 'post',
       url: REST_URL + '/' + url + '/' + query,
       result: resultName,
       data,
-      token
     })
   } else {
     socket.emit(REST_REQUEST, {
       method: 'post',
       url: REST_URL + '/' + url + '/' + query,
       result: resultName,
-      data
+      data,
+      token
     })
   }
 }

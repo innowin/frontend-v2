@@ -71,6 +71,10 @@ const organs = (state = initialState.organs, action) => {
           }
         }
       }
+
+    case types.SUCCESS.ORG.SET_ORGANIZATION_INFO_MEDIA:
+      return slices.setOrganMedia.success(state, action)
+
     /** -------------------------- update organization info-------------------------> **/
     case types.SUCCESS.ORG.UPDATE_ORGANIZATION_INFO:
       return {
@@ -102,6 +106,39 @@ const organs = (state = initialState.organs, action) => {
           }
         }
       }
+
+    /** -------------------------- create file-------------------------> **/
+
+    /** -------------------------- get posts by identity  -------------------------> **/
+    case types.COMMON.POST.GET_POST_BY_IDENTITY:
+      return slices.getPostByIdentity.base(state, action)
+    case types.SUCCESS.COMMON.POST.GET_POST_BY_IDENTITY:
+      return slices.getPostByIdentity.success(state, action)
+    case types.ERRORS.COMMON.POST.GET_POST_BY_IDENTITY:
+      return slices.getPostByIdentity.error(state, action)
+    /** -------------------------- get products by identity  -------------------------> **/
+    case types.COMMON.PRODUCT.GET_PRODUCTS_BY_IDENTITY:
+      return slices.getProductsByIdentity.base(state, action)
+    case types.SUCCESS.COMMON.PRODUCT.GET_PRODUCTS_BY_IDENTITY:
+      return slices.getProductsByIdentity.success(state, action)
+    case types.ERRORS.COMMON.PRODUCT.GET_PRODUCTS_BY_IDENTITY:
+      return slices.getProductsByIdentity.error(state, action)
+    /** -------------------------- delete product  -------------------------> **/
+    case types.SUCCESS.COMMON.PRODUCT.DELETE_PRODUCT:
+      return slices.deleteProduct.success(state, action)
+    /** -------------------------- get post  -------------------------> **/
+    case types.COMMON.POST.GET_POST:
+      return slices.getPost.base(state, action)
+    case types.SUCCESS.COMMON.POST.GET_POST:
+      return slices.getPost.success(state, action)
+    case types.ERRORS.COMMON.POST.GET_POST:
+      return slices.getPost.error(state, action)
+    /** -------------------------- create post  -------------------------> **/
+    case types.SUCCESS.COMMON.POST.CREATE_POST:
+      return slices.createPost.success(state, action)
+    /** -------------------------- delete post  -------------------------> **/
+    case types.SUCCESS.COMMON.POST.DELETE_POST:
+      return slices.deletePost.success(state, action)
     /** -------------------------- get followers -------------------------> **/
     case types.COMMON.SOCIAL.GET_FOLLOWERS:
       return slices.getFollowers.base(state, action)
@@ -192,14 +229,41 @@ const organs = (state = initialState.organs, action) => {
     /** -------------------------- delete work experience by user id -------------------------> **/
     case types.SUCCESS.WORK_EXPERIENCE.DELETE_USER_WORK_EXPERIENCES_BY_USER_ID:
       return slices.deleteWorkExperienceByUserId.success(state, action)
-
     /** -------------- get organization certificates -------------> **/
     case types.SUCCESS.COMMON.CERTIFICATE.GET_CERTIFICATES_BY_IDENTITY:
       return slices.getCertificatesByIdentity.success(state, action)
     /** -------------------------- delete organization certificate -------------------------> **/
     case types.SUCCESS.COMMON.CERTIFICATE.DELETE_CERTIFICATE:
       return slices.deleteCertificate.success(state, action)
-
+    /** -------------------------- create Certificate  -------------------------> **/
+    case types.SUCCESS.COMMON.CERTIFICATE.CREATE_OBJECT_CERTIFICATE:
+      return slices.createCertificate.success(state, action)
+    /** -------------------------- get organization customers -------------------------> **/
+    case types.ORG.GET_CUSTOMERS_BY_ORGANIZATION_ID:
+      return slices.getCustomersByOrganizationId.base(state, action)
+    case types.SUCCESS.ORG.GET_CUSTOMERS_BY_ORGANIZATION_ID:
+      return slices.getCustomersByOrganizationId.success(state, action)
+    case types.ERRORS.ORG.GET_CUSTOMERS_BY_ORGANIZATION_ID:
+      return slices.getCustomersByOrganizationId.error(state, action)
+    /** -------------------------- delete customer  -------------------------> **/
+    case types.SUCCESS.ORG.DELETE_CUSTOMER:
+      return slices.deleteCustomer.success(state, action)
+    /** -------------------------- create customer -------------------------> **/
+    case types.SUCCESS.ORG.CREATE_CUSTOMER:
+      return slices.createCustomer.success(state, action)
+    /** -------------------------- get organization customers -------------------------> **/
+    case types.ABILITY.GET_ABILITIES_BY_ORGANIZATION_ID:
+      return slices.getAbilitiesByOrganizationId.base(state, action)
+    case types.SUCCESS.ABILITY.GET_ABILITIES_BY_ORGANIZATION_ID:
+      return slices.getAbilitiesByOrganizationId.success(state, action)
+    case types.ERRORS.ABILITY.GET_ABILITIES_BY_ORGANIZATION_ID:
+      return slices.getAbilitiesByOrganizationId.error(state, action)
+    /** -------------------------- delete customer  -------------------------> **/
+    case types.SUCCESS.ABILITY.DELETE_ABILITY:
+      return slices.deleteAbility.success(state, action)
+    /** -------------------------- create customer -------------------------> **/
+    case types.SUCCESS.ABILITY.CREATE_ABILITY:
+      return slices.createAbility.success(state, action)
     /** -------------------------- reset organs -------------------------> **/
     case types.RESET:
       return initialState.organs

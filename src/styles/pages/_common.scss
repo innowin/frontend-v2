@@ -1,0 +1,229 @@
+@import '../variables';
+
+
+.pointer {
+  cursor: pointer;
+}
+
+.modal-body {
+  padding: 10px;
+}
+.modal {
+  background: rgba(0, 0, 0, 0);
+  transition: all 1s;
+}
+.modal.show {
+  background: rgba(0, 0, 0, 0.5);
+  transition: all 1s;
+}
+
+.modal-content {
+  border-radius: 0;
+  border: 2px solid $text-title-menu-color;
+  min-height: 554px;
+}
+.close-btn {
+  color: $danger-color;
+  cursor: pointer;
+}
+.adding-contribution-wrapper {
+  .close-btn {
+    float: right;
+  }
+  input, textarea {
+    font-size: $font-size-regular;
+  }
+  input {
+    height: 36px;
+    line-height: 36px;
+  }
+  .header {
+    font-size: $font-size-regular;
+  }
+  font-size: $font-size-regular;
+  .wrapper {
+    margin: 0 auto;
+  }
+}
+
+.modal-lg {
+  max-width: 1150px;
+}
+
+.adding-contribution-wrapper .wrapper {
+  .initial-info, .certificates {
+    .form, .images {
+      max-width: 750px;
+      margin: 0 auto;
+    }
+    .next-prev-btns {
+      max-width: 910px;
+      margin: 0 auto;
+    }
+  }
+  .new-contribution-wrapper {
+    max-width: 910px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 1170px) {
+  .modal-lg {
+    max-width: 970px;
+
+  }
+}
+
+@media (max-width: 990px) {
+  .modal-lg {
+    max-width: 770px;
+  }
+}
+
+@media (max-width: 780px) {
+  .modal-lg {
+    max-width: 550px;
+  }
+}
+
+@media (max-width: 560px) {
+  .modal-lg {
+    max-width: 96%;
+  }
+}
+
+.wrapper.entered {
+  animation-duration: 2s;
+  animation-name: show;
+}
+
+.wrapper.exiting {
+  animation-duration: 2s;
+  animation-name: hide;
+}
+
+@keyframes hide {
+  from {
+    opacity: 0
+  }
+
+  to {
+    opacity: 1
+  }
+}
+
+@keyframes show {
+  from {
+    opacity: 0
+  }
+
+  to {
+    opacity: 1
+  }
+}
+
+.form .form-column .verification-request-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 34px;
+  .pay-svg-icon {
+    height: 22px;
+    width: 23px;
+    position: relative;
+    top: -5px
+  }
+  .circular-checkbox {
+    display: flex;
+    justify-content: space-between;
+    .checkbox {
+      margin-right: 40px;
+    }
+  }
+}
+
+%none-bordered-input {
+  background-color: $chat-box2-color;
+  border: none;
+  border-radius: 0;
+  width: 100%;
+}
+
+%edit-icon {
+  content: "\F044";
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  z-index: 0;
+  color: $text-medium-dark;
+}
+
+%jumbo-btn {
+  line-height: 27px;
+  text-align: center;
+  box-sizing: border-box;
+  border-radius: 70px;
+  height: 31px;
+}
+
+%absolute-top10-right10 {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+
+%clear-btn {
+  color: $text-lighter-color;
+  opacity: 0;
+  position: absolute;
+  background: $success-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  z-index: 2;
+}
+
+%clear-btn-hover {
+  opacity: 1;
+  transition: opacity 0.3s;
+  cursor: pointer;
+  pointer-events: auto;
+
+}
+
+%item-size {
+  width: 120px;
+  height: 84px;
+}
+
+%none-bordered-select {
+  .Select-control {
+    @extend %none-bordered-input;
+  }
+  .Select-control .Select-clear-zone {
+    display: none;
+  }
+  .Select-control:hover {
+    box-shadow: none;
+  }
+  .Select.is-focused:not(.is-open) .Select-control {
+    box-shadow: none;
+    @extend %none-bordered-input;
+  }
+  .Select-control .Select-value {
+    padding-right: 12px;
+  }
+  .Select {
+    margin: 14px 0;
+    .Select-multi-value-wrapper {
+      width: 0;
+      height: 0;
+      overflow: hidden;
+    }
+  }
+
+}

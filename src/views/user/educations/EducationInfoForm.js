@@ -9,6 +9,8 @@ import {Field, reduxForm} from "redux-form"
 import educationInfoValidation from "../../../helpers/validations/userEducationInfo"
 import renderTextField from "../../common/inputs/reduxFormRenderTextField"
 import renderTextArea from "../../common/inputs/reduxFormRenderTextArea"
+import reduxFormRenderSelect from "../../common/inputs/reduxFormRenderSelectField";
+import constants from "../../../consts/constants";
 
 type PropsEducationInfoForm = {
   onSubmit: Function,
@@ -32,6 +34,10 @@ class EducationInfoForm extends Component<PropsEducationInfoForm> {
     handleSubmit: PropTypes.func,
   }
 
+  constructor(props) {
+    super(props);
+    const {translate} = props
+  }
   componentDidMount() {
     const {initialize, education} = this.props
     if(education){
@@ -52,10 +58,16 @@ class EducationInfoForm extends Component<PropsEducationInfoForm> {
       }
       initialize(defaultFormValue)
     }
+    else {
+      const defaultFormValue = {
+        grade: constants.SERVER_GRADES.BACHELOR,
+      }
+      initialize(defaultFormValue)
+    }
   }
 
   render() {
-    const {onSubmit, translate, submitFailed, error, handleSubmit} = this.props
+    const {onSubmit, translate, submitFailed, error, handleSubmit, education} = this.props
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className='form-group'>
@@ -78,9 +90,11 @@ class EducationInfoForm extends Component<PropsEducationInfoForm> {
             <Field
                 name="grade"
                 type="text"
-                component={renderTextField}
+                component={reduxFormRenderSelect}
                 label={translate['Grade']}
-                textFieldClass='form-control'
+                textFieldClass='form-control select-field'
+                selected={education && education.grade}
+                translate={translate}
             />
           </div>
 

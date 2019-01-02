@@ -10,27 +10,27 @@ const validateAddress = (address, translate) => {
   }
 }
 
-// const validateTelegramAccount = (telegramAccount, translate) => {
-//   if (!/^@[a-zA-Z\-0-9]+$/.test(telegramAccount)) {
-//     return translate['Telegram account is incorrect']
-//   }
-// }
-// const validateDescription = (description, translate) => {
-//   if (description.length < 5) {
-//     return translate['Description is incorrect']
-//   }
-// }
+const validatePhone = (phone, translate) => {
+  if (!/^\d{11}$/.test(phone)) {
+    return translate['Phone number is wrong']
+  }
+}
+
+const validateWebSite = (web_site, translate) => {
+  if (!/^https|http:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}$/.test(web_site)) {
+    return translate['Url is wrong']
+  }
+}
 
 const contactInfoBasicInformation = (values, {translate}) => {
   const errors = {}
-  const {address, publicEmail} = values
-  // const {description telegramAccount} = values
+  const {address, publicEmail, phone, mobile, webSite} = values
 
   if (address) errors.address = validateAddress(address, translate)
   if (publicEmail) errors.publicEmail = validatePublicEmail(publicEmail, translate)
-
-  // if (telegramAccount) errors.telegramAccount = validateTelegramAccount(telegramAccount, translate)
-  // if (description) errors.description = validateDescription(description, translate)
+  if (phone) errors.phone = validatePhone(phone, translate)
+  if (mobile) errors.mobile = validatePhone(mobile, translate)
+  if (webSite) errors.webSite = validateWebSite(webSite, translate)
 
   return errors
 }

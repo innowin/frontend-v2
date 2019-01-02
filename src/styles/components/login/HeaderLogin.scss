@@ -14,15 +14,19 @@
 		flex-direction: row;
 		align-items: center;
 		color: $text-lighter-color;
-		.logo img {
+		.logo {
+			display: flex;
+		}
+		.logo svg {
 			height: 48px;
 			flex: 0 0 50px;
 			color: $text-lightest-color;
+			fill: $text-lightest-color;
 		}
 		.company-name {
-			flex: 0 0 125px;
+			flex: 0 0 85px;
 			margin: 0 10px 0 0;
-			font-size: 30px;
+			font-size: 33px;
 			color: $text-lightest-color;
 			display: flex;
 			align-items: center;

@@ -6,6 +6,7 @@ import createAnObj from '../../sliceReducers/utilsSlices/createAnObj'
 import setRelatedObjIdForListItem from '../../sliceReducers/utilsSlices/setRelatedObjIdForListItem'
 import setRelatedObjectsForAnObj from '../../sliceReducers/utilsSlices/setRelatedObjectsForAnObj'
 
+
 import slices from '../../sliceReducers/common/product'
 
 
@@ -15,7 +16,9 @@ const products = (state = initialState.common.product.products, action) => {
       /** <-------------- getProduct -------------- **/
     case types.SUCCESS.COMMON.GET_PRODUCT_INFO:
       return pushAnObjToStateList.success(state, action)
-      /** --------------- getProduct -------------- **/
+
+    case types.SUCCESS.COMMON.POST.FILTER_POSTS_BY_POST_RELATED_PRODUCT:
+      return slices.addPostsRelatedProductIdsToProduct.success(state, action)
 
       /** --------------- createProduct ----------> **/
     case types.COMMON.CREATE_PRODUCT:
@@ -23,20 +26,19 @@ const products = (state = initialState.common.product.products, action) => {
 
     case types.SUCCESS.COMMON.CREATE_PRODUCT:
       return createAnObj.success(state, action)
-      /** --------------- createProduct ----------> **/
 
       /** < ---------------- addPictureIdToProduct -------------- **/
     case types.COMMON.ADD_PICTURE_ID_TO_PRODUCT:
       return setRelatedObjIdForListItem.success(state, action, 'pictures')
-      /**  ---------------- addPictureIdToProduct -------------- > **/
 
       /**  <----------------addCertificateIdToProduct --------------  **/
     case types.COMMON.ADD_HASH_TAG_ID_TO_PRODUCT:
       return setRelatedObjIdForListItem.success(state, action, 'hashTags')
-      /**  ---------------- addCertificateIdToProduct -------------- > **/
+
     /**  <----------------get product by identity --------------  **/
     case types.SUCCESS.COMMON.PRODUCT.GET_PRODUCTS_BY_IDENTITY:
       return slices.getProductsByIdentity.success(state, action)
+
     /** -------------------------- update product -------------------------> **/
     case types.COMMON.PRODUCT.UPDATE_PRODUCT:
       return slices.updateProduct.base(state, action)
@@ -44,6 +46,7 @@ const products = (state = initialState.common.product.products, action) => {
       return slices.updateProduct.success(state, action)
     case types.ERRORS.COMMON.PRODUCT.UPDATE_PRODUCT:
       return slices.updateProduct.error(state, action)
+
     /** -------------------------- delete product -------------------------> **/
     case types.COMMON.PRODUCT.DELETE_PRODUCT:
       return slices.deleteProduct.base(state, action)
@@ -51,12 +54,15 @@ const products = (state = initialState.common.product.products, action) => {
       return slices.deleteProduct.success(state, action)
     case types.ERRORS.COMMON.PRODUCT.DELETE_PRODUCT:
       return slices.deleteProduct.error(state, action)
-
       /** -------------------------- reset -------------------------> **/
-
+    case types.SUCCESS.COMMON.GET_BADGES:
+      return setRelatedObjectsForAnObj.success(state, action, 'badges')
     case types.SUCCESS.COMMON.GET_PRODUCT_PICTURES_BY_PRODUCT_ID:
       return setRelatedObjectsForAnObj.success(state, action, 'pictures')
-
+    case types.SUCCESS.COMMON.GET_PRICE_BY_PRODUCT_ID:
+      return setRelatedObjectsForAnObj.success(state, action, 'prices')
+    case types.SUCCESS.COMMON.GET_OBJ_HASH_TAGS:
+      return setRelatedObjectsForAnObj.success(state, action, 'hashTags')
     case types.RESET:
       return initialState.common.product.products
     default:

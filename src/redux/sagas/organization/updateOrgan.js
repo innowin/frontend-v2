@@ -6,7 +6,7 @@ import api from "src/consts/api"
 
 export function* updateOrganization(action) {
   const payload = action.payload
-  const {organizationId, formValues, hideEdit} = payload
+  const {organizationId, formValues} = payload
   const socketChannel = yield call(api.createSocketChannel, results.ORG.UPDATE_ORGANIZATION_INFO)
   try {
     yield fork(
@@ -18,11 +18,11 @@ export function* updateOrganization(action) {
     )
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.ORG.UPDATE_ORGANIZATION_INFO, payload: {data}})
+    yield put({type:types.ORG.GET_ORGANIZATION, payload:{organizationId}})
   } catch (e) {
     const {message} = e
     yield put({type: types.ERRORS.ORG.UPDATE_ORGANIZATION_INFO, payload: {message, organizationId}})
   } finally {
     socketChannel.close()
-    hideEdit()
   }
 }

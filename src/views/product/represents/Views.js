@@ -207,7 +207,7 @@ export class RepresentView extends Component<RepresentViewProps, RepresentViewSt
 						<div className="-img-col"> // TODO mohsen: handle src of img
 							{
 								(!profile_media_File) ? (<DefaultUserIcon className="-item-imgPost"/>) : (
-										<img className="-item-imgPost rounded-circle" src={profile_media_File} alt=""/>)
+										<img className="-item-imgPost rounded-circle object-fit-cover" src={profile_media_File} alt=""/>)
 							}
 						</div>
 						<div className="-content-col">

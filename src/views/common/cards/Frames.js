@@ -66,10 +66,11 @@ type PropsItemHeader = {
   showEdit?: Function,
   title: string,
   param: paramType,
+  editText?: string,
 }
 
 let ItemHeader = (props: PropsItemHeader): div => {
-  const {showEdit, param} = props
+  const {showEdit, param, editText} = props
   const id = param.user || param.organization
   return (
       <div className="-item-header">
@@ -82,6 +83,7 @@ let ItemHeader = (props: PropsItemHeader): div => {
             </div>
             : ''
         }
+        {editText && <p className='item-head-text'>{editText}</p>}
       </div>
   )
 }
@@ -140,7 +142,7 @@ let CategoryTitle = ({
           <span>{title}</span>
           {
             !createForm && param && client.checkIdWithQueryId(id) &&
-            <button className="btn btn-sm btn-outline-success pulse" onClick={showCreateForm}>
+            <button className="btn btn-sm btn-outline-success pulse add-user" onClick={showCreateForm}>
               <FontAwesome name="plus"/>
             </button>
           }
@@ -184,12 +186,14 @@ FieldLabel.propTypes = {
 
 
 type PropsFieldValue = {
-  value: string | React.Element<'span'>
+  value: string | React.Element<'span'>,
+  className?: string,
 }
 
 export const FieldValue = (props: PropsFieldValue) => {
+  const {className} = props
   return (
-      <div className="field-value break-word">
+      <div className={className ? "field-value break-word " + className : "field-value break-word"}>
         {props.value}
       </div>
   )
@@ -199,11 +203,13 @@ FieldValue.propTypes = {
 }
 
 type PropsField = {
-  children?: React.Node
+  children?: React.Node,
+  className?: string,
 }
 export const Field = (props: PropsField): div => {
+  const {className} = props
   return (
-      <div className="row col-form-label">
+      <div className={className ? "row col-form-label " + className : "row col-form-label"}>
         {props.children}
       </div>
   )
@@ -214,7 +220,7 @@ type PropsVerifyWrapper = {
   retry?: Function,
   children?: React.Node,
   className?: string,
-  isLoading: boolean
+  isLoading?: boolean
 }
 
 export const VerifyWrapper = ({error, retry = () => alert("retry"), ...props}: PropsVerifyWrapper): div => {
@@ -233,7 +239,7 @@ export const VerifyWrapper = ({error, retry = () => alert("retry"), ...props}: P
   return loadingCard()
 }
 VerifyWrapper.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool,
   error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   retry: PropTypes.func,
   className: PropTypes.string

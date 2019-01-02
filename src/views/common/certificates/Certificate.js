@@ -47,8 +47,11 @@ export class Certificate extends Component<PropsCertificate, StateCertificate> {
   _delete = () => {
     const {deleteCertificate, certificate} = this.props
     const certificateParent = certificate.certificate_parent
-    const certificateIdentityUserId = certificate.certificate_identity.identity_user && certificate.certificate_identity.identity_user.id
-    const certificateIdentityOrganId = certificate.certificate_identity.identity_organization && certificate.certificate_identity.identity_organization.id
+    const certificateIdentity = certificate.certificate_identity
+    const certificateIdentityUserId = certificateIdentity.identity_user
+      && (certificateIdentity.identity_user.id || certificateIdentity.identity_user)
+    const certificateIdentityOrganId = certificateIdentity.identity_organization
+      && (certificateIdentity.identity_organization.id || certificateIdentity.identity_organization)
     const certificateParentType = (certificateParent && certificateParent.child_name) || null
     const certificateParentId = (certificateParent && certificateParent.id) || null
     const certificateOwnerId = certificateIdentityUserId || certificateIdentityOrganId
@@ -67,20 +70,20 @@ export class Certificate extends Component<PropsCertificate, StateCertificate> {
     const {translate, certificate, updateCertificate, param} = this.props
 
     return (
-        <VerifyWrapper isLoading={false} error={false}>
-          {edit ?
-              <CertificateEditForm
-                  certificate={certificate}
-                  hideEdit={this._hideEdit}
-                  translate={translate}
-                  deleteCertificate={this._delete}
-                  update={updateCertificate}
-              />
-              : <CertificateView certificate={certificate}
-                                 showEdit={this._showEdit}
-                                 param={param}/>
-          }
-        </VerifyWrapper>
+      <VerifyWrapper isLoading={false} error={false}>
+        {edit ?
+          <CertificateEditForm
+            certificate={certificate}
+            hideEdit={this._hideEdit}
+            translate={translate}
+            deleteCertificate={this._delete}
+            update={updateCertificate}
+          />
+          : <CertificateView certificate={certificate}
+                             showEdit={this._showEdit}
+                             param={param}/>
+        }
+      </VerifyWrapper>
     )
   }
 }

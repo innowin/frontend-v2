@@ -17,9 +17,18 @@ const auth = (state = initialState.auth, action) => {
     /** -------------------------- update profile by profile id -------------------------> **/
     case types.SUCCESS.USER.UPDATE_PROFILE_BY_PROFILE_ID:
       return slices.updateProfileByProfileId.success(state, action)
+
+    case types.SUCCESS.ORG.SET_ORGANIZATION_INFO_MEDIA:
+      return slices.setClientOrganMedia.success(state, action)
+
+    case types.SUCCESS.USER.SET_PROFILE_MEDIA:
+      return slices.setClientPersonMedia.success(state, action)
     /** -------------------------- get posts by identity  -------------------------> **/
     case types.SUCCESS.COMMON.POST.GET_POST_BY_IDENTITY:
       return slices.getPostByIdentity.success(state, action)
+    /** -------------------------- get post  -------------------------> **/
+    case types.SUCCESS.COMMON.POST.GET_POST:
+      return slices.getPost.success(state, action)
     /** -------------------------- create post  -------------------------> **/
     case types.SUCCESS.COMMON.POST.CREATE_POST:
       return slices.createPost.success(state, action)
@@ -89,8 +98,27 @@ const auth = (state = initialState.auth, action) => {
     /** -------------------------- delete Certificate -------------------------> **/
     case types.SUCCESS.COMMON.CERTIFICATE.DELETE_CERTIFICATE:
       return slices.deleteCertificate.success(state, action)
+    /** -------------------------- get customers by organization id  -------------------------> **/
+    case types.SUCCESS.ORG.GET_CUSTOMERS_BY_ORGANIZATION_ID:
+      return slices.getCustomersByOrganizationId.success(state, action)
+    /** -------------------------- delete customer -------------------------> **/
+    case types.SUCCESS.ORG.DELETE_CUSTOMER:
+      return slices.deleteCustomer.success(state, action)
+    /** -------------------------- create customer -------------------------> **/
+    case types.SUCCESS.ORG.CREATE_CUSTOMER:
+      return slices.createCustomer.success(state, action)
+    /** -------------------------- get ability by organization id  -------------------------> **/
+    case types.SUCCESS.ABILITY.GET_ABILITIES_BY_ORGANIZATION_ID:
+      return slices.getAbilitiesByOrganizationId.success(state, action)
+    /** -------------------------- delete ability -------------------------> **/
+    case types.SUCCESS.ABILITY.DELETE_ABILITY:
+      return slices.deleteAbility.success(state, action)
+    /** -------------------------- create ability -------------------------> **/
+    case types.SUCCESS.ABILITY.CREATE_ABILITY:
+      return slices.createAbility.success(state, action)
     /** -------------------------- reset  -------------------------> **/
     case types.RESET:
+      console.log("------------------- I'm in reset.")
       return initialState.auth
     default:
       return state

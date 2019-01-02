@@ -8,11 +8,13 @@ export default {
        isLoading:false,
        error:null
      },
+
      profile:{
        content:{},
        isLoading:false,
        error:null
      },
+
      identity:{
        content:null,        id of identity
        isLoading: false,
@@ -75,5 +77,15 @@ export default {
    }
   */
 
-  }
+  },
+  search: null,
+  isLoading: true,
+  recoveryPassword: {
+    step_name: '',
+    userId:null,
+    VerificationCode: '',
+    searchUserData: {},
+    isLoading: false,
+    error: null
+  },
 }

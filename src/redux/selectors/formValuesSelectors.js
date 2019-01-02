@@ -14,5 +14,10 @@ const getValues = (state, formName) => state.form[formName]
 
 export const getFormValues = createSelector(
     getValues,
-    formState => { if (formState) return formState.values }
+    formState => {
+      if (formState) {
+        if (formState.values) return formState.values
+      }
+      return {}
+    }
 )

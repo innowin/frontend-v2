@@ -1,8 +1,9 @@
-import initialState from "./initialState"
-import types from "../actions/types/index"
+import initialState from './initialState'
+import types from '../actions/types/index'
+import constants from 'src/consts/constants'
 
-import slices from "./sliceReducers/user"
-import setRelatedObjIdForListItem from "./sliceReducers/utilsSlices/setRelatedObjIdForListItem"
+import slices from './sliceReducers/user'
+import setRelatedObjIdForListItem from './sliceReducers/utilsSlices/setRelatedObjIdForListItem'
 
 const users = (state = initialState.users, action) => {
   const {userId, data, message} = action.payload || {}
@@ -15,6 +16,187 @@ const users = (state = initialState.users, action) => {
   const previousBadges = (state.list[userId] && state.list[userId].badges) || defaultObject2
 
   switch (action.type) {
+      /** ---------------------------- reset user password  by sms--------------------> **/
+      // ----------------- search user
+    case types.USER.SEARCH_USER:
+      return {
+        ...state,
+        recoveryPassword: {
+          ...state.recoveryPassword,
+          searchUserData: {},
+          isLoading: true,
+          error: null
+        }
+      }
+    case types.SUCCESS.USER.SEARCH_USER:
+      return {
+        ...state,
+        recoveryPassword: {
+          ...state.recoveryPassword,
+          searchUserData: data,
+          isLoading: false,
+          error: null
+        }
+      }
+    case types.ERRORS.USER.SEARCH_USER:
+      return {
+        ...state,
+        recoveryPassword: {
+          ...state.recoveryPassword,
+          searchUserData: {},
+          isLoading: false,
+          error: message
+        }
+      }
+      // -------------------- request by email
+    case types.USER.PASSWORD_RECOVERY_BY_EMAIL:
+      return {
+        ...state,
+        recoveryPassword: {
+          ...state.recoveryPassword,
+          userId: null,
+          step_name: constants.RESET_PASSWORD_STEP.REQUEST,
+          isLoading: true,
+          error: null
+        }
+      }
+    case types.SUCCESS.USER.PASSWORD_RECOVERY_BY_EMAIL:
+      return {
+        ...state,
+        recoveryPassword: {
+          ...state.recoveryPassword,
+          userId,
+          step_name: constants.RESET_PASSWORD_STEP.REQUEST,
+          isLoading: false,
+          error: null
+        }
+      }
+    case types.ERRORS.USER.PASSWORD_RECOVERY_BY_EMAIL:
+      return {
+        ...state,
+        recoveryPassword: {
+          ...state.recoveryPassword,
+          userId: null,
+          step_name: constants.RESET_PASSWORD_STEP.REQUEST,
+          isLoading: false,
+          error: message
+        }
+      }
+      // ---------------- request
+    case types.USER.PASSWORD_RESET_BY_SMS_REQUEST:
+      return {
+        ...state,
+        recoveryPassword: {
+          ...state.recoveryPassword,
+          userId: null,
+          step_name: constants.RESET_PASSWORD_STEP.REQUEST,
+          isLoading: true,
+          error: null
+        }
+      }
+    case types.SUCCESS.USER.PASSWORD_RESET_BY_SMS_REQUEST:
+      return {
+        ...state,
+        recoveryPassword: {
+          ...state.recoveryPassword,
+          userId,
+          step_name: constants.RESET_PASSWORD_STEP.REQUEST,
+          isLoading: false,
+          error: null
+        }
+      }
+    case types.ERRORS.USER.PASSWORD_RESET_BY_SMS_REQUEST:
+      return {
+        ...state,
+        recoveryPassword: {
+          ...state.recoveryPassword,
+          userId: null,
+          step_name: constants.RESET_PASSWORD_STEP.REQUEST,
+          isLoading: false,
+          error: message
+        }
+      }
+      // ----------------- checking code
+    case types.USER.PASSWORD_RESET_BY_SMS_CHECK_CODE:
+      return {
+        ...state,
+        recoveryPassword: {
+          ...state.recoveryPassword,
+          userId,
+          step_name: constants.RESET_PASSWORD_STEP.CHECK_CODE,
+          isLoading: true,
+          error: null
+        }
+      }
+    case types.SUCCESS.USER.PASSWORD_RESET_BY_SMS_CHECK_CODE:
+      const {VerificationCode} = action.payload || {}
+      return {
+        ...state,
+        recoveryPassword: {
+          ...state.recoveryPassword,
+          VerificationCode,
+          userId,
+          step_name: constants.RESET_PASSWORD_STEP.CHECK_CODE,
+          isLoading: false,
+          error: null
+        }
+      }
+    case types.ERRORS.USER.PASSWORD_RESET_BY_SMS_CHECK_CODE:
+      return {
+        ...state,
+        recoveryPassword: {
+          ...state.recoveryPassword,
+          userId,
+          step_name: constants.RESET_PASSWORD_STEP.CHECK_CODE,
+          isLoading: false,
+          error: message
+        }
+      }
+      // -------------------- reset finally
+    case types.USER.PASSWORD_RESET_BY_SMS:
+      return {
+        ...state,
+        recoveryPassword: {
+          ...state.recoveryPassword,
+          step_name: constants.RESET_PASSWORD_STEP.RESET,
+          isLoading: true,
+          error: null
+        }
+      }
+    case types.SUCCESS.USER.PASSWORD_RESET_BY_SMS:
+      return {
+        ...state,
+        recoveryPassword: {
+          ...state.recoveryPassword,
+          step_name: constants.RESET_PASSWORD_STEP.RESET,
+          isLoading: false,
+          error: null
+        }
+      }
+    case types.ERRORS.USER.PASSWORD_RESET_BY_SMS:
+      return {
+        ...state,
+        recoveryPassword: {
+          ...state.recoveryPassword,
+          step_name: constants.RESET_PASSWORD_STEP.RESET,
+          isLoading: false,
+          error: message
+        }
+      }
+      // ------------------------------------ reset initial state of recoveryPassword
+    case types.USER.RESET_RECOVERY_PASSWORD_REDUX_STATE:
+      return {
+        ...state,
+        recoveryPassword: {
+          VerificationCode: '',
+          userId: null,
+          searchUserData: {},
+          step_name: '',
+          isLoading: false,
+          error: null
+        }
+      }
+
       /** -------------------------- get user -------------------------> **/
     case types.USER.GET_USER_BY_USER_ID:
       return {
@@ -64,11 +246,76 @@ const users = (state = initialState.users, action) => {
     case types.SUCCESS.USER.GET_USERS:
       return {
         ...state,
-        list: data,
+        list: {...state.list, ...data},
         isLoading: false,
         error: null
       }
-      /** -------------------------- get profile -------------------------> **/
+
+
+      // case types.SUCCESS.USER.GET_ALL_USERS:
+      //   let objectData = {}
+      //   data.forEach(user =>
+      //       objectData[user.user.id] = user
+      //   )
+      //   return {
+      //     ...state,
+      //     allUsers: {...state.allUsers, ...objectData},
+      //     search: action.payload.search,
+      //     isLoading: action.payload.isLoading
+      //   }
+    case types.SUCCESS.USER.GET_ALL_USERS:
+      let objectData = {}
+
+
+      data.forEach(user => {
+            if (state.list[user.user.id] && state.list[user.user.id].profile) {
+              objectData[user.user.id] = {
+                ...state.list[user.user.id],
+                badges: {
+                  content: [...user.badges],
+                  isLoading: false,
+                  error: null
+                },
+                profile: {
+                  ...state.list[user.user.id].profile,
+                  content: {...state.list[user.user.id].profile.content, ...user.profile, profile_user: {...user.user}},
+                  isLoading: false,
+                  error: null
+                }
+              }
+            } else {
+              objectData[user.user.id] = {
+                badges: {
+                  content: [...user.badges],
+                  isLoading: false,
+                  error: null
+                },
+                profile: {
+                  content: {...user.profile, profile_user: {...user.user}},
+                  isLoading: false,
+                  error: null
+                }
+              }
+            }
+          }
+      )
+
+      return {
+        ...state,
+        list: {...state.list, ...objectData},
+        search: action.payload.search,
+        isLoading: action.payload.isLoading
+      }
+
+    /** -------------------------- reset search user -------------------------> **/
+    case types.USER.RESET_SEARCH_USER:
+      return {
+        ...state,
+        search: null,
+        loading: false
+      }
+
+    /** -------------------------- get profile -------------------------> **/
     case types.USER.GET_PROFILE_BY_USER_ID:
       // initial structure build in first request for getProfile is called but profile isLoading is true:
       return {
@@ -115,6 +362,9 @@ const users = (state = initialState.users, action) => {
           }
         }
       }
+
+    case types.SUCCESS.USER.SET_PROFILE_MEDIA:
+      return slices.setProfileMedia.success(state, action)
       /** -------------------------- get identity -------------------------> **/
     case types.USER.GET_USER_IDENTITY:
       return {
@@ -229,6 +479,9 @@ const users = (state = initialState.users, action) => {
       return slices.getPostByIdentity.success(state, action)
     case types.ERRORS.COMMON.POST.GET_POST_BY_IDENTITY:
       return slices.getPostByIdentity.error(state, action)
+      /** -------------------------- get post  -------------------------> **/
+    case types.SUCCESS.COMMON.POST.GET_POST:
+      return slices.getPost.success(state, action)
       /** -------------------------- create post  -------------------------> **/
     case types.SUCCESS.COMMON.POST.CREATE_POST:
       return slices.createPost.success(state, action)
@@ -279,12 +532,12 @@ const users = (state = initialState.users, action) => {
     case types.SUCCESS.WORK_EXPERIENCE.DELETE_USER_WORK_EXPERIENCES_BY_USER_ID:
       return slices.deleteWorkExperienceByUserId.success(state, action)
       /** -------------------------- get education by user id  -------------------------> **/
-    // case types.EDUCATION.GET_USER_EDUCATION_BY_USER_ID:
-    //   return slices.getEducationByUserId.base(state, action)
-    // case types.SUCCESS.EDUCATION.GET_USER_EDUCATION_BY_USER_ID:
-    //   return slices.getEducationByUserId.success(state, action)
-    // case types.ERRORS.EDUCATION.GET_USER_EDUCATION_BY_USER_ID:
-    //   return slices.getEducationByUserId.error(state, action)
+    case types.EDUCATION.GET_USER_EDUCATION_BY_USER_ID:
+      return slices.getEducationByUserId.base(state, action)
+    case types.SUCCESS.EDUCATION.GET_USER_EDUCATION_BY_USER_ID:
+      return slices.getEducationByUserId.success(state, action)
+    case types.ERRORS.EDUCATION.GET_USER_EDUCATION_BY_USER_ID:
+      return slices.getEducationByUserId.error(state, action)
       /** -------------------------- create education by user id -------------------------> **/
     case types.SUCCESS.EDUCATION.CREATE_USER_EDUCATION_BY_USER_ID:
       return slices.createEducationByUserId.success(state, action)
@@ -327,13 +580,16 @@ const users = (state = initialState.users, action) => {
       /** -------------------------- reset users -------------------------> **/
       /** <----------------- add skill id to user ---------------**/
     case types.USER.ADD_SKILL_ID_TO_USER:
-      return setRelatedObjIdForListItem.success(state, action, "skills")
+      return setRelatedObjIdForListItem.success(state, action, 'skills')
       /** -------------- get Certificate -------------> **/
     case types.SUCCESS.COMMON.CERTIFICATE.GET_CERTIFICATES_BY_IDENTITY:
       return slices.getCertificatesByIdentity.success(state, action)
       /** -------------------------- delete Certificate -------------------------> **/
     case types.SUCCESS.COMMON.CERTIFICATE.DELETE_CERTIFICATE:
       return slices.deleteCertificate.success(state, action)
+      /** -------------------------- create Certificate  -------------------------> **/
+    case types.SUCCESS.COMMON.CERTIFICATE.CREATE_OBJECT_CERTIFICATE:
+      return slices.createCertificate.success(state, action)
       /** -------------- reset -------------> **/
     case types.RESET:
       return initialState.users

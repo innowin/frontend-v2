@@ -1,8 +1,15 @@
 @import "../../variables";
 
+.education-tab {
+  padding-top: 0;
+}
+.education-tab-frame {
+  background: inherit;
+}
 .education-add-container {
   display: flex;
   justify-content: space-around;
+  margin: 12px 0;
 
   .education-add-button {
     border: none;

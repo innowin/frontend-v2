@@ -1,17 +1,16 @@
 const success = (state, action) => {
-  const {data} = action.payload
-  const indexedPost ={}
-  const postResults = data.results
-  postResults.forEach(post => {
+  const {data, postParentId} = action.payload
+  const indexedPost = {}
+  data.forEach(post => {
     const prevPost = state.list[post.id]
     indexedPost[post.id] = {...prevPost, ...post, error: null}
   })
   return {
     ...state,
-    list:{
+    list: {
       ...state.list,
       ...indexedPost,
-    }
+    },
   }
 }
 

@@ -41,7 +41,8 @@ const success = (state, action) => {
           ...state.list[productOwnerId],
           products: {
             ...previousProduct,
-            content: [...new Set([...previousProduct.content, ...arrayOfProductId])],
+            // content: [...new Set([...previousProduct.content, ...arrayOfProductId])],
+            content: arrayOfProductId,
             isLoading: false,
             error: null
           }

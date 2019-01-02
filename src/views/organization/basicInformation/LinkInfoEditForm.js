@@ -33,7 +33,6 @@ type LinkInfoFormInputType = {|
 |}
 
 class LinkInfoEditForm extends React.Component<PropsOrganizationInfoEditForm> {
-  
   static propTypes = {
     hideEdit: PropTypes.func.isRequired,
     organization: PropTypes.object.isRequired,

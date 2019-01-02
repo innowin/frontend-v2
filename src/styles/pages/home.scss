@@ -8,24 +8,46 @@ $heightOfContentBox: 140px;
 }
 
 .home-wrapper {
-  .content {
+  .post-wrapper {
+    padding: 0 8px;
+  }
+}
+
+.global-wrapper {
+  .page-content {
     min-height: 100%;
-    @media screen and (max-width: 1920px) and (min-width: 1366px){
+    //@media screen and (max-width: 1920px) and (min-width: 1366px) {
+    //  margin: 0 138px;
+    //}
+    //@media screen and (max-width: 1366px) and (min-width: 1280px) {
+    //  margin: 0 97px;
+    //}
+    //@media screen and (max-width: 1280px) and (min-width: 600px) {
+    //  margin: 0 90px;
+    //}
+
+    @media screen and (max-width: 1920px) and (min-width: 1366px) {
       margin: 0 138px;
     }
-    @media screen and (max-width: 1280px) and (min-width: 600px){
-      margin: 0 90px;
+    @media screen and (max-width: 1366px) and (min-width: 1280px) {
+      margin: 0 80px;
     }
-    @media screen and (max-width: 1366px) and (min-width: 1280px){
-      margin: 0 97px;
+    @media screen and (max-width: 1280px) and (min-width: 900px) {
+      margin: 0 30px;
     }
+    @media screen and (max-width: 900px) and (min-width: 0px) {
+      margin: 0 10px;
+    }
+
     .right-sidebar {
-      overflow-y: auto;
-      max-height: fit-content;
-      background: $text-lightest-color;
-      -webkit-box-shadow: -2px 0px 14px rgba(0, 0, 0, 0.3);
-      -moz-box-shadow: -2px 0px 14px rgba(0, 0, 0, 0.3);
-      box-shadow: -2px 0px 14px rgba(0, 0, 0, 0.3);
+      position: relative;
+      border-radius: $border-radius-size;
+      margin-top: 11px;
+      //overflow-y: auto;
+    }
+
+    .user-detail-wrapper {
+      padding: 10px 8px;
     }
   }
 }
@@ -33,32 +55,41 @@ $heightOfContentBox: 140px;
 .-createPostHome {
   display: flex;
   flex-direction: row;
-  margin: 10px 5px;
-  background-color: $chat-box2-color;
-  border-radius: 3px;
-  padding: 15px 20px 15px 20px;
+  margin: 11px 0 15px 0;
+  border-radius: $border-radius-size;
+  padding: 10px;
+  box-shadow: 0 3px 3px $box-shadow-color;
+  background: #fff;
 
   .-img-col {
-      width: 45px;
-      height: 45px;
+    margin-top: 2px;
+    width: 30px;
+    height: 30px;
   }
 
   .-content-col {
     display: flex;
     flex-grow: 1;
-    margin-right: 20px;
-    border-radius: 5px;
-    padding: 1px;
+    border-radius: $border-radius-size;
+    padding: 0 10px;
     background-color: $text-lightest-color;
+
     .-textBox {
       flex-grow: 1;
     }
-    textarea {
+
+    .post-text-field {
       flex: 1;
       outline: none;
       border: 0;
       float: right;
       resize: none;
+      padding-top: 6px;
+
+      &::placeholder {
+        color: $text-light-color;
+        font-size: $font-size-normalText;
+      }
     }
   }
 
@@ -103,13 +134,20 @@ $heightOfContentBox: 140px;
   .closeTextarea {
     flex-direction: row;
     justify-content: space-between;
+
+    .rightIcons, .-createPostFooter {
+      display: none;
+    }
+
     textarea {
       height: 100%;
       overflow-y: hidden;
     }
+
     .-img-content {
       display: none;
     }
+
     .-createPostFooter {
 
       .leftBottomIcons {
@@ -120,41 +158,67 @@ $heightOfContentBox: 140px;
 
   .openTextarea {
     flex-direction: column;
+
     textarea {
       width: 80%;
     }
+
     .-img-content {
       height: $heightOfContentBox;
       margin: 0 auto 0 0;
       display: flex;
       flex-direction: column;
+
       .-fileBox {
         height: 95%;
         max-width: 250px;
         position: relative;
+
         label {
           position: absolute;
           left: 1px;
-          top: 1px;
+          top: 5px;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          width: 100%;
+          padding-right: 5px;
+          padding-left: 2px;
+
+          .edit-post-picture {
+            fill: lighten($text-dark-color, 50%);
+            height: 16px;
+            width: 16px;
+            margin-top: 2px;
+            margin-left: 10px;
+
+            &:hover {
+              fill: $text-dark-color;
+            }
+          }
+
+          .remove-post-picture {
+            color: lighten($text-dark-color, 50%);
+            font-size: 20px;
+          }
         }
-        i {
-          background-color: $text-lightest-color;
-          border-radius: 2px;
-          box-shadow: 1px 1px 10px 1px grey;
-        }
+
         img {
           height: inherit;
           width: 100%;
         }
       }
+
       .-fileNameBox {
         color: lighten($text-light-color, 2%);
         text-align: center;
       }
     }
+
     .-createPostFooter {
-      animation: animate-createPostFooter 5000ms;
-      animation-fill-mode: backwards
+      animation: animate-createPostFooter 1000ms;
+      animation-fill-mode: backwards;
+      animation-delay: 500ms
     }
   }
 
@@ -170,4 +234,434 @@ $heightOfContentBox: 140px;
 
 .-selectedPostType path {
   fill: $primary-color !important;
+}
+
+
+.bee-1 {
+  fill: #f9f6ee;
+}
+
+.bee-2 {
+  fill: none;
+  stroke: #ffee90;
+  stroke-width: 4px;
+}
+
+.bee-panel-cont {
+  background-color: #ffffff;
+  border-radius: $border-radius-size;
+  box-shadow: 0 3px 3px $box-shadow-color;
+  overflow: hidden;
+  padding: 10px 15px;
+  position: relative;
+}
+
+.bee-text {
+  width: calc(100% - 15px);
+  text-align: right;
+  font-size: 12px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.bee-close {
+  vertical-align: top;
+  margin-top: 5px;
+  display: inline-block;
+  text-align: left;
+  width: 15px;
+  font-size: 10px;
+  font-weight: bold;
+  color: $post-hover-border-color;
+  cursor: pointer;
+}
+
+.bee-background-cont {
+  text-align: center;
+  padding: 20px 0;
+  position: relative;
+}
+
+.bee-background {
+  width: 180px;
+  transition-duration: 0.3s;
+}
+
+.bee {
+  width: 65px;
+  transition-duration: 0.3s;
+  position: absolute;
+  right: 50%;
+  top: 50%;
+  transform: translate(50%, -50%);
+  animation: bee ease 2s infinite;
+
+  //&:hover {
+  //  animation: bee ease 1s infinite;
+  //}
+}
+
+
+@keyframes bee {
+  0% {
+    transform: translate(50%, -50%);
+  }
+  50% {
+    transform: translate(50%, -55%);
+  }
+  100% {
+    transform: translate(50%, -50%);
+  }
+}
+
+.bee-buttons {
+  text-align: left;
+}
+
+.bee-button-cancel {
+  padding: 2px;
+  font-size: 10px;
+  height: 25px;
+  width: 76px;
+  border: 1.5px solid $register-part-in-icon-color;
+  border-radius: 30px;
+  cursor: pointer;
+  margin-bottom: 7px;
+  transition-duration: 0.3s;
+  text-decoration: none;
+  margin-left: 10px;
+  background-color: $background-color;
+  color: $register-part-in-icon-color;
+
+  &:hover{
+    color: $background-color;
+    background-color: $register-part-in-icon-color;
+    transition-duration: 0.3s;
+    font-weight: bold;
+  }
+
+}
+
+.bee-button-loading {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 3px;
+  font-size: 11px;
+  height: 20px;
+  width: 65px;
+  overflow: hidden;
+  background-color: $bee-color;
+  cursor: pointer;
+  transition-duration: 0.3s;
+}
+
+.bee-button-choose {
+  padding: 2px;
+  font-size: 10px;
+  height: 25px;
+  width: 76px;
+  border: 1.5px solid $bee-color;
+  border-radius: 30px;
+  cursor: pointer;
+  color: #FFF;
+  //margin-bottom: 15px;
+  transition-duration: 0.3s;
+  text-decoration: none;
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $bee-color;
+
+  &:hover{
+    font-weight: bold;
+    background-color: #FFF;
+    color: $bee-color;
+    transition-duration: 0.3s;
+    cursor: pointer;
+  }
+
+  &:active {
+    background-color: #cf9d35;
+    transition-duration: 0.3s;
+  }
+}
+
+.bee-button-input {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+}
+
+
+.bee-text-name {
+  text-align: right;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.bee-text-last-name {
+  margin-top: 15px;
+  text-align: right;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.bee-name-text-box {
+  border-radius: 3px;
+  border: 1px solid $register-part-in-icon-color;
+  text-align: right;
+  width: 100%;
+  font-size: 12px;
+  padding: 5px;
+  margin-top: 10px;
+  transition-duration: 0.3s;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
+    transition-duration: 0.3s;
+    border: 1px solid $tag-del-btn-background;
+  }
+}
+
+.bee-loading {
+  margin: 10px 0;
+  color: $register-part-in-icon-color;
+  font-size: 12px;
+  //font-weight: bold;
+}
+
+.bee-loading-nav {
+  height: 5px;
+  overflow: hidden;
+  border-radius: 3px;
+  background-color: $register-part-icon-color;
+  margin-bottom: 5px;
+}
+
+.bee-loading-fill {
+  height: 5px;
+  border-radius: 3px;
+  background-color: $bee-color;
+  transition-duration: 0.3s;
+}
+
+.bee-text-graduate {
+  text-align: justify;
+  text-align-last: right;
+  font-size: 11px;
+  color: $register-part-in-icon-color;
+  line-height: 23px;
+}
+
+.bee-graduate-text-box {
+  border-radius: 3px;
+  border: 1px solid $register-part-in-icon-color;
+  text-align: right;
+  width: 100%;
+  font-size: 12px;
+  padding: 5px;
+  margin-top: 10px;
+  transition-duration: 0.3s;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
+    transition-duration: 0.3s;
+    border: 1px solid $tag-del-btn-background;
+  }
+}
+
+.bee-inteli-text-box {
+  border-radius: 3px;
+  border: 1px solid $register-part-in-icon-color;
+  text-align: right;
+  width: 100%;
+  font-size: 12px;
+  margin-top: 10px;
+  transition-duration: 0.3s;
+  padding: 8px 8px 0 8px;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
+    transition-duration: 0.3s;
+    border: 1px solid $tag-del-btn-background;
+  }
+}
+
+.bee-button-complete {
+  text-align: center;
+  direction: ltr;
+  margin-bottom: 15px;
+  color: $bee-color;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.bee-button-submit-cont {
+  text-align: center;
+  margin-bottom: 13px;
+  text-decoration: none;
+  color: #FFF;
+}
+
+
+.create-exchange-success-button {
+  margin-left: 15px;
+
+  background-color: $primary-color;
+  color: white;
+
+
+
+  &:hover {
+    border: 1.5px solid $primary-color;
+    background-color: white;
+    color: $primary-color;
+    transition-duration: $animation-timing;
+  }
+}
+
+.bee-button-submit {
+  font-size: 11px;
+  height: 27px;
+  width: 76px;
+  padding: 3px 10px;
+  border: 1.5px solid $tag-del-btn-background;
+  border-radius: 30px;
+  cursor: pointer;
+  background-color: $tag-del-btn-background;
+  color: #FFF;
+  transition-duration: 0.3s;
+  text-decoration: none;
+
+  &:hover {
+    transition-duration: 0.3s;
+    color: $tag-del-btn-background;
+    background-color: #FFF;
+    text-decoration: none;
+  }
+}
+
+.bee-bio-error {
+  font-size: 11px;
+  height: 18px;
+  overflow: hidden;
+  color: $error-color;
+  opacity: 1;
+  transition-duration: 0.3s;
+  margin-bottom: 10px;
+}
+
+
+.bee-bio-error-hide {
+  font-size: 11px;
+  height: 0;
+  overflow: hidden;
+  color: $error-color;
+  opacity: 0;
+  transition-duration: 0.3s;
+  margin-bottom: 10px;
+}
+
+
+.bee-job-error {
+  font-size: 11px;
+  height: 18px;
+  overflow: hidden;
+  color: $error-color;
+  opacity: 1;
+  transition-duration: 0.3s;
+  margin-top: 5px;
+  margin-bottom: 18px;
+}
+
+
+.bee-job-error-hide {
+  font-size: 11px;
+  height: 0;
+  overflow: hidden;
+  color: $error-color;
+  opacity: 0;
+  transition-duration: 0.3s;
+  margin-bottom: 18px;
+}
+
+@media screen and (max-width: 900px) {
+  .bee-background {
+    width: 150px;
+    transition-duration: 0.3s;
+  }
+}
+
+@media screen and (max-width: 830px) {
+  .bee-background {
+    width: 120px;
+    transition-duration: 0.3s;
+  }
+
+  .bee-button-cancel {
+    width: 100%;
+    transition-duration: 0.3s;
+  }
+
+  .bee-button-choose {
+    width: 100%;
+    transition-duration: 0.3s;
+  }
+
+  .bee-button-submit {
+    width: 100%;
+    text-decoration: none;
+    transition-duration: 0.3s;
+  }
+
+}
+
+.bee-fil0 {
+  fill: #161A1B
+}
+
+.bee-fil5 {
+  fill: #D1D2D4;
+}
+
+.bee-fil2 {
+  fill: #F2B80D
+}
+
+.bee-fil4 {
+  fill: #F9CC12
+}
+
+.bee-fil7 {
+  fill: #FCE616
+}
+
+.bee-fil6 {
+  fill: #FCE717
+}
+
+.bee-fil {
+  fill: #FEFEFE;
+}
+
+
+.bee-fil3 {
+  fill: #FEFEFE;
+}
+
+.bee-fil1 {
+  fill: #FFE716
+}
+
+.bee-fil8 {
+  fill: #FFFFFD
 }

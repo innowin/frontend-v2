@@ -15,14 +15,19 @@ export function* getExchangeMembershipByExchangeId(action) {
         `?exchange_id=${exchangeId}`
     )
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_EXCHANGE_ID, payload: {data: data, exchangeId: exchangeId}})
-  } catch (err) {
+    yield put({
+      type: types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_EXCHANGE_ID,
+      payload: {data: data, exchangeId: exchangeId}
+    })
+  }
+  catch (err) {
     const {message} = err
     yield put({
       type: types.ERRORS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_EXCHANGE_ID,
       payload: {message}
     })
-  } finally {
+  }
+  finally {
     socketChannel.close()
   }
 }

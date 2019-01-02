@@ -16,7 +16,7 @@
     height: 38px
   }
   99% {
-    height: 278px
+    height: 238px
   }
   100% {
     height: auto
@@ -28,7 +28,8 @@
     height: 38px
   }
   99% {
-    height: 340px
+    //height: 340px
+    height: 290px
   }
   100% {
     height: auto
@@ -49,7 +50,7 @@
 .login-page .content {
   display: flex;
   flex: 1 1 400px;
-  flex-flow: row wrap-reverse;
+  flex-flow: row-reverse wrap-reverse;
   justify-content: space-around;
   align-items: flex-end;
   margin-top: 100px;
@@ -73,7 +74,7 @@
 
   .login-wrapper {
     flex: 1 1 300px;
-    order: 2;
+    //order: 2;
     max-width: 345px;
     min-width: 300px;
     &.sign-in-form-animate {
@@ -95,12 +96,11 @@
     color: $text-lightest-color;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: flex-end;
     flex: 2 2 500px;
-    order: 1;
     min-width: 500px;
     max-width: 800px;
-    margin-top: 54px;
+    margin-top: 70px;
   }
 }
 
@@ -165,7 +165,7 @@
       height: 37px;
       border: 1px solid $input-border;
       background-color: white;
-      color: $text-input-border-color;
+      color: $text-medium-dark;
       padding: 0 0.8rem 0 0 !important;
     }
     input, select {
@@ -181,11 +181,34 @@
       font-size: 15px;
       border-radius: 0.3rem;
       line-height: 17.986px;
-      color: $text-input-border-color;
+      color: $text-medium-dark;
+    }
+    input[type='password']{
+      letter-spacing: 2px;
+    }
+    .password-container {
+      position: relative;
+      .eye-icon {
+        position: absolute;
+        left: 8px;
+        top: 10px;
+        cursor: pointer;
+        color: $text-light-color;
+      }
     }
   }
 
   .sign-in-form {
+    .password-container {
+      position: relative;
+      .eye-icon {
+        position: absolute;
+        left: 8px;
+        top: 10px;
+        cursor: pointer;
+        color: $text-light-color;
+      }
+    }
     .signup-field {
       input {
         -webkit-transition: all 0.30s ease-in-out;
@@ -203,7 +226,7 @@
         color: #222;
       }
       input[type='password']{
-        letter-spacing: 1px
+        letter-spacing: 2px;
       }
     }
   }
@@ -221,6 +244,7 @@
     animation-name: error-message;
     animation-duration: 0.6s;
     margin-bottom: 7px;
+    margin-top: 5px;
     font-size: $font-size-regular;
     position: relative;
   }
@@ -233,11 +257,20 @@
     padding: 0.52rem;
     margin-top: 0.8rem;
   }
+
+  .error-wrapper {
+    .error {
+      color: red;
+      font-size: $font-size-regular;
+      margin-top: 6px;
+    }
+  }
 }
 
 .remember-recovery {
-  display: inline-flex;
-  padding-right: 0.9rem;
+  display: flex;
+  //padding-right: 0.9rem;
+  justify-content: space-around;
   label {
     display: flex;
     align-items: center;

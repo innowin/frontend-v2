@@ -3,52 +3,97 @@
 // -------------------------- error messages -------------------------------------------//
 .error-message {
   color: $error-color;
+  transition-duration: $animation-timing-long;
 }
 
 .success-message {
   color: $success-color;
+  transition-duration: $animation-timing-long;
 }
 
 .strong-message {
-  color: darken($success-color, 30%)
+  color: darken($success-color, 30%);
+  transition-duration: $animation-timing-long;
 }
 
 .medium-message {
-  color: lighten($success-color, 5%)
+  color: lighten($success-color, 5%);
+  transition-duration: $animation-timing-long;
 }
 
 .weak-message {
-  color: lighten($error-color, 30%)
+  color: lighten($error-color, 30%);
+  transition-duration: $animation-timing-long;
 }
 
 .info-message {
   color: $info-color;
+  transition-duration: $animation-timing-long;
+}
+
+.neutral-message {
+  color: $text-medium-dark;
+  transition-duration: $animation-timing-long;
+}
+
+.warning-message {
+  color: $warning-color;
+  transition-duration: $animation-timing-long;
+}
+
+.hide-message {
+  opacity: 0;
+  transition-duration: $animation-timing-long;
 }
 
 // -------------------------- error input borders -------------------------------------------//
 
 .success-border{
-  border: 2px solid $success-color
+  border: 2px solid $success-color;
+  transition-duration: $animation-timing-long;
 }
 
 .error-border {
-  border: 2px solid $error-color
+  border: 2px solid $error-color;
+  transition-duration: $animation-timing-long;
 }
 
 .strong-border {
-  border: 2px solid darken($success-color, 30%)
+  border: 2px solid darken($success-color, 30%);
+  transition-duration: $animation-timing-long;
 }
 
 .medium-border {
-  border: 2px solid lighten($success-color, 5%)
+  border: 2px solid lighten($success-color, 5%);
+  transition-duration: $animation-timing-long;
 }
 
 .weak-border {
-  border: 2px solid lighten($error-color, 30%)
+  border: 2px solid lighten($error-color, 30%);
+  transition-duration: $animation-timing-long;
 }
 
 // -------------------------- error boxes -------------------------------------------//
 .error-box {
   background-color: lighten($error-color, 30%);
+  transition-duration: $animation-timing-long;
   color: darken($error-color, 30%);
+}
+
+.no-error {
+  transition: all $animation-timing;
+  font-size: 0;
+  color: $error-color;
+  flex: 1 1 100%;
+  min-width: 200px;
+  height: 5px;
+}
+.form-error {
+  color: $error-color;
+  font-size: $font-size-regular;
+  margin-top: 5px;
+  transition: all $animation-timing;
+  flex: 1 1 100%;
+  min-width: 200px;
+  height: 17px;
 }

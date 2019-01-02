@@ -23,7 +23,7 @@ export class FileName extends Component {
     return (
       <div className={"filename-wrapper " + className}>
         <span className="filename-name">{name}</span>
-        <span className="filename-ext">{"." + ext}</span>
+        <span className="filename-ext">{ext ? ("." + ext) : ''}</span>
       </div>
     )
   }

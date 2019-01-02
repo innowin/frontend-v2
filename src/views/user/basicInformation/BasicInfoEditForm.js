@@ -6,6 +6,10 @@ import {Field, reduxForm} from "redux-form";
 import userInfoValidation from 'src/helpers/validations/userInfoBasicinformation'
 import type {userType} from "src/consts/flowTypes/user/basicInformation"
 import renderTextField from "src/views/common/inputs/reduxFormRenderTextField"
+import {ItemHeader} from "../../common/cards/Frames";
+import {JalaliDateWithDot} from "../../common/JalaliWithFarsiMonth";
+import {Fragment} from "react";
+import EditFormButtons from "../../common/components/EditFormButtons";
 
 // flow type of UserInfoEditForm
 type PropsUserInfoEditForm = {|
@@ -22,7 +26,6 @@ type PropsUserInfoEditForm = {|
 |}
 
 type UserInfoFormInputType = {|
-  username: string,
   firstName: string,
   lastName: string,
 |}
@@ -31,7 +34,6 @@ class BasicInfoEditForm extends React.Component<PropsUserInfoEditForm> {
   componentDidMount() {
     const {user, initialize} = this.props
     const defaultFormValue = {
-      username: user.username,
       firstName: user.first_name,
       lastName: user.last_name,
     }
@@ -54,7 +56,6 @@ class BasicInfoEditForm extends React.Component<PropsUserInfoEditForm> {
     const userId: number = this.props.user.id
 
     const formFormat = {
-      username: user.username === values.username ? null : values.username,
       first_name: user.first_name === values.firstName ? null : values.firstName,
       last_name: user.last_name === values.lastName ? null : values.lastName,
     }
@@ -63,51 +64,53 @@ class BasicInfoEditForm extends React.Component<PropsUserInfoEditForm> {
       formFormat[key] === null ? delete(formFormat[key]) : ''
       return formFormat
     })
-    // TODO: mohammad validation form and errors
-
     updateUserByUserId(formFormat, userId)
     return false
   }
 
   render() {
-    const {translate, handleSubmit, submitFailed, error} = this.props
+    const {translate, handleSubmit, submitFailed, error, user, hideEdit} = this.props
     return (
-        <form onSubmit={handleSubmit(this._onSubmit)} className=''>
-          <div className='form-group'>
-            <label>
-              {translate['First name'] + ": "}
-            </label>
+        <Fragment>
+          <ItemHeader editText={translate['Editing']} title={translate['Basic Information']}/>
+          <form onSubmit={handleSubmit(this._onSubmit)}>
             <Field
                 name="firstName"
                 type="text"
                 component={renderTextField}
                 label={translate['First name']}
-                textFieldClass='form-control'
+                isNew={true}
             />
-          </div>
 
-          <div className='form-group'>
-            <label>
-              {translate['Last name'] + ": "}
-            </label>
             <Field
                 name="lastName"
                 type="text"
                 component={renderTextField}
                 label={translate['Last name']}
-                textFieldClass='form-control'
+                isNew={true}
             />
-          </div>
 
-          {submitFailed && <p className="error-message">{error}</p>}
+            <div className='date-join-container'>
+              <p>{translate['Date joined']}</p>
+              <p className='date-value'>{JalaliDateWithDot(user.date_joined)}</p>
+            </div>
 
-          <div className="col-12 d-flex justify-content-end">
-            <button type="button" className="btn btn-secondary mr-2" onClick={this.props.hideEdit}>
-              {translate['Cancel']}
-            </button>
-            <button type="submit" className="btn btn-success">{translate['Save']}</button>
-          </div>
-        </form>
+            <div className='show-date-container'>
+              <label className="container-radio">
+                <input type="checkbox" defaultChecked name="radio-step-1"/>
+                <span className="checkmark"/>
+                <p className='password-way-text'>
+                  {translate['Show join date in profile']}
+                </p>
+              </label>
+            </div>
+
+            {submitFailed && <p className="form-error error-message">{error}</p>}
+
+            <EditFormButtons onCancelClick={hideEdit} translate={translate}/>
+
+          </form>
+        </Fragment>
     )
   }
 }

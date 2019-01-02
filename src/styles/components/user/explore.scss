@@ -1,0 +1,375 @@
+@import "../../variables";
+
+.users-explore {
+  padding-bottom: 25px;
+  display: inline-block;
+  margin: 5px 10px 5px 0;
+  text-align: center;
+  flex-grow: 1;
+  width: 270px;
+  flex-basis: 270px;
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0 3px 3px $box-shadow-color;
+  height: 330px;
+  position: relative;
+  overflow: hidden;
+}
+
+.users-explore-hide {
+  display: inline-block;
+  margin: 0 10px 0 0;
+  text-align: center;
+  flex-grow: 1;
+  width: 270px;
+  flex-basis: 270px;
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0 3px 3px $box-shadow-color;
+  height: 0;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.user-banner {
+  height: 100px;
+  width: 100%;
+  object-fit: cover;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  background-image: repeating-linear-gradient(-45deg, #eee, #eee 10px, 10px, #f8f8f8 20px);
+}
+
+.user-banner-skeleton {
+  height: 100px;
+  width: 100%;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  background-color: #f3f3f3;
+  position: relative;
+  overflow: hidden;
+}
+
+.user-profile-photo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-top: -40px;
+  margin-bottom: 8px;
+}
+
+.user-default-profile-photo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid white;
+  margin-top: -40px;
+}
+
+.user-default-profile-photo-skeleton {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid white;
+  margin-top: -40px;
+  position: relative;
+}
+
+.user-name-id-cont {
+  display: flex;
+  white-space: nowrap;
+  flex-wrap: nowrap;
+}
+
+.user-name {
+  text-align: right;
+  flex-grow: 1;
+  padding-right: 10px;
+  vertical-align: top;
+  display: inline-block;
+  font-size: $font-size-normalText;
+}
+
+.user-id {
+  text-align: left;
+  flex-grow: 1;
+  padding-left: 10px;
+  direction: ltr;
+  vertical-align: top;
+  display: inline-block;
+  color: $text-title-menu-color;
+  font-size: $font-size-normalText;
+}
+
+.user-name-skeleton {
+  margin-right: 10px;
+  vertical-align: top;
+  display: inline-block;
+  float: right;
+  font-size: $font-size-normalText;
+  background-color: #f3f3f3;
+  width: 80px;
+  border-radius: 3px;
+  position: relative;
+  overflow: hidden;
+}
+
+.user-id-skeleton {
+  margin-left: 10px;
+  width: 80px;
+  direction: ltr;
+  vertical-align: top;
+  display: inline-block;
+  float: left;
+  font-size: $font-size-normalText;
+  background-color: #f3f3f3;
+  border-radius: 3px;
+  position: relative;
+  overflow: hidden;
+}
+
+.user-description {
+  font-size: $font-size-smallText;
+  padding: 10px;
+  text-align: justify;
+  text-align-last: initial;
+  line-height: 25px;
+  height: 110px;
+  margin-bottom: 10px;
+  color: $text-title-menu-color;
+  position: relative;
+  overflow: hidden;
+}
+
+.user-description-skeleton {
+  clear: both;
+  margin-top: 20px;
+  font-size: $font-size-smallText;
+  padding: 10px;
+  text-align: justify;
+  text-align-last: initial;
+  line-height: 25px;
+  height: 110px;
+  margin-bottom: 10px;
+  color: $text-title-menu-color;
+  position: relative;
+  overflow: hidden;
+}
+
+.user-description-row-skeleton {
+  width: 100%;
+  background-color: #f3f3f3;
+  margin: 5px 0;
+  height: 23px;
+}
+
+.user-follow {
+  border: 1px solid $tag-del-btn-background;
+  color: $tag-del-btn-background;
+  background-color: white;
+  //cursor: pointer;
+  border-radius: 3px;
+  padding: 2px 0;
+  float: left;
+  margin-left: 10px;
+  margin-top: 3px;
+  transition-duration: 0.25s;
+  font-size: $font-size-normalText;
+  width: 80px;
+  &:hover {
+    color: white;
+    background-color: $tag-del-btn-background;
+    transition-duration: 0.25s;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+
+.user-follow-skeleton {
+  background-color: #f3f3f3;
+  border: none;
+  border-radius: 3px;
+  padding: 2px 0;
+  float: left;
+  margin-left: 10px;
+  margin-top: 3px;
+  transition-duration: 0.25s;
+  font-size: $font-size-normalText;
+  width: 80px;
+  overflow: hidden;
+  position: relative;
+  &:focus {
+    outline: none;
+  }
+}
+
+.user-followed {
+  border: 1px solid $tag-del-btn-background;
+  background-color: $tag-del-btn-background;
+  color: white;
+  cursor: pointer;
+  border-radius: 3px;
+  padding: 2px 0;
+  margin-left: 10px;
+  margin-top: 3px;
+  float: left;
+  transition-duration: 0.25s;
+  font-size: $font-size-normalText;
+  width: 80px;
+  &:hover {
+    background-color: white;
+    color: $tag-del-btn-background;
+    transition-duration: 0.25s;
+  }
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    background-color: $secondary-color;
+    color: white;
+  }
+}
+
+.user-baj-container {
+  float: right;
+  margin-right: 5px;
+}
+
+.user-baj {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 5px;
+  width: 30px;
+  height: 30px;
+}
+
+.kindOfId {
+  padding-bottom: 25px;
+  cursor: pointer;
+}
+
+.kindId {
+  float: right;
+  font-size: 14px;
+}
+
+.exchanges-explore-not-found {
+  position: absolute;
+  top: 132px;
+  left: 0;
+  text-align: center;
+  width: 100%;
+  animation-name: close;
+  animation-duration: 0.5s;
+  overflow-y: hidden;
+  opacity: 1;
+}
+
+@keyframes close {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.exchanges-explore-search-loading {
+  width: 100%;
+  text-align: center;
+  transition-duration: 0.3s;
+  overflow-y: hidden;
+  margin-top: 25px;
+  height: 40px;
+  opacity: 1;
+}
+
+.exchanges-explore-search-loading-hide {
+  width: 100%;
+  text-align: center;
+  transition-duration: 0.3s;
+  overflow-y: hidden;
+  margin-top: 10px;
+  height: 0;
+  opacity: 0;
+}
+
+.fade-enter {
+  opacity: 0.01;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit.fade-exit-active {
+  opacity: 0.01;
+  transition: opacity 500ms ease-out;
+}
+
+.fade-appear {
+  opacity: 0.1;
+}
+
+.fade-appear.fade-appear-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+#line {
+  width: 5px;
+  background: white;
+  height: 150%;
+  position: absolute;
+  top: -25%;
+  left: -50%;
+  animation: light 2.5s infinite ease-out;
+  box-shadow: 0 0 70px 30px white;
+  transform: rotate(45deg);
+}
+
+@keyframes light {
+  0% {
+    left: -50%;
+    opacity: 0.7;
+  }
+  40% {
+    left: 150%;
+    opacity: 1;
+  }
+  100% {
+    left: 150%;
+    opacity: 1;
+  }
+}
+
+#lineSide {
+  width: 5px;
+  background: white;
+  height: 100vh;
+  position: absolute;
+  top: -25%;
+  left: -80%;
+  animation: lightSide 2.5s infinite ease-out;
+  box-shadow: 0 0 70px 30px white;
+  transform: rotate(30deg);
+}
+
+@keyframes lightSide {
+  0%, 25% {
+    left: -80%;
+    opacity: 0.7;
+  }
+  60%, 100% {
+    left: 200%;
+    opacity: 1;
+  }
+}

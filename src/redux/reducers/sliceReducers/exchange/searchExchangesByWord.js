@@ -12,7 +12,7 @@ const success = (state, action) => {
   }
   return {
     ...state,
-    list: {...state.list, searchByWord: searchedByWordExchanges.slice()}
+    searchByWord: searchedByWordExchanges.slice()
   }
 }
 

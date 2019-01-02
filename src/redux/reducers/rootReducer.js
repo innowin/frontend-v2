@@ -1,9 +1,7 @@
 // @flow
 import {combineReducers} from 'redux'
-import {persistReducer} from "redux-persist";
 import {reducer as formReducer} from 'redux-form'
 import {routerReducer} from 'react-router-redux'
-import storage from 'redux-persist/lib/storage'
 import auth from './auth'
 import identities from "./identity"
 import common from "./commonReducer/index"
@@ -17,8 +15,11 @@ import {intlReducer} from './intl'
 import research from './research'
 import skill from './skill'
 import param from './param'
-
-const commonPersistConfig = {key: 'common', storage: storage,}
+import customer from './customer'
+import ability from './ability'
+import favorite from './favorite'
+import temp from "./temp"
+import toast from './toast'
 
 const reducers = {
   auth,
@@ -27,12 +28,17 @@ const reducers = {
   organs,
   organization,
   exchanges,
-  common: persistReducer(commonPersistConfig, common),
+  common,
   workExperience,
   education,
   research,
   skill,
   param,
+  temp,
+  customer,
+  ability,
+  favorite,
+  toast,
 }
 
 //Don't change below code ,  Put your reducer on the upper object.

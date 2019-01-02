@@ -2,26 +2,22 @@ import types from "src/redux/actions/types"
 import {takeEvery} from "redux-saga/effects"
 
 /**********    %% WORKERS %%    **********/
-import {getOrganizationByOrganId} from "./getOrganSagas"
+import {getOrganizationByOrganId} from "./getOrganizationByOrganId"
 import {updateOrganization} from "./updateOrgan"
+import {getCustomersByOrganizationId} from './getCustomersByOrganizationId'
+import {getCustomerByCustomerId} from "./getCustomerByCustomerId"
+import {createOrgCustomer} from './createOrgCustomer'
+import {deleteOrgCustomer} from './deleteOrgCustomer'
+import {updateOrgCustomer} from './updateOrgCustomer'
 import {
   addPictureProduct,
   agencyRequest,
-  createOrgCustomer,
   createProduct,
-  deleteOrgCustomer,
-  deleteProduct,
-  getCustomers,
-  getExchanges,
   getOrganizationMembers,
   getOrgStaff,
   getProductPicture,
-  getProducts,
   getProductsSuccess,
-  updateCustomer,
-  updateProduct
 } from "./organization"
-
 
 /**********    %% WATCHERS %%    **********/
 
@@ -40,32 +36,33 @@ function* watchUpdateOrganization() {
   yield takeEvery(types.ORG.UPDATE_ORGANIZATION_INFO, updateOrganization)
 }
 
-// get products
-function* watchGetProducts() {
-  yield takeEvery(types.ORG.GET_PRODUCTS, getProducts)
-}
-
-// get org exchanges
-function* watchGetOrgExchanges() {
-  yield takeEvery(types.ORG.GET_ORG_EXCHANGES, getExchanges)
-}
-
 // get org customers
 function* watchGetCustomers() {
-  yield takeEvery(types.ORG.GET_ORG_CUSTOMERS, getCustomers)
+  yield takeEvery(types.ORG.GET_CUSTOMERS_BY_ORGANIZATION_ID, getCustomersByOrganizationId)
+}
+
+// get org customer by customerId
+function* watchGetCustomerByCustomerId() {
+  yield takeEvery(types.ORG.GET_CUSTOMER_BY_CUSTOMER_ID, getCustomerByCustomerId)
 }
 
 // update org customer
 function* watchUpdateCustomer() {
-  yield takeEvery(types.ORG.UPDATE_CUSTOMER, updateCustomer)
+  yield takeEvery(types.ORG.UPDATE_CUSTOMER, updateOrgCustomer)
+}
+
+// create org customer
+function* watchCreateCustomer() {
+  yield takeEvery(types.ORG.CREATE_CUSTOMER, createOrgCustomer)
+}
+
+// delete org customer
+function* watchDeleteCustomer() {
+  yield takeEvery(types.ORG.DELETE_CUSTOMER, deleteOrgCustomer)
 }
 
 function* watchCreateOrgProduct() {
   yield takeEvery(types.ORG.CREATE_PRODUCT, createProduct)
-}
-
-function* watchUpdateOrgProduct() {
-  yield takeEvery(types.ORG.UPDATE_PRODUCT, updateProduct)
 }
 
 function* watchAddProductPicture() {
@@ -81,20 +78,8 @@ function* watchGetProductsSuccess() {
   yield takeEvery(types.SUCCESS.ORG.GET_PRODUCTS, getProductsSuccess)
 }
 
-function* watchDeleteProduct() {
-  yield takeEvery(types.ORG.DELETE_PRODUCT, deleteProduct)
-}
-
 function* watchGetStaff() {
   yield takeEvery(types.ORG.GET_STAFF, getOrgStaff)
-}
-
-function* watchCreateCustomer() {
-  yield takeEvery(types.ORG.CREATE_CUSTOMER, createOrgCustomer)
-}
-
-function* watchDeleteCustomer() {
-  yield takeEvery(types.ORG.DELETE_CUSTOMER, deleteOrgCustomer)
 }
 
 function* watchAgencyRequest() {
@@ -105,16 +90,13 @@ export default [
   watchGetOrganizationByOrganId(),
   watchGetOrganizationMembers(),
   watchUpdateOrganization(),
-  watchGetProducts(),
-  watchGetOrgExchanges(),
   watchGetCustomers(),
+  watchGetCustomerByCustomerId(),
   watchUpdateCustomer(),
   watchCreateOrgProduct(),
-  watchUpdateOrgProduct(),
   watchAddProductPicture(),
   watchGetProductPictures(),
   watchGetProductsSuccess(),
-  watchDeleteProduct(),
   watchGetStaff(),
   watchCreateCustomer(),
   watchDeleteCustomer(),

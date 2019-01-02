@@ -1,111 +1,103 @@
-/*global __*/
-import React, {Component} from "react";
-import PropTypes from "prop-types";
-import {createFile} from "../../../crud/media/media";
+import React, {Component} from "react"
+import PropTypes from "prop-types"
 
-class AttachFile extends Component {
+
+export default class AttachFile extends Component {
   static defaultProps = {
+    className: '',
     customValidate: () => false,
     required: false,
-  };
+    isLoadingProp: false,
+    allowableFormat: [],
+  }
 
   static propTypes = {
+    inputId: PropTypes.string.isRequired,
+    AttachButton: PropTypes.func.isRequired,
+    handleBase64: PropTypes.func.isRequired,
+    handleError: PropTypes.func.isRequired,
+    translate: PropTypes.object.isRequired,
+    allowableFormat: PropTypes.arrayOf(PropTypes.string),
+    isLoadingProp: PropTypes.bool,
+    LoadingFile: PropTypes.func,
     required: PropTypes.bool,
+    className: PropTypes.string,
     customValidate: PropTypes.func,
-    // TODO mohsen: fileType: PropTypes.arrayOf(PropTypes.string.isRequired),
     // TODO mohsen: fileSize
-    getMedia: PropTypes.func.isRequired,
-    AttachBottom: PropTypes.func.isRequired
-  };
+  }
 
   constructor(props) {
-    super(props);
-    this.state = {error: false, isLoading: false, fileName:'', media: {}};
-  };
+    super(props)
+    this.state = {isLoadingState: false}
+  }
 
-  _createFile = (fileString, fileName) => {
-    const mediaResult = (res) => {
-      this.setState({...this.state, isLoading: false, fileName, media:res});
-      this.props.getMedia(res, fileName)
-    };
-    createFile(fileString, mediaResult);
-  };
-
-  _handleChange = (event) => {
-    event.preventDefault();
-    const file = event.target.files[0];
-    const error = this._validateFile(file);
-    this.setState({...this.state, error});
-    if (file && !error) {
-      // TODO mohsen: check maximum file-size with attention to fileType
-      let reader = new FileReader();
-      reader.onloadstart = () => {
-        this.setState({isLoading: true});
-      };
-      reader.onloadend = () => {
-        const fileName = file.name;
-        this._createFile(reader.result, fileName);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  _onChangeClick = () => {
-    this.setState({...this.state, isLoading: false, fileName:'', media:{}});
-    this.props.getMedia({}, '')
-  };
+  _getExtension = (fileName) => {
+    const parts = fileName.split('.')
+    const ext = parts.pop()
+    return ext.toLowerCase()
+  }
 
   _validateFile = (file) => {
-    const {required, customValidate} = this.props;
+    const {required, customValidate, allowableFormat, translate: tr} = this.props
+    const fileName = file ? file.name : ''
+    const fileExtension = this._getExtension(fileName)
     if (required) {
       if (!file) {
-        return __('Required field');
+        return tr['Required field']
       }
     }
-    return customValidate(file);
-  };
+    if (file && allowableFormat.length > 0 && !allowableFormat.includes(fileExtension)) {
+      return tr['This format is not allowed']
+    }
+    return customValidate(file)
+  }
 
   _validate = () => {
-    const error = this._validateFile(this.file);
-    this.setState({error});
-    return error;
-  };
+    return this._validateFile(this.file)
+  }
 
-  _getFile = () => {
-    return this.state.media;
-  };
-
-  _getFileName = () => {
-    return this.state.fileName;
-  };
+  _handleChange = (event) => {
+    event.preventDefault()
+    const {handleBase64, handleError} = this.props
+    const file = event.target.files[0]
+    const error = this._validateFile(file)
+    if (error) return handleError(error)
+    if (file && !error) {
+      // TODO mohsen: check maximum file-size with attention to fileType
+      let reader = new FileReader()
+      reader.onloadstart = () => {
+        this.setState({...this.state, isLoadingState: true})
+      }
+      reader.onloadend = () => {
+        handleBase64(reader.result)
+        this.setState({...this.state, isLoadingState: false})
+      }
+      reader.readAsDataURL(file)
+    }
+  }
 
   render() {
-    const {error, isLoading} = this.state;
-    const {AttachBottom} = this.props;
+    const {isLoadingState} = this.state
+    const {isLoadingProp, translate: tr} = this.props
+    const isLoading = isLoadingProp || isLoadingState
+    const {AttachButton, LoadingFile, inputId, className} = this.props
     if (isLoading) {
-      return (
-          <span>{__('Uploading...')}</span>
-      )
+      if (LoadingFile)
+        return <LoadingFile/>
+      else return <span>{tr['Uploading...']}</span>
     }
     return (
-      <span>
-        <label htmlFor="file">
-          {/*// TODO mohsen: improve place of attach icon*/}
-          <AttachBottom/>
-        </label>
+      <label className={"attachLabel " + className} htmlFor={inputId}>
+        <AttachButton/>
         <input
           type="file"
           className="custom-file-input w-100"
           onChange={this._handleChange}
           onClick={this._onChangeClick}
-          id="file"
+          id={inputId}
           hidden
         />
-        {error &&
-        <div className="form-control-feedback">{error}</div>}
-      </span>
+      </label>
     )
   }
 }
-
-export default AttachFile;

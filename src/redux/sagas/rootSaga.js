@@ -1,6 +1,6 @@
 import {all} from 'redux-saga/effects'
 import authWatchers from './auth'
-import commonWatchers from './common/index'
+import commonWatchers from './common'
 import educationWatchers from './education'
 import exchangeWatchers from "./exchange"
 import identityWatchers from "./getIdentity"
@@ -9,6 +9,8 @@ import researchWatchers from './research'
 import skillWatchers from './skill'
 import userWatchers from "./user"
 import workExperienceWatchers from './workExperience'
+import abilityWatchers from './ability'
+import favoriteWatchers from './favorite'
 
 const rootSaga = function* () {
   yield all([
@@ -40,7 +42,13 @@ const rootSaga = function* () {
     ...skillWatchers,
 
     // common
-    ...commonWatchers
+    ...commonWatchers,
+
+    //ability
+    ...abilityWatchers,
+
+    //favorite
+    ...favoriteWatchers,
   ])
 }
 

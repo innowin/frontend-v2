@@ -1,0 +1,164 @@
+@import '../../variables';
+
+.stickers-container {
+  position: relative;
+  display: inline-block;
+  user-select: none;
+  cursor: pointer;
+}
+
+.stickers-menu-container {
+  position: absolute;
+  top: 25px;
+  border: 1px solid #eee;
+  background-color: #fcfcfc;
+  border-radius: 5px;
+  padding: 5px;
+  height: 200px;
+  width: 255px;
+  overflow: hidden;
+  opacity: 1;
+  z-index: 1;
+  transition-duration: 0.3s;
+  line-height: 30px;
+  letter-spacing: 3px;
+  text-align: center;
+  font-size: 19px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.stickers-menu-scroll {
+  overflow: auto;
+  height: 150px;
+}
+
+.stickers-menu-scroll::-webkit-scrollbar {
+  width: $scroll-bar-width;
+  border-radius: 3px;
+}
+
+.stickers-menu-scroll::-webkit-scrollbar-track {
+  background-color: #FCFCFC;
+  border-radius: 3px;
+}
+
+.stickers-menu-scroll::-webkit-scrollbar-thumb {
+  background: lightgrey;
+  border-radius: 3px;
+
+  &:hover {
+    background: darkgrey;
+  }
+}
+
+.stickers-menu-container-close {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 1px solid #eee;
+  background-color: #F5F5F5;
+  border-radius: 5px;
+  padding: 0 5px;
+  height: 0;
+  width: 255px;
+  overflow: hidden;
+  opacity: 0;
+  z-index: -2;
+  transition-duration: 0.3s;
+  line-height: 30px;
+  letter-spacing: 3px;
+  text-align: center;
+  font-size: 19px;
+}
+
+.stickers-menu-tabs {
+  display: flex;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.stickers-menu-tab {
+  display: inline-block;
+  flex-grow: 1;
+  padding-top: 5px;
+  background-color: #F5F5F5;
+  cursor: pointer;
+  color: red;
+}
+
+.stickers-menu-tab-select {
+  display: inline-block;
+  color: red;
+  flex-grow: 1;
+  padding-top: 5px;
+  background-color: #ececec;
+  cursor: pointer;
+}
+
+.emoji-logo {
+  fill: #BBBBBB;
+  width: 20px;
+}
+
+.emoji-inline-block {
+  display: inline-block;
+}
+
+.emoji-open {
+  position: absolute;
+  bottom: 2px;
+  transition-duration: 0.2s;
+  opacity: 1;
+  z-index: 1;
+}
+
+.emoji-close {
+  position: absolute;
+  bottom: 4px;
+  transition-duration: 0.2s;
+  opacity: 1;
+  z-index: 1;
+}
+
+.post-placeholder {
+  transition-duration: 0.5s;
+  width: calc(100% - 80px);
+  cursor: text;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-size: 13px;
+  color: grey;
+  position: absolute;
+  right: 77px;
+  top: 12px;
+}
+
+.post-placeholder-open {
+  transition-delay: 0.02s;
+  transition-duration: 0.5s;
+  width: 100%;
+  cursor: text;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-size: 13px;
+  color: grey;
+  position: absolute;
+  right: 16px;
+  top: 17px;
+}
+
+.post-placeholder-hide {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-size: 13px;
+  color: grey;
+  position: absolute;
+  display: none;
+}

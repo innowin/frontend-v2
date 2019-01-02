@@ -1,144 +1,134 @@
 // @flow
 import * as React from "react"
-import {userInfoIcon} from "src/images/icons"
-import {Link} from 'react-router-dom'
-import {DefaultUserIcon} from 'src/images/icons'
+import {InformationIcon} from "src/images/icons"
 import {
-	Field,
-	FieldLabel,
-	FieldValue,
-	ItemHeader,
-	ItemWrapper,
+  Field,
+  FieldLabel,
+  FieldValue,
+  ItemHeader,
+  ItemWrapper,
 } from '../../common/cards/Frames'
 import type {ProductType} from "src/consts/flowTypes/product/productTypes"
 import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
-
-
-type ProductDescriptionWrapperProps = {
-	children: React.Node,
-}
-
-export const ProductDescriptionWrapper = (props: ProductDescriptionWrapperProps) => {
-	const {children} = props
-	return (
-			<ItemWrapper icon={userInfoIcon}>{children}</ItemWrapper>
-	)
-}
-
-
-type ProductDescriptionProps = {
-    jobTitle: string,
-	userID: number,
-	firstName: string,
-	lastName: string,
-	isEdit: boolean,
-    translator: TranslatorType
-}
-
-export const ProductDescription = (props: ProductDescriptionProps) => {
-	const {jobTitle, userID , firstName , lastName, isEdit, translator} = props
-	return (
-			<div className="member-wrapper">
-				<div className="image-wrapper">
-          <Link to={`/user/${userID}`}>
-						<DefaultUserIcon/>
-					</Link>
-				</div>
-				<div className="details">
-					<div>
-						<div className="name">{firstName} {lastName}</div>
-						<div className="job-title">{jobTitle}</div>
-					</div>
-					{(isEdit) ?
-						<button className="btn btn-outline-danger">{translator['Delete']}</button>:<Link to="#">connect</Link>
-					}
-				</div>
-			</div>
-	)
-}
+import {DOMAIN} from "src/consts/URLS"
+import {Tag} from '../../common/tags/tag'
+import type {TagType} from "../../common/tags/tag";
+import Moment from 'react-moment'
 
 
 type ProductDescriptionViewProps = {
-    description: string,
-	showEdit: Function,
-	translator: TranslatorType
+  description: string,
+  showEdit: Function,
+  translator: TranslatorType
 }
 
 export const ProductDescriptionView = (props: ProductDescriptionViewProps) => {
-    const {description, showEdit, translator} = props
-    return (
-        <ProductDescriptionWrapper>
-            <ItemHeader title={translator['Description']} showEdit={showEdit}/>
-            <div className="members-wrapper">
-                {
-                    description
-                }
-            </div>
-        </ProductDescriptionWrapper>
-    )
+  const {description, showEdit, translator} = props
+  return (
+      <ItemWrapper icon={<InformationIcon/>}>
+        <ItemHeader title={translator['Description']} showEdit={showEdit} param={null}/>
+        <div className="product-desc">{description}
+        </div>
+      </ItemWrapper>
+  )
 }
 
 
 type ProductInfoItemWrapperProps = {
-	children: React.Node
+  children: React.Node
 }
 
 export const ProductInfoItemWrapper = (props: ProductInfoItemWrapperProps) => {
-	const {children} = props
-	return (
-		<ItemWrapper icon={userInfoIcon}>{children}</ItemWrapper>
-	)
+  const {children} = props
+  return (
+      <ItemWrapper icon={<InformationIcon/>}>{children}</ItemWrapper>
+  )
 }
 
 
 type ProductCategoryProps = {
-	name: string
+  name: string
 }
 
 type ownerType = {
-	name: string
+  name: string
+}
+
+export type ProvinceType = {
+  name: string
+}
+export type CountryType = {
+  name: string
 }
 
 type ProductInfoViewProps = {
-    product: ProductType,
-	product_category: ProductCategoryProps,
-	owner: ownerType,
-	showEdit: Function,
-	translator: TranslatorType
+  category: string,
+  product_category: ProductCategoryProps,
+  owner: ownerType,
+  showEdit: Function,
+  translator: TranslatorType,
+  province: string,
+  country: string,
+  productId: string
 }
 
 export const ProductInfoView = (props: ProductInfoViewProps) => {
-    const {product,product_category, owner, showEdit, translator} = props
-    return (
-        <ProductInfoItemWrapper>
-			{console.log('translator is: ', translator)}
-            <ItemHeader title={translator['Product info']} showEdit={showEdit}/>
-            <Field>
-                <FieldLabel label={translator['Name'] + ": "}/>
-                <FieldValue value={product.name}/>
+  const {category, owner, showEdit, created_time, province, country, productId} = props
+  const fields = [
+    {value: category, label: 'طبقه‌بندی دسته', key: 1},
+    {value: `${province}-${country}`, label: 'محدوده جغرافیایی', key: 2},
+    {value: `${DOMAIN}/product/${productId}/basicInformation`, label: 'لینک محصول', key: 3},
+    {value: <span><Moment element="span" fromNow ago>{created_time}</Moment> پیش</span>, label: 'تاریخ ثبت در اینوین', key: 4},
+    {value: owner.name, label: 'ارائه دهنده محصول', key: 5}
+  ]
+  return (
+      <ProductInfoItemWrapper>
+        <ItemHeader title='مشخصات اولیه' showEdit={showEdit} param={null}/>
+        {fields.map(({label, value, key}) => (
+            <Field key={key}>
+              <FieldLabel label={`${label}: `}/>
+              <FieldValue value={value}/>
             </Field>
-            <Field>
-                <FieldLabel label ={translator['Category']+": "}/>
-                <FieldValue value={product_category.name}/>
-            </Field>
-            <Field>
-                <FieldLabel label ={translator['Product Owner']+": "}/>
-                <FieldValue value={owner.name}/>
-            </Field>
-            <Field>
-                <FieldLabel label={translator['Country'] + ": "}/>
-                <FieldValue value={product.country}/>
-            </Field>
-            <Field>
-                <FieldLabel label={translator['Province'] + ": "}/>
-                <FieldValue value={product.province}/>
-            </Field>
-            <Field>
-                <FieldLabel label={translator['City'] + ": "}/>
-                <FieldValue value={product.city}/>
-            </Field>
-
-        </ProductInfoItemWrapper>
-    )
+        ))}
+      </ProductInfoItemWrapper>
+  )
 }
 
+type AttrsType = {
+  [string]: string
+}
+type TechnicalInfoViewProps = {
+  attrs: AttrsType,
+  showEdit: Function
+}
+
+export const TechnicalInfoView = (props: TechnicalInfoViewProps) => {
+  const {attrs, showEdit} = props
+
+  return (
+      <ProductInfoItemWrapper>
+        <ItemHeader title='مشخصات فنی' showEdit={showEdit}/>
+        {Object.keys(attrs).map((key) => (
+            <Field key={`product-info-field-${key}`}>
+              <FieldLabel label={`${key}: `}/>
+              <FieldValue value={attrs[key]}/>
+            </Field>
+        ))}
+      </ProductInfoItemWrapper>
+  )
+}
+
+type HashTagsViewProps = {
+  showEdit: Function,
+  tags: Array<TagType>
+}
+export const HashTagsView = (props: HashTagsViewProps) => {
+  const {tags, showEdit} = props
+
+  return (
+      <ProductInfoItemWrapper>
+        <ItemHeader title='برچسب‌ها' showEdit={showEdit}/>
+        {tags.map(tag => <Tag key={`productTag${tag.title}`} title={tag.title}/>)}
+      </ProductInfoItemWrapper>
+  )
+}

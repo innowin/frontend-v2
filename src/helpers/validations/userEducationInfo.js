@@ -51,11 +51,11 @@ const userEducationInfo = (values, {translate}) => {
   const requiredFields = ['fieldOfStudy', 'grade', 'university']
 
   const {university, grade, fieldOfStudy, average, description, dayFromDate, monthFromDate, yearFromDate, dayToDate, monthToDate, yearToDate} = values
-  if (university) errors.university = validateUniversity(university, translate)
-  if (grade) errors.grade = validateGrade(grade, translate)
-  if (fieldOfStudy) errors.fieldOfStudy = validateFieldOfStudy(fieldOfStudy, translate)
-  if (average) errors.average = validateAverage(average, translate)
-  if (description) errors.description = validateDescription(description, translate)
+  // if (university) errors.university = validateUniversity(university, translate)
+  // if (grade) errors.grade = validateGrade(grade, translate)
+  // if (fieldOfStudy) errors.fieldOfStudy = validateFieldOfStudy(fieldOfStudy, translate)
+  // if (average) errors.average = validateAverage(average, translate)
+  // if (description) errors.description = validateDescription(description, translate)
   if (dayFromDate) errors.dayFromDate = validateDay(dayFromDate, translate)
   if (monthFromDate) errors.monthFromDate = validateMonth(monthFromDate, translate)
   if (yearFromDate) errors.yearFromDate = validateYear(yearFromDate, translate)

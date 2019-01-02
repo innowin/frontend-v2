@@ -11,6 +11,11 @@ import educationState from './education'
 import researchState from './research'
 import paramState from './param'
 import identitiesState from "./identities"
+import customerState from './customer'
+import abilityState from './ability'
+import favoriteState from './favorite'
+import tempState from "./temp"
+import toastState from './toast'
 
 export default {
   auth: authState,
@@ -23,9 +28,12 @@ export default {
   exchanges: exchangesState,
   workExperience: workExperienceState,
   education: educationState,
+  customer: customerState,
+  ability: abilityState,
+  favorite: favoriteState,
   common: {
     agencyRequest: commonStates.agencyRequestState,
-    badge: commonStates.badgeState,
+    badges: commonStates.badgeState,
     category: commonStates.categoryState,
     certificate: commonStates.certificateState,
     exchangeMembership: commonStates.exchangeMembershipState,
@@ -34,8 +42,11 @@ export default {
     location: commonStates.locationState,
     post: commonStates.postState,
     product: commonStates.productState,
-    social: commonStates.socialState
+    social: commonStates.socialState,
+    comment: commonStates.commentState,
   },
   intl: intlState,
   param: paramState,
+  temp: tempState,
+  toast: toastState,
 }

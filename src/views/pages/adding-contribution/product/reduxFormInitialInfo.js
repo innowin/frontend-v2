@@ -114,7 +114,7 @@ let InitialInfoReduxForm = (props: InitialInfoProps) => {
   }
   const countriesList = objToArrayAsOptions(countries.list, 'id', 'name')
 
-  const provincesList = objToArrayAsOptions(provinces.list, 'id', 'name')
+  const provincesList = objToArrayAsOptions(provinces.list, 'id', 'name') || []
 
   const citiesList = objToArrayAsOptions(cities.list, 'id', 'name')
 

@@ -23,7 +23,7 @@ const SuccessMessage = (props: SuccessMessageProps) => {
       handler: shareContribution
     },
     {
-      title: 'عرضه در بورس',
+      title: 'عرضه در پنجره',
       image: (<span className="act-image">?</span>),
       handler: introToExchange
     },

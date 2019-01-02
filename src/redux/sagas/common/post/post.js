@@ -3,29 +3,39 @@ import {takeEvery} from "redux-saga/effects"
 
 /**********    %% WORKERS %%    **********/
 import {filterPostsByPostParentPostTypeLimitOffset} from './filterPostsByPostParentLimitOffset'
+import {filterPostByPostRelatedProduct} from './filterPostByPostRelatedProduct'
 import {createPost} from './createPost'
 import {getPostByIdentity} from "./getPostByIdentity"
 import {updatePost} from './updatePost'
 import {deletePost} from './deletePost'
+import {getPost} from './getPost'
 import {getPostViewerCount, setPostViewer} from "./viewerCount"
 
 
 /**********    %% WATCHERS %%    **********/
 
 function* watchFilterPostsByPostParentPostTypeLimitOffset() {
-	yield takeEvery(types.COMMON.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET, filterPostsByPostParentPostTypeLimitOffset)
+  yield takeEvery(types.COMMON.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET, filterPostsByPostParentPostTypeLimitOffset)
+}
+
+function* watchFilterPostsByPostRelatedProduct() {
+  yield takeEvery(types.COMMON.POST.FILTER_POSTS_BY_POST_RELATED_PRODUCT, filterPostByPostRelatedProduct)
 }
 
 function* watchGetPostByIdentity() {
   yield takeEvery(types.COMMON.POST.GET_POST_BY_IDENTITY, getPostByIdentity)
 }
 
-function* watchGetPostViewerCount(){
+function* watchGetPostViewerCount() {
   yield takeEvery(types.COMMON.POST.GET_POST_VIEWER_COUNT, getPostViewerCount)
 }
 
 function* watchSetPostViewer() {
   yield takeEvery(types.COMMON.POST.SET_POST_VIEWER, setPostViewer)
+}
+
+function* watchGetPost() {
+  yield takeEvery(types.COMMON.POST.GET_POST, getPost)
 }
 
 function* watchCreatePost() {
@@ -41,9 +51,11 @@ function* watchDeletePost() {
 }
 
 export default [
+  watchGetPost(),
   watchCreatePost(),
   watchDeletePost(),
   watchFilterPostsByPostParentPostTypeLimitOffset(),
+  watchFilterPostsByPostRelatedProduct(),
   watchGetPostByIdentity(),
   watchGetPostViewerCount(),
   watchSetPostViewer(),

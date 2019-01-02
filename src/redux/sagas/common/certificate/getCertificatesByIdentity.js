@@ -8,7 +8,7 @@ export function* getCertificatesByIdentity(action) {
   const {identityId, certificateOwnerId, certificateOwnerType} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.CERTIFICATE.GET_CERTIFICATES_BY_IDENTITY)
   try {
-    yield fork(api.get, urls.COMMON.CERTIFICATE, results.COMMON.CERTIFICATE.GET_CERTIFICATES_BY_IDENTITY, `?certificate_identity=${identityId}`)
+    yield fork(api.get, urls.COMMON.CERTIFICATE, results.COMMON.CERTIFICATE.GET_CERTIFICATES_BY_IDENTITY, `?certificate_parent=${identityId}`)
     const data = yield take(socketChannel)
     yield put({
       type: types.SUCCESS.COMMON.CERTIFICATE.GET_CERTIFICATES_BY_IDENTITY,

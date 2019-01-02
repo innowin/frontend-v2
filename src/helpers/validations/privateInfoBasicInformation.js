@@ -28,15 +28,35 @@ const validateNationalCode = (nationalCode, translate) => {
   }
 }
 
+const validateAuthMobile = (authMobile, translate) => {
+  if (!/^[0-9]{11}$/.test(authMobile)) {
+    return translate['Phone number is wrong']
+  }
+}
+
 const privateInfoBasicInformation = (values, {translate}) => {
   const errors = {}
+  const requiredFields = ['email']
+  const {email, nationalCode, day, month, year, authMobile} = values
 
-  const {email, nationalCode, day, month, year} = values
+  let requiredErrors = []
+  requiredFields.forEach(field => {
+    if (!values[field]) {
+      // errors[field] = true
+      errors[field] = translate['Fill required fields']
+      requiredErrors.push(true)
+    } else {
+      requiredErrors.push(false)
+    }
+    (requiredErrors.includes(true)) ? (errors._error = translate['Fill required fields']) : (errors._error = "")
+  })
+
   if (email) errors.email = validateEmail(email, translate)
   if (nationalCode) errors.nationalCode = validateNationalCode(nationalCode, translate)
   if (day) errors.day = validateDay(day, translate)
   if (month) errors.month = validateMonth(month, translate)
   if (year) errors.year = validateYear(year, translate)
+  if (year) errors.authMobile = validateAuthMobile(authMobile, translate)
 
   return errors
 }

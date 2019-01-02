@@ -1,3 +1,4 @@
+@import "../../../variables";
 .danesh-boom-custom-file-control {
   display: flex;
   flex-wrap: nowrap;
@@ -35,4 +36,8 @@
     min-width: 0;
   }
 
+}
+
+.attachLabel {
+  margin-bottom: 0;
 }

@@ -1,46 +1,115 @@
 @import "../../variables";
-.customer{
-	.content{
-		min-width: 100%;
-	}
-	.customerImage{
-		min-width:100px;
-		min-height: auto;
-		max-width: 100%;
 
-	}
-	img{
-		// padding-top: 5%;
-		// padding-bottom: 0;
-		// padding-right: 35%;
-		// padding-left: 35%;
-	}
-	h5{
-		padding:5px;
-		padding-bottom:0px;
-		padding-top:15px;
-		margin:0px;
-		font-size:$font-size-normalText;
-	}
-	.shareButton{
-		float:right;
-		padding-left:6px;
-		padding-right:6px;
-		padding-bottom:6px;
-		padding-top:0px;
-		svg{
-			width:10px;
-			height:10px;
-		}
-	}
-	.editButton{
-		cursor:pointer;
-		position: absolute;
-		left:0;
-		float:left;
-		svg{
-			width:15px;
-			height: 15px;
-		}
-	}
+.customers-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+
+  .customer-wrapper {
+    padding: 10px;
+    width: 50%;
+
+    .customer-view-container {
+      position: relative;
+      border: 1px solid $text-lighter-color;
+      padding: 15px;
+
+      .customer-edit {
+        position: absolute;
+        top: 0;
+        left: 5px;
+      }
+
+      .customer-image {
+        margin: 10px;
+        height: 120px;
+
+        img {
+          display: flex;
+          margin: auto;
+          height: 100%;
+        }
+      }
+
+      .customer-title {
+        text-align: center;
+        margin-bottom: 10px;
+        font-size: $font-size-regular;
+      }
+    }
+  }
+}
+
+.customer-add-container {
+  display: flex;
+  justify-content: space-around;
+  margin: 12px 0;
+
+  .customer-add-button {
+    border: none;
+    background: $bootstrap-success;
+    padding: 10px;
+    font-size: $font-size-normalText;
+    font-weight: bold;
+    color: #ffffff;
+    border-radius: $border-radius-size;
+    outline: 0;
+  }
+}
+
+.customer-tab {
+  padding-top: 0;
+}
+
+.customer-create-header {
+  margin: 20px 0 20px 20px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.customer-form {
+  .title {
+    padding: 0;
+
+    input {
+      direction: rtl !important;
+    }
+  }
+
+  .searched-users {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -1px;
+    > div {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 10px;
+      flex: 1 1 50%;
+      max-width: 50%;
+      border: 1px white solid;
+      &:hover {
+        border: 1px $input-border-color solid;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+      .name {
+        display: flex;
+        flex-direction: column;
+        padding: 2px;
+        font-size: 12px;
+      }
+      .img {
+        margin-right: 5px;
+        height: 40px;
+        width: 40px;
+        svg, img {
+          height: 100%;
+          width: 100%;
+          border-radius: 50%;
+        }
+      }
+    }
+  }
 }

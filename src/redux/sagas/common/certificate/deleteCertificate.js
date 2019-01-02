@@ -10,7 +10,7 @@ export function* deleteCertificate(action) {
   try {
     yield fork(api.del, urls.COMMON.CERTIFICATE, results.COMMON.CERTIFICATE.DELETE_CERTIFICATE, '', `${certificateId}`)
     yield take(socketChannel)
-    yield put({type: types.SUCCESS.COMMON.CERTIFICATE.DELETE_CERTIFICATE ,
+    yield put({type: types.SUCCESS.COMMON.CERTIFICATE.DELETE_CERTIFICATE,
       payload:{certificateId, certificateOwnerId, certificateOwnerType, certificateParentId, certificateParentType}})
   } catch (error) {
     const {message} = error

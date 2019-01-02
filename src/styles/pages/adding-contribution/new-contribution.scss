@@ -1,4 +1,4 @@
-@import "./common";
+@import "../common";
 
 
 .new-contribution-wrapper {
@@ -8,9 +8,10 @@
   }
   .categories-wrapper .categories {
     display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;
+    justify-content: right;
     .category {
+      margin-left: 7.5%;
       border: 3px solid $chat-box2-color;
       flex: 0 0 150px;
       border-radius: 20px;
@@ -45,34 +46,8 @@
     .category.active .new-contribution-category-image path {
       fill: $brand-inverse;
     }
-
   }
-  .desc {
-    background-color: $chat-box2-color;
-    padding: 20px;
-    display: flex;
-    margin: 55px auto 40px;
-    line-height: 29px;
-    border-radius: 3px;
-    .icon-wrapper {
-      display: flex;
-      align-items: center;
-    }
-    .icon-wrapper .tip-icon {
-      width: 25px;
-      height: 25px;
-      margin-left: 4px;
-    }
-    .icon-wrapper .tip-icon path {
-      fill: $success-color;
-    }
-    .text {
-      text-align: center;
-      // font-size: 12px;
-      color: $text-title-menu-color;
-    }
-    .text p {
-      margin: 0
-    }
+  .tip {
+    margin: 60px auto;
   }
 }

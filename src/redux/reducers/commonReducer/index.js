@@ -1,34 +1,26 @@
-// import hashTag from "./hashTag";
-import file from "./file";
-import badge from "./badge";
-import certificate from "./certificate";
-import location from "./location";
-import {combineReducers} from "redux";
-import category from "./category";
-import product from "./product";
+import badges from './badges/index'
+import category from './category'
+import certificate from './certificate'
+import comment from './comment'
+import exchangeMembership from './exchangeMembership'
+import file from './file'
+import hashTag from './hashTag/index'
+import location from './location'
 import post from './post'
+import product from './product'
 import social from './social'
-import storage from "redux-persist/lib/storage";
-import {persistReducer} from "redux-persist";
-import exchangeMembership from "./exchangeMembership";
-import hashTag from "./hashTag/mainHashTags";
-
-
-const locationPersistConfig = {key: 'location', storage: storage}
-
-const productPersistConfig = {key: 'product', storage: storage}
-
-// const hashTagPersistConfig = {key: 'hashTag', storage: storage}
+import {combineReducers} from 'redux'
 
 export default combineReducers({
-  category,
-  product: persistReducer(productPersistConfig, product),
-  certificate,
-  file,
-  hashTag,
-  location: persistReducer(locationPersistConfig, location),
-  badge,
-  post,
-  social,
-  exchangeMembership,
+	category,
+	product,
+	certificate,
+	file,
+	hashTag,
+	location,
+	badges,
+	post,
+	social,
+	exchangeMembership,
+	comment,
 })

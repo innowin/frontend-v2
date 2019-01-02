@@ -19,11 +19,13 @@ export default {
     social: {
       follows: [], /* ids of follows that this client participates at them*/
     },
+    abilities: [],  /* ids of abilities that this organziation client has at them*/
     rememberMe: null,
     user_type: null,
     isLoggedIn: false,
     error: null,
     exchangeMemberships: [], /* ids of exchanges that user is member of that*/
     workExperiences: [], /* ids of workExperiences that this client is member of them*/
+    customers: [], /* ids of customers that this org client has them*/
   }
 }

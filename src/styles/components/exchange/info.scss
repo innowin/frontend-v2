@@ -1,18 +1,24 @@
 @import "../../variables";
 
+.info-loading {
+  width: 99.7%;
+  margin: 0 auto 10px auto;
+  background-color: white;
+  border-radius: $border-radius;
+  height: 75px;
+  text-align: center;
+  box-shadow: 0 2px 5px $box-shadow-color;
+  padding: 15px;
+}
+
 .info-frame {
   text-align: right;
-  width: $feed-width - 6px;
+  width: calc(100% - 6px);
   margin: 2px 3px 10px 8px;
   background-color: $base-posts;
   border-radius: 5px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, .2);
+  box-shadow: 0 2px 5px $box-shadow-color;
   padding: 12.5px 10px 15px 10px;
-  transition-duration: $animation-timing;
-}
-
-.info-frame:hover {
-  box-shadow: 0 3px 6px rgba(0, 0, 0, .2);
   transition-duration: $animation-timing;
 }
 
@@ -21,7 +27,7 @@
   background-color: $white;
   height: 30px;
   font-weight: bold;
-  font-size: $font-size-medium;
+  font-size: $font-size-post-name;
 }
 
 .info-body {
@@ -36,21 +42,22 @@
   width: 98%;
   border-radius: 5px;
   background-color: $white;
-  box-shadow: 0 2px 9px rgba(0, 0, 0, .2);
+  box-shadow: 0 1px 5px $box-shadow-color;
   padding: 10px 20px;
   margin: 1%;
 }
 
-.info-exchange-owner-image-frame{
+.info-exchange-owner-image-frame {
   vertical-align: top;
   display: inline-block;
-  width: 14%;
+  width: 65px;
+  height: 50px;
 }
 
-.info-exchange-owner-image-frame-sibling{
+.info-exchange-owner-image-frame-sibling {
   vertical-align: top;
   display: inline-block;
-  width: 50%;
+  width: 65%;
 }
 
 .info-exchange-username {
@@ -58,7 +65,83 @@
   font-weight: bold;
 }
 
-.info-exchange-education{
+.info-exchange-education {
   font-size: $font-size-exchange-education;
   color: $font-color-exchange-education;
+}
+
+.info-social {
+  font-size: 24px;
+  margin: 15px 7px 15px 0;
+  position: relative;
+
+  &:first-child {
+    margin-top: 10px;
+  }
+  &:last-child {
+    margin-bottom: 0;
+  }
+  .fa-youtube-play {
+    color: red;
+  }
+  .fa-telegram {
+    background: -webkit-linear-gradient(-30deg, cornflowerblue, rgb(66, 70, 255));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .fa-instagram {
+    background: -webkit-linear-gradient(30deg, #ffd02a, #dc3b26, #5925c1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+  }
+  .fa-linkedin {
+    color: royalblue;
+  }
+  .fa-link {
+    color: dimgrey;
+  }
+}
+
+.info-social-text {
+  position: absolute;
+  font-size: $font-size-boxText;
+  font-weight: bold;
+  margin-right: 15px;
+  top: -3px;
+}
+
+.info-social-text-address {
+  text-align: left;
+  direction: ltr;
+  position: absolute;
+  font-size: $font-size-boxText;
+  font-weight: bold;
+  margin-right: 15px;
+  top: -3px;
+  right: 17%;
+  width: 75%;
+  padding: 0 5px;
+  border-bottom: 1px solid lightgrey;
+  transition-duration: $animation-timing-long;
+  color: #757575;
+  cursor: default;
+
+  &:hover {
+    transition-duration: $animation-timing-long;
+    padding: 0 10px;
+    border-bottom: 1px solid dimgrey;
+  }
+}
+
+.info-social-text-address-input {
+  border: none;
+  color: $text-dark-color;
+  width: 40%;
+  margin: 0;
+  font-size: $font-size-boxText;
+  font-weight: bold;
+  &:focus {
+    outline: none;
+  }
 }

@@ -3,10 +3,6 @@ export default {
     isLoading: false,
     content: []
   },
-  exchanges: {
-    isLoading: false,
-    content: []
-  },
   abilities: {
     isLoading: false,
     content: []
@@ -14,14 +10,6 @@ export default {
   customers: {
     isLoading: false,
     error: false,
-    content: []
-  },
-  products: {
-    isLoading: false,
-    content: []
-  },
-  pictures: {
-    isLoading: false,
     content: []
   }
 }

@@ -39,7 +39,8 @@ const success = (state, action) => {
           ...state.list[exchangeMembershipOwnerId],
           exchangeMemberships: {
             ...previousMembership,
-            content: [...new Set([...previousMembership.content, ...arrayOfMembershipId])],
+            // content: [...new Set([...previousMembership.content, ...arrayOfMembershipId])],
+            content: arrayOfMembershipId,
             isLoading: false,
             error: null
           }

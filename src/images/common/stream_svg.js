@@ -1,12 +1,16 @@
 import React from "react"
 
-class StreamSvg extends React.Component {
-  render() {
+class StreamSvg extends React.Component
+{
+  render()
+  {
     return (
-        <div className={this.props.containerClass} onClick={() => {
-          this.props.changeView("Stream")
+        <div className={this.props.containerClass ? this.props.containerClass : null} onClick={() =>
+        {
+          this.props.changeView ? this.props.changeView("Stream") : null
         }}>
-          <svg width={this.props.width} height={this.props.height} className={this.props.svgClass}
+          <svg width={this.props.width} height={this.props.height}
+               className={this.props.svgClass ? this.props.svgClass : null}
                viewBox="0 0 136790 136370">
             <g>
               <metadata id="CorelCorpID_0Corel-Layer"/>

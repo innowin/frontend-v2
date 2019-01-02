@@ -1,10 +1,9 @@
 @import "../variables";
 
-.-userOrganBackgroundImg {
-  background-image: url("../images/common/userOrganBackground.png");
-  background-repeat: no-repeat;
-  background-position: top left;
-  background-attachment: fixed;
+.pages-wrapper {
+  background: url("../images/common/background.png") no-repeat fixed top left, $full-bg-color no-repeat fixed top left;
+  //background-size: 63%;
+  min-height: 100vh;
 }
 
 .dir-rtl {
@@ -98,4 +97,17 @@
   font-size: $font-size-field-value;
   //padding-top: 2px;
   padding-right: 8px;
+}
+
+.covered-img {
+  object-fit: cover;
+}
+
+.covered-svg {
+  object-fit: cover;
+  margin-bottom: -8px;
+}
+
+.contain-img {
+  object-fit: contain;
 }

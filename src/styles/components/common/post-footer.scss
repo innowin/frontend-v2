@@ -1,0 +1,44 @@
+@import "../../variables";
+
+.more-option-svg {
+  width: 12px;
+  height: 12px;
+  margin-right: 1px;
+  margin-bottom: 2px;
+}
+
+.more-option-svg-container{
+  width: 30px;
+  height: 30px;
+  margin-left: 7.5px;
+}
+
+.comment-svg {
+  width: 17px;
+  height: 17px;
+  margin-top: 5px;
+  margin-right: 2.5px;
+}
+
+.comment-svg-container{
+  width: 30px;
+  height: 30px;
+}
+
+.cls-1-comment, .cls-2-comment {
+  fill: none;
+}
+
+.cls-2-comment {
+  stroke: #c2c2c2;
+  stroke-linecap: round;
+  stroke-width: 2px;
+}
+
+.cls-3-comment, .cls-4-comment {
+  stroke: none;
+}
+
+.cls-4-comment {
+  fill: #c2c2c2;
+}

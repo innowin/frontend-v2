@@ -6,7 +6,7 @@ import {connect} from "react-redux"
 
 import type {workExperienceType} from "src/consts/flowTypes/user/others"
 import WorkExperience from './WorkExperience'
-import WorkExperienceActions from "../../../redux/actions/workExperienceActions";
+import WorkExperienceActions from "../../../redux/actions/user/workExperienceActions";
 import WorkExperienceCreateForm from "./WorkExperienceCreateForm"
 import workExperienceIcon from "../../../images/user/workExperience_svg";
 import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper, ItemWrapper} from "src/views/common/cards/Frames"
@@ -76,39 +76,47 @@ class WorkExperiences extends React.Component<PropsWorkExperiences, StateWorkExp
     const {translate, workExperiences, isLoading, error, userId, actions} = this.props
     const {updateWorkExperienceByUserId, deleteWorkExperienceByUserId} = actions
     return (
-      // <VerifyWrapper isLoading={isLoading} error={error}>
-      <div>
-        <CategoryTitle
-          title={translate['WorkExperience']}
-          showCreateForm={this._showCreateForm}
-          createForm={createForm}
-        />
-        <FrameCard>
-          <ListGroup>
-            {
-              createForm &&
-              <ItemWrapper icon={workExperienceIcon}>
-                <WorkExperienceCreateForm hideCreateForm={this._hideCreateForm} create={this._create}
-                                          translate={translate}
-                                          userId={userId}/>
-              </ItemWrapper>
-            }
-            {
-              workExperiences.map((workExperience) => (
-                <WorkExperience
-                  workExperience={workExperience}
-                  updateWorkExperienceByUserId={updateWorkExperienceByUserId}
-                  deleteWorkExperienceByUserId={deleteWorkExperienceByUserId}
-                  translate={translate}
-                  key={workExperience.id}
-                  userId={userId}
-                />
-              ))
-            }
-          </ListGroup>
-        </FrameCard>
-      </div>
-      // </VerifyWrapper>
+        // <VerifyWrapper isLoading={isLoading} error={error}>
+        <div>
+          <CategoryTitle
+              title={translate['WorkExperience']}
+              showCreateForm={this._showCreateForm}
+              createForm={createForm}
+          />
+          {
+            createForm &&
+            <FrameCard>
+              <ListGroup>
+                <ItemWrapper icon={workExperienceIcon}>
+                  <WorkExperienceCreateForm hideCreateForm={this._hideCreateForm} create={this._create}
+                                            translate={translate}
+                                            userId={userId}/>
+                </ItemWrapper>
+              </ListGroup>
+            </FrameCard>
+          }
+          {
+            workExperiences.length > 0 &&
+            <FrameCard>
+              <ListGroup>
+                {
+                  workExperiences.map((workExperience) => (
+                      <WorkExperience
+                          workExperience={workExperience}
+                          updateWorkExperienceByUserId={updateWorkExperienceByUserId}
+                          deleteWorkExperienceByUserId={deleteWorkExperienceByUserId}
+                          translate={translate}
+                          key={workExperience.id}
+                          userId={userId}
+                      />
+                  ))
+                }
+              </ListGroup>
+            </FrameCard>
+
+          }
+        </div>
+        // </VerifyWrapper>
     )
   }
 }

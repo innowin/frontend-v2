@@ -1,17 +1,19 @@
 @import "../../variables";
 
 .exchange-content-view-frame {
-  margin-top: $topBarHeight + 100px;
-  margin-right: calc(5% + 340px + 30px);
-  border-radius: 5px;
+  margin-top: $standard-vertical-margin;
+  //margin-right: calc(5% + 340px + 30px);
+  display: inline-block;
+  vertical-align: top;
+  border-radius: $border-radius-size;
   background-color: transparent;
   min-height: 20px;
   height: auto;
-  width: $feed-width;
+  width: 100%;
   overflow-y: hidden;
 }
 
-.posts-frame-container{
+.posts-frame-container {
   transition-duration: $animation-timing;
 }
 
@@ -20,33 +22,39 @@
   width: $feed-width - 6px;
   margin: 2px 3px 10px 8px;
   background-color: $base-posts;
-  border-radius: 5px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, .2);
+  border-radius: $border-radius-size;
+  box-shadow: 0 2px 5px $box-shadow-color;
   padding: 10px 15px;
   transition-duration: $animation-timing;
 }
 
 .posts-frame:hover {
-  box-shadow: 0 3px 6px rgba(0, 0, 0, .2);
+  box-shadow: 0 2px 5px $box-shadow-color;
   transition-duration: $animation-timing;
 }
 
 .post-user-picture {
-  border-radius: 250px;
   display: inline-block;
   vertical-align: top;
   font-size: $font-size-regular;
-  box-shadow: 0 0 1px rgba(0, 0, 0, 1);
+}
+
+.rounded-circle-info-parent {
+  border-radius: 250px;
+  width: 55px;
+  height: 55px;
+  overflow: hidden;
 }
 
 .post-user-name {
   font-weight: bold;
   padding: 2.5px 0;
+  font-size: $font-size-post-name;
 }
 
 .posts-description {
   padding: 10px 2.5px 2.5px 2.5px;
-  font-size: $font-size-normalText;
+  font-size: $font-size-post-content;
   line-height: 25px;
 }
 
@@ -59,28 +67,141 @@
 .posts-date {
   padding: 2.5px 0;
   color: $disable-color;
-  font-size: $font-size-smallText;
+  font-size: $font-size-post-date;
 }
 
-::-webkit-scrollbar {
-  width: 4px;
-  transition-duration: $animation-timing;
-  display: none;
+.post-image-container {
+  width: 100%;
+  overflow-y: hidden;
+  text-align: center;
+  padding: 0;
+  user-select: none;
+  cursor: default;
 }
 
-::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px $background-color;
-  border-radius: 10px;
-  transition-duration: $animation-timing;
+.post-image-container-fade-out {
+  width: 100%;
+  overflow-y: hidden;
+  text-align: center;
+  margin-bottom: 18px;
+  opacity: 1;
+  height: 25px;
+  animation: fadeout 0.5s;
 }
 
-::-webkit-scrollbar-thumb {
-  background: $scroll-color;
-  border-radius: 5px;
-  transition-duration: $animation-timing;
+@keyframes fadeout {
+  from {
+    opacity: 1;
+    height: 350px;
+  }
+  to {
+    opacity: 1;
+    height: 25px;
+  }
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: $scroll-color-hover;
-  transition-duration: $animation-timing;
+.post-image {
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.post-image-effect {
+  animation: effect 1s linear;
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+
+@keyframes effect {
+  0% {
+    opacity: 0;
+    height: 0;
+  }
+  50% {
+    opacity: 0;
+    height: 0;
+  }
+  50.01% {
+    opacity: 0.1;
+    height: auto;
+  }
+  100% {
+    opacity: 1;
+    height: auto;
+  }
+}
+
+.post-image-loading {
+  position: relative;
+  overflow: hidden;
+  background-color: #f3f3f3;
+  height: 350px;
+}
+
+.post-image-loading-effect {
+  position: relative;
+  overflow: hidden;
+  background-color: #f3f3f3;
+  animation: fadetoout 0.5s linear;
+  opacity: 0;
+  height: 0;
+}
+
+@keyframes fadetoout {
+  from {
+    opacity: 1;
+    height: 350px;
+  }
+  to {
+    opacity: 0;
+    height: 350px;
+  }
+}
+
+.post-retry-image {
+  font-size: 14px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.post-retry-image-click {
+  cursor: pointer;
+  color: blue;
+}
+
+.bright-line {
+  width: 5px;
+  background: white;
+  height: 150%;
+  position: absolute;
+  top: -25%;
+  left: -50%;
+  animation: lighted-line 3s infinite ease-out;
+  box-shadow: 0 0 70px 30px white;
+  transform: rotate(45deg);
+  transition-duration: 0.3s;
+}
+
+@keyframes lighted-line {
+  0% {
+    left: -50%;
+    opacity: 0.7;
+  }
+  33%, 100% {
+    left: 150%;
+    opacity: 1;
+  }
+}
+
+.default-image {
+  position: absolute;
+  opacity: 0.5;
+  top: 0;
+  left: 25%;
+  fill: #ddd;
+  stroke: #ddd;
+  width: 50%;
+  height: 100%;
 }

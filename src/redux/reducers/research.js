@@ -3,7 +3,7 @@ import types from "../actions/types/index"
 
 import slices from './sliceReducers/research'
 
-const users = (state = initialState.research, action) => {
+const research = (state = initialState.research, action) => {
   switch (action.type) {
     /** -------------------------- get research by user id  -------------------------> **/
     case types.SUCCESS.RESEARCH.GET_USER_RESEARCH_BY_USER_ID:
@@ -33,4 +33,4 @@ const users = (state = initialState.research, action) => {
   }
 }
 
-export default users
+export default research

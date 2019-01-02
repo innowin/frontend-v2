@@ -1,5 +1,10 @@
 export default {
-  list: {
-    // [badgeId]: {} // object of badge
+  badge: {
+    list: {},
+    allBadges: [],
+    loading: true
+  },
+  badgeCategory: {
+    list: {}
   }
 }

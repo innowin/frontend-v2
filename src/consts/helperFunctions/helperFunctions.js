@@ -1,5 +1,3 @@
-import exchange from "../../redux/actions/types/exchange";
-
 const deleteKeyFromObj = (obj, delKey) => {
 
   /**
@@ -31,6 +29,24 @@ const arrayToIdKeyedObject = (arr) => {
   }, {})
 }
 
+const arrayToIdKeyedObjectWithIds = (arr) => {
+
+  /**
+   this function converts an array of objects (that any object has 'id' in
+   its keys ) to an object with keys of ids and values of correspond object.
+   and an array of ids of objects.
+   [ {id: 1, num: 10}, {id: 2, num: 20} ] ===> { 1: {num: 10}, 2: {num: 20} }
+   **/
+  const items = {}
+  const ids = []
+  arr.forEach(obj => {
+    items[obj.id] = {...obj}
+    ids.push(obj.id)
+  })
+  return {items, ids}
+}
+
+
 const arrayToDefaultObject = (arr) => {
   const newArr = arr.map(data => ({exchange: {content: {...data}, isLoading: false, error: null}}))
   return newArr.reduce((acc, item) => {
@@ -53,8 +69,9 @@ const arrayToDefaultObject = (arr) => {
 const filterNestedObjByKey = (obj, wantedKey, wantedValue) => {
   return Object.keys(obj).reduce((acc, key) => {
     const item = obj[key]
-    // console.log(`${item.id}: ${wantedValue} === ${item[wantedKey]} `, item[wantedKey] === wantedValue)
-    if (item[wantedKey] === wantedValue) return ({...acc, [key]: {...item}})
+    if (item[wantedKey] === wantedValue) {
+      return ({...acc, [key]: {...item}})
+    }
     else return acc
   }, {})
 }
@@ -82,11 +99,39 @@ const objToArrayAsOptions = (obj, valueKey, labelKey, otherKeys) => {
 
 /**
  this function takes:
+ an object like >> {[1]: {}, [2]: {}, [3]: {}, [4]: {}}
+ and return array >> [{id attributes}, {id attributes}, {id attributes}]
+ **/
+const changeObjectKeyValueToArray = (objectArray) => {
+  let resultArray = []
+  for (let id in objectArray) {
+    resultArray.push({id: id, ...objectArray[id]})
+  }
+  return resultArray
+}
+
+/**
+ this function takes:
  an array like >> [1, 2, 3]
  an object like >> {[1]: {}, [2]: {}, [3]: {}, [4]: {}}
  and return object that keys are equal to array input like >> [{1 id attributes}, {2 id attributes}, {3 id attributes}]
  **/
 const getObjectOfArrayKeys = (array, objectArray) => array.reduce((acc, arrayId) => [...acc, objectArray[arrayId]], [])
+
+/**
+ this function takes:
+ an array like >> [1, 2, 3]
+ an object like >> {[1]: {}, [2]: {}, [3]: {}, [4]: {}}
+ and return object that keys are equal to array input like >> [{1 id attributes}, {2 id attributes}, {3 id attributes}]
+ **/
+const getObjectOfArrayKeysSortByCreateTime = (array, objectArray) => {
+  const sortedArray = array.sort((element1, element2) => {
+    let a = new Date(objectArray[element1].created_time);
+    let b = new Date(objectArray[element2].created_time);
+    return a > b ? -1 : a < b ? 1 : 0
+  })
+  return sortedArray.reduce((acc, arrayId) => [...acc, objectArray[arrayId]], [])
+}
 
 const abbreviation = (names, num) => names.reduce((result, part) => {
   if (result.length < num + 1) {
@@ -123,11 +168,14 @@ const selectByKeyList = (obj, keyList) => {
 export default {
   arrayToIdKeyedObject,
   arrayToDefaultObject,
+  arrayToIdKeyedObjectWithIds,
   deleteKeyFromObj,
   abbreviation,
   filterNestedObjByKey,
   objToArrayAsOptions,
+  changeObjectKeyValueToArray,
   getObjectOfArrayKeys,
+  getObjectOfArrayKeysSortByCreateTime,
   normalizer,
   selectByKeyList
 }

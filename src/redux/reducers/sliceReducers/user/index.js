@@ -1,3 +1,4 @@
+import createCertificate from './createCertificate'
 import createEducationByUserId from './createEducationByUserId'
 import createFollow from './createFollow'
 import createPost from './createPost'
@@ -17,6 +18,7 @@ import getEducationByUserId from './getEducationByUserId'
 import getFollowees from './getFollowees'
 import getFollowers from './getFollowers'
 import getExchangeMembershipByMemberIdentity from './getExchangeMembershipByMemberIdentity'
+import getPost from './getPost'
 import getPostByIdentity from './getPostByIdentity'
 import getProductsByIdentity from './getProductsByIdentity'
 import getResearchByUserId from './getResearchByUserId'
@@ -24,8 +26,10 @@ import getSkillByUserId from './getSkillByUserId'
 import getWorkExperienceByUserId from './getWorkExperienceByUserId'
 import updateProfileByUserId from './updateProfileByUserId'
 import updateUserByUserId from './updateUserByUserId'
+import setProfileMedia from "./setProfileMedia"
 
 export default {
+  createCertificate,
   createEducationByUserId,
   createFollow,
   createPost,
@@ -46,10 +50,12 @@ export default {
   getFollowers,
   getExchangeMembershipByMemberIdentity,
   getPostByIdentity,
+  getPost,
   getProductsByIdentity,
   getResearchByUserId,
   getSkillByUserId,
   getWorkExperienceByUserId,
   updateProfileByUserId,
   updateUserByUserId,
+  setProfileMedia,
 }

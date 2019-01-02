@@ -46,13 +46,13 @@ class WorkExperienceForm extends React.Component<PropsWorkExperienceForm> {
         monthToDate: toDateSplit[1] === undefined ? '' : toDateSplit[1],
         dayToDate: toDateSplit[2] === undefined ? '' : toDateSplit[2],
         // FixMe: mohammad remove this when organ select done
-        workExperienceOrganization: 8012
+        workExperienceOrganization: 2506
       }
       initialize(defaultFormValue)
     }
     else{
       const defaultFormValue = {
-        workExperienceOrganization: 8012
+        workExperienceOrganization: 2506
       }
       initialize(defaultFormValue)
     }

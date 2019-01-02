@@ -41,7 +41,8 @@ const success = (state, action) => {
           ...state.list[certificateOwnerId],
           certificates: {
             ...previousCertificate,
-            content: [...new Set([...previousCertificate.content, ...arrayOfCertificateId])],
+            // content: [...new Set([...previousCertificate.content, ...arrayOfCertificateId])],
+            content: arrayOfCertificateId,
             isLoading: false,
             error: null
           }

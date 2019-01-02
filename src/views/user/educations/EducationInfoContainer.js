@@ -6,7 +6,7 @@ import {connect} from "react-redux"
 import {EducationInfo} from './EducationInfo'
 import {makeGetEducations} from "../../../redux/selectors/user/userGetEducationsSelector"
 import {bindActionCreators} from "redux";
-import EducationActions from "../../../redux/actions/educationActions"
+import EducationActions from "../../../redux/actions/user/educationActions"
 
 // flow type of WorkExperiences
 type PropsEducations = {

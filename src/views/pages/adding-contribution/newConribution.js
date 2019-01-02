@@ -1,24 +1,9 @@
 // @flow
 import * as React from 'react'
 import NextPrevBtns from './nextAndPrevBtns'
-import {TipsIcon} from '../../../images/icons'
+import Desc from "../../common/Text/Tip"
 
-type DescProps = {
-  desc: string
-}
-const Desc = (props: DescProps) => {
-  const {desc} = props
-  return (
-      <div className="desc">
-        <div className="icon-wrapper">
-          <TipsIcon className="tip-icon"/>
-        </div>
-        <div className="text">
-          <p>{desc}</p>
-        </div>
-      </div>
-  )
-}
+
 type MainCategoriesProps = {
   categories: Array<CategoryType>,
   selectCategoryHandler: Function,
@@ -29,7 +14,7 @@ const MainCategories = (props: MainCategoriesProps) => {
   const {categories, selectCategoryHandler, selectedCategory} = props
   return (
       <div className="categories-wrapper">
-        <h5 className="header">انتخاب نوع آورده</h5>
+        <h5 className="header">انتخاب نوع آورده:</h5>
         <div className="categories">
           {categories && categories.map(category =>
               <div
@@ -42,7 +27,7 @@ const MainCategories = (props: MainCategoriesProps) => {
                 <div className="image">
                   {category.svg}
                 </div>
-                <div className="title">{category.title}</div>
+                <div className="title">{category.label}</div>
               </div>
           )}
         </div>
@@ -71,10 +56,10 @@ const NewContribution = (props: NewContributionProps) => {
   } = props
   return (
       <div className="new-contribution-wrapper">
-        <Desc desc="اورده در سامانه دانشبوم دارایی تومندی یا ارزشی‌ست که کاربران اعم از مجموعه‌ها و افراد ارایه
-              می‌دهند . قابلیت عرضه در بورس‌ها کارگزاری و انجام معامله آن وجود دارد. محصولات تولیدی
+        <Desc desc="اورده در سامانه اینوین دارایی تومندی یا ارزشی‌ست که کاربران اعم از مجموعه‌ها و افراد ارایه
+              می‌دهند . قابلیت عرضه در پنجره‌ها کارگزاری و انجام معامله آن وجود دارد. محصولات تولیدی
               توانمندی‌ها تاییدیه‌ها گواهی‌نامه‌ها خدمات مشاوره . زیرساخت‌های قابل اشتراک از انواع آورده در
-              سامانه دانشبوم هستند."/>
+              سامانه اینوین هستند."/>
         <MainCategories
             selectCategoryHandler={selectCategoryHandler}
             categories={categories}
