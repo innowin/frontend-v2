@@ -245,6 +245,7 @@
   font-size: $font-size-post-content;
   text-align: right;
   margin-bottom: 10px;
+  display: block;
 }
 
 .gray-text-input {
@@ -502,9 +503,9 @@
     transition-duration: $animation-timing;
     font-size: $font-size-smallText;
     color: $background-color;
-    padding-bottom: 3px;
     border-radius: 25px;
     height: 30px;
+    padding: 3.5px 0 3px 0;
 
     &:hover {
       color: $primary-color;
@@ -614,6 +615,16 @@
   }
 }
 
+.inteli-area {
+  width: 32.3%;
+  display: inline-block;
+  margin-left: 1%;
+
+  &:last-child {
+    margin-left: 0;
+  }
+}
+
 .create-product-upload-container {
   display: inline-flex;
   align-items: center;
@@ -638,6 +649,25 @@
   }
 }
 
+.product-name-error {
+  height: 20px;
+  opacity: 1;
+  padding: 5px 0;
+  overflow: hidden;
+  transition-duration: $animation-timing;
+  font-size: $font-size-description;
+  color: $error-color;
+}
+
+.product-name-error-hide {
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition-duration: $animation-timing;
+  font-size: $font-size-description;
+  color: $error-color;
+}
+
 .create-product-upload-svg {
   width: 30px;
   fill: $primary-color;
@@ -652,7 +682,6 @@
   flex-flow: row wrap;
 
 }
-
 
 .product-gallery-item {
   border-radius: $border-radius-size;

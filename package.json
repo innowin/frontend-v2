@@ -85,9 +85,11 @@
     "start:dev": "PORT=3000 node scripts/start.js",
     "start": "yarn postinstall && yarn dev",
     "dev": "HTTPS=true node scripts/start.js",
+    "devin": "yarn set-https && yarn postinstall && node scripts/start.js",
+    "set-https": "set HTTPS=true",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js  --env=jsdom",
-    "postinstall": "sh $(pwd)/$(dirname \"./dev-certificate/server.pem\")/linker.sh"
+    "postinstall": "sh ./dev-certificate/linker.sh"
   },
   "jest": {
     "collectCoverageFrom": [

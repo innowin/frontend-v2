@@ -139,17 +139,30 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       catLvlOne: [],
       catLvlTwo: [],
       catLvlThree: [],
-      currentLevel: "two",
+      countryList: [],
+      provinceList: [],
+      cityList: [],
+      selectedCountry: null,
+      selectedProvince: null,
+      selectedCity: null,
+      currentLevel: "one",
       priceType: "معین",
       processing: false,
       productName: "",
-      selectedCatLvlOne: "",
-      selectedCatLvlThree: "",
-      selectedCatLvlTwo: "",
+      productDescription: "",
+      selectedCatLvlOne: null,
+      selectedCatLvlThree: null,
+      selectedCatLvlTwo: null,
       selectedImage: [],
       selectedImageId: [],
       selectedImageTemp: "",
       selectedType: "Product",
+      //errors
+      productNameError: false,
+      productDescriptionError: false,
+      selectedCountryError: false,
+      selectedProvinceError: false,
+      selectedCityError: false,
       // productFeatures: [
       //   {
       //     id: 1,
@@ -224,25 +237,46 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     self.renderCurrentLevel = self.renderCurrentLevel.bind(self)
     self.renderFooter = self.renderFooter.bind(self)
     self._closeModal = self._closeModal.bind(self)
+    self._handleCreateProduct = self._handleCreateProduct.bind(self)
     self._setProductFeature = self._setProductFeature.bind(self)
   }
 
   componentDidMount() {
-    const {_getCategories, _getHashTags} = this.props
+    const {_getCategories, _getHashTags, _getCountries} = this.props
     _getCategories()
     _getHashTags()
+    _getCountries()
     this._newContributionMainCategoryHandler(MainCategories[0].value)
   }
 
   componentDidUpdate(prevProps, prevState, ss) {
     // const prevActiveStep = prevState.activeStep
-    const {_getCountries, nowCreatedProductId, nowCreatedSkillId, clientFiles, categories} = this.props
-    const {activeStep, newContributionData, catLvlOne} = this.state
+    const {_getCountries, nowCreatedProductId, nowCreatedSkillId, clientFiles, categories, countries, province, city} = this.props
+    const {activeStep, newContributionData, catLvlOne, countryList, provinceList, cityList, selectedCountry, selectedProvince, selectedCity} = this.state
 
-    if (catLvlOne.length < 1) {
-      let catsArray = Object.values(this.props.categories.list).filter(p => p.category_parent === null)
-      // this.setState({...this.state, catLvlOne: catsArray.slice()})
+    if (prevState.catLvlOne.length < 1) {
+      let catsArray = Object.values(categories.list).filter(p => p.category_parent === null)
+      if (catsArray.length >= 1)
+        this.setState({...this.state, catLvlOne: catsArray.slice()})
     }
+
+    if (prevState.countryList.length < 1 && !(Object.keys(countries.list) < 1)) {
+      let countArray = Object.values(countries.list)
+      this.setState({...this.state, countryList: countArray.slice()})
+    }
+
+    if (prevState.provinceList.length < 1 && countryList.length >= 1) {
+      let provArray = Object.values(province.list).filter(p => p.province_related_country === selectedCountry) // TODO: GET SELECTED COUNTRY
+      if (provArray.length >= 1)
+        this.setState({...this.state, provinceList: provArray.slice()})
+    }
+
+    if (cityList.length < 1 && provinceList.length >= 1) {
+      let citsArray = Object.values(city.list).filter(p => p.town_related_province === selectedProvince) // TODO: GET SELECTED PROVINCE
+      if (citsArray.length >= 1)
+        this.setState({...this.state, cityList: citsArray.slice()})
+    }
+
     const lastFile = clientFiles[clientFiles.length - 1] || {}
     const prevLastFile = prevProps.clientFiles[prevProps.clientFiles.length - 1] || {}
     if (lastFile.id && prevLastFile.id) {
@@ -256,13 +290,13 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       const properties = (technicalProperties && technicalProperties.slice()) || []
       const firstIndex = properties.length || 0
       for (let i = firstIndex; i < 9; i++) properties.push({id: i})
-      // this.setState({
-      //   ...this.state,
-      //   newContributionData: {
-      //     ...this.state.newContributionData,
-      //     technicalProperties: properties
-      //   }
-      // })
+      this.setState({
+        ...this.state,
+        newContributionData: {
+          ...this.state.newContributionData,
+          technicalProperties: properties
+        }
+      })
     }
     if ((!prevProps.nowCreatedProductId && nowCreatedProductId)
         ||
@@ -807,13 +841,33 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
   }
 
   nextLevel() {
-    let {currentLevel} = this.state
+    let {
+      currentLevel, productName, productDescription, selectedCountry, selectedProvince, selectedCity,
+      productNameError, productDescriptionError, selectedCountryError, selectedProvinceError, selectedCityError,
+    } = this.state
     switch (currentLevel) {
       case "one":
         this.setState({...this.state, currentLevel: "two"})
         break
       case "two":
-        this.setState({...this.state, currentLevel: "three"})
+        if (productName.length < 1 || productName.length > 99) {
+          this.nameError.className = "product-name-error"
+          this.descriptionError.className = "product-name-error-hide"
+          this.locationError.className = "product-name-error-hide"
+        } else if (productDescription.length > 999) {
+          this.nameError.className = "product-name-error-hide"
+          this.descriptionError.className = "product-name-error"
+          this.locationError.className = "product-name-error-hide"
+        } else if (selectedCity === null) {
+          this.nameError.className = "product-name-error-hide"
+          this.descriptionError.className = "product-name-error-hide"
+          this.locationError.className = "product-name-error"
+        } else {
+          this.nameError.className = "product-name-error-hide"
+          this.descriptionError.className = "product-name-error-hide"
+          this.locationError.className = "product-name-error"
+          this.setState({...this.state, currentLevel: "three"})
+        }
         break
         // case "three":
         //   this.setState({...this.state, currentLevel: "four"})
@@ -919,16 +973,46 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       let selected = Object.values(categories.list).filter(p => p.id === cat.id)
       let childes = Object.values(categories.list).filter(p => p.category_parent === cat.id)
       console.log(selected[0])
-      this.setState({...this.state, selectedCatLvlOne: selected[0], catLvlTwo: childes.slice()})
+      this.setState({
+        ...this.state,
+        selectedCatLvlOne: selected[0].id,
+        catLvlTwo: childes.slice(),
+        selectedCatLvlTwo: null,
+        selectedCatLvlThree: null
+      })
     } else if (level === "two") {
       let selected = Object.values(categories.list).filter(p => p.id === cat.id)
+      let childes = Object.values(categories.list).filter(p => p.category_parent === cat.id)
       console.log(selected[0])
-      this.setState({...this.state, selectedCatLvlTwo: selected[0]})
+      this.setState({
+        ...this.state,
+        selectedCatLvlTwo: selected[0].id,
+        catLvlThree: childes.slice(),
+        selectedCatLvlThree: null
+      })
     } else if (level === "three") {
       let selected = Object.values(categories.list).filter(p => p.id === cat.id)
       console.log(selected[0])
-      this.setState({...this.state, selectedCatLvlThree: selected[0]})
+      this.setState({...this.state, selectedCatLvlThree: selected[0].id})
     }
+  }
+
+  _handleCountry(data) {
+    const {_getProvinces, province} = this.props
+    _getProvinces(data.id)
+    let provins = Object.values(province.list).filter(p => p.province_related_country === data.id)
+    this.setState({...this.state, provinceList: provins.slice(), selectedCountry: data.id, selectedProvince: null, selectedCity: null})
+  }
+
+  _handleProvince(data) {
+    const {_getCities, city} = this.props
+    _getCities(data.id)
+    let cits = Object.values(city.list).filter(p => p.town_related_province === data.id)
+    this.setState({...this.state, cityList: cits.slice(), selectedProvince: data.id, selectedCity: null})
+  }
+
+  _handleCity(data) {
+    this.setState({...this.state, selectedCity: data.id})
   }
 
   renderCurrentLevel() {
@@ -948,6 +1032,14 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       catLvlOne,
       catLvlTwo,
       catLvlThree,
+      countryList,
+      provinceList,
+      cityList,
+      productNameError,
+      productDescriptionError,
+      selectedCountryError,
+      selectedProvinceError,
+      selectedCityError,
     } = this.state
     let {translator} = this.props
     switch (currentLevel) {
@@ -1026,27 +1118,44 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
                 <label className="gray-text-input-label">عنوان آورده:</label>
                 <input type="text" className="form-control gray-text-input"
                        onChange={(e) => this.setState({...this.state, productName: e.target.value})}/>
+                <div ref={e => this.nameError = e} className={"product-name-error-hide"}>طول نام غیر مجاز است</div>
               </div>
-              <div className={"gray-text-input-label-container"}>
+              <div className={"gray-text-input-label-container"}> {/*TODO: SET THREE AREA FIELD*/}
                 <label className="gray-text-input-label">محدوده جغرافیایی:</label>
-                <input type="text" className="form-control gray-text-input"/>
+                {/*<input type="text" className="form-control gray-text-input"/>*/}
+                <div className={"inteli-area"}>
+                  <InteliInput list={countryList} handleChange={(data) => this._handleCountry(data)}/>
+                </div>
+                <div className={"inteli-area"}>
+                  <InteliInput list={provinceList} handleChange={(data) => this._handleProvince(data)}/>
+                </div>
+                <div className={"inteli-area"}>
+                  <InteliInput list={cityList} handleChange={(data) => this._handleCity(data)}/>
+                </div>
+                <div ref={e => this.locationError = e} className={"product-name-error-hide"}>محدوده جغرافیایی را کامل انتخاب کنید</div>
+
               </div>
 
               <div className={"gray-text-input-label-container"}>
                 <label className="gray-text-input-label">طبقه اول دسته بندی:</label>
-                <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "one")} list={catLvlOne}/>
+                <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "one")}
+                             list={catLvlOne}/>
                 <div className={"gray-text-input-label-container full"}>
                   <label className="gray-text-input-label">طبقه دوم دسته بندی:</label>
-                  <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "two")} list={catLvlTwo}/>
+                  <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "two")}
+                               list={catLvlTwo}/>
                 </div>
                 <div className={"gray-text-input-label-container full"}>
                   <label className="gray-text-input-label">طبقه سوم دسته بندی:</label>
-                  <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "three")} list={catLvlThree}/>
+                  <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "three")}
+                               list={catLvlThree}/>
                 </div>
               </div>
               <div className={"gray-text-input-label-container"}>
-                <label className="gray-text-input-label">توصیف اجمالی محصول:</label>
-                <textarea name="description" className="form-control gray-textarea-input"/>
+                <label className="gray-text-input-label">توصیف اجمالی آورده:</label>
+                <textarea name="description" className="form-control gray-textarea-input"
+                          onChange={(e) => this.setState({...this.state, productDescription: e.target.value})}/>
+                <div ref={e => this.descriptionError = e} className={"product-name-error-hide"}>طول توضیحات غیر مجاز است</div>
               </div>
               {/*<div className={"gray-text-input-label-container"}>
                <label className="gray-text-input-label">قیمت:</label>
@@ -1075,7 +1184,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
                     :
                     <UploadIcon className={"create-product-upload-svg"}/>
                 }
-                {!processing ?
+                {!processing && selectedImageId.length < 5 ?
                     <input type="file" accept="image/*" onChange={e => this._uploadHandler(e.currentTarget.files[0])}/>
                     : null}
               </div>
@@ -1198,12 +1307,19 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
   }
 
   renderFooter() {
-    let {currentLevel} = this.state
+    let {currentLevel, processing} = this.state
     return (
         <div className={"contribution-footer"}>
-          <button className={"next-button"} onClick={() => currentLevel === "three" ? this._closeModal() : this.nextLevel()}>
+          <button className={"next-button"}
+                  onClick={() => currentLevel === "three" ?
+                      processing ?
+                          null : this._handleCreateProduct()
+                      : this.nextLevel()}>
             <div>
-              {currentLevel === "three" ? "ثبت" : "بعدی"}
+              {currentLevel === "three" ?
+                  processing ?
+                      <ClipLoader color="#35495c" size={20} loading={true}/> : "ثبت"
+                  : "بعدی"}
             </div>
           </button>
 
@@ -1216,7 +1332,63 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
   }
 
   _closeModal() {
-    this.setState({...this.state, currentLevel: "one"}, this.props.handleModalVisibility())
+    this.setState({
+      ...this.state,
+      currentLevel: "one",
+      productName: "",
+      productDescription: "",
+      selectedImage: [],
+      selectedImageId: [],
+      selectedCountry: null,
+      selectedProvince: null,
+      selectedCity: null,
+    }, this.props.handleModalVisibility())
+  }
+
+  _handleCreateProduct() {
+    let {_createProduct, identity} = this.props
+    let {
+      selectedImage,
+      selectedImageId,
+      productDescription,
+      productName,
+      selectedCatLvlOne,
+      selectedCatLvlTwo,
+      selectedCatLvlThree,
+      selectedCountry,
+      selectedProvince,
+      selectedCity,
+    } = this.state
+
+    let productInfo = {
+      // attrs: undefined,
+      description: productDescription,
+      name: productName,
+      product_owner: identity,
+      files_count: selectedImage.length,
+      product_related_country: selectedCountry,
+      product_related_province: selectedProvince,
+      product_related_town: selectedCity,
+      product_category:
+          selectedCatLvlThree !== null ?
+              selectedCatLvlThree
+              :
+              selectedCatLvlTwo !== null ?
+                  selectedCatLvlTwo
+                  :
+                  selectedCatLvlOne,
+    }
+    let formData = {
+      product: productInfo,
+      // certificates: undefined,
+      // tags: undefined,
+      // galleryImages: selectedImage.slice(),
+      galleryImages: selectedImageId.slice(),
+      galleryVideo: undefined,
+      mainGalleryImageIndex: 0,
+    }
+    _createProduct(formData)
+    this._closeModal()
   }
 
   _priceHandler = (value) => {
@@ -1269,31 +1441,31 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     const {modalIsOpen} = this.props
     return (
         <div
-            // className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}
+            className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}
         >
-          {/*{this.renderProgressBar()}*/}
+          {this.renderProgressBar()}
 
-          {/*{this.renderCurrentLevel()}*/}
+          {this.renderCurrentLevel()}
 
-          {/*{this.renderFooter()}*/}
+          {this.renderFooter()}
 
-          <Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>
-          <ModalBody className="adding-contribution-wrapper">
-          <FontAwesome name="times" size="2x" className="close-btn"
-          onClick={this._handleModalVisibility}/>
-          <div className={`progressive-wrapper ${mainCategory}`}>
-          <MenuProgressive
-          steps={progressSteps}
-          activeStep={activeStep}
-          status={progressStatus}
-          // stepsClassName={mainCategory}
-          />
-          </div>
-          <div className={`wrapper ${wrapperClassName}`}>
-          {this._switchContentByMainCategory()}
-          </div>
-          </ModalBody>
-          </Modal>
+          {/*<Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>*/}
+          {/*<ModalBody className="adding-contribution-wrapper">*/}
+          {/*<FontAwesome name="times" size="2x" className="close-btn"*/}
+          {/*onClick={this._handleModalVisibility}/>*/}
+          {/*<div className={`progressive-wrapper ${mainCategory}`}>*/}
+          {/*<MenuProgressive*/}
+          {/*steps={progressSteps}*/}
+          {/*activeStep={activeStep}*/}
+          {/*status={progressStatus}*/}
+          {/*// stepsClassName={mainCategory}*/}
+          {/*/>*/}
+          {/*</div>*/}
+          {/*<div className={`wrapper ${wrapperClassName}`}>*/}
+          {/*{this._switchContentByMainCategory()}*/}
+          {/*</div>*/}
+          {/*</ModalBody>*/}
+          {/*</Modal>*/}
 
         </div>
     )
@@ -1319,9 +1491,11 @@ const mapStateToProps = (state) => {
     hashTags: hashTagsListSelector(state),
     countries: countrySelector(state),
     provinces: provinceSelectorByProvinceId(state, countryId),
+    province: state.common.location.province,
     identity,
     clientFiles: fileSelectorByKeyValue(state, "identity", identity),
     cities: citySelectorByProvinceId(state, provinceId),
+    city: state.common.location.city,
     testToken: state.auth.client.token,
     nowCreatedProductId: nowCreatedProductIdSelector(state),
     nowCreatedSkillId: nowCreatedSkillIdSelector(state),
