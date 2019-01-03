@@ -32,6 +32,7 @@ function* createProductAsContribution(action) { // payload: { formData: {} }
           id: imageId,
           formData: {
             file_related_parent: productId,
+            // identity: 2445, Nope
           }
           // nextActionData: {
           //     picture_product: productId,

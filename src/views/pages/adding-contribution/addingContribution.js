@@ -158,11 +158,11 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       selectedImageTemp: "",
       selectedType: "Product",
       //errors
-      productNameError: false,
-      productDescriptionError: false,
-      selectedCountryError: false,
-      selectedProvinceError: false,
-      selectedCityError: false,
+      // productNameError: false,
+      // productDescriptionError: false,
+      // selectedCountryError: false,
+      // selectedProvinceError: false,
+      // selectedCityError: false,
       // productFeatures: [
       //   {
       //     id: 1,
@@ -847,7 +847,17 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     } = this.state
     switch (currentLevel) {
       case "one":
-        this.setState({...this.state, currentLevel: "two"})
+        this.setState({
+          ...this.state,
+          currentLevel: "two",
+          // productName: "",
+          productDescription: "",
+          selectedImage: [],
+          selectedImageId: [],
+          selectedCountry: null,
+          selectedProvince: null,
+          selectedCity: null,
+        })
         break
       case "two":
         if (productName.length < 1 || productName.length > 99) {
@@ -885,10 +895,30 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     let {currentLevel} = this.state
     switch (currentLevel) {
       case "two":
-        this.setState({...this.state, currentLevel: "one"})
+        this.setState({
+          ...this.state,
+          currentLevel: "one",
+          // productName: "",
+          productDescription: "",
+          selectedImage: [],
+          selectedImageId: [],
+          selectedCountry: null,
+          selectedProvince: null,
+          selectedCity: null,
+        })
         break
       case "three":
-        this.setState({...this.state, currentLevel: "two"})
+        this.setState({
+          ...this.state,
+          currentLevel: "two",
+          // productName: "",
+          productDescription: "",
+          selectedImage: [],
+          selectedImageId: [],
+          selectedCountry: null,
+          selectedProvince: null,
+          selectedCity: null,
+        })
         break
         // case "four":
         //   this.setState({...this.state, currentLevel: "three"})
@@ -1035,6 +1065,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       countryList,
       provinceList,
       cityList,
+      productName,
       productNameError,
       productDescriptionError,
       selectedCountryError,
@@ -1116,7 +1147,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
             <div className="contribution-product-two">
               <div className={"gray-text-input-label-container"}>
                 <label className="gray-text-input-label">عنوان آورده:</label>
-                <input type="text" className="form-control gray-text-input"
+                <input type="text" className="form-control gray-text-input" defaultValue={productName}
                        onChange={(e) => this.setState({...this.state, productName: e.target.value})}/>
                 <div ref={e => this.nameError = e} className={"product-name-error-hide"}>طول نام غیر مجاز است</div>
               </div>
