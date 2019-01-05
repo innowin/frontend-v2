@@ -1,6 +1,6 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {bindActionCreators} from 'redux'
+import { bindActionCreators } from 'redux'
 import connect from 'react-redux/es/connect/connect'
 import AttachFileIcon from 'src/images/common/attachFileNew_svg'
 import DemandIcon from 'src/images/common/demand_svg'
@@ -10,10 +10,10 @@ import Share from 'src/images/common/share'
 import DefaultUserIcon from 'src/images/defaults/defaultUser_svg'
 import socialActions from 'src/redux/actions/commonActions/socialActions'
 import SupplyIcon from 'src/images/common/supply_svg'
-import {getMessages} from 'src/redux/selectors/translateSelector'
+import { getMessages } from 'src/redux/selectors/translateSelector'
 import CommentActions from 'src/redux/actions/commonActions/commentActions'
-import TempActions from "src/redux/actions/tempActions"
-import {createFileFunc} from 'src/views/common/Functions'
+import TempActions from 'src/redux/actions/tempActions'
+import { createFileFunc } from 'src/views/common/Functions'
 import types from 'src/redux/actions/types'
 import AttachMenu from './attachMenu'
 import ContactMenu from './contactMenu'
@@ -24,8 +24,8 @@ import AddProductModal from './addProductModal'
 import ProductInfoView from '../../contributions/ProductInfoView'
 
 
-const POST_MEDIA_TEMP_KEY = "POST_MEDIA"
-const POST_FILE_TEMP_KEY = "POST_FILE"
+const POST_MEDIA_TEMP_KEY = 'POST_MEDIA'
+const POST_FILE_TEMP_KEY = 'POST_FILE'
 const POST_IMG1_TEMP_KEY = 'POST_IMG1'
 const POST_IMG2_TEMP_KEY = 'POST_IMG2'
 const POST_IMG3_TEMP_KEY = 'POST_IMG3'
@@ -41,7 +41,7 @@ class CreatePost extends Component {
     postParentId: PropTypes.number.isRequired,
     postParentType: PropTypes.string,
     postsCountInThisPage: PropTypes.number,
-    className: PropTypes.string,
+    className: PropTypes.string
   }
 
   constructor(props) {
@@ -97,41 +97,41 @@ class CreatePost extends Component {
       descriptionClass: 'hide-message',
       labels: {},
       selectedProduct: undefined,
-      selectedProductId: undefined,
+      selectedProductId: undefined
     })
   }
 
   handleClickOutside = (event) => {
-    const {attachMenu, contactMenu, linkModal, addProductModal, postImg1, postImg2, postImg3, postFile, postMedia, link, description, labels, savingPost, open} = this.state
+    const { attachMenu, contactMenu, linkModal, addProductModal, postImg1, postImg2, postImg3, postFile, postMedia, link, description, labels, savingPost, open } = this.state
     const needReset = !savingPost && !description && !postImg1 && !postImg2 && !postImg3 && !postFile && !postMedia && !link && labels === {}
 
     if (!event.target.closest('#create-post-attach-menu-box')) {
       if (attachMenu) {
-        this.setState({...this.state, attachMenu: false})
+        this.setState({ ...this.state, attachMenu: false })
       }
     }
 
     if (this.setWrapperSecondRef && !this.setWrapperSecondRef.contains(event.target)) {
       if (contactMenu) {
-        this.setState({...this.state, contactMenu: false})
+        this.setState({ ...this.state, contactMenu: false })
       }
     }
 
     if (this.setWrapperThirdRef && !this.setWrapperThirdRef.contains(event.target)) {
       if (linkModal) {
-        this.setState({...this.state, linkModal: false})
+        this.setState({ ...this.state, linkModal: false })
       }
     }
 
     if (this.setWrapperFourthRef && !this.setWrapperFourthRef.contains(event.target)) {
       if (addProductModal) {
-        this.setState({...this.state, addProductModal: false})
+        this.setState({ ...this.state, addProductModal: false })
       }
     }
 
     if (this.form && !this.form.contains(event.target)) {
       if (open && (description.length === 0)) {
-        this.setState({...this.state, open: false})
+        this.setState({ ...this.state, open: false })
       }
     }
 
@@ -139,54 +139,55 @@ class CreatePost extends Component {
   }
 
   handleSelectShare = () => {
-    this.setState({...this.state, selected: 'post'})
+    this.setState({ ...this.state, selected: 'post' })
   }
 
   handleSelectDemand = () => {
-    this.setState({...this.state, selected: 'demand'})
+    this.setState({ ...this.state, selected: 'demand' })
   }
 
   handleSelectSupply = () => {
-    this.setState({...this.state, selected: 'supply'})
+    this.setState({ ...this.state, selected: 'supply' })
   }
 
   handleAttach = () => {
-    this.setState({...this.state, attachMenu: !this.state.attachMenu})
+    this.setState({ ...this.state, attachMenu: !this.state.attachMenu })
   }
 
   handleContact = () => {
-    this.setState({...this.state, contactMenu: !this.state.contactMenu})
+    this.setState({ ...this.state, contactMenu: !this.state.contactMenu })
   }
 
   _handleFocusText = () => {
-    this.setState({...this.state, open: true, focused: true})
+    this.setState({ ...this.state, open: true, focused: true })
   }
 
 
   _handleLabel = (name) => {
-    const {labels} = this.state
-    let temp = {...labels}
+    const { labels } = this.state
+    let temp = { ...labels }
     if (temp[name] === undefined) {
       if (name === 'دنبال کنندگان' || name === 'دنبال کنندگانِ دنبال کنندگان' || temp['عمومی'] === undefined)
         temp[name] = name
-    } else {
+    }
+    else {
       if (name !== 'دنبال کنندگان' && name !== 'دنبال کنندگانِ دنبال کنندگان')
         delete temp['عمومی']
       delete temp[name]
     }
-    this.setState({...this.state, labels: {...temp}})
+    this.setState({ ...this.state, labels: { ...temp } })
   }
 
   _linkModalFunc = () => {
-    this.setState({...this.state, linkModal: true, attachMenu: false})
+    this.setState({ ...this.state, linkModal: true, attachMenu: false })
   }
 
   _addProductModalFunc = () => {
-    this.setState({...this.state, addProductModal: true, attachMenu: false})
+    this.setState({ ...this.state, addProductModal: true, attachMenu: false })
   }
 
   handleEmoji = (emoji) => {
-    this.setState({...this.state, open: true}, () => {
+    this.setState({ ...this.state, open: true }, () => {
 
       this.text.focus()
       if (this.text.selectionStart) {
@@ -195,7 +196,8 @@ class CreatePost extends Component {
         this.text.innerText = this.text.innerText.substring(0, x) + emoji + this.text.innerText.substring(y, this.text.innerText.length)
         this.text.selectionStart = parseInt(x, 10) + emoji.length
         this.text.selectionEnd = parseInt(y, 10) + emoji.length
-      } else {
+      }
+      else {
         this.text.innerText += emoji
       }
 
@@ -211,16 +213,16 @@ class CreatePost extends Component {
 
       const description = this.text.innerText
       if (description.trim().length <= 4070)
-        this.setState({...this.state, description}, () => {
+        this.setState({ ...this.state, description }, () => {
           const descriptionLength = description.trim().length
           if (descriptionLength === 0)
-            this.setState({...this.state, descriptionClass: 'hide-message'})
+            this.setState({ ...this.state, descriptionClass: 'hide-message' })
           if (descriptionLength > 0 && descriptionLength < 5)
-            this.setState({...this.state, descriptionClass: 'error-message'})
+            this.setState({ ...this.state, descriptionClass: 'error-message' })
           if (descriptionLength >= 5 && descriptionLength < 4070)
-            this.setState({...this.state, descriptionClass: 'neutral-message'})
+            this.setState({ ...this.state, descriptionClass: 'neutral-message' })
           if (descriptionLength > 4070 && descriptionLength < 4096)
-            this.setState({...this.state, descriptionClass: 'warning-message'})
+            this.setState({ ...this.state, descriptionClass: 'warning-message' })
         })
     })
   }
@@ -235,7 +237,7 @@ class CreatePost extends Component {
 
 
   _getValues = () => {
-    const {selected, link, description, selectedProduct} = this.state
+    const { selected, link, description, selectedProduct } = this.state
     const {
       currentUserIdentity, postParentId, currentUserImgId, postImg1Id, postImg2Id, postImg3Id, postMediaId,
       postFileId
@@ -252,12 +254,12 @@ class CreatePost extends Component {
       post_identity: currentUserIdentity,
       post_related_identity_image: currentUserImgId,
       post_related_product: selectedProduct ? selectedProduct.id : '',
-      post_link,
+      post_link
     }
   }
 
   _formValidate = () => {
-    const {description} = this.state
+    const { description } = this.state
     const descriptionLength = description.trim().length
     const descriptionError = descriptionLength < 5 || descriptionLength > 4096
     let result = true
@@ -286,14 +288,15 @@ class CreatePost extends Component {
     else if (e.keyCode === 17 || e.keyCode === 13) {
       let keys = this.state.keys.slice()
       keys[e.keyCode] = true
-      this.setState({...this.state, keys: keys})
+      this.setState({ ...this.state, keys: keys })
       if (e.keyCode === 13 && keys[13] && keys[17]) {
         e.preventDefault()
-        this.setState({...this.state, keys: []}, () => {
+        this.setState({ ...this.state, keys: [] }, () => {
           this._onSubmitControlEnter()
         })
       }
-    } else this.setState({...this.state, keys: []})
+    }
+    else this.setState({ ...this.state, keys: [] })
   }
 
   _showLink = (link) => {
@@ -314,7 +317,7 @@ class CreatePost extends Component {
       actions, currentUserId, currentUserType, postParentId, postParentType, postImg1Id, postImg2Id, postImg3Id,
       postMediaId, postFileId
     } = this.props
-    const {createPost, removeFileFromTemp} = actions
+    const { createPost, removeFileFromTemp } = actions
     const formValues = this._getValues()
     const postPictureIds = [postImg1Id, postImg2Id, postImg3Id].filter(img => img) //filter imges that not null & not undefined
     const postAttachedFileIds = (postPictureIds.length > 0 && postPictureIds)
@@ -329,89 +332,93 @@ class CreatePost extends Component {
     removeFileFromTemp(POST_IMG3_TEMP_KEY)
     removeFileFromTemp(POST_MEDIA_TEMP_KEY)
     removeFileFromTemp(POST_FILE_TEMP_KEY)
-    this.setState({...this.state, savingPost: false})
+    this.setState({ ...this.state, savingPost: false })
   }
 
   _createFile = (fileString, tempFileKeyName) => {
-    const {actions} = this.props
-    const {createFile} = actions
+    const { actions } = this.props
+    const { createFile } = actions
     const nextActionType = types.COMMON.SET_FILE_IDS_IN_TEMP_FILE
     const fileIdKey = 'fileId'
-    const nextActionData = {tempFileKeyName}
+    const nextActionData = { tempFileKeyName }
     const createArguments = {
       fileIdKey,
       nextActionType,
-      nextActionData,
+      nextActionData
     }
     createFileFunc(createFile, fileString, createArguments)
   }
 
   _deletePicture = (i) => {
-    const {actions} = this.props
-    const {removeFileFromTemp} = actions
+    const { actions } = this.props
+    const { removeFileFromTemp } = actions
     const tempKeyName = (i === 0 && POST_IMG1_TEMP_KEY)
         || (i === 1 && POST_IMG2_TEMP_KEY)
         || (i === 2 && POST_IMG3_TEMP_KEY)
     removeFileFromTemp(tempKeyName)
     if (i === 0) {
-      this.setState({...this.state, postImg1: null})
-    } else if (i === 1) {
-      this.setState({...this.state, postImg2: null})
-    } else {
-      this.setState({...this.state, postImg3: null})
+      this.setState({ ...this.state, postImg1: null })
+    }
+    else if (i === 1) {
+      this.setState({ ...this.state, postImg2: null })
+    }
+    else {
+      this.setState({ ...this.state, postImg3: null })
     }
   }
 
   _deleteFile = () => {
-    const {actions} = this.props
-    const {removeFileFromTemp} = actions
+    const { actions } = this.props
+    const { removeFileFromTemp } = actions
     removeFileFromTemp(POST_FILE_TEMP_KEY)
-    this.setState({...this.state, postFile: ''})
+    this.setState({ ...this.state, postFile: '' })
   }
 
   _deleteMedia = () => {
-    const {actions} = this.props
-    const {removeFileFromTemp} = actions
+    const { actions } = this.props
+    const { removeFileFromTemp } = actions
     removeFileFromTemp(POST_MEDIA_TEMP_KEY)
-    this.setState({...this.state, postMedia: ''})
+    this.setState({ ...this.state, postMedia: '' })
   }
 
   _handlePostPictures = (fileString) => {
-    const {postImg1, postImg2, postImg3} = this.state
+    const { postImg1, postImg2, postImg3 } = this.state
     const tempFileKeyName = (!postImg1 && POST_IMG1_TEMP_KEY)
         || (!postImg2 && POST_IMG2_TEMP_KEY)
         || (!postImg3 && POST_IMG3_TEMP_KEY)
     if (!postImg1) {
-      this.setState({...this.state, attachMenu: false, postImg1: fileString})
-    } else if (!postImg2) {
-      this.setState({...this.state, attachMenu: false, postImg2: fileString})
-    } else {
-      this.setState({...this.state, attachMenu: false, postImg3: fileString})
+      this.setState({ ...this.state, attachMenu: false, postImg1: fileString })
+    }
+    else if (!postImg2) {
+      this.setState({ ...this.state, attachMenu: false, postImg2: fileString })
+    }
+    else {
+      this.setState({ ...this.state, attachMenu: false, postImg3: fileString })
     }
     this._createFile(fileString, tempFileKeyName)
   }
 
   _handlePostFile = (fileString) => {
     this._createFile(fileString, POST_FILE_TEMP_KEY)
-    this.setState({...this.state, attachMenu: false, postFile: fileString})
+    this.setState({ ...this.state, attachMenu: false, postFile: fileString })
   }
 
   _handlePostMedia = (fileString) => {
     this._createFile(fileString, POST_MEDIA_TEMP_KEY)
-    this.setState({...this.state, attachMenu: false, postMedia: fileString})
+    this.setState({ ...this.state, attachMenu: false, postMedia: fileString })
   }
 
   _onSubmit = (e) => {
     e.preventDefault()
     if (this._formValidate()) {
-      this.setState({...this.state, savingPost: true})
+      this.setState({ ...this.state, savingPost: true })
     }
     return false
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const {postsCountInThisPage, postImg1Id, postImg2Id, postImg3Id, postMediaId, postFileId} = this.props
-    const {postImg1, postImg2, postImg3, postFile, postMedia, savingPost, link} = this.state
+    const { postsCountInThisPage, postImg1Id, postImg2Id, postImg3Id, postMediaId, postFileId } = this.props
+    const { postImg1, postImg2, postImg3, postFile, postMedia, savingPost, link } = this.state
     const postPicturesCheck = (postImg1 ? postImg1Id : true)
         && (postImg2 ? postImg2Id : true)
         && (postImg3 ? postImg3Id : true)
@@ -435,16 +442,16 @@ class CreatePost extends Component {
     const scrollHeight = this.text.scrollHeight
     const description = this.text.innerText
     if (description.trim().length <= 4096)
-      this.setState({...this.state, scrollHeight, description}, () => {
+      this.setState({ ...this.state, scrollHeight, description }, () => {
         const descriptionLength = description.trim().length
         if (descriptionLength === 0)
-          this.setState({...this.state, descriptionClass: 'hide-message'})
+          this.setState({ ...this.state, descriptionClass: 'hide-message' })
         if (descriptionLength > 0 && descriptionLength < 5)
-          this.setState({...this.state, descriptionClass: 'error-message'})
+          this.setState({ ...this.state, descriptionClass: 'error-message' })
         if (descriptionLength >= 5 && descriptionLength < 4070)
-          this.setState({...this.state, descriptionClass: 'neutral-message'})
+          this.setState({ ...this.state, descriptionClass: 'neutral-message' })
         if (descriptionLength > 4070 && descriptionLength < 4096)
-          this.setState({...this.state, descriptionClass: 'warning-message'})
+          this.setState({ ...this.state, descriptionClass: 'warning-message' })
       })
 
     if ((scrollHeight > 250) && (scrollHeight !== this.state.scrollHeight) && (this.text.className !== 'post-component-textarea-open show-scroll')) {
@@ -456,10 +463,10 @@ class CreatePost extends Component {
   }
 
   componentDidMount() {
-    const {actions, translate, currentUserMedia} = this.props
+    const { actions, translate, currentUserMedia } = this.props
     document.addEventListener('mousedown', this.handleClickOutside)
-    this.setState({...this.state, placeholder: translate['Be in zist boom']})
-    const {getFollowers} = actions
+    this.setState({ ...this.state, placeholder: translate['Be in zist boom'] })
+    const { getFollowers } = actions
     getFollowers({
       followOwnerIdentity: this.props.currentUserIdentity,
       followOwnerType: this.props.currentUserType,
@@ -473,19 +480,19 @@ class CreatePost extends Component {
       let profile = new Image()
       profile.src = currentUserMedia
       profile.onload = () => {
-        this.setState({...this.state, profileLoaded: true})
+        this.setState({ ...this.state, profileLoaded: true })
       }
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.currentUserMedia !== nextProps.currentUserMedia) {
-      this.setState({...this.state, profileLoaded: false}, () => {
+      this.setState({ ...this.state, profileLoaded: false }, () => {
         if (nextProps.currentUserMedia) {
           let profile = new Image()
           profile.src = nextProps.currentUserMedia
           profile.onload = () => {
-            this.setState({...this.state, profileLoaded: true})
+            this.setState({ ...this.state, profileLoaded: true })
           }
         }
       })
@@ -498,7 +505,7 @@ class CreatePost extends Component {
 
 
   render() {
-    const {className, followers, exchanges, currentUserIdentity, currentUserMedia, currentUserName, translate, currentUserId} = this.props
+    const { className, followers, exchanges, currentUserIdentity, currentUserMedia, currentUserName, translate, currentUserId } = this.props
     const {
       postImg1, postImg2, postImg3, open, attachMenu, selected, labels, link, contactMenu, linkModal, postFile, postMedia,
       profileLoaded, description, descriptionClass, focused, addProductModal, selectedProduct
@@ -533,7 +540,7 @@ class CreatePost extends Component {
             <div className='post-component-description'>
               {descriptionClass &&
               <span className={descriptionClass + ' post-character'}
-                    style={description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0]) ? {right: '6px'} : {left: '6px'}}>
+                    style={description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0]) ? { right: '6px' } : { left: '6px' }}>
                 {description && description.trim().length + '/4096'}
               </span>
               }
@@ -543,8 +550,8 @@ class CreatePost extends Component {
                   className={open ? 'post-component-textarea-open hide-scroll' : 'post-component-textarea'}
                   style={
                     description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0]) ?
-                        {direction: 'ltr', padding: open || focused ? '13px 23px 9px 15px' : '8px 23px 9px 15px'} :
-                        {direction: 'rtl', padding: open || focused ? '13px 15px 9px 23px' : '8px 15px 9px 23px'}
+                        { direction: 'ltr', padding: open || focused ? '13px 23px 9px 15px' : '8px 23px 9px 15px' } :
+                        { direction: 'rtl', padding: open || focused ? '13px 15px 9px 23px' : '8px 15px 9px 23px' }
                   }
                   onBlur={this._handleBlurText}
                   onFocus={this._handleFocusText}
@@ -558,7 +565,7 @@ class CreatePost extends Component {
               </div>
 
               <div className={open || focused ? 'emoji-open' : 'emoji-close'}
-                   style={description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0]) ? {right: '7px'} : {left: '7px'}}>
+                   style={description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0]) ? { right: '7px' } : { left: '7px' }}>
                 <StickersMenu ltr={description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0])}
                               output={this.handleEmoji}/>
               </div>
@@ -599,7 +606,7 @@ class CreatePost extends Component {
 
             <div className='post-component-footer-send'>
               <div className='post-component-footer-link' ref={e => this.link = e}>{link}</div>
-              <div style={{display: 'inline-block'}} onClick={this.handleAttach}>
+              <div style={{ display: 'inline-block' }} onClick={this.handleAttach}>
                 <AttachFileIcon className='post-component-footer-send-attach'/>
               </div>
               <button type="submit"
@@ -636,8 +643,8 @@ class CreatePost extends Component {
           <LinkModal
               ref={e => this.setWrapperThirdRef = e ? e.linkModalRef : e}
               linkModal={linkModal}
-              cancelFunc={() => this.setState({...this.state, linkModal: false})}
-              submitFunc={(linkString) => this.setState({...this.state, link: linkString, linkModal: false})}
+              cancelFunc={() => this.setState({ ...this.state, linkModal: false })}
+              submitFunc={(linkString) => this.setState({ ...this.state, link: linkString, linkModal: false })}
           />
           <AddProductModal
               ref={e => this.setWrapperFourthRef = e ? e.addProductModal : e}
@@ -709,7 +716,7 @@ const mapDispatchToProps = dispatch => ({
     createPost: PostActions.createPost,
     createFile: FileActions.createFile,
     removeFileFromTemp: TempActions.removeFileFromTemp,
-    createComment: CommentActions.createComment,
+    createComment: CommentActions.createComment
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePost)

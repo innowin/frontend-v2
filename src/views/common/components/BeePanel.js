@@ -5,7 +5,7 @@ import UserBee from './UserBee'
 
 class BeePanel extends Component {
 
-  render () {
+  render() {
     if (this.props.currentUserType === 'person')
       return <UserBee/>
     else return <OrganizationBee/>

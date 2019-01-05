@@ -19,7 +19,7 @@ import { Link } from 'react-router-dom'
 
 class UserBee extends Component {
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       level: 1,
@@ -50,7 +50,7 @@ class UserBee extends Component {
     }
   }
 
-  componentDidMount (): void {
+  componentDidMount(): void {
     const { currentUserMedia, currentUserName, profile, currentUserEducation, currentUserWork, currentUserId, actions } = this.props
     actions.getUserByUserId(currentUserId)
     actions.getProfileByUserId(currentUserId)
@@ -82,7 +82,7 @@ class UserBee extends Component {
     this.setState({ ...this.state, image, name, graduate, job, bio })
   }
 
-  componentWillReceiveProps (nextProps: Readonly<P>, nextContext: any): void {
+  componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
     const { currentUserMedia, currentUserName, profile, currentUserEducation, currentUserWork, currentUserId, currentUserProfileId, actions } = nextProps
 
     let image = 0
@@ -250,7 +250,7 @@ class UserBee extends Component {
     this.setState({ ...this.state, lastNameText: e.target.value.trim() })
   }
 
-  renderLevel () {
+  renderLevel() {
     const { level, image, name, graduate, job, bio } = this.state
     const { translate, currentUserId } = this.props
     if (image + name + graduate + job + bio === 100) {
@@ -458,7 +458,7 @@ class UserBee extends Component {
 
   }
 
-  render () {
+  render() {
     return (
         <div className='bee-panel-cont'>
           {

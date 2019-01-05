@@ -8,12 +8,12 @@ import { ClipLoader } from 'react-spinners'
 import { createFile } from 'src/redux/actions/commonActions/fileActions'
 import { getMessages } from 'src/redux/selectors/translateSelector'
 import { Link } from 'react-router-dom'
-import types from '../../../redux/actions/types'
+import types from 'src/redux/actions/types'
 import { createFileFunc } from '../Functions'
-import TempActions from '../../../redux/actions/tempActions'
+import TempActions from 'src/redux/actions/tempActions'
 
 class OrganizationBee extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       level: 1,
@@ -37,7 +37,7 @@ class OrganizationBee extends Component {
     }
   }
 
-  componentDidMount (): void {
+  componentDidMount(): void {
     const { organLogo, organObject } = this.props
 
     let image = 0
@@ -61,7 +61,7 @@ class OrganizationBee extends Component {
     this.setState({ ...this.state, image, name, graduate, bio })
   }
 
-  componentWillReceiveProps (nextProps: Readonly<P>, nextContext: any): void {
+  componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
     const { organLogo, organObject, currentOrganizationId, actions } = nextProps
 
     let image = 0
@@ -176,7 +176,7 @@ class OrganizationBee extends Component {
     this.setState({ ...this.state, telText: e.target.value.trim() })
   }
 
-  renderLevel () {
+  renderLevel() {
     const { level, image, name, graduate, bio } = this.state
     const { translate, currentOrganizationId } = this.props
     if (image + name + graduate + bio === 100) {
@@ -336,7 +336,7 @@ class OrganizationBee extends Component {
 
   }
 
-  render () {
+  render() {
     return (
         <div className='bee-panel-cont'>
           {
