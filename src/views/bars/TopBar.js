@@ -34,6 +34,7 @@ import { SearchIcon } from '../../images/icons'
 import { shortOrganizationType } from 'src/consts/flowTypes/organization/organization'
 import { userProfileType, userType } from 'src/consts/flowTypes/user/basicInformation'
 import constants from '../../consts/constants'
+import makeFileSelectorByKeyValue from '../../redux/selectors/common/file/selectFilsByKeyValue'
 
 type PropsTopBar = {|
   collapseClassName: string,
@@ -79,7 +80,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   //types
   searchInput: ? HTMLInputElement
 
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       isSignedOut: false,
@@ -101,7 +102,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     this._handleCloseOutside = this._handleCloseOutside.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const { actions, clientProfile, clientImgLink } = this.props
     const { verifyToken, getFile } = actions
     const mediaId = clientProfile.profile_media
@@ -124,14 +125,14 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     const { isLoggedIn, actions } = this.props
     if (prevProps.isLoggedIn && prevProps.isLoggedIn !== isLoggedIn) {
       actions.push('/login')
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     if (this.props.clientImgLink !== nextProps.clientImgLink) {
       this.setState({ ...this.state, profilePhotoLoaded: false }, () => {
         if (nextProps.clientImgLink) {
@@ -145,11 +146,11 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     }
   }
 
-  componentWillUnmount(): void {
+  componentWillUnmount (): void {
     document.removeEventListener('mousedown', this._handleCloseOutside)
   }
 
-  _handleCloseOutside(e) {
+  _handleCloseOutside (e) {
     if (this.state.exploreCollapse && this.exploreRef && !this.exploreRef.contains(e.target)) {
       this.setState({ ...this.state, exploreCollapse: false, collapseProfile: false })
     }
@@ -273,7 +274,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     this.setState({ ...this.state, selectedAbout: target })
   }
 
-  render() {
+  render () {
     const { collapseClassName, clientUser, clientOrganization, translate, clientImgLink } = this.props
     const topBarTranslate = translate.topBar
     const { collapse, collapseProfile, exploreCollapse, productWizardModalIsOpen, mouseIsOverMenu, selectedSetting, selectedAbout, showSetting, showAbout, createExchangeModalIsOpen, profilePhotoLoaded, agentForm } = this.state
@@ -293,7 +294,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
           />
 
           <nav className="navbar flex-row justify-content-between p-0 -white-i topBar">
-            <div className="d-flex align-items-center">
+            <div className="d-flex align-items-center" ref={e => this.exploreRef = e}>
               <Link to={'/'} onClick={this._homeClick}>
                 <Material backgroundColor='rgba(238, 238, 238,0.8)' className='top-bar-home' content={
                   <React.Fragment>
@@ -317,7 +318,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                 </React.Fragment>
               }/>
 
-              <div className='explore-menu-wrapper' ref={e => this.exploreRef = e}>
+              <div className='explore-menu-wrapper'>
                 <ExploreMenu _toggleExplore={this._toggleExplore} exploreCollapse={exploreCollapse}/>
               </div>
 
@@ -361,7 +362,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                         </div>
                         <div className='profile-menu-profile-section-next-image'>
                           <div
-                              className='profile-menu-profile-section-next-image-first'>{clientUser && clientUser.first_name + ' ' + clientUser.last_name}</div>
+                              className='profile-menu-profile-section-next-image-first'>{this.props.clientName}</div>
                           <div
                               className='profile-menu-profile-section-next-image-middle'>@{clientUser && clientUser.username}</div>
                           <div
@@ -467,7 +468,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     )
   }
 
-  renderSetting() {
+  renderSetting () {
     let { selectedSetting } = this.state
 
     if (selectedSetting === 'General Settings') {
@@ -481,7 +482,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     }
   }
 
-  renderAbout() {
+  renderAbout () {
     let { selectedAbout } = this.state
 
     if (selectedAbout === 'FAQ') {
@@ -504,16 +505,26 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 }
 
 const mapStateToProps = state => {
+  const client = state.auth.client
   const { profile, organization, user_type } = state.auth.client
   const clientImgId = (user_type === 'person') ? (profile.profile_media) : (
       (organization && organization.organization_logo) || null
   )
+  const userId = (client.organization && client.organization.id) || (client.user && client.user.id)
+  const stateOrgan = state.organs.list[userId]
+
+  const name = user_type === 'person' ?
+      client.user.first_name + ' ' + client.user.last_name
+      :
+      stateOrgan && stateOrgan.organization.content.nike_name
+
   const clientImgLink = (clientImgId &&
       state.common.file.list[clientImgId] &&
       state.common.file.list[clientImgId].file) || null
   return {
     isLoggedIn: state.auth.client.isLoggedIn,
     clientUser: state.auth.client.user,
+    clientName: name,
     clientProfile: state.auth.client.profile,
     clientImgLink,
     clientOrganization: state.auth.client.organization,
