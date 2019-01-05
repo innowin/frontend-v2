@@ -1,19 +1,16 @@
 import React, { Component } from 'react'
 import BeeBackground from 'src/images/bee/beeBackground'
 import connect from 'react-redux/es/connect/connect'
-import EducationActions from 'src/redux/actions/user/educationActions'
-import GetUserActions from 'src/redux/actions/user/getUserActions'
-import makeFileSelectorByKeyValue from 'src/redux/selectors/common/file/selectFilsByKeyValue'
 import OrganizationActions from 'src/redux/actions/organization/organizationActions'
-import updateProfile from 'src/redux/actions/user/updateProfileByProfileIdAction'
-import updateUserByUserIdAction from 'src/redux/actions/user/updateUserByUserIdAction'
-import WorkExperienceActions from 'src/redux/actions/user/workExperienceActions'
 import { Bee } from 'src/images/icons'
 import { bindActionCreators } from 'redux'
 import { ClipLoader } from 'react-spinners'
-import { createFile, getFiles } from 'src/redux/actions/commonActions/fileActions'
+import { createFile } from 'src/redux/actions/commonActions/fileActions'
 import { getMessages } from 'src/redux/selectors/translateSelector'
 import { Link } from 'react-router-dom'
+import types from '../../../redux/actions/types'
+import { createFileFunc } from '../Functions'
+import TempActions from '../../../redux/actions/tempActions'
 
 class OrganizationBee extends Component {
   constructor (props) {
@@ -43,14 +40,14 @@ class OrganizationBee extends Component {
   componentDidMount (): void {
     const { organLogo, organObject } = this.props
 
-    let image = 30
+    let image = 0
     let name = 0
     let graduate = 0
     let bio = 0
 
-    // if (organLogo && organLogo.file) {
-    //   image = 30
-    // }
+    if (organLogo) {
+      image = 30
+    }
     if (organObject.content.nike_name && organObject.content.nike_name.trim().length > 0) {
       name = 25
     }
@@ -65,16 +62,16 @@ class OrganizationBee extends Component {
   }
 
   componentWillReceiveProps (nextProps: Readonly<P>, nextContext: any): void {
-    const { organLogo, organObject, currentUserId, currentUserProfileId, actions } = nextProps
+    const { organLogo, organObject, currentOrganizationId, actions } = nextProps
 
-    let image = 30
+    let image = 0
     let name = 0
     let graduate = 0
     let bio = 0
 
-    // if (organLogo && organLogo.file) {
-    //   image = 30
-    // }
+    if (organLogo) {
+      image = 30
+    }
     if (organObject.content.nike_name && organObject.content.nike_name.trim().length > 0) {
       name = 25
     }
@@ -86,16 +83,13 @@ class OrganizationBee extends Component {
     }
 
     if (this.state.imageLoading) {
-      const { clientFiles } = nextProps
-      console.log('clientFiles: ', clientFiles)
-      const lastFile = clientFiles[clientFiles.length - 1] || {}
-      const prevLastFile = this.props.clientFiles[this.props.clientFiles.length - 1] || {}
-      if (lastFile.id && prevLastFile.id) {
-        if (lastFile.id !== prevLastFile.id) {
-          this.setState({ ...this.state, imageLoading: false }, () => {
-            actions.updateProfile({ formValues: { profile_media: lastFile.id }, profileId: currentUserProfileId, userId: currentUserId })
-          })
+      console.log('this.props.tempFile : ', nextProps.tempFile)
+      if (nextProps.tempFile) {
+        const formFormat = {
+          organization_logo: nextProps.tempFile
         }
+        actions.updateOrganizationByOrganizationId({ formValues: formFormat, organizationId: currentOrganizationId })
+        nextProps.actions.removeFileFromTemp('org_photo')
       }
     }
 
@@ -117,7 +111,17 @@ class OrganizationBee extends Component {
     if (file) {
       reader.readAsDataURL(file)
       reader.onloadend = () => {
-        this.setState({ ...this.state, imageLoading: true }, () => actions.createFile({ file_string: reader.result }))
+        this.setState({ ...this.state, imageLoading: true }, () => {
+          const nextActionType = types.COMMON.SET_FILE_IDS_IN_TEMP_FILE
+          const fileIdKey = 'fileId'
+          const nextActionData = { tempFileKeyName: 'org_photo' }
+          const createArguments = {
+            fileIdKey,
+            nextActionType,
+            nextActionData
+          }
+          createFileFunc(actions.createFile, reader.result, createArguments)
+        })
       }
     }
   }
@@ -344,51 +348,31 @@ class OrganizationBee extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const identity = state.auth.client.identity.content
-
   const client = state.auth.client
-  const clientImgId = (client.user_type === 'person') ?
-      (client.profile.profile_media)
-      :
-      (client.organization && client.organization.organization_logo)
-
   const userId = (client.organization && client.organization.id) || (client.user && client.user.id)
-
-  const stateUser = state.users.list[userId]
   const defaultObject = { content: {}, isLoading: false, error: null }
-  const profile = (stateUser && stateUser.profile) || defaultObject
-
-  const fileSelectorByKeyValue = makeFileSelectorByKeyValue()
-
   const stateOrgan = state.organs.list[userId]
-  const logoId = (stateOrgan && stateOrgan.organLogoId) || null
-  const organLogo = (logoId && state.common.file.list[logoId]) || {}
+  const organLogo = (stateOrgan && stateOrgan.organization && stateOrgan.organization.content && stateOrgan.organization.content.organization_logo)
 
   return ({
     currentUserType: client.user_type,
     currentUserIdentity: client.identity.content,
     currentUserId: (client.user && client.user.id),
     currentOrganizationId: userId,
-    currentUserProfileId: client.profile.id,
-    currentUserImgId: clientImgId,
     currentUserName: client.organization.nike_name,
     currentUserBio: client.profile.description,
-    clientFiles: fileSelectorByKeyValue(state, 'identity', identity),
     translate: getMessages(state),
-    profile: profile.content,
     organObject: (stateOrgan && stateOrgan.organization) || defaultObject,
-    organLogo
+    organLogo,
+    tempFile: state.temp.file['org_photo']
   })
 }
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    getProfileByUserId: GetUserActions.getProfileByUserId,
-    updateUserByUserId: updateUserByUserIdAction.updateUser,
     createFile,
-    getFiles,
-    updateProfile: updateProfile.updateProfile,
-    updateOrganizationByOrganizationId: OrganizationActions.updateOrganization
+    updateOrganizationByOrganizationId: OrganizationActions.updateOrganization,
+    removeFileFromTemp: TempActions.removeFileFromTemp
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(OrganizationBee)

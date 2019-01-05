@@ -487,10 +487,8 @@ const mapStateToProps = (state) => {
 
   return ({
     currentUserType: client.user_type,
-    currentUserIdentity: client.identity.content,
     currentUserId: userId,
     currentUserProfileId: client.profile.id,
-    currentUserImgId: clientImgId,
     currentUserMedia: (state.common.file.list[clientImgId] && state.common.file.list[clientImgId].file) || null,
     currentUserName: client.user.first_name + ' ' + client.user.last_name,
     currentUserBio: client.profile.description,
