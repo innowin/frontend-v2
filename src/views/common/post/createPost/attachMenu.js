@@ -5,7 +5,6 @@ import AttachFile from "src/views/common/inputs/AttachFile"
 import AttachFileIcon from "src/images/common/attachFileNew_svg"
 import ContributionIcon from "src/images/common/contribution_svg"
 import Image from "src/images/common/image_upload_svg"
-import Link from "src/images/common/link_svg"
 import Movie from "src/images/common/movie_svg"
 import constants from "src/consts/constants"
 
@@ -30,15 +29,15 @@ const AttachMenu = (props) => {
     </div>
   )
   const {AttachMenuId, linkModalFunc, addProductModalFunc, handlePictures, handleMedia, handleFile,
-    postPicturesLength, postMediaExist, postFileExist, postLinkExist, translate} = props
+    postImagesLength, postMediaExist, postFileExist, postLinkExist, translate} = props
   const attachMenu = props.attachMenu || false
-  const picturesAttachedDisabled = (postPicturesLength > 2 || postMediaExist || postFileExist || postLinkExist)
+  const picturesAttachedDisabled = (postImagesLength > 2 || postMediaExist || postFileExist || postLinkExist)
     ? 'disabled-label' : ''
-  const FileAttachedDisabled = (postPicturesLength > 0 || postMediaExist || postFileExist || postLinkExist)
+  const FileAttachedDisabled = (postImagesLength > 0 || postMediaExist || postFileExist || postLinkExist)
     ? 'disabled-label' : ''
-  const MediaAttachedDisabled = (postPicturesLength > 0 || postMediaExist || postFileExist || postLinkExist)
+  const MediaAttachedDisabled = (postImagesLength > 0 || postMediaExist || postFileExist || postLinkExist)
     ? 'disabled-label' : ''
-  const LinkAttachedDisabled = (postPicturesLength > 0 || postMediaExist || postFileExist)
+  const LinkAttachedDisabled = (postImagesLength > 0 || postMediaExist || postFileExist)
     ? 'disabled-label' : ''
   return (
     <div
@@ -95,7 +94,7 @@ AttachMenu.propTypes = {
   handlePictures: PropTypes.func.isRequired,
   handleFile: PropTypes.func.isRequired,
   handleMedia: PropTypes.func.isRequired,
-  postPicturesLength:PropTypes.number,
+  postImagesLength:PropTypes.number,
   postMediaExist:PropTypes.bool,
   postFileExist:PropTypes.bool,
   postLinkExist: PropTypes.bool,

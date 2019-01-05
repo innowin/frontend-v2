@@ -19,12 +19,16 @@ import AttachMenu from './attachMenu'
 import ContactMenu from './contactMenu'
 import LinkModal from './linkModal'
 import ViewAttachedFiles from './viewAttachedFiles'
-import {ContactMenuIcon} from 'src/images/icons'
 import StickersMenu from '../../components/StickersMenu'
 import AddProductModal from './addProductModal'
 import ProductInfoView from '../../contributions/ProductInfoView'
 
-const createPostPicturesTempKeyName = "createPostPicturesTempKeyName"
+
+const POST_MEDIA_TEMP_KEY = "POST_MEDIA"
+const POST_FILE_TEMP_KEY = "POST_FILE"
+const POST_IMG1_TEMP_KEY = 'POST_IMG1'
+const POST_IMG2_TEMP_KEY = 'POST_IMG2'
+const POST_IMG3_TEMP_KEY = 'POST_IMG3'
 
 
 class CreatePost extends Component {
@@ -57,7 +61,9 @@ class CreatePost extends Component {
       commentBody: 'comment-body',
       placeholder: '',
       selectedText: '',
-      postPictures: [],
+      postImg1: null,
+      postImg2: null,
+      postImg3: null,
       postFile: '',
       postMedia: '',
       link: '',
@@ -81,7 +87,9 @@ class CreatePost extends Component {
       ...this.state,
       open: false,
       selected: 'post',
-      postPictures: [],
+      postImg1: null,
+      postImg2: null,
+      postImg3: null,
       postFile: '',
       postMedia: '',
       link: '',
@@ -94,8 +102,8 @@ class CreatePost extends Component {
   }
 
   handleClickOutside = (event) => {
-    const {attachMenu, contactMenu, linkModal, addProductModal, postPictures, postFile, postMedia, link, description, labels, savingPost, open} = this.state
-    const needReset = !savingPost && !description && !postPictures && !postFile && !postMedia && !link && labels === {}
+    const {attachMenu, contactMenu, linkModal, addProductModal, postImg1, postImg2, postImg3, postFile, postMedia, link, description, labels, savingPost, open} = this.state
+    const needReset = !savingPost && !description && !postImg1 && !postImg2 && !postImg3 && !postFile && !postMedia && !link && labels === {}
 
     if (!event.target.closest('#create-post-attach-menu-box')) {
       if (attachMenu) {
@@ -177,12 +185,6 @@ class CreatePost extends Component {
     this.setState({...this.state, addProductModal: true, attachMenu: false})
   }
 
-  _deletePicture = (i) => {
-    const {postPictures} = this.state
-    const newPostPictures = postPictures.slice(0, i).concat(postPictures.slice(i + 1))
-    this.setState({...this.state, postPictures: newPostPictures})
-  }
-
   handleEmoji = (emoji) => {
     this.setState({...this.state, open: true}, () => {
 
@@ -231,22 +233,18 @@ class CreatePost extends Component {
     })
   }
 
-  _deleteFile = () => {
-    this.setState({...this.state, postFile: ''})
-  }
-
-  _deleteMedia = () => {
-    this.setState({...this.state, postMedia: ''})
-  }
-
 
   _getValues = () => {
     const {selected, link, description, selectedProduct} = this.state
-    const {currentUserIdentity, postParentId, currentUserImgId, postPictureIds} = this.props
+    const {
+      currentUserIdentity, postParentId, currentUserImgId, postImg1Id, postImg2Id, postImg3Id, postMediaId,
+      postFileId
+    } = this.props
     const post_link = link.trim() !== '' ? link : null
-    const postPicturesIds_ = postPictureIds.slice(0, 3)[0] || null // just three pictures allowable
+    const filesCount = (postMediaId || postFileId) ? 1 :
+      ([postImg1Id, postImg2Id, postImg3Id].filter(img => img).length)
     return {
-      post_picture: postPicturesIds_,
+      files_count: filesCount,
       post_description: description,
       post_title: 'without title',
       post_type: selected,
@@ -311,46 +309,114 @@ class CreatePost extends Component {
     }
   }
 
-  _preSave = () => {
-    this.setState({...this.state, savingPost: true})
-    const {postPictures} = this.state
-    const {actions} = this.props
-    const {createFile} = actions
-    const nextActionTypesForPosPictures = types.COMMON.SET_FILE_IDS_IN_TEMP_FILE
-    const nextActionDataForPostPictures = {tempFileKeyName: createPostPicturesTempKeyName}
-    const fileIdKey = 'fileId'
-    const postPicturesCreateArguments = {
-      fileIdKey,
-      nextActionType: nextActionTypesForPosPictures,
-      nextActionData: nextActionDataForPostPictures,
-    }
-    postPictures.map(fileString => {
-      return createFileFunc(createFile, fileString, postPicturesCreateArguments)
-    })
-  }
-
   _save = () => {
-    const {actions, currentUserId, currentUserType, postParentId, postParentType} = this.props
+    const {
+      actions, currentUserId, currentUserType, postParentId, postParentType, postImg1Id, postImg2Id, postImg3Id,
+      postMediaId, postFileId
+    } = this.props
     const {createPost, removeFileFromTemp} = actions
     const formValues = this._getValues()
+    const postPictureIds = [postImg1Id, postImg2Id, postImg3Id].filter(img => img) //filter imges that not null & not undefined
+    const postAttachedFileIds = (postPictureIds.length > 0 && postPictureIds)
+      || (postMediaId && [postMediaId])
+      || (postFileId && [postFileId]) || []
     createPost({
-      formValues, postOwnerId: currentUserId, postOwnerType: currentUserType, postParentId, postParentType
+      formValues, postOwnerId: currentUserId, postOwnerType: currentUserType, postParentId, postParentType,
+      postFileIds: postAttachedFileIds
     })
-    removeFileFromTemp(createPostPicturesTempKeyName)
+    removeFileFromTemp(POST_IMG1_TEMP_KEY)
+    removeFileFromTemp(POST_IMG2_TEMP_KEY)
+    removeFileFromTemp(POST_IMG3_TEMP_KEY)
+    removeFileFromTemp(POST_MEDIA_TEMP_KEY)
+    removeFileFromTemp(POST_FILE_TEMP_KEY)
     this.setState({...this.state, savingPost: false})
+  }
+
+  _createFile = (fileString, tempFileKeyName) => {
+    const {actions} = this.props
+    const {createFile} = actions
+    const nextActionType = types.COMMON.SET_FILE_IDS_IN_TEMP_FILE
+    const fileIdKey = 'fileId'
+    const nextActionData = {tempFileKeyName}
+    const createArguments = {
+      fileIdKey,
+      nextActionType,
+      nextActionData,
+    }
+    createFileFunc(createFile, fileString, createArguments)
+  }
+
+  _deletePicture = (i) => {
+    const {actions} = this.props
+    const {removeFileFromTemp} = actions
+    const tempKeyName = (i === 0 && POST_IMG1_TEMP_KEY)
+      || (i === 1 && POST_IMG2_TEMP_KEY)
+      || (i === 2 && POST_IMG3_TEMP_KEY)
+    removeFileFromTemp(tempKeyName)
+    if (i === 0) {
+      this.setState({...this.state, postImg1: null})
+    } else if (i === 1) {
+      this.setState({...this.state, postImg2: null})
+    } else {
+      this.setState({...this.state, postImg3: null})
+    }
+  }
+
+  _deleteFile = () => {
+    const {actions} = this.props
+    const {removeFileFromTemp} = actions
+    removeFileFromTemp(POST_FILE_TEMP_KEY)
+    this.setState({...this.state, postFile: ''})
+  }
+
+  _deleteMedia = () => {
+    const {actions} = this.props
+    const {removeFileFromTemp} = actions
+    removeFileFromTemp(POST_MEDIA_TEMP_KEY)
+    this.setState({...this.state, postMedia: ''})
+  }
+
+  _handlePostPictures = (fileString) => {
+    const {postImg1, postImg2, postImg3} = this.state
+    const tempFileKeyName = (!postImg1 && POST_IMG1_TEMP_KEY)
+      || (!postImg2 && POST_IMG2_TEMP_KEY)
+      || (!postImg3 && POST_IMG3_TEMP_KEY)
+    if (!postImg1) {
+      this.setState({...this.state, attachMenu: false, postImg1: fileString})
+    } else if (!postImg2) {
+      this.setState({...this.state, attachMenu: false, postImg2: fileString})
+    } else {
+      this.setState({...this.state, attachMenu: false, postImg3: fileString})
+    }
+    this._createFile(fileString, tempFileKeyName)
+  }
+
+  _handlePostFile = (fileString) => {
+    this._createFile(fileString, POST_FILE_TEMP_KEY)
+    this.setState({...this.state, attachMenu: false, postFile: fileString})
+  }
+
+  _handlePostMedia = (fileString) => {
+    this._createFile(fileString, POST_MEDIA_TEMP_KEY)
+    this.setState({...this.state, attachMenu: false, postMedia: fileString})
   }
 
   _onSubmit = (e) => {
     e.preventDefault()
     if (this._formValidate()) {
-      this._preSave()
+      this.setState({...this.state, savingPost: true})
     }
     return false
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const {postsCountInThisPage, postPictureIds} = this.props
-    const {postPictures, savingPost, link} = this.state
+    const {postsCountInThisPage, postImg1Id, postImg2Id, postImg3Id, postMediaId, postFileId} = this.props
+    const {postImg1, postImg2, postImg3, postFile, postMedia, savingPost, link} = this.state
+    const postPicturesCheck = (postImg1 ? postImg1Id : true)
+      && (postImg2 ? postImg2Id : true)
+      && (postImg3 ? postImg3Id : true)
+    const postMediaCheck = postMedia ? postMediaId : true
+    const postFileCheck = postFile ? postFileId : true
 
     if (prevState.link !== link) {
       this._showLink(link)
@@ -360,7 +426,7 @@ class CreatePost extends Component {
       this._resetPost()
     }
 
-    if (savingPost && postPictures.length === postPictureIds.length) {
+    if (savingPost && postPicturesCheck && postMediaCheck && postFileCheck) {
       this._save()
     }
   }
@@ -434,10 +500,11 @@ class CreatePost extends Component {
   render() {
     const {className, followers, exchanges, currentUserIdentity, currentUserMedia, currentUserName, translate, currentUserId} = this.props
     const {
-      postPictures, open, attachMenu, selected, labels, link, contactMenu, linkModal, postFile, postMedia,
+      postImg1, postImg2, postImg3, open, attachMenu, selected, labels, link, contactMenu, linkModal, postFile, postMedia,
       profileLoaded, description, descriptionClass, focused, addProductModal, selectedProduct
     } = this.state
-    const hasMediaClass = (postMedia || (postPictures.length > 0)) ? 'hasMedia' : ''
+    const hasMediaClass = (postMedia || postImg1 || postImg2 || postImg3) ? 'hasMedia' : ''
+    const postImagesLength = [postImg1, postImg2, postImg3].filter(img => img).length
     return (
       <form className={'post-component-container ' + className} ref={e => this.form = e} onSubmit={this._onSubmit}>
         <div className={open ? 'post-component-header' : 'post-component-header-hide'}>
@@ -499,7 +566,9 @@ class CreatePost extends Component {
           </div>
 
           <ViewAttachedFiles
-            postPictures={postPictures}
+            postImg1={postImg1}
+            postImg2={postImg2}
+            postImg3={postImg3}
             postMedia={postMedia}
             postFile={postFile}
             deletePicture={this._deletePicture}
@@ -539,16 +608,10 @@ class CreatePost extends Component {
 
             <AttachMenu
               attachMenu={attachMenu}
-              handleFile={fileString =>
-                this.setState({...this.state, attachMenu: false, postFile: fileString})
-              }
-              handleMedia={fileString =>
-                this.setState({...this.state, attachMenu: false, postMedia: fileString})
-              }
-              handlePictures={fileString =>
-                this.setState({...this.state, attachMenu: false, postPictures: [...postPictures, fileString]})
-              }
-              postPicturesLength={postPictures.length}
+              handleFile={this._handlePostFile}
+              handleMedia={this._handlePostMedia}
+              handlePictures={this._handlePostPictures}
+              postImagesLength={postImagesLength}
               postMediaExist={Boolean(postMedia)}
               postFileExist={Boolean(postFile)}
               postLinkExist={Boolean(link)}
@@ -601,8 +664,7 @@ class CreatePost extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-
+const mapStateToProps = state => {
   const client = state.auth.client
   const clientImgId = (client.user_type === 'person') ? (client.profile.profile_media) : (
     (client.organization && client.organization.organization_logo) || null
@@ -610,8 +672,11 @@ const mapStateToProps = (state) => {
 
   const userId = (client.organization && client.organization.id) || (client.user && client.user.id)
 
-  const tempPostPictures = state.temp.file[createPostPicturesTempKeyName]
-  const postPictureIds = tempPostPictures ? (Array.isArray(tempPostPictures) ? tempPostPictures : [tempPostPictures]) : []
+  const postImg1Id = state.temp.file[POST_IMG1_TEMP_KEY] || null
+  const postImg2Id = state.temp.file[POST_IMG2_TEMP_KEY] || null
+  const postImg3Id = state.temp.file[POST_IMG3_TEMP_KEY] || null
+  const postMediaId = state.temp.file[POST_MEDIA_TEMP_KEY] || null
+  const postFileId = state.temp.file[POST_FILE_TEMP_KEY] || null
 
   return ({
     currentUserType: client.user_type,
@@ -622,7 +687,11 @@ const mapStateToProps = (state) => {
     currentUserName: client.user.first_name + ' ' + client.user.last_name,
     exchanges: state.common.exchangeMembership.list,
     followers: state.common.social.follows.list,
-    postPictureIds,
+    postImg1Id,
+    postImg2Id,
+    postImg3Id,
+    postMediaId,
+    postFileId,
     translate: getMessages(state)
   })
 }
