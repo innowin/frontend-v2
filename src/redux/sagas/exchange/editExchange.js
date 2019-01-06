@@ -11,7 +11,7 @@ export function* editExchange(action) {
   let values = {
     name: formValues.exchange_name,
     description: formValues.exchange_description,
-    // exchange_image: null
+    exchange_image: formValues.exchange_media
   }
   const socketChannel = yield call(api.createSocketChannel, results.EXCHANGE.EDIT_EXCHANGE)
   let data
