@@ -80,11 +80,11 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
     return (
       //<VerifyWrapper isLoading={isLoading} error={error}>
       <div>
-        <CategoryTitle
-          title={translate['Post']}
-          showCreateForm={this._showCreateForm}
-          // createForm={createForm}
-        />
+        {/*<CategoryTitle*/}
+          {/*title={translate['Post']}*/}
+          {/*showCreateForm={this._showCreateForm}*/}
+          {/*// createForm={createForm}*/}
+        {/*/>*/}
         <FrameCard className="-frameCardPost">
 
           <ListGroup>

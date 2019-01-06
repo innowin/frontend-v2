@@ -109,9 +109,9 @@ class Socials extends Component<PropsSocials, StateSocials> {
     return (
         //<VerifyWrapper isLoading={isLoading} error={error}>
         <div>
-          <CategoryTitle
-              title={translate['Socials']}
-          />
+          {/*<CategoryTitle*/}
+              {/*title={translate['Socials']}*/}
+          {/*/>*/}
           <FrameCard className="frameCardSocial">
             <Exchanges removeMembership={deleteExchangeMembership}
                        exchanges={exchanges}

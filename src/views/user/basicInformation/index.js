@@ -37,9 +37,9 @@ export class UserBasicInformation extends Component<UserBasicInformationProps> {
     const {userId, translate, profile, user} = this.props
     return (
       <div>
-        <CategoryTitle
-          title={translate['Basic information']}
-        />
+        {/*<CategoryTitle*/}
+          {/*title={translate['Basic information']}*/}
+        {/*/>*/}
         <FrameCard>
           <ListGroup>
             <BasicInfo {...{userId}} translate={translate} user={user.content} isLoading={user.isLoading}/>
