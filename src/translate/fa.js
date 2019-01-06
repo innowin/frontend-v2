@@ -359,7 +359,7 @@ module.exports = {
   'Add Exchange to Favorite': 'افزودن پنجره به علاقه مندی ها',
   'Create New Exchange': 'ایجاد پنجرۀ جدید',
   'Exchange Name': 'نام پنجره',
-  'Exchange Description': 'درباره پنجره',
+  'Exchange Description': 'دربارۀ پنجره',
 
   //Statistic
   'Activity Report': 'گزارش فعالیت',
