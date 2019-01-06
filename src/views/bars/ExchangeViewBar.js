@@ -513,7 +513,7 @@ class ExchangeViewBar extends Component {
                         type="button"
                         className="sidebarFollowBottom"
                         style={{cursor: "pointer"}}
-                        onClick={() => this.setState({...this.state, editView: false})}> لغو
+                        onClick={() => this.setState({...this.state, editView: false, selectedImage: null})}> لغو
                     </button>
                   </div>
             }

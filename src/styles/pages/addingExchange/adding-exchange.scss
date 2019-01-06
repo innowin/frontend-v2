@@ -47,7 +47,7 @@
   top: $topBarHeight + 11px;
   z-index: 1202;
   opacity: 1;
-  height: 81vh;
+  max-height: 81vh;
   border-radius: 3px;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   background-color: white;
@@ -58,12 +58,12 @@
   overflow: hidden;
   position: fixed;
   top: $topBarHeight + 11px;
-  right: 30%;
-  left: 30%;
+  right: 25%;
+  left: 25%;
   z-index: -1;
   opacity: 0;
   transform: scale(0.8);
-  height: 75vh;
+  max-height: 81vh;
   border-radius: 3px;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   background-color: white;
@@ -194,7 +194,6 @@
 
 .create-exchange-upload-svg {
   width: 30px;
-  fill: $primary-color;
   cursor: pointer;
   display: block;
   margin: 10px 0;
@@ -218,7 +217,7 @@
   padding: 5px;
   font-size: $font-size-regular;
   border: 1.5px solid white;
-  background-color: $primary-color;
+  background-color: $secondary-color;
   color: white;
   height: 30px;
   width: 85px;
@@ -227,9 +226,9 @@
   transition-duration: $animation-timing;
 
   &:hover {
-    border: 1.5px solid $primary-color;
+    border: 1.5px solid $secondary-color;
     background-color: white;
-    color: $primary-color;
+    color: $secondary-color;
     transition-duration: $animation-timing;
   }
 }
@@ -237,9 +236,9 @@
 .create-exchange-cancel-button {
   padding: 5px;
   font-size: $font-size-regular;
-  border: 1.5px solid $secondary-color;
-  background-color: $background-color;
-  color: $secondary-color;
+  border: 1.5px solid $text-lighter-color;
+  background-color: $text-lighter-color;
+  color: $text-dark-color;
   height: 30px;
   width: 85px;
   border-radius: 30px;
@@ -247,41 +246,48 @@
   transition-duration: $animation-timing;
 
   &:hover {
-    border: 1.5px solid white;
-    background-color: $secondary-color;
-    color: $background-color;
+    border: 1.5px solid $text-dark-color;
+    background-color: transparent;
+    color: $text-dark-color;
     transition-duration: $animation-timing;
   }
 }
 
+.create-exchange-close-icon{
+  top: 15px;
+  left: 15px;
+  position: absolute;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 1920px) and (min-width: 1366px) {
   .create-exchange-modal-container {
-    right: 30%;
-    left: 30%;
+    right: 25%;
+    left: 25%;
     padding: 20px 30px;
   }
 }
 
 @media screen and (max-width: 1366px) and (min-width: 1280px) {
   .create-exchange-modal-container {
-    right: 28.5%;
-    left: 28.5%;
+    right: 23.5%;
+    left: 23.5%;
     padding: 20px 30px;
   }
 }
 
 @media screen and (max-width: 1280px) and (min-width: 900px) {
   .create-exchange-modal-container {
-    right: 27%;
-    left: 27%;
+    right: 21%;
+    left: 21%;
     padding: 10px 15px;
   }
 }
 
 @media screen and (max-width: 900px) and (min-width: 0px) {
   .create-exchange-modal-container {
-    right: 13%;
-    left: 13%;
+    right: 10%;
+    left: 10%;
     padding: 10px 15px;
   }
 }
