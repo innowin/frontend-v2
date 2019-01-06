@@ -113,6 +113,14 @@
   z-index: 1;
 }
 
+.emoji-open-edit {
+  position: absolute;
+  transition-duration: 0.2s;
+  opacity: 1;
+  z-index: 1;
+  bottom: 15px;
+}
+
 .emoji-close {
   position: absolute;
   bottom: 4px;

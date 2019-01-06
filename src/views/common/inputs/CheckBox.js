@@ -31,7 +31,7 @@ export class CheckBox extends Component {
         const {label, name} = this.props;
         const {checked} = this.state;
         return (
-            <div className="col-12 form-group">
+            <div className="col-12 form-group display-none">
                 <label>{label}</label>
                 <input
                     type="checkbox"

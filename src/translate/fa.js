@@ -133,6 +133,7 @@ module.exports = {
   'Add': 'افزودن',
 
   'Save': 'ذخیره',
+  'Submit Changes':'ثبت ویرایش',
   'Submit': 'ثبت',
   'Certificate': 'گواهی‌نامه',
   'Certificates': 'گواهی‌نامه‌ها',
