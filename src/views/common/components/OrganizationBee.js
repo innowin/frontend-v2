@@ -58,7 +58,9 @@ class OrganizationBee extends Component {
       graduate = 20
     }
 
-    this.setState({ ...this.state, image, name, graduate, bio })
+    this.setState({ ...this.state, image, name, graduate, bio }, () => {
+      if (image === 30) this.setState({ ...this.state, imageLoading: false })
+    })
   }
 
   componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
@@ -93,7 +95,9 @@ class OrganizationBee extends Component {
       }
     }
 
-    this.setState({ ...this.state, image, name, graduate, bio })
+    this.setState({ ...this.state, image, name, graduate, bio }, () => {
+      if (image === 30) this.setState({ ...this.state, imageLoading: false })
+    })
   }
 
   _handleCancel = () => {

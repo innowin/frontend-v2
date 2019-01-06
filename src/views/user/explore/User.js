@@ -51,7 +51,7 @@ class User extends Component <appProps, appState> {
 
   componentDidMount() {
     const {data} = this.props
-    if (data.profile.content.profile_banner) {
+    if (data.profile.content.profile_banner && data.profile.content.profile_banner.file) {
       let banner = new Image()
       banner.src = data.profile.content.profile_banner.file.includes('innowin.ir') ? data.profile.content.profile_banner.file : REST_URL + data.profile.content.profile_banner.file
       banner.onload = () => {
@@ -59,7 +59,7 @@ class User extends Component <appProps, appState> {
       }
     }
 
-    if (data.profile.content.profile_media) {
+    if (data.profile.content.profile_media && data.profile.content.profile_media.file) {
       let profile = new Image()
       profile.src = data.profile.content.profile_media.file.includes('innowin.ir') ? data.profile.content.profile_media.file : REST_URL + data.profile.content.profile_media.file
       profile.onload = () => {

@@ -640,6 +640,8 @@ class CreatePost extends Component {
             />
 
           </div>
+
+
           <LinkModal
               ref={e => this.setWrapperThirdRef = e ? e.linkModalRef : e}
               linkModal={linkModal}

@@ -6,6 +6,7 @@ export default state => ({
       ...state.messages.topBar,
       'Explore': 'بگرد'
     },
+    'Submit Changes': 'ثبت ویرایش',
     'The Ways to Connect With Your Collection': 'راه های ارتباط با مجموعه شما',
     'WebSite': 'آدرس وب سایت',
     'Telegram Id': 'آدرس تلگرام',

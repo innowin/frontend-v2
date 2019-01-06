@@ -79,7 +79,9 @@ class UserBee extends Component {
       job = 15
     }
 
-    this.setState({ ...this.state, image, name, graduate, job, bio })
+    this.setState({ ...this.state, image, name, graduate, job, bio }, () => {
+      if (image === 30) this.setState({ ...this.state, imageLoading: false })
+    })
   }
 
   componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
@@ -120,7 +122,9 @@ class UserBee extends Component {
       }
     }
 
-    this.setState({ ...this.state, image, name, graduate, job, bio })
+    this.setState({ ...this.state, image, name, graduate, job, bio },()=>{
+      if (image === 30) this.setState({ ...this.state, imageLoading: false })
+    })
   }
 
   _handleCancel = () => {
