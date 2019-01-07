@@ -19,7 +19,7 @@ export const persistor = persistStore(store)
 runSaga()
 detectUserAgent()
 //initializing google analytics
-init()
+// init()
 
 ReactDOM.render(
 		<Provider store={store}>
