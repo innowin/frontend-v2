@@ -14,15 +14,22 @@
 }
 
 .comment-svg {
-  width: 17px;
-  height: 17px;
-  margin-top: 5px;
-  margin-right: 2.5px;
+  width: 22px;
+  //height: 17px;
 }
 
 .comment-svg-container{
   width: 30px;
   height: 30px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  & > span {
+    position: absolute;
+    right: -10px;
+    font-size: 4mm;
+  }
 }
 
 .cls-1-comment, .cls-2-comment {

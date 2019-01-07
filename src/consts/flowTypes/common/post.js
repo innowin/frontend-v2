@@ -1,28 +1,10 @@
-export type postType = {
-  id: number,
+export type postType = {|
+  comments : [],
+  comments_count: number,
   created_time: string,
-  updated_time: string,
   delete_flag: boolean,
-  post_type: string,
-  post_title: string,
+  id: number,
   post_description: string,
-  post_pinned: boolean,
-  post_promote: number,
-  post_user: {
-    id: number,
-    password: string,
-    last_login: {},
-    is_superuser: boolean,
-    username: string,
-    first_name: string,
-    last_name: string,
-    email: string,
-    is_staff: boolean,
-    is_active: boolean,
-    date_joined: string,
-    groups: [],
-    user_permissions: []
-  },
   post_identity: {
     id: number,
     created_time: string,
@@ -50,7 +32,27 @@ export type postType = {
     },
     identity_organization: {}
   },
-  post_related_product: {},
+  post_parent: {},
   post_picture: {},
-  post_parent: {}
-}
+  post_pinned: boolean,
+  post_promote: number,
+  post_related_product: {},
+  post_title: string,
+  post_type: string,
+  post_user: {
+    id: number,
+    password: string,
+    last_login: {},
+    is_superuser: boolean,
+    username: string,
+    first_name: string,
+    last_name: string,
+    email: string,
+    is_staff: boolean,
+    is_active: boolean,
+    date_joined: string,
+    groups: [],
+    user_permissions: []
+  },
+  updated_time: string,
+|}
