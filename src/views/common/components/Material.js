@@ -8,7 +8,7 @@ class Material extends React.Component {
     className: PropTypes.string,
     onClick: PropTypes.func,
     content: PropTypes.any.isRequired,
-    backgroundColor: PropTypes.string,
+    backgroundColor: PropTypes.string
   }
 
   constructor(props) {
@@ -36,7 +36,8 @@ class Material extends React.Component {
         setTimeout(() => {
           target.removeChild(ripple)
         }, 600)
-      } else {
+      }
+      else {
         this.ripple.style.opacity = '0'
         setTimeout(() => {
           if (this.ripple && this.container) {

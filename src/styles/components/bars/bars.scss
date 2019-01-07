@@ -663,6 +663,7 @@ $sidebar-profile-media-width: 80px;
     padding: 4px;
     display: flex;
     align-items: center;
+    justify-content: center;
     flex: 0 1 40%;
   }
 }
@@ -840,7 +841,7 @@ $sidebar-profile-media-width: 80px;
   }
 
   &:last-child {
-    padding-bottom: 10px;
+    //padding-bottom: 10px;
   }
 
   .header-exchange {
@@ -945,7 +946,7 @@ $sidebar-profile-media-width: 80px;
 
   .explore-menu-container {
     position: absolute;
-    top: 22px;
+    top: 24px;
     right: -158px;
     width: 245px;
     text-align: center;
@@ -956,7 +957,7 @@ $sidebar-profile-media-width: 80px;
 
   .explore-menu-container-hide {
     position: absolute;
-    top: 22px;
+    top: 24px;
     right: -158px;
     width: 245px;
     text-align: center;
@@ -1073,7 +1074,7 @@ $sidebar-profile-media-width: 80px;
 .settingModal-sidebar-out {
   overflow-y: hidden;
   position: fixed;
-  top: 75px;
+  top: $topBarHeight + 10px;
   right: 9.05%;
   z-index: -1;
   opacity: 0;
@@ -1103,7 +1104,7 @@ $sidebar-profile-media-width: 80px;
   overflow: hidden;
   border-radius: 3px;
   position: fixed;
-  top: 75px;
+  top: $topBarHeight + 10px;
   right: 9.05%;
   z-index: 4;
   opacity: 1;
@@ -1139,7 +1140,7 @@ $sidebar-profile-media-width: 80px;
 .settingModal-menu-out {
   overflow-y: scroll;
   position: fixed;
-  top: 75px;
+  top: $topBarHeight + 10px;
   right: 30%;
   z-index: -1;
   opacity: 0;
@@ -1166,12 +1167,12 @@ $sidebar-profile-media-width: 80px;
 .settingModal-menu {
   overflow: auto;
   position: fixed;
-  top: 75px;
+  top: $topBarHeight + 10px;
   right: 30%;
   z-index: 4;
   opacity: 1;
   width: 40%;
-  max-height: 91vh;
+  max-height: 88vh;
   border-radius: 3px;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   background-color: white;
@@ -1200,7 +1201,7 @@ $sidebar-profile-media-width: 80px;
 @media screen and (max-width: 1250px) {
   .settingModal-menu {
     position: fixed;
-    top: 75px;
+    top: $topBarHeight + 10px;
     right: 30%;
     z-index: 4;
     opacity: 1;
@@ -1212,7 +1213,7 @@ $sidebar-profile-media-width: 80px;
   }
   .settingModal-menu-out {
     position: fixed;
-    top: 75px;
+    top: $topBarHeight + 10px;
     right: 30%;
     z-index: -1;
     opacity: 0;
@@ -1228,7 +1229,7 @@ $sidebar-profile-media-width: 80px;
 
   .settingModal-sidebar {
     position: fixed;
-    top: 75px;
+    top: $topBarHeight + 10px;
     right: 1%;
     z-index: 4;
     opacity: 1;
@@ -1243,7 +1244,7 @@ $sidebar-profile-media-width: 80px;
 
   .settingModal-menu {
     position: fixed;
-    top: 75px;
+    top: $topBarHeight + 10px;
     right: 20.5%;
     z-index: 4;
     opacity: 1;
@@ -1256,7 +1257,7 @@ $sidebar-profile-media-width: 80px;
 
   .settingModal-menu-out {
     position: fixed;
-    top: 75px;
+    top: $topBarHeight + 10px;
     right: 20.5%;
     z-index: -1;
     opacity: 0;
@@ -1728,7 +1729,7 @@ $sidebar-profile-media-width: 80px;
 
 .profile-menu-container {
   position: absolute;
-  top: 54px;
+  top: 59px;
   left: 7px;
   width: 320px;
   text-align: right;
@@ -1739,7 +1740,7 @@ $sidebar-profile-media-width: 80px;
 
 .profile-menu-container-hide {
   position: absolute;
-  top: 54px;
+  top: 59px;
   left: 7px;
   width: 320px;
   text-align: right;
@@ -2119,8 +2120,17 @@ $sidebar-profile-media-width: 80px;
     font-weight: bold;
     background-color: rgba(255, 255, 255, 0.6);
     color: $text-dark-color;
-    cursor: pointer;
+    //cursor: pointer;
     //border-radius: $border-radius-more;
+  }
+  input[type='file'] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    cursor: pointer;
   }
 }
 

@@ -34,6 +34,7 @@
   //background: $text-lightest-color;
   //box-shadow: 0 3px 3px $box-shadow-color;
 }
+
 .exchanges-last {
   width: calc(100% - 7px);
   pointer-events: none;
@@ -89,4 +90,80 @@
   text-align: left;
   color: $primary-color-light3;
   font-size: 12px;
+}
+
+
+.header-container-exchange {
+  background-color: white;
+  width: 99%;
+  margin: auto;
+  border-radius: 3px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+
+.header-container {
+  background-color: white;
+  border-radius: 3px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 12px;
+  margin: 10px 0 ;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.header-container-item {
+  color: $text-medium-dark;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition-duration: 0.3s;
+
+  &:focus {
+    text-decoration: none;
+    color: $text-medium-dark;
+    transition-duration: 0.3s;
+  }
+
+  &:hover {
+    color: $text-medium-dark;
+    transition-duration: 0.3s;
+  }
+}
+
+.header-container-item-active {
+  color: $secondary-color;
+  border-bottom: 2px solid $secondary-color;
+  transition-duration: 0.3s;
+
+  &:focus {
+    text-decoration: none;
+    color: $secondary-color;
+    transition-duration: 0.3s;
+  }
+}
+
+.header-container-item-material {
+  width: 100%;
+  padding: 10px;
+  transition-duration: 0.3s;
+}
+
+
+.header-container-item-material-ex {
+  width: 100%;
+  padding: 10px 15px;
+  transition-duration: 0.3s;
 }

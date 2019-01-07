@@ -185,7 +185,7 @@ let InitialInfoReduxForm = (props: InitialInfoProps) => {
                      label="IRR" className="form-group"/>
 
               <Field name={LAYER1S.DESCRIPTION} type="text" component={renderTextArea}
-                     label="توصیف اجمالی محصول" className="form-group desc"/>
+                     label="توصیف اجمالی آورده" className="form-group desc"/>
               {console.log('\n error: ', error, '\n')}
             </div>
           </div>
