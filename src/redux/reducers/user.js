@@ -6,7 +6,7 @@ import slices from './sliceReducers/user'
 import setRelatedObjIdForListItem from './sliceReducers/utilsSlices/setRelatedObjIdForListItem'
 
 const users = (state = initialState.users, action) => {
-  const {userId, data, message} = action.payload || {}
+  const {userId, data, message, search} = action.payload || {}
   const defaultObject = {content: {}, isLoading: false, error: null}
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const previousUser = (state.list[userId] && state.list[userId].user) || defaultObject
@@ -251,22 +251,16 @@ const users = (state = initialState.users, action) => {
         error: null
       }
 
+      /** ------------------------------ get all users ------------------------- **/
+    case types.USER.GET_ALL_USERS:
+      return {
+        ...state,
+        search: search,
+        isLoading: true
+      }
 
-      // case types.SUCCESS.USER.GET_ALL_USERS:
-      //   let objectData = {}
-      //   data.forEach(user =>
-      //       objectData[user.user.id] = user
-      //   )
-      //   return {
-      //     ...state,
-      //     allUsers: {...state.allUsers, ...objectData},
-      //     search: action.payload.search,
-      //     isLoading: action.payload.isLoading
-      //   }
     case types.SUCCESS.USER.GET_ALL_USERS:
       let objectData = {}
-
-
       data.forEach(user => {
             if (state.list[user.user.id] && state.list[user.user.id].profile) {
               objectData[user.user.id] = {
@@ -299,12 +293,11 @@ const users = (state = initialState.users, action) => {
             }
           }
       )
-
       return {
         ...state,
         list: {...state.list, ...objectData},
-        search: action.payload.search,
-        isLoading: action.payload.isLoading
+        search: search,
+        isLoading: false
       }
 
     /** -------------------------- reset search user -------------------------> **/
