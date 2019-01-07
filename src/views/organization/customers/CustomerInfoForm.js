@@ -38,7 +38,10 @@ type PropsCustomerInfoForm = {
     updateOrgCustomer: Function,
   },
   searchedUsers: (Object)[],
-  search: ?string
+  searchObj: {
+    search: ?string,
+    isLoading: boolean
+  }
 }
 
 class CustomerInfoForm extends Component<PropsCustomerInfoForm> {
@@ -57,6 +60,7 @@ class CustomerInfoForm extends Component<PropsCustomerInfoForm> {
       searchedRelatedCustomerWord: '',
       pictureString: '',
       savingCustomer: false,
+      resetSearch: false,
       error: ''
     }
   }
@@ -130,17 +134,22 @@ class CustomerInfoForm extends Component<PropsCustomerInfoForm> {
 
   componentDidUpdate(prevProps, prevState) {
     const {tempCustomerPictureId, customer} = this.props
-    const {savingCustomer} = this.state
+    const {resetSearch, savingCustomer} = this.state
     const customerPictureId = customer && (customer.customer_picture.id || customer.customer_picture)
     const existPicture = tempCustomerPictureId || customerPictureId
+
+    if (resetSearch) {
+      this._resetSearchUser()
+      this.setState({...this.state, resetSearch: false})
+    }
     if (savingCustomer && existPicture) {
       this._save()
     }
   }
 
   _handleClickOutMenuBox = (e: any) => {
-    const {search} = this.props
-    if (search && !e.target.closest('#relatedCustomerDiv')) {
+    const {searchObj} = this.props
+    if (searchObj.search && !e.target.closest('#relatedCustomerDiv')) {
       this._resetSearchUser()
     }
   }
@@ -161,6 +170,8 @@ class CustomerInfoForm extends Component<PropsCustomerInfoForm> {
       })
     }
 
+    this._resetSearchUser()
+
     document.addEventListener('click', this._handleClickOutMenuBox)
   }
 
@@ -178,13 +189,17 @@ class CustomerInfoForm extends Component<PropsCustomerInfoForm> {
     const value = e.target.value
     const {searchedUsers, actions} = this.props
     const {getSearchedUsers} = actions
-    const object = searchedUsers.filter(object => object.user.username === value)[0]
-    const identityId = (object ? object.user.identity : '') || 2638 //TODO: handle by backend developer.remove 2638 from here
+    const object = searchedUsers.filter(
+      userObj => userObj.profile && (userObj.profile.content.profile_user.username === value)
+    )[0]
+    const identityId = ((object && object.profile) ? object.profile.content.profile_user.identity : '') ||
+      2638 //TODO: handle by backend developer.remove 2638 from here
     this.setState({...this.state, relatedCustomerIdentityId: identityId, searchedRelatedCustomerWord: value}, () => {
-      if (value.length > 1) {
-        getSearchedUsers(0, 0, value.trim())
+      const trimedValue = value.trim()
+      if (trimedValue.length >= 2) {
+        getSearchedUsers(0, 0, trimedValue)
       } else {
-        this._resetSearchUser()
+        this.setState({...this.state, resetSearch: true})
       }
     })
   }
@@ -249,29 +264,33 @@ class CustomerInfoForm extends Component<PropsCustomerInfoForm> {
               value={searchedRelatedCustomerWord}
             />
             <div className="searched-users">
-              {searchedUsers.map(e => {
-                  return <div
-                    key={e.user.username}
-                    onClick={(event) => this._handleRelatedCustomer(event, (e.user.username), (e.user.identity || 2638))}
-                    //TODO: handle by backend developer. identity is not exist yet in object.remove 2638 from here
-                  >
-                    <div className="name">
+              {searchedUsers.map(userObj => {
+                  const profile = userObj.profile ? userObj.profile.content : {}
+                  const user = profile.profile_user
+                  return (
+                    <div
+                      key={user.username}
+                      onClick={(event) => this._handleRelatedCustomer(event, (user.username), (user.identity || 2638))}
+                      //TODO: handle by backend developer. identity is not exist yet in object.remove 2638 from here
+                    >
+                      <div className="name">
                       <span>
-                        {e.user.first_name + " " + e.user.last_name}
+                        {user.first_name + " " + user.last_name}
                       </span>
-                      <span>
-                        {e.user.username + "@"}
+                        <span>
+                        {user.username + "@"}
                       </span>
+                      </div>
+                      <div className="img">
+                        {
+                          (profile.profile_media && profile.profile_media.file) ?
+                            (<img className="covered-img" alt=""
+                                  src={"http://restful.innowin.ir" + profile.profile_media.file}/>)
+                            : (<DefaultUserIcon/>)
+                        }
+                      </div>
                     </div>
-                    <div className="img">
-                      {
-                        (e.profile.profile_media && e.profile.profile_media.file) ?
-                          (<img className="covered-img" alt=""
-                                src={"http://restful.innowin.ir" + e.profile.profile_media.file}/>)
-                          : (<DefaultUserIcon/>)
-                      }
-                    </div>
-                  </div>
+                  )
                 }
               )}
             </div>
@@ -291,7 +310,7 @@ const mapStateToProps = state => {
   return {
     tempCustomerPictureId,
     searchedUsers: getSearchedUsers(state),
-    search: getSearchWord(state)
+    searchObj: getSearchWord(state)
   }
 }
 
