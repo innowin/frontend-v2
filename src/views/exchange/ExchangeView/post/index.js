@@ -6,7 +6,7 @@ import {getProfile} from "../../../../crud/user/profile"
 import {getPost} from '../../../../crud/post/post'
 import {getIdentity} from "../../../../crud/identity"
 import {getExchangePostComment} from '../../../../crud/exchange/exchange'
-import {PostEditForm} from "src/views/common/post/PostEditForm"
+import PostEditForm from "src/views/common/post/PostEditForm"
 import {ExchangePostView} from "./views"
 import {getFile} from "../../../../crud/media/media"
 

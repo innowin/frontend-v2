@@ -139,17 +139,30 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       catLvlOne: [],
       catLvlTwo: [],
       catLvlThree: [],
-      currentLevel: "two",
+      countryList: [],
+      provinceList: [],
+      cityList: [],
+      selectedCountry: null,
+      selectedProvince: null,
+      selectedCity: null,
+      currentLevel: "one",
       priceType: "معین",
       processing: false,
       productName: "",
-      selectedCatLvlOne: "",
-      selectedCatLvlThree: "",
-      selectedCatLvlTwo: "",
+      productDescription: "",
+      selectedCatLvlOne: null,
+      selectedCatLvlThree: null,
+      selectedCatLvlTwo: null,
       selectedImage: [],
       selectedImageId: [],
       selectedImageTemp: "",
       selectedType: "Product",
+      //errors
+      // productNameError: false,
+      // productDescriptionError: false,
+      // selectedCountryError: false,
+      // selectedProvinceError: false,
+      // selectedCityError: false,
       // productFeatures: [
       //   {
       //     id: 1,
@@ -224,25 +237,64 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     self.renderCurrentLevel = self.renderCurrentLevel.bind(self)
     self.renderFooter = self.renderFooter.bind(self)
     self._closeModal = self._closeModal.bind(self)
-    self._setProductFeature = self._setProductFeature.bind(self)
+    self._handleCreateProduct = self._handleCreateProduct.bind(self)
+    // self._setProductFeature = self._setProductFeature.bind(self)
   }
 
   componentDidMount() {
-    const {_getCategories, _getHashTags} = this.props
+    const {_getCategories, _getHashTags, _getCountries} = this.props
     _getCategories()
     _getHashTags()
-    this._newContributionMainCategoryHandler(MainCategories[0].value)
+    _getCountries()
+    // this._newContributionMainCategoryHandler(MainCategories[0].value)
   }
 
   componentDidUpdate(prevProps, prevState, ss) {
     // const prevActiveStep = prevState.activeStep
-    const {_getCountries, nowCreatedProductId, nowCreatedSkillId, clientFiles, categories} = this.props
-    const {activeStep, newContributionData, catLvlOne} = this.state
+    const {
+      // _getCountries,
+      // nowCreatedProductId,
+      // nowCreatedSkillId,
+      clientFiles,
+      categories,
+      countries,
+      province,
+      city
+    } = this.props
+    const {
+      // activeStep,
+      // newContributionData,
+      // catLvlOne,
+      countryList,
+      provinceList,
+      cityList,
+      selectedCountry,
+      selectedProvince,
+    } = this.state
 
-    if (catLvlOne.length < 1) {
-      let catsArray = Object.values(this.props.categories.list).filter(p => p.category_parent === null)
-      // this.setState({...this.state, catLvlOne: catsArray.slice()})
+    if (prevState.catLvlOne.length < 1) {
+      let catsArray = Object.values(categories.list).filter(p => p.category_parent === null)
+      if (catsArray.length >= 1)
+        this.setState({...this.state, catLvlOne: catsArray.slice()})
     }
+
+    if (prevState.countryList.length < 1 && !(Object.keys(countries.list) < 1)) {
+      let countArray = Object.values(countries.list)
+      this.setState({...this.state, countryList: countArray.slice()})
+    }
+
+    if (prevState.provinceList.length < 1 && countryList.length >= 1) {
+      let provArray = Object.values(province.list).filter(p => p.province_related_country === selectedCountry) // TODO: GET SELECTED COUNTRY
+      if (provArray.length >= 1)
+        this.setState({...this.state, provinceList: provArray.slice()})
+    }
+
+    if (cityList.length < 1 && provinceList.length >= 1) {
+      let citsArray = Object.values(city.list).filter(p => p.town_related_province === selectedProvince) // TODO: GET SELECTED PROVINCE
+      if (citsArray.length >= 1)
+        this.setState({...this.state, cityList: citsArray.slice()})
+    }
+
     const lastFile = clientFiles[clientFiles.length - 1] || {}
     const prevLastFile = prevProps.clientFiles[prevProps.clientFiles.length - 1] || {}
     if (lastFile.id && prevLastFile.id) {
@@ -250,603 +302,584 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
         this._imageHandler(lastFile)
       }
     }
-    if ((prevState.activeStep === 1) && (activeStep === 2)) {
-      _getCountries()
-      const {technicalProperties} = newContributionData
-      const properties = (technicalProperties && technicalProperties.slice()) || []
-      const firstIndex = properties.length || 0
-      for (let i = firstIndex; i < 9; i++) properties.push({id: i})
-      // this.setState({
-      //   ...this.state,
-      //   newContributionData: {
-      //     ...this.state.newContributionData,
-      //     technicalProperties: properties
-      //   }
-      // })
-    }
-    if ((!prevProps.nowCreatedProductId && nowCreatedProductId)
-        ||
-        (!prevProps.nowCreatedSkillId && nowCreatedSkillId)) this._nextStep()
+    // if ((prevState.activeStep === 1) && (activeStep === 2)) {
+    //   _getCountries()
+    //   const {technicalProperties} = newContributionData
+    //   const properties = (technicalProperties && technicalProperties.slice()) || []
+    //   const firstIndex = properties.length || 0
+    //   for (let i = firstIndex; i < 9; i++) properties.push({id: i})
+    //   this.setState({
+    //     ...this.state,
+    //     newContributionData: {
+    //       ...this.state.newContributionData,
+    //       technicalProperties: properties
+    //     }
+    //   })
+    // }
+    // if ((!prevProps.nowCreatedProductId && nowCreatedProductId)
+    //     ||
+    //     (!prevProps.nowCreatedSkillId && nowCreatedSkillId)) this._nextStep()
   }
 
 
-  _activationAddTechPropBlock = (e, key) => {
-    const isActive: boolean = (key === "click")
-    this.setState({
-      ...this.state,
-      addingTechPropNow: isActive
-    })
+  // _activationAddTechPropBlock = (e, key) => {
+  //   const isActive: boolean = (key === "click")
+  //   this.setState({
+  //     ...this.state,
+  //     addingTechPropNow: isActive
+  //   })
+  //
+  // }
+  // _techPropertiesOrderHandler = (result) => {
+  //   const {source, destination} = result
+  //   if (!destination) {
+  //     return
+  //   }
+  //   let sourceIndex, destinationIndex
+  //   const {technicalProperties = []} = this.state.newContributionData
+  //   if (source.droppableId === destination.droppableId) {
+  //     sourceIndex = source.index
+  //     destinationIndex = destination.index
+  //   } else {
+  //     sourceIndex = source.droppableId - 3 + source.index
+  //     destinationIndex = destination.droppableId - 3 + destination.index
+  //   }
+  //   const reOrderedProperties = reorder(
+  //       technicalProperties.slice(),
+  //       sourceIndex,
+  //       destinationIndex
+  //   )
+  //   this.setState({
+  //     ...this.state,
+  //     newContributionData: {
+  //       ...this.state.newContributionData,
+  //       technicalProperties: reOrderedProperties
+  //     },
+  //   })
+  // }
+  // _techPropInputFillHandler = (e) => {
+  //   const element = e.target
+  //   const {newTechPropertyData} = this.state
+  //   let newPropertyData = {
+  //     ...newTechPropertyData,
+  //     [element.name]: element.value,
+  //     id: +element.dataset.propertyId  // + added to convert string to integer
+  //   }
+  //   if (newTechPropertyData.id !== undefined) {
+  //     if (newTechPropertyData.id !== +element.dataset.propertyId) {
+  //       newPropertyData = {}
+  //     }
+  //   }
+  //   this.setState({
+  //     ...this.state,
+  //     newTechPropertyData: newPropertyData
+  //   })
+  // }
+  // _setNewTechPropertyDate = property => this.setState({...this.state, newTechPropertyData: property})
+  // _addOrEditTechProperty = () => {
+  //   const {newContributionData, newTechPropertyData} = this.state
+  //   const {technicalProperties} = newContributionData
+  //   const newTechnicalProperties = technicalProperties && technicalProperties.map(property => {
+  //     if (property.id === newTechPropertyData.id) return newTechPropertyData
+  //     else return property
+  //   })
+  //
+  //   if (newTechnicalProperties) {
+  //     this.setState({
+  //       ...this.state,
+  //       newContributionData: {
+  //         ...this.state.newContributionData,
+  //         technicalProperties: newTechnicalProperties
+  //       },
+  //       newTechPropertyData: {},
+  //     })
+  //   }
+  // }
+  // _createSkillHandler = () => {
+  //   const {_createSkillAction, skillInfoFormValues} = this.props
+  //   // const {hashTags, ...initialValues} = skillInfoFormValues
+  //   _createSkillAction(skillInfoFormValues)
+  // }
+  // _countryChangeHandler = v => {
+  //   const {_changeFormSingleFieldValue, _getProvinces, initialInfoFormState = {}} = this.props
+  //   v && _getProvinces(v.value)
+  //   if (initialInfoFormState[LAYER1S.COUNTRY]) {
+  //     if (initialInfoFormState[LAYER1S.COUNTRY].value !== v.value) {
+  //       _changeFormSingleFieldValue(initialInfoFormName, LAYER1S.PROVINCE, "")
+  //     }
+  //   }
+  //
+  // } // used in initialInfo
+  // _provinceChangeHandler = v => {
+  //   const {_changeFormSingleFieldValue, _getCities, initialInfoFormState = {}} = this.props
+  //   v && _getCities(v.value)
+  //   if (initialInfoFormState[LAYER1S.PROVINCE]) {
+  //     if (initialInfoFormState[LAYER1S.PROVINCE].value !== v.value) {
+  //       _changeFormSingleFieldValue(initialInfoFormName, LAYER1S.CITY, "")
+  //     }
+  //   }
+  //
+  // } // used in initialInfo
+  // _createProductHandler = () => {
+  //   const identityId = client.getIdentityId()
+  //   const {newContributionData} = this.state
+  //   const {
+  //     technicalProperties,
+  //     certificates,
+  //     galleryImages,
+  //     galleryVideo,
+  //     tags,
+  //     mainGalleryImageIndex
+  //   } = newContributionData
+  //   const {initialInfoFormState, _createProduct} = this.props
+  //   const {
+  //     NAME,
+  //     DESCRIPTION,
+  //     COUNTRY,
+  //     PROVINCE,
+  //     CITY,
+  //     CATEGORY_LAYER1,
+  //     CATEGORY_LAYER2,
+  //     CATEGORY_LAYER3,
+  //     PRICE_STATUS,
+  //     PRODUCT_OWNER
+  //   } = LAYER1S
+  //
+  //   let attrs = technicalProperties && technicalProperties.reduce((result, property) => {
+  //     const newProperty = property.title ? {[property.title]: property.value} : {}
+  //     return {
+  //       ...result,
+  //       ...newProperty
+  //     }
+  //   }, {})
+  //   attrs = JSON.stringify(attrs)
+  //   const category = (initialInfoFormState[CATEGORY_LAYER3]) ||
+  //       initialInfoFormState[CATEGORY_LAYER2] || initialInfoFormState[CATEGORY_LAYER1]
+  //
+  //   const product = {
+  //     [NAME]: initialInfoFormState[NAME],
+  //     [DESCRIPTION]: initialInfoFormState[DESCRIPTION],
+  //     [COUNTRY]: initialInfoFormState[COUNTRY].value,
+  //     [PROVINCE]: initialInfoFormState[PROVINCE].value,
+  //     [CITY]: initialInfoFormState[CITY].value,
+  //     [CATEGORY_LAYER3]: category.value,
+  //     [PRICE_STATUS]: newContributionData[PRICE_STATUS],
+  //     [PRODUCT_OWNER]: identityId,
+  //     attrs
+  //   }
+  //   const formData = {
+  //     product,
+  //     certificates,
+  //     galleryImages,
+  //     galleryVideo,
+  //     tags,
+  //     mainGalleryImageIndex
+  //   }
+  //   _createProduct(formData)
+  // }
+  // _submitHandler = () => {
+  //   const {mainCategory} = this.state.newContributionData
+  //   switch (mainCategory) {
+  //     case MainCategories[0].value: // in case product.
+  //       this._createProductHandler()
+  //       break
+  //     case MainCategories[1].value: // in case skill.
+  //       this._createSkillHandler()
+  //       break
+  //     default:
+  //       return
+  //   }
+  // }
+  // _tagsSelectionHandler = (resultTags) => {
+  //   // const {newContributionData} = this.state
+  //   // const tags = (newContributionData.tags && [...newContributionData.tags, ...resultTags]) || [...resultTags]
+  //   this.setState({
+  //     ...this.state,
+  //     newContributionData: {
+  //       ...this.state.newContributionData,
+  //       tags: resultTags
+  //     }
+  //   })
+  // }
+  // _nextStep = () => {
+  //   const {activeStep, progressSteps} = this.state
+  //   if (activeStep < progressSteps.length + 1) {
+  //     this._setStep((activeStep + 1), PROGRESSIVE_STATUS_CHOICES.GOING_NEXT)
+  //   }
+  // }
+  // _prevStep = () => {
+  //   const {activeStep} = this.state
+  //   if (activeStep !== 1) this._setStep((activeStep - 1), PROGRESSIVE_STATUS_CHOICES.GOING_PREV)
+  // }
+  // _deleteTag = (value) => {
+  //   const {newContributionData} = this.state
+  //   const {tags = []} = newContributionData
+  //   const newTags = tags.filter(tag => tag.value !== value)
+  //   this.setState({...this.state, newContributionData: {...newContributionData, tags: newTags}})
+  // }
+  // _certificatesImagesHandler = (e, id) => {
+  //   const {newContributionData} = this.state
+  //   let imgId = id
+  //   if (!id) {
+  //     for (let i = 0; i < CERTIFICATES_IMG_IDS.length; i++) {
+  //       if (!newContributionData[CERTIFICATES_IMG_IDS[i]]) { // looking for first id that has'nt image data yet.
+  //         imgId = CERTIFICATES_IMG_IDS[i]
+  //         break
+  //       }
+  //     }
+  //   }
+  //   const input = e.target
+  //   this._setStateForFileField(input, imgId)
+  // }
+  // _certificateIndexHandler = (idx) => {
+  //   const {certificates} = this.state.newContributionData
+  //   const cert = (certificates && certificates[idx]) || {}
+  //
+  //   this.setState({
+  //     ...this.state,
+  //     newContributionData: {
+  //       ...this.state.newContributionData,
+  //       ...cert,
+  //       [LAYER1S.NEW_CERT_INDEX]: idx,
+  //       // [LAYER1S.NEW_CERT_TITLE]: cert[LAYER1S.NEW_CERT_TITLE],
+  //       // [LAYER1S.NEW_CERT_IMAGE]: cert[LAYER1S.NEW_CERT_IMAGE],
+  //       // [LAYER1S.NEW_CERT_LOGO]: cert[LAYER1S.NEW_CERT_LOGO],
+  //       // [LAYER1S.NEW_CERT_NEED_FOR_VERIFY]: cert[LAYER1S.NEW_CERT_NEED_FOR_VERIFY],
+  //     }
+  //   })
+  // }
+  // _galleryImageDelete = (idx) => {
+  //   const {newContributionData} = this.state
+  //   let galleryImages: any = (newContributionData.galleryImages && [...newContributionData.galleryImages]) || []
+  //   galleryImages.splice(idx, 1)
+  //   this.setState({
+  //     ...this.state,
+  //     newContributionData: {
+  //       ...newContributionData,
+  //       galleryImages: galleryImages
+  //     }
+  //   })
+  // }
+  // _setMainGalleryImageIndex = (idx) => {
+  //   const {newContributionData} = this.state
+  //   const mainIndex = ((newContributionData.mainGalleryImageIndex === idx) && 10) || idx
+  //   this.setState({
+  //     ...this.state,
+  //     newContributionData: {
+  //       ...newContributionData,
+  //       mainGalleryImageIndex: mainIndex
+  //     }
+  //   })
+  // }
+  // _layer1InputsValueHandler = (value, key) => {
+  //   this.setState({
+  //     ...this.state,
+  //     newContributionData: {
+  //       ...this.state.newContributionData,
+  //       [key]: value
+  //     }
+  //   })
+  // }
+  // _galleryImageAddEdit = (input, idx) => {
+  //   const {newContributionData} = this.state
+  //   const reader = new FileReader()
+  //   let galleryImages: any = (newContributionData.galleryImages && [...newContributionData.galleryImages]) || []
+  //   if (input.files) {
+  //     reader.onload = () => {
+  //       galleryImages.splice(idx, 1, reader.result)
+  //       this.setState({
+  //         ...this.state,
+  //         newContributionData: {
+  //           ...newContributionData,
+  //           galleryImages: galleryImages
+  //         }
+  //       })
+  //     }
+  //     input.files[0] && reader.readAsDataURL(input.files[0])
+  //   }
+  // }
+  // _videoHandler = (input) => {
+  //   const {newContributionData} = this.state
+  //   this.setState({
+  //     ...this.state,
+  //     newContributionData: {
+  //       ...newContributionData,
+  //       [LAYER1S.GALLERY_VIDEO_NAME]: null
+  //     }
+  //   }, () => {
+  //     if (input) {
+  //       setTimeout(() => this._setStateForFileField(input, LAYER1S.GALLERY_VIDEO_NAME), 10)
+  //     }
+  //   })
+  // }
+  // _newCertificateHandler = () => {
+  //   const {newContributionData} = this.state
+  //   const {NEW_CERT_TITLE, NEW_CERT_IMAGE, NEW_CERT_LOGO, NEW_CERT_NEED_FOR_VERIFY} = LAYER1S
+  //   const {certificates} = newContributionData
+  //   const index = newContributionData[LAYER1S.NEW_CERT_INDEX]
+  //
+  //   const newCert = {
+  //     [NEW_CERT_TITLE]: newContributionData[NEW_CERT_TITLE],
+  //     [NEW_CERT_IMAGE]: newContributionData[NEW_CERT_IMAGE],
+  //     [NEW_CERT_LOGO]: newContributionData[NEW_CERT_LOGO],
+  //     [NEW_CERT_NEED_FOR_VERIFY]: newContributionData[NEW_CERT_NEED_FOR_VERIFY],
+  //   }
+  //
+  //   const newCertificates: any = (certificates && [...certificates]) || []
+  //   const isEditing = (index === 0) || (index > 0)
+  //   const deleteCount = isEditing ? 1 : 0 // determines that creating or updating.
+  //   const start = isEditing ? index : newCertificates.length // if there is index we want to update a certificate. else we only
+  //   // want to add a new certificate in the end of the certificates.
+  //
+  //   if (newCert[NEW_CERT_TITLE] && newCert[NEW_CERT_IMAGE]) {
+  //     newCertificates.splice(start, deleteCount, newCert)
+  //     this.setState({
+  //       ...this.state,
+  //       newContributionData: {
+  //         ...newContributionData,
+  //         certificates: newCertificates,
+  //         [LAYER1S.NEW_CERT_TITLE]: "",
+  //         [LAYER1S.NEW_CERT_IMAGE]: "",
+  //         [LAYER1S.NEW_CERT_LOGO]: "",
+  //         [LAYER1S.NEW_CERT_INDEX]: "",
+  //         [LAYER1S.NEW_CERT_NEED_FOR_VERIFY]: false,
+  //       },
+  //     })
+  //   }
+  // }
+  // _skillFormTagHandler = (value) => {
+  //   const {skillInfoFormValues, _changeFormSingleFieldValue} = this.props
+  //   const {hashTags} = skillInfoFormValues
+  //   const newHashTags = hashTags.filter(tag => tag.value !== value)
+  //   _changeFormSingleFieldValue(skillInfoFormName, "hashTags", newHashTags)
+  // }
+  // _setStateForFileField = (input, key) => {
+  //   const reader = new FileReader()
+  //   if (input.files && key) {
+  //     reader.onload = () => {
+  //       this.setState({
+  //         ...this.state,
+  //         newContributionData: {...this.state.newContributionData, [key]: reader.result}
+  //       })
+  //     }
+  //     input.files[0] && reader.readAsDataURL(input.files[0])
+  //   }
+  // }
+  // _setStep = (newStep, status) => {
+  //   this.setState({
+  //         ...this.state,
+  //         activeStep: newStep,
+  //         progressStatus: status,
+  //         wrapperClassName: WRAPPER_CLASS_NAMES.EXITING,
+  //       },
+  //       () => {
+  //         this._afterStepChanging()
+  //       })
+  // }
+  // _afterStepChanging = () => {
+  //   setTimeout(() => this.setState({
+  //     ...this.state,
+  //     progressStatus: PROGRESSIVE_STATUS_CHOICES.ACTIVE,
+  //     wrapperClassName: WRAPPER_CLASS_NAMES.ENTERED,
+  //   }), 10)
+  // }
+  // _newContributionMainCategoryHandler = (category) => {
+  //   const data = {...this.state.newContributionData, mainCategory: category}
+  //   this.setState({
+  //     ...this.state,
+  //     newContributionData: {
+  //       ...this.state.newContributionData,
+  //       mainCategory: "transition"
+  //     }
+  //   })
+  //   setTimeout(() => this.setState({
+  //     ...this.state,
+  //     newContributionData: data,
+  //     progressSteps: PROGRESS_STEPS[category]
+  //   }), 300)
+  // }
+  // _handleModalVisibility = () => {
+  //   const {handleModalVisibility} = this.props
+  //   handleModalVisibility()
+  //
+  //   this.setState({
+  //     ...this.state,
+  //     newContributionData: {
+  //       mainCategory: MainCategories[0].value
+  //     },
+  //     activeStep: 1,
+  //     progressSteps: PROGRESS_STEPS[MainCategories[0].value]
+  //   })
+  // }
+  // _shareContribution = () => 1
+  // _introToExchange = () => 1
+  // _findAgent = () => 1
+  // _getCertificateHandler = () => 1
+  // _switchContentByMainCategory = () => {
+  //   const {newContributionData} = this.state
+  //   const {mainCategory} = newContributionData
+  //   switch (mainCategory) {
+  //     case MainCategories[0].value:
+  //       return this._productContentHandler()
+  //     case MainCategories[1].value:
+  //       return this._skillContentHandler()
+  //     default:
+  //       return <span/>
+  //   }
+  // }
+  // _renderNewContribution = () => {
+  //   const {newContributionData} = this.state
+  //   return (
+  //       <NewContribution
+  //           categories={MainCategories}
+  //           goToNextStep={this._nextStep}
+  //           goToPrevStep={this._handleModalVisibility}
+  //           selectedCategory={newContributionData.mainCategory}
+  //           selectCategoryHandler={this._newContributionMainCategoryHandler}
+  //       />
+  //   )
+  // }
+  // _skillContentHandler = () => {
+  //   const {activeStep, newContributionData} = this.state
+  //   const {hashTags, skillInfoFormValues} = this.props
+  //   switch (activeStep) {
+  //     case 1:
+  //       return this._renderNewContribution()
+  //     case 2:
+  //       return (
+  //           <SkillInfoForm
+  //               goToNextStep={this._submitHandler}
+  //               goToPrevStep={this._prevStep}
+  //               hashTags={hashTags}
+  //               destroyOnUnmount={false}
+  //               formVals={skillInfoFormValues}
+  //               tagHandler={this._skillFormTagHandler}
+  //           />
+  //       )
+  //     case 3:
+  //       return (
+  //           <SkillSuccessMessage
+  //               shareContribution={this._shareContribution}
+  //               finishHandler={this._handleModalVisibility}
+  //           />
+  //       )
+  //     default:
+  //       return <span/>
+  //   }
+  // }
+  // _productContentHandler = () => {
+  //   const {newContributionData, activeStep, addingTechPropNow, newTechPropertyData} = this.state
+  //
+  //   const {technicalProperties, [LAYER1S.NEW_CERT_INDEX]: newCertIndex} = newContributionData
+  //
+  //   const {
+  //     translator, categories, initialInfoFormState, hashTags, countries, provinces, cities, nowCreatedProductId
+  //   } = this.props
+  //
+  //   switch (activeStep) {
+  //     case 1:
+  //       return this._renderNewContribution()
+  //     case 2:
+  //       return (
+  //           <InitialInfoReduxForm
+  //               countries={countries}
+  //               destroyOnUnmount={false}
+  //               goToNextStep={this._nextStep}
+  //               goToPrevStep={this._prevStep}
+  //               inputHandler={this._layer1InputsValueHandler}
+  //               newContributionData={newContributionData}
+  //               formVals={initialInfoFormState}
+  //               categories={categories}
+  //               countryChangeHandler={this._countryChangeHandler}
+  //               provinces={provinces}
+  //               provinceChangeHandler={this._provinceChangeHandler}
+  //               cities={cities}
+  //           />
+  //       )
+  //     case 3:
+  //       return (
+  //           <TechnicalProperties
+  //               activationAddPropBlock={this._activationAddTechPropBlock}
+  //               properties={technicalProperties}
+  //               addingTechPropNow={addingTechPropNow}
+  //               inputFillHandler={this._techPropInputFillHandler}
+  //               newPropertyData={newTechPropertyData}
+  //               addOrEditTechProperty={this._addOrEditTechProperty}
+  //               propertiesOrderHandler={this._techPropertiesOrderHandler}
+  //               setNewTechPropertyDate={this._setNewTechPropertyDate}
+  //               goToNextStep={this._nextStep}
+  //               goToPrevStep={this._prevStep}
+  //           />
+  //       )
+  //     case 4:
+  //       return (
+  //           <Certificates
+  //               certificatesImagesHandler={this._certificatesImagesHandler}
+  //               goToNextStep={this._nextStep}
+  //               goToPrevStep={this._prevStep}
+  //               newContributionData={newContributionData}
+  //               setStateForFileField={this._setStateForFileField}
+  //               newCertificateHandler={this._newCertificateHandler}
+  //               inputHandler={this._layer1InputsValueHandler}
+  //               certificateIndexHandler={this._certificateIndexHandler}
+  //               newCertIndex={newCertIndex}
+  //           />
+  //       )
+  //     case 5:
+  //       return (
+  //           <GalleryAndTags
+  //               translator={translator && translator.addingContribution}
+  //               tags={tags}
+  //               tagsSelectionHandler={this._tagsSelectionHandler}
+  //               newContributionData={newContributionData}
+  //               deleteTag={this._deleteTag}
+  //               imageAddEditHandler={this._galleryImageAddEdit}
+  //               imageDeleteHandler={this._galleryImageDelete}
+  //               setMainGalleryImageIndex={this._setMainGalleryImageIndex}
+  //               goToNextStep={this._submitHandler}
+  //               goToPrevStep={this._prevStep}
+  //               videoHandler={this._videoHandler}
+  //               hashTags={hashTags}
+  //           />
+  //       )
+  //     case 6:
+  //       return (
+  //           <SuccessMessage
+  //               shareContribution={this._shareContribution}
+  //               introToExchange={this._introToExchange}
+  //               findAgent={this._findAgent}
+  //               getCertificateHandler={this._getCertificateHandler}
+  //               finishHandler={this._handleModalVisibility}
+  //               nowCreatedId={nowCreatedProductId}
+  //           />
+  //       )
+  //     default:
+  //       return <span/>
+  //   }
+  // }
 
-  }
-  _techPropertiesOrderHandler = (result) => {
-    const {source, destination} = result
-    if (!destination) {
-      return
-    }
-    let sourceIndex, destinationIndex
-    const {technicalProperties = []} = this.state.newContributionData
-    if (source.droppableId === destination.droppableId) {
-      sourceIndex = source.index
-      destinationIndex = destination.index
-    } else {
-      sourceIndex = source.droppableId - 3 + source.index
-      destinationIndex = destination.droppableId - 3 + destination.index
-    }
-    const reOrderedProperties = reorder(
-        technicalProperties.slice(),
-        sourceIndex,
-        destinationIndex
-    )
-    this.setState({
-      ...this.state,
-      newContributionData: {
-        ...this.state.newContributionData,
-        technicalProperties: reOrderedProperties
-      },
-    })
-  }
-  _techPropInputFillHandler = (e) => {
-    const element = e.target
-    const {newTechPropertyData} = this.state
-    let newPropertyData = {
-      ...newTechPropertyData,
-      [element.name]: element.value,
-      id: +element.dataset.propertyId  // + added to convert string to integer
-    }
-    if (newTechPropertyData.id !== undefined) {
-      if (newTechPropertyData.id !== +element.dataset.propertyId) {
-        newPropertyData = {}
-      }
-    }
-    this.setState({
-      ...this.state,
-      newTechPropertyData: newPropertyData
-    })
-  }
-  _setNewTechPropertyDate = property => this.setState({...this.state, newTechPropertyData: property})
-  _addOrEditTechProperty = () => {
-    const {newContributionData, newTechPropertyData} = this.state
-    const {technicalProperties} = newContributionData
-    const newTechnicalProperties = technicalProperties && technicalProperties.map(property => {
-      if (property.id === newTechPropertyData.id) return newTechPropertyData
-      else return property
-    })
+  // _setProductFeature(value, index, type) {
+  //   if (type === "blur") {
+  //     let {productFeatures} = this.state
+  //     let features = productFeatures.slice()
+  //     if (features[index].title.length > 1 && features[index].amount.length > 1) {
+  //       features[index].filled = true
+  //       this.setState({...this.state, productFeatures: features.slice()})
+  //     } else {
+  //       features[index].filled = false
+  //       this.setState({...this.state, productFeatures: features.slice()})
+  //     }
+  //   } else {
+  //     let {productFeatures} = this.state
+  //     let features = productFeatures.slice()
+  //     features[index][type] = value
+  //     this.setState({...this.state, productFeatures: features.slice()})
+  //   }
+  // }
 
-    if (newTechnicalProperties) {
-      this.setState({
-        ...this.state,
-        newContributionData: {
-          ...this.state.newContributionData,
-          technicalProperties: newTechnicalProperties
-        },
-        newTechPropertyData: {},
-      })
-    }
-  }
-  _createSkillHandler = () => {
-    const {_createSkillAction, skillInfoFormValues} = this.props
-    // const {hashTags, ...initialValues} = skillInfoFormValues
-    _createSkillAction(skillInfoFormValues)
-  }
-  _countryChangeHandler = v => {
-    const {_changeFormSingleFieldValue, _getProvinces, initialInfoFormState = {}} = this.props
-    v && _getProvinces(v.value)
-    if (initialInfoFormState[LAYER1S.COUNTRY]) {
-      if (initialInfoFormState[LAYER1S.COUNTRY].value !== v.value) {
-        _changeFormSingleFieldValue(initialInfoFormName, LAYER1S.PROVINCE, "")
-      }
-    }
-
-  } // used in initialInfo
-  _provinceChangeHandler = v => {
-    const {_changeFormSingleFieldValue, _getCities, initialInfoFormState = {}} = this.props
-    v && _getCities(v.value)
-    if (initialInfoFormState[LAYER1S.PROVINCE]) {
-      if (initialInfoFormState[LAYER1S.PROVINCE].value !== v.value) {
-        _changeFormSingleFieldValue(initialInfoFormName, LAYER1S.CITY, "")
-      }
-    }
-
-  } // used in initialInfo
-  _createProductHandler = () => {
-    const identityId = client.getIdentityId()
-    const {newContributionData} = this.state
-    const {
-      technicalProperties,
-      certificates,
-      galleryImages,
-      galleryVideo,
-      tags,
-      mainGalleryImageIndex
-    } = newContributionData
-    const {initialInfoFormState, _createProduct} = this.props
-    const {
-      NAME,
-      DESCRIPTION,
-      COUNTRY,
-      PROVINCE,
-      CITY,
-      CATEGORY_LAYER1,
-      CATEGORY_LAYER2,
-      CATEGORY_LAYER3,
-      PRICE_STATUS,
-      PRODUCT_OWNER
-    } = LAYER1S
-
-    let attrs = technicalProperties && technicalProperties.reduce((result, property) => {
-      const newProperty = property.title ? {[property.title]: property.value} : {}
-      return {
-        ...result,
-        ...newProperty
-      }
-    }, {})
-    attrs = JSON.stringify(attrs)
-    const category = (initialInfoFormState[CATEGORY_LAYER3]) ||
-        initialInfoFormState[CATEGORY_LAYER2] || initialInfoFormState[CATEGORY_LAYER1]
-
-    const product = {
-      [NAME]: initialInfoFormState[NAME],
-      [DESCRIPTION]: initialInfoFormState[DESCRIPTION],
-      [COUNTRY]: initialInfoFormState[COUNTRY].value,
-      [PROVINCE]: initialInfoFormState[PROVINCE].value,
-      [CITY]: initialInfoFormState[CITY].value,
-      [CATEGORY_LAYER3]: category.value,
-      [PRICE_STATUS]: newContributionData[PRICE_STATUS],
-      [PRODUCT_OWNER]: identityId,
-      attrs
-    }
-    const formData = {
-      product,
-      certificates,
-      galleryImages,
-      galleryVideo,
-      tags,
-      mainGalleryImageIndex
-    }
-    _createProduct(formData)
-  }
-  _submitHandler = () => {
-    const {mainCategory} = this.state.newContributionData
-    switch (mainCategory) {
-      case MainCategories[0].value: // in case product.
-        this._createProductHandler()
-        break
-      case MainCategories[1].value: // in case skill.
-        this._createSkillHandler()
-        break
-      default:
-        return
-    }
-  }
-  _tagsSelectionHandler = (resultTags) => {
-    // const {newContributionData} = this.state
-    // const tags = (newContributionData.tags && [...newContributionData.tags, ...resultTags]) || [...resultTags]
-    this.setState({
-      ...this.state,
-      newContributionData: {
-        ...this.state.newContributionData,
-        tags: resultTags
-      }
-    })
-  }
-  _nextStep = () => {
-    const {activeStep, progressSteps} = this.state
-    if (activeStep < progressSteps.length + 1) {
-      this._setStep((activeStep + 1), PROGRESSIVE_STATUS_CHOICES.GOING_NEXT)
-    }
-  }
-  _prevStep = () => {
-    const {activeStep} = this.state
-    if (activeStep !== 1) this._setStep((activeStep - 1), PROGRESSIVE_STATUS_CHOICES.GOING_PREV)
-  }
-  _deleteTag = (value) => {
-    const {newContributionData} = this.state
-    const {tags = []} = newContributionData
-    const newTags = tags.filter(tag => tag.value !== value)
-    this.setState({...this.state, newContributionData: {...newContributionData, tags: newTags}})
-  }
-  _certificatesImagesHandler = (e, id) => {
-    const {newContributionData} = this.state
-    let imgId = id
-    if (!id) {
-      for (let i = 0; i < CERTIFICATES_IMG_IDS.length; i++) {
-        if (!newContributionData[CERTIFICATES_IMG_IDS[i]]) { // looking for first id that has'nt image data yet.
-          imgId = CERTIFICATES_IMG_IDS[i]
-          break
-        }
-      }
-    }
-    const input = e.target
-    this._setStateForFileField(input, imgId)
-  }
-  _certificateIndexHandler = (idx) => {
-    const {certificates} = this.state.newContributionData
-    const cert = (certificates && certificates[idx]) || {}
-
-    this.setState({
-      ...this.state,
-      newContributionData: {
-        ...this.state.newContributionData,
-        ...cert,
-        [LAYER1S.NEW_CERT_INDEX]: idx,
-        // [LAYER1S.NEW_CERT_TITLE]: cert[LAYER1S.NEW_CERT_TITLE],
-        // [LAYER1S.NEW_CERT_IMAGE]: cert[LAYER1S.NEW_CERT_IMAGE],
-        // [LAYER1S.NEW_CERT_LOGO]: cert[LAYER1S.NEW_CERT_LOGO],
-        // [LAYER1S.NEW_CERT_NEED_FOR_VERIFY]: cert[LAYER1S.NEW_CERT_NEED_FOR_VERIFY],
-      }
-    })
-  }
-  _galleryImageDelete = (idx) => {
-    const {newContributionData} = this.state
-    let galleryImages: any = (newContributionData.galleryImages && [...newContributionData.galleryImages]) || []
-    galleryImages.splice(idx, 1)
-    this.setState({
-      ...this.state,
-      newContributionData: {
-        ...newContributionData,
-        galleryImages: galleryImages
-      }
-    })
-  }
-  _setMainGalleryImageIndex = (idx) => {
-    const {newContributionData} = this.state
-    const mainIndex = ((newContributionData.mainGalleryImageIndex === idx) && 10) || idx
-    this.setState({
-      ...this.state,
-      newContributionData: {
-        ...newContributionData,
-        mainGalleryImageIndex: mainIndex
-      }
-    })
-  }
-  _layer1InputsValueHandler = (value, key) => {
-    this.setState({
-      ...this.state,
-      newContributionData: {
-        ...this.state.newContributionData,
-        [key]: value
-      }
-    })
-  }
-  _galleryImageAddEdit = (input, idx) => {
-    const {newContributionData} = this.state
-    const reader = new FileReader()
-    let galleryImages: any = (newContributionData.galleryImages && [...newContributionData.galleryImages]) || []
-    if (input.files) {
-      reader.onload = () => {
-        galleryImages.splice(idx, 1, reader.result)
-        this.setState({
-          ...this.state,
-          newContributionData: {
-            ...newContributionData,
-            galleryImages: galleryImages
-          }
-        })
-      }
-      input.files[0] && reader.readAsDataURL(input.files[0])
-    }
-  }
-  _videoHandler = (input) => {
-    const {newContributionData} = this.state
-    this.setState({
-      ...this.state,
-      newContributionData: {
-        ...newContributionData,
-        [LAYER1S.GALLERY_VIDEO_NAME]: null
-      }
-    }, () => {
-      if (input) {
-        setTimeout(() => this._setStateForFileField(input, LAYER1S.GALLERY_VIDEO_NAME), 10)
-      }
-    })
-  }
-  _newCertificateHandler = () => {
-    const {newContributionData} = this.state
-    const {NEW_CERT_TITLE, NEW_CERT_IMAGE, NEW_CERT_LOGO, NEW_CERT_NEED_FOR_VERIFY} = LAYER1S
-    const {certificates} = newContributionData
-    const index = newContributionData[LAYER1S.NEW_CERT_INDEX]
-
-    const newCert = {
-      [NEW_CERT_TITLE]: newContributionData[NEW_CERT_TITLE],
-      [NEW_CERT_IMAGE]: newContributionData[NEW_CERT_IMAGE],
-      [NEW_CERT_LOGO]: newContributionData[NEW_CERT_LOGO],
-      [NEW_CERT_NEED_FOR_VERIFY]: newContributionData[NEW_CERT_NEED_FOR_VERIFY],
-    }
-
-    const newCertificates: any = (certificates && [...certificates]) || []
-    const isEditing = (index === 0) || (index > 0)
-    const deleteCount = isEditing ? 1 : 0 // determines that creating or updating.
-    const start = isEditing ? index : newCertificates.length // if there is index we want to update a certificate. else we only
-    // want to add a new certificate in the end of the certificates.
-
-    if (newCert[NEW_CERT_TITLE] && newCert[NEW_CERT_IMAGE]) {
-      newCertificates.splice(start, deleteCount, newCert)
-      this.setState({
-        ...this.state,
-        newContributionData: {
-          ...newContributionData,
-          certificates: newCertificates,
-          [LAYER1S.NEW_CERT_TITLE]: "",
-          [LAYER1S.NEW_CERT_IMAGE]: "",
-          [LAYER1S.NEW_CERT_LOGO]: "",
-          [LAYER1S.NEW_CERT_INDEX]: "",
-          [LAYER1S.NEW_CERT_NEED_FOR_VERIFY]: false,
-        },
-      })
-    }
-  }
-  _skillFormTagHandler = (value) => {
-    const {skillInfoFormValues, _changeFormSingleFieldValue} = this.props
-    const {hashTags} = skillInfoFormValues
-    const newHashTags = hashTags.filter(tag => tag.value !== value)
-    _changeFormSingleFieldValue(skillInfoFormName, "hashTags", newHashTags)
-  }
-  _setStateForFileField = (input, key) => {
-    const reader = new FileReader()
-    if (input.files && key) {
-      reader.onload = () => {
-        this.setState({
-          ...this.state,
-          newContributionData: {...this.state.newContributionData, [key]: reader.result}
-        })
-      }
-      input.files[0] && reader.readAsDataURL(input.files[0])
-    }
-  }
-  _setStep = (newStep, status) => {
-    this.setState({
-          ...this.state,
-          activeStep: newStep,
-          progressStatus: status,
-          wrapperClassName: WRAPPER_CLASS_NAMES.EXITING,
-        },
-        () => {
-          this._afterStepChanging()
-        })
-  }
-  _afterStepChanging = () => {
-    setTimeout(() => this.setState({
-      ...this.state,
-      progressStatus: PROGRESSIVE_STATUS_CHOICES.ACTIVE,
-      wrapperClassName: WRAPPER_CLASS_NAMES.ENTERED,
-    }), 10)
-  }
-  _newContributionMainCategoryHandler = (category) => {
-    const data = {...this.state.newContributionData, mainCategory: category}
-    this.setState({
-      ...this.state,
-      newContributionData: {
-        ...this.state.newContributionData,
-        mainCategory: "transition"
-      }
-    })
-    setTimeout(() => this.setState({
-      ...this.state,
-      newContributionData: data,
-      progressSteps: PROGRESS_STEPS[category]
-    }), 300)
-  }
-  _handleModalVisibility = () => {
-    const {handleModalVisibility} = this.props
-    handleModalVisibility()
-
-    this.setState({
-      ...this.state,
-      newContributionData: {
-        mainCategory: MainCategories[0].value
-      },
-      activeStep: 1,
-      progressSteps: PROGRESS_STEPS[MainCategories[0].value]
-    })
-  }
-  _shareContribution = () => 1
-  _introToExchange = () => 1
-  _findAgent = () => 1
-  _getCertificateHandler = () => 1
-  _switchContentByMainCategory = () => {
-    const {newContributionData} = this.state
-    const {mainCategory} = newContributionData
-    switch (mainCategory) {
-      case MainCategories[0].value:
-        return this._productContentHandler()
-      case MainCategories[1].value:
-        return this._skillContentHandler()
-      default:
-        return <span/>
-    }
-  }
-  _renderNewContribution = () => {
-    const {newContributionData} = this.state
-    return (
-        <NewContribution
-            categories={MainCategories}
-            goToNextStep={this._nextStep}
-            goToPrevStep={this._handleModalVisibility}
-            selectedCategory={newContributionData.mainCategory}
-            selectCategoryHandler={this._newContributionMainCategoryHandler}
-        />
-    )
-  }
-  _skillContentHandler = () => {
-    const {activeStep, newContributionData} = this.state
-    const {hashTags, skillInfoFormValues} = this.props
-    switch (activeStep) {
-      case 1:
-        return this._renderNewContribution()
-      case 2:
-        return (
-            <SkillInfoForm
-                goToNextStep={this._submitHandler}
-                goToPrevStep={this._prevStep}
-                hashTags={hashTags}
-                destroyOnUnmount={false}
-                formVals={skillInfoFormValues}
-                tagHandler={this._skillFormTagHandler}
-            />
-        )
-      case 3:
-        return (
-            <SkillSuccessMessage
-                shareContribution={this._shareContribution}
-                finishHandler={this._handleModalVisibility}
-            />
-        )
-      default:
-        return <span/>
-    }
-  }
-  _productContentHandler = () => {
-    const {newContributionData, activeStep, addingTechPropNow, newTechPropertyData} = this.state
-
-    const {technicalProperties, [LAYER1S.NEW_CERT_INDEX]: newCertIndex} = newContributionData
-
-    const {
-      translator, categories, initialInfoFormState, hashTags, countries, provinces, cities, nowCreatedProductId
-    } = this.props
-
-    switch (activeStep) {
-      case 1:
-        return this._renderNewContribution()
-      case 2:
-        return (
-            <InitialInfoReduxForm
-                countries={countries}
-                destroyOnUnmount={false}
-                goToNextStep={this._nextStep}
-                goToPrevStep={this._prevStep}
-                inputHandler={this._layer1InputsValueHandler}
-                newContributionData={newContributionData}
-                formVals={initialInfoFormState}
-                categories={categories}
-                countryChangeHandler={this._countryChangeHandler}
-                provinces={provinces}
-                provinceChangeHandler={this._provinceChangeHandler}
-                cities={cities}
-            />
-        )
-      case 3:
-        return (
-            <TechnicalProperties
-                activationAddPropBlock={this._activationAddTechPropBlock}
-                properties={technicalProperties}
-                addingTechPropNow={addingTechPropNow}
-                inputFillHandler={this._techPropInputFillHandler}
-                newPropertyData={newTechPropertyData}
-                addOrEditTechProperty={this._addOrEditTechProperty}
-                propertiesOrderHandler={this._techPropertiesOrderHandler}
-                setNewTechPropertyDate={this._setNewTechPropertyDate}
-                goToNextStep={this._nextStep}
-                goToPrevStep={this._prevStep}
-            />
-        )
-      case 4:
-        return (
-            <Certificates
-                certificatesImagesHandler={this._certificatesImagesHandler}
-                goToNextStep={this._nextStep}
-                goToPrevStep={this._prevStep}
-                newContributionData={newContributionData}
-                setStateForFileField={this._setStateForFileField}
-                newCertificateHandler={this._newCertificateHandler}
-                inputHandler={this._layer1InputsValueHandler}
-                certificateIndexHandler={this._certificateIndexHandler}
-                newCertIndex={newCertIndex}
-            />
-        )
-      case 5:
-        return (
-            <GalleryAndTags
-                translator={translator && translator.addingContribution}
-                tags={tags}
-                tagsSelectionHandler={this._tagsSelectionHandler}
-                newContributionData={newContributionData}
-                deleteTag={this._deleteTag}
-                imageAddEditHandler={this._galleryImageAddEdit}
-                imageDeleteHandler={this._galleryImageDelete}
-                setMainGalleryImageIndex={this._setMainGalleryImageIndex}
-                goToNextStep={this._submitHandler}
-                goToPrevStep={this._prevStep}
-                videoHandler={this._videoHandler}
-                hashTags={hashTags}
-            />
-        )
-      case 6:
-        return (
-            <SuccessMessage
-                shareContribution={this._shareContribution}
-                introToExchange={this._introToExchange}
-                findAgent={this._findAgent}
-                getCertificateHandler={this._getCertificateHandler}
-                finishHandler={this._handleModalVisibility}
-                nowCreatedId={nowCreatedProductId}
-            />
-        )
-      default:
-        return <span/>
-    }
-  }
-
-  nextLevel() {
-    let {currentLevel} = this.state
-    switch (currentLevel) {
-      case "one":
-        this.setState({...this.state, currentLevel: "two"})
-        break
-      case "two":
-        this.setState({...this.state, currentLevel: "three"})
-        break
-        // case "three":
-        //   this.setState({...this.state, currentLevel: "four"})
-        //   break
-        // case "four":
-        //   this.setState({...this.state, currentLevel: "five"})
-        //   break
-      default :
-        this.setState({...this.state, currentLevel: "one"})
-        break
-    }
-  }
-
-  previousLevel() {
-    let {currentLevel} = this.state
-    switch (currentLevel) {
-      case "two":
-        this.setState({...this.state, currentLevel: "one"})
-        break
-      case "three":
-        this.setState({...this.state, currentLevel: "two"})
-        break
-        // case "four":
-        //   this.setState({...this.state, currentLevel: "three"})
-        //   break
-        // case "five":
-        //   this.setState({...this.state, currentLevel: "four"})
-        //   break
-      default :
-        this.setState({...this.state, currentLevel: "one"})
-        break
-    }
-  }
+  // _priceHandler = (value) => {
+  //   this.setState({...this.state, priceType: value})
+  // }
 
   renderProgressBar() {
     let {currentLevel} = this.state
@@ -890,47 +923,6 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     )
   }
 
-  _changeSelectedType = (selected) => {
-    this.setState({...this.state, selectedType: selected})
-  }
-
-  _setProductFeature(value, index, type) {
-    if (type === "blur") {
-      let {productFeatures} = this.state
-      let features = productFeatures.slice()
-      if (features[index].title.length > 1 && features[index].amount.length > 1) {
-        features[index].filled = true
-        this.setState({...this.state, productFeatures: features.slice()})
-      } else {
-        features[index].filled = false
-        this.setState({...this.state, productFeatures: features.slice()})
-      }
-    } else {
-      let {productFeatures} = this.state
-      let features = productFeatures.slice()
-      features[index][type] = value
-      this.setState({...this.state, productFeatures: features.slice()})
-    }
-  }
-
-  _handleCatLvlChange(cat, level) {
-    let {categories} = this.props
-    if (level === "one") {
-      let selected = Object.values(categories.list).filter(p => p.id === cat.id)
-      let childes = Object.values(categories.list).filter(p => p.category_parent === cat.id)
-      console.log(selected[0])
-      this.setState({...this.state, selectedCatLvlOne: selected[0], catLvlTwo: childes.slice()})
-    } else if (level === "two") {
-      let selected = Object.values(categories.list).filter(p => p.id === cat.id)
-      console.log(selected[0])
-      this.setState({...this.state, selectedCatLvlTwo: selected[0]})
-    } else if (level === "three") {
-      let selected = Object.values(categories.list).filter(p => p.id === cat.id)
-      console.log(selected[0])
-      this.setState({...this.state, selectedCatLvlThree: selected[0]})
-    }
-  }
-
   renderCurrentLevel() {
     let {
       currentLevel,
@@ -948,6 +940,15 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       catLvlOne,
       catLvlTwo,
       catLvlThree,
+      countryList,
+      provinceList,
+      cityList,
+      productName,
+      productNameError,
+      productDescriptionError,
+      selectedCountryError,
+      selectedProvinceError,
+      selectedCityError,
     } = this.state
     let {translator} = this.props
     switch (currentLevel) {
@@ -1024,29 +1025,46 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
             <div className="contribution-product-two">
               <div className={"gray-text-input-label-container"}>
                 <label className="gray-text-input-label">عنوان آورده:</label>
-                <input type="text" className="form-control gray-text-input"
+                <input type="text" className="form-control gray-text-input" defaultValue={productName}
                        onChange={(e) => this.setState({...this.state, productName: e.target.value})}/>
+                <div ref={e => this.nameError = e} className={"product-name-error-hide"}>طول نام غیر مجاز است</div>
               </div>
-              <div className={"gray-text-input-label-container"}>
+              <div className={"gray-text-input-label-container"}> {/*TODO: SET THREE AREA FIELD*/}
                 <label className="gray-text-input-label">محدوده جغرافیایی:</label>
-                <input type="text" className="form-control gray-text-input"/>
+                {/*<input type="text" className="form-control gray-text-input"/>*/}
+                <div className={"inteli-area"}>
+                  <InteliInput list={countryList} handleChange={(data) => this._handleCountry(data)}/>
+                </div>
+                <div className={"inteli-area"}>
+                  <InteliInput list={provinceList} handleChange={(data) => this._handleProvince(data)}/>
+                </div>
+                <div className={"inteli-area"}>
+                  <InteliInput list={cityList} handleChange={(data) => this._handleCity(data)}/>
+                </div>
+                <div ref={e => this.locationError = e} className={"product-name-error-hide"}>محدوده جغرافیایی را کامل انتخاب کنید</div>
+
               </div>
 
               <div className={"gray-text-input-label-container"}>
                 <label className="gray-text-input-label">طبقه اول دسته بندی:</label>
-                <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "one")} list={catLvlOne}/>
+                <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "one")}
+                             list={catLvlOne}/>
                 <div className={"gray-text-input-label-container full"}>
                   <label className="gray-text-input-label">طبقه دوم دسته بندی:</label>
-                  <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "two")} list={catLvlTwo}/>
+                  <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "two")}
+                               list={catLvlTwo}/>
                 </div>
                 <div className={"gray-text-input-label-container full"}>
                   <label className="gray-text-input-label">طبقه سوم دسته بندی:</label>
-                  <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "three")} list={catLvlThree}/>
+                  <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "three")}
+                               list={catLvlThree}/>
                 </div>
               </div>
               <div className={"gray-text-input-label-container"}>
-                <label className="gray-text-input-label">توصیف اجمالی محصول:</label>
-                <textarea name="description" className="form-control gray-textarea-input"/>
+                <label className="gray-text-input-label">توصیف اجمالی آورده:</label>
+                <textarea name="description" className="form-control gray-textarea-input"
+                          onChange={(e) => this.setState({...this.state, productDescription: e.target.value})}/>
+                <div ref={e => this.descriptionError = e} className={"product-name-error-hide"}>طول توضیحات غیر مجاز است</div>
               </div>
               {/*<div className={"gray-text-input-label-container"}>
                <label className="gray-text-input-label">قیمت:</label>
@@ -1075,7 +1093,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
                     :
                     <UploadIcon className={"create-product-upload-svg"}/>
                 }
-                {!processing ?
+                {!processing && selectedImageId.length < 5 ?
                     <input type="file" accept="image/*" onChange={e => this._uploadHandler(e.currentTarget.files[0])}/>
                     : null}
               </div>
@@ -1198,12 +1216,19 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
   }
 
   renderFooter() {
-    let {currentLevel} = this.state
+    let {currentLevel, processing} = this.state
     return (
         <div className={"contribution-footer"}>
-          <button className={"next-button"} onClick={() => currentLevel === "three" ? this._closeModal() : this.nextLevel()}>
+          <button className={"next-button"}
+                  onClick={() => currentLevel === "three" ?
+                      processing ?
+                          null : this._handleCreateProduct()
+                      : this.nextLevel()}>
             <div>
-              {currentLevel === "three" ? "ثبت" : "بعدی"}
+              {currentLevel === "three" ?
+                  processing ?
+                      <ClipLoader color="#35495c" size={20} loading={true}/> : "ثبت"
+                  : "بعدی"}
             </div>
           </button>
 
@@ -1215,12 +1240,208 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     )
   }
 
-  _closeModal() {
-    this.setState({...this.state, currentLevel: "one"}, this.props.handleModalVisibility())
+  nextLevel() {
+    let {
+      currentLevel, productName, productDescription, selectedCountry, selectedProvince, selectedCity,
+      productNameError, productDescriptionError, selectedCountryError, selectedProvinceError, selectedCityError,
+    } = this.state
+    switch (currentLevel) {
+      case "one":
+        this.setState({
+          ...this.state,
+          currentLevel: "two",
+          // productName: "",
+          productDescription: "",
+          selectedImage: [],
+          selectedImageId: [],
+          selectedCountry: null,
+          selectedProvince: null,
+          selectedCity: null,
+        })
+        break
+      case "two":
+        if (productName.length < 1 || productName.length > 99) {
+          this.nameError.className = "product-name-error"
+          this.descriptionError.className = "product-name-error-hide"
+          this.locationError.className = "product-name-error-hide"
+        } else if (productDescription.length > 999) {
+          this.nameError.className = "product-name-error-hide"
+          this.descriptionError.className = "product-name-error"
+          this.locationError.className = "product-name-error-hide"
+        } else if (selectedCity === null) {
+          this.nameError.className = "product-name-error-hide"
+          this.descriptionError.className = "product-name-error-hide"
+          this.locationError.className = "product-name-error"
+        } else {
+          this.nameError.className = "product-name-error-hide"
+          this.descriptionError.className = "product-name-error-hide"
+          this.locationError.className = "product-name-error"
+          this.setState({...this.state, currentLevel: "three"})
+        }
+        break
+        // case "three":
+        //   this.setState({...this.state, currentLevel: "four"})
+        //   break
+        // case "four":
+        //   this.setState({...this.state, currentLevel: "five"})
+        //   break
+      default :
+        this.setState({...this.state, currentLevel: "one"})
+        break
+    }
   }
 
-  _priceHandler = (value) => {
-    this.setState({...this.state, priceType: value})
+  previousLevel() {
+    let {currentLevel} = this.state
+    switch (currentLevel) {
+      case "two":
+        this.setState({
+          ...this.state,
+          currentLevel: "one",
+          // productName: "",
+          productDescription: "",
+          selectedImage: [],
+          selectedImageId: [],
+          selectedCountry: null,
+          selectedProvince: null,
+          selectedCity: null,
+        })
+        break
+      case "three":
+        this.setState({
+          ...this.state,
+          currentLevel: "two",
+          // productName: "",
+          productDescription: "",
+          selectedImage: [],
+          selectedImageId: [],
+          selectedCountry: null,
+          selectedProvince: null,
+          selectedCity: null,
+        })
+        break
+        // case "four":
+        //   this.setState({...this.state, currentLevel: "three"})
+        //   break
+        // case "five":
+        //   this.setState({...this.state, currentLevel: "four"})
+        //   break
+      default :
+        this.setState({...this.state, currentLevel: "one"})
+        break
+    }
+  }
+
+  _changeSelectedType = (selected) => {
+    this.setState({...this.state, selectedType: selected})
+  }
+
+  _handleCatLvlChange(cat, level) {
+    let {categories} = this.props
+    if (level === "one") {
+      let selected = Object.values(categories.list).filter(p => p.id === cat.id)
+      let childes = Object.values(categories.list).filter(p => p.category_parent === cat.id)
+      console.log(selected[0])
+      this.setState({
+        ...this.state,
+        selectedCatLvlOne: selected[0].id,
+        catLvlTwo: childes.slice(),
+        selectedCatLvlTwo: null,
+        selectedCatLvlThree: null
+      })
+    } else if (level === "two") {
+      let selected = Object.values(categories.list).filter(p => p.id === cat.id)
+      let childes = Object.values(categories.list).filter(p => p.category_parent === cat.id)
+      console.log(selected[0])
+      this.setState({
+        ...this.state,
+        selectedCatLvlTwo: selected[0].id,
+        catLvlThree: childes.slice(),
+        selectedCatLvlThree: null
+      })
+    } else if (level === "three") {
+      let selected = Object.values(categories.list).filter(p => p.id === cat.id)
+      console.log(selected[0])
+      this.setState({...this.state, selectedCatLvlThree: selected[0].id})
+    }
+  }
+
+  _handleCountry(data) {
+    const {_getProvinces, province} = this.props
+    _getProvinces(data.id)
+    let provins = Object.values(province.list).filter(p => p.province_related_country === data.id)
+    this.setState({...this.state, provinceList: provins.slice(), selectedCountry: data.id, selectedProvince: null, selectedCity: null})
+  }
+
+  _handleProvince(data) {
+    const {_getCities, city} = this.props
+    _getCities(data.id)
+    let cits = Object.values(city.list).filter(p => p.town_related_province === data.id)
+    this.setState({...this.state, cityList: cits.slice(), selectedProvince: data.id, selectedCity: null})
+  }
+
+  _handleCity(data) {
+    this.setState({...this.state, selectedCity: data.id})
+  }
+
+  _closeModal() {
+    this.setState({
+      ...this.state,
+      currentLevel: "one",
+      productName: "",
+      productDescription: "",
+      selectedImage: [],
+      selectedImageId: [],
+      selectedCountry: null,
+      selectedProvince: null,
+      selectedCity: null,
+    }, this.props.handleModalVisibility())
+  }
+
+  _handleCreateProduct() {
+    let {_createProduct, identity} = this.props
+    let {
+      selectedImage,
+      selectedImageId,
+      productDescription,
+      productName,
+      selectedCatLvlOne,
+      selectedCatLvlTwo,
+      selectedCatLvlThree,
+      selectedCountry,
+      selectedProvince,
+      selectedCity,
+    } = this.state
+
+    let productInfo = {
+      // attrs: undefined,
+      description: productDescription,
+      name: productName,
+      product_owner: identity,
+      files_count: selectedImage.length,
+      product_related_country: selectedCountry,
+      product_related_province: selectedProvince,
+      product_related_town: selectedCity,
+      product_category:
+          selectedCatLvlThree !== null ?
+              selectedCatLvlThree
+              :
+              selectedCatLvlTwo !== null ?
+                  selectedCatLvlTwo
+                  :
+                  selectedCatLvlOne,
+    }
+    let formData = {
+      product: productInfo,
+      // certificates: undefined,
+      // tags: undefined,
+      // galleryImages: selectedImage.slice(),
+      galleryImages: selectedImageId.slice(),
+      galleryVideo: undefined,
+      mainGalleryImageIndex: 0,
+    }
+    _createProduct(formData)
+    this._closeModal()
   }
 
   _uploadHandler = (fileString: any) => {
@@ -1263,37 +1484,37 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
   }
 
   render() {
-    const {activeStep, progressSteps, progressStatus, wrapperClassName, newContributionData} = this.state
-    const {mainCategory = ""} = newContributionData
+    // const {activeStep, progressSteps, progressStatus, wrapperClassName, newContributionData} = this.state
+    // const {mainCategory = ""} = newContributionData
     // const {currentLevel} = this.state
     const {modalIsOpen} = this.props
     return (
         <div
-            // className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}
+            className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}
         >
-          {/*{this.renderProgressBar()}*/}
+          {this.renderProgressBar()}
 
-          {/*{this.renderCurrentLevel()}*/}
+          {this.renderCurrentLevel()}
 
-          {/*{this.renderFooter()}*/}
+          {this.renderFooter()}
 
-          <Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>
-          <ModalBody className="adding-contribution-wrapper">
-          <FontAwesome name="times" size="2x" className="close-btn"
-          onClick={this._handleModalVisibility}/>
-          <div className={`progressive-wrapper ${mainCategory}`}>
-          <MenuProgressive
-          steps={progressSteps}
-          activeStep={activeStep}
-          status={progressStatus}
-          // stepsClassName={mainCategory}
-          />
-          </div>
-          <div className={`wrapper ${wrapperClassName}`}>
-          {this._switchContentByMainCategory()}
-          </div>
-          </ModalBody>
-          </Modal>
+          {/*<Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>*/}
+          {/*<ModalBody className="adding-contribution-wrapper">*/}
+          {/*<FontAwesome name="times" size="2x" className="close-btn"*/}
+          {/*onClick={this._handleModalVisibility}/>*/}
+          {/*<div className={`progressive-wrapper ${mainCategory}`}>*/}
+          {/*<MenuProgressive*/}
+          {/*steps={progressSteps}*/}
+          {/*activeStep={activeStep}*/}
+          {/*status={progressStatus}*/}
+          {/*// stepsClassName={mainCategory}*/}
+          {/*/>*/}
+          {/*</div>*/}
+          {/*<div className={`wrapper ${wrapperClassName}`}>*/}
+          {/*{this._switchContentByMainCategory()}*/}
+          {/*</div>*/}
+          {/*</ModalBody>*/}
+          {/*</Modal>*/}
 
         </div>
     )
@@ -1319,9 +1540,11 @@ const mapStateToProps = (state) => {
     hashTags: hashTagsListSelector(state),
     countries: countrySelector(state),
     provinces: provinceSelectorByProvinceId(state, countryId),
+    province: state.common.location.province,
     identity,
     clientFiles: fileSelectorByKeyValue(state, "identity", identity),
     cities: citySelectorByProvinceId(state, provinceId),
+    city: state.common.location.city,
     testToken: state.auth.client.token,
     nowCreatedProductId: nowCreatedProductIdSelector(state),
     nowCreatedSkillId: nowCreatedSkillIdSelector(state),

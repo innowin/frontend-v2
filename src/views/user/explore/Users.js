@@ -18,7 +18,7 @@ const loadingArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 const Users = (props: appProps) => {
   let {users, followees, followers, justFollowing, justFollowed} = props
 
-  users = Object.values(users).filter(user => user.profile)
+  users = Object.values(users).filter(user => user.profile && user.profile.content && user.profile.content.profile_user.id)
 
   if (justFollowing && justFollowed) {
     users = users.filter((user: Object) =>

@@ -10,6 +10,7 @@ import {withRouter} from "react-router-dom"
 import {persistStore} from 'redux-persist'
 import {PersistGate} from 'redux-persist/integration/react'
 import detectUserAgent from 'src/helpers/detectUserAgent'
+import init from 'src/consts/ga'
 
 const WrappedApp = withRouter(App)
 const store = configureStore()
@@ -17,6 +18,8 @@ export const persistor = persistStore(store)
 // persistor.purge()
 runSaga()
 detectUserAgent()
+//initializing google analytics
+init()
 
 ReactDOM.render(
 		<Provider store={store}>

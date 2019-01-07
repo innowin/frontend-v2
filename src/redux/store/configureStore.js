@@ -1,6 +1,8 @@
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/hardSet'
 import createEncryptor from 'redux-persist-transform-encrypt'
 import createHistory from 'history/createBrowserHistory'
 import createSagaMiddleware from 'redux-saga'
+import gaMiddleware from './gaMiddleware'
 import migrations from 'src/redux/migrations'
 import rootReducer from '../reducers/rootReducer'
 import rootSaga from '../sagas/rootSaga'
@@ -9,7 +11,6 @@ import {createLogger} from 'redux-logger'
 import {createStore, applyMiddleware} from 'redux'
 import {persistReducer, createMigrate} from 'redux-persist'
 import {routerMiddleware} from 'react-router-redux'
-import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/hardSet'
 
 //creating logger
 const logger = createLogger({
@@ -47,6 +48,7 @@ const configureStore = () => {
       applyMiddleware(
           navMiddleware,
           sagaMiddleware,
+          gaMiddleware,
           logger
       )
   )

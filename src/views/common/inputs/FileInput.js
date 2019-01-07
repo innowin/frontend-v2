@@ -117,7 +117,7 @@ export class FileInput extends Component {
     }
 
     return (
-      <div className={cx("col-12 form-group", {'has-danger': error})}>
+      <div className={cx("col-12 form-group display-none", {'has-danger': error})}>
         <label className="w-100">{label}</label>
         <label className="custom-file w-100">
           {/*// TODO mohsen: handle cancel event for remove selected file*/}

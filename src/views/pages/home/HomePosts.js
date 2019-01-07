@@ -111,7 +111,7 @@ class HomePosts extends PureComponent
                           <Post
                               posts={posts}
                               post={post}
-                              key={post.id + "HomePosts"}
+                              key={post.id}
                               deletePost={deletePost}
                               updatePost={updatePost}
                           />

@@ -430,6 +430,25 @@ $heightOfContentBox: 140px;
   }
 }
 
+.bee-name-text-box-left {
+  border-radius: 3px;
+  border: 1px solid $register-part-in-icon-color;
+  text-align: left;
+  direction: ltr;
+  width: 100%;
+  font-size: 12px;
+  padding: 5px;
+  margin-top: 10px;
+  transition-duration: 0.3s;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
+    transition-duration: 0.3s;
+    border: 1px solid $tag-del-btn-background;
+  }
+}
+
 .bee-loading {
   margin: 10px 0;
   color: $register-part-in-icon-color;

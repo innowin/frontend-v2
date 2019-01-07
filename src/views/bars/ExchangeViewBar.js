@@ -13,8 +13,11 @@ import ExchangeMembershipActions from "../../redux/actions/commonActions/exchang
 import {DefaultUserIcon} from "src/images/icons"
 import {BeatLoader, ClipLoader} from "react-spinners"
 import {REST_URL} from "src/consts/URLS"
-import {getExchangeMembershipsSelector} from "../../redux/selectors/common/social/getExchangeMemberships"
+import {getExchangeMembershipsSelector} from "src/redux/selectors/common/social/getExchangeMemberships"
 import {Link, Redirect} from "react-router-dom"
+import type {ImageType} from "../pages/modal/createExchange/basicInfo"
+import makeFileSelectorByKeyValue from "src/redux/selectors/common/file/selectFilsByKeyValue"
+import {createFile} from "src/redux/actions/commonActions/fileActions"
 
 
 class ExchangeViewBar extends Component {
@@ -40,7 +43,10 @@ class ExchangeViewBar extends Component {
       editView: false,
       loadingEdit: false,
       unFollowed: false,
-      notFound: false
+      notFound: false,
+      selectedImageTemp: null,
+      selectedImage: null,
+      processing: false,
     }
     this.follow = this.follow.bind(this)
     this.exchangeAdminMenu = React.createRef()
@@ -140,6 +146,19 @@ class ExchangeViewBar extends Component {
     }
   }
 
+  componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot: SS): void {
+    let {clientFiles} = this.props
+    const lastFile = clientFiles[clientFiles.length - 1] || {}
+    const prevLastFile = prevProps.clientFiles[prevProps.clientFiles.length - 1] || {}
+
+    if (lastFile.id && prevLastFile.id) {
+      if (lastFile.id !== prevLastFile.id) {
+        this._imageHandler(lastFile)
+      }
+    }
+
+  }
+
   componentWillUnmount() {
     document.removeEventListener("mousedown", this.handleClickOutside)
   }
@@ -206,23 +225,48 @@ class ExchangeViewBar extends Component {
     deleteExchange(exchangeId)
   }
 
+  _uploadHandler = (fileString: any) => {
+    const reader = new FileReader()
+    if (fileString) {
+      reader.readAsDataURL(fileString)
+      reader.onload = () => {
+        this.setState({
+          ...this.state,
+          selectedImageTemp: reader.result
+        }, this._createFile)
+      }
+    }
+  }
+  _createFile = () => {
+    const {createFile} = this.props.actions
+    this.setState({...this.state, processing: true})
+    createFile({file_string: this.state.selectedImageTemp})
+  }
+  _imageHandler = (img: ImageType) => {
+    this.setState({
+      ...this.state,
+      selectedImage: img,
+      processing: false
+    })
+  }
+
   handleEditButton() {
     // alert(this.editDescription.value.length)
     // alert(this.editName.value)
     if (this.editDescription && this.editDescription.value.length <= 100) {
+      const {selectedImage} = this.state
       const {actions, exchangeId} = this.props
       const {editExchange, getExchangeByExId} = actions
       let formValues = {
         exchange_id: exchangeId,
         exchange_description: this.editDescription && this.editDescription.value,
         exchange_name: this.editName && this.editName.value,
-        exchange_media: null
+        exchange_media: selectedImage.id
       }
       editExchange(formValues)
       // getExchangeByExId(exchangeId)
       this.setState({...this.state, loadingEdit: true})
-    }
-    else console.log("Description Length is too much")
+    } else console.log("Description Length is too much")
   }
 
   handleUnfollowExchange() {
@@ -260,7 +304,7 @@ class ExchangeViewBar extends Component {
   render() {
     const {
       exchange, badgesImgUrl, demandCount, supplyCount, productCount, tags, unFollowed,
-      members, isLoading, error, followLoading, imageLoaded, editView, loadingEdit, notFound
+      members, isLoading, error, followLoading, imageLoaded, editView, loadingEdit, notFound, processing, selectedImage
     } = this.state
     const {translate, exchanges, exchangeId, currentUserId} = this.props
     if (exchanges.list[exchangeId]) {
@@ -298,45 +342,62 @@ class ExchangeViewBar extends Component {
 
                     currentExchange.exchange_image && imageLoaded ?
                         <img className="exchangeViewBarImg" alt={translate["Exchange Picture"]}
-                             src={currentExchange.exchange_image.file.includes("innowin.ir") ?
-                                 currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file}/>
+                             src={selectedImage ? selectedImage.file :
+                                 currentExchange.exchange_image.file.includes("innowin.ir") ?
+                                     currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file}/>
                         :
                         currentExchange.exchange && currentExchange.exchange.content.exchange_image ?
                             <img className="exchangeViewBarImg" alt={translate["Exchange Picture"]}
-                                 src={currentExchange.exchange.content.exchange_image.file.includes("innowin.ir") ?
-                                     currentExchange.exchange.content.exchange_image.file :
-                                     REST_URL + currentExchange.exchange.content.exchange_image.file}/>
+                                 src={selectedImage ? selectedImage.file :
+                                     currentExchange.exchange.content.exchange_image.file.includes("innowin.ir") ?
+                                         currentExchange.exchange.content.exchange_image.file :
+                                         REST_URL + currentExchange.exchange.content.exchange_image.file}/>
                             :
                             <DefaultUserIcon className="exchangeViewBarImg"/>
 
                     :
 
                     currentExchange.exchange_image && imageLoaded ?
-                        <div className={"edit-exchange-profile-picture-container"}>
-                          <div className={"edit-exchange-profile-picture"}>
-                            تصویر جدید
+                        <div className="edit-exchange-profile-picture-container">
+                          <div className="edit-exchange-profile-picture">
+                            تغییر تصویر
                           </div>
                           <img className="exchangeViewBarImg" alt={translate["Exchange Picture"]}
-                               src={currentExchange.exchange_image.file.includes("innowin.ir") ?
-                                   currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file}/>
+                               src={selectedImage ? selectedImage.file :
+                                   currentExchange.exchange_image.file.includes("innowin.ir") ?
+                                       currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file}/>
+                          {!processing ?
+                              <input type="file" accept="image/*" onChange={e => this._uploadHandler(e.currentTarget.files[0])}/>
+                              : null}
                         </div>
                         :
                         currentExchange.exchange && currentExchange.exchange.content.exchange_image ?
-                            <div className={"edit-exchange-profile-picture-container"}>
-                              <div className={"edit-exchange-profile-picture"}>
-                                تصویر جدید
+                            <div className="edit-exchange-profile-picture-container">
+                              <div className="edit-exchange-profile-picture">
+                                تغییر تصویر
                               </div>
                               <img className="exchangeViewBarImg" alt={translate["Exchange Picture"]}
-                                   src={currentExchange.exchange.content.exchange_image.file.includes("innowin.ir") ?
-                                       currentExchange.exchange.content.exchange_image.file :
-                                       REST_URL + currentExchange.exchange.content.exchange_image.file}/>
+                                   src={selectedImage ? selectedImage.file :
+                                       currentExchange.exchange.content.exchange_image.file.includes("innowin.ir") ?
+                                           currentExchange.exchange.content.exchange_image.file :
+                                           REST_URL + currentExchange.exchange.content.exchange_image.file}/>
+                              {!processing ?
+                                  <input type="file" accept="image/*" onChange={e => this._uploadHandler(e.currentTarget.files[0])}/>
+                                  : null}
                             </div>
                             :
                             <div className={"edit-exchange-profile-picture-container"}>
                               <div className={"edit-exchange-profile-picture"}>
                                 تصویر جدید
                               </div>
-                              <DefaultUserIcon className="exchangeViewBarImg"/>
+                              {
+                                selectedImage ?
+                                    <img className="exchangeViewBarImg" alt={translate["Exchange Picture"]}
+                                         src={selectedImage.file}/> : <DefaultUserIcon className="exchangeViewBarImg"/>
+                              }
+                              {!processing ?
+                                  <input type="file" accept="image/*" onChange={e => this._uploadHandler(e.currentTarget.files[0])}/>
+                                  : null}
                             </div>
               }
 
@@ -436,7 +497,7 @@ class ExchangeViewBar extends Component {
                   </div>
                   :
                   <div className="sidebarBottomParent">
-                    {!loadingEdit ?
+                    {!loadingEdit && !processing ?
                         <button
                             type="button"
                             className="sidebarBottom"
@@ -452,7 +513,7 @@ class ExchangeViewBar extends Component {
                         type="button"
                         className="sidebarFollowBottom"
                         style={{cursor: "pointer"}}
-                        onClick={() => this.setState({...this.state, editView: false})}> لغو
+                        onClick={() => this.setState({...this.state, editView: false, selectedImage: null})}> لغو
                     </button>
                   </div>
             }
@@ -471,7 +532,7 @@ class ExchangeViewBar extends Component {
 const StateToProps = (state, ownProps) => {
   const client = state.auth.client
   const userId = (client.organization && client.organization.id) || (client.user && client.user.id)
-
+  const fileSelectorByKeyValue = makeFileSelectorByKeyValue()
   return ({
     translate: state.intl.messages,
     router: state.router,
@@ -480,6 +541,7 @@ const StateToProps = (state, ownProps) => {
     currentUserId: userId,
     currentUserType: client.user_type,
     exchangesIdentities: state.common.exchangeMembership.list,
+    clientFiles: fileSelectorByKeyValue(state, "identity", client.identity.content),
   })
 }
 const DispatchToProps = dispatch => ({
@@ -492,6 +554,7 @@ const DispatchToProps = dispatch => ({
     unFollow: ExchangeMembershipActions.deleteExchangeMembership,
     getExchangeMembershipByMemberIdentity: ExchangeMembershipActions.getExchangeMembershipByMemberIdentity,
     getAllExchanges: exchangeActions.getAllExchanges,
+    createFile,
   }, dispatch)
 })
 

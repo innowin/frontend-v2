@@ -110,12 +110,14 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
 
   componentDidUpdate(prevProps, prevState) {
     const {hisFiles, createdExchange, members} = this.props
-    const {inActPeopleIds} = this.state
+    const {inActPeopleIds, exchangeImageFlag} = this.state
     const lastFile = hisFiles[hisFiles.length - 1] || {}
     const prevLastFile = prevProps.hisFiles[prevProps.hisFiles.length - 1] || {}
-    if (lastFile.id && prevLastFile.id) {
-      if (lastFile.id !== prevLastFile.id) {
-        this._imageHandler(lastFile)
+    if (exchangeImageFlag) {
+      if (lastFile.id && prevLastFile.id) {
+        if (lastFile.id !== prevLastFile.id) {
+          this._imageHandler(lastFile)
+        }
       }
     }
     if (prevState.exchangeImage !== this.state.exchangeImage && this.state.exchangeImage !== null) {
@@ -197,7 +199,8 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
       reader.onload = () => {
         this.setState({
           ...this.state,
-          selectedImage: reader.result
+          selectedImage: reader.result,
+          exchangeImageFlag: true,
         }, this._createFile)
       }
       reader.readAsDataURL(fileString)
@@ -214,6 +217,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
       ...this.state,
       selectedImage: img.file,
       exchangeImage: img.id,
+      exchangeImageFlag: false,
       formData: {
         ...this.state.formData,
         [exchangeFields.image]: img.id
@@ -396,6 +400,10 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
             className={modalIsOpen ? "create-exchange-modal-container" : "create-exchange-modal-container-out"}
         >
 
+          <div className="create-exchange-close-icon" onClick={() => this._handleCloseModal()}>
+            ✕
+          </div>
+
           <div className={"create-exchange-header"}>
             {translate["Create New Exchange"]}
           </div>
@@ -430,7 +438,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
               </label>
               <div className={"create-exchange-upload"}>
                 {selectedImage !== undefined && selectedImage !== null && !processing ?
-                    <img alt={"image"} src={selectedImage} className={"create-exchange-upload-image"}/>
+                    <img alt={""} src={selectedImage} className={"create-exchange-upload-image"}/>
                     :
                     <UploadIcon className={"create-exchange-upload-svg"}/>
                 }

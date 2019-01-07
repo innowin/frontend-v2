@@ -34,13 +34,13 @@ const ExploreMenu = (props) => {
               }/>
             </Link>
 
-            <Link style={{textDecoration: 'none', color: 'black'}} to={'#'} onClick={_toggle}>
-              <Material className='explore-menu-items' content={
-                <div>
-                  <ContributionIcon className='explore-logos'/> آورده ها (محصولات، توانمندی و ...)
-                </div>
-              }/>
-            </Link>
+            {/*<Link style={{textDecoration: 'none', color: 'black'}} to={'#'} onClick={_toggle}>*/}
+              {/*<Material className='explore-menu-items' content={*/}
+                {/*<div>*/}
+                  {/*<ContributionIcon className='explore-logos'/> آورده ها (محصولات، توانمندی و ...)*/}
+                {/*</div>*/}
+              {/*}/>*/}
+            {/*</Link>*/}
           </div>
         </div>
       </div>
