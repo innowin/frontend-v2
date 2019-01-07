@@ -18,5 +18,7 @@ export default state => ({
     'Example: Nokavan , IT Products Developer': 'مثال: نوکاوان ، توسعه دهنده محصولات IT',
     'About Me': 'درباره من',
     'Exchange Description': 'دربارۀ پنجره',
+    'Edit Dashboard': 'ویرایش داشبورد',
+    'Close': 'بستن',
   }
 })
