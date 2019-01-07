@@ -438,7 +438,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
               </label>
               <div className={"create-exchange-upload"}>
                 {selectedImage !== undefined && selectedImage !== null && !processing ?
-                    <img alt={"image"} src={selectedImage} className={"create-exchange-upload-image"}/>
+                    <img alt={""} src={selectedImage} className={"create-exchange-upload-image"}/>
                     :
                     <UploadIcon className={"create-exchange-upload-svg"}/>
                 }
