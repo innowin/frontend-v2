@@ -1,6 +1,6 @@
 {
   "name": "innowin-front-end",
-  "version": "0.1.3-LTS",
+  "version": "0.1.4-LTS",
   "private": true,
   "dependencies": {
     "autoprefixer": "7.1.6",
@@ -49,6 +49,7 @@
     "react-dev-utils": "^4.2.1",
     "react-dom": "^16.2.0",
     "react-fontawesome": "^1.6.1",
+    "react-ga": "^2.5.6",
     "react-helmet": "^5.2.0",
     "react-image-gallery": "^0.8.7",
     "react-intl": "^2.4.0",
@@ -83,10 +84,10 @@
   "scripts": {
     "start:lts": "PORT=3001 node scripts/start.js",
     "start:dev": "PORT=3000 node scripts/start.js",
+    "start:win": "yarn postinstall && yarn sethttps && node scripts/start.js",
     "start": "yarn postinstall && yarn dev",
     "dev": "HTTPS=true node scripts/start.js",
-    "devin": "yarn set-https && yarn postinstall && node scripts/start.js",
-    "set-https": "set HTTPS=true",
+    "sethttps": "set HTTPS=true",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js  --env=jsdom",
     "postinstall": "sh ./dev-certificate/linker.sh"

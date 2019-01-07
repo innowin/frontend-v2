@@ -4,6 +4,7 @@ export const SOCKET_URL = "https://socket.innowin.ir"
 export const REST_URL = "https://restful.innowin.ir"
 export const DOMAIN = "http://daneshboom.ir"
 //Socket
+// export const SOCKET = io(SOCKET_URL, {secure: true})
 export const SOCKET = io(SOCKET_URL, {secure: true, extraHeader: {'Access-Control-Allow-Origin': '*'}})
 
 const urls = {

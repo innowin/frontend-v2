@@ -228,6 +228,9 @@
       input[type='password']{
         letter-spacing: 2px;
       }
+      input::placeholder{
+        letter-spacing: 0;
+      }
     }
   }
 

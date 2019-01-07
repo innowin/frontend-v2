@@ -22,7 +22,7 @@ const LinkInfoView = (props: PropsUserInfoView) => {
       <div className='link-info-container'>
         <ItemHeader title={translate['Link Information']} showEdit={showEdit}/>
         {/*<Field>*/}
-          {/*<YoutubeIcon className='icon youtube-icon'/>*/}
+          {/*<YoutubeIcon className='icon twitter-icon'/>*/}
           {/*<FieldLabel label={translate['Youtube'] + ": "}/>*/}
           {/*<FieldValue value={profile.youtube_account}/>*/}
         {/*</Field>*/}

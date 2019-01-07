@@ -473,6 +473,7 @@ $sidebar-profile-media-width: 80px;
       font-size: $font-size-verySmallText;
       font-weight: bold;
       width: 100%;
+      background-color: $text-light-color;
     }
   }
 }
@@ -650,8 +651,8 @@ $sidebar-profile-media-width: 80px;
         color: $linkedin-icon-color;
       }
 
-      &.youtube-active {
-        color: $youtube-icon-color;
+      &.twitter-active {
+        color: $twitter-icon-color;
       }
     }
   }
@@ -663,6 +664,7 @@ $sidebar-profile-media-width: 80px;
     padding: 4px;
     display: flex;
     align-items: center;
+    justify-content: center;
     flex: 0 1 40%;
   }
 }
