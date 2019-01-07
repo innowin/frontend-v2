@@ -2,8 +2,8 @@
 import * as React from "react"
 import PropTypes from "prop-types"
 import {Link} from "react-router-dom"
-import type {postType} from "../../../consts/flowTypes/common/post"
-import type {identityType} from "../../../consts/flowTypes/user/basicInformation"
+import type {postType} from "src/consts/flowTypes/common/post"
+import type {identityType} from "src/consts/flowTypes/user/basicInformation"
 import checkOwner from "../CheckOwner"
 import {CommentSvg, MoreOptionSvg} from "src/images/icons"
 
@@ -16,17 +16,19 @@ type postFooterProps = {
   translate: { [string]: string },
   deletePost: Function,
   showComment: Function,
+  showEdit: Function,
 }
 
 const PostFooter = (props: postFooterProps) => {
   const {post, extendedView, menuToggle, openMenu, postIdentity, translate, deletePost, showComment, showEdit} = props
+  const {comments_count} = post
   let viewerCount
   let postUrl = ""
   let user = {}
   let organization = {}
+  
+  
   let ownerId
-
-
   if (post) {
     viewerCount = post.viewerCount
     if (postIdentity && postIdentity.id) {
@@ -74,7 +76,7 @@ const PostFooter = (props: postFooterProps) => {
           {/*<i className="fa fa-eye" aria-hidden="true"/>*/}
           {/*</div>*/}
           <div className='items cursor-pointer post-menu-bottom bubble-more comment-svg-container' onClick={() => showComment()}>
-            <span className="ml-1"> </span>
+            <span className="">{comments_count? comments_count: ""}</span>
             {/*<i className="fa fa-share cursor-pointer post-menu-bottom" aria-hidden="true" onClick={() => showComment()}/>*/}
             <CommentSvg className={"comment-svg"}/>
           </div>
@@ -92,7 +94,7 @@ PostFooter.propTypes = {
   translate: PropTypes.object.isRequired,
   deletePost: PropTypes.func.isRequired,
   showComment: PropTypes.func.isRequired,
+  showEdit: PropTypes.func.isRequired,
 }
-
 
 export default PostFooter

@@ -299,7 +299,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     const self: any = this
     const {post, translate, postIdentity, postRelatedIdentityImage, userImage, extendedView, showEdit, comments, fileList, commentParentType} = this.props
     const {menuToggle, confirm, pictureLoaded, showComment, commentOn} = this.state
-    let postDescription, postPicture, postPictureId, postIdentityUserId, postIdentityOrganId, postOwnerId = 0
+    let postDescription , postPicture, postPictureId, postIdentityUserId, postIdentityOrganId, postOwnerId = 0
     if (post) {
       postDescription = post.post_description
       postPicture = post.post_picture
@@ -364,13 +364,13 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
                 {post && post.post_related_product &&
                 <div className='post-view-product-container'>
-                  <ProductInfoView product={post.post_related_product} ownerId={postOwnerId}
+                  <ProductInfoView product={post.post_related_product}
+                                   ownerId={postOwnerId}
                                    translate={translate}/>
                 </div>
                 }
-
-
-                <PostFooter post={post} postIdentity={postIdentity} translate={translate} extendedView={extendedView}
+                <PostFooter post={post} postIdentity={postIdentity} translate={translate}
+                            extendedView={extendedView}
                             menuToggle={menuToggle} openMenu={this._openMenu}
                             deletePost={this._showConfirm}
                             showComment={this._handleShowComment}
