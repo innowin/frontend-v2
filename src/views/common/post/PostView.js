@@ -62,6 +62,8 @@ type postViewState = {
   pictureLoaded: null | boolean,
   showComment: boolean,
   commentOn: commentType,
+  showMore: boolean,
+  descriptionHeight: ?number
 }
 
 class PostView extends React.Component<postExtendedViewProps, postViewState> {
@@ -88,7 +90,8 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       pictureLoaded: null,
       showComment: false,
       commentOn: undefined,
-      showMore: false
+      showMore: false,
+      descriptionHeight: null
     }
 
     const self: any = this
@@ -107,16 +110,18 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   componentDidMount() {
     const self: any = this
     let showMore = false
+    let height = null
 
     if (self.text.clientHeight > 74) {
+      height = self.text.clientHeight
       if (this.props.post.post_description && new RegExp("^[A-Za-z]*$").test(this.props.post.post_description[0])) {
         self.text.style.paddingRight = "60px"
       } else self.text.style.paddingLeft = "60px"
-      self.text.style.maxHeight = "68px"
+      self.text.style.height = "68px"
       showMore = true
     }
 
-    this.setState({...this.state, showMore}, () => {
+    this.setState({...this.state, showMore , descriptionHeight: height}, () => {
 
       const {extendedView, post} = this.props
       if (post && post.post_picture) {
@@ -313,7 +318,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   _readMore() {
     this.setState({...this.state, showMore: false}, () => {
       const self: any = this
-      self.text.style.maxHeight = "1000px"
+      self.text.style.height = this.state.descriptionHeight + 'px'
       self.text.style.paddingRight = "0"
       self.text.style.paddingLeft = "0"
     })
