@@ -73,7 +73,6 @@ export function* getUsers(action) {
 export function* getAllUsers(action) {
   const {limit, offset, search} = action.payload
   const params = search !== null ? `?username=${search}` : `?limit=${limit}&offset=${offset}`
-  yield put({type: types.SUCCESS.USER.GET_ALL_USERS, payload: {data: [], search, isLoading: true}})
   const socketChannel = yield call(api.createSocketChannel, results.USER.GET_ALL_USERS)
   try {
     yield fork(
@@ -83,7 +82,7 @@ export function* getAllUsers(action) {
         params
     )
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.USER.GET_ALL_USERS, payload: {data, search, isLoading: false}})
+    yield put({type: types.SUCCESS.USER.GET_ALL_USERS, payload: {data, search}})
   } catch (err) {
     const {message} = err
     yield put({
