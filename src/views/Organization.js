@@ -28,6 +28,8 @@ import ParamActions from "src/redux/actions/paramActions"
 import GetIdentityActions from "../redux/actions/identityActions"
 import Contributions from "./common/contributions"
 import type {fileType} from "../consts/flowTypes/common/fileType";
+import Material from 'src/views/common/components/Material'
+import { getMessages } from '../redux/selectors/translateSelector'
 
 type PropsOrganization = {
   organObject: organStateObject,
@@ -106,7 +108,7 @@ export class Organization extends Component<PropsOrganization> {
   }
 
   render() {
-    const {organObject, badgesObject, badges, organLogo, organBanner, identityObject} = this.props
+    const {organObject, badgesObject, badges, organLogo, organBanner, identityObject,translate} = this.props
     const {path, url, params} = this.props.match
     const organizationId = +params.id
     const isLoading = organObject.isLoading || badgesObject.isLoading //TODO mohsen: added get files isLoading
@@ -127,26 +129,56 @@ export class Organization extends Component<PropsOrganization> {
                 />
             )}
             <div className="col-md-6 col-sm-10 center-column">
-              <Tabs>
-                <NavLink className="-tab" to={`${url}/contributions`} activeClassName="-active">
-                  <ContributionIcon/>
+              {/*<Tabs>*/}
+                {/*<NavLink className="-tab" to={`${url}/contributions`} activeClassName="-active">*/}
+                  {/*<ContributionIcon/>*/}
+                {/*</NavLink>*/}
+                {/*<NavLink className="-tab" to={`${url}/Posts`} activeClassName="-active">*/}
+                  {/*{postIcon}*/}
+                {/*</NavLink>*/}
+                {/*<NavLink className="-tab" to={`${url}/basicInformation`} activeClassName="-active">*/}
+                  {/*<InformationIcon/>*/}
+                {/*</NavLink>*/}
+                {/*<NavLink className="-tab" to={`${url}/SocialConnections`} activeClassName="-active">*/}
+                  {/*<SocialIcon/>*/}
+                {/*</NavLink>*/}
+                {/*<NavLink className="-tab" to={`${url}/Customers`} activeClassName="-active">*/}
+                  {/*{customerIcon()}*/}
+                {/*</NavLink>*/}
+                {/*<NavLink className="-tab" to={`${url}/Certificates`} activeClassName="-active">*/}
+                  {/*<CertificateIcon/>*/}
+                {/*</NavLink>*/}
+              {/*</Tabs>*/}
+
+
+              <div className='header-container'>
+
+                <NavLink to={`${url}/contributions`} className='header-container-item' activeClassName='header-container-item-active'>
+                  <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material-first' content={translate['Contributions']}/>
                 </NavLink>
-                <NavLink className="-tab" to={`${url}/Posts`} activeClassName="-active">
-                  {postIcon}
+
+                <NavLink to={`${url}/Posts`} className='header-container-item' activeClassName='header-container-item-active'>
+                  <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Stream']}/>
                 </NavLink>
-                <NavLink className="-tab" to={`${url}/basicInformation`} activeClassName="-active">
-                  <InformationIcon/>
+
+                <NavLink to={`${url}/basicInformation`} className='header-container-item' activeClassName='header-container-item-active'>
+                  <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['About Me']}/>
                 </NavLink>
-                <NavLink className="-tab" to={`${url}/SocialConnections`} activeClassName="-active">
-                  <SocialIcon/>
+
+                <NavLink to={`${url}/SocialConnections`} className='header-container-item' activeClassName='header-container-item-active'>
+                  <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Socials']}/>
                 </NavLink>
-                <NavLink className="-tab" to={`${url}/Customers`} activeClassName="-active">
-                  {customerIcon()}
+
+                <NavLink to={`${url}/Customers`} className='header-container-item' activeClassName='header-container-item-active'>
+                  <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Customers']}/>
                 </NavLink>
-                <NavLink className="-tab" to={`${url}/Certificates`} activeClassName="-active">
-                  <CertificateIcon/>
+
+                <NavLink to={`${url}/Certificates`} className='header-container-item' activeClassName='header-container-item-active'>
+                  <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Certificates']}/>
                 </NavLink>
-              </Tabs>
+
+              </div>
+
               {
                 (!identityObject.content) ? '' : (
                     <Switch>
@@ -220,6 +252,7 @@ const mapStateToProps = (state, ownProps) => {
     organBanner,
     organLogo,
     identityObject: identity,
+    translate: getMessages(state),
   }
 }
 

@@ -98,7 +98,7 @@ class Exchange_Tabs extends Component<props, states> {
           <div className='header-container-exchange'>
 
             <div className={selectedTab === 'Stream' ? 'header-container-item-active' : 'header-container-item'} onClick={() => this._setTab('Stream')}>
-              <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material-ex' content={translate['Stream']}/>
+              <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material-ex-first' content={translate['Stream']}/>
             </div>
 
             <div className={selectedTab === 'Info' ? 'header-container-item-active' : 'header-container-item'} onClick={() => this._setTab('Info')}>

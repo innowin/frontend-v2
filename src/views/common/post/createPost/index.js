@@ -292,7 +292,7 @@ class CreatePost extends Component {
       if (e.keyCode === 13 && keys[13] && keys[17]) {
         e.preventDefault()
         this.setState({ ...this.state, keys: [] }, () => {
-          this._onSubmitControlEnter()
+          this._onSubmit(e)
         })
       }
     }
