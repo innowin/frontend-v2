@@ -31,7 +31,7 @@ class ExchangeView extends Component <PropsExchangeView> {
     let exchangeId = +parseInt(this.props.match.params.id, 10)
     const {actions} = this.props
     actions.getExchangeByExId(exchangeId)
-    actions.getPostsByExIdLimitOffset({postParentId: exchangeId, limit: 20, offset: 0})
+    actions.getPostsByExIdLimitOffset({postParentId: exchangeId, limit: 30, offset: 0})
   }
 
   render() {

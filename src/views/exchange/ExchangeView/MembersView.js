@@ -86,10 +86,10 @@ class MembersView extends Component<props, states> {
           {followingUsers.indexOf(memberId) >= 0 ? <div className={"member-followed"}>دنبال شده</div>
               : clientId !== memberId ?
                   <div className={"member-follow"} onClick={() => this.follow(memberId, memberType)}><span
-                      className={"member-follow-plus"}> + </span></div> : <div className={"member-followed"}/>}
+                      className={"member-follow-plus"}> + </span></div> : <div className="member-followed"/>}
           <Link to={`/user/${memberId}`}>
             <div className={"member-picture-container"}>
-              {profiles[memberId].profile.content.profile_media !== null ? <img alt={"تصویر پروفایل"}
+              {profiles[memberId].profile.content.profile_media !== null ? <img alt=""
                                                                                 src={profiles[memberId].profile.content.profile_media.file}
                                                                                 width={"55px"} height={"55px"}
                                                                                 className={"member-picture"}/>
@@ -128,7 +128,7 @@ class MembersView extends Component<props, states> {
                       className={"member-follow-plus"}> + </span></div> : <div className={"member-followed"}/>}
           <Link to={`/organization/${memberId}`}>
             <div className={"member-picture-container"}>
-              {organs[memberId].organization.content.organization_logo !== null ? <img alt={"تصویر پروفایل"}
+              {organs[memberId].organization.content.organization_logo !== null ? <img alt=""
                                                                                        src={files[organs[memberId].organization.content.organization_logo] ?
                                                                                            files[organs[memberId].organization.content.organization_logo].file :
                                                                                            null}

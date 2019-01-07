@@ -2,12 +2,12 @@ import api from 'src/consts/api'
 import urls from 'src/consts/URLS'
 import results from 'src/consts/resultName'
 import types from 'src/redux/actions/types'
-import {select, put, take, fork, call} from "redux-saga/effects"
+import {select, put, take, fork, call, all} from "redux-saga/effects"
 import constants from "src/consts/constants";
 import uuid from 'uuid'
 
 export function* createPost(action) {
-  const {formValues, postOwnerId, postOwnerType, postParentId, postParentType} = action.payload
+  const {formValues, postOwnerId, postOwnerType, postParentId, postParentType, postFileIds} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.POST.CREATE_POST)
   const state = yield select()
   const translate = state.intl.messages
@@ -19,6 +19,9 @@ export function* createPost(action) {
       type: types.SUCCESS.COMMON.POST.CREATE_POST,
       payload: {data, postOwnerId, postOwnerType, postParentId, postParentType}
     })
+    yield all(postFileIds.map(fileId => {
+      return put({type: types.COMMON.UPDATE_FILE, payload: {id: fileId, formData: {file_related_parent: data.id}}})
+    }))
     const postIdentity = data.post_identity
     yield put({type: types.COMMON.POST.GET_POST_BY_IDENTITY, payload: {postIdentity, postOwnerId, postOwnerType}})
     yield put({

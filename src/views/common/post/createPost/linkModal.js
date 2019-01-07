@@ -1,6 +1,6 @@
 import React, {Component} from "react"
 import PropTypes from "prop-types"
-import Link from "../../../../images/common/link_svg"
+import Link from "src/images/common/link_svg"
 
 
 class LinkModal extends Component {

@@ -64,9 +64,9 @@ export class Index extends Component<PropsCertificates, StateCertificates> {
     return (
         //<VerifyWrapper isLoading={isLoading} error={error}>
         <div>
-          <CategoryTitle
-              title={translate['Certificates and badges']}
-          />
+          {/*<CategoryTitle*/}
+              {/*title={translate['Certificates and badges']}*/}
+          {/*/>*/}
 
           <CheckOwner id={ownerId}>
             {!(certificateCreateForm) &&

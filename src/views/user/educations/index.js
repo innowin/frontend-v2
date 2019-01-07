@@ -77,9 +77,9 @@ class Educations extends React.Component<PropsEducations, StatesEducations> {
     const {educationCreateForm, researchCreateForm} = this.state
     return (
         <div>
-          <CategoryTitle
-              title={translate['Educations']}
-          />
+          {/*<CategoryTitle*/}
+              {/*title={translate['Educations']}*/}
+          {/*/>*/}
           <CheckOwner id={userId}>
             {!(educationCreateForm || researchCreateForm) &&
             <div className='education-add-container'>
