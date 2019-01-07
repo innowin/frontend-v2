@@ -16,38 +16,54 @@ type appProps =
 const loadingArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 const Users = (props: appProps) => {
-  let {users, followees, followers, justFollowing, justFollowed} = props
+  let { users, followees, followers, justFollowing, justFollowed, justUsers, justOrgans } = props
 
-  users = Object.values(users).filter(user => user.profile && user.profile.content && user.profile.content.profile_user.id)
+  let usersArr = Object.values(users).filter(user => user.profile && user.profile.content && user.profile.content.profile_user && user.profile.content.profile_user.id)
 
-  if (justFollowing && justFollowed) {
-    users = users.filter((user: Object) =>
-        followees[user.user.id] || followers[user.user.id]
-    )
-  } else if (justFollowing) {
-    users = users.filter((user: Object) =>
-        followees[user.user.id]
-    )
-  } else if (justFollowed) {
-    users = users.filter((user: Object) =>
-        followers[user.user.id]
-    )
+  let usersObj = {}
+
+  if (justFollowing || justFollowed || justUsers || justOrgans) {
+    usersArr.forEach(user => {
+      if (justFollowed) {
+        if (followers[user.profile.content.profile_user.id]) {
+          usersObj = { ...usersObj, [user.profile.content.profile_user.id]: { ...user } }
+        }
+      }
+      if (justFollowing) {
+        if (followees[user.profile.content.profile_user.id]) {
+          usersObj = { ...usersObj, [user.profile.content.profile_user.id]: { ...user } }
+        }
+      }
+      if (justUsers) {
+        if (user.profile.content.related_organization_id === null) {
+          usersObj = { ...usersObj, [user.profile.content.profile_user.id]: { ...user } }
+        }
+      }
+      if (justOrgans) {
+        if (user.profile.content.related_organization_id) {
+          usersObj = { ...usersObj, [user.profile.content.profile_user.id]: { ...user } }
+        }
+      }
+    })
+    usersArr = Object.values(usersObj)
   }
 
-  if (users.length > 0) {
+  if (usersArr.length > 0) {
     return <React.Fragment>
       {
-        users.map((user: Object, i: number): any =>
+        usersArr.map((user: Object, i: number): any =>
             <User followees={followees} key={i} data={user}/>
         )}
     </React.Fragment>
-  } else if (!props.loading) {
+  }
+  else if (!props.loading) {
     return <div className='exchanges-explore-not-found'>کاربری یافت نشد!</div>
-  } else return <React.Fragment>
-    {loadingArr.map((user: Object, i: number) =>
-        <UserSkeleton key={i}/>
-    )}
-  </React.Fragment>
+  }
+  else return <React.Fragment>
+      {loadingArr.map((user: Object, i: number) =>
+          <UserSkeleton key={i}/>
+      )}
+    </React.Fragment>
 }
 
 export default Users
