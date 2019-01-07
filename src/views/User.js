@@ -205,7 +205,7 @@ class User extends Component<PropsUser> {
                   <div className='header-container'>
 
                     <NavLink to={`${url}/Posts`} className='header-container-item' activeClassName='header-container-item-active'>
-                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Stream']}/>
+                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material-first' content={translate['Stream']}/>
                     </NavLink>
 
                     <NavLink to={`${url}/basicInformation`} className='header-container-item' activeClassName='header-container-item-active'>

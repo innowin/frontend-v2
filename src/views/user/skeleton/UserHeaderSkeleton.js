@@ -9,7 +9,7 @@ const UserHeaderSkeleton = (props) => {
       <div className='header-container'>
 
         <div className='header-container-item'>
-          <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Stream']}/>
+          <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material-first' content={translate['Stream']}/>
         </div>
 
         <div className='header-container-item'>
