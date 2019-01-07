@@ -48,7 +48,7 @@ const configureStore = () => {
       applyMiddleware(
           navMiddleware,
           sagaMiddleware,
-          gaMiddleware,
+          // gaMiddleware,
           logger
       )
   )
