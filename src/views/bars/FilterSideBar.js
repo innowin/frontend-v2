@@ -18,7 +18,7 @@ export default class ProductFilterSidebar extends Component {
 		this.state = {
 			isLoading : true,
 			contribution: {
-				ContributionLabels: ["اشتراک زیرساخت", "تاییدیه", "توانمندی", "محصول"],
+				ContributionLabels: ["اشتراک زیرساخت", "تاییدیه", "مهارت", "محصول"],
 				ContributionHeader: "نوع آورده",
 			},
 			groups: {

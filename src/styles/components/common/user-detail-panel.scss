@@ -4,10 +4,11 @@ $sidebar-profile-media-width: 80px;
 
 .user-detail-panel-container {
   background-color: #ffffff;
-  margin-top: 1px;
+  margin-top: -1px;
   border-radius: $border-radius-size;
   box-shadow: 0 3px 3px $box-shadow-color;
   overflow: hidden;
+  transform: perspective(0);
 
   .image-part-container {
     position: relative;
@@ -20,6 +21,10 @@ $sidebar-profile-media-width: 80px;
       bottom: 0;
       left: 50%;
     }
+    //
+    //.banner {
+    //  border-radius: $border-radius-size $border-radius-size 0 0;
+    //}
   }
   .user-detail-body {
     margin-top: 50px;

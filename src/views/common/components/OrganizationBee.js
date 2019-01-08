@@ -39,6 +39,8 @@ class OrganizationBee extends Component {
 
   componentDidMount(): void {
     const { organLogo, organObject } = this.props
+    const organContent = organObject && organObject.content
+    const {nike_name, biography, telegram_account, web_site} = organContent
 
     let image = 0
     let name = 0
@@ -48,14 +50,17 @@ class OrganizationBee extends Component {
     if (organLogo) {
       image = 30
     }
-    if (organObject.content.nike_name && organObject.content.nike_name.trim().length > 0) {
-      name = 25
-    }
-    if (organObject.content.biography && organObject.content.biography.trim().length > 0) {
-      bio = 25
-    }
-    if ((organObject.content.telegram_account && organObject.content.telegram_account.length > 0) || (organObject.content.web_site && organObject.content.web_site.length > 0)) {
-      graduate = 20
+
+    if (organContent) {
+      if (nike_name && nike_name.trim().length > 0) {
+        name = 25
+      }
+      if (biography && biography.trim().length > 0) {
+        bio = 25
+      }
+      if ((telegram_account && telegram_account.length > 0) || (web_site && web_site.length > 0)) {
+        graduate = 20
+      }
     }
 
     this.setState({ ...this.state, image, name, graduate, bio }, () => {
@@ -65,6 +70,8 @@ class OrganizationBee extends Component {
 
   componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
     const { organLogo, organObject, currentOrganizationId, actions } = nextProps
+    const organContent = organObject && organObject.content
+    const {nike_name, biography, telegram_account, web_site} = organContent
 
     let image = 0
     let name = 0
@@ -74,14 +81,16 @@ class OrganizationBee extends Component {
     if (organLogo) {
       image = 30
     }
-    if (organObject.content.nike_name && organObject.content.nike_name.trim().length > 0) {
-      name = 25
-    }
-    if (organObject.content.biography && organObject.content.biography.trim().length > 0) {
-      bio = 25
-    }
-    if ((organObject.content.telegram_account && organObject.content.telegram_account.length > 0) || organObject.content.web_site && organObject.content.web_site.length > 0) {
-      graduate = 20
+    if (organContent) {
+      if (nike_name && nike_name.trim().length > 0) {
+        name = 25
+      }
+      if (biography && biography.trim().length > 0) {
+        bio = 25
+      }
+      if ((telegram_account && telegram_account.length > 0) || (web_site && web_site.length > 0)) {
+        graduate = 20
+      }
     }
 
     if (this.state.imageLoading) {
@@ -363,8 +372,8 @@ const mapStateToProps = (state) => {
     currentUserIdentity: client.identity.content,
     currentUserId: (client.user && client.user.id),
     currentOrganizationId: userId,
-    currentUserName: client.organization.nike_name,
-    currentUserBio: client.profile.description,
+    currentUserName: (client.organization && client.organization.nike_name) || '',
+    currentUserBio: (client.profile && client.profile.description) || '',
     translate: getMessages(state),
     organObject: (stateOrgan && stateOrgan.organization) || defaultObject,
     organLogo,

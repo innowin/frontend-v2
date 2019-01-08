@@ -1,7 +1,6 @@
 import initialState from '../initialState'
 import types from '../../actions/types'
 import appendListToStateList from "../sliceReducers/utilsSlices/appendListToStateList"
-import pushAnObjToStateList from "../sliceReducers/utilsSlices/pushAnObjToStateList";
 
 import slices from '../sliceReducers/common/certificate'
 

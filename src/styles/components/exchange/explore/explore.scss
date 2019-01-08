@@ -638,6 +638,7 @@
 .material {
   display: inline-block;
   overflow: hidden;
+  transform: perspective(0);
   position: relative;
   user-select: none;
   direction: ltr;

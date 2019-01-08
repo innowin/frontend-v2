@@ -2,7 +2,6 @@ import types from '../types'
 
 const getFollowees = ({notProfile, followOwnerIdentity, followOwnerId, followOwnerType}) => {
   // if notProfile === true, in saga we will not get profile of the followees
-  console.log('this is get followees action data: ', {followOwnerIdentity, followOwnerId, followOwnerType})
   return{
     type: types.COMMON.SOCIAL.GET_FOLLOWEES,
     payload: {

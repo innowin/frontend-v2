@@ -51,7 +51,7 @@ class PureSignInForm extends React.Component {
           </div>
           <div>
             <button
-                className="btn btn-primary btn-block login-submit-button cursor-pointer"
+                className="login-submit-button"
                 disabled={submitting} type='submit'>
               {!submitting ? translator['Login'] : (
                   <BeatLoader color="#fff" size={10} margin="auto"/>

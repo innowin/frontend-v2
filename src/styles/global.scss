@@ -197,6 +197,7 @@ button {
 
 ::-webkit-scrollbar {
   width: $scroll-bar-width;
+  height: $scroll-bar-height;
   border-radius: $border-radius-size;
   box-shadow: none;
 }

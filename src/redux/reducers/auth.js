@@ -118,7 +118,6 @@ const auth = (state = initialState.auth, action) => {
       return slices.createAbility.success(state, action)
     /** -------------------------- reset  -------------------------> **/
     case types.RESET:
-      console.log("------------------- I'm in reset.")
       return initialState.auth
     default:
       return state

@@ -1,7 +1,6 @@
 import initialState from "./initialState"
 import types from "../actions/types/index"
 import slices from './sliceReducers/customer'
-import getCustomerByCustomerId from "./sliceReducers/customer/getCustomerByCustomerId";
 
 const customer = (state = initialState.customer, action) => {
   switch (action.type) {
