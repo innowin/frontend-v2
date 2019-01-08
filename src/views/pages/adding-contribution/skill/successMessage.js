@@ -28,7 +28,7 @@ const SuccessMessage = (props: SuccessMessageProps) => {
       <div className="success-message">
         <CircularTickSvg className="message-image"/>
         <div className="message-text">
-          توانمندی شما با موفقیت در سامانه ثبت شد و در فهرست آورده‌های شما قرار گرفت
+          مهارت شما با موفقیت در سامانه ثبت شد و در فهرست آورده‌های شما قرار گرفت
         </div>
         <ActBar acts={actions}/>
       </div>

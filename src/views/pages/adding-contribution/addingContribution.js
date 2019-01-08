@@ -985,7 +985,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
                         onClick={() => this._changeSelectedType("Ability")}
                         className={selectedType === "Ability" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
                       <SkillIcon className="option-contribution-svg-smaller"/>
-                      <div className={"option-contribution-text"}>توانمندی</div>
+                      <div className={"option-contribution-text"}>مهارت</div>
                     </div>
                   }/>
                   {/* // NOT AVAILABLE FOR NOW

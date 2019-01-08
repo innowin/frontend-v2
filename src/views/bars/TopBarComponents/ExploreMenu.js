@@ -37,7 +37,7 @@ const ExploreMenu = (props) => {
             {/*<Link style={{textDecoration: 'none', color: 'black'}} to={'#'} onClick={_toggle}>*/}
               {/*<Material className='explore-menu-items' content={*/}
                 {/*<div>*/}
-                  {/*<ContributionIcon className='explore-logos'/> آورده ها (محصولات، توانمندی و ...)*/}
+                  {/*<ContributionIcon className='explore-logos'/> آورده ها (محصولات، مهارت و ...)*/}
                 {/*</div>*/}
               {/*}/>*/}
             {/*</Link>*/}

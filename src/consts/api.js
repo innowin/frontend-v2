@@ -10,16 +10,17 @@ const createSocketChannel = (resultName) => {
         console.groupCollapsed(` %cError  %c${resultName.toUpperCase()}`, "line-height: 1.5 !important; color: red; font-size:11px; font-family: 'dejavu sans mono', monospace; font-weight:lighter;font-size: 11px", "color: #ef8fae; font-size:12px; font-family: 'dejavu sans mono', monospace; font-weight:900;")
         console.log(" %cERROR ","color: orange; font-size:12px; font-family: 'Helvetica',consolas,sans-serif; font-weight:900;",res)
         console.groupEnd("Response")
+
+        if (res.data === 0 && (resultName === 'USERNAME_CHECK' || resultName === 'EMAIL_CHECK')) {
+          emit(res.data)
+          return;
+        }
         // below is for check user handle error
         if (typeof res.data === "object" && res.data.detail) {
           emit(new Error(res.data.detail))
         }
         if (res.data.non_field_errors) {
           emit(new Error(res.data.non_field_errors))
-          return;
-        }
-        if (res.dcredibleata === 0 && (resultName === 'USERNAME_CHECK' || resultName === 'EMAIL_CHECK')) {
-          emit(res.data)
           return;
         }
         emit(new Error(res.data))

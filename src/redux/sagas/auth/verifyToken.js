@@ -12,11 +12,9 @@ export function* verifyToken(action) {
   try {
     yield fork(api.post, urls.VERIFY_TOKEN, results.VERIFY_TOKEN, {token})
     yield take(socketChannel)
-    console.log("token is credible")
   } catch (e) {
     const {message} = e
     if(message === "Error decoding signature."){
-      console.log("token is not correct and error message is:", message)
       yield put({type:types.AUTH.SIGN_OUT, payload:{}})
     }
   } finally {
