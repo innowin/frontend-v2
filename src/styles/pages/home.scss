@@ -16,7 +16,7 @@ $heightOfContentBox: 140px;
 .global-wrapper {
   .page-content {
     min-height: 100%;
-    //@media screen and (max-width: 1920px) and (min-width: 1366px) {
+    //@media screen and (max-width: 10000px) and (min-width: 1366px) {
     //  margin: 0 138px;
     //}
     //@media screen and (max-width: 1366px) and (min-width: 1280px) {
@@ -26,7 +26,7 @@ $heightOfContentBox: 140px;
     //  margin: 0 90px;
     //}
 
-    @media screen and (max-width: 1920px) and (min-width: 1366px) {
+    @media screen and (max-width: 10000px) and (min-width: 1366px) {
       margin: 0 138px;
     }
     @media screen and (max-width: 1366px) and (min-width: 1280px) {
