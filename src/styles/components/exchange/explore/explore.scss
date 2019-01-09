@@ -225,7 +225,7 @@
   border-radius: $border-radius-size;
   background: $text-lightest-color;
   box-shadow: 0 3px 3px $box-shadow-color;
-  @media screen and (max-width: 1920px) and (min-width: 1366px) {
+  @media screen and (max-width: 10000px) and (min-width: 1366px) {
     right: 138px;
     width: calc(0.25 * (100% - 276px));
   }
@@ -422,7 +422,7 @@
 
 .all-exchanges-parent {
   transition-duration: 0.3s;
-  @media screen and (max-width: 1920px) and (min-width: 1366px) {
+  @media screen and (max-width: 10000px) and (min-width: 1366px) {
     margin: 0 138px;
   }
   @media screen and (max-width: 1366px) and (min-width: 1280px) {
@@ -582,7 +582,7 @@
   width: 25%;
   display: inline-block;
   vertical-align: top;
-  //@media screen and (max-width: 1920px) and (min-width: 1366px) {
+  //@media screen and (max-width: 10000px) and (min-width: 1366px) {
   //right: 138px;
   //width: calc(0.25 * (100% - 276px));
   //}

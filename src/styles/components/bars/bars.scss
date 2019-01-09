@@ -272,7 +272,7 @@ $sidebar-profile-media-width: 80px;
   vertical-align: top;
   cursor: pointer;
 
-  @media screen and (max-width: 1920px) and (min-width: 1366px) {
+  @media screen and (max-width: 10000px) and (min-width: 1366px) {
     margin: 1.5% 3% 1.5% 3%;
   }
   @media screen and (max-width: 1366px) and (min-width: 1280px) {
@@ -304,7 +304,7 @@ $sidebar-profile-media-width: 80px;
   display: inline-block;
   vertical-align: top;
   cursor: pointer;
-  @media screen and (max-width: 1920px) and (min-width: 1366px) {
+  @media screen and (max-width: 10000px) and (min-width: 1366px) {
     margin: 1.5% 3% 1.5% 3%;
   }
   @media screen and (max-width: 1366px) and (min-width: 1280px) {
@@ -314,7 +314,7 @@ $sidebar-profile-media-width: 80px;
     margin: 1.5% 3% 1.5% 3%;
   }
   @media screen and (max-width: 900px) and (min-width: 700px) {
-    margin: 1.5% 1.5% 1.5% 1.5%;
+    margin: 1.5%;
   }
   @media screen and (max-width: 700px) and (min-width: 0px) {
     margin: 1.5% .5% 1.5% .5%;
