@@ -11,7 +11,6 @@ const User_Skeleton = () => {
 
         <DefaultUserIcon className='user-default-profile-photo-skeleton'/>
 
-
         <div>
           <div className='user-name-skeleton'><span> </span>
             <div id="line"/>

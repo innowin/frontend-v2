@@ -144,6 +144,8 @@
 }
 
 .user-description-skeleton {
+  display: flex;
+  flex-flow: column;
   clear: both;
   margin-top: 20px;
   font-size: $font-size-smallText;

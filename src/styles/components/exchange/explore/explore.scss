@@ -55,9 +55,11 @@
 }
 
 .exchange-model-avatar {
+  position: relative;
   height: 80px;
   margin: 0 auto 8px auto;
   width: 80px;
+  background-color: #f3f3f3;
   border-radius: 50%;
   overflow: hidden;
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.2);
@@ -162,6 +164,11 @@
   padding: 17px 0;
   border-top: 1px solid #F1F1F1;
   border-bottom: 1px solid #F1F1F1;
+}
+
+.exchange-model-detail-skeleton-container {
+  display: flex;
+  flex-flow: row;
 }
 
 .exchange-model-detail-skeleton {
@@ -697,10 +704,11 @@
 }
 
 .sidebar-skeleton {
+  display: inline-flex;
+  flex-direction: column;
   position: relative;
   overflow: hidden;
   text-align: center;
-  display: inline-block;
   margin-top: $topBarHeight + 10px;
   overflow-y: auto;
   color: $text-dark-color;
@@ -746,6 +754,8 @@
   background: #ffffff;
   padding: 18px;
   transition-duration: 0.3s;
+  display: flex;
+  flex-direction: column;
 }
 
 .container-skeleton-items {
@@ -821,6 +831,22 @@
   border-radius: 3px;
 }
 
+.user-default-profile-skelte{
+  font-size: 13px;
+  margin-top: 5px;
+  line-height: 27px;
+  background-color: #f3f3f3;
+  border-radius: 3px;
+}
+
+.user-default-profile-skelte-date{
+  font-size: 11px;
+  margin-top: 2px;
+  background-color: #f3f3f3;
+  border-radius: 3px;
+  width: 25%;
+}
+
 .user-default-profile-btn {
   margin: 5px 4px;
   font-size: 14px;
@@ -832,4 +858,6 @@
 .skeleton-overflow-hidden {
   overflow: hidden;
   position: relative;
+  display: flex;
+  flex-flow: column;
 }
