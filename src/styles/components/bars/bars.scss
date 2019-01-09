@@ -1898,6 +1898,8 @@ $sidebar-profile-media-width: 80px;
   position: relative;
   overflow: hidden;
   margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
 
   &:last-child {
     margin-bottom: 0;
@@ -2126,6 +2128,7 @@ $sidebar-profile-media-width: 80px;
     //cursor: pointer;
     //border-radius: $border-radius-more;
   }
+
   input[type='file'] {
     position: absolute;
     top: 0;
