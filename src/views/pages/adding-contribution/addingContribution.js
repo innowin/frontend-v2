@@ -71,32 +71,42 @@ const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list)
   const [removed] = result.splice(startIndex, 1)
   result.splice(endIndex, 0, removed)
-
   return result
 }
 
+type catsMap = {
+  category_parent?: number,
+  province_related_country?: number,
+  category_parent?: number
+}
+
+type list = { list?: catsMap }
+
 
 type AddingContributionProps = {
-  _getCategories: Function,
-  _getHashTags: Function,
-  _getCountries: Function,
-  nowCreatedProductId: number,
   _changeFormSingleFieldValue: Function,
-  _getProvinces: Function,
-  initialInfoFormState: {},
-  _getCities: Function,
   _createProduct: Function,
-  skillInfoFormValues: SkillFormValsType,
+  _createSkillAction: Function,
+  _getCategories: Function,
+  _getCities: Function,
+  _getCountries: Function,
+  _getHashTags: Function,
+  _getProvinces: Function,
+  categories: any,
+  cities: {},
+  city: {},
+  clientFiles: Object,
+  countries: list,
   handleModalVisibility: Function,
   hashTags: {},
-  translator: TranslatorType,
-  categories: {},
-  countries: {},
-  provinces: {},
-  cities: {},
+  initialInfoFormState: {},
   modalIsOpen: boolean,
-  _createSkillAction: Function,
-  nowCreatedSkillId: number
+  nowCreatedProductId: number,
+  nowCreatedSkillId: number,
+  province: catsMap,
+  provinces: {},
+  skillInfoFormValues: SkillFormValsType,
+  translator: TranslatorType,
 }
 
 type ProgressStepType = {
@@ -108,19 +118,28 @@ type NewTechPropertyDataType = {
   value?: string,
   title?: string
 }
+
+type cats = any
+
 type AddingContributionState = {
   activeStep: number,
   addingTechPropNow: boolean,
+  currentLevel: string,
+  catLvlOne: Array<Object>,
   newContributionData: NewContributionDataType,
   newTechPropertyData: NewTechPropertyDataType,
   progressStatus: string,
   progressSteps: Array<ProgressStepType>,
-  wrapperClassName: string,
-  currentLevel: string,
+  selectedCatLvlOne: cats,
+  selectedCatLvlThree: cats,
+  selectedCatLvlTwo: cats,
   selectedType: string,
-  selectedCatLvlOne: string,
-  selectedCatLvlTwo: string,
-  selectedCatLvlThree: string,
+  wrapperClassName: string,
+  countryList: Array<number>,
+  provinceList: Array<number>,
+  cityList: Array<number>,
+  selectedCountry: ?number,
+  selectedProvince: ?number,
 }
 
 class AddingContribution extends Component<AddingContributionProps, AddingContributionState> {
@@ -135,28 +154,30 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       addingTechPropNow: false,
       newTechPropertyData: {},
 
-      cats: [],
       catLvlOne: [],
-      catLvlTwo: [],
       catLvlThree: [],
-      countryList: [],
-      provinceList: [],
+      catLvlTwo: [],
+      cats: [],
       cityList: [],
-      selectedCountry: null,
-      selectedProvince: null,
-      selectedCity: null,
+      countryList: [],
       currentLevel: "one",
       priceType: "معین",
       processing: false,
-      productName: "",
       productDescription: "",
+      productName: "",
+      provinceList: [],
       selectedCatLvlOne: null,
       selectedCatLvlThree: null,
       selectedCatLvlTwo: null,
+      selectedCity: null,
+      selectedCountry: null,
       selectedImage: [],
       selectedImageId: [],
       selectedImageTemp: "",
+      selectedProvince: null,
       selectedType: "Product",
+      abilityTitle: "",
+      abilityDescription: ""
       //errors
       // productNameError: false,
       // productDescriptionError: false,
@@ -238,6 +259,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     self.renderFooter = self.renderFooter.bind(self)
     self._closeModal = self._closeModal.bind(self)
     self._handleCreateProduct = self._handleCreateProduct.bind(self)
+    self._handleCreateAbility = self._handleCreateAbility.bind(self)
     // self._setProductFeature = self._setProductFeature.bind(self)
   }
 
@@ -284,13 +306,13 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     }
 
     if (prevState.provinceList.length < 1 && countryList.length >= 1) {
-      let provArray = Object.values(province.list).filter(p => p.province_related_country === selectedCountry) // TODO: GET SELECTED COUNTRY
+      let provArray = Object.values(province.list).filter(p => p.province_related_country === selectedCountry)
       if (provArray.length >= 1)
         this.setState({...this.state, provinceList: provArray.slice()})
     }
 
     if (cityList.length < 1 && provinceList.length >= 1) {
-      let citsArray = Object.values(city.list).filter(p => p.town_related_province === selectedProvince) // TODO: GET SELECTED PROVINCE
+      let citsArray = Object.values(city.list).filter(p => p.town_related_province === selectedProvince)
       if (citsArray.length >= 1)
         this.setState({...this.state, cityList: citsArray.slice()})
     }
@@ -882,45 +904,69 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
   // }
 
   renderProgressBar() {
-    let {currentLevel} = this.state
-    return (
-        <div className={"contribution-progress-bar"}>
-          <div className={"level-container-active"}>
-            <CircularAddIcon className={"progress-step-icon level-container-svg add"}/>
-            <div className={"level-container-text"}>
-              آوردۀ جدید
+    let {currentLevel, selectedType} = this.state
+    switch (selectedType) {
+      case "Ability":
+        return (
+            <div className={"contribution-progress-bar"}>
+              <div className={"level-container-active"}>
+                <CircularAddIcon className={"level-container-svg add"}/>
+                <div className={"level-container-text"}>
+                  آوردۀ جدید
+                </div>
+              </div>
+              <div style={{opacity: "0"}} className={currentLevel !== "one" ? "level-container-active" : "level-container"}/>
+              <div className={currentLevel !== "one" ? "level-container-active" : "level-container"}>
+                <InformationIcon className={"level-container-svg info " + currentLevel}/>
+                <div className={"level-container-text"}> مشخصات</div>
+              </div>
+              <div className={"level-bar"}/>
+              <div className={"level-bar-progress " + (currentLevel === "one" ? "one" : "three")}/>
             </div>
-          </div>
-          <div className={currentLevel !== "one" ? "level-container-active" : "level-container"}>
-            <InformationIcon className={"progress-step-icon level-container-svg info " + currentLevel}/>
-            <div className={"level-container-text"}>
-              اطلاعات اولیه
+        )
+      case "Product":
+        return (
+            <div className={"contribution-progress-bar"}>
+              <div className={"level-container-active"}>
+                <CircularAddIcon className={"level-container-svg add"}/>
+                <div className={"level-container-text"}>
+                  آوردۀ جدید
+                </div>
+              </div>
+              <div className={currentLevel !== "one" ? "level-container-active" : "level-container"}>
+                <InformationIcon className={"level-container-svg info " + currentLevel}/>
+                <div className={"level-container-text"}>
+                  اطلاعات اولیه
+                </div>
+              </div>
+              {/* NOT AVAILABLE FOR NOW
+               <div className={currentLevel !== "one" && currentLevel !== "two" ? "level-container-active" : "level-container"}>
+               <ItemsAndPropertiesIcon className={"progress-step-icon level-container-svg items " + currentLevel}/>
+               <div className={"level-container-text"}>
+               مشخصات فنّی
+               </div>
+               </div>
+               <div className={currentLevel === "four" || currentLevel === "five" ? "level-container-active" : "level-container"}>
+               <Medal width="24px" height="25px" svgClass={"level-container-svg medal " + currentLevel}/>
+               <div className={"level-container-text"}>
+               گواهینامه ها
+               </div>
+               </div>
+               */}
+              <div className={currentLevel !== "one" && currentLevel !== "two" ? "level-container-active" : "level-container"}>
+                <ContributionIcon className={"level-container-svg contribution " + currentLevel}/>
+                <div className={"level-container-text"}>
+                  مدیریت ویترین
+                </div>
+              </div>
+              <div className={"level-bar"}/>
+              <div className={"level-bar-progress " + currentLevel}/>
             </div>
-          </div>
-          {/* NOT AVAILABLE FOR NOW
-           <div className={currentLevel !== "one" && currentLevel !== "two" ? "level-container-active" : "level-container"}>
-           <ItemsAndPropertiesIcon className={"progress-step-icon level-container-svg items " + currentLevel}/>
-           <div className={"level-container-text"}>
-           مشخصات فنّی
-           </div>
-           </div>
-           <div className={currentLevel === "four" || currentLevel === "five" ? "level-container-active" : "level-container"}>
-           <Medal width="24px" height="25px" svgClass={"level-container-svg medal " + currentLevel}/>
-           <div className={"level-container-text"}>
-           گواهینامه ها
-           </div>
-           </div>
-           */}
-          <div className={currentLevel !== "one" && currentLevel !== "two" ? "level-container-active" : "level-container"}>
-            <ContributionIcon className={"progress-step-icon level-container-svg contribution " + currentLevel}/>
-            <div className={"level-container-text"}>
-              مدیریت ویترین
-            </div>
-          </div>
-          <div className={"level-bar"}/>
-          <div className={"level-bar-progress " + currentLevel}/>
-        </div>
-    )
+        )
+      default:
+        return null
+    }
+
   }
 
   renderCurrentLevel() {
@@ -949,345 +995,481 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       selectedCountryError,
       selectedProvinceError,
       selectedCityError,
+      abilityTitle,
+      abilityDescription
     } = this.state
     let {translator} = this.props
-    switch (currentLevel) {
-      case "one":
-        return (
-            <div>
-              <div className="contribution-description">
-                <div className="icon-wrapper">
-                  <TipsIcon className="tip-icon"/>
-                </div>
-                <div className="contribution-desc-txt">
-                  <p>
-                    آورده در سامانه اینوین دارایی توامندی یا ارزشی‌ست که کاربران اعم از مجموعه‌ها و افراد ارایه
-                    می‌دهند. قابلیت عرضه در پنجره‌ها کارگزاری و انجام معامله آن وجود دارد. محصولات تولیدی
-                    توانمندی‌ها تاییدیه‌ها گواهی‌نامه‌ها خدمات مشاوره. زیرساخت‌های قابل اشتراک از انواع آورده در
-                    سامانه اینوین هستند.
-                  </p>
-                </div>
-              </div>
-              <div className={"contribution-description-options-area"}>
-                <div className={"text"}>انتخاب نوع آورده:</div>
-                <div className={"contribution-description-options"}>
-
-                  <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === "Product" ? "contribution-material-block-active" : "contribution-material-block"} content={
-                    <div onClick={() => this._changeSelectedType("Product")}
-                         className={selectedType === "Product" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
-                      <ContributionIcon className={"option-contribution-svg"}/>
-                      <div className={"option-contribution-text"}>محصول</div>
-                    </div>
-                  }/>
-
-                  <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === "Ability" ? "contribution-material-block-active" : "contribution-material-block"} content={
-                    <div
-                        onClick={() => this._changeSelectedType("Ability")}
-                        className={selectedType === "Ability" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
-                      <SkillIcon className="option-contribution-svg-smaller"/>
-                      <div className={"option-contribution-text"}>توانمندی</div>
-                    </div>
-                  }/>
-                  {/* // NOT AVAILABLE FOR NOW
-                   <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === "Certificate" ? "contribution-material-block-active" : "contribution-material-block"} content={
-                   <div
-                   onClick={() => this._changeSelectedType("Certificate")}
-                   className={selectedType === "Certificate" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
-                   <CertificateIcon className="option-contribution-svg-smaller"/>
-                   <div className={"option-contribution-text"}>تاییدیه</div>
-                   </div>
-                   }/>
-
-                   <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === "Consultation" ? "contribution-material-block-active" : "contribution-material-block"} content={
-                   <div
-                   onClick={() => this._changeSelectedType("Consultation")}
-                   className={selectedType === "Consultation" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
-                   <ConsultIcon className="option-contribution-svg-small"/>
-                   <div className={"option-contribution-text"}>مشاوره</div>
-                   </div>
-                   }/>
-
-                   <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === "Substructure" ? "contribution-material-block-active" : "contribution-material-block"} content={
-                   <div
-                   onClick={() => this._changeSelectedType("Substructure")}
-                   className={selectedType === "Substructure" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
-                   <QuestionMark width="20px" height="20px" svgClass={"option-contribution-svg"}/>
-                   <div className={"option-contribution-text"}>زیرساخت قابل اشتراک</div>
-                   </div>
-                   }/>
-                   */}
-                </div>
-              </div>
-            </div>
-        )
-      case "two":
-        return (
-            <div className="contribution-product-two">
-              <div className={"gray-text-input-label-container"}>
-                <label className="gray-text-input-label">عنوان آورده:</label>
-                <input type="text" className="form-control gray-text-input" defaultValue={productName}
-                       onChange={(e) => this.setState({...this.state, productName: e.target.value})}/>
-                <div ref={e => this.nameError = e} className={"product-name-error-hide"}>طول نام غیر مجاز است</div>
-              </div>
-              <div className={"gray-text-input-label-container"}> {/*TODO: SET THREE AREA FIELD*/}
-                <label className="gray-text-input-label">محدوده جغرافیایی:</label>
-                {/*<input type="text" className="form-control gray-text-input"/>*/}
-                <div className={"inteli-area"}>
-                  <InteliInput list={countryList} handleChange={(data) => this._handleCountry(data)}/>
-                </div>
-                <div className={"inteli-area"}>
-                  <InteliInput list={provinceList} handleChange={(data) => this._handleProvince(data)}/>
-                </div>
-                <div className={"inteli-area"}>
-                  <InteliInput list={cityList} handleChange={(data) => this._handleCity(data)}/>
-                </div>
-                <div ref={e => this.locationError = e} className={"product-name-error-hide"}>محدوده جغرافیایی را کامل انتخاب کنید</div>
-
-              </div>
-
-              <div className={"gray-text-input-label-container"}>
-                <label className="gray-text-input-label">طبقه اول دسته بندی:</label>
-                <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "one")}
-                             list={catLvlOne}/>
-                <div className={"gray-text-input-label-container full"}>
-                  <label className="gray-text-input-label">طبقه دوم دسته بندی:</label>
-                  <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "two")}
-                               list={catLvlTwo}/>
-                </div>
-                <div className={"gray-text-input-label-container full"}>
-                  <label className="gray-text-input-label">طبقه سوم دسته بندی:</label>
-                  <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "three")}
-                               list={catLvlThree}/>
-                </div>
-              </div>
-              <div className={"gray-text-input-label-container"}>
-                <label className="gray-text-input-label">توصیف اجمالی آورده:</label>
-                <textarea name="description" className="form-control gray-textarea-input"
-                          onChange={(e) => this.setState({...this.state, productDescription: e.target.value})}/>
-                <div ref={e => this.descriptionError = e} className={"product-name-error-hide"}>طول توضیحات غیر مجاز است</div>
-              </div>
-              {/*<div className={"gray-text-input-label-container"}>
-               <label className="gray-text-input-label">قیمت:</label>
-               <RadioButtonGroup
-               selected={priceType}
-               handler={this._priceHandler}
-               items={[{value: "معین", title: "معین"}, {value: "تماس با عرضه کننده", title: "تماس با عرضه کننده"}]}
-               name="userType"
-               label={""}
-               className={"contribution"}
-               contribution={"contribution"}
-               />
-               <input type="text" className="form-control gray-text-input" style={{textAlign: "left"}} placeholder={"IRR"}/>
-               </div>*/}
-            </div>
-        )
-      case "three":
-        return (
-            <div className="contribution-product-three">
-              <div className="create-product-title-container">
-                <label className="gray-text-input-label">{translator["Product Gallery"]}:</label>
-              </div>
-              <div className={"create-product-upload-container"}>
-                {processing ?
-                    <ClipLoader color="#253545" size={20} loading={true}/>
-                    :
-                    <UploadIcon className={"create-product-upload-svg"}/>
-                }
-                {!processing && selectedImageId.length < 5 ?
-                    <input type="file" accept="image/*" onChange={e => this._uploadHandler(e.currentTarget.files[0])}/>
-                    : null}
-              </div>
-              <div className={"product-gallery-container"}>
-                <div className={"product-gallery-item-container"}>
-                  {selectedImage[0] ?
-                      <div>
-                        <img src={selectedImage[0]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
-                        <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(0)}>✕</div>
-                      </div>
-                      :
-                      null
-                  }
-                </div>
-                <div className={"product-gallery-item-container"}>
-                  {selectedImage[1] ?
-                      <div>
-                        <img src={selectedImage[1]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
-                        <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(1)}>✕</div>
-                      </div>
-                      :
-                      null
-                  }
-                </div>
-                <div className={"product-gallery-item-container"}>
-                  {selectedImage[2] ?
-                      <div>
-                        <img src={selectedImage[2]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
-                        <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(2)}>✕</div>
-                      </div>
-                      :
-                      null
-                  }
-                </div>
-                <div className={"product-gallery-item-container"}>
-                  {selectedImage[3] ?
-                      <div>
-                        <img src={selectedImage[3]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
-                        <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(3)}>✕</div>
-                      </div>
-                      :
-                      null
-                  }
-                </div>
-                <div className={"product-gallery-item-container"}>
-                  {selectedImage[4] ?
-                      <div>
-                        <img src={selectedImage[4]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
-                        <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(4)}>✕</div>
-                      </div>
-                      :
-                      null
-                  }
-                </div>
-              </div>
-
-              <div className="create-product-title-container">
-                <label className="gray-text-input-label">{translator["Product Video"]}:</label>
-              </div>
-              <div className={"create-product-upload-container"}>
-                <UploadIcon className={"create-product-upload-svg"}/>
-                <input type="file" accept="video/*" onChange={null}/>
-              </div>
-              <div className={"product-gallery-container"}>
-                <div className={"product-gallery-item-container"}/>
-              </div>
-            </div>
-        )
-        // case "four":
-        //   return (
-        //       <div className="contribution-description">
-        //         <div className="icon-wrapper">
-        //           <TipsIcon className="tip-icon"/>
-        //         </div>
-        //         <div className="contribution-desc-txt">
-        //           <p>
-        //             مرحله ی چهارم
-        //           </p>
-        //         </div>
-        //       </div>
-        //   )
-        // case "five":
-        //   return (
-        //       <div className="contribution-product-two">
-        //         {
-        //           productFeatures.map((p, k) =>
-        //               <div className={"product-features-frame-container"} key={k}>
-        //                 <input
-        //                     type={"text"} className={productFeatures[k].filled ? "product-features-frame-filled" : "product-features-frame"}
-        //                     placeholder={productFeatures[k - 1] ? productFeatures[k - 1].filled ? "عنوان ویژگی" : "" : "عنوان ویژگی (مثلا اندازه قطر داخلی)"}
-        //                     disabled={productFeatures[k - 1] ? !productFeatures[k - 1].filled : false}
-        //                     onChange={(e) => this._setProductFeature(e.target.value, k, "title")}
-        //                     onBlur={(e) => this._setProductFeature(e.target.value, k, "blur")}
-        //                 >
-        //                 </input>
-        //                 <input
-        //                     type={"text"} className={productFeatures[k].filled ? "product-features-frame-filled" : "product-features-frame"}
-        //                     placeholder={productFeatures[k - 1] ? productFeatures[k - 1].filled ? "مقدار ویژگی" : "" : "مقدار ویژگی (مثلا 110 میلی متر)"}
-        //                     disabled={productFeatures[k - 1] ? !productFeatures[k - 1].filled : false}
-        //                     onChange={(e) => this._setProductFeature(e.target.value, k, "amount")}
-        //                     onBlur={(e) => this._setProductFeature(e.target.value, k, "blur")}
-        //                 >
-        //                 </input>
-        //               </div>
-        //           )
-        //         }
-        //       </div>
-        //   )
-      default:
-        return (
+    if (currentLevel === "one") {
+      return (
+          <div>
             <div className="contribution-description">
+              <div className="icon-wrapper">
+                <TipsIcon className="tip-icon"/>
+              </div>
               <div className="contribution-desc-txt">
                 <p>
-                  Undefined Level
+                  آورده در سامانه اینوین دارایی توامندی یا ارزشی‌ست که کاربران اعم از مجموعه‌ها و افراد ارایه
+                  می‌دهند. قابلیت عرضه در پنجره‌ها کارگزاری و انجام معامله آن وجود دارد. محصولات تولیدی
+                  توانمندی‌ها تاییدیه‌ها گواهی‌نامه‌ها خدمات مشاوره. زیرساخت‌های قابل اشتراک از انواع آورده در
+                  سامانه اینوین هستند.
                 </p>
               </div>
             </div>
-        )
+            <div className={"contribution-description-options-area"}>
+              <div className={"text"}>انتخاب نوع آورده:</div>
+              <div className={"contribution-description-options"}>
+
+                <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === "Product" ? "contribution-material-block-active" : "contribution-material-block"} content={
+                  <div onClick={() => this._changeSelectedType("Product")}
+                       className={selectedType === "Product" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
+                    <ContributionIcon className={"option-contribution-svg"}/>
+                    <div className={"option-contribution-text"}>محصول</div>
+                  </div>
+                }/>
+
+                <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === "Ability" ? "contribution-material-block-active" : "contribution-material-block"} content={
+                  <div
+                      onClick={() => this._changeSelectedType("Ability")}
+                      className={selectedType === "Ability" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
+                    <SkillIcon className="option-contribution-svg-smaller"/>
+                    <div className={"option-contribution-text"}>توانمندی</div>
+                  </div>
+                }/>
+                {/* // NOT AVAILABLE FOR NOW
+                 <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === "Certificate" ? "contribution-material-block-active" : "contribution-material-block"} content={
+                 <div
+                 onClick={() => this._changeSelectedType("Certificate")}
+                 className={selectedType === "Certificate" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
+                 <CertificateIcon className="option-contribution-svg-smaller"/>
+                 <div className={"option-contribution-text"}>تاییدیه</div>
+                 </div>
+                 }/>
+
+                 <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === "Consultation" ? "contribution-material-block-active" : "contribution-material-block"} content={
+                 <div
+                 onClick={() => this._changeSelectedType("Consultation")}
+                 className={selectedType === "Consultation" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
+                 <ConsultIcon className="option-contribution-svg-small"/>
+                 <div className={"option-contribution-text"}>مشاوره</div>
+                 </div>
+                 }/>
+
+                 <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === "Substructure" ? "contribution-material-block-active" : "contribution-material-block"} content={
+                 <div
+                 onClick={() => this._changeSelectedType("Substructure")}
+                 className={selectedType === "Substructure" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
+                 <QuestionMark width="20px" height="20px" svgClass={"option-contribution-svg"}/>
+                 <div className={"option-contribution-text"}>زیرساخت قابل اشتراک</div>
+                 </div>
+                 }/>
+                 */}
+              </div>
+            </div>
+          </div>
+      )
+    } else if (selectedType === "Product") {
+      switch (currentLevel) {
+        case "two":
+          return (
+              <div className="contribution-product-two">
+                <div className={"gray-text-input-label-container"}>
+                  <label className="gray-text-input-label">عنوان آورده:</label>
+                  <input type="text" className="form-control gray-text-input" defaultValue={productName}
+                         onChange={(e) => this.setState({...this.state, productName: e.target.value})}/>
+                  <div ref={e => this.nameError = e} className={"product-name-error-hide"}>طول نام غیر مجاز است</div>
+                </div>
+                <div className={"gray-text-input-label-container"}> {/*TODO: SET THREE AREA FIELD*/}
+                  <label className="gray-text-input-label">محدوده جغرافیایی:</label>
+                  {/*<input type="text" className="form-control gray-text-input"/>*/}
+                  <div className={"inteli-area"}>
+                    <InteliInput list={countryList} handleChange={(data) => this._handleCountry(data)}/>
+                  </div>
+                  <div className={"inteli-area"}>
+                    <InteliInput list={provinceList} handleChange={(data) => this._handleProvince(data)}/>
+                  </div>
+                  <div className={"inteli-area"}>
+                    <InteliInput list={cityList} handleChange={(data) => this._handleCity(data)}/>
+                  </div>
+                  <div ref={e => this.locationError = e} className={"product-name-error-hide"}>محدوده جغرافیایی را کامل انتخاب کنید</div>
+
+                </div>
+
+                <div className={"gray-text-input-label-container"}>
+                  <label className="gray-text-input-label">طبقه اول دسته بندی:</label>
+                  <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "one")}
+                               list={catLvlOne}/>
+                  <div className={"gray-text-input-label-container full"}>
+                    <label className="gray-text-input-label">طبقه دوم دسته بندی:</label>
+                    <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "two")}
+                                 list={catLvlTwo}/>
+                  </div>
+                  <div className={"gray-text-input-label-container full"}>
+                    <label className="gray-text-input-label">طبقه سوم دسته بندی:</label>
+                    <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "three")}
+                                 list={catLvlThree}/>
+                  </div>
+                </div>
+                <div className={"gray-text-input-label-container"}>
+                  <label className="gray-text-input-label">توصیف اجمالی آورده:</label>
+                  <textarea name="description" className="form-control gray-textarea-input"
+                            onChange={(e) => this.setState({...this.state, productDescription: e.target.value})}/>
+                  <div ref={e => this.descriptionError = e} className={"product-name-error-hide"}>طول توضیحات غیر مجاز است</div>
+                </div>
+                {/*<div className={"gray-text-input-label-container"}>
+                 <label className="gray-text-input-label">قیمت:</label>
+                 <RadioButtonGroup
+                 selected={priceType}
+                 handler={this._priceHandler}
+                 items={[{value: "معین", title: "معین"}, {value: "تماس با عرضه کننده", title: "تماس با عرضه کننده"}]}
+                 name="userType"
+                 label={""}
+                 className={"contribution"}
+                 contribution={"contribution"}
+                 />
+                 <input type="text" className="form-control gray-text-input" style={{textAlign: "left"}} placeholder={"IRR"}/>
+                 </div>*/}
+              </div>
+          )
+        case "three":
+          return (
+              <div className="contribution-product-three">
+                <div className="create-product-title-container">
+                  <label className="gray-text-input-label">{translator["Product Gallery"]}:</label>
+                </div>
+                <div className={"create-product-upload-container"}>
+                  {processing ?
+                      <ClipLoader color="#253545" size={20} loading={true}/>
+                      :
+                      <UploadIcon className={"create-product-upload-svg"}/>
+                  }
+                  {!processing && selectedImageId.length < 5 ?
+                      <input type="file" accept="image/*" onChange={e => this._uploadHandler(e.currentTarget.files[0])}/>
+                      : null}
+                </div>
+                <div className={"product-gallery-container"}>
+                  <div className={"product-gallery-item-container"}>
+                    {selectedImage[0] ?
+                        <div>
+                          <img src={selectedImage[0]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
+                          <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(0)}>✕</div>
+                        </div>
+                        :
+                        null
+                    }
+                  </div>
+                  <div className={"product-gallery-item-container"}>
+                    {selectedImage[1] ?
+                        <div>
+                          <img src={selectedImage[1]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
+                          <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(1)}>✕</div>
+                        </div>
+                        :
+                        null
+                    }
+                  </div>
+                  <div className={"product-gallery-item-container"}>
+                    {selectedImage[2] ?
+                        <div>
+                          <img src={selectedImage[2]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
+                          <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(2)}>✕</div>
+                        </div>
+                        :
+                        null
+                    }
+                  </div>
+                  <div className={"product-gallery-item-container"}>
+                    {selectedImage[3] ?
+                        <div>
+                          <img src={selectedImage[3]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
+                          <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(3)}>✕</div>
+                        </div>
+                        :
+                        null
+                    }
+                  </div>
+                  <div className={"product-gallery-item-container"}>
+                    {selectedImage[4] ?
+                        <div>
+                          <img src={selectedImage[4]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
+                          <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(4)}>✕</div>
+                        </div>
+                        :
+                        null
+                    }
+                  </div>
+                </div>
+
+                <div className="create-product-title-container">
+                  <label className="gray-text-input-label">{translator["Product Video"]}:</label>
+                </div>
+                <div className={"create-product-upload-container"}>
+                  <UploadIcon className={"create-product-upload-svg"}/>
+                  <input type="file" accept="video/*" onChange={null}/>
+                </div>
+                <div className={"product-gallery-container"}>
+                  <div className={"product-gallery-item-container"}/>
+                </div>
+              </div>
+          )
+          // case "four":
+          //   return (
+          //       <div className="contribution-description">
+          //         <div className="icon-wrapper">
+          //           <TipsIcon className="tip-icon"/>
+          //         </div>
+          //         <div className="contribution-desc-txt">
+          //           <p>
+          //             مرحله ی چهارم
+          //           </p>
+          //         </div>
+          //       </div>
+          //   )
+          // case "five":
+          //   return (
+          //       <div className="contribution-product-two">
+          //         {
+          //           productFeatures.map((p, k) =>
+          //               <div className={"product-features-frame-container"} key={k}>
+          //                 <input
+          //                     type={"text"} className={productFeatures[k].filled ? "product-features-frame-filled" : "product-features-frame"}
+          //                     placeholder={productFeatures[k - 1] ? productFeatures[k - 1].filled ? "عنوان ویژگی" : "" : "عنوان ویژگی (مثلا اندازه قطر داخلی)"}
+          //                     disabled={productFeatures[k - 1] ? !productFeatures[k - 1].filled : false}
+          //                     onChange={(e) => this._setProductFeature(e.target.value, k, "title")}
+          //                     onBlur={(e) => this._setProductFeature(e.target.value, k, "blur")}
+          //                 >
+          //                 </input>
+          //                 <input
+          //                     type={"text"} className={productFeatures[k].filled ? "product-features-frame-filled" : "product-features-frame"}
+          //                     placeholder={productFeatures[k - 1] ? productFeatures[k - 1].filled ? "مقدار ویژگی" : "" : "مقدار ویژگی (مثلا 110 میلی متر)"}
+          //                     disabled={productFeatures[k - 1] ? !productFeatures[k - 1].filled : false}
+          //                     onChange={(e) => this._setProductFeature(e.target.value, k, "amount")}
+          //                     onBlur={(e) => this._setProductFeature(e.target.value, k, "blur")}
+          //                 >
+          //                 </input>
+          //               </div>
+          //           )
+          //         }
+          //       </div>
+          //   )
+        default:
+          return (
+              <div className="contribution-description">
+                <div className="contribution-desc-txt">
+                  <p>
+                    Undefined Level
+                  </p>
+                </div>
+              </div>
+          )
+      }
+    } else if (selectedType === "Ability") {
+      switch (currentLevel) {
+        case "two":
+          return (
+              <div className="contribution-ability-two">
+                <div className={"gray-text-input-label-container"}>
+                  <label className="gray-text-input-label">عنوان توانمندی:</label>
+                  <input type="text" className="form-control gray-text-input" defaultValue={abilityTitle}
+                         onChange={(e) => this.setState({...this.state, abilityTitle: e.target.value})}/>
+                  <div ref={e => this._titleError = e} className={"product-name-error-hide"}>طول عنوان غیر مجاز است</div>
+                </div>
+                <div className={"gray-text-input-label-container"}>
+                  <label className="gray-text-input-label">توضیحات توانمندی:</label>
+                  <textarea name="description" className="form-control gray-textarea-input" defaultValue={abilityDescription}
+                            onChange={(e) => this.setState({...this.state, abilityDescription: e.target.value})}/>
+                  <div ref={e => this._descriptionError = e} className={"product-name-error-hide"}>طول توضیحات غیر مجاز است</div>
+                </div>
+                {/*<div className={"gray-text-input-label-container"}>
+                 <label className="gray-text-input-label">قیمت:</label>
+                 <RadioButtonGroup
+                 selected={priceType}
+                 handler={this._priceHandler}
+                 items={[{value: "معین", title: "معین"}, {value: "تماس با عرضه کننده", title: "تماس با عرضه کننده"}]}
+                 name="userType"
+                 label={""}
+                 className={"contribution"}
+                 contribution={"contribution"}
+                 />
+                 <input type="text" className="form-control gray-text-input" style={{textAlign: "left"}} placeholder={"IRR"}/>
+                 </div>*/}
+              </div>
+          )
+        default:
+          return (
+              <div className="contribution-description">
+                <div className="contribution-desc-txt">
+                  <p>
+                    Undefined Level
+                  </p>
+                </div>
+              </div>
+          )
+      }
     }
   }
 
   renderFooter() {
-    let {currentLevel, processing} = this.state
-    return (
-        <div className={"contribution-footer"}>
-          <button className={"next-button"}
-                  onClick={() => currentLevel === "three" ?
+    let {currentLevel, processing, selectedType} = this.state
+    switch (selectedType) {
+      case "Product":
+        return (
+            <div className={"contribution-footer"}>
+              <button className={"next-button"}
+                      onClick={() => currentLevel === "three" ?
+                          processing ?
+                              null : this._handleCreateProduct()
+                          : this.nextLevel()}>
+                <div>
+                  {currentLevel === "three" ?
                       processing ?
-                          null : this._handleCreateProduct()
-                      : this.nextLevel()}>
-            <div>
-              {currentLevel === "three" ?
-                  processing ?
-                      <ClipLoader color="#35495c" size={20} loading={true}/> : "ثبت"
-                  : "بعدی"}
+                          <ClipLoader color="#35495c" size={20} loading={true}/> : "ثبت"
+                      : "بعدی"}
+                </div>
+              </button>
+
+              <button className={currentLevel === "one" ? "previous-button-hidden" : "previous-button"} onClick={() => this.previousLevel()}>
+                قبلی
+              </button>
+
             </div>
-          </button>
+        )
+      case "Ability":
+        return (
+            <div className={"contribution-footer"}>
+              <button className={"next-button"}
+                      onClick={() => currentLevel === "two" ?
+                          this._handleCreateAbility() :
+                          this.nextLevel()}>
+                <div>
+                  {currentLevel === "two" ?
+                      "ثبت" :
+                      "بعدی"}
+                </div>
+              </button>
 
-          <button className={currentLevel === "one" ? "previous-button-hidden" : "previous-button"} onClick={() => this.previousLevel()}>
-            قبلی
-          </button>
+              <button className={currentLevel === "one" ? "previous-button-hidden" : "previous-button"} onClick={() => this.previousLevel()}>
+                قبلی
+              </button>
 
-        </div>
-    )
+            </div>
+        )
+      default:
+        return (
+            <div className={"contribution-footer"}>
+              <button className={"next-button"}
+                      onClick={() => currentLevel === "three" ?
+                          processing ?
+                              null : this._handleCreateProduct()
+                          : this.nextLevel()}>
+                <div>
+                  {currentLevel === "three" ?
+                      processing ?
+                          <ClipLoader color="#35495c" size={20} loading={true}/> : "ثبت"
+                      : "بعدی"}
+                </div>
+              </button>
+
+              <button className={currentLevel === "one" ? "previous-button-hidden" : "previous-button"} onClick={() => this.previousLevel()}>
+                قبلی
+              </button>
+
+            </div>
+        )
+    }
+
   }
 
   nextLevel() {
     let {
       currentLevel, productName, productDescription, selectedCountry, selectedProvince, selectedCity,
-      productNameError, productDescriptionError, selectedCountryError, selectedProvinceError, selectedCityError,
+      productNameError, productDescriptionError, selectedCountryError, selectedProvinceError, selectedCityError, selectedType
     } = this.state
-    switch (currentLevel) {
-      case "one":
-        this.setState({
-          ...this.state,
-          currentLevel: "two",
-          // productName: "",
-          productDescription: "",
-          selectedImage: [],
-          selectedImageId: [],
-          selectedCountry: null,
-          selectedProvince: null,
-          selectedCity: null,
-        })
-        break
-      case "two":
-        if (productName.length < 1 || productName.length > 99) {
-          this.nameError.className = "product-name-error"
-          this.descriptionError.className = "product-name-error-hide"
-          this.locationError.className = "product-name-error-hide"
-        } else if (productDescription.length > 999) {
-          this.nameError.className = "product-name-error-hide"
-          this.descriptionError.className = "product-name-error"
-          this.locationError.className = "product-name-error-hide"
-        } else if (selectedCity === null) {
-          this.nameError.className = "product-name-error-hide"
-          this.descriptionError.className = "product-name-error-hide"
-          this.locationError.className = "product-name-error"
-        } else {
-          this.nameError.className = "product-name-error-hide"
-          this.descriptionError.className = "product-name-error-hide"
-          this.locationError.className = "product-name-error"
-          this.setState({...this.state, currentLevel: "three"})
-        }
-        break
-        // case "three":
-        //   this.setState({...this.state, currentLevel: "four"})
-        //   break
-        // case "four":
-        //   this.setState({...this.state, currentLevel: "five"})
-        //   break
-      default :
-        this.setState({...this.state, currentLevel: "one"})
-        break
+    if (selectedType === "Product") {
+      switch (currentLevel) {
+        case "one":
+          this.setState({
+            ...this.state,
+            currentLevel: "two",
+            // productName: "",
+            productDescription: "",
+            selectedImage: [],
+            selectedImageId: [],
+            selectedCountry: null,
+            selectedProvince: null,
+            selectedCity: null,
+          })
+          break
+        case "two":
+          if (productName.length < 1 || productName.length > 99) {
+            this.nameError.className = "product-name-error"
+            this.descriptionError.className = "product-name-error-hide"
+            this.locationError.className = "product-name-error-hide"
+          } else if (productDescription.length > 999) {
+            this.nameError.className = "product-name-error-hide"
+            this.descriptionError.className = "product-name-error"
+            this.locationError.className = "product-name-error-hide"
+          } else if (selectedCity === null) {
+            this.nameError.className = "product-name-error-hide"
+            this.descriptionError.className = "product-name-error-hide"
+            this.locationError.className = "product-name-error"
+          } else {
+            this.nameError.className = "product-name-error-hide"
+            this.descriptionError.className = "product-name-error-hide"
+            this.locationError.className = "product-name-error"
+            this.setState({...this.state, currentLevel: "three"})
+          }
+          break
+          // case "three":
+          //   this.setState({...this.state, currentLevel: "four"})
+          //   break
+          // case "four":
+          //   this.setState({...this.state, currentLevel: "five"})
+          //   break
+        default :
+          this.setState({...this.state, currentLevel: "one"})
+          break
+      }
+    } else if (selectedType === "Ability") {
+      switch (currentLevel) {
+        case "one":
+          this.setState({
+            ...this.state,
+            currentLevel: "two",
+            // productName: "",
+            abilityDescription: "",
+            AbilityTitle: "",
+          })
+          break
+          // case "two":
+          //   if (productName.length < 1 || productName.length > 99) {
+          //     this.nameError.className = "product-name-error"
+          //     this.descriptionError.className = "product-name-error-hide"
+          //     this.locationError.className = "product-name-error-hide"
+          //   } else if (productDescription.length > 999) {
+          //     this.nameError.className = "product-name-error-hide"
+          //     this.descriptionError.className = "product-name-error"
+          //     this.locationError.className = "product-name-error-hide"
+          //   } else if (selectedCity === null) {
+          //     this.nameError.className = "product-name-error-hide"
+          //     this.descriptionError.className = "product-name-error-hide"
+          //     this.locationError.className = "product-name-error"
+          //   } else {
+          //     this.nameError.className = "product-name-error-hide"
+          //     this.descriptionError.className = "product-name-error-hide"
+          //     this.locationError.className = "product-name-error"
+          //     this.setState({...this.state, currentLevel: "three"})
+          //   }
+          //   break
+          // case "three":
+          //   this.setState({...this.state, currentLevel: "four"})
+          //   break
+          // case "four":
+          //   this.setState({...this.state, currentLevel: "five"})
+          //   break
+        default :
+          this.setState({...this.state, currentLevel: "one"})
+          break
+      }
     }
   }
 
@@ -1390,6 +1572,8 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       currentLevel: "one",
       productName: "",
       productDescription: "",
+      abilityTitle: "",
+      abilityDescription: "",
       selectedImage: [],
       selectedImageId: [],
       selectedCountry: null,
@@ -1442,6 +1626,25 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     }
     _createProduct(formData)
     this._closeModal()
+  }
+
+  _handleCreateAbility() {
+    let {abilityTitle, abilityDescription} = this.state
+    let {clientId} = this.props
+    if (abilityTitle.length > 4 && abilityDescription < 100) {
+      let formData = {
+        title: abilityTitle,
+        description: abilityDescription,
+        skill_user: clientId && clientId,
+      }
+      let {_createSkillAction} = this.props
+      _createSkillAction(formData)
+      this._closeModal()
+    } else {
+      this._titleError.className = "product-name-error"
+      this._descriptionError.className = "product-name-error"
+      console.log("Ability Lengths don't match the requirements")
+    }
   }
 
   _uploadHandler = (fileString: any) => {
@@ -1523,6 +1726,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
 
 const mapStateToProps = (state) => {
   const identity = state.auth.client.identity.content
+  const clientId = state.auth.client.user.id
   const initialFormValues = getFormValues(state, "addingContributionInitialInfoForm")
   const provinceId = initialFormValues.product_related_province ? initialFormValues.product_related_province.value : ""
   const countryId = initialFormValues.product_related_country ? initialFormValues.product_related_country.value : ""
@@ -1542,6 +1746,7 @@ const mapStateToProps = (state) => {
     provinces: provinceSelectorByProvinceId(state, countryId),
     province: state.common.location.province,
     identity,
+    clientId,
     clientFiles: fileSelectorByKeyValue(state, "identity", identity),
     cities: citySelectorByProvinceId(state, provinceId),
     city: state.common.location.city,

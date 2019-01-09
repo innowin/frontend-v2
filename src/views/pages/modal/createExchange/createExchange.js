@@ -386,6 +386,19 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
       }
       createExchange(formValues)
       handleModalVisibility()
+      this.exName.value = ""
+      this.exDes.value = ""
+      this.exPic.value = null
+      this.setState(
+          {
+            ...this.state,
+            name: "",
+            description: "",
+            exchangeImage: null,
+            selectedImage: null,
+            isPrivate: false,
+            processing: false,
+          })
     } else {
       console.log("Illegal Length")
     }
@@ -417,7 +430,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
                 {translate["Exchange Name"]} <span className={"secondary-color"}>*</span>
               </label>
               <input type={"text"} className={"create-exchange-name-input"} placeholder={translate["Exchange Name"]}
-                     onChange={(e) => this.setState({...this.state, name: e.target.value})}/>
+                     ref={e => this.exName = e} onChange={(e) => this.setState({...this.state, name: e.target.value})}/>
               <div className={name.length < 32 ? "create-exchange-name-input-limit" : "create-exchange-name-input-limited"}>
                 {name.length} / 32
               </div>
@@ -427,7 +440,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
                 {translate["Exchange Description"]}
               </label>
               <textarea className={"create-exchange-desc-input"} placeholder={"موضوع فعالیت این پنجره چیست؟"}
-                        onChange={(e) => this.setState({...this.state, description: e.target.value})}/>
+                        ref={e => this.exDes = e} onChange={(e) => this.setState({...this.state, description: e.target.value})}/>
               <div className={description.length < 100 ? "create-exchange-desc-input-limit" : "create-exchange-desc-input-limited"}>
                 {description.length} / 100
               </div>
@@ -442,7 +455,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
                     :
                     <UploadIcon className={"create-exchange-upload-svg"}/>
                 }
-                <input type="file" onChange={!processing ? (e => this._uploadHandler(e.currentTarget.files[0])) : console.log("Still Uploading")}/>
+                <input ref={e => this.exPic = e} type="file" onChange={!processing ? (e => this._uploadHandler(e.currentTarget.files[0])) : console.log("Still Uploading")}/>
               </div>
             </div>
           </div>
