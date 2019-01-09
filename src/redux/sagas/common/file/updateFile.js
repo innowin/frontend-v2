@@ -1,23 +1,22 @@
-import api from "../../../../consts/api"
-import results from "../../../../consts/resultName"
-import urls from "../../../../consts/URLS"
-import {call, fork, take} from "redux-saga/effects"
+import api from "src/consts/api"
+import results from "src/consts/resultName"
+import urls from "src/consts/URLS"
+import { call, fork, take, put } from "redux-saga/effects"
+import types from "src/redux/actions/types"
 
-export function* updateFile(action) { // payload?
+export function* updateFile(action) {
   const {formData, id} = action.payload
-  const socketChannel = yield call(api.createSocketChannel, results.COMMON.UPDATE_FILE)
+  const resultName = results.COMMON.UPDATE_FILE + id
+  const socketChannel = yield call(api.createSocketChannel, resultName)
 
   try {
-    yield fork(api.patch, urls.COMMON.FILE, results.COMMON.UPDATE_FILE, formData, id)
+    yield fork(api.patch, urls.COMMON.FILE, resultName, formData, id)
     const data = yield take(socketChannel)
-    console.log("updateFile saga worker success data is: ", data)
-    // yield put({type: types.SUCCESS.COMMON.PRODUCT.UPDATE_PRODUCT, data})
-  }
-  catch (error) {
-    console.log("updateFile saga worker error data is: ", error)
-    // yield put({type: types.ERRORS.COMMON.PRODUCT.UPDATE_PRODUCT, error})
-  }
-  finally {
+    yield put({type: types.SUCCESS.COMMON.UPDATE_FILE, payload: {id, data}})
+  } catch (error) {
+    const { message } = error
+    yield put({type: types.ERRORS.COMMON.UPDATE_FILE, payload: {id, message}})
+  } finally {
     socketChannel.close()
   }
 }

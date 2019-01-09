@@ -36,7 +36,7 @@ export function* createExchangeMembership(action) {
           id: uuid(),
           type: constants.TOAST_TYPE.SUCCESS,
           content: {
-            text: translate['Create exchange done']
+            text: translate['Create exchange membership done']
           }
         }
       }

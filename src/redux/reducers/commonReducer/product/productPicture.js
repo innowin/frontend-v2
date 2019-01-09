@@ -8,13 +8,11 @@ const productPicture = (state = initialState.common.product.productPicture, acti
   switch (action.type) {
     case types.SUCCESS.COMMON.CREATE_PRODUCT_PICTURE:
       return pushAnObjToStateList.success(state, action)
+    case types.SUCCESS.COMMON.GET_PRODUCT_PICTURES_BY_PRODUCT_ID:
+      return appendListToStateList.success(state, action)
+
     case types.RESET:
       return initialState.common.product.productPicture
-
-    case types.SUCCESS.COMMON.GET_PRODUCT_PICTURES_BY_PRODUCT_ID: {
-      return appendListToStateList.success(state, action)
-    }
-
     default:
       return state
   }

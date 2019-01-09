@@ -74,7 +74,7 @@ class Login extends Component {
               <CarouselLogin/>
 
               <div className={`col-12 col-md-6 col-lg-5 login-wrapper ${animateFormClass}`}>
-                <div className="card">
+                <div className="sign-in-card">
                   <div className="login-tab">
                     {(!SignIn) && (
                         <div className="signup-tab">

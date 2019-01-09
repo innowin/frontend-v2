@@ -6,13 +6,13 @@ import slices from './sliceReducers/user'
 import setRelatedObjIdForListItem from './sliceReducers/utilsSlices/setRelatedObjIdForListItem'
 
 const users = (state = initialState.users, action) => {
-  const {userId, data, message, search} = action.payload || {}
-  const defaultObject = {content: {}, isLoading: false, error: null}
-  const defaultObject2 = {content: [], isLoading: false, error: null}
+  const { userId, data, message, search } = action.payload || {}
+  const defaultObject = { content: {}, isLoading: false, error: null }
+  const defaultObject2 = { content: [], isLoading: false, error: null }
   const previousUser = (state.list[userId] && state.list[userId].user) || defaultObject
   const previousProfile = (state.list[userId] && state.list[userId].profile) || defaultObject
   const previousIdentity = (state.list[userId] && state.list[userId].identity) ||
-      {content: null, isLoading: false, error: null}
+      { content: null, isLoading: false, error: null }
   const previousBadges = (state.list[userId] && state.list[userId].badges) || defaultObject2
 
   switch (action.type) {
@@ -129,7 +129,7 @@ const users = (state = initialState.users, action) => {
         }
       }
     case types.SUCCESS.USER.PASSWORD_RESET_BY_SMS_CHECK_CODE:
-      const {VerificationCode} = action.payload || {}
+      const { VerificationCode } = action.payload || {}
       return {
         ...state,
         recoveryPassword: {
@@ -222,8 +222,8 @@ const users = (state = initialState.users, action) => {
             ...state.list[userId],
             user: {
               ...previousUser,
-              content: {...data},
-              isLoading: false,
+              content: { ...data },
+              isLoading: false
             }
           }
         }
@@ -246,7 +246,7 @@ const users = (state = initialState.users, action) => {
     case types.SUCCESS.USER.GET_USERS:
       return {
         ...state,
-        list: {...state.list, ...data},
+        list: { ...state.list, ...data },
         isLoading: false,
         error: null
       }
@@ -272,12 +272,13 @@ const users = (state = initialState.users, action) => {
                 },
                 profile: {
                   ...state.list[user.user.id].profile,
-                  content: {...state.list[user.user.id].profile.content, ...user.profile, profile_user: {...user.user}},
+                  content: { ...state.list[user.user.id].profile.content, ...user.profile, profile_user: { ...user.user } },
                   isLoading: false,
                   error: null
                 }
               }
-            } else {
+            }
+            else {
               objectData[user.user.id] = {
                 badges: {
                   content: [...user.badges],
@@ -285,7 +286,7 @@ const users = (state = initialState.users, action) => {
                   error: null
                 },
                 profile: {
-                  content: {...user.profile, profile_user: {...user.user}},
+                  content: { ...user.profile, profile_user: { ...user.user } },
                   isLoading: false,
                   error: null
                 }
@@ -295,12 +296,12 @@ const users = (state = initialState.users, action) => {
       )
       return {
         ...state,
-        list: {...state.list, ...objectData},
+        list: { ...state.list, ...objectData },
         search: search,
         isLoading: false
       }
 
-    /** -------------------------- reset search user -------------------------> **/
+      /** -------------------------- reset search user -------------------------> **/
     case types.USER.RESET_SEARCH_USER:
       return {
         ...state,
@@ -308,7 +309,7 @@ const users = (state = initialState.users, action) => {
         loading: false
       }
 
-    /** -------------------------- get profile -------------------------> **/
+      /** -------------------------- get profile -------------------------> **/
     case types.USER.GET_PROFILE_BY_USER_ID:
       // initial structure build in first request for getProfile is called but profile isLoading is true:
       return {
@@ -334,7 +335,7 @@ const users = (state = initialState.users, action) => {
             ...state.list[userId],
             profile: {
               ...previousProfile,
-              content: {...data},
+              content: { ...previousProfile.content, ...data },
               isLoading: false
             }
           }

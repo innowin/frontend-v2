@@ -55,9 +55,11 @@
 }
 
 .exchange-model-avatar {
+  position: relative;
   height: 80px;
   margin: 0 auto 8px auto;
   width: 80px;
+  background-color: #f3f3f3;
   border-radius: 50%;
   overflow: hidden;
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.2);
@@ -162,6 +164,11 @@
   padding: 17px 0;
   border-top: 1px solid #F1F1F1;
   border-bottom: 1px solid #F1F1F1;
+}
+
+.exchange-model-detail-skeleton-container {
+  display: flex;
+  flex-flow: row;
 }
 
 .exchange-model-detail-skeleton {
@@ -449,7 +456,7 @@
   border-radius: 3px;
   padding: 2px 0;
   width: 80px;
-  margin-top: 13px;
+  margin-top: 17px;
   float: left;
   transition-duration: 0.25s;
   font-size: $font-size-normalText;
@@ -541,7 +548,7 @@
   cursor: pointer;
   float: left;
   font-size: $font-size-smallText;
-  margin-top: 13px;
+  margin-top: 17px;
   padding: 2.5px 0;
   transition-duration: 0.25s;
   width: 80px;
@@ -638,6 +645,7 @@
 .material {
   display: inline-block;
   overflow: hidden;
+  transform: perspective(0);
   position: relative;
   user-select: none;
   direction: ltr;
@@ -696,10 +704,11 @@
 }
 
 .sidebar-skeleton {
+  display: inline-flex;
+  flex-direction: column;
   position: relative;
   overflow: hidden;
   text-align: center;
-  display: inline-block;
   margin-top: $topBarHeight + 10px;
   overflow-y: auto;
   color: $text-dark-color;
@@ -745,6 +754,8 @@
   background: #ffffff;
   padding: 18px;
   transition-duration: 0.3s;
+  display: flex;
+  flex-direction: column;
 }
 
 .container-skeleton-items {
@@ -820,6 +831,22 @@
   border-radius: 3px;
 }
 
+.user-default-profile-skelte{
+  font-size: 13px;
+  margin-top: 5px;
+  line-height: 27px;
+  background-color: #f3f3f3;
+  border-radius: 3px;
+}
+
+.user-default-profile-skelte-date{
+  font-size: 11px;
+  margin-top: 2px;
+  background-color: #f3f3f3;
+  border-radius: 3px;
+  width: 25%;
+}
+
 .user-default-profile-btn {
   margin: 5px 4px;
   font-size: 14px;
@@ -831,4 +858,6 @@
 .skeleton-overflow-hidden {
   overflow: hidden;
   position: relative;
+  display: flex;
+  flex-flow: column;
 }

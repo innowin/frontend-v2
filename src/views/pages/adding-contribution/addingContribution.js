@@ -1044,6 +1044,25 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
                  <div className={"option-contribution-text"}>تاییدیه</div>
                  </div>
                  }/>
+=======
+                  <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === "Ability" ? "contribution-material-block-active" : "contribution-material-block"} content={
+                    <div
+                        onClick={() => this._changeSelectedType("Ability")}
+                        className={selectedType === "Ability" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
+                      <SkillIcon className="option-contribution-svg-smaller"/>
+                      <div className={"option-contribution-text"}>مهارت</div>
+                    </div>
+                  }/>
+                  {/* // NOT AVAILABLE FOR NOW
+                   <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === "Certificate" ? "contribution-material-block-active" : "contribution-material-block"} content={
+                   <div
+                   onClick={() => this._changeSelectedType("Certificate")}
+                   className={selectedType === "Certificate" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
+                   <CertificateIcon className="option-contribution-svg-smaller"/>
+                   <div className={"option-contribution-text"}>تاییدیه</div>
+                   </div>
+                   }/>
+>>>>>>> f7d96cd42719dbbaf9583d129b04d8843840fc0f
 
                  <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === "Consultation" ? "contribution-material-block-active" : "contribution-material-block"} content={
                  <div

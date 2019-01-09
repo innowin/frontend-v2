@@ -18,7 +18,7 @@ export const MainCategories = [  // need for fetching and creating this list dyn
   {
     value: 'skill',
     svg: (<SkillIcon className="new-contribution-category-image skill-icon"/>),
-    label: 'توانمندی',
+    label: 'مهارت',
   },
   // {
   //   value: 'certificate',

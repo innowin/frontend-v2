@@ -431,6 +431,7 @@ $sidebar-profile-media-width: 80px;
   box-shadow: 0 0 14px rgba(0, 0, 0, 0.2);
   border-radius: $border-radius-size;
   padding: 0 15px 15px 15px;
+  transform: perspective(0);
 }
 
 .user-sidebar-width {
@@ -473,7 +474,8 @@ $sidebar-profile-media-width: 80px;
       font-size: $font-size-verySmallText;
       font-weight: bold;
       width: 100%;
-      background-color: $text-light-color;
+      background-color: rgba($text-lightest-color, 0.8);
+      padding: 3px 0;
     }
   }
 }
@@ -1896,6 +1898,8 @@ $sidebar-profile-media-width: 80px;
   position: relative;
   overflow: hidden;
   margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
 
   &:last-child {
     margin-bottom: 0;
@@ -2124,6 +2128,7 @@ $sidebar-profile-media-width: 80px;
     //cursor: pointer;
     //border-radius: $border-radius-more;
   }
+
   input[type='file'] {
     position: absolute;
     top: 0;

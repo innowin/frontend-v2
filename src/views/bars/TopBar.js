@@ -109,7 +109,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     if (mediaId) {
       getFile(mediaId)
     }
-    setTimeout(() => verifyToken(client.getToken()), 1000)
+    // setTimeout(() => verifyToken(client.getToken()), 1000)
 
     // Added for check profile photo url
     if (clientImgLink) {

@@ -45,14 +45,15 @@ class SignUpForm extends React.Component<> {
           <div className='password-container'>
             <FontAwesome className='eye-icon pulse' name={showPassword ? 'eye-slash' : 'eye'}
                          onClick={this._changeStatePassword}/>
-            <Field name="password" type={showPassword ? 'text' : 'password'} component={renderTextField} label={translator['Password']}
+            <Field name="password" type={showPassword ? 'text' : 'password'} component={renderTextField}
+                   label={translator['Password']}
                    className="signup-field"/>
           </div>
           {/*<Field name="passwordConfirm" type="password" component={renderTextField}*/}
           {/*label={translator['Repeat password']} className="signup-field"/>*/}
           <div>
             <button
-                className="btn btn-primary btn-block login-submit-button mt-0 cursor-pointer"
+                className="login-submit-button"
                 disabled={submitting}>
               {!submitting ? translator['Register'] : (
                   <BeatLoader color="#fff" size={10} margin="auto"/>
@@ -135,14 +136,29 @@ export class RegisterForm extends Component {
     const onSubmitFunc = (userType === USER_TYPES.PERSON) ? (this._onSubmitPerson) : (this._onSubmitOrgan)
     // const onSubmitFunc = onRegisterClick
     return (
-        <div className="s">
-          <RadioButtonGroup
-              selected={userType}
-              handler={this._typeHandler}
-              items={userTypeItems}
-              name="userType"
-              label={''}
-          />
+        <div className="">
+          {/*<RadioButtonGroup*/}
+          {/*selected={userType}*/}
+          {/*handler={this._typeHandler}*/}
+          {/*items={userTypeItems}*/}
+          {/*name="userType"*/}
+          {/*label={''}*/}
+          {/*/>*/}
+          <div className='radio-button-container'>
+            <label className="container-checkmark">
+              <input type="radio" defaultChecked name="radio-step-1" ref={e => this.emailChecked = e}
+                     onClick={() => this._typeHandler(USER_TYPES.PERSON)}/>
+              <span className="checkmark"/>
+              <p className='title'>{translator['Person']}</p>
+            </label>
+            <label className="container-checkmark">
+              <input type="radio" name="radio-step-1" ref={e => this.emailChecked = e}
+                     onClick={() => this._typeHandler(USER_TYPES.ORGANIZATION)}/>
+              <span className="checkmark"/>
+              <p className='title'>{translator['Organ']}</p>
+            </label>
+          </div>
+
           <SignUpForm
               {...reduxFormProps}
               translator={translator}

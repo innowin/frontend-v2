@@ -9,10 +9,12 @@ const getAllUsers = (state) => {
             user.profile &&
             user.profile.content &&
             user.profile.content.profile_user &&
+            user.profile.content.profile_user.username &&
             (
                 user.profile.content.profile_user.username.includes(state.users.search) ||
                 user.profile.content.profile_user.first_name.includes(state.users.search) ||
-                user.profile.content.profile_user.last_name.includes(state.users.search))
+                user.profile.content.profile_user.last_name.includes(state.users.search)
+            )
     )
   }
   else return allUsers
@@ -31,7 +33,11 @@ const getSearchedUsers_ = (state) => {
   const allUsersArray = Object.values(allUsers)
   if (state.users.search)
     return allUsersArray.filter(
-        user => user.profile &&
+        user =>
+            user.profile &&
+            user.profile.content &&
+            user.profile.content.profile_user &&
+            user.profile.content.profile_user.username &&
             (
                 user.profile.content.profile_user.username.includes(search)
                 || user.profile.content.profile_user.first_name.includes(search)

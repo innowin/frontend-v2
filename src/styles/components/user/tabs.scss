@@ -117,6 +117,8 @@
     margin-left: 18px;
     margin-right: 18px;
     text-align: justify;
+    transition: height ease 0.2s;
+    word-break: break-all;
   }
 
   .post-content-more {
@@ -128,6 +130,7 @@
     color: $secondary-color;
     padding: 2px 7px;
     cursor: pointer;
+    word-break: break-all;
   }
 
   .post-content-more-hide {
@@ -308,6 +311,7 @@
         .post-text-comment {
           white-space: pre-wrap;
           text-align: justify;
+          word-break: break-all;
         }
       }
     }

@@ -1,24 +1,24 @@
 // flow type of CustomerInfoForm
-import * as React from "react"
-import {Component} from "react"
-import PropTypes from "prop-types"
+import * as React from "react";
+import { Component } from "react";
+import PropTypes from "prop-types";
 
-import type {CustomerType} from "src/consts/flowTypes/organization/customer"
-import constants from "src/consts/constants"
+import type { CustomerType } from "src/consts/flowTypes/organization/customer";
+import constants from "src/consts/constants";
 import types from "src/redux/actions/types";
-import {createFileFunc} from "../../common/Functions";
+import { createFileFunc } from "../../common/Functions";
 import AttachFile from "../../common/inputs/AttachFile";
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import userActions from "src/redux/actions/user/getUserActions";
-import {getSearchedUsers, getSearchWord} from "src/redux/selectors/user/GetAllUsers";
+import { getSearchedUsers, getSearchWord } from "src/redux/selectors/user/GetAllUsers";
 import FileActions from "src/redux/actions/commonActions/fileActions";
-import TempActions from "src/redux/actions/tempActions"
+import TempActions from "src/redux/actions/tempActions";
 import CustomerActions from "src/redux/actions/organization/customerActions";
-import {TextInput} from "../../common/inputs/TextInput";
-import {DefaultUserIcon} from "../../../images/icons";
+import { TextInput } from "../../common/inputs/TextInput";
+import { DefaultUserIcon } from "../../../images/icons";
 
-const CustomerInfoFormTempKeyName = "customer_picture_file"
+const CustomerInfoFormTempKeyName = "customer_picture_file";
 
 type PropsCustomerInfoForm = {
   customer: CustomerType,
@@ -51,190 +51,190 @@ class CustomerInfoForm extends Component<PropsCustomerInfoForm> {
     getFile: PropTypes.func,
     customer: PropTypes.object,
     tempCustomerPictureId: PropTypes.number
-  }
+  };
 
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      relatedCustomerIdentityId: '',
-      searchedRelatedCustomerWord: '',
-      pictureString: '',
+      relatedCustomerIdentityId: "",
+      searchedRelatedCustomerWord: "",
+      pictureString: "",
       savingCustomer: false,
       resetSearch: false,
-      error: ''
-    }
+      error: ""
+    };
   }
 
   _handleBase64 = (fileString) => {
-    this.setState({...this.state, pictureString: fileString})
-  }
+    this.setState({ ...this.state, pictureString: fileString });
+  };
 
   _validateTitle = (title) => {
-    const {translate} = this.props
+    const { translate } = this.props;
     if (title.length < 3) {
-      return translate['Title is wrong']
+      return translate["Title is wrong"];
     }
-  }
+  };
 
   _preSave = () => {
-    this.setState({...this.state, savingCustomer: true})
-    const {pictureString} = this.state
-    const {actions} = this.props
-    const {createFile} = actions
-    const nextActionTypesForCustomerPicture = types.COMMON.SET_FILE_IDS_IN_TEMP_FILE
-    const nextActionDataForCustomerPicture = {tempFileKeyName: CustomerInfoFormTempKeyName}
-    const fileIdKey = 'fileId'
+    this.setState({ ...this.state, savingCustomer: true });
+    const { pictureString } = this.state;
+    const { actions } = this.props;
+    const { createFile } = actions;
+    const nextActionTypesForCustomerPicture = types.COMMON.SET_FILE_IDS_IN_TEMP_FILE;
+    const nextActionDataForCustomerPicture = { tempFileKeyName: CustomerInfoFormTempKeyName };
+    const fileIdKey = "fileId";
     const postPicturesCreateArguments = {
       fileIdKey,
       nextActionType: nextActionTypesForCustomerPicture,
-      nextActionData: nextActionDataForCustomerPicture,
-    }
-    pictureString && createFileFunc(createFile, pictureString, postPicturesCreateArguments)
-  }
+      nextActionData: nextActionDataForCustomerPicture
+    };
+    pictureString && createFileFunc(createFile, pictureString, postPicturesCreateArguments);
+  };
 
 
   _formValidate = () => {
-    const {relatedCustomerIdentityId} = this.state
-    const {customer, tempCustomerPictureId} = this.props
-    const titleValidate = this.titleInput.validate()
+    const { relatedCustomerIdentityId } = this.state;
+    const { customer, tempCustomerPictureId } = this.props;
+    const titleValidate = this.titleInput.validate();
     const customerPicture = tempCustomerPictureId ||
-      (customer && (customer.customer_picture.id || customer.customer_picture))
+      (customer && (customer.customer_picture.id || customer.customer_picture));
     if (!titleValidate && customerPicture && relatedCustomerIdentityId) {
-      return true
+      return true;
     } else {
-      return false
+      return false;
     }
-  }
+  };
 
   _save = () => {
-    const {organizationId, customer, tempCustomerPictureId, hideEdit, actions} = this.props
-    const {updateOrgCustomer, createOrgCustomer, removeFileFromTemp} = actions
-    const {relatedCustomerIdentityId} = this.state
-    const title = this.titleInput.getValue()
+    const { organizationId, customer, tempCustomerPictureId, hideEdit, actions } = this.props;
+    const { updateOrgCustomer, createOrgCustomer, removeFileFromTemp } = actions;
+    const { relatedCustomerIdentityId } = this.state;
+    const title = this.titleInput.getValue();
     const customerPicture = tempCustomerPictureId ||
-      (customer && (customer.customer_picture.id || customer.customer_picture))
+      (customer && (customer.customer_picture.id || customer.customer_picture));
     const formValues = {
       customer_organization: organizationId,
       title,
       related_customer: relatedCustomerIdentityId,
-      customer_picture: customerPicture,
-    }
+      customer_picture: customerPicture
+    };
     if (this._formValidate()) {
       if (customer) {
-        const customerId: number = customer.id
-        updateOrgCustomer({formValues, customerId})
+        const customerId: number = customer.id;
+        updateOrgCustomer({ formValues, customerId });
       } else {
-        createOrgCustomer({formValues, organizationId})
+        createOrgCustomer({ formValues, organizationId });
       }
-      hideEdit()
+      hideEdit();
     }
-    removeFileFromTemp(CustomerInfoFormTempKeyName)
-    this.setState({...this.state, savingCustomer: false})
-  }
+    removeFileFromTemp(CustomerInfoFormTempKeyName);
+    this.setState({ ...this.state, savingCustomer: false });
+  };
 
   componentDidUpdate(prevProps, prevState) {
-    const {tempCustomerPictureId, customer} = this.props
-    const {resetSearch, savingCustomer} = this.state
-    const customerPictureId = customer && (customer.customer_picture.id || customer.customer_picture)
-    const existPicture = tempCustomerPictureId || customerPictureId
+    const { tempCustomerPictureId, customer } = this.props;
+    const { resetSearch, savingCustomer } = this.state;
+    const customerPictureId = customer && (customer.customer_picture.id || customer.customer_picture);
+    const existPicture = tempCustomerPictureId || customerPictureId;
 
     if (resetSearch) {
-      this._resetSearchUser()
-      this.setState({...this.state, resetSearch: false})
+      this._resetSearchUser();
+      this.setState({ ...this.state, resetSearch: false });
     }
     if (savingCustomer && existPicture) {
-      this._save()
+      this._save();
     }
   }
 
   _handleClickOutMenuBox = (e: any) => {
-    const {searchObj} = this.props
-    if (searchObj.search && !e.target.closest('#relatedCustomerDiv')) {
-      this._resetSearchUser()
+    const { searchObj } = this.props;
+    if (searchObj.search && !e.target.closest("#relatedCustomerDiv")) {
+      this._resetSearchUser();
     }
-  }
+  };
 
   componentDidMount() {
-    const {customer, actions} = this.props
-    const {getFile} = actions
+    const { customer, actions } = this.props;
+    const { getFile } = actions;
     if (customer) {
-      const customerPictureId = customer.customer_picture.id || customer.customer_picture
-      const relatedCustomerIdentityId = customer.related_customer.id || customer.related_customer
+      const customerPictureId = customer.customer_picture.id || customer.customer_picture;
+      const relatedCustomerIdentityId = customer.related_customer.id || customer.related_customer;
       this.setState({
         ...this.state,
         title: customer.title,
         customerPictureId,
-        relatedCustomer: relatedCustomerIdentityId,
+        relatedCustomer: relatedCustomerIdentityId
       }, () => {
-        getFile && !customer.customer_picture.id && getFile(customer.customer_picture)
-      })
+        getFile && !customer.customer_picture.id && getFile(customer.customer_picture);
+      });
     }
 
-    this._resetSearchUser()
+    this._resetSearchUser();
 
-    document.addEventListener('click', this._handleClickOutMenuBox)
+    document.addEventListener("click", this._handleClickOutMenuBox);
   }
 
   componentWillUnmount() {
-    (document.removeEventListener: Function)('click', this._handleClickOutMenuBox)
+    (document.removeEventListener: Function)("click", this._handleClickOutMenuBox);
   }
 
   _onSubmit = (e) => {
-    e.preventDefault()
-    this._preSave()
-  }
+    e.preventDefault();
+    this._preSave();
+  };
 
   _handleSearchedWord = (e) => {
-    e.preventDefault()
-    const value = e.target.value
-    const {searchedUsers, actions} = this.props
-    const {getSearchedUsers} = actions
+    e.preventDefault();
+    const value = e.target.value;
+    const { searchedUsers, actions } = this.props;
+    const { getSearchedUsers } = actions;
     const object = searchedUsers.filter(
       userObj => userObj.profile && (userObj.profile.content.profile_user.username === value)
-    )[0]
-    const identityId = ((object && object.profile) ? object.profile.content.profile_user.identity : '') ||
-      2638 //TODO: handle by backend developer.remove 2638 from here
-    this.setState({...this.state, relatedCustomerIdentityId: identityId, searchedRelatedCustomerWord: value}, () => {
-      const trimedValue = value.trim()
+    )[0];
+    const identityId = ((object && object.profile) ? object.profile.content.profile_user.identity : "") ||
+      2638; //TODO: handle by backend developer.remove 2638 from here
+    this.setState({ ...this.state, relatedCustomerIdentityId: identityId, searchedRelatedCustomerWord: value }, () => {
+      const trimedValue = value.trim();
       if (trimedValue.length >= 2) {
-        getSearchedUsers(0, 0, trimedValue)
+        getSearchedUsers(0, 0, trimedValue);
       } else {
-        this.setState({...this.state, resetSearch: true})
+        this.setState({ ...this.state, resetSearch: true });
       }
-    })
-  }
+    });
+  };
 
   _handleRelatedCustomer = (e, username, identityId) => {
     this.setState({
       ...this.state,
       relatedCustomerIdentityId: identityId, searchedRelatedCustomerWord: username
-    }, () => this._resetSearchUser())
-  }
+    }, () => this._resetSearchUser());
+  };
 
   _resetSearchUser = () => {
-    const {actions} = this.props
-    const {resetSearchUser} = actions
-    resetSearchUser()
-  }
+    const { actions } = this.props;
+    const { resetSearchUser } = actions;
+    resetSearchUser();
+  };
 
   render() {
-    const {searchedUsers, customerPictureLink, translate} = this.props
-    const {pictureString, searchedRelatedCustomerWord, error} = this.state
+    const { searchedUsers, customerPictureLink, translate } = this.props;
+    const { pictureString, searchedRelatedCustomerWord, error } = this.state;
     return (
       <form onSubmit={this._onSubmit} className="customer-form">
         <TextInput
-          label={translate['Title'] + ": "}
+          label={translate["Title"] + ": "}
           name="title"
           required={true}
           customValidate={this._validateTitle}
           className="title"
           ref={e => {
-            this.titleInput = e
+            this.titleInput = e;
           }}
         />
         <div className='form-group'>
           <label>
-            {translate['Customer picture'] + ": "}
+            {translate["Customer picture"] + ": "}
           </label>
           <AttachFile
             inputId="customerPictureInputId"
@@ -253,20 +253,25 @@ class CustomerInfoForm extends Component<PropsCustomerInfoForm> {
 
         <div className='form-group'>
           <label>
-            {translate['Related customer'] + ": "}
+            {translate["Related customer"] + ": "}
           </label>
           <div id="relatedCustomerDiv">
             <input
               type="text"
-              placeholder={translate['Title']}
+              placeholder={translate["Title"]}
               className='form-control'
               onChange={this._handleSearchedWord}
               value={searchedRelatedCustomerWord}
+              style={
+                searchedRelatedCustomerWord.length > 0
+                && new RegExp("^[A-Za-z]*$").test(searchedRelatedCustomerWord[0]) ? { direction: "ltr" }
+                  : { direction: "rtl" }
+              }
             />
             <div className="searched-users">
               {searchedUsers.map(userObj => {
-                  const profile = userObj.profile ? userObj.profile.content : {}
-                  const user = profile.profile_user
+                  const profile = userObj.profile ? userObj.profile.content : {};
+                  const user = profile.profile_user;
                   return (
                     <div
                       key={user.username}
@@ -290,7 +295,7 @@ class CustomerInfoForm extends Component<PropsCustomerInfoForm> {
                         }
                       </div>
                     </div>
-                  )
+                  );
                 }
               )}
             </div>
@@ -301,18 +306,18 @@ class CustomerInfoForm extends Component<PropsCustomerInfoForm> {
         {this.props.children}
 
       </form>
-    )
+    );
   }
 }
 
 const mapStateToProps = state => {
-  const tempCustomerPictureId = state.temp.file[CustomerInfoFormTempKeyName] || null
+  const tempCustomerPictureId = state.temp.file[CustomerInfoFormTempKeyName] || null;
   return {
     tempCustomerPictureId,
     searchedUsers: getSearchedUsers(state),
     searchObj: getSearchWord(state)
-  }
-}
+  };
+};
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
@@ -322,9 +327,9 @@ const mapDispatchToProps = dispatch => ({
     getFile: FileActions.getFile,
     removeFileFromTemp: TempActions.removeFileFromTemp,
     createOrgCustomer: CustomerActions.createOrgCustomer,
-    updateOrgCustomer: CustomerActions.updateOrgCustomer,
+    updateOrgCustomer: CustomerActions.updateOrgCustomer
   }, dispatch)
-})
+});
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(CustomerInfoForm)
+export default connect(mapStateToProps, mapDispatchToProps)(CustomerInfoForm);

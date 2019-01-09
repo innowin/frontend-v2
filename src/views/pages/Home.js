@@ -44,6 +44,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
   }
 
   render() {
+    // alert('s')
     const {identityId, identityType, id, translate} = this.props
     const {activeExchangeId} = this.state
     // const title = `${translate["InnoWin"]} - ${translate["Home"]}`

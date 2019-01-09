@@ -99,7 +99,6 @@ class Toast extends React.Component <ToastProps, ToastState> {
                 </button>
               </div>
             </div>
-            <div className='toast-child-transition-front-back'/>
           </div>
         </div>
     )

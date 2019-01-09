@@ -179,7 +179,7 @@ module.exports = {
   'Phd': 'دکتری',
 
   'And': 'و',
-  'Skill': 'توانمندی',
+  'Skill': 'مهارت',
   'Product': 'محصول',
   'Badge': 'نشان',
 
@@ -265,7 +265,7 @@ module.exports = {
 
   // user - skills
   'Tag': 'برچسب',
-  'Skills': 'توانمندی ها',
+  'Skills': 'مهارت ها',
   'Work experiences': 'سوابق کاری',
   'Position': 'موقعیت شغلی',
   'Name work': 'محل کار',
@@ -431,7 +431,7 @@ module.exports = {
   // toast messages
   'Create post done': 'پست شما با موفقت ثبت شد',
   'Post removed': 'پست شما پاک شد',
-  'Create exchange done': 'پنجره شما با موفقت ساخته شد',
+  'Create exchange done': 'پنجره شما با موفقیت ساخته شد',
   'Create exchange membership done': 'عضویت شما با موفقیت ثبت شد',
   'Exchange removed': 'پنجره شما پاک شد',
   'Exchange membership removed': 'لغو عضویت شما انجام شد',
