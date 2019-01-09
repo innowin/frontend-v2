@@ -167,7 +167,7 @@ class User extends Component<PropsUser> {
           {/*<VerifyWrapper isLoading={isLoading} error={errorMessage} className="-main row page-content">*/}
           {isLoading
               ? <UserSkeleton/>
-              : <div className='-main row page-content'>
+              : <div className='-main page-content'>
                 {!identityObject.content ? '' : (
                     <UserSideBar
                         user={userObject.content}

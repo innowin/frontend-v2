@@ -116,7 +116,7 @@ export class Organization extends Component<PropsOrganization> {
     return (
         <div className="-userOrganBackgroundImg">
           {/*<TopBar collapseClassName="col user-sidebar-width"/>*/}
-          <VerifyWrapper isLoading={isLoading} error={errorMessage} className="-main row page-content">
+          <VerifyWrapper isLoading={isLoading} error={errorMessage} className="-main page-content">
             {(!identityObject.content) ? '' : (
                 <OrganSideBar
                               organ={organObject.content}

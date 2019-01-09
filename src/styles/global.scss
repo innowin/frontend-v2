@@ -1,5 +1,16 @@
 @import "variables";
 
+div, body, ul, nav, caption, li, span, a, p, ol, i, strong, label, input, table, td, th, tt, tr, article, aside, button, main, b, pre, form, textarea, svg, hr, br {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  box-sizing: border-box;
+}
+
+p {
+  margin-bottom: 8px;
+}
+
 body {
   direction: rtl;
   overflow-x: hidden;
@@ -9,14 +20,13 @@ body {
   //background-image: url("../images/common/background.png");
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: red;
-  scrollbar-color: $primary-color $background-color ;
+  scrollbar-color: $primary-color $background-color;
 }
 
 html {
   height: 100%;
   font-family: "IRANSansWebFaNum", "Helvetica Neue", sans-serif !important;
-  scrollbar-color: $primary-color $background-color ;
+  scrollbar-color: $primary-color $background-color;
 }
 
 input, textarea, button, select {
@@ -25,7 +35,7 @@ input, textarea, button, select {
 
 @import "./font-face";
 @import "./_variables.scss";
-@import "~bootstrap/scss/bootstrap.scss";
+@import "./our_bootstrap.scss";
 @import "~react-select/dist/react-select.css";
 @import "~react-image-gallery/styles/scss/image-gallery.scss";
 @import "./components/utils.scss";
@@ -60,7 +70,6 @@ input, textarea, button, select {
 @import "components/common/inputs/tick-checkbox";
 @import "components/common/edit-form-button";
 @import "components/common/label";
-@import "components/common/list-group-addons";
 @import "components/common/media";
 @import "components/common/post";
 @import "components/common/post-footer.scss";
@@ -134,7 +143,7 @@ a, a:hover, a:active {
   overflow-x: hidden;
 }
 
-.background-strips{
+.background-strips {
   background-image: repeating-linear-gradient(-45deg, #eee, #eee 10px, #f8f8f8 10px, #f8f8f8 20px);
 }
 @media screen and (max-width: 10000px) {
@@ -188,6 +197,7 @@ a, a:hover, a:active {
     overflow-x: hidden;
   }
 }
+
 button {
   &:focus {
     box-shadow: none !important;
@@ -213,7 +223,7 @@ button {
   background: $scroll-color;
   box-shadow: none;
 
-  &:hover{
+  &:hover {
     background: $scroll-color-hover;
   }
 }

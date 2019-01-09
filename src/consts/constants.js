@@ -1,8 +1,9 @@
 export default {
   TOP_BAR_PAGES: {
-    HOME: 'home',
-    EXPLORE: 'explore',
-    PROFILE: 'profile',
+    EXCHANGE_EXPLORER: '/exchange/Exchange_Explorer',
+    USER_EXPLORER: '/users/Users_Explorer',
+    HOME: '/',
+    OTHER: 'other',
   },
   USER_TYPES: {
     PERSON: 'person',

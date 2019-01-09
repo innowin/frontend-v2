@@ -16,9 +16,9 @@ import Material from '../common/components/Material'
 import Privacy from './TopBarComponents/Privacy'
 import PropTypes from 'prop-types'
 import UserAgreement from './TopBarComponents/UserAgreement'
-import { bindActionCreators } from 'redux'
-import { Component } from 'react'
-import { connect } from 'react-redux'
+import {bindActionCreators} from 'redux'
+import {Component} from 'react'
+import {connect} from 'react-redux'
 import {
   DefaultUserIcon,
   NotificationIcon,
@@ -28,11 +28,11 @@ import {
   HomeSvgSelected,
   ExchangeExploreIconSelected
 } from 'src/images/icons'
-import { Link } from 'react-router-dom'
-import { routerActions } from 'react-router-redux'
-import { SearchIcon } from '../../images/icons'
-import { shortOrganizationType } from 'src/consts/flowTypes/organization/organization'
-import { userProfileType, userType } from 'src/consts/flowTypes/user/basicInformation'
+import {Link} from 'react-router-dom'
+import {routerActions} from 'react-router-redux'
+import {SearchIcon} from '../../images/icons'
+import {shortOrganizationType} from 'src/consts/flowTypes/organization/organization'
+import {userProfileType, userType} from 'src/consts/flowTypes/user/basicInformation'
 import constants from '../../consts/constants'
 import makeFileSelectorByKeyValue from '../../redux/selectors/common/file/selectFilsByKeyValue'
 
@@ -50,6 +50,7 @@ type PropsTopBar = {|
     getFile: Function
   },
   translate: { topBar: { [string]: string }, [string]: string },
+  path: string,
 |}
 
 type StatesTopBar = {|
@@ -80,7 +81,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   //types
   searchInput: ? HTMLInputElement
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       isSignedOut: false,
@@ -96,15 +97,15 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       showAbout: false,
       selectedAbout: 'FAQ',
       profilePhotoLoaded: false,
-      currentPage: constants.TOP_BAR_PAGES.HOME
+      currentPage: constants.TOP_BAR_PAGES.HOME,
     }
 
     this._handleCloseOutside = this._handleCloseOutside.bind(this)
   }
 
-  componentDidMount () {
-    const { actions, clientProfile, clientImgLink } = this.props
-    const { verifyToken, getFile } = actions
+  componentDidMount() {
+    const {actions, clientProfile, clientImgLink, path} = this.props
+    const {verifyToken, getFile} = actions
     const mediaId = clientProfile.profile_media
     if (mediaId) {
       getFile(mediaId)
@@ -116,47 +117,70 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       let profile = new Image()
       profile.src = clientImgLink
       profile.onload = () => {
-        this.setState({ ...this.state, profilePhotoLoaded: true })
+        this.setState({...this.state, profilePhotoLoaded: true})
       }
     }
     //
+
+    if (path === constants.TOP_BAR_PAGES.HOME) {
+      this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.HOME})
+    } else if (path === constants.TOP_BAR_PAGES.USER_EXPLORER) {
+      this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.USER_EXPLORER})
+    } else if (path === constants.TOP_BAR_PAGES.EXCHANGE_EXPLORER) {
+      this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.EXCHANGE_EXPLORER})
+    } else {
+      this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.OTHER})
+    }
 
     document.addEventListener('mousedown', this._handleCloseOutside)
 
   }
 
-  componentDidUpdate (prevProps) {
-    const { isLoggedIn, actions } = this.props
+  componentDidUpdate(prevProps) {
+    const {isLoggedIn, actions, path} = this.props
+    const {currentPage} = this.state
     if (prevProps.isLoggedIn && prevProps.isLoggedIn !== isLoggedIn) {
       actions.push('/login')
     }
+
+    if (currentPage !== path && prevProps.path !== path) {
+      if (path === constants.TOP_BAR_PAGES.HOME) {
+        this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.HOME})
+      } else if (path === constants.TOP_BAR_PAGES.USER_EXPLORER) {
+        this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.USER_EXPLORER})
+      } else if (path === constants.TOP_BAR_PAGES.EXCHANGE_EXPLORER) {
+        this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.EXCHANGE_EXPLORER})
+      } else {
+        this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.OTHER})
+      }
+    }
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (this.props.clientImgLink !== nextProps.clientImgLink) {
-      this.setState({ ...this.state, profilePhotoLoaded: false }, () => {
+      this.setState({...this.state, profilePhotoLoaded: false}, () => {
         if (nextProps.clientImgLink) {
           let profile = new Image()
           profile.src = nextProps.clientImgLink
           profile.onload = () => {
-            this.setState({ ...this.state, profilePhotoLoaded: true })
+            this.setState({...this.state, profilePhotoLoaded: true})
           }
         }
       })
     }
   }
 
-  componentWillUnmount (): void {
+  componentWillUnmount(): void {
     document.removeEventListener('mousedown', this._handleCloseOutside)
   }
 
-  _handleCloseOutside (e) {
+  _handleCloseOutside(e) {
     if (this.state.exploreCollapse && this.exploreRef && !this.exploreRef.contains(e.target)) {
-      this.setState({ ...this.state, exploreCollapse: false, collapseProfile: false })
+      this.setState({...this.state, exploreCollapse: false, collapseProfile: false})
     }
 
     if (this.state.collapseProfile && this.profileRef && !this.profileRef.contains(e.target)) {
-      this.setState({ ...this.state, exploreCollapse: false, collapseProfile: false })
+      this.setState({...this.state, exploreCollapse: false, collapseProfile: false})
     }
   }
 
@@ -172,10 +196,8 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
         ...this.state,
         exploreCollapse: !this.state.exploreCollapse,
         collapseProfile: false,
-        currentPage: constants.TOP_BAR_PAGES.EXPLORE
       })
-    }
-    else {
+    } else {
       this.setState({
         ...this.state,
         exploreCollapse: !this.state.exploreCollapse,
@@ -185,52 +207,52 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   }
 
   _toggleProfile = () => {
-    this.setState({ ...this.state, collapseProfile: !this.state.collapseProfile, exploreCollapse: false })
+    this.setState({...this.state, collapseProfile: !this.state.collapseProfile, exploreCollapse: false})
   }
 
   _handleExchangeUpgrade = () => {
-    this.setState({ ...this.state, agentForm: true })
+    this.setState({...this.state, agentForm: true})
     setTimeout(() =>
-            this.setState({ ...this.state, collapseProfile: false })
+            this.setState({...this.state, collapseProfile: false})
         , 350)
   }
 
   _handleHideAgent = () => {
-    this.setState({ ...this.state, agentForm: false })
+    this.setState({...this.state, agentForm: false})
   }
   _createExchangeModalVisibilityHandler = () => {
-    this.setState({ ...this.state, createExchangeModalIsOpen: !this.state.createExchangeModalIsOpen })
+    this.setState({...this.state, createExchangeModalIsOpen: !this.state.createExchangeModalIsOpen})
     setTimeout(() =>
-            this.setState({ ...this.state, collapseProfile: false })
+            this.setState({...this.state, collapseProfile: false})
         , 350)
   }
 
   _handleProductWizardModal = () => {
-    this.setState({ ...this.state, productWizardModalIsOpen: !this.state.productWizardModalIsOpen })
+    this.setState({...this.state, productWizardModalIsOpen: !this.state.productWizardModalIsOpen})
     setTimeout(() =>
-            this.setState({ ...this.state, collapseProfile: false })
+            this.setState({...this.state, collapseProfile: false})
         , 350)
   }
 
   _handleSignOut = () => {
-    this.setState({ ...this.state, showSetting: false, exploreCollapse: false, collapseProfile: false })
+    this.setState({...this.state, showSetting: false, exploreCollapse: false, collapseProfile: false})
     this.props.actions.signOut()
     window.location.reload()
   }
 
   _handleMouseEnter = () => {
-    this.setState({ ...this.state, mouseIsOverMenu: true })
+    this.setState({...this.state, mouseIsOverMenu: true})
   }
 
   _handleMouseLeave = () => {
-    this.setState({ ...this.state, mouseIsOverMenu: false })
+    this.setState({...this.state, mouseIsOverMenu: false})
   }
 
   _handleShowSetting = () => {
     setTimeout(() => {
-      this.setState({ ...this.state, collapseProfile: false })
+      this.setState({...this.state, collapseProfile: false})
     }, 350)
-    this.setState({ ...this.state, showSetting: true, exploreCollapse: false, showAbout: false })
+    this.setState({...this.state, showSetting: true, exploreCollapse: false, showAbout: false})
   }
 
   _handleHideSetting = () => {
@@ -242,45 +264,47 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       createExchangeModalIsOpen: false
     })
     setTimeout(() => {
-      this.setState({ ...this.state, selectedSetting: 'Privacy', selectedAbout: 'FAQ' })
+      this.setState({...this.state, selectedSetting: 'Privacy', selectedAbout: 'FAQ'})
       setTimeout(() => {
-        this.setState({ ...this.state, selectedSetting: 'General Settings' })
+        this.setState({...this.state, selectedSetting: 'General Settings'})
       }, 10)
     }, 500)
   }
 
   _homeClick = () => {
-    this.setState({ ...this.state, currentPage: constants.TOP_BAR_PAGES.HOME })
+    this.setState({...this.state})
   }
 
   _handleShowAbout = () => {
     setTimeout(() => {
-      this.setState({ ...this.state, collapseProfile: false })
+      this.setState({...this.state, collapseProfile: false})
     }, 350)
-    this.setState({ ...this.state, showSetting: false, exploreCollapse: false, showAbout: true })
+    this.setState({...this.state, showSetting: false, exploreCollapse: false, showAbout: true})
   }
 
   _handleCloseProfile = () => {
     setTimeout(() =>
-            this.setState({ ...this.state, collapseProfile: false, currentPage: constants.TOP_BAR_PAGES.PROFILE })
+            this.setState({...this.state, collapseProfile: false})
         , 350)
   }
 
   _handleSettingSelected = (target) => {
-    this.setState({ ...this.state, selectedSetting: target })
+    this.setState({...this.state, selectedSetting: target})
   }
 
   _handleAboutSelected = (target) => {
-    this.setState({ ...this.state, selectedAbout: target })
+    this.setState({...this.state, selectedAbout: target})
   }
 
-  render () {
-    const { collapseClassName, clientUser, clientOrganization, translate, clientImgLink } = this.props
+  render() {
+    const {collapseClassName, clientUser, clientOrganization, translate, clientImgLink} = this.props
     const topBarTranslate = translate.topBar
-    const { collapse, collapseProfile, exploreCollapse, productWizardModalIsOpen, mouseIsOverMenu, selectedSetting, selectedAbout, showSetting, showAbout, createExchangeModalIsOpen, profilePhotoLoaded, agentForm } = this.state
+    const {currentPage} = this.state
+    const {collapse, collapseProfile, exploreCollapse, productWizardModalIsOpen, mouseIsOverMenu, selectedSetting, selectedAbout, showSetting, showAbout, createExchangeModalIsOpen, profilePhotoLoaded, agentForm} = this.state
     const linkEditProfile = !clientOrganization
         ? `/user/${clientUser.id}`
         : `/organization/${clientOrganization.id}`
+
     return (
         <div onMouseEnter={this._handleMouseEnter} onMouseLeave={this._handleMouseLeave}>
           <AgentForm
@@ -293,29 +317,32 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
               modalIsOpen={createExchangeModalIsOpen}
           />
 
-          <nav className="navbar flex-row justify-content-between p-0 -white-i topBar">
+          <nav className="page-content topBar">
             <div className="d-flex align-items-center" ref={e => this.exploreRef = e}>
               <Link to={'/'} onClick={this._homeClick}>
-                <Material backgroundColor='rgba(238, 238, 238,0.8)' className='top-bar-home' content={
-                  <React.Fragment>
-                    {this.state.currentPage === constants.TOP_BAR_PAGES.HOME
-                        ? <HomeSvgSelected className='home-icon'/>
-                        : <HomeSvg className='home-icon'/>
-                    }
-                    <p className='top-bar-title'>{topBarTranslate['Home page']}</p>
-                  </React.Fragment>
-                }/>
+                <Material backgroundColor='rgba(238, 238, 238,0.8)'
+                          className={currentPage === constants.TOP_BAR_PAGES.HOME ? 'selected-bar top-bar-home' : 'top-bar-home'}
+                          content={
+                            <div className='home-top-bar-container'>
+                              {currentPage === constants.TOP_BAR_PAGES.HOME
+                                  ? <HomeSvgSelected className='home-icon'/>
+                                  : <HomeSvg className='home-icon'/>
+                              }
+                              <p className='top-bar-title'>{topBarTranslate['Home page']}</p>
+                            </div>
+                          }/>
               </Link>
 
-              <Material backgroundColor='rgba(238, 238, 238,0.8)' className="top-bar-explore -topBarIcons-cont"
+              <Material backgroundColor='rgba(238, 238, 238,0.8)'
+                        className={(currentPage === constants.TOP_BAR_PAGES.USER_EXPLORER) || (currentPage === constants.TOP_BAR_PAGES.EXCHANGE_EXPLORER) ? 'selected-bar top-bar-home' : 'top-bar-home'}
                         onClick={this._toggleExplore} content={
-                <React.Fragment>
-                  {this.state.currentPage === constants.TOP_BAR_PAGES.EXPLORE
+                <div className='home-top-bar-container'>
+                  {(currentPage === constants.TOP_BAR_PAGES.USER_EXPLORER) || (currentPage === constants.TOP_BAR_PAGES.EXCHANGE_EXPLORER)
                       ? <ExchangeExploreIconSelected className='-topBarIcons'/>
                       : <ExchangeExploreIcon className='-topBarIcons'/>
                   }
                   <p className='top-bar-title'>{topBarTranslate['Explore']}</p>
-                </React.Fragment>
+                </div>
               }/>
 
               <div className='explore-menu-wrapper'>
@@ -352,23 +379,24 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                   <div className='explore-menu'>
 
                     <Link to={linkEditProfile} onClick={this._handleCloseProfile}>
-                      <Material className='profile-menu-profile-section' content={<div>
-                        <div className='profile-menu-profile-section-image'>
-                          {clientImgLink && profilePhotoLoaded ?
-                              <img src={clientImgLink} className='-ProfTopBarImg-svg-img-big' alt="Person icon"/>
-                              :
-                              <DefaultUserIcon className='-ProfTopBarImg-svg-big'/>
-                          }
+                      <Material className='profile-menu-profile-section' content={
+                        <div className='profile-menu-top-section-container'>
+                          <div className='profile-menu-profile-section-image'>
+                            {clientImgLink && profilePhotoLoaded ?
+                                <img src={clientImgLink} className='-ProfTopBarImg-svg-img-big' alt="Person icon"/>
+                                :
+                                <DefaultUserIcon className='-ProfTopBarImg-svg-big'/>
+                            }
+                          </div>
+                          <div className='profile-menu-profile-section-next-image'>
+                            <div
+                                className='profile-menu-profile-section-next-image-first'>{this.props.clientName}</div>
+                            <div
+                                className='profile-menu-profile-section-next-image-middle'>@{clientUser && clientUser.username}</div>
+                            <div
+                                className='profile-menu-profile-section-next-image-last'>{topBarTranslate['Edit Profile']}</div>
+                          </div>
                         </div>
-                        <div className='profile-menu-profile-section-next-image'>
-                          <div
-                              className='profile-menu-profile-section-next-image-first'>{this.props.clientName}</div>
-                          <div
-                              className='profile-menu-profile-section-next-image-middle'>@{clientUser && clientUser.username}</div>
-                          <div
-                              className='profile-menu-profile-section-next-image-last'>{topBarTranslate['Edit Profile']}</div>
-                        </div>
-                      </div>
                       }/>
                     </Link>
 
@@ -397,8 +425,8 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
               </div>
 
-              <div className="-searchInput d-flex align-items-center">
-                <input type="text" className="text-white" name="search" dir="auto"
+              <div className="-searchInput">
+                <input type="text" name="search" dir="auto"
                        placeholder={topBarTranslate['Search in Danesh boom']}
                        ref={searchInput => {
                          this.searchInput = searchInput
@@ -468,45 +496,39 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     )
   }
 
-  renderSetting () {
-    let { selectedSetting } = this.state
+  renderSetting() {
+    let {selectedSetting} = this.state
 
     if (selectedSetting === 'General Settings') {
       return <GeneralSetting hideSetting={this._handleHideSetting}/>
-    }
-    else if (selectedSetting === 'Manage Linked Accounts') {
+    } else if (selectedSetting === 'Manage Linked Accounts') {
       return <LinkedAccounts/>
-    }
-    else if (selectedSetting === 'Privacy') {
+    } else if (selectedSetting === 'Privacy') {
       return <Privacy/>
     }
   }
 
-  renderAbout () {
-    let { selectedAbout } = this.state
+  renderAbout() {
+    let {selectedAbout} = this.state
 
     if (selectedAbout === 'FAQ') {
       return null
-    }
-    else if (selectedAbout === 'Introduce Badges') {
+    } else if (selectedAbout === 'Introduce Badges') {
       return <IntroduceBadges/>
-    }
-    else if (selectedAbout === 'Terms & Conditions') {
+    } else if (selectedAbout === 'Terms & Conditions') {
       return <UserAgreement/>
-    }
-    else if (selectedAbout === 'About Innowin') {
+    } else if (selectedAbout === 'About Innowin') {
       return <AboutInnowin/>
-    }
-    else if (selectedAbout === 'About Us') {
+    } else if (selectedAbout === 'About Us') {
       return <AboutUs/>
     }
   }
 
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   const client = state.auth.client
-  const { profile, organization, user_type } = state.auth.client
+  const {profile, organization, user_type} = state.auth.client
   const clientImgId = (user_type === 'person') ? (profile.profile_media) : (
       (organization && organization.organization_logo) || null
   )

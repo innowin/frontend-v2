@@ -72,7 +72,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
           {/*</Helmet>*/}
 
           <main className="-main">
-            <div className="row page-content">
+            <div className="page-content">
               {
                 (id && identityId && identityType) ? (
                     <HomeSideBar setExchangeId={this._setExchangeId}

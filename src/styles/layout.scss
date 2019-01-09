@@ -5,7 +5,7 @@
 }
 
 .-main {
-  padding-top: $topBarHeight;
+  margin-top: $topBarHeight;
 }
 
 .-left-sidebar-wrapper {
@@ -33,6 +33,11 @@
   overflow-y: auto;
   //background: $text-lightest-color;
   //box-shadow: 0 3px 3px $box-shadow-color;
+  .item-wrapper {
+    &.active {
+      background: darken($image-background-color, 2%);
+    }
+  }
 }
 
 .exchanges-last {
