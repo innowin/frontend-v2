@@ -14,9 +14,9 @@ export const createFile = (data) => ({
   }
 })
 
-export const updateFile = (payload) => ({
+export const updateFile = ({id, formData}) => ({
   type: types.COMMON.UPDATE_FILE,
-  payload
+  payload: { id, formData }
 })
 
 export const getFiles = (query) => ({

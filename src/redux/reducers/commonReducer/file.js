@@ -49,6 +49,13 @@ const file = (state = initialState.common.file, action) => {
         //     content: {} // should be more handled.
         // }
       }
+    /** ----------------- update file -----------------> **/
+    case types.COMMON.UPDATE_FILE:
+      return slices.updateFile.base(state, action)
+    case types.SUCCESS.COMMON.UPDATE_FILE:
+      return slices.updateFile.success(state, action)
+    case types.ERRORS.COMMON.UPDATE_FILE:
+      return slices.updateFile.error(state, action)
 
     /** ----------------- set data in file object -----------------> **/
     case types.ENTITY.SET_FILE:
