@@ -16,7 +16,7 @@ type postFooterProps = {
   translate: { [string]: string },
   deletePost: Function,
   showComment: Function,
-  showEdit: Function,
+  showEdit?: Function,
 }
 
 const PostFooter = (props: postFooterProps) => {
@@ -94,7 +94,7 @@ PostFooter.propTypes = {
   translate: PropTypes.object.isRequired,
   deletePost: PropTypes.func.isRequired,
   showComment: PropTypes.func.isRequired,
-  showEdit: PropTypes.func.isRequired,
+  showEdit: PropTypes.func,
 }
 
 export default PostFooter

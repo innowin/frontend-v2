@@ -31,7 +31,7 @@ export const Exchanges = (props: PropsExchangesView) => {
   return (
       <ItemWrapper icon={<SocialIcon/>}>
         <ItemHeader title={translate['Joined exchanges'] + ` (${exchanges.length})`} showEdit={showEdit}/>
-        <div className="members-wrapper row mr-0 ml-0">
+        <div className="members-wrapper row">
           {
             exchanges.map((exchange) => {
               return (

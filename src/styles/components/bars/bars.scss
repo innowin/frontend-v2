@@ -4,13 +4,18 @@ $sidebar-profile-media-width: 80px;
 
 //** ----------------             topBar  -----------------------------------**//
 .topBar {
+  min-height: 0 !important;
   height: $topBarHeight;
   background-color: $brand-inverse-color;
   position: fixed;
+  justify-content: space-between;
   top: 0;
   right: 0;
   left: 0;
   z-index: 3;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
 }
 
 .navbar-toggler {
@@ -31,11 +36,6 @@ $sidebar-profile-media-width: 80px;
 
 .navbar-toggler.active {
   background-color: lighten($primary-color, 1.5%)
-}
-
-.-white-i i {
-  color: $text-lightest-color;
-  font-size: 24px;
 }
 
 .-topBarIcons {
@@ -78,6 +78,10 @@ $sidebar-profile-media-width: 80px;
   height: 100%;
   margin-left: 30px;
 
+  @media screen and (max-width: 650px){
+    margin-left: 10px;
+  }
+
   .search-icon {
     width: 25px;
     position: absolute;
@@ -86,16 +90,23 @@ $sidebar-profile-media-width: 80px;
   }
 
   input {
-    height: 45px;
+    height: 40px;
     //border: 1.5px solid #000000;
     border: 1.5px solid $primary-color-dark1;
     border-radius: 50px;
     background-color: $primary-color-light2;
-    padding: 21px 15px 21px 40px;
+    padding: 3px 15px 3px 40px;
     font-size: $font-size-regular;
     outline: none;
     text-align: right;
-    min-width: 220px;
+    min-width: 200px;
+    max-width: 200px;
+    color: #ffffff;
+
+    @media screen and (max-width: 650px){
+      min-width: 100px;
+      max-width: 165px;
+    }
 
     &::placeholder {
       color: darken(#ffffff, 15%);
@@ -430,7 +441,7 @@ $sidebar-profile-media-width: 80px;
   -moz-box-shadow: 0 0 14px rgba(0, 0, 0, 0.2);
   box-shadow: 0 0 14px rgba(0, 0, 0, 0.2);
   border-radius: $border-radius-size;
-  padding: 0 15px 15px 15px;
+  padding: 0;
   transform: perspective(0);
 }
 
@@ -442,6 +453,7 @@ $sidebar-profile-media-width: 80px;
 .editable-profile-img {
   position: relative;
   background-color: #ffffff;
+  height: 115px;
 
   .css-1z10k3e {
     position: absolute;
@@ -505,12 +517,16 @@ $sidebar-profile-media-width: 80px;
     padding-bottom: 90px;
     border-bottom: 0 !important;
 
+    .sidebar-description {
+      font-size: $font-size-regular;
+    }
+
     .description {
       position: relative;
-      width: 90%;
+      width: 100%;
 
       span {
-        font-size: 12px;
+        font-size: $font-size-regular;
         position: absolute;
         top: 3px;
         left: 6px;
@@ -689,7 +705,8 @@ $sidebar-profile-media-width: 80px;
 
 .banner {
   width: 100%;
-  height: 105px;
+  height: 100%;
+  display: block;
   object-fit: cover;
 }
 
@@ -849,7 +866,7 @@ $sidebar-profile-media-width: 80px;
 
   .header-exchange {
     display: flex;
-    flex-flow: row;
+    flex-flow: row-reverse;
     cursor: pointer;
     align-items: center;
     padding: 10px 10px 10px 30px;
@@ -910,28 +927,37 @@ $sidebar-profile-media-width: 80px;
   }
 }
 
-.top-bar-explore {
-  position: relative;
-  height: 55px;
-  width: 80px;
-  margin-right: 15px;
-  cursor: pointer;
-  border-radius: 50px;
-  text-align: center;
+.selected-bar {
+  border-bottom: 2px solid #ffffff;
 }
-
 .top-bar-home {
-  margin-right: 10px;
-  width: 80px;
+  width: 130px;
+  position: relative;
+  margin-left: 10px;
+  padding: 10px;
   height: 55px;
-  border-radius: 50px;
-  text-align: center;
+  display: flex;
+  align-items: center;
   cursor: pointer;
-
-  .home-icon {
-    height: 25px;
+  .selected-tab {
+    border-bottom: 2px solid #FFFFFF;
   }
 
+  .home-top-bar-container {
+    display: flex;
+    width: 100%;
+    border-radius: 50px;
+    align-items: center;
+    flex-flow: row;
+    direction: rtl;
+    justify-items: center;
+    .home-icon {
+      height: 25px;
+    }
+    .top-bar-title {
+      margin: 0 15px 0 0;
+    }
+  }
 }
 
 .top-bar-title {
@@ -975,7 +1001,7 @@ $sidebar-profile-media-width: 80px;
   user-select: none;
   color: white;
   text-align: right;
-  margin-right: 110px;
+  margin-right: 33px;
 }
 
 .explore-menu-arrow-2 {
@@ -989,17 +1015,32 @@ $sidebar-profile-media-width: 80px;
 }
 
 .explore-menu {
-  direction: rtl;
   margin: -13px auto 0 auto;
   width: 98%;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   background-color: white;
   font-size: 13px;
   border-radius: 3px;
+  //&::before {
+  //  content: '';
+  //  display: block;
+  //  /* background: red; */
+  //  width: 0;
+  //  height: 0;
+  //  position: absolute;
+  //  /* top: -8px; */
+  //  right: 32px;
+  //  top: -3px;
+  //  border: 8px solid transparent;
+  //  border-top: 8px solid white;
+  //  border-right: 8px solid white;
+  //  transform: rotate(-45deg);
+  //}
 }
 
 .explore-menu-items {
   text-decoration: none;
+  direction: rtl;
   position: relative;
   z-index: 2;
   display: block;
@@ -1733,7 +1774,7 @@ $sidebar-profile-media-width: 80px;
 .profile-menu-container {
   position: absolute;
   top: 59px;
-  left: 7px;
+  left: 0;
   width: 320px;
   text-align: right;
   overflow-y: hidden;
@@ -1744,7 +1785,7 @@ $sidebar-profile-media-width: 80px;
 .profile-menu-container-hide {
   position: absolute;
   top: 59px;
-  left: 7px;
+  left: 0;
   width: 320px;
   text-align: right;
   overflow-y: hidden;
@@ -1756,7 +1797,7 @@ $sidebar-profile-media-width: 80px;
   user-select: none;
   color: white;
   text-align: left;
-  margin-left: 28px;
+  margin-left: 15px;
 }
 
 .-ProfTopBarImg-svg-big {
@@ -1778,14 +1819,21 @@ $sidebar-profile-media-width: 80px;
 .profile-menu-profile-section {
   display: block;
   padding: 15px 0;
-  border-bottom: 1px solid $text-title-menu-color;
+  border-bottom: 1px solid $box-shadow-color;
+  .profile-menu-top-section-container {
+    display: flex;
+    flex-flow: row-reverse;
+  }
 }
 
 .profile-menu-profile-section-image {
   width: 100px;
   text-align: center;
   vertical-align: top;
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  flex-flow: row-reverse;
+  justify-content: center;
 }
 
 .profile-menu-profile-section-next-image {
@@ -1819,7 +1867,7 @@ $sidebar-profile-media-width: 80px;
 }
 
 .profile-menu-second-section {
-  border-bottom: 1px solid $text-title-menu-color;
+  border-bottom: 1px solid $box-shadow-color;
   padding-bottom: 1px;
 }
 
@@ -2189,7 +2237,6 @@ $sidebar-profile-media-width: 80px;
 
 .topbar-profile-img {
   cursor: pointer;
-  margin-left: 20px;
   width: 45px;
   height: 45px;
   text-align: center;
@@ -2199,7 +2246,6 @@ $sidebar-profile-media-width: 80px;
 
 .topbar-profile-img-open {
   cursor: pointer;
-  margin-left: 20px;
   width: 45px;
   height: 45px;
   text-align: center;

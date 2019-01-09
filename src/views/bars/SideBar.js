@@ -501,7 +501,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
               </CheckOwner>
               <span className="p-20px mt-4">{name}</span>
               {
-                (!editProfile) ? (<span className="-grey1 text-center">{description}</span>) : (
+                (!editProfile) ? (<span className="-grey1 sidebar-description text-center">{description}</span>) : (
                     <div className='description'>
                       {descriptionClass &&
                       <span className={descriptionClass}>

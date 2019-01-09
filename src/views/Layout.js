@@ -18,10 +18,11 @@ class Layout extends Component {
   }
 
   render() {
+    const path = this.props.location.pathname
     return (
         <div className='pages-wrapper global-wrapper'>
 
-          <TopBar collapseClassName="col user-sidebar-width"/>
+          <TopBar path={path} collapseClassName="col user-sidebar-width"/>
 
           <Switch>
             <PrivateRoute exact={true} path="/" component={Home}/>
