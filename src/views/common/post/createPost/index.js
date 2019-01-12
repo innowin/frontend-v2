@@ -210,7 +210,7 @@ class CreatePost extends Component {
       // this.text.innerText = this.text.innerText.substring(0, caretOffset) + emoji + this.text.innerText.substring((caretOffset), this.text.innerText.length)
 
       const description = this.text.innerText
-      if (description.trim().length <= (maxAllowedWordCounts-26))
+      if (description.trim().length <= (maxAllowedWordCounts))
         this.setState({ ...this.state, description }, () => {
           const descriptionLength = description.trim().length
           if (descriptionLength === 0)
@@ -389,7 +389,7 @@ class CreatePost extends Component {
     const condition1 = Boolean(postImg1 || postImg2 || postImg3 || postMedia || descriptionCheck)
     const condition2 = postFile ? descriptionCheck : true
     const condition3 = Boolean(postPicturesCheck && postMediaCheck && postFileCheck)
-    return condition1 && condition2 && condition3
+    return condition1 && condition2 && condition3 //TODO add product condition
   }
 
   _onSubmit = (e) => {
