@@ -7,13 +7,14 @@ import HomePosts from './home/HomePosts'
 import HomeSideBar from './home/HomeSideBar'
 import PropTypes from 'prop-types'
 import UserDetailPanel from '../common/components/UserDetailPanel'
-import {Component} from 'react'
-import {connect} from 'react-redux'
-import {getMessages} from 'src/redux/selectors/translateSelector'
+import { Component } from 'react'
+import { connect } from 'react-redux'
+import { getMessages } from 'src/redux/selectors/translateSelector'
 import CloseIcon from '../../images/common/close_icon_svg'
-import {BeeBackground} from '../../images/icons'
+import { BeeBackground } from '../../images/icons'
 import BeePanel from '../common/components/BeePanel'
 import CreateExchange from 'src/views/pages/modal/createExchange/createExchange'
+import GetUserData from '../user/getUserData/GetUserData'
 // import {Helmet} from "react-helmet"
 
 type HomeProps = {|
@@ -28,25 +29,25 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
   static propTypes = {
     identityId: PropTypes.number.isRequired,
     identityType: PropTypes.string,
-    id: PropTypes.number,
+    id: PropTypes.number
   }
 
   constructor(props) {
     super(props)
-    this.state = {activeExchangeId: null}
+    this.state = { activeExchangeId: null }
   }
 
   _setExchangeId = (exchangeId: number) => {
-    const {activeExchangeId} = this.state
+    const { activeExchangeId } = this.state
     if (exchangeId !== activeExchangeId) {
-      this.setState({...this.state, activeExchangeId: exchangeId})
+      this.setState({ ...this.state, activeExchangeId: exchangeId })
     }
   }
 
   render() {
     // alert('s')
-    const {identityId, identityType, id, translate} = this.props
-    const {activeExchangeId} = this.state
+    const { identityId, identityType, id, translate } = this.props
+    const { activeExchangeId } = this.state
     // const title = `${translate["InnoWin"]} - ${translate["Home"]}`
     // const description = `${translate["Home"]}`
     return (
@@ -72,6 +73,9 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
           {/*</Helmet>*/}
 
           <main className="-main">
+
+            {/*<GetUserData/>*/}
+
             <div className="page-content">
               {
                 (id && identityId && identityType) ? (
@@ -86,7 +90,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
               }
               <HomePosts exchangeId={activeExchangeId} className="col-6 post-wrapper"/>
               <div className="col-3 pl-0 pr-0 user-detail-wrapper">
-                  <BeePanel/>
+                <BeePanel/>
               </div>
             </div>
             <ChatBar className="pr-0 pl-0 -left-sidebar-wrapper"/>
@@ -108,7 +112,7 @@ const mapStateToProps = state => {
     id: id,
     identityId: clientIdentityId,
     identityType: identityType,
-    translate: getMessages(state),
+    translate: getMessages(state)
   }
 }
 export default connect(mapStateToProps)(Home)

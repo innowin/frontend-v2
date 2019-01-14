@@ -113,8 +113,8 @@ class UserBee extends Component {
       const { clientFiles } = nextProps
       const lastFile = clientFiles[clientFiles.length - 1] || {}
       const prevLastFile = this.props.clientFiles[this.props.clientFiles.length - 1] || {}
-      if (lastFile.id && prevLastFile.id) {
-        if (lastFile.id !== prevLastFile.id) {
+      if (lastFile.id) {
+        if (!prevLastFile || (prevLastFile && (lastFile.id !== prevLastFile.id))) {
           this.setState({ ...this.state, imageLoading: false }, () => {
             actions.updateProfile({ formValues: { profile_media: lastFile.id }, profileId: currentUserProfileId, userId: currentUserId })
           })
@@ -122,7 +122,7 @@ class UserBee extends Component {
       }
     }
 
-    this.setState({ ...this.state, image, name, graduate, job, bio },()=>{
+    this.setState({ ...this.state, image, name, graduate, job, bio }, () => {
       if (image === 30) this.setState({ ...this.state, imageLoading: false })
     })
   }

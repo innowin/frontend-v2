@@ -1,0 +1,336 @@
+@import "../../variables";
+
+.get-data-dark-back {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.3);
+  transition-duration: 0.3s;
+}
+
+.get-data-dark-back-hide {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: -2;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  transition-duration: 0.3s;
+}
+
+.get-data-container {
+  background-color: white;
+  box-shadow: 0 3px 3px $box-shadow-color;
+  border-radius: 5px;
+  position: fixed;
+  top: 85px;
+  right: 100px;
+  left: 100px;
+  bottom: 70px;
+  z-index: 4;
+  transform: scale(1);
+  transition-duration: 0.3s;
+}
+
+.get-data-container-hide {
+  background-color: white;
+  box-shadow: 0 3px 3px $box-shadow-color;
+  border-radius: 5px;
+  position: fixed;
+  top: 85px;
+  right: 100px;
+  left: 100px;
+  bottom: 70px;
+  z-index: -1;
+  transform: scale(0.7);
+  transition-duration: 0.3s;
+}
+
+.get-data-progress {
+  vertical-align: top;
+  display: inline-flex;
+  flex-direction: column;
+  height: 100%;
+  width: 270px;
+  box-shadow: -1px 0 5px $box-shadow-color;
+}
+
+.get-data-progress-box {
+  flex-grow: 1;
+  background-color: $context-menu-background;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 0.5px solid $text-input-border-color;
+  border-bottom: 0.5px solid $text-input-border-color;
+
+  &:first-child {
+    border: none;
+    border-top-right-radius: 5px;
+  }
+
+  &:last-child {
+    border: none;
+    border-bottom-right-radius: 5px;
+  }
+}
+
+.get-data-content {
+  vertical-align: top;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: calc(100% - 270px);
+  background-color: white;
+  border-radius: 5px 0 0 5px;
+  height: 100%;
+  text-align: center;
+  overflow: auto;
+}
+
+.get-data-content-welcome {
+  line-height: 30px;
+}
+
+.get-data-content-account-container {
+  text-align: right;
+  width: 315px;
+  margin: auto;
+  font-size: 12px;
+  position: relative;
+}
+
+.get-data-content-account-container-title {
+  margin-bottom: 20px;
+}
+
+.get-data-content-account-select {
+  width: 125px;
+  text-align: center;
+  padding: 18px 0;
+  border-radius: 3px;
+  display: inline-block;
+  cursor: pointer;
+  transition-duration: 0.3s;
+
+  &:last-child {
+    margin-right: 63px;
+  }
+}
+
+.get-data-content-account-show {
+  position: absolute;
+  z-index: 1;
+  top: 29px;
+  background-color: white;
+  color: $info-color;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid $info-color;
+  border-radius: 50%;
+}
+
+.get-data-content-selected {
+  border: 1px solid $info-color;
+  color: $info-color;
+  font-weight: bold;
+}
+
+.get-data-content-deselected {
+  border: 1px solid $text-input-border-color;
+  color: $text-input-border-color;
+  font-weight: normal;
+}
+
+.get-data-content-username-container {
+  text-align: right;
+  width: 315px;
+  margin: auto;
+  font-size: 12px;
+  position: relative;
+}
+
+.get-data-content-username-container-title {
+  position: absolute;
+  z-index: 1;
+  top: 39px;
+  right: 8px;
+  cursor: default;
+  transition-duration: 0.3s;
+}
+
+.get-data-content-username-container-title-out {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  cursor: default;
+  color: $info-color;
+  font-weight: bold;
+  transition-duration: 0.3s;
+}
+
+.get-data-content-username-container-close {
+  position: absolute;
+  z-index: 1;
+  top: 41px;
+  right: 12px;
+  cursor: pointer;
+  transition-duration: 0.3s;
+}
+
+.get-data-content-username-container-close-hide {
+  position: absolute;
+  z-index: -1;
+  top: 41px;
+  right: 12px;
+  cursor: default;
+  opacity: 0;
+  transition-duration: 0.3s;
+}
+
+
+.get-data-content-username-input {
+  margin-top: 30px;
+  border: 1px solid $text-input-border-color;
+  border-radius: 3px;
+  text-align: left;
+  direction: ltr;
+  padding: 8px 30px 8px 8px;
+  width: 100%;
+
+  &:focus {
+    border: 1px solid $info-color;
+  }
+}
+
+.get-data-content-username-error {
+  font-size: 11px;
+  margin-top: 10px;
+  line-height: 25px;
+  height: 25px;
+  overflow: hidden;
+  color: $danger-color;
+  text-align: center;
+  transition-duration: 0.3s;
+}
+
+.get-data-content-username-error-hide {
+  font-size: 11px;
+  margin-top: 10px;
+  line-height: 25px;
+  height: 0;
+  overflow: hidden;
+  color: $danger-color;
+  text-align: center;
+  transition-duration: 0.3s;
+}
+
+.get-data-content-next {
+}
+
+.get-data-content-next-button-on {
+  width: 85px;
+  border-radius: 20px;
+  padding: 3px 0;
+  background-color: $bee-color;
+  border: 1px solid $bee-color;
+  color: white;
+  margin: auto;
+  cursor: pointer;
+  font-size: 13px;
+  transition-duration: 0.3s;
+
+  &:hover {
+    background-color: white;
+    color: $bee-color;
+    transition-duration: 0.3s;
+  }
+}
+
+.get-data-content-next-button {
+  width: 85px;
+  border-radius: 20px;
+  padding: 3px 0;
+  background-color: $text-input-border-color;
+  border: 1px solid $text-input-border-color;
+  color: white;
+  margin: auto;
+  cursor: not-allowed;
+  font-size: 13px;
+  transition-duration: 0.3s;
+
+  &:hover {
+    background-color: white;
+    color: $text-input-border-color;
+    transition-duration: 0.3s;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .get-data-container {
+    top: 85px;
+    right: 20px;
+    left: 20px;
+    bottom: 50px;
+  }
+
+  .get-data-container-hide {
+    top: 85px;
+    right: 20px;
+    left: 20px;
+    bottom: 50px;
+  }
+
+
+  .get-data-content {
+    width: 100%;
+    border-radius: 0 0 5px 5px;
+    height: 75%;
+  }
+
+  .get-data-progress {
+    flex-direction: row-reverse;
+    flex-wrap: nowrap;
+    height: 25%;
+    width: 100%;
+  }
+
+  .get-data-progress-box {
+    border-right: 0.5px solid $text-input-border-color;
+    border-left: 0.5px solid $text-input-border-color;
+    border-bottom: none;
+    border-top: none;
+
+    &:first-child {
+      border: none;
+      border-radius: 5px 0 0 0;
+    }
+
+    &:last-child {
+      border: none;
+      border-radius: 0 5px 0 0;
+    }
+  }
+
+  @media screen and (max-height: 560px) {
+    .get-data-progress {
+      display: none;
+    }
+    .get-data-content {
+      width: 100%;
+      border-radius: 5px;
+      height: 100%;
+    }
+  }
+
+}

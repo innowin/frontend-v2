@@ -1,5 +1,5 @@
 import {createSelector} from "reselect";
-import helpers from '../../../../consts/helperFunctions/helperFunctions'
+import helpers from 'src/consts/helperFunctions/helperFunctions'
 
 
 const getFiles = (state) => state.common.file.list

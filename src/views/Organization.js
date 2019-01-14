@@ -1,35 +1,35 @@
 // @flow
-import React from "react"
-import {Component} from "react"
+import React from 'react'
+import {Component} from 'react'
 
-import BadgeActions from "src/redux/actions/commonActions/badgeActions"
-import Certificates from "./common/certificates/index"
-import ChatBar from "./bars/ChatBar"
-import Customers from "./organization/customers/index"
-import OrganizationActions from "src/redux/actions/organization/organizationActions"
-import Posts from "src/views/common/post/index"
+import BadgeActions from 'src/redux/actions/commonActions/badgeActions'
+import Certificates from './common/certificates/index'
+import ChatBar from './bars/ChatBar'
+import Customers from './organization/customers/index'
+import OrganizationActions from 'src/redux/actions/organization/organizationActions'
+import Posts from 'src/views/common/post/index'
 import PostExtendedView from 'src/views/common/post/PostView'
-import PrivateRoute from "../consts/PrivateRoute"
-import PropTypes from "prop-types"
-import Social from "src/views/common/social/index"
-import TopBar from "./bars/TopBar"
-import type {badgeType} from "src/consts/flowTypes/common/badges"
-import type {identityStateObject, listOfIdObject, organStateObject} from "src/consts/flowTypes/stateObjectType"
-import {bindActionCreators} from "redux"
-import {connect} from "react-redux"
-import {ContributionIcon, postIcon, CertificateIcon, InformationIcon, SocialIcon, customerIcon} from "../images/icons"
-import OrganizationBasicInformation from "./organization/basicInformation/index"
-import {NavLink, Switch, Redirect} from "react-router-dom"
-import {OrganSideBar} from "src/views/bars/SideBar"
-import {Tabs} from "src/views/common/cards/Frames"
-import {VerifyWrapper} from "./common/cards/Frames"
-import constants from "../consts/constants";
-import ParamActions from "src/redux/actions/paramActions"
-import GetIdentityActions from "../redux/actions/identityActions"
-import Contributions from "./common/contributions"
-import type {fileType} from "../consts/flowTypes/common/fileType";
+import PrivateRoute from '../consts/PrivateRoute'
+import PropTypes from 'prop-types'
+import Social from 'src/views/common/social/index'
+import TopBar from './bars/TopBar'
+import type {badgeType} from 'src/consts/flowTypes/common/badges'
+import type {identityStateObject, listOfIdObject, organStateObject} from 'src/consts/flowTypes/stateObjectType'
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
+import {ContributionIcon, postIcon, CertificateIcon, InformationIcon, SocialIcon, customerIcon} from '../images/icons'
+import OrganizationBasicInformation from './organization/basicInformation/index'
+import {NavLink, Switch, Redirect} from 'react-router-dom'
+import {OrganSideBar} from 'src/views/bars/SideBar'
+import {Tabs} from 'src/views/common/cards/Frames'
+import {VerifyWrapper} from './common/cards/Frames'
+import constants from '../consts/constants'
+import ParamActions from 'src/redux/actions/paramActions'
+import GetIdentityActions from '../redux/actions/identityActions'
+import Contributions from './common/contributions'
+import type {fileType} from '../consts/flowTypes/common/fileType'
 import Material from 'src/views/common/components/Material'
-import { getMessages } from '../redux/selectors/translateSelector'
+import {getMessages} from '../redux/selectors/translateSelector'
 
 type PropsOrganization = {
   organObject: organStateObject,
@@ -60,7 +60,7 @@ export class Organization extends Component<PropsOrganization> {
     organLogo: PropTypes.object,
     match: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
-    identityObject: PropTypes.object.isRequired,
+    identityObject: PropTypes.object.isRequired
   }
 
   firstGetBadges: boolean
@@ -108,7 +108,7 @@ export class Organization extends Component<PropsOrganization> {
   }
 
   render() {
-    const {organObject, badgesObject, badges, organLogo, organBanner, identityObject,translate} = this.props
+    const {organObject, badgesObject, badges, organLogo, organBanner, identityObject, translate} = this.props
     const {path, url, params} = this.props.match
     const organizationId = +params.id
     const isLoading = organObject.isLoading || badgesObject.isLoading //TODO mohsen: added get files isLoading
@@ -119,35 +119,35 @@ export class Organization extends Component<PropsOrganization> {
           <VerifyWrapper isLoading={isLoading} error={errorMessage} className="-main page-content">
             {(!identityObject.content) ? '' : (
                 <OrganSideBar
-                              organ={organObject.content}
-                              badges={badges}
-                              organLogo={organLogo}
-                              organBanner={organBanner}
-                              className="col-md-3 col-sm-1 -right-sidebar-wrapper pr-0 pl-0"
-                              paramId={organizationId}
-                              identityId={identityObject.content}
+                    organ={organObject.content}
+                    badges={badges}
+                    organLogo={organLogo}
+                    organBanner={organBanner}
+                    className="col-md-3 col-sm-1 -right-sidebar-wrapper pr-0 pl-0"
+                    paramId={organizationId}
+                    identityId={identityObject.content}
                 />
             )}
             <div className="col-md-6 col-sm-10 center-column">
               {/*<Tabs>*/}
-                {/*<NavLink className="-tab" to={`${url}/contributions`} activeClassName="-active">*/}
-                  {/*<ContributionIcon/>*/}
-                {/*</NavLink>*/}
-                {/*<NavLink className="-tab" to={`${url}/Posts`} activeClassName="-active">*/}
-                  {/*{postIcon}*/}
-                {/*</NavLink>*/}
-                {/*<NavLink className="-tab" to={`${url}/basicInformation`} activeClassName="-active">*/}
-                  {/*<InformationIcon/>*/}
-                {/*</NavLink>*/}
-                {/*<NavLink className="-tab" to={`${url}/SocialConnections`} activeClassName="-active">*/}
-                  {/*<SocialIcon/>*/}
-                {/*</NavLink>*/}
-                {/*<NavLink className="-tab" to={`${url}/Customers`} activeClassName="-active">*/}
-                  {/*{customerIcon()}*/}
-                {/*</NavLink>*/}
-                {/*<NavLink className="-tab" to={`${url}/Certificates`} activeClassName="-active">*/}
-                  {/*<CertificateIcon/>*/}
-                {/*</NavLink>*/}
+              {/*<NavLink className="-tab" to={`${url}/contributions`} activeClassName="-active">*/}
+              {/*<ContributionIcon/>*/}
+              {/*</NavLink>*/}
+              {/*<NavLink className="-tab" to={`${url}/Posts`} activeClassName="-active">*/}
+              {/*{postIcon}*/}
+              {/*</NavLink>*/}
+              {/*<NavLink className="-tab" to={`${url}/basicInformation`} activeClassName="-active">*/}
+              {/*<InformationIcon/>*/}
+              {/*</NavLink>*/}
+              {/*<NavLink className="-tab" to={`${url}/SocialConnections`} activeClassName="-active">*/}
+              {/*<SocialIcon/>*/}
+              {/*</NavLink>*/}
+              {/*<NavLink className="-tab" to={`${url}/Customers`} activeClassName="-active">*/}
+              {/*{customerIcon()}*/}
+              {/*</NavLink>*/}
+              {/*<NavLink className="-tab" to={`${url}/Certificates`} activeClassName="-active">*/}
+              {/*<CertificateIcon/>*/}
+              {/*</NavLink>*/}
               {/*</Tabs>*/}
 
 
@@ -197,7 +197,7 @@ export class Organization extends Component<PropsOrganization> {
                       <PrivateRoute path={`${path}/Posts/:id`} component={PostExtendedView}
                                     postIdentity={identityObject.content}
                                     extendedView={true}
-                                    commentParentType= {constants.COMMENT_PARENT.POST}/>
+                                    commentParentType={constants.COMMENT_PARENT.POST}/>
                       <PrivateRoute exact path={`${path}/basicInformation`}
                                     component={OrganizationBasicInformation}
                                     organizationId={organizationId}
@@ -252,7 +252,7 @@ const mapStateToProps = (state, ownProps) => {
     organBanner,
     organLogo,
     identityObject: identity,
-    translate: getMessages(state),
+    translate: getMessages(state)
   }
 }
 

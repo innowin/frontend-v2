@@ -33,7 +33,12 @@ class Material extends React.Component {
       ripple.style.top = top + 'px'
       ripple.style.left = left + 'px'
       setTimeout(() => {
-        target.removeChild(ripple)
+        try {
+          target.removeChild(ripple)
+        }
+        catch (e) {
+          console.log('material failed')
+        }
       }, 600)
     }
     else {
