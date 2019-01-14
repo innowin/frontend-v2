@@ -80,7 +80,6 @@ class AddProductModal extends Component {
               <button className='post-component-footer-link-modal-submit-btn'
                       onClick={() => {
                         this.setState({...this.state, selectedProduct: undefined});
-                        console.log(productLink, 'sssssssssssss')
                         if (productLink) {
                           let spliced = productLink.split('/')
                           let productIndex = spliced.indexOf('product')

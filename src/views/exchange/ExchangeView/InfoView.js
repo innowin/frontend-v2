@@ -229,11 +229,9 @@ class InfoView extends Component<props> {
             </div>
         )
       } else return <div className={"info-loading"}>
-        {console.log("OWNER PROFILE UNDEFINED!")}
         <ClipLoader color="#C2B9BD" size={45} margin="4px" loading={true}/>
       </div>
     } else return <div className={"info-loading"}>
-      {console.log("OWNER EDUCATIONS UNDEFINED!")}
       <ClipLoader color="#C2B9BD" size={45} margin="4px" loading={true}/>
     </div>
   }

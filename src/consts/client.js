@@ -52,7 +52,6 @@ const eraseCookie = name => {
 
 const saveData = (userId, identityId, userType, organizationId, remember) => {
   // TODO: mohsen save Clients to localStorage
-  // console.log("Encrypted data is : ",AES('Hi','secret key'))
   if (remember) {
     setCookie('userId', userId, 30)
     setCookie('identityId', identityId, 30)
