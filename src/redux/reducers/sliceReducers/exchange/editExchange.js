@@ -12,6 +12,7 @@ const success = (state, action) => {
             ...state.list[data.id].exchange.content,
             name: data.name,
             description: data.description,
+            biography: data.biography
             // TODO: add media
           }
         }

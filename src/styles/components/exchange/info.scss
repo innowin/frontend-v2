@@ -28,6 +28,31 @@
   height: 30px;
   font-weight: bold;
   font-size: $font-size-post-name;
+  position: relative;
+}
+
+.info-header-edit-bio-text {
+  font-size: $font-size-description;
+  color: $secondary-color;
+  cursor: pointer;
+  opacity: 1;
+  transition-duration: $animation-timing;
+  position: absolute;
+  left: 8px;
+  top: 5px;
+  z-index: 1;
+}
+
+.info-header-edit-bio-text-hide {
+  font-size: $font-size-description;
+  color: $secondary-color;
+  cursor: pointer;
+  opacity: 0;
+  transition-duration: $animation-timing;
+  position: absolute;
+  left: 8px;
+  top: 5px;
+  z-index: -1;
 }
 
 .info-body {
@@ -36,6 +61,65 @@
   padding-right: 70px;
   line-height: 30px;
   font-size: $font-size-post-content;
+  position: relative;
+}
+
+.info-body-bio-text-area {
+  resize: none;
+  border: 1px solid $text-lighter-color;
+  border-radius: $border-radius-size;
+  width: 99.25%;
+  background-color: transparent;
+  padding: 7px;
+  transition-duration: $animation-timing-short;
+  font-size: $font-size-regular;
+
+  &:focus {
+    border: 1px solid $secondary-color;
+    transition-duration: $animation-timing-short;
+  }
+}
+
+.info-confirm-button {
+  background-color: $primary-color;
+  border-radius: 30px;
+  border: 1.5px solid $primary-color;
+  color: white;
+  cursor: pointer;
+  float: left;
+  font-size: 11px;
+  height: 26px;
+  margin-right: 12px;
+  margin-left: 2px;
+  transition-duration: $animation-timing;
+  width: 12%;
+
+  &:hover {
+    background-color: white;
+    color: $primary-color;
+    transition-duration: $animation-timing;
+  }
+}
+
+.info-cancel-button {
+  background-color: white;
+  border-radius: 30px;
+  border: 1.5px solid $secondary-color;
+  color: $secondary-color;
+  cursor: pointer;
+  float: left;
+  font-size: 11px;
+  height: 26px;
+  margin-right: 12px;
+  margin-left: 2px;
+  transition-duration: $animation-timing;
+  width: 12%;
+
+  &:hover {
+    background-color: $secondary-color;
+    color: white;
+    transition-duration: $animation-timing;
+  }
 }
 
 .info-exchange-owner-frame {
@@ -78,26 +162,32 @@
   &:first-child {
     margin-top: 10px;
   }
+
   &:last-child {
     margin-bottom: 0;
   }
+
   .fa-youtube-play {
     color: red;
   }
+
   .fa-telegram {
     background: -webkit-linear-gradient(-30deg, cornflowerblue, rgb(66, 70, 255));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+
   .fa-instagram {
     background: -webkit-linear-gradient(30deg, #ffd02a, #dc3b26, #5925c1);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: bold;
   }
+
   .fa-linkedin {
     color: royalblue;
   }
+
   .fa-link {
     color: dimgrey;
   }
@@ -141,6 +231,7 @@
   margin: 0;
   font-size: $font-size-boxText;
   font-weight: bold;
+
   &:focus {
     outline: none;
   }
