@@ -18,7 +18,7 @@ const success = (state, action) => {
     const commentRepliedId = commentReplied.id || commentReplied
     if (deleteRest[commentRepliedId]) {
       const previousComment = deleteRest[commentRepliedId].comments
-      const newDeletedComments = previousComment.filter(id => id !== commentId);
+      const newDeletedComments = previousComment.filter(id => id !== commentId)
       deleteRest[commentRepliedId].comments = [...newDeletedComments]
     }
   }

@@ -9,7 +9,7 @@ import Movie from "src/images/common/movie_svg"
 import constants from "src/consts/constants"
 
 
-const AttachMenu = (props) => {
+const AttachMenu = () => {
   const AttachPictureButton = () => (
     <div>
       <Image className='post-component-footer-logos'/>
@@ -28,6 +28,7 @@ const AttachMenu = (props) => {
       ویدئو
     </div>
   )
+
   const {AttachMenuId, linkModalFunc, addProductModalFunc, handlePictures, handleMedia, handleFile,
     postImagesLength, postMediaExist, postFileExist, postLinkExist, translate} = props
   const attachMenu = props.attachMenu || false
@@ -45,36 +46,38 @@ const AttachMenu = (props) => {
       id={AttachMenuId}
     >
       <div className='post-component-footer-attach-menu'>
-        <AttachFile
-          AttachButton={AttachFileButton}
-          inputId='AttachFileInput'
-          // isLoadingProp={postFileLoading}
-          className={'explore-menu-items ' + FileAttachedDisabled}
-          handleBase64={handleFile}
-          handleError={(error) => alert(error)}
-          allowableFormat={constants.FILE_TYPE.FILE}
-          translate={translate}
-        />
-        <AttachFile
-          AttachButton={AttachPictureButton}
-          inputId='AttachPicturesInput'
-          // isLoadingProp={postPictureLoading}
-          className={'explore-menu-items ' + picturesAttachedDisabled}
-          handleBase64={handlePictures}
-          handleError={(error) => alert(error)}
-          allowableFormat={constants.FILE_TYPE.PHOTO}
-          translate={translate}
-        />
-        <AttachFile
-          AttachButton={AttachMediaButton}
-          inputId='AttachMediaInput'
-          // isLoadingProp={postMediaLoading}
-          className={'explore-menu-items '+ MediaAttachedDisabled}
-          handleBase64={handleMedia}
-          handleError={(error) => alert(error)}
-          allowableFormat={constants.FILE_TYPE.VIDEO}
-          translate={translate}
-        />
+	      <AttachFile
+			      AttachButton={AttachFileButton}
+			      inputId='AttachFileInput'
+			      acceptFilter={["video","image","application", "audio", "text"]}
+			      // isLoadingProp={postFileLoading}
+			      className={'explore-menu-items ' + FileAttachedDisabled}
+			      handleBase64={handleFile}
+			      handleError={(error) => alert(error)}
+			      allowableFormat={constants.FILE_TYPE.FILE}
+			      translate={translate}
+	      />
+	      <AttachFile
+			      AttachButton={AttachPictureButton}
+			      acceptFilter={["image"]}
+			      inputId='AttachPicturesInput'
+			      className={'explore-menu-items ' + picturesAttachedDisabled}
+			      handleBase64={handlePictures}
+			      handleError={(error) => alert(error)}
+			      allowableFormat={constants.FILE_TYPE.PHOTO}
+			      translate={translate}
+	      />
+	      <AttachFile
+			      AttachButton={AttachMediaButton}
+			      inputId='AttachMediaInput'
+			      // isLoadingProp={postMediaLoading}
+			      className={'explore-menu-items ' + MediaAttachedDisabled}
+			      handleBase64={handleMedia}
+			      handleError={(error) => alert(error)}
+			      acceptFilter={["video"]}
+			      allowableFormat={constants.FILE_TYPE.VIDEO}
+			      translate={translate}
+	      />
         <div className='explore-menu-items' onClick={addProductModalFunc}>
           <ContributionIcon className='post-component-footer-logos-little'/>
           محصول
