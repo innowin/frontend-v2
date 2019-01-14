@@ -69,7 +69,6 @@ export function* getCountry(action) {
   try {
     yield fork(api.get, urls.COMMON.COUNTRY, results.COMMON.GET_COUNTRY, id)
     const data = yield take(socketChannel)
-    console.log('---- saga >> getCountry >> data: ', data)
     // const normalData = helpers.arrayToIdKeyedObject(data)
     // yield put({type: types.SUCCESS.COMMON.GET_COUNTRIES, data: normalData})
 
@@ -104,14 +103,11 @@ export function* getCity(action) {
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.GET_CITY)
   try {
     yield fork(api.get, urls.COMMON.CITY, results.COMMON.GET_CITY, id)
-    const data = yield take(socketChannel)
-    console.log('---- saga >> getCity >> data: ', data)
     // const normalData = helpers.arrayToIdKeyedObject(data)
     // yield put({type: types.SUCCESS.COMMON.GET_COUNTRIES, data: normalData})
 
   } catch (error) {
     // yield put({type: types.ERRORS.COMMON.GET_COUNTRIES, error})
-
   } finally {
     socketChannel.close()
   }

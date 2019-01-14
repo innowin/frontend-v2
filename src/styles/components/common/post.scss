@@ -384,7 +384,8 @@
 
 // post-component-footer-send
 .post-component-footer-send {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   vertical-align: top;
   margin: 0 0 8px 0;
   position: relative;
@@ -498,11 +499,10 @@
   left: 0;
   width: 113px;
   text-align: center;
-  overflow-y: hidden;
   height: 145px;
   border-radius: 3px;
-  transition: ease-in 0.3s;
-  z-index: 10;
+  transition: all ease-in 0.3s;
+  z-index: 2;
 
   .disabled-label {
     pointer-events: none;

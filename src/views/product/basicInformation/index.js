@@ -142,7 +142,6 @@ export class productBasicInformation extends Component<ProductBasicInformationPr
   render() {
     const {product_category, owner, edit, isLoading, error, formData} = this.state
     const {translator, product, province, country, category, hashTags} = this.props
-    console.log('product:' , product)
     return (
 
         <div className="product-basic-information">

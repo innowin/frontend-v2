@@ -34,7 +34,6 @@ const StreamView = props => {
     )
   } else return (
       <div className={"info-loading"}>
-        {console.log("EXCHANGE RESPOND NOT FOUND!")}
         <ClipLoader color="#C2B9BD" size={45} margin="4px" loading={true}/>
       </div>
   )

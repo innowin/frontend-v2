@@ -75,7 +75,7 @@ const ImageForm = (props: ImageFormProps) => {
           <div className="hide-scroll-wrapper">
             <div className='image-selection'>
               <div className={`file-input-wrapper img-option ${processing ? 'processing' : ''}`}>
-                <input type="file" onChange={!processing && (e => uploadHandler(e.currentTarget.files[0]))}/>
+                <input type="file" accept="image/*,.jpeg,.jpg,.bmp,.gif,.png" onChange={!processing && (e => uploadHandler(e.currentTarget.files[0]))}/>
                 <FontAwesome name="spinner"/>
                 <ImageUploadSvg className="upload-icon"/>
               </div>
