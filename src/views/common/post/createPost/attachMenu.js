@@ -9,7 +9,7 @@ import Movie from "src/images/common/movie_svg"
 import constants from "src/consts/constants"
 
 
-const AttachMenu = () => {
+const AttachMenu = (props) => {
   const AttachPictureButton = () => (
     <div>
       <Image className='post-component-footer-logos'/>
