@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 
 export default class AttachFile extends Component {
 	static defaultProps = {
+		acceptFilter: [],
 		className: '',
 		customValidate: () => false,
 		required: false,
@@ -12,6 +13,7 @@ export default class AttachFile extends Component {
 	
 	static propTypes = {
 		inputId: PropTypes.string.isRequired,
+		acceptFilter: PropTypes.array,
 		AttachButton: PropTypes.func.isRequired,
 		handleBase64: PropTypes.func.isRequired,
 		handleError: PropTypes.func.isRequired,
