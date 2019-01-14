@@ -253,7 +253,6 @@ export class Certificates extends Component
   _handleCertificateInput = (e: any) => {
     const reader: any = new FileReader()
     const input: { files: Array<{}> } = e.target
-    console.log(input)
     if (input.files) {
       reader.onload = () => {
         this.setState({

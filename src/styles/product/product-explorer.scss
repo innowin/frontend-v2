@@ -81,9 +81,9 @@
     }
     .checkmark:after {
       left: 6px;
-      top: 0px;
-      width: 8px;
-      height: 15px;
+      top: 0;
+      width: 5px;
+      height: 12px;
       border: solid $text-lightest-color;
       border-width: 0 3px 3px 0;
       box-shadow: 2px 2px 2px 0 lighten($sidebar-bottom-color, 2.5%);

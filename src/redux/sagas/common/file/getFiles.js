@@ -13,7 +13,6 @@ export default function* getFiles(action) {
   try {
     yield fork(api.get, urls.COMMON.FILE, resultName, query)
     const data = yield take(socketChannel)
-    console.log('-----------saga ------ >> getFiles >> data is: ', data)
     // yield put({type: types.SUCCESS.COMMON.GET_FILE, payload: {data}})
   } catch (e) {
     // const {message} = e
