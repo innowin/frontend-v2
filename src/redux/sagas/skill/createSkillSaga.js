@@ -16,10 +16,10 @@ function* createSkill (action) {
       type: types.SUCCESS.SKILL.CREATE_SKILL,
       payload: {data}
     })
-    yield put({
-      type: types.USER.ADD_SKILL_ID_TO_USER,
-      payload: {destinationId: data.skill_user, relatedObjId: data.id}
-    })
+    // yield put({
+    //   type: types.USER.ADD_SKILL_ID_TO_USER,
+    //   payload: {destinationId: data.skill_user, relatedObjId: data.id}
+    // })
     if (hashTags) {
       yield all(hashTags.map(tag => {
         const payload = {

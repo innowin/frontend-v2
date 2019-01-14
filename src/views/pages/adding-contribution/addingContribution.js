@@ -1650,7 +1650,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
   _handleCreateAbility() {
     let {abilityTitle, abilityDescription} = this.state
     let {clientId} = this.props
-    if (abilityTitle.length < 4) {
+    if (abilityTitle.length < 4 && abilityTitle.length >= 250) {
       this._titleError.className = "product-name-error"
       this._descriptionError.className = "product-name-error-hide"
     } else if (abilityDescription.length >= 100) {

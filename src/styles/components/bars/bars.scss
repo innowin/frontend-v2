@@ -939,6 +939,7 @@ $sidebar-profile-media-width: 80px;
   display: flex;
   align-items: center;
   cursor: pointer;
+  border-radius: $border-radius-size $border-radius-size 0 0;
   .selected-tab {
     border-bottom: 2px solid #FFFFFF;
   }
