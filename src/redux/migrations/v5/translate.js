@@ -11,5 +11,7 @@ export default state => ({
     'Create exchange membership done': 'عضویت شما با موفقیت ثبت شد',
     'Exchange removed': 'پنجره شما پاک شد',
     'Exchange membership removed': 'لغو عضویت شما انجام شد',
+    'Create Ability Done': 'توانمندی شما با موفقت ثبت شد',
+    'Create Product Done': 'محصول شما با موفقت ثبت شد',
   }
 })

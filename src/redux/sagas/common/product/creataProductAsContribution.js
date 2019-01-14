@@ -1,8 +1,10 @@
 import api from "../../../../consts/api"
 import results from "../../../../consts/resultName"
 import urls from "../../../../consts/URLS"
-import {call, fork, take, put, all} from "redux-saga/effects"
+import {call, fork, take, put, all, select} from "redux-saga/effects"
 import types from "../../../actions/types"
+import constants from "../../../../consts/constants"
+import uuid from "uuid"
 
 
 function* createProductAsContribution(action) { // payload: { formData: {} }
@@ -11,6 +13,8 @@ function* createProductAsContribution(action) { // payload: { formData: {} }
   // the payload may has galleryVideo but hasn't galleyImages
   const {product, certificates, galleryImages = [], galleryVideo, tags, mainGalleryImageIndex} = formData
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.CREATE_PRODUCT)
+  const state = yield select()
+  const translate = state.intl.messages
 
   try {
     yield fork(api.post, urls.COMMON.PRODUCT, results.COMMON.CREATE_PRODUCT, product)
@@ -24,6 +28,19 @@ function* createProductAsContribution(action) { // payload: { formData: {} }
     // TODO ------ may change in future ----------------------------->
 
     yield put({type: types.SUCCESS.COMMON.CREATE_PRODUCT, data})
+    yield put({
+      type: types.TOAST.ADD_TOAST,
+      payload: {
+        data: {
+          id: uuid(),
+          type: constants.TOAST_TYPE.SUCCESS,
+          content: {
+            text: translate['Create Product Done']
+          }
+        }
+      }
+    })
+
 
     if (galleryImages.length >= 1) {
       yield all(galleryImages.map((imageId, index) => {

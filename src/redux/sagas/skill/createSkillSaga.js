@@ -1,13 +1,17 @@
 import types from "../../actions/types/index"
-import {call, fork,take, put, all} from "redux-saga/effects"
+import {call, fork, take, put, all, select} from "redux-saga/effects"
 import results from "../../../consts/resultName";
 import api from "../../../consts/api";
 import urls from "../../../consts/URLS";
+import constants from "../../../consts/constants"
+import uuid from 'uuid'
 
 
 function* createSkill (action) {
   const {hashTags, ...formValues} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.SKILL.CREATE_SKILL_RESULT)
+  const state = yield select()
+  const translate = state.intl.messages
 
   try {
     yield fork(api.post, urls.SKILL, results.SKILL.CREATE_SKILL_RESULT, formValues)
@@ -16,7 +20,19 @@ function* createSkill (action) {
       type: types.SUCCESS.SKILL.CREATE_SKILL,
       payload: {data}
     })
-    // yield put({
+    yield put({
+      type: types.TOAST.ADD_TOAST,
+      payload: {
+        data: {
+          id: uuid(),
+          type: constants.TOAST_TYPE.SUCCESS,
+          content: {
+            text: translate['Create Ability Done']
+          }
+        }
+      }
+    })
+    // yield put({ Had Error
     //   type: types.USER.ADD_SKILL_ID_TO_USER,
     //   payload: {destinationId: data.skill_user, relatedObjId: data.id}
     // })
