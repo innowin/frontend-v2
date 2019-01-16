@@ -97,7 +97,6 @@ export function* signIn(action) {
 
 export function* signOut() {
   yield call(client.clearData)
-  console.log("--------- I'm in signOut.")
   yield put({type: types.RESET})
   yield put({type: types.AUTH.SIGN_OUT_FINISHED})
 }

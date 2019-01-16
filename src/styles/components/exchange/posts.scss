@@ -34,9 +34,8 @@
 }
 
 .post-user-picture {
-  display: inline-block;
-  vertical-align: top;
-  font-size: $font-size-regular;
+  object-fit: contain;
+  width: 100%;
 }
 
 .rounded-circle-info-parent {
