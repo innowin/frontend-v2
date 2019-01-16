@@ -41,7 +41,9 @@ class InfoView extends Component<props> {
 
   _handleEditBioView() {
     let {editBio} = this.state
-    this.setState({...this.state, editBio: !editBio})
+    let {exchanges, exchangeId} = this.props
+    const currentExchange = exchanges[exchangeId].exchange.content
+    this.setState({...this.state, editBio: !editBio, exchangeBio: currentExchange.biography})
   }
 
   _handleEditBio() {
@@ -49,12 +51,17 @@ class InfoView extends Component<props> {
     let {actions, exchangeId} = this.props
     let {editExchange} = actions
 
-    let formValues = {
-      exchange_id: exchangeId,
-      exchange_biography: exchangeBio,
+    if (exchangeBio.length < 100) {
+      this.bioError.className = "info-body-bio-text-area-error-hide"
+      let formValues = {
+        exchange_id: exchangeId,
+        exchange_biography: exchangeBio,
+      }
+      editExchange(formValues)
+      this.setState({...this.state, editBio: !editBio})
+    } else {
+      this.bioError.className = "info-body-bio-text-area-error"
     }
-    editExchange(formValues)
-    this.setState({...this.state, editBio: !editBio})
   }
 
   render() {
@@ -90,6 +97,9 @@ class InfoView extends Component<props> {
                         <textarea className="info-body-bio-text-area" placeholder="معرفی‌نامه پنجره"
                                   defaultValue={exchangeBio !== "" ? exchangeBio : currentExchange && currentExchange.biography}
                                   onChange={(e) => this.setState({...this.state, exchangeBio: e.target.value})}/>
+                        <div className={"info-body-bio-text-area-error-hide"} ref={e => this.bioError = e}>
+                          {translate["Biography Length is Illegal"]}
+                        </div>
                         <button className="info-confirm-button" onClick={() => this._handleEditBio()}>
                           {translate["Confirm"]}
                         </button>

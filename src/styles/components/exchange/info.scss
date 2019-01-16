@@ -73,11 +73,32 @@
   padding: 7px;
   transition-duration: $animation-timing-short;
   font-size: $font-size-regular;
+  height: 75px;
 
   &:focus {
     border: 1px solid $secondary-color;
     transition-duration: $animation-timing-short;
   }
+}
+
+.info-body-bio-text-area-error{
+  height: 21px;
+  transition-duration: $animation-timing-short;
+  color: $error-color;
+  font-size: $font-size-small;
+  font-weight: bold;
+  opacity: 1;
+  overflow: hidden;
+}
+
+.info-body-bio-text-area-error-hide{
+  height: 0;
+  transition-duration: $animation-timing-short;
+  color: $error-color;
+  font-size: $font-size-small;
+  font-weight: bold;
+  opacity: 0;
+  overflow: hidden;
 }
 
 .info-confirm-button {

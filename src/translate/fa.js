@@ -58,6 +58,9 @@ module.exports = {
   "Fill required fields": "موارد الزامی را پر کنید.",
   "Password does not correct": "رمز ورود صحیح نمی باشد!",
 
+  // edit errors
+  "Biography Length is Illegal": "طول معرفی‌نامه بیش از حد مجاز است",
+
   // register modal
   "Congratulations": "تبریک",
   "Favorites fields": "زمینه های مورد علاقه",

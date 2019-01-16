@@ -7,5 +7,6 @@ export default state => ({
     },
     "Twitter": "توییتر",
     "Create Ability Done": "مهارت شما با موفقیت اضافه شد",
+    "Biography Length is Illegal": "طول معرفی‌نامه بیش از حد مجاز است",
   }
 })
