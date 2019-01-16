@@ -5,15 +5,19 @@ import {connect} from "react-redux"
 import {getMessages} from "src/redux/selectors/translateSelector"
 import {QuestionMark, OffersSvg, DemandIcon, SupplyIcon, Stream} from "src/images/icons"
 
+const SUPPLY = "عرضه"
+const DEMAND = "تقاضا"
+const MEMBERS = "اعضا"
+
 const data = [
-  {name: "آبان", ["عرضه"]: 40, ["تقاضا"]: 85, ["اعضا"]: 45},
-  {name: "مهر", ["عرضه"]: 55, ["تقاضا"]: 40, ["اعضا"]: 52},
-  {name: "شهریور", ["عرضه"]: 50, ["تقاضا"]: 37, ["اعضا"]: 60},
-  {name: "مرداد", ["عرضه"]: 47, ["تقاضا"]: 25, ["اعضا"]: 55},
-  {name: "تیر", ["عرضه"]: 40, ["تقاضا"]: 35, ["اعضا"]: 50},
-  {name: "خرداد", ["عرضه"]: 55, ["تقاضا"]: 40, ["اعضا"]: 60},
-  {name: "اردیبهشت", ["عرضه"]: 62, ["تقاضا"]: 42, ["اعضا"]: 65},
-  {name: "فروردین", ["عرضه"]: 73, ["تقاضا"]: 89, ["اعضا"]: 70},
+  {name: "آبان", [SUPPLY]: 40, [DEMAND]: 85, [MEMBERS]: 45},
+  {name: "مهر", [SUPPLY]: 55, [DEMAND]: 40, [MEMBERS]: 52},
+  {name: "شهریور", [SUPPLY]: 50, [DEMAND]: 37, [MEMBERS]: 60},
+  {name: "مرداد", [SUPPLY]: 47, [DEMAND]: 25, [MEMBERS]: 55},
+  {name: "تیر", [SUPPLY]: 40, [DEMAND]: 35, [MEMBERS]: 50},
+  {name: "خرداد", [SUPPLY]: 55, [DEMAND]: 40, [MEMBERS]: 60},
+  {name: "اردیبهشت", [SUPPLY]: 62, [DEMAND]: 42, [MEMBERS]: 65},
+  {name: "فروردین", [SUPPLY]: 73, [DEMAND]: 89, [MEMBERS]: 70},
 ]
 
 class StatisticView extends PureComponent {
