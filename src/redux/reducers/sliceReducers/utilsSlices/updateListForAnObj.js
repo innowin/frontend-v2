@@ -17,9 +17,9 @@ const success = (state, action) => {
   }
 }
 
-const error = () => {}
-
-const base = () => {}
+// const error = () => {}
+//
+// const base = () => {}
 
 export default {
   success

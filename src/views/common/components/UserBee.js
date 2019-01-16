@@ -1,8 +1,12 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import BeeBackground from 'src/images/bee/beeBackground'
 import connect from 'react-redux/es/connect/connect'
 import constants from 'src/consts/constants'
 import EducationActions from 'src/redux/actions/user/educationActions'
+import {getUniversities} from 'src/redux/actions/commonActions/university'
+import {getAllUniversities} from 'src/redux/selectors/common/university/getAllUniversities'
+import {getAllEducationFields} from 'src/redux/selectors/common/educationField/getAllEducationFileds'
+import {getEducationFields} from 'src/redux/actions/commonActions/educationField'
 import FontAwesome from 'react-fontawesome'
 import GetUserActions from 'src/redux/actions/user/getUserActions'
 import InteliInput from '../inputs/InteliInput'
@@ -10,12 +14,12 @@ import makeFileSelectorByKeyValue from 'src/redux/selectors/common/file/selectFi
 import updateProfile from 'src/redux/actions/user/updateProfileByProfileIdAction'
 import updateUserByUserIdAction from 'src/redux/actions/user/updateUserByUserIdAction'
 import WorkExperienceActions from 'src/redux/actions/user/workExperienceActions'
-import { Bee } from 'src/images/icons'
-import { bindActionCreators } from 'redux'
-import { ClipLoader } from 'react-spinners'
-import { createFile, getFiles } from 'src/redux/actions/commonActions/fileActions'
-import { getMessages } from 'src/redux/selectors/translateSelector'
-import { Link } from 'react-router-dom'
+import {Bee} from 'src/images/icons'
+import {bindActionCreators} from 'redux'
+import {ClipLoader} from 'react-spinners'
+import {createFile, getFiles} from 'src/redux/actions/commonActions/fileActions'
+import {getMessages} from 'src/redux/selectors/translateSelector'
+import {Link} from 'react-router-dom'
 
 class UserBee extends Component {
 
@@ -51,11 +55,13 @@ class UserBee extends Component {
   }
 
   componentDidMount(): void {
-    const { currentUserMedia, currentUserName, profile, currentUserEducation, currentUserWork, currentUserId, actions } = this.props
+    const {currentUserMedia, currentUserName, profile, currentUserEducation, currentUserWork, currentUserId, actions} = this.props
     actions.getUserByUserId(currentUserId)
     actions.getProfileByUserId(currentUserId)
-    actions.getEducationByUserId({ userId: currentUserId })
-    actions.getWorkExperienceByUserId({ userId: currentUserId })
+    actions.getEducationByUserId({userId: currentUserId})
+    actions.getWorkExperienceByUserId({userId: currentUserId})
+    actions.getUniversities()
+    actions.getEducationFields()
 
     let image = 0
     let name = 0
@@ -79,13 +85,13 @@ class UserBee extends Component {
       job = 15
     }
 
-    this.setState({ ...this.state, image, name, graduate, job, bio }, () => {
-      if (image === 30) this.setState({ ...this.state, imageLoading: false })
+    this.setState({...this.state, image, name, graduate, job, bio}, () => {
+      if (image === 30) this.setState({...this.state, imageLoading: false})
     })
   }
 
   componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
-    const { currentUserMedia, currentUserName, profile, currentUserEducation, currentUserWork, currentUserId, currentUserProfileId, actions } = nextProps
+    const {currentUserMedia, currentUserName, profile, currentUserEducation, currentUserWork, currentUserId, currentUserProfileId, actions} = nextProps
 
     let image = 0
     let name = 0
@@ -110,46 +116,46 @@ class UserBee extends Component {
     }
 
     if (this.state.imageLoading) {
-      const { clientFiles } = nextProps
+      const {clientFiles} = nextProps
       const lastFile = clientFiles[clientFiles.length - 1] || {}
       const prevLastFile = this.props.clientFiles[this.props.clientFiles.length - 1] || {}
       if (lastFile.id) {
         if (!prevLastFile || (prevLastFile && (lastFile.id !== prevLastFile.id))) {
-          this.setState({ ...this.state, imageLoading: false }, () => {
-            actions.updateProfile({ formValues: { profile_media: lastFile.id }, profileId: currentUserProfileId, userId: currentUserId })
+          this.setState({...this.state, imageLoading: false}, () => {
+            actions.updateProfile({formValues: {profile_media: lastFile.id}, profileId: currentUserProfileId, userId: currentUserId})
           })
         }
       }
     }
 
-    this.setState({ ...this.state, image, name, graduate, job, bio }, () => {
-      if (image === 30) this.setState({ ...this.state, imageLoading: false })
+    this.setState({...this.state, image, name, graduate, job, bio}, () => {
+      if (image === 30) this.setState({...this.state, imageLoading: false})
     })
   }
 
   _handleCancel = () => {
-    const { level } = this.state
+    const {level} = this.state
     if (level < 5)
-      this.setState({ ...this.state, level: this.state.level + 1 })
-    else this.setState({ ...this.state, level: 1 })
+      this.setState({...this.state, level: this.state.level + 1})
+    else this.setState({...this.state, level: 1})
   }
 
   _handleChooseProfile = (e) => {
-    const { actions } = this.props
+    const {actions} = this.props
     e.preventDefault()
     let reader = new FileReader()
     let file = e.target.files[0]
     if (file) {
       reader.readAsDataURL(file)
       reader.onloadend = () => {
-        this.setState({ ...this.state, imageLoading: true }, () => actions.createFile({ file_string: reader.result }))
+        this.setState({...this.state, imageLoading: true}, () => actions.createFile({file_string: reader.result}))
       }
     }
   }
 
   _handleName = () => {
     if (this.state.nameText.trim().length > 0 && this.state.lastNameText.trim().length > 0) {
-      const { actions, currentUserId } = this.props
+      const {actions, currentUserId} = this.props
       const formFormat = {
         first_name: this.state.nameText,
         last_name: this.state.lastNameText
@@ -160,11 +166,11 @@ class UserBee extends Component {
         actions.getProfileByUserId(currentUserId)
       }, 500)
     }
-    else this.setState({ ...this.state, nameSubmitted: true })
+    else this.setState({...this.state, nameSubmitted: true})
   }
 
   _handleGraduate = () => {
-    const { translate, actions, currentUserId } = this.props
+    const {translate, actions, currentUserId} = this.props
     if (this.state.maghta.length > 0 && this.state.major.length > 0 && this.state.college.length > 0) {
 
       let grade
@@ -184,32 +190,32 @@ class UserBee extends Component {
         field_of_study: this.state.major
       }
 
-      const formValues: {} = { ...formFormat }
-      actions.createEducationByUserId({ userId: currentUserId, formValues })
+      const formValues: {} = {...formFormat}
+      actions.createEducationByUserId({userId: currentUserId, formValues})
     }
-    else this.setState({ ...this.state, educationSubmitted: true })
+    else this.setState({...this.state, educationSubmitted: true})
   }
 
   _handleJob = () => {
     if (this.state.jobTitle.length > 0 && this.state.jobWork.length > 0) {
-      const { actions, currentUserId } = this.props
+      const {actions, currentUserId} = this.props
       const formFormat = {
-        name: this.state.jobTitle,
-        position: this.state.jobWork,
+        name: this.state.jobWork,
+        position: this.state.jobTitle,
         work_experience_organization: 2506
       }
-      const formValues: {} = { ...formFormat }
-      actions.createWorkExperienceByUserId({ userId: currentUserId, formValues })
+      const formValues: {} = {...formFormat}
+      actions.createWorkExperienceByUserId({userId: currentUserId, formValues})
       setTimeout(() => {
-        actions.getWorkExperienceByUserId({ userId: currentUserId })
+        actions.getWorkExperienceByUserId({userId: currentUserId})
       }, 500)
     }
-    else this.setState({ ...this.state, jobSubmitted: true })
+    else this.setState({...this.state, jobSubmitted: true})
   }
 
   _handleBio = () => {
     if (this.state.bioText.length > 0) {
-      const { actions, currentUserId } = this.props
+      const {actions, currentUserId} = this.props
       const formFormat = {
         description: this.state.bioText
       }
@@ -219,44 +225,44 @@ class UserBee extends Component {
         actions.getProfileByUserId(currentUserId)
       }, 500)
     }
-    else this.setState({ ...this.state, bioSubmitted: true })
+    else this.setState({...this.state, bioSubmitted: true})
   }
 
   _handleSelectMaghta = (select) => {
-    this.setState({ ...this.state, maghta: select.name })
+    this.setState({...this.state, maghta: select.name})
   }
 
   _handleSelectMajor = (select) => {
-    this.setState({ ...this.state, major: select.name })
+    this.setState({...this.state, major: select.name})
   }
 
   _handleSelectCollege = (select) => {
-    this.setState({ ...this.state, college: select.name })
+    this.setState({...this.state, college: select.name})
   }
 
   _handleBioChange = (e) => {
-    this.setState({ ...this.state, bioText: e.target.value.trim() })
+    this.setState({...this.state, bioText: e.target.value.trim()})
   }
 
   _handleJobTitleChange = (e) => {
-    this.setState({ ...this.state, jobTitle: e.target.value.trim() })
+    this.setState({...this.state, jobTitle: e.target.value.trim()})
   }
 
   _handleJobWorkChange = (e) => {
-    this.setState({ ...this.state, jobWork: e.target.value.trim() })
+    this.setState({...this.state, jobWork: e.target.value.trim()})
   }
 
   _handleNameChange = (e) => {
-    this.setState({ ...this.state, nameText: e.target.value.trim() })
+    this.setState({...this.state, nameText: e.target.value.trim()})
   }
 
   _handleLastNameChange = (e) => {
-    this.setState({ ...this.state, lastNameText: e.target.value.trim() })
+    this.setState({...this.state, lastNameText: e.target.value.trim()})
   }
 
   renderLevel() {
-    const { level, image, name, graduate, job, bio } = this.state
-    const { translate, currentUserId } = this.props
+    const {level, image, name, graduate, job, bio} = this.state
+    const {translate, currentUserId} = this.props
     if (image + name + graduate + job + bio === 100) {
       return (
           <div>
@@ -308,7 +314,7 @@ class UserBee extends Component {
               </div>
             </div>
         )
-      else this.setState({ ...this.state, level: this.state.level + 1 })
+      else this.setState({...this.state, level: this.state.level + 1})
     }
     else if (level === 2) {
       if (name === 0)
@@ -332,7 +338,7 @@ class UserBee extends Component {
 
               <div className='bee-loading'>
                 <div className='bee-loading-nav'>
-                  <div className='bee-loading-fill' style={{ width: (image + name + graduate + job + bio) + '%' }}/>
+                  <div className='bee-loading-fill' style={{width: (image + name + graduate + job + bio) + '%'}}/>
                 </div>
                 <div>{translate['Complement of profile']} {image + name + graduate + job + bio}%</div>
               </div>
@@ -344,10 +350,18 @@ class UserBee extends Component {
 
             </div>
         )
-      else this.setState({ ...this.state, level: this.state.level + 1 })
+      else this.setState({...this.state, level: this.state.level + 1})
     }
     else if (level === 3) {
-      if (graduate === 0)
+      if (graduate === 0) {
+        let universities = []
+        Object.values(this.props.universities).forEach(uni => {
+          universities.push({...uni, name: uni.university_title})
+        })
+        let fields = []
+        Object.values(this.props.educationFields).forEach(field => {
+          fields.push({...field, name: field.university_field_title})
+        })
         return (
             <div>
               <div className='bee-text'>{translate['Last Education Major']}</div>
@@ -361,20 +375,20 @@ class UserBee extends Component {
               </div>
 
               <div className='bee-text-name'>{translate['Grade']}</div>
-              <InteliInput handleChange={this._handleSelectMaghta} list={[{ name: translate['Bachelor'], id: 1 }, { name: translate['Phd'], id: 2 }, { name: translate['Master'], id: 3 }]} className='bee-inteli-text-box'/>
+              <InteliInput handleChange={this._handleSelectMaghta} list={[{name: translate['Bachelor'], id: 1}, {name: translate['Phd'], id: 2}, {name: translate['Master'], id: 3}]} className='bee-inteli-text-box'/>
               <div className={this.state.educationSubmitted && this.state.maghta.length === 0 ? 'bee-job-error' : 'bee-job-error-hide'}>{translate['Please Select Grade!']}</div>
 
               <div className='bee-text-name'>{translate['Field of study']}</div>
-              <InteliInput icon={<FontAwesome name='search' className='inteli-search-svg'/>} handleChange={this._handleSelectMajor} list={[{ name: 'نرم افزار', id: 1 }]} className='bee-inteli-text-box'/>
+              <InteliInput icon={<FontAwesome name='search' className='inteli-search-svg'/>} handleChange={this._handleSelectMajor} list={fields} className='bee-inteli-text-box'/>
               <div className={this.state.educationSubmitted && this.state.major.length === 0 ? 'bee-job-error' : 'bee-job-error-hide'}>{translate['Please Select Major!']}</div>
 
               <div className='bee-text-name'>{translate['University']}</div>
-              <InteliInput icon={<FontAwesome name='search' className='inteli-search-svg'/>} handleChange={this._handleSelectCollege} list={[{ name: 'دانشگاه تهران', id: 1 }]} className='bee-inteli-text-box'/>
+              <InteliInput icon={<FontAwesome name='search' className='inteli-search-svg'/>} handleChange={this._handleSelectCollege} list={universities} className='bee-inteli-text-box'/>
               <div className={this.state.educationSubmitted && this.state.college.length === 0 ? 'bee-job-error' : 'bee-job-error-hide'}>{translate['Please Select College!']}</div>
 
               <div className='bee-loading'>
                 <div className='bee-loading-nav'>
-                  <div className='bee-loading-fill' style={{ width: (image + name + graduate + job + bio) + '%' }}/>
+                  <div className='bee-loading-fill' style={{width: (image + name + graduate + job + bio) + '%'}}/>
                 </div>
                 <div>{translate['Complement of profile']} {image + name + graduate + job + bio}%</div>
               </div>
@@ -386,7 +400,8 @@ class UserBee extends Component {
 
             </div>
         )
-      else this.setState({ ...this.state, level: this.state.level + 1 })
+      }
+      else this.setState({...this.state, level: this.state.level + 1})
     }
     else if (level === 4) {
       if (job === 0)
@@ -412,7 +427,7 @@ class UserBee extends Component {
 
               <div className='bee-loading'>
                 <div className='bee-loading-nav'>
-                  <div className='bee-loading-fill' style={{ width: (image + name + graduate + job + bio) + '%' }}/>
+                  <div className='bee-loading-fill' style={{width: (image + name + graduate + job + bio) + '%'}}/>
                 </div>
                 <div>{translate['Complement of profile']} {image + name + graduate + job + bio}%</div>
               </div>
@@ -424,7 +439,7 @@ class UserBee extends Component {
 
             </div>
         )
-      else this.setState({ ...this.state, level: this.state.level + 1 })
+      else this.setState({...this.state, level: this.state.level + 1})
     }
     else if (level === 5) {
       if (bio === 0)
@@ -445,7 +460,7 @@ class UserBee extends Component {
 
               <div className='bee-loading'>
                 <div className='bee-loading-nav'>
-                  <div className='bee-loading-fill' style={{ width: (image + name + graduate + job + bio) + '%' }}/>
+                  <div className='bee-loading-fill' style={{width: (image + name + graduate + job + bio) + '%'}}/>
                 </div>
                 <div>{translate['Complement of profile']} {image + name + graduate + job + bio}%</div>
               </div>
@@ -457,7 +472,7 @@ class UserBee extends Component {
 
             </div>
         )
-      else this.setState({ ...this.state, level: 1 })
+      else this.setState({...this.state, level: 1})
     }
 
   }
@@ -484,7 +499,7 @@ const mapStateToProps = (state) => {
   const userId = (client.organization && client.organization.id) || (client.user && client.user.id)
 
   const stateUser = state.users.list[userId]
-  const defaultObject = { content: {}, isLoading: false, error: null }
+  const defaultObject = {content: {}, isLoading: false, error: null}
   const profile = (stateUser && stateUser.profile) || defaultObject
 
   const fileSelectorByKeyValue = makeFileSelectorByKeyValue()
@@ -500,7 +515,9 @@ const mapStateToProps = (state) => {
     currentUserWork: client.workExperiences,
     clientFiles: fileSelectorByKeyValue(state, 'identity', identity),
     translate: getMessages(state),
-    profile: profile.content
+    profile: profile.content,
+    universities: getAllUniversities(state),
+    educationFields: getAllEducationFields(state)
   })
 }
 
@@ -515,7 +532,9 @@ const mapDispatchToProps = dispatch => ({
     getWorkExperienceByUserId: WorkExperienceActions.getWorkExperienceByUserId,
     createFile,
     getFiles,
-    updateProfile: updateProfile.updateProfile
+    updateProfile: updateProfile.updateProfile,
+    getUniversities: getUniversities,
+    getEducationFields: getEducationFields
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(UserBee)

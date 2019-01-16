@@ -8,7 +8,7 @@ import {
   ItemHeader,
   ItemWrapper,
 } from '../../common/cards/Frames'
-import type {ProductType} from "src/consts/flowTypes/product/productTypes"
+// import type {ProductType} from "src/consts/flowTypes/product/productTypes"
 import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 import {DOMAIN} from "src/consts/URLS"
 import {Tag} from '../../common/tags/tag'

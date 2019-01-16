@@ -83,7 +83,11 @@ class PrivateInfoEditForm extends React.Component<PropsPrivateInfoEditForm> {
     }
     const propertyNames = Object.getOwnPropertyNames(formFormat)
     propertyNames.map(key => {
-      formFormat[key] === null ? delete (formFormat[key]) : ''
+      // formFormat[key] === null ? delete (formFormat[key]) : ''
+      // return formFormat
+      if (formFormat[key] === null) {
+        delete (formFormat[key])
+      }
       return formFormat
     })
 

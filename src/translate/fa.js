@@ -437,7 +437,7 @@ module.exports = {
   "Create exchange membership done": "عضویت شما با موفقیت ثبت شد",
   "Exchange removed": "پنجره شما پاک شد",
   "Exchange membership removed": "لغو عضویت شما انجام شد",
-  "Create Ability Done": "توانمندی شما با موفقیت ثبت شد",
+  "Create Ability Done": "مهارت شما با موفقیت اضافه شد",
   "Create Product Done": "محصول شما با موفقیت ثبت شد",
   "Edit Exchange Successful": "ویرایش پنجره با موفقیت انجام شد",
   'Create Follow Done': 'دنبال کردن کاربر با موفقیت انجام شد',

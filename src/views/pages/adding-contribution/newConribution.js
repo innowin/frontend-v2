@@ -3,6 +3,19 @@ import * as React from 'react'
 import NextPrevBtns from './nextAndPrevBtns'
 import Desc from "../../common/Text/Tip"
 
+type CategoryType = {
+  value: string,
+  title: string,
+  svg: React.Node
+}
+
+type NewContributionProps = {
+  categories: Array<CategoryType>,
+  goToNextStep: Function,
+  goToPrevStep: Function,
+  selectedCategory?: string,
+  selectCategoryHandler: Function
+}
 
 type MainCategoriesProps = {
   categories: Array<CategoryType>,
@@ -35,21 +48,6 @@ const MainCategories = (props: MainCategoriesProps) => {
   )
 }
 
-
-type CategoryType = {
-  value: string,
-  title: string,
-  svg: React.Node
-}
-
-type NewContributionProps = {
-  categories: Array<CategoryType>,
-  goToNextStep: Function,
-  goToPrevStep: Function,
-  selectedCategory?: string,
-  selectCategoryHandler: Function
-}
-
 const NewContribution = (props: NewContributionProps) => {
   const {
     categories, goToNextStep, goToPrevStep, selectedCategory, selectCategoryHandler
@@ -58,7 +56,7 @@ const NewContribution = (props: NewContributionProps) => {
       <div className="new-contribution-wrapper">
         <Desc desc="اورده در سامانه اینوین دارایی تومندی یا ارزشی‌ست که کاربران اعم از مجموعه‌ها و افراد ارایه
               می‌دهند . قابلیت عرضه در پنجره‌ها کارگزاری و انجام معامله آن وجود دارد. محصولات تولیدی
-              توانمندی‌ها تاییدیه‌ها گواهی‌نامه‌ها خدمات مشاوره . زیرساخت‌های قابل اشتراک از انواع آورده در
+              مهارت‌ها تاییدیه‌ها گواهی‌نامه‌ها خدمات مشاوره . زیرساخت‌های قابل اشتراک از انواع آورده در
               سامانه اینوین هستند."/>
         <MainCategories
             selectCategoryHandler={selectCategoryHandler}

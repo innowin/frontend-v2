@@ -5,7 +5,7 @@ import PropTypes from "prop-types"
 
 import {ItemWrapper, VerifyWrapper} from "../../common/cards/Frames"
 import PrivateInfoView from './PrivateInfoView'
-import {userInfoIcon, InformationIcon} from "src/images/icons"
+import {InformationIcon} from "src/images/icons"
 import {PrivateInfoEditForm} from "./PrivateInfoEditForm"
 import {bindActionCreators} from "redux";
 import updateProfileByProfileIdAction from "../../../redux/actions/user/updateProfileByProfileIdAction";

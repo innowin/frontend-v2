@@ -2,7 +2,7 @@
 import * as React from 'react'
 import Select from 'react-select'
 import FontAwesome from 'react-fontawesome'
-import {LAYER1S, MainCategories} from '../addingConributionData'
+import {LAYER1S} from '../addingConributionData'
 import {ImageUploadSvg, MoviesSvgIcon} from '../../../../images/icons'
 import {CircularCheckbox} from '../../../common/inputs/CircularCheckbox'
 import NextPrevBtns from '../nextAndPrevBtns'
@@ -36,7 +36,7 @@ type GalleryAndTagsProps = {
 const GalleryAndTags = (props: GalleryAndTagsProps) => {
 
   const {
-    translator,
+    // translator,
     tagsSelectionHandler,
     newContributionData,
     deleteTag,
@@ -67,7 +67,7 @@ const GalleryAndTags = (props: GalleryAndTagsProps) => {
                 <div className={galleryImages[num] ? 'upload-box uploaded' : 'upload-box'}
                      key={`galleryImage${num}`}>
                   <div className="image-wrapper">
-                    <img className="gallery-item" src={galleryImages[num]} alt="gallery image"/>
+                    <img className="gallery-item" src={galleryImages[num]} alt=""/>
                     <div className="edit-btn"/>
                   </div>
                   <div className="upload-icon-wrapper">

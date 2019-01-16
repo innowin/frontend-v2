@@ -14,7 +14,7 @@ export function* deleteFollow(action) {
 
   try {
     yield fork(api.del, urls.COMMON.SOCIAL.FOLLOW, results.COMMON.SOCIAL.DELETE_FOLLOW, '', `${followId}`)
-    const data = yield take(socketChannel)
+    yield take(socketChannel)
     yield put({type: types.SUCCESS.COMMON.SOCIAL.DELETE_FOLLOW , payload:{followId, followOwnerType, followOwnerId}})
     yield put({
       type: types.TOAST.ADD_TOAST,

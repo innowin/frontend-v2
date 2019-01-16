@@ -4,7 +4,7 @@ import {Component} from 'react'
 import PropTypes from 'prop-types'
 import {CertificateEditForm} from './forms'
 import {ItemWrapper} from "../../common/cards/Frames"
-import {CertificateIcon, StarIcon, EditIcon} from "src/images/icons"
+import {CertificateIcon} from "src/images/icons"
 import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 import DefaultImage from "../../../images/defaults/defaultImage"
 
@@ -31,7 +31,7 @@ type CertificateViewProps = {
 
 
 export const CertificateView = (props: CertificateViewProps) => {
-  const {certificate, showEdit} = props
+  const {certificate} = props
   return (
       <div className='product-certificates'>
         <div className='product-certificates-text'>

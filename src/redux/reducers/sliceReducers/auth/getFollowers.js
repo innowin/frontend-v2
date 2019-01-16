@@ -2,7 +2,11 @@ const base = (state, action) => {
 }
 
 const success = (state, action) => {
-  const {data, followOwnerIdentity, followOwnerType} = action.payload || {}
+  const {
+    data,
+    followOwnerIdentity,
+    // followOwnerType
+  } = action.payload || {}
   const {client} = state
   const previousFollows = (client && client.social && client.social.follows) || []
 

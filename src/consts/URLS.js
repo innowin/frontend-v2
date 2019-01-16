@@ -89,6 +89,9 @@ const urls = {
     PROVINCE: "base/provinces",
     CITY: "base/towns",
 
+    UNIVERSITY: 'users/universities',
+    EDUCATION_FIELDS: 'users/university-fields',
+
     POST: "base/posts",
 
     COMMENT: "base/comments",

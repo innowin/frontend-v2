@@ -5,8 +5,8 @@
 // }
 
 const validateUrl = (url, translate) => {
-  if (!/^(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/.test(url) || url.length < 5) {
-    return translate['Url is wrong']
+  if (!/^(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_.~#?&//=]*)$/.test(url) || url.length < 5) {
+    return translate["Url is wrong"]
   }
 }
 
@@ -14,7 +14,12 @@ const linkInfoValidation = (values, {translate}) => {
   const errors = {}
   const requiredFields = []
 
-  const {telegramAccount, instagramAccount, linkedinAccount, webSite} = values
+  const {
+    // telegramAccount,
+    // instagramAccount,
+    // linkedinAccount,
+    webSite
+  } = values
   // if (telegramAccount) errors.telegramAccount = validateAccount(telegramAccount, translate)
   // if (instagramAccount) errors.instagramAccount = validateAccount(instagramAccount, translate)
   // if (linkedinAccount) errors.linkedinAccount = validateAccount(linkedinAccount, translate)
@@ -28,7 +33,7 @@ const linkInfoValidation = (values, {translate}) => {
     } else {
       requiredErrors.push(false)
     }
-    (requiredErrors.includes(true)) ? (errors._error = translate['Fill required fields']) : (errors._error = "")
+    (requiredErrors.includes(true)) ? (errors._error = translate["Fill required fields"]) : (errors._error = "")
   })
 
   return errors

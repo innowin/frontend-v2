@@ -23,10 +23,10 @@ export const BorderedPaddedWrapper = (props: BorderedPaddedWrapperProps) => {
   )
 }
 
-type OwnerType = {
-  ownerName: string,
-  ownerImg: string
-}
+// type OwnerType = {
+//   ownerName: string,
+//   ownerImg: string
+// }
 
 
 export class Owner extends React.Component {
@@ -140,16 +140,16 @@ export const ActBar = (props: ActBarProps) => {
   )
 }
 
-type GalleryImgType = {
-  id: string,
-  fileUrl: string
-}
+// type GalleryImgType = {
+//   id: string,
+//   fileUrl: string
+// }
 
-type GalleryProps = {
-  images?: Array<GalleryImgType>,
-  mainImage: string,
-  galleryModalDisplayHandler: Function
-}
+// type GalleryProps = {
+//   images?: Array<GalleryImgType>,
+//   mainImage: string,
+//   galleryModalDisplayHandler: Function
+// }
 
 export class Gallery extends React.Component {
   constructor(props) {

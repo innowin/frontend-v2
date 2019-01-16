@@ -77,7 +77,7 @@ const ProductInfoView = (props: PropsProductInfo) => {
           {product.img &&
           <div className='product-img-container'>
             <Link className={'contribution-title-link'} to={`/product/${product.id}`}>
-              <img className='product-img' src={product.img}/>
+              <img alt="" className='product-img' src={product.img}/>
             </Link>
           </div>
           }

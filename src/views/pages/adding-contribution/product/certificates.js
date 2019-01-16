@@ -23,7 +23,7 @@ const Certificates = (props: CertificateProps) => {
   const {
     goToNextStep,
     goToPrevStep,
-    certificatesImagesHandler,
+    // certificatesImagesHandler,
     newContributionData,
     setStateForFileField,
     inputHandler,

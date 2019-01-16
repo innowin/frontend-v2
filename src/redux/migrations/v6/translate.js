@@ -5,6 +5,7 @@ export default state => ({
     topBar: {
       ...state.messages.topBar,
     },
-    'Twitter': 'توییتر',
+    "Twitter": "توییتر",
+    "Create Ability Done": "مهارت شما با موفقیت اضافه شد",
   }
 })

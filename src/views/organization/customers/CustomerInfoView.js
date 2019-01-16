@@ -1,7 +1,6 @@
 // @flow
 import * as React from "react"
 import PropTypes from "prop-types"
-
 import type {CustomerType} from 'src/consts/flowTypes/organization/customer'
 import CheckOwner from "../../common/CheckOwner"
 import {EditIcon} from "../../../images/icons"
@@ -23,7 +22,7 @@ const CustomerInfoView = (props: PropsCustomerInfo) => {
           </div>
         </CheckOwner>
         <div className='customer-image'>
-          <img src={customer && customer.customer_picture.file}/>
+          <img src={customer && customer.customer_picture.file} alt=''/>
         </div>
         <div className='customer-title'>{customer && customer.title}</div>
       </div>

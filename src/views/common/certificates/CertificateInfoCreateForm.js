@@ -1,7 +1,6 @@
 // @flow
 import * as React from 'react'
 import PropTypes from "prop-types"
-
 import CertificateForm from './CertificateForm'
 import {certificateInputType} from 'src/consts/flowTypes/user/others'
 
@@ -12,21 +11,21 @@ type PropsCertificateCreateForm = {
   translate: { [string]: string },
 }
 
-const CertificateInfoCreateForm = (props: PropsCertificateCreateForm) =>  {
+const CertificateInfoCreateForm = (props: PropsCertificateCreateForm) => {
 
   const _onSubmit = (values: certificateInputType) => {
     const {hideCreateForm, create} = props
 
     const formFormat = {
-      title: values.title ? values.title :  null,
+      title: values.title ? values.title : null,
       certificate_picture: values.certificatePicture ? values.certificatePicture : null,
-      certificate_logo: values.certificateLogo ? values.certificateLogo : null,
+      certificate_logo: values.certificateLogo ? values.certificateLogo : null
     }
 
     const propertyNames = Object.getOwnPropertyNames(formFormat)
 
     propertyNames.map(key => {
-      formFormat[key] === null ? delete(formFormat[key]) : ''
+      if (formFormat[key] === null) delete (formFormat[key])
       return formFormat
     })
 
@@ -51,7 +50,7 @@ const CertificateInfoCreateForm = (props: PropsCertificateCreateForm) =>  {
 CertificateInfoCreateForm.propTypes = {
   create: PropTypes.func.isRequired,
   hideCreateForm: PropTypes.func.isRequired,
-  translate: PropTypes.object.isRequired,
+  translate: PropTypes.object.isRequired
 }
 
 export default CertificateInfoCreateForm

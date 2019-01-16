@@ -3,7 +3,7 @@ import ProductView from './product/ProductView'
 import ProductExplorer from './product/ProductExplorer'
 import PrivateRoute from "../consts/PrivateRoute"
 import {Switch} from 'react-router-dom'
-import TopBar from "./bars/TopBar"
+// import TopBar from "./bars/TopBar"
 
 class Product extends Component {
   constructor(props) {

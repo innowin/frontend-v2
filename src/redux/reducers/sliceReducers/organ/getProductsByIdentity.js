@@ -1,4 +1,4 @@
-import constants from "../../../../consts/constants";
+import constants from "src/consts/constants";
 
 const base = (state, action) => {
   const {productOwnerId, productOwnerType} = action.payload || {}
@@ -28,8 +28,8 @@ const base = (state, action) => {
 
 const success = (state, action) => {
   const {productOwnerId, productOwnerType, data} = action.payload || {}
-  const defaultObject = {content: [], isLoading: false, error: null}
-  const previousProduct = (state.list[productOwnerId] && state.list[productOwnerId].products) || defaultObject
+  // const defaultObject = {content: [], isLoading: false, error: null}
+  // const previousProduct = (state.list[productOwnerId] && state.list[productOwnerId].products) || defaultObject
 
   if (productOwnerType === constants.USER_TYPES.ORG) {
     const arrayOfProductId = data.map(product => product.id)

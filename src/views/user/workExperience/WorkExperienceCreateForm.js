@@ -1,7 +1,6 @@
 // @flow
 import * as React from 'react'
 import PropTypes from "prop-types"
-
 import {WorkExperienceForm} from './WorkExperienceForm'
 import {WorkExperienceFormInputType} from 'src/consts/flowTypes/user/others'
 
@@ -32,7 +31,7 @@ const WorkExperienceCreateForm = (props: PropsWorkExperienceCreateForm) =>  {
     const propertyNames = Object.getOwnPropertyNames(formFormat)
 
     propertyNames.map(key => {
-      formFormat[key] === null ? delete(formFormat[key]) : ''
+      if(formFormat[key] === null) delete(formFormat[key])
       return formFormat
     })
 

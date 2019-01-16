@@ -17,9 +17,9 @@ const success = (state, action, relatedKey) => {
   }
 }
 
-const error = (state, action) => {}
-
-const base = (state, action) => {}
+// const error = (state, action) => {}
+//
+// const base = (state, action) => {}
 
 export default {
   success

@@ -1,10 +1,8 @@
 //@flow
-import React, {Component} from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
 import LabelTag from '../../common/tag-label.js'
-import {AgentSvgIcon, TipsIcon} from 'src/images/icons'
-
-import OrganizationActions from '../../../redux/actions/organization/organizationActions'
+import {AgentSvgIcon} from 'src/images/icons'
+import OrganizationActions from 'src/redux/actions/organization/organizationActions'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 
@@ -17,9 +15,9 @@ type AgentFormProps = {
 
 class AgentForm extends React.Component<AgentFormProps, { tags: Array<String>, description: string, loading: boolean }> {
   wrapperRef: Object
-  setWrapperRef: Function
-  handleClickOutside: Function
-  sendReqeust: Function
+  // setWrapperRef: Function
+  // handleClickOutside: Function
+  // sendReqeust: Function
   description: ?HTMLTextAreaElement
 
   state = {
@@ -55,7 +53,7 @@ class AgentForm extends React.Component<AgentFormProps, { tags: Array<String>, d
     this.setState({...this.state, loading: true})
   }
 
-  handleClickOutside(event: Event) {
+  handleClickOutside(event) {
     if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
       this.props.hide()
     }
@@ -75,7 +73,7 @@ class AgentForm extends React.Component<AgentFormProps, { tags: Array<String>, d
   render() {
     const self: any = this
     const {tags, loading} = this.state
-    const {agencyRequest} = this.props
+    // const {agencyRequest} = this.props
     // const {isLoading, error} = agencyRequest
 
     return (

@@ -68,7 +68,7 @@ export function* getCountry(action) {
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.GET_COUNTRY)
   try {
     yield fork(api.get, urls.COMMON.COUNTRY, results.COMMON.GET_COUNTRY, id)
-    const data = yield take(socketChannel)
+    // const data = yield take(socketChannel)
     // const normalData = helpers.arrayToIdKeyedObject(data)
     // yield put({type: types.SUCCESS.COMMON.GET_COUNTRIES, data: normalData})
 
