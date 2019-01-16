@@ -82,6 +82,7 @@ import ThinDownArrow from './common/thin_down_arrow_svg'
 import Ticket from './common/ticket_svg'
 import TickSvgIcon from './common/tick_svg'
 import TipsIcon from './common/tips_svg_icon'
+import TwitterIcon from './common/twitter_svg'
 import userInfoIcon from './user/userinfo_svg'
 import workExperienceIcon from './user/workExperience_svg'
 import YoutubeIcon from './common/youtube_svg'
@@ -175,6 +176,7 @@ export {
   Ticket,
   TickSvgIcon,
   TipsIcon,
+  TwitterIcon,
   UploadIcon,
   userInfoIcon,
   WarningIcon,

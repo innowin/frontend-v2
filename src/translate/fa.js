@@ -237,6 +237,7 @@ module.exports = {
   "Link Information": "پیوند",
   "Youtube": "یوتیوب",
   "Telegram": "تلگرام",
+  'Twitter': 'توییتر',
   "Instagram": "اینستاگرام",
   "LinkedIn": "لینکدین",
   "Web site": "وب سایت",
