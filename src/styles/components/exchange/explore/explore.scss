@@ -309,8 +309,9 @@
 .users-explore-sidebar-check {
   width: 90%;
   margin: 10px auto;
-  height: 155px;
+  height: 124px;
   opacity: 1;
+  user-select: none;
   transition-duration: 0.3s;
 }
 
@@ -398,6 +399,7 @@
   display: flex;
   flex-wrap: wrap;
   margin-top: 15px;
+  user-select: none;
 }
 
 .exchanges-explore-sidebar-hashTags-container {
@@ -484,7 +486,7 @@
   }
 }
 
-.exchange-follow-buttons{
+.exchange-follow-buttons {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -718,6 +720,7 @@
   position: relative;
   overflow: hidden;
   text-align: center;
+  height: 590px;
   margin-top: $topBarHeight + 10px;
   overflow-y: auto;
   color: $text-dark-color;
@@ -726,6 +729,10 @@
   background: $text-lightest-color;
   box-shadow: 0 0 14px rgba(0, 0, 0, 0.2);
   width: 25%;
+}
+
+.sidebar-skeleton::-webkit-scrollbar {
+  width: 0;
 }
 
 .container-skeleton {
@@ -840,7 +847,7 @@
   border-radius: 3px;
 }
 
-.user-default-profile-skelte{
+.user-default-profile-skelte {
   font-size: 13px;
   margin-top: 5px;
   line-height: 27px;
@@ -848,7 +855,7 @@
   border-radius: 3px;
 }
 
-.user-default-profile-skelte-date{
+.user-default-profile-skelte-date {
   font-size: 11px;
   margin-top: 2px;
   background-color: #f3f3f3;
