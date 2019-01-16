@@ -99,7 +99,8 @@ class InfoView extends Component<props> {
                         <div style={{clear: "both"}}/>
                       </div>
                       :
-                      currentExchange && currentExchange.biography.trim() === "" ? "بدون معرفی‌نامه" : currentExchange.biography
+                      currentExchange && (currentExchange.biography === "" || currentExchange.biography === null) ?
+                          "بدون معرفی‌نامه" : currentExchange.biography
                   }
                 </div>
               </div>
