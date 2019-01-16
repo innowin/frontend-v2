@@ -10,37 +10,37 @@ const file = (state = initialState.common.file, action) => {
 
   switch (action.type) {
     /** --------------------  get file --------------------- **/
-    // case types.COMMON.GET_FILE:
+    // case types.COMMON.FILE.GET_FILE:
     //     return {
     //         ...state,
     //         list: {...list, [fileId]: data}
     //     }
-    case types.SUCCESS.COMMON.GET_FILES:
+    case types.SUCCESS.COMMON.FILE.GET_FILES:
       return appendListToStateList.success(state, action)
 
-    case types.SUCCESS.COMMON.GET_FILE:
+    case types.SUCCESS.COMMON.FILE.GET_FILE:
       return {
         ...state,
         list: {...list, [data.id]: data}
       }
 
-    // case types.ERRORS.COMMON.GET_FILE:
+    // case types.ERRORS.COMMON.FILE.GET_FILE:
     //     return {
     //         ...state, // is need for more data handling ?
     //     }
 
     /** ------------------ create file -------------------> **/
-    case types.COMMON.CREATE_FILE:
+    case types.COMMON.FILE.CREATE_FILE:
       return state
 
-    case types.SUCCESS.COMMON.CREATE_FILE:
+    case types.SUCCESS.COMMON.FILE.CREATE_FILE:
 
       return {
         ...state,
         list: {...list, [data.id]: data}
       }
 
-    case types.ERRORS.COMMON.CREATE_FILE:
+    case types.ERRORS.COMMON.FILE.CREATE_FILE:
       return {
         ...state,
         // middlewareFileData: {
@@ -50,16 +50,23 @@ const file = (state = initialState.common.file, action) => {
         // }
       }
     /** ----------------- update file -----------------> **/
-    case types.COMMON.UPDATE_FILE:
+    case types.COMMON.FILE.UPDATE_FILE:
       return slices.updateFile.base(state, action)
-    case types.SUCCESS.COMMON.UPDATE_FILE:
+    case types.SUCCESS.COMMON.FILE.UPDATE_FILE:
       return slices.updateFile.success(state, action)
-    case types.ERRORS.COMMON.UPDATE_FILE:
+    case types.ERRORS.COMMON.FILE.UPDATE_FILE:
       return slices.updateFile.error(state, action)
 
     /** ----------------- set data in file object -----------------> **/
     case types.ENTITY.SET_FILE:
       return slices.setFile(state, action)
+    /** ----------------- set data in file object -----------------> **/
+    case types.COMMON.FILE.GET_FILE_BY_RELATED_PARENT_ID:
+      return slices.getFileByRelatedParentId.base(state, action)
+    case types.SUCCESS.COMMON.FILE.GET_FILE_BY_RELATED_PARENT_ID:
+      return slices.getFileByRelatedParentId.success(state, action)
+    case types.ERRORS.COMMON.FILE.GET_FILE_BY_RELATED_PARENT_ID:
+      return slices.getFileByRelatedParentId.error(state, action)
     /** ----------------- reset -----------------> **/
     case types.RESET:
       return initialState.common.file

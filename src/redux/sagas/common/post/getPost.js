@@ -12,10 +12,10 @@ export function* getPost(action) {
     const data = yield take(socketChannel)
     // yield put({type: types.COMMON.POST.GET_POST_VIEWER_COUNT, payload: {postId: data.id}})
     if (data.post_related_identity_image) {
-      yield put({type: types.COMMON.GET_FILE, payload: {fileId: data.post_related_identity_image}})
+      yield put({type: types.COMMON.FILE.GET_FILE, payload: {fileId: data.post_related_identity_image}})
     }
-    if (data.post_parent) {
-      yield put({type: types.COMMON.GET_FILE, payload: {fileId: data.post_picture}})
+    if (data.post_picture) {
+      yield put({type: types.COMMON.FILE.GET_FILE, payload: {fileId: data.post_picture}})
     }
     if(data.post_related_product) {
       yield put({type: types.COMMON.GET_PRODUCT_INFO, payload: {id: data.post_related_product}})

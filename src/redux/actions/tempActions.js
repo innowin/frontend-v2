@@ -2,7 +2,7 @@
 import types from "./types"
 
 const removeFileFromTemp = (tempFileKeyName: number | string) => ({
-  type: types.COMMON.REMOVE_FILE_FROM_TEMP_FILE,
+  type: types.COMMON.FILE.REMOVE_FILE_FROM_TEMP_FILE,
   payload: {tempFileKeyName}
 })
 

@@ -125,7 +125,7 @@ class OrganizationBee extends Component {
       reader.readAsDataURL(file)
       reader.onloadend = () => {
         this.setState({ ...this.state, imageLoading: true }, () => {
-          const nextActionType = types.COMMON.SET_FILE_IDS_IN_TEMP_FILE
+          const nextActionType = types.COMMON.FILE.SET_FILE_IDS_IN_TEMP_FILE
           const fileIdKey = 'fileId'
           const nextActionData = { tempFileKeyName: 'org_photo' }
           const createArguments = {

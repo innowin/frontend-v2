@@ -279,7 +279,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     let result = true
     const {descriptionState} = this.state
     const descriptionLength = descriptionState ? descriptionState.trim().length : 0
-    const descriptionError = descriptionLength > 700
+    const descriptionError = descriptionLength > 70
     const validates = [
       this.AttachBannerFileInput && this.AttachBannerFileInput._validate(),
       this.AttachPictureFileInput && this.AttachPictureFileInput._validate(),
@@ -339,15 +339,15 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     const descriptionLength = description ? description.trim().length : 0
     if (descriptionLength === 0)
       this.setState({...this.state, descriptionClass: 'hide-message'})
-    if (descriptionLength > 0 && descriptionLength < 690)
+    if (descriptionLength > 0 && descriptionLength < 65)
       this.setState({...this.state, descriptionClass: 'neutral-message'})
-    if (descriptionLength > 690 && descriptionLength < 700)
+    if (descriptionLength >= 65 && descriptionLength < 70)
       this.setState({...this.state, descriptionClass: 'warning-message'})
   }
 
   _handleChangeText = (e) => {
     const description = e.target.value
-    if (description.trim().length <= 700)
+    if (description.trim().length <= 70)
       this.setState({...this.state, descriptionState: description}, () => this._checkCharacter(description))
   }
 
@@ -363,7 +363,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     const {createFile} = actions || {}
     const nextActionDataForBanner = {tempFileKeyName: UserSideBarBannerTempKeyName}
     const nextActionDataForPicture = {tempFileKeyName: UserSideBarPictureTempKeyName}
-    const nextActionType = types.COMMON.SET_FILE_IDS_IN_TEMP_FILE
+    const nextActionType = types.COMMON.FILE.SET_FILE_IDS_IN_TEMP_FILE
     const fileIdKey = 'fileId'
     const bannerCreateArguments = {
       fileIdKey,
@@ -507,7 +507,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
                     <div className='description'>
                       {descriptionClass &&
                       <span className={descriptionClass}>
-                    {descriptionState && descriptionState.trim().length + '/700'}
+                    {descriptionState && descriptionState.trim().length + '/70'}
                   </span>
                       }
                       <textarea

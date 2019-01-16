@@ -55,7 +55,7 @@ export function* getBadges(action) {
     const {badge_related_badge_category, ids, entity, badge_related_user, badge_related_media} = normalizer(badges) || {}
     yield put({type: types.SUCCESS.COMMON.GET_BADGES, payload: {data: entity, ids, destinationId}})
     yield put({type: types.SUCCESS.COMMON.GET_BADGES_CATEGORY, payload: {data: badge_related_badge_category}})
-    yield put({type: types.SUCCESS.COMMON.GET_FILES, payload: {data: badge_related_media}})
+    yield put({type: types.SUCCESS.COMMON.FILE.GET_FILES, payload: {data: badge_related_media}})
     yield put({type: types.SUCCESS.USER.GET_USERS, payload: {data: badge_related_user}})
   } catch (e) {
   } finally {

@@ -23,7 +23,7 @@ function* getOrganizationInSignIn(username) {
     const data = yield take(socketChannel2)
     const organLogoId = data.organization_logo
     if (organLogoId) {
-      yield put({type:types.COMMON.GET_FILE, payload:{fileId:organLogoId}})
+      yield put({type:types.COMMON.FILE.GET_FILE, payload:{fileId:organLogoId}})
     }
     // return data for access father to organ data
     return data
@@ -75,10 +75,10 @@ export function* signIn(action) {
     const profileMediaId = profileData.profile_media
     const profileBannerId = profileData.profile_banner
     if (profileMediaId) {
-      yield put({type: types.COMMON.GET_FILE, payload: {fileId: profileMediaId}})
+      yield put({type: types.COMMON.FILE.GET_FILE, payload: {fileId: profileMediaId}})
     }
     if (profileBannerId && profileBannerId !== profileMediaId) {
-      yield put({type: types.COMMON.GET_FILE, payload: {fileId: profileBannerId}})
+      yield put({type: types.COMMON.FILE.GET_FILE, payload: {fileId: profileBannerId}})
     }
     yield put({type: types.SUCCESS.USER.GET_USER_BY_USER_ID, payload: {data: userData, userId}})
     yield put({type: types.SUCCESS.USER.GET_PROFILE_BY_USER_ID, payload: {data: profileData, userId}})

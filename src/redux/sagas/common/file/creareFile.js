@@ -12,7 +12,7 @@ function* createFile(action) { // payload?
   // 'nextActionType' used in dynamicResult to avoid from creating two different object in database
   // with the same picture implicitly and unwanted, when creating multiple object and their files
   // in the same time.
-  const dynamicResult = `${results.COMMON.CREATE_FILE}--${uuid()}`
+  const dynamicResult = `${results.COMMON.FILE.CREATE_FILE}--${uuid()}`
 
   const socketChannel = yield call(api.createSocketChannel, dynamicResult)
 
@@ -41,11 +41,11 @@ function* createFile(action) { // payload?
       }
     }
 
-    yield put({type: types.SUCCESS.COMMON.CREATE_FILE, payload: {data}})
+    yield put({type: types.SUCCESS.COMMON.FILE.CREATE_FILE, payload: {data}})
     if (nextActionType) yield put({type: nextActionType, payload})
 
   } catch (error) {
-    yield put({type: types.ERRORS.COMMON.CREATE_FILE, error})
+    yield put({type: types.ERRORS.COMMON.FILE.CREATE_FILE, error})
 
   } finally {
     socketChannel.close()
