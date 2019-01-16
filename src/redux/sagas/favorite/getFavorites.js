@@ -11,7 +11,7 @@ export function* getFavorites(action) {
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.FAVORITE.GET_FAVORITES, payload: {data}})
     for (let favorite of data) {
-      yield put({type: types.COMMON.GET_FILE, payload: {fileId: favorite.favorite_related_media}})
+      yield put({type: types.COMMON.FILE.GET_FILE, payload: {fileId: favorite.favorite_related_media}})
     }
   } catch (e) {
     const {message} = e

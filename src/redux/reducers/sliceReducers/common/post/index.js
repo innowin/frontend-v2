@@ -5,10 +5,12 @@ import deletePost from './deletePost'
 import filterPostsByParentLimitOffset from "./filterPostsByParentLimitOffset"
 import filterPostsByPostRelatedProduct from "./filterPostsByPostRelatedProduct"
 import getCommentsByParentId from './getCommentsByParentId'
+import getFileByRelatedParentId from './getFileByRelatedParentId'
 import getPost from './getPost'
 import getPostByIdentity from './getPostByIdentity'
 import getPostViewerCount from "./getPostViewerCount"
 import updatePost from './updatePost'
+import updateFile from './updateFile'
 
 export default {
   createComment,
@@ -18,8 +20,10 @@ export default {
   filterPostsByParentLimitOffset,
   filterPostsByPostRelatedProduct,
   getCommentsByParentId,
+  getFileByRelatedParentId,
   getPost,
   getPostByIdentity,
   getPostViewerCount,
   updatePost,
+  updateFile,
 }

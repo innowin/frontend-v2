@@ -310,7 +310,7 @@ class CreatePost extends Component {
   _createFile = (fileString, tempFileKeyName) => {
     const { actions } = this.props
     const { createFile } = actions
-    const nextActionType = types.COMMON.SET_FILE_IDS_IN_TEMP_FILE
+    const nextActionType = types.COMMON.FILE.SET_FILE_IDS_IN_TEMP_FILE
     const fileIdKey = 'fileId'
     const nextActionData = { tempFileKeyName }
     const createArguments = {

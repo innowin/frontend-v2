@@ -81,7 +81,7 @@ class CustomerInfoForm extends Component<PropsCustomerInfoForm> {
     const { pictureString } = this.state;
     const { actions } = this.props;
     const { createFile } = actions;
-    const nextActionTypesForCustomerPicture = types.COMMON.SET_FILE_IDS_IN_TEMP_FILE;
+    const nextActionTypesForCustomerPicture = types.COMMON.FILE.SET_FILE_IDS_IN_TEMP_FILE;
     const nextActionDataForCustomerPicture = { tempFileKeyName: CustomerInfoFormTempKeyName };
     const fileIdKey = "fileId";
     const postPicturesCreateArguments = {

@@ -12,6 +12,9 @@ export default {
   POST_PARENT: {
     EXCHANGE: 'exchange'
   },
+  FILE_PARENT: {
+    POST: 'post',
+  },
   PRODUCT: {
     PRICE_TYPE: {
       SPECIFIED: 'specified',

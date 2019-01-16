@@ -60,7 +60,7 @@ function* createProductAsContribution(action) { // payload: { formData: {} }
           // nextActionErrorType: types.ERRORS.COMMON.CREATE_PRODUCT_PICTURE
         }
 
-        return put({type: types.COMMON.UPDATE_FILE, payload})
+        return put({type: types.COMMON.FILE.UPDATE_FILE, payload})
       }))
     }
 
@@ -93,12 +93,12 @@ function* createProductAsContribution(action) { // payload: { formData: {} }
         }
         const payload = {
           file_string: cert.certPicture,
-          nextActionType: types.COMMON.CREATE_FILE,
+          nextActionType: types.COMMON.FILE.CREATE_FILE,
           toWhatLayer: 2,
           fileIdKey: "certificate_picture",
           nextActionData,
         }
-        return put({type: types.COMMON.CREATE_FILE, payload})
+        return put({type: types.COMMON.FILE.CREATE_FILE, payload})
       }))
     }
 

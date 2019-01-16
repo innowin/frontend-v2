@@ -94,7 +94,6 @@ class HomePosts extends PureComponent
     const {isLoading, error} = this.state
     const {posts, exchangeId, className, actions} = this.props
     const {deletePost, updatePost} = actions
-    console.log(posts, 'ppppppppppp')
     return (
         <VerifyWrapper isLoading={isLoading} error={error} className={className}>
           {(exchangeId) ? (
