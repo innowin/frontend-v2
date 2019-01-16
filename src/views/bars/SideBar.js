@@ -7,7 +7,7 @@ import type {badgeType} from '../../consts/flowTypes/common/badges'
 import type {organizationType} from 'src/consts/flowTypes/organization/organization'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import type {userProfileType, userType} from 'src/consts/flowTypes/user/basicInformation'
-import {DefaultUserIcon, DefaultOrganIcon} from 'src/images/icons'
+import {DefaultUserIcon, DefaultOrganIcon, TwitterIcon, TelegramIcon, LinkedInIcon, InstagramIcon} from 'src/images/icons'
 import cx from 'classnames'
 
 import AttachFile from '../common/inputs/AttachFile'
@@ -571,18 +571,30 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
             </CheckOwner>
 
             <div className="social-network">
-              <a href={socialNetworks.twitter_account || '#'} target="_blank">
-                <i className={cx('fa fa-twitter', {'twitter-active': socialNetworks.twitter_account})}/>
-              </a>
-              <a href={socialNetworks.telegram_account || '#'} target="_blank">
-                <i className={cx('fa fa-telegram', {'telegram-active': socialNetworks.telegram_account})}/>
-              </a>
-              <a href={socialNetworks.instagram_account || '#'} target="_blank">
-                <i className={cx('fa fa-instagram', {'instagram-active': socialNetworks.instagram_account})}/>
-              </a>
-              <a href={socialNetworks.linkedin_account || '#'} target="_blank">
-                <i className={cx('fa fa-linkedin-square', {'linkedin-active': socialNetworks.linkedin_account})}/>
-              </a>
+              {socialNetworks.twitter_account
+                  ? <a href={socialNetworks.twitter_account } target="_blank">
+                    <TwitterIcon className='social-icon twitter-active'/>
+                  </a>
+                  : <TwitterIcon className='social-icon'/>
+              }
+              {socialNetworks.instagram_account
+                  ? <a href={socialNetworks.telegram_account || '#'} target="_blank">
+                    <TelegramIcon className='social-icon telegram-active'/>
+                  </a>
+                  : <TelegramIcon className='social-icon'/>
+              }
+              {socialNetworks.instagram_account
+                  ? <a href={socialNetworks.instagram_account} target={"_blank"}>
+                    <InstagramIcon className='social-icon instagram-active'/>
+                  </a>
+                  : <InstagramIcon className='social-icon'/>
+              }
+              {socialNetworks.linkedin_account
+                  ? <a href={socialNetworks.linkedin_account} target="_blank">
+                    <LinkedInIcon className='social-icon linkedin-active'/>
+                  </a>
+                  : <LinkedInIcon className='social-icon'/>
+              }
             </div>
           </div>
         </form>

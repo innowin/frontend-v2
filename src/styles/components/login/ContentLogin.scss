@@ -84,17 +84,6 @@
       overflow: hidden;
       transform: perspective(0);
     }
-    &.sign-in-form-animate {
-      .sign-in-card {
-        height: 238px
-      }
-    }
-
-    &.sign-up-form-animate {
-      .sign-in-card {
-        height: 300px
-      }
-    }
   }
 
   .carousel-wrapper {
