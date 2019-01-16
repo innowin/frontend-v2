@@ -1,10 +1,10 @@
 // @flow
-import type {certificateType, certificateInputType} from "../../../consts/flowTypes/user/others";
-import {Component} from "react";
-import PropTypes from "prop-types";
-import * as React from "react";
-import {Confirm} from "../../common/cards/Confirm";
-import CertificateForm from './CertificateForm'
+import type {certificateType, certificateInputType} from "../../../consts/flowTypes/user/others"
+import {Component} from "react"
+import PropTypes from "prop-types"
+import * as React from "react"
+import {Confirm} from "../../common/cards/Confirm"
+import CertificateForm from "./CertificateForm"
 
 type PropsCertificateEditForm = {
   update: Function,
@@ -49,14 +49,18 @@ export class CertificateEditForm extends Component<PropsCertificateEditForm, Sta
     //FixMe: certificate logo or certificate picture and parent and identity need to set
     const formFormat = {
       title: certificate.title === values.title ? null : values.title,
-      certificate_picture: certificate.certificate_picture === values.certificatePicture? null : values.certificatePicture,
-      certificate_logo: certificate.certificate_logo === values.certificateLogo? null : values.certificateLogo,
+      certificate_picture: certificate.certificate_picture === values.certificatePicture ? null : values.certificatePicture,
+      certificate_logo: certificate.certificate_logo === values.certificateLogo ? null : values.certificateLogo,
     }
 
     const propertyNames = Object.getOwnPropertyNames(formFormat)
 
     propertyNames.map(key => {
-      formFormat[key] === null ? delete(formFormat[key]) : ''
+      // formFormat[key] === null ? delete(formFormat[key]) : ''
+      // return formFormat
+      if (formFormat[key] === null) {
+        delete (formFormat[key])
+      }
       return formFormat
     })
 
@@ -70,15 +74,22 @@ export class CertificateEditForm extends Component<PropsCertificateEditForm, Sta
     const {certificate, hideEdit, translate, deleteCertificate} = this.props
     return (
         confirm ? <Confirm cancelRemoving={this._cancelConfirm} remove={deleteCertificate}/>
-            : <CertificateForm onSubmit={this._onSubmit} certificate={certificate} translate={translate}>
+            : <CertificateForm
+                onSubmit={this._onSubmit}
+                certificate={certificate}
+                translate={translate}
+                error={null}
+                handleSubmit={null}
+                initialize={null}
+                submitFailed={null}>
               <div className="col-12 d-flex justify-content-end">
                 <button type="button" className="btn btn-outline-danger mr-auto" onClick={this._showConfirm}>
-                  {translate['Delete']}
+                  {translate["Delete"]}
                 </button>
                 <button type="button" className="btn btn-secondary mr-2" onClick={hideEdit}>
-                  {translate['Cancel']}
+                  {translate["Cancel"]}
                 </button>
-                <button type="submit" className="btn btn-success">{translate['Save']}</button>
+                <button type="submit" className="btn btn-success">{translate["Save"]}</button>
               </div>
             </CertificateForm>
     )

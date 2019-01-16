@@ -19,8 +19,7 @@
     bottom: 0;
     background-image: url('../images/loginBG.jpg');
     background-color: lighten($text-light-color, 10%);
-    filter: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg"><filter id="filter"><feGaussianBlur stdDeviation="15" /></filter></svg>#filter');
-    filter: blur(10px);
+    filter: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg"><filter id="filter"><feGaussianBlur stdDeviation="15" /></filter></svg>#filter') blur(10px);
   }
 }
 
