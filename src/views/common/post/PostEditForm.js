@@ -1,11 +1,10 @@
 // @flow
-// /*global __*/
-
 import * as React from 'react'
 import PropTypes from 'prop-types'
-import { Confirm } from '../../common/cards/Confirm'
+import {Confirm} from '../../common/cards/Confirm'
 import {PostForm} from './PostForm'
 import connect from 'react-redux/es/connect/connect'
+import {getMessages} from 'src/redux/selectors/translateSelector'
 
 type PropsPostEditForm = {
   updateFunc: Function,
@@ -18,7 +17,7 @@ type StatePostEditForm = {
   confirm: boolean,
 }
 
- class PostEditForm extends React.Component<PropsPostEditForm, StatePostEditForm> {
+class PostEditForm extends React.Component<PropsPostEditForm, StatePostEditForm> {
 
   static propTypes = {
     updateFunc: PropTypes.func.isRequired,
@@ -29,15 +28,15 @@ type StatePostEditForm = {
 
   constructor(props) {
     super(props)
-    this.state = { confirm: false }
+    this.state = {confirm: false}
   }
 
   _showConfirm = () => {
-    this.setState({ confirm: true })
+    this.setState({confirm: true})
   }
 
   _cancelConfirm = () => {
-    this.setState({ confirm: false })
+    this.setState({confirm: false})
   }
 
   _remove = () => {
@@ -48,7 +47,7 @@ type StatePostEditForm = {
 
   _save = () => {
     if (this.form && this.form._formValidate()) {
-      const { post, updateFunc, hideEdit } = this.props
+      const {post, updateFunc, hideEdit} = this.props
       const postId = post.id
       const formValues = this.form._getValues()
       hideEdit()
@@ -63,8 +62,8 @@ type StatePostEditForm = {
   }
 
   render() {
-    const { confirm } = this.state
-    const { hideEdit, post ,currentUserName,currentUserMedia} = this.props
+    const {confirm} = this.state
+    const {hideEdit, post, currentUserName, currentUserMedia, translate} = this.props
     if (confirm) {
       return <div className='remove-post-container'>
         <Confirm cancelRemoving={this._cancelConfirm} remove={this._remove}/>
@@ -79,6 +78,7 @@ type StatePostEditForm = {
                      hideEdit={hideEdit}
                      currentUserName={currentUserName}
                      currentUserMedia={currentUserMedia}
+                     translate={translate}
     />
 
   }
@@ -92,7 +92,7 @@ const mapStateToProps = state => {
 
   const userId = (client.organization && client.organization.id) || (client.user && client.user.id)
 
-  const { user_type } = state.auth.client
+  const {user_type} = state.auth.client
   const stateOrgan = state.organs.list[userId]
   const name = user_type === 'person' ?
       client.user.first_name + ' ' + client.user.last_name
@@ -105,7 +105,8 @@ const mapStateToProps = state => {
     currentUserId: userId,
     currentUserImgId: clientImgId,
     currentUserMedia: (state.common.file.list[clientImgId] && state.common.file.list[clientImgId].file) || null,
-    currentUserName: name
+    currentUserName: name,
+    translate: getMessages(state)
   })
 }
 

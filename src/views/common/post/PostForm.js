@@ -1,12 +1,10 @@
-/*global __*/
-
-import { Component } from 'react'
+import {Component} from 'react'
 import PropTypes from 'prop-types'
-import { SelectComponent } from '../SelectComponent'
-import { TextInput } from '../inputs/TextInput'
-import { TextareaInput } from '../inputs/TextareaInput'
-import { CheckBox } from '../inputs/CheckBox'
-import { FileInput } from '../inputs/FileInput'
+import {SelectComponent} from '../SelectComponent'
+import {TextInput} from '../inputs/TextInput'
+import {TextareaInput} from '../inputs/TextareaInput'
+import {CheckBox} from '../inputs/CheckBox'
+import {FileInput} from '../inputs/FileInput'
 import React from 'react'
 import DefaultUserIcon from './createPost'
 import AttachFileIcon from 'src/images/common/attachFileNew_svg'
@@ -26,7 +24,7 @@ export class PostForm extends Component {
   _getValues = () => {
     const media = this.postPictureInput.getFile()
     const mediaId = media ? media.id : null
-    const { postParent, postIdentity } = this.props
+    const {postParent, postIdentity} = this.props
     return {
       post_type: this.postTypeInput.getValue(),
       post_title: this.postTitleInput.getValue(),
@@ -57,12 +55,12 @@ export class PostForm extends Component {
   }
 
   render() {
-    const { onSubmit, currentUserMedia, currentUserName } = this.props
+    const {onSubmit, currentUserMedia, currentUserName, translate} = this.props
     const post = this.props.post || {}
     const options = [
-      { value: 'post', label: 'نما' },
-      { value: 'supply', label: 'عرضه' },
-      { value: 'demand', label: 'تقاضا' }
+      {value: 'post', label: 'نما'},
+      {value: 'supply', label: 'عرضه'},
+      {value: 'demand', label: 'تقاضا'}
     ]
     return (
         <form onSubmit={onSubmit} className="edit-form w-90">
@@ -70,7 +68,7 @@ export class PostForm extends Component {
           {/*// display none*/}
           <SelectComponent
               name="post_type"
-              label={__('Post type') + ': '}
+              label={translate['Post type'] + ': '}
               options={options}
               required
               value={post.post_type}
@@ -80,7 +78,7 @@ export class PostForm extends Component {
               className="col-12 form-group display-none"
           />
           <TextInput
-              label={__('Post title') + ': '}
+              label={translate['Post title'] + ': '}
               name="post_title"
               value={post.post_title}
               required
@@ -91,7 +89,7 @@ export class PostForm extends Component {
           />
 
           <CheckBox
-              label={__('Post pinned') + ': '}
+              label={translate['Post pinned'] + ': '}
               name="post_pinned"
               value={post.post_pinned}
               ref={postPinnedInput => {
@@ -100,7 +98,7 @@ export class PostForm extends Component {
           />
 
           <FileInput
-              label={__('Post picture') + ': '}
+              label={translate['Post picture'] + ': '}
               mediaId={post.post_picture}
               ref={postPictureInput => {
                 this.postPictureInput = postPictureInput
@@ -126,7 +124,7 @@ export class PostForm extends Component {
 
           <TextareaInput
               name="post_description"
-              label={__('Post description') + ': '}
+              label={translate['Post description'] + ': '}
               value={post.post_description}
               ref={postDescriptionInput => {
                 this.postDescriptionInput = postDescriptionInput
@@ -135,11 +133,11 @@ export class PostForm extends Component {
 
           <div className='post-component-footer-send'>
             {/*<div className='post-component-footer-link' ref={e => this.link = e}>{link}</div>*/}
-            <div style={{ display: 'inline-block' }} onClick={this.handleAttach}>
+            <div style={{display: 'inline-block'}} onClick={this.handleAttach}>
               <AttachFileIcon className='post-component-footer-send-attach'/>
             </div>
 
-            <button type="button" className='post-edit-footer-cancel-btn' onClick={this.props.hideEdit}>{__('Cancel')}</button>
+            <button type="button" className='post-edit-footer-cancel-btn' onClick={this.props.hideEdit}>{translate['Cancel']}</button>
 
             <button type="submit" className='post-edit-footer-send-btn'>ثبت ویرایش</button>
 
