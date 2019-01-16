@@ -153,7 +153,6 @@ class Sidebar extends Component <appProps, appState> {
               </label>
             </div>
           </div>
-          <hr/>
           <div className='exchanges-explore-sidebar-hashTags-search-container'>
             <div className='exchanges-explore-sidebar-tag'>
               افزودن برچسب:
@@ -173,7 +172,6 @@ class Sidebar extends Component <appProps, appState> {
               }
             </div>
           </div>
-          <hr/>
           {/*<div style={{fontSize: '14px'}}>*/}
           {/*فیلتر بر اساس نشان ها:*/}
           {/*</div>*/}
