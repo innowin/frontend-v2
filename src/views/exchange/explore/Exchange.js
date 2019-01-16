@@ -52,7 +52,7 @@ class Exchange extends Component <appProps, appState> {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.data.id !== nextProps.data.id) {
-      this.setState({...this.state, imageLoaded: false, followLoading: false,}, () => {
+      this.setState({...this.state, imageLoaded: false, followLoading: false}, () => {
         if (nextProps.data.exchange_image) {
           let image = new Image()
           image.src = nextProps.data.exchange_image.file.includes('innowin.ir') ? nextProps.data.exchange_image.file : REST_URL + nextProps.data.exchange_image.file
@@ -84,9 +84,11 @@ class Exchange extends Component <appProps, appState> {
   _renderFollowButton() {
     if (this.props.data.exchange === undefined && this.state.followLoading) {
       return <div className='exchange-model-following'><ClipLoader color='#008057' size={19}/></div>
-    } else if (this.props.data.exchange === undefined) {
+    }
+    else if (this.props.data.exchange === undefined) {
       return <Material className='exchange-followed' content={this.props.translate['Follow']} onClick={this._follow}/>
-    } else return <Material className='exchange-follow' content={this.props.translate['Followed']}/>
+    }
+    else return <Material className='exchange-follow' content={this.props.translate['Followed']}/>
   }
 
 
@@ -137,9 +139,14 @@ class Exchange extends Component <appProps, appState> {
               {/*}*/}
 
             </Link>
-            {
-              this._renderFollowButton()
-            }
+            <div className='exchange-follow-buttons'>
+              <Link to={`/exchange/${data.id}`} style={{textDecoration: 'none'}}>
+                <Material className='exchange-follow' content='مشاهده'/>
+              </Link>
+              {
+                this._renderFollowButton()
+              }
+            </div>
             {/*<div className={"exchange-model-detail-filter"}/>*/}
           </div>
           {/*{ // IMAGE BLUR ON BACK*/}
@@ -155,12 +162,12 @@ class Exchange extends Component <appProps, appState> {
 
 const mapStateToProps = (state) => ({
   currentUserIdentity: state.auth.client.identity.content,
-  translate: getMessages(state),
+  translate: getMessages(state)
 })
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    follow: exchangeActions.createExchangeMembership,
+    follow: exchangeActions.createExchangeMembership
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Exchange)
