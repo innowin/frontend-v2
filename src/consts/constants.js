@@ -31,7 +31,7 @@ export default {
   LINKS: {
     TELEGRAM: 'https://t.me/',
     INSTAGRAM: 'https://www.instagram.com/',
-    YOUTUBE: 'https://www.youtube.com/channel/',
+    TWITTER: 'https://www.twitter.com/',
     LINKEDIN: 'https://www.linkedin.com/in/',
     LINKEDIN_START: 'www.linkedin.com',
   },

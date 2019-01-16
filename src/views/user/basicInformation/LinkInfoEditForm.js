@@ -30,7 +30,7 @@ type LinkInfoFormInputType = {|
   telegramAccount: string,
   instagramAccount: string,
   linkedinAccount: string,
-  // youtubeAccount: string,
+  twitterAccount: string,
 |}
 
 class LinkInfoEditForm extends React.Component<PropsUserInfoEditForm> {
@@ -40,7 +40,7 @@ class LinkInfoEditForm extends React.Component<PropsUserInfoEditForm> {
       telegramAccount: profile.telegram_account.replace(constants.LINKS.TELEGRAM, ''),
       instagramAccount: profile.instagram_account.replace(constants.LINKS.INSTAGRAM, ''),
       linkedinAccount: profile.linkedin_account.replace(constants.LINKS.LINKEDIN, ''),
-      // youtubeAccount: profile.youtube_account,
+      twitterAccount: profile.twitter_account.replace(constants.LINKS.TWITTER, ''),
     }
     initialize(defaultFormValue);
   }
@@ -74,7 +74,7 @@ class LinkInfoEditForm extends React.Component<PropsUserInfoEditForm> {
       telegram_account: profile.telegram_account === (constants.LINKS.TELEGRAM + values.telegramAccount) ? null : (values.telegramAccount === '' ? '' : constants.LINKS.TELEGRAM + values.telegramAccount),
       instagram_account: profile.instagram_account === (constants.LINKS.INSTAGRAM + values.instagramAccount) ? null : (values.instagramAccount === '' ? '' : constants.LINKS.INSTAGRAM + values.instagramAccount),
       linkedin_account: profile.linkedin_account === (constants.LINKS.LINKEDIN + values.linkedinAccount) ? null : (values.linkedinAccount === '' ? '' : constants.LINKS.LINKEDIN + values.linkedinAccount),
-      // youtubeAccount: profile.youtube_account,
+      twitter_account: profile.twitter_account === (constants.LINKS.TWITTER + values.twitterAccount) ? null : (values.twitterAccount === '' ? '' : constants.LINKS.TWITTER + values.twitterAccount),
     }
     const propertyNames = Object.getOwnPropertyNames(formFormat)
     propertyNames.map(key => {
@@ -121,6 +121,16 @@ class LinkInfoEditForm extends React.Component<PropsUserInfoEditForm> {
                 isNew={true}
                 ltr={true}
                 nextText={constants.LINKS.LINKEDIN}
+            />
+
+            <Field
+                name="twitterAccount"
+                type="text"
+                component={renderTextField}
+                label={translate['Twitter']}
+                isNew={true}
+                ltr={true}
+                nextText={constants.LINKS.TWITTER}
             />
 
             {submitFailed && <p className="form-error error-message">{error}</p>}

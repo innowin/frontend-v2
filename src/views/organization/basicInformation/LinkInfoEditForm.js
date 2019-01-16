@@ -28,6 +28,7 @@ type LinkInfoFormInputType = {|
   telegramAccount: string,
   instagramAccount: string,
   linkedinAccount: string,
+  twitterAccount: string,
   webSite: string,
   // youtubeAccount: string,
 |}
@@ -49,6 +50,7 @@ class LinkInfoEditForm extends React.Component<PropsOrganizationInfoEditForm> {
       telegramAccount: organization.telegram_account && organization.telegram_account.replace(constants.LINKS.TELEGRAM, ''),
       instagramAccount: organization.instagram_account && organization.instagram_account.replace(constants.LINKS.INSTAGRAM, ''),
       linkedinAccount: organization.linkedin_account && organization.linkedin_account.replace(constants.LINKS.LINKEDIN, ''),
+      twitterAccount: organization.twitter_account && organization.twitter_account.replace(constants.LINKS.TWITTER, ''),
       webSite: organization.web_site,
       // youtubeAccount: organization.youtube_account,
     }
@@ -64,6 +66,7 @@ class LinkInfoEditForm extends React.Component<PropsOrganizationInfoEditForm> {
       telegram_account: organization.telegram_account === values.telegramAccount ? null : constants.LINKS.TELEGRAM + values.telegramAccount,
       instagram_account: organization.instagram_account === values.instagramAccount ? null : constants.LINKS.INSTAGRAM + values.instagramAccount,
       linkedin_account: organization.linkedin_account === values.linkedinAccount ? null : constants.LINKS.LINKEDIN + values.linkedinAccount,
+      twitter_account: organization.twitter_account === values.twitterAccount ? null : constants.LINKS.TWITTER + values.twitterAccount,
       web_site: organization.web_site === values.webSite ? null : values.webSite,
     // youtubeAccount: organization.youtube_account,
     }
@@ -126,6 +129,22 @@ class LinkInfoEditForm extends React.Component<PropsOrganizationInfoEditForm> {
                   textFieldClass='form-control'
               />
               <span>{constants.LINKS.LINKEDIN}</span>
+            </div>
+          </div>
+
+          <div className='form-group'>
+            <label>
+              {translate['Twitter'] + ": "}
+            </label>
+            <div className='link-container'>
+              <Field
+                  name="twitterAccount"
+                  type="text"
+                  component={renderTextField}
+                  label={translate['Twitter']}
+                  textFieldClass='form-control'
+              />
+              <span>{constants.LINKS.TWITTER}</span>
             </div>
           </div>
 

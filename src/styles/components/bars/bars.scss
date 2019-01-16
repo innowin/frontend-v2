@@ -653,29 +653,33 @@ $sidebar-profile-media-width: 80px;
     flex-direction: row;
     justify-content: space-around;
 
-    i {
-      font-size: 25px;
-      color: $text-light-color;
-
-      &.telegram-active {
-        color: $telegram-icon-color;
-      }
-
-      &.instagram-active {
-        color: $instagram-icon-color;
-      }
-
-      &.linkedin-active {
-        color: $linkedin-icon-color;
-      }
-
-      &.twitter-active {
-        color: $twitter-icon-color;
-      }
+    .social-icon {
+      width: 22px;
+      height: 22px;
+      fill: $text-light-color;
     }
+
+    .telegram-active {
+      fill: $telegram-icon-color;
+    }
+
+    .instagram-active {
+      fill: $instagram-icon-color;
+    }
+
+    .linkedin-active {
+      fill: $linkedin-icon-color;
+    }
+
+    .twitter-active {
+      fill: $twitter-icon-color;
+    }
+
   }
 
   .followed-text {
+    border: 1.5px solid $success-color;
+    border-radius: 50px;
     color: $success-color;
     text-align: center;
     font-size: $font-size-regular;

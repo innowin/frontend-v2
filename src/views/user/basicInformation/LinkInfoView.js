@@ -5,7 +5,7 @@ import PropTypes from "prop-types"
 
 import {Field, FieldLabel, FieldValue, ItemHeader} from "../../common/cards/Frames"
 import type {userProfileType} from "src/consts/flowTypes/user/basicInformation"
-import {TelegramIcon, InstagramIcon, LinkedInIcon, YoutubeIcon, ExchangeExploreIcon} from 'src/images/icons'
+import {TelegramIcon, InstagramIcon, LinkedInIcon, ExchangeExploreIcon, TwitterIcon} from 'src/images/icons'
 
 // flow type of UserInfoView
 type PropsUserInfoView = {
@@ -14,18 +14,12 @@ type PropsUserInfoView = {
   translate: { [string]: string }
 }
 
-//TODO: mohammad youtube field not exist, web site icon not exist
 const LinkInfoView = (props: PropsUserInfoView) => {
   const {profile, showEdit, translate} = props
 
   return (
       <div className='link-info-container'>
         <ItemHeader title={translate['Link Information']} showEdit={showEdit}/>
-        {/*<Field>*/}
-          {/*<YoutubeIcon className='icon twitter-icon'/>*/}
-          {/*<FieldLabel label={translate['Youtube'] + ": "}/>*/}
-          {/*<FieldValue value={profile.youtube_account}/>*/}
-        {/*</Field>*/}
         <Field>
           <TelegramIcon className='icon telegram-icon'/>
           <FieldLabel label={translate['Telegram'] + ": "}/>
@@ -40,6 +34,11 @@ const LinkInfoView = (props: PropsUserInfoView) => {
           <LinkedInIcon className='icon linkedin-icon'/>
           <FieldLabel label={translate['LinkedIn'] + ": "}/>
           <FieldValue value={profile.linkedin_account}/>
+        </Field>
+        <Field>
+          <TwitterIcon className='icon twitter-icon'/>
+          <FieldLabel label={translate['Twitter'] + ": "}/>
+          <FieldValue value={profile.twitter_account}/>
         </Field>
       </div>
   )
