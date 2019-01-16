@@ -23,7 +23,7 @@ const validatePublication = (publication, translate) => {
 }
 
 const validateUrl = (url, translate) => {
-  if (!/^(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/.test(url) || url.length < 5) {
+  if (!/^(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_.~#?&//=]*)$/.test(url) || url.length < 5) {
     return translate['Url is wrong']
   }
 }
@@ -35,14 +35,14 @@ const validateAuthor = (author, translate) => {
 }
 
 const validateResearchLink = (researchLink, translate) => {
-  if (!/^(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/.test(researchLink) && researchLink.length < 5) {
+  if (!/^(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_.~#?&//=]*)$/.test(researchLink) && researchLink.length < 5) {
     return translate['Research Link is wrong']
   }
 }
 
 const userEducationInfo = (values, {translate}) => {
   const errors = {}
-  const requiredFields = []
+  // const requiredFields = []
 
   const {title, pageCount, year, publication, url, author, researchLink} = values
   if (title) errors.title = validateTitle(title, translate)
@@ -53,16 +53,16 @@ const userEducationInfo = (values, {translate}) => {
   if (author) errors.author = validateAuthor(author, translate)
   if (researchLink) errors.researchLink = validateResearchLink(researchLink, translate)
 
-  let requiredErrors = []
-  requiredFields.forEach(field => {
-    if (!values[field]) {
-      errors[field] = true
-      requiredErrors.push(true)
-    } else {
-      requiredErrors.push(false)
-    }
-    (requiredErrors.includes(true)) ? (errors._error = translate['Fill required fields']) : (errors._error = "")
-  })
+  // let requiredErrors = []
+  // requiredFields.forEach(field => {
+  //   if (!values[field]) {
+  //     errors[field] = true
+  //     requiredErrors.push(true)
+  //   } else {
+  //     requiredErrors.push(false)
+  //   }
+  //   (requiredErrors.includes(true)) ? (errors._error = translate['Fill required fields']) : (errors._error = "")
+  // })
 
   return errors
 }

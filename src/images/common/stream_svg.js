@@ -1,13 +1,10 @@
 import React from "react"
 
-class StreamSvg extends React.Component
-{
-  render()
-  {
+class StreamSvg extends React.Component {
+  render() {
     return (
-        <div className={this.props.containerClass ? this.props.containerClass : null} onClick={() =>
-        {
-          this.props.changeView ? this.props.changeView("Stream") : null
+        <div className={this.props.containerClass ? this.props.containerClass : null} onClick={() => {
+          if (this.props.changeView) this.props.changeView("Stream")
         }}>
           <svg width={this.props.width} height={this.props.height}
                className={this.props.svgClass ? this.props.svgClass : null}

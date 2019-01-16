@@ -1,32 +1,32 @@
-const validateUniversity = (university, translate) => {
-  if (university.length < 5) {
-    return translate['University is wrong']
-  }
-}
-
-const validateGrade = (grade, translate) => {
-  if (grade.length < 5) {
-    return translate['Education grade is wrong']
-  }
-}
-
-const validateFieldOfStudy = (fieldOfStudy, translate) => {
-  if (fieldOfStudy.length < 5) {
-    return translate['Field of study is wrong']
-  }
-}
-
-const validateAverage = (average, translate) => {
-  if (!/^(0[1-9]|\d|1[1-9]|20)$/.test(average)) {
-    return translate['Average is incorrect']
-  }
-}
-
-const validateDescription = (desctiption, translate) => {
-  if (desctiption.length < 5) {
-    return translate['Description is wrong']
-  }
-}
+// const validateUniversity = (university, translate) => {
+//   if (university.length < 5) {
+//     return translate['University is wrong']
+//   }
+// }
+//
+// const validateGrade = (grade, translate) => {
+//   if (grade.length < 5) {
+//     return translate['Education grade is wrong']
+//   }
+// }
+//
+// const validateFieldOfStudy = (fieldOfStudy, translate) => {
+//   if (fieldOfStudy.length < 5) {
+//     return translate['Field of study is wrong']
+//   }
+// }
+//
+// const validateAverage = (average, translate) => {
+//   if (!/^(0[1-9]|\d|1[1-9]|20)$/.test(average)) {
+//     return translate['Average is incorrect']
+//   }
+// }
+//
+// const validateDescription = (desctiption, translate) => {
+//   if (desctiption.length < 5) {
+//     return translate['Description is wrong']
+//   }
+// }
 
 const validateDay = (day, translate) => {
   if (!/^(0[1-9]|\d|[120]\d|3[01])$/.test(day)) {
@@ -50,7 +50,8 @@ const userEducationInfo = (values, {translate}) => {
   const errors = {}
   const requiredFields = ['fieldOfStudy', 'grade', 'university']
 
-  const {university, grade, fieldOfStudy, average, description, dayFromDate, monthFromDate, yearFromDate, dayToDate, monthToDate, yearToDate} = values
+  // const {university, grade, fieldOfStudy, average, description, dayFromDate, monthFromDate, yearFromDate, dayToDate, monthToDate, yearToDate} = values
+  const {dayFromDate, monthFromDate, yearFromDate, dayToDate, monthToDate, yearToDate} = values
   // if (university) errors.university = validateUniversity(university, translate)
   // if (grade) errors.grade = validateGrade(grade, translate)
   // if (fieldOfStudy) errors.fieldOfStudy = validateFieldOfStudy(fieldOfStudy, translate)

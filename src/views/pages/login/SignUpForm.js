@@ -7,7 +7,6 @@ import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import {Field, reduxForm, SubmissionError} from "redux-form"
 import {getMessages} from "src/redux/selectors/translateSelector"
-import {RadioButtonGroup} from "../../common/inputs/RadioButtonInput"
 import {routerActions} from "react-router-redux"
 import {validateSignUpForm, asyncValidateSignUp} from "./signUpValidations"
 import CheckUsernameAction from "src/redux/actions/user/checkUsernameAction"
@@ -132,7 +131,7 @@ export class RegisterForm extends Component {
   render() {
     const {translator, onRegisterClick, ...reduxFormProps} = this.props
     const {userType} = this.state
-    const userTypeItems = [{value: USER_TYPES.PERSON, title: 'فرد'}, {value: USER_TYPES.ORGANIZATION, title: 'مجموعه'}]
+    // const userTypeItems = [{value: USER_TYPES.PERSON, title: 'فرد'}, {value: USER_TYPES.ORGANIZATION, title: 'مجموعه'}]
     const onSubmitFunc = (userType === USER_TYPES.PERSON) ? (this._onSubmitPerson) : (this._onSubmitOrgan)
     // const onSubmitFunc = onRegisterClick
     return (

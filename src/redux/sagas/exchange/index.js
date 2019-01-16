@@ -8,7 +8,6 @@ import {editExchange} from "./editExchange"
 import {deleteExchange} from "./deleteExchange"
 import {getExchangeByExId} from "./getExchangeByExId"
 import {getAllExchanges} from "./getAllExchandes"
-import {searchExchangesByWord} from "./searchExchangesByWord"
 
 /**********    %% WATCHERS %%    **********/
 

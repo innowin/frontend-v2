@@ -7,11 +7,11 @@ import renderSelectField from "../../../common/inputs/reduxFormRenderReactSelect
 import renderTextArea from "../../../common/inputs/reduxFormRenderTextArea"
 import helpers from "src/consts/helperFunctions/helperFunctions"
 import {skillFields} from "../addingConributionData"
-import type {TagAsOptionType, SkillFormValsType} from "../types"
+import type {SkillFormValsType} from "../types"
 import FontAwesome from 'react-fontawesome'
 
 
-const {objToArrayAsOptions, filterNestedObjByKey} = helpers
+const {objToArrayAsOptions} = helpers
 
 const InfoFormValidate = (values) => {
   const errors = {}

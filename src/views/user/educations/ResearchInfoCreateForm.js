@@ -1,7 +1,6 @@
 // flow type of EducationInfoForm
 import * as React from "react"
 import PropTypes from "prop-types"
-
 import ResearchInfoForm from './ResearchInfoForm'
 import type {userResearchInputType} from "../../../consts/flowTypes/user/basicInformation"
 
@@ -29,7 +28,7 @@ const ResearchInfoCreateForm = (props: PropsResearchInfoCreateForm) => {
     const propertyNames = Object.getOwnPropertyNames(formFormat)
 
     propertyNames.map(key => {
-      formFormat[key] === null ? delete(formFormat[key]) : ''
+      if(formFormat[key] === null) delete(formFormat[key])
       return formFormat
     })
 

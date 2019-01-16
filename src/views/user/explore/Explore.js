@@ -6,13 +6,13 @@ import Sidebar from './SideBar'
 import socialActions from 'src/redux/actions/commonActions/socialActions'
 import userActions from 'src/redux/actions/user/getUserActions'
 import Users from './Users'
-import { bindActionCreators } from 'redux'
-import { ClipLoader } from 'react-spinners'
-import { getFollowList } from 'src/redux/selectors/common/social/getFollowList'
-import { getMessages } from '../../../redux/selectors/translateSelector'
-import { getUsers } from 'src/redux/selectors/user/GetAllUsers'
+import {bindActionCreators} from 'redux'
+import {ClipLoader} from 'react-spinners'
+import {getFollowList} from 'src/redux/selectors/common/social/getFollowList'
+import {getMessages} from '../../../redux/selectors/translateSelector'
+import {getUsers} from 'src/redux/selectors/user/GetAllUsers'
 // import {Helmet} from 'react-helmet'
-import { PureComponent } from 'react'
+import {PureComponent} from 'react'
 
 type appProps =
     {|
@@ -52,10 +52,10 @@ class Explore extends PureComponent <appProps, appState> {
   }
 
   componentDidMount() {
-    const { currentUserIdentity, currentUserType, currentUserId, actions } = this.props
+    const {currentUserIdentity, currentUserType, currentUserId, actions} = this.props
     actions.getUsers(24, 0, null)
-    actions.getFollowees({ followOwnerIdentity: currentUserIdentity, followOwnerType: currentUserType, followOwnerId: currentUserId, notProfile: true })
-    actions.getFollowers({ followOwnerIdentity: currentUserIdentity, followOwnerType: currentUserType, followOwnerId: currentUserId, notProfile: true })
+    actions.getFollowees({followOwnerIdentity: currentUserIdentity, followOwnerType: currentUserType, followOwnerId: currentUserId, notProfile: true})
+    actions.getFollowers({followOwnerIdentity: currentUserIdentity, followOwnerType: currentUserType, followOwnerId: currentUserId, notProfile: true})
     window.addEventListener('scroll', this._onScroll)
   }
 
@@ -65,7 +65,7 @@ class Explore extends PureComponent <appProps, appState> {
 
   _onScroll = () => {
     if (Object.values(this.props.allUsers).length > 0) {
-      let { activeScrollHeight } = this.state
+      let {activeScrollHeight} = this.state
       let scrollHeight = document.body ? document.body.scrollHeight : 0
       if (((window.innerHeight + window.scrollY) >= (scrollHeight - 250)) && (scrollHeight > activeScrollHeight)) {
         this.setState({
@@ -77,23 +77,23 @@ class Explore extends PureComponent <appProps, appState> {
       }
 
       if (window.scrollY > 1000)
-        this.setState({ ...this.state, scrollButton: true })
-      else this.setState({ ...this.state, scrollButton: false })
+        this.setState({...this.state, scrollButton: true})
+      else this.setState({...this.state, scrollButton: false})
     }
   }
 
   _search = (search) =>
-      this.setState({ ...this.state, search: search, offset: 0, activeScrollHeight: 0 }, () => {
+      this.setState({...this.state, search: search, offset: 0, activeScrollHeight: 0}, () => {
         this.props.actions.getUsers(24, 0, search)
       })
 
-  _justFollowing = (checked) => this.setState({ ...this.state, justFollowing: checked })
+  _justFollowing = (checked) => this.setState({...this.state, justFollowing: checked})
 
-  _justFollowed = (checked) => this.setState({ ...this.state, justFollowed: checked })
+  _justFollowed = (checked) => this.setState({...this.state, justFollowed: checked})
 
-  _justUsers = (checked) => this.setState({ ...this.state, justUsers: checked })
+  _justUsers = (checked) => this.setState({...this.state, justUsers: checked})
 
-  _justOrgans = (checked) => this.setState({ ...this.state, justOrgans: checked })
+  _justOrgans = (checked) => this.setState({...this.state, justOrgans: checked})
 
   _goUp = () => {
     window.scroll({
@@ -103,8 +103,8 @@ class Explore extends PureComponent <appProps, appState> {
   }
 
   render() {
-    const { translate, loading, allUsers } = this.props
-    const { justFollowing, justFollowed, scrollButton, justOrgans, justUsers } = this.state
+    const {loading, allUsers} = this.props
+    const {justFollowing, justFollowed, scrollButton, justOrgans, justUsers} = this.state
     const list = this.props.followees
     let followees = {}
     let followers = {}

@@ -1,11 +1,9 @@
 // @flow
 import * as React from "react"
-import PropTypes from "prop-types"
-
-
 import CustomerInfo from './CustomerInfo'
+import PropTypes from "prop-types"
 import type {CustomerType} from "src/consts/flowTypes/organization/customer"
-import {ContributionIcon} from "../../../images/icons"
+import {ContributionIcon} from "src/images/icons"
 import {ItemHeader, ItemWrapper} from "../../common/cards/Frames"
 
 type PropsCustomers = {
@@ -17,7 +15,7 @@ type PropsCustomers = {
 }
 
 const CustomerInfoContainer = (props: PropsCustomers) => {
-  const {translate, customers, organizationId, isLoading, error} = props
+  const {translate, customers, organizationId} = props
   return (
     //<VerifyWrapper isLoading={isLoading} error={error}>
     <ItemWrapper icon={<ContributionIcon/>}>

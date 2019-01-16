@@ -1,5 +1,4 @@
 import React,{Component} from 'react';
-import {BeatLoader} from 'react-spinners';
 import {Collapse} from 'reactstrap';
 import FontAwesome from 'react-fontawesome';
 

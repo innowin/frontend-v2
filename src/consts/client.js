@@ -1,4 +1,4 @@
-import AES from 'crypto-js/aes'
+// import AES from 'crypto-js/aes'
 import cookie from 'src/consts/data'
 import constants from "src/consts/constants"
 
@@ -27,7 +27,7 @@ const clearToken = () => {
   if (window.sessionStorage && sessionStorage.hasOwnProperty('token')) {
     sessionStorage.clear()
   }
-  if ((document.cookie.match(/^(?:.*;)?\s*token\s*=\s*([^;]+)(?:.*)?$/) || [, null])[1]) {
+  if ((document.cookie.match(/^(?:.*;)?\s*token\s*=\s*([^;]+)(?:.*)?$/) || [null])[1]) {
     eraseCookie('token')
   }
   return true

@@ -109,7 +109,8 @@ class PostFooter extends Component {
   }
 
   render() {
-    const {lastCommentSenderName, lastCommentText, commentsCount} = this.props
+    // const {lastCommentSenderName, lastCommentText, commentsCount} = this.props
+    const {commentsCount} = this.props
     return (
       <div className="postFooterBox">
         <div>

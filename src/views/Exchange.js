@@ -1,11 +1,9 @@
 import React, {Component} from 'react'
-import {Switch, Link} from 'react-router-dom'
-import ExchangeView from './exchange/Exchange_View'
-// import ExchangeExplorer from './exchange/Exchange_Explorer'
-// Add the new exchange explorer (by Hoseyn)
 import ExchangeExplorer from './exchange/explore/Explore'
 import ExchangePost from './exchange/ExchangeView/post/index'
+import ExchangeView from './exchange/Exchange_View'
 import PrivateRoute from "../consts/PrivateRoute"
+import {Switch} from 'react-router-dom'
 
 class Exchange extends Component {
   constructor(props) {
@@ -14,11 +12,9 @@ class Exchange extends Component {
   }
 
   render() {
-    const {path, url} = this.props.match
+    const {path} = this.props.match
     return (
         <div>
-          {/*<Link to={`${url}/Exchange_Explorer`}>Exchange Explorer</Link>*/}
-          {/*<Link to={`${url}`}>Exchange</Link>*/}
           <div>
             <Switch>
               <PrivateRoute path={`${path}/Exchange_Explorer`} component={ExchangeExplorer}/>

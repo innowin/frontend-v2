@@ -20,11 +20,11 @@ const success = (state, action, relatedKey) => {
   }
 }
 
-const base = (state, action) => {
-}
-
-const error = (state, action) => {
-}
+// const base = (state, action) => {
+// }
+//
+// const error = (state, action) => {
+// }
 
 export default {
   // base,

@@ -8,7 +8,6 @@ import {exchangeFields} from "./createExchangeData"
 import {RadioButtonGroup} from "../../../common/inputs/RadioButtonInput"
 import type {StrNumBool} from "../../../common/inputs/RadioButtonInput"
 import {ImageUploadSvg} from '../../../../images/icons'
-import ScrollLessWrapper from '../../../common/wrappers/scrollLesWrapper'
 import FontAwesome from "react-fontawesome"
 
 
@@ -22,7 +21,7 @@ type SimpleFormProps = {
 const SimpleForm = (props: SimpleFormProps) => {
   const {inputHandler, formData} = props
   const nameHandler = inputHandler(exchangeFields.name)
-  const linkHandler = inputHandler(exchangeFields.link)
+  // const linkHandler = inputHandler(exchangeFields.link)
   const privateHandler = inputHandler(exchangeFields.private)
   return (
       <div className="simple-form">
