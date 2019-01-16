@@ -2,16 +2,33 @@ import api from 'src/consts/api'
 import urls from 'src/consts/URLS'
 import results from 'src/consts/resultName'
 import types from 'src/redux/actions/types'
-import {put, take, fork, call} from "redux-saga/effects"
+import {put, take, fork, call, select} from "redux-saga/effects"
+import constants from 'src/consts/constants'
+import uuid from "uuid"
 
 export function* createFollow(action) {
 
   const {formValues, followOwnerId, followOwnerType} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.SOCIAL.CREATE_FOLLOW)
+  const state = yield select()
+  const translate = state.intl.messages
+
   try {
     yield fork(api.post, urls.COMMON.SOCIAL.FOLLOW, results.COMMON.SOCIAL.CREATE_FOLLOW, formValues)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.COMMON.SOCIAL.CREATE_FOLLOW, payload: {data, followOwnerId, followOwnerType}})
+    yield put({
+      type: types.TOAST.ADD_TOAST,
+      payload: {
+        data: {
+          id: uuid(),
+          type: constants.TOAST_TYPE.SUCCESS,
+          content: {
+            text: translate['Create Follow Done']
+          }
+        }
+      }
+    })
     //TODO: remove this at later when server response changed
     const followOwnerIdentity = formValues.follow_follower
     yield put({type: types.COMMON.SOCIAL.GET_FOLLOWERS, payload: {followOwnerIdentity, followOwnerId, followOwnerType}})

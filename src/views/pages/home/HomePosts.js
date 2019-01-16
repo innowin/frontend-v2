@@ -94,6 +94,7 @@ class HomePosts extends PureComponent
     const {isLoading, error} = this.state
     const {posts, exchangeId, className, actions} = this.props
     const {deletePost, updatePost} = actions
+    console.log(posts, 'ppppppppppp')
     return (
         <VerifyWrapper isLoading={isLoading} error={error} className={className}>
           {(exchangeId) ? (
@@ -107,7 +108,7 @@ class HomePosts extends PureComponent
                 <FrameCard className="-frameCardPost border-top-0">
                   <ListGroup>
                     {
-                      (posts.length > 0) ? (posts.map((post) => (
+                      (posts.length > 0) ? (posts.map((post) => (post &&
                           <Post
                               posts={posts}
                               post={post}
