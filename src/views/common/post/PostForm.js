@@ -98,6 +98,7 @@ export class PostForm extends Component {
                 this.postPinnedInput = postPinnedInput
               }}
           />
+
           <FileInput
               label={__('Post picture') + ': '}
               mediaId={post.post_picture}

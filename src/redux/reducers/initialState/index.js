@@ -44,6 +44,8 @@ export default {
     product: commonStates.productState,
     social: commonStates.socialState,
     comment: commonStates.commentState,
+    university: commonStates.universityState,
+    educationField: commonStates.educationFieldState,
   },
   intl: intlState,
   param: paramState,
