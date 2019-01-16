@@ -551,11 +551,11 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
             <section className='user-sidebar-buttons'>
               <CheckOwner showForOwner={false} id={paramId}>
                 <div className="sidebarBottomParent">
-                  <Material
-                      className="btn btn-outline-secondary sidebarBottom side-user" content={tr && tr['Send Message']}/>
+                  <Material className="btn btn-outline-secondary sidebarBottom side-user" content={tr && tr['Send Message']}/>
                   {showFollow ?
                       <Material className="btn btn-outline-secondary sidebarFollowBottom follow-button side-user-follow"
-                                onClick={this._createFollow} content={tr && tr['Follow']}/>
+                                onClick={this._createFollow}
+                                content={tr && tr['Follow']}/>
                       : <div className="followed-text">
                         {tr && tr['Followed']}
                       </div>
@@ -564,9 +564,8 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
               </CheckOwner>
               <CheckOwner showForOwner={true} id={paramId}>
                 <div className="sidebarBottomParent">
-                  <Material
-                      className="btn btn-outline-secondary sidebarBottom side-user"
-                      content={tr && tr['Complete profile']}/>
+                  <Material className="btn btn-outline-secondary sidebarBottom side-user"
+                            content={tr && tr['Complete profile']}/>
                   <Material className="btn btn-outline-secondary sidebarFollowBottom follow-button side-user-follow"
                             onClick={this._handleEditProfile}
                             content={(!editProfile) ? tr && tr['Edit Dashboard'] : tr && tr['Close']}/>

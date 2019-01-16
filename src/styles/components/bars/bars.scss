@@ -1905,6 +1905,109 @@ $sidebar-profile-media-width: 80px;
   }
 }
 
+.social-network-skeleton {
+  padding: 20px 0;
+  display: flex;
+  bottom: 0;
+  right: 20px;
+  width: calc(100% - 40px);
+  position: absolute;
+  border-top: 1px solid lighten($text-lighter-color, 3.6%);
+  flex-direction: row;
+  justify-content: space-around;
+
+  .link{
+    width: 22px;
+    height: 22px;
+  }
+
+  .social-icon {
+    width: 22px;
+    height: 22px;
+    fill: $text-light-color;
+  }
+
+  .telegram-active {
+    fill: $telegram-icon-color;
+  }
+
+  .instagram-active {
+    fill: $instagram-icon-color;
+  }
+
+  .linkedin-active {
+    fill: $linkedin-icon-color;
+  }
+
+  .twitter-active {
+    fill: $twitter-icon-color;
+  }
+
+}
+
+
+.sidebarBottomParent-skeleton {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  .sidebarBottom {
+    flex-grow: 1;
+    cursor: pointer !important;
+    background-color: $eee-color;
+    color: $background-color;
+    font-size: $font-size-boxText;
+    border-radius: 25px;
+    transition-duration: $animation-timing;
+    border: 1.5px solid $eee-color;
+    height: 33px;
+    margin: auto auto 20px 5px;
+    width: 110px;
+    text-align: center;
+    padding: 7px;
+
+    &:hover {
+      background-color: $background-color;
+      border-color: $eee-color;
+      color: $eee-color !important;
+      transition-duration: $animation-timing;
+      font-weight: bold;
+    }
+  }
+
+  .sidebarFollowBottom {
+    flex-grow: 1;
+    cursor: default;
+    background-color: $eee-color;
+    border: 1.5px solid $eee-color;
+    color: $text-lighter-color;
+    font-size: $font-size-boxText;
+    border-radius: 25px;
+    transition-duration: $animation-timing;
+    height: 33px;
+    margin: auto 5px 20px auto;
+    //width: 110px;
+
+    &:hover {
+      background-color: $eee-color;
+      border-color: $eee-color;
+      color: $text-lighter-color !important;
+      transition-duration: $animation-timing;
+      font-weight: bold;
+    }
+  }
+
+  .side-user {
+    margin: 0;
+    flex: 0 1 40%;
+  }
+
+  .side-user-follow {
+    margin: 0;
+    flex: 0 1 40%;
+  }
+}
+
 .act-bar {
   display: flex;
   justify-content: center;
