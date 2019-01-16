@@ -1,34 +1,12 @@
 // @flow
 import * as React from "react"
-import Certificates from "./product/certificates"
-import MenuProgressive from "../progressive/penu-progressive"
-import NewContribution from "./newConribution"
-import TechnicalProperties from "./product/technicalProperties"
 import {Component} from "react"
-import {Modal, ModalBody} from "reactstrap"
-import {
-  CERTIFICATES_IMG_IDS,
-  LAYER1S,
-  MainCategories,
-  PROGRESS_STEPS,
-  PROGRESSIVE_STATUS_CHOICES,
-  tags,
-  WRAPPER_CLASS_NAMES,
-} from "./addingConributionData"
-import client from "src/consts/client"
 import countrySelector from "src/redux/selectors/common/location/getCountry"
-import Desc from "../../common/Text/Tip"
-import FontAwesome from "react-fontawesome"
-import GalleryAndTags from "./product/galleryAndTags"
-import InitialInfoReduxForm, {initialInfoFormName} from "./product/reduxFormInitialInfo"
 import makeCitySelectorByProvinceId from "src/redux/selectors/common/location/getCityByProvince"
 import makeProvinceSelectorByCountryId from "src/redux/selectors/common/location/getProvinceByCountry"
-import NextPrevBtns from "./nextAndPrevBtns"
 import nowCreatedProductIdSelector from "src/redux/selectors/common/product/getNowCreatedProductId"
 import nowCreatedSkillIdSelector from "src/redux/selectors/skill/getNowCreatedSkillId"
-import SkillInfoForm, {skillInfoFormName} from "./skill/infoForm"
-import SkillSuccessMessage from "./skill/successMessage"
-import SuccessMessage from "./product/successMessage"
+import {skillInfoFormName} from "./skill/infoForm"
 import type {NewContributionDataType, SkillFormValsType} from "./types"
 import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 import {bindActionCreators} from "redux"
@@ -43,36 +21,20 @@ import {getHashTags} from "src/redux/actions/commonActions/hashTagActions"
 import {getMessages} from "../../../redux/selectors/translateSelector"
 import {hashTagsListSelector} from "src/redux/selectors/common/hashTags/hashTag"
 import {makeCategorySelector} from "src/redux/selectors/common/category/getCategoriesByParentId"
-import {provinceSelector} from "src/redux/selectors/common/location/getProvinceByCountry"
 import {
-  CertificateIcon,
   CircularAddIcon,
-  ConsultIcon,
   ContributionIcon,
   InformationIcon,
-  ItemsAndPropertiesIcon,
-  Medal,
-  QuestionMark,
   SkillIcon,
   TipsIcon,
   UploadIcon,
 } from "src/images/icons"
 import InteliInput from "src/views/common/inputs/InteliInput"
-import {RadioButtonGroup} from "src/views/common/inputs/RadioButtonInput"
 import Material from "../../common/components/Material"
 import type {ImageType} from "../modal/createExchange/basicInfo"
-import {exchangeFields} from "../modal/createExchange/createExchangeData"
 import {createFile, getFiles} from "src/redux/actions/commonActions/fileActions"
 import makeFileSelectorByKeyValue from "src/redux/selectors/common/file/selectFilsByKeyValue"
 import {ClipLoader} from "react-spinners"
-
-
-const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list)
-  const [removed] = result.splice(startIndex, 1)
-  result.splice(endIndex, 0, removed)
-  return result
-}
 
 type catsMap = {
   category_parent?: number,
@@ -236,23 +198,6 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
         this._imageHandler(lastFile)
       }
     }
-    // if ((prevState.activeStep === 1) && (activeStep === 2)) {
-    //   _getCountries()
-    //   const {technicalProperties} = newContributionData
-    //   const properties = (technicalProperties && technicalProperties.slice()) || []
-    //   const firstIndex = properties.length || 0
-    //   for (let i = firstIndex; i < 9; i++) properties.push({id: i})
-    //   this.setState({
-    //     ...this.state,
-    //     newContributionData: {
-    //       ...this.state.newContributionData,
-    //       technicalProperties: properties
-    //     }
-    //   })
-    // }
-    // if ((!prevProps.nowCreatedProductId && nowCreatedProductId)
-    //     ||
-    //     (!prevProps.nowCreatedSkillId && nowCreatedSkillId)) this._nextStep()
   }
   
   renderProgressBar() {
