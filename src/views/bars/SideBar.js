@@ -124,7 +124,7 @@ UserSideBar.propTypes = {
   badges: PropTypes.array.isRequired,
   className: PropTypes.string,
   paramId: PropTypes.number,
-  identityId: PropTypes.number,
+  identityId: PropTypes.number
 }
 
 
@@ -173,7 +173,7 @@ OrganSideBar.propTypes = {
   organBanner: PropTypes.object,
   className: PropTypes.string,
   paramId: PropTypes.number,
-  identityId: PropTypes.number,
+  identityId: PropTypes.number
 }
 
 
@@ -233,7 +233,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     identityId: PropTypes.number,
     owner: PropTypes.object,
     paramId: PropTypes.number,
-    profile: PropTypes.object,
+    profile: PropTypes.object
   }
 
   constructor(props) {
@@ -245,7 +245,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
       pictureState: '',
       saving: false,
       descriptionState: '',
-      descriptionClass: 'hide-message',
+      descriptionClass: 'hide-message'
     }
   }
 
@@ -262,14 +262,15 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
         id: profile.id,
         profile_banner: bannerId,
         profile_media: pictureId,
-        description: descriptionState,
+        description: descriptionState
       }
-    } else {
+    }
+    else {
       return {
         id: owner.id,
         organization_banner: bannerId,
         organization_logo: pictureId,
-        description: descriptionState,
+        description: descriptionState
       }
     }
   }
@@ -367,12 +368,12 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     const bannerCreateArguments = {
       fileIdKey,
       nextActionType,
-      nextActionData: nextActionDataForBanner,
+      nextActionData: nextActionDataForBanner
     }
     const pictureCreateArguments = {
       fileIdKey,
       nextActionType,
-      nextActionData: nextActionDataForPicture,
+      nextActionData: nextActionDataForPicture
     }
     if (bannerState) createFileFunc(createFile, bannerState, bannerCreateArguments)
     if (pictureState) createFileFunc(createFile, pictureState, pictureCreateArguments)
@@ -385,7 +386,8 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     const formValues = this._getValues()
     if (sideBarType === constants.USER_TYPES.PERSON) {
       updateProfile({formValues: formValues, profileId: profileId, userId: owner.id})
-    } else {
+    }
+    else {
       updateOrganization({formValues, organizationId: owner.id})
     }
     removeFileFromTemp(UserSideBarBannerTempKeyName)
@@ -546,51 +548,52 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
             {/*<span className="item">{followNames[1]}</span>*/}
             {/*<span>{` و ${followNames.length - 2 } نفر دیگر `}</span>*/}
             {/*</div>*/}
-            <CheckOwner showForOwner={false} id={paramId}>
-              <div className="sidebarBottomParent">
-                <Material
-                    className="btn btn-outline-secondary sidebarBottom side-user" content={tr && tr['Send Message']}/>
-                {showFollow ?
-                    <Material className="btn btn-outline-secondary sidebarFollowBottom follow-button side-user-follow"
-                              onClick={this._createFollow} content={tr && tr['Follow']}/>
-                    : <div className="followed-text">
-                      {tr && tr['Followed']}
-                    </div>
-                }
-              </div>
-            </CheckOwner>
-            <CheckOwner showForOwner={true} id={paramId}>
-              <div className="sidebarBottomParent">
-                <Material
-                    className="btn btn-outline-secondary sidebarBottom side-user"
-                    content={tr && tr['Complete profile']}/>
-                <Material className="btn btn-outline-secondary sidebarFollowBottom follow-button side-user-follow"
-                          onClick={this._handleEditProfile}
-                          content={(!editProfile) ? tr && tr['Edit Dashboard'] : tr && tr['Close']}/>
-              </div>
-            </CheckOwner>
-
+            <section className='user-sidebar-buttons'>
+              <CheckOwner showForOwner={false} id={paramId}>
+                <div className="sidebarBottomParent">
+                  <Material
+                      className="btn btn-outline-secondary sidebarBottom side-user" content={tr && tr['Send Message']}/>
+                  {showFollow ?
+                      <Material className="btn btn-outline-secondary sidebarFollowBottom follow-button side-user-follow"
+                                onClick={this._createFollow} content={tr && tr['Follow']}/>
+                      : <div className="followed-text">
+                        {tr && tr['Followed']}
+                      </div>
+                  }
+                </div>
+              </CheckOwner>
+              <CheckOwner showForOwner={true} id={paramId}>
+                <div className="sidebarBottomParent">
+                  <Material
+                      className="btn btn-outline-secondary sidebarBottom side-user"
+                      content={tr && tr['Complete profile']}/>
+                  <Material className="btn btn-outline-secondary sidebarFollowBottom follow-button side-user-follow"
+                            onClick={this._handleEditProfile}
+                            content={(!editProfile) ? tr && tr['Edit Dashboard'] : tr && tr['Close']}/>
+                </div>
+              </CheckOwner>
+            </section>
             <div className="social-network">
               {socialNetworks.twitter_account
-                  ? <a href={socialNetworks.twitter_account } target="_blank">
+                  ? <a href={socialNetworks.twitter_account} className='link' target="_blank">
                     <TwitterIcon className='social-icon twitter-active'/>
                   </a>
                   : <TwitterIcon className='social-icon'/>
               }
               {socialNetworks.instagram_account
-                  ? <a href={socialNetworks.telegram_account || '#'} target="_blank">
+                  ? <a href={socialNetworks.telegram_account || '#'} className='link' target="_blank">
                     <TelegramIcon className='social-icon telegram-active'/>
                   </a>
                   : <TelegramIcon className='social-icon'/>
               }
               {socialNetworks.instagram_account
-                  ? <a href={socialNetworks.instagram_account} target={"_blank"}>
+                  ? <a href={socialNetworks.instagram_account} className='link' target={"_blank"}>
                     <InstagramIcon className='social-icon instagram-active'/>
                   </a>
                   : <InstagramIcon className='social-icon'/>
               }
               {socialNetworks.linkedin_account
-                  ? <a href={socialNetworks.linkedin_account} target="_blank">
+                  ? <a href={socialNetworks.linkedin_account} className='link' target="_blank">
                     <LinkedInIcon className='social-icon linkedin-active'/>
                   </a>
                   : <LinkedInIcon className='social-icon'/>
@@ -610,7 +613,7 @@ const mapStateToProps = (state, ownProps) => {
     clientIdentityId: state.auth.client.identity.content,
     bannerTempId: bannerIdTemp,
     pictureTempId: pictureIdTemp,
-    followers: getFollowersSelector(state, ownProps), // fixMe: does not memoize. read the docs for correct call way.
+    followers: getFollowersSelector(state, ownProps) // fixMe: does not memoize. read the docs for correct call way.
     //fixMe: actually should create a selector creator when we need props in this selector.
   }
 }

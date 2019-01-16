@@ -492,6 +492,17 @@ $sidebar-profile-media-width: 80px;
   }
 }
 
+.user-sidebar-buttons{
+  padding-top: 20px;
+  padding-bottom: 22px;
+  bottom: 65px;
+  right: 20px;
+  width: calc(100% - 40px);
+  position: absolute;
+  border-top: 1px solid lighten($text-lighter-color, 3.6%);
+  text-align: center;
+}
+
 %sidebar-child-wrapper {
   position: relative;
   height: 80%;
@@ -652,6 +663,11 @@ $sidebar-profile-media-width: 80px;
     border-top: 1px solid lighten($text-lighter-color, 3.6%);
     flex-direction: row;
     justify-content: space-around;
+
+    .link{
+      width: 22px;
+      height: 22px;
+    }
 
     .social-icon {
       width: 22px;
