@@ -309,8 +309,9 @@
 .users-explore-sidebar-check {
   width: 90%;
   margin: 10px auto;
-  height: 155px;
+  height: 124px;
   opacity: 1;
+  user-select: none;
   transition-duration: 0.3s;
 }
 
@@ -398,6 +399,7 @@
   display: flex;
   flex-wrap: wrap;
   margin-top: 15px;
+  user-select: none;
 }
 
 .exchanges-explore-sidebar-hashTags-container {
