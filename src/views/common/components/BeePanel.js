@@ -1,10 +1,9 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import connect from 'react-redux/es/connect/connect'
 import OrganizationBee from './OrganizationBee'
 import UserBee from './UserBee'
 
 class BeePanel extends Component {
-
   render() {
     if (this.props.currentUserType === 'person')
       return <UserBee/>

@@ -1,20 +1,15 @@
-// @flow
-import * as React from 'react'
-import { DefaultUserIcon } from 'src/images/icons'
-import ChannelIcon from '../../../images/common/channel_svg'
-import { REST_URL } from '../../../consts/URLS'
-import { Link } from 'react-router-dom'
+import React from 'react'
 
 const Exchange_Skeleton = () => {
   return (
       <div className='exchange-model'>
 
-        <div className='exchange-model-avatar'>
-          <div id="line"/>
+        <div className='exchange-model-avatar-skeleton'>
+          <div id='line'/>
         </div>
 
         <div className='skeleton-overflow-hidden'>
-          <div id="line"/>
+          <div id='line'/>
           <div className='exchange-model-title-skeleton'><span> </span></div>
           <div className='exchange-model-description-skeleton'><span> </span></div>
 
@@ -33,9 +28,15 @@ const Exchange_Skeleton = () => {
           </div>
         </div>
 
-        <button className='exchange-followed-skeleton'><span> </span>
-          <div id="line"/>
-        </button>
+
+        <div className='exchange-follow-buttons'>
+          <button className='exchange-followed-skeleton'><span> </span>
+            <div id='line'/>
+          </button>
+          <button className='exchange-followed-skeleton'><span> </span>
+            <div id='line'/>
+          </button>
+        </div>
 
       </div>
   )

@@ -135,6 +135,9 @@ const results = {
     GET_COUNTRY: 'common--get--country--result',
     GET_PROVINCE: 'common-get-province-result',
     GET_CITY: 'common-get-city-result',
+
+    GET_UNIVERSITIES: 'GET_UNIVERSITIES_RESULT',
+    GET_EDUCATIONS_FIELDS: 'GET_EDUCATIONS_FIELDS_RESULT',
   },
   EXCHANGE: {
     GET_EXCHANGES: 'get-exchanges',
