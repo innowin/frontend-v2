@@ -1010,7 +1010,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
                 <p>
                   آورده در سامانه اینوین دارایی توامندی یا ارزشی‌ست که کاربران اعم از مجموعه‌ها و افراد ارایه
                   می‌دهند. قابلیت عرضه در پنجره‌ها کارگزاری و انجام معامله آن وجود دارد. محصولات تولیدی
-                  توانمندی‌ها تاییدیه‌ها گواهی‌نامه‌ها خدمات مشاوره. زیرساخت‌های قابل اشتراک از انواع آورده در
+                  مهارت‌ها تاییدیه‌ها گواهی‌نامه‌ها خدمات مشاوره. زیرساخت‌های قابل اشتراک از انواع آورده در
                   سامانه اینوین هستند.
                 </p>
               </div>
@@ -1032,7 +1032,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
                       onClick={() => this._changeSelectedType("Ability")}
                       className={selectedType === "Ability" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
                     <SkillIcon className="option-contribution-svg-smaller"/>
-                    <div className={"option-contribution-text"}>توانمندی</div>
+                    <div className={"option-contribution-text"}>مهارت</div>
                   </div>
                 }/>
                 {/* // NOT AVAILABLE FOR NOW
@@ -1287,13 +1287,13 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
           return (
               <div className="contribution-ability-two">
                 <div className={"gray-text-input-label-container"}>
-                  <label className="gray-text-input-label">عنوان توانمندی:</label>
+                  <label className="gray-text-input-label">عنوان مهارت:</label>
                   <input type="text" className="form-control gray-text-input" defaultValue={abilityTitle}
                          onChange={(e) => this.setState({...this.state, abilityTitle: e.target.value})}/>
                   <div ref={e => this._titleError = e} className={"product-name-error-hide"}>طول عنوان غیر مجاز است</div>
                 </div>
                 <div className={"gray-text-input-label-container"}>
-                  <label className="gray-text-input-label">توضیحات توانمندی:</label>
+                  <label className="gray-text-input-label">توضیحات مهارت:</label>
                   <textarea name="description" className="form-control gray-textarea-input" defaultValue={abilityDescription}
                             onChange={(e) => this.setState({...this.state, abilityDescription: e.target.value})}/>
                   <div ref={e => this._descriptionError = e} className={"product-name-error-hide"}>طول توضیحات غیر مجاز است</div>
