@@ -6,6 +6,7 @@ import productTypes from './product'
 import exchangeMembership from './exchangeMembership'
 import certificateTypes from './certificate'
 import commentTypes from './comment'
+import fileTypes from './file'
 
 const ERROR = {
   SOCIAL: socialTypes.ERROR,
@@ -14,6 +15,7 @@ const ERROR = {
   PRODUCT: productTypes.ERROR,
   CERTIFICATE: certificateTypes.ERROR,
   COMMENT: commentTypes.ERROR,
+  FILE: fileTypes.ERROR,
   ...common.ERROR
 }
 
@@ -24,6 +26,7 @@ const SUCCESS = {
   PRODUCT: productTypes.SUCCESS,
   CERTIFICATE: certificateTypes.SUCCESS,
   COMMENT: commentTypes.SUCCESS,
+  FILE: fileTypes.SUCCESS,
   ...common.SUCCESS
 }
 
@@ -34,6 +37,7 @@ const BASE = {
   PRODUCT: productTypes.BASE,
   CERTIFICATE: certificateTypes.BASE,
   COMMENT: commentTypes.BASE,
+  FILE: fileTypes.BASE,
   ...common.BASE
 }
 

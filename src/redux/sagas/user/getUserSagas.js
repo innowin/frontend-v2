@@ -35,10 +35,10 @@ export function* getProfileByUserId(action) {
     const profileBannerId = profile_banner && profile_banner.id
     // TODO check profileMedia & profileBanner is not exist in common.files.list
     if (profileMediaId) {
-      yield put({type: types.COMMON.GET_FILE, payload: {fileId: profileMediaId}})
+      yield put({type: types.COMMON.FILE.GET_FILE, payload: {fileId: profileMediaId}})
     }
     if (profileBannerId && (profileMediaId !== profileBannerId)) {
-      yield put({type: types.COMMON.GET_FILE, payload: {fileId: profileBannerId}})
+      yield put({type: types.COMMON.FILE.GET_FILE, payload: {fileId: profileBannerId}})
     }
     // yield put({type: types.SUCCESS.USER.SET_PROFILE_MEDIA, payload:{userId, profileMediaId, profileBannerId}})
   } catch (e) {

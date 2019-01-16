@@ -60,11 +60,14 @@ const results = {
     GET_PRODUCT_PICTURES_BY_PRODUCT_ID: 'get-product-pictures-by-product-id-result',
     GET_PRICE_BY_PRODUCT_ID: 'get-price-by-product-id-result',
 
-    // file
-    GET_FILE: 'COMMON_GET_FILE',
-    GET_FILES: 'common-get-files-result',
-    CREATE_FILE: 'common-create-file-result',
-    UPDATE_FILE: 'common-update-file-result',
+
+    FILE: {
+      GET_FILE: 'COMMON_GET_FILE',
+      GET_FILES: 'common-get-files-result',
+      CREATE_FILE: 'common-create-file-result',
+      UPDATE_FILE: 'common-update-file-result',
+      GET_FILE_BY_RELATED_PARENT_ID: 'common-get_file_by_related_parent_id',
+    },
 
     // category
     GET_CATEGORIES: 'common-get-categories-list-result',

@@ -9,7 +9,7 @@ const temp = (state = initialState.temp, action) => {
   switch (action.type) {
 
     /** ----------------- set created file in  temporaryFile -----------------> **/
-    case types.COMMON.SET_FILE_IDS_IN_TEMP_FILE:
+    case types.COMMON.FILE.SET_FILE_IDS_IN_TEMP_FILE:
       let data;
       let existFile = file[tempFileKeyName]
       if (existFile) {
@@ -30,7 +30,7 @@ const temp = (state = initialState.temp, action) => {
       }
 
     /** -----------------   remove file from  temporaryFile -----------------> **/
-    case types.COMMON.REMOVE_FILE_FROM_TEMP_FILE:
+    case types.COMMON.FILE.REMOVE_FILE_FROM_TEMP_FILE:
       const {[`${tempFileKeyName}`]: deleted, ...rest} = file
       return {
         ...state,
