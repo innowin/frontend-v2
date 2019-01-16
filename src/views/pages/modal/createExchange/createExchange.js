@@ -2,9 +2,9 @@
 import * as React from "react"
 import {Component} from "react"
 import {progressiveSteps} from "./createExchangeData"
-import FontAwesome from "react-fontawesome"
-import {Modal, ModalBody} from "reactstrap"
-import MenuProgressive from "../../progressive/penu-progressive"
+// import FontAwesome from "react-fontawesome"
+// import {Modal, ModalBody} from "reactstrap"
+// import MenuProgressive from "../../progressive/penu-progressive"
 import {
   PROGRESSIVE_STATUS_CHOICES, WRAPPER_CLASS_NAMES, exchangeFields, SOCIAL, exchangeIdentityFields
 } from "./createExchangeData"
@@ -12,7 +12,12 @@ import BasicInfo from "./basicInfo"
 import People from "./people"
 import MoreInfo from "./moreInfo"
 import SuccessMessage from "./successMessage"
-import {ThinDownArrow, ShareIcon, ImageUploadSvg, UploadIcon} from "src/images/icons"
+import {
+  ThinDownArrow,
+  // ShareIcon,
+  // ImageUploadSvg,
+  UploadIcon
+} from "src/images/icons"
 import {createFile, getFiles} from "../../../../redux/actions/commonActions/fileActions"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
@@ -108,9 +113,9 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
     getFollowees(getFolloweesPayload)
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const {hisFiles, createdExchange, members} = this.props
-    const {inActPeopleIds, exchangeImageFlag} = this.state
+  componentDidUpdate(prevProps, prevState, SS) {
+    const {hisFiles} = this.props
+    const {exchangeImageFlag} = this.state
     const lastFile = hisFiles[hisFiles.length - 1] || {}
     const prevLastFile = prevProps.hisFiles[prevProps.hisFiles.length - 1] || {}
     if (exchangeImageFlag) {
@@ -405,9 +410,13 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
   }
 
   render() {
-    const {activeStep, progressStatus, wrapperClassName, name, description, processing, selectedImage} = this.state
+    const {
+      // activeStep,
+      // progressStatus,
+      // wrapperClassName,
+      name, description, processing, selectedImage} = this.state
     const {modalIsOpen, translate} = this.props
-    const pageContent = this._setContent()
+    // const pageContent = this._setContent()
     return (
         <div
             className={modalIsOpen ? "create-exchange-modal-container" : "create-exchange-modal-container-out"}
@@ -522,13 +531,13 @@ const mapStateToProps = (state) => {
       Object.values(state.common.exchangeMembership.list).filter((m: any) =>
           m[exchangeIdentityFields.exchange] && m[exchangeIdentityFields.exchange].id === exchangeId)
       : {}
-  const social = SOCIAL.reduce((res, item) => {
-    if (res.some(i => i.id === item.follow_follower.id)) return res
-    else return [...res, {
-      ...item.follow_follower,
-      file: "http://restful.daneshboom.ir/media/75f00defdde44fd4b0d8bee05617e9c7.jpg",
-    }]
-  }, [])
+  // const social = SOCIAL.reduce((res, item) => {
+  //   if (res.some(i => i.id === item.follow_follower.id)) return res
+  //   else return [...res, {
+  //     ...item.follow_follower,
+  //     file: "http://restful.daneshboom.ir/media/75f00defdde44fd4b0d8bee05617e9c7.jpg",
+  //   }]
+  // }, [])
   return {
     identity,
     hisFiles: fileSelectorByKeyValue(state, "identity", identity),

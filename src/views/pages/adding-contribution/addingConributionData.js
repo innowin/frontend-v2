@@ -3,7 +3,7 @@ import {
   CertificateIcon,
   ContributionIcon,
   SkillIcon,
-  ConsultIcon,
+  // ConsultIcon,
   ItemsAndPropertiesIcon,
   InformationIcon,
   CircularAddIcon

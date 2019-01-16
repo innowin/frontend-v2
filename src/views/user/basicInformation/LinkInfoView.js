@@ -5,7 +5,7 @@ import PropTypes from "prop-types"
 
 import {Field, FieldLabel, FieldValue, ItemHeader} from "../../common/cards/Frames"
 import type {userProfileType} from "src/consts/flowTypes/user/basicInformation"
-import {TelegramIcon, InstagramIcon, LinkedInIcon, ExchangeExploreIcon, TwitterIcon} from 'src/images/icons'
+import {TelegramIcon, InstagramIcon, LinkedInIcon, TwitterIcon} from 'src/images/icons'
 
 // flow type of UserInfoView
 type PropsUserInfoView = {

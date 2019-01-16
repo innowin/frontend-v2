@@ -3,6 +3,19 @@ import * as React from 'react'
 import NextPrevBtns from './nextAndPrevBtns'
 import Desc from "../../common/Text/Tip"
 
+type CategoryType = {
+  value: string,
+  title: string,
+  svg: React.Node
+}
+
+type NewContributionProps = {
+  categories: Array<CategoryType>,
+  goToNextStep: Function,
+  goToPrevStep: Function,
+  selectedCategory?: string,
+  selectCategoryHandler: Function
+}
 
 type MainCategoriesProps = {
   categories: Array<CategoryType>,
@@ -33,21 +46,6 @@ const MainCategories = (props: MainCategoriesProps) => {
         </div>
       </div>
   )
-}
-
-
-type CategoryType = {
-  value: string,
-  title: string,
-  svg: React.Node
-}
-
-type NewContributionProps = {
-  categories: Array<CategoryType>,
-  goToNextStep: Function,
-  goToPrevStep: Function,
-  selectedCategory?: string,
-  selectCategoryHandler: Function
 }
 
 const NewContribution = (props: NewContributionProps) => {

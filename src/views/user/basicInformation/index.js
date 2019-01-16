@@ -4,7 +4,7 @@ import {Component} from "react"
 import {connect} from "react-redux"
 import PropTypes from "prop-types"
 
-import {FrameCard, CategoryTitle, ListGroup} from "src/views/common/cards/Frames"
+import {FrameCard, ListGroup} from "src/views/common/cards/Frames"
 import {getMessages} from "src/redux/selectors/translateSelector"
 import {BasicInfo} from './BasicInfo'
 import {ContactInfo} from './ContactInfo'

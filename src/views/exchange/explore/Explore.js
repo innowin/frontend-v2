@@ -8,7 +8,7 @@ import Sidebar from './Sidebar'
 import {bindActionCreators} from 'redux'
 import {ClipLoader} from 'react-spinners'
 import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges.js'
-import {getMessages} from '../../../redux/selectors/translateSelector'
+// import {getMessages} from 'src/redux/selectors/translateSelector'
 import {PureComponent} from 'react'
 // import {Helmet} from 'react-helmet'
 
@@ -90,7 +90,11 @@ class Explore extends PureComponent <appProps, appState> {
   }
 
   render() {
-    const {translate, allExchanges, loading} = this.props
+    const {
+      // translate,
+      allExchanges,
+      loading
+    } = this.props
     const {justFollowing, scrollButton} = this.state
     // const title = `${translate['InnoWin']} - ${translate['Exchanges']}`
     // const description = `${translate['Exchanges']}`
@@ -126,7 +130,7 @@ class Explore extends PureComponent <appProps, appState> {
 const mapStateToProps = (state) => ({
   allExchanges: getExchanges(state),
   loading: state.exchanges.isLoading,
-  translate: getMessages(state),
+  // translate: getMessages(state),
 })
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({

@@ -4,7 +4,7 @@ import {connect} from "react-redux"
 import PropTypes from 'prop-types'
 
 import {getMessages} from "../../../redux/selectors/translateSelector"
-import {CategoryTitle, FrameCard, ListGroup} from "../../common/cards/Frames"
+import {FrameCard, ListGroup} from "../../common/cards/Frames"
 
 import EducationInfoContainer from './EducationInfoContainer'
 import ResearchesInfoContainer from "./ResearchesInfoContainer"

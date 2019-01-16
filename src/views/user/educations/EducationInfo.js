@@ -6,8 +6,8 @@ import EducationIcon from "../../../images/user/education_svg"
 import EducationInfoEditForm from "./EducationInfoEditForm"
 import {Field, FieldValue, ItemHeader, VerifyWrapper} from "../../common/cards/Frames"
 import {ItemWrapper} from "../../common/cards/Frames"
-import {userEducationType} from 'src/consts/flowTypes/user/basicInformation'
-import constants from "../../../consts/constants";
+import {userEducationType} from "src/consts/flowTypes/user/basicInformation"
+import constants from "../../../consts/constants"
 
 //EducationInfo flowTypes
 type PropsEducation = {
@@ -55,16 +55,13 @@ export class EducationInfo extends React.Component<PropsEducation, StateEducatio
     const {translate, updateEducationByUserId, userId, education} = this.props
     const {edit} = this.state
     let grade
-    if(education.grade === constants.SERVER_GRADES.BACHELOR) {
-      grade = translate['Bachelor']
-    }
-    else if (education.grade === constants.SERVER_GRADES.MASTER) {
-      grade = translate['Master']
-    }
-    else if (education.grade === constants.SERVER_GRADES.PHD) {
-      grade = translate['Phd']
-    }
-    else{
+    if (education.grade === constants.SERVER_GRADES.BACHELOR) {
+      grade = translate["Bachelor"]
+    } else if (education.grade === constants.SERVER_GRADES.MASTER) {
+      grade = translate["Master"]
+    } else if (education.grade === constants.SERVER_GRADES.PHD) {
+      grade = translate["Phd"]
+    } else {
       grade = education.grade
     }
     return (
@@ -82,15 +79,19 @@ export class EducationInfo extends React.Component<PropsEducation, StateEducatio
             ) : (
                 education &&
                 <div>
-                  <ItemHeader title={`${translate['Grade']} ${grade}`} showEdit={this._showEdit}/>
+                  <ItemHeader title={`${translate["Grade"]} ${grade}`} showEdit={this._showEdit}/>
                   <Field>
                     <FieldValue
-                        value={`${education.field_of_study} - ${education.university}${education.average ? ` - ${translate['Average']} ${education.average}` : ''}`}/>
+                        value={`${education.field_of_study} - ${education.university}${education.average ? ` - ${translate["Average"]} ${education.average}` : ""}`}/>
                   </Field>
                   {(education.from_date || education.to_date) &&
                   <Field>
                     <FieldValue
-                        value={`${education.from_date ? `${education.from_date}` : ''}` + ' - ' + `${education.to_date ? `${education.to_date}` : '' }`}/>
+                        value={
+                          education.from_date ? education.from_date : ""
+                          + " - " +
+                          education.to_date ? education.to_date : ""
+                        }/>
                   </Field>
                   }
                   {education.description &&

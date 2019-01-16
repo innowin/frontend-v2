@@ -1,23 +1,23 @@
 // @flow
 
 //TODO: mohammad forms need change to redux form
-import * as React from "react";
-import PropTypes from 'prop-types';
+import * as React from "react"
+import PropTypes from "prop-types"
 
-import {CategoryTitle, FrameCard, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames";
-import {PostCreateForm} from "./PostCreateForm";
-import {bindActionCreators} from "redux";
-import PostActions from "../../../redux/actions/commonActions/postActions";
-import connect from "react-redux/es/connect/connect";
-import {userPostsSelector} from 'src/redux/selectors/common/post/userPostsSelector'
-import {Post} from './Post'
+import {FrameCard, ListGroup} from "src/views/common/cards/Frames"
+import {PostCreateForm} from "./PostCreateForm"
+import {bindActionCreators} from "redux"
+import PostActions from "../../../redux/actions/commonActions/postActions"
+import connect from "react-redux/es/connect/connect"
+import {userPostsSelector} from "src/redux/selectors/common/post/userPostsSelector"
+import {Post} from "./Post"
 import constants from "src/consts/constants"
-import client from 'src/consts/client'
+import client from "src/consts/client"
 
 type postsPropsType = {
-  id: number| string,
+  id: number | string,
   postIdentity: number,
-  translate: {[string]: string},
+  translate: { [string]: string },
   actions: {
     getPostByIdentity: Function,
     createPost: Function,
@@ -46,25 +46,25 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
     translate: PropTypes.object.isRequired,
     identityType: PropTypes.string.isRequired,
     userImageId: PropTypes.number.isRequired,
-  };
+  }
 
   constructor(props: postsPropsType) {
-    super(props);
+    super(props)
     this.state = {createForm: false}
   }
 
   _showCreateForm = () => {
-    this.setState({...this.state,createForm: true})
-  };
+    this.setState({...this.state, createForm: true})
+  }
 
   _hideCreateForm = () => {
-    this.setState({...this.state,createForm: false})
-  };
+    this.setState({...this.state, createForm: false})
+  }
 
   _create = (formValues) => {
     const {actions, id, identityType} = this.props
     const {createPost} = actions
-    createPost({formValues, postOwnerId: id, postOwnerType:identityType})
+    createPost({formValues, postOwnerId: id, postOwnerType: identityType})
   }
 
   componentDidMount() {
@@ -74,56 +74,64 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
   }
 
   render() {
-    const {postIdentity, posts, isLoading, error, actions, translate, userImageId} = this.props
+    const {
+      postIdentity,
+      posts,
+      // isLoading,
+      // error,
+      actions,
+      // translate,
+      userImageId
+    } = this.props
     const {updatePost, deletePost} = actions
-    const {createForm} = this.state;
+    const {createForm} = this.state
     return (
-      //<VerifyWrapper isLoading={isLoading} error={error}>
-      <div>
-        {/*<CategoryTitle*/}
+        //<VerifyWrapper isLoading={isLoading} error={error}>
+        <div>
+          {/*<CategoryTitle*/}
           {/*title={translate['Post']}*/}
           {/*showCreateForm={this._showCreateForm}*/}
           {/*// createForm={createForm}*/}
-        {/*/>*/}
-        <FrameCard className="-frameCardPost">
+          {/*/>*/}
+          <FrameCard className="-frameCardPost">
 
-          <ListGroup>
-            {
-              createForm &&
-              <div className="-itemWrapperPost">
-                <PostCreateForm hideCreateForm={this._hideCreateForm}
-                                create={this._create}
-                                postIdentity={postIdentity}
-                                postsLength = {posts.length}
-                                userImageId={userImageId}
-                />
-              </div>
-            }
-            {
-              posts ? posts.map(post => (
-                <Post
-                  post={post}
-                  updatePost={updatePost}
-                  key={post.id + "Posts"}
-                  deletePost={deletePost}
-                />
-              ))
-              : ''
-            }
-          </ListGroup>
+            <ListGroup>
+              {
+                createForm &&
+                <div className="-itemWrapperPost">
+                  <PostCreateForm hideCreateForm={this._hideCreateForm}
+                                  create={this._create}
+                                  postIdentity={postIdentity}
+                                  postsLength={posts.length}
+                                  userImageId={userImageId}
+                  />
+                </div>
+              }
+              {
+                posts ? posts.map(post => (
+                        <Post
+                            post={post}
+                            updatePost={updatePost}
+                            key={post.id + "Posts"}
+                            deletePost={deletePost}
+                        />
+                    ))
+                    : ""
+              }
+            </ListGroup>
 
-        </FrameCard>
-      </div>
-      // </VerifyWrapper>
+          </FrameCard>
+        </div>
+        // </VerifyWrapper>
     )
   }
 }
 
-const mapStateToProps  = (state, ownProps) => {
+const mapStateToProps = (state, ownProps) => {
   const {identityType} = ownProps
   const ownerId = ownProps.id
   const stateOwner = (identityType === constants.USER_TYPES.PERSON) ? state.users.list[ownerId] :
-    (identityType === constants.USER_TYPES.ORG && state.organs.list[ownerId])
+      (identityType === constants.USER_TYPES.ORG && state.organs.list[ownerId])
   const defaultObject = {content: [], isLoading: false, error: null}
   const postObject = (stateOwner && stateOwner.posts) || defaultObject
   const userType = client.getUserType()
