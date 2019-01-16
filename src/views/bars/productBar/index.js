@@ -18,16 +18,14 @@ import makeProductLastPriceSelectorByProductId from "../../../redux/selectors/co
 import {getObjHashTags} from "../../../redux/actions/commonActions/hashTagActions"
 import makeHashTagSelectorByParentId from "../../../redux/selectors/common/hashTags/getObjHashTags"
 import type {TagType} from '../../common/tags/tag'
-import FontAwesome from "react-fontawesome"
 
-
-export type FileListObjectType = {
-  [string]: FileType
-}
-
-type FileType = {
-  file: string
-}
+// type FileType = {
+//   file: string
+// }
+//
+// export type FileListObjectType = {
+//   [string]: FileType
+// }
 
 type ProductType = {
   pictures: Array<string>
@@ -112,7 +110,8 @@ class SideBar extends Component<SideBarProps, SideBarState> {
   ]
 
   render() {
-    const {visible, visibilityHandler, badges, lastPrice, hashTags} = this.props
+    // const {visible, visibilityHandlerz, badges, lastPrice, hashTags} = this.props
+    const {badges, lastPrice, hashTags} = this.props
     const {mainImage, images} = this._setGalleryData()
     const {galleryModalIsOpen} = this.state
     const modalGalleryImages = images.map(image => ({original: image.fileUrl, thumbnail: image.fileUrl}))

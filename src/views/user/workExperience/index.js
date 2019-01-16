@@ -9,7 +9,7 @@ import WorkExperience from './WorkExperience'
 import WorkExperienceActions from "../../../redux/actions/user/workExperienceActions";
 import WorkExperienceCreateForm from "./WorkExperienceCreateForm"
 import workExperienceIcon from "../../../images/user/workExperience_svg";
-import {FrameCard, CategoryTitle, ListGroup, VerifyWrapper, ItemWrapper} from "src/views/common/cards/Frames"
+import {FrameCard, CategoryTitle, ListGroup, ItemWrapper} from "src/views/common/cards/Frames"
 import {getMessages} from "../../../redux/selectors/translateSelector"
 import {makeGetWorkExperiences} from "../../../redux/selectors/user/userGetWorkExperiencesSelector"
 
@@ -73,7 +73,7 @@ class WorkExperiences extends React.Component<PropsWorkExperiences, StateWorkExp
 
   render() {
     const {createForm} = this.state
-    const {translate, workExperiences, isLoading, error, userId, actions} = this.props
+    const {translate, workExperiences, userId, actions} = this.props
     const {updateWorkExperienceByUserId, deleteWorkExperienceByUserId} = actions
     return (
         // <VerifyWrapper isLoading={isLoading} error={error}>

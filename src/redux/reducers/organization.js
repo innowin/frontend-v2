@@ -7,7 +7,7 @@ const organization = (state = initialState.organization, action) => {
     /** -------------------------- get organization members-------------------------> **/
     case types.SUCCESS.ORG.GET_ORGANIZATION_MEMBERS:
       const members = action.payload
-      return{...state,staff:{...staff, content:members,isLoading:false,error:false}}
+      return{...state,staff:{...state.staff, content:members,isLoading:false,error:false}}
 
     case types.ERRORS.ORG.GET_ORGANIZATION_MEMBERS:
       return {...state, members: []};

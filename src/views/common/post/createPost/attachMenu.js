@@ -1,6 +1,5 @@
 import React from "react"
 import PropTypes from "prop-types"
-
 import AttachFile from "src/views/common/inputs/AttachFile"
 import AttachFileIcon from "src/images/common/attachFileNew_svg"
 import ContributionIcon from "src/images/common/contribution_svg"
@@ -29,7 +28,7 @@ const AttachMenu = (props) => {
     </div>
   )
 
-  const {AttachMenuId, linkModalFunc, addProductModalFunc, handlePictures, handleMedia, handleFile,
+  const {AttachMenuId, addProductModalFunc, handlePictures, handleMedia, handleFile,
     postImagesLength, postMediaExist, postFileExist, postLinkExist, translate} = props
   const attachMenu = props.attachMenu || false
   const picturesAttachedDisabled = (postImagesLength > 2 || postMediaExist || postFileExist || postLinkExist)
@@ -38,8 +37,8 @@ const AttachMenu = (props) => {
     ? 'disabled-label' : ''
   const MediaAttachedDisabled = (postImagesLength > 0 || postMediaExist || postFileExist || postLinkExist)
     ? 'disabled-label' : ''
-  const LinkAttachedDisabled = (postImagesLength > 0 || postMediaExist || postFileExist)
-    ? 'disabled-label' : ''
+  // const LinkAttachedDisabled = (postImagesLength > 0 || postMediaExist || postFileExist)
+  //   ? 'disabled-label' : ''
   return (
     <div
       className={attachMenu ? "post-component-footer-attach-menu-container" : "post-component-footer-attach-menu-container-hide"}

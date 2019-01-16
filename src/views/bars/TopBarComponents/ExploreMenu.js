@@ -1,5 +1,5 @@
 import Contacts from '../../../images/common/contacts_svg'
-import ContributionIcon from '../../../images/common/contribution_svg'
+// import ContributionIcon from '../../../images/common/contribution_svg'
 import ExchangeIcon from '../../../images/common/exchange_svg'
 import Material from '../../common/components/Material'
 import React from 'react'

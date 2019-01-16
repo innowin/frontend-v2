@@ -200,8 +200,8 @@ class UserBee extends Component {
     if (this.state.jobTitle.length > 0 && this.state.jobWork.length > 0) {
       const {actions, currentUserId} = this.props
       const formFormat = {
-        name: this.state.jobTitle,
-        position: this.state.jobWork,
+        name: this.state.jobWork,
+        position: this.state.jobTitle,
         work_experience_organization: 2506
       }
       const formValues: {} = {...formFormat}

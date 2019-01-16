@@ -1,5 +1,5 @@
 import types from "../../../actions/types"
-import {call, fork,take, put, all} from "redux-saga/effects"
+import {call, fork,take, put} from "redux-saga/effects"
 import results from "../../../../consts/resultName";
 import api from "../../../../consts/api";
 import urls from "../../../../consts/URLS";

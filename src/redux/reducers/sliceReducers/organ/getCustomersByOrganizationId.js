@@ -20,8 +20,8 @@ const base = (state, action) => {
 
 const success = (state, action) => {
   const {organizationId, data} = action.payload || {}
-  const defaultObject = {content: [], isLoading: false, error: null}
-  const previousCustomer = (state.list[organizationId] && state.list[organizationId].customers) || defaultObject
+  // const defaultObject = {content: [], isLoading: false, error: null}
+  // const previousCustomer = (state.list[organizationId] && state.list[organizationId].customers) || defaultObject
   const arrayOfCustomerId = data.map(customer => customer.id)
   return {
     ...state,

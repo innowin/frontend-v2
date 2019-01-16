@@ -392,8 +392,12 @@
 }
 
 .exchanges-explore-sidebar-hashTags-search-container {
+  border-top: 1px solid $more-button-color-hover-darker;
+  border-bottom: 1px solid $more-button-color-hover-darker;
+  padding-top: 15px;
   display: flex;
   flex-wrap: wrap;
+  margin-top: 15px;
 }
 
 .exchanges-explore-sidebar-hashTags-container {
@@ -694,7 +698,7 @@
   border-radius: 100%;
   transform: scale(2) perspective(0);
   pointer-events: none;
-  animation: rippleSlow 1.5s ease-out;
+  animation: rippleSlow 1.5s ease;
   transition-duration: 0.5s;
 }
 

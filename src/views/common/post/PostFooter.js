@@ -1,11 +1,11 @@
 // @flow
 import * as React from "react"
-import PropTypes from "prop-types"
-import {Link} from "react-router-dom"
-import type {postType} from "src/consts/flowTypes/common/post"
-import type {identityType} from "src/consts/flowTypes/user/basicInformation"
 import checkOwner from "../CheckOwner"
+import PropTypes from "prop-types"
+import type {identityType} from "src/consts/flowTypes/user/basicInformation"
+import type {postType} from "src/consts/flowTypes/common/post"
 import {CommentSvg, MoreOptionSvg} from "src/images/icons"
+import {Link} from "react-router-dom"
 
 type postFooterProps = {
   post: postType,
@@ -22,15 +22,14 @@ type postFooterProps = {
 const PostFooter = (props: postFooterProps) => {
   const {post, extendedView, menuToggle, openMenu, postIdentity, translate, deletePost, showComment, showEdit} = props
   const {comments_count} = post
-  let viewerCount
   let postUrl = ""
   let user = {}
   let organization = {}
-  
-  
+
+
   let ownerId
   if (post) {
-    viewerCount = post.viewerCount
+    // let viewerCount = post.viewerCount
     if (postIdentity && postIdentity.id) {
       user = postIdentity.identity_user
       organization = postIdentity.identity_organization
@@ -76,7 +75,7 @@ const PostFooter = (props: postFooterProps) => {
           {/*<i className="fa fa-eye" aria-hidden="true"/>*/}
           {/*</div>*/}
           <div className='items cursor-pointer post-menu-bottom bubble-more comment-svg-container' onClick={() => showComment()}>
-            <span className="">{comments_count? comments_count: ""}</span>
+            <span className="">{comments_count ? comments_count : ""}</span>
             {/*<i className="fa fa-share cursor-pointer post-menu-bottom" aria-hidden="true" onClick={() => showComment()}/>*/}
             <CommentSvg className={"comment-svg"}/>
           </div>
@@ -94,7 +93,7 @@ PostFooter.propTypes = {
   translate: PropTypes.object.isRequired,
   deletePost: PropTypes.func.isRequired,
   showComment: PropTypes.func.isRequired,
-  showEdit: PropTypes.func,
+  showEdit: PropTypes.func
 }
 
 export default PostFooter

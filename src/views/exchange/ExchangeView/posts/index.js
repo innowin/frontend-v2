@@ -10,8 +10,6 @@ import {ExchangePostView} from "src/views/exchange/ExchangeView/posts/Views"
 import Masonry from "react-masonry-css"
 import cx from 'classnames'
 import {getFile} from "../../../../crud/media/media"
-import CreatePostNew from "src/views/common/post/createPost/index"
-import constant from "src/consts/constants"
 
 export class ExchangePost extends Component {
 
