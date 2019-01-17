@@ -34,10 +34,6 @@ class EducationInfoForm extends Component<PropsEducationInfoForm> {
     handleSubmit: PropTypes.func,
   }
 
-  constructor(props) {
-    super(props);
-    const {translate} = props
-  }
   componentDidMount() {
     const {initialize, education} = this.props
     if(education){

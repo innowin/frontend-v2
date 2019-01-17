@@ -1,41 +1,41 @@
 import React, {Component} from "react"
 import PropTypes from "prop-types"
-import {Link} from "react-router-dom"
-import FontAwesome from "react-fontawesome"
-import {userInfoIcon, workExperienceIcon, postIcon} from "src/images/icons"
+// import {Link} from "react-router-dom"
+// import FontAwesome from "react-fontawesome"
+// import {userInfoIcon, workExperienceIcon, postIcon} from "src/images/icons"
 import {default as ChatWrapper} from "./ChatBar/ChatParts"
-import NavLink from "react-router-dom/es/NavLink";
+// import NavLink from "react-router-dom/es/NavLink";
 
-class MainChatBar extends Component {
-
-  static propTypes = {
-    tab: PropTypes.string.isRequired,
-  };
-
-  render() {
-    const {tab} = this.props;
-    let content = '';
-
-    if (tab === "chat") {
-      content = <ChatWrapper/>
-    }
-    if (tab === "map") {
-      content = (
-        <div>
-          <h2> i am map</h2>
-        </div>
-      )
-    }
-    if (tab === "dashboard") {
-      content = (
-        <div>
-          <h2> i am dashboard</h2>
-        </div>
-      )
-    }
-    return content;
-  }
-}
+// class MainChatBar extends Component {
+//
+//   static propTypes = {
+//     tab: PropTypes.string.isRequired,
+//   };
+//
+//   render() {
+//     const {tab} = this.props;
+//     let content = '';
+//
+//     if (tab === "chat") {
+//       content = <ChatWrapper/>
+//     }
+//     if (tab === "map") {
+//       content = (
+//         <div>
+//           <h2> i am map</h2>
+//         </div>
+//       )
+//     }
+//     if (tab === "dashboard") {
+//       content = (
+//         <div>
+//           <h2> i am dashboard</h2>
+//         </div>
+//       )
+//     }
+//     return content;
+//   }
+// }
 
 
 class ChatBar extends Component {
@@ -48,23 +48,23 @@ class ChatBar extends Component {
     this.state = {tab: "should be changed"}
   }
 
-  _handleChat = () => {
-    const newState = {...this.state, tab: "chat"};
-    this.setState(newState)
-  };
-
-  _handleMap = () => {
-    const newState = {...this.state, tab: "map"};
-    this.setState(newState)
-  };
-
-  _handleDashboard = () => {
-    const newState = {...this.state, tab: "dashboard"};
-    this.setState(newState)
-  };
+  // _handleChat = () => {
+  //   const newState = {...this.state, tab: "chat"};
+  //   this.setState(newState)
+  // };
+  //
+  // _handleMap = () => {
+  //   const newState = {...this.state, tab: "map"};
+  //   this.setState(newState)
+  // };
+  //
+  // _handleDashboard = () => {
+  //   const newState = {...this.state, tab: "dashboard"};
+  //   this.setState(newState)
+  // };
 
   render() {
-    const {tab} = this.state;
+    // const {tab} = this.state;
     const {className} = this.props
     return (
       <div className={`row ${className}`}>

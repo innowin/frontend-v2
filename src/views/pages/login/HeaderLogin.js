@@ -1,6 +1,5 @@
 /*global __*/
 import React from 'react'
-import FontAwesome from 'react-fontawesome'
 import {InnoWinLogo} from 'src/images/icons'
 
 const HeaderLogin = ({iosLink, androidLink, address, phoneNumber, logoCaption}) => {

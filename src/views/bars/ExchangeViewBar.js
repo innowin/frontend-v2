@@ -1,20 +1,14 @@
 import React, {Component} from "react"
 import PropTypes from "prop-types"
-import {DefaultExchangeIcon} from "../../images/icons"
-import {VerifyWrapper} from "../common/cards/Frames"
-import {BadgesCard, TagsBox} from "./SideBar"
 import exchangeActions from "src/redux/actions/exchangeActions"
-import {getExchange, getExchangeMembers,} from "../../crud/exchange/exchange"
 import {connect} from "react-redux"
 import {bindActionCreators} from "redux"
 import {ExchangeIcon} from "src/images/icons"
-import {getExchangePostsByPostType, getExchangePostsHasProduct} from "../../crud/post/exchangePost"
 import ExchangeMembershipActions from "../../redux/actions/commonActions/exchangeMembershipActions"
 import {DefaultUserIcon} from "src/images/icons"
 import {BeatLoader, ClipLoader} from "react-spinners"
 import {REST_URL} from "src/consts/URLS"
-import {getExchangeMembershipsSelector} from "src/redux/selectors/common/social/getExchangeMemberships"
-import {Link, Redirect} from "react-router-dom"
+import {Link} from "react-router-dom"
 import type {ImageType} from "../pages/modal/createExchange/basicInfo"
 import makeFileSelectorByKeyValue from "src/redux/selectors/common/file/selectFilsByKeyValue"
 import {createFile} from "src/redux/actions/commonActions/fileActions"
@@ -256,7 +250,7 @@ class ExchangeViewBar extends Component {
     if (this.editDescription && this.editDescription.value.length <= 100) {
       const {selectedImage} = this.state
       const {actions, exchangeId} = this.props
-      const {editExchange, getExchangeByExId} = actions
+      const {editExchange} = actions
       let formValues = {
         exchange_id: exchangeId,
         exchange_description: this.editDescription && this.editDescription.value,
@@ -279,9 +273,9 @@ class ExchangeViewBar extends Component {
         exchangeMembershipOwnerId: currentUserId,
         exchangeMembershipOwnerType: currentUserType,
       })
-      // console.log(exchangesIdentities)
-      let exchangeMembershipIdTemp = null
-      exchangeMembershipIdTemp = Object.values(exchangesIdentities).filter(memberships => {
+      // // console.log(exchangesIdentities)
+      // let exchangeMembershipIdTemp = null
+      let exchangeMembershipIdTemp = Object.values(exchangesIdentities).filter(memberships => {
         if (memberships.exchange_identity_related_exchange)
           return memberships.exchange_identity_related_exchange.id === exchangeId
         else return null
@@ -303,8 +297,7 @@ class ExchangeViewBar extends Component {
 
   render() {
     const {
-      exchange, badgesImgUrl, demandCount, supplyCount, productCount, tags, unFollowed,
-      members, isLoading, error, followLoading, imageLoaded, editView, loadingEdit, notFound, processing, selectedImage
+      unFollowed, imageLoaded, editView, loadingEdit, processing, selectedImage
     } = this.state
     const {translate, exchanges, exchangeId, currentUserId} = this.props
     if (exchanges.list[exchangeId]) {

@@ -6,13 +6,10 @@ import ProductPosts from "../product/posts"
 import ProductBasicInformation from "../product/basicInformation"
 import ProductCertificates from "../product/certificates"
 import ProductRating from "../product/ratings"
-import Represents from '../product/represents'
-import ChatBar from "../bars/ChatBar"
 import {Tabs} from "../common/cards/Frames"
 import {NavLink, Switch, Redirect} from "react-router-dom"
 import PropsRoute from "src/consts/PropsRoute"
 import PropTypes from "prop-types"
-import ProductSideView from "../bars/ProductBar"
 import {PictureModal} from "./pictureModal"
 import {connect} from "react-redux"
 import {getMessages} from "../../redux/selectors/translateSelector"
@@ -63,7 +60,7 @@ class ProductView extends Component<ProductViewProps, ProductViewState> {
   _sideBarVisibilityHandler = () => this.setState({...this.state, sideBarIsVisible: !this.state.sideBarIsVisible})
 
   render() {// TODO ICON for represents
-    const {match, translator, token, identityId} = this.props
+    const {match, translator} = this.props
     const {path, url, params} = match
     const productId = params.id
     const {modal, modalFiles, selectedFileIndex, sideBarIsVisible} = this.state

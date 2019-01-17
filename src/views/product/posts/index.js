@@ -35,7 +35,7 @@ class ProductPosts extends React.Component<ProductPostsProps> {
   }
 
   render() {
-    const {translator, productId} = this.props
+    const {translator} = this.props
     return (
         <div>
           <CategoryTitle
