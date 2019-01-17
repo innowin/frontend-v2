@@ -1,7 +1,6 @@
 // @flow
 import * as React from 'react'
 import {Component} from 'react'
-import PropTypes from "prop-types"
 import ProductFilterSidebar from "../bars/FilterSideBar"
 import ProductExplorerContent from "./ProductExplorerContent"
 import type {ContributionType} from "src/consts/flowTypes/product/productTypes"

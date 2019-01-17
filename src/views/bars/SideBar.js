@@ -2,14 +2,11 @@
 import * as React from 'react'
 import {Component} from 'react'
 import PropTypes from 'prop-types'
-
 import type {badgeType} from '../../consts/flowTypes/common/badges'
 import type {organizationType} from 'src/consts/flowTypes/organization/organization'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import type {userProfileType, userType} from 'src/consts/flowTypes/user/basicInformation'
 import {DefaultUserIcon, DefaultOrganIcon, TwitterIcon, TelegramIcon, LinkedInIcon, InstagramIcon} from 'src/images/icons'
-import cx from 'classnames'
-
 import AttachFile from '../common/inputs/AttachFile'
 import CheckOwner from '../common/CheckOwner'
 import connect from 'react-redux/es/connect/connect'

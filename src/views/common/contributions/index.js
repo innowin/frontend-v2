@@ -2,7 +2,6 @@
 import * as React from "react"
 import PropTypes from "prop-types"
 import {connect} from "react-redux"
-
 import AbilityInfoContainer from "./AbilityInfoContainer"
 import ProductInfoContainer from './ProductInfoContainer'
 import SkillInfoContainer from './SkillInfoContainer'
@@ -10,13 +9,13 @@ import {CategoryTitle, FrameCard, ListGroup} from "../cards/Frames"
 import {getMessages} from "../../../redux/selectors/translateSelector"
 import AddingContribution from "../../pages/adding-contribution/addingContribution"
 
-type PropsSkills = {
-  ownerId: number,
-  translate: { [string]: string },
-  identityType: string,
-  identityId: number,
-  isUser: boolean,
-}
+// type PropsSkills = {
+//   ownerId: number,
+//   translate: { [string]: string },
+//   identityType: string,
+//   identityId: number,
+//   isUser: boolean,
+// }
 
 class Contributions extends React.Component {
   constructor(props) {

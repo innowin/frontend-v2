@@ -1,9 +1,9 @@
 import * as React from "react"
-import {AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip} from "recharts"
+import {AreaChart, Area, XAxis, CartesianGrid, Tooltip} from "recharts"
 import {PureComponent} from "react"
 import {connect} from "react-redux"
 import {getMessages} from "src/redux/selectors/translateSelector"
-import {QuestionMark, OffersSvg, DemandIcon, SupplyIcon, Stream} from "src/images/icons"
+import {QuestionMark, DemandIcon, SupplyIcon, Stream} from "src/images/icons"
 
 const SUPPLY = "عرضه"
 const DEMAND = "تقاضا"

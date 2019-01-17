@@ -50,34 +50,34 @@ const validateUsername = (username) => {
 }
 
 const validateEmail = (email) => {
-  if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email) || email.length < 5) {
+  if (!/^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email) || email.length < 5) {
     return 'آدرس ایمیل اشتباه است.'
   }
 }
 
 const validatePassword = (pass) => {
-  const test1 = "(?=.*[a-z])"
-  const test2 = "(?=.*[A-Z])"
-  const test3 = "(?=.[!@#\\$%\\^&])"
-  const test4 = "(?=.*[0-9])"
-  const level1 = new RegExp(test1)
-  const level2 = new RegExp(test2)
-  const level3 = new RegExp(test3)
-  const level4 = new RegExp(test4)
-  const condition1 = (level1.test(pass) && level2.test(pass))
-  const condition2 = (level1.test(pass) && level3.test(pass))
-  const condition3 = (level1.test(pass) && level4.test(pass))
-  const condition4 = (level2.test(pass) && level1.test(pass))
-  const condition5 = (level2.test(pass) && level3.test(pass))
-  const condition6 = (level2.test(pass) && level4.test(pass))
-  const condition7 = (level3.test(pass) && level1.test(pass))
-  const condition8 = (level3.test(pass) && level2.test(pass))
-  const condition9 = (level3.test(pass) && level4.test(pass))
-  const condition10 = (level4.test(pass) && level1.test(pass))
-  const condition11 = (level4.test(pass) && level2.test(pass))
-  const condition12 = (level4.test(pass) && level3.test(pass))
-  const validate = condition1 || condition2 || condition3 || condition4 || condition5 || condition6 || condition7
-    || condition8 || condition9 || condition10 || condition11 || condition12
+  // const test1 = "(?=.*[a-z])"
+  // const test2 = "(?=.*[A-Z])"
+  // const test3 = "(?=.[!@#\\$%\\^&])"
+  // const test4 = "(?=.*[0-9])"
+  // const level1 = new RegExp(test1)
+  // const level2 = new RegExp(test2)
+  // const level3 = new RegExp(test3)
+  // const level4 = new RegExp(test4)
+  // const condition1 = (level1.test(pass) && level2.test(pass))
+  // const condition2 = (level1.test(pass) && level3.test(pass))
+  // const condition3 = (level1.test(pass) && level4.test(pass))
+  // const condition4 = (level2.test(pass) && level1.test(pass))
+  // const condition5 = (level2.test(pass) && level3.test(pass))
+  // const condition6 = (level2.test(pass) && level4.test(pass))
+  // const condition7 = (level3.test(pass) && level1.test(pass))
+  // const condition8 = (level3.test(pass) && level2.test(pass))
+  // const condition9 = (level3.test(pass) && level4.test(pass))
+  // const condition10 = (level4.test(pass) && level1.test(pass))
+  // const condition11 = (level4.test(pass) && level2.test(pass))
+  // const condition12 = (level4.test(pass) && level3.test(pass))
+  // const validate = condition1 || condition2 || condition3 || condition4 || condition5 || condition6 || condition7
+  //   || condition8 || condition9 || condition10 || condition11 || condition12
   if (pass.length < 8) return 'رمز ورود باید حداقل ۸ حرف باشد.'
   // else if (!validate) return 'این رمز ضعیف است. رمز ورود حداقل دارای یک عدد یا یک حرف بزرگ یا علامت باشد.'
 }
@@ -85,7 +85,7 @@ const validatePassword = (pass) => {
 export const validateSignUpForm = values => {
   const errors = {}
   const requiredFields = ['email', 'password', 'username']
-  const {username, email, password, passwordConfirm} = values
+  const {username, email, password} = values
 
   if (username) errors.username = validateUsername(username)
   if (email) errors.email = validateEmail(email)

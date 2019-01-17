@@ -12,7 +12,6 @@ import {Field, reduxForm, SubmissionError} from 'redux-form'
 import renderTextField from 'src/views/common/inputs/reduxFormRenderTextField'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import FontAwesome from 'react-fontawesome'
-import Material from '../../common/components/Material'
 
 class PureSignInForm extends React.Component {
   constructor(props) {

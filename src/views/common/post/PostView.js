@@ -149,7 +149,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       if (extendedView) {
         const {actions, match} = this.props
         const {params, url} = match
-        const {getPost, getPostViewerCount, setPostViewer, getCommentsByParentId} = actions
+        const {getPost, getCommentsByParentId} = actions
         const postId = +params.id
         const isUser = !url.includes('org')
         const postOwnerType = isUser ? constants.USER_TYPES.PERSON : constants.USER_TYPES.ORG
@@ -175,8 +175,8 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
         // Phone Reg
         let first = new RegExp('(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{4}[)]?))')
-        let second = new RegExp('([-\s\.]?[0-9]{3})')
-        let third = new RegExp('([-\s\.]?[0-9]{3,4})')
+        let second = new RegExp('([-]?[0-9]{3})')
+        let third = new RegExp('([-]?[0-9]{3,4})')
 
         for (let i = 0; i < allWords.length; i++) {
           let word = allWords[i].trim()
@@ -244,9 +244,9 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
   _openMenu(e) {
     e.preventDefault()
-    const {post, actions} = this.props
-    const {setPostViewer, getPostViewerCount} = actions
-    const postId = post.id
+    // const {post, actions} = this.props
+    // const {setPostViewer, getPostViewerCount} = actions
+    // const postId = post.id
     // setPostViewer(postId, getPostViewerCount)
     this.setState({...this.state, menuToggle: !this.state.menuToggle})
   }
@@ -263,21 +263,21 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   _getViewerCount = () => {
-    const {post, actions} = this.props
-    const {getPostViewerCount} = actions
-    const postId = post.id
+    // const {post, actions} = this.props
+    // const {getPostViewerCount} = actions
+    // const postId = post.id
     // getPostViewerCount(postId)
   }
 
-  createComment = (commentTextField) => {
-    if (commentTextField && commentTextField.value) {
-      const {actions, post, commentParentType} = this.props
-      const {createComment} = actions
-      const formValues = {text: commentTextField.value, comment_parent: post.id}
-      createComment({formValues, parentId: post.id, commentParentType})
-      commentTextField.value = ''
-    }
-  }
+  // createComment = (commentTextField) => {
+  //   if (commentTextField && commentTextField.value) {
+  //     const {actions, post, commentParentType} = this.props
+  //     const {createComment} = actions
+  //     const formValues = {text: commentTextField.value, comment_parent: post.id}
+  //     createComment({formValues, parentId: post.id, commentParentType})
+  //     commentTextField.value = ''
+  //   }
+  // }
 
   _setCommentOn = (comment) => {
     this.setState({...this.state, commentOn: comment, showComment: true})
@@ -339,7 +339,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   render() {
     const self: any = this
 
-    const {post, translate, postIdentity, postRelatedIdentityImage, userImage, extendedView, showEdit, comments, fileList, commentParentType} = this.props
+    const {post, translate, postIdentity, postRelatedIdentityImage, extendedView, showEdit, comments, fileList, commentParentType} = this.props
     const {menuToggle, confirm, pictureLoaded, showComment, commentOn} = this.state
     let postDescription, postPicture, postPictureId, postIdentityUserId, postIdentityOrganId, postOwnerId = 0
 

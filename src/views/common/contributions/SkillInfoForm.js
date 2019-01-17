@@ -81,7 +81,7 @@ class SkillInfoForm extends React.Component<PropsSkillEditForm, StateSkillEditFo
     const propertyNames = Object.getOwnPropertyNames(formFormat)
 
     propertyNames.map(key => {
-      formFormat[key] === null ? delete(formFormat[key]) : ''
+      if(formFormat[key] === null) delete(formFormat[key])
       return formFormat
     })
 

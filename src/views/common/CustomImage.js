@@ -56,16 +56,18 @@ export class CustomImage extends Component {
   };
 
   render() {
-    const {fileName, error, isLoading, media} = this.state;
-    const {label, multiple,className} = this.props;
+    // const {fileName, error, isLoading, media} = this.state;
+    // const {label, multiple,className} = this.props;
+    const {error, isLoading, media} = this.state;
+    const {className} = this.props;
 
     let imagePreview = '';
-    let selectText = __('Select');
+    // let selectText = __('Select');
     if (media) {
       imagePreview = (
         <img className={className} src={media.file} alt="imagePreview"/>
       );
-      selectText = __('Change')
+      // selectText = __('Change')
     }
 
     if (isLoading) {

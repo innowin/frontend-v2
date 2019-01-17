@@ -5,9 +5,7 @@ import {progressiveSteps} from "./createExchangeData"
 // import FontAwesome from "react-fontawesome"
 // import {Modal, ModalBody} from "reactstrap"
 // import MenuProgressive from "../../progressive/penu-progressive"
-import {
-  PROGRESSIVE_STATUS_CHOICES, WRAPPER_CLASS_NAMES, exchangeFields, SOCIAL, exchangeIdentityFields
-} from "./createExchangeData"
+import {PROGRESSIVE_STATUS_CHOICES, WRAPPER_CLASS_NAMES, exchangeFields, exchangeIdentityFields} from "./createExchangeData"
 import BasicInfo from "./basicInfo"
 import People from "./people"
 import MoreInfo from "./moreInfo"

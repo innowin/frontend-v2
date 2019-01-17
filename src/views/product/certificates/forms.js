@@ -11,7 +11,6 @@ import renderFileField from "../../common/inputs/reduxFormRenderFileField"
 import {Field, reduxForm} from "redux-form"
 import type {ProductType} from "../../../consts/flowTypes/product/productTypes"
 import status from "src/redux/reducers/statusChoices"
-import {Certificates} from "./index";
 
 
 type CertificateType = {
@@ -25,9 +24,8 @@ type CertificateFormProps = {
     children: React.Node
 }
 
-const CertificateReduxFormValidate = (values) => {
-    const errors = {}
-    return errors
+const CertificateReduxFormValidate = () => {
+    return {}
 }
 
 type CertificateReduxFormProps = {
@@ -49,11 +47,11 @@ let CertificateReduxForm = (props: CertificateReduxFormProps) => {
     const {
         handleSubmit,
         onSubmit,
-        translator,
-        submitting,
+        // translator,
+        // submitting,
         reset,
-        error,
-        submitFailed,
+        // error,
+        // submitFailed,
         hideForm,
         handleCertificateInput,
         creatingObjCertStatus
@@ -99,28 +97,28 @@ export class CertificateForm extends Component<CertificateFormProps> {
     }
     certPictureInput: React.ElementRef<typeof FileInput>
     titleInput: React.ElementRef<typeof TextInput>
-    getValues = () => {
-        const media = this.certPictureInput.getFile()
-        const mediaId = media ? media.id : null
-        return ({
-            title: this.titleInput.getValue(),
-            certificate_picture: mediaId, // TODO use media uploader
-        })
-    }
+    // getValues = () => {
+    //     const media = this.certPictureInput.getFile()
+    //     const mediaId = media ? media.id : null
+    //     return ({
+    //         title: this.titleInput.getValue(),
+    //         certificate_picture: mediaId, // TODO use media uploader
+    //     })
+    // }
 
-    formValidate = () => {
-        let result = true
-        const validates = [
-            this.titleInput.validate(),
-        ]
-        for (let i = 0; i < validates.length; i++) {
-            if (validates[i]) {
-                result = false
-                break
-            }
-        }
-        return result
-    }
+    // formValidate = () => {
+    //     let result = true
+    //     const validates = [
+    //         this.titleInput.validate(),
+    //     ]
+    //     for (let i = 0; i < validates.length; i++) {
+    //         if (validates[i]) {
+    //             result = false
+    //             break
+    //         }
+    //     }
+    //     return result
+    // }
 
     render() {
         const {translator, children} = this.props

@@ -1,11 +1,9 @@
 // @flow
 import * as React from "react"
-
-import BookmarkIcon from "../../../images/product/bookmark"
 import CheckOwner from "../CheckOwner"
 import PropTypes from "prop-types"
-import type {AbilityType} from "../../../consts/flowTypes/organization/ability"
-import {EditIcon} from "../../../images/icons"
+import type {AbilityType} from "src/consts/flowTypes/organization/ability"
+import {EditIcon} from "src/images/icons"
 
 type PropsAbilityInfoView = {
   organizationId: number,

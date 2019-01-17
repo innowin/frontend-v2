@@ -13,7 +13,7 @@ import {bindActionCreators} from "redux"
 import {Exchanges} from "./Exchanges"
 import {Followees} from './Followees'
 import {Followers} from './Followers'
-import {FrameCard, CategoryTitle, VerifyWrapper} from "src/views/common/cards/Frames"
+import {FrameCard} from "src/views/common/cards/Frames"
 import {getMessages} from "src/redux/selectors/translateSelector"
 import {getFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
 import {getFollowersSelector} from 'src/redux/selectors/common/social/getFollowers'
@@ -101,7 +101,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
   }
 
   render() {
-    const {translate, followers, followees, actions, isLoading, error, exchanges, identityId, ownerId, identityType, param} = this.props
+    const {translate, followers, followees, actions, exchanges, identityId, ownerId, identityType, param} = this.props
     const {deleteFollow, deleteExchangeMembership, updateFollow, createFollow} = actions
     const {editExchanges, editFollowings} = this.state
 

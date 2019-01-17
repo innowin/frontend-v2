@@ -1,7 +1,6 @@
 import initialState from '../../initialState';
 import types from '../../../actions/types';
 import pushAnObjToStateList from '../../sliceReducers/utilsSlices/pushAnObjToStateList'
-import updateListForAnObj from '../../sliceReducers/utilsSlices/updateListForAnObj'
 import createAnObj from '../../sliceReducers/utilsSlices/createAnObj'
 import setRelatedObjIdForListItem from '../../sliceReducers/utilsSlices/setRelatedObjIdForListItem'
 import setRelatedObjectsForAnObj from '../../sliceReducers/utilsSlices/setRelatedObjectsForAnObj'

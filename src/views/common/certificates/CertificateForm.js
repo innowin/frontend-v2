@@ -52,8 +52,8 @@ class CertificateForm extends Component<PropsCertificateForm> {
     initialize(defaultFormValue)
 
     //FixMe: mohammad profile and logo picture need to fix fot input and data send to server
-    const media = this.certPictureInput.getFile()
-    const mediaId = media ? media.id : null
+    // const media = this.certPictureInput.getFile()
+    // const mediaId = media ? media.id : null
   }
 
   render() {
