@@ -165,16 +165,16 @@ class InteliInput extends Component {
                ref={e => this.text = e}
           >
           </div>
-          <div onClick={() => this._openMenu()}>
+          <div onClick={this._openMenu}>
             {
               this.props.icon ? this.props.icon : <MainLbarArrow className='inteli-more-svg'/>
             }
           </div>
           <div className={found.length > 0 ? "inteli-menu" : "inteli-menu-hide"}
-               onMouseEnter={() => this._mouseInMenu()} onMouseLeave={() => this._mouseOutMenu()} onClick={() => this._closeMenu()}>
+               onMouseEnter={this._mouseInMenu} onMouseLeave={this._mouseOutMenu} onClick={this._closeMenu}>
             {
               found.map((prop, key) =>
-                  <div key={key} className='inteli-menu-item' onClick={(e) => this._setItem(e)}>
+                  <div key={key} className='inteli-menu-item' onClick={this._setItem}>
                     {prop}
                   </div>
               )

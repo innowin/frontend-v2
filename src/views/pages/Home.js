@@ -33,13 +33,6 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
     this.state = {activeExchangeId: this.props.selectedExchange}
   }
 
-  componentDidMount(): void {
-    const {selectedExchange} = this.props
-    if (selectedExchange) {
-      this.setState({...this.state, activeExchangeId: selectedExchange})
-    }
-  }
-
   _setExchangeId = (exchangeId: number) => {
     const {activeExchangeId} = this.state
     if (exchangeId !== activeExchangeId) {
@@ -50,7 +43,6 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
   }
 
   render() {
-    // alert('s')
     const {identityId, identityType, id} = this.props
     const {activeExchangeId} = this.state
     // const title = `${translate["InnoWin"]} - ${translate["Home"]}`
@@ -88,7 +80,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
                                  activeExchangeId={activeExchangeId}
                                  id={id}
                     />
-                ) : ""
+                ) : null
               }
               <HomePosts exchangeId={activeExchangeId} className="col-6 post-wrapper"/>
               <div className="col-3 pl-0 pr-0 user-detail-wrapper">

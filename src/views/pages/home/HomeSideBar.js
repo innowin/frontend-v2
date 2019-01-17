@@ -117,7 +117,7 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
     setExchangeId: PropTypes.func.isRequired,
     classNames: PropTypes.string,
     identityType: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
+    id: PropTypes.number.isRequired
   }
 
   constructor(props) {
@@ -130,9 +130,9 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
     setExchangeId(id)
   }
 
-  componentDidUpdate(prevProps) {
-    const {setExchangeId, clientExchanges} = this.props
-    if (!prevProps.activeExchangeId && clientExchanges.length > 0) {
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.activeExchangeId && nextProps.clientExchanges.length > 0) {
+      const {setExchangeId, clientExchanges} = nextProps
       setExchangeId(clientExchanges[0].id)
     }
   }
@@ -160,7 +160,8 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
             {
               (clientExchanges && clientExchanges.length > 0) ? (
                   clientExchanges.map((exchange, i) => {
-                    return <SideBarItem key={i} exchange={exchange}
+                    return <SideBarItem key={i}
+                                        exchange={exchange}
                                         handleClick={this._handleClick}
                                         active={exchange.id === activeExchangeId}/>
                   })
