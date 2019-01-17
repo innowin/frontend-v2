@@ -21,6 +21,10 @@
   clear: both;
 }
 
+.post-view-relative {
+  position: relative;
+}
+
 .post-view-container {
   position: relative;
   box-shadow: 0 3px 3px $box-shadow-color;
@@ -118,19 +122,18 @@
     margin-right: 18px;
     text-align: justify;
     transition: height ease 0.2s;
-    word-break: break-all;
+    word-break: break-word;
   }
 
   .post-content-more {
     display: block;
     position: absolute;
     font-size: 13px;
-    top: 107px;
+    top: 89px;
     background-color: white;
     color: $secondary-color;
     padding: 2px 7px;
     cursor: pointer;
-    word-break: break-all;
   }
 
   .post-content-more-hide {
@@ -311,7 +314,7 @@
         .post-text-comment {
           white-space: pre-wrap;
           text-align: justify;
-          word-break: break-all;
+          word-break: break-word;
         }
       }
     }
@@ -500,7 +503,7 @@
   }
 }
 
-.post-content-more-sign{
+.post-content-more-sign {
   display: inline-block;
   margin: 0 5px;
   font-size: 16px;
