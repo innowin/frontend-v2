@@ -332,6 +332,7 @@ module.exports = {
   "Account administrators": "مدیران حساب کاربری",
   "Biography length is wrong": "حداکثر طول 700 می باشد",
   "Official name is wrong": "نام رسمی شرکت اشتباه است",
+  "Nike name is wrong": "نام مستعار شرکت اشتباه است",
 
   // Organization - customers
   "Registered By": "ثبت شده توسط شرکت ",
