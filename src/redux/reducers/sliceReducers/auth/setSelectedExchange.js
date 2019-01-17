@@ -1,12 +1,11 @@
 const base = (state, action) => {
-  const {token} = action.payload
-  const client = {...state.client}
+  const {exchangeId} = action.payload
 
   return {
     ...state,
     client: {
-      ...client,
-      token
+      ...state.client,
+      selectedExchange: exchangeId
     }
   }
 }
@@ -20,5 +19,5 @@ const error = (state, action) => {
 export default {
   base,
   success,
-  error,
+  error
 }

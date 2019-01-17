@@ -4,7 +4,7 @@ const base = (state, action) => {
 
 const success = (state, action) => {
   const {organLogoId, organBannerId, organizationId} = action.payload || {}
-  const {client} = state
+  const client = {...state.client}
   if(client.organization && organizationId === client.organization.id) {
     const organLogo_ = organLogoId || client.organization.organization_logo
     const organBanner_ = organBannerId || client.organization.organization_banner

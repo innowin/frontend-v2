@@ -3,7 +3,7 @@ const base = (state, action) => {
 
 const success = (state, action) => {
   const {data, postIdentity} = action.payload || {}
-  const {client} = state
+  const client = {...state.client}
   const previousPost = (client && client.posts) || []
 
   const arrayOfPostId = []

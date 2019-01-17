@@ -27,5 +27,6 @@ export default {
     exchangeMemberships: [], /* ids of exchanges that user is member of that*/
     workExperiences: [], /* ids of workExperiences that this client is member of them*/
     customers: [], /* ids of customers that this org client has them*/
+    selectedExchange: null
   }
 }

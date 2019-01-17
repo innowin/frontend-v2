@@ -3,7 +3,7 @@ const base = (state, action) => {
 
 const success = (state, action) => {
   const {skillId} = action.payload || {}
-  const {client} = state
+  const client = {...state.client}
   const previousSkillId = (client && client.skills) || []
 
   const newDeletedSkillId = previousSkillId.filter(id => id !== skillId);

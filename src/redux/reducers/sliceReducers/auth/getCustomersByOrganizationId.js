@@ -3,7 +3,7 @@ const base = (state, action) => {
 
 const success = (state, action) => {
   const {data, organizationId} = action.payload || {}
-  const {client} = state
+  const client = {...state.client}
   const previousCustomer = (client && client.customers) || []
 
   data.map(customer => {

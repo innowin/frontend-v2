@@ -3,7 +3,7 @@ const base = (state, action) => {
 
 const success = (state, action) => {
   const {data, identityId} = action.payload || {}
-  const {client} = state
+  const client = {...state.client}
   const previousCertificate = (client && client.certificates) || []
 
   data.map(certificate => {

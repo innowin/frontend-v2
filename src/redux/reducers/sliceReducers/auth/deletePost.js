@@ -3,7 +3,7 @@ const base = (state, action) => {
 
 const success = (state, action) => {
   const {postId} = action.payload || {}
-  const {client} = state
+  const client = {...state.client}
   const previousPost = (client && client.posts) || []
 
   const newDeletedPosts = previousPost.filter(id => id !== postId);

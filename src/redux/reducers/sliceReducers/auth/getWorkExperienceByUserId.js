@@ -3,7 +3,7 @@ const base = (state, action) => {
 
 const success = (state, action) => {
   const {data, userId} = action.payload || {}
-  const {client} = state
+  const client = {...state.client}
   const previousWorkExperience = (client && client.workExperiences) || []
 
   data.map(workExperience => {

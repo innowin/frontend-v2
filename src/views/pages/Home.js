@@ -9,6 +9,8 @@ import {Component} from "react"
 import {connect} from "react-redux"
 import {getMessages} from "src/redux/selectors/translateSelector"
 import BeePanel from "../common/components/BeePanel"
+import {bindActionCreators} from 'redux'
+import setExchangeActions from 'src/redux/actions/user/setSelectedExchangeAction'
 // import {Helmet} from "react-helmet"
 
 type HomeProps = {|
@@ -28,13 +30,22 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
 
   constructor(props) {
     super(props)
-    this.state = {activeExchangeId: null}
+    this.state = {activeExchangeId: this.props.selectedExchange}
+  }
+
+  componentDidMount(): void {
+    const {selectedExchange} = this.props
+    if (selectedExchange) {
+      this.setState({...this.state, activeExchangeId: selectedExchange})
+    }
   }
 
   _setExchangeId = (exchangeId: number) => {
     const {activeExchangeId} = this.state
     if (exchangeId !== activeExchangeId) {
-      this.setState({...this.state, activeExchangeId: exchangeId})
+      this.setState({...this.state, activeExchangeId: exchangeId},()=>{
+        this.props.actions.setExchange(exchangeId)
+      })
     }
   }
 
@@ -67,9 +78,6 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
           {/*</Helmet>*/}
 
           <main className="-main">
-
-            {/*<GetUserData/>*/}
-
             <div className="page-content">
               {
                 (id && identityId && identityType) ? (
@@ -96,6 +104,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
 
 const mapStateToProps = state => {
   const client = state.auth.client
+  const selectedExchange = client.selectedExchange
   const allIdentities = state.identities.list
   const clientIdentityId = client.identity.content || null
   const clientIdentity = (clientIdentityId && allIdentities[clientIdentityId]) ? allIdentities[clientIdentityId] : {}
@@ -106,7 +115,15 @@ const mapStateToProps = state => {
     id: id,
     identityId: clientIdentityId,
     identityType: identityType,
-    translate: getMessages(state)
+    translate: getMessages(state),
+    selectedExchange
   }
 }
-export default connect(mapStateToProps)(Home)
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({
+    setExchange: setExchangeActions.setSelectedExchange
+  }, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

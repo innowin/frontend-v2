@@ -3,7 +3,7 @@ const base = (state, action) => {
 
 const success = (state, action) => {
   const {certificateId} = action.payload || {}
-  const {client} = state
+  const client = {...state.client}
   const previousCertificate = (client && client.certificates) || []
 
   const newDeletedCertificates = previousCertificate.filter(id => id !== certificateId);

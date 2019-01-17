@@ -7,7 +7,7 @@ const success = (state, action) => {
     followOwnerIdentity,
     // followOwnerType
   } = action.payload || {}
-  const {client} = state
+  const client = {...state.client}
   const previousFollows = (client && client.social && client.social.follows) || []
 
   const arrayOfFollowersId = []

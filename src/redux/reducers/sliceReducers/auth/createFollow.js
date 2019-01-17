@@ -3,7 +3,7 @@ const base = (state, action) => {
 
 const success = (state, action) => {
   const {data} = action.payload || {}
-  const {client} = state
+  const client = {...state.client}
   const previousSocial = (client && client.social) || {}
   const previousFollows = (client && client.social && client.social.follows) || []
 

@@ -3,7 +3,7 @@ const base = (state, action) => {
 
 const success = (state, action) => {
   const {productId} = action.payload || {}
-  const {client} = state
+  const client = {...state.client}
   const previousProduct = (client && client.products) || []
 
   const newDeletedProducts = previousProduct.filter(id => id !== productId);

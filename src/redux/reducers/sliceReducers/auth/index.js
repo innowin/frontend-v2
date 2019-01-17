@@ -35,6 +35,7 @@ import updateProfileByProfileId from './updateProfileByProfileId'
 import updateUserByUserId from './updateUserByUserId'
 import setClientPersonMedia from "./setClientPersonMedia"
 import setClientOrganMedia from "./setClientOrganMedia"
+import setSelectedExchange from "./setSelectedExchange"
 
 export default {
   createAbility,
@@ -74,4 +75,5 @@ export default {
   signIn,
   updateProfileByProfileId,
   updateUserByUserId,
+  setSelectedExchange
 }
