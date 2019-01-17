@@ -3,11 +3,18 @@ import {AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip} from "recharts"
 import {PureComponent} from "react"
 import {connect} from "react-redux"
 import {getMessages} from "src/redux/selectors/translateSelector"
-import {QuestionMark, OffersSvg, DemandIcon, SupplyIcon, Stream} from "src/images/icons"
+import {
+  QuestionMark,
+  // OffersSvg,
+  DemandIcon,
+  SupplyIcon,
+  Stream
+} from "src/images/icons"
+import Constants from "src/consts/constants"
 
-const SUPPLY = "عرضه"
-const DEMAND = "تقاضا"
-const MEMBERS = "اعضا"
+const SUPPLY = Constants.STATISTICS.SUPPLY
+const DEMAND = Constants.STATISTICS.DEMAND
+const MEMBERS = Constants.STATISTICS.MEMBERS
 
 const data = [
   {name: "آبان", [SUPPLY]: 40, [DEMAND]: 85, [MEMBERS]: 45},
@@ -66,13 +73,13 @@ class StatisticView extends PureComponent {
               </div>
 
               {/*<div className={"statistics-numbers-frame"}>*/}
-                {/*<span style={{paddingTop: "1px"}}>*/}
-                {/*<OffersSvg svgClass={"svg-info-view"} width="22px" height="22px"/>*/}
-                {/*</span>*/}
-                {/*<span>*/}
-                  {/*<div className={"statistics-number"}> 1372 </div>*/}
-                  {/*<div className={"statistics-inactive-text"}> تعداد کل پیشنهاده </div>*/}
-                {/*</span>*/}
+              {/*<span style={{paddingTop: "1px"}}>*/}
+              {/*<OffersSvg svgClass={"svg-info-view"} width="22px" height="22px"/>*/}
+              {/*</span>*/}
+              {/*<span>*/}
+              {/*<div className={"statistics-number"}> 1372 </div>*/}
+              {/*<div className={"statistics-inactive-text"}> تعداد کل پیشنهاده </div>*/}
+              {/*</span>*/}
               {/*</div>*/}
 
               <div className={"statistics-numbers-frame"}>

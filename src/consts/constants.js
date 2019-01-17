@@ -79,5 +79,10 @@ export default {
     SUCCESS: 'SUCCESS',
     OK: 'OK',
     CODE_SENDED: 'code sended',
+  },
+  STATISTICS: {
+    SUPPLY: "عرضه",
+    DEMAND: "تقاضا",
+    MEMBERS: "اعضا"
   }
 }
