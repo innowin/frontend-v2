@@ -1,7 +1,6 @@
 // @flow
 import * as React from 'react'
 import Select from 'react-select';
-import {LAYER1S} from "../../pages/adding-contribution/addingConributionData";
 
 
 type OptionType = {

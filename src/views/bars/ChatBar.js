@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 // import {Link} from "react-router-dom"
 // import FontAwesome from "react-fontawesome"
 // import {userInfoIcon, workExperienceIcon, postIcon} from "src/images/icons"
-import {default as ChatWrapper} from "./ChatBar/ChatParts"
+// import {default as ChatWrapper} from "./ChatBar/ChatParts"
 // import NavLink from "react-router-dom/es/NavLink";
 
 // class MainChatBar extends Component {

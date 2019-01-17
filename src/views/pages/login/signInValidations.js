@@ -7,10 +7,10 @@ export const asyncValidateSignIn = (...validationArguments) => {
     checkUsername(username, resolve, reject)
   })
   return promise.then((res) => {
-      if (res === 0) {
-        throw {username: translator['This username does not exist']}
+        if (res === 0) {
+          throw Object({username: translator['This username does not exist']})
+        }
       }
-    }
   )
 }
 
@@ -24,7 +24,8 @@ export const validateSignInForm = (...validationArguments) => {
     if (!values[field]) {
       errors[field] = true
       requiredErrors.push(true)
-    } else {
+    }
+    else {
       requiredErrors.push(false)
     }
     (requiredErrors.includes(true)) ? (errors._error = translator['Fill required fields']) : (errors._error = "")

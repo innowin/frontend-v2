@@ -1,9 +1,8 @@
 // @flow
 import * as React from "react";
 import PropTypes from "prop-types";
-import {CategoryTitle, FrameCard, ListGroup} from "../../common/cards/Frames";
+import {FrameCard, ListGroup} from "../../common/cards/Frames";
 import {Component} from "react";
-
 import CertificateContainer from './CertificateContainer'
 import connect from "react-redux/es/connect/connect";
 import {bindActionCreators} from "redux";
@@ -101,7 +100,7 @@ export class Index extends Component<PropsCertificates, StateCertificates> {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
     translate: state.intl.messages,
   }

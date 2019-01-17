@@ -1,5 +1,5 @@
 import * as React from "react"
-import {AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip} from "recharts"
+import {AreaChart, Area, XAxis, CartesianGrid, Tooltip} from "recharts"
 import {PureComponent} from "react"
 import {connect} from "react-redux"
 import {getMessages} from "src/redux/selectors/translateSelector"

@@ -117,7 +117,8 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       height = self.text.clientHeight
       if (this.props.post.post_description && new RegExp('^[A-Za-z]*$').test(this.props.post.post_description[0])) {
         self.text.style.paddingRight = '60px'
-      } else self.text.style.paddingLeft = '60px'
+      }
+      else self.text.style.paddingLeft = '60px'
       self.text.style.height = '68px'
       showMore = true
     }
@@ -149,7 +150,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       if (extendedView) {
         const {actions, match} = this.props
         const {params, url} = match
-        const {getPost, getPostViewerCount, setPostViewer, getCommentsByParentId} = actions
+        const {getPost, getCommentsByParentId} = actions
         const postId = +params.id
         const isUser = !url.includes('org')
         const postOwnerType = isUser ? constants.USER_TYPES.PERSON : constants.USER_TYPES.ORG
@@ -160,7 +161,8 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
         // setPostViewer(postId, getPostViewerCount)
         getCommentsByParentId({parentId: postId, commentParentType: constants.COMMENT_PARENT.POST})
         getFileByFileRelatedParentId({fileRelatedParentId: postId, fileParentType: constants.FILE_PARENT.POST})
-      } else {
+      }
+      else {
         this._getViewerCount()
         getFileByFileRelatedParentId({fileRelatedParentId: post.id, fileParentType: constants.FILE_PARENT.POST})
       }
@@ -175,8 +177,8 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
         // Phone Reg
         let first = new RegExp('(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{4}[)]?))')
-        let second = new RegExp('([-\s\.]?[0-9]{3})')
-        let third = new RegExp('([-\s\.]?[0-9]{3,4})')
+        let second = new RegExp('([-]?[0-9]{3})')
+        let third = new RegExp('([-]?[0-9]{3,4})')
 
         for (let i = 0; i < allWords.length; i++) {
           let word = allWords[i].trim()
@@ -185,13 +187,17 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                 self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a title=` + word + ` target=_blank href=` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word} </a>`)
                 :
                 self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a title=` + word + ` target=_blank href=http://` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-          } else if (word[0] === '@' && word.length >= 6 && !word.substring(1, word.length).includes('@')) {
+          }
+          else if (word[0] === '@' && word.length >= 6 && !word.substring(1, word.length).includes('@')) {
             self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=` + word.slice(1, word.length) + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-          } else if (word[0] === '#' && word.length >= 3 && !word.substring(1, word.length).includes('#')) {
+          }
+          else if (word[0] === '#' && word.length >= 3 && !word.substring(1, word.length).includes('#')) {
             self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-          } else if (mailExp.test(word)) {
+          }
+          else if (mailExp.test(word)) {
             self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=mailto:` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-          } else if (!isNaN(word.replace(/\\+/g, '')) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
+          }
+          else if (!isNaN(word.replace(/\\+/g, '')) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
             // don't touch it !
             word.includes('+') ?
                 self.text.innerHTML = self.text.innerHTML.replace(new RegExp(`\\${word}`, 'g'), `<a href=tel:` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
@@ -244,9 +250,9 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
   _openMenu(e) {
     e.preventDefault()
-    const {post, actions} = this.props
-    const {setPostViewer, getPostViewerCount} = actions
-    const postId = post.id
+    // const {post, actions} = this.props
+    // const {setPostViewer, getPostViewerCount} = actions
+    // const postId = post.id
     // setPostViewer(postId, getPostViewerCount)
     this.setState({...this.state, menuToggle: !this.state.menuToggle})
   }
@@ -263,21 +269,21 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   _getViewerCount = () => {
-    const {post, actions} = this.props
-    const {getPostViewerCount} = actions
-    const postId = post.id
+    // const {post, actions} = this.props
+    // const {getPostViewerCount} = actions
+    // const postId = post.id
     // getPostViewerCount(postId)
   }
 
-  createComment = (commentTextField) => {
-    if (commentTextField && commentTextField.value) {
-      const {actions, post, commentParentType} = this.props
-      const {createComment} = actions
-      const formValues = {text: commentTextField.value, comment_parent: post.id}
-      createComment({formValues, parentId: post.id, commentParentType})
-      commentTextField.value = ''
-    }
-  }
+  // createComment = (commentTextField) => {
+  //   if (commentTextField && commentTextField.value) {
+  //     const {actions, post, commentParentType} = this.props
+  //     const {createComment} = actions
+  //     const formValues = {text: commentTextField.value, comment_parent: post.id}
+  //     createComment({formValues, parentId: post.id, commentParentType})
+  //     commentTextField.value = ''
+  //   }
+  // }
 
   _setCommentOn = (comment) => {
     this.setState({...this.state, commentOn: comment, showComment: true})
@@ -339,7 +345,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   render() {
     const self: any = this
 
-    const {post, translate, postIdentity, postRelatedIdentityImage, userImage, extendedView, showEdit, comments, fileList, commentParentType} = this.props
+    const {post, translate, postIdentity, postRelatedIdentityImage, extendedView, showEdit, comments, fileList, commentParentType} = this.props
     const {menuToggle, confirm, pictureLoaded, showComment, commentOn} = this.state
     let postDescription, postPicture, postPictureId, postIdentityUserId, postIdentityOrganId, postOwnerId = 0
 
@@ -382,21 +388,23 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                   post.post_type !== constants.POST.POST_TYPE.POST &&
                   <PostType translate={translate} post={post}/>
                 }
-                <PostHeader post={post} translate={translate} postIdentity={postIdentity}
-                            postRelatedIdentityImage={postRelatedIdentityImage} showEdit={showEdit}
-                            extendedView={extendedView}/>
-                <div className='post-content'
-                     style={new RegExp('^[A-Za-z]*$').test(postDescription && postDescription[0]) ? {direction: 'ltr'} : {direction: 'rtl'}}
-                     ref={e => self.text = e}>
-                  {postDescription}
-                </div>
-                <div className={this.state.showMore ? 'post-content-more' : 'post-content-more-hide'}
-                     style={new RegExp('^[A-Za-z]*$').test(postDescription && postDescription[0]) ?
-                         {right: '10px'} :
-                         {left: '10px'}}
-                     onClick={this._readMore}>
-                  ادامه
-                  <div className='post-content-more-sign'>«</div>
+                <div className='post-view-relative'>
+                  <PostHeader post={post} translate={translate} postIdentity={postIdentity}
+                              postRelatedIdentityImage={postRelatedIdentityImage} showEdit={showEdit}
+                              extendedView={extendedView}/>
+                  <div className='post-content'
+                       style={new RegExp('^[A-Za-z]*$').test(postDescription && postDescription[0]) ? {direction: 'ltr'} : {direction: 'rtl'}}
+                       ref={e => self.text = e}>
+                    {postDescription}
+                  </div>
+                  <div className={this.state.showMore ? 'post-content-more' : 'post-content-more-hide'}
+                       style={new RegExp('^[A-Za-z]*$').test(postDescription && postDescription[0]) ?
+                           {right: '10px'} :
+                           {left: '10px'}}
+                       onClick={this._readMore}>
+                    ادامه
+                    <div className='post-content-more-sign'>«</div>
+                  </div>
                 </div>
 
                 {
@@ -513,7 +521,8 @@ const mapStateToProps = (state, ownProps) => {
       comments: userCommentsSelector(state, ownProps),
       fileList: state.common.file.list
     }
-  } else {
+  }
+  else {
     const {post} = ownProps
     const postIdentity = post && post.post_identity
     const prevUserImageId = (state.auth.organization && state.auth.organization.organization_logo) || state.auth.client.profile.profile_media
@@ -536,7 +545,7 @@ const mapDispatchToProps = dispatch => ({
     getCommentsByParentId: CommentActions.getCommentsByParentId,
     createComment: CommentActions.createComment,
     deleteComment: CommentActions.deleteComment,
-    getFileByFileRelatedParentId: FileActions.getFileByFileRelatedParentId,
+    getFileByFileRelatedParentId: FileActions.getFileByFileRelatedParentId
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(PostView)

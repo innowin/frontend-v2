@@ -51,10 +51,10 @@ class StickersMenu extends Component {
               }
             </div>
             <div className='stickers-menu-tabs'>
-              <div className={this.state.tab === 'first' ? 'stickers-menu-tab-select' : 'stickers-menu-tab'} id='first' onClick={this.handleTab}>😀</div>
-              <div className={this.state.tab === 'second' ? 'stickers-menu-tab-select' : 'stickers-menu-tab'} id='second' onClick={this.handleTab}>👍🏼</div>
-              <div className={this.state.tab === 'third' ? 'stickers-menu-tab-select' : 'stickers-menu-tab'} id='third' onClick={this.handleTab}>🎈</div>
-              <div className={this.state.tab === 'forth' ? 'stickers-menu-tab-select' : 'stickers-menu-tab'} id='forth' onClick={this.handleTab}>❤</div>
+              <div className={this.state.tab === 'first' ? 'stickers-menu-tab-select' : 'stickers-menu-tab'} id='first' onClick={this.handleTab}><span role='img' aria-label=''>😀</span></div>
+              <div className={this.state.tab === 'second' ? 'stickers-menu-tab-select' : 'stickers-menu-tab'} id='second' onClick={this.handleTab}><span role='img' aria-label=''>👍🏼</span></div>
+              <div className={this.state.tab === 'third' ? 'stickers-menu-tab-select' : 'stickers-menu-tab'} id='third' onClick={this.handleTab}><span role='img' aria-label=''>🎈</span></div>
+              <div className={this.state.tab === 'forth' ? 'stickers-menu-tab-select' : 'stickers-menu-tab'} id='forth' onClick={this.handleTab}><span role='img' aria-label=''>❤</span></div>
             </div>
           </div>
         </div>

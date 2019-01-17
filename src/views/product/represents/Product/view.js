@@ -3,18 +3,18 @@ import * as React from 'react'
 import {Component} from 'react'
 import PropTypes from 'prop-types'
 import {CustomImage} from '../../../common/CustomImage'
-import {ItemWrapper,} from "../../../common/cards/Frames"
-import {postIcon} from "src/images/icons"
+// import {ItemWrapper,} from "../../../common/cards/Frames"
+// import {postIcon} from "src/images/icons"
 import type {ProductType, CategoryType} from "src/consts/flowTypes/product/productTypes"
 import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 
-type ProductItemWrapperProps = {
-    children: React.Node
-}
-const ProductItemWrapper = (props: ProductItemWrapperProps) => {
-    const {children} = props
-    return <ItemWrapper icon={postIcon}>{children}</ItemWrapper>
-}
+// type ProductItemWrapperProps = {
+//     children: React.Node
+// }
+// const ProductItemWrapper = (props: ProductItemWrapperProps) => {
+//     const {children} = props
+//     return <ItemWrapper icon={postIcon}>{children}</ItemWrapper>
+// }
 type PictureType = {
     picture_media: {}
 }
@@ -33,7 +33,7 @@ const ProductView = (props: ProductViewProps) => {
     if(Object.keys(product).length === 0 && product.constructor === Object)
         return <span/>
 
-    const currentCategory = categories.find(c => (c.id == product.product_category)) || {title:""}
+    const currentCategory = categories.find(c => (parseInt(c.id,10) === parseInt(product.product_category,10))) || {title:""}
 
 
     return (

@@ -50,7 +50,7 @@ export function* getProfileByUserId(action) {
 }
 
 export function* getUsers(action) {
-  const {payload} = action
+  // const {payload} = action
   let socketChannel
   try {
     socketChannel = yield call(api.createSocketChannel, results.USER.GET_USERS)

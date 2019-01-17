@@ -11,7 +11,7 @@ function* createProductAsContribution(action) { // payload: { formData: {} }
   const {formData} = action.payload
   // the galleryItems should be empty Array by default.
   // the payload may has galleryVideo but hasn't galleyImages
-  const {product, certificates, galleryImages = [], galleryVideo, tags, mainGalleryImageIndex} = formData
+  const {product, certificates, galleryImages = [], galleryVideo, tags} = formData
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.CREATE_PRODUCT)
   const state = yield select()
   const translate = state.intl.messages

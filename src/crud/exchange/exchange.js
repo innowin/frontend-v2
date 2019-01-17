@@ -1,6 +1,6 @@
 import {REST_URL as url, SOCKET as socket} from "../../consts/URLS"
 import {REST_REQUEST} from "../../consts/Events"
-import client from "src/consts/client"
+// import client from "src/consts/client"
 
 const token = 'client.getToken()'
 //added type - action added -  saga added

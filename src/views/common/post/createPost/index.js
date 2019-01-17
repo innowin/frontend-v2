@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { bindActionCreators } from "redux"
@@ -23,14 +24,13 @@ import StickersMenu from "../../components/StickersMenu"
 import AddProductModal from "./addProductModal"
 import ProductInfoView from "../../contributions/ProductInfoView"
 
-
 const POST_MEDIA_TEMP_KEY = "POST_MEDIA"
 const POST_FILE_TEMP_KEY = "POST_FILE"
 const POST_IMG1_TEMP_KEY = "POST_IMG1"
 const POST_IMG2_TEMP_KEY = "POST_IMG2"
 const POST_IMG3_TEMP_KEY = "POST_IMG3"
 
-const minAllowedWordCounts = 5 // TODO should be 3
+const minAllowedWordCounts = 5 // TODO: Mohsen should be 3
 const maxAllowedWordCounts = 4096
 
 
@@ -256,8 +256,7 @@ class CreatePost extends Component {
     }
   }
 
-  _handleShiftEnter = (e) => {
-
+  _handleCtrlEnter = (e) => {
     if (this.text.innerText.length > maxAllowedWordCounts) this.text.innerText = this.state.description
     else if (e.keyCode === 17 || e.keyCode === 13) {
       let keys = this.state.keys.slice()
@@ -528,7 +527,7 @@ class CreatePost extends Component {
                   }
                   onBlur={this._handleBlurText}
                   onFocus={this._handleFocusText}
-                  onKeyDown={this._handleShiftEnter}
+                  onKeyDown={this._handleCtrlEnter}
                   onKeyUp={this._autoGrow}
               />
 

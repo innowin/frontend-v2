@@ -1,8 +1,6 @@
 // @flow
 import * as React from 'react'
 import Tip from "../../../common/Text/Tip"
-import Select from 'react-select'
-import type {TagAsOptionType} from "../../adding-contribution/types";
 import Input from "../../../common/inputs/StateLessTextInput"
 import Image from "../../../common/image/visibleOnLoadImage"
 import type {ActType} from "../../../common/BtnBar/BtnBar";

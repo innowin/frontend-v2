@@ -1,20 +1,14 @@
 // @flow
 import * as React from "react"
 import {Component} from "react"
-import TopBar from "../bars/TopBar"
-import ChatBar from "../bars/ChatBar"
 import PropTypes from "prop-types"
 import ExchangeViewBar from "../bars/ExchangeViewBar"
-import ExchangePosts from "./ExchangeView/posts/index"
-import Exchange_Tabs from "./ExchangeView/Exchange_Tabs"
+import ExchangeTabs from "./ExchangeView/Exchange_Tabs"
 import {bindActionCreators} from "redux"
-import ExchangeMembershipActions from "../../redux/actions/commonActions/exchangeMembershipActions"
 import exchangeActions from "../../redux/actions/exchangeActions"
 import connect from "react-redux/es/connect/connect"
 import postActions from "../../redux/actions/commonActions/postActions"
-import {Helmet} from "react-helmet"
-import constants from "../../consts/constants"
-import {getMessages} from "../../redux/selectors/translateSelector"
+
 
 type PropsExchangeView = {|
   match: { params: Object },
@@ -38,7 +32,7 @@ class ExchangeView extends Component <PropsExchangeView> {
     // const {translate} = this.props
     const {params} = this.props.match
     const exchangeId = +params.id
-    const widthOfRightBar = "col-md-2 col-sm-1"
+    // const widthOfRightBar = "col-md-2 col-sm-1"
     // const title = `${translate['InnoWin']} - ${translate['Exchange']}`
     // const description = `${translate['Exchange']}`
     return (
@@ -60,7 +54,7 @@ class ExchangeView extends Component <PropsExchangeView> {
             <div className={`exchange-view-sidebar`}>
               <ExchangeViewBar exchangeId={exchangeId}/>
             </div>
-            <Exchange_Tabs exchangeId={exchangeId}/>
+            <ExchangeTabs exchangeId={exchangeId}/>
           </main>
         </div>
     )

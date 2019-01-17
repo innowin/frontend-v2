@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
 import {Component} from 'react'
-import {InformationIcon, postIcon, CertificateIcon, RatingIcon} from "../../images/icons"
+import {InformationIcon, postIcon, CertificateIcon} from "../../images/icons"
 import ProductPosts from "../product/posts"
 import ProductBasicInformation from "../product/basicInformation"
 import ProductCertificates from "../product/certificates"

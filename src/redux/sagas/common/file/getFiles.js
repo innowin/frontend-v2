@@ -1,8 +1,7 @@
 import api from "src/consts/api"
 import results from "src/consts/resultName"
 import urls from "src/consts/URLS"
-import {call, fork, take, put} from "redux-saga/effects"
-import types from "src/redux/actions/types"
+import {call, fork, take} from "redux-saga/effects"
 
 
 export default function* getFiles(action) {
@@ -12,7 +11,7 @@ export default function* getFiles(action) {
   const socketChannel = yield call(api.createSocketChannel, resultName)
   try {
     yield fork(api.get, urls.COMMON.FILE, resultName, query)
-    const data = yield take(socketChannel)
+    yield take(socketChannel)
     // yield put({type: types.SUCCESS.COMMON.FILE.GET_FILE, payload: {data}})
   } catch (e) {
     // const {message} = e

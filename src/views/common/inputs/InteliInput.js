@@ -7,7 +7,8 @@ class InteliInput extends Component {
   static propTypes = {
     list: PropTypes.arrayOf(Object).isRequired,
     handleChange: PropTypes.func.isRequired,
-    className: PropTypes.string
+    className: PropTypes.string,
+    noCheck: PropTypes.bool
   }
 
   constructor(props) {
@@ -97,29 +98,35 @@ class InteliInput extends Component {
   }
 
   _handleBlur(e) {
-    const {mouseInMenu} = this.state
-    if (!mouseInMenu) {
-      if (this.text && this.text.innerText !== "مورد مشابهی یافت نشد!") {
-        if (e.target.innerText !== "") {
-          const {list} = this.state
-          for (let i = 0; i < list.length; i++) {
-            if (list[i] === e.target.innerText) {
-              const {handleChange} = this.props
-              const {list, ids} = this.state
-              handleChange({name: e.target.innerText, id: ids[list.indexOf(e.target.innerText)]})
-              this.setState({...this.state, found: []})
-              break
-            } else if (i === list.length - 1) {
-              this.text.innerText = ""
-              this.setState({...this.state, found: []})
+    let {mouseInMenu} = this.state
+    let {noCheck} = this.props
+    if (noCheck === undefined) {
+      if (!mouseInMenu) {
+        if (this.text && this.text.innerText !== "مورد مشابهی یافت نشد!") {
+          if (e.target.innerText !== "") {
+            const {list} = this.state
+            for (let i = 0; i < list.length; i++) {
+              if (list[i] === e.target.innerText) {
+                const {handleChange} = this.props
+                const {list, ids} = this.state
+                handleChange({name: e.target.innerText, id: ids[list.indexOf(e.target.innerText)]})
+                this.setState({...this.state, found: []})
+                break
+              } else if (i === list.length - 1) {
+                this.text.innerText = ""
+                this.setState({...this.state, found: []})
+              }
             }
+          } else {
+            this.setState({...this.state, found: []})
           }
         } else {
           this.setState({...this.state, found: []})
         }
-      } else {
-        this.setState({...this.state, found: []})
       }
+    } else {
+      let {handleChange} = this.props
+      handleChange({name: e.target.innerText, id: 0})
     }
   }
 
