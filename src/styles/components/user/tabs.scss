@@ -43,6 +43,78 @@
     //border: 2px solid $post-hover-border-color;
   }
 
+  .pictures-section {
+    display: flow-root;
+    margin-bottom: 18px;
+
+    .image-container {
+      position: relative;
+
+      img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    &.onePicture {
+      height: 340px;
+
+      .image-container {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    &.twoPictures {
+      height: 290px;
+
+      .image-container {
+        width: 50%;
+        height: 100%;
+
+        &:nth-child(1) {
+          float: right;
+          border-left: 0.75px white solid;
+        }
+
+        &:nth-child(2) {
+          float: left;
+          border-right: 0.75px white solid;
+        }
+      }
+    }
+
+    &.threePictures {
+      height: 260px;
+
+      .image-container {
+        &:nth-child(1) {
+          width: 66.5%;
+          float: right;
+          border-left: 0.75px white solid;
+          height: 100%;
+        }
+
+        &:nth-child(2) {
+          width: 33.5%;
+          float: left;
+          height: 50%;
+          border-right: 0.75px white solid;
+          border-bottom: 1px white solid;
+        }
+
+        &:nth-child(3) {
+          width: 33.5%;
+          float: left;
+          height: 50%;
+          border-right: 0.5px white solid;
+          border-top: 1px white solid;
+        }
+      }
+    }
+  }
+
   .post-view-product-container {
     margin: 15px;
   }

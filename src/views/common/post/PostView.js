@@ -3,21 +3,20 @@ import * as React from 'react'
 import PropTypes from 'prop-types'
 import 'moment/locale/fa'
 
-import {DefaultImage} from 'src/images/icons'
 import {CategoryTitle, VerifyWrapper} from 'src/views/common/cards/Frames'
 import connect from 'react-redux/es/connect/connect'
-import {getMessages} from '../../../redux/selectors/translateSelector'
+import {getMessages} from 'src/redux/selectors/translateSelector'
 import {bindActionCreators} from 'redux'
-import PostActions from '../../../redux/actions/commonActions/postActions'
-import type {postType} from '../../../consts/flowTypes/common/post'
-import type {paramType} from '../../../consts/flowTypes/paramType'
-import constants from '../../../consts/constants'
-import type {identityType} from '../../../consts/flowTypes/user/basicInformation'
-import type {fileType} from '../../../consts/flowTypes/common/fileType'
-import FileActions from '../../../redux/actions/commonActions/fileActions'
-import CommentActions from '../../../redux/actions/commonActions/commentActions'
+import PostActions from 'src/redux/actions/commonActions/postActions'
+import type {postType} from 'src/consts/flowTypes/common/post'
+import type {paramType} from 'src/consts/flowTypes/paramType'
+import constants from 'src/consts/constants'
+import type {identityType} from 'src/consts/flowTypes/user/basicInformation'
+import type {fileType} from 'src/consts/flowTypes/common/fileType'
+import FileActions from 'src/redux/actions/commonActions/fileActions'
+import CommentActions from 'src/redux/actions/commonActions/commentActions'
 import {userCommentsSelector} from 'src/redux/selectors/common/comment/postCommentsSelector'
-import type {commentType} from '../../../consts/flowTypes/common/comment'
+import type {commentType} from 'src/consts/flowTypes/common/comment'
 import PostHeader from './PostHeader'
 import PostType from './PostType'
 import PostFooter from './PostFooter'
@@ -25,11 +24,10 @@ import PostComments from './PostComments'
 import {Confirm} from '../cards/Confirm'
 import ProductInfoView from '../contributions/ProductInfoView'
 import PostCommentNew from './PostCommentNew'
+import PostImage from './PostImage'
 
 type postExtendedViewProps = {
   actions: {
-    setPostViewer: Function,
-    getPostViewerCount: Function,
     getPost: Function,
     getFile: Function,
     getCommentsByParentId: Function,
@@ -60,11 +58,10 @@ type postExtendedViewProps = {
 type postViewState = {
   menuToggle: boolean,
   confirm: boolean,
-  pictureLoaded: null | boolean,
   showComment: boolean,
   commentOn: commentType,
   showMore: boolean,
-  descriptionHeight: ?number
+  descriptionHeight: ?number,
 }
 
 class PostView extends React.Component<postExtendedViewProps, postViewState> {
@@ -81,24 +78,20 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     comments: PropTypes.array,
     fileList: PropTypes.array
   }
-  commentTextField: ?HTMLInputElement
 
   constructor(props) {
     super(props)
     this.state = {
       menuToggle: false,
       confirm: false,
-      pictureLoaded: null,
       showComment: false,
       commentOn: undefined,
       showMore: false,
-      descriptionHeight: null
+      descriptionHeight: null,
     }
 
     const self: any = this
 
-    self.commentTextField = null
-    self.handleRetry = this.handleRetry.bind(this)
     self._delete = this._delete.bind(this)
     self._showConfirm = this._showConfirm.bind(this)
     self._cancelConfirm = this._cancelConfirm.bind(this)
@@ -117,8 +110,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       height = self.text.clientHeight
       if (this.props.post.post_description && new RegExp('^[A-Za-z]*$').test(this.props.post.post_description[0])) {
         self.text.style.paddingRight = '60px'
-      }
-      else self.text.style.paddingLeft = '60px'
+      } else self.text.style.paddingLeft = '60px'
       self.text.style.height = '68px'
       showMore = true
     }
@@ -128,25 +120,6 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       const {extendedView, post, actions} = this.props
       const {getFileByFileRelatedParentId} = actions
 
-      if ((post && post.post_picture) || (post && post.post_picture_array)) {
-        const {post, extendedView, fileList} = this.props
-        let postPicture, postPictureId
-        if (post) {
-          postPicture = (post.post_picture) || (post.post_picture_array && post.post_picture_array.length > 0 && post.post_picture_array[0])
-          postPictureId = post.post_picture
-        }
-        let picture = new Image()
-
-        picture.src = post && post.post_picture_array
-            ? (postPicture && postPicture.file ? postPicture.file : '')
-            : (!extendedView ? (postPicture ? postPicture.file : '') : (postPictureId ? (fileList[postPictureId] ? fileList[postPictureId].file : '') : ''))
-        picture.onload = () => {
-          this.setState({...this.state, pictureLoaded: true})
-        }
-        picture.onerror = () => {
-          this.setState({...this.state, pictureLoaded: false})
-        }
-      }
       if (extendedView) {
         const {actions, match} = this.props
         const {params, url} = match
@@ -158,12 +131,9 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
         const postOwnerId = +spliced[2]
 
         getPost({postId, postOwnerType, postOwnerId})
-        // setPostViewer(postId, getPostViewerCount)
         getCommentsByParentId({parentId: postId, commentParentType: constants.COMMENT_PARENT.POST})
         getFileByFileRelatedParentId({fileRelatedParentId: postId, fileParentType: constants.FILE_PARENT.POST})
-      }
-      else {
-        this._getViewerCount()
+      } else {
         getFileByFileRelatedParentId({fileRelatedParentId: post.id, fileParentType: constants.FILE_PARENT.POST})
       }
 
@@ -187,17 +157,13 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                 self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a title=` + word + ` target=_blank href=` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word} </a>`)
                 :
                 self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a title=` + word + ` target=_blank href=http://` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-          }
-          else if (word[0] === '@' && word.length >= 6 && !word.substring(1, word.length).includes('@')) {
+          } else if (word[0] === '@' && word.length >= 6 && !word.substring(1, word.length).includes('@')) {
             self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=` + word.slice(1, word.length) + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-          }
-          else if (word[0] === '#' && word.length >= 3 && !word.substring(1, word.length).includes('#')) {
+          } else if (word[0] === '#' && word.length >= 3 && !word.substring(1, word.length).includes('#')) {
             self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-          }
-          else if (mailExp.test(word)) {
+          } else if (mailExp.test(word)) {
             self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=mailto:` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-          }
-          else if (!isNaN(word.replace(/\\+/g, '')) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
+          } else if (!isNaN(word.replace(/\\+/g, '')) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
             // don't touch it !
             word.includes('+') ?
                 self.text.innerHTML = self.text.innerHTML.replace(new RegExp(`\\${word}`, 'g'), `<a href=tel:` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
@@ -208,8 +174,6 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       }
 
     })
-
-
     document.addEventListener('click', this._handleClickOutMenuBox)
   }
 
@@ -221,39 +185,12 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     }
   }
 
-  componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
-    if (this.props.post !== nextProps.post) {
-      const {post, extendedView, fileList} = nextProps
-      if ((post && post.post_picture) || (post && post.post_picture_array)) {
-        let postPicture, postPictureId
-        if (post) {
-          postPicture = (post.post_picture) || (post.post_picture_array && post.post_picture_array.length > 0 && post.post_picture_array[0])
-          postPictureId = post.post_picture
-        }
-        let picture = new Image()
-        picture.src = post && post.post_picture_array
-            ? (postPicture && postPicture.file ? postPicture.file : '')
-            : (!extendedView ? (postPicture ? postPicture.file : '') : (postPictureId ? (fileList[postPictureId] ? fileList[postPictureId].file : '') : ''))
-        picture.onload = () => {
-          this.setState({...this.state, pictureLoaded: true})
-        }
-        picture.onerror = () => {
-          this.setState({...this.state, pictureLoaded: false})
-        }
-      }
-    }
-  }
-
   componentWillUnmount() {
     document.removeEventListener('click', this._handleClickOutMenuBox)
   }
 
   _openMenu(e) {
     e.preventDefault()
-    // const {post, actions} = this.props
-    // const {setPostViewer, getPostViewerCount} = actions
-    // const postId = post.id
-    // setPostViewer(postId, getPostViewerCount)
     this.setState({...this.state, menuToggle: !this.state.menuToggle})
   }
 
@@ -267,23 +204,6 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       this.setState({...this.state, menuToggle: false})
     }
   }
-
-  _getViewerCount = () => {
-    // const {post, actions} = this.props
-    // const {getPostViewerCount} = actions
-    // const postId = post.id
-    // getPostViewerCount(postId)
-  }
-
-  // createComment = (commentTextField) => {
-  //   if (commentTextField && commentTextField.value) {
-  //     const {actions, post, commentParentType} = this.props
-  //     const {createComment} = actions
-  //     const formValues = {text: commentTextField.value, comment_parent: post.id}
-  //     createComment({formValues, parentId: post.id, commentParentType})
-  //     commentTextField.value = ''
-  //   }
-  // }
 
   _setCommentOn = (comment) => {
     this.setState({...this.state, commentOn: comment, showComment: true})
@@ -316,26 +236,11 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     deleteComment({commentId: comment.id, parentId: post.id, commentParentType})
   }
 
-  handleRetry() {
-    this.setState({...this.state, pictureLoaded: null}, () => {
-      const {post} = this.props
-      if (post && post.post_picture) {
-        let picture = new Image()
-        picture.src = post.post_picture.file
-        picture.onload = () => {
-          this.setState({...this.state, pictureLoaded: true})
-        }
-        picture.onerror = () => {
-          this.setState({...this.state, pictureLoaded: false})
-        }
-      }
-    })
-  }
-
   _readMore() {
     this.setState({...this.state, showMore: false}, () => {
+      const {descriptionHeight} = this.state
       const self: any = this
-      self.text.style.height = this.state.descriptionHeight + 'px'
+      self.text.style.height = descriptionHeight && descriptionHeight + 'px'
       self.text.style.paddingRight = '0'
       self.text.style.paddingLeft = '0'
     })
@@ -345,31 +250,19 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   render() {
     const self: any = this
 
-    const {post, translate, postIdentity, postRelatedIdentityImage, extendedView, showEdit, comments, fileList, commentParentType} = this.props
-    const {menuToggle, confirm, pictureLoaded, showComment, commentOn} = this.state
-    let postDescription, postPicture, postPictureId, postIdentityUserId, postIdentityOrganId, postOwnerId = 0
+    const {
+      post, translate, postIdentity, postRelatedIdentityImage, extendedView, showEdit, comments, fileList,
+      commentParentType, userImage, userImageId
+    } = this.props
+    const {menuToggle, confirm, showComment, commentOn} = this.state
+    let postDescription = '', postIdentityUserId, postIdentityOrganId, postOwnerId = 0
 
     if (post) {
       postDescription = post.post_description
-      postPicture = post.post_picture
-      postPictureId = post.post_picture
       postIdentityUserId = post.post_identity.identity_user && post.post_identity.identity_user.id
       postIdentityOrganId = post.post_identity.identity_organization && post.post_identity.identity_organization.id
       postOwnerId = postIdentityUserId || postIdentityOrganId
     }
-    const postImageUrl =
-        post.post_picture_array && post.post_picture_array.length && post.post_picture_array.length > 0
-            ? (post.post_picture_array[0].file)
-            : (
-                !extendedView ?
-                    (postPicture ? postPicture.file : null)
-                    : (postPictureId ? (fileList[postPictureId] ? fileList[postPictureId].file : null) : null)
-            )
-    // console.log("IMAGS",postImageUrl)
-
-    // if (postPicture && pictureLoaded) {
-    //   this.picture.className = 'post-image-container-effect'
-    // }
 
     return (
         confirm
@@ -407,49 +300,8 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                   </div>
                 </div>
 
-                {
-                  postImageUrl ?
-                      !extendedView ?
-                          <div className={'post-image-container'}>
-                            <div
-                                className={pictureLoaded === true ? 'post-image-loading-effect' : 'post-image-loading'}>
-                              <DefaultImage className='default-image'/>
-                              {
-                                pictureLoaded === false ?
-                                    <div className='post-retry-image'>
-                                      مشکل در بارگذاری عکس.
-                                      <span className='post-retry-image-click'
-                                            onClick={this.handleRetry}> تلاش مجدد </span>
-                                    </div>
-                                    :
-                                    <div className='bright-line'/>
-                              }
-                            </div>
-                            <img src={postImageUrl} width={'100%'} alt='عکس پست'
-                                 className={pictureLoaded === true ? 'post-image-effect' : 'post-image'}/>
-                          </div>
-                          :
-                          <div className={'post-image-container'}>
-                            <div
-                                className={pictureLoaded === true ? 'post-image-loading-effect' : 'post-image-loading'}>
-                              <DefaultImage className='default-image'/>
-                              {
-                                pictureLoaded === false ?
-                                    <div className='post-retry-image'>
-                                      مشکل در بارگذاری عکس.
-                                      <span className='post-retry-image-click'
-                                            onClick={this.handleRetry}> تلاش مجدد </span>
-                                    </div>
-                                    :
-                                    <div className='bright-line'/>
-                              }
-                            </div>
-                            <img src={postImageUrl} width={'100%'} alt='عکس پست'
-                                 className={pictureLoaded === true ? 'post-image-effect' : 'post-image'}/>
-                          </div>
-                      : null
-                }
-
+                <PostImage translate={translate} extendedView={extendedView} fileList={fileList} post={post}
+                           userImage={userImage} userImageId={userImageId}/>
                 {post && post.post_related_product &&
                 <div className='post-view-product-container'>
                   <ProductInfoView product={post.post_related_product}
@@ -464,21 +316,6 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                             showComment={this._handleShowComment}
                             showEdit={showEdit}
                 />
-                {/*{
-                 <div className='add-comment'>
-                 <div className="-img-col">
-                 {!userImage
-                 ? (<DefaultUserIcon/>)
-                 : (<img className="rounded-circle object-fit-cover" src={userImage.file} alt=""/>)
-                 }
-                 </div>
-                 <input className='add-comment-text-field' placeholder={translate["Send comment"]}
-                 ref={c => this.commentTextField = c} onClick={() => this.handleClickTextField.bind(this)}/>
-                 <button onClick={() => this.createComment(this.commentTextField)} className='send-comment pulse'>
-                 <PostSendIcon/>
-                 </button>
-                 </div>
-                 }*/}
 
                 {
                   showComment ? <PostCommentNew
@@ -521,8 +358,7 @@ const mapStateToProps = (state, ownProps) => {
       comments: userCommentsSelector(state, ownProps),
       fileList: state.common.file.list
     }
-  }
-  else {
+  } else {
     const {post} = ownProps
     const postIdentity = post && post.post_identity
     const prevUserImageId = (state.auth.organization && state.auth.organization.organization_logo) || state.auth.client.profile.profile_media
@@ -537,8 +373,6 @@ const mapStateToProps = (state, ownProps) => {
 }
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    getPostViewerCount: PostActions.getPostViewerCount,
-    setPostViewer: PostActions.setPostViewer,
     getPost: PostActions.getPost,
     deletePost: PostActions.deletePost,
     getFile: FileActions.getFile,

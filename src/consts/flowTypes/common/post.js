@@ -5,6 +5,7 @@ export type postType = {|
   delete_flag: boolean,
   id: number,
   post_description: string,
+  post_picture_array: [],
   post_identity: {
     id: number,
     created_time: string,
