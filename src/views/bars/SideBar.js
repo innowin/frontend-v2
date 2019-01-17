@@ -30,24 +30,24 @@ const UserSideBarPictureTempKeyName = 'UserSideBarPictureTempKeyName'
 const UserSideBarBannerTempKeyName = 'UserSideBarBannerTempKeyName'
 
 
-const MenuBox = (props) => {
-  const {handleEditProfile, id, editProfile, paramId} = props
-  return (
-      <div className="menu-box pt-0 pb-0" id={id}>
-        <div>
-          <span>اشتراک گذاری نمایه</span>
-          <CheckOwner id={paramId}>
-            <span onClick={handleEditProfile}>{(!editProfile) ? 'ویرایش ویترین' : 'بستن ویرایش ویترین'}</span>
-          </CheckOwner>
-        </div>
-        <div>
-          <span>بی صدا کردن اعلام</span>
-          <span>بلاک</span>
-          <span>گزارش تخلف</span>
-        </div>
-      </div>
-  )
-}
+// const MenuBox = (props) => {
+//   const {handleEditProfile, id, editProfile, paramId} = props
+//   return (
+//       <div className="menu-box pt-0 pb-0" id={id}>
+//         <div>
+//           <span>اشتراک گذاری نمایه</span>
+//           <CheckOwner id={paramId}>
+//             <span onClick={handleEditProfile}>{(!editProfile) ? 'ویرایش ویترین' : 'بستن ویرایش ویترین'}</span>
+//           </CheckOwner>
+//         </div>
+//         <div>
+//           <span>بی صدا کردن اعلام</span>
+//           <span>بلاک</span>
+//           <span>گزارش تخلف</span>
+//         </div>
+//       </div>
+//   )
+// }
 
 export const BadgesCard = (props: { badgesImg: (string)[] }) => {
   return <React.Fragment>
@@ -305,9 +305,9 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     })
   }
 
-  _handleMenu = () => {
-    this.setState({...this.state, menuToggle: !this.state.menuToggle})
-  }
+  // _handleMenu = () => {
+  //   this.setState({...this.state, menuToggle: !this.state.menuToggle})
+  // }
 
   _AttachBottom = () => (
       <div>
@@ -429,7 +429,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
 
 
   render() {
-    const {menuToggle, editProfile, bannerState, pictureState, descriptionState, descriptionClass} = this.state
+    const {editProfile, bannerState, pictureState, descriptionState, descriptionClass} = this.state
     const {
       sideBarType, name, banner, picture, chosenBadgesImg, socialNetworks,
       translate: tr, paramId, followers, clientIdentityId, description
@@ -488,16 +488,16 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
               }
             </div>
             <div className="align-items-center flex-column info-section">
-              <CheckOwner id={paramId} showForOwner={false}>
-                <i className="fa fa-ellipsis-v menuBottom" onClick={this._handleMenu}/>
-                {
-                  (!menuToggle) ? ('') : (
-                      <MenuBox id="sidebar-menu-box"
-                               handleEditProfile={this._handleEditProfile}
-                               editProfile={editProfile}
-                               paramId={paramId}/>)
-                }
-              </CheckOwner>
+              {/*<CheckOwner id={paramId} showForOwner={false}>*/}
+                {/*<i className="fa fa-ellipsis-v menuBottom" onClick={this._handleMenu}/>*/}
+                {/*{*/}
+                  {/*(!menuToggle) ? ('') : (*/}
+                      {/*<MenuBox id="sidebar-menu-box"*/}
+                               {/*handleEditProfile={this._handleEditProfile}*/}
+                               {/*editProfile={editProfile}*/}
+                               {/*paramId={paramId}/>)*/}
+                {/*}*/}
+              {/*</CheckOwner>*/}
               <span className="p-20px mt-4">{name}</span>
               {
                 (!editProfile) ? (<span className="-grey1 sidebar-description text-center">{description}</span>) : (
