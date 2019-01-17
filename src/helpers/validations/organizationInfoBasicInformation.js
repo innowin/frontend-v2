@@ -1,6 +1,14 @@
+const validateNikeName = (nikeName, translate) => {
+  if (nikeName.length < 50) {
+    return translate['Official name is wrong']
+  }
+}
+
 const organizationBasicInfoValidation = (values, {translate}) => {
   const errors = {}
+  const {nikeName} = values
   const requiredFields = []
+  if (nikeName) errors.nikeName = validateNikeName(nikeName, translate)
 
   let requiredErrors = []
   requiredFields.forEach(field => {
