@@ -10,16 +10,21 @@ const success = (state, action) => {
 
   if (fileParentType === constants.FILE_PARENT.POST) {
     let finalData = []
-    if (previousPost.post_picture_array && previousPost.post_picture_array.length) {
-      for (let prevPostFile of previousPost.post_picture_array){
-        for (let newPostFile of data) {
-          if (newPostFile.id === prevPostFile.id) {
-            finalData.push(newPostFile)
+    if (previousPost.post_picture_array) {
+      finalData = [...previousPost.post_picture_array]
+      if (!finalData.includes(data)) {
+        finalData.map(fileFinal => {
+          if (fileFinal.id === data.id) {
+            return data
+          } else {
+            return fileFinal
           }
+        })
+        if (!finalData.includes(data)) {
+          finalData.push(data)
         }
       }
-    }
-    else {
+    } else {
       finalData = [data]
     }
     return {
@@ -32,8 +37,7 @@ const success = (state, action) => {
         }
       }
     }
-  }
-  else {
+  } else {
     return state
   }
 }
