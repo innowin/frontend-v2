@@ -321,7 +321,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
           />
 
           <nav className="page-content topBar">
-            <div className="d-flex align-items-center" ref={e => this.exploreRef = e}>
+            <div className="d-flex align-items-end" ref={e => this.exploreRef = e}>
               <Link to={"/"} onClick={this._homeClick}>
                 <Material backgroundColor='rgba(238, 238, 238,0.8)'
                           className={currentPage === constants.TOP_BAR_PAGES.HOME ? "selected-bar top-bar-home" : "top-bar-home"}

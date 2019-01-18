@@ -762,6 +762,9 @@ $sidebar-profile-media-width: 80px;
   .sidebarFollowBottom {
     flex-grow: 1;
     cursor: default;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: $success-color;
     border: 1.5px solid $success-color;
     color: $background-color;
@@ -955,7 +958,7 @@ $sidebar-profile-media-width: 80px;
   position: relative;
   margin-left: 10px;
   padding: 10px;
-  height: 55px;
+  height: 66px;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -996,7 +999,7 @@ $sidebar-profile-media-width: 80px;
 
   .explore-menu-container {
     position: absolute;
-    top: 24px;
+    top: -15px;
     right: -158px;
     width: 245px;
     text-align: center;
@@ -1007,7 +1010,7 @@ $sidebar-profile-media-width: 80px;
 
   .explore-menu-container-hide {
     position: absolute;
-    top: 24px;
+    top: -15px;
     right: -158px;
     width: 245px;
     text-align: center;
@@ -1981,6 +1984,9 @@ $sidebar-profile-media-width: 80px;
     background-color: $eee-color;
     border: 1.5px solid $eee-color;
     color: $text-lighter-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: $font-size-boxText;
     border-radius: 25px;
     transition-duration: $animation-timing;
