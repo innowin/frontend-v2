@@ -26,8 +26,9 @@ class PureSignInForm extends React.Component {
   }
 
   render() {
-    const {handleSubmit, onSubmit, submitting, translator, error, submitFailed, recoveryPasswordClick} = this.props
+    const {handleSubmit, onSubmit, submitting, translator, error, submitFailed, recoveryPasswordClick, onChangeSignIn, inputValues} = this.props
     const {showPassword} = this.state
+    const {username, password} = inputValues
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="sign-in-form">
           <Field
@@ -36,6 +37,8 @@ class PureSignInForm extends React.Component {
               component={renderTextField}
               label={translator['Username']}
               className="signup-field"
+              onChangeForm={onChangeSignIn}
+              stateValue={username}
           />
           <div className='password-container'>
             <FontAwesome className='eye-icon pulse' name={showPassword ? 'eye-slash' : 'eye'}
@@ -46,6 +49,8 @@ class PureSignInForm extends React.Component {
                 component={renderTextField}
                 label={translator['Password']}
                 className="signup-field"
+                onChangeForm={onChangeSignIn}
+                stateValue={password}
             />
           </div>
           <div>
@@ -79,6 +84,8 @@ class SignInForm extends Component {
     location: PropTypes.object.isRequired,
     actions: PropTypes.object,
     recoveryPasswordClick: PropTypes.func.isRequired,
+    onChangeSignIn: PropTypes.func.isRequired,
+    inputValues: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
@@ -113,13 +120,14 @@ class SignInForm extends Component {
   }
 
   render() {
-    const {translator, recoveryPasswordClick, ...reduxFormProps} = this.props
+    const {translator, recoveryPasswordClick, onChangeSignIn, ...reduxFormProps} = this.props
     return (
         <PureSignInForm
             {...reduxFormProps}
             translator={translator}
             onSubmit={this._onSubmit}
             recoveryPasswordClick={recoveryPasswordClick}
+            onChangeSignIn={onChangeSignIn}
         />
     )
   }
@@ -142,7 +150,8 @@ SignInForm = reduxForm({
   form: 'SignInForm',
   validate: validateSignInForm,
   asyncValidate: asyncValidateSignIn,
-  asyncBlurFields: ['username']
+  asyncBlurFields: ['username'],
+  destroyOnUnmount: false
 })(SignInForm)
 
 SignInForm = connect(mapStateToProps, mapDispatchToProps)(SignInForm)

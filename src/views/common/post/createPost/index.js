@@ -592,7 +592,6 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       postImg1, postImg2, postImg3, open, attachMenu, labels, link, contactMenu, linkModal, postFile, postMedia,
       profileLoaded, description, descriptionClass, descriptionHeaderClass, focused, addProductModal, selectedProduct, postType, descriptionHeader
     } = this.state
-    console.log(descriptionHeader, 'ssssssss')
     const hasMediaClass = (postMedia || postImg1 || postImg2 || postImg3) ? "hasMedia" : ""
     const postImagesLength = [postImg1, postImg2, postImg3].filter(img => img).length
     const allowSubmit = this._allowSubmitCheck()

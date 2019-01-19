@@ -8,6 +8,7 @@ export default {
   USER_TYPES: {
     PERSON: 'person',
     ORG: 'org',
+    ORGANIZATION: 'organization',
   },
   POST_PARENT: {
     EXCHANGE: 'exchange'
