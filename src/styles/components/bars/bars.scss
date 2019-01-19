@@ -333,7 +333,7 @@ $sidebar-profile-media-width: 80px;
 }
 
 .svg-container-info-view {
-  background-color: $white;
+  background-color: white;
   transition-duration: $animation-timing;
   display: inline-block;
   vertical-align: top;
@@ -590,7 +590,7 @@ $sidebar-profile-media-width: 80px;
     background-color: $text-lightest-color;
     width: 125px;
     box-shadow: 0 1px 7px 1px rgba(0, 0, 0, 0.15);
-    border-radius: $border-radius;
+    border-radius: $border-radius-size;
     transition-duration: $animation-timing-short;
 
     > div {
@@ -2221,9 +2221,9 @@ $sidebar-profile-media-width: 80px;
   left: 10px;
   width: 120px;
   overflow: hidden;
-  background-color: $white;
+  background-color: white;
   transition-duration: $animation-timing;
-  border-radius: $border-radius;
+  border-radius: $border-radius-size;
   box-shadow: 0 2px 5px 1px $box-shadow-color;
   text-align: center;
   z-index: 3;
@@ -2238,9 +2238,9 @@ $sidebar-profile-media-width: 80px;
   left: 10px;
   width: 120px;
   overflow: hidden;
-  background-color: $white;
+  background-color: white;
   transition-duration: $animation-timing;
-  border-radius: $border-radius;
+  border-radius: $border-radius-size;
   box-shadow: 0 2px 5px 1px $box-shadow-color;
   text-align: center;
   z-index: 3;
@@ -2255,9 +2255,9 @@ $sidebar-profile-media-width: 80px;
   left: 10px;
   width: 120px;
   overflow: hidden;
-  background-color: $white;
+  background-color: white;
   transition-duration: $animation-timing;
-  border-radius: $border-radius;
+  border-radius: $border-radius-size;
   box-shadow: 0 2px 5px 1px $box-shadow-color;
   text-align: center;
   z-index: 3;
@@ -2269,7 +2269,7 @@ $sidebar-profile-media-width: 80px;
 .exchange-admin-menu-child {
   width: 100%;
   padding: 7.5px;
-  background-color: $white;
+  background-color: white;
   cursor: pointer;
   transition-duration: $animation-timing;
 
@@ -2359,7 +2359,7 @@ $sidebar-profile-media-width: 80px;
 
 .edit-exchange-description-input::-webkit-scrollbar-thumb {
   background: #e0e0e0;
-  border-radius: $border-radius;
+  border-radius: $border-radius-size;
 
   &:hover {
     background: #d0d0d0;

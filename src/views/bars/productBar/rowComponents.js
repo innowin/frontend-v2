@@ -1,13 +1,11 @@
 // @flow
 import * as React from 'react'
 import Avatar from '../../common/image/avatar'
-import FontAwesome from 'react-fontawesome'
-import ImageGallery from 'react-image-gallery'
 import type {TagType} from '../../common/tags/tag'
 import VisibleOnLoadImage from '../../common/image/visibleOnLoadImage'
 import {ChartIcon} from 'src/images/icons'
 import {ClipLoader} from 'react-spinners'
-import {Modal, ModalBody} from 'reactstrap'
+// import {Modal, ModalBody} from 'reactstrap'
 import {Tag} from '../../common/tags/tag'
 
 
@@ -206,15 +204,18 @@ type GalleryModalProps = {
   images: Array<GalleryImageType>,
   visibilityHandler: Function
 }
+
+/*<Modal size="lg" isOpen={isOpen} backdrop={false} className="gallery-modal">*/
+/*<ModalBody>*/
+/*<FontAwesome name="times" className="close-btn"*/
+/*onClick={visibilityHandler}/>*/
+/*<ImageGallery items={images}/>*/
+/*</ModalBody>*/
+/*</Modal>*/
+
 export const GalleryModal = (props: GalleryModalProps) => {
-  const {isOpen, images, visibilityHandler} = props
+  // const {isOpen, images, visibilityHandler} = props
   return (
-      <Modal size="lg" isOpen={isOpen} backdrop={false} className="gallery-modal">
-        <ModalBody>
-          <FontAwesome name="times" className="close-btn"
-                       onClick={visibilityHandler}/>
-          <ImageGallery items={images}/>
-        </ModalBody>
-      </Modal>
+      ""
   )
 }

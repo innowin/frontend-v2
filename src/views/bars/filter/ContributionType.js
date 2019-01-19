@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Collapse} from 'reactstrap';
+// import {Collapse} from 'reactstrap';
 import PropTypes from 'prop-types';
 import FontAwesome from 'react-fontawesome';
 
@@ -35,7 +35,8 @@ export class ContributionsType extends Component {
   };
 	
 	render(){
-	const {labels, header} = this.props;
+	// const {labels, header} = this.props;
+		const {header} = this.props;
 	const {collapse} = this.state;
 	return (
 				<div className="filter-element">
@@ -46,18 +47,18 @@ export class ContributionsType extends Component {
 						<div className="angle-icon"><FontAwesome name={collapse ? "angle-double-up" : "angle-double-down"}/></div>
 					</div>
 					<div className="options-wrapper">
-						<Collapse isOpen={collapse}>
-							{labels.map((lab, i) => {
-										return (
-												<label key={i} className="label-wrapper">
-													<input type="checkbox" id={lab} onChange={this._handleChange}/>
-													<span className="checkmark"></span>
-													{lab}
-												</label>
-										)
-									}
-							)}
-						</Collapse>
+						{/*<Collapse isOpen={collapse}>*/}
+							{/*{labels.map((lab, i) => {*/}
+										{/*return (*/}
+												{/*<label key={i} className="label-wrapper">*/}
+													{/*<input type="checkbox" id={lab} onChange={this._handleChange}/>*/}
+													{/*<span className="checkmark"></span>*/}
+													{/*{lab}*/}
+												{/*</label>*/}
+										{/*)*/}
+									{/*}*/}
+							{/*)}*/}
+						{/*</Collapse>*/}
 					</div>
 				</div>
 		)

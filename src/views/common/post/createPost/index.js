@@ -1,5 +1,5 @@
 // @flow
-import React, {Component, Fragment} from "react"
+import React, {Component} from "react"
 import PropTypes from "prop-types"
 import {bindActionCreators} from "redux"
 import connect from "react-redux/es/connect/connect"
@@ -148,6 +148,8 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       selectedProductId: undefined,
       postType: constants.POST.POST_TYPE.POST,
     })
+    this.supplyChecked.checked = false
+    this.demandChecked.checked = false
   }
 
   demandChecked: HTMLInputElement
@@ -156,7 +158,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
   text: HTMLInputElement
 
   handleClickOutside = (event) => {
-    const {attachMenu, contactMenu, linkModal, addProductModal, postImg1, postImg2, postImg3, postFile, postMedia, link, description, labels, open, headerText} = this.state
+    const {attachMenu, contactMenu, linkModal, addProductModal, postImg1, postImg2, postImg3, postFile, postMedia, link, description, labels, open, descriptionHeader} = this.state
     const needReset = !description && !postImg1 && !postImg2 && !postImg3 && !postFile && !postMedia && !link && labels === {}
 
     if (!event.target.closest("#create-post-attach-menu-box")) {
@@ -184,7 +186,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
     }
 
     if (this.form && !this.form.contains(event.target)) {
-      if (open && (description.length === 0) && (this.headerText.innerText.length === 0)) {
+      if (open && (description.length === 0) && (descriptionHeader.length === 0)) {
         this.setState({...this.state, open: false, postType: constants.POST.POST_TYPE.POST})
         this.supplyChecked.checked = false
         this.demandChecked.checked = false
@@ -348,8 +350,15 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
     if (e.keyCode === 13) {
       e.preventDefault()
       this.text.focus()
-    } else {
-      const descriptionHeader = this.headerText.innerText
+    }
+  }
+
+  _onKeyUpHeader = (e) => {
+    const descriptionHeader = this.headerText.innerText
+    if (e.keyCode === 13) {
+      e.preventDefault()
+    }
+    else {
       if (descriptionHeader.trim().length <= maxAllowedHeaderWordCounts) {
         this.setState({...this.state, descriptionHeader}, () => {
           const descriptionHeaderLength = descriptionHeader.trim().length
@@ -583,6 +592,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       postImg1, postImg2, postImg3, open, attachMenu, labels, link, contactMenu, linkModal, postFile, postMedia,
       profileLoaded, description, descriptionClass, descriptionHeaderClass, focused, addProductModal, selectedProduct, postType, descriptionHeader
     } = this.state
+    console.log(descriptionHeader, 'ssssssss')
     const hasMediaClass = (postMedia || postImg1 || postImg2 || postImg3) ? "hasMedia" : ""
     const postImagesLength = [postImg1, postImg2, postImg3].filter(img => img).length
     const allowSubmit = this._allowSubmitCheck()
@@ -618,7 +628,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
               className={open && (postType === constants.POST.POST_TYPE.SUPPLY || postType === constants.POST.POST_TYPE.DEMAND)
                   ? 'post-type-write-container'
                   : 'post-type-write-container-hide'}>
-            <p className='post-type-write-header' placeholder={translate['Create post header placeholder']}>
+            <p className='post-type-write-header'>
               {translate['Title'] + ' '}
               {postType === constants.POST.POST_TYPE.SUPPLY ? translate['Type supply']
                   : (postType === constants.POST.POST_TYPE.DEMAND && translate['Type demand'])
@@ -635,6 +645,8 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
                  contentEditable={true}
                  ref={e => this.headerText = e}
                  onKeyDown={this._onKeyDownHeader}
+                 onKeyPress={this._onKeyUpHeader}
+                 onKeyUp={this._onKeyUpHeader}
                  style={
                    descriptionHeader.length > 0 && new RegExp("^[A-Za-z]*$").test(descriptionHeader[0]) ?
                        {direction: "ltr"} :
@@ -642,6 +654,12 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
                  }
                  onBlur={this._handleBlurHeader}
             />
+            <div onClick={() => this.headerText.focus()}
+                 className={descriptionHeader.length > 0
+                     ? "post-placeholder-hide"
+                     : (open) ? "post-placeholder-open post-title-placeholder" : "post-placeholder"}>
+              {translate['Create post header placeholder']}
+            </div>
           </div>
           <div className={"post-component-content " + hasMediaClass}>
             <div className='post-component-description'>

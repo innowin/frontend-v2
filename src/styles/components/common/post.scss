@@ -68,7 +68,7 @@
 }
 
 .post-type-write-content {
-  border-radius: $border-radius;
+  border-radius: $border-radius-size;
   height: 40px;
   display: block;
   padding: 10px 13px;
@@ -222,7 +222,7 @@
 /* -------------------------------   post textarea -------------------------*/
 .post-component-content {
   //border: 1px #e7e7e7 solid;
-  border-radius: $border-radius;
+  border-radius: $border-radius-size;
   //overflow: hidden;
 
   .post-component-description {
@@ -234,7 +234,7 @@
       margin-right: 63px;
       resize: none;
       border: 1px #e7e7e7 solid;
-      border-radius: $border-radius;
+      border-radius: $border-radius-size;
       font-size: 13px;
       transition-duration: 0.5s;
       height: 45px;
@@ -250,7 +250,7 @@
       transition-delay: 0.02s;
       transition-duration: 0.5s;
       resize: none;
-      border-radius: $border-radius;
+      border-radius: $border-radius-size;
       border: 1px #e7e7e7 solid;
       font-size: 13px;
       line-height: 26px;
