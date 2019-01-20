@@ -84,10 +84,11 @@ const validatePassword = (pass) => {
 
 export const validateSignUpForm = values => {
   const errors = {}
-  const requiredFields = ['email', 'password', 'username']
+  // const requiredFields = ['email', 'password', 'username']
+  const requiredFields = ['email', 'password']
   const {username, email, password} = values
 
-  if (username) errors.username = validateUsername(username)
+  // if (username) errors.username = validateUsername(username)
   if (email) errors.email = validateEmail(email)
   if (password) errors.password = validatePassword(password)
   // if (passwordConfirm && passwordConfirm !== password) errors.passwordConfirm = 'دو رمز وارد شده یکسان نیستند.'

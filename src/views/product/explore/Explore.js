@@ -8,7 +8,9 @@ import {bindActionCreators} from 'redux'
 import {ClipLoader} from 'react-spinners'
 import {getProducts} from 'src/redux/selectors/common/product/getAllProducts'
 import Products from './Products'
-import {makeCategorySelector} from '../../../redux/selectors/common/category/getCategoriesByParentId'
+import {makeCategorySelector} from 'src/redux/selectors/common/category/getCategoriesByParentId'
+import FontAwesome from "react-fontawesome"
+
 
 // import {getMessages} from 'src/redux/selectors/translateSelector'
 // import {Helmet} from 'react-helmet'
@@ -153,8 +155,12 @@ class Explore extends PureComponent <appProps, appState> {
                 }
               </div>
               <div>
-                <div onClick={this._collapse} style={{display: 'inline-block', padding: '0 10px', backgroundColor: 'blue'}}>?</div>
-                <div onClick={this._unCollapse} style={{display: 'inline-block', padding: '0 10px', backgroundColor: 'yellow'}}>?</div>
+                <div onClick={this._collapse} className={isCollapsed ? 'product-explorer-list-selected' : 'product-explorer-list'} >
+                  <FontAwesome name="list"/>
+                </div>
+                <div onClick={this._unCollapse} className={!isCollapsed ? 'product-explorer-list-selected' : 'product-explorer-list'} >
+                  <FontAwesome name="th"/>
+                </div>
               </div>
             </div>
             <Products products={allProducts}

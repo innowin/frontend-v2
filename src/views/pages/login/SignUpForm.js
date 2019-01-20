@@ -11,18 +11,18 @@ import {routerActions} from "react-router-redux"
 import {validateSignUpForm, asyncValidateSignUp} from "./signUpValidations"
 import CheckUsernameAction from "src/redux/actions/user/checkUsernameAction"
 import CheckEmailAction from "src/redux/actions/user/checkEmailAction"
-import FontAwesome from "react-fontawesome";
+import FontAwesome from "react-fontawesome"
 import constants from 'src/consts/constants'
 
 
 class SignUpForm extends React.Component<> {
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       showPassword: false,
       emailTextWidth: 0,
-      emailSuggest: '',
+      emailSuggest: ''
     }
     this.emailList = [
       /* Default domains included */
@@ -70,7 +70,7 @@ class SignUpForm extends React.Component<> {
 
       /* Domains used in Brazil */
       "yahoo.com.br", "hotmail.com.br", "outlook.com.br", "uol.com.br", "bol.com.br", "terra.com.br", "ig.com.br", "itelefonica.com.br", "r7.com", "zipmail.com.br", "globo.com", "globomail.com", "oi.com.br"
-    ];
+    ]
   }
 
   divAtRef: HTMLInputElement
@@ -93,7 +93,7 @@ class SignUpForm extends React.Component<> {
     if (name === 'email') {
       const spliceByAt = value.split('@')
       if (spliceByAt.length === 2) {
-        for(let domain of this.emailList){
+        for (let domain of this.emailList) {
           if (domain.startsWith(spliceByAt[1])) {
             this.setState({emailSuggest: domain.slice(spliceByAt[1].length, domain.length)})
             return
@@ -106,7 +106,7 @@ class SignUpForm extends React.Component<> {
   }
 
   _tabKeyDownForEmail = (e) => {
-    if(e.keyCode === 9) {
+    if (e.keyCode === 9) {
       const {emailSuggest} = this.state
       e.preventDefault()
       this.emailInputRef.value = this.emailInputRef.value + emailSuggest
@@ -121,12 +121,12 @@ class SignUpForm extends React.Component<> {
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="sign-up-form">
           <Field
-              name="username"
-              type="text"
-              component={renderTextField}
-              label={translator['Username']}
-              className="signup-field"
-              onChangeForm={onChangeSignUp}
+          name="username"
+          type="text"
+          component={renderTextField}
+          label={translator['Username']}
+          className="signup-field"
+          onChangeForm={onChangeSignUp}
           />
           <div className='email-container'>
             {emailSuggest && <span ref={e => this.spanRef = e} className='email-suggest' style={{left: `${emailTextWidth}px`}}>{emailSuggest}</span>}
@@ -188,7 +188,7 @@ export class RegisterForm extends Component {
     const promise = new Promise((resolve, reject) => createUserOrgan(values, resolve, reject))
     return promise
         .then(
-            (res) => {
+            () => {
               return new Promise((resolve, reject) => signIn(values.username, values.password, false, reject))
               //TODO mohsen: test return error in sign in
                   .catch((errorMessage) => {
@@ -209,7 +209,7 @@ export class RegisterForm extends Component {
     const promise = new Promise((resolve, reject) => createUserPerson(values, resolve, reject))
     return promise
         .then(
-            (res) => {
+            () => {
               return new Promise((resolve, reject) => signIn(values.username, values.password, false, reject))
                   .catch((errorMessage) => {
                     throw new SubmissionError({_error: translator[errorMessage]})
@@ -223,7 +223,7 @@ export class RegisterForm extends Component {
   }
 
   render() {
-    const {translator, onRegisterClick, onChangeSignUp, inputValues, ...reduxFormProps} = this.props
+    const {translator, /*onRegisterClick, */onChangeSignUp, inputValues, ...reduxFormProps} = this.props
     const {userType} = this.state
     // const userTypeItems = [{value: constants.USER_TYPES.PERSON, title: 'فرد'}, {value: constants.USER_TYPES.ORGANIZATION, title: 'مجموعه'}]
     const onSubmitFunc = (userType === constants.USER_TYPES.PERSON) ? (this._onSubmitPerson) : (this._onSubmitOrgan)
@@ -275,7 +275,7 @@ export class RegisterForm extends Component {
 
 const mapStateToProps = (state) => ({
   translator: getMessages(state),
-  isLoggedIn: state.auth.client.isLoggedIn,
+  isLoggedIn: state.auth.client.isLoggedIn
 })
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
@@ -293,6 +293,7 @@ RegisterForm = reduxForm({
   validate: validateSignUpForm,
   asyncValidate: asyncValidateSignUp,
   asyncBlurFields: ['username', 'email'],
+  // asyncBlurFields: ['email'],
   destroyOnUnmount: false
 })(RegisterForm)
 

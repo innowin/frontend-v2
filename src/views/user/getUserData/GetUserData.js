@@ -1,24 +1,24 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import FirstLevel from './FirstLevel'
 
 class GetUserData extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isOpen: true,
       level: 1
     }
   }
 
 
   render() {
-    const { isOpen } = this.state
+    const {showRegisterModal, hideRegisterModal, email, password} = this.props
+
     return (
         <div>
 
-          <div className={isOpen ? 'get-data-dark-back' : 'get-data-dark-back-hide'}/>
+          <div className={showRegisterModal ? 'get-data-dark-back' : 'get-data-dark-back-hide'} onClick={hideRegisterModal}/>
 
-          <div className={isOpen ? 'get-data-container' : 'get-data-container-hide'}>
+          <div className={showRegisterModal ? 'get-data-container' : 'get-data-container-hide'}>
 
             <div className='get-data-progress'>
               <div className='get-data-progress-box'>
@@ -33,7 +33,7 @@ class GetUserData extends Component {
             </div>
 
 
-            <FirstLevel/>
+            <FirstLevel email={email} password={password}/>
 
 
           </div>

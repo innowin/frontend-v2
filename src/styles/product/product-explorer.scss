@@ -301,7 +301,7 @@
     width: 100%;
     text-align: right;
     font-size: 13px;
-    height: 70px;
+    height: 80px;
     overflow: hidden;
     order: 2;
   }
@@ -322,12 +322,32 @@
 
   .product-model-seller-name {
     color: $info-color;
+    width: 100%;
   }
 
   .product-model-name {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     padding: 10px 0;
     margin-bottom: 10px;
     border-bottom: 1px solid $more-button-color-hover-darker;
+  }
+
+  .product-model-seller-icon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .product-model-svg {
+    margin-bottom: 5px;
+    width: 30px;
+  }
+
+  .product-model-little-svg {
+    width: 17px;
+    margin-left: 10px;
   }
 
 }
@@ -369,6 +389,7 @@
   .product-model-logo {
     font-size: 12px;
     display: inline-flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     vertical-align: top;
@@ -406,10 +427,19 @@
 
   .product-model-seller-name {
     color: $info-color;
+    width: 100%;
   }
 
   .product-model-name {
     margin-bottom: 28px;
+  }
+
+  .product-model-svg {
+    display: none;
+  }
+
+  .product-model-little-svg {
+    display: none;
   }
 
 }
@@ -450,6 +480,7 @@
 .product-instant-logo {
   font-size: 12px;
   display: inline-flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   vertical-align: top;
@@ -492,4 +523,38 @@
 
 .product-instant-name {
   margin-bottom: 28px;
+}
+
+.product-instant-logo {
+  font-size: 12px;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  vertical-align: top;
+  width: 100px;
+  height: 100px;
+  background-color: $more-button-color-hover-darker;
+  border-radius: 3px;
+}
+
+.product-instant-svg {
+  margin-bottom: 5px;
+  width: 30px;
+}
+
+.product-explorer-list-selected {
+  display: inline-block;
+  padding: 5px 7px 2px 7px;
+  background-color: $more-button-color-hover-darker;
+  border-radius: 3px;
+  transition: all ease 0.3s;
+  cursor: pointer;
+}
+
+.product-explorer-list {
+  display: inline-block;
+  padding: 5px 7px 2px 7px;
+  transition: all ease 0.3s;
+  cursor: pointer;
 }

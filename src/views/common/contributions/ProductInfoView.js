@@ -6,6 +6,7 @@ import {bindActionCreators} from 'redux'
 import FileActions from '../../../redux/actions/commonActions/fileActions'
 import connect from 'react-redux/es/connect/connect'
 import constants from '../../../consts/constants'
+import {Product as ProductSvg} from '../../../images/icons'
 // import CheckOwner from "../CheckOwner"
 // import {EditIcon /*,BookmarkIcon, RightArrow*/} from "src/images/icons"
 // import constants from 'src/consts/constants'
@@ -29,26 +30,27 @@ class ProductInfoView extends React.Component {
 
   render() {
     const {product, onClick, selected /*,translate, showEdit, ownerId*/} = this.props
-    const {product_owner, pictures_array} = product
+    const {product_owner, product_user, pictures_array} = product
     const {identity_user} = product_owner
+    const name = identity_user && identity_user.first_name ? identity_user.first_name + ' ' + identity_user.last_name : product_user && product_user.first_name ? product_user.first_name + ' ' + product_user.last_name : ''
 
     if (onClick) {
       return (
           <div className={selected ? 'selected-props product-instant-view' : 'product-instant-view'} onClick={onClick}>
             {/*<CheckOwner id={ownerId}>*/}
-              {/*{*/}
-                {/*showEdit &&*/}
-                {/*<div className='product-instant-edit' onClick={showEdit}>*/}
-                  {/*<EditIcon/>*/}
-                {/*</div>*/}
-              {/*}*/}
+            {/*{*/}
+            {/*showEdit &&*/}
+            {/*<div className='product-instant-edit' onClick={showEdit}>*/}
+            {/*<EditIcon/>*/}
+            {/*</div>*/}
+            {/*}*/}
             {/*</CheckOwner>*/}
             <div className='product-instant-logo'>محصول</div>
             <div className='product-instant-detail'>
               <div className='product-instant-name'>
                 {product.name}
               </div>
-              <span className='product-instant-seller'>فروشنده: </span><span className='product-instant-seller-name'>{identity_user ? identity_user.first_name + ' ' + identity_user.last_name : ''}</span>
+              <span className='product-instant-seller'>فروشنده: </span><span className='product-instant-seller-name'>{name}</span>
             </div>
             <img className='product-instant-img' src={pictures_array && pictures_array.length > 0 && pictures_array[0].file} alt=''/>
           </div>
@@ -58,20 +60,23 @@ class ProductInfoView extends React.Component {
       return (
           <div className={selected ? 'selected-props product-instant-view' : 'product-instant-view'}>
             {/*<CheckOwner id={ownerId}>*/}
-              {/*{*/}
-                {/*showEdit &&*/}
-                {/*<div className='product-instant-edit' onClick={showEdit}>*/}
-                  {/*<EditIcon/>*/}
-                {/*</div>*/}
-              {/*}*/}
+            {/*{*/}
+            {/*showEdit &&*/}
+            {/*<div className='product-instant-edit' onClick={showEdit}>*/}
+            {/*<EditIcon/>*/}
+            {/*</div>*/}
+            {/*}*/}
             {/*</CheckOwner>*/}
             <Link className='product-instant-link' to={`/product/${product.id}`}>
-              <div className='product-instant-logo'>محصول</div>
+              <div className='product-instant-logo'>
+                <ProductSvg className='product-instant-svg'/>
+                <div>محصول</div>
+              </div>
               <div className='product-instant-detail'>
                 <div className='product-instant-name'>
                   {product.name}
                 </div>
-                <span className='product-instant-seller'>فروشنده: </span><span className='product-instant-seller-name'>{identity_user ? identity_user.first_name + ' ' + identity_user.last_name : ''}</span>
+                <span className='product-instant-seller'>فروشنده: </span><span className='product-instant-seller-name'>{name}</span>
               </div>
               <img className='product-instant-img' src={pictures_array && pictures_array.length > 0 && pictures_array[0].file} alt=''/>
             </Link>

@@ -175,7 +175,8 @@ export class productBasicInformation extends Component<ProductBasicInformationPr
                           country={country.name}
                           productId={product.id}
                           category={category.name}
-                          translator={translator} product_category={product_category}
+                          translator={translator}
+                          product_category={product_category}
                           owner={owner} showEdit={() => this._showEditHandler(true)}
                       />
                       <TechnicalInfoView
