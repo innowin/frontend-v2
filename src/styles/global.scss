@@ -1,8 +1,9 @@
 @import "variables";
 
-div, body, ul, nav, caption, li, span, a, p, ol, i, strong,img, label, input, table, td, th, tt, tr, article, aside,h1,h2,h3,h4,h5, button, main, b, pre, form,footer,header,figure, textarea, svg, hr, br {
+div, body, ul, nav, caption,select,html, li, span, a, p, ol, i, strong,img, label, input, table, td, th, tt, tr, article, aside,h1,h2,h3,h4,h5, button, main, b, pre, form,footer,header,figure, textarea, svg, hr, br {
   margin: 0;
   padding: 0;
+  border: none;
   outline: none;
   box-sizing: border-box;
   box-shadow: none;
