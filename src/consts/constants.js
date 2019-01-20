@@ -14,6 +14,7 @@ export default {
   },
   FILE_PARENT: {
     POST: 'post',
+    PRODUCT: 'product',
   },
   PRODUCT: {
     PRICE_TYPE: {

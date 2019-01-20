@@ -11,7 +11,6 @@ const getCategories = (state, parentId) => {
     return allCategories
 }
 
-
 /** this selector selects categories by parentId or without that. **/
 export const makeCategorySelector = () => createSelector(
     getCategories,

@@ -1,9 +1,11 @@
-import initialState from '../../initialState';
-import types from '../../../actions/types';
+import initialState from '../../initialState'
+import types from '../../../actions/types'
 import pushAnObjToStateList from '../../sliceReducers/utilsSlices/pushAnObjToStateList'
 import createAnObj from '../../sliceReducers/utilsSlices/createAnObj'
 import setRelatedObjIdForListItem from '../../sliceReducers/utilsSlices/setRelatedObjIdForListItem'
 import setRelatedObjectsForAnObj from '../../sliceReducers/utilsSlices/setRelatedObjectsForAnObj'
+import getAllProducts from './getAllProducts'
+import setProductPictures from './setProductPictures'
 
 
 import slices from '../../sliceReducers/common/product'
@@ -15,6 +17,12 @@ const products = (state = initialState.common.product.products, action) => {
       /** <-------------- getProduct -------------- **/
     case types.SUCCESS.COMMON.GET_PRODUCT_INFO:
       return pushAnObjToStateList.success(state, action)
+
+    case types.SUCCESS.COMMON.GET_ALL_PRODUCTS:
+      return getAllProducts.success(state, action)
+
+    case types.SUCCESS.COMMON.FILE.GET_FILE_BY_RELATED_PARENT_ID:
+      return setProductPictures.success(state, action)
 
     case types.SUCCESS.COMMON.POST.FILTER_POSTS_BY_POST_RELATED_PRODUCT:
       return slices.addPostsRelatedProductIdsToProduct.success(state, action)
@@ -34,11 +42,11 @@ const products = (state = initialState.common.product.products, action) => {
     case types.COMMON.ADD_HASH_TAG_ID_TO_PRODUCT:
       return setRelatedObjIdForListItem.success(state, action, 'hashTags')
 
-    /**  <----------------get product by identity --------------  **/
+      /**  <----------------get product by identity --------------  **/
     case types.SUCCESS.COMMON.PRODUCT.GET_PRODUCTS_BY_IDENTITY:
       return slices.getProductsByIdentity.success(state, action)
 
-    /** -------------------------- update product -------------------------> **/
+      /** -------------------------- update product -------------------------> **/
     case types.COMMON.PRODUCT.UPDATE_PRODUCT:
       return slices.updateProduct.base(state, action)
     case types.SUCCESS.COMMON.PRODUCT.UPDATE_PRODUCT:
@@ -46,7 +54,7 @@ const products = (state = initialState.common.product.products, action) => {
     case types.ERRORS.COMMON.PRODUCT.UPDATE_PRODUCT:
       return slices.updateProduct.error(state, action)
 
-    /** -------------------------- delete product -------------------------> **/
+      /** -------------------------- delete product -------------------------> **/
     case types.COMMON.PRODUCT.DELETE_PRODUCT:
       return slices.deleteProduct.base(state, action)
     case types.SUCCESS.COMMON.PRODUCT.DELETE_PRODUCT:
