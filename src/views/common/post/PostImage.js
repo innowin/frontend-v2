@@ -235,7 +235,7 @@ class PostImage extends React.Component<postImageProps, postImageState> {
           }
 
           {postPictureArray && postPicturesLength > 0
-              ? <div className={"pictures-section " + picturesClass}>
+              ? <div className={extendedView && postPicturesLength === 1 ? 'post-image-container' : ("pictures-section " + picturesClass)}>
                 {postPictureArray.map((postPictureElement, i) => (
                     <div className='image-container' key={i + "pictures-section"}>
                       <div className='post-image-container'>
