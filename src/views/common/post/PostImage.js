@@ -93,9 +93,7 @@ class PostImage extends React.Component<postImageProps, postImageState> {
   }
 
   componentWillReceiveProps(nextProps: postImageProps): void {
-    console.log('receive props', this.props.post, nextProps.post)
     if (this.props.post !== nextProps.post) {
-      console.log('in the if', this.props.post, nextProps.post)
       const {post, extendedView, fileList} = nextProps
       if (post && post.post_picture) {
         let postPicture, postPictureId

@@ -9,6 +9,7 @@ import SignInForm from './login/signInForm'
 import PasswordRecovery from './login/PasswordRecovery'
 import {getMessages} from '../../redux/selectors/translateSelector'
 import connect from 'react-redux/es/connect/connect'
+import constants from '../../consts/constants'
 
 class Login extends Component {
   constructor(props) {
@@ -25,6 +26,16 @@ class Login extends Component {
       },
       showRecovery: false,
       showRegisterModal: false,
+      signInFields: {
+        username: '',
+        password: '',
+      },
+      signUpFields: {
+        username: '',
+        password: '',
+        email: '',
+        userType: constants.USER_TYPES.PERSON,
+      }
     }
   }
 
@@ -48,9 +59,25 @@ class Login extends Component {
     this.setState({...this.state, showRegisterModal: true})
   }
 
+  _onChangeSignIn = (event) => {
+    const {signInFields} = this.state
+    const target = event.target
+    const value = target.type === 'checkbox' ? target.checked : target.value
+    const name = target.name
+    this.setState({...this.state, signInFields: {...signInFields, [name]: value}})
+  }
+
+  _onChangeSignUp = (event) => {
+    const {signUpFields} = this.state
+    const target = event.target
+    const value = target.type === 'checkbox' ? target.checked : target.value
+    const name = target.name
+    this.setState({...this.state, signUpFields: {...signUpFields, [name]: value}})
+  }
+
   render() {
     const {translate} = this.props
-    const {page, footer, header, showRecovery, showRegisterModal} = this.state
+    const {page, footer, header, showRecovery, showRegisterModal, signInFields, signUpFields} = this.state
     const {year} = footer
     const {iosLink, androidLink, address, phoneNumber, logoCaption} = header
     const SignIn = (page === 'SignIn')
@@ -59,7 +86,8 @@ class Login extends Component {
 
     return (
         <div className="login-page  full-page-wrapper">
-          <div className={(showRecovery || showRegisterModal) ? 'makeDark' : 'makeDark-out'} onClick={this._hideModalClick}>
+          <div className={(showRecovery || showRegisterModal) ? 'makeDark' : 'makeDark-out'}
+               onClick={this._hideModalClick}>
             {/*dark div*/}
           </div>
           <PasswordRecovery showRecovery={showRecovery} hideRecoveryClick={this._hideModalClick}
@@ -95,10 +123,12 @@ class Login extends Component {
                   </div>
                   <div className="card-block login-form p-3">
                     {SignIn &&
-                    <SignInForm initialValues={{rememberMe: true}}
+                    <SignInForm inputValues={signInFields} onChangeSignIn={this._onChangeSignIn} initialValues={{rememberMe: true}}
                                 recoveryPasswordClick={this._showRecoveryPassword}
                     />}
-                    {SignUp && <RegisterForm onRegisterClick={this._onRegisterClisk}/>}
+                    {SignUp &&
+                    <RegisterForm inputValues={signUpFields} onChangeSignUp={this._onChangeSignUp} onRegisterClick={this._onRegisterClisk}
+                    />}
                   </div>
                   {/*<div className="card-footer social-login">*/}
                   {/*<span>{translate['Register with other accounts']}</span>*/}
@@ -106,9 +136,6 @@ class Login extends Component {
                   {/*</div>*/}
                 </div>
               </div>
-
-
-
             </div>
             <FooterLogin year={year}/>
           </div>

@@ -1,29 +1,26 @@
 // @flow
 import * as React from "react"
-import {Component} from 'react'
 import PropTypes from "prop-types"
-import {Modal, Button, ModalBody, ModalFooter} from "reactstrap"
-import ImageGallery from 'react-image-gallery'
+// import {Modal, Button, ModalBody, ModalFooter} from "reactstrap"
 
-
-const ProductViewImageGallery = (props) => {
-    const {files, selectedFileIndex} = props
-    const startIndex = ((selectedFileIndex === -1) && 0) || selectedFileIndex
-    const images = files.map(file => {
-      return ({
-          original: file,
-          thumbnail: file,
-          originalClass: "-productViewOriginalClass",
-          thumbnailClass: "-productViewThumbnailClass"
-      })
-    })
-    const settings = {showPlayButton: false, showBullets: true, startIndex: startIndex}
-    return (
-        <div dir="ltr" className="-productViewModal">
-            <ImageGallery items={images} {...settings}/>
-        </div>
-    )
-}
+// const ProductViewImageGallery = (props) => {
+//     const {files, selectedFileIndex} = props
+//     const startIndex = ((selectedFileIndex === -1) && 0) || selectedFileIndex
+//     const images = files.map(file => {
+//       return ({
+//           original: file,
+//           thumbnail: file,
+//           originalClass: "-productViewOriginalClass",
+//           thumbnailClass: "-productViewThumbnailClass"
+//       })
+//     })
+//     const settings = {showPlayButton: false, showBullets: true, startIndex: startIndex}
+//     return (
+//         <div dir="ltr" className="-productViewModal">
+//             <ImageGallery items={images} {...settings}/>
+//         </div>
+//     )
+// }
 
 type PictureModalProps = {
     isOpen: boolean,
@@ -37,7 +34,16 @@ type PictureModalState = {
   modal: boolean
 }
 
-export class PictureModal extends Component<PictureModalProps, PictureModalState> {
+/*<Modal isOpen={this.state.modal} className={className}>*/
+/*<ModalBody className="-grey3">*/
+/*<ProductViewImageGallery files={files} selectedFileIndex={selectedFileIndex}/>*/
+/*</ModalBody>*/
+/*<ModalFooter className="-grey3 pt-0">*/
+/*<Button className="-grey4" onClick={this._handleToggleModal}>بستن</Button>*/
+/*</ModalFooter>*/
+/*</Modal>*/
+
+export class PictureModal extends React.Component<PictureModalProps, PictureModalState> {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     files: PropTypes.array.isRequired,
@@ -63,16 +69,9 @@ export class PictureModal extends Component<PictureModalProps, PictureModalState
   }
 
   render() {
-    const {className, files, selectedFileIndex} = this.props
+    // const {className, files, selectedFileIndex} = this.props
     return (
-      <Modal isOpen={this.state.modal} className={className}>
-        <ModalBody className="-grey3">
-          <ProductViewImageGallery files={files} selectedFileIndex={selectedFileIndex}/>
-        </ModalBody>
-        <ModalFooter className="-grey3 pt-0">
-          <Button className="-grey4" onClick={this._handleToggleModal}>بستن</Button>
-        </ModalFooter>
-      </Modal>
+      ''
     )
   }
 }

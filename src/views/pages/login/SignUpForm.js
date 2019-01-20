@@ -12,6 +12,7 @@ import {validateSignUpForm, asyncValidateSignUp} from "./signUpValidations"
 import CheckUsernameAction from "src/redux/actions/user/checkUsernameAction"
 import CheckEmailAction from "src/redux/actions/user/checkEmailAction"
 import FontAwesome from "react-fontawesome";
+import constants from '../../../consts/constants'
 
 
 class SignUpForm extends React.Component<> {
@@ -28,8 +29,9 @@ class SignUpForm extends React.Component<> {
   }
 
   render() {
-    const {handleSubmit, onSubmit, submitting, translator, error, submitFailed} = this.props
+    const {handleSubmit, onSubmit, submitting, translator, error, submitFailed, onChangeSignUp, inputValues} = this.props
     const {showPassword} = this.state
+    const {username, email, password} = inputValues
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="sign-up-form">
           <Field
@@ -38,15 +40,21 @@ class SignUpForm extends React.Component<> {
               component={renderTextField}
               label={translator['Username']}
               className="signup-field"
+              onChangeForm={onChangeSignUp}
+              stateValue={username}
           />
           <Field name="email" type="email" component={renderTextField} label={translator['Email']}
-                 className="signup-field"/>
+                 className="signup-field"
+                 onChangeForm={onChangeSignUp}
+                 stateValue={email}/>
           <div className='password-container'>
             <FontAwesome className='eye-icon pulse' name={showPassword ? 'eye-slash' : 'eye'}
                          onClick={this._changeStatePassword}/>
             <Field name="password" type={showPassword ? 'text' : 'password'} component={renderTextField}
                    label={translator['Password']}
-                   className="signup-field"/>
+                   className="signup-field"
+                   onChangeForm={onChangeSignUp}
+                   stateValue={password}/>
           </div>
           {/*<Field name="passwordConfirm" type="password" component={renderTextField}*/}
           {/*label={translator['Repeat password']} className="signup-field"/>*/}
@@ -65,16 +73,11 @@ class SignUpForm extends React.Component<> {
   }
 }
 
-const USER_TYPES = {
-  PERSON: 'person',
-  ORGANIZATION: 'organization',
-}
-
 export class RegisterForm extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {userType: USER_TYPES.PERSON}
+    this.state = {userType: constants.USER_TYPES.PERSON}
   }
 
   _typeHandler = (value) => {
@@ -129,10 +132,10 @@ export class RegisterForm extends Component {
   }
 
   render() {
-    const {translator, onRegisterClick, ...reduxFormProps} = this.props
+    const {translator, onRegisterClick, onChangeSignUp, inputValues, ...reduxFormProps} = this.props
     const {userType} = this.state
-    // const userTypeItems = [{value: USER_TYPES.PERSON, title: 'فرد'}, {value: USER_TYPES.ORGANIZATION, title: 'مجموعه'}]
-    const onSubmitFunc = (userType === USER_TYPES.PERSON) ? (this._onSubmitPerson) : (this._onSubmitOrgan)
+    // const userTypeItems = [{value: constants.USER_TYPES.PERSON, title: 'فرد'}, {value: constants.USER_TYPES.ORGANIZATION, title: 'مجموعه'}]
+    const onSubmitFunc = (userType === constants.USER_TYPES.PERSON) ? (this._onSubmitPerson) : (this._onSubmitOrgan)
     // const onSubmitFunc = onRegisterClick
     return (
         <div className="">
@@ -145,14 +148,18 @@ export class RegisterForm extends Component {
           {/*/>*/}
           <div className='radio-button-container'>
             <label className="container-checkmark">
-              <input type="radio" defaultChecked name="radio-step-1" ref={e => this.emailChecked = e}
-                     onClick={() => this._typeHandler(USER_TYPES.PERSON)}/>
+              <input type="radio" defaultChecked name="userType" value={constants.USER_TYPES.PERSON}
+                     checked={inputValues.userType === constants.USER_TYPES.PERSON}
+                     onClick={() => this._typeHandler(constants.USER_TYPES.PERSON)}
+                     onChange={onChangeSignUp}/>
               <span className="checkmark"/>
               <p className='title'>{translator['Person']}</p>
             </label>
             <label className="container-checkmark">
-              <input type="radio" name="radio-step-1" ref={e => this.emailChecked = e}
-                     onClick={() => this._typeHandler(USER_TYPES.ORGANIZATION)}/>
+              <input type="radio" name="userType" value={constants.USER_TYPES.ORGANIZATION}
+                     checked={inputValues.userType === constants.USER_TYPES.ORGANIZATION}
+                     onClick={() => this._typeHandler(constants.USER_TYPES.ORGANIZATION)}
+                     onChange={onChangeSignUp}/>
               <span className="checkmark"/>
               <p className='title'>{translator['Organ']}</p>
             </label>
@@ -162,6 +169,8 @@ export class RegisterForm extends Component {
               {...reduxFormProps}
               translator={translator}
               onSubmit={onSubmitFunc}
+              onChangeSignUp={onChangeSignUp}
+              inputValues={inputValues}
           />
           {/*<div className="error-wrapper">*/}
           {/*<span className={`error ${reduxFormProps.error ? 'show' : ''}`}>*/}
@@ -175,7 +184,7 @@ export class RegisterForm extends Component {
 
 const mapStateToProps = (state) => ({
   translator: getMessages(state),
-  isLoggedIn: state.auth.client.isLoggedIn
+  isLoggedIn: state.auth.client.isLoggedIn,
 })
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
@@ -192,7 +201,8 @@ RegisterForm = reduxForm({
   form: 'RegisterForm',
   validate: validateSignUpForm,
   asyncValidate: asyncValidateSignUp,
-  asyncBlurFields: ['username', 'email']
+  asyncBlurFields: ['username', 'email'],
+  destroyOnUnmount: false
 })(RegisterForm)
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm)
