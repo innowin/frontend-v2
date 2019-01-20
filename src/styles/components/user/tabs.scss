@@ -259,7 +259,7 @@
         background-color: $text-lightest-color;
         width: 125px;
         box-shadow: 0 1px 7px 1px rgba(0, 0, 0, 0.15);
-        border-radius: $border-radius;
+        border-radius: $border-radius-size;
         transition-duration: $animation-timing-short;
 
         > div {
@@ -464,7 +464,7 @@
   transition-delay: 0.02s;
   transition-duration: 0.5s;
   resize: none;
-  border-radius: $border-radius;
+  border-radius: $border-radius-size;
   border: 1px #e7e7e7 solid;
   font-size: 13px;
   line-height: 26px;

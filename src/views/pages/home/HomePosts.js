@@ -73,6 +73,16 @@ class HomePosts extends PureComponent
 
   componentDidMount()
   {
+    const {actions, exchangeId} = this.props
+    const {filterPostsByPostParentLimitOffset} = actions
+    const limit = 100
+    const offset = 0
+    if (exchangeId)
+    {
+      filterPostsByPostParentLimitOffset({
+        postParentId: exchangeId, postType: null, limit, offset, postParentType: constant.POST_PARENT.EXCHANGE
+      })
+    }
     window.addEventListener("scroll", this._onScroll)
   }
 

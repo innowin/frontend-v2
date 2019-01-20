@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {Collapse} from 'reactstrap';
+// import {Collapse} from 'reactstrap';
 import FontAwesome from 'react-fontawesome';
 
 export class ExtraParams extends Component {
@@ -16,7 +16,8 @@ export class ExtraParams extends Component {
 	
 	
 	render() {
-		const {labels, header} = this.props;
+		// const {labels, header} = this.props;
+		const {header} = this.props;
 		const {collapse} = this.state;
 		return (
 				<div className="filter-element">
@@ -27,18 +28,18 @@ export class ExtraParams extends Component {
 						<div className="angle-icon"><FontAwesome name={collapse ? "angle-double-up" : "angle-double-down"}/></div>
 					</div>
 					<div className="options-wrapper">
-						<Collapse isOpen={collapse}>
-							{labels.map((lab, i) => {
-										return (
-												<label key={i} className="label-wrapper">
-													<input type="checkbox"/>
-													<span className="checkmark"></span>
-													{lab}
-												</label>
-										)
-									}
-							)}
-						</Collapse>
+						{/*<Collapse isOpen={collapse}>*/}
+							{/*{labels.map((lab, i) => {*/}
+										{/*return (*/}
+												{/*<label key={i} className="label-wrapper">*/}
+													{/*<input type="checkbox"/>*/}
+													{/*<span className="checkmark"></span>*/}
+													{/*{lab}*/}
+												{/*</label>*/}
+										{/*)*/}
+									{/*}*/}
+							{/*)}*/}
+						{/*</Collapse>*/}
 					</div>
 				</div>
 		)

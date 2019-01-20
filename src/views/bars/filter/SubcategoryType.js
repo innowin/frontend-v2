@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import FontAwesome from 'react-fontawesome';
-import {Collapse} from 'reactstrap';
+// import {Collapse} from 'reactstrap';
 import {BeatLoader} from 'react-spinners';
 
 export class SubcategoryType extends Component {
@@ -27,7 +27,8 @@ export class SubcategoryType extends Component {
 	
 	render() {
 		const {collapse} = this.state;
-		const {header , subcategoryList , isLoading, activeSubcategory} = this.props;
+		// const {header , subcategoryList , isLoading, activeSubcategory} = this.props;
+		const {header, isLoading} = this.props;
 		// console.log('Hi',subcategoryList);
 		return (
 				<div className="filter-element">
@@ -38,15 +39,15 @@ export class SubcategoryType extends Component {
 						{(isLoading)? <div className="filter-spinner"><BeatLoader  color="#999" size={8} margin="4px" loading={isLoading}/></div>  : <div className="angle-icon"><FontAwesome name={collapse ? "caret-up" : "caret-down"}/></div>}
 					</div>
 					<div className="options-wrapper">
-						<Collapse isOpen={collapse}>
-							{
-								subcategoryList.map( (item , i) => (
-										<div className={`categoryItems ${(+activeSubcategory === item.id) ? 'active':''}`} key={item.id+i+item.name} id={item.id} onClick={this._handleClick}>
-											{item.title}
-										</div>
-								))
-							}
-						</Collapse>
+						{/*<Collapse isOpen={collapse}>*/}
+							{/*{*/}
+								{/*subcategoryList.map( (item , i) => (*/}
+										{/*<div className={`categoryItems ${(+activeSubcategory === item.id) ? 'active':''}`} key={item.id+i+item.name} id={item.id} onClick={this._handleClick}>*/}
+											{/*{item.title}*/}
+										{/*</div>*/}
+								{/*))*/}
+							{/*}*/}
+						{/*</Collapse>*/}
 					</div>
 				</div>
 		)

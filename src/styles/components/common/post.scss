@@ -26,6 +26,74 @@
   transition-duration: 0.5s;
 }
 
+.post-type-create-container {
+  display: inline-block;
+  width: 40%;
+  margin: 13px 10% 0 0;
+  opacity: 1;
+  transition: all $animation-timing;
+}
+
+.post-type-create-container-hide {
+  display: inline-block;
+  width: 40%;
+  margin: 13px 10% 0 0;
+  opacity: 1;
+  transition: all $animation-timing;
+}
+
+.post-type-flex-container {
+  display: flex;
+  justify-content: space-around;
+  .container-checkmark {
+
+    .post-type-text {
+      padding-right: 30px;
+    }
+  }
+}
+
+.post-type-write-container {
+  opacity: 1;
+  position: relative;
+  transition: all $animation-timing;
+  height: 90px;
+}
+
+.post-type-write-container-hide {
+  opacity: 0;
+  height: 0;
+  position: relative;
+  transition: all $animation-timing;
+}
+
+.post-type-write-content {
+  border-radius: $border-radius-size;
+  height: 40px;
+  display: block;
+  padding: 10px 13px;
+  width: 100%;
+  border: 1px #e7e7e7 solid;
+  transition: all $animation-timing;
+  font-size: $font-size-post-content;
+
+  &:focus {
+    border: 1px $success-color solid;
+  }
+}
+
+.post-type-character {
+  transition-duration: $animation-timing;
+  font-size: $font-size-regular;
+  position: absolute;
+  top: 38px;
+}
+
+
+.post-type-write-header {
+  font-size: $font-size-13;
+}
+
 .post-component-header-item {
   padding-top: 15px;
   display: inline-block;
@@ -154,7 +222,7 @@
 /* -------------------------------   post textarea -------------------------*/
 .post-component-content {
   //border: 1px #e7e7e7 solid;
-  border-radius: $border-radius;
+  border-radius: $border-radius-size;
   //overflow: hidden;
 
   .post-component-description {
@@ -166,7 +234,7 @@
       margin-right: 63px;
       resize: none;
       border: 1px #e7e7e7 solid;
-      border-radius: $border-radius;
+      border-radius: $border-radius-size;
       font-size: 13px;
       transition-duration: 0.5s;
       height: 45px;
@@ -182,7 +250,7 @@
       transition-delay: 0.02s;
       transition-duration: 0.5s;
       resize: none;
-      border-radius: $border-radius;
+      border-radius: $border-radius-size;
       border: 1px #e7e7e7 solid;
       font-size: 13px;
       line-height: 26px;

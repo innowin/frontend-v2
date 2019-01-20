@@ -14,7 +14,7 @@
 
 .comment-body {
   background-color: white;
-  border-radius: $border-radius;
+  border-radius: $border-radius-size;
   border: 1px solid #e7e7e7;
   transition-duration: $animation-timing;
   position: relative;
@@ -24,7 +24,7 @@
 
 .comment-body-focused {
   border: 1px solid #BBBBBB;
-  border-radius: $border-radius;
+  border-radius: $border-radius-size;
   transition-duration: $animation-timing;
   background-color: white;
   position: relative;

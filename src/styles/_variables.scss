@@ -16,8 +16,6 @@ $scroll-bar-height: 5px;
 $font-family-sans-serif: vazir, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
 $font-family-serif:      vazir, Georgia, "Times New Roman", Times, serif !default;
 
-@import "~bootstrap/scss/variables";
-
 //Animation Time
 $animation-timing: .3s;
 $animation-timing-short: .2s;
@@ -105,6 +103,7 @@ $font-size-followed: 10px;
 $font-size-header: 22px;
 $font-size-medium: 15px;
 $font-size-large: 18px;
+$font-size-14: 14px;
 $font-size-13: 13px;
 $font-size-regular: 12px;
 $font-size-smallest: 8px;

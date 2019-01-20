@@ -24,12 +24,20 @@ type renderProps = {
 
 class renderTextField extends React.Component <renderProps> {
   render(): React.ReactNode {
-    const {input, label, type, className, placeholder, id, meta, isNew, tipText, ltr, nextText} = this.props
+    const {onChangeForm, input, label, type, className, placeholder, id, meta, isNew, tipText, ltr, nextText, myRef, myKeyDown} = this.props
     const {error, touched, active, initial, visited} = meta
+    const {onChange} = input
     return (!isNew ? (
             <div className={className}>
               <input id={id} className={(touched && error) ? `form-control error` : `form-control`} {...input}
-                     placeholder={placeholder || label} type={type}/>
+                     placeholder={placeholder || label} type={type}
+                     onChange={(e) => {
+                       onChange(e)
+                       onChangeForm && onChangeForm(e)
+                     }}
+                     ref={myRef}
+                     onKeyDown={myKeyDown}
+              />
               {(touched && error) && <span className="error-message">{error}</span>}
             </div>
         ) : (
@@ -41,9 +49,15 @@ class renderTextField extends React.Component <renderProps> {
                   : 'render-text-field-container'
             }>
               <div className='render-text-field-div'>
-                <input ref={e => this.textField = e} id={id}
+                <input ref={myRef ? myRef : e => this.textField = e} id={id}
                        className={(ltr ? ((touched && error) ? `error ltr` : `ltr`) : (touched && error) ? `error` : ``)} {...input}
-                       placeholder={placeholder} type={type}/>
+                       placeholder={placeholder} type={type}
+                       onChange={(e) => {
+                         onChange(e)
+                         onChangeForm && onChangeForm(e)
+                       }}
+                       onKeyDown={myKeyDown}
+                />
                 <span className={
                   (this.textField &&
                       (this.textField.value !== '' || active || (!visited && initial !== ''))
