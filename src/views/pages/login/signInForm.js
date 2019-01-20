@@ -26,9 +26,8 @@ class PureSignInForm extends React.Component {
   }
 
   render() {
-    const {handleSubmit, onSubmit, submitting, translator, error, submitFailed, recoveryPasswordClick, onChangeSignIn, inputValues} = this.props
+    const {handleSubmit, onSubmit, submitting, translator, error, submitFailed, recoveryPasswordClick, onChangeSignIn} = this.props
     const {showPassword} = this.state
-    const {username, password} = inputValues
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="sign-in-form">
           <Field
@@ -38,7 +37,6 @@ class PureSignInForm extends React.Component {
               label={translator['Username']}
               className="signup-field"
               onChangeForm={onChangeSignIn}
-              stateValue={username}
           />
           <div className='password-container'>
             <FontAwesome className='eye-icon pulse' name={showPassword ? 'eye-slash' : 'eye'}
@@ -50,7 +48,6 @@ class PureSignInForm extends React.Component {
                 label={translator['Password']}
                 className="signup-field"
                 onChangeForm={onChangeSignIn}
-                stateValue={password}
             />
           </div>
           <div>

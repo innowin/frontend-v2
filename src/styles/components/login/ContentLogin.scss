@@ -176,24 +176,51 @@
       color: $text-medium-dark;
       padding: 0 0.8rem 0 0 !important;
     }
+    .email-container {
+      position: relative;
+      overflow: hidden;
+      .email-suggest {
+        position: absolute;
+        pointer-events: none;
+        color: $text-light-color;
+        outline: none;
+        border: 1px solid transparent;
+        display: block;
+        width: 100%;
+        padding: 9px 13px;
+        font-size: 15px;
+        border-radius: 0.3rem;
+        line-height: 19.7px;
+        text-align: left;
+        direction: ltr;
+        box-sizing: border-box;
+        height: 38px;
+      }
+      .calculate-length-container {
+        width: auto;
+        display: inline-block;
+        visibility: hidden;
+        background: pink;
+        position: fixed;
+        overflow:auto;
+        direction: ltr;
+        font-size: 15px;
+        text-align: left;
+      }
+    }
     input, select {
-      -webkit-transition: all 0.30s ease-in-out;
-      -moz-transition: all 0.30s ease-in-out;
-      -ms-transition: all 0.30s ease-in-out;
-      -o-transition: all 0.30s ease-in-out;
+      transition: all 0.30s ease-in-out;
       outline: none;
       border: 1px solid $input-border;
       display: block;
       width: 100%;
-      padding: 0.56rem 0.8rem;
+      padding: 9px 13px;
       font-size: 15px;
       border-radius: 0.3rem;
       line-height: 17.986px;
       color: $primary-color;
       text-align: left;
       direction: ltr;
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
       box-sizing: border-box;
       height: 38px;
     }
@@ -229,22 +256,17 @@
     }
     .signup-field {
       input {
-        -webkit-transition: all 0.30s ease-in-out;
-        -moz-transition: all 0.30s ease-in-out;
-        -ms-transition: all 0.30s ease-in-out;
-        -o-transition: all 0.30s ease-in-out;
+        transition: all 0.30s ease-in-out;
         outline: none;
         border: 1px solid $input-border;
         display: block;
         width: 100%;
-        padding: 0.56rem 0.8rem;
+        padding: 9px 13px;
         font-size: 15px;
         border-radius: $border-radius-size;
         color: $primary-color;
         text-align: left;
         direction: ltr;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
         box-sizing: border-box;
         height: 38px;
       }

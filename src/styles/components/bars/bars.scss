@@ -494,7 +494,7 @@ $sidebar-profile-media-width: 80px;
 
 .user-sidebar-buttons{
   padding-top: 20px;
-  padding-bottom: 22px;
+  padding-bottom: 20px;
   bottom: 65px;
   right: 20px;
   width: calc(100% - 40px);
@@ -951,7 +951,7 @@ $sidebar-profile-media-width: 80px;
 }
 
 .selected-bar {
-  border-bottom: 2px solid #ffffff;
+  border-bottom: 3px solid #ffffff;
 }
 .top-bar-home {
   width: 130px;
@@ -974,7 +974,7 @@ $sidebar-profile-media-width: 80px;
     align-items: center;
     flex-flow: row;
     direction: rtl;
-    justify-items: center;
+    justify-content: center;
     .home-icon {
       height: 25px;
     }

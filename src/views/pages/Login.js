@@ -35,7 +35,7 @@ class Login extends Component {
         password: '',
         email: '',
         userType: constants.USER_TYPES.PERSON,
-      }
+      },
     }
   }
 
@@ -77,7 +77,7 @@ class Login extends Component {
 
   render() {
     const {translate} = this.props
-    const {page, footer, header, showRecovery, showRegisterModal, signInFields, signUpFields} = this.state
+    const {page, footer, header, showRecovery, showRegisterModal, signUpFields} = this.state
     const {year} = footer
     const {iosLink, androidLink, address, phoneNumber, logoCaption} = header
     const SignIn = (page === 'SignIn')
@@ -123,7 +123,7 @@ class Login extends Component {
                   </div>
                   <div className="card-block login-form p-3">
                     {SignIn &&
-                    <SignInForm inputValues={signInFields} onChangeSignIn={this._onChangeSignIn} initialValues={{rememberMe: true}}
+                    <SignInForm onChangeSignIn={this._onChangeSignIn} initialValues={{rememberMe: true}}
                                 recoveryPasswordClick={this._showRecoveryPassword}
                     />}
                     {SignUp &&
