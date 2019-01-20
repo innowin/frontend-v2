@@ -61,15 +61,14 @@ class Explore extends PureComponent <appProps, appState> {
 
   _handleCat = (level, word) => {
     if (level === 1) {
-      this.setState({...this.state, catLevel1: word})
+      this.setState({...this.state, catLevel1: word, catLevel2: 0, catLevel3: 0})
     }
     else if (level === 2) {
-      this.setState({...this.state, catLevel2: word})
+      this.setState({...this.state, catLevel2: word, catLevel3: 0})
     }
     else if (level === 3) {
       this.setState({...this.state, catLevel3: word})
     }
-    console.log(level, word)
   }
 
   _onScroll = () => {
@@ -109,27 +108,53 @@ class Explore extends PureComponent <appProps, appState> {
   _unCollapse = () => this.setState({...this.state, isCollapsed: false})
 
   render() {
-    const {allProducts, loading} = this.props
-    const {scrollButton, catLevel1, catLevel2, catLevel3, /*isCollapsed*/} = this.state
+    const {allProducts, loading, categories} = this.props
+    const {scrollButton, catLevel1, catLevel2, catLevel3, isCollapsed} = this.state
+    const {list} = categories
 
     return (
         <div className='all-exchanges-parent'>
           <Sidebar search={this._search}
                    handleCat={this._handleCat}
+                   categories={categories}
                    catLevel1={catLevel1}
                    catLevel2={catLevel2}
                    catLevel3={catLevel3}
           />
-          <div className='all-exchanges-container'>
+          <div className={isCollapsed ? 'all-product-container-column' : 'all-product-container'}>
             <div className='product-explorer-title'>
               <div>
                 <span>اینوین</span>
                 <span> / </span>
                 <span>محصولات</span>
+                {
+                  catLevel1 !== 0 ?
+                      <span>
+                        <span> / </span>
+                        <span>{list[catLevel1].name}</span>
+                      </span>
+                      : null
+                }
+                {
+                  catLevel2 !== 0 ?
+                      <span>
+                        <span> / </span>
+                        <span>{list[catLevel2].name}</span>
+                      </span>
+                      : null
+                }
+                {
+                  catLevel3 !== 0 ?
+                      <span>
+                        <span> / </span>
+                        <span>{list[catLevel3].name}</span>
+                      </span>
+                      : null
+                }
               </div>
               <div>
-                {/*<div onClick={this._collapse} style={{display: 'inline-block', padding: '0 10px', backgroundColor: 'blue'}}>?</div>*/}
-                {/*<div onClick={this._unCollapse} style={{display: 'inline-block', padding: '0 10px', backgroundColor: 'yellow'}}>?</div>*/}
+                <div onClick={this._collapse} style={{display: 'inline-block', padding: '0 10px', backgroundColor: 'blue'}}>?</div>
+                <div onClick={this._unCollapse} style={{display: 'inline-block', padding: '0 10px', backgroundColor: 'yellow'}}>?</div>
               </div>
             </div>
             <Products products={allProducts}
@@ -138,6 +163,9 @@ class Explore extends PureComponent <appProps, appState> {
                       catLevel2={catLevel2}
                       catLevel3={catLevel3}
             />
+            <div className='product-model-hide'/>
+            <div className='product-model-hide'/>
+            <div className='product-model-hide'/>
             <div className={loading ? 'exchanges-explore-search-loading' : 'exchanges-explore-search-loading-hide'}><ClipLoader/></div>
           </div>
           <div className={scrollButton ? 'go-up-logo-cont' : 'go-up-logo-cont-hide'} onClick={this._goUp}>

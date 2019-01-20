@@ -19,8 +19,6 @@ const Products = (props: appProps) => {
 
   products = Object.values(products).filter(pro => pro.id)
 
-  console.log('catLevel3: ', catLevel3)
-
   if (catLevel1 !== 0) {
     if (catLevel3 !== 0) {
       products = products.filter(cat => cat.product_category && cat.product_category.id === catLevel3)

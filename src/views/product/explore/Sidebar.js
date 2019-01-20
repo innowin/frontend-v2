@@ -2,10 +2,6 @@
 import * as React from "react"
 import {Component} from "react"
 import FontAwesome from "react-fontawesome"
-import {makeCategorySelector} from "src/redux/selectors/common/category/getCategoriesByParentId"
-import {bindActionCreators} from 'redux'
-import connect from 'react-redux/es/connect/connect'
-
 
 type appProps =
     {|
@@ -116,13 +112,4 @@ class Sidebar extends Component <appProps, appState> {
   }
 }
 
-const mapStateToProps = (state) => {
-  const categorySelector = makeCategorySelector()
-  return {
-    categories: categorySelector(state)
-  }
-}
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({}, dispatch)
-})
-export default connect(mapStateToProps, mapDispatchToProps)(Sidebar)
+export default Sidebar
