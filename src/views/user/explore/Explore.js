@@ -34,6 +34,8 @@ type appState =
       justFollowing: boolean,
       justFollowed: boolean,
       scrollButton: boolean,
+      justUsers: boolean,
+      justOrgans: boolean,
     |}
 
 class Explore extends PureComponent <appProps, appState> {
