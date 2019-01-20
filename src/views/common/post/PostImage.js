@@ -12,7 +12,7 @@ type postImageProps = {
   userImage?: fileType,
   userImageId: number,
   extendedView?: boolean,
-  fileList: [],
+  fileList: {},
 }
 type postImageState = {
   pictureLoaded: null | boolean,
@@ -26,7 +26,7 @@ class PostImage extends React.Component<postImageProps, postImageState> {
     userImage: PropTypes.object,
     userImageId: PropTypes.number,
     extendedView: PropTypes.bool,
-    fileList: PropTypes.array,
+    fileList: PropTypes.object,
   }
 
   constructor(props: postImageProps) {

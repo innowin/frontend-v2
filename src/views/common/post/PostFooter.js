@@ -12,7 +12,7 @@ type postFooterProps = {
   extendedView?: boolean,
   menuToggle: boolean,
   openMenu: Function,
-  postIdentity: identityType,
+  postIdentity: identityType | number,
   translate: { [string]: string },
   deletePost: Function,
   showComment: Function,
@@ -30,7 +30,7 @@ const PostFooter = (props: postFooterProps) => {
   let ownerId
   if (post) {
     // let viewerCount = post.viewerCount
-    if (postIdentity && postIdentity.id) {
+    if (postIdentity && typeof postIdentity !== 'number') {
       user = postIdentity.identity_user
       organization = postIdentity.identity_organization
       ownerId = user ? user.id : organization.id
@@ -89,7 +89,7 @@ PostFooter.propTypes = {
   extendedView: PropTypes.bool,
   menuToggle: PropTypes.bool.isRequired,
   openMenu: PropTypes.func.isRequired,
-  postIdentity: PropTypes.object.isRequired,
+  postIdentity: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
   translate: PropTypes.object.isRequired,
   deletePost: PropTypes.func.isRequired,
   showComment: PropTypes.func.isRequired,

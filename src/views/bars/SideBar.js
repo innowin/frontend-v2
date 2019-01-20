@@ -6,7 +6,14 @@ import type {badgeType} from '../../consts/flowTypes/common/badges'
 import type {organizationType} from 'src/consts/flowTypes/organization/organization'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import type {userProfileType, userType} from 'src/consts/flowTypes/user/basicInformation'
-import {DefaultUserIcon, DefaultOrganIcon, TwitterIcon, TelegramIcon, LinkedInIcon, InstagramIcon} from 'src/images/icons'
+import {
+  DefaultUserIcon,
+  DefaultOrganIcon,
+  TwitterIcon,
+  TelegramIcon,
+  LinkedInIcon,
+  InstagramIcon
+} from 'src/images/icons'
 import AttachFile from '../common/inputs/AttachFile'
 import CheckOwner from '../common/CheckOwner'
 import connect from 'react-redux/es/connect/connect'
@@ -261,8 +268,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
         profile_media: pictureId,
         description: descriptionState
       }
-    }
-    else {
+    } else {
       return {
         id: owner.id,
         organization_banner: bannerId,
@@ -383,8 +389,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     const formValues = this._getValues()
     if (sideBarType === constants.USER_TYPES.PERSON) {
       updateProfile({formValues: formValues, profileId: profileId, userId: owner.id})
-    }
-    else {
+    } else {
       updateOrganization({formValues, organizationId: owner.id})
     }
     removeFileFromTemp(UserSideBarBannerTempKeyName)
@@ -489,14 +494,14 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
             </div>
             <div className="align-items-center flex-column info-section">
               {/*<CheckOwner id={paramId} showForOwner={false}>*/}
-                {/*<i className="fa fa-ellipsis-v menuBottom" onClick={this._handleMenu}/>*/}
-                {/*{*/}
-                  {/*(!menuToggle) ? ('') : (*/}
-                      {/*<MenuBox id="sidebar-menu-box"*/}
-                               {/*handleEditProfile={this._handleEditProfile}*/}
-                               {/*editProfile={editProfile}*/}
-                               {/*paramId={paramId}/>)*/}
-                {/*}*/}
+              {/*<i className="fa fa-ellipsis-v menuBottom" onClick={this._handleMenu}/>*/}
+              {/*{*/}
+              {/*(!menuToggle) ? ('') : (*/}
+              {/*<MenuBox id="sidebar-menu-box"*/}
+              {/*handleEditProfile={this._handleEditProfile}*/}
+              {/*editProfile={editProfile}*/}
+              {/*paramId={paramId}/>)*/}
+              {/*}*/}
               {/*</CheckOwner>*/}
               <span className="p-20px mt-4">{name}</span>
               {
@@ -517,23 +522,6 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
               }
             </div>
             {
-              (!editProfile) ? '' : (
-                  <div className="flex-row pb-3">
-                    <div className="w-50 pl-2 pb-2">
-                      <button type="submit" className="btn btn-outline-secondary btn-block sidebarBottom">
-                        {tr && tr['Save changes']}
-                      </button>
-                    </div>
-                    <div className="w-50 pb-2">
-                      <button type="button" className="btn btn-outline-secondary btn-block sidebarBottom"
-                              onClick={this._handleEditProfile}>
-                        {tr && tr['Cancel']}
-                      </button>
-                    </div>
-                  </div>
-              )
-            }
-            {
               (chosenBadgesImg.length > 0) ? (
                   <div className="badgesCard">
                     <BadgesCard badgesImg={chosenBadgesImg}/>
@@ -548,7 +536,8 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
             <section className='user-sidebar-buttons'>
               <CheckOwner showForOwner={false} id={paramId}>
                 <div className="sidebarBottomParent">
-                  <Material className="btn btn-outline-secondary sidebarBottom side-user" content={tr && tr['Send Message']}/>
+                  <Material className="btn btn-outline-secondary sidebarBottom side-user"
+                            content={tr && tr['Send Message']}/>
                   {showFollow ?
                       <Material className="btn btn-outline-secondary sidebarFollowBottom follow-button side-user-follow"
                                 onClick={this._createFollow}
@@ -562,10 +551,19 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
               <CheckOwner showForOwner={true} id={paramId}>
                 <div className="sidebarBottomParent">
                   <Material className="btn btn-outline-secondary sidebarBottom side-user"
-                            content={tr && tr['Complete profile']}/>
-                  <Material className="btn btn-outline-secondary sidebarFollowBottom follow-button side-user-follow"
-                            onClick={this._handleEditProfile}
-                            content={(!editProfile) ? tr && tr['Edit Dashboard'] : tr && tr['Close']}/>
+                            onClick={editProfile ? this._handleEditProfile : undefined}
+                            content={(!editProfile) ? (tr && tr['Complete profile']) : (
+                                tr && tr['Cancel']
+                            )}/>
+                  <Material className={!editProfile
+                      ? "sidebarFollowBottom follow-button side-user-follow"
+                      : 'side-user-follow-parent'}
+                            onClick={!editProfile ? this._handleEditProfile : undefined}
+                            content={(!editProfile) ? tr && tr['Edit Dashboard'] : (
+                                <button type="submit" className='sidebarFollowBottom follow-button side-user-follow'>
+                                  {tr && tr['Save changes']}
+                                </button>
+                            )}/>
                 </div>
               </CheckOwner>
             </section>

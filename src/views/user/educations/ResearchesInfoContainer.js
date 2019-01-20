@@ -28,7 +28,7 @@ class ResearchesInfoContainer extends Component<ResearchesInfoProps> {
     userId: PropTypes.number.isRequired,
     translate: PropTypes.object.isRequired,
     researches: PropTypes.array.isRequired,
-    actions: PropTypes.func.isRequired,
+    actions: PropTypes.object.isRequired,
   }
 
   componentDidMount() {

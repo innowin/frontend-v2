@@ -44,8 +44,8 @@ type postExtendedViewProps = {
   },
   translate: { [string]: string },
   post: postType,
-  postRelatedIdentityImage?: fileType,
-  postIdentity: identityType,
+  postRelatedIdentityImage?: fileType | number,
+  postIdentity?: identityType | number,
   param?: paramType,
   userImage?: fileType,
   userImageId: number,
@@ -53,7 +53,7 @@ type postExtendedViewProps = {
   showEdit?: Function,
   comments?: Array<commentType>,
   commentParentType: string,
-  fileList: [],
+  fileList: {},
 }
 type postViewState = {
   menuToggle: boolean,
@@ -67,16 +67,16 @@ type postViewState = {
 class PostView extends React.Component<postExtendedViewProps, postViewState> {
   static propTypes = {
     post: PropTypes.object.isRequired,
-    postIdentity: PropTypes.object.isRequired,
     param: PropTypes.object,
     translate: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
-    postRelatedIdentityImage: PropTypes.object,
+    postIdentity: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+    postRelatedIdentityImage: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
     userImage: PropTypes.object,
     extendedView: PropTypes.bool,
     showEdit: PropTypes.func,
     comments: PropTypes.array,
-    fileList: PropTypes.array
+    fileList: PropTypes.object
   }
 
   constructor(props) {
@@ -276,7 +276,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                   title={translate['Single post']}
               />
               }
-              <div className={extendedView && 'post-view-container'}>
+              <div className={extendedView ? 'post-view-container' : undefined}>
                 {
                   post.post_type !== constants.POST.POST_TYPE.POST &&
                   <PostType translate={translate} post={post}/>

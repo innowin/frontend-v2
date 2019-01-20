@@ -160,6 +160,8 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
   handleClickOutside = (event) => {
     const {attachMenu, contactMenu, linkModal, addProductModal, postImg1, postImg2, postImg3, postFile, postMedia, link, description, labels, open, descriptionHeader} = this.state
     const needReset = !description && !postImg1 && !postImg2 && !postImg3 && !postFile && !postMedia && !link && labels === {}
+    const {postImg1Id, postImg2Id, postImg3Id, postMediaId, postFileId} = this.props
+
 
     if (!event.target.closest("#create-post-attach-menu-box")) {
       if (attachMenu) {
@@ -186,7 +188,8 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
     }
 
     if (this.form && !this.form.contains(event.target)) {
-      if (open && (description.length === 0) && (descriptionHeader.length === 0)) {
+      const filesCount = (postMediaId || postFileId) ? 1 : ([postImg1Id, postImg2Id, postImg3Id].filter(img => img).length)
+      if (open && (description.length === 0) && (descriptionHeader.length === 0) && (filesCount === 0)) {
         this.setState({...this.state, open: false, postType: constants.POST.POST_TYPE.POST})
         this.supplyChecked.checked = false
         this.demandChecked.checked = false

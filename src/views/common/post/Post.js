@@ -78,6 +78,7 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
               :
               <PostView post={post}
                         showEdit={this._showEdit}
+                        extendedView={false}
               />
           }
         </VerifyWrapper>

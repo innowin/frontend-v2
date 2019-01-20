@@ -5,7 +5,7 @@ const RemoveFile = (props) => {
   const {onClickFunc} = props
   return <span onClick={onClickFunc} className='remove-file pulse'>x</span>
 }
-RemoveFile.PropTypes = {
+RemoveFile.propTypes = {
   onClickFunc: PropTypes.func.isRequired,
 }
 

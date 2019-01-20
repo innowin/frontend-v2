@@ -759,6 +759,13 @@ $sidebar-profile-media-width: 80px;
     }
   }
 
+  .side-user-follow-parent {
+    flex: 0 1 40%;
+    .side-user-follow {
+      width: 100%;
+    }
+  }
+
   .sidebarFollowBottom {
     flex-grow: 1;
     cursor: default;
@@ -770,7 +777,7 @@ $sidebar-profile-media-width: 80px;
     color: $background-color;
     font-size: $font-size-boxText;
     border-radius: 25px;
-    transition-duration: $animation-timing;
+    transition: background $animation-timing ease, color $animation-timing ease, border $animation-timing ease;
     height: 33px;
     margin: auto 5px 20px auto;
     //width: 110px;
@@ -782,6 +789,15 @@ $sidebar-profile-media-width: 80px;
       transition-duration: $animation-timing;
       font-weight: bold;
     }
+
+    .submit-button {
+      width: 100%;
+      height: 100%;
+      //padding: 7px;
+      background: transparent;
+      color: $background-color;
+      font-size: $font-size-boxText;
+    }
   }
 
   .side-user {
@@ -790,6 +806,7 @@ $sidebar-profile-media-width: 80px;
   }
 
   .side-user-follow {
+    //padding: 10px;
     margin: 0;
     flex: 0 1 40%;
   }
