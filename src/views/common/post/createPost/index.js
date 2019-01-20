@@ -336,6 +336,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
   }
 
   _handleCtrlEnter = (e) => {
+    console.log(e)
     if (this.text.innerText.length > maxAllowedWordCounts) this.text.innerText = this.state.description
     else if (e.keyCode === 17 || e.keyCode === 13) {
       let keys = this.state.keys.slice()
