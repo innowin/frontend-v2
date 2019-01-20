@@ -1,9 +1,9 @@
-import Contacts from '../../../images/common/contacts_svg'
-// import ContributionIcon from '../../../images/common/contribution_svg'
-import ExchangeIcon from '../../../images/common/exchange_svg'
+import Contacts from 'src/images/common/contacts_svg'
+import ExchangeIcon from 'src/images/common/exchange_svg'
 import Material from '../../common/components/Material'
 import React from 'react'
 import {Link} from 'react-router-dom'
+import {ContributionIcon} from 'src/images/icons'
 
 const ExploreMenu = (props) => {
   const {exploreCollapse, _toggleExplore} = props
@@ -34,13 +34,13 @@ const ExploreMenu = (props) => {
               }/>
             </Link>
 
-            {/*<Link style={{textDecoration: 'none', color: 'black'}} to={'#'} onClick={_toggle}>*/}
-              {/*<Material className='explore-menu-items' content={*/}
-                {/*<div>*/}
-                  {/*<ContributionIcon className='explore-logos'/> آورده ها (محصولات، مهارت و ...)*/}
-                {/*</div>*/}
-              {/*}/>*/}
-            {/*</Link>*/}
+            <Link style={{textDecoration: 'none', color: 'black'}} to={'/product/Product_Explorer'} onClick={_toggle}>
+              <Material className='explore-menu-items' content={
+                <div>
+                  <ContributionIcon className='explore-logos'/> آورده ها (محصولات، مهارت و ...)
+                </div>
+              }/>
+            </Link>
           </div>
         </div>
       </div>

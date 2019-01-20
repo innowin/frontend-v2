@@ -1,18 +1,22 @@
 import types from '../../types/index'
 
-export const getProductInfo = (id) => ({
-    type: types.COMMON.GET_PRODUCT_INFO,
-    payload: {
-        id
-    }
+export const getAllProductInfo = (limit, offset, search) => ({
+  type: types.COMMON.GET_ALL_PRODUCTS,
+  payload: {limit, offset, search}
 })
 
+export const getProductInfo = (id) => ({
+  type: types.COMMON.GET_PRODUCT_INFO,
+  payload: {
+    id
+  }
+})
 
 export const createProductAsContribution = (formData) => ({
-    type: types.COMMON.CREATE_PRODUCT,
-    payload: {
-        formData
-    }
+  type: types.COMMON.CREATE_PRODUCT,
+  payload: {
+    formData
+  }
 })
 
 const getProductsByIdentity = ({identityId, productOwnerId, productOwnerType}) => ({
@@ -31,10 +35,11 @@ const updateProduct = ({formValues, productId}) => ({
 })
 
 const ProductActions = {
+  getAllProductInfo,
   getProductsByIdentity,
   updateProduct,
   deleteProduct,
-  getProductInfo,
+  getProductInfo
 }
 
 export default ProductActions

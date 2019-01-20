@@ -20,7 +20,7 @@ class Material extends React.Component {
 
   handleButtonRelease(e) {
     clearTimeout(this.buttonPressTimer)
-    if (!this.ripple) {
+    if (!this.ripple && this.container) {
       let target = this.container
       let rect = target.getBoundingClientRect()
       let ripple = document.createElement('span')
@@ -35,8 +35,7 @@ class Material extends React.Component {
       setTimeout(() => {
         try {
           target.removeChild(ripple)
-        }
-        catch (e) {
+        } catch (e) {
           console.log('material failed')
         }
       }, 600)
@@ -60,18 +59,20 @@ class Material extends React.Component {
     let pageY = e.pageY
     let pageX = e.pageX
     this.buttonPressTimer = setTimeout(() => {
-      let target = this.container
-      let rect = target.getBoundingClientRect()
-      let ripple = document.createElement('span')
-      ripple.className = 'rippleSlow'
-      if (this.props.backgroundColor) ripple.style.backgroundColor = this.props.backgroundColor
-      ripple.style.height = ripple.style.width = parseInt(1.3 * Math.max(rect.width, rect.height), 10) + 'px'
-      target.appendChild(ripple)
-      this.ripple = ripple
-      let top = pageY - rect.top - ripple.offsetHeight / 2 - window.scrollY
-      let left = pageX - rect.left - ripple.offsetWidth / 2 - window.scrollX
-      ripple.style.top = top + 'px'
-      ripple.style.left = left + 'px'
+      if (this.container) {
+        let target = this.container
+        let rect = target.getBoundingClientRect()
+        let ripple = document.createElement('span')
+        ripple.className = 'rippleSlow'
+        if (this.props.backgroundColor) ripple.style.backgroundColor = this.props.backgroundColor
+        ripple.style.height = ripple.style.width = parseInt(1.3 * Math.max(rect.width, rect.height), 10) + 'px'
+        target.appendChild(ripple)
+        this.ripple = ripple
+        let top = pageY - rect.top - ripple.offsetHeight / 2 - window.scrollY
+        let left = pageX - rect.left - ripple.offsetWidth / 2 - window.scrollX
+        ripple.style.top = top + 'px'
+        ripple.style.left = left + 'px'
+      }
     }, 300)
   }
 

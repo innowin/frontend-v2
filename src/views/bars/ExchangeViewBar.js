@@ -37,10 +37,9 @@ class ExchangeViewBar extends Component {
       editView: false,
       loadingEdit: false,
       unFollowed: false,
-      notFound: false,
       selectedImageTemp: null,
       selectedImage: null,
-      processing: false,
+      processing: false
     }
     this.follow = this.follow.bind(this)
     this.exchangeAdminMenu = React.createRef()
@@ -104,12 +103,6 @@ class ExchangeViewBar extends Component {
 
   componentDidMount() {
     const {exchangeId, exchanges} = this.props
-
-    // getExchangeMembersByExId (exchangeId)
-    // this._getExchange(exchangeId)
-    // this._getCounts(exchangeId)
-    // this._getCounts(exchangeId)
-
     const currentExchange = exchanges.list[exchangeId]
     if (currentExchange && currentExchange.exchange_image && currentExchange.exchange_image.file) {
       let image = new Image()
@@ -117,26 +110,47 @@ class ExchangeViewBar extends Component {
       image.onload = () => {
         this.setState({...this.state, imageLoaded: true})
       }
-    } else if (currentExchange && currentExchange.exchange.content.exchange_image) {
+    }
+    else if (currentExchange && currentExchange.exchange.content.exchange_image) {
       let image = new Image()
       image.src = currentExchange.exchange.content.exchange_image.file.includes("innowin.ir") ?
           currentExchange.exchange.content.exchange_image.file : REST_URL + currentExchange.exchange.content.exchange_image.file
       image.onload = () => {
         this.setState({...this.state, imageLoaded: true})
       }
-    } else this.setState({...this.state, notFound: true})
+    }
 
     document.addEventListener("mousedown", this.handleClickOutside)
   }
 
-  componentWillReceiveProps(prevProps, nextProps) {
-    const {exchanges, exchangeId} = this.props
+  componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
+    const {exchanges, exchangeId} = nextProps
     const currentExchange = exchanges.list[exchangeId]
+    if (currentExchange !== this.props.exchanges.list[exchangeId]) {
 
-    if (currentExchange !== prevProps.exchanges.list[exchangeId]) {
-      if (this.state.loadingEdit) {
-        this.setState({...this.state, editView: false, loadingEdit: false})
-      }
+      this.setState({...this.state, imageLoaded: false}, () => {
+        if (this.state.loadingEdit) {
+          this.setState({...this.state, editView: false, loadingEdit: false})
+        }
+
+        if (currentExchange && currentExchange.exchange_image && currentExchange.exchange_image.file) {
+          let image = new Image()
+          image.src = currentExchange.exchange_image.file.includes("innowin.ir") ? currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file
+          image.onload = () => {
+            this.setState({...this.state, imageLoaded: true})
+          }
+        }
+        else if (currentExchange && currentExchange.exchange.content.exchange_image) {
+          let image = new Image()
+          image.src = currentExchange.exchange.content.exchange_image.file.includes("innowin.ir") ?
+              currentExchange.exchange.content.exchange_image.file : REST_URL + currentExchange.exchange.content.exchange_image.file
+          image.onload = () => {
+            this.setState({...this.state, imageLoaded: true})
+          }
+        }
+
+      })
+
     }
   }
 
@@ -165,7 +179,8 @@ class ExchangeViewBar extends Component {
         if (this.exchangeAdminMenu && !this.exchangeAdminMenu.contains(event.target)) {
           this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
         }
-      } else if (currentExchange && currentExchange.exchange) {
+      }
+      else if (currentExchange && currentExchange.exchange) {
         if (this.exchangeAdminMenu && !this.exchangeAdminMenu.contains(event.target)) {
           this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
         }
@@ -181,13 +196,15 @@ class ExchangeViewBar extends Component {
               className="sidebarFollowBottom">عضو شده
           </button>
       )
-    } else if (this.state.followLoading) {
+    }
+    else if (this.state.followLoading) {
       return (
           <button type="button" className="sidebarFollowBottom">
             <BeatLoader size={7} color={"#4dab9f"} margin={2}/>
           </button>
       )
-    } else {
+    }
+    else {
       return (
           <button
               type="button"
@@ -260,7 +277,8 @@ class ExchangeViewBar extends Component {
       editExchange(formValues)
       // getExchangeByExId(exchangeId)
       this.setState({...this.state, loadingEdit: true})
-    } else console.log("Description Length is too much")
+    }
+    else console.log("Description Length is too much")
   }
 
   handleUnfollowExchange() {
@@ -271,7 +289,7 @@ class ExchangeViewBar extends Component {
       getExchangeMembershipByMemberIdentity({
         identityId: currentUserIdentity,
         exchangeMembershipOwnerId: currentUserId,
-        exchangeMembershipOwnerType: currentUserType,
+        exchangeMembershipOwnerType: currentUserType
       })
       // // console.log(exchangesIdentities)
       // let exchangeMembershipIdTemp = null
@@ -512,7 +530,8 @@ class ExchangeViewBar extends Component {
             }
           </div>
       )
-    } else {
+    }
+    else {
       return (
           <div style={{textAlign: "center", margin: "35px 10px 45px 10px"}}>
             بورس مورد نظر یافت نشد!
@@ -534,7 +553,7 @@ const StateToProps = (state, ownProps) => {
     currentUserId: userId,
     currentUserType: client.user_type,
     exchangesIdentities: state.common.exchangeMembership.list,
-    clientFiles: fileSelectorByKeyValue(state, "identity", client.identity.content),
+    clientFiles: fileSelectorByKeyValue(state, "identity", client.identity.content)
   })
 }
 const DispatchToProps = dispatch => ({
@@ -547,7 +566,7 @@ const DispatchToProps = dispatch => ({
     unFollow: ExchangeMembershipActions.deleteExchangeMembership,
     getExchangeMembershipByMemberIdentity: ExchangeMembershipActions.getExchangeMembershipByMemberIdentity,
     getAllExchanges: exchangeActions.getAllExchanges,
-    createFile,
+    createFile
   }, dispatch)
 })
 
