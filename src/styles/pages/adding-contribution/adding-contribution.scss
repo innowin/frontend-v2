@@ -94,7 +94,7 @@
   width: 45px;
   height: 45px;
   border: 1.5px solid $primary-color;
-  transform: translate(0, 50%);
+  transform: translate3d(0, 50%, 0);
   padding: 5px;
   background-color: $background-color;
   position: relative;
@@ -147,7 +147,7 @@
   width: 45px;
   height: 45px;
   border: 1.5px solid $disable-color;
-  transform: translate(0, 50%);
+  transform: translate3d(0, 50%, 0);
   padding: 5px;
   background-color: $background-color;
   position: relative;

@@ -67,7 +67,6 @@ type createPostStateTypes = {
   descriptionHeaderClass: string,
   profileLoaded: boolean,
   focused: boolean,
-  keys: [],
   selectedProduct?: {},
   selectedProductId?: number,
   scrollHeight: number,
@@ -117,12 +116,11 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       descriptionHeaderClass: '',
       profileLoaded: false,
       focused: false,
-      keys: [],
       selectedProduct: undefined,
       selectedProductId: undefined,
       scrollHeight: 0,
       textLength: 0,
-      postType: constants.POST.POST_TYPE.POST,
+      postType: constants.POST.POST_TYPE.POST
     }
   }
 
@@ -146,7 +144,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       labels: {},
       selectedProduct: undefined,
       selectedProductId: undefined,
-      postType: constants.POST.POST_TYPE.POST,
+      postType: constants.POST.POST_TYPE.POST
     })
     this.supplyChecked.checked = false
     this.demandChecked.checked = false
@@ -217,20 +215,25 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       if (event.target === this.demandChecked) {
         this.demandChecked.checked = false
         this.setState({...this.state, postType: constants.POST.POST_TYPE.POST})
-      } else {
+      }
+      else {
         this.setState({...this.state, postType: constants.POST.POST_TYPE.SUPPLY})
       }
-    } else if (postType === constants.POST.POST_TYPE.SUPPLY) {
+    }
+    else if (postType === constants.POST.POST_TYPE.SUPPLY) {
       if (event.target === this.supplyChecked) {
         this.supplyChecked.checked = false
         this.setState({...this.state, postType: constants.POST.POST_TYPE.POST})
-      } else {
+      }
+      else {
         this.setState({...this.state, postType: constants.POST.POST_TYPE.DEMAND})
       }
-    } else {
+    }
+    else {
       if (event.target === this.supplyChecked) {
         this.setState({...this.state, postType: constants.POST.POST_TYPE.SUPPLY})
-      } else {
+      }
+      else {
         this.setState({...this.state, postType: constants.POST.POST_TYPE.DEMAND})
       }
     }
@@ -243,7 +246,8 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
     if (temp[name] === undefined) {
       if (name === "دنبال کنندگان" || name === "دنبال کنندگانِ دنبال کنندگان" || temp["عمومی"] === undefined)
         temp[name] = name
-    } else {
+    }
+    else {
       if (name !== "دنبال کنندگان" && name !== "دنبال کنندگانِ دنبال کنندگان")
         delete temp["عمومی"]
       delete temp[name]
@@ -269,7 +273,8 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
         this.text.innerText = this.text.innerText.substring(0, x) + emoji + this.text.innerText.substring(y, this.text.innerText.length)
         this.text.selectionStart = parseInt(x, 10) + emoji.length
         this.text.selectionEnd = parseInt(y, 10) + emoji.length
-      } else {
+      }
+      else {
         this.text.innerText += emoji
       }
 
@@ -336,20 +341,15 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
   }
 
   _handleCtrlEnter = (e) => {
-    console.log(e)
-    if (this.text.innerText.length > maxAllowedWordCounts) this.text.innerText = this.state.description
-    else if (e.keyCode === 17 || e.keyCode === 13) {
-      let keys = this.state.keys.slice()
-      keys[e.keyCode] = true
-      this.setState({...this.state, keys: keys})
-      if (e.keyCode === 13 && keys[13] && keys[17]) {
-        e.preventDefault()
-        this.setState({...this.state, keys: []}, () => {
-          this._onSubmit(e)
-        })
-      }
-    } else this.setState({...this.state, keys: []})
+    if (this.text.innerText.length > maxAllowedWordCounts) {
+      this.text.innerText = this.state.description
+    }
+    else if (this.text.innerText.length >= minAllowedWordCounts && e.ctrlKey && (e.keyCode === 10 || e.keyCode === 13)) {
+      e.preventDefault()
+      this._onSubmit(e)
+    }
   }
+
   _onKeyDownHeader = (e) => {
     if (e.keyCode === 13) {
       e.preventDefault()
@@ -440,9 +440,11 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
     removeFileFromTemp(tempKeyName)
     if (i === 0) {
       this.setState({...this.state, postImg1: null})
-    } else if (i === 1) {
+    }
+    else if (i === 1) {
       this.setState({...this.state, postImg2: null})
-    } else {
+    }
+    else {
       this.setState({...this.state, postImg3: null})
     }
   }
@@ -468,9 +470,11 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
         || (!postImg3 && POST_IMG3_TEMP_KEY)
     if (!postImg1) {
       this.setState({...this.state, attachMenu: false, postImg1: fileString})
-    } else if (!postImg2) {
+    }
+    else if (!postImg2) {
       this.setState({...this.state, attachMenu: false, postImg2: fileString})
-    } else {
+    }
+    else {
       this.setState({...this.state, attachMenu: false, postImg3: fileString})
     }
     this._createFile(fileString, tempFileKeyName)

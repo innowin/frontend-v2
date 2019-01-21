@@ -43,8 +43,7 @@ const Exchanges = (props: appProps) => {
   else if (!props.loading) {
     return <div className='exchanges-explore-not-found'>پنجرهی یافت نشد!</div>
   }
-  else
-    return <React.Fragment>
+  else return <React.Fragment>
       {
         loadingArr.map((exchange: Object): any =>
             <ExchangeSkeleton key={exchange}/>

@@ -296,7 +296,7 @@ $heightOfContentBox: 140px;
   position: absolute;
   right: 50%;
   top: 50%;
-  transform: translate(50%, -50%);
+  transform: translate3d(50%, -50%, 0);
   animation: bee ease 2s infinite;
 
   //&:hover {
@@ -307,13 +307,13 @@ $heightOfContentBox: 140px;
 
 @keyframes bee {
   0% {
-    transform: translate(50%, -50%);
+    transform: translate3d(50%, -50%, 0);
   }
   50% {
-    transform: translate(50%, -55%);
+    transform: translate3d(50%, -55%, 0);
   }
   100% {
-    transform: translate(50%, -50%);
+    transform: translate3d(50%, -50%, 0);
   }
 }
 
