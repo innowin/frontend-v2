@@ -1,6 +1,6 @@
 {
   "name": "innowin-front-end",
-  "version": "0.1.6-LTS",
+  "version": "0.1.7-LTS",
   "private": true,
   "dependencies": {
     "autoprefixer": "7.1.6",

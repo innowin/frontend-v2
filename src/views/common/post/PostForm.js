@@ -55,7 +55,7 @@ export class PostForm extends Component {
   }
 
   render() {
-    const {onSubmit, currentUserMedia, currentUserName, translate} = this.props
+    const {onSubmit, currentUserMedia, currentUserName, translate, hideEdit} = this.props
     const post = this.props.post || {}
     const options = [
       {value: 'post', label: 'نما'},
@@ -117,7 +117,7 @@ export class PostForm extends Component {
             </div>
             <div className='post-component-header-item'>
               <span className='post-edit-header-left'>درحال ویرایش...</span>
-              <div className='post-edit-header-left-close'>✕</div>
+              <div className='post-edit-header-left-close pulse' onClick={hideEdit}>✕</div>
             </div>
           </div>
 
@@ -137,7 +137,7 @@ export class PostForm extends Component {
               <AttachFileIcon className='post-component-footer-send-attach'/>
             </div>
 
-            <button type="button" className='post-edit-footer-cancel-btn' onClick={this.props.hideEdit}>{translate['Cancel']}</button>
+            <button type="button" className='post-edit-footer-cancel-btn' onClick={hideEdit}>{translate['Cancel']}</button>
 
             <button type="submit" className='post-edit-footer-send-btn'>ثبت ویرایش</button>
 

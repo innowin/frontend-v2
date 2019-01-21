@@ -1,5 +1,5 @@
 #DANESH BOOM PROJECT
-Version: 0.1.3-LTS
+Version: 0.1.6-LTS
 ##Instruction to run the project :
 
 - Installing Node modules
