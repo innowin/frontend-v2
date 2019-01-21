@@ -222,6 +222,7 @@ module.exports = {
   "Name": "نام",
   "Not implemented yet": "هنوز اجرا نشده",
   "Follow": "دنبال کردن",
+  "Unfollow": "دنبال نکردن",
   "Send Message": "ارسال پیام",
   "FirstName": "نام",
   "Web Site Format": "http://www.abc.com",

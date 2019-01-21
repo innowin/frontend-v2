@@ -4,22 +4,24 @@ import {Component} from "react"
 import PropTypes from "prop-types"
 import {connect} from "react-redux"
 
-import GetUserActions from '../../../redux/actions/user/getUserActions'
+import GetUserActions from "../../../redux/actions/user/getUserActions"
 import OrganizationActions from "src/redux/actions/organization/organizationActions"
 import SocialActions from "../../../redux/actions/commonActions/socialActions"
-import ExchangeMembershipActions from '../../../redux/actions/commonActions/exchangeMembershipActions'
+import ExchangeMembershipActions from "../../../redux/actions/commonActions/exchangeMembershipActions"
 import type {exchangeType} from "src/consts/flowTypes/exchange/exchange"
 import {bindActionCreators} from "redux"
 import {Exchanges} from "./Exchanges"
-import {Followees} from './Followees'
-import {Followers} from './Followers'
+import {Followees} from "./Followees"
+import {Followers} from "./Followers"
 import {FrameCard} from "src/views/common/cards/Frames"
 import {getMessages} from "src/redux/selectors/translateSelector"
-import {getFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
-import {getFollowersSelector} from 'src/redux/selectors/common/social/getFollowers'
-import {getExchangeMembershipsSelector} from 'src/redux/selectors/common/social/getExchangeMemberships'
+import {getFolloweesSelector} from "src/redux/selectors/common/social/getFollowees"
+import {getFollowersSelector} from "src/redux/selectors/common/social/getFollowers"
+import {getExchangeMembershipsSelector} from "src/redux/selectors/common/social/getExchangeMemberships"
 import type {paramType} from "src/consts/flowTypes/paramType"
 import constants from "src/consts/constants"
+import NewFollowers from "./NewFollowers"
+import NewFollowings from "./NewFollowings"
 
 type PropsSocials = {
   ownerId: number,
@@ -106,11 +108,14 @@ class Socials extends Component<PropsSocials, StateSocials> {
     const {editExchanges, editFollowings} = this.state
 
     const paramId = identityType === constants.USER_TYPES.PERSON ? +param.user : +param.organization
+
+    console.log("followees", followees) // following
+    console.log("followers", followers) // followers
     return (
         //<VerifyWrapper isLoading={isLoading} error={error}>
         <div>
           {/*<CategoryTitle*/}
-              {/*title={translate['Socials']}*/}
+          {/*title={translate['Socials']}*/}
           {/*/>*/}
           <FrameCard className="frameCardSocial">
             <Exchanges removeMembership={deleteExchangeMembership}
@@ -119,6 +124,11 @@ class Socials extends Component<PropsSocials, StateSocials> {
                        edit={editExchanges}
                        translate={translate}
             />
+            <NewFollowings
+                userId={ownerId}
+                deleteFollow={deleteFollow}
+                followings={followees}/>
+{/*
             <Followees edit={editFollowings}
                        deleteFollow={deleteFollow}
                        followees={followees}
@@ -126,6 +136,8 @@ class Socials extends Component<PropsSocials, StateSocials> {
                        translate={translate}
                        userId={ownerId}
             />
+*/}
+{/*
             <Followers followers={followers} translate={translate}
                        deleteFollow={deleteFollow}
                        followees={followees}
@@ -136,6 +148,13 @@ class Socials extends Component<PropsSocials, StateSocials> {
                        identityType={identityType}
                        paramId={paramId}
             />
+*/}
+            <NewFollowers
+                userId={ownerId}
+                followers={followers}
+                identityType={identityType}
+                updateFollow={updateFollow}
+                deleteFollow={deleteFollow}/>
           </FrameCard>
         </div>
         // </VerifyWrapper>

@@ -22,11 +22,11 @@ type PropsFollowers = {
 }
 
 export const Followers = (props: PropsFollowers) => {
-  const {followers, translate, followees, identityType, paramId} = props
+  const {followers, translate, followees, paramId} = props
   const followeeIds = followees.map(followee => followee.id)
 
   const onDeleteFollow = (follower) => {
-    const {deleteFollow, userId} = props
+    const {deleteFollow, userId, identityType} = props
     const followId = follower.follow_id
     deleteFollow({followId, followOwnerId: userId, followOwnerType: identityType})
   }

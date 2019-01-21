@@ -192,10 +192,15 @@
     color: red;
   }
 
+  .fa-twitter{
+    color: #38A1F3;
+  }
+
   .fa-telegram {
     background: -webkit-linear-gradient(-30deg, cornflowerblue, rgb(66, 70, 255));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    font-size: 22px;
   }
 
   .fa-instagram {
@@ -207,6 +212,7 @@
 
   .fa-linkedin {
     color: royalblue;
+    font-size: 22px;
   }
 
   .fa-link {
@@ -220,6 +226,7 @@
   font-weight: bold;
   margin-right: 15px;
   top: -3px;
+  right: 17px;
 }
 
 .info-social-text-address {
@@ -233,15 +240,15 @@
   right: 17%;
   width: 75%;
   padding: 0 5px;
-  border-bottom: 1px solid lightgrey;
-  transition-duration: $animation-timing-long;
-  color: #757575;
+  color: $text-darker-color;
   cursor: default;
+  transition: color $animation-timing-long ease, padding $animation-timing-long ease;
 
   &:hover {
-    transition-duration: $animation-timing-long;
-    padding: 0 10px;
-    border-bottom: 1px solid dimgrey;
+    transition: color $animation-timing-long ease, padding $animation-timing-long ease;
+    padding: 0 7.5px;
+    cursor: pointer;
+    color: #4169E1;
   }
 }
 

@@ -184,7 +184,7 @@ class ExchangeViewBar extends Component {
     } else if (this.state.followLoading) {
       return (
           <button type="button" className="sidebarFollowBottom">
-            <BeatLoader size={7} color={"#4dab9f"} margin={2}/>
+            <BeatLoader size={7} color={"#67e6d1"} margin={2}/>
           </button>
       )
     } else {
@@ -467,10 +467,11 @@ class ExchangeViewBar extends Component {
             {
               !editView ?
                   <div className={"exchange-view-bar-socials"}> {/* TODO: ABEL disable-logo class for non social exchange fields*/}
-                    <i className={"fa fa-youtube-play youtube disable-logo"}/>
+                    {/*<i className={"fa fa-youtube-play youtube disable-logo"}/>*/}
                     <i className={"fa fa-telegram disable-logo"}/>
                     <i className={"fa fa-instagram disable-logo"}/>
                     <i className={"fa fa-linkedin-square disable-logo"}/>
+                    <i className={"fa fa-twitter disable-logo"}/>
                   </div>
                   :
                   null
