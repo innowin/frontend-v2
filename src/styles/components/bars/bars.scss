@@ -333,7 +333,7 @@ $sidebar-profile-media-width: 80px;
 }
 
 .svg-container-info-view {
-  background-color: $white;
+  background-color: white;
   transition-duration: $animation-timing;
   display: inline-block;
   vertical-align: top;
@@ -494,7 +494,7 @@ $sidebar-profile-media-width: 80px;
 
 .user-sidebar-buttons{
   padding-top: 20px;
-  padding-bottom: 22px;
+  padding-bottom: 20px;
   bottom: 65px;
   right: 20px;
   width: calc(100% - 40px);
@@ -590,7 +590,7 @@ $sidebar-profile-media-width: 80px;
     background-color: $text-lightest-color;
     width: 125px;
     box-shadow: 0 1px 7px 1px rgba(0, 0, 0, 0.15);
-    border-radius: $border-radius;
+    border-radius: $border-radius-size;
     transition-duration: $animation-timing-short;
 
     > div {
@@ -759,6 +759,13 @@ $sidebar-profile-media-width: 80px;
     }
   }
 
+  .side-user-follow-parent {
+    flex: 0 1 40%;
+    .side-user-follow {
+      width: 100%;
+    }
+  }
+
   .sidebarFollowBottom {
     flex-grow: 1;
     cursor: default;
@@ -770,7 +777,7 @@ $sidebar-profile-media-width: 80px;
     color: $background-color;
     font-size: $font-size-boxText;
     border-radius: 25px;
-    transition-duration: $animation-timing;
+    transition: background $animation-timing ease, color $animation-timing ease, border $animation-timing ease;
     height: 33px;
     margin: auto 5px 20px auto;
     //width: 110px;
@@ -782,6 +789,15 @@ $sidebar-profile-media-width: 80px;
       transition-duration: $animation-timing;
       font-weight: bold;
     }
+
+    .submit-button {
+      width: 100%;
+      height: 100%;
+      //padding: 7px;
+      background: transparent;
+      color: $background-color;
+      font-size: $font-size-boxText;
+    }
   }
 
   .side-user {
@@ -790,6 +806,7 @@ $sidebar-profile-media-width: 80px;
   }
 
   .side-user-follow {
+    //padding: 10px;
     margin: 0;
     flex: 0 1 40%;
   }
@@ -951,7 +968,7 @@ $sidebar-profile-media-width: 80px;
 }
 
 .selected-bar {
-  border-bottom: 2px solid #ffffff;
+  border-bottom: 3px solid #ffffff;
 }
 .top-bar-home {
   width: 130px;
@@ -974,7 +991,7 @@ $sidebar-profile-media-width: 80px;
     align-items: center;
     flex-flow: row;
     direction: rtl;
-    justify-items: center;
+    justify-content: center;
     .home-icon {
       height: 25px;
     }
@@ -1004,7 +1021,7 @@ $sidebar-profile-media-width: 80px;
     width: 245px;
     text-align: center;
     overflow-y: hidden;
-    height: 140px;
+    height: 135px;
     transition: ease-in 0.3s;
   }
 
@@ -1025,7 +1042,7 @@ $sidebar-profile-media-width: 80px;
   user-select: none;
   color: white;
   text-align: right;
-  margin-right: 33px;
+  margin-right: 56px;
 }
 
 .explore-menu-arrow-2 {
@@ -2218,9 +2235,9 @@ $sidebar-profile-media-width: 80px;
   left: 10px;
   width: 120px;
   overflow: hidden;
-  background-color: $white;
+  background-color: white;
   transition-duration: $animation-timing;
-  border-radius: $border-radius;
+  border-radius: $border-radius-size;
   box-shadow: 0 2px 5px 1px $box-shadow-color;
   text-align: center;
   z-index: 3;
@@ -2235,9 +2252,9 @@ $sidebar-profile-media-width: 80px;
   left: 10px;
   width: 120px;
   overflow: hidden;
-  background-color: $white;
+  background-color: white;
   transition-duration: $animation-timing;
-  border-radius: $border-radius;
+  border-radius: $border-radius-size;
   box-shadow: 0 2px 5px 1px $box-shadow-color;
   text-align: center;
   z-index: 3;
@@ -2252,9 +2269,9 @@ $sidebar-profile-media-width: 80px;
   left: 10px;
   width: 120px;
   overflow: hidden;
-  background-color: $white;
+  background-color: white;
   transition-duration: $animation-timing;
-  border-radius: $border-radius;
+  border-radius: $border-radius-size;
   box-shadow: 0 2px 5px 1px $box-shadow-color;
   text-align: center;
   z-index: 3;
@@ -2266,7 +2283,7 @@ $sidebar-profile-media-width: 80px;
 .exchange-admin-menu-child {
   width: 100%;
   padding: 7.5px;
-  background-color: $white;
+  background-color: white;
   cursor: pointer;
   transition-duration: $animation-timing;
 
@@ -2356,7 +2373,7 @@ $sidebar-profile-media-width: 80px;
 
 .edit-exchange-description-input::-webkit-scrollbar-thumb {
   background: #e0e0e0;
-  border-radius: $border-radius;
+  border-radius: $border-radius-size;
 
   &:hover {
     background: #d0d0d0;

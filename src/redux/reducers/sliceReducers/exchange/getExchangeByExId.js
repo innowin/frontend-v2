@@ -1,6 +1,6 @@
 const success = (state, action) => {
   const {data} = action.payload
-  if (state.list[data.id].exchange)
+  if (state.list[data.id] && state.list[data.id].exchange)
     return {
       ...state,
       list: {

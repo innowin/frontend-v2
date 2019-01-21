@@ -8,12 +8,14 @@ export default {
   USER_TYPES: {
     PERSON: 'person',
     ORG: 'org',
+    ORGANIZATION: 'organization',
   },
   POST_PARENT: {
     EXCHANGE: 'exchange'
   },
   FILE_PARENT: {
     POST: 'post',
+    PRODUCT: 'product',
   },
   PRODUCT: {
     PRICE_TYPE: {

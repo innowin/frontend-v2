@@ -108,8 +108,9 @@
 
 .post-image-effect {
   animation: effect 1s linear;
-  overflow: hidden;
-  margin-bottom: 18px;
+  width: 100%;
+  //overflow: hidden;
+  //margin-bottom: 18px;
 }
 
 @keyframes effect {

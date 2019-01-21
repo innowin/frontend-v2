@@ -12,7 +12,7 @@ type postImageProps = {
   userImage?: fileType,
   userImageId: number,
   extendedView?: boolean,
-  fileList: [],
+  fileList: {},
 }
 type postImageState = {
   pictureLoaded: null | boolean,
@@ -26,7 +26,7 @@ class PostImage extends React.Component<postImageProps, postImageState> {
     userImage: PropTypes.object,
     userImageId: PropTypes.number,
     extendedView: PropTypes.bool,
-    fileList: PropTypes.array,
+    fileList: PropTypes.object,
   }
 
   constructor(props: postImageProps) {
@@ -93,9 +93,7 @@ class PostImage extends React.Component<postImageProps, postImageState> {
   }
 
   componentWillReceiveProps(nextProps: postImageProps): void {
-    console.log('receive props', this.props.post, nextProps.post)
     if (this.props.post !== nextProps.post) {
-      console.log('in the if', this.props.post, nextProps.post)
       const {post, extendedView, fileList} = nextProps
       if (post && post.post_picture) {
         let postPicture, postPictureId
@@ -237,7 +235,7 @@ class PostImage extends React.Component<postImageProps, postImageState> {
           }
 
           {postPictureArray && postPicturesLength > 0
-              ? <div className={"pictures-section " + picturesClass}>
+              ? <div className={extendedView && postPicturesLength === 1 ? 'post-image-container' : ("pictures-section " + picturesClass)}>
                 {postPictureArray.map((postPictureElement, i) => (
                     <div className='image-container' key={i + "pictures-section"}>
                       <div className='post-image-container'>

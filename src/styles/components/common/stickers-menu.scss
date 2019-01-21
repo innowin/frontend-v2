@@ -158,6 +158,9 @@
   position: absolute;
   right: 16px;
   top: 17px;
+  &.post-title-placeholder {
+    top: 36px;
+  }
 }
 
 .post-placeholder-hide {

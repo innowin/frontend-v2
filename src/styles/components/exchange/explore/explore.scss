@@ -96,7 +96,7 @@
   opacity: .6;
   z-index: 1;
   object-fit: cover;
-  transform: translate(47.5%, -30%);
+  transform: translate3d(47.5%, -30%,0);
 }
 
 .exchange-model-detail-filter {

@@ -3,12 +3,14 @@ import CarouselLogin from './login/Carousel'
 import FooterLogin from './login/FooterLogin'
 import HeaderLogin from './login/HeaderLogin'
 import RegisterForm from './login/SignUpForm'
-import RegisterStepsModal from './login/registerModal/RegisterStepsModal'
 import SignInForm from './login/signInForm'
-// import SocialLogin from './login/SocialLogin'
 import PasswordRecovery from './login/PasswordRecovery'
 import {getMessages} from '../../redux/selectors/translateSelector'
 import connect from 'react-redux/es/connect/connect'
+import constants from '../../consts/constants'
+// import SocialLogin from './login/SocialLogin'
+// import RegisterStepsModal from './login/registerModal/RegisterStepsModal'
+// import GetUserData from '../user/getUserData/GetUserData'
 
 class Login extends Component {
   constructor(props) {
@@ -25,6 +27,16 @@ class Login extends Component {
       },
       showRecovery: false,
       showRegisterModal: false,
+      signInFields: {
+        username: '',
+        password: ''
+      },
+      signUpFields: {
+        username: '',
+        password: '',
+        email: '',
+        userType: constants.USER_TYPES.PERSON
+      }
     }
   }
 
@@ -44,13 +56,29 @@ class Login extends Component {
     this.setState({...this.state, showRecovery: false, showRegisterModal: false})
   }
 
-  _onRegisterClisk = (value) => {
+  _onRegisterClick = () => {
     this.setState({...this.state, showRegisterModal: true})
+  }
+
+  _onChangeSignIn = (event) => {
+    const {signInFields} = this.state
+    const target = event.target
+    const value = target.type === 'checkbox' ? target.checked : target.value
+    const name = target.name
+    this.setState({...this.state, signInFields: {...signInFields, [name]: value}})
+  }
+
+  _onChangeSignUp = (event) => {
+    const {signUpFields} = this.state
+    const target = event.target
+    const value = target.type === 'checkbox' ? target.checked : target.value
+    const name = target.name
+    this.setState({...this.state, signUpFields: {...signUpFields, [name]: value}})
   }
 
   render() {
     const {translate} = this.props
-    const {page, footer, header, showRecovery, showRegisterModal} = this.state
+    const {page, footer, header, showRecovery, /*showRegisterModal, */signUpFields} = this.state
     const {year} = footer
     const {iosLink, androidLink, address, phoneNumber, logoCaption} = header
     const SignIn = (page === 'SignIn')
@@ -59,13 +87,21 @@ class Login extends Component {
 
     return (
         <div className="login-page  full-page-wrapper">
-          <div className={(showRecovery || showRegisterModal) ? 'makeDark' : 'makeDark-out'} onClick={this._hideModalClick}>
+          <div className={(showRecovery) ? 'makeDark' : 'makeDark-out'}
+               onClick={this._hideModalClick}>
             {/*dark div*/}
           </div>
           <PasswordRecovery showRecovery={showRecovery} hideRecoveryClick={this._hideModalClick}
                             translate={translate}/>
-          <RegisterStepsModal showRegisterModal={showRegisterModal} hideRecoveryClick={this._hideModalClick}
-                              translate={translate}/>
+
+          {/*<RegisterStepsModal showRegisterModal={showRegisterModal} hideRecoveryClick={this._hideModalClick}*/}
+          {/*translate={translate}/>*/}
+
+          {/*<GetUserData showRegisterModal={showRegisterModal}*/}
+                       {/*hideRegisterModal={this._hideModalClick}*/}
+                       {/*password={signUpFields.password}*/}
+                       {/*email={signUpFields.email}/>*/}
+
           <div className="login-container">
             <HeaderLogin iosLink={iosLink} androidLink={androidLink} address={address} phoneNumber={phoneNumber}
                          logoCaption={logoCaption}/>
@@ -95,10 +131,12 @@ class Login extends Component {
                   </div>
                   <div className="card-block login-form p-3">
                     {SignIn &&
-                    <SignInForm initialValues={{rememberMe: true}}
+                    <SignInForm onChangeSignIn={this._onChangeSignIn} initialValues={{rememberMe: true}}
                                 recoveryPasswordClick={this._showRecoveryPassword}
                     />}
-                    {SignUp && <RegisterForm onRegisterClick={this._onRegisterClisk}/>}
+                    {SignUp &&
+                    <RegisterForm inputValues={signUpFields} onChangeSignUp={this._onChangeSignUp} onRegisterClick={this._onRegisterClick}
+                    />}
                   </div>
                   {/*<div className="card-footer social-login">*/}
                   {/*<span>{translate['Register with other accounts']}</span>*/}
@@ -106,9 +144,6 @@ class Login extends Component {
                   {/*</div>*/}
                 </div>
               </div>
-
-
-
             </div>
             <FooterLogin year={year}/>
           </div>
@@ -117,7 +152,7 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
     translate: getMessages(state)
   }

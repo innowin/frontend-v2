@@ -391,6 +391,8 @@ module.exports = {
   "Complete the validation code": "کد را کامل وارد کنید!",
   "Incorrect validation code": "کد وارد شده صحیح نمی باشد!",
 
+  'Create post header placeholder':  'مثال: برگزاری کارگاه آموزشی، معرفی رزومه، خدمات منتورینگ',
+
   // TopBar
   topBar: {
     "My Profile": "پروفایل من",

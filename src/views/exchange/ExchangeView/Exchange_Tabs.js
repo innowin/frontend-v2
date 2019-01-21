@@ -66,20 +66,20 @@ class Exchange_Tabs extends Component<props, states> {
       let {getExchangeMembers, getFollowingAction, getUser} = actions
       getFollowingAction({followOwnerIdentity: clientIdentityId, followOwnerId: clientId, followOwnerType: clientType, notProfile: true})
       getExchangeMembers({exchangeId: exchangeId})
-      getUser(exchanges[exchangeId].exchange.content.owner ?
+      getUser(exchanges[exchangeId] && exchanges[exchangeId].exchange.content.owner ?
           exchanges[exchangeId].exchange.content.owner.identity_user :
-          exchanges[exchangeId].exchange.content.exchange ? exchanges[exchangeId].exchange.content.exchange.content.owner.identity_user : null)
+          exchanges[exchangeId] && exchanges[exchangeId].exchange.content.exchange ? exchanges[exchangeId].exchange.content.exchange.content.owner.identity_user : null)
       actions.getEducationsByUserId({
-        userId: exchanges[exchangeId].exchange.content.owner ?
+        userId: exchanges[exchangeId] && exchanges[exchangeId].exchange.content.owner ?
             exchanges[exchangeId].exchange.content.owner.identity_user :
-            exchanges[exchangeId].exchange.content.exchange ? exchanges[exchangeId].exchange.content.exchange.content.owner.identity_user : null
+            exchanges[exchangeId] && exchanges[exchangeId].exchange.content.exchange ? exchanges[exchangeId].exchange.content.exchange.content.owner.identity_user : null
       })
     }
     this.setState({
       ...this.state, ownerId: // Exchange owner for management tab authentication
-          exchanges[exchangeId].exchange.content.owner ?
+          exchanges[exchangeId] && exchanges[exchangeId].exchange.content.owner ?
               exchanges[exchangeId].exchange.content.owner.identity_user :
-              exchanges[exchangeId].exchange.content.exchange ? exchanges[exchangeId].exchange.content.exchange.content.owner.identity_user : null
+              exchanges[exchangeId] && exchanges[exchangeId].exchange.content.exchange ? exchanges[exchangeId].exchange.content.exchange.content.owner.identity_user : null
     })
 
   }

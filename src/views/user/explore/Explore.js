@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
 import connect from 'react-redux/es/connect/connect'
-import RightArrowSvg from '../../../images/common/right_arrow_svg'
+import RightArrowSvg from 'src/images/common/right_arrow_svg'
 import Sidebar from './SideBar'
 import socialActions from 'src/redux/actions/commonActions/socialActions'
 import userActions from 'src/redux/actions/user/getUserActions'
@@ -9,7 +9,7 @@ import Users from './Users'
 import {bindActionCreators} from 'redux'
 import {ClipLoader} from 'react-spinners'
 import {getFollowList} from 'src/redux/selectors/common/social/getFollowList'
-import {getMessages} from '../../../redux/selectors/translateSelector'
+import {getMessages} from 'src/redux/selectors/translateSelector'
 import {getUsers} from 'src/redux/selectors/user/GetAllUsers'
 // import {Helmet} from 'react-helmet'
 import {PureComponent} from 'react'
@@ -34,6 +34,8 @@ type appState =
       justFollowing: boolean,
       justFollowed: boolean,
       scrollButton: boolean,
+      justUsers: boolean,
+      justOrgans: boolean,
     |}
 
 class Explore extends PureComponent <appProps, appState> {

@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
 import ProductView from './product/ProductView'
-import ProductExplorer from './product/ProductExplorer'
+import ProductExplorer from './product/explore/Explore'
 import PrivateRoute from "../consts/PrivateRoute"
 import {Switch} from 'react-router-dom'
+
 // import TopBar from "./bars/TopBar"
 
 class Product extends Component {
@@ -14,14 +15,12 @@ class Product extends Component {
   render() {
     const {path} = this.props.match
     return (
-        <div className="-main -userOrganBackgroundImg">
-          <main>
-            <Switch>
-              <PrivateRoute exact path={`${path}/Product_Explorer`} component={ProductExplorer}/>
-              <PrivateRoute path={`${path}/:id`} component={ProductView}/>
-            </Switch>
-          </main>
-        </div>
+        <Switch>
+          <PrivateRoute exact path={`${path}/Product_Explorer`} component={ProductExplorer}/>
+          <div className="-main -userOrganBackgroundImg">
+            <PrivateRoute path={`${path}/:id`} component={ProductView}/>
+          </div>
+        </Switch>
     )
   }
 }

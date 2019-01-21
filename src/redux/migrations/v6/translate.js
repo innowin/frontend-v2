@@ -10,5 +10,6 @@ export default state => ({
     "Biography Length is Illegal": "طول معرفی‌نامه بیش از حد مجاز است",
     "Nike name is wrong": "نام مستعار شرکت اشتباه است",
     "Unfollow": "دنبال نکردن",
+    'Create post header placeholder':  'مثال: برگزاری کارگاه آموزشی، معرفی رزومه، خدمات منتورینگ',
   }
 })

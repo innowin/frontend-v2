@@ -35,14 +35,14 @@ class InteliInput extends Component {
   }
 
   componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
-    if (this.props.list && this.props.list.length !== nextProps.list.length) {
+    if (this.props.list !== nextProps.list) {
       let names = []
       let ids = []
       for (let i = 0; i < nextProps.list.length; i++) {
         names.push(nextProps.list[i].name)
         ids.push(nextProps.list[i].id)
       }
-      this.setState({...this.state, list: names, ids: ids})
+      this.setState({...this.state, list: names, ids: ids, found: []})
     }
   }
 
@@ -52,7 +52,7 @@ class InteliInput extends Component {
       let text = e.target.innerText
       let found = []
       for (let i = 0; i < list.length; i++) {
-        if (list[i].indexOf(text) >= 0) {
+        if (list[i] && list[i].indexOf(text) >= 0) {
           found.push(list[i])
         }
       }

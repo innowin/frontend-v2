@@ -138,9 +138,11 @@ class User extends Component <appProps, appState> {
     const {badges} = data.badges || []
     const user = data.profile.content.profile_user
     const {profileLoaded, bannerLoaded} = this.state
+    const organId = profile["related_organization_id"]
+    
     return (
         <div className='users-explore'>
-          <Link to={`/user/${user.id}`} style={{textDecoration: 'none', color: 'black'}}>
+          <Link to={(organId) ? `/organization/${organId}` : `/user/${user.id}`} style={{textDecoration: 'none', color: 'black'}}>
             {
               profile.profile_banner && bannerLoaded ?
                   <img src={profile.profile_banner.file.includes('innowin.ir') ? profile.profile_banner.file : REST_URL + profile.profile_banner.file} className='user-banner' alt={user.last_name}/>

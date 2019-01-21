@@ -89,8 +89,14 @@ import YoutubeIcon from './common/youtube_svg'
 import WarningIcon from './common/warning-sign'
 import BeeBackground from './bee/beeBackground'
 import Bee from './bee/bee'
+import User from './user/user'
+import Organization from './organization/organization'
+import Product from './product/product'
 
 export {
+  User,
+  Organization,
+  Product,
   AgentSvgIcon,
   AttachFileIcon,
   AttachFileNewIcon,
@@ -181,5 +187,5 @@ export {
   userInfoIcon,
   WarningIcon,
   workExperienceIcon,
-  YoutubeIcon,
+  YoutubeIcon
 }

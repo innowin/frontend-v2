@@ -37,7 +37,7 @@ class ProductInfoContainer extends React.Component<PropsProducts> {
     products: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired,
     isLoading: PropTypes.bool,
-    error: PropTypes.object,
+    error: PropTypes.object
   }
 
   componentDidMount() {
@@ -75,14 +75,14 @@ class ProductInfoContainer extends React.Component<PropsProducts> {
 const mapStateToProps = (state, ownProps) => {
   const {ownerId, identityType} = ownProps
   const stateOwner = (identityType === constants.USER_TYPES.PERSON && state.users[ownerId]) || (
-    identityType === constants.USER_TYPES.ORG && state.organs[ownerId]
+      identityType === constants.USER_TYPES.ORG && state.organs[ownerId]
   )
   const defaultObject = {content: [], isLoading: false, error: null}
   const productObject = (stateOwner && stateOwner.products) || defaultObject
   return {
     products: getProductsSelector(state, ownProps),
     isLoading: productObject.isLoading,
-    error: productObject.error,
+    error: productObject.error
   }
 }
 
@@ -90,7 +90,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getProductsByIdentity: ProductActions.getProductsByIdentity,
     updateProduct: ProductActions.updateProduct,
-    deleteProduct: ProductActions.deleteProduct,
+    deleteProduct: ProductActions.deleteProduct
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(ProductInfoContainer)

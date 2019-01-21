@@ -14,8 +14,8 @@ import type {identityType} from "../../../consts/flowTypes/user/basicInformation
 type PostHeaderProps = {
   post: postType,
   translate: { [string]: string },
-  postRelatedIdentityImage: fileType,
-  postIdentity: identityType,
+  postRelatedIdentityImage?: fileType | number,
+  postIdentity?: identityType | number,
   showEdit?: Function,
   extendedView?: boolean,
 }
@@ -104,8 +104,8 @@ class PostHeader extends React.Component<PostHeaderProps, PostHeaderStates> {
 PostHeader.propTypes = {
   post: PropTypes.object.isRequired,
   translate: PropTypes.object.isRequired,
-  postRelatedIdentityImage: PropTypes.object.isRequired,
-  postIdentity: PropTypes.object.isRequired,
+  postIdentity: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+  postRelatedIdentityImage: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
   showEdit: PropTypes.func,
   extendedView: PropTypes.bool,
 }

@@ -1,10 +1,12 @@
 @import "variables";
 
-div, body, ul, nav, caption, li, span, a, p, ol, i, strong,img, label, input, table, td, th, tt, tr, article, aside,h1,h2,h3,h4,h5, button, main, b, pre, form,footer,header,figure, textarea, svg, hr, br {
+div, body, ul, nav, caption,select,html, li, span, a, p, ol, i, strong,img, label, input, table, td, th, tt, tr, article, aside,h1,h2,h3,h4,h5, button, main, b, pre, form,footer,header,figure, textarea, svg, hr, br {
   margin: 0;
   padding: 0;
+  border: none;
   outline: none;
   box-sizing: border-box;
+  box-shadow: none;
 }
 
 p {
@@ -60,7 +62,6 @@ input, textarea, button, select {
 @import "components/common/image/image";
 @import "components/common/input-group-vertical";
 @import "components/common/inputs/circular-checkbox";
-@import "components/common/inputs/file-input";
 @import "components/common/inputs/file-name";
 @import "components/common/inputs/otherInput";
 @import "components/common/inputs/radio-button-input";
