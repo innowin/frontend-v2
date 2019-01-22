@@ -147,49 +147,52 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
   }
 
   componentDidUpdate(prevProps, prevState, ss) {
-    const {
-      clientFiles,
-      categories,
-      countries,
-      province,
-      city
-    } = this.props
-    const {
-      countryList,
-      provinceList,
-      cityList,
-      selectedCountry,
-      selectedProvince,
-    } = this.state
+    const {modalIsOpen} = this.props
+    if (modalIsOpen) {
+      const {
+        clientFiles,
+        categories,
+        countries,
+        province,
+        city
+      } = this.props
+      const {
+        countryList,
+        provinceList,
+        cityList,
+        selectedCountry,
+        selectedProvince,
+      } = this.state
 
-    if (prevState.catLvlOne.length < 1) {
-      let catsArray = Object.values(categories.list).filter(p => p.category_parent === null)
-      if (catsArray.length >= 1)
-        this.setState({...this.state, catLvlOne: catsArray.slice()})
-    }
+      if (prevState.catLvlOne.length < 1) {
+        let catsArray = Object.values(categories.list).filter(p => p.category_parent === null)
+        if (catsArray.length >= 1)
+          this.setState({...this.state, catLvlOne: catsArray.slice()})
+      }
 
-    if (prevState.countryList.length < 1 && !(Object.keys(countries.list) < 1)) {
-      let countArray = Object.values(countries.list)
-      this.setState({...this.state, countryList: countArray.slice()})
-    }
+      if (prevState.countryList.length < 1 && !(Object.keys(countries.list) < 1)) {
+        let countArray = Object.values(countries.list)
+        this.setState({...this.state, countryList: countArray.slice()})
+      }
 
-    if (prevState.provinceList.length < 1 && countryList.length >= 1) {
-      let provArray = Object.values(province.list).filter(p => p.province_related_country === selectedCountry)
-      if (provArray.length >= 1)
-        this.setState({...this.state, provinceList: provArray.slice()})
-    }
+      if (prevState.provinceList.length < 1 && countryList.length >= 1) {
+        let provArray = Object.values(province.list).filter(p => p.province_related_country === selectedCountry)
+        if (provArray.length >= 1)
+          this.setState({...this.state, provinceList: provArray.slice()})
+      }
 
-    if (cityList.length < 1 && provinceList.length >= 1) {
-      let citsArray = Object.values(city.list).filter(p => p.town_related_province === selectedProvince)
-      if (citsArray.length >= 1)
-        this.setState({...this.state, cityList: citsArray.slice()})
-    }
+      if (cityList.length < 1 && provinceList.length >= 1) {
+        let citsArray = Object.values(city.list).filter(p => p.town_related_province === selectedProvince)
+        if (citsArray.length >= 1)
+          this.setState({...this.state, cityList: citsArray.slice()})
+      }
 
-    const lastFile = clientFiles[clientFiles.length - 1] || {}
-    const prevLastFile = prevProps.clientFiles[prevProps.clientFiles.length - 1] || {}
-    if (lastFile.id && prevLastFile.id) {
-      if (lastFile.id !== prevLastFile.id) {
-        this._imageHandler(lastFile)
+      const lastFile = clientFiles[clientFiles.length - 1] || {}
+      const prevLastFile = prevProps.clientFiles[prevProps.clientFiles.length - 1] || {}
+      if (lastFile.id && prevLastFile.id) {
+        if (lastFile.id !== prevLastFile.id) {
+          this._imageHandler(lastFile)
+        }
       }
     }
   }
