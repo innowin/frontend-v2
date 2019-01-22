@@ -82,11 +82,18 @@ class NewFollowings extends Component<props, states> {
   }
 
   getMembers(identity_user, identity_organization, follow_accepted, index) {
-    let {profiles, organs, files, clientId, translate, followings} = this.props
+    let {
+      profiles,
+      organs,
+      files,
+      clientId,
+      // translate,
+      followings
+    } = this.props
     let {
       // followingUsers,
       followingOrgans,
-      buttonHover
+      // buttonHover
     } = this.state
     if (identity_user !== null) {
       if (profiles[identity_user].profile.content.profile_user) {
@@ -209,7 +216,7 @@ class NewFollowings extends Component<props, states> {
     window.scrollTo({
       top: 0
     })
-    let {getFollowingSelector, followers} = this.props
+    let {getFollowingSelector} = this.props
 
     // getExchangeMembers({exchangeId}) //n
 
@@ -299,8 +306,8 @@ class NewFollowings extends Component<props, states> {
                   <ClipLoader color={"#cbcbcb"} size={40} loading={true}/>
                 </div>
             }
-            <div className={"zero-height"}/>
-            <div className={"zero-height"}/>
+            <div className={"zero-height-member"}/>
+            <div className={"zero-height-member"}/>
             {/*{(!moreMembers) && initialMembers.length >= 6 ?*/}
             {/*<div className={"members-more"} onClick={this.setAllMembers}>*/}
             {/*بارگذاری بیشتر*/}

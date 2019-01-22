@@ -41,17 +41,17 @@ class ExchangeViewBar extends Component {
       selectedImage: null,
       processing: false
     }
-    this.follow = this.follow.bind(this)
+    this._handleFollow = this._handleFollow.bind(this)
     this.exchangeAdminMenu = React.createRef()
     this.editDescription = React.createRef()
     this.editName = React.createRef()
-    this.handleAdminMenu = this.handleAdminMenu.bind(this)
-    this.handleMenu = this.handleMenu.bind(this)
-    this.handleClickOutside = this.handleClickOutside.bind(this)
-    this.handleEditView = this.handleEditView.bind(this)
-    this.handleDeleteExchange = this.handleDeleteExchange.bind(this)
-    this.handleEditButton = this.handleEditButton.bind(this)
-    this.handleUnfollowExchange = this.handleUnfollowExchange.bind(this)
+    this._handleAdminMenu = this._handleAdminMenu.bind(this)
+    this._handleMenu = this._handleMenu.bind(this)
+    this._handleClickOutside = this._handleClickOutside.bind(this)
+    this._handleEditView = this._handleEditView.bind(this)
+    this._handleDeleteExchange = this._handleDeleteExchange.bind(this)
+    this._handleEditButton = this._handleEditButton.bind(this)
+    this._handleUnfollowExchange = this._handleUnfollowExchange.bind(this)
   }
 
   // _MockData = () => {
@@ -96,7 +96,8 @@ class ExchangeViewBar extends Component {
   //   this.setState({...this.state, membersViewSide: !this.state.membersViewSide})
   // }
 
-  follow() {
+  _handleFollow(e) {
+    e.stopPropagation()
     this.setState({...this.state, followLoading: true, unFollowed: false})
     this.props.actions.follow({identityId: this.props.currentUserIdentity, exchangeIdentity: this.props.exchangeId})
   }
@@ -110,8 +111,7 @@ class ExchangeViewBar extends Component {
       image.onload = () => {
         this.setState({...this.state, imageLoaded: true})
       }
-    }
-    else if (currentExchange && currentExchange.exchange.content.exchange_image) {
+    } else if (currentExchange && currentExchange.exchange.content.exchange_image) {
       let image = new Image()
       image.src = currentExchange.exchange.content.exchange_image.file.includes("innowin.ir") ?
           currentExchange.exchange.content.exchange_image.file : REST_URL + currentExchange.exchange.content.exchange_image.file
@@ -119,8 +119,7 @@ class ExchangeViewBar extends Component {
         this.setState({...this.state, imageLoaded: true})
       }
     }
-
-    document.addEventListener("mousedown", this.handleClickOutside)
+    document.addEventListener("mousedown", this._handleClickOutside)
   }
 
   componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
@@ -139,8 +138,7 @@ class ExchangeViewBar extends Component {
           image.onload = () => {
             this.setState({...this.state, imageLoaded: true})
           }
-        }
-        else if (currentExchange && currentExchange.exchange.content.exchange_image) {
+        } else if (currentExchange && currentExchange.exchange.content.exchange_image) {
           let image = new Image()
           image.src = currentExchange.exchange.content.exchange_image.file.includes("innowin.ir") ?
               currentExchange.exchange.content.exchange_image.file : REST_URL + currentExchange.exchange.content.exchange_image.file
@@ -168,10 +166,10 @@ class ExchangeViewBar extends Component {
   }
 
   componentWillUnmount() {
-    document.removeEventListener("mousedown", this.handleClickOutside)
+    document.removeEventListener("mousedown", this._handleClickOutside)
   }
 
-  handleClickOutside(event) {
+  _handleClickOutside(event) {
     const {exchanges, exchangeId, currentUserId} = this.props
     if (exchanges.list[exchangeId]) {
       const currentExchange = exchanges.list[exchangeId].exchange.content
@@ -179,8 +177,7 @@ class ExchangeViewBar extends Component {
         if (this.exchangeAdminMenu && !this.exchangeAdminMenu.contains(event.target)) {
           this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
         }
-      }
-      else if (currentExchange && currentExchange.exchange) {
+      } else if (currentExchange && currentExchange.exchange) {
         if (this.exchangeAdminMenu && !this.exchangeAdminMenu.contains(event.target)) {
           this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
         }
@@ -190,46 +187,58 @@ class ExchangeViewBar extends Component {
 
   renderFollowBtn(currentExchange) {
     if (currentExchange.exchange && !this.state.unFollowed) {
-      return (
+      if (this.props.currentUserId === (currentExchange.owner && currentExchange.owner.identity_user)) {
+        return (
+            <button
+                type="button"
+                className="sidebarFollowBottom"
+                style={{cursor: "pointer"}}
+                onClick={(e) => this._handleEditView(e)}>
+              {this.props.translate["Edit Exchange"]}
+            </button>
+        )
+      } else return (
           <button
               type="button"
               className="sidebarFollowBottom">عضو شده
           </button>
       )
-    }
-    else if (this.state.followLoading) {
+    } else if (this.state.followLoading) {
       return (
           <button type="button" className="sidebarFollowBottom">
             <BeatLoader size={7} color={"#67e6d1"} margin={2}/>
           </button>
       )
-    }
-    else {
+    } else {
       return (
           <button
               type="button"
               className="sidebarFollowBottom"
               style={{cursor: "pointer"}}
-              onClick={this.follow}>درخواست عضویت
+              onClick={(e) => this._handleFollow(e)}>درخواست عضویت
           </button>
       )
     }
   }
 
-  handleAdminMenu() {
+  _handleAdminMenu(e) {
+    e.stopPropagation()
     this.exchangeAdminMenu.className = "exchange-admin-menu"
   }
 
-  handleMenu() {
+  _handleMenu(e) {
+    e.stopPropagation()
     this.exchangeAdminMenu.className = "exchange-admin-menu-member"
   }
 
-  handleEditView() {
+  _handleEditView(e) {
+    e.stopPropagation()
     this.setState({...this.state, editView: true})
     this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
   }
 
-  handleDeleteExchange() {
+  _handleDeleteExchange(e) {
+    e.stopPropagation()
     this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
     const {actions, exchangeId} = this.props
     const {deleteExchange} = actions
@@ -261,7 +270,7 @@ class ExchangeViewBar extends Component {
     })
   }
 
-  handleEditButton() {
+  _handleEditButton() {
     // alert(this.editDescription.value.length)
     // alert(this.editName.value)
     if (this.editDescription && this.editDescription.value.length <= 100) {
@@ -277,11 +286,10 @@ class ExchangeViewBar extends Component {
       editExchange(formValues)
       // getExchangeByExId(exchangeId)
       this.setState({...this.state, loadingEdit: true})
-    }
-    else console.log("Description Length is too much")
+    } else console.log("Description Length is too much")
   }
 
-  handleUnfollowExchange() {
+  _handleUnfollowExchange() {
     const {exchanges, exchangeId, currentUserId, currentUserIdentity, currentUserType, exchangesIdentities, actions} = this.props
     const currentExchange = exchanges.list[exchangeId]
     if (currentExchange.exchange) {
@@ -326,22 +334,22 @@ class ExchangeViewBar extends Component {
               {currentUserId !== (currentExchange.owner && currentExchange.owner.identity_user) && !editView ?
                   currentExchange.exchange && !unFollowed ?
                       <div>
-                        <div className="fa fa-ellipsis-v menuBottom bubble-more" onClick={this.handleMenu}/>
+                        <div className="fa fa-ellipsis-v menuBottom bubble-more" onClick={(e) => this._handleMenu(e)}/>
                         <div className={"exchange-admin-menu-disable"} ref={e => this.exchangeAdminMenu = e}>
-                          <div className={"exchange-admin-menu-child"} onClick={this.handleUnfollowExchange}>
+                          <div className={"exchange-admin-menu-child"} onClick={this._handleUnfollowExchange}>
                             {translate["Unfollow Exchange"]}
                           </div>
                         </div>
                       </div> : null
                   :
                   <div>
-                    <div className="fa fa-ellipsis-v menuBottom bubble-more" onClick={this.handleAdminMenu}/>
+                    <div className="fa fa-ellipsis-v menuBottom bubble-more" onClick={(e) => this._handleAdminMenu(e)}/>
                     <div className={"exchange-admin-menu-disable"} ref={e => this.exchangeAdminMenu = e}>
-                      <div className={"exchange-admin-menu-child"} onClick={this.handleEditView}>
+                      <div className={"exchange-admin-menu-child"} onClick={(e) => this._handleEditView(e)}>
                         {translate["Edit Exchange"]}
                       </div>
                       <Link to={`/`} className={"exchange-admin-menu-child-delete"}>
-                        <div className={"exchange-admin-menu-child"} onClick={this.handleDeleteExchange}>
+                        <div className={"exchange-admin-menu-child"} onClick={(e) => this._handleDeleteExchange(e)}>
                           {translate["Delete Exchange"]}
                         </div>
                       </Link>
@@ -436,13 +444,13 @@ class ExchangeViewBar extends Component {
               </div>
               {
                 !editView ?
-                    <span className="-grey1 fontSize-13px description-right-bar">
+                    <div className="-grey1 fontSize-13px description-right-bar">
                       {
                         currentExchange.description === "" ? "بدون توضیحات" :
                             currentExchange.description ? currentExchange.description :
                                 currentExchange.exchange.content.description === "" ? "بدون توضیحات" : currentExchange.exchange.content.description
                       }
-                        </span>
+                    </div>
                     :
                     <textarea ref={e => this.editDescription = e} className={"edit-exchange-description-input"}
                               defaultValue={
@@ -513,7 +521,7 @@ class ExchangeViewBar extends Component {
                         <button
                             type="button"
                             className="sidebarBottom"
-                            onClick={this.handleEditButton}> تایید
+                            onClick={this._handleEditButton}> تایید
                         </button>
                         :
                         <div
@@ -531,8 +539,7 @@ class ExchangeViewBar extends Component {
             }
           </div>
       )
-    }
-    else {
+    } else {
       return (
           <div style={{textAlign: "center", margin: "35px 10px 45px 10px"}}>
             بورس مورد نظر یافت نشد!

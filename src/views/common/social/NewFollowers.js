@@ -317,8 +317,8 @@ class NewFollowers extends Component<props, states> {
                   <ClipLoader color={"#cbcbcb"} size={40} loading={true}/>
                 </div>
             }
-            <div className={"zero-height"}/>
-            <div className={"zero-height"}/>
+            <div className={"zero-height-member"}/>
+            <div className={"zero-height-member"}/>
             {/*{(!moreMembers) && initialMembers.length >= 6 ?*/}
             {/*<div className={"members-more"} onClick={this.setAllMembers}>*/}
             {/*بارگذاری بیشتر*/}

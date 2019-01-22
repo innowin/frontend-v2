@@ -379,7 +379,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
 
   _handleCreateExchange() {
     let {name, description, exchangeImage, isPrivate} = this.state
-    if (name.length > 3 && name.length <= 32 && description.length < 100) {
+    if (name.length > 2 && name.length <= 32 && description.length < 700) {
       let {createExchange, handleModalVisibility} = this.props
       let formValues = {
         name: name,
@@ -403,7 +403,12 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
             processing: false,
           })
     } else {
-      console.log("Illegal Length")
+      if (description.length >= 700) {
+        this.descError.className = "product-name-error"
+      } else this.descError.className = "product-name-error-hide"
+      if (name.length < 2 || name.length > 32) {
+        this.nameError.className = "product-name-error"
+      } else this.nameError.className = "product-name-error-hide"
     }
   }
 
@@ -441,6 +446,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
               <div className={name.length < 32 ? "create-exchange-name-input-limit" : "create-exchange-name-input-limited"}>
                 {name.length} / 32
               </div>
+              <div ref={e => this.nameError = e} className={"product-name-error-hide"}>طول نام غیر مجاز است</div>
             </div>
             <div>
               <label>
@@ -448,9 +454,10 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
               </label>
               <textarea className={"create-exchange-desc-input"} placeholder={"موضوع فعالیت این پنجره چیست؟"}
                         ref={e => this.exDes = e} onChange={(e) => this.setState({...this.state, description: e.target.value})}/>
-              <div className={description.length < 100 ? "create-exchange-desc-input-limit" : "create-exchange-desc-input-limited"}>
-                {description.length} / 100
+              <div className={description.length < 700 ? "create-exchange-desc-input-limit" : "create-exchange-desc-input-limited"}>
+                {description.length} / 700
               </div>
+              <div ref={e => this.descError = e} className={"product-name-error-hide"}>طول توضیحات غیر مجاز است</div>
             </div>
             <div>
               <label>

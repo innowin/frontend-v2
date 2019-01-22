@@ -415,6 +415,8 @@ $sidebar-profile-media-width: 80px;
   text-align: justify;
   text-align-last: center;
   line-height: 23px;
+  word-wrap: break-word;
+  width: 100%;
 }
 
 .-right-sidebar-wrapper-exchange {
@@ -748,7 +750,7 @@ $sidebar-profile-media-width: 80px;
     margin: auto auto 20px 5px;
     width: 110px;
     text-align: center;
-    padding: 7px;
+    padding: 5px;
 
     &:hover {
       background-color: $background-color;

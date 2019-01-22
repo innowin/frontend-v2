@@ -11,8 +11,8 @@ import ExchangeMembershipActions from "../../../redux/actions/commonActions/exch
 import type {exchangeType} from "src/consts/flowTypes/exchange/exchange"
 import {bindActionCreators} from "redux"
 import {Exchanges} from "./Exchanges"
-import {Followees} from "./Followees"
-import {Followers} from "./Followers"
+// import {Followees} from "./Followees"
+// import {Followers} from "./Followers"
 import {FrameCard} from "src/views/common/cards/Frames"
 import {getMessages} from "src/redux/selectors/translateSelector"
 import {getFolloweesSelector} from "src/redux/selectors/common/social/getFollowees"
@@ -103,14 +103,32 @@ class Socials extends Component<PropsSocials, StateSocials> {
   }
 
   render() {
-    const {translate, followers, followees, actions, exchanges, identityId, ownerId, identityType, param} = this.props
-    const {deleteFollow, deleteExchangeMembership, updateFollow, createFollow} = actions
-    const {editExchanges, editFollowings} = this.state
+    const {
+      translate,
+      followers,
+      followees,
+      actions,
+      exchanges,
+      // identityId,
+      ownerId,
+      identityType,
+      // param
+    } = this.props
+    const {
+      deleteFollow,
+      deleteExchangeMembership,
+      updateFollow,
+      // createFollow
+    } = actions
+    const {
+      editExchanges,
+      // editFollowings
+    } = this.state
 
-    const paramId = identityType === constants.USER_TYPES.PERSON ? +param.user : +param.organization
+    // const paramId = identityType === constants.USER_TYPES.PERSON ? +param.user : +param.organization
 
-    console.log("followees", followees) // following
-    console.log("followers", followers) // followers
+    // console.log("followees", followees) // following
+    // console.log("followers", followers) // followers
     return (
         //<VerifyWrapper isLoading={isLoading} error={error}>
         <div>
@@ -128,27 +146,27 @@ class Socials extends Component<PropsSocials, StateSocials> {
                 userId={ownerId}
                 deleteFollow={deleteFollow}
                 followings={followees}/>
-{/*
-            <Followees edit={editFollowings}
-                       deleteFollow={deleteFollow}
-                       followees={followees}
-                       showEdit={this._showEditFollowings}
-                       translate={translate}
-                       userId={ownerId}
-            />
-*/}
-{/*
-            <Followers followers={followers} translate={translate}
-                       deleteFollow={deleteFollow}
-                       followees={followees}
-                       updateFollow={updateFollow}
-                       identityId={identityId}
-                       createFollow={createFollow}
-                       userId={ownerId}
-                       identityType={identityType}
-                       paramId={paramId}
-            />
-*/}
+            {/*
+             <Followees edit={editFollowings}
+             deleteFollow={deleteFollow}
+             followees={followees}
+             showEdit={this._showEditFollowings}
+             translate={translate}
+             userId={ownerId}
+             />
+             */}
+            {/*
+             <Followers followers={followers} translate={translate}
+             deleteFollow={deleteFollow}
+             followees={followees}
+             updateFollow={updateFollow}
+             identityId={identityId}
+             createFollow={createFollow}
+             userId={ownerId}
+             identityType={identityType}
+             paramId={paramId}
+             />
+             */}
             <NewFollowers
                 userId={ownerId}
                 followers={followers}

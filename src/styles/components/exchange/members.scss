@@ -46,7 +46,7 @@
   flex-wrap: wrap;
 }
 
-.zero-height{
+.zero-height-member{
   background-color: white;
   text-align: center;
   width: 160px;
@@ -242,7 +242,7 @@
 
     &:hover {
       &:after{
-        content: "دنبال نکردن";
+        content: "قطع ارتباط";
       }
       transition-duration: $animation-timing;
       color: white;
