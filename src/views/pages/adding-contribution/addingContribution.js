@@ -41,10 +41,7 @@ type catsMap = {
   province_related_country?: number,
   category_parent?: number
 }
-
 type list = { list?: catsMap }
-
-
 type AddingContributionProps = {
   _changeFormSingleFieldValue: Function,
   _createProduct: Function,
@@ -70,7 +67,6 @@ type AddingContributionProps = {
   skillInfoFormValues: SkillFormValsType,
   translator: TranslatorType,
 }
-
 type ProgressStepType = {
   title: string,
   icon: React.Node
@@ -80,9 +76,7 @@ type NewTechPropertyDataType = {
   value?: string,
   title?: string
 }
-
 type cats = any
-
 type AddingContributionState = {
   activeStep: number,
   addingTechPropNow: boolean,
@@ -133,7 +127,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       abilityTitle: "",
       abilityDescription: ""
     }
-    
+
     const self: any = this
     self.nextLevel = self.nextLevel.bind(self)
     self.previousLevel = self.previousLevel.bind(self)
@@ -144,14 +138,14 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     self._handleCreateProduct = self._handleCreateProduct.bind(self)
     self._handleCreateAbility = self._handleCreateAbility.bind(self)
   }
-  
+
   componentDidMount() {
     const {_getCategories, _getHashTags, _getCountries} = this.props
     _getCategories()
     _getHashTags()
     _getCountries()
   }
-  
+
   componentDidUpdate(prevProps, prevState, ss) {
     const {
       clientFiles,
@@ -167,30 +161,30 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       selectedCountry,
       selectedProvince,
     } = this.state
-    
+
     if (prevState.catLvlOne.length < 1) {
       let catsArray = Object.values(categories.list).filter(p => p.category_parent === null)
       if (catsArray.length >= 1)
         this.setState({...this.state, catLvlOne: catsArray.slice()})
     }
-    
+
     if (prevState.countryList.length < 1 && !(Object.keys(countries.list) < 1)) {
       let countArray = Object.values(countries.list)
       this.setState({...this.state, countryList: countArray.slice()})
     }
-    
+
     if (prevState.provinceList.length < 1 && countryList.length >= 1) {
       let provArray = Object.values(province.list).filter(p => p.province_related_country === selectedCountry)
       if (provArray.length >= 1)
         this.setState({...this.state, provinceList: provArray.slice()})
     }
-    
+
     if (cityList.length < 1 && provinceList.length >= 1) {
       let citsArray = Object.values(city.list).filter(p => p.town_related_province === selectedProvince)
       if (citsArray.length >= 1)
         this.setState({...this.state, cityList: citsArray.slice()})
     }
-    
+
     const lastFile = clientFiles[clientFiles.length - 1] || {}
     const prevLastFile = prevProps.clientFiles[prevProps.clientFiles.length - 1] || {}
     if (lastFile.id && prevLastFile.id) {
@@ -199,7 +193,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       }
     }
   }
-  
+
   renderProgressBar() {
     let {currentLevel, selectedType} = this.state
     switch (selectedType) {
@@ -263,9 +257,9 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       default:
         return null
     }
-    
+
   }
-  
+
   renderCurrentLevel() {
     let {
       currentLevel,
@@ -303,7 +297,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
             <div className={"contribution-description-options-area"}>
               <div className={"text"}>انتخاب نوع آورده:</div>
               <div className={"contribution-description-options"}>
-                
+
                 <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === "Product" ? "contribution-material-block-active" : "contribution-material-block"} content={
                   <div onClick={() => this._changeSelectedType("Product")}
                        className={selectedType === "Product" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
@@ -311,7 +305,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
                     <div className={"option-contribution-text"}>محصول</div>
                   </div>
                 }/>
-                
+
                 <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === "Ability" ? "contribution-material-block-active" : "contribution-material-block"} content={
                   <div
                       onClick={() => this._changeSelectedType("Ability")}
@@ -395,9 +389,9 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
                     <InteliInput list={cityList} handleChange={(data) => this._handleCity(data)}/>
                   </div>
                   <div ref={e => this.locationError = e} className={"product-name-error-hide"}>محدوده جغرافیایی را کامل انتخاب کنید</div>
-                
+
                 </div>
-                
+
                 <div className={"gray-text-input-label-container"}>
                   <label className="gray-text-input-label">طبقه اول دسته بندی:</label>
                   <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "one")}
@@ -502,7 +496,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
                     }
                   </div>
                 </div>
-                
+
                 <div className="create-product-title-container">
                   <label className="gray-text-input-label">{translator["Product Video"]}:</label>
                 </div>
@@ -611,7 +605,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       }
     }
   }
-  
+
   renderFooter() {
     let {currentLevel, processing, selectedType} = this.state
     switch (selectedType) {
@@ -630,11 +624,11 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
                       : "بعدی"}
                 </div>
               </button>
-              
+
               <button className={currentLevel === "one" ? "previous-button-hidden" : "previous-button"} onClick={() => this.previousLevel()}>
                 قبلی
               </button>
-            
+
             </div>
         )
       case "Ability":
@@ -650,11 +644,11 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
                       "بعدی"}
                 </div>
               </button>
-              
+
               <button className={currentLevel === "one" ? "previous-button-hidden" : "previous-button"} onClick={() => this.previousLevel()}>
                 قبلی
               </button>
-            
+
             </div>
         )
       default:
@@ -672,17 +666,17 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
                       : "بعدی"}
                 </div>
               </button>
-              
+
               <button className={currentLevel === "one" ? "previous-button-hidden" : "previous-button"} onClick={() => this.previousLevel()}>
                 قبلی
               </button>
-            
+
             </div>
         )
     }
-    
+
   }
-  
+
   nextLevel() {
     let {
       currentLevel, productName, productDescription, selectedCity, selectedType
@@ -775,7 +769,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       }
     }
   }
-  
+
   previousLevel() {
     let {currentLevel} = this.state
     switch (currentLevel) {
@@ -814,11 +808,11 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
         break
     }
   }
-  
+
   _changeSelectedType = (selected) => {
     this.setState({...this.state, selectedType: selected})
   }
-  
+
   _handleCatLvlChange(cat, level) {
     let {categories} = this.props
     if (level === "one") {
@@ -848,25 +842,25 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       this.setState({...this.state, selectedCatLvlThree: selected[0].id})
     }
   }
-  
+
   _handleCountry(data) {
     const {_getProvinces, province} = this.props
     _getProvinces(data.id)
     let provins = Object.values(province.list).filter(p => p.province_related_country === data.id)
     this.setState({...this.state, provinceList: provins.slice(), selectedCountry: data.id, selectedProvince: null, selectedCity: null})
   }
-  
+
   _handleProvince(data) {
     const {_getCities, city} = this.props
     _getCities(data.id)
     let cits = Object.values(city.list).filter(p => p.town_related_province === data.id)
     this.setState({...this.state, cityList: cits.slice(), selectedProvince: data.id, selectedCity: null})
   }
-  
+
   _handleCity(data) {
     this.setState({...this.state, selectedCity: data.id})
   }
-  
+
   _closeModal() {
     this.setState({
       ...this.state,
@@ -882,7 +876,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       selectedCity: null,
     }, this.props.handleModalVisibility())
   }
-  
+
   _handleCreateProduct() {
     let {_createProduct, identity} = this.props
     let {
@@ -897,7 +891,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       selectedProvince,
       selectedCity,
     } = this.state
-    
+
     let productInfo = {
       // attrs: undefined,
       description: productDescription,
@@ -928,7 +922,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     _createProduct(formData)
     this._closeModal()
   }
-  
+
   _handleCreateAbility() {
     let {abilityTitle, abilityDescription} = this.state
     let {clientId} = this.props
@@ -949,7 +943,7 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       this._closeModal()
     }
   }
-  
+
   _uploadHandler = (fileString: any) => {
     const reader = new FileReader()
     if (fileString) {
@@ -979,7 +973,6 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
       processing: false,
     })
   }
-  
   _deleteImage = (index: number) => {
     let {selectedImage, selectedImageId} = this.state
     let img = selectedImage
@@ -988,15 +981,19 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     ids.splice(index, 1)
     this.setState({...this.state, selectedImage: img.slice(), selectedImageId: ids.slice()})
   }
-  
+
   render() {
     const {modalIsOpen} = this.props
-    return (
-        <div className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}>
-          {this.renderProgressBar()}
-          {this.renderCurrentLevel()}
-          {this.renderFooter()}
-        </div>
+    if (modalIsOpen) {
+      return (
+          <div className="contribution-modal-container">
+            {this.renderProgressBar()}
+            {this.renderCurrentLevel()}
+            {this.renderFooter()}
+          </div>
+      )
+    } else return (
+        <div className="contribution-modal-container-out"/>
     )
   }
 }
@@ -1011,7 +1008,7 @@ const mapStateToProps = (state) => {
   const provinceSelectorByProvinceId = makeProvinceSelectorByCountryId()
   const categorySelector = makeCategorySelector()
   const fileSelectorByKeyValue = makeFileSelectorByKeyValue()
-  
+
   // const provinces =
   return {
     translator: getMessages(state),

@@ -140,12 +140,17 @@ class Socials extends Component<PropsSocials, StateSocials> {
                        exchanges={exchanges}
                        showEdit={this._showExchangesEdit}
                        edit={editExchanges}
-                       translate={translate}
-            />
+                       translate={translate}/>
             <NewFollowings
                 userId={ownerId}
                 deleteFollow={deleteFollow}
                 followings={followees}/>
+            <NewFollowers
+                userId={ownerId}
+                followers={followers}
+                identityType={identityType}
+                updateFollow={updateFollow}
+                deleteFollow={deleteFollow}/>
             {/*
              <Followees edit={editFollowings}
              deleteFollow={deleteFollow}
@@ -167,12 +172,6 @@ class Socials extends Component<PropsSocials, StateSocials> {
              paramId={paramId}
              />
              */}
-            <NewFollowers
-                userId={ownerId}
-                followers={followers}
-                identityType={identityType}
-                updateFollow={updateFollow}
-                deleteFollow={deleteFollow}/>
           </FrameCard>
         </div>
         // </VerifyWrapper>
