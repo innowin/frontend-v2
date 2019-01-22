@@ -3,6 +3,7 @@ import {takeEvery} from "redux-saga/effects"
 import createFile from "./creareFile"
 import updateFile from "./updateFile"
 import getFile from "./getFile"
+import deleteFile from "./deleteFile"
 import delFileMiddlewareData from "./delMiddlewareData"
 import getFiles from "./getFiles"
 import getFileByRelatedParentId from './getFileByRelatedParentId'
@@ -20,6 +21,10 @@ function* watchCreateFile() {
   yield takeEvery(types.COMMON.FILE.CREATE_FILE, createFile)
 }
 
+function* watchDeleteFile() {
+  yield takeEvery(types.COMMON.FILE.DELETE_FILE, deleteFile)
+}
+
 function* watchUpdateFile() {
   yield takeEvery(types.COMMON.FILE.UPDATE_FILE, updateFile)
 }
@@ -35,6 +40,7 @@ function* watchGetFileByRelatedParentId() {
 export default [
   watchGetFile(),
   watchCreateFile(),
+  watchDeleteFile(),
   watchUpdateFile(),
   watchDelFileMiddleWareData(),
   watchGetFiles(),

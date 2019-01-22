@@ -11,9 +11,9 @@ export function* getPost(action) {
     yield fork(api.get, urls.COMMON.POST, results.COMMON.POST.GET_POST, `${postId}`)
     const data = yield take(socketChannel)
     // yield put({type: types.COMMON.POST.GET_POST_VIEWER_COUNT, payload: {postId: data.id}})
-    if (data.post_related_identity_image) {
-      yield put({type: types.COMMON.FILE.GET_FILE, payload: {fileId: data.post_related_identity_image}})
-    }
+    // if (data.post_related_identity_image) {
+    //   yield put({type: types.COMMON.FILE.GET_FILE, payload: {fileId: data.post_related_identity_image}})
+    // }
     if (data.post_picture) {
       yield put({type: types.COMMON.FILE.GET_FILE, payload: {fileId: data.post_picture}})
     }
