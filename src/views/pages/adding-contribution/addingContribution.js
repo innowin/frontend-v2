@@ -1,12 +1,10 @@
 // @flow
 import * as React from 'react'
-import {Component} from 'react'
 import countrySelector from 'src/redux/selectors/common/location/getCountry'
 import makeCitySelectorByProvinceId from 'src/redux/selectors/common/location/getCityByProvince'
 import makeProvinceSelectorByCountryId from 'src/redux/selectors/common/location/getProvinceByCountry'
 import nowCreatedProductIdSelector from 'src/redux/selectors/common/product/getNowCreatedProductId'
 import nowCreatedSkillIdSelector from 'src/redux/selectors/skill/getNowCreatedSkillId'
-import {skillInfoFormName} from './skill/infoForm'
 import type {NewContributionDataType, SkillFormValsType} from './types'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import {bindActionCreators} from 'redux'
@@ -21,6 +19,8 @@ import {getHashTags} from 'src/redux/actions/commonActions/hashTagActions'
 import {getMessages} from '../../../redux/selectors/translateSelector'
 import {hashTagsListSelector} from 'src/redux/selectors/common/hashTags/hashTag'
 import {makeCategorySelector} from 'src/redux/selectors/common/category/getCategoriesByParentId'
+import {PureComponent} from 'react'
+import {skillInfoFormName} from './skill/infoForm'
 import {
   CircularAddIcon,
   ContributionIcon,
@@ -99,7 +99,7 @@ type AddingContributionState = {
   selectedProvince: ?number,
 }
 
-class AddingContribution extends Component<AddingContributionProps, AddingContributionState> {
+class AddingContribution extends PureComponent<AddingContributionProps, AddingContributionState> {
   constructor(props) {
     super(props)
     this.state = {
@@ -140,11 +140,15 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     self._handleCreateAbility = self._handleCreateAbility.bind(self)
   }
 
-  componentDidMount() {
-    const {_getCategories, _getHashTags, _getCountries} = this.props
+  componentWillMount() {
+    const {
+      _getCategories,
+      _getCountries
+      // _getHashTags,
+    } = this.props
     _getCategories()
-    _getHashTags()
     _getCountries()
+    // _getHashTags()
   }
 
   componentDidUpdate(prevProps, prevState, ss) {
@@ -986,6 +990,17 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     this.setState({...this.state, selectedImage: img.slice(), selectedImageId: ids.slice()})
   }
 
+  shouldComponentUpdate(nextProps, nextState, nextContext): boolean {
+    if (nextProps.categories !== this.props.categories || nextProps.countries !== this.props.countries) {
+      // console.log('USELESS UPDATE STOPPED')
+      return true
+    } else {
+      console.log('AddingContribution-nextProps', nextProps)
+      console.log('AddingContribution-this.props', this.props)
+      return false
+    }
+  }
+
   render() {
     const {modalIsOpen} = this.props
     return (
@@ -1019,22 +1034,22 @@ const mapStateToProps = (state) => {
 
   // const provinces =
   return {
-    translator: getMessages(state),
     categories: categorySelector(state),
-    initialInfoFormState: initialFormValues,
-    skillInfoFormValues: getFormValues(state, skillInfoFormName),
-    hashTags: hashTagsListSelector(state),
-    countries: countrySelector(state),
-    provinces: provinceSelectorByProvinceId(state, countryId),
-    province: state.common.location.province,
-    identity,
-    clientId,
-    clientFiles: fileSelectorByKeyValue(state, 'identity', identity),
     cities: citySelectorByProvinceId(state, provinceId),
     city: state.common.location.city,
-    testToken: state.auth.client.token,
+    clientFiles: fileSelectorByKeyValue(state, 'identity', identity),
+    clientId,
+    countries: countrySelector(state),
+    hashTags: hashTagsListSelector(state),
+    identity,
+    initialInfoFormState: initialFormValues,
     nowCreatedProductId: nowCreatedProductIdSelector(state),
     nowCreatedSkillId: nowCreatedSkillIdSelector(state),
+    province: state.common.location.province,
+    provinces: provinceSelectorByProvinceId(state, countryId),
+    skillInfoFormValues: getFormValues(state, skillInfoFormName),
+    testToken: state.auth.client.token,
+    translator: getMessages(state),
   }
 }
 
