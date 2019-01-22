@@ -139,12 +139,12 @@ class AddingContribution extends Component<AddingContributionProps, AddingContri
     self._handleCreateAbility = self._handleCreateAbility.bind(self)
   }
 
-  componentDidMount() {
-    const {_getCategories, _getHashTags, _getCountries} = this.props
-    _getCategories()
-    _getHashTags()
-    _getCountries()
-  }
+  // componentDidMount() {
+    // const {_getCategories, _getHashTags, _getCountries} = this.props
+    // _getCategories()
+    // _getHashTags()
+    // _getCountries()
+  // }
 
   componentDidUpdate(prevProps, prevState, ss) {
     const {modalIsOpen} = this.props
