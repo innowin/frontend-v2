@@ -1,17 +1,19 @@
-// @flow
-import React, {Component} from "react"
+import React, { Component } from "react"
 import PropTypes from "prop-types"
-import {bindActionCreators} from "redux"
+import { bindActionCreators } from "redux"
 import connect from "react-redux/es/connect/connect"
 import AttachFileIcon from "src/images/common/attachFileNew_svg"
+import DemandIcon from "src/images/common/demand_svg"
 import FileActions from "src/redux/actions/commonActions/fileActions"
 import PostActions from "src/redux/actions/commonActions/postActions"
+import Share from "src/images/common/share"
 import DefaultUserIcon from "src/images/defaults/defaultUser_svg"
 import socialActions from "src/redux/actions/commonActions/socialActions"
-import {getMessages} from "src/redux/selectors/translateSelector"
+import SupplyIcon from "src/images/common/supply_svg"
+import { getMessages } from "src/redux/selectors/translateSelector"
 import CommentActions from "src/redux/actions/commonActions/commentActions"
 import TempActions from "src/redux/actions/tempActions"
-import {createFileFunc} from "src/views/common/Functions"
+import { createFileFunc } from "src/views/common/Functions"
 import types from "src/redux/actions/types"
 import AttachMenu from "./attachMenu"
 import ContactMenu from "./contactMenu"
@@ -20,7 +22,7 @@ import ViewAttachedFiles from "./viewAttachedFiles"
 import StickersMenu from "../../components/StickersMenu"
 import AddProductModal from "./addProductModal"
 import ProductInfoView from "../../contributions/ProductInfoView"
-import constants from '../../../../consts/constants'
+
 
 const POST_MEDIA_TEMP_KEY = "POST_MEDIA"
 const POST_FILE_TEMP_KEY = "POST_FILE"
@@ -28,18 +30,8 @@ const POST_IMG1_TEMP_KEY = "POST_IMG1"
 const POST_IMG2_TEMP_KEY = "POST_IMG2"
 const POST_IMG3_TEMP_KEY = "POST_IMG3"
 
-const minAllowedWordCounts = 5 // TODO: Mohsen should be 3
+const minAllowedWordCounts = 5 // TODO should be 3
 const maxAllowedWordCounts = 4096
-const minAllowedHeaderWordCounts = 5
-const maxAllowedHeaderWordCounts = 70
-
-
-type createPostPropsTypes = {
-  postParentId: number,
-  postParentType?: string,
-  postsCountInThisPage: ? number,
-  className?: string
-}
 
 type createPostStateTypes = {
   open: boolean,
@@ -91,6 +83,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
   constructor(props) {
     super(props)
     this.state = {
+      selected: "post",
       open: false,
       attachMenu: false,
       enterAttach: true,
@@ -111,9 +104,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       postMedia: "",
       link: "",
       description: "",
-      descriptionHeader: '',
       descriptionClass: "",
-      descriptionHeaderClass: '',
       profileLoaded: false,
       focused: false,
       selectedProduct: undefined,
@@ -127,10 +118,10 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
 
   _resetPost = () => {
     this.text.innerText = ""
-    this.headerText.innerText = ''
     this.setState({
       ...this.state,
       open: false,
+      selected: "post",
       postImg1: null,
       postImg2: null,
       postImg3: null,
@@ -138,71 +129,69 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       postMedia: "",
       link: "",
       description: "",
-      descriptionHeader: '',
       descriptionClass: "hide-message",
-      descriptionHeaderClass: 'hide-message',
       labels: {},
       selectedProduct: undefined,
       selectedProductId: undefined,
       postType: constants.POST.POST_TYPE.POST
     })
-    this.supplyChecked.checked = false
-    this.demandChecked.checked = false
   }
 
-  demandChecked: HTMLInputElement
-  supplyChecked: HTMLInputElement
-  headerText: HTMLInputElement
-  text: HTMLInputElement
-
   handleClickOutside = (event) => {
-    const {attachMenu, contactMenu, linkModal, addProductModal, postImg1, postImg2, postImg3, postFile, postMedia, link, description, labels, open, descriptionHeader} = this.state
+    const { attachMenu, contactMenu, linkModal, addProductModal, postImg1, postImg2, postImg3, postFile, postMedia, link, description, labels, open } = this.state
     const needReset = !description && !postImg1 && !postImg2 && !postImg3 && !postFile && !postMedia && !link && labels === {}
-    const {postImg1Id, postImg2Id, postImg3Id, postMediaId, postFileId} = this.props
-
 
     if (!event.target.closest("#create-post-attach-menu-box")) {
       if (attachMenu) {
-        this.setState({...this.state, attachMenu: false})
+        this.setState({ ...this.state, attachMenu: false })
       }
     }
 
     if (this.setWrapperSecondRef && !this.setWrapperSecondRef.contains(event.target)) {
       if (contactMenu) {
-        this.setState({...this.state, contactMenu: false})
+        this.setState({ ...this.state, contactMenu: false })
       }
     }
 
     if (this.setWrapperThirdRef && !this.setWrapperThirdRef.contains(event.target)) {
       if (linkModal) {
-        this.setState({...this.state, linkModal: false})
+        this.setState({ ...this.state, linkModal: false })
       }
     }
 
     if (this.setWrapperFourthRef && !this.setWrapperFourthRef.contains(event.target)) {
       if (addProductModal) {
-        this.setState({...this.state, addProductModal: false})
+        this.setState({ ...this.state, addProductModal: false })
       }
     }
 
     if (this.form && !this.form.contains(event.target)) {
-      const filesCount = (postMediaId || postFileId) ? 1 : ([postImg1Id, postImg2Id, postImg3Id].filter(img => img).length)
-      if (open && (description.length === 0) && (descriptionHeader.length === 0) && (filesCount === 0)) {
-        this.setState({...this.state, open: false, postType: constants.POST.POST_TYPE.POST})
-        this.supplyChecked.checked = false
-        this.demandChecked.checked = false
+      if (open && (description.length === 0)) {
+        this.setState({ ...this.state, open: false })
       }
     }
 
     if (needReset) this._resetPost()
   }
 
+  handleSelectShare = () => {
+    this.setState({ ...this.state, selected: "post" })
+  }
+
+  handleSelectDemand = () => {
+    this.setState({ ...this.state, selected: "demand" })
+  }
+
+  handleSelectSupply = () => {
+    this.setState({ ...this.state, selected: "supply" })
+  }
+
   handleAttach = () => {
-    this.setState({...this.state, attachMenu: !this.state.attachMenu})
+    this.setState({ ...this.state, attachMenu: !this.state.attachMenu })
   }
 
   handleContact = () => {
-    this.setState({...this.state, contactMenu: !this.state.contactMenu})
+    this.setState({ ...this.state, contactMenu: !this.state.contactMenu })
   }
 
   _handleFocusText = () => {
@@ -241,8 +230,8 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
 
 
   _handleLabel = (name) => {
-    const {labels} = this.state
-    let temp = {...labels}
+    const { labels } = this.state
+    let temp = { ...labels }
     if (temp[name] === undefined) {
       if (name === "دنبال کنندگان" || name === "دنبال کنندگانِ دنبال کنندگان" || temp["عمومی"] === undefined)
         temp[name] = name
@@ -252,19 +241,19 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
         delete temp["عمومی"]
       delete temp[name]
     }
-    this.setState({...this.state, labels: {...temp}})
+    this.setState({ ...this.state, labels: { ...temp } })
   }
 
   _linkModalFunc = () => {
-    this.setState({...this.state, linkModal: true, attachMenu: false})
+    this.setState({ ...this.state, linkModal: true, attachMenu: false })
   }
 
   _addProductModalFunc = () => {
-    this.setState({...this.state, addProductModal: true, attachMenu: false})
+    this.setState({ ...this.state, addProductModal: true, attachMenu: false })
   }
 
   handleEmoji = (emoji) => {
-    this.setState({...this.state, open: true}, () => {
+    this.setState({ ...this.state, open: true }, () => {
 
       this.text.focus()
       if (this.text.selectionStart) {
@@ -288,16 +277,16 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
 
       const description = this.text.innerText
       if (description.trim().length <= (maxAllowedWordCounts))
-        this.setState({...this.state, description}, () => {
+        this.setState({ ...this.state, description }, () => {
           const descriptionLength = description.trim().length
           if (descriptionLength === 0)
-            this.setState({...this.state, descriptionClass: "hide-message"})
+            this.setState({ ...this.state, descriptionClass: "hide-message" })
           if (descriptionLength > 0 && descriptionLength < minAllowedWordCounts)
-            this.setState({...this.state, descriptionClass: "error-message"})
-          if (descriptionLength >= minAllowedWordCounts && descriptionLength < (maxAllowedWordCounts - 26))
-            this.setState({...this.state, descriptionClass: "neutral-message"})
-          if (descriptionLength > (maxAllowedWordCounts - 26) && descriptionLength < maxAllowedWordCounts)
-            this.setState({...this.state, descriptionClass: "warning-message"})
+            this.setState({ ...this.state, descriptionClass: "error-message" })
+          if (descriptionLength >= minAllowedWordCounts && descriptionLength < (maxAllowedWordCounts-26))
+            this.setState({ ...this.state, descriptionClass: "neutral-message" })
+          if (descriptionLength > (maxAllowedWordCounts-26) && descriptionLength < maxAllowedWordCounts)
+            this.setState({ ...this.state, descriptionClass: "warning-message" })
         })
     })
   }
@@ -309,17 +298,10 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       focused: false
     })
   }
-  _handleBlurHeader = () => {
-    this.setState({
-      ...this.state,
-      descriptionHeaderClass: "hide-message",
-      focused: false
-    })
-  }
 
 
   _getValues = () => {
-    const {postType, link, description, selectedProduct, descriptionHeader} = this.state
+    const { selected, link, description, selectedProduct } = this.state
     const {
       currentUserIdentity, postParentId, currentUserImgId, postImg1Id, postImg2Id, postImg3Id, postMediaId,
       postFileId
@@ -330,8 +312,8 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
     return {
       files_count: filesCount,
       post_description: description,
-      post_title: descriptionHeader.length > 0 ? descriptionHeader : 'without title',
-      post_type: postType,
+      post_title: "without title",
+      post_type: selected,
       post_parent: postParentId,
       post_identity: currentUserIdentity,
       post_related_identity_image: currentUserImgId,
@@ -400,7 +382,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       actions, currentUserId, currentUserType, postParentId, postParentType, postImg1Id, postImg2Id, postImg3Id,
       postMediaId, postFileId
     } = this.props
-    const {createPost, removeFileFromTemp} = actions
+    const { createPost, removeFileFromTemp } = actions
     const formValues = this._getValues()
     const postPictureIds = [postImg1Id, postImg2Id, postImg3Id].filter(img => img) //filter imges that not null & not undefined
     const postAttachedFileIds = (postPictureIds.length > 0 && postPictureIds)
@@ -418,11 +400,11 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
   }
 
   _createFile = (fileString, tempFileKeyName) => {
-    const {actions} = this.props
-    const {createFile} = actions
+    const { actions } = this.props
+    const { createFile } = actions
     const nextActionType = types.COMMON.FILE.SET_FILE_IDS_IN_TEMP_FILE
     const fileIdKey = 'fileId'
-    const nextActionData = {tempFileKeyName}
+    const nextActionData = { tempFileKeyName }
     const createArguments = {
       fileIdKey,
       nextActionType,
@@ -432,8 +414,8 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
   }
 
   _deletePicture = (i) => {
-    const {actions} = this.props
-    const {removeFileFromTemp} = actions
+    const { actions } = this.props
+    const { removeFileFromTemp } = actions
     const tempKeyName = (i === 0 && POST_IMG1_TEMP_KEY)
         || (i === 1 && POST_IMG2_TEMP_KEY)
         || (i === 2 && POST_IMG3_TEMP_KEY)
@@ -450,21 +432,21 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
   }
 
   _deleteFile = () => {
-    const {actions} = this.props
-    const {removeFileFromTemp} = actions
+    const { actions } = this.props
+    const { removeFileFromTemp } = actions
     removeFileFromTemp(POST_FILE_TEMP_KEY)
-    this.setState({...this.state, postFile: ""})
+    this.setState({ ...this.state, postFile: "" })
   }
 
   _deleteMedia = () => {
-    const {actions} = this.props
-    const {removeFileFromTemp} = actions
+    const { actions } = this.props
+    const { removeFileFromTemp } = actions
     removeFileFromTemp(POST_MEDIA_TEMP_KEY)
-    this.setState({...this.state, postMedia: ""})
+    this.setState({ ...this.state, postMedia: "" })
   }
 
   _handlePostPictures = (fileString) => {
-    const {postImg1, postImg2, postImg3} = this.state
+    const { postImg1, postImg2, postImg3 } = this.state
     const tempFileKeyName = (!postImg1 && POST_IMG1_TEMP_KEY)
         || (!postImg2 && POST_IMG2_TEMP_KEY)
         || (!postImg3 && POST_IMG3_TEMP_KEY)
@@ -482,30 +464,26 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
 
   _handlePostFile = (fileString) => {
     this._createFile(fileString, POST_FILE_TEMP_KEY)
-    this.setState({...this.state, attachMenu: false, postFile: fileString})
+    this.setState({ ...this.state, attachMenu: false, postFile: fileString })
   }
 
   _handlePostMedia = (fileString) => {
     this._createFile(fileString, POST_MEDIA_TEMP_KEY)
-    this.setState({...this.state, attachMenu: false, postMedia: fileString})
+    this.setState({ ...this.state, attachMenu: false, postMedia: fileString })
   }
 
   _allowSubmitCheck = () => {
-    const {postImg1, postImg2, postImg3, postMedia, postFile, description, descriptionHeader, postType} = this.state
-    const {postImg1Id, postImg2Id, postImg3Id, postMediaId, postFileId} = this.props
+    const { postImg1, postImg2, postImg3, postMedia, postFile, description } = this.state
+    const { postImg1Id, postImg2Id, postImg3Id, postMediaId, postFileId } = this.props
     const descriptionLength = description.trim().length
-    const descriptionHeaderLength = descriptionHeader.trim().length
     const descriptionCheck = descriptionLength >= minAllowedWordCounts && descriptionLength <= maxAllowedWordCounts
-    const descriptionHeaderCheck = (postType === constants.POST.POST_TYPE.DEMAND || postType === constants.POST.POST_TYPE.SUPPLY)
-        ? (descriptionHeaderLength >= minAllowedHeaderWordCounts && descriptionHeaderLength <= maxAllowedHeaderWordCounts)
-        : true
     const postPicturesCheck = (postImg1 ? postImg1Id : true)
         && (postImg2 ? postImg2Id : true)
         && (postImg3 ? postImg3Id : true)
     const postMediaCheck = postMedia ? postMediaId : true
     const postFileCheck = postFile ? postFileId : true
-    const condition1 = Boolean(postImg1 || postImg2 || postImg3 || postMedia || descriptionCheck || descriptionHeaderCheck)
-    const condition2 = postFile ? (descriptionCheck && descriptionHeaderCheck) : true
+    const condition1 = Boolean(postImg1 || postImg2 || postImg3 || postMedia || descriptionCheck)
+    const condition2 = postFile ? descriptionCheck : true
     const condition3 = Boolean(postPicturesCheck && postMediaCheck && postFileCheck)
     return condition1 && condition2 && condition3 //TODO add product condition
   }
@@ -516,8 +494,8 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const {link} = this.state
-    const {postsCountInThisPage} = this.props
+    const { link } = this.state
+    const { postsCountInThisPage } = this.props
 
     if (link !== prevState.link) {
       this._showLink(link)
@@ -532,16 +510,16 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
     const scrollHeight = this.text.scrollHeight
     const description = this.text.innerText
     if (description.trim().length <= maxAllowedWordCounts)
-      this.setState({...this.state, scrollHeight, description}, () => {
+      this.setState({ ...this.state, scrollHeight, description }, () => {
         const descriptionLength = description.trim().length
         if (descriptionLength === 0)
-          this.setState({...this.state, descriptionClass: "hide-message"})
+          this.setState({ ...this.state, descriptionClass: "hide-message" })
         if (descriptionLength > 0 && descriptionLength < minAllowedWordCounts)
-          this.setState({...this.state, descriptionClass: "error-message"})
-        if (descriptionLength >= minAllowedWordCounts && descriptionLength < (maxAllowedWordCounts - 26))
-          this.setState({...this.state, descriptionClass: "neutral-message"})
-        if (descriptionLength > (maxAllowedWordCounts - 26) && descriptionLength < maxAllowedWordCounts)
-          this.setState({...this.state, descriptionClass: "warning-message"})
+          this.setState({ ...this.state, descriptionClass: "error-message" })
+        if (descriptionLength >= minAllowedWordCounts && descriptionLength < (maxAllowedWordCounts-26))
+          this.setState({ ...this.state, descriptionClass: "neutral-message" })
+        if (descriptionLength > (maxAllowedWordCounts-26) && descriptionLength < maxAllowedWordCounts)
+          this.setState({ ...this.state, descriptionClass: "warning-message" })
       })
 
     if ((scrollHeight > 250) && (scrollHeight !== this.state.scrollHeight) && (this.text.className !== 'post-component-textarea-open show-scroll')) {
@@ -553,10 +531,10 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
   }
 
   componentDidMount() {
-    const {actions, translate, currentUserMedia} = this.props
+    const { actions, translate, currentUserMedia } = this.props
     document.addEventListener('mousedown', this.handleClickOutside)
-    this.setState({...this.state, placeholder: translate['Be in zist boom']})
-    const {getFollowers} = actions
+    this.setState({ ...this.state, placeholder: translate['Be in zist boom'] })
+    const { getFollowers } = actions
     getFollowers({
       followOwnerIdentity: this.props.currentUserIdentity,
       followOwnerType: this.props.currentUserType,
@@ -570,19 +548,19 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       let profile = new Image()
       profile.src = currentUserMedia
       profile.onload = () => {
-        this.setState({...this.state, profileLoaded: true})
+        this.setState({ ...this.state, profileLoaded: true })
       }
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.currentUserMedia !== nextProps.currentUserMedia) {
-      this.setState({...this.state, profileLoaded: false}, () => {
+      this.setState({ ...this.state, profileLoaded: false }, () => {
         if (nextProps.currentUserMedia) {
           let profile = new Image()
           profile.src = nextProps.currentUserMedia
           profile.onload = () => {
-            this.setState({...this.state, profileLoaded: true})
+            this.setState({ ...this.state, profileLoaded: true })
           }
         }
       })
@@ -595,10 +573,10 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
 
 
   render() {
-    const {className, followers, exchanges, currentUserIdentity, currentUserMedia, currentUserName, translate, currentUserId} = this.props
+    const { className, followers, exchanges, currentUserIdentity, currentUserMedia, currentUserName, translate, currentUserId } = this.props
     const {
-      postImg1, postImg2, postImg3, open, attachMenu, labels, link, contactMenu, linkModal, postFile, postMedia,
-      profileLoaded, description, descriptionClass, descriptionHeaderClass, focused, addProductModal, selectedProduct, postType, descriptionHeader
+      postImg1, postImg2, postImg3, open, attachMenu, selected, labels, link, contactMenu, linkModal, postFile, postMedia,
+      profileLoaded, description, descriptionClass, focused, addProductModal, selectedProduct
     } = this.state
     const hasMediaClass = (postMedia || postImg1 || postImg2 || postImg3) ? "hasMedia" : ""
     const postImagesLength = [postImg1, postImg2, postImg3].filter(img => img).length
@@ -614,66 +592,24 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
             <div className={open ? "post-not-collapse-username" : "post-collapse-username"}>
               {currentUserName}
             </div>
-            <div className={open ? 'post-type-create-container' : 'post-type-create-container-hide'}>
-              <div className='post-type-flex-container'>
-                <label className="container-checkmark">
-                  <p className='post-type-text'>{translate['Type supply']}</p>
-                  <input type="radio" name="radio-step-1" ref={e => this.supplyChecked = e}
-                         onClick={this._postTypeClick}/>
-                  <span className="checkmark"/>
-                </label>
-                <label className="container-checkmark">
-                  <p className='post-type-text'>{translate['Type demand']}</p>
-                  <input type="radio" name="radio-step-1" ref={e => this.demandChecked = e}
-                         onClick={this._postTypeClick}/>
-                  <span className="checkmark"/>
-                </label>
-              </div>
+            <div className={open ? "post-component-header-item" : "post-component-header-item-hide"}>
+              <Share
+                  className={selected === "post" ? "post-component-header-item-logo1" : "post-component-header-item-logo1-unselect"}
+                  onClick={this.handleSelectShare}/>
+              <DemandIcon height="22px"
+                          className={selected === "demand" ? "post-component-header-item-logo" : "post-component-header-item-logo-unselect"}
+                          onClickFunc={this.handleSelectDemand}/>
+              <SupplyIcon height="18px"
+                          className={selected === "supply" ? "post-component-header-item-logo2" : "post-component-header-item-logo2-unselect"}
+                          onClickFunc={this.handleSelectSupply}/>
             </div>
           </div>
-          <div
-              className={open && (postType === constants.POST.POST_TYPE.SUPPLY || postType === constants.POST.POST_TYPE.DEMAND)
-                  ? 'post-type-write-container'
-                  : 'post-type-write-container-hide'}>
-            <p className='post-type-write-header'>
-              {translate['Title'] + ' '}
-              {postType === constants.POST.POST_TYPE.SUPPLY ? translate['Type supply']
-                  : (postType === constants.POST.POST_TYPE.DEMAND && translate['Type demand'])
-              }
-            </p>
 
-            {descriptionHeaderClass &&
-            <span className={descriptionHeaderClass + " post-type-character"}
-                  style={descriptionHeader.length > 0 && new RegExp("^[A-Za-z]*$").test(descriptionHeader[0]) ? {right: "6px"} : {left: "6px"}}>
-                {descriptionHeader && descriptionHeader.trim().length + `/${maxAllowedHeaderWordCounts}`}
-              </span>
-            }
-            <div className='post-type-write-content'
-                 contentEditable={true}
-                 ref={e => this.headerText = e}
-                 onKeyDown={this._onKeyDownHeader}
-                 onKeyPress={this._onKeyUpHeader}
-                 onKeyUp={this._onKeyUpHeader}
-                 style={
-                   descriptionHeader.length > 0 && new RegExp("^[A-Za-z]*$").test(descriptionHeader[0]) ?
-                       {direction: "ltr"} :
-                       {direction: "rtl"}
-                 }
-                 onBlur={this._handleBlurHeader}
-            />
-            <div onClick={() => this.headerText.focus()}
-                 className={descriptionHeader.length > 0
-                     ? "post-placeholder-hide"
-                     : (open) ? "post-placeholder-open post-title-placeholder" : "post-placeholder"}>
-              {translate['Create post header placeholder']}
-            </div>
-          </div>
           <div className={"post-component-content " + hasMediaClass}>
             <div className='post-component-description'>
-
               {descriptionClass &&
               <span className={descriptionClass + " post-character"}
-                    style={description.length > 0 && new RegExp("^[A-Za-z]*$").test(description[0]) ? {right: "6px"} : {left: "6px"}}>
+                    style={description.length > 0 && new RegExp("^[A-Za-z]*$").test(description[0]) ? { right: "6px" } : { left: "6px" }}>
                 {description && description.trim().length + `/${maxAllowedWordCounts}`}
               </span>
               }
@@ -683,12 +619,12 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
                   className={open ? "post-component-textarea-open hide-scroll" : "post-component-textarea"}
                   style={
                     description.length > 0 && new RegExp("^[A-Za-z]*$").test(description[0]) ?
-                        {direction: "ltr", padding: open || focused ? "13px 23px 9px 15px" : "8px 23px 9px 15px"} :
-                        {direction: "rtl", padding: open || focused ? "13px 15px 9px 23px" : "8px 15px 9px 23px"}
+                        { direction: "ltr", padding: open || focused ? "13px 23px 9px 15px" : "8px 23px 9px 15px" } :
+                        { direction: "rtl", padding: open || focused ? "13px 15px 9px 23px" : "8px 15px 9px 23px" }
                   }
                   onBlur={this._handleBlurText}
                   onFocus={this._handleFocusText}
-                  onKeyDown={this._handleCtrlEnter}
+                  onKeyDown={this._handleShiftEnter}
                   onKeyUp={this._autoGrow}
               />
 
@@ -698,7 +634,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
               </div>
 
               <div className={open || focused ? "emoji-open" : "emoji-close"}
-                   style={description.length > 0 && new RegExp("^[A-Za-z]*$").test(description[0]) ? {right: "7px"} : {left: "7px"}}>
+                   style={description.length > 0 && new RegExp("^[A-Za-z]*$").test(description[0]) ? { right: "7px" } : { left: "7px" }}>
                 <StickersMenu ltr={description.length > 0 && new RegExp("^[A-Za-z]*$").test(description[0])}
                               output={this.handleEmoji}/>
               </div>
@@ -739,7 +675,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
 
             <div className='post-component-footer-send'>
               <div className='post-component-footer-link' ref={e => this.link = e}>{link}</div>
-              <div style={{display: "inline-block"}} onClick={this.handleAttach}>
+              <div style={{ display: "inline-block" }} onClick={this.handleAttach}>
                 <AttachFileIcon className='post-component-footer-send-attach'/>
               </div>
               <button
@@ -780,8 +716,8 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
           <LinkModal
               ref={e => this.setWrapperThirdRef = e ? e.linkModalRef : e}
               linkModal={linkModal}
-              cancelFunc={() => this.setState({...this.state, linkModal: false})}
-              submitFunc={(linkString) => this.setState({...this.state, link: linkString, linkModal: false})}
+              cancelFunc={() => this.setState({ ...this.state, linkModal: false })}
+              submitFunc={(linkString) => this.setState({ ...this.state, link: linkString, linkModal: false })}
           />
           <AddProductModal
               ref={e => this.setWrapperFourthRef = e ? e.addProductModal : e}
@@ -822,7 +758,7 @@ const mapStateToProps = state => {
   const postMediaId = state.temp.file[POST_MEDIA_TEMP_KEY] || null
   const postFileId = state.temp.file[POST_FILE_TEMP_KEY] || null
 
-  const {user_type} = state.auth.client
+  const { user_type } = state.auth.client
   const stateOrgan = state.organs.list[userId]
   const name = user_type === 'person' ?
       client.user.first_name + ' ' + client.user.last_name
