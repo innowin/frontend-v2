@@ -1,13 +1,15 @@
 import {Component} from 'react'
 import PropTypes from 'prop-types'
-import {SelectComponent} from '../SelectComponent'
-import {TextInput} from '../inputs/TextInput'
-import {TextareaInput} from '../inputs/TextareaInput'
-import {CheckBox} from '../inputs/CheckBox'
-import {FileInput} from '../inputs/FileInput'
+import {SelectComponent} from '../../SelectComponent'
+import {TextInput} from '../../inputs/TextInput'
+import {TextareaInput} from '../../inputs/TextareaInput'
+import {CheckBox} from '../../inputs/CheckBox'
+import {FileInput} from '../../inputs/FileInput'
 import React from 'react'
-import DefaultUserIcon from './createPost'
-import {DefaultImage, AttachFileIcon} from 'src/images/icons'
+import DefaultUserIcon from '../createPost'
+import {AttachFileIcon, DefaultImage} from 'src/images/icons'
+import AttachMenu from '../createPost/attachMenu'
+import constants from 'src/consts/constants'
 
 type postFormProps = {
   onSubmit: Function,
@@ -19,7 +21,13 @@ type postFormProps = {
 }
 type postFormStates = {
   pictureArrayLoaded: [null | boolean, null | boolean, null | boolean],
+  attachMenu: boolean,
 }
+
+const minAllowedWordCounts = 5
+const maxAllowedWordCounts = 4096
+const minAllowedHeaderWordCounts = 5
+const maxAllowedHeaderWordCounts = 70
 
 export class PostForm extends Component<postFormProps, postFormStates> {
   static defaultProps = {
@@ -37,13 +45,16 @@ export class PostForm extends Component<postFormProps, postFormStates> {
 
   constructor(props) {
     super(props)
+
     this.state = {
       pictureArrayLoaded: [null, null, null],
+      attachMenu: false,
     }
   }
 
   componentDidMount(): void {
     const {post} = this.props
+    document.addEventListener('mousedown', this.handleClickOutside)
 
     if (post && post.post_picture_array) {
       const {post} = this.props
@@ -71,8 +82,18 @@ export class PostForm extends Component<postFormProps, postFormStates> {
       } else {
         this.setState({...this.state, pictureArrayLoaded: [null, null, null]})
       }
+      this.POST_MEDIA_TEMP_KEY = "POST_MEDIA" + post.id
+      this.POST_FILE_TEMP_KEY = "POST_FILE" + post.id
+      this.POST_IMG1_TEMP_KEY = "POST_IMG1" + post.id
+      this.POST_IMG2_TEMP_KEY = "POST_IMG2" + post.id
+      this.POST_IMG3_TEMP_KEY = "POST_IMG3" + post.id
     }
   }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutside)
+  }
+
 
   _handleRetryArray(fileIndex: number) {
     let newPictureArrayLoaded = this.state.pictureArrayLoaded
@@ -138,8 +159,23 @@ export class PostForm extends Component<postFormProps, postFormStates> {
     return result
   }
 
+  handleAttach = () => {
+    this.setState({...this.state, attachMenu: !this.state.attachMenu})
+  }
+
+  handleClickOutside = (event) => {
+    const {attachMenu} = this.state
+
+    if (!event.target.closest("#edit-post-attach-menu-box")) {
+      if (attachMenu) {
+        this.setState({...this.state, attachMenu: false})
+      }
+    }
+  }
+
   render() {
     const {onSubmit, currentUserMedia, currentUserName, translate, hideEdit, deleteFile, removeImageArray} = this.props
+    const {attachMenu} = this.state
     const removeImageArrayId = removeImageArray.map(removeImage => removeImage.fileId)
     const post = this.props.post || {}
     const options = [
@@ -274,6 +310,22 @@ export class PostForm extends Component<postFormProps, postFormStates> {
             <div style={{display: 'inline-block'}} onClick={this.handleAttach}>
               <AttachFileIcon className='post-component-footer-send-attach'/>
             </div>
+            <div className='edit-post-attach-menu-container'>
+              <AttachMenu
+                  attachMenu={attachMenu}
+                  handleFile={this._handlePostFile}
+                  handleMedia={this._handlePostMedia}
+                  handlePictures={this._handlePostPictures}
+                  postImagesLength={postImagesLength}
+                  postMediaExist={Boolean(postMedia)}
+                  postFileExist={Boolean(postFile)}
+                  postLinkExist={Boolean(link)}
+                  linkModalFunc={this._linkModalFunc}
+                  addProductModalFunc={this._addProductModalFunc}
+                  AttachMenuId="edit-post-attach-menu-box"
+                  translate={translate}
+              />
+            </div>
 
             <button type="button" className='post-edit-footer-cancel-btn'
                     onClick={hideEdit}>{translate['Cancel']}</button>
@@ -284,21 +336,6 @@ export class PostForm extends Component<postFormProps, postFormStates> {
             {/*{__('Delete')}*/}
             {/*</button>*/}
 
-
-            {/*<AttachMenu*/}
-            {/*attachMenu={attachMenu}*/}
-            {/*handleFile={this._handlePostFile}*/}
-            {/*handleMedia={this._handlePostMedia}*/}
-            {/*handlePictures={this._handlePostPictures}*/}
-            {/*postImagesLength={postImagesLength}*/}
-            {/*postMediaExist={Boolean(postMedia)}*/}
-            {/*postFileExist={Boolean(postFile)}*/}
-            {/*postLinkExist={Boolean(link)}*/}
-            {/*linkModalFunc={this._linkModalFunc}*/}
-            {/*addProductModalFunc={this._addProductModalFunc}*/}
-            {/*AttachMenuId="create-post-attach-menu-box"*/}
-            {/*translate={translate}*/}
-            {/*/>*/}
           </div>
 
 

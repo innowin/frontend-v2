@@ -477,6 +477,11 @@
   margin: 0 0 8px 0;
   position: relative;
   float: left;
+  .edit-post-attach-menu-container {
+    position: absolute;
+    right: 30px;
+    top: 15px;
+  }
   //width: 115px;
 }
 
