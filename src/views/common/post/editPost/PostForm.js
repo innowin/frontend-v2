@@ -316,10 +316,10 @@ export class PostForm extends Component<postFormProps, postFormStates> {
                   handleFile={this._handlePostFile}
                   handleMedia={this._handlePostMedia}
                   handlePictures={this._handlePostPictures}
-                  postImagesLength={postImagesLength}
-                  postMediaExist={Boolean(postMedia)}
-                  postFileExist={Boolean(postFile)}
-                  postLinkExist={Boolean(link)}
+                  // postImagesLength={postImagesLength}
+                  // postMediaExist={Boolean(postMedia)}
+                  // postFileExist={Boolean(postFile)}
+                  // postLinkExist={Boolean(link)}
                   linkModalFunc={this._linkModalFunc}
                   addProductModalFunc={this._addProductModalFunc}
                   AttachMenuId="edit-post-attach-menu-box"
