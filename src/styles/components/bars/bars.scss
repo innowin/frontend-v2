@@ -528,6 +528,13 @@ $sidebar-profile-media-width: 80px;
     padding-bottom: 90px;
     border-bottom: 0 !important;
 
+    .sidebar-name {
+      margin-top: 40px;
+      margin-bottom: 10px;
+      width: 100%;
+      text-align: center;
+    }
+
     .sidebar-description {
       font-size: $font-size-regular;
     }

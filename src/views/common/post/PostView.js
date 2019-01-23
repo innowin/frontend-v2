@@ -106,7 +106,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     let showMore = false
     let height = null
 
-    if (self.text.clientHeight > 74) {
+    if (!this.props.extendedView && self.text.clientHeight > 74) {
       height = self.text.clientHeight
       if (this.props.post.post_description && new RegExp('^[A-Za-z]*$').test(this.props.post.post_description[0])) {
         self.text.style.paddingRight = '60px'

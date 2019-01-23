@@ -503,7 +503,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
               {/*paramId={paramId}/>)*/}
               {/*}*/}
               {/*</CheckOwner>*/}
-              <span className="p-20px mt-4">{name}</span>
+              <div className="sidebar-name">{name}</div>
               {
                 (!editProfile) ? (<span className="-grey1 sidebar-description text-center">{description}</span>) : (
                     <div className='description'>
