@@ -52,7 +52,7 @@ class Explore extends PureComponent <appProps, appState> {
       justOrgans: false
     }
   }
-
+  
   componentDidMount() {
     const {currentUserIdentity, currentUserType, currentUserId, actions} = this.props
     actions.getUsers(24, 0, null)
