@@ -56,4 +56,5 @@ export type postType = {|
     user_permissions: []
   },
   updated_time: string,
+  post_identity_image: string,
 |}

@@ -7,18 +7,102 @@ import {CheckBox} from '../inputs/CheckBox'
 import {FileInput} from '../inputs/FileInput'
 import React from 'react'
 import DefaultUserIcon from './createPost'
-import AttachFileIcon from 'src/images/common/attachFileNew_svg'
+import {DefaultImage, AttachFileIcon} from 'src/images/icons'
 
-export class PostForm extends Component {
+type postFormProps = {
+  onSubmit: Function,
+  postParent?: number,
+  postIdentity: number,
+  post?: object,
+  deleteFile: Function,
+  removeImageArray: Array<{ fileId: number, fileParentId: number }>,
+}
+type postFormStates = {
+  pictureArrayLoaded: [null | boolean, null | boolean, null | boolean],
+}
+
+export class PostForm extends Component<postFormProps, postFormStates> {
   static defaultProps = {
-    postParent: null
+    postParent: null,
   }
 
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
     postParent: PropTypes.number,
     postIdentity: PropTypes.number.isRequired,
-    post: PropTypes.object
+    post: PropTypes.object,
+    deleteFile: PropTypes.func.isRequired,
+    removeImageArray: PropTypes.array.isRequired,
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      pictureArrayLoaded: [null, null, null],
+    }
+  }
+
+  componentDidMount(): void {
+    const {post} = this.props
+
+    if (post && post.post_picture_array) {
+      const {post} = this.props
+      let postPictureArray
+      if (post) {
+        postPictureArray = post.post_picture_array
+      }
+      let pictures = []
+      if (postPictureArray && postPictureArray.length > 0) {
+        for (let i = 0; i < postPictureArray.length; i++) {
+          pictures.push(new Image())
+          let picture = pictures[i]
+          picture.src = postPictureArray[i].file
+          picture.onload = () => {
+            let newPictureArrayLoaded = this.state.pictureArrayLoaded
+            newPictureArrayLoaded[i] = true
+            this.setState({...this.state, pictureArrayLoaded: newPictureArrayLoaded})
+          }
+          picture.onerror = () => {
+            let newPictureArrayLoaded = this.state.pictureArrayLoaded
+            newPictureArrayLoaded[i] = false
+            this.setState({...this.state, pictureArrayLoaded: newPictureArrayLoaded})
+          }
+        }
+      } else {
+        this.setState({...this.state, pictureArrayLoaded: [null, null, null]})
+      }
+    }
+  }
+
+  _handleRetryArray(fileIndex: number) {
+    let newPictureArrayLoaded = this.state.pictureArrayLoaded
+    newPictureArrayLoaded[fileIndex] = null
+    this.setState({...this.state, pictureArrayLoaded: newPictureArrayLoaded}, () => {
+      const {post} = this.props
+      if (post && post.post_picture_array) {
+        const {post} = this.props
+        let postPictureArray
+        if (post) {
+          postPictureArray = post.post_picture_array
+        }
+        if (postPictureArray && postPictureArray.length > 0) {
+          let picture = new Image()
+          picture.src = postPictureArray[fileIndex].file
+          picture.onload = () => {
+            let newPictureArrayLoaded = this.state.pictureArrayLoaded
+            newPictureArrayLoaded[fileIndex] = true
+            this.setState({...this.state, pictureArrayLoaded: newPictureArrayLoaded})
+          }
+          picture.onerror = () => {
+            let newPictureArrayLoaded = this.state.pictureArrayLoaded
+            newPictureArrayLoaded[fileIndex] = false
+            this.setState({...this.state, pictureArrayLoaded: newPictureArrayLoaded})
+          }
+        } else {
+          this.setState({...this.state, pictureArrayLoaded: [false, false, false]})
+        }
+      }
+    })
   }
 
   _getValues = () => {
@@ -55,13 +139,29 @@ export class PostForm extends Component {
   }
 
   render() {
-    const {onSubmit, currentUserMedia, currentUserName, translate, hideEdit} = this.props
+    const {onSubmit, currentUserMedia, currentUserName, translate, hideEdit, deleteFile, removeImageArray} = this.props
+    const removeImageArrayId = removeImageArray.map(removeImage => removeImage.fileId)
     const post = this.props.post || {}
     const options = [
       {value: 'post', label: 'نما'},
       {value: 'supply', label: 'عرضه'},
       {value: 'demand', label: 'تقاضا'}
     ]
+
+    const {pictureArrayLoaded} = this.state
+
+    let postPictureArray = [], picturesClass = '', postPicturesLength = 0
+    if (post) {
+      postPictureArray = post.post_picture_array
+      postPictureArray = postPictureArray.filter(postPicture => !removeImageArrayId.includes(postPicture.id))
+      if (postPictureArray) {
+        postPicturesLength = postPictureArray.length
+        picturesClass = "onePicture"
+        if (postPicturesLength === 2) picturesClass = "twoPictures"
+        if (postPicturesLength === 3) picturesClass = "threePictures"
+      }
+    }
+
     return (
         <form onSubmit={onSubmit} className="edit-form w-90">
 
@@ -131,13 +231,52 @@ export class PostForm extends Component {
               }}
           />
 
+          <div>
+            {postPictureArray && postPicturesLength > 0
+                ? <div className={"pictures-section " + picturesClass}>
+                  {postPictureArray.map((postPictureElement, i) => (
+                      <div className='image-container' key={i + "pictures-section"}>
+                        <div className='post-image-container'>
+                          <div
+                              className={pictureArrayLoaded[i] === true ? 'post-image-loading-effect' : 'post-image-loading'}>
+                            <DefaultImage className='default-image'/>
+                            {
+                              pictureArrayLoaded[i] === false ?
+                                  <div className='post-retry-image'>
+                                    مشکل در بارگذاری عکس.
+                                    <span className='post-retry-image-click'
+                                          onClick={() => this._handleRetryArray(i)}> تلاش مجدد </span>
+                                  </div>
+                                  :
+                                  <div className='bright-line'/>
+                            }
+                          </div>
+                          {pictureArrayLoaded[i] === true &&
+                          <span onClick={() => deleteFile({
+                            fileId: postPictureElement.id,
+                            fileParentId: post.id
+                          })} className='remove-file pulse'>x</span>
+                          }
+                          <img src={postPictureElement.file} alt='عکس پست'
+                               className={pictureArrayLoaded[i] === true ? 'post-image-effect' : 'post-image'}/>
+                        </div>
+
+                        {/*<img src={postPictureElement.file} alt={"عکس پست" + i}/>*/}
+                      </div>
+                  ))}
+                </div>
+                : null
+            }
+          </div>
+
           <div className='post-component-footer-send'>
             {/*<div className='post-component-footer-link' ref={e => this.link = e}>{link}</div>*/}
             <div style={{display: 'inline-block'}} onClick={this.handleAttach}>
               <AttachFileIcon className='post-component-footer-send-attach'/>
             </div>
 
-            <button type="button" className='post-edit-footer-cancel-btn' onClick={hideEdit}>{translate['Cancel']}</button>
+            <button type="button" className='post-edit-footer-cancel-btn'
+                    onClick={hideEdit}>{translate['Cancel']}</button>
 
             <button type="submit" className='post-edit-footer-send-btn'>ثبت ویرایش</button>
 

@@ -4,13 +4,10 @@ import PropTypes from 'prop-types'
 
 import {DefaultImage} from 'src/images/icons'
 import type {postType} from 'src/consts/flowTypes/common/post'
-import type {fileType} from 'src/consts/flowTypes/common/fileType'
 
 type postImageProps = {
   translate: { [string]: string },
   post: postType,
-  userImage?: fileType,
-  userImageId: number,
   extendedView?: boolean,
   fileList: {},
 }
@@ -23,8 +20,6 @@ class PostImage extends React.Component<postImageProps, postImageState> {
   static propTypes = {
     translate: PropTypes.object.isRequired,
     post: PropTypes.object.isRequired,
-    userImage: PropTypes.object,
-    userImageId: PropTypes.number,
     extendedView: PropTypes.bool,
     fileList: PropTypes.object,
   }

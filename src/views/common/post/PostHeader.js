@@ -8,13 +8,12 @@ import DefaultUserIcon from "../../../images/defaults/defaultUser_svg"
 // import CheckOwner from "../CheckOwner"
 // import {EditIcon} from "../../../images/icons"
 import type {postType} from "../../../consts/flowTypes/common/post"
-import type {fileType} from "../../../consts/flowTypes/common/fileType"
 import type {identityType} from "../../../consts/flowTypes/user/basicInformation"
 
 type PostHeaderProps = {
   post: postType,
   translate: { [string]: string },
-  postRelatedIdentityImage?: fileType | number,
+  postRelatedIdentityImage: string,
   postIdentity?: identityType | number,
   showEdit?: Function,
   extendedView?: boolean,
@@ -35,7 +34,7 @@ class PostHeader extends React.Component<PostHeaderProps, PostHeaderStates> {
   componentDidMount() {
     if (this.props.postRelatedIdentityImage) {
       let profile = new Image()
-      profile.src = this.props.postRelatedIdentityImage.file
+      profile.src = this.props.postRelatedIdentityImage
       profile.onload = () => {
         this.setState({profileLoaded: true})
       }
@@ -74,7 +73,7 @@ class PostHeader extends React.Component<PostHeaderProps, PostHeaderStates> {
         <div className="-item-headerPost">
           <Link to={url} className='link-post'>
             <div className="-img-col">
-              {postRelatedIdentityImage /*&& this.state.profileLoaded*/ ? <img className="rounded-circle covered-img" src={postRelatedIdentityImage.file} alt=""/>
+              {postRelatedIdentityImage /*&& this.state.profileLoaded*/ ? <img className="rounded-circle covered-img" src={postRelatedIdentityImage} alt=""/>
                   : <DefaultUserIcon className="rounded-circle covered-svg"/>
               }
             </div>
