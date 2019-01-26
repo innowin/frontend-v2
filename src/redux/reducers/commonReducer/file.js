@@ -49,7 +49,15 @@ const file = (state = initialState.common.file, action) => {
         //     content: {} // should be more handled.
         // }
       }
-    /** ----------------- update file -----------------> **/
+    /** ----------------- delete file -----------------> **/
+    case types.COMMON.FILE.DELETE_FILE:
+      return slices.deleteFile.base(state, action)
+    case types.SUCCESS.COMMON.FILE.DELETE_FILE:
+      return slices.deleteFile.success(state, action)
+    case types.ERRORS.COMMON.FILE.DELETE_FILE:
+      return slices.deleteFile.error(state, action)
+
+      /** ----------------- update file -----------------> **/
     case types.COMMON.FILE.UPDATE_FILE:
       return slices.updateFile.base(state, action)
     case types.SUCCESS.COMMON.FILE.UPDATE_FILE:

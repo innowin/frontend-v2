@@ -45,6 +45,11 @@ class Contributions extends React.Component {
 
           <AddingContribution modalIsOpen={this.state.createForm}
                               handleModalVisibility={this._handleProductWizardModal}/>
+          <div
+              className={this.state.createForm ? "makeDark" : "makeDark-out"}
+              onClick={this._handleProductWizardModal}>
+            {/*dark div*/}
+          </div>
 
           <FrameCard>
             <ListGroup>

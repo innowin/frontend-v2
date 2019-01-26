@@ -107,10 +107,18 @@ class SignUpForm extends React.Component<> {
 
   _tabKeyDownForEmail = (e) => {
     if (e.keyCode === 9) {
+      const {onChangeSignUp} = this.props
       const {emailSuggest} = this.state
       e.preventDefault()
       this.emailInputRef.value = this.emailInputRef.value + emailSuggest
       this.setState({...this.state, emailSuggest: ''})
+      onChangeSignUp({
+        target: {
+          type: 'text',
+          value: this.emailInputRef.value,
+          name: 'email'
+        }
+      })
       this.passwordInputRef.focus()
     }
   }
@@ -121,15 +129,16 @@ class SignUpForm extends React.Component<> {
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="sign-up-form">
           <Field
-          name="username"
-          type="text"
-          component={renderTextField}
-          label={translator['Username']}
-          className="signup-field"
-          onChangeForm={onChangeSignUp}
+              name="username"
+              type="text"
+              component={renderTextField}
+              label={translator['Username']}
+              className="signup-field"
+              onChangeForm={onChangeSignUp}
           />
           <div className='email-container'>
-            {emailSuggest && <span ref={e => this.spanRef = e} className='email-suggest' style={{left: `${emailTextWidth}px`}}>{emailSuggest}</span>}
+            {emailSuggest && <span ref={e => this.spanRef = e} className='email-suggest'
+                                   style={{left: `${emailTextWidth}px`}}>{emailSuggest}</span>}
             <Field name="email" type="text" component={renderTextField} label={translator['Email']}
                    className="signup-field"
                    onChangeForm={this._emailFieldChange}

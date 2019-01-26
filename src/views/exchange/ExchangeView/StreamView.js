@@ -1,7 +1,8 @@
-import * as React from "react"
-import PostView from "src/views/common/post/PostView"
-import {ClipLoader} from "react-spinners"
-import {connect} from "react-redux"
+import * as React from 'react'
+import PostView from 'src/views/common/post/PostView'
+import {ClipLoader} from 'react-spinners'
+import {connect} from 'react-redux'
+import {exchangePostSelector} from 'src/redux/selectors/common/post/exchangePostSelector'
 // import DefaultUserIcon from "../../../images/defaults/defaultUser_svg"
 // import Moment from "react-moment"
 // import {VerifyWrapper} from "../../common/cards/Frames"
@@ -16,33 +17,31 @@ const StreamView = props => {
     })
     scroll = true
   }
-  const {posts, exchangeId, exchanges} = props
+  const {exchangeId, exchanges, exchangePosts} = props
 
   if (exchanges[exchangeId] && exchanges[exchangeId].exchange.content && exchanges[exchangeId].exchange.content.owner) {
-    return Object.values(posts).reverse().map((p, key) => {
-          return p.post_parent && p.post_parent.id === exchangeId ?
-              <div className={"posts-frame-container"} key={key}>
-                <div className={"post-view-container"}>
-                  <PostView post={p}
-                      // showEdit={this._showEdit}
-                  />
-                </div>
-              </div>
-              :
-              null
-        }
+    return exchangePosts.map((p, key) =>
+        <div className={'posts-frame-container'} key={key}>
+          <div className={'post-view-container'}>
+            <PostView post={p}
+                // showEdit={this._showEdit}
+            />
+          </div>
+        </div>
     )
   } else return (
-      <div className={"info-loading"}>
+      <div className={'info-loading'}>
         <ClipLoader color="#C2B9BD" size={45} margin="4px" loading={true}/>
       </div>
   )
 }
-/*<div className={"info-loading"}><ClipLoader color="#C2B9BD" size={45} margin="4px" loading={true}/></div>*/
 
-const mapStateToProps = (state) => ({
-  posts: state.common.post.list,
-  exchanges: state.exchanges.list,
-})
+let mapStateToProps = (state, props) => {
+  let {exchangeId} = props
+  return {
+    exchanges: state.exchanges.list,
+    exchangePosts: exchangePostSelector(state, exchangeId)
+  }
+}
 
 export default connect(mapStateToProps)(StreamView)

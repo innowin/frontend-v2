@@ -44,11 +44,9 @@ type postExtendedViewProps = {
   },
   translate: { [string]: string },
   post: postType,
-  postRelatedIdentityImage?: fileType | number,
+  postRelatedIdentityImage: string,
   postIdentity?: identityType | number,
   param?: paramType,
-  userImage?: fileType,
-  userImageId: number,
   extendedView?: boolean,
   showEdit?: Function,
   comments?: Array<commentType>,
@@ -71,8 +69,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     translate: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
     postIdentity: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
-    postRelatedIdentityImage: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
-    userImage: PropTypes.object,
+    postRelatedIdentityImage: PropTypes.string,
     extendedView: PropTypes.bool,
     showEdit: PropTypes.func,
     comments: PropTypes.array,
@@ -87,7 +84,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       showComment: false,
       commentOn: undefined,
       showMore: false,
-      descriptionHeight: null,
+      descriptionHeight: null
     }
 
     const self: any = this
@@ -106,18 +103,21 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     let showMore = false
     let height = null
 
-    if (!this.props.extendedView && self.text.clientHeight > 74) {
+    const {extendedView} = this.props
+
+    if (!extendedView && self.text.clientHeight > 74) {
       height = self.text.clientHeight
       if (this.props.post.post_description && new RegExp('^[A-Za-z]*$').test(this.props.post.post_description[0])) {
         self.text.style.paddingRight = '60px'
-      } else self.text.style.paddingLeft = '60px'
+      }
+      else self.text.style.paddingLeft = '60px'
       self.text.style.height = '68px'
       showMore = true
     }
 
     this.setState({...this.state, showMore, descriptionHeight: height}, () => {
 
-      const {extendedView, post, actions} = this.props
+      const {post, actions} = this.props
       const {getFileByFileRelatedParentId} = actions
 
       if (extendedView) {
@@ -133,7 +133,8 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
         getPost({postId, postOwnerType, postOwnerId})
         getCommentsByParentId({parentId: postId, commentParentType: constants.COMMENT_PARENT.POST})
         getFileByFileRelatedParentId({fileRelatedParentId: postId, fileParentType: constants.FILE_PARENT.POST})
-      } else {
+      }
+      else {
         getFileByFileRelatedParentId({fileRelatedParentId: post.id, fileParentType: constants.FILE_PARENT.POST})
       }
 
@@ -157,13 +158,17 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                 self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a title=` + word + ` target=_blank href=` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word} </a>`)
                 :
                 self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a title=` + word + ` target=_blank href=http://` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-          } else if (word[0] === '@' && word.length >= 6 && !word.substring(1, word.length).includes('@')) {
+          }
+          else if (word[0] === '@' && word.length >= 6 && !word.substring(1, word.length).includes('@')) {
             self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=` + word.slice(1, word.length) + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-          } else if (word[0] === '#' && word.length >= 3 && !word.substring(1, word.length).includes('#')) {
+          }
+          else if (word[0] === '#' && word.length >= 3 && !word.substring(1, word.length).includes('#')) {
             self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-          } else if (mailExp.test(word)) {
+          }
+          else if (mailExp.test(word)) {
             self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=mailto:` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-          } else if (!isNaN(word.replace(/\\+/g, '')) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
+          }
+          else if (!isNaN(word.replace(/\\+/g, '')) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
             // don't touch it !
             word.includes('+') ?
                 self.text.innerHTML = self.text.innerHTML.replace(new RegExp(`\\${word}`, 'g'), `<a href=tel:` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
@@ -178,10 +183,28 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   componentDidUpdate(prevProps) {
-    const {userImageId, actions} = this.props
+    const {actions, post} = this.props
     const {getFile} = actions
-    if (!prevProps.userImageId && prevProps.userImageId !== userImageId) {
-      getFile(userImageId)
+
+    const self: any = this
+    let showMore = false
+    let height = null
+
+    if (post && post.post_description !== prevProps.post.post_description) {
+      console.log(post, 'postttttt')
+      console.log(post.post_description, 'postttttt desccc')
+      console.log(self.text.clientHeight, 'sssssssssssssssssss')
+      if (self.text.clientHeight > 74) {
+        height = self.text.clientHeight
+        if (post.post_description && new RegExp('^[A-Za-z]*$').test(post.post_description[0])) {
+          self.text.style.paddingRight = '60px'
+        }
+        else self.text.style.paddingLeft = '60px'
+        self.text.style.height = '68px'
+        showMore = true
+      }
+
+      this.setState({...this.state, showMore, descriptionHeight: height})
     }
   }
 
@@ -252,7 +275,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
     const {
       post, translate, postIdentity, postRelatedIdentityImage, extendedView, showEdit, comments, fileList,
-      commentParentType, userImage, userImageId
+      commentParentType
     } = this.props
     const {menuToggle, confirm, showComment, commentOn} = this.state
     let postDescription = '', postIdentityUserId, postIdentityOrganId, postOwnerId = 0
@@ -300,8 +323,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                   </div>
                 </div>
 
-                <PostImage translate={translate} extendedView={extendedView} fileList={fileList} post={post}
-                           userImage={userImage} userImageId={userImageId}/>
+                <PostImage translate={translate} extendedView={extendedView} fileList={fileList} post={post}/>
                 {post && post.post_related_product &&
                 <div className='post-view-product-container'>
                   <ProductInfoView product={post.post_related_product}
@@ -345,29 +367,23 @@ const mapStateToProps = (state, ownProps) => {
     const postId = +params.id
     const post = state.common.post.list[postId]
     const postIdentity = post && post.post_identity
-    const postImageId = post && post.post_related_identity_image
-    const prevUserImageId = (state.auth.organization && state.auth.organization.organization_logo) || state.auth.client.profile.profile_media
     return {
       translate: getMessages(state),
       param: state.param,
       post: post,
+      postRelatedIdentityImage: post.post_identity_image,
       postIdentity: state.identities.list[postIdentity],
-      postRelatedIdentityImage: state.common.file.list[postImageId],
-      userImageId: prevUserImageId,
-      userImage: state.common.file.list[prevUserImageId],
       comments: userCommentsSelector(state, ownProps),
       fileList: state.common.file.list
     }
-  } else {
+  }
+  else {
     const {post} = ownProps
     const postIdentity = post && post.post_identity
-    const prevUserImageId = (state.auth.organization && state.auth.organization.organization_logo) || state.auth.client.profile.profile_media
     return {
       postIdentity: postIdentity,
-      postRelatedIdentityImage: post.post_related_identity_image,
-      translate: getMessages(state),
-      // userImageId: prevUserImageId,
-      userImage: state.common.file.list[prevUserImageId]
+      postRelatedIdentityImage: post.post_identity_image,
+      translate: getMessages(state)
     }
   }
 }

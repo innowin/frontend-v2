@@ -1,179 +1,54 @@
-// @flow
 import * as React from 'react'
 import {Component} from 'react'
-import {Owner, ActBar, Tags, Price, Badges, Gallery, GalleryModal} from './rowComponents'
-import type {BadgeType} from './rowComponents'
-import {ownerData} from './data'
-import ScrollLessWrapper from '../../common/wrappers/scrollLesWrapper'
-import {bindActionCreators} from "redux"
-import {connect} from "react-redux"
-import makeProductSelectorById from "../../../redux/selectors/common/product/getProductById"
-import {getProductPicturesByProductId} from "src/redux/actions/commonActions/productActions/productPicturesAction"
-import {getFile} from "src/redux/actions/commonActions/fileActions"
-import makePictureSelectorByProductId from '../../../redux/selectors/common/product/selectProducPicturesByProductId'
-import {getBadges} from "../../../redux/actions/commonActions/badgeActions"
-import makeBadgeSelectorByParentId from "../../../redux/selectors/common/badge/badgeSelectorByParentId"
-import {getPriceByProductId} from "../../../redux/actions/commonActions/productActions/priceActions"
-import makeProductLastPriceSelectorByProductId from "../../../redux/selectors/common/product/getProductLastPrice"
-import {getObjHashTags} from "../../../redux/actions/commonActions/hashTagActions"
-import makeHashTagSelectorByParentId from "../../../redux/selectors/common/hashTags/getObjHashTags"
-import type {TagType} from '../../common/tags/tag'
+import Moment from "react-moment"
+import Material from '../../common/components/Material'
 
-// type FileType = {
-//   file: string
-// }
-//
-// export type FileListObjectType = {
-//   [string]: FileType
-// }
-
-type ProductType = {
-  pictures: Array<string>
-}
-
-type ProductPictureType = {
-  fileUrl: string,
-  id: string
-}
-
-type SideBarProps = {
-  className?: string,
-  visible: boolean,
-  visibilityHandler: Function,
-  product: ProductType,
-  getProductPicturesByProductId: Function,
-  productId: string,
-  getFile: Function,
-  productPictures: Array<ProductPictureType>,
-  getBadges: Function,
-  badges: Array<BadgeType>,
-  getPriceByProductId: Function,
-  lastPrice: string,
-  getObjHashTags: Function,
-  hashTags: Array<TagType>
-}
-type SideBarState = {
-  galleryModalIsOpen: boolean
-}
-
-class SideBar extends Component<SideBarProps, SideBarState> {
-  constructor() {
-    super()
-    this.state = {
-      galleryModalIsOpen: false
-    }
+class SideBar extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {}
   }
-
-  componentDidMount() {
-    const {productId, getProductPicturesByProductId, getBadges, getPriceByProductId, getObjHashTags} = this.props
-    getProductPicturesByProductId(productId)
-    // this._fileDispatchHandler()
-    getBadges(productId, productId)
-    getPriceByProductId(productId)
-    getObjHashTags(productId)
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.productPictures.length === 0 && this.props.productPictures.length > 0) this._fileDispatchHandler()
-  }
-
-  _fileDispatchHandler = () => {
-    const {productPictures = {}, getFile} = this.props
-    Object.values(productPictures).forEach((picture: any) => {
-      getFile(picture.picture_media)
-    })
-  }
-
-  _setGalleryData = () => {
-    const {productPictures} = this.props
-    const images = []
-    let mainImage = ''
-    productPictures.forEach(picture => {
-      if (picture.picture_original) mainImage = picture.fileUrl
-      else images.push({fileUrl: picture.fileUrl, id: picture.id})
-    })
-    return {mainImage, images}
-  }
-  _callHandler = () => {
-  }
-
-  _requestToAgencyHandler = () => {
-  }
-
-  _galleryModalVisibilityHandler = () => {
-    this.setState({...this.state, galleryModalIsOpen: !this.state.galleryModalIsOpen})
-  }
-
-  acts = [
-    {title: 'تماس', handler: this._callHandler},
-    {title: 'درخواست کارگزاری', handler: this._requestToAgencyHandler}
-  ]
 
   render() {
-    // const {visible, visibilityHandlerz, badges, lastPrice, hashTags} = this.props
-    const {badges, lastPrice, hashTags} = this.props
-    const {mainImage, images} = this._setGalleryData()
-    const {galleryModalIsOpen} = this.state
-    const modalGalleryImages = images.map(image => ({original: image.fileUrl, thumbnail: image.fileUrl}))
-    mainImage && modalGalleryImages.push({original: mainImage, thumbnail: mainImage})
+    const {product, country, province, product_owner, product_category} = this.props
+    const profile_user = product_owner && product_owner.profile && product_owner.profile.content && product_owner.profile.content.profile_user ? product_owner.profile.content.profile_user : ''
+    const owner_name = profile_user ? profile_user.first_name + ' ' + profile_user.last_name : ''
+    const {name, created_time, pictures_array} = product
+
     return (
-        <div className='product-side-bar'>
-          <ScrollLessWrapper points="left">
+        <div className='product-view-sidebar'>
+          <div className='product-view-sidebar-name'>{name}</div>
+          <img className='product-view-sidebar-main-img' style={pictures_array && pictures_array.length > 0 ? {} : {display: 'none'}} src={pictures_array && pictures_array[0] && pictures_array[0].file} alt=''/>
+          <div style={pictures_array && pictures_array.length > 1 ? {} : {display: 'none'}} className='product-view-sidebar-images'>
+            {
+              pictures_array && pictures_array.slice(1, 4).map((img, index) => {
+                return <img key={index} className='product-view-sidebar-img' src={img.file} alt=''/>
+              })
+            }
+            <div style={pictures_array && pictures_array.length > 4 ? {} : {display: 'none'}} className='product-view-sidebar-more'>بیشتر</div>
+          </div>
 
-            <div style={{height: '35px'}}>
-              <div className='menu-side-name'>{this.props.product.name}</div>
-              <i className='fa fa-ellipsis-v menu-dots'/>
-            </div>
+          <div className='product-view-sidebar-date'>تاریخ ثبت: <Moment element="span" fromNow ago>{created_time}</Moment> پیش</div>
+          <div className='product-view-sidebar-location'>{country.name}، {province.name}</div>
 
-            <Gallery
-                mainImage={mainImage}
-                images={images && images.slice(0, 3)}
-                galleryModalDisplayHandler={this._galleryModalVisibilityHandler}
-            />
+          <div className='product-view-sidebar-details'>
+            <span className='product-view-sidebar-details-grey'>قیمت: </span><span className='product-view-sidebar-details-red'>{'20000'}</span>
+            <br/>
+            <span className='product-view-sidebar-details-grey'>فروشنده: </span><span className='product-view-sidebar-details-blue'>{owner_name}</span>
+            <br/>
+            <span className='product-view-sidebar-details-grey'>دسته بندی: {product_category && product_category.name ? product_category.name : ''}</span>
+          </div>
 
-            <Owner ownerName={ownerData.name} ownerImg={ownerData.file}/>
-            <Badges badges={badges}/>
-            <Price price={lastPrice}/>
-            <Tags tags={hashTags.slice(0, 3)}/>
-            <ActBar acts={this.acts}/>
+          <div className='product-view-sidebar-buttons'>
+            <Material className='product-view-sidebar-buy' content='خرید'/>
+            <Material className='product-view-sidebar-share' content='اشتراک گذاری'/>
+          </div>
 
-          </ScrollLessWrapper>
-          <GalleryModal
-              images={modalGalleryImages}
-              isOpen={galleryModalIsOpen}
-              visibilityHandler={this._galleryModalVisibilityHandler}
-          />
+
         </div>
     )
   }
 }
 
-const mapStateToProps = (state, props) => {
-  const {productId = 0} = props
-  const productSelectorById = makeProductSelectorById()
-  const badgeSelectorByParentId = makeBadgeSelectorByParentId()
-  const productPictureSelectorById = makePictureSelectorByProductId()
-  const productLastPriceSelectorByProductId = makeProductLastPriceSelectorByProductId()
-  const hashTagSelectorByParentId = makeHashTagSelectorByParentId()
-  const productPictures = productPictureSelectorById(state, productId)
-  const product = productSelectorById(state, productId)
 
-  return {
-    product,
-    productPictures,
-    hashTags: hashTagSelectorByParentId(state, productId),
-    badges: badgeSelectorByParentId(state, productId),
-    lastPrice: productLastPriceSelectorByProductId(state, productId, product.product_price_type)
-  }
-}
-
-const mapDispatchToProps = dispatch => bindActionCreators({
-  getProductPicturesByProductId,
-  getFile,
-  getBadges,
-  getPriceByProductId,
-  getObjHashTags
-}, dispatch)
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(SideBar)
+export default SideBar

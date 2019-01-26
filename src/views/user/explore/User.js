@@ -7,11 +7,11 @@ import socialActions from '../../../redux/actions/commonActions/socialActions'
 import {bindActionCreators} from 'redux'
 import {ClipLoader} from 'react-spinners'
 import {Component} from 'react'
-import {DefaultUserIcon} from 'src/images/icons'
+import {DefaultUserIcon, Organization, User as UserIcon} from 'src/images/icons'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {Link} from 'react-router-dom'
 import {REST_URL} from 'src/consts/URLS'
-import GetUserActions from '../../../redux/actions/user/getUserActions'
+import GetUserActions from 'src/redux/actions/user/getUserActions'
 
 type appProps =
     {|
@@ -139,10 +139,10 @@ class User extends Component <appProps, appState> {
     const user = data.profile.content.profile_user
     const {profileLoaded, bannerLoaded} = this.state
     const organId = profile["related_organization_id"]
-    
+
     return (
         <div className='users-explore'>
-          <Link to={(organId) ? `/organization/${organId}` : `/user/${user.id}`} style={{textDecoration: 'none', color: 'black'}}>
+          <Link to={organId ? `/organization/${organId}` : `/user/${user.id}`} style={{textDecoration: 'none', color: 'black'}}>
             {
               profile.profile_banner && bannerLoaded ?
                   <img src={profile.profile_banner.file.includes('innowin.ir') ? profile.profile_banner.file : REST_URL + profile.profile_banner.file} className='user-banner' alt={user.last_name}/>
@@ -157,7 +157,7 @@ class User extends Component <appProps, appState> {
             }
 
             <div className='user-name-id-cont'>
-              <div className='user-name'>{user.first_name + ' ' + user.last_name}</div>
+              <div className='user-name'>{organId ? <Organization className='user-name-icon'/> : <UserIcon className='user-name-icon'/>}{user.first_name + ' ' + user.last_name}</div>
               <div className='user-id'>@{user.username}</div>
             </div>
 

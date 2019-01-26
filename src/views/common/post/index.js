@@ -28,7 +28,6 @@ type postsPropsType = {
   isLoading: boolean,
   error?: string,
   identityType: string,
-  userImageId: number,
 }
 
 type postsStatesType = {
@@ -45,7 +44,6 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
     error: PropTypes.object,
     translate: PropTypes.object.isRequired,
     identityType: PropTypes.string.isRequired,
-    userImageId: PropTypes.number.isRequired,
   }
 
   constructor(props: postsPropsType) {
@@ -81,7 +79,6 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
       // error,
       actions,
       // translate,
-      userImageId
     } = this.props
     const {updatePost, deletePost} = actions
     const {createForm} = this.state
@@ -103,7 +100,6 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
                                   create={this._create}
                                   postIdentity={postIdentity}
                                   postsLength={posts.length}
-                                  userImageId={userImageId}
                   />
                 </div>
               }
@@ -134,12 +130,8 @@ const mapStateToProps = (state, ownProps) => {
       (identityType === constants.USER_TYPES.ORG && state.organs.list[ownerId])
   const defaultObject = {content: [], isLoading: false, error: null}
   const postObject = (stateOwner && stateOwner.posts) || defaultObject
-  const userType = client.getUserType()
-  const userImageId = (userType === constants.USER_TYPES.PERSON) ? state.auth.client.profile.profile_media :
-      (userType === constants.USER_TYPES.ORG && state.auth.client.organization.organization_logo)
   return {
     posts: userPostsSelector(state, ownProps),
-    userImageId,
     translate: state.intl.messages,
     isLoading: postObject.isLoading,
     error: postObject.error,

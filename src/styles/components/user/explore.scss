@@ -11,7 +11,7 @@
   background: white;
   border-radius: 5px;
   box-shadow: 0 3px 3px $box-shadow-color;
-  height: 330px;
+  height: 340px;
   position: relative;
   overflow: hidden;
 }
@@ -92,6 +92,13 @@
   font-size: $font-size-normalText;
 }
 
+.user-name-icon{
+  vertical-align: top;
+  width: 20px;
+  margin-left: 6px;
+  fill: $disable-color;
+}
+
 .user-id {
   text-align: left;
   flex-grow: 1;
@@ -134,7 +141,7 @@
   font-size: $font-size-smallText;
   padding: 10px;
   text-align: justify;
-  text-align-last: initial;
+  text-align-last: center;
   line-height: 25px;
   height: 110px;
   margin-bottom: 10px;
@@ -168,21 +175,20 @@
 }
 
 .user-follow {
-  border: 1px solid $tag-del-btn-background;
-  color: $tag-del-btn-background;
-  background-color: white;
-  //cursor: pointer;
-  border-radius: 3px;
-  padding: 2px 0;
+  border: 1.5px solid $secondary-color;
+  color: white;
+  background-color: $secondary-color;
+  padding: 5px 0;
+  border-radius: 30px;
+  width: 100px;
+  transition-duration: 0.25s;
+  font-size: $font-size-normalText;
   float: left;
   margin-left: 10px;
   margin-top: 3px;
-  transition-duration: 0.25s;
-  font-size: $font-size-normalText;
-  width: 80px;
   &:hover {
     color: white;
-    background-color: $tag-del-btn-background;
+    background-color: $secondary-color;
     transition-duration: 0.25s;
   }
   &:focus {
@@ -191,16 +197,16 @@
 }
 
 .user-follow-skeleton {
+  padding: 5px 0;
+  border-radius: 30px;
+  width: 100px;
   background-color: #f3f3f3;
   border: none;
-  border-radius: 3px;
-  padding: 2px 0;
   float: left;
   margin-left: 10px;
   margin-top: 3px;
   transition-duration: 0.25s;
   font-size: $font-size-normalText;
-  width: 80px;
   overflow: hidden;
   position: relative;
   &:focus {
@@ -209,21 +215,21 @@
 }
 
 .user-followed {
-  border: 1px solid $tag-del-btn-background;
-  background-color: $tag-del-btn-background;
-  color: white;
+  border: 1.5px solid $secondary-color;
+  color: $secondary-color;
+  background-color: transparent;
+  padding: 5px 0;
+  border-radius: 30px;
+  width: 100px;
   cursor: pointer;
-  border-radius: 3px;
-  padding: 2px 0;
   margin-left: 10px;
   margin-top: 3px;
   float: left;
   transition-duration: 0.25s;
   font-size: $font-size-normalText;
-  width: 80px;
   &:hover {
-    background-color: white;
-    color: $tag-del-btn-background;
+    background-color: $secondary-color;
+    color: white;
     transition-duration: 0.25s;
   }
   &:focus {

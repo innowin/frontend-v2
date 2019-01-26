@@ -466,7 +466,7 @@
 }
 
 .exchange-follow {
-  border: 1px solid $secondary-color;
+  border: 1.5px solid $secondary-color;
   color: $secondary-color;
   background-color: transparent;
   padding: 5px 0;
@@ -495,7 +495,7 @@
 }
 
 .exchange-followed {
-  border: 1px solid $secondary-color;
+  border: 1.5px solid $secondary-color;
   background-color: $secondary-color;
   padding: 5px 0;
   border-radius: 30px;
@@ -556,7 +556,7 @@
 .exchange-model-following {
   height: 35px;
   background-color: transparent;
-  border: 1px solid $secondary-color;
+  border: 1.5px solid $secondary-color;
   color: white;
   padding: 7px 0;
   border-radius: 30px;
@@ -567,13 +567,15 @@
 }
 
 .user-follow-loading {
-  font-size: $font-size-smallText;
-  border: 1px solid $tag-del-btn-background;
-  color: $tag-del-btn-background;
-  border-radius: 3px;
-  width: 80px;
-  padding-top: 3px;
-  height: 27px;
+  border: 1.5px solid $secondary-color;
+  color: $secondary-color;
+  background-color: transparent;
+  padding: 6px 0;
+  border-radius: 30px;
+  width: 100px;
+  transition-duration: 0.25s;
+  font-size: $font-size-normalText;
+  height: 35px;
   float: left;
   margin-left: 10px;
   margin-top: 3px;

@@ -50,44 +50,45 @@ class UserBee extends Component {
 
       jobTitle: '',
       jobWork: '',
-      jobSubmitted: false
+      jobSubmitted: false,
+
+      getData: false
     }
   }
 
   componentDidMount(): void {
-    const {currentUserMedia, currentUserName, profile, currentUserEducation, currentUserWork, currentUserId, actions} = this.props
-    actions.getUserByUserId(currentUserId)
-    actions.getProfileByUserId(currentUserId)
-    actions.getEducationByUserId({userId: currentUserId})
-    actions.getWorkExperienceByUserId({userId: currentUserId})
-    actions.getUniversities()
-    actions.getEducationFields()
+    if (this.state.getData) {
+      const {currentUserId, actions} = this.props
+      actions.getUserByUserId(currentUserId)
+      actions.getProfileByUserId(currentUserId)
+      actions.getEducationByUserId({userId: currentUserId})
+      actions.getWorkExperienceByUserId({userId: currentUserId})
+      actions.getUniversities()
+      actions.getEducationFields()
+    }
+  }
 
-    let image = 0
-    let name = 0
-    let graduate = 0
-    let job = 0
-    let bio = 0
+  componentWillMount(): void {
+    if (this.props.currentUserId) {
+      const {currentUserId, actions} = this.props
+      actions.getUserByUserId(currentUserId)
+      actions.getProfileByUserId(currentUserId)
+      actions.getEducationByUserId({userId: currentUserId})
+      actions.getWorkExperienceByUserId({userId: currentUserId})
+      actions.getUniversities()
+      actions.getEducationFields()
+    }
+    else this.setState({...this.state, getData: true})
+  }
 
-    if (currentUserMedia) {
-      image = 30
-    }
-    if (currentUserName.trim().length > 0) {
-      name = 20
-    }
-    if (profile && profile.description && profile.description.trim().length > 0) {
-      bio = 20
-    }
-    if (currentUserEducation.length > 0) {
-      graduate = 15
-    }
-    if (currentUserWork.length > 0) {
-      job = 15
-    }
-
-    this.setState({...this.state, image, name, graduate, job, bio}, () => {
-      if (image === 30) this.setState({...this.state, imageLoading: false})
-    })
+  shouldComponentUpdate(nextProps, nextState, nextContext): boolean {
+    const {currentUserMedia, currentUserName, profile, currentUserEducation, currentUserWork} = this.props
+    return currentUserMedia !== nextProps.currentUserMedia ||
+        currentUserName !== nextProps.currentUserName ||
+        profile !== nextProps.profile ||
+        currentUserEducation !== nextProps.currentUserEducation ||
+        currentUserWork !== nextProps.currentUserWork ||
+        this.state !== nextState
   }
 
   componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {

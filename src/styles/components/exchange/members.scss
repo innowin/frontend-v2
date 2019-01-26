@@ -46,7 +46,7 @@
   flex-wrap: wrap;
 }
 
-.zero-height{
+.zero-height-member{
   background-color: white;
   text-align: center;
   width: 160px;
@@ -66,7 +66,8 @@
   background-color: white;
   text-align: center;
   width: 160px;
-  height: 185px;
+  //height: 185px;
+  height: auto;
   flex-grow: 1;
   margin: 5px 5px;
   vertical-align: top;
@@ -125,14 +126,171 @@
     border: 1px solid $primary-color-light3;
     cursor: pointer;
     transition-duration: $animation-timing;
+
     &:hover {
       transition-duration: $animation-timing;
       background-color: $primary-color-light3;
       color: white;
     }
+
     .member-follow-plus {
       position: relative;
       top: -5px;
+    }
+  }
+}
+
+.member-square-user {
+  background-color: white;
+  text-align: center;
+  width: 160px;
+  //height: 185px;
+  height: auto;
+  flex-grow: 1;
+  margin: 5px 5px;
+  vertical-align: top;
+  display: inline-block;
+  padding: 2px 12px 50px 12px;
+  border-radius: $border-radius-size;
+  box-shadow: 0 2px 5px $box-shadow-color;
+  opacity: 1;
+  animation: switch;
+  animation-duration: .75s;
+  position: relative;
+  flex-basis: 145px;
+
+  .member-picture-container {
+    width: 100%;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .member-picture {
+    border-radius: 250px;
+    object-fit: cover;
+    display: inline-block;
+    vertical-align: top;
+    font-size: $font-size-regular;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 1);
+    margin: 10px 0;
+  }
+
+  .member-loading {
+    margin-top: 60px;
+    vertical-align: top;
+    display: inline-block;
+  }
+
+  .member-followed-button {
+    position: absolute;
+    bottom: 15px;
+    left: 26%;
+    right: 26%;
+    font-size: $font-size-followed;
+    color: $secondary-color;
+    border-radius: 30px;
+    height: 31px;
+    border: 1.5px solid $secondary-color;
+    transition-duration: $animation-timing;
+    background-color: white;
+
+    &:hover {
+      transition-duration: $animation-timing;
+      color: white;
+      background-color: $secondary-color;
+      cursor: default;
+    }
+  }
+
+  .member-follow-button {
+    position: absolute;
+    bottom: 15px;
+    left: 26%;
+    right: 26%;
+    font-size: $font-size-followed;
+    color: white;
+    border-radius: 30px;
+    height: 31px;
+    transition-duration: $animation-timing;
+    background-color: $secondary-color;
+    border: 1.5px solid $secondary-color;
+
+    &:hover {
+      transition-duration: $animation-timing;
+      color: $secondary-color;
+      background-color: white;
+      cursor: pointer;
+    }
+  }
+
+  .member-following-button {
+    position: absolute;
+    bottom: 15px;
+    left: 26%;
+    right: 26%;
+    font-size: $font-size-followed;
+    color: white;
+    border-radius: 30px;
+    height: 31px;
+    transition-duration: $animation-timing;
+    background-color: $secondary-color;
+    border: 1.5px solid $secondary-color;
+
+    &:after{
+      content: "دنبال شده";
+    }
+
+    &:hover {
+      &:after{
+        content: "قطع ارتباط";
+      }
+      transition-duration: $animation-timing;
+      color: white;
+      background-color: $error-color;
+      cursor: pointer;
+      border: 1.5px solid $error-color;
+    }
+  }
+
+  .member-accept-button {
+    position: absolute;
+    bottom: 15px;
+    left: 77%;
+    right: 3%;
+    font-size: $font-size-followed;
+    color: white;
+    border-radius: 50px;
+    height: 31px;
+    transition-duration: $animation-timing;
+    background-color: #368a34;
+    border: 1.5px solid #368a34;
+
+    &:hover {
+      transition-duration: $animation-timing;
+      color: #368a34;
+      background-color: white;
+      cursor: pointer;
+    }
+  }
+
+  .member-reject-button {
+    position: absolute;
+    bottom: 15px;
+    left: 3%;
+    right: 77%;
+    font-size: $font-size-followed;
+    color: white;
+    border-radius: 50px;
+    height: 31px;
+    transition-duration: $animation-timing;
+    background-color: $error-color;
+    border: 1.5px solid $error-color;
+
+    &:hover {
+      transition-duration: $animation-timing;
+      color: $error-color;
+      background-color: white;
+      cursor: pointer;
     }
   }
 }
@@ -150,6 +308,7 @@
   box-shadow: 0 2px 5px $box-shadow-color;
   position: relative;
   z-index: 1;
+
   &:first-child {
     margin-top: 5px;
   }
@@ -173,11 +332,13 @@
     border: 1px solid $primary-color-light3;
     cursor: pointer;
     transition-duration: $animation-timing;
+
     &:hover {
       transition-duration: $animation-timing;
       background-color: $primary-color-light3;
       color: white;
     }
+
     .member-follow-plus {
       position: relative;
       top: -5px;
@@ -259,6 +420,7 @@
   background-color: $more-button-color;
   color: $foreground-color;
   transition-duration: $animation-timing;
+
   &:hover {
     background-color: $more-button-color-hover;
     transition-duration: $animation-timing;
@@ -266,11 +428,19 @@
 }
 
 @keyframes switch {
-  from {opacity: 0}
-  to {opacity: 1}
+  from {
+    opacity: 0
+  }
+  to {
+    opacity: 1
+  }
 }
 
 @keyframes switchBack {
-  from {opacity: 0}
-  to {opacity: 1}
+  from {
+    opacity: 0
+  }
+  to {
+    opacity: 1
+  }
 }

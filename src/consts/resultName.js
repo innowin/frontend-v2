@@ -67,6 +67,7 @@ const results = {
       GET_FILES: 'common-get-files-result',
       CREATE_FILE: 'common-create-file-result',
       UPDATE_FILE: 'common-update-file-result',
+      DELETE_FILE: 'common-delete-file-result',
       GET_FILE_BY_RELATED_PARENT_ID: 'common-get_file_by_related_parent_id',
     },
 

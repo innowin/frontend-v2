@@ -79,11 +79,12 @@ export default class Exchange_Info extends Component<props> {
         return (
             <ExchangeManager exchangeId={exchangeId}/>
         )
-      default:  // TODO:Abel gonna delete inline style after exchange medals (certificates) fixed
+      default:
         return (
-            <div style={{textAlign: "center", marginTop: "10px"}}>
-              Undefined Data Type: {activeTab}
-            </div>
+            {/*<div style={{textAlign: "center", marginTop: "10px"}}>
+               Undefined Data Type: {activeTab}
+               </div>*/
+            }
         )
     }
   }
