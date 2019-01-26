@@ -9,6 +9,14 @@
   margin: 10px auto;
   position: relative;
 }
+.post-component-edit-container {
+  width: 100%;
+  background-color: white;
+  border-radius: 3px;
+  padding: 18px 18px 8px 18px;
+  margin: 10px auto;
+  position: relative;
+}
 
 /* -------------------------------   post header -------------------------*/
 .post-component-header {
@@ -18,6 +26,10 @@
   overflow: hidden;
   transition-duration: 0.4s;
   display: flex;
+}
+
+.post-component-edit-header {
+
 }
 
 .post-component-header-hide {
@@ -113,9 +125,8 @@
 }
 
 .post-component-header-item {
-  padding-top: 15px;
+  padding: 10px 20px 0 0;
   display: inline-block;
-  width: 50%;
   text-align: left;
   opacity: 1;
   transition-duration: 0.5s;
@@ -487,6 +498,7 @@
 
 .post-component-footer-send-btn {
   display: inline-block;
+  text-align: center;
   background-color: $brand-inverse-color;
   border: 1px solid transparent;
   color: white;
@@ -514,6 +526,30 @@
     border: 1px solid transparent;
     color: white;
     transition-duration: 0.3s;
+  }
+
+  &.cancel-button {
+    background-color: white;
+    color: $brand-inverse-color;
+    border: 1px solid $brand-inverse-color;
+
+    &:hover {
+      background-color: $brand-inverse-color;
+      color: white;
+      border: 1px solid white;
+      transition-duration: 0.3s;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:active {
+      color: $brand-inverse-color;
+      border: 1px solid transparent;
+      background-color: white;
+      transition-duration: 0.3s;
+    }
   }
 }
 

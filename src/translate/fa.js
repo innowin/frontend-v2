@@ -211,6 +211,7 @@ module.exports = {
   "Of": "از",
   "Show join date in profile": "نمایش تاریخ عضویت در پروفایل",
   "Editing": "در حال ویرایش...",
+  "Write your post": 'مسئله خود را بنویسید..',
   "Mobile not shown to the others": "شماره خصوصی به کاربران نمایش داده نمی شود.",
   "Private email not shown to the others": "ایمیل خصوصی به کاربران نمایش داده نمی شود.",
   "This address is for public view": "این آدرس برای نمایش عمومی است.",
@@ -227,6 +228,7 @@ module.exports = {
   "Unfollow": "قطع ارتباط",
   "Send Message": "ارسال پیام",
   "FirstName": "نام",
+  'Send': 'ارسال',
   "Web Site Format": "http://www.abc.com",
 
   "Private info": "مشخصات خصوصی",

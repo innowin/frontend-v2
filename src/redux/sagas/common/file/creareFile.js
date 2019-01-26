@@ -7,7 +7,7 @@ import uuid from 'uuid'
 
 
 function* createFile(action) { // payload?
-  const {file_string, nextActionData, nextActionType, fileIdKey, toWhatLayer} = action.payload
+  const {file_string, nextActionData, nextActionType, fileIdKey, toWhatLayer, fileType} = action.payload
 
   // 'nextActionType' used in dynamicResult to avoid from creating two different object in database
   // with the same picture implicitly and unwanted, when creating multiple object and their files
@@ -18,7 +18,7 @@ function* createFile(action) { // payload?
 
   try {
     // const file = {file_string}
-    yield fork(api.post, urls.COMMON.FILE, dynamicResult, {file_string})
+    yield fork(api.post, urls.COMMON.FILE, dynamicResult, {file_string, type: fileType})
     const data = yield take(socketChannel)
 
     // can use 'switch' to assign a value to payload if the 'toWhatLayer' key may be more than 2 !

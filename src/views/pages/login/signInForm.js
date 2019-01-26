@@ -12,7 +12,6 @@ import {Field, reduxForm, SubmissionError} from 'redux-form'
 import renderTextField from 'src/views/common/inputs/reduxFormRenderTextField'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import FontAwesome from 'react-fontawesome'
-import constants from '../../../consts/constants'
 
 class PureSignInForm extends React.Component {
   constructor(props) {
@@ -53,7 +52,7 @@ class PureSignInForm extends React.Component {
           </div>
           <div className='sign-in-button-container'>
             <label className="container-checkmark">
-              <input type="checkbox" name="rememberMe"/>
+              <input defaultChecked type="checkbox" name="rememberMe"/>
               <span className="checkmark"/>
               <p className='rememberme-text'>{translator['Remember me']}</p>
             </label>

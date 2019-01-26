@@ -9,7 +9,7 @@ import React from 'react'
 import DefaultUserIcon from '../createPost'
 import {AttachFileIcon, DefaultImage} from 'src/images/icons'
 import AttachMenu from '../createPost/attachMenu'
-import constants from 'src/consts/constants'
+// import constants from 'src/consts/constants'
 
 type postFormProps = {
   onSubmit: Function,
@@ -24,10 +24,10 @@ type postFormStates = {
   attachMenu: boolean,
 }
 
-const minAllowedWordCounts = 5
-const maxAllowedWordCounts = 4096
-const minAllowedHeaderWordCounts = 5
-const maxAllowedHeaderWordCounts = 70
+// const minAllowedWordCounts = 5
+// const maxAllowedWordCounts = 4096
+// const minAllowedHeaderWordCounts = 5
+// const maxAllowedHeaderWordCounts = 70
 
 export class PostForm extends Component<postFormProps, postFormStates> {
   static defaultProps = {
@@ -252,7 +252,7 @@ export class PostForm extends Component<postFormProps, postFormStates> {
               {currentUserName}
             </div>
             <div className='post-component-header-item'>
-              <span className='post-edit-header-left'>درحال ویرایش...</span>
+              <span className='post-edit-header-left'>{translate['Editing']}</span>
               <div className='post-edit-header-left-close pulse' onClick={hideEdit}>✕</div>
             </div>
           </div>
