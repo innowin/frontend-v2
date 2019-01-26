@@ -139,6 +139,7 @@ class User extends Component <appProps, appState> {
     const user = data.profile.content.profile_user
     const {profileLoaded, bannerLoaded} = this.state
     const organId = profile["related_organization_id"]
+    
     return (
         <div className='users-explore'>
           <Link to={(organId) ? `/organization/${organId}` : `/user/${user.id}`} style={{textDecoration: 'none', color: 'black'}}>

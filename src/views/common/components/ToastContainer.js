@@ -1,12 +1,12 @@
 // @flow
 import * as React from 'react'
 import PropTypes from 'prop-types'
-import Toast from "./Toast";
+import Toast from './Toast'
 // import constants from "src/consts/constants";
-import connect from "react-redux/es/connect/connect";
-import {bindActionCreators} from "redux";
-import ToastActions from "src/redux/actions/toastActions";
-import getToastSelector from "src/redux/selectors/toast/getToastSelector";
+import connect from 'react-redux/es/connect/connect'
+import {bindActionCreators} from 'redux'
+import ToastActions from 'src/redux/actions/toastActions'
+import getToastSelector from 'src/redux/selectors/toast/getToastSelector'
 import {TransitionGroup, CSSTransition} from 'react-transition-group'
 
 type ToastProps = {

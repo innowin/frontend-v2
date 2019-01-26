@@ -8,8 +8,8 @@ import Sidebar from './Sidebar'
 import {bindActionCreators} from 'redux'
 import {ClipLoader} from 'react-spinners'
 import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges.js'
-// import {getMessages} from 'src/redux/selectors/translateSelector'
 import {PureComponent} from 'react'
+// import {getMessages} from 'src/redux/selectors/translateSelector'
 // import {Helmet} from 'react-helmet'
 
 type appProps =

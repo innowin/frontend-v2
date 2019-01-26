@@ -1,20 +1,31 @@
 // @flow
 import * as React from 'react'
-import PropTypes from 'prop-types'
-import {Confirm} from '../../common/cards/Confirm'
-import {PostForm} from './PostForm'
 import connect from 'react-redux/es/connect/connect'
+import constants from 'src/consts/constants'
+import FileActions from 'src/redux/actions/commonActions/fileActions'
+import PropTypes from 'prop-types'
+import type {fileType} from 'src/consts/flowTypes/common/fileType'
+import {bindActionCreators} from 'redux'
+import {Confirm} from '../../cards/Confirm'
 import {getMessages} from 'src/redux/selectors/translateSelector'
+import {PostForm} from './PostForm'
+import type {postType} from 'src/consts/flowTypes/common/post'
 
 type PropsPostEditForm = {
   updateFunc: Function,
   deleteFunc: Function,
   hideEdit: Function,
-  post: {},
+  post: postType,
   translate: {},
+  actions: {
+    deleteFile: Function,
+  },
+  currentUserName: string,
+  currentUserMedia: fileType,
 }
 type StatePostEditForm = {
   confirm: boolean,
+  removeImageArray: Array<{fileId: number, fileParentId: number}>,
 }
 
 class PostEditForm extends React.Component<PropsPostEditForm, StatePostEditForm> {
@@ -23,12 +34,13 @@ class PostEditForm extends React.Component<PropsPostEditForm, StatePostEditForm>
     updateFunc: PropTypes.func.isRequired,
     deleteFunc: PropTypes.func.isRequired,
     hideEdit: PropTypes.func.isRequired,
-    post: PropTypes.object.isRequired
+    post: PropTypes.object.isRequired,
+    actions: PropTypes.object.isRequired,
   }
 
   constructor(props) {
     super(props)
-    this.state = {confirm: false}
+    this.state = {confirm: false, removeImageArray: []}
   }
 
   _showConfirm = () => {
@@ -46,11 +58,20 @@ class PostEditForm extends React.Component<PropsPostEditForm, StatePostEditForm>
   form: ?React.ElementRef<typeof PostForm>
 
   _save = () => {
+    const {actions} = this.props
+    const {deleteFile} = actions
+    const {removeImageArray} = this.state
+
     if (this.form && this.form._formValidate()) {
       const {post, updateFunc, hideEdit} = this.props
       const postId = post.id
       const formValues = this.form._getValues()
       hideEdit()
+      removeImageArray.map(removeImage => deleteFile({
+        fileId: removeImage.fileId,
+        fileParentId: removeImage.fileParentId,
+        fileParentType: constants.FILE_PARENT.POST
+      }))
       return updateFunc(formValues, postId)
     }
   }
@@ -61,8 +82,13 @@ class PostEditForm extends React.Component<PropsPostEditForm, StatePostEditForm>
     return false
   }
 
+  _deleteFile = (fileData) => {
+    const {removeImageArray} = this.state
+    this.setState({...this.state, removeImageArray: [...removeImageArray, fileData]})
+  }
+
   render() {
-    const {confirm} = this.state
+    const {confirm, removeImageArray} = this.state
     const {hideEdit, post, currentUserName, currentUserMedia, translate} = this.props
     if (confirm) {
       return <div className='remove-post-container'>
@@ -79,6 +105,8 @@ class PostEditForm extends React.Component<PropsPostEditForm, StatePostEditForm>
                      currentUserName={currentUserName}
                      currentUserMedia={currentUserMedia}
                      translate={translate}
+                     deleteFile={this._deleteFile}
+                     removeImageArray={removeImageArray}
     />
 
   }
@@ -109,5 +137,10 @@ const mapStateToProps = state => {
     translate: getMessages(state)
   })
 }
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({
+    deleteFile: FileActions.deleteFile,
+  }, dispatch)
+})
 
-export default connect(mapStateToProps)(PostEditForm)
+export default connect(mapStateToProps, mapDispatchToProps)(PostEditForm)

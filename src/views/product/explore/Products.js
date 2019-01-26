@@ -2,6 +2,7 @@ import * as React from 'react'
 import Product from './Product'
 import {makeCategorySelector} from 'src/redux/selectors/common/category/getCategoriesByParentId'
 import connect from 'react-redux/es/connect/connect'
+import ProductSkeleton from './ProductSkeleton'
 // import ExchangeSkeleton from './Exchange_Skeleton'
 
 type appProps =
@@ -60,11 +61,10 @@ const Products = (props: appProps) => {
   else if (!props.loading) {
     return <div className='exchanges-explore-not-found'>محصولی یافت نشد!</div>
   }
-  else
-    return <React.Fragment>
+  else return <React.Fragment>
       {
-        loadingArr.map((): any =>
-            <div key={Math.random()}>skelete</div>
+        loadingArr.map((index:number): any =>
+            <ProductSkeleton key={index}/>
         )
       }
     </React.Fragment>

@@ -574,8 +574,8 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
                   </a>
                   : <TwitterIcon className='social-icon'/>
               }
-              {socialNetworks.instagram_account
-                  ? <a href={socialNetworks.telegram_account || '#'} className='link' target="_blank">
+              {socialNetworks.telegram_account
+                  ? <a href={socialNetworks.telegram_account} className='link' target="_blank">
                     <TelegramIcon className='social-icon telegram-active'/>
                   </a>
                   : <TelegramIcon className='social-icon'/>

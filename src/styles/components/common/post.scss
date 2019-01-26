@@ -477,6 +477,11 @@
   margin: 0 0 8px 0;
   position: relative;
   float: left;
+  .edit-post-attach-menu-container {
+    position: absolute;
+    right: 30px;
+    top: 15px;
+  }
   //width: 115px;
 }
 
@@ -879,7 +884,7 @@
   bottom: 0;
   right: 0;
   background-color: rgba(0, 0, 0, 0.3);
-  z-index: 1;
+  z-index: 3;
   opacity: 1;
   transition-duration: 0.3s;
 }

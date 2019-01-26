@@ -1,13 +1,13 @@
-import React, {Component} from "react"
-import PropTypes from "prop-types"
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import {ContributionIcon} from 'src/images/icons'
-import connect from "react-redux/es/connect/connect";
-import {bindActionCreators} from "redux";
-import ProductActions from "src/redux/actions/commonActions/productActions/productActions";
-import constants from "src/consts/constants";
-import {getProductsSelector} from "src/redux/selectors/common/product/userGetProductSelector";
-import ProductInfoView from "../../contributions/ProductInfoView";
-import {getMessages} from "../../../../redux/selectors/translateSelector";
+import connect from 'react-redux/es/connect/connect'
+import {bindActionCreators} from 'redux'
+import ProductActions from 'src/redux/actions/commonActions/productActions/productActions'
+import constants from 'src/consts/constants'
+import {getProductsSelector} from 'src/redux/selectors/common/product/userGetProductSelector'
+import ProductInfoView from '../../contributions/ProductInfoView'
+import {getMessages} from '../../../../redux/selectors/translateSelector'
 
 
 class AddProductModal extends Component {
@@ -32,14 +32,26 @@ class AddProductModal extends Component {
     }
   }
 
-  componentDidMount(): void {
-    const {actions, identityId, ownerId, identityType} = this.props
-    const {getProductsByIdentity} = actions
-    getProductsByIdentity({identityId, productOwnerId: ownerId, productOwnerType: identityType})
-  }
-
   _selectProduct = (product) => {
     this.setState({...this.state, selectedProduct: product})
+  }
+
+  componentWillMount(): void {
+    const {actions, identityId, ownerId, identityType} = this.props
+    const {getProductsByIdentity} = actions
+    if (identityId && ownerId && identityType)
+      getProductsByIdentity({identityId, productOwnerId: ownerId, productOwnerType: identityType})
+  }
+
+  shouldComponentUpdate(nextProps, nextState, nextContext): boolean {
+    if (nextProps.identityId !== this.props.identityId || nextProps.ownerId !== this.props.ownerId || nextProps.identityType !== this.props.identityType) {
+      // console.log('USELESS UPDATE STOPPED')
+      return true
+    } else {
+      console.log('AddProductModal-nextProps', nextProps)
+      console.log('AddProductModal-this.props', this.props)
+      return false
+    }
   }
 
   render() {
@@ -47,7 +59,7 @@ class AddProductModal extends Component {
     const {getProductInfo} = actions
     const {selectedProduct, productLink} = this.state
     return (
-        <div className={addProductModal ? "post-component-footer-link-modal" : "post-component-footer-link-modal-hide"}>
+        <div className={addProductModal ? 'post-component-footer-link-modal' : 'post-component-footer-link-modal-hide'}>
           <div ref={e => this.addProductModalRef = e} className='post-component-footer-add-product-modal-container'>
             <div className='post-component-footer-link-modal-container-title'>
               <ContributionIcon className='post-component-footer-logos'/>
@@ -73,13 +85,14 @@ class AddProductModal extends Component {
             <div className='post-component-footer-link-modal-container-buttons'>
               <button className='post-component-footer-link-modal-cancel-btn'
                       onClick={() => {
-                        this.setState({...this.state, selectedProduct: undefined});
-                        cancelFunc()}
+                        this.setState({...this.state, selectedProduct: undefined})
+                        cancelFunc()
+                      }
                       }>لغو
               </button>
               <button className='post-component-footer-link-modal-submit-btn'
                       onClick={() => {
-                        this.setState({...this.state, selectedProduct: undefined});
+                        this.setState({...this.state, selectedProduct: undefined})
                         if (productLink) {
                           let spliced = productLink.split('/')
                           let productIndex = spliced.indexOf('product')
@@ -87,8 +100,7 @@ class AddProductModal extends Component {
 
                           )
                           submitFunc(selectedProduct, spliced[productIndex + 1])
-                        }
-                        else {
+                        } else {
                           submitFunc(selectedProduct, undefined)
                         }
                       }}>ثبت
@@ -120,7 +132,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getProductsByIdentity: ProductActions.getProductsByIdentity,
-    getProductInfo : ProductActions.getProductInfo,
+    getProductInfo: ProductActions.getProductInfo,
   }, dispatch)
 })
 

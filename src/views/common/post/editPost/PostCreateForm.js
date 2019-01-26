@@ -15,8 +15,8 @@ export class PostCreateForm extends Component {
   };
 
   _save = () => {
-    const {create, userImageId} = this.props;
-    const formValues = {post_related_identity_image: userImageId, ...this.form._getValues()};
+    const {create} = this.props;
+    const formValues = {...this.form._getValues()};
     return create(formValues);
   };
 

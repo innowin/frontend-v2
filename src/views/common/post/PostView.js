@@ -44,11 +44,9 @@ type postExtendedViewProps = {
   },
   translate: { [string]: string },
   post: postType,
-  postRelatedIdentityImage?: fileType | number,
+  postRelatedIdentityImage: string,
   postIdentity?: identityType | number,
   param?: paramType,
-  userImage?: fileType,
-  userImageId: number,
   extendedView?: boolean,
   showEdit?: Function,
   comments?: Array<commentType>,
@@ -71,8 +69,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     translate: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
     postIdentity: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
-    postRelatedIdentityImage: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
-    userImage: PropTypes.object,
+    postRelatedIdentityImage: PropTypes.string,
     extendedView: PropTypes.bool,
     showEdit: PropTypes.func,
     comments: PropTypes.array,
@@ -105,19 +102,22 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     const self: any = this
     let showMore = false
     let height = null
+    const {extendedView} = this.props
 
-    if (self.text.clientHeight > 74) {
-      height = self.text.clientHeight
-      if (this.props.post.post_description && new RegExp('^[A-Za-z]*$').test(this.props.post.post_description[0])) {
-        self.text.style.paddingRight = '60px'
-      } else self.text.style.paddingLeft = '60px'
-      self.text.style.height = '68px'
-      showMore = true
+    if (!extendedView) {
+      if (self.text.clientHeight > 74) {
+        height = self.text.clientHeight
+        if (this.props.post.post_description && new RegExp('^[A-Za-z]*$').test(this.props.post.post_description[0])) {
+          self.text.style.paddingRight = '60px'
+        } else self.text.style.paddingLeft = '60px'
+        self.text.style.height = '68px'
+        showMore = true
+      }
     }
 
     this.setState({...this.state, showMore, descriptionHeight: height}, () => {
 
-      const {extendedView, post, actions} = this.props
+      const {post, actions} = this.props
       const {getFileByFileRelatedParentId} = actions
 
       if (extendedView) {
@@ -178,10 +178,27 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   componentDidUpdate(prevProps) {
-    const {userImageId, actions} = this.props
+    const {actions, post} = this.props
     const {getFile} = actions
-    if (!prevProps.userImageId && prevProps.userImageId !== userImageId) {
-      getFile(userImageId)
+
+    const self: any = this
+    let showMore = false
+    let height = null
+
+    if (post && post.post_description !== prevProps.post.post_description) {
+      console.log(post, 'postttttt')
+      console.log(post.post_description, 'postttttt desccc')
+      console.log(self.text.clientHeight, 'sssssssssssssssssss')
+      if (self.text.clientHeight > 74) {
+        height = self.text.clientHeight
+        if (post.post_description && new RegExp('^[A-Za-z]*$').test(post.post_description[0])) {
+          self.text.style.paddingRight = '60px'
+        } else self.text.style.paddingLeft = '60px'
+        self.text.style.height = '68px'
+        showMore = true
+      }
+
+      this.setState({...this.state, showMore, descriptionHeight: height})
     }
   }
 
@@ -252,7 +269,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
     const {
       post, translate, postIdentity, postRelatedIdentityImage, extendedView, showEdit, comments, fileList,
-      commentParentType, userImage, userImageId
+      commentParentType
     } = this.props
     const {menuToggle, confirm, showComment, commentOn} = this.state
     let postDescription = '', postIdentityUserId, postIdentityOrganId, postOwnerId = 0
@@ -300,8 +317,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                   </div>
                 </div>
 
-                <PostImage translate={translate} extendedView={extendedView} fileList={fileList} post={post}
-                           userImage={userImage} userImageId={userImageId}/>
+                <PostImage translate={translate} extendedView={extendedView} fileList={fileList} post={post}/>
                 {post && post.post_related_product &&
                 <div className='post-view-product-container'>
                   <ProductInfoView product={post.post_related_product}
@@ -345,29 +361,22 @@ const mapStateToProps = (state, ownProps) => {
     const postId = +params.id
     const post = state.common.post.list[postId]
     const postIdentity = post && post.post_identity
-    const postImageId = post && post.post_related_identity_image
-    const prevUserImageId = (state.auth.organization && state.auth.organization.organization_logo) || state.auth.client.profile.profile_media
     return {
       translate: getMessages(state),
       param: state.param,
       post: post,
+      postRelatedIdentityImage: post.post_identity_image,
       postIdentity: state.identities.list[postIdentity],
-      postRelatedIdentityImage: state.common.file.list[postImageId],
-      userImageId: prevUserImageId,
-      userImage: state.common.file.list[prevUserImageId],
       comments: userCommentsSelector(state, ownProps),
       fileList: state.common.file.list
     }
   } else {
     const {post} = ownProps
     const postIdentity = post && post.post_identity
-    const prevUserImageId = (state.auth.organization && state.auth.organization.organization_logo) || state.auth.client.profile.profile_media
     return {
       postIdentity: postIdentity,
-      postRelatedIdentityImage: post.post_related_identity_image,
+      postRelatedIdentityImage: post.post_identity_image,
       translate: getMessages(state),
-      // userImageId: prevUserImageId,
-      userImage: state.common.file.list[prevUserImageId]
     }
   }
 }

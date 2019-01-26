@@ -37,9 +37,15 @@ export const getFileByFileRelatedParentId = ({fileRelatedParentId, fileParentTyp
   }
 })
 
+export const deleteFile = ({fileId, fileParentType, fileParentId}) => ({
+  type: types.COMMON.FILE.DELETE_FILE,
+  payload: {fileId, fileParentType, fileParentId}
+})
+
 const FileActions = {
   getFile,
   createFile,
+  deleteFile,
   updateFile,
   delMiddleWareFileData,
   getFileByFileRelatedParentId,

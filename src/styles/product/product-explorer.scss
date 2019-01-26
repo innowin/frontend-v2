@@ -341,13 +341,18 @@
   }
 
   .product-model-svg {
-    margin-bottom: 5px;
-    width: 30px;
+    display: none;
   }
 
   .product-model-little-svg {
     width: 17px;
     margin-left: 10px;
+  }
+
+  .product-explorer-skeleton {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
   }
 
 }
@@ -435,11 +440,17 @@
   }
 
   .product-model-svg {
-    display: none;
+    margin-bottom: 5px;
+    width: 30px;
   }
 
   .product-model-little-svg {
     display: none;
+  }
+
+  .product-explorer-skeleton {
+    display: flex;
+    width: 100%;
   }
 
 }

@@ -415,6 +415,8 @@ $sidebar-profile-media-width: 80px;
   text-align: justify;
   text-align-last: center;
   line-height: 23px;
+  word-wrap: break-word;
+  width: 100%;
 }
 
 .-right-sidebar-wrapper-exchange {
@@ -748,7 +750,7 @@ $sidebar-profile-media-width: 80px;
     margin: auto auto 20px 5px;
     width: 110px;
     text-align: center;
-    padding: 7px;
+    padding: 5px;
 
     &:hover {
       background-color: $background-color;
@@ -1581,8 +1583,7 @@ $sidebar-profile-media-width: 80px;
   font-size: 12px;
   line-height: 20px;
   color: $text-title-menu-color;
-  padding: 20px;
-  padding-bottom: 30px;
+  padding: 20px 20px 30px 20px;
 }
 
 .settingModal-menu-manage-title {
@@ -1591,11 +1592,10 @@ $sidebar-profile-media-width: 80px;
   margin-left: 2%;
   font-size: 13px;
   font-weight: bold;
-  padding: 0 20px;
+  padding: 2px 20px 0 20px;
   display: inline-block;
   width: 115px;
   text-align: left;
-  padding-top: 2px;
 }
 
 .settingModal-menu-manage-logo {
@@ -1775,8 +1775,7 @@ $sidebar-profile-media-width: 80px;
   font-size: 12px;
   line-height: 20px;
   color: $text-title-menu-color;
-  padding: 0 15px;
-  padding-bottom: 20px;
+  padding: 0 15px 20px 15px;
 }
 
 .settingModal-menu-privacy-delete-account {

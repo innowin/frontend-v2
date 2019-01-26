@@ -19,12 +19,12 @@ class MemberRequest extends Component {
   }
 
   accept() {
-    // TODO Abel
+    // exchange management need back
     alert('accept')
   }
 
   reject() {
-    // TODO Abel
+    // exchange management need back
     alert('reject')
   }
 
