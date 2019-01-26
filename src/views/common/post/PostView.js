@@ -122,39 +122,27 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       getFileByFileRelatedParentId({fileRelatedParentId: postId, fileParentType: constants.FILE_PARENT.POST})
     }
 
-    if (post && post.id && self.text) {
-      if (!extendedView) {
-        getFileByFileRelatedParentId({fileRelatedParentId: post.id, fileParentType: constants.FILE_PARENT.POST})
-        if (self.text && self.text.clientHeight > 74) {
-          height = self.text.clientHeight
-          if (post.post_description && new RegExp('^[A-Za-z]*$').test(post.post_description[0])) {
-            self.text.style.paddingRight = '60px'
-          }
-          else self.text.style.paddingLeft = '60px'
-          self.text.style.height = '68px'
-          showMore = true
-          this.setState({...this.state, showMore, descriptionHeight: height})
-        }
-      }
-    }
+    if (post && post.id && !extendedView)
+      getFileByFileRelatedParentId({fileRelatedParentId: post.id, fileParentType: constants.FILE_PARENT.POST})
     else this.setState({...this.state, getInDidMount: true})
   }
 
   componentDidMount() {
     let self: any = this
 
-    if (this.state.getInDidMount && !this.props.extendedView) {
+    if (!this.props.extendedView) {
       let {post, actions} = this.props
-      let {getFileByFileRelatedParentId} = actions
       let showMore = false
       let height = null
-      getFileByFileRelatedParentId({fileRelatedParentId: post.id, fileParentType: constants.FILE_PARENT.POST})
+      if (this.state.getInDidMount) {
+        let {getFileByFileRelatedParentId} = actions
+        getFileByFileRelatedParentId({fileRelatedParentId: post.id, fileParentType: constants.FILE_PARENT.POST})
+      }
       if (self.text && self.text.clientHeight > 74) {
         height = self.text.clientHeight
         if (post.post_description && new RegExp('^[A-Za-z]*$').test(post.post_description[0])) {
           self.text.style.paddingRight = '60px'
-        }
-        else self.text.style.paddingLeft = '60px'
+        } else self.text.style.paddingLeft = '60px'
         self.text.style.height = '68px'
         showMore = true
         this.setState({...this.state, showMore, descriptionHeight: height})
@@ -181,17 +169,13 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
               self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a title=` + word + ` target=_blank href=` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word} </a>`)
               :
               self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a title=` + word + ` target=_blank href=http://` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-        }
-        else if (word[0] === '@' && word.length >= 6 && !word.substring(1, word.length).includes('@')) {
+        } else if (word[0] === '@' && word.length >= 6 && !word.substring(1, word.length).includes('@')) {
           self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=` + word.slice(1, word.length) + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-        }
-        else if (word[0] === '#' && word.length >= 3 && !word.substring(1, word.length).includes('#')) {
+        } else if (word[0] === '#' && word.length >= 3 && !word.substring(1, word.length).includes('#')) {
           self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-        }
-        else if (mailExp.test(word)) {
+        } else if (mailExp.test(word)) {
           self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=mailto:` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-        }
-        else if (!isNaN(word.replace(/\\+/g, '')) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
+        } else if (!isNaN(word.replace(/\\+/g, '')) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
           // don't touch it !
           word.includes('+') ?
               self.text.innerHTML = self.text.innerHTML.replace(new RegExp(`\\${word}`, 'g'), `<a href=tel:` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
@@ -213,8 +197,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
         height = self.text.clientHeight
         if (post.post_description && new RegExp('^[A-Za-z]*$').test(post.post_description[0])) {
           self.text.style.paddingRight = '60px'
-        }
-        else self.text.style.paddingLeft = '60px'
+        } else self.text.style.paddingLeft = '60px'
         self.text.style.height = '68px'
         showMore = true
       }
@@ -390,8 +373,7 @@ const mapStateToProps = (state, ownProps) => {
       comments: userCommentsSelector(state, ownProps),
       fileList: state.common.file.list
     }
-  }
-  else {
+  } else {
     const {post} = ownProps
     const postIdentity = post && post.post_identity
     return {
