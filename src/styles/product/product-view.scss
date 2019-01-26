@@ -143,7 +143,6 @@
   border-bottom: 1px solid $more-button-color-hover-darker;
 }
 
-
 .product-view-sidebar-main-img {
   font-weight: bold;
   font-size: 13px;
@@ -183,7 +182,7 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  width: 23%;
+  width: 26%;
   height: 50px;
   object-fit: cover;
   margin: 0 1.5% 0 0;
@@ -198,6 +197,16 @@
 .product-view-sidebar-date {
   font-size: 13px;
   padding: 15px 0;
+}
+
+.product-view-sidebar-svg {
+  vertical-align: top;
+  width: 15px;
+  margin-left: 10px;
+
+  &:first-child{
+    margin-top: 1px;
+  }
 }
 
 .product-view-sidebar-location {
@@ -270,4 +279,102 @@
     color: white;
     transition: all ease 0.3s;
   }
+}
+
+.product-view-sidebar-modal {
+  position: fixed;
+  z-index: 4;
+  width: 800px;
+  height: 500px;
+  top: calc((100% - 500px) / 2);
+  right: calc((100% - 800px) / 2);
+  opacity: 1;
+  transform: scale(1);
+  transition: all ease 0.2s;
+}
+
+.product-view-sidebar-modal-hide {
+  position: fixed;
+  z-index: -1;
+  width: 800px;
+  height: 500px;
+  top: calc((100% - 500px) / 2);
+  right: calc((100% - 800px) / 2);
+  opacity: 0;
+  transform: scale(0.7);
+  transition: all ease 0.2s;
+}
+
+.product-view-sidebar-modal-main {
+  width: 100%;
+  border-radius: 10px;
+  margin: auto;
+  height: 400px;
+  object-fit: cover;
+}
+
+.product-view-sidebar-modal-imgs {
+  cursor: pointer;
+  border-radius: 5px;
+  margin: 10px 0 10px 10px;
+  height: 80px;
+  object-fit: cover;
+  flex-grow: 1;
+
+  &:last-child {
+    margin: 10px 0;
+  }
+}
+
+.product-gallery-cont {
+  display: flex;
+  width: 100%;
+}
+
+.product-description {
+  font-size: 13px;
+  padding: 15px;
+  background-color: white;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.product-description-title {
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 15px;
+}
+
+.product-description-title-edit {
+  color: $primary-color-light3;
+  cursor: pointer;
+}
+
+.product-description-detail {
+  line-height: 28px;
+  text-align: justify;
+  text-align-last: right;
+}
+
+.product-attributes-cont {
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.product-attributes-title {
+  display: inline-block;
+  background-color: $more-button-color;
+  padding: 5px 10px;
+  width: 25%;
+  margin-left: 5px;
+}
+
+.product-attributes-value {
+  background-color: $more-button-color;
+  padding: 5px 10px;
+  display: inline-block;
+  width: calc(75% - 5px);
 }

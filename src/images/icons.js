@@ -10,6 +10,8 @@ import CircularAddIcon from './common/circularAdd_svg'
 import CircularTickSvg from './common/circularTick'
 import CloseIconSvg from './common/close_icon_svg'
 import CommentSvg from './common/comment_icon_svg'
+import Location from './common/location'
+import Date from './common/date'
 import CongratsTick from './addingConribution/congratsTick_svg'
 import ConsultIcon from './user/consult_svg_icon'
 import ContactMenuIcon from './common/contact_menu_svg'
@@ -193,5 +195,7 @@ export {
   userInfoIcon,
   WarningIcon,
   workExperienceIcon,
-  YoutubeIcon
+  YoutubeIcon,
+  Location,
+  Date
 }

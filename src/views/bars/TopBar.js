@@ -97,7 +97,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       showAbout: false,
       selectedAbout: "FAQ",
       profilePhotoLoaded: false,
-      currentPage: constants.TOP_BAR_PAGES.HOME,
+      currentPage: constants.TOP_BAR_PAGES.HOME
     }
 
     this._handleCloseOutside = this._handleCloseOutside.bind(this)
@@ -127,11 +127,14 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
     if (path === constants.TOP_BAR_PAGES.HOME) {
       this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.HOME})
-    } else if (path === constants.TOP_BAR_PAGES.USER_EXPLORER) {
+    }
+    else if (path === constants.TOP_BAR_PAGES.USER_EXPLORER) {
       this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.USER_EXPLORER})
-    } else if (path === constants.TOP_BAR_PAGES.EXCHANGE_EXPLORER) {
+    }
+    else if (path === constants.TOP_BAR_PAGES.EXCHANGE_EXPLORER) {
       this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.EXCHANGE_EXPLORER})
-    } else {
+    }
+    else {
       this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.OTHER})
     }
 
@@ -149,11 +152,14 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     if (currentPage !== path && prevProps.path !== path) {
       if (path === constants.TOP_BAR_PAGES.HOME) {
         this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.HOME})
-      } else if (path === constants.TOP_BAR_PAGES.USER_EXPLORER) {
+      }
+      else if (path === constants.TOP_BAR_PAGES.USER_EXPLORER) {
         this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.USER_EXPLORER})
-      } else if (path === constants.TOP_BAR_PAGES.EXCHANGE_EXPLORER) {
+      }
+      else if (path === constants.TOP_BAR_PAGES.EXCHANGE_EXPLORER) {
         this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.EXCHANGE_EXPLORER})
-      } else {
+      }
+      else {
         this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.OTHER})
       }
     }
@@ -198,9 +204,10 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       this.setState({
         ...this.state,
         exploreCollapse: !this.state.exploreCollapse,
-        collapseProfile: false,
+        collapseProfile: false
       })
-    } else {
+    }
+    else {
       this.setState({
         ...this.state,
         exploreCollapse: !this.state.exploreCollapse,
@@ -504,9 +511,11 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
     if (selectedSetting === "General Settings") {
       return <GeneralSetting hideSetting={this._handleHideSetting}/>
-    } else if (selectedSetting === "Manage Linked Accounts") {
+    }
+    else if (selectedSetting === "Manage Linked Accounts") {
       return <LinkedAccounts/>
-    } else if (selectedSetting === "Privacy") {
+    }
+    else if (selectedSetting === "Privacy") {
       return <Privacy/>
     }
   }
@@ -516,13 +525,17 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
     if (selectedAbout === "FAQ") {
       return null
-    } else if (selectedAbout === "Introduce Badges") {
+    }
+    else if (selectedAbout === "Introduce Badges") {
       return <IntroduceBadges/>
-    } else if (selectedAbout === "Terms & Conditions") {
+    }
+    else if (selectedAbout === "Terms & Conditions") {
       return <UserAgreement/>
-    } else if (selectedAbout === "About Innowin") {
+    }
+    else if (selectedAbout === "About Innowin") {
       return <AboutInnowin/>
-    } else if (selectedAbout === "About Us") {
+    }
+    else if (selectedAbout === "About Us") {
       return <AboutUs/>
     }
   }

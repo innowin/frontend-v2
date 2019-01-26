@@ -1,12 +1,8 @@
 // @flow
 import * as React from 'react'
 import {Component} from 'react'
-import {InformationIcon, postIcon, CertificateIcon} from "src/images/icons"
 import ProductPosts from "../product/posts"
 import ProductBasicInformation from "../product/basicInformation"
-// import ProductCertificates from "../product/certificates"
-// import ProductRating from "../product/ratings"
-import {Tabs} from "../common/cards/Frames"
 import {NavLink, Switch, Redirect} from "react-router-dom"
 import PropsRoute from "src/consts/PropsRoute"
 import PropTypes from "prop-types"
@@ -24,6 +20,7 @@ import makeProductSelectorById from '../../redux/selectors/common/product/getPro
 import {getMessages} from '../../redux/selectors/translateSelector'
 import GetUserActions from '../../redux/actions/user/getUserActions'
 import Material from '../common/components/Material'
+import postActions from '../../redux/actions/commonActions/postActions'
 
 type ParamsType = {
   id: string
@@ -66,6 +63,7 @@ class ProductView extends Component<ProductViewProps, ProductViewState> {
     const productId = params.id
     actions.getProductInfo(productId)
     actions.getFileByFileRelatedParentId({fileRelatedParentId: productId, fileParentType: constants.FILE_PARENT.PRODUCT})
+    actions.getPosts({postRelatedProductId: productId})
   }
 
   componentWillReceiveProps(nextProps, nextContext): void {
@@ -82,32 +80,22 @@ class ProductView extends Component<ProductViewProps, ProductViewState> {
   }
 
   render() {
-    const {match, translate, product, country, province, product_owner, product_category} = this.props
-    const {path, url, params} = match
-    const productId = params.id
+    const {match, translate, product, country, province, product_owner, product_category, current_user_identity} = this.props
+    const {path, url} = match
 
     return (
         <div className='all-exchanges-parent'>
 
-          <SideBar product={product} country={country} province={province} product_owner={product_owner} product_category={product_category}/>
+          <SideBar product={product}
+                   country={country}
+                   province={province}
+                   product_owner={product_owner}
+                   product_category={product_category}
+                   current_user_identity={current_user_identity}
+          />
 
           <div className='product-container'>
-
-            {/*<Tabs>*/}
-              {/*<NavLink className="-tab" to={`${url}/basicInformation`}*/}
-                       {/*activeClassName="-active"><InformationIcon/></NavLink>*/}
-              {/*<NavLink className="-tab" to={`${url}/Posts`} activeClassName="-active">{postIcon}</NavLink>*/}
-              {/*<NavLink className="-tab" to={`${url}/Certificates`}*/}
-                       {/*activeClassName="-active"><CertificateIcon/></NavLink>*/}
-              {/*<NavLink className="-tab" to={`${url}/Ratings`}*/}
-              {/*activeClassName="-active"><RatingIcon/></NavLink>*/}
-              {/*<NavLink className="-tab" to={`${url}/Represents`}*/}
-              {/*activeClassName="-active">{postIcon}</NavLink>*/}
-            {/*</Tabs>*/}
-
-
             <div className='header-container'>
-
               <NavLink to={`${url}/basicInformation`} className='header-container-item' activeClassName='header-container-item-active'>
                 <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content='درباره محصول'/>
               </NavLink>
@@ -119,24 +107,26 @@ class ProductView extends Component<ProductViewProps, ProductViewState> {
               <NavLink to={`${url}/Certificates`} className='header-container-item' activeClassName='header-container-item-active'>
                 <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content='تاریخچه عرضه'/>
               </NavLink>
-
             </div>
 
-
-            <div>
-              <Switch>
-                <Redirect exact from={`${url}/`} to={`${url}/basicInformation`}/>
-                <PropsRoute path={`${path}/Posts`} component={ProductPosts} productId={productId} translator={translate}/>
-                <PropsRoute path={`${path}/basicInformation`} component={ProductBasicInformation} productId={productId} translator={translate}/>
-                {/*<PropsRoute path={`${path}/Certificates`} component={ProductCertificates}*/}
-                {/*productId={productId}/>*/}
-                {/*<PropsRoute path={`${path}/Ratings`} component={ProductRating} productId={productId} translator={translate}/>*/}
-                {/*<PropsRoute path={`${path}/Represents`} component={Represents} productId={productId} translator={translate}/>*/}
-              </Switch>
-            </div>
-            {/*</div>*/}
-            {/*<div className="col-md-3 col-sm-1 -left-sidebar-wrapper">*/}
-            {/*<ChatBar/>*/}
+            <Switch>
+              <Redirect exact from={`${url}/`} to={`${url}/basicInformation`}/>
+              <PropsRoute path={`${path}/basicInformation`}
+                          component={ProductBasicInformation}
+                          product={product}
+                          translator={translate}
+                          current_user_identity={current_user_identity}
+              />
+              <PropsRoute path={`${path}/Posts`}
+                          component={ProductPosts}
+                          product={product}
+                          translator={translate}
+              />
+              {/*<PropsRoute path={`${path}/Certificates`} component={ProductCertificates}*/}
+              {/*productId={productId}/>*/}
+              {/*<PropsRoute path={`${path}/Ratings`} component={ProductRating} productId={productId} translator={translate}/>*/}
+              {/*<PropsRoute path={`${path}/Represents`} component={Represents} productId={productId} translator={translate}/>*/}
+            </Switch>
           </div>
         </div>
     )
@@ -156,7 +146,8 @@ const mapStateToProps = (state, props) => {
     province: provinceSelectorById(state, product_related_province),
     translate: getMessages(state),
     product_owner: state.users.list[product.product_user],
-    product_category: state.common.category.list[product.product_category]
+    product_category: state.common.category.list[product.product_category],
+    current_user_identity: state.auth.client.identity.content
   }
 }
 
@@ -166,7 +157,8 @@ const mapDispatchToProps = dispatch => ({
     getProductInfo: ProductActions.getProductInfo,
     getFileByFileRelatedParentId: FileActions.getFileByFileRelatedParentId,
     getCountryById,
-    getProvinceById
+    getProvinceById,
+    getPosts: postActions.filterPostsByPostRelatedProduct
   }, dispatch)
 })
 
