@@ -145,12 +145,6 @@ export class productBasicInformation extends Component<ProductBasicInformationPr
     return (
 
         <div className="product-basic-information">
-          <CategoryTitle
-              title={translator['Basic information']}
-              createForm
-              showEditBtn={!edit}
-              showEditHandler={() => this._showEditHandler(true)}
-          />
           <FrameCard>
             <ListGroup>
               <VerifyWrapper isLoading={isLoading} error={error}>

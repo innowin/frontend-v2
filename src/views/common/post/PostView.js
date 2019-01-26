@@ -12,7 +12,7 @@ import type {postType} from 'src/consts/flowTypes/common/post'
 import type {paramType} from 'src/consts/flowTypes/paramType'
 import constants from 'src/consts/constants'
 import type {identityType} from 'src/consts/flowTypes/user/basicInformation'
-import type {fileType} from 'src/consts/flowTypes/common/fileType'
+// import type {fileType} from 'src/consts/flowTypes/common/fileType'
 import FileActions from 'src/redux/actions/commonActions/fileActions'
 import CommentActions from 'src/redux/actions/commonActions/commentActions'
 import {userCommentsSelector} from 'src/redux/selectors/common/comment/postCommentsSelector'
@@ -130,13 +130,15 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
           height = self.text.clientHeight
           if (post.post_description && new RegExp('^[A-Za-z]*$').test(post.post_description[0])) {
             self.text.style.paddingRight = '60px'
-          } else self.text.style.paddingLeft = '60px'
+          }
+          else self.text.style.paddingLeft = '60px'
           self.text.style.height = '68px'
           showMore = true
           this.setState({...this.state, showMore, descriptionHeight: height})
         }
       }
-    } else this.setState({...this.state, getInDidMount: true})
+    }
+    else this.setState({...this.state, getInDidMount: true})
   }
 
   componentDidMount() {
@@ -152,7 +154,8 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
         height = self.text.clientHeight
         if (post.post_description && new RegExp('^[A-Za-z]*$').test(post.post_description[0])) {
           self.text.style.paddingRight = '60px'
-        } else self.text.style.paddingLeft = '60px'
+        }
+        else self.text.style.paddingLeft = '60px'
         self.text.style.height = '68px'
         showMore = true
         this.setState({...this.state, showMore, descriptionHeight: height})
@@ -179,13 +182,17 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
               self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a title=` + word + ` target=_blank href=` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word} </a>`)
               :
               self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a title=` + word + ` target=_blank href=http://` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-        } else if (word[0] === '@' && word.length >= 6 && !word.substring(1, word.length).includes('@')) {
+        }
+        else if (word[0] === '@' && word.length >= 6 && !word.substring(1, word.length).includes('@')) {
           self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=` + word.slice(1, word.length) + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-        } else if (word[0] === '#' && word.length >= 3 && !word.substring(1, word.length).includes('#')) {
+        }
+        else if (word[0] === '#' && word.length >= 3 && !word.substring(1, word.length).includes('#')) {
           self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-        } else if (mailExp.test(word)) {
+        }
+        else if (mailExp.test(word)) {
           self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=mailto:` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-        } else if (!isNaN(word.replace(/\\+/g, '')) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
+        }
+        else if (!isNaN(word.replace(/\\+/g, '')) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
           // don't touch it !
           word.includes('+') ?
               self.text.innerHTML = self.text.innerHTML.replace(new RegExp(`\\${word}`, 'g'), `<a href=tel:` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
@@ -197,22 +204,19 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   componentDidUpdate(prevProps, prevState, ss) {
-    const {actions, post} = this.props
-    const {getFile} = actions
+    const {post} = this.props
 
     const self: any = this
     let showMore = false
     let height = null
 
     if (post && post.post_description !== prevProps.post.post_description) {
-      // console.log(post, 'postttttt')
-      // console.log(post.post_description, 'postttttt desccc')
-      // console.log(self.text.clientHeight, 'sssssssssssssssssss')
       if (self.text.clientHeight > 74) {
         height = self.text.clientHeight
         if (post.post_description && new RegExp('^[A-Za-z]*$').test(post.post_description[0])) {
           self.text.style.paddingRight = '60px'
-        } else self.text.style.paddingLeft = '60px'
+        }
+        else self.text.style.paddingLeft = '60px'
         self.text.style.height = '68px'
         showMore = true
       }
@@ -388,13 +392,14 @@ const mapStateToProps = (state, ownProps) => {
       comments: userCommentsSelector(state, ownProps),
       fileList: state.common.file.list
     }
-  } else {
+  }
+  else {
     const {post} = ownProps
     const postIdentity = post && post.post_identity
     return {
       postIdentity: postIdentity,
       postRelatedIdentityImage: post.post_identity_image,
-      translate: getMessages(state),
+      translate: getMessages(state)
     }
   }
 }
