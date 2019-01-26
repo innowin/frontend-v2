@@ -52,7 +52,7 @@ class PureSignInForm extends React.Component {
           </div>
           <div className='sign-in-button-container'>
             <label className="container-checkmark">
-              <input type="checkbox" name="rememberMe"/>
+              <input defaultChecked type="checkbox" name="rememberMe"/>
               <span className="checkmark"/>
               <p className='rememberme-text'>{translator['Remember me']}</p>
             </label>

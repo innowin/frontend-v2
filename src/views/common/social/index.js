@@ -112,7 +112,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
       // identityId,
       ownerId,
       identityType,
-      // param
+      param
     } = this.props
     const {
       deleteFollow,
@@ -125,7 +125,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
       // editFollowings
     } = this.state
 
-    // const paramId = identityType === constants.USER_TYPES.PERSON ? +param.user : +param.organization
+    const paramId = identityType === constants.USER_TYPES.PERSON ? +param.user : +param.organization
 
     // console.log("followees", followees) // following
     // console.log("followers", followers) // followers
@@ -150,7 +150,8 @@ class Socials extends Component<PropsSocials, StateSocials> {
                 followers={followers}
                 identityType={identityType}
                 updateFollow={updateFollow}
-                deleteFollow={deleteFollow}/>
+                deleteFollow={deleteFollow}
+                paramId={paramId}/>
             {/*
              <Followees edit={editFollowings}
              deleteFollow={deleteFollow}

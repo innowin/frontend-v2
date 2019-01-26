@@ -252,7 +252,7 @@ export class PostForm extends Component<postFormProps, postFormStates> {
               {currentUserName}
             </div>
             <div className='post-component-header-item'>
-              <span className='post-edit-header-left'>درحال ویرایش...</span>
+              <span className='post-edit-header-left'>{translate['Editing']}</span>
               <div className='post-edit-header-left-close pulse' onClick={hideEdit}>✕</div>
             </div>
           </div>
