@@ -5,5 +5,7 @@ export default state => ({
     topBar: {
       ...state.messages.topBar,
     },
+    'Work Social Media': 'شبکه اجتماعی کسب‌و‌کار',
+    'Forgot Password': 'رمز عبور خود را فراموش کرده اید؟',
   }
 })

@@ -14,18 +14,21 @@
     background-size: cover;
     background-repeat: no-repeat;
     right: 0;
-    left: -100px;
     top: 0;
     bottom: 0;
-    background-image: url('../images/loginBG.jpg');
-    background-color: lighten($text-light-color, 10%);
-    filter: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg"><filter id="filter"><feGaussianBlur stdDeviation="15" /></filter></svg>#filter') blur(10px);
+    left: 0;
+    //background-color: darken($image-background-color, 5%);
+    background-image: url("../images/login/downLayer.svg"), url('../images/login/upLayer.svg');
+    //background-color: $background-color;
+    //left: -100px;
+    //background-image: url('../images/loginBG.jpg');
+    //filter: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg"><filter id="filter"><feGaussianBlur stdDeviation="15" /></filter></svg>#filter') blur(10px);
   }
 }
 
 .login-page > .login-container {
   position: relative;
-  max-width: 1050px;
+  max-width: 1300px;
   margin: 0 auto;
   padding: 0 20px;
   min-height: 100%;

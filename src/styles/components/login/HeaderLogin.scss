@@ -1,100 +1,155 @@
 @import '../../variables';
 
 .login-page .header {
-	width: 100%;
-	max-width: 1600px;
-	margin: 0 auto;
-	display: flex;
-	flex-flow: row wrap;
-	justify-content: space-between;
-	flex: 0 0 50px;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  flex: 0 0 50px;
 
-	.logo-wrapper {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		height: 30px;
-		color: $text-lighter-color;
-		.logo {
-			display: flex;
-		}
-		.logo svg {
-			height: 48px;
-			flex: 0 0 50px;
-			color: $text-lightest-color;
-			fill: $text-lightest-color;
-		}
-		.company-name {
-			flex: 0 0 85px;
-			margin: 0 10px 0 0;
-			font-size: 33px;
-			color: $text-lightest-color;
-			display: flex;
-			align-items: center;
-		}
-		.divider {
-			width: 0;
-			border: 1.25px solid $text-lightest-color;
-			height: 75%;
-			margin: 8px;
-			background-color: $text-lightest-color;
-		}
-		.logo-caption {
-			min-width: 70px;
-			flex: 0 0 70px;
-			font-size: $font-size-boxText;
-			margin: 8px;
-		}
-	}
+  .logo-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 30px;
+    color: $primary-color;
+    @media screen and (max-width: 700px){
+      margin-bottom: 15px;
+    }
 
-	.address-wrapper {
-      @media screen and (min-width: 992px) {
-        justify-content: flex-end;
+    .logo {
+      display: flex;
+    }
+
+    .logoLogin {
+      height: 29px;
+    }
+
+    .logo svg {
+      height: 27px;
+      width: 27px;
+      flex: 0 0 50px;
+      color: $primary-color;
+      fill: $primary-color;
+    }
+
+    .company-name {
+      margin: 0 15px 0 0;
+      font-size: 12px;
+      font-weight: bold;
+      color: $primary-color;
+      display: flex;
+      align-items: center;
+    }
+
+    .divider {
+      width: 0;
+      border: 1.25px solid $primary-color;
+      height: 75%;
+      margin: 8px;
+      background-color: $primary-color;
+    }
+
+    .logo-caption {
+      font-weight: bold;
+      font-size: $font-size-boxText;
+    }
+  }
+
+  .links-wrapper {
+    display: flex;
+    justify-self: flex-end;
+    margin-right: auto;
+
+    .link-item {
+      justify-content: center;
+      flex: 0 0 130px;
+      min-width: 130px;
+      align-items: center;
+      text-align: center;
+      font-size: 12px;
+      font-weight: normal;
+      color: $primary-color;
+      display: flex;
+      padding: 7px;
+    }
+    .login-button {
+      border: $success-color;
+      color: #FFFFFF;
+      background-color: $success-color;
+      border-radius: 30px;
+    }
+
+    @media screen and (max-width: 700px){
+      .link-item {
+        flex: 0 0 115px;
+        min-width: 115px;
+        padding: 7px 10px;
       }
-		display: flex;
-		flex-flow: row;
-		align-items: center;
+      .login-button {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
 
-		.address-section, .app-icon-section {
-			display: flex;
-			flex-direction: row;
-		}
-		.address-wrapper-text {
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-		}
-		.address {
-			color: $text-lightest-color;
-			font-size: $font-size-boxText;
-			line-height: 20px;
-		}
-		.phone-number {
-			color: $text-lightest-color;
-			font-size: $font-size-smallIcon;
-			line-height: 17px;
-		}
-		.icon {
-			line-height: 40px;
-			&.phone-icon {
-				border-radius: 50%;
-				text-align: center;
-				background-color: $text-lightest-color;
-				margin: 0 0 0 15px;
-                align-self: center;
-			}
-			div {
-				width: 34px;
-				height: 34px;
-				color: lighten($text-dark-color, 22%);
-				font-size: 24px;
-				background-color: lighten($text-lightest-color, 40%);
-				text-align: center;
-				border-radius: 50%;
-			}
-		}
-		.icon, a {
-			color: lighten($text-dark-color, 5%);
-		}
-	}
+  .address-wrapper {
+    @media screen and (min-width: 992px) {
+      justify-content: flex-end;
+    }
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+
+    .address-section, .app-icon-section {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .address-wrapper-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .address {
+      color: $text-lightest-color;
+      font-size: $font-size-boxText;
+      line-height: 20px;
+    }
+
+    .phone-number {
+      color: $text-lightest-color;
+      font-size: $font-size-smallIcon;
+      line-height: 17px;
+    }
+
+    .icon {
+      line-height: 40px;
+
+      &.phone-icon {
+        border-radius: 50%;
+        text-align: center;
+        background-color: $text-lightest-color;
+        margin: 0 0 0 15px;
+        align-self: center;
+      }
+
+      div {
+        width: 34px;
+        height: 34px;
+        color: lighten($text-dark-color, 22%);
+        font-size: 24px;
+        background-color: lighten($text-lightest-color, 40%);
+        text-align: center;
+        border-radius: 50%;
+      }
+    }
+
+    .icon, a {
+      color: lighten($text-dark-color, 5%);
+    }
+  }
 }
