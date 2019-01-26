@@ -6,7 +6,7 @@ import {connect} from 'react-redux'
 
 import GetUserActions from '../../../redux/actions/user/getUserActions'
 import OrganizationActions from 'src/redux/actions/organization/organizationActions'
-import SocialActions from '../../../redux/actions/commonActions/socialActions'
+// import SocialActions from '../../../redux/actions/commonActions/socialActions'
 import ExchangeMembershipActions from '../../../redux/actions/commonActions/exchangeMembershipActions'
 import type {exchangeType} from 'src/consts/flowTypes/exchange/exchange'
 import {bindActionCreators} from 'redux'
@@ -15,8 +15,8 @@ import {Exchanges} from './Exchanges'
 // import {Followers} from "./Followers"
 import {FrameCard} from 'src/views/common/cards/Frames'
 import {getMessages} from 'src/redux/selectors/translateSelector'
-import {getFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
-import {getFollowersSelector} from 'src/redux/selectors/common/social/getFollowers'
+// import {getFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
+// import {getFollowersSelector} from 'src/redux/selectors/common/social/getFollowers'
 import {getExchangeMembershipsSelector} from 'src/redux/selectors/common/social/getExchangeMemberships'
 import type {paramType} from 'src/consts/flowTypes/paramType'
 import constants from 'src/consts/constants'
@@ -29,20 +29,12 @@ type PropsSocials = {
   actions: {
     deleteExchangeMembership: Function,
     getExchangeMembershipByMemberIdentity: Function,
-    getFollowees: Function,
-    getFollowers: Function,
-    deleteFollow: Function,
     getProfileByUserId: Function,
     getOrganizationByOrganId: Function,
-    updateFollow: Function,
-    createFollow: Function,
   },
   translate: { [string]: string },
-  followers: [],
-  followees: [],
   exchanges: (exchangeType)[],
   isLoading: boolean,
-  error: null | {},
   identityType: string,
   param: paramType,
 }
@@ -58,9 +50,9 @@ class Socials extends Component<PropsSocials, StateSocials> {
     translate: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    error: PropTypes.object.isRequired,
-    followees: PropTypes.array.isRequired,
-    followers: PropTypes.array.isRequired,
+    // error: PropTypes.object.isRequired,
+    // followees: PropTypes.array.isRequired,
+    // followers: PropTypes.array.isRequired,
     exchanges: PropTypes.array.isRequired,
     identityType: PropTypes.string.isRequired,
     param: PropTypes.object.isRequired,
