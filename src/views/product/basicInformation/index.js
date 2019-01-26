@@ -70,7 +70,7 @@ export class productBasicInformation extends Component {
 
     return (
         <div>
-          <div className='product-description' style={product.description && product.description.length > 0 || product_owner === current_user_identity ? {display: 'block'} : {display: 'none'}}>
+          <div className='product-description' style={(product.description && product.description.length > 0) || (product_owner === current_user_identity) ? {display: 'block'} : {display: 'none'}}>
             <div className='product-description-title'>
               <div>معرفی</div>
               <div className='product-description-title-edit'>ویرایش</div>
