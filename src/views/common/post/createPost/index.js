@@ -481,7 +481,8 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
   _save = () => {
     const {
       actions, currentUserId, currentUserType, postParentId, postParentType, postImg1Id, postImg2Id, postImg3Id,
-      postMediaId, postFileId, isUpdate, updateFunc, post, hideEdit
+      postMediaId, postFileId, isUpdate, updateFunc, post,
+      // hideEdit
     } = this.props
     const {createPost, removeFileFromTemp} = actions
     const formValues = this._getValues()

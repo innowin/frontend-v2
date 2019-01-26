@@ -2,7 +2,7 @@
 import * as React from "react"
 import {Component} from "react"
 import PropTypes from "prop-types"
-import {FrameCard, CategoryTitle, VerifyWrapper} from "../../common/cards/Frames"
+import {FrameCard, VerifyWrapper} from "../../common/cards/Frames"
 import {ListGroup} from '../../common/cards/Frames'
 import {ProductInfoView, ProductDescriptionView, TechnicalInfoView, HashTagsView} from "./Views"
 import type {ProductType, CategoryType} from "src/consts/flowTypes/product/productTypes"

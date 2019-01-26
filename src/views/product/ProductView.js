@@ -1,12 +1,12 @@
 // @flow
 import * as React from 'react'
 import {Component} from 'react'
-import {InformationIcon, postIcon, CertificateIcon} from "src/images/icons"
+// import {InformationIcon, postIcon, CertificateIcon} from "src/images/icons"
 import ProductPosts from "../product/posts"
 import ProductBasicInformation from "../product/basicInformation"
 // import ProductCertificates from "../product/certificates"
 // import ProductRating from "../product/ratings"
-import {Tabs} from "../common/cards/Frames"
+// import {Tabs} from "../common/cards/Frames"
 import {NavLink, Switch, Redirect} from "react-router-dom"
 import PropsRoute from "src/consts/PropsRoute"
 import PropTypes from "prop-types"
