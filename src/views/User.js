@@ -15,6 +15,8 @@ import Posts from 'src/views/common/post/index'
 import PrivateRoute from '../consts/PrivateRoute'
 import PropTypes from 'prop-types'
 import Social from 'src/views/common/social/index'
+import Following from 'src/views/common/social/following/index'
+import Follower from 'src/views/common/social/follower/index'
 import type {badgeType} from 'src/consts/flowTypes/common/badges'
 import type {fileType} from '../consts/flowTypes/common/fileType'
 import type {profileStateObject, userStateObject, identityStateObject, listOfIdObject} from 'src/consts/flowTypes/stateObjectType'
@@ -198,7 +200,15 @@ class User extends Component<PropsUser> {
                     </NavLink>
 
                     <NavLink to={`${url}/SocialConnections`} className='header-container-item' activeClassName='header-container-item-active'>
-                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Socials']}/>
+                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Exchanges']}/>
+                    </NavLink>
+
+                    <NavLink to={`${url}/Followings`} className='header-container-item' activeClassName='header-container-item-active'>
+                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Followings']}/>
+                    </NavLink>
+
+                    <NavLink to={`${url}/Followers`} className='header-container-item' activeClassName='header-container-item-active'>
+                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Followers']}/>
                     </NavLink>
 
                     <NavLink to={`${url}/Educations`} className='header-container-item' activeClassName='header-container-item-active'>
@@ -239,6 +249,16 @@ class User extends Component<PropsUser> {
                                         identityType={constants.USER_TYPES.PERSON}
                                         isUser={true}/>
                           <PrivateRoute path={`${path}/SocialConnections`} component={Social}
+                                        ownerId={userId}
+                                        identityId={identityObject.content}
+                                        identityType={constants.USER_TYPES.PERSON}
+                          />
+                          <PrivateRoute path={`${path}/Followings`} component={Following}
+                                        ownerId={userId}
+                                        identityId={identityObject.content}
+                                        identityType={constants.USER_TYPES.PERSON}
+                          />
+                          <PrivateRoute path={`${path}/Followers`} component={Follower}
                                         ownerId={userId}
                                         identityId={identityObject.content}
                                         identityType={constants.USER_TYPES.PERSON}

@@ -21,7 +21,15 @@ const UserHeaderSkeleton = (props) => {
         </div>
 
         <div className='header-container-item'>
-          <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Socials']}/>
+          <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Exchanges']}/>
+        </div>
+
+        <div className='header-container-item'>
+          <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Followings']}/>
+        </div>
+
+        <div className='header-container-item'>
+          <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Followers']}/>
         </div>
 
         <div className='header-container-item'>

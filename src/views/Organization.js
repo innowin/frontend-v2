@@ -163,7 +163,15 @@ export class Organization extends Component<PropsOrganization> {
                 </NavLink>
 
                 <NavLink to={`${url}/SocialConnections`} className='header-container-item' activeClassName='header-container-item-active'>
-                  <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Socials']}/>
+                  <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Exchanges']}/>
+                </NavLink>
+
+                <NavLink to={`${url}/Followings`} className='header-container-item' activeClassName='header-container-item-active'>
+                  <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Followings']}/>
+                </NavLink>
+
+                <NavLink to={`${url}/Followers`} className='header-container-item' activeClassName='header-container-item-active'>
+                  <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Followers']}/>
                 </NavLink>
 
                 <NavLink to={`${url}/Customers`} className='header-container-item' activeClassName='header-container-item-active'>
@@ -201,6 +209,16 @@ export class Organization extends Component<PropsOrganization> {
                                     organization={organObject.content}
                       />
                       <PrivateRoute path={`${path}/SocialConnections`} component={Social}
+                                    ownerId={organizationId}
+                                    identityId={identityObject.content}
+                                    identityType={constants.USER_TYPES.ORG}
+                      />
+                      <PrivateRoute path={`${path}/Followings`} component={Social}
+                                    ownerId={organizationId}
+                                    identityId={identityObject.content}
+                                    identityType={constants.USER_TYPES.ORG}
+                      />
+                      <PrivateRoute path={`${path}/Followers`} component={Social}
                                     ownerId={organizationId}
                                     identityId={identityObject.content}
                                     identityType={constants.USER_TYPES.ORG}

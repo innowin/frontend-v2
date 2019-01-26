@@ -12,7 +12,7 @@ import {connect} from 'react-redux'
 import {DefaultUserIcon, Contacts, QuestionMark, Stream} from 'src/images/icons'
 import {getFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
 import {Link} from 'react-router-dom'
-import {getMessages} from '../../../redux/selectors/translateSelector'
+import {getMessages} from '../../../../redux/selectors/translateSelector'
 // import exchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
 // import {VerifyWrapper} from "../../common/cards/Frames"
 

@@ -48,9 +48,9 @@ class NewFollowers extends Component<props, states> {
   }
 
   changeViewType() {
-    if (this.state.viewType === "member-square-user") {
-      this.setState({...this.state, viewType: "member-row"})
-    } else this.setState({...this.state, viewType: "member-square-user"})
+    // if (this.state.viewType === "member-square-user") {
+    //   this.setState({...this.state, viewType: "member-row"})
+    // } else this.setState({...this.state, viewType: "member-square-user"})
   }
 
   follow(identity_user, identity_organization) {
@@ -314,7 +314,7 @@ class NewFollowers extends Component<props, states> {
             <Contacts width="22px" height="22px" containerClass={"svg-container-info-view"} svgClass={"svg-info-view"}/>
             <span>{translate["Followers"]}</span>
           </div>
-          <div className={"members-header-left"} onClick={this.changeViewType}>
+          <div className={"members-header-left"} style={{cursor: 'default'}} onClick={this.changeViewType}>
             {viewType === "member-square-user" ?
                 <Stream width="16px" height="16px" svgClass={"svg-info-view"}/> :
                 <QuestionMark width="20px" height="20px" svgClass={"svg-info-view"}/>}
