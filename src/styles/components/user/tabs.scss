@@ -499,6 +499,7 @@
 }
 
 .post-edit-header-left {
+  padding: 4px;
   vertical-align: top;
   color: $post-hover-border-color;
   font-size: 12px;
@@ -506,8 +507,8 @@
 }
 
 .post-edit-header-left-close {
+  padding: 4px;
   display: inline-block;
-  padding: 10px;
   vertical-align: top;
   margin-top: 3px;
   color: $post-hover-border-color;
