@@ -990,12 +990,12 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
     this.setState({...this.state, selectedImage: img.slice(), selectedImageId: ids.slice()})
   }
 
-  shouldComponentUpdate(nextProps, nextState, nextContext): boolean {
-    return nextProps.categories !== this.props.categories ||
-        nextProps.countries !== this.props.countries ||
-        nextProps.modalIsOpen !== this.props.modalIsOpen ||
-        this.state !== nextState
-  }
+  // shouldComponentUpdate(nextProps, nextState, nextContext): boolean {
+  //   return nextProps.categories !== this.props.categories ||
+  //       nextProps.countries !== this.props.countries ||
+  //       nextProps.modalIsOpen !== this.props.modalIsOpen ||
+  //       this.state !== nextState
+  // }
 
   render() {
     const {modalIsOpen} = this.props

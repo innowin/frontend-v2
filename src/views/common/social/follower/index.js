@@ -10,7 +10,7 @@ import SocialActions from 'src/redux/actions/commonActions/socialActions'
 import type {exchangeType} from 'src/consts/flowTypes/exchange/exchange'
 import {bindActionCreators} from 'redux'
 import {getMessages} from 'src/redux/selectors/translateSelector'
-import {getFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
+// import {getFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
 import {getFollowersSelector} from 'src/redux/selectors/common/social/getFollowers'
 import {getExchangeMembershipsSelector} from 'src/redux/selectors/common/social/getExchangeMemberships'
 import type {paramType} from 'src/consts/flowTypes/paramType'
@@ -21,17 +21,17 @@ type PropsSocials = {
   ownerId: number,
   identityId: number,
   actions: {
-    getFollowees: Function,
+    // getFollowees: Function,
     getFollowers: Function,
     deleteFollow: Function,
     getProfileByUserId: Function,
     getOrganizationByOrganId: Function,
     updateFollow: Function,
-    createFollow: Function,
+    // createFollow: Function,
   },
   translate: { [string]: string },
   followers: [],
-  followees: [],
+  // followees: [],
   exchanges: (exchangeType)[],
   isLoading: boolean,
   error: null | {},
@@ -47,13 +47,13 @@ class Socials extends Component<PropsSocials, StateSocials> {
   static propTypes = {
     ownerId: PropTypes.number.isRequired,
     identityId: PropTypes.number.isRequired,
-    translate: PropTypes.object.isRequired,
+    // translate: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    error: PropTypes.object.isRequired,
-    followees: PropTypes.array.isRequired,
+    // isLoading: PropTypes.bool.isRequired,
+    // error: PropTypes.object.isRequired,
+    // followees: PropTypes.array.isRequired,
     followers: PropTypes.array.isRequired,
-    exchanges: PropTypes.array.isRequired,
+    // exchanges: PropTypes.array.isRequired,
     identityType: PropTypes.string.isRequired,
     param: PropTypes.object.isRequired,
   }
@@ -68,14 +68,11 @@ class Socials extends Component<PropsSocials, StateSocials> {
 
   componentDidMount() {
     const {identityId, actions, ownerId, identityType} = this.props
-    const {getFollowees, getFollowers} = actions
+    const {getFollowers} = actions
 
     if (identityId) {
-      const followOwnerIdentity = identityId
-      const followOwnerId = ownerId
-
-      getFollowers({followOwnerId, followOwnerIdentity, followOwnerType: identityType})
-      getFollowees({followOwnerId, followOwnerIdentity, followOwnerType: identityType})
+      getFollowers({followOwnerId: ownerId, followOwnerIdentity: identityId, followOwnerType: identityType})
+      // getFollowees({followOwnerId, followOwnerIdentity, followOwnerType: identityType})
     }
   }
 
@@ -128,7 +125,7 @@ const mapStateToProps = (state, ownProps) => {
     translate: getMessages(state),
     param: state.param,
     followers: getFollowersSelector(state, ownProps),
-    followees: getFolloweesSelector(state, ownProps),
+    // followees: getFolloweesSelector(state, ownProps),
     exchanges: getExchangeMembershipsSelector(state, ownProps),
     isLoading: followObject.isLoading,
     error: followObject.error,
@@ -137,11 +134,11 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    getFollowees: SocialActions.getFollowees,
+    // getFollowees: SocialActions.getFollowees,
     getFollowers: SocialActions.getFollowers,
     deleteFollow: SocialActions.deleteFollow,
     updateFollow: SocialActions.updateFollow,
-    createFollow: SocialActions.createFollow,
+    // createFollow: SocialActions.createFollow,
     getProfileByUserId: GetUserActions.getProfileByUserId,
     getOrganizationByOrganId: OrganizationActions.getOrganizationByOrganId,
   }, dispatch)

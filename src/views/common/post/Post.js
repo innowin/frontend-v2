@@ -4,8 +4,9 @@ import PropTypes from "prop-types";
 import type {postType} from "../../../consts/flowTypes/common/post";
 import constants from 'src/consts/constants'
 import {VerifyWrapper} from "../cards/Frames";
-import PostEditForm from "./editPost/PostEditForm";
+// import PostEditForm from "./editPost/PostEditForm";
 import PostView from "./PostView";
+import CreatePost from './createPost'
 
 type postPropTypes = {
   post: postType,
@@ -68,12 +69,13 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
         <VerifyWrapper isLoading={false} error={false} className='post-view-container'>
           {edit ?
               <div className="-itemWrapperPost">
-                <PostEditForm
-                    post={post}
-                    hideEdit={this._hideEdit}
-                    deleteFunc={this._delete}
-                    updateFunc={this._update}
-                />
+                {/*<PostEditForm*/}
+                    {/*post={post}*/}
+                    {/*hideEdit={this._hideEdit}*/}
+                    {/*deleteFunc={this._delete}*/}
+                    {/*updateFunc={this._update}*/}
+                {/*/>*/}
+                <CreatePost hideEdit={this._hideEdit} post={post} updateFunc={this._update} isUpdate={true}/>
               </div>
               :
               <PostView post={post}

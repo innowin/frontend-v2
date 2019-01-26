@@ -7,5 +7,7 @@ export default state => ({
     },
     'Work Social Media': 'شبکه اجتماعی کسب‌و‌کار',
     'Forgot Password': 'رمز عبور خود را فراموش کرده اید؟',
+    "Write your post": 'مسئله خود را بنویسید..',
+    'Send': 'ارسال',
   }
 })

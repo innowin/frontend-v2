@@ -325,7 +325,7 @@ class NewFollowers extends Component<props, states> {
             }) : requested ? <div/>
                 :
                 <div style={{textAlign: "center", width: "92%"}}>
-                  <ClipLoader color={"#cbcbcb"} size={40} loading={true}/>
+                  {/*<ClipLoader color={"#cbcbcb"} size={40} loading={true}/>*/}
                 </div>
             }
             <div className={"zero-height-member"}/>

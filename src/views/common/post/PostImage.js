@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 
 import {DefaultImage} from 'src/images/icons'
 import type {postType} from 'src/consts/flowTypes/common/post'
+import constants from '../../../consts/constants'
 
 type postImageProps = {
   translate: { [string]: string },
@@ -161,7 +162,7 @@ class PostImage extends React.Component<postImageProps, postImageState> {
         const {post} = this.props
         let postPictureArray
         if (post) {
-          postPictureArray = post.post_picture_array
+          postPictureArray = post.post_picture_array && post.post_picture_array.filter(picture => picture.type === null ||  picture.type === constants.CRETE_FILE_TYPES.IMAGE)
         }
         if (postPictureArray && postPictureArray.length > 0) {
           let picture = new Image()
@@ -192,7 +193,7 @@ class PostImage extends React.Component<postImageProps, postImageState> {
     if (post) {
       postPicture = post.post_picture
       postPictureId = post.post_picture
-      postPictureArray = post.post_picture_array
+      postPictureArray = post.post_picture_array && post.post_picture_array.filter(picture => picture.type === null || picture.type === constants.CRETE_FILE_TYPES.IMAGE)
       if (postPictureArray) {
         postPicturesLength = postPictureArray.length
         picturesClass = "onePicture"

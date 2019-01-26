@@ -86,5 +86,13 @@ export default {
     SUPPLY: "عرضه",
     DEMAND: "تقاضا",
     MEMBERS: "اعضا"
+  },
+  CRETE_FILE_TYPES: {
+    IMAGE: 'image',
+    FILE: 'file',
+    VIDEO: 'video',
+  },
+  CREATE_FILE_CATEGORIES: {
+
   }
 }

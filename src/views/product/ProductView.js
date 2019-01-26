@@ -1,13 +1,10 @@
-// @flow
 import * as React from 'react'
 import {Component} from 'react'
 import ProductPosts from "../product/posts"
 import ProductBasicInformation from "../product/basicInformation"
 import {NavLink, Switch, Redirect} from "react-router-dom"
 import PropsRoute from "src/consts/PropsRoute"
-import PropTypes from "prop-types"
 import {connect} from "react-redux"
-import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 import SideBar from '../bars/productBar/index'
 import ProductActions from 'src/redux/actions/commonActions/productActions/productActions'
 import {bindActionCreators} from 'redux'
@@ -17,39 +14,12 @@ import {getCountryById, getProvinceById} from 'src/redux/actions/commonActions/l
 import makeProvinceSelectorById from '../../redux/selectors/common/location/getProvinceById'
 import makeCountrySelectorById from '../../redux/selectors/common/location/getCountryById'
 import makeProductSelectorById from '../../redux/selectors/common/product/getProductById'
-import {getMessages} from '../../redux/selectors/translateSelector'
-import GetUserActions from '../../redux/actions/user/getUserActions'
+import {getMessages} from 'src/redux/selectors/translateSelector'
+import GetUserActions from 'src/redux/actions/user/getUserActions'
 import Material from '../common/components/Material'
-import postActions from '../../redux/actions/commonActions/postActions'
+import postActions from 'src/redux/actions/commonActions/postActions'
 
-type ParamsType = {
-  id: string
-}
-
-type MatchType = {
-  path: string,
-  url: string,
-  params: ParamsType
-}
-type ProductViewProps = {
-  match: MatchType,
-  translator: TranslatorType,
-  token: string,
-  identityId: number
-}
-
-type ProductViewState = {
-  modal: boolean,
-  modalFiles: [],
-  selectedFileIndex: ?number,
-  sideBarIsVisible: boolean
-}
-
-class ProductView extends Component<ProductViewProps, ProductViewState> {
-  static propTypes = {
-    match: PropTypes.object.isRequired
-  }
-
+class ProductView extends Component {
   constructor(props) {
     super(props)
     this.state = {
