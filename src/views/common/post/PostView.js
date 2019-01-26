@@ -60,6 +60,7 @@ type postViewState = {
   commentOn: commentType,
   showMore: boolean,
   descriptionHeight: ?number,
+  getInDidMount: boolean,
 }
 
 class PostView extends React.Component<postExtendedViewProps, postViewState> {
@@ -85,99 +86,117 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       commentOn: undefined,
       showMore: false,
       descriptionHeight: null,
+
+      getInDidMount: false
     }
 
     const self: any = this
 
-    self._delete = this._delete.bind(this)
-    self._showConfirm = this._showConfirm.bind(this)
     self._cancelConfirm = this._cancelConfirm.bind(this)
-    self._openMenu = this._openMenu.bind(this)
+    self._delete = this._delete.bind(this)
     self._handleClickOutMenuBox = this._handleClickOutMenuBox.bind(this)
     self._handleShowComment = this._handleShowComment.bind(this)
+    self._openMenu = this._openMenu.bind(this)
     self._readMore = this._readMore.bind(this)
+    self._showConfirm = this._showConfirm.bind(this)
+  }
+
+  componentWillMount(): void {
+    let {extendedView, post, match, actions} = this.props
+    let {getFileByFileRelatedParentId, getPost, getCommentsByParentId} = actions
+    let self: any = this
+    let showMore = false
+    let height = null
+
+    document.addEventListener('click', this._handleClickOutMenuBox)
+
+    if (extendedView) {
+      const {params, url} = match
+      const postId = +params.id
+      const isUser = !url.includes('org')
+      const postOwnerType = isUser ? constants.USER_TYPES.PERSON : constants.USER_TYPES.ORG
+      const spliced = url.split('/')
+      const postOwnerId = +spliced[2]
+
+      getPost({postId, postOwnerType, postOwnerId})
+      getCommentsByParentId({parentId: postId, commentParentType: constants.COMMENT_PARENT.POST})
+      getFileByFileRelatedParentId({fileRelatedParentId: postId, fileParentType: constants.FILE_PARENT.POST})
+    }
+
+    if (post && post.id && self.text) {
+      if (!extendedView) {
+        getFileByFileRelatedParentId({fileRelatedParentId: post.id, fileParentType: constants.FILE_PARENT.POST})
+        if (self.text && self.text.clientHeight > 74) {
+          height = self.text.clientHeight
+          if (post.post_description && new RegExp('^[A-Za-z]*$').test(post.post_description[0])) {
+            self.text.style.paddingRight = '60px'
+          } else self.text.style.paddingLeft = '60px'
+          self.text.style.height = '68px'
+          showMore = true
+          this.setState({...this.state, showMore, descriptionHeight: height})
+        }
+      }
+    } else this.setState({...this.state, getInDidMount: true})
   }
 
   componentDidMount() {
-    const self: any = this
-    let showMore = false
-    let height = null
-    const {extendedView} = this.props
+    let self: any = this
 
-    if (!extendedView) {
-      if (self.text.clientHeight > 74) {
+    if (this.state.getInDidMount && !this.props.extendedView) {
+      let {post, actions} = this.props
+      let {getFileByFileRelatedParentId} = actions
+      let showMore = false
+      let height = null
+      getFileByFileRelatedParentId({fileRelatedParentId: post.id, fileParentType: constants.FILE_PARENT.POST})
+      if (self.text && self.text.clientHeight > 74) {
         height = self.text.clientHeight
-        if (this.props.post.post_description && new RegExp('^[A-Za-z]*$').test(this.props.post.post_description[0])) {
+        if (post.post_description && new RegExp('^[A-Za-z]*$').test(post.post_description[0])) {
           self.text.style.paddingRight = '60px'
         } else self.text.style.paddingLeft = '60px'
         self.text.style.height = '68px'
         showMore = true
+        this.setState({...this.state, showMore, descriptionHeight: height})
       }
     }
 
-    this.setState({...this.state, showMore, descriptionHeight: height}, () => {
+    if (self.text) {
+      let allWords = self.text.innerText.replace(/\n/g, ' ')
+      allWords = allWords.split(' ')
 
-      const {post, actions} = this.props
-      const {getFileByFileRelatedParentId} = actions
+      let mailExp = new RegExp('^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$')
 
-      if (extendedView) {
-        const {actions, match} = this.props
-        const {params, url} = match
-        const {getPost, getCommentsByParentId} = actions
-        const postId = +params.id
-        const isUser = !url.includes('org')
-        const postOwnerType = isUser ? constants.USER_TYPES.PERSON : constants.USER_TYPES.ORG
-        const spliced = url.split('/')
-        const postOwnerId = +spliced[2]
+      let urlExp = new RegExp('^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[A-Za-z0-9]+([\\-.][A-Za-z0-9]+)*\\.[A-Za-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$')
 
-        getPost({postId, postOwnerType, postOwnerId})
-        getCommentsByParentId({parentId: postId, commentParentType: constants.COMMENT_PARENT.POST})
-        getFileByFileRelatedParentId({fileRelatedParentId: postId, fileParentType: constants.FILE_PARENT.POST})
-      } else {
-        getFileByFileRelatedParentId({fileRelatedParentId: post.id, fileParentType: constants.FILE_PARENT.POST})
-      }
+      // Phone Reg
+      let first = new RegExp('(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{4}[)]?))')
+      let second = new RegExp('([-]?[0-9]{3})')
+      let third = new RegExp('([-]?[0-9]{3,4})')
 
-      if (self.text) {
-        let allWords = self.text.innerText.replace(/\n/g, ' ')
-        allWords = allWords.split(' ')
-
-        let mailExp = new RegExp('^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$')
-
-        let urlExp = new RegExp('^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[A-Za-z0-9]+([\\-.][A-Za-z0-9]+)*\\.[A-Za-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$')
-
-        // Phone Reg
-        let first = new RegExp('(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{4}[)]?))')
-        let second = new RegExp('([-]?[0-9]{3})')
-        let third = new RegExp('([-]?[0-9]{3,4})')
-
-        for (let i = 0; i < allWords.length; i++) {
-          let word = allWords[i].trim()
-          if (urlExp.test(word)) {
-            word.includes('http://') || word.includes('https://') ?
-                self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a title=` + word + ` target=_blank href=` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word} </a>`)
-                :
-                self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a title=` + word + ` target=_blank href=http://` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-          } else if (word[0] === '@' && word.length >= 6 && !word.substring(1, word.length).includes('@')) {
-            self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=` + word.slice(1, word.length) + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-          } else if (word[0] === '#' && word.length >= 3 && !word.substring(1, word.length).includes('#')) {
-            self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-          } else if (mailExp.test(word)) {
-            self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=mailto:` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-          } else if (!isNaN(word.replace(/\\+/g, '')) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
-            // don't touch it !
-            word.includes('+') ?
-                self.text.innerHTML = self.text.innerHTML.replace(new RegExp(`\\${word}`, 'g'), `<a href=tel:` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-                :
-                self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=tel:` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-          }
+      for (let i = 0; i < allWords.length; i++) {
+        let word = allWords[i].trim()
+        if (urlExp.test(word)) {
+          word.includes('http://') || word.includes('https://') ?
+              self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a title=` + word + ` target=_blank href=` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word} </a>`)
+              :
+              self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a title=` + word + ` target=_blank href=http://` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
+        } else if (word[0] === '@' && word.length >= 6 && !word.substring(1, word.length).includes('@')) {
+          self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=` + word.slice(1, word.length) + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
+        } else if (word[0] === '#' && word.length >= 3 && !word.substring(1, word.length).includes('#')) {
+          self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
+        } else if (mailExp.test(word)) {
+          self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=mailto:` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
+        } else if (!isNaN(word.replace(/\\+/g, '')) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
+          // don't touch it !
+          word.includes('+') ?
+              self.text.innerHTML = self.text.innerHTML.replace(new RegExp(`\\${word}`, 'g'), `<a href=tel:` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
+              :
+              self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=tel:` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
         }
       }
-
-    })
-    document.addEventListener('click', this._handleClickOutMenuBox)
+    }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState, ss) {
     const {actions, post} = this.props
     const {getFile} = actions
 
@@ -186,9 +205,9 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     let height = null
 
     if (post && post.post_description !== prevProps.post.post_description) {
-      console.log(post, 'postttttt')
-      console.log(post.post_description, 'postttttt desccc')
-      console.log(self.text.clientHeight, 'sssssssssssssssssss')
+      // console.log(post, 'postttttt')
+      // console.log(post.post_description, 'postttttt desccc')
+      // console.log(self.text.clientHeight, 'sssssssssssssssssss')
       if (self.text.clientHeight > 74) {
         height = self.text.clientHeight
         if (post.post_description && new RegExp('^[A-Za-z]*$').test(post.post_description[0])) {
@@ -262,7 +281,6 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       self.text.style.paddingLeft = '0'
     })
   }
-
 
   render() {
     const self: any = this
