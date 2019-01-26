@@ -38,7 +38,7 @@ const ExchangeCard = (props: UserSquareProps) => {
   )
 }
 
-ExchangeCard.PropTypes = {
+ExchangeCard.propTypes = {
   translate: PropTypes.object.isRequired,
   followed: PropTypes.bool,
 }
