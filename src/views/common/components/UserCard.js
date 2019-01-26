@@ -25,7 +25,7 @@ const UserCard = (props: UserSquareProps) => {
   )
 }
 
-UserCard.PropTypes = {
+UserCard.propTypes = {
   translate: PropTypes.object.isRequired,
   followed: PropTypes.bool,
 }

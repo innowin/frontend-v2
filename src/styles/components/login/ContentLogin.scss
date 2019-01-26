@@ -49,13 +49,20 @@
 
 .login-page .content {
   display: flex;
-  flex: 1 1 400px;
-  flex-flow: row-reverse wrap-reverse;
   justify-content: space-around;
-  align-items: flex-end;
-  margin-top: 100px;
-  padding-bottom: 100px;
-
+  align-items: center;
+  margin: 0 10%;
+  align-content: space-evenly;
+  height: calc(100vh - 65px);
+  @media screen and (max-width: 700px){
+    height: calc(100vh - 100px);
+  }
+  @media screen and (max-height: 360px){
+    height: 300px;
+  }
+  @media screen and (max-height: 900px) and (max-width: 850px){
+    height: 700px;
+  }
   & ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
     color: $text-title-menu-color;
   }
@@ -73,72 +80,79 @@
   }
 
   .login-wrapper {
-    flex: 1 1 300px;
-    //order: 2;
-    max-width: 345px;
-    min-width: 300px;
+    flex: 1 1 50%;
+    padding: 0 5%;
+    min-width: 50%;
+    //width: 500px;
     .sign-in-card {
-      transition: all 0.7s ease;
-      background-color: #FFFFFF;
-      border-radius: $border-radius-size;
-      overflow: hidden;
-      transform: perspective(0);
     }
   }
+}
 
-  .carousel-wrapper {
-    color: $text-lightest-color;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    flex: 2 2 500px;
-    min-width: 500px;
-    max-width: 800px;
-    margin-top: 70px;
+@media screen and (max-width: 850px){
+  .login-page .content {
+    flex-flow: wrap;
+
+    .login-wrapper {
+      flex: 1 1 100%;
+      min-width: 100%;
+    }
   }
 }
 
 //Header of Login and Signup form
 .login-tab {
+  display: flex;
   font-size: $font-size-normalText;
-  button {
-    flex: 1;
-    padding: 10px 0;
-    background-color: lighten($text-lighter-color, 3.6%);
-    border: 1px solid $text-title-menu-color;
-    border-top: 0 solid transparent;
-    color: darken($text-light-color, 15%);
-    font-size: $font-size-normalText;
+  justify-content: space-between;
+  align-items: center;
+  .login-part-title {
+    font-size: $font-size-regular;
   }
-  button:hover {
-    background-color: lighten($chat-box2-color, .8%);
-    cursor: pointer;
-  }
-  span {
-    flex: 1;
-    text-align: center;
-    margin: auto 0;
-  }
-  .signup-tab {
-    display: flex;
-    flex-direction: row;
-    button {
-      border-right: 0 solid transparent;
-      border-radius: 0 0 0 7px;
+
+  .tabs-container {
+    .login-signup-button {
+      width: 80px;
+      background-color: $tag-background;
+      font-size: $font-size-regular;
+      color: #FFFFFF;
+      padding: 5px 10px;
+      border-radius: $border-radius-size;
+      transition: all $animation-timing;
+
+      &:hover {
+        background-color: darken($tag-background, 5%);
+        cursor: pointer;
+      }
     }
-  }
-  .signin-tab {
-    display: flex;
-    flex-direction: row;
-    button {
-      border-left: 0 solid transparent;
-      border-radius: 0 0 7px 0;
+    span {
+      width: 80px;
+      text-align: center;
+      margin: auto 0;
+      color: $info-color;
+      padding: 5px 10px;
+      font-size: $font-size-regular;
+    }
+    .signup-tab {
+      display: flex;
+      flex-direction: row;
+      .login-signup-button {
+        margin-right: 15px;
+      }
+    }
+    .signin-tab {
+      display: flex;
+      flex-direction: row;
+      .login-signup-button {
+        margin-left: 15px;
+      }
     }
   }
 }
 
 // inputs and submit box
 .login-form {
+  padding: 20px 0;
   .radio-button-container {
     display: flex;
     justify-items: center;
@@ -278,6 +292,20 @@
         text-align: center;
       }
     }
+
+    .sign-in-button-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .container-checkmark {
+        .rememberme-text {
+          font-size: $font-size-regular;
+          padding-right: 25px;
+          color: $info-color;
+        }
+      }
+    }
   }
 
   input:focus, select:focus {
@@ -298,18 +326,23 @@
     position: relative;
   }
   .signup-field {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    input::placeholder{
+      letter-spacing: 0;
+      font-size: $font-size-regular;
+    }
   }
 
   .login-submit-button {
-    font-size: 16px;
-    padding: 5px 45px;
+    font-size: 14px;
+    padding: 5px;
+    width: 200px;
     color: #FFFFFF;
     display: block;
-    margin: 10px auto 0 auto;
+    margin: 10px auto 10px 0;
     border-radius: 50px;
-    border: 2px solid #4dab9f;
-    background: #4dab9f;
+    border: 2px solid $primary-color;
+    background: $primary-color;
     cursor: pointer;
     outline: none;
   }
@@ -324,29 +357,16 @@
 }
 
 .remember-recovery {
+  font-size: $font-size-regular;
   display: flex;
-  //padding-right: 0.9rem;
-  justify-content: space-around;
-  label {
-    display: flex;
-    align-items: center;
-    padding-top: 0.5rem;
-    font-size: $font-size-boxText;
-    color: #0275d8;
-    &:hover {
-      color: #014c8c;
-    }
-  }
-  input {
-    margin-left: 0.3rem;
-    font-size: $font-size-verySmallText;
-    height: 12px;
-  }
+  align-items: center;
   .recovery-button {
-    font-size: $font-size-boxText;
-    text-decoration: none;
-    cursor: pointer;
-    padding-top: 0.5rem;
+    color: $info-color;
+    transition: all $animation-timing;
+    margin-right: 10px;
+    &:hover {
+      color: $primary-color;
+    }
   }
 }
 

@@ -61,6 +61,9 @@ import QuestionMark from './common/questionMark_svg'
 import RatingIcon from './product/rating_svg'
 import RefreshIcon from './common/refresh_svg'
 import ReplyArrow from './common/reply_arrow_svg'
+import BoxSvg from './login/box'
+import PhoneSvg from './login/phone'
+import RocketSvg from './login/rocket'
 import researchIcon from './user/research_svg'
 import RightArrow from './common/right_arrow_svg'
 import SearchIcon from './common/search_svg'
@@ -161,6 +164,9 @@ export {
   RatingIcon,
   RefreshIcon,
   ReplyArrow,
+  BoxSvg,
+  PhoneSvg,
+  RocketSvg,
   researchIcon,
   RightArrow,
   SearchIcon,

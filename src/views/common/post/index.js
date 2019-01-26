@@ -5,7 +5,7 @@ import * as React from "react"
 import PropTypes from "prop-types"
 
 import {FrameCard, ListGroup} from "src/views/common/cards/Frames"
-import {PostCreateForm} from "./PostCreateForm"
+import {PostCreateForm} from "./editPost/PostCreateForm"
 import {bindActionCreators} from "redux"
 import PostActions from "../../../redux/actions/commonActions/postActions"
 import connect from "react-redux/es/connect/connect"

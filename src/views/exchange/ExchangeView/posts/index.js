@@ -5,7 +5,7 @@ import {VerifyWrapper} from "src/views/common/cards/Frames"
 import {SupplyIcon, DemandIcon, NoFilterIcon} from "../../../../images/icons"
 import {deletePost, updatePost} from "src/crud/post/post"
 import {getProfile} from "../../../../crud/user/profile"
-import PostEditForm from "src/views/common/post/PostEditForm"
+import PostEditForm from "src/views/common/post/editPost/PostEditForm"
 import {ExchangePostView} from "src/views/exchange/ExchangeView/posts/Views"
 import Masonry from "react-masonry-css"
 import cx from 'classnames'
