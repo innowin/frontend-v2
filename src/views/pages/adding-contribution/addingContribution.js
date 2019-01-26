@@ -991,14 +991,10 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
   }
 
   shouldComponentUpdate(nextProps, nextState, nextContext): boolean {
-    if (nextProps.categories !== this.props.categories || nextProps.countries !== this.props.countries) {
-      // console.log('USELESS UPDATE STOPPED')
-      return true
-    } else {
-      console.log('AddingContribution-nextProps', nextProps)
-      console.log('AddingContribution-this.props', this.props)
-      return false
-    }
+    return nextProps.categories !== this.props.categories ||
+        nextProps.countries !== this.props.countries ||
+        nextProps.modalIsOpen !== this.props.modalIsOpen ||
+        this.state !== nextState
   }
 
   render() {

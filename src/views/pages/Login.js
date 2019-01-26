@@ -23,7 +23,6 @@ class Login extends Component {
         androidLink: '#',
         address: 'انقلاب روبروی دانشگاه تهران مجتمع پارسا',
         phoneNumber: '02166972207',
-        logoCaption: 'پنجره نوآوری'
       },
       showRecovery: false,
       showRegisterModal: false,
@@ -80,14 +79,14 @@ class Login extends Component {
     const {translate} = this.props
     const {page, footer, header, showRecovery, /*showRegisterModal, */signUpFields} = this.state
     const {year} = footer
-    const {iosLink, androidLink, address, phoneNumber, logoCaption} = header
+    const {iosLink, androidLink, address, phoneNumber} = header
     const SignIn = (page === 'SignIn')
     const SignUp = (page === 'SignUp')
     const animateFormClass = (SignIn) ? ('sign-in-form-animate') : ('sign-up-form-animate')
 
     return (
         <div className="login-page  full-page-wrapper">
-          <div className={(showRecovery) ? 'makeDark' : 'makeDark-out'}
+          <div className={(showRecovery) ? 'mlakeDark' : 'makeDark-out'}
                onClick={this._hideModalClick}>
             {/*dark div*/}
           </div>
@@ -98,44 +97,48 @@ class Login extends Component {
           {/*translate={translate}/>*/}
 
           {/*<GetUserData showRegisterModal={showRegisterModal}*/}
-                       {/*hideRegisterModal={this._hideModalClick}*/}
-                       {/*password={signUpFields.password}*/}
-                       {/*email={signUpFields.email}/>*/}
+          {/*hideRegisterModal={this._hideModalClick}*/}
+          {/*password={signUpFields.password}*/}
+          {/*email={signUpFields.email}/>*/}
 
           <div className="login-container">
-            <HeaderLogin iosLink={iosLink} androidLink={androidLink} address={address} phoneNumber={phoneNumber}
-                         logoCaption={logoCaption}/>
-            <div className="row content mr-0" style={{direction: 'rtl'}}>
+            <HeaderLogin onSignUpClick={this._showSignUp} translate={translate} iosLink={iosLink} androidLink={androidLink} address={address}
+                         phoneNumber={phoneNumber}/>
+            <div className="content">
 
-              <CarouselLogin/>
-
-              <div className={`col-12 col-md-6 col-lg-5 login-wrapper ${animateFormClass}`}>
+              <div className={`login-wrapper ${animateFormClass}`}>
                 <div className="sign-in-card">
                   <div className="login-tab">
-                    {(!SignIn) && (
-                        <div className="signup-tab">
-                          <button className="btn btn-secondary" onClick={this._showSignIn}>
-                            {translate['Login']}
-                          </button>
-                          <span>{translate['Register']}</span>
-                        </div>
-                    )}
-                    {(SignIn) && (
-                        <div className="signin-tab">
-                          <span>{translate['Login']}</span>
-                          <button className="btn btn-secondary" onClick={this._showSignUp}>
-                            {translate['Register']}
-                          </button>
-                        </div>
-                    )}
+                    <h2 className='login-part-title'>
+                      {translate['Danesh Boom']}
+                    </h2>
+                    <div className='tabs-container'>
+                      {(!SignIn) && (
+                          <div className="signup-tab">
+                            <span>{translate['Register']}</span>
+                            <button className="login-signup-button pulse" onClick={this._showSignIn}>
+                              {translate['Login']}
+                            </button>
+                          </div>
+                      )}
+                      {(SignIn) && (
+                          <div className="signin-tab">
+                            <button className="login-signup-button pulse" onClick={this._showSignUp}>
+                              {translate['Register']}
+                            </button>
+                            <span>{translate['Login']}</span>
+                          </div>
+                      )}
+                    </div>
                   </div>
-                  <div className="card-block login-form p-3">
+                  <div className="login-form">
                     {SignIn &&
                     <SignInForm onChangeSignIn={this._onChangeSignIn} initialValues={{rememberMe: true}}
                                 recoveryPasswordClick={this._showRecoveryPassword}
                     />}
                     {SignUp &&
-                    <RegisterForm inputValues={signUpFields} onChangeSignUp={this._onChangeSignUp} onRegisterClick={this._onRegisterClick}
+                    <RegisterForm inputValues={signUpFields} onChangeSignUp={this._onChangeSignUp}
+                                  onRegisterClick={this._onRegisterClick}
                     />}
                   </div>
                   {/*<div className="card-footer social-login">*/}
@@ -144,6 +147,8 @@ class Login extends Component {
                   {/*</div>*/}
                 </div>
               </div>
+
+              <CarouselLogin/>
             </div>
             <FooterLogin year={year}/>
           </div>

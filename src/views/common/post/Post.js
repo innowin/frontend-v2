@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import type {postType} from "../../../consts/flowTypes/common/post";
 import constants from 'src/consts/constants'
 import {VerifyWrapper} from "../cards/Frames";
-import PostEditForm from "./PostEditForm";
+import PostEditForm from "./editPost/PostEditForm";
 import PostView from "./PostView";
 
 type postPropTypes = {

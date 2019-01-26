@@ -96,10 +96,10 @@ class NewFollowers extends Component<props, states> {
   }
 
   getMembers(identity_user, identity_organization, follow_accepted, index) { // TODO:ABEL ADD FOLLOW_ACCEPT STUFF
-    let {profiles, organs, files, clientId, followers} = this.props
+    let {profiles, organs, files, clientId, followers, paramId} = this.props
     let {followingUsers, followingOrgans} = this.state
     if (identity_user !== null) {
-      if (profiles[identity_user] && profiles[identity_user].profile.content.profile_user) {
+      if (profiles[identity_user] && profiles[identity_user].profile.content && profiles[identity_user].profile.content.profile_user) {
         // if (!profiles[memberId].profile.isLoading) {
         return <div key={index} className={this.state.viewType}>
           <Link to={`/user/${identity_user}`}>
@@ -131,7 +131,7 @@ class NewFollowers extends Component<props, states> {
               : clientId !== identity_user ?
                   <div className="member-follow" onClick={() => this.follow(identity_user, identity_organization)}><span
                       className="member-follow-button">دنبال کردن</span></div> : <div className="member-followed"/>}
-          {follow_accepted ? null :
+          {follow_accepted || paramId !== clientId ? null :
               <div>
                 <div className="member-follow" onClick={() => this._onAcceptFollow(followers[index])}><span
                     className="member-accept-button"> </span></div>
@@ -147,13 +147,13 @@ class NewFollowers extends Component<props, states> {
     }
     if (identity_organization !== null) {
       // if (!organs[memberId].organization.isLoading) {
-      if (organs[identity_organization].organization.content) {
+      if (organs[identity_organization] && organs[identity_organization].organization && organs[identity_organization].organization.content) {
         return <div key={index}
                     className={this.state.viewType}>
-          {followingOrgans.indexOf(identity_organization) >= 0 ? <div className={"member-followed"}>دنبال شده</div>
-              : clientId !== identity_organization ?
-                  <div className={"member-follow"} onClick={() => this.follow(identity_user, identity_organization)}><span
-                      className={"member-follow-plus"}> + </span></div> : <div className={"member-followed"}/>}
+          {/*{followingOrgans.indexOf(identity_organization) >= 0 ? <div className={"member-followed"}>دنبال شده</div>*/}
+              {/*: clientId !== identity_organization ?*/}
+                  {/*<div className={"member-follow"} onClick={() => this.follow(identity_user, identity_organization)}><span*/}
+                      {/*className={"member-follow-plus"}> + </span></div> : <div className={"member-followed"}/>}*/}
           <Link to={`/organization/${identity_organization}`}>
             <div className={"member-picture-container"}>
               {organs[identity_organization].organization.content.organization_logo !== null ?
@@ -178,6 +178,17 @@ class NewFollowers extends Component<props, states> {
               }</div>
             </div>
           </Link>
+          {followingOrgans.indexOf(identity_organization) >= 0 ? <div className="member-followed-button">دنبال شده</div>
+              : clientId !== identity_organization ?
+                  <div className="member-follow" onClick={() => this.follow(identity_user, identity_organization)}><span
+                      className="member-follow-button">دنبال کردن</span></div> : <div className="member-followed"/>}
+          {follow_accepted || paramId !== clientId ? null :
+              <div>
+                <div className="member-follow" onClick={() => this._onAcceptFollow(followers[index])}><span
+                    className="member-accept-button"> </span></div>
+                <div className="member-follow" onClick={() => this._onDeleteFollow(followers[index])}><span
+                    className="member-reject-button"> </span></div>
+              </div>}
         </div>
       } else return <div className={this.state.viewType}>
         <div className={"member-loading"}>
