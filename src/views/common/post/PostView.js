@@ -12,7 +12,6 @@ import type {postType} from 'src/consts/flowTypes/common/post'
 import type {paramType} from 'src/consts/flowTypes/paramType'
 import constants from 'src/consts/constants'
 import type {identityType} from 'src/consts/flowTypes/user/basicInformation'
-import type {fileType} from 'src/consts/flowTypes/common/fileType'
 import FileActions from 'src/redux/actions/commonActions/fileActions'
 import CommentActions from 'src/redux/actions/commonActions/commentActions'
 import {userCommentsSelector} from 'src/redux/selectors/common/comment/postCommentsSelector'
@@ -178,17 +177,13 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   componentDidUpdate(prevProps) {
-    const {actions, post} = this.props
-    const {getFile} = actions
+    const {post} = this.props
 
     const self: any = this
     let showMore = false
     let height = null
 
     if (post && post.post_description !== prevProps.post.post_description) {
-      console.log(post, 'postttttt')
-      console.log(post.post_description, 'postttttt desccc')
-      console.log(self.text.clientHeight, 'sssssssssssssssssss')
       if (self.text.clientHeight > 74) {
         height = self.text.clientHeight
         if (post.post_description && new RegExp('^[A-Za-z]*$').test(post.post_description[0])) {

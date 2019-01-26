@@ -12,7 +12,6 @@ import connect from "react-redux/es/connect/connect"
 import {userPostsSelector} from "src/redux/selectors/common/post/userPostsSelector"
 import {Post} from "./Post"
 import constants from "src/consts/constants"
-import client from "src/consts/client"
 
 type postsPropsType = {
   id: number | string,

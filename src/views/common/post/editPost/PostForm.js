@@ -9,7 +9,7 @@ import React from 'react'
 import DefaultUserIcon from '../createPost'
 import {AttachFileIcon, DefaultImage} from 'src/images/icons'
 import AttachMenu from '../createPost/attachMenu'
-import constants from 'src/consts/constants'
+// import constants from 'src/consts/constants'
 
 type postFormProps = {
   onSubmit: Function,
@@ -24,10 +24,10 @@ type postFormStates = {
   attachMenu: boolean,
 }
 
-const minAllowedWordCounts = 5
-const maxAllowedWordCounts = 4096
-const minAllowedHeaderWordCounts = 5
-const maxAllowedHeaderWordCounts = 70
+// const minAllowedWordCounts = 5
+// const maxAllowedWordCounts = 4096
+// const minAllowedHeaderWordCounts = 5
+// const maxAllowedHeaderWordCounts = 70
 
 export class PostForm extends Component<postFormProps, postFormStates> {
   static defaultProps = {
