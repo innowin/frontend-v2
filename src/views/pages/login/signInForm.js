@@ -12,6 +12,7 @@ import {Field, reduxForm, SubmissionError} from 'redux-form'
 import renderTextField from 'src/views/common/inputs/reduxFormRenderTextField'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import FontAwesome from 'react-fontawesome'
+import constants from '../../../consts/constants'
 
 class PureSignInForm extends React.Component {
   constructor(props) {
@@ -50,7 +51,12 @@ class PureSignInForm extends React.Component {
                 onChangeForm={onChangeSignIn}
             />
           </div>
-          <div>
+          <div className='sign-in-button-container'>
+            <label className="container-checkmark">
+              <input type="checkbox" name="rememberMe"/>
+              <span className="checkmark"/>
+              <p className='rememberme-text'>{translator['Remember me']}</p>
+            </label>
             <button
                 className="login-submit-button"
                 disabled={submitting} type='submit'>
@@ -61,13 +67,8 @@ class PureSignInForm extends React.Component {
           </div>
           {submitFailed && <p className="error-message mt-2">{error}</p>}
           <div className="remember-recovery">
-            <label htmlFor="rememberMe" className="cursor-pointer">
-              <Field name="rememberMe" id="rememberMe" component="input" type="checkbox"/>
-              {translator['Remember me']}
-            </label>
-            <button className='btn btn-link recovery-button' type='button' onClick={recoveryPasswordClick}>
-              <span>{translator['Password recovery']}</span>
-            </button>
+            <span>{translator['Forgot Password']}</span>
+            <span className='recovery-button pulse' onClick={recoveryPasswordClick}>{translator['Recovery']}</span>
           </div>
         </form>
     )

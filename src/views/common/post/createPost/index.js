@@ -316,7 +316,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
   _getValues = () => {
     const {postType, link, description, selectedProduct, descriptionHeader} = this.state
     const {
-      currentUserIdentity, postParentId, currentUserImgId, postImg1Id, postImg2Id, postImg3Id, postMediaId,
+      currentUserIdentity, postParentId, postImg1Id, postImg2Id, postImg3Id, postMediaId,
       postFileId
     } = this.props
     const post_link = link.trim() !== "" ? link : null
@@ -827,7 +827,6 @@ const mapStateToProps = state => {
     currentUserType: client.user_type,
     currentUserIdentity: client.identity.content,
     currentUserId: userId,
-    currentUserImgId: clientImgId,
     currentUserMedia: (state.common.file.list[clientImgId] && state.common.file.list[clientImgId].file) || null,
     currentUserName: name,
     exchanges: state.common.exchangeMembership.list,
