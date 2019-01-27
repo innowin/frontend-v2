@@ -6,6 +6,7 @@ import ContributionIcon from "src/images/common/contribution_svg"
 import Image from "src/images/common/image_upload_svg"
 import Movie from "src/images/common/movie_svg"
 import constants from "src/consts/constants"
+import uuid from 'uuid'
 
 
 const AttachMenu = (props) => {
@@ -47,7 +48,7 @@ const AttachMenu = (props) => {
       <div className='post-component-footer-attach-menu'>
 	      <AttachFile
 			      AttachButton={AttachFileButton}
-			      inputId='AttachFileInput'
+			      inputId={'AttachFileInput' + uuid()}
 			      acceptFilter={["video","image","application", "audio", "text"]}
 			      // isLoadingProp={postFileLoading}
 			      className={'explore-menu-items ' + FileAttachedDisabled}
@@ -59,7 +60,7 @@ const AttachMenu = (props) => {
 	      <AttachFile
 			      AttachButton={AttachPictureButton}
 			      acceptFilter={["image"]}
-			      inputId='AttachPicturesInput'
+			      inputId={'AttachPicturesInput' + uuid()}
 			      className={'explore-menu-items ' + picturesAttachedDisabled}
 			      handleBase64={handlePictures}
 			      handleError={(error) => alert(error)}
@@ -68,7 +69,7 @@ const AttachMenu = (props) => {
 	      />
 	      <AttachFile
 			      AttachButton={AttachMediaButton}
-			      inputId='AttachMediaInput'
+			      inputId={'AttachMediaInput' + uuid()}
 			      // isLoadingProp={postMediaLoading}
 			      className={'explore-menu-items ' + MediaAttachedDisabled}
 			      handleBase64={handleMedia}
@@ -92,7 +93,7 @@ const AttachMenu = (props) => {
 
 AttachMenu.propTypes = {
   attachMenu: PropTypes.bool,
-  AttachMenuId: PropTypes.string.isRequired,
+  AttachMenuId: PropTypes.string,
   handlePictures: PropTypes.func.isRequired,
   handleFile: PropTypes.func.isRequired,
   handleMedia: PropTypes.func.isRequired,
