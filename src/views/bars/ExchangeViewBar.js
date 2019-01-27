@@ -482,10 +482,10 @@ class ExchangeViewBar extends Component {
                       <span>تقاضا:</span>
                       <span>{currentExchange.demand_count}</span>
                     </div>
-                    <div>
-                      <span>محصول عرضه شده:</span>
-                      <span>؟</span>
-                    </div>
+                    {/*<div>*/}
+                      {/*<span>محصول عرضه شده:</span>*/}
+                      {/*<span>؟</span>*/}
+                    {/*</div>*/}
                   </div>
                   :
                   null

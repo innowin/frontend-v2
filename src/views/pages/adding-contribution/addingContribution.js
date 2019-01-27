@@ -154,6 +154,8 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
   componentDidUpdate(prevProps, prevState, ss) {
     const {modalIsOpen} = this.props
     if (modalIsOpen) {
+      document.body.style.overflow = 'hidden'
+      document.body.style.paddingRight = '7px'
       const {
         clientFiles,
         categories,
@@ -199,6 +201,9 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
           this._imageHandler(lastFile)
         }
       }
+    } else {
+      document.body.style.overflow = 'auto'
+      document.body.style.paddingRight = '0'
     }
   }
 

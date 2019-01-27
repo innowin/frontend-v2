@@ -127,6 +127,14 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
       this.setState({...this.state, processing: false})
       console.log("NO PROCESS")
     }
+
+    if (this.props.modalIsOpen) {
+      document.body.style.overflow = 'hidden'
+      document.body.style.paddingRight = '7px'
+    } else {
+      document.body.style.overflow = 'auto'
+      document.body.style.paddingRight = '0'
+    }
     /*
      if ((prevProps.createdExchange.id !== createdExchange.id) && createdExchange.id) {
      this.setState({...this.state, created: true})

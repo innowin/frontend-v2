@@ -133,6 +133,7 @@ class HomePosts extends PureComponent {
                               />
                           ))) :
                           <div className="empty-posts">
+                            {console.log("posts", posts)}
                             <DesertIcon width="100%" text="در این پنجره پستی وجود ندارد"/>
                           </div>
                     }
