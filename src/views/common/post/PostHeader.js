@@ -104,7 +104,7 @@ PostHeader.propTypes = {
   post: PropTypes.object.isRequired,
   translate: PropTypes.object.isRequired,
   postIdentity: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
-  postRelatedIdentityImage: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+  postRelatedIdentityImage: PropTypes.string,
   showEdit: PropTypes.func,
   extendedView: PropTypes.bool,
 }

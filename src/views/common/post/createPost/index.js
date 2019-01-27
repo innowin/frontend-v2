@@ -20,8 +20,10 @@ import ViewAttachedFiles from "./viewAttachedFiles"
 import StickersMenu from "../../components/StickersMenu"
 import AddProductModal from "./addProductModal"
 import ProductInfoView from "../../contributions/ProductInfoView"
-import constants from '../../../../consts/constants'
-import type {postType} from '../../../../consts/flowTypes/common/post'
+import constants from 'src/consts/constants'
+import type {postType} from 'src/consts/flowTypes/common/post'
+import type {fileType} from 'src/consts/flowTypes/common/fileType'
+import uuid from 'uuid'
 
 const POST_MEDIA_TEMP_KEY = "POST_MEDIA"
 const POST_FILE_TEMP_KEY = "POST_FILE"
@@ -78,6 +80,7 @@ type createPostStateTypes = {
   scrollHeight: number,
   textLength: number,
   postType: string,
+  removePictureArray: Array<fileType>
 }
 
 
@@ -132,8 +135,10 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       scrollHeight: 0,
       textLength: 0,
       postType: constants.POST.POST_TYPE.POST,
+      removePictureArray: [],
     }
   }
+  attachMenuId: string
 
   componentDidMount() {
     const {actions, translate, currentUserMedia, isUpdate, post} = this.props
@@ -157,13 +162,30 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       }
     }
     if (isUpdate && post) {
-      let postType
-      if (post && post.post_type === constants.POST.POST_TYPE.SUPPLY) {
+      let postType, postPictureArray = post.post_picture_array, postImg1 = null, postImg2 = null, postImg3 = null
+      if (post.post_type === constants.POST.POST_TYPE.SUPPLY) {
         this.supplyChecked.checked = true
         postType = constants.POST.POST_TYPE.SUPPLY
-      } else if (post && post.post_type === constants.POST.POST_TYPE.DEMAND) {
+      } else if (post.post_type === constants.POST.POST_TYPE.DEMAND) {
         this.demandChecked.checked = true
         postType = constants.POST.POST_TYPE.DEMAND
+      }
+      if(postPictureArray) {
+        let numberOfPostImages = 0
+        for(let picture of postPictureArray) {
+          if (picture.type === constants.CRETE_FILE_TYPES.IMAGE) {
+            numberOfPostImages++
+            if (numberOfPostImages === 1) {
+              postImg1 = picture.file
+            }
+            else if (numberOfPostImages === 2) {
+              postImg2 = picture.file
+            }
+            if (numberOfPostImages === 3) {
+              postImg3 = picture.file
+            }
+          }
+        }
       }
       this.setState({
         ...this.state,
@@ -171,6 +193,9 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
         postType,
         description: post.post_description,
         descriptionHeader: post.post_title,
+        postImg1,
+        postImg2,
+        postImg3,
       })
 
       if (this.text) {
@@ -178,6 +203,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
         this.headerText.innerText = post.post_title
       }
     }
+    this.attachMenuId = "create-post-attach-menu-box" + uuid()
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -188,7 +214,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       this._showLink(link)
     }
 
-    if (prevProps.postsCountInThisPage < postsCountInThisPage) {
+    if (prevProps.postsCountInThisPage < postsCountInThisPage){
       this._resetPost()
     }
 
@@ -235,9 +261,14 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       selectedProduct: undefined,
       selectedProductId: undefined,
       postType: constants.POST.POST_TYPE.POST,
+      removePictureArray: [],
+      focused: false,
+    }, () => {
+      this.supplyChecked.checked = false
+      this.demandChecked.checked = false
+      this.text.blur()
+      this.headerText.blur()
     })
-    this.supplyChecked.checked = false
-    this.demandChecked.checked = false
   }
 
   demandChecked: HTMLInputElement
@@ -249,7 +280,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
     const {attachMenu, contactMenu, linkModal, addProductModal, postImg1, postImg2, postImg3, postFile, postMedia, link, description, labels, open, descriptionHeader} = this.state
     const needReset = !description && !postImg1 && !postImg2 && !postImg3 && !postFile && !postMedia && !link && labels === {}
     const {postImg1Id, postImg2Id, postImg3Id, postMediaId, postFileId, isUpdate, hideEdit} = this.props
-    if (!event.target.closest("#create-post-attach-menu-box")) {
+    if (!event.target.closest(`#${this.attachMenuId}`)) {
       if (attachMenu) {
         this.setState({...this.state, attachMenu: false})
       }
@@ -482,15 +513,18 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
     const {
       actions, currentUserId, currentUserType, postParentId, postParentType, postImg1Id, postImg2Id, postImg3Id,
       postMediaId, postFileId, isUpdate, updateFunc, post,
-      // hideEdit
     } = this.props
-    const {createPost, removeFileFromTemp} = actions
+    const {removePictureArray} = this.state
+    const {createPost, removeFileFromTemp, deleteFile} = actions
     const formValues = this._getValues()
     const postPictureIds = [postImg1Id, postImg2Id, postImg3Id].filter(img => img) //filter imges that not null & not undefined
     const postAttachedFileIds = (postPictureIds.length > 0 && postPictureIds)
         || (postMediaId && [postMediaId])
         || (postFileId && [postFileId]) || []
     if (isUpdate && updateFunc && post) {
+      for (let picture of removePictureArray) {
+        deleteFile({fileId: picture.id, fileParentType: constants.FILE_PARENT.POST, fileParentId: post.id})
+      }
       updateFunc(formValues, post.id)
     }
     else {
@@ -521,18 +555,29 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
   }
 
   _deletePicture = (i) => {
-    const {actions} = this.props
+    const {actions, post, isUpdate} = this.props
+    const {postImg1, postImg2, postImg3, removePictureArray} = this.state
     const {removeFileFromTemp} = actions
+    let newRemovePictureArray = removePictureArray
     const tempKeyName = (i === 0 && POST_IMG1_TEMP_KEY)
         || (i === 1 && POST_IMG2_TEMP_KEY)
         || (i === 2 && POST_IMG3_TEMP_KEY)
     removeFileFromTemp(tempKeyName)
+    if (isUpdate && post) {
+      const postPictureArray = post.post_picture_array
+      for(let picture of postPictureArray) {
+        if((i === 0 && picture.file === postImg1) || (i === 1 && picture.file === postImg2) || (i === 2 && picture.file === postImg3)) {
+          newRemovePictureArray.push(picture)
+          break
+        }
+      }
+    }
     if (i === 0) {
-      this.setState({...this.state, postImg1: null})
+      this.setState({...this.state, postImg1: null, removePictureArray: newRemovePictureArray})
     } else if (i === 1) {
-      this.setState({...this.state, postImg2: null})
+      this.setState({...this.state, postImg2: null, removePictureArray: newRemovePictureArray})
     } else {
-      this.setState({...this.state, postImg3: null})
+      this.setState({...this.state, postImg3: null, removePictureArray: newRemovePictureArray})
     }
   }
 
@@ -812,7 +857,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
                   postLinkExist={Boolean(link)}
                   linkModalFunc={this._linkModalFunc}
                   addProductModalFunc={this._addProductModalFunc}
-                  AttachMenuId="create-post-attach-menu-box"
+                  AttachMenuId={this.attachMenuId}
                   translate={translate}
               />
             </div>
@@ -863,7 +908,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
 
 const mapStateToProps = state => {
   const client = state.auth.client
-  const clientImgId = (client.user_type === 'person') ? (client.profile.profile_media) : (
+  const clientImgId = (client.user_type === constants.USER_TYPES.PERSON) ? (client.profile.profile_media) : (
       (client.organization && client.organization.organization_logo) || null
   )
 
@@ -877,7 +922,7 @@ const mapStateToProps = state => {
 
   const {user_type} = state.auth.client
   const stateOrgan = state.organs.list[userId]
-  const name = user_type === 'person' ?
+  const name = user_type === constants.USER_TYPES.PERSON ?
       client.user.first_name + ' ' + client.user.last_name
       :
       stateOrgan && stateOrgan.organization.content.nike_name
@@ -905,7 +950,8 @@ const mapDispatchToProps = dispatch => ({
     createPost: PostActions.createPost,
     createFile: FileActions.createFile,
     removeFileFromTemp: TempActions.removeFileFromTemp,
-    createComment: CommentActions.createComment
+    createComment: CommentActions.createComment,
+    deleteFile: FileActions.deleteFile,
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePost)

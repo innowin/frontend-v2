@@ -32,6 +32,11 @@ const exchanges = (state = initialState.exchanges, action) => {
     case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
       return getExchangeMembershipByMemberIdentity.success(state, action)
       /** ---------------------  get exchange posts ---------------------------**/
+    case types.COMMON.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET:
+      if (postParentType === POST_PARENT.EXCHANGE) {
+        return postsExchange.filterPostsByPostParentLimitOffset.base(state, action)
+      }
+      return state
     case types.SUCCESS.COMMON.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET:
       if (postParentType === POST_PARENT.EXCHANGE) {
         return postsExchange.filterPostsByPostParentLimitOffset.success(state, action)
