@@ -1,5 +1,4 @@
-import * as React from 'react'
-import {Component} from 'react'
+import React, {Component} from 'react'
 import ProductPosts from "../product/posts"
 import ProductBasicInformation from "../product/basicInformation"
 import {NavLink, Switch, Redirect} from "react-router-dom"
@@ -10,14 +9,20 @@ import ProductActions from 'src/redux/actions/commonActions/productActions/produ
 import {bindActionCreators} from 'redux'
 import constants from 'src/consts/constants'
 import FileActions from 'src/redux/actions/commonActions/fileActions'
-import {getCountryById, getProvinceById} from 'src/redux/actions/commonActions/location'
+import {getCountries, getProvinces, getCities} from 'src/redux/actions/commonActions/location'
 import makeProvinceSelectorById from '../../redux/selectors/common/location/getProvinceById'
+import {provinceSelector} from '../../redux/selectors/common/location/getProvinceByCountry'
 import makeCountrySelectorById from '../../redux/selectors/common/location/getCountryById'
+import getAllCountries from '../../redux/selectors/common/location/getCountry'
 import makeProductSelectorById from '../../redux/selectors/common/product/getProductById'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import GetUserActions from 'src/redux/actions/user/getUserActions'
 import Material from '../common/components/Material'
 import postActions from 'src/redux/actions/commonActions/postActions'
+import {citySelector} from '../../redux/selectors/common/location/getCityByProvince'
+import {getCategories} from 'src/redux/actions/commonActions/categoryActions'
+import {makeCategorySelector} from '../../redux/selectors/common/category/getCategoriesByParentId'
+
 
 class ProductView extends Component {
   constructor(props) {
@@ -34,6 +39,8 @@ class ProductView extends Component {
     actions.getProductInfo(productId)
     actions.getFileByFileRelatedParentId({fileRelatedParentId: productId, fileParentType: constants.FILE_PARENT.PRODUCT})
     actions.getPosts({postRelatedProductId: productId})
+    actions.getCountries()
+    actions.getCategories()
   }
 
   componentWillReceiveProps(nextProps, nextContext): void {
@@ -42,17 +49,15 @@ class ProductView extends Component {
 
     if (product && getData) {
       this.setState({...this.state, getData: false}, () => {
-        actions.getCountryById(product.product_related_country)
-        actions.getProvinceById(product.product_related_province)
         actions.getUserByUserId(product.product_user)
       })
     }
   }
 
   render() {
-    const {match, translate, product, country, province, product_owner, product_category, current_user_identity} = this.props
+    const {match, translate, product, country, province, product_owner, product_category, current_user_identity, countries, provinces, cities, categories, actions} = this.props
+    const {getProvinces, getCities} = actions
     const {path, url} = match
-
     return (
         <div className='all-exchanges-parent'>
 
@@ -62,6 +67,12 @@ class ProductView extends Component {
                    product_owner={product_owner}
                    product_category={product_category}
                    current_user_identity={current_user_identity}
+                   countries={countries}
+                   provinces={provinces}
+                   cities={cities}
+                   getProvinces={getProvinces}
+                   getCities={getCities}
+                   categories={categories}
           />
 
           <div className='product-container'>
@@ -104,20 +115,21 @@ class ProductView extends Component {
 }
 
 const mapStateToProps = (state, props) => {
-  const provinceSelectorById = makeProvinceSelectorById()
-  const countrySelectorById = makeCountrySelectorById()
-  const productSelectorById = makeProductSelectorById()
   const productId = props.match.params.id
-  const product = productSelectorById(state, productId)
+  const product = makeProductSelectorById()(state, productId)
   const {product_related_country, product_related_province} = product
   return {
     product,
-    country: countrySelectorById(state, product_related_country),
-    province: provinceSelectorById(state, product_related_province),
-    translate: getMessages(state),
+    country: makeCountrySelectorById()(state, product_related_country),
+    province: makeProvinceSelectorById()(state, product_related_province),
+    countries: getAllCountries(state),
+    provinces: provinceSelector(state),
+    cities: citySelector(state),
+    categories: makeCategorySelector()(state),
     product_owner: state.users.list[product.product_user],
     product_category: state.common.category.list[product.product_category],
-    current_user_identity: state.auth.client.identity.content
+    current_user_identity: state.auth.client.identity.content,
+    translate: getMessages(state)
   }
 }
 
@@ -126,8 +138,10 @@ const mapDispatchToProps = dispatch => ({
     getUserByUserId: GetUserActions.getUserByUserId,
     getProductInfo: ProductActions.getProductInfo,
     getFileByFileRelatedParentId: FileActions.getFileByFileRelatedParentId,
-    getCountryById,
-    getProvinceById,
+    getCountries,
+    getCategories,
+    getProvinces,
+    getCities,
     getPosts: postActions.filterPostsByPostRelatedProduct
   }, dispatch)
 })

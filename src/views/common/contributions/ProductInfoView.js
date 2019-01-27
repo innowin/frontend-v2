@@ -24,54 +24,31 @@ import {Product as ProductSvg} from '../../../images/icons'
 
 class ProductInfoView extends React.Component {
   componentDidMount(): void {
-    const {product, actions} = this.props
-    actions.getFileByFileRelatedParentId({fileRelatedParentId: product.id, fileParentType: constants.FILE_PARENT.PRODUCT})
+    if (this.props.product) {
+      const {product, actions} = this.props
+      actions.getFileByFileRelatedParentId({fileRelatedParentId: product.id, fileParentType: constants.FILE_PARENT.PRODUCT})
+    }
   }
 
   render() {
-    const {product, onClick, selected /*,translate, showEdit, ownerId*/} = this.props
-    const {product_owner, product_user, pictures_array} = product
-    const {identity_user} = product_owner
-    const name = identity_user && identity_user.first_name ? identity_user.first_name + ' ' + identity_user.last_name : product_user && product_user.first_name ? product_user.first_name + ' ' + product_user.last_name : ''
+    if (this.props.product) {
+      const {product, onClick, selected /*,translate, showEdit, ownerId*/} = this.props
+      const {product_owner, product_user, pictures_array} = product
+      const {identity_user} = product_owner
+      const name = identity_user && identity_user.first_name ? identity_user.first_name + ' ' + identity_user.last_name : product_user && product_user.first_name ? product_user.first_name + ' ' + product_user.last_name : ''
 
-    if (onClick) {
-      return (
-          <div className={selected ? 'selected-props product-instant-view' : 'product-instant-view'} onClick={onClick}>
-            {/*<CheckOwner id={ownerId}>*/}
-            {/*{*/}
-            {/*showEdit &&*/}
-            {/*<div className='product-instant-edit' onClick={showEdit}>*/}
-            {/*<EditIcon/>*/}
-            {/*</div>*/}
-            {/*}*/}
-            {/*</CheckOwner>*/}
-            <div className='product-instant-logo'>محصول</div>
-            <div className='product-instant-detail'>
-              <div className='product-instant-name'>
-                {product.name}
-              </div>
-              <span className='product-instant-seller'>فروشنده: </span><span className='product-instant-seller-name'>{name}</span>
-            </div>
-            <img className='product-instant-img' src={pictures_array && pictures_array.length > 0 && pictures_array[0].file} alt=''/>
-          </div>
-      )
-    }
-    else {
-      return (
-          <div className={selected ? 'selected-props product-instant-view' : 'product-instant-view'}>
-            {/*<CheckOwner id={ownerId}>*/}
-            {/*{*/}
-            {/*showEdit &&*/}
-            {/*<div className='product-instant-edit' onClick={showEdit}>*/}
-            {/*<EditIcon/>*/}
-            {/*</div>*/}
-            {/*}*/}
-            {/*</CheckOwner>*/}
-            <Link className='product-instant-link' to={`/product/${product.id}`}>
-              <div className='product-instant-logo'>
-                <ProductSvg className='product-instant-svg'/>
-                <div>محصول</div>
-              </div>
+      if (onClick) {
+        return (
+            <div className={selected ? 'selected-props product-instant-view' : 'product-instant-view'} onClick={onClick}>
+              {/*<CheckOwner id={ownerId}>*/}
+              {/*{*/}
+              {/*showEdit &&*/}
+              {/*<div className='product-instant-edit' onClick={showEdit}>*/}
+              {/*<EditIcon/>*/}
+              {/*</div>*/}
+              {/*}*/}
+              {/*</CheckOwner>*/}
+              <div className='product-instant-logo'>محصول</div>
               <div className='product-instant-detail'>
                 <div className='product-instant-name'>
                   {product.name}
@@ -79,10 +56,38 @@ class ProductInfoView extends React.Component {
                 <span className='product-instant-seller'>فروشنده: </span><span className='product-instant-seller-name'>{name}</span>
               </div>
               <img className='product-instant-img' src={pictures_array && pictures_array.length > 0 && pictures_array[0].file} alt=''/>
-            </Link>
-          </div>
-      )
+            </div>
+        )
+      }
+      else {
+        return (
+            <div className={selected ? 'selected-props product-instant-view' : 'product-instant-view'}>
+              {/*<CheckOwner id={ownerId}>*/}
+              {/*{*/}
+              {/*showEdit &&*/}
+              {/*<div className='product-instant-edit' onClick={showEdit}>*/}
+              {/*<EditIcon/>*/}
+              {/*</div>*/}
+              {/*}*/}
+              {/*</CheckOwner>*/}
+              <Link className='product-instant-link' to={`/product/${product.id}`}>
+                <div className='product-instant-logo'>
+                  <ProductSvg className='product-instant-svg'/>
+                  <div>محصول</div>
+                </div>
+                <div className='product-instant-detail'>
+                  <div className='product-instant-name'>
+                    {product.name}
+                  </div>
+                  <span className='product-instant-seller'>فروشنده: </span><span className='product-instant-seller-name'>{name}</span>
+                </div>
+                <img className='product-instant-img' src={pictures_array && pictures_array.length > 0 && pictures_array[0].file} alt=''/>
+              </Link>
+            </div>
+        )
+      }
     }
+    else return null
   }
 }
 

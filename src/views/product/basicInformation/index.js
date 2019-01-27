@@ -1,11 +1,22 @@
 // @flow
 import * as React from "react"
 import {Component} from "react"
+import Material from '../../common/components/Material'
 
 export class productBasicInformation extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      editDescription: false,
+      edit: false,
+      attrs: [
+        {title: 'نوع', value: 'مونوکریستال'},
+        {title: 'ابعاد پنل', value: '35 * 1999 میلی متر'},
+        {title: 'ابعاد سلول', value: '23 * 23 میلی متر'},
+        {title: 'تعداد سلول', value: '180'},
+        {title: 'وزن', value: '150000 گرم'}
+      ]
+    }
   }
 
   // componentDidMount() {
@@ -56,40 +67,90 @@ export class productBasicInformation extends Component {
   //   _updateProduct({productId, formValues: formData})
   // }
 
+  showEdit = () => {
+    this.setState({...this.state, edit: !this.state.edit})
+  }
+
+  showEditDescription = () => {
+    this.setState({...this.state, editDescription: !this.state.editDescription})
+  }
 
   render() {
+    const {edit, editDescription, attrs} = this.state
     const {/*translator,*/ product, current_user_identity} = this.props
     const {product_owner} = product
-    const attrs = [
-      {title: 'نوع', value: 'مونوکریستال'},
-      {title: 'ابعاد پنل', value: '35 * 1999 میلی متر'},
-      {title: 'ابعاد سلول', value: '23 * 23 میلی متر'},
-      {title: 'تعداد سلول', value: '180'},
-      {title: 'وزن', value: '150000 گرم'}
-    ]
 
     return (
         <div>
           <div className='product-description' style={(product.description && product.description.length > 0) || (product_owner === current_user_identity) ? {display: 'block'} : {display: 'none'}}>
             <div className='product-description-title'>
               <div>معرفی</div>
-              <div className='product-description-title-edit'>ویرایش</div>
+              {
+                product_owner === current_user_identity ?
+                    <div className={editDescription ? 'product-description-title-editing' : 'product-description-title-edit'} onClick={this.showEditDescription}>{editDescription ? 'درحال ویرایش...  ✕' : 'ویرایش'}</div>
+                    :
+                    null
+              }
             </div>
-            <div className='product-description-detail'>{product.description}</div>
+            {
+              editDescription ?
+                  <textarea className='product-description-detail-editing' defaultValue={product.description}/>
+                  :
+                  <div className='product-description-detail'>{product.description}</div>
+            }
+            {
+              editDescription ?
+                  <div className='product-description-edit-container'>
+                    <Material className='product-description-cancel' content='لغو ویرایش' onClick={this.showEditDescription}/>
+                    <Material className='product-description-submit' content='ثبت تغییرات'/>
+                  </div>
+                  :
+                  null
+            }
           </div>
 
           <div className='product-description'>
             <div className='product-description-title'>
               <div>مشخصات</div>
-              <div className='product-description-title-edit'>ویرایش</div>
+              {
+                product_owner === current_user_identity ?
+                    <div className={edit ? 'product-description-title-editing' : 'product-description-title-edit'} onClick={this.showEdit}>{edit ? 'درحال ویرایش...  ✕' : 'ویرایش'}</div>
+                    :
+                    null
+              }
             </div>
             <div>
-              {attrs.map((attribute, i) =>
-                  <div key={i} className='product-attributes-cont'>
-                    <div className='product-attributes-title'>{attribute.title}</div>
-                    <div className='product-attributes-value'>{attribute.value}</div>
-                  </div>
-              )}
+              {
+                edit ?
+                    <div>
+                      {
+                        attrs.map((attribute, i) =>
+                            <div key={i} className='product-attributes-cont'>
+                              <input type='text' className='product-attributes-title-edit' defaultValue={attribute.title}/>
+                              <input type='text' className='product-attributes-value-edit' defaultValue={attribute.value}/>
+                              <Material className='product-attributes-delete' content='حذف'/>
+                            </div>
+                        )
+                      }
+                      <div className='product-attributes-cont'>
+                        <input type='text' className='product-attributes-title-edit' placeholder='عنوان'/>
+                        <input type='text' className='product-attributes-value-edit' placeholder='مقدار'/>
+                        <Material className='product-attributes-add' content='افزودن'/>
+                      </div>
+
+                      <div className='product-attrs-edit-container'>
+                        <Material className='product-description-cancel' content='لغو ویرایش' onClick={this.showEdit}/>
+                        <Material className='product-description-submit' content='ثبت تغییرات'/>
+                      </div>
+
+                    </div>
+                    :
+                    attrs.map((attribute, i) =>
+                        <div key={i} className='product-attributes-cont'>
+                          <div className='product-attributes-title'>{attribute.title}</div>
+                          <div className='product-attributes-value'>{attribute.value}</div>
+                        </div>)
+              }
             </div>
           </div>
 
