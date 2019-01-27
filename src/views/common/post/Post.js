@@ -75,7 +75,7 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
                     {/*deleteFunc={this._delete}*/}
                     {/*updateFunc={this._update}*/}
                 {/*/>*/}
-                <CreatePost hideEdit={this._hideEdit} post={post} updateFunc={this._update} isUpdate={true}/>
+                <CreatePost key={'post edit ' + post.id} hideEdit={this._hideEdit} post={post} updateFunc={this._update} isUpdate={true}/>
               </div>
               :
               <PostView post={post}

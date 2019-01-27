@@ -107,11 +107,11 @@ class HomePosts extends PureComponent {
   }
 
   render() {
-    const {isLoading, error} = this.state
-    const {posts, exchangeId, className, actions} = this.props
+    const {error} = this.state
+    const {posts, exchangeId, className, actions, isLoading} = this.props
     const {deletePost, updatePost} = actions
     return (
-        <VerifyWrapper isLoading={isLoading} error={error} className={className}>
+        <VerifyWrapper isLoading={false} error={error} className={className}>
           {(exchangeId) ? (
               <div>
                 <CreatePostNew
@@ -143,7 +143,8 @@ class HomePosts extends PureComponent {
                   </ListGroup>
                 </FrameCard>
                 {/*button for scroll to top*/}
-                <div className={this.state.scrollButton ? 'go-up-logo-cont' : 'go-up-logo-cont-hide'} onClick={this.goUp}>
+                <div className={this.state.scrollButton ? 'go-up-logo-cont' : 'go-up-logo-cont-hide'}
+                     onClick={this.goUp}>
                   <RightArrow className='go-up-logo'/>
                 </div>
               </div>
@@ -159,9 +160,12 @@ const mapStateToProps = (state, ownProps) => {
   const allExchange = state.exchanges.list
   const exchangePostsIds = (exchangeId && allExchange[exchangeId] && allExchange[exchangeId].posts
       && allExchange[exchangeId].posts.content) || []
+  const isLoading = (exchangeId && allExchange[exchangeId] && allExchange[exchangeId].posts
+      && allExchange[exchangeId].posts.isLoading) || false
   const posts = exchangePostsIds.map(postId => (allPosts[postId]))
   return {
-    posts
+    posts,
+    isLoading
   }
 }
 const mapDispatchToProps = dispatch => ({
