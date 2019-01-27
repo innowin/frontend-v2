@@ -35,7 +35,9 @@ class UserDetailPanel extends React.Component<UserDetailPanelProps, UserDetailPa
     super(props)
     this.state = {
       bannerLoaded: false,
-      profileLoaded: false
+      profileLoaded: false,
+
+      getFilesInDidMount:false
     }
   }
 
@@ -50,12 +52,26 @@ class UserDetailPanel extends React.Component<UserDetailPanelProps, UserDetailPa
     bannerImage: PropTypes.object,
     actions: PropTypes.object.isRequired
   }
+  
+  componentWillMount(): void {
+    const {actions, bannerId, profileId} = this.props
+    const {getFile} = actions
+
+    if (profileId && bannerId) {
+      getFile(profileId)
+      getFile(bannerId)
+    } else this.setState({...this.state, getFilesInDidMount: true})
+  }
 
   componentDidMount() {
     const {actions, bannerId, profileId, bannerImage, profileImage} = this.props
+    const {getFilesInDidMount} = this.state
     const {getFile} = actions
-    getFile(profileId)
-    getFile(bannerId)
+
+    if (getFilesInDidMount) {
+      getFile(profileId)
+      getFile(bannerId)
+    }
 
     //Added for profile url check
     if (bannerImage && bannerImage.file) {

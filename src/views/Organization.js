@@ -12,6 +12,8 @@ import PostExtendedView from 'src/views/common/post/PostView'
 import PrivateRoute from '../consts/PrivateRoute'
 import PropTypes from 'prop-types'
 import Social from 'src/views/common/social/index'
+import Followings from 'src/views/common/social/following/index'
+import Followers from 'src/views/common/social/follower/index'
 import type {badgeType} from 'src/consts/flowTypes/common/badges'
 import type {identityStateObject, listOfIdObject, organStateObject} from 'src/consts/flowTypes/stateObjectType'
 import {bindActionCreators} from 'redux'
@@ -213,12 +215,12 @@ export class Organization extends Component<PropsOrganization> {
                                     identityId={identityObject.content}
                                     identityType={constants.USER_TYPES.ORG}
                       />
-                      <PrivateRoute path={`${path}/Followings`} component={Social}
+                      <PrivateRoute path={`${path}/Followings`} component={Followings}
                                     ownerId={organizationId}
                                     identityId={identityObject.content}
                                     identityType={constants.USER_TYPES.ORG}
                       />
-                      <PrivateRoute path={`${path}/Followers`} component={Social}
+                      <PrivateRoute path={`${path}/Followers`} component={Followers}
                                     ownerId={organizationId}
                                     identityId={identityObject.content}
                                     identityType={constants.USER_TYPES.ORG}

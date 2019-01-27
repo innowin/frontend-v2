@@ -92,7 +92,8 @@ export class SideBarItem extends Component<PropsSideBarItem> {
 
 
 type StateHomeSideBar = {|
-  activeId: ?number
+  activeId: ?number,
+  getDataInDidMount: ?boolean
 |}
 
 type PropsHomeSideBar = {|
@@ -122,12 +123,31 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
 
   constructor(props) {
     super(props)
-    this.state = {activeId: null}
+    this.state = {activeId: null, getDataInDidMount: false}
   }
 
-  _handleClick = (id) => {
-    const {setExchangeId} = this.props
-    setExchangeId(id)
+  componentWillMount(): void {
+    const {identityId, identityType, id} = this.props
+    const {getExchangeMembershipByMemberIdentity} = this.props.actions
+    if (identityId && identityType && id) {
+      getExchangeMembershipByMemberIdentity({
+        identityId,
+        exchangeMembershipOwnerType: identityType,
+        exchangeMembershipOwnerId: id
+      })
+    } else this.setState({...this.state, getDataInDidMount: true})
+  }
+
+  componentDidMount() {
+    if (this.state.getDataInDidMount) {
+      const {identityId, identityType, id} = this.props
+      const {getExchangeMembershipByMemberIdentity} = this.props.actions
+      getExchangeMembershipByMemberIdentity({
+        identityId,
+        exchangeMembershipOwnerType: identityType,
+        exchangeMembershipOwnerId: id
+      })
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -137,14 +157,9 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
     }
   }
 
-  componentDidMount() {
-    const {identityId, identityType, id} = this.props
-    const {getExchangeMembershipByMemberIdentity} = this.props.actions
-    getExchangeMembershipByMemberIdentity({
-      identityId,
-      exchangeMembershipOwnerType: identityType,
-      exchangeMembershipOwnerId: id
-    })
+  _handleClick = (id) => {
+    const {setExchangeId} = this.props
+    setExchangeId(id)
   }
 
   render() {

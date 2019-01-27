@@ -1,35 +1,78 @@
-import React, {PureComponent} from "react"
-import PropTypes from "prop-types"
-import {FrameCard, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames"
-import {Post} from "src/views/common/post/Post"
-import {bindActionCreators} from "redux"
-import {connect} from "react-redux"
-import PostActions from "src/redux/actions/commonActions/postActions"
-import constant from "src/consts/constants"
-import CreatePostNew from "../../common/post/createPost/index"
-import RightArrowSvg from "../../../images/common/right_arrow_svg"
+import React, {PureComponent} from 'react'
+import PropTypes from 'prop-types'
+import {FrameCard, ListGroup, VerifyWrapper} from 'src/views/common/cards/Frames'
+import {Post} from 'src/views/common/post/Post'
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
+import PostActions from 'src/redux/actions/commonActions/postActions'
+import constant from 'src/consts/constants'
+import CreatePostNew from '../../common/post/createPost/index'
+import {RightArrow, DesertIcon} from 'src/images/icons'
 
 
-class HomePosts extends PureComponent
-{
+class HomePosts extends PureComponent {
 
   static propTypes = {
     exchangeId: PropTypes.number,
     className: PropTypes.string
   }
 
-  constructor(props)
-  {
+  constructor(props) {
     super(props)
     this.state = {
       offset: 0,
       activeScrollHeight: 0,
-      scrollButton: false
+      scrollButton: false,
+
+      getDataInDidMount: false
     }
   }
 
-  _onScroll = () =>
-  {
+  componentWillMount(): void {
+    window.addEventListener('scroll', this._onScroll)
+
+    const {actions, exchangeId} = this.props
+    const {filterPostsByPostParentLimitOffset} = actions
+    const limit = 100
+    const offset = 0
+    if (exchangeId) {
+      filterPostsByPostParentLimitOffset({
+        postParentId: exchangeId, postType: null, limit, offset, postParentType: constant.POST_PARENT.EXCHANGE
+      })
+    } else this.setState({...this.state, getDataInDidMount: true})
+  }
+
+  componentDidMount() {
+    if (this.state.getDataInDidMount) {
+      const {actions, exchangeId} = this.props
+      const {filterPostsByPostParentLimitOffset} = actions
+      const limit = 100
+      const offset = 0
+      if (exchangeId) {
+        filterPostsByPostParentLimitOffset({
+          postParentId: exchangeId, postType: null, limit, offset, postParentType: constant.POST_PARENT.EXCHANGE
+        })
+      }
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState, ss) {
+    const {actions, exchangeId} = this.props
+    const {filterPostsByPostParentLimitOffset} = actions
+    const limit = 100
+    const offset = 0
+    if (exchangeId && exchangeId !== prevProps.exchangeId) {
+      filterPostsByPostParentLimitOffset({
+        postParentId: exchangeId, postType: null, limit, offset, postParentType: constant.POST_PARENT.EXCHANGE
+      })
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this._onScroll)
+  }
+
+  _onScroll = () => {
     const {offset, activeScrollHeight} = this.state
     const {posts, exchangeId, filterPostsByPostParentLimitOffset} = this.props
     const limit = 100
@@ -37,8 +80,7 @@ class HomePosts extends PureComponent
     if (exchangeId
         && posts.length > (limit - 1)
         && (~~(window.innerHeight + window.scrollY) >= (scrollHeight - 500))
-        && (scrollHeight > activeScrollHeight))
-    {
+        && (scrollHeight > activeScrollHeight)) {
       const newOffset = offset + 100
       this.setState({...this.state, offset: newOffset, activeScrollHeight: scrollHeight, scrollLoading: true},
           () => filterPostsByPostParentLimitOffset({
@@ -57,50 +99,14 @@ class HomePosts extends PureComponent
 
   }
 
-  componentDidUpdate(prevProps)
-  {
-    const {actions, exchangeId} = this.props
-    const {filterPostsByPostParentLimitOffset} = actions
-    const limit = 100
-    const offset = 0
-    if (exchangeId && exchangeId !== prevProps.exchangeId)
-    {
-      filterPostsByPostParentLimitOffset({
-        postParentId: exchangeId, postType: null, limit, offset, postParentType: constant.POST_PARENT.EXCHANGE
-      })
-    }
-  }
-
-  componentDidMount()
-  {
-    const {actions, exchangeId} = this.props
-    const {filterPostsByPostParentLimitOffset} = actions
-    const limit = 100
-    const offset = 0
-    if (exchangeId)
-    {
-      filterPostsByPostParentLimitOffset({
-        postParentId: exchangeId, postType: null, limit, offset, postParentType: constant.POST_PARENT.EXCHANGE
-      })
-    }
-    window.addEventListener("scroll", this._onScroll)
-  }
-
-  componentWillUnmount()
-  {
-    window.removeEventListener("scroll", this._onScroll)
-  }
-
-  goUp = () =>
-  {
+  goUp = () => {
     window.scroll({
       top: 0,
       behavior: 'smooth'
     })
   }
 
-  render()
-  {
+  render() {
     const {isLoading, error} = this.state
     const {posts, exchangeId, className, actions} = this.props
     const {deletePost, updatePost} = actions
@@ -118,14 +124,17 @@ class HomePosts extends PureComponent
                   <ListGroup>
                     {
                       (posts.length > 0) ? (posts.map((post) => (post &&
-                          <Post
-                              posts={posts}
-                              post={post}
-                              key={post.id}
-                              deletePost={deletePost}
-                              updatePost={updatePost}
-                          />
-                      ))) : (<div className="empty-posts">در این پنجره پستی وجود ندارد!</div>)
+                              <Post
+                                  posts={posts}
+                                  post={post}
+                                  key={post.id}
+                                  deletePost={deletePost}
+                                  updatePost={updatePost}
+                              />
+                          ))) :
+                          <div className="empty-posts">
+                            <DesertIcon width="100%" text="در این پنجره پستی وجود ندارد"/>
+                          </div>
                     }
                     {
                       // TODO mohsen: handle loading scroll and scrolling error
@@ -134,17 +143,16 @@ class HomePosts extends PureComponent
                 </FrameCard>
                 {/*button for scroll to top*/}
                 <div className={this.state.scrollButton ? 'go-up-logo-cont' : 'go-up-logo-cont-hide'} onClick={this.goUp}>
-                  <RightArrowSvg className='go-up-logo'/>
+                  <RightArrow className='go-up-logo'/>
                 </div>
               </div>
-          ) : ("")}
+          ) : ('')}
         </VerifyWrapper>
     )
   }
 }
 
-const mapStateToProps = (state, ownProps) =>
-{
+const mapStateToProps = (state, ownProps) => {
   const exchangeId = ownProps.exchangeId
   const allPosts = state.common.post.list
   const allExchange = state.exchanges.list

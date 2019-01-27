@@ -30,7 +30,7 @@ export class Index extends Component<PropsCertificates, StateCertificates> {
     identityId: PropTypes.number.isRequired,
     identityType: PropTypes.string.isRequired,
     translate: PropTypes.object.isRequired,
-    actions: PropTypes.func.isRequired,
+    actions: PropTypes.objectOf(PropTypes.func),
   }
 
   constructor(props: PropsCertificates) {

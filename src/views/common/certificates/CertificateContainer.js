@@ -36,9 +36,9 @@ export class CertificateContainer extends Component<PropsCertificates> {
     certificates: PropTypes.array.isRequired,
     identityId: PropTypes.number.isRequired,
     identityType: PropTypes.string.isRequired,
-    actions: PropTypes.func.isRequired,
+    actions: PropTypes.objectOf(PropTypes.func),
     isLoading: PropTypes.bool.isRequired,
-    error: PropTypes.string.isRequired,
+    error: PropTypes.string,
     param: PropTypes.object.isRequired,
   }
 

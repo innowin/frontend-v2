@@ -97,7 +97,10 @@ class NewFollowings extends Component<props, states> {
       // buttonHover
     // } = this.state
     if (identity_user !== null) {
-      if (profiles[identity_user] && profiles[identity_user].profile.content && profiles[identity_user].profile.content.profile_user) {
+      if (profiles[identity_user] &&
+          profiles[identity_user].profile &&
+          profiles[identity_user].profile.content &&
+          profiles[identity_user].profile.content.profile_user) {
         // if (!profiles[memberId].profile.isLoading) {
         return <div key={index} className={this.state.viewType}>
           <Link to={`/user/${identity_user}`}>

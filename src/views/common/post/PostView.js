@@ -103,9 +103,6 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   componentWillMount(): void {
     let {extendedView, post, match, actions} = this.props
     let {getFileByFileRelatedParentId, getPost, getCommentsByParentId} = actions
-    let self: any = this
-    let showMore = false
-    let height = null
 
     document.addEventListener('click', this._handleClickOutMenuBox)
 
@@ -132,20 +129,20 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
     if (!this.props.extendedView) {
       let {post, actions} = this.props
-      let showMore = false
-      let height = null
+      // let showMore = false
+      // let height = null
       if (this.state.getInDidMount) {
         let {getFileByFileRelatedParentId} = actions
         getFileByFileRelatedParentId({fileRelatedParentId: post.id, fileParentType: constants.FILE_PARENT.POST})
       }
       if (self.text && self.text.clientHeight > 74) {
-        height = self.text.clientHeight
+        let height = self.text.clientHeight
         if (post.post_description && new RegExp('^[A-Za-z]*$').test(post.post_description[0])) {
           self.text.style.paddingRight = '60px'
         } else self.text.style.paddingLeft = '60px'
         self.text.style.height = '68px'
-        showMore = true
-        this.setState({...this.state, showMore, descriptionHeight: height})
+        // showMore = true
+        this.setState({...this.state, showMore: true, descriptionHeight: height})
       }
     }
 
@@ -186,7 +183,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState, ss) {
     const {post} = this.props
     const self: any = this
     let showMore = false

@@ -100,6 +100,8 @@ class Socials extends Component<PropsSocials, StateSocials> {
     // } = this.state
 
     const paramId = identityType === constants.USER_TYPES.PERSON ? +param.user : +param.organization
+    
+    console.log("ownerId", ownerId)
 
     return (
         <div>
