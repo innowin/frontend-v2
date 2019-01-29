@@ -5,3 +5,35 @@ html[data-platform*='iPhone'] {
     }
   }
 }
+
+html[data-platform*='Macintosh'] {
+  .-itemWrapperPost {
+    .post-content {
+      text-align: right;
+    }
+  }
+}
+
+html[data-platform*='MacIntel'] {
+  .-itemWrapperPost {
+    .post-content {
+      text-align: right;
+    }
+  }
+}
+
+html[data-platform*='MacPPC'] {
+  .-itemWrapperPost {
+    .post-content {
+      text-align: right;
+    }
+  }
+}
+
+html[data-platform*='Mac68K'] {
+  .-itemWrapperPost {
+    .post-content {
+      text-align: right;
+    }
+  }
+}

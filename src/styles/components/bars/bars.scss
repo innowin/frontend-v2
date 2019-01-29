@@ -16,6 +16,10 @@ $sidebar-profile-media-width: 80px;
   margin: 0;
   display: flex;
   flex-direction: row;
+  .hamburger, .hamburger-view {
+    display: none;
+    width: 0;
+  }
 }
 
 .navbar-toggler {
@@ -174,6 +178,11 @@ $sidebar-profile-media-width: 80px;
   a:hover {
     color: $info-color;
   }
+}
+
+.top-bar-left-side {
+  direction: ltr;
+  display: flex;
 }
 
 .-ProfTopBarImg {
@@ -869,7 +878,7 @@ $sidebar-profile-media-width: 80px;
   border: 1px solid transparent;
   border-radius: 5px;
   overflow: hidden;
-  margin: 0 2px;
+  //margin: 0 2px;
   //
   //&:after {
   //  content: '';
@@ -891,7 +900,6 @@ $sidebar-profile-media-width: 80px;
     border: 1px solid #E7E7E7;
     border-radius: 5px;
     overflow: hidden;
-    margin: 0 2px;
 
     //&:after {
     //  width: 100%;
