@@ -173,7 +173,7 @@ const mapStateToProps = (state) => {
     exchanges: state.exchanges.list,
     clientIdentityId: state.auth.client.identity.content,
     clientType: state.auth.client.user_type,
-    clientId: state.auth.client.user.ida
+    clientId: state.auth.client.user.id
   }
 }
 const mapDispatchToProps = (dispatch) => ({
