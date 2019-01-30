@@ -13,13 +13,27 @@ import {DefaultUserIcon, Contacts, QuestionMark, Stream} from 'src/images/icons'
 import {getFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
 import {Link} from 'react-router-dom'
 import {getMessages} from '../../../../redux/selectors/translateSelector'
+import {arrayOfDeffered} from 'redux-saga/utils'
 // import exchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
 // import {VerifyWrapper} from "../../common/cards/Frames"
 
 type props = {
-  // actions: any,
+  actions: {
+    createFollow: Function,
+  },
+  clientId: number,
+  clientIdentityId: number,
+  deleteFollow: Function,
+  files: [],
   followings: [],
-  // followers: [],
+  getFollowingSelector: [{
+    identity_user: number,
+    identity_organization: number,
+  }],
+  organs: [],
+  profiles: [],
+  translate: { [string]: [string] },
+  userId: number,
 }
 type states = {
   followingOrgans: [],
@@ -34,13 +48,13 @@ class NewFollowings extends Component<props, states> {
   constructor(props) {
     super(props)
     this.state = {
-      initialMembers: [],
-      viewType: 'member-square-user',
-      moreMembers: false,
-      followingUsers: [],
-      followingOrgans: [],
-      requested: false,
       buttonHover: false,
+      followingOrgans: [],
+      followingUsers: [],
+      initialMembers: [],
+      moreMembers: false,
+      requested: false,
+      viewType: 'member-square-user',
     }
     const self: any = this
     self.changeViewType = self.changeViewType.bind(self)
@@ -92,9 +106,9 @@ class NewFollowings extends Component<props, states> {
       // paramId
     } = this.props
     // let {
-      // followingUsers,
-      // followingOrgans,
-      // buttonHover
+    // followingUsers,
+    // followingOrgans,
+    // buttonHover
     // } = this.state
     if (identity_user !== null) {
       if (profiles[identity_user] &&
@@ -182,17 +196,6 @@ class NewFollowings extends Component<props, states> {
                 </div>
                 : null
           }
-          {/*{followingOrgans.indexOf(identity_organization) >= 0 ? <div className="member-followed-button">دنبال شده</div>*/}
-          {/*: clientId !== identity_organization ?*/}
-          {/*<div className="member-follow" onClick={() => this.follow(identity_user, identity_organization)}><span*/}
-          {/*className="member-follow-button">دنبال کردن</span></div> : <div className="member-followed"/>}*/}
-          {/*{follow_accepted ? null :*/}
-          {/*<div>*/}
-          {/*<div className="member-follow" onClick={() => this._onAcceptFollow(followings[index])}><span*/}
-          {/*className="member-accept-button"> </span></div>*/}
-          {/*<div className="member-follow" onClick={() => this._onDeleteFollow(followings[index])}><span*/}
-          {/*className="member-reject-button"> </span></div>*/}
-          {/*</div>}*/}
         </div>
       } else return <div className={this.state.viewType}>
         <div className={'member-loading'}>
@@ -202,28 +205,28 @@ class NewFollowings extends Component<props, states> {
     }
   }
 
-  setAllMembers() {
-    let {exchangeUsers, exchangeId, actions} = this.props
-    let {getUser, getOrganization, getUserIdentity, getOrgIdentity} = actions
-    let temp = []
-    if (exchangeUsers) {
-      if (exchangeUsers[exchangeId]) {
-        for (let i = 0; i < exchangeUsers[exchangeId].length; i++) {
-          if (exchangeUsers[exchangeId][i]) {
-            if (exchangeUsers[exchangeId][i].type === 'USER') {
-              getUser(exchangeUsers[exchangeId][i].id)
-              getUserIdentity(exchangeUsers[exchangeId][i].id)
-            } else {
-              getOrganization(exchangeUsers[exchangeId][i].id)
-              getOrgIdentity(exchangeUsers[exchangeId][i].id)
-            }
-            temp.push(exchangeUsers[exchangeId][i])
-          }
-        }
-        // this.setState({...this.state, initialMembers: temp.slice(), moreMembers: true})
-      }
-    }
-  }
+  // setAllMembers() {
+  //   let {exchangeUsers, exchangeId, actions} = this.props
+  //   let {getUser, getOrganization, getUserIdentity, getOrgIdentity} = actions
+  //   let temp = []
+  //   if (exchangeUsers) {
+  //     if (exchangeUsers[exchangeId]) {
+  //       for (let i = 0; i < exchangeUsers[exchangeId].length; i++) {
+  //         if (exchangeUsers[exchangeId][i]) {
+  //           if (exchangeUsers[exchangeId][i].type === 'USER') {
+  //             getUser(exchangeUsers[exchangeId][i].id)
+  //             getUserIdentity(exchangeUsers[exchangeId][i].id)
+  //           } else {
+  //             getOrganization(exchangeUsers[exchangeId][i].id)
+  //             getOrgIdentity(exchangeUsers[exchangeId][i].id)
+  //           }
+  //           temp.push(exchangeUsers[exchangeId][i])
+  //         }
+  //       }
+  //       // this.setState({...this.state, initialMembers: temp.slice(), moreMembers: true})
+  //     }
+  //   }
+  // }
 
   componentDidMount() {
     window.scrollTo({

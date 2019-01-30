@@ -1,27 +1,28 @@
-import React, {PureComponent} from 'react'
+import * as React from 'react'
+import constant from 'src/consts/constants'
+import CreatePostNew from 'src/views/common/post/createPost/index'
+import PostActions from 'src/redux/actions/commonActions/postActions'
 import PropTypes from 'prop-types'
-import {FrameCard, ListGroup, VerifyWrapper} from 'src/views/common/cards/Frames'
-import {Post} from 'src/views/common/post/Post'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import PostActions from 'src/redux/actions/commonActions/postActions'
-import constant from 'src/consts/constants'
-import CreatePostNew from '../../common/post/createPost/index'
+import {FrameCard, ListGroup, VerifyWrapper} from 'src/views/common/cards/Frames'
+import {Post} from 'src/views/common/post/Post'
+import {PureComponent} from 'react'
 import {RightArrow, DesertIcon} from 'src/images/icons'
 
 
 class HomePosts extends PureComponent {
 
   static propTypes = {
-    exchangeId: PropTypes.number,
-    className: PropTypes.string
+    className: PropTypes.string,
+    exchangeId: PropTypes.number
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      offset: 0,
       activeScrollHeight: 0,
+      offset: 0,
       scrollButton: false,
 
       getDataInDidMount: false
@@ -108,7 +109,13 @@ class HomePosts extends PureComponent {
 
   render() {
     const {error} = this.state
-    const {posts, exchangeId, className, actions, isLoading} = this.props
+    const {
+      actions,
+      className,
+      exchangeId,
+      posts,
+      // isLoading
+    } = this.props
     const {deletePost, updatePost} = actions
     return (
         <VerifyWrapper isLoading={false} error={error} className={className}>

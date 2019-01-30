@@ -2,13 +2,13 @@
 import * as React from 'react'
 import AboutInnowin from './TopBarComponents/AboutInnowin'
 import AboutUs from './TopBarComponents/AboutUs'
-import AddingContribution from '../pages/adding-contribution/addingContribution'
-import AgentForm from '../pages/modal/agentForm-modal'
+import AddingContribution from 'src/views/pages/adding-contribution/addingContribution'
+import AgentForm from 'src/views/pages/modal/agentForm-modal'
 import AuthActions from 'src/redux/actions/authActions'
-// import client from 'src/consts/client'
-import CreateExchange from '../pages/modal/createExchange/createExchange'
+import constants from 'src/consts/constants'
+import CreateExchange from 'src/views/pages/modal/createExchange/createExchange'
 import ExploreMenu from './TopBarComponents/ExploreMenu'
-import FileActions from '../../redux/actions/commonActions/fileActions'
+import FileActions from 'src/redux/actions/commonActions/fileActions'
 import GeneralSetting from './TopBarComponents/GeneralSetting'
 import IntroduceBadges from './TopBarComponents/IntroduceBadges'
 import LinkedAccounts from './TopBarComponents/LinkedAccounts'
@@ -19,68 +19,60 @@ import UserAgreement from './TopBarComponents/UserAgreement'
 import {bindActionCreators} from 'redux'
 import {Component} from 'react'
 import {connect} from 'react-redux'
-import {
-  DefaultUserIcon,
-  // NotificationIcon,
-  InnoWinLogo,
-  ExchangeExploreIcon,
-  HomeSvg,
-  HomeSvgSelected,
-  ExchangeExploreIconSelected
-} from 'src/images/icons'
+import {DefaultUserIcon, InnoWinLogo, ExchangeExploreIcon, HomeSvg, HomeSvgSelected, ExchangeExploreIconSelected} from 'src/images/icons'
 import {Link} from 'react-router-dom'
 import {routerActions} from 'react-router-redux'
-import {SearchIcon} from '../../images/icons'
+import {SearchIcon} from 'src/images/icons'
 import {shortOrganizationType} from 'src/consts/flowTypes/organization/organization'
 import {userProfileType, userType} from 'src/consts/flowTypes/user/basicInformation'
-import constants from '../../consts/constants'
 // import makeFileSelectorByKeyValue from '../../redux/selectors/common/file/selectFilsByKeyValue'
+// import client from 'src/consts/client'
 
 type PropsTopBar = {|
-  collapseClassName: string,
-  isLoggedIn: boolean,
-  clientUser: userType,
-  clientProfile: userProfileType,
-  clientImgLink: ?string,
-  clientBannerLink: ?string,
-  clientOrganization: ?shortOrganizationType,
   actions: {
     signOut: Function,
     push: Function,
     verifyToken: Function,
     getFile: Function
   },
-  translate: { topBar: { [string]: string }, [string]: string },
-  path: string,
+  clientBannerLink: ?string,
+  clientImgLink: ?string,
   clientName: ?string,
+  clientOrganization: ?shortOrganizationType,
+  clientProfile: userProfileType,
+  clientUser: userType,
+  collapseClassName: string,
+  isLoggedIn: boolean,
+  path: string,
+  translate: { topBar: { [string]: string }, [string]: string },
 |}
 
 type StatesTopBar = {|
-  isSignedOut: boolean,
-  collapse: boolean,
-  exploreCollapse: boolean,
-  collapseProfile: boolean,
   agentForm: boolean,
-  productWizardModalIsOpen: boolean,
+  collapse: boolean,
+  collapseProfile: boolean,
   createExchangeModalIsOpen: boolean,
+  currentPage: string,
+  exploreCollapse: boolean,
+  getMediaFile: boolean,
+  isSignedOut: boolean,
   mouseIsOverMenu: boolean,
-  showSetting: boolean,
+  productWizardModalIsOpen: boolean,
+  profileBannerLoaded: boolean,
+  profilePhotoLoaded: boolean,
+  selectedAbout: string,
   selectedSetting: string,
   showAbout: boolean,
-  selectedAbout: string,
-  profilePhotoLoaded: boolean,
-  profileBannerLoaded: boolean,
-  currentPage: string,
   showHamburger: boolean,
-  getMediaFile: boolean,
+  showSetting: boolean,
 |}
 
 class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
   static propTypes = {
+    actions: PropTypes.object.isRequired,
     collapseClassName: PropTypes.string.isRequired,
-    translate: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired
+    translate: PropTypes.object.isRequired
   }
 
   //types
@@ -93,23 +85,23 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   constructor(props) {
     super(props)
     this.state = {
-      isSignedOut: false,
-      collapse: false,
-      exploreCollapse: false,
-      collapseProfile: false,
       agentForm: false,
+      collapse: false,
+      collapseProfile: false,
       createExchangeModalIsOpen: false,
-      productWizardModalIsOpen: false,
+      currentPage: constants.TOP_BAR_PAGES.HOME,
+      exploreCollapse: false,
+      getMediaFile: false,
+      isSignedOut: false,
       mouseIsOverMenu: true,
-      showSetting: false,
+      productWizardModalIsOpen: false,
+      profileBannerLoaded: false,
+      profilePhotoLoaded: false,
+      selectedAbout: 'FAQ',
       selectedSetting: 'General Settings',
       showAbout: false,
-      selectedAbout: 'FAQ',
-      profilePhotoLoaded: false,
-      profileBannerLoaded: false,
-      currentPage: constants.TOP_BAR_PAGES.HOME,
-      getMediaFile: false,
       showHamburger: false,
+      showSetting: false,
     }
 
     this._handleCloseOutside = this._handleCloseOutside.bind(this)

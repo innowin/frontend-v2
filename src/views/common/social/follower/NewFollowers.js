@@ -17,9 +17,27 @@ import {getMessages} from '../../../../redux/selectors/translateSelector'
 // import {VerifyWrapper} from "../../common/cards/Frames"
 
 type props = {
-  // actions: any,
-  // followings: [],
-  followers: [],
+  actions: Object,
+  clientId: number,
+  clientIdentityId: number,
+  deleteFollow: Function,
+  files: [],
+  followers: [{
+    follow_accepted: boolean,
+    identity_organization: number,
+    identity_user: number,
+  }],
+  getFollowingSelector: [{
+    identity_organization: number,
+    identity_user: number,
+  }],
+  identityType: string,
+  organs: [],
+  paramId: number,
+  profiles: [],
+  translate: { [string]: string },
+  updateFollow: Function,
+  userId: number,
 }
 type states = {
   followingOrgans: [],
@@ -34,12 +52,12 @@ class NewFollowers extends Component<props, states> {
   constructor(props) {
     super(props)
     this.state = {
-      initialMembers: [],
-      viewType: 'member-square-user',
-      moreMembers: false,
-      followingUsers: [],
       followingOrgans: [],
-      requested: false
+      followingUsers: [],
+      initialMembers: [],
+      moreMembers: false,
+      requested: false,
+      viewType: 'member-square-user',
     }
     const self: any = this
     self.changeViewType = self.changeViewType.bind(self)
@@ -82,14 +100,14 @@ class NewFollowers extends Component<props, states> {
     }
   }
 
-  _onAcceptFollow(follower) {
+  _onAcceptFollow(follower: Object) {
     const {updateFollow, userId, identityType} = this.props
     const followId = follower.follow_id
     const formValues = {follow_accepted: true}
     updateFollow({followId, formValues, followOwnerId: userId, followOwnerType: identityType})
   }
 
-  _onDeleteFollow(follower) {
+  _onDeleteFollow(follower: Object) {
     const {deleteFollow, userId, identityType} = this.props
     const followId = follower.follow_id
     deleteFollow({followId, followOwnerId: userId, followOwnerType: identityType})
@@ -155,10 +173,6 @@ class NewFollowers extends Component<props, states> {
           organs[identity_organization].organization.content) {
         return <div key={index}
                     className={this.state.viewType}>
-          {/*{followingOrgans.indexOf(identity_organization) >= 0 ? <div className={"member-followed"}>دنبال شده</div>*/}
-          {/*: clientId !== identity_organization ?*/}
-          {/*<div className={"member-follow"} onClick={() => this.follow(identity_user, identity_organization)}><span*/}
-          {/*className={"member-follow-plus"}> + </span></div> : <div className={"member-followed"}/>}*/}
           <Link to={`/organization/${identity_organization}`}>
             <div className={'member-picture-container'}>
               {organs[identity_organization].organization.content.organization_logo !== null ?
@@ -203,28 +217,28 @@ class NewFollowers extends Component<props, states> {
     }
   }
 
-  setAllMembers() {
-    let {exchangeUsers, exchangeId, actions} = this.props
-    let {getUser, getOrganization, getUserIdentity, getOrgIdentity} = actions
-    let temp = []
-    if (exchangeUsers) {
-      if (exchangeUsers[exchangeId]) {
-        for (let i = 0; i < exchangeUsers[exchangeId].length; i++) {
-          if (exchangeUsers[exchangeId][i]) {
-            if (exchangeUsers[exchangeId][i].type === 'USER') {
-              getUser(exchangeUsers[exchangeId][i].id)
-              getUserIdentity(exchangeUsers[exchangeId][i].id)
-            } else {
-              getOrganization(exchangeUsers[exchangeId][i].id)
-              getOrgIdentity(exchangeUsers[exchangeId][i].id)
-            }
-            temp.push(exchangeUsers[exchangeId][i])
-          }
-        }
-        // this.setState({...this.state, initialMembers: temp.slice(), moreMembers: true})
-      }
-    }
-  }
+  // setAllMembers() {
+  //   let {exchangeUsers, exchangeId, actions} = this.props
+  //   let {getUser, getOrganization, getUserIdentity, getOrgIdentity} = actions
+  //   let temp = []
+  //   if (exchangeUsers) {
+  //     if (exchangeUsers[exchangeId]) {
+  //       for (let i = 0; i < exchangeUsers[exchangeId].length; i++) {
+  //         if (exchangeUsers[exchangeId][i]) {
+  //           if (exchangeUsers[exchangeId][i].type === 'USER') {
+  //             getUser(exchangeUsers[exchangeId][i].id)
+  //             getUserIdentity(exchangeUsers[exchangeId][i].id)
+  //           } else {
+  //             getOrganization(exchangeUsers[exchangeId][i].id)
+  //             getOrgIdentity(exchangeUsers[exchangeId][i].id)
+  //           }
+  //           temp.push(exchangeUsers[exchangeId][i])
+  //         }
+  //       }
+  //       // this.setState({...this.state, initialMembers: temp.slice(), moreMembers: true})
+  //     }
+  //   }
+  // }
 
   componentDidMount() {
     window.scrollTo({

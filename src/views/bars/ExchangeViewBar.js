@@ -281,7 +281,7 @@ class ExchangeViewBar extends Component {
         exchange_id: exchangeId,
         exchange_description: this.editDescription && this.editDescription.value,
         exchange_name: this.editName && this.editName.value,
-        exchange_media: selectedImage.id
+        exchange_media: selectedImage !== null ? selectedImage.id : null
       }
       editExchange(formValues)
       // getExchangeByExId(exchangeId)
