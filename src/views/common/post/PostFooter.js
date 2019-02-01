@@ -42,8 +42,6 @@ const PostFooter = (props: postFooterProps) => {
   }
   return (
       <div className="-item-footerPost">
-        <div className='footer-part'>
-        </div>
         <div className='post-details footer-part'>
           <div className='items'>
             {/*<i className="post-menu-bottom fa fa-ellipsis-h cursor-pointer" aria-hidden="true" onClick={openMenu}/>*/}
@@ -75,7 +73,7 @@ const PostFooter = (props: postFooterProps) => {
           {/*<i className="fa fa-eye" aria-hidden="true"/>*/}
           {/*</div>*/}
           <div className='items cursor-pointer post-menu-bottom bubble-more comment-svg-container' onClick={() => showComment()}>
-            <span className="">{comments_count ? comments_count : ""}</span>
+            <span className="comment-count">{comments_count ? comments_count : ""}</span>
             {/*<i className="fa fa-share cursor-pointer post-menu-bottom" aria-hidden="true" onClick={() => showComment()}/>*/}
             <CommentSvg className={"comment-svg"}/>
           </div>

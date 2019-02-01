@@ -35,7 +35,14 @@ class InteliInput extends Component {
   }
 
   componentWillReceiveProps(nextProps, nextContext): void {
-    if (nextProps.list.length > 0 && this.props.list.length > 0 && this.props.list.length !== nextProps.list.length && this.props.list[0].id !== nextProps.list[0].id) {
+    // console.log("INTELI_STATE", this.state.list)
+    // console.log("INTELI_PROPS", this.props.list)
+    if (
+        nextProps.list.length > 0 &&
+        // this.props.list.length > 0 &&
+        this.props.list.length !== nextProps.list.length
+    // this.props.list[0].id !== nextProps.list[0].id
+    ) {
       let names = []
       let ids = []
       for (let i = 0; i < nextProps.list.length; i++) {
@@ -58,20 +65,17 @@ class InteliInput extends Component {
       }
       if (found.length < 1) {
         this.setState({...this.state, found: ['مورد مشابهی یافت نشد!']})
-      }
-      else {
+      } else {
         this.setState({...this.state, found: found.slice()})
       }
-    }
-    else this.setState({...this.state, found: []})
+    } else this.setState({...this.state, found: []})
   }
 
   _showMenu(e) {
     if (e.target.innerText.length <= 0) {
       const {list} = this.state
       this.setState({...this.state, found: list.slice()})
-    }
-    else this._handleMenu(e)
+    } else this._handleMenu(e)
   }
 
   _openMenu(e) {
@@ -79,8 +83,7 @@ class InteliInput extends Component {
     const {list, found} = this.state
     if (found.length === list.length) {
       this.setState({...this.state, found: []})
-    }
-    else {
+    } else {
       this.setState({...this.state, found: list})
     }
   }
@@ -98,8 +101,7 @@ class InteliInput extends Component {
       handleChange({name: e.target.innerText, id: ids[list.indexOf(e.target.innerText)]})
       this.text.innerText = e.target.innerText
       this.setState({...this.state, found: []})
-    }
-    else {
+    } else {
       this.text.innerText = ''
       this.setState({...this.state, found: []})
     }
@@ -120,23 +122,19 @@ class InteliInput extends Component {
                 handleChange({name: e.target.innerText, id: ids[list.indexOf(e.target.innerText)]})
                 this.setState({...this.state, found: []})
                 break
-              }
-              else if (i === list.length - 1) {
+              } else if (i === list.length - 1) {
                 this.text.innerText = ''
                 this.setState({...this.state, found: []})
               }
             }
-          }
-          else {
+          } else {
             this.setState({...this.state, found: []})
           }
-        }
-        else {
+        } else {
           this.setState({...this.state, found: []})
         }
       }
-    }
-    else {
+    } else {
       if (!mouseInMenu) {
         let {handleChange} = this.props
         handleChange({name: e.target.innerText, id: 0})

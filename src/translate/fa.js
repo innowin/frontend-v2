@@ -439,6 +439,10 @@ module.exports = {
     "Phone setting description": "یک شماره موبایل وارد کنید. این شماره برای ارتباط اینوین (مثلا بازیابی رمز عبور) با شما است و برای سایر کاربران قابل مشاهده نخواهد بود.",
     "Home page": "صفحه اصلی",
     "Explore": "بگرد",
+    'Persons': 'افراد',
+    'New Window': 'پنجره جدید',
+    'Update exchange': 'درخواست ارتقاء به کارگزار',
+    'Add product':'افزودن محصول',
   },
 
   // toast messages

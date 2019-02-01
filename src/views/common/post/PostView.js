@@ -1,29 +1,28 @@
 // @flow
 import * as React from 'react'
-import PropTypes from 'prop-types'
 import 'moment/locale/fa'
-
-import {CategoryTitle, VerifyWrapper} from 'src/views/common/cards/Frames'
-import connect from 'react-redux/es/connect/connect'
-import {getMessages} from 'src/redux/selectors/translateSelector'
-import {bindActionCreators} from 'redux'
-import PostActions from 'src/redux/actions/commonActions/postActions'
-import type {postType} from 'src/consts/flowTypes/common/post'
-import type {paramType} from 'src/consts/flowTypes/paramType'
-import constants from 'src/consts/constants'
-import type {identityType} from 'src/consts/flowTypes/user/basicInformation'
-import FileActions from 'src/redux/actions/commonActions/fileActions'
 import CommentActions from 'src/redux/actions/commonActions/commentActions'
-import {userCommentsSelector} from 'src/redux/selectors/common/comment/postCommentsSelector'
-import type {commentType} from 'src/consts/flowTypes/common/comment'
-import PostHeader from './PostHeader'
-import PostType from './PostType'
-import PostFooter from './PostFooter'
-import PostComments from './PostComments'
-import {Confirm} from '../cards/Confirm'
-import ProductInfoView from '../contributions/ProductInfoView'
+import connect from 'react-redux/es/connect/connect'
+import constants from 'src/consts/constants'
+import FileActions from 'src/redux/actions/commonActions/fileActions'
+import PostActions from 'src/redux/actions/commonActions/postActions'
 import PostCommentNew from './PostCommentNew'
+import PostComments from './PostComments'
+import PostFooter from './PostFooter'
+import PostHeader from './PostHeader'
 import PostImage from './PostImage'
+import PostType from './PostType'
+import ProductInfoView from '../contributions/ProductInfoView'
+import PropTypes from 'prop-types'
+import type {commentType} from 'src/consts/flowTypes/common/comment'
+import type {identityType} from 'src/consts/flowTypes/user/basicInformation'
+import type {paramType} from 'src/consts/flowTypes/paramType'
+import type {postType} from 'src/consts/flowTypes/common/post'
+import {bindActionCreators} from 'redux'
+import {CategoryTitle, VerifyWrapper} from 'src/views/common/cards/Frames'
+import {Confirm} from '../cards/Confirm'
+import {getMessages} from 'src/redux/selectors/translateSelector'
+import {userCommentsSelector} from 'src/redux/selectors/common/comment/postCommentsSelector'
 
 type postExtendedViewProps = {
   actions: {
@@ -114,9 +113,9 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       const spliced = url.split('/')
       const postOwnerId = +spliced[2]
 
-      getPost({postId, postOwnerType, postOwnerId})
       getCommentsByParentId({parentId: postId, commentParentType: constants.COMMENT_PARENT.POST})
       getFileByFileRelatedParentId({fileRelatedParentId: postId, fileParentType: constants.FILE_PARENT.POST})
+      getPost({postId, postOwnerType, postOwnerId})
     }
 
     if (post && post.id && !extendedView)
@@ -129,8 +128,6 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
     if (!this.props.extendedView) {
       let {post, actions} = this.props
-      // let showMore = false
-      // let height = null
       if (this.state.getInDidMount) {
         let {getFileByFileRelatedParentId} = actions
         getFileByFileRelatedParentId({fileRelatedParentId: post.id, fileParentType: constants.FILE_PARENT.POST})
@@ -141,7 +138,6 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
           self.text.style.paddingRight = '60px'
         } else self.text.style.paddingLeft = '60px'
         self.text.style.height = '68px'
-        // showMore = true
         this.setState({...this.state, showMore: true, descriptionHeight: height})
       }
     }

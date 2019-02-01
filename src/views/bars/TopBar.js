@@ -2,13 +2,13 @@
 import * as React from 'react'
 import AboutInnowin from './TopBarComponents/AboutInnowin'
 import AboutUs from './TopBarComponents/AboutUs'
-import AddingContribution from '../pages/adding-contribution/addingContribution'
-import AgentForm from '../pages/modal/agentForm-modal'
+import AddingContribution from 'src/views/pages/adding-contribution/addingContribution'
+import AgentForm from 'src/views/pages/modal/agentForm-modal'
 import AuthActions from 'src/redux/actions/authActions'
-// import client from 'src/consts/client'
-import CreateExchange from '../pages/modal/createExchange/createExchange'
+import constants from 'src/consts/constants'
+import CreateExchange from 'src/views/pages/modal/createExchange/createExchange'
 import ExploreMenu from './TopBarComponents/ExploreMenu'
-import FileActions from '../../redux/actions/commonActions/fileActions'
+import FileActions from 'src/redux/actions/commonActions/fileActions'
 import GeneralSetting from './TopBarComponents/GeneralSetting'
 import IntroduceBadges from './TopBarComponents/IntroduceBadges'
 import LinkedAccounts from './TopBarComponents/LinkedAccounts'
@@ -19,87 +19,89 @@ import UserAgreement from './TopBarComponents/UserAgreement'
 import {bindActionCreators} from 'redux'
 import {Component} from 'react'
 import {connect} from 'react-redux'
-import {
-  DefaultUserIcon,
-  // NotificationIcon,
-  InnoWinLogo,
-  ExchangeExploreIcon,
-  HomeSvg,
-  HomeSvgSelected,
-  ExchangeExploreIconSelected
-} from 'src/images/icons'
+import {DefaultUserIcon, InnoWinLogo, ExchangeExploreIcon, HomeSvg, HomeSvgSelected, ExchangeExploreIconSelected} from 'src/images/icons'
 import {Link} from 'react-router-dom'
 import {routerActions} from 'react-router-redux'
-import {SearchIcon} from '../../images/icons'
+import {SearchIcon} from 'src/images/icons'
 import {shortOrganizationType} from 'src/consts/flowTypes/organization/organization'
 import {userProfileType, userType} from 'src/consts/flowTypes/user/basicInformation'
-import constants from '../../consts/constants'
 // import makeFileSelectorByKeyValue from '../../redux/selectors/common/file/selectFilsByKeyValue'
+// import client from 'src/consts/client'
 
 type PropsTopBar = {|
-  collapseClassName: string,
-  isLoggedIn: boolean,
-  clientUser: userType,
-  clientProfile: userProfileType,
-  clientImgLink: ? string,
-  clientOrganization: ?shortOrganizationType,
   actions: {
     signOut: Function,
     push: Function,
     verifyToken: Function,
     getFile: Function
   },
-  translate: { topBar: { [string]: string }, [string]: string },
+  clientBannerLink: ?string,
+  clientImgLink: ?string,
+  clientName: ?string,
+  clientOrganization: ?shortOrganizationType,
+  clientProfile: userProfileType,
+  clientUser: userType,
+  collapseClassName: string,
+  isLoggedIn: boolean,
   path: string,
+  translate: { topBar: { [string]: string }, [string]: string },
 |}
 
 type StatesTopBar = {|
-  isSignedOut: boolean,
-  collapse: boolean,
-  exploreCollapse: boolean,
-  collapseProfile: boolean,
   agentForm: boolean,
-  productWizardModalIsOpen: boolean,
+  collapse: boolean,
+  collapseProfile: boolean,
   createExchangeModalIsOpen: boolean,
+  currentPage: string,
+  exploreCollapse: boolean,
+  getMediaFile: boolean,
+  isSignedOut: boolean,
   mouseIsOverMenu: boolean,
-  showSetting: boolean,
+  productWizardModalIsOpen: boolean,
+  profileBannerLoaded: boolean,
+  profilePhotoLoaded: boolean,
+  selectedAbout: string,
   selectedSetting: string,
   showAbout: boolean,
-  selectedAbout: string,
-  profilePhotoLoaded: boolean,
-  currentPage: string,
+  showHamburger: boolean,
+  showSetting: boolean,
 |}
 
 class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
   static propTypes = {
+    actions: PropTypes.object.isRequired,
     collapseClassName: PropTypes.string.isRequired,
-    translate: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired
+    translate: PropTypes.object.isRequired
   }
 
   //types
   searchInput: ? HTMLInputElement
+  hamburgerButtonRef: HTMLInputElement
+  hamburgerRef: HTMLInputElement
+  profileRef: HTMLInputElement
+  exploreRef: HTMLInputElement
 
   constructor(props) {
     super(props)
     this.state = {
-      isSignedOut: false,
-      collapse: false,
-      exploreCollapse: false,
-      collapseProfile: false,
       agentForm: false,
+      collapse: false,
+      collapseProfile: false,
       createExchangeModalIsOpen: false,
-      productWizardModalIsOpen: false,
+      currentPage: constants.TOP_BAR_PAGES.HOME,
+      exploreCollapse: false,
+      getMediaFile: false,
+      isSignedOut: false,
       mouseIsOverMenu: true,
-      showSetting: false,
+      productWizardModalIsOpen: false,
+      profileBannerLoaded: false,
+      profilePhotoLoaded: false,
+      selectedAbout: 'FAQ',
       selectedSetting: 'General Settings',
       showAbout: false,
-      selectedAbout: 'FAQ',
-      profilePhotoLoaded: false,
-      currentPage: constants.TOP_BAR_PAGES.HOME,
-
-      getMediaFile: false
+      showHamburger: false,
+      showSetting: false,
     }
 
     this._handleCloseOutside = this._handleCloseOutside.bind(this)
@@ -107,6 +109,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
   componentWillMount(): void {
     document.addEventListener('mousedown', this._handleCloseOutside)
+    document.addEventListener('touchend', this._handleCloseOutside)
 
     const {actions, clientProfile, path} = this.props
     const {getFile} = actions
@@ -128,7 +131,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   }
 
   componentDidMount() {
-    const {actions, clientProfile, clientImgLink} = this.props
+    const {actions, clientProfile, clientImgLink, clientBannerLink} = this.props
     const {getMediaFile} = this.state
     const {getFile} = actions
     const mediaId = clientProfile.profile_media
@@ -142,6 +145,13 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       profile.src = clientImgLink
       profile.onload = () => {
         this.setState({...this.state, profilePhotoLoaded: true})
+      }
+    }
+    if (clientBannerLink) {
+      let banner = new Image()
+      banner.src = clientBannerLink
+      banner.onload = () => {
+        this.setState({...this.state, profileBannerLoaded: true})
       }
     }
   }
@@ -167,7 +177,8 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.clientImgLink !== nextProps.clientImgLink) {
+    const {clientImgLink, clientBannerLink} = this.props
+    if (clientImgLink !== nextProps.clientImgLink) {
       this.setState({...this.state, profilePhotoLoaded: false}, () => {
         if (nextProps.clientImgLink) {
           let profile = new Image()
@@ -178,19 +189,36 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
         }
       })
     }
+
+    if (clientBannerLink !== nextProps.clientBannerLink) {
+      this.setState({...this.state, profileBannerLoaded: false}, () => {
+        if (nextProps.clientBannerLink) {
+          let profile = new Image()
+          profile.src = nextProps.clientBannerLink
+          profile.onload = () => {
+            this.setState({...this.state, profileBannerLoaded: true})
+          }
+        }
+      })
+    }
   }
 
   componentWillUnmount(): void {
     document.removeEventListener('mousedown', this._handleCloseOutside)
+    document.removeEventListener('touchend', this._handleCloseOutside)
   }
 
   _handleCloseOutside(e) {
     if (this.state.exploreCollapse && this.exploreRef && !this.exploreRef.contains(e.target)) {
-      this.setState({...this.state, exploreCollapse: false, collapseProfile: false})
+      this.setState({...this.state, showHamburger: false, exploreCollapse: false, collapseProfile: false})
     }
 
     if (this.state.collapseProfile && this.profileRef && !this.profileRef.contains(e.target)) {
-      this.setState({...this.state, exploreCollapse: false, collapseProfile: false})
+      this.setState({...this.state, showHamburger: false, exploreCollapse: false, collapseProfile: false})
+    }
+
+    if (this.state.showHamburger && this.hamburgerRef && !this.hamburgerRef.contains(e.target) && !this.hamburgerButtonRef.contains(e.target)) {
+      this.setState({...this.state, showHamburger: false, exploreCollapse: false, collapseProfile: false})
     }
   }
 
@@ -205,13 +233,13 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       this.setState({
         ...this.state,
         exploreCollapse: !this.state.exploreCollapse,
-        collapseProfile: false
+        collapseProfile: false, showHamburger: false
       })
     } else {
       this.setState({
         ...this.state,
         exploreCollapse: !this.state.exploreCollapse,
-        collapseProfile: false
+        collapseProfile: false, showHamburger: false
       })
     }
   }
@@ -223,7 +251,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   _handleExchangeUpgrade = () => {
     this.setState({...this.state, agentForm: true})
     setTimeout(() =>
-            this.setState({...this.state, collapseProfile: false})
+            this.setState({...this.state, collapseProfile: false, showHamburger: false})
         , 350)
   }
 
@@ -233,19 +261,19 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   _createExchangeModalVisibilityHandler = () => {
     this.setState({...this.state, createExchangeModalIsOpen: !this.state.createExchangeModalIsOpen})
     setTimeout(() =>
-            this.setState({...this.state, collapseProfile: false})
+            this.setState({...this.state, collapseProfile: false, showHamburger: false})
         , 350)
   }
 
   _handleProductWizardModal = () => {
     this.setState({...this.state, productWizardModalIsOpen: !this.state.productWizardModalIsOpen})
     setTimeout(() =>
-            this.setState({...this.state, collapseProfile: false})
+            this.setState({...this.state, collapseProfile: false, showHamburger: false})
         , 350)
   }
 
   _handleSignOut = () => {
-    this.setState({...this.state, showSetting: false, exploreCollapse: false, collapseProfile: false})
+    this.setState({...this.state, showSetting: false, exploreCollapse: false, collapseProfile: false, showHamburger: false})
     this.props.actions.signOut()
     window.location.reload()
   }
@@ -260,7 +288,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
   _handleShowSetting = () => {
     setTimeout(() => {
-      this.setState({...this.state, collapseProfile: false})
+      this.setState({...this.state, collapseProfile: false, showHamburger: false})
     }, 350)
     this.setState({...this.state, showSetting: true, exploreCollapse: false, showAbout: false})
   }
@@ -287,14 +315,14 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
   _handleShowAbout = () => {
     setTimeout(() => {
-      this.setState({...this.state, collapseProfile: false})
+      this.setState({...this.state, collapseProfile: false, showHamburger: false})
     }, 350)
     this.setState({...this.state, showSetting: false, exploreCollapse: false, showAbout: true})
   }
 
   _handleCloseProfile = () => {
     setTimeout(() =>
-            this.setState({...this.state, collapseProfile: false})
+            this.setState({...this.state, collapseProfile: false, showHamburger: false})
         , 350)
   }
 
@@ -306,11 +334,21 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     this.setState({...this.state, selectedAbout: target})
   }
 
+  _toggleHamburger = () => {
+    const {showHamburger} = this.state
+    this.setState({...this.state, showHamburger: !showHamburger})
+  }
+
+  _hamburgerOff = () => {
+    setTimeout(() =>
+            this.setState({...this.state, showHamburger: false})
+        , 350)
+  }
+
   render() {
-    const {clientUser, clientOrganization, translate, clientImgLink} = this.props
+    const {clientUser, clientOrganization, translate, clientImgLink, clientName, clientBannerLink} = this.props
     const topBarTranslate = translate.topBar
-    const {currentPage} = this.state
-    const {collapseProfile, exploreCollapse, productWizardModalIsOpen, selectedSetting, selectedAbout, showSetting, showAbout, createExchangeModalIsOpen, profilePhotoLoaded, agentForm} = this.state
+    const {showHamburger, currentPage, collapseProfile, exploreCollapse, productWizardModalIsOpen, selectedSetting, selectedAbout, showSetting, showAbout, createExchangeModalIsOpen, profilePhotoLoaded, profileBannerLoaded, agentForm} = this.state
     const linkEditProfile = !clientOrganization
         ? `/user/${clientUser.id}`
         : `/organization/${clientOrganization.id}`
@@ -326,6 +364,8 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
               handleModalVisibility={this._createExchangeModalVisibilityHandler}
               modalIsOpen={createExchangeModalIsOpen}
           />
+
+          <div className={showHamburger ? 'hamburger-overlay open': 'hamburger-overlay close'}/>
 
           <nav className="page-content topBar">
             <div className="d-flex align-items-end" ref={e => this.exploreRef = e}>
@@ -362,12 +402,50 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
               {/*<Link className="mr-5" to={"/"}><NotificationIcon className="-topBarIcons"/></Link>*/}
               {/*<Link className="mr-5" to={"/"}><NotificationIcon className="notif-icon"/></Link>*/}
+              <button ref={e => this.hamburgerButtonRef = e} onClick={this._toggleHamburger}
+                      className={showHamburger ? "hamburger hamburger--elastic is-active" : "hamburger hamburger--elastic"}
+                      type="button">
+              <span className="hamburger-box">
+                <span className="hamburger-inner"/>
+              </span>
+              </button>
+              <div ref={e => this.hamburgerRef = e} className={showHamburger ? 'hamburger-view open' : 'hamburger-view close'}>
+                <div className='image-container'>
+                  {clientBannerLink && profileBannerLoaded
+                      ? <img className='user-banner' src={clientBannerLink} alt='user banner'/>
+                      : <div className='user-banner'/>
+                  }
 
+                  <div className='profile-image-container'>
+                    {clientImgLink && profilePhotoLoaded
+                        ? <img className='user-profile' src={clientImgLink} alt='user profile'/>
+                        : <DefaultUserIcon className='user-profile'/>
+                    }
+                    <p className='name'>{clientName}</p>
+                  </div>
+                </div>
+                <Link className='hamburger-items-container' onClick={this._hamburgerOff} to={linkEditProfile}>تکمیل پروفایل</Link>
+                <div className='hamburger-items-container'>
+                  <h4 className='item-title'>{topBarTranslate['Explore']}</h4>
+                  <Link onClick={this._hamburgerOff} to='/exchange/Exchange_Explorer' className='item-text'>{translate['Windows']}</Link>
+                  <Link onClick={this._hamburgerOff} to={'/product/Product_Explorer'} className='item-text'>{translate['Products']}</Link>
+                  <Link onClick={this._hamburgerOff} to={'/users/Users_Explorer'} className='item-text'>{topBarTranslate['Persons']}</Link>
+                </div>
+                <div className='hamburger-items-container'>
+                  <h4 className='item-title'>{translate['Create']}</h4>
+                  <p onClick={this._createExchangeModalVisibilityHandler} className='item-text'>{topBarTranslate['New Window']}</p>
+                  <p className='item-text'>{topBarTranslate['Add product']}</p>
+                  <p onClick={this._handleExchangeUpgrade} className='item-text'>{topBarTranslate['Update exchange']}</p>
+                </div>
+                <p className='hamburger-in-text first'>فیدبک</p>
+                <p className='hamburger-in-text' onClick={this._handleShowAbout}>{topBarTranslate['Darbare Innowin']}</p>
+                <p className='hamburger-in-text' onClick={this._handleSignOut}>{topBarTranslate['Sign Out']}</p>
+              </div>
             </div>
 
-            <InnoWinLogo svgClass={'centerImgTopBar'}/>
+            <Link to={'/'}><InnoWinLogo svgClass={'centerImgTopBar'}/></Link>
 
-            <div className="dir-ltr d-flex flex-row">
+            <div className="top-bar-left-side">
               <div ref={e => this.profileRef = e} className="-ProfTopBarImg">
 
                 {clientImgLink && profilePhotoLoaded ?
@@ -400,7 +478,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                           </div>
                           <div className='profile-menu-profile-section-next-image'>
                             <div
-                                className='profile-menu-profile-section-next-image-first'>{this.props.clientName}</div>
+                                className='profile-menu-profile-section-next-image-first'>{clientName}</div>
                             <div
                                 className='profile-menu-profile-section-next-image-middle'>@{clientUser && clientUser.username}</div>
                             <div
@@ -501,7 +579,6 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
             {this.renderAbout()}
           </div>
           {/*End About Modal*/}
-
         </div>
     )
   }
@@ -542,6 +619,9 @@ const mapStateToProps = (state, ownProps) => {
   const clientImgId = (user_type === 'person') ? (profile.profile_media) : (
       (organization && organization.organization_logo) || null
   )
+  const clientBannerId = (user_type === 'person') ? (profile.profile_banner) : (
+      (organization && organization.organization_banner) || null
+  )
   const userId = (client.organization && client.organization.id) || (client.user && client.user.id)
   const stateOrgan = state.organs.list[userId]
 
@@ -553,12 +633,16 @@ const mapStateToProps = (state, ownProps) => {
   const clientImgLink = (clientImgId &&
       state.common.file.list[clientImgId] &&
       state.common.file.list[clientImgId].file) || null
+  const clientBannerLink = (clientImgId &&
+      state.common.file.list[clientBannerId] &&
+      state.common.file.list[clientBannerId].file) || null
   return {
     isLoggedIn: state.auth.client.isLoggedIn,
     clientUser: state.auth.client.user,
     clientName: name,
     clientProfile: state.auth.client.profile,
     clientImgLink,
+    clientBannerLink,
     clientOrganization: state.auth.client.organization,
     translate: state.intl.messages || {}
   }

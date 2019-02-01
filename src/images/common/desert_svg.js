@@ -1,26 +1,26 @@
 import React from 'react'
 
-const st0 = {
-  fill: '#F9F9F9'
-}
-const st1 = {
-  fill: '#EAEAE9'
-}
-const st2 = {
-  fill: '#E8E8E8'
-}
-const st3 = {
-  fill: '#E1E1E1'
-}
-const st4 = {
-  fill: '#E1E1E1'
-}
-const st5 = {
-  fill: '#D5D5D5'
-}
-const st6 = {
-  fill: '#BBBBBB'
-}
+// const st0 = {
+//   fill: '#F9F9F9'
+// }
+// const st1 = {
+//   fill: '#EAEAE9'
+// }
+// const st2 = {
+//   fill: '#E8E8E8'
+// }
+// const st3 = {
+//   fill: '#E1E1E1'
+// }
+// const st4 = {
+//   fill: '#E1E1E1'
+// }
+// const st5 = {
+//   fill: '#D5D5D5'
+// }
+// const st6 = {
+//   fill: '#BBBBBB'
+// }
 
 const desertSvg = (props) => {
   return (

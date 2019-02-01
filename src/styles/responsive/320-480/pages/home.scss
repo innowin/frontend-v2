@@ -1,0 +1,46 @@
+@import "../../../variables";
+
+@media screen and (max-width: 480px) and (min-width: 320px) {
+  .home-wrapper {
+    .-main {
+      top: $smallTopBarHeight;
+    }
+    .home-page-content {
+      flex-wrap: wrap;
+      padding: 0;
+      .right-sidebar {
+        flex: 1 1 100%;
+        max-width: 100%;
+        order: 2;
+
+        .home-sidebar-cont-title {
+          display: none;
+        }
+        .home-sidebar-cont {
+          margin: 0;
+          height: auto;
+          .header-exchange {
+            padding: 10px;
+          }
+        }
+        .exchanges-last {
+          position: fixed;
+          top: 100vh;
+          transform: translateY(-95%);
+        }
+      }
+      .user-detail-wrapper {
+        flex: 1 1 100%;
+        max-width: 100%;
+        padding: 0 8px;
+        order: 1;
+      }
+      .post-wrapper {
+        flex: 1 1 100%;
+        max-width: 100%;
+        order: 3;
+        //display: none;
+      }
+    }
+  }
+}

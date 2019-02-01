@@ -16,6 +16,9 @@ import exchangeActions from "../../../redux/actions/exchangeActions"
 // import exchangeActions from "../../../redux/actions/exchangeActions"
 
 type props = {
+  actions: {
+    editExchange: Function,
+  },
   educations: Object,
   exchangeId: number,
   exchanges: Object,
@@ -23,7 +26,13 @@ type props = {
   users: Object,
 }
 
-class InfoView extends Component<props> {
+type state = {
+  editBio: boolean,
+  editSocial: boolean,
+  exchangeBio: string,
+}
+
+class InfoView extends Component<props, state> {
   constructor(props) {
     super(props)
     this.state = {
@@ -51,8 +60,10 @@ class InfoView extends Component<props> {
     let {actions, exchangeId} = this.props
     let {editExchange} = actions
 
+    const self: any = this
+
     if (exchangeBio.length < 100) {
-      this.bioError.className = "info-body-bio-text-area-error-hide"
+      self.bioError.className = "info-body-bio-text-area-error-hide"
       let formValues = {
         exchange_id: exchangeId,
         exchange_biography: exchangeBio,
@@ -60,7 +71,7 @@ class InfoView extends Component<props> {
       editExchange(formValues)
       this.setState({...this.state, editBio: !editBio})
     } else {
-      this.bioError.className = "info-body-bio-text-area-error"
+      self.bioError.className = "info-body-bio-text-area-error"
     }
   }
 

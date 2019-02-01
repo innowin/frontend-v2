@@ -70,11 +70,11 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
           {/*</Helmet>*/}
 
           <main className="-main">
-            <div className="page-content">
+            <div className="page-content home-page-content">
               {
                 (id && identityId && identityType) ? (
                     <HomeSideBar setExchangeId={this._setExchangeId}
-                                 classNames="col-3 pr-0 pl-0 right-sidebar"
+                                 classNames="right-sidebar"
                                  identityId={identityId}
                                  identityType={identityType}
                                  activeExchangeId={activeExchangeId}
@@ -82,12 +82,12 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
                     />
                 ) : null
               }
-              <HomePosts exchangeId={activeExchangeId} className="col-6 post-wrapper"/>
-              <div className="col-3 pl-0 pr-0 user-detail-wrapper">
+              <HomePosts exchangeId={activeExchangeId} className="post-wrapper"/>
+              <div className="user-detail-wrapper">
                 <BeePanel/>
               </div>
             </div>
-            <ChatBar className="pr-0 pl-0 -left-sidebar-wrapper"/>
+            <ChatBar className="-left-sidebar-wrapper"/>
           </main>
         </div>
     )

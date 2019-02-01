@@ -5,7 +5,12 @@
 }
 
 .-main {
-  margin-top: $topBarHeight;
+  //margin-top: $topBarHeight;
+  position: absolute;
+  top: $topBarHeight;
+  width: 100%;
+  background-color: $full-bg-color;
+  //min-height: 100vh;
 }
 
 .-left-sidebar-wrapper {
@@ -29,7 +34,7 @@
 .home-sidebar-cont {
   margin-top: 10px;
   border-radius: $border-radius-size;
-  height: calc(100vh - 330px);
+  height: calc(100vh - 351px);
   overflow-y: auto;
   //background: $text-lightest-color;
   //box-shadow: 0 3px 3px $box-shadow-color;
@@ -41,7 +46,7 @@
 }
 
 .exchanges-last {
-  width: calc(100% - 7px);
+  width: 100%;
   pointer-events: none;
   height: 80px;
   background-image: linear-gradient(to bottom, rgba($full-bg-color-rgb, 0) 30%, $full-bg-color 80%);
