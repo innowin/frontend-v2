@@ -41,7 +41,7 @@ export function* signIn(action) {
   const {username, password, rememberMe, reject} = payload
 	const socketChannel = yield call(api.createSocketChannel, results.SIGN_IN)
   try {
-		yield fork(api.post, urls.SIGN_IN, results.SIGN_IN, {username, password})
+		yield fork(api.post, urls.SIGN_IN, results.SIGN_IN, {username: username.toLowerCase(), password})
     const primaryData = yield take(socketChannel)
     const {token} = primaryData
     yield put({type: types.AUTH.SET_TOKEN, payload: {token}})
