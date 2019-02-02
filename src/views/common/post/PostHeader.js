@@ -9,6 +9,7 @@ import DefaultUserIcon from "../../../images/defaults/defaultUser_svg"
 // import {EditIcon} from "../../../images/icons"
 import type {postType} from "../../../consts/flowTypes/common/post"
 import type {identityType} from "../../../consts/flowTypes/user/basicInformation"
+import PostMenu from './PostMenu'
 
 type PostHeaderProps = {
   post: postType,
@@ -17,6 +18,7 @@ type PostHeaderProps = {
   postIdentity?: identityType | number,
   showEdit?: Function,
   extendedView?: boolean,
+  postMenuId: string,
 }
 type PostHeaderStates = {
   profileLoaded: boolean,
@@ -47,8 +49,12 @@ class PostHeader extends React.Component<PostHeaderProps, PostHeaderStates> {
       translate,
       postRelatedIdentityImage,
       postIdentity,
-      // showEdit,
-      // extendedView
+      showEdit,
+      extendedView,
+      openMenu,
+      deletePost,
+      menuToggle,
+      postMenuId,
     } = this.props
     let createdTime
 
@@ -95,6 +101,8 @@ class PostHeader extends React.Component<PostHeaderProps, PostHeaderStates> {
           {/*<div onClick={showEdit} className="-item-edit-btn -item-edit-btnPost pulse"><EditIcon/></div>*/}
           {/*</CheckOwner>*/}
           {/*}*/}
+          <PostMenu postMenuId={postMenuId} translate={translate} post={post} extendedView={extendedView} deletePost={deletePost}
+                    menuToggle={menuToggle} openMenu={openMenu} postIdentity={postIdentity} showEdit={showEdit}/>
         </div>
     )
   }
@@ -107,6 +115,7 @@ PostHeader.propTypes = {
   postRelatedIdentityImage: PropTypes.string,
   showEdit: PropTypes.func,
   extendedView: PropTypes.bool,
+  postMenuId: PropTypes.string.isRequired,
 }
 
 export default PostHeader

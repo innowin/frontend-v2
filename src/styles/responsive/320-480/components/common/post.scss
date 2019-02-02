@@ -1,0 +1,25 @@
+@import "../../../../variables";
+
+@media screen and (max-width: 480px) and (min-width: 320px) {
+  .post-component-container {
+    display: none;
+  }
+  .create-post-small {
+    display: inherit;
+
+    .create-post-close {
+      display: inherit;
+      position: absolute;
+      top: 2px;
+      left: 8px;
+      font-size: 14px;
+    }
+    .post-component-content {
+      .post-component-description {
+        .post-component-textarea-open {
+          max-height: 150px;
+        }
+      }
+    }
+  }
+}

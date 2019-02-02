@@ -1,0 +1,19 @@
+@import "../../../../variables";
+
+@media screen and (max-width: 480px) and (min-width: 320px) {
+  .emoji-open {
+    display: none;
+  }
+  .emoji-inline-block {
+    display: none;
+  }
+  .post-placeholder {
+    font-size: 12px;
+    right: 16px;
+  }
+
+  .post-placeholder-open {
+    font-size: 12px;
+    right: 16px;
+  }
+}

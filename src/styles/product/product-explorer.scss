@@ -486,6 +486,7 @@
   text-decoration: none;
   color: black;
   width: 100%;
+  display: flex;
 }
 
 .product-instant-logo {
@@ -497,6 +498,8 @@
   vertical-align: top;
   width: 100px;
   height: 100px;
+  flex: 1 1 100px;
+  min-width: 100px;
   background-color: $more-button-color-hover-darker;
   border-radius: 3px;
 }
@@ -511,6 +514,8 @@
   height: 100px;
   overflow: hidden;
   order: 1;
+  flex: 1 1 100%;
+  //min-width: 100%;
 }
 
 .product-instant-img {
@@ -521,6 +526,8 @@
   object-fit: cover;
   background-color: $more-button-color-hover-darker;
   order: 2;
+  flex: 1 1 170px;
+  min-width: 170px;
 }
 
 .product-instant-seller {
@@ -534,19 +541,6 @@
 
 .product-instant-name {
   margin-bottom: 28px;
-}
-
-.product-instant-logo {
-  font-size: 12px;
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  vertical-align: top;
-  width: 100px;
-  height: 100px;
-  background-color: $more-button-color-hover-darker;
-  border-radius: 3px;
 }
 
 .product-instant-svg {

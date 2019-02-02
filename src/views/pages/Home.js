@@ -74,7 +74,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
               {
                 (id && identityId && identityType) ? (
                     <HomeSideBar setExchangeId={this._setExchangeId}
-                                 classNames="right-sidebar"
+                                 classNames={activeExchangeId ? "right-sidebar active-exchange" : "right-sidebar"}
                                  identityId={identityId}
                                  identityType={identityType}
                                  activeExchangeId={activeExchangeId}
@@ -82,8 +82,8 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
                     />
                 ) : null
               }
-              <HomePosts exchangeId={activeExchangeId} className="post-wrapper"/>
-              <div className="user-detail-wrapper">
+              <HomePosts exchangeId={activeExchangeId} className={activeExchangeId ? "post-wrapper active-exchange": "post-wrapper"}/>
+              <div className={activeExchangeId ? "user-detail-wrapper active-exchange" : 'user-detail-wrapper'}>
                 <BeePanel/>
               </div>
             </div>

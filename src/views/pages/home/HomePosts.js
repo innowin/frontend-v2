@@ -8,7 +8,7 @@ import {connect} from 'react-redux'
 import {FrameCard, ListGroup, VerifyWrapper} from 'src/views/common/cards/Frames'
 import {Post} from 'src/views/common/post/Post'
 import {PureComponent} from 'react'
-import {RightArrow, DesertIcon} from 'src/images/icons'
+import {RightArrow, DesertIcon, EditIcon} from 'src/images/icons'
 
 
 class HomePosts extends PureComponent {
@@ -24,7 +24,7 @@ class HomePosts extends PureComponent {
       activeScrollHeight: 0,
       offset: 0,
       scrollButton: false,
-
+      showCreatePostSmall: false,
       getDataInDidMount: false
     }
   }
@@ -94,10 +94,15 @@ class HomePosts extends PureComponent {
       )
     }
 
-    if (window.scrollY > 1000)
-      this.setState({...this.state, scrollButton: true})
-    else this.setState({...this.state, scrollButton: false})
-
+    if (window.innerWidth > 480) {
+      if (window.scrollY > 1000)
+        this.setState({...this.state, scrollButton: true})
+      else this.setState({...this.state, scrollButton: false})
+    } else {
+      if (window.scrollY > 400)
+        this.setState({...this.state, scrollButton: true})
+      else this.setState({...this.state, scrollButton: false})
+    }
   }
 
   goUp = () => {
@@ -107,8 +112,16 @@ class HomePosts extends PureComponent {
     })
   }
 
+  _showCreatePostSmall = () => {
+    this.setState({...this.state, showCreatePostSmall: true})
+  }
+
+  _hideCreatePostSmall = () => {
+    this.setState({...this.state, showCreatePostSmall: false})
+  }
+
   render() {
-    const {error} = this.state
+    const {error, showCreatePostSmall} = this.state
     const {
       actions,
       className,
@@ -120,40 +133,54 @@ class HomePosts extends PureComponent {
     return (
         <VerifyWrapper isLoading={false} error={error} className={className}>
           {(exchangeId) ? (
-              <div>
-                <CreatePostNew
-                    postParentId={exchangeId}
-                    postParentType={constant.POST_PARENT.EXCHANGE}
-                    postsCountInThisPage={posts.length}
-                />
+              (showCreatePostSmall
+                      ? <CreatePostNew
+                          postParentId={exchangeId}
+                          postParentType={constant.POST_PARENT.EXCHANGE}
+                          postsCountInThisPage={posts.length}
+                          className='create-post-small'
+                          hideCreatePost={this._hideCreatePostSmall}
+                      />
+                      : <div>
+                        <CreatePostNew
+                            postParentId={exchangeId}
+                            postParentType={constant.POST_PARENT.EXCHANGE}
+                            postsCountInThisPage={posts.length}
+                        />
 
-                <FrameCard className="-frameCardPost border-top-0">
-                  <ListGroup>
-                    {
-                      (posts.length > 0) ? (posts.map((post) => (post &&
-                              <Post
-                                  posts={posts}
-                                  post={post}
-                                  key={post.id}
-                                  deletePost={deletePost}
-                                  updatePost={updatePost}
-                              />
-                          ))) :
-                          <div className="empty-posts">
-                            <DesertIcon width="100%" text="در این پنجره پستی وجود ندارد"/>
-                          </div>
-                    }
-                    {
-                      // TODO mohsen: handle loading scroll and scrolling error
-                    }
-                  </ListGroup>
-                </FrameCard>
-                {/*button for scroll to top*/}
-                <div className={this.state.scrollButton ? 'go-up-logo-cont' : 'go-up-logo-cont-hide'}
-                     onClick={this.goUp}>
-                  <RightArrow className='go-up-logo'/>
-                </div>
-              </div>
+                        <FrameCard className="-frameCardPost border-top-0">
+                          <ListGroup>
+                            {
+                              (posts.length > 0) ? (posts.map((post) => (post &&
+                                      <Post
+                                          posts={posts}
+                                          post={post}
+                                          key={post.id}
+                                          deletePost={deletePost}
+                                          updatePost={updatePost}
+                                      />
+                                  ))) :
+                                  <div className="empty-posts">
+                                    <DesertIcon width="100%" text="در این پنجره پستی وجود ندارد"/>
+                                  </div>
+                            }
+                            {
+                              // TODO mohsen: handle loading scroll and scrolling error
+                            }
+                          </ListGroup>
+                        </FrameCard>
+                        {/*button for scroll to top*/}
+                        <div className={this.state.scrollButton ? 'go-up-logo-cont' : 'go-up-logo-cont-hide'}
+                             onClick={this.goUp}>
+                          <RightArrow className='go-up-logo'/>
+                        </div>
+
+                        <div className={this.state.scrollButton ? 'write-post-hide' : 'write-post'}
+                             onClick={this._showCreatePostSmall}>
+                          <EditIcon className='write-post-logo'/>
+                        </div>
+                      </div>
+              )
           ) : ('')}
         </VerifyWrapper>
     )

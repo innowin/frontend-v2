@@ -46,6 +46,7 @@ type createPostPropsTypes = {
   hideEdit?: Function,
   post?: postType,
   updateFunc?: Function,
+  hideCreatePost?: Function,
 }
 
 type createPostStateTypes = {
@@ -104,8 +105,10 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
 
   constructor(props) {
     super(props)
+    let open = false
+    open = !(window.innerWidth > 480)
     this.state = {
-      open: false,
+      open: open,
       attachMenu: false,
       enterAttach: true,
       contactMenu: false,
@@ -144,6 +147,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
 
   componentWillMount(): void {
     document.addEventListener('mousedown', this.handleClickOutside)
+    document.addEventListener('touchend', this.handleClickOutside)
 
     const {actions, translate, currentUserType, currentUserId, currentUserIdentity} = this.props
     const {getFollowers} = actions
@@ -258,9 +262,11 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
 
   componentWillUnmount() {
     document.removeEventListener('mousedown', this.handleClickOutside)
+    document.removeEventListener('touchend', this.handleClickOutside)
   }
 
   _resetPost = () => {
+    const {hideCreatePost} = this.props
     this.text.innerText = ''
     this.headerText.innerText = ''
     this.setState({
@@ -288,6 +294,9 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       this.text.blur()
       this.headerText.blur()
     })
+    if (hideCreatePost) {
+      hideCreatePost()
+    }
   }
 
   demandChecked: HTMLInputElement
@@ -298,7 +307,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
   handleClickOutside = (event) => {
     const {attachMenu, contactMenu, linkModal, addProductModal, postImg1, postImg2, postImg3, postFile, postMedia, link, description, labels, open, descriptionHeader} = this.state
     const needReset = !description && !postImg1 && !postImg2 && !postImg3 && !postFile && !postMedia && !link && labels === {}
-    const {postImg1Id, postImg2Id, postImg3Id, postMediaId, postFileId, isUpdate, hideEdit} = this.props
+    const {hideCreatePost, postImg1Id, postImg2Id, postImg3Id, postMediaId, postFileId, isUpdate, hideEdit} = this.props
     if (!event.target.closest(`#${this.attachMenuId}`)) {
       if (attachMenu) {
         this.setState({...this.state, attachMenu: false})
@@ -324,11 +333,13 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
     }
 
     if (this.form && !this.form.contains(event.target)) {
+      let newOpen = !(window.innerWidth > 480)
       const filesCount = (postMediaId || postFileId) ? 1 : ([postImg1Id, postImg2Id, postImg3Id].filter(img => img).length)
       if (open && (description.length === 0) && (descriptionHeader.length === 0) && (filesCount === 0)) {
-        this.setState({...this.state, open: false, postType: constants.POST.POST_TYPE.POST})
+        this.setState({...this.state, open: newOpen, postType: constants.POST.POST_TYPE.POST})
         this.supplyChecked.checked = false
         this.demandChecked.checked = false
+        if (hideCreatePost) hideCreatePost()
       }
       if (isUpdate && hideEdit) {
         hideEdit()
@@ -688,7 +699,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
   }
 
   render() {
-    const {post, hideEdit, className, isUpdate, followers, exchanges, currentUserIdentity, currentUserMedia, currentUserName, translate, currentUserId} = this.props
+    const {hideCreatePost, post, hideEdit, className, isUpdate, followers, exchanges, currentUserIdentity, currentUserMedia, currentUserName, translate, currentUserId} = this.props
     const {
       postImg1, postImg2, postImg3, open, attachMenu, labels, link, contactMenu, linkModal, postFile, postMedia,
       profileLoaded, description, descriptionClass, descriptionHeaderClass, focused, addProductModal, selectedProduct, postType, descriptionHeader
@@ -726,6 +737,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
                   <span className="checkmark"/>
                 </label>
               </div>
+              <div className='create-post-close' onClick={hideCreatePost}>✕</div>
             </div>
             {isUpdate &&
             <div className='post-component-header-item'>

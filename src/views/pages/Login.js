@@ -86,7 +86,7 @@ class Login extends Component {
 
     return (
         <div className="login-page  full-page-wrapper">
-          <div className={(showRecovery) ? 'mlakeDark' : 'makeDark-out'}
+          <div className={(showRecovery) ? 'makeDark' : 'makeDark-out'}
                onClick={this._hideModalClick}>
             {/*dark div*/}
           </div>

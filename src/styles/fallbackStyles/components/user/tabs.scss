@@ -1,7 +1,7 @@
 html[data-platform*='iPhone'] {
   .-itemWrapperPost {
     .post-content {
-     text-align: right;
+     text-align: inherit;
     }
   }
 }
@@ -9,7 +9,7 @@ html[data-platform*='iPhone'] {
 html[data-platform*='Macintosh'] {
   .-itemWrapperPost {
     .post-content {
-      text-align: right;
+      text-align: inherit;
     }
   }
 }
@@ -17,7 +17,7 @@ html[data-platform*='Macintosh'] {
 html[data-platform*='MacIntel'] {
   .-itemWrapperPost {
     .post-content {
-      text-align: right;
+      text-align: inherit;
     }
   }
 }
@@ -25,7 +25,7 @@ html[data-platform*='MacIntel'] {
 html[data-platform*='MacPPC'] {
   .-itemWrapperPost {
     .post-content {
-      text-align: right;
+      text-align: inherit;
     }
   }
 }
@@ -33,7 +33,7 @@ html[data-platform*='MacPPC'] {
 html[data-platform*='Mac68K'] {
   .-itemWrapperPost {
     .post-content {
-      text-align: right;
+      text-align: inherit;
     }
   }
 }

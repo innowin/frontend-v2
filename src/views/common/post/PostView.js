@@ -52,7 +52,8 @@ type postExtendedViewProps = {
   fileList: {},
 }
 type postViewState = {
-  menuToggle: boolean,
+  menuToggleTop: boolean,
+  menuToggleBottom: boolean,
   confirm: boolean,
   showComment: boolean,
   commentOn: commentType,
@@ -78,13 +79,13 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   constructor(props) {
     super(props)
     this.state = {
-      menuToggle: false,
+      menuToggleTop: false,
       confirm: false,
       showComment: false,
       commentOn: undefined,
       showMore: false,
       descriptionHeight: null,
-
+      menuToggleBottom: false,
       getInDidMount: false
     }
 
@@ -92,18 +93,25 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
     self._cancelConfirm = this._cancelConfirm.bind(this)
     self._delete = this._delete.bind(this)
-    self._handleClickOutMenuBox = this._handleClickOutMenuBox.bind(this)
+    self._handleClickOutMenuBoxTop = this._handleClickOutMenuBoxTop.bind(this)
+    self._handleClickOutMenuBoxBottom = this._handleClickOutMenuBoxBottom.bind(this)
     self._handleShowComment = this._handleShowComment.bind(this)
-    self._openMenu = this._openMenu.bind(this)
+    self._openMenuTop = this._openMenuTop.bind(this)
+    self._openMenuBottom = this._openMenuBottom.bind(this)
     self._readMore = this._readMore.bind(this)
     self._showConfirm = this._showConfirm.bind(this)
+
   }
+  postMenuId: string = 'sidebar-post-menu-box-'
 
   componentWillMount(): void {
     let {extendedView, post, match, actions} = this.props
     let {getFileByFileRelatedParentId, getPost, getCommentsByParentId} = actions
 
-    document.addEventListener('click', this._handleClickOutMenuBox)
+    document.addEventListener('click', this._handleClickOutMenuBoxTop)
+    document.addEventListener('touchend', this._handleClickOutMenuBoxTop)
+    document.addEventListener('click', this._handleClickOutMenuBoxBottom)
+    document.addEventListener('touchend', this._handleClickOutMenuBoxBottom)
 
     if (extendedView) {
       const {params, url} = match
@@ -200,12 +208,19 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   componentWillUnmount() {
-    document.removeEventListener('click', this._handleClickOutMenuBox)
+    document.removeEventListener('click', this._handleClickOutMenuBoxTop)
+    document.removeEventListener('click', this._handleClickOutMenuBoxBottom)
+    document.removeEventListener('touchend', this._handleClickOutMenuBoxTop)
+    document.removeEventListener('touchend', this._handleClickOutMenuBoxBottom)
   }
 
-  _openMenu(e) {
+  _openMenuTop(e) {
     e.preventDefault()
-    this.setState({...this.state, menuToggle: !this.state.menuToggle})
+    this.setState({...this.state, menuToggleTop: !this.state.menuToggleTop})
+  }
+  _openMenuBottom(e) {
+    e.preventDefault()
+    this.setState({...this.state, menuToggleBottom: !this.state.menuToggleBottom})
   }
 
   _handleShowComment = () => {
@@ -213,9 +228,14 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     this.setState({...this.state, showComment: !showComment, commentOn: undefined})
   }
 
-  _handleClickOutMenuBox(e: any) {
-    if (!e.target.closest('#sidebar-post-menu-box') && !e.target.closest('.post-menu-bottom')) {
-      this.setState({...this.state, menuToggle: false})
+  _handleClickOutMenuBoxTop(e: any) {
+    if (!e.target.closest('#' + this.postMenuId + 'top') && !e.target.closest('.post-menu-bottom')) {
+      this.setState({...this.state, menuToggleTop: false})
+    }
+  }
+  _handleClickOutMenuBoxBottom(e: any) {
+    if (!e.target.closest('#' + this.postMenuId + 'bottom') && !e.target.closest('.post-menu-bottom')) {
+      this.setState({...this.state, menuToggleBottom: false})
     }
   }
 
@@ -267,7 +287,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       post, translate, postIdentity, postRelatedIdentityImage, extendedView, showEdit, comments, fileList,
       commentParentType
     } = this.props
-    const {menuToggle, confirm, showComment, commentOn} = this.state
+    const {menuToggleBottom, menuToggleTop, confirm, showComment, commentOn} = this.state
     let postDescription = '', postIdentityUserId, postIdentityOrganId, postOwnerId = 0
 
     if (post) {
@@ -297,7 +317,10 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                 <div className='post-view-relative'>
                   <PostHeader post={post} translate={translate} postIdentity={postIdentity}
                               postRelatedIdentityImage={postRelatedIdentityImage} showEdit={showEdit}
-                              extendedView={extendedView}/>
+                              extendedView={extendedView} openMenu={this._openMenuTop} deletePost={this._delete}
+                              menuToggle={menuToggleTop}
+                              postMenuId={this.postMenuId + 'top'}
+                  />
                   <div className='post-content'
                        style={new RegExp('^[A-Za-z]*$').test(postDescription && postDescription[0]) ? {direction: 'ltr'} : {direction: 'rtl'}}
                        ref={e => self.text = e}>
@@ -323,10 +346,11 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                 }
                 <PostFooter post={post} postIdentity={postIdentity} translate={translate}
                             extendedView={extendedView}
-                            menuToggle={menuToggle} openMenu={this._openMenu}
+                            menuToggle={menuToggleBottom} openMenu={this._openMenuBottom}
                             deletePost={this._delete}
                             showComment={this._handleShowComment}
                             showEdit={showEdit}
+                            postMenuId={this.postMenuId + 'bottom'}
                 />
 
                 {
