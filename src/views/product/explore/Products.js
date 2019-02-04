@@ -52,7 +52,7 @@ const Products = (props: appProps) => {
   if (products.length > 0) {
     return <React.Fragment>
       {
-        products.map((product, i): any =>
+        products.reverse().map((product, i): any =>
             <Product key={i} data={product}/>
         )
       }
