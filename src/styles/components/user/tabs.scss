@@ -120,6 +120,13 @@
   .post-view-product-container {
     margin: 15px;
   }
+
+  .get-file {
+    font-size: $font-size-14;
+    display: block;
+    color: $info-color;
+    text-align: center;
+  }
 }
 
 .remove-post-container {

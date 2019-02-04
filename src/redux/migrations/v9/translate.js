@@ -5,5 +5,6 @@ export default state => ({
     topBar: {
       ...state.messages.topBar,
     },
+    'Get file': 'دریافت فایل',
   }
 })

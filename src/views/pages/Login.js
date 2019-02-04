@@ -105,26 +105,6 @@ class Login extends Component {
             <HeaderLogin onSignUpClick={this._showSignUp} translate={translate} iosLink={iosLink} androidLink={androidLink} address={address}
                          phoneNumber={phoneNumber}/>
             <div className="content">
-
-              <GoogleLogin
-                  clientId="1082919791320-go76s0o0goig2vd6sbohur9nj1rfhrmv.apps.googleusercontent.com"
-                  render={renderProps => (
-                      <button onClick={renderProps.onClick}>This is my custom Google button</button>
-                  )}
-                  // responseType='code'
-                  onSuccess={this.responseGoogle}
-                  onFailure={this.responseGoogle}
-              />
-              <GitHubLogin clientId="1082919791320-go76s0o0goig2vd6sbohur9nj1rfhrmv.apps.googleusercontent.com"
-                           onSuccess={this.responseGoogle}
-                           onFailure={this.responseGoogle}/>,
-
-              <GoogleLogout
-                  buttonText="Logout"
-                  onLogoutSuccess={this.logout}
-              >
-              </GoogleLogout>
-
               <div className={`login-wrapper ${animateFormClass}`}>
                 <div className="sign-in-card">
                   <div className="login-tab">
