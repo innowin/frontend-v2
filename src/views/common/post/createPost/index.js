@@ -143,6 +143,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       removePictureArray: [],
     }
   }
+
   attachMenuId: string
 
   componentWillMount(): void {
@@ -193,15 +194,14 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
         this.demandChecked.checked = true
         postType = constants.POST.POST_TYPE.DEMAND
       }
-      if(postPictureArray) {
+      if (postPictureArray) {
         let numberOfPostImages = 0
-        for(let picture of postPictureArray) {
+        for (let picture of postPictureArray) {
           if (picture.type === constants.CRETE_FILE_TYPES.IMAGE) {
             numberOfPostImages++
             if (numberOfPostImages === 1) {
               postImg1 = picture.file
-            }
-            else if (numberOfPostImages === 2) {
+            } else if (numberOfPostImages === 2) {
               postImg2 = picture.file
             }
             if (numberOfPostImages === 3) {
@@ -237,11 +237,11 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       this._showLink(link)
     }
 
-    if (prevProps.postsCountInThisPage < postsCountInThisPage){
+    if (prevProps.postsCountInThisPage < postsCountInThisPage) {
       this._resetPost()
     }
 
-    if (isUpdate && hideEdit && post && prevProps.post !== post) {
+    if (isUpdate && hideEdit && post && prevProps.post !== post && (prevProps.post && prevProps.post.isLoading === post.isLoading)) {
       hideEdit()
     }
   }
@@ -555,7 +555,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       for (let picture of removePictureArray) {
         deleteFile({fileId: picture.id, fileParentType: constants.FILE_PARENT.POST, fileParentId: post.id})
       }
-      updateFunc(formValues, post.id)
+      updateFunc(formValues, post.id, postAttachedFileIds)
     } else {
       createPost({
         formValues, postOwnerId: currentUserId, postOwnerType: currentUserType, postParentId, postParentType,
@@ -594,8 +594,8 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
     removeFileFromTemp(tempKeyName)
     if (isUpdate && post) {
       const postPictureArray = post.post_picture_array
-      for(let picture of postPictureArray) {
-        if((i === 0 && picture.file === postImg1) || (i === 1 && picture.file === postImg2) || (i === 2 && picture.file === postImg3)) {
+      for (let picture of postPictureArray) {
+        if ((i === 0 && picture.file === postImg1) || (i === 1 && picture.file === postImg2) || (i === 2 && picture.file === postImg3)) {
           newRemovePictureArray.push(picture)
           break
         }
@@ -651,18 +651,28 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
 
   _allowSubmitCheck = () => {
     const {postImg1, postImg2, postImg3, postMedia, postFile, description, descriptionHeader, postType} = this.state
-    const {postImg1Id, postImg2Id, postImg3Id, postMediaId, postFileId} = this.props
+    const {postImg1Id, postImg2Id, postImg3Id, postMediaId, postFileId, isUpdate, post} = this.props
     const descriptionLength = description.trim().length
     const descriptionHeaderLength = descriptionHeader.trim().length
     const descriptionCheck = descriptionLength >= minAllowedWordCounts && descriptionLength <= maxAllowedWordCounts
     const descriptionHeaderCheck = (postType === constants.POST.POST_TYPE.DEMAND || postType === constants.POST.POST_TYPE.SUPPLY)
         ? (descriptionHeaderLength >= minAllowedHeaderWordCounts && descriptionHeaderLength <= maxAllowedHeaderWordCounts)
         : true
-    const postPicturesCheck = (postImg1 ? postImg1Id : true)
-        && (postImg2 ? postImg2Id : true)
-        && (postImg3 ? postImg3Id : true)
-    const postMediaCheck = postMedia ? postMediaId : true
-    const postFileCheck = postFile ? postFileId : true
+
+    const postPictureArray = post && post.post_picture_array
+    const postPicturesCheck = (
+        postPictureArray ? (
+            (postPictureArray[0] ? (postImg1 === postPictureArray[0].file ? true : (postImg1 ? postImg1Id : true)) : (postImg1 ? postImg1Id : true)) &&
+            (postPictureArray[1] ? (postImg2 === postPictureArray[1].file ? true : (postImg2 ? postImg2Id : true)) : (postImg2 ? postImg2Id : true)) &&
+            (postPictureArray[2] ? (postImg3 === postPictureArray[2].file ? true : (postImg3 ? postImg3Id : true)) : (postImg3 ? postImg3Id : true))
+        ) : (
+            (postImg1 ? postImg1Id : true)
+            && (postImg2 ? postImg2Id : true)
+            && (postImg3 ? postImg3Id : true)
+        )
+    )
+    const postMediaCheck = (isUpdate) ? true : (postMedia ? postMediaId : true)
+    const postFileCheck = (isUpdate) ? true : (postFile ? postFileId : true)
     const condition1 = Boolean(postImg1 || postImg2 || postImg3 || postMedia || descriptionCheck || descriptionHeaderCheck)
     const condition2 = postFile ? (descriptionCheck && descriptionHeaderCheck) : true
     const condition3 = Boolean(postPicturesCheck && postMediaCheck && postFileCheck)
