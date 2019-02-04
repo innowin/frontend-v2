@@ -12,7 +12,7 @@ type PostMenuProps = {
   extendedView: boolean,
   menuToggle: boolean,
   openMenu: Function,
-  postIdentity: identityType,
+  postIdentity: identityType | number,
   translate: { [string]: string },
   deletePost: Function,
   showEdit: boolean | Function
@@ -72,7 +72,10 @@ PostMenu.propTypes = {
   extendedView: PropTypes.bool.isRequired,
   menuToggle: PropTypes.bool.isRequired,
   openMenu: PropTypes.func.isRequired,
-  postIdentity: PropTypes.object.isRequired,
+  postIdentity: PropTypes.oneOfType([
+    PropTypes.object.isRequired,
+    PropTypes.number.isRequired
+  ]),
   translate: PropTypes.object.isRequired,
   deletePost: PropTypes.func.isRequired,
   showEdit: PropTypes.oneOfType([

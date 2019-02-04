@@ -413,7 +413,20 @@
     }
 
     .file-section {
-
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .get-file {
+        font-size: $font-size-13;
+        color: $info-color;
+      }
+      .remove-file {
+        position: relative;
+        left: -7px;
+        top: -6px;
+        padding: 3px 11px;
+      }
     }
   }
 }

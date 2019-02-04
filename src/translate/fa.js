@@ -92,6 +92,8 @@ module.exports = {
   "Selected tags": "برچسب های انتخاب شده",
   "Create tag": "ایجاد برچسب",
 
+  'Get file': 'دریافت فایل',
+
 
   //common
   "Be in zist boom": "در زیست بوم باش...",

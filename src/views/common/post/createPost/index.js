@@ -47,6 +47,7 @@ type createPostPropsTypes = {
   post?: postType,
   updateFunc?: Function,
   hideCreatePost?: Function,
+  actions: Function,
 }
 
 type createPostStateTypes = {
@@ -66,7 +67,7 @@ type createPostStateTypes = {
   postImg1: {} | null,
   postImg2: {} | null,
   postImg3: {} | null,
-  postFile: string,
+  postFile: string | null,
   postMedia: string,
   link: string,
   description: string,
@@ -186,7 +187,8 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       }
     }
     if (isUpdate && post) {
-      let postType, postPictureArray = post.post_picture_array, postImg1 = null, postImg2 = null, postImg3 = null
+      let postType, postFilesArray = post.post_files_array, postImg1 = null, postImg2 = null, postImg3 = null,
+          postFile = null
       if (post.post_type === constants.POST.POST_TYPE.SUPPLY) {
         this.supplyChecked.checked = true
         postType = constants.POST.POST_TYPE.SUPPLY
@@ -194,19 +196,21 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
         this.demandChecked.checked = true
         postType = constants.POST.POST_TYPE.DEMAND
       }
-      if (postPictureArray) {
+      if (postFilesArray) {
         let numberOfPostImages = 0
-        for (let picture of postPictureArray) {
-          if (picture.type === constants.CRETE_FILE_TYPES.IMAGE) {
+        for (let file of postFilesArray) {
+          if (file.type === constants.CRETE_FILE_TYPES.IMAGE) {
             numberOfPostImages++
             if (numberOfPostImages === 1) {
-              postImg1 = picture.file
+              postImg1 = file.file
             } else if (numberOfPostImages === 2) {
-              postImg2 = picture.file
+              postImg2 = file.file
             }
             if (numberOfPostImages === 3) {
-              postImg3 = picture.file
+              postImg3 = file.file
             }
+          } else if (file.type === constants.CRETE_FILE_TYPES.FILE) {
+            postFile = file.file
           }
         }
       }
@@ -219,6 +223,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
         postImg1,
         postImg2,
         postImg3,
+        postFile,
       })
 
       if (this.text) {
@@ -593,8 +598,8 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
         || (i === 2 && POST_IMG3_TEMP_KEY)
     removeFileFromTemp(tempKeyName)
     if (isUpdate && post) {
-      const postPictureArray = post.post_picture_array
-      for (let picture of postPictureArray) {
+      const postFilesArray = post.post_files_array
+      for (let picture of postFilesArray) {
         if ((i === 0 && picture.file === postImg1) || (i === 1 && picture.file === postImg2) || (i === 2 && picture.file === postImg3)) {
           newRemovePictureArray.push(picture)
           break
@@ -611,10 +616,25 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
   }
 
   _deleteFile = () => {
-    const {actions} = this.props
+    const {actions, isUpdate, post} = this.props
+    const {removePictureArray, postFile} = this.state
+
     const {removeFileFromTemp} = actions
     removeFileFromTemp(POST_FILE_TEMP_KEY)
-    this.setState({...this.state, postFile: ''})
+    let newRemovePictureArray = removePictureArray
+
+
+    if (isUpdate && post) {
+      const postFilesArray = post.post_files_array
+      for (let picture of postFilesArray) {
+        if (picture.file === postFile) {
+          newRemovePictureArray.push(picture)
+          break
+        }
+      }
+    }
+
+    this.setState({...this.state, postFile: '', removePictureArray: newRemovePictureArray})
   }
 
   _deleteMedia = () => {
@@ -659,12 +679,12 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
         ? (descriptionHeaderLength >= minAllowedHeaderWordCounts && descriptionHeaderLength <= maxAllowedHeaderWordCounts)
         : true
 
-    const postPictureArray = post && post.post_picture_array
+    const postFilesArray = post && post.post_files_array
     const postPicturesCheck = (
-        postPictureArray ? (
-            (postPictureArray[0] ? (postImg1 === postPictureArray[0].file ? true : (postImg1 ? postImg1Id : true)) : (postImg1 ? postImg1Id : true)) &&
-            (postPictureArray[1] ? (postImg2 === postPictureArray[1].file ? true : (postImg2 ? postImg2Id : true)) : (postImg2 ? postImg2Id : true)) &&
-            (postPictureArray[2] ? (postImg3 === postPictureArray[2].file ? true : (postImg3 ? postImg3Id : true)) : (postImg3 ? postImg3Id : true))
+        postFilesArray ? (
+            (postFilesArray[0] ? (postImg1 === postFilesArray[0].file ? true : (postImg1 ? postImg1Id : true)) : (postImg1 ? postImg1Id : true)) &&
+            (postFilesArray[1] ? (postImg2 === postFilesArray[1].file ? true : (postImg2 ? postImg2Id : true)) : (postImg2 ? postImg2Id : true)) &&
+            (postFilesArray[2] ? (postImg3 === postFilesArray[2].file ? true : (postImg3 ? postImg3Id : true)) : (postImg3 ? postImg3Id : true))
         ) : (
             (postImg1 ? postImg1Id : true)
             && (postImg2 ? postImg2Id : true)
@@ -841,6 +861,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
                 deleteMedia={this._deleteMedia}
                 deleteFile={this._deleteFile}
                 focused={focused}
+                translate={translate}
             />
           </div>
 

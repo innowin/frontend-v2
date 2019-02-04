@@ -23,6 +23,7 @@ import {CategoryTitle, VerifyWrapper} from 'src/views/common/cards/Frames'
 import {Confirm} from '../cards/Confirm'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {userCommentsSelector} from 'src/redux/selectors/common/comment/postCommentsSelector'
+import FontAwesome from "react-fontawesome"
 
 type postExtendedViewProps = {
   actions: {
@@ -102,6 +103,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     self._showConfirm = this._showConfirm.bind(this)
 
   }
+
   postMenuId: string = 'sidebar-post-menu-box-'
 
   componentWillMount(): void {
@@ -218,6 +220,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     e.preventDefault()
     this.setState({...this.state, menuToggleTop: !this.state.menuToggleTop})
   }
+
   _openMenuBottom(e) {
     e.preventDefault()
     this.setState({...this.state, menuToggleBottom: !this.state.menuToggleBottom})
@@ -233,6 +236,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       this.setState({...this.state, menuToggleTop: false})
     }
   }
+
   _handleClickOutMenuBoxBottom(e: any) {
     if (!e.target.closest('#' + this.postMenuId + 'bottom') && !e.target.closest('.post-menu-bottom')) {
       this.setState({...this.state, menuToggleBottom: false})
@@ -288,13 +292,14 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       commentParentType
     } = this.props
     const {menuToggleBottom, menuToggleTop, confirm, showComment, commentOn} = this.state
-    let postDescription = '', postIdentityUserId, postIdentityOrganId, postOwnerId = 0
+    let postDescription = '', postIdentityUserId, postIdentityOrganId, postOwnerId = 0, postFilesArray
 
     if (post) {
       postDescription = post.post_description
       postIdentityUserId = post.post_identity.identity_user && post.post_identity.identity_user.id
       postIdentityOrganId = post.post_identity.identity_organization && post.post_identity.identity_organization.id
       postOwnerId = postIdentityUserId || postIdentityOrganId
+      postFilesArray = post.post_files_array
     }
 
     return (
@@ -343,6 +348,12 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                                    ownerId={postOwnerId}
                                    translate={translate}/>
                 </div>
+                }
+                {
+                  postFilesArray && postFilesArray.map(file =>
+                      file.type === constants.CRETE_FILE_TYPES.FILE && <a className='get-file pulse' href={file.file}>
+                        <FontAwesome name='download'/> {translate['Get file']}</a>
+                  )
                 }
                 <PostFooter post={post} postIdentity={postIdentity} translate={translate}
                             extendedView={extendedView}
