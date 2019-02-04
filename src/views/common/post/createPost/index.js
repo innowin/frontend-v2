@@ -339,7 +339,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
 
     if (this.form && !this.form.contains(event.target)) {
       let newOpen = !(window.innerWidth > 480)
-      const filesCount = (postMediaId || postFileId) ? 1 : ([postImg1Id, postImg2Id, postImg3Id].filter(img => img).length)
+      const filesCount = (postMediaId || postFileId) ? 1 : ([postImg1, postImg2, postImg3].filter(img => img).length)
       if (open && (description.length === 0) && (descriptionHeader.length === 0) && (filesCount === 0)) {
         this.setState({...this.state, open: newOpen, postType: constants.POST.POST_TYPE.POST})
         this.supplyChecked.checked = false
