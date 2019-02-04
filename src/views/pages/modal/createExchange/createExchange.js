@@ -15,6 +15,7 @@ import {
   UploadIcon
 } from 'src/images/icons'
 import constants from 'src/consts/constants'
+import {createFileFunc} from 'src/views/common/Functions'
 import exchangeActions from 'src/redux/actions/exchangeActions'
 import exchangeMembershipActions from 'src/redux/actions/commonActions/exchangeMembershipActions'
 import makeFileSelectorByKeyValue from 'src/redux/selectors/common/file/selectFilsByKeyValue'
@@ -28,6 +29,8 @@ import {connect} from 'react-redux'
 import {createFile, getFiles} from 'src/redux/actions/commonActions/fileActions'
 import {getFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
 import {hashTagsListSelector} from 'src/redux/selectors/common/hashTags/hashTag'
+import types from 'src/redux/actions/types'
+import TempActions from '../../../../redux/actions/tempActions'
 
 type HashTagType = {
   id: string,
@@ -114,18 +117,28 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
   }
 
   componentDidUpdate(prevProps, prevState, SS) {
-    const {hisFiles} = this.props
+    const {
+      // hisFiles,
+      tempFiles,
+    } = this.props
     const {exchangeImageFlag} = this.state
-    const lastFile = hisFiles[hisFiles.length - 1] || {}
-    const prevLastFile = prevProps.hisFiles[prevProps.hisFiles.length - 1] || {}
+    // const lastFile = hisFiles[hisFiles.length - 1] || {}
+    // const prevLastFile = prevProps.hisFiles[prevProps.hisFiles.length - 1] || {}
     const doc: any = document
 
     if (exchangeImageFlag) {
-      if (lastFile.id && prevLastFile.id) {
-        if (lastFile.id !== prevLastFile.id) {
-          this._imageHandler(lastFile)
-        }
+      if (tempFiles.exchange_image) {
+        this.setState({
+          ...this.state,
+          exchangeImageFlag: false,
+          processing: false
+        })
       }
+      // if (lastFile.id && prevLastFile.id) {
+      //   if (lastFile.id !== prevLastFile.id) {
+      //     this._imageHandler(lastFile)
+      //   }
+      // }
     }
     if (prevState.exchangeImage !== this.state.exchangeImage && this.state.exchangeImage !== null) {
       this.setState({...this.state, processing: false})
@@ -361,22 +374,33 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
   }
   _createFile = () => {
     const {createFile} = this.props
+    // createFile({file_string: this.state.selectedImage})
     this.setState({...this.state, processing: true})
     console.log('PROCESS...')
-    createFile({file_string: this.state.selectedImage})
+
+    const nextActionType = types.COMMON.FILE.SET_FILE_IDS_IN_TEMP_FILE
+    const nextActionData = 'exchange_image'
+    const createArguments = {
+      fileIdKey: 'fileId',
+      nextActionType,
+      nextActionData: {tempFileKeyName: nextActionData}
+    }
+
+    const fileString = this.state.selectedImage
+    createFileFunc(createFile, fileString, createArguments, constants.CRETE_FILE_TYPES.IMAGE)
   }
-  _imageHandler = (img: ImageType) => {
-    this.setState({
-      ...this.state,
-      selectedImage: img.file,
-      exchangeImage: img.id,
-      exchangeImageFlag: false,
-      formData: {
-        ...this.state.formData,
-        [exchangeFields.image]: img.id
-      }
-    })
-  }
+  // _imageHandler = (img: ImageType) => {
+  //   this.setState({
+  //     ...this.state,
+  //     selectedImage: img.file,
+  //     exchangeImage: img.id,
+  //     exchangeImageFlag: false,
+  //     formData: {
+  //       ...this.state.formData,
+  //       [exchangeFields.image]: img.id
+  //     }
+  //   })
+  // }
 
   _handleCloseModal() {
     let {handleModalVisibility} = this.props
@@ -384,18 +408,24 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
   }
 
   _handleCreateExchange() {
-    let {name, description, exchangeImage, isPrivate} = this.state
+    let {
+      name,
+      description,
+      // exchangeImage,
+      isPrivate
+    } = this.state
     let self: any = this
 
     if (name.length > 2 && name.length <= 32 && description.length < 700) {
-      let {createExchange, handleModalVisibility} = this.props
+      let {createExchange, handleModalVisibility, removeFileFromTemp, tempFiles} = this.props
       let formValues = {
         name: name,
         private: isPrivate,
         description: description,
-        exchange_image: exchangeImage,
+        exchange_image: tempFiles.exchange_image ? tempFiles.exchange_image : null,
       }
       createExchange(formValues)
+      removeFileFromTemp('exchange_image')
       handleModalVisibility()
       self.exName.value = ''
       self.exDes.value = ''
@@ -562,6 +592,7 @@ const mapStateToProps = (state) => {
     members,
     auth: state.auth,
     translate: state.intl.messages || {},
+    tempFiles: state.temp.file
   }
 }
 
@@ -573,6 +604,7 @@ const mapDispatchToProps = dispatch =>
           createFile,
           createExchange: exchangeActions.createExchange,
           addMember: exchangeMembershipActions.createExchangeMembership,
+          removeFileFromTemp: TempActions.removeFileFromTemp,
         },
         dispatch
     )

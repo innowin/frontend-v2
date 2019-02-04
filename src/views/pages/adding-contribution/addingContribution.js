@@ -729,14 +729,16 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
             self.nameError.className = 'product-name-error-hide'
             self.descriptionError.className = 'product-name-error'
             self.locationError.className = 'product-name-error-hide'
-          } else if (selectedCity === null) {
+          }
+          // else if (selectedCity === null) {
+          //   self.nameError.className = 'product-name-error-hide'
+          //   self.descriptionError.className = 'product-name-error-hide'
+          //   self.locationError.className = 'product-name-error'
+          // }
+          else {
             self.nameError.className = 'product-name-error-hide'
             self.descriptionError.className = 'product-name-error-hide'
-            self.locationError.className = 'product-name-error'
-          } else {
-            self.nameError.className = 'product-name-error-hide'
-            self.descriptionError.className = 'product-name-error-hide'
-            self.locationError.className = 'product-name-error'
+            self.locationError.className = 'product-name-error-hide'
             this.setState({...this.state, currentLevel: 'three'})
           }
           break

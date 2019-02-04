@@ -14,6 +14,7 @@ export function* createExchange(action) {
 
   let data
   try {
+    console.log("CREATE_EX_FORM_VALUES",formValues)
     yield fork(
         api.post,
         urls.EXCHANGE,

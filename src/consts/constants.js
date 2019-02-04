@@ -15,6 +15,7 @@ export default {
   },
   FILE_PARENT: {
     POST: 'post',
+    EXCHANGE: 'exchange',
     PRODUCT: 'product',
   },
   PRODUCT: {
