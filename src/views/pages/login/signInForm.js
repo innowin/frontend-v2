@@ -82,7 +82,7 @@ class SignInForm extends Component {
     actions: PropTypes.object,
     recoveryPasswordClick: PropTypes.func.isRequired,
     onChangeSignIn: PropTypes.func.isRequired,
-    inputValues: PropTypes.object.isRequired,
+    inputValues: PropTypes.object,
   }
 
   componentDidMount() {

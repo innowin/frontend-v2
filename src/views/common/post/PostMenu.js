@@ -15,7 +15,7 @@ type PostMenuProps = {
   postIdentity: identityType,
   translate: { [string]: string },
   deletePost: Function,
-  showEdit: boolean
+  showEdit: boolean | Function
 }
 
 const PostMenu = (props: PostMenuProps) => {
@@ -75,7 +75,10 @@ PostMenu.propTypes = {
   postIdentity: PropTypes.object.isRequired,
   translate: PropTypes.object.isRequired,
   deletePost: PropTypes.func.isRequired,
-  showEdit: PropTypes.bool.isRequired
+  showEdit: PropTypes.oneOfType([
+    PropTypes.func.isRequired,
+    PropTypes.bool.isRequired,
+  ])
 }
 
 export default PostMenu

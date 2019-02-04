@@ -14,7 +14,7 @@ import setExchangeActions from 'src/redux/actions/user/setSelectedExchangeAction
 // import {Helmet} from "react-helmet"
 
 type HomeProps = {|
-  identityId: number,
+  identityId?: number,
   identityType?: string,
   id?: number,
   translate: { [string]: string }
@@ -23,7 +23,7 @@ type HomeProps = {|
 class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
 
   static propTypes = {
-    identityId: PropTypes.number.isRequired,
+    identityId: PropTypes.number,
     identityType: PropTypes.string,
     id: PropTypes.number
   }
