@@ -31,14 +31,14 @@ class PostHeader extends React.Component<PostHeaderProps, PostHeaderStates> {
     this.state = {
       profileLoaded: false
     }
-  }
 
-  componentDidMount() {
     if (this.props.postRelatedIdentityImage) {
       let profile = new Image()
       profile.src = this.props.postRelatedIdentityImage
       profile.onload = () => {
-        this.setState({profileLoaded: true})
+        this.state = {
+          profileLoaded: true
+        }
       }
     }
   }

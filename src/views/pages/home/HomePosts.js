@@ -9,6 +9,7 @@ import {FrameCard, ListGroup, VerifyWrapper} from 'src/views/common/cards/Frames
 import {Post} from 'src/views/common/post/Post'
 import {PureComponent} from 'react'
 import {RightArrow, DesertIcon, EditIcon} from 'src/images/icons'
+import {exchangePostsSelector} from '../../../redux/selectors/home/homePosts'
 
 
 class HomePosts extends PureComponent {
@@ -189,15 +190,11 @@ class HomePosts extends PureComponent {
 
 const mapStateToProps = (state, ownProps) => {
   const exchangeId = ownProps.exchangeId
-  const allPosts = state.common.post.list
   const allExchange = state.exchanges.list
-  const exchangePostsIds = (exchangeId && allExchange[exchangeId] && allExchange[exchangeId].posts
-      && allExchange[exchangeId].posts.content) || []
   const isLoading = (exchangeId && allExchange[exchangeId] && allExchange[exchangeId].posts
       && allExchange[exchangeId].posts.isLoading) || false
-  const posts = exchangePostsIds.map(postId => (allPosts[postId]))
   return {
-    posts,
+    posts: exchangePostsSelector(state, ownProps),
     isLoading
   }
 }

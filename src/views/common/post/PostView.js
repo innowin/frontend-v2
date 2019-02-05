@@ -51,6 +51,7 @@ type postExtendedViewProps = {
   comments?: Array<commentType>,
   commentParentType: string,
   fileList: {},
+  postRelatedProduct: {},
 }
 type postViewState = {
   menuToggleTop: boolean,
@@ -289,7 +290,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
     const {
       post, translate, postIdentity, postRelatedIdentityImage, extendedView, showEdit, comments, fileList,
-      commentParentType
+      commentParentType, postRelatedProduct
     } = this.props
     const {menuToggleBottom, menuToggleTop, confirm, showComment, commentOn} = this.state
     let postDescription = '', postIdentityUserId, postIdentityOrganId, postOwnerId = 0, postFilesArray
@@ -344,15 +345,17 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                 <PostImage translate={translate} extendedView={extendedView} fileList={fileList} post={post}/>
                 {post && post.post_related_product &&
                 <div className='post-view-product-container'>
-                  <ProductInfoView product={post.post_related_product}
+                  <ProductInfoView product={postRelatedProduct}
                                    ownerId={postOwnerId}
                                    translate={translate}/>
                 </div>
                 }
                 {
                   postFilesArray && postFilesArray.map(file =>
-                      file.type === constants.CRETE_FILE_TYPES.FILE && <a className='get-file pulse' href={file.file}>
-                        <FontAwesome name='download'/> {translate['Get file']}</a>
+                      file.type === constants.CRETE_FILE_TYPES.FILE &&
+                      <a key={'post file' + file.id} className='get-file pulse' href={file.file}>
+                        <FontAwesome name='download'/> {translate['Get file']}
+                      </a>
                   )
                 }
                 <PostFooter post={post} postIdentity={postIdentity} translate={translate}
@@ -392,11 +395,17 @@ const mapStateToProps = (state, ownProps) => {
     const postId = +params.id
     const post = state.common.post.list[postId]
     const postIdentity = post && post.post_identity
+    const postRelatedProductId = post && post.post_related_product
+    let postRelatedProduct = postRelatedProductId && state.common.product.products.list[postRelatedProductId]
+    const productIdentity = postRelatedProduct.product_owner.id ? state.identities.list[postRelatedProduct.product_owner.id] :
+        state.identities.list[postRelatedProduct.product_owner]
+    postRelatedProduct = postRelatedProduct && {...postRelatedProduct, product_owner: productIdentity}
     return {
       translate: getMessages(state),
       param: state.param,
       post: post,
       postRelatedIdentityImage: post.post_identity_image,
+      postRelatedProduct,
       postIdentity: state.identities.list[postIdentity],
       comments: userCommentsSelector(state, ownProps),
       fileList: state.common.file.list
@@ -404,8 +413,12 @@ const mapStateToProps = (state, ownProps) => {
   } else {
     const {post} = ownProps
     const postIdentity = post && post.post_identity
+    const postRelatedProductId = post && post.post_related_product && post.post_related_product.id
+    let postRelatedProduct = postRelatedProductId && state.common.product.products.list[postRelatedProductId]
+    postRelatedProduct = postRelatedProduct && {...postRelatedProduct, product_owner: postIdentity}
     return {
       postIdentity: postIdentity,
+      postRelatedProduct,
       postRelatedIdentityImage: post.post_identity_image,
       translate: getMessages(state)
     }

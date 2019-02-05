@@ -422,12 +422,30 @@
         color: $info-color;
       }
       .remove-file {
+        background-color: $text-lighter-color;
+        border-radius: 30px;
         position: relative;
-        left: -7px;
-        top: -6px;
-        padding: 3px 11px;
+        left: -1px;
+        top: -7px;
+        padding: 3px 12px;
       }
     }
+  }
+}
+
+.post-product-container {
+  position: relative;
+  padding: 0 6px 0 15px;
+
+  .remove-product {
+    position: absolute;
+    font-size: 14px;
+    padding: 6px 14px;
+    left: -4px;
+    top: -7px;
+    z-index: 1;
+    background: $text-lighter-color;
+    border-radius: 30px;
   }
 }
 
@@ -572,7 +590,7 @@
 
 .post-component-footer-send-btn-inactive {
   display: inline-block;
-  background-color: $brand-inverse-color;
+  background-color: $text-light-color;
   border: 1px solid transparent;
   color: white;
   font-size: 12px;

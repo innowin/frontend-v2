@@ -17,17 +17,23 @@ const getUserProducts = (state, props) => {
   }
   return undefined
 }
-const getOwnerId = (state , props) => props.ownerId
+const getOwnerId = (state, props) => props.ownerId
+const getIdentities = state => state.identities.list
 
 /** this selector selects products by productIdentity or without that. **/
 export const getProductsSelector = createSelector(
-      [getProducts, getUserProducts, getOwnerId],
-      (products, userProducts, ownerId) => {
-        if (products && Object.keys(products).length !== 0 && products.constructor === Object && userProducts && ownerId) {
-          const arrayProduct = helpers.getObjectOfArrayKeys(userProducts, products)
-          return [...arrayProduct]
-        }
-        return []
+    [getProducts, getUserProducts, getOwnerId, getIdentities],
+    (products, userProducts, ownerId, identities) => {
+      if (products && Object.keys(products).length !== 0 && products.constructor === Object && userProducts && ownerId) {
+        let arrayProduct = helpers.getObjectOfArrayKeys(userProducts, products)
+        arrayProduct = arrayProduct.map(product => {
+          return identities[product.product_owner]
+              ? {...product, product_owner: identities[product.product_owner]}
+              : product
+        })
+        return [...arrayProduct]
       }
-  )
+      return []
+    }
+)
 

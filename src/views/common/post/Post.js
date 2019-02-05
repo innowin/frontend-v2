@@ -79,6 +79,7 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
               </div>
               :
               <PostView post={post}
+                        key={'post view ' + post.id}
                         showEdit={this._showEdit}
                         extendedView={false}
               />

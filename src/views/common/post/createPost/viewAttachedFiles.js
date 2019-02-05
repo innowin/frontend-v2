@@ -52,7 +52,7 @@ const ViewAttachedFiles = (props) => {
           (postFile) &&
           <div className='file-section'>
             <a className='get-file pulse' href={postFile}><FontAwesome name='download'/> {translate['Get file']}</a>
-            <RemoveFile className='remove-file' onClickFunc={deleteFile}/>
+            <RemoveFile onClickFunc={deleteFile}/>
           </div>
         }
 
