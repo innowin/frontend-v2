@@ -18,8 +18,8 @@ export class ImageViewer extends Component {
     label: PropTypes.string.isRequired,
     customValidate: PropTypes.func,
     multiple: PropTypes.bool,
-    // TODO mohsen: fileType: PropTypes.arrayOf(PropTypes.string.isRequired),
-    // TODO mohsen: fileSize
+    // TODO mohsen: fileType: PropTypes.arrayOf(PropTypes.string.isRequired), get as props allowed fileType
+    // TODO mohsen: fileSize : get as props Maximum allowed fileSize- dont attach files that greater than max size
     // for get or create media
     mediaId: PropTypes.object,
   };
