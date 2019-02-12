@@ -199,14 +199,14 @@ export class RegisterForm extends Component {
         .then(
             () => {
               return new Promise((resolve, reject) => signIn(values.username, values.password, false, reject))
-              //TODO mohsen: test return error in sign in
+              //TODO mohsen: check that correctly return error in sign in
                   .catch((errorMessage) => {
                     throw new SubmissionError({_error: translator[errorMessage]})
                   })
             })
         .catch(
             (errorMessage) => {
-              //TODO mohsen: test return error in SubmissionError
+              //TODO mohsen: check that correctly return error in SubmissionError
               throw new SubmissionError({_error: translator[errorMessage]})
             }
         )
