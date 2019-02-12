@@ -143,17 +143,17 @@ class Sidebar extends Component <appProps, appState> {
               {/*</label>*/}
               <label className="label-wrapper">
                 <input type="checkbox" onChange={(e) => justFollowed(e.target.checked)}/>
-                <span className="checkmark"></span>
+                <span className="checkmark"> </span>
                 دنبال کرده ها
               </label>
               <label className="label-wrapper">
                 <input type="checkbox" onChange={(e) => justFollowing(e.target.checked)}/>
-                <span className="checkmark"></span>
+                <span className="checkmark"> </span>
                 دنبال شده ها
               </label>
             </div>
           </div>
-          <div className='exchanges-explore-sidebar-hashTags-search-container'>
+          {/*<div className='exchanges-explore-sidebar-hashTags-search-container'>
             <div className='exchanges-explore-sidebar-tag'>
               افزودن برچسب:
             </div>
@@ -171,7 +171,7 @@ class Sidebar extends Component <appProps, appState> {
                 selectedHashTags
               }
             </div>
-          </div>
+          </div>*/}
           {/*<div style={{fontSize: '14px'}}>*/}
           {/*فیلتر بر اساس نشان ها:*/}
           {/*</div>*/}

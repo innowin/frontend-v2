@@ -31,6 +31,7 @@ import {getFolloweesSelector} from 'src/redux/selectors/common/social/getFollowe
 import {hashTagsListSelector} from 'src/redux/selectors/common/hashTags/hashTag'
 import types from 'src/redux/actions/types'
 import TempActions from '../../../../redux/actions/tempActions'
+import {CSSTransition, TransitionGroup} from 'react-transition-group'
 
 type HashTagType = {
   id: string,
@@ -461,71 +462,83 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
     const self: any = this
     // const pageContent = this._setContent()
     return (
-        <div
-            className={modalIsOpen ? 'create-exchange-modal-container' : 'create-exchange-modal-container-out'}
-        >
+        <div className={modalIsOpen ? 'create-exchange-modal-container' : 'create-exchange-modal-container-out'}>
+          <TransitionGroup>
+            {modalIsOpen ?
+                <CSSTransition key={10} timeout={250} classNames='fade'>
+                  <div className="create-exchange-close-icon" onClick={() => this._handleCloseModal()}>
+                    ✕
+                  </div>
+                </CSSTransition> : null}
+            {modalIsOpen ?
+                <CSSTransition key={11} timeout={250} classNames='fade'>
+                  <div className={'create-exchange-header'}>
+                    {translate['Create New Exchange']}
+                  </div>
+                </CSSTransition> : null}
+            {modalIsOpen ?
+                <CSSTransition key={12} timeout={250} classNames='fade'>
+                  <div className={'create-exchange-header-desc'}>
+                    پنجره، گروهی متشکل از ارائه‌دهندگان و متقاضیان محصولات، خدمات و مهارت هاست.
+                  </div>
+                </CSSTransition> : null}
+            {modalIsOpen ?
+                <CSSTransition key={13} timeout={250} classNames='fade'>
+                  <div className={'create-exchange-inputs'}>
+                    <div>
+                      <label>
+                        {translate['Exchange Name']} <span className={'secondary-color'}>*</span>
+                      </label>
+                      <input type={'text'} className={'create-exchange-name-input'} placeholder={translate['Exchange Name']}
+                             ref={e => self.exName = e} onChange={(e) => this.setState({...this.state, name: e.target.value})}/>
+                      <div className={name.length < 32 ? 'create-exchange-name-input-limit' : 'create-exchange-name-input-limited'}>
+                        {name.length} / 32
+                      </div>
+                      <div ref={e => self.nameError = e} className={'product-name-error-hide'}>طول نام غیر مجاز است</div>
+                    </div>
+                    <div>
+                      <label>
+                        {translate['Exchange Description']}
+                      </label>
+                      <textarea className={'create-exchange-desc-input'} placeholder={'موضوع فعالیت این پنجره چیست؟'}
+                                ref={e => self.exDes = e} onChange={(e) => this.setState({...this.state, description: e.target.value})}/>
+                      <div className={description.length < 700 ? 'create-exchange-desc-input-limit' : 'create-exchange-desc-input-limited'}>
+                        {description.length} / 700
+                      </div>
+                      <div ref={e => self.descError = e} className={'product-name-error-hide'}>طول توضیحات غیر مجاز است</div>
+                    </div>
+                    <div>
+                      <label>
+                        {translate['Upload Picture']}
+                      </label>
+                      <div className={'create-exchange-upload'}>
+                        {selectedImage !== undefined && selectedImage !== null && !processing ?
+                            <img alt={''} src={selectedImage} className={'create-exchange-upload-image'}/>
+                            :
+                            <UploadIcon className={'create-exchange-upload-svg'}/>
+                        }
+                        <input ref={e => self.exPic = e} type="file" onChange={!processing ? (e => this._uploadHandler(e.currentTarget.files[0])) : console.log('Still Uploading')}/>
+                      </div>
+                    </div>
+                  </div>
+                </CSSTransition> : null}
+            {modalIsOpen ?
+                <CSSTransition key={14} timeout={250} classNames='fade'>
+                  <div className={'create-exchange-buttons'}>
+                    <button className={'create-exchange-success-button'} onClick={() => !processing ? this._handleCreateExchange() : null}>
+                      {processing ?
+                          <ClipLoader color="#35495c" size={17} loading={true}/>
+                          :
+                          translate['Create']
+                      }
+                    </button>
+                    <button className={'create-exchange-cancel-button'} onClick={() => this._handleCloseModal()}>
+                      {translate['Cancel']}
+                    </button>
+                  </div>
+                </CSSTransition> : null}
 
-          <div className="create-exchange-close-icon" onClick={() => this._handleCloseModal()}>
-            ✕
-          </div>
-
-          <div className={'create-exchange-header'}>
-            {translate['Create New Exchange']}
-          </div>
-          <div className={'create-exchange-header-desc'}>
-            پنجره، گروهی متشکل از ارائه‌دهندگان و متقاضیان محصولات، خدمات و مهارت هاست.
-          </div>
-
-          <div className={'create-exchange-inputs'}>
-            <div>
-              <label>
-                {translate['Exchange Name']} <span className={'secondary-color'}>*</span>
-              </label>
-              <input type={'text'} className={'create-exchange-name-input'} placeholder={translate['Exchange Name']}
-                     ref={e => self.exName = e} onChange={(e) => this.setState({...this.state, name: e.target.value})}/>
-              <div className={name.length < 32 ? 'create-exchange-name-input-limit' : 'create-exchange-name-input-limited'}>
-                {name.length} / 32
-              </div>
-              <div ref={e => self.nameError = e} className={'product-name-error-hide'}>طول نام غیر مجاز است</div>
-            </div>
-            <div>
-              <label>
-                {translate['Exchange Description']}
-              </label>
-              <textarea className={'create-exchange-desc-input'} placeholder={'موضوع فعالیت این پنجره چیست؟'}
-                        ref={e => self.exDes = e} onChange={(e) => this.setState({...this.state, description: e.target.value})}/>
-              <div className={description.length < 700 ? 'create-exchange-desc-input-limit' : 'create-exchange-desc-input-limited'}>
-                {description.length} / 700
-              </div>
-              <div ref={e => self.descError = e} className={'product-name-error-hide'}>طول توضیحات غیر مجاز است</div>
-            </div>
-            <div>
-              <label>
-                {translate['Upload Picture']}
-              </label>
-              <div className={'create-exchange-upload'}>
-                {selectedImage !== undefined && selectedImage !== null && !processing ?
-                    <img alt={''} src={selectedImage} className={'create-exchange-upload-image'}/>
-                    :
-                    <UploadIcon className={'create-exchange-upload-svg'}/>
-                }
-                <input ref={e => self.exPic = e} type="file" onChange={!processing ? (e => this._uploadHandler(e.currentTarget.files[0])) : console.log('Still Uploading')}/>
-              </div>
-            </div>
-          </div>
-
-          <div className={'create-exchange-buttons'}>
-            <button className={'create-exchange-success-button'} onClick={() => !processing ? this._handleCreateExchange() : null}>
-              {processing ?
-                  <ClipLoader color="#35495c" size={17} loading={true}/>
-                  :
-                  translate['Create']
-              }
-            </button>
-            <button className={'create-exchange-cancel-button'} onClick={() => this._handleCloseModal()}>
-              {translate['Cancel']}
-            </button>
-          </div>
+          </TransitionGroup>
 
           {/*<Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>*/}
           {/*<ModalBody className="create-exchange-wrapper">*/}
