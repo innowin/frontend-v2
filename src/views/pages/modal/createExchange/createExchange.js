@@ -7,7 +7,12 @@
 // import helpers from "src/consts/helperFunctions/helperFunctions"
 import * as React from 'react'
 import {Component} from 'react'
-import {PROGRESSIVE_STATUS_CHOICES, WRAPPER_CLASS_NAMES, exchangeFields, exchangeIdentityFields} from './createExchangeData'
+import {
+  // PROGRESSIVE_STATUS_CHOICES,
+  // WRAPPER_CLASS_NAMES,
+  // exchangeFields,
+  exchangeIdentityFields
+} from './createExchangeData'
 import {
   // ThinDownArrow,
   // ShareIcon,
@@ -75,8 +80,8 @@ type CreateExchangeState = {
 
 const initialState: any = {
   activeStep: 1,
-  progressStatus: PROGRESSIVE_STATUS_CHOICES.ACTIVE,
-  wrapperClassName: WRAPPER_CLASS_NAMES.ENTERING,
+  // progressStatus: PROGRESSIVE_STATUS_CHOICES.ACTIVE,
+  // wrapperClassName: WRAPPER_CLASS_NAMES.ENTERING,
   formData: {},
   selectedTags: [],
   inActPeopleIds: [], // ids of people that doing some action (like adding to exchange members) on theme in this time.

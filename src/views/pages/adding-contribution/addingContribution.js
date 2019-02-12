@@ -702,7 +702,11 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
 
   nextLevel() {
     let {
-      currentLevel, productName, productDescription, selectedCity, selectedType
+      currentLevel,
+      productName,
+      productDescription,
+      // selectedCity,
+      selectedType
     } = this.state
     if (selectedType === 'Product') {
       switch (currentLevel) {

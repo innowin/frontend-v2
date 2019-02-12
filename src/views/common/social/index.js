@@ -78,6 +78,9 @@ class Socials extends Component<PropsSocials, StateSocials> {
 
   componentDidMount() {
     const {identityId, actions, ownerId, identityType} = this.props
+
+    alert(identityId)
+
     const {
       // getFollowees,
       // getFollowers,
@@ -177,7 +180,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const {ownerId, identityType} = ownProps
+  const {ownerId, identityType, identityId} = ownProps
   const stateOwner = (identityType === constants.USER_TYPES.PERSON) ? state.users.list[ownerId] :
       state.organs.list[ownerId]
   const defaultObject = {content: [], isLoading: false, error: null}
@@ -190,6 +193,7 @@ const mapStateToProps = (state, ownProps) => {
     exchanges: getExchangeMembershipsSelector(state, ownProps),
     isLoading: followObject.isLoading,
     error: followObject.error,
+    identityUser: state.identities.list[identityId] && state.identities.list[identityId].identity_user ? state.identities.list[identityId].identity_user : null
   }
 }
 

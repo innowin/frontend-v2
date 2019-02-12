@@ -82,7 +82,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
       followees,
       actions,
       // exchanges,
-      // identityId,
+      identityId,
       ownerId,
       // identityType,
       // param
@@ -104,6 +104,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
         <div>
           <NewFollowings
               userId={ownerId}
+              identityId={identityId}
               deleteFollow={deleteFollow}
               followings={followees}/>
         </div>

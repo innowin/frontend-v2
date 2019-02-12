@@ -12,8 +12,8 @@ import {connect} from 'react-redux'
 import {DefaultUserIcon, Contacts, QuestionMark, Stream} from 'src/images/icons'
 import {getFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
 import {Link} from 'react-router-dom'
-import {getMessages} from '../../../../redux/selectors/translateSelector'
-import {arrayOfDeffered} from 'redux-saga/utils'
+import {getMessages} from 'src/redux/selectors/translateSelector'
+// import {arrayOfDeffered} from 'redux-saga/utils'
 // import exchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
 // import {VerifyWrapper} from "../../common/cards/Frames"
 
@@ -103,6 +103,7 @@ class NewFollowings extends Component<props, states> {
       clientId,
       // translate,
       followings,
+      identityUser,
       // paramId
     } = this.props
     // let {
@@ -143,7 +144,7 @@ class NewFollowings extends Component<props, states> {
             </div>
           </Link>
           {
-            identity_user !== clientId ?
+            identity_user !== clientId && identityUser.id === clientId ?
                 <div
                     className="member-follow"
                     onClick={() => this._onDeleteFollowing(followings[index])}>
@@ -188,7 +189,7 @@ class NewFollowings extends Component<props, states> {
             </div>
           </Link>
           {
-            identity_organization !== clientId ?
+            identity_organization !== clientId && identityUser.id === clientId ?
                 <div
                     className="member-follow"
                     onClick={() => this._onDeleteFollowing(followings[index])}>
@@ -334,7 +335,8 @@ class NewFollowings extends Component<props, states> {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+  let {identityId} = ownProps
   return {
     exchangeUsers: state.common.exchangeMembership.members,
     organs: state.organs.list,
@@ -346,7 +348,8 @@ const mapStateToProps = (state) => {
       identityId: state.auth.client.identity.content,
       ownerId: state.auth.client.user.id,
       identityType: state.auth.client.user_type,
-    })
+    }),
+    identityUser: state.identities.list[identityId] && state.identities.list[identityId].identity_user ? state.identities.list[identityId].identity_user : null
   }
 }
 const mapDispatchToProps = (dispatch) => ({
