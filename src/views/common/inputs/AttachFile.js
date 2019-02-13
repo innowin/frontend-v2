@@ -24,7 +24,7 @@ export default class AttachFile extends Component {
 		required: PropTypes.bool,
 		className: PropTypes.string,
 		customValidate: PropTypes.func,
-		// TODO mohsen: fileSize
+		// TODO mohsen: get as props Maximum allowed fileSize- dont attach files that greater than max size
 	}
 	
 	constructor (props) {
