@@ -1,7 +1,35 @@
 @import "../../../variables";
 
 @media screen and (max-width: 480px) and (min-width: 320px) {
+  .products-explore-sidebar {
+    display: none;
+  }
+
   .product-instant-img {
     display: none;
+  }
+
+  .all-product-container-column{
+    margin-right: 0;
+    width: 98%;
+  }
+
+  .all-product-container{
+    margin-right: 0;
+    width: 98%;
+  }
+
+  .product-model{
+    display: block;
+    .product-model-logo{
+      display: none;
+    }
+    .product-model-detail{
+      width: 45%;
+    }
+    .product-model-img{
+      width: 55%;
+      height: 100px;
+    }
   }
 }
