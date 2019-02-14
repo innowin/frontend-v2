@@ -1,6 +1,9 @@
 @import "../../../../variables";
 
 @media screen and (max-width: 480px) and (min-width: 320px) {
+  .exchange-navbar-container{
+    width: 98%;
+  }
   .topBar {
     height: $smallTopBarHeight;
     justify-content: space-between;
@@ -29,7 +32,7 @@
       font-weight: normal;
       flex-direction: column;
 
-      max-height: 81vh;
+      height: 100vh;
       overflow-y: scroll;
 
       .image-container {

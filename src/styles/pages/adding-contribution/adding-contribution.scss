@@ -54,7 +54,7 @@
   text-align: center;
   position: relative;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
 }
 
 .level-bar {
@@ -117,6 +117,7 @@
   position: relative;
   transition-delay: .35s;
   transition-duration: $animation-timing;
+  margin: 0 9.5%;
 
   .add {
     width: 32px;
@@ -169,6 +170,7 @@
   background-color: $background-color;
   position: relative;
   transition-duration: $animation-timing;
+  margin: 0 9.5%;
 
   .add {
     left: 13%;
@@ -741,7 +743,15 @@
   }
 }
 
-@media screen and (max-width: 10000px) and (min-width: 1366px) {
+@media screen and (max-width: 3840px) and (min-width: 1920px) {
+  .contribution-modal-container {
+    right: 185px;
+    left: 185px;
+    padding: 20px;
+  }
+}
+
+@media screen and (max-width: 1920px) and (min-width: 1370px) {
   .contribution-modal-container {
     right: 138px;
     left: 138px;
@@ -749,11 +759,13 @@
   }
 }
 
-@media screen and (max-width: 1366px) and (min-width: 1280px) {
+@media screen and (max-width: 1370px) and (min-width: 1280px) {
   .contribution-modal-container {
     right: 80px;
     left: 80px;
     padding: 20px;
+    top: $topBarHeight;
+    max-height: 89vh;
   }
 }
 

@@ -260,7 +260,15 @@
   cursor: pointer;
 }
 
-@media screen and (max-width: 10000px) and (min-width: 1366px) {
+@media screen and (max-width: 3840px) and (min-width: 1920px) {
+  .create-exchange-modal-container {
+    right: 27.5%;
+    left: 27.5%;
+    padding: 20px 30px;
+  }
+}
+
+@media screen and (max-width: 1920px) and (min-width: 1370px) {
   .create-exchange-modal-container {
     right: 25%;
     left: 25%;
@@ -268,11 +276,13 @@
   }
 }
 
-@media screen and (max-width: 1366px) and (min-width: 1280px) {
+@media screen and (max-width: 1370px) and (min-width: 1280px) {
   .create-exchange-modal-container {
     right: 23.5%;
     left: 23.5%;
     padding: 20px 30px;
+    max-height: 88vh;
+    top: $topBarHeight;
   }
 }
 

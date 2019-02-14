@@ -5,7 +5,7 @@ const base = (state, action) => {
 
 const success = (state, action) => {
   const {data, fileRelatedParentId, fileParentType} = action.payload
-  const previousPost = state.list[fileRelatedParentId] || {post_picture_array: []}
+  const previousPost = state.list[fileRelatedParentId] || {post_files_array: []}
   if (fileParentType === constants.FILE_PARENT.POST) {
     return {
       ...state,
@@ -13,7 +13,7 @@ const success = (state, action) => {
         ...state.list,
         [fileRelatedParentId]: {
           ...previousPost,
-          post_picture_array: data,
+          post_files_array: data,
         }
       }
     }

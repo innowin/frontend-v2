@@ -26,12 +26,16 @@ class ProductInfoView extends React.Component {
   componentDidMount(): void {
     if (this.props.product) {
       const {product, actions} = this.props
-      actions.getFileByFileRelatedParentId({fileRelatedParentId: product.id, fileParentType: constants.FILE_PARENT.PRODUCT})
+      actions.getFileByFileRelatedParentId({
+        fileRelatedParentId: product.id,
+        fileParentType: constants.FILE_PARENT.PRODUCT
+      })
     }
   }
 
   render() {
-    if (this.props.product) {
+    const {product} = this.props
+    if (product && product.product_owner) {
       const {product, onClick, selected /*,translate, showEdit, ownerId*/} = this.props
       const {product_owner, product_user, pictures_array} = product
       const {identity_user} = product_owner
@@ -39,7 +43,8 @@ class ProductInfoView extends React.Component {
 
       if (onClick) {
         return (
-            <div className={selected ? 'selected-props product-instant-view' : 'product-instant-view'} onClick={onClick}>
+            <div className={selected ? 'selected-props product-instant-view' : 'product-instant-view'}
+                 onClick={onClick}>
               {/*<CheckOwner id={ownerId}>*/}
               {/*{*/}
               {/*showEdit &&*/}
@@ -53,13 +58,14 @@ class ProductInfoView extends React.Component {
                 <div className='product-instant-name'>
                   {product.name}
                 </div>
-                <span className='product-instant-seller'>فروشنده: </span><span className='product-instant-seller-name'>{name}</span>
+                <span className='product-instant-seller'>فروشنده: </span><span
+                  className='product-instant-seller-name'>{name}</span>
               </div>
-              <img className='product-instant-img' src={pictures_array && pictures_array.length > 0 && pictures_array[0].file} alt=''/>
+              <img className='product-instant-img'
+                   src={(pictures_array && pictures_array.length > 0) ? pictures_array[0].file : ''} alt=''/>
             </div>
         )
-      }
-      else {
+      } else {
         return (
             <div className={selected ? 'selected-props product-instant-view' : 'product-instant-view'}>
               {/*<CheckOwner id={ownerId}>*/}
@@ -79,15 +85,16 @@ class ProductInfoView extends React.Component {
                   <div className='product-instant-name'>
                     {product.name}
                   </div>
-                  <span className='product-instant-seller'>فروشنده: </span><span className='product-instant-seller-name'>{name}</span>
+                  <span className='product-instant-seller'>فروشنده: </span><span
+                    className='product-instant-seller-name'>{name}</span>
                 </div>
-                <img className='product-instant-img' src={pictures_array && pictures_array.length > 0 && pictures_array[0].file} alt=''/>
+                <img className='product-instant-img'
+                     src={(pictures_array && pictures_array.length > 0) ? pictures_array[0].file : ''} alt=''/>
               </Link>
             </div>
         )
       }
-    }
-    else return null
+    } else return null
   }
 }
 
@@ -160,9 +167,9 @@ class ProductInfoView extends React.Component {
 // </div>
 
 ProductInfoView.propTypes = {
-  product: PropTypes.object.isRequired,
+  product: PropTypes.object,
   showEdit: PropTypes.func,
-  ownerId: PropTypes.number.isRequired,
+  ownerId: PropTypes.number,
   translate: PropTypes.object.isRequired,
   onClick: PropTypes.func,
   selected: PropTypes.bool

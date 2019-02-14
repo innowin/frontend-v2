@@ -262,31 +262,31 @@ const users = (state = initialState.users, action) => {
     case types.SUCCESS.USER.GET_ALL_USERS:
       let objectData = {}
       data.forEach(user => {
-            if (state.list[user.user.id] && state.list[user.user.id].profile) {
-              objectData[user.user.id] = {
-                ...state.list[user.user.id],
-                badges: {
-                  content: [...user.badges],
-                  isLoading: false,
-                  error: null
-                },
+            if (state.list[user.profile_user.id] && state.list[user.profile_user.id].profile) {
+              objectData[user.profile_user.id] = {
+                ...state.list[user.profile_user.id],
+                // badges: {
+                //   content: [...user.badges],
+                //   isLoading: false,
+                //   error: null
+                // },
                 profile: {
-                  ...state.list[user.user.id].profile,
-                  content: { ...state.list[user.user.id].profile.content, ...user.profile, profile_user: { ...user.user } },
+                  ...state.list[user.profile_user.id].profile,
+                  content: { ...state.list[user.profile_user.id].profile.content, ...user },
                   isLoading: false,
                   error: null
                 }
               }
             }
             else {
-              objectData[user.user.id] = {
-                badges: {
-                  content: [...user.badges],
-                  isLoading: false,
-                  error: null
-                },
+              objectData[user.profile_user.id] = {
+                // badges: {
+                //   content: [...user.badges],
+                //   isLoading: false,
+                //   error: null
+                // },
                 profile: {
-                  content: { ...user.profile, profile_user: { ...user.user } },
+                  content: { ...user },
                   isLoading: false,
                   error: null
                 }

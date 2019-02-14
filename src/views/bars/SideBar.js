@@ -448,8 +448,9 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
         <form className={className + ' pt-0'} onSubmit={this._handleSubmit}>
           <div className="editable-profile-img">
             {
-              (!bannerString) ? <div className="background-strips banner covered-img"/> : (
-                  <img alt="" src={bannerString} className="banner covered-img"/>)
+              !bannerString ?
+                  <div className="background-strips banner covered-img"/> :
+                  <img alt="" src={bannerString} className="banner covered-img"/>
             }
             {
               (!editProfile) ? '' : (
@@ -471,7 +472,8 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
             <div className="editable-profile-img profile-media">
               {
                 (!pictureString) ? (
-                    (sideBarType === constants.USER_TYPES.PERSON) ? <DefaultUserIcon/> :
+                    (sideBarType === constants.USER_TYPES.PERSON) ?
+                        <DefaultUserIcon/> :
                         <DefaultOrganIcon/>
                 ) : (
                     <img className="covered-img" alt="" src={pictureString}/>)

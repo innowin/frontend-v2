@@ -62,7 +62,7 @@ class NewFollowers extends Component<props, states> {
     const self: any = this
     self.changeViewType = self.changeViewType.bind(self)
     self.getMembers = self.getMembers.bind(self)
-    self.setAllMembers = self.setAllMembers.bind(self)
+    // self.setAllMembers = self.setAllMembers.bind(self)
   }
 
   changeViewType() {

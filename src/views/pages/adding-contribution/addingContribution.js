@@ -5,7 +5,10 @@ import makeCitySelectorByProvinceId from 'src/redux/selectors/common/location/ge
 import makeProvinceSelectorByCountryId from 'src/redux/selectors/common/location/getProvinceByCountry'
 import nowCreatedProductIdSelector from 'src/redux/selectors/common/product/getNowCreatedProductId'
 import nowCreatedSkillIdSelector from 'src/redux/selectors/skill/getNowCreatedSkillId'
-import type {NewContributionDataType, SkillFormValsType} from './types'
+import type {
+  // NewContributionDataType,
+  SkillFormValsType
+} from './types'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import {bindActionCreators} from 'redux'
 import {change} from 'redux-form'
@@ -38,11 +41,12 @@ import {ClipLoader} from 'react-spinners'
 import {TransitionGroup, CSSTransition} from 'react-transition-group'
 
 type catsMap = {
-  category_parent?: number,
-  province_related_country?: number,
-  category_parent?: number
+  category_parent?: ?number,
+  province_related_country?: ?number,
+  category_parent?: ?number,
+  town_related_province: any
 }
-type list = { list?: catsMap }
+type list = { list: catsMap }
 type AddingContributionProps = {
   _changeFormSingleFieldValue: Function,
   _createProduct: Function,
@@ -52,51 +56,53 @@ type AddingContributionProps = {
   _getCountries: Function,
   _getHashTags: Function,
   _getProvinces: Function,
-  categories: any,
+  createFile: Function,
+  categories: list,
   cities: {},
-  city: {},
+  city: list,
   clientFiles: Object,
+  clientId: ?number,
   countries: list,
   handleModalVisibility: Function,
   hashTags: {},
+  identity: ?number,
   initialInfoFormState: {},
   modalIsOpen: boolean,
   nowCreatedProductId: number,
   nowCreatedSkillId: number,
-  province: catsMap,
+  province: list,
   provinces: {},
   skillInfoFormValues: SkillFormValsType,
   translator: TranslatorType,
 }
-type ProgressStepType = {
-  title: string,
-  icon: React.Node
-}
-type NewTechPropertyDataType = {
-  id?: number,
-  value?: string,
-  title?: string
-}
 type cats = any
 type AddingContributionState = {
-  activeStep: number,
-  addingTechPropNow: boolean,
-  currentLevel: string,
+  // priceType: string,
+  abilityDescription: string,
+  abilityTitle: string,
   catLvlOne: Array<Object>,
-  newContributionData: NewContributionDataType,
-  newTechPropertyData: NewTechPropertyDataType,
-  progressStatus: string,
-  progressSteps: Array<ProgressStepType>,
+  catLvlThree: Array<Object>,
+  catLvlTwo: Array<Object>,
+  cats: [],
+  cityList: [],
+  cityList: Array<number>,
+  countryList: [],
+  countryList: Array<number>,
+  currentLevel: string,
+  processing: boolean,
+  productDescription: string,
+  productName: string,
+  provinceList: Array<any>,
   selectedCatLvlOne: cats,
   selectedCatLvlThree: cats,
   selectedCatLvlTwo: cats,
-  selectedType: string,
-  wrapperClassName: string,
-  countryList: Array<number>,
-  provinceList: Array<number>,
-  cityList: Array<number>,
+  selectedCity: ?number,
   selectedCountry: ?number,
+  selectedImage: Array<any>,
+  selectedImageId: Array<any>,
+  selectedImageTemp: ?string,
   selectedProvince: ?number,
+  selectedType: string,
 }
 
 class AddingContribution extends PureComponent<AddingContributionProps, AddingContributionState> {
@@ -110,7 +116,7 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
       cityList: [],
       countryList: [],
       currentLevel: 'one',
-      priceType: 'معین',
+      // priceType: 'معین',
       processing: false,
       productDescription: '',
       productName: '',
@@ -154,8 +160,9 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
   componentDidUpdate(prevProps, prevState, ss) {
     const {modalIsOpen} = this.props
     if (modalIsOpen) {
-      document.body.style.overflow = 'hidden'
-      document.body.style.paddingRight = '7px'
+      let doc: any = document // for flow
+      doc.body.style.overflow = 'hidden'
+      doc.body.style.paddingRight = '7px'
       const {
         clientFiles,
         categories,
@@ -172,24 +179,24 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
       } = this.state
 
       if (prevState.catLvlOne.length < 1) {
-        let catsArray = Object.values(categories.list).filter(p => p.category_parent === null)
+        let catsArray: any = Object.values(categories.list).filter(p => p.category_parent === null)
         if (catsArray.length >= 1)
           this.setState({...this.state, catLvlOne: catsArray.slice()})
       }
 
       if (prevState.countryList.length < 1 && !(Object.keys(countries.list) < 1)) {
-        let countArray = Object.values(countries.list)
+        let countArray: any = Object.values(countries.list)
         this.setState({...this.state, countryList: countArray.slice()})
       }
 
       if (prevState.provinceList.length < 1 && countryList.length >= 1) {
-        let provArray = Object.values(province.list).filter(p => p.province_related_country === selectedCountry)
+        let provArray: any = Object.values(province.list).filter(p => p.province_related_country === selectedCountry)
         if (provArray.length >= 1)
           this.setState({...this.state, provinceList: provArray.slice()})
       }
 
       if (cityList.length < 1 && provinceList.length >= 1) {
-        let citsArray = Object.values(city.list).filter(p => p.town_related_province === selectedProvince)
+        let citsArray: any = Object.values(city.list).filter(p => p.town_related_province === selectedProvince)
         if (citsArray.length >= 1)
           this.setState({...this.state, cityList: citsArray.slice()})
       }
@@ -202,8 +209,9 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
         }
       }
     } else {
-      document.body.style.overflow = 'auto'
-      document.body.style.paddingRight = '0'
+      let doc: any = document
+      doc.body.style.overflow = 'auto'
+      doc.body.style.paddingRight = '0'
     }
   }
 
@@ -381,13 +389,14 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
     } else if (selectedType === 'Product') {
       switch (currentLevel) {
         case 'two':
+          let self: any = this
           return (
               <div className="contribution-product-two">
                 <div className={'gray-text-input-label-container'}>
                   <label className="gray-text-input-label">عنوان آورده:</label>
                   <input type="text" className="form-control gray-text-input" defaultValue={productName}
                          onChange={(e) => this.setState({...this.state, productName: e.target.value})}/>
-                  <div ref={e => this.nameError = e} className={'product-name-error-hide'}>طول نام غیر مجاز است</div>
+                  <div ref={e => self.nameError = e} className={'product-name-error-hide'}>طول نام غیر مجاز است</div>
                 </div>
                 <div className={'gray-text-input-label-container'}> {/*TODO: SET THREE AREA FIELD*/}
                   <label className="gray-text-input-label">محدوده جغرافیایی:</label>
@@ -401,7 +410,7 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
                   <div className={'inteli-area'}>
                     <InteliInput list={cityList} handleChange={(data) => this._handleCity(data)}/>
                   </div>
-                  <div ref={e => this.locationError = e} className={'product-name-error-hide'}>محدوده جغرافیایی را کامل انتخاب کنید</div>
+                  <div ref={e => self.locationError = e} className={'product-name-error-hide'}>محدوده جغرافیایی را کامل انتخاب کنید</div>
 
                 </div>
 
@@ -424,7 +433,7 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
                   <label className="gray-text-input-label">توصیف اجمالی آورده:</label>
                   <textarea name="description" className="form-control gray-textarea-input"
                             onChange={(e) => this.setState({...this.state, productDescription: e.target.value})}/>
-                  <div ref={e => this.descriptionError = e} className={'product-name-error-hide'}>طول توضیحات غیر مجاز است</div>
+                  <div ref={e => self.descriptionError = e} className={'product-name-error-hide'}>طول توضیحات غیر مجاز است</div>
                 </div>
                 {/*<div className={"gray-text-input-label-container"}>
                  <label className="gray-text-input-label">قیمت:</label>
@@ -576,19 +585,20 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
     } else if (selectedType === 'Ability') {
       switch (currentLevel) {
         case 'two':
+          let self: any = this
           return (
               <div className="contribution-ability-two">
                 <div className={'gray-text-input-label-container'}>
                   <label className="gray-text-input-label">عنوان مهارت:</label>
                   <input type="text" className="form-control gray-text-input" defaultValue={abilityTitle}
                          onChange={(e) => this.setState({...this.state, abilityTitle: e.target.value})}/>
-                  <div ref={e => this._titleError = e} className={'product-name-error-hide'}>طول عنوان غیر مجاز است</div>
+                  <div ref={e => self._titleError = e} className={'product-name-error-hide'}>طول عنوان غیر مجاز است</div>
                 </div>
                 <div className={'gray-text-input-label-container'}>
                   <label className="gray-text-input-label">توضیحات مهارت:</label>
                   <textarea name="description" className="form-control gray-textarea-input" defaultValue={abilityDescription}
                             onChange={(e) => this.setState({...this.state, abilityDescription: e.target.value})}/>
-                  <div ref={e => this._descriptionError = e} className={'product-name-error-hide'}>طول توضیحات غیر مجاز است</div>
+                  <div ref={e => self._descriptionError = e} className={'product-name-error-hide'}>طول توضیحات غیر مجاز است</div>
                 </div>
                 {/*<div className={"gray-text-input-label-container"}>
                  <label className="gray-text-input-label">قیمت:</label>
@@ -692,7 +702,11 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
 
   nextLevel() {
     let {
-      currentLevel, productName, productDescription, selectedCity, selectedType
+      currentLevel,
+      productName,
+      productDescription,
+      // selectedCity,
+      selectedType
     } = this.state
     if (selectedType === 'Product') {
       switch (currentLevel) {
@@ -710,22 +724,25 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
           })
           break
         case 'two':
+          let self: any = this
           if (productName.length < 1 || productName.length > 99) {
-            this.nameError.className = 'product-name-error'
-            this.descriptionError.className = 'product-name-error-hide'
-            this.locationError.className = 'product-name-error-hide'
+            self.nameError.className = 'product-name-error'
+            self.descriptionError.className = 'product-name-error-hide'
+            self.locationError.className = 'product-name-error-hide'
           } else if (productDescription.length > 999) {
-            this.nameError.className = 'product-name-error-hide'
-            this.descriptionError.className = 'product-name-error'
-            this.locationError.className = 'product-name-error-hide'
-          } else if (selectedCity === null) {
-            this.nameError.className = 'product-name-error-hide'
-            this.descriptionError.className = 'product-name-error-hide'
-            this.locationError.className = 'product-name-error'
-          } else {
-            this.nameError.className = 'product-name-error-hide'
-            this.descriptionError.className = 'product-name-error-hide'
-            this.locationError.className = 'product-name-error'
+            self.nameError.className = 'product-name-error-hide'
+            self.descriptionError.className = 'product-name-error'
+            self.locationError.className = 'product-name-error-hide'
+          }
+          // else if (selectedCity === null) {
+          //   self.nameError.className = 'product-name-error-hide'
+          //   self.descriptionError.className = 'product-name-error-hide'
+          //   self.locationError.className = 'product-name-error'
+          // }
+          else {
+            self.nameError.className = 'product-name-error-hide'
+            self.descriptionError.className = 'product-name-error-hide'
+            self.locationError.className = 'product-name-error-hide'
             this.setState({...this.state, currentLevel: 'three'})
           }
           break
@@ -745,7 +762,7 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
           this.setState({
             ...this.state,
             currentLevel: 'two',
-            // productName: "",
+            // productName: '',
             abilityDescription: '',
             AbilityTitle: '',
           })
@@ -829,8 +846,8 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
   _handleCatLvlChange(cat, level) {
     let {categories} = this.props
     if (level === 'one') {
-      let selected = Object.values(categories.list).filter(p => p.id === cat.id)
-      let childes = Object.values(categories.list).filter(p => p.category_parent === cat.id)
+      let selected: any = Object.values(categories.list).filter(p => p.id === cat.id)
+      let childes: any = Object.values(categories.list).filter(p => p.category_parent === cat.id)
       console.log(selected[0])
       this.setState({
         ...this.state,
@@ -840,8 +857,8 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
         selectedCatLvlThree: null
       })
     } else if (level === 'two') {
-      let selected = Object.values(categories.list).filter(p => p.id === cat.id)
-      let childes = Object.values(categories.list).filter(p => p.category_parent === cat.id)
+      let selected: any = Object.values(categories.list).filter(p => p.id === cat.id)
+      let childes: any = Object.values(categories.list).filter(p => p.category_parent === cat.id)
       console.log(selected[0])
       this.setState({
         ...this.state,
@@ -850,7 +867,7 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
         selectedCatLvlThree: null
       })
     } else if (level === 'three') {
-      let selected = Object.values(categories.list).filter(p => p.id === cat.id)
+      let selected: any = Object.values(categories.list).filter(p => p.id === cat.id)
       console.log(selected[0])
       this.setState({...this.state, selectedCatLvlThree: selected[0].id})
     }
@@ -859,14 +876,14 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
   _handleCountry(data) {
     const {_getProvinces, province} = this.props
     _getProvinces(data.id)
-    let provins = Object.values(province.list).filter(p => p.province_related_country === data.id)
+    let provins: any = Object.values(province.list).filter(p => p.province_related_country === data.id)
     this.setState({...this.state, provinceList: provins.slice(), selectedCountry: data.id, selectedProvince: null, selectedCity: null})
   }
 
   _handleProvince(data) {
     const {_getCities, city} = this.props
     _getCities(data.id)
-    let cits = Object.values(city.list).filter(p => p.town_related_province === data.id)
+    let cits: any = Object.values(city.list).filter(p => p.town_related_province === data.id)
     this.setState({...this.state, cityList: cits.slice(), selectedProvince: data.id, selectedCity: null})
   }
 
@@ -939,12 +956,13 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
   _handleCreateAbility() {
     let {abilityTitle, abilityDescription} = this.state
     let {clientId} = this.props
+    let self: any = this
     if (abilityTitle.length < 4 || abilityTitle.length >= 250) {
-      this._titleError.className = 'product-name-error'
-      this._descriptionError.className = 'product-name-error-hide'
+      self._titleError.className = 'product-name-error'
+      self._descriptionError.className = 'product-name-error-hide'
     } else if (abilityDescription.length >= 127000) {
-      this._descriptionError.className = 'product-name-error'
-      this._titleError.className = 'product-name-error-hide'
+      self._descriptionError.className = 'product-name-error'
+      self._titleError.className = 'product-name-error-hide'
     } else {
       let formData = {
         title: abilityTitle,
@@ -958,7 +976,7 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
   }
 
   _uploadHandler = (fileString: any) => {
-    const reader = new FileReader()
+    const reader: any = new FileReader()
     if (fileString) {
       reader.readAsDataURL(fileString)
       reader.onload = () => {

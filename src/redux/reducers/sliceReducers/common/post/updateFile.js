@@ -6,12 +6,12 @@ const base = (state, action) => {
 const success = (state, action) => {
   const {data, fileParentType} = action.payload
   const fileRelatedParentId = data.file_related_parent
-  const previousPost = state.list[fileRelatedParentId] || {post_picture_array: []}
+  const previousPost = state.list[fileRelatedParentId] || {post_files_array: []}
 
   if (fileParentType === constants.FILE_PARENT.POST) {
     let finalData = []
-    if (previousPost.post_picture_array) {
-      finalData = [...previousPost.post_picture_array]
+    if (previousPost.post_files_array) {
+      finalData = [...previousPost.post_files_array]
       if (!finalData.includes(data)) {
         finalData.map(fileFinal => {
           if (fileFinal.id === data.id) {
@@ -33,7 +33,7 @@ const success = (state, action) => {
         ...state.list,
         [fileRelatedParentId]: {
           ...previousPost,
-          post_picture_array: finalData,
+          post_files_array: finalData,
         }
       }
     }

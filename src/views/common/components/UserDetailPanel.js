@@ -18,8 +18,8 @@ type UserDetailPanelProps = {
   user: userType,
   profileImage?: fileType,
   bannerImage?: fileType,
-  profileId: number,
-  bannerId: number,
+  profileId?: number,
+  bannerId?: number,
   actions: {
     getFile: Function,
   }
@@ -27,7 +27,8 @@ type UserDetailPanelProps = {
 
 type UserDetailPanelStates = {
   bannerLoaded: boolean,
-  profileLoaded: boolean
+  profileLoaded: boolean,
+  getFilesInDidMount: boolean,
 }
 
 class UserDetailPanel extends React.Component<UserDetailPanelProps, UserDetailPanelStates> {
@@ -46,8 +47,8 @@ class UserDetailPanel extends React.Component<UserDetailPanelProps, UserDetailPa
     profile: PropTypes.object.isRequired,
     organization: PropTypes.object,
     user: PropTypes.object.isRequired,
-    profileId: PropTypes.number.isRequired,
-    bannerId: PropTypes.number.isRequired,
+    profileId: PropTypes.number,
+    bannerId: PropTypes.number,
     profileImage: PropTypes.object,
     bannerImage: PropTypes.object,
     actions: PropTypes.object.isRequired
@@ -158,8 +159,7 @@ class UserDetailPanel extends React.Component<UserDetailPanelProps, UserDetailPa
             {/*<p> {translate["Education Experience"]}</p>*/}
             {/*<p className='user-detail-value'>گرایش مهندسی برق</p>*/}
             {/*</div>*/}
-            {/*</React.Fragment>*/}
-            {/*:*/}
+            {/*</React.Fragment> : */}
             {/*<React.Fragment>*/}
             {/*<div className='user-detail-row'>*/}
             {/*<p>{translate["Employees"]}</p>*/}

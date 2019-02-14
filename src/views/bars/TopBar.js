@@ -25,6 +25,7 @@ import {routerActions} from 'react-router-redux'
 import {SearchIcon} from 'src/images/icons'
 import {shortOrganizationType} from 'src/consts/flowTypes/organization/organization'
 import {userProfileType, userType} from 'src/consts/flowTypes/user/basicInformation'
+import {CSSTransition, TransitionGroup} from 'react-transition-group'
 // import makeFileSelectorByKeyValue from '../../redux/selectors/common/file/selectFilsByKeyValue'
 // import client from 'src/consts/client'
 
@@ -365,7 +366,13 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
               modalIsOpen={createExchangeModalIsOpen}
           />
 
-          <div className={showHamburger ? 'hamburger-overlay open': 'hamburger-overlay close'}/>
+          <TransitionGroup>
+            {showHamburger ?
+                <CSSTransition key={1} timeout={250} classNames='fade'>
+                  <div className='hamburger-overlay open'/>
+                </CSSTransition>
+                : null}
+          </TransitionGroup>
 
           <nav className="page-content topBar">
             <div className="d-flex align-items-end" ref={e => this.exploreRef = e}>

@@ -22,7 +22,8 @@ type states = {
   clickedSvgStyle: string,
   clickedSvgContainerStyle: string,
   normalSvgStyle: string,
-  normalSvgContainerStyle: string
+  normalSvgContainerStyle: string,
+  ownerId: ?number,
 }
 type props = {
   translate: { [string]: string },

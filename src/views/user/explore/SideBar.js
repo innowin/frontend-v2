@@ -1,10 +1,10 @@
 // @flow
 import * as React from 'react'
 import FontAwesome from 'react-fontawesome'
-import Select from 'react-select'
 import {Component} from 'react'
 import {connect} from 'react-redux'
 import {hashTagsListSelector} from 'src/redux/selectors/common/hashTags/hashTag'
+// import Select from 'react-select'
 
 type appProps =
     {|
@@ -90,7 +90,11 @@ class Sidebar extends Component <appProps, appState> {
   render() {
 
     const {justFollowed, justFollowing} = this.props
-    const {searchHashTags, searchLength, collapse} = this.state
+    const {
+      // searchHashTags,
+      searchLength,
+      collapse
+    } = this.state
 
     const self: any = this
 
@@ -99,12 +103,12 @@ class Sidebar extends Component <appProps, appState> {
         hashTags.push({value: p.title, label: p.title, usage: p.usage})
     )
 
-    let selectedHashTags = Object.values(this.state.hashTags).map((hashTag: Object) =>
-        <div className='exchanges-explore-sidebar-hashTags'>
-          <div className='exchanges-explore-sidebar-hashTags-title'>{hashTag.title}</div>
-          <div className='exchanges-explore-sidebar-hashTags-usage'>{hashTag.usage}</div>
-        </div>
-    )
+    // let selectedHashTags = Object.values(this.state.hashTags).map((hashTag: Object) =>
+    //     <div className='exchanges-explore-sidebar-hashTags'>
+    //       <div className='exchanges-explore-sidebar-hashTags-title'>{hashTag.title}</div>
+    //       <div className='exchanges-explore-sidebar-hashTags-usage'>{hashTag.usage}</div>
+    //     </div>
+    // )
 
     return (
         <div className='exchanges-explore-sidebar'>
@@ -143,35 +147,35 @@ class Sidebar extends Component <appProps, appState> {
               {/*</label>*/}
               <label className="label-wrapper">
                 <input type="checkbox" onChange={(e) => justFollowed(e.target.checked)}/>
-                <span className="checkmark"></span>
+                <span className="checkmark"> </span>
                 دنبال کرده ها
               </label>
               <label className="label-wrapper">
                 <input type="checkbox" onChange={(e) => justFollowing(e.target.checked)}/>
-                <span className="checkmark"></span>
+                <span className="checkmark"> </span>
                 دنبال شده ها
               </label>
             </div>
           </div>
-          <div className='exchanges-explore-sidebar-hashTags-search-container'>
-            <div className='exchanges-explore-sidebar-tag'>
-              افزودن برچسب:
-            </div>
-            <div className='exchanges-explore-sidebar-tag-search'>
-              <FontAwesome name="search" style={{color: '#bababa'}} onClick={this._showHashTagsSearch}/>
-              <Select
-                  className={searchHashTags ? 'exchanges-explore-sidebar-tag-input-show' : 'exchanges-explore-sidebar-tag-input'}
-                  onChange={this._handleHashTagsChange}
-                  options={hashTags}
-                  placeholder=''
-              />
-            </div>
-            <div className='exchanges-explore-sidebar-hashTags-container'>
-              {
-                selectedHashTags
-              }
-            </div>
-          </div>
+          {/*<div className='exchanges-explore-sidebar-hashTags-search-container'>
+           <div className='exchanges-explore-sidebar-tag'>
+           افزودن برچسب:
+           </div>
+           <div className='exchanges-explore-sidebar-tag-search'>
+           <FontAwesome name="search" style={{color: '#bababa'}} onClick={this._showHashTagsSearch}/>
+           <Select
+           className={searchHashTags ? 'exchanges-explore-sidebar-tag-input-show' : 'exchanges-explore-sidebar-tag-input'}
+           onChange={this._handleHashTagsChange}
+           options={hashTags}
+           placeholder=''
+           />
+           </div>
+           <div className='exchanges-explore-sidebar-hashTags-container'>
+           {
+           selectedHashTags
+           }
+           </div>
+           </div>*/}
           {/*<div style={{fontSize: '14px'}}>*/}
           {/*فیلتر بر اساس نشان ها:*/}
           {/*</div>*/}

@@ -24,6 +24,7 @@ import constants from 'src/consts/constants'
 import type {postType} from 'src/consts/flowTypes/common/post'
 import type {fileType} from 'src/consts/flowTypes/common/fileType'
 import uuid from 'uuid'
+import type {identityType} from '../../../../consts/flowTypes/user/basicInformation'
 
 const POST_MEDIA_TEMP_KEY = 'POST_MEDIA'
 const POST_FILE_TEMP_KEY = 'POST_FILE'
@@ -46,6 +47,18 @@ type createPostPropsTypes = {
   hideEdit?: Function,
   post?: postType,
   updateFunc?: Function,
+  hideCreatePost?: Function,
+  actions: Function,
+  postImg1Id: number,
+  postImg2Id: number,
+  postImg3Id: number,
+  postMediaId: number,
+  postFileId: number,
+  translate: { [string]: string },
+  currentUserType: string,
+  currentUserId: number,
+  currentUserIdentity: identityType | number,
+  currentUserMedia: string | null
 }
 
 type createPostStateTypes = {
@@ -65,7 +78,7 @@ type createPostStateTypes = {
   postImg1: {} | null,
   postImg2: {} | null,
   postImg3: {} | null,
-  postFile: string,
+  postFile: string | null,
   postMedia: string,
   link: string,
   description: string,
@@ -81,7 +94,13 @@ type createPostStateTypes = {
   textLength: number,
   postType: string,
   getFollowers: boolean,
-  removePictureArray: Array<fileType>
+  removePictureArray: Array<fileType>,
+  postImg1Index: number,
+  postImg2Index: number,
+  postImg3Index: number,
+  postFileIndex: number,
+  postMediaIndex: number,
+  isLoading: boolean,
 }
 
 
@@ -104,8 +123,10 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
 
   constructor(props) {
     super(props)
+    let open = false
+    open = !(window.innerWidth > 480)
     this.state = {
-      open: false,
+      open: open,
       attachMenu: false,
       enterAttach: true,
       contactMenu: false,
@@ -138,12 +159,20 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       postType: constants.POST.POST_TYPE.POST,
       getFollowers: false,
       removePictureArray: [],
+      postImg1Index: -1,
+      postImg2Index: -1,
+      postImg3Index: -1,
+      postFileIndex: -1,
+      postMediaIndex: -1,
+      isLoading: false,
     }
   }
+
   attachMenuId: string
 
   componentWillMount(): void {
     document.addEventListener('mousedown', this.handleClickOutside)
+    document.addEventListener('touchend', this.handleClickOutside)
 
     const {actions, translate, currentUserType, currentUserId, currentUserIdentity} = this.props
     const {getFollowers} = actions
@@ -181,7 +210,9 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       }
     }
     if (isUpdate && post) {
-      let postType, postPictureArray = post.post_picture_array, postImg1 = null, postImg2 = null, postImg3 = null
+      let postType, postFilesArray = post.post_files_array, postImg1 = null, postImg2 = null, postImg3 = null,
+          postFile = null, postProduct = post.post_related_product, selectedProduct = undefined, postImg1Index = -1,
+          postImg2Index = -1, postImg3Index = -1, postFileIndex = -1
       if (post.post_type === constants.POST.POST_TYPE.SUPPLY) {
         this.supplyChecked.checked = true
         postType = constants.POST.POST_TYPE.SUPPLY
@@ -189,20 +220,29 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
         this.demandChecked.checked = true
         postType = constants.POST.POST_TYPE.DEMAND
       }
-      if(postPictureArray) {
+      if (postProduct) {
+        selectedProduct = postProduct
+      }
+      if (postFilesArray) {
         let numberOfPostImages = 0
-        for(let picture of postPictureArray) {
-          if (picture.type === constants.CRETE_FILE_TYPES.IMAGE) {
+        for (let index = 0; index < postFilesArray.length; index++) {
+          let file = postFilesArray[index]
+          if (file.type === constants.CRETE_FILE_TYPES.IMAGE) {
             numberOfPostImages++
             if (numberOfPostImages === 1) {
-              postImg1 = picture.file
-            }
-            else if (numberOfPostImages === 2) {
-              postImg2 = picture.file
+              postImg1 = file.file
+              postImg1Index = index
+            } else if (numberOfPostImages === 2) {
+              postImg2 = file.file
+              postImg2Index = index
             }
             if (numberOfPostImages === 3) {
-              postImg3 = picture.file
+              postImg3 = file.file
+              postImg3Index = index
             }
+          } else if (file.type === constants.CRETE_FILE_TYPES.FILE) {
+            postFile = file.file
+            postFileIndex = index
           }
         }
       }
@@ -215,6 +255,12 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
         postImg1,
         postImg2,
         postImg3,
+        postFile,
+        selectedProduct,
+        postImg1Index,
+        postImg2Index,
+        postImg3Index,
+        postFileIndex,
       })
 
       if (this.text) {
@@ -226,19 +272,24 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const {link} = this.state
-    const {postsCountInThisPage, post, hideEdit, isUpdate} = this.props
+    const {link, postImg1, postImg2, postImg3, postFile, postMedia} = this.state
+    const {postsCountInThisPage, postImg1Id, postImg2Id, postImg3Id, postFileId, postMediaId} = this.props
 
     if (link !== prevState.link) {
       this._showLink(link)
     }
 
-    if (prevProps.postsCountInThisPage < postsCountInThisPage){
+    if (prevProps.postsCountInThisPage < postsCountInThisPage) {
       this._resetPost()
     }
 
-    if (isUpdate && hideEdit && post && prevProps.post !== post) {
-      hideEdit()
+    if ((postImg1 && !postImg1Id && postImg1 !== prevState.postImg1)
+        || (postImg2 && !postImg2Id && postImg2 !== prevState.postImg2)
+        || (postImg3 && !postImg3Id && postImg3 !== prevState.postImg3)
+        || (postImg3 && !postImg3Id && postImg3 !== prevState.postImg3)
+        || (postFile && !postFileId && postFile !== prevState.postFile)
+        || (postMedia && !postMediaId && postMedia !== prevState.postMedia)) {
+      this.setState({...this.state, isLoading: false})
     }
   }
 
@@ -258,9 +309,11 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
 
   componentWillUnmount() {
     document.removeEventListener('mousedown', this.handleClickOutside)
+    document.removeEventListener('touchend', this.handleClickOutside)
   }
 
   _resetPost = () => {
+    const {hideCreatePost} = this.props
     this.text.innerText = ''
     this.headerText.innerText = ''
     this.setState({
@@ -282,12 +335,21 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       postType: constants.POST.POST_TYPE.POST,
       removePictureArray: [],
       focused: false,
+      postImg1Index: -1,
+      postImg2Index: -1,
+      postImg3Index: -1,
+      postFileIndex: -1,
+      postMediaIndex: -1,
+      isLoading: false,
     }, () => {
       this.supplyChecked.checked = false
       this.demandChecked.checked = false
       this.text.blur()
       this.headerText.blur()
     })
+    if (hideCreatePost) {
+      hideCreatePost()
+    }
   }
 
   demandChecked: HTMLInputElement
@@ -296,9 +358,13 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
   text: HTMLInputElement
 
   handleClickOutside = (event) => {
-    const {attachMenu, contactMenu, linkModal, addProductModal, postImg1, postImg2, postImg3, postFile, postMedia, link, description, labels, open, descriptionHeader} = this.state
-    const needReset = !description && !postImg1 && !postImg2 && !postImg3 && !postFile && !postMedia && !link && labels === {}
-    const {postImg1Id, postImg2Id, postImg3Id, postMediaId, postFileId, isUpdate, hideEdit} = this.props
+    const {
+      attachMenu, contactMenu, linkModal, addProductModal, postImg1, postImg2, postImg3, postFile, postMedia,
+      selectedProduct, link, description, labels, open, descriptionHeader
+    } = this.state
+    const needReset = !description && !postImg1 && !postImg2 && !postImg3 && !postFile && !postMedia && !link
+        && !selectedProduct && labels === {}
+    const {hideCreatePost, postMediaId, postFileId, isUpdate, hideEdit} = this.props
     if (!event.target.closest(`#${this.attachMenuId}`)) {
       if (attachMenu) {
         this.setState({...this.state, attachMenu: false})
@@ -324,11 +390,13 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
     }
 
     if (this.form && !this.form.contains(event.target)) {
-      const filesCount = (postMediaId || postFileId) ? 1 : ([postImg1Id, postImg2Id, postImg3Id].filter(img => img).length)
-      if (open && (description.length === 0) && (descriptionHeader.length === 0) && (filesCount === 0)) {
-        this.setState({...this.state, open: false, postType: constants.POST.POST_TYPE.POST})
+      let newOpen = !(window.innerWidth > 480)
+      const filesCount = (postMediaId || postFileId) ? 1 : ([postImg1, postImg2, postImg3].filter(img => img).length)
+      if (open && (description.length === 0) && (descriptionHeader.length === 0) && (filesCount === 0) && !selectedProduct) {
+        this.setState({...this.state, open: newOpen, postType: constants.POST.POST_TYPE.POST})
         this.supplyChecked.checked = false
         this.demandChecked.checked = false
+        if (hideCreatePost) hideCreatePost()
       }
       if (isUpdate && hideEdit) {
         hideEdit()
@@ -462,7 +530,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
     return {
       files_count: filesCount,
       post_description: description,
-      post_title: descriptionHeader.length > 0 ? descriptionHeader : 'without title',
+      post_title: descriptionHeader.length > 0 ? descriptionHeader : '',
       post_type: postType,
       post_parent: postParentId,
       post_identity: currentUserIdentity,
@@ -544,7 +612,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       for (let picture of removePictureArray) {
         deleteFile({fileId: picture.id, fileParentType: constants.FILE_PARENT.POST, fileParentId: post.id})
       }
-      updateFunc(formValues, post.id)
+      updateFunc(formValues, post.id, postAttachedFileIds)
     } else {
       createPost({
         formValues, postOwnerId: currentUserId, postOwnerType: currentUserType, postParentId, postParentType,
@@ -582,9 +650,9 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
         || (i === 2 && POST_IMG3_TEMP_KEY)
     removeFileFromTemp(tempKeyName)
     if (isUpdate && post) {
-      const postPictureArray = post.post_picture_array
-      for(let picture of postPictureArray) {
-        if((i === 0 && picture.file === postImg1) || (i === 1 && picture.file === postImg2) || (i === 2 && picture.file === postImg3)) {
+      const postFilesArray = post.post_files_array
+      for (let picture of postFilesArray) {
+        if ((i === 0 && picture.file === postImg1) || (i === 1 && picture.file === postImg2) || (i === 2 && picture.file === postImg3)) {
           newRemovePictureArray.push(picture)
           break
         }
@@ -600,10 +668,25 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
   }
 
   _deleteFile = () => {
-    const {actions} = this.props
+    const {actions, isUpdate, post} = this.props
+    const {removePictureArray, postFile} = this.state
+
     const {removeFileFromTemp} = actions
     removeFileFromTemp(POST_FILE_TEMP_KEY)
-    this.setState({...this.state, postFile: ''})
+    let newRemovePictureArray = removePictureArray
+
+
+    if (isUpdate && post) {
+      const postFilesArray = post.post_files_array
+      for (let picture of postFilesArray) {
+        if (picture.file === postFile) {
+          newRemovePictureArray.push(picture)
+          break
+        }
+      }
+    }
+
+    this.setState({...this.state, postFile: '', removePictureArray: newRemovePictureArray})
   }
 
   _deleteMedia = () => {
@@ -639,28 +722,73 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
   }
 
   _allowSubmitCheck = () => {
-    const {postImg1, postImg2, postImg3, postMedia, postFile, description, descriptionHeader, postType} = this.state
-    const {postImg1Id, postImg2Id, postImg3Id, postMediaId, postFileId} = this.props
+    const {
+      postImg1, postImg2, postImg3, postMedia, postFile, description, descriptionHeader, postType, selectedProduct,
+      postImg1Index, postImg2Index, postImg3Index, postFileIndex, postMediaIndex
+    } = this.state
+    const {postImg1Id, postImg2Id, postImg3Id, postMediaId, postFileId, post} = this.props
     const descriptionLength = description.trim().length
     const descriptionHeaderLength = descriptionHeader.trim().length
     const descriptionCheck = descriptionLength >= minAllowedWordCounts && descriptionLength <= maxAllowedWordCounts
     const descriptionHeaderCheck = (postType === constants.POST.POST_TYPE.DEMAND || postType === constants.POST.POST_TYPE.SUPPLY)
         ? (descriptionHeaderLength >= minAllowedHeaderWordCounts && descriptionHeaderLength <= maxAllowedHeaderWordCounts)
         : true
-    const postPicturesCheck = (postImg1 ? postImg1Id : true)
-        && (postImg2 ? postImg2Id : true)
-        && (postImg3 ? postImg3Id : true)
-    const postMediaCheck = postMedia ? postMediaId : true
-    const postFileCheck = postFile ? postFileId : true
-    const condition1 = Boolean(postImg1 || postImg2 || postImg3 || postMedia || descriptionCheck || descriptionHeaderCheck)
+
+    const postFilesArray = post && post.post_files_array
+    const postPicturesCheck = (
+        postFilesArray ? (
+            (postImg1Index !== -1
+                ? postFilesArray[postImg1Index] ? (postImg1 === postFilesArray[postImg1Index].file ? true : (postImg1 ? postImg1Id : true)) : (postImg1 ? postImg1Id : true)
+                : true) &&
+            (postImg2Index !== -1
+                ? postFilesArray[postImg2Index] ? (postImg2 === postFilesArray[postImg2Index].file ? true : (postImg2 ? postImg2Id : true)) : (postImg2 ? postImg2Id : true)
+                : true) &&
+            (postImg3Index !== -1
+                ? postFilesArray[postImg3Index] ? (postImg3 === postFilesArray[postImg3Index].file ? true : (postImg3 ? postImg3Id : true)) : (postImg3 ? postImg3Id : true)
+                : true)
+        ) : (
+            (postImg1 ? postImg1Id : true)
+            && (postImg2 ? postImg2Id : true)
+            && (postImg3 ? postImg3Id : true)
+        )
+    )
+    const postMediaCheck =
+        postFilesArray ? (
+            (postMediaIndex !== -1 ?
+                postFilesArray[postMediaIndex] ? (postMedia === postFilesArray[postMediaIndex].file ? true : (postMedia ? postMediaId : true)) : (postMedia ? postMediaId : true)
+                : true)
+        ) : (
+            postMedia ? postMediaId : true
+        )
+    const postFileCheck =
+        postFilesArray ? (
+            (postFileIndex !== -1
+                ? postFilesArray[postFileIndex] ? (postFile === postFilesArray[postFileIndex].file ? true : (postFile ? postFileId : true)) : (postFile ? postFileId : true)
+                : true)
+        ) : (
+            postFile ? postFileId : true
+        )
+    const condition1 = (postType === constants.POST.POST_TYPE.POST)
+        ? postImg1 || postImg2 || postImg3 || postMedia || descriptionCheck
+        : postImg1 || postImg2 || postImg3 || postMedia || descriptionCheck || descriptionHeaderCheck
     const condition2 = postFile ? (descriptionCheck && descriptionHeaderCheck) : true
-    const condition3 = Boolean(postPicturesCheck && postMediaCheck && postFileCheck)
-    return condition1 && condition2 && condition3 //TODO add product condition
+    const condition3 = postPicturesCheck && postMediaCheck && postFileCheck
+    const condition4 = selectedProduct ? (descriptionCheck && descriptionHeaderCheck) : true
+    return condition1 && condition2 && condition3 && condition4
   }
 
   _onSubmit = (e) => {
+    const {isUpdate, hideEdit} = this.props
+    const {isLoading} = this.state
     e.preventDefault()
-    this._save()
+
+    if (!isLoading) {
+      if (isUpdate && hideEdit) {
+        hideEdit()
+      }
+      this.setState({...this.state, isLoading: true})
+      this._save()
+    }
   }
 
   _autoGrow = () => {
@@ -687,11 +815,15 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
     }
   }
 
+  _removeProduct = () => {
+    this.setState({...this.state, selectedProduct: undefined})
+  }
+
   render() {
-    const {post, hideEdit, className, isUpdate, followers, exchanges, currentUserIdentity, currentUserMedia, currentUserName, translate, currentUserId} = this.props
+    const {hideCreatePost, post, hideEdit, className, isUpdate, followers, exchanges, currentUserIdentity, currentUserMedia, currentUserName, translate, currentUserId} = this.props
     const {
       postImg1, postImg2, postImg3, open, attachMenu, labels, link, contactMenu, linkModal, postFile, postMedia,
-      profileLoaded, description, descriptionClass, descriptionHeaderClass, focused, addProductModal, selectedProduct, postType, descriptionHeader
+      isLoading, profileLoaded, description, descriptionClass, descriptionHeaderClass, focused, addProductModal, selectedProduct, postType, descriptionHeader
     } = this.state
     const hasMediaClass = (postMedia || postImg1 || postImg2 || postImg3) ? 'hasMedia' : ''
     const postImagesLength = [postImg1, postImg2, postImg3].filter(img => img).length
@@ -726,6 +858,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
                   <span className="checkmark"/>
                 </label>
               </div>
+              <div className='create-post-close' onClick={hideCreatePost}>✕</div>
             </div>
             {isUpdate &&
             <div className='post-component-header-item'>
@@ -819,11 +952,15 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
                 deleteMedia={this._deleteMedia}
                 deleteFile={this._deleteFile}
                 focused={focused}
+                translate={translate}
             />
           </div>
 
           {selectedProduct &&
-          <ProductInfoView translate={translate} product={selectedProduct} ownerId={currentUserId}/>
+          <div className='post-product-container'>
+            <span onClick={this._removeProduct} className='remove-product pulse'>x</span>
+            <ProductInfoView translate={translate} product={selectedProduct} ownerId={currentUserId}/>
+          </div>
           }
 
           <div className={open ? 'post-component-footer' : 'post-component-footer-hide'}>
@@ -853,13 +990,19 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
                     </div>
                     <button
                         type="submit"
-                        className={allowSubmit ? 'post-component-footer-send-btn' : 'post-component-footer-send-btn-inactive'}>
+                        disabled={!allowSubmit || isLoading}
+                        className={allowSubmit && !isLoading
+                            ? 'post-component-footer-send-btn'
+                            : 'post-component-footer-send-btn-inactive'}>
                       {translate['Confirm']}
                     </button>
                   </div>
                   : <button
                       type="submit"
-                      className={allowSubmit ? 'post-component-footer-send-btn' : 'post-component-footer-send-btn-inactive'}
+                      disabled={!allowSubmit || isLoading}
+                      className={allowSubmit && !isLoading
+                          ? 'post-component-footer-send-btn'
+                          : 'post-component-footer-send-btn-inactive'}
                   >{translate['Send']}
                   </button>
               }

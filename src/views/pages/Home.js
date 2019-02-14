@@ -14,7 +14,7 @@ import setExchangeActions from 'src/redux/actions/user/setSelectedExchangeAction
 // import {Helmet} from "react-helmet"
 
 type HomeProps = {|
-  identityId: number,
+  identityId?: number,
   identityType?: string,
   id?: number,
   translate: { [string]: string }
@@ -23,7 +23,7 @@ type HomeProps = {|
 class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
 
   static propTypes = {
-    identityId: PropTypes.number.isRequired,
+    identityId: PropTypes.number,
     identityType: PropTypes.string,
     id: PropTypes.number
   }
@@ -74,7 +74,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
               {
                 (id && identityId && identityType) ? (
                     <HomeSideBar setExchangeId={this._setExchangeId}
-                                 classNames="right-sidebar"
+                                 classNames={activeExchangeId ? "right-sidebar active-exchange" : "right-sidebar"}
                                  identityId={identityId}
                                  identityType={identityType}
                                  activeExchangeId={activeExchangeId}
@@ -82,8 +82,8 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
                     />
                 ) : null
               }
-              <HomePosts exchangeId={activeExchangeId} className="post-wrapper"/>
-              <div className="user-detail-wrapper">
+              <HomePosts exchangeId={activeExchangeId} className={activeExchangeId ? "post-wrapper active-exchange": "post-wrapper"}/>
+              <div className={activeExchangeId ? "user-detail-wrapper active-exchange" : 'user-detail-wrapper'}>
                 <BeePanel/>
               </div>
             </div>

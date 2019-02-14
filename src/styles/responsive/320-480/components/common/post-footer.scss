@@ -3,5 +3,18 @@
 @media screen and (max-width: 480px) and (min-width: 320px) {
   .more-option-svg-container {
     display: none;
+    margin-left: 0;
+  }
+
+  .comment-svg-container{
+    .comment-svg{
+      position: absolute;
+      left: -17px;
+    }
+    & > span {
+      position: absolute;
+      right: 10px;
+      font-size: 4mm;
+    }
   }
 }

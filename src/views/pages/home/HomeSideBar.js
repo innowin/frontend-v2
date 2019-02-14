@@ -151,9 +151,11 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!this.props.activeExchangeId && nextProps.clientExchanges.length > 0) {
-      const {setExchangeId, clientExchanges} = nextProps
-      setExchangeId(clientExchanges[0].id)
+    if(window.innerWidth > 480) {
+      if (!this.props.activeExchangeId && nextProps.clientExchanges.length > 0) {
+        const {setExchangeId, clientExchanges} = nextProps
+        setExchangeId(clientExchanges[0].id)
+      }
     }
   }
 

@@ -41,12 +41,12 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
     this.setState({edit: false})
   }
 
-  _update = (formValues: postType, postId: number) => {
+  _update = (formValues: postType, postId: number, postFileIds: []) => {
     const {updatePost, post} = this.props
     const postIdentityUserId = post.post_identity.identity_user && post.post_identity.identity_user.id
     const postIdentityOrganId = post.post_identity.identity_organization && post.post_identity.identity_organization.id
     const postOwnerId = postIdentityUserId || postIdentityOrganId
-    updatePost({formValues, postId, postOwnerId})
+    updatePost({formValues, postId, postOwnerId, postFileIds})
   }
 
   _delete = () => {
@@ -79,6 +79,7 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
               </div>
               :
               <PostView post={post}
+                        key={'post view ' + post.id}
                         showEdit={this._showEdit}
                         extendedView={false}
               />

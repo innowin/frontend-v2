@@ -86,7 +86,7 @@ class Login extends Component {
 
     return (
         <div className="login-page  full-page-wrapper">
-          <div className={(showRecovery) ? 'mlakeDark' : 'makeDark-out'}
+          <div className={(showRecovery) ? 'makeDark' : 'makeDark-out'}
                onClick={this._hideModalClick}>
             {/*dark div*/}
           </div>
@@ -105,7 +105,6 @@ class Login extends Component {
             <HeaderLogin onSignUpClick={this._showSignUp} translate={translate} iosLink={iosLink} androidLink={androidLink} address={address}
                          phoneNumber={phoneNumber}/>
             <div className="content">
-
               <div className={`login-wrapper ${animateFormClass}`}>
                 <div className="sign-in-card">
                   <div className="login-tab">

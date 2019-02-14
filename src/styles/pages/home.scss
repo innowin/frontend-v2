@@ -13,6 +13,10 @@ $heightOfContentBox: 140px;
     flex: 1 1 50%;
     max-width: 50%;
   }
+
+  .write-post, .write-post-hide {
+    display: none;
+  }
 }
 
 .global-wrapper {

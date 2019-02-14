@@ -5,7 +5,7 @@ const base = (state, action) => {
 
 const success = (state, action) => {
   const {fileParentId, fileParentType, fileId} = action.payload || {}
-  const previousFiles = (state.list[fileParentId] && state.list[fileParentId].post_picture_array)
+  const previousFiles = (state.list[fileParentId] && state.list[fileParentId].post_files_array)
 
   if (fileParentType === constants.COMMENT_PARENT.POST) {
     const newDeletedFiles = previousFiles.filter(file => file.id !== fileId)
@@ -15,7 +15,7 @@ const success = (state, action) => {
         ...state.list,
         [fileParentId]: {
           ...state.list[fileParentId],
-          post_picture_array: [...newDeletedFiles],
+          post_files_array: [...newDeletedFiles],
         }
       }
     }

@@ -67,12 +67,26 @@ class Socials extends Component<PropsSocials, StateSocials> {
   }
 
   componentDidMount() {
-    const {identityId, actions, ownerId, identityType} = this.props
-    const {getFollowers} = actions
+    const {
+      identityId,
+      actions,
+      ownerId,
+      identityType,
+      clientType,
+      clientIdentityId,
+      clientId
+    } = this.props
+    const {
+      getFollowers,
+      getFollowees
+    } = actions
+
+    if (ownerId && clientIdentityId) {
+      getFollowees({followOwnerId: clientId, followOwnerIdentity: clientIdentityId, followOwnerType: clientType, userProfileId: ownerId})
+    }
 
     if (identityId) {
       getFollowers({followOwnerId: ownerId, followOwnerIdentity: identityId, followOwnerType: identityType})
-      // getFollowees({followOwnerId, followOwnerIdentity, followOwnerType: identityType})
     }
   }
 
@@ -100,8 +114,6 @@ class Socials extends Component<PropsSocials, StateSocials> {
     // } = this.state
 
     const paramId = identityType === constants.USER_TYPES.PERSON ? +param.user : +param.organization
-    
-    console.log("ownerId", ownerId)
 
     return (
         <div>
@@ -131,12 +143,15 @@ const mapStateToProps = (state, ownProps) => {
     exchanges: getExchangeMembershipsSelector(state, ownProps),
     isLoading: followObject.isLoading,
     error: followObject.error,
+    clientType: state.auth.client.user_type,
+    clientIdentityId: state.auth.client.identity.content,
+    clientId: state.auth.client.organization === null ? state.auth.client.user.id : state.auth.client.organization.id,
   }
 }
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    // getFollowees: SocialActions.getFollowees,
+    getFollowees: SocialActions.getFollowees,
     getFollowers: SocialActions.getFollowers,
     deleteFollow: SocialActions.deleteFollow,
     updateFollow: SocialActions.updateFollow,

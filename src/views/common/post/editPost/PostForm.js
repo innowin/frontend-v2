@@ -56,18 +56,18 @@ export class PostForm extends Component<postFormProps, postFormStates> {
     const {post} = this.props
     document.addEventListener('mousedown', this.handleClickOutside)
 
-    if (post && post.post_picture_array) {
+    if (post && post.post_files_array) {
       const {post} = this.props
-      let postPictureArray
+      let postFilesArray
       if (post) {
-        postPictureArray = post.post_picture_array
+        postFilesArray = post.post_files_array
       }
       let pictures = []
-      if (postPictureArray && postPictureArray.length > 0) {
-        for (let i = 0; i < postPictureArray.length; i++) {
+      if (postFilesArray && postFilesArray.length > 0) {
+        for (let i = 0; i < postFilesArray.length; i++) {
           pictures.push(new Image())
           let picture = pictures[i]
-          picture.src = postPictureArray[i].file
+          picture.src = postFilesArray[i].file
           picture.onload = () => {
             let newPictureArrayLoaded = this.state.pictureArrayLoaded
             newPictureArrayLoaded[i] = true
@@ -100,15 +100,15 @@ export class PostForm extends Component<postFormProps, postFormStates> {
     newPictureArrayLoaded[fileIndex] = null
     this.setState({...this.state, pictureArrayLoaded: newPictureArrayLoaded}, () => {
       const {post} = this.props
-      if (post && post.post_picture_array) {
+      if (post && post.post_files_array) {
         const {post} = this.props
-        let postPictureArray
+        let postFilesArray
         if (post) {
-          postPictureArray = post.post_picture_array
+          postFilesArray = post.post_files_array
         }
-        if (postPictureArray && postPictureArray.length > 0) {
+        if (postFilesArray && postFilesArray.length > 0) {
           let picture = new Image()
-          picture.src = postPictureArray[fileIndex].file
+          picture.src = postFilesArray[fileIndex].file
           picture.onload = () => {
             let newPictureArrayLoaded = this.state.pictureArrayLoaded
             newPictureArrayLoaded[fileIndex] = true
@@ -186,12 +186,12 @@ export class PostForm extends Component<postFormProps, postFormStates> {
 
     const {pictureArrayLoaded} = this.state
 
-    let postPictureArray = [], picturesClass = '', postPicturesLength = 0
+    let postFilesArray = [], picturesClass = '', postPicturesLength = 0
     if (post) {
-      postPictureArray = post.post_picture_array
-      postPictureArray = postPictureArray.filter(postPicture => !removeImageArrayId.includes(postPicture.id))
-      if (postPictureArray) {
-        postPicturesLength = postPictureArray.length
+      postFilesArray = post.post_files_array
+      postFilesArray = postFilesArray.filter(postPicture => !removeImageArrayId.includes(postPicture.id))
+      if (postFilesArray) {
+        postPicturesLength = postFilesArray.length
         picturesClass = "onePicture"
         if (postPicturesLength === 2) picturesClass = "twoPictures"
         if (postPicturesLength === 3) picturesClass = "threePictures"
@@ -268,9 +268,9 @@ export class PostForm extends Component<postFormProps, postFormStates> {
           />
 
           <div>
-            {postPictureArray && postPicturesLength > 0
+            {postFilesArray && postPicturesLength > 0
                 ? <div className={"pictures-section " + picturesClass}>
-                  {postPictureArray.map((postPictureElement, i) => (
+                  {postFilesArray.map((postPictureElement, i) => (
                       <div className='image-container' key={i + "pictures-section"}>
                         <div className='post-image-container'>
                           <div

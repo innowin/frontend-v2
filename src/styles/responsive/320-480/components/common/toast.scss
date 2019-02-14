@@ -1,0 +1,19 @@
+@import "../../../../variables";
+
+@media screen and (max-width: 480px) and (min-width: 320px) {
+  .toast-container {
+    width: 96%;
+    left: 2%;
+    right: 2%;
+    bottom: 5px;
+
+    .toast-child-container {
+      width: 100%;
+      .toast-child-transition {
+        .toast-child-transition-front {
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
+}

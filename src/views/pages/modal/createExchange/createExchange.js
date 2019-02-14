@@ -1,81 +1,96 @@
 // @flow
-import * as React from "react"
-import {Component} from "react"
-import {progressiveSteps} from "./createExchangeData"
-// import FontAwesome from "react-fontawesome"
-// import {Modal, ModalBody} from "reactstrap"
-// import MenuProgressive from "../../progressive/penu-progressive"
-import {PROGRESSIVE_STATUS_CHOICES, WRAPPER_CLASS_NAMES, exchangeFields, exchangeIdentityFields} from "./createExchangeData"
-import BasicInfo from "./basicInfo"
-import People from "./people"
-import MoreInfo from "./moreInfo"
-import SuccessMessage from "./successMessage"
+// import BasicInfo from "./basicInfo"
+// import MoreInfo from "./moreInfo"
+// import People from "./people"
+// import SuccessMessage from "./successMessage"
+// import {progressiveSteps} from "./createExchangeData"
+// import helpers from "src/consts/helperFunctions/helperFunctions"
+import * as React from 'react'
+import {Component} from 'react'
 import {
-  ThinDownArrow,
+  // PROGRESSIVE_STATUS_CHOICES,
+  // WRAPPER_CLASS_NAMES,
+  // exchangeFields,
+  exchangeIdentityFields
+} from './createExchangeData'
+import {
+  // ThinDownArrow,
   // ShareIcon,
   // ImageUploadSvg,
   UploadIcon
-} from "src/images/icons"
-import {createFile, getFiles} from "../../../../redux/actions/commonActions/fileActions"
-import {bindActionCreators} from "redux"
-import {connect} from "react-redux"
-import makeFileSelectorByKeyValue from "../../../../redux/selectors/common/file/selectFilsByKeyValue"
-import type {ImageType} from "./basicInfo"
-import {hashTagsListSelector} from "../../../../redux/selectors/common/hashTags/hashTag"
-import helpers from "../../../../consts/helperFunctions/helperFunctions"
-import type {TagAsOptionType} from "../../adding-contribution/types"
-import socialActions from "../../../../redux/actions/commonActions/socialActions"
-import exchangeActions from "../../../../redux/actions/exchangeActions"
-import constants from "../../../../consts/constants"
-import type {PersonType} from "./people"
-import exchangeMembershipActions from "../../../../redux/actions/commonActions/exchangeMembershipActions"
-import {getFolloweesSelector} from "src/redux/selectors/common/social/getFollowees"
-import {ClipLoader} from "react-spinners"
-
+} from 'src/images/icons'
+import constants from 'src/consts/constants'
+import {createFileFunc} from 'src/views/common/Functions'
+import exchangeActions from 'src/redux/actions/exchangeActions'
+import exchangeMembershipActions from 'src/redux/actions/commonActions/exchangeMembershipActions'
+import makeFileSelectorByKeyValue from 'src/redux/selectors/common/file/selectFilsByKeyValue'
+import socialActions from 'src/redux/actions/commonActions/socialActions'
+import type {ImageType} from './basicInfo'
+import type {PersonType} from './people'
+import type {TagAsOptionType} from '../../adding-contribution/types'
+import {bindActionCreators} from 'redux'
+import {ClipLoader} from 'react-spinners'
+import {connect} from 'react-redux'
+import {createFile, getFiles} from 'src/redux/actions/commonActions/fileActions'
+import {getFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
+import {hashTagsListSelector} from 'src/redux/selectors/common/hashTags/hashTag'
+import types from 'src/redux/actions/types'
+import TempActions from '../../../../redux/actions/tempActions'
+import {CSSTransition, TransitionGroup} from 'react-transition-group'
 
 type HashTagType = {
   id: string,
   title: string,
   usage: number
 }
-
 type CreateExchangeProps = {
-  modalIsOpen: boolean,
-  handleModalVisibility: Function,
-  identity: string,
-  getFiles: (string) => void,
-  createFile: (any) => void,
-  hisFiles: Array<ImageType>,
-  hashTags: { [string]: HashTagType },
-  getFollowees: Function,
-  social: Array<PersonType>,
-  createExchange: Function,
   addMember: Function,
+  auth: any,
   createdExchange: { id: string, owner: string },
+  createExchange: Function,
+  createFile: (any) => void,
+  getFiles: (string) => void,
+  getFollowees: Function,
+  handleModalVisibility: Function,
+  hashTags: { [string]: HashTagType },
+  hisFiles: Array<ImageType>,
+  identity: string,
   members: Array<{}>,
-  auth: any
+  modalIsOpen: boolean,
+  social: Array<PersonType>,
+  translate: { [string]: string },
 }
-
 type CreateExchangeState = {
   activeStep: number,
-  progressStatus: string,
-  wrapperClassName: string,
+  created?: boolean,
+  description: string,
+  exchangeImage: any,
+  exchangeImageFlag: boolean,
   formData: { [string]: string },
+  inActPeopleIds: Array<string>,
+  isPrivate: boolean,
+  name: string,
+  processing: boolean,
+  progressStatus: string,
+  searchKey?: string,
   selectedImage?: any,
   selectedTags: Array<TagAsOptionType>,
-  searchKey?: string,
-  created?: boolean,
-  inActPeopleIds: Array<string>,
-  processing: boolean,
+  wrapperClassName: string,
 }
-const initialState = {
+
+const initialState: any = {
   activeStep: 1,
-  progressStatus: PROGRESSIVE_STATUS_CHOICES.ACTIVE,
-  wrapperClassName: WRAPPER_CLASS_NAMES.ENTERING,
+  // progressStatus: PROGRESSIVE_STATUS_CHOICES.ACTIVE,
+  // wrapperClassName: WRAPPER_CLASS_NAMES.ENTERING,
   formData: {},
   selectedTags: [],
   inActPeopleIds: [], // ids of people that doing some action (like adding to exchange members) on theme in this time.
   processing: false,
+  name: '',
+  isPrivate: false,
+  description: '',
+  exchangeImage: null,
+  exchangeImageFlag: false,
 }
 
 class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState> {
@@ -83,10 +98,6 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
     super()
     this.state = {
       ...initialState,
-      name: "",
-      isPrivate: false,
-      description: "",
-      exchangeImage: null,
     }
   }
 
@@ -112,28 +123,40 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
   }
 
   componentDidUpdate(prevProps, prevState, SS) {
-    const {hisFiles} = this.props
+    const {
+      // hisFiles,
+      tempFiles,
+    } = this.props
     const {exchangeImageFlag} = this.state
-    const lastFile = hisFiles[hisFiles.length - 1] || {}
-    const prevLastFile = prevProps.hisFiles[prevProps.hisFiles.length - 1] || {}
+    // const lastFile = hisFiles[hisFiles.length - 1] || {}
+    // const prevLastFile = prevProps.hisFiles[prevProps.hisFiles.length - 1] || {}
+    const doc: any = document
+
     if (exchangeImageFlag) {
-      if (lastFile.id && prevLastFile.id) {
-        if (lastFile.id !== prevLastFile.id) {
-          this._imageHandler(lastFile)
-        }
+      if (tempFiles.exchange_image) {
+        this.setState({
+          ...this.state,
+          exchangeImageFlag: false,
+          processing: false
+        })
       }
+      // if (lastFile.id && prevLastFile.id) {
+      //   if (lastFile.id !== prevLastFile.id) {
+      //     this._imageHandler(lastFile)
+      //   }
+      // }
     }
     if (prevState.exchangeImage !== this.state.exchangeImage && this.state.exchangeImage !== null) {
       this.setState({...this.state, processing: false})
-      console.log("NO PROCESS")
+      console.log('NO PROCESS')
     }
 
     if (this.props.modalIsOpen) {
-      document.body.style.overflow = 'hidden'
-      document.body.style.paddingRight = '7px'
+      doc.body.style.overflow = 'hidden'
+      doc.body.style.paddingRight = '7px'
     } else {
-      document.body.style.overflow = 'auto'
-      document.body.style.paddingRight = '0'
+      doc.body.style.overflow = 'auto'
+      doc.body.style.paddingRight = '0'
     }
     /*
      if ((prevProps.createdExchange.id !== createdExchange.id) && createdExchange.id) {
@@ -158,51 +181,189 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
      */
   }
 
-  _processingHandler = () => this.setState({...this.state, processing: !this.state.processing})
-
-  _createExchange = () => {
-    // this._goToNextStep()
-    // this.setState({...this.state, created: true})
-    if (!this.state.created) {
-      this._processingHandler()
-      this.props.createExchange(this.state.formData)
-    } else this._goToNextStep()
-    // fixme: should update exchange if (this.state.created === true)
-  }
-  _addMember = (id) => {
-    const {createdExchange, addMember} = this.props
-    this.setState({
-      ...this.state,
-      inActPeopleIds: [...this.state.inActPeopleIds, id]
-    })
-    addMember({
-      identityId: id,
-      exchangeIdentity: createdExchange.id
-    })
-  }
-  _setStep = (newStep: number, status: string) => {
-    this.setState({
-          ...this.state,
-          activeStep: newStep,
-          progressStatus: status,
-          wrapperClassName: WRAPPER_CLASS_NAMES.EXITING,
-        },
-        () => {
-          this._afterStepChanging()
-        })
-  }
-
-  _inputHandler = (fieldName: string) => {
-    return (value: string | number | boolean) => {
-      this.setState({
-        ...this.state,
-        formData: {
-          ...this.state.formData,
-          [fieldName]: value
-        }
-      })
-    }
-  }
+  // _afterStepChanging = () => {
+  //   setTimeout(() => this.setState({
+  //     ...this.state,
+  //     progressStatus: PROGRESSIVE_STATUS_CHOICES.ACTIVE,
+  //     wrapperClassName: WRAPPER_CLASS_NAMES.ENTERED,
+  //   }), 10)
+  // }
+  // _goToNextStep = () => {
+  //   const {activeStep} = this.state
+  //   if (activeStep < progressiveSteps.length + 1) {
+  //     this._setStep(activeStep + 1, PROGRESSIVE_STATUS_CHOICES.GOING_NEXT)
+  //   }
+  // }
+  // _goToPrevStep = () => {
+  //   const {activeStep} = this.state
+  //   if (activeStep !== 1) {
+  //     this._setStep(activeStep - 1, PROGRESSIVE_STATUS_CHOICES.GOING_PREV)
+  //   }
+  // }
+  // _tagAddHandler = (tags: Array<TagAsOptionType>) => {
+  //   const tagSet = new Set(tags)
+  //   this.setState({
+  //     ...this.state,
+  //     selectedTags: [...tagSet]
+  //   })
+  // }
+  // _deleteTagHandler = (id) => {
+  //   this.setState({
+  //     ...this.state,
+  //     selectedTags: this.state.selectedTags.filter(tag => tag.value !== id)
+  //   })
+  // }
+  // _handleModalVisibility = () => {
+  //   this.setState(initialState)
+  //   this.props.handleModalVisibility()
+  // }
+  // _searchHandler = (key) => this.setState({
+  //   ...this.state,
+  //   searchKey: key
+  // })
+  // _setContent = () => {
+  //   const {activeStep, formData, selectedImage, selectedTags, searchKey = "", inActPeopleIds, processing} = this.state
+  //   const {hisFiles, hashTags, social, members, createdExchange} = this.props
+  //   const tags = helpers.objToArrayAsOptions(hashTags, "id", "title", ["usage"])
+  //   const basicInfoBtnBarActs = [
+  //     {
+  //       title: "لغو",
+  //       func: this._handleModalVisibility
+  //     },
+  //     {
+  //       title: "بعدی",
+  //       func: this._goToNextStep,
+  //       icon: (<ThinDownArrow className="left-arrow"/>)
+  //     }
+  //   ]
+  //   const moreInfoBtnBarActs = [
+  //     {
+  //       title: "قبلی",
+  //       func: this._goToPrevStep,
+  //       icon: (<ThinDownArrow className="right-arrow"/>)
+  //     },
+  //     {
+  //       title: "بعدی",
+  //       func: this._createExchange,
+  //       icon: (<ThinDownArrow className="left-arrow"/>)
+  //     }
+  //   ]
+  //   const peopleBtnBarActs = [
+  //     {
+  //       title: "قبلی",
+  //       func: this._goToPrevStep,
+  //       icon: (<ThinDownArrow className="right-arrow"/>)
+  //     },
+  //     {
+  //       title: "بعدی",
+  //       func: this._goToNextStep,
+  //       icon: (<ThinDownArrow className="left-arrow"/>)
+  //     }
+  //   ]
+  //   const successMessageActs = [
+  //     // {
+  //     //   title: 'به اشتراک بگذارید',
+  //     //   func: () => console.log('created successFully'),
+  //     //   icon: (<ShareIcon className="right-arrow"/>)
+  //     // },
+  //     {
+  //       title: "پایان",
+  //       func: this._handleModalVisibility,
+  //     }
+  //   ]
+  //   switch (activeStep) {
+  //     case 1:
+  //       return (
+  //           <BasicInfo
+  //               processing={processing}
+  //               btnBarActs={basicInfoBtnBarActs}
+  //               formData={formData}
+  //               uploadHandler={this._uploadHandler}
+  //               imageHandler={this._imageHandler}
+  //               inputHandler={this._inputHandler}
+  //               selectedImage={selectedImage || ""}
+  //               selectionImages={hisFiles}
+  //           />
+  //       )
+  //     case 2:
+  //       return (
+  //           <MoreInfo
+  //               processing={processing}
+  //               inputHandler={this._inputHandler}
+  //               btnBarActs={moreInfoBtnBarActs}
+  //               deleteTagHandler={this._deleteTagHandler}
+  //               desc={formData ? formData[exchangeFields.desc] : ""}
+  //               selectedTags={selectedTags}
+  //               tagAddHandler={this._tagAddHandler}
+  //               tags={tags}
+  //           />
+  //       )
+  //     case 3:
+  //       return (
+  //           <People
+  //               people={social}
+  //               btnBarActs={peopleBtnBarActs}
+  //               searchHandler={this._searchHandler}
+  //               searchKey={searchKey}
+  //               addMember={this._addMember}
+  //               members={members}
+  //               inActIds={inActPeopleIds}
+  //           />
+  //       )
+  //     case 4:
+  //       return (
+  //           <SuccessMessage
+  //               acts={successMessageActs}
+  //               exchangeId={createdExchange.id}
+  //           />
+  //       )
+  //     default:
+  //       return <span/>
+  //   }
+  // }
+  // _processingHandler = () => this.setState({...this.state, processing: !this.state.processing})
+  // _createExchange = () => {
+  //   // this._goToNextStep()
+  //   // this.setState({...this.state, created: true})
+  //   if (!this.state.created) {
+  //     this._processingHandler()
+  //     this.props.createExchange(this.state.formData)
+  //   } else this._goToNextStep()
+  //   // fixme: should update exchange if (this.state.created === true)
+  // }
+  // _addMember = (id) => {
+  //   const {createdExchange, addMember} = this.props
+  //   this.setState({
+  //     ...this.state,
+  //     inActPeopleIds: [...this.state.inActPeopleIds, id]
+  //   })
+  //   addMember({
+  //     identityId: id,
+  //     exchangeIdentity: createdExchange.id
+  //   })
+  // }
+  // _setStep = (newStep: number, status: string) => {
+  //   this.setState({
+  //         ...this.state,
+  //         activeStep: newStep,
+  //         progressStatus: status,
+  //         wrapperClassName: WRAPPER_CLASS_NAMES.EXITING,
+  //       },
+  //       () => {
+  //         this._afterStepChanging()
+  //       })
+  // }
+  // _inputHandler = (fieldName: string) => {
+  //   return (value: string | number | boolean) => {
+  //     this.setState({
+  //       ...this.state,
+  //       formData: {
+  //         ...this.state.formData,
+  //         [fieldName]: value
+  //       }
+  //     })
+  //   }
+  // }
 
   _uploadHandler = (fileString: any) => {
     const reader = new FileReader()
@@ -219,166 +380,33 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
   }
   _createFile = () => {
     const {createFile} = this.props
+    // createFile({file_string: this.state.selectedImage})
     this.setState({...this.state, processing: true})
-    console.log("PROCESS...")
-    createFile({file_string: this.state.selectedImage})
-  }
-  _imageHandler = (img: ImageType) => {
-    this.setState({
-      ...this.state,
-      selectedImage: img.file,
-      exchangeImage: img.id,
-      exchangeImageFlag: false,
-      formData: {
-        ...this.state.formData,
-        [exchangeFields.image]: img.id
-      }
-    })
-  }
-  _afterStepChanging = () => {
-    setTimeout(() => this.setState({
-      ...this.state,
-      progressStatus: PROGRESSIVE_STATUS_CHOICES.ACTIVE,
-      wrapperClassName: WRAPPER_CLASS_NAMES.ENTERED,
-    }), 10)
-  }
+    console.log('PROCESS...')
 
-  _goToNextStep = () => {
-    const {activeStep} = this.state
-    if (activeStep < progressiveSteps.length + 1) {
-      this._setStep(activeStep + 1, PROGRESSIVE_STATUS_CHOICES.GOING_NEXT)
+    const nextActionType = types.COMMON.FILE.SET_FILE_IDS_IN_TEMP_FILE
+    const nextActionData = 'exchange_image'
+    const createArguments = {
+      fileIdKey: 'fileId',
+      nextActionType,
+      nextActionData: {tempFileKeyName: nextActionData}
     }
-  }
-  _goToPrevStep = () => {
-    const {activeStep} = this.state
-    if (activeStep !== 1) {
-      this._setStep(activeStep - 1, PROGRESSIVE_STATUS_CHOICES.GOING_PREV)
-    }
-  }
 
-  _tagAddHandler = (tags: Array<TagAsOptionType>) => {
-    const tagSet = new Set(tags)
-    this.setState({
-      ...this.state,
-      selectedTags: [...tagSet]
-    })
+    const fileString = this.state.selectedImage
+    createFileFunc(createFile, fileString, createArguments, constants.CRETE_FILE_TYPES.IMAGE)
   }
-
-  _deleteTagHandler = (id) => {
-    this.setState({
-      ...this.state,
-      selectedTags: this.state.selectedTags.filter(tag => tag.value !== id)
-    })
-  }
-
-  _handleModalVisibility = () => {
-    this.setState(initialState)
-    this.props.handleModalVisibility()
-  }
-  _searchHandler = (key) => this.setState({
-    ...this.state,
-    searchKey: key
-  })
-  _setContent = () => {
-    const {activeStep, formData, selectedImage, selectedTags, searchKey = "", inActPeopleIds, processing} = this.state
-    const {hisFiles, hashTags, social, members, createdExchange} = this.props
-    const tags = helpers.objToArrayAsOptions(hashTags, "id", "title", ["usage"])
-    const basicInfoBtnBarActs = [
-      {
-        title: "لغو",
-        func: this._handleModalVisibility
-      },
-      {
-        title: "بعدی",
-        func: this._goToNextStep,
-        icon: (<ThinDownArrow className="left-arrow"/>)
-      }
-    ]
-    const moreInfoBtnBarActs = [
-      {
-        title: "قبلی",
-        func: this._goToPrevStep,
-        icon: (<ThinDownArrow className="right-arrow"/>)
-      },
-      {
-        title: "بعدی",
-        func: this._createExchange,
-        icon: (<ThinDownArrow className="left-arrow"/>)
-      }
-    ]
-    const peopleBtnBarActs = [
-      {
-        title: "قبلی",
-        func: this._goToPrevStep,
-        icon: (<ThinDownArrow className="right-arrow"/>)
-      },
-      {
-        title: "بعدی",
-        func: this._goToNextStep,
-        icon: (<ThinDownArrow className="left-arrow"/>)
-      }
-    ]
-    const successMessageActs = [
-      // {
-      //   title: 'به اشتراک بگذارید',
-      //   func: () => console.log('created successFully'),
-      //   icon: (<ShareIcon className="right-arrow"/>)
-      // },
-      {
-        title: "پایان",
-        func: this._handleModalVisibility,
-      }
-    ]
-    switch (activeStep) {
-      case 1:
-        return (
-            <BasicInfo
-                processing={processing}
-                btnBarActs={basicInfoBtnBarActs}
-                formData={formData}
-                uploadHandler={this._uploadHandler}
-                imageHandler={this._imageHandler}
-                inputHandler={this._inputHandler}
-                selectedImage={selectedImage || ""}
-                selectionImages={hisFiles}
-            />
-        )
-      case 2:
-        return (
-            <MoreInfo
-                processing={processing}
-                inputHandler={this._inputHandler}
-                btnBarActs={moreInfoBtnBarActs}
-                deleteTagHandler={this._deleteTagHandler}
-                desc={formData ? formData[exchangeFields.desc] : ""}
-                selectedTags={selectedTags}
-                tagAddHandler={this._tagAddHandler}
-                tags={tags}
-            />
-        )
-      case 3:
-        return (
-            <People
-                people={social}
-                btnBarActs={peopleBtnBarActs}
-                searchHandler={this._searchHandler}
-                searchKey={searchKey}
-                addMember={this._addMember}
-                members={members}
-                inActIds={inActPeopleIds}
-            />
-        )
-      case 4:
-        return (
-            <SuccessMessage
-                acts={successMessageActs}
-                exchangeId={createdExchange.id}
-            />
-        )
-      default:
-        return <span/>
-    }
-  }
+  // _imageHandler = (img: ImageType) => {
+  //   this.setState({
+  //     ...this.state,
+  //     selectedImage: img.file,
+  //     exchangeImage: img.id,
+  //     exchangeImageFlag: false,
+  //     formData: {
+  //       ...this.state.formData,
+  //       [exchangeFields.image]: img.id
+  //     }
+  //   })
+  // }
 
   _handleCloseModal() {
     let {handleModalVisibility} = this.props
@@ -386,25 +414,33 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
   }
 
   _handleCreateExchange() {
-    let {name, description, exchangeImage, isPrivate} = this.state
+    let {
+      name,
+      description,
+      // exchangeImage,
+      isPrivate
+    } = this.state
+    let self: any = this
+
     if (name.length > 2 && name.length <= 32 && description.length < 700) {
-      let {createExchange, handleModalVisibility} = this.props
+      let {createExchange, handleModalVisibility, removeFileFromTemp, tempFiles} = this.props
       let formValues = {
         name: name,
         private: isPrivate,
         description: description,
-        exchange_image: exchangeImage,
+        exchange_image: tempFiles.exchange_image ? tempFiles.exchange_image : null,
       }
       createExchange(formValues)
+      removeFileFromTemp('exchange_image')
       handleModalVisibility()
-      this.exName.value = ""
-      this.exDes.value = ""
-      this.exPic.value = null
+      self.exName.value = ''
+      self.exDes.value = ''
+      self.exPic.value = null
       this.setState(
           {
             ...this.state,
-            name: "",
-            description: "",
+            name: '',
+            description: '',
             exchangeImage: null,
             selectedImage: null,
             isPrivate: false,
@@ -412,11 +448,11 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
           })
     } else {
       if (description.length >= 700) {
-        this.descError.className = "product-name-error"
-      } else this.descError.className = "product-name-error-hide"
+        self.descError.className = 'product-name-error'
+      } else self.descError.className = 'product-name-error-hide'
       if (name.length < 2 || name.length > 32) {
-        this.nameError.className = "product-name-error"
-      } else this.nameError.className = "product-name-error-hide"
+        self.nameError.className = 'product-name-error'
+      } else self.nameError.className = 'product-name-error-hide'
     }
   }
 
@@ -425,75 +461,89 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
       // activeStep,
       // progressStatus,
       // wrapperClassName,
-      name, description, processing, selectedImage} = this.state
+      name, description, processing, selectedImage
+    } = this.state
     const {modalIsOpen, translate} = this.props
+    const self: any = this
     // const pageContent = this._setContent()
     return (
-        <div
-            className={modalIsOpen ? "create-exchange-modal-container" : "create-exchange-modal-container-out"}
-        >
+        <div className={modalIsOpen ? 'create-exchange-modal-container' : 'create-exchange-modal-container-out'}>
+          <TransitionGroup>
+            {modalIsOpen ?
+                <CSSTransition key={10} timeout={250} classNames='fade'>
+                  <div className="create-exchange-close-icon" onClick={() => this._handleCloseModal()}>
+                    ✕
+                  </div>
+                </CSSTransition> : null}
+            {modalIsOpen ?
+                <CSSTransition key={11} timeout={250} classNames='fade'>
+                  <div className={'create-exchange-header'}>
+                    {translate['Create New Exchange']}
+                  </div>
+                </CSSTransition> : null}
+            {modalIsOpen ?
+                <CSSTransition key={12} timeout={250} classNames='fade'>
+                  <div className={'create-exchange-header-desc'}>
+                    پنجره، گروهی متشکل از ارائه‌دهندگان و متقاضیان محصولات، خدمات و مهارت هاست.
+                  </div>
+                </CSSTransition> : null}
+            {modalIsOpen ?
+                <CSSTransition key={13} timeout={250} classNames='fade'>
+                  <div className={'create-exchange-inputs'}>
+                    <div>
+                      <label>
+                        {translate['Exchange Name']} <span className={'secondary-color'}>*</span>
+                      </label>
+                      <input type={'text'} className={'create-exchange-name-input'} placeholder={translate['Exchange Name']}
+                             ref={e => self.exName = e} onChange={(e) => this.setState({...this.state, name: e.target.value})}/>
+                      <div className={name.length < 32 ? 'create-exchange-name-input-limit' : 'create-exchange-name-input-limited'}>
+                        {name.length} / 32
+                      </div>
+                      <div ref={e => self.nameError = e} className={'product-name-error-hide'}>طول نام غیر مجاز است</div>
+                    </div>
+                    <div>
+                      <label>
+                        {translate['Exchange Description']}
+                      </label>
+                      <textarea className={'create-exchange-desc-input'} placeholder={'موضوع فعالیت این پنجره چیست؟'}
+                                ref={e => self.exDes = e} onChange={(e) => this.setState({...this.state, description: e.target.value})}/>
+                      <div className={description.length < 700 ? 'create-exchange-desc-input-limit' : 'create-exchange-desc-input-limited'}>
+                        {description.length} / 700
+                      </div>
+                      <div ref={e => self.descError = e} className={'product-name-error-hide'}>طول توضیحات غیر مجاز است</div>
+                    </div>
+                    <div>
+                      <label>
+                        {translate['Upload Picture']}
+                      </label>
+                      <div className={'create-exchange-upload'}>
+                        {selectedImage !== undefined && selectedImage !== null && !processing ?
+                            <img alt={''} src={selectedImage} className={'create-exchange-upload-image'}/>
+                            :
+                            <UploadIcon className={'create-exchange-upload-svg'}/>
+                        }
+                        <input ref={e => self.exPic = e} type="file" onChange={!processing ? (e => this._uploadHandler(e.currentTarget.files[0])) : console.log('Still Uploading')}/>
+                      </div>
+                    </div>
+                  </div>
+                </CSSTransition> : null}
+            {modalIsOpen ?
+                <CSSTransition key={14} timeout={250} classNames='fade'>
+                  <div className={'create-exchange-buttons'}>
+                    <button className={'create-exchange-success-button'} onClick={() => !processing ? this._handleCreateExchange() : null}>
+                      {processing ?
+                          <ClipLoader color="#35495c" size={17} loading={true}/>
+                          :
+                          translate['Create']
+                      }
+                    </button>
+                    <button className={'create-exchange-cancel-button'} onClick={() => this._handleCloseModal()}>
+                      {translate['Cancel']}
+                    </button>
+                  </div>
+                </CSSTransition> : null}
 
-          <div className="create-exchange-close-icon" onClick={() => this._handleCloseModal()}>
-            ✕
-          </div>
-
-          <div className={"create-exchange-header"}>
-            {translate["Create New Exchange"]}
-          </div>
-          <div className={"create-exchange-header-desc"}>
-            پنجره، گروهی متشکل از ارائه‌دهندگان و متقاضیان محصولات، خدمات و مهارت هاست.
-          </div>
-
-          <div className={"create-exchange-inputs"}>
-            <div>
-              <label>
-                {translate["Exchange Name"]} <span className={"secondary-color"}>*</span>
-              </label>
-              <input type={"text"} className={"create-exchange-name-input"} placeholder={translate["Exchange Name"]}
-                     ref={e => this.exName = e} onChange={(e) => this.setState({...this.state, name: e.target.value})}/>
-              <div className={name.length < 32 ? "create-exchange-name-input-limit" : "create-exchange-name-input-limited"}>
-                {name.length} / 32
-              </div>
-              <div ref={e => this.nameError = e} className={"product-name-error-hide"}>طول نام غیر مجاز است</div>
-            </div>
-            <div>
-              <label>
-                {translate["Exchange Description"]}
-              </label>
-              <textarea className={"create-exchange-desc-input"} placeholder={"موضوع فعالیت این پنجره چیست؟"}
-                        ref={e => this.exDes = e} onChange={(e) => this.setState({...this.state, description: e.target.value})}/>
-              <div className={description.length < 700 ? "create-exchange-desc-input-limit" : "create-exchange-desc-input-limited"}>
-                {description.length} / 700
-              </div>
-              <div ref={e => this.descError = e} className={"product-name-error-hide"}>طول توضیحات غیر مجاز است</div>
-            </div>
-            <div>
-              <label>
-                {translate["Upload Picture"]}
-              </label>
-              <div className={"create-exchange-upload"}>
-                {selectedImage !== undefined && selectedImage !== null && !processing ?
-                    <img alt={""} src={selectedImage} className={"create-exchange-upload-image"}/>
-                    :
-                    <UploadIcon className={"create-exchange-upload-svg"}/>
-                }
-                <input ref={e => this.exPic = e} type="file" onChange={!processing ? (e => this._uploadHandler(e.currentTarget.files[0])) : console.log("Still Uploading")}/>
-              </div>
-            </div>
-          </div>
-
-          <div className={"create-exchange-buttons"}>
-            <button className={"create-exchange-success-button"} onClick={() => !processing ? this._handleCreateExchange() : null}>
-              {processing ?
-                  <ClipLoader color="#35495c" size={17} loading={true}/>
-                  :
-                  translate["Create"]
-              }
-            </button>
-            <button className={"create-exchange-cancel-button"} onClick={() => this._handleCloseModal()}>
-              {translate["Cancel"]}
-            </button>
-          </div>
+          </TransitionGroup>
 
           {/*<Modal className="exchanges-modal" size="lg" isOpen={modalIsOpen} backdrop={false}>*/}
           {/*<ModalBody className="create-exchange-wrapper">*/}
@@ -553,13 +603,14 @@ const mapStateToProps = (state) => {
   // }, [])
   return {
     identity,
-    hisFiles: fileSelectorByKeyValue(state, "identity", identity),
+    hisFiles: fileSelectorByKeyValue(state, 'identity', identity),
     hashTags: hashTagsListSelector(state),
     social: getFolloweesSelector(state, getFolloweesProps),
     createdExchange: state.exchanges.list[exchangeId] || {},
     members,
     auth: state.auth,
     translate: state.intl.messages || {},
+    tempFiles: state.temp.file
   }
 }
 
@@ -571,6 +622,7 @@ const mapDispatchToProps = dispatch =>
           createFile,
           createExchange: exchangeActions.createExchange,
           addMember: exchangeMembershipActions.createExchangeMembership,
+          removeFileFromTemp: TempActions.removeFileFromTemp,
         },
         dispatch
     )

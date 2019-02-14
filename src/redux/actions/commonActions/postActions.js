@@ -74,13 +74,14 @@ const createPost = ({formValues, postOwnerId, postOwnerType, postParentId, postP
   }
 }
 
-const updatePost = ({formValues, postId, postOwnerId}) => {
+const updatePost = ({formValues, postId, postOwnerId, postFileIds}) => {
   return {
     type: types.COMMON.POST.UPDATE_POST,
     payload: {
       formValues,
       postId,
       postOwnerId,
+      postFileIds,
     }
   }
 }

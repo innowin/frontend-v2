@@ -24,10 +24,11 @@ import React from 'react'
 
 const desertSvg = (props) => {
   return (
-      <div style={{position: 'relative', width: '100%', textAlign: 'center', transform:'scale(1.9)', zIndex:'0'}}>
+      //*<div style={{position: 'relative', width: '100%', textAlign: 'center', zIndex:'0', transform:'scale(1.9)'}}>
+      <div style={{position: 'relative', width: '100%', textAlign: 'center', zIndex:'0'}}>
         {
           props.text ?
-              <div style={{fontSize: '7px', margin: 'auto', position: 'absolute', top: '30%', right: '50%', transform: 'translateX(45%)', color: '#a1a1a1'}}>
+              <div style={{fontSize: '12px', margin: 'auto', position: 'absolute', top: '30%', right: '50%', transform: 'translateX(45%)', color: '#a1a1a1'}}>
                 {props.text}
               </div>
               : null

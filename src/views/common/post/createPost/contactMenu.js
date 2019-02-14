@@ -15,7 +15,7 @@ class ContactMenu extends Component {
     handleLabel: PropTypes.func.isRequired,
     followers: PropTypes.object.isRequired,
     exchanges: PropTypes.object.isRequired,
-    currentUserIdentity: PropTypes.number.isRequired
+    currentUserIdentity: PropTypes.number
   }
 
   constructor(props) {
