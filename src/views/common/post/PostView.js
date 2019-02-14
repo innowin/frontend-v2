@@ -23,7 +23,7 @@ import {CategoryTitle, VerifyWrapper} from 'src/views/common/cards/Frames'
 import {Confirm} from '../cards/Confirm'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {userCommentsSelector} from 'src/redux/selectors/common/comment/postCommentsSelector'
-import FontAwesome from "react-fontawesome"
+import FontAwesome from 'react-fontawesome'
 
 type postExtendedViewProps = {
   actions: {
@@ -397,8 +397,10 @@ const mapStateToProps = (state, ownProps) => {
     const postIdentity = post && post.post_identity
     const postRelatedProductId = post && post.post_related_product
     let postRelatedProduct = postRelatedProductId && state.common.product.products.list[postRelatedProductId]
-    const productIdentity = postRelatedProduct.product_owner.id ? state.identities.list[postRelatedProduct.product_owner.id] :
-        state.identities.list[postRelatedProduct.product_owner]
+    const productIdentity = postRelatedProduct ?
+        postRelatedProduct.product_owner.id ?
+            state.identities.list[postRelatedProduct.product_owner.id] :
+            state.identities.list[postRelatedProduct.product_owner] : null
     postRelatedProduct = postRelatedProduct && {...postRelatedProduct, product_owner: productIdentity}
     return {
       translate: getMessages(state),

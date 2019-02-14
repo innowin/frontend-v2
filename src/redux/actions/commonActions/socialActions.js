@@ -1,6 +1,6 @@
 import types from '../types'
 
-const getFollowees = ({notProfile, followOwnerIdentity, followOwnerId, followOwnerType}) => {
+const getFollowees = ({notProfile, followOwnerIdentity, followOwnerId, followOwnerType, userProfileId}) => {
   // if notProfile === true, in saga we will not get profile of the followees
   return{
     type: types.COMMON.SOCIAL.GET_FOLLOWEES,
@@ -9,6 +9,7 @@ const getFollowees = ({notProfile, followOwnerIdentity, followOwnerId, followOwn
       followOwnerType,
       followOwnerId,
       notProfile,
+      userProfileId,
     }
   }
 }

@@ -79,7 +79,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
   componentDidMount() {
     const {identityId, actions, ownerId, identityType} = this.props
 
-    alert(identityId)
+    // alert(identityId)
 
     const {
       // getFollowees,
