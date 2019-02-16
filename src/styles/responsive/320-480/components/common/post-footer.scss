@@ -6,17 +6,15 @@
     margin-left: 0;
   }
 
-  //.comment-svg-container{
-  //  width: 30px;
-  //  height: 30px;
-  //  position: relative;
-  //  display: flex;
-  //  justify-content: center;
-  //  align-items: center;
-  //  & > span {
-  //    position: absolute;
-  //    right: -10px;
-  //    font-size: 4mm;
-  //  }
-  //}
+  .comment-svg-container{
+    .comment-svg{
+      position: absolute;
+      left: -17px;
+    }
+    & > span {
+      position: absolute;
+      right: 10px;
+      font-size: 4mm;
+    }
+  }
 }

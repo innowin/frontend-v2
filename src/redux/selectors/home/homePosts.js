@@ -5,11 +5,8 @@ const getPosts = state => state.common.post.list
 const getExchanges = state => state.exchanges.list
 const getProducts = state => state.common.product.products.list
 const getExchangePosts = (state, props) => {
-  const exchangeId = props.exchangeId
-  if(typeof exchangeId !== 'number') {
-    return []
-  }
-  return state.exchanges.list[exchangeId].posts
+  const {exchangeId} = props
+  return state.exchanges.list[exchangeId] && state.exchanges.list[exchangeId].posts
       ? state.exchanges.list[exchangeId].posts.content
       : []
 }

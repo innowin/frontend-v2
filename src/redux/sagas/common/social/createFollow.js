@@ -29,10 +29,12 @@ export function* createFollow(action) {
         }
       }
     })
+
     //TODO: remove this at later when server response changed
-    const followOwnerIdentity = formValues.follow_follower
-    yield put({type: types.COMMON.SOCIAL.GET_FOLLOWERS, payload: {followOwnerIdentity, followOwnerId, followOwnerType}})
-    yield put({type: types.COMMON.SOCIAL.GET_FOLLOWEES, payload: {followOwnerIdentity, followOwnerId, followOwnerType}})
+
+    // const followOwnerIdentity = formValues.follow_follower
+    // yield put({type: types.COMMON.SOCIAL.GET_FOLLOWERS, payload: {followOwnerIdentity, followOwnerId, followOwnerType}})
+    // yield put({type: types.COMMON.SOCIAL.GET_FOLLOWEES, payload: {followOwnerIdentity, followOwnerId, followOwnerType}})
   } catch (error) {
     const {message} = error
     yield put({

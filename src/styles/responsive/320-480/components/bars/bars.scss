@@ -1,6 +1,9 @@
 @import "../../../../variables";
 
 @media screen and (max-width: 480px) and (min-width: 320px) {
+  .exchange-navbar-container{
+    width: 98%;
+  }
   .topBar {
     height: $smallTopBarHeight;
     justify-content: space-between;

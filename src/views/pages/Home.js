@@ -17,7 +17,9 @@ type HomeProps = {|
   identityId?: number,
   identityType?: string,
   id?: number,
-  translate: { [string]: string }
+  translate: { [string]: string },
+  actions: {setExchange:Function},
+  selectedExchange: number
 |}
 
 class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
@@ -25,7 +27,9 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
   static propTypes = {
     identityId: PropTypes.number,
     identityType: PropTypes.string,
-    id: PropTypes.number
+    id: PropTypes.number,
+    actions: PropTypes.object,
+    selectedExchange: PropTypes.number,
   }
 
   constructor(props) {

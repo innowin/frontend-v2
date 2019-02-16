@@ -2,10 +2,10 @@ import api from 'src/consts/api'
 import urls from 'src/consts/URLS'
 import results from 'src/consts/resultName'
 import types from 'src/redux/actions/types'
-import {put, take, fork, call} from "redux-saga/effects"
+import {put, take, fork, call} from 'redux-saga/effects'
 
 export function* getFollowees(action) {
-  const {notProfile, followOwnerIdentity, followOwnerType, followOwnerId} = action.payload
+  const {notProfile, followOwnerIdentity, followOwnerType, followOwnerId, userProfileId} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.SOCIAL.GET_FOLLOWEES)
   try {
     yield fork(api.get, urls.COMMON.SOCIAL.FOLLOW, results.COMMON.SOCIAL.GET_FOLLOWEES, `?follow_follower=${followOwnerIdentity}`)
@@ -15,20 +15,30 @@ export function* getFollowees(action) {
       for (let follow of data) {
         const follower = follow.follow_followed
         if (follower.identity_user) {
-          yield put({type: types.USER.GET_PROFILE_BY_USER_ID, payload: {userId: follower.identity_user}})
-        }
-        else {
-          yield put({type: types.ORG.GET_ORGANIZATION, payload: {organizationId: follower.identity_organization}})
+          if (!userProfileId) {
+            yield put({type: types.USER.GET_PROFILE_BY_USER_ID, payload: {userId: follower.identity_user}})
+          }
+          else if (userProfileId !== follower.identity_user) {
+            yield put({type: types.USER.GET_PROFILE_BY_USER_ID, payload: {userId: follower.identity_user}})
+          }
+        } else {
+          if (!userProfileId) {
+            yield put({type: types.ORG.GET_ORGANIZATION, payload: {organizationId: follower.identity_organization}})
+          } else if (userProfileId !== follower.identity_organization) {
+            yield put({type: types.ORG.GET_ORGANIZATION, payload: {organizationId: follower.identity_organization}})
+          }
         }
       }
     }
-  } catch (error) {
+  }
+  catch (error) {
     const {message} = error
     yield put({
       type: types.ERRORS.COMMON.SOCIAL.GET_FOLLOWEES,
       payload: {message}
     })
-  } finally {
+  }
+  finally {
     socketChannel.close()
   }
 }
