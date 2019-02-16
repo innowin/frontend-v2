@@ -1,6 +1,7 @@
 import React from 'react'
 import {InnoWinLogo} from 'src/images/icons'
 import FontAwesome from 'react-fontawesome'
+import {Link} from 'react-router-dom'
 
 const HeaderLogin = ({isLoginPage, isRegisterPage, iosLink, androidLink, address, phoneNumber, translate, onSignUpClick, onBackClick}) => {
   return (
@@ -18,9 +19,9 @@ const HeaderLogin = ({isLoginPage, isRegisterPage, iosLink, androidLink, address
           {!(isRegisterPage || isLoginPage) && <div className="logo-caption">{translate['Work Social Media']}</div>}
         </div>
         <div className='links-wrapper'>
-          <h1 className='link-item pulse'>پنجره ها</h1>
-          <h1 className='link-item pulse'>افراد و شرکت ها</h1>
-          <h1 className='link-item pulse'>محصولات و خدمات</h1>
+          <Link to='exchange/Exchange_Explorer'><h1 className='link-item pulse'>پنجره ها</h1></Link>
+          <Link to='users/Users_Explorer'><h1 className='link-item pulse'>افراد و شرکت ها</h1></Link>
+          <Link to='product/Product_Explorer'><h1 className='link-item pulse'>محصولات و خدمات</h1></Link>
           <h1 className='link-item pulse login-button' onClick={onSignUpClick}>ثبت نام</h1>
         </div>
 
