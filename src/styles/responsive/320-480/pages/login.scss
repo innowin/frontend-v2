@@ -1,0 +1,41 @@
+@import "../../../variables";
+
+@media screen and (max-width: 480px) and (min-width: 320px) {
+  .login-page {
+    .login-container {
+      .content {
+        display: block;
+        height: inherit;
+        margin: 0;
+      }
+
+      min-height: inherit;
+
+      .login-sign-up-buttons-container {
+        display: block;
+        margin: 0 10%;
+
+        .button {
+          color: white;
+          padding: 8px;
+          border-radius: 50px;
+          font-size: $font-size-13;
+          text-align: center;
+          margin-bottom: 15px;
+
+          &.login-button {
+            background: $primary-color;
+          }
+
+          &.register-button {
+            background: $success-color;
+          }
+        }
+      }
+
+      .carousel-wrapper {
+        display: none;
+      }
+    }
+  }
+}

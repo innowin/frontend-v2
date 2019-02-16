@@ -1,14 +1,21 @@
 import React from 'react'
 import {InnoWinLogo} from 'src/images/icons'
+import FontAwesome from 'react-fontawesome'
 
-const HeaderLogin = ({iosLink, androidLink, address, phoneNumber, translate, onSignUpClick}) => {
+const HeaderLogin = ({isLoginPage, isRegisterPage, iosLink, androidLink, address, phoneNumber, translate, onSignUpClick, onBackClick}) => {
   return (
-      <div className='header'>
+      <div className={!(isRegisterPage || isLoginPage) ? 'header' : 'header login-register-page'}>
+        {(isRegisterPage || isLoginPage) && <FontAwesome onClick={onBackClick} className='back-button' name='arrow-right'/>}
+
         <div className="logo-wrapper">
           <div className="logo"><InnoWinLogo containerClass='logoLogin'/></div>
-          <div className="company-name">{translate['Danesh Boom']}</div>
+          <div className="company-name">{
+            isLoginPage ? translate['Login'] : (
+                isRegisterPage ? translate['Register'] : translate['Danesh Boom']
+            )
+          }</div>
           <div className="divider"/>
-          <div className="logo-caption">{translate['Work Social Media']}</div>
+          {!(isRegisterPage || isLoginPage) && <div className="logo-caption">{translate['Work Social Media']}</div>}
         </div>
         <div className='links-wrapper'>
           <h1 className='link-item pulse'>پنجره ها</h1>
@@ -16,6 +23,7 @@ const HeaderLogin = ({iosLink, androidLink, address, phoneNumber, translate, onS
           <h1 className='link-item pulse'>محصولات و خدمات</h1>
           <h1 className='link-item pulse login-button' onClick={onSignUpClick}>ثبت نام</h1>
         </div>
+
       </div>
       // <div className="row header mr-0 ml-0">
       //   <div className="logo-wrapper col-lg-6 col-md-12 col-sm-12 mb-4">

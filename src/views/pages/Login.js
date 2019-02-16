@@ -35,7 +35,9 @@ class Login extends Component {
         password: '',
         email: '',
         userType: constants.USER_TYPES.PERSON
-      }
+      },
+      loginMobile: false,
+      registerMobile: false,
     }
   }
 
@@ -75,9 +77,20 @@ class Login extends Component {
     this.setState({...this.state, signUpFields: {...signUpFields, [name]: value}})
   }
 
+  _goToMobileLoginPage = () => {
+    this.setState({...this.state, loginMobile: true, page: 'SignIn'})
+  }
+
+  _goToMobileRegisterPage = () => {
+    this.setState({...this.state, registerMobile: true, page: 'SignUp'})
+  }
+  _goToHomePage = () => {
+    this.setState({...this.state, registerMobile: false, loginMobile: false, page: 'SignIn'})
+  }
+
   render() {
     const {translate} = this.props
-    const {page, footer, header, showRecovery, /*showRegisterModal, */signUpFields} = this.state
+    const {page, footer, header, showRecovery, /*showRegisterModal, */signUpFields, registerMobile, loginMobile} = this.state
     const {year} = footer
     const {iosLink, androidLink, address, phoneNumber} = header
     const SignIn = (page === 'SignIn')
@@ -102,11 +115,12 @@ class Login extends Component {
           {/*email={signUpFields.email}/>*/}
 
           <div className="login-container">
-            <HeaderLogin onSignUpClick={this._showSignUp} translate={translate} iosLink={iosLink} androidLink={androidLink} address={address}
+            <HeaderLogin isLoginPage={loginMobile} onBackClick={this._goToHomePage}
+                         isRegisterPage={registerMobile} onSignUpClick={this._showSignUp} translate={translate} iosLink={iosLink} androidLink={androidLink} address={address}
                          phoneNumber={phoneNumber}/>
             <div className="content">
               <div className={`login-wrapper ${animateFormClass}`}>
-                <div className="sign-in-card">
+                <div className={(registerMobile || loginMobile) ? 'sign-in-card login-page-sign-in-card' : "sign-in-card"}>
                   <div className="login-tab">
                     <h2 className='login-part-title'>
                       {translate['Danesh Boom']}
@@ -145,6 +159,16 @@ class Login extends Component {
                   {/*<SocialLogin/>*/}
                   {/*</div>*/}
                 </div>
+                {!(registerMobile || loginMobile) &&
+                <div className='login-sign-up-buttons-container'>
+                  <div onClick={this._goToMobileLoginPage} className='button login-button'>
+                    {translate['Login']}
+                  </div>
+                  <div onClick={this._goToMobileRegisterPage} className='button register-button'>
+                    {translate['Register']}
+                  </div>
+                </div>
+                }
               </div>
 
               <CarouselLogin/>
