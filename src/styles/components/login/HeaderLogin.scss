@@ -8,6 +8,11 @@
   flex-flow: row wrap;
   justify-content: space-between;
   flex: 0 0 50px;
+  transition: all $animation-timing ease;
+
+  .back-button {
+    display: none;
+  }
 
   .logo-wrapper {
     display: flex;

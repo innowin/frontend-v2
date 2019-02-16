@@ -32,7 +32,7 @@
       font-weight: normal;
       flex-direction: column;
 
-      height: 100vh;
+      height: calc(100vh - 50px);
       overflow-y: scroll;
 
       .image-container {
