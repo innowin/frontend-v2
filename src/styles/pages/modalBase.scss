@@ -1,3 +1,5 @@
+@import "../variables";
+
 .modal-wrapper {
 	.closer {
 		position: fixed;
@@ -17,5 +19,13 @@
 		z-index: 11;
 		margin: 0 auto;
 		transition: all 0.5s ease;
+		.close-button {
+			position: absolute;
+			top: 15px;
+			left: 15px;
+			width: 15px;
+			height: 15px;
+			stroke: $primary-color;
+		}
 	}
 }
