@@ -1,16 +1,17 @@
 // @flow
 import * as React from "react"
+import BeePanel from "../common/components/BeePanel"
 import ChatBar from "../bars/ChatBar"
 import constants from "src/consts/constants"
+import EventCard from 'src/views/common/components/EventCard'
 import HomePosts from "./home/HomePosts"
 import HomeSideBar from "./home/HomeSideBar"
 import PropTypes from "prop-types"
+import setExchangeActions from 'src/redux/actions/user/setSelectedExchangeAction'
+import {bindActionCreators} from 'redux'
 import {Component} from "react"
 import {connect} from "react-redux"
 import {getMessages} from "src/redux/selectors/translateSelector"
-import BeePanel from "../common/components/BeePanel"
-import {bindActionCreators} from 'redux'
-import setExchangeActions from 'src/redux/actions/user/setSelectedExchangeAction'
 // import {Helmet} from "react-helmet"
 
 type HomeProps = {|
@@ -89,6 +90,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
               <HomePosts exchangeId={activeExchangeId} className={activeExchangeId ? "post-wrapper active-exchange": "post-wrapper"}/>
               <div className={activeExchangeId ? "user-detail-wrapper active-exchange" : 'user-detail-wrapper'}>
                 <BeePanel/>
+                <EventCard/>
               </div>
             </div>
             <ChatBar className="-left-sidebar-wrapper"/>
