@@ -31,6 +31,7 @@ import DesertIcon from './common/desert_svg'
 import EditIcon from './common/edit.svg'
 import EducationIcon from './user/education_svg'
 import EmojiSvg from './common/emoji'
+import EventBanner from './event/event'
 import ExchangeExploreIcon from './common/exchange_explore_svg'
 import ExchangeExploreIconSelected from './common/exchange_explore_svg_selected'
 import ExchangeIcon from './common/exchange_svg'
@@ -133,6 +134,7 @@ export {
   EditIcon,
   EducationIcon,
   EmojiSvg,
+  EventBanner,
   ExchangeExploreIcon,
   ExchangeExploreIconSelected,
   ExchangeIcon,
