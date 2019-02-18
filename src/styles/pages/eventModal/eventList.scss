@@ -1,0 +1,121 @@
+@import "../../variables";
+
+.event-list-wrapper {
+  .head {
+    .title {
+      font-size: 16px;
+      font-weight: 400;
+    }
+    .description {
+      margin-top: 10px;
+      color: $text-light-color;
+      font-size: 14px;
+    }
+  }
+
+  .list {
+    margin-top: 5mm;
+    .item {
+      display: flex;
+      flex-flow: column;
+      justify-content: center;
+      perspective: 500px;
+      label {
+        padding: 10px 0;
+        font-size: 14px;
+        cursor: pointer;
+        flex: 1;
+        display: flex;
+        &:hover {
+          background: darken(white,3%);
+        }
+        p {
+          margin: 0 7mm;
+        }
+        span.checkmark {
+          top: 13px;
+        }
+        .button-details {
+          color: $primary-color-light3;
+          display: flex;
+          justify-content: center;
+          span {
+            display: flex;
+            padding: 5px;
+            align-items: center;
+            transform: rotate3d(0,0,1,180deg);
+            transition: all 0.3s ease;
+            &.open {
+              transform: rotate3d(0,0,1,90deg);
+            }
+          }
+          svg {
+            width: 6px;
+            fill: $primary-color-light3;
+          }
+        }
+      }
+      .attributes-list {
+        &.slide-in {
+          opacity: 1;
+          transform: rotate3d(0 ,0, 0, -90deg) scale3d(0.9,1,1);
+        }
+        &.slide-out {
+          opacity: 0;
+          transform: rotate3d(1 ,0, 0, -90deg) scale3d(0.9,1,1);
+          height: 0;
+        }
+        opacity: 1;
+        transition: all 0.5s ease;
+        transform-origin: 50% 0;
+        transform: rotate3d(0 ,0, 0, -90deg) translate3d(0 ,0, 0) scale3d(1,1,1);
+        font-size: 12px;
+        display: flex;
+        flex-flow: column;
+        .attribute-item {
+          display: flex;
+          flex-flow: row;
+          .item-box {
+            padding: 10px;
+            background: darken(white,2%);
+          }
+          .key {
+            flex: 1 1 25%;
+            margin: 0 0 5px 5px;
+
+          }
+          .value {
+            margin: 0 0 5px 0;
+            flex: 1 1 75%;
+          }
+        }
+      }
+    }
+  }
+
+  .buttons {
+    display: flex;
+    margin-top: 10mm;
+    .button {
+      padding: 3px 7mm;
+      font-size: 12px;
+      border-radius: 25px;
+      margin-left: 20px;
+      cursor: pointer;
+    }
+    .save {
+      color: white;
+      background: $success-color;
+      &:hover {
+        background: darken($success-color,5%);
+      }
+    }
+    .cancel {
+      color: $text-dark-color;
+      background: $more-button-color;
+      &:hover {
+        background: $more-button-color-hover-darker;
+      }
+    }
+  }
+}

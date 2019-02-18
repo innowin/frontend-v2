@@ -7,7 +7,7 @@ export default class EventCard extends Component {
 	constructor () {
 		super()
 		this.state = {
-			modalIsOpen : false
+			modalIsOpen : true
 		}
 	}
 	
