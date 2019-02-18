@@ -1,5 +1,5 @@
-TARGET_LOCATION="./node_modules/webpack-dev-server/ssl/server.pem"
-SOURCE_LOCATION=$(pwd)/$(dirname "./dev-certificate/server.pem")/server.pem
+TARGET_LOCATION="./node_modules/webpack-dev-server/ssl/innowin.crt"
+SOURCE_LOCATION=$(pwd)/$(dirname "./dev-certificate/innowin.crt")/innowin.crt
 
 echo Linking ${TARGET_LOCATION} TO ${SOURCE_LOCATION}
 rm -f ${TARGET_LOCATION} || true

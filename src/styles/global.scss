@@ -42,6 +42,8 @@ input, textarea, button, select {
 @import "~react-image-gallery/styles/scss/image-gallery.scss";
 @import "./components/utils.scss";
 @import "./animations";
+@import "./pages/modalBase";
+@import "./pages/eventModal/eventList";
 @import "./pages/home";
 @import "./pages/login";
 @import "./pages/progressive";
@@ -50,6 +52,7 @@ input, textarea, button, select {
 @import "./pages/addingExchange/adding-exchange";
 @import "./components/exchange/explore/explore";
 @import "./components/user/explore";
+@import "components/common/event-card";
 @import "components/bars/bars";
 @import "components/bars/chatbar";
 @import "components/bars/product-bar";

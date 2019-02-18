@@ -58,7 +58,7 @@ Version: 0.1.6-LTS
 -------------------------------------------------
 ## Rest documentation server
 	```sh
-		http://restful.daneshboom.ir/docs/
+		http://restful.innowin.ir/docs/
 	```
 	
 ## Socket server
@@ -66,78 +66,9 @@ Version: 0.1.6-LTS
 		http://89.42.210.20:9095
 	```
 ------------------------------------
-##sample Code for SOCKET
-```
-import React,{Component} from 'react';
-import io from 'socket.io-client';
-import {REST_REQUEST, GET_VIEWS_COUNT, NEW_VIEW} from '../consts/Events';
-import SOCKET_URL from '../consts/socket';
-
-export default class Test extends Component {
-
-	constructor (props) {
-		super(props);
-		this.state = {
-			is_socket_connected: false,
-			error: null,
-		}
-	}
-
-	componentDidMount() {
-		const socket = io(SOCKET_URL);
-
-		socket.emit(REST_REQUEST,{
-			method: "get",
-			url: "http://restful.daneshboom.ir/base/",
-			result: "TEST_BASE_GET",
-			token: "",
-		});
-
-		socket.emit(GET_VIEWS_COUNT, {
-			id: 1,
-			result: "TEST_VIEW"
-		});
-
-		socket.on('connect',()=> {
-			console.log('WS connected');
-			const newState = {
-				...this.state,
-				is_socket_connected: true,
-			};      this.setState(newState);
-		});
-
-		socket.on('TEST_VIEW',(res)=>{
-			console.log('VIEW: ',res);
-		});
-		socket.on('TEST_BASE_GET',(res)=>{
-			console.log('base: ',res);
-		});
-
-		socket.on('disconnect',()=>{
-			console.log('WS disconnected');
-			const newState = {
-				...this.state,
-				is_socket_connected: false,
-			};
-			this.setState(newState);
-		});
-
-		socket.on('error',(err)=> {
-			console.log('WS has problem in connecting');
-			const newState = {
-				...this.state,
-				error: err,
-			};
-			this.setState(newState);
-		});
-	}
-
-	render() {
-		const result = this.state
-		return (
-				<pre>{JSON.stringify(result,null,2)}</pre>
-		)
-	}
-	}
-
+##Create ssl key use config
+```bash
+openssl req -config dev.deliciousbrains.com.conf -new -sha256 -newkey rsa:2048 \
+-nodes -keyout dev.deliciousbrains.com.key -x509 -days 365 \
+-out dev.deliciousbrains.com.crt
 ```
