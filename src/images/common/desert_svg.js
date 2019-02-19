@@ -1,31 +1,31 @@
 import React from 'react'
 
-// const st0 = {
-//   fill: '#F9F9F9'
-// }
-// const st1 = {
-//   fill: '#EAEAE9'
-// }
-// const st2 = {
-//   fill: '#E8E8E8'
-// }
-// const st3 = {
-//   fill: '#E1E1E1'
-// }
-// const st4 = {
-//   fill: '#E1E1E1'
-// }
-// const st5 = {
-//   fill: '#D5D5D5'
-// }
-// const st6 = {
-//   fill: '#BBBBBB'
-// }
+const st0 = {
+  fill: '#F9F9F9'
+}
+const st1 = {
+  fill: '#EAEAE9'
+}
+const st2 = {
+  fill: '#E8E8E8'
+}
+const st3 = {
+  fill: '#E1E1E1'
+}
+const st4 = {
+  fill: '#E1E1E1'
+}
+const st5 = {
+  fill: '#D5D5D5'
+}
+const st6 = {
+  fill: '#BBBBBB'
+}
 
 const desertSvg = (props) => {
   return (
-      //*<div style={{position: 'relative', width: '100%', textAlign: 'center', zIndex:'0', transform:'scale(1.9)'}}>
-      <div style={{position: 'relative', width: '100%', textAlign: 'center', zIndex:'0'}}>
+      <div style={{position: 'relative', width: '120%', textAlign: 'center', zIndex:'0', transform:'scale(1.1)'}}>
+      {/*<div style={{position: 'relative', width: '100%', textAlign: 'center', zIndex: '0'}}>*/}
         {
           props.text ?
               <div style={{fontSize: '12px', margin: 'auto', position: 'absolute', top: '30%', right: '50%', transform: 'translateX(45%)', color: '#a1a1a1'}}>
@@ -33,10 +33,8 @@ const desertSvg = (props) => {
               </div>
               : null
         }
-        {/*<svg width={props.width} height={props.width} className={props.className}
-             viewBox="0 0 1920 1080">
-          <g id="Layer_1">
-          </g>
+        <svg width={props.width} height={props.width} className={props.className}
+             viewBox="0 0 1920 1080" style={{enableBackground: 'new 0 0 1920 1080'}} x="0px" y="0px">
           <g id="Layer_6">
             <circle style={st0} cx="934.5" cy="543.5" r="286"/>
           </g>
@@ -70,7 +68,7 @@ const desertSvg = (props) => {
             <path style={st6} d="M1054.5,535.5c1,0,6,1,7,5s-5,24-2,33s11,9,11,9l-0.37,7.62c0,0-10.63-2.62-11.63-3.62s-10-5-12-14s-2-7-1-23
 		C1048.5,535.5,1053.5,535.5,1054.5,535.5z"/>
           </g>
-        </svg>*/}
+        </svg>
       </div>
   )
 }
