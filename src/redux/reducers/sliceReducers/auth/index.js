@@ -32,6 +32,7 @@ import getWorkExperienceByUserId from './getWorkExperienceByUserId'
 import setToken from "./setToken"
 import signIn from "./signIn"
 import updateProfileByProfileId from './updateProfileByProfileId'
+import updateOrganizationInfo from './updateOrganizationInfo'
 import updateUserByUserId from './updateUserByUserId'
 import setClientPersonMedia from "./setClientPersonMedia"
 import setClientOrganMedia from "./setClientOrganMedia"
@@ -73,6 +74,7 @@ export default {
   setClientOrganMedia,
   setToken,
   signIn,
+  updateOrganizationInfo,
   updateProfileByProfileId,
   updateUserByUserId,
   setSelectedExchange

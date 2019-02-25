@@ -28,7 +28,6 @@ body {
 html {
   height: 100%;
   font-family: "IRANSansWebFaNum", "Helvetica Neue", sans-serif !important;
-  scrollbar-color: $primary-color $background-color;
 }
 
 input, textarea, button, select {
@@ -45,6 +44,7 @@ input, textarea, button, select {
 @import "./pages/modalBase";
 @import "./pages/eventModal/eventModal";
 @import "./pages/eventModal/eventList";
+@import "pages/eventModal/eventPersonOrganModal";
 @import "./pages/home";
 @import "./pages/login";
 @import "./pages/progressive";

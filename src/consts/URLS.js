@@ -104,5 +104,7 @@ const urls = {
   },
   SKILL: "users/skills",
   FAVORITE: "base/favorites",
+  EVENTS: "base/events",
+  EVENT_ASSIGNMENT: 'base/event-assignments',
 }
 export default urls

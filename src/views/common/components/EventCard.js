@@ -7,11 +7,24 @@ export default class EventCard extends Component {
 	constructor () {
 		super()
 		this.state = {
-			modalIsOpen : true
+			modalIsOpen : false,
 		}
 	}
 	
-	_toggle = () => this.setState({...this.state, modalIsOpen: !this.state.modalIsOpen})
+	componentDidMount () : void {
+		if (this.state.modalIsOpen && document.body)  {
+			document.body.style.overflow = "auto hidden"
+		} else {
+			document.body.style.overflow = "auto"
+		}
+	}
+	
+	_toggle = (e) => {
+		e && e.stopPropagation();
+		this.setState({...this.state, modalIsOpen: !this.state.modalIsOpen},() => {
+			this.state.modalIsOpen ? document.body.style.overflowY = "hidden" : document.body.style.overflowY = "auto"
+		})
+	}
 	
 	render = () => (
 			<div className="event-card">

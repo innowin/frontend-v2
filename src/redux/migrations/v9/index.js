@@ -6,6 +6,8 @@ export default {
     common: {
       ...state.common,
     },
+    event: {list:{}, isLoading: false},
+    eventAssignment: {list:{}, isLoading: false},
     intl: translate(state.intl)
   })
 }

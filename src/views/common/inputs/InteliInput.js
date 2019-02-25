@@ -8,12 +8,13 @@ class InteliInput extends Component {
     list: PropTypes.arrayOf(Object).isRequired,
     handleChange: PropTypes.func.isRequired,
     className: PropTypes.string,
-    noCheck: PropTypes.bool
+    noCheck: PropTypes.bool,
+    defaultValue: PropTypes.string,
   }
 
   constructor(props) {
     super(props)
-    this.state = {found: [], list: [], ids: [], mouseInMenu: false}
+    this.state = {found: [], list: [], ids: [], mouseInMenu: false, initialValue: true}
     this._setItem = this._setItem.bind(this)
     this._mouseInMenu = this._mouseInMenu.bind(this)
     this._mouseOutMenu = this._mouseOutMenu.bind(this)
@@ -22,7 +23,7 @@ class InteliInput extends Component {
   }
 
   componentDidMount(): void {
-    const {list} = this.props
+    const {list, defaultValue} = this.props
     let names = []
     let ids = []
     if (list && list.length > 0) {
@@ -32,24 +33,32 @@ class InteliInput extends Component {
       }
       this.setState({...this.state, list: names, ids: ids})
     }
+
+    if (defaultValue) {
+      this.text.innerText = defaultValue
+    }
   }
 
-  componentWillReceiveProps(nextProps, nextContext): void {
-    // console.log("INTELI_STATE", this.state.list)
-    // console.log("INTELI_PROPS", this.props.list)
+  componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot: SS): void {
+
     if (
-        nextProps.list.length > 0 &&
+        this.props.list.length > 0 &&
         // this.props.list.length > 0 &&
-        this.props.list.length !== nextProps.list.length
+        prevProps.list.length !== this.props.list.length
     // this.props.list[0].id !== nextProps.list[0].id
     ) {
       let names = []
       let ids = []
-      for (let i = 0; i < nextProps.list.length; i++) {
-        names.push(nextProps.list[i].name)
-        ids.push(nextProps.list[i].id)
+      for (let i = 0; i < this.props.list.length; i++) {
+        names.push(this.props.list[i].name)
+        ids.push(this.props.list[i].id)
       }
-      this.setState({...this.state, list: names, ids: ids, found: []}, () => this.text.innerText = '')
+      if (this.state.initialValue) {
+        this.setState({...this.state, list: names, ids: ids, found: [], initialValue: false})
+      }
+      else {
+        this.setState({...this.state, list: names, ids: ids, found: []}, () => this.text.innerText = '')
+      }
     }
   }
 
@@ -158,12 +167,13 @@ class InteliInput extends Component {
     const {className} = this.props
     return (
         <div className='relative-type'>
-          <div contentEditable
+          <div contentEditable suppressContentEditableWarning={true}
                className={`form-control gray-text-input ${className && className}`}
                onBlur={(e) => this._handleBlur(e)}
                onKeyUp={(e) => this._handleMenu(e)}
                onClick={(e) => this._showMenu(e)}
                ref={e => this.text = e}>
+            {this.props.defaultValue}
           </div>
           <div onClick={(e) => this._openMenu(e)}>
             {
