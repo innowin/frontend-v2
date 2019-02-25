@@ -1,12 +1,12 @@
 import api from "src/consts/api"
 import client from "src/consts/client"
 import results from "src/consts/resultName"
-import constants from 'src/consts/constants'
 import types from "src/redux/actions/types"
 import urls from "src/consts/URLS"
-import {getOrgIdentity} from "../getIdentity"
 import {delay} from "redux-saga"
 import {put, take, fork, call} from "redux-saga/effects"
+
+import type {identityType} from 'src/consts/flowTypes/identityType.js'
 
 /**********    %% WORKERS %%    **********/
 
@@ -43,46 +43,17 @@ export function* signIn(action) {
   try {
 		yield fork(api.post, urls.SIGN_IN, results.SIGN_IN, {username: username.toLowerCase(), password})
     const primaryData = yield take(socketChannel)
-    const {token} = primaryData
+    const {token, identity} = primaryData
     yield put({type: types.AUTH.SET_TOKEN, payload: {token}})
     yield delay(500)
-    const hasOrgan = primaryData.profile.is_user_organization
-    let userType = constants.USER_TYPES.PERSON
-    let organizationId = null
-    let organization = null
-    let identity = primaryData.identity
-    if (hasOrgan) {
-      const organData = yield call(getOrganizationInSignIn, username)
-      userType = constants.USER_TYPES.ORG
-      organizationId = organData.id
-      organization = organData
-      const organAction = {payload:{organizationId}}
-      identity = yield call(getOrgIdentity, organAction)
-      yield put({type: types.SUCCESS.ORG.GET_ORGANIZATION, payload: {data:organization, organizationId}})
-    }
-    yield client.saveData(primaryData.user.id, identity.id, userType, organizationId, rememberMe)
+    let userType = identity.identity_type
+    yield client.saveData({identityId: identity.id, userType, remember: rememberMe})
     if (!rememberMe) {
       yield client.setSessionLS(token)
     } else {
       yield client.setTokenLS(token)
     }
-    const finalData = {...primaryData, identity, organization}
-    yield put({type: types.SUCCESS.AUTH.SIGN_IN, payload: {data:finalData, rememberMe: rememberMe}})
-    // after set user & profile data in client should set user and profile data in users in redux state
-    const userId = finalData.user.id
-    const userData = finalData.user
-    const profileData = finalData.profile
-    const profileMediaId = profileData.profile_media
-    const profileBannerId = profileData.profile_banner
-    if (profileMediaId) {
-      yield put({type: types.COMMON.FILE.GET_FILE, payload: {fileId: profileMediaId}})
-    }
-    if (profileBannerId && profileBannerId !== profileMediaId) {
-      yield put({type: types.COMMON.FILE.GET_FILE, payload: {fileId: profileBannerId}})
-    }
-    yield put({type: types.SUCCESS.USER.GET_USER_BY_USER_ID, payload: {data: userData, userId}})
-    yield put({type: types.SUCCESS.USER.GET_PROFILE_BY_USER_ID, payload: {data: profileData, userId}})
-    yield put({type: types.SUCCESS.USER.GET_USER_IDENTITY, payload: {data: primaryData.identity, userId}})
+    yield put({type: types.SUCCESS.AUTH.SIGN_IN, payload: {data:primaryData, rememberMe: rememberMe}})
   }
   catch (e) {
     const {message} = e

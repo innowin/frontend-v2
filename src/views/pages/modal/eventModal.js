@@ -69,7 +69,7 @@ class EventModal extends Component<EventModalProps, EventModalStates> {
   componentDidMount () : void {
     const {actions, events} = this.props
     const {getEvents} = actions
-    getEvents()
+    // getEvents()
   }
   
   componentDidUpdate (prevProps : Readonly<EventModalProps>, prevState : Readonly<EventModalStates>, snapshot : any) : void {

@@ -7,7 +7,7 @@ export default {
   },
   USER_TYPES: {
     PERSON: 'person',
-    ORG: 'org',
+    ORG: 'organization',
     ORGANIZATION: 'organization',
   },
   POST_PARENT: {

@@ -1,25 +1,20 @@
-import constants from "src/consts/constants"
-
 const base = (state, action) => {
 }
 
 const success = (state, action) => {
   const {rememberMe, data} = action.payload
-  const {user, profile, identity, organization} = data || {}
+  const {identity} = data || {}
   const client = {...state.client}
-  const user_type = profile.is_user_organization ? constants.USER_TYPES.ORG : constants.USER_TYPES.PERSON
+  const user_type = identity.identity_type
   return {
     ...state,
     client: {
       ...client,
-      user,
-      profile,
-      identity:{
-        content:identity.id,
-        isLoading:false,
-        error:null
-    },
-      organization,
+      identity: {
+        content: identity.id,
+        isLoading: false,
+        error: null
+      },
       user_type,
       rememberMe,
       posts: [],
