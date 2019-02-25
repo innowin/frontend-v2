@@ -184,6 +184,12 @@ const results = {
   },
   FAVORITE: {
     GET_FAVORITES: 'get-favorite',
+  },
+  EVENT_ASSIGNMENT: {
+    CREATE_EVENT_ASSIGNMENT: 'create-event-assignment',
+  },
+  EVENTS : {
+    GET_EVENTS: 'get-events',
   }
 }
 export default results

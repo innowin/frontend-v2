@@ -8,6 +8,11 @@
   flex-flow: row wrap;
   justify-content: space-between;
   flex: 0 0 50px;
+  transition: all $animation-timing ease;
+
+  .back-button {
+    display: none;
+  }
 
   .logo-wrapper {
     display: flex;
@@ -65,15 +70,13 @@
 
     .link-item {
       justify-content: center;
-      flex: 0 0 130px;
-      min-width: 130px;
       align-items: center;
       text-align: center;
       font-size: 12px;
       font-weight: normal;
       color: $primary-color;
       display: flex;
-      padding: 7px;
+      padding: 7px 20px;
     }
     .login-button {
       border: $success-color;
@@ -84,9 +87,7 @@
 
     @media screen and (max-width: 700px){
       .link-item {
-        flex: 0 0 115px;
-        min-width: 115px;
-        padding: 7px 10px;
+        padding: 7px 20px;
       }
       .login-button {
         display: flex;

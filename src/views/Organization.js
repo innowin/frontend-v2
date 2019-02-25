@@ -48,6 +48,7 @@ type PropsOrganization = {
     getOrgIdentity: Function,
   },
   identityObject: identityStateObject,
+  translate: {[string]:string|{}},
 }
 
 export class Organization extends Component<PropsOrganization> {

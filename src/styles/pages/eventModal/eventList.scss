@@ -1,0 +1,92 @@
+@import "../../variables";
+
+.event-list-wrapper {
+  overflow-y: auto;
+  max-height: 65vh;
+  .list {
+    margin-top: 5mm;
+    .item {
+      display: flex;
+      flex-flow: column;
+      justify-content: center;
+      perspective: 500px;
+      label {
+        padding: 5px 0;
+        font-size: 14px;
+        cursor: pointer;
+        flex: 1;
+        display: flex;
+        &:hover {
+          background: darken(white,3%);
+        }
+        p {
+          display: flex;
+          align-items: center;
+          margin: 0 7mm;
+        }
+        span.checkmark {
+          top: 13px;
+        }
+        .button-details {
+          color: $primary-color-light3;
+          display: flex;
+          justify-content: center;
+          padding: 5px;
+          border-radius: 5px;
+          &:hover {
+            background-color: white;
+          }
+          span {
+            display: flex;
+            padding: 5px;
+            align-items: center;
+            transform: rotate3d(0,0,1,180deg);
+            transition: all 0.3s ease;
+            &.open {
+              transform: rotate3d(0,0,1,90deg);
+            }
+          }
+          svg {
+            width: 6px;
+            fill: $primary-color-light3;
+          }
+        }
+      }
+      .attributes-list {
+        &.slide-in {
+          opacity: 1;
+          transform: rotate3d(0 ,0, 0, -90deg) scale3d(0.9,1,1);
+        }
+        &.slide-out {
+          opacity: 0;
+          transform: rotate3d(1 ,0, 0, -90deg) scale3d(0.9,1,1);
+          height: 0;
+        }
+        opacity: 1;
+        transition: all 0.5s ease;
+        transform-origin: 50% 0;
+        transform: rotate3d(0 ,0, 0, -90deg) translate3d(0 ,0, 0) scale3d(1,1,1);
+        font-size: 12px;
+        display: flex;
+        flex-flow: column;
+        .attribute-item {
+          display: flex;
+          flex-flow: row;
+          .item-box {
+            padding: 10px;
+            background: darken(white,2%);
+          }
+          .key {
+            flex: 1 1 25%;
+            margin: 0 0 5px 5px;
+
+          }
+          .value {
+            margin: 0 0 5px 0;
+            flex: 1 1 75%;
+          }
+        }
+      }
+    }
+  }
+}

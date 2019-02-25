@@ -162,7 +162,7 @@ class HomePosts extends PureComponent {
                                       />
                                   ))) :
                                   <div className="empty-posts">
-                                    <DesertIcon width="100%" text="در این پنجره پستی وجود ندارد"/>
+                                    <DesertIcon width="100%" text="پستی وجود ندارد"/>
                                   </div>
                             }
                             {

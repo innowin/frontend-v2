@@ -17,6 +17,7 @@ export default {
     POST: 'post',
     EXCHANGE: 'exchange',
     PRODUCT: 'product',
+    PROFILE: 'profile',
   },
   PRODUCT: {
     PRICE_TYPE: {
@@ -30,6 +31,10 @@ export default {
       SUPPLY: 'supply',
       DEMAND: 'demand',
     }
+  },
+  GENDER: {
+    MALE: 'male',
+    FEMALE: 'female',
   },
   COMMENT_PARENT: {
     POST: 'post',
@@ -94,6 +99,41 @@ export default {
     VIDEO: 'video',
   },
   CREATE_FILE_CATEGORIES: {
-
-  }
+    ORGAN_PROFILE: {
+      CATALOG: 'catalog',
+    },
+    PROFILE: {
+      BANNER: 'banner',
+      PROFILE_PICTURE: 'profile-picture',
+      RESUME: 'resume',
+    }
+  },
+  TEMP_FILE_KEYS: {
+    CATALOG: 'organCatalog',
+    RESUME: 'profileResume',
+  },
+  WORK_STATUS: {
+    EMPLOYED: 'employed',
+    SEARCH_FOR_A_BETTER_JOB: 'search_for_a_better_job',
+    UNEMPLOYED: 'unemployed'
+  },
+  WORK_STATUS_FA: {
+    EMPLOYED: 'شاغل',
+    SEARCH_FOR_A_BETTER_JOB: 'در جستجوی کار بهتر',
+    UNEMPLOYED: 'بیکار',
+  },
+  MILITARY_SERVING_STATUS: {
+    EDUCATION_PARDON: 'education_pardon',
+    APPLYING: 'applying',
+    SERVING: 'serving',
+    THE_END_OF_SERVING: 'the_end_of_serving',
+    PERMANENT_EXEMPTION: 'permanent_exemption'
+  },
+  MILITARY_SERVING_STATUS_FA: {
+    EDUCATION_PARDON: 'معافیت تحصیلی',
+    APPLYING: 'در حال اعزام',
+    SERVING: 'در حال خدمت',
+    THE_END_OF_SERVING: 'انجام شده',
+    PERMANENT_EXEMPTION: 'معافیت دائم'
+  },
 }

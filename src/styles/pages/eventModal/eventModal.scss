@@ -1,0 +1,51 @@
+@import "../../variables";
+
+.event-modal {
+  background-color: white;
+  border-radius: $border-radius-size;
+  padding: 40px;
+  max-height: 98vh;
+  .head {
+    .title {
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+    .description {
+      margin-top: 10px;
+      color: $text-light-color;
+      font-size: 14px;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    margin-top: 10mm;
+
+    .button {
+      padding: 3px 7mm;
+      font-size: 12px;
+      border-radius: 25px;
+      margin-left: 20px;
+      cursor: pointer;
+    }
+
+    .save {
+      color: white;
+      background: $success-color;
+
+      &:hover {
+        background: darken($success-color, 5%);
+      }
+    }
+
+    .cancel {
+      color: $text-dark-color;
+      background: $more-button-color;
+
+      &:hover {
+        background: $more-button-color-hover-darker;
+      }
+    }
+  }
+}

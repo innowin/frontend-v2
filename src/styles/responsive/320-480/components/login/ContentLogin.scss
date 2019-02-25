@@ -1,0 +1,57 @@
+@import "../../../../variables";
+
+@media screen and (max-width: 480px) and (min-width: 320px) {
+  .login-page .content {
+    .login-wrapper {
+      .sign-in-card {
+        display: none;
+
+        &.login-page-sign-in-card {
+          display: inherit;
+
+          .login-tab {
+            display: none;
+          }
+
+          .login-form {
+            .sign-in-button-container {
+              display: inherit;
+
+              .container-checkmark {
+                margin: 25px 0;
+                text-align: center;
+
+                .checkmark {
+                  right: calc(50% - 60px);
+                }
+              }
+
+              .login-submit-button {
+                width: 100%;
+              }
+            }
+
+            .signup-field {
+              margin-bottom: 17px;
+            }
+
+            .remember-recovery {
+              margin-top: 20px;
+            }
+
+            .sign-up-form {
+              .login-submit-button {
+                width: 100%;
+                background: $success-color;
+                border-color: $success-color;
+              }
+            }
+            .radio-button-container {
+              margin-bottom: 15px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

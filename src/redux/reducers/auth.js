@@ -24,6 +24,9 @@ const auth = (state = initialState.auth, action) => {
       /** -------------------------- update profile by profile id -------------------------> **/
     case types.SUCCESS.USER.UPDATE_PROFILE_BY_PROFILE_ID:
       return slices.updateProfileByProfileId.success(state, action)
+      /** -------------------------- update organization by organization id -------------------------> **/
+    case types.SUCCESS.ORG.UPDATE_ORGANIZATION_INFO:
+      return slices.updateOrganizationInfo.success(state, action)
 
     case types.SUCCESS.ORG.SET_ORGANIZATION_INFO_MEDIA:
       return slices.setClientOrganMedia.success(state, action)

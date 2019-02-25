@@ -24,12 +24,15 @@
     //background-image: url('../images/loginBG.jpg');
     //filter: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg"><filter id="filter"><feGaussianBlur stdDeviation="15" /></filter></svg>#filter') blur(10px);
   }
-}
 
-.login-page > .login-container {
-  position: relative;
-  max-width: 1300px;
-  margin: 0 auto;
-  padding: 0 20px;
-  min-height: 100%;
+  .login-container {
+    position: relative;
+    max-width: 1300px;
+    margin: 0 20px;
+    min-height: 100%;
+
+    .login-sign-up-buttons-container {
+      display: none;
+    }
+  }
 }

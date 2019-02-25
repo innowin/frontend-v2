@@ -2,18 +2,21 @@
   font-family: IRANSansWebFaNum-Bold;
   font-style: normal;
   font-weight: bold;
-  src: url('../fonts/IRANSansWebFaNum_Bold.woff') format('woff')
+  font-display: swap;
+  src: local('IRANSansWeb(FaNum) Bold'), url('../fonts/IRANSansWebFaNum_Bold.woff') format('woff');
 }
 @font-face {
   font-family: IRANSansMonoSpacedNum-Light;
   font-style: normal;
   font-weight: 300;
-  src: url('../fonts/IRANSansWebFaNum_Light.woff') format('woff')
+  font-display: swap;
+  src: local('IRANSans(MonoSpacedNum) Light'), url('../fonts/IRANSansWebFaNum_Light.woff') format('woff');
 }
 
 @font-face {
   font-family: IRANSansWebFaNum;
   font-style: normal;
   font-weight: normal;
-  src: url('../fonts/IRANSansWebFaNum.woff') format('woff')
+  font-display: swap;
+  src: local('IRANSansWeb(FaNum) Regular'), url('../fonts/IRANSansWebFaNum.woff') format('woff');
 }
