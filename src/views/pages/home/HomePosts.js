@@ -1,22 +1,22 @@
-import * as React from 'react'
-import constant from 'src/consts/constants'
-import CreatePostNew from 'src/views/common/post/createPost/index'
-import PostActions from 'src/redux/actions/commonActions/postActions'
-import PropTypes from 'prop-types'
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
-import {FrameCard, ListGroup, VerifyWrapper} from 'src/views/common/cards/Frames'
-import {Post} from 'src/views/common/post/Post'
-import {PureComponent} from 'react'
-import {RightArrow, DesertIcon, EditIcon} from 'src/images/icons'
-import {exchangePostsSelector} from '../../../redux/selectors/home/homePosts'
+import * as React from "react"
+import constant from "src/consts/constants"
+import CreatePostNew from "src/views/common/post/createPost/index"
+import PostActions from "src/redux/actions/commonActions/postActions"
+import PropTypes from "prop-types"
+import {bindActionCreators} from "redux"
+import {connect} from "react-redux"
+import {FrameCard, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames"
+import {Post} from "src/views/common/post/Post"
+import {PureComponent} from "react"
+import {RightArrow, DesertIcon, EditIcon} from "src/images/icons"
+import {exchangePostsSelector} from "../../../redux/selectors/home/homePosts"
 
 
 class HomePosts extends PureComponent {
 
   static propTypes = {
     className: PropTypes.string,
-    exchangeId: PropTypes.number
+    exchangeId: PropTypes.number,
   }
 
   constructor(props) {
@@ -26,12 +26,12 @@ class HomePosts extends PureComponent {
       offset: 0,
       scrollButton: false,
       showCreatePostSmall: false,
-      getDataInDidMount: false
+      getDataInDidMount: false,
     }
   }
 
   componentWillMount(): void {
-    window.addEventListener('scroll', this._onScroll)
+    window.addEventListener("scroll", this._onScroll)
 
     const {actions, exchangeId} = this.props
     const {filterPostsByPostParentLimitOffset} = actions
@@ -39,7 +39,7 @@ class HomePosts extends PureComponent {
     const offset = 0
     if (exchangeId) {
       filterPostsByPostParentLimitOffset({
-        postParentId: exchangeId, postType: null, limit, offset, postParentType: constant.POST_PARENT.EXCHANGE
+        postParentId: exchangeId, postType: null, limit, offset, postParentType: constant.POST_PARENT.EXCHANGE,
       })
     } else this.setState({...this.state, getDataInDidMount: true})
   }
@@ -52,7 +52,7 @@ class HomePosts extends PureComponent {
       const offset = 0
       if (exchangeId) {
         filterPostsByPostParentLimitOffset({
-          postParentId: exchangeId, postType: null, limit, offset, postParentType: constant.POST_PARENT.EXCHANGE
+          postParentId: exchangeId, postType: null, limit, offset, postParentType: constant.POST_PARENT.EXCHANGE,
         })
       }
     }
@@ -65,13 +65,13 @@ class HomePosts extends PureComponent {
     const offset = 0
     if (exchangeId && exchangeId !== prevProps.exchangeId) {
       filterPostsByPostParentLimitOffset({
-        postParentId: exchangeId, postType: null, limit, offset, postParentType: constant.POST_PARENT.EXCHANGE
+        postParentId: exchangeId, postType: null, limit, offset, postParentType: constant.POST_PARENT.EXCHANGE,
       })
     }
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this._onScroll)
+    window.removeEventListener("scroll", this._onScroll)
   }
 
   _onScroll = () => {
@@ -90,8 +90,8 @@ class HomePosts extends PureComponent {
             postType: null,
             postParentType: constant.POST_PARENT.EXCHANGE,
             limit,
-            offset: newOffset
-          })
+            offset: newOffset,
+          }),
       )
     }
 
@@ -109,7 +109,7 @@ class HomePosts extends PureComponent {
   goUp = () => {
     window.scroll({
       top: 0,
-      behavior: 'smooth'
+      behavior: "smooth",
     })
   }
 
@@ -162,7 +162,7 @@ class HomePosts extends PureComponent {
                                       />
                                   ))) :
                                   <div className="empty-posts">
-                                    <DesertIcon width="100%" text="پستی وجود ندارد"/>
+                                    <DesertIcon width="100%" text="پستی بارگذاری نشده"/>
                                   </div>
                             }
                             {
@@ -171,18 +171,18 @@ class HomePosts extends PureComponent {
                           </ListGroup>
                         </FrameCard>
                         {/*button for scroll to top*/}
-                        <div className={this.state.scrollButton ? 'go-up-logo-cont' : 'go-up-logo-cont-hide'}
+                        <div className={this.state.scrollButton ? "go-up-logo-cont" : "go-up-logo-cont-hide"}
                              onClick={this.goUp}>
                           <RightArrow className='go-up-logo'/>
                         </div>
 
-                        <div className={this.state.scrollButton ? 'write-post-hide' : 'write-post'}
+                        <div className={this.state.scrollButton ? "write-post-hide" : "write-post"}
                              onClick={this._showCreatePostSmall}>
                           <EditIcon className='write-post-logo'/>
                         </div>
                       </div>
               )
-          ) : ('')}
+          ) : ("")}
         </VerifyWrapper>
     )
   }
@@ -195,7 +195,7 @@ const mapStateToProps = (state, ownProps) => {
       && allExchange[exchangeId].posts.isLoading) || false
   return {
     posts: exchangePostsSelector(state, ownProps),
-    isLoading
+    isLoading,
   }
 }
 const mapDispatchToProps = dispatch => ({
@@ -203,6 +203,6 @@ const mapDispatchToProps = dispatch => ({
     filterPostsByPostParentLimitOffset: PostActions.filterPostsByPostParentLimitOffset,
     updatePost: PostActions.updatePost,
     deletePost: PostActions.deletePost,
-  }, dispatch)
+  }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(HomePosts)

@@ -1,40 +1,48 @@
-import React from 'react'
+import React from "react"
 
 const st0 = {
-  fill: '#F9F9F9'
+  fill: "#F9F9F9",
 }
 const st1 = {
-  fill: '#EAEAE9'
+  fill: "#EAEAE9",
 }
 const st2 = {
-  fill: '#E8E8E8'
+  fill: "#E8E8E8",
 }
 const st3 = {
-  fill: '#E1E1E1'
+  fill: "#E1E1E1",
 }
 const st4 = {
-  fill: '#E1E1E1'
+  fill: "#E1E1E1",
 }
 const st5 = {
-  fill: '#D5D5D5'
+  fill: "#D5D5D5",
 }
 const st6 = {
-  fill: '#BBBBBB'
+  fill: "#BBBBBB",
 }
 
 const desertSvg = (props) => {
   return (
-      <div style={{position: 'relative', width: '120%', textAlign: 'center', zIndex:'0', transform:'scale(1.1)'}}>
-      {/*<div style={{position: 'relative', width: '100%', textAlign: 'center', zIndex: '0'}}>*/}
+      <div style={{position: "relative", width: "120%", textAlign: "center", zIndex: "0", transform: "scale(1.1)"}}>
+        {/*<div style={{position: 'relative', width: '100%', textAlign: 'center', zIndex: '0'}}>*/}
         {
           props.text ?
-              <div style={{fontSize: '12px', margin: 'auto', position: 'absolute', top: '30%', right: '50%', transform: 'translateX(45%)', color: '#a1a1a1'}}>
+              <div style={{
+                fontSize: "12px",
+                margin: "auto",
+                position: "absolute",
+                top: "30%",
+                right: "50%",
+                transform: "translateX(45%)",
+                color: "#a1a1a1",
+              }}>
                 {props.text}
               </div>
               : null
         }
         <svg width={props.width} height={props.width} className={props.className}
-             viewBox="0 0 1920 1080" style={{enableBackground: 'new 0 0 1920 1080'}} x="0px" y="0px">
+             viewBox="0 0 1920 1080" style={{enableBackground: "new 0 0 1920 1080"}} x="0px" y="0px">
           <g id="Layer_6">
             <circle style={st0} cx="934.5" cy="543.5" r="286"/>
           </g>

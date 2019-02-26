@@ -7,6 +7,7 @@ const success = (state, action) => {
     delete allExchanges[id].exchange.content.exchange
   }
 
+  // FIXME: exchange object in [id] must get deleted - no content in exchange anymore
   for (let id in exchangeData) {
     state.list[id] && state.list[id].exchange ?
         nextExchange[id] = {

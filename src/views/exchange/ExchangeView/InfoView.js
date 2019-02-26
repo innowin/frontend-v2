@@ -23,7 +23,7 @@ type props = {
   exchangeId: number,
   exchanges: Object,
   translate: { [string]: string },
-  users: Object,
+  identities: Object,
 }
 
 type state = {
@@ -51,7 +51,7 @@ class InfoView extends Component<props, state> {
   _handleEditBioView() {
     let {editBio} = this.state
     let {exchanges, exchangeId} = this.props
-    const currentExchange = exchanges[exchangeId].exchange.content
+    const currentExchange = exchanges[exchangeId]
     this.setState({...this.state, editBio: !editBio, exchangeBio: currentExchange.biography})
   }
 
@@ -66,7 +66,7 @@ class InfoView extends Component<props, state> {
       self.bioError.className = "info-body-bio-text-area-error-hide"
       let formValues = {
         exchange_id: exchangeId,
-        exchange_biography: exchangeBio,
+        exchange_biography: exchangeBio
       }
       editExchange(formValues)
       this.setState({...this.state, editBio: !editBio})
@@ -101,15 +101,14 @@ class InfoView extends Component<props, state> {
   }
 
   render() {
-    const {educations, users, translate, exchanges, exchangeId} = this.props
+    const {educations, translate, exchanges, exchangeId} = this.props
     const {editBio, exchangeBio, editSocial} = this.state
-    if (exchanges[exchangeId] && exchanges[exchangeId].exchange.content && exchanges[exchangeId].exchange.content.owner) {
-      const currentExchange = exchanges[exchangeId].exchange.content
-      const ownerId = parseInt(currentExchange.owner.identity_user, 10) // only users, should organization be check to
-      if (users[ownerId].profile && users[ownerId].profile.content && users[ownerId].educations.content) {
-        const ownerProfile = users[ownerId] && users[ownerId].profile.content.profile_user
-        const ownerMedia = users[ownerId] && users[ownerId].profile.content.profile_media
-        const ownerEducations = users[ownerId] && users[ownerId].educations.content
+    if (exchanges[exchangeId] && exchanges[exchangeId].owner) {
+      const currentExchange = exchanges[exchangeId]
+      const ownerId = parseInt(currentExchange.owner.id, 10)
+      const owner = exchanges[exchangeId].owner
+      const ownerEducations = []
+      if (owner) {
         return (
             <div>
               <div className="info-frame">
@@ -160,21 +159,21 @@ class InfoView extends Component<props, state> {
                 </div>
                 <div className={"info-body"}>
                   <div className={"info-exchange-owner-frame"}>
-                    <Link to={`/user/${ownerProfile && ownerProfile.id}`}>
+                    <Link to={owner.identity_type === "user" ? `/user/${owner.id}` : `/organization/${owner.id}`}>
                       <div className={"info-exchange-owner-image-frame"}>
-                        {ownerMedia && ownerMedia !== null ? <div className='rounded-circle-info-parent' ref={e => this.scroll = e}
-                                                                  onLoad={() => this.scroll.scrollLeft = 10}><img alt={"تصویر پروفایل"}
-                                                                                                                  src={ownerMedia.file}
-                                                                                                                  height={"60px"}
-                                                                                                                  className={"post-user-picture"}/>
+                        {owner.profile_media !== null ? <div className='rounded-circle-info-parent' ref={e => this.scroll = e}
+                                                             onLoad={() => this.scroll.scrollLeft = 10}><img alt={"تصویر پروفایل"}
+                                                                                                             src={owner.profile_media.file}
+                                                                                                             height={"60px"}
+                                                                                                             className={"post-user-picture"}/>
                             </div>
                             : <DefaultUserIcon
                                 height={"55px"} width={"55px"} className={"post-user-picture"}/>}
                       </div>
                     </Link>
                     <div className={"info-exchange-owner-image-frame-sibling"}>
-                      <div className={"info-exchange-username"}> {ownerProfile ? ownerProfile.first_name || ownerProfile.last_name !== "" ?
-                          ownerProfile.first_name + " " + ownerProfile.last_name : ownerProfile.username : null} </div>
+                      <div className={"info-exchange-username"}> {owner.first_name !== "" || owner.last_name !== "" ?
+                          owner.first_name + " " + owner.last_name : owner.username} </div>
                       <div className={"info-exchange-education"}>
                         {ownerEducations.map((p, inx) => <div key={inx}> -
                           <span> {!educations[p] ? "مقطع" : translate[educations[p].grade]} </span>
@@ -328,7 +327,7 @@ class InfoView extends Component<props, state> {
 const mapStateToProps = (state) => ({
   educations: state.education.list,
   exchanges: state.exchanges.list,
-  users: state.users.list,
+  identities: state.identities.list,
   translate: getMessages(state)
 })
 

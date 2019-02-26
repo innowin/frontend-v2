@@ -4,7 +4,7 @@ import types from "src/redux/actions/types"
 import urls from "src/consts/URLS"
 import {put, take, fork, call, select} from "redux-saga/effects"
 
-export function* getExchangeByExId(action) {
+export function*  getExchangeByExId(action) {
   const {id} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.EXCHANGE.GET_EXCHANGE_BY_EX_ID)
   try {

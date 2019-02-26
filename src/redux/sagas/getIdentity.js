@@ -12,9 +12,9 @@ function* getUserIdentity(action) {
   const resultName = results.USER.GET_IDENTITY + userId
   const socketChannel = yield call(api.createSocketChannel, resultName)
   try {
-    yield fork(api.get, urls.USER.GET_IDENTITY, resultName, `?identity_user=${userId}`)
-    const dataList = yield take(socketChannel)
-    const data = dataList[0]
+    yield fork(api.get, urls.USER.GET_IDENTITY, resultName, `${userId}`)
+    const data = yield take(socketChannel)
+    // const data = dataList[0]
     yield put({type: types.SUCCESS.USER.GET_USER_IDENTITY, payload: {data, userId}})
   } catch (e) {
     const {message} = e

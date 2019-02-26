@@ -77,10 +77,11 @@ class MembersView extends Component<props, states> {
   }
 
   getMembers(memberId, memberType, index) {
-    let {profiles, organs, files, clientId} = this.props
+    let {profiles, organs, files, clientId, identities} = this.props
     let {followingUsers, followingOrgans} = this.state
     if (memberType === "USER") {
-      if (profiles[memberId].profile.content.profile_user) {
+      if (identities[memberId]) {
+      // if (profiles[memberId].profile.content.profile_user) {
         // if (!profiles[memberId].profile.isLoading) {
         return <div key={index} className={this.state.viewType}>
           {followingUsers.indexOf(memberId) >= 0 ? <div className={"member-followed"}>دنبال شده</div>
@@ -89,8 +90,8 @@ class MembersView extends Component<props, states> {
                       className={"member-follow-plus"}> + </span></div> : <div className="member-followed"/>}
           <Link to={`/user/${memberId}`}>
             <div className={"member-picture-container"}>
-              {profiles[memberId].profile.content.profile_media !== null ? <img alt=""
-                                                                                src={profiles[memberId].profile.content.profile_media.file}
+              {identities[memberId].profile_media !== null ? <img alt=""
+                                                                                src={identities[memberId].profile_media.file}
                                                                                 width={"55px"} height={"55px"}
                                                                                 className={"member-picture"}/>
                   : <DefaultUserIcon
@@ -99,13 +100,13 @@ class MembersView extends Component<props, states> {
 
             <div className={"member-info-container"}>
               <div className={"member-name"}>{
-                profiles[memberId].profile.content.profile_user.first_name ||
-                profiles[memberId].profile.content.profile_user.last_name ?
-                    profiles[memberId].profile.content.profile_user.first_name + " " + profiles[memberId].profile.content.profile_user.last_name :
-                    profiles[memberId].profile.content.profile_user.username
+                identities[memberId].first_name ||
+                identities[memberId].last_name ?
+                    identities[memberId].first_name + " " + identities[memberId].last_name :
+                    identities[memberId].username
               }</div>
               <div className={"member-description"}>{
-                profiles[memberId].profile.content.description
+                identities[memberId].description
               }</div>
             </div>
           </Link>
@@ -119,7 +120,8 @@ class MembersView extends Component<props, states> {
     }
     if (memberType === "ORGANIZATION") {
       // if (!organs[memberId].organization.isLoading) {
-      if (organs[memberId].organization.content) {
+      // if (organs[memberId].organization.content) {
+      if (identities[memberId]) {
         return <div key={index}
                     className={this.state.viewType}>
           {followingOrgans.indexOf(memberId) >= 0 ? <div className={"member-followed"}>دنبال شده</div>
@@ -128,9 +130,9 @@ class MembersView extends Component<props, states> {
                       className={"member-follow-plus"}> + </span></div> : <div className={"member-followed"}/>}
           <Link to={`/organization/${memberId}`}>
             <div className={"member-picture-container"}>
-              {organs[memberId].organization.content.organization_logo !== null ? <img alt=""
-                                                                                       src={files[organs[memberId].organization.content.organization_logo] ?
-                                                                                           files[organs[memberId].organization.content.organization_logo].file :
+              {identities[memberId].organization_logo !== null ? <img alt=""
+                                                                                       src={files[identities[memberId].organization_logo] ?
+                                                                                           files[identities[memberId].organization_logo].file :
                                                                                            null}
                                                                                        width={"55px"} height={"55px"}
                                                                                        className={"member-picture"}/>
@@ -140,12 +142,12 @@ class MembersView extends Component<props, states> {
 
             <div className={"member-info-container"}>
               <div className={"member-name"}>{
-                organs[memberId].organization.content.official_name !== "" ?
-                    organs[memberId].organization.content.official_name :
-                    organs[memberId].organization.content.username
+                identities[memberId].official_name !== "" ?
+                    identities[memberId].official_name :
+                    identities[memberId].username
               }</div>
               <div className={"member-description"}>{
-                organs[memberId].organization.content.biography
+                identities[memberId].biography
               }</div>
             </div>
           </Link>
@@ -167,11 +169,13 @@ class MembersView extends Component<props, states> {
         for (let i = 0; i < exchangeUsers[exchangeId].length; i++) {
           if (exchangeUsers[exchangeId][i]) {
             if (exchangeUsers[exchangeId][i].type === "USER") {
-              getUser(exchangeUsers[exchangeId][i].id)
               getUserIdentity(exchangeUsers[exchangeId][i].id)
+              // getUser(exchangeUsers[exchangeId][i].id)
+              // getUserIdentity(exchangeUsers[exchangeId][i].id)
             } else {
-              getOrganization(exchangeUsers[exchangeId][i].id)
-              getOrgIdentity(exchangeUsers[exchangeId][i].id)
+              getUserIdentity(exchangeUsers[exchangeId][i].id)
+              // getOrganization(exchangeUsers[exchangeId][i].id)
+              // getOrgIdentity(exchangeUsers[exchangeId][i].id)
             }
             temp.push(exchangeUsers[exchangeId][i])
           }
@@ -196,11 +200,13 @@ class MembersView extends Component<props, states> {
         for (let i = 0; i < 6; i++) {
           if (exchangeUsers[exchangeId][i]) {
             if (exchangeUsers[exchangeId][i].type === "USER") {
-              getUser(exchangeUsers[exchangeId][i].id)
               getUserIdentity(exchangeUsers[exchangeId][i].id)
+              // getUser(exchangeUsers[exchangeId][i].id)
+              // getUserIdentity(exchangeUsers[exchangeId][i].id)
             } else {
-              getOrganization(exchangeUsers[exchangeId][i].id)
-              getOrgIdentity(exchangeUsers[exchangeId][i].id)
+              getUserIdentity(exchangeUsers[exchangeId][i].id)
+              // getOrganization(exchangeUsers[exchangeId][i].id)
+              // getOrgIdentity(exchangeUsers[exchangeId][i].id)
             }
             temp.push(exchangeUsers[exchangeId][i])
           }
@@ -232,11 +238,13 @@ class MembersView extends Component<props, states> {
           for (let i = 0; i < 6; i++) {
             if (exchangeUsers[exchangeId][i]) {
               if (exchangeUsers[exchangeId][i].type === "USER") {
-                getUser(exchangeUsers[exchangeId][i].id)
                 getUserIdentity(exchangeUsers[exchangeId][i].id)
+                // getUser(exchangeUsers[exchangeId][i].id)
+                // getUserIdentity(exchangeUsers[exchangeId][i].id)
               } else {
-                getOrganization(exchangeUsers[exchangeId][i].id)
-                getOrgIdentity(exchangeUsers[exchangeId][i].id)
+                getUserIdentity(exchangeUsers[exchangeId][i].id)
+                // getOrganization(exchangeUsers[exchangeId][i].id)
+                // getOrgIdentity(exchangeUsers[exchangeId][i].id)
               }
               temp.push(exchangeUsers[exchangeId][i])
             }
@@ -287,7 +295,9 @@ const mapStateToProps = (state) => {
     organs: state.organs.list,
     profiles: state.users.list,
     files: state.common.file.list,
-    clientId: state.auth.client.user.id,
+    // clientId: state.auth.client.user.id,
+    clientId: state.auth.client.identity.content,
+    identities: state.identities.list,
     getFollowingSelector: getFolloweesSelector(state, {
       identityId: state.auth.client.identity.content,
       ownerId: state.auth.client.user.id,

@@ -111,10 +111,10 @@ class ExchangeViewBar extends Component {
       image.onload = () => {
         this.setState({...this.state, imageLoaded: true})
       }
-    } else if (currentExchange && currentExchange.exchange.content.exchange_image) {
+    } else if (currentExchange && currentExchange.exchange_image) {
       let image = new Image()
-      image.src = currentExchange.exchange.content.exchange_image.file.includes("innowin.ir") ?
-          currentExchange.exchange.content.exchange_image.file : REST_URL + currentExchange.exchange.content.exchange_image.file
+      image.src = currentExchange.exchange_image.file.includes("innowin.ir") ?
+          currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file
       image.onload = () => {
         this.setState({...this.state, imageLoaded: true})
       }
@@ -138,10 +138,10 @@ class ExchangeViewBar extends Component {
           image.onload = () => {
             this.setState({...this.state, imageLoaded: true})
           }
-        } else if (currentExchange && currentExchange.exchange.content.exchange_image) {
+        } else if (currentExchange && currentExchange.exchange_image) {
           let image = new Image()
-          image.src = currentExchange.exchange.content.exchange_image.file.includes("innowin.ir") ?
-              currentExchange.exchange.content.exchange_image.file : REST_URL + currentExchange.exchange.content.exchange_image.file
+          image.src = currentExchange.exchange_image.file.includes("innowin.ir") ?
+              currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file
           image.onload = () => {
             this.setState({...this.state, imageLoaded: true})
           }
@@ -172,8 +172,8 @@ class ExchangeViewBar extends Component {
   _handleClickOutside(event) {
     const {exchanges, exchangeId, currentUserId} = this.props
     if (exchanges.list[exchangeId]) {
-      const currentExchange = exchanges.list[exchangeId].exchange.content
-      if (currentExchange && currentExchange.owner && currentExchange.owner.identity_user === currentUserId) {
+      const currentExchange = exchanges.list[exchangeId]
+      if (currentExchange && currentExchange.owner && currentExchange.owner.id === currentUserId) {
         if (this.exchangeAdminMenu && !this.exchangeAdminMenu.contains(event.target)) {
           this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
         }
@@ -187,7 +187,7 @@ class ExchangeViewBar extends Component {
 
   renderFollowBtn(currentExchange) {
     if (currentExchange.exchange && !this.state.unFollowed) {
-      if (this.props.currentUserId === (currentExchange.owner && currentExchange.owner.identity_user)) {
+      if (this.props.currentUserId === (currentExchange.owner && currentExchange.owner.id)) {
         return (
             <button
                 type="button"
@@ -327,11 +327,11 @@ class ExchangeViewBar extends Component {
     } = this.state
     const {translate, exchanges, exchangeId, currentUserId} = this.props
     if (exchanges.list[exchangeId]) {
-      const currentExchange = exchanges.list[exchangeId].exchange && exchanges.list[exchangeId].exchange.content
+      const currentExchange = exchanges.list[exchangeId] && exchanges.list[exchangeId]
       return (
           <div className="-sidebar-child-wrapper col">
             <div className="align-items-center flex-column">
-              {currentUserId !== (currentExchange.owner && currentExchange.owner.identity_user) && !editView ?
+              {currentUserId !== (currentExchange.owner && currentExchange.owner.id) && !editView ?
                   currentExchange.exchange && !unFollowed ?
                       <div>
                         <div className="fa fa-ellipsis-v menuBottom bubble-more" onClick={(e) => this._handleMenu(e)}/>
@@ -365,12 +365,12 @@ class ExchangeViewBar extends Component {
                                  currentExchange.exchange_image.file.includes("innowin.ir") ?
                                      currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file}/>
                         :
-                        currentExchange.exchange && currentExchange.exchange.content.exchange_image ?
+                        currentExchange.exchange && currentExchange.exchange_image ?
                             <img className="exchangeViewBarImg" alt={translate["Exchange Picture"]}
                                  src={selectedImage ? selectedImage.file :
-                                     currentExchange.exchange.content.exchange_image.file.includes("innowin.ir") ?
-                                         currentExchange.exchange.content.exchange_image.file :
-                                         REST_URL + currentExchange.exchange.content.exchange_image.file}/>
+                                     currentExchange.exchange_image.file.includes("innowin.ir") ?
+                                         currentExchange.exchange_image.file :
+                                         REST_URL + currentExchange.exchange_image.file}/>
                             :
                             <DefaultUserIcon className="exchangeViewBarImg"/>
 
@@ -390,16 +390,16 @@ class ExchangeViewBar extends Component {
                               : null}
                         </div>
                         :
-                        currentExchange.exchange && currentExchange.exchange.content.exchange_image ?
+                        currentExchange.exchange && currentExchange.exchange_image ?
                             <div className="edit-exchange-profile-picture-container">
                               <div className="edit-exchange-profile-picture">
                                 تغییر تصویر
                               </div>
                               <img className="exchangeViewBarImg" alt={translate["Exchange Picture"]}
                                    src={selectedImage ? selectedImage.file :
-                                       currentExchange.exchange.content.exchange_image.file.includes("innowin.ir") ?
-                                           currentExchange.exchange.content.exchange_image.file :
-                                           REST_URL + currentExchange.exchange.content.exchange_image.file}/>
+                                       currentExchange.exchange_image.file.includes("innowin.ir") ?
+                                           currentExchange.exchange_image.file :
+                                           REST_URL + currentExchange.exchange_image.file}/>
                               {!processing ?
                                   <input type="file" accept="image/*" onChange={e => this._uploadHandler(e.currentTarget.files[0])}/>
                                   : null}
@@ -430,7 +430,7 @@ class ExchangeViewBar extends Component {
                           {
                             currentExchange && currentExchange.name === "" ? "بدون نام" :
                                 currentExchange.name ? currentExchange.name :
-                                    currentExchange.exchange.content.name === "" ? "بدون نام" : currentExchange.exchange.content.name
+                                    currentExchange.name === "" ? "بدون نام" : currentExchange.name
                           }
                           </span>
                         :
@@ -438,7 +438,7 @@ class ExchangeViewBar extends Component {
                                defaultValue={
                                  currentExchange.name === "" ? "بدون نام" :
                                      currentExchange.name ? currentExchange.name :
-                                         currentExchange.exchange.content.name === "" ? "بدون نام" : currentExchange.exchange.content.name}/>
+                                         currentExchange.name === "" ? "بدون نام" : currentExchange.name}/>
                   }
                 </div>
               </div>
@@ -448,7 +448,7 @@ class ExchangeViewBar extends Component {
                       {
                         currentExchange.description === "" ? "بدون توضیحات" :
                             currentExchange.description ? currentExchange.description :
-                                currentExchange.exchange.content.description === "" ? "بدون توضیحات" : currentExchange.exchange.content.description
+                                currentExchange.description === "" ? "بدون توضیحات" : currentExchange.description
                       }
                     </div>
                     :
@@ -456,7 +456,7 @@ class ExchangeViewBar extends Component {
                               defaultValue={
                                 currentExchange.description === "" ? "بدون توضیحات" :
                                     currentExchange.description ? currentExchange.description :
-                                        currentExchange.exchange.content.description === "" ? "بدون توضیحات" : currentExchange.exchange.content.description
+                                        currentExchange.description === "" ? "بدون توضیحات" : currentExchange.description
                               }/>
               }
 

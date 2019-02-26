@@ -9,9 +9,8 @@ const success = (state, action) => {
 
   data.forEach(p => {
     members.push({
-      type: p.exchange_identity_related_identity.identity_user ? 'USER' : 'ORGANIZATION',
-      id: p.exchange_identity_related_identity.identity_user ? p.exchange_identity_related_identity.identity_user.id :
-          p.exchange_identity_related_identity.identity_organization.id,
+      type: p.exchange_identity_related_identity.identity_type === 'user' ? 'USER' : 'ORGANIZATION',
+      id: p.exchange_identity_related_identity.id
     })
     // console.log(p.exchange_identity_related_identity.identity_organization ? p.exchange_identity_related_identity.identity_organization.id : "")
   })

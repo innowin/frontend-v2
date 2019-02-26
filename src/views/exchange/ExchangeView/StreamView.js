@@ -19,7 +19,7 @@ const StreamView = props => {
   }
   const {exchangeId, exchanges, exchangePosts} = props
 
-  if (exchanges[exchangeId] && exchanges[exchangeId].exchange.content && exchanges[exchangeId].exchange.content.owner) {
+  if (exchanges[exchangeId] && exchanges[exchangeId].owner) {
     return exchangePosts.map((p, key) =>
         <div className={'posts-frame-container'} key={key}>
           <div className={'post-view-container'}>

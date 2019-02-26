@@ -1,5 +1,5 @@
 const success = (state, action) => {
-  const {data} = action.payload
+  const { data } = action.payload
   if (state.list[data.id] && state.list[data.id].exchange)
     return {
       ...state,
@@ -8,7 +8,7 @@ const success = (state, action) => {
         [data.id]: {
           ...state.list[data.id],
           exchange: {
-            content: {...state.list[data.id].exchange.content, ...data},
+            content: { ...state.list[data.id].exchange.content, ...data },
             isLoading: false,
             error: null
           }
@@ -21,14 +21,14 @@ const success = (state, action) => {
     list: {
       ...state.list,
       [data.id]: {
-        ...state.list[data.id],
-        exchange: {
-          content: {...data},
-          isLoading: false,
-          error: null
-        }
+        ...data
+        // ...state.list[data.id],
+        // exchange: {
+        //   content: {...data},
+        //   isLoading: false,
+        //   error: null
+        // }
       }
-
     }
   }
 }
