@@ -4,21 +4,29 @@ const success = (state, action) => {
   const allExchanges = {...state.list}
 
   for (let id in allExchanges) {
-    delete allExchanges[id].exchange.content.exchange
+    delete allExchanges[id]
+    // delete allExchanges[id].exchange.content.exchange
   }
 
-  // FIXME: exchange object in [id] must get deleted - no content in exchange anymore
   for (let id in exchangeData) {
-    state.list[id] && state.list[id].exchange ?
+    state.list[id] ?
         nextExchange[id] = {
-          ...state.list[id],
-          exchange: {...state.list[id].exchange, content: {...state.list[id].exchange.content, exchange: exchangeData[id].exchange}}
+          ...exchangeData[id].exchange.content
         }
         :
         nextExchange[id] = {
-          ...state.list[id],
-          exchange: {content: {exchange: exchangeData[id].exchange}}
+          ...exchangeData[id].exchange.content
         }
+    // state.list[id] && state.list[id].exchange ?
+    //     nextExchange[id] = {
+    //       ...state.list[id],
+    //       exchange: {...state.list[id].exchange, content: {...state.list[id].exchange.content, exchange: exchangeData[id].exchange}}
+    //     }
+    //     :
+    //     nextExchange[id] = {
+    //       ...state.list[id],
+    //       exchange: {content: {exchange: exchangeData[id].exchange}}
+    //     }
   }
 
 
