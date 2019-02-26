@@ -237,15 +237,15 @@ class MembersView extends Component<props, states> {
         if (exchangeUsers[exchangeId]) {
           for (let i = 0; i < 6; i++) {
             if (exchangeUsers[exchangeId][i]) {
-              if (exchangeUsers[exchangeId][i].type === "USER") {
-                getUserIdentity(exchangeUsers[exchangeId][i].id)
-                // getUser(exchangeUsers[exchangeId][i].id)
-                // getUserIdentity(exchangeUsers[exchangeId][i].id)
-              } else {
-                getUserIdentity(exchangeUsers[exchangeId][i].id)
-                // getOrganization(exchangeUsers[exchangeId][i].id)
-                // getOrgIdentity(exchangeUsers[exchangeId][i].id)
-              }
+              // if (exchangeUsers[exchangeId][i].type === "USER") {
+              //   getUserIdentity(exchangeUsers[exchangeId][i].id)
+              //   // getUser(exchangeUsers[exchangeId][i].id)
+              //   // getUserIdentity(exchangeUsers[exchangeId][i].id)
+              // } else {
+              //   getUserIdentity(exchangeUsers[exchangeId][i].id)
+              //   // getOrganization(exchangeUsers[exchangeId][i].id)
+              //   // getOrgIdentity(exchangeUsers[exchangeId][i].id)
+              // }
               temp.push(exchangeUsers[exchangeId][i])
             }
           }

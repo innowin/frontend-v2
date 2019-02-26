@@ -107,7 +107,8 @@ class InfoView extends Component<props, state> {
       const currentExchange = exchanges[exchangeId]
       const ownerId = parseInt(currentExchange.owner.id, 10)
       const owner = exchanges[exchangeId].owner
-      const ownerEducations = []
+      const ownerEducations = Object.values(educations).filter(p => p.education_related_identity === ownerId)
+      // console.log("ownerEducations", ownerEducations)
       if (owner) {
         return (
             <div>
@@ -176,10 +177,10 @@ class InfoView extends Component<props, state> {
                           owner.first_name + " " + owner.last_name : owner.username} </div>
                       <div className={"info-exchange-education"}>
                         {ownerEducations.map((p, inx) => <div key={inx}> -
-                          <span> {!educations[p] ? "مقطع" : translate[educations[p].grade]} </span>
-                          <span> {!educations[p] ? "رشته" : educations[p].field_of_study} </span>
+                          <span> {" مقطع " + translate[p.grade]} </span>
+                          <span> {" رشته " + p.field_of_study} </span>
                           <span> {translate["Of"]} </span>
-                          <span> {!educations[p] ? "دانشگاه" : educations[p].university} </span>
+                          <span> {" دانشگاه " + p.university} </span>
                         </div>)}
                       </div>
                     </div>
