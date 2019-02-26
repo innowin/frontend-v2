@@ -77,7 +77,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
           <main className="-main">
             <div className="page-content home-page-content">
               {
-                (id && identityId && identityType) ? (
+                (identityId && identityType) ? (
                     <HomeSideBar setExchangeId={this._setExchangeId}
                                  classNames={activeExchangeId ? "right-sidebar active-exchange" : "right-sidebar"}
                                  identityId={identityId}
@@ -106,11 +106,11 @@ const mapStateToProps = state => {
   const allIdentities = state.identities.list
   const clientIdentityId = client.identity.content || null
   const clientIdentity = (clientIdentityId && allIdentities[clientIdentityId]) ? allIdentities[clientIdentityId] : {}
-  const id = clientIdentity.identity_user ? client.user.id : (client.organization ? client.organization.id : undefined)
-  const identityType = clientIdentity.identity_user ? constants.USER_TYPES.PERSON :
-      (clientIdentity.identity_organization ? constants.USER_TYPES.ORG : undefined)
+  // const id = clientIdentity.identity_user ? client.user.id : (client.organization ? client.organization.id : undefined)
+  const identityType = clientIdentity ? clientIdentity.identity_type : undefined
+
   return {
-    id: id,
+    // id: id,
     identityId: clientIdentityId,
     identityType: identityType,
     translate: getMessages(state),
