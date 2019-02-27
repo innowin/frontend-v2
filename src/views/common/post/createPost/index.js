@@ -1069,11 +1069,9 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
 
 const mapStateToProps = state => {
   const client = state.auth.client
-  const clientImgId = (client.user_type === constants.USER_TYPES.USER) ? (client.profile.profile_media) : (
-      (client.organization && client.organization.organization_logo) || null
-  )
-
-  const userId = (client.organization && client.organization.id) || (client.user && client.user.id)
+  const identityId = client.identity.content
+  const identity = state.identities.list[identityId]
+  const clientImgId = identity.profile_media
 
   const postImg1Id = state.temp.file[POST_IMG1_TEMP_KEY] || null
   const postImg2Id = state.temp.file[POST_IMG2_TEMP_KEY] || null
@@ -1082,16 +1080,15 @@ const mapStateToProps = state => {
   const postFileId = state.temp.file[POST_FILE_TEMP_KEY] || null
 
   const {user_type} = state.auth.client
-  const stateOrgan = state.organs.list[userId]
-  const name = user_type === constants.USER_TYPES.USER ?
-      client.user.first_name + ' ' + client.user.last_name
-      :
-      stateOrgan && stateOrgan.organization.content.nike_name
+  const isUser = user_type === constants.USER_TYPES.USER
+  const name = isUser
+      ? identity.first_name + ' ' + identity.last_name
+      : identity.nike_name
 
   return ({
     currentUserType: client.user_type,
-    currentUserIdentity: client.identity.content,
-    currentUserId: userId,
+    currentUserIdentity: identityId,
+    currentUserId: identity.id,
     currentUserMedia: (state.common.file.list[clientImgId] && state.common.file.list[clientImgId].file) || null,
     currentUserName: name,
     exchanges: state.common.exchangeMembership.list,

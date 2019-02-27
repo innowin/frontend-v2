@@ -2,7 +2,6 @@ import * as React from "react";
 import PropTypes from "prop-types";
 
 import type {postType} from "../../../consts/flowTypes/common/post";
-import constants from 'src/consts/constants'
 import {VerifyWrapper} from "../cards/Frames";
 // import PostEditForm from "./editPost/PostEditForm";
 import PostView from "./PostView";
@@ -43,22 +42,9 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
 
   _update = (formValues: postType, postId: number, postFileIds: []) => {
     const {updatePost, post} = this.props
-    const postIdentityUserId = post.post_related_identity.identity_user && post.post_related_identity.identity_user.id
-    const postIdentityOrganId = post.post_related_identity.identity_organization && post.post_related_identity.identity_organization.id
-    const postOwnerId = postIdentityUserId || postIdentityOrganId
+    const postRelatedIdentity = post.post_related_identity
+    const postOwnerId = postRelatedIdentity.id
     updatePost({formValues, postId, postOwnerId, postFileIds})
-  }
-
-  _delete = () => {
-    const {deletePost, post} = this.props
-    const postParent = post.post_parent
-    const postIdentityUserId = post.post_related_identity.identity_user && post.post_related_identity.identity_user.id
-    const postIdentityOrganId = post.post_related_identity.identity_organization && post.post_related_identity.identity_organization.id
-    const postParentType = (postParent && postParent.child_name) || null
-    const postParentId = (postParent && postParent.id) || null
-    const postOwnerId = postIdentityUserId || postIdentityOrganId
-    const postOwnerType = postIdentityUserId ? constants.USER_TYPES.USER : constants.USER_TYPES.ORG
-    deletePost({postId:post.id, postOwnerId, postOwnerType, postParentId, postParentType})
   }
 
   render() {
@@ -69,12 +55,6 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
         <VerifyWrapper isLoading={false} error={false} className='post-view-container'>
           {edit ?
               <div className="-itemWrapperPost">
-                {/*<PostEditForm*/}
-                    {/*post={post}*/}
-                    {/*hideEdit={this._hideEdit}*/}
-                    {/*deleteFunc={this._delete}*/}
-                    {/*updateFunc={this._update}*/}
-                {/*/>*/}
                 <CreatePost key={'post edit ' + post.id} hideEdit={this._hideEdit} post={post} updateFunc={this._update} isUpdate={true}/>
               </div>
               :

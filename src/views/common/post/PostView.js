@@ -256,17 +256,16 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     this.setState({...this.state, confirm: false})
   }
 
-  _delete() {
+  _delete = () => {
     const {actions, post} = this.props
     const {deletePost} = actions
     const postParent = post.post_parent
-    const postIdentityUserId = post.post_related_identity.identity_user && post.post_related_identity.identity_user.id
-    const postIdentityOrganId = post.post_related_identity.identity_organization && post.post_related_identity.identity_organization.id
+    const postRelatedIdentity = post.post_related_identity
+    const postOwnerId = postRelatedIdentity.id
     const postParentType = (postParent && postParent.child_name) || null
     const postParentId = (postParent && postParent.id) || null
-    const postOwnerId = postIdentityUserId || postIdentityOrganId
-    const postOwnerType = postIdentityUserId ? constants.USER_TYPES.USER : constants.USER_TYPES.ORG
-    deletePost({postId: post.id, postOwnerId, postOwnerType, postParentId, postParentType})
+    const postOwnerType = postRelatedIdentity.identity_type
+    deletePost({postId:post.id, postOwnerId, postOwnerType, postParentId, postParentType})
   }
 
   deleteComment = (comment) => {
