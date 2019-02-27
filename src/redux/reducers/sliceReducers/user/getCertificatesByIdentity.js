@@ -5,7 +5,7 @@ const base = (state, action) => {
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const previousCertificate = (state.list[certificateOwnerId] && state.list[certificateOwnerId].certificates) || defaultObject2
 
-  if (certificateOwnerType === constants.USER_TYPES.PERSON) {
+  if (certificateOwnerType === constants.USER_TYPES.USER) {
     return {
       ...state,
       list: {
@@ -31,7 +31,7 @@ const success = (state, action) => {
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const previousCertificate = (state.list[certificateOwnerId] && state.list[certificateOwnerId].certificates) || defaultObject2
 
-  if (certificateOwnerType === constants.USER_TYPES.PERSON) {
+  if (certificateOwnerType === constants.USER_TYPES.USER) {
     const arrayOfCertificateId = data.map(certificate => certificate.id)
     return {
       ...state,
@@ -60,7 +60,7 @@ const error = (state, action) => {
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const previousCertificate = (state.list[certificateOwnerId] && state.list[certificateOwnerId].certificates) || defaultObject2
 
-  if (certificateOwnerType === constants.USER_TYPES.PERSON) {
+  if (certificateOwnerType === constants.USER_TYPES.USER) {
     return {
       ...state,
       list: {

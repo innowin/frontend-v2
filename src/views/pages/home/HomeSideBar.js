@@ -133,7 +133,7 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
       getExchangeMembershipByMemberIdentity({
         identityId,
         exchangeMembershipOwnerType: identityType,
-        exchangeMembershipOwnerId: id
+        exchangeMembershipOwnerId: identityId,
       })
     } else this.setState({...this.state, getDataInDidMount: true})
   }
@@ -145,13 +145,13 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
       getExchangeMembershipByMemberIdentity({
         identityId,
         exchangeMembershipOwnerType: identityType,
-        exchangeMembershipOwnerId: id
+        exchangeMembershipOwnerId: identityId
       })
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if(window.innerWidth > 480) {
+    if (window.innerWidth > 480) {
       if (!this.props.activeExchangeId && nextProps.clientExchanges.length > 0) {
         const {setExchangeId, clientExchanges} = nextProps
         setExchangeId(clientExchanges[0].id)

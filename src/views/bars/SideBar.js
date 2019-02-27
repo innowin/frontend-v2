@@ -105,7 +105,7 @@ export const UserSideBar = (props: PropsUserSideBar) => {
   }
   return (
       <SideBarContent
-          sideBarType={constants.USER_TYPES.PERSON}
+          sideBarType={constants.USER_TYPES.USER}
           name={name}
           banner={profileBanner}
           description={profile.description}
@@ -261,7 +261,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     const {descriptionState} = this.state
     const bannerId = bannerTempId || (banner ? banner.id : null)
     const pictureId = pictureTempId || (picture ? picture.id : null)
-    if (sideBarType === constants.USER_TYPES.PERSON && profile) {
+    if (sideBarType === constants.USER_TYPES.USER && profile) {
       return {
         id: profile.id,
         profile_banner: bannerId,
@@ -387,7 +387,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     const profileId = profile && profile.id
     const {updateProfile, updateOrganization, removeFileFromTemp} = actions || {}
     const formValues = this._getValues()
-    if (sideBarType === constants.USER_TYPES.PERSON) {
+    if (sideBarType === constants.USER_TYPES.USER) {
       updateProfile({formValues: formValues, profileId: profileId, userId: owner.id})
     } else {
       updateOrganization({formValues, organizationId: owner.id})
@@ -472,7 +472,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
             <div className="editable-profile-img profile-media">
               {
                 (!pictureString) ? (
-                    (sideBarType === constants.USER_TYPES.PERSON) ?
+                    (sideBarType === constants.USER_TYPES.USER) ?
                         <DefaultUserIcon/> :
                         <DefaultOrganIcon/>
                 ) : (

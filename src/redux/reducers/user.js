@@ -584,6 +584,9 @@ const users = (state = initialState.users, action) => {
       /** -------------------------- create Certificate  -------------------------> **/
     case types.SUCCESS.COMMON.CERTIFICATE.CREATE_OBJECT_CERTIFICATE:
       return slices.createCertificate.success(state, action)
+      /** -------------------------- sign in  -------------------------> **/
+    case types.SUCCESS.AUTH.SIGN_IN:
+      return slices.signIn.success(state, action)
       /** -------------- reset -------------> **/
     case types.RESET:
       return initialState.users

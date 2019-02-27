@@ -8,7 +8,7 @@ const success = (state, action) => {
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const previousPost = (state.list[postOwnerId] && state.list[postOwnerId].posts) || defaultObject2
 
-  if (postOwnerType === constants.USER_TYPES.PERSON) {
+  if (postOwnerType === constants.USER_TYPES.USER) {
     const newDeletedPosts = previousPost.content.filter(id => id !== postId);
     return {
       ...state,

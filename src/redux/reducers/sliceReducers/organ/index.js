@@ -23,6 +23,7 @@ import getProductsByIdentity from "./getProductsByIdentity"
 import getWorkExperienceByUserId from './getWorkExperienceByUserId'
 import getPost from './getPost'
 import setOrganMedia from "./setOrganMedia"
+import signIn from './signIn'
 
 export default {
   createAbility,
@@ -50,4 +51,5 @@ export default {
   getProductsByIdentity,
   getWorkExperienceByUserId,
   setOrganMedia,
+  signIn,
 }

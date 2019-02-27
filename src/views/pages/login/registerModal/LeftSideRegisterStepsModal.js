@@ -34,7 +34,7 @@ class LeftSideRegisterStepsModal extends React.Component<LeftSideRegisterStepsMo
     super(props)
     this.state = {
       user: {
-        type: constants.USER_TYPES.PERSON,
+        type: constants.USER_TYPES.USER,
         social: {
           gmail: 'asdasdasd',
           linkedin: '',

@@ -24,13 +24,13 @@ const ContentUser = (props: ContentUserProps) => {
           </div>
           <div className='row-user-part'>
             <div
-                className={type === constants.USER_TYPES.PERSON
+                className={type === constants.USER_TYPES.USER
                     ? 'pulse user-type user-type-active'
                     : 'pulse user-type'
                 }
-                onClick={() => changeType(constants.USER_TYPES.PERSON)}>
-              {type === constants.USER_TYPES.PERSON && <TickSvgIcon className='active-user-type-tick'/>}
-              <OnePersonSvg className={type === constants.USER_TYPES.PERSON
+                onClick={() => changeType(constants.USER_TYPES.USER)}>
+              {type === constants.USER_TYPES.USER && <TickSvgIcon className='active-user-type-tick'/>}
+              <OnePersonSvg className={type === constants.USER_TYPES.USER
                   ? 'one-person-icon one-person-icon-active'
                   : 'one-person-icon'
               }/>

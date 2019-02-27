@@ -5,7 +5,8 @@ import {MoreOptionSvg} from '../../../images/icons'
 import {Link} from 'react-router-dom'
 import checkOwner from '../CheckOwner'
 import type {postType} from 'src/consts/flowTypes/common/post'
-import type {identityType} from 'src/consts/flowTypes/user/basicInformation'
+import type {identityType} from 'src/consts/flowTypes/identityType'
+import constants from 'src/consts/constants'
 
 type PostMenuProps = {
   post: postType,
@@ -21,19 +22,15 @@ type PostMenuProps = {
 const PostMenu = (props: PostMenuProps) => {
   const {postMenuId, post, extendedView, menuToggle, openMenu, postIdentity, translate, deletePost, showEdit} = props
   let postUrl = ""
-  let user = {}
-  let organization = {}
-
 
   let ownerId
   if (post) {
     // let viewerCount = post.viewerCount
     if (postIdentity && typeof postIdentity !== 'number') {
-      user = postIdentity.identity_user
-      organization = postIdentity.identity_organization
-      ownerId = user ? user.id : organization.id
+      const isUser = postIdentity.identity_type === constants.USER_TYPES.USER
+      ownerId = postIdentity.id
 
-      postUrl = user
+      postUrl = isUser
           ? `/user/${ownerId}/Posts/${post.id}`
           : `/organization/${ownerId}/Posts/${post.id}`
     }

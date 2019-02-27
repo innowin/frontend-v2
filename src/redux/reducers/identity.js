@@ -25,7 +25,11 @@ const identities = (state = initialState.identities, action) => {
       /** -------------------------- sign in -------------------------> **/
     case types.SUCCESS.AUTH.SIGN_IN:
       return slices.signIn.success(state, action)
+      /** -------------------------- get file by related parent id -------------------------> **/
+    case types.SUCCESS.COMMON.FILE.GET_FILE_BY_RELATED_PARENT_ID:
+      return slices.getFileByRelatedParentId.success(state, action)
       /** -------------------------- reset -------------------------> **/
+
     case types.RESET:
       return initialState.identities
     default:

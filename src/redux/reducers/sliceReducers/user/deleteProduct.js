@@ -8,7 +8,7 @@ const success = (state, action) => {
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const previousProduct = (state.list[productOwnerId] && state.list[productOwnerId].products) || defaultObject2
 
-  if (productOwnerType === constants.USER_TYPES.PERSON) {
+  if (productOwnerType === constants.USER_TYPES.USER) {
     const newDeletedProducts = previousProduct.content.filter(id => id !== productId);
     return {
       ...state,

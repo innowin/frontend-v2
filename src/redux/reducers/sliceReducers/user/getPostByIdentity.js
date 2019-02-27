@@ -5,7 +5,7 @@ const base = (state, action) => {
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const previousPost = (state.list[postOwnerId] && state.list[postOwnerId].posts) || defaultObject2
 
-  if (postOwnerType === constants.USER_TYPES.PERSON) {
+  if (postOwnerType === constants.USER_TYPES.USER) {
     return {
       ...state,
       list: {
@@ -31,7 +31,7 @@ const success = (state, action) => {
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const previousPost = (state.list[postOwnerId] && state.list[postOwnerId].posts) || defaultObject2
 
-  if (postOwnerType === constants.USER_TYPES.PERSON) {
+  if (postOwnerType === constants.USER_TYPES.USER) {
     const arrayOfPostId = data.map(post => post.id)
     return {
       ...state,
@@ -61,7 +61,7 @@ const error = (state, action) => {
   const previousPost = (state.list[postOwnerId] && state.list[postOwnerId].posts) || defaultObject2
 
   //TODO: mohammad check userId is not undefined and find current userId
-  if (postOwnerType === constants.USER_TYPES.PERSON) {
+  if (postOwnerType === constants.USER_TYPES.USER) {
     return {
       ...state,
       list: {

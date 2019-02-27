@@ -6,9 +6,8 @@ export default {
     OTHER: 'other',
   },
   USER_TYPES: {
-    PERSON: 'person',
     ORG: 'organization',
-    ORGANIZATION: 'organization',
+    USER: 'user',
   },
   POST_PARENT: {
     EXCHANGE: 'exchange'
@@ -18,6 +17,7 @@ export default {
     EXCHANGE: 'exchange',
     PRODUCT: 'product',
     PROFILE: 'profile',
+    IDENTITY: 'identity',
   },
   PRODUCT: {
     PRICE_TYPE: {
@@ -106,6 +106,10 @@ export default {
       BANNER: 'banner',
       PROFILE_PICTURE: 'profile-picture',
       RESUME: 'resume',
+    },
+    IDENTITY: {
+      BANNER: 'banner',
+      PROFILE_PICTURE: 'profile-picture',
     }
   },
   TEMP_FILE_KEYS: {

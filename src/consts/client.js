@@ -118,10 +118,8 @@ const getOrganizationId = () => {
 }
 
 const checkIdWithQueryId = (paramId) => {
-  const userType = getUserType()
-  const clientUserId = +getUserId()
-  const clientOrganId = +getOrganizationId()
-  return (userType === constants.USER_TYPES.PERSON) ? (paramId === clientUserId) : (paramId === clientOrganId)
+  const clientIdentityId = +getIdentityId()
+  return paramId === clientIdentityId
 }
 
 const client = {

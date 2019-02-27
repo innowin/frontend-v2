@@ -27,6 +27,7 @@ import getWorkExperienceByUserId from './getWorkExperienceByUserId'
 import updateProfileByUserId from './updateProfileByUserId'
 import updateUserByUserId from './updateUserByUserId'
 import setProfileMedia from "./setProfileMedia"
+import signIn from './signIn'
 
 export default {
   createCertificate,
@@ -58,4 +59,5 @@ export default {
   updateProfileByUserId,
   updateUserByUserId,
   setProfileMedia,
+  signIn,
 }

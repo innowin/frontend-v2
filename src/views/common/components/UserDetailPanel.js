@@ -3,23 +3,19 @@ import * as React from "react"
 import PropTypes from "prop-types"
 import {getMessages} from "src/redux/selectors/translateSelector"
 import {connect} from "react-redux"
-import type {organizationType} from "src/consts/flowTypes/organization/organization"
-import type {userProfileType, userType} from "src/consts/flowTypes/user/basicInformation"
-import type {fileType} from "../../../consts/flowTypes/common/fileType"
 import {bindActionCreators} from "redux"
-import FileActions from "../../../redux/actions/commonActions/fileActions"
-import {DefaultUserIcon} from "../../../images/icons"
+import FileActions from "src/redux/actions/commonActions/fileActions"
+import {DefaultUserIcon} from "src/images/icons"
 import {Link} from "react-router-dom"
+import type {identityType} from 'src/consts/flowTypes/identityType'
+import type {fileType} from '../../../consts/flowTypes/common/fileType'
+import constants from '../../../consts/constants'
 
 type UserDetailPanelProps = {
   translate: { [string]: string },
-  organization?: organizationType,
-  profile: userProfileType,
-  user: userType,
-  profileImage?: fileType,
-  bannerImage?: fileType,
-  profileId?: number,
-  bannerId?: number,
+  identity: identityType,
+  bannerImage: fileType,
+  profileImage: fileType,
   actions: {
     getFile: Function,
   }
@@ -38,40 +34,39 @@ class UserDetailPanel extends React.Component<UserDetailPanelProps, UserDetailPa
       bannerLoaded: false,
       profileLoaded: false,
 
-      getFilesInDidMount:false
+      getFilesInDidMount: false
     }
   }
 
   static propTypes = {
     translate: PropTypes.object.isRequired,
-    profile: PropTypes.object.isRequired,
-    organization: PropTypes.object,
-    user: PropTypes.object.isRequired,
-    profileId: PropTypes.number,
-    bannerId: PropTypes.number,
     profileImage: PropTypes.object,
     bannerImage: PropTypes.object,
+    identity: PropTypes.object,
     actions: PropTypes.object.isRequired
   }
-  
+
   componentWillMount(): void {
-    const {actions, bannerId, profileId} = this.props
+    const {actions, profileImage, bannerImage, identity} = this.props
     const {getFile} = actions
 
-    if (profileId && bannerId) {
-      getFile(profileId)
-      getFile(bannerId)
-    } else this.setState({...this.state, getFilesInDidMount: true})
+    if (!profileImage) {
+      getFile(identity.profile_media)
+    }
+    if (!bannerImage) {
+      getFile(identity.profile_banner)
+    }
   }
 
   componentDidMount() {
-    const {actions, bannerId, profileId, bannerImage, profileImage} = this.props
-    const {getFilesInDidMount} = this.state
+    const {actions, profileImage, bannerImage, identity} = this.props
     const {getFile} = actions
 
-    if (getFilesInDidMount) {
-      getFile(profileId)
-      getFile(bannerId)
+    if (!profileImage) {
+      getFile(identity.profile_media)
+    }
+    if (!bannerImage) {
+      getFile(identity.profile_banner)
     }
 
     //Added for profile url check
@@ -114,11 +109,11 @@ class UserDetailPanel extends React.Component<UserDetailPanelProps, UserDetailPa
 
   render() {
     const {bannerLoaded, profileLoaded} = this.state
-    const {user, organization, profileImage, bannerImage} = this.props
-    const isUser = organization === null
+    const {identity, profileImage, bannerImage} = this.props
+    const isUser = identity.identity_type === constants.USER_TYPES.USER
     const name = isUser
-        ? !(user.first_name && user.last_name) ? "" : (user.first_name + " " + user.last_name)
-        : organization.nike_name || organization.official_name
+        ? !(identity.first_name || identity.last_name) ? "" : (identity.first_name + " " + identity.last_name)
+        : identity.nike_name || identity.official_name
     return (
         <div className='user-detail-panel-container'>
           <div className='image-part-container'>
@@ -129,11 +124,11 @@ class UserDetailPanel extends React.Component<UserDetailPanelProps, UserDetailPa
                 : <div className='banner covered-img background-strips'/> // <DefaultImageIcon className="banner covered-img"/>
             }
             {profileImage && profileImage.file && profileLoaded ?
-                <Link to={isUser ? `/user/${user.id}` : `/organization/${organization.id}`}>
+                <Link to={isUser ? `/user/${identity.id}` : `/organization/${identity.id}`}>
                   <img className="rounded-circle profile-media covered-img" alt="profile" src={profileImage.file}/>
                 </Link>
                 :
-                <Link to={isUser ? `/user/${user.id}` : `/organization/${organization.id}`}>
+                <Link to={isUser ? `/user/${identity.id}` : `/organization/${identity.id}`}>
                   <DefaultUserIcon className="rounded-circle profile-media covered-img"/>
                 </Link>
             }
@@ -143,7 +138,7 @@ class UserDetailPanel extends React.Component<UserDetailPanelProps, UserDetailPa
           <div className='user-detail-body'>
             <div className='user-detail-row'>
               <p className='user-detail-label user-detail-username'>{name}</p>
-              <p className='user-detail-value user-detail-username-value'>@{user.username}</p>
+              <p className='user-detail-value user-detail-username-value'>@{identity.username}</p>
             </div>
             {/*<div className='user-detail-row'>*/}
             {/*<p>{translate["Contribution"]}</p>*/}
@@ -182,24 +177,17 @@ class UserDetailPanel extends React.Component<UserDetailPanelProps, UserDetailPa
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const profile = state.auth.client.profile
-  const organization = state.auth.client.organization
-  const bannerId = organization
-      ? organization.organization_banner
-      : profile.profile_banner
-  const profileId = organization
-      ? organization.organization_logo
-      : profile.profile_media
+  const identityId = state.auth.client.identity.content
+  const identity = state.identities.list[identityId]
+  const profileMediaId = identity.profile_media
+  const bannerMediaId = identity.profile_banner
+
 
   return {
     translate: getMessages(state),
-    profile: state.auth.client.profile,
-    organization: state.auth.client.organization,
-    user: state.auth.client.user,
-    profileImage: state.common.file.list[profileId],
-    bannerImage: state.common.file.list[bannerId],
-    bannerId: bannerId,
-    profileId: profileId
+    identity,
+    profileImage: state.common.file.list[profileMediaId],
+    bannerImage: state.common.file.list[bannerMediaId],
   }
 }
 

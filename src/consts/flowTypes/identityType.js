@@ -67,5 +67,9 @@ export type identityType = {
   "related_catalog":? number,
   "groups": [],
   "user_permissions": [],
-  "admins": []
+  "admins": [],
+
+  // client add attributes
+  profileImg: number,
+  bannerImg: number,
 }

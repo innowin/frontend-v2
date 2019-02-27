@@ -5,7 +5,7 @@ const base = (state, action) => {
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const previousProduct = (state.list[productOwnerId] && state.list[productOwnerId].products) || defaultObject2
 
-  if (productOwnerType === constants.USER_TYPES.PERSON) {
+  if (productOwnerType === constants.USER_TYPES.USER) {
     return {
       ...state,
       list: {
@@ -31,7 +31,7 @@ const success = (state, action) => {
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const previousProduct = (state.list[productOwnerId] && state.list[productOwnerId].products) || defaultObject2
 
-  if (productOwnerType === constants.USER_TYPES.PERSON) {
+  if (productOwnerType === constants.USER_TYPES.USER) {
     const arrayOfProductId = data.map(product => product.id)
     return {
       ...state,
@@ -60,7 +60,7 @@ const error = (state, action) => {
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const previousProduct = (state.list[productOwnerId] && state.list[productOwnerId].products) || defaultObject2
 
-  if (productOwnerType === constants.USER_TYPES.PERSON) {
+  if (productOwnerType === constants.USER_TYPES.USER) {
     return {
       ...state,
       list: {

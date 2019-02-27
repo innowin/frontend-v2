@@ -7,7 +7,7 @@ const getFollows = state => state.common.social.follows.list
 const getUserFollows = (state, props) => {
   const ownerId = props.ownerId || (props.owner && props.owner.id)
   const identityType = props.identityType || props.sideBarType
-  if (identityType === constants.USER_TYPES.PERSON) {
+  if (identityType === constants.USER_TYPES.USER) {
     const usersList = state.users.list
     if (usersList[ownerId] && usersList[ownerId].social && usersList[ownerId].social.follows)
       return usersList[ownerId].social.follows.content

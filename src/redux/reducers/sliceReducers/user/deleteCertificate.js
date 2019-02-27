@@ -8,7 +8,7 @@ const success = (state, action) => {
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const previousCertificate = (state.list[certificateOwnerId] && state.list[certificateOwnerId].certificates) || defaultObject2
 
-  if (certificateOwnerType === constants.USER_TYPES.PERSON) {
+  if (certificateOwnerType === constants.USER_TYPES.USER) {
     const newDeletedCertificates = previousCertificate.content.filter(id => id !== certificateId);
     return {
       ...state,

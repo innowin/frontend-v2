@@ -7,9 +7,10 @@ import {Link} from "react-router-dom"
 import DefaultUserIcon from "../../../images/defaults/defaultUser_svg"
 // import CheckOwner from "../CheckOwner"
 // import {EditIcon} from "../../../images/icons"
-import type {postType} from "../../../consts/flowTypes/common/post"
-import type {identityType} from "../../../consts/flowTypes/user/basicInformation"
+import type {postType} from "src/consts/flowTypes/common/post"
+import type {identityType} from "src/consts/flowTypes/identityType"
 import PostMenu from './PostMenu'
+import constants from 'src/consts/constants'
 
 type PostHeaderProps = {
   post: postType,
@@ -58,20 +59,17 @@ class PostHeader extends React.Component<PostHeaderProps, PostHeaderStates> {
     } = this.props
     let createdTime
 
-    let user = {}
-    let organization = {}
     let name = ""
     let url = ""
     // let paramId = ""
     if (post) {
       createdTime = post.created_time
       if (postIdentity && postIdentity.id) {
-        user = postIdentity.identity_user
-        organization = postIdentity.identity_organization
+        const isUser = postIdentity.identity_type === constants.USER_TYPES.USER
         // paramId = (user && user.id) || (organization && organization.id)
-        name = user ? ((user.first_name || user.last_name) ? user.first_name + " " + user.last_name : undefined)
-            : (organization ? (organization.nike_name || organization.official_name || undefined) : undefined)
-        url = user ? `/user/${user.id}` : `/organization/${organization.id}`
+        name = isUser ? ((postIdentity.first_name || postIdentity.last_name) ? postIdentity.first_name + " " + postIdentity.last_name : undefined)
+            : (postIdentity.nike_name || postIdentity.official_name || undefined)
+        url = isUser ? `/user/${postIdentity.id}` : `/organization/${postIdentity.id}`
       }
     }
 
@@ -79,16 +77,19 @@ class PostHeader extends React.Component<PostHeaderProps, PostHeaderStates> {
         <div className="-item-headerPost">
           <Link to={url} className='link-post'>
             <div className="-img-col">
-              {postRelatedIdentityImage /*&& this.state.profileLoaded*/ ? <img className="rounded-circle covered-img" src={postRelatedIdentityImage} alt=""/>
+              {postRelatedIdentityImage /*&& this.state.profileLoaded*/ ?
+                  <img className="rounded-circle covered-img" src={postRelatedIdentityImage} alt=""/>
                   : <DefaultUserIcon className="rounded-circle covered-svg"/>
               }
             </div>
             <div className="-item-titlePost">
               <div>
-                {name && <span className="post-name">{name}</span>}
+                <span className="post-name">
+                  {name}
+                </span>
                 <span className="-green2 post-username">
-                      {user ? user.username : (organization ? organization.username : "")}
-                    </span>
+                  {postIdentity && postIdentity.username}
+                </span>
               </div>
               <div className='post-date'>
                 <Moment className="-green2" element="span" fromNow ago>{createdTime}</Moment>
@@ -101,7 +102,8 @@ class PostHeader extends React.Component<PostHeaderProps, PostHeaderStates> {
           {/*<div onClick={showEdit} className="-item-edit-btn -item-edit-btnPost pulse"><EditIcon/></div>*/}
           {/*</CheckOwner>*/}
           {/*}*/}
-          <PostMenu postMenuId={postMenuId} translate={translate} post={post} extendedView={extendedView} deletePost={deletePost}
+          <PostMenu postMenuId={postMenuId} translate={translate} post={post} extendedView={extendedView}
+                    deletePost={deletePost}
                     menuToggle={menuToggle} openMenu={openMenu} postIdentity={postIdentity} showEdit={showEdit}/>
         </div>
     )

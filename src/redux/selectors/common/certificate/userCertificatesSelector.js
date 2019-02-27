@@ -6,7 +6,7 @@ const getOwnerId = (state, props) => props.ownerId
 const getCertificates = state => state.common.certificate.list
 const getUserCertificates = (state, props) => {
   const {ownerId, identityType} = props
-  if (identityType === constants.USER_TYPES.PERSON){
+  if (identityType === constants.USER_TYPES.USER){
     if (state && state.users.list && state.users.list[ownerId] && state.users.list[ownerId].certificates)
       return state.users.list[ownerId].certificates.content
   }

@@ -6,7 +6,7 @@ const getProducts = state => state.common.product.products.list
 const getUserProducts = (state, props) => {
   const id = props.ownerId
   const identityType = props.identityType
-  if (identityType === constants.USER_TYPES.PERSON) {
+  if (identityType === constants.USER_TYPES.USER) {
     const usersList = state.users.list
     if (usersList[id] && usersList[id].products)
       return usersList[id].products.content

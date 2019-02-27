@@ -8,7 +8,7 @@ const success = (state, action) => {
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const previousMembership = (state.list[exchangeMembershipOwnerId] && state.list[exchangeMembershipOwnerId].exchangeMemberships) || defaultObject2
 
-  if (exchangeMembershipOwnerType === constants.USER_TYPES.PERSON) {
+  if (exchangeMembershipOwnerType === constants.USER_TYPES.USER) {
     const newDeletedMemberships = previousMembership.content.filter(id => id !== exchangeMembershipId);
     return {
       ...state,

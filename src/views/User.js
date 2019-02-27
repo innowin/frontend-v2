@@ -231,7 +231,7 @@ class User extends Component<PropsUser> {
                         <Switch>
                           <Redirect exact from={`${url}/`} to={`${url}/Posts`}/>
                           <PrivateRoute exact={true} path={`${path}/Posts`} component={Posts} id={userId}
-                                        identityType={constants.USER_TYPES.PERSON}
+                                        identityType={constants.USER_TYPES.USER}
                                         profileMedia={profileObject.content.profile_media}
                                         postIdentity={identityObject.content}
                           />
@@ -246,29 +246,29 @@ class User extends Component<PropsUser> {
                           <PrivateRoute path={`${path}/contributions`} component={Contributions}
                                         ownerId={userId}
                                         identityId={identityObject.content}
-                                        identityType={constants.USER_TYPES.PERSON}
+                                        identityType={constants.USER_TYPES.USER}
                                         isUser={true}/>
                           <PrivateRoute path={`${path}/SocialConnections`} component={Social}
                                         ownerId={userId}
                                         identityId={identityObject.content}
-                                        identityType={constants.USER_TYPES.PERSON}
+                                        identityType={constants.USER_TYPES.USER}
                           />
                           <PrivateRoute path={`${path}/Followings`} component={Following}
                                         ownerId={userId}
                                         identityId={identityObject.content}
-                                        identityType={constants.USER_TYPES.PERSON}
+                                        identityType={constants.USER_TYPES.USER}
                           />
                           <PrivateRoute path={`${path}/Followers`} component={Follower}
                                         ownerId={userId}
                                         identityId={identityObject.content}
-                                        identityType={constants.USER_TYPES.PERSON}
+                                        identityType={constants.USER_TYPES.USER}
                           />
                           <PrivateRoute path={`${path}/Educations`} component={Educations} userId={userId}/>
                           <PrivateRoute path={`${path}/WorkExperiences`} component={WorkExperiences} userId={userId}/>
                           <PrivateRoute path={`${path}/Certificates`} component={Certificates}
                                         ownerId={userId}
                                         identityId={identityObject.content}
-                                        identityType={constants.USER_TYPES.PERSON}
+                                        identityType={constants.USER_TYPES.USER}
                           />
                         </Switch>
                     )

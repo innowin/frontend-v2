@@ -43,8 +43,8 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
 
   _update = (formValues: postType, postId: number, postFileIds: []) => {
     const {updatePost, post} = this.props
-    const postIdentityUserId = post.post_identity.identity_user && post.post_identity.identity_user.id
-    const postIdentityOrganId = post.post_identity.identity_organization && post.post_identity.identity_organization.id
+    const postIdentityUserId = post.post_related_identity.identity_user && post.post_related_identity.identity_user.id
+    const postIdentityOrganId = post.post_related_identity.identity_organization && post.post_related_identity.identity_organization.id
     const postOwnerId = postIdentityUserId || postIdentityOrganId
     updatePost({formValues, postId, postOwnerId, postFileIds})
   }
@@ -52,12 +52,12 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
   _delete = () => {
     const {deletePost, post} = this.props
     const postParent = post.post_parent
-    const postIdentityUserId = post.post_identity.identity_user && post.post_identity.identity_user.id
-    const postIdentityOrganId = post.post_identity.identity_organization && post.post_identity.identity_organization.id
+    const postIdentityUserId = post.post_related_identity.identity_user && post.post_related_identity.identity_user.id
+    const postIdentityOrganId = post.post_related_identity.identity_organization && post.post_related_identity.identity_organization.id
     const postParentType = (postParent && postParent.child_name) || null
     const postParentId = (postParent && postParent.id) || null
     const postOwnerId = postIdentityUserId || postIdentityOrganId
-    const postOwnerType = postIdentityUserId ? constants.USER_TYPES.PERSON : constants.USER_TYPES.ORG
+    const postOwnerType = postIdentityUserId ? constants.USER_TYPES.USER : constants.USER_TYPES.ORG
     deletePost({postId:post.id, postOwnerId, postOwnerType, postParentId, postParentType})
   }
 

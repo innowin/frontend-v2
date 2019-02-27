@@ -115,7 +115,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
     } else {
       getFolloweesPayload = {
         followOwnerIdentity: auth.client.identity.content,
-        followOwnerType: constants.USER_TYPES.PERSON,
+        followOwnerType: constants.USER_TYPES.USER,
         followOwnerId: auth.client.user.id
       }
     }
@@ -585,7 +585,7 @@ const mapStateToProps = (state) => {
       {
         identityId: auth.client.identity.content,
         ownerId: auth.client.user.id,
-        identityType: constants.USER_TYPES.PERSON
+        identityType: constants.USER_TYPES.USER
       }
 
   const fileSelectorByKeyValue = makeFileSelectorByKeyValue()

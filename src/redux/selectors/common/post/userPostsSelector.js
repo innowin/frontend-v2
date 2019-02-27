@@ -6,7 +6,7 @@ const getPosts = state => state.common.post.list
 const getUserPosts = (state, props) => {
   const ownerId = props.id
   const {identityType} = props
-  if (identityType === constants.USER_TYPES.PERSON) {
+  if (identityType === constants.USER_TYPES.USER) {
     if (state.users.list[ownerId] && state.users.list[ownerId].posts)
       return state.users.list[ownerId].posts.content
   }

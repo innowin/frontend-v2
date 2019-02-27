@@ -6,7 +6,7 @@ export type postType = {|
   id: number,
   post_description: string,
   post_files_array: [],
-  post_identity: {
+  post_related_identity: {
     id: number,
     created_time: string,
     updated_time: string,

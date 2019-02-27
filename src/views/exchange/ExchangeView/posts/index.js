@@ -84,8 +84,8 @@ export class ExchangePost extends Component {
   }
 
   componentDidMount() {
-    const {post_identity} = this.props.post
-    this._getIdentityDetails(post_identity)
+    const {post_related_identity} = this.props.post
+    this._getIdentityDetails(post_related_identity)
   }
 
   render() {

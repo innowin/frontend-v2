@@ -120,7 +120,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       const {params, url} = match
       const postId = +params.id
       const isUser = !url.includes('org')
-      const postOwnerType = isUser ? constants.USER_TYPES.PERSON : constants.USER_TYPES.ORG
+      const postOwnerType = isUser ? constants.USER_TYPES.USER : constants.USER_TYPES.ORG
       const spliced = url.split('/')
       const postOwnerId = +spliced[2]
 
@@ -260,12 +260,12 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     const {actions, post} = this.props
     const {deletePost} = actions
     const postParent = post.post_parent
-    const postIdentityUserId = post.post_identity.identity_user && post.post_identity.identity_user.id
-    const postIdentityOrganId = post.post_identity.identity_organization && post.post_identity.identity_organization.id
+    const postIdentityUserId = post.post_related_identity.identity_user && post.post_related_identity.identity_user.id
+    const postIdentityOrganId = post.post_related_identity.identity_organization && post.post_related_identity.identity_organization.id
     const postParentType = (postParent && postParent.child_name) || null
     const postParentId = (postParent && postParent.id) || null
     const postOwnerId = postIdentityUserId || postIdentityOrganId
-    const postOwnerType = postIdentityUserId ? constants.USER_TYPES.PERSON : constants.USER_TYPES.ORG
+    const postOwnerType = postIdentityUserId ? constants.USER_TYPES.USER : constants.USER_TYPES.ORG
     deletePost({postId: post.id, postOwnerId, postOwnerType, postParentId, postParentType})
   }
 
@@ -297,8 +297,8 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
     if (post) {
       postDescription = post.post_description
-      postIdentityUserId = post.post_identity.identity_user && post.post_identity.identity_user.id
-      postIdentityOrganId = post.post_identity.identity_organization && post.post_identity.identity_organization.id
+      postIdentityUserId = post.post_related_identity.identity_user && post.post_related_identity.identity_user.id
+      postIdentityOrganId = post.post_related_identity.identity_organization && post.post_related_identity.identity_organization.id
       postOwnerId = postIdentityUserId || postIdentityOrganId
       postFilesArray = post.post_files_array
     }
@@ -394,7 +394,7 @@ const mapStateToProps = (state, ownProps) => {
     const {params} = ownProps.match
     const postId = +params.id
     const post = state.common.post.list[postId]
-    const postIdentity = post && post.post_identity
+    const postIdentity = post && post.post_related_identity
     const postRelatedProductId = post && post.post_related_product
     let postRelatedProduct = postRelatedProductId && state.common.product.products.list[postRelatedProductId]
     const productIdentity = postRelatedProduct ?
@@ -414,7 +414,7 @@ const mapStateToProps = (state, ownProps) => {
     }
   } else {
     const {post} = ownProps
-    const postIdentity = post && post.post_identity
+    const postIdentity = post && post.post_related_identity
     const postRelatedProductId = post && post.post_related_product && post.post_related_product.id
     let postRelatedProduct = postRelatedProductId && state.common.product.products.list[postRelatedProductId]
     postRelatedProduct = postRelatedProduct && {...postRelatedProduct, product_owner: postIdentity}

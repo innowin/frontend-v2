@@ -533,7 +533,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       post_title: descriptionHeader.length > 0 ? descriptionHeader : '',
       post_type: postType,
       post_parent: postParentId,
-      post_identity: currentUserIdentity,
+      post_related_identity: currentUserIdentity,
       post_related_product: selectedProduct ? selectedProduct.id : '',
       post_link
     }
@@ -1069,7 +1069,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
 
 const mapStateToProps = state => {
   const client = state.auth.client
-  const clientImgId = (client.user_type === constants.USER_TYPES.PERSON) ? (client.profile.profile_media) : (
+  const clientImgId = (client.user_type === constants.USER_TYPES.USER) ? (client.profile.profile_media) : (
       (client.organization && client.organization.organization_logo) || null
   )
 
@@ -1083,7 +1083,7 @@ const mapStateToProps = state => {
 
   const {user_type} = state.auth.client
   const stateOrgan = state.organs.list[userId]
-  const name = user_type === constants.USER_TYPES.PERSON ?
+  const name = user_type === constants.USER_TYPES.USER ?
       client.user.first_name + ' ' + client.user.last_name
       :
       stateOrgan && stateOrgan.organization.content.nike_name

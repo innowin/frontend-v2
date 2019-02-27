@@ -7,7 +7,7 @@ const getExchangeMemberships = state => state.common.exchangeMembership.list
 const getUserMemberships = (state, props) => {
   const id = props.id || props.ownerId
   const identityType = props.identityType
-  if (identityType === constants.USER_TYPES.PERSON) {
+  if (identityType === constants.USER_TYPES.USER) {
     const usersList = state.users.list
     if (usersList[id] && usersList[id].exchangeMemberships)
       return usersList[id].exchangeMemberships.content
@@ -29,8 +29,8 @@ export const getExchangeMembershipsSelector = createSelector(
         const arrayMemberships = helpers.getObjectOfArrayKeys(userMemberships, memberships)
         return arrayMemberships.map(membership => {
           const membershipOwnerIdentity = membership.exchange_identity_related_identity
-          const membershipOwnerId = membershipOwnerIdentity.identity_user ? membershipOwnerIdentity.identity_user.id : membershipOwnerIdentity.identity_organization.id
-          const membershipOwnerType = membershipOwnerIdentity.identity_user ? constants.USER_TYPES.PERSON : constants.USER_TYPES.ORG
+          const membershipOwnerId = membershipOwnerIdentity.id
+          const membershipOwnerType = membershipOwnerIdentity.identity_type
           return {
             membership_id: membership.id,
             membership_owner_type: membershipOwnerType,

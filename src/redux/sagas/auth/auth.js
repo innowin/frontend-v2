@@ -6,35 +6,7 @@ import urls from "src/consts/URLS"
 import {delay} from "redux-saga"
 import {put, take, fork, call} from "redux-saga/effects"
 
-import type {identityType} from 'src/consts/flowTypes/identityType.js'
-
 /**********    %% WORKERS %%    **********/
-
-function* getOrganizationInSignIn(username) {
-  const resultName1 = results.ORG.GET_ORGANIZATION + 1
-  const resultName2 = results.ORG.GET_ORGANIZATION + 2
-  const socketChannel1 = yield call(api.createSocketChannel, resultName1)
-  const socketChannel2 = yield call(api.createSocketChannel, resultName2)
-  try {
-    yield fork(api.get, urls.ORG.GET_ORGANIZATION, resultName1, `?username=${username}`)
-    const dataList = yield take(socketChannel1)
-    const incompleteOrgan = dataList[0]
-    yield fork(api.get, urls.ORG.GET_ORGANIZATION, resultName2, incompleteOrgan.id)
-    const data = yield take(socketChannel2)
-    const organLogoId = data.organization_logo
-    if (organLogoId) {
-      yield put({type:types.COMMON.FILE.GET_FILE, payload:{fileId:organLogoId}})
-    }
-    // return data for access father to organ data
-    return data
-  } catch (e) {
-    // throw error for father function
-    throw new Error(e)
-  } finally {
-    socketChannel1.close()
-    socketChannel2.close()
-  }
-}
 
 export function* signIn(action) {
   const {payload} = action

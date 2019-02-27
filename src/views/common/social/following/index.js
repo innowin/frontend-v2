@@ -98,7 +98,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
     // editFollowings
     // } = this.state
 
-    // const paramId = identityType === constants.USER_TYPES.PERSON ? +param.user : +param.organization
+    // const paramId = identityType === constants.USER_TYPES.USER ? +param.user : +param.organization
 
     return (
         <div>
@@ -114,7 +114,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
 
 const mapStateToProps = (state, ownProps) => {
   const {ownerId, identityType} = ownProps
-  const stateOwner = (identityType === constants.USER_TYPES.PERSON) ? state.users.list[ownerId] :
+  const stateOwner = (identityType === constants.USER_TYPES.USER) ? state.users.list[ownerId] :
       state.organs.list[ownerId]
   const defaultObject = {content: [], isLoading: false, error: null}
   const followObject = (stateOwner && stateOwner.social && stateOwner.social.follows) || defaultObject

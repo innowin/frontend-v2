@@ -25,7 +25,7 @@ export function* createPost(action) {
         payload: {id: fileId, formData: {file_related_parent: data.id}, fileParentType: constants.FILE_PARENT.POST}
       })
     }))
-    const postIdentity = data.post_identity
+    const postIdentity = data.post_related_identity
     yield put({type: types.COMMON.POST.GET_POST_BY_IDENTITY, payload: {postIdentity, postOwnerId, postOwnerType}})
     yield put({
       type: types.TOAST.ADD_TOAST,

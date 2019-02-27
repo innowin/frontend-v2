@@ -177,7 +177,7 @@ export class RegisterForm extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {userType: constants.USER_TYPES.PERSON}
+    this.state = {userType: constants.USER_TYPES.USER}
   }
 
   _typeHandler = (value) => {
@@ -234,8 +234,8 @@ export class RegisterForm extends Component {
   render() {
     const {translator, /*onRegisterClick, */onChangeSignUp, inputValues, ...reduxFormProps} = this.props
     const {userType} = this.state
-    // const userTypeItems = [{value: constants.USER_TYPES.PERSON, title: 'فرد'}, {value: constants.USER_TYPES.ORG, title: 'مجموعه'}]
-    const onSubmitFunc = (userType === constants.USER_TYPES.PERSON) ? (this._onSubmitPerson) : (this._onSubmitOrgan)
+    // const userTypeItems = [{value: constants.USER_TYPES.USER, title: 'فرد'}, {value: constants.USER_TYPES.ORG, title: 'مجموعه'}]
+    const onSubmitFunc = (userType === constants.USER_TYPES.USER) ? (this._onSubmitPerson) : (this._onSubmitOrgan)
     // const onSubmitFunc = onRegisterClick
     return (
         <div className="">
@@ -248,9 +248,9 @@ export class RegisterForm extends Component {
           {/*/>*/}
           <div className='radio-button-container'>
             <label className="container-checkmark">
-              <input type="radio" name="userType" value={constants.USER_TYPES.PERSON}
-                     checked={inputValues.userType === constants.USER_TYPES.PERSON}
-                     onClick={() => this._typeHandler(constants.USER_TYPES.PERSON)}
+              <input type="radio" name="userType" value={constants.USER_TYPES.USER}
+                     checked={inputValues.userType === constants.USER_TYPES.USER}
+                     onClick={() => this._typeHandler(constants.USER_TYPES.USER)}
                      onChange={onChangeSignUp}/>
               <span className="checkmark"/>
               <p className='title'>{translator['Person']}</p>

@@ -137,7 +137,7 @@ export class PostForm extends Component<postFormProps, postFormStates> {
       post_pinned: this.postPinnedInput.getValue(),
       post_picture: mediaId,
       post_parent: postParent,
-      post_identity: postIdentity
+      post_related_identity: postIdentity
     }
   }
 

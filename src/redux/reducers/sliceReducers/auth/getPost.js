@@ -10,7 +10,7 @@ const success = (state, action) => {
 
   const arrayOfPostId = []
 
-  const clientId =  constants.USER_TYPES.PERSON === postOwnerType ? state.client.user && state.client.user.id : state.client.organization && state.client.organization.id
+  const clientId =  constants.USER_TYPES.USER === postOwnerType ? state.client.user && state.client.user.id : state.client.organization && state.client.organization.id
   if (postOwnerId === clientId && (!previousPost.includes(data.id))) {
     arrayOfPostId.push(data.id)
   }

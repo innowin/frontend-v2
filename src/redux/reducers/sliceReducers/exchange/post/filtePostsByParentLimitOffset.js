@@ -5,7 +5,7 @@ const success = (state, action) => {
     const exchangeId = postParentId
     return {
       ...state,
-      list:{
+      list: {
         ...state.list,
         [exchangeId]: {
           ...state.list[exchangeId],
@@ -17,7 +17,7 @@ const success = (state, action) => {
         }
       }
     }
-  }else return state
+  } else return state
 }
 
 const error = (state, action) => {
@@ -29,15 +29,19 @@ const base = (state, action) => {
   const exchangeId = postParentId
   return {
     ...state,
-    list:{
+    list: {
       ...state.list,
       [exchangeId]: {
         ...state.list[exchangeId],
-        posts: {
-          ...state.list[exchangeId].posts,
-          isLoading: true,
-          error: null
-        }
+        posts: state.list[exchangeId] ? {
+              ...state.list[exchangeId].posts,
+              isLoading: true,
+              error: null
+            }
+            : {
+              isLoading: true,
+              error: null
+            }
       }
     }
   }

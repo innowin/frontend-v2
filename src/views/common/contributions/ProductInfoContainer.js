@@ -74,7 +74,7 @@ class ProductInfoContainer extends React.Component<PropsProducts> {
 
 const mapStateToProps = (state, ownProps) => {
   const {ownerId, identityType} = ownProps
-  const stateOwner = (identityType === constants.USER_TYPES.PERSON && state.users[ownerId]) || (
+  const stateOwner = (identityType === constants.USER_TYPES.USER && state.users[ownerId]) || (
       identityType === constants.USER_TYPES.ORG && state.organs[ownerId]
   )
   const defaultObject = {content: [], isLoading: false, error: null}

@@ -80,7 +80,7 @@ class NewFollowers extends Component<props, states> {
       createFollow({
         formValues,
         followOwnerId: identity_user,
-        followOwnerType: constants.USER_TYPES.PERSON,
+        followOwnerType: constants.USER_TYPES.USER,
         followOwnerIdentity: clientIdentityId
       })
       this.state.followingUsers.push(identity_user)

@@ -8,7 +8,7 @@ export function* getPostByIdentity(action) {
   const {postIdentity, postOwnerId, postOwnerType} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.POST.GET_POST_BY_IDENTITY+postIdentity)
   try {
-    yield fork(api.get, urls.COMMON.POST, results.COMMON.POST.GET_POST_BY_IDENTITY+postIdentity, `?post_identity_id=${postIdentity}`)
+    yield fork(api.get, urls.COMMON.POST, results.COMMON.POST.GET_POST_BY_IDENTITY+postIdentity, `?post_related_identity_id=${postIdentity}`)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.COMMON.POST.GET_POST_BY_IDENTITY , payload:{data, postIdentity, postOwnerId, postOwnerType}})
     for(let post of data){

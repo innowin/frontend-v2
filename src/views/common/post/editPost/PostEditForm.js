@@ -99,7 +99,7 @@ class PostEditForm extends React.Component<PropsPostEditForm, StatePostEditForm>
                      onSubmit={this._onSubmit}
                      post={post}
                      postParent={post.post_parent}
-                     postIdentity={post.post_identity}
+                     postIdentity={post.post_related_identity}
                      _showConfirm={this._showConfirm}
                      hideEdit={hideEdit}
                      currentUserName={currentUserName}

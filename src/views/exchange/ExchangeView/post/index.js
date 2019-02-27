@@ -91,7 +91,7 @@ export class ExchangePost extends Component {
 
     getPost(postId).then(post => {
       this.setState({...this.state, post: post})
-      this._getIdentityDetails(post.post_identity)
+      this._getIdentityDetails(post.post_related_identity)
 
       getExchangePostComment(post.id).then(comments => {
         this.setState({...this.state, comments: comments, isLoading: false})

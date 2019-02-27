@@ -34,7 +34,7 @@ class Login extends Component {
         username: '',
         password: '',
         email: '',
-        userType: constants.USER_TYPES.PERSON
+        userType: constants.USER_TYPES.USER
       },
       loginMobile: false,
       registerMobile: false,

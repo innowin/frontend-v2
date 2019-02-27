@@ -23,7 +23,7 @@ export const Followees = (props: PropsFollowees) => {
     const {deleteFollow} = props
     const followId = followee.follow_id
     const followOwnerId = userId
-    const followOwnerType = followee.identity_user ? constants.USER_TYPES.PERSON : constants.USER_TYPES.ORG
+    const followOwnerType = followee.identity_user ? constants.USER_TYPES.USER : constants.USER_TYPES.ORG
     deleteFollow({followId, followOwnerId, followOwnerType})
   }
 

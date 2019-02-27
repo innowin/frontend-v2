@@ -36,7 +36,7 @@ export function* updatePost(action) {
         }
       }
     })
-    const postIdentity = data.post_identity
+    const postIdentity = data.post_related_identity
     yield put({type: types.SUCCESS.COMMON.POST.UPDATE_POST , payload:{data, postId, postOwnerId}})
     yield put({type: types.COMMON.POST.GET_POST_BY_IDENTITY , payload:{postIdentity, postOwnerId}})
   } catch (error) {

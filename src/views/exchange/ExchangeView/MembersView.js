@@ -63,7 +63,7 @@ class MembersView extends Component<props, states> {
       const identityId = profiles[targetId].identity.content
       const {createFollow} = actions
       const formValues = {follow_follower: clientIdentityId, follow_followed: identityId}
-      createFollow({formValues, followOwnerId: targetId, followOwnerType: constants.USER_TYPES.PERSON})
+      createFollow({formValues, followOwnerId: targetId, followOwnerType: constants.USER_TYPES.USER})
       this.state.followingUsers.push(targetId)
     }
     if (targetType === "ORGANIZATION") {
@@ -71,7 +71,7 @@ class MembersView extends Component<props, states> {
       const identityId = organs[targetId].identity.content
       const {createFollow} = actions
       const formValues = {follow_follower: clientIdentityId, follow_followed: identityId}
-      createFollow({formValues, followOwnerId: targetId, followOwnerType: constants.USER_TYPES.PERSON})
+      createFollow({formValues, followOwnerId: targetId, followOwnerType: constants.USER_TYPES.USER})
       this.state.followingOrgans.push(targetId)
     }
   }
