@@ -28,13 +28,13 @@ class Login extends Component {
       showRegisterModal: false,
       signInFields: {
         username: '',
-        password: ''
+        password: '',
       },
       signUpFields: {
         username: '',
         password: '',
         email: '',
-        userType: constants.USER_TYPES.USER
+        userType: constants.USER_TYPES.USER,
       },
       loginMobile: false,
       registerMobile: false,
@@ -120,7 +120,7 @@ class Login extends Component {
                          phoneNumber={phoneNumber}/>
             <div className="content">
               <div className={`login-wrapper ${animateFormClass}`}>
-                <div className={(registerMobile || loginMobile) ? 'sign-in-card login-page-sign-in-card' : "sign-in-card"}>
+                <div className={(registerMobile || loginMobile) ? 'sign-in-card login-page-sign-in-card' : 'sign-in-card'}>
                   <div className="login-tab">
                     <h2 className='login-part-title'>
                       {translate['Danesh Boom']}
@@ -182,7 +182,7 @@ class Login extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    translate: getMessages(state)
+    translate: getMessages(state),
   }
 }
 

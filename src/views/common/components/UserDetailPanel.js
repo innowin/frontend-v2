@@ -1,12 +1,12 @@
 // @flow
-import * as React from "react"
-import PropTypes from "prop-types"
-import {getMessages} from "src/redux/selectors/translateSelector"
-import {connect} from "react-redux"
-import {bindActionCreators} from "redux"
-import FileActions from "src/redux/actions/commonActions/fileActions"
-import {DefaultUserIcon} from "src/images/icons"
-import {Link} from "react-router-dom"
+import * as React from 'react'
+import PropTypes from 'prop-types'
+import {getMessages} from 'src/redux/selectors/translateSelector'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import FileActions from 'src/redux/actions/commonActions/fileActions'
+import {DefaultUserIcon} from 'src/images/icons'
+import {Link} from 'react-router-dom'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {fileType} from '../../../consts/flowTypes/common/fileType'
 import constants from '../../../consts/constants'
@@ -34,7 +34,7 @@ class UserDetailPanel extends React.Component<UserDetailPanelProps, UserDetailPa
       bannerLoaded: false,
       profileLoaded: false,
 
-      getFilesInDidMount: false
+      getFilesInDidMount: false,
     }
   }
 
@@ -43,7 +43,7 @@ class UserDetailPanel extends React.Component<UserDetailPanelProps, UserDetailPa
     profileImage: PropTypes.object,
     bannerImage: PropTypes.object,
     identity: PropTypes.object,
-    actions: PropTypes.object.isRequired
+    actions: PropTypes.object.isRequired,
   }
 
   componentWillMount(): void {
@@ -112,7 +112,7 @@ class UserDetailPanel extends React.Component<UserDetailPanelProps, UserDetailPa
     const {identity, profileImage, bannerImage} = this.props
     const isUser = identity.identity_type === constants.USER_TYPES.USER
     const name = isUser
-        ? !(identity.first_name || identity.last_name) ? "" : (identity.first_name + " " + identity.last_name)
+        ? !(identity.first_name || identity.last_name) ? '' : (identity.first_name + ' ' + identity.last_name)
         : identity.nike_name || identity.official_name
     return (
         <div className='user-detail-panel-container'>
@@ -182,7 +182,6 @@ const mapStateToProps = (state, ownProps) => {
   const profileMediaId = identity.profile_media
   const bannerMediaId = identity.profile_banner
 
-
   return {
     translate: getMessages(state),
     identity,
@@ -193,8 +192,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    getFile: FileActions.getFile
-  }, dispatch)
+    getFile: FileActions.getFile,
+  }, dispatch),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserDetailPanel)

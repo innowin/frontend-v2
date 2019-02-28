@@ -1,17 +1,17 @@
 // @flow
-import * as React from "react"
-import BeePanel from "../common/components/BeePanel"
-import ChatBar from "../bars/ChatBar"
-import constants from "src/consts/constants"
+import * as React from 'react'
+import BeePanel from '../common/components/BeePanel'
+import ChatBar from '../bars/ChatBar'
+import constants from 'src/consts/constants'
 import EventCard from 'src/views/common/components/EventCard'
-import HomePosts from "./home/HomePosts"
-import HomeSideBar from "./home/HomeSideBar"
-import PropTypes from "prop-types"
+import HomePosts from './home/HomePosts'
+import HomeSideBar from './home/HomeSideBar'
+import PropTypes from 'prop-types'
 import setExchangeActions from 'src/redux/actions/user/setSelectedExchangeAction'
 import {bindActionCreators} from 'redux'
-import {Component} from "react"
-import {connect} from "react-redux"
-import {getMessages} from "src/redux/selectors/translateSelector"
+import {Component} from 'react'
+import {connect} from 'react-redux'
+import {getMessages} from 'src/redux/selectors/translateSelector'
 // import {Helmet} from "react-helmet"
 
 type HomeProps = {|
@@ -19,7 +19,7 @@ type HomeProps = {|
   identityType?: string,
   id?: number,
   translate: { [string]: string },
-  actions: {setExchange:Function},
+  actions: { setExchange: Function },
   selectedExchange: number
 |}
 
@@ -41,14 +41,14 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
   _setExchangeId = (exchangeId: number) => {
     const {activeExchangeId} = this.state
     if (exchangeId !== activeExchangeId) {
-      this.setState({...this.state, activeExchangeId: exchangeId},()=>{
+      this.setState({...this.state, activeExchangeId: exchangeId}, () => {
         this.props.actions.setExchange(exchangeId)
       })
     }
   }
 
   render() {
-    const {identityId, identityType, id} = this.props
+    const {identityId, identityType} = this.props
     const {activeExchangeId} = this.state
     // const title = `${translate["InnoWin"]} - ${translate["Home"]}`
     // const description = `${translate["Home"]}`
@@ -79,7 +79,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
               {
                 (identityId && identityType) ? (
                     <HomeSideBar setExchangeId={this._setExchangeId}
-                                 classNames={activeExchangeId ? "right-sidebar active-exchange" : "right-sidebar"}
+                                 classNames={activeExchangeId ? 'right-sidebar active-exchange' : 'right-sidebar'}
                                  identityId={identityId}
                                  identityType={identityType}
                                  activeExchangeId={activeExchangeId}
@@ -87,8 +87,8 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
                     />
                 ) : null
               }
-              <HomePosts exchangeId={activeExchangeId} className={activeExchangeId ? "post-wrapper active-exchange": "post-wrapper"}/>
-              <div className={activeExchangeId ? "user-detail-wrapper active-exchange" : 'user-detail-wrapper'}>
+              <HomePosts exchangeId={activeExchangeId} className={activeExchangeId ? 'post-wrapper active-exchange' : 'post-wrapper'}/>
+              <div className={activeExchangeId ? 'user-detail-wrapper active-exchange' : 'user-detail-wrapper'}>
                 <BeePanel/>
                 <EventCard/>
               </div>
@@ -114,14 +114,14 @@ const mapStateToProps = state => {
     identityId: clientIdentityId,
     identityType: identityType,
     translate: getMessages(state),
-    selectedExchange
+    selectedExchange,
   }
 }
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    setExchange: setExchangeActions.setSelectedExchange
-  }, dispatch)
+    setExchange: setExchangeActions.setSelectedExchange,
+  }, dispatch),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)
