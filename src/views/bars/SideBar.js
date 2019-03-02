@@ -95,7 +95,6 @@ export const UserSideBar = (props: PropsUserSideBar) => {
   const badgesImg = badges.map(badge => (
       (!badge) ? '' : (badge.badge_related_badge_category.badge_related_media.file))
   )
-  console.log({profile})
   const chosenBadgesImg = badgesImg.slice(0, 4)
   const socialNetworks = {
     telegram_account: profile['telegram_account'],

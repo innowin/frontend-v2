@@ -245,55 +245,49 @@ class User extends Component<PropsUser> {
                     </NavLink>
                   
                   </div>
-                  
-                  
-                  {
-                    (!identityObject.content) ? "" : (
-                        <Switch>
-                          <Redirect exact from={`${url}/`} to={`${url}/Posts`}/>
-                          <PrivateRoute exact={true} path={`${path}/Posts`} component={Posts} id={userId}
-                                        identityType={constants.USER_TYPES.USER}
-                                        profileMedia={profileObject.content.profile_media}
-                                        postIdentity={identityObject.content}
-                          />
-                          <PrivateRoute path={`${path}/Posts/:id`} component={PostExtendedView}
-                                        postIdentity={identityObject.content}
-                                        extendedView={true}
-                                        commentParentType={constants.COMMENT_PARENT.POST}/>
-                          <PrivateRoute path={`${path}/basicInformation`} component={UserBasicInformation}
-                                        userId={userId}
-                                        profile={profileObject} user={userObject}
-                          />
-                          <PrivateRoute path={`${path}/contributions`} component={Contributions}
-                                        ownerId={userId}
-                                        identityId={identityObject.content}
-                                        identityType={constants.USER_TYPES.USER}
-                                        isUser={true}/>
-                          <PrivateRoute path={`${path}/SocialConnections`} component={Social}
-                                        ownerId={userId}
-                                        identityId={identityObject.content}
-                                        identityType={constants.USER_TYPES.USER}
-                          />
-                          <PrivateRoute path={`${path}/Followings`} component={Following}
-                                        ownerId={userId}
-                                        identityId={identityObject.content}
-                                        identityType={constants.USER_TYPES.USER}
-                          />
-                          <PrivateRoute path={`${path}/Followers`} component={Follower}
-                                        ownerId={userId}
-                                        identityId={identityObject.content}
-                                        identityType={constants.USER_TYPES.USER}
-                          />
-                          <PrivateRoute path={`${path}/Educations`} component={Educations} userId={userId}/>
-                          <PrivateRoute path={`${path}/WorkExperiences`} component={WorkExperiences} userId={userId}/>
-                          <PrivateRoute path={`${path}/Certificates`} component={Certificates}
-                                        ownerId={userId}
-                                        identityId={identityObject.content}
-                                        identityType={constants.USER_TYPES.USER}
-                          />
-                        </Switch>
-                    )
-                  }
+                  <Switch>
+                    <Redirect exact from={`${url}/`} to={`${url}/Posts`}/>
+                    <PrivateRoute exact={true} path={`${path}/Posts`} component={Posts} id={userId}
+                                  identityType={constants.USER_TYPES.USER}
+                                  profileMedia={profileObject.profile_media}
+                                  postIdentity={identityObject.content}
+                    />
+                    <PrivateRoute path={`${path}/Posts/:id`} component={PostExtendedView}
+                                  postIdentity={identityObject}
+                                  extendedView={true}
+                                  commentParentType={constants.COMMENT_PARENT.POST}/>
+                    <PrivateRoute path={`${path}/basicInformation`} component={UserBasicInformation}
+                                  userId={userId}
+                                  profile={profileObject} user={userObject}
+                    />
+                    <PrivateRoute path={`${path}/contributions`} component={Contributions}
+                                  ownerId={userId}
+                                  identityId={identityObject}
+                                  identityType={constants.USER_TYPES.USER}
+                                  isUser={true}/>
+                    <PrivateRoute path={`${path}/SocialConnections`} component={Social}
+                                  ownerId={userId}
+                                  identityId={identityObject}
+                                  identityType={constants.USER_TYPES.USER}
+                    />
+                    <PrivateRoute path={`${path}/Followings`} component={Following}
+                                  ownerId={userId}
+                                  identityId={identityObject}
+                                  identityType={constants.USER_TYPES.USER}
+                    />
+                    <PrivateRoute path={`${path}/Followers`} component={Follower}
+                                  ownerId={userId}
+                                  identityId={identityObject}
+                                  identityType={constants.USER_TYPES.USER}
+                    />
+                    <PrivateRoute path={`${path}/Educations`} component={Educations} userId={userId}/>
+                    <PrivateRoute path={`${path}/WorkExperiences`} component={WorkExperiences} userId={userId}/>
+                    <PrivateRoute path={`${path}/Certificates`} component={Certificates}
+                                  ownerId={userId}
+                                  identityId={identityObject}
+                                  identityType={constants.USER_TYPES.USER}
+                    />
+                  </Switch>
                 </div>
                 <div className="col-md-2 col-sm-1 -left-sidebar-wrapper">
                   <ChatBar/>
