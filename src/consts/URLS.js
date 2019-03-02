@@ -22,7 +22,7 @@ const urls = {
     UPDATE_USER_BY_USER_ID: "users",
     UPDATE_PROFILE_BY_PROFILE_ID: "users/profiles",
     GET_USERS: "users",
-    GET_ALL_USERS: "users/profiles",
+    GET_ALL_USERS: "users/identities",
     GET_IDENTITY: "users/identities",
     PASSWORD_RESET_BY_SMS_REQUEST:'users/password_reset_by_sms_request',
     PASSWORD_RESET_BY_SMS_CHECK_CODE:'users/password_reset_by_sms_check_code',

@@ -6,13 +6,13 @@ import slices from './sliceReducers/user'
 import setRelatedObjIdForListItem from './sliceReducers/utilsSlices/setRelatedObjIdForListItem'
 
 const users = (state = initialState.users, action) => {
-  const { userId, data, message, search } = action.payload || {}
-  const defaultObject = { content: {}, isLoading: false, error: null }
-  const defaultObject2 = { content: [], isLoading: false, error: null }
+  const {userId, data, message, search} = action.payload || {}
+  const defaultObject = {content: {}, isLoading: false, error: null}
+  const defaultObject2 = {content: [], isLoading: false, error: null}
   const previousUser = (state.list[userId] && state.list[userId].user) || defaultObject
   const previousProfile = (state.list[userId] && state.list[userId].profile) || defaultObject
   const previousIdentity = (state.list[userId] && state.list[userId].identity) ||
-      { content: null, isLoading: false, error: null }
+      {content: null, isLoading: false, error: null}
   const previousBadges = (state.list[userId] && state.list[userId].badges) || defaultObject2
 
   switch (action.type) {
@@ -129,7 +129,7 @@ const users = (state = initialState.users, action) => {
         }
       }
     case types.SUCCESS.USER.PASSWORD_RESET_BY_SMS_CHECK_CODE:
-      const { VerificationCode } = action.payload || {}
+      const {VerificationCode} = action.payload || {}
       return {
         ...state,
         recoveryPassword: {
@@ -222,7 +222,7 @@ const users = (state = initialState.users, action) => {
             ...state.list[userId],
             user: {
               ...previousUser,
-              content: { ...data },
+              content: {...data},
               isLoading: false
             }
           }
@@ -246,7 +246,7 @@ const users = (state = initialState.users, action) => {
     case types.SUCCESS.USER.GET_USERS:
       return {
         ...state,
-        list: { ...state.list, ...data },
+        list: {...state.list, ...data},
         isLoading: false,
         error: null
       }
@@ -262,41 +262,21 @@ const users = (state = initialState.users, action) => {
     case types.SUCCESS.USER.GET_ALL_USERS:
       let objectData = {}
       data.forEach(user => {
-            if (state.list[user.profile_user.id] && state.list[user.profile_user.id].profile) {
-              objectData[user.profile_user.id] = {
-                ...state.list[user.profile_user.id],
-                // badges: {
-                //   content: [...user.badges],
-                //   isLoading: false,
-                //   error: null
-                // },
-                profile: {
-                  ...state.list[user.profile_user.id].profile,
-                  content: { ...state.list[user.profile_user.id].profile.content, ...user },
-                  isLoading: false,
-                  error: null
-                }
-              }
-            }
-            else {
-              objectData[user.profile_user.id] = {
-                // badges: {
-                //   content: [...user.badges],
-                //   isLoading: false,
-                //   error: null
-                // },
-                profile: {
-                  content: { ...user },
-                  isLoading: false,
-                  error: null
-                }
-              }
+            objectData[user.id] = {
+              ...state.list[user.id],
+              // badges: {
+              //   content: [...user.badges],
+              //   isLoading: false,
+              //   error: null
+              // },
+              ...state.list[user.id],
+              ...user,
             }
           }
       )
       return {
         ...state,
-        list: { ...state.list, ...objectData },
+        list: {...state.list, ...objectData},
         search: search,
         isLoading: false
       }
@@ -335,7 +315,7 @@ const users = (state = initialState.users, action) => {
             ...state.list[userId],
             profile: {
               ...previousProfile,
-              content: { ...previousProfile.content, ...data },
+              content: {...previousProfile.content, ...data},
               isLoading: false
             }
           }

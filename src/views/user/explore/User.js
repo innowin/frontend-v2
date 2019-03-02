@@ -12,6 +12,7 @@ import {getMessages} from 'src/redux/selectors/translateSelector'
 import {Link} from 'react-router-dom'
 import {REST_URL} from 'src/consts/URLS'
 import GetUserActions from 'src/redux/actions/user/getUserActions'
+import constants from '../../../consts/constants'
 
 type appProps =
     {|
@@ -53,22 +54,17 @@ class User extends Component <appProps, appState> {
   componentDidMount() {
     const {data} = this.props
 
-    // if (data.profile.content.related_organization_id) {
-    //   console.log('org')
-    //   actions.getProfileByUserId(data.profile.content.id)
-    // }
-
-    if (data.profile.content.profile_banner && data.profile.content.profile_banner.file) {
+    if (data.profile_banner && data.profile_banner.file) {
       let banner = new Image()
-      banner.src = data.profile.content.profile_banner.file.includes('innowin.ir') ? data.profile.content.profile_banner.file : REST_URL + data.profile.content.profile_banner.file
+      banner.src = data.profile_banner.file.includes('innowin.ir') ? data.profile_banner.file : REST_URL + data.profile_banner.file
       banner.onload = () => {
         this.setState({...this.state, bannerLoaded: true})
       }
     }
 
-    if (data.profile.content.profile_media && data.profile.content.profile_media.file) {
+    if (data.profile_media && data.profile_media.file) {
       let profile = new Image()
-      profile.src = data.profile.content.profile_media.file.includes('innowin.ir') ? data.profile.content.profile_media.file : REST_URL + data.profile.content.profile_media.file
+      profile.src = data.profile_media.file.includes('innowin.ir') ? data.profile_media.file : REST_URL + data.profile_media.file
       profile.onload = () => {
         this.setState({...this.state, profileLoaded: true})
       }
@@ -79,28 +75,28 @@ class User extends Component <appProps, appState> {
     const {data, currentUserType, currentUserId, currentUserIdentity, actions} = this.props
     const {follow} = this.state
 
-    if (data.profile.content.profile_user.id !== nextProps.data.profile.content.profile_user.id) {
+    if (data.id !== nextProps.data.id) {
       this.setState({...this.state, bannerLoaded: false, profileLoaded: false, follow: false, followLoading: false}, () => {
-        if (nextProps.data.profile.content.profile_banner) {
+        if (nextProps.data.profile_banner) {
           let banner = new Image()
-          banner.src = nextProps.data.profile.content.profile_banner.file.includes('innowin.ir') ? nextProps.data.profile.content.profile_banner.file : REST_URL + nextProps.data.profile.content.profile_banner.file
+          banner.src = nextProps.data.profile_banner.file.includes('innowin.ir') ? nextProps.data.profile_banner.file : REST_URL + nextProps.data.profile_banner.file
           banner.onload = () => {
             this.setState({...this.state, bannerLoaded: true})
           }
         }
 
-        if (nextProps.data.profile.content.profile_media) {
+        if (nextProps.data.profile_media) {
           let profile = new Image()
-          profile.src = nextProps.data.profile.content.profile_media.file.includes('innowin.ir') ? nextProps.data.profile.content.profile_media.file : REST_URL + nextProps.data.profile.content.profile_media.file
+          profile.src = nextProps.data.profile_media.file.includes('innowin.ir') ? nextProps.data.profile_media.file : REST_URL + nextProps.data.profile_media.file
           profile.onload = () => {
             this.setState({...this.state, profileLoaded: true})
           }
         }
       })
     }
-    else if (follow && (nextProps.identities[data.profile.content.profile_user.id] && nextProps.identities[data.profile.content.profile_user.id].identity && nextProps.identities[data.profile.content.profile_user.id].identity.content)) {
+    else if (follow && (nextProps.identities[data.id] && nextProps.identities[data.id].identity && nextProps.identities[data.id].identity.content)) {
       this.setState({...this.state, follow: false}, () => {
-        const formValues = {follow_follower: currentUserIdentity, follow_followed: nextProps.identities[data.profile.content.profile_user.id].identity.content}
+        const formValues = {follow_follower: currentUserIdentity, follow_followed: nextProps.identities[data.id].identity.content}
         actions.follow({formValues, followOwnerId: currentUserId, followOwnerType: currentUserType})
       })
     }
@@ -109,13 +105,13 @@ class User extends Component <appProps, appState> {
   _follow() {
     const {identities, actions, currentUserIdentity, currentUserId, currentUserType, data} = this.props
     this.setState({followLoading: true}, () => {
-      if (identities[data.profile.content.profile_user.id] && identities[data.profile.content.profile_user.id].identity && identities[data.profile.content.profile_user.id].identity.content) {
-        const formValues = {follow_follower: currentUserIdentity, follow_followed: identities[data.profile.content.profile_user.id].identity.content}
+      if (identities[data.id] && identities[data.id].identity && identities[data.id].identity.content) {
+        const formValues = {follow_follower: currentUserIdentity, follow_followed: identities[data.id].identity.content}
         actions.follow({formValues, followOwnerId: currentUserId, followOwnerType: currentUserType})
       }
       else {
         this.setState({...this.state, follow: true})
-        actions.getUserIdentity(data.profile.content.profile_user.id)
+        actions.getUserIdentity(data.id)
       }
     })
   }
@@ -123,7 +119,7 @@ class User extends Component <appProps, appState> {
   _renderFollowed(data, followees) {
     const {followLoading} = this.state
     const {translate} = this.props
-    if (followees[data.profile.content.profile_user.id]) {
+    if (followees[data.id]) {
       return <Material className='user-follow' content={translate['Followed']}/>
     }
     else if (followLoading) {
@@ -133,25 +129,23 @@ class User extends Component <appProps, appState> {
   }
 
   render() {
-    const {data, followees} = this.props
-    const profile = data.profile.content
-    const {badges} = data.badges || []
-    const user = data.profile.content.profile_user
+    const {data: user, followees} = this.props
+    const {badges} = user.badges || []
     const {profileLoaded, bannerLoaded} = this.state
-    const organId = profile["related_organization_id"]
+    const organId = user.identity_type === constants.USER_TYPES.ORG ? user.id : undefined
 
     return (
         <div className='users-explore'>
           <Link to={organId ? `/organization/${organId}` : `/user/${user.id}`} style={{textDecoration: 'none', color: 'black'}}>
             {
-              profile.profile_banner && bannerLoaded ?
-                  <img src={profile.profile_banner.file.includes('innowin.ir') ? profile.profile_banner.file : REST_URL + profile.profile_banner.file} className='user-banner' alt={user.last_name}/>
+              user.profile_banner && bannerLoaded ?
+                  <img src={user.profile_banner.file.includes('innowin.ir') ? user.profile_banner.file : REST_URL + user.profile_banner.file} className='user-banner' alt={user.last_name}/>
                   :
                   <div className='user-banner'/>
             }
             {
-              profile.profile_media && profileLoaded ?
-                  <img src={profile.profile_media.file.includes('innowin.ir') ? profile.profile_media.file : REST_URL + profile.profile_media.file} className='user-profile-photo' alt={user.last_name}/>
+              user.profile_media && profileLoaded ?
+                  <img src={user.profile_media.file.includes('innowin.ir') ? user.profile_media.file : REST_URL + user.profile_media.file} className='user-profile-photo' alt={user.last_name}/>
                   :
                   <DefaultUserIcon className='user-default-profile-photo'/>
             }
@@ -161,8 +155,8 @@ class User extends Component <appProps, appState> {
               <div className='user-id'>@{user.username}</div>
             </div>
 
-            <div className='user-description' style={new RegExp('^[A-Za-z]*$').test(profile.description[0]) ? {direction: 'ltr'} : {direction: 'rtl'}}>
-              {profile.description}
+            <div className='user-description' style={new RegExp('^[A-Za-z]*$').test(user && user.description && user.description[0]) ? {direction: 'ltr'} : {direction: 'rtl'}}>
+              {user.description}
             </div>
 
             <div className='user-baj-container'>
@@ -174,7 +168,7 @@ class User extends Component <appProps, appState> {
             </div>
           </Link>
           {
-            this._renderFollowed(data, followees)
+            this._renderFollowed(user, followees)
           }
         </div>
     )
