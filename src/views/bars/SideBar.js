@@ -90,12 +90,12 @@ type PropsUserSideBar = {
   identityId: number,
 }
 export const UserSideBar = (props: PropsUserSideBar) => {
-
   const {user, profile, profileBanner, profileMedia, badges, className, paramId, identityId} = props
   const name = !(user.first_name && user.last_name) ? user.username : (user.first_name + ' ' + user.last_name)
   const badgesImg = badges.map(badge => (
       (!badge) ? '' : (badge.badge_related_badge_category.badge_related_media.file))
   )
+  console.log({profile})
   const chosenBadgesImg = badgesImg.slice(0, 4)
   const socialNetworks = {
     telegram_account: profile['telegram_account'],

@@ -21,34 +21,6 @@ export function* getUserByUserId(action) {
   }
 }
 
-export function* getProfileByUserId(action) {
-  const {payload} = action
-  const {userId} = payload
-  const socketChannel = yield call(api.createSocketChannel, results.USER.GET_PROFILE_BY_USER_ID + userId)
-  try {
-    yield fork(api.get, urls.USER.GET_PROFILE_BY_USER_ID, results.USER.GET_PROFILE_BY_USER_ID + userId, `?profile_user=${userId}`)
-    const dataList = yield take(socketChannel)
-    const data = dataList[0]
-    yield put({type: types.SUCCESS.USER.GET_PROFILE_BY_USER_ID, payload: {data, userId}})
-    const {profile_media, profile_banner} = data
-    const profileMediaId = profile_media && profile_media.id
-    const profileBannerId = profile_banner && profile_banner.id
-    // TODO check profileMedia & profileBanner is not exist in common.files.list
-    if (profileMediaId) {
-      yield put({type: types.COMMON.FILE.GET_FILE, payload: {fileId: profileMediaId}})
-    }
-    if (profileBannerId && (profileMediaId !== profileBannerId)) {
-      yield put({type: types.COMMON.FILE.GET_FILE, payload: {fileId: profileBannerId}})
-    }
-    // yield put({type: types.SUCCESS.USER.SET_PROFILE_MEDIA, payload:{userId, profileMediaId, profileBannerId}})
-  } catch (e) {
-    const {message} = e
-    yield put({type: types.ERRORS.USER.GET_PROFILE_BY_USER_ID, payload: {message, userId}})
-  } finally {
-    socketChannel.close()
-  }
-}
-
 export function* getUsers(action) {
   // const {payload} = action
   let socketChannel

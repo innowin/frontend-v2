@@ -16,10 +16,10 @@ export function* getFollowees(action) {
         const follower = follow.follow_followed
         if (follower.identity_user) {
           if (!userProfileId) {
-            yield put({type: types.USER.GET_PROFILE_BY_USER_ID, payload: {userId: follower.identity_user}})
+            // yield put({type: types.USER.GET_PROFILE_BY_USER_ID, payload: {userId: follower.identity_user}})
           }
           else if (userProfileId !== follower.identity_user) {
-            yield put({type: types.USER.GET_PROFILE_BY_USER_ID, payload: {userId: follower.identity_user}})
+            // yield put({type: types.USER.GET_PROFILE_BY_USER_ID, payload: {userId: follower.identity_user}})
           }
         } else {
           if (!userProfileId) {

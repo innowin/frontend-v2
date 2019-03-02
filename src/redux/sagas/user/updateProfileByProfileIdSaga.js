@@ -30,7 +30,7 @@ export function* updateProfileByProfileId(action) {
         }
       }
     })
-    yield put({type: types.USER.GET_PROFILE_BY_USER_ID, payload:{userId}})
+    // yield put({type: types.USER.GET_PROFILE_BY_USER_ID, payload:{userId}})
   } catch (e) {
     const {message} = e
     yield put({type:types.ERRORS.USER.UPDATE_PROFILE_BY_PROFILE_ID, payload:{message}})

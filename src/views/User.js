@@ -1,117 +1,122 @@
 // @flow
-import * as React from 'react'
-import BadgeActions from 'src/redux/actions/commonActions/badgeActions'
-import Certificates from './common/certificates/index'
-import ChatBar from 'src/views/bars/ChatBar'
-import constants from 'src/consts/constants'
-import Contributions from './common/contributions'
-import Educations from 'src/views/user/educations'
-import GetIdentityActions from 'src/redux/actions/identityActions'
-import GetUserActions from 'src/redux/actions/user/getUserActions'
-import Material from './common/components/Material'
-import ParamActions from '../redux/actions/paramActions'
-import PostExtendedView from 'src/views/common/post/PostView'
-import Posts from 'src/views/common/post/index'
-import PrivateRoute from '../consts/PrivateRoute'
-import PropTypes from 'prop-types'
-import Social from 'src/views/common/social/index'
-import Following from 'src/views/common/social/following/index'
-import Follower from 'src/views/common/social/follower/index'
-import type {badgeType} from 'src/consts/flowTypes/common/badges'
-import type {fileType} from '../consts/flowTypes/common/fileType'
-import type {profileStateObject, userStateObject, identityStateObject, listOfIdObject} from 'src/consts/flowTypes/stateObjectType'
-import UserBasicInformation from './user/basicInformation/index'
-import UserSkeleton from './user/skeleton/UserSkeleton'
-import WorkExperiences from './user/workExperience/index'
-import {bindActionCreators} from 'redux'
-import {Component} from 'react'
-import {connect} from 'react-redux'
-import {getMessages} from '../redux/selectors/translateSelector'
-import {NavLink, Switch, Redirect} from 'react-router-dom'
-import {UserSideBar} from './bars/SideBar'
+import * as React from "react";
+import BadgeActions from "src/redux/actions/commonActions/badgeActions";
+import Certificates from "./common/certificates/index";
+import ChatBar from "src/views/bars/ChatBar";
+import constants from "src/consts/constants";
+import Contributions from "./common/contributions";
+import Educations from "src/views/user/educations";
+import GetIdentityActions from "src/redux/actions/identityActions";
+import GetUserActions from "src/redux/actions/user/getUserActions";
+import Material from "./common/components/Material";
+import ParamActions from "../redux/actions/paramActions";
+import PostExtendedView from "src/views/common/post/PostView";
+import Posts from "src/views/common/post/index";
+import PrivateRoute from "../consts/PrivateRoute";
+import PropTypes from "prop-types";
+import Social from "src/views/common/social/index";
+import Following from "src/views/common/social/following/index";
+import Follower from "src/views/common/social/follower/index";
+import type { badgeType } from "src/consts/flowTypes/common/badges";
+import type { fileType } from "../consts/flowTypes/common/fileType";
+import type {
+  profileStateObject,
+  userStateObject,
+  identityStateObject,
+  listOfIdObject
+} from "src/consts/flowTypes/stateObjectType";
+import UserBasicInformation from "./user/basicInformation/index";
+import UserSkeleton from "./user/skeleton/UserSkeleton";
+import WorkExperiences from "./user/workExperience/index";
+import { bindActionCreators } from "redux";
+import { Component } from "react";
+import { connect } from "react-redux";
+import { getMessages } from "../redux/selectors/translateSelector";
+import { NavLink, Switch, Redirect } from "react-router-dom";
+import { UserSideBar } from "./bars/SideBar";
 
 type PropsUser = {
-  match: {
-    [string]: string,
-    params: { [string]: string },
+  match : {
+    [string] : string,
+    params : { [string] : string },
   },
-  actions: {
-    getUserByUserId: Function,
-    getProfileByUserId: Function,
-    getUserIdentity: Function,
-    getUserBadges: Function,
-    removeParamUserId: Function,
-    setParamUserId: Function,
+  actions : {
+    getUserByUserId : Function,
+    getProfileByUserId : Function,
+    getUserIdentity : Function,
+    getUserBadges : Function,
+    removeParamUserId : Function,
+    setParamUserId : Function,
   },
-  profileObject: profileStateObject,
-  profileBanner: fileType | {},
-  profileMedia: fileType | {},
-  userObject: userStateObject,
-  identityObject: identityStateObject,
-  badgesObject: listOfIdObject,
-  badges: Array<badgeType>,
-  translate: { [string]: string }
+  profileObject : profileStateObject,
+  profileBanner : fileType | {},
+  profileMedia : fileType | {},
+  userObject : userStateObject,
+  identityObject : identityStateObject,
+  badgesObject : listOfIdObject,
+  badges : Array<badgeType>,
+  translate : { [string] : string }
 }
 
 class User extends Component<PropsUser> {
-
+  
   static propTypes = {
     match: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired
+  };
+  firstGetBadges : boolean;
+  
+  constructor (props) {
+    super(props);
+    this.firstGetBadges = true;
   }
-  firstGetBadges: boolean
-
-  constructor(props) {
-    super(props)
-    this.firstGetBadges = true
-  }
-
-  componentDidUpdate(prevProps) {
-    const {params} = this.props.match
-    const userId: number = +params.id
-    const {identityObject, actions} = this.props
-    const {getUserByUserId, getProfileByUserId, getUserIdentity, setParamUserId} = actions
-
+  
+  componentDidUpdate (prevProps) {
+    const { params } = this.props.match;
+    const userId : number = +params.id;
+    const { identityObject, actions } = this.props;
+    const { getUserByUserId, getProfileByUserId, getUserIdentity, setParamUserId } = actions;
+    
     if (+prevProps.match.params.id !== userId) {
-      getUserByUserId(userId)
-      getProfileByUserId(userId)
-      getUserIdentity(userId)
-      setParamUserId({id: userId})
+      getUserByUserId(userId);
+      getProfileByUserId(userId);
+      getUserIdentity(userId);
+      setParamUserId({ id: userId });
     }
-
+    
     if (this.firstGetBadges && identityObject.content && prevProps.identityObject !== identityObject) {
-      const {params} = this.props.match
-      const userId: number = +params.id
-      const {getUserBadges} = actions
-      getUserBadges(userId, identityObject.content)
-      this.firstGetBadges = false
+      const { params } = this.props.match;
+      const userId : number = +params.id;
+      const { getUserBadges } = actions;
+      getUserBadges(userId, identityObject.content);
+      this.firstGetBadges = false;
     }
   }
-
-  componentDidMount() {
-    const {params} = this.props.match
-    const {getUserByUserId, getProfileByUserId, getUserIdentity, setParamUserId} = this.props.actions
-    const userId: number = +params.id
-    getUserByUserId(userId)
-    getProfileByUserId(userId)
-    getUserIdentity(userId)
-    setParamUserId({id: userId})
+  
+  componentDidMount () {
+    const { params } = this.props.match;
+    const { getUserByUserId, getProfileByUserId, getUserIdentity, setParamUserId } = this.props.actions;
+    const userId : number = +params.id;
+    getUserByUserId(userId);
+    getProfileByUserId(userId);
+    getUserIdentity(userId);
+    setParamUserId({ id: userId });
   }
-
-  componentWillUnmount() {
-    const {removeParamUserId} = this.props.actions
-    removeParamUserId()
+  
+  componentWillUnmount () {
+    const { removeParamUserId } = this.props.actions;
+    removeParamUserId();
   }
-
-  render() {
-    const {match, profileObject, profileBanner, profileMedia, userObject, identityObject, badgesObject, badges, translate} = this.props
-    const {path, url, params} = match
-    const userId: number = +params.id
+  
+  render () {
+    const { match, profileObject, profileBanner, profileMedia, userObject, identityObject, badgesObject, badges, translate } = this.props;
+    const { path, url, params } = match;
+    const userId : number = +params.id;
     const isLoading = userObject.isLoading || profileObject.isLoading || identityObject.isLoading
-        || badgesObject.isLoading
+        || badgesObject.isLoading;
     // const errorMessage = userObject.error || profileObject.error || identityObject.error
     //     || badgesObject.error
-
+    
     // const title = `${translate['Danesh Boom']} - ${userObject.content.username}`
     // const description = translate['User']
     return (
@@ -151,18 +156,16 @@ class User extends Component<PropsUser> {
           {isLoading
               ? <UserSkeleton/>
               : <div className='-main page-content'>
-                {!identityObject.content ? '' : (
-                    <UserSideBar
-                        user={userObject.content}
-                        profile={profileObject.content}
-                        profileBanner={profileBanner}
-                        profileMedia={profileMedia}
-                        badges={badges}
-                        className={`col-md-3 col-sm-1 -right-sidebar-wrapper col pr-0 pl-0`}
-                        paramId={userId}
-                        identityId={identityObject.content}
-                    />
-                )}
+                <UserSideBar
+                    user={userObject}
+                    profile={profileObject}
+                    profileBanner={profileBanner}
+                    profileMedia={profileMedia}
+                    badges={badges}
+                    className={`col-md-3 col-sm-1 -right-sidebar-wrapper col pr-0 pl-0`}
+                    paramId={userId}
+                    identityId={userObject.id}
+                />
                 <div className="col-md-6 col-sm-10 center-column">
                   {/*<Tabs>*/}
                   {/*<NavLink className="-tab" to={`${url}/Posts`} activeClassName="-active">{postIcon}</NavLink>*/}
@@ -184,50 +187,68 @@ class User extends Component<PropsUser> {
                   {/*<NavLink className="-tab" to={`${url}/Certificates`}*/}
                   {/*activeClassName="-active"><CertificateIcon/></NavLink>*/}
                   {/*</Tabs>*/}
-
+                  
                   <div className='header-container'>
-
-                    <NavLink to={`${url}/Posts`} className='header-container-item' activeClassName='header-container-item-active'>
-                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material-first' content={translate['Stream']}/>
+                    
+                    <NavLink to={`${url}/Posts`} className='header-container-item'
+                             activeClassName='header-container-item-active'>
+                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material-first'
+                                content={translate["Stream"]}/>
                     </NavLink>
-
-                    <NavLink to={`${url}/basicInformation`} className='header-container-item' activeClassName='header-container-item-active'>
-                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['About Me']}/>
+                    
+                    <NavLink to={`${url}/basicInformation`} className='header-container-item'
+                             activeClassName='header-container-item-active'>
+                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
+                                content={translate["About Me"]}/>
                     </NavLink>
-
-                    <NavLink to={`${url}/contributions`} className='header-container-item' activeClassName='header-container-item-active'>
-                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Contributions']}/>
+                    
+                    <NavLink to={`${url}/contributions`} className='header-container-item'
+                             activeClassName='header-container-item-active'>
+                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
+                                content={translate["Contributions"]}/>
                     </NavLink>
-
-                    <NavLink to={`${url}/SocialConnections`} className='header-container-item' activeClassName='header-container-item-active'>
-                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Exchanges']}/>
+                    
+                    <NavLink to={`${url}/SocialConnections`} className='header-container-item'
+                             activeClassName='header-container-item-active'>
+                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
+                                content={translate["Exchanges"]}/>
                     </NavLink>
-
-                    <NavLink to={`${url}/Followings`} className='header-container-item' activeClassName='header-container-item-active'>
-                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Followings']}/>
+                    
+                    <NavLink to={`${url}/Followings`} className='header-container-item'
+                             activeClassName='header-container-item-active'>
+                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
+                                content={translate["Followings"]}/>
                     </NavLink>
-
-                    <NavLink to={`${url}/Followers`} className='header-container-item' activeClassName='header-container-item-active'>
-                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Followers']}/>
+                    
+                    <NavLink to={`${url}/Followers`} className='header-container-item'
+                             activeClassName='header-container-item-active'>
+                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
+                                content={translate["Followers"]}/>
                     </NavLink>
-
-                    <NavLink to={`${url}/Educations`} className='header-container-item' activeClassName='header-container-item-active'>
-                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Educations']}/>
+                    
+                    <NavLink to={`${url}/Educations`} className='header-container-item'
+                             activeClassName='header-container-item-active'>
+                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
+                                content={translate["Educations"]}/>
                     </NavLink>
-
-                    <NavLink to={`${url}/WorkExperiences`} className='header-container-item' activeClassName='header-container-item-active'>
-                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['WorkExperience']}/>
+                    
+                    <NavLink to={`${url}/WorkExperiences`} className='header-container-item'
+                             activeClassName='header-container-item-active'>
+                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
+                                content={translate["WorkExperience"]}/>
                     </NavLink>
-
-                    <NavLink to={`${url}/Certificates`} className='header-container-item' activeClassName='header-container-item-active'>
-                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Certificates']}/>
+                    
+                    <NavLink to={`${url}/Certificates`} className='header-container-item'
+                             activeClassName='header-container-item-active'>
+                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
+                                content={translate["Certificates"]}/>
                     </NavLink>
-
+                  
                   </div>
-
-
+                  
+                  
                   {
-                    (!identityObject.content) ? '' : (
+                    (!identityObject.content) ? "" : (
                         <Switch>
                           <Redirect exact from={`${url}/`} to={`${url}/Posts`}/>
                           <PrivateRoute exact={true} path={`${path}/Posts`} component={Posts} id={userId}
@@ -281,37 +302,36 @@ class User extends Component<PropsUser> {
           }
           {/*</VerifyWrapper>*/}
         </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const {params} = ownProps.match
-  const userId = +params.id
-  const stateUser = state.users.list[userId]
-  const defaultObject = {content: {}, isLoading: false, error: null}
-  const defaultObject2 = {content: [], isLoading: false, error: null}
-  const user = (stateUser && stateUser.user) || defaultObject
-  const profile = (stateUser && stateUser.profile) || defaultObject
-  const profileBannerId = (stateUser && stateUser.profileBannerId) || (profile.content && profile.content.profile_banner && profile.content.profile_banner.id)
-  const profileMediaId = (stateUser && stateUser.profileMediaId) || (profile.content && profile.content.profile_media && profile.content.profile_media.id)
-  const profileBanner = (profileBannerId && state.common.file.list[profileBannerId]) || {}
-  const profileMedia = (profileMediaId && state.common.file.list[profileMediaId]) || {}
-  const identity = (stateUser && stateUser.identity) || {content: null, isLoading: false, error: null}
-  const badgesObjectInUser = (stateUser && stateUser.badges) || defaultObject2
-  const allBadges = state.common.badges.badge.list
-  const badges = badgesObjectInUser.content.map(badgeId => allBadges[badgeId])
+  const { params } = ownProps.match;
+  const userId = +params.id;
+  const defaultObject = { content: {}, isLoading: false, error: null };
+  const defaultObject2 = { content: [], isLoading: false, error: null };
+  const user = state.identities.list[userId] || defaultObject;
+  
+  const profileBannerId = (user && user.profile_banner);
+  const profileMediaId = (user && user.profile_media);
+  const profileBanner = (profileBannerId && state.common.file.list[profileBannerId]) || {};
+  const profileMedia = (profileMediaId && state.common.file.list[profileMediaId]) || {};
+  const identity = (user && user.identity) || { content: null, isLoading: false, error: null };
+  const badgesObjectInUser = (user && user.badges) || defaultObject2;
+  const allBadges = state.common.badges.badge.list;
+  const badges = badgesObjectInUser.content.map(badgeId => allBadges[badgeId]);
   return {
     userObject: user,
-    profileObject: profile,
-    identityObject: identity,
+    profileObject: user,
+    identityObject: user,
     badgesObject: badgesObjectInUser,
     profileBanner,
     translate: getMessages(state),
     profileMedia,
     badges
-  }
-}
+  };
+};
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getUserByUserId: GetUserActions.getUserByUserId,
@@ -321,5 +341,5 @@ const mapDispatchToProps = dispatch => ({
     setParamUserId: ParamActions.setParamUserId,
     removeParamUserId: ParamActions.removeParamUserId
   }, dispatch)
-})
-export default connect(mapStateToProps, mapDispatchToProps)(User)
+});
+export default connect(mapStateToProps, mapDispatchToProps)(User);

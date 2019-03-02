@@ -15,7 +15,7 @@ export function* getFollowers(action) {
       for (let follow of data) {
         const follower = follow.follow_follower
         if (follower.identity_user) {
-          yield put({type: types.USER.GET_PROFILE_BY_USER_ID, payload: {userId: follower.identity_user}})
+          // yield put({type: types.USER.GET_PROFILE_BY_USER_ID, payload: {userId: follower.identity_user}})
         }
         else {
           yield put({type: types.ORG.GET_ORGANIZATION, payload: {organizationId: follower.identity_organization}})

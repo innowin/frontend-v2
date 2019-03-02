@@ -1,7 +1,7 @@
 import types from "../../actions/types"
 import {createUserOrgan, createUserPerson} from "./createUserSagas"
 import {emailCheck} from "./checkEmailSaga"
-import {getProfileByUserId, getUserByUserId, getUsers, getAllUsers} from "./getUserSagas"
+import {getUserByUserId, getUsers, getAllUsers} from "./getUserSagas"
 import {takeLatest, takeEvery} from "redux-saga/effects"
 import {updateProfileByProfileId} from "./updateProfileByProfileIdSaga"
 import {updateUserByUserId} from './updateUserByUserIdSaga'
@@ -24,11 +24,6 @@ function* watchEmailCheck() {
 // check username is exist already
 function* watchGetUserByUserId() {
   yield takeEvery(types.USER.GET_USER_BY_USER_ID, getUserByUserId)
-}
-
-// get profile by userId
-function* watchGetProfileByUserId() {
-  yield takeEvery(types.USER.GET_PROFILE_BY_USER_ID, getProfileByUserId)
 }
 
 // get users
@@ -89,7 +84,6 @@ export default [
   watchUsernameCheck(),
   watchEmailCheck(),
   // get user
-  watchGetProfileByUserId(),
   watchGetUserByUserId(),
   watchGetUsers(),
   watchGetAllUsers(),
