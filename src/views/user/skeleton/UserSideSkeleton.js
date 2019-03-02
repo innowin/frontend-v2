@@ -16,7 +16,7 @@ const UserSideSkeleton = () => <div className='sidebar-skeleton'>
     <section className='user-sidebar-buttons'>
       <div className="sidebarBottomParent-skeleton">
         <Material className="btn btn-outline-secondary sidebarBottom side-user" content=''/>
-        <Material className="btn btn-outline-secondary sidebarFollowBottom follow-button side-user-follow" content=''/>
+        <Material className="btn btn-outline-secondary sidebarFollowBottom follow-green-button side-user-follow" content=''/>
       </div>
     </section>
 

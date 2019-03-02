@@ -151,7 +151,7 @@ class NewFollowers extends Component<props, states> {
           {followingUsers.indexOf(identity_user) >= 0 ? <div className="member-followed-button">دنبال شده</div>
               : clientId !== identity_user ?
                   <div className="member-follow" onClick={() => this.follow(identity_user, identity_organization)}><span
-                      className="member-follow-button">دنبال کردن</span></div> : <div className="member-followed"/>}
+                      className="member-follow-green-button">دنبال کردن</span></div> : <div className="member-followed"/>}
           {follow_accepted || paramId !== clientId ? null :
               <div>
                 <div className="member-follow" onClick={() => this._onAcceptFollow(followers[index])}><span
@@ -200,7 +200,7 @@ class NewFollowers extends Component<props, states> {
           {followingOrgans.indexOf(identity_organization) >= 0 ? <div className="member-followed-button">دنبال شده</div>
               : clientId !== identity_organization ?
                   <div className="member-follow" onClick={() => this.follow(identity_user, identity_organization)}><span
-                      className="member-follow-button">دنبال کردن</span></div> : <div className="member-followed"/>}
+                      className="member-follow-green-button">دنبال کردن</span></div> : <div className="member-followed"/>}
           {follow_accepted || paramId !== clientId ? null :
               <div>
                 <div className="member-follow" onClick={() => this._onAcceptFollow(followers[index])}><span

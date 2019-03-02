@@ -779,6 +779,7 @@ $sidebar-profile-media-width: 80px;
 
   .side-user-follow-parent {
     flex: 0 1 40%;
+    border-radius: 25px;
     .side-user-follow {
       width: 100%;
     }
@@ -831,7 +832,7 @@ $sidebar-profile-media-width: 80px;
   }
 }
 
-.follow-button {
+.follow-green-button {
   background-color: $success-color;
   cursor: pointer !important;
   color: #ffffff;

@@ -85,14 +85,6 @@ const getToken = () => {
   }
 }
 
-const getUserId = () => {
-  if (window.localStorage && localStorage.hasOwnProperty('userId')) {
-    return localStorage.getItem('userId')
-  } else {
-    return sessionStorage.getItem('userId')
-  }
-}
-
 const getIdentityId = () => {
   if (window.localStorage && localStorage.hasOwnProperty('identityId')) {
     return localStorage.getItem('identityId')
@@ -109,14 +101,6 @@ const getUserType = () => {
   }
 }
 
-const getOrganizationId = () => {
-  if (window.localStorage && localStorage.hasOwnProperty('organizationId')) {
-    return localStorage.getItem('organizationId')
-  } else {
-    return sessionStorage.getItem('organizationId')
-  }
-}
-
 const checkIdWithQueryId = (paramId) => {
   const clientIdentityId = +getIdentityId()
   return paramId === clientIdentityId
@@ -130,10 +114,8 @@ const client = {
   clearToken,
   clearData,
   saveData,
-  getUserId,
   getIdentityId,
   getUserType,
-  getOrganizationId,
   checkIdWithQueryId,
 }
 export default client

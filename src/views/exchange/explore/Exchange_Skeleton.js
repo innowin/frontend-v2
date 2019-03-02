@@ -29,7 +29,7 @@ const Exchange_Skeleton = () => {
         </div>
 
 
-        <div className='exchange-follow-buttons'>
+        <div className='exchange-follow-green-buttons'>
           <button className='exchange-followed-skeleton'><span> </span>
             <div id='line'/>
           </button>

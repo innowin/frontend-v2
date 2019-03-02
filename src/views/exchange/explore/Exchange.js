@@ -139,7 +139,7 @@ class Exchange extends Component <appProps, appState> {
               {/*}*/}
 
             </Link>
-            <div className='exchange-follow-buttons'>
+            <div className='exchange-follow-green-buttons'>
               <Link to={`/exchange/${data.id}`} style={{textDecoration: 'none'}}>
                 <Material className='exchange-follow' content='مشاهده'/>
               </Link>

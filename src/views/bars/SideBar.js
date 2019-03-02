@@ -541,7 +541,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
                   <Material className="btn btn-outline-secondary sidebarBottom side-user"
                             content={tr && tr['Send Message']}/>
                   {showFollow ?
-                      <Material className="btn btn-outline-secondary sidebarFollowBottom follow-button side-user-follow"
+                      <Material className="btn btn-outline-secondary sidebarFollowBottom follow-green-button side-user-follow"
                                 onClick={this._createFollow}
                                 content={tr && tr['Follow']}/>
                       : <div className="followed-text">
@@ -558,11 +558,11 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
                                 tr && tr['Cancel']
                             )}/>
                   <Material className={!editProfile
-                      ? "sidebarFollowBottom follow-button side-user-follow"
+                      ? "sidebarFollowBottom follow-green-button side-user-follow"
                       : 'side-user-follow-parent'}
                             onClick={!editProfile ? this._handleEditProfile : undefined}
                             content={(!editProfile) ? tr && tr['Edit Dashboard'] : (
-                                <button type="submit" className='sidebarFollowBottom follow-button side-user-follow'>
+                                <button type="submit" className='sidebarFollowBottom follow-green-button side-user-follow'>
                                   {tr && tr['Save changes']}
                                 </button>
                             )}/>
