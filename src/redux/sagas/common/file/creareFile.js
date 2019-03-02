@@ -1,13 +1,47 @@
-import api from "../../../../consts/api";
-import results from "../../../../consts/resultName";
-import urls from "../../../../consts/URLS";
+import api from "src/consts/api";
+import results from "src/consts/resultName";
+import urls from "src/consts/URLS";
 import {call, fork, take, put} from "redux-saga/effects";
-import types from '../../../actions/types'
+import types from 'src/redux/actions/types'
 import uuid from 'uuid'
 
 
 function* createFile(action) { // payload?
-  const {file_string, nextActionData, nextActionType, fileIdKey, toWhatLayer, fileType} = action.payload
+  const {file_string, nextActionData, nextActionType, fileIdKey, toWhatLayer, fileType, file} = action.payload
+
+
+  const {formFile, fileId} = file
+  const {tempFileKeyName} = nextActionData
+
+  // yield put({type: types.COMMON.FILE.SET_FILE_IDS_IN_TEMP_FILE, payload: {fileId, tempFileKeyName: ''}})
+
+  const onUploadProgress = (data) => {
+    if (data.lengthComputable) {
+      let progress = Math.floor(+(data.loaded / data.total) * 100)
+      console.log({progress, data})
+    }
+  }
+
+  const data = yield fork(api.createFile, urls.COMMON.FILE, formFile, '', onUploadProgress)
+
+  // if (file) {
+  //   let reader = new FileReader()
+  //   reader.onloadstart = () => {
+  //     this.setState({...this.state, isLoadingState: true})
+  //   }
+  //   reader.onloadend = () => {
+  //     handleBase64(reader.result, file)
+  //     this.setState({...this.state, isLoadingState: false})
+  //   }
+  //   reader.onprogress = (data) => {
+  //     if (data.lengthComputable) {
+  //       let progress = Math.floor(+(data.loaded / data.total) * 100)
+  //       console.log({progress, data})
+  //     }
+  //   }
+  //   reader.readAsDataURL(file)
+  // }
+
 
   // 'nextActionType' used in dynamicResult to avoid from creating two different object in database
   // with the same picture implicitly and unwanted, when creating multiple object and their files

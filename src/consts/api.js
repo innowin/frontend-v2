@@ -2,6 +2,7 @@ import {REST_URL, SOCKET as socket} from "./URLS"
 import {GET_VIEWS_COUNT, NEW_VIEW, REST_REQUEST} from "./Events"
 import {eventChannel} from 'redux-saga'
 import {apply, select} from "redux-saga/effects"
+import axios from 'axios'
 
 const createSocketChannel = (resultName) => {
   return eventChannel(emit => {
@@ -50,18 +51,30 @@ function* post(url, result, data, param = "", noToken) {
   yield apply({}, postEmit, [url, result, data, param, token, noToken])
 }
 
-function* createFile(url, data, query) {
+function* createFile(url, data, query, onUploadProgress) {
   const form = new FormData()
-  form.append('file',data)
+  form.append('file', data)
   const token = yield select((state) => state.auth.client.token)
-  return fetch(REST_REQUEST, {
-    method: 'post',
-    url: REST_URL + '/' + url + '/' + query,
-    body: JSON.stringify(form),
+
+  return axios({
+    method:'post',
+    baseURL:'http://beta.back.innowin.ir/',
+    url:url + '/' + query,
+    data: form,
+    onUploadProgress: onUploadProgress,
     headers: {
-      Authorization: token
+      'Authorization': token
     }
-  }).then(res => res.json()).catch(err => {throw new Error(err)})
+  }).then(res => res).catch(err => {throw new Error(err)})
+  // fileReader(data)
+  // return fetch(REST_REQUEST, {
+  //   method: 'post',
+  //   url: REST_URL + '/' + url + '/' + query,
+  //   body: JSON.stringify(form),
+  //   headers: {
+  //     Authorization: token
+  //   }
+  // }).then(res => res.json()).catch(err => {throw new Error(err)})
 }
 
 function* patch(url, result, data, param = "") {

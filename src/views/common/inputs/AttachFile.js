@@ -1,6 +1,8 @@
 import React, {Component} from "react"
 import PropTypes from "prop-types"
 
+import uuid from 'uuid'
+
 export default class AttachFile extends Component {
 	static defaultProps = {
 		acceptFilter: [],
@@ -47,9 +49,9 @@ export default class AttachFile extends Component {
 				return tr['Required field']
 			}
 		}
-		if (file && allowableFormat.length > 0 && !allowableFormat.includes(fileExtension)) {
-			return tr['This format is not allowed']
-		}
+		// if (file && allowableFormat.length > 0 && !allowableFormat.includes(fileExtension)) {
+		// 	return tr['This format is not allowed']
+		// }
 		return customValidate(file)
 	}
 	
@@ -74,17 +76,14 @@ export default class AttachFile extends Component {
 		const {handleBase64, handleError} = this.props
 		const file = event.target.files[0]
 		const error = this._validateFile(file)
+
+		const fileId = uuid()
+
+		const fileToRedux = {fileId, formFile: file}
+
 		if (error) return handleError(error)
 		if (file && !error) {
-			let reader = new FileReader()
-			reader.onloadstart = () => {
-				this.setState({...this.state, isLoadingState: true})
-			}
-			reader.onloadend = () => {
-				handleBase64(reader.result)
-				this.setState({...this.state, isLoadingState: false})
-			}
-			reader.readAsDataURL(file)
+			handleBase64('file string', fileToRedux)
 		}
 	}
 	

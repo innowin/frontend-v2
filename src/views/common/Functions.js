@@ -19,8 +19,8 @@ type createArguments = {
   nextActionData: {}, nextActionType: string, fileIdKey: ?number | ?string
 }
 export const createFileFunc = (createFileAction: Function, fileString: string, createArguments: createArguments,
-                               fileType: string, fileCategory: string) => {
+                               fileType: string, fileCategory: string, file: File) => {
   const {nextActionData, nextActionType, fileIdKey} = createArguments
-  const data = {file_string: fileString, nextActionData, nextActionType, fileIdKey, fileType, fileCategory}
+  const data = {file, file_string: fileString, nextActionData, nextActionType, fileIdKey, fileType, fileCategory}
   createFileAction(data)
 }

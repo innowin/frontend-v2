@@ -626,7 +626,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
     removeFileFromTemp(POST_FILE_TEMP_KEY)
   }
 
-  _createFile = (fileString, tempFileKeyName, fileType: string) => {
+  _createFile = (fileString, tempFileKeyName, fileType: string, fileCategory: string, file: File) => {
     const {actions} = this.props
     const {createFile} = actions
     const nextActionType = types.COMMON.FILE.SET_FILE_IDS_IN_TEMP_FILE
@@ -637,7 +637,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       nextActionType,
       nextActionData
     }
-    createFileFunc(createFile, fileString, createArguments, fileType)
+    createFileFunc(createFile, fileString, createArguments, fileType, fileCategory, file)
   }
 
   _deletePicture = (i) => {
@@ -696,7 +696,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
     this.setState({...this.state, postMedia: ''})
   }
 
-  _handlePostPictures = (fileString) => {
+  _handlePostPictures = (fileString, file) => {
     const {postImg1, postImg2, postImg3} = this.state
     const tempFileKeyName = (!postImg1 && POST_IMG1_TEMP_KEY)
         || (!postImg2 && POST_IMG2_TEMP_KEY)
@@ -708,7 +708,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
     } else {
       this.setState({...this.state, attachMenu: false, postImg3: fileString})
     }
-    this._createFile(fileString, tempFileKeyName, constants.CRETE_FILE_TYPES.IMAGE)
+    this._createFile(fileString, tempFileKeyName, constants.CRETE_FILE_TYPES.IMAGE, constants.CREATE_FILE_CATEGORIES.POST, file)
   }
 
   _handlePostFile = (fileString) => {

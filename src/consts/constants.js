@@ -110,6 +110,9 @@ export default {
     IDENTITY: {
       BANNER: 'banner',
       PROFILE_PICTURE: 'profile-picture',
+    },
+    POST: {
+      IMAGE: 'image',
     }
   },
   TEMP_FILE_KEYS: {
