@@ -50,6 +50,20 @@ function* post(url, result, data, param = "", noToken) {
   yield apply({}, postEmit, [url, result, data, param, token, noToken])
 }
 
+function* createFile(url, data, query) {
+  const form = new FormData()
+  form.append('file',data)
+  const token = yield select((state) => state.auth.client.token)
+  return fetch(REST_REQUEST, {
+    method: 'post',
+    url: REST_URL + '/' + url + '/' + query,
+    body: JSON.stringify(form),
+    headers: {
+      Authorization: token
+    }
+  }).then(res => res.json()).catch(err => {throw new Error(err)})
+}
+
 function* patch(url, result, data, param = "") {
   const token = yield select((state) => state.auth.client.token)
   yield apply({}, patchEmit, [url, result, data, param, token])
@@ -147,6 +161,7 @@ export const setPostViewerEmit = (postId, resultName, token) => {
 
 const api = {
   createSocketChannel,
+  createFile,
   get,
   post,
   patch,
