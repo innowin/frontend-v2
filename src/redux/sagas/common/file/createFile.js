@@ -10,8 +10,6 @@ function* createFile(action) { // payload?
 
   const {formFile, fileId} = file
   const {tempFileKeyName} = nextActionData
-
-  // yield put({type: types.COMMON.FILE.REMOVE_FILE_FROM_TEMP_FILE, payload: {tempFileKeyName: fileId}})
   let channel;
   function onUploadProgress (data) {
     return new Promise((resolve, reject) => {
