@@ -4,7 +4,7 @@ import certificateWatchers from "./certificate/certificate"
 import commentWatchers from './comment/comment'
 import educationFieldsWatchers from './educationField/educationField'
 import exchangeMembershipWatchers from './exchangeMembership/exchangeMembership'
-import fileWatchers from "./file/file"
+import fileWatchers from "./file"
 import hashTagWatchers from "./hashTag/hashTag"
 import locationWatchers from "./location/location"
 import postWatchers from './post/post'

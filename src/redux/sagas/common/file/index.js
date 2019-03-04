@@ -1,6 +1,6 @@
 import types from "../../../actions/types"
 import {takeEvery} from "redux-saga/effects"
-import createFile from "./creareFile"
+import createFile from "./createFile"
 import updateFile from "./updateFile"
 import getFile from "./getFile"
 import deleteFile from "./deleteFile"

@@ -1,185 +1,209 @@
-import {REST_URL, SOCKET as socket} from "./URLS"
-import {GET_VIEWS_COUNT, NEW_VIEW, REST_REQUEST} from "./Events"
-import {eventChannel} from 'redux-saga'
-import {apply, select} from "redux-saga/effects"
-import axios from 'axios'
+import { REST_URL, SOCKET as socket } from "./URLS";
+import { GET_VIEWS_COUNT, NEW_VIEW, REST_REQUEST } from "./Events";
+import { eventChannel, END } from "redux-saga";
+import { apply, select } from "redux-saga/effects";
+import axios from "axios";
+
+axios.defaults.baseURL = REST_URL;
 
 const createSocketChannel = (resultName) => {
   return eventChannel(emit => {
     const resultHandler = res => {
       if (res.status === "FAILED") {
-        console.groupCollapsed(` %cError  %c${resultName.toUpperCase()}`, "line-height: 1.5 !important; color: red; font-size:11px; font-family: 'dejavu sans mono', monospace; font-weight:lighter;font-size: 11px", "color: #ef8fae; font-size:12px; font-family: 'dejavu sans mono', monospace; font-weight:900;")
-        console.log(" %cERROR ","color: orange; font-size:12px; font-family: 'Helvetica',consolas,sans-serif; font-weight:900;",res)
-        console.groupEnd("Response")
-
-        if (res.data === 0 && (resultName === 'USERNAME_CHECK' || resultName === 'EMAIL_CHECK')) {
-          emit(res.data)
+        console.groupCollapsed(` %cError  %c${resultName.toUpperCase()}`, "line-height: 1.5 !important; color: red; font-size:11px; font-family: 'dejavu sans mono', monospace; font-weight:lighter;font-size: 11px", "color: #ef8fae; font-size:12px; font-family: 'dejavu sans mono', monospace; font-weight:900;");
+        console.log(" %cERROR ", "color: orange; font-size:12px; font-family: 'Helvetica',consolas,sans-serif; font-weight:900;", res);
+        console.groupEnd("Response");
+        
+        if (res.data === 0 && (resultName === "USERNAME_CHECK" || resultName === "EMAIL_CHECK")) {
+          emit(res.data);
           return;
         }
         // below is for check user handle error
         if (typeof res.data === "object" && res.data.detail) {
-          emit(new Error(res.data.detail))
+          emit(new Error(res.data.detail));
         }
         if (res.data.non_field_errors) {
-          emit(new Error(res.data.non_field_errors))
+          emit(new Error(res.data.non_field_errors));
           return;
         }
-        emit(new Error(res.data))
+        emit(new Error(res.data));
         return;
       }
       if (res.data) {
         if (res.data.results && res.data.count >= 0) {
-          emit(res.data.results)
+          emit(res.data.results);
           return;
         }
-        emit(res.data)
-      } else emit(res)
-    }
-    socket.on(resultName, resultHandler)
-    return () => socket.off(resultName, resultHandler)
-  })
-}
+        emit(res.data);
+      } else emit(res);
+    };
+    socket.on(resultName, resultHandler);
+    return () => socket.off(resultName, resultHandler);
+  });
+};
+
+const createAxiosChannel = (method, url, data, token) => {
+  axios.defaults.headers.common["Authorization"] = `jwt ${token}`;
+  return eventChannel(emit => {
+    let canceler = () => "";
+    const CancelToken = axios.CancelToken;
+    const onUploadProgress = e => {
+      if (e.lengthComputable) {
+        const progress = Math.floor((e.loaded / e.total) * 100);
+        emit({ progress });
+      }
+    };
+    axios({
+      method,
+      data,
+      onUploadProgress,
+      cancelToken: new CancelToken(c => canceler = c),
+      url: `${REST_URL}/${url}/`
+    })
+        .then(response => {
+          emit({ response });
+        })
+        .catch(error => {
+          if (axios.isCancel(error)) {
+            throw new Error("Request Canceled", error.message);
+          }
+          emit({ error });
+          throw new Error(error);
+        });
+    return canceler;
+  });
+};
 
 //1 - req -sending requests
-function* get(url, result, param = "", noToken) {
-  const token = yield select((state) => state.auth.client.token)
-  yield apply({}, getEmit, [url, result, param, token, noToken])
+function* get (url, result, param = "", noToken) {
+  const token = yield select((state) => state.auth.client.token);
+  yield apply({}, getEmit, [url, result, param, token, noToken]);
 }
 
-function* post(url, result, data, param = "", noToken) {
-  const token = yield select((state) => state.auth.client.token)
-  yield apply({}, postEmit, [url, result, data, param, token, noToken])
+function* post (url, result, data, param = "", noToken) {
+  const token = yield select((state) => state.auth.client.token);
+  yield apply({}, postEmit, [url, result, data, param, token, noToken]);
 }
 
-function* createFile(url, data, query, onUploadProgress) {
-  const form = new FormData()
-  form.append('file', data)
-  const token = yield select((state) => state.auth.client.token)
-
-  return axios({
-    method:'post',
-    baseURL:'http://beta.back.innowin.ir/',
-    url:url + '/' + query,
-    data: form,
-    onUploadProgress: onUploadProgress,
-    headers: {
-      'Authorization': token
-    }
-  }).then(res => res).catch(err => {throw new Error(err)})
-  // fileReader(data)
-  // return fetch(REST_REQUEST, {
-  //   method: 'post',
-  //   url: REST_URL + '/' + url + '/' + query,
-  //   body: JSON.stringify(form),
-  //   headers: {
-  //     Authorization: token
-  //   }
-  // }).then(res => res.json()).catch(err => {throw new Error(err)})
+function* uploadFileChannel (url, file) {
+  const form = new FormData();
+  form.append("file", file);
+  const token = yield select((state) => state.auth.client.token);
+  // axios.defaults.headers.common["Authorization"] = `jwt ${token}`;
+  // return axios({
+  //   method: "POST",
+  //   url: `${REST_URL}/${url}/`,
+  //   data: form,
+  //   onUploadProgress: onUploadProgress
+  // }).catch(err => {
+  //   throw new Error(err);
+  // });
+  return createAxiosChannel("post", "files", form, token);
 }
 
-function* patch(url, result, data, param = "") {
-  const token = yield select((state) => state.auth.client.token)
-  yield apply({}, patchEmit, [url, result, data, param, token])
+function* patch (url, result, data, param = "") {
+  const token = yield select((state) => state.auth.client.token);
+  yield apply({}, patchEmit, [url, result, data, param, token]);
 }
 
-function* del(url, result, data, param = "") {
-  const token = yield select((state) => state.auth.client.token)
-  yield apply({}, delEmit, [url, result, data, param, token])
+function* del (url, result, data, param = "") {
+  const token = yield select((state) => state.auth.client.token);
+  yield apply({}, delEmit, [url, result, data, param, token]);
 }
 
-function* getPostViewerCount(postId, result) {
-  yield apply({}, getPostViewerCountEmit, [postId, result])
+function* getPostViewerCount (postId, result) {
+  yield apply({}, getPostViewerCountEmit, [postId, result]);
 }
 
-function* setPostViewer(postId, result) {
-  const token = yield select((state) => state.auth.client.token)
-  yield apply({}, setPostViewerEmit, [postId, result, token])
+function* setPostViewer (postId, result) {
+  const token = yield select((state) => state.auth.client.token);
+  yield apply({}, setPostViewerEmit, [postId, result, token]);
 }
 
 // pre send request
 const getEmit = (url, resultName, query = "", token, noToken) => {
   if (noToken) {
     socket.emit(REST_REQUEST, {
-      method: 'get',
-      url: REST_URL + '/' + url + '/' + query,
-      result: resultName,
-    })
+      method: "get",
+      url: REST_URL + "/" + url + "/" + query,
+      result: resultName
+    });
   } else {
     socket.emit(REST_REQUEST, {
-      method: 'get',
-      url: REST_URL + '/' + url + '/' + query,
+      method: "get",
+      url: REST_URL + "/" + url + "/" + query,
       result: resultName,
-      token,
-    })
+      token
+    });
   }
-}
+};
 
 const patchEmit = (urll, resultName, data, query = "", token) => {
-  let url
-  query === "" ? url = REST_URL + '/' + urll + '/' : url = REST_URL + '/' + urll + '/' + query + '/'
+  let url;
+  query === "" ? url = REST_URL + "/" + urll + "/" : url = REST_URL + "/" + urll + "/" + query + "/";
   socket.emit(REST_REQUEST, {
-    method: 'patch',
+    method: "patch",
     result: resultName,
     url,
     data,
     token
-  })
-}
+  });
+};
 
 const delEmit = (urll, resultName, data, query = "", token) => {
-  let url
-  query === "" ? url = REST_URL + '/' + urll + '/' : url = REST_URL + '/' + urll + '/' + query + '/'
+  let url;
+  query === "" ? url = REST_URL + "/" + urll + "/" : url = REST_URL + "/" + urll + "/" + query + "/";
   socket.emit(REST_REQUEST, {
-    method: 'del',
+    method: "del",
     url,
     result: resultName,
     data,
     token
-  })
-}
+  });
+};
 
 const postEmit = (url, resultName, data, query = "", token, noToken) => {
   if (noToken) {
     socket.emit(REST_REQUEST, {
-      method: 'post',
-      url: REST_URL + '/' + url + '/' + query,
+      method: "post",
+      url: REST_URL + "/" + url + "/" + query,
       result: resultName,
-      data,
-    })
+      data
+    });
   } else {
     socket.emit(REST_REQUEST, {
-      method: 'post',
-      url: REST_URL + '/' + url + '/' + query,
+      method: "post",
+      url: REST_URL + "/" + url + "/" + query,
       result: resultName,
       data,
       token
-    })
+    });
   }
-}
+};
 
 export const getPostViewerCountEmit = (postId, resultName) => {
   socket.emit(GET_VIEWS_COUNT, {
     id: `post-${postId}`,
     result: resultName
-  })
-}
+  });
+};
 
 export const setPostViewerEmit = (postId, resultName, token) => {
   socket.emit(NEW_VIEW, {
     id: `post-${postId}`,
     token,
     result: resultName
-  })
-}
+  });
+};
 
 const api = {
   createSocketChannel,
-  createFile,
+  uploadFileChannel,
   get,
   post,
   patch,
   del,
   getPostViewerCount,
   setPostViewer
-}
-export default api
+};
+export default api;

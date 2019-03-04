@@ -73,14 +73,12 @@ export default class AttachFile extends Component {
 	
 	_handleChange = (event) => {
 		event.preventDefault()
+		event.stopPropagation()
 		const {handleBase64, handleError} = this.props
-		const file = event.target.files[0]
-		const error = this._validateFile(file)
-
+		const file = this.fileuplod.files[0]
+		let error = this._validateFile(file)
 		const fileId = uuid()
-
 		const fileToRedux = {fileId, formFile: file}
-
 		if (error) return handleError(error)
 		if (file && !error) {
 			handleBase64('file string', fileToRedux)
@@ -105,6 +103,7 @@ export default class AttachFile extends Component {
 							type="file"
 							className="custom-file-input w-100"
 							onChange={this._handleChange}
+							ref={e => this.fileuplod = e}
 							onClick={this._onChangeClick}
 							id={inputId}
 							hidden
