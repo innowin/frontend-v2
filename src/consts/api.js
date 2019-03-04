@@ -65,6 +65,7 @@ const createAxiosChannel = (method, url, data, token) => {
         })
         .catch(error => {
           if (axios.isCancel(error)) {
+            emit({ error });
             throw new Error("Request Canceled", error.message);
           }
           emit({ error });

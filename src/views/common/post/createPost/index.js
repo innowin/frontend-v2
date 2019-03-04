@@ -55,6 +55,7 @@ type createPostPropsTypes = {
   postMediaId: number,
   postFileId: number,
   translate: { [string]: string },
+  tempFiles: {[string]: {progress: number, close: Function}},
   currentUserType: string,
   currentUserId: number,
   currentUserIdentity: identityType | number,
@@ -101,6 +102,9 @@ type createPostStateTypes = {
   postFileIndex: number,
   postMediaIndex: number,
   isLoading: boolean,
+  attachPhotoIdArray: [string, string, string],
+  attachFileId: string,
+  attachVideoId: string,
 }
 
 
@@ -119,6 +123,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
     hideEdit: PropTypes.func,
     post: PropTypes.object,
     updateFunc: PropTypes.func,
+    tempFiles: PropTypes.object,
   }
 
   constructor(props) {
@@ -165,6 +170,9 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       postFileIndex: -1,
       postMediaIndex: -1,
       isLoading: false,
+      attachVideoId: uuid(),
+      attachFileId: uuid(),
+      attachPhotoIdArray: [uuid(), uuid(), uuid()],
     }
   }
 
@@ -819,14 +827,23 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
     this.setState({...this.state, selectedProduct: undefined})
   }
 
+  _abortHandler = () => {
+    const {attachPhotoIdArray} = this.state
+    const {tempFiles} = this.props
+    const attachPhotoId = attachPhotoIdArray[0]
+    console.log('close', tempFiles[attachPhotoId].close())
+  }
+
   render() {
     const {hideCreatePost, post, hideEdit, className, isUpdate, followers, exchanges, currentUserIdentity, currentUserMedia, currentUserName, translate, currentUserId} = this.props
     const {
       postImg1, postImg2, postImg3, open, attachMenu, labels, link, contactMenu, linkModal, postFile, postMedia,
-      isLoading, profileLoaded, description, descriptionClass, descriptionHeaderClass, focused, addProductModal, selectedProduct, postType, descriptionHeader
+      isLoading, profileLoaded, description, descriptionClass, descriptionHeaderClass, focused, addProductModal, selectedProduct, postType, descriptionHeader,
+      attachPhotoIdArray, attachFileId, attachVideoId,
     } = this.state
     const hasMediaClass = (postMedia || postImg1 || postImg2 || postImg3) ? 'hasMedia' : ''
     const postImagesLength = [postImg1, postImg2, postImg3].filter(img => img).length
+    const attachPhotoId = postImagesLength === 0 ? attachPhotoIdArray[0] : attachPhotoIdArray[postImagesLength]
     const allowSubmit = this._allowSubmitCheck()
     return (
         <form
@@ -1019,6 +1036,9 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
                   linkModalFunc={this._linkModalFunc}
                   addProductModalFunc={this._addProductModalFunc}
                   AttachMenuId={this.attachMenuId}
+                  attachVideoId={attachVideoId}
+                  attachPhotoId={attachPhotoId}
+                  attachFileId={attachFileId}
                   translate={translate}
               />
             </div>
@@ -1062,6 +1082,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
               // selectProduct={(product) => this.setState({...this.state, selectedProduct: product})}
           />
 
+          <div onClick={this._abortHandler}>close</div>
         </form>
     )
   }
@@ -1078,6 +1099,7 @@ const mapStateToProps = state => {
   const postImg3Id = state.temp.file[POST_IMG3_TEMP_KEY] || null
   const postMediaId = state.temp.file[POST_MEDIA_TEMP_KEY] || null
   const postFileId = state.temp.file[POST_FILE_TEMP_KEY] || null
+  const tempFiles = state.temp.file
 
   const {user_type} = state.auth.client
   const isUser = user_type === constants.USER_TYPES.USER
@@ -1098,6 +1120,7 @@ const mapStateToProps = state => {
     postImg3Id,
     postMediaId,
     postFileId,
+    tempFiles,
     translate: getMessages(state)
   })
 }

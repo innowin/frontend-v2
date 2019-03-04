@@ -4,7 +4,7 @@ import types from './../actions/types'
 
 const temp = (state = initialState.temp, action) => {
   const file = state.file
-  const {tempFileKeyName, fileId} = action.payload || {}
+  const {tempFileKeyName, fileId, progressDetail} = action.payload || {}
 
   switch (action.type) {
 
@@ -26,6 +26,18 @@ const temp = (state = initialState.temp, action) => {
         file: {
           ...file,
           [tempFileKeyName]: data
+        }
+      }
+
+    case types.COMMON.FILE.SET_FILE_PROGRESS_DETAIL:
+      return {
+        ...state,
+        file: {
+          ...file,
+          [fileId]: {
+            ...file[fileId],
+            ...progressDetail,
+          }
         }
       }
 

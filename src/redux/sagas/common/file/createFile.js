@@ -3,7 +3,6 @@ import results from "src/consts/resultName";
 import urls from "src/consts/URLS";
 import {call, fork, take, put, cancelled} from "redux-saga/effects";
 import types from 'src/redux/actions/types'
-import uuid from 'uuid'
 
 
 function* createFile(action) { // payload?
@@ -12,7 +11,7 @@ function* createFile(action) { // payload?
   const {formFile, fileId} = file
   const {tempFileKeyName} = nextActionData
 
-  // yield put({type: types.COMMON.FILE.SET_FILE_IDS_IN_TEMP_FILE, payload: {fileId, tempFileKeyName: ''}})
+  // yield put({type: types.COMMON.FILE.REMOVE_FILE_FROM_TEMP_FILE, payload: {tempFileKeyName: fileId}})
   let channel;
   function onUploadProgress (data) {
     return new Promise((resolve, reject) => {
@@ -25,13 +24,30 @@ function* createFile(action) { // payload?
   try {
     channel = yield call(api.uploadFileChannel, urls.COMMON.FILE, formFile)
     console.log({channel})
+
+    const progressDetail = {
+      progress: 0,
+      close: channel.close,
+    }
+
+    yield put({type: types.COMMON.FILE.SET_FILE_PROGRESS_DETAIL, payload: {fileId, progressDetail}})
     while (true) {
       const data = yield take(channel)
+      if (data.progress) {
+        yield put({type: types.COMMON.FILE.SET_FILE_PROGRESS_DETAIL, payload: {fileId, progressDetail: {progress: data.progress}}})
+      }
+      else if(data.response) {
+        yield put({type: types.COMMON.FILE.SET_FILE_PROGRESS_DETAIL, payload: {fileId, progressDetail: {close: null}}})
+      }
+      else if(data.error) {
+        throw new Error(data.error.message)
+      }
       console.log(data)
     }
   }
   catch(err) {
     if(yield cancelled()) {
+      console.log('canceled saga!!')
       channel.close()
     }
     console.trace(err)

@@ -1,8 +1,6 @@
 import React, {Component} from "react"
 import PropTypes from "prop-types"
 
-import uuid from 'uuid'
-
 export default class AttachFile extends Component {
 	static defaultProps = {
 		acceptFilter: [],
@@ -20,6 +18,7 @@ export default class AttachFile extends Component {
 		handleBase64: PropTypes.func.isRequired,
 		handleError: PropTypes.func.isRequired,
 		translate: PropTypes.object.isRequired,
+		fileId: PropTypes.string.isRequired,
 		allowableFormat: PropTypes.arrayOf(PropTypes.string),
 		isLoadingProp: PropTypes.bool,
 		LoadingFile: PropTypes.func,
@@ -74,10 +73,9 @@ export default class AttachFile extends Component {
 	_handleChange = (event) => {
 		event.preventDefault()
 		event.stopPropagation()
-		const {handleBase64, handleError} = this.props
-		const file = this.fileuplod.files[0]
+		const {handleBase64, handleError, fileId} = this.props
+		const file = this.fileupload.files[0]
 		let error = this._validateFile(file)
-		const fileId = uuid()
 		const fileToRedux = {fileId, formFile: file}
 		if (error) return handleError(error)
 		if (file && !error) {
@@ -103,7 +101,7 @@ export default class AttachFile extends Component {
 							type="file"
 							className="custom-file-input w-100"
 							onChange={this._handleChange}
-							ref={e => this.fileuplod = e}
+							ref={e => this.fileupload = e}
 							onClick={this._onChangeClick}
 							id={inputId}
 							hidden

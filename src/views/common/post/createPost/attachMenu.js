@@ -30,7 +30,7 @@ const AttachMenu = (props) => {
   )
 
   const {AttachMenuId, addProductModalFunc, handlePictures, handleMedia, handleFile,
-    postImagesLength, postMediaExist, postFileExist, postLinkExist, translate} = props
+    postImagesLength, postMediaExist, postFileExist, postLinkExist, translate, attachFileId, attachPhotoId, attachVideoId} = props
   const attachMenu = props.attachMenu || false
   const picturesAttachedDisabled = (postImagesLength > 2 || postMediaExist || postFileExist || postLinkExist)
     ? 'disabled-label' : ''
@@ -56,6 +56,7 @@ const AttachMenu = (props) => {
 			      handleError={(error) => alert(error)}
 			      allowableFormat={constants.FILE_TYPE.FILE}
 			      translate={translate}
+            fileId={attachFileId}
 	      />
 	      <AttachFile
 			      AttachButton={AttachPictureButton}
@@ -66,6 +67,7 @@ const AttachMenu = (props) => {
 			      handleError={(error) => alert(error)}
 			      allowableFormat={constants.FILE_TYPE.PHOTO}
 			      translate={translate}
+            fileId={attachPhotoId}
 	      />
 	      <AttachFile
 			      AttachButton={AttachMediaButton}
@@ -77,6 +79,7 @@ const AttachMenu = (props) => {
 			      acceptFilter={["video"]}
 			      allowableFormat={constants.FILE_TYPE.VIDEO}
 			      translate={translate}
+            fileId={attachVideoId}
 	      />
         <div className='explore-menu-items' onClick={addProductModalFunc}>
           <ContributionIcon className='post-component-footer-logos-little'/>
