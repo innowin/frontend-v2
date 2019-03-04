@@ -48,6 +48,7 @@ const createAxiosChannel = (method, url, data, token) => {
     let canceler = () => "";
     const CancelToken = axios.CancelToken;
     const onUploadProgress = e => {
+      emit({canceler})
       if (e.lengthComputable) {
         const progress = Math.floor((e.loaded / e.total) * 100);
         emit({ progress });
@@ -64,8 +65,10 @@ const createAxiosChannel = (method, url, data, token) => {
           emit({ response });
         })
         .catch(error => {
+          console.log({axios, error})
           if (axios.isCancel(error)) {
-            emit(new Error("Request Canceled", error.message));
+            console.log('in if')
+            emit(new Error("Request Canceled", error));
             return
           }
           emit(new Error(error));

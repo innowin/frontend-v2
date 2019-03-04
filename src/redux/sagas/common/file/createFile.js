@@ -25,30 +25,33 @@ function* createFile(action) { // payload?
 
     const progressDetail = {
       progress: 0,
-      close: channel.close,
+      close: null,
     }
 
     yield put({type: types.COMMON.FILE.SET_FILE_PROGRESS_DETAIL, payload: {fileId, progressDetail}})
+    let data
+    data = yield take(channel)
+    if (data.canceler) {
+      yield put({type: types.COMMON.FILE.SET_FILE_PROGRESS_DETAIL, payload: {fileId, progressDetail: {close: data.canceler}}})
+    }
     while (true) {
-      const data = yield take(channel)
+      data = yield take(channel)
       if (data.progress) {
         yield put({type: types.COMMON.FILE.SET_FILE_PROGRESS_DETAIL, payload: {fileId, progressDetail: {progress: data.progress}}})
       }
       else if(data.response) {
         yield put({type: types.COMMON.FILE.SET_FILE_PROGRESS_DETAIL, payload: {fileId, progressDetail: {close: null}}})
       }
-      else if(data.error) {
-        throw new Error(data.error.message)
-      }
       console.log(data)
     }
   }
   catch(err) {
-    if(yield cancelled()) {
-      console.log('canceled saga!!')
-      channel.close()
-    }
+    console.log('catch')
     console.trace(err)
+  }
+  finally {
+    yield put({type: types.COMMON.FILE.REMOVE_FILE_FROM_TEMP_FILE, payload: {tempFileKeyName: fileId}})
+    channel.close()
   }
 
   // if (file) {

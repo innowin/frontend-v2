@@ -78,8 +78,11 @@ export default class AttachFile extends Component {
 		let error = this._validateFile(file)
 		const fileToRedux = {fileId, formFile: file}
 		if (error) return handleError(error)
+
+		console.log({file, error})
 		if (file && !error) {
 			handleBase64('file string', fileToRedux)
+			this.fileupload.value = null
 		}
 	}
 	
@@ -102,7 +105,6 @@ export default class AttachFile extends Component {
 							className="custom-file-input w-100"
 							onChange={this._handleChange}
 							ref={e => this.fileupload = e}
-							onClick={this._onChangeClick}
 							id={inputId}
 							hidden
 					/>

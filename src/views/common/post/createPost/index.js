@@ -831,7 +831,8 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
     const {attachPhotoIdArray} = this.state
     const {tempFiles} = this.props
     const attachPhotoId = attachPhotoIdArray[0]
-    console.log('close', tempFiles[attachPhotoId].close())
+    console.log(tempFiles[attachPhotoId])
+    tempFiles[attachPhotoId].close()
   }
 
   render() {
