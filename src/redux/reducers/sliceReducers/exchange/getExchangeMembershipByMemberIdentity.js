@@ -3,10 +3,10 @@ const success = (state, action) => {
   const nextExchange = {}
   const allExchanges = {...state.list}
 
-  for (let id in allExchanges) {
-    delete allExchanges[id]
+  // for (let id in allExchanges) {
+  //   delete allExchanges[id]
     // delete allExchanges[id].exchange.content.exchange
-  }
+  // }
 
   for (let id in exchangeData) {
     state.list[id] ?

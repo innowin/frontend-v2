@@ -1,7 +1,8 @@
 // @flow
-import * as React from 'react'
-import Exchange from './Exchange'
-import ExchangeSkeleton from './Exchange_Skeleton'
+import * as React from "react"
+import Exchange from "./Exchange"
+import ExchangeSkeleton from "./Exchange_Skeleton"
+import {DesertIcon} from "../../../images/icons"
 
 type appProps =
     {|
@@ -13,43 +14,42 @@ type appProps =
 const loadingArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 const Exchanges = (props: appProps) => {
-  let {exchanges, justFollowing} = props
+  let {
+    exchanges
+    // justFollowing
+  } = props
 
-  exchanges = Object.values(exchanges).filter((exchange: Object) =>
-      exchange.exchange ?
-          exchange.exchange.content.id
-          :
-          exchange.exchange
-  )
+  exchanges = Object.values(exchanges)
 
-  if (justFollowing) {
-    exchanges = exchanges.filter((exchange: Object) =>
-        exchange.exchange ?
-            exchange.exchange.content.exchange
-            :
-            exchange.exchange
-    )
-  }
+
+  // if (justFollowing) {
+  //   exchanges = exchanges.filter((exchange: Object) =>
+  //       exchange.exchange ?
+  //           exchange.exchange.content.exchange
+  //           :
+  //           exchange.exchange
+  //   )
+  // }
 
   if (exchanges.length > 0) {
     return <React.Fragment>
       {
         exchanges.map((exchange: Object, i: number): any =>
-            <Exchange key={i} data={exchange.exchange ? exchange.exchange.content : exchange.exchange}/>
+            <Exchange key={i} data={exchange}/>
         )
       }
     </React.Fragment>
-  }
-  else if (!props.loading) {
-    return <div className='exchanges-explore-not-found'>پنجرهی یافت نشد!</div>
-  }
-  else return <React.Fragment>
-      {
-        loadingArr.map((exchange: Object): any =>
-            <ExchangeSkeleton key={exchange}/>
-        )
-      }
-    </React.Fragment>
+  } else if (!props.loading) {
+    return <div className="empty-posts">
+      <DesertIcon width="100%" text="پنجره ای بارگذاری نشده"/>
+    </div>
+  } else return <React.Fragment>
+    {
+      loadingArr.map((exchange: Object): any =>
+          <ExchangeSkeleton key={exchange}/>
+      )
+    }
+  </React.Fragment>
 }
 
 export default Exchanges

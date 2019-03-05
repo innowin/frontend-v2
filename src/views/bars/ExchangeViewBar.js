@@ -33,6 +33,7 @@ class ExchangeViewBar extends Component {
       isLoading: true,
       error: null,
       followLoading: false,
+      followedExchanges: [],
       imageLoaded: false,
       editView: false,
       loadingEdit: false,
@@ -103,7 +104,18 @@ class ExchangeViewBar extends Component {
   }
 
   componentDidMount() {
-    const {exchangeId, exchanges} = this.props
+    const {exchangeId, exchanges, exchangesIdentities, clientExchangeMemberships} = this.props
+
+    let followed = []
+    clientExchangeMemberships.forEach((followIds, index) => {
+      if (exchangesIdentities[followIds]) {
+        followed.push(exchangesIdentities[followIds].exchange_identity_related_exchange.id)
+      }
+      if (clientExchangeMemberships.length - 1 === index) {
+        this.setState({...this.state, followedExchanges: followed})
+      }
+    })
+
     const currentExchange = exchanges.list[exchangeId]
     if (currentExchange && currentExchange.exchange_image && currentExchange.exchange_image.file) {
       let image = new Image()
@@ -111,7 +123,8 @@ class ExchangeViewBar extends Component {
       image.onload = () => {
         this.setState({...this.state, imageLoaded: true})
       }
-    } else if (currentExchange && currentExchange.exchange_image) {
+    }
+    else if (currentExchange && currentExchange.exchange_image) {
       let image = new Image()
       image.src = currentExchange.exchange_image.file.includes("innowin.ir") ?
           currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file
@@ -126,19 +139,18 @@ class ExchangeViewBar extends Component {
     const {exchanges, exchangeId} = nextProps
     const currentExchange = exchanges.list[exchangeId]
     if (currentExchange !== this.props.exchanges.list[exchangeId]) {
-
       this.setState({...this.state, imageLoaded: false}, () => {
         if (this.state.loadingEdit) {
           this.setState({...this.state, editView: false, loadingEdit: false})
         }
-
         if (currentExchange && currentExchange.exchange_image && currentExchange.exchange_image.file) {
           let image = new Image()
           image.src = currentExchange.exchange_image.file.includes("innowin.ir") ? currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file
           image.onload = () => {
             this.setState({...this.state, imageLoaded: true})
           }
-        } else if (currentExchange && currentExchange.exchange_image) {
+        }
+        else if (currentExchange && currentExchange.exchange_image) {
           let image = new Image()
           image.src = currentExchange.exchange_image.file.includes("innowin.ir") ?
               currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file
@@ -177,7 +189,8 @@ class ExchangeViewBar extends Component {
         if (this.exchangeAdminMenu && !this.exchangeAdminMenu.contains(event.target)) {
           this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
         }
-      } else if (currentExchange && currentExchange.exchange) {
+      }
+      else if (currentExchange && this.state.followedExchanges.indexOf(currentExchange.id) >= 0) {
         if (this.exchangeAdminMenu && !this.exchangeAdminMenu.contains(event.target)) {
           this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
         }
@@ -186,7 +199,7 @@ class ExchangeViewBar extends Component {
   }
 
   renderFollowBtn(currentExchange) {
-    if (currentExchange.exchange && !this.state.unFollowed) {
+    if (this.state.followedExchanges.indexOf(currentExchange.id) >= 0 && !this.state.unFollowed) {
       if (this.props.currentUserId === (currentExchange.owner && currentExchange.owner.id)) {
         return (
             <button
@@ -197,19 +210,22 @@ class ExchangeViewBar extends Component {
               {this.props.translate["Edit Exchange"]}
             </button>
         )
-      } else return (
+      }
+      else return (
           <button
               type="button"
               className="sidebarFollowBottom">عضو شده
           </button>
       )
-    } else if (this.state.followLoading) {
+    }
+    else if (this.state.followLoading) {
       return (
           <button type="button" className="sidebarFollowBottom">
             <BeatLoader size={7} color={"#67e6d1"} margin={2}/>
           </button>
       )
-    } else {
+    }
+    else {
       return (
           <button
               type="button"
@@ -286,13 +302,14 @@ class ExchangeViewBar extends Component {
       editExchange(formValues)
       // getExchangeByExId(exchangeId)
       this.setState({...this.state, loadingEdit: true})
-    } else console.log("Description Length is too much")
+    }
+    else console.log("Description Length is too much")
   }
 
   _handleUnfollowExchange() {
     const {exchanges, exchangeId, currentUserId, currentUserIdentity, currentUserType, exchangesIdentities, actions} = this.props
     const currentExchange = exchanges.list[exchangeId]
-    if (currentExchange.exchange) {
+    if (this.state.followedExchanges.indexOf(currentExchange.id) >= 0) {
       const {unFollow, getExchangeMembershipByMemberIdentity} = actions
       getExchangeMembershipByMemberIdentity({
         identityId: currentUserIdentity,
@@ -332,7 +349,7 @@ class ExchangeViewBar extends Component {
           <div className="-sidebar-child-wrapper col">
             <div className="align-items-center flex-column">
               {currentUserId !== (currentExchange.owner && currentExchange.owner.id) && !editView ?
-                  currentExchange.exchange && !unFollowed ?
+                  this.state.followedExchanges.indexOf(currentExchange.id) >= 0 && !unFollowed ?
                       <div>
                         <div className="fa fa-ellipsis-v menuBottom bubble-more" onClick={(e) => this._handleMenu(e)}/>
                         <div className={"exchange-admin-menu-disable"} ref={e => this.exchangeAdminMenu = e}>
@@ -483,8 +500,8 @@ class ExchangeViewBar extends Component {
                       <span>{currentExchange.demand_count}</span>
                     </div>
                     {/*<div>*/}
-                      {/*<span>محصول عرضه شده:</span>*/}
-                      {/*<span>؟</span>*/}
+                    {/*<span>محصول عرضه شده:</span>*/}
+                    {/*<span>؟</span>*/}
                     {/*</div>*/}
                   </div>
                   :
@@ -539,7 +556,8 @@ class ExchangeViewBar extends Component {
             }
           </div>
       )
-    } else {
+    }
+    else {
       return (
           <div style={{textAlign: "center", margin: "35px 10px 45px 10px"}}>
             بورس مورد نظر یافت نشد!
@@ -551,7 +569,7 @@ class ExchangeViewBar extends Component {
 
 const StateToProps = (state, ownProps) => {
   const client = state.auth.client
-  const userId = (client.organization && client.organization.id) || (client.user && client.user.id)
+  const userId = state.auth.client.identity.content
   const fileSelectorByKeyValue = makeFileSelectorByKeyValue()
   return ({
     translate: state.intl.messages,
@@ -561,6 +579,7 @@ const StateToProps = (state, ownProps) => {
     currentUserId: userId,
     currentUserType: client.user_type,
     exchangesIdentities: state.common.exchangeMembership.list,
+    clientExchangeMemberships: state.auth.client.exchangeMemberships,
     clientFiles: fileSelectorByKeyValue(state, "identity", client.identity.content)
   })
 }
