@@ -192,7 +192,7 @@ class EventOrganForm extends React.Component<EventOrganFormProps, EventOrganForm
       nextActionType,
       nextActionData: {tempFileKeyName: nextActionData}
     }
-    createFileFunc(createFile, catalog, createArguments, constants.CRETE_FILE_TYPES.FILE,
+    createFileFunc(createFile, catalog, createArguments, constants.CREATE_FILE_TYPES.FILE,
         constants.CREATE_FILE_CATEGORIES.ORGAN_PROFILE.CATALOG)
   }
 

@@ -55,11 +55,12 @@ type createPostPropsTypes = {
   postMediaId: number,
   postFileId: number,
   translate: { [string]: string },
-  tempFiles: {[string]: {progress: number, close: Function}},
+  tempFiles: { [string]: { progress: number, close: Function } },
   currentUserType: string,
   currentUserId: number,
   currentUserIdentity: identityType | number,
-  currentUserMedia: string | null
+  currentUserMedia: string | null,
+  deleteFile: Function,
 }
 
 type createPostStateTypes = {
@@ -235,7 +236,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
         let numberOfPostImages = 0
         for (let index = 0; index < postFilesArray.length; index++) {
           let file = postFilesArray[index]
-          if (file.type === constants.CRETE_FILE_TYPES.IMAGE) {
+          if (file.type === constants.CREATE_FILE_TYPES.IMAGE) {
             numberOfPostImages++
             if (numberOfPostImages === 1) {
               postImg1 = file.file
@@ -248,7 +249,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
               postImg3 = file.file
               postImg3Index = index
             }
-          } else if (file.type === constants.CRETE_FILE_TYPES.FILE) {
+          } else if (file.type === constants.CREATE_FILE_TYPES.FILE) {
             postFile = file.file
             postFileIndex = index
           }
@@ -649,9 +650,9 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
   }
 
   _deletePicture = (i) => {
-    const {actions, post, isUpdate} = this.props
-    const {postImg1, postImg2, postImg3, removePictureArray} = this.state
-    const {removeFileFromTemp} = actions
+    const {actions, post, isUpdate, tempFiles, postImg1Id, postImg2Id, postImg3Id} = this.props
+    const {postImg1, postImg2, postImg3, removePictureArray, attachPhotoIdArray} = this.state
+    const {removeFileFromTemp, deleteFile} = actions
     let newRemovePictureArray = removePictureArray
     const tempKeyName = (i === 0 && POST_IMG1_TEMP_KEY)
         || (i === 1 && POST_IMG2_TEMP_KEY)
@@ -666,23 +667,42 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
         }
       }
     }
+    const tempImage = tempFiles[attachPhotoIdArray[i]]
+    if (tempImage && tempImage.progress !== 100) {
+      tempImage.close && tempImage.close()
+    }
+    let stateNullImgKey, fileId
+
+
     if (i === 0) {
-      this.setState({...this.state, postImg1: null, removePictureArray: newRemovePictureArray})
+      stateNullImgKey = 'postImg1'
+      fileId = postImg1Id
     } else if (i === 1) {
-      this.setState({...this.state, postImg2: null, removePictureArray: newRemovePictureArray})
+      stateNullImgKey = 'postImg2'
+      fileId = postImg2Id
     } else {
-      this.setState({...this.state, postImg3: null, removePictureArray: newRemovePictureArray})
+      stateNullImgKey = 'postImg3'
+      fileId = postImg3Id
+    }
+
+    this.setState({...this.state, [stateNullImgKey]: null, removePictureArray: newRemovePictureArray})
+    if (!isUpdate && tempImage && tempImage.progress === 100) {
+      deleteFile({fileId})
     }
   }
 
   _deleteFile = () => {
-    const {actions, isUpdate, post} = this.props
-    const {removePictureArray, postFile} = this.state
+    const {actions, isUpdate, post, tempFiles, postFileId} = this.props
+    const {removePictureArray, postFile, attachFileId} = this.state
 
-    const {removeFileFromTemp} = actions
+    const {removeFileFromTemp, deleteFile} = actions
     removeFileFromTemp(POST_FILE_TEMP_KEY)
     let newRemovePictureArray = removePictureArray
 
+    const tempFile = tempFiles[attachFileId]
+    if (tempFile && tempFile.progress !== 100) {
+      tempFile.close && tempFile.close()
+    }
 
     if (isUpdate && post) {
       const postFilesArray = post.post_files_array
@@ -692,6 +712,10 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
           break
         }
       }
+    }
+
+    if (!isUpdate && tempFile && tempFile.progress === 100) {
+      deleteFile({fileId: postFileId})
     }
 
     this.setState({...this.state, postFile: '', removePictureArray: newRemovePictureArray})
@@ -716,16 +740,19 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
     } else {
       this.setState({...this.state, attachMenu: false, postImg3: fileString})
     }
-    this._createFile(fileString, tempFileKeyName, constants.CRETE_FILE_TYPES.IMAGE, constants.CREATE_FILE_CATEGORIES.POST, file)
+    this._createFile(fileString, tempFileKeyName, constants.CREATE_FILE_TYPES.IMAGE,
+        constants.CREATE_FILE_CATEGORIES.POST.IMAGE, file)
   }
 
-  _handlePostFile = (fileString) => {
-    this._createFile(fileString, POST_FILE_TEMP_KEY, constants.CRETE_FILE_TYPES.FILE)
+  _handlePostFile = (fileString, file) => {
+    this._createFile(fileString, POST_FILE_TEMP_KEY, constants.CREATE_FILE_TYPES.FILE,
+        constants.CREATE_FILE_CATEGORIES.POST.FILE, file)
     this.setState({...this.state, attachMenu: false, postFile: fileString})
   }
 
-  _handlePostMedia = (fileString) => {
-    this._createFile(fileString, POST_MEDIA_TEMP_KEY, constants.CRETE_FILE_TYPES.VIDEO)
+  _handlePostMedia = (fileString, file) => {
+    this._createFile(fileString, POST_MEDIA_TEMP_KEY, constants.CREATE_FILE_TYPES.VIDEO,
+        constants.CREATE_FILE_CATEGORIES.POST.VIDEO, file)
     this.setState({...this.state, attachMenu: false, postMedia: fileString})
   }
 
@@ -827,16 +854,11 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
     this.setState({...this.state, selectedProduct: undefined})
   }
 
-  _abortHandler = () => {
-    const {attachPhotoIdArray} = this.state
-    const {tempFiles} = this.props
-    const attachPhotoId = attachPhotoIdArray[0]
-    console.log(tempFiles[attachPhotoId])
-    tempFiles[attachPhotoId].close()
-  }
-
   render() {
-    const {hideCreatePost, post, hideEdit, className, isUpdate, followers, exchanges, currentUserIdentity, currentUserMedia, currentUserName, translate, currentUserId} = this.props
+    const {
+      hideCreatePost, post, hideEdit, className, isUpdate, followers, exchanges, currentUserIdentity,
+      currentUserMedia, currentUserName, translate, currentUserId, tempFiles
+    } = this.props
     const {
       postImg1, postImg2, postImg3, open, attachMenu, labels, link, contactMenu, linkModal, postFile, postMedia,
       isLoading, profileLoaded, description, descriptionClass, descriptionHeaderClass, focused, addProductModal, selectedProduct, postType, descriptionHeader,
@@ -971,6 +993,10 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
                 deleteFile={this._deleteFile}
                 focused={focused}
                 translate={translate}
+                attachPhotoIdArray={attachPhotoIdArray}
+                attachFileId={attachFileId}
+                attachVideoId={attachVideoId}
+                tempFiles={tempFiles}
             />
           </div>
 
@@ -1082,8 +1108,6 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
               }}
               // selectProduct={(product) => this.setState({...this.state, selectedProduct: product})}
           />
-
-          <div onClick={this._abortHandler}>close</div>
         </form>
     )
   }

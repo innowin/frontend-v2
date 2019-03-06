@@ -351,7 +351,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                 }
                 {
                   postFilesArray && postFilesArray.map(file =>
-                      file.type === constants.CRETE_FILE_TYPES.FILE &&
+                      file.type === constants.CREATE_FILE_TYPES.FILE &&
                       <a key={'post file' + file.id} className='get-file pulse' href={file.file}>
                         <FontAwesome name='download'/> {translate['Get file']}
                       </a>

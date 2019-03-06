@@ -10,7 +10,7 @@ export default class AttachFile extends Component {
 		isLoadingProp: false,
 		allowableFormat: [],
 	}
-	
+
 	static propTypes = {
 		inputId: PropTypes.string.isRequired,
 		acceptFilter: PropTypes.array,
@@ -27,18 +27,18 @@ export default class AttachFile extends Component {
 		customValidate: PropTypes.func,
 		// TODO mohsen: get as props Maximum allowed fileSize- dont attach files that greater than max size
 	}
-	
+
 	constructor (props) {
 		super(props)
 		this.state = {isLoadingState: false}
 	}
-	
+
 	_getExtension = (fileName) => {
 		const parts = fileName.split('.')
 		const ext = parts.pop()
 		return ext.toLowerCase()
 	}
-	
+
 	_validateFile = (file) => {
 		const {required, customValidate, allowableFormat, translate: tr} = this.props
 		const fileName = file ? file.name : ''
@@ -48,16 +48,16 @@ export default class AttachFile extends Component {
 				return tr['Required field']
 			}
 		}
-		// if (file && allowableFormat.length > 0 && !allowableFormat.includes(fileExtension)) {
-		// 	return tr['This format is not allowed']
-		// }
+		if (file && allowableFormat.length > 0 && !allowableFormat.includes(fileExtension)) {
+			return tr['This format is not allowed']
+		}
 		return customValidate(file)
 	}
-	
+
 	_validate = () => {
 		return this._validateFile(this.file)
 	}
-	
+
 	_generateAcceptList = list => {
 		let generalTypes = ["video", "image", "application", "audio", "text"]
 		return list.reduce((res, i) => {
@@ -69,7 +69,7 @@ export default class AttachFile extends Component {
 			return res
 		}, '')
 	}
-	
+
 	_handleChange = (event) => {
 		event.preventDefault()
 		event.stopPropagation()
@@ -78,14 +78,20 @@ export default class AttachFile extends Component {
 		let error = this._validateFile(file)
 		const fileToRedux = {fileId, formFile: file}
 		if (error) return handleError(error)
-
-		console.log({file, error})
 		if (file && !error) {
-			handleBase64('file string', fileToRedux)
+      let reader = new FileReader()
+      reader.onloadstart = () => {
+        this.setState({...this.state, isLoadingState: true})
+      }
+      reader.onloadend = () => {
+        handleBase64(reader.result, fileToRedux)
+        this.setState({...this.state, isLoadingState: false})
+      }
+      reader.readAsDataURL(file)
 			this.fileupload.value = null
 		}
 	}
-	
+
 	render () {
 		const {isLoadingState} = this.state
 		const {isLoadingProp, translate: tr, acceptFilter} = this.props

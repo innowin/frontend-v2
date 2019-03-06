@@ -93,7 +93,7 @@ export default {
     DEMAND: "تقاضا",
     MEMBERS: "اعضا"
   },
-  CRETE_FILE_TYPES: {
+  CREATE_FILE_TYPES: {
     IMAGE: 'image',
     FILE: 'file',
     VIDEO: 'video',
@@ -113,6 +113,8 @@ export default {
     },
     POST: {
       IMAGE: 'image',
+      VIDEO: 'video',
+      FILE: 'file',
     }
   },
   TEMP_FILE_KEYS: {

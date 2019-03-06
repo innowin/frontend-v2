@@ -393,7 +393,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
     }
 
     const fileString = this.state.selectedImage
-    createFileFunc(createFile, fileString, createArguments, constants.CRETE_FILE_TYPES.IMAGE)
+    createFileFunc(createFile, fileString, createArguments, constants.CREATE_FILE_TYPES.IMAGE)
   }
   // _imageHandler = (img: ImageType) => {
   //   this.setState({

@@ -68,7 +68,7 @@ class PostImage extends React.Component<postImageProps, postImageState> {
       let pictures = []
       if (postFilesArray && postFilesArray.length > 0) {
         for (let i = 0; i < postFilesArray.length; i++) {
-          if (postFilesArray[i].type !== constants.CRETE_FILE_TYPES.FILE) {
+          if (postFilesArray[i].type !== constants.CREATE_FILE_TYPES.FILE) {
             pictures.push(new Image())
             let picture = pictures[i]
             picture.src = postFilesArray[i].file
@@ -118,7 +118,7 @@ class PostImage extends React.Component<postImageProps, postImageState> {
         let pictures = []
         if (postFilesArray && postFilesArray.length > 0) {
           for (let i = 0; i < postFilesArray.length; i++) {
-            if (postFilesArray[i].type !== constants.CRETE_FILE_TYPES.FILE) {
+            if (postFilesArray[i].type !== constants.CREATE_FILE_TYPES.FILE) {
               pictures.push(new Image())
               let picture = pictures[i]
               picture.src = postFilesArray[i].file
@@ -166,7 +166,7 @@ class PostImage extends React.Component<postImageProps, postImageState> {
         const {post} = this.props
         let postFilesArray
         if (post) {
-          postFilesArray = post.post_files_array && post.post_files_array.filter(picture => picture.type === null ||  picture.type === constants.CRETE_FILE_TYPES.IMAGE)
+          postFilesArray = post.post_files_array && post.post_files_array.filter(picture => picture.type === null ||  picture.type === constants.CREATE_FILE_TYPES.IMAGE)
         }
         if (postFilesArray && postFilesArray.length > 0) {
           let picture = new Image()
@@ -197,7 +197,7 @@ class PostImage extends React.Component<postImageProps, postImageState> {
     if (post) {
       postPicture = post.post_picture
       postPictureId = post.post_picture
-      postFilesArray = post.post_files_array && post.post_files_array.filter(picture => picture.type === null || picture.type === constants.CRETE_FILE_TYPES.IMAGE)
+      postFilesArray = post.post_files_array && post.post_files_array.filter(picture => picture.type === null || picture.type === constants.CREATE_FILE_TYPES.IMAGE)
       if (postFilesArray) {
         postPicturesLength = postFilesArray.length
         picturesClass = "onePicture"

@@ -88,19 +88,11 @@ function* post (url, result, data, param = "", noToken) {
   yield apply({}, postEmit, [url, result, data, param, token, noToken]);
 }
 
-function* uploadFileChannel (url, file) {
+function* uploadFileChannel (url, fileObject) {
   const form = new FormData();
-  form.append("file", file);
+  form.append("file", fileObject.file);
+  form.append("type", fileObject.type);
   const token = yield select((state) => state.auth.client.token);
-  // axios.defaults.headers.common["Authorization"] = `jwt ${token}`;
-  // return axios({
-  //   method: "POST",
-  //   url: `${REST_URL}/${url}/`,
-  //   data: form,
-  //   onUploadProgress: onUploadProgress
-  // }).catch(err => {
-  //   throw new Error(err);
-  // });
   return createAxiosChannel("post", "files", form, token);
 }
 

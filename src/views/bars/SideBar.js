@@ -377,8 +377,8 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
       nextActionType,
       nextActionData: nextActionDataForPicture
     }
-    if (bannerState) createFileFunc(createFile, bannerState, bannerCreateArguments,constants.CRETE_FILE_TYPES.IMAGE,constants.CREATE_FILE_CATEGORIES.PROFILE.BANNER)
-    if (pictureState) createFileFunc(createFile, pictureState, pictureCreateArguments,constants.CRETE_FILE_TYPES.IMAGE,constants.CREATE_FILE_CATEGORIES.PROFILE.PROFILE_PICTURE)
+    if (bannerState) createFileFunc(createFile, bannerState, bannerCreateArguments,constants.CREATE_FILE_TYPES.IMAGE,constants.CREATE_FILE_CATEGORIES.PROFILE.BANNER)
+    if (pictureState) createFileFunc(createFile, pictureState, pictureCreateArguments,constants.CREATE_FILE_TYPES.IMAGE,constants.CREATE_FILE_CATEGORIES.PROFILE.PROFILE_PICTURE)
   }
 
   _save = () => {

@@ -302,6 +302,15 @@
     .pictures-section {
       display: inline-block;
 
+      .progress-number {
+        position: absolute;
+        top: 55px;
+        left: 26px;
+        color: white;
+        margin: 0;
+        font-size: $font-size-regular;
+      }
+
       div {
         position: relative;
 
@@ -317,7 +326,6 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          z-index: 1;
         }
 
         img {
@@ -408,7 +416,6 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        z-index: 1;
       }
     }
 
@@ -428,6 +435,14 @@
         left: -1px;
         top: -7px;
         padding: 3px 12px;
+      }
+      .progress-number {
+        position: relative;
+        left: 30px;
+        top: 17px;
+        color: $primary-color;
+        margin: 0;
+        font-size: $font-size-regular;
       }
     }
   }

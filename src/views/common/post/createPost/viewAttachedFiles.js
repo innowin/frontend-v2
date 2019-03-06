@@ -11,7 +11,10 @@ RemoveFile.propTypes = {
 }
 
 const ViewAttachedFiles = (props) => {
-  const {translate, postImg1, postImg2, postImg3, postMedia, deletePicture, deleteMedia, focused, postFile, deleteFile} = props
+  const {
+    translate, postImg1, postImg2, postImg3, postMedia, deletePicture, deleteMedia, focused, postFile,
+    deleteFile, attachPhotoIdArray, tempFiles, attachVideoId, attachFileId,
+  } = props
   const postPictures = [postImg1, postImg2, postImg3].filter(img => img) //filter imges that not null & not undefined
   const postPicturesLength = postPictures.length
   let picturesClass = "onePicture"
@@ -30,6 +33,11 @@ const ViewAttachedFiles = (props) => {
                               <div key={i + "pictures-section"}>
                                 <RemoveFile onClickFunc={() => deletePicture(i)}/>
                                 <img src={fileString} alt="imagePreview"/>
+                                {tempFiles[attachPhotoIdArray[i]] && tempFiles[attachPhotoIdArray[i]].progress !== 100 &&
+                                <p className='progress-number'>
+                                  % {tempFiles[attachPhotoIdArray[i]].progress}
+                                </p>
+                                }
                               </div>
                           ) : ''
                       )
@@ -53,6 +61,11 @@ const ViewAttachedFiles = (props) => {
           <div className='file-section'>
             <a className='get-file pulse' href={postFile}><FontAwesome name='download'/> {translate['Get file']}</a>
             <RemoveFile onClickFunc={deleteFile}/>
+            {tempFiles[attachFileId] && tempFiles[attachFileId].progress !== 100 &&
+            <p className='progress-number'>
+              % {tempFiles[attachFileId].progress}
+            </p>
+            }
           </div>
         }
 
@@ -71,6 +84,10 @@ ViewAttachedFiles.propTypes = {
   deletePicture: PropTypes.func.isRequired,
   deleteMedia: PropTypes.func.isRequired,
   deleteFile: PropTypes.func.isRequired,
+  tempFiles: PropTypes.object.isRequired,
+  attachPhotoIdArray: PropTypes.array.isRequired,
+  attachFileId: PropTypes.string.isRequired,
+  attachVideoId: PropTypes.string.isRequired,
 }
 
 ViewAttachedFiles.defaultProps = {

@@ -215,7 +215,7 @@ class EventPersonForm extends Component<EventPersonFormProps, EventPersonFormSta
       nextActionType,
       nextActionData: {tempFileKeyName: nextActionData}
     }
-    createFileFunc(createFile, resume, createArguments, constants.CRETE_FILE_TYPES.FILE,
+    createFileFunc(createFile, resume, createArguments, constants.CREATE_FILE_TYPES.FILE,
         constants.CREATE_FILE_CATEGORIES.PROFILE.RESUME)
   }
 
