@@ -47,7 +47,7 @@ class ContactInfo extends React.Component<ContactInfoProps, ContactInfoState> {
   }
 
   render() {
-    const {translate, profile, isLoading, actions, userId} = this.props
+    const {translate, profile, isLoading, actions, userId,user} = this.props
     const {edit, error} = this.state
     return (
         <VerifyWrapper isLoading={isLoading} error={error}>
@@ -61,7 +61,7 @@ class ContactInfo extends React.Component<ContactInfoProps, ContactInfoState> {
                     userId={userId}
                 />
           ) : (
-              <ContactInfoView profile={profile} showEdit={this._showEdit} translate={translate}/>
+              <ContactInfoView user={user} profile={profile} showEdit={this._showEdit} translate={translate}/>
           )
           }
           </ItemWrapper>

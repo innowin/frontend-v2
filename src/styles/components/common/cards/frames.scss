@@ -97,11 +97,13 @@
     background-color: white;
     box-shadow: 0 0 14px rgba(0, 0, 0, 0.15);
     border-radius: $border-radius-size;
-    padding: 1px 25px;
     margin-bottom: 12px;
     display: flex;
     justify-content: space-between;
-    font-size: 1rem;
+    font-size: 14px;
+    font-weight: bold;
+    vertical-align: top;
+    padding: 2px 25px 1px;
     height: 28px;
     .edit-btn-wrapper {
       display: inline-flex;

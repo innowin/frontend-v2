@@ -50,7 +50,7 @@ class LinkInfo extends React.Component<UserInfoProps, UserInfoState> {
   }
 
   render() {
-    const {translate, actions, isLoading, profile, userId} = this.props
+    const {translate, actions, isLoading, profile, userId,user} = this.props
     const {edit, error} = this.state
     return (
         <VerifyWrapper isLoading={isLoading} error={error}>
@@ -64,7 +64,7 @@ class LinkInfo extends React.Component<UserInfoProps, UserInfoState> {
                     userId={userId}
                 />
             ) : (
-                <LinkInfoView profile={profile} translate={translate} showEdit={this._showEdit}/>
+                <LinkInfoView user={user} profile={profile} translate={translate} showEdit={this._showEdit}/>
             )
             }
           </ItemWrapper>

@@ -71,7 +71,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
     const {getFollowees} = actions
 
     if (identityId) {
-      getFollowees({followOwnerId: ownerId, followOwnerIdentity: identityId, followOwnerType: identityType})
+      getFollowees({followOwnerId: ownerId, followOwnerIdentity: identityId.id, followOwnerType: identityType})
     }
   }
 
