@@ -250,7 +250,7 @@ class User extends Component<PropsUser> {
                     <PrivateRoute exact={true} path={`${path}/Posts`} component={Posts} id={userId}
                                   identityType={constants.USER_TYPES.USER}
                                   profileMedia={profileObject.profile_media}
-                                  postIdentity={identityObject.id}
+                                  postIdentity={identityObject}
                     />
                     <PrivateRoute path={`${path}/Posts/:id`} component={PostExtendedView}
                                   postIdentity={identityObject}

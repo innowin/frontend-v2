@@ -106,7 +106,6 @@ class Exchange extends Component <appProps, appState> {
 
 
   render() {
-    console.log("FOLLOWED:", this.state.followed)
     const {data, translate} = this.props
     // const images = data.followers.map(img =>
     //     <img src={img.image} key={data.followers.indexOf(img)} className='exchange-model-followers-avatar'/>

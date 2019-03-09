@@ -65,9 +65,9 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
   }
 
   componentDidMount() {
-    const {actions, postIdentity, id, identityType} = this.props
+    const {actions, id, identityType} = this.props
     const {getPostByIdentity} = actions
-    getPostByIdentity({postIdentity, postOwnerId: id, postOwnerType: identityType})
+    getPostByIdentity({postIdentity: id, postOwnerId: id, postOwnerType: identityType})
   }
 
   render() {
