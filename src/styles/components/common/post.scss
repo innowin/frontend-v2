@@ -9,6 +9,7 @@
   margin: 10px auto;
   position: relative;
 }
+
 .post-component-edit-container {
   width: 100%;
   background-color: white;
@@ -62,6 +63,7 @@
   .post-type-flex-container {
     display: flex;
     justify-content: space-between;
+
     .container-checkmark {
       &:first-child {
         margin-left: 20px;
@@ -77,10 +79,12 @@
 .post-type-flex-container {
   display: flex;
   justify-content: space-between;
+
   .container-checkmark {
     &:first-child {
       margin-left: 20px;
     }
+
     .post-type-text {
       padding-right: 25px;
     }
@@ -313,6 +317,7 @@
 
       div {
         position: relative;
+        overflow: hidden;
 
         .remove-file {
           position: absolute;
@@ -332,6 +337,8 @@
           object-fit: cover;
           width: 100%;
           height: 100%;
+          filter: blur(5px) opacity(0);
+          transition: all 1.5s linear;
         }
       }
 
@@ -424,10 +431,12 @@
       display: flex;
       justify-content: center;
       align-items: center;
+
       .get-file {
         font-size: $font-size-13;
         color: $info-color;
       }
+
       .remove-file {
         background-color: $text-lighter-color;
         border-radius: 30px;
@@ -436,6 +445,7 @@
         top: -7px;
         padding: 3px 12px;
       }
+
       .progress-number {
         position: relative;
         left: 30px;
@@ -538,11 +548,13 @@
   margin: 0 0 8px 0;
   position: relative;
   float: left;
+
   .edit-post-attach-menu-container {
     position: absolute;
     right: 30px;
     top: 15px;
   }
+
   //width: 115px;
 }
 
