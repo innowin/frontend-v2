@@ -1,21 +1,23 @@
 // @flow
-import React, {Component} from "react"
+import * as React from "react";
+import checkOwner from "../../common/CheckOwner"
+import educationActions from "src/redux/actions/user/educationActions"
+import ExchangeInfo from "./Exchange_Info"
+import exchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
+import getUserActions from "src/redux/actions/user/getUserActions"
+import Material from "src/views/common/components/Material"
+import SocialActions from "src/redux/actions/commonActions/socialActions"
+import {bindActionCreators} from "redux"
+import {Component} from "react";
 import {connect} from "react-redux"
 import {getMessages} from "src/redux/selectors/translateSelector"
+
 // import { Stream, Info, Statistic, Contacts, Medal, Ticket } from 'src/images/icons'
-import ExchangeInfo from "./Exchange_Info"
-import {bindActionCreators} from "redux"
-// import postActions from "src/redux/actions/commonActions/postActions"
-// import exchangeActions from "src/redux/actions/exchangeActions"
-import getUserActions from "src/redux/actions/user/getUserActions"
-import exchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
+// import { NavLink } from 'react-router-dom'
 // import educationActions from "src/redux/actions/user/educationActions"
 // import {VerifyWrapper} from "../../common/cards/Frames"
-import SocialActions from "src/redux/actions/commonActions/socialActions"
-import educationActions from "src/redux/actions/user/educationActions"
-import checkOwner from "../../common/CheckOwner"
-// import { NavLink } from 'react-router-dom'
-import Material from "src/views/common/components/Material"
+// import postActions from "src/redux/actions/commonActions/postActions"
+// import exchangeActions from "src/redux/actions/exchangeActions"
 
 type states = {
   selectedTab: string,

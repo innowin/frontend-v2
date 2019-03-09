@@ -165,9 +165,21 @@ class ExchangeViewBar extends Component {
   }
 
   componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot: SS): void {
-    let {clientFiles} = this.props
+    let {clientFiles, exchangesIdentities, clientExchangeMemberships} = this.props
     const lastFile = clientFiles[clientFiles.length - 1] || {}
     const prevLastFile = prevProps.clientFiles[prevProps.clientFiles.length - 1] || {}
+
+    if (this.state.followLoading && clientExchangeMemberships !== prevProps.clientExchangeMemberships) {
+      let followed = []
+      clientExchangeMemberships.forEach((followIds, index) => {
+        if (exchangesIdentities[followIds]) {
+          followed.push(exchangesIdentities[followIds].exchange_identity_related_exchange.id)
+        }
+        if (clientExchangeMemberships.length - 1 === index) {
+          this.setState({...this.state, followedExchanges: followed})
+        }
+      })
+    }
 
     if (lastFile.id && prevLastFile.id) {
       if (lastFile.id !== prevLastFile.id) {
@@ -254,6 +266,7 @@ class ExchangeViewBar extends Component {
   }
 
   _handleDeleteExchange(e) {
+    e.preventDefault()
     e.stopPropagation()
     this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
     const {actions, exchangeId} = this.props

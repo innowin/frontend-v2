@@ -12,7 +12,7 @@ class ProductPosts extends React.Component {
           {
             product.relatedPosts && product.relatedPosts.map((p, i) =>
                 <div className='post-view-container'>
-                  <PostView key={i} post={this.props.posts[p]}/>
+                  <PostView key={i} post={this.props.posts[p]} extendedView={false}/>
                 </div>
             )
           }
