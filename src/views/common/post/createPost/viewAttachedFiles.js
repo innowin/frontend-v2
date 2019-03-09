@@ -10,67 +10,78 @@ RemoveFile.propTypes = {
   onClickFunc: PropTypes.func.isRequired,
 }
 
-const ViewAttachedFiles = (props) => {
-  const {
-    translate, postImg1, postImg2, postImg3, postMedia, deletePicture, deleteMedia, focused, postFile,
-    deleteFile, attachPhotoIdArray, tempFiles, attachVideoId, attachFileId,
-  } = props
-  const postPictures = [postImg1, postImg2, postImg3].filter(img => img) //filter imges that not null & not undefined
-  const postPicturesLength = postPictures.length
-  let picturesClass = "onePicture"
-  if (postPicturesLength === 2) picturesClass = "twoPictures"
-  if (postPicturesLength === 3) picturesClass = "threePictures"
-  return (
-      <div className="post-attached-Media">
-        {
-          postPictures.length > 0 ?
-              <div className={"pictures-section " + picturesClass} style={focused ?
-                  {marginTop: "-6px", border: "1px solid #bbbbbb"} :
-                  {marginTop: "-7px", border: "1px solid #e7e7e7"}}>
-                {
-                  [postImg1, postImg2, postImg3].map((fileString, i) => (
-                          fileString ? (
-                              <div key={i + "pictures-section"}>
-                                <RemoveFile onClickFunc={() => deletePicture(i)}/>
-                                <img src={fileString} alt="imagePreview"/>
-                                {tempFiles[attachPhotoIdArray[i]] && tempFiles[attachPhotoIdArray[i]].progress !== 100 &&
-                                <p className='progress-number'>
-                                  % {tempFiles[attachPhotoIdArray[i]].progress}
-                                </p>
-                                }
-                              </div>
-                          ) : ''
-                      )
-                  )
-                }
-              </div> : ""
-        }
-        {
-          (postMedia) && (
-              <div className="media-section">
-                <RemoveFile onClickFunc={deleteMedia}/>
-                <video width="100%" height="200px" controls poster="">
-                  <source src={postMedia} type="video/mp4"/>
-                </video>
-              </div>
-          )
-        }
+class ViewAttachedFiles extends React.Component <> {
+  render() {
+    const {
+      translate, postImg1, postImg2, postImg3, postMedia, deleteMedia, focused, postFile, deletePicture,
+      deleteFile, attachPhotoIdArray, tempFiles, attachVideoId, attachFileId,
+    } = this.props
+    const postPictures = [postImg1, postImg2, postImg3].filter(img => img) //filter imges that not null & not undefined
+    const postPicturesLength = postPictures.length
+    let picturesClass = "onePicture"
+    if (postPicturesLength === 2) picturesClass = "twoPictures"
+    if (postPicturesLength === 3) picturesClass = "threePictures"
 
-        {
-          (postFile) &&
-          <div className='file-section'>
-            <a className='get-file pulse' href={postFile}><FontAwesome name='download'/> {translate['Get file']}</a>
-            <RemoveFile onClickFunc={deleteFile}/>
-            {tempFiles[attachFileId] && tempFiles[attachFileId].progress !== 100 &&
-            <p className='progress-number'>
-              % {tempFiles[attachFileId].progress}
-            </p>
-            }
-          </div>
+    const imageStyles = [postImg1, postImg2, postImg3].map((fileString, i) => {
+          const progress = tempFiles[attachPhotoIdArray[i]] && tempFiles[attachPhotoIdArray[i]].progress
+          const percent = progress / 100
+          return progress
+              ? {filter: `blur(${Math.ceil(5 * (1 - percent))}px) opacity(${percent})`}
+              : {filter: `blur(5px) opacity(0)`}
         }
+    )
+    return (
+        <div className="post-attached-Media">
+          {
+            postPictures.length > 0 ?
+                <div className={"pictures-section " + picturesClass} style={focused ?
+                    {marginTop: "-6px", border: "1px solid #bbbbbb"} :
+                    {marginTop: "-7px", border: "1px solid #e7e7e7"}}>
+                  {
+                    [postImg1, postImg2, postImg3].map((fileString, i) => (
+                            fileString ? (
+                                <div key={i + "pictures-section"}>
+                                  <img style={imageStyles[i]} src={fileString} alt="imagePreview"/>
+                                  <RemoveFile onClickFunc={() => deletePicture(i)}/>
+                                  {tempFiles[attachPhotoIdArray[i]] && tempFiles[attachPhotoIdArray[i]].progress !== 100 &&
+                                  <p className='progress-number'>
+                                    % {tempFiles[attachPhotoIdArray[i]].progress}
+                                  </p>
+                                  }
+                                </div>
+                            ) : ''
+                        )
+                    )
+                  }
+                </div> : ""
+          }
+          {
+            (postMedia) && (
+                <div className="media-section">
+                  <RemoveFile onClickFunc={deleteMedia}/>
+                  <video width="100%" height="200px" controls poster="">
+                    <source src={postMedia} type="video/mp4"/>
+                  </video>
+                </div>
+            )
+          }
 
-      </div>
-  )
+          {
+            (postFile) &&
+            <div className='file-section'>
+              <a className='get-file pulse' href={postFile}><FontAwesome name='download'/> {translate['Get file']}</a>
+              <RemoveFile onClickFunc={deleteFile}/>
+              {tempFiles[attachFileId] && tempFiles[attachFileId].progress !== 100 &&
+              <p className='progress-number'>
+                % {tempFiles[attachFileId].progress}
+              </p>
+              }
+            </div>
+          }
+
+        </div>
+    )
+  }
 }
 
 ViewAttachedFiles.propTypes = {
