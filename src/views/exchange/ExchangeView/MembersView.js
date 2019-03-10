@@ -54,7 +54,8 @@ class MembersView extends Component<props, states> {
   changeViewType() {
     if (this.state.viewType === "member-square") {
       this.setState({...this.state, viewType: "member-row"})
-    } else this.setState({...this.state, viewType: "member-square"})
+    }
+    else this.setState({...this.state, viewType: "member-square"})
   }
 
   follow(targetId, targetType) {
@@ -81,7 +82,7 @@ class MembersView extends Component<props, states> {
     let {followingUsers, followingOrgans} = this.state
     if (memberType === "USER") {
       if (identities[memberId]) {
-      // if (profiles[memberId].profile.content.profile_user) {
+        // if (profiles[memberId].profile.content.profile_user) {
         // if (!profiles[memberId].profile.isLoading) {
         return <div key={index} className={this.state.viewType}>
           {followingUsers.indexOf(memberId) >= 0 ? <div className={"member-followed"}>دنبال شده</div>
@@ -91,9 +92,9 @@ class MembersView extends Component<props, states> {
           <Link to={`/user/${memberId}`}>
             <div className={"member-picture-container"}>
               {identities[memberId].profile_media && identities[memberId].profile_media.file ? <img alt=""
-                                                                                src={identities[memberId].profile_media.file}
-                                                                                width={"55px"} height={"55px"}
-                                                                                className={"member-picture"}/>
+                                                                                                    src={identities[memberId].profile_media.file}
+                                                                                                    width={"55px"} height={"55px"}
+                                                                                                    className={"member-picture"}/>
                   : <DefaultUserIcon
                       height={"55px"} width={"55px"} className={"member-picture"}/>}
             </div>
@@ -131,11 +132,11 @@ class MembersView extends Component<props, states> {
           <Link to={`/organization/${memberId}`}>
             <div className={"member-picture-container"}>
               {identities[memberId].organization_logo !== null ? <img alt=""
-                                                                                       src={files[identities[memberId].organization_logo] ?
-                                                                                           files[identities[memberId].organization_logo].file :
-                                                                                           null}
-                                                                                       width={"55px"} height={"55px"}
-                                                                                       className={"member-picture"}/>
+                                                                      src={files[identities[memberId].organization_logo] ?
+                                                                          files[identities[memberId].organization_logo].file :
+                                                                          null}
+                                                                      width={"55px"} height={"55px"}
+                                                                      className={"member-picture"}/>
                   : <DefaultUserIcon
                       height={"55px"} width={"55px"} className={"member-picture"}/>}
             </div>
@@ -152,7 +153,8 @@ class MembersView extends Component<props, states> {
             </div>
           </Link>
         </div>
-      } else return <div className={this.state.viewType}>
+      }
+      else return <div className={this.state.viewType}>
         <div className={"member-loading"}>
           <ClipLoader color={"#cbcbcb"} size={60}/>
         </div>
@@ -169,11 +171,12 @@ class MembersView extends Component<props, states> {
         for (let i = 0; i < exchangeUsers[exchangeId].length; i++) {
           if (exchangeUsers[exchangeId][i]) {
             if (exchangeUsers[exchangeId][i].type === "USER") {
-              getUserIdentity(exchangeUsers[exchangeId][i].id)
+              getUser(exchangeUsers[exchangeId][i].id)
               // getUser(exchangeUsers[exchangeId][i].id)
               // getUserIdentity(exchangeUsers[exchangeId][i].id)
-            } else {
-              getUserIdentity(exchangeUsers[exchangeId][i].id)
+            }
+            else {
+              getUser(exchangeUsers[exchangeId][i].id)
               // getOrganization(exchangeUsers[exchangeId][i].id)
               // getOrgIdentity(exchangeUsers[exchangeId][i].id)
             }
@@ -200,11 +203,12 @@ class MembersView extends Component<props, states> {
         for (let i = 0; i < 6; i++) {
           if (exchangeUsers[exchangeId][i]) {
             if (exchangeUsers[exchangeId][i].type === "USER") {
-              getUserIdentity(exchangeUsers[exchangeId][i].id)
+              getUser(exchangeUsers[exchangeId][i].id)
               // getUser(exchangeUsers[exchangeId][i].id)
               // getUserIdentity(exchangeUsers[exchangeId][i].id)
-            } else {
-              getUserIdentity(exchangeUsers[exchangeId][i].id)
+            }
+            else {
+              getUser(exchangeUsers[exchangeId][i].id)
               // getOrganization(exchangeUsers[exchangeId][i].id)
               // getOrgIdentity(exchangeUsers[exchangeId][i].id)
             }
@@ -301,14 +305,14 @@ const mapStateToProps = (state) => {
     getFollowingSelector: getFolloweesSelector(state, {
       identityId: state.auth.client.identity.content,
       ownerId: state.auth.client.user.id,
-      identityType: state.auth.client.user_type,
+      identityType: state.auth.client.user_type
     })
   }
 }
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({
     // getExchangeMembers: exchangeMembershipActions.getExchangeMembershipByExchangeId,
-    getUser: getUserAction.getProfileByUserId,
+    getUser: getUserAction.getUserByUserId,
     getOrganization: organizationActions.getOrganizationByOrganId,
     createFollow: SocialActions.createFollow,
     getFollowingAction: SocialActions.getFollowees,

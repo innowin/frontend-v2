@@ -1,44 +1,43 @@
 import initialState from "./initialState"
 import types from "../actions/types/index"
-import slices from './sliceReducers/identity'
-import userSlices from './sliceReducers/user'
-import constants from '../../consts/constants'
-import setRelatedObjIdForListItem from './sliceReducers/utilsSlices/setRelatedObjIdForListItem'
+import slices from "./sliceReducers/identity"
+import userSlices from "./sliceReducers/user"
+import constants from "../../consts/constants"
+import setRelatedObjIdForListItem from "./sliceReducers/utilsSlices/setRelatedObjIdForListItem"
 
 const identities = (state = initialState.identities, action) => {
   const {userId, data, message, search} = action.payload || {}
-  const defaultObject = {content: {}, isLoading: false, error: null}
   const defaultObject2 = {content: [], isLoading: false, error: null}
-  const previousUser = (state.list[userId] && state.list[userId].user) || defaultObject
-  const previousProfile = (state.list[userId] && state.list[userId].profile) || defaultObject
+  const previousUser = (state.list[userId] && state.list[userId].user) || {}
+  const previousProfile = (state.list[userId] && state.list[userId].profile) || {}
   const previousIdentity = (state.list[userId] && state.list[userId].identity) ||
       {content: null, isLoading: false, error: null}
   const previousBadges = (state.list[userId] && state.list[userId].badges) || defaultObject2
 
   switch (action.type) {
       /** -------------------------- get identity -------------------------> **/
-    // case types.SUCCESS.USER.GET_USER_IDENTITY:
-    //   return {
-    //     ...state,
-    //     list: {
-    //       ...state.list,
-    //       [data.id]: {...data, isLoading: false, error: null}
-    //     }
-    //   }
-    // case types.SUCCESS.ORG.GET_ORG_IDENTITY:
-    //   return {
-    //     ...state,
-    //     list: {
-    //       ...state.list,
-    //       [data.id]: {...data, isLoading: false, error: null}
-    //     }
-    //   }
+      // case types.SUCCESS.USER.GET_USER_IDENTITY:
+      //   return {
+      //     ...state,
+      //     list: {
+      //       ...state.list,
+      //       [data.id]: {...data, isLoading: false, error: null}
+      //     }
+      //   }
+      // case types.SUCCESS.ORG.GET_ORG_IDENTITY:
+      //   return {
+      //     ...state,
+      //     list: {
+      //       ...state.list,
+      //       [data.id]: {...data, isLoading: false, error: null}
+      //     }
+      //   }
       /** -------------------------- sign in -------------------------> **/
     case types.SUCCESS.AUTH.SIGN_IN:
       return slices.signIn.success(state, action)
       /** -------------------------- get file by related parent id -------------------------> **/
-    // case types.SUCCESS.COMMON.FILE.GET_FILE_BY_RELATED_PARENT_ID:
-    //   return slices.getFileByRelatedParentId.success(state, action)
+      // case types.SUCCESS.COMMON.FILE.GET_FILE_BY_RELATED_PARENT_ID:
+      //   return slices.getFileByRelatedParentId.success(state, action)
       /** -------------------------- reset -------------------------> **/
 
     case types.USER.SEARCH_USER:
@@ -211,31 +210,16 @@ const identities = (state = initialState.identities, action) => {
       return {
         ...state,
         recoveryPassword: {
-          VerificationCode: '',
+          VerificationCode: "",
           userId: null,
           searchUserData: {},
-          step_name: '',
+          step_name: "",
           isLoading: false,
           error: null
         }
       }
 
       /** -------------------------- get user -------------------------> **/
-    case types.USER.GET_USER_BY_USER_ID:
-      return {
-        ...state,
-        list: {
-          ...state.list,
-          [userId]: {
-            ...state.list[userId],
-            user: {
-              ...previousUser,
-              isLoading: true,
-              error: null
-            }
-          }
-        }
-      }
     case types.SUCCESS.USER.GET_USER_BY_USER_ID:
       return {
         ...state,
@@ -243,11 +227,8 @@ const identities = (state = initialState.identities, action) => {
           ...state.list,
           [userId]: {
             ...state.list[userId],
-            user: {
-              ...previousUser,
-              content: {...data},
-              isLoading: false
-            }
+            ...previousUser,
+            ...data,
           }
         }
       }
@@ -258,11 +239,7 @@ const identities = (state = initialState.identities, action) => {
           ...state.list,
           [userId]: {
             ...state.list[userId],
-            user: {
-              ...previousUser,
-              isLoading: false,
-              error: message
-            }
+            ...previousUser,
           }
         }
       }
@@ -280,7 +257,7 @@ const identities = (state = initialState.identities, action) => {
       data.forEach(user => {
             objectData[user.id] = {
               ...state.list[user.id],
-              ...user,
+              ...user
             }
           }
       )
@@ -365,21 +342,21 @@ const identities = (state = initialState.identities, action) => {
           }
         }
       }
-    // case types.SUCCESS.USER.GET_USER_IDENTITY:
-    //   return {
-    //     ...state,
-    //     list: {
-    //       ...state.list,
-    //       [userId]: {
-    //         ...state.list[userId],
-    //         identity: {
-    //           ...previousIdentity,
-    //           content: data.id,
-    //           isLoading: false
-    //         }
-    //       }
-    //     }
-    //   }
+      // case types.SUCCESS.USER.GET_USER_IDENTITY:
+      //   return {
+      //     ...state,
+      //     list: {
+      //       ...state.list,
+      //       [userId]: {
+      //         ...state.list[userId],
+      //         identity: {
+      //           ...previousIdentity,
+      //           content: data.id,
+      //           isLoading: false
+      //         }
+      //       }
+      //     }
+      //   }
     case types.ERRORS.USER.GET_USER_IDENTITY:
       return {
         ...state,
@@ -564,7 +541,7 @@ const identities = (state = initialState.identities, action) => {
       /** -------------------------- reset users -------------------------> **/
       /** <----------------- add skill id to user ---------------**/
     case types.USER.ADD_SKILL_ID_TO_USER:
-      return setRelatedObjIdForListItem.success(state, action, 'skills')
+      return setRelatedObjIdForListItem.success(state, action, "skills")
       /** -------------- get Certificate -------------> **/
     case types.SUCCESS.COMMON.CERTIFICATE.GET_CERTIFICATES_BY_IDENTITY:
       return userSlices.getCertificatesByIdentity.success(state, action)
@@ -575,8 +552,8 @@ const identities = (state = initialState.identities, action) => {
     case types.SUCCESS.COMMON.CERTIFICATE.CREATE_OBJECT_CERTIFICATE:
       return userSlices.createCertificate.success(state, action)
       /** -------------------------- sign in  -------------------------> **/
-    // case types.SUCCESS.AUTH.SIGN_IN:
-    //   return userSlices.signIn.success(state, action)
+      // case types.SUCCESS.AUTH.SIGN_IN:
+      //   return userSlices.signIn.success(state, action)
       /** -------------- reset -------------> **/
 
     case types.RESET:

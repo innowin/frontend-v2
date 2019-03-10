@@ -1,16 +1,16 @@
-import api from 'src/consts/api'
-import results from 'src/consts/resultName'
-import types from 'src/redux/actions/types'
-import urls from 'src/consts/URLS'
-import {take, put, fork, call} from 'redux-saga/effects'
+import api from "src/consts/api"
+import results from "src/consts/resultName"
+import types from "src/redux/actions/types"
+import urls from "src/consts/URLS"
+import {take, put, fork, call} from "redux-saga/effects"
 
 
 export function* getUserByUserId(action) {
   const {payload} = action
   const {userId} = payload
-  const socketChannel = yield call(api.createSocketChannel, results.USER.GET_USER_BY_USER_ID)
+  const socketChannel = yield call(api.createSocketChannel, results.USER.GET_USER_BY_USER_ID + userId)
   try {
-    yield fork(api.get, urls.USER.GET_USER_BY_USER_ID, results.USER.GET_USER_BY_USER_ID, `${userId}`)
+    yield fork(api.get, urls.USER.GET_USER_BY_USER_ID, results.USER.GET_USER_BY_USER_ID + userId, `${userId}`)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.USER.GET_USER_BY_USER_ID, payload: {data, userId}})
   } catch (e) {
