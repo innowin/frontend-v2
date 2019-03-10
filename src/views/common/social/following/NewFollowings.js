@@ -340,7 +340,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     exchangeUsers: state.common.exchangeMembership.members,
     organs: state.organs.list,
-    profiles: state.users.list,
+    profiles: state.identities.list,
     files: state.common.file.list,
     clientId: state.auth.client.user.id,
     translate: getMessages(state),

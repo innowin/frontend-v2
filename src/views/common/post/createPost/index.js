@@ -1117,7 +1117,7 @@ const mapStateToProps = state => {
   const client = state.auth.client
   const identityId = client.identity.content
   const identity = state.identities.list[identityId]
-  const clientImgId = identity.profile_media
+  const clientImgId = identity && identity.profile_media
 
   const postImg1Id = state.temp.file[POST_IMG1_TEMP_KEY] || null
   const postImg2Id = state.temp.file[POST_IMG2_TEMP_KEY] || null
@@ -1128,14 +1128,14 @@ const mapStateToProps = state => {
 
   const {user_type} = state.auth.client
   const isUser = user_type === constants.USER_TYPES.USER
-  const name = isUser
+  const name = isUser && identity
       ? identity.first_name + ' ' + identity.last_name
-      : identity.nike_name
+      : identity ? identity.nike_name : ''
 
   return ({
     currentUserType: client.user_type,
     currentUserIdentity: identityId,
-    currentUserId: identity.id,
+    currentUserId: identity? identity.id : undefined,
     currentUserMedia: (state.common.file.list[clientImgId] && state.common.file.list[clientImgId].file) || null,
     currentUserName: name,
     exchanges: state.common.exchangeMembership.list,

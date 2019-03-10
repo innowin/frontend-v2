@@ -1,4 +1,4 @@
-import constants from "../../../../consts/constants";
+import constants from '../../../../consts/constants'
 
 const base = (state, action) => {
   const {followOwnerId, followOwnerType} = action.payload || {}
@@ -18,11 +18,11 @@ const base = (state, action) => {
             follows: {
               ...previousFollows,
               isLoading: true,
-              error: null
-            }
-          }
-        }
-      }
+              error: null,
+            },
+          },
+        },
+      },
     }
   }
   else {
@@ -31,12 +31,12 @@ const base = (state, action) => {
 }
 
 const success = (state, action) => {
-  const {followOwnerId, followOwnerType, data} = action.payload || {}
+  const {followOwnerId, data} = action.payload || {}
   const defaultObject2 = {content: [], isLoading: false, error: null}
-  const previousSocial = (state.list[followOwnerId] && state.list[followOwnerId].social) || {follows: {}}
-  const previousFollows = (state.list[followOwnerId] && state.list[followOwnerId].social && state.list[followOwnerId].social.follows) || defaultObject2
+  if (followOwnerId) {
+    const previousSocial = (state.list[followOwnerId] && state.list[followOwnerId].social) || {follows: {}}
+    const previousFollows = (state.list[followOwnerId] && state.list[followOwnerId].social && state.list[followOwnerId].social.follows) || defaultObject2
 
-  if (followOwnerType === constants.USER_TYPES.USER) {
     const arrayOfFolloweesId = data.map(follow => follow.id)
     return {
       ...state,
@@ -50,16 +50,14 @@ const success = (state, action) => {
               ...previousFollows,
               content: [...new Set([...previousFollows.content, ...arrayOfFolloweesId])],
               isLoading: false,
-              error: null
-            }
-          }
-        }
-      }
+              error: null,
+            },
+          },
+        },
+      },
     }
   }
-  else {
-    return state
-  }
+  else return {...state}
 }
 
 const error = (state, action) => {
@@ -80,11 +78,11 @@ const error = (state, action) => {
             follows: {
               ...previousFollows,
               isLoading: false,
-              error: message
-            }
-          }
-        }
-      }
+              error: message,
+            },
+          },
+        },
+      },
     }
   }
   else {
@@ -95,5 +93,5 @@ const error = (state, action) => {
 export default {
   success,
   error,
-  base
+  base,
 }

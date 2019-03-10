@@ -19,16 +19,16 @@ const base = (state, action) => {
 }
 
 const success = (state, action) => {
-  const {userId, data} = action.payload || {}
+  const {identity, data} = action.payload || {}
   const defaultObject = {content: {}, isLoading: false, error: null}
-  const previousUser = (state.list[userId] && state.list[userId].user) || defaultObject
+  const previousUser = (state.list[identity] && state.list[identity].user) || defaultObject
 
   return {
     ...state,
     list: {
       ...state.list,
-      [userId]: {
-        ...state.list[userId],
+      [identity]: {
+        ...state.list[identity],
         user: {
           ...previousUser,
           content: {...previousUser.content, ...data},

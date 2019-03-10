@@ -499,7 +499,7 @@ const mapStateToProps = (state) => {
 
   const userId = (client.organization && client.organization.id) || (client.user && client.user.id)
 
-  const stateUser = state.users.list[userId]
+  const stateUser = state.identities.list[userId]
   const defaultObject = {content: {}, isLoading: false, error: null}
   const profile = (stateUser && stateUser.profile) || defaultObject
 

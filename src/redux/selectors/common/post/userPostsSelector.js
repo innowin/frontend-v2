@@ -1,20 +1,12 @@
 import {createSelector} from 'reselect'
 import helpers from 'src/consts/helperFunctions/helperFunctions'
-import constants from "src/consts/constants"
 
 const getPosts = state => state.common.post.list
 const getUserPosts = (state, props) => {
   const ownerId = props.id
-  const {identityType} = props
-  if (identityType === constants.USER_TYPES.USER) {
-    if (state.users.list[ownerId] && state.users.list[ownerId].posts)
-      return state.users.list[ownerId].posts.content
-  }
-  else if (identityType === constants.USER_TYPES.ORG) {
-    if (state.organs.list[ownerId] && state.organs.list[ownerId].posts)
-      return state.organs.list[ownerId].posts.content
-  }
-  return undefined
+  if (state.identities.list[ownerId] && state.identities.list[ownerId].posts)
+    return state.identities.list[ownerId].posts.content
+  else return undefined
 }
 const getOwnerId = (state, props) => props.id
 
@@ -27,6 +19,6 @@ export const userPostsSelector = createSelector(
         return [...arrayPost]
       }
       return []
-    }
+    },
 )
 

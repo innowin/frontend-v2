@@ -90,7 +90,7 @@ class MembersView extends Component<props, states> {
                       className={"member-follow-plus"}> + </span></div> : <div className="member-followed"/>}
           <Link to={`/user/${memberId}`}>
             <div className={"member-picture-container"}>
-              {identities[memberId].profile_media !== null ? <img alt=""
+              {identities[memberId].profile_media && identities[memberId].profile_media.file ? <img alt=""
                                                                                 src={identities[memberId].profile_media.file}
                                                                                 width={"55px"} height={"55px"}
                                                                                 className={"member-picture"}/>
@@ -293,7 +293,7 @@ const mapStateToProps = (state) => {
   return {
     exchangeUsers: state.common.exchangeMembership.members,
     organs: state.organs.list,
-    profiles: state.users.list,
+    profiles: state.identities.list,
     files: state.common.file.list,
     // clientId: state.auth.client.user.id,
     clientId: state.auth.client.identity.content,

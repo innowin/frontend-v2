@@ -125,8 +125,8 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
 const mapStateToProps = (state, ownProps) => {
   const {identityType} = ownProps
   const ownerId = ownProps.id
-  const stateOwner = (identityType === constants.USER_TYPES.USER) ? state.users.list[ownerId] :
-      (identityType === constants.USER_TYPES.ORG && state.organs.list[ownerId])
+  const stateOwner = (identityType === constants.USER_TYPES.USER) ? state.identities.list[ownerId] :
+      (identityType === constants.USER_TYPES.ORG && state.identities.list[ownerId])
   const defaultObject = {content: [], isLoading: false, error: null}
   const postObject = (stateOwner && stateOwner.posts) || defaultObject
   return {

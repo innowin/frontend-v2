@@ -7,8 +7,8 @@ const getCertificates = state => state.common.certificate.list
 const getUserCertificates = (state, props) => {
   const {ownerId, identityType} = props
   if (identityType === constants.USER_TYPES.USER){
-    if (state && state.users.list && state.users.list[ownerId] && state.users.list[ownerId].certificates)
-      return state.users.list[ownerId].certificates.content
+    if (state && state.identities.list && state.identities.list[ownerId] && state.identities.list[ownerId].certificates)
+      return state.identities.list[ownerId].certificates.content
   }
   else if (identityType === constants.USER_TYPES.ORG){
     if (state && state.organs.list && state.organs.list[ownerId] && state.organs.list[ownerId].certificates)
