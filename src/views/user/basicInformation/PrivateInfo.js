@@ -50,14 +50,13 @@ class PrivateInfo extends React.Component<PrivateInfoProps, PrivateInfoState> {
   }
 
   render() {
-    const {translate, profile, isLoading, actions, userId, user} = this.props
+    const {translate, isLoading, actions, userId, user} = this.props
     const {edit, error} = this.state
     return (
         <VerifyWrapper isLoading={isLoading} error={error}>
           <ItemWrapper icon={<InformationIcon/>}>
             {(edit) ? (
                 <PrivateInfoEditForm
-                    profile={profile}
                     hideEdit={this._hideEdit}
                     translate={translate}
                     actions={actions}
@@ -65,7 +64,7 @@ class PrivateInfo extends React.Component<PrivateInfoProps, PrivateInfoState> {
                     user={user}
                 />
             ) : (
-                <PrivateInfoView user={user} profile={profile} showEdit={this._showEdit} translate={translate}/>
+                <PrivateInfoView user={user} showEdit={this._showEdit} translate={translate}/>
             )
             }
           </ItemWrapper>

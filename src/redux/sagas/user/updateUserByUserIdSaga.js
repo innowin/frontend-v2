@@ -7,12 +7,12 @@ import {take, put, fork, call} from "redux-saga/effects"
 // update user by user id
 export function* updateUserByUserId(action) {
   const {payload} = action
-  const {formValues, userId} = payload
+  const {formValues, identity} = payload
   const socketChannel = yield call(api.createSocketChannel, results.USER.UPDATE_USER_BY_USER_ID)
   try {
-    yield fork(api.patch, urls.USER.UPDATE_USER_BY_USER_ID, results.USER.UPDATE_USER_BY_USER_ID, formValues, `${userId}`)
+    yield fork(api.patch, urls.USER.UPDATE_USER_BY_USER_ID, results.USER.UPDATE_USER_BY_USER_ID, formValues, `${identity}`)
     const data = yield take(socketChannel)
-    yield put({type:types.SUCCESS.USER.UPDATE_USER_BY_USER_ID, payload:{data, userId}})
+    yield put({type:types.SUCCESS.USER.UPDATE_USER_BY_USER_ID, payload:{data, identity}})
   } catch (e) {
     const {message} = e
     yield put({type:types.ERRORS.USER.UPDATE_USER_BY_USER_ID, payload:{message}})

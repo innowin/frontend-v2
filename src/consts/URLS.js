@@ -18,7 +18,7 @@ const urls = {
     CREATE_USER_ORGAN: "users/user-organization",
     GET_USER_BY_USER_ID: "users",
     GET_EDUCATIONS_BY_USER_ID: "users/educations",
-    UPDATE_USER_BY_USER_ID: "users",
+    UPDATE_USER_BY_USER_ID: "identities",
     UPDATE_PROFILE_BY_PROFILE_ID: "users/profiles",
     GET_USERS: "users",
     GET_ALL_USERS: "users/identities",
