@@ -1,4 +1,4 @@
-import constants from "../../../../consts/constants";
+import constants from "../../../../consts/constants"
 
 const base = (state, action) => {
   const {exchangeMembershipOwnerId, exchangeMembershipOwnerType} = action.payload || {}
@@ -57,29 +57,24 @@ const error = (state, action) => {
   const {exchangeMembershipOwnerId, exchangeMembershipOwnerType, message} = action.payload || {}
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const previousMembership = (state.list[exchangeMembershipOwnerId] && state.list[exchangeMembershipOwnerId].exchangeMemberships) || defaultObject2
-  if (exchangeMembershipOwnerType === constants.USER_TYPES.USER) {
-    return {
-      ...state,
-      list: {
-        ...state.list,
-        [exchangeMembershipOwnerId]: {
-          ...state.list[exchangeMembershipOwnerId],
-          exchangeMemberships: {
-            ...previousMembership,
-            isLoading: false,
-            error: message
-          }
+  return {
+    ...state,
+    list: {
+      ...state.list,
+      [exchangeMembershipOwnerId]: {
+        ...state.list[exchangeMembershipOwnerId],
+        exchangeMemberships: {
+          ...previousMembership,
+          isLoading: false,
+          error: message
         }
       }
     }
-  }
-  else {
-    return state
   }
 }
 
 export default {
   base,
   success,
-  error,
+  error
 }

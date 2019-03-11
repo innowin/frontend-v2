@@ -18,11 +18,11 @@ export function*  getExchangeByExId(action) {
     yield put({type: types.SUCCESS.EXCHANGE.GET_EXCHANGE_BY_EX_ID, payload: {data}})
 
     const identityId = yield select((state) => state.auth.client.identity.content)
-    const exchangeMembershipOwnerId = yield select((state) => state.auth.client.user.id)
+    // const exchangeMembershipOwnerId = yield select((state) => state.auth.client.user.id)
     const exchangeMembershipOwnerType = yield select((state) => state.auth.client.user_type)
     yield put({
       type: types.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY,
-      payload: {identityId, exchangeMembershipOwnerId, exchangeMembershipOwnerType}
+      payload: {identityId, exchangeMembershipOwnerId: identityId, exchangeMembershipOwnerType}
     })
 
   }

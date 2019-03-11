@@ -54,13 +54,13 @@
   text-align: center;
   position: relative;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
 }
 
 .level-bar {
   position: absolute;
   z-index: -1;
-  width: 50%;
+  width: 65%;
   height: 13px;
   top: 38px;
   background-color: $disable-color;

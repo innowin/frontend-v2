@@ -6,17 +6,11 @@ const success = (state, action) => {
       ...state.list,
       [data.id]: {
         ...state.list[data.id],
-        exchange: {
-          ...state.list[data.id].exchange,
-          content: {
-            ...state.list[data.id].exchange.content,
-            name: data.name,
-            description: data.description,
-            biography: data.biography
-            // TODO: add media
-          }
-        }
-      },
+        name: data.name,
+        description: data.description,
+        biography: data.biography
+        // TODO: add media
+      }
     }
   }
 }

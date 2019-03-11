@@ -310,9 +310,9 @@
         position: absolute;
         top: 55px;
         left: 26px;
-        color: white;
+        color: black;
         margin: 0;
-        font-size: $font-size-regular;
+        font-size: $font-size-small;
       }
 
       div {
@@ -337,7 +337,8 @@
           object-fit: cover;
           width: 100%;
           height: 100%;
-          filter: blur(5px) opacity(0);
+          filter: blur(5px);
+          opacity: 0;
           transition: all 1.5s linear;
         }
       }
@@ -451,6 +452,7 @@
         left: 30px;
         top: 17px;
         color: $primary-color;
+        -webkit-text-stroke: 1px white;
         margin: 0;
         font-size: $font-size-regular;
       }

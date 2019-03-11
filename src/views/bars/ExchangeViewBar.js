@@ -266,8 +266,8 @@ class ExchangeViewBar extends Component {
   }
 
   _handleDeleteExchange(e) {
-    e.preventDefault()
-    e.stopPropagation()
+    // e.preventDefault()
+    // e.stopPropagation()
     this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
     const {actions, exchangeId} = this.props
     const {deleteExchange} = actions

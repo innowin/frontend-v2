@@ -11,10 +11,17 @@ RemoveFile.propTypes = {
 }
 
 class ViewAttachedFiles extends React.Component <> {
+
+  _deleteImage = (i) => {
+    const {deletePicture, setFileProgressTemp, attachPhotoIdArray} = this.props
+    setFileProgressTemp({fileId: attachPhotoIdArray[i], progressDetail: {progress: 0, close: null}})
+    deletePicture(i)
+  }
+
   render() {
     const {
-      translate, postImg1, postImg2, postImg3, postMedia, deleteMedia, focused, postFile, deletePicture,
-      deleteFile, attachPhotoIdArray, tempFiles, attachVideoId, attachFileId,
+      translate, postImg1, postImg2, postImg3, postMedia, deleteMedia, focused, postFile,
+      deleteFile, attachPhotoIdArray, tempFiles, attachVideoId, attachFileId
     } = this.props
     const postPictures = [postImg1, postImg2, postImg3].filter(img => img) //filter imges that not null & not undefined
     const postPicturesLength = postPictures.length
@@ -23,11 +30,13 @@ class ViewAttachedFiles extends React.Component <> {
     if (postPicturesLength === 3) picturesClass = "threePictures"
 
     const imageStyles = [postImg1, postImg2, postImg3].map((fileString, i) => {
-          const progress = tempFiles[attachPhotoIdArray[i]] && tempFiles[attachPhotoIdArray[i]].progress
+          const tempImage = tempFiles[attachPhotoIdArray[i]]
+          const progress = tempImage && tempFiles[attachPhotoIdArray[i]].progress
           const percent = progress / 100
           return progress
-              ? {filter: `blur(${Math.ceil(5 * (1 - percent))}px) opacity(${percent})`}
-              : {filter: `blur(5px) opacity(0)`}
+              ? {filter: `blur(${Math.ceil(5 * (1 - percent))}px)`, opacity: percent}
+              : ({filter: 'blur(5px)', opacity: 0}
+              )
         }
     )
     return (
@@ -42,7 +51,7 @@ class ViewAttachedFiles extends React.Component <> {
                             fileString ? (
                                 <div key={i + "pictures-section"}>
                                   <img style={imageStyles[i]} src={fileString} alt="imagePreview"/>
-                                  <RemoveFile onClickFunc={() => deletePicture(i)}/>
+                                  <RemoveFile onClickFunc={() => this._deleteImage(i)}/>
                                   {tempFiles[attachPhotoIdArray[i]] && tempFiles[attachPhotoIdArray[i]].progress !== 100 &&
                                   <p className='progress-number'>
                                     % {tempFiles[attachPhotoIdArray[i]].progress}
@@ -99,6 +108,7 @@ ViewAttachedFiles.propTypes = {
   attachPhotoIdArray: PropTypes.array.isRequired,
   attachFileId: PropTypes.string.isRequired,
   attachVideoId: PropTypes.string.isRequired,
+  setFileProgressTemp: PropTypes.func.isRequired,
 }
 
 ViewAttachedFiles.defaultProps = {
