@@ -12,10 +12,10 @@ const base = (state, action) => {
         researches: {
           ...previousResearch,
           isLoading: true,
-          error: null
-        }
-      }
-    }
+          error: null,
+        },
+      },
+    },
   }
 }
 
@@ -37,10 +37,10 @@ const success = (state, action) => {
           // content: [...new Set([...previousResearch.content, ...arrayOfResearchId])],
           content: arrayOfResearchId,
           isLoading: false,
-          error: null
-        }
-      }
-    }
+          error: null,
+        },
+      },
+    },
   }
 }
 
@@ -58,10 +58,10 @@ const error = (state, action) => {
         researches: {
           ...previousResearch,
           isLoading: false,
-          error: message
-        }
-      }
-    }
+          error: message,
+        },
+      },
+    },
   }
 }
 

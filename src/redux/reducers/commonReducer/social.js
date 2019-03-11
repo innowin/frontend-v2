@@ -5,8 +5,8 @@ import slices from '../sliceReducers/common/social'
 const social = (state = initialState.common.social, action) => {
   switch (action.type) {
     /** -------------------------- get followers -------------------------> **/
-    // case types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWERS:
-    //   return slices.getFollowers.success(state, action)
+    case types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWERS:
+      return slices.getFollowers.success(state, action)
     /** -------------------------- get followers -------------------------> **/
     case types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWEES:
       return slices.getFollowees.success(state, action)

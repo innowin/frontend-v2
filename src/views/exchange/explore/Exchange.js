@@ -135,7 +135,7 @@ class Exchange extends Component <appProps, appState> {
               {/*<div className='exchange-model-followers-count'>{data.members_count}</div>*/}
 
               <div className='exchange-model-detail'>
-                <Demand width='30px' height='30px' className='exchange-model-detail-demand-logo'/>
+                <Demand width='30px' height='28px' className='exchange-model-detail-demand-logo'/>
                 <div className='exchange-model-detail-demand-title'>{translate["Type demand"]}</div>
                 <span> </span>
                 <div className='exchange-model-detail-demand-title'>{data.demand_count}</div>

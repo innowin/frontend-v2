@@ -147,12 +147,12 @@ const organs = (state = initialState.organs, action) => {
     case types.ERRORS.COMMON.SOCIAL.GET_FOLLOWERS:
       return slices.getFollowers.error(state, action)
     /** -------------------------- get followees -------------------------> **/
-    case types.COMMON.SOCIAL.GET_FOLLOWEES:
-      return slices.getFollowees.base(state, action)
-    case types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWEES:
-      return slices.getFollowees.success(state, action)
-    case types.ERRORS.COMMON.SOCIAL.GET_FOLLOWEES:
-      return slices.getFollowees.error(state, action)
+    // case types.COMMON.SOCIAL.GET_FOLLOWEES:
+    //   return slices.getFollowees.base(state, action)
+    // case types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWEES:
+    //   return slices.getFollowees.success(state, action)
+    // case types.ERRORS.COMMON.SOCIAL.GET_FOLLOWEES:
+    //   return slices.getFollowees.error(state, action)
     /** -------------------------- delete follow -------------------------> **/
     case types.SUCCESS.COMMON.SOCIAL.DELETE_FOLLOW:
       return slices.deleteFollow.success(state, action)

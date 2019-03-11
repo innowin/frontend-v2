@@ -16,6 +16,7 @@ $sidebar-profile-media-width: 80px;
   margin: 0;
   display: flex;
   flex-direction: row;
+
   .hamburger, .hamburger-view {
     display: none;
     width: 0;
@@ -82,7 +83,7 @@ $sidebar-profile-media-width: 80px;
   height: 100%;
   margin-left: 30px;
 
-  @media screen and (max-width: 650px){
+  @media screen and (max-width: 650px) {
     margin-left: 10px;
   }
 
@@ -107,7 +108,7 @@ $sidebar-profile-media-width: 80px;
     max-width: 200px;
     color: #ffffff;
 
-    @media screen and (max-width: 650px){
+    @media screen and (max-width: 650px) {
       min-width: 100px;
       max-width: 165px;
     }
@@ -503,7 +504,7 @@ $sidebar-profile-media-width: 80px;
   }
 }
 
-.user-sidebar-buttons{
+.user-sidebar-buttons {
   padding-top: 20px;
   padding-bottom: 20px;
   bottom: 65px;
@@ -682,7 +683,7 @@ $sidebar-profile-media-width: 80px;
     flex-direction: row;
     justify-content: space-around;
 
-    .link{
+    .link {
       width: 22px;
       height: 22px;
     }
@@ -780,6 +781,7 @@ $sidebar-profile-media-width: 80px;
   .side-user-follow-parent {
     flex: 0 1 40%;
     border-radius: 25px;
+
     .side-user-follow {
       width: 100%;
     }
@@ -991,6 +993,7 @@ $sidebar-profile-media-width: 80px;
 .selected-bar {
   border-bottom: 3px solid #ffffff;
 }
+
 .top-bar-home {
   width: 130px;
   position: relative;
@@ -1001,6 +1004,7 @@ $sidebar-profile-media-width: 80px;
   align-items: center;
   cursor: pointer;
   border-radius: $border-radius-size $border-radius-size 0 0;
+
   .selected-tab {
     border-bottom: 2px solid #FFFFFF;
   }
@@ -1013,9 +1017,11 @@ $sidebar-profile-media-width: 80px;
     flex-flow: row;
     direction: rtl;
     justify-content: center;
+
     .home-icon {
       height: 25px;
     }
+
     .top-bar-title {
       margin: 0 15px 0 0;
     }
@@ -1879,6 +1885,7 @@ $sidebar-profile-media-width: 80px;
   display: block;
   padding: 15px 0;
   border-bottom: 1px solid $box-shadow-color;
+
   .profile-menu-top-section-container {
     display: flex;
     flex-flow: row-reverse;
@@ -1954,7 +1961,7 @@ $sidebar-profile-media-width: 80px;
   flex-direction: row;
   justify-content: space-around;
 
-  .link{
+  .link {
     width: 22px;
     height: 22px;
   }
@@ -2421,4 +2428,9 @@ $sidebar-profile-media-width: 80px;
   border-radius: 50%;
   transition-duration: 0.5s;
   background-color: rgba(255, 255, 255, 0.15);
+}
+
+.disabled {
+  cursor: not-allowed !important;
+  opacity: 0.7;
 }

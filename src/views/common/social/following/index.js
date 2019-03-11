@@ -67,11 +67,11 @@ class Socials extends Component<PropsSocials, StateSocials> {
   }
 
   componentDidMount() {
-    const {identityId, actions, ownerId, identityType} = this.props
+    const {user, actions, ownerId, identityType} = this.props
     const {getFollowees} = actions
 
-    if (identityId) {
-      getFollowees({followOwnerId: ownerId, followOwnerIdentity: identityId.id, followOwnerType: identityType})
+    if (user) {
+      getFollowees({followOwnerId: ownerId, followOwnerIdentity: user.id, followOwnerType: identityType})
     }
   }
 
@@ -82,7 +82,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
       followees,
       actions,
       // exchanges,
-      identityId,
+      user,
       ownerId,
       // identityType,
       // param
@@ -104,7 +104,6 @@ class Socials extends Component<PropsSocials, StateSocials> {
         <div>
           <NewFollowings
               userId={ownerId}
-              identityId={identityId}
               deleteFollow={deleteFollow}
               followings={followees}/>
         </div>

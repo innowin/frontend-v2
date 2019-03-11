@@ -2,10 +2,8 @@
 import * as React from "react"
 import {connect} from "react-redux"
 import PropTypes from 'prop-types'
-
 import {getMessages} from "../../../redux/selectors/translateSelector"
 import {FrameCard, ListGroup} from "../../common/cards/Frames"
-
 import EducationInfoContainer from './EducationInfoContainer'
 import ResearchesInfoContainer from "./ResearchesInfoContainer"
 import CheckOwner from "../../common/CheckOwner"
