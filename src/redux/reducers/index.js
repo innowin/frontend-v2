@@ -16,7 +16,7 @@ import research from './research'
 import skill from './skill'
 import temp from "./temp"
 import toast from './toast'
-import users from "./user"
+// import users from "./user"
 import workExperience from './workExperience'
 import {combineReducers} from 'redux'
 import {intlReducer} from './intl'
@@ -41,7 +41,7 @@ const reducers = {
   skill,
   temp,
   toast,
-  users,
+  // users,
   workExperience,
 }
 

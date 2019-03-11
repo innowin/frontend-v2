@@ -1,57 +1,49 @@
-import constants from "../../../../consts/constants";
+import constants from '../../../../consts/constants'
 
 const base = (state, action) => {
-  const {postOwnerId, postOwnerType} = action.payload || {}
+  const {postOwnerId} = action.payload || {}
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const previousPost = (state.list[postOwnerId] && state.list[postOwnerId].posts) || defaultObject2
 
-  if (postOwnerType === constants.USER_TYPES.USER) {
-    return {
-      ...state,
-      list: {
-        ...state.list,
-        [postOwnerId]: {
-          ...state.list[postOwnerId],
-          posts: {
-            ...previousPost,
-            isLoading: true,
-            error: null
-          }
-        }
-      }
-    }
-  }
-  else {
-    return state
+  return {
+    ...state,
+    list: {
+      ...state.list,
+      [postOwnerId]: {
+        ...state.list[postOwnerId],
+        posts: {
+          ...previousPost,
+          isLoading: true,
+          error: null,
+        },
+      },
+    },
   }
 }
 
 const success = (state, action) => {
-  const {postOwnerId, postOwnerType, data} = action.payload || {}
+  const {postOwnerId, data} = action.payload || {}
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const previousPost = (state.list[postOwnerId] && state.list[postOwnerId].posts) || defaultObject2
+  const arrayOfPostId = data.map(post => post.id)
 
-  if (postOwnerType === constants.USER_TYPES.USER) {
-    const arrayOfPostId = data.map(post => post.id)
-    return {
-      ...state,
-      list: {
-        ...state.list,
-        [postOwnerId]: {
-          ...state.list[postOwnerId],
-          posts: {
-            ...previousPost,
-            // content: [...new Set([...previousPost.content, ...arrayOfPostId])],
-            content: arrayOfPostId,
-            isLoading: false,
-            error: null
-          }
-        }
-      }
-    }
+  const identity = {
+    ...state.list[postOwnerId],
+    posts: {
+      ...previousPost,
+      // content: [...new Set([...previousPost.content, ...arrayOfPostId])],
+      content: arrayOfPostId,
+      isLoading: false,
+      error: null,
+    },
   }
-  else {
-    return state
+
+  return {
+    ...state,
+    list: {
+      ...state.list,
+      [postOwnerId]: {...identity},
+    },
   }
 }
 
@@ -71,10 +63,10 @@ const error = (state, action) => {
           posts: {
             ...previousPost,
             isLoading: false,
-            error: message
-          }
-        }
-      }
+            error: message,
+          },
+        },
+      },
     }
   }
   else {

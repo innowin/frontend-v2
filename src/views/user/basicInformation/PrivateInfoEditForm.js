@@ -52,12 +52,12 @@ class PrivateInfoEditForm extends React.Component<PropsPrivateInfoEditForm> {
   }
 
   componentDidMount() {
-    const {initialize, profile, user} = this.props
-    const birthDateSplit = profile.birth_date === null ? [''] : profile.birth_date.split('.')
+    const {initialize, user} = this.props
+    const birthDateSplit = user.birth_date === null ? [''] : user.birth_date.split('.')
     const defaultFormValue = {
-      nationalCode: profile.national_code,
+      nationalCode: user.national_code,
       email: user.email,
-      authMobile: profile.auth_mobile,
+      authMobile: user.auth_mobile,
       year: birthDateSplit[0],
       month: birthDateSplit[1] === undefined ? '' : birthDateSplit[1],
       day: birthDateSplit[2] === undefined ? '' : birthDateSplit[2],

@@ -1,7 +1,7 @@
 import {createSelector} from 'reselect'
 
 const recoveryPassword = (state) => {
-  return state.users.recoveryPassword
+  return state.identities.recoveryPassword
 }
 
 export const recoveryPasswordSelector = createSelector(

@@ -127,9 +127,9 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
   }
 
   componentWillMount(): void {
-    const {identityId, identityType, id} = this.props
+    const {identityId, identityType} = this.props
     const {getExchangeMembershipByMemberIdentity} = this.props.actions
-    if (identityId && identityType && id) {
+    if (identityId && identityType) {
       getExchangeMembershipByMemberIdentity({
         identityId,
         exchangeMembershipOwnerType: identityType,
@@ -140,7 +140,7 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
 
   componentDidMount() {
     if (this.state.getDataInDidMount) {
-      const {identityId, identityType, id} = this.props
+      const {identityId, identityType} = this.props
       const {getExchangeMembershipByMemberIdentity} = this.props.actions
       getExchangeMembershipByMemberIdentity({
         identityId,

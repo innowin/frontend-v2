@@ -71,7 +71,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
     const {getFollowees} = actions
 
     if (identityId) {
-      getFollowees({followOwnerId: ownerId, followOwnerIdentity: identityId, followOwnerType: identityType})
+      getFollowees({followOwnerId: ownerId, followOwnerIdentity: identityId.id, followOwnerType: identityType})
     }
   }
 
@@ -114,7 +114,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
 
 const mapStateToProps = (state, ownProps) => {
   const {ownerId, identityType} = ownProps
-  const stateOwner = (identityType === constants.USER_TYPES.USER) ? state.users.list[ownerId] :
+  const stateOwner = (identityType === constants.USER_TYPES.USER) ? state.identities.list[ownerId] :
       state.organs.list[ownerId]
   const defaultObject = {content: [], isLoading: false, error: null}
   const followObject = (stateOwner && stateOwner.social && stateOwner.social.follows) || defaultObject

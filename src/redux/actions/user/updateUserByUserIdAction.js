@@ -1,11 +1,11 @@
 // @flow
-import types from "../types"
+import types from '../types'
 
-const updateUser = (formValues:{}, userId: number) => ({
-  type:types.USER.UPDATE_USER_BY_USER_ID,
-  payload:{formValues, userId}
+const updateUser = (formValues: {}, identity: number) => ({
+  type: types.USER.UPDATE_USER_BY_USER_ID,
+  payload: {formValues, identity},
 })
 
 export default {
-  updateUser
+  updateUser,
 }

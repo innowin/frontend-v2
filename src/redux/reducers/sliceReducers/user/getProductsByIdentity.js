@@ -1,4 +1,4 @@
-import constants from "../../../../consts/constants";
+import constants from '../../../../consts/constants'
 
 const base = (state, action) => {
   const {productOwnerId, productOwnerType} = action.payload || {}
@@ -15,10 +15,10 @@ const base = (state, action) => {
           products: {
             ...previousProduct,
             isLoading: true,
-            error: null
-          }
-        }
-      }
+            error: null,
+          },
+        },
+      },
     }
   }
   else {
@@ -27,11 +27,11 @@ const base = (state, action) => {
 }
 
 const success = (state, action) => {
-  const {productOwnerId, productOwnerType, data} = action.payload || {}
-  const defaultObject2 = {content: [], isLoading: false, error: null}
-  const previousProduct = (state.list[productOwnerId] && state.list[productOwnerId].products) || defaultObject2
+  const {productOwnerId, data} = action.payload || {}
+  if (productOwnerId) {
+    const defaultObject2 = {content: [], isLoading: false, error: null}
+    const previousProduct = (state.list[productOwnerId] && state.list[productOwnerId].products) || defaultObject2
 
-  if (productOwnerType === constants.USER_TYPES.USER) {
     const arrayOfProductId = data.map(product => product.id)
     return {
       ...state,
@@ -44,15 +44,13 @@ const success = (state, action) => {
             // content: [...new Set([...previousProduct.content, ...arrayOfProductId])],
             content: arrayOfProductId,
             isLoading: false,
-            error: null
-          }
-        }
-      }
+            error: null,
+          },
+        },
+      },
     }
   }
-  else {
-    return state
-  }
+  else return {...state}
 }
 
 const error = (state, action) => {
@@ -70,10 +68,10 @@ const error = (state, action) => {
           products: {
             ...previousProduct,
             isLoading: false,
-            error: message
-          }
-        }
-      }
+            error: message,
+          },
+        },
+      },
     }
   }
   else {

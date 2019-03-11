@@ -9,6 +9,7 @@ import {InformationIcon} from "src/images/icons"
 import {ContactInfoEditForm} from "./ContactInfoEditForm"
 import {bindActionCreators} from "redux";
 import updateProfileByProfileIdAction from "../../../redux/actions/user/updateProfileByProfileIdAction";
+import updateUserByUserIdAction from '../../../redux/actions/user/updateUserByUserIdAction'
 
 //ContactInfo flowTypes
 type ContactInfoProps = {
@@ -33,7 +34,7 @@ class ContactInfo extends React.Component<ContactInfoProps, ContactInfoState> {
   static propTypes = {
     userId: PropTypes.number.isRequired,
     translate: PropTypes.object.isRequired,
-    profile: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     actions: PropTypes.object.isRequired,
   }
@@ -47,21 +48,21 @@ class ContactInfo extends React.Component<ContactInfoProps, ContactInfoState> {
   }
 
   render() {
-    const {translate, profile, isLoading, actions, userId} = this.props
+    const {translate, user, isLoading, actions, userId} = this.props
     const {edit, error} = this.state
     return (
         <VerifyWrapper isLoading={isLoading} error={error}>
           <ItemWrapper icon={<InformationIcon/>}>
           {(edit) ? (
                 <ContactInfoEditForm
-                    profile={profile}
+                    user={user}
                     hideEdit={this._hideEdit}
                     translate={translate}
                     actions={actions}
                     userId={userId}
                 />
           ) : (
-              <ContactInfoView profile={profile} showEdit={this._showEdit} translate={translate}/>
+              <ContactInfoView user={user} showEdit={this._showEdit} translate={translate}/>
           )
           }
           </ItemWrapper>
@@ -73,6 +74,7 @@ class ContactInfo extends React.Component<ContactInfoProps, ContactInfoState> {
 const mapContactInfoDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     updateProfileByProfileId: updateProfileByProfileIdAction.updateProfile,
+    updateUserByUserId: updateUserByUserIdAction.updateUser,
   }, dispatch)
 })
 

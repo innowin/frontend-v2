@@ -8,11 +8,11 @@ const getUserMemberships = (state, props) => {
   const id = props.id || props.ownerId
   const identityType = props.identityType
   if (identityType === constants.USER_TYPES.USER) {
-    const usersList = state.users.list
+    const usersList = state.identities.list
     if (usersList[id] && usersList[id].exchangeMemberships)
       return usersList[id].exchangeMemberships.content
   } else if (identityType === constants.USER_TYPES.ORG) {
-    const organsList = state.organs.list
+    const organsList = state.identities.list
     if (organsList[id] && organsList[id].exchangeMemberships)
       return organsList[id].exchangeMemberships.content
   }

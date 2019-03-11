@@ -42,11 +42,11 @@ export class UserBasicInformation extends Component<UserBasicInformationProps> {
         {/*/>*/}
         <FrameCard>
           <ListGroup>
-            <BasicInfo {...{userId}} translate={translate} user={user.content} isLoading={user.isLoading}/>
-            <ContactInfo {...{userId}} translate={translate} profile={profile.content} isLoading={profile.isLoading}/>
-            <LinkInfo {...{userId}} translate={translate} profile={profile.content} isLoading={profile.isLoading}/>
+            <BasicInfo {...{userId}} translate={translate} user={user} isLoading={user.isLoading}/>
+            <ContactInfo {...{userId}} translate={translate} user={user} isLoading={profile.isLoading}/>
+            <LinkInfo {...{userId}} translate={translate} user={user} isLoading={profile.isLoading}/>
             <CheckOwner id={userId}>
-              <PrivateInfo {...{userId}} user={user.content} translate={translate} profile={profile.content} isLoading={profile.isLoading}/>
+              <PrivateInfo {...{userId}} user={user} translate={translate} isLoading={profile.isLoading}/>
             </CheckOwner>
           </ListGroup>
         </FrameCard>

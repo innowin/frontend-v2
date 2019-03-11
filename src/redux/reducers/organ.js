@@ -142,8 +142,8 @@ const organs = (state = initialState.organs, action) => {
     /** -------------------------- get followers -------------------------> **/
     case types.COMMON.SOCIAL.GET_FOLLOWERS:
       return slices.getFollowers.base(state, action)
-    case types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWERS:
-      return slices.getFollowers.success(state, action)
+    // case types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWERS:
+    //   return slices.getFollowers.success(state, action)
     case types.ERRORS.COMMON.SOCIAL.GET_FOLLOWERS:
       return slices.getFollowers.error(state, action)
     /** -------------------------- get followees -------------------------> **/

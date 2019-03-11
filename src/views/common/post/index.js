@@ -1,17 +1,17 @@
 // @flow
 
 //TODO: mohammad forms need change to redux form
-import * as React from "react"
-import PropTypes from "prop-types"
+import * as React from 'react'
+import PropTypes from 'prop-types'
 
-import {FrameCard, ListGroup} from "src/views/common/cards/Frames"
-import {PostCreateForm} from "./editPost/PostCreateForm"
-import {bindActionCreators} from "redux"
-import PostActions from "../../../redux/actions/commonActions/postActions"
-import connect from "react-redux/es/connect/connect"
-import {userPostsSelector} from "src/redux/selectors/common/post/userPostsSelector"
-import {Post} from "./Post"
-import constants from "src/consts/constants"
+import {FrameCard, ListGroup} from 'src/views/common/cards/Frames'
+import {PostCreateForm} from './editPost/PostCreateForm'
+import {bindActionCreators} from 'redux'
+import PostActions from '../../../redux/actions/commonActions/postActions'
+import connect from 'react-redux/es/connect/connect'
+import {userPostsSelector} from 'src/redux/selectors/common/post/userPostsSelector'
+import {Post} from './Post'
+import constants from 'src/consts/constants'
 
 type postsPropsType = {
   id: number | string,
@@ -65,9 +65,9 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
   }
 
   componentDidMount() {
-    const {actions, postIdentity, id, identityType} = this.props
+    const {actions, id, identityType} = this.props
     const {getPostByIdentity} = actions
-    getPostByIdentity({postIdentity, postOwnerId: id, postOwnerType: identityType})
+    getPostByIdentity({postIdentity: id, postOwnerId: id, postOwnerType: identityType})
   }
 
   render() {
@@ -107,11 +107,11 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
                         <Post
                             post={post}
                             updatePost={updatePost}
-                            key={post.id + "Posts"}
+                            key={post.id + 'Posts'}
                             deletePost={deletePost}
                         />
                     ))
-                    : ""
+                    : ''
               }
             </ListGroup>
 
@@ -125,8 +125,8 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
 const mapStateToProps = (state, ownProps) => {
   const {identityType} = ownProps
   const ownerId = ownProps.id
-  const stateOwner = (identityType === constants.USER_TYPES.USER) ? state.users.list[ownerId] :
-      (identityType === constants.USER_TYPES.ORG && state.organs.list[ownerId])
+  const stateOwner = (identityType === constants.USER_TYPES.USER) ? state.identities.list[ownerId] :
+      (identityType === constants.USER_TYPES.ORG && state.identities.list[ownerId])
   const defaultObject = {content: [], isLoading: false, error: null}
   const postObject = (stateOwner && stateOwner.posts) || defaultObject
   return {
@@ -143,7 +143,7 @@ const mapDispatchToProps = dispatch => ({
     createPost: PostActions.createPost,
     updatePost: PostActions.updatePost,
     deletePost: PostActions.deletePost,
-  }, dispatch)
+  }, dispatch),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Posts)

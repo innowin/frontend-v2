@@ -126,7 +126,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return (state, props) => {
     const {userId} = props
-    const stateUser = state.users.list[userId]
+    const stateUser = state.identities.list[userId]
     const defaultObject = {content: [], isLoading: false, error: null}
     const workExperienceObject = (stateUser && stateUser.workExperiences) || defaultObject
 

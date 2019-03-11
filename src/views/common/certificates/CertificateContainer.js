@@ -1,17 +1,17 @@
 // @flow
-import * as React from "react";
-import CertificateActions from "../../../redux/actions/commonActions/certificateActions";
-import connect from "react-redux/es/connect/connect";
-import PropTypes from "prop-types";
-import type {certificateType} from "../../../consts/flowTypes/user/others";
-import {bindActionCreators} from "redux";
-import {ItemHeader, ItemWrapper} from "../../common/cards/Frames";
+import * as React from 'react'
+import CertificateActions from '../../../redux/actions/commonActions/certificateActions'
+import connect from 'react-redux/es/connect/connect'
+import PropTypes from 'prop-types'
+import type {certificateType} from '../../../consts/flowTypes/user/others'
+import {bindActionCreators} from 'redux'
+import {ItemHeader, ItemWrapper} from '../../common/cards/Frames'
 import {Certificate} from './Certificate'
-import {Component} from "react";
-import {userCertificatesSelector} from "../../../redux/selectors/common/certificate/userCertificatesSelector";
-import CertificateIcon from "../../../images/user/certificate_svg";
-import type {paramType} from "../../../consts/flowTypes/paramType";
-import constants from "src/consts/constants"
+import {Component} from 'react'
+import {userCertificatesSelector} from '../../../redux/selectors/common/certificate/userCertificatesSelector'
+import CertificateIcon from '../../../images/user/certificate_svg'
+import type {paramType} from '../../../consts/flowTypes/paramType'
+import constants from 'src/consts/constants'
 
 type PropsCertificates = {
   ownerId: number,
@@ -43,9 +43,9 @@ export class CertificateContainer extends Component<PropsCertificates> {
   }
 
   componentDidMount() {
-    const {actions, identityId, ownerId, identityType} = this.props
+    const {actions, ownerId, identityType} = this.props
     const {getCertificatesByIdentity} = actions
-    getCertificatesByIdentity({identityId, certificateOwnerId: ownerId, certificateOwnerType: identityType})
+    getCertificatesByIdentity({identityId: ownerId, certificateOwnerId: ownerId, certificateOwnerType: identityType})
   }
 
   render() {
@@ -64,7 +64,7 @@ export class CertificateContainer extends Component<PropsCertificates> {
                     translate={translate}
                     updateCertificate={updateCertificate}
                     deleteCertificate={deleteCertificate}
-                    key={"certificate" + certificate.id}
+                    key={'certificate' + certificate.id}
                     param={param}
                 />
             ))
@@ -78,8 +78,8 @@ export class CertificateContainer extends Component<PropsCertificates> {
 
 const mapStateToProps = (state, ownProps) => {
   const {ownerId, identityType} = ownProps
-  const stateOwner = (identityType === constants.USER_TYPES.USER) ? state.users.list[ownerId] :
-    state.organs.list[ownerId]
+  const stateOwner = (identityType === constants.USER_TYPES.USER) ? state.identities.list[ownerId] :
+      state.organs.list[ownerId]
   const defaultObject = {content: [], isLoading: false, error: null}
   const certificateObject = (stateOwner && stateOwner.certificates) || defaultObject
   return {
@@ -96,7 +96,7 @@ const mapDispatchToProps = dispatch => ({
     getCertificatesByIdentity: CertificateActions.getCertificatesByIdentity,
     updateCertificate: CertificateActions.updateCertificate,
     deleteCertificate: CertificateActions.deleteCertificate,
-  }, dispatch)
+  }, dispatch),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CertificateContainer)

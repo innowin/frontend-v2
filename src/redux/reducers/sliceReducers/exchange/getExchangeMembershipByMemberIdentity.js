@@ -22,7 +22,7 @@ const success = (state, action) => {
     //     ? nextExchange[id] = {
     //       ...state.list[id],
     //       exchange: {
-    //         ...state.list[id].exchange,
+    //         ...state.list[id].exchange,extendedView
     //         content: {
     //           ...state.list[id].exchange.content,
     //           ...exchangeData[id].exchange.content,

@@ -84,7 +84,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
     const {
       // getFollowees,
       // getFollowers,
-      getExchangeMembershipByMemberIdentity
+      getExchangeMembershipByMemberIdentity,
     } = actions
 
     if (identityId) {
@@ -92,9 +92,9 @@ class Socials extends Component<PropsSocials, StateSocials> {
       // const followOwnerId = ownerId
 
       getExchangeMembershipByMemberIdentity({
-        identityId,
+        identityId: identityId.id,
         exchangeMembershipOwnerType: identityType,
-        exchangeMembershipOwnerId: ownerId
+        exchangeMembershipOwnerId: ownerId,
       })
       // getFollowers({followOwnerId, followOwnerIdentity, followOwnerType: identityType})
       // getFollowees({followOwnerId, followOwnerIdentity, followOwnerType: identityType})
@@ -181,7 +181,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
 
 const mapStateToProps = (state, ownProps) => {
   const {ownerId, identityType, identityId} = ownProps
-  const stateOwner = (identityType === constants.USER_TYPES.USER) ? state.users.list[ownerId] :
+  const stateOwner = (identityType === constants.USER_TYPES.USER) ? state.identities.list[ownerId] :
       state.organs.list[ownerId]
   const defaultObject = {content: [], isLoading: false, error: null}
   const followObject = (stateOwner && stateOwner.social && stateOwner.social.follows) || defaultObject
@@ -193,7 +193,7 @@ const mapStateToProps = (state, ownProps) => {
     exchanges: getExchangeMembershipsSelector(state, ownProps),
     isLoading: followObject.isLoading,
     error: followObject.error,
-    identityUser: state.identities.list[identityId] && state.identities.list[identityId].identity_user ? state.identities.list[identityId].identity_user : null
+    identityUser: state.identities.list[identityId] && state.identities.list[identityId].identity_user ? state.identities.list[identityId].identity_user : null,
   }
 }
 
@@ -208,7 +208,7 @@ const mapDispatchToProps = dispatch => ({
     // createFollow: SocialActions.createFollow,
     getProfileByUserId: GetUserActions.getProfileByUserId,
     getOrganizationByOrganId: OrganizationActions.getOrganizationByOrganId,
-  }, dispatch)
+  }, dispatch),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Socials)

@@ -66,7 +66,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return (state, props) => {
     const {userId} = props
-    const stateUser = state.users[userId]
+    const stateUser = state.identities[userId]
     const defaultObject = {content: [], isLoading: false, error: null}
     const educationObject = (stateUser && stateUser.educations) || defaultObject
 

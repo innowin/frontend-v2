@@ -88,7 +88,7 @@ class ResearchInfo extends React.Component<ResearchInfoProps, ResearchInfoState>
                   }
                   {research.author &&
                   <Field>
-                    <FieldValue value={<span className="dir-rtl">{research.author.join('، ')}</span>}/>
+                    <FieldValue value={<span className="dir-rtl">{research.author}</span>}/>
                   </Field>
                   }
                   {research.research_link &&

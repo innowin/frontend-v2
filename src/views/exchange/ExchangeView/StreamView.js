@@ -23,7 +23,7 @@ const StreamView = props => {
     return exchangePosts.map((p, key) =>
         <div className={'posts-frame-container'} key={key}>
           <div className={'post-view-container'}>
-            <PostView post={p}
+            <PostView post={p} extendedView={false}
                 // showEdit={this._showEdit}
             />
           </div>

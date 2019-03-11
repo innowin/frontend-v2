@@ -2,7 +2,6 @@
 import * as React from 'react'
 import BeePanel from '../common/components/BeePanel'
 import ChatBar from '../bars/ChatBar'
-import constants from 'src/consts/constants'
 import EventCard from 'src/views/common/components/EventCard'
 import HomePosts from './home/HomePosts'
 import HomeSideBar from './home/HomeSideBar'
@@ -17,7 +16,6 @@ import {getMessages} from 'src/redux/selectors/translateSelector'
 type HomeProps = {|
   identityId?: number,
   identityType?: string,
-  id?: number,
   translate: { [string]: string },
   actions: { setExchange: Function },
   selectedExchange: number
@@ -28,7 +26,6 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
   static propTypes = {
     identityId: PropTypes.number,
     identityType: PropTypes.string,
-    id: PropTypes.number,
     actions: PropTypes.object,
     selectedExchange: PropTypes.number,
   }
@@ -110,7 +107,6 @@ const mapStateToProps = state => {
   const identityType = clientIdentity ? clientIdentity.identity_type : undefined
 
   return {
-    id: clientIdentityId,
     identityId: clientIdentityId,
     identityType: identityType,
     translate: getMessages(state),
