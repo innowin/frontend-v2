@@ -162,12 +162,14 @@
 .info-exchange-owner-image-frame-sibling {
   vertical-align: top;
   display: inline-block;
-  width: 65%;
+  width: 80%;
+  margin: 2px 5px;
 }
 
 .info-exchange-username {
   font-size: $font-size-post-name;
   font-weight: bold;
+  margin: 2px 5px 0 5px;
 }
 
 .info-exchange-education {

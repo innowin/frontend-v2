@@ -207,12 +207,12 @@ const organs = (state = initialState.organs, action) => {
         }
       }
     /** -------------------------- get exchange membership by member identity  -------------------------> **/
-    case types.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
-      return slices.getExchangeMembershipByMemberIdentity.base(state, action)
-    case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
-      return slices.getExchangeMembershipByMemberIdentity.success(state, action)
-    case types.ERRORS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
-      return slices.getExchangeMembershipByMemberIdentity.error(state, action)
+    // case types.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
+    //   return slices.getExchangeMembershipByMemberIdentity.base(state, action)
+    // case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
+    //   return slices.getExchangeMembershipByMemberIdentity.success(state, action)
+    // case types.ERRORS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
+    //   return slices.getExchangeMembershipByMemberIdentity.error(state, action)
     /** -------------------------- delete exchange membership  -------------------------> **/
     case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.DELETE_EXCHANGE_MEMBERSHIP:
       return slices.deleteExchangeMembership.success(state, action)
