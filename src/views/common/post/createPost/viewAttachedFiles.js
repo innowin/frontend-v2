@@ -14,7 +14,7 @@ class ViewAttachedFiles extends React.Component <> {
   render() {
     const {
       translate, postImg1, postImg2, postImg3, postMedia, deleteMedia, focused, postFile, deletePicture,
-      deleteFile, attachPhotoIdArray, tempFiles, attachVideoId, attachFileId,
+      deleteFile, attachPhotoIdArray, tempFiles, attachVideoId, attachFileId
     } = this.props
     const postPictures = [postImg1, postImg2, postImg3].filter(img => img) //filter imges that not null & not undefined
     const postPicturesLength = postPictures.length
@@ -23,11 +23,13 @@ class ViewAttachedFiles extends React.Component <> {
     if (postPicturesLength === 3) picturesClass = "threePictures"
 
     const imageStyles = [postImg1, postImg2, postImg3].map((fileString, i) => {
-          const progress = tempFiles[attachPhotoIdArray[i]] && tempFiles[attachPhotoIdArray[i]].progress
+          const tempImage = tempFiles[attachPhotoIdArray[i]]
+          const progress = tempImage && tempFiles[attachPhotoIdArray[i]].progress
           const percent = progress / 100
           return progress
-              ? {filter: `blur(${Math.ceil(5 * (1 - percent))}px) opacity(${percent})`}
-              : {filter: `blur(5px) opacity(0)`}
+              ? {filter: `blur(${Math.ceil(5 * (1 - percent))}px)`, opacity: percent}
+              : ({filter: 'blur(5px)', opacity: 0}
+              )
         }
     )
     return (
