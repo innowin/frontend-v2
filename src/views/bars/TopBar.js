@@ -63,8 +63,6 @@ type StatesTopBar = {|
   isSignedOut: boolean,
   mouseIsOverMenu: boolean,
   productWizardModalIsOpen: boolean,
-  profileBannerLoaded: boolean,
-  profilePhotoLoaded: boolean,
   selectedAbout: string,
   selectedSetting: string,
   showAbout: boolean,
@@ -100,8 +98,6 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       isSignedOut: false,
       mouseIsOverMenu: true,
       productWizardModalIsOpen: false,
-      profileBannerLoaded: false,
-      profilePhotoLoaded: false,
       selectedAbout: 'FAQ',
       selectedSetting: 'General Settings',
       showAbout: false,
@@ -133,8 +129,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   }
 
   componentDidMount() {
-    const {actions, clientIdentity, imgLink, bannerLink} = this.props
-    const {getMediaFile} = this.state
+    const {actions, clientIdentity} = this.props
     const {getFileByFileRelatedParentId} = actions
     // if (getMediaFile) {
     if (clientIdentity) {
@@ -142,23 +137,6 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
         fileRelatedParentId: clientIdentity.id,
         fileParentType: constants.FILE_PARENT.IDENTITY,
       })
-    }
-    // }
-
-    // Added for check profile photo url
-    if (imgLink) {
-      let profile = new Image()
-      profile.src = imgLink
-      profile.onload = () => {
-        this.setState({...this.state, profilePhotoLoaded: true})
-      }
-    }
-    if (bannerLink) {
-      let banner = new Image()
-      banner.src = bannerLink
-      banner.onload = () => {
-        this.setState({...this.state, profileBannerLoaded: true})
-      }
     }
   }
 
@@ -182,33 +160,6 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       else {
         this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.OTHER})
       }
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const {imgLink, bannerLink} = this.props
-    if (imgLink !== nextProps.imgLink) {
-      this.setState({...this.state, profilePhotoLoaded: false}, () => {
-        if (nextProps.clientImgLink) {
-          let profile = new Image()
-          profile.src = nextProps.clientImgLink
-          profile.onload = () => {
-            this.setState({...this.state, profilePhotoLoaded: true})
-          }
-        }
-      })
-    }
-
-    if (bannerLink !== nextProps.bannerLink) {
-      this.setState({...this.state, profileBannerLoaded: false}, () => {
-        if (nextProps.clientBannerLink) {
-          let profile = new Image()
-          profile.src = nextProps.clientBannerLink
-          profile.onload = () => {
-            this.setState({...this.state, profileBannerLoaded: true})
-          }
-        }
-      })
     }
   }
 
@@ -364,7 +315,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   render() {
     const {translate, clientName, clientIdentity, imgLink, bannerLink} = this.props
     const topBarTranslate = translate.topBar
-    const {showHamburger, currentPage, collapseProfile, exploreCollapse, productWizardModalIsOpen, selectedSetting, selectedAbout, showSetting, showAbout, createExchangeModalIsOpen, profilePhotoLoaded, profileBannerLoaded, agentForm} = this.state
+    const {showHamburger, currentPage, collapseProfile, exploreCollapse, productWizardModalIsOpen, selectedSetting, selectedAbout, showSetting, showAbout, createExchangeModalIsOpen, agentForm} = this.state
     const linkEditProfile = clientIdentity ?
         clientIdentity.identity_type === constants.USER_TYPES.USER
             ? `/user/${clientIdentity.id}`
@@ -436,13 +387,13 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
               <div ref={e => this.hamburgerRef = e}
                    className={showHamburger ? 'hamburger-view open' : 'hamburger-view close'}>
                 <div className='image-container'>
-                  {bannerLink && profileBannerLoaded
+                  {bannerLink
                       ? <img className='user-banner' src={bannerLink} alt='user banner'/>
                       : <div className='user-banner'/>
                   }
 
                   <div className='profile-image-container'>
-                    {imgLink && profilePhotoLoaded
+                    {imgLink
                         ? <img className='user-profile' src={imgLink} alt='user profile'/>
                         : <DefaultUserIcon className='user-profile'/>
                     }
@@ -480,7 +431,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
             <div className="top-bar-left-side">
               <div ref={e => this.profileRef = e} className="-ProfTopBarImg">
 
-                {imgLink && profilePhotoLoaded ?
+                {imgLink ?
                     <Material backgroundColor='rgba(238, 238, 238,0.8)' onClick={this._toggleProfile}
                               className={collapseProfile ? 'topbar-profile-img-open' : 'topbar-profile-img'}
                               content={<img src={imgLink} className='-ProfTopBarImg-svg-img'
@@ -502,7 +453,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                       <Material className='profile-menu-profile-section' content={
                         <div className='profile-menu-top-section-container'>
                           <div className='profile-menu-profile-section-image'>
-                            {imgLink && profilePhotoLoaded ?
+                            {imgLink ?
                                 <img src={imgLink} className='-ProfTopBarImg-svg-img-big' alt="Person icon"/>
                                 :
                                 <DefaultUserIcon className='-ProfTopBarImg-svg-big'/>

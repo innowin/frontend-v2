@@ -16,12 +16,12 @@ import {getFollowersSelector} from '../../redux/selectors/common/social/getFollo
 import types from 'src/redux/actions/types'
 import type {fileType} from '../../consts/flowTypes/common/fileType'
 import FileActions from 'src/redux/actions/commonActions/fileActions'
-import TempActions from 'src/redux/actions/tempActions'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {createFileFunc} from 'src/views/common/Functions'
 import Material from '../common/components/Material'
 import updateUserByUserIdAction from '../../redux/actions/user/updateUserByUserIdAction'
 import uuid from 'uuid'
+import TempActions from 'src/redux/actions/tempActions'
 
 // const MenuBox = (props) => {
 //   const {handleEditProfile, id, editProfile, paramId} = props
@@ -122,8 +122,6 @@ type PropsSideBarContent = {
   paramId: number,
   banner: fileType | Object,
   picture: fileType | Object,
-  bannerTempId?: ?number,
-  pictureTempId?: ?number,
   name: ?string,
   description: ?string,
   chosenBadgesImg: (string)[],
@@ -255,10 +253,10 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
   }
 
   _getValues = () => {
-    const {owner, bannerTempId, pictureTempId} = this.props
+    const {owner, bannerIdTemp, pictureIdTemp} = this.props
     const {descriptionState} = this.state
-    const bannerId = bannerTempId || (owner ? owner.profile_media && owner.profile_media.id : null)
-    const pictureId = pictureTempId || (owner ? owner.profile_banner && owner.profile_banner.id : null)
+    const bannerId = bannerIdTemp || (owner ? owner.profile_media && owner.profile_media.id : null)
+    const pictureId = pictureIdTemp || (owner ? owner.profile_banner && owner.profile_banner.id : null)
     return {
       id: owner.id,
       profile_banner: bannerId,
@@ -379,9 +377,12 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
 
   componentDidUpdate() {
     const {profileBannerId, profileMediaId, saving, bannerState, pictureState} = this.state
-    if (((profileBannerId && this.props.temp[profileBannerId].progress === 100) || profileBannerId === null) && ((profileMediaId && this.props.temp[profileMediaId].progress === 100) || profileMediaId === null)) {
-      const {bannerTempId, pictureTempId} = this.props
-      const completeCreatingFile = (bannerState ? bannerTempId : true) && (pictureState ? pictureTempId : true)
+    const {bannerIdTemp, pictureIdTemp} = this.props
+    if (
+        ((profileBannerId && this.props.temp[profileBannerId].progress === 100 && bannerIdTemp) || profileBannerId === null) &&
+        ((profileMediaId && this.props.temp[profileMediaId].progress === 100 && pictureIdTemp) || profileMediaId === null)
+    ) {
+      const completeCreatingFile = (bannerState ? bannerIdTemp : true) && (pictureState ? pictureIdTemp : true)
       if (saving && completeCreatingFile) this._save()
     }
   }
@@ -408,7 +409,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
 
   render() {
     const {editProfile, selectedBanner, selectedImage, descriptionState, descriptionClass, processing, processingBanner, profileBannerId, profileMediaId} = this.state
-    const {sideBarType, badges, translate: tr, paramId, followers, clientIdentityId, owner, files} = this.props
+    const {sideBarType, badges, translate: tr, paramId, followers, clientIdentityId, owner, files, bannerIdTemp, pictureIdTemp} = this.props
     const socialNetworks = {
       telegram_account: owner['telegram_account'],
       instagram_account: owner['instagram_account'],
@@ -421,8 +422,8 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     const chosenBadgesImg = badgesImg.slice(0, 4)
     const className = this.props.className ? this.props.className : ''
     const showFollow = followers && !followers.map(follower => follower.id).includes(clientIdentityId)
-    const bannerString = selectedBanner || (owner.profile_banner && files[owner.profile_banner].file)
-    const pictureString = selectedImage || (owner.profile_media && files[owner.profile_media].file)
+    const bannerString = selectedBanner || (owner.profile_banner && files[owner.profile_banner] && files[owner.profile_banner].file)
+    const pictureString = selectedImage || (owner.profile_media && files[owner.profile_media] && files[owner.profile_media].file)
     return (
         <form className={className + ' pt-0'} onSubmit={this._handleSubmit}>
           <div className="editable-profile-img">
@@ -537,9 +538,9 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
                             content={(!editProfile) ? tr && tr['Edit Dashboard'] : (
                                 <button type="submit" className={
                                   (
-                                      ((profileBannerId && this.props.temp[profileBannerId].progress === 100) || profileBannerId === null)
+                                      ((profileBannerId && this.props.temp[profileBannerId].progress === 100 && bannerIdTemp) || profileBannerId === null)
                                       &&
-                                      ((profileMediaId && this.props.temp[profileMediaId].progress === 100) || profileMediaId === null)
+                                      ((profileMediaId && this.props.temp[profileMediaId].progress === 100 && pictureIdTemp) || profileMediaId === null)
                                   )
                                       ? 'sidebarFollowBottom follow-green-button side-user-follow' : 'disabled sidebarFollowBottom follow-green-button side-user-follow'
                                 }>
@@ -587,8 +588,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     translate: getMessages(state),
     clientIdentityId: state.auth.client.identity.content,
-    bannerTempId: bannerIdTemp,
-    pictureTempId: pictureIdTemp,
+    bannerIdTemp,
+    pictureIdTemp,
     followers: getFollowersSelector(state, ownProps),
     files: state.common.file.list,
     temp: state.temp.file,
