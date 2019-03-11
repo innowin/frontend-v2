@@ -118,6 +118,9 @@ export default {
     },
     EXCHANGE:{
       IMAGE: 'exchange-image'
+    },
+    PRODUCT:{
+      IMAGE: 'product-image'
     }
   },
   TEMP_FILE_KEYS: {
