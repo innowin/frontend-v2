@@ -8,7 +8,6 @@ import PrivateInfoView from './PrivateInfoView'
 import {InformationIcon} from "src/images/icons"
 import {PrivateInfoEditForm} from "./PrivateInfoEditForm"
 import {bindActionCreators} from "redux";
-import updateProfileByProfileIdAction from "../../../redux/actions/user/updateProfileByProfileIdAction";
 import updateUserByUserIdAction from "../../../redux/actions/user/updateUserByUserIdAction";
 import type {userProfileType, userType} from "../../../consts/flowTypes/user/basicInformation";
 
@@ -35,10 +34,9 @@ class PrivateInfo extends React.Component<PrivateInfoProps, PrivateInfoState> {
   static propTypes = {
     userId: PropTypes.number.isRequired,
     translate: PropTypes.object.isRequired,
-    profile: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     actions: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
   }
 
   _showEdit = () => {
@@ -75,7 +73,6 @@ class PrivateInfo extends React.Component<PrivateInfoProps, PrivateInfoState> {
 
 const mapPrivateInfoDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    updateProfileByProfileId: updateProfileByProfileIdAction.updateProfile,
     updateUserByUserId: updateUserByUserIdAction.updateUser,
   }, dispatch)
 })

@@ -8,7 +8,6 @@ import ContactInfoView from './ContactInfoView'
 import {InformationIcon} from "src/images/icons"
 import {ContactInfoEditForm} from "./ContactInfoEditForm"
 import {bindActionCreators} from "redux";
-import updateProfileByProfileIdAction from "../../../redux/actions/user/updateProfileByProfileIdAction";
 import updateUserByUserIdAction from '../../../redux/actions/user/updateUserByUserIdAction'
 
 //ContactInfo flowTypes
@@ -73,7 +72,6 @@ class ContactInfo extends React.Component<ContactInfoProps, ContactInfoState> {
 
 const mapContactInfoDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    updateProfileByProfileId: updateProfileByProfileIdAction.updateProfile,
     updateUserByUserId: updateUserByUserIdAction.updateUser,
   }, dispatch)
 })

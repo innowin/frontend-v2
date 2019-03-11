@@ -31,7 +31,6 @@ class ProductInfoContainer extends React.Component<PropsProducts> {
 
   static propTypes = {
     ownerId: PropTypes.number.isRequired,
-    identityId: PropTypes.number.isRequired,
     identityType: PropTypes.string.isRequired,
     translate: PropTypes.object.isRequired,
     products: PropTypes.array.isRequired,
@@ -41,9 +40,9 @@ class ProductInfoContainer extends React.Component<PropsProducts> {
   }
 
   componentDidMount() {
-    const {actions, identityType, ownerId, identityId} = this.props
+    const {actions, identityType, ownerId} = this.props
     const {getProductsByIdentity} = actions
-    getProductsByIdentity({identityId: identityId.id, productOwnerId: ownerId, productOwnerType: identityType})
+    getProductsByIdentity({identityId: ownerId, productOwnerId: ownerId, productOwnerType: identityType})
   }
 
   render() {
