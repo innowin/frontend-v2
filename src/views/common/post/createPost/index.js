@@ -200,7 +200,8 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
 
   componentDidMount() {
     const {actions, currentUserMedia, isUpdate, post, currentUserIdentity, currentUserType, currentUserId} = this.props
-    const {getFollowers} = actions
+    const {getFollowers, setFileProgressTemp} = actions
+    const {attachPhotoIdArray} = this.state
     if (this.state.getFollowers) {
       getFollowers({
         followOwnerIdentity: currentUserIdentity,
@@ -241,13 +242,16 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
             if (numberOfPostImages === 1) {
               postImg1 = file.file
               postImg1Index = index
+              setFileProgressTemp({fileId: attachPhotoIdArray[0], progressDetail: {progress: 100}})
             } else if (numberOfPostImages === 2) {
               postImg2 = file.file
               postImg2Index = index
+              setFileProgressTemp({fileId: attachPhotoIdArray[1], progressDetail: {progress: 100}})
             }
-            if (numberOfPostImages === 3) {
+            else if (numberOfPostImages === 3) {
               postImg3 = file.file
               postImg3Index = index
+              setFileProgressTemp({fileId: attachPhotoIdArray[2], progressDetail: {progress: 100}})
             }
           } else if (file.type === constants.CREATE_FILE_TYPES.FILE) {
             postFile = file.file
@@ -857,13 +861,14 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
   render() {
     const {
       hideCreatePost, post, hideEdit, className, isUpdate, followers, exchanges, currentUserIdentity,
-      currentUserMedia, currentUserName, translate, currentUserId, tempFiles
+      currentUserMedia, currentUserName, translate, currentUserId, tempFiles, actions
     } = this.props
     const {
       postImg1, postImg2, postImg3, open, attachMenu, labels, link, contactMenu, linkModal, postFile, postMedia,
       isLoading, profileLoaded, description, descriptionClass, descriptionHeaderClass, focused, addProductModal, selectedProduct, postType, descriptionHeader,
       attachPhotoIdArray, attachFileId, attachVideoId,
     } = this.state
+    const {setFileProgressTemp} = actions
     const hasMediaClass = (postMedia || postImg1 || postImg2 || postImg3) ? 'hasMedia' : ''
     const postImagesLength = [postImg1, postImg2, postImg3].filter(img => img).length
     const attachPhotoId = postImagesLength === 0 ? attachPhotoIdArray[0] : attachPhotoIdArray[postImagesLength]
@@ -997,6 +1002,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
                 attachFileId={attachFileId}
                 attachVideoId={attachVideoId}
                 tempFiles={tempFiles}
+                setFileProgressTemp={setFileProgressTemp}
             />
           </div>
 
@@ -1158,6 +1164,7 @@ const mapDispatchToProps = dispatch => ({
     removeFileFromTemp: TempActions.removeFileFromTemp,
     createComment: CommentActions.createComment,
     deleteFile: FileActions.deleteFile,
+    setFileProgressTemp: TempActions.setFileProgressTemp,
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePost)

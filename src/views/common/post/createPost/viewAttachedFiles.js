@@ -11,9 +11,16 @@ RemoveFile.propTypes = {
 }
 
 class ViewAttachedFiles extends React.Component <> {
+
+  _deleteImage = (i) => {
+    const {deletePicture, setFileProgressTemp, attachPhotoIdArray} = this.props
+    setFileProgressTemp({fileId: attachPhotoIdArray[i], progressDetail: {progress: 0, close: null}})
+    deletePicture(i)
+  }
+
   render() {
     const {
-      translate, postImg1, postImg2, postImg3, postMedia, deleteMedia, focused, postFile, deletePicture,
+      translate, postImg1, postImg2, postImg3, postMedia, deleteMedia, focused, postFile,
       deleteFile, attachPhotoIdArray, tempFiles, attachVideoId, attachFileId
     } = this.props
     const postPictures = [postImg1, postImg2, postImg3].filter(img => img) //filter imges that not null & not undefined
@@ -44,7 +51,7 @@ class ViewAttachedFiles extends React.Component <> {
                             fileString ? (
                                 <div key={i + "pictures-section"}>
                                   <img style={imageStyles[i]} src={fileString} alt="imagePreview"/>
-                                  <RemoveFile onClickFunc={() => deletePicture(i)}/>
+                                  <RemoveFile onClickFunc={() => this._deleteImage(i)}/>
                                   {tempFiles[attachPhotoIdArray[i]] && tempFiles[attachPhotoIdArray[i]].progress !== 100 &&
                                   <p className='progress-number'>
                                     % {tempFiles[attachPhotoIdArray[i]].progress}
@@ -101,6 +108,7 @@ ViewAttachedFiles.propTypes = {
   attachPhotoIdArray: PropTypes.array.isRequired,
   attachFileId: PropTypes.string.isRequired,
   attachVideoId: PropTypes.string.isRequired,
+  setFileProgressTemp: PropTypes.func.isRequired,
 }
 
 ViewAttachedFiles.defaultProps = {
