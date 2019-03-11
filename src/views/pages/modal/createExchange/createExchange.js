@@ -1,43 +1,26 @@
-// @flow
-// import BasicInfo from "./basicInfo"
-// import MoreInfo from "./moreInfo"
-// import People from "./people"
-// import SuccessMessage from "./successMessage"
-// import {progressiveSteps} from "./createExchangeData"
-// import helpers from "src/consts/helperFunctions/helperFunctions"
-import * as React from "react"
-import {Component} from "react"
-import uuid from "uuid"
-import {
-  // PROGRESSIVE_STATUS_CHOICES,
-  // WRAPPER_CLASS_NAMES,
-  // exchangeFields,
-  exchangeIdentityFields
-} from "./createExchangeData"
-import {
-  // ThinDownArrow,
-  // ShareIcon,
-  // ImageUploadSvg,
-  UploadIcon
-} from "src/images/icons"
-import constants from "src/consts/constants"
-import {createFileFunc} from "src/views/common/Functions"
-import exchangeActions from "src/redux/actions/exchangeActions"
-import exchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
-import makeFileSelectorByKeyValue from "src/redux/selectors/common/file/selectFilsByKeyValue"
-import socialActions from "src/redux/actions/commonActions/socialActions"
-import type {ImageType} from "./basicInfo"
-import type {PersonType} from "./people"
-import type {TagAsOptionType} from "../../adding-contribution/types"
-import {bindActionCreators} from "redux"
-import {ClipLoader} from "react-spinners"
-import {connect} from "react-redux"
-import {createFile, getFiles} from "src/redux/actions/commonActions/fileActions"
-import {getFolloweesSelector} from "src/redux/selectors/common/social/getFollowees"
-import {hashTagsListSelector} from "src/redux/selectors/common/hashTags/hashTag"
-import types from "src/redux/actions/types"
-import TempActions from "../../../../redux/actions/tempActions"
-import {CSSTransition, TransitionGroup} from "react-transition-group"
+import * as React from 'react'
+import {Component} from 'react'
+import uuid from 'uuid'
+import {exchangeIdentityFields} from './createExchangeData'
+import {UploadIcon} from 'src/images/icons'
+import constants from 'src/consts/constants'
+import {createFileFunc} from 'src/views/common/Functions'
+import exchangeActions from 'src/redux/actions/exchangeActions'
+import exchangeMembershipActions from 'src/redux/actions/commonActions/exchangeMembershipActions'
+import makeFileSelectorByKeyValue from 'src/redux/selectors/common/file/selectFilsByKeyValue'
+import socialActions from 'src/redux/actions/commonActions/socialActions'
+import type {ImageType} from './basicInfo'
+import type {PersonType} from './people'
+import type {TagAsOptionType} from '../../adding-contribution/types'
+import {bindActionCreators} from 'redux'
+import {ClipLoader} from 'react-spinners'
+import {connect} from 'react-redux'
+import {createFile, getFiles} from 'src/redux/actions/commonActions/fileActions'
+import {getFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
+import {hashTagsListSelector} from 'src/redux/selectors/common/hashTags/hashTag'
+import types from 'src/redux/actions/types'
+import TempActions from '../../../../redux/actions/tempActions'
+import {CSSTransition, TransitionGroup} from 'react-transition-group'
 
 type HashTagType = {
   id: string,
@@ -88,18 +71,18 @@ const initialState: any = {
   selectedTags: [],
   inActPeopleIds: [], // ids of people that doing some action (like adding to exchange members) on theme in this time.
   processing: false,
-  name: "",
+  name: '',
   isPrivate: false,
-  description: "",
+  description: '',
   exchangeImage: null,
-  exchangeImageFlag: false
+  exchangeImageFlag: false,
 }
 
 class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState> {
   constructor() {
     super()
     this.state = {
-      ...initialState
+      ...initialState,
     }
   }
 
@@ -112,14 +95,14 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
       getFolloweesPayload = {
         followOwnerIdentity: auth.client.identity.content,
         followOwnerType: constants.USER_TYPES.ORG,
-        followOwnerId: auth.client.organization.id
+        followOwnerId: auth.client.organization.id,
       }
     }
     else {
       getFolloweesPayload = {
         followOwnerIdentity: auth.client.identity.content,
         followOwnerType: constants.USER_TYPES.USER,
-        followOwnerId: auth.client.user.id
+        followOwnerId: auth.client.user.id,
       }
     }
     getFollowees(getFolloweesPayload)
@@ -128,7 +111,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
   componentDidUpdate(prevProps, prevState, SS) {
     const {
       // hisFiles,
-      tempFiles
+      tempFiles,
     } = this.props
     const {exchangeImageFlag} = this.state
     // const lastFile = hisFiles[hisFiles.length - 1] || {}
@@ -140,7 +123,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
         this.setState({
           ...this.state,
           exchangeImageFlag: false,
-          processing: false
+          processing: false,
         })
       }
       // if (lastFile.id && prevLastFile.id) {
@@ -151,16 +134,16 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
     }
     if (prevState.exchangeImage !== this.state.exchangeImage && this.state.exchangeImage !== null) {
       this.setState({...this.state, processing: false})
-      console.log("NO PROCESS")
+      console.log('NO PROCESS')
     }
 
     if (this.props.modalIsOpen) {
-      doc.body.style.overflow = "hidden"
-      doc.body.style.paddingRight = "7px"
+      doc.body.style.overflow = 'hidden'
+      doc.body.style.paddingRight = '7px'
     }
     else {
-      doc.body.style.overflow = "auto"
-      doc.body.style.paddingRight = "0"
+      doc.body.style.overflow = 'auto'
+      doc.body.style.paddingRight = '0'
     }
     /*
      if ((prevProps.createdExchange.id !== createdExchange.id) && createdExchange.id) {
@@ -377,7 +360,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
           ...this.state,
           selectedImage: reader.result,
           selectedImageFile: fileString,
-          exchangeImageFlag: true
+          exchangeImageFlag: true,
         }, this._createFile)
       }
       reader.readAsDataURL(fileString)
@@ -387,14 +370,14 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
     const {createFile} = this.props
     // createFile({file_string: this.state.selectedImage})
     this.setState({...this.state, processing: true})
-    console.log("PROCESS...")
+    console.log('PROCESS...')
 
     const nextActionType = types.COMMON.FILE.SET_FILE_IDS_IN_TEMP_FILE
-    const nextActionData = "exchange_image"
+    const nextActionData = 'exchange_image'
     const createArguments = {
-      fileIdKey: "fileId",
+      fileIdKey: 'fileId',
       nextActionType,
-      nextActionData: {tempFileKeyName: nextActionData}
+      nextActionData: {tempFileKeyName: nextActionData},
     }
     const file = {fileId: uuid(), formFile: this.state.selectedImageFile}
     const fileString = this.state.selectedImage
@@ -423,7 +406,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
       name,
       description,
       // exchangeImage,
-      isPrivate
+      isPrivate,
     } = this.state
     let self: any = this
 
@@ -433,35 +416,35 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
         name: name,
         private: isPrivate,
         description: description,
-        exchange_image: tempFiles.exchange_image ? tempFiles.exchange_image : null
+        exchange_image: tempFiles.exchange_image ? tempFiles.exchange_image : null,
       }
       createExchange(formValues)
-      removeFileFromTemp("exchange_image")
+      removeFileFromTemp('exchange_image')
       handleModalVisibility()
-      self.exName.value = ""
-      self.exDes.value = ""
+      self.exName.value = ''
+      self.exDes.value = ''
       self.exPic.value = null
       this.setState(
           {
             ...this.state,
-            name: "",
-            description: "",
+            name: '',
+            description: '',
             exchangeImage: null,
             selectedImage: null,
             selectedImageFile: null,
             isPrivate: false,
-            processing: false
+            processing: false,
           })
     }
     else {
       if (description.length >= 700) {
-        self.descError.className = "product-name-error"
+        self.descError.className = 'product-name-error'
       }
-      else self.descError.className = "product-name-error-hide"
+      else self.descError.className = 'product-name-error-hide'
       if (name.length < 2 || name.length > 32) {
-        self.nameError.className = "product-name-error"
+        self.nameError.className = 'product-name-error'
       }
-      else self.nameError.className = "product-name-error-hide"
+      else self.nameError.className = 'product-name-error-hide'
     }
   }
 
@@ -470,13 +453,13 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
       // activeStep,
       // progressStatus,
       // wrapperClassName,
-      name, description, processing, selectedImage
+      name, description, processing, selectedImage,
     } = this.state
     const {modalIsOpen, translate} = this.props
     const self: any = this
     // const pageContent = this._setContent()
     return (
-        <div className={modalIsOpen ? "create-exchange-modal-container" : "create-exchange-modal-container-out"}>
+        <div className={modalIsOpen ? 'create-exchange-modal-container' : 'create-exchange-modal-container-out'}>
           <TransitionGroup>
             {modalIsOpen ?
                 <CSSTransition key={10} timeout={250} classNames='fade'>
@@ -486,69 +469,69 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
                 </CSSTransition> : null}
             {modalIsOpen ?
                 <CSSTransition key={11} timeout={250} classNames='fade'>
-                  <div className={"create-exchange-header"}>
-                    {translate["Create New Exchange"]}
+                  <div className={'create-exchange-header'}>
+                    {translate['Create New Exchange']}
                   </div>
                 </CSSTransition> : null}
             {modalIsOpen ?
                 <CSSTransition key={12} timeout={250} classNames='fade'>
-                  <div className={"create-exchange-header-desc"}>
+                  <div className={'create-exchange-header-desc'}>
                     پنجره، گروهی متشکل از ارائه‌دهندگان و متقاضیان محصولات، خدمات و مهارت هاست.
                   </div>
                 </CSSTransition> : null}
             {modalIsOpen ?
                 <CSSTransition key={13} timeout={250} classNames='fade'>
-                  <div className={"create-exchange-inputs"}>
+                  <div className={'create-exchange-inputs'}>
                     <div>
                       <label>
-                        {translate["Exchange Name"]} <span className={"secondary-color"}>*</span>
+                        {translate['Exchange Name']} <span className={'secondary-color'}>*</span>
                       </label>
-                      <input type={"text"} className={"create-exchange-name-input"} placeholder={translate["Exchange Name"]}
+                      <input type={'text'} className={'create-exchange-name-input'} placeholder={translate['Exchange Name']}
                              ref={e => self.exName = e} onChange={(e) => this.setState({...this.state, name: e.target.value})}/>
-                      <div className={name.length < 32 ? "create-exchange-name-input-limit" : "create-exchange-name-input-limited"}>
+                      <div className={name.length < 32 ? 'create-exchange-name-input-limit' : 'create-exchange-name-input-limited'}>
                         {name.length} / 32
                       </div>
-                      <div ref={e => self.nameError = e} className={"product-name-error-hide"}>طول نام غیر مجاز است</div>
+                      <div ref={e => self.nameError = e} className={'product-name-error-hide'}>طول نام غیر مجاز است</div>
                     </div>
                     <div>
                       <label>
-                        {translate["Exchange Description"]}
+                        {translate['Exchange Description']}
                       </label>
-                      <textarea className={"create-exchange-desc-input"} placeholder={"موضوع فعالیت این پنجره چیست؟"}
+                      <textarea className={'create-exchange-desc-input'} placeholder={'موضوع فعالیت این پنجره چیست؟'}
                                 ref={e => self.exDes = e} onChange={(e) => this.setState({...this.state, description: e.target.value})}/>
-                      <div className={description.length < 700 ? "create-exchange-desc-input-limit" : "create-exchange-desc-input-limited"}>
+                      <div className={description.length < 700 ? 'create-exchange-desc-input-limit' : 'create-exchange-desc-input-limited'}>
                         {description.length} / 700
                       </div>
-                      <div ref={e => self.descError = e} className={"product-name-error-hide"}>طول توضیحات غیر مجاز است</div>
+                      <div ref={e => self.descError = e} className={'product-name-error-hide'}>طول توضیحات غیر مجاز است</div>
                     </div>
                     <div>
                       <label>
-                        {translate["Upload Picture"]}
+                        {translate['Upload Picture']}
                       </label>
-                      <div className={"create-exchange-upload"}>
+                      <div className={'create-exchange-upload'}>
                         {selectedImage !== undefined && selectedImage !== null && !processing ?
-                            <img alt={""} src={selectedImage} className={"create-exchange-upload-image"}/>
+                            <img alt={''} src={selectedImage} className={'create-exchange-upload-image'}/>
                             :
-                            <UploadIcon className={"create-exchange-upload-svg"}/>
+                            <UploadIcon className={'create-exchange-upload-svg'}/>
                         }
                         <input ref={e => self.exPic = e} type="file"
-                               onChange={!processing ? (e => this._uploadHandler(e.currentTarget.files[0])) : console.log("Still Uploading")}/>
+                               onChange={!processing ? (e => this._uploadHandler(e.currentTarget.files[0])) : console.log('Still Uploading')}/>
                       </div>
                     </div>
                   </div>
                 </CSSTransition> : null}
             {modalIsOpen ?
                 <CSSTransition key={14} timeout={250} classNames='fade'>
-                  <div className={"create-exchange-buttons"}>
-                    <button className={"create-exchange-success-button"} onClick={() => !processing ? this._handleCreateExchange() : null}>
+                  <div className={'create-exchange-buttons'}>
+                    <button className={'create-exchange-success-button'} onClick={() => !processing ? this._handleCreateExchange() : null}>
                       {processing ?
                           <ClipLoader color="#35495c" size={17} loading={true}/>
                           :
-                          translate["Create"]
+                          translate['Create']
                       }
                     </button>
-                    <button className={"create-exchange-cancel-button"} onClick={() => this._handleCloseModal()}>
-                      {translate["Cancel"]}
+                    <button className={'create-exchange-cancel-button'} onClick={() => this._handleCloseModal()}>
+                      {translate['Cancel']}
                     </button>
                   </div>
                 </CSSTransition> : null}
@@ -589,13 +572,13 @@ const mapStateToProps = (state) => {
       {
         identityId: auth.client.identity.content,
         ownerId: auth.client.organization.id,
-        identityType: constants.USER_TYPES.ORG
+        identityType: constants.USER_TYPES.ORG,
       }
       :
       {
         identityId: auth.client.identity.content,
         ownerId: auth.client.user.id,
-        identityType: constants.USER_TYPES.USER
+        identityType: constants.USER_TYPES.USER,
       }
 
   const fileSelectorByKeyValue = makeFileSelectorByKeyValue()
@@ -613,14 +596,14 @@ const mapStateToProps = (state) => {
   // }, [])
   return {
     identity,
-    hisFiles: fileSelectorByKeyValue(state, "identity", identity),
+    hisFiles: fileSelectorByKeyValue(state, 'identity', identity),
     hashTags: hashTagsListSelector(state),
     social: getFolloweesSelector(state, getFolloweesProps),
     createdExchange: state.exchanges.list[exchangeId] || {},
     members,
     auth: state.auth,
     translate: state.intl.messages || {},
-    tempFiles: state.temp.file
+    tempFiles: state.temp.file,
   }
 }
 
@@ -632,8 +615,8 @@ const mapDispatchToProps = dispatch =>
           createFile,
           createExchange: exchangeActions.createExchange,
           addMember: exchangeMembershipActions.createExchangeMembership,
-          removeFileFromTemp: TempActions.removeFileFromTemp
+          removeFileFromTemp: TempActions.removeFileFromTemp,
         },
-        dispatch
+        dispatch,
     )
 export default connect(mapStateToProps, mapDispatchToProps)(CreateExchange)
