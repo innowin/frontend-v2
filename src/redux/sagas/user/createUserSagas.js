@@ -39,12 +39,10 @@ export function* createUserOrgan(action) {
       username,
       email,
       password,
-      "organization.username": username,
-      "organization.email": email,
-      "organization.official_name": `${username}_official`
     }
     yield fork(api.post, urls.USER.CREATE_USER_ORGAN, results.USER.CREATE_USER_ORGAN, data, '', true)
     const res = yield take(socketChannel)
+    console.log(res, 'responseee')
     resolve(res)
   } catch (e) {
     const {message} = e

@@ -14,7 +14,7 @@ export function* createExchangeMembership(action) {
   const state = yield select()
   const translate = state.intl.messages
   const exchangeMembershipOwnerType = state.auth.client.user_type
-  const exchangeMembershipOwnerId = state.auth.client.user.id
+  const exchangeMembershipOwnerId = state.auth.client.identity.content
 
   try {
     yield fork(api.post, urls.COMMON.EXCHANGE_MEMBERSHIP, results.COMMON.EXCHANGE_MEMBERSHIP.CREATE_EXCHANGE_MEMBERSHIP, {
