@@ -539,14 +539,18 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
                 </div>
 
                 <div className="create-product-title-container">
-                  <label className="gray-text-input-label">{translator["Product Video"]}:</label>
+                  <label className="gray-text-input-label">{translator["Product Catalog"]}:</label>
                 </div>
                 <div className={"create-product-upload-container"}>
                   <UploadIcon className={"create-product-upload-svg"}/>
-                  <input type="file" accept="video/*" onChange={null}/>
+                  <input type="file" accept="*" onChange={null}/>
                 </div>
                 <div className={"product-gallery-container"}>
-                  <div className={"product-gallery-item-container"}/>
+                  <div className={"product-gallery-item-container"}>
+                    <div>
+                      <div className={"product-file-item"}>فایلی بارگذاری نشده</div>
+                    </div>
+                  </div>
                 </div>
               </div>
           )
@@ -1015,7 +1019,7 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
     }
   }
   _createFile = () => {
-    const {createFile, temp} = this.props
+    const {createFile} = this.props
 
     const nextActionType = types.COMMON.FILE.SET_FILE_IDS_IN_TEMP_FILE
     const nextActionData = "product_image"

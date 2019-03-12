@@ -9,6 +9,7 @@ import {Info, Ticket, QuestionMark, DefaultUserIcon} from "src/images/icons"
 import {Link} from "react-router-dom"
 import checkOwner from "../../common/CheckOwner"
 import exchangeActions from "../../../redux/actions/exchangeActions"
+import {getFiles} from "src/redux/actions/commonActions/fileActions"
 // import {bindActionCreators} from "redux"
 // import educationActions from "src/redux/actions/user/educationActions"
 // import {VerifyWrapper} from "../../common/cards/Frames"
@@ -43,6 +44,12 @@ class InfoView extends Component<props, state> {
   }
 
   componentDidMount() {
+    let {exchanges, exchangeId, actions} = this.props
+    const currentExchange = exchanges[exchangeId]
+    if (currentExchange && currentExchange.owner && currentExchange.owner.profile_media) {
+      actions.getFiles(currentExchange.owner.profile_media)
+    }
+
     window.scrollTo({
       top: 0
     })
@@ -70,7 +77,8 @@ class InfoView extends Component<props, state> {
       }
       editExchange(formValues)
       this.setState({...this.state, editBio: !editBio})
-    } else {
+    }
+    else {
       self.bioError.className = "info-body-bio-text-area-error"
     }
   }
@@ -101,7 +109,7 @@ class InfoView extends Component<props, state> {
   }
 
   render() {
-    const {educations, translate, exchanges, exchangeId} = this.props
+    const {educations, translate, exchanges, exchangeId, files} = this.props
     const {editBio, exchangeBio, editSocial} = this.state
     if (exchanges[exchangeId] && exchanges[exchangeId].owner) {
       const currentExchange = exchanges[exchangeId]
@@ -162,11 +170,13 @@ class InfoView extends Component<props, state> {
                   <div className={"info-exchange-owner-frame"}>
                     <Link to={owner.identity_type === "user" ? `/user/${owner.id}` : `/organization/${owner.id}`}>
                       <div className={"info-exchange-owner-image-frame"}>
-                        {owner.profile_media !== null ? <div className='rounded-circle-info-parent' ref={e => this.scroll = e}
-                                                             onLoad={() => this.scroll.scrollLeft = 10}><img alt={"تصویر پروفایل"}
-                                                                                                             src={owner.profile_media.file}
-                                                                                                             height={"60px"}
-                                                                                                             className={"post-user-picture"}/>
+                        {owner.profile_media !== null ?
+                            <div className='rounded-circle-info-parent' ref={e => this.scroll = e}
+                                 onLoad={() => this.scroll.scrollLeft = 10}>
+                              <img alt={"تصویر پروفایل"}
+                                   src={files[owner.profile_media] && files[owner.profile_media].file}
+                                   height={"60px"}
+                                   className={"post-user-picture"}/>
                             </div>
                             : <DefaultUserIcon
                                 height={"55px"} width={"55px"} className={"post-user-picture"}/>}
@@ -316,10 +326,12 @@ class InfoView extends Component<props, state> {
               </div>
             </div>
         )
-      } else return <div className={"info-loading"}>
+      }
+      else return <div className={"info-loading"}>
         <ClipLoader color="#C2B9BD" size={45} margin="4px" loading={true}/>
       </div>
-    } else return <div className={"info-loading"}>
+    }
+    else return <div className={"info-loading"}>
       <ClipLoader color="#C2B9BD" size={45} margin="4px" loading={true}/>
     </div>
   }
@@ -329,12 +341,14 @@ const mapStateToProps = (state) => ({
   educations: state.education.list,
   exchanges: state.exchanges.list,
   identities: state.identities.list,
-  translate: getMessages(state)
+  translate: getMessages(state),
+  files: state.common.file.list
 })
 
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({
-    editExchange: exchangeActions.editExchange
+    editExchange: exchangeActions.editExchange,
+    getFiles
   }, dispatch)
 })
 

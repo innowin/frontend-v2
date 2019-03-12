@@ -4,7 +4,7 @@ import exchangeActions from "src/redux/actions/exchangeActions"
 import {connect} from "react-redux"
 import {bindActionCreators} from "redux"
 import {ExchangeIcon} from "src/images/icons"
-import ExchangeMembershipActions from "../../redux/actions/commonActions/exchangeMembershipActions"
+import ExchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
 import {DefaultUserIcon} from "src/images/icons"
 import {BeatLoader, ClipLoader} from "react-spinners"
 import {REST_URL} from "src/consts/URLS"
@@ -12,6 +12,11 @@ import {Link} from "react-router-dom"
 import type {ImageType} from "../pages/modal/createExchange/basicInfo"
 import makeFileSelectorByKeyValue from "src/redux/selectors/common/file/selectFilsByKeyValue"
 import {createFile} from "src/redux/actions/commonActions/fileActions"
+import TempActions from "src/redux/actions/tempActions"
+import types from "../../redux/actions/types"
+import uuid from "uuid"
+import {createFileFunc} from "../common/Functions"
+import constants from "../../consts/constants"
 
 
 class ExchangeViewBar extends Component {
@@ -27,6 +32,7 @@ class ExchangeViewBar extends Component {
       supplyCount: 0,
       productCount: 0,
       badgesImgUrl: [],
+      currentFileId: "",
       tags: [],
       members: [],
       membersViewSide: false,
@@ -165,7 +171,9 @@ class ExchangeViewBar extends Component {
   }
 
   componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot: SS): void {
-    let {clientFiles, exchangesIdentities, clientExchangeMemberships} = this.props
+    let {clientFiles, exchangesIdentities, clientExchangeMemberships, temp, actions} = this.props
+    let {removeFileFromTemp} = actions
+
     const lastFile = clientFiles[clientFiles.length - 1] || {}
     const prevLastFile = prevProps.clientFiles[prevProps.clientFiles.length - 1] || {}
 
@@ -181,10 +189,14 @@ class ExchangeViewBar extends Component {
       })
     }
 
-    if (lastFile.id && prevLastFile.id) {
-      if (lastFile.id !== prevLastFile.id) {
-        this._imageHandler(lastFile)
-      }
+    // if (lastFile.id && prevLastFile.id) {
+    //   if (lastFile.id !== prevLastFile.id) {
+    //     this._imageHandler(lastFile)
+    //   }
+    // }
+    if (this.state.currentFileId !== "" && temp[this.state.currentFileId] && temp[this.state.currentFileId].progress === 100 && temp["exchange_new_image"]) {
+      this._imageHandler(temp["exchange_new_image"])
+      removeFileFromTemp("exchange_new_image")
     }
 
   }
@@ -281,20 +293,36 @@ class ExchangeViewBar extends Component {
       reader.onload = () => {
         this.setState({
           ...this.state,
-          selectedImageTemp: reader.result
+          selectedImageTemp: reader.result,
+          selectedImageFile: fileString
         }, this._createFile)
       }
     }
   }
   _createFile = () => {
     const {createFile} = this.props.actions
-    this.setState({...this.state, processing: true})
-    createFile({file_string: this.state.selectedImageTemp})
+
+    const nextActionType = types.COMMON.FILE.SET_FILE_IDS_IN_TEMP_FILE
+    const nextActionData = "exchange_new_image"
+    const createArguments = {
+      fileIdKey: "fileId",
+      nextActionType,
+      nextActionData: {tempFileKeyName: nextActionData}
+    }
+    let fileId = uuid()
+    const file = {fileId, formFile: this.state.selectedImageFile}
+    const fileString = this.state.selectedImageTemp
+    createFileFunc(createFile, fileString, createArguments, constants.CREATE_FILE_TYPES.IMAGE, constants.CREATE_FILE_CATEGORIES.EXCHANGE.IMAGE, file)
+
+    this.setState({...this.state, processing: true, currentFileId: fileId})
+    console.log("PROCESS....")
+
   }
-  _imageHandler = (img: ImageType) => {
+  _imageHandler = (id: number) => {
     this.setState({
       ...this.state,
-      selectedImage: img,
+      selectedImage: this.state.selectedImageTemp,
+      selectedImageId: id,
       processing: false
     })
   }
@@ -303,14 +331,14 @@ class ExchangeViewBar extends Component {
     // alert(this.editDescription.value.length)
     // alert(this.editName.value)
     if (this.editDescription && this.editDescription.value.length <= 100) {
-      const {selectedImage} = this.state
+      const {selectedImageId} = this.state
       const {actions, exchangeId} = this.props
       const {editExchange} = actions
       let formValues = {
         exchange_id: exchangeId,
         exchange_description: this.editDescription && this.editDescription.value,
         exchange_name: this.editName && this.editName.value,
-        exchange_media: selectedImage !== null ? selectedImage.id : null
+        exchange_media: selectedImageId !== null ? selectedImageId : null
       }
       editExchange(formValues)
       // getExchangeByExId(exchangeId)
@@ -391,13 +419,13 @@ class ExchangeViewBar extends Component {
 
                     currentExchange.exchange_image && imageLoaded ?
                         <img className="exchangeViewBarImg" alt={translate["Exchange Picture"]}
-                             src={selectedImage ? selectedImage.file :
+                             src={selectedImage ? selectedImage :
                                  currentExchange.exchange_image.file.includes("innowin.ir") ?
                                      currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file}/>
                         :
                         currentExchange.exchange && currentExchange.exchange_image ?
                             <img className="exchangeViewBarImg" alt={translate["Exchange Picture"]}
-                                 src={selectedImage ? selectedImage.file :
+                                 src={selectedImage ? selectedImage :
                                      currentExchange.exchange_image.file.includes("innowin.ir") ?
                                          currentExchange.exchange_image.file :
                                          REST_URL + currentExchange.exchange_image.file}/>
@@ -412,7 +440,7 @@ class ExchangeViewBar extends Component {
                             تغییر تصویر
                           </div>
                           <img className="exchangeViewBarImg" alt={translate["Exchange Picture"]}
-                               src={selectedImage ? selectedImage.file :
+                               src={selectedImage ? selectedImage :
                                    currentExchange.exchange_image.file.includes("innowin.ir") ?
                                        currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file}/>
                           {!processing ?
@@ -426,7 +454,7 @@ class ExchangeViewBar extends Component {
                                 تغییر تصویر
                               </div>
                               <img className="exchangeViewBarImg" alt={translate["Exchange Picture"]}
-                                   src={selectedImage ? selectedImage.file :
+                                   src={selectedImage ? selectedImage :
                                        currentExchange.exchange_image.file.includes("innowin.ir") ?
                                            currentExchange.exchange_image.file :
                                            REST_URL + currentExchange.exchange_image.file}/>
@@ -442,7 +470,7 @@ class ExchangeViewBar extends Component {
                               {
                                 selectedImage ?
                                     <img className="exchangeViewBarImg" alt={translate["Exchange Picture"]}
-                                         src={selectedImage.file}/> : <DefaultUserIcon className="exchangeViewBarImg"/>
+                                         src={selectedImage}/> : <DefaultUserIcon className="exchangeViewBarImg"/>
                               }
                               {!processing ?
                                   <input type="file" accept="image/*" onChange={e => this._uploadHandler(e.currentTarget.files[0])}/>
@@ -593,7 +621,8 @@ const StateToProps = (state, ownProps) => {
     currentUserType: client.user_type,
     exchangesIdentities: state.common.exchangeMembership.list,
     clientExchangeMemberships: state.auth.client.exchangeMemberships,
-    clientFiles: fileSelectorByKeyValue(state, "identity", client.identity.content)
+    clientFiles: fileSelectorByKeyValue(state, "identity", client.identity.content),
+    temp: state.temp.file
   })
 }
 const DispatchToProps = dispatch => ({
@@ -606,7 +635,8 @@ const DispatchToProps = dispatch => ({
     unFollow: ExchangeMembershipActions.deleteExchangeMembership,
     getExchangeMembershipByMemberIdentity: ExchangeMembershipActions.getExchangeMembershipByMemberIdentity,
     getAllExchanges: exchangeActions.getAllExchanges,
-    createFile
+    createFile,
+    removeFileFromTemp: TempActions.removeFileFromTemp,
   }, dispatch)
 })
 

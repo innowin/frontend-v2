@@ -128,11 +128,12 @@ class User extends Component <appProps, appState> {
     const {data: user, followees} = this.props
     const {badges} = user.badges || []
     const {profileLoaded, bannerLoaded} = this.state
-    const organId = user.identity_type === constants.USER_TYPES.ORG ? user.id : undefined
+    const userId = user.id
+    const userType = user.identity_type
 
     return (
         <div className='users-explore'>
-          <Link to={organId ? `/organization/${organId}` : `/user/${user.id}`} style={{textDecoration: "none", color: "black"}}>
+          <Link to={userType === constants.USER_TYPES.ORG ? `/organization/${userId}` : `/user/${userId}`} style={{textDecoration: "none", color: "black"}}>
             {
               user.profile_banner && bannerLoaded ?
                   <img src={user.profile_banner.file.includes("innowin.ir") ? user.profile_banner.file : REST_URL + user.profile_banner.file}
@@ -151,7 +152,7 @@ class User extends Component <appProps, appState> {
             <div className='user-name-id-cont'>
               <div className='user-name'>
                 {
-                  user.identity_type === "user" ?
+                  userType === constants.USER_TYPES.USER ?
                     <UserIcon className='user-name-icon'/>
                     : <Organization className='user-name-icon'/>
                 }
