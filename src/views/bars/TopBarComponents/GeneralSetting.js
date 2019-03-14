@@ -197,7 +197,7 @@ class GeneralSetting extends Component {
           <div className='settingModal-menu-general-title'>
             {topBarTranslate['Username']}
           </div>
-          <input type='text' defaultValue={user.username} ref={e => this.username = e}
+          <input type='text' defaultValue={user ? user.username : ''} ref={e => this.username = e}
                  className='settingModal-menu-general-input' onChange={this.handleUsernameChange}/>
           <div ref={e => this.usernameError = e} className='settingModal-menu-general-error'/>
           <div className='settingModal-menu-general-hint'>حداقل 5 و حداکثر 32 کاراکتر dot و underline ، 9-0 ، Z-A شامل
@@ -219,7 +219,7 @@ class GeneralSetting extends Component {
           <div className='settingModal-menu-general-title'>
             {topBarTranslate['Contact Email']}
           </div>
-          <input type='email' defaultValue={user.email} ref={e => this.email = e}
+          <input type='email' defaultValue={user ? user.email : ''} ref={e => this.email = e}
                  className='settingModal-menu-general-input' onChange={this.handleEmailChange}/>
           <div ref={e => this.emailError = e} className='settingModal-menu-general-error'>
             لطفا ایمیلی معتبر وارد کنید!
@@ -231,7 +231,7 @@ class GeneralSetting extends Component {
           <div className='settingModal-menu-general-title'>
             {translate['Phone']}
           </div>
-          <input type='text' defaultValue={user.auth_mobile} ref={e => this.authMobile = e}
+          <input type='text' defaultValue={user ? user.auth_mobile : ''} ref={e => this.authMobile = e}
                  className='settingModal-menu-general-input' onChange={this.handleEmailChange}/>
           <div ref={e => this.authMobileError = e}
                className='settingModal-menu-general-error'>{translate['Phone number is wrong']}</div>
