@@ -170,7 +170,6 @@ class Login extends Component {
                 </div>
                 }
               </div>
-
               <CarouselLogin/>
             </div>
             <FooterLogin year={year}/>

@@ -4,7 +4,6 @@ import urls from "src/consts/URLS"
 import {call, fork, take, put} from "redux-saga/effects"
 import types from "src/redux/actions/types"
 
-
 function* getFileByRelatedParentId(action) {
   const {fileRelatedParentId, fileParentType} = action.payload
   const resultName = results.COMMON.FILE.GET_FILE_BY_RELATED_PARENT_ID + fileRelatedParentId

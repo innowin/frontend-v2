@@ -104,7 +104,6 @@ class User extends Component<PropsUser> {
     // const description = translate['User']
     return (
         <div className="-userOrganBackgroundImg">
-          {/*<TopBar collapseClassName="col user-sidebar-width"/>*/}
           {/*
           <Helmet>
             <title>{title}</title>
@@ -145,7 +144,7 @@ class User extends Component<PropsUser> {
                     badges={badges}
                     paramId={userId}
                     owner={userObject}
-                />
+                 />
 
 
                 <div className="col-md-6 col-sm-10 center-column">

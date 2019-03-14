@@ -258,8 +258,8 @@ const organs = (state = initialState.organs, action) => {
     case types.SUCCESS.ABILITY.CREATE_ABILITY:
       return slices.createAbility.success(state, action)
       /** -------------------------- sign in  -------------------------> **/
-    case types.SUCCESS.AUTH.SIGN_IN:
-      return slices.signIn.success(state, action)
+    // case types.SUCCESS.AUTH.SIGN_IN:
+    //   return slices.signIn.success(state, action)
     /** -------------------------- reset organs -------------------------> **/
     case types.RESET:
       return initialState.organs

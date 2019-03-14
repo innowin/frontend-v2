@@ -127,12 +127,12 @@ export class Organization extends Component<PropsOrganization> {
 
                   <div className='header-container'>
 
-                    <NavLink to={`${url}/contributions`} className='header-container-item' activeClassName='header-container-item-active'>
-                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material-first' content={translate['Contributions']}/>
-                    </NavLink>
-
                     <NavLink to={`${url}/Posts`} className='header-container-item' activeClassName='header-container-item-active'>
                       <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Stream']}/>
+                    </NavLink>
+
+                    <NavLink to={`${url}/contributions`} className='header-container-item' activeClassName='header-container-item-active'>
+                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material-first' content={translate['Contributions']}/>
                     </NavLink>
 
                     <NavLink to={`${url}/basicInformation`} className='header-container-item' activeClassName='header-container-item-active'>
@@ -161,7 +161,7 @@ export class Organization extends Component<PropsOrganization> {
 
                   </div>
                   <Switch>
-                    <Redirect exact from={`${url}/`} to={`${url}/contributions`}/>
+                    <Redirect exact from={`${url}/`} to={`${url}/Posts`}/>
                     <PrivateRoute path={`${path}/contributions`}
                                   component={Contributions}
                                   ownerId={userId}
