@@ -1,20 +1,20 @@
-import connect from "react-redux/es/connect/connect"
+import connect from 'react-redux/es/connect/connect'
 import React, {Component} from 'react'
-import updateUserByUserIdAction from "../../../redux/actions/user/updateUserByUserIdAction"
-import {bindActionCreators} from "redux"
-import updateProfileByProfileIdAction from "../../../redux/actions/user/updateProfileByProfileIdAction";
+import updateUserByUserIdAction from 'src/redux/actions/user/updateUserByUserIdAction'
+import {bindActionCreators} from 'redux'
+import updateProfileByProfileIdAction from 'src/redux/actions/user/updateProfileByProfileIdAction'
 
 class GeneralSetting extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      saved: false
+      saved: false,
     }
   }
 
   saveChanges = () => {
-    const {actions, profileId, userId} = this.props
-    const {updateUserByUserId, updateProfileByUserId} = actions
+    const {actions, user} = this.props
+    const {updateUserByUserId} = actions
 
     if (!this.state.saved) {
       const username = this.username.value
@@ -29,29 +29,32 @@ class GeneralSetting extends Component {
       let formEmail = null
       let formAuthMobile = null
 
-      if (username !== this.props.username && (username.length > 4) && (username.length < 33)) {
+      if (username !== user.username && (username.length > 4) && (username.length < 33)) {
         if (!/^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]+$/.test(username)) {
           error = true
           this.usernameError.className = 'settingModal-menu-general-error-show'
           this.usernameError.innerText = 'نام کاربری غیر قابل قبول است. لطفا تنها از حروف انگلیسی  یا اعداد یا کاراکتر ـ استفاده نمایید.'
-        } else {
+        }
+        else {
           formUsername = username
         }
-      } else if (username.length < 5) {
+      }
+      else if (username.length < 5) {
         error = true
         this.usernameError.className = 'settingModal-menu-general-error-show'
         this.usernameError.innerText = 'لطفا نام کاربری با طول حداقل 5 کاراکتر وارد کنید!'
-      } else if (username.length > 32) {
+      }
+      else if (username.length > 32) {
         error = true
         this.usernameError.className = 'settingModal-menu-general-error-show'
         this.usernameError.innerText = 'لطفا نام کاربری با طول حداکثر 32 کاراکتر وارد کنید!'
       }
 
       if (password !== '') {
-        const test1 = "(?=.*[a-z])"
-        const test2 = "(?=.*[A-Z])"
-        const test3 = "(?=.[!@#\\$%\\^&])"
-        const test4 = "(?=.*[0-9])"
+        const test1 = '(?=.*[a-z])'
+        const test2 = '(?=.*[A-Z])'
+        const test3 = '(?=.[!@#\\$%\\^&])'
+        const test4 = '(?=.*[0-9])'
         const level1 = new RegExp(test1)
         const level2 = new RegExp(test2)
         const level3 = new RegExp(test3)
@@ -73,31 +76,35 @@ class GeneralSetting extends Component {
           this.passwordError.innerText = 'لطفا یک رمز ورودی قوی شامل یک عدد یا یک حرف بزرگ یا علامت ، با طول حداقل 8 کاراکتر وارد کنید!'
           this.passwordError.className = 'settingModal-menu-general-error-show'
           error = true
-        } else if (!validate) {
+        }
+        else if (!validate) {
           error = true
           this.passwordError.innerText = 'این رمز ضعیف است. رمز ورود حداقل دارای یک عدد یا یک حرف بزرگ یا علامت باشد!'
           this.passwordError.className = 'settingModal-menu-general-error-show'
-        } else if (validate && password.length > 7) {
+        }
+        else if (validate && password.length > 7) {
           formPassword = password
         }
       }
 
-      if (email !== this.props.email) {
-        let atpos = email.indexOf("@")
-        let dotpos = email.lastIndexOf(".")
+      if (email !== user.email) {
+        let atpos = email.indexOf('@')
+        let dotpos = email.lastIndexOf('.')
         if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= email.length) {
           error = true
           this.emailError.className = 'settingModal-menu-general-error-show'
-        } else {
+        }
+        else {
           formEmail = email
         }
       }
 
-      if (authMobile !== this.props.authMobile) {
+      if (authMobile !== user.authMobile) {
         if (!/^\d{11}$/.test(authMobile)) {
           error = true
           this.authMobileError.className = 'settingModal-menu-general-error-show'
-        } else {
+        }
+        else {
           formAuthMobile = authMobile
         }
       }
@@ -106,22 +113,22 @@ class GeneralSetting extends Component {
         const formFormat = {
           username: formUsername,
           password: formPassword,
-          email: formEmail
+          email: formEmail,
+          auth_mobile: formAuthMobile,
         }
 
         const propertyNames = Object.keys(formFormat)
         propertyNames.map(key =>
-            formFormat[key] === null ? delete (formFormat[key]) : null
+            formFormat[key] === null ? delete (formFormat[key]) : null,
         )
 
-        updateUserByUserId(formFormat, userId)
-        updateProfileByUserId({formValues: {auth_mobile: formAuthMobile}, profileId, userId})
+        updateUserByUserId(formFormat, user.id)
       }
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if ((this.props.email !== nextProps.email) || (this.props.username !== nextProps.username) || (this.props.password !== nextProps.password) || (this.props.authMobile !== nextProps.authMobile)) {
+    if ((this.props.user.email !== nextProps.user.email) || (this.props.user.username !== nextProps.user.username) || (this.props.user.password !== nextProps.user.password) || (this.props.user.authMobile !== nextProps.user.authMobile)) {
       this.setState({...this.state, saved: true})
     }
   }
@@ -141,11 +148,12 @@ class GeneralSetting extends Component {
   handleEmailChange = (e) => {
     e.target.value = e.target.value.replace(/ /g, '')
     let email = e.target.value.replace(/ /g, '')
-    if (email !== this.props.email) {
-      let atpos = email.indexOf("@")
-      let dotpos = email.lastIndexOf(".")
+    if (email !== this.props.user.email) {
+      let atpos = email.indexOf('@')
+      let dotpos = email.lastIndexOf('.')
       if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= email.length) {
-      } else {
+      }
+      else {
         this.emailError.className = 'settingModal-menu-general-error'
       }
     }
@@ -154,10 +162,10 @@ class GeneralSetting extends Component {
   handlePasswordChange = (e) => {
     let password = e.target.value
     if (password !== '' && password.length > 7) {
-      const test1 = "(?=.*[a-z])"
-      const test2 = "(?=.*[A-Z])"
-      const test3 = "(?=.[!@#\\$%\\^&])"
-      const test4 = "(?=.*[0-9])"
+      const test1 = '(?=.*[a-z])'
+      const test2 = '(?=.*[A-Z])'
+      const test3 = '(?=.[!@#\\$%\\^&])'
+      const test4 = '(?=.*[0-9])'
       const level1 = new RegExp(test1)
       const level2 = new RegExp(test2)
       const level3 = new RegExp(test3)
@@ -182,14 +190,14 @@ class GeneralSetting extends Component {
   }
 
   render() {
-    const {translate, authMobile} = this.props
+    const {translate, user} = this.props
     const topBarTranslate = translate.topBar
     return (
-        <div style={{textAlign: "right", position: "relative", paddingBottom: "50px"}}>
+        <div style={{textAlign: 'right', position: 'relative', paddingBottom: '50px'}}>
           <div className='settingModal-menu-general-title'>
-            {topBarTranslate["Username"]}
+            {topBarTranslate['Username']}
           </div>
-          <input type='text' defaultValue={this.props.username} ref={e => this.username = e}
+          <input type='text' defaultValue={user.username} ref={e => this.username = e}
                  className='settingModal-menu-general-input' onChange={this.handleUsernameChange}/>
           <div ref={e => this.usernameError = e} className='settingModal-menu-general-error'/>
           <div className='settingModal-menu-general-hint'>حداقل 5 و حداکثر 32 کاراکتر dot و underline ، 9-0 ، Z-A شامل
@@ -197,7 +205,7 @@ class GeneralSetting extends Component {
           </div>
 
           <div className='settingModal-menu-general-title'>
-            {topBarTranslate["Password"]}
+            {topBarTranslate['Password']}
           </div>
           <input type='password' placeholder='******' ref={e => this.password = e}
                  className='settingModal-menu-general-input-password' onChange={this.handlePasswordChange}/>
@@ -209,9 +217,9 @@ class GeneralSetting extends Component {
           </div>
 
           <div className='settingModal-menu-general-title'>
-            {topBarTranslate["Contact Email"]}
+            {topBarTranslate['Contact Email']}
           </div>
-          <input type='email' defaultValue={this.props.email} ref={e => this.email = e}
+          <input type='email' defaultValue={user.email} ref={e => this.email = e}
                  className='settingModal-menu-general-input' onChange={this.handleEmailChange}/>
           <div ref={e => this.emailError = e} className='settingModal-menu-general-error'>
             لطفا ایمیلی معتبر وارد کنید!
@@ -221,16 +229,16 @@ class GeneralSetting extends Component {
           </div>
 
           <div className='settingModal-menu-general-title'>
-            {translate["Phone"]}
+            {translate['Phone']}
           </div>
-          <input type='text' defaultValue={authMobile} ref={e => this.authMobile = e}
+          <input type='text' defaultValue={user.auth_mobile} ref={e => this.authMobile = e}
                  className='settingModal-menu-general-input' onChange={this.handleEmailChange}/>
           <div ref={e => this.authMobileError = e}
-               className='settingModal-menu-general-error'>{translate["Phone number is wrong"]}</div>
+               className='settingModal-menu-general-error'>{translate['Phone number is wrong']}</div>
           <div className='settingModal-menu-general-hint'>{topBarTranslate['Phone setting description']}</div>
 
           <button className={this.state.saved ? 'settingModal-menu-general-saved' : 'settingModal-menu-general-save'}
-                  onClick={this.saveChanges}>{this.state.saved ? 'ذخیره شد' : topBarTranslate["Save Changes"]}
+                  onClick={this.saveChanges}>{this.state.saved ? 'ذخیره شد' : topBarTranslate['Save Changes']}
           </button>
 
           <button className={this.state.saved ? 'settingModal-menu-general-close' : 'settingModal-menu-general-closed'}
@@ -243,23 +251,16 @@ class GeneralSetting extends Component {
 }
 
 const mapStateToProps = state => {
-  const user = state.auth.client.user
-  const profile = state.auth.client.profile
+  const id = state.auth.client.identity.content
   return {
-    userId: user.id,
-    username: user.username,
-    password: user.password,
-    email: user.email,
-    authMobile: profile.auth_mobile,
-    profileId: profile.id,
-    translate: state.intl.messages
+    user: state.identities.list[id],
+    translate: state.intl.messages,
   }
 }
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     updateUserByUserId: updateUserByUserIdAction.updateUser,
-    updateProfileByUserId: updateProfileByProfileIdAction.updateProfile,
-  }, dispatch)
+  }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(GeneralSetting)
