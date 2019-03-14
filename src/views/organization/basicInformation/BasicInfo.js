@@ -1,7 +1,6 @@
 // @flow
 import * as React from "react"
 import PropTypes from "prop-types"
-
 import BasicInfoEditForm from './BasicInfoEditForm'
 import BasicInfoView from './BasicInfoView'
 import type {organizationType} from "src/consts/flowTypes/organization/organization"

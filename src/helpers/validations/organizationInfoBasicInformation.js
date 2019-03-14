@@ -1,5 +1,5 @@
 const validateNikeName = (nikeName, translate) => {
-  if (nikeName.length < 50) {
+  if (nikeName.length > 20) {
     return translate['Official name is wrong']
   }
 }

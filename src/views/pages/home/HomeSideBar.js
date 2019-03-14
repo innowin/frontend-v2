@@ -7,29 +7,11 @@ import type {exchangeType} from 'src/consts/flowTypes/exchange/exchange.js'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-// import {SeeViewIcon, RefreshIcon, SettingIcon, ChannelIcon} from 'src/images/icons'
 import {ChannelIcon} from 'src/images/icons'
 import {getExchangeMembershipsSelector} from 'src/redux/selectors/common/social/getExchangeMemberships'
 import Material from '../../common/components/Material'
 import UserDetailPanel from '../../common/components/UserDetailPanel'
 
-// const DescriptionSideBarItem = ({description = '', className = ''}) => {
-//   return (
-//       <div className={className}>
-//         {description}
-//       </div>
-//   )
-// }
-//
-// const FooterSideBarItem = ({exchangeId, className = ''}) => {
-//   return (
-//       <div className={className}>
-//         <Link to={'/exchange/' + exchangeId}><SeeViewIcon height="15px" className="cursor-pointer"/></Link>
-//         <SettingIcon height="16px" className="cursor-pointer mr-4"/>
-//         <RefreshIcon height="16px" className="cursor-pointer mr-4"/>
-//       </div>
-//   )
-// }
 
 type PropsSideBarItem = {
   exchange: exchangeType,
@@ -108,7 +90,6 @@ type PropsHomeSideBar = {|
     getExchangeMembershipByMemberIdentity: Function
   },
   identityType: string,
-  id: number,
 |}
 
 class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
@@ -118,7 +99,6 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
     setExchangeId: PropTypes.func.isRequired,
     classNames: PropTypes.string,
     identityType: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired
   }
 
   constructor(props) {

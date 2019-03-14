@@ -27,7 +27,6 @@ import {Component} from 'react'
 import {connect} from 'react-redux'
 import {getMessages} from '../redux/selectors/translateSelector'
 import {NavLink, Switch, Redirect} from 'react-router-dom'
-import {UserSideBar} from './bars/SideBar'
 import SideBarContent from './bars/SideBar'
 
 type PropsUser = {
@@ -96,7 +95,7 @@ class User extends Component<PropsUser> {
   }
 
   render() {
-    const {match, profileBanner, profileMedia, userObject, badgesObject, badges, translate} = this.props
+    const {match, userObject, badgesObject, badges, translate} = this.props
     const {path, url, params} = match
     const userId: number = +params.id
     const isLoading = userObject.isLoading || badgesObject.isLoading

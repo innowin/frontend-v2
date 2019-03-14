@@ -3,7 +3,6 @@ import * as React from 'react'
 import {FrameCard, CategoryTitle} from "../../common/cards/Frames"
 import {ListGroup} from '../../common/cards/Frames'
 import BasicInfo from './BasicInfo'
-import OrganizationActions from 'src/redux/actions/organization/organizationActions'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {getMessages} from "src/redux/selectors/translateSelector"
@@ -13,7 +12,7 @@ import ContactInfo from "./ContactInfo"
 import PrivateInfo from './PrivateInfo'
 import CheckOwner from "../../common/CheckOwner"
 import {LinkInfo} from "./LinkInfo";
-
+import updateUserByUserIdAction from '../../../redux/actions/user/updateUserByUserIdAction'
 
 type organizationBasicInformationProps = {
   organizationId: number,
@@ -53,10 +52,7 @@ const mapStateToProps = (state) => ({
 })
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    getOrganizationByOrganId: OrganizationActions.getOrganizationByOrganId,
-    getOrganizationMembers: OrganizationActions.getOrganizationMembers,
-    getOrgStaff: OrganizationActions.getOrgStaff,
-    updateOrganizationByOrganizationId: OrganizationActions.updateOrganization,
+    updateUserByUserId: updateUserByUserIdAction.updateUser,
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(OrganizationBasicInformation )

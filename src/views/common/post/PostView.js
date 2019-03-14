@@ -428,7 +428,7 @@ const mapStateToProps = (state, ownProps) => {
     return {
       postIdentity: postIdentity,
       postRelatedProduct,
-      postRelatedIdentityImage: post.post_related_identity.profile_media,
+      postRelatedIdentityImage: post.post_related_identity ? post.post_related_identity.profile_media : null,
       translate: getMessages(state),
     }
   }
