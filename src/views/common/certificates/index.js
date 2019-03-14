@@ -12,7 +12,6 @@ import CertificateInfoCreateForm from './CertificateInfoCreateForm'
 
 type PropsCertificates = {
   ownerId: number,
-  identityId: number,
   identityType: string,
   translate: { [string]: string },
   actions: {
@@ -27,7 +26,6 @@ type StateCertificates = {
 export class Index extends Component<PropsCertificates, StateCertificates> {
   static propTypes = {
     ownerId: PropTypes.number.isRequired,
-    identityId: PropTypes.number.isRequired,
     identityType: PropTypes.string.isRequired,
     translate: PropTypes.object.isRequired,
     actions: PropTypes.objectOf(PropTypes.func),

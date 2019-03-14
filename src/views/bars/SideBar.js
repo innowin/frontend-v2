@@ -75,13 +75,6 @@ type PropsSideBarContent = {
   picture: fileType | Object,
   name: ?string,
   description: ?string,
-  chosenBadgesImg: (string)[],
-  socialNetworks: {
-    telegram_account: ?string,
-    instagram_account: ?string,
-    linkedin_account: ?string,
-    twitter_account: ?string
-  },
   translate?: TranslatorType,
   className?: string,
   actions?: {
@@ -97,8 +90,6 @@ type PropsSideBarContent = {
 type StateSideBarContent = {
   menuToggle: boolean,
   editProfile: boolean,
-  bannerState: ?string,
-  pictureState: ?string,
   descriptionState: ?string,
   descriptionClass: ?string,
   saving: boolean,
@@ -111,8 +102,6 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     name: PropTypes.string,
     picture: PropTypes.object,
     description: PropTypes.string,
-    chosenBadgesImg: PropTypes.array.isRequired,
-    socialNetworks: PropTypes.object.isRequired,
     className: PropTypes.string,
     identityId: PropTypes.number,
     owner: PropTypes.object,
@@ -125,8 +114,6 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     this.state = {
       menuToggle: false,
       editProfile: false,
-      bannerState: '',
-      pictureState: '',
       saving: false,
       descriptionState: '',
       selectedImageFile: '',
@@ -232,8 +219,6 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
     const descriptionLength = descriptionState ? descriptionState.trim().length : 0
     const descriptionError = descriptionLength > 70
     const validates = [
-      // this.AttachBannerFileInput && this.AttachBannerFileInput._validate(),
-      // this.AttachPictureFileInput && this.AttachPictureFileInput._validate(),
       descriptionError,
     ]
     for (let i = 0; i < validates.length; i++) {
@@ -246,15 +231,12 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
   }
 
   _handleEditProfile = (e: any) => {
-    const description = this.props.owner.description
     e.preventDefault()
-    const editProfile = !(this.state.editProfile)
+    const description = this.props.owner.description
     this.setState({
       ...this.state,
-      editProfile,
+      editProfile: !this.state.editProfile,
       menuToggle: false,
-      bannerState: '',
-      pictureState: '',
       descriptionState: description,
     })
   }
@@ -289,32 +271,8 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
       this.setState({...this.state, descriptionState: description}, () => this._checkCharacter(description))
   }
 
-  _handleBlurText = (e) => {
+  _handleBlurText = () => {
     this.setState({...this.state, descriptionClass: ''})
-  }
-
-
-  _preSave = () => {
-    this.setState({...this.state, saving: true, editProfile: false})
-    const {actions} = this.props
-    const {bannerState, pictureState} = this.state
-    const {createFile} = actions || {}
-    const nextActionDataForBanner = {tempFileKeyName: 'profile_banner'}
-    const nextActionDataForPicture = {tempFileKeyName: 'profile_media'}
-    const nextActionType = types.COMMON.FILE.SET_FILE_IDS_IN_TEMP_FILE
-    const fileIdKey = 'fileId'
-    const bannerCreateArguments = {
-      fileIdKey,
-      nextActionType,
-      nextActionData: nextActionDataForBanner,
-    }
-    const pictureCreateArguments = {
-      fileIdKey,
-      nextActionType,
-      nextActionData: nextActionDataForPicture,
-    }
-    if (bannerState) createFileFunc(createFile, bannerState, bannerCreateArguments, constants.CREATE_FILE_TYPES.IMAGE, constants.CREATE_FILE_CATEGORIES.PROFILE.BANNER)
-    if (pictureState) createFileFunc(createFile, pictureState, pictureCreateArguments, constants.CREATE_FILE_TYPES.IMAGE, constants.CREATE_FILE_CATEGORIES.PROFILE.PROFILE_PICTURE)
   }
 
   _save = () => {
@@ -330,20 +288,19 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
   _handleSubmit = (e) => {
     e.preventDefault()
     if (this._formValidate()) {
-      this._preSave()
+      this.setState({...this.state, saving: true, editProfile: false})
     }
     return false
   }
 
   componentDidUpdate() {
-    const {profileBannerId, profileMediaId, saving, bannerState, pictureState} = this.state
+    const {profileBannerId, profileMediaId, saving} = this.state
     const {bannerIdTemp, pictureIdTemp, temp} = this.props
     if (
         ((profileBannerId && temp[profileBannerId].progress === 100 && bannerIdTemp) || profileBannerId === null) &&
         ((profileMediaId && temp[profileMediaId].progress === 100 && pictureIdTemp) || profileMediaId === null)
     ) {
-      const completeCreatingFile = (bannerState ? bannerIdTemp : true) && (pictureState ? pictureIdTemp : true)
-      if (saving && completeCreatingFile) this._save()
+      if (saving) this._save()
     }
   }
 

@@ -14,7 +14,6 @@ import type {paramType} from 'src/consts/flowTypes/paramType'
 
 type PropsSocials = {
   ownerId: number,
-  identityId: number,
   actions: {
     deleteExchangeMembership: Function,
     getExchangeMembershipByMemberIdentity: Function,
@@ -33,7 +32,6 @@ type StateSocials = {
 class Socials extends Component<PropsSocials, StateSocials> {
   static propTypes = {
     ownerId: PropTypes.number.isRequired,
-    identityId: PropTypes.number.isRequired,
     translate: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,

@@ -46,7 +46,6 @@ type StateSocials = {
 class Socials extends Component<PropsSocials, StateSocials> {
   static propTypes = {
     ownerId: PropTypes.number.isRequired,
-    identityId: PropTypes.number.isRequired,
     // translate: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
     // isLoading: PropTypes.bool.isRequired,
@@ -82,7 +81,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
       followees,
       actions,
       // exchanges,
-      user,
+      // user,
       ownerId,
       // identityType,
       // param

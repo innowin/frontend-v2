@@ -15,10 +15,6 @@ import updateUserByUserIdAction from '../../../redux/actions/user/updateUserByUs
 type OrganizationInfoProps = {|
   organizationId: number,
   translate: {},
-  actions: {|
-    updateProfileByOrganizationId: Function,
-  |},
-  isLoading: boolean,
   organization: organizationType,
 |}
 type OrganizationInfoState = {
@@ -35,8 +31,6 @@ class LinkInfo extends React.Component<OrganizationInfoProps, OrganizationInfoSt
   static propTypes = {
     organizationId: PropTypes.number.isRequired,
     translate: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired,
-    isLoading: PropTypes.bool.isRequired,
     organization: PropTypes.object.isRequired,
   }
 

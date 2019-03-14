@@ -15,7 +15,7 @@ import constants from 'src/consts/constants'
 type PostHeaderProps = {
   post: postType,
   translate: { [string]: string },
-  postRelatedIdentityImage: string,
+  postRelatedIdentityImage: number,
   postIdentity?: identityType | number,
   showEdit?: Function,
   extendedView?: boolean,
@@ -100,7 +100,7 @@ PostHeader.propTypes = {
   post: PropTypes.object.isRequired,
   translate: PropTypes.object.isRequired,
   postIdentity: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
-  postRelatedIdentityImage: PropTypes.string,
+  postRelatedIdentityImage: PropTypes.object,
   showEdit: PropTypes.func,
   extendedView: PropTypes.bool,
   postMenuId: PropTypes.string.isRequired,

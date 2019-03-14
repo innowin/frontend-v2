@@ -22,7 +22,6 @@ import {NavLink, Switch, Redirect} from 'react-router-dom'
 import constants from '../consts/constants'
 import ParamActions from 'src/redux/actions/paramActions'
 import Contributions from './common/contributions'
-import type {fileType} from '../consts/flowTypes/common/fileType'
 import Material from 'src/views/common/components/Material'
 import {getMessages} from '../redux/selectors/translateSelector'
 import SideBarContent from './bars/SideBar'
@@ -30,21 +29,18 @@ import GetUserActions from '../redux/actions/user/getUserActions'
 import UserSkeleton from './user/skeleton/UserSkeleton'
 
 type PropsOrganization = {
-  organObject: organStateObject,
+  userObject: organStateObject,
   badgesObject: listOfIdObject,
   badges: Array<badgeType>,
-  organBanner: fileType | {},
-  organLogo: fileType | {},
   match: {
     [string]: string,
     params: { [string]: string }
   },
   actions: {
-    getOrganizationByOrganId: Function,
-    getOrganBadges: Function,
-    removeParamOrganId: Function,
-    setParamOrganId: Function,
-    getOrgIdentity: Function,
+    getUserByUserId: Function,
+    getUserBadges: Function,
+    removeParamUserId: Function,
+    setParamUserId: Function,
   },
   identityObject: identityStateObject,
   translate: { [string]: string | {} },
@@ -52,14 +48,11 @@ type PropsOrganization = {
 
 export class Organization extends Component<PropsOrganization> {
   static propTypes = {
-    organObject: PropTypes.object.isRequired,
+    userObject: PropTypes.object.isRequired,
     badgesObject: PropTypes.object.isRequired,
     badges: PropTypes.array.isRequired,
-    organBanner: PropTypes.object,
-    organLogo: PropTypes.object,
     match: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
-    identityObject: PropTypes.object.isRequired,
   }
 
   firstGetBadges: boolean

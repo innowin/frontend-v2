@@ -15,7 +15,6 @@ import constants from 'src/consts/constants'
 
 type postsPropsType = {
   id: number | string,
-  postIdentity: number,
   translate: { [string]: string },
   actions: {
     getPostByIdentity: Function,
@@ -36,7 +35,6 @@ type postsStatesType = {
 class Posts extends React.Component<postsPropsType, postsStatesType> {
   static propTypes = {
     id: PropTypes.number.isRequired,
-    postIdentity: PropTypes.number.isRequired,
     actions: PropTypes.object.isRequired,
     posts: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
