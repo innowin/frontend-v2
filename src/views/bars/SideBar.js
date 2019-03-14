@@ -295,7 +295,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
 
 
   _preSave = () => {
-    this.setState({...this.state, saving: true})
+    this.setState({...this.state, saving: true, editProfile: false})
     const {actions} = this.props
     const {bannerState, pictureState} = this.state
     const {createFile} = actions || {}
