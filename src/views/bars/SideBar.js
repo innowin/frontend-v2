@@ -206,23 +206,23 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
   _getValues = () => {
     const {owner, bannerIdTemp, pictureIdTemp, sideBarType} = this.props
     const {descriptionState} = this.state
-    const bannerId = bannerIdTemp || (owner ? owner.profile_media && owner.profile_media.id : null)
-    const pictureId = pictureIdTemp || (owner ? owner.profile_banner && owner.profile_banner.id : null)
+    const bannerId = bannerIdTemp ? bannerIdTemp : owner.profile_banner
+    const pictureId = pictureIdTemp ? pictureIdTemp : owner.profile_media
     if (sideBarType === constants.USER_TYPES.USER) {
       return {
         id: owner.id,
+        description: descriptionState,
         profile_banner: bannerId,
         profile_media: pictureId,
-        description: descriptionState,
       }
     }
     else return {
       id: owner.id,
+      description: descriptionState,
       profile_banner: bannerId,
       profile_media: pictureId,
       organization_banner: bannerId,
       organization_logo: pictureId,
-      description: descriptionState,
     }
   }
 
@@ -349,7 +349,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
 
   componentDidMount() {
     // (document.addEventListener: Function)('click', this._handleClickOutMenuBox)
-    const {actions, sideBarType, description, paramId,owner} = this.props
+    const {actions, sideBarType, description, paramId, owner} = this.props
     const {getFollowers, getFile} = actions || {}
     getFollowers({
       notProfile: true,
