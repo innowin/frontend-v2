@@ -20,7 +20,7 @@ type appProps =
 const loadingArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 const Users = (props: appProps) => {
-  let { users, followees, followers, justFollowing, justFollowed, justUsers, justOrgans } = props
+  let {users, followees, followers, justFollowing, justFollowed, justUsers, justOrgans} = props
 
   let usersArr = Object.values(users).filter(user => user.id)
 
@@ -30,22 +30,22 @@ const Users = (props: appProps) => {
     usersArr.forEach(user => {
       if (justFollowed) {
         if (followers[user.id]) {
-          usersObj = { ...usersObj, [user.id]: { ...user } }
+          usersObj = {...usersObj, [user.id]: {...user}}
         }
       }
       if (justFollowing) {
         if (followees[user.id]) {
-          usersObj = { ...usersObj, [user.id]: { ...user } }
+          usersObj = {...usersObj, [user.id]: {...user}}
         }
       }
       if (justUsers) {
         if (user.identity_type === constants.USER_TYPES.USER) {
-          usersObj = { ...usersObj, [user.id]: { ...user } }
+          usersObj = {...usersObj, [user.id]: {...user}}
         }
       }
       if (justOrgans) {
         if (user.identity_type === constants.USER_TYPES.ORG) {
-          usersObj = { ...usersObj, [user.id]: { ...user } }
+          usersObj = {...usersObj, [user.id]: {...user}}
         }
       }
     })
@@ -56,7 +56,7 @@ const Users = (props: appProps) => {
     return <React.Fragment>
       {
         usersArr.map((user: Object, i: number): any =>
-            <User followees={followees} key={i} data={user}/>
+            <User followees={followees} key={i} data={user}/>,
         )}
     </React.Fragment>
   }
@@ -65,7 +65,7 @@ const Users = (props: appProps) => {
   }
   else return <React.Fragment>
       {loadingArr.map((user: Object, i: number) =>
-          <UserSkeleton key={i}/>
+          <UserSkeleton key={i}/>,
       )}
     </React.Fragment>
 }

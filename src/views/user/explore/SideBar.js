@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react'
 import FontAwesome from 'react-fontawesome'
 import {Component} from 'react'

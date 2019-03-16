@@ -9,10 +9,8 @@ export function* getWorkExperienceByUserId(action) {
   const {userId} = payload
   const socketChannel = yield call(api.createSocketChannel, results.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID)
   try {
-    console.log('herrerrer: ',userId)
     yield fork(api.get, urls.WORK_EXPERIENCE, results.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID, `?work_experience_related_identity=${userId}`)
     const data = yield take(socketChannel)
-    console.log('then data: ',data)
     yield put({type:types.SUCCESS.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID, payload:{data, userId}})
   } catch (e) {
     const {message} = e

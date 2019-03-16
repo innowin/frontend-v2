@@ -3,27 +3,27 @@ import types from '../types'
 
 const getUserByUserId = (userId: number) => ({
   type: types.USER.GET_USER_BY_USER_ID,
-  payload: {userId}
+  payload: {userId},
 })
 
 const getProfileByUserId = (userId: number) => ({
   type: types.USER.GET_PROFILE_BY_USER_ID,
-  payload: {userId}
+  payload: {userId},
 })
 
 const getUsers = () => ({
   type: types.USER.GET_USERS,
-  payload: {}
+  payload: {},
 })
 
-const getAllUsers = (limit: number, offset: number, search: ?string) => ({
+const getAllUsers = (limit: number, offset: number, search: ?string, justOrgan: ?boolean) => ({
   type: types.USER.GET_ALL_USERS,
-  payload: {limit, offset, search}
+  payload: {limit, offset, search, justOrgan},
 })
 
 const resetSearchUser = () => ({
   type: types.USER.RESET_SEARCH_USER,
-  payload:{}
+  payload: {},
 })
 
 const GetUserActions = {

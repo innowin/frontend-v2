@@ -11,15 +11,12 @@ import {ClipLoader} from 'react-spinners'
 import {getFollowList} from 'src/redux/selectors/common/social/getFollowList'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {getUsers} from 'src/redux/selectors/user/GetAllUsers'
-// import {Helmet} from 'react-helmet'
 import {PureComponent} from 'react'
 
 type appProps =
     {|
       actions: any,
-      currentUserIdentity: number,
-      currentUserType: string,
-      currentUserId: number,
+      currentUser: Object,
       translate: Object,
       loading: boolean,
       allUsers: Object,
@@ -49,15 +46,15 @@ class Explore extends PureComponent <appProps, appState> {
       justFollowed: false,
       scrollButton: false,
       justUsers: false,
-      justOrgans: false
+      justOrgans: false,
     }
   }
-  
+
   componentDidMount() {
-    const {currentUserIdentity, currentUserType, actions} = this.props
-    actions.getUsers(24, 0, null)
-    actions.getFollowees({followOwnerIdentity: currentUserIdentity, followOwnerType: currentUserType, followOwnerId: currentUserIdentity, notProfile: true})
-    actions.getFollowers({followOwnerIdentity: currentUserIdentity, followOwnerType: currentUserType, followOwnerId: currentUserIdentity, notProfile: true})
+    const {currentUser, actions} = this.props
+    actions.getUsers(24, 0, null, null)
+    actions.getFollowees({followOwnerIdentity: currentUser.id, followOwnerType: currentUser.identity_type, followOwnerId: currentUser.id, notProfile: true})
+    actions.getFollowers({followOwnerIdentity: currentUser.id, followOwnerType: currentUser.identity_type, followOwnerId: currentUser.id, notProfile: true})
     window.addEventListener('scroll', this._onScroll)
   }
 
@@ -70,12 +67,9 @@ class Explore extends PureComponent <appProps, appState> {
       let {activeScrollHeight} = this.state
       let scrollHeight = document.body ? document.body.scrollHeight : 0
       if (((window.innerHeight + window.scrollY) >= (scrollHeight - 250)) && (scrollHeight > activeScrollHeight)) {
-        this.setState({
-              ...this.state,
-              activeScrollHeight: scrollHeight,
-              offset: this.state.offset + 24
-            },
-            () => this.props.actions.getUsers(24, this.state.offset, this.state.search))
+        this.setState({...this.state, activeScrollHeight: scrollHeight, offset: this.state.offset + 24},
+            () => this.props.actions.getUsers(24, this.state.offset, this.state.search,
+                this.state.justOrgans && !this.state.justUsers ? true : !this.state.justOrgans && this.state.justUsers ? false : null))
       }
 
       if (window.scrollY > 1000)
@@ -86,21 +80,29 @@ class Explore extends PureComponent <appProps, appState> {
 
   _search = (search) =>
       this.setState({...this.state, search: search, offset: 0, activeScrollHeight: 0}, () => {
-        this.props.actions.getUsers(24, 0, search)
+        this.props.actions.getUsers(24, 0, search, this.state.justOrgans && !this.state.justUsers ? true : !this.state.justOrgans && this.state.justUsers ? false : null)
       })
 
   _justFollowing = (checked) => this.setState({...this.state, justFollowing: checked})
 
   _justFollowed = (checked) => this.setState({...this.state, justFollowed: checked})
 
-  _justUsers = (checked) => this.setState({...this.state, justUsers: checked})
+  _justUsers = (checked) => this.setState({...this.state, justUsers: checked}, () => {
+    if (!this.state.justOrgans && checked) {
+      this.props.actions.getUsers(24, 0, this.state.search, false)
+    }
+  })
 
-  _justOrgans = (checked) => this.setState({...this.state, justOrgans: checked})
+  _justOrgans = (checked) => this.setState({...this.state, justOrgans: checked}, () => {
+    if (!this.state.justUsers && checked) {
+      this.props.actions.getUsers(24, 0, this.state.search, true)
+    }
+  })
 
   _goUp = () => {
     window.scroll({
       top: 0,
-      behavior: 'smooth'
+      behavior: 'smooth',
     })
   }
 
@@ -110,34 +112,35 @@ class Explore extends PureComponent <appProps, appState> {
     const list = this.props.followees
     let followees = {}
     let followers = {}
-    // const title = `${translate['InnoWin']} - ${translate['Users']}`
-    // const description = `${translate['Users']}`
 
     Object.values(list).forEach((follow: Object) => {
-          if (follow.follow_followed.id === this.props.currentUserIdentity) {
+          if (follow.follow_followed.id === this.props.currentUser.id) {
             followers[follow.follow_follower.identity_user] = follow
           }
           else {
             followees[follow.follow_followed.identity_user] = follow
           }
-        }
+        },
     )
 
     return (
         <div className='all-exchanges-parent'>
-
-          {/*<Helmet>*/}
-          {/*<title>{title}</title>*/}
-          {/*<meta name="description" content={description}/>*/}
-          {/*<meta property="og:title" content={title}/>*/}
-          {/*<meta property="og:description" content={description}/>*/}
-          {/*<meta property="twitter:title" content={title}/>*/}
-          {/*<meta property="twitter:description" content={description}/>*/}
-          {/*</Helmet>*/}
-
-          <Sidebar search={this._search} justFollowing={this._justFollowing} justFollowed={this._justFollowed} justUsers={this._justUsers} justOrgans={this._justOrgans}/>
+          <Sidebar search={this._search}
+                   justFollowing={this._justFollowing}
+                   justFollowed={this._justFollowed}
+                   justUsers={this._justUsers}
+                   justOrgans={this._justOrgans}
+          />
           <div className='all-exchanges-container'>
-            <Users followees={followees} followers={followers} users={allUsers} justFollowing={justFollowing} justFollowed={justFollowed} justOrgans={justOrgans} justUsers={justUsers} loading={loading}/>
+            <Users followees={followees}
+                   followers={followers}
+                   users={allUsers}
+                   justFollowing={justFollowing}
+                   justFollowed={justFollowed}
+                   justOrgans={justOrgans}
+                   justUsers={justUsers}
+                   loading={loading}
+            />
             <div className='users-explore-hide'/>
             <div className='users-explore-hide'/>
             <div className='users-explore-hide'/>
@@ -152,20 +155,22 @@ class Explore extends PureComponent <appProps, appState> {
 }
 
 const mapStateToProps = (state) => {
+  const id = state.auth.client.identity.content
+  const currentUser = state.identities.list[id]
+
   return {
-    currentUserType: state.auth.client.user_type,
-    currentUserIdentity: state.auth.client.identity.content,
+    currentUser,
     allUsers: getUsers(state),
     followees: getFollowList(state),
     loading: state.identities.isLoading,
-    translate: getMessages(state)
+    translate: getMessages(state),
   }
 }
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getFollowees: socialActions.getFollowees,
     getFollowers: socialActions.getFollowers,
-    getUsers: userActions.getAllUsers
-  }, dispatch)
+    getUsers: userActions.getAllUsers,
+  }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Explore)
