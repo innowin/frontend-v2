@@ -14,12 +14,25 @@ type OrganAboutUsProps = {
   organ : Object,
 }
 
-class OrganAboutUs extends React.Component<OrganAboutUsProps> {
+type OrganAboutUsStates = {
+  description: {
+    isEdit: boolean
+  }
+}
+
+class OrganAboutUs extends React.Component<OrganAboutUsProps, OrganAboutUsStates> {
+  state = {
+    description: {
+      isEdit: false,
+    }
+  }
   
   render () {
+    const {description} = this.state
+    const {isEdit} = description
     return (
         <div className="about-us">
-          <Description/>
+          <Description isEdit={isEdit}/>
         </div>
     );
   }
