@@ -13,6 +13,8 @@ import PrivateInfo from './PrivateInfo'
 import CheckOwner from '../../common/CheckOwner'
 import {LinkInfo} from './LinkInfo'
 import updateUserByUserIdAction from '../../../redux/actions/user/updateUserByUserIdAction'
+import CardWrapper from 'src/views/organization/cardWrapper'
+import CardContainer from 'src/views/organization/cardContainer'
 
 type organizationBasicInformationProps = {
   organizationId: number,
@@ -28,20 +30,24 @@ class OrganizationBasicInformation extends React.Component<organizationBasicInfo
     const {organizationId, organization, translate, actions} = this.props
     return (
         <div>
-          <CategoryTitle
-              title={translate['Basic information']}
-          />
-          <FrameCard>
-            <ListGroup>
-              <BasicInfo actions={actions} organizationId={organizationId} organization={organization} translate={translate}/>
-              <Biography actions={actions} organizationId={organizationId} organization={organization} translate={translate}/>
+          {/*<CategoryTitle*/}
+              {/*title={translate['Basic information']}*/}
+          {/*/>*/}
+          {/*<FrameCard>*/}
+            {/*<ListGroup>*/}
+              <CardWrapper>
+                <CardContainer>
+                  <Biography actions={actions} organizationId={organizationId} organization={organization} translate={translate}/>
+                </CardContainer>
+              </CardWrapper>
+              {/*<BasicInfo actions={actions} organizationId={organizationId} organization={organization} translate={translate}/>*/}
               <ContactInfo actions={actions} organizationId={organizationId} organization={organization} translate={translate}/>
-              <LinkInfo organizationId={organizationId} translate={translate} organization={organization}/>
-              <CheckOwner id={organizationId}>
-                <PrivateInfo actions={actions} organizationId={organizationId} organization={organization} translate={translate}/>
-              </CheckOwner>
-            </ListGroup>
-          </FrameCard>
+              {/*<LinkInfo organizationId={organizationId} translate={translate} organization={organization}/>*/}
+              {/*<CheckOwner id={organizationId}>*/}
+                {/*<PrivateInfo actions={actions} organizationId={organizationId} organization={organization} translate={translate}/>*/}
+              {/*</CheckOwner>*/}
+            {/*</ListGroup>*/}
+          {/*</FrameCard>*/}
         </div>
     )
   }
