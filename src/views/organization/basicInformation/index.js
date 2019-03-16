@@ -1,18 +1,12 @@
 //@flow
 import * as React from "react";
-import { FrameCard, CategoryTitle } from "../../common/cards/Frames";
-import { ListGroup } from "../../common/cards/Frames";
-import BasicInfo from "./BasicInfo";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { getMessages } from "src/redux/selectors/translateSelector";
 import { TranslatorType } from "src/consts/flowTypes/common/commonTypes";
 import Biography from "./Biography";
 import ContactInfo from "./ContactInfo";
-import PrivateInfo from "./PrivateInfo";
-import CheckOwner from "../../common/CheckOwner";
-import { LinkInfo } from "./LinkInfo";
-import updateUserByUserIdAction from "../../../redux/actions/user/updateUserByUserIdAction";
+import updateUserByUserIdAction from "src/redux/actions/user/updateUserByUserIdAction";
 import CardContainer from "src/views/organization/cardContainer";
 
 type organizationBasicInformationProps = {

@@ -13,7 +13,6 @@ import deletePost from "./deletePost"
 import deleteProduct from "./deleteProduct"
 import deleteWorkExperienceByUserId from './deleteWorkExperienceByUserId'
 import getAbilitiesByOrganizationId from './getAbilitiesByOrganizationId'
-import getCertificatesByIdentity from "./getCertificatesByIdentity"
 import getExchangeMembershipByMemberIdentity from "./getExchangeMembershipByMemberIdentity"
 import getFollowees from "./getFollowees"
 import getFollowers from "./getFollowers"
@@ -41,7 +40,6 @@ export default {
   deleteProduct,
   deleteWorkExperienceByUserId,
   getAbilitiesByOrganizationId,
-  getCertificatesByIdentity,
   getExchangeMembershipByMemberIdentity,
   getFollowees,
   getFollowers,

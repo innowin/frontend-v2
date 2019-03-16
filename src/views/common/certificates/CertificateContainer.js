@@ -42,9 +42,9 @@ export class CertificateContainer extends Component<PropsCertificates> {
   }
 
   componentDidMount() {
-    const {actions, ownerId, identityType} = this.props
+    const {actions, ownerId} = this.props
     const {getCertificatesByIdentity} = actions
-    getCertificatesByIdentity({identityId: ownerId, certificateOwnerId: ownerId, certificateOwnerType: identityType})
+    getCertificatesByIdentity({identityId: ownerId, certificateOwnerId: ownerId})
   }
 
   render() {

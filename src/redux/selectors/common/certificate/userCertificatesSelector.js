@@ -1,30 +1,26 @@
 import {createSelector} from 'reselect'
 import helpers from 'src/consts/helperFunctions/helperFunctions'
-import constants from "src/consts/constants"
 
-const getOwnerId = (state, props) => props.ownerId
+const getOwnerId = (state, props) => {
+  const {ownerId, organization, user} = props
+  return (user && user.id) || (organization && organization.id) || ownerId
+}
 const getCertificates = state => state.common.certificate.list
 const getUserCertificates = (state, props) => {
-  const {ownerId, identityType} = props
-  if (identityType === constants.USER_TYPES.USER){
-    if (state && state.identities.list && state.identities.list[ownerId] && state.identities.list[ownerId].certificates)
-      return state.identities.list[ownerId].certificates.content
-  }
-  else if (identityType === constants.USER_TYPES.ORG){
-    if (state && state.organs.list && state.organs.list[ownerId] && state.organs.list[ownerId].certificates)
-      return state.organs.list[ownerId].certificates.content
-  }
-  return undefined
+  const {ownerId} = props
+  return state.identities.list[ownerId].certificates
+      ? state.identities.list[ownerId].certificates.content
+      : []
 }
 
 /** this selector selects certificates by certificateIdentity or without that. **/
 export const userCertificatesSelector = createSelector(
-      [getOwnerId, getCertificates, getUserCertificates],
-      (ownerId, certificates, userCertificates) => {
-        if (certificates && Object.keys(certificates).length !== 0 && certificates.constructor === Object && userCertificates && ownerId) {
-          return helpers.getObjectOfArrayKeys(userCertificates, certificates)
-        }
-        return []
+    [getOwnerId, getCertificates, getUserCertificates],
+    (ownerId, certificates, userCertificates) => {
+      if (certificates && Object.keys(certificates).length !== 0 && certificates.constructor === Object && userCertificates && ownerId) {
+        return helpers.getObjectOfArrayKeys(userCertificates, certificates)
       }
-  )
+      return []
+    }
+)
 
