@@ -1,0 +1,59 @@
+@import "../../variables";
+
+.card-row-container {
+  display: flex;
+  margin-bottom: 20px;
+
+  .card-row-sidebar {
+    display: flex;
+    height: 100px;
+    flex: 1 1 100px;
+    min-width: 100px;
+    flex-direction: column;
+    background: $fields-bg-color;
+    font-size: $font-size-regular;
+    border-radius: $border-radius-size;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 10px;
+    }
+  }
+
+  .card-row-content {
+    display: flex;
+    flex: 1 1 100%;
+    flex-direction: row;
+    margin-right: 15px;
+
+    .card-row-content-right {
+      flex: 1 1 65%;
+      min-width: 65%;
+      position: relative;
+      padding: 10px 0 ;
+
+      .edit-icon {
+        position: absolute;
+
+        left: 10px;
+        width: 15px;
+        height: 15px;
+        fill: $image-edit-btn-background;
+      }
+
+      &.card-row-certificate {
+        padding: 10px 0;
+      }
+    }
+
+    .card-row-content-image {
+      flex: 1 1 35%;
+      min-width: 35%;
+      height: 100px;
+      object-fit: cover;
+    }
+  }
+}

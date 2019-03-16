@@ -1,21 +1,23 @@
 // @flow
 import * as React from 'react'
 import CardContainer from '../../cardContainer'
-import ContactView from './ContactView'
-import ContactForm from './ContactForm'
+import ProductView from './ProductView'
+import ProductForm from './ProductForm'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
+import type {productType} from 'src/consts/flowTypes/user/others'
 
 type Props = {
-  organization: identityType,
+  owner: identityType,
   translate: TranslatorType,
+  products: [productType]
 }
 
 type States = {
   isEdit: boolean,
 }
 
-class Contact extends React.Component<Props, States> {
+class Product extends React.Component<Props, States> {
   state = {
     isEdit: false,
   }
@@ -25,20 +27,20 @@ class Contact extends React.Component<Props, States> {
     this.setState({...this.state, isEdit: !isEdit})
   }
 
-  render () {
-    const {organization, translate} = this.props
+  render() {
+    const {owner, translate, products} = this.props
     const {isEdit} = this.state
 
     return (
         <CardContainer>
           {
             !!isEdit
-                ? <ContactForm/>
-                : <ContactView organization={organization} translate={translate} toggleEdit={this._toggleEdit}/>
+                ? <ProductForm/>
+                : <ProductView products={products} owner={owner} translate={translate} toggleEdit={this._toggleEdit}/>
           }
         </CardContainer>
     )
   }
 }
 
-export default Contact
+export default Product

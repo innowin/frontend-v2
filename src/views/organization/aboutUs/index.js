@@ -7,6 +7,7 @@ import {TranslatorType} from "src/consts/flowTypes/common/commonTypes";
 import Description from "./description";
 import Certificate from "./certificate";
 import Contact from './contact'
+import Product from './product'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import CertificateActions from 'src/redux/actions/commonActions/certificateActions'
 import {userCertificatesSelector} from 'src/redux/selectors/common/certificate/userCertificatesSelector'
@@ -15,6 +16,7 @@ import type {certificateType} from 'src/consts/flowTypes/user/others'
 type OrganAboutUsProps = {
   organizationId: number,
   certificates: [certificateType],
+  products: [Object],
   organization: identityType,
   translate: TranslatorType,
   actions: Object,
@@ -22,11 +24,12 @@ type OrganAboutUsProps = {
 }
 
 const OrganAboutUs = (props: OrganAboutUsProps) => {
-  const {translate, organization, actions, certificates} = props
+  const {translate, organization, actions, products, certificates} = props
   const {getCertificatesByIdentity} = actions
   return (
       <div className="about-us">
         <Description translate={translate} organization={organization}/>
+        <Product products={products} translate={translate} owner={organization}/>
         <Certificate translate={translate} owner={organization} certificates={certificates}
                      getCertificatesByIdentity={getCertificatesByIdentity}/>
         <Contact translate={translate} organization={organization}/>
@@ -35,12 +38,10 @@ const OrganAboutUs = (props: OrganAboutUsProps) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const identityId = state.auth.client.identity.content
-  const organization = state.identities.list[identityId]
   return {
     translate: getMessages(state),
     certificates: userCertificatesSelector(state, ownProps),
-    organization,
+    products: [],
   }
 };
 

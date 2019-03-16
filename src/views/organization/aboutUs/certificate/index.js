@@ -31,8 +31,13 @@ class Certificate extends React.Component<Props, States> {
     })
   }
 
+  _toggleEdit = () => {
+    const {isEdit} = this.state
+    this.setState({...this.state, isEdit: !isEdit})
+  }
+
   render() {
-    const {owner, translate, getCertificatesByIdentity, certificates} = this.props
+    const {owner, translate, certificates} = this.props
     const {isEdit} = this.state
 
     return (
@@ -40,8 +45,8 @@ class Certificate extends React.Component<Props, States> {
           {
             !!isEdit
                 ? <CertificateForm/>
-                : <CertificateView certificates={certificates} getCertificatesByIdentity={getCertificatesByIdentity}
-                                   owner={owner} translate={translate}/>
+                : <CertificateView certificates={certificates} owner={owner} translate={translate}
+                                   toggleEdit={this._toggleEdit}/>
           }
         </CardContainer>
     )
