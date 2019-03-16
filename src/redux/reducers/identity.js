@@ -2,7 +2,7 @@ import initialState from "./initialState"
 import types from "../actions/types/index"
 import slices from "./sliceReducers/identity"
 import userSlices from "./sliceReducers/user"
-import constants from "../../consts/constants"
+import constants from "src/consts/constants"
 import setRelatedObjIdForListItem from "./sliceReducers/utilsSlices/setRelatedObjIdForListItem"
 
 const identities = (state = initialState.identities, action) => {
@@ -560,7 +560,7 @@ const identities = (state = initialState.identities, action) => {
       return initialState.identities
 
     default:
-      return {...state}
+      return state
   }
 
 }

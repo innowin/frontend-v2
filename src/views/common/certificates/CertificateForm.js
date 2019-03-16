@@ -39,14 +39,14 @@ class CertificateForm extends Component<PropsCertificateForm> {
         certificateParent: certificate.certificate_parent,
         certificateIdentity: certificate.certificate_identity,
         // FixMe: mohammad remove this when picture and logo select done
-        certificatePicture: 968,
-        certificateLogo: 968,
+        certificatePicture: 4149,
+        certificateLogo: 4149,
       }
     }
     else{
       defaultFormValue = {
-        certificatePicture: 968,
-        certificateLogo: 968,
+        certificatePicture: 4149,
+        certificateLogo: 4149,
       }
     }
     initialize(defaultFormValue)

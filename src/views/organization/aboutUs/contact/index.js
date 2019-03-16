@@ -1,8 +1,8 @@
 // @flow
 import * as React from 'react'
 import CardContainer from '../../cardContainer'
-import DescriptionView from './DescriptionView'
-import DescriptionForm from './DescriptionForm'
+import ContactView from './ContactView'
+import ContactForm from './ContactForm'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 
@@ -15,7 +15,7 @@ type States = {
   isEdit: boolean,
 }
 
-class Description extends React.Component<Props, States> {
+class Contact extends React.Component<Props, States> {
   state = {
     isEdit: false,
   }
@@ -28,12 +28,12 @@ class Description extends React.Component<Props, States> {
         <CardContainer>
           {
             !!isEdit
-                ? <DescriptionForm/>
-                : <DescriptionView organization={organization} translate={translate}/>
+                ? <ContactForm/>
+                : <ContactView organization={organization} translate={translate}/>
           }
         </CardContainer>
     )
   }
 }
 
-export default Description
+export default Contact

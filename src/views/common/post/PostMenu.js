@@ -54,7 +54,7 @@ const PostMenu = (props: PostMenuProps) => {
                   checkOwner({id: ownerId, children: <span onClick={deletePost}>{translate["Delete post"]}</span>})
                 }
                 {
-                  checkOwner({id: ownerId, children: <span onClick={showEdit}>{translate["Edit Post"]}</span>})
+                  showEdit && checkOwner({id: ownerId, children: <span onClick={showEdit}>{translate["Edit Post"]}</span>})
                 }
               </div>
             </div>

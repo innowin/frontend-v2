@@ -1,0 +1,27 @@
+@import "../variables";
+
+.about-us {
+  .tabs-card-wrapper {
+    .card-header {
+    }
+    .content {
+      .detail-row {
+        display: flex;
+
+        .title {
+          background: $fields-bg-color;
+          flex: 1 1 30%;
+          max-width: 30%;
+          margin-left: 8px;
+          padding: 8px;
+        }
+        .value {
+          background: $fields-bg-color;
+          flex: 1 1 70%;
+          max-width: 70%;
+          padding: 8px;
+        }
+      }
+    }
+  }
+}

@@ -1,8 +1,10 @@
 html[data-platform*='iPhone'], html[data-platform*='Macintosh'], html[data-platform*='MacIntel'],
 html[data-platform*='MacPPC'], html[data-platform*='Mac68K'] {
-  .-itemWrapperPost {
-    .post-content {
-     text-align: inherit;
+  .about-us {
+    .tabs-card-wrapper {
+      .content {
+        text-align: inherit;
+      }
     }
   }
 }

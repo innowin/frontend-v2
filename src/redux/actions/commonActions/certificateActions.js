@@ -15,9 +15,9 @@ export const resetCreatingObjCertStatus = () => ({
   payload: {}
 })
 
-export const getCertificatesByIdentity = ({identityId, certificateOwnerId, certificateOwnerType}) => ({
+export const getCertificatesByIdentity = ({identityId, certificateOwnerId}) => ({
   type: types.COMMON.CERTIFICATE.GET_CERTIFICATES_BY_IDENTITY,
-  payload: {identityId, certificateOwnerId, certificateOwnerType}
+  payload: {identityId, certificateOwnerId}
 })
 
 export const updateCertificate = ({formValues, certificateId}) => ({
