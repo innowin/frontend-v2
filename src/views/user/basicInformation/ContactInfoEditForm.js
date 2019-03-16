@@ -42,7 +42,7 @@ type PropsContactInfoEditForm = {
 class ContactInfoEditForm extends Component<PropsContactInfoEditForm> {
   static propTypes = {
     hideEdit: PropTypes.func.isRequired,
-    profile: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
     translate: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     actions: PropTypes.object.isRequired,
@@ -53,35 +53,33 @@ class ContactInfoEditForm extends Component<PropsContactInfoEditForm> {
   }
 
   componentDidMount() {
-    const {initialize, profile} = this.props
+    const {initialize, user} = this.props
     const defaultFormValue = {
-      address: profile.address,
-      mobile: profile.mobile,
-      phone: profile.phone,
-      publicEmail: profile.public_email,
-      webSite: profile.web_site,
+      address: user.address,
+      mobile: user.mobile,
+      phone: user.phone,
+      publicEmail: user.public_email,
+      webSite: user.web_site,
     }
     initialize(defaultFormValue);
   }
 
   _onSubmit = (values: ContactInfoFormInputType): boolean | void => {
     // profile equals to initial value
-    const {actions, userId, profile} = this.props
+    const {actions, userId, user} = this.props
 
-    const {updateProfileByProfileId} = actions
-    const profileId: number = profile.id
+    const {updateProfileByProfileId,updateUserByUserId} = actions
+    const profileId: number = user.id
 
     const formFormat = {
-      address: profile.address === values.address ? null : values.address,
-      mobile: profile.mobile === values.mobile ? null : values.mobile,
-      phone: profile.phone === values.phone ? null : values.phone,
-      public_email: profile.public_email === values.publicEmail ? null : values.publicEmail,
-      web_site: profile.web_site === values.webSite ? null : values.webSite,
+      address: user.address === values.address ? null : values.address,
+      mobile: user.mobile === values.mobile ? null : values.mobile,
+      phone: user.phone === values.phone ? null : values.phone,
+      public_email: user.public_email === values.publicEmail ? null : values.publicEmail,
+      web_site: user.web_site === values.webSite ? null : values.webSite,
     }
     const propertyNames = Object.getOwnPropertyNames(formFormat)
     propertyNames.map(key => {
-      // formFormat[key] === null ? delete (formFormat[key]) : ''
-      // return formFormat
       if (formFormat[key] === null) {
         delete (formFormat[key])
       }
@@ -89,7 +87,10 @@ class ContactInfoEditForm extends Component<PropsContactInfoEditForm> {
     })
 
     const formValues: {} = {...formFormat}
-    updateProfileByProfileId({formValues, profileId, userId})
+    // updateProfileByProfileId({formValues, profileId, userId})
+    updateUserByUserId(formValues, userId)
+
+
     this.props.hideEdit()
     return false
   }

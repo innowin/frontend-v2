@@ -4,18 +4,16 @@ import OrganizationBee from './OrganizationBee'
 import UserBee from './UserBee'
 
 class BeePanel extends Component {
-  render() {
-    if (this.props.currentUserType === 'person')
-      return <UserBee/>
-    else return <OrganizationBee/>
+    render() {
+    if (this.props.currentUserType === 'organization')
+      return <OrganizationBee/>
+    else return <UserBee/>
   }
 }
 
 const mapStateToProps = (state) => {
-  const client = state.auth.client
-  return ({
-    currentUserType: client.user_type
-  })
+  const id = state.auth.client.identity.content
+  return ({currentUserType: state.identities.list[id].identity_type})
 }
 
 export default connect(mapStateToProps)(BeePanel)

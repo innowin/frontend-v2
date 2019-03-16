@@ -80,7 +80,6 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
                                  identityId={identityId}
                                  identityType={identityType}
                                  activeExchangeId={activeExchangeId}
-                                 id={identityId}
                     />
                 ) : null
               }
@@ -103,7 +102,6 @@ const mapStateToProps = state => {
   const allIdentities = state.identities.list
   const clientIdentityId = client.identity.content || null
   const clientIdentity = (clientIdentityId && allIdentities[clientIdentityId]) ? allIdentities[clientIdentityId] : {}
-  // const id = clientIdentity.identity_user ? client.user.id : (client.organization ? client.organization.id : undefined)
   const identityType = clientIdentity ? clientIdentity.identity_type : undefined
 
   return {

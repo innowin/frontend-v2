@@ -46,7 +46,6 @@ type StateSocials = {
 class Socials extends Component<PropsSocials, StateSocials> {
   static propTypes = {
     ownerId: PropTypes.number.isRequired,
-    identityId: PropTypes.number.isRequired,
     // translate: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
     // isLoading: PropTypes.bool.isRequired,
@@ -67,11 +66,11 @@ class Socials extends Component<PropsSocials, StateSocials> {
   }
 
   componentDidMount() {
-    const {identityId, actions, ownerId, identityType} = this.props
+    const {user, actions, ownerId, identityType} = this.props
     const {getFollowees} = actions
 
-    if (identityId) {
-      getFollowees({followOwnerId: ownerId, followOwnerIdentity: identityId.id, followOwnerType: identityType})
+    if (user) {
+      getFollowees({followOwnerId: ownerId, followOwnerIdentity: user.id, followOwnerType: identityType})
     }
   }
 
@@ -82,7 +81,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
       followees,
       actions,
       // exchanges,
-      identityId,
+      // user,
       ownerId,
       // identityType,
       // param
@@ -104,7 +103,6 @@ class Socials extends Component<PropsSocials, StateSocials> {
         <div>
           <NewFollowings
               userId={ownerId}
-              identityId={identityId}
               deleteFollow={deleteFollow}
               followings={followees}/>
         </div>
@@ -114,7 +112,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
 
 const mapStateToProps = (state, ownProps) => {
   const {ownerId, identityType} = ownProps
-  const stateOwner = (identityType === constants.USER_TYPES.USER) ? state.users.list[ownerId] :
+  const stateOwner = (identityType === constants.USER_TYPES.USER) ? state.identities.list[ownerId] :
       state.organs.list[ownerId]
   const defaultObject = {content: [], isLoading: false, error: null}
   const followObject = (stateOwner && stateOwner.social && stateOwner.social.follows) || defaultObject

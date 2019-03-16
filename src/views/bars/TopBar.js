@@ -25,7 +25,7 @@ import {
   ExchangeExploreIcon,
   HomeSvg,
   HomeSvgSelected,
-  ExchangeExploreIconSelected
+  ExchangeExploreIconSelected,
 } from 'src/images/icons'
 import {Link} from 'react-router-dom'
 import {routerActions} from 'react-router-redux'
@@ -63,8 +63,6 @@ type StatesTopBar = {|
   isSignedOut: boolean,
   mouseIsOverMenu: boolean,
   productWizardModalIsOpen: boolean,
-  profileBannerLoaded: boolean,
-  profilePhotoLoaded: boolean,
   selectedAbout: string,
   selectedSetting: string,
   showAbout: boolean,
@@ -77,7 +75,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   static propTypes = {
     actions: PropTypes.object.isRequired,
     collapseClassName: PropTypes.string.isRequired,
-    translate: PropTypes.object.isRequired
+    translate: PropTypes.object.isRequired,
   }
 
   //types
@@ -100,8 +98,6 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       isSignedOut: false,
       mouseIsOverMenu: true,
       productWizardModalIsOpen: false,
-      profileBannerLoaded: false,
-      profilePhotoLoaded: false,
       selectedAbout: 'FAQ',
       selectedSetting: 'General Settings',
       showAbout: false,
@@ -120,42 +116,27 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
     if (path === constants.TOP_BAR_PAGES.HOME) {
       this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.HOME})
-    } else if (path === constants.TOP_BAR_PAGES.USER_EXPLORER) {
+    }
+    else if (path === constants.TOP_BAR_PAGES.USER_EXPLORER) {
       this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.USER_EXPLORER})
-    } else if (path === constants.TOP_BAR_PAGES.EXCHANGE_EXPLORER) {
+    }
+    else if (path === constants.TOP_BAR_PAGES.EXCHANGE_EXPLORER) {
       this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.EXCHANGE_EXPLORER})
-    } else {
+    }
+    else {
       this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.OTHER})
     }
   }
 
   componentDidMount() {
-    const {actions, clientIdentity, imgLink, bannerLink} = this.props
-    const {getMediaFile} = this.state
+    const {actions, clientIdentity} = this.props
     const {getFileByFileRelatedParentId} = actions
     // if (getMediaFile) {
     if (clientIdentity) {
       getFileByFileRelatedParentId({
         fileRelatedParentId: clientIdentity.id,
-        fileParentType: constants.FILE_PARENT.IDENTITY
+        fileParentType: constants.FILE_PARENT.IDENTITY,
       })
-    }
-    // }
-
-    // Added for check profile photo url
-    if (imgLink) {
-      let profile = new Image()
-      profile.src = imgLink
-      profile.onload = () => {
-        this.setState({...this.state, profilePhotoLoaded: true})
-      }
-    }
-    if (bannerLink) {
-      let banner = new Image()
-      banner.src = bannerLink
-      banner.onload = () => {
-        this.setState({...this.state, profileBannerLoaded: true})
-      }
     }
   }
 
@@ -169,40 +150,16 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     if (currentPage !== path && prevProps.path !== path) {
       if (path === constants.TOP_BAR_PAGES.HOME) {
         this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.HOME})
-      } else if (path === constants.TOP_BAR_PAGES.USER_EXPLORER) {
+      }
+      else if (path === constants.TOP_BAR_PAGES.USER_EXPLORER) {
         this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.USER_EXPLORER})
-      } else if (path === constants.TOP_BAR_PAGES.EXCHANGE_EXPLORER) {
+      }
+      else if (path === constants.TOP_BAR_PAGES.EXCHANGE_EXPLORER) {
         this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.EXCHANGE_EXPLORER})
-      } else {
+      }
+      else {
         this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.OTHER})
       }
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const {imgLink, bannerLink} = this.props
-    if (imgLink !== nextProps.imgLink) {
-      this.setState({...this.state, profilePhotoLoaded: false}, () => {
-        if (nextProps.clientImgLink) {
-          let profile = new Image()
-          profile.src = nextProps.clientImgLink
-          profile.onload = () => {
-            this.setState({...this.state, profilePhotoLoaded: true})
-          }
-        }
-      })
-    }
-
-    if (bannerLink !== nextProps.bannerLink) {
-      this.setState({...this.state, profileBannerLoaded: false}, () => {
-        if (nextProps.clientBannerLink) {
-          let profile = new Image()
-          profile.src = nextProps.clientBannerLink
-          profile.onload = () => {
-            this.setState({...this.state, profileBannerLoaded: true})
-          }
-        }
-      })
     }
   }
 
@@ -236,13 +193,14 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       this.setState({
         ...this.state,
         exploreCollapse: !this.state.exploreCollapse,
-        collapseProfile: false, showHamburger: false
+        collapseProfile: false, showHamburger: false,
       })
-    } else {
+    }
+    else {
       this.setState({
         ...this.state,
         exploreCollapse: !this.state.exploreCollapse,
-        collapseProfile: false, showHamburger: false
+        collapseProfile: false, showHamburger: false,
       })
     }
   }
@@ -281,7 +239,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       showSetting: false,
       exploreCollapse: false,
       collapseProfile: false,
-      showHamburger: false
+      showHamburger: false,
     })
     this.props.actions.signOut()
     window.location.reload()
@@ -308,7 +266,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       showSetting: false,
       showAbout: false,
       productWizardModalIsOpen: false,
-      createExchangeModalIsOpen: false
+      createExchangeModalIsOpen: false,
     })
     setTimeout(() => {
       this.setState({...this.state, selectedSetting: 'Privacy', selectedAbout: 'FAQ'})
@@ -357,12 +315,12 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   render() {
     const {translate, clientName, clientIdentity, imgLink, bannerLink} = this.props
     const topBarTranslate = translate.topBar
-    const {showHamburger, currentPage, collapseProfile, exploreCollapse, productWizardModalIsOpen, selectedSetting, selectedAbout, showSetting, showAbout, createExchangeModalIsOpen, profilePhotoLoaded, profileBannerLoaded, agentForm} = this.state
-    const linkEditProfile = clientIdentity ? (
+    const {showHamburger, currentPage, collapseProfile, exploreCollapse, productWizardModalIsOpen, selectedSetting, selectedAbout, showSetting, showAbout, createExchangeModalIsOpen, agentForm} = this.state
+    const linkEditProfile = clientIdentity ?
         clientIdentity.identity_type === constants.USER_TYPES.USER
             ? `/user/${clientIdentity.id}`
             : `/organization/${clientIdentity.id}`
-    ) : ''
+        : ''
 
     return (
         <div onMouseEnter={this._handleMouseEnter} onMouseLeave={this._handleMouseLeave}>
@@ -420,7 +378,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
               {/*<Link className="mr-5" to={"/"}><NotificationIcon className="-topBarIcons"/></Link>*/}
               {/*<Link className="mr-5" to={"/"}><NotificationIcon className="notif-icon"/></Link>*/}
               <button ref={e => this.hamburgerButtonRef = e} onClick={this._toggleHamburger}
-                      className={showHamburger ? "hamburger hamburger--elastic is-active" : "hamburger hamburger--elastic"}
+                      className={showHamburger ? 'hamburger hamburger--elastic is-active' : 'hamburger hamburger--elastic'}
                       type="button">
               <span className="hamburger-box">
                 <span className="hamburger-inner"/>
@@ -429,13 +387,13 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
               <div ref={e => this.hamburgerRef = e}
                    className={showHamburger ? 'hamburger-view open' : 'hamburger-view close'}>
                 <div className='image-container'>
-                  {bannerLink && profileBannerLoaded
+                  {bannerLink
                       ? <img className='user-banner' src={bannerLink} alt='user banner'/>
                       : <div className='user-banner'/>
                   }
 
                   <div className='profile-image-container'>
-                    {imgLink && profilePhotoLoaded
+                    {imgLink
                         ? <img className='user-profile' src={imgLink} alt='user profile'/>
                         : <DefaultUserIcon className='user-profile'/>
                     }
@@ -473,7 +431,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
             <div className="top-bar-left-side">
               <div ref={e => this.profileRef = e} className="-ProfTopBarImg">
 
-                {imgLink && profilePhotoLoaded ?
+                {imgLink ?
                     <Material backgroundColor='rgba(238, 238, 238,0.8)' onClick={this._toggleProfile}
                               className={collapseProfile ? 'topbar-profile-img-open' : 'topbar-profile-img'}
                               content={<img src={imgLink} className='-ProfTopBarImg-svg-img'
@@ -495,8 +453,8 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                       <Material className='profile-menu-profile-section' content={
                         <div className='profile-menu-top-section-container'>
                           <div className='profile-menu-profile-section-image'>
-                            {bannerLink && profilePhotoLoaded ?
-                                <img src={bannerLink} className='-ProfTopBarImg-svg-img-big' alt="Person icon"/>
+                            {imgLink ?
+                                <img src={imgLink} className='-ProfTopBarImg-svg-img-big' alt="Person icon"/>
                                 :
                                 <DefaultUserIcon className='-ProfTopBarImg-svg-big'/>
                             }
@@ -613,9 +571,11 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
     if (selectedSetting === 'General Settings') {
       return <GeneralSetting hideSetting={this._handleHideSetting}/>
-    } else if (selectedSetting === 'Manage Linked Accounts') {
+    }
+    else if (selectedSetting === 'Manage Linked Accounts') {
       return <LinkedAccounts/>
-    } else if (selectedSetting === 'Privacy') {
+    }
+    else if (selectedSetting === 'Privacy') {
       return <Privacy/>
     }
   }
@@ -625,13 +585,17 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
     if (selectedAbout === 'FAQ') {
       return null
-    } else if (selectedAbout === 'Introduce Badges') {
+    }
+    else if (selectedAbout === 'Introduce Badges') {
       return <IntroduceBadges/>
-    } else if (selectedAbout === 'Terms & Conditions') {
+    }
+    else if (selectedAbout === 'Terms & Conditions') {
       return <UserAgreement/>
-    } else if (selectedAbout === 'About Innowin') {
+    }
+    else if (selectedAbout === 'About Innowin') {
       return <AboutInnowin/>
-    } else if (selectedAbout === 'About Us') {
+    }
+    else if (selectedAbout === 'About Us') {
       return <AboutUs/>
     }
   }
@@ -658,7 +622,7 @@ const mapStateToProps = (state, ownProps) => {
     clientIdentity,
     imgLink: profileImg ? (state.common.file.list[profileImg] && state.common.file.list[profileImg].file) : '',
     bannerLink: bannerImg ? (state.common.file.list[bannerImg] && state.common.file.list[bannerImg].file) : '',
-    translate: state.intl.messages || {}
+    translate: state.intl.messages || {},
   }
 }
 const mapDispatchToProps = dispatch => ({
@@ -667,6 +631,6 @@ const mapDispatchToProps = dispatch => ({
     verifyToken: AuthActions.verifyToken,
     push: routerActions.push,
     getFileByFileRelatedParentId: FileActions.getFileByFileRelatedParentId,
-  }, dispatch)
+  }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(TopBar)

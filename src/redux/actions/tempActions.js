@@ -1,4 +1,3 @@
-// @flow
 import types from "./types"
 
 const removeFileFromTemp = (tempFileKeyName: number | string) => ({
@@ -6,10 +5,15 @@ const removeFileFromTemp = (tempFileKeyName: number | string) => ({
   payload: {tempFileKeyName}
 })
 
+const setFileProgressTemp = ({fileId, progressDetail}) => ({
+  type: types.COMMON.FILE.SET_FILE_PROGRESS_DETAIL,
+  payload: {fileId, progressDetail}
+})
 
 
 const TempActions = {
-  removeFileFromTemp
+  removeFileFromTemp,
+  setFileProgressTemp,
 }
 
 export default TempActions

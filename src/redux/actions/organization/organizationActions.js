@@ -116,24 +116,17 @@ const OrganizationActions = {
   getMetaDataOrganization,
   getOrganizationMembers,
   getOrgExchanges,
-
   updateOrganization,
-
   getProducts,
   updateProduct,
   createProduct,
   deleteProduct,
   getProductPicture,
-
   getProductPrice,
-
   deletePicture,
   addPicture,
-
   getOrgStaff,
-
   agencyRequest,
-
 };
 
 export default OrganizationActions;

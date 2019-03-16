@@ -60,7 +60,7 @@ class LinkInfoEditForm extends React.Component<PropsOrganizationInfoEditForm> {
   _onSubmit = (values: LinkInfoFormInputType): boolean | void => {
     // organization equals to initial value
     const {organization, actions, hideEdit, organizationId} = this.props
-    const {updateOrganization} = actions
+    const {updateUserByUserId} = actions
 
     const formFormat = {
       telegram_account: organization.telegram_account === values.telegramAccount ? null : constants.LINKS.TELEGRAM + values.telegramAccount,
@@ -68,18 +68,15 @@ class LinkInfoEditForm extends React.Component<PropsOrganizationInfoEditForm> {
       linkedin_account: organization.linkedin_account === values.linkedinAccount ? null : constants.LINKS.LINKEDIN + values.linkedinAccount,
       twitter_account: organization.twitter_account === values.twitterAccount ? null : constants.LINKS.TWITTER + values.twitterAccount,
       web_site: organization.web_site === values.webSite ? null : values.webSite,
-    // youtubeAccount: organization.youtube_account,
     }
     const propertyNames = Object.getOwnPropertyNames(formFormat)
     propertyNames.map(key => {
-      // formFormat[key] === null ? delete(formFormat[key]) : ''
-      // return formFormat
       if (formFormat[key] === null) {
         delete (formFormat[key])
       }
       return formFormat
     })
-    updateOrganization({formValues: formFormat, organizationId})
+    updateUserByUserId(formFormat, organizationId)
     hideEdit()
     return false
   }

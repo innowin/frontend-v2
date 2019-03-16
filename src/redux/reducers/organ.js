@@ -142,17 +142,17 @@ const organs = (state = initialState.organs, action) => {
     /** -------------------------- get followers -------------------------> **/
     case types.COMMON.SOCIAL.GET_FOLLOWERS:
       return slices.getFollowers.base(state, action)
-    case types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWERS:
-      return slices.getFollowers.success(state, action)
+    // case types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWERS:
+    //   return slices.getFollowers.success(state, action)
     case types.ERRORS.COMMON.SOCIAL.GET_FOLLOWERS:
       return slices.getFollowers.error(state, action)
     /** -------------------------- get followees -------------------------> **/
-    case types.COMMON.SOCIAL.GET_FOLLOWEES:
-      return slices.getFollowees.base(state, action)
-    case types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWEES:
-      return slices.getFollowees.success(state, action)
-    case types.ERRORS.COMMON.SOCIAL.GET_FOLLOWEES:
-      return slices.getFollowees.error(state, action)
+    // case types.COMMON.SOCIAL.GET_FOLLOWEES:
+    //   return slices.getFollowees.base(state, action)
+    // case types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWEES:
+    //   return slices.getFollowees.success(state, action)
+    // case types.ERRORS.COMMON.SOCIAL.GET_FOLLOWEES:
+    //   return slices.getFollowees.error(state, action)
     /** -------------------------- delete follow -------------------------> **/
     case types.SUCCESS.COMMON.SOCIAL.DELETE_FOLLOW:
       return slices.deleteFollow.success(state, action)
@@ -207,22 +207,15 @@ const organs = (state = initialState.organs, action) => {
         }
       }
     /** -------------------------- get exchange membership by member identity  -------------------------> **/
-    case types.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
-      return slices.getExchangeMembershipByMemberIdentity.base(state, action)
-    case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
-      return slices.getExchangeMembershipByMemberIdentity.success(state, action)
-    case types.ERRORS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
-      return slices.getExchangeMembershipByMemberIdentity.error(state, action)
+    // case types.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
+    //   return slices.getExchangeMembershipByMemberIdentity.base(state, action)
+    // case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
+    //   return slices.getExchangeMembershipByMemberIdentity.success(state, action)
+    // case types.ERRORS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
+    //   return slices.getExchangeMembershipByMemberIdentity.error(state, action)
     /** -------------------------- delete exchange membership  -------------------------> **/
     case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.DELETE_EXCHANGE_MEMBERSHIP:
       return slices.deleteExchangeMembership.success(state, action)
-    /** -------------------------- get work experience by user id  -------------------------> **/
-    case types.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID:
-      return slices.getWorkExperienceByUserId.base(state, action)
-    case types.SUCCESS.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID:
-      return slices.getWorkExperienceByUserId.success(state, action)
-    case types.ERRORS.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID:
-      return slices.getWorkExperienceByUserId.error(state, action)
     /** -------------------------- create work experience by user id -------------------------> **/
     case types.SUCCESS.WORK_EXPERIENCE.CREATE_USER_WORK_EXPERIENCES_BY_USER_ID:
       return slices.createWorkExperienceByUserId.success(state, action)
@@ -265,8 +258,8 @@ const organs = (state = initialState.organs, action) => {
     case types.SUCCESS.ABILITY.CREATE_ABILITY:
       return slices.createAbility.success(state, action)
       /** -------------------------- sign in  -------------------------> **/
-    case types.SUCCESS.AUTH.SIGN_IN:
-      return slices.signIn.success(state, action)
+    // case types.SUCCESS.AUTH.SIGN_IN:
+    //   return slices.signIn.success(state, action)
     /** -------------------------- reset organs -------------------------> **/
     case types.RESET:
       return initialState.organs

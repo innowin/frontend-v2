@@ -54,13 +54,13 @@
   text-align: center;
   position: relative;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
 }
 
 .level-bar {
   position: absolute;
   z-index: -1;
-  width: 50%;
+  width: 65%;
   height: 13px;
   top: 38px;
   background-color: $disable-color;
@@ -76,20 +76,20 @@
   transition-duration: $animation-timing-long;
 
   &.one {
-    right: 25%;
-    left: 75%;
+    right: 15%;
+    left: 85%;
     transition-duration: $animation-timing-long;
   }
 
   &.two {
-    right: 25%;
+    right: 15%;
     left: 50%;
     transition-duration: $animation-timing-long;
   }
 
   &.three {
-    right: 25%;
-    left: 25%;
+    right: 15%;
+    left: 15%;
     transition-duration: $animation-timing-long;
   }
 
@@ -740,6 +740,29 @@
     transform: scale(.7);
     transition: all ease $animation-timing-short;
     opacity: .85;
+  }
+}
+
+.product-file-item {
+  color: $foreground-color;
+  background-color: transparent;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: -12%;
+  right: 0;
+  font-size: 11px;
+  padding: 3px 1px 0 0;
+  width: 100%;
+  height: 85px;
+  cursor: pointer;
+  transition: all ease $animation-timing-short;
+  opacity: .4;
+
+  &:hover {
+    transition: all ease $animation-timing;
+    opacity: .8;
   }
 }
 

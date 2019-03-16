@@ -336,11 +336,10 @@ class NewFollowings extends Component<props, states> {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  let {identityId} = ownProps
   return {
     exchangeUsers: state.common.exchangeMembership.members,
     organs: state.organs.list,
-    profiles: state.users.list,
+    profiles: state.identities.list,
     files: state.common.file.list,
     clientId: state.auth.client.user.id,
     translate: getMessages(state),
@@ -349,7 +348,7 @@ const mapStateToProps = (state, ownProps) => {
       ownerId: state.auth.client.user.id,
       identityType: state.auth.client.user_type,
     }),
-    identityUser: state.identities.list[identityId] && state.identities.list[identityId].identity_user ? state.identities.list[identityId].identity_user : null
+    identityUser: state.identities.list[ownProps.ownerId] && state.identities.list[ownProps.ownerId].identity_user ? state.identities.list[ownProps.ownerId].identity_user : null
   }
 }
 const mapDispatchToProps = (dispatch) => ({

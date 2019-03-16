@@ -46,7 +46,6 @@ type StateSocials = {
 class Socials extends Component<PropsSocials, StateSocials> {
   static propTypes = {
     ownerId: PropTypes.number.isRequired,
-    identityId: PropTypes.number.isRequired,
     // translate: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
     // isLoading: PropTypes.bool.isRequired,
@@ -67,27 +66,11 @@ class Socials extends Component<PropsSocials, StateSocials> {
   }
 
   componentDidMount() {
-    const {
-      identityId,
-      actions,
-      ownerId,
-      identityType,
-      clientType,
-      clientIdentityId,
-      clientId
-    } = this.props
-    const {
-      getFollowers,
-      getFollowees
-    } = actions
+    const {actions, ownerId, identityType} = this.props
+    const {getFollowers, getFollowees} = actions
 
-    if (ownerId && clientIdentityId) {
-      getFollowees({followOwnerId: clientId, followOwnerIdentity: clientIdentityId, followOwnerType: clientType, userProfileId: ownerId})
-    }
-
-    if (identityId) {
-      getFollowers({followOwnerId: ownerId, followOwnerIdentity: identityId.id, followOwnerType: identityType})
-    }
+    getFollowees({followOwnerId: ownerId, followOwnerIdentity: ownerId, followOwnerType: identityType})
+    getFollowers({followOwnerId: ownerId, followOwnerIdentity: ownerId, followOwnerType: identityType})
   }
 
   render() {
@@ -100,7 +83,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
       // identityId,
       ownerId,
       identityType,
-      param
+      param,
     } = this.props
     const {
       deleteFollow,
@@ -131,7 +114,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
 
 const mapStateToProps = (state, ownProps) => {
   const {ownerId, identityType} = ownProps
-  const stateOwner = (identityType === constants.USER_TYPES.USER) ? state.users.list[ownerId] :
+  const stateOwner = (identityType === constants.USER_TYPES.USER) ? state.identities.list[ownerId] :
       state.organs.list[ownerId]
   const defaultObject = {content: [], isLoading: false, error: null}
   const followObject = (stateOwner && stateOwner.social && stateOwner.social.follows) || defaultObject
@@ -145,7 +128,6 @@ const mapStateToProps = (state, ownProps) => {
     error: followObject.error,
     clientType: state.auth.client.user_type,
     clientIdentityId: state.auth.client.identity.content,
-    clientId: state.auth.client.organization === null ? state.auth.client.user.id : state.auth.client.organization.id,
   }
 }
 
@@ -158,7 +140,7 @@ const mapDispatchToProps = dispatch => ({
     // createFollow: SocialActions.createFollow,
     getProfileByUserId: GetUserActions.getProfileByUserId,
     getOrganizationByOrganId: OrganizationActions.getOrganizationByOrganId,
-  }, dispatch)
+  }, dispatch),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Socials)

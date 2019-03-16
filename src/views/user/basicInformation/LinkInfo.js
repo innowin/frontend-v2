@@ -5,12 +5,12 @@ import PropTypes from "prop-types"
 import {bindActionCreators} from "redux"
 
 import type {userProfileType} from "src/consts/flowTypes/user/basicInformation"
-import updateProfileByProfileIdAction from "../../../redux/actions/user/updateProfileByProfileIdAction"
 import LinkInfoEditForm from './LinkInfoEditForm'
 import {InformationIcon} from "src/images/icons"
 import LinkInfoView from './LinkInfoView'
 import {VerifyWrapper} from "src/views/common/cards/Frames"
 import {ItemWrapper} from "src/views/common/cards/Frames"
+import updateUserByUserIdAction from '../../../redux/actions/user/updateUserByUserIdAction'
 
 //UserInfo flowTypes
 type UserInfoProps = {|
@@ -38,7 +38,6 @@ class LinkInfo extends React.Component<UserInfoProps, UserInfoState> {
     translate: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    profile: PropTypes.object.isRequired,
   }
 
   _showEdit = () => {
@@ -50,21 +49,21 @@ class LinkInfo extends React.Component<UserInfoProps, UserInfoState> {
   }
 
   render() {
-    const {translate, actions, isLoading, profile, userId,user} = this.props
+    const {translate, actions, isLoading, userId,user} = this.props
     const {edit, error} = this.state
     return (
         <VerifyWrapper isLoading={isLoading} error={error}>
           <ItemWrapper icon={<InformationIcon/>}>
             {(edit) ? (
                 <LinkInfoEditForm
-                    profile={profile}
+                    user={user}
                     hideEdit={this._hideEdit}
                     translate={translate}
                     actions={actions}
                     userId={userId}
                 />
             ) : (
-                <LinkInfoView user={user} profile={profile} translate={translate} showEdit={this._showEdit}/>
+                <LinkInfoView user={user} translate={translate} showEdit={this._showEdit}/>
             )
             }
           </ItemWrapper>
@@ -75,7 +74,7 @@ class LinkInfo extends React.Component<UserInfoProps, UserInfoState> {
 
 const mapUserInfoDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    updateProfileByUserId: updateProfileByProfileIdAction.updateProfile,
+    updateUserByUserId: updateUserByUserIdAction.updateUser,
   }, dispatch)
 })
 

@@ -1,5 +1,5 @@
 const validateOfficialName = (officialName, translate) => {
-  if (officialName.length > 50) {
+  if (officialName.length > 20) {
     return translate['Official name is wrong']
   }
 }

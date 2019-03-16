@@ -13,7 +13,6 @@ import AddingContribution from "../../pages/adding-contribution/addingContributi
 //   ownerId: number,
 //   translate: { [string]: string },
 //   identityType: string,
-//   identityId: number,
 //   isUser: boolean,
 // }
 
@@ -81,7 +80,6 @@ Contributions.propTypes = {
   ownerId: PropTypes.number.isRequired,
   translate: PropTypes.object.isRequired,
   identityType: PropTypes.string.isRequired,
-  identityId: PropTypes.number.isRequired,
 }
 const mapStateToProps = state => ({
   translate: getMessages(state)

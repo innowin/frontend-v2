@@ -54,10 +54,10 @@ class Explore extends PureComponent <appProps, appState> {
   }
   
   componentDidMount() {
-    const {currentUserIdentity, currentUserType, currentUserId, actions} = this.props
+    const {currentUserIdentity, currentUserType, actions} = this.props
     actions.getUsers(24, 0, null)
-    actions.getFollowees({followOwnerIdentity: currentUserIdentity, followOwnerType: currentUserType, followOwnerId: currentUserId, notProfile: true})
-    actions.getFollowers({followOwnerIdentity: currentUserIdentity, followOwnerType: currentUserType, followOwnerId: currentUserId, notProfile: true})
+    actions.getFollowees({followOwnerIdentity: currentUserIdentity, followOwnerType: currentUserType, followOwnerId: currentUserIdentity, notProfile: true})
+    actions.getFollowers({followOwnerIdentity: currentUserIdentity, followOwnerType: currentUserType, followOwnerId: currentUserIdentity, notProfile: true})
     window.addEventListener('scroll', this._onScroll)
   }
 
@@ -152,14 +152,12 @@ class Explore extends PureComponent <appProps, appState> {
 }
 
 const mapStateToProps = (state) => {
-  const userId = state.auth.client.organization !== null ? state.auth.client.organization.id : state.auth.client.user.id
   return {
     currentUserType: state.auth.client.user_type,
     currentUserIdentity: state.auth.client.identity.content,
-    currentUserId: userId,
     allUsers: getUsers(state),
     followees: getFollowList(state),
-    loading: state.users.isLoading,
+    loading: state.identities.isLoading,
     translate: getMessages(state)
   }
 }

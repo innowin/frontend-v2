@@ -115,6 +115,12 @@ export default {
       IMAGE: 'image',
       VIDEO: 'video',
       FILE: 'file',
+    },
+    EXCHANGE:{
+      IMAGE: 'exchange-image'
+    },
+    PRODUCT:{
+      IMAGE: 'product-image'
     }
   },
   TEMP_FILE_KEYS: {

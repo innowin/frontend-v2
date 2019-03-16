@@ -12,7 +12,6 @@ import CertificateInfoCreateForm from './CertificateInfoCreateForm'
 
 type PropsCertificates = {
   ownerId: number,
-  identityId: number,
   identityType: string,
   translate: { [string]: string },
   actions: {
@@ -27,7 +26,6 @@ type StateCertificates = {
 export class Index extends Component<PropsCertificates, StateCertificates> {
   static propTypes = {
     ownerId: PropTypes.number.isRequired,
-    identityId: PropTypes.number.isRequired,
     identityType: PropTypes.string.isRequired,
     translate: PropTypes.object.isRequired,
     actions: PropTypes.objectOf(PropTypes.func),
@@ -50,14 +48,14 @@ export class Index extends Component<PropsCertificates, StateCertificates> {
   }
 
   _createCertificate = ({formValues}) => {
-    const {actions, ownerId, identityId, identityType} = this.props
+    const {actions, ownerId, identityType} = this.props
     const {createCertificate} = actions
-    const newFormValues = {...formValues, certificate_parent: identityId, certificate_identity: identityId}
+    const newFormValues = {...formValues, certificate_parent: ownerId, certificate_identity: ownerId}
     createCertificate({certificateOwnerId: ownerId, formValues: newFormValues, certificateOwnerType: identityType})
   }
 
   render() {
-    const {translate, identityId, identityType, ownerId} = this.props
+    const {translate, identityType, ownerId} = this.props
     const {certificateCreateForm} = this.state
 
     return (
@@ -91,7 +89,7 @@ export class Index extends Component<PropsCertificates, StateCertificates> {
 
           <FrameCard>
             <ListGroup>
-              <CertificateContainer ownerId={ownerId} identityId={identityId} identityType={identityType}/>
+              <CertificateContainer ownerId={ownerId} identityId={ownerId} identityType={identityType}/>
             </ListGroup>
           </FrameCard>
         </div>

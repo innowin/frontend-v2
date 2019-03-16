@@ -92,7 +92,7 @@ export default class Exchange_Info extends Component<props> {
 
 // const mapStateToProps = (state) => ({
 //   exchanges: state.exchanges,
-//   users: state.users,
+//   users: state.identities,
 // })
 //
 // const mapDispatchToProps = (dispatch) => ({

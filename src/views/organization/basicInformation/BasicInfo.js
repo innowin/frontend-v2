@@ -1,7 +1,6 @@
 // @flow
 import * as React from "react"
 import PropTypes from "prop-types"
-
 import BasicInfoEditForm from './BasicInfoEditForm'
 import BasicInfoView from './BasicInfoView'
 import type {organizationType} from "src/consts/flowTypes/organization/organization"
@@ -16,7 +15,6 @@ type OrganizationInfoProps = {|
   actions: {|
     updateOrganizationByOrganizationId: Function,
   |},
-  isLoading: boolean,
   organization: organizationType,
 |}
 type OrganizationInfoState = {
@@ -34,7 +32,6 @@ class BasicInfo extends React.Component<OrganizationInfoProps, OrganizationInfoS
     organizationId: PropTypes.number.isRequired,
     translate: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
-    isLoading: PropTypes.bool.isRequired,
     organization: PropTypes.object.isRequired,
   }
 

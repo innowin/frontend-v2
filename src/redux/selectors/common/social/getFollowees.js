@@ -16,7 +16,7 @@ const getUserFollows = (state, props) => {
   const ownerId = props.ownerId || (props.owner && props.owner.id)
   const identityType = props.identityType || props.sideBarType
   if (identityType === constants.USER_TYPES.USER) {
-    const usersList = state.users.list
+    const usersList = state.identities.list
     if (usersList[ownerId] && usersList[ownerId].social && usersList[ownerId].social.follows)
       return usersList[ownerId].social.follows.content
   } else if (identityType === constants.USER_TYPES.ORG) {
@@ -26,8 +26,8 @@ const getUserFollows = (state, props) => {
   }
   return undefined
 }
-const getUsers = state => state.users.list
-const getOrgans = state => state.organs.list
+const getUsers = state => state.identities.list
+const getOrgans = state => state.identities.list
 const getIdentityId = (state, props) => props.identityId
 
 const getFiles = state => state.common.file.list

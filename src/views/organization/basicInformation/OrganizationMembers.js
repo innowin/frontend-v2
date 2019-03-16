@@ -36,7 +36,6 @@ class OrganizationMembers extends React.Component<OrganizationMembersProps, { ed
     const {organizationId, members} = this.props;
     const {getOrganizationMembers} = this.props.actions;
     getOrganizationMembers(organizationId)
-
   }
 
   render() {

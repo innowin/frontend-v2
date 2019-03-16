@@ -1,16 +1,14 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import BeeBackground from 'src/images/bee/beeBackground'
 import connect from 'react-redux/es/connect/connect'
-import OrganizationActions from 'src/redux/actions/organization/organizationActions'
-import { Bee } from 'src/images/icons'
-import { bindActionCreators } from 'redux'
-import { ClipLoader } from 'react-spinners'
-import { createFile } from 'src/redux/actions/commonActions/fileActions'
-import { getMessages } from 'src/redux/selectors/translateSelector'
-import { Link } from 'react-router-dom'
+import {Bee} from 'src/images/icons'
+import {bindActionCreators} from 'redux'
+import {ClipLoader} from 'react-spinners'
+import {getMessages} from 'src/redux/selectors/translateSelector'
+import {Link} from 'react-router-dom'
 import types from 'src/redux/actions/types'
-import { createFileFunc } from '../Functions'
-import TempActions from 'src/redux/actions/tempActions'
+import {createFileFunc} from '../Functions'
+import updateUserByUserIdAction from 'src/redux/actions/user/updateUserByUserIdAction'
 
 class OrganizationBee extends Component {
   constructor(props) {
@@ -33,105 +31,89 @@ class OrganizationBee extends Component {
       educationSubmitted: false,
 
       bioText: '',
-      bioSubmitted: false
+      bioSubmitted: false,
     }
   }
 
   componentDidMount(): void {
-    const { organLogo, organObject } = this.props
-    const organContent = organObject && organObject.content
-    const {nike_name, biography, telegram_account, web_site} = organContent
+    const {currentUser} = this.props
+    const {nike_name, biography, telegram_account, web_site, profile_media} = currentUser
 
     let image = 0
     let name = 0
     let graduate = 0
     let bio = 0
 
-    if (organLogo) {
+    if (profile_media) {
       image = 30
     }
 
-    if (organContent) {
-      if (nike_name && nike_name.trim().length > 0) {
-        name = 25
-      }
-      if (biography && biography.trim().length > 0) {
-        bio = 25
-      }
-      if ((telegram_account && telegram_account.length > 0) || (web_site && web_site.length > 0)) {
-        graduate = 20
-      }
+    if (nike_name && nike_name.trim().length > 0) {
+      name = 25
+    }
+    if (biography && biography.trim().length > 0) {
+      bio = 25
+    }
+    if ((telegram_account && telegram_account.length > 0) || (web_site && web_site.length > 0)) {
+      graduate = 20
     }
 
-    this.setState({ ...this.state, image, name, graduate, bio }, () => {
-      if (image === 30) this.setState({ ...this.state, imageLoading: false })
+    this.setState({...this.state, image, name, graduate, bio}, () => {
+      if (image === 30) this.setState({...this.state, imageLoading: false})
     })
   }
 
   componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
-    const { organLogo, organObject, currentOrganizationId, actions } = nextProps
-    const organContent = organObject && organObject.content
-    const {nike_name, biography, telegram_account, web_site} = organContent
+    const {currentUser} = nextProps
+    const {nike_name, biography, telegram_account, web_site, profile_media} = currentUser
 
     let image = 0
     let name = 0
     let graduate = 0
     let bio = 0
 
-    if (organLogo) {
+    if (profile_media) {
       image = 30
     }
-    if (organContent) {
-      if (nike_name && nike_name.trim().length > 0) {
-        name = 25
-      }
-      if (biography && biography.trim().length > 0) {
-        bio = 25
-      }
-      if ((telegram_account && telegram_account.length > 0) || (web_site && web_site.length > 0)) {
-        graduate = 20
-      }
+
+    if (nike_name && nike_name.trim().length > 0) {
+      name = 25
+    }
+    if (biography && biography.trim().length > 0) {
+      bio = 25
+    }
+    if ((telegram_account && telegram_account.length > 0) || (web_site && web_site.length > 0)) {
+      graduate = 20
     }
 
-    if (this.state.imageLoading) {
-      console.log('this.props.tempFile : ', nextProps.tempFile)
-      if (nextProps.tempFile) {
-        const formFormat = {
-          organization_logo: nextProps.tempFile
-        }
-        actions.updateOrganizationByOrganizationId({ formValues: formFormat, organizationId: currentOrganizationId })
-        nextProps.actions.removeFileFromTemp('org_photo')
-      }
-    }
-
-    this.setState({ ...this.state, image, name, graduate, bio }, () => {
-      if (image === 30) this.setState({ ...this.state, imageLoading: false })
+    this.setState({...this.state, image, name, graduate, bio}, () => {
+      if (image === 30) this.setState({...this.state, imageLoading: false})
     })
   }
 
   _handleCancel = () => {
-    const { level } = this.state
+    const {level} = this.state
     if (level < 4)
-      this.setState({ ...this.state, level: this.state.level + 1 })
-    else this.setState({ ...this.state, level: 1 })
+      this.setState({...this.state, level: this.state.level + 1})
+    else this.setState({...this.state, level: 1})
   }
 
   _handleChooseProfile = (e) => {
     e.preventDefault()
-    const { actions } = this.props
+    const {actions} = this.props
     let reader = new FileReader()
     let file = e.target.files[0]
     if (file) {
       reader.readAsDataURL(file)
       reader.onloadend = () => {
-        this.setState({ ...this.state, imageLoading: true }, () => {
+        this.setState({...this.state, imageLoading: true}, () => {
           const nextActionType = types.COMMON.FILE.SET_FILE_IDS_IN_TEMP_FILE
           const fileIdKey = 'fileId'
-          const nextActionData = { tempFileKeyName: 'org_photo' }
+          const nextActionData = {tempFileKeyName: 'org_photo'}
           const createArguments = {
             fileIdKey,
             nextActionType,
-            nextActionData
+            nextActionData,
           }
           createFileFunc(actions.createFile, reader.result, createArguments)
         })
@@ -141,57 +123,57 @@ class OrganizationBee extends Component {
 
   _handleName = () => {
     if (this.state.nameText.trim().length > 0) {
-      const { actions, currentOrganizationId } = this.props
+      const {actions, currentUser} = this.props
       const formFormat = {
-        nike_name: this.state.nameText.trim()
+        nike_name: this.state.nameText.trim(),
       }
-      actions.updateOrganizationByOrganizationId({ formValues: formFormat, organizationId: currentOrganizationId })
+      actions.updateUserByUserId(formFormat, currentUser.id)
     }
-    else this.setState({ ...this.state, nameSubmitted: true })
+    else this.setState({...this.state, nameSubmitted: true})
   }
 
   _handleGraduate = () => {
     if (this.state.siteText.trim().length > 0 && this.state.telText.trim().length > 0) {
-      const { actions, currentOrganizationId } = this.props
+      const {actions, currentUser} = this.props
       const formFormat = {
         web_site: this.state.siteText.trim(),
-        telegram_account: this.state.telText.trim()
+        telegram_account: this.state.telText.trim(),
       }
-      actions.updateOrganizationByOrganizationId({ formValues: formFormat, organizationId: currentOrganizationId })
+      actions.updateUserByUserId(formFormat, currentUser.id)
     }
-    else this.setState({ ...this.state, educationSubmitted: true })
+    else this.setState({...this.state, educationSubmitted: true})
   }
 
   _handleBio = () => {
     if (this.state.bioText.trim().length > 0) {
-      const { actions, currentOrganizationId } = this.props
+      const {actions, currentUser} = this.props
       const formFormat = {
-        biography: this.state.bioText.trim()
+        biography: this.state.bioText.trim(),
       }
-      actions.updateOrganizationByOrganizationId({ formValues: formFormat, organizationId: currentOrganizationId })
+      actions.updateUserByUserId(formFormat, currentUser.id)
     }
-    else this.setState({ ...this.state, bioSubmitted: true })
+    else this.setState({...this.state, bioSubmitted: true})
   }
 
   _handleBioChange = (e) => {
-    this.setState({ ...this.state, bioText: e.target.value.trim() })
+    this.setState({...this.state, bioText: e.target.value.trim()})
   }
 
   _handleNameChange = (e) => {
-    this.setState({ ...this.state, nameText: e.target.value.trim() })
+    this.setState({...this.state, nameText: e.target.value.trim()})
   }
 
   _handleSiteChange = (e) => {
-    this.setState({ ...this.state, siteText: e.target.value.trim() })
+    this.setState({...this.state, siteText: e.target.value.trim()})
   }
 
   _handleTelChange = (e) => {
-    this.setState({ ...this.state, telText: e.target.value.trim() })
+    this.setState({...this.state, telText: e.target.value.trim()})
   }
 
   renderLevel() {
-    const { level, image, name, graduate, bio } = this.state
-    const { translate, currentOrganizationId } = this.props
+    const {level, image, name, graduate, bio} = this.state
+    const {translate, currentUser} = this.props
     if (image + name + graduate + bio === 100) {
       return (
           <div>
@@ -210,7 +192,7 @@ class OrganizationBee extends Component {
             </div>
 
             <div className='bee-button-submit-cont'>
-              <Link to={`/organization/${currentOrganizationId}`} className='bee-button-submit'>{translate['View Profile']}</Link>
+              <Link to={`/organization/${currentUser.id}`} className='bee-button-submit'>{translate['View Profile']}</Link>
             </div>
           </div>
       )
@@ -243,7 +225,7 @@ class OrganizationBee extends Component {
               </div>
             </div>
         )
-      else this.setState({ ...this.state, level: this.state.level + 1 })
+      else this.setState({...this.state, level: this.state.level + 1})
     }
     else if (level === 2) {
       if (name === 0)
@@ -263,7 +245,7 @@ class OrganizationBee extends Component {
 
               <div className='bee-loading'>
                 <div className='bee-loading-nav'>
-                  <div className='bee-loading-fill' style={{ width: (image + name + graduate + bio) + '%' }}/>
+                  <div className='bee-loading-fill' style={{width: (image + name + graduate + bio) + '%'}}/>
                 </div>
                 <div>{translate['Complement of profile']} {image + name + graduate + bio}%</div>
               </div>
@@ -275,7 +257,7 @@ class OrganizationBee extends Component {
 
             </div>
         )
-      else this.setState({ ...this.state, level: this.state.level + 1 })
+      else this.setState({...this.state, level: this.state.level + 1})
     }
     else if (level === 3) {
       if (graduate === 0)
@@ -299,7 +281,7 @@ class OrganizationBee extends Component {
 
               <div className='bee-loading'>
                 <div className='bee-loading-nav'>
-                  <div className='bee-loading-fill' style={{ width: (image + name + graduate + bio) + '%' }}/>
+                  <div className='bee-loading-fill' style={{width: (image + name + graduate + bio) + '%'}}/>
                 </div>
                 <div>{translate['Complement of profile']} {image + name + graduate + bio}%</div>
               </div>
@@ -311,7 +293,7 @@ class OrganizationBee extends Component {
 
             </div>
         )
-      else this.setState({ ...this.state, level: this.state.level + 1 })
+      else this.setState({...this.state, level: this.state.level + 1})
     }
     else if (level === 4) {
       if (bio === 0)
@@ -332,7 +314,7 @@ class OrganizationBee extends Component {
 
               <div className='bee-loading'>
                 <div className='bee-loading-nav'>
-                  <div className='bee-loading-fill' style={{ width: (image + name + graduate + bio) + '%' }}/>
+                  <div className='bee-loading-fill' style={{width: (image + name + graduate + bio) + '%'}}/>
                 </div>
                 <div>{translate['Complement of profile']} {image + name + graduate + bio}%</div>
               </div>
@@ -344,7 +326,7 @@ class OrganizationBee extends Component {
 
             </div>
         )
-      else this.setState({ ...this.state, level: 1 })
+      else this.setState({...this.state, level: 1})
     }
 
   }
@@ -361,31 +343,18 @@ class OrganizationBee extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const client = state.auth.client
-  const userId = (client.organization && client.organization.id) || (client.user && client.user.id)
-  const defaultObject = { content: {}, isLoading: false, error: null }
-  const stateOrgan = state.organs.list[userId]
-  const organLogo = (stateOrgan && stateOrgan.organization && stateOrgan.organization.content && stateOrgan.organization.content.organization_logo)
+  const id = state.auth.client.identity.content
+  const user = state.identities.list[id]
 
   return ({
-    currentUserType: client.user_type,
-    currentUserIdentity: client.identity.content,
-    currentUserId: (client.user && client.user.id),
-    currentOrganizationId: userId,
-    currentUserName: (client.organization && client.organization.nike_name) || '',
-    currentUserBio: (client.profile && client.profile.description) || '',
+    currentUser: user,
     translate: getMessages(state),
-    organObject: (stateOrgan && stateOrgan.organization) || defaultObject,
-    organLogo,
-    tempFile: state.temp.file['org_photo']
   })
 }
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    createFile,
-    updateOrganizationByOrganizationId: OrganizationActions.updateOrganization,
-    removeFileFromTemp: TempActions.removeFileFromTemp
-  }, dispatch)
+    updateUserByUserId: updateUserByUserIdAction.updateUser,
+  }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(OrganizationBee)

@@ -15,18 +15,18 @@ type PropsPrivateInfoView = {
 }
 
 const PrivateInfoView = (props: PropsPrivateInfoView) => {
-  const {showEdit, translate, profile, user} = props
+  const {showEdit, translate, user} = props
   return (
       <div>
         <ItemHeader title={translate['Private info']} showEdit={showEdit}/>
         <LockSvg className='user-lock-private'/>
         <Field>
           <FieldLabel label={translate['National code'] + ": "}/>
-          <FieldValue value={profile.national_code}/>
+          <FieldValue value={user.national_code}/>
         </Field>
         <Field>
           <FieldLabel label={translate['BirthDate'] + ": "}/>
-          <FieldValue value={profile.birth_date}/>
+          <FieldValue value={user.birth_date}/>
         </Field>
         <Field>
           <FieldLabel label={translate['Email'] + ": "}/>
@@ -34,7 +34,7 @@ const PrivateInfoView = (props: PropsPrivateInfoView) => {
         </Field>
         <Field>
           <FieldLabel label={translate['Phone'] + ": "}/>
-          <FieldValue value={profile.auth_mobile}/>
+          <FieldValue value={user.auth_mobile}/>
         </Field>
       </div>
   )

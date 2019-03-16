@@ -13,7 +13,7 @@ export function* getExchangeMembershipByMemberIdentity(action) {
         api.get,
         urls.COMMON.EXCHANGE_MEMBERSHIP,
         results.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY,
-        `?identity_id=${identityId}`
+        `?identity_id=${exchangeMembershipOwnerId}`
     )
     const data = yield take(socketChannel)
     const data1 = data.map(exchangeIdentity => (exchangeIdentity.exchange_identity_related_exchange))

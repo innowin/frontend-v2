@@ -125,7 +125,6 @@ type PropsCategoryTitle = {
   showCreateForm?: Function,
   showEditBtn?: boolean,
   showEditHandler?: Function,
-  param: paramType,
 }
 
 let CategoryTitle = ({

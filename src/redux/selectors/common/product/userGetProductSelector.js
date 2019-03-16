@@ -7,11 +7,11 @@ const getUserProducts = (state, props) => {
   const id = props.ownerId
   const identityType = props.identityType
   if (identityType === constants.USER_TYPES.USER) {
-    const usersList = state.users.list
+    const usersList = state.identities.list
     if (usersList[id] && usersList[id].products)
       return usersList[id].products.content
   } else if (identityType === constants.USER_TYPES.ORG) {
-    const organsList = state.organs.list
+    const organsList = state.identities.list
     if (organsList[id] && organsList[id].products)
       return organsList[id].products.content
   }

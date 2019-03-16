@@ -6,7 +6,6 @@ import ChatBar from 'src/views/bars/ChatBar'
 import constants from 'src/consts/constants'
 import Contributions from './common/contributions'
 import Educations from 'src/views/user/educations'
-import GetIdentityActions from 'src/redux/actions/identityActions'
 import GetUserActions from 'src/redux/actions/user/getUserActions'
 import Material from './common/components/Material'
 import ParamActions from '../redux/actions/paramActions'
@@ -19,12 +18,7 @@ import Following from 'src/views/common/social/following/index'
 import Follower from 'src/views/common/social/follower/index'
 import type {badgeType} from 'src/consts/flowTypes/common/badges'
 import type {fileType} from '../consts/flowTypes/common/fileType'
-import type {
-  profileStateObject,
-  userStateObject,
-  identityStateObject,
-  listOfIdObject,
-} from 'src/consts/flowTypes/stateObjectType'
+import type {userStateObject, listOfIdObject} from 'src/consts/flowTypes/stateObjectType'
 import UserBasicInformation from './user/basicInformation/index'
 import UserSkeleton from './user/skeleton/UserSkeleton'
 import WorkExperiences from './user/workExperience/index'
@@ -33,7 +27,7 @@ import {Component} from 'react'
 import {connect} from 'react-redux'
 import {getMessages} from '../redux/selectors/translateSelector'
 import {NavLink, Switch, Redirect} from 'react-router-dom'
-import {UserSideBar} from './bars/SideBar'
+import SideBarContent from './bars/SideBar'
 
 type PropsUser = {
   match: {
@@ -42,17 +36,13 @@ type PropsUser = {
   },
   actions: {
     getUserByUserId: Function,
-    getProfileByUserId: Function,
-    getUserIdentity: Function,
     getUserBadges: Function,
     removeParamUserId: Function,
     setParamUserId: Function,
   },
-  profileObject: profileStateObject,
   profileBanner: fileType | {},
   profileMedia: fileType | {},
   userObject: userStateObject,
-  identityObject: identityStateObject,
   badgesObject: listOfIdObject,
   badges: Array<badgeType>,
   translate: { [string]: string }
@@ -74,32 +64,28 @@ class User extends Component<PropsUser> {
   componentDidUpdate(prevProps) {
     const {params} = this.props.match
     const userId: number = +params.id
-    const {identityObject, actions} = this.props
-    const {getUserByUserId, getProfileByUserId, getUserIdentity, setParamUserId} = actions
+    const {userObject, actions} = this.props
+    const {getUserByUserId, setParamUserId} = actions
 
     if (+prevProps.match.params.id !== userId) {
       getUserByUserId(userId)
-      getProfileByUserId(userId)
-      getUserIdentity(userId)
       setParamUserId({id: userId})
     }
 
-    if (this.firstGetBadges && identityObject.content && prevProps.identityObject !== identityObject) {
+    if (this.firstGetBadges && userObject.id && prevProps.userObject !== userObject) {
       const {params} = this.props.match
       const userId: number = +params.id
       const {getUserBadges} = actions
-      getUserBadges(userId, identityObject.content)
+      getUserBadges(userId, userObject.id)
       this.firstGetBadges = false
     }
   }
 
   componentDidMount() {
     const {params} = this.props.match
-    const {getUserByUserId, getProfileByUserId, getUserIdentity, setParamUserId} = this.props.actions
+    const {getUserByUserId, setParamUserId} = this.props.actions
     const userId: number = +params.id
     getUserByUserId(userId)
-    getProfileByUserId(userId)
-    getUserIdentity(userId)
     setParamUserId({id: userId})
   }
 
@@ -109,19 +95,15 @@ class User extends Component<PropsUser> {
   }
 
   render() {
-    const {match, profileObject, profileBanner, profileMedia, userObject, identityObject, badgesObject, badges, translate} = this.props
+    const {match, userObject, badgesObject, badges, translate} = this.props
     const {path, url, params} = match
     const userId: number = +params.id
-    const isLoading = userObject.isLoading || profileObject.isLoading || identityObject.isLoading
-        || badgesObject.isLoading
-    // const errorMessage = userObject.error || profileObject.error || identityObject.error
-    //     || badgesObject.error
+    const isLoading = userObject.isLoading || badgesObject.isLoading
 
     // const title = `${translate['Danesh Boom']} - ${userObject.content.username}`
     // const description = translate['User']
     return (
         <div className="-userOrganBackgroundImg">
-          {/*<TopBar collapseClassName="col user-sidebar-width"/>*/}
           {/*
           <Helmet>
             <title>{title}</title>
@@ -156,37 +138,16 @@ class User extends Component<PropsUser> {
           {isLoading
               ? <UserSkeleton/>
               : <div className='-main page-content'>
-                <UserSideBar
-                    user={userObject}
-                    profile={profileObject}
-                    profileBanner={profileBanner}
-                    profileMedia={profileMedia}
+                <SideBarContent
+                    sideBarType={constants.USER_TYPES.USER}
+                    className='col-md-3 col-sm-1 -right-sidebar-wrapper col pr-0 pl-0'
                     badges={badges}
-                    className={`col-md-3 col-sm-1 -right-sidebar-wrapper col pr-0 pl-0`}
                     paramId={userId}
-                    identityId={userObject.id}
-                />
+                    owner={userObject}
+                 />
+
+
                 <div className="col-md-6 col-sm-10 center-column">
-                  {/*<Tabs>*/}
-                  {/*<NavLink className="-tab" to={`${url}/Posts`} activeClassName="-active">{postIcon}</NavLink>*/}
-                  {/*<NavLink className="-tab" to={`${url}/basicInformation`} activeClassName="-active">*/}
-                  {/*<InformationIcon/>*/}
-                  {/*</NavLink>*/}
-                  {/*<NavLink className="-tab" to={`${url}/contributions`}*/}
-                  {/*activeClassName="-active"><ContributionIcon/></NavLink>*/}
-                  {/*<NavLink className="-tab" to={`${url}/SocialConnections`} activeClassName="-active">*/}
-                  {/*<SocialIcon/>*/}
-                  {/*</NavLink>*/}
-                  {/*/!* TODO: mohammad add education and its route*!/*/}
-                  {/*<NavLink className="-tab" to={`${url}/Educations`} activeClassName="-active">*/}
-                  {/*<EducationIcon/>*/}
-                  {/*</NavLink>*/}
-                  {/*/!* FixMe: mohammad workExperiences and skills must be join to workExperiences and join their routes*!/*/}
-                  {/*<NavLink className="-tab" to={`${url}/WorkExperiences`}*/}
-                  {/*activeClassName="-active">{workExperienceIcon}</NavLink>*/}
-                  {/*<NavLink className="-tab" to={`${url}/Certificates`}*/}
-                  {/*activeClassName="-active"><CertificateIcon/></NavLink>*/}
-                  {/*</Tabs>*/}
 
                   <div className='header-container'>
 
@@ -249,44 +210,42 @@ class User extends Component<PropsUser> {
                     <Redirect exact from={`${url}/`} to={`${url}/Posts`}/>
                     <PrivateRoute exact={true} path={`${path}/Posts`} component={Posts} id={userId}
                                   identityType={constants.USER_TYPES.USER}
-                                  profileMedia={profileObject.profile_media}
-                                  postIdentity={identityObject}
+                                  user={userObject}
                     />
                     <PrivateRoute path={`${path}/Posts/:id`} component={PostExtendedView}
-                                  postIdentity={identityObject}
                                   extendedView={true}
                                   commentParentType={constants.COMMENT_PARENT.POST}/>
                     <PrivateRoute path={`${path}/basicInformation`} component={UserBasicInformation}
                                   userId={userId}
-                                  profile={profileObject}
                                   user={userObject}
                     />
                     <PrivateRoute path={`${path}/contributions`} component={Contributions}
                                   ownerId={userId}
-                                  identityId={identityObject}
                                   identityType={constants.USER_TYPES.USER}
-                                  isUser={true}/>
+                                  isUser={true}
+                                  user={userObject}
+                    />
                     <PrivateRoute path={`${path}/SocialConnections`} component={Social}
                                   ownerId={userId}
-                                  identityId={identityObject}
                                   identityType={constants.USER_TYPES.USER}
+                                  user={userObject}
                     />
                     <PrivateRoute path={`${path}/Followings`} component={Following}
                                   ownerId={userId}
-                                  identityId={identityObject}
                                   identityType={constants.USER_TYPES.USER}
+                                  user={userObject}
                     />
                     <PrivateRoute path={`${path}/Followers`} component={Follower}
                                   ownerId={userId}
-                                  identityId={identityObject}
                                   identityType={constants.USER_TYPES.USER}
+                                  user={userObject}
                     />
                     <PrivateRoute path={`${path}/Educations`} component={Educations} userId={userId}/>
                     <PrivateRoute path={`${path}/WorkExperiences`} component={WorkExperiences} userId={userId}/>
                     <PrivateRoute path={`${path}/Certificates`} component={Certificates}
                                   ownerId={userId}
-                                  identityId={identityObject}
                                   identityType={constants.USER_TYPES.USER}
+                                  user={userObject}
                     />
                   </Switch>
                 </div>
@@ -307,19 +266,15 @@ const mapStateToProps = (state, ownProps) => {
   const defaultObject = {content: {}, isLoading: false, error: null}
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const user = state.identities.list[userId] || defaultObject
-
   const profileBannerId = (user && user.profile_banner)
   const profileMediaId = (user && user.profile_media)
   const profileBanner = (profileBannerId && state.common.file.list[profileBannerId]) || {}
   const profileMedia = (profileMediaId && state.common.file.list[profileMediaId]) || {}
-  const identity = (user && user.identity) || {content: null, isLoading: false, error: null}
   const badgesObjectInUser = (user && user.badges) || defaultObject2
   const allBadges = state.common.badges.badge.list
   const badges = badgesObjectInUser.content.map(badgeId => allBadges[badgeId])
   return {
     userObject: user,
-    profileObject: user,
-    identityObject: user,
     badgesObject: badgesObjectInUser,
     profileBanner,
     translate: getMessages(state),
@@ -330,8 +285,6 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getUserByUserId: GetUserActions.getUserByUserId,
-    getProfileByUserId: GetUserActions.getProfileByUserId,
-    getUserIdentity: GetIdentityActions.getUserIdentity,
     getUserBadges: BadgeActions.getUserBadges,
     setParamUserId: ParamActions.setParamUserId,
     removeParamUserId: ParamActions.removeParamUserId,

@@ -16,7 +16,6 @@ type OrganizationInfoProps = {|
   actions: {|
     updateOrganizationByOrganizationId: Function,
   |},
-  isLoading: boolean,
   organization: organizationType,
 |}
 type OrganizationInfoState = {
@@ -34,7 +33,6 @@ class Biography extends React.Component<OrganizationInfoProps, OrganizationInfoS
     organizationId: PropTypes.number.isRequired,
     translate: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
-    isLoading: PropTypes.bool.isRequired,
     organization: PropTypes.object.isRequired,
   }
 

@@ -1,44 +1,49 @@
 // @flow
-import * as React from 'react'
-import countrySelector from 'src/redux/selectors/common/location/getCountry'
-import makeCitySelectorByProvinceId from 'src/redux/selectors/common/location/getCityByProvince'
-import makeProvinceSelectorByCountryId from 'src/redux/selectors/common/location/getProvinceByCountry'
-import nowCreatedProductIdSelector from 'src/redux/selectors/common/product/getNowCreatedProductId'
-import nowCreatedSkillIdSelector from 'src/redux/selectors/skill/getNowCreatedSkillId'
+import * as React from "react"
+import countrySelector from "src/redux/selectors/common/location/getCountry"
+import makeCitySelectorByProvinceId from "src/redux/selectors/common/location/getCityByProvince"
+import makeProvinceSelectorByCountryId from "src/redux/selectors/common/location/getProvinceByCountry"
+import nowCreatedProductIdSelector from "src/redux/selectors/common/product/getNowCreatedProductId"
+import nowCreatedSkillIdSelector from "src/redux/selectors/skill/getNowCreatedSkillId"
 import type {
   // NewContributionDataType,
   SkillFormValsType
-} from './types'
-import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
-import {bindActionCreators} from 'redux'
-import {change} from 'redux-form'
-import {connect} from 'react-redux'
-import {createProductAsContribution} from 'src/redux/actions/commonActions/productActions/productActions'
-import {createSkillAction} from 'src/redux/actions/skill/createSkillAction'
-import {getCategories} from 'src/redux/actions/commonActions/categoryActions'
-import {getCountries, getProvinces, getCities} from 'src/redux/actions/commonActions/location'
-import {getFormValues} from 'src/redux/selectors/formValuesSelectors'
-import {getHashTags} from 'src/redux/actions/commonActions/hashTagActions'
-import {getMessages} from '../../../redux/selectors/translateSelector'
-import {hashTagsListSelector} from 'src/redux/selectors/common/hashTags/hashTag'
-import {makeCategorySelector} from 'src/redux/selectors/common/category/getCategoriesByParentId'
-import {PureComponent} from 'react'
-import {skillInfoFormName} from './skill/infoForm'
+} from "./types"
+import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
+import {bindActionCreators} from "redux"
+import {change} from "redux-form"
+import {connect} from "react-redux"
+import {createProductAsContribution} from "src/redux/actions/commonActions/productActions/productActions"
+import {createSkillAction} from "src/redux/actions/skill/createSkillAction"
+import {getCategories} from "src/redux/actions/commonActions/categoryActions"
+import {getCountries, getProvinces, getCities} from "src/redux/actions/commonActions/location"
+import {getFormValues} from "src/redux/selectors/formValuesSelectors"
+import {getHashTags} from "src/redux/actions/commonActions/hashTagActions"
+import {getMessages} from "../../../redux/selectors/translateSelector"
+import {hashTagsListSelector} from "src/redux/selectors/common/hashTags/hashTag"
+import {makeCategorySelector} from "src/redux/selectors/common/category/getCategoriesByParentId"
+import {PureComponent} from "react"
+import {skillInfoFormName} from "./skill/infoForm"
 import {
   CircularAddIcon,
   ContributionIcon,
   InformationIcon,
   SkillIcon,
   TipsIcon,
-  UploadIcon,
-} from 'src/images/icons'
-import InteliInput from 'src/views/common/inputs/InteliInput'
-import Material from '../../common/components/Material'
-import type {ImageType} from '../modal/createExchange/basicInfo'
-import {createFile, getFiles} from 'src/redux/actions/commonActions/fileActions'
-import makeFileSelectorByKeyValue from 'src/redux/selectors/common/file/selectFilsByKeyValue'
-import {ClipLoader} from 'react-spinners'
-import {TransitionGroup, CSSTransition} from 'react-transition-group'
+  UploadIcon
+} from "src/images/icons"
+import InteliInput from "src/views/common/inputs/InteliInput"
+import Material from "../../common/components/Material"
+import type {ImageType} from "../modal/createExchange/basicInfo"
+import {createFile, getFiles} from "src/redux/actions/commonActions/fileActions"
+import makeFileSelectorByKeyValue from "src/redux/selectors/common/file/selectFilsByKeyValue"
+import {ClipLoader} from "react-spinners"
+import {TransitionGroup, CSSTransition} from "react-transition-group"
+import types from "../../../redux/actions/types"
+import uuid from "uuid"
+import {createFileFunc} from "../../common/Functions"
+import constants from "../../../consts/constants"
+import TempActions from "src/redux/actions/tempActions"
 
 type catsMap = {
   category_parent?: ?number,
@@ -89,6 +94,7 @@ type AddingContributionState = {
   countryList: [],
   countryList: Array<number>,
   currentLevel: string,
+  currentFileId: string,
   processing: boolean,
   productDescription: string,
   productName: string,
@@ -103,6 +109,7 @@ type AddingContributionState = {
   selectedImageTemp: ?string,
   selectedProvince: ?number,
   selectedType: string,
+  selectedImageFile: string,
 }
 
 class AddingContribution extends PureComponent<AddingContributionProps, AddingContributionState> {
@@ -115,11 +122,12 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
       cats: [],
       cityList: [],
       countryList: [],
-      currentLevel: 'one',
+      currentLevel: "one",
+      currentFileId: "",
       // priceType: 'معین',
       processing: false,
-      productDescription: '',
-      productName: '',
+      productDescription: "",
+      productName: "",
       provinceList: [],
       selectedCatLvlOne: null,
       selectedCatLvlThree: null,
@@ -128,11 +136,12 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
       selectedCountry: null,
       selectedImage: [],
       selectedImageId: [],
-      selectedImageTemp: '',
+      selectedImageTemp: "",
+      selectedImageFile: "",
       selectedProvince: null,
-      selectedType: 'Product',
-      abilityTitle: '',
-      abilityDescription: ''
+      selectedType: "Product",
+      abilityTitle: "",
+      abilityDescription: ""
     }
 
     const self: any = this
@@ -161,21 +170,23 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
     const {modalIsOpen} = this.props
     if (modalIsOpen) {
       let doc: any = document // for flow
-      doc.body.style.overflow = 'hidden'
-      doc.body.style.paddingRight = '7px'
+      doc.body.style.overflow = "hidden"
+      doc.body.style.paddingRight = "7px"
       const {
         clientFiles,
         categories,
         countries,
         province,
-        city
+        city,
+        temp,
+        _removeFileFromTemp
       } = this.props
       const {
         countryList,
         provinceList,
         cityList,
         selectedCountry,
-        selectedProvince,
+        selectedProvince
       } = this.state
 
       if (prevState.catLvlOne.length < 1) {
@@ -201,53 +212,58 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
           this.setState({...this.state, cityList: citsArray.slice()})
       }
 
-      const lastFile = clientFiles[clientFiles.length - 1] || {}
-      const prevLastFile = prevProps.clientFiles[prevProps.clientFiles.length - 1] || {}
-      if (lastFile.id && prevLastFile.id) {
-        if (lastFile.id !== prevLastFile.id) {
-          this._imageHandler(lastFile)
-        }
+      // const lastFile = clientFiles[clientFiles.length - 1] || {}
+      // const prevLastFile = prevProps.clientFiles[prevProps.clientFiles.length - 1] || {}
+      if (this.state.currentFileId !== "" && temp[this.state.currentFileId] && temp[this.state.currentFileId].progress === 100 && temp["product_image"]) {
+        this._imageHandler(temp["product_image"])
+        _removeFileFromTemp("product_image")
       }
-    } else {
+      // if (lastFile.id && prevLastFile.id) {
+      //   if (lastFile.id !== prevLastFile.id) {
+      //     this._imageHandler(lastFile)
+      //   }
+      // }
+    }
+    else {
       let doc: any = document
-      doc.body.style.overflow = 'auto'
-      doc.body.style.paddingRight = '0'
+      doc.body.style.overflow = "auto"
+      doc.body.style.paddingRight = "0"
     }
   }
 
   renderProgressBar() {
     let {currentLevel, selectedType} = this.state
     switch (selectedType) {
-      case 'Ability':
+      case "Ability":
         return (
-            <div className={'contribution-progress-bar'}>
-              <div className={'level-container-active'}>
-                <CircularAddIcon className={'level-container-svg add'}/>
-                <div className={'level-container-text'}>
+            <div className={"contribution-progress-bar"}>
+              <div className={"level-container-active"}>
+                <CircularAddIcon className={"level-container-svg add"}/>
+                <div className={"level-container-text"}>
                   آوردۀ جدید
                 </div>
               </div>
-              <div style={{opacity: '0'}} className={currentLevel !== 'one' ? 'level-container-active' : 'level-container'}/>
-              <div className={currentLevel !== 'one' ? 'level-container-active' : 'level-container'}>
-                <InformationIcon className={'level-container-svg info ' + currentLevel}/>
-                <div className={'level-container-text'}> مشخصات</div>
+              <div style={{opacity: "0"}} className={currentLevel !== "one" ? "level-container-active" : "level-container"}/>
+              <div className={currentLevel !== "one" ? "level-container-active" : "level-container"}>
+                <InformationIcon className={"level-container-svg info " + currentLevel}/>
+                <div className={"level-container-text"}> مشخصات</div>
               </div>
-              <div className={'level-bar'}/>
-              <div className={'level-bar-progress ' + (currentLevel === 'one' ? 'one' : 'three')}/>
+              <div className={"level-bar"}/>
+              <div className={"level-bar-progress " + (currentLevel === "one" ? "one" : "three")}/>
             </div>
         )
-      case 'Product':
+      case "Product":
         return (
-            <div className={'contribution-progress-bar'}>
-              <div className={'level-container-active'}>
-                <CircularAddIcon className={'level-container-svg add'}/>
-                <div className={'level-container-text'}>
+            <div className={"contribution-progress-bar"}>
+              <div className={"level-container-active"}>
+                <CircularAddIcon className={"level-container-svg add"}/>
+                <div className={"level-container-text"}>
                   آوردۀ جدید
                 </div>
               </div>
-              <div className={currentLevel !== 'one' ? 'level-container-active' : 'level-container'}>
-                <InformationIcon className={'level-container-svg info ' + currentLevel}/>
-                <div className={'level-container-text'}>
+              <div className={currentLevel !== "one" ? "level-container-active" : "level-container"}>
+                <InformationIcon className={"level-container-svg info " + currentLevel}/>
+                <div className={"level-container-text"}>
                   اطلاعات اولیه
                 </div>
               </div>
@@ -265,14 +281,14 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
                </div>
                </div>
                */}
-              <div className={currentLevel !== 'one' && currentLevel !== 'two' ? 'level-container-active' : 'level-container'}>
-                <ContributionIcon className={'level-container-svg contribution ' + currentLevel}/>
-                <div className={'level-container-text'}>
+              <div className={currentLevel !== "one" && currentLevel !== "two" ? "level-container-active" : "level-container"}>
+                <ContributionIcon className={"level-container-svg contribution " + currentLevel}/>
+                <div className={"level-container-text"}>
                   مدیریت ویترین
                 </div>
               </div>
-              <div className={'level-bar'}/>
-              <div className={'level-bar-progress ' + currentLevel}/>
+              <div className={"level-bar"}/>
+              <div className={"level-bar-progress " + currentLevel}/>
             </div>
         )
       default:
@@ -299,7 +315,7 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
       abilityDescription
     } = this.state
     let {translator} = this.props
-    if (currentLevel === 'one') {
+    if (currentLevel === "one") {
       return (
           <div>
             <div className="contribution-description">
@@ -315,24 +331,26 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
                 </p>
               </div>
             </div>
-            <div className={'contribution-description-options-area'}>
-              <div className={'text'}>انتخاب نوع آورده:</div>
-              <div className={'contribution-description-options'}>
+            <div className={"contribution-description-options-area"}>
+              <div className={"text"}>انتخاب نوع آورده:</div>
+              <div className={"contribution-description-options"}>
 
-                <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === 'Product' ? 'contribution-material-block-active' : 'contribution-material-block'} content={
-                  <div onClick={() => this._changeSelectedType('Product')}
-                       className={selectedType === 'Product' ? 'contribution-description-option-block-active' : 'contribution-description-option-block'}>
-                    <ContributionIcon className={'option-contribution-svg'}/>
-                    <div className={'option-contribution-text'}>محصول</div>
+                <Material backgroundColor='rgba(71,91,112,0.5)'
+                          className={selectedType === "Product" ? "contribution-material-block-active" : "contribution-material-block"} content={
+                  <div onClick={() => this._changeSelectedType("Product")}
+                       className={selectedType === "Product" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
+                    <ContributionIcon className={"option-contribution-svg"}/>
+                    <div className={"option-contribution-text"}>محصول</div>
                   </div>
                 }/>
 
-                <Material backgroundColor='rgba(71,91,112,0.5)' className={selectedType === 'Ability' ? 'contribution-material-block-active' : 'contribution-material-block'} content={
+                <Material backgroundColor='rgba(71,91,112,0.5)'
+                          className={selectedType === "Ability" ? "contribution-material-block-active" : "contribution-material-block"} content={
                   <div
-                      onClick={() => this._changeSelectedType('Ability')}
-                      className={selectedType === 'Ability' ? 'contribution-description-option-block-active' : 'contribution-description-option-block'}>
+                      onClick={() => this._changeSelectedType("Ability")}
+                      className={selectedType === "Ability" ? "contribution-description-option-block-active" : "contribution-description-option-block"}>
                     <SkillIcon className="option-contribution-svg-smaller"/>
-                    <div className={'option-contribution-text'}>مهارت</div>
+                    <div className={"option-contribution-text"}>مهارت</div>
                   </div>
                 }/>
                 {/* // NOT AVAILABLE FOR NOW
@@ -386,54 +404,55 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
             </div>
           </div>
       )
-    } else if (selectedType === 'Product') {
+    }
+    else if (selectedType === "Product") {
       switch (currentLevel) {
-        case 'two':
+        case "two":
           let self: any = this
           return (
               <div className="contribution-product-two">
-                <div className={'gray-text-input-label-container'}>
+                <div className={"gray-text-input-label-container"}>
                   <label className="gray-text-input-label">عنوان آورده:</label>
                   <input type="text" className="form-control gray-text-input" defaultValue={productName}
                          onChange={(e) => this.setState({...this.state, productName: e.target.value})}/>
-                  <div ref={e => self.nameError = e} className={'product-name-error-hide'}>طول نام غیر مجاز است</div>
+                  <div ref={e => self.nameError = e} className={"product-name-error-hide"}>طول نام غیر مجاز است</div>
                 </div>
-                <div className={'gray-text-input-label-container'}> {/*TODO: SET THREE AREA FIELD*/}
+                <div className={"gray-text-input-label-container"}> {/*TODO: SET THREE AREA FIELD*/}
                   <label className="gray-text-input-label">محدوده جغرافیایی:</label>
                   {/*<input type="text" className="form-control gray-text-input"/>*/}
-                  <div className={'inteli-area'}>
+                  <div className={"inteli-area"}>
                     <InteliInput list={countryList} handleChange={(data) => this._handleCountry(data)}/>
                   </div>
-                  <div className={'inteli-area'}>
+                  <div className={"inteli-area"}>
                     <InteliInput list={provinceList} handleChange={(data) => this._handleProvince(data)}/>
                   </div>
-                  <div className={'inteli-area'}>
+                  <div className={"inteli-area"}>
                     <InteliInput list={cityList} handleChange={(data) => this._handleCity(data)}/>
                   </div>
-                  <div ref={e => self.locationError = e} className={'product-name-error-hide'}>محدوده جغرافیایی را کامل انتخاب کنید</div>
+                  <div ref={e => self.locationError = e} className={"product-name-error-hide"}>محدوده جغرافیایی را کامل انتخاب کنید</div>
 
                 </div>
 
-                <div className={'gray-text-input-label-container'}>
+                <div className={"gray-text-input-label-container"}>
                   <label className="gray-text-input-label">طبقه اول دسته بندی:</label>
-                  <InteliInput handleChange={(data) => this._handleCatLvlChange(data, 'one')}
+                  <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "one")}
                                list={catLvlOne}/>
-                  <div className={'gray-text-input-label-container full'}>
+                  <div className={"gray-text-input-label-container full"}>
                     <label className="gray-text-input-label">طبقه دوم دسته بندی:</label>
-                    <InteliInput handleChange={(data) => this._handleCatLvlChange(data, 'two')}
+                    <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "two")}
                                  list={catLvlTwo}/>
                   </div>
-                  <div className={'gray-text-input-label-container full'}>
+                  <div className={"gray-text-input-label-container full"}>
                     <label className="gray-text-input-label">طبقه سوم دسته بندی:</label>
-                    <InteliInput handleChange={(data) => this._handleCatLvlChange(data, 'three')}
+                    <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "three")}
                                  list={catLvlThree}/>
                   </div>
                 </div>
-                <div className={'gray-text-input-label-container'}>
+                <div className={"gray-text-input-label-container"}>
                   <label className="gray-text-input-label">توصیف اجمالی آورده:</label>
                   <textarea name="description" className="form-control gray-textarea-input"
                             onChange={(e) => this.setState({...this.state, productDescription: e.target.value})}/>
-                  <div ref={e => self.descriptionError = e} className={'product-name-error-hide'}>طول توضیحات غیر مجاز است</div>
+                  <div ref={e => self.descriptionError = e} className={"product-name-error-hide"}>طول توضیحات غیر مجاز است</div>
                 </div>
                 {/*<div className={"gray-text-input-label-container"}>
                  <label className="gray-text-input-label">قیمت:</label>
@@ -450,68 +469,68 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
                  </div>*/}
               </div>
           )
-        case 'three':
+        case "three":
           return (
               <div className="contribution-product-three">
                 <div className="create-product-title-container">
-                  <label className="gray-text-input-label">{translator['Product Gallery']}:</label>
+                  <label className="gray-text-input-label">{translator["Product Gallery"]}:</label>
                 </div>
-                <div className={'create-product-upload-container'}>
+                <div className={"create-product-upload-container"}>
                   {processing ?
                       <ClipLoader color="#253545" size={20} loading={true}/>
                       :
-                      <UploadIcon className={'create-product-upload-svg'}/>
+                      <UploadIcon className={"create-product-upload-svg"}/>
                   }
                   {!processing && selectedImageId.length < 5 ?
                       <input type="file" accept="image/*" onChange={e => this._uploadHandler(e.currentTarget.files[0])}/>
                       : null}
                 </div>
-                <div className={'product-gallery-container'}>
-                  <div className={'product-gallery-item-container'}>
+                <div className={"product-gallery-container"}>
+                  <div className={"product-gallery-item-container"}>
                     {selectedImage[0] ?
                         <div>
-                          <img src={selectedImage[0]} alt={'در حال بارگذاری تصویر محصول'} className={'product-gallery-item'}/>
-                          <div className={'product-gallery-cancel-item'} onClick={() => this._deleteImage(0)}>✕</div>
+                          <img src={selectedImage[0]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
+                          <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(0)}>✕</div>
                         </div>
                         :
                         null
                     }
                   </div>
-                  <div className={'product-gallery-item-container'}>
+                  <div className={"product-gallery-item-container"}>
                     {selectedImage[1] ?
                         <div>
-                          <img src={selectedImage[1]} alt={'در حال بارگذاری تصویر محصول'} className={'product-gallery-item'}/>
-                          <div className={'product-gallery-cancel-item'} onClick={() => this._deleteImage(1)}>✕</div>
+                          <img src={selectedImage[1]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
+                          <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(1)}>✕</div>
                         </div>
                         :
                         null
                     }
                   </div>
-                  <div className={'product-gallery-item-container'}>
+                  <div className={"product-gallery-item-container"}>
                     {selectedImage[2] ?
                         <div>
-                          <img src={selectedImage[2]} alt={'در حال بارگذاری تصویر محصول'} className={'product-gallery-item'}/>
-                          <div className={'product-gallery-cancel-item'} onClick={() => this._deleteImage(2)}>✕</div>
+                          <img src={selectedImage[2]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
+                          <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(2)}>✕</div>
                         </div>
                         :
                         null
                     }
                   </div>
-                  <div className={'product-gallery-item-container'}>
+                  <div className={"product-gallery-item-container"}>
                     {selectedImage[3] ?
                         <div>
-                          <img src={selectedImage[3]} alt={'در حال بارگذاری تصویر محصول'} className={'product-gallery-item'}/>
-                          <div className={'product-gallery-cancel-item'} onClick={() => this._deleteImage(3)}>✕</div>
+                          <img src={selectedImage[3]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
+                          <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(3)}>✕</div>
                         </div>
                         :
                         null
                     }
                   </div>
-                  <div className={'product-gallery-item-container'}>
+                  <div className={"product-gallery-item-container"}>
                     {selectedImage[4] ?
                         <div>
-                          <img src={selectedImage[4]} alt={'در حال بارگذاری تصویر محصول'} className={'product-gallery-item'}/>
-                          <div className={'product-gallery-cancel-item'} onClick={() => this._deleteImage(4)}>✕</div>
+                          <img src={selectedImage[4]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
+                          <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(4)}>✕</div>
                         </div>
                         :
                         null
@@ -520,14 +539,18 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
                 </div>
 
                 <div className="create-product-title-container">
-                  <label className="gray-text-input-label">{translator['Product Video']}:</label>
+                  <label className="gray-text-input-label">{translator["Product Catalog"]}:</label>
                 </div>
-                <div className={'create-product-upload-container'}>
-                  <UploadIcon className={'create-product-upload-svg'}/>
-                  <input type="file" accept="video/*" onChange={null}/>
+                <div className={"create-product-upload-container"}>
+                  <UploadIcon className={"create-product-upload-svg"}/>
+                  <input type="file" accept="*" onChange={null}/>
                 </div>
-                <div className={'product-gallery-container'}>
-                  <div className={'product-gallery-item-container'}/>
+                <div className={"product-gallery-container"}>
+                  <div className={"product-gallery-item-container"}>
+                    <div>
+                      <div className={"product-file-item"}>فایلی بارگذاری نشده</div>
+                    </div>
+                  </div>
                 </div>
               </div>
           )
@@ -582,23 +605,24 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
               </div>
           )
       }
-    } else if (selectedType === 'Ability') {
+    }
+    else if (selectedType === "Ability") {
       switch (currentLevel) {
-        case 'two':
+        case "two":
           let self: any = this
           return (
               <div className="contribution-ability-two">
-                <div className={'gray-text-input-label-container'}>
+                <div className={"gray-text-input-label-container"}>
                   <label className="gray-text-input-label">عنوان مهارت:</label>
                   <input type="text" className="form-control gray-text-input" defaultValue={abilityTitle}
                          onChange={(e) => this.setState({...this.state, abilityTitle: e.target.value})}/>
-                  <div ref={e => self._titleError = e} className={'product-name-error-hide'}>طول عنوان غیر مجاز است</div>
+                  <div ref={e => self._titleError = e} className={"product-name-error-hide"}>طول عنوان غیر مجاز است</div>
                 </div>
-                <div className={'gray-text-input-label-container'}>
+                <div className={"gray-text-input-label-container"}>
                   <label className="gray-text-input-label">توضیحات مهارت:</label>
                   <textarea name="description" className="form-control gray-textarea-input" defaultValue={abilityDescription}
                             onChange={(e) => this.setState({...this.state, abilityDescription: e.target.value})}/>
-                  <div ref={e => self._descriptionError = e} className={'product-name-error-hide'}>طول توضیحات غیر مجاز است</div>
+                  <div ref={e => self._descriptionError = e} className={"product-name-error-hide"}>طول توضیحات غیر مجاز است</div>
                 </div>
                 {/*<div className={"gray-text-input-label-container"}>
                  <label className="gray-text-input-label">قیمت:</label>
@@ -632,43 +656,43 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
   renderFooter() {
     let {currentLevel, processing, selectedType} = this.state
     switch (selectedType) {
-      case 'Product':
+      case "Product":
         return (
-            <div className={'contribution-footer'}>
-              <button className={'next-button'}
-                      onClick={() => currentLevel === 'three' ?
+            <div className={"contribution-footer"}>
+              <button className={"next-button"}
+                      onClick={() => currentLevel === "three" ?
                           processing ?
                               null : this._handleCreateProduct()
                           : this.nextLevel()}>
                 <div>
-                  {currentLevel === 'three' ?
+                  {currentLevel === "three" ?
                       processing ?
-                          <ClipLoader color="#35495c" size={20} loading={true}/> : 'ثبت'
-                      : 'بعدی'}
+                          <ClipLoader color="#35495c" size={20} loading={true}/> : "ثبت"
+                      : "بعدی"}
                 </div>
               </button>
 
-              <button className={currentLevel === 'one' ? 'previous-button-hidden' : 'previous-button'} onClick={() => this.previousLevel()}>
+              <button className={currentLevel === "one" ? "previous-button-hidden" : "previous-button"} onClick={() => this.previousLevel()}>
                 قبلی
               </button>
 
             </div>
         )
-      case 'Ability':
+      case "Ability":
         return (
-            <div className={'contribution-footer'}>
-              <button className={'next-button'}
-                      onClick={() => currentLevel === 'two' ?
+            <div className={"contribution-footer"}>
+              <button className={"next-button"}
+                      onClick={() => currentLevel === "two" ?
                           this._handleCreateAbility() :
                           this.nextLevel()}>
                 <div>
-                  {currentLevel === 'two' ?
-                      'ثبت' :
-                      'بعدی'}
+                  {currentLevel === "two" ?
+                      "ثبت" :
+                      "بعدی"}
                 </div>
               </button>
 
-              <button className={currentLevel === 'one' ? 'previous-button-hidden' : 'previous-button'} onClick={() => this.previousLevel()}>
+              <button className={currentLevel === "one" ? "previous-button-hidden" : "previous-button"} onClick={() => this.previousLevel()}>
                 قبلی
               </button>
 
@@ -676,21 +700,21 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
         )
       default:
         return (
-            <div className={'contribution-footer'}>
-              <button className={'next-button'}
-                      onClick={() => currentLevel === 'three' ?
+            <div className={"contribution-footer"}>
+              <button className={"next-button"}
+                      onClick={() => currentLevel === "three" ?
                           processing ?
                               null : this._handleCreateProduct()
                           : this.nextLevel()}>
                 <div>
-                  {currentLevel === 'three' ?
+                  {currentLevel === "three" ?
                       processing ?
-                          <ClipLoader color="#35495c" size={20} loading={true}/> : 'ثبت'
-                      : 'بعدی'}
+                          <ClipLoader color="#35495c" size={20} loading={true}/> : "ثبت"
+                      : "بعدی"}
                 </div>
               </button>
 
-              <button className={currentLevel === 'one' ? 'previous-button-hidden' : 'previous-button'} onClick={() => this.previousLevel()}>
+              <button className={currentLevel === "one" ? "previous-button-hidden" : "previous-button"} onClick={() => this.previousLevel()}>
                 قبلی
               </button>
 
@@ -708,31 +732,32 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
       // selectedCity,
       selectedType
     } = this.state
-    if (selectedType === 'Product') {
+    if (selectedType === "Product") {
       switch (currentLevel) {
-        case 'one':
+        case "one":
           this.setState({
             ...this.state,
-            currentLevel: 'two',
+            currentLevel: "two",
             // productName: "",
-            productDescription: '',
+            productDescription: "",
             selectedImage: [],
             selectedImageId: [],
             selectedCountry: null,
             selectedProvince: null,
-            selectedCity: null,
+            selectedCity: null
           })
           break
-        case 'two':
+        case "two":
           let self: any = this
           if (productName.length < 1 || productName.length > 99) {
-            self.nameError.className = 'product-name-error'
-            self.descriptionError.className = 'product-name-error-hide'
-            self.locationError.className = 'product-name-error-hide'
-          } else if (productDescription.length > 999) {
-            self.nameError.className = 'product-name-error-hide'
-            self.descriptionError.className = 'product-name-error'
-            self.locationError.className = 'product-name-error-hide'
+            self.nameError.className = "product-name-error"
+            self.descriptionError.className = "product-name-error-hide"
+            self.locationError.className = "product-name-error-hide"
+          }
+          else if (productDescription.length > 999) {
+            self.nameError.className = "product-name-error-hide"
+            self.descriptionError.className = "product-name-error"
+            self.locationError.className = "product-name-error-hide"
           }
           // else if (selectedCity === null) {
           //   self.nameError.className = 'product-name-error-hide'
@@ -740,10 +765,10 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
           //   self.locationError.className = 'product-name-error'
           // }
           else {
-            self.nameError.className = 'product-name-error-hide'
-            self.descriptionError.className = 'product-name-error-hide'
-            self.locationError.className = 'product-name-error-hide'
-            this.setState({...this.state, currentLevel: 'three'})
+            self.nameError.className = "product-name-error-hide"
+            self.descriptionError.className = "product-name-error-hide"
+            self.locationError.className = "product-name-error-hide"
+            this.setState({...this.state, currentLevel: "three"})
           }
           break
           // case "three":
@@ -753,18 +778,19 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
           //   this.setState({...this.state, currentLevel: "five"})
           //   break
         default :
-          this.setState({...this.state, currentLevel: 'one'})
+          this.setState({...this.state, currentLevel: "one"})
           break
       }
-    } else if (selectedType === 'Ability') {
+    }
+    else if (selectedType === "Ability") {
       switch (currentLevel) {
-        case 'one':
+        case "one":
           this.setState({
             ...this.state,
-            currentLevel: 'two',
+            currentLevel: "two",
             // productName: '',
-            abilityDescription: '',
-            AbilityTitle: '',
+            abilityDescription: "",
+            AbilityTitle: ""
           })
           break
           // case "two":
@@ -794,7 +820,7 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
           //   this.setState({...this.state, currentLevel: "five"})
           //   break
         default :
-          this.setState({...this.state, currentLevel: 'one'})
+          this.setState({...this.state, currentLevel: "one"})
           break
       }
     }
@@ -803,28 +829,28 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
   previousLevel() {
     let {currentLevel} = this.state
     switch (currentLevel) {
-      case 'two':
+      case "two":
         this.setState({
           ...this.state,
-          currentLevel: 'one',
-          productDescription: '',
+          currentLevel: "one",
+          productDescription: "",
           selectedImage: [],
           selectedImageId: [],
           selectedCountry: null,
           selectedProvince: null,
-          selectedCity: null,
+          selectedCity: null
         })
         break
-      case 'three':
+      case "three":
         this.setState({
           ...this.state,
-          currentLevel: 'two',
-          productDescription: '',
+          currentLevel: "two",
+          productDescription: "",
           selectedImage: [],
           selectedImageId: [],
           selectedCountry: null,
           selectedProvince: null,
-          selectedCity: null,
+          selectedCity: null
         })
         break
         // case "four":
@@ -834,7 +860,7 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
         //   this.setState({...this.state, currentLevel: "four"})
         //   break
       default :
-        this.setState({...this.state, currentLevel: 'one'})
+        this.setState({...this.state, currentLevel: "one"})
         break
     }
   }
@@ -845,7 +871,7 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
 
   _handleCatLvlChange(cat, level) {
     let {categories} = this.props
-    if (level === 'one') {
+    if (level === "one") {
       let selected: any = Object.values(categories.list).filter(p => p.id === cat.id)
       let childes: any = Object.values(categories.list).filter(p => p.category_parent === cat.id)
       console.log(selected[0])
@@ -856,7 +882,8 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
         selectedCatLvlTwo: null,
         selectedCatLvlThree: null
       })
-    } else if (level === 'two') {
+    }
+    else if (level === "two") {
       let selected: any = Object.values(categories.list).filter(p => p.id === cat.id)
       let childes: any = Object.values(categories.list).filter(p => p.category_parent === cat.id)
       console.log(selected[0])
@@ -866,7 +893,8 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
         catLvlThree: childes.slice(),
         selectedCatLvlThree: null
       })
-    } else if (level === 'three') {
+    }
+    else if (level === "three") {
       let selected: any = Object.values(categories.list).filter(p => p.id === cat.id)
       console.log(selected[0])
       this.setState({...this.state, selectedCatLvlThree: selected[0].id})
@@ -894,16 +922,16 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
   _closeModal() {
     this.setState({
       ...this.state,
-      currentLevel: 'one',
-      productName: '',
-      productDescription: '',
-      abilityTitle: '',
-      abilityDescription: '',
+      currentLevel: "one",
+      productName: "",
+      productDescription: "",
+      abilityTitle: "",
+      abilityDescription: "",
       selectedImage: [],
       selectedImageId: [],
       selectedCountry: null,
       selectedProvince: null,
-      selectedCity: null,
+      selectedCity: null
     }, this.props.handleModalVisibility())
   }
 
@@ -919,7 +947,7 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
       selectedCatLvlThree,
       selectedCountry,
       selectedProvince,
-      selectedCity,
+      selectedCity
     } = this.state
 
     let productInfo = {
@@ -938,7 +966,7 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
               selectedCatLvlTwo !== null ?
                   selectedCatLvlTwo
                   :
-                  selectedCatLvlOne,
+                  selectedCatLvlOne
     }
     let formData = {
       product: productInfo,
@@ -947,7 +975,7 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
       // galleryImages: selectedImage.slice(),
       galleryImages: selectedImageId.slice(),
       galleryVideo: undefined,
-      mainGalleryImageIndex: 0,
+      mainGalleryImageIndex: 0
     }
     _createProduct(formData)
     this._closeModal()
@@ -958,16 +986,18 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
     let {clientId} = this.props
     let self: any = this
     if (abilityTitle.length < 4 || abilityTitle.length >= 250) {
-      self._titleError.className = 'product-name-error'
-      self._descriptionError.className = 'product-name-error-hide'
-    } else if (abilityDescription.length >= 127000) {
-      self._descriptionError.className = 'product-name-error'
-      self._titleError.className = 'product-name-error-hide'
-    } else {
+      self._titleError.className = "product-name-error"
+      self._descriptionError.className = "product-name-error-hide"
+    }
+    else if (abilityDescription.length >= 127000) {
+      self._descriptionError.className = "product-name-error"
+      self._titleError.className = "product-name-error-hide"
+    }
+    else {
       let formData = {
         title: abilityTitle,
         description: abilityDescription,
-        skill_user: clientId && clientId,
+        skill_user: clientId && clientId
       }
       let {_createSkillAction} = this.props
       _createSkillAction(formData)
@@ -982,26 +1012,40 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
       reader.onload = () => {
         this.setState({
           ...this.state,
-          selectedImageTemp: reader.result
+          selectedImageTemp: reader.result,
+          selectedImageFile: fileString
         }, this._createFile)
       }
     }
   }
   _createFile = () => {
     const {createFile} = this.props
-    this.setState({...this.state, processing: true})
-    createFile({file_string: this.state.selectedImageTemp})
+
+    const nextActionType = types.COMMON.FILE.SET_FILE_IDS_IN_TEMP_FILE
+    const nextActionData = "product_image"
+    const createArguments = {
+      fileIdKey: "fileId",
+      nextActionType,
+      nextActionData: {tempFileKeyName: nextActionData}
+    }
+    let fileId = uuid()
+    const file = {fileId, formFile: this.state.selectedImageFile}
+    const fileString = this.state.selectedImageTemp
+    createFileFunc(createFile, fileString, createArguments, constants.CREATE_FILE_TYPES.IMAGE, constants.CREATE_FILE_CATEGORIES.PRODUCT.IMAGE, file)
+
+    this.setState({...this.state, processing: true, currentFileId: fileId})
+    console.log("PROCESS....")
   }
-  _imageHandler = (img: ImageType) => {
+  _imageHandler = (id: number) => {
     let imgs = this.state.selectedImage
     let ids = this.state.selectedImageId
-    imgs.push(img.file)
-    ids.push(img.id)
+    imgs.push(this.state.selectedImageTemp)
+    ids.push(id)
     this.setState({
       ...this.state,
       selectedImage: imgs.slice(),
       selectedImageId: ids.slice(),
-      processing: false,
+      processing: false
     })
   }
   _deleteImage = (index: number) => {
@@ -1023,7 +1067,7 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
   render() {
     const {modalIsOpen} = this.props
     return (
-        <div className={modalIsOpen ? 'contribution-modal-container' : 'contribution-modal-container-out'}>
+        <div className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}>
           <TransitionGroup>
             {modalIsOpen ?
                 <CSSTransition key={1} timeout={250} classNames='fade'>{this.renderProgressBar()}</CSSTransition>
@@ -1043,9 +1087,9 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
 const mapStateToProps = (state) => {
   const identity = state.auth.client.identity.content
   const clientId = state.auth.client.user.id
-  const initialFormValues = getFormValues(state, 'addingContributionInitialInfoForm')
-  const provinceId = initialFormValues.product_related_province ? initialFormValues.product_related_province.value : ''
-  const countryId = initialFormValues.product_related_country ? initialFormValues.product_related_country.value : ''
+  const initialFormValues = getFormValues(state, "addingContributionInitialInfoForm")
+  const provinceId = initialFormValues.product_related_province ? initialFormValues.product_related_province.value : ""
+  const countryId = initialFormValues.product_related_country ? initialFormValues.product_related_country.value : ""
   const citySelectorByProvinceId = makeCitySelectorByProvinceId()
   const provinceSelectorByProvinceId = makeProvinceSelectorByCountryId()
   const categorySelector = makeCategorySelector()
@@ -1056,7 +1100,7 @@ const mapStateToProps = (state) => {
     categories: categorySelector(state),
     cities: citySelectorByProvinceId(state, provinceId),
     city: state.common.location.city,
-    clientFiles: fileSelectorByKeyValue(state, 'identity', identity),
+    clientFiles: fileSelectorByKeyValue(state, "identity", identity),
     clientId,
     countries: countrySelector(state),
     hashTags: hashTagsListSelector(state),
@@ -1069,6 +1113,7 @@ const mapStateToProps = (state) => {
     skillInfoFormValues: getFormValues(state, skillInfoFormName),
     testToken: state.auth.client.token,
     translator: getMessages(state),
+    temp: state.temp.file
   }
 }
 
@@ -1085,6 +1130,7 @@ const mapDispatchToProps = dispatch =>
           _createSkillAction: createSkillAction,
           createFile,
           getFiles,
+          _removeFileFromTemp: TempActions.removeFileFromTemp
         },
         dispatch)
 

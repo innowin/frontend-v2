@@ -8,7 +8,7 @@ import type {commentType} from "../../../consts/flowTypes/common/comment";
 import CheckOwner from "../CheckOwner";
 
 type postCommentsProps = {
-  comments: commentType,
+  comments: [commentType],
   translate: { [string]: string },
   replyComment: Function,
   deleteComment: Function,
@@ -17,10 +17,10 @@ type postCommentsProps = {
 class PostComments extends React.Component<postCommentsProps, {}> {
 
   static propTypes = {
-    comments: PropTypes.object.isRequired,
+    comments: PropTypes.array.isRequired,
     translate: PropTypes.object.isRequired,
     replyComment: PropTypes.func.isRequired,
-    deleteComment: PropTypes.object.isRequired,
+    deleteComment: PropTypes.func.isRequired,
   }
 
   commentList: HTMLDivElement
@@ -44,12 +44,10 @@ class PostComments extends React.Component<postCommentsProps, {}> {
           {
             comments.map(comment => {
                   const commentSender = comment.comment_sender
-                  const isUser = commentSender.identity_user !== null
-                  const commentSenderIdentity = commentSender.identity_user || commentSender.identity_organization
-                  const name = commentSenderIdentity
-                      ? (isUser ? ((commentSenderIdentity.first_name || commentSenderIdentity.last_name) ? commentSenderIdentity.first_name + ' ' + commentSenderIdentity.last_name : '')
-                              : (commentSenderIdentity.nike_name || commentSenderIdentity.official_name || '')
-                      ) : ''
+                  const commentRepliedSender = comment.comment_replied && comment.comment_replied.comment_sender
+                  const name = (commentSender.first_name || commentSender.last_name)
+                      ? commentSender.first_name + ' ' + commentSender.last_name
+                      : ''
 
                   return (
                       <div key={'comment ' + comment.id} className='comment-container-extended-view'>
@@ -59,7 +57,7 @@ class PostComments extends React.Component<postCommentsProps, {}> {
                           <button className='svg-post-container pulse' onClick={() => replyComment(comment)}>
                             <ReplyArrow/>
                           </button>
-                          <CheckOwner id={commentSenderIdentity && commentSenderIdentity.id}>
+                          <CheckOwner id={commentSender && commentSender.id}>
                             <button className='svg-post-container pulse' onClick={() => deleteComment(comment)}>
                               <FontAwesome name="trash" className='delete-icon'/>
                             </button>
@@ -70,8 +68,8 @@ class PostComments extends React.Component<postCommentsProps, {}> {
                           </div>
                         </div>
                         <div className='content'>
-                          {comment.comment_replied && comment.comment_replied.comment_sender &&
-                          <p className='replied-username'>{'@' + comment.comment_replied.comment_sender.name}</p>
+                          {commentRepliedSender &&
+                          <p className='replied-username'>{'@' + commentRepliedSender.username}</p>
                           }
                           <p className='post-text-comment'>{comment.text}</p>
                         </div>

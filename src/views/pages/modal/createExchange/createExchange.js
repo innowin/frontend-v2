@@ -1,24 +1,8 @@
-// @flow
-// import BasicInfo from "./basicInfo"
-// import MoreInfo from "./moreInfo"
-// import People from "./people"
-// import SuccessMessage from "./successMessage"
-// import {progressiveSteps} from "./createExchangeData"
-// import helpers from "src/consts/helperFunctions/helperFunctions"
 import * as React from 'react'
 import {Component} from 'react'
-import {
-  // PROGRESSIVE_STATUS_CHOICES,
-  // WRAPPER_CLASS_NAMES,
-  // exchangeFields,
-  exchangeIdentityFields
-} from './createExchangeData'
-import {
-  // ThinDownArrow,
-  // ShareIcon,
-  // ImageUploadSvg,
-  UploadIcon
-} from 'src/images/icons'
+import uuid from 'uuid'
+import {exchangeIdentityFields} from './createExchangeData'
+import {UploadIcon} from 'src/images/icons'
 import constants from 'src/consts/constants'
 import {createFileFunc} from 'src/views/common/Functions'
 import exchangeActions from 'src/redux/actions/exchangeActions'
@@ -74,6 +58,7 @@ type CreateExchangeState = {
   progressStatus: string,
   searchKey?: string,
   selectedImage?: any,
+  selectedImageFile?: any,
   selectedTags: Array<TagAsOptionType>,
   wrapperClassName: string,
 }
@@ -110,13 +95,14 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
       getFolloweesPayload = {
         followOwnerIdentity: auth.client.identity.content,
         followOwnerType: constants.USER_TYPES.ORG,
-        followOwnerId: auth.client.organization.id
+        followOwnerId: auth.client.organization.id,
       }
-    } else {
+    }
+    else {
       getFolloweesPayload = {
         followOwnerIdentity: auth.client.identity.content,
         followOwnerType: constants.USER_TYPES.USER,
-        followOwnerId: auth.client.user.id
+        followOwnerId: auth.client.user.id,
       }
     }
     getFollowees(getFolloweesPayload)
@@ -137,7 +123,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
         this.setState({
           ...this.state,
           exchangeImageFlag: false,
-          processing: false
+          processing: false,
         })
       }
       // if (lastFile.id && prevLastFile.id) {
@@ -154,7 +140,8 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
     if (this.props.modalIsOpen) {
       doc.body.style.overflow = 'hidden'
       doc.body.style.paddingRight = '7px'
-    } else {
+    }
+    else {
       doc.body.style.overflow = 'auto'
       doc.body.style.paddingRight = '0'
     }
@@ -372,6 +359,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
         this.setState({
           ...this.state,
           selectedImage: reader.result,
+          selectedImageFile: fileString,
           exchangeImageFlag: true,
         }, this._createFile)
       }
@@ -380,7 +368,6 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
   }
   _createFile = () => {
     const {createFile} = this.props
-    // createFile({file_string: this.state.selectedImage})
     this.setState({...this.state, processing: true})
     console.log('PROCESS...')
 
@@ -389,11 +376,11 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
     const createArguments = {
       fileIdKey: 'fileId',
       nextActionType,
-      nextActionData: {tempFileKeyName: nextActionData}
+      nextActionData: {tempFileKeyName: nextActionData},
     }
-
+    const file = {fileId: uuid(), formFile: this.state.selectedImageFile}
     const fileString = this.state.selectedImage
-    createFileFunc(createFile, fileString, createArguments, constants.CREATE_FILE_TYPES.IMAGE)
+    createFileFunc(createFile, fileString, createArguments, constants.CREATE_FILE_TYPES.IMAGE, constants.CREATE_FILE_CATEGORIES.EXCHANGE.IMAGE, file)
   }
   // _imageHandler = (img: ImageType) => {
   //   this.setState({
@@ -418,7 +405,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
       name,
       description,
       // exchangeImage,
-      isPrivate
+      isPrivate,
     } = this.state
     let self: any = this
 
@@ -443,16 +430,20 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
             description: '',
             exchangeImage: null,
             selectedImage: null,
+            selectedImageFile: null,
             isPrivate: false,
             processing: false,
           })
-    } else {
+    }
+    else {
       if (description.length >= 700) {
         self.descError.className = 'product-name-error'
-      } else self.descError.className = 'product-name-error-hide'
+      }
+      else self.descError.className = 'product-name-error-hide'
       if (name.length < 2 || name.length > 32) {
         self.nameError.className = 'product-name-error'
-      } else self.nameError.className = 'product-name-error-hide'
+      }
+      else self.nameError.className = 'product-name-error-hide'
     }
   }
 
@@ -461,7 +452,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
       // activeStep,
       // progressStatus,
       // wrapperClassName,
-      name, description, processing, selectedImage
+      name, description, processing, selectedImage,
     } = this.state
     const {modalIsOpen, translate} = this.props
     const self: any = this
@@ -522,7 +513,8 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
                             :
                             <UploadIcon className={'create-exchange-upload-svg'}/>
                         }
-                        <input ref={e => self.exPic = e} type="file" onChange={!processing ? (e => this._uploadHandler(e.currentTarget.files[0])) : console.log('Still Uploading')}/>
+                        <input ref={e => self.exPic = e} type="file"
+                               onChange={!processing ? (e => this._uploadHandler(e.currentTarget.files[0])) : console.log('Still Uploading')}/>
                       </div>
                     </div>
                   </div>
@@ -585,7 +577,7 @@ const mapStateToProps = (state) => {
       {
         identityId: auth.client.identity.content,
         ownerId: auth.client.user.id,
-        identityType: constants.USER_TYPES.USER
+        identityType: constants.USER_TYPES.USER,
       }
 
   const fileSelectorByKeyValue = makeFileSelectorByKeyValue()
@@ -610,7 +602,7 @@ const mapStateToProps = (state) => {
     members,
     auth: state.auth,
     translate: state.intl.messages || {},
-    tempFiles: state.temp.file
+    tempFiles: state.temp.file,
   }
 }
 
@@ -624,6 +616,6 @@ const mapDispatchToProps = dispatch =>
           addMember: exchangeMembershipActions.createExchangeMembership,
           removeFileFromTemp: TempActions.removeFileFromTemp,
         },
-        dispatch
+        dispatch,
     )
 export default connect(mapStateToProps, mapDispatchToProps)(CreateExchange)

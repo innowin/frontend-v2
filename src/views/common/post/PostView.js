@@ -43,7 +43,6 @@ type postExtendedViewProps = {
   },
   translate: { [string]: string },
   post: postType,
-  postRelatedIdentityImage: string,
   postIdentity?: identityType | number,
   param?: paramType,
   extendedView?: boolean,
@@ -71,11 +70,10 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     translate: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
     postIdentity: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
-    postRelatedIdentityImage: PropTypes.string,
     extendedView: PropTypes.bool,
     showEdit: PropTypes.func,
     comments: PropTypes.array,
-    fileList: PropTypes.object
+    fileList: PropTypes.object,
   }
 
   constructor(props) {
@@ -88,7 +86,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       showMore: false,
       descriptionHeight: null,
       menuToggleBottom: false,
-      getInDidMount: false
+      getInDidMount: false,
     }
 
     const self: any = this
@@ -147,7 +145,8 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
         let height = self.text.clientHeight
         if (post.post_description && new RegExp('^[A-Za-z]*$').test(post.post_description[0])) {
           self.text.style.paddingRight = '60px'
-        } else self.text.style.paddingLeft = '60px'
+        }
+        else self.text.style.paddingLeft = '60px'
         self.text.style.height = '68px'
         this.setState({...this.state, showMore: true, descriptionHeight: height})
       }
@@ -173,13 +172,17 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
               self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a title=` + word + ` target=_blank href=` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word} </a>`)
               :
               self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a title=` + word + ` target=_blank href=http://` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-        } else if (word[0] === '@' && word.length >= 6 && !word.substring(1, word.length).includes('@')) {
+        }
+        else if (word[0] === '@' && word.length >= 6 && !word.substring(1, word.length).includes('@')) {
           self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=` + word.slice(1, word.length) + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-        } else if (word[0] === '#' && word.length >= 3 && !word.substring(1, word.length).includes('#')) {
+        }
+        else if (word[0] === '#' && word.length >= 3 && !word.substring(1, word.length).includes('#')) {
           self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-        } else if (mailExp.test(word)) {
+        }
+        else if (mailExp.test(word)) {
           self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=mailto:` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-        } else if (!isNaN(word.replace(/\\+/g, '')) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
+        }
+        else if (!isNaN(word.replace(/\\+/g, '')) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
           // don't touch it !
           word.includes('+') ?
               self.text.innerHTML = self.text.innerHTML.replace(new RegExp(`\\${word}`, 'g'), `<a href=tel:` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
@@ -201,7 +204,8 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
         height = self.text.clientHeight
         if (post.post_description && new RegExp('^[A-Za-z]*$').test(post.post_description[0])) {
           self.text.style.paddingRight = '60px'
-        } else self.text.style.paddingLeft = '60px'
+        }
+        else self.text.style.paddingLeft = '60px'
         self.text.style.height = '68px'
         showMore = true
       }
@@ -265,7 +269,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     const postParentType = (postParent && postParent.child_name) || null
     const postParentId = (postParent && postParent.id) || null
     const postOwnerType = postRelatedIdentity.identity_type
-    deletePost({postId:post.id, postOwnerId, postOwnerType, postParentId, postParentType})
+    deletePost({postId: post.id, postOwnerId, postOwnerType, postParentId, postParentType})
   }
 
   deleteComment = (comment) => {
@@ -289,8 +293,9 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
     const {
       post, translate, postIdentity, postRelatedIdentityImage, extendedView, showEdit, comments, fileList,
-      commentParentType, postRelatedProduct
+      commentParentType, postRelatedProduct,
     } = this.props
+
     const {menuToggleBottom, menuToggleTop, confirm, showComment, commentOn} = this.state
     let postDescription = '', postIdentityUserId, postIdentityOrganId, postOwnerId = 0, postFilesArray
 
@@ -354,7 +359,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                       file.type === constants.CREATE_FILE_TYPES.FILE &&
                       <a key={'post file' + file.id} className='get-file pulse' href={file.file}>
                         <FontAwesome name='download'/> {translate['Get file']}
-                      </a>
+                      </a>,
                   )
                 }
                 <PostFooter post={post} postIdentity={postIdentity} translate={translate}
@@ -405,13 +410,14 @@ const mapStateToProps = (state, ownProps) => {
       translate: getMessages(state),
       param: state.param,
       post: post,
-      postRelatedIdentityImage: post.post_identity_image,
+      postRelatedIdentityImage: post.post_related_identity.profile_media,
       postRelatedProduct,
       postIdentity: state.identities.list[postIdentity],
       comments: userCommentsSelector(state, ownProps),
-      fileList: state.common.file.list
+      fileList: state.common.file.list,
     }
-  } else {
+  }
+  else {
     const {post} = ownProps
     const postIdentity = post && post.post_related_identity
     const postRelatedProductId = post && post.post_related_product && post.post_related_product.id
@@ -420,8 +426,8 @@ const mapStateToProps = (state, ownProps) => {
     return {
       postIdentity: postIdentity,
       postRelatedProduct,
-      postRelatedIdentityImage: post.post_identity_image,
-      translate: getMessages(state)
+      postRelatedIdentityImage: post.post_related_identity ? post.post_related_identity.profile_media : null,
+      translate: getMessages(state),
     }
   }
 }
@@ -433,7 +439,7 @@ const mapDispatchToProps = dispatch => ({
     getCommentsByParentId: CommentActions.getCommentsByParentId,
     createComment: CommentActions.createComment,
     deleteComment: CommentActions.deleteComment,
-    getFileByFileRelatedParentId: FileActions.getFileByFileRelatedParentId
-  }, dispatch)
+    getFileByFileRelatedParentId: FileActions.getFileByFileRelatedParentId,
+  }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(PostView)

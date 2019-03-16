@@ -15,7 +15,6 @@ import constants from 'src/consts/constants'
 
 type postsPropsType = {
   id: number | string,
-  postIdentity: number,
   translate: { [string]: string },
   actions: {
     getPostByIdentity: Function,
@@ -36,7 +35,6 @@ type postsStatesType = {
 class Posts extends React.Component<postsPropsType, postsStatesType> {
   static propTypes = {
     id: PropTypes.number.isRequired,
-    postIdentity: PropTypes.number.isRequired,
     actions: PropTypes.object.isRequired,
     posts: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
@@ -125,8 +123,8 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
 const mapStateToProps = (state, ownProps) => {
   const {identityType} = ownProps
   const ownerId = ownProps.id
-  const stateOwner = (identityType === constants.USER_TYPES.USER) ? state.users.list[ownerId] :
-      (identityType === constants.USER_TYPES.ORG && state.organs.list[ownerId])
+  const stateOwner = (identityType === constants.USER_TYPES.USER) ? state.identities.list[ownerId] :
+      (identityType === constants.USER_TYPES.ORG && state.identities.list[ownerId])
   const defaultObject = {content: [], isLoading: false, error: null}
   const postObject = (stateOwner && stateOwner.posts) || defaultObject
   return {

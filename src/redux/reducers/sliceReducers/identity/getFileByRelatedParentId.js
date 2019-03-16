@@ -29,7 +29,7 @@ const success = (state, action) => {
     }
   }
   else {
-    return state
+    return {...state}
   }
 }
 

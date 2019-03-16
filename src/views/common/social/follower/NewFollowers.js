@@ -364,7 +364,7 @@ const mapStateToProps = (state) => {
     clientIdentityId: state.auth.client.identity.content,
     exchangeUsers: state.common.exchangeMembership.members,
     organs: state.organs.list,
-    profiles: state.users.list,
+    profiles: state.identities.list,
     files: state.common.file.list,
     clientId: state.auth.client.organization === null ? state.auth.client.user.id : state.auth.client.organization.id,
     translate: getMessages(state),

@@ -4,7 +4,7 @@ import helpers from 'src/consts/helperFunctions/helperFunctions'
 const getResearches = state => state.research.list
 const getUserResearches = (state, props) => {
   const {userId} = props
-  const usersList = state.users.list
+  const usersList = state.identities.list
   if(usersList[userId] && usersList[userId].researches)
     return usersList[userId].researches.content
   else return undefined

@@ -1,25 +1,20 @@
 // @flow
-import * as React from "react"
-import connect from "react-redux/es/connect/connect"
-import PropTypes from "prop-types"
-import {bindActionCreators} from "redux"
-
-import organizationActions from "../../../redux/actions/organization/organizationActions"
+import * as React from 'react'
+import connect from 'react-redux/es/connect/connect'
+import PropTypes from 'prop-types'
+import {bindActionCreators} from 'redux'
 import LinkInfoEditForm from './LinkInfoEditForm'
-import {InformationIcon} from "src/images/icons"
+import {InformationIcon} from 'src/images/icons'
 import LinkInfoView from './LinkInfoView'
-import {VerifyWrapper} from "src/views/common/cards/Frames"
-import {ItemWrapper} from "src/views/common/cards/Frames"
-import type {organizationType} from "../../../consts/flowTypes/organization/organization";
+import {VerifyWrapper} from 'src/views/common/cards/Frames'
+import {ItemWrapper} from 'src/views/common/cards/Frames'
+import type {organizationType} from '../../../consts/flowTypes/organization/organization'
+import updateUserByUserIdAction from '../../../redux/actions/user/updateUserByUserIdAction'
 
 //OrganizationInfo flowTypes
 type OrganizationInfoProps = {|
   organizationId: number,
   translate: {},
-  actions: {|
-    updateProfileByOrganizationId: Function,
-  |},
-  isLoading: boolean,
   organization: organizationType,
 |}
 type OrganizationInfoState = {
@@ -36,8 +31,6 @@ class LinkInfo extends React.Component<OrganizationInfoProps, OrganizationInfoSt
   static propTypes = {
     organizationId: PropTypes.number.isRequired,
     translate: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired,
-    isLoading: PropTypes.bool.isRequired,
     organization: PropTypes.object.isRequired,
   }
 
@@ -75,8 +68,8 @@ class LinkInfo extends React.Component<OrganizationInfoProps, OrganizationInfoSt
 
 const mapOrganizationInfoDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    updateOrganization: organizationActions.updateOrganization,
-  }, dispatch)
+    updateUserByUserId: updateUserByUserIdAction.updateUser,
+  }, dispatch),
 })
 
 LinkInfo = connect(null, mapOrganizationInfoDispatchToProps)(LinkInfo)
