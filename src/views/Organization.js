@@ -125,33 +125,33 @@ export class Organization extends Component<PropsOrganization> {
                       <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Stream']}/>
                     </NavLink>
 
-                    <NavLink to={`${url}/contributions`} className='header-container-item' activeClassName='header-container-item-active'>
-                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material-first' content={translate['Contributions']}/>
-                    </NavLink>
+                    {/*<NavLink to={`${url}/contributions`} className='header-container-item' activeClassName='header-container-item-active'>*/}
+                      {/*<Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material-first' content={translate['Contributions']}/>*/}
+                    {/*</NavLink>*/}
 
                     <NavLink to={`${url}/basicInformation`} className='header-container-item' activeClassName='header-container-item-active'>
-                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['About Me']}/>
-                    </NavLink>
-
-                    <NavLink to={`${url}/SocialConnections`} className='header-container-item' activeClassName='header-container-item-active'>
-                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Exchanges']}/>
-                    </NavLink>
-
-                    <NavLink to={`${url}/Followings`} className='header-container-item' activeClassName='header-container-item-active'>
-                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Followings']}/>
+                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['About Us']}/>
                     </NavLink>
 
                     <NavLink to={`${url}/Followers`} className='header-container-item' activeClassName='header-container-item-active'>
                       <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Followers']}/>
                     </NavLink>
 
-                    <NavLink to={`${url}/Customers`} className='header-container-item' activeClassName='header-container-item-active'>
-                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Customers']}/>
+                    <NavLink to={`${url}/Followings`} className='header-container-item' activeClassName='header-container-item-active'>
+                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Followings']}/>
                     </NavLink>
 
-                    <NavLink to={`${url}/Certificates`} className='header-container-item' activeClassName='header-container-item-active'>
-                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Certificates']}/>
+                    <NavLink to={`${url}/Exchanges`} className='header-container-item' activeClassName='header-container-item-active'>
+                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Exchanges']}/>
                     </NavLink>
+
+                    {/*<NavLink to={`${url}/Customers`} className='header-container-item' activeClassName='header-container-item-active'>*/}
+                      {/*<Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Customers']}/>*/}
+                    {/*</NavLink>*/}
+
+                    {/*<NavLink to={`${url}/Certificates`} className='header-container-item' activeClassName='header-container-item-active'>*/}
+                      {/*<Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Certificates']}/>*/}
+                    {/*</NavLink>*/}
 
                   </div>
                   <Switch>

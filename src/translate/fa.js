@@ -400,6 +400,8 @@ module.exports = {
 
   "Create post header placeholder": "مثال: برگزاری کارگاه آموزشی، معرفی رزومه، خدمات منتورینگ",
 
+  "Edit": 'ویرایش',
+
   // TopBar
   topBar: {
     "My Profile": "پروفایل من",
@@ -503,6 +505,7 @@ module.exports = {
   "Write a Short Introduction Of Team Or Organization, Your Activities Or Your Interests": "معرفی کوتاهی از تیم یا شرکت خود و فعالیت های آن بنویسید.",
   "Example: Nokavan , IT Products Developer": "مثال: نوکاوان ، توسعه دهنده محصولات IT",
   "About Me": "درباره من",
+  "About Us": "درباره ما",
   "Edit Dashboard": "ویرایش داشبورد",
   "Close": "بستن"
 }

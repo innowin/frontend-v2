@@ -20,6 +20,11 @@ class Description extends React.Component<Props, States> {
     isEdit: false,
   }
 
+  _toggleEdit = () => {
+    const {isEdit} = this.state
+    this.setState({...this.state, isEdit: !isEdit})
+  }
+
   render () {
     const {organization, translate} = this.props
     const {isEdit} = this.state
@@ -29,7 +34,7 @@ class Description extends React.Component<Props, States> {
           {
             !!isEdit
                 ? <DescriptionForm/>
-                : <DescriptionView organization={organization} translate={translate}/>
+                : <DescriptionView toggleEdit={this._toggleEdit} organization={organization} translate={translate}/>
           }
         </CardContainer>
     )

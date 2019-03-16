@@ -7,15 +7,19 @@ import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 type ContactProps = {
   organization: identityType,
   translate: TranslatorType,
+  toggleEdit: Function,
 }
 
 export default (props: ContactProps) => {
-  const {organization, translate} = props
+  const {organization, translate, toggleEdit} = props
   return (
       <Fragment>
         <div className="card-header">
           <div className="header-title">
             {translate['Call']}
+          </div>
+          <div className='edit-button pulse' onClick={toggleEdit}>
+            {translate['Edit']}
           </div>
         </div>
         <div className="content">

@@ -10,6 +10,27 @@
     font-size: $font-size-14;
     margin-bottom: 15px;
     //background: red;
+    display: flex;
+
+    .header-title {
+      flex: 1 1 100%;
+    }
+    .edit-button {
+      justify-self: flex-end;
+      align-self: flex-end;
+      font-size: $font-size-regular;
+      color: $info-color;
+    }
+
+    .add-button {
+      background: $success-color;
+      color: white;
+      border-radius: 20px;
+      padding: 5px;
+      font-size: $font-size-regular;
+      width: 70px;
+      text-align: center;
+    }
   }
   .content {
     font-size: $font-size-regular;
