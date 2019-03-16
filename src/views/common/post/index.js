@@ -57,15 +57,15 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
   }
 
   _create = (formValues) => {
-    const {actions, id, identityType} = this.props
+    const {actions, id} = this.props
     const {createPost} = actions
-    createPost({formValues, postOwnerId: id, postOwnerType: identityType})
+    createPost({formValues, postOwnerId: id})
   }
 
   componentDidMount() {
-    const {actions, id, identityType} = this.props
+    const {actions, id} = this.props
     const {getPostByIdentity} = actions
-    getPostByIdentity({postIdentity: id, postOwnerId: id, postOwnerType: identityType})
+    getPostByIdentity({postIdentity: id, postOwnerId: id})
   }
 
   render() {

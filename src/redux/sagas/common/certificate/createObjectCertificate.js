@@ -8,7 +8,7 @@ import client from "../../../../consts/client";
 
 function* createObjectCertificate(action) { // action = {type, payload: {formValues, ownerId} }
   const identityId = client.getIdentityId()
-  let {formValues, certificateOwnerId, certificateOwnerType} = action.payload
+  let {formValues, certificateOwnerId} = action.payload
   const newCert = {
     ...formValues,
     certificate_identity: identityId
@@ -20,8 +20,8 @@ function* createObjectCertificate(action) { // action = {type, payload: {formVal
   try {
     yield fork(api.post, urls.COMMON.CERTIFICATE, dynamicResult, newCert)
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.COMMON.CERTIFICATE.CREATE_OBJECT_CERTIFICATE, payload: {certificateOwnerType, certificateOwnerId, data}})
-    yield put({type: types.COMMON.CERTIFICATE.GET_CERTIFICATES_BY_IDENTITY, payload: {identityId, certificateOwnerId, certificateOwnerType}})
+    yield put({type: types.SUCCESS.COMMON.CERTIFICATE.CREATE_OBJECT_CERTIFICATE, payload: {certificateOwnerId, data}})
+    yield put({type: types.COMMON.CERTIFICATE.GET_CERTIFICATES_BY_IDENTITY, payload: {identityId, certificateOwnerId}})
 
   } catch (error) {
     const {message} = error

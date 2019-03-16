@@ -5,12 +5,12 @@ import types from 'src/redux/actions/types'
 import {put, take, fork, call} from "redux-saga/effects"
 
 export function* getFollowers(action) {
-  const {notProfile, followOwnerIdentity, followOwnerType, followOwnerId} = action.payload
+  const {notProfile, followOwnerIdentity, followOwnerId} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.SOCIAL.GET_FOLLOWERS)
   try {
     yield fork(api.get, urls.COMMON.SOCIAL.FOLLOW, results.COMMON.SOCIAL.GET_FOLLOWERS, `?follow_followed=${followOwnerIdentity}`)
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWERS, payload: {data, followOwnerId, followOwnerIdentity, followOwnerType}})
+    yield put({type: types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWERS, payload: {data, followOwnerId, followOwnerIdentity}})
     if (!notProfile) {
       for (let follow of data) {
         const follower = follow.follow_follower

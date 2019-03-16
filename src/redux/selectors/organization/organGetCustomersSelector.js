@@ -4,7 +4,7 @@ import helpers from 'src/consts/helperFunctions/helperFunctions'
 const getCustomers = state => state.customer.list
 const getOrganizationCustomers = (state, props) => {
   const {organizationId} = props
-  const organizationsList = state.organs.list
+  const organizationsList = state.identities.list
   if (organizationsList[organizationId] && organizationsList[organizationId].customers)
     return organizationsList[organizationId].customers.content
   else return undefined

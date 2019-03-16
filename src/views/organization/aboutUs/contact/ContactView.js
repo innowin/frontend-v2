@@ -1,6 +1,5 @@
 // @flow
 import * as React from "react";
-import {Fragment} from "react";
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 
@@ -10,10 +9,10 @@ type ContactProps = {
   toggleEdit: Function,
 }
 
-export default (props: ContactProps) => {
+const ContactView = (props: ContactProps) => {
   const {organization, translate, toggleEdit} = props
   return (
-      <Fragment>
+      <React.Fragment>
         <div className="card-header">
           <div className="header-title">
             {translate['Call']}
@@ -40,6 +39,8 @@ export default (props: ContactProps) => {
             <p className='value'>{organization.email}</p>
           </div>
         </div>
-      </Fragment>
+      </React.Fragment>
   )
 }
+
+export default ContactView

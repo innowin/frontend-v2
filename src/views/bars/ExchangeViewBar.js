@@ -355,7 +355,6 @@ class ExchangeViewBar extends Component {
       getExchangeMembershipByMemberIdentity({
         identityId: currentUserIdentity,
         exchangeMembershipOwnerId: currentUserId,
-        exchangeMembershipOwnerType: currentUserType
       })
       // // console.log(exchangesIdentities)
       // let exchangeMembershipIdTemp = null
@@ -368,7 +367,6 @@ class ExchangeViewBar extends Component {
         unFollow({
           exchangeMembershipId: exchangeMembershipIdTemp[0].id,
           exchangeMembershipOwnerId: currentUserId,
-          exchangeMembershipOwnerType: currentUserType
         })
       else console.log("exchangeMembershipIdTemp: ", exchangeMembershipIdTemp)
 

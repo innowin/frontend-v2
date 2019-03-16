@@ -13,7 +13,6 @@ export function* createExchangeMembership(action) {
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.EXCHANGE_MEMBERSHIP.CREATE_EXCHANGE_MEMBERSHIP)
   const state = yield select()
   const translate = state.intl.messages
-  const exchangeMembershipOwnerType = state.auth.client.user_type
   const exchangeMembershipOwnerId = state.auth.client.identity.content
 
   try {
@@ -26,7 +25,7 @@ export function* createExchangeMembership(action) {
 // Added for update followed exchanges list
     yield put({
       type: types.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY,
-      payload: {identityId, exchangeMembershipOwnerId, exchangeMembershipOwnerType}
+      payload: {identityId, exchangeMembershipOwnerId}
     })
 
     yield put({

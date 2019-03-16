@@ -121,7 +121,7 @@ const mapStateToProps = state => {
   const userId = (client.organization && client.organization.id) || (client.user && client.user.id)
 
   const {user_type} = state.auth.client
-  const stateOrgan = state.organs.list[userId]
+  const stateOrgan = state.identities.list[userId]
   const name = user_type === 'person' ?
       client.user.first_name + ' ' + client.user.last_name
       :

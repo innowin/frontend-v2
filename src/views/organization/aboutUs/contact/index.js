@@ -9,6 +9,7 @@ import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 type Props = {
   organization: identityType,
   translate: TranslatorType,
+  updateOrganization: Function,
 }
 
 type States = {
@@ -25,15 +26,16 @@ class Contact extends React.Component<Props, States> {
     this.setState({...this.state, isEdit: !isEdit})
   }
 
-  render () {
-    const {organization, translate} = this.props
+  render() {
+    const {organization, translate, updateOrganization} = this.props
     const {isEdit} = this.state
 
     return (
         <CardContainer>
           {
             !!isEdit
-                ? <ContactForm/>
+                ? <ContactForm updateOrganization={updateOrganization} organization={organization} translate={translate}
+                               toggleEdit={this._toggleEdit}/>
                 : <ContactView organization={organization} translate={translate} toggleEdit={this._toggleEdit}/>
           }
         </CardContainer>

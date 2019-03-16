@@ -22,13 +22,12 @@ const filterPostsByPostRelatedProduct = ({postRelatedProductId, postType, postPa
   }
 })
 
-const getPostByIdentity = ({postIdentity, postOwnerId, postOwnerType}) => {
+const getPostByIdentity = ({postIdentity, postOwnerId}) => {
   return {
     type: types.COMMON.POST.GET_POST_BY_IDENTITY,
     payload: {
       postIdentity,
       postOwnerId,
-      postOwnerType
     }
   }
 }
@@ -53,20 +52,19 @@ const setPostViewer = (postId, getPostViewerCount) => {
   }
 }
 
-const getPost = ({postId, postOwnerType, postOwnerId}) => {
+const getPost = ({postId, postOwnerId}) => {
   return {
     type: types.COMMON.POST.GET_POST,
-    payload: {postId, postOwnerType, postOwnerId}
+    payload: {postId, postOwnerId}
   }
 }
 
-const createPost = ({formValues, postOwnerId, postOwnerType, postParentId, postParentType, postFileIds = []}) => {
+const createPost = ({formValues, postOwnerId, postParentId, postParentType, postFileIds = []}) => {
   return {
     type: types.COMMON.POST.CREATE_POST,
     payload: {
       formValues,
       postOwnerId,
-      postOwnerType,
       postParentId,
       postParentType,
       postFileIds
@@ -86,13 +84,12 @@ const updatePost = ({formValues, postId, postOwnerId, postFileIds}) => {
   }
 }
 
-const deletePost = ({postId, postOwnerId, postOwnerType, postParentId, postParentType}) => {
+const deletePost = ({postId, postOwnerId, postParentId, postParentType}) => {
   return {
     type: types.COMMON.POST.DELETE_POST,
     payload: {
       postId,
       postOwnerId,
-      postOwnerType,
       postParentId,
       postParentType
     }

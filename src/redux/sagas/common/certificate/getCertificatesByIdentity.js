@@ -5,14 +5,14 @@ import types from 'src/redux/actions/types'
 import {put, take, fork, call} from "redux-saga/effects"
 
 export function* getCertificatesByIdentity(action) {
-  const {identityId, certificateOwnerId, certificateOwnerType} = action.payload
+  const {identityId, certificateOwnerId} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.CERTIFICATE.GET_CERTIFICATES_BY_IDENTITY)
   try {
     yield fork(api.get, urls.COMMON.CERTIFICATE, results.COMMON.CERTIFICATE.GET_CERTIFICATES_BY_IDENTITY, `?certificate_parent=${identityId}`)
     const data = yield take(socketChannel)
     yield put({
       type: types.SUCCESS.COMMON.CERTIFICATE.GET_CERTIFICATES_BY_IDENTITY,
-      payload: {data, identityId, certificateOwnerId, certificateOwnerType}
+      payload: {data, identityId, certificateOwnerId}
     })
     for (let certificate of data) {
       yield put({type: types.ENTITY.SET_FILE, payload: {data: certificate.certificate_picture}})

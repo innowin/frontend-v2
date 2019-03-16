@@ -9,6 +9,7 @@ import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 type Props = {
   organization: identityType,
   translate: TranslatorType,
+  updateOrganization: Function,
 }
 
 type States = {
@@ -25,15 +26,16 @@ class Description extends React.Component<Props, States> {
     this.setState({...this.state, isEdit: !isEdit})
   }
 
-  render () {
-    const {organization, translate} = this.props
+  render() {
+    const {organization, translate, updateOrganization} = this.props
     const {isEdit} = this.state
 
     return (
         <CardContainer>
           {
             !!isEdit
-                ? <DescriptionForm/>
+                ? <DescriptionForm updateOrganization={updateOrganization} toggleEdit={this._toggleEdit}
+                                   organization={organization} translate={translate}/>
                 : <DescriptionView toggleEdit={this._toggleEdit} organization={organization} translate={translate}/>
           }
         </CardContainer>

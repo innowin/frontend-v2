@@ -26,23 +26,23 @@ export const Followers = (props: PropsFollowers) => {
   const followeeIds = followees.map(followee => followee.id)
 
   const onDeleteFollow = (follower) => {
-    const {deleteFollow, userId, identityType} = props
+    const {deleteFollow, userId} = props
     const followId = follower.follow_id
-    deleteFollow({followId, followOwnerId: userId, followOwnerType: identityType})
+    deleteFollow({followId, followOwnerId: userId})
   }
 
   const onAcceptFollow = (follower) => {
-    const {updateFollow, userId, identityType} = props
+    const {updateFollow, userId} = props
     const followId = follower.follow_id
     const formValues = {follow_accepted: true}
-    updateFollow({followId, formValues, followOwnerId: userId, followOwnerType: identityType})
+    updateFollow({followId, formValues, followOwnerId: userId})
   }
 
   const onCreateFollow = (follower) => {
-    const {createFollow, identityId, userId, identityType} = props
+    const {createFollow, identityId, userId} = props
     const followOwnerId = userId
     const formValues = {follow_follower: identityId, follow_followed: follower.id}
-    createFollow({formValues, followOwnerId, followOwnerType: identityType})
+    createFollow({formValues, followOwnerId})
   }
 
   return (

@@ -242,11 +242,11 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
   }
 
   _createFollow = () => {
-    const {clientIdentityId, owner, sideBarType, actions} = this.props
+    const {clientIdentityId, owner, actions} = this.props
     const {createFollow} = actions || {}
     const followOwnerId = owner.id
     const formValues = {follow_follower: clientIdentityId, follow_followed: owner.id}
-    createFollow({formValues, followOwnerId, followOwnerType: sideBarType})
+    createFollow({formValues, followOwnerId})
   }
 
   // _handleClickOutMenuBox = (e: any) => {
@@ -306,12 +306,11 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
 
   componentDidMount() {
     // (document.addEventListener: Function)('click', this._handleClickOutMenuBox)
-    const {actions, sideBarType, description, paramId, owner} = this.props
+    const {actions, description, paramId, owner} = this.props
     const {getFollowers, getFile} = actions || {}
     getFollowers({
       notProfile: true,
       followOwnerIdentity: paramId,
-      followOwnerType: sideBarType,
       followOwnerId: paramId,
     })
     getFile(owner.profile_media)

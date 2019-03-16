@@ -156,12 +156,12 @@ export class Organization extends Component<PropsOrganization> {
                   </div>
                   <Switch>
                     <Redirect exact from={`${url}/`} to={`${url}/Posts`}/>
-                    <PrivateRoute path={`${path}/contributions`}
-                                  component={Contributions}
-                                  ownerId={userId}
-                                  identityType={constants.USER_TYPES.ORG}
-                                  isUser={false}
-                    />
+                    {/*<PrivateRoute path={`${path}/contributions`}*/}
+                                  {/*component={Contributions}*/}
+                                  {/*ownerId={userId}*/}
+                                  {/*identityType={constants.USER_TYPES.ORG}*/}
+                                  {/*isUser={false}*/}
+                    {/*/>*/}
                     <PrivateRoute exact={true} path={`${path}/Posts`} component={Posts}
                                   id={userId}
                                   identityType={constants.USER_TYPES.ORG}
@@ -175,7 +175,7 @@ export class Organization extends Component<PropsOrganization> {
                                   organizationId={userId}
                                   organization={userObject}
                     />
-                    <PrivateRoute path={`${path}/SocialConnections`} component={Social}
+                    <PrivateRoute path={`${path}/Followers`} component={Followers}
                                   ownerId={userId}
                                   identityType={constants.USER_TYPES.ORG}
                                   user={userObject}
@@ -185,19 +185,19 @@ export class Organization extends Component<PropsOrganization> {
                                   identityType={constants.USER_TYPES.ORG}
                                   user={userObject}
                     />
-                    <PrivateRoute path={`${path}/Followers`} component={Followers}
+                    <PrivateRoute path={`${path}/Exchanges`} component={Social}
                                   ownerId={userId}
                                   identityType={constants.USER_TYPES.ORG}
                                   user={userObject}
                     />
-                    <PrivateRoute path={`${path}/Customers`} component={Customers}
-                                  organizationId={userId}
-                    />
-                    <PrivateRoute path={`${path}/Certificates`} component={Certificates}
-                                  ownerId={userId}
-                                  identityType={constants.USER_TYPES.ORG}
-                                  user={userObject}
-                    />
+                    {/*<PrivateRoute path={`${path}/Customers`} component={Customers}*/}
+                                  {/*organizationId={userId}*/}
+                    {/*/>*/}
+                    {/*<PrivateRoute path={`${path}/Certificates`} component={Certificates}*/}
+                                  {/*ownerId={userId}*/}
+                                  {/*identityType={constants.USER_TYPES.ORG}*/}
+                                  {/*user={userObject}*/}
+                    {/*/>*/}
                   </Switch>
                 </div>
                 <div className="col-md-2 col-sm-1 -left-sidebar-wrapper">

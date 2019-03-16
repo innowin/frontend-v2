@@ -1,19 +1,18 @@
 // @flow
 import * as React from "react";
-import {Fragment} from "react";
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 
-type DescriptionProps = {
+type Props = {
   organization: identityType,
   translate: TranslatorType,
   toggleEdit: Function,
 }
 
-export default (props: DescriptionProps) => {
+const DescriptionView = (props: Props) => {
   const {organization, translate, toggleEdit} = props
   return (
-      <Fragment>
+      <React.Fragment>
         <div className="card-header">
           <div className="header-title">
             {translate['Organization biography']}
@@ -25,6 +24,8 @@ export default (props: DescriptionProps) => {
         <div className="content">
           {organization.biography}
         </div>
-      </Fragment>
+      </React.Fragment>
   )
 }
+
+export default DescriptionView

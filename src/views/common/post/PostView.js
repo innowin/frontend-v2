@@ -117,14 +117,12 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     if (extendedView) {
       const {params, url} = match
       const postId = +params.id
-      const isUser = !url.includes('org')
-      const postOwnerType = isUser ? constants.USER_TYPES.USER : constants.USER_TYPES.ORG
       const spliced = url.split('/')
       const postOwnerId = +spliced[2]
 
       getCommentsByParentId({parentId: postId, commentParentType: constants.COMMENT_PARENT.POST})
       getFileByFileRelatedParentId({fileRelatedParentId: postId, fileParentType: constants.FILE_PARENT.POST})
-      getPost({postId, postOwnerType, postOwnerId})
+      getPost({postId, postOwnerId})
     }
 
     if (post && post.id && !extendedView)
@@ -268,8 +266,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     const postOwnerId = postRelatedIdentity.id
     const postParentType = (postParent && postParent.child_name) || null
     const postParentId = (postParent && postParent.id) || null
-    const postOwnerType = postRelatedIdentity.identity_type
-    deletePost({postId: post.id, postOwnerId, postOwnerType, postParentId, postParentType})
+    deletePost({postId: post.id, postOwnerId, postParentId, postParentType})
   }
 
   deleteComment = (comment) => {

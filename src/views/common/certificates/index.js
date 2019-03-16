@@ -48,10 +48,10 @@ export class Index extends Component<PropsCertificates, StateCertificates> {
   }
 
   _createCertificate = ({formValues}) => {
-    const {actions, ownerId, identityType} = this.props
+    const {actions, ownerId} = this.props
     const {createCertificate} = actions
     const newFormValues = {...formValues, certificate_parent: ownerId, certificate_identity: ownerId}
-    createCertificate({certificateOwnerId: ownerId, formValues: newFormValues, certificateOwnerType: identityType})
+    createCertificate({certificateOwnerId: ownerId, formValues: newFormValues})
   }
 
   render() {

@@ -1,13 +1,13 @@
 import types from '../types'
 
-const deleteExchangeMembership = ({exchangeMembershipId, exchangeMembershipOwnerId, exchangeMembershipOwnerType}) => ({
+const deleteExchangeMembership = ({exchangeMembershipId, exchangeMembershipOwnerId}) => ({
   type: types.COMMON.EXCHANGE_MEMBERSHIP.DELETE_EXCHANGE_MEMBERSHIP,
-  payload: {exchangeMembershipId, exchangeMembershipOwnerId, exchangeMembershipOwnerType}
+  payload: {exchangeMembershipId, exchangeMembershipOwnerId}
 })
 
-const getExchangeMembershipByMemberIdentity = ({identityId, exchangeMembershipOwnerId, exchangeMembershipOwnerType}) => ({
+const getExchangeMembershipByMemberIdentity = ({identityId, exchangeMembershipOwnerId}) => ({
   type: types.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY,
-  payload: {identityId, exchangeMembershipOwnerId, exchangeMembershipOwnerType}
+  payload: {identityId, exchangeMembershipOwnerId}
 })
 
 const getExchangeMembershipByExchangeId = ({exchangeId}) => ({

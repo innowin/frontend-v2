@@ -1,16 +1,14 @@
-import constants from "../../../../consts/constants";
-
 const base = (state, action) => {
 }
 
 const success = (state, action) => {
-  const {data, postOwnerType, postOwnerId} = action.payload || {}
+  const {data, postOwnerId} = action.payload || {}
   const client = {...state.client}
   const previousPost = (client && client.posts) || []
 
   const arrayOfPostId = []
 
-  const clientId =  constants.USER_TYPES.USER === postOwnerType ? state.client.user && state.client.user.id : state.client.organization && state.client.organization.id
+  const clientId = state.client.identity.content
   if (postOwnerId === clientId && (!previousPost.includes(data.id))) {
     arrayOfPostId.push(data.id)
   }

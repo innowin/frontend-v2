@@ -16,10 +16,23 @@
       flex: 1 1 100%;
     }
     .edit-button {
-      justify-self: flex-end;
-      align-self: flex-end;
+      width: 70px;
       font-size: $font-size-regular;
       color: $info-color;
+      text-align: center;
+    }
+
+    .editing {
+      width: 140px;
+      font-size: $font-size-regular;
+      color: $text-medium-dark;
+      .close-button {
+        width: 10px;
+        height: 10px;
+        stroke: $text-medium-dark;
+        fill: $text-medium-dark;
+        margin-right: 10px;
+      }
     }
 
     .add-button {
@@ -34,5 +47,6 @@
   }
   .content {
     font-size: $font-size-regular;
+    white-space: pre-line;
   }
 }

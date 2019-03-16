@@ -7,7 +7,7 @@ import constants from 'src/consts/constants'
 import uuid from "uuid"
 
 export function* deleteFollow(action) {
-  const {followId, followOwnerId, followOwnerType} = action.payload
+  const {followId, followOwnerId} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.SOCIAL.DELETE_FOLLOW)
   const state = yield select()
   const translate = state.intl.messages
@@ -15,7 +15,7 @@ export function* deleteFollow(action) {
   try {
     yield fork(api.del, urls.COMMON.SOCIAL.FOLLOW, results.COMMON.SOCIAL.DELETE_FOLLOW, '', `${followId}`)
     yield take(socketChannel)
-    yield put({type: types.SUCCESS.COMMON.SOCIAL.DELETE_FOLLOW , payload:{followId, followOwnerType, followOwnerId}})
+    yield put({type: types.SUCCESS.COMMON.SOCIAL.DELETE_FOLLOW , payload:{followId, followOwnerId}})
     yield put({
       type: types.TOAST.ADD_TOAST,
       payload: {

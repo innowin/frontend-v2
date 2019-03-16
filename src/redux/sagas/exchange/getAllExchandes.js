@@ -21,10 +21,9 @@ export function* getAllExchanges(action) {
 // Added for get membership
     const identityId = yield select((state) => state.auth.client.identity.content)
     const exchangeMembershipOwnerId = yield select((state) => state.auth.client.user.id)
-    const exchangeMembershipOwnerType = yield select((state) => state.auth.client.user_type)
     yield put({
       type: types.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY,
-      payload: {identityId, exchangeMembershipOwnerId, exchangeMembershipOwnerType}
+      payload: {identityId, exchangeMembershipOwnerId}
     })
 //end
   } catch (err) {

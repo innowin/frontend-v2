@@ -72,7 +72,7 @@ class User extends Component <appProps, appState> {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {data, currentUserType, currentUserId, currentUserIdentity, actions} = this.props
+    const {data, currentUserId, currentUserIdentity, actions} = this.props
     const {follow} = this.state
 
     if (data.id !== nextProps.data.id) {
@@ -96,17 +96,17 @@ class User extends Component <appProps, appState> {
     } else if (follow && (nextProps.identities[data.id] && nextProps.identities[data.id].identity && nextProps.identities[data.id].identity.content)) {
       this.setState({...this.state, follow: false}, () => {
         const formValues = {follow_follower: currentUserIdentity, follow_followed: nextProps.identities[data.id].identity.content}
-        actions.follow({formValues, followOwnerId: currentUserId, followOwnerType: currentUserType})
+        actions.follow({formValues, followOwnerId: currentUserId})
       })
     }
   }
 
   _follow() {
-    const {identities, actions, currentUserIdentity, currentUserId, currentUserType, data} = this.props
+    const {identities, actions, currentUserIdentity, currentUserId, data} = this.props
     this.setState({followLoading: true}, () => {
       if (identities[data.id] && identities[data.id].identity && identities[data.id].identity.content) {
         const formValues = {follow_follower: currentUserIdentity, follow_followed: identities[data.id].identity.content}
-        actions.follow({formValues, followOwnerId: currentUserId, followOwnerType: currentUserType})
+        actions.follow({formValues, followOwnerId: currentUserId})
       } else {
         this.setState({...this.state, follow: true})
         actions.getUserIdentity(data.id)

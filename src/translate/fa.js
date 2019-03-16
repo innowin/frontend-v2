@@ -507,5 +507,5 @@ module.exports = {
   "About Me": "درباره من",
   "About Us": "درباره ما",
   "Edit Dashboard": "ویرایش داشبورد",
-  "Close": "بستن"
+  "Close": "بستن",
 }

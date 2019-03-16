@@ -5,9 +5,9 @@ export const getCertificatesList = id => ({
   payload: {id}
 })
 
-export const createCertificate = ({formValues, certificateOwnerId, certificateOwnerType}) => ({
+export const createCertificate = ({formValues, certificateOwnerId}) => ({
   type: types.COMMON.CERTIFICATE.CREATE_OBJECT_CERTIFICATE,
-  payload: {formValues, certificateOwnerId, certificateOwnerType}
+  payload: {formValues, certificateOwnerId}
 })
 
 export const resetCreatingObjCertStatus = () => ({
@@ -25,9 +25,9 @@ export const updateCertificate = ({formValues, certificateId}) => ({
   payload: {formValues, certificateId}
 })
 
-export const deleteCertificate = ({certificateId, certificateOwnerId, certificateOwnerType, certificateParentId, certificateParentType}) => ({
+export const deleteCertificate = ({certificateId, certificateOwnerId, certificateParentId, certificateParentType}) => ({
   type: types.COMMON.CERTIFICATE.DELETE_CERTIFICATE,
-  payload: {certificateId, certificateOwnerId, certificateOwnerType, certificateParentId, certificateParentType}
+  payload: {certificateId, certificateOwnerId, certificateParentId, certificateParentType}
 })
 
 const CertificateActions = {

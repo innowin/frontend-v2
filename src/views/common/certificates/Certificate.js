@@ -55,11 +55,9 @@ export class Certificate extends Component<PropsCertificate, StateCertificate> {
     const certificateParentType = (certificateParent && certificateParent.child_name) || null
     const certificateParentId = (certificateParent && certificateParent.id) || null
     const certificateOwnerId = certificateIdentityUserId || certificateIdentityOrganId
-    const certificateOwnerType = certificateIdentityUserId ? constants.USER_TYPES.USER : constants.USER_TYPES.ORG
     deleteCertificate({
       certificateId: certificate.id,
       certificateOwnerId,
-      certificateOwnerType,
       certificateParentId,
       certificateParentType
     })

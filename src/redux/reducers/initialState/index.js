@@ -10,7 +10,6 @@ import favoriteState from './favorite'
 import identitiesState from "./identities"
 import intlState from "./intl"
 import organizationState from "./organization"
-import organsState from "./organs"
 import paramState from './param'
 import researchState from './research'
 import skillState from "./skill"
@@ -18,6 +17,7 @@ import tempState from "./temp"
 import toastState from './toast'
 import usersState from "./users"
 import workExperienceState from './workExperience'
+import modalState from './modal'
 
 export default {
   ability: abilityState,
@@ -31,7 +31,6 @@ export default {
   identities: identitiesState,
   intl: intlState,
   organization: organizationState,
-  organs: organsState,
   param: paramState,
   research: researchState,
   skill: skillState,
@@ -55,4 +54,5 @@ export default {
     social: commonStates.socialState,
     university: commonStates.universityState,
   },
+  modal: modalState,
 }
