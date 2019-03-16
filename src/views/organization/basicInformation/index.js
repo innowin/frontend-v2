@@ -29,25 +29,13 @@ class OrganizationBasicInformation extends React.Component<organizationBasicInfo
   render() {
     const {organizationId, organization, translate, actions} = this.props
     return (
-        <div>
-          {/*<CategoryTitle*/}
-              {/*title={translate['Basic information']}*/}
-          {/*/>*/}
-          {/*<FrameCard>*/}
-            {/*<ListGroup>*/}
+        <div className="about-us">
               <CardWrapper>
                 <CardContainer>
                   <Biography actions={actions} organizationId={organizationId} organization={organization} translate={translate}/>
                 </CardContainer>
               </CardWrapper>
-              {/*<BasicInfo actions={actions} organizationId={organizationId} organization={organization} translate={translate}/>*/}
               <ContactInfo actions={actions} organizationId={organizationId} organization={organization} translate={translate}/>
-              {/*<LinkInfo organizationId={organizationId} translate={translate} organization={organization}/>*/}
-              {/*<CheckOwner id={organizationId}>*/}
-                {/*<PrivateInfo actions={actions} organizationId={organizationId} organization={organization} translate={translate}/>*/}
-              {/*</CheckOwner>*/}
-            {/*</ListGroup>*/}
-          {/*</FrameCard>*/}
         </div>
     )
   }
