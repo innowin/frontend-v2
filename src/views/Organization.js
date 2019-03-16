@@ -170,9 +170,7 @@ export class Organization extends Component<PropsOrganization> {
                                   extendedView={true}
                                   commentParentType={constants.COMMENT_PARENT.POST}
                     />
-                    <PrivateRoute exact path={`${path}/basicInformation`}
-                                  component={OrganAboutUs}
-                                  organizationId={userId}
+                    <PrivateRoute exact path={`${path}/basicInformation`} component={OrganAboutUs}
                                   organization={userObject}
                     />
                     <PrivateRoute path={`${path}/SocialConnections`} component={Social}

@@ -13,7 +13,6 @@ import {userCertificatesSelector} from 'src/redux/selectors/common/certificate/u
 import type {certificateType} from 'src/consts/flowTypes/user/others'
 
 type OrganAboutUsProps = {
-  organizationId: number,
   certificates: [certificateType],
   organization: identityType,
   translate: TranslatorType,
