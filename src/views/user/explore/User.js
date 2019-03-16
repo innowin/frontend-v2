@@ -104,14 +104,14 @@ class User extends Component <appProps, appState> {
           <Link to={userType === constants.USER_TYPES.ORG ? `/organization/${userId}` : `/user/${userId}`} style={{textDecoration: 'none', color: 'black'}}>
             {
               user.profile_banner && files[user.profile_banner] ?
-                  <img src={files[user.profile_banner].file.replace('http:', 'https:')}
+                  <img src={files[user.profile_banner].file}
                        className='user-banner' alt={user.last_name}/>
                   :
                   <div className='user-banner'/>
             }
             {
               user.profile_media && files[user.profile_media] ?
-                  <img src={files[user.profile_media].file.replace('http:', 'https:')}
+                  <img src={files[user.profile_media].file}
                        className='user-profile-photo' alt={user.last_name}/>
                   :
                   <DefaultUserIcon className='user-default-profile-photo'/>

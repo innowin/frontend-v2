@@ -566,6 +566,7 @@ $heightOfContentBox: 140px;
 
 .bee-button-submit {
   font-size: 11px;
+  margin: auto;
   height: 27px;
   width: 76px;
   padding: 3px 10px;
@@ -590,6 +591,20 @@ $heightOfContentBox: 140px;
     background-color: #FFF;
     text-decoration: none;
   }
+}
+
+.bee-button-submit:last-child{
+  margin-top: 15px;
+  position: relative;
+  background-color: $bee-color;
+  border: 1.5px solid $bee-color;
+  cursor: pointer !important;
+
+  &:hover{
+    color: $bee-color;
+    background-color: white;
+  }
+
 }
 
 .bee-bio-error {

@@ -34,6 +34,8 @@ class UserBee extends Component {
       graduate: 0,
       job: 0,
       bio: 0,
+      resume: null,
+      resumeId: null,
 
       imageLoading: false,
       selectedProfileFile: null,
@@ -69,9 +71,10 @@ class UserBee extends Component {
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
-    const {currentUser, profileIdTemp, temp} = nextProps
-    const {profileMediaId} = this.state
+    const {currentUser, profileIdTemp, resumeIdTemp, temp} = nextProps
+    const {profileMediaId, resumeId, resume} = this.state
 
+    let setResume = resume
     let image = 0
     let name = 0
     let graduate = 0
@@ -101,10 +104,17 @@ class UserBee extends Component {
       }
       actions.updateUserByUserId(formFormat, currentUser.id)
       actions.removeFileFromTemp('profile_media')
-      actions.removeFileFromTemp(profileIdTemp)
+      actions.removeFileFromTemp(profileMediaId)
     }
 
-    this.setState({...this.state, image, name, graduate, job, bio}, () => {
+    if (resumeId && temp[resumeId] && temp[resumeId].progress === 100 && resumeIdTemp) {
+      const {actions} = nextProps
+      setResume = true
+      actions.removeFileFromTemp('resume')
+      actions.removeFileFromTemp(resumeId)
+    }
+
+    this.setState({...this.state, image, name, graduate, job, bio, resume: setResume}, () => {
       if (image === 30) this.setState({...this.state, imageLoading: false, profileMediaId: null})
     })
   }
@@ -143,6 +153,36 @@ class UserBee extends Component {
     }
     this.setState({...this.state, profileMediaId: fileId}, () => {
       createFileFunc(createFile, selectedProfile, createArguments, constants.CREATE_FILE_TYPES.IMAGE, constants.CREATE_FILE_CATEGORIES.PROFILE.PROFILE_PICTURE, file)
+    })
+  }
+
+  _handleChooseResume = (fileString) => {
+    const reader = new FileReader()
+    if (fileString) {
+      reader.readAsDataURL(fileString)
+      reader.onload = () => {
+        this.setState({
+          ...this.state,
+          selectedResume: reader.result,
+          selectedResumeFile: fileString,
+          resume: false,
+        }, this._createResume)
+      }
+    }
+  }
+
+  _createResume = () => {
+    const {createFile} = this.props.actions
+    const {selectedResumeFile, selectedResume} = this.state
+    const fileId = uuid()
+    const file = {fileId, formFile: selectedResumeFile}
+    const createArguments = {
+      fileIdKey: 'fileId',
+      nextActionType: types.COMMON.FILE.SET_FILE_IDS_IN_TEMP_FILE,
+      nextActionData: {tempFileKeyName: 'resume'},
+    }
+    this.setState({...this.state, resumeId: fileId}, () => {
+      createFileFunc(createFile, selectedResume, createArguments, constants.CREATE_FILE_TYPES.FILE, constants.CREATE_FILE_CATEGORIES.PROFILE.RESUME, file)
     })
   }
 
@@ -246,7 +286,7 @@ class UserBee extends Component {
   }
 
   renderLevel() {
-    const {level, image, name, graduate, job, bio} = this.state
+    const {level, image, name, graduate, job, bio, resume} = this.state
     const {translate, currentUser} = this.props
     if (image + name + graduate + job + bio === 100) {
       return (
@@ -267,6 +307,15 @@ class UserBee extends Component {
 
             <div className='bee-button-submit-cont'>
               <Link to={`/user/${currentUser.id}`} className='bee-button-submit'>{translate['View Profile']}</Link>
+
+              <div className='bee-button-submit'>
+                {
+                  resume === true ? 'آپلود شد' : resume === null ? 'آپلود رزومه' : <ClipLoader size={19}/>
+                }
+                {
+                  resume === null ? <input type='file' className='bee-button-input' onChange={e => this._handleChooseResume(e.currentTarget.files[0])}/> : null
+                }
+              </div>
             </div>
           </div>
       )
@@ -483,6 +532,7 @@ const mapStateToProps = (state) => {
     universities: getAllUniversities(state),
     educationFields: getAllEducationFields(state),
     profileIdTemp: state.temp.file['profile_media'],
+    resumeIdTemp: state.temp.file['resume'],
     files: state.common.file.list,
     temp: state.temp.file,
   })
