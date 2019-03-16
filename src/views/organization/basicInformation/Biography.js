@@ -48,8 +48,7 @@ class Biography extends React.Component<OrganizationInfoProps, OrganizationInfoS
     const {translate, actions, isLoading, organization} = this.props
     const {edit, error} = this.state
     return (
-        <VerifyWrapper isLoading={isLoading} error={error}>
-          <ItemWrapper icon={<InformationIcon/>}>
+        <React.Fragment>
             {(edit) ? (
                 <BiographyEditForm
                     organization={organization}
@@ -61,8 +60,7 @@ class Biography extends React.Component<OrganizationInfoProps, OrganizationInfoS
                 <BiographyView organization={organization} translate={translate} showEdit={this._showEdit}/>
             )
             }
-          </ItemWrapper>
-        </VerifyWrapper>
+        </React.Fragment>
     )
   }
 }
