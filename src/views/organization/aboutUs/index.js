@@ -1,14 +1,34 @@
-// @flow
-import * as React from 'react'
-import {Component} from 'react'
-import h1 from "eslint-plugin-jsx-a11y/src/util/implicitRoles/h1";
+//@flow
+import * as React from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { getMessages } from "src/redux/selectors/translateSelector";
+import { TranslatorType } from "src/consts/flowTypes/common/commonTypes";
+import Description from "./description";
 
-class AboutUs extends Component<{}> {
-  render() {
+type OrganAboutUsProps = {
+  organizationId : number,
+  organization : Object,
+  translate : TranslatorType,
+  actions : Object,
+  organ : Object,
+}
+
+class OrganAboutUs extends React.Component<OrganAboutUsProps> {
+  
+  render () {
     return (
-        <h1>about</h1>
-    )
+        <div className="about-us">
+          <Description/>
+        </div>
+    );
   }
 }
 
-export default AboutUs
+const mapStateToProps = (state) => ({
+  translate: getMessages(state)
+});
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({}, dispatch)
+});
+export default connect(mapStateToProps, mapDispatchToProps)(OrganAboutUs);

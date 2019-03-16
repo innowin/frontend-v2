@@ -27,6 +27,7 @@ import {getMessages} from '../redux/selectors/translateSelector'
 import SideBarContent from './bars/SideBar'
 import GetUserActions from '../redux/actions/user/getUserActions'
 import UserSkeleton from './user/skeleton/UserSkeleton'
+import OrganAboutUs from 'src/views/organization/aboutUs'
 
 type PropsOrganization = {
   userObject: organStateObject,
@@ -170,7 +171,7 @@ export class Organization extends Component<PropsOrganization> {
                                   commentParentType={constants.COMMENT_PARENT.POST}
                     />
                     <PrivateRoute exact path={`${path}/basicInformation`}
-                                  component={OrganizationBasicInformation}
+                                  component={OrganAboutUs}
                                   organizationId={userId}
                                   organization={userObject}
                     />
