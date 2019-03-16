@@ -14,7 +14,7 @@ export function* getAllExchanges(action) {
         api.get,
         urls.EXCHANGE_EXPLORER,
         results.EXCHANGE.GET_EXCHANGES,
-        params
+        encodeURI(params)
     )
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.EXCHANGE.GET_EXCHANGES, payload: {data, search, isLoading: false}})

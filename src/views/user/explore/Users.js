@@ -22,7 +22,7 @@ const loadingArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 const Users = (props: appProps) => {
   let {users, followees, followers, justFollowing, justFollowed, justUsers, justOrgans} = props
 
-  let usersArr = Object.values(users).filter(user => user.id)
+  let usersArr = Object.values(users).filter(user => user.id).sort((a, b) => a.id - b.id)
 
   let usersObj = {}
 

@@ -25,7 +25,6 @@ type appProps =
 
 type appState =
     {|
-      offset: number,
       activeScrollHeight: number,
       search: ?string,
       justFollowing: boolean,
@@ -39,7 +38,6 @@ class Explore extends PureComponent <appProps, appState> {
   constructor(props) {
     super(props)
     this.state = {
-      offset: 0,
       activeScrollHeight: 0,
       search: null,
       justFollowing: false,
@@ -65,10 +63,11 @@ class Explore extends PureComponent <appProps, appState> {
   _onScroll = () => {
     if (Object.values(this.props.allUsers).length > 0) {
       let {activeScrollHeight} = this.state
+      let {allUsers} = this.props
       let scrollHeight = document.body ? document.body.scrollHeight : 0
       if (((window.innerHeight + window.scrollY) >= (scrollHeight - 250)) && (scrollHeight > activeScrollHeight)) {
-        this.setState({...this.state, activeScrollHeight: scrollHeight, offset: this.state.offset + 24},
-            () => this.props.actions.getUsers(24, this.state.offset, this.state.search,
+        this.setState({...this.state, activeScrollHeight: scrollHeight},
+            () => this.props.actions.getUsers(24, Object.values(allUsers).length, this.state.search,
                 this.state.justOrgans && !this.state.justUsers ? true : !this.state.justOrgans && this.state.justUsers ? false : null))
       }
 
@@ -79,7 +78,7 @@ class Explore extends PureComponent <appProps, appState> {
   }
 
   _search = (search) =>
-      this.setState({...this.state, search: search, offset: 0, activeScrollHeight: 0}, () => {
+      this.setState({...this.state, search: search, activeScrollHeight: 0}, () => {
         this.props.actions.getUsers(24, 0, search, this.state.justOrgans && !this.state.justUsers ? true : !this.state.justOrgans && this.state.justUsers ? false : null)
       })
 
