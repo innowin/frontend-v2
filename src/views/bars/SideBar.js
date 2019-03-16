@@ -4,7 +4,7 @@ import {Component} from 'react'
 import PropTypes from 'prop-types'
 import type {organizationType} from 'src/consts/flowTypes/organization/organization'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
-import type {userProfileType, userType} from 'src/consts/flowTypes/user/basicInformation'
+import type {userType} from 'src/consts/flowTypes/user/basicInformation'
 import {DefaultUserIcon, DefaultOrganIcon, TwitterIcon, TelegramIcon, LinkedInIcon, InstagramIcon} from 'src/images/icons'
 import CheckOwner from '../common/CheckOwner'
 import connect from 'react-redux/es/connect/connect'
@@ -14,7 +14,6 @@ import SocialActions from '../../redux/actions/commonActions/socialActions'
 import {bindActionCreators} from 'redux'
 import {getFollowersSelector} from '../../redux/selectors/common/social/getFollowers'
 import types from 'src/redux/actions/types'
-import type {fileType} from '../../consts/flowTypes/common/fileType'
 import FileActions from 'src/redux/actions/commonActions/fileActions'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {createFileFunc} from 'src/views/common/Functions'
@@ -66,15 +65,8 @@ export const TagsBox = (props: { tags: ({ title: string })[] }) => {
 
 type PropsSideBarContent = {
   sideBarType: string,
-  identityId: number,
   owner: userType | organizationType,
-  clientIdentityId?: number,
-  profile?: userProfileType,
   paramId: number,
-  banner: fileType | Object,
-  picture: fileType | Object,
-  name: ?string,
-  description: ?string,
   translate?: TranslatorType,
   className?: string,
   actions?: {
@@ -99,14 +91,9 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
 
   static propTypes = {
     sideBarType: PropTypes.string.isRequired,
-    name: PropTypes.string,
-    picture: PropTypes.object,
-    description: PropTypes.string,
     className: PropTypes.string,
-    identityId: PropTypes.number,
     owner: PropTypes.object,
     paramId: PropTypes.number,
-    profile: PropTypes.object,
   }
 
   constructor(props) {

@@ -16,6 +16,11 @@ import {bindActionCreators} from 'redux'
 import {ClipLoader} from 'react-spinners'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {Link} from 'react-router-dom'
+import types from '../../../redux/actions/types'
+import uuid from 'uuid'
+import {createFileFunc} from 'src/views/common/Functions'
+import FileActions from 'src/redux/actions/commonActions/fileActions'
+import TempActions from 'src/redux/actions/tempActions'
 
 class UserBee extends Component {
 
@@ -31,6 +36,9 @@ class UserBee extends Component {
       bio: 0,
 
       imageLoading: false,
+      selectedProfileFile: null,
+      selectedProfile: null,
+      profileMediaId: null,
 
       nameText: '',
       lastNameText: '',
@@ -60,8 +68,9 @@ class UserBee extends Component {
     actions.getEducationFields()
   }
 
-  componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
-    const {currentUser} = nextProps
+  componentWillReceiveProps(nextProps, nextContext) {
+    const {currentUser, profileIdTemp, temp} = nextProps
+    const {profileMediaId} = this.state
 
     let image = 0
     let name = 0
@@ -72,21 +81,31 @@ class UserBee extends Component {
     if (currentUser.profile_media) {
       image = 30
     }
-    if (currentUser.last_name.trim().length > 0 || currentUser.first_name.trim().length > 0) {
+    if ((currentUser.last_name && currentUser.last_name.trim().length > 0) || (currentUser.first_name && currentUser.first_name.trim().length > 0)) {
       name = 20
     }
-    if (currentUser.description.trim().length > 0) {
+    if (currentUser.description && currentUser.description.trim().length > 0) {
       bio = 20
     }
-    if (currentUser.educations.content.length > 0) {
+    if (currentUser.educations && currentUser.educations.content.length > 0) {
       graduate = 15
     }
-    if (currentUser.workExperiences.content.length > 0) {
+    if (currentUser.workExperiences && currentUser.workExperiences.content.length > 0) {
       job = 15
     }
 
+    if (profileMediaId && temp[profileMediaId] && temp[profileMediaId].progress === 100 && profileIdTemp) {
+      const {actions, currentUser} = nextProps
+      const formFormat = {
+        profile_media: profileIdTemp,
+      }
+      actions.updateUserByUserId(formFormat, currentUser.id)
+      actions.removeFileFromTemp('profile_media')
+      actions.removeFileFromTemp(profileIdTemp)
+    }
+
     this.setState({...this.state, image, name, graduate, job, bio}, () => {
-      if (image === 30) this.setState({...this.state, imageLoading: false})
+      if (image === 30) this.setState({...this.state, imageLoading: false, profileMediaId: null})
     })
   }
 
@@ -97,17 +116,34 @@ class UserBee extends Component {
     else this.setState({...this.state, level: 1})
   }
 
-  _handleChooseProfile = (e) => {
-    const {actions} = this.props
-    e.preventDefault()
-    let reader = new FileReader()
-    let file = e.target.files[0]
-    if (file) {
-      reader.readAsDataURL(file)
-      reader.onloadend = () => {
-        this.setState({...this.state, imageLoading: true}, () => actions.createFile({file_string: reader.result}))
+  _handleChooseProfile = (fileString) => {
+    const reader = new FileReader()
+    if (fileString) {
+      reader.readAsDataURL(fileString)
+      reader.onload = () => {
+        this.setState({
+          ...this.state,
+          selectedProfile: reader.result,
+          selectedProfileFile: fileString,
+          imageLoading: true,
+        }, this._createProfile)
       }
     }
+  }
+
+  _createProfile = () => {
+    const {createFile} = this.props.actions
+    const {selectedProfileFile, selectedProfile} = this.state
+    const fileId = uuid()
+    const file = {fileId, formFile: selectedProfileFile}
+    const createArguments = {
+      fileIdKey: 'fileId',
+      nextActionType: types.COMMON.FILE.SET_FILE_IDS_IN_TEMP_FILE,
+      nextActionData: {tempFileKeyName: 'profile_media'},
+    }
+    this.setState({...this.state, profileMediaId: fileId}, () => {
+      createFileFunc(createFile, selectedProfile, createArguments, constants.CREATE_FILE_TYPES.IMAGE, constants.CREATE_FILE_CATEGORIES.PROFILE.PROFILE_PICTURE, file)
+    })
   }
 
   _handleName = () => {
@@ -251,7 +287,7 @@ class UserBee extends Component {
                 <button className='bee-button-cancel' onClick={this._handleCancel}>{translate['Not Now']}</button>
 
                 <button className='bee-button-choose'>
-                  <input type='file' className='bee-button-input' onChange={this._handleChooseProfile}/>
+                  <input type='file' className='bee-button-input' onChange={!this.state.imageLoading ? e => this._handleChooseProfile(e.currentTarget.files[0]) : console.log('Uploading')}/>
                   {
                     this.state.imageLoading ?
                         <ClipLoader size={12} color='grey'/>
@@ -446,6 +482,9 @@ const mapStateToProps = (state) => {
     translate: getMessages(state),
     universities: getAllUniversities(state),
     educationFields: getAllEducationFields(state),
+    profileIdTemp: state.temp.file['profile_media'],
+    files: state.common.file.list,
+    temp: state.temp.file,
   })
 }
 
@@ -458,6 +497,8 @@ const mapDispatchToProps = dispatch => ({
     getWorkExperienceByUserId: WorkExperienceActions.getWorkExperienceByUserId,
     getUniversities: getUniversities,
     getEducationFields: getEducationFields,
+    createFile: FileActions.createFile,
+    removeFileFromTemp: TempActions.removeFileFromTemp,
   }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(UserBee)

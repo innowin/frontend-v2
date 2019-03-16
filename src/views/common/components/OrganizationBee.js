@@ -9,6 +9,10 @@ import {Link} from 'react-router-dom'
 import types from 'src/redux/actions/types'
 import {createFileFunc} from '../Functions'
 import updateUserByUserIdAction from 'src/redux/actions/user/updateUserByUserIdAction'
+import FileActions from 'src/redux/actions/commonActions/fileActions'
+import TempActions from 'src/redux/actions/tempActions'
+import uuid from 'uuid'
+import constants from 'src/consts/constants'
 
 class OrganizationBee extends Component {
   constructor(props) {
@@ -22,6 +26,9 @@ class OrganizationBee extends Component {
       bio: 0,
 
       imageLoading: false,
+      selectedProfileFile: null,
+      selectedProfile: null,
+      profileMediaId: null,
 
       nameText: '',
       nameSubmitted: false,
@@ -63,8 +70,9 @@ class OrganizationBee extends Component {
     })
   }
 
-  componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
-    const {currentUser} = nextProps
+  componentWillReceiveProps(nextProps, nextContext) {
+    const {currentUser, profileIdTemp, temp} = nextProps
+    const {profileMediaId} = this.state
     const {nike_name, biography, telegram_account, web_site, profile_media} = currentUser
 
     let image = 0
@@ -86,8 +94,19 @@ class OrganizationBee extends Component {
       graduate = 20
     }
 
+    if (profileMediaId && temp[profileMediaId] && temp[profileMediaId].progress === 100 && profileIdTemp) {
+      const {actions, currentUser} = nextProps
+      const formFormat = {
+        profile_media: profileIdTemp,
+        organization_logo: profileIdTemp,
+      }
+      actions.updateUserByUserId(formFormat, currentUser.id)
+      actions.removeFileFromTemp('profile_media')
+      actions.removeFileFromTemp(profileIdTemp)
+    }
+
     this.setState({...this.state, image, name, graduate, bio}, () => {
-      if (image === 30) this.setState({...this.state, imageLoading: false})
+      if (image === 30) this.setState({...this.state, imageLoading: false, profileMediaId: null})
     })
   }
 
@@ -98,27 +117,35 @@ class OrganizationBee extends Component {
     else this.setState({...this.state, level: 1})
   }
 
-  _handleChooseProfile = (e) => {
-    e.preventDefault()
-    const {actions} = this.props
-    let reader = new FileReader()
-    let file = e.target.files[0]
-    if (file) {
-      reader.readAsDataURL(file)
-      reader.onloadend = () => {
-        this.setState({...this.state, imageLoading: true}, () => {
-          const nextActionType = types.COMMON.FILE.SET_FILE_IDS_IN_TEMP_FILE
-          const fileIdKey = 'fileId'
-          const nextActionData = {tempFileKeyName: 'org_photo'}
-          const createArguments = {
-            fileIdKey,
-            nextActionType,
-            nextActionData,
-          }
-          createFileFunc(actions.createFile, reader.result, createArguments)
-        })
+
+  _handleChooseProfile = (fileString) => {
+    const reader = new FileReader()
+    if (fileString) {
+      reader.readAsDataURL(fileString)
+      reader.onload = () => {
+        this.setState({
+          ...this.state,
+          selectedProfile: reader.result,
+          selectedProfileFile: fileString,
+          imageLoading: true,
+        }, this._createProfile)
       }
     }
+  }
+
+  _createProfile = () => {
+    const {createFile} = this.props.actions
+    const {selectedProfileFile, selectedProfile} = this.state
+    const fileId = uuid()
+    const file = {fileId, formFile: selectedProfileFile}
+    const createArguments = {
+      fileIdKey: 'fileId',
+      nextActionType: types.COMMON.FILE.SET_FILE_IDS_IN_TEMP_FILE,
+      nextActionData: {tempFileKeyName: 'profile_media'},
+    }
+    this.setState({...this.state, profileMediaId: fileId}, () => {
+      createFileFunc(createFile, selectedProfile, createArguments, constants.CREATE_FILE_TYPES.IMAGE, constants.CREATE_FILE_CATEGORIES.PROFILE.PROFILE_PICTURE, file)
+    })
   }
 
   _handleName = () => {
@@ -213,7 +240,7 @@ class OrganizationBee extends Component {
                 <button className='bee-button-cancel' onClick={this._handleCancel}>{translate['Not Now']}</button>
 
                 <button className='bee-button-choose'>
-                  <input type='file' className='bee-button-input' onChange={this._handleChooseProfile}/>
+                  <input type='file' className='bee-button-input' onChange={!this.state.imageLoading ? e => this._handleChooseProfile(e.currentTarget.files[0]) : console.log('Uploading')}/>
                   {
                     this.state.imageLoading ?
                         <ClipLoader size={12} color='grey'/>
@@ -349,12 +376,17 @@ const mapStateToProps = (state) => {
   return ({
     currentUser: user,
     translate: getMessages(state),
+    profileIdTemp: state.temp.file['profile_media'],
+    files: state.common.file.list,
+    temp: state.temp.file,
   })
 }
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     updateUserByUserId: updateUserByUserIdAction.updateUser,
+    createFile: FileActions.createFile,
+    removeFileFromTemp: TempActions.removeFileFromTemp,
   }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(OrganizationBee)
