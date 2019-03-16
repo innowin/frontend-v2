@@ -7,7 +7,7 @@ import constants from "src/consts/constants";
 import uuid from 'uuid'
 
 export function* createPost(action) {
-  const {formValues, postOwnerId, postOwnerType, postParentId, postParentType, postFileIds} = action.payload
+  const {formValues, postOwnerId, postParentId, postParentType, postFileIds} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.POST.CREATE_POST)
   const state = yield select()
   const translate = state.intl.messages
@@ -17,7 +17,7 @@ export function* createPost(action) {
     const data = yield take(socketChannel)
     yield put({
       type: types.SUCCESS.COMMON.POST.CREATE_POST,
-      payload: {data, postOwnerId, postOwnerType, postParentId, postParentType}
+      payload: {data, postOwnerId, postParentId, postParentType}
     })
     yield all(postFileIds.map(fileId => {
       return put({
@@ -26,7 +26,7 @@ export function* createPost(action) {
       })
     }))
     const postIdentity = data.post_related_identity
-    yield put({type: types.COMMON.POST.GET_POST_BY_IDENTITY, payload: {postIdentity, postOwnerId, postOwnerType}})
+    yield put({type: types.COMMON.POST.GET_POST_BY_IDENTITY, payload: {postIdentity, postOwnerId}})
     yield put({
       type: types.TOAST.ADD_TOAST,
       payload: {

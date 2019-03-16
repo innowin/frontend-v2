@@ -14,6 +14,7 @@ import skillTypes from './skill'
 import toastTypes from './toast'
 import userTypes from './user'
 import workExperienceTypes from './workExperience'
+import modalTypes from './modal'
 
 
 const types = {
@@ -35,6 +36,7 @@ const types = {
     TOAST: toastTypes.ERROR,
     USER: userTypes.ERROR,
     WORK_EXPERIENCE: workExperienceTypes.ERROR,
+    MODAL: modalTypes.ERROR,
   },
   SUCCESS: {
 		RESEARCH: researchTypes.SUCCESS,
@@ -53,6 +55,7 @@ const types = {
     TOAST: toastTypes.SUCCESS,
     USER: userTypes.SUCCESS,
     WORK_EXPERIENCE: workExperienceTypes.SUCCESS,
+    MODAL: modalTypes.SUCCESS,
   },
 	RESEARCH: researchTypes.BASE,
   ABILITY: abilityTypes.BASE,
@@ -70,6 +73,7 @@ const types = {
   TOAST: toastTypes.BASE,
   USER: userTypes.BASE,
   WORK_EXPERIENCE: workExperienceTypes.BASE,
+  MODAL: modalTypes.BASE,
 }
 
 export default types

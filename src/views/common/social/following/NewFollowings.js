@@ -74,7 +74,7 @@ class NewFollowings extends Component<props, states> {
       const identityId = profiles[identity_user].identity.content
       const {createFollow} = actions
       const formValues = {follow_follower: clientIdentityId, follow_followed: identityId}
-      createFollow({formValues, followOwnerId: identity_user, followOwnerType: constants.USER_TYPES.USER})
+      createFollow({formValues, followOwnerId: identity_user})
       this.state.followingUsers.push(identity_user)
     }
     if (identity_organization !== null) {
@@ -82,7 +82,7 @@ class NewFollowings extends Component<props, states> {
       const identityId = organs[identity_organization].identity.content
       const {createFollow} = actions
       const formValues = {follow_follower: clientIdentityId, follow_followed: identityId}
-      createFollow({formValues, followOwnerId: identity_organization, followOwnerType: constants.USER_TYPES.USER})
+      createFollow({formValues, followOwnerId: identity_organization})
       this.state.followingOrgans.push(identity_organization)
     }
   }
@@ -90,9 +90,7 @@ class NewFollowings extends Component<props, states> {
   _onDeleteFollowing(following) {
     const {deleteFollow, userId} = this.props
     const followId = following.follow_id
-    const followOwnerId = userId
-    const followOwnerType = following.identity_user ? constants.USER_TYPES.USER : constants.USER_TYPES.ORG
-    deleteFollow({followId, followOwnerId, followOwnerType})
+    deleteFollow({followId, followOwnerId: userId})
   }
 
   getMembers(identity_user, identity_organization, follow_accepted, index) {
@@ -338,7 +336,7 @@ class NewFollowings extends Component<props, states> {
 const mapStateToProps = (state, ownProps) => {
   return {
     exchangeUsers: state.common.exchangeMembership.members,
-    organs: state.organs.list,
+    organs: state.identities.list,
     profiles: state.identities.list,
     files: state.common.file.list,
     clientId: state.auth.client.user.id,

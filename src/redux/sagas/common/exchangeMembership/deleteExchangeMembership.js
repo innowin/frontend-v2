@@ -8,7 +8,7 @@ import uuid from 'uuid'
 
 
 export function* deleteExchangeMembership(action) {
-  const {exchangeMembershipId, exchangeMembershipOwnerId, exchangeMembershipOwnerType} = action.payload
+  const {exchangeMembershipId, exchangeMembershipOwnerId} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.EXCHANGE_MEMBERSHIP.DELETE_EXCHANGE_MEMBERSHIP)
   const state = yield select()
   const translate = state.intl.messages
@@ -18,7 +18,7 @@ export function* deleteExchangeMembership(action) {
     yield take(socketChannel)
     yield put({
       type: types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.DELETE_EXCHANGE_MEMBERSHIP,
-      payload: {exchangeMembershipId, exchangeMembershipOwnerId, exchangeMembershipOwnerType}
+      payload: {exchangeMembershipId, exchangeMembershipOwnerId}
     })
     yield put({
       type: types.TOAST.ADD_TOAST,

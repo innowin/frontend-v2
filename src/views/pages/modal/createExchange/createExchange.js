@@ -94,14 +94,12 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
     if (auth.client.organization) {
       getFolloweesPayload = {
         followOwnerIdentity: auth.client.identity.content,
-        followOwnerType: constants.USER_TYPES.ORG,
         followOwnerId: auth.client.organization.id,
       }
     }
     else {
       getFolloweesPayload = {
         followOwnerIdentity: auth.client.identity.content,
-        followOwnerType: constants.USER_TYPES.USER,
         followOwnerId: auth.client.user.id,
       }
     }

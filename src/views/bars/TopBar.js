@@ -32,6 +32,7 @@ import {routerActions} from 'react-router-redux'
 import {SearchIcon} from 'src/images/icons'
 import {CSSTransition, TransitionGroup} from 'react-transition-group'
 import type {identityType} from 'src/consts/flowTypes/identityType'
+import ModalActions from '../../redux/actions/modalActions'
 // import makeFileSelectorByKeyValue from '../../redux/selectors/common/file/selectFilsByKeyValue'
 // import client from 'src/consts/client'
 
@@ -41,6 +42,8 @@ type PropsTopBar = {|
     push: Function,
     verifyToken: Function,
     getFileByFileRelatedParentId: Function,
+    hideModal: Function,
+    showModal: Function,
   },
   clientName: ?string,
   collapseClassName: string,
@@ -50,6 +53,9 @@ type PropsTopBar = {|
   clientIdentity: identityType,
   imgLink: string,
   bannerLink: string,
+  modal: {
+    productModal: boolean,
+  },
 |}
 
 type StatesTopBar = {|
@@ -62,7 +68,6 @@ type StatesTopBar = {|
   getMediaFile: boolean,
   isSignedOut: boolean,
   mouseIsOverMenu: boolean,
-  productWizardModalIsOpen: boolean,
   selectedAbout: string,
   selectedSetting: string,
   showAbout: boolean,
@@ -97,7 +102,6 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       getMediaFile: false,
       isSignedOut: false,
       mouseIsOverMenu: true,
-      productWizardModalIsOpen: false,
       selectedAbout: 'FAQ',
       selectedSetting: 'General Settings',
       showAbout: false,
@@ -227,7 +231,9 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   }
 
   _handleProductWizardModal = () => {
-    this.setState({...this.state, productWizardModalIsOpen: !this.state.productWizardModalIsOpen})
+    const {actions} = this.props
+    const {showModal} = actions
+    showModal({modalKey: 'productModal'})
     setTimeout(() =>
             this.setState({...this.state, collapseProfile: false, showHamburger: false})
         , 350)
@@ -261,11 +267,12 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   }
 
   _handleHideSetting = () => {
+    const {actions} = this.props
+    const {hideModal} = actions
     this.setState({
       ...this.state,
       showSetting: false,
       showAbout: false,
-      productWizardModalIsOpen: false,
       createExchangeModalIsOpen: false,
     })
     setTimeout(() => {
@@ -274,6 +281,8 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
         this.setState({...this.state, selectedSetting: 'General Settings'})
       }, 10)
     }, 500)
+
+    hideModal({modalKey: 'productModal'})
   }
 
   _homeClick = () => {
@@ -313,9 +322,10 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   }
 
   render() {
-    const {translate, clientName, clientIdentity, imgLink, bannerLink} = this.props
+    const {translate, clientName, clientIdentity, imgLink, bannerLink, modal} = this.props
+    const {productModal} = modal
     const topBarTranslate = translate.topBar
-    const {showHamburger, currentPage, collapseProfile, exploreCollapse, productWizardModalIsOpen, selectedSetting, selectedAbout, showSetting, showAbout, createExchangeModalIsOpen, agentForm} = this.state
+    const {showHamburger, currentPage, collapseProfile, exploreCollapse, selectedSetting, selectedAbout, showSetting, showAbout, createExchangeModalIsOpen, agentForm} = this.state
     const linkEditProfile = clientIdentity ?
         clientIdentity.identity_type === constants.USER_TYPES.USER
             ? `/user/${clientIdentity.id}`
@@ -508,12 +518,12 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
             </div>
           </nav>
 
-          <AddingContribution modalIsOpen={productWizardModalIsOpen}
+          <AddingContribution modalIsOpen={productModal}
                               handleModalVisibility={this._handleProductWizardModal}/>
 
 
           <div
-              className={showSetting || showAbout || agentForm || productWizardModalIsOpen || createExchangeModalIsOpen ? 'makeDark' : 'makeDark-out'}
+              className={showSetting || showAbout || agentForm || productModal || createExchangeModalIsOpen ? 'makeDark' : 'makeDark-out'}
               onClick={this._handleHideSetting}>
             {/*dark div*/}
           </div>
@@ -623,6 +633,7 @@ const mapStateToProps = (state, ownProps) => {
     imgLink: profileImg ? (state.common.file.list[profileImg] && state.common.file.list[profileImg].file) : '',
     bannerLink: bannerImg ? (state.common.file.list[bannerImg] && state.common.file.list[bannerImg].file) : '',
     translate: state.intl.messages || {},
+    modal: state.modal,
   }
 }
 const mapDispatchToProps = dispatch => ({
@@ -631,6 +642,8 @@ const mapDispatchToProps = dispatch => ({
     verifyToken: AuthActions.verifyToken,
     push: routerActions.push,
     getFileByFileRelatedParentId: FileActions.getFileByFileRelatedParentId,
+    showModal: ModalActions.showModal,
+    hideModal: ModalActions.hideModal,
   }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(TopBar)

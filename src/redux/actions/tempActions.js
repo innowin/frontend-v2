@@ -10,7 +10,6 @@ const setFileProgressTemp = ({fileId, progressDetail}) => ({
   payload: {fileId, progressDetail}
 })
 
-
 const TempActions = {
   removeFileFromTemp,
   setFileProgressTemp,

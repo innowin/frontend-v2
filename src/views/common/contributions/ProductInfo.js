@@ -47,8 +47,7 @@ class ProductInfo extends Component<PropsProductInfo, StateProductInfo> {
 
     const productIdentityOrganId = product.product_owner.identity_organization && product.product_owner.identity_organization.id
     const productOwnerId = productIdentityUserId || productIdentityOrganId
-    const productOwnerType = productIdentityUserId ? constants.USER_TYPES.USER : constants.USER_TYPES.ORG
-    deleteProduct({productId, productOwnerId, productOwnerType})
+    deleteProduct({productId, productOwnerId})
     this._hideEdit()
   }
 

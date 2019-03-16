@@ -188,7 +188,6 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
     if (currentUserIdentity && currentUserType && currentUserId) {
       getFollowers({
         followOwnerIdentity: currentUserIdentity,
-        followOwnerType: currentUserType,
         followOwnerId: currentUserId,
         notProfile: true
       })
@@ -199,13 +198,12 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
   }
 
   componentDidMount() {
-    const {actions, currentUserMedia, isUpdate, post, currentUserIdentity, currentUserType, currentUserId} = this.props
+    const {actions, currentUserMedia, isUpdate, post, currentUserIdentity, currentUserId} = this.props
     const {getFollowers, setFileProgressTemp} = actions
     const {attachPhotoIdArray} = this.state
     if (this.state.getFollowers) {
       getFollowers({
         followOwnerIdentity: currentUserIdentity,
-        followOwnerType: currentUserType,
         followOwnerId: currentUserId,
         notProfile: true
       })
@@ -611,7 +609,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
 
   _save = () => {
     const {
-      actions, currentUserId, currentUserType, postParentId, postParentType, postImg1Id, postImg2Id, postImg3Id,
+      actions, currentUserId, postParentId, postParentType, postImg1Id, postImg2Id, postImg3Id,
       postMediaId, postFileId, isUpdate, updateFunc, post,
     } = this.props
     const {removePictureArray} = this.state
@@ -628,7 +626,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       updateFunc(formValues, post.id, postAttachedFileIds)
     } else {
       createPost({
-        formValues, postOwnerId: currentUserId, postOwnerType: currentUserType, postParentId, postParentType,
+        formValues, postOwnerId: currentUserId, postParentId, postParentType,
         postFileIds: postAttachedFileIds
       })
     }

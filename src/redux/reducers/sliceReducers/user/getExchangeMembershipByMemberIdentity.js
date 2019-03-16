@@ -1,32 +1,25 @@
-import constants from '../../../../consts/constants'
-
 const base = (state, action) => {
-  const {exchangeMembershipOwnerId, exchangeMembershipOwnerType} = action.payload || {}
+  const {exchangeMembershipOwnerId} = action.payload || {}
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const previousMembership = (state.list[exchangeMembershipOwnerId] && state.list[exchangeMembershipOwnerId].exchangeMemberships) || defaultObject2
-  if (exchangeMembershipOwnerType === constants.USER_TYPES.USER) {
-    return {
-      ...state,
-      list: {
-        ...state.list,
-        [exchangeMembershipOwnerId]: {
-          ...state.list[exchangeMembershipOwnerId],
-          exchangeMemberships: {
-            ...previousMembership,
-            isLoading: true,
-            error: null,
-          },
+  return {
+    ...state,
+    list: {
+      ...state.list,
+      [exchangeMembershipOwnerId]: {
+        ...state.list[exchangeMembershipOwnerId],
+        exchangeMemberships: {
+          ...previousMembership,
+          isLoading: true,
+          error: null,
         },
       },
-    }
-  }
-  else {
-    return state
+    },
   }
 }
 
 const success = (state, action) => {
-  const {exchangeMembershipOwnerId, exchangeMembershipOwnerType, data} = action.payload || {}
+  const {exchangeMembershipOwnerId, data} = action.payload || {}
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const previousMembership = (state.list[exchangeMembershipOwnerId] && state.list[exchangeMembershipOwnerId].exchangeMemberships) || defaultObject2
   const arrayOfMembershipId = data.map(exchangeMembership => exchangeMembership.id)
@@ -48,7 +41,7 @@ const success = (state, action) => {
 }
 
 const error = (state, action) => {
-  const {exchangeMembershipOwnerId, exchangeMembershipOwnerType, message} = action.payload || {}
+  const {exchangeMembershipOwnerId, message} = action.payload || {}
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const previousMembership = (state.list[exchangeMembershipOwnerId] && state.list[exchangeMembershipOwnerId].exchangeMemberships) || defaultObject2
   return {

@@ -5,12 +5,12 @@ import urls from "src/consts/URLS"
 import {take, put, fork, call} from "redux-saga/effects"
 
 export function* getProductsByIdentity(action) {
-  const {identityId, productOwnerType, productOwnerId} = action.payload
+  const {identityId, productOwnerId} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.PRODUCT.GET_PRODUCTS_BY_IDENTITY)
   try {
     yield fork(api.get, urls.COMMON.PRODUCT, results.COMMON.PRODUCT.GET_PRODUCTS_BY_IDENTITY, `?product_owner=${identityId}`)
     const data = yield take(socketChannel)
-    yield put({type:types.SUCCESS.COMMON.PRODUCT.GET_PRODUCTS_BY_IDENTITY, payload:{data, identityId, productOwnerType, productOwnerId}})
+    yield put({type:types.SUCCESS.COMMON.PRODUCT.GET_PRODUCTS_BY_IDENTITY, payload:{data, identityId, productOwnerId}})
   } catch (e) {
     const {message} = e
     yield put({

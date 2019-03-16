@@ -76,7 +76,7 @@ class User extends Component <appProps, appState> {
     this.setState({followLoading: true}, () => {
       if (identities[data.id] && identities[data.id].id) {
         const formValues = {follow_follower: currentUser.id, follow_followed: identities[data.id].id}
-        actions.follow({formValues, followOwnerId: currentUser.id, followOwnerType: currentUser.identity_type})
+        actions.follow({formValues, followOwnerId: currentUser.id})
       }
     })
   }

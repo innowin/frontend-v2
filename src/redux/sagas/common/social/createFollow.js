@@ -8,7 +8,7 @@ import uuid from "uuid"
 
 export function* createFollow(action) {
 
-  const {formValues, followOwnerId, followOwnerType} = action.payload
+  const {formValues, followOwnerId} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.SOCIAL.CREATE_FOLLOW)
   const state = yield select()
   const translate = state.intl.messages
@@ -16,7 +16,7 @@ export function* createFollow(action) {
   try {
     yield fork(api.post, urls.COMMON.SOCIAL.FOLLOW, results.COMMON.SOCIAL.CREATE_FOLLOW, formValues)
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.COMMON.SOCIAL.CREATE_FOLLOW, payload: {data, followOwnerId, followOwnerType}})
+    yield put({type: types.SUCCESS.COMMON.SOCIAL.CREATE_FOLLOW, payload: {data, followOwnerId}})
     yield put({
       type: types.TOAST.ADD_TOAST,
       payload: {
@@ -33,8 +33,8 @@ export function* createFollow(action) {
     //TODO: remove this at later when server response changed
 
     // const followOwnerIdentity = formValues.follow_follower
-    // yield put({type: types.COMMON.SOCIAL.GET_FOLLOWERS, payload: {followOwnerIdentity, followOwnerId, followOwnerType}})
-    // yield put({type: types.COMMON.SOCIAL.GET_FOLLOWEES, payload: {followOwnerIdentity, followOwnerId, followOwnerType}})
+    // yield put({type: types.COMMON.SOCIAL.GET_FOLLOWERS, payload: {followOwnerIdentity, followOwnerId}})
+    // yield put({type: types.COMMON.SOCIAL.GET_FOLLOWEES, payload: {followOwnerIdentity, followOwnerId}})
   } catch (error) {
     const {message} = error
     yield put({

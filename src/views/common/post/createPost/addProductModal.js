@@ -21,7 +21,6 @@ class AddProductModal extends Component {
     cancelFunc: PropTypes.func.isRequired,
     submitFunc: PropTypes.func.isRequired,
     getProductsByIdentity: PropTypes.func,
-    productOwnerType: PropTypes.string,
     productOwnerId: PropTypes.number,
     identityId: PropTypes.number,
   }
@@ -37,9 +36,9 @@ class AddProductModal extends Component {
 
   componentDidMount(): void {
     if (this.state.getData) {
-      let {actions, identityId, ownerId, identityType} = this.props
+      let {actions, identityId, ownerId} = this.props
       let {getProductsByIdentity} = actions
-      getProductsByIdentity({identityId, productOwnerId: ownerId, productOwnerType: identityType})
+      getProductsByIdentity({identityId, productOwnerId: ownerId})
     }
   }
 
@@ -51,7 +50,7 @@ class AddProductModal extends Component {
     let {actions, identityId, ownerId, identityType} = this.props
     let {getProductsByIdentity} = actions
     if (identityId && ownerId && identityType)
-      getProductsByIdentity({identityId, productOwnerId: ownerId, productOwnerType: identityType})
+      getProductsByIdentity({identityId, productOwnerId: ownerId})
     else this.setState({...this.state, getData: true})
   }
 

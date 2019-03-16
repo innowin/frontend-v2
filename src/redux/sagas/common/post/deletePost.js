@@ -7,7 +7,7 @@ import constants from "src/consts/constants";
 import uuid from 'uuid'
 
 export function* deletePost(action) {
-  const {postId, postOwnerId, postOwnerType, postParentId, postParentType} = action.payload
+  const {postId, postOwnerId, postParentId, postParentType} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.POST.DELETE_POST)
   const state = yield select()
   const translate = state.intl.messages
@@ -17,7 +17,7 @@ export function* deletePost(action) {
     yield take(socketChannel)
     yield put({
       type: types.SUCCESS.COMMON.POST.DELETE_POST,
-      payload: {postId, postOwnerId, postOwnerType, postParentId, postParentType}
+      payload: {postId, postOwnerId, postParentId, postParentType}
     })
     yield put({
       type: types.TOAST.ADD_TOAST,

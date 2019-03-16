@@ -14,7 +14,7 @@ type CertificateProps = {
   toggleEdit: Function,
 }
 
-export default (props: CertificateProps) => {
+const CertificateView = (props: CertificateProps) => {
   const {translate, certificates, owner, toggleEdit} = props
   return (
       <React.Fragment>
@@ -26,23 +26,30 @@ export default (props: CertificateProps) => {
             + {translate['Add']}
           </div>
         </div>
+
         <div className="content">
-          {certificates.map(certificate =>
-              <CardRowContainer key={'certificate ' + certificate.id} title={translate['Certificate']}
-                                svgImage={<LinkedInIcon/>}>
-                <div className='card-row-content-right card-row-certificate'>
-                  <CheckOwner id={owner.id}>
-                    <EditIcon className='edit-icon pulse'/>
-                  </CheckOwner>
-                  {certificate.title}
-                </div>
-                {certificate.certificate_picture && certificate.certificate_picture.file &&
-                <img src={certificate.certificate_picture.file} className='card-row-content-image'
-                     alt={translate['Certificate']}/>
-                }
-              </CardRowContainer>
+          {certificates.map(certificate => {
+                const certificatePicture = certificate.certificate_picture
+                return (
+                    <CardRowContainer key={'certificate ' + certificate.id} title={translate['Certificate']}
+                                      svgImage={<LinkedInIcon/>}>
+                      <div className='card-row-content-right card-row-certificate'>
+                        <CheckOwner id={owner.id}>
+                          <EditIcon className='edit-icon pulse'/>
+                        </CheckOwner>
+                        {certificate.title}
+                      </div>
+                      {certificatePicture && certificatePicture.file &&
+                      <img src={certificatePicture.file} className='card-row-content-image'
+                           alt={translate['Certificate']}/>
+                      }
+                    </CardRowContainer>
+                )
+              }
           )}
         </div>
       </React.Fragment>
   )
 }
+
+export default CertificateView

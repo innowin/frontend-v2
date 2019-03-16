@@ -51,8 +51,8 @@ class Explore extends PureComponent <appProps, appState> {
   componentDidMount() {
     const {currentUser, actions} = this.props
     actions.getUsers(24, 0, null, null)
-    actions.getFollowees({followOwnerIdentity: currentUser.id, followOwnerType: currentUser.identity_type, followOwnerId: currentUser.id, notProfile: true})
-    actions.getFollowers({followOwnerIdentity: currentUser.id, followOwnerType: currentUser.identity_type, followOwnerId: currentUser.id, notProfile: true})
+    actions.getFollowees({followOwnerIdentity: currentUser.id, followOwnerId: currentUser.id, notProfile: true})
+    actions.getFollowers({followOwnerIdentity: currentUser.id, followOwnerId: currentUser.id, notProfile: true})
     window.addEventListener('scroll', this._onScroll)
   }
 

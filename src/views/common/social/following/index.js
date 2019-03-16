@@ -66,11 +66,11 @@ class Socials extends Component<PropsSocials, StateSocials> {
   }
 
   componentDidMount() {
-    const {user, actions, ownerId, identityType} = this.props
+    const {user, actions, ownerId} = this.props
     const {getFollowees} = actions
 
     if (user) {
-      getFollowees({followOwnerId: ownerId, followOwnerIdentity: user.id, followOwnerType: identityType})
+      getFollowees({followOwnerId: ownerId, followOwnerIdentity: user.id})
     }
   }
 
@@ -111,9 +111,9 @@ class Socials extends Component<PropsSocials, StateSocials> {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const {ownerId, identityType} = ownProps
-  const stateOwner = (identityType === constants.USER_TYPES.USER) ? state.identities.list[ownerId] :
-      state.organs.list[ownerId]
+  const {ownerId} = ownProps
+  const stateOwner = state.identities.list[ownerId]
+
   const defaultObject = {content: [], isLoading: false, error: null}
   const followObject = (stateOwner && stateOwner.social && stateOwner.social.follows) || defaultObject
   return {

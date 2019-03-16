@@ -24,8 +24,7 @@ export const Exchanges = (props: PropsExchangesView) => {
     const {removeMembership} = props
     const exchangeMembershipId = exchange.membership_id
     const exchangeMembershipOwnerId = exchange.membership_owner_id
-    const exchangeMembershipOwnerType = exchange.membership_owner_type
-    removeMembership({exchangeMembershipId, exchangeMembershipOwnerId, exchangeMembershipOwnerType})
+    removeMembership({exchangeMembershipId, exchangeMembershipOwnerId})
   }
 
   return (

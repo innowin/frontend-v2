@@ -80,7 +80,6 @@ class NewFollowers extends Component<props, states> {
       createFollow({
         formValues,
         followOwnerId: identity_user,
-        followOwnerType: constants.USER_TYPES.USER,
         followOwnerIdentity: clientIdentityId
       })
       this.state.followingUsers.push(identity_user)
@@ -93,7 +92,6 @@ class NewFollowers extends Component<props, states> {
       createFollow({
         formValues,
         followOwnerId: identity_organization,
-        followOwnerType: constants.USER_TYPES.ORG,
         followOwnerIdentity: clientIdentityId
       })
       this.state.followingOrgans.push(identity_organization)
@@ -101,16 +99,16 @@ class NewFollowers extends Component<props, states> {
   }
 
   _onAcceptFollow(follower: Object) {
-    const {updateFollow, userId, identityType} = this.props
+    const {updateFollow, userId} = this.props
     const followId = follower.follow_id
     const formValues = {follow_accepted: true}
-    updateFollow({followId, formValues, followOwnerId: userId, followOwnerType: identityType})
+    updateFollow({followId, formValues, followOwnerId: userId})
   }
 
   _onDeleteFollow(follower: Object) {
-    const {deleteFollow, userId, identityType} = this.props
+    const {deleteFollow, userId} = this.props
     const followId = follower.follow_id
-    deleteFollow({followId, followOwnerId: userId, followOwnerType: identityType})
+    deleteFollow({followId, followOwnerId: userId})
   }
 
   getMembers(identity_user, identity_organization, follow_accepted, index) { // TODO:ABEL ADD FOLLOW_ACCEPT STUFF
@@ -363,7 +361,7 @@ const mapStateToProps = (state) => {
   return {
     clientIdentityId: state.auth.client.identity.content,
     exchangeUsers: state.common.exchangeMembership.members,
-    organs: state.organs.list,
+    organs: state.identities.list,
     profiles: state.identities.list,
     files: state.common.file.list,
     clientId: state.auth.client.organization === null ? state.auth.client.user.id : state.auth.client.organization.id,

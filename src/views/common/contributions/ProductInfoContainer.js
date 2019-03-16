@@ -40,9 +40,9 @@ class ProductInfoContainer extends React.Component<PropsProducts> {
   }
 
   componentDidMount() {
-    const {actions, identityType, ownerId} = this.props
+    const {actions, ownerId} = this.props
     const {getProductsByIdentity} = actions
-    getProductsByIdentity({identityId: ownerId, productOwnerId: ownerId, productOwnerType: identityType})
+    getProductsByIdentity({identityId: ownerId, productOwnerId: ownerId})
   }
 
   render() {

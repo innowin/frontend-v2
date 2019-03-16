@@ -4,6 +4,52 @@
   .tabs-card-wrapper {
     .content {
       text-align: justify;
+
+      .edit-text-fields {
+        border-radius: $border-radius-size;
+        border: 1px solid $success-color;
+        resize: none;
+        display: block;
+        width: 100%;
+        font-size: $font-size-regular;
+
+        &.ltr {
+          text-align: left;
+          direction: ltr;
+        }
+      }
+
+      input {
+        padding: 0 10px;
+      }
+
+      textarea {
+        height: 200px;
+        padding: 15px;
+      }
+
+      .buttons-container {
+        display: flex;
+        margin-top: 10px;
+
+        .button {
+          margin-left: 20px;
+          border-radius: 20px;
+          padding: 5px;
+          width: 100px;
+          font-size: $font-size-regular;
+          text-align: center;
+        }
+
+        .submit-button {
+          background: $success-color;
+          color: white;
+        }
+
+        .cancel-button {
+          background: $fields-bg-color;
+        }
+      }
     }
   }
 }

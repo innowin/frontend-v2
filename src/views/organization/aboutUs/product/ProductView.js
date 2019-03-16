@@ -10,18 +10,18 @@ type ProductProps = {
   owner: identityType,
   translate: TranslatorType,
   products: [productType],
-  toggleEdit: Function,
+  showModal: Function,
 }
 
-export default (props: ProductProps) => {
-  const {translate, products, toggleEdit} = props
+const ProductView = (props: ProductProps) => {
+  const {translate, products, showModal} = props
   return (
       <React.Fragment>
         <div className="card-header">
           <div className="header-title">
             {translate['Product']}
           </div>
-          <div className='add-button pulse' onClick={toggleEdit}>
+          <div className='add-button pulse' onClick={showModal}>
             + {translate['Add']}
           </div>
         </div>
@@ -38,3 +38,5 @@ export default (props: ProductProps) => {
       </React.Fragment>
   )
 }
+
+export default ProductView

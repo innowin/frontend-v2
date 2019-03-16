@@ -4,7 +4,7 @@ import helpers from 'src/consts/helperFunctions/helperFunctions'
 const getAbilities = state => state.ability.list
 const getOrganizationAbilities = (state, props) => {
   const {organizationId} = props
-  const organizationsList = state.organs.list
+  const organizationsList = state.identities.list
   if (organizationsList[organizationId] && organizationsList[organizationId].abilities)
     return organizationsList[organizationId].abilities.content
   else return undefined

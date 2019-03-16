@@ -21,11 +21,6 @@ export const BorderedPaddedWrapper = (props: BorderedPaddedWrapperProps) => {
   )
 }
 
-// type OwnerType = {
-//   ownerName: string,
-//   ownerImg: string
-// }
-
 
 export class Owner extends React.Component {
   constructor(props) {
