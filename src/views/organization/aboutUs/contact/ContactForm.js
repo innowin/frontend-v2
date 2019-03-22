@@ -2,8 +2,9 @@
 import * as React from "react";
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
-import {CloseIconSvg} from '../../../../images/icons'
+import {CloseIconSvg} from 'src/images/icons'
 import ConfirmFormButton from '../ConfirmFormButtons'
+import Validations from 'src/helpers/validations/validations'
 
 type ContactProps = {
   organization: identityType,
@@ -12,10 +13,58 @@ type ContactProps = {
   updateOrganization: Function,
 }
 
-const ContactForm = (props: ContactProps) => {
+type ContactStates = {
+  email: string,
+  web_site: string,
+  phone: string,
+  errors: {
+    email: boolean,
+    web_site: boolean,
+    phone: boolean,
+  }
+}
 
-  const _onSubmit = (e) => {
-    const {toggleEdit, updateOrganization, organization} = props
+class ContactForm extends React.Component <ContactProps, ContactStates> {
+
+  state = {
+    email: '',
+    web_site: '',
+    phone: '',
+    errors: {
+      email: false,
+      web_site: false,
+      phone: false,
+    }
+  }
+
+  _onChangeFields = (event: SyntheticEvent<HTMLInputElement>) => {
+    const {translate} = this.props
+    const target = event.target
+    const value = target.type === 'checkbox' ? target.checked : target.value
+    const name = target.name
+    let error = false
+    if (name === 'phone') {
+      error = Validations.validatePhone({value, translate})
+    } else if (name === 'web_site') {
+      error = Validations.validateWebSite({value, translate})
+    } else if (name === 'email') {
+      error = Validations.validateEmail({value, translate})
+    }
+
+    this.setState({
+      ...this.state,
+      [name]: value,
+      errors: {
+        ...this.state.errors,
+        [name]: error
+      }
+    })
+  }
+
+  _onSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
+    const {toggleEdit, updateOrganization, organization} = this.props
+    const {errors} = this.state
+    const {web_site, phone, email} = errors
     e.preventDefault()
     e.stopPropagation()
 
@@ -28,44 +77,56 @@ const ContactForm = (props: ContactProps) => {
       web_site: form.web_site.value,
     }
 
-    updateOrganization({formValues, organizationId: organization.id})
-    toggleEdit()
+    if (web_site === false && email === false && phone === false) {
+      updateOrganization({formValues, organizationId: organization.id})
+      toggleEdit()
+    }
   }
 
-  const {organization, translate, toggleEdit} = props
-  return (
-      <React.Fragment>
-        <div className="card-header">
-          <div className="header-title">
-            {translate['Call']}
+  render() {
+    const {organization, translate, toggleEdit} = this.props
+    const {errors} = this.state
+    const {phone, web_site, email} = errors
+    return (
+        <React.Fragment>
+          <div className="card-header">
+            <div className="header-title">
+              {translate['Call']}
+            </div>
+            <div className='editing'>
+              {translate['Editing']}
+              <CloseIconSvg className='close-button pulse' onClick={toggleEdit}/>
+            </div>
           </div>
-          <div className='editing'>
-            {translate['Editing']}
-            <CloseIconSvg className='close-button pulse' onClick={toggleEdit}/>
-          </div>
-        </div>
 
-        <form className='content' onSubmit={_onSubmit} method='POST'>
-          <div className='detail-row'>
-            <p className='title'>{translate['Address']}</p>
-            <input name='address' defaultValue={organization.address} className='edit-text-fields'/>
-          </div>
-          <div className='detail-row'>
-            <p className='title'>{translate['Phone']}</p>
-            <input name='phone' defaultValue={organization.phone} className='edit-text-fields'/>
-          </div>
-          <div className='detail-row'>
-            <p className='title'>{translate['Web site']}</p>
-            <input name='web_site' defaultValue={organization.web_site} className='edit-text-fields ltr'/>
-          </div>
-          <div className='detail-row'>
-            <p className='title'>{translate['Email']}</p>
-            <input name='email' defaultValue={organization.email} className='edit-text-fields ltr'/>
-          </div>
-          <ConfirmFormButton translate={translate} toggleEdit={toggleEdit}/>
-        </form>
-      </React.Fragment>
-  )
+          <form className='content' onSubmit={this._onSubmit} method='POST'>
+            <div className='detail-row'>
+              <p className='title'>{translate['Address']}</p>
+              <input name='address' defaultValue={organization.address} className='edit-text-fields'/>
+            </div>
+            <div className='detail-row'>
+              <p className='title'>{translate['Phone']}</p>
+              <input name='phone' onChange={this._onChangeFields} defaultValue={organization.phone}
+                     className='edit-text-fields ltr'/>
+            </div>
+            {phone && <div className='text-field-error'>{phone}</div>}
+            <div className='detail-row'>
+              <p className='title'>{translate['Web site']}</p>
+              <input name='web_site' onChange={this._onChangeFields} defaultValue={organization.web_site}
+                     className='edit-text-fields ltr'/>
+            </div>
+            {web_site && <div className='text-field-error'>{web_site}</div>}
+            <div className='detail-row'>
+              <p className='title'>{translate['Email']}</p>
+              <input name='email' onChange={this._onChangeFields} defaultValue={organization.email}
+                     className='edit-text-fields ltr'/>
+            </div>
+            {email && <div className='text-field-error'>{email}</div>}
+            <ConfirmFormButton translate={translate} toggleEdit={toggleEdit}/>
+          </form>
+        </React.Fragment>
+    )
+  }
 }
 
 export default ContactForm

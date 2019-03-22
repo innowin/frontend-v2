@@ -28,6 +28,11 @@
           max-width: 70%;
         }
       }
+      .text-field-error {
+        color: $danger-color;
+        font-size: $font-size-regular;
+        padding: 0 10px 10px 0;
+      }
     }
   }
 }

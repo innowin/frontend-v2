@@ -8,7 +8,7 @@ const getOwnerId = (state, props) => {
 const getCertificates = state => state.common.certificate.list
 const getUserCertificates = (state, props) => {
   const {ownerId} = props
-  return state.identities.list[ownerId].certificates
+  return state.identities.list[ownerId] && state.identities.list[ownerId].certificates
       ? state.identities.list[ownerId].certificates.content
       : []
 }

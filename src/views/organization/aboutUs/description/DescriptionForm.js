@@ -4,6 +4,7 @@ import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import {CloseIconSvg} from 'src/images/icons'
 import ConfirmFormButton from '../ConfirmFormButtons'
+import Validations from '../../../../helpers/validations/validations'
 
 type Props = {
   organization: identityType,
@@ -12,10 +13,46 @@ type Props = {
   updateOrganization: Function,
 }
 
-const DescriptionForm = (props: Props) => {
+type States = {
+  errors: {
+    biography: boolean,
+  },
+  biography: string,
+}
 
-  const _onSubmit = (e) => {
-    const {toggleEdit, updateOrganization, organization} = props
+class DescriptionForm extends React.Component <Props, States> {
+
+  state = {
+    errors: {
+      biography: false,
+    },
+    biography: '',
+  }
+
+  _onChangeFields = (event: SyntheticEvent<HTMLInputElement>) => {
+    const {translate} = this.props
+    const target = event.target
+    const value = target.type === 'checkbox' ? target.checked : target.value
+    const name = target.name
+    let error = false
+    if (name === 'biography') {
+      error = Validations.validateBiography({value, translate})
+    }
+
+    this.setState({
+      ...this.state,
+      [name]: value,
+      errors: {
+        ...this.state.errors,
+        [name]: error
+      }
+    })
+  }
+
+  _onSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
+    const {toggleEdit, updateOrganization, organization} = this.props
+    const {errors} = this.state
+    const {biography} = errors
     e.preventDefault()
     e.stopPropagation()
 
@@ -25,28 +62,38 @@ const DescriptionForm = (props: Props) => {
       biography: form.biography.value
     }
 
-    updateOrganization({formValues, organizationId: organization.id})
-    toggleEdit()
+    if (biography === false) {
+      updateOrganization({formValues, organizationId: organization.id})
+      toggleEdit()
+    }
   }
-  const {organization, translate, toggleEdit} = props
-  return (
-      <React.Fragment>
-        <div className="card-header">
-          <div className="header-title">
-            {translate['Organization biography']}
-          </div>
-          <div className='editing'>
-            {translate['Editing']}
-            <CloseIconSvg className='close-button pulse' onClick={toggleEdit}/>
-          </div>
-        </div>
 
-        <form className='content' onSubmit={_onSubmit} method='POST'>
-          <textarea className='edit-text-fields' defaultValue={organization.biography} name='biography'/>
-          <ConfirmFormButton translate={translate} toggleEdit={toggleEdit}/>
-        </form>
-      </React.Fragment>
-  )
+  render() {
+    const {organization, translate, toggleEdit} = this.props
+    const {errors} = this.state
+    const {biography} = errors
+
+    return (
+        <React.Fragment>
+          <div className="card-header">
+            <div className="header-title">
+              {translate['Organization biography']}
+            </div>
+            <div className='editing'>
+              {translate['Editing']}
+              <CloseIconSvg className='close-button pulse' onClick={toggleEdit}/>
+            </div>
+          </div>
+
+          <form className='content' onSubmit={this._onSubmit} method='POST'>
+            <textarea onChange={this._onChangeFields} className='edit-text-fields' defaultValue={organization.biography}
+                      name='biography'/>
+            {biography && <div className='text-field-error'>{biography}</div>}
+            <ConfirmFormButton translate={translate} toggleEdit={toggleEdit}/>
+          </form>
+        </React.Fragment>
+    )
+  }
 }
 
 export default DescriptionForm
