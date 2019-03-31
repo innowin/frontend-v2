@@ -11,7 +11,8 @@ type Props = {
   owner: identityType,
   translate: TranslatorType,
   getCertificatesByIdentity: Function,
-  certificates: [certificateType]
+  certificates: [certificateType],
+  createCertificate: Function,
 }
 
 type States = {
@@ -37,14 +38,15 @@ class Certificate extends React.Component<Props, States> {
   }
 
   render() {
-    const {owner, translate, certificates} = this.props
+    const {owner, translate, certificates, createCertificate} = this.props
     const {isEdit} = this.state
 
     return (
         <CardContainer>
           {
             !!isEdit
-                ? <CertificateForm/>
+                ? <CertificateForm createCertificate={createCertificate} toggleEdit={this._toggleEdit}
+                                   translate={translate} owner={owner}/>
                 : <CertificateView certificates={certificates} owner={owner} translate={translate}
                                    toggleEdit={this._toggleEdit}/>
           }

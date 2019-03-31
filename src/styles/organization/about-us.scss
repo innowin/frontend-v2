@@ -1,33 +1,47 @@
 @import "../variables";
 
+.required-star {
+  color: $success-color;
+}
+
+.edit-text-fields {
+  border-radius: $border-radius-size;
+  border: 1px solid $success-color;
+  resize: none;
+  display: block;
+  width: 100%;
+  font-size: $font-size-regular;
+
+  &.ltr {
+    text-align: left;
+    direction: ltr;
+  }
+}
+
+.text-field-error {
+  color: $danger-color;
+  font-size: $font-size-regular;
+  padding: 0 10px 10px 0;
+}
+
+input {
+  &.edit-text-fields {
+    padding: 0 10px;
+  }
+}
+
+textarea {
+  &.edit-text-fields {
+    height: 200px;
+    padding: 15px;
+    margin-bottom: 10px;
+  }
+}
+
 .about-us {
   .tabs-card-wrapper {
     .content {
       text-align: justify;
-
-      .edit-text-fields {
-        border-radius: $border-radius-size;
-        border: 1px solid $success-color;
-        resize: none;
-        display: block;
-        width: 100%;
-        font-size: $font-size-regular;
-
-        &.ltr {
-          text-align: left;
-          direction: ltr;
-        }
-      }
-
-      input {
-        padding: 0 10px;
-      }
-
-      textarea {
-        height: 200px;
-        padding: 15px;
-        margin-bottom: 10px;
-      }
 
       .buttons-container {
         display: flex;

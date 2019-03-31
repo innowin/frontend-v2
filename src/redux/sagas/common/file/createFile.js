@@ -5,10 +5,15 @@ import types from 'src/redux/actions/types'
 
 
 function* createFile(action) { // payload?
-  const {nextActionData, nextActionType, fileIdKey, toWhatLayer, fileType, file} = action.payload
+  const {nextActionData, nextActionType, fileIdKey, toWhatLayer, fileType, file, fileCategory, fileParent} = action.payload
   const {formFile, fileId} = file
   let channel
-  const sendFile = {file: formFile, type: fileType}
+  const sendFile = {
+    file: formFile,
+    type: fileType ? fileType : '',
+    file_category: fileCategory ? fileCategory : '',
+    file_related_parent: fileParent ? fileParent : ''
+  }
 
   try {
     channel = yield call(api.uploadFileChannel, urls.COMMON.FILE, sendFile)
@@ -37,7 +42,10 @@ function* createFile(action) { // payload?
         })
       } else if (data.response) {
         const createdFile = data.response.data
-        yield put({type: types.COMMON.FILE.SET_FILE_PROGRESS_DETAIL, payload: {fileId, progressDetail: {close: null}}})
+        yield put({
+          type: types.COMMON.FILE.SET_FILE_PROGRESS_DETAIL,
+          payload: {fileId, progressDetail: {uploadedFileId: createdFile.id, close: null}}
+        })
         let payload = nextActionData ? {
           ...nextActionData,
           [fileIdKey]: createdFile.id

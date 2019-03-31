@@ -341,6 +341,14 @@ module.exports = {
   "Official name is wrong": "نام رسمی شرکت اشتباه است",
   "Nike name is wrong": "نام مستعار شرکت اشتباه است",
 
+  'Add certificate': 'افزودن گواهینامه',
+  'Certificate title': 'عنوان گواهینامه',
+  'Certificate title tip': 'مثال: گواهینامه ایزو، گواهی دانش بنیان، گواهی ثبت اختراع',
+  'Exporter': 'صادرکننده',
+  'Exporter tip': 'مثال: ستاد دانش بنیان معاونت علمی و فناوری، مجتمع فنی تهران، سازمان ملی استاندارد',
+  'Attached file': 'فایل ضمیمه',
+  'Attached file tip': 'تصویری از گواهینامه دریافت شده',
+
   // Organization - customers
   "Registered By": "ثبت شده توسط شرکت ",
   "Customers": "مشتریان",

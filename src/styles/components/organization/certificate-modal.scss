@@ -1,0 +1,31 @@
+@import "../../variables";
+
+.certificate-modal {
+  .our-modal-body {
+    margin-top: 20px;
+    max-height: 70vh;
+    padding-left: 10px;
+    overflow-y: auto;
+
+    .detail-row {
+      margin-bottom: 20px;
+      .title {
+        font-size: $font-size-regular;
+      }
+      .edit-text-fields {
+        padding: 10px;
+        transition: $animation-timing ease;
+        border-color: $scroll-color;
+
+        &:focus {
+          border-color: $success-color;
+        }
+      }
+      .modal-tip {
+        color: $text-light-color;
+        font-size: $font-size-regular;
+        padding: 10px;
+      }
+    }
+  }
+}

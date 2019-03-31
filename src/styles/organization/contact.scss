@@ -6,7 +6,6 @@
       .detail-row {
         display: flex;
         margin-bottom: 8px;
-
         .title {
           background: $fields-bg-color;
           flex: 1 1 30%;
@@ -27,11 +26,6 @@
           flex: 1 1 70%;
           max-width: 70%;
         }
-      }
-      .text-field-error {
-        color: $danger-color;
-        font-size: $font-size-regular;
-        padding: 0 10px 10px 0;
       }
     }
   }

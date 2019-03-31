@@ -27,13 +27,13 @@ type OrganAboutUsProps = {
 
 const OrganAboutUs = (props: OrganAboutUsProps) => {
   const {translate, organization, actions, products, certificates} = props
-  const {getCertificatesByIdentity, showModal, updateOrganization} = actions
+  const {getCertificatesByIdentity, showModal, updateOrganization, createCertificate} = actions
   return (
       <div className="about-us">
         <Description updateOrganization={updateOrganization} translate={translate} organization={organization}/>
         <Product showModal={showModal} products={products} translate={translate} owner={organization}/>
         <Certificate translate={translate} owner={organization} certificates={certificates}
-                     getCertificatesByIdentity={getCertificatesByIdentity}/>
+                     getCertificatesByIdentity={getCertificatesByIdentity} createCertificate={createCertificate}/>
         <Contact updateOrganization={updateOrganization} translate={translate} organization={organization}/>
       </div>
   )
@@ -52,6 +52,7 @@ const mapDispatchToProps = dispatch => ({
     getCertificatesByIdentity: CertificateActions.getCertificatesByIdentity,
     showModal: ModalActions.showModal,
     updateOrganization: OrganizationActions.updateOrganization,
+    createCertificate: CertificateActions.createCertificate,
   }, dispatch),
 });
 

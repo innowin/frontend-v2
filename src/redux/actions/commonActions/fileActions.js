@@ -7,6 +7,7 @@ export const getFile = (fileId) => ({
   }
 })
 
+// const {fileType, fileCategory, file, fileParent} = data
 export const createFile = (data) => ({
   type: types.COMMON.FILE.CREATE_FILE,
   payload: {

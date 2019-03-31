@@ -116,12 +116,15 @@ export default {
       VIDEO: 'video',
       FILE: 'file',
     },
-    EXCHANGE:{
+    EXCHANGE: {
       IMAGE: 'exchange-image'
     },
-    PRODUCT:{
+    PRODUCT: {
       IMAGE: 'product-image'
-    }
+    },
+    CERTIFICATE: {
+      PICTURE: 'certificate-picture',
+    },
   },
   TEMP_FILE_KEYS: {
     CATALOG: 'organCatalog',

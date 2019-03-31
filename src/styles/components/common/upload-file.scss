@@ -1,0 +1,66 @@
+@import "../../variables";
+
+.upload-file-container {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  padding: 26px;
+  border-radius: 50px;
+  border: 1px solid $success-color;
+  background: $register-part-icon-color;
+  cursor: pointer;
+
+  .upload-resume {
+    width: 100%;
+    height: 100%;
+
+    path {
+      fill: $success-color;
+    }
+  }
+
+  input {
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+}
+
+.upload-file-image-container {
+  width: 100%;
+  position: relative;
+
+  .upload-file-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    filter: blur(5px);
+    opacity: 0;
+    transition: all 1.5s linear;
+  }
+  .remove-file {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: $eee-color;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    padding: 0 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .progress-number {
+    position: absolute;
+    top: 55px;
+    left: 26px;
+    color: black;
+    margin: 0;
+    font-size: $font-size-small;
+  }
+}
