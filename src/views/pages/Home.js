@@ -44,6 +44,10 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
     }
   }
 
+  _unSetExchangeId = () => {
+    this.setState({...this.state, activeExchangeId: undefined})
+  }
+
   render() {
     const {identityId, identityType} = this.props
     const {activeExchangeId} = this.state
@@ -83,7 +87,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
                     />
                 ) : null
               }
-              <HomePosts exchangeId={activeExchangeId} className={activeExchangeId ? 'post-wrapper active-exchange' : 'post-wrapper'}/>
+              <HomePosts unSetExchangeId={this._unSetExchangeId} exchangeId={activeExchangeId} className={activeExchangeId ? 'post-wrapper active-exchange' : 'post-wrapper'}/>
               <div className={activeExchangeId ? 'user-detail-wrapper active-exchange' : 'user-detail-wrapper'}>
                 <BeePanel/>
                 <EventCard/>

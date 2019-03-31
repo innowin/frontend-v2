@@ -132,7 +132,7 @@ const mapStateToProps = (state) => {
   const client = state.auth.client
   const isUser = client.organization === null
   const identityType = isUser ? constants.USER_TYPES.USER : constants.USER_TYPES.ORG
-  const ownerId = isUser ? client.user.id : client.organization.id
+  const ownerId = client.identity.content
   const identityId = client.identity.content
   const inputProp = {ownerId, identityType}
 

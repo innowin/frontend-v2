@@ -2,9 +2,6 @@
 
 @media screen and (max-width: 480px) and (min-width: 320px) {
   .home-wrapper {
-    .-main {
-      top: $smallTopBarHeight;
-    }
     .home-page-content {
       flex-wrap: wrap;
       padding: 0;
@@ -44,7 +41,7 @@
         }
       }
       .post-wrapper {
-        margin-top: 25px;
+        margin-top: 8px;
         flex: 1 1 100%;
         max-width: 100%;
         order: 3;
@@ -92,5 +89,11 @@
         height: 20px;
       }
     }
+  }
+}
+
+.global-wrapper {
+  .page-content {
+    min-height: calc(100% - 50px);
   }
 }

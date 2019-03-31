@@ -1,3 +1,69 @@
-.-left-sidebar-wrapper {
-  display: none;
+@import "../../variables";
+
+@media screen and (max-width: 480px) and (min-width: 320px) {
+  .-main {
+    position: absolute;
+    top: $smallTopBarHeight;
+
+    &.page-content {
+      display: block;
+    }
+
+    &.has-two-header {
+      //top: 2 * $smallTopBarHeight;
+    }
+  }
+
+  .top-bar-entity {
+    position: fixed;
+    z-index: 2;
+    top: $smallTopBarHeight;
+    height: $smallTopBarHeight;
+    width: 100%;
+    left: 0;
+    background: $primary-color-light3;
+    display: flex;
+    align-items: center;
+    transition: $animation-timing ease;
+
+    &.show {
+      opacity: 1;
+      height: $smallTopBarHeight;
+    }
+    &.hide {
+      opacity: 0;
+      height: 0;
+    }
+
+    .back-button {
+      width: $smallTopBarHeight * 0.5;
+      height: $smallTopBarHeight * 0.5;
+      margin: 0 10px;
+      fill: white;
+    }
+
+    .profile-top-bar {
+      width: $smallTopBarHeight * 0.8;
+      height: $smallTopBarHeight * 0.8;
+      border-radius: 30px;
+      background-color: white;
+      //border: 1.5px solid gray;
+      margin-left: 10px;
+    }
+
+    .default-profile-organ {
+      padding: 7px !important;
+      fill: $primary-color !important;
+    }
+
+    .organ-name {
+      font-size: $font-size-regular;
+      color: white;
+      margin: 0;
+    }
+  }
+
+  .center-column {
+    padding: 0;
+  }
 }

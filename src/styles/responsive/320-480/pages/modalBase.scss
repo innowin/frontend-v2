@@ -1,0 +1,16 @@
+@import "../../../variables";
+
+@media screen and (max-width: 480px) and (min-width: 320px) {
+  .modal-wrapper {
+
+    .modal-content-wrapper {
+      position: fixed;
+      width: 95%;
+
+      .close-button {
+        top: 15px;
+        left: 15px;
+      }
+    }
+  }
+}

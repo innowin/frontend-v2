@@ -8,8 +8,9 @@ import {connect} from "react-redux"
 import {FrameCard, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames"
 import {Post} from "src/views/common/post/Post"
 import {PureComponent} from "react"
-import {RightArrow, DesertIcon, EditIcon} from "src/images/icons"
-import {exchangePostsSelector} from "../../../redux/selectors/home/homePosts"
+import {RightArrow, DesertIcon, EditIcon, ChannelIcon} from "src/images/icons"
+import {exchangePostsSelector} from "src/redux/selectors/home/homePosts"
+import RightArrowSvg from 'src/images/common/right_arrow_svg'
 
 
 class HomePosts extends PureComponent {
@@ -17,6 +18,7 @@ class HomePosts extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     exchangeId: PropTypes.number,
+    unSetExchangeId: PropTypes.func,
   }
 
   constructor(props) {
@@ -128,61 +130,78 @@ class HomePosts extends PureComponent {
       className,
       exchangeId,
       posts,
+      selectedExchange,
+      unSetExchangeId,
       // isLoading
     } = this.props
     const {deletePost, updatePost} = actions
     return (
         <VerifyWrapper isLoading={false} error={error} className={className}>
-          {(exchangeId) ? (
-              (showCreatePostSmall
-                      ? <CreatePostNew
+          {(exchangeId) ?
+              <React.Fragment>
+                {showCreatePostSmall
+                    ? <CreatePostNew
+                        postParentId={exchangeId}
+                        postParentType={constant.POST_PARENT.EXCHANGE}
+                        postsCountInThisPage={posts.length}
+                        className='create-post-small'
+                        hideCreatePost={this._hideCreatePostSmall}
+                    />
+                    : <div>
+                      <CreatePostNew
                           postParentId={exchangeId}
                           postParentType={constant.POST_PARENT.EXCHANGE}
                           postsCountInThisPage={posts.length}
-                          className='create-post-small'
-                          hideCreatePost={this._hideCreatePostSmall}
                       />
-                      : <div>
-                        <CreatePostNew
-                            postParentId={exchangeId}
-                            postParentType={constant.POST_PARENT.EXCHANGE}
-                            postsCountInThisPage={posts.length}
-                        />
 
-                        <FrameCard className="-frameCardPost border-top-0">
-                          <ListGroup>
-                            {
-                              (posts.length > 0) ? (posts.map((post) => (post &&
-                                      <Post
-                                          posts={posts}
-                                          post={post}
-                                          key={post.id}
-                                          deletePost={deletePost}
-                                          updatePost={updatePost}
-                                      />
-                                  ))) :
-                                  <div className="empty-posts">
-                                    <DesertIcon width="100%" text="پستی بارگذاری نشده"/>
-                                  </div>
-                            }
-                            {
-                              // TODO mohsen: handle loading scroll and scrolling error
-                            }
-                          </ListGroup>
-                        </FrameCard>
-                        {/*button for scroll to top*/}
-                        <div className={this.state.scrollButton ? "go-up-logo-cont" : "go-up-logo-cont-hide"}
-                             onClick={this.goUp}>
-                          <RightArrow className='go-up-logo'/>
-                        </div>
-
-                        <div className={this.state.scrollButton ? "write-post-hide" : "write-post"}
-                             onClick={this._showCreatePostSmall}>
-                          <EditIcon className='write-post-logo'/>
-                        </div>
+                      <div className='top-bar-entity show'>
+                        <RightArrowSvg onClick={unSetExchangeId} className='back-button'/>
+                        {selectedExchange.exchange_image
+                            ?
+                            <img src={selectedExchange.exchange_image.file} className='profile-top-bar' alt='profile'/>
+                            : <ChannelIcon className='profile-top-bar default-profile-organ'/>
+                        }
+                        <span className='organ-name'>
+                          {selectedExchange.name}
+                        </span>
                       </div>
-              )
-          ) : ("")}
+
+                      <FrameCard className="-frameCardPost border-top-0">
+                        <ListGroup>
+                          {
+                            (posts.length > 0) ? (posts.map((post) => (post &&
+                                    <Post
+                                        posts={posts}
+                                        post={post}
+                                        key={post.id}
+                                        deletePost={deletePost}
+                                        updatePost={updatePost}
+                                    />
+                                ))) :
+                                <div className="empty-posts">
+                                  <DesertIcon width="100%" text="پستی بارگذاری نشده"/>
+                                </div>
+                          }
+                          {
+                            // TODO mohsen: handle loading scroll and scrolling error
+                          }
+                        </ListGroup>
+                      </FrameCard>
+                      {/*button for scroll to top*/}
+                      <div className={this.state.scrollButton ? "go-up-logo-cont" : "go-up-logo-cont-hide"}
+                           onClick={this.goUp}>
+                        <RightArrow className='go-up-logo'/>
+                      </div>
+
+                      <div className={this.state.scrollButton ? "write-post-hide" : "write-post"}
+                           onClick={this._showCreatePostSmall}>
+                        <EditIcon className='write-post-logo'/>
+                      </div>
+                    </div>
+                }
+              </React.Fragment>
+              : ("")
+          }
         </VerifyWrapper>
     )
   }
@@ -196,6 +215,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     posts: exchangePostsSelector(state, ownProps),
     isLoading,
+    selectedExchange: allExchange[exchangeId],
   }
 }
 const mapDispatchToProps = dispatch => ({

@@ -1,11 +1,8 @@
 // @flow
-import React from 'react'
-import {Component} from 'react'
+import * as React from 'react'
 
 import BadgeActions from 'src/redux/actions/commonActions/badgeActions'
-import Certificates from './common/certificates/index'
 import ChatBar from './bars/ChatBar'
-import Customers from './organization/customers/index'
 import Posts from 'src/views/common/post/index'
 import PostExtendedView from 'src/views/common/post/PostView'
 import PrivateRoute from '../consts/PrivateRoute'
@@ -17,17 +14,18 @@ import type {badgeType} from 'src/consts/flowTypes/common/badges'
 import type {identityStateObject, listOfIdObject, organStateObject} from 'src/consts/flowTypes/stateObjectType'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import OrganizationBasicInformation from './organization/basicInformation/index'
 import {NavLink, Switch, Redirect} from 'react-router-dom'
 import constants from '../consts/constants'
 import ParamActions from 'src/redux/actions/paramActions'
-import Contributions from './common/contributions'
 import Material from 'src/views/common/components/Material'
 import {getMessages} from '../redux/selectors/translateSelector'
 import SideBarContent from './bars/SideBar'
 import GetUserActions from '../redux/actions/user/getUserActions'
 import UserSkeleton from './user/skeleton/UserSkeleton'
 import OrganAboutUs from 'src/views/organization/aboutUs'
+import RightArrowSvg from '../images/common/right_arrow_svg'
+import type {fileType} from '../consts/flowTypes/common/fileType'
+import DefaultOrganIcon from '../images/defaults/defaultOrganization_svg'
 
 type PropsOrganization = {
   userObject: organStateObject,
@@ -45,15 +43,25 @@ type PropsOrganization = {
   },
   identityObject: identityStateObject,
   translate: { [string]: string | {} },
+  profileBanner: fileType,
+  profileMedia: fileType,
 }
 
-export class Organization extends Component<PropsOrganization> {
+type StatesOrganization = {
+  showSecondHeader: boolean,
+}
+
+export class Organization extends React.Component<PropsOrganization, StatesOrganization> {
   static propTypes = {
     userObject: PropTypes.object.isRequired,
     badgesObject: PropTypes.object.isRequired,
     badges: PropTypes.array.isRequired,
     match: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
+  }
+
+  state = {
+    showSecondHeader: false,
   }
 
   firstGetBadges: boolean
@@ -63,7 +71,7 @@ export class Organization extends Component<PropsOrganization> {
     this.firstGetBadges = true
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: PropsOrganization) {
     const {params} = this.props.match
     const userId: number = +params.id
     const {userObject, actions} = this.props
@@ -84,6 +92,7 @@ export class Organization extends Component<PropsOrganization> {
   }
 
   componentDidMount() {
+    window.addEventListener("scroll", this._onScroll)
     const {params} = this.props.match
     const {getUserByUserId, setParamUserId} = this.props.actions
     const userId: number = +params.id
@@ -92,12 +101,24 @@ export class Organization extends Component<PropsOrganization> {
   }
 
   componentWillUnmount() {
+    window.removeEventListener("scroll", this._onScroll)
     const {removeParamUserId} = this.props.actions
     removeParamUserId()
   }
 
+  _onScroll = () => {
+    if (window.innerWidth <= 480) {
+      if (window.scrollY > 350)
+        this.setState({...this.state, showSecondHeader: true})
+      else
+        this.setState({...this.state, showSecondHeader: false})
+    }
+  }
+
+
   render() {
-    const {match, userObject, badgesObject, badges, translate} = this.props
+    const {showSecondHeader} = this.state
+    const {match, userObject, badgesObject, badges, translate, profileMedia} = this.props
     const {path, url, params} = match
     const userId: number = +params.id
     const isLoading = userObject.isLoading || badgesObject.isLoading
@@ -108,100 +129,122 @@ export class Organization extends Component<PropsOrganization> {
           {isLoading
               ? <UserSkeleton/>
               :
-              <div className='-main page-content'>
-                <SideBarContent
-                    sideBarType={constants.USER_TYPES.ORG}
-                    className='col-md-3 col-sm-1 -right-sidebar-wrapper col pr-0 pl-0'
-                    badges={badges}
-                    paramId={userId}
-                    owner={userObject}
-                />
+              <React.Fragment>
+                <div className={showSecondHeader ? 'top-bar-entity show' : 'top-bar-entity hide'}>
+                  <RightArrowSvg className='back-button'/>
+                  {!profileMedia
+                      ? <img src={profileMedia.file} className='profile-top-bar' alt='profile'/>
+                      : <DefaultOrganIcon className='profile-top-bar default-profile-organ'/>
+                  }
+                  <span className='organ-name'>
+                  {userObject.nike_name || userObject.official_name || userObject.username}
+                  </span>
+                </div>
+                <div className={showSecondHeader ? '-main page-content has-two-header' : '-main page-content'}>
+                  <SideBarContent
+                      sideBarType={constants.USER_TYPES.ORG}
+                      className='col-md-3 col-sm-1 -right-sidebar-wrapper col pr-0 pl-0'
+                      badges={badges}
+                      paramId={userId}
+                      owner={userObject}
+                  />
 
-                <div className="col-md-6 col-sm-10 center-column">
+                  <div className="col-md-6 col-sm-10 center-column">
 
-                  <div className='header-container'>
+                    <div className='header-container'>
 
-                    <NavLink to={`${url}/Posts`} className='header-container-item' activeClassName='header-container-item-active'>
-                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Stream']}/>
-                    </NavLink>
+                      <NavLink to={`${url}/Posts`} className='header-container-item'
+                               activeClassName='header-container-item-active'>
+                        <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
+                                  content={translate['Stream']}/>
+                      </NavLink>
 
-                    {/*<NavLink to={`${url}/contributions`} className='header-container-item' activeClassName='header-container-item-active'>*/}
+                      {/*<NavLink to={`${url}/contributions`} className='header-container-item' activeClassName='header-container-item-active'>*/}
                       {/*<Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material-first' content={translate['Contributions']}/>*/}
-                    {/*</NavLink>*/}
+                      {/*</NavLink>*/}
 
-                    <NavLink to={`${url}/basicInformation`} className='header-container-item' activeClassName='header-container-item-active'>
-                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['About Us']}/>
-                    </NavLink>
+                      <NavLink to={`${url}/basicInformation`} className='header-container-item'
+                               activeClassName='header-container-item-active'>
+                        <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
+                                  content={translate['About Us']}/>
+                      </NavLink>
 
-                    <NavLink to={`${url}/Followers`} className='header-container-item' activeClassName='header-container-item-active'>
-                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Followers']}/>
-                    </NavLink>
+                      <NavLink to={`${url}/Followers`} className='header-container-item'
+                               activeClassName='header-container-item-active'>
+                        <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
+                                  content={translate['Followers']}/>
+                      </NavLink>
 
-                    <NavLink to={`${url}/Followings`} className='header-container-item' activeClassName='header-container-item-active'>
-                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Followings']}/>
-                    </NavLink>
+                      <NavLink to={`${url}/Followings`} className='header-container-item'
+                               activeClassName='header-container-item-active'>
+                        <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
+                                  content={translate['Followings']}/>
+                      </NavLink>
 
-                    <NavLink to={`${url}/Exchanges`} className='header-container-item' activeClassName='header-container-item-active'>
-                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Exchanges']}/>
-                    </NavLink>
+                      <NavLink to={`${url}/Exchanges`} className='header-container-item'
+                               activeClassName='header-container-item-active'>
+                        <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
+                                  content={translate['Exchanges']}/>
+                      </NavLink>
 
-                    {/*<NavLink to={`${url}/Customers`} className='header-container-item' activeClassName='header-container-item-active'>*/}
+                      {/*<NavLink to={`${url}/Customers`} className='header-container-item' activeClassName='header-container-item-active'>*/}
                       {/*<Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Customers']}/>*/}
-                    {/*</NavLink>*/}
+                      {/*</NavLink>*/}
 
-                    {/*<NavLink to={`${url}/Certificates`} className='header-container-item' activeClassName='header-container-item-active'>*/}
+                      {/*<NavLink to={`${url}/Certificates`} className='header-container-item' activeClassName='header-container-item-active'>*/}
                       {/*<Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Certificates']}/>*/}
-                    {/*</NavLink>*/}
+                      {/*</NavLink>*/}
 
+                    </div>
+                    <Switch>
+                      <Redirect exact from={`${url}/`} to={`${url}/Posts`}/>
+                      {/*<PrivateRoute path={`${path}/contributions`}*/}
+                      {/*component={Contributions}*/}
+                      {/*ownerId={userId}*/}
+                      {/*identityType={constants.USER_TYPES.ORG}*/}
+                      {/*isUser={false}*/}
+                      {/*/>*/}
+                      <PrivateRoute exact={true} path={`${path}/Posts`} component={Posts}
+                                    id={userId}
+                                    identityType={constants.USER_TYPES.ORG}
+                      />
+                      <PrivateRoute path={`${path}/Posts/:id`} component={PostExtendedView}
+                                    extendedView={true}
+                                    commentParentType={constants.COMMENT_PARENT.POST}
+                      />
+                      <PrivateRoute exact path={`${path}/basicInformation`} component={OrganAboutUs}
+                                    organization={userObject}
+                      />
+                      <PrivateRoute path={`${path}/Followers`} component={Followers}
+                                    ownerId={userId}
+                                    identityType={constants.USER_TYPES.ORG}
+                                    user={userObject}
+                      />
+                      <PrivateRoute path={`${path}/Followings`} component={Followings}
+                                    ownerId={userId}
+                                    identityType={constants.USER_TYPES.ORG}
+                                    user={userObject}
+                      />
+                      <PrivateRoute path={`${path}/Exchanges`} component={Social}
+                                    ownerId={userId}
+                                    identityType={constants.USER_TYPES.ORG}
+                                    user={userObject}
+                      />
+                      {/*<PrivateRoute path={`${path}/Customers`} component={Customers}*/}
+                      {/*organizationId={userId}*/}
+                      {/*/>*/}
+                      {/*<PrivateRoute path={`${path}/Certificates`} component={Certificates}*/}
+                      {/*ownerId={userId}*/}
+                      {/*identityType={constants.USER_TYPES.ORG}*/}
+                      {/*user={userObject}*/}
+                      {/*/>*/}
+                    </Switch>
                   </div>
-                  <Switch>
-                    <Redirect exact from={`${url}/`} to={`${url}/Posts`}/>
-                    {/*<PrivateRoute path={`${path}/contributions`}*/}
-                                  {/*component={Contributions}*/}
-                                  {/*ownerId={userId}*/}
-                                  {/*identityType={constants.USER_TYPES.ORG}*/}
-                                  {/*isUser={false}*/}
-                    {/*/>*/}
-                    <PrivateRoute exact={true} path={`${path}/Posts`} component={Posts}
-                                  id={userId}
-                                  identityType={constants.USER_TYPES.ORG}
-                    />
-                    <PrivateRoute path={`${path}/Posts/:id`} component={PostExtendedView}
-                                  extendedView={true}
-                                  commentParentType={constants.COMMENT_PARENT.POST}
-                    />
-                    <PrivateRoute exact path={`${path}/basicInformation`} component={OrganAboutUs}
-                                  organization={userObject}
-                    />
-                    <PrivateRoute path={`${path}/Followers`} component={Followers}
-                                  ownerId={userId}
-                                  identityType={constants.USER_TYPES.ORG}
-                                  user={userObject}
-                    />
-                    <PrivateRoute path={`${path}/Followings`} component={Followings}
-                                  ownerId={userId}
-                                  identityType={constants.USER_TYPES.ORG}
-                                  user={userObject}
-                    />
-                    <PrivateRoute path={`${path}/Exchanges`} component={Social}
-                                  ownerId={userId}
-                                  identityType={constants.USER_TYPES.ORG}
-                                  user={userObject}
-                    />
-                    {/*<PrivateRoute path={`${path}/Customers`} component={Customers}*/}
-                                  {/*organizationId={userId}*/}
-                    {/*/>*/}
-                    {/*<PrivateRoute path={`${path}/Certificates`} component={Certificates}*/}
-                                  {/*ownerId={userId}*/}
-                                  {/*identityType={constants.USER_TYPES.ORG}*/}
-                                  {/*user={userObject}*/}
-                    {/*/>*/}
-                  </Switch>
+                  <div className="col-md-2 col-sm-1 -left-sidebar-wrapper">
+                    <ChatBar/>
+                  </div>
                 </div>
-                <div className="col-md-2 col-sm-1 -left-sidebar-wrapper">
-                  <ChatBar/>
-                </div>
-              </div>
+              </React.Fragment>
           }
         </div>
     )
@@ -209,6 +252,7 @@ export class Organization extends Component<PropsOrganization> {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  console.log(ownProps, 'propssss')
   const {params} = ownProps.match
   const userId = +params.id
   const defaultObject = {content: {}, isLoading: false, error: null}
