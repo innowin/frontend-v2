@@ -6,6 +6,7 @@ import CertificateForm from './CertificateForm'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import type {certificateType} from 'src/consts/flowTypes/user/others'
+import type {fileType} from 'src/consts/flowTypes/common/fileType'
 
 type Props = {
   owner: identityType,
@@ -13,6 +14,8 @@ type Props = {
   getCertificatesByIdentity: Function,
   certificates: [certificateType],
   createCertificate: Function,
+  updateCertificate: Function,
+  files: [fileType],
 }
 
 type States = {
@@ -38,16 +41,26 @@ class Certificate extends React.Component<Props, States> {
   }
 
   render() {
-    const {owner, translate, certificates, createCertificate} = this.props
+    const {owner, translate, createCertificate, files, updateCertificate} = this.props
     const {isEdit} = this.state
 
+    const certificates = [
+      {
+        id: 1,
+        title: 'اولی',
+        certificate_parent: 5692,
+        certificate_picture: 5694,
+        certificate_logo: 5695,
+        created_time: "2019-03-22T14:36:10.964533Z",
+      }
+    ]
     return (
         <CardContainer>
           {
             !!isEdit
                 ? <CertificateForm createCertificate={createCertificate} toggleEdit={this._toggleEdit}
                                    translate={translate} owner={owner}/>
-                : <CertificateView certificates={certificates} owner={owner} translate={translate}
+                : <CertificateView updateCertificate={updateCertificate} files={files} certificates={certificates} owner={owner} translate={translate}
                                    toggleEdit={this._toggleEdit}/>
           }
         </CardContainer>

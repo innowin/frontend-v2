@@ -8,6 +8,7 @@ import connect from 'react-redux/es/connect/connect'
 import uuid from 'uuid'
 import PropTypes from 'prop-types'
 import constants from 'src/consts/constants'
+import type {fileType} from '../../../consts/flowTypes/common/fileType'
 
 type Props = {
   actions: {
@@ -19,11 +20,13 @@ type Props = {
   fileType: string,
   fileCategory: string,
   tempFiles: Object,
+  files: { [number]: fileType },
   fileParentId: ?number,
+  fileId?: number,
 }
 
 type States = {
-  fileId: string,
+  fileUUID: string,
   fileString: string,
 }
 
@@ -33,14 +36,23 @@ class UploadFile extends React.Component<Props, States> {
     fileType: PropTypes.string.isRequired,
     fileCategory: PropTypes.string.isRequired,
     fileParentId: PropTypes.number.isRequired,
+    fileId: PropTypes.number.isRequired,
   }
 
   state = {
-    fileId: uuid(),
+    fileUUID: uuid(),
     fileString: '',
   }
 
   fileUploadRef: HTMLInputElement
+
+  componentDidMount(): void {
+    const {fileId, files} = this.props
+
+    if (fileId) {
+      this.setState({...this.state, fileString: files[fileId] && files[fileId].file})
+    }
+  }
 
   _handleChange = (e: SyntheticEvent<HTMLInputElement>) => {
     e.preventDefault()
@@ -56,49 +68,57 @@ class UploadFile extends React.Component<Props, States> {
     }
   }
 
-  _handleBase64 = (fileString: string, file: File) => {
-    this.setState({...this.state, fileString: fileString})
-    const {fileId} = this.state
+  _handleBase64 = (fileStringInput: string, file: File) => {
+    this.setState({...this.state, fileString: fileStringInput})
+    const {fileUUID} = this.state
     const {actions, fileType, fileCategory, fileParentId} = this.props
     const {createFile} = actions
-    const fileToRedux = {fileId, formFile: file}
+    const fileToRedux = {fileUUID, formFile: file}
     const data = {
       file: fileToRedux,
       fileType,
       fileCategory,
       fileParent: fileParentId,
     }
-    createFile(data)
+    if (file) {
+      createFile(data)
+    }
   }
 
   _deleteFile = () => {
-    const {fileId} = this.state
+    const {fileUUID} = this.state
     const {actions, tempFiles} = this.props
     const {setFileProgressTemp, removeFileFromTemp, deleteFile} = actions
-    const tempFile = tempFiles[fileId]
+    const tempFile = tempFiles[fileUUID]
 
     if (tempFile && tempFile.progress !== 100) {
       tempFile.close && tempFile.close()
     }
     if (tempFile && tempFile.progress === 100 && tempFile.uploadedFileId) {
-      deleteFile({fileId: tempFile.uploadedFileId})
+      deleteFile({fileUUID: tempFile.uploadedFileId})
     }
 
-    setFileProgressTemp({fileId, progressDetail: {progress: 0, close: null}})
-    removeFileFromTemp(fileId)
+    setFileProgressTemp({fileUUID, progressDetail: {progress: 0, close: null}})
+    removeFileFromTemp(fileUUID)
     this.setState({...this.state, fileString: ''})
   }
 
   render() {
-    const {fileString, fileId} = this.state
-    const {tempFiles, fileType} = this.props
+    const {fileString, fileUUID} = this.state
+    const {tempFiles, fileType, fileId, files} = this.props
 
-    const tempImage = tempFiles[fileId]
-    const progress = tempImage && tempFiles[fileId].progress
+    const beforeEditFile = fileId && files[fileId]
+    const tempImage = tempFiles[fileUUID]
+    const progress = tempImage && tempFiles[fileUUID].progress
     const percent = progress / 100
-    const imageStyle = progress
-        ? {filter: `blur(${Math.ceil(5 * (1 - percent))}px)`, opacity: percent}
-        : {filter: 'blur(5px)', opacity: 0}
+    const imageStyle = beforeEditFile && !tempImage
+        ? (
+            {filter: `blur(0px)`, opacity: 1}
+        )
+        : (progress
+                ? {filter: `blur(${Math.ceil(5 * (1 - percent))}px)`, opacity: percent}
+                : {filter: 'blur(5px)', opacity: 0}
+        )
 
     return (
         fileString
@@ -106,9 +126,9 @@ class UploadFile extends React.Component<Props, States> {
                 ? <div className='upload-file-image-container'>
                   <img style={imageStyle} className='upload-file-image' src={fileString} alt='certificate'/>
                   <span onClick={this._deleteFile} className='remove-file pulse'>x</span>
-                  {tempFiles[fileId] && tempFiles[fileId].progress !== 100 &&
+                  {tempFiles[fileUUID] && tempFiles[fileUUID].progress !== 100 &&
                   <p className='progress-number'>
-                    % {tempFiles[fileId].progress}
+                    % {tempFiles[fileUUID].progress}
                   </p>
                   }
                 </div>
@@ -125,6 +145,7 @@ class UploadFile extends React.Component<Props, States> {
 const mapStateToProps = state => {
   return ({
     tempFiles: state.temp.file,
+    files: state.common.file.list,
   })
 }
 

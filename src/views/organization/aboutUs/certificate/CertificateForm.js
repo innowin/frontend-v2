@@ -6,13 +6,14 @@ import type {certificateType} from 'src/consts/flowTypes/user/others'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import Validations from 'src/helpers/validations/validations'
 import UploadFile from '../../../common/components/UploadFile'
-import constants from '../../../../consts/constants'
+import constants from 'src/consts/constants'
 
 type Props = {
   toggleEdit: Function,
   translate: TranslatorType,
   certificate?: certificateType,
-  createCertificate: Function,
+  createCertificate?: Function,
+  updateCertificate?: Function,
   owner: identityType,
 }
 
@@ -77,7 +78,7 @@ class CertificateForm extends React.Component<Props, States> {
   _onSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     const {createCertificate, owner} = this.props
     const {errors} = this.state
-    const {title} = errors
+    const {title: titleError} = errors
     e.preventDefault()
     e.stopPropagation()
 
@@ -87,8 +88,8 @@ class CertificateForm extends React.Component<Props, States> {
       title: form.title.value,
     }
 
-    if (title === false) {
-      createCertificate({formValues, certificateOwnerId: owner.id})
+    if (titleError === false) {
+      createCertificate && createCertificate({formValues, certificateOwnerId: owner.id})
       this._toggle()
     }
   }
@@ -128,7 +129,9 @@ class CertificateForm extends React.Component<Props, States> {
                 <div className='detail-row'>
                   <p className='title'>{translate['Attached file']}</p>
                   <div className='modal-tip'>{translate['Attached file tip']}</div>
-                  <UploadFile fileParentId={certificate && certificate.id} fileCategory={constants.CREATE_FILE_CATEGORIES.CERTIFICATE.PICTURE}
+                  <UploadFile fileParentId={certificate && certificate.id}
+                              fileId={certificate && certificate.certificate_picture}
+                              fileCategory={constants.CREATE_FILE_CATEGORIES.CERTIFICATE.PICTURE}
                               fileType={constants.CREATE_FILE_TYPES.IMAGE}/>
                 </div>
               </div>
