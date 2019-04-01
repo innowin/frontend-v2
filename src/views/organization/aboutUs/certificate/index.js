@@ -49,8 +49,8 @@ class Certificate extends React.Component<Props, States> {
         id: 1,
         title: 'اولی',
         certificate_parent: 5692,
-        certificate_picture: 5694,
-        certificate_logo: 5695,
+        certificate_picture: 4149,
+        certificate_logo: 4173,
         created_time: "2019-03-22T14:36:10.964533Z",
       }
     ]

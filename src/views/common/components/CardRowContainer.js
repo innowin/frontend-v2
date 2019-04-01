@@ -2,10 +2,12 @@ import * as React from 'react'
 import Moment from 'react-moment'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {connect} from 'react-redux'
+import type {fileType} from 'src/consts/flowTypes/common/fileType'
 
 type Props = {
   title: string,
   createdTime?: string,
+  entityImage?: fileType,
 }
 
 /* usage example
@@ -23,7 +25,8 @@ type Props = {
  */
 
 const CardRowContainer = (props: Props) => {
-  const {title, children, svgImage, createdTime, translate} = props
+  const isMobile = window.innerWidth <= 480
+  const {title, children, svgImage, createdTime, translate, entityImage} = props
   return (
       <div className='card-row-container'>
         <div className='card-row-main'>
@@ -33,7 +36,13 @@ const CardRowContainer = (props: Props) => {
           </div>
           <div className='card-row-content'>
             {children}
+            {!isMobile && entityImage &&
+            <img src={entityImage.file} className='card-row-content-image' alt='card'/>
+            }
           </div>
+          {isMobile && entityImage &&
+          <img src={entityImage.file} className='card-row-content-image' alt='card'/>
+          }
         </div>
 
         {createdTime &&

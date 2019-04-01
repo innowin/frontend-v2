@@ -115,6 +115,14 @@ export class Organization extends React.Component<PropsOrganization, StatesOrgan
     }
   }
 
+  _goUp = () => {
+    window.scroll({
+      top: 0,
+      behavior: "smooth",
+    })
+    this.setState({...this.state, showSecondHeader: false})
+  }
+
 
   render() {
     const {showSecondHeader} = this.state
@@ -131,7 +139,7 @@ export class Organization extends React.Component<PropsOrganization, StatesOrgan
               :
               <React.Fragment>
                 <div className={showSecondHeader ? 'top-bar-entity show' : 'top-bar-entity hide'}>
-                  <RightArrowSvg className='back-button'/>
+                  <RightArrowSvg onClick={this._goUp} className='back-button'/>
                   {!profileMedia
                       ? <img src={profileMedia.file} className='profile-top-bar' alt='profile'/>
                       : <DefaultOrganIcon className='profile-top-bar default-profile-organ'/>
@@ -252,7 +260,6 @@ export class Organization extends React.Component<PropsOrganization, StatesOrgan
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(ownProps, 'propssss')
   const {params} = ownProps.match
   const userId = +params.id
   const defaultObject = {content: {}, isLoading: false, error: null}

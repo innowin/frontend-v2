@@ -55,7 +55,9 @@ class CertificateView extends React.Component <CertificateProps, CertificateStat
                   return (
                       !isEdit[certificate.id]
                           ? <CardRowContainer key={'certificate ' + certificate.id} title={translate['Certificate']}
-                                              svgImage={<LinkedInIcon/>} createdTime={certificate.created_time}>
+                                              svgImage={<LinkedInIcon/>} createdTime={certificate.created_time}
+                                              entityImage={certificatePicture && files[certificatePicture]}
+                          >
                             <div className='card-row-content-right card-row-certificate'>
                               <CheckOwner id={owner.id}>
                                 <EditIcon className='edit-icon pulse'
@@ -63,10 +65,6 @@ class CertificateView extends React.Component <CertificateProps, CertificateStat
                               </CheckOwner>
                               {certificate.title}
                             </div>
-                            {certificatePicture && files[certificatePicture] &&
-                            <img src={files[certificatePicture].file} className='card-row-content-image'
-                                 alt={translate['Certificate']}/>
-                            }
                           </CardRowContainer>
                           : <CertificateForm key={'certificate form' + certificate.id} updateCertificate={updateCertificate}
                                              translate={translate} owner={owner} certificate={certificate}

@@ -11,6 +11,7 @@ import {PureComponent} from "react"
 import {RightArrow, DesertIcon, EditIcon, ChannelIcon} from "src/images/icons"
 import {exchangePostsSelector} from "src/redux/selectors/home/homePosts"
 import RightArrowSvg from 'src/images/common/right_arrow_svg'
+import {Link} from 'react-router-dom'
 
 
 class HomePosts extends PureComponent {
@@ -156,11 +157,12 @@ class HomePosts extends PureComponent {
 
                       <div className='top-bar-entity show'>
                         <RightArrowSvg onClick={unSetExchangeId} className='back-button'/>
-                        {selectedExchange.exchange_image
-                            ?
-                            <img src={selectedExchange.exchange_image.file} className='profile-top-bar' alt='profile'/>
-                            : <ChannelIcon className='profile-top-bar default-profile-organ'/>
-                        }
+                        <Link to={'/exchange/' + exchangeId} className='profile-top-bar'>
+                          {selectedExchange.exchange_image
+                              ? <img src={selectedExchange.exchange_image.file} alt='profile' className='profile-top-bar '/>
+                              : <ChannelIcon className='profile-top-bar default-profile-organ'/>
+                          }
+                        </Link>
                         <span className='organ-name'>
                           {selectedExchange.name}
                         </span>

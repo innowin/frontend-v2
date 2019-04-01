@@ -58,6 +58,12 @@
         object-fit: cover;
       }
     }
+
+    .card-row-content-image {
+      min-width: 29%;
+      height: 100px;
+      object-fit: cover;
+    }
   }
   .card-row-date {
     display: block;

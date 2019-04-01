@@ -46,7 +46,6 @@
       width: $smallTopBarHeight * 0.8;
       height: $smallTopBarHeight * 0.8;
       border-radius: 30px;
-      background-color: white;
       //border: 1.5px solid gray;
       margin-left: 10px;
     }
@@ -54,6 +53,7 @@
     .default-profile-organ {
       padding: 7px !important;
       fill: $primary-color !important;
+      background-color: white;
     }
 
     .organ-name {
