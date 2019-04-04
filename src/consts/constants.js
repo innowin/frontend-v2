@@ -18,6 +18,7 @@ export default {
     PRODUCT: 'product',
     PROFILE: 'profile',
     IDENTITY: 'identity',
+    CERTIFICATE: 'certificate',
   },
   PRODUCT: {
     PRICE_TYPE: {
@@ -129,6 +130,10 @@ export default {
   TEMP_FILE_KEYS: {
     CATALOG: 'organCatalog',
     RESUME: 'profileResume',
+    CERTIFICATE: {
+      PICTURE: 'certificatePicture',
+      LOGO: 'certificateLogo',
+    }
   },
   WORK_STATUS: {
     EMPLOYED: 'employed',

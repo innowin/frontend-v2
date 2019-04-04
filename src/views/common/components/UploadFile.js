@@ -5,10 +5,9 @@ import {bindActionCreators} from 'redux'
 import FileActions from 'src/redux/actions/commonActions/fileActions'
 import TempActions from 'src/redux/actions/tempActions'
 import connect from 'react-redux/es/connect/connect'
-import uuid from 'uuid'
 import PropTypes from 'prop-types'
 import constants from 'src/consts/constants'
-import type {fileType} from '../../../consts/flowTypes/common/fileType'
+import type {fileType} from 'src/consts/flowTypes/common/fileType'
 
 type Props = {
   actions: {
@@ -23,10 +22,11 @@ type Props = {
   files: { [number]: fileType },
   fileParentId: ?number,
   fileId?: number,
+  fileKey: string,
+  setRemoveFileState: Function,
 }
 
 type States = {
-  fileUUID: string,
   fileString: string,
 }
 
@@ -35,12 +35,13 @@ class UploadFile extends React.Component<Props, States> {
   static propTypes = {
     fileType: PropTypes.string.isRequired,
     fileCategory: PropTypes.string.isRequired,
-    fileParentId: PropTypes.number.isRequired,
-    fileId: PropTypes.number.isRequired,
+    fileParentId: PropTypes.number,
+    fileId: PropTypes.number,
+    fileKey: PropTypes.string.isRequired,
+    setRemoveFileState: PropTypes.func.isRequired,
   }
 
   state = {
-    fileUUID: uuid(),
     fileString: '',
   }
 
@@ -70,10 +71,9 @@ class UploadFile extends React.Component<Props, States> {
 
   _handleBase64 = (fileStringInput: string, file: File) => {
     this.setState({...this.state, fileString: fileStringInput})
-    const {fileUUID} = this.state
-    const {actions, fileType, fileCategory, fileParentId} = this.props
+    const {actions, fileType, fileCategory, fileParentId, fileKey} = this.props
     const {createFile} = actions
-    const fileToRedux = {fileUUID, formFile: file}
+    const fileToRedux = {fileId: fileKey, formFile: file}
     const data = {
       file: fileToRedux,
       fileType,
@@ -86,30 +86,34 @@ class UploadFile extends React.Component<Props, States> {
   }
 
   _deleteFile = () => {
-    const {fileUUID} = this.state
-    const {actions, tempFiles} = this.props
+    const {actions, tempFiles, fileKey, files, fileId, setRemoveFileState} = this.props
     const {setFileProgressTemp, removeFileFromTemp, deleteFile} = actions
-    const tempFile = tempFiles[fileUUID]
+    const tempFile = tempFiles[fileKey]
 
     if (tempFile && tempFile.progress !== 100) {
       tempFile.close && tempFile.close()
     }
     if (tempFile && tempFile.progress === 100 && tempFile.uploadedFileId) {
-      deleteFile({fileUUID: tempFile.uploadedFileId})
+      deleteFile({fileId: tempFile.uploadedFileId})
     }
 
-    setFileProgressTemp({fileUUID, progressDetail: {progress: 0, close: null}})
-    removeFileFromTemp(fileUUID)
+    if (files && fileId && files[fileId] && this.state.fileString === files[fileId].file) {
+      setRemoveFileState(fileId)
+    }
+
+    setFileProgressTemp({fileId: fileKey, progressDetail: {progress: 0, close: null}})
+    removeFileFromTemp(fileKey)
+
     this.setState({...this.state, fileString: ''})
   }
 
   render() {
-    const {fileString, fileUUID} = this.state
-    const {tempFiles, fileType, fileId, files} = this.props
+    const {fileString} = this.state
+    const {tempFiles, fileType, fileId, files, fileKey} = this.props
 
     const beforeEditFile = fileId && files[fileId]
-    const tempImage = tempFiles[fileUUID]
-    const progress = tempImage && tempFiles[fileUUID].progress
+    const tempImage = tempFiles[fileKey]
+    const progress = tempImage && tempFiles[fileKey].progress
     const percent = progress / 100
     const imageStyle = beforeEditFile && !tempImage
         ? (
@@ -126,9 +130,9 @@ class UploadFile extends React.Component<Props, States> {
                 ? <div className='upload-file-image-container'>
                   <img style={imageStyle} className='upload-file-image' src={fileString} alt='certificate'/>
                   <span onClick={this._deleteFile} className='remove-file pulse'>x</span>
-                  {tempFiles[fileUUID] && tempFiles[fileUUID].progress !== 100 &&
+                  {tempFiles[fileKey] && tempFiles[fileKey].progress !== 100 &&
                   <p className='progress-number'>
-                    % {tempFiles[fileUUID].progress}
+                    % {tempFiles[fileKey].progress}
                   </p>
                   }
                 </div>

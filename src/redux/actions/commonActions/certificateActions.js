@@ -5,9 +5,9 @@ export const getCertificatesList = id => ({
   payload: {id}
 })
 
-export const createCertificate = ({formValues, certificateOwnerId}) => ({
+export const createCertificate = ({formValues, certificateOwnerId, newFileIds}) => ({
   type: types.COMMON.CERTIFICATE.CREATE_OBJECT_CERTIFICATE,
-  payload: {formValues, certificateOwnerId}
+  payload: {formValues, certificateOwnerId, newFileIds}
 })
 
 export const resetCreatingObjCertStatus = () => ({

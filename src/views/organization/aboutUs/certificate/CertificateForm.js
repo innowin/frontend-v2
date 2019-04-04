@@ -7,6 +7,10 @@ import type {identityType} from 'src/consts/flowTypes/identityType'
 import Validations from 'src/helpers/validations/validations'
 import UploadFile from '../../../common/components/UploadFile'
 import constants from 'src/consts/constants'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import TempActions from 'src/redux/actions/tempActions'
+import FileActions from '../../../../redux/actions/commonActions/fileActions'
 
 type Props = {
   toggleEdit: Function,
@@ -15,6 +19,12 @@ type Props = {
   createCertificate?: Function,
   updateCertificate?: Function,
   owner: identityType,
+  newCertificatePicture: Object,
+  actions: {
+    removeFileFromTemp: Function,
+    deleteFile: Function,
+    updateFile: Function,
+  }
 }
 
 type States = {
@@ -22,7 +32,8 @@ type States = {
   title: string,
   errors: {
     title: boolean,
-  }
+  },
+  removeFileIds: Array<number>,
 }
 
 class CertificateForm extends React.Component<Props, States> {
@@ -31,7 +42,8 @@ class CertificateForm extends React.Component<Props, States> {
     title: '',
     errors: {
       title: false,
-    }
+    },
+    removeFileIds: [],
   }
 
   componentDidMount(): void {
@@ -50,7 +62,10 @@ class CertificateForm extends React.Component<Props, States> {
   }
 
   _toggle = () => {
-    const {toggleEdit} = this.props
+    const {toggleEdit, actions} = this.props
+    const {removeFileFromTemp} = actions
+    const fileKey = constants.TEMP_FILE_KEYS.CERTIFICATE.PICTURE
+    removeFileFromTemp(fileKey)
     this.setState({...this.state, modalIsOpen: false})
     toggleEdit()
   }
@@ -75,21 +90,63 @@ class CertificateForm extends React.Component<Props, States> {
     })
   }
 
+  _setRemoveFileState = (fileId: number) => {
+    const {removeFileIds} = this.state
+    this.setState({...this.state, removeFileIds: [...removeFileIds, fileId]})
+  }
+
   _onSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
-    const {createCertificate, owner} = this.props
-    const {errors} = this.state
+    const {createCertificate, owner, newCertificatePicture, updateCertificate, certificate, actions} = this.props
+    const {deleteFile, updateFile} = actions
+    const {errors, removeFileIds} = this.state
     const {title: titleError} = errors
     e.preventDefault()
     e.stopPropagation()
 
     const form = e.target
 
-    const formValues = {
+    const newCertificateId = newCertificatePicture && newCertificatePicture.uploadedFileId
+    let formValues = {
       title: form.title.value,
+      certificate_picture: newCertificateId
+          ? newCertificateId
+          : (certificate ? certificate.certificate_picture : ''),
+      certificate_parent: owner.id,
     }
 
     if (titleError === false) {
-      createCertificate && createCertificate({formValues, certificateOwnerId: owner.id})
+      if (updateCertificate && certificate) {
+        const newFileIds = [newCertificateId]
+        updateCertificate({formValues, certificateId: certificate.id, newFileIds})
+        if (newCertificateId) {
+          if (certificate.certificate_picture && certificate.certificate_picture !== newCertificateId) {
+            deleteFile({
+              fileId: certificate.certificate_picture,
+              fileParentId: certificate.id,
+              fileParentType: constants.FILE_PARENT.CERTIFICATE
+            })
+          }
+
+          for (let newFileId of newFileIds) {
+            newFileId && updateFile({
+              id: newFileId,
+              formData: {file_related_parent: certificate.id},
+              fileParentType: constants.FILE_PARENT.CERTIFICATE
+            })
+          }
+        } else {
+          for (let removeFileId of removeFileIds) {
+            deleteFile({
+              fileId: removeFileId,
+              fileParentId: certificate.id,
+              fileParentType: constants.FILE_PARENT.CERTIFICATE
+            })
+          }
+        }
+      } else if (createCertificate) {
+        const newFileIds = [newCertificateId]
+        createCertificate({formValues, certificateOwnerId: owner.id, newFileIds})
+      }
       this._toggle()
     }
   }
@@ -132,7 +189,9 @@ class CertificateForm extends React.Component<Props, States> {
                   <UploadFile fileParentId={certificate && certificate.id}
                               fileId={certificate && certificate.certificate_picture}
                               fileCategory={constants.CREATE_FILE_CATEGORIES.CERTIFICATE.PICTURE}
-                              fileType={constants.CREATE_FILE_TYPES.IMAGE}/>
+                              fileType={constants.CREATE_FILE_TYPES.IMAGE}
+                              fileKey={constants.TEMP_FILE_KEYS.CERTIFICATE.PICTURE}
+                              setRemoveFileState={this._setRemoveFileState}/>
                 </div>
               </div>
               <div className="buttons">
@@ -146,4 +205,18 @@ class CertificateForm extends React.Component<Props, States> {
   }
 }
 
-export default CertificateForm
+const mapStateToProps = (state, ownProps) => {
+  return {
+    newCertificatePicture: state.temp.file[constants.TEMP_FILE_KEYS.CERTIFICATE.PICTURE],
+  }
+};
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({
+    removeFileFromTemp: TempActions.removeFileFromTemp,
+    deleteFile: FileActions.deleteFile,
+    updateFile: FileActions.updateFile,
+  }, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CertificateForm)

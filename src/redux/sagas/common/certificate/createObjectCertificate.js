@@ -1,14 +1,15 @@
-import {call, fork, put, take} from "redux-saga/effects"
+import {all, call, fork, put, take} from "redux-saga/effects"
 import api from "../../../../consts/api"
 import results from "../../../../consts/resultName"
 import urls from "../../../../consts/URLS"
 import types from "../../../actions/types"
 import client from "../../../../consts/client";
+import constants from '../../../../consts/constants'
 
 
 function* createObjectCertificate(action) { // action = {type, payload: {formValues, ownerId} }
   const identityId = client.getIdentityId()
-  let {formValues, certificateOwnerId} = action.payload
+  let {formValues, certificateOwnerId, newFileIds} = action.payload
   const newCert = {
     ...formValues,
     certificate_identity: identityId
@@ -22,6 +23,15 @@ function* createObjectCertificate(action) { // action = {type, payload: {formVal
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.COMMON.CERTIFICATE.CREATE_OBJECT_CERTIFICATE, payload: {certificateOwnerId, data}})
     yield put({type: types.COMMON.CERTIFICATE.GET_CERTIFICATES_BY_IDENTITY, payload: {identityId, certificateOwnerId}})
+
+    if(newFileIds){
+      yield all(newFileIds.map(fileId => {
+        return fileId && put({
+          type: types.COMMON.FILE.UPDATE_FILE,
+          payload: {id: fileId, formData: {file_related_parent: data.id}, fileParentType: constants.FILE_PARENT.CERTIFICATE}
+        })
+      }))
+    }
 
   } catch (error) {
     const {message} = error
