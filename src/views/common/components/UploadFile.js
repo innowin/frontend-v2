@@ -23,7 +23,6 @@ type Props = {
   fileParentId: ?number,
   fileId?: number,
   fileKey: string,
-  setRemoveFileState: Function,
 }
 
 type States = {
@@ -38,7 +37,6 @@ class UploadFile extends React.Component<Props, States> {
     fileParentId: PropTypes.number,
     fileId: PropTypes.number,
     fileKey: PropTypes.string.isRequired,
-    setRemoveFileState: PropTypes.func.isRequired,
   }
 
   state = {
@@ -73,9 +71,11 @@ class UploadFile extends React.Component<Props, States> {
     this.setState({...this.state, fileString: fileStringInput})
     const {actions, fileType, fileCategory, fileParentId, fileKey} = this.props
     const {createFile} = actions
-    const fileToRedux = {fileId: fileKey, formFile: file}
     const data = {
-      file: fileToRedux,
+      file: {
+        fileId: fileKey,
+        formFile: file
+      },
       fileType,
       fileCategory,
       fileParent: fileParentId,
@@ -86,23 +86,22 @@ class UploadFile extends React.Component<Props, States> {
   }
 
   _deleteFile = () => {
-    const {actions, tempFiles, fileKey, files, fileId, setRemoveFileState} = this.props
+    const {actions, tempFiles, fileKey, files, fileId} = this.props
     const {setFileProgressTemp, removeFileFromTemp, deleteFile} = actions
     const tempFile = tempFiles[fileKey]
 
     if (tempFile && tempFile.progress !== 100) {
       tempFile.close && tempFile.close()
+      removeFileFromTemp(fileKey)
     }
     if (tempFile && tempFile.progress === 100 && tempFile.uploadedFileId) {
       deleteFile({fileId: tempFile.uploadedFileId})
+      removeFileFromTemp(fileKey)
     }
 
     if (files && fileId && files[fileId] && this.state.fileString === files[fileId].file) {
-      setRemoveFileState(fileId)
+      setFileProgressTemp({fileId: fileKey, progressDetail: {progress: 0, close: null, removedId: fileId}})
     }
-
-    setFileProgressTemp({fileId: fileKey, progressDetail: {progress: 0, close: null}})
-    removeFileFromTemp(fileKey)
 
     this.setState({...this.state, fileString: ''})
   }

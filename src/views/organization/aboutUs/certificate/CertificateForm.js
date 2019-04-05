@@ -32,8 +32,7 @@ type States = {
   title: string,
   errors: {
     title: boolean,
-  },
-  removeFileIds: Array<number>,
+  }
 }
 
 class CertificateForm extends React.Component<Props, States> {
@@ -42,8 +41,7 @@ class CertificateForm extends React.Component<Props, States> {
     title: '',
     errors: {
       title: false,
-    },
-    removeFileIds: [],
+    }
   }
 
   componentDidMount(): void {
@@ -90,61 +88,43 @@ class CertificateForm extends React.Component<Props, States> {
     })
   }
 
-  _setRemoveFileState = (fileId: number) => {
-    const {removeFileIds} = this.state
-    this.setState({...this.state, removeFileIds: [...removeFileIds, fileId]})
-  }
-
   _onSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     const {createCertificate, owner, newCertificatePicture, updateCertificate, certificate, actions} = this.props
     const {deleteFile, updateFile} = actions
-    const {errors, removeFileIds} = this.state
+    const {errors} = this.state
     const {title: titleError} = errors
     e.preventDefault()
     e.stopPropagation()
 
     const form = e.target
 
-    const newCertificateId = newCertificatePicture && newCertificatePicture.uploadedFileId
+    const newCertificatePictureId = newCertificatePicture && newCertificatePicture.uploadedFileId
+    const removedCertificatePictureId = newCertificatePicture && newCertificatePicture.removedId
     let formValues = {
       title: form.title.value,
-      certificate_picture: newCertificateId
-          ? newCertificateId
+      certificate_picture: newCertificatePictureId
+          ? newCertificatePictureId
           : (certificate ? certificate.certificate_picture : ''),
       certificate_parent: owner.id,
     }
 
     if (titleError === false) {
+      const newFileIds = [newCertificatePictureId]
       if (updateCertificate && certificate) {
-        const newFileIds = [newCertificateId]
-        updateCertificate({formValues, certificateId: certificate.id, newFileIds})
-        if (newCertificateId) {
-          if (certificate.certificate_picture && certificate.certificate_picture !== newCertificateId) {
-            deleteFile({
-              fileId: certificate.certificate_picture,
-              fileParentId: certificate.id,
-              fileParentType: constants.FILE_PARENT.CERTIFICATE
-            })
-          }
-
-          for (let newFileId of newFileIds) {
-            newFileId && updateFile({
-              id: newFileId,
-              formData: {file_related_parent: certificate.id},
-              fileParentType: constants.FILE_PARENT.CERTIFICATE
-            })
-          }
-        } else {
-          for (let removeFileId of removeFileIds) {
-            deleteFile({
-              fileId: removeFileId,
-              fileParentId: certificate.id,
-              fileParentType: constants.FILE_PARENT.CERTIFICATE
-            })
-          }
+        updateCertificate({formValues, certificateId: certificate.id})
+        for (let newFileId of newFileIds) {
+          newFileId && updateFile({
+            id: newFileId,
+            formData: {file_related_parent: certificate.id},
+            fileParentType: constants.FILE_PARENT.CERTIFICATE
+          })
         }
+        removedCertificatePictureId && deleteFile({
+          fileId: removedCertificatePictureId,
+          fileParentId: certificate.id,
+          fileParentType: constants.FILE_PARENT.CERTIFICATE
+        })
       } else if (createCertificate) {
-        const newFileIds = [newCertificateId]
         createCertificate({formValues, certificateOwnerId: owner.id, newFileIds})
       }
       this._toggle()
@@ -190,8 +170,7 @@ class CertificateForm extends React.Component<Props, States> {
                               fileId={certificate && certificate.certificate_picture}
                               fileCategory={constants.CREATE_FILE_CATEGORIES.CERTIFICATE.PICTURE}
                               fileType={constants.CREATE_FILE_TYPES.IMAGE}
-                              fileKey={constants.TEMP_FILE_KEYS.CERTIFICATE.PICTURE}
-                              setRemoveFileState={this._setRemoveFileState}/>
+                              fileKey={constants.TEMP_FILE_KEYS.CERTIFICATE.PICTURE}/>
                 </div>
               </div>
               <div className="buttons">
