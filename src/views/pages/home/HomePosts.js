@@ -12,6 +12,7 @@ import {RightArrow, DesertIcon, EditIcon, ChannelIcon} from "src/images/icons"
 import {exchangePostsSelector} from "src/redux/selectors/home/homePosts"
 import RightArrowSvg from 'src/images/common/right_arrow_svg'
 import {Link} from 'react-router-dom'
+import FontAwesome from 'react-fontawesome'
 
 
 class HomePosts extends PureComponent {
@@ -157,6 +158,7 @@ class HomePosts extends PureComponent {
 
                       <div className='top-bar-entity show'>
                         <RightArrowSvg onClick={unSetExchangeId} className='back-button'/>
+                        {/*<FontAwesome onClick={unSetExchangeId} className='back-button' name='arrow-right'/>*/}
                         <Link to={'/exchange/' + exchangeId} className='profile-top-bar'>
                           {selectedExchange.exchange_image
                               ? <img src={selectedExchange.exchange_image.file} alt='profile' className='profile-top-bar '/>

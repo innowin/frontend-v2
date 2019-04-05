@@ -46,6 +46,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
 
   _unSetExchangeId = () => {
     this.setState({...this.state, activeExchangeId: undefined})
+    this.props.actions.setExchange('')
   }
 
   render() {

@@ -87,7 +87,7 @@ class Posts extends React.Component<postsPropsType, postsStatesType> {
           {/*showCreateForm={this._showCreateForm}*/}
           {/*// createForm={createForm}*/}
           {/*/>*/}
-          <FrameCard className="-frameCardPost">
+          <FrameCard className="-frameCardPost user-posts">
 
             <ListGroup>
               {
