@@ -36,17 +36,17 @@
     }
 
     .back-button {
-      width: $smallTopBarHeight * 0.5;
-      height: $smallTopBarHeight * 0.5;
-      margin: 0 10px;
+      width: $smallTopBarHeight * 0.4;
+      height: $smallTopBarHeight * 0.4;
+      margin: 0 20px;
       fill: white;
       color: white;
-      font-size: 25;
+      font-size: 25px;
     }
 
     .profile-top-bar {
-      width: $smallTopBarHeight * 0.8;
-      height: $smallTopBarHeight * 0.8;
+      width: $smallTopBarHeight * 0.7;
+      height: $smallTopBarHeight * 0.7;
       border-radius: 30px;
       //border: 1.5px solid gray;
       margin-left: 10px;
