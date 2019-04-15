@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
-import Moment from "react-moment"
+import Moment from 'react-moment'
 import Material from '../../common/components/Material'
 import {Date, Location} from 'src/images/icons'
+import {ClipLoader} from 'react-spinners'
 
 class SideBar extends Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class SideBar extends Component {
       selectedCountry: 0,
       selectedProvince: 0,
       selectedCity: 0,
-      price: ''
+      price: '',
     }
   }
 
@@ -78,8 +79,6 @@ class SideBar extends Component {
   render() {
     const {galleryModal, image, edit, selectedCountry, selectedProvince, price, firstCategory, secondCategory} = this.state
     const {product, country, province, product_owner, product_category, current_user_identity, countries, provinces, cities, categories} = this.props
-    const profile_user = product_owner && product_owner.profile && product_owner.profile.content && product_owner.profile.content.profile_user ? product_owner.profile.content.profile_user : ''
-    const owner_name = profile_user ? profile_user.first_name + ' ' + profile_user.last_name : ''
     const {name, created_time, pictures_array} = product
 
     return (
@@ -107,7 +106,7 @@ class SideBar extends Component {
                       <option className='product-option' value='0'>کشور</option>
                       {
                         Object.values(countries.list).map((country, index) =>
-                            <option className='product-option' key={index} value={country.id}>{country.name}</option>
+                            <option className='product-option' key={index} value={country.id}>{country.name}</option>,
                         )
                       }
                     </select>
@@ -206,7 +205,7 @@ class SideBar extends Component {
                   <div className='product-view-sidebar-details'>
                     <span className='product-view-sidebar-details-grey'>قیمت: </span><span className='product-view-sidebar-details-red'>{'2,000,000 ریال'}</span>
                     <br/>
-                    <span className='product-view-sidebar-details-grey'>فروشنده: </span><span className='product-view-sidebar-details-blue'>{owner_name}</span>
+                    <span className='product-view-sidebar-details-grey'>فروشنده: </span><span className='product-view-sidebar-details-blue'>{product_owner && product_owner.first_name ? product_owner.first_name + ' ' + product_owner.last_name : <div style={{verticalAlign: 'top', display: 'inline-block', marginTop: '3px'}}><ClipLoader size={15}/></div>}</span>
                     <br/>
                     <span className='product-view-sidebar-details-grey'>دسته بندی: {product_category && product_category.name ? product_category.name : ''}</span>
                   </div>
@@ -239,7 +238,7 @@ class SideBar extends Component {
             <div style={pictures_array && pictures_array.length > 1 ? {} : {display: 'none'}} className='product-gallery-cont'>
               {
                 pictures_array && pictures_array.map((img, i) =>
-                    <img className='product-view-sidebar-modal-imgs' key={i} src={img.file} alt='' onClick={this._setImage.bind(this, img)}/>
+                    <img className='product-view-sidebar-modal-imgs' key={i} src={img.file} alt='' onClick={this._setImage.bind(this, img)}/>,
                 )
               }
             </div>

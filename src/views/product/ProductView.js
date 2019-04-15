@@ -49,7 +49,7 @@ class ProductView extends Component {
 
     if (product && getData) {
       this.setState({...this.state, getData: false}, () => {
-        actions.getUserByUserId(product.product_user)
+        actions.getUserByUserId(product.product_owner)
       })
     }
   }
@@ -126,7 +126,7 @@ const mapStateToProps = (state, props) => {
     provinces: provinceSelector(state),
     cities: citySelector(state),
     categories: makeCategorySelector()(state),
-    product_owner: state.identities.list[product.product_user],
+    product_owner: state.identities.list[product.product_owner],
     product_category: state.common.category.list[product.product_category],
     current_user_identity: state.auth.client.identity.content,
     translate: getMessages(state)

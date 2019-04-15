@@ -1,15 +1,15 @@
 import * as React from 'react'
-import {PureComponent} from 'react'
+import { PureComponent } from 'react'
 import connect from 'react-redux/es/connect/connect'
 import productActions from 'src/redux/actions/commonActions/productActions/productActions'
 import RightArrowSvg from '../../../images/common/right_arrow_svg'
 import Sidebar from './Sidebar'
-import {bindActionCreators} from 'redux'
-import {ClipLoader} from 'react-spinners'
-import {getProducts} from 'src/redux/selectors/common/product/getAllProducts'
+import { bindActionCreators } from 'redux'
+import { ClipLoader } from 'react-spinners'
+import { getProducts } from 'src/redux/selectors/common/product/getAllProducts'
 import Products from './Products'
-import {makeCategorySelector} from 'src/redux/selectors/common/category/getCategoriesByParentId'
-import FontAwesome from "react-fontawesome"
+import { makeCategorySelector } from 'src/redux/selectors/common/category/getCategoriesByParentId'
+import FontAwesome from 'react-fontawesome'
 
 
 // import {getMessages} from 'src/redux/selectors/translateSelector'
@@ -48,7 +48,7 @@ class Explore extends PureComponent <appProps, appState> {
       isCollapsed: true,
       catLevel1: 0,
       catLevel2: 0,
-      catLevel3: 0
+      catLevel3: 0,
     }
   }
 
@@ -63,37 +63,37 @@ class Explore extends PureComponent <appProps, appState> {
 
   _handleCat = (level, word) => {
     if (level === 1) {
-      this.setState({...this.state, catLevel1: word, catLevel2: 0, catLevel3: 0})
+      this.setState({ ...this.state, catLevel1: word, catLevel2: 0, catLevel3: 0 })
     }
     else if (level === 2) {
-      this.setState({...this.state, catLevel2: word, catLevel3: 0})
+      this.setState({ ...this.state, catLevel2: word, catLevel3: 0 })
     }
     else if (level === 3) {
-      this.setState({...this.state, catLevel3: word})
+      this.setState({ ...this.state, catLevel3: word })
     }
   }
 
   _onScroll = () => {
     if (Object.values(this.props.allProducts).length > 0) {
-      let {activeScrollHeight} = this.state
+      let { activeScrollHeight } = this.state
       let scrollHeight = document.body ? document.body.scrollHeight : 0
       if (((window.innerHeight + window.scrollY) >= (scrollHeight - 250)) && (scrollHeight > activeScrollHeight)) {
         this.setState({
               ...this.state,
               activeScrollHeight: scrollHeight,
               scrollLoading: true,
-              offset: this.state.offset + 24
+              offset: this.state.offset + 24,
             },
             () => this.props.actions.getAllproducts(24, this.state.offset, this.state.search))
       }
       if (window.scrollY > 1000)
-        this.setState({...this.state, scrollButton: true})
-      else this.setState({...this.state, scrollButton: false})
+        this.setState({ ...this.state, scrollButton: true })
+      else this.setState({ ...this.state, scrollButton: false })
     }
   }
 
   _search = (search) => {
-    this.setState({...this.state, search, offset: 0, activeScrollHeight: 0}, () => {
+    this.setState({ ...this.state, search, offset: 0, activeScrollHeight: 0 }, () => {
       this.props.actions.getAllproducts(24, 0, search)
     })
   }
@@ -101,18 +101,18 @@ class Explore extends PureComponent <appProps, appState> {
   _goUp = () => {
     window.scroll({
       top: 0,
-      behavior: 'smooth'
+      behavior: 'smooth',
     })
   }
 
-  _collapse = () => this.setState({...this.state, isCollapsed: true})
+  _collapse = () => this.setState({ ...this.state, isCollapsed: true })
 
-  _unCollapse = () => this.setState({...this.state, isCollapsed: false})
+  _unCollapse = () => this.setState({ ...this.state, isCollapsed: false })
 
   render() {
-    const {allProducts, loading, categories} = this.props
-    const {scrollButton, catLevel1, catLevel2, catLevel3, isCollapsed} = this.state
-    const {list} = categories
+    const { allProducts, loading, categories } = this.props
+    const { scrollButton, catLevel1, catLevel2, catLevel3, isCollapsed } = this.state
+    const { list } = categories
 
     return (
         <div className='all-exchanges-parent'>
@@ -155,10 +155,10 @@ class Explore extends PureComponent <appProps, appState> {
                 }
               </div>
               <div>
-                <div onClick={this._collapse} className={isCollapsed ? 'product-explorer-list-selected' : 'product-explorer-list'} >
+                <div onClick={this._collapse} className={isCollapsed ? 'product-explorer-list-selected' : 'product-explorer-list'}>
                   <FontAwesome name="list"/>
                 </div>
-                <div onClick={this._unCollapse} className={!isCollapsed ? 'product-explorer-list-selected' : 'product-explorer-list'} >
+                <div onClick={this._unCollapse} className={!isCollapsed ? 'product-explorer-list-selected' : 'product-explorer-list'}>
                   <FontAwesome name="th"/>
                 </div>
               </div>
@@ -187,13 +187,13 @@ const mapStateToProps = (state) => {
   return {
     categories: categorySelector(state),
     allProducts: getProducts(state),
-    loading: state.common.product.products.isLoading
+    loading: state.common.product.products.isLoading,
     // translate: getMessages(state),
   }
 }
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    getAllproducts: productActions.getAllProductInfo
-  }, dispatch)
+    getAllproducts: productActions.getAllProductInfo,
+  }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Explore)
