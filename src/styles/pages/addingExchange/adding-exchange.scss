@@ -44,7 +44,7 @@
   position: fixed;
   text-align: center;
   padding: 20px;
-  top: $topBarHeight + 11px;
+  top: $topBarHeight + 15px;
   z-index: 10;
   opacity: 1;
   max-height: 81vh;
@@ -57,7 +57,7 @@
 .create-exchange-modal-container-out {
   overflow: hidden;
   position: fixed;
-  top: $topBarHeight + 11px;
+  top: $topBarHeight + 15px;
   right: 25%;
   left: 25%;
   z-index: -1;

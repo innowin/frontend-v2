@@ -14,22 +14,23 @@
   position: fixed;
   text-align: center;
   padding: 20px;
-  top: $topBarHeight + 10px;
+  top: $topBarHeight + 15px;
   z-index: 1202;
   opacity: 1;
   max-height: 85vh;
   border-radius: 3px;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   background-color: white;
-  transition-duration: $animation-timing-long;
+  transition-duration: $animation-timing;
 }
 
 .contribution-modal-container-out {
   overflow: hidden;
   position: fixed;
-  top: 65px;
-  right: 80px;
-  left: 80px;
+  right: 28%;
+  left: 28%;
+  padding: 20px;
+  top: $topBarHeight + 15px;
   z-index: -1;
   opacity: 0;
   transform: scale(0.85);
@@ -38,7 +39,7 @@
   border-radius: 3px;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   background-color: white;
-  transition-duration: $animation-timing;
+  transition-duration: $animation-timing-short;
 }
 
 .contribution-modal-container::-webkit-scrollbar {
@@ -246,12 +247,45 @@
 }
 
 .contribution-product-three {
-  width: 80%;
+  width: 95%;
   padding: 1% 3%;
   margin: 20px auto;
   //display: flex;
   //flex-direction: column;
   //flex-wrap: wrap;
+}
+
+.create-product-inputs {
+  margin: 30px 0 10px 0;
+  text-align: right;
+
+  label {
+    font-size: $font-size-description;
+    font-weight: bold;
+  }
+}
+
+.secondary-color {
+  color: $secondary-color;
+}
+
+.create-product-name-input {
+  width: 100%;
+  border: 1.2px solid $text-title-menu-color;
+  transition-duration: $animation-timing-long;
+  border-radius: $border-radius-size;
+  padding: 9px 10px 9px 10px;
+  font-size: $font-size-regular;
+
+  &:focus {
+    border: 1.2px solid $secondary-color;
+    transition-duration: $animation-timing-long;
+    outline: none;
+  }
+}
+
+.inteli-input-label-container {
+  margin-bottom: 15px;
 }
 
 .create-product-title-container {
@@ -279,8 +313,8 @@
 }
 
 .gray-text-input {
-  background: #f5f5f5;
-  border: 1px solid #f4f4f4;
+  background: white;
+  border: 1.2px solid #999999;
   border-radius: $border-radius-size;
   height: 35px;
   font-size: $font-size-post-content;
@@ -289,8 +323,8 @@
   text-align: right;
 
   &:focus {
-    border: 1px solid #e1e1e1;
-    background: #f2f2f2;
+    border: 1.2px solid $secondary-color;
+    background: #fcfcfc;
     transition-duration: $animation-timing;
   }
 }
@@ -355,6 +389,16 @@
   cursor: pointer;
 }
 
+.inteli-place-holder {
+  position: absolute;
+  top: 9px;
+  right: 13px;
+  cursor: text;
+  color: $disable-color;
+  opacity: 1;
+  font-size: 12px;
+}
+
 .inteli-search-svg {
   position: absolute;
   width: 14px;
@@ -381,17 +425,17 @@
 }
 
 .gray-textarea-input {
-  background: #f5f5f5;
-  border: 1px solid #f4f4f4;
+  background: white;
+  border: 1.2px solid #999999;
   border-radius: 3px;
   font-size: $font-size-post-content;
-  height: 199px;
+  height: 150px;
   resize: none;
   transition-duration: $animation-timing;
 
   &:focus {
-    border: 1px solid #e1e1e1;
-    background: #f2f2f2;
+    border: 1.2px solid $secondary-color;
+    background: #fcfcfc;
     transition-duration: $animation-timing;
   }
 }
@@ -427,14 +471,20 @@
 }
 
 .contribution-description-options-area {
-  width: 75%;
+  width: 95%;
   margin: auto;
-  padding: 2px;
 
-  .text {
+  .contribution-text {
     text-align: right;
     font-size: $font-size-post-content;
     font-weight: bold;
+    margin: 7px 0;
+  }
+
+  .contribution-text-description {
+    text-align: right;
+    font-size: $font-size-regular;
+    color: $disable-color;
     margin-bottom: 20px;
   }
 }
@@ -521,43 +571,22 @@
   width: 100%;
   position: relative;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   margin-top: 15px;
 
   .next-button {
-    order: 2;
-    width: 130px;
-    cursor: pointer;
-    background-color: $primary-color;
-    border: 1.25px solid $background-color;
-    transition-duration: $animation-timing;
-    font-size: $font-size-smallText;
-    color: $background-color;
-    border-radius: 25px;
-    height: 30px;
-    padding: 3.5px 0 3px 0;
-
-    &:hover {
-      color: $primary-color;
-      border: 1.25px solid $primary-color;
-      background-color: $background-color;
-      transition-duration: $animation-timing;
-    }
-  }
-
-  .previous-button {
     order: 1;
-    width: 130px;
+    width: 80px;
     cursor: pointer;
     background-color: $secondary-color;
     border: 1.25px solid $background-color;
     transition-duration: $animation-timing;
-    font-size: $font-size-smallText;
+    font-size: $font-size-verySmallText;
     color: $background-color;
-    padding-bottom: 3px;
     border-radius: 25px;
     height: 30px;
-    opacity: 1;
+    padding: 3px 0 3px 0;
+    margin: 0 2.2%;
 
     &:hover {
       color: $secondary-color;
@@ -567,19 +596,43 @@
     }
   }
 
-  .previous-button-hidden {
-    order: 1;
-    width: 130px;
-    height: 30px;
-    overflow: hidden;
-    background-color: $secondary-color;
+  .previous-button {
+    order: 2;
+    width: 80px;
+    cursor: pointer;
+    background-color: $disable-color;
     border: 1.25px solid $background-color;
     transition-duration: $animation-timing;
-    font-size: $font-size-smallText;
+    font-size: $font-size-verySmallText;
     color: $background-color;
-    padding-bottom: 3px;
+    padding: 3px;
+    border-radius: 25px;
+    height: 30px;
+    opacity: 1;
+    margin: 0 2.2%;
+
+    &:hover {
+      color: $disable-color;
+      border: 1.25px solid $disable-color;
+      background-color: $background-color;
+      transition-duration: $animation-timing;
+    }
+  }
+
+  .previous-button-hidden {
+    order: 1;
+    width: 80px;
+    height: 30px;
+    overflow: hidden;
+    background-color: $disable-color;
+    border: 1.25px solid $background-color;
+    transition-duration: $animation-timing;
+    font-size: $font-size-verySmallText;
+    color: $background-color;
+    padding: 3px;
     border-radius: 25px;
     opacity: 0;
+    margin: 0 2.2%;
   }
 }
 
@@ -642,6 +695,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  margin: 40px 15px 10px 15px;
   width: 70px;
   height: 70px;
   border: 1.5px solid $primary-color;
@@ -649,7 +703,6 @@
   position: relative;
   overflow: hidden;
   vertical-align: top;
-  margin-bottom: 10px;
 
   input[type='file'] {
     position: absolute;
@@ -691,7 +744,7 @@
 .product-gallery-container {
   display: inline-flex;
   position: relative;
-  width: 85%;
+  width: 80%;
   flex-flow: row wrap;
 
 }
@@ -768,24 +821,24 @@
 
 @media screen and (max-width: 3840px) and (min-width: 1920px) {
   .contribution-modal-container {
-    right: 185px;
-    left: 185px;
+    right: 33%;
+    left: 33%;
     padding: 20px;
   }
 }
 
 @media screen and (max-width: 1920px) and (min-width: 1370px) {
   .contribution-modal-container {
-    right: 138px;
-    left: 138px;
+    right: 28%;
+    left: 28%;
     padding: 20px;
   }
 }
 
 @media screen and (max-width: 1370px) and (min-width: 1280px) {
   .contribution-modal-container {
-    right: 80px;
-    left: 80px;
+    right: 20%;
+    left: 20%;
     padding: 20px;
     top: $topBarHeight;
     max-height: 89vh;
@@ -794,16 +847,16 @@
 
 @media screen and (max-width: 1280px) and (min-width: 900px) {
   .contribution-modal-container {
-    right: 30px;
-    left: 30px;
+    right: 20%;
+    left: 20%;
     padding: 10px;
   }
 }
 
 @media screen and (max-width: 900px) and (min-width: 0px) {
   .contribution-modal-container {
-    right: 10px;
-    left: 10px;
+    right: 5%;
+    left: 5%;
     padding: 10px;
   }
 }

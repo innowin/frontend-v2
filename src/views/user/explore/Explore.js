@@ -114,10 +114,10 @@ class Explore extends PureComponent <appProps, appState> {
 
     Object.values(list).forEach((follow: Object) => {
           if (follow.follow_followed.id === this.props.currentUser.id) {
-            followers[follow.follow_follower.identity_user] = follow
+            followers[follow.follow_follower.id] = follow
           }
           else {
-            followees[follow.follow_followed.identity_user] = follow
+            followees[follow.follow_followed.id] = follow
           }
         },
     )

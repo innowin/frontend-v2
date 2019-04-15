@@ -14,7 +14,7 @@ export function* createFollow(action) {
   const translate = state.intl.messages
 
   try {
-    yield fork(api.post, urls.COMMON.SOCIAL.FOLLOW, results.COMMON.SOCIAL.CREATE_FOLLOW, formValues)
+    yield fork(api.post, urls.COMMON.SOCIAL.FOLLOW, results.COMMON.SOCIAL.CREATE_FOLLOW, {follow_followed: formValues.follow_followed})
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.COMMON.SOCIAL.CREATE_FOLLOW, payload: {data, followOwnerId}})
     yield put({
