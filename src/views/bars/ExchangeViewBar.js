@@ -599,7 +599,7 @@ class ExchangeViewBar extends Component {
     else {
       return (
           <div style={{textAlign: "center", margin: "35px 10px 45px 10px"}}>
-            بورس مورد نظر یافت نشد!
+            پنجره مورد نظر یافت نشد!
           </div>
       )
     }
