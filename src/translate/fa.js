@@ -93,6 +93,8 @@ module.exports = {
   "Create tag": "ایجاد برچسب",
 
   "Get file": "دریافت فایل",
+  'Link': 'لینک',
+  'Scientific Research': 'مقاله علمی پژوهشی',
 
 
   //common

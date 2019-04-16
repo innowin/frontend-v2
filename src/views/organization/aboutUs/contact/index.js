@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import CardContainer from '../../cardContainer'
+import CardContainer from '../../../common/cardContainer'
 import ContactView from './ContactView'
 import ContactForm from './ContactForm'
 import type {identityType} from 'src/consts/flowTypes/identityType'

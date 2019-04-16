@@ -19,7 +19,8 @@ import Follower from 'src/views/common/social/follower/index'
 import type {badgeType} from 'src/consts/flowTypes/common/badges'
 import type {fileType} from '../consts/flowTypes/common/fileType'
 import type {userStateObject, listOfIdObject} from 'src/consts/flowTypes/stateObjectType'
-import UserBasicInformation from './user/basicInformation/index'
+import UserBasicInformation from './user/basicInformation'
+import UserAboutMe from './user/aboutMe'
 import UserSkeleton from './user/skeleton/UserSkeleton'
 import WorkExperiences from './user/workExperience/index'
 import {bindActionCreators} from 'redux'
@@ -163,11 +164,11 @@ class User extends Component<PropsUser> {
                                 content={translate['About Me']}/>
                     </NavLink>
 
-                    <NavLink to={`${url}/contributions`} className='header-container-item'
-                             activeClassName='header-container-item-active'>
-                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
-                                content={translate['Contributions']}/>
-                    </NavLink>
+                    {/*<NavLink to={`${url}/contributions`} className='header-container-item'*/}
+                    {/*         activeClassName='header-container-item-active'>*/}
+                    {/*  <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'*/}
+                    {/*            content={translate['Contributions']}/>*/}
+                    {/*</NavLink>*/}
 
                     <NavLink to={`${url}/SocialConnections`} className='header-container-item'
                              activeClassName='header-container-item-active'>
@@ -187,23 +188,23 @@ class User extends Component<PropsUser> {
                                 content={translate['Followers']}/>
                     </NavLink>
 
-                    <NavLink to={`${url}/Educations`} className='header-container-item'
-                             activeClassName='header-container-item-active'>
-                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
-                                content={translate['Educations']}/>
-                    </NavLink>
+                    {/*<NavLink to={`${url}/Educations`} className='header-container-item'*/}
+                    {/*         activeClassName='header-container-item-active'>*/}
+                    {/*  <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'*/}
+                    {/*            content={translate['Educations']}/>*/}
+                    {/*</NavLink>*/}
 
-                    <NavLink to={`${url}/WorkExperiences`} className='header-container-item'
-                             activeClassName='header-container-item-active'>
-                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
-                                content={translate['WorkExperience']}/>
-                    </NavLink>
+                    {/*<NavLink to={`${url}/WorkExperiences`} className='header-container-item'*/}
+                    {/*         activeClassName='header-container-item-active'>*/}
+                    {/*  <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'*/}
+                    {/*            content={translate['WorkExperience']}/>*/}
+                    {/*</NavLink>*/}
 
-                    <NavLink to={`${url}/Certificates`} className='header-container-item'
-                             activeClassName='header-container-item-active'>
-                      <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
-                                content={translate['Certificates']}/>
-                    </NavLink>
+                    {/*<NavLink to={`${url}/Certificates`} className='header-container-item'*/}
+                    {/*         activeClassName='header-container-item-active'>*/}
+                    {/*  <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'*/}
+                    {/*            content={translate['Certificates']}/>*/}
+                    {/*</NavLink>*/}
 
                   </div>
                   <Switch>
@@ -215,16 +216,20 @@ class User extends Component<PropsUser> {
                     <PrivateRoute path={`${path}/Posts/:id`} component={PostExtendedView}
                                   extendedView={true}
                                   commentParentType={constants.COMMENT_PARENT.POST}/>
-                    <PrivateRoute path={`${path}/basicInformation`} component={UserBasicInformation}
+                    {/*<PrivateRoute path={`${path}/basicInformation`} component={UserBasicInformation}*/}
+                    {/*              userId={userId}*/}
+                    {/*              user={userObject}*/}
+                    {/*/>*/}
+                    <PrivateRoute path={`${path}/basicInformation`} component={UserAboutMe}
                                   userId={userId}
                                   user={userObject}
                     />
-                    <PrivateRoute path={`${path}/contributions`} component={Contributions}
-                                  ownerId={userId}
-                                  identityType={constants.USER_TYPES.USER}
-                                  isUser={true}
-                                  user={userObject}
-                    />
+                    {/*<PrivateRoute path={`${path}/contributions`} component={Contributions}*/}
+                    {/*              ownerId={userId}*/}
+                    {/*              identityType={constants.USER_TYPES.USER}*/}
+                    {/*              isUser={true}*/}
+                    {/*              user={userObject}*/}
+                    {/*/>*/}
                     <PrivateRoute path={`${path}/SocialConnections`} component={Social}
                                   ownerId={userId}
                                   identityType={constants.USER_TYPES.USER}
@@ -240,8 +245,8 @@ class User extends Component<PropsUser> {
                                   identityType={constants.USER_TYPES.USER}
                                   user={userObject}
                     />
-                    <PrivateRoute path={`${path}/Educations`} component={Educations} userId={userId}/>
-                    <PrivateRoute path={`${path}/WorkExperiences`} component={WorkExperiences} userId={userId}/>
+                    {/*<PrivateRoute path={`${path}/Educations`} component={Educations} userId={userId}/>*/}
+                    {/*<PrivateRoute path={`${path}/WorkExperiences`} component={WorkExperiences} userId={userId}/>*/}
                     <PrivateRoute path={`${path}/Certificates`} component={Certificates}
                                   ownerId={userId}
                                   identityType={constants.USER_TYPES.USER}

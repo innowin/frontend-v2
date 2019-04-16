@@ -23,7 +23,6 @@ type OrganAboutUsProps = {
   organization: identityType,
   translate: TranslatorType,
   actions: Object,
-  organ: Object,
   showModal: Function,
 }
 

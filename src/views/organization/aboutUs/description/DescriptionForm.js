@@ -3,8 +3,8 @@ import * as React from 'react'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import {CloseIconSvg} from 'src/images/icons'
-import ConfirmFormButton from '../ConfirmFormButtons'
-import Validations from '../../../../helpers/validations/validations'
+import ConfirmFormButton from '../../../common/ConfirmFormButtons'
+import Validations from 'src/helpers/validations/validations'
 
 type Props = {
   organization: identityType,

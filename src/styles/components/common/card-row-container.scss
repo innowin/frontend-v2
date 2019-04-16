@@ -46,13 +46,22 @@
           fill: $image-edit-btn-background;
         }
 
-        &.card-row-certificate {
+        .text {
+          color: $primary-color;
+        }
+
+        .blue-text {
+          color: $info-color;
+        }
+
+        &.card-row-entity {
           padding: 10px 0;
 
           .attach-file {
             display: block;
             color: $success-color;
             padding-top: 5px;
+            transition: all $animation-timing;
 
             &:hover {
               color: darken($success-color, 10%);
@@ -81,7 +90,9 @@
     }
   }
   .card-row-date {
+    position: relative;
     display: block;
+    top: -15px;
     text-align: left;
   }
 }
