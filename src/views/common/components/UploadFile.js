@@ -8,6 +8,9 @@ import connect from 'react-redux/es/connect/connect'
 import PropTypes from 'prop-types'
 import constants from 'src/consts/constants'
 import type {fileType} from 'src/consts/flowTypes/common/fileType'
+import {getMessages} from 'src/redux/selectors/translateSelector'
+import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
+import FontAwesome from 'react-fontawesome'
 
 type Props = {
   actions: {
@@ -23,6 +26,7 @@ type Props = {
   fileParentId: ?number,
   fileId?: number,
   fileKey: string,
+  translate: TranslatorType,
 }
 
 type States = {
@@ -108,7 +112,7 @@ class UploadFile extends React.Component<Props, States> {
 
   render() {
     const {fileString} = this.state
-    const {tempFiles, fileType, fileId, files, fileKey} = this.props
+    const {tempFiles, fileType, fileId, files, fileKey, translate} = this.props
 
     const beforeEditFile = fileId && files[fileId]
     const tempImage = tempFiles[fileKey]
@@ -135,8 +139,20 @@ class UploadFile extends React.Component<Props, States> {
                   </p>
                   }
                 </div>
-                : 'file type view'
-            ) :
+                : <div className='upload-file-type-container'>
+                  <a className='get-file' href={fileString}>
+                    <FontAwesome className='attach-file-icon' name='download'/>
+                    {translate['Get file']}
+                  </a>
+                  <span onClick={this._deleteFile} className='remove-file pulse'>x</span>
+                  {tempFiles[fileKey] && tempFiles[fileKey].progress !== 100 &&
+                  <p className='progress-number'>
+                    % {tempFiles[fileKey].progress}
+                  </p>
+                  }
+                </div>
+            )
+            :
             <div className="upload-file-container">
               <UploadIcon className='upload-resume'/>
               <input type="file" ref={e => this.fileUploadRef = e} onChange={this._handleChange}/>
@@ -149,6 +165,7 @@ const mapStateToProps = state => {
   return ({
     tempFiles: state.temp.file,
     files: state.common.file.list,
+    translate: getMessages(state)
   })
 }
 

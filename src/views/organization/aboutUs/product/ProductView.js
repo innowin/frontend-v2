@@ -5,6 +5,7 @@ import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import type {productType} from 'src/consts/flowTypes/user/others'
 import CardRowContainer from 'src/views/common/components/CardRowContainer'
 import {LinkedInIcon} from '../../../../images/icons'
+import CheckOwner from '../../../common/CheckOwner'
 
 type ProductProps = {
   owner: identityType,
@@ -14,16 +15,18 @@ type ProductProps = {
 }
 
 const ProductView = (props: ProductProps) => {
-  const {translate, products, showModal} = props
+  const {translate, products, showModal, owner} = props
   return (
       <React.Fragment>
         <div className="card-header">
           <div className="header-title">
             {translate['Product']}
           </div>
-          <div className='add-button pulse' onClick={showModal}>
-            + {translate['Add']}
-          </div>
+          <CheckOwner id={owner.id}>
+            <div className='add-button pulse' onClick={showModal}>
+              + {translate['Add']}
+            </div>
+          </CheckOwner>
         </div>
         <div className="content">
           {products.map(product =>

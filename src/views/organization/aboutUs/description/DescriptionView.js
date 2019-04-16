@@ -2,6 +2,7 @@
 import * as React from "react";
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
+import CheckOwner from '../../../common/CheckOwner'
 
 type Props = {
   organization: identityType,
@@ -17,9 +18,11 @@ const DescriptionView = (props: Props) => {
           <div className="header-title">
             {translate['Organization biography']}
           </div>
-          <div className='edit-button pulse' onClick={toggleEdit}>
-            {translate['Edit']}
-          </div>
+          <CheckOwner id={organization.id}>
+            <div className='edit-button pulse' onClick={toggleEdit}>
+              {translate['Edit']}
+            </div>
+          </CheckOwner>
         </div>
         <div className="content">
           {organization.biography}

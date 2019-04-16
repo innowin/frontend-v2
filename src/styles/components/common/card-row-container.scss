@@ -48,6 +48,21 @@
 
         &.card-row-certificate {
           padding: 10px 0;
+
+          .attach-file {
+            display: block;
+            color: $success-color;
+            padding-top: 5px;
+
+            &:hover {
+              color: darken($success-color, 10%);
+            }
+
+            .attach-file-icon {
+              font-size: 15px;
+              padding: 5px 0 0 5px;
+            }
+          }
         }
       }
 

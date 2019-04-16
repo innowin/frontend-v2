@@ -10,7 +10,7 @@ import constants from 'src/consts/constants'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import TempActions from 'src/redux/actions/tempActions'
-import FileActions from '../../../../redux/actions/commonActions/fileActions'
+import FileActions from 'src/redux/actions/commonActions/fileActions'
 
 type Props = {
   toggleEdit: Function,
@@ -169,6 +169,7 @@ class CertificateForm extends React.Component<Props, States> {
                   <UploadFile fileParentId={certificate && certificate.id}
                               fileId={certificate && certificate.certificate_picture}
                               fileCategory={constants.CREATE_FILE_CATEGORIES.CERTIFICATE.PICTURE}
+                              // fileType={constants.CREATE_FILE_TYPES.FILE}
                               fileType={constants.CREATE_FILE_TYPES.IMAGE}
                               fileKey={constants.TEMP_FILE_KEYS.CERTIFICATE.PICTURE}/>
                 </div>

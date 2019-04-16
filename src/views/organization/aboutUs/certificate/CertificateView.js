@@ -8,6 +8,7 @@ import {EditIcon, LinkedInIcon} from 'src/images/icons'
 import CheckOwner from '../../../common/CheckOwner'
 import type {fileType} from 'src/consts/flowTypes/common/fileType'
 import CertificateForm from './CertificateForm'
+import FontAwesome from 'react-fontawesome'
 
 type CertificateProps = {
   owner: identityType,
@@ -44,9 +45,11 @@ class CertificateView extends React.Component <CertificateProps, CertificateStat
             <div className="header-title">
               {translate['Certificate']}
             </div>
-            <div className='add-button pulse' onClick={toggleEdit}>
-              + {translate['Add']}
-            </div>
+            <CheckOwner id={owner.id}>
+              <div className='add-button pulse' onClick={toggleEdit}>
+                + {translate['Add']}
+              </div>
+            </CheckOwner>
           </div>
 
           <div className="content">
@@ -56,7 +59,7 @@ class CertificateView extends React.Component <CertificateProps, CertificateStat
                       !isEdit[certificate.id]
                           ? <CardRowContainer key={'certificate ' + certificate.id} title={translate['Certificate']}
                                               svgImage={<LinkedInIcon/>} createdTime={certificate.created_time}
-                                              entityImage={certificatePicture && files[certificatePicture]}
+                              //entityImage={certificatePicture && files[certificatePicture]}>
                           >
                             <div className='card-row-content-right card-row-certificate'>
                               <CheckOwner id={owner.id}>
@@ -64,6 +67,12 @@ class CertificateView extends React.Component <CertificateProps, CertificateStat
                                           clickHandler={() => this._toggleEditCertificate(certificate.id)}/>
                               </CheckOwner>
                               {certificate.title}
+                              {certificatePicture && files[certificatePicture] &&
+                              <a className='attach-file' href={files[certificatePicture].file}>
+                                <FontAwesome className='attach-file-icon' name='download'/>
+                                {translate['Attached file']}
+                              </a>
+                              }
                             </div>
                           </CardRowContainer>
                           : <CertificateForm key={'certificate form' + certificate.id} updateCertificate={updateCertificate}
