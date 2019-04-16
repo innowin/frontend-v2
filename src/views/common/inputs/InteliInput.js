@@ -191,7 +191,11 @@ class InteliInput extends Component {
             }
           </div>
           {this.text && this.text.innerText === "" && placeholder ?
-              <div className='inteli-place-holder' onClick={() => this.text.focus()}>
+              <div className='inteli-place-holder' onClick={() => {
+                this.text.focus()
+                const {list} = this.state
+                this.setState({...this.state, found: list.slice()})
+              }}>
                 {placeholder}
               </div> : null}
           <div className={found.length > 0 ? "inteli-menu" : "inteli-menu-hide"}

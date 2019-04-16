@@ -404,6 +404,7 @@
   width: 14px;
   font-size: 13px;
   color: $text-light-color;
+  fill: $text-light-color;
   top: 11px;
   left: 10px;
   cursor: pointer;
@@ -746,7 +747,6 @@
   position: relative;
   width: 80%;
   flex-flow: row wrap;
-
 }
 
 .product-gallery-item {
@@ -853,7 +853,7 @@
   }
 }
 
-@media screen and (max-width: 900px) and (min-width: 0px) {
+@media screen and (max-width: 900px) and (min-width: 480px) {
   .contribution-modal-container {
     right: 5%;
     left: 5%;

@@ -1,0 +1,263 @@
+@import "../../../variables";
+
+@media screen and (max-width: 480px) and (min-width: 320px) {
+  .contribution-modal-container {
+    overflow: auto;
+    position: fixed;
+    text-align: center;
+    padding: 10px;
+    top: $topBarHeight - 20px;
+    z-index: 1202;
+    opacity: 1;
+    border-radius: 3px;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+    background-color: white;
+    transition-duration: $animation-timing;
+    right: 0;
+    left: 0;
+    bottom: 0;
+  }
+
+  .contribution-modal-container-out {
+    overflow: hidden;
+    position: fixed;
+    text-align: center;
+    padding: 10px;
+    top: $topBarHeight - 20px;
+    z-index: -1;
+    opacity: 0;
+    border-radius: 3px;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+    background-color: white;
+    transition-duration: $animation-timing;
+    right: 0;
+    left: 0;
+    bottom: 0;
+  }
+
+  .contribution-description-options-area {
+    width: 95%;
+    margin: auto;
+
+    .contribution-text {
+      text-align: center;
+      font-size: $font-size-post-title-extended;
+      font-weight: bold;
+      margin: 5px 0 30px 0;
+      color: $primary-color;
+    }
+
+    .contribution-text-description {
+      text-align: center;
+      font-size: $font-size-13;
+      color: $primary-color-light2;
+      margin-bottom: 20px;
+    }
+  }
+
+  .contribution-footer {
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 37px;
+
+    .next-button {
+      order: 1;
+      width: 90px;
+      cursor: pointer;
+      background-color: $secondary-color;
+      border: 1.25px solid $background-color;
+      transition-duration: $animation-timing;
+      font-size: $font-size-description;
+      color: $background-color;
+      border-radius: 25px;
+      height: 35px;
+      padding: 3px 0 3px 0;
+      margin: 0 2.2%;
+
+      &:hover {
+        color: $secondary-color;
+        border: 1.25px solid $secondary-color;
+        background-color: $background-color;
+        transition-duration: $animation-timing;
+      }
+    }
+
+    .previous-button {
+      order: 2;
+      width: 90px;
+      cursor: pointer;
+      background-color: $disable-color;
+      border: 1.25px solid $background-color;
+      transition-duration: $animation-timing;
+      font-size: $font-size-description;
+      color: $background-color;
+      padding: 3px;
+      border-radius: 25px;
+      height: 35px;
+      opacity: 1;
+      margin: 0 2.2%;
+
+      &:hover {
+        color: $disable-color;
+        border: 1.25px solid $disable-color;
+        background-color: $background-color;
+        transition-duration: $animation-timing;
+      }
+    }
+
+    .previous-button-hidden {
+      order: 1;
+      width: 80px;
+      height: 30px;
+      overflow: hidden;
+      background-color: $disable-color;
+      border: 1.25px solid $background-color;
+      transition-duration: $animation-timing;
+      font-size: $font-size-description;
+      color: $background-color;
+      padding: 3px;
+      border-radius: 25px;
+      opacity: 0;
+      margin: 0 2.2%;
+    }
+  }
+
+  .gray-textarea-input {
+    background: white;
+    border: 1.2px solid #999999;
+    border-radius: 3px;
+    font-size: $font-size-post-content;
+    height: 132px;
+    resize: none;
+    transition-duration: $animation-timing;
+
+    &:focus {
+      border: 1.2px solid $secondary-color;
+      background: #fcfcfc;
+      transition-duration: $animation-timing;
+    }
+  }
+
+  .xs-cat-modal{
+    z-index: 1203;
+    opacity: 1;
+    overflow: auto;
+    position: fixed;
+    border-radius: 3px;
+    top: $topBarHeight;
+    right: 5%;
+    left: 5%;
+    bottom: 5%;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+    background-color: white;
+    transition-duration: $animation-timing;
+  }
+  .xs-cat-modal-hide{
+    z-index: -1;
+    opacity: 0;
+    overflow: hidden;
+    position: fixed;
+    border-radius: 3px;
+    top: $topBarHeight;
+    right: 5%;
+    left: 5%;
+    bottom: 5%;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+    background-color: white;
+    transition-duration: $animation-timing-short;
+    transform: scale(0.85);
+  }
+
+  .create-product-upload-container {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 40px 15px 10px 15px;
+    width: 120px;
+    height: 120px;
+    border: 2px solid $primary-color;
+    border-radius: 100px;
+    position: relative;
+    overflow: hidden;
+    vertical-align: top;
+
+    input[type='file'] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+  }
+
+  .create-product-upload-svg {
+    width: 50px;
+    fill: $secondary-color;
+    cursor: pointer;
+    object-fit: cover;
+  }
+
+  .product-gallery-container {
+    overflow-x: auto;
+    width: 100%;
+    white-space: nowrap;
+    height: 195px;
+    text-align: center;
+    margin: auto;
+  }
+
+  .product-gallery-item-container {
+    display: inline;
+    vertical-align: top;
+    width: 275px;
+    height: 154px;
+    background-color: $background-color;
+    border-radius: $border-radius-size;
+    border: 1px dashed #cdcdcd;
+    position: relative;
+    margin: 10px auto;
+  }
+
+  .product-gallery-item {
+    display: inline-block;
+    vertical-align: top;
+    border-radius: $border-radius-size;
+    object-fit: cover;
+    width: 275px;
+    height: 154px;
+    margin: auto;
+  }
+
+  .product-gallery-cancel-item {
+    color: $foreground-color;
+    background-color: $background-color;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    right: 22%;
+    font-size: 60px;
+    padding: 10px 1px 0 0;
+    width: 140px;
+    height: 140px;
+    border-radius: 150px;
+    cursor: pointer;
+    transition: all ease $animation-timing;
+    opacity: .45;
+    transform: scale(.6);
+
+    &:hover {
+      color: $background-color;
+      background-color: $danger-color;
+      transform: scale(.7);
+      transition: all ease $animation-timing-short;
+      opacity: .85;
+    }
+  }
+}
+

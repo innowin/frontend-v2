@@ -1,0 +1,41 @@
+@import "../../../variables";
+
+@media screen and (max-width: 480px) and (min-width: 320px) {
+  .modal-page {
+    position: fixed;
+    top: $topBarHeight - 20px;
+    right: 0;
+    left: 0;
+    bottom: 20%;
+    z-index: 1202;
+    opacity: 1;
+    border-radius: $border-radius-size;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+    background-color: white;
+    transition-duration: $animation-timing;
+  }
+
+  .modal-page.hide {
+    overflow-y: hidden;
+    position: fixed;
+    top: $topBarHeight - 20px;
+    right: 0;
+    left: 0;
+    bottom: 20%;
+    z-index: -1;
+    opacity: 0;
+    transform: scale(0.85);
+    border-radius: 3px;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+    background-color: white;
+    transition-duration: $animation-timing-short;
+  }
+
+  .job-description {
+    margin: 20px auto;
+  }
+
+  .gray-text-input {
+    margin: 20px auto;
+  }
+}

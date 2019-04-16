@@ -1,0 +1,69 @@
+@import "../../../variables";
+
+@media screen and (max-width: 480px) and (min-width: 320px) {
+  .settingModal-sidebar {
+    overflow: hidden;
+    border-radius: $border-radius-size;
+    position: fixed;
+    top: $topBarHeight - 20px;
+    right: 0;
+    left: 71%;
+    z-index: 4;
+    opacity: 1;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+    flex-direction: column;
+    font-size: 12px;
+    background-color: white;
+    text-align: right;
+    transition-duration: $animation-timing;
+  }
+
+  .settingModal-sidebar-out {
+    overflow: hidden;
+    border-radius: $border-radius-size;
+    position: fixed;
+    top: $topBarHeight - 20px;
+    right: 0;
+    left: 71%;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+    flex-direction: column;
+    font-size: 12px;
+    background-color: white;
+    text-align: right;
+    transition-duration: $animation-timing-short;
+    transform: scale(0.85);
+    z-index: -1;
+    opacity: 0;
+  }
+
+  .settingModal-menu {
+    overflow: auto;
+    position: fixed;
+    top: $topBarHeight - 20px;
+    left: 0;
+    bottom: 0;
+    right: 30%;
+    z-index: 4;
+    opacity: 1;
+    border-radius: 3px;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+    background-color: white;
+    transition-duration: $animation-timing;
+  }
+
+  .settingModal-menu-out {
+    overflow-y: scroll;
+    position: fixed;
+    top: $topBarHeight - 20px;
+    left: 0;
+    bottom: 0;
+    right: 30%;
+    z-index: -1;
+    opacity: 0;
+    border-radius: 3px;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+    background-color: white;
+    transition-duration: $animation-timing-short;
+    transform: scale(0.85);
+  }
+}

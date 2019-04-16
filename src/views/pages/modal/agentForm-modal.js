@@ -1,10 +1,10 @@
 //@flow
-import React from 'react'
-import LabelTag from '../../common/tag-label.js'
-import {AgentSvgIcon} from 'src/images/icons'
-import OrganizationActions from 'src/redux/actions/organization/organizationActions'
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
+import React from "react"
+import LabelTag from "../../common/tag-label.js"
+import {AgentSvgIcon} from "src/images/icons"
+import OrganizationActions from "src/redux/actions/organization/organizationActions"
+import {bindActionCreators} from "redux"
+import {connect} from "react-redux"
 
 type AgentFormProps = {
   hide: Function,
@@ -22,7 +22,7 @@ class AgentForm extends React.Component<AgentFormProps, { tags: Array<String>, d
 
   state = {
     tags: [],
-    description: '',
+    description: "",
     loading: false
   }
 
@@ -34,11 +34,11 @@ class AgentForm extends React.Component<AgentFormProps, { tags: Array<String>, d
   }
 
   componentDidMount() {
-    document.addEventListener('mousedown', this.handleClickOutside)
+    document.addEventListener("mousedown", this.handleClickOutside)
   }
 
   componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClickOutside)
+    document.removeEventListener("mousedown", this.handleClickOutside)
   }
 
   hideLoading(message) {
@@ -62,11 +62,11 @@ class AgentForm extends React.Component<AgentFormProps, { tags: Array<String>, d
   onLabelChange(event: any) {
     let val = event.target.value
     if (val.length < 1) {
-      this.setState({...this.state,tags: []})
+      this.setState({...this.state, tags: []})
       return
     }
-    let tags = val.split(',')
-    this.setState({...this.state,tags: tags})
+    let tags = val.split(",")
+    this.setState({...this.state, tags: tags})
 
   }
 
@@ -77,7 +77,7 @@ class AgentForm extends React.Component<AgentFormProps, { tags: Array<String>, d
     // const {isLoading, error} = agencyRequest
 
     return (
-        <div className={this.props.active ? 'modal-page' : 'modal-page hide'} ref={e => self.wrapperRef = e}>
+        <div className={this.props.active ? "modal-page" : "modal-page hide"} ref={e => self.wrapperRef = e}>
           <div className="agent-from-title">
             <div className="agent-form-title-container">
               <AgentSvgIcon className="agent-form-agent-icon"/>
@@ -110,16 +110,12 @@ class AgentForm extends React.Component<AgentFormProps, { tags: Array<String>, d
               </div>}
 
           <div className="modal-footers">
-            <div className="row">
-              <div className="col">
-                <button onClick={this.props.hide} className="modal-button link">
-                  لغو
-                </button>
-                <button onClick={this.sendRequest} className="modal-button primary">
-                  ارسال
-                </button>
-              </div>
-            </div>
+            <button onClick={this.sendRequest} className="modal-button primary">
+              ارسال
+            </button>
+            <button onClick={this.props.hide} className="modal-button link">
+              لغو
+            </button>
           </div>
 
         </div>
@@ -128,11 +124,11 @@ class AgentForm extends React.Component<AgentFormProps, { tags: Array<String>, d
 }
 
 const mapStateToProps = (state) => ({
-  agencyRequest: state.common.agencyRequest,
+  agencyRequest: state.common.agencyRequest
 })
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    agencyRequest: OrganizationActions.agencyRequest,
+    agencyRequest: OrganizationActions.agencyRequest
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(AgentForm)
