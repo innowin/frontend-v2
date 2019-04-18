@@ -10,14 +10,14 @@ const updateWorkExperienceByUserId = ({formValues, workExperienceId, userId}) =>
   payload: {formValues, workExperienceId, userId}
 })
 
-const createWorkExperienceByUserId = ({formValues, organizationId, userId}) => ({
+const createWorkExperienceByUserId = ({formValues, userId}) => ({
   type: types.WORK_EXPERIENCE.CREATE_USER_WORK_EXPERIENCES_BY_USER_ID,
-  payload: {formValues, organizationId, userId}
+  payload: {formValues, userId}
 })
 
-const deleteWorkExperienceByUserId = ({workExperienceId, organizationId, userId}) => ({
+const deleteWorkExperienceByUserId = ({workExperienceId, userId}) => ({
   type: types.WORK_EXPERIENCE.DELETE_USER_WORK_EXPERIENCES_BY_USER_ID,
-  payload: {workExperienceId, organizationId, userId}
+  payload: {workExperienceId, userId}
 })
 
 const WorkExperienceActions = {

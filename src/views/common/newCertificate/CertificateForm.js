@@ -1,16 +1,18 @@
 // @flow
 import * as React from 'react'
-import Modal from '../../../pages/modal/modal'
-import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
+import PropTypes from 'prop-types'
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
+
+import constants from 'src/consts/constants'
+import FileActions from 'src/redux/actions/commonActions/fileActions'
+import Modal from '../../pages/modal/modal'
+import TempActions from 'src/redux/actions/tempActions'
 import type {certificateType} from 'src/consts/flowTypes/user/others'
 import type {identityType} from 'src/consts/flowTypes/identityType'
+import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
+import UploadFile from '../components/UploadFile'
 import Validations from 'src/helpers/validations/validations'
-import UploadFile from '../../../common/components/UploadFile'
-import constants from 'src/consts/constants'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import TempActions from 'src/redux/actions/tempActions'
-import FileActions from '../../../../redux/actions/commonActions/fileActions'
 
 type Props = {
   toggleEdit: Function,
@@ -36,6 +38,18 @@ type States = {
 }
 
 class CertificateForm extends React.Component<Props, States> {
+
+  static propTypes=  {
+    toggleEdit: PropTypes.func.isRequired,
+    translate: PropTypes.object.isRequired,
+    certificate: PropTypes.object,
+    createCertificate: PropTypes.func,
+    updateCertificate: PropTypes.func,
+    owner: PropTypes.object.isRequired,
+    newCertificatePicture: PropTypes.object.isRequired,
+    actions: PropTypes.object.isRequired
+  }
+
   state = {
     modalIsOpen: true,
     title: '',
@@ -144,7 +158,7 @@ class CertificateForm extends React.Component<Props, States> {
     return (
         <div className="event-card">
           <Modal open={modalIsOpen} closer={this._toggle}>
-            <form method='POST' onSubmit={this._onSubmit} className="event-modal certificate-modal">
+            <form method='POST' onSubmit={this._onSubmit} className="event-modal edit-modal">
               <div className="head">
                 <div className="title">{translate['Add certificate']}</div>
               </div>
@@ -169,13 +183,14 @@ class CertificateForm extends React.Component<Props, States> {
                   <UploadFile fileParentId={certificate && certificate.id}
                               fileId={certificate && certificate.certificate_picture}
                               fileCategory={constants.CREATE_FILE_CATEGORIES.CERTIFICATE.PICTURE}
+                      // fileType={constants.CREATE_FILE_TYPES.FILE}
                               fileType={constants.CREATE_FILE_TYPES.IMAGE}
                               fileKey={constants.TEMP_FILE_KEYS.CERTIFICATE.PICTURE}/>
                 </div>
               </div>
               <div className="buttons">
-                <input type='submit' className="button save" value='ثبت'/>
-                <div onClick={this._toggle} className="button cancel">لغو</div>
+                <input type='submit' className="button save" value={translate['Submit']}/>
+                <div onClick={this._toggle} className="button cancel">{translate['Cancel']}</div>
               </div>
             </form>
           </Modal>

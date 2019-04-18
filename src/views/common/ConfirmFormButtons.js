@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import {TranslatorType} from '../../../consts/flowTypes/common/commonTypes'
+import {TranslatorType} from '../../consts/flowTypes/common/commonTypes'
 
 type Props = {
   translate: TranslatorType,

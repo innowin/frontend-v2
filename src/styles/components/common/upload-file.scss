@@ -42,6 +42,7 @@
     opacity: 0;
     transition: all 1.5s linear;
   }
+
   .remove-file {
     position: absolute;
     top: 15px;
@@ -55,6 +56,7 @@
     align-items: center;
     justify-content: center;
   }
+
   .progress-number {
     position: absolute;
     top: 55px;
@@ -62,5 +64,39 @@
     color: black;
     margin: 0;
     font-size: $font-size-small;
+  }
+}
+
+.upload-file-type-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .get-file {
+    font-size: $font-size-13;
+    color: $info-color;
+
+    .attach-file-icon {
+      padding-left: 5px;
+    }
+  }
+
+  .remove-file {
+    background-color: $text-lighter-color;
+    border-radius: 30px;
+    position: relative;
+    left: -1px;
+    top: -7px;
+    padding: 3px 12px;
+  }
+
+  .progress-number {
+    position: relative;
+    left: 30px;
+    top: 17px;
+    color: $primary-color;
+    margin: 0;
+    font-size: $font-size-regular;
   }
 }

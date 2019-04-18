@@ -7,7 +7,7 @@ export type workExperienceType = {|
   from_date: ?string,
   to_date: ?string,
   status: string,
-  work_experience_user: number,
+  work_experience_related_identity: number,
   work_experience_organization: number
 |}
 
@@ -58,7 +58,7 @@ export type skillType = {|
   title: string,
   tag: (string)[],
   description: ?string,
-  skill_user: number
+  skill_related_identity: number
 |}
 
 export type skillFormValuesType = {|

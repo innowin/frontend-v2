@@ -1,0 +1,42 @@
+@import "../../variables";
+
+.warning-modal {
+  padding: 20px;
+  .title {
+    font-size: $font-size-medium;
+  }
+
+  .buttons-container {
+    margin-top: 10px;
+
+    .button {
+      font-size: $font-size-regular;
+      padding: 5px 40px;
+      border-radius: 30px;
+      color: #fff;
+      transition: all $animation-timing;
+      cursor: pointer;
+    }
+
+    .sure {
+      background: $success-color;
+      border: 1px solid $success-color;
+      margin-left: 30px;
+
+      &:hover {
+        background: #fff;
+        color: $success-color;
+      }
+    }
+
+    .cancel {
+      background: $danger-color;
+      border: 1px solid $danger-color;
+
+      &:hover {
+        background: #fff;
+        color: $danger-color;
+      }
+    }
+  }
+}

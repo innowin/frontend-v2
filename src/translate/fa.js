@@ -93,7 +93,15 @@ module.exports = {
   "Create tag": "ایجاد برچسب",
 
   "Get file": "دریافت فایل",
+  'Link': 'لینک',
+  'Scientific Research': 'مقاله علمی پژوهشی',
 
+  'Add education': 'افزودن سابقه تحصیلی',
+  'Add workExperience': 'افزودن سابقه کاری',
+  'Start date': 'تاریخ شروع',
+  'To date': 'تاریخ پایان',
+  'WorkExperience name tip': 'مثال: مدیر اجرایی، طراح گرافیک، کارشناس فنی',
+  'WorkExperience position tip': 'مثال: پژوهشکده روبان، استارتاپ گراف، فریلنسر',
 
   //common
   "Be in zist boom": "در زیست بوم باش...",
@@ -179,6 +187,8 @@ module.exports = {
   "Description is wrong": "توضیحات اشتباه وارد شده است",
   "Education": "سابقه علمی",
   "Research": "سابقه پژوهشی",
+  "Add research": 'افزودن سابقه پژوهشی',
+  'Add skill': 'افزودن مهارت',
   "Work experience": "سابقه کاری",
   "Education Experience": "سابقه تحصیلی",
   "Grade": "مقطع",
@@ -190,6 +200,17 @@ module.exports = {
   "Skill": "مهارت",
   "Product": "محصول",
   "Badge": "نشان",
+
+  'Skill level': 'سطح مهارت',
+  'Skill title': 'عنوان مهارت',
+  'Skill title tip': 'مثال: برنامه نویسی، زبان خارجی، مهارت توسعه محصول',
+  'Very low': ' خیلی ضعیف',
+  'Low': 'ضعیف',
+  'Medium': 'متوسط',
+  'Good': 'خوب',
+  'Very good': 'خیلی خوب',
+
+  'Add new expereince': 'تجربه جدیدی به پروفایل خود اضافه کنید:',
 
 
   // user - BasicInformation
@@ -242,6 +263,8 @@ module.exports = {
   "Year is incorrect": "سال اشتباه وارد شده است",
   "Email is wrong": "آدرس رایانامه اشتباه است",
   "Address is incorrect": "آدرس اشتباه وارد شده است",
+  'Date format is wrong': 'فرمت تاریخ اشتباه است',
+  'Date example': 'مثلا 1395.5.5 یا 1395/5/5',
 
   // user - link information
   "Link Information": "پیوند",

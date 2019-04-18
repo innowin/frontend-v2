@@ -30,7 +30,7 @@ const ProductView = (props: ProductProps) => {
         </div>
         <div className="content">
           {products.map(product =>
-              <CardRowContainer title='ceritificate' svgImage={<LinkedInIcon/>}>
+              <CardRowContainer title='product' svgImage={<LinkedInIcon/>}>
                 <div className='card-row-content-right'>
                   asdasdasd
                 </div>
