@@ -39,6 +39,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
     const {activeExchangeId} = this.state
     if (exchangeId !== activeExchangeId) {
       this.setState({...this.state, activeExchangeId: exchangeId}, () => {
+        window.scrollTo({top: 0, behavior: "smooth"})
         this.props.actions.setExchange(exchangeId)
       })
     }
@@ -46,7 +47,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
 
   _unSetExchangeId = () => {
     this.setState({...this.state, activeExchangeId: undefined})
-    this.props.actions.setExchange('')
+    this.props.actions.setExchange(null)
   }
 
   render() {

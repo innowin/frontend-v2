@@ -2,7 +2,6 @@ import connect from 'react-redux/es/connect/connect'
 import React, {Component} from 'react'
 import updateUserByUserIdAction from 'src/redux/actions/user/updateUserByUserIdAction'
 import {bindActionCreators} from 'redux'
-import updateProfileByProfileIdAction from 'src/redux/actions/user/updateProfileByProfileIdAction'
 
 class GeneralSetting extends Component {
   constructor(props) {

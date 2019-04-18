@@ -14,7 +14,7 @@
     }
   }
 
-  .-product-main{
+  .-product-main {
     position: absolute;
     top: $smallTopBarHeight + 50px;
 
@@ -33,12 +33,13 @@
     background: $primary-color-light3;
     display: flex;
     align-items: center;
-    transition: $animation-timing ease;
+    transition: all linear 0.3s;
 
     &.show {
       opacity: 1;
       height: $smallTopBarHeight;
     }
+
     &.hide {
       opacity: 0;
       height: 0;
@@ -79,6 +80,8 @@
   }
 }
 
-.top-bar-entity-top{
-  top: 0;
+.top-bar-entity-top {
+  @media screen and (max-width: 480px) and (min-width: 0px) {
+    transform: translateY(-$smallTopBarHeight);
+  }
 }

@@ -46,7 +46,7 @@ class ProductView extends Component {
     actions.getPosts({postRelatedProductId: productId})
     actions.getCountries()
     actions.getCategories()
-    window.addEventListener('scroll', this._onScroll)
+    document.addEventListener('scroll', this._onScroll)
   }
 
   componentWillReceiveProps(nextProps, nextContext): void {

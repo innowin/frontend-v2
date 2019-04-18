@@ -92,7 +92,7 @@ export class Organization extends React.Component<PropsOrganization, StatesOrgan
   }
 
   componentDidMount() {
-    window.addEventListener("scroll", this._onScroll)
+    document.addEventListener('scroll', this._onScroll)
     const {params} = this.props.match
     const {getUserByUserId, setParamUserId} = this.props.actions
     const userId: number = +params.id
@@ -101,7 +101,7 @@ export class Organization extends React.Component<PropsOrganization, StatesOrgan
   }
 
   componentWillUnmount() {
-    window.removeEventListener("scroll", this._onScroll)
+    window.removeEventListener('scroll', this._onScroll)
     const {removeParamUserId} = this.props.actions
     removeParamUserId()
   }
@@ -118,7 +118,7 @@ export class Organization extends React.Component<PropsOrganization, StatesOrgan
   _goUp = () => {
     window.scroll({
       top: 0,
-      behavior: "smooth",
+      behavior: 'smooth',
     })
     this.setState({...this.state, showSecondHeader: false})
   }

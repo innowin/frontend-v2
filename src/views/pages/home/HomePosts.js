@@ -35,7 +35,7 @@ class HomePosts extends PureComponent {
   }
 
   componentWillMount(): void {
-    window.addEventListener('scroll', this._onScroll)
+    document.addEventListener('scroll', this._onScroll)
 
     const {actions, exchangeId} = this.props
     const {filterPostsByPostParentLimitOffset} = actions
@@ -160,7 +160,7 @@ class HomePosts extends PureComponent {
                           postsCountInThisPage={posts.length}
                       />
 
-                      <div className={!hideTopBar ? 'top-bar-entity show' : 'top-bar-entity show top-bar-entity-top'}>
+                      <div className={hideTopBar ? 'top-bar-entity show top-bar-entity-top' : 'top-bar-entity show'}>
                         <NewRightArrowSvg onClick={unSetExchangeId} className='back-button'/>
                         {/*<FontAwesome onClick={unSetExchangeId} className='back-button' name='arrow-right'/>*/}
                         <Link to={'/exchange/' + exchangeId} className='profile-top-bar'>

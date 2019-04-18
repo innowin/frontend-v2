@@ -53,7 +53,7 @@ class Explore extends PureComponent <appProps, appState> {
     actions.getUsers(24, 0, null, null)
     actions.getFollowees({followOwnerIdentity: currentUser.id, followOwnerId: currentUser.id, notProfile: true})
     actions.getFollowers({followOwnerIdentity: currentUser.id, followOwnerId: currentUser.id, notProfile: true})
-    window.addEventListener('scroll', this._onScroll)
+    document.addEventListener('scroll', this._onScroll)
   }
 
   componentWillUnmount() {

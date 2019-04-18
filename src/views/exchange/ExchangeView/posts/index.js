@@ -204,7 +204,7 @@ class ExchangePosts extends Component {
     const offset = 0
     this.setState({...this.state, isLoading: true}, () =>
       getExchangePosts(exchangeId, null, limit, offset, this._updatePosts, this._handleErrorLoading))
-    window.addEventListener('scroll', this._onScroll)
+    document.addEventListener('scroll', this._onScroll)
   }
 
   componentWillUnmount() {

@@ -244,7 +244,8 @@
 
 @media screen and (max-width: 480px) and (min-width: 0px) {
   .product-header {
-    top: 50px;
+    top: 0;
+    transform: translateY(50px);
     display: block;
     position: fixed;
     background-color: $primary-color-light3;
@@ -252,7 +253,7 @@
     left: 0;
     padding: 14px 0 7px 0;
     text-align: right;
-    transition: all ease 0.3s;
+    transition: all linear 0.3s;
     z-index: 2;
   }
 
@@ -265,7 +266,7 @@
     left: 0;
     padding: 14px 0 7px 0;
     text-align: right;
-    transition: all ease 0.3s;
+    transition: all linear 0.3s;
     z-index: 2;
   }
 

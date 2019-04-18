@@ -115,9 +115,6 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   }
 
   componentWillMount(): void {
-    document.addEventListener('mousedown', this._handleCloseOutside)
-    document.addEventListener('touchend', this._handleCloseOutside)
-
     const {path} = this.props
 
     if (path === constants.TOP_BAR_PAGES.HOME) {
@@ -146,7 +143,9 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
         fileParentType: constants.FILE_PARENT.IDENTITY,
       })
     }
-    window.addEventListener('scroll', this._onScroll)
+    document.addEventListener('scroll', this._onScroll)
+    document.addEventListener('mousedown', this._handleCloseOutside)
+    document.addEventListener('touchend', this._handleCloseOutside)
   }
 
   componentDidUpdate(prevProps) {
@@ -555,9 +554,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                               handleModalVisibility={this._handleProductWizardModal}/>
 
 
-          <div
-              className={showSetting || showAbout || agentForm || productModal || createExchangeModalIsOpen ? 'makeDark' : 'makeDark-out'}
-              onClick={this._handleHideSetting}>
+          <div className={showSetting || showAbout || agentForm || productModal || createExchangeModalIsOpen ? 'makeDark' : 'makeDark-out'} onClick={this._handleHideSetting}>
             {/*dark div*/}
           </div>
           {/*Settings Modal*/}

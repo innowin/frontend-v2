@@ -54,7 +54,7 @@ class Explore extends PureComponent <appProps, appState> {
 
   componentDidMount() {
     this.props.actions.getAllproducts(24, 0, null)
-    window.addEventListener('scroll', this._onScroll)
+    document.addEventListener('scroll', this._onScroll)
   }
 
   componentWillUnmount() {
