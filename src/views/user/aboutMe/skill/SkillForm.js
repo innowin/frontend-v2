@@ -1,69 +1,76 @@
 // @flow
 import * as React from 'react'
-import {connect} from 'react-redux'
-import Modal from '../../../pages/modal/modal'
-import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
-import type {identityType} from 'src/consts/flowTypes/identityType'
-import Validations from 'src/helpers/validations/validations'
-import UploadFile from '../../../common/components/UploadFile'
+import PropTypes from 'prop-types'
+
 import constants from 'src/consts/constants'
-import {bindActionCreators} from 'redux'
-import TempActions from 'src/redux/actions/tempActions'
-import FileActions from 'src/redux/actions/commonActions/fileActions'
-import type {userSkillType} from 'src/consts/flowTypes/user/basicInformation'
+import Modal from '../../../pages/modal/modal'
+import type {identityType} from 'src/consts/flowTypes/identityType'
+import type {skillType} from 'src/consts/flowTypes/user/others'
+import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
+import Validations from 'src/helpers/validations/validations'
 
 type Props = {
   toggleEdit: Function,
   translate: TranslatorType,
-  skill?: userSkillType,
+  skill?: skillType,
   createSkill?: Function,
   updateSkill?: Function,
   owner: identityType,
-  newSkillPicture: Object,
-  actions: {
-    removeFileFromTemp: Function,
-    deleteFile: Function,
-    updateFile: Function,
-  }
 }
 
 type States = {
   modalIsOpen: boolean,
   title: string,
+  level: string,
   errors: {
     title: boolean,
+    level: boolean,
   }
 }
 
 class SkillForm extends React.Component<Props, States> {
+
+  static propTypes = {
+    toggleEdit: PropTypes.func.isRequired,
+    translate: PropTypes.object.isRequired,
+    skill: PropTypes.object,
+    createSkill: PropTypes.func,
+    updateSkill: PropTypes.func,
+    owner: PropTypes.object.isRequired,
+  }
+
   state = {
     modalIsOpen: true,
     title: '',
+    level: constants.SERVER_LEVELS.VERY_LOW,
     errors: {
       title: false,
+      level: false,
     }
   }
 
   componentDidMount(): void {
     const {skill, translate} = this.props
     if (skill) {
-      this.setState({...this.state, title: skill.title, errors: {...this.state.errors, title: false}})
+      this.setState({
+        ...this.state,
+        title: skill.title,
+        level: skill.level,
+      })
     } else {
       this.setState({
         ...this.state,
         errors: {
           ...this.state.errors,
-          title: Validations.validateRequired({value: this.state.title, translate})
+          title: Validations.validateRequired({value: this.state.title, translate}),
+          level: Validations.validateRequired({value: this.state.level, translate}),
         }
       })
     }
   }
 
   _toggle = () => {
-    const {toggleEdit, actions} = this.props
-    const {removeFileFromTemp} = actions
-    const fileKey = constants.TEMP_FILE_KEYS.CERTIFICATE.PICTURE
-    removeFileFromTemp(fileKey)
+    const {toggleEdit} = this.props
     this.setState({...this.state, modalIsOpen: false})
     toggleEdit()
   }
@@ -75,6 +82,9 @@ class SkillForm extends React.Component<Props, States> {
     const name = target.name
     let error = false
     if (name === 'title') {
+      error = Validations.validateRequired({value, translate})
+    }
+    else if (name === 'level') {
       error = Validations.validateRequired({value, translate})
     }
 
@@ -89,43 +99,25 @@ class SkillForm extends React.Component<Props, States> {
   }
 
   _onSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
-    const {createSkill, owner, newSkillPicture, updateSkill, skill, actions} = this.props
-    const {deleteFile, updateFile} = actions
+    const {createSkill, owner, updateSkill, skill} = this.props
     const {errors} = this.state
-    const {title: titleError} = errors
+    const {title: titleError, level: levelError} = errors
     e.preventDefault()
     e.stopPropagation()
 
     const form = e.target
 
-    const newSkillPictureId = newSkillPicture && newSkillPicture.uploadedFileId
-    const removedSkillPictureId = newSkillPicture && newSkillPicture.removedId
     let formValues = {
       title: form.title.value,
-      skill_picture: newSkillPictureId
-          ? newSkillPictureId
-          : (skill ? skill.skill_picture : ''),
-      skill_parent: owner.id,
+      level: form.level.value,
+      skill_related_identity: owner.id,
     }
 
-    if (titleError === false) {
-      const newFileIds = [newSkillPictureId]
+    if (titleError || levelError === false) {
       if (updateSkill && skill) {
-        updateSkill({formValues, skillId: skill.id})
-        for (let newFileId of newFileIds) {
-          newFileId && updateFile({
-            id: newFileId,
-            formData: {file_related_parent: skill.id},
-            fileParentType: constants.FILE_PARENT.CERTIFICATE
-          })
-        }
-        removedSkillPictureId && deleteFile({
-          fileId: removedSkillPictureId,
-          fileParentId: skill.id,
-          fileParentType: constants.FILE_PARENT.CERTIFICATE
-        })
+        updateSkill({formValues, skillId: skill.id, userId: owner.id})
       } else if (createSkill) {
-        createSkill({formValues, skillOwnerId: owner.id, newFileIds})
+        createSkill({formValues, userId: owner.id})
       }
       this._toggle()
     }
@@ -134,12 +126,12 @@ class SkillForm extends React.Component<Props, States> {
   render() {
     const {modalIsOpen} = this.state
     const {translate, skill} = this.props
-    let title = ''
+    let title = '', level = ''
     if (skill) {
       title = skill.title
     }
     const {errors} = this.state
-    const {title: titleError} = errors
+    const {title: titleError, level: levelError} = errors
 
     return (
         <div className="event-card">
@@ -151,27 +143,33 @@ class SkillForm extends React.Component<Props, States> {
               <div className='our-modal-body'>
                 <div className='detail-row'>
                   <p className='title'>{translate['Skill title']} <span className='required-star'>*</span></p>
-                  <input defaultValue={title} onChange={this._onChangeFields} name='title'
+                  <input placeholder={translate['Skill title']} defaultValue={title} onChange={this._onChangeFields} name='title'
                          className='edit-text-fields'/>
                   <div className='modal-tip'>{translate['Skill title tip']}</div>
                   {titleError && <div className='text-field-error'>{titleError}</div>}
                 </div>
 
                 <div className='detail-row'>
-                  <p className='title'>{translate['Exporter']}</p>
-                  <input name='skill_parent' onChange={this._onChangeFields} className='edit-text-fields'/>
-                  <div className='modal-tip'>{translate['Exporter tip']}</div>
-                </div>
-
-                <div className='detail-row'>
-                  <p className='title'>{translate['Attached file']}</p>
-                  <div className='modal-tip'>{translate['Attached file tip']}</div>
-                  <UploadFile fileParentId={skill && skill.id}
-                              fileId={skill && skill.skill_picture}
-                              fileCategory={constants.CREATE_FILE_CATEGORIES.CERTIFICATE.PICTURE}
-                              // fileType={constants.CREATE_FILE_TYPES.FILE}
-                              fileType={constants.CREATE_FILE_TYPES.IMAGE}
-                              fileKey={constants.TEMP_FILE_KEYS.CERTIFICATE.PICTURE}/>
+                  <p className='title'>{translate['Skill level']} <span className='required-star'>*</span></p>
+                  <select className='edit-text-fields' defaultValue={level} name='level'
+                          onChange={this._onChangeFields}>
+                    <option value={constants.SERVER_LEVELS.VERY_LOW}>
+                      {translate[constants.SERVER_LEVELS.VERY_LOW]}
+                    </option>
+                    <option value={constants.SERVER_LEVELS.LOW}>
+                      {translate[constants.SERVER_LEVELS.LOW]}
+                    </option>
+                    <option value={constants.SERVER_LEVELS.MEDIUM}>
+                      {translate[constants.SERVER_LEVELS.MEDIUM]}
+                    </option>
+                    <option value={constants.SERVER_LEVELS.GOOD}>
+                      {translate[constants.SERVER_LEVELS.GOOD]}
+                    </option>
+                    <option value={constants.SERVER_LEVELS.VERY_GOOD}>
+                      {translate[constants.SERVER_LEVELS.VERY_GOOD]}
+                    </option>
+                  </select>
+                  {levelError && <div className='text-field-error'>{levelError}</div>}
                 </div>
               </div>
               <div className="buttons">
@@ -185,18 +183,4 @@ class SkillForm extends React.Component<Props, States> {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    newSkillPicture: state.temp.file[constants.TEMP_FILE_KEYS.CERTIFICATE.PICTURE],
-  }
-};
-
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({
-    removeFileFromTemp: TempActions.removeFileFromTemp,
-    deleteFile: FileActions.deleteFile,
-    updateFile: FileActions.updateFile,
-  }, dispatch)
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(SkillForm)
+export default SkillForm

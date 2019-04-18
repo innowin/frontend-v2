@@ -1,12 +1,15 @@
 // @flow
-import * as React from "react";
-import type {identityType} from 'src/consts/flowTypes/identityType'
-import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
-import type {researchType} from 'src/consts/flowTypes/user/others'
+import * as React from "react"
+import FontAwesome from 'react-fontawesome'
+import PropTypes from 'prop-types'
+
 import CardRowContainer from 'src/views/common/components/CardRowContainer'
-import {EditIcon, EducationIcon} from 'src/images/icons'
 import CheckOwner from '../../../common/CheckOwner'
 import ResearchForm from './ResearchForm'
+import type {identityType} from 'src/consts/flowTypes/identityType'
+import type {researchType} from 'src/consts/flowTypes/user/others'
+import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
+import {EditIcon, EducationIcon} from 'src/images/icons'
 
 type ResearchProps = {
   owner: identityType,
@@ -21,6 +24,15 @@ type ResearchStates = {
 }
 
 class ResearchView extends React.Component <ResearchProps, ResearchStates> {
+
+  static propTypes = {
+    owner: PropTypes.object.isRequired,
+    translate: PropTypes.object.isRequired,
+    researches: PropTypes.array.isRequired,
+    toggleEdit: PropTypes.func.isRequired,
+    updateResearch: PropTypes.func.isRequired,
+  }
+
   state = {
     isEdit: {},
   }
@@ -63,12 +75,12 @@ class ResearchView extends React.Component <ResearchProps, ResearchStates> {
                               </CheckOwner>
                               <p className='text'>{research.title}</p>
                               <p className='text'>{research.author}</p>
-                              <a className='blue-text' href={research.url}>{translate['Link']}</a>
+                              <a className='blue-text' href={research.url}><FontAwesome name='link'/> {translate['Link']}</a>
                             </div>
                           </CardRowContainer>
                           : <ResearchForm key={'research form' + research.id} updateResearch={updateResearch}
-                                             translate={translate} owner={owner} research={research}
-                                             toggleEdit={() => this._toggleEditResearch(research.id)}/>
+                                          translate={translate} owner={owner} research={research}
+                                          toggleEdit={() => this._toggleEditResearch(research.id)}/>
                   )
                 }
             )}

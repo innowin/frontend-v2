@@ -1,11 +1,12 @@
 // @flow
 import * as React from 'react'
+import PropTypes from 'prop-types'
+
 import Modal from '../../../pages/modal/modal'
-import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import type {identityType} from 'src/consts/flowTypes/identityType'
-import Validations from 'src/helpers/validations/validations'
+import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import type {workExperienceType} from 'src/consts/flowTypes/user/others'
-import constants from 'src/consts/constants'
+import Validations from 'src/helpers/validations/validations'
 
 type Props = {
   toggleEdit: Function,
@@ -27,6 +28,16 @@ type States = {
 }
 
 class WorkExperienceForm extends React.Component<Props, States> {
+
+  static propTypes = {
+    toggleEdit: PropTypes.func.isRequired,
+    translate: PropTypes.object.isRequired,
+    workExperience: PropTypes.object,
+    createWorkExperience: PropTypes.func,
+    updateWorkExperience: PropTypes.func,
+    owner: PropTypes.object.isRequired,
+  }
+
   state = {
     modalIsOpen: true,
     name: '',
@@ -105,7 +116,7 @@ class WorkExperienceForm extends React.Component<Props, States> {
       if (updateWorkExperience && workExperience) {
         updateWorkExperience({formValues, workExperienceId: workExperience.id})
       } else if (createWorkExperience) {
-        createWorkExperience({formValues, workExperienceOwnerId: owner.id})
+        createWorkExperience({formValues, userId: owner.id})
       }
       this._toggle()
     }
@@ -133,7 +144,7 @@ class WorkExperienceForm extends React.Component<Props, States> {
                 <div className='detail-row'>
                   <p className='title'>{translate['Job Title']} <span className='required-star'>*</span></p>
                   <input defaultValue={name} onChange={this._onChangeFields} name='name'
-                         className='edit-text-fields'/>
+                         className='edit-text-fields' placeholder={translate['Job Title']}/>
                   <div className='modal-tip'>{translate['WorkExperience name tip']}</div>
                   {nameError && <div className='text-field-error'>{nameError}</div>}
                 </div>
@@ -141,7 +152,7 @@ class WorkExperienceForm extends React.Component<Props, States> {
                 <div className='detail-row'>
                   <p className='title'>{translate['Name work']} <span className='required-star'>*</span></p>
                   <input defaultValue={position} onChange={this._onChangeFields} name='position'
-                         className='edit-text-fields'/>
+                         className='edit-text-fields' placeholder={translate['Name work']}/>
                   <div className='modal-tip'>{translate['WorkExperience position tip']}</div>
                   {positionError && <div className='text-field-error'>{positionError}</div>}
                 </div>

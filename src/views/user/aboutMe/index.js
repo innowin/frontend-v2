@@ -1,16 +1,19 @@
 //@flow
 import * as React from "react"
+import PropTypes from 'prop-types'
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 
-import Certificate from "./certificate"
+import Certificate from "../../common/newCertificate"
 import CertificateActions from 'src/redux/actions/commonActions/certificateActions'
 import Education from "./education"
 import EducationActions from 'src/redux/actions/user/educationActions'
 import ModalActions from 'src/redux/actions/modalActions'
 import Product from './product'
 import Research from './research'
+import ResearchActions from 'src/redux/actions/user/researchActions'
 import Skill from './skill'
+import SkillActions from 'src/redux/actions/user/skillActions'
 import type {certificateType, skillType, workExperienceType} from 'src/consts/flowTypes/user/others'
 import type {fileType} from 'src/consts/flowTypes/common/fileType'
 import type {identityType} from 'src/consts/flowTypes/identityType'
@@ -20,28 +23,43 @@ import WorkExperienceActions from 'src/redux/actions/user/workExperienceActions'
 import {getMessages} from "src/redux/selectors/translateSelector"
 import {makeGetEducations} from 'src/redux/selectors/user/userGetEducationsSelector'
 import {makeGetResearches} from 'src/redux/selectors/user/userGetResearchesSelector'
+import {makeGetSkills} from 'src/redux/selectors/user/userGetSkillSelector'
+import {makeGetWorkExperiences} from 'src/redux/selectors/user/userGetWorkExperiencesSelector'
 import {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 import {userCertificatesSelector} from 'src/redux/selectors/common/certificate/userCertificatesSelector'
-import {makeGetWorkExperiences} from 'src/redux/selectors/user/userGetWorkExperiencesSelector'
-import ResearchActions from 'src/redux/actions/user/researchActions'
-import SkillActions from 'src/redux/actions/user/skillActions'
-import {makeGetSkills} from '../../../redux/selectors/user/userGetSkillSelector'
 
-type OrganAboutUsProps = {
+type OrganAboutMeProps = {
   certificates: [certificateType],
   products: [Object],
-  files: [fileType],
+  files: { [number]: fileType },
   user: identityType,
   translate: TranslatorType,
-  actions: Object,
   showModal: Function,
   educations: [userEducationType],
   workExperiences: [workExperienceType],
   researches: [userResearchType],
   skills: [skillType],
+  actions: {
+    showModal: Function,
+    getCertificatesByIdentity: Function,
+    createCertificate: Function,
+    updateCertificate: Function,
+    createEducation: Function,
+    updateEducation: Function,
+    getEducations: Function,
+    getWorkExperiences: Function,
+    createWorkExperience: Function,
+    updateWorkExperience: Function,
+    getResearches: Function,
+    updateResearch: Function,
+    createResearch: Function,
+    createSkill: Function,
+    updateSkill: Function,
+    getSkills: Function,
+  },
 }
 
-const UserAboutUs = (props: OrganAboutUsProps) => {
+const UserAboutMe = (props: OrganAboutMeProps) => {
   const {
     translate, user, actions, products, certificates, files, educations, workExperiences, researches, skills
   } = props
@@ -71,6 +89,20 @@ const UserAboutUs = (props: OrganAboutUsProps) => {
   )
 }
 
+UserAboutMe.propTypes = {
+  certificates: PropTypes.array.isRequired,
+  products: PropTypes.array.isRequired,
+  files: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  translate: PropTypes.object.isRequired,
+  showModal: PropTypes.func.isRequired,
+  educations: PropTypes.array.isRequired,
+  workExperiences: PropTypes.array.isRequired,
+  researches: PropTypes.array.isRequired,
+  skills: PropTypes.array.isRequired,
+  actions: PropTypes.object.isRequired,
+}
+
 const mapStateToProps = (state, ownProps) => {
   const getEducations = makeGetEducations(state, ownProps)
   const getResearches = makeGetResearches(state, ownProps)
@@ -97,8 +129,6 @@ const mapDispatchToProps = dispatch => ({
     getCertificatesByIdentity: CertificateActions.getCertificatesByIdentity,
     createCertificate: CertificateActions.createCertificate,
     updateCertificate: CertificateActions.updateCertificate,
-
-
     createEducation: EducationActions.createEducationByUserId,
     updateEducation: EducationActions.updateEducationByUserId,
     getEducations: EducationActions.getEducationByUserId,
@@ -114,4 +144,4 @@ const mapDispatchToProps = dispatch => ({
   }, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserAboutUs);
+export default connect(mapStateToProps, mapDispatchToProps)(UserAboutMe);

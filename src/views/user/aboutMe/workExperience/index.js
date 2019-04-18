@@ -23,9 +23,6 @@ type States = {
 }
 
 class WorkExperience extends React.Component<Props, States> {
-  state = {
-    isEdit: false,
-  }
 
   static propTypes = {
     owner: PropTypes.object.isRequired,
@@ -34,6 +31,10 @@ class WorkExperience extends React.Component<Props, States> {
     createWorkExperience: PropTypes.func.isRequired,
     updateWorkExperience: PropTypes.func.isRequired,
     getWorkExperiences: PropTypes.func.isRequired,
+  }
+
+  state = {
+    isEdit: false,
   }
 
   componentDidMount(): void {

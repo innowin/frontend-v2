@@ -14,7 +14,7 @@ import {bindActionCreators} from "redux"
 import {change} from "redux-form"
 import {connect} from "react-redux"
 import {createProductAsContribution} from "src/redux/actions/commonActions/productActions/productActions"
-import {createSkillAction} from "src/redux/actions/skill/createSkillAction"
+import SkillActions from 'src/redux/actions/user/skillActions'
 import {getCategories} from "src/redux/actions/commonActions/categoryActions"
 import {getCountries, getProvinces, getCities} from "src/redux/actions/commonActions/location"
 import {getFormValues} from "src/redux/selectors/formValuesSelectors"
@@ -1085,13 +1085,13 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
       self._titleError.className = "product-name-error-hide"
     }
     else {
-      let formData = {
+      let formValues = {
         title: abilityTitle,
         description: abilityDescription,
-        skill_user: clientId && clientId
+        skill_related_identity: clientId
       }
       let {_createSkillAction} = this.props
-      _createSkillAction(formData)
+      _createSkillAction({formValues, userId: clientId})
       this._closeModal()
     }
   }
@@ -1218,7 +1218,7 @@ const mapDispatchToProps = dispatch =>
           _getProvinces: getProvinces,
           _getCities: getCities,
           _changeFormSingleFieldValue: change,
-          _createSkillAction: createSkillAction,
+          _createSkillAction: SkillActions.createSkill,
           createFile,
           getFiles,
           _removeFileFromTemp: TempActions.removeFileFromTemp,

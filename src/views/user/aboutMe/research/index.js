@@ -1,5 +1,7 @@
 // @flow
 import * as React from 'react'
+import PropTypes from 'prop-types'
+
 import CardContainer from '../../../common/cardContainer'
 import ResearchView from './ResearchView'
 import ResearchForm from './ResearchForm'
@@ -21,6 +23,16 @@ type States = {
 }
 
 class Research extends React.Component<Props, States> {
+
+  static propTypes = {
+    owner: PropTypes.object.isRequired,
+    translate: PropTypes.object.isRequired,
+    getResearches: PropTypes.func.isRequired,
+    researches: PropTypes.array.isRequired,
+    createResearch: PropTypes.func.isRequired,
+    updateResearch: PropTypes.func.isRequired,
+  }
+
   state = {
     isEdit: false,
   }
@@ -46,9 +58,10 @@ class Research extends React.Component<Props, States> {
           {
             !!isEdit
                 ? <ResearchForm createResearch={createResearch} toggleEdit={this._toggleEdit}
-                                   translate={translate} owner={owner}/>
-                : <ResearchView updateResearch={updateResearch} researches={researches} owner={owner} translate={translate}
-                                   toggleEdit={this._toggleEdit}/>
+                                translate={translate} owner={owner}/>
+                : <ResearchView updateResearch={updateResearch} researches={researches} owner={owner}
+                                translate={translate}
+                                toggleEdit={this._toggleEdit}/>
           }
         </CardContainer>
     )

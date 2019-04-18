@@ -1,8 +1,10 @@
 // @flow
-import * as React from "react";
+import * as React from "react"
+import PropTypes from 'prop-types'
+
+import CheckOwner from '../../../common/CheckOwner'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
-import CheckOwner from '../../../common/CheckOwner'
 
 type ContactProps = {
   organization: identityType,
@@ -44,6 +46,12 @@ const ContactView = (props: ContactProps) => {
         </div>
       </React.Fragment>
   )
+}
+
+ContactView.propTypes = {
+  organization: PropTypes.object.isRequired,
+  translate: PropTypes.object.isRequired,
+  toggleEdit: PropTypes.func.isRequired,
 }
 
 export default ContactView

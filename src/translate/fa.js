@@ -187,6 +187,8 @@ module.exports = {
   "Description is wrong": "توضیحات اشتباه وارد شده است",
   "Education": "سابقه علمی",
   "Research": "سابقه پژوهشی",
+  "Add research": 'افزودن سابقه پژوهشی',
+  'Add skill': 'افزودن مهارت',
   "Work experience": "سابقه کاری",
   "Education Experience": "سابقه تحصیلی",
   "Grade": "مقطع",
@@ -198,6 +200,17 @@ module.exports = {
   "Skill": "مهارت",
   "Product": "محصول",
   "Badge": "نشان",
+
+  'Skill level': 'سطح مهارت',
+  'Skill title': 'عنوان مهارت',
+  'Skill title tip': 'مثال: برنامه نویسی، زبان خارجی، مهارت توسعه محصول',
+  'Very low': ' خیلی ضعیف',
+  'Low': 'ضعیف',
+  'Medium>': 'متوسط',
+  'Good': 'خوب',
+  'Very good': 'خیلی خوب',
+
+  'Add new expereince': 'تجربه جدیدی به پروفایل خود اضافه کنید:',
 
 
   // user - BasicInformation

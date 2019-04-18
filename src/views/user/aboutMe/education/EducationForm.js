@@ -1,11 +1,13 @@
 // @flow
 import * as React from 'react'
-import Modal from '../../../pages/modal/modal'
-import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
-import type {identityType} from 'src/consts/flowTypes/identityType'
-import Validations from 'src/helpers/validations/validations'
+import PropTypes from 'prop-types'
+
 import constants from 'src/consts/constants'
+import Modal from '../../../pages/modal/modal'
+import type {identityType} from 'src/consts/flowTypes/identityType'
+import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import type {userEducationType} from 'src/consts/flowTypes/user/basicInformation'
+import Validations from 'src/helpers/validations/validations'
 
 type Props = {
   toggleEdit: Function,
@@ -33,6 +35,16 @@ type States = {
 }
 
 class EducationForm extends React.Component<Props, States> {
+
+  static propTypes = {
+    toggleEdit: PropTypes.func.isRequired,
+    translate: PropTypes.object.isRequired,
+    education: PropTypes.object,
+    createEducation: PropTypes.func,
+    updateEducation: PropTypes.func,
+    owner: PropTypes.object.isRequired,
+  }
+
   state = {
     modalIsOpen: true,
     grade: constants.SERVER_GRADES.BACHELOR,

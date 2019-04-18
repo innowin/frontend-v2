@@ -1,8 +1,10 @@
 // @flow
 import * as React from 'react'
+import PropTypes from 'prop-types'
+
 import CardContainer from '../../../common/cardContainer'
-import DescriptionView from './DescriptionView'
 import DescriptionForm from './DescriptionForm'
+import DescriptionView from './DescriptionView'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 
@@ -17,6 +19,12 @@ type States = {
 }
 
 class Description extends React.Component<Props, States> {
+  static propTypes = {
+    organization: PropTypes.object.isRequired,
+    translate: PropTypes.object.isRequired,
+    updateOrganization: PropTypes.func.isRequired,
+  }
+
   state = {
     isEdit: false,
   }

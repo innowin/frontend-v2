@@ -529,6 +529,9 @@ const identities = (state = initialState.identities, action) => {
       return userSlices.getSkillByUserId.success(state, action)
     case types.ERRORS.SKILL.GET_SKILL_BY_USER_ID:
       return userSlices.getSkillByUserId.error(state, action)
+      /** -------------------------- create skill -------------------------> **/
+    case types.SUCCESS.SKILL.CREATE_SKILL:
+      return userSlices.createSkill.success(state, action)
       /** -------------------------- delete skill by user id -------------------------> **/
     case types.SUCCESS.SKILL.DELETE_SKILL_BY_USER_ID:
       return userSlices.deleteSkillByUserId.success(state, action)

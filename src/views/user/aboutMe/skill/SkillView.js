@@ -4,10 +4,10 @@ import PropTypes from 'prop-types'
 
 import CardRowContainer from 'src/views/common/components/CardRowContainer'
 import CheckOwner from '../../../common/CheckOwner'
-import type {identityType} from 'src/consts/flowTypes/identityType'
-import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
-import type {skillType} from 'src/consts/flowTypes/user/others'
 import SkillForm from './SkillForm'
+import type {identityType} from 'src/consts/flowTypes/identityType'
+import type {skillType} from 'src/consts/flowTypes/user/others'
+import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import {EditIcon, NewSkillIcon} from 'src/images/icons'
 
 type SkillProps = {

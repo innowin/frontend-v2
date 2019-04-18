@@ -52,6 +52,13 @@ export default {
     MASTER: 'Master',
     PHD: 'Phd',
   },
+  SERVER_LEVELS: {
+    VERY_LOW: 'Very low',
+    LOW: 'Low',
+    MEDIUM: 'Medium',
+    GOOD: 'Good',
+    VERY_GOOD: 'Very good',
+  },
   TAG_FILTERS: {
     FINANCIAL: 'financial',
     COMMERCE: 'commerce',

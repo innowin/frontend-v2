@@ -1,10 +1,12 @@
 // @flow
-import * as React from "react";
+import * as React from "react"
+import PropTypes from 'prop-types'
+
+import ConfirmFormButton from '../../../common/ConfirmFormButtons'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
-import {CloseIconSvg} from 'src/images/icons'
-import ConfirmFormButton from '../../../common/ConfirmFormButtons'
 import Validations from 'src/helpers/validations/validations'
+import {CloseIconSvg} from 'src/images/icons'
 
 type ContactProps = {
   organization: identityType,
@@ -25,6 +27,13 @@ type ContactStates = {
 }
 
 class ContactForm extends React.Component <ContactProps, ContactStates> {
+
+  static propTypes = {
+    organization: PropTypes.object.isRequired,
+    translate: PropTypes.object.isRequired,
+    toggleEdit: PropTypes.func.isRequired,
+    updateOrganization: PropTypes.func.isRequired,
+  }
 
   state = {
     email: '',

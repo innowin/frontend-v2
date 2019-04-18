@@ -1,14 +1,15 @@
 // @flow
-import * as React from "react";
+import * as React from "react"
+import PropTypes from 'prop-types'
+
+import CardRowContainer from 'src/views/common/components/CardRowContainer'
+import CheckOwner from '../../../common/CheckOwner'
+import constants from 'src/consts/constants'
+import EducationForm from './EducationForm'
+import type {educationType} from 'src/consts/flowTypes/user/others'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
-import type {educationType} from 'src/consts/flowTypes/user/others'
-import CardRowContainer from 'src/views/common/components/CardRowContainer'
 import {EditIcon, EducationIcon} from 'src/images/icons'
-import CheckOwner from '../../../common/CheckOwner'
-import EducationForm from './EducationForm'
-import PropTypes from 'prop-types'
-import constants from 'src/consts/constants'
 
 type EducationProps = {
   owner: identityType,

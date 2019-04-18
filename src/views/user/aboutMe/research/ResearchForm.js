@@ -1,16 +1,17 @@
 // @flow
 import * as React from 'react'
+import PropTypes from 'prop-types'
+
 import Modal from '../../../pages/modal/modal'
-import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
-import type {researchType} from 'src/consts/flowTypes/user/others'
 import type {identityType} from 'src/consts/flowTypes/identityType'
+import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
+import type {userResearchType} from 'src/consts/flowTypes/user/basicInformation'
 import Validations from 'src/helpers/validations/validations'
-import constants from 'src/consts/constants'
 
 type Props = {
   toggleEdit: Function,
   translate: TranslatorType,
-  research?: researchType,
+  research?: userResearchType,
   createResearch?: Function,
   updateResearch?: Function,
   owner: identityType,
@@ -18,22 +19,34 @@ type Props = {
 
 type States = {
   modalIsOpen: boolean,
-  name: string,
-  position: string,
+  title: string,
+  author: string,
+  research_link: string,
   errors: {
-    name: boolean,
-    position: boolean,
+    title: boolean,
+    research_link: boolean,
   }
 }
 
 class ResearchForm extends React.Component<Props, States> {
+
+  static propTypes = {
+    toggleEdit: PropTypes.func.isRequired,
+    translate: PropTypes.object.isRequired,
+    research: PropTypes.object,
+    createResearch: PropTypes.func,
+    updateResearch: PropTypes.func,
+    owner: PropTypes.object.isRequired,
+  }
+
   state = {
     modalIsOpen: true,
-    name: '',
-    position: '',
+    title: '',
+    author: '',
+    research_link: '',
     errors: {
-      name: false,
-      position: false,
+      title: false,
+      research_link: false,
     }
   }
 
@@ -42,16 +55,16 @@ class ResearchForm extends React.Component<Props, States> {
     if (research) {
       this.setState({
         ...this.state,
-        name: research.name,
-        position: research.position,
+        title: research.title,
+        author: research.author,
+        research_link: research.research_link,
       })
     } else {
       this.setState({
         ...this.state,
         errors: {
           ...this.state.errors,
-          name: Validations.validateRequired({value: this.state.name, translate}),
-          position: Validations.validateRequired({value: this.state.position, translate}),
+          title: Validations.validateRequired({value: this.state.title, translate}),
         }
       })
     }
@@ -69,10 +82,10 @@ class ResearchForm extends React.Component<Props, States> {
     const value = target.type === 'checkbox' ? target.checked : target.value
     const name = target.name
     let error = false
-    if (name === 'name') {
+    if (name === 'title') {
       error = Validations.validateRequired({value, translate})
-    } else if (name === 'position') {
-      error = Validations.validateRequired({value, translate})
+    } else if (name === 'research_link') {
+      error = Validations.validateURL({value, translate})
     }
 
     this.setState({
@@ -88,22 +101,24 @@ class ResearchForm extends React.Component<Props, States> {
   _onSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     const {createResearch, owner, updateResearch, research} = this.props
     const {errors} = this.state
-    const {name: nameError, position: positionError} = errors
+    const {title: titleError, research_link: researchLinkError} = errors
     e.preventDefault()
     e.stopPropagation()
 
     const form = e.target
 
     let formValues = {
-      name: form.name.value,
-      position: form.position.value,
+      title: form.title.value,
+      author: form.author.value,
+      research_link: form.research_link.value,
+      research_related_identity: owner.id,
     }
 
-    if (nameError === false) {
+    if (titleError || researchLinkError === false) {
       if (updateResearch && research) {
-        updateResearch({formValues, researchId: research.id})
+        updateResearch({formValues, researchId: research.id, userId: owner.id})
       } else if (createResearch) {
-        createResearch({formValues, researchOwnerId: owner.id})
+        createResearch({formValues, userId: owner.id})
       }
       this._toggle()
     }
@@ -112,13 +127,14 @@ class ResearchForm extends React.Component<Props, States> {
   render() {
     const {modalIsOpen} = this.state
     const {translate, research} = this.props
-    let name = '', position = ''
+    let title = '', author = '', researchLink = ''
     if (research) {
-      name = research.name
-      position = research.position
+      title = research.title
+      author = research.author
+      researchLink = research.research_link
     }
     const {errors} = this.state
-    const {name: nameError, position: positionError} = errors
+    const {title: titleError, research_link: researchLinkError} = errors
 
     return (
         <div className="event-card">
@@ -129,17 +145,23 @@ class ResearchForm extends React.Component<Props, States> {
               </div>
               <div className='our-modal-body'>
                 <div className='detail-row'>
-                  <p className='title'>{translate['Research title']} <span className='required-star'>*</span></p>
-                  <input defaultValue={name} onChange={this._onChangeFields} name='name'
-                         className='edit-text-fields'/>
-                  {nameError && <div className='text-field-error'>{nameError}</div>}
+                  <p className='title'>{translate['Title']} <span className='required-star'>*</span></p>
+                  <input defaultValue={title} onChange={this._onChangeFields} name='title'
+                         className='edit-text-fields' placeholder={translate['Title']}/>
+                  {titleError && <div className='text-field-error'>{titleError}</div>}
                 </div>
 
                 <div className='detail-row'>
-                  <p className='title'>{translate['Research title']} <span className='required-star'>*</span></p>
-                  <input defaultValue={name} onChange={this._onChangeFields} name='name'
-                         className='edit-text-fields'/>
-                  {positionError && <div className='text-field-error'>{positionError}</div>}
+                  <p className='title'>{translate['Author']}</p>
+                  <input defaultValue={author} onChange={this._onChangeFields} name='author'
+                         className='edit-text-fields' placeholder={translate['Author']}/>
+                </div>
+
+                <div className='detail-row'>
+                  <p className='title'>{translate['Research Link']}</p>
+                  <input defaultValue={researchLink} onChange={this._onChangeFields} name='research_link'
+                         className='edit-text-fields' placeholder={translate['Research Link']}/>
+                  {researchLinkError && <div className='text-field-error'>{researchLinkError}</div>}
                 </div>
               </div>
               <div className="buttons">

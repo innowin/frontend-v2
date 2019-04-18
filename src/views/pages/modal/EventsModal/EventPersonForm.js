@@ -177,7 +177,8 @@ class EventPersonForm extends Component<EventPersonFormProps, EventPersonFormSta
     }
 
     for (let skill of skills) {
-      createSkill({title: skill, skill_user: user.id})
+      const formValues = {title: skill, skill_related_identity: user.id}
+      createSkill({formValues, userId: user.id})
     }
 
     const reagentDetail = {

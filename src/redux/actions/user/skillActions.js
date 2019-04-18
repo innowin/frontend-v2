@@ -15,10 +15,16 @@ const updateSkillByUserId = ({formValues, skillId, userId}) => ({
   payload: {formValues, skillId, userId}
 })
 
+export const createSkill = ({formValues, userId}) => ({
+  type: types.SKILL.CREATE_SKILL,
+  payload: {formValues, userId}
+})
+
 const SkillActions = {
   getSkillByUserId,
   deleteSkillByUserId,
   updateSkillByUserId,
+  createSkill,
 }
 
 export default SkillActions

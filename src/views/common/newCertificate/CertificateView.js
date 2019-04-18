@@ -1,21 +1,23 @@
 // @flow
-import * as React from "react";
+import * as React from "react"
+import FontAwesome from 'react-fontawesome'
+import PropTypes from 'prop-types'
+
+import CardRowContainer from 'src/views/common/components/CardRowContainer'
+import CertificateForm from './CertificateForm'
+import CheckOwner from '../CheckOwner'
+import type {certificateType} from 'src/consts/flowTypes/user/others'
+import type {fileType} from 'src/consts/flowTypes/common/fileType'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
-import type {certificateType} from 'src/consts/flowTypes/user/others'
-import CardRowContainer from 'src/views/common/components/CardRowContainer'
 import {EditIcon, LinkedInIcon} from 'src/images/icons'
-import CheckOwner from '../../../common/CheckOwner'
-import type {fileType} from 'src/consts/flowTypes/common/fileType'
-import CertificateForm from './CertificateForm'
-import FontAwesome from 'react-fontawesome'
 
 type CertificateProps = {
   owner: identityType,
   translate: TranslatorType,
   certificates: [certificateType],
   toggleEdit: Function,
-  files: [fileType],
+  files: { [number]: fileType },
   updateCertificate: Function,
 }
 
@@ -24,6 +26,16 @@ type CertificateStates = {
 }
 
 class CertificateView extends React.Component <CertificateProps, CertificateStates> {
+
+  static propTypes = {
+    owner: PropTypes.object.isRequired,
+    translate: PropTypes.object.isRequired,
+    certificates: PropTypes.array.isRequired,
+    toggleEdit: PropTypes.func.isRequired,
+    files: PropTypes.object.isRequired,
+    updateCertificate: PropTypes.func.isRequired,
+  }
+
   state = {
     isEdit: {},
   }
@@ -69,7 +81,7 @@ class CertificateView extends React.Component <CertificateProps, CertificateStat
                               {certificate.title}
                               {certificatePicture && files[certificatePicture] &&
                               <a className='attach-file' href={files[certificatePicture].file}>
-                                <FontAwesome className='attach-file-icon' name='download'/>
+                                <FontAwesome className='attach-file-icon' name='paperclip'/>
                                 {translate['Attached file']}
                               </a>
                               }

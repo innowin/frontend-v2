@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {Component} from 'react'
+import {bindActionCreators} from 'redux'
 
 import constants from 'src/consts/constants'
 import EventActions from 'src/redux/actions/eventActions'
@@ -15,18 +16,17 @@ import type {organizationType} from 'src/consts/flowTypes/organization/organizat
 import type {userProfileType} from 'src/consts/flowTypes/user/basicInformation'
 import UpdateProfileAction from 'src/redux/actions/user/updateProfileByProfileIdAction'
 import UpdateUserAction from 'src/redux/actions/user/updateUserByUserIdAction'
-import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {getProvinces, getCities} from 'src/redux/actions/commonActions/location'
 import EventAssignmentActions from 'src/redux/actions/eventAssignmentActions'
 import EducationActions from 'src/redux/actions/user/educationActions'
-import {createSkillAction} from 'src/redux/actions/skill/createSkillAction'
+import SkillActions from 'src/redux/actions/user/skillActions'
 
 type Event = {|
-  id : number,
-  title : string,
-  detail : [string],
-  showDetails : boolean
+  id: number,
+  title: string,
+  detail: [string],
+  showDetails: boolean
 |}
 
 type EventModalProps = {
@@ -34,18 +34,18 @@ type EventModalProps = {
   isUser: boolean,
   organization: organizationType,
   cities: { list: {} },
-  events: {[string]:Event},
+  events: { [string]: Event },
   provinces: { list: {} },
   profile: userProfileType,
   actions: {|
     createEventAssignment: Function,
-    createFile : Function,
+    createFile: Function,
     createSkill: Function,
-    getCities : Function,
-    getEvents : Function,
-    getProvinces : Function,
-    updateFile : Function,
-    updateOrganization : Function,
+    getCities: Function,
+    getEvents: Function,
+    getProvinces: Function,
+    updateFile: Function,
+    updateOrganization: Function,
   |}
 }
 
@@ -56,7 +56,7 @@ type EventModalStates = {|
 |}
 
 class EventModal extends Component<EventModalProps, EventModalStates> {
-  constructor (props:EventModalProps) {
+  constructor(props: EventModalProps) {
     super(props)
     this.state = {
       events: this.props.events || {},
@@ -65,26 +65,26 @@ class EventModal extends Component<EventModalProps, EventModalStates> {
     }
   }
 
-  
-  componentDidMount () : void {
+
+  componentDidMount(): void {
     const {actions, events} = this.props
     const {getEvents} = actions
     // getEvents()
   }
-  
-  componentDidUpdate (prevProps : Readonly<EventModalProps>, prevState : Readonly<EventModalStates>, snapshot : any) : void {
+
+  componentDidUpdate(prevProps: Readonly<EventModalProps>, prevState: Readonly<EventModalStates>, snapshot: any): void {
     if (prevProps.events !== this.props.events) {
-      this.setState({...this.state,events:{...this.props.events}})
+      this.setState({...this.state, events: {...this.props.events}})
     }
   }
-  
-  _toggleActiveEventId = (id:string, addIt:boolean) => {
+
+  _toggleActiveEventId = (id: string, addIt: boolean) => {
     if (!!addIt) {
       this.setState({...this.state, selectedEvents: [...new Set([...this.state.selectedEvents, id])]})
     } else if (!addIt) {
       let currentList = this.state.selectedEvents
       // eslint-disable-next-line
-      let [id , ...rest] = currentList
+      let [id, ...rest] = currentList
       this.setState({...this.state, selectedEvents: [...rest]})
     }
   }
@@ -163,7 +163,7 @@ const mapStateToProps = (state) => {
   const isUser = !state.auth.client.organization
   return {
     cities: state.common.location.city,
-    events: getEventsSelector (state),
+    events: getEventsSelector(state),
     isUser,
     organization: state.auth.client.organization,
     profile: state.auth.client.profile,
@@ -187,7 +187,7 @@ const mapDispatchToProps = dispatch => ({
     removeFileFromTemp: TempActions.removeFileFromTemp,
     createEventAssignment: EventAssignmentActions.createEventAssignment,
     createEducation: EducationActions.createEducationByUserId,
-    createSkill: createSkillAction
+    createSkill: SkillActions.createSkill
   }, dispatch)
 })
 

@@ -1,12 +1,14 @@
 // @flow
 import * as React from 'react'
-import CardContainer from '../../../common/cardContainer'
-import CertificateView from './CertificateView'
+import PropTypes from 'prop-types'
+
+import CardContainer from '../cardContainer'
 import CertificateForm from './CertificateForm'
-import type {identityType} from 'src/consts/flowTypes/identityType'
-import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
+import CertificateView from './CertificateView'
 import type {certificateType} from 'src/consts/flowTypes/user/others'
 import type {fileType} from 'src/consts/flowTypes/common/fileType'
+import type {identityType} from 'src/consts/flowTypes/identityType'
+import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 
 type Props = {
   owner: identityType,
@@ -15,7 +17,7 @@ type Props = {
   certificates: [certificateType],
   createCertificate: Function,
   updateCertificate: Function,
-  files: [fileType],
+  files: { [number]: fileType },
 }
 
 type States = {
@@ -23,6 +25,17 @@ type States = {
 }
 
 class Certificate extends React.Component<Props, States> {
+
+  static propTypes = {
+    owner: PropTypes.object.isRequired,
+    translate: PropTypes.object.isRequired,
+    getCertificatesByIdentity: PropTypes.func.isRequired,
+    certificates: PropTypes.array.isRequired,
+    createCertificate: PropTypes.func.isRequired,
+    updateCertificate: PropTypes.func.isRequired,
+    files: PropTypes.func.isRequired,
+  }
+
   state = {
     isEdit: false,
   }

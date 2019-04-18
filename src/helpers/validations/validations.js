@@ -22,6 +22,14 @@ const validateWebSite = ({value, translate}) => {
   }
 }
 
+const validateURL = ({value, translate}) => {
+  if (!/^(https|http:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,})|((?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,})$/.test(value)) {
+    return translate['Url is wrong']
+  } else {
+    return false
+  }
+}
+
 const validateBiography = ({value, translate}) => {
   if (value.length > 700) {
     return translate['Biography length is wrong']
@@ -51,6 +59,7 @@ const Validations = {
   validateBiography,
   validateRequired,
   validateDate,
+  validateURL,
 }
 
 export default Validations
