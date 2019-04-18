@@ -1,15 +1,10 @@
 // @flow
 import * as React from 'react'
-import {connect} from 'react-redux'
 import Modal from '../../../pages/modal/modal'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import Validations from 'src/helpers/validations/validations'
-import UploadFile from '../../../common/components/UploadFile'
 import constants from 'src/consts/constants'
-import {bindActionCreators} from 'redux'
-import TempActions from 'src/redux/actions/tempActions'
-import FileActions from 'src/redux/actions/commonActions/fileActions'
 import type {userEducationType} from 'src/consts/flowTypes/user/basicInformation'
 
 type Props = {
@@ -19,51 +14,67 @@ type Props = {
   createEducation?: Function,
   updateEducation?: Function,
   owner: identityType,
-  newEducationPicture: Object,
-  actions: {
-    removeFileFromTemp: Function,
-    deleteFile: Function,
-    updateFile: Function,
-  }
 }
 
 type States = {
   modalIsOpen: boolean,
-  title: string,
+  grade: string,
+  field_of_study: string,
+  university: string,
+  from_date: string,
+  to_date: string,
   errors: {
-    title: boolean,
+    grade: boolean,
+    field_of_study: boolean,
+    university: boolean,
+    from_date: boolean,
+    to_date: boolean,
   }
 }
 
 class EducationForm extends React.Component<Props, States> {
   state = {
     modalIsOpen: true,
-    title: '',
+    grade: constants.SERVER_GRADES.BACHELOR,
+    field_of_study: '',
+    university: '',
+    from_date: '',
+    to_date: '',
     errors: {
-      title: false,
+      grade: false,
+      field_of_study: false,
+      university: false,
+      from_date: false,
+      to_date: false,
     }
   }
 
   componentDidMount(): void {
     const {education, translate} = this.props
     if (education) {
-      this.setState({...this.state, title: education.title, errors: {...this.state.errors, title: false}})
+      this.setState({
+        ...this.state,
+        grade: education.grade,
+        field_of_study: education.field_of_study,
+        university: education.university,
+        from_date: education.from_date,
+        to_date: education.to_date,
+      })
     } else {
       this.setState({
         ...this.state,
         errors: {
           ...this.state.errors,
-          title: Validations.validateRequired({value: this.state.title, translate})
+          grade: Validations.validateRequired({value: this.state.grade, translate}),
+          field_of_study: Validations.validateRequired({value: this.state.field_of_study, translate}),
+          university: Validations.validateRequired({value: this.state.university, translate}),
         }
       })
     }
   }
 
   _toggle = () => {
-    const {toggleEdit, actions} = this.props
-    const {removeFileFromTemp} = actions
-    const fileKey = constants.TEMP_FILE_KEYS.CERTIFICATE.PICTURE
-    removeFileFromTemp(fileKey)
+    const {toggleEdit} = this.props
     this.setState({...this.state, modalIsOpen: false})
     toggleEdit()
   }
@@ -74,8 +85,16 @@ class EducationForm extends React.Component<Props, States> {
     const value = target.type === 'checkbox' ? target.checked : target.value
     const name = target.name
     let error = false
-    if (name === 'title') {
+    if (name === 'grade') {
       error = Validations.validateRequired({value, translate})
+    } else if (name === 'field_of_study') {
+      error = Validations.validateRequired({value, translate})
+    } else if (name === 'university') {
+      error = Validations.validateRequired({value, translate})
+    } else if (name === 'from_date') {
+      error = Validations.validateDate({value, translate})
+    } else if (name === 'to_date') {
+      error = Validations.validateDate({value, translate})
     }
 
     this.setState({
@@ -89,43 +108,31 @@ class EducationForm extends React.Component<Props, States> {
   }
 
   _onSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
-    const {createEducation, owner, newEducationPicture, updateEducation, education, actions} = this.props
-    const {deleteFile, updateFile} = actions
+    const {createEducation, owner, updateEducation, education} = this.props
     const {errors} = this.state
-    const {title: titleError} = errors
+    const {
+      grade: gradeError, university: universityError, to_date: toDateError, from_date: fromDateError,
+      field_of_study: fieldOfStudyError
+    } = errors
     e.preventDefault()
     e.stopPropagation()
 
     const form = e.target
 
-    const newEducationPictureId = newEducationPicture && newEducationPicture.uploadedFileId
-    const removedEducationPictureId = newEducationPicture && newEducationPicture.removedId
     let formValues = {
-      title: form.title.value,
-      education_picture: newEducationPictureId
-          ? newEducationPictureId
-          : (education ? education.education_picture : ''),
-      education_parent: owner.id,
+      grade: form.grade.value,
+      field_of_study: form.field_of_study.value,
+      university: form.university.value,
+      from_date: form.from_date.value,
+      to_date: form.to_date.value,
+      education_related_identity: owner.id,
     }
 
-    if (titleError === false) {
-      const newFileIds = [newEducationPictureId]
+    if ((gradeError || universityError || toDateError || fromDateError || fieldOfStudyError) === false) {
       if (updateEducation && education) {
-        updateEducation({formValues, educationId: education.id})
-        for (let newFileId of newFileIds) {
-          newFileId && updateFile({
-            id: newFileId,
-            formData: {file_related_parent: education.id},
-            fileParentType: constants.FILE_PARENT.CERTIFICATE
-          })
-        }
-        removedEducationPictureId && deleteFile({
-          fileId: removedEducationPictureId,
-          fileParentId: education.id,
-          fileParentType: constants.FILE_PARENT.CERTIFICATE
-        })
+        updateEducation({formValues, educationId: education.id, userId: owner.id})
       } else if (createEducation) {
-        createEducation({formValues, educationOwnerId: owner.id, newFileIds})
+        createEducation({formValues, userId: owner.id})
       }
       this._toggle()
     }
@@ -134,49 +141,82 @@ class EducationForm extends React.Component<Props, States> {
   render() {
     const {modalIsOpen} = this.state
     const {translate, education} = this.props
-    let title = ''
+    let grade = '', fieldOfStudy = '', university = '', fromDate = '', toDate = ''
     if (education) {
-      title = education.title
+      grade = education.grade
+      fieldOfStudy = education.field_of_study
+      university = education.university
+      fromDate = education.from_date
+      toDate = education.to_date
     }
     const {errors} = this.state
-    const {title: titleError} = errors
+    const {
+      grade: gradeError, field_of_study: fieldOfStudyError, from_date: fromDateError, to_date: toDateError,
+      university: universityError
+    } = errors
 
     return (
         <div className="event-card">
           <Modal open={modalIsOpen} closer={this._toggle}>
-            <form method='POST' onSubmit={this._onSubmit} className="event-modal education-modal">
+            <form method='POST' onSubmit={this._onSubmit} className="event-modal edit-modal">
               <div className="head">
                 <div className="title">{translate['Add education']}</div>
               </div>
               <div className='our-modal-body'>
                 <div className='detail-row'>
-                  <p className='title'>{translate['Education title']} <span className='required-star'>*</span></p>
-                  <input defaultValue={title} onChange={this._onChangeFields} name='title'
+                  <p className='title'>{translate['Education grade']} <span className='required-star'>*</span></p>
+                  <select className='edit-text-fields' defaultValue={grade} name='grade'
+                          onChange={this._onChangeFields}>
+                    <option value={constants.SERVER_GRADES.BACHELOR}>
+                      {translate[constants.SERVER_GRADES.BACHELOR]}
+                    </option>
+                    <option value={constants.SERVER_GRADES.MASTER}>
+                      {translate[constants.SERVER_GRADES.MASTER]}
+                    </option>
+                    <option value={constants.SERVER_GRADES.PHD}>
+                      {translate[constants.SERVER_GRADES.PHD]}
+                    </option>
+                  </select>
+                  {gradeError && <div className='text-field-error'>{gradeError}</div>}
+                </div>
+
+                <div className='detail-row'>
+                  <p className='title'>{translate['Field of study']} <span className='required-star'>*</span></p>
+                  <input placeholder={translate['Field of study']} name='field_of_study' defaultValue={fieldOfStudy}
+                         onChange={this._onChangeFields}
                          className='edit-text-fields'/>
-                  <div className='modal-tip'>{translate['Education title tip']}</div>
-                  {titleError && <div className='text-field-error'>{titleError}</div>}
+                  {fieldOfStudyError && <div className='text-field-error'>{fieldOfStudyError}</div>}
                 </div>
 
                 <div className='detail-row'>
-                  <p className='title'>{translate['Exporter']}</p>
-                  <input name='education_parent' onChange={this._onChangeFields} className='edit-text-fields'/>
-                  <div className='modal-tip'>{translate['Exporter tip']}</div>
+                  <p className='title'>{translate['University']} <span className='required-star'>*</span></p>
+                  <input placeholder={translate['University']} name='university' defaultValue={university}
+                         onChange={this._onChangeFields}
+                         className='edit-text-fields'/>
+                  {universityError && <div className='text-field-error'>{universityError}</div>}
                 </div>
 
-                <div className='detail-row'>
-                  <p className='title'>{translate['Attached file']}</p>
-                  <div className='modal-tip'>{translate['Attached file tip']}</div>
-                  <UploadFile fileParentId={education && education.id}
-                              fileId={education && education.education_picture}
-                              fileCategory={constants.CREATE_FILE_CATEGORIES.CERTIFICATE.PICTURE}
-                              // fileType={constants.CREATE_FILE_TYPES.FILE}
-                              fileType={constants.CREATE_FILE_TYPES.IMAGE}
-                              fileKey={constants.TEMP_FILE_KEYS.CERTIFICATE.PICTURE}/>
+                <div className='detail-row-container'>
+                  <div className='detail-row'>
+                    <p className='title'>{translate['Start date']}</p>
+                    <input placeholder={translate['Date example']} name='from_date' defaultValue={fromDate}
+                           onChange={this._onChangeFields}
+                           className='edit-text-fields'/>
+                    {fromDateError && <div className='text-field-error'>{fromDateError}</div>}
+                  </div>
+
+                  <div className='detail-row'>
+                    <p className='title'>{translate['To date']}</p>
+                    <input placeholder={translate['Date example']} name='to_date' defaultValue={toDate}
+                           onChange={this._onChangeFields}
+                           className='edit-text-fields'/>
+                    {toDateError && <div className='text-field-error'>{toDateError}</div>}
+                  </div>
                 </div>
               </div>
               <div className="buttons">
-                <input type='submit' className="button save" value='ثبت'/>
-                <div onClick={this._toggle} className="button cancel">لغو</div>
+                <input type='submit' className="button save" value={translate['Submit']}/>
+                <div onClick={this._toggle} className="button cancel">{translate['Cancel']}</div>
               </div>
             </form>
           </Modal>
@@ -185,18 +225,4 @@ class EducationForm extends React.Component<Props, States> {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    newEducationPicture: state.temp.file[constants.TEMP_FILE_KEYS.CERTIFICATE.PICTURE],
-  }
-};
-
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({
-    removeFileFromTemp: TempActions.removeFileFromTemp,
-    deleteFile: FileActions.deleteFile,
-    updateFile: FileActions.updateFile,
-  }, dispatch)
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(EducationForm)
+export default EducationForm

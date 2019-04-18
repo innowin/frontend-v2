@@ -36,7 +36,6 @@ class ResearchView extends React.Component <ResearchProps, ResearchStates> {
   render() {
     const {translate, researches, owner, toggleEdit, updateResearch} = this.props
     const {isEdit} = this.state
-    console.log(researches)
     return (
         <React.Fragment>
           <div className="card-header">

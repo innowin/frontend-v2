@@ -46,11 +46,11 @@ class EducationView extends React.Component <EducationProps, EducationStates> {
   _gradeChangeNamePersian = (educationGrade: string, translate: TranslatorType) => {
     let grade
     if (educationGrade === constants.SERVER_GRADES.BACHELOR) {
-      grade = translate["Bachelor"]
+      grade = translate[constants.SERVER_GRADES.BACHELOR]
     } else if (educationGrade === constants.SERVER_GRADES.MASTER) {
-      grade = translate["Master"]
+      grade = translate[constants.SERVER_GRADES.MASTER]
     } else if (educationGrade === constants.SERVER_GRADES.PHD) {
-      grade = translate["Phd"]
+      grade = translate[constants.SERVER_GRADES.PHD]
     } else {
       grade = educationGrade
     }
@@ -78,7 +78,7 @@ class EducationView extends React.Component <EducationProps, EducationStates> {
                   return (
                       !isEdit[education.id]
                           ? <CardRowContainer key={'education ' + education.id}
-                                              title={this._gradeChangeNamePersian("Phd", translate)}
+                                              title={this._gradeChangeNamePersian(education.grade, translate)}
                                               svgImage={<EducationIcon/>} fromDate={education.from_date}
                                               toDate={education.to_date}
                           >

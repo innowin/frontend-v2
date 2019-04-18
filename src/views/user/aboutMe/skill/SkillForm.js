@@ -144,7 +144,7 @@ class SkillForm extends React.Component<Props, States> {
     return (
         <div className="event-card">
           <Modal open={modalIsOpen} closer={this._toggle}>
-            <form method='POST' onSubmit={this._onSubmit} className="event-modal skill-modal">
+            <form method='POST' onSubmit={this._onSubmit} className="event-modal edit-modal">
               <div className="head">
                 <div className="title">{translate['Add skill']}</div>
               </div>
@@ -175,8 +175,8 @@ class SkillForm extends React.Component<Props, States> {
                 </div>
               </div>
               <div className="buttons">
-                <input type='submit' className="button save" value='ثبت'/>
-                <div onClick={this._toggle} className="button cancel">لغو</div>
+                <input type='submit' className="button save" value={translate['Submit']}/>
+                <div onClick={this._toggle} className="button cancel">{translate['Cancel']}</div>
               </div>
             </form>
           </Modal>

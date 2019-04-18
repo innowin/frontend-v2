@@ -46,7 +46,6 @@ class SkillView extends React.Component <SkillProps, SkillStates> {
   render() {
     const {translate, skills, owner, toggleEdit, updateSkill} = this.props
     const {isEdit} = this.state
-    console.log(skills)
     return (
         <React.Fragment>
           <div className="card-header">
