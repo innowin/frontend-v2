@@ -44,7 +44,7 @@
   position: fixed;
   text-align: center;
   padding: 20px;
-  top: $topBarHeight + 11px;
+  top: $topBarHeight + 15px;
   z-index: 10;
   opacity: 1;
   max-height: 81vh;
@@ -57,7 +57,7 @@
 .create-exchange-modal-container-out {
   overflow: hidden;
   position: fixed;
-  top: $topBarHeight + 11px;
+  top: $topBarHeight + 15px;
   right: 25%;
   left: 25%;
   z-index: -1;
@@ -246,9 +246,9 @@
 .create-exchange-cancel-button {
   padding: 5px;
   font-size: $font-size-regular;
-  border: 1.5px solid $text-lighter-color;
-  background-color: $text-lighter-color;
-  color: $text-dark-color;
+  border: 1.5px solid $disable-color;
+  background-color: $disable-color;
+  color: white;
   height: 30px;
   width: 85px;
   border-radius: 30px;
@@ -256,9 +256,9 @@
   transition-duration: $animation-timing;
 
   &:hover {
-    border: 1.5px solid $text-dark-color;
-    background-color: transparent;
-    color: $text-dark-color;
+    border: 1.5px solid $disable-color;
+    background-color: white;
+    color: $disable-color;
     transition-duration: $animation-timing;
   }
 }
@@ -304,7 +304,7 @@
   }
 }
 
-@media screen and (max-width: 900px) and (min-width: 0px) {
+@media screen and (max-width: 900px) and (min-width: 480px) {
   .create-exchange-modal-container {
     right: 10%;
     left: 10%;

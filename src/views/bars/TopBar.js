@@ -425,7 +425,8 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                   <h4 className='item-title'>{translate['Create']}</h4>
                   <p onClick={this._createExchangeModalVisibilityHandler}
                      className='item-text'>{topBarTranslate['New Window']}</p>
-                  <p className='item-text'>{topBarTranslate['Add product']}</p>
+                  <p onClick={this._handleProductWizardModal}
+                     className='item-text'>{topBarTranslate['Add product']}</p>
                   <p onClick={this._handleExchangeUpgrade}
                      className='item-text'>{topBarTranslate['Update exchange']}</p>
                 </div>
@@ -482,12 +483,12 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                     </Link>
 
                     <div className='profile-menu-second-section'>
-                      <Material className='profile-menu-second-section-item' onClick={this._handleExchangeUpgrade}
-                                content='درخواست ارتقاء به کارگزار'/>
                       <Material className='profile-menu-second-section-item'
                                 onClick={this._createExchangeModalVisibilityHandler} content='ایجاد پنجره جدید'/>
                       <Material className='profile-menu-second-section-item' onClick={this._handleProductWizardModal}
-                                content='ایجاد آورده جدید'/>
+                                content='ایجاد محصول جدید'/>
+                      <Material className='profile-menu-second-section-item' onClick={this._handleExchangeUpgrade}
+                                content='درخواست ارتقاء به کارگزار'/>
                     </div>
 
                     <div className='profile-menu-second-section'>

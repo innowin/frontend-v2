@@ -8,7 +8,7 @@
   right: 30%;
   z-index: -1;
   opacity: 0;
-  width: 40%;
+  //width: 40%;
   transform: scale(0.9);
   border-radius: 3px;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
@@ -30,7 +30,7 @@
   right: 30%;
   z-index: 1202;
   opacity: 1;
-  width: 40%;
+  left: 30%;
   max-height: 88vh;
   border-radius: 3px;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
@@ -244,45 +244,48 @@
 
   .modal-footers {
     margin: 0 auto 25px auto;
-    width: 70%;
-    text-align: left;
+    width: 100%;
+    text-align: center;
+    display: inline-flex;
+    justify-content: space-between;
   }
 
   .modal-button.link {
-    border: 1.5px solid $secondary-color;
-    background-color: white;
-    color: $secondary-color;
-    height: 28px;
-    width: 18%;
-    font-size: 13px;
+    background-color: $disable-color;
     border-radius: 30px;
+    border: 1.5px solid $disable-color;
+    color: white;
     cursor: pointer;
+    font-size: 11px;
+    height: 30px;
+    margin: 0 20px;
     transition-duration: $animation-timing;
+    width: 95px;
 
     &:hover {
-      border: 1.5px solid $secondary-color;
-      background-color: $secondary-color;
-      color: white;
+      background-color: white;
+      border: 1.5px solid $disable-color;
+      color: $disable-color;
       transition-duration: $animation-timing;
     }
   }
 
   .modal-button.primary {
-    border: 1.5px solid $primary-color;
-    background-color: $primary-color;
-    color: white;
-    height: 28px;
-    width: 18%;
-    margin-right: 10px;
-    font-size: 13px;
+    background-color: $secondary-color;
     border-radius: 30px;
+    border: 1.5px solid $secondary-color;
+    color: white;
     cursor: pointer;
+    font-size: 11px;
+    height: 30px;
+    margin: 0 20px;
     transition-duration: $animation-timing;
+    width: 95px;
 
     &:hover {
-      border: 1.5px solid $primary-color;
       background-color: white;
-      color: $primary-color;
+      border: 1.5px solid $secondary-color;
+      color: $secondary-color;
       transition-duration: $animation-timing;
     }
   }
@@ -299,14 +302,14 @@
 }
 
 
-@media screen and (max-width: 1250px) {
+@media screen and (max-width: 1250px) and (min-width: 860px) {
   .modal-page {
     position: fixed;
     top: $topBarHeight + 10px;
     right: 20%;
     z-index: 1202;
     opacity: 1;
-    width: 60%;
+    left: 20%;
     border-radius: 3px;
     box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
     background-color: white;
@@ -314,14 +317,14 @@
   }
 }
 
-@media screen and (max-width: 860px) {
+@media screen and (max-width: 860px) and (min-width: 480px) {
   .modal-page {
     position: fixed;
     top: $topBarHeight + 10px;
     right: 10.5%;
     z-index: 1202;
     opacity: 1;
-    width: 79%;
+    left: 10.5%;
     border-radius: 3px;
     box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
     background-color: white;
@@ -1344,7 +1347,7 @@
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 600px) and (min-width: 480px) {
   .register-modal-wrapper {
     top: 20px;
     bottom: 20px;

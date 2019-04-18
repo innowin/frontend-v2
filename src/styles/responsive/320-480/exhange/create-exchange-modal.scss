@@ -1,0 +1,170 @@
+@import "../../../variables";
+
+@media screen and (max-width: 480px) and (min-width: 320px) {
+  .create-exchange-modal-container {
+    overflow: auto;
+    position: fixed;
+    text-align: center;
+    padding: 10px;
+    top: $topBarHeight + -20px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    opacity: 1;
+    border-radius: 3px;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+    background-color: white;
+    transition-duration: $animation-timing;
+  }
+
+  .create-exchange-modal-container-out {
+    overflow: hidden;
+    position: fixed;
+    top: $topBarHeight + -20px;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: -1;
+    opacity: 0;
+    transform: scale(0.8);
+    border-radius: 3px;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+    background-color: white;
+    transition-duration: $animation-timing-short;
+  }
+
+  .create-exchange-inputs {
+    margin: 15px 0 10px 0;
+    text-align: right;
+
+    .create-exchange-name-input {
+      width: 100%;
+      border: 1.2px solid $text-title-menu-color;
+      transition-duration: $animation-timing-long;
+      border-radius: $border-radius-size;
+      padding: 9px 10px 9px 50px;
+      font-size: $font-size-regular;
+
+      &:focus {
+        border: 1.2px solid $secondary-color;
+        transition-duration: $animation-timing-long;
+        outline: none;
+      }
+    }
+
+    .create-exchange-name-input-limit {
+      color: $text-title-menu-color;
+      font-size: $font-size-boxText;
+      position: absolute;
+      top: 25px;
+      left: 10px;
+      transition-duration: $animation-timing;
+    }
+
+    .create-exchange-name-input-limited {
+      color: $danger-color;
+      font-size: $font-size-boxText;
+      position: absolute;
+      top: 25px;
+      left: 10px;
+      transition-duration: $animation-timing;
+    }
+
+    .create-exchange-desc-input {
+      width: 100%;
+      border: 1.2px solid $text-title-menu-color;
+      transition-duration: $animation-timing-long;
+      border-radius: $border-radius-size;
+      padding: 9px 10px 9px 50px;
+      font-size: $font-size-regular;
+      height: 110px;
+
+      &:focus {
+        border: 1.2px solid $secondary-color;
+        transition-duration: $animation-timing-long;
+        outline: none;
+      }
+    }
+
+    .create-exchange-desc-input-limit {
+      color: $text-title-menu-color;
+      font-size: $font-size-boxText;
+      position: absolute;
+      top: 25px;
+      left: 10px;
+      transition-duration: $animation-timing;
+    }
+
+    .create-exchange-desc-input-limited {
+      color: $danger-color;
+      font-size: $font-size-boxText;
+      position: absolute;
+      top: 25px;
+      left: 10px;
+      transition-duration: $animation-timing;
+    }
+
+    .secondary-color {
+      color: $secondary-color;
+    }
+
+    div {
+      position: relative;
+      margin: 10px 0;
+    }
+
+    label {
+      font-size: $font-size-description;
+      font-weight: bold;
+    }
+  }
+
+  .create-exchange-buttons {
+    display: inline-flex;
+    justify-content: space-between;
+    margin-top: 25px;
+    width: 98%;
+  }
+
+  .create-exchange-success-button {
+    margin-left: 15px;
+    padding: 5px;
+    font-size: $tag-font-size;
+    border: 1.2px solid white;
+    background-color: $secondary-color;
+    color: white;
+    height: 35px;
+    width: 90px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition-duration: $animation-timing;
+
+    &:hover {
+      border: 1.2px solid $secondary-color;
+      background-color: white;
+      color: $secondary-color;
+      transition-duration: $animation-timing;
+    }
+  }
+
+  .create-exchange-cancel-button {
+    padding: 5px;
+    font-size: $tag-font-size;
+    border: 1.2px solid $disable-color;
+    background-color: $disable-color;
+    color: white;
+    height: 34px;
+    width: 90px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition-duration: $animation-timing;
+
+    &:hover {
+      border: 1.2px solid $disable-color;
+      background-color: white;
+      color: $disable-color;
+      transition-duration: $animation-timing;
+    }
+  }
+}

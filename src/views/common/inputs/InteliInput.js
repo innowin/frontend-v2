@@ -1,7 +1,7 @@
-import * as React from 'react'
-import {Component} from 'react'
-import {MainLbarArrow} from 'src/images/icons'
-import PropTypes from 'prop-types'
+import * as React from "react"
+import {Component} from "react"
+import {MainLbarArrow} from "src/images/icons"
+import PropTypes from "prop-types"
 
 class InteliInput extends Component {
   static propTypes = {
@@ -9,7 +9,8 @@ class InteliInput extends Component {
     handleChange: PropTypes.func.isRequired,
     className: PropTypes.string,
     noCheck: PropTypes.bool,
-    defaultValue: PropTypes.string,
+    placeholder: PropTypes.string,
+    defaultValue: PropTypes.string
   }
 
   constructor(props) {
@@ -57,7 +58,7 @@ class InteliInput extends Component {
         this.setState({...this.state, list: names, ids: ids, found: [], initialValue: false})
       }
       else {
-        this.setState({...this.state, list: names, ids: ids, found: []}, () => this.text.innerText = '')
+        this.setState({...this.state, list: names, ids: ids, found: []}, () => this.text.innerText = "")
       }
     }
   }
@@ -73,18 +74,21 @@ class InteliInput extends Component {
         }
       }
       if (found.length < 1) {
-        this.setState({...this.state, found: ['مورد مشابهی یافت نشد!']})
-      } else {
+        this.setState({...this.state, found: ["مورد مشابهی یافت نشد!"]})
+      }
+      else {
         this.setState({...this.state, found: found.slice()})
       }
-    } else this.setState({...this.state, found: []})
+    }
+    else this.setState({...this.state, found: []})
   }
 
   _showMenu(e) {
     if (e.target.innerText.length <= 0) {
       const {list} = this.state
       this.setState({...this.state, found: list.slice()})
-    } else this._handleMenu(e)
+    }
+    else this._handleMenu(e)
   }
 
   _openMenu(e) {
@@ -92,7 +96,8 @@ class InteliInput extends Component {
     const {list, found} = this.state
     if (found.length === list.length) {
       this.setState({...this.state, found: []})
-    } else {
+    }
+    else {
       this.setState({...this.state, found: list})
     }
   }
@@ -104,14 +109,15 @@ class InteliInput extends Component {
 
   _setItem(e) {
     e.stopPropagation()
-    if (e.target.innerText !== 'مورد مشابهی یافت نشد!') {
+    if (e.target.innerText !== "مورد مشابهی یافت نشد!") {
       const {handleChange} = this.props
       const {list, ids} = this.state
       handleChange({name: e.target.innerText, id: ids[list.indexOf(e.target.innerText)]})
       this.text.innerText = e.target.innerText
       this.setState({...this.state, found: []})
-    } else {
-      this.text.innerText = ''
+    }
+    else {
+      this.text.innerText = ""
       this.setState({...this.state, found: []})
     }
   }
@@ -121,8 +127,8 @@ class InteliInput extends Component {
     let {noCheck} = this.props
     if (noCheck === undefined) {
       if (!mouseInMenu) {
-        if (this.text && this.text.innerText !== 'مورد مشابهی یافت نشد!') {
-          if (e.target.innerText !== '') {
+        if (this.text && this.text.innerText !== "مورد مشابهی یافت نشد!") {
+          if (e.target.innerText !== "") {
             const {list} = this.state
             for (let i = 0; i < list.length; i++) {
               if (list[i] === e.target.innerText) {
@@ -131,19 +137,23 @@ class InteliInput extends Component {
                 handleChange({name: e.target.innerText, id: ids[list.indexOf(e.target.innerText)]})
                 this.setState({...this.state, found: []})
                 break
-              } else if (i === list.length - 1) {
-                this.text.innerText = ''
+              }
+              else if (i === list.length - 1) {
+                this.text.innerText = ""
                 this.setState({...this.state, found: []})
               }
             }
-          } else {
+          }
+          else {
             this.setState({...this.state, found: []})
           }
-        } else {
+        }
+        else {
           this.setState({...this.state, found: []})
         }
       }
-    } else {
+    }
+    else {
       if (!mouseInMenu) {
         let {handleChange} = this.props
         handleChange({name: e.target.innerText, id: 0})
@@ -164,7 +174,7 @@ class InteliInput extends Component {
 
   render() {
     const {found} = this.state
-    const {className} = this.props
+    const {className, placeholder} = this.props
     return (
         <div className='relative-type'>
           <div contentEditable suppressContentEditableWarning={true}
@@ -180,7 +190,15 @@ class InteliInput extends Component {
               this.props.icon ? this.props.icon : <MainLbarArrow className='inteli-more-svg'/>
             }
           </div>
-          <div className={found.length > 0 ? 'inteli-menu' : 'inteli-menu-hide'}
+          {this.text && this.text.innerText === "" && placeholder ?
+              <div className='inteli-place-holder' onClick={() => {
+                this.text.focus()
+                const {list} = this.state
+                this.setState({...this.state, found: list.slice()})
+              }}>
+                {placeholder}
+              </div> : null}
+          <div className={found.length > 0 ? "inteli-menu" : "inteli-menu-hide"}
                onMouseEnter={this._mouseInMenu} onMouseLeave={this._mouseOutMenu} onClick={(e) => this._closeMenu(e)}>
             {
               found.map((prop, key) =>

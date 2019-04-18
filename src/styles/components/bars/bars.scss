@@ -1192,7 +1192,7 @@ $sidebar-profile-media-width: 80px;
   z-index: -1;
   opacity: 0;
   transform: scale(0.9);
-  width: 20.5%;
+  //width: 20.5%;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   flex-direction: column;
   font-size: 13px;
@@ -1213,6 +1213,21 @@ $sidebar-profile-media-width: 80px;
   display: none;
 }
 
+@media screen and (max-width: 2160px) and (min-width: 1080px) {
+  .settingModal-sidebar {
+    width: 20.5%;
+  }
+  .settingModal-menu {
+    width: 40%;
+  }
+  .settingModal-menu-out {
+    width: 40%;
+  }
+  .settingModal-sidebar-out {
+    width: 20.5%;
+  }
+}
+
 .settingModal-sidebar {
   overflow: hidden;
   border-radius: 3px;
@@ -1221,7 +1236,6 @@ $sidebar-profile-media-width: 80px;
   right: 9.05%;
   z-index: 4;
   opacity: 1;
-  width: 20.5%;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
   flex-direction: column;
   font-size: 13px;
@@ -1257,7 +1271,7 @@ $sidebar-profile-media-width: 80px;
   right: 30%;
   z-index: -1;
   opacity: 0;
-  width: 40%;
+  //width: 40%;
   transform: scale(0.9);
   border-radius: 3px;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
@@ -1284,7 +1298,6 @@ $sidebar-profile-media-width: 80px;
   right: 30%;
   z-index: 4;
   opacity: 1;
-  width: 40%;
   max-height: 88vh;
   border-radius: 3px;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
@@ -1311,7 +1324,7 @@ $sidebar-profile-media-width: 80px;
   }
 }
 
-@media screen and (max-width: 1250px) {
+@media screen and (max-width: 1250px) and (min-width: 480px) {
   .settingModal-menu {
     position: fixed;
     top: $topBarHeight + 10px;
@@ -1338,7 +1351,7 @@ $sidebar-profile-media-width: 80px;
   }
 }
 
-@media screen and (max-width: 860px) {
+@media screen and (max-width: 860px) and (min-width: 480px) {
 
   .settingModal-sidebar {
     position: fixed;
