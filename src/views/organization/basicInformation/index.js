@@ -7,7 +7,7 @@ import { TranslatorType } from "src/consts/flowTypes/common/commonTypes";
 import Biography from "./Biography";
 import ContactInfo from "./ContactInfo";
 import updateUserByUserIdAction from "src/redux/actions/user/updateUserByUserIdAction";
-import CardContainer from "src/views/organization/cardContainer";
+import CardContainer from "src/views/common/cardContainer";
 
 type organizationBasicInformationProps = {
   organizationId : number,

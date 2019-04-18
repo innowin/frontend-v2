@@ -1,26 +1,45 @@
 // @flow
 import * as React from 'react'
-import {Component} from 'react'
 import PropTypes from 'prop-types'
+
 import type {organizationType} from 'src/consts/flowTypes/organization/organization'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import type {userType} from 'src/consts/flowTypes/user/basicInformation'
-import {DefaultUserIcon, DefaultOrganIcon, TwitterIcon, TelegramIcon, LinkedInIcon, InstagramIcon} from 'src/images/icons'
+import {
+  DefaultUserIcon,
+  DefaultOrganIcon,
+  TwitterIcon,
+  TelegramIcon,
+  LinkedInIcon,
+  InstagramIcon
+} from 'src/images/icons'
+import CertificateActions from 'src/redux/actions/commonActions/certificateActions'
+import CertificateForm from '../common/newCertificate/CertificateForm'
 import CheckOwner from '../common/CheckOwner'
 import connect from 'react-redux/es/connect/connect'
-import getFile from 'src/redux/actions/commonActions/fileActions'
 import constants from 'src/consts/constants'
-import SocialActions from '../../redux/actions/commonActions/socialActions'
-import {bindActionCreators} from 'redux'
-import {getFollowersSelector} from '../../redux/selectors/common/social/getFollowers'
-import types from 'src/redux/actions/types'
+import EducationActions from 'src/redux/actions/user/educationActions'
+import EducationForm from '../user/aboutMe/education/EducationForm'
 import FileActions from 'src/redux/actions/commonActions/fileActions'
-import {getMessages} from 'src/redux/selectors/translateSelector'
-import {createFileFunc} from 'src/views/common/Functions'
+import getFile from 'src/redux/actions/commonActions/fileActions'
 import Material from '../common/components/Material'
-import updateUserByUserIdAction from '../../redux/actions/user/updateUserByUserIdAction'
-import uuid from 'uuid'
+import Modal from '../pages/modal/modal'
+import ModalActions from 'src/redux/actions/modalActions'
+import ResearchActions from 'src/redux/actions/user/researchActions'
+import ResearchForm from '../user/aboutMe/research/ResearchForm'
+import SkillActions from 'src/redux/actions/user/skillActions'
+import SkillForm from '../user/aboutMe/skill/SkillForm'
+import SocialActions from 'src/redux/actions/commonActions/socialActions'
 import TempActions from 'src/redux/actions/tempActions'
+import types from 'src/redux/actions/types'
+import updateUserByUserIdAction from 'src/redux/actions/user/updateUserByUserIdAction'
+import uuid from 'uuid'
+import WorkExperienceActions from 'src/redux/actions/user/workExperienceActions'
+import WorkExperienceForm from '../user/aboutMe/workExperience/WorkExperienceForm'
+import {bindActionCreators} from 'redux'
+import {createFileFunc} from 'src/views/common/Functions'
+import {getFollowersSelector} from 'src/redux/selectors/common/social/getFollowers'
+import {getMessages} from 'src/redux/selectors/translateSelector'
 
 // const MenuBox = (props) => {
 //   const {handleEditProfile, id, editProfile, paramId} = props
@@ -69,25 +88,46 @@ type PropsSideBarContent = {
   paramId: number,
   translate?: TranslatorType,
   className?: string,
-  actions?: {
+  actions: {
     createFollow: Function,
     getFollowers: Function,
     updateProfile: Function,
     updateOrganization: Function,
     createFile: Function,
-    removeFileFromTemp: Function
+    removeFileFromTemp: Function,
+    createWorkExperience: Function,
+    createEducation: Function,
+    createResearch: Function,
+    createSkill: Function,
+    createCertificate: Function,
+    showModal: Function,
   },
   followers?: [],
 }
 type StateSideBarContent = {
   menuToggle: boolean,
   editProfile: boolean,
-  descriptionState: ?string,
-  descriptionClass: ?string,
   saving: boolean,
+  descriptionState: ?string,
+  selectedImage: string | ArrayBuffer,
+  selectedBannerFile: string,
+  selectedBanner: ArrayBuffer | string,
+  descriptionClass: ?string,
+  processing: boolean,
+  processingBanner: boolean,
+  profileBannerId: null,
+  profileMediaId: null,
+  showModalState: {
+    add: boolean,
+    education: boolean,
+    workExperience: boolean,
+    skill: boolean,
+    certificate: boolean,
+    research: boolean,
+  }
 }
 
-class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent> {
+class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarContent> {
 
   static propTypes = {
     sideBarType: PropTypes.string.isRequired,
@@ -112,6 +152,14 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
       processingBanner: false,
       profileBannerId: null,
       profileMediaId: null,
+      showModalState: {
+        add: false,
+        education: false,
+        workExperience: false,
+        skill: false,
+        certificate: false,
+        research: false,
+      }
     }
   }
 
@@ -189,8 +237,7 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
         profile_banner: bannerId,
         profile_media: pictureId,
       }
-    }
-    else return {
+    } else return {
       id: owner.id,
       description: descriptionState,
       profile_banner: bannerId,
@@ -309,10 +356,56 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
   //   (document.removeEventListener: Function)('click', this._handleClickOutMenuBox)
   // }
 
+  _toggleAddModal = () => {
+    const {showModalState} = this.state
+    this.setState({
+      ...this.state,
+      showModalState: {
+        ...showModalState,
+        add: !showModalState.add,
+      }
+    })
+  }
+
+  _toggleEducationModal = (modal) => {
+    const {showModalState} = this.state
+    const {actions} = this.props
+    const {showModal} = actions
+
+    if (modal === 'product') {
+      this.setState({
+        ...this.state,
+        showModalState: {
+          ...showModalState,
+          add: false,
+        }
+      })
+      showModal({modalKey: 'productModal'})
+    } else {
+
+      this.setState({
+        ...this.state,
+        showModalState: {
+          ...showModalState,
+          add: false,
+          [modal]: !showModalState[modal],
+        }
+      })
+    }
+  }
+
 
   render() {
-    const {editProfile, selectedBanner, selectedImage, descriptionState, descriptionClass, processing, processingBanner, profileBannerId, profileMediaId} = this.state
-    const {sideBarType, badges, translate: tr, paramId, followers, clientIdentityId, owner, files, bannerIdTemp, pictureIdTemp} = this.props
+    const {
+      editProfile, selectedBanner, selectedImage, descriptionState, descriptionClass, processing, processingBanner,
+      profileBannerId, profileMediaId, showModalState
+    } = this.state
+    const {
+      sideBarType, badges, translate: tr, paramId, followers, clientIdentityId, owner, files, bannerIdTemp,
+      pictureIdTemp, actions,
+    } = this.props
+    const {createWorkExperience, createEducation, createCertificate, createSkill, createResearch} = actions
+    const {add, education, research, certificate, skill, workExperience} = showModalState
     const socialNetworks = {
       telegram_account: owner['telegram_account'],
       instagram_account: owner['instagram_account'],
@@ -331,157 +424,193 @@ class SideBarContent extends Component<PropsSideBarContent, StateSideBarContent>
         (owner.first_name ? owner.first_name + ' ' : '' + owner.last_name ? owner.last_name : '') :
         (owner.nike_name || owner.official_name)
     return (
-        <form className={className + ' pt-0'} onSubmit={this._handleSubmit}>
-          <div className="editable-profile-img">
-            {
-              !bannerString ?
-                  <div className="background-strips banner covered-img"/> :
-                  <img alt="" src={bannerString} className="banner covered-img"/>
-            }
-            {
-              editProfile ?
-                  <input type="file" className='abel-input' onChange={!processingBanner ? e => this._uploadHandlerBanner(e.currentTarget.files[0]) : console.log('Still Uploading')}/>
-                  : null
-            }
-          </div>
-          <div className="sidebar-organ-user col">
-            <div className="editable-profile-img profile-media">
+        <React.Fragment>
+          <form className={className + ' pt-0'} onSubmit={this._handleSubmit}>
+            <div className="editable-profile-img">
               {
-                !pictureString ?
-                    sideBarType === constants.USER_TYPES.USER ?
-                        <DefaultUserIcon/> :
-                        <DefaultOrganIcon/>
-                    : <img className="covered-img" alt="" src={pictureString}/>
+                !bannerString ?
+                    <div className="background-strips banner covered-img"/> :
+                    <img alt="" src={bannerString} className="banner covered-img"/>
               }
               {
                 editProfile ?
-                    <input type="file" className='abel-input' onChange={!processing ? e => this._uploadHandler(e.currentTarget.files[0]) : console.log('Still Uploading')}/>
+                    <input type="file" className='abel-input'
+                           onChange={!processingBanner ? e => this._uploadHandlerBanner(e.currentTarget.files[0]) : console.log('Still Uploading')}/>
                     : null
               }
-              {/*{*/}
-              {/*(!editProfile) ? '' : (*/}
-              {/*<AttachFile*/}
-              {/*AttachButton={this._AttachBottom}*/}
-              {/*inputId="AttachPictureFileInput"*/}
-              {/*LoadingFile={this._LoadingFile}*/}
-              {/*handleBase64={(fileString) => this.setState({...this.state, pictureState: fileString})}*/}
-              {/*handleError={(error) => alert(error)}*/}
-              {/*className="edit-nav"*/}
-              {/*ref={e => this.AttachPictureFileInput = e}*/}
-              {/*allowableFormat={constants.FILE_TYPE.PHOTO}*/}
-              {/*translate={tr}*/}
-              {/*/>*/}
-              {/*)*/}
-              {/*}*/}
             </div>
-            <div className="align-items-center flex-column info-section">
-              {/*<CheckOwner id={paramId} showForOwner={false}>*/}
-              {/*<i className="fa fa-ellipsis-v menuBottom" onClick={this._handleMenu}/>*/}
-              {/*{*/}
-              {/*(!menuToggle) ? ('') : (*/}
-              {/*<MenuBox id="sidebar-menu-box"*/}
-              {/*handleEditProfile={this._handleEditProfile}*/}
-              {/*editProfile={editProfile}*/}
-              {/*paramId={paramId}/>)*/}
-              {/*}*/}
-              {/*</CheckOwner>*/}
-              <div className="sidebar-name">{name}</div>
-              {
-                (!editProfile) ? (<span className="-grey1 sidebar-description text-center">{owner.description}</span>) : (
-                    <div className='description'>
-                      {
-                        descriptionClass && <span className={descriptionClass}>{descriptionState && descriptionState.trim().length + '/70'}</span>
-                      }
-                      <textarea
-                          value={descriptionState}
-                          onBlur={this._handleBlurText}
-                          onChange={this._handleChangeText}
-                      />
-                    </div>
-                )
-              }
-            </div>
-            {
-              (chosenBadgesImg.length > 0) ? (
-                  <div className="badgesCard">
-                    <BadgesCard badgesImg={chosenBadgesImg}/>
-                  </div>
-              ) : ('')
-            }
-            {/*<div className="followNames">*/}
-            {/*<span className="item">{followNames[0]}،</span>*/}
-            {/*<span className="item">{followNames[1]}</span>*/}
-            {/*<span>{` و ${followNames.length - 2 } نفر دیگر `}</span>*/}
-            {/*</div>*/}
-            <section className='user-sidebar-buttons'>
-              <CheckOwner showForOwner={false} id={paramId}>
-                <div className="sidebarBottomParent">
-                  <Material className="btn btn-outline-secondary sidebarBottom side-user"
-                            content={tr && tr['Send Message']}/>
-                  {showFollow ?
-                      <Material className="btn btn-outline-secondary sidebarFollowBottom follow-green-button side-user-follow"
-                                onClick={this._createFollow}
-                                content={tr && tr['Follow']}/>
-                      : <div className="followed-text">
-                        {tr && tr['Followed']}
+            <div className="sidebar-organ-user col">
+              <div className="editable-profile-img profile-media">
+                {
+                  !pictureString ?
+                      sideBarType === constants.USER_TYPES.USER ?
+                          <DefaultUserIcon/> :
+                          <DefaultOrganIcon/>
+                      : <img className="covered-img" alt="" src={pictureString}/>
+                }
+                {
+                  editProfile ?
+                      <input type="file" className='abel-input'
+                             onChange={!processing ? e => this._uploadHandler(e.currentTarget.files[0]) : console.log('Still Uploading')}/>
+                      : null
+                }
+                {/*{*/}
+                {/*(!editProfile) ? '' : (*/}
+                {/*<AttachFile*/}
+                {/*AttachButton={this._AttachBottom}*/}
+                {/*inputId="AttachPictureFileInput"*/}
+                {/*LoadingFile={this._LoadingFile}*/}
+                {/*handleBase64={(fileString) => this.setState({...this.state, pictureState: fileString})}*/}
+                {/*handleError={(error) => alert(error)}*/}
+                {/*className="edit-nav"*/}
+                {/*ref={e => this.AttachPictureFileInput = e}*/}
+                {/*allowableFormat={constants.FILE_TYPE.PHOTO}*/}
+                {/*translate={tr}*/}
+                {/*/>*/}
+                {/*)*/}
+                {/*}*/}
+              </div>
+              <div className="align-items-center flex-column info-section">
+                {/*<CheckOwner id={paramId} showForOwner={false}>*/}
+                {/*<i className="fa fa-ellipsis-v menuBottom" onClick={this._handleMenu}/>*/}
+                {/*{*/}
+                {/*(!menuToggle) ? ('') : (*/}
+                {/*<MenuBox id="sidebar-menu-box"*/}
+                {/*handleEditProfile={this._handleEditProfile}*/}
+                {/*editProfile={editProfile}*/}
+                {/*paramId={paramId}/>)*/}
+                {/*}*/}
+                {/*</CheckOwner>*/}
+                <div className="sidebar-name">{name}</div>
+                {
+                  (!editProfile) ? (
+                      <span className="-grey1 sidebar-description text-center">{owner.description}</span>) : (
+                      <div className='description'>
+                        {
+                          descriptionClass && <span
+                              className={descriptionClass}>{descriptionState && descriptionState.trim().length + '/70'}</span>
+                        }
+                        <textarea
+                            value={descriptionState}
+                            onBlur={this._handleBlurText}
+                            onChange={this._handleChangeText}
+                        />
                       </div>
-                  }
-                </div>
-              </CheckOwner>
-              <CheckOwner showForOwner={true} id={paramId}>
-                <div className="sidebarBottomParent">
-                  <Material className="btn btn-outline-secondary sidebarBottom side-user"
-                            onClick={editProfile ? this._handleEditProfile : undefined}
-                            content={(!editProfile) ? (tr && tr['Complete profile']) : (
-                                tr && tr['Cancel']
-                            )}/>
-                  <Material className={!editProfile
-                      ? 'sidebarFollowBottom follow-green-button side-user-follow'
-                      : 'side-user-follow-parent'}
-                            onClick={!editProfile ? this._handleEditProfile : undefined}
-                            content={(!editProfile) ? tr && tr['Edit Dashboard'] : (
-                                <button type="submit" className={
-                                  (
-                                      ((profileBannerId && this.props.temp[profileBannerId].progress === 100 && bannerIdTemp) || profileBannerId === null)
-                                      &&
-                                      ((profileMediaId && this.props.temp[profileMediaId].progress === 100 && pictureIdTemp) || profileMediaId === null)
-                                  )
-                                      ? 'sidebarFollowBottom follow-green-button side-user-follow' : 'disabled sidebarFollowBottom follow-green-button side-user-follow'
-                                }>
-                                  {tr && tr['Save changes']}
-                                </button>
-                            )}/>
-                </div>
-              </CheckOwner>
-            </section>
-            <div className="social-network">
-              {socialNetworks.twitter_account
-                  ? <a href={socialNetworks.twitter_account} className='link' target="_blank">
-                    <TwitterIcon className='social-icon twitter-active'/>
-                  </a>
-                  : <TwitterIcon className='social-icon'/>
+                  )
+                }
+              </div>
+              {
+                (chosenBadgesImg.length > 0) ? (
+                    <div className="badgesCard">
+                      <BadgesCard badgesImg={chosenBadgesImg}/>
+                    </div>
+                ) : ('')
               }
-              {socialNetworks.telegram_account
-                  ? <a href={socialNetworks.telegram_account} className='link' target="_blank">
-                    <TelegramIcon className='social-icon telegram-active'/>
-                  </a>
-                  : <TelegramIcon className='social-icon'/>
-              }
-              {socialNetworks.instagram_account
-                  ? <a href={socialNetworks.instagram_account} className='link' target={'_blank'}>
-                    <InstagramIcon className='social-icon instagram-active'/>
-                  </a>
-                  : <InstagramIcon className='social-icon'/>
-              }
-              {socialNetworks.linkedin_account
-                  ? <a href={socialNetworks.linkedin_account} className='link' target="_blank">
-                    <LinkedInIcon className='social-icon linkedin-active'/>
-                  </a>
-                  : <LinkedInIcon className='social-icon'/>
-              }
+              {/*<div className="followNames">*/}
+              {/*<span className="item">{followNames[0]}،</span>*/}
+              {/*<span className="item">{followNames[1]}</span>*/}
+              {/*<span>{` و ${followNames.length - 2 } نفر دیگر `}</span>*/}
+              {/*</div>*/}
+              <section className='user-sidebar-buttons'>
+                <CheckOwner showForOwner={false} id={paramId}>
+                  <div className="sidebarBottomParent">
+                    <Material className="btn btn-outline-secondary sidebarBottom side-user"
+                              content={tr && tr['Send Message']}/>
+                    {showFollow ?
+                        <Material
+                            className="btn btn-outline-secondary sidebarFollowBottom follow-green-button side-user-follow"
+                            onClick={this._createFollow}
+                            content={tr && tr['Follow']}/>
+                        : <div className="followed-text">
+                          {tr && tr['Followed']}
+                        </div>
+                    }
+                  </div>
+                </CheckOwner>
+                <CheckOwner showForOwner={true} id={paramId}>
+                  <div className="sidebarBottomParent">
+                    <Material className="btn btn-outline-secondary sidebarBottom side-user"
+                              onClick={editProfile ? this._handleEditProfile : this._toggleAddModal}
+                              content={(!editProfile) ? (tr && tr['Complete profile']) : (
+                                  tr && tr['Cancel']
+                              )}/>
+                    <Material className={!editProfile
+                        ? 'sidebarFollowBottom follow-green-button side-user-follow'
+                        : 'side-user-follow-parent'}
+                              onClick={!editProfile ? this._handleEditProfile : undefined}
+                              content={(!editProfile) ? tr && tr['Edit Dashboard'] : (
+                                  <button type="submit" className={
+                                    (
+                                        ((profileBannerId && this.props.temp[profileBannerId].progress === 100 && bannerIdTemp) || profileBannerId === null)
+                                        &&
+                                        ((profileMediaId && this.props.temp[profileMediaId].progress === 100 && pictureIdTemp) || profileMediaId === null)
+                                    )
+                                        ? 'sidebarFollowBottom follow-green-button side-user-follow' : 'disabled sidebarFollowBottom follow-green-button side-user-follow'
+                                  }>
+                                    {tr && tr['Save changes']}
+                                  </button>
+                              )}/>
+                  </div>
+                </CheckOwner>
+              </section>
+              <div className="social-network">
+                {socialNetworks.twitter_account
+                    ? <a href={socialNetworks.twitter_account} className='link' target="_blank">
+                      <TwitterIcon className='social-icon twitter-active'/>
+                    </a>
+                    : <TwitterIcon className='social-icon'/>
+                }
+                {socialNetworks.telegram_account
+                    ? <a href={socialNetworks.telegram_account} className='link' target="_blank">
+                      <TelegramIcon className='social-icon telegram-active'/>
+                    </a>
+                    : <TelegramIcon className='social-icon'/>
+                }
+                {socialNetworks.instagram_account
+                    ? <a href={socialNetworks.instagram_account} className='link' target={'_blank'}>
+                      <InstagramIcon className='social-icon instagram-active'/>
+                    </a>
+                    : <InstagramIcon className='social-icon'/>
+                }
+                {socialNetworks.linkedin_account
+                    ? <a href={socialNetworks.linkedin_account} className='link' target="_blank">
+                      <LinkedInIcon className='social-icon linkedin-active'/>
+                    </a>
+                    : <LinkedInIcon className='social-icon'/>
+                }
+              </div>
             </div>
-          </div>
-        </form>
+          </form>
+          <Modal open={add} closer={this._toggleAddModal}>
+            <div className="event-modal add-experience-modal">
+              <div className="head">
+                <div className="title">{tr && tr['Add new expereince']}</div>
+              </div>
+              <p onClick={() => this._toggleEducationModal('education')}
+                 className='item pulse'>{tr && tr['Education Experience']}</p>
+              <p onClick={() => this._toggleEducationModal('workExperience')}
+                 className='item pulse'>{tr && tr['Work experience']}</p>
+              <p onClick={() => this._toggleEducationModal('skill')} className='item pulse'>{tr && tr['Skill']}</p>
+              <p onClick={() => this._toggleEducationModal('certificate')}
+                 className='item pulse'>{tr && tr['Certificate']}</p>
+              <p onClick={() => this._toggleEducationModal('product')} className='item pulse'>{tr && tr['Product']}</p>
+              <p onClick={() => this._toggleEducationModal('research')}
+                 className='item pulse'>{tr && tr['Scientific Research']}</p>
+            </div>
+          </Modal>
+
+          {education && <EducationForm createEducation={createEducation} translate={tr} owner={owner}
+                                       toggleEdit={() => this._toggleEducationModal('education')}/>}
+          {workExperience && <WorkExperienceForm createWorkExperience={createWorkExperience} translate={tr}
+                                                 toggleEdit={() => this._toggleEducationModal('workExperience')}
+                                                 owner={owner}/>}
+          {skill && <SkillForm createSkill={createSkill} toggleEdit={() => this._toggleEducationModal('skill')}
+                               translate={tr} owner={owner}/>}
+          {certificate && <CertificateForm createCertificate={createCertificate} owner={owner} translate={tr}
+                                           toggleEdit={() => this._toggleEducationModal('certificate')}/>}
+          {research && <ResearchForm createResearch={createResearch} translate={tr} owner={owner}
+                                     toggleEdit={() => this._toggleEducationModal('research')}/>}
+        </React.Fragment>
     )
   }
 }
@@ -508,6 +637,12 @@ const mapDispatchToProps = dispatch => ({
     createFile: FileActions.createFile,
     removeFileFromTemp: TempActions.removeFileFromTemp,
     getFile: getFile.getFile,
+    showModal: ModalActions.showModal,
+    createWorkExperience: WorkExperienceActions.createWorkExperienceByUserId,
+    createEducation: EducationActions.createEducationByUserId,
+    createResearch: ResearchActions.createResearchByUserId,
+    createSkill: SkillActions.createSkill,
+    createCertificate: CertificateActions.createCertificate,
   }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(SideBarContent)

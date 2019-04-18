@@ -1,14 +1,14 @@
 import types from "../../actions/types/index"
 import {call, fork, take, put, all, select} from "redux-saga/effects"
-import results from "../../../consts/resultName";
-import api from "../../../consts/api";
-import urls from "../../../consts/URLS";
-import constants from "../../../consts/constants"
+import results from "src/consts/resultName";
+import api from "src/consts/api";
+import urls from "src/consts/URLS";
+import constants from "src/consts/constants"
 import uuid from 'uuid'
 
 
-function* createSkill (action) {
-  const {hashTags, ...formValues} = action.payload
+function* createSkill(action) {
+  const {hashTags, formValues, userId} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.SKILL.CREATE_SKILL_RESULT)
   const state = yield select()
   const translate = state.intl.messages
@@ -18,7 +18,7 @@ function* createSkill (action) {
     const data = yield take(socketChannel)
     yield put({
       type: types.SUCCESS.SKILL.CREATE_SKILL,
-      payload: {data}
+      payload: {data, userId}
     })
     yield put({
       type: types.TOAST.ADD_TOAST,

@@ -1,0 +1,16 @@
+@import "../variables";
+
+.event-modal {
+  &.add-experience-modal {
+    text-align: center;
+
+    .head {
+      padding-bottom: 10px;
+    }
+
+    .item {
+      font-size: $font-size-regular;
+      padding: 20px;
+    }
+  }
+}

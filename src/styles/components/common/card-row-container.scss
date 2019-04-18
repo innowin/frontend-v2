@@ -46,8 +46,42 @@
           fill: $image-edit-btn-background;
         }
 
-        &.card-row-certificate {
+        .trash-icon {
+          color: $image-edit-btn-background;
+          left: 38px;
+          width: 15px;
+          top: 8px;
+          height: 15px;
+          position: absolute;
+          font-size: $font-size-large;
+        }
+
+        .text {
+          color: $primary-color;
+        }
+
+        .blue-text {
+          color: $info-color;
+        }
+
+        &.card-row-entity {
           padding: 10px 0;
+
+          .attach-file {
+            display: block;
+            color: $success-color;
+            padding-top: 5px;
+            transition: all $animation-timing;
+
+            &:hover {
+              color: darken($success-color, 10%);
+            }
+
+            .attach-file-icon {
+              font-size: 15px;
+              padding: 5px 0 0 5px;
+            }
+          }
         }
       }
 
@@ -66,7 +100,9 @@
     }
   }
   .card-row-date {
+    position: relative;
     display: block;
+    top: -15px;
     text-align: left;
   }
 }

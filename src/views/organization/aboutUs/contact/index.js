@@ -1,8 +1,10 @@
 // @flow
 import * as React from 'react'
-import CardContainer from '../../cardContainer'
-import ContactView from './ContactView'
+import PropTypes from 'prop-types'
+
+import CardContainer from '../../../common/cardContainer'
 import ContactForm from './ContactForm'
+import ContactView from './ContactView'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 
@@ -17,6 +19,13 @@ type States = {
 }
 
 class Contact extends React.Component<Props, States> {
+
+  static propTypes = {
+    organization: PropTypes.object.isRequired,
+    translate: PropTypes.object.isRequired,
+    updateOrganization: PropTypes.func.isRequired,
+  }
+
   state = {
     isEdit: false,
   }
