@@ -140,6 +140,7 @@
 }
 
 .header-container-item {
+  flex-grow: 1;
   color: $text-medium-dark;
   text-decoration: none;
   border-bottom: 2px solid transparent;

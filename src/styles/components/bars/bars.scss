@@ -23,6 +23,13 @@ $sidebar-profile-media-width: 80px;
   }
 }
 
+.topBar-hide{
+  top: 0;
+  @media screen and (max-width: 480px) and (min-width: 0px) {
+    top: -50px;
+  }
+}
+
 .navbar-toggler {
   padding: 0;
   /* margin: 0; */

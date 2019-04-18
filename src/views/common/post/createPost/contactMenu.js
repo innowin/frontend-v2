@@ -32,7 +32,7 @@ class ContactMenu extends Component {
   render() {
     const {contactMenu, labels, handleLabel, followers, exchanges, currentUserIdentity} = this.props
     const {search} = this.state
-    const followersArr = Object.values(followers).filter(follow => follow.follow_follower.id !== currentUserIdentity && follow.follow_follower.name.includes(search))
+    const followersArr = Object.values(followers).filter(follow => follow.follow_follower.id !== currentUserIdentity && follow.follow_follower.name && follow.follow_follower.name.includes(search))
     const exchangesArr = Object.values(exchanges).filter(exchange => {
       if (exchange.exchange_identity_related_exchange) return exchange.exchange_identity_related_exchange.name.includes(search)
       else return null

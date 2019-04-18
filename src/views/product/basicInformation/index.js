@@ -1,7 +1,10 @@
-// @flow
-import * as React from "react"
-import {Component} from "react"
+import * as React from 'react'
+import {Component} from 'react'
 import Material from '../../common/components/Material'
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
+import productActions from 'src/redux/actions/commonActions/productActions/productActions'
+
 
 export class productBasicInformation extends Component {
   constructor(props) {
@@ -9,76 +12,64 @@ export class productBasicInformation extends Component {
     this.state = {
       editDescription: false,
       edit: false,
-      attrs: [
-        {title: 'نوع', value: 'مونوکریستال'},
-        {title: 'ابعاد پنل', value: '35 * 1999 میلی متر'},
-        {title: 'ابعاد سلول', value: '23 * 23 میلی متر'},
-        {title: 'تعداد سلول', value: '180'},
-        {title: 'وزن', value: '150000 گرم'}
-      ]
+      custom_attrs: [],
+      error: false,
     }
   }
 
-  // componentDidMount() {
-  //   const {productId, product, _getProductInfo, _getCategories} = this.props
-  //   _getProductInfo(productId)
-  //   _getCategories()
-  //
-  //   if (product) {
-  //     const formFields = ['product_category', 'name', 'country', 'province', 'city', 'description']
-  //
-  //     const formData = formFields.reduce((acc, field) => ({...acc, [field]: product[field]}), {})
-  //     if (product.product_category) {
-  //       formData['product_category'] = {
-  //         value: product.product_category.id,
-  //         label: product.product_category.name
-  //       }
-  //     }
-  //     this.setState({
-  //       ...this.state,
-  //       formData: formData
-  //     })
-  //   }
-  // }
-  // componentDidUpdate(prevProps: ProductBasicInformationProps) {
-  //   const prevProduct = prevProps.product || {}
-  //   const {product, getCountryById, getProvinceById} = this.props
-  //   if (!prevProduct.product_related_country && product.product_related_country) {
-  //     getCountryById(product.product_related_country)
-  //   }
-  //   if (!prevProduct.product_related_province && product.product_related_province) {
-  //     getProvinceById(product.product_related_province)
-  //   }
-  // }
-  //
-  // _showEditHandler = (finalStatus: boolean) => {
-  //   this.setState({...this.state, edit: finalStatus})
-  // }
-  //
-  // _categoriesAsOptions = () => {
-  //   const {categories} = this.props
-  //   return Object.keys(categories).map(key => ({value: key, label: categories[key].name}))
-  // }
-  //
-  // _productFormSubmitHandler = (values: ProductType) => {
-  //   const {product, _updateProduct, productId} = this.props
-  //   const product_category = (values.product_category && values.product_category.value) || product.product_category
-  //   const formData = {...values, product_category}
-  //   _updateProduct({productId, formValues: formData})
-  // }
-
   showEdit = () => {
-    this.setState({...this.state, edit: !this.state.edit})
+    this.setState({...this.state, edit: !this.state.edit, custom_attrs: this.props.product.custom_attrs})
   }
 
   showEditDescription = () => {
     this.setState({...this.state, editDescription: !this.state.editDescription})
   }
 
+  updateDescription = () => {
+    const {product, actions} = this.props
+    const {updateProduct} = actions
+    updateProduct({formValues: {description: this.textarea.value.trim()}, productId: product.id})
+    this.setState({...this.state, editDescription: false})
+  }
+
+  updateAttr(e, index, type) {
+    let custom_attrs = [...this.state.custom_attrs]
+    custom_attrs[index][type] = e.target.value.trim()
+    this.setState({...this.state, custom_attrs: [...custom_attrs], error: false})
+  }
+
+  deleteAttr(index) {
+    let custom_attrs = [...this.state.custom_attrs]
+    custom_attrs.splice(index, 1)
+    this.setState({...this.state, custom_attrs: [...custom_attrs]})
+  }
+
+  addAttr = () => {
+    let custom_attrs = [...this.state.custom_attrs]
+    custom_attrs.push({title: '', value: ''})
+    this.setState({...this.state, custom_attrs: [...custom_attrs]})
+  }
+
+  submitUpdateAttr = () => {
+    const {product, actions} = this.props
+    const {custom_attrs} = this.state
+    const {updateProduct} = actions
+    let error = false
+    custom_attrs.forEach(attr => {
+      if (attr.title.length === 0 || attr.value.length === 0)
+        error = true
+    })
+    if (!error) {
+      updateProduct({formValues: {custom_attrs: JSON.stringify(custom_attrs)}, productId: product.id})
+      this.setState({...this.state, edit: false})
+    }
+    else this.setState({...this.state, error: true})
+  }
+
   render() {
-    const {edit, editDescription, attrs} = this.state
-    const {/*translator,*/ product, current_user_identity} = this.props
-    const {product_owner} = product
+    const {edit, editDescription, custom_attrs, error} = this.state
+    const {product, current_user_identity} = this.props
+    const product_owner = product.product_owner.id ? product.product_owner.id : product.product_owner
 
     return (
         <div>
@@ -94,7 +85,7 @@ export class productBasicInformation extends Component {
             </div>
             {
               editDescription ?
-                  <textarea className='product-description-detail-editing' defaultValue={product.description}/>
+                  <textarea className='product-description-detail-editing' defaultValue={product.description} ref={e => this.textarea = e}/>
                   :
                   <div className='product-description-detail'>{product.description}</div>
             }
@@ -102,14 +93,14 @@ export class productBasicInformation extends Component {
               editDescription ?
                   <div className='product-description-edit-container'>
                     <Material className='product-description-cancel' content='لغو ویرایش' onClick={this.showEditDescription}/>
-                    <Material className='product-description-submit' content='ثبت تغییرات'/>
+                    <Material className='product-description-submit' content='ثبت تغییرات' onClick={this.updateDescription}/>
                   </div>
                   :
                   null
             }
           </div>
 
-          <div className='product-description'>
+          <div className='product-description' style={(product.custom_attrs && product.custom_attrs.length > 0) || (product_owner === current_user_identity) ? {display: 'block'} : {display: 'none'}}>
             <div className='product-description-title'>
               <div>مشخصات</div>
               {
@@ -124,28 +115,29 @@ export class productBasicInformation extends Component {
                 edit ?
                     <div>
                       {
-                        attrs.map((attribute, i) =>
+                        custom_attrs.map((attribute, i) =>
                             <div key={i} className='product-attributes-cont'>
-                              <input type='text' className='product-attributes-title-edit' defaultValue={attribute.title}/>
-                              <input type='text' className='product-attributes-value-edit' defaultValue={attribute.value}/>
-                              <Material className='product-attributes-delete' content='حذف'/>
-                            </div>
+                              <input type='text' className='product-attributes-title-edit' defaultValue={attribute.title} onChange={(e) => this.updateAttr(e, i, 'title')}/>
+                              <input type='text' className='product-attributes-value-edit' defaultValue={attribute.value} onChange={(e) => this.updateAttr(e, i, 'value')}/>
+                              <Material className='product-attributes-delete' content='حذف' onClick={() => this.deleteAttr(i)}/>
+                            </div>,
                         )
                       }
                       <div className='product-attributes-cont'>
-                        <input type='text' className='product-attributes-title-edit' placeholder='عنوان'/>
-                        <input type='text' className='product-attributes-value-edit' placeholder='مقدار'/>
-                        <Material className='product-attributes-add' content='افزودن'/>
+                        <div className={!error ? 'product-attributes-error-hide' : 'product-attributes-error'}>ویژگی نمی تواند فاقد عنوان یا مقدار باشد!</div>
+                        {/*<input type='text' className='product-attributes-title-edit' placeholder='عنوان'/>*/}
+                        {/*<input type='text' className='product-attributes-value-edit' placeholder='مقدار'/>*/}
+                        <Material className='product-attributes-add' content='افزودن' onClick={this.addAttr}/>
                       </div>
 
                       <div className='product-attrs-edit-container'>
                         <Material className='product-description-cancel' content='لغو ویرایش' onClick={this.showEdit}/>
-                        <Material className='product-description-submit' content='ثبت تغییرات'/>
+                        <Material className='product-description-submit' content='ثبت تغییرات' onClick={this.submitUpdateAttr}/>
                       </div>
 
                     </div>
                     :
-                    attrs.map((attribute, i) =>
+                    product.custom_attrs && product.custom_attrs.map((attribute, i) =>
                         <div key={i} className='product-attributes-cont'>
                           <div className='product-attributes-title'>{attribute.title}</div>
                           <div className='product-attributes-value'>{attribute.value}</div>
@@ -159,81 +151,11 @@ export class productBasicInformation extends Component {
   }
 }
 
-//
-// <div className="product-basic-information">
-//   <FrameCard>
-//     <ListGroup>
-//       <VerifyWrapper isLoading={isLoading} error={error}>
-//         {edit ?
-//             <ProductInformationForm
-//                 categoriesOptions={this._categoriesAsOptions()}
-//                 hideEdit={() => this._showEditHandler(false)}
-//                 onSubmit={this._productFormSubmitHandler}
-//                 translator={translator}
-//                 initialValues={formData}
-//                 newValues={formData}
-//             />
-//             :
-//             <div>
-//               <ProductDescriptionView translator={translator} description={product.description}
-//                                       product_category={product_category} owner={owner}
-//                                       showEdit={() => this._showEditHandler(true)}>
-//               </ProductDescriptionView>
-//               <ProductInfoView
-//                   created_time={product.created_time}
-//                   province={province.name}
-//                   country={country.name}
-//                   productId={product.id}
-//                   category={category.name}
-//                   translator={translator}
-//                   product_category={product_category}
-//                   owner={owner} showEdit={() => this._showEditHandler(true)}
-//               />
-//               <TechnicalInfoView
-//                   attrs={product.attrs || {}}
-//                   showEdit={() => this._showEditHandler(true)}
-//               />
-//               <HashTagsView
-//                   showEdit={() => this._showEditHandler(true)}
-//                   tags={hashTags}
-//               />
-//             </div>
-//         }
-//       </VerifyWrapper>
-//     </ListGroup>
-//   </FrameCard>
-// </div>
-//
-// const mapStateToProps = (state, props) => {
-//   const provinceSelectorById = makeProvinceSelectorById()
-//   const countrySelectorById = makeCountrySelectorById()
-//   const productSelectorById = makeProductSelectorById()
-//   const categorySelector = makeCategorySelector()
-//   const categorySelectorById = makeCategorySelectorById()
-//   const hashTagSelectorByParentId = makeHashTagSelectorByParentId()
-//   const {productId} = props
-//   const product = productSelectorById(state, productId)
-//   const {product_related_country, product_related_province, product_category} = product
-//   return ({
-//     product,
-//     country: countrySelectorById(state, product_related_country),
-//     hashTags: hashTagSelectorByParentId(state, productId),
-//     province: provinceSelectorById(state, product_related_province),
-//     category: categorySelectorById(state, product_category),
-//     categories: categorySelector(state, productId)
-//   })
-// }
-//
-// const mapDispatchToProps = dispatch =>
-//     bindActionCreators(
-//         {
-//           _getProductInfo: getProductInfo,
-//           _updateProduct: ProductActions.updateProduct,
-//           _getCategories: getCategories,
-//           getCountryById,
-//           getProvinceById
-//         },
-//         dispatch
-//     )
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({
+    updateProduct: productActions.updateProduct,
+  }, dispatch),
+})
 
-export default productBasicInformation
+export default connect(null, mapDispatchToProps)(productBasicInformation)
+

@@ -1,18 +1,17 @@
-import * as React from "react"
-import constant from "src/consts/constants"
-import CreatePostNew from "src/views/common/post/createPost/index"
-import PostActions from "src/redux/actions/commonActions/postActions"
-import PropTypes from "prop-types"
-import {bindActionCreators} from "redux"
-import {connect} from "react-redux"
-import {FrameCard, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames"
-import {Post} from "src/views/common/post/Post"
-import {PureComponent} from "react"
-import {RightArrow, DesertIcon, EditIcon, ChannelIcon} from "src/images/icons"
-import {exchangePostsSelector} from "src/redux/selectors/home/homePosts"
-import RightArrowSvg from 'src/images/common/right_arrow_svg'
+import * as React from 'react'
+import constant from 'src/consts/constants'
+import CreatePostNew from 'src/views/common/post/createPost/index'
+import PostActions from 'src/redux/actions/commonActions/postActions'
+import PropTypes from 'prop-types'
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
+import {FrameCard, ListGroup, VerifyWrapper} from 'src/views/common/cards/Frames'
+import {Post} from 'src/views/common/post/Post'
+import {PureComponent} from 'react'
+import {RightArrow, DesertIcon, EditIcon, ChannelIcon} from 'src/images/icons'
+import {exchangePostsSelector} from 'src/redux/selectors/home/homePosts'
 import {Link} from 'react-router-dom'
-import FontAwesome from 'react-fontawesome'
+import NewRightArrowSvg from 'src/images/common/new_right_arrow'
 
 
 class HomePosts extends PureComponent {
@@ -31,11 +30,12 @@ class HomePosts extends PureComponent {
       scrollButton: false,
       showCreatePostSmall: false,
       getDataInDidMount: false,
+      hideTopBar: false,
     }
   }
 
   componentWillMount(): void {
-    window.addEventListener("scroll", this._onScroll)
+    window.addEventListener('scroll', this._onScroll)
 
     const {actions, exchangeId} = this.props
     const {filterPostsByPostParentLimitOffset} = actions
@@ -45,7 +45,8 @@ class HomePosts extends PureComponent {
       filterPostsByPostParentLimitOffset({
         postParentId: exchangeId, postType: null, limit, offset, postParentType: constant.POST_PARENT.EXCHANGE,
       })
-    } else this.setState({...this.state, getDataInDidMount: true})
+    }
+    else this.setState({...this.state, getDataInDidMount: true})
   }
 
   componentDidMount() {
@@ -75,7 +76,7 @@ class HomePosts extends PureComponent {
   }
 
   componentWillUnmount() {
-    window.removeEventListener("scroll", this._onScroll)
+    window.removeEventListener('scroll', this._onScroll)
   }
 
   _onScroll = () => {
@@ -103,17 +104,28 @@ class HomePosts extends PureComponent {
       if (window.scrollY > 1000)
         this.setState({...this.state, scrollButton: true})
       else this.setState({...this.state, scrollButton: false})
-    } else {
+    }
+    else {
       if (window.scrollY > 400)
         this.setState({...this.state, scrollButton: true})
       else this.setState({...this.state, scrollButton: false})
     }
+
+    if (document.body.clientWidth <= 480) {
+      if (window.scrollY > this.state.scrollY) {
+        this.setState({...this.state, hideTopBar: true, scrollY: window.scrollY})
+      }
+      else {
+        this.setState({...this.state, hideTopBar: false, scrollY: window.scrollY})
+      }
+    }
+
   }
 
   goUp = () => {
     window.scroll({
       top: 0,
-      behavior: "smooth",
+      behavior: 'smooth',
     })
   }
 
@@ -126,16 +138,8 @@ class HomePosts extends PureComponent {
   }
 
   render() {
-    const {error, showCreatePostSmall} = this.state
-    const {
-      actions,
-      className,
-      exchangeId,
-      posts,
-      selectedExchange,
-      unSetExchangeId,
-      // isLoading
-    } = this.props
+    const {error, showCreatePostSmall, hideTopBar} = this.state
+    const {actions, className, exchangeId, posts, selectedExchange, unSetExchangeId} = this.props
     const {deletePost, updatePost} = actions
     return (
         <VerifyWrapper isLoading={false} error={error} className={className}>
@@ -156,8 +160,8 @@ class HomePosts extends PureComponent {
                           postsCountInThisPage={posts.length}
                       />
 
-                      <div className='top-bar-entity show'>
-                        <RightArrowSvg onClick={unSetExchangeId} className='back-button'/>
+                      <div className={!hideTopBar ? 'top-bar-entity show' : 'top-bar-entity show top-bar-entity-top'}>
+                        <NewRightArrowSvg onClick={unSetExchangeId} className='back-button'/>
                         {/*<FontAwesome onClick={unSetExchangeId} className='back-button' name='arrow-right'/>*/}
                         <Link to={'/exchange/' + exchangeId} className='profile-top-bar'>
                           {selectedExchange.exchange_image
@@ -192,19 +196,19 @@ class HomePosts extends PureComponent {
                         </ListGroup>
                       </FrameCard>
                       {/*button for scroll to top*/}
-                      <div className={this.state.scrollButton ? "go-up-logo-cont" : "go-up-logo-cont-hide"}
+                      <div className={this.state.scrollButton ? 'go-up-logo-cont' : 'go-up-logo-cont-hide'}
                            onClick={this.goUp}>
                         <RightArrow className='go-up-logo'/>
                       </div>
 
-                      <div className={this.state.scrollButton ? "write-post-hide" : "write-post"}
+                      <div className={this.state.scrollButton ? 'write-post-hide' : 'write-post'}
                            onClick={this._showCreatePostSmall}>
                         <EditIcon className='write-post-logo'/>
                       </div>
                     </div>
                 }
               </React.Fragment>
-              : ("")
+              : ('')
           }
         </VerifyWrapper>
     )

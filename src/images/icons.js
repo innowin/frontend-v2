@@ -68,12 +68,14 @@ import PhoneSvg from "./login/phone"
 import postIcon from "./user/post_svg"
 import PostSendIcon from "./common/postSend_svg"
 import Product from "./product/product"
+import ProductWhite from "./product/product_white"
 import QuestionMark from "./common/questionMark_svg"
 import RatingIcon from "./product/rating_svg"
 import RefreshIcon from "./common/refresh_svg"
 import ReplyArrow from "./common/reply_arrow_svg"
 import researchIcon from "./user/research_svg"
 import RightArrow from "./common/right_arrow_svg"
+import NewRightArrow from "./common/new_right_arrow"
 import RocketSvg from "./login/rocket"
 import SearchIcon from "./common/search_svg"
 import SeeViewIcon from "./common/see_view_svg"
@@ -162,6 +164,7 @@ export {
   MoreOptionSvg,
   MoviesSvgIcon,
   NewProductXsmall,
+  ProductWhite,
   NewSkillIcon,
   NoFilterIcon,
   NotificationIcon,
@@ -179,6 +182,7 @@ export {
   ReplyArrow,
   researchIcon,
   RightArrow,
+  NewRightArrow,
   RocketSvg,
   SearchIcon,
   SeeViewIcon,

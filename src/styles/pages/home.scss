@@ -22,6 +22,7 @@ $heightOfContentBox: 140px;
 .global-wrapper {
   .page-content {
     min-height: 100%;
+    transition: all 0.3s ease;
     //@media screen and (max-width: 10000px) and (min-width: 1366px) {
     display: flex;
     margin-left: 0;

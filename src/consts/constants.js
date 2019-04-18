@@ -2,6 +2,7 @@ export default {
   TOP_BAR_PAGES: {
     EXCHANGE_EXPLORER: '/exchange/Exchange_Explorer',
     USER_EXPLORER: '/users/Users_Explorer',
+    PRODUCT: '/product/',
     HOME: '/',
     OTHER: 'other',
   },

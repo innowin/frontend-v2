@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
-import ProductPosts from "../product/posts"
-import ProductBasicInformation from "../product/basicInformation"
-import {NavLink, Switch, Redirect} from "react-router-dom"
-import PropsRoute from "src/consts/PropsRoute"
-import {connect} from "react-redux"
-import SideBar from '../bars/productBar/index'
+import ProductPosts from '../product/posts'
+import ProductBasicInformation from '../product/basicInformation'
+import {NavLink, Switch, Redirect} from 'react-router-dom'
+import PropsRoute from 'src/consts/PropsRoute'
+import {connect} from 'react-redux'
+import SideBar from '../bars/ProductSidebar'
 import ProductActions from 'src/redux/actions/commonActions/productActions/productActions'
 import {bindActionCreators} from 'redux'
 import constants from 'src/consts/constants'
@@ -22,17 +22,22 @@ import postActions from 'src/redux/actions/commonActions/postActions'
 import {citySelector} from '../../redux/selectors/common/location/getCityByProvince'
 import {getCategories} from 'src/redux/actions/commonActions/categoryActions'
 import {makeCategorySelector} from '../../redux/selectors/common/category/getCategoriesByParentId'
+import {NewRightArrow} from 'src/images/icons'
+import {ProductWhite} from 'src/images/icons'
 
 
 class ProductView extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      getData: true
+      getData: true,
+      hideTopBar: false,
     }
+    this._onScroll = this._onScroll.bind(this)
   }
 
-  componentDidMount(): void {
+  componentDidMount() {
+    window.scrollTo({top: 0, behavior: 'smooth'})
     const {match, actions} = this.props
     const {params} = match
     const productId = params.id
@@ -41,6 +46,7 @@ class ProductView extends Component {
     actions.getPosts({postRelatedProductId: productId})
     actions.getCountries()
     actions.getCategories()
+    window.addEventListener('scroll', this._onScroll)
   }
 
   componentWillReceiveProps(nextProps, nextContext): void {
@@ -49,17 +55,44 @@ class ProductView extends Component {
 
     if (product && getData) {
       this.setState({...this.state, getData: false}, () => {
-        actions.getUserByUserId(product.product_owner)
+        const id = product.product_owner.id ? product.product_owner.id : product.product_owner
+        actions.getUserByUserId(id)
       })
     }
   }
 
+  componentWillUnmount() {
+    document.removeEventListener('scroll', this._onScroll)
+  }
+
+  _onScroll() {
+    if (document.body.clientWidth <= 480) {
+      if (window.scrollY > this.state.scrollY) {
+        this.setState({...this.state, hideTopBar: true, scrollY: window.scrollY})
+      }
+      else {
+        this.setState({...this.state, hideTopBar: false, scrollY: window.scrollY})
+      }
+    }
+  }
+
+  backHistory = () => {
+    window.history.back()
+  }
+
   render() {
+    const {hideTopBar} = this.state
     const {match, translate, product, country, province, product_owner, product_category, current_user_identity, countries, provinces, cities, categories, actions} = this.props
     const {getProvinces, getCities} = actions
     const {path, url} = match
     return (
-        <div className='all-exchanges-parent'>
+        <div className='all-products-parent'>
+
+          <div className={hideTopBar ? 'product-header-top' : 'product-header'}>
+            <Material backgroundColor='rgba(255,255,255,0.5)' className='back-button-material' content={<NewRightArrow className='back-button-product'/>} onClick={this.backHistory}/>
+            <ProductWhite className='product-header-svg'/>
+            <div className='product-header-title'>{product.name}</div>
+          </div>
 
           <SideBar product={product}
                    country={country}
@@ -126,10 +159,10 @@ const mapStateToProps = (state, props) => {
     provinces: provinceSelector(state),
     cities: citySelector(state),
     categories: makeCategorySelector()(state),
-    product_owner: state.identities.list[product.product_owner],
+    product_owner: state.identities.list[product.product_owner.id ? product.product_owner.id : product.product_owner],
     product_category: state.common.category.list[product.product_category],
     current_user_identity: state.auth.client.identity.content,
-    translate: getMessages(state)
+    translate: getMessages(state),
   }
 }
 
@@ -142,8 +175,8 @@ const mapDispatchToProps = dispatch => ({
     getCategories,
     getProvinces,
     getCities,
-    getPosts: postActions.filterPostsByPostRelatedProduct
-  }, dispatch)
+    getPosts: postActions.filterPostsByPostRelatedProduct,
+  }, dispatch),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductView)

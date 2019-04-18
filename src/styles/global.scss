@@ -23,6 +23,7 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   scrollbar-color: $primary-color $background-color;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html {

@@ -25,11 +25,14 @@
       display: none;
     }
     .product-model-detail{
-      width: 45%;
+      width: 65%;
+      padding: 15px 0;
     }
     .product-model-img{
-      width: 55%;
-      height: 100px;
+      vertical-align: top;
+      width: 35%;
+      height: 80px;
+      margin-top: 10px;
     }
   }
 }

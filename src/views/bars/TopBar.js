@@ -107,8 +107,10 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       showAbout: false,
       showHamburger: false,
       showSetting: false,
+      hideTopBar: false,
+      scrollY: 0,
     }
-
+    this._onScroll = this._onScroll.bind(this)
     this._handleCloseOutside = this._handleCloseOutside.bind(this)
   }
 
@@ -127,6 +129,9 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     else if (path === constants.TOP_BAR_PAGES.EXCHANGE_EXPLORER) {
       this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.EXCHANGE_EXPLORER})
     }
+    else if (path.includes(constants.TOP_BAR_PAGES.PRODUCT)) {
+      this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.PRODUCT})
+    }
     else {
       this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.OTHER})
     }
@@ -135,13 +140,13 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   componentDidMount() {
     const {actions, clientIdentity} = this.props
     const {getFileByFileRelatedParentId} = actions
-    // if (getMediaFile) {
     if (clientIdentity) {
       getFileByFileRelatedParentId({
         fileRelatedParentId: clientIdentity.id,
         fileParentType: constants.FILE_PARENT.IDENTITY,
       })
     }
+    window.addEventListener('scroll', this._onScroll)
   }
 
   componentDidUpdate(prevProps) {
@@ -161,6 +166,9 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
       else if (path === constants.TOP_BAR_PAGES.EXCHANGE_EXPLORER) {
         this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.EXCHANGE_EXPLORER})
       }
+      else if (path.includes(constants.TOP_BAR_PAGES.PRODUCT)) {
+        this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.PRODUCT})
+      }
       else {
         this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.OTHER})
       }
@@ -170,6 +178,25 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   componentWillUnmount(): void {
     document.removeEventListener('mousedown', this._handleCloseOutside)
     document.removeEventListener('touchend', this._handleCloseOutside)
+    document.removeEventListener('scroll', this._onScroll)
+  }
+
+  _onScroll() {
+    if (
+        document.body.clientWidth <= 480 &&
+        (
+            this.state.currentPage === constants.TOP_BAR_PAGES.PRODUCT ||
+            (this.state.currentPage === constants.TOP_BAR_PAGES.HOME && this.props.selectedExchange && this.props.selectedExchange !== '')
+        )
+    ) {
+      if (window.scrollY > this.state.scrollY) {
+        console.log('here')
+        this.setState({...this.state, hideTopBar: true, scrollY: window.scrollY})
+      }
+      else {
+        this.setState({...this.state, hideTopBar: false, scrollY: window.scrollY})
+      }
+    }
   }
 
   _handleCloseOutside(e) {
@@ -325,7 +352,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     const {translate, clientName, clientIdentity, imgLink, bannerLink, modal} = this.props
     const {productModal} = modal
     const topBarTranslate = translate.topBar
-    const {showHamburger, currentPage, collapseProfile, exploreCollapse, selectedSetting, selectedAbout, showSetting, showAbout, createExchangeModalIsOpen, agentForm} = this.state
+    const {hideTopBar, showHamburger, currentPage, collapseProfile, exploreCollapse, selectedSetting, selectedAbout, showSetting, showAbout, createExchangeModalIsOpen, agentForm} = this.state
     const linkEditProfile = clientIdentity ?
         clientIdentity.identity_type === constants.USER_TYPES.USER
             ? `/user/${clientIdentity.id}`
@@ -352,7 +379,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                 : null}
           </TransitionGroup>
 
-          <nav className="page-content topBar">
+          <nav className={hideTopBar ? 'page-content topBar topBar-hide' : 'page-content topBar'}>
             <div className="d-flex align-items-end" ref={e => this.exploreRef = e}>
               <Link to={'/'} onClick={this._homeClick}>
                 <Material backgroundColor='rgba(238, 238, 238,0.8)'
@@ -410,16 +437,21 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                     <p className='name'>{clientName}</p>
                   </div>
                 </div>
-                <Link className='hamburger-items-container' onClick={this._hamburgerOff} to={linkEditProfile}>تکمیل
-                  پروفایل</Link>
+                <Material className='display-block' content={<Link className='hamburger-items-container' onClick={this._hamburgerOff} to={linkEditProfile}>تکمیل پروفایل</Link>}/>
                 <div className='hamburger-items-container'>
                   <h4 className='item-title'>{topBarTranslate['Explore']}</h4>
-                  <Link onClick={this._hamburgerOff} to='/exchange/Exchange_Explorer'
-                        className='item-text'>{translate['Windows']}</Link>
-                  <Link onClick={this._hamburgerOff} to={'/product/Product_Explorer'}
-                        className='item-text'>{translate['Products']}</Link>
-                  <Link onClick={this._hamburgerOff} to={'/users/Users_Explorer'}
-                        className='item-text'>{topBarTranslate['Persons']}</Link>
+                  <Material className='display-block' content={
+                    <Link onClick={this._hamburgerOff} to='/exchange/Exchange_Explorer'
+                          className='item-text'>{translate['Windows']}</Link>
+                  }/>
+                  <Material className='display-block' content={
+                    <Link onClick={this._hamburgerOff} to={'/product/Product_Explorer'}
+                          className='item-text'>{translate['Products']}</Link>
+                  }/>
+                  <Material className='display-block' content={
+                    <Link onClick={this._hamburgerOff} to={'/users/Users_Explorer'}
+                          className='item-text'>{topBarTranslate['Persons']}</Link>
+                  }/>
                 </div>
                 <div className='hamburger-items-container'>
                   <h4 className='item-title'>{translate['Create']}</h4>
@@ -628,6 +660,7 @@ const mapStateToProps = (state, ownProps) => {
   const bannerImg = clientIdentity && (clientIdentity.profile_banner || clientIdentity.bannerImg)
 
   return {
+    selectedExchange: state.auth.client.selectedExchange,
     isLoggedIn: state.auth.client.isLoggedIn,
     clientName,
     clientIdentity,

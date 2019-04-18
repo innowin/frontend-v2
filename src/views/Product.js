@@ -17,7 +17,7 @@ class Product extends Component {
     return (
         <Switch>
           <PrivateRoute exact path={`${path}/Product_Explorer`} component={ProductExplorer}/>
-          <div className="-main -userOrganBackgroundImg">
+          <div className="-main">
             <PrivateRoute path={`${path}/:id`} component={ProductView}/>
           </div>
         </Switch>

@@ -79,14 +79,13 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
           <main className="-main">
             <div className="page-content home-page-content">
               {
-                (identityId && identityType) ? (
+                identityId && identityType &&
                     <HomeSideBar setExchangeId={this._setExchangeId}
                                  classNames={activeExchangeId ? 'right-sidebar active-exchange' : 'right-sidebar'}
                                  identityId={identityId}
                                  identityType={identityType}
                                  activeExchangeId={activeExchangeId}
                     />
-                ) : null
               }
               <HomePosts unSetExchangeId={this._unSetExchangeId} exchangeId={activeExchangeId} className={activeExchangeId ? 'post-wrapper active-exchange' : 'post-wrapper'}/>
               <div className={activeExchangeId ? 'user-detail-wrapper active-exchange' : 'user-detail-wrapper'}>

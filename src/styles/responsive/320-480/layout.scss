@@ -14,6 +14,15 @@
     }
   }
 
+  .-product-main{
+    position: absolute;
+    top: $smallTopBarHeight + 50px;
+
+    &.page-content {
+      display: block;
+    }
+  }
+
   .top-bar-entity {
     position: fixed;
     z-index: 2;
@@ -68,4 +77,8 @@
   .center-column {
     padding: 0;
   }
+}
+
+.top-bar-entity-top{
+  top: 0;
 }

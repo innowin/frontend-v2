@@ -471,6 +471,12 @@
   display: none;
 }
 
+.display-block {
+  display: block;
+  direction: rtl;
+  text-align: right;
+}
+
 .post-edit-textarea-open {
   overflow-y: auto;
   width: 100%;
