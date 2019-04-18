@@ -206,7 +206,7 @@ module.exports = {
   'Skill title tip': 'مثال: برنامه نویسی، زبان خارجی، مهارت توسعه محصول',
   'Very low': ' خیلی ضعیف',
   'Low': 'ضعیف',
-  'Medium>': 'متوسط',
+  'Medium': 'متوسط',
   'Good': 'خوب',
   'Very good': 'خیلی خوب',
 

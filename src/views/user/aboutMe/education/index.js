@@ -16,6 +16,7 @@ type Props = {
   createEducation: Function,
   updateEducation: Function,
   getEducations: Function,
+  deleteEducation: Function,
 }
 
 type States = {
@@ -49,7 +50,7 @@ class Education extends React.Component<Props, States> {
   }
 
   render() {
-    const {owner, translate, createEducation, updateEducation, educations} = this.props
+    const {owner, translate, createEducation, updateEducation, educations, deleteEducation} = this.props
     const {isEdit} = this.state
 
     return (
@@ -58,7 +59,7 @@ class Education extends React.Component<Props, States> {
             !!isEdit
                 ? <EducationForm createEducation={createEducation} toggleEdit={this._toggleEdit}
                                  translate={translate} owner={owner}/>
-                : <EducationView updateEducation={updateEducation} educations={educations} owner={owner}
+                : <EducationView deleteEducation={deleteEducation} updateEducation={updateEducation} educations={educations} owner={owner}
                                  translate={translate} toggleEdit={this._toggleEdit}/>
           }
         </CardContainer>

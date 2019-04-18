@@ -14,6 +14,7 @@ type Props = {
   translate: TranslatorType,
   skills: [userSkillType],
   createSkill: Function,
+  deleteSkill: Function,
   updateSkill: Function,
   getSkills: Function,
 }
@@ -32,6 +33,7 @@ class Skill extends React.Component<Props, States> {
     translate: PropTypes.object.isRequired,
     skills: PropTypes.array.isRequired,
     createSkill: PropTypes.func.isRequired,
+    deleteSkill: PropTypes.func.isRequired,
     updateSkill: PropTypes.func.isRequired,
     getSkills: PropTypes.func.isRequired,
   }
@@ -49,7 +51,7 @@ class Skill extends React.Component<Props, States> {
   }
 
   render() {
-    const {owner, translate, createSkill, updateSkill, skills} = this.props
+    const {owner, translate, createSkill, updateSkill, deleteSkill, skills} = this.props
     const {isEdit} = this.state
 
     return (
@@ -58,7 +60,7 @@ class Skill extends React.Component<Props, States> {
             !!isEdit
                 ? <SkillForm createSkill={createSkill} toggleEdit={this._toggleEdit}
                              translate={translate} owner={owner}/>
-                : <SkillView updateSkill={updateSkill} skills={skills}
+                : <SkillView deleteSkill={deleteSkill} updateSkill={updateSkill} skills={skills}
                              owner={owner}
                              translate={translate} toggleEdit={this._toggleEdit}/>
           }

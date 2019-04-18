@@ -24,17 +24,28 @@ type OrganAboutUsProps = {
   files: { [number]: fileType },
   organization: identityType,
   translate: TranslatorType,
-  actions: Object,
+  actions: {
+    getCertificatesByIdentity: Function,
+    showModal: Function,
+    updateOrganization: Function,
+    createCertificate: Function,
+    deleteCertificate: Function,
+    updateCertificate: Function,
+  },
 }
 
 const OrganAboutUs = (props: OrganAboutUsProps) => {
   const {translate, organization, actions, products, certificates, files} = props
-  const {getCertificatesByIdentity, showModal, updateOrganization, createCertificate, updateCertificate} = actions
+  const {
+    getCertificatesByIdentity, showModal, updateOrganization, createCertificate, updateCertificate,
+    deleteCertificate
+  } = actions
   return (
       <div className="about-us">
         <Description updateOrganization={updateOrganization} translate={translate} organization={organization}/>
         <Product showModal={showModal} products={products} translate={translate} owner={organization}/>
-        <Certificate updateCertificate={updateCertificate} files={files} translate={translate} owner={organization}
+        <Certificate deleteCertificate={deleteCertificate} updateCertificate={updateCertificate} files={files}
+                     translate={translate} owner={organization}
                      certificates={certificates} getCertificatesByIdentity={getCertificatesByIdentity}
                      createCertificate={createCertificate}/>
         <Contact updateOrganization={updateOrganization} translate={translate} organization={organization}/>
@@ -66,6 +77,7 @@ const mapDispatchToProps = dispatch => ({
     showModal: ModalActions.showModal,
     updateOrganization: OrganizationActions.updateOrganization,
     createCertificate: CertificateActions.createCertificate,
+    deleteCertificate: CertificateActions.deleteCertificate,
     updateCertificate: CertificateActions.updateCertificate,
   }, dispatch),
 });

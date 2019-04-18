@@ -34,7 +34,6 @@ type OrganAboutMeProps = {
   files: { [number]: fileType },
   user: identityType,
   translate: TranslatorType,
-  showModal: Function,
   educations: [userEducationType],
   workExperiences: [workExperienceType],
   researches: [userResearchType],
@@ -43,17 +42,22 @@ type OrganAboutMeProps = {
     showModal: Function,
     getCertificatesByIdentity: Function,
     createCertificate: Function,
+    deleteCertificate: Function,
     updateCertificate: Function,
     createEducation: Function,
+    deleteEducation: Function,
     updateEducation: Function,
     getEducations: Function,
     getWorkExperiences: Function,
     createWorkExperience: Function,
+    deleteWorkExperience: Function,
     updateWorkExperience: Function,
     getResearches: Function,
     updateResearch: Function,
     createResearch: Function,
+    deleteResearch: Function,
     createSkill: Function,
+    deleteSkill: Function,
     updateSkill: Function,
     getSkills: Function,
   },
@@ -66,25 +70,25 @@ const UserAboutMe = (props: OrganAboutMeProps) => {
   const {
     getCertificatesByIdentity, showModal, createCertificate, updateCertificate,
     createEducation, updateEducation, getEducations, getWorkExperiences, createWorkExperience, updateWorkExperience,
-    updateResearch, getResearches, createResearch, updateSkill, getSkills, createSkill
+    updateResearch, getResearches, createResearch, updateSkill, getSkills, createSkill, deleteSkill, deleteEducation,
+    deleteWorkExperience, deleteResearch, deleteCertificate
   } = actions
   return (
       <div className="about-us">
-        <Education updateEducation={updateEducation} translate={translate} owner={user}
-                   educations={educations} getEducations={getEducations} createEducation={createEducation}/>
-        <WorkExperience updateWorkExperience={updateWorkExperience} translate={translate} owner={user}
-                        workExperiences={workExperiences} getWorkExperiences={getWorkExperiences}
-                        createWorkExperience={createWorkExperience}/>
-        <Skill updateSkill={updateSkill} translate={translate} owner={user}
-               skills={skills} getSkills={getSkills}
-               createSkill={createSkill}/>
+        <Education deleteEducation={deleteEducation} updateEducation={updateEducation} translate={translate}
+                   owner={user} educations={educations} getEducations={getEducations}
+                   createEducation={createEducation}/>
+        <WorkExperience deleteWorkExperience={deleteWorkExperience} updateWorkExperience={updateWorkExperience}
+                        translate={translate} owner={user} workExperiences={workExperiences}
+                        getWorkExperiences={getWorkExperiences} createWorkExperience={createWorkExperience}/>
+        <Skill deleteSkill={deleteSkill} updateSkill={updateSkill} translate={translate} owner={user} skills={skills}
+               getSkills={getSkills} createSkill={createSkill}/>
         <Certificate updateCertificate={updateCertificate} files={files} translate={translate} owner={user}
                      certificates={certificates} getCertificatesByIdentity={getCertificatesByIdentity}
-                     createCertificate={createCertificate}/>
+                     createCertificate={createCertificate} deleteCertificate={deleteCertificate}/>
         <Product showModal={showModal} products={products} translate={translate} owner={user}/>
-        <Research updateResearch={updateResearch} translate={translate} owner={user}
-                  researches={researches} getResearches={getResearches}
-                  createResearch={createResearch}/>
+        <Research updateResearch={updateResearch} translate={translate} owner={user} researches={researches}
+                  getResearches={getResearches} deleteResearch={deleteResearch} createResearch={createResearch}/>
       </div>
   )
 }
@@ -95,7 +99,6 @@ UserAboutMe.propTypes = {
   files: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   translate: PropTypes.object.isRequired,
-  showModal: PropTypes.func.isRequired,
   educations: PropTypes.array.isRequired,
   workExperiences: PropTypes.array.isRequired,
   researches: PropTypes.array.isRequired,
@@ -128,17 +131,22 @@ const mapDispatchToProps = dispatch => ({
     showModal: ModalActions.showModal,
     getCertificatesByIdentity: CertificateActions.getCertificatesByIdentity,
     createCertificate: CertificateActions.createCertificate,
+    deleteCertificate: CertificateActions.deleteCertificate,
     updateCertificate: CertificateActions.updateCertificate,
     createEducation: EducationActions.createEducationByUserId,
+    deleteEducation: EducationActions.deleteEducationByUserId,
     updateEducation: EducationActions.updateEducationByUserId,
     getEducations: EducationActions.getEducationByUserId,
     getWorkExperiences: WorkExperienceActions.getWorkExperienceByUserId,
     createWorkExperience: WorkExperienceActions.createWorkExperienceByUserId,
+    deleteWorkExperience: WorkExperienceActions.deleteWorkExperienceByUserId,
     updateWorkExperience: WorkExperienceActions.updateWorkExperienceByUserId,
     getResearches: ResearchActions.getResearchByUserId,
     updateResearch: ResearchActions.updateResearchByUserId,
     createResearch: ResearchActions.createResearchByUserId,
+    deleteResearch: ResearchActions.deleteResearchByUserId,
     createSkill: SkillActions.createSkill,
+    deleteSkill: SkillActions.deleteSkillByUserId,
     updateSkill: SkillActions.updateSkillByUserId,
     getSkills: SkillActions.getSkillByUserId,
   }, dispatch),

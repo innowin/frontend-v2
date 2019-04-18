@@ -14,6 +14,7 @@ type Props = {
   translate: TranslatorType,
   workExperiences: [workExperienceType],
   createWorkExperience: Function,
+  deleteWorkExperience: Function,
   updateWorkExperience: Function,
   getWorkExperiences: Function,
 }
@@ -29,6 +30,7 @@ class WorkExperience extends React.Component<Props, States> {
     translate: PropTypes.object.isRequired,
     workExperiences: PropTypes.array.isRequired,
     createWorkExperience: PropTypes.func.isRequired,
+    deleteWorkExperience: PropTypes.func.isRequired,
     updateWorkExperience: PropTypes.func.isRequired,
     getWorkExperiences: PropTypes.func.isRequired,
   }
@@ -50,7 +52,7 @@ class WorkExperience extends React.Component<Props, States> {
   }
 
   render() {
-    const {owner, translate, createWorkExperience, updateWorkExperience, workExperiences} = this.props
+    const {owner, translate, createWorkExperience, updateWorkExperience, workExperiences, deleteWorkExperience} = this.props
     const {isEdit} = this.state
 
     return (
@@ -59,9 +61,9 @@ class WorkExperience extends React.Component<Props, States> {
             !!isEdit
                 ? <WorkExperienceForm createWorkExperience={createWorkExperience} toggleEdit={this._toggleEdit}
                                       translate={translate} owner={owner}/>
-                : <WorkExperienceView updateWorkExperience={updateWorkExperience} workExperiences={workExperiences}
-                                      owner={owner}
-                                      translate={translate} toggleEdit={this._toggleEdit}/>
+                : <WorkExperienceView deleteWorkExperience={deleteWorkExperience}
+                                      updateWorkExperience={updateWorkExperience} workExperiences={workExperiences}
+                                      owner={owner} translate={translate} toggleEdit={this._toggleEdit}/>
           }
         </CardContainer>
     )

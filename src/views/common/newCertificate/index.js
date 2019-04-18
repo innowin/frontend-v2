@@ -17,6 +17,7 @@ type Props = {
   certificates: [certificateType],
   createCertificate: Function,
   updateCertificate: Function,
+  deleteCertificate: Function,
   files: { [number]: fileType },
 }
 
@@ -33,7 +34,8 @@ class Certificate extends React.Component<Props, States> {
     certificates: PropTypes.array.isRequired,
     createCertificate: PropTypes.func.isRequired,
     updateCertificate: PropTypes.func.isRequired,
-    files: PropTypes.func.isRequired,
+    deleteCertificate: PropTypes.func.isRequired,
+    files: PropTypes.object.isRequired,
   }
 
   state = {
@@ -54,7 +56,7 @@ class Certificate extends React.Component<Props, States> {
   }
 
   render() {
-    const {owner, translate, createCertificate, files, updateCertificate} = this.props
+    const {owner, translate, createCertificate, files, updateCertificate, deleteCertificate} = this.props
     const {isEdit} = this.state
 
     const certificates = [
@@ -73,8 +75,9 @@ class Certificate extends React.Component<Props, States> {
             !!isEdit
                 ? <CertificateForm createCertificate={createCertificate} toggleEdit={this._toggleEdit}
                                    translate={translate} owner={owner}/>
-                : <CertificateView updateCertificate={updateCertificate} files={files} certificates={certificates} owner={owner} translate={translate}
-                                   toggleEdit={this._toggleEdit}/>
+                : <CertificateView updateCertificate={updateCertificate} files={files} certificates={certificates}
+                                   owner={owner} translate={translate} toggleEdit={this._toggleEdit}
+                                   deleteCertificate={deleteCertificate}/>
           }
         </CardContainer>
     )

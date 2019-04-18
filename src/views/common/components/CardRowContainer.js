@@ -1,11 +1,12 @@
 // @flow
 import * as React from 'react'
-import PropTypes from 'prop-types'
 import Moment from 'react-moment'
-import {getMessages} from 'src/redux/selectors/translateSelector'
+import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+
 import type {fileType} from 'src/consts/flowTypes/common/fileType'
-import type {TranslatorType} from '../../../consts/flowTypes/common/commonTypes'
+import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
+import {getMessages} from 'src/redux/selectors/translateSelector'
 
 type Props = {
   title: string,
@@ -77,6 +78,7 @@ CardRowContainer.propTypes = {
   entityImage: PropTypes.object,
   fromDate: PropTypes.string,
   toDate: PropTypes.string,
+  translate: PropTypes.object,
 }
 
 const mapStateToProps = (state, ownProps) => {

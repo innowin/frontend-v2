@@ -16,6 +16,7 @@ type Props = {
   researches: [researchType],
   createResearch: Function,
   updateResearch: Function,
+  deleteResearch: Function,
 }
 
 type States = {
@@ -31,6 +32,7 @@ class Research extends React.Component<Props, States> {
     researches: PropTypes.array.isRequired,
     createResearch: PropTypes.func.isRequired,
     updateResearch: PropTypes.func.isRequired,
+    deleteResearch: PropTypes.func.isRequired,
   }
 
   state = {
@@ -50,7 +52,7 @@ class Research extends React.Component<Props, States> {
   }
 
   render() {
-    const {owner, translate, createResearch, updateResearch, researches} = this.props
+    const {owner, translate, createResearch, updateResearch, researches, deleteResearch} = this.props
     const {isEdit} = this.state
 
     return (
@@ -60,7 +62,7 @@ class Research extends React.Component<Props, States> {
                 ? <ResearchForm createResearch={createResearch} toggleEdit={this._toggleEdit}
                                 translate={translate} owner={owner}/>
                 : <ResearchView updateResearch={updateResearch} researches={researches} owner={owner}
-                                translate={translate}
+                                translate={translate} deleteResearch={deleteResearch}
                                 toggleEdit={this._toggleEdit}/>
           }
         </CardContainer>
