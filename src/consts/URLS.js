@@ -19,7 +19,6 @@ const urls = {
     GET_USER_BY_USER_ID: "users/identities",
     GET_EDUCATIONS_BY_USER_ID: "users/educations",
     UPDATE_USER_BY_USER_ID: "users/identities",
-    UPDATE_PROFILE_BY_PROFILE_ID: "users/profiles",
     GET_USERS: "users",
     GET_ALL_USERS: "users/identities",
     GET_IDENTITY: "users/identities",

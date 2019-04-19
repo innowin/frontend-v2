@@ -430,13 +430,6 @@ const identities = (state = initialState.identities, action) => {
       return userSlices.updateUserByUserId.success(state, action)
     case types.ERRORS.USER.UPDATE_USER_BY_USER_ID:
       return userSlices.updateUserByUserId.error(state, action)
-      /** -------------------------- update profile by profile id -------------------------> **/
-    case types.USER.UPDATE_PROFILE_BY_PROFILE_ID:
-      return userSlices.updateProfileByUserId.base(state, action)
-    case types.SUCCESS.USER.UPDATE_PROFILE_BY_PROFILE_ID:
-      return userSlices.updateProfileByUserId.success(state, action)
-    case types.ERRORS.USER.UPDATE_PROFILE_BY_PROFILE_ID:
-      return userSlices.updateProfileByUserId.error(state, action)
       /** -------------------------- get posts by identity  -------------------------> **/
     case types.COMMON.POST.GET_POST_BY_IDENTITY:
       return userSlices.getPostByIdentity.base(state, action)

@@ -9,6 +9,7 @@ import type {userProfileType} from "src/consts/flowTypes/user/basicInformation"
 import contactInfoValidation from "../../../helpers/validations/contactInfoBasicInformation"
 import {ItemHeader} from "../../common/cards/Frames";
 import EditFormButtons from "../../common/components/EditFormButtons";
+import type {identityType} from '../../../consts/flowTypes/identityType'
 
 type ContactInfoFormInputType = {
   day: string,
@@ -32,11 +33,12 @@ type PropsContactInfoEditForm = {
   handleSubmit: Function,
   initialize: Function,
   actions: {
-    updateProfileByProfileId: Function,
+    updateUserByUserId: Function,
   },
   userId: number,
   submitFailed: string,
   error: string,
+  user: identityType,
 }
 
 class ContactInfoEditForm extends Component<PropsContactInfoEditForm> {
@@ -68,7 +70,7 @@ class ContactInfoEditForm extends Component<PropsContactInfoEditForm> {
     // profile equals to initial value
     const {actions, userId, user} = this.props
 
-    const {updateProfileByProfileId,updateUserByUserId} = actions
+    const {updateUserByUserId} = actions
     const profileId: number = user.id
 
     const formFormat = {
@@ -87,7 +89,6 @@ class ContactInfoEditForm extends Component<PropsContactInfoEditForm> {
     })
 
     const formValues: {} = {...formFormat}
-    // updateProfileByProfileId({formValues, profileId, userId})
     updateUserByUserId(formValues, userId)
 
 
