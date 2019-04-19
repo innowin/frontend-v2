@@ -91,7 +91,6 @@ type PropsSideBarContent = {
   actions: {
     createFollow: Function,
     getFollowers: Function,
-    updateProfile: Function,
     updateOrganization: Function,
     createFile: Function,
     removeFileFromTemp: Function,

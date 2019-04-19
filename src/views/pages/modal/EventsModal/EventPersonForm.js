@@ -20,7 +20,6 @@ type EventPersonFormProps = {
   createFile: Function,
   updateFile: Function,
   removeFileFromTemp: Function,
-  updateProfile: Function,
   cities: {},
   provinces: {},
   selectedEvents: array,
@@ -121,25 +120,13 @@ class EventPersonForm extends Component<EventPersonFormProps, EventPersonFormSta
 
   _onSubmit = (e) => {
     const {
-      createEventAssignment, identityId, cancelForm, profile, removeFileFromTemp,
-      updateProfile, updateUser, user, uploadedResume, updateFile, selectedEvents, createEducation, createSkill
+      createEventAssignment, identityId, cancelForm, profile, removeFileFromTemp, updateUser, user, uploadedResume,
+      updateFile, selectedEvents, createEducation, createSkill
     } = this.props
     const {selectedCity, selectedProvince, skills} = this.state
     e.preventDefault()
 
     const form = e.target
-
-    let formValues = {
-      profile_related_province: selectedProvince,
-      profile_related_town: selectedCity,
-      telegram_account: form.telegram_account.value === '' ? '' : constants.LINKS.TELEGRAM + form.telegram_account.value,
-      mobile: form.mobile.value,
-      related_cv: uploadedResume,
-      work_status: form.work_status.value,
-      military_serving_status: form.military_serving_status.value,
-      gender: form.gender.value.replace("\"", ''),
-    }
-    updateProfile({formValues, profileId: profile.id, userId: profile.profile_user})
 
     if (uploadedResume) {
       updateFile({
@@ -153,6 +140,14 @@ class EventPersonForm extends Component<EventPersonFormProps, EventPersonFormSta
       username: form.username.value,
       first_name: form.first_name.value,
       last_name: form.last_name.value,
+      province: selectedProvince,
+      town: selectedCity,
+      telegram_account: form.telegram_account.value === '' ? '' : constants.LINKS.TELEGRAM + form.telegram_account.value,
+      mobile: form.mobile.value,
+      related_cv: uploadedResume,
+      work_status: form.work_status.value,
+      military_serving_status: form.military_serving_status.value,
+      gender: form.gender.value.replace("\"", ''),
     }
 
     let formValuesUser = user.email === form.email.value

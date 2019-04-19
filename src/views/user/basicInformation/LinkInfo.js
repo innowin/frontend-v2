@@ -17,7 +17,7 @@ type UserInfoProps = {|
   userId: number,
   translate: {},
   actions: {|
-    updateProfileByUserId: Function,
+    updateUserByUserId: Function,
   |},
   isLoading: boolean,
   profile: userProfileType,

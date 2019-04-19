@@ -27,7 +27,6 @@ import getSkillByUserId from './getSkillByUserId'
 import getWorkExperienceByUserId from './getWorkExperienceByUserId'
 import setProfileMedia from "./setProfileMedia"
 import signIn from './signIn'
-import updateProfileByUserId from './updateProfileByUserId'
 import updateUserByUserId from './updateUserByUserId'
 
 export default {
@@ -60,6 +59,5 @@ export default {
   getWorkExperienceByUserId,
   setProfileMedia,
   signIn,
-  updateProfileByUserId,
   updateUserByUserId,
 }

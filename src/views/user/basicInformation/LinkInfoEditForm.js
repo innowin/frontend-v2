@@ -17,7 +17,7 @@ type PropsUserInfoEditForm = {|
   user: userProfileType,
   translate: { [string]: string },
   actions: {|
-    updateProfileByUserId: Function,
+    updateUserByUserId: Function,
   |},
   initialize: Function,
   handleSubmit: Function,

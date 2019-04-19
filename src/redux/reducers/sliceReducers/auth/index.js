@@ -31,7 +31,6 @@ import getSkillByUserId from './getSkillByUserId'
 import getWorkExperienceByUserId from './getWorkExperienceByUserId'
 import setToken from "./setToken"
 import signIn from "./signIn"
-import updateProfileByProfileId from './updateProfileByProfileId'
 import updateOrganizationInfo from './updateOrganizationInfo'
 import updateUserByUserId from './updateUserByUserId'
 import setClientPersonMedia from "./setClientPersonMedia"
@@ -75,7 +74,6 @@ export default {
   setToken,
   signIn,
   updateOrganizationInfo,
-  updateProfileByProfileId,
   updateUserByUserId,
   setSelectedExchange
 }

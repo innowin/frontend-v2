@@ -20,34 +20,3 @@ export const getProfile = (userId, handleResult) => {
 
   socket.on(`/users/profiles/?profile_user=${userId}`, func)
 }
-
-// export const updateProfile = (formValues, profileId, updateStateForView, hideEdit) => {
-//   socket.emit(REST_REQUEST, {
-//     method: "patch",
-//     url: `${url}/users/profiles/${profileId}/`,
-//     result: `updateProfile-patch-${profileId}`,
-//     token,
-//     data: {
-//       "public_email": formValues.public_email,
-//       "national_code": formValues.national_code,
-//       "birth_date": formValues.birth_date,
-//       "web_site": formValues.web_site,
-//       "phone": formValues.phone,
-//       "mobile": formValues.mobile,
-//       "fax": formValues.fax,
-//       "telegram_account": formValues.telegram_account,
-//       "description": formValues.description,
-//       "profile_user": formValues.profile_user
-//     }
-//   })
-//
-//   const func = (res) => {
-//     if (res.data.detail) {
-//       return false
-//     }
-//     updateStateForView(res)
-//     hideEdit()
-//     socket.off(`updateProfile-patch-${profileId}`, func)
-//   }
-//   socket.on(`updateProfile-patch-${profileId}`, func)
-// }

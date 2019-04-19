@@ -14,7 +14,6 @@ import OrganizationActions from 'src/redux/actions/organization/organizationActi
 import TempActions from 'src/redux/actions/tempActions'
 import type {organizationType} from 'src/consts/flowTypes/organization/organization'
 import type {userProfileType} from 'src/consts/flowTypes/user/basicInformation'
-import UpdateProfileAction from 'src/redux/actions/user/updateProfileByProfileIdAction'
 import UpdateUserAction from 'src/redux/actions/user/updateUserByUserIdAction'
 import {connect} from 'react-redux'
 import {getProvinces, getCities} from 'src/redux/actions/commonActions/location'
@@ -107,8 +106,8 @@ class EventModal extends Component<EventModalProps, EventModalStates> {
     const {activeState, events, selectedEvents} = this.state
     const {isUser, organization, actions, cities, provinces, profile, uploadedCatalog, user, identityId, uploadedResume} = this.props
     const {
-      updateOrganization, createFile, updateFile, removeFileFromTemp, getProvinces, getCities, updateProfile,
-      updateUser, createEventAssignment, createEducation, createSkill
+      updateOrganization, createFile, updateFile, removeFileFromTemp, getProvinces, getCities, updateUser, createEventAssignment,
+      createEducation, createSkill
     } = actions
     const setForm = isUser ? this._setPersonForm : this._setOrganForm
     return (
@@ -139,7 +138,7 @@ class EventModal extends Component<EventModalProps, EventModalStates> {
                                        updateFile={updateFile} createFile={createFile} profile={profile}
                                        provinces={provinces} cities={cities}
                                        cancelForm={this._toggle} user={user}
-                                       updateProfile={updateProfile}/>
+                      />
                       : activeState === 2 ?
                           <EventOrganForm identityId={identityId} selectedEvents={selectedEvents}
                                           removeFileFromTemp={removeFileFromTemp}
@@ -179,7 +178,6 @@ const mapDispatchToProps = dispatch => ({
     createFile: FileActions.createFile,
     getEvents: EventActions.getEvents,
     updateOrganization: OrganizationActions.updateOrganization,
-    updateProfile: UpdateProfileAction.updateProfile,
     getProvinces,
     getCities,
     updateFile: FileActions.updateFile,
