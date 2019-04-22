@@ -94,12 +94,12 @@ class User extends Component<PropsUser, StatesUser> {
   }
 
   componentDidMount() {
-    window.addEventListener('scroll', this._onScroll)
     const {params} = this.props.match
     const {getUserByUserId, setParamUserId} = this.props.actions
     const userId: number = +params.id
     getUserByUserId(userId)
     setParamUserId({id: userId})
+    window.addEventListener('scroll', this._onScroll)
   }
 
   componentWillUnmount() {
