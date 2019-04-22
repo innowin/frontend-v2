@@ -150,6 +150,9 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
   componentDidUpdate(prevProps) {
     const {isLoggedIn, actions, path} = this.props
+
+    console.log('path: ', path)
+
     const {currentPage} = this.state
     if (prevProps.isLoggedIn && prevProps.isLoggedIn !== isLoggedIn) {
       actions.push('/login')
