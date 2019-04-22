@@ -189,12 +189,14 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
         )
     ) {
       if (window.scrollY > this.state.scrollY) {
-        console.log('here')
         this.setState({...this.state, hideTopBar: true, scrollY: window.scrollY})
       }
       else {
         this.setState({...this.state, hideTopBar: false, scrollY: window.scrollY})
       }
+    }
+    else {
+      this.setState({...this.state, hideTopBar: false, scrollY: window.scrollY})
     }
   }
 

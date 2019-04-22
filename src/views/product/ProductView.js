@@ -6,6 +6,7 @@ import PropsRoute from 'src/consts/PropsRoute'
 import {connect} from 'react-redux'
 import SideBar from '../bars/ProductSidebar'
 import ProductActions from 'src/redux/actions/commonActions/productActions/productActions'
+import {getPriceByProductId} from 'src/redux/actions/commonActions/productActions/priceActions'
 import {bindActionCreators} from 'redux'
 import constants from 'src/consts/constants'
 import FileActions from 'src/redux/actions/commonActions/fileActions'
@@ -42,6 +43,7 @@ class ProductView extends Component {
     const {params} = match
     const productId = params.id
     actions.getProductInfo(productId)
+    actions.getProductPrice(productId)
     actions.getFileByFileRelatedParentId({fileRelatedParentId: productId, fileParentType: constants.FILE_PARENT.PRODUCT})
     actions.getPosts({postRelatedProductId: productId})
     actions.getCountries()
@@ -170,6 +172,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getUserByUserId: GetUserActions.getUserByUserId,
     getProductInfo: ProductActions.getProductInfo,
+    getProductPrice: getPriceByProductId,
     getFileByFileRelatedParentId: FileActions.getFileByFileRelatedParentId,
     getCountries,
     getCategories,
