@@ -21,7 +21,7 @@ const getUserFollows = (state, props) => {
 }
 const getUsers = state => state.identities.list
 const getOrgans = state => state.identities.list
-const getIdentityId = (state, props) => props.identityId
+const getIdentityId = (state) => state.auth.client.identity.content
 
 const getFiles = state => state.common.file.list
 

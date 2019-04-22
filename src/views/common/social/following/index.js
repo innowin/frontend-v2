@@ -134,8 +134,8 @@ const mapDispatchToProps = dispatch => ({
     deleteFollow: SocialActions.deleteFollow,
     // updateFollow: SocialActions.updateFollow,
     // createFollow: SocialActions.createFollow,
-    getProfileByUserId: GetUserActions.getProfileByUserId,
-    getOrganizationByOrganId: OrganizationActions.getOrganizationByOrganId,
+    // getProfileByUserId: GetUserActions.getProfileByUserId,
+    // getOrganizationByOrganId: OrganizationActions.getOrganizationByOrganId,
   }, dispatch)
 })
 

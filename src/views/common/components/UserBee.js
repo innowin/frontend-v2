@@ -413,11 +413,11 @@ class UserBee extends Component {
               <div className={this.state.educationSubmitted && this.state.maghta.length === 0 ? 'bee-job-error' : 'bee-job-error-hide'}>{translate['Please Select Grade!']}</div>
 
               <div className='bee-text-name'>{translate['Field of study']}</div>
-              <InteliInput noCheck={true} icon={<FontAwesome name='search' className='inteli-search-svg'/>} handleChange={this._handleSelectMajor} list={fields} className='bee-inteli-text-box'/>
+              <InteliInput noCheck={true} icon={<FontAwesome name='search' className='inteli-search-svg-h'/>} handleChange={this._handleSelectMajor} list={fields} className='bee-inteli-text-box'/>
               <div className={this.state.educationSubmitted && this.state.major.length === 0 ? 'bee-job-error' : 'bee-job-error-hide'}>{translate['Please Select Major!']}</div>
 
               <div className='bee-text-name'>{translate['University']}</div>
-              <InteliInput noCheck={true} icon={<FontAwesome name='search' className='inteli-search-svg'/>} handleChange={this._handleSelectCollege} list={universities} className='bee-inteli-text-box'/>
+              <InteliInput noCheck={true} icon={<FontAwesome name='search' className='inteli-search-svg-h'/>} handleChange={this._handleSelectCollege} list={universities} className='bee-inteli-text-box'/>
               <div className={this.state.educationSubmitted && this.state.college.length === 0 ? 'bee-job-error' : 'bee-job-error-hide'}>{translate['Please Select College!']}</div>
 
               <div className='bee-loading'>

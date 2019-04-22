@@ -33,7 +33,7 @@ class Layout extends Component {
             <PrivateRoute path="/users/Users_Explorer" component={User_Explorer}/>
 
             {/*Prevent wrong paths*/}
-            {/*<PrivateRoute path="*" component={Home}/>*/}
+            {/*<PrivateRoute path="*" component={Home}/> // TODO:Abel */}
 
           </Switch>
           <ToastContainer/>

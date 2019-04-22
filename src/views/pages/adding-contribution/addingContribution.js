@@ -14,7 +14,7 @@ import {bindActionCreators} from "redux"
 import {change} from "redux-form"
 import {connect} from "react-redux"
 import {createProductAsContribution} from "src/redux/actions/commonActions/productActions/productActions"
-import SkillActions from 'src/redux/actions/user/skillActions'
+import SkillActions from "src/redux/actions/user/skillActions"
 import {getCategories} from "src/redux/actions/commonActions/categoryActions"
 import {getCountries, getProvinces, getCities} from "src/redux/actions/commonActions/location"
 import {getFormValues} from "src/redux/selectors/formValuesSelectors"
@@ -451,17 +451,17 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
                     <div className={"inteli-input-label-container"}>
                       <label className="gray-text-input-label" style={{margin: "20px", fontSize: "14px"}}>انتخاب دسته‌بندی</label>
                       <div style={{display: "flex", flexDirection: "column"}}>
-                        <div style={{flexGrow: "1", margin: "30px 20px"}}>
+                        <div style={{flexGrow: "1", margin: "18px 20px"}}>
                           <label className="gray-text-input-label">طبقۀ اول دسته‌بندی</label>
                           <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "one")}
                                        list={catLvlOne} placeholder="انتخاب"/>
                         </div>
-                        <div style={{flexGrow: "1", margin: "30px 20px"}}>
+                        <div style={{flexGrow: "1", margin: "18px 20px"}}>
                           <label className="gray-text-input-label">طبقۀ دوم دسته‌بندی</label>
                           <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "two")}
                                        list={catLvlTwo} placeholder="انتخاب"/>
                         </div>
-                        <div style={{flexGrow: "1", margin: "30px 20px"}}>
+                        <div style={{flexGrow: "1", margin: "18px 20px"}}>
                           <label className="gray-text-input-label">طبقۀ سوم دسته‌بندی</label>
                           <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "three")}
                                        list={catLvlThree} placeholder="انتخاب"/>
@@ -492,17 +492,17 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
 
                   <div ref={e => self.xsLocationModal = e} className='xs-cat-modal-hide'>
                     <div className={"inteli-input-label-container"}>
-                      <label className="gray-text-input-label">محدودۀ جغرافیایی</label>
+                      <label className="gray-text-input-label" style={{margin: "20px", fontSize: "14px"}}>محدودۀ جغرافیایی</label>
                       <div style={{display: "flex", flexDirection: "column"}}>
-                        <div style={{flexGrow: "1", margin: "30px 20px"}}>
+                        <div style={{flexGrow: "1", margin: "19px 20px"}}>
                           <label className="gray-text-input-label">کشور</label>
                           <InteliInput list={countryList} handleChange={(data) => this._handleCountry(data)} placeholder="انتخاب"/>
                         </div>
-                        <div style={{flexGrow: "1", margin: "30px 20px"}}>
+                        <div style={{flexGrow: "1", margin: "19px 20px"}}>
                           <label className="gray-text-input-label">استان</label>
                           <InteliInput list={provinceList} handleChange={(data) => this._handleProvince(data)} placeholder="انتخاب"/>
                         </div>
-                        <div style={{flexGrow: "1", margin: "30px 20px"}}>
+                        <div style={{flexGrow: "1", margin: "19px 20px"}}>
                           <label className="gray-text-input-label">شهر</label>
                           <InteliInput list={cityList} handleChange={(data) => this._handleCity(data)} placeholder="انتخاب"/>
                         </div>
@@ -599,11 +599,11 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
                   </div>
                 </div>
 
-                <div className={"create-product-upload-container"}>
+                <div className="create-product-upload-container">
                   {processing ?
                       <ClipLoader color="#253545" size={20} loading={true}/>
                       :
-                      <UploadIcon className={"create-product-upload-svg"}/>
+                      <UploadIcon className="create-product-upload-svg"/>
                   }
                   {!processing && selectedImageId.length <= 5 ?
                       <input type="file" accept="image/*" onChange={e => this._uploadHandler(e.currentTarget.files[0])}/>
