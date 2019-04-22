@@ -1,18 +1,18 @@
 // @flow
-import * as React from 'react'
-import constants from 'src/consts/constants'
-import getUserAction from 'src/redux/actions/user/getUserActions'
-import identityActions from 'src/redux/actions/identityActions'
-import organizationActions from 'src/redux/actions/organization/organizationActions'
-import SocialActions from 'src/redux/actions/commonActions/socialActions'
-import {bindActionCreators} from 'redux'
-import {ClipLoader} from 'react-spinners'
-import {Component} from 'react'
-import {connect} from 'react-redux'
-import {DefaultUserIcon, Contacts, QuestionMark, Stream} from 'src/images/icons'
-import {getFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
-import {Link} from 'react-router-dom'
-import {getMessages} from 'src/redux/selectors/translateSelector'
+import * as React from "react"
+import constants from "src/consts/constants"
+import getUserAction from "src/redux/actions/user/getUserActions"
+import identityActions from "src/redux/actions/identityActions"
+import organizationActions from "src/redux/actions/organization/organizationActions"
+import SocialActions from "src/redux/actions/commonActions/socialActions"
+import {bindActionCreators} from "redux"
+import {ClipLoader} from "react-spinners"
+import {Component} from "react"
+import {connect} from "react-redux"
+import {DefaultUserIcon, Contacts, QuestionMark, Stream} from "src/images/icons"
+import {getFolloweesSelector} from "src/redux/selectors/common/social/getFollowees"
+import {Link} from "react-router-dom"
+import {getMessages} from "src/redux/selectors/translateSelector"
 // import {arrayOfDeffered} from 'redux-saga/utils'
 // import exchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
 // import {VerifyWrapper} from "../../common/cards/Frames"
@@ -54,7 +54,7 @@ class NewFollowings extends Component<props, states> {
       initialMembers: [],
       moreMembers: false,
       requested: false,
-      viewType: 'member-square-user',
+      viewType: "member-square-user"
     }
     const self: any = this
     self.changeViewType = self.changeViewType.bind(self)
@@ -93,7 +93,7 @@ class NewFollowings extends Component<props, states> {
     deleteFollow({followId, followOwnerId: userId})
   }
 
-  getMembers(identity_user, identity_organization, follow_accepted, index) {
+  getMembers(identity_type, id, follow_accepted, index) {
     let {
       profiles,
       organs,
@@ -101,7 +101,7 @@ class NewFollowings extends Component<props, states> {
       clientId,
       // translate,
       followings,
-      identityUser,
+      identityUser
       // paramId
     } = this.props
     // let {
@@ -109,40 +109,37 @@ class NewFollowings extends Component<props, states> {
     // followingOrgans,
     // buttonHover
     // } = this.state
-    if (identity_user !== null) {
-      if (profiles[identity_user] &&
-          profiles[identity_user].profile &&
-          profiles[identity_user].profile.content &&
-          profiles[identity_user].profile.content.profile_user) {
+    if (identity_type === constants.USER_TYPES.USER) {
+      if (profiles[id]) {
         // if (!profiles[memberId].profile.isLoading) {
         return <div key={index} className={this.state.viewType}>
-          <Link to={`/user/${identity_user}`}>
-            <div className={'member-picture-container'}>
-              {profiles[identity_user].profile.content.profile_media !== null ?
+          <Link to={`/user/${id}`}>
+            <div className={"member-picture-container"}>
+              {profiles[id].profile_media !== null ?
                   <img alt=""
-                       src={profiles[identity_user].profile.content.profile_media.file}
-                       width={'55px'} height={'55px'}
-                       className={'member-picture'}/>
+                       src={files[profiles[id].profile_media] && files[profiles[id].profile_media].file}
+                       width={"55px"} height={"55px"}
+                       className={"member-picture"}/>
                   : <DefaultUserIcon
-                      height={'55px'} width={'55px'} className={'member-picture'}/>}
+                      height={"55px"} width={"55px"} className={"member-picture"}/>}
             </div>
 
-            <div className={'member-info-container'}>
-              <div className={'member-name'}>{
-                profiles[identity_user].profile.content.profile_user.first_name ||
-                profiles[identity_user].profile.content.profile_user.last_name ?
-                    profiles[identity_user].profile.content.profile_user.first_name
-                    + ' ' +
-                    profiles[identity_user].profile.content.profile_user.last_name
-                    : profiles[identity_user].profile.content.profile_user.username
+            <div className={"member-info-container"}>
+              <div className={"member-name"}>{
+                profiles[id].first_name ||
+                profiles[id].last_name ?
+                    profiles[id].first_name
+                    + " " +
+                    profiles[id].last_name
+                    : profiles[id].username
               }</div>
-              <div className={'member-description'}>{
-                profiles[identity_user].profile.content.description
+              <div className={"member-description"}>{
+                profiles[id].description
               }</div>
             </div>
           </Link>
           {
-            identity_user !== clientId && identityUser.id === clientId ?
+            id !== clientId ?
                 <div
                     className="member-follow"
                     onClick={() => this._onDeleteFollowing(followings[index])}>
@@ -151,43 +148,44 @@ class NewFollowings extends Component<props, states> {
                 : null
           }
         </div>
-      } else return <div className={this.state.viewType}>
-        <div className={'member-loading'}>
-          <ClipLoader color={'#cbcbcb'} size={60}/>
+      }
+      else return <div className={this.state.viewType}>
+        <div className={"member-loading"}>
+          <ClipLoader color={"#cbcbcb"} size={60}/>
         </div>
       </div>
     }
-    if (identity_organization !== null) {
+    if (identity_type === constants.USER_TYPES.ORG) {
       // if (!organs[memberId].organization.isLoading) {
-      if (organs[identity_organization] && organs[identity_organization].organization && organs[identity_organization].organization.content) {
+      if (organs[id]) {
         return <div key={index}
                     className={this.state.viewType}>
-          <Link to={`/organization/${identity_organization}`}>
-            <div className={'member-picture-container'}>
-              {organs[identity_organization].organization.content.organization_logo !== null ?
+          <Link to={`/organization/${id}`}>
+            <div className={"member-picture-container"}>
+              {organs[id].organization_logo !== null ?
                   <img alt=""
-                       src={files[organs[identity_organization].organization.content.organization_logo] ?
-                           files[organs[identity_organization].organization.content.organization_logo].file :
+                       src={files[organs[id].organization_logo] ?
+                           files[organs[id].organization_logo].file :
                            null}
-                       width={'55px'} height={'55px'}
-                       className={'member-picture'}/>
+                       width={"55px"} height={"55px"}
+                       className={"member-picture"}/>
                   : <DefaultUserIcon
-                      height={'55px'} width={'55px'} className={'member-picture'}/>}
+                      height={"55px"} width={"55px"} className={"member-picture"}/>}
             </div>
 
-            <div className={'member-info-container'}>
-              <div className={'member-name'}>{
-                organs[identity_organization].organization.content.official_name !== '' ?
-                    organs[identity_organization].organization.content.official_name :
-                    organs[identity_organization].organization.content.username
+            <div className={"member-info-container"}>
+              <div className={"member-name"}>{
+                organs[id].official_name !== "" ?
+                    organs[id].official_name :
+                    organs[id].username
               }</div>
-              <div className={'member-description'}>{
-                organs[identity_organization].organization.content.biography
+              <div className={"member-description"}>{
+                organs[id].biography
               }</div>
             </div>
           </Link>
           {
-            identity_organization !== clientId && identityUser.id === clientId ?
+            id !== clientId ?
                 <div
                     className="member-follow"
                     onClick={() => this._onDeleteFollowing(followings[index])}>
@@ -196,102 +194,34 @@ class NewFollowings extends Component<props, states> {
                 : null
           }
         </div>
-      } else return <div className={this.state.viewType}>
-        <div className={'member-loading'}>
-          <ClipLoader color={'#cbcbcb'} size={60}/>
+      }
+      else return <div className={this.state.viewType}>
+        <div className={"member-loading"}>
+          <ClipLoader color={"#cbcbcb"} size={60}/>
         </div>
       </div>
     }
   }
-
-  // setAllMembers() {
-  //   let {exchangeUsers, exchangeId, actions} = this.props
-  //   let {getUser, getOrganization, getUserIdentity, getOrgIdentity} = actions
-  //   let temp = []
-  //   if (exchangeUsers) {
-  //     if (exchangeUsers[exchangeId]) {
-  //       for (let i = 0; i < exchangeUsers[exchangeId].length; i++) {
-  //         if (exchangeUsers[exchangeId][i]) {
-  //           if (exchangeUsers[exchangeId][i].type === 'USER') {
-  //             getUser(exchangeUsers[exchangeId][i].id)
-  //             getUserIdentity(exchangeUsers[exchangeId][i].id)
-  //           } else {
-  //             getOrganization(exchangeUsers[exchangeId][i].id)
-  //             getOrgIdentity(exchangeUsers[exchangeId][i].id)
-  //           }
-  //           temp.push(exchangeUsers[exchangeId][i])
-  //         }
-  //       }
-  //       // this.setState({...this.state, initialMembers: temp.slice(), moreMembers: true})
-  //     }
-  //   }
-  // }
 
   componentDidMount() {
     window.scrollTo({
       top: 0
     })
-    let {getFollowingSelector} = this.props
-
-    // getExchangeMembers({exchangeId}) //n
-
-    // let temp = []
-    // if (exchangeUsers) {
-    //   if (exchangeUsers[exchangeId]) {
-    //     for (let i = 0; i < 6; i++) {
-    //       if (exchangeUsers[exchangeId][i]) {
-    //         if (exchangeUsers[exchangeId][i].type === "USER") {
-    //           getUser(exchangeUsers[exchangeId][i].id)
-    //           getUserIdentity(exchangeUsers[exchangeId][i].id)
-    //         } else {
-    //           getOrganization(exchangeUsers[exchangeId][i].id)
-    //           getOrgIdentity(exchangeUsers[exchangeId][i].id)
-    //         }
-    //         temp.push(exchangeUsers[exchangeId][i])
-    //       }
-    //     }
-    //     this.setState({...this.state, initialMembers: temp, requested: true})
-    //   }
-    // }
-
-    // this.setState({...this.state, initialMembers: followers.slice(), requested: true})
-
-    let tempUsers = []
-    let tempOrgans = []
-    for (let i = 0; i < getFollowingSelector.length; i++) {
-      if (getFollowingSelector[i].identity_user !== null) {
-        tempUsers.push(getFollowingSelector[i].identity_user)
-      } else if (getFollowingSelector[i].identity_organization !== null) {
-        tempOrgans.push(getFollowingSelector[i].identity_organization)
-      }
-    }
-    // this.setState({...this.state, followingUsers: tempUsers.slice(), followingOrgans: tempOrgans.slice()})
   }
 
-  // componentDidUpdate(prev, nex, ss) {
-  //   if (!this.state.requested) {
-  //     let {exchangeUsers, exchangeId, actions} = this.props
-  //     let {getUser, getOrganization, getUserIdentity, getOrgIdentity} = actions
-  //     let temp = []
-  //     if (exchangeUsers) {
-  //       if (exchangeUsers[exchangeId]) {
-  //         for (let i = 0; i < 6; i++) {
-  //           if (exchangeUsers[exchangeId][i]) {
-  //             if (exchangeUsers[exchangeId][i].type === "USER") {
-  //               getUser(exchangeUsers[exchangeId][i].id)
-  //               getUserIdentity(exchangeUsers[exchangeId][i].id)
-  //             } else {
-  //               getOrganization(exchangeUsers[exchangeId][i].id)
-  //               getOrgIdentity(exchangeUsers[exchangeId][i].id)
-  //             }
-  //             temp.push(exchangeUsers[exchangeId][i])
-  //           }
-  //         }
-  //         this.setState({...this.state, initialMembers: temp, requested: true})
-  //       }
-  //     }
-  //   }
-  // }
+  componentDidUpdate(prevProps, prevState, ss): void {
+    if (this.props.followings && this.props.followings.length !== prevProps.followings.length) {
+      let {followings, actions} = this.props
+      for (let i = 0; i < followings.length; i++) {
+        if (followings[i].id !== null && followings[i].identity_type === constants.USER_TYPES.ORG) {
+          actions.getUser(followings[i].id)
+        }
+        else if (followings[i].id !== null && followings[i].identity_type === constants.USER_TYPES.USER) {
+          actions.getUser(followings[i].id)
+        }
+      }
+    }
+  }
 
   render() {
     let {
@@ -302,27 +232,27 @@ class NewFollowings extends Component<props, states> {
     let {followings, translate} = this.props
 
     return (
-        <div className={'members-frame'}>
-          <div className={'members-header-right'}>
-            <Contacts width="22px" height="22px" containerClass={'svg-container-info-view'} svgClass={'svg-info-view'}/>
-            <span>{translate['Followings']}</span>
+        <div className={"members-frame"}>
+          <div className={"members-header-right"}>
+            <Contacts width="22px" height="22px" containerClass={"svg-container-info-view"} svgClass={"svg-info-view"}/>
+            <span>{translate["Followings"]}</span>
           </div>
-          <div className={'members-header-left'} style={{cursor: 'default'}} onClick={this.changeViewType}>
-            {viewType === 'member-square-user' ?
-                <Stream width="16px" height="16px" svgClass={'svg-info-view'}/> :
-                <QuestionMark width="20px" height="20px" svgClass={'svg-info-view'}/>}
+          <div className={"members-header-left"} style={{cursor: "default"}} onClick={this.changeViewType}>
+            {viewType === "member-square-user" ?
+                <Stream width="16px" height="16px" svgClass={"svg-info-view"}/> :
+                <QuestionMark width="20px" height="20px" svgClass={"svg-info-view"}/>}
           </div>
-          <div className={'members-body'}>
+          <div className={"members-body"}>
             {followings.length > 0 ? followings.map((p, index) => {
-              return this.getMembers(p.identity_user, p.identity_organization, p.follow_accepted, index)
+              return this.getMembers(p.identity_type, p.id, p.follow_accepted, index)
             }) : requested ? <div/>
                 :
-                <div style={{textAlign: 'center', width: '92%'}}>
+                <div style={{textAlign: "center", width: "92%"}}>
                   {/*<ClipLoader color={'#cbcbcb'} size={40} loading={true}/>*/}
                 </div>
             }
-            <div className={'zero-height-member'}/>
-            <div className={'zero-height-member'}/>
+            <div className={"zero-height-member"}/>
+            <div className={"zero-height-member"}/>
             {/*{(!moreMembers) && initialMembers.length >= 6 ?*/}
             {/*<div className={"members-more"} onClick={this.setAllMembers}>*/}
             {/*بارگذاری بیشتر*/}
@@ -344,20 +274,19 @@ const mapStateToProps = (state, ownProps) => {
     getFollowingSelector: getFolloweesSelector(state, {
       identityId: state.auth.client.identity.content,
       ownerId: state.auth.client.user.id,
-      identityType: state.auth.client.user_type,
+      identityType: state.auth.client.user_type
     }),
     identityUser: state.identities.list[ownProps.ownerId] && state.identities.list[ownProps.ownerId].identity_user ? state.identities.list[ownProps.ownerId].identity_user : null
   }
 }
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({
-    // getExchangeMembers: exchangeMembershipActions.getExchangeMembershipByExchangeId,
-    getUser: getUserAction.getProfileByUserId,
-    getOrganization: organizationActions.getOrganizationByOrganId,
+    getUser: getUserAction.getUserByUserId,
+    // getOrganization: organizationActions.getOrganizationByOrganId,
     createFollow: SocialActions.createFollow,
-    getFollowingAction: SocialActions.getFollowees,
-    getUserIdentity: identityActions.getUserIdentity,
-    getOrgIdentity: identityActions.getOrgIdentity
+    getFollowingAction: SocialActions.getFollowees
+    // getUserIdentity: identityActions.getUserIdentity,
+    // getOrgIdentity: identityActions.getOrgIdentity
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(NewFollowings)
