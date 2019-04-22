@@ -1,6 +1,6 @@
 @import "../../../variables";
 
-@media screen and (max-width: 480px) and (min-width: 320px) {
+@media screen and (max-width: 480px) and (min-width: 0) {
   .modal-page {
     position: fixed;
     top: $topBarHeight - 20px;

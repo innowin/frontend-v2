@@ -1,17 +1,19 @@
 import getProductInfo from "./getProductInfo"
 import createProduct from "./creataProductAsContribution"
-import createProductPicture from "./createProductPicture"
 import {getProductsByIdentity} from './getProductsByIdentity'
 import {deleteProduct} from './deleteProduct'
 import {updateProduct} from "./updateProduct"
 import types from "../../../actions/types"
 import {takeEvery} from "redux-saga/effects"
-import getProductPicturesByProductId from "./getProductPicturesByPorductId"
-import getPriceByProductId from "./getPriceByProductId"
 import {getAllProducts} from "./getAllProducts"
+import {getProductPrice} from "./getProductPrice"
 
 function* watchGetAllProductInfo() {
   yield takeEvery(types.COMMON.GET_ALL_PRODUCTS, getAllProducts)
+}
+
+function* watchGetProductPrice() {
+  yield takeEvery(types.COMMON.PRODUCT.GET_PRODUCT_PRICE, getProductPrice)
 }
 
 function* watchGetProductInfo() {
@@ -20,10 +22,6 @@ function* watchGetProductInfo() {
 
 function* watchCreateProduct() {
   yield takeEvery(types.COMMON.CREATE_PRODUCT, createProduct)
-}
-
-function* watchCreateProductPicture() {
-  yield takeEvery(types.COMMON.CREATE_PRODUCT_PICTURE, createProductPicture)
 }
 
 function* watchGetProductsByIdentity() {
@@ -38,22 +36,12 @@ function* watchDeleteProductByIdentity() {
   yield takeEvery(types.COMMON.PRODUCT.DELETE_PRODUCT, deleteProduct)
 }
 
-function* watchGetProductPicturesByProductId() {
-  yield takeEvery(types.COMMON.GET_PRODUCT_PICTURES_BY_PRODUCT_ID, getProductPicturesByProductId)
-}
-
-function* watchGetPriceByProductId() {
-  yield takeEvery(types.COMMON.GET_PRODUCT_PICTURES_BY_PRODUCT_ID, getPriceByProductId)
-}
-
 export default [
   watchGetAllProductInfo(),
   watchGetProductInfo(),
   watchUpdateProduct(),
   watchCreateProduct(),
-  watchCreateProductPicture(),
   watchGetProductsByIdentity(),
   watchDeleteProductByIdentity(),
-  watchGetProductPicturesByProductId(),
-  watchGetPriceByProductId()
+  watchGetProductPrice()
 ]

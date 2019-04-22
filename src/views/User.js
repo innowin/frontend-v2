@@ -94,7 +94,7 @@ class User extends Component<PropsUser, StatesUser> {
   }
 
   componentDidMount() {
-    window.addEventListener("scroll", this._onScroll)
+    window.addEventListener('scroll', this._onScroll)
     const {params} = this.props.match
     const {getUserByUserId, setParamUserId} = this.props.actions
     const userId: number = +params.id
@@ -103,7 +103,7 @@ class User extends Component<PropsUser, StatesUser> {
   }
 
   componentWillUnmount() {
-    window.removeEventListener("scroll", this._onScroll)
+    window.removeEventListener('scroll', this._onScroll)
     const {removeParamUserId} = this.props.actions
     removeParamUserId()
   }
@@ -120,7 +120,7 @@ class User extends Component<PropsUser, StatesUser> {
   _goUp = () => {
     window.scroll({
       top: 0,
-      behavior: "smooth",
+      behavior: 'smooth',
     })
     this.setState({...this.state, showSecondHeader: false})
   }

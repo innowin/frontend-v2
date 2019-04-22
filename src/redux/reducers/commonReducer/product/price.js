@@ -1,12 +1,12 @@
-import types from "../../../actions/types"
-import initialState from "../../initialState"
-import appendListToStateList from "../../sliceReducers/utilsSlices/appendListToStateList"
-
+import types from '../../../actions/types'
+import initialState from '../../initialState'
 
 const price = (state = initialState.common.product.price, action) => {
   switch (action.type) {
-    case types.SUCCESS.COMMON.GET_PRICE_BY_PRODUCT_ID:
-      return appendListToStateList.success(state, action)
+      // todo Hoseyn
+    case types.SUCCESS.COMMON.PRODUCT.GET_PRODUCT_PRICE:
+      console.log('here we go babies')
+      return {...state, salam: {}}
     case types.RESET:
       return initialState.common.product.price
     default:

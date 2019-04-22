@@ -63,7 +63,6 @@ const urls = {
   COMMON: {
     // product
     PRODUCT: "products",
-    PRODUCT_PICTURE: "products/pictures",
     PRICE: "products/prices",
 
     // file

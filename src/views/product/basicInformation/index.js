@@ -3,7 +3,7 @@ import {Component} from 'react'
 import Material from '../../common/components/Material'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import productActions from 'src/redux/actions/commonActions/productActions/productActions'
+import productActions from 'src/redux/actions/commonActions/productActions'
 
 
 export class productBasicInformation extends Component {

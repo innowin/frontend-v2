@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { PureComponent } from 'react'
 import connect from 'react-redux/es/connect/connect'
-import productActions from 'src/redux/actions/commonActions/productActions/productActions'
+import productActions from 'src/redux/actions/commonActions/productActions'
 import RightArrowSvg from '../../../images/common/right_arrow_svg'
 import Sidebar from './Sidebar'
 import { bindActionCreators } from 'redux'

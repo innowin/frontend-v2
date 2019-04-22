@@ -13,7 +13,7 @@ import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 import {bindActionCreators} from "redux"
 import {change} from "redux-form"
 import {connect} from "react-redux"
-import {createProductAsContribution} from "src/redux/actions/commonActions/productActions/productActions"
+import {createProductAsContribution} from "src/redux/actions/commonActions/productActions"
 import SkillActions from 'src/redux/actions/user/skillActions'
 import {getCategories} from "src/redux/actions/commonActions/categoryActions"
 import {getCountries, getProvinces, getCities} from "src/redux/actions/commonActions/location"

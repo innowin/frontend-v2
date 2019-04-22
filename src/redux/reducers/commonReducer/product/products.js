@@ -6,8 +6,6 @@ import setRelatedObjIdForListItem from '../../sliceReducers/utilsSlices/setRelat
 import setRelatedObjectsForAnObj from '../../sliceReducers/utilsSlices/setRelatedObjectsForAnObj'
 import getAllProducts from './getAllProducts'
 import setProductPictures from './setProductPictures'
-
-
 import slices from '../../sliceReducers/common/product'
 
 

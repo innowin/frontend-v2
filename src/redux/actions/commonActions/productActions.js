@@ -1,4 +1,4 @@
-import types from '../../types/index'
+import types from '../types/index'
 
 export const getAllProductInfo = (limit, offset, search) => ({
   type: types.COMMON.GET_ALL_PRODUCTS,
@@ -34,12 +34,18 @@ const updateProduct = ({formValues, productId}) => ({
   payload: {formValues, productId}
 })
 
+const getProductPrice = (productId) => ({
+  type: types.COMMON.PRODUCT.GET_PRODUCT_PRICE,
+  payload: {productId}
+})
+
 const ProductActions = {
   getAllProductInfo,
   getProductsByIdentity,
   updateProduct,
   deleteProduct,
-  getProductInfo
+  getProductInfo,
+  getProductPrice
 }
 
 export default ProductActions

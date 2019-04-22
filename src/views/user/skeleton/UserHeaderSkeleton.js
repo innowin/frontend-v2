@@ -16,9 +16,9 @@ const UserHeaderSkeleton = (props) => {
           <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['About Me']}/>
         </div>
 
-        <div className='header-container-item'>
-          <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Contributions']}/>
-        </div>
+        {/*<div className='header-container-item'>*/}
+          {/*<Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Contributions']}/>*/}
+        {/*</div>*/}
 
         <div className='header-container-item'>
           <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Exchanges']}/>
@@ -32,17 +32,17 @@ const UserHeaderSkeleton = (props) => {
           <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Followers']}/>
         </div>
 
-        <div className='header-container-item'>
-          <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Educations']}/>
-        </div>
+        {/*<div className='header-container-item'>*/}
+          {/*<Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Educations']}/>*/}
+        {/*</div>*/}
 
-        <div className='header-container-item'>
-          <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['WorkExperience']}/>
-        </div>
+        {/*<div className='header-container-item'>*/}
+          {/*<Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['WorkExperience']}/>*/}
+        {/*</div>*/}
 
-        <div className='header-container-item'>
-          <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Certificates']}/>
-        </div>
+        {/*<div className='header-container-item'>*/}
+          {/*<Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Certificates']}/>*/}
+        {/*</div>*/}
 
       </div>
   )
