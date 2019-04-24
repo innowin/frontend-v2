@@ -20,24 +20,25 @@ const App = (props) => {
   return (
       <Switch>
         <PropsRoute path="/login" component={Login}/>
+        <React.Fragment>
+          <div className='pages-wrapper global-wrapper'>
+            <TopBar path={path} collapseClassName="col user-sidebar-width"/>
 
-        <div className='pages-wrapper global-wrapper'>
-          <TopBar path={path} collapseClassName="col user-sidebar-width"/>
+            <Switch>
+              <PrivateRoute exact={true} path="/" component={Home}/>
+              <PrivateRoute path="/user/:id" component={User}/>
+              <PrivateRoute path="/organization/:id" component={Organization}/>
+              <PrivateRoute path="/exchange" component={Exchange}/>
+              <PrivateRoute path="/product" component={Product}/>
+              <PrivateRoute path="/users/Users_Explorer" component={User_Explorer}/>
 
-          <Switch>
-            <PrivateRoute exact={true} path="/" component={Home}/>
-            <PrivateRoute path="/user/:id" component={User}/>
-            <PrivateRoute path="/organization/:id" component={Organization}/>
-            <PrivateRoute path="/exchange" component={Exchange}/>
-            <PrivateRoute path="/product" component={Product}/>
-            <PrivateRoute path="/users/Users_Explorer" component={User_Explorer}/>
+              {/*Prevent wrong paths*/}
+              {/*<PrivateRoute path="*" component={Home}/> // TODO:Abel */}
 
-            {/*Prevent wrong paths*/}
-            {/*<PrivateRoute path="*" component={Home}/> // TODO:Abel */}
-
-          </Switch>
-          <ToastContainer/>
-        </div>
+            </Switch>
+            <ToastContainer/>
+          </div>
+        </React.Fragment>
       </Switch>
   )
 }

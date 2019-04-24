@@ -5,7 +5,7 @@ import {getMessages} from 'src/redux/selectors/translateSelector'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import FileActions from 'src/redux/actions/commonActions/fileActions'
-import {DefaultUserIcon} from 'src/images/icons'
+import {DefaultOrganIcon, DefaultUserIcon} from 'src/images/icons'
 import {Link} from 'react-router-dom'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {fileType} from '../../../consts/flowTypes/common/fileType'
@@ -129,7 +129,12 @@ class UserDetailPanel extends React.Component<UserDetailPanelProps, UserDetailPa
                 </Link>
                 :
                 <Link to={isUser ? `/user/${identity.id}` : `/organization/${identity.id}`}>
-                  <DefaultUserIcon className="rounded-circle profile-media covered-img"/>
+                  {isUser
+                      ? <DefaultUserIcon className="rounded-circle profile-media covered-img"/>
+                      : <div className='organ-profile-container'>
+                        <DefaultOrganIcon className='organ-default covered-img'/>
+                      </div>
+                  }
                 </Link>
             }
 

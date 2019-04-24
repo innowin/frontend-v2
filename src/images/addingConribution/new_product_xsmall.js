@@ -118,16 +118,16 @@ const NewProductXsmall = ({className=''}) => (
           </g>
         </g>
         <g transform="matrix(1, 0, 0, 1, 54.5, 148)" filter="url(#Line_667)">
-          <line id="Line_667-2" data-name="Line 667" x2="211" transform="translate(20 134.5)" fill="none" stroke="#35495c" stroke-linecap="round" stroke-width="2"/>
+          <line id="Line_667-2" data-name="Line 667" x2="211" transform="translate(20 134.5)" fill="none" stroke="#35495c" strokeLinecap="round" strokeWidth="2"/>
         </g>
         <g transform="matrix(1, 0, 0, 1, 54.5, 148)" filter="url(#Line_668)">
-          <line id="Line_668-2" data-name="Line 668" x2="1" transform="translate(235 134.5)" fill="none" stroke="#35495c" stroke-linecap="round" stroke-width="2"/>
+          <line id="Line_668-2" data-name="Line 668" x2="1" transform="translate(235 134.5)" fill="none" stroke="#35495c" strokeLinecap="round" strokeWidth="2"/>
         </g>
         <g transform="matrix(1, 0, 0, 1, 54.5, 148)" filter="url(#Line_669)">
-          <line id="Line_669-2" data-name="Line 669" x2="6" transform="translate(240 134.5)" fill="none" stroke="#35495c" stroke-linecap="round" stroke-width="2"/>
+          <line id="Line_669-2" data-name="Line 669" x2="6" transform="translate(240 134.5)" fill="none" stroke="#35495c" strokeLinecap="round" strokeWidth="2"/>
         </g>
         <g transform="matrix(1, 0, 0, 1, 54.5, 148)" filter="url(#Line_670)">
-          <line id="Line_670-2" data-name="Line 670" x2="6" transform="translate(10 134.5)" fill="none" stroke="#35495c" stroke-linecap="round" stroke-width="2"/>
+          <line id="Line_670-2" data-name="Line 670" x2="6" transform="translate(10 134.5)" fill="none" stroke="#35495c" strokeLinecap="round" strokeWidth="2"/>
         </g>
         <path id="Path_521" data-name="Path 521" d="M6.933,3.6l-1.071.4a3.158,3.158,0,0,0-1.871,1.87L3.6,6.933a.1.1,0,0,1-.192,0l-.4-1.071A3.158,3.158,0,0,0,1.138,3.991L.067,3.6a.1.1,0,0,1,0-.192l1.071-.4a3.158,3.158,0,0,0,1.871-1.87L3.4.067a.1.1,0,0,1,.192,0l.4,1.071a3.158,3.158,0,0,0,1.871,1.87l1.071.4a.1.1,0,0,1,0,.192Z" transform="translate(241.721 254.213) rotate(-90)" fill="#ffc241"/>
         <path id="Path_667" data-name="Path 667" d="M6.933,3.6l-1.071.4a3.158,3.158,0,0,0-1.871,1.87L3.6,6.933a.1.1,0,0,1-.192,0l-.4-1.071A3.158,3.158,0,0,0,1.138,3.991L.067,3.6a.1.1,0,0,1,0-.192l1.071-.4a3.158,3.158,0,0,0,1.871-1.87L3.4.067a.1.1,0,0,1,.192,0l.4,1.071a3.158,3.158,0,0,0,1.871,1.87l1.071.4a.1.1,0,0,1,0,.192Z" transform="translate(102.721 254.213) rotate(-90)" fill="#ffc241"/>

@@ -33,7 +33,7 @@
     background: $primary-color-light3;
     display: flex;
     align-items: center;
-    transition: all linear 0.3s;
+    transition: all $animation-timing ease;
 
     &.show {
       opacity: 1;
@@ -81,7 +81,5 @@
 }
 
 .top-bar-entity-top {
-  @media screen and (max-width: 480px) and (min-width: 0) {
-    transform: translateY(-$smallTopBarHeight);
-  }
+  transform: translateY(-$smallTopBarHeight - 1);
 }

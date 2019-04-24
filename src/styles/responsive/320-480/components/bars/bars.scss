@@ -115,6 +115,10 @@
     }
   }
 
+  .topBar-hide {
+    transform: translateY(-$smallTopBarHeight - 1);
+  }
+
   .hamburger-overlay {
     position: fixed;
     top: $smallTopBarHeight;
@@ -144,9 +148,11 @@
 
     .sidebar-organ-user {
       height: 70%;
+
       .social-network {
         display: none;
       }
+
       .user-sidebar-buttons {
         bottom: 0;
       }

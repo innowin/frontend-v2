@@ -92,9 +92,9 @@ class CertificateView extends React.Component <CertificateProps, CertificateStat
                   const certificatePicture = certificate.certificate_picture
                   return (
                       !isEdit[certificate.id]
-                          ? <React.Fragment>
-                            <CardRowContainer key={'certificate ' + certificate.id} title={translate['Certificate']}
-                                              svgImage={<LinkedInIcon/>} createdTime={certificate.created_time}
+                          ? <React.Fragment key={'certificate ' + certificate.id}>
+                            <CardRowContainer title={translate['Certificate']} svgImage={<LinkedInIcon/>}
+                                              createdTime={certificate.created_time}
                                 //entityImage={certificatePicture && files[certificatePicture]}>
                             >
                               <div className='card-row-content-right card-row-entity'>

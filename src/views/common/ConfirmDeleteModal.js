@@ -5,7 +5,7 @@ import Modal from '../pages/modal/modal'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 
 type Props = {
-  open: boolean,
+  open?: boolean,
   closer: Function,
   deleteEntity: Function,
   translate: TranslatorType,
@@ -28,7 +28,7 @@ const ConfirmDeleteModal = (props: Props) => {
 }
 
 ConfirmDeleteModal.propTypes = {
-  open: PropTypes.bool.isRequired,
+  open: PropTypes.bool,
   closer: PropTypes.func.isRequired,
   deleteEntity: PropTypes.func.isRequired,
   translate: PropTypes.object.isRequired,

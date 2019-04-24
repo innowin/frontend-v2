@@ -168,7 +168,7 @@ module.exports = {
 
   // user - common
   "Are you sure? Do you want delete it?": "آیا مطمئن به حذف هستید؟",
-  "Yes, Do it.": "آری",
+  "Yes, Do it.": "بله",
   "No, Cancel please.": "خیر",
   "Next": "بعدی",
   "Previous": "قبلی",
