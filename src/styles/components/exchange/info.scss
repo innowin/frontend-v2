@@ -27,38 +27,39 @@
   background-color: white;
   height: 30px;
   font-weight: bold;
-  font-size: $font-size-post-name;
+  font-size: $font-size-post-content;
   position: relative;
+  padding: 0 12px;
 }
 
 .info-header-edit-bio-text {
   font-size: $font-size-description;
-  color: $secondary-color;
+  color: $primary-color-light3;
   cursor: pointer;
   opacity: 1;
   transition-duration: $animation-timing;
   position: absolute;
   left: 8px;
-  top: 5px;
+  top: 4px;
   z-index: 1;
 }
 
 .info-header-edit-bio-text-hide {
   font-size: $font-size-description;
-  color: $secondary-color;
+  color: $primary-color-light3;
   cursor: pointer;
   opacity: 0;
   transition-duration: $animation-timing;
   position: absolute;
   left: 8px;
-  top: 5px;
+  top: 4px;
   z-index: -1;
 }
 
 .info-body {
   width: 100%;
   min-height: 30px;
-  padding-right: 70px;
+  padding: 3px 12px;
   line-height: 30px;
   font-size: $font-size-post-content;
   position: relative;
@@ -81,7 +82,7 @@
   }
 }
 
-.info-body-bio-text-area-error{
+.info-body-bio-text-area-error {
   height: 21px;
   transition-duration: $animation-timing-short;
   color: $error-color;
@@ -91,7 +92,7 @@
   overflow: hidden;
 }
 
-.info-body-bio-text-area-error-hide{
+.info-body-bio-text-area-error-hide {
   height: 0;
   transition-duration: $animation-timing-short;
   color: $error-color;
@@ -102,12 +103,12 @@
 }
 
 .info-confirm-button {
-  background-color: $primary-color;
+  background-color: $secondary-color;
   border-radius: 30px;
-  border: 1.5px solid $primary-color;
+  border: 1.5px solid $secondary-color;
   color: white;
   cursor: pointer;
-  float: left;
+  float: right;
   font-size: 11px;
   height: 26px;
   margin-right: 12px;
@@ -117,7 +118,7 @@
 
   &:hover {
     background-color: white;
-    color: $primary-color;
+    color: $secondary-color;
     transition-duration: $animation-timing;
   }
 }
@@ -125,10 +126,10 @@
 .info-cancel-button {
   background-color: white;
   border-radius: 30px;
-  border: 1.5px solid $secondary-color;
-  color: $secondary-color;
+  border: 1.5px solid $disable-color;
+  color: $disable-color;
   cursor: pointer;
-  float: left;
+  float: right;
   font-size: 11px;
   height: 26px;
   margin-right: 12px;
@@ -137,7 +138,7 @@
   width: 12%;
 
   &:hover {
-    background-color: $secondary-color;
+    background-color: $disable-color;
     color: white;
     transition-duration: $animation-timing;
   }
@@ -194,7 +195,7 @@
     color: red;
   }
 
-  .fa-twitter{
+  .fa-twitter {
     color: #38A1F3;
   }
 
@@ -264,5 +265,29 @@
 
   &:focus {
     outline: none;
+  }
+}
+
+.exchange-hashtags{
+  text-align: center;
+  border: 1.2px solid $secondary-color;
+  font-size: $font-size-regular;
+  color: $secondary-color;
+  background-color: $background-color;
+  min-width: 50px;
+  padding: 1px 9px;
+  vertical-align: top;
+  display: inline-block;
+  border-radius: 25px;
+  margin: auto 3px;
+  cursor: default;
+  transition-duration: $animation-timing-short;
+  &:first-child{
+    margin: auto 0 auto 3px;
+  }
+  &:hover{
+    color: $background-color;
+    background-color: $secondary-color;
+    transition-duration: $animation-timing;
   }
 }
