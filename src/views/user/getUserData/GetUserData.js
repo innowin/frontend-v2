@@ -1,44 +1,48 @@
 import React, {Component} from 'react'
 import FirstLevel from './FirstLevel'
+import {WelcomeBox, WelcomePhone, WelcomeRocket} from '../../../images/icons'
 
 class GetUserData extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      level: 1
+      level: 1,
     }
   }
 
+  setSecondLevel = () => {
+    this.setState({...this.state, level: 2})
+  }
 
   render() {
-    const {showRegisterModal, hideRegisterModal, email, password} = this.props
-
+    const {showRegisterModal, /*hideRegisterModal,*/ email, password} = this.props
+    const {level} = this.state
     return (
-        <div>
+        <React.Fragment>
 
-          <div className={showRegisterModal ? 'get-data-dark-back' : 'get-data-dark-back-hide'} onClick={hideRegisterModal}/>
+          <div className={showRegisterModal ? 'get-data-dark-back' : 'get-data-dark-back-hide'} /*onClick={hideRegisterModal}*//>
 
           <div className={showRegisterModal ? 'get-data-container' : 'get-data-container-hide'}>
 
             <div className='get-data-progress'>
-              <div className='get-data-progress-box'>
-                1
+              <div className={level !== 1 ? 'get-data-progress-box get-data-welcome-fade' : 'get-data-progress-box'}>
+                <WelcomeRocket className='get-data-welcome'/>
               </div>
-              <div className='get-data-progress-box'>
-                2
+              <div className={level !== 2 ? 'get-data-progress-box get-data-welcome-fade' : 'get-data-progress-box'}>
+                <WelcomePhone className='get-data-welcome'/>
               </div>
-              <div className='get-data-progress-box'>
-                3
+              <div className={level !== 3 ? 'get-data-progress-box get-data-welcome-fade' : 'get-data-progress-box'}>
+                <WelcomeBox className='get-data-welcome'/>
               </div>
             </div>
 
 
-            <FirstLevel email={email} password={password}/>
+            {level === 1 ? <FirstLevel email={email} password={password} setSecondLevel={this.setSecondLevel}/> : null}
 
 
           </div>
 
-        </div>
+        </React.Fragment>
     )
   }
 }

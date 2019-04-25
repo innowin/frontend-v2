@@ -10,7 +10,7 @@ import connect from 'react-redux/es/connect/connect'
 import constants from '../../consts/constants'
 // import SocialLogin from './login/SocialLogin'
 // import RegisterStepsModal from './login/registerModal/RegisterStepsModal'
-// import GetUserData from '../user/getUserData/GetUserData'
+import GetUserData from '../user/getUserData/GetUserData'
 
 class Login extends Component {
   constructor(props) {
@@ -31,10 +31,10 @@ class Login extends Component {
         password: '',
       },
       signUpFields: {
-        username: '',
+        // username: '',
         password: '',
         email: '',
-        userType: constants.USER_TYPES.USER,
+        // userType: constants.USER_TYPES.USER,
       },
       loginMobile: false,
       registerMobile: false,
@@ -90,7 +90,7 @@ class Login extends Component {
 
   render() {
     const {translate} = this.props
-    const {page, footer, header, showRecovery, /*showRegisterModal, */signUpFields, registerMobile, loginMobile} = this.state
+    const {page, footer, header, showRecovery, showRegisterModal, signUpFields, registerMobile, loginMobile} = this.state
     const {year} = footer
     const {iosLink, androidLink, address, phoneNumber} = header
     const SignIn = (page === 'SignIn')
@@ -109,10 +109,11 @@ class Login extends Component {
           {/*<RegisterStepsModal showRegisterModal={showRegisterModal} hideRecoveryClick={this._hideModalClick}*/}
           {/*translate={translate}/>*/}
 
-          {/*<GetUserData showRegisterModal={showRegisterModal}*/}
-          {/*hideRegisterModal={this._hideModalClick}*/}
-          {/*password={signUpFields.password}*/}
-          {/*email={signUpFields.email}/>*/}
+          <GetUserData showRegisterModal={showRegisterModal}
+                       hideRegisterModal={this._hideModalClick}
+                       password={signUpFields.password}
+                       email={signUpFields.email}
+          />
 
           <div className="login-container">
             <HeaderLogin isLoginPage={loginMobile} onBackClick={this._goToHomePage}

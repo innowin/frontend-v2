@@ -51,7 +51,8 @@
   z-index: -1;
   opacity: 0;
   transform: scale(0.7);
-  transition: all ease 0.3s;}
+  transition: all ease 0.3s;
+}
 
 .get-data-progress {
   vertical-align: top;
@@ -114,7 +115,7 @@
 .get-data-content-account-select {
   width: 125px;
   text-align: center;
-  padding: 18px 0;
+  padding: 18px 0 30px 0;
   border-radius: 3px;
   display: inline-block;
   cursor: pointer;
@@ -128,28 +129,23 @@
 .get-data-content-account-show {
   position: absolute;
   z-index: 1;
-  top: 29px;
-  background-color: white;
-  color: $info-color;
-  width: 22px;
-  height: 22px;
+  bottom: -18px;
+  background-color: $bee-color;
+  font-size: 18px;
+  color: white;
+  width: 36px;
+  height: 36px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid $info-color;
+  border: 1px solid $bee-color;
   border-radius: 50%;
 }
 
 .get-data-content-selected {
-  border: 1px solid $info-color;
-  color: $info-color;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
   font-weight: bold;
-}
-
-.get-data-content-deselected {
-  border: 1px solid $text-input-border-color;
-  color: $text-input-border-color;
-  font-weight: normal;
 }
 
 .get-data-content-username-container {
@@ -165,7 +161,7 @@
   z-index: 1;
   top: 39px;
   right: 8px;
-  cursor: default;
+  cursor: text;
   transition-duration: 0.3s;
 }
 
@@ -279,7 +275,7 @@
 
 @media screen and (max-width: 900px) {
   .get-data-container {
-    top: 85px;
+    top: 55px;
     right: 20px;
     left: 20px;
     bottom: 50px;
@@ -292,6 +288,9 @@
     bottom: 50px;
   }
 
+  .get-data-welcome-fade {
+    display: none;
+  }
 
   .get-data-content {
     width: 100%;
@@ -302,7 +301,7 @@
   .get-data-progress {
     flex-direction: row-reverse;
     flex-wrap: nowrap;
-    height: 25%;
+    height: 30%;
     width: 100%;
   }
 
@@ -311,16 +310,7 @@
     border-left: 0.5px solid $text-input-border-color;
     border-bottom: none;
     border-top: none;
-
-    &:first-child {
-      border: none;
-      border-radius: 5px 0 0 0;
-    }
-
-    &:last-child {
-      border: none;
-      border-radius: 0 5px 0 0;
-    }
+    border-radius: 5px;
   }
 
   @media screen and (max-height: 560px) {
@@ -334,4 +324,21 @@
     }
   }
 
+}
+
+.get-data-welcome {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all linear 0.3s;
+}
+
+.get-data-welcome-fade {
+  opacity: 0.3;
+}
+
+.get-data-icon {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
 }
