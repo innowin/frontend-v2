@@ -269,7 +269,7 @@ const mapStateToProps = (state, ownProps) => {
     organs: state.identities.list,
     profiles: state.identities.list,
     files: state.common.file.list,
-    clientId: state.auth.client.user.id,
+    clientId: state.auth.client.identity.content,
     translate: getMessages(state),
     getFollowingSelector: getFolloweesSelector(state, {
       identityId: state.auth.client.identity.content,
