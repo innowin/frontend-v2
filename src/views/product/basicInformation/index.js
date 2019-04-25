@@ -45,7 +45,7 @@ export class productBasicInformation extends Component {
   }
 
   addAttr = () => {
-    let custom_attrs = [...this.state.custom_attrs]
+    let custom_attrs = this.state.custom_attrs ? [...this.state.custom_attrs] : []
     custom_attrs.push({title: '', value: ''})
     this.setState({...this.state, custom_attrs: [...custom_attrs]})
   }
@@ -115,7 +115,7 @@ export class productBasicInformation extends Component {
                 edit ?
                     <div>
                       {
-                        custom_attrs.map((attribute, i) =>
+                        custom_attrs && custom_attrs.map((attribute, i) =>
                             <div key={i} className='product-attributes-cont'>
                               <input type='text' className='product-attributes-title-edit' defaultValue={attribute.title} onChange={(e) => this.updateAttr(e, i, 'title')}/>
                               <input type='text' className='product-attributes-value-edit' defaultValue={attribute.value} onChange={(e) => this.updateAttr(e, i, 'value')}/>

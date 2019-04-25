@@ -91,20 +91,19 @@ class MembersView extends Component<props, states> {
                       className={"member-follow-plus"}> + </span></div> : <div className="member-followed"/>}
           <Link to={`/user/${memberId}`}>
             <div className={"member-picture-container"}>
-              {identities[memberId].profile_media && identities[memberId].profile_media.file ? <img alt=""
-                                                                                                    src={identities[memberId].profile_media.file}
-                                                                                                    width={"55px"} height={"55px"}
-                                                                                                    className={"member-picture"}/>
+              {identities[memberId].profile_media ?
+                  <img src={files[identities[memberId].profile_media] && files[identities[memberId].profile_media].file}
+                       alt="" width={"55px"} height={"55px"} className={"member-picture"}/>
                   : <DefaultUserIcon
                       height={"55px"} width={"55px"} className={"member-picture"}/>}
             </div>
 
             <div className={"member-info-container"}>
               <div className={"member-name"}>{
-                identities[memberId].first_name ||
-                identities[memberId].last_name ?
+                identities[memberId].first_name.trim() !== "" ||
+                identities[memberId].last_name.trim() !== "" ?
                     identities[memberId].first_name + " " + identities[memberId].last_name :
-                    identities[memberId].username
+                    identities[memberId].username !== "" ? identities[memberId].username : "فرد ناشناس"
               }</div>
               <div className={"member-description"}>{
                 identities[memberId].description
@@ -143,9 +142,9 @@ class MembersView extends Component<props, states> {
 
             <div className={"member-info-container"}>
               <div className={"member-name"}>{
-                identities[memberId].official_name !== "" ?
+                identities[memberId].official_name ?
                     identities[memberId].official_name :
-                    identities[memberId].username
+                    identities[memberId].username !== "" ? identities[memberId].username : "سازمان ناشناس"
               }</div>
               <div className={"member-description"}>{
                 identities[memberId].biography
@@ -222,11 +221,11 @@ class MembersView extends Component<props, states> {
     let tempUsers = []
     let tempOrgans = []
     for (let i = 0; i < getFollowingSelector.length; i++) {
-      if (getFollowingSelector[i].identity_user !== null) {
-        tempUsers.push(getFollowingSelector[i].identity_user)
+      if (getFollowingSelector[i].id !== null && getFollowingSelector[i].identity_type === constants.USER_TYPES.USER) {
+        tempUsers.push(getFollowingSelector[i].id)
       }
-      else if (getFollowingSelector[i].identity_organization !== null) {
-        tempOrgans.push(getFollowingSelector[i].identity_organization)
+      else if (getFollowingSelector[i].id !== null && getFollowingSelector[i].identity_type === constants.USER_TYPES.ORG) {
+        tempOrgans.push(getFollowingSelector[i].id)
       }
     }
     this.setState({...this.state, followingUsers: tempUsers.slice(), followingOrgans: tempOrgans.slice()})

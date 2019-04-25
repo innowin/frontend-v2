@@ -391,9 +391,9 @@ module.exports = {
   "Wait for accept": "در انتظار تایید",
 
   //Exchanges
-  "Stream": "پست ها",
+  "Stream": "پست‌ها",
   "Statistic": "آماره",
-  "Info": "مشخصات",
+  "Info": "دربارۀ پنجره",
   "Members": "اعضا",
   "Exchange Manager": "مدیریت پنجره",
   "Medals": "مدرک ها",

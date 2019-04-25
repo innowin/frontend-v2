@@ -6,6 +6,8 @@ export default state => ({
       ...state.messages.topBar
     },
     "Get file": "دریافت فایل",
-    "Product Catalog": "کاتالوگ محصول"
+    "Product Catalog": "کاتالوگ محصول",
+    "Stream": "پست‌ها",
+    "Info": "دربارۀ پنجره",
   }
 })

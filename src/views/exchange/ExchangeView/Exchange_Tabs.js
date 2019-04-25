@@ -96,10 +96,10 @@ class Exchange_Tabs extends Component<props, states> {
               <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material-ex' content={translate["Info"]}/>
             </div>
 
-            <div className={selectedTab === "Statistic" ? "header-container-item-active" : "header-container-item"}
-                 onClick={() => this._setTab("Statistic")}>
-              <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material-ex' content={translate["Statistic"]}/>
-            </div>
+            {/*<div className={selectedTab === "Statistic" ? "header-container-item-active" : "header-container-item"}*/}
+                 {/*onClick={() => this._setTab("Statistic")}>*/}
+              {/*<Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material-ex' content={translate["Statistic"]}/>*/}
+            {/*</div>*/}
 
             <div className={selectedTab === "Members" ? "header-container-item-active" : "header-container-item"}
                  onClick={() => this._setTab("Members")}>

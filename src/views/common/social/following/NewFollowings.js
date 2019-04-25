@@ -210,7 +210,7 @@ class NewFollowings extends Component<props, states> {
   }
 
   componentDidUpdate(prevProps, prevState, ss): void {
-    if (this.props.followings && this.props.followings.length !== prevProps.followings.length) {
+    if ((this.props.followings && this.props.followings.length !== prevProps.followings.length) || prevProps.ownerId !== this.props.ownerId) {
       let {followings, actions} = this.props
       for (let i = 0; i < followings.length; i++) {
         if (followings[i].id !== null && followings[i].identity_type === constants.USER_TYPES.ORG) {
