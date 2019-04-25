@@ -2439,7 +2439,6 @@ $sidebar-profile-media-width: 80px;
   }
 }
 
-
 .topbar-profile-img {
   cursor: pointer;
   width: 45px;
@@ -2462,4 +2461,52 @@ $sidebar-profile-media-width: 80px;
 .disabled {
   cursor: not-allowed !important;
   opacity: 0.7;
+}
+
+.user-sidebar-status {
+  padding: 20px 0;
+  bottom: 139px;
+  right: 20px;
+  width: calc(100% - 40px);
+  position: absolute;
+  border-top: 1px solid lighten($text-lighter-color, 3.6%);
+  text-align: center;
+
+  @media screen and (max-width: 480px) and (min-width: 0) {
+    bottom: 74px;
+  }
+}
+
+.user-sidebar-status-border {
+  padding: 1px;
+  border: 1px solid transparent;
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all linear 0.3s;
+
+  &:hover {
+    border: 1px solid rgba(255, 194, 65, 0.7);
+    transition: all linear 0.3s;
+  }
+}
+
+.user-sidebar-status-content {
+  display: block;
+  padding: 6px 0;
+  background-color: $bee-color;
+  text-align: center;
+  font-size: 14px;
+  color: white;
+  border-radius: 17px;
+}
+
+.user-sidebar-skelete-status-border {
+  &:hover {
+    border: 1px solid transparent;
+  }
+}
+
+.user-sidebar-skelete-status-content {
+  background-color: #f3f3f3;
 }

@@ -12,6 +12,7 @@ import {Field, reduxForm, SubmissionError} from 'redux-form'
 import renderTextField from 'src/views/common/inputs/reduxFormRenderTextField'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import FontAwesome from 'react-fontawesome'
+import numberCorrection from '../../../helpers/numberCorrection'
 
 class PureSignInForm extends React.Component {
   constructor(props) {
@@ -107,7 +108,7 @@ class SignInForm extends Component {
   _onSubmit = (values) => {
     const {signIn} = this.props.actions
     const {translator} = this.props
-    const promise = new Promise((resolve, reject) => signIn(values.username, values.password, values.rememberMe, reject))
+    const promise = new Promise((resolve, reject) => signIn(numberCorrection(values.username), numberCorrection(values.password), values.rememberMe, reject))
     return promise
         .catch(
             (errorMessage) => {

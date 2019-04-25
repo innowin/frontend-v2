@@ -8,6 +8,7 @@ import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import type {userEducationType} from 'src/consts/flowTypes/user/basicInformation'
 import Validations from 'src/helpers/validations/validations'
+import numberCorrection from 'src/helpers/numberCorrection'
 
 type Props = {
   toggleEdit: Function,
@@ -94,7 +95,7 @@ class EducationForm extends React.Component<Props, States> {
   _onChangeFields = (event: SyntheticEvent<HTMLInputElement>) => {
     const {translate} = this.props
     const target = event.target
-    const value = target.type === 'checkbox' ? target.checked : target.value
+    const value = target.type === 'checkbox' ? target.checked : numberCorrection(target.value)
     const name = target.name
     let error = false
     if (name === 'grade') {
@@ -132,12 +133,12 @@ class EducationForm extends React.Component<Props, States> {
     const form = e.target
 
     let formValues = {
-      grade: form.grade.value,
+      grade: numberCorrection(form.grade.value),
       field_of_study: form.field_of_study.value,
       university: form.university.value,
-      from_date: form.from_date.value,
-      to_date: form.to_date.value,
-      education_related_identity: owner.id,
+      from_date: numberCorrection(form.from_date.value),
+      to_date: numberCorrection(form.to_date.value),
+      education_related_identity: numberCorrection(owner.id),
     }
 
     if ((gradeError || universityError || toDateError || fromDateError || fieldOfStudyError) === false) {

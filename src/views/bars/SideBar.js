@@ -434,8 +434,8 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
               <div className="align-items-center flex-column info-section">
                 <div className="sidebar-name">{name}</div>
                 {
-                  (!editProfile) ? (
-                      <span className="-grey1 sidebar-description text-center">{owner.description}</span>) : (
+                  !editProfile ?
+                      <span className="-grey1 sidebar-description text-center">{owner.description}</span> :
                       <div className='description'>
                         {
                           descriptionClass && <span
@@ -447,7 +447,6 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
                             onChange={this._handleChangeText}
                         />
                       </div>
-                  )
                 }
               </div>
               {
@@ -462,6 +461,14 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
               {/*<span className="item">{followNames[1]}</span>*/}
               {/*<span>{` و ${followNames.length - 2 } نفر دیگر `}</span>*/}
               {/*</div>*/}
+
+
+              <section className='user-sidebar-status'>
+                <div className='user-sidebar-status-border'>
+                  <Material className='user-sidebar-status-content' content='فرصت کارآموزی'/>
+                </div>
+              </section>
+
               <section className='user-sidebar-buttons'>
                 <CheckOwner showForOwner={false} id={paramId}>
                   <div className="sidebarBottomParent">

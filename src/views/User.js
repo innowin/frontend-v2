@@ -169,7 +169,7 @@ class User extends Component<PropsUser, StatesUser> {
 */}
           {/*<VerifyWrapper isLoading={isLoading} error={errorMessage} className="-main row page-content">*/}
           {isLoading
-              ? <UserSkeleton/>
+              ? <UserSkeleton type='user'/>
               : <React.Fragment>
                 <div className={showSecondHeader ? 'top-bar-entity show' : 'top-bar-entity hide'}>
                   <RightArrowSvg onClick={this._goUp} className='back-button'/>

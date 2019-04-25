@@ -13,6 +13,7 @@ import Product from './views/Product'
 import User_Explorer from './views/user/explore/Explore'
 import PrivateRoute from './consts/PrivateRoute'
 import ToastContainer from './views/common/components/ToastContainer'
+import NotFound from './views/pages/NotFound'
 
 
 const App = (props) => {
@@ -32,8 +33,7 @@ const App = (props) => {
             <PrivateRoute path="/product" component={Product}/>
             <PrivateRoute path="/users/Users_Explorer" component={User_Explorer}/>
 
-            {/*Prevent wrong paths*/}
-            {/*<PrivateRoute path="*" component={Home}/> // TODO:Abel */}
+            <PrivateRoute path="*" component={NotFound}/>
 
           </Switch>
           <ToastContainer/>

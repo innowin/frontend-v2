@@ -13,6 +13,7 @@ import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import UploadFile from '../components/UploadFile'
 import Validations from 'src/helpers/validations/validations'
+import numberCorrection from '../../../helpers/numberCorrection'
 
 type Props = {
   toggleEdit: Function,
@@ -85,7 +86,7 @@ class CertificateForm extends React.Component<Props, States> {
   _onChangeFields = (event: SyntheticEvent<HTMLInputElement>) => {
     const {translate} = this.props
     const target = event.target
-    const value = target.type === 'checkbox' ? target.checked : target.value
+    const value = target.type === 'checkbox' ? target.checked : numberCorrection(target.value)
     const name = target.name
     let error = false
     if (name === 'title') {

@@ -5,7 +5,7 @@ import socialActions from '../../../redux/actions/commonActions/socialActions'
 import {bindActionCreators} from 'redux'
 import {ClipLoader} from 'react-spinners'
 import {Component} from 'react'
-import {DefaultUserIcon, Organization, User as UserIcon} from 'src/images/icons'
+import {DefaultOrganIcon, DefaultUserIcon, Organization, User as UserIcon} from 'src/images/icons'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {Link} from 'react-router-dom'
 import constants from 'src/consts/constants'
@@ -114,7 +114,14 @@ class User extends Component <appProps, appState> {
                   <img src={files[user.profile_media].file}
                        className='user-profile-photo' alt={user.last_name}/>
                   :
-                  <DefaultUserIcon className='user-default-profile-photo'/>
+                  userType === constants.USER_TYPES.USER ?
+                      <div className='default-skelete-skeleton-img'>
+                        <DefaultUserIcon className='default-skelete-profile-photo'/>
+                      </div>
+                      :
+                      <div className='default-skelete-skeleton-img'>
+                        <DefaultOrganIcon className='default-org-skelete-profile-photo'/>
+                      </div>
             }
 
             <div className='user-name-id-cont'>

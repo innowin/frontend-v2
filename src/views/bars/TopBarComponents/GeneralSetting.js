@@ -2,6 +2,7 @@ import connect from 'react-redux/es/connect/connect'
 import React, {Component} from 'react'
 import updateUserByUserIdAction from 'src/redux/actions/user/updateUserByUserIdAction'
 import {bindActionCreators} from 'redux'
+import numberCorrection from '../../../helpers/numberCorrection'
 
 class GeneralSetting extends Component {
   constructor(props) {
@@ -16,10 +17,10 @@ class GeneralSetting extends Component {
     const {updateUserByUserId} = actions
 
     if (!this.state.saved) {
-      const username = this.username.value
-      const password = this.password.value
-      const email = this.email.value
-      const authMobile = this.authMobile.value
+      const username = numberCorrection(this.username.value)
+      const password = numberCorrection(this.password.value)
+      const email = numberCorrection(this.email.value)
+      const authMobile = numberCorrection(this.authMobile.value)
 
       let error = false
 
