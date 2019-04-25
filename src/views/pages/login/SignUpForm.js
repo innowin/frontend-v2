@@ -191,52 +191,52 @@ export class RegisterForm extends Component {
     }
   }
 
-  _onSubmitOrgan = (values) => {
-    const {signIn, createUserOrgan} = this.props.actions
-    const {translator} = this.props
-    const promise = new Promise((resolve, reject) => createUserOrgan(values, resolve, reject))
-    return promise
-        .then(
-            () => {
-              return new Promise((resolve, reject) => signIn(values.username, values.password, false, reject))
-              //TODO mohsen: check that correctly return error in sign in
-                  .catch((errorMessage) => {
-                    throw new SubmissionError({_error: translator[errorMessage]})
-                  })
-            })
-        .catch(
-            (errorMessage) => {
-              //TODO mohsen: check that correctly return error in SubmissionError
-              throw new SubmissionError({_error: translator[errorMessage]})
-            }
-        )
-  }
-
-  _onSubmitPerson = (values) => {
-    const {signIn, createUserPerson} = this.props.actions
-    const {translator} = this.props
-    const promise = new Promise((resolve, reject) => createUserPerson(values, resolve, reject))
-    return promise
-        .then(
-            () => {
-              return new Promise((resolve, reject) => signIn(values.username, values.password, false, reject))
-                  .catch((errorMessage) => {
-                    throw new SubmissionError({_error: translator[errorMessage]})
-                  })
-            })
-        .catch(
-            (errorMessage) => {
-              throw new SubmissionError({_error: translator[errorMessage]})
-            }
-        )
-  }
+  // _onSubmitOrgan = (values) => {
+  //   const {signIn, createUserOrgan} = this.props.actions
+  //   const {translator} = this.props
+  //   const promise = new Promise((resolve, reject) => createUserOrgan(values, resolve, reject))
+  //   return promise
+  //       .then(
+  //           () => {
+  //             return new Promise((resolve, reject) => signIn(values.username, values.password, false, reject))
+  //             //TODO mohsen: check that correctly return error in sign in
+  //                 .catch((errorMessage) => {
+  //                   throw new SubmissionError({_error: translator[errorMessage]})
+  //                 })
+  //           })
+  //       .catch(
+  //           (errorMessage) => {
+  //             //TODO mohsen: check that correctly return error in SubmissionError
+  //             throw new SubmissionError({_error: translator[errorMessage]})
+  //           }
+  //       )
+  // }
+  //
+  // _onSubmitPerson = (values) => {
+  //   const {signIn, createUserPerson} = this.props.actions
+  //   const {translator} = this.props
+  //   const promise = new Promise((resolve, reject) => createUserPerson(values, resolve, reject))
+  //   return promise
+  //       .then(
+  //           () => {
+  //             return new Promise((resolve, reject) => signIn(values.username, values.password, false, reject))
+  //                 .catch((errorMessage) => {
+  //                   throw new SubmissionError({_error: translator[errorMessage]})
+  //                 })
+  //           })
+  //       .catch(
+  //           (errorMessage) => {
+  //             throw new SubmissionError({_error: translator[errorMessage]})
+  //           }
+  //       )
+  // }
 
   render() {
-    const {translator, /*onRegisterClick, */onChangeSignUp, inputValues, ...reduxFormProps} = this.props
+    const {translator, onRegisterClick, onChangeSignUp, inputValues, ...reduxFormProps} = this.props
     const {userType} = this.state
     // const userTypeItems = [{value: constants.USER_TYPES.USER, title: 'فرد'}, {value: constants.USER_TYPES.ORG, title: 'مجموعه'}]
-    const onSubmitFunc = (userType === constants.USER_TYPES.USER) ? (this._onSubmitPerson) : (this._onSubmitOrgan)
-    // const onSubmitFunc = onRegisterClick
+    // const onSubmitFunc = (userType === constants.USER_TYPES.USER) ? (this._onSubmitPerson) : (this._onSubmitOrgan)
+    const onSubmitFunc = onRegisterClick
     return (
         <div className="">
           {/*<RadioButtonGroup*/}
