@@ -5,7 +5,7 @@ import {NavLink, Switch, Redirect} from 'react-router-dom'
 import PropsRoute from 'src/consts/PropsRoute'
 import {connect} from 'react-redux'
 import SideBar from '../bars/ProductSidebar'
-import ProductActions from 'src/redux/actions/commonActions/productActions/productActions'
+import ProductActions from 'src/redux/actions/commonActions/productActions'
 import {bindActionCreators} from 'redux'
 import constants from 'src/consts/constants'
 import FileActions from 'src/redux/actions/commonActions/fileActions'
@@ -24,6 +24,7 @@ import {getCategories} from 'src/redux/actions/commonActions/categoryActions'
 import {makeCategorySelector} from '../../redux/selectors/common/category/getCategoriesByParentId'
 import {NewRightArrow} from 'src/images/icons'
 import {ProductWhite} from 'src/images/icons'
+import productActions from '../../redux/actions/commonActions/productActions'
 
 
 class ProductView extends Component {
@@ -42,6 +43,7 @@ class ProductView extends Component {
     const {params} = match
     const productId = params.id
     actions.getProductInfo(productId)
+    actions.getPrice(productId)
     actions.getFileByFileRelatedParentId({fileRelatedParentId: productId, fileParentType: constants.FILE_PARENT.PRODUCT})
     actions.getPosts({postRelatedProductId: productId})
     actions.getCountries()
@@ -169,6 +171,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getUserByUserId: GetUserActions.getUserByUserId,
+    getPrice: productActions.getProductPrice,
     getProductInfo: ProductActions.getProductInfo,
     getFileByFileRelatedParentId: FileActions.getFileByFileRelatedParentId,
     getCountries,

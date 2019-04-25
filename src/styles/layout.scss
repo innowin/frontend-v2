@@ -159,9 +159,10 @@
 }
 
 .header-container-item-active {
-  flex-grow: 1;
-  color: $secondary-color;
   border-bottom: 2px solid $secondary-color;
+  flex-grow: 1;
+  color: $text-medium-dark;
+  text-decoration: none;
   transition-duration: 0.3s;
 
   &:focus {

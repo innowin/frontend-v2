@@ -4,8 +4,12 @@ import Material from '../common/components/Material'
 import {Date, Location} from 'src/images/icons'
 import {ClipLoader} from 'react-spinners'
 import {bindActionCreators} from 'redux'
-import productActions from '../../redux/actions/commonActions/productActions/productActions'
+import productActions from '../../redux/actions/commonActions/productActions'
 import {connect} from 'react-redux'
+import types from '../../redux/actions/types'
+import {createFileFunc} from '../common/Functions'
+import constants from '../../consts/constants'
+import FileActions from '../../redux/actions/commonActions/fileActions'
 
 class SideBar extends Component {
   constructor(props) {
@@ -24,6 +28,9 @@ class SideBar extends Component {
       thirdCategory: null,
       newName: '',
       newPrice: '',
+
+      error: false,
+      deleteArr: [],
     }
   }
 
@@ -51,6 +58,7 @@ class SideBar extends Component {
       selectedCountry: product.product_related_country,
       selectedProvince: product.product_related_province,
       selectedCity: product.product_related_town,
+      deleteArr: [],
     })
   }
 
@@ -118,27 +126,142 @@ class SideBar extends Component {
     this.setState({...this.state, newPrice: e.target.value})
   }
 
-  submitUpdate = () => {
-    const {product, actions} = this.props
-    const {newName, newPrice, selectedCountry, selectedProvince, selectedCity, firstCategory, secondCategory, thirdCategory} = this.state
-    const product_category = thirdCategory && secondCategory && firstCategory ? thirdCategory : secondCategory && firstCategory ? secondCategory : firstCategory
-    const {updateProduct} = actions
-    updateProduct({
-      formValues:
-          {
-            name: newName.trim(),
-            product_related_country: selectedCountry,
-            product_related_province: selectedCountry ? selectedProvince : null,
-            product_related_town: selectedProvince ? selectedCity : null,
-            product_category,
-          }
-      , productId: product.id,
+  _uploadHandler(fileString, tempName, name, deleteItem) {
+    const reader = new FileReader()
+    let deleteArr = [...this.state.deleteArr]
+    if (deleteItem && deleteItem.id) {
+      deleteArr.push(deleteItem.id)
+    }
+    if (fileString) {
+      reader.onload = () => {
+        this.setState({
+          ...this.state,
+          [tempName]: reader.result,
+          deleteArr,
+        }, () => this._createFile(tempName, name, fileString))
+      }
+      reader.readAsDataURL(fileString)
+    }
+  }
+
+  _createFile(tempName, name, fileString) {
+    const {createFile} = this.props.actions
+    const nextActionType = types.COMMON.FILE.SET_FILE_IDS_IN_TEMP_FILE
+    const createArguments = {fileIdKey: 'fileId', nextActionType, nextActionData: {tempFileKeyName: tempName}}
+    const fileId = name
+    this.setState({...this.state, [name]: fileId}, () => {
+      createFileFunc(createFile, this.state[tempName], createArguments, constants.CREATE_FILE_TYPES.IMAGE, constants.CREATE_FILE_CATEGORIES.PRODUCT.IMAGE, {fileId, formFile: fileString})
     })
-    this.hideEdit()
+  }
+
+
+  componentWillReceiveProps(nextProps) {
+    if (this.state.edit) {
+      const {temp} = nextProps
+      let error = false
+
+      if (temp[this.state['image1']] && !temp[this.state['image1']].uploadedFileId) {
+        error = true
+      }
+      else if (temp[this.state['image2']] && !temp[this.state['image2']].uploadedFileId) {
+        error = true
+      }
+      else if (temp[this.state['image3']] && !temp[this.state['image3']].uploadedFileId) {
+        error = true
+      }
+      else if (temp[this.state['image4']] && !temp[this.state['image4']].uploadedFileId) {
+        error = true
+      }
+      else if (temp[this.state['image5']] && !temp[this.state['image5']].uploadedFileId) {
+        error = true
+      }
+      else if (temp[this.state['image6']] && !temp[this.state['image6']].uploadedFileId) {
+        error = true
+      }
+      this.setState({...this.state, error})
+    }
+  }
+
+  submitUpdate = () => {
+    if (!this.state.error) {
+      this.setState({...this.state, edit: false}, () => {
+
+        const {product, actions, temp} = this.props
+        const {newName, newPrice, selectedCountry, selectedProvince, selectedCity, firstCategory, secondCategory, thirdCategory, deleteArr} = this.state
+        const product_category = thirdCategory && secondCategory && firstCategory ? thirdCategory : secondCategory && firstCategory ? secondCategory : firstCategory
+        const {updateProduct, updateFile, getFileByFileRelatedParentId} = actions
+
+        deleteArr.forEach(id => {
+          updateFile({
+            id,
+            formData: {file_related_parent: null},
+            fileParentType: constants.FILE_PARENT.PRODUCT,
+          })
+        })
+
+        if (temp[this.state['image1']] && temp[this.state['image1']].uploadedFileId) {
+          updateFile({
+            id: this.props.temp[this.state['image1']].uploadedFileId,
+            formData: {file_related_parent: product.id},
+            fileParentType: constants.FILE_PARENT.PRODUCT,
+          })
+        }
+        if (temp[this.state['image2']] && temp[this.state['image2']].uploadedFileId) {
+          updateFile({
+            id: this.props.temp[this.state['image2']].uploadedFileId,
+            formData: {file_related_parent: product.id},
+            fileParentType: constants.FILE_PARENT.PRODUCT,
+          })
+
+        }
+        if (temp[this.state['image3']] && temp[this.state['image3']].uploadedFileId) {
+          updateFile({
+            id: this.props.temp[this.state['image3']].uploadedFileId,
+            formData: {file_related_parent: product.id},
+            fileParentType: constants.FILE_PARENT.PRODUCT,
+          })
+        }
+        if (temp[this.state['image4']] && temp[this.state['image4']].uploadedFileId) {
+          updateFile({
+            id: this.props.temp[this.state['image4']].uploadedFileId,
+            formData: {file_related_parent: product.id},
+            fileParentType: constants.FILE_PARENT.PRODUCT,
+          })
+        }
+        if (temp[this.state['image5']] && temp[this.state['image5']].uploadedFileId) {
+          updateFile({
+            id: this.props.temp[this.state['image5']].uploadedFileId,
+            formData: {file_related_parent: product.id},
+            fileParentType: constants.FILE_PARENT.PRODUCT,
+          })
+        }
+        if (temp[this.state['image6']] && temp[this.state['image6']].uploadedFileId) {
+          updateFile({
+            id: this.props.temp[this.state['image6']].uploadedFileId,
+            formData: {file_related_parent: product.id},
+            fileParentType: constants.FILE_PARENT.PRODUCT,
+          })
+        }
+        updateProduct({
+          formValues:
+              {
+                name: newName.trim(),
+                product_related_country: selectedCountry,
+                product_related_province: selectedCountry ? selectedProvince : null,
+                product_related_town: selectedProvince ? selectedCity : null,
+                product_category,
+              }
+          , productId: product.id,
+        })
+
+        setTimeout(() => getFileByFileRelatedParentId({fileRelatedParentId: product.id, fileParentType: constants.FILE_PARENT.PRODUCT}), 500)
+
+      })
+    }
   }
 
   render() {
-    const {galleryModal, image, edit, selectedCountry, selectedProvince, price, firstCategory, secondCategory} = this.state
+    const {galleryModal, image, edit, selectedCountry, selectedProvince, price, firstCategory, secondCategory, error} = this.state
     const {product, country, province, product_owner, product_category, current_user_identity, countries, provinces, cities, categories} = this.props
     const {name, created_time, pictures_array} = product
 
@@ -152,28 +275,70 @@ class SideBar extends Component {
                   <div className='product-view-sidebar-main-img-edit'>
                     <div className='product-view-sidebar-main-img-title'>تصاویر محصول</div>
                     <div className='product-view-sidebar-upload'>
-                      <img src={pictures_array && pictures_array[0] ? pictures_array[0].file : ''} alt='' className='product-view-sidebar-upload-pre' />
-                      <input className='product-view-sidebar-upload-input' type='file'/>
+                      <img src={this.state.tempImage1 ? this.state.tempImage1 : pictures_array && pictures_array[0] ? pictures_array[0].file : ''}
+                           alt=''
+                           className='product-view-sidebar-upload-pre'
+                           style={{opacity: this.state.tempImage1 ? this.props.temp[this.state['image1']] && parseFloat(this.props.temp[this.state['image1']].progress / 100) : 1}}
+                      />
+                      <input className='product-view-sidebar-upload-input'
+                             type='file'
+                             onChange={e => this._uploadHandler(e.currentTarget.files[0], 'tempImage1', 'image1', pictures_array[0])}
+                      />
                     </div>
                     <div className='product-view-sidebar-upload'>
-                      <img src={pictures_array && pictures_array[1] ? pictures_array[1].file : ''} alt='' className='product-view-sidebar-upload-pre' />
-                      <input className='product-view-sidebar-upload-input' type='file'/>
+                      <img src={this.state.tempImage2 ? this.state.tempImage2 : pictures_array && pictures_array[1] ? pictures_array[1].file : ''}
+                           alt=''
+                           className='product-view-sidebar-upload-pre'
+                           style={{opacity: this.state.tempImage2 ? this.props.temp[this.state['image2']] && parseFloat(this.props.temp[this.state['image2']].progress / 100) : 1}}
+                      />
+                      <input className='product-view-sidebar-upload-input'
+                             type='file'
+                             onChange={e => this._uploadHandler(e.currentTarget.files[0], 'tempImage2', 'image2', pictures_array[1])}
+                      />
                     </div>
                     <div className='product-view-sidebar-upload'>
-                      <img src={pictures_array && pictures_array[2] ? pictures_array[2].file : ''} alt='' className='product-view-sidebar-upload-pre' />
-                      <input className='product-view-sidebar-upload-input' type='file'/>
+                      <img src={this.state.tempImage3 ? this.state.tempImage3 : pictures_array && pictures_array[2] ? pictures_array[2].file : ''}
+                           alt=''
+                           className='product-view-sidebar-upload-pre'
+                           style={{opacity: this.state.tempImage3 ? this.props.temp[this.state['image3']] && parseFloat(this.props.temp[this.state['image3']].progress / 100) : 1}}
+                      />
+                      <input className='product-view-sidebar-upload-input'
+                             type='file'
+                             onChange={e => this._uploadHandler(e.currentTarget.files[0], 'tempImage3', 'image3', pictures_array[2])}
+                      />
                     </div>
                     <div className='product-view-sidebar-upload'>
-                      <img src={pictures_array && pictures_array[3] ? pictures_array[3].file : ''} alt='' className='product-view-sidebar-upload-pre' />
-                      <input className='product-view-sidebar-upload-input' type='file'/>
+                      <img src={this.state.tempImage4 ? this.state.tempImage4 : pictures_array && pictures_array[3] ? pictures_array[3].file : ''}
+                           alt=''
+                           className='product-view-sidebar-upload-pre'
+                           style={{opacity: this.state.tempImage4 ? this.props.temp[this.state['image4']] && parseFloat(this.props.temp[this.state['image4']].progress / 100) : 1}}
+                      />
+                      <input className='product-view-sidebar-upload-input'
+                             type='file'
+                             onChange={e => this._uploadHandler(e.currentTarget.files[0], 'tempImage4', 'image4', pictures_array[3])}
+                      />
                     </div>
                     <div className='product-view-sidebar-upload'>
-                      <img src={pictures_array && pictures_array[4] ? pictures_array[4].file : ''} alt='' className='product-view-sidebar-upload-pre' />
-                      <input className='product-view-sidebar-upload-input' type='file'/>
+                      <img src={this.state.tempImage5 ? this.state.tempImage5 : pictures_array && pictures_array[4] ? pictures_array[4].file : ''}
+                           alt=''
+                           className='product-view-sidebar-upload-pre'
+                           style={{opacity: this.state.tempImage5 ? this.props.temp[this.state['image5']] && parseFloat(this.props.temp[this.state['image5']].progress / 100) : 1}}
+                      />
+                      <input className='product-view-sidebar-upload-input'
+                             type='file'
+                             onChange={e => this._uploadHandler(e.currentTarget.files[0], 'tempImage5', 'image5', pictures_array[4])}
+                      />
                     </div>
                     <div className='product-view-sidebar-upload'>
-                      <img src={pictures_array && pictures_array[5] ? pictures_array[5].file : ''} alt='' className='product-view-sidebar-upload-pre' />
-                      <input className='product-view-sidebar-upload-input' type='file'/>
+                      <img src={this.state.tempImage6 ? this.state.tempImage6 : pictures_array && pictures_array[5] ? pictures_array[5].file : ''}
+                           alt=''
+                           className='product-view-sidebar-upload-pre'
+                           style={{opacity: this.state.tempImage6 ? this.props.temp[this.state['image6']] && parseFloat(this.props.temp[this.state['image6']].progress / 100) : 1}}
+                      />
+                      <input className='product-view-sidebar-upload-input'
+                             type='file'
+                             onChange={e => this._uploadHandler(e.currentTarget.files[0], 'tempImage6', 'image6', pictures_array[5])}
+                      />
                     </div>
                   </div>
 
@@ -278,7 +443,7 @@ class SideBar extends Component {
                   </div>
 
                   <div className='product-view-sidebar-buttons'>
-                    <Material className='product-view-sidebar-buy' content='ثبت ویرایش' onClick={this.submitUpdate}/>
+                    <Material className={error ? 'product-view-sidebar-buy-disable' : 'product-view-sidebar-buy'} content='ثبت ویرایش' onClick={this.submitUpdate}/>
                     <Material className='product-view-sidebar-share' content='لغو ویرایش' onClick={this.hideEdit}/>
                   </div>
 
@@ -330,7 +495,6 @@ class SideBar extends Component {
                           <Material className='product-view-sidebar-share' content='ویرایش' onClick={this.showEdit}/>
                         </div>
                   }
-
                 </div>
           }
 
@@ -352,9 +516,17 @@ class SideBar extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  files: state.common.file.list,
+  temp: state.temp.file,
+})
+
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     updateProduct: productActions.updateProduct,
+    createFile: FileActions.createFile,
+    updateFile: FileActions.updateFile,
+    getFileByFileRelatedParentId: FileActions.getFileByFileRelatedParentId,
   }, dispatch),
 })
-export default connect(null, mapDispatchToProps)(SideBar)
+export default connect(mapStateToProps, mapDispatchToProps)(SideBar)

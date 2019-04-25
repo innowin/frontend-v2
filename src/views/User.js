@@ -4,8 +4,6 @@ import BadgeActions from 'src/redux/actions/commonActions/badgeActions'
 import Certificates from './common/certificates/index'
 import ChatBar from 'src/views/bars/ChatBar'
 import constants from 'src/consts/constants'
-import Contributions from './common/contributions'
-import Educations from 'src/views/user/educations'
 import GetUserActions from 'src/redux/actions/user/getUserActions'
 import Material from './common/components/Material'
 import ParamActions from '../redux/actions/paramActions'
@@ -19,10 +17,8 @@ import Follower from 'src/views/common/social/follower/index'
 import type {badgeType} from 'src/consts/flowTypes/common/badges'
 import type {fileType} from '../consts/flowTypes/common/fileType'
 import type {userStateObject, listOfIdObject} from 'src/consts/flowTypes/stateObjectType'
-import UserBasicInformation from './user/basicInformation'
 import UserAboutMe from './user/aboutMe'
 import UserSkeleton from './user/skeleton/UserSkeleton'
-import WorkExperiences from './user/workExperience/index'
 import {bindActionCreators} from 'redux'
 import {Component} from 'react'
 import {connect} from 'react-redux'
@@ -31,6 +27,10 @@ import {NavLink, Switch, Redirect} from 'react-router-dom'
 import SideBarContent from './bars/SideBar'
 import RightArrowSvg from '../images/common/right_arrow_svg'
 import DefaultOrganIcon from '../images/defaults/defaultOrganization_svg'
+// import Contributions from './common/contributions'
+// import Educations from 'src/views/user/educations'
+// import UserBasicInformation from './user/basicInformation'
+// import WorkExperiences from './user/workExperience/index'
 
 type PropsUser = {
   match: {
@@ -94,16 +94,16 @@ class User extends Component<PropsUser, StatesUser> {
   }
 
   componentDidMount() {
-    window.addEventListener("scroll", this._onScroll)
     const {params} = this.props.match
     const {getUserByUserId, setParamUserId} = this.props.actions
     const userId: number = +params.id
     getUserByUserId(userId)
     setParamUserId({id: userId})
+    window.addEventListener('scroll', this._onScroll)
   }
 
   componentWillUnmount() {
-    window.removeEventListener("scroll", this._onScroll)
+    window.removeEventListener('scroll', this._onScroll)
     const {removeParamUserId} = this.props.actions
     removeParamUserId()
   }
@@ -120,7 +120,7 @@ class User extends Component<PropsUser, StatesUser> {
   _goUp = () => {
     window.scroll({
       top: 0,
-      behavior: "smooth",
+      behavior: 'smooth',
     })
     this.setState({...this.state, showSecondHeader: false})
   }

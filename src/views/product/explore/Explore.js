@@ -1,14 +1,14 @@
 import * as React from 'react'
-import { PureComponent } from 'react'
+import {PureComponent} from 'react'
 import connect from 'react-redux/es/connect/connect'
-import productActions from 'src/redux/actions/commonActions/productActions/productActions'
+import productActions from 'src/redux/actions/commonActions/productActions'
 import RightArrowSvg from '../../../images/common/right_arrow_svg'
 import Sidebar from './Sidebar'
-import { bindActionCreators } from 'redux'
-import { ClipLoader } from 'react-spinners'
-import { getProducts } from 'src/redux/selectors/common/product/getAllProducts'
+import {bindActionCreators} from 'redux'
+import {ClipLoader} from 'react-spinners'
+import {getProducts} from 'src/redux/selectors/common/product/getAllProducts'
 import Products from './Products'
-import { makeCategorySelector } from 'src/redux/selectors/common/category/getCategoriesByParentId'
+import {makeCategorySelector} from 'src/redux/selectors/common/category/getCategoriesByParentId'
 import FontAwesome from 'react-fontawesome'
 
 
@@ -63,19 +63,19 @@ class Explore extends PureComponent <appProps, appState> {
 
   _handleCat = (level, word) => {
     if (level === 1) {
-      this.setState({ ...this.state, catLevel1: word, catLevel2: 0, catLevel3: 0 })
+      this.setState({...this.state, catLevel1: word, catLevel2: 0, catLevel3: 0})
     }
     else if (level === 2) {
-      this.setState({ ...this.state, catLevel2: word, catLevel3: 0 })
+      this.setState({...this.state, catLevel2: word, catLevel3: 0})
     }
     else if (level === 3) {
-      this.setState({ ...this.state, catLevel3: word })
+      this.setState({...this.state, catLevel3: word})
     }
   }
 
   _onScroll = () => {
     if (Object.values(this.props.allProducts).length > 0) {
-      let { activeScrollHeight } = this.state
+      let {activeScrollHeight} = this.state
       let scrollHeight = document.body ? document.body.scrollHeight : 0
       if (((window.innerHeight + window.scrollY) >= (scrollHeight - 250)) && (scrollHeight > activeScrollHeight)) {
         this.setState({
@@ -87,13 +87,13 @@ class Explore extends PureComponent <appProps, appState> {
             () => this.props.actions.getAllproducts(24, this.state.offset, this.state.search))
       }
       if (window.scrollY > 1000)
-        this.setState({ ...this.state, scrollButton: true })
-      else this.setState({ ...this.state, scrollButton: false })
+        this.setState({...this.state, scrollButton: true})
+      else this.setState({...this.state, scrollButton: false})
     }
   }
 
   _search = (search) => {
-    this.setState({ ...this.state, search, offset: 0, activeScrollHeight: 0 }, () => {
+    this.setState({...this.state, search, offset: 0, activeScrollHeight: 0}, () => {
       this.props.actions.getAllproducts(24, 0, search)
     })
   }
@@ -105,14 +105,14 @@ class Explore extends PureComponent <appProps, appState> {
     })
   }
 
-  _collapse = () => this.setState({ ...this.state, isCollapsed: true })
+  _collapse = () => this.setState({...this.state, isCollapsed: true})
 
-  _unCollapse = () => this.setState({ ...this.state, isCollapsed: false })
+  _unCollapse = () => this.setState({...this.state, isCollapsed: false})
 
   render() {
-    const { allProducts, loading, categories } = this.props
-    const { scrollButton, catLevel1, catLevel2, catLevel3, isCollapsed } = this.state
-    const { list } = categories
+    const {allProducts, loading, categories} = this.props
+    const {scrollButton, catLevel1, catLevel2, catLevel3, isCollapsed} = this.state
+    const {list} = categories
 
     return (
         <div className='all-exchanges-parent'>

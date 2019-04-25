@@ -3,31 +3,31 @@ import types from '../types'
 export const getFile = (fileId) => ({
   type: types.COMMON.FILE.GET_FILE,
   payload: {
-    fileId
-  }
+    fileId,
+  },
 })
 
 // const {fileType, fileCategory, file, fileParent} = data
 export const createFile = (data) => ({
   type: types.COMMON.FILE.CREATE_FILE,
   payload: {
-      ...data
-  }
+    ...data,
+  },
 })
 
 export const updateFile = ({id, formData, fileParentType}) => ({
   type: types.COMMON.FILE.UPDATE_FILE,
-  payload: { id, formData, fileParentType }
+  payload: {id, formData, fileParentType},
 })
 
 export const getFiles = (query) => ({
   type: types.COMMON.FILE.GET_FILES,
-  payload: {query}
+  payload: {query},
 })
 
 export const delMiddleWareFileData = () => ({ // this is not used yet, and may be remove.
   type: types.COMMON.FILE.DEL_MIDDLEWARE_FILE_DATA,
-  payload: {}
+  payload: {},
 })
 
 export const getFileByFileRelatedParentId = ({fileRelatedParentId, fileParentType}) => ({
@@ -35,12 +35,12 @@ export const getFileByFileRelatedParentId = ({fileRelatedParentId, fileParentTyp
   payload: {
     fileRelatedParentId,
     fileParentType,
-  }
+  },
 })
 
 export const deleteFile = ({fileId, fileParentType, fileParentId}) => ({
   type: types.COMMON.FILE.DELETE_FILE,
-  payload: {fileId, fileParentType, fileParentId}
+  payload: {fileId, fileParentType, fileParentId},
 })
 
 const FileActions = {

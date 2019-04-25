@@ -11,7 +11,7 @@ import {
   TwitterIcon,
   TelegramIcon,
   LinkedInIcon,
-  InstagramIcon
+  InstagramIcon,
 } from 'src/images/icons'
 import CertificateActions from 'src/redux/actions/commonActions/certificateActions'
 import CertificateForm from '../common/newCertificate/CertificateForm'
@@ -41,24 +41,6 @@ import {createFileFunc} from 'src/views/common/Functions'
 import {getFollowersSelector} from 'src/redux/selectors/common/social/getFollowers'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 
-// const MenuBox = (props) => {
-//   const {handleEditProfile, id, editProfile, paramId} = props
-//   return (
-//       <div className="menu-box pt-0 pb-0" id={id}>
-//         <div>
-//           <span>اشتراک گذاری نمایه</span>
-//           <CheckOwner id={paramId}>
-//             <span onClick={handleEditProfile}>{(!editProfile) ? 'ویرایش ویترین' : 'بستن ویرایش ویترین'}</span>
-//           </CheckOwner>
-//         </div>
-//         <div>
-//           <span>بی صدا کردن اعلام</span>
-//           <span>بلاک</span>
-//           <span>گزارش تخلف</span>
-//         </div>
-//       </div>
-//   )
-// }
 
 export const BadgesCard = (props: { badgesImg: (string)[] }) => {
   return <React.Fragment>
@@ -158,7 +140,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
         skill: false,
         certificate: false,
         research: false,
-      }
+      },
     }
   }
 
@@ -236,7 +218,8 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
         profile_banner: bannerId,
         profile_media: pictureId,
       }
-    } else return {
+    }
+    else return {
       id: owner.id,
       description: descriptionState,
       profile_banner: bannerId,
@@ -268,6 +251,10 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
     const description = this.props.owner.description
     this.setState({
       ...this.state,
+      selectedImageFile: '',
+      selectedImage: '',
+      selectedBannerFile: '',
+      selectedBanner: '',
       editProfile: !this.state.editProfile,
       menuToggle: false,
       descriptionState: description,
@@ -281,12 +268,6 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
     const formValues = {follow_follower: clientIdentityId, follow_followed: owner.id}
     createFollow({formValues, followOwnerId})
   }
-
-  // _handleClickOutMenuBox = (e: any) => {
-  //   if (!e.target.closest('#sidebar-menu-box') && !e.target.closest('.menuBottom')) {
-  //     this.setState({...this.state, menuToggle: false})
-  //   }
-  // }
 
   _checkCharacter = (description) => {
     const descriptionLength = description ? description.trim().length : 0
@@ -351,10 +332,6 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
     this.setState({...this.state, descriptionState: description}, () => this._checkCharacter(description))
   }
 
-  // componentWillUnmount() {
-  //   (document.removeEventListener: Function)('click', this._handleClickOutMenuBox)
-  // }
-
   _toggleAddModal = () => {
     const {showModalState} = this.state
     this.setState({
@@ -362,7 +339,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
       showModalState: {
         ...showModalState,
         add: !showModalState.add,
-      }
+      },
     })
   }
 
@@ -377,10 +354,11 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
         showModalState: {
           ...showModalState,
           add: false,
-        }
+        },
       })
       showModal({modalKey: 'productModal'})
-    } else {
+    }
+    else {
 
       this.setState({
         ...this.state,
@@ -388,7 +366,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
           ...showModalState,
           add: false,
           [modal]: !showModalState[modal],
-        }
+        },
       })
     }
   }
@@ -397,11 +375,11 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
   render() {
     const {
       editProfile, selectedBanner, selectedImage, descriptionState, descriptionClass, processing, processingBanner,
-      profileBannerId, profileMediaId, showModalState
+      profileBannerId, profileMediaId, showModalState,
     } = this.state
     const {
       sideBarType, badges, translate: tr, paramId, followers, clientIdentityId, owner, files, bannerIdTemp,
-      pictureIdTemp, actions,
+      pictureIdTemp, actions, temp,
     } = this.props
     const {createWorkExperience, createEducation, createCertificate, createSkill, createResearch} = actions
     const {add, education, research, certificate, skill, workExperience} = showModalState
@@ -422,6 +400,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
     const name = sideBarType === constants.USER_TYPES.USER ?
         (owner.first_name ? owner.first_name + ' ' : '' + owner.last_name ? owner.last_name : '') :
         (owner.nike_name || owner.official_name)
+
     return (
         <React.Fragment>
           <form className={className + ' pt-0'} onSubmit={this._handleSubmit}>
@@ -429,12 +408,11 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
               {
                 !bannerString ?
                     <div className="background-strips banner covered-img"/> :
-                    <img alt="" src={bannerString} className="banner covered-img"/>
+                    <img alt="" src={bannerString} className="banner covered-img" style={{opacity: temp[profileBannerId] && temp[profileBannerId].progress ? temp[profileBannerId].progress / 100 : 1}}/>
               }
               {
                 editProfile ?
-                    <input type="file" className='abel-input'
-                           onChange={!processingBanner ? e => this._uploadHandlerBanner(e.currentTarget.files[0]) : console.log('Still Uploading')}/>
+                    <input type="file" className='abel-input' onChange={!processingBanner ? e => this._uploadHandlerBanner(e.currentTarget.files[0]) : console.log('Still Uploading')}/>
                     : null
               }
             </div>
@@ -445,41 +423,15 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
                       sideBarType === constants.USER_TYPES.USER ?
                           <DefaultUserIcon/> :
                           <DefaultOrganIcon/>
-                      : <img className="covered-img" alt="" src={pictureString}/>
+                      : <img className="covered-img" alt="" src={pictureString} style={{opacity: temp[profileMediaId] && temp[profileMediaId].progress ? temp[profileMediaId].progress / 100 : 1}}/>
                 }
                 {
                   editProfile ?
-                      <input type="file" className='abel-input'
-                             onChange={!processing ? e => this._uploadHandler(e.currentTarget.files[0]) : console.log('Still Uploading')}/>
+                      <input type="file" className='abel-input' onChange={!processing ? e => this._uploadHandler(e.currentTarget.files[0]) : console.log('Still Uploading')}/>
                       : null
                 }
-                {/*{*/}
-                {/*(!editProfile) ? '' : (*/}
-                {/*<AttachFile*/}
-                {/*AttachButton={this._AttachBottom}*/}
-                {/*inputId="AttachPictureFileInput"*/}
-                {/*LoadingFile={this._LoadingFile}*/}
-                {/*handleBase64={(fileString) => this.setState({...this.state, pictureState: fileString})}*/}
-                {/*handleError={(error) => alert(error)}*/}
-                {/*className="edit-nav"*/}
-                {/*ref={e => this.AttachPictureFileInput = e}*/}
-                {/*allowableFormat={constants.FILE_TYPE.PHOTO}*/}
-                {/*translate={tr}*/}
-                {/*/>*/}
-                {/*)*/}
-                {/*}*/}
               </div>
               <div className="align-items-center flex-column info-section">
-                {/*<CheckOwner id={paramId} showForOwner={false}>*/}
-                {/*<i className="fa fa-ellipsis-v menuBottom" onClick={this._handleMenu}/>*/}
-                {/*{*/}
-                {/*(!menuToggle) ? ('') : (*/}
-                {/*<MenuBox id="sidebar-menu-box"*/}
-                {/*handleEditProfile={this._handleEditProfile}*/}
-                {/*editProfile={editProfile}*/}
-                {/*paramId={paramId}/>)*/}
-                {/*}*/}
-                {/*</CheckOwner>*/}
                 <div className="sidebar-name">{name}</div>
                 {
                   (!editProfile) ? (

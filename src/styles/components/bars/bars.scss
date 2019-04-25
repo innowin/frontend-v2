@@ -23,8 +23,8 @@ $sidebar-profile-media-width: 80px;
   }
 }
 
-.topBar-hide{
-  @media screen and (max-width: 480px) and (min-width: 0px) {
+.topBar-hide {
+  @media screen and (max-width: 480px) and (min-width: 0) {
     transform: translateY(-50px);
   }
 }
@@ -519,6 +519,10 @@ $sidebar-profile-media-width: 80px;
   position: absolute;
   border-top: 1px solid lighten($text-lighter-color, 3.6%);
   text-align: center;
+
+  @media screen and (max-width: 480px) and (min-width: 0) {
+    bottom: 0;
+  }
 }
 
 %sidebar-child-wrapper {
@@ -1971,6 +1975,11 @@ $sidebar-profile-media-width: 80px;
 }
 
 .social-network-skeleton {
+
+  @media screen and (max-width: 480px) and (min-width: 0) {
+    display: none;
+  }
+
   padding: 20px 0;
   display: flex;
   bottom: 0;

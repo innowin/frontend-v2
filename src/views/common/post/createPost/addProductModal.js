@@ -1,7 +1,7 @@
 import * as React from 'react'
 import connect from 'react-redux/es/connect/connect'
 import constants from 'src/consts/constants'
-import ProductActions from 'src/redux/actions/commonActions/productActions/productActions'
+import ProductActions from 'src/redux/actions/commonActions/productActions'
 import ProductInfoView from '../../contributions/ProductInfoView'
 import PropTypes from 'prop-types'
 import {bindActionCreators} from 'redux'

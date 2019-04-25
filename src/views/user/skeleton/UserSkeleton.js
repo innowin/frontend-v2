@@ -7,7 +7,7 @@ class UserSkeleton extends React.Component {
 
   render() {
     return (
-        <div className='all-exchanges-parent'>
+        <div className='all-exchanges-parent media-header'>
           <UserSideSkeleton/>
           <div className='container-skeleton'>
             <UserHeaderSkeleton/>
