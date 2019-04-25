@@ -67,11 +67,12 @@ class Socials extends Component<PropsSocials, StateSocials> {
   }
 
   componentDidMount() {
-    const {user, actions, ownerId} = this.props
+    const {user, actions, ownerId, clientId} = this.props
     const {getFollowees} = actions
 
     if (user) {
       getFollowees({followOwnerId: ownerId, followOwnerIdentity: user.id})
+      getFollowees({followOwnerId: clientId, followOwnerIdentity: clientId})
     }
   }
 
@@ -129,6 +130,7 @@ const mapStateToProps = (state, ownProps) => {
     exchanges: getExchangeMembershipsSelector(state, ownProps),
     isLoading: followObject.isLoading,
     error: followObject.error,
+    clientId : state.auth.client.identity.content
   }
 }
 
