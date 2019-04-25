@@ -113,6 +113,7 @@ class InfoView extends Component<props, state> {
     const {editBio, exchangeBio, editSocial} = this.state
     if (exchanges[exchangeId] && exchanges[exchangeId].owner) {
       const currentExchange = exchanges[exchangeId]
+      console.log("currentExchange", currentExchange)
       const ownerId = parseInt(currentExchange.owner.id, 10)
       const owner = exchanges[exchangeId].owner
       const ownerEducations = Object.values(educations).filter(p => p.education_related_identity === ownerId)
@@ -122,9 +123,11 @@ class InfoView extends Component<props, state> {
             <div>
               <div className="info-frame">
                 <div className="info-header">
+                  {/*
                   <Info width="22px" height="22px"
                         containerClass={"svg-container-info-view"}
                         svgClass={"svg-info-view"}/>
+*/}
                   <span>معرفی</span>
                   {
                     checkOwner({
@@ -135,7 +138,7 @@ class InfoView extends Component<props, state> {
                   }
 
                 </div>
-                <div className={"info-body"}>
+                <div className="info-body">
                   {editBio ?
                       <div>
                         <textarea className="info-body-bio-text-area" placeholder="معرفی‌نامه پنجره"
@@ -161,13 +164,65 @@ class InfoView extends Component<props, state> {
 
               <div className={"info-frame"}>
                 <div className={"info-header"}>
+                  {/*
                   <Ticket width="22px" height="22px"
                           containerClass={"svg-container-info-view"}
                           svgClass={"svg-info-view"}/>
-                  <span>کارگزار</span>
+*/}
+                  <span>مشخصات</span>
+                  {
+                    checkOwner({
+                      id: ownerId,
+                      children: <a className={editSocial ? "info-header-edit-bio-text-hide" : "info-header-edit-bio-text"}
+                                   onClick={() => alert("Handle Edit This One")}> ویرایش </a>
+                    })
+                  }
                 </div>
-                <div className={"info-body"}>
-                  <div className={"info-exchange-owner-frame"}>
+                <div className="info-body">
+                  <div className="product-attributes-cont">
+                    <div className="product-attributes-title">
+                      کارگزار
+                    </div>
+                    <div className="product-attributes-value">
+                      <Link to={owner.identity_type === "user" ? `/user/${owner.id}` : `/organization/${owner.id}`}>
+                        {owner.first_name !== "" || owner.last_name !== "" ?
+                            owner.first_name + " " + owner.last_name : owner.username}
+                      </Link>
+                    </div>
+                  </div>
+                  <div className="product-attributes-cont">
+                    <div className="product-attributes-title">
+                      وبسایت
+                    </div>
+                    <div className="product-attributes-value">
+                      {currentExchange && currentExchange.link ? currentExchange.link : <div> &nbsp; </div>}
+                    </div>
+                  </div>
+                  <div className="product-attributes-cont">
+                    <div className="product-attributes-title">
+                      تعداد عرضه
+                    </div>
+                    <div className="product-attributes-value">
+                      {currentExchange && currentExchange.supply_count}
+                    </div>
+                  </div>
+                  <div className="product-attributes-cont">
+                    <div className="product-attributes-title">
+                      تعداد تقاضا
+                    </div>
+                    <div className="product-attributes-value">
+                      {currentExchange && currentExchange.demand_count}
+                    </div>
+                  </div>
+                  <div className="product-attributes-cont">
+                    <div className="product-attributes-title">
+                      تعداد پست‌ها
+                    </div>
+                    <div className="product-attributes-value">
+                      {currentExchange && currentExchange.post_count}
+                    </div>
+                  </div>
+                  {/*<div className={"info-exchange-owner-frame"}>
                     <Link to={owner.identity_type === "user" ? `/user/${owner.id}` : `/organization/${owner.id}`}>
                       <div className={"info-exchange-owner-image-frame"}>
                         {owner.profile_media !== null ?
@@ -194,7 +249,7 @@ class InfoView extends Component<props, state> {
                         </div>)}
                       </div>
                     </div>
-                  </div>
+                  </div>*/}
                 </div>
               </div>
 
@@ -212,19 +267,42 @@ class InfoView extends Component<props, state> {
 
               <div className={"info-frame"}>
                 <div className={"info-header"}>
+                  {/*
                   <QuestionMark width="22px" height="22px"
                                 containerClass={"svg-container-info-view"}
-                                svgClass={"svg-info-view"}/> {/* TODO:Abel Add svg for Links ( link link :| ) */}
-                  <span>پیوند</span>
+                                svgClass={"svg-info-view"}/>
+*/}
+                  <span>زمینۀ فعالیت پنجره</span>
                   {
                     checkOwner({
                       id: ownerId,
                       children: <a className={editSocial ? "info-header-edit-bio-text-hide" : "info-header-edit-bio-text"}
-                                   onClick={() => this._handleEditSocialView()}> ویرایش </a>
+                                   onClick={() => alert("Handle Edit This Too")}> ویرایش </a>
                     })
                   }
                 </div>
                 <div className={"info-body"}>
+                  {currentExchange && currentExchange.exchange_hashtag ?
+                      currentExchange.exchange_hashtag.map((p) => <div className="exchange-hashtags">{p}</div>)
+                      : <div>
+                        <div className="exchange-hashtags">
+                          پیدا کردن هم‌درس
+                        </div>
+                        <div className="exchange-hashtags">
+                          تأمین نیروی انسانی
+                        </div>
+                        <div className="exchange-hashtags">
+                          تأمین سرمایه
+                        </div>
+                        <div className="exchange-hashtags">
+                          آموزش
+                        </div>
+                        <div className="exchange-hashtags">
+                          فضای کاری
+                        </div>
+                      </div>
+                  }
+                  {/*
                   {editSocial ?
                       <div>
                         <div>
@@ -322,6 +400,7 @@ class InfoView extends Component<props, state> {
                         </div>
                       </div>
                   }
+*/}
                 </div>
               </div>
             </div>
