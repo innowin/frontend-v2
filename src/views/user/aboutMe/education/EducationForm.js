@@ -3,7 +3,9 @@ import * as React from 'react'
 import PropTypes from 'prop-types'
 
 import constants from 'src/consts/constants'
+import detectTextAlign from 'src/helpers/detectDirection'
 import Modal from '../../../pages/modal/modal'
+import numberCorrection from 'src/helpers/numberCorrection'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import type {userEducationType} from 'src/consts/flowTypes/user/basicInformation'
@@ -94,7 +96,7 @@ class EducationForm extends React.Component<Props, States> {
   _onChangeFields = (event: SyntheticEvent<HTMLInputElement>) => {
     const {translate} = this.props
     const target = event.target
-    const value = target.type === 'checkbox' ? target.checked : target.value
+    const value = target.type === 'checkbox' ? target.checked : numberCorrection(target.value)
     const name = target.name
     let error = false
     if (name === 'grade') {
@@ -132,12 +134,12 @@ class EducationForm extends React.Component<Props, States> {
     const form = e.target
 
     let formValues = {
-      grade: form.grade.value,
+      grade: numberCorrection(form.grade.value),
       field_of_study: form.field_of_study.value,
       university: form.university.value,
-      from_date: form.from_date.value,
-      to_date: form.to_date.value,
-      education_related_identity: owner.id,
+      from_date: numberCorrection(form.from_date.value),
+      to_date: numberCorrection(form.to_date.value),
+      education_related_identity: numberCorrection(owner.id),
     }
 
     if ((gradeError || universityError || toDateError || fromDateError || fieldOfStudyError) === false) {
@@ -151,7 +153,7 @@ class EducationForm extends React.Component<Props, States> {
   }
 
   render() {
-    const {modalIsOpen} = this.state
+    const {modalIsOpen, field_of_study} = this.state
     const {translate, education} = this.props
     let grade = '', fieldOfStudy = '', university = '', fromDate = '', toDate = ''
     if (education) {
@@ -194,9 +196,10 @@ class EducationForm extends React.Component<Props, States> {
 
                 <div className='detail-row'>
                   <p className='title'>{translate['Field of study']} <span className='required-star'>*</span></p>
-                  <input placeholder={translate['Field of study']} name='field_of_study' defaultValue={fieldOfStudy}
+                  <input className='edit-text-fields' style={detectTextAlign(field_of_study)}
+                         placeholder={translate['Field of study']} name='field_of_study' defaultValue={fieldOfStudy}
                          onChange={this._onChangeFields}
-                         className='edit-text-fields'/>
+                  />
                   {fieldOfStudyError && <div className='text-field-error'>{fieldOfStudyError}</div>}
                 </div>
 

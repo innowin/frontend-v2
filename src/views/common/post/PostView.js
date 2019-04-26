@@ -395,6 +395,7 @@ const mapStateToProps = (state, ownProps) => {
     const {params} = ownProps.match
     const postId = +params.id
     const post = state.common.post.list[postId]
+    const fileList = state.common.file.list
     const postIdentity = post && post.post_related_identity
     const postRelatedProductId = post && post.post_related_product
     let postRelatedProduct = postRelatedProductId && state.common.product.products.list[postRelatedProductId]
@@ -406,12 +407,12 @@ const mapStateToProps = (state, ownProps) => {
     return {
       translate: getMessages(state),
       param: state.param,
-      post: post,
-      postRelatedIdentityImage: post.post_related_identity.profile_media,
+      post,
+      postRelatedIdentityImage: postIdentity && state.identities.list[postIdentity] && fileList[state.identities.list[postIdentity].profile_media],
       postRelatedProduct,
       postIdentity: state.identities.list[postIdentity],
       comments: userCommentsSelector(state, ownProps),
-      fileList: state.common.file.list,
+      fileList,
     }
   }
   else {
@@ -421,9 +422,9 @@ const mapStateToProps = (state, ownProps) => {
     let postRelatedProduct = postRelatedProductId && state.common.product.products.list[postRelatedProductId]
     postRelatedProduct = postRelatedProduct && {...postRelatedProduct, product_owner: postIdentity}
     return {
-      postIdentity: postIdentity,
+      postIdentity,
       postRelatedProduct,
-      postRelatedIdentityImage: post.post_related_identity ? post.post_related_identity.profile_media : null,
+      postRelatedIdentityImage: postIdentity ? postIdentity.profile_media : null,
       translate: getMessages(state),
     }
   }

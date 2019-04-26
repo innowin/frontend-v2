@@ -135,7 +135,7 @@ export class Organization extends React.Component<PropsOrganization, StatesOrgan
         <div className="-userOrganBackgroundImg">
 
           {isLoading
-              ? <UserSkeleton/>
+              ? <UserSkeleton type='organization'/>
               :
               <React.Fragment>
                 <div className={showSecondHeader ? 'top-bar-entity show' : 'top-bar-entity hide'}>

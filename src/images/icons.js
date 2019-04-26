@@ -99,6 +99,12 @@ import TipsIcon from "./common/tips_svg_icon"
 import TwitterIcon from "./common/twitter_svg"
 import UploadIcon from "./common/upload_svg"
 import User from "./user/user"
+import NotFoundSvg from "./defaults/not_found"
+import WelcomeBox from "./user/welcome_box"
+import WelcomePhone from "./user/welcome_phone"
+import WelcomeUser from "./user/welcome_user"
+import WelcomeOrgan from "./user/welcome_organ"
+import WelcomeRocket from "./user/welcome_rocket"
 import userInfoIcon from "./user/userinfo_svg"
 import WarningIcon from "./common/warning-sign"
 import workExperienceIcon from "./user/workExperience_svg"
@@ -107,6 +113,7 @@ import YoutubeIcon from "./common/youtube_svg"
 export {
   AgentSvgIcon,
   AttachFileIcon,
+  NotFoundSvg,
   AttachFileNewIcon,
   Bee,
   BeeBackground,
@@ -206,6 +213,11 @@ export {
   TwitterIcon,
   UploadIcon,
   User,
+  WelcomeBox,
+  WelcomePhone,
+  WelcomeRocket,
+  WelcomeUser,
+  WelcomeOrgan,
   userInfoIcon,
   WarningIcon,
   workExperienceIcon,

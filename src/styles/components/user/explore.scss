@@ -60,12 +60,28 @@
   margin-top: -40px;
 }
 
-.user-default-profile-photo {
-  width: 80px;
-  height: 80px;
+
+.default-skelete-skeleton-img {
+  text-align: center;
   border-radius: 50%;
   border: 2px solid white;
   margin-top: -40px;
+  display: inline-block;
+  width: 84px;
+  height: 84px;
+  overflow: hidden;
+  padding: 0;
+}
+
+.default-skelete-profile-photo {
+  width: 80px;
+  height: 80px;
+}
+
+.default-org-skelete-profile-photo {
+  width: 80px;
+  height: 80px;
+  background-color: white;
 }
 
 .user-default-profile-photo-skeleton {
@@ -92,7 +108,7 @@
   font-size: $font-size-normalText;
 }
 
-.user-name-icon{
+.user-name-icon {
   vertical-align: top;
   width: 20px;
   margin-left: 6px;
@@ -186,11 +202,13 @@
   float: left;
   margin-left: 10px;
   margin-top: 3px;
+
   &:hover {
     color: white;
     background-color: $secondary-color;
     transition-duration: 0.25s;
   }
+
   &:focus {
     outline: none;
   }
@@ -209,6 +227,7 @@
   font-size: $font-size-normalText;
   overflow: hidden;
   position: relative;
+
   &:focus {
     outline: none;
   }
@@ -227,14 +246,17 @@
   float: left;
   transition-duration: 0.25s;
   font-size: $font-size-normalText;
+
   &:hover {
     background-color: $secondary-color;
     color: white;
     transition-duration: 0.25s;
   }
+
   &:focus {
     outline: none;
   }
+
   &:active {
     background-color: $secondary-color;
     color: white;

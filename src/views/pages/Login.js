@@ -10,7 +10,8 @@ import connect from 'react-redux/es/connect/connect'
 import constants from '../../consts/constants'
 // import SocialLogin from './login/SocialLogin'
 // import RegisterStepsModal from './login/registerModal/RegisterStepsModal'
-// import GetUserData from '../user/getUserData/GetUserData'
+import GetUserData from '../user/getUserData/GetUserData'
+import numberCorrection from '../../helpers/numberCorrection'
 
 class Login extends Component {
   constructor(props) {
@@ -31,10 +32,11 @@ class Login extends Component {
         password: '',
       },
       signUpFields: {
+        // todo Hoseyn
         username: '',
+        userType: constants.USER_TYPES.USER,
         password: '',
         email: '',
-        userType: constants.USER_TYPES.USER,
       },
       loginMobile: false,
       registerMobile: false,
@@ -64,7 +66,7 @@ class Login extends Component {
   _onChangeSignIn = (event) => {
     const {signInFields} = this.state
     const target = event.target
-    const value = target.type === 'checkbox' ? target.checked : target.value
+    const value = target.type === 'checkbox' ? target.checked : numberCorrection(target.value)
     const name = target.name
     this.setState({...this.state, signInFields: {...signInFields, [name]: value}})
   }
@@ -72,7 +74,7 @@ class Login extends Component {
   _onChangeSignUp = (event) => {
     const {signUpFields} = this.state
     const target = event.target
-    const value = target.type === 'checkbox' ? target.checked : target.value
+    const value = target.type === 'checkbox' ? target.checked : numberCorrection(target.value)
     const name = target.name
     this.setState({...this.state, signUpFields: {...signUpFields, [name]: value}})
   }
@@ -90,7 +92,7 @@ class Login extends Component {
 
   render() {
     const {translate} = this.props
-    const {page, footer, header, showRecovery, /*showRegisterModal, */signUpFields, registerMobile, loginMobile} = this.state
+    const {page, footer, header, showRecovery, showRegisterModal, signUpFields, registerMobile, loginMobile} = this.state
     const {year} = footer
     const {iosLink, androidLink, address, phoneNumber} = header
     const SignIn = (page === 'SignIn')
@@ -110,9 +112,10 @@ class Login extends Component {
           {/*translate={translate}/>*/}
 
           {/*<GetUserData showRegisterModal={showRegisterModal}*/}
-          {/*hideRegisterModal={this._hideModalClick}*/}
-          {/*password={signUpFields.password}*/}
-          {/*email={signUpFields.email}/>*/}
+                       {/*hideRegisterModal={this._hideModalClick}*/}
+                       {/*password={signUpFields.password}*/}
+                       {/*email={signUpFields.email}*/}
+          {/*/>*/}
 
           <div className="login-container">
             <HeaderLogin isLoginPage={loginMobile} onBackClick={this._goToHomePage}

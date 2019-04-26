@@ -11,7 +11,7 @@ import {
   TwitterIcon,
   TelegramIcon,
   LinkedInIcon,
-  InstagramIcon
+  InstagramIcon,
 } from 'src/images/icons'
 import CertificateActions from 'src/redux/actions/commonActions/certificateActions'
 import CertificateForm from '../common/newCertificate/CertificateForm'
@@ -140,7 +140,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
         skill: false,
         certificate: false,
         research: false,
-      }
+      },
     }
   }
 
@@ -218,7 +218,8 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
         profile_banner: bannerId,
         profile_media: pictureId,
       }
-    } else return {
+    }
+    else return {
       id: owner.id,
       description: descriptionState,
       profile_banner: bannerId,
@@ -250,6 +251,10 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
     const description = this.props.owner.description
     this.setState({
       ...this.state,
+      selectedImageFile: '',
+      selectedImage: '',
+      selectedBannerFile: '',
+      selectedBanner: '',
       editProfile: !this.state.editProfile,
       menuToggle: false,
       descriptionState: description,
@@ -334,7 +339,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
       showModalState: {
         ...showModalState,
         add: !showModalState.add,
-      }
+      },
     })
   }
 
@@ -349,10 +354,11 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
         showModalState: {
           ...showModalState,
           add: false,
-        }
+        },
       })
       showModal({modalKey: 'productModal'})
-    } else {
+    }
+    else {
 
       this.setState({
         ...this.state,
@@ -360,7 +366,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
           ...showModalState,
           add: false,
           [modal]: !showModalState[modal],
-        }
+        },
       })
     }
   }
@@ -369,11 +375,11 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
   render() {
     const {
       editProfile, selectedBanner, selectedImage, descriptionState, descriptionClass, processing, processingBanner,
-      profileBannerId, profileMediaId, showModalState
+      profileBannerId, profileMediaId, showModalState,
     } = this.state
     const {
       sideBarType, badges, translate: tr, paramId, followers, clientIdentityId, owner, files, bannerIdTemp,
-      pictureIdTemp, actions,
+      pictureIdTemp, actions, temp,
     } = this.props
     const {createWorkExperience, createEducation, createCertificate, createSkill, createResearch} = actions
     const {add, education, research, certificate, skill, workExperience} = showModalState
@@ -394,6 +400,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
     const name = sideBarType === constants.USER_TYPES.USER ?
         (owner.first_name ? owner.first_name + ' ' : '' + owner.last_name ? owner.last_name : '') :
         (owner.nike_name || owner.official_name)
+
     return (
         <React.Fragment>
           <form className={className + ' pt-0'} onSubmit={this._handleSubmit}>
@@ -401,7 +408,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
               {
                 !bannerString ?
                     <div className="background-strips banner covered-img"/> :
-                    <img alt="" src={bannerString} className="banner covered-img"/>
+                    <img alt="" src={bannerString} className="banner covered-img" style={{opacity: temp[profileBannerId] && temp[profileBannerId].progress ? temp[profileBannerId].progress / 100 : 1}}/>
               }
               {
                 editProfile ?
@@ -416,7 +423,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
                       sideBarType === constants.USER_TYPES.USER ?
                           <DefaultUserIcon/> :
                           <DefaultOrganIcon/>
-                      : <img className="covered-img" alt="" src={pictureString}/>
+                      : <img className="covered-img" alt="" src={pictureString} style={{opacity: temp[profileMediaId] && temp[profileMediaId].progress ? temp[profileMediaId].progress / 100 : 1}}/>
                 }
                 {
                   editProfile ?
@@ -427,8 +434,8 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
               <div className="align-items-center flex-column info-section">
                 <div className="sidebar-name">{name}</div>
                 {
-                  (!editProfile) ? (
-                      <span className="-grey1 sidebar-description text-center">{owner.description}</span>) : (
+                  !editProfile ?
+                      <span className="-grey1 sidebar-description text-center">{owner.description}</span> :
                       <div className='description'>
                         {
                           descriptionClass && <span
@@ -440,7 +447,6 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
                             onChange={this._handleChangeText}
                         />
                       </div>
-                  )
                 }
               </div>
               {
@@ -455,6 +461,14 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
               {/*<span className="item">{followNames[1]}</span>*/}
               {/*<span>{` و ${followNames.length - 2 } نفر دیگر `}</span>*/}
               {/*</div>*/}
+
+
+              <section className='user-sidebar-status'>
+                <div className='user-sidebar-status-border'>
+                  <Material className='user-sidebar-status-content' content='فرصت کارآموزی'/>
+                </div>
+              </section>
+
               <section className='user-sidebar-buttons'>
                 <CheckOwner showForOwner={false} id={paramId}>
                   <div className="sidebarBottomParent">

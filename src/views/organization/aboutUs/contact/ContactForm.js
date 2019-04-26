@@ -7,6 +7,7 @@ import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import Validations from 'src/helpers/validations/validations'
 import {CloseIconSvg} from 'src/images/icons'
+import numberCorrection from '../../../../helpers/numberCorrection'
 
 type ContactProps = {
   organization: identityType,
@@ -49,7 +50,7 @@ class ContactForm extends React.Component <ContactProps, ContactStates> {
   _onChangeFields = (event: SyntheticEvent<HTMLInputElement>) => {
     const {translate} = this.props
     const target = event.target
-    const value = target.type === 'checkbox' ? target.checked : target.value
+    const value = target.type === 'checkbox' ? target.checked : numberCorrection(target.value)
     const name = target.name
     let error = false
     if (name === 'phone') {
@@ -80,10 +81,10 @@ class ContactForm extends React.Component <ContactProps, ContactStates> {
     const form = e.target
 
     const formValues = {
-      address: form.address.value,
-      phone: form.phone.value,
-      email: form.email.value,
-      web_site: form.web_site.value,
+      address: numberCorrection(form.address.value),
+      phone: numberCorrection(form.phone.value),
+      email: numberCorrection(form.email.value),
+      web_site: numberCorrection(form.web_site.value),
     }
 
     if (web_site === false && email === false && phone === false) {

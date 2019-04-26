@@ -11,6 +11,7 @@ import type {exchangeType} from 'src/consts/flowTypes/exchange/exchange'
 import {bindActionCreators} from 'redux'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {getFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
+import {getFollowingsSelector} from 'src/redux/selectors/common/social/getNewFollowings'
 // import {getFollowersSelector} from 'src/redux/selectors/common/social/getFollowers'
 import {getExchangeMembershipsSelector} from 'src/redux/selectors/common/social/getExchangeMemberships'
 import type {paramType} from 'src/consts/flowTypes/paramType'
@@ -66,11 +67,12 @@ class Socials extends Component<PropsSocials, StateSocials> {
   }
 
   componentDidMount() {
-    const {user, actions, ownerId} = this.props
+    const {user, actions, ownerId, clientId} = this.props
     const {getFollowees} = actions
 
     if (user) {
       getFollowees({followOwnerId: ownerId, followOwnerIdentity: user.id})
+      getFollowees({followOwnerId: clientId, followOwnerIdentity: clientId})
     }
   }
 
@@ -79,6 +81,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
       // translate,
       // followers,
       followees,
+      followings,
       actions,
       // exchanges,
       // user,
@@ -104,7 +107,7 @@ class Socials extends Component<PropsSocials, StateSocials> {
           <NewFollowings
               userId={ownerId}
               deleteFollow={deleteFollow}
-              followings={followees}/>
+              followings={followings}/>
         </div>
     )
   }
@@ -121,9 +124,13 @@ const mapStateToProps = (state, ownProps) => {
     param: state.param,
     // followers: getFollowersSelector(state, ownProps),
     followees: getFolloweesSelector(state, ownProps),
+    followings: getFollowingsSelector(state, {
+      userId: ownerId,
+    }),
     exchanges: getExchangeMembershipsSelector(state, ownProps),
     isLoading: followObject.isLoading,
     error: followObject.error,
+    clientId : state.auth.client.identity.content
   }
 }
 

@@ -26,10 +26,6 @@ type props = {
   deleteFollow: Function,
   files: [],
   followings: [],
-  getFollowingSelector: [{
-    identity_user: number,
-    identity_organization: number,
-  }],
   organs: [],
   profiles: [],
   translate: { [string]: [string] },
@@ -68,29 +64,48 @@ class NewFollowings extends Component<props, states> {
     // } else this.setState({...this.state, viewType: 'member-square-user'})
   }
 
-  follow(identity_user, identity_organization) {
-    if (identity_user !== null) {
-      const {clientIdentityId, profiles, actions} = this.props
-      const identityId = profiles[identity_user].identity.content
-      const {createFollow} = actions
-      const formValues = {follow_follower: clientIdentityId, follow_followed: identityId}
-      createFollow({formValues, followOwnerId: identity_user})
-      this.state.followingUsers.push(identity_user)
+  follow(identity_type, id) {
+    if (identity_type === constants.USER_TYPES.USER) {
+      const {clientId, actions} = this.props
+      const identityId = id
+      const {createFollow, getFollowingAction} = actions
+      const formValues = {follow_follower: clientId, follow_followed: identityId}
+      createFollow({formValues, followOwnerId: id})
+      getFollowingAction({followOwnerId: clientId, followOwnerIdentity: clientId})
+      this.state.followingUsers.push(id)
     }
-    if (identity_organization !== null) {
-      const {clientIdentityId, organs, actions} = this.props
-      const identityId = organs[identity_organization].identity.content
-      const {createFollow} = actions
-      const formValues = {follow_follower: clientIdentityId, follow_followed: identityId}
-      createFollow({formValues, followOwnerId: identity_organization})
-      this.state.followingOrgans.push(identity_organization)
+    if (identity_type === constants.USER_TYPES.ORG) {
+      const {clientId, actions} = this.props
+      const identityId = id
+      const {createFollow, getFollowingAction} = actions
+      const formValues = {follow_follower: clientId, follow_followed: identityId}
+      createFollow({formValues, followOwnerId: id})
+      getFollowingAction({followOwnerId: clientId, followOwnerIdentity: clientId})
+      this.state.followingOrgans.push(id)
     }
   }
 
+  _isFollowed(userId) {
+    const {clientId, user_follows, follows} = this.props
+    let follow_list = []
+    let res = false
+    user_follows.forEach(id => follow_list.push(follows[id]))
+    follow_list.forEach(p => {
+      !res ? res = p.follow_followed.id === userId && p.follow_follower.id === clientId : null
+    })
+    return res
+  }
+
   _onDeleteFollowing(following) {
-    const {deleteFollow, userId} = this.props
-    const followId = following.follow_id
-    deleteFollow({followId, followOwnerId: userId})
+    const {deleteFollow, clientId, user_follows, follows} = this.props
+    let follow_list = []
+    user_follows.forEach(id => follow_list.push(follows[id]))
+    follow_list.forEach(p => {
+      if (p.follow_followed.id === following.id && p.follow_follower.id === clientId) {
+        // console.log(p)
+        deleteFollow({followId: p.id, followOwnerId: clientId})
+      }
+    })
   }
 
   getMembers(identity_type, id, follow_accepted, index) {
@@ -140,11 +155,14 @@ class NewFollowings extends Component<props, states> {
           </Link>
           {
             id !== clientId ?
-                <div
-                    className="member-follow"
-                    onClick={() => this._onDeleteFollowing(followings[index])}>
-                  <span className="member-following-button"> </span>
-                </div>
+                this._isFollowed(followings[index].id) ?
+                    <div
+                        className="member-follow"
+                        onClick={() => this._onDeleteFollowing(followings[index])}>
+                      <span className="member-following-button"> </span>
+                    </div> :
+                    <div className="member-follow" onClick={() => this.follow(identity_type, id)}><span
+                        className="member-follow-green-button">دنبال کردن</span></div>
                 : null
           }
         </div>
@@ -210,7 +228,7 @@ class NewFollowings extends Component<props, states> {
   }
 
   componentDidUpdate(prevProps, prevState, ss): void {
-    if (this.props.followings && this.props.followings.length !== prevProps.followings.length) {
+    if ((this.props.followings && this.props.followings.length !== prevProps.followings.length) || prevProps.ownerId !== this.props.ownerId) {
       let {followings, actions} = this.props
       for (let i = 0; i < followings.length; i++) {
         if (followings[i].id !== null && followings[i].identity_type === constants.USER_TYPES.ORG) {
@@ -264,18 +282,16 @@ class NewFollowings extends Component<props, states> {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  let clientId = state.auth.client.identity.content
   return {
     exchangeUsers: state.common.exchangeMembership.members,
     organs: state.identities.list,
     profiles: state.identities.list,
     files: state.common.file.list,
-    clientId: state.auth.client.user.id,
+    clientId,
     translate: getMessages(state),
-    getFollowingSelector: getFolloweesSelector(state, {
-      identityId: state.auth.client.identity.content,
-      ownerId: state.auth.client.user.id,
-      identityType: state.auth.client.user_type
-    }),
+    follows: state.common.social.follows.list,
+    user_follows: state.identities.list[clientId].social.follows.content,
     identityUser: state.identities.list[ownProps.ownerId] && state.identities.list[ownProps.ownerId].identity_user ? state.identities.list[ownProps.ownerId].identity_user : null
   }
 }
@@ -284,7 +300,7 @@ const mapDispatchToProps = (dispatch) => ({
     getUser: getUserAction.getUserByUserId,
     // getOrganization: organizationActions.getOrganizationByOrganId,
     createFollow: SocialActions.createFollow,
-    getFollowingAction: SocialActions.getFollowees
+    getFollowingAction: SocialActions.getFollowees,
     // getUserIdentity: identityActions.getUserIdentity,
     // getOrgIdentity: identityActions.getOrgIdentity
   }, dispatch)

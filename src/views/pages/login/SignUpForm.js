@@ -1,18 +1,19 @@
-import React, {Component} from "react"
-import AuthActions from "src/redux/actions/authActions"
-import renderTextField from "../../common/inputs/reduxFormRenderTextField"
-import CreateUserActions from "src/redux/actions/user/createUserActions"
-import {BeatLoader} from "react-spinners"
-import {bindActionCreators} from "redux"
-import {connect} from "react-redux"
-import {Field, reduxForm, SubmissionError} from "redux-form"
-import {getMessages} from "src/redux/selectors/translateSelector"
-import {routerActions} from "react-router-redux"
-import {validateSignUpForm, asyncValidateSignUp} from "./signUpValidations"
-import CheckUsernameAction from "src/redux/actions/user/checkUsernameAction"
-import CheckEmailAction from "src/redux/actions/user/checkEmailAction"
-import FontAwesome from "react-fontawesome"
+import React, {Component} from 'react'
+import AuthActions from 'src/redux/actions/authActions'
+import renderTextField from '../../common/inputs/reduxFormRenderTextField'
+import CreateUserActions from 'src/redux/actions/user/createUserActions'
+import {BeatLoader} from 'react-spinners'
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
+import {Field, reduxForm, SubmissionError} from 'redux-form'
+import {getMessages} from 'src/redux/selectors/translateSelector'
+import {routerActions} from 'react-router-redux'
+import {validateSignUpForm, asyncValidateSignUp} from './signUpValidations'
+import CheckUsernameAction from 'src/redux/actions/user/checkUsernameAction'
+import CheckEmailAction from 'src/redux/actions/user/checkEmailAction'
+import FontAwesome from 'react-fontawesome'
 import constants from 'src/consts/constants'
+import numberCorrection from '../../../helpers/numberCorrection'
 
 
 class SignUpForm extends React.Component<> {
@@ -22,54 +23,54 @@ class SignUpForm extends React.Component<> {
     this.state = {
       showPassword: false,
       emailTextWidth: 0,
-      emailSuggest: ''
+      emailSuggest: '',
     }
     this.emailList = [
       /* Default domains included */
-      "gmail.com", "aol.com", "att.net", "comcast.net", "facebook.com", "gmx.com", "googlemail.com",
-      "google.com", "hotmail.com", "hotmail.co.uk", "mac.com", "me.com", "mail.com", "msn.com",
-      "live.com", "sbcglobal.net", "verizon.net", "yahoo.com", "yahoo.co.uk",
+      'gmail.com', 'aol.com', 'att.net', 'comcast.net', 'facebook.com', 'gmx.com', 'googlemail.com',
+      'google.com', 'hotmail.com', 'hotmail.co.uk', 'mac.com', 'me.com', 'mail.com', 'msn.com',
+      'live.com', 'sbcglobal.net', 'verizon.net', 'yahoo.com', 'yahoo.co.uk',
 
       /* Other global domains */
-      "email.com", "fastmail.fm", "games.com" /* AOL */, "gmx.net", "hush.com", "hushmail.com", "icloud.com",
-      "iname.com", "inbox.com", "lavabit.com", "love.com" /* AOL */, "outlook.com", "pobox.com", "protonmail.com",
-      "rocketmail.com" /* Yahoo */, "safe-mail.net", "wow.com" /* AOL */, "ygm.com" /* AOL */,
-      "ymail.com" /* Yahoo */, "zoho.com", "yandex.com",
+      'email.com', 'fastmail.fm', 'games.com' /* AOL */, 'gmx.net', 'hush.com', 'hushmail.com', 'icloud.com',
+      'iname.com', 'inbox.com', 'lavabit.com', 'love.com' /* AOL */, 'outlook.com', 'pobox.com', 'protonmail.com',
+      'rocketmail.com' /* Yahoo */, 'safe-mail.net', 'wow.com' /* AOL */, 'ygm.com' /* AOL */,
+      'ymail.com' /* Yahoo */, 'zoho.com', 'yandex.com',
 
       /* United States ISP domains */
-      "bellsouth.net", "charter.net", "cox.net", "earthlink.net", "juno.com",
+      'bellsouth.net', 'charter.net', 'cox.net', 'earthlink.net', 'juno.com',
 
       /* British ISP domains */
-      "btinternet.com", "virginmedia.com", "blueyonder.co.uk", "freeserve.co.uk", "live.co.uk",
-      "ntlworld.com", "o2.co.uk", "orange.net", "sky.com", "talktalk.co.uk", "tiscali.co.uk",
-      "virgin.net", "wanadoo.co.uk", "bt.com",
+      'btinternet.com', 'virginmedia.com', 'blueyonder.co.uk', 'freeserve.co.uk', 'live.co.uk',
+      'ntlworld.com', 'o2.co.uk', 'orange.net', 'sky.com', 'talktalk.co.uk', 'tiscali.co.uk',
+      'virgin.net', 'wanadoo.co.uk', 'bt.com',
 
       /* Domains used in Asia */
-      "sina.com", "sina.cn", "qq.com", "naver.com", "hanmail.net", "daum.net", "nate.com", "yahoo.co.jp", "yahoo.co.kr", "yahoo.co.id", "yahoo.co.in", "yahoo.com.sg", "yahoo.com.ph", "163.com", "126.com", "aliyun.com", "foxmail.com",
+      'sina.com', 'sina.cn', 'qq.com', 'naver.com', 'hanmail.net', 'daum.net', 'nate.com', 'yahoo.co.jp', 'yahoo.co.kr', 'yahoo.co.id', 'yahoo.co.in', 'yahoo.com.sg', 'yahoo.com.ph', '163.com', '126.com', 'aliyun.com', 'foxmail.com',
 
       /* French ISP domains */
-      "hotmail.fr", "live.fr", "laposte.net", "yahoo.fr", "wanadoo.fr", "orange.fr", "gmx.fr", "sfr.fr", "neuf.fr", "free.fr",
+      'hotmail.fr', 'live.fr', 'laposte.net', 'yahoo.fr', 'wanadoo.fr', 'orange.fr', 'gmx.fr', 'sfr.fr', 'neuf.fr', 'free.fr',
 
       /* German ISP domains */
-      "gmx.de", "hotmail.de", "live.de", "online.de", "t-online.de" /* T-Mobile */, "web.de", "yahoo.de",
+      'gmx.de', 'hotmail.de', 'live.de', 'online.de', 't-online.de' /* T-Mobile */, 'web.de', 'yahoo.de',
 
       /* Italian ISP domains */
-      "libero.it", "virgilio.it", "hotmail.it", "aol.it", "tiscali.it", "alice.it", "live.it", "yahoo.it", "email.it", "tin.it", "poste.it", "teletu.it",
+      'libero.it', 'virgilio.it', 'hotmail.it', 'aol.it', 'tiscali.it', 'alice.it', 'live.it', 'yahoo.it', 'email.it', 'tin.it', 'poste.it', 'teletu.it',
 
       /* Russian ISP domains */
-      "mail.ru", "rambler.ru", "yandex.ru", "ya.ru", "list.ru",
+      'mail.ru', 'rambler.ru', 'yandex.ru', 'ya.ru', 'list.ru',
 
       /* Belgian ISP domains */
-      "hotmail.be", "live.be", "skynet.be", "voo.be", "tvcablenet.be", "telenet.be",
+      'hotmail.be', 'live.be', 'skynet.be', 'voo.be', 'tvcablenet.be', 'telenet.be',
 
       /* Argentinian ISP domains */
-      "hotmail.com.ar", "live.com.ar", "yahoo.com.ar", "fibertel.com.ar", "speedy.com.ar", "arnet.com.ar",
+      'hotmail.com.ar', 'live.com.ar', 'yahoo.com.ar', 'fibertel.com.ar', 'speedy.com.ar', 'arnet.com.ar',
 
       /* Domains used in Mexico */
-      "yahoo.com.mx", "live.com.mx", "hotmail.es", "hotmail.com.mx", "prodigy.net.mx",
+      'yahoo.com.mx', 'live.com.mx', 'hotmail.es', 'hotmail.com.mx', 'prodigy.net.mx',
 
       /* Domains used in Brazil */
-      "yahoo.com.br", "hotmail.com.br", "outlook.com.br", "uol.com.br", "bol.com.br", "terra.com.br", "ig.com.br", "itelefonica.com.br", "r7.com", "zipmail.com.br", "globo.com", "globomail.com", "oi.com.br"
+      'yahoo.com.br', 'hotmail.com.br', 'outlook.com.br', 'uol.com.br', 'bol.com.br', 'terra.com.br', 'ig.com.br', 'itelefonica.com.br', 'r7.com', 'zipmail.com.br', 'globo.com', 'globomail.com', 'oi.com.br',
     ]
   }
 
@@ -84,7 +85,7 @@ class SignUpForm extends React.Component<> {
   _emailFieldChange = (event) => {
     const {onChangeSignUp} = this.props
     const target = event.target
-    const value = target.type === 'checkbox' ? target.checked : target.value
+    const value = target.type === 'checkbox' ? target.checked : numberCorrection(target.value)
     const name = target.name
 
     this.divAtRef.innerText = this.emailInputRef.value
@@ -116,8 +117,8 @@ class SignUpForm extends React.Component<> {
         target: {
           type: 'text',
           value: this.emailInputRef.value,
-          name: 'email'
-        }
+          name: 'email',
+        },
       })
       this.passwordInputRef.focus()
     }
@@ -194,11 +195,15 @@ export class RegisterForm extends Component {
   _onSubmitOrgan = (values) => {
     const {signIn, createUserOrgan} = this.props.actions
     const {translator} = this.props
-    const promise = new Promise((resolve, reject) => createUserOrgan(values, resolve, reject))
+    let checkedValues = {...values}
+    checkedValues.username = numberCorrection(checkedValues.username)
+    checkedValues.password = numberCorrection(checkedValues.password)
+    checkedValues.email = numberCorrection(checkedValues.email)
+    const promise = new Promise((resolve, reject) => createUserOrgan(checkedValues, resolve, reject))
     return promise
         .then(
             () => {
-              return new Promise((resolve, reject) => signIn(values.username, values.password, false, reject))
+              return new Promise((resolve, reject) => signIn(numberCorrection(checkedValues.username), numberCorrection(checkedValues.password), false, reject))
               //TODO mohsen: check that correctly return error in sign in
                   .catch((errorMessage) => {
                     throw new SubmissionError({_error: translator[errorMessage]})
@@ -208,18 +213,22 @@ export class RegisterForm extends Component {
             (errorMessage) => {
               //TODO mohsen: check that correctly return error in SubmissionError
               throw new SubmissionError({_error: translator[errorMessage]})
-            }
+            },
         )
   }
 
   _onSubmitPerson = (values) => {
     const {signIn, createUserPerson} = this.props.actions
     const {translator} = this.props
-    const promise = new Promise((resolve, reject) => createUserPerson(values, resolve, reject))
+    let checkedValues = {...values}
+    checkedValues.username = numberCorrection(checkedValues.username)
+    checkedValues.password = numberCorrection(checkedValues.password)
+    checkedValues.email = numberCorrection(checkedValues.email)
+    const promise = new Promise((resolve, reject) => createUserPerson(checkedValues, resolve, reject))
     return promise
         .then(
             () => {
-              return new Promise((resolve, reject) => signIn(values.username, values.password, false, reject))
+              return new Promise((resolve, reject) => signIn(checkedValues.username, checkedValues.password, false, reject))
                   .catch((errorMessage) => {
                     throw new SubmissionError({_error: translator[errorMessage]})
                   })
@@ -232,11 +241,11 @@ export class RegisterForm extends Component {
   }
 
   render() {
-    const {translator, /*onRegisterClick, */onChangeSignUp, inputValues, ...reduxFormProps} = this.props
+    const {translator, /*onRegisterClick,*/ onChangeSignUp, inputValues, ...reduxFormProps} = this.props
     const {userType} = this.state
     // const userTypeItems = [{value: constants.USER_TYPES.USER, title: 'فرد'}, {value: constants.USER_TYPES.ORG, title: 'مجموعه'}]
     const onSubmitFunc = (userType === constants.USER_TYPES.USER) ? (this._onSubmitPerson) : (this._onSubmitOrgan)
-    // const onSubmitFunc = onRegisterClick
+    // const onSubmitFunc = onRegisterClick todo Hoseyn
     return (
         <div className="">
           {/*<RadioButtonGroup*/}
@@ -284,7 +293,7 @@ export class RegisterForm extends Component {
 
 const mapStateToProps = (state) => ({
   translator: getMessages(state),
-  isLoggedIn: state.auth.client.isLoggedIn
+  isLoggedIn: state.auth.client.isLoggedIn,
 })
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
@@ -293,8 +302,8 @@ const mapDispatchToProps = dispatch => ({
     createUserPerson: CreateUserActions.createUserPerson,
     createUserOrgan: CreateUserActions.createUserOrgan,
     checkUsername: CheckUsernameAction.checkUsername,
-    checkEmail: CheckEmailAction.checkEmail
-  }, dispatch)
+    checkEmail: CheckEmailAction.checkEmail,
+  }, dispatch),
 })
 
 RegisterForm = reduxForm({
@@ -303,7 +312,7 @@ RegisterForm = reduxForm({
   asyncValidate: asyncValidateSignUp,
   asyncBlurFields: ['username', 'email'],
   // asyncBlurFields: ['email'],
-  destroyOnUnmount: false
+  destroyOnUnmount: false,
 })(RegisterForm)
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm)

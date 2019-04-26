@@ -11,12 +11,12 @@ import type {exchangeType} from "src/consts/flowTypes/exchange/exchange"
 import {bindActionCreators} from "redux"
 import {getMessages} from "src/redux/selectors/translateSelector"
 // import {getFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
-import {getFollowersSelector} from "src/redux/selectors/common/social/getFollowers"
+import {getFollowersSelector} from "src/redux/selectors/common/social/getNewFollowers"
+import {getFollowingsSelector} from "src/redux/selectors/common/social/getNewFollowings"
 import {getExchangeMembershipsSelector} from "src/redux/selectors/common/social/getExchangeMemberships"
 import type {paramType} from "src/consts/flowTypes/paramType"
 import constants from "src/consts/constants"
 import NewFollowers from "./NewFollowers"
-import {getFolloweesSelector} from "src/redux/selectors/common/social/getFollowees"
 
 type PropsSocials = {
   ownerId: number,
@@ -72,6 +72,8 @@ class Socials extends Component<PropsSocials, StateSocials> {
 
     getFollowees({followOwnerId: ownerId, followOwnerIdentity: ownerId})
     getFollowers({followOwnerId: ownerId, followOwnerIdentity: ownerId})
+
+    console.log(this.props.followers)
   }
 
   render() {
@@ -125,8 +127,12 @@ const mapStateToProps = (state, ownProps) => {
   return {
     translate: getMessages(state),
     param: state.param,
-    followers: getFollowersSelector(state, ownProps),
-    followings: getFolloweesSelector(state, ownProps),
+    followers: getFollowersSelector(state, {
+      userId: ownerId
+    }),
+    followings: getFollowingsSelector(state, {
+      userId: ownerId
+    }),
     exchanges: getExchangeMembershipsSelector(state, ownProps),
     isLoading: followObject.isLoading,
     error: followObject.error,

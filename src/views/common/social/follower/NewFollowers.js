@@ -143,10 +143,13 @@ class NewFollowers extends Component<props, states> {
               }</div>
             </div>
           </Link>
-          {followingUsers.indexOf(id) >= 0 ? <div className="member-followed-button">دنبال شده</div>
-              : clientId !== id ?
-                  <div className="member-follow" onClick={() => this.follow(identity_type, id)}><span
-                      className="member-follow-green-button">دنبال کردن</span></div> : <div className="member-followed"/>}
+          {id !== clientId ?
+              followingUsers.indexOf(id) >= 0 ?
+                  <div className="member-followed-button">دنبال شده</div>
+                  : <div className="member-follow" onClick={() => this.follow(identity_type, id)}><span className="member-follow-green-button">دنبال کردن</span>
+                  </div>
+              : null}
+{/*
           {follow_accepted || paramId !== clientId ? null :
               <div>
                 <div className="member-follow" onClick={() => this._onAcceptFollow(followers[index])}><span
@@ -154,6 +157,7 @@ class NewFollowers extends Component<props, states> {
                 <div className="member-follow" onClick={() => this._onDeleteFollow(followers[index])}><span
                     className="member-reject-button"> </span></div>
               </div>}
+*/}
         </div>
       }
       else return <div className={this.state.viewType}>
@@ -195,6 +199,7 @@ class NewFollowers extends Component<props, states> {
               : clientId !== id ?
                   <div className="member-follow" onClick={() => this.follow(identity_type, id)}><span
                       className="member-follow-green-button">دنبال کردن</span></div> : <div className="member-followed"/>}
+{/*
           {follow_accepted || paramId !== clientId ? null :
               <div>
                 <div className="member-follow" onClick={() => this._onAcceptFollow(followers[index])}><span
@@ -202,6 +207,7 @@ class NewFollowers extends Component<props, states> {
                 <div className="member-follow" onClick={() => this._onDeleteFollow(followers[index])}><span
                     className="member-reject-button"> </span></div>
               </div>}
+*/}
         </div>
       }
       else return <div className={this.state.viewType}>
@@ -211,29 +217,6 @@ class NewFollowers extends Component<props, states> {
       </div>
     }
   }
-
-  // setAllMembers() {
-  //   let {exchangeUsers, exchangeId, actions} = this.props
-  //   let {getUser, getOrganization, getUserIdentity, getOrgIdentity} = actions
-  //   let temp = []
-  //   if (exchangeUsers) {
-  //     if (exchangeUsers[exchangeId]) {
-  //       for (let i = 0; i < exchangeUsers[exchangeId].length; i++) {
-  //         if (exchangeUsers[exchangeId][i]) {
-  //           if (exchangeUsers[exchangeId][i].type === 'USER') {
-  //             getUser(exchangeUsers[exchangeId][i].id)
-  //             getUserIdentity(exchangeUsers[exchangeId][i].id)
-  //           } else {
-  //             getOrganization(exchangeUsers[exchangeId][i].id)
-  //             getOrgIdentity(exchangeUsers[exchangeId][i].id)
-  //           }
-  //           temp.push(exchangeUsers[exchangeId][i])
-  //         }
-  //       }
-  //       // this.setState({...this.state, initialMembers: temp.slice(), moreMembers: true})
-  //     }
-  //   }
-  // }
 
   componentDidMount() {
     window.scrollTo({
@@ -246,37 +229,12 @@ class NewFollowers extends Component<props, states> {
       for (let i = 0; i < followers.length; i++) {
         if (followers[i].id !== null && followers[i].identity_type === constants.USER_TYPES.ORG) {
           getUser(followers[i].id)
-          // getOrgIdentity(followers[i].id)
         }
         else if (followers[i].id !== null && followers[i].identity_type === constants.USER_TYPES.USER) {
           getUser(followers[i].id)
-          // getUserIdentity(followers[i].id)
         }
       }
     }
-
-    // getExchangeMembers({exchangeId}) //n
-
-    // let temp = []
-    // if (exchangeUsers) {
-    //   if (exchangeUsers[exchangeId]) {
-    //     for (let i = 0; i < 6; i++) {
-    //       if (exchangeUsers[exchangeId][i]) {
-    //         if (exchangeUsers[exchangeId][i].type === "USER") {
-    //           getUser(exchangeUsers[exchangeId][i].id)
-    //           getUserIdentity(exchangeUsers[exchangeId][i].id)
-    //         } else {
-    //           getOrganization(exchangeUsers[exchangeId][i].id)
-    //           getOrgIdentity(exchangeUsers[exchangeId][i].id)
-    //         }
-    //         temp.push(exchangeUsers[exchangeId][i])
-    //       }
-    //     }
-    //     this.setState({...this.state, initialMembers: temp, requested: true})
-    //   }
-    // }
-
-    // this.setState({...this.state, initialMembers: followers.slice(), requested: true})
 
     let tempUsers = []
     let tempOrgans = []
@@ -357,7 +315,7 @@ const mapStateToProps = (state) => {
     organs: state.identities.list,
     profiles: state.identities.list,
     files: state.common.file.list,
-    clientId: state.auth.client.organization === null ? state.auth.client.user.id : state.auth.client.organization.id,
+    clientId: state.auth.client.identity.content,
     translate: getMessages(state),
     getFollowingSelector: getFolloweesSelector(state, {
       identityId: state.auth.client.identity.content,

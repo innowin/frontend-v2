@@ -1,0 +1,76 @@
+@import "../variables";
+
+.not-found {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: $topBarHeight;
+  height: calc(100vh - 70px);
+}
+
+.not-found-content {
+  text-align: center;
+  width: 94%;
+}
+
+.not-found-content-logo {
+  width: 700px;
+}
+
+.not-found-content-404 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.not-found-content-text {
+  font-size: 16px;
+  margin-bottom: 50px;
+}
+
+.not-found-content-button {
+  padding: 4px 25px;
+  font-size: 13px;
+  color: white;
+  cursor: pointer;
+  background-color: $secondary-color;
+  border-radius: 18px;
+  margin-bottom: 80px;
+  border: 1px solid transparent;
+  transition: all linear 0.3s;
+
+  &:hover {
+    border: 1px solid $secondary-color;
+    background-color: white;
+    color: $secondary-color;
+    transition: all linear 0.3s;
+  }
+}
+
+.not-found-content-links {
+  font-size: 13px;
+  width: 500px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  a{
+    color: black;
+    text-decoration: none;
+  }
+}
+
+@media screen and (max-width: 480px) and (min-width: 0) {
+  .not-found {
+    margin-top: $smallTopBarHeight;
+    height: calc(100vh - 50px);
+  }
+
+  .not-found-content-logo {
+    width: 100%;
+  }
+
+  .not-found-content-links {
+    width: 100%;
+    font-size: 11px;
+  }
+}
