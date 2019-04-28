@@ -3,12 +3,13 @@ import * as React from 'react'
 import PropTypes from 'prop-types'
 
 import constants from 'src/consts/constants'
+import detectTextAlign from 'src/helpers/detectDirection'
 import Modal from '../../../pages/modal/modal'
+import numberCorrection from 'src/helpers/numberCorrection'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import type {userEducationType} from 'src/consts/flowTypes/user/basicInformation'
 import Validations from 'src/helpers/validations/validations'
-import numberCorrection from 'src/helpers/numberCorrection'
 
 type Props = {
   toggleEdit: Function,
@@ -152,7 +153,7 @@ class EducationForm extends React.Component<Props, States> {
   }
 
   render() {
-    const {modalIsOpen} = this.state
+    const {modalIsOpen, field_of_study} = this.state
     const {translate, education} = this.props
     let grade = '', fieldOfStudy = '', university = '', fromDate = '', toDate = ''
     if (education) {
@@ -195,9 +196,10 @@ class EducationForm extends React.Component<Props, States> {
 
                 <div className='detail-row'>
                   <p className='title'>{translate['Field of study']} <span className='required-star'>*</span></p>
-                  <input placeholder={translate['Field of study']} name='field_of_study' defaultValue={fieldOfStudy}
+                  <input className='edit-text-fields' style={detectTextAlign(field_of_study)}
+                         placeholder={translate['Field of study']} name='field_of_study' defaultValue={fieldOfStudy}
                          onChange={this._onChangeFields}
-                         className='edit-text-fields'/>
+                  />
                   {fieldOfStudyError && <div className='text-field-error'>{fieldOfStudyError}</div>}
                 </div>
 

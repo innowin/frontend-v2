@@ -23,12 +23,6 @@ $sidebar-profile-media-width: 80px;
   }
 }
 
-.topBar-hide {
-  @media screen and (max-width: 480px) and (min-width: 0) {
-    transform: translateY(-50px);
-  }
-}
-
 .navbar-toggler {
   padding: 0;
   /* margin: 0; */

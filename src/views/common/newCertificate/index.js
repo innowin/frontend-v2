@@ -72,7 +72,7 @@ class Certificate extends React.Component<Props, States> {
     return (
         <CardContainer>
           {
-            !!isEdit
+            isEdit
                 ? <CertificateForm createCertificate={createCertificate} toggleEdit={this._toggleEdit}
                                    translate={translate} owner={owner}/>
                 : <CertificateView updateCertificate={updateCertificate} files={files} certificates={certificates}

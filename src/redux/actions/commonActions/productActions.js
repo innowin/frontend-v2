@@ -19,9 +19,9 @@ export const createProductAsContribution = (formData) => ({
   }
 })
 
-const getProductsByIdentity = ({identityId, productOwnerId}) => ({
+const getProductsByIdentity = ({productOwnerId}) => ({
   type: types.COMMON.PRODUCT.GET_PRODUCTS_BY_IDENTITY,
-  payload: {identityId, productOwnerId}
+  payload: {productOwnerId}
 })
 
 const deleteProduct = ({productId, productOwnerId}) => ({

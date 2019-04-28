@@ -115,6 +115,10 @@
     }
   }
 
+  .topBar-hide {
+    transform: translateY(-$smallTopBarHeight - 1);
+  }
+
   .hamburger-overlay {
     position: fixed;
     top: $smallTopBarHeight;

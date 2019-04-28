@@ -65,7 +65,7 @@ class ProductInfo extends Component<PropsProductInfo, StateProductInfo> {
                   deleteProduct={this._delete}
                   translate={translate}
               />
-              : <ProductInfoView translate={translate} product={product} showEdit={this._showEdit} ownerId={ownerId}/>
+              : <ProductInfoView product={product} showEdit={this._showEdit}/>
           }
         </VerifyWrapper>
     )

@@ -22,7 +22,7 @@ $heightOfContentBox: 140px;
 .global-wrapper {
   .page-content {
     min-height: 100%;
-    transition: all 0.3s linear;
+    transition: all $animation-timing ease;
     display: flex;
     margin-left: 0;
     margin-right: 0;

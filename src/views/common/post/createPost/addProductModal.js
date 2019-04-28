@@ -36,9 +36,9 @@ class AddProductModal extends Component {
 
   componentDidMount(): void {
     if (this.state.getData) {
-      let {actions, identityId, ownerId} = this.props
+      let {actions, ownerId} = this.props
       let {getProductsByIdentity} = actions
-      getProductsByIdentity({identityId, productOwnerId: ownerId})
+      getProductsByIdentity({productOwnerId: ownerId})
     }
   }
 
@@ -50,7 +50,7 @@ class AddProductModal extends Component {
     let {actions, identityId, ownerId, identityType} = this.props
     let {getProductsByIdentity} = actions
     if (identityId && ownerId && identityType)
-      getProductsByIdentity({identityId, productOwnerId: ownerId})
+      getProductsByIdentity({productOwnerId: ownerId})
     else this.setState({...this.state, getData: true})
   }
 
@@ -89,8 +89,8 @@ class AddProductModal extends Component {
                           {products.map((product, key) =>
                               <div className='product-wrapper' key={key}>
                                 <ProductInfoView selected={product === selectedProduct}
-                                                 onClick={() => this._selectProduct(product)} translate={translate}
-                                                 product={product} ownerId={ownerId}/>
+                                                 onClick={() => this._selectProduct(product)}
+                                                 product={product}/>
                               </div>
                           )}
                         </div>
@@ -134,7 +134,7 @@ const mapStateToProps = (state) => {
   const identityType = isUser ? constants.USER_TYPES.USER : constants.USER_TYPES.ORG
   const ownerId = client.identity.content
   const identityId = client.identity.content
-  const inputProp = {ownerId, identityType}
+  const inputProp = {ownerId}
 
   return {
     products: getProductsSelector(state, inputProp),

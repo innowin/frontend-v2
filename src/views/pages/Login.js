@@ -7,10 +7,6 @@ import SignInForm from './login/signInForm'
 import PasswordRecovery from './login/PasswordRecovery'
 import {getMessages} from '../../redux/selectors/translateSelector'
 import connect from 'react-redux/es/connect/connect'
-import constants from '../../consts/constants'
-// import SocialLogin from './login/SocialLogin'
-// import RegisterStepsModal from './login/registerModal/RegisterStepsModal'
-import GetUserData from '../user/getUserData/GetUserData'
 import numberCorrection from '../../helpers/numberCorrection'
 
 class Login extends Component {

@@ -8,7 +8,7 @@ const signIn = (username: string, password: string, rememberMe: boolean, reject:
     password,
     rememberMe,
     reject,
-    resolve
+    resolve,
   },
 })
 

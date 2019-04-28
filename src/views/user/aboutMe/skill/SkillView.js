@@ -88,11 +88,11 @@ class SkillView extends React.Component <SkillProps, SkillStates> {
                   return (
                       !isEdit[skill.id]
                           ?
-                          <React.Fragment>
-                            <CardRowContainer key={'skill ' + skill.id}
-                                              title={translate['Skill']}
-                                              svgImage={<NewSkillIcon/>} fromDate={skill.from_date}
-                                              toDate={skill.to_date}
+                          <React.Fragment key={'skill ' + skill.id}>
+                            <CardRowContainer
+                                title={translate['Skill']}
+                                svgImage={<NewSkillIcon/>} fromDate={skill.from_date}
+                                toDate={skill.to_date}
                             >
                               <div className='card-row-content-right card-row-skill'>
                                 <CheckOwner id={owner.id}>

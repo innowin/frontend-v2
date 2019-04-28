@@ -128,7 +128,12 @@ class GeneralSetting extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if ((this.props.user.email !== nextProps.user.email) || (this.props.user.username !== nextProps.user.username) || (this.props.user.password !== nextProps.user.password) || (this.props.user.authMobile !== nextProps.user.authMobile)) {
+    if (this.props.user && (
+        (this.props.user.email !== nextProps.user.email) ||
+        (this.props.user.username !== nextProps.user.username) ||
+        (this.props.user.password !== nextProps.user.password) ||
+        (this.props.user.authMobile !== nextProps.user.authMobile))
+    ) {
       this.setState({...this.state, saved: true})
     }
   }

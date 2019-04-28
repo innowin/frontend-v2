@@ -2,11 +2,10 @@
 import {Component} from "react";
 import PropTypes from "prop-types";
 import {VerifyWrapper} from "../../common/cards/Frames";
-import CertificateView from "./CertificateView";
+import CertificateView from "./CertificateView"
 import {CertificateEditForm} from "./CertificateEditForm";
 import * as React from "react";
 import type {certificateType} from "../../../consts/flowTypes/user/others";
-import constants from "../../../consts/constants";
 import type {paramType} from "../../../consts/flowTypes/paramType";
 
 type PropsCertificate = {

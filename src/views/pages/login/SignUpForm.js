@@ -154,6 +154,7 @@ class SignUpForm extends React.Component<> {
             <Field name="password" type={showPassword ? 'text' : 'password'} component={renderTextField}
                    label={translator['Password']}
                    className="signup-field"
+                   autoComplete="new-password"
                    myRef={e => this.passwordInputRef = e}
                    onChangeForm={onChangeSignUp}/>
           </div>

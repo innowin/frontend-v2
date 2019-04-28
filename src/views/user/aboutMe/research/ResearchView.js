@@ -88,9 +88,9 @@ class ResearchView extends React.Component <ResearchProps, ResearchStates> {
             {researches.map(research => {
                   return (
                       !isEdit[research.id]
-                          ? <React.Fragment>
-                            <CardRowContainer key={'research ' + research.id} title={translate['Scientific Research']}
-                                              svgImage={<EducationIcon/>} createdTime={research.created_time}
+                          ? <React.Fragment key={'research ' + research.id}>
+                            <CardRowContainer title={translate['Scientific Research']} svgImage={<EducationIcon/>}
+                                              createdTime={research.created_time}
                             >
                               <div className='card-row-content-right card-row-entity'>
                                 <CheckOwner id={owner.id}>

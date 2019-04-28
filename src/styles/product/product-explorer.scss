@@ -465,12 +465,12 @@
   vertical-align: top;
   position: relative;
   padding: 15px;
-  margin: 5px 10px 7px 0;
+  margin: 5px 0;
   text-align: center;
   flex-grow: 1;
   background-color: $text-lightest-color;
   border-radius: 5px;
-  box-shadow: 0 1px 3px 2px $box-shadow-color;
+  //box-shadow: 0 1px 3px 2px $box-shadow-color;
   overflow: hidden;
 }
 

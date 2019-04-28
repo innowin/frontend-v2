@@ -16,11 +16,32 @@ $sidebar-profile-media-width: 80px;
 
     .profile-media {
       width: $sidebar-profile-media-width;
-      height: 80px;
+      height: $sidebar-profile-media-width;
       position: absolute;
       transform: translate(-50%, 50%);
       bottom: 0;
       left: 50%;
+    }
+
+    .organ-profile-container {
+      width: $sidebar-profile-media-width;
+      height: $sidebar-profile-media-width;
+      position: absolute;
+      transform: translate(-50%, 50%);
+      bottom: 0;
+      left: 50%;
+
+      background-color: #ffffff;
+      border-radius: 50%;
+      padding: 15px;
+    }
+
+    .organ-default {
+      width: $sidebar-profile-media-width;
+      height: $sidebar-profile-media-width;
+      position: absolute;
+      right: 0;
+      top: 0;
     }
     //
     //.banner {

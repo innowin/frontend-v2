@@ -84,7 +84,6 @@ ProductInfoView.propTypes = {
   product: PropTypes.object,
   showEdit: PropTypes.func,
   ownerId: PropTypes.number,
-  translate: PropTypes.object.isRequired,
   onClick: PropTypes.func,
   selected: PropTypes.bool,
 }

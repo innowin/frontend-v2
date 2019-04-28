@@ -1007,7 +1007,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
           {selectedProduct &&
           <div className='post-product-container'>
             <span onClick={this._removeProduct} className='remove-product pulse'>x</span>
-            <ProductInfoView translate={translate} product={selectedProduct} ownerId={currentUserId}/>
+            <ProductInfoView product={selectedProduct}/>
           </div>
           }
 

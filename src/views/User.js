@@ -27,6 +27,7 @@ import {NavLink, Switch, Redirect} from 'react-router-dom'
 import SideBarContent from './bars/SideBar'
 import RightArrowSvg from '../images/common/right_arrow_svg'
 import DefaultOrganIcon from '../images/defaults/defaultOrganization_svg'
+import ProductActions from '../redux/actions/commonActions/productActions'
 // import Contributions from './common/contributions'
 // import Educations from 'src/views/user/educations'
 // import UserBasicInformation from './user/basicInformation'
@@ -95,10 +96,11 @@ class User extends Component<PropsUser, StatesUser> {
 
   componentDidMount() {
     const {params} = this.props.match
-    const {getUserByUserId, setParamUserId} = this.props.actions
+    const {getUserByUserId, setParamUserId,getProducts} = this.props.actions
     const userId: number = +params.id
     getUserByUserId(userId)
     setParamUserId({id: userId})
+    getProducts(userId)
     window.addEventListener('scroll', this._onScroll)
   }
 
@@ -298,6 +300,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
+    getProducts: ProductActions.getProductsByIdentity,
     getUserByUserId: GetUserActions.getUserByUserId,
     getUserBadges: BadgeActions.getUserBadges,
     setParamUserId: ParamActions.setParamUserId,

@@ -87,11 +87,11 @@ class WorkExperienceView extends React.Component <WorkExperienceProps, WorkExper
             {workExperiences.map(workExperience => {
                   return (
                       !isEdit[workExperience.id]
-                          ? <React.Fragment>
-                            <CardRowContainer key={'workExperience ' + workExperience.id}
-                                              title={translate['Work experience']}
-                                              svgImage={workExperienceIcon} fromDate={workExperience.from_date}
-                                              toDate={workExperience.to_date}
+                          ? <React.Fragment key={'workExperience ' + workExperience.id}>
+                            <CardRowContainer
+                                title={translate['Work experience']}
+                                svgImage={workExperienceIcon} fromDate={workExperience.from_date}
+                                toDate={workExperience.to_date}
                             >
                               <div className='card-row-content-right card-row-workExperience'>
                                 <CheckOwner id={owner.id}>

@@ -1,17 +1,11 @@
 // @flow
 import * as React from "react"
 import {Component} from "react"
-// import {bindActionCreators} from "redux"
-// import {connect} from "react-redux"
-// import postActions from "src/redux/actions/commonActions/postActions"
-// import exchangeActions from "src/redux/actions/exchangeActions"
-// import getUserAction from "src/redux/actions/user/getUserActions"
 import StreamView from "./StreamView"
 import InfoView from "./InfoView"
 import StatisticView from "./StatisticView"
 import ExchangeManager from "./ExchangeManager"
 import MembersView from "./MembersView"
-// import {ClipLoader} from "react-spinners"
 
 type props = {
   activeTab: string,

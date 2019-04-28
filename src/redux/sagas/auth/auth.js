@@ -27,7 +27,7 @@ export function* signIn(action) {
       yield client.setTokenLS(token)
     }
     yield put({type: types.SUCCESS.AUTH.SIGN_IN, payload: {data: primaryData, rememberMe: rememberMe}})
-    yield call(resolve)
+    if (resolve) yield call(resolve)
   }
   catch (e) {
     const {message} = e

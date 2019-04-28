@@ -103,11 +103,11 @@ class EducationView extends React.Component <EducationProps, EducationStates> {
             {educations.map(education => {
                   return (
                       !isEdit[education.id]
-                          ? <React.Fragment>
-                            <CardRowContainer key={'education ' + education.id}
-                                              title={this._gradeChangeNamePersian(education.grade, translate)}
-                                              svgImage={<EducationIcon/>} fromDate={education.from_date}
-                                              toDate={education.to_date}
+                          ? <React.Fragment key={'education ' + education.id}>
+                            <CardRowContainer
+                                title={this._gradeChangeNamePersian(education.grade, translate)}
+                                svgImage={<EducationIcon/>} fromDate={education.from_date}
+                                toDate={education.to_date}
                             >
                               <div className='card-row-content-right card-row-education'>
                                 <CheckOwner id={owner.id}>
@@ -117,7 +117,7 @@ class EducationView extends React.Component <EducationProps, EducationStates> {
                                                onClick={() => this._toggleDeleteEducation(education.id)}/>
                                 </CheckOwner>
                                 <p className='text'>{education.field_of_study}</p>
-                                <p className='blue-text'>{education.university}</p>
+                                <p className='text'>{education.university}</p>
                               </div>
                             </CardRowContainer>
                             <ConfirmDeleteModal key={'delete education ' + education.id} translate={translate}
