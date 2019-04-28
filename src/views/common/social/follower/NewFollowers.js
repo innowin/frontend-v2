@@ -3,7 +3,6 @@ import * as React from "react"
 import constants from "src/consts/constants"
 import getUserAction from "src/redux/actions/user/getUserActions"
 import identityActions from "src/redux/actions/identityActions"
-import organizationActions from "src/redux/actions/organization/organizationActions"
 import SocialActions from "src/redux/actions/commonActions/socialActions"
 import {bindActionCreators} from "redux"
 import {ClipLoader} from "react-spinners"
@@ -13,8 +12,6 @@ import {DefaultUserIcon, Contacts, QuestionMark, Stream} from "src/images/icons"
 import {getFolloweesSelector} from "src/redux/selectors/common/social/getFollowees"
 import {Link} from "react-router-dom"
 import {getMessages} from "../../../../redux/selectors/translateSelector"
-// import exchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
-// import {VerifyWrapper} from "../../common/cards/Frames"
 
 type props = {
   actions: Object,
@@ -328,7 +325,6 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({
     // getExchangeMembers: exchangeMembershipActions.getExchangeMembershipByExchangeId,
     getUser: getUserAction.getUserByUserId,
-    getOrganization: organizationActions.getOrganizationByOrganId,
     createFollow: SocialActions.createFollow,
     getFollowingAction: SocialActions.getFollowees,
     getUserIdentity: identityActions.getUserIdentity,

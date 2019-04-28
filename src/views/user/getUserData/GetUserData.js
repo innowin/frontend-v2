@@ -11,7 +11,8 @@ class GetUserData extends Component {
   }
 
   setSecondLevel = () => {
-    this.setState({...this.state, level: 2})
+    // this.setState({...this.state, level: 2})
+    this.props.hideRegisterModal()
   }
 
   render() {

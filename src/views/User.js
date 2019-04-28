@@ -133,178 +133,142 @@ class User extends Component<PropsUser, StatesUser> {
     const userId: number = +params.id
     const isLoading = userObject.isLoading || badgesObject.isLoading
 
-    // const title = `${translate['Danesh Boom']} - ${userObject.content.username}`
-    // const description = translate['User']
     return (
         <div className="-userOrganBackgroundImg">
-          {/*
-          <Helmet>
-            <title>{title}</title>
-            <meta name="description" content={description}/>
+          {
+            isLoading
+                ? <UserSkeleton type='user'/>
+                : <React.Fragment>
+                  <div className={showSecondHeader ? 'top-bar-entity show' : 'top-bar-entity hide'}>
+                    <RightArrowSvg onClick={this._goUp} className='back-button'/>
+                    {
+                      profileMedia ? <DefaultOrganIcon className='profile-top-bar default-profile-organ'/> : <img src={profileMedia.file} className='profile-top-bar' alt='profile'/>
+                    }
+                    <span className='organ-name'>
+                      {userObject.nike_name || userObject.official_name || userObject.username}
+                    </span>
+                  </div>
+                  <div className={showSecondHeader ? '-main page-content has-two-header' : '-main page-content'}>
+                    <SideBarContent
+                        sideBarType={constants.USER_TYPES.USER}
+                        badges={badges}
+                        paramId={userId}
+                        owner={userObject}
+                    />
 
-            <meta property="og:type" content="website"/>
-            {profileMedia &&
-            <meta property="og:image" content={profileMedia.file}/>
-            }
-            <meta property="og:title" content={title}/>
-            <meta property="og:description" content={description}/>
+                    <div className="col-md-6 col-sm-10 center-column">
 
-            <meta property="twitter:card" content="summary"/>
-            {profileMedia &&
-            <meta property="twitter:image" content={profileMedia.file}/>
-            }
-            <meta property="twitter:title" content={title}/>
-            <meta property="twitter:description" content={description}/>
+                      <div className='header-container'>
 
-            <script type="application/ld+json">{`
-              {
-                "@context": "http://schema.org",
-                "@type": "Person",
-                "name": "${userObject.content.username}",
-                "image": "${profileMedia && profileMedia.file}"
-              }
-            `}</script>
+                        <NavLink to={`${url}/Posts`} className='header-container-item'
+                                 activeClassName='header-container-item-active'>
+                          <Material backgroundColor='rgba(66,172,151,0.4)'
+                                    className='header-container-item-material-first'
+                                    content={translate['Stream']}/>
+                        </NavLink>
 
-          </Helmet>
-*/}
-          {/*<VerifyWrapper isLoading={isLoading} error={errorMessage} className="-main row page-content">*/}
-          {isLoading
-              ? <UserSkeleton type='user'/>
-              : <React.Fragment>
-                <div className={showSecondHeader ? 'top-bar-entity show' : 'top-bar-entity hide'}>
-                  <RightArrowSvg onClick={this._goUp} className='back-button'/>
-                  {!profileMedia
-                      ? <img src={profileMedia.file} className='profile-top-bar' alt='profile'/>
-                      : <DefaultOrganIcon className='profile-top-bar default-profile-organ'/>
-                  }
-                  <span className='organ-name'>
-                  {userObject.nike_name || userObject.official_name || userObject.username}
-                  </span>
-                </div>
-                <div className={showSecondHeader ? '-main page-content has-two-header' : '-main page-content'}>
-                  <SideBarContent
-                      sideBarType={constants.USER_TYPES.USER}
-                      className='col-md-3 col-sm-1 -right-sidebar-wrapper col pr-0 pl-0'
-                      badges={badges}
-                      paramId={userId}
-                      owner={userObject}
-                  />
+                        <NavLink to={`${url}/basicInformation`} className='header-container-item'
+                                 activeClassName='header-container-item-active'>
+                          <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
+                                    content={translate['About Me']}/>
+                        </NavLink>
 
+                        {/*<NavLink to={`${url}/contributions`} className='header-container-item'*/}
+                        {/*         activeClassName='header-container-item-active'>*/}
+                        {/*  <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'*/}
+                        {/*            content={translate['Contributions']}/>*/}
+                        {/*</NavLink>*/}
 
-                  <div className="col-md-6 col-sm-10 center-column">
+                        <NavLink to={`${url}/SocialConnections`} className='header-container-item'
+                                 activeClassName='header-container-item-active'>
+                          <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
+                                    content={translate['Exchanges']}/>
+                        </NavLink>
 
-                    <div className='header-container'>
+                        <NavLink to={`${url}/Followings`} className='header-container-item'
+                                 activeClassName='header-container-item-active'>
+                          <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
+                                    content={translate['Followings']}/>
+                        </NavLink>
 
-                      <NavLink to={`${url}/Posts`} className='header-container-item'
-                               activeClassName='header-container-item-active'>
-                        <Material backgroundColor='rgba(66,172,151,0.4)'
-                                  className='header-container-item-material-first'
-                                  content={translate['Stream']}/>
-                      </NavLink>
+                        <NavLink to={`${url}/Followers`} className='header-container-item'
+                                 activeClassName='header-container-item-active'>
+                          <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
+                                    content={translate['Followers']}/>
+                        </NavLink>
 
-                      <NavLink to={`${url}/basicInformation`} className='header-container-item'
-                               activeClassName='header-container-item-active'>
-                        <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
-                                  content={translate['About Me']}/>
-                      </NavLink>
+                        {/*<NavLink to={`${url}/Educations`} className='header-container-item'*/}
+                        {/*         activeClassName='header-container-item-active'>*/}
+                        {/*  <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'*/}
+                        {/*            content={translate['Educations']}/>*/}
+                        {/*</NavLink>*/}
 
-                      {/*<NavLink to={`${url}/contributions`} className='header-container-item'*/}
-                      {/*         activeClassName='header-container-item-active'>*/}
-                      {/*  <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'*/}
-                      {/*            content={translate['Contributions']}/>*/}
-                      {/*</NavLink>*/}
+                        {/*<NavLink to={`${url}/WorkExperiences`} className='header-container-item'*/}
+                        {/*         activeClassName='header-container-item-active'>*/}
+                        {/*  <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'*/}
+                        {/*            content={translate['WorkExperience']}/>*/}
+                        {/*</NavLink>*/}
 
-                      <NavLink to={`${url}/SocialConnections`} className='header-container-item'
-                               activeClassName='header-container-item-active'>
-                        <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
-                                  content={translate['Exchanges']}/>
-                      </NavLink>
+                        {/*<NavLink to={`${url}/Certificates`} className='header-container-item'*/}
+                        {/*         activeClassName='header-container-item-active'>*/}
+                        {/*  <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'*/}
+                        {/*            content={translate['Certificates']}/>*/}
+                        {/*</NavLink>*/}
 
-                      <NavLink to={`${url}/Followings`} className='header-container-item'
-                               activeClassName='header-container-item-active'>
-                        <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
-                                  content={translate['Followings']}/>
-                      </NavLink>
-
-                      <NavLink to={`${url}/Followers`} className='header-container-item'
-                               activeClassName='header-container-item-active'>
-                        <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
-                                  content={translate['Followers']}/>
-                      </NavLink>
-
-                      {/*<NavLink to={`${url}/Educations`} className='header-container-item'*/}
-                      {/*         activeClassName='header-container-item-active'>*/}
-                      {/*  <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'*/}
-                      {/*            content={translate['Educations']}/>*/}
-                      {/*</NavLink>*/}
-
-                      {/*<NavLink to={`${url}/WorkExperiences`} className='header-container-item'*/}
-                      {/*         activeClassName='header-container-item-active'>*/}
-                      {/*  <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'*/}
-                      {/*            content={translate['WorkExperience']}/>*/}
-                      {/*</NavLink>*/}
-
-                      {/*<NavLink to={`${url}/Certificates`} className='header-container-item'*/}
-                      {/*         activeClassName='header-container-item-active'>*/}
-                      {/*  <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'*/}
-                      {/*            content={translate['Certificates']}/>*/}
-                      {/*</NavLink>*/}
-
+                      </div>
+                      <Switch>
+                        <Redirect exact from={`${url}/`} to={`${url}/Posts`}/>
+                        <PrivateRoute exact={true} path={`${path}/Posts`} component={Posts} id={userId}
+                                      identityType={constants.USER_TYPES.USER}
+                                      user={userObject}
+                        />
+                        <PrivateRoute path={`${path}/Posts/:id`} component={PostExtendedView}
+                                      extendedView={true}
+                                      commentParentType={constants.COMMENT_PARENT.POST}/>
+                        {/*<PrivateRoute path={`${path}/basicInformation`} component={UserBasicInformation}*/}
+                        {/*              userId={userId}*/}
+                        {/*              user={userObject}*/}
+                        {/*/>*/}
+                        <PrivateRoute path={`${path}/basicInformation`} component={UserAboutMe}
+                                      userId={userId}
+                                      user={userObject}
+                        />
+                        {/*<PrivateRoute path={`${path}/contributions`} component={Contributions}*/}
+                        {/*              ownerId={userId}*/}
+                        {/*              identityType={constants.USER_TYPES.USER}*/}
+                        {/*              isUser={true}*/}
+                        {/*              user={userObject}*/}
+                        {/*/>*/}
+                        <PrivateRoute path={`${path}/SocialConnections`} component={Social}
+                                      ownerId={userId}
+                                      identityType={constants.USER_TYPES.USER}
+                                      user={userObject}
+                        />
+                        <PrivateRoute path={`${path}/Followings`} component={Following}
+                                      ownerId={userId}
+                                      identityType={constants.USER_TYPES.USER}
+                                      user={userObject}
+                        />
+                        <PrivateRoute path={`${path}/Followers`} component={Follower}
+                                      ownerId={userId}
+                                      identityType={constants.USER_TYPES.USER}
+                                      user={userObject}
+                        />
+                        {/*<PrivateRoute path={`${path}/Educations`} component={Educations} userId={userId}/>*/}
+                        {/*<PrivateRoute path={`${path}/WorkExperiences`} component={WorkExperiences} userId={userId}/>*/}
+                        <PrivateRoute path={`${path}/Certificates`} component={Certificates}
+                                      ownerId={userId}
+                                      identityType={constants.USER_TYPES.USER}
+                                      user={userObject}
+                        />
+                      </Switch>
                     </div>
-                    <Switch>
-                      <Redirect exact from={`${url}/`} to={`${url}/Posts`}/>
-                      <PrivateRoute exact={true} path={`${path}/Posts`} component={Posts} id={userId}
-                                    identityType={constants.USER_TYPES.USER}
-                                    user={userObject}
-                      />
-                      <PrivateRoute path={`${path}/Posts/:id`} component={PostExtendedView}
-                                    extendedView={true}
-                                    commentParentType={constants.COMMENT_PARENT.POST}/>
-                      {/*<PrivateRoute path={`${path}/basicInformation`} component={UserBasicInformation}*/}
-                      {/*              userId={userId}*/}
-                      {/*              user={userObject}*/}
-                      {/*/>*/}
-                      <PrivateRoute path={`${path}/basicInformation`} component={UserAboutMe}
-                                    userId={userId}
-                                    user={userObject}
-                      />
-                      {/*<PrivateRoute path={`${path}/contributions`} component={Contributions}*/}
-                      {/*              ownerId={userId}*/}
-                      {/*              identityType={constants.USER_TYPES.USER}*/}
-                      {/*              isUser={true}*/}
-                      {/*              user={userObject}*/}
-                      {/*/>*/}
-                      <PrivateRoute path={`${path}/SocialConnections`} component={Social}
-                                    ownerId={userId}
-                                    identityType={constants.USER_TYPES.USER}
-                                    user={userObject}
-                      />
-                      <PrivateRoute path={`${path}/Followings`} component={Following}
-                                    ownerId={userId}
-                                    identityType={constants.USER_TYPES.USER}
-                                    user={userObject}
-                      />
-                      <PrivateRoute path={`${path}/Followers`} component={Follower}
-                                    ownerId={userId}
-                                    identityType={constants.USER_TYPES.USER}
-                                    user={userObject}
-                      />
-                      {/*<PrivateRoute path={`${path}/Educations`} component={Educations} userId={userId}/>*/}
-                      {/*<PrivateRoute path={`${path}/WorkExperiences`} component={WorkExperiences} userId={userId}/>*/}
-                      <PrivateRoute path={`${path}/Certificates`} component={Certificates}
-                                    ownerId={userId}
-                                    identityType={constants.USER_TYPES.USER}
-                                    user={userObject}
-                      />
-                    </Switch>
+                    <div className="col-md-2 col-sm-1 -left-sidebar-wrapper">
+                      <ChatBar/>
+                    </div>
                   </div>
-                  <div className="col-md-2 col-sm-1 -left-sidebar-wrapper">
-                    <ChatBar/>
-                  </div>
-                </div>
-              </React.Fragment>
+                </React.Fragment>
           }
-          {/*</VerifyWrapper>*/}
         </div>
     )
   }

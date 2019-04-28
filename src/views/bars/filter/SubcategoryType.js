@@ -19,11 +19,11 @@ export class SubcategoryType extends Component {
 		this.setState({...this.state , collapse: !this.state.collapse});
 	};
 	
-	_handleClick = (e) => {
-		const {setActiveSubcategory , activeSubcategory} = this.props;
-		console.log('id ',e.target.id ,'active ', activeSubcategory);
-		setActiveSubcategory(e.target.id );
-	};
+	// _handleClick = (e) => {
+	// 	const {setActiveSubcategory , activeSubcategory} = this.props;
+	// 	console.log('id ',e.target.id ,'active ', activeSubcategory);
+	// 	setActiveSubcategory(e.target.id );
+	// };
 	
 	render() {
 		const {collapse} = this.state;

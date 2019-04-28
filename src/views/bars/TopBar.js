@@ -367,10 +367,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
               hide={this._handleHideAgent}
           />
 
-          <CreateExchange
-              handleModalVisibility={this._createExchangeModalVisibilityHandler}
-              modalIsOpen={createExchangeModalIsOpen}
-          />
+          <CreateExchange handleModalVisibility={this._createExchangeModalVisibilityHandler} modalIsOpen={createExchangeModalIsOpen}/>
 
           <TransitionGroup>
             {showHamburger ?
@@ -552,8 +549,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
             </div>
           </nav>
 
-          <AddingContribution modalIsOpen={productModal}
-                              handleModalVisibility={this._handleProductWizardModal}/>
+          <AddingContribution modalIsOpen={productModal} handleModalVisibility={this._handleProductWizardModal}/>
 
 
           <div className={showSetting || showAbout || agentForm || productModal || createExchangeModalIsOpen ? 'makeDark' : 'makeDark-out'} onClick={this._handleHideSetting}>

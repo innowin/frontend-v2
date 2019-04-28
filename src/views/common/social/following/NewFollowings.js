@@ -298,11 +298,8 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({
     getUser: getUserAction.getUserByUserId,
-    // getOrganization: organizationActions.getOrganizationByOrganId,
     createFollow: SocialActions.createFollow,
     getFollowingAction: SocialActions.getFollowees,
-    // getUserIdentity: identityActions.getUserIdentity,
-    // getOrgIdentity: identityActions.getOrgIdentity
   }, dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(NewFollowings)

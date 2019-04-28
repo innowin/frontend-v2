@@ -12,9 +12,6 @@ import {VerifyWrapper} from "src/views/common/cards/Frames"
 type OrganizationInfoProps = {|
   organizationId: number,
   translate: {},
-  actions: {|
-    updateOrganizationByOrganizationId: Function,
-  |},
   organization: organizationType,
 |}
 type OrganizationInfoState = {

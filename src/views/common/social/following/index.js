@@ -26,7 +26,6 @@ type PropsSocials = {
     // getFollowers: Function,
     deleteFollow: Function,
     getProfileByUserId: Function,
-    getOrganizationByOrganId: Function,
     // updateFollow: Function,
     // createFollow: Function,
   },
@@ -139,10 +138,6 @@ const mapDispatchToProps = dispatch => ({
     getFollowees: SocialActions.getFollowees,
     // getFollowers: SocialActions.getFollowers,
     deleteFollow: SocialActions.deleteFollow,
-    // updateFollow: SocialActions.updateFollow,
-    // createFollow: SocialActions.createFollow,
-    // getProfileByUserId: GetUserActions.getProfileByUserId,
-    // getOrganizationByOrganId: OrganizationActions.getOrganizationByOrganId,
   }, dispatch)
 })
 

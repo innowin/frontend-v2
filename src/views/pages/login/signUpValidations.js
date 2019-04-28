@@ -41,13 +41,13 @@ export const asyncValidateSignUp = (...validationArguments) => {
   })
 }
 
-const validateUsername = (username) => {
-  if (!/^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]+$/.test(username)) {
-    return 'نام کاربری غیر قابل قبول است. لطفا تنها از حروف انگلیسی  یا اعداد یا کاراکتر ـ استفاده نمایید.'
-  }
-  else if (username.length < 5) return 'نام کاربری باید حداقل ۵ حرف باشد.'
-  else if (username.length > 32) return 'نام کاربری باید حداکثر ۳۲ حرف باشد.'
-}
+// const validateUsername = (username) => {
+//   if (!/^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]+$/.test(username)) {
+//     return 'نام کاربری غیر قابل قبول است. لطفا تنها از حروف انگلیسی  یا اعداد یا کاراکتر ـ استفاده نمایید.'
+//   }
+//   else if (username.length < 5) return 'نام کاربری باید حداقل ۵ حرف باشد.'
+//   else if (username.length > 32) return 'نام کاربری باید حداکثر ۳۲ حرف باشد.'
+// }
 
 const validateEmail = (email) => {
   if (!/^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email) || email.length < 5) {
@@ -86,7 +86,7 @@ export const validateSignUpForm = values => {
   const errors = {}
   // const requiredFields = ['email', 'password', 'username']
   const requiredFields = ['email', 'password']
-  const {username, email, password} = values
+  const {/*username,*/ email, password} = values
 
   // if (username) errors.username = validateUsername(username)
   if (email) errors.email = validateEmail(email)

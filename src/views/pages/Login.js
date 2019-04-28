@@ -26,15 +26,14 @@ class Login extends Component {
         phoneNumber: '02166972207',
       },
       showRecovery: false,
-      showRegisterModal: false,
       signInFields: {
         username: '',
         password: '',
       },
       signUpFields: {
         // todo Hoseyn
-        username: '',
-        userType: constants.USER_TYPES.USER,
+        // username: '',
+        // userType: constants.USER_TYPES.USER,
         password: '',
         email: '',
       },
@@ -56,11 +55,11 @@ class Login extends Component {
   }
 
   _hideModalClick = () => {
-    this.setState({...this.state, showRecovery: false, showRegisterModal: false})
+    this.setState({...this.state, showRecovery: false}, () => this.props._hideModalClick())
   }
 
   _onRegisterClick = () => {
-    this.setState({...this.state, showRegisterModal: true})
+    this.props._onRegisterClick()
   }
 
   _onChangeSignIn = (event) => {
@@ -76,7 +75,9 @@ class Login extends Component {
     const target = event.target
     const value = target.type === 'checkbox' ? target.checked : numberCorrection(target.value)
     const name = target.name
-    this.setState({...this.state, signUpFields: {...signUpFields, [name]: value}})
+    this.setState({...this.state, signUpFields: {...signUpFields, [name]: value}}, () => {
+      this.props.setSignUpFields({...signUpFields, [name]: value})
+    })
   }
 
   _goToMobileLoginPage = () => {
@@ -92,7 +93,7 @@ class Login extends Component {
 
   render() {
     const {translate} = this.props
-    const {page, footer, header, showRecovery, showRegisterModal, signUpFields, registerMobile, loginMobile} = this.state
+    const {page, footer, header, showRecovery, signUpFields, registerMobile, loginMobile} = this.state
     const {year} = footer
     const {iosLink, androidLink, address, phoneNumber} = header
     const SignIn = (page === 'SignIn')
@@ -105,17 +106,7 @@ class Login extends Component {
                onClick={this._hideModalClick}>
             {/*dark div*/}
           </div>
-          <PasswordRecovery showRecovery={showRecovery} hideRecoveryClick={this._hideModalClick}
-                            translate={translate}/>
-
-          {/*<RegisterStepsModal showRegisterModal={showRegisterModal} hideRecoveryClick={this._hideModalClick}*/}
-          {/*translate={translate}/>*/}
-
-          {/*<GetUserData showRegisterModal={showRegisterModal}*/}
-                       {/*hideRegisterModal={this._hideModalClick}*/}
-                       {/*password={signUpFields.password}*/}
-                       {/*email={signUpFields.email}*/}
-          {/*/>*/}
+          <PasswordRecovery showRecovery={showRecovery} hideRecoveryClick={this._hideModalClick} translate={translate}/>
 
           <div className="login-container">
             <HeaderLogin isLoginPage={loginMobile} onBackClick={this._goToHomePage}
@@ -129,48 +120,49 @@ class Login extends Component {
                       {translate['Danesh Boom']}
                     </h2>
                     <div className='tabs-container'>
-                      {(!SignIn) && (
-                          <div className="signup-tab">
-                            <span>{translate['Register']}</span>
-                            <button className="login-signup-button pulse" onClick={this._showSignIn}>
-                              {translate['Login']}
-                            </button>
-                          </div>
-                      )}
-                      {(SignIn) && (
-                          <div className="signin-tab">
-                            <button className="login-signup-button pulse" onClick={this._showSignUp}>
-                              {translate['Register']}
-                            </button>
-                            <span>{translate['Login']}</span>
-                          </div>
-                      )}
+                      {
+                        !SignIn &&
+                        <div className="signup-tab">
+                          <span>{translate['Register']}</span>
+                          <button className="login-signup-button pulse" onClick={this._showSignIn}>
+                            {translate['Login']}
+                          </button>
+                        </div>
+                      }
+                      {
+                        SignIn &&
+                        <div className="signin-tab">
+                          <button className="login-signup-button pulse" onClick={this._showSignUp}>
+                            {translate['Register']}
+                          </button>
+                          <span>{translate['Login']}</span>
+                        </div>
+                      }
                     </div>
                   </div>
                   <div className="login-form">
-                    {SignIn &&
-                    <SignInForm onChangeSignIn={this._onChangeSignIn} initialValues={{rememberMe: true}}
-                                recoveryPasswordClick={this._showRecoveryPassword}
-                    />}
-                    {SignUp &&
-                    <RegisterForm inputValues={signUpFields} onChangeSignUp={this._onChangeSignUp}
-                                  onRegisterClick={this._onRegisterClick}
-                    />}
+                    {
+                      SignIn && <SignInForm onChangeSignIn={this._onChangeSignIn} initialValues={{rememberMe: true}} recoveryPasswordClick={this._showRecoveryPassword}/>
+                    }
+                    {
+                      SignUp && <RegisterForm inputValues={signUpFields} onChangeSignUp={this._onChangeSignUp} onRegisterClick={this._onRegisterClick}/>
+                    }
                   </div>
                   {/*<div className="card-footer social-login">*/}
                   {/*<span>{translate['Register with other accounts']}</span>*/}
                   {/*<SocialLogin/>*/}
                   {/*</div>*/}
                 </div>
-                {!(registerMobile || loginMobile) &&
-                <div className='login-sign-up-buttons-container'>
-                  <div onClick={this._goToMobileLoginPage} className='button login-button'>
-                    {translate['Login']}
+                {
+                  !(registerMobile || loginMobile) &&
+                  <div className='login-sign-up-buttons-container'>
+                    <div onClick={this._goToMobileLoginPage} className='button login-button'>
+                      {translate['Login']}
+                    </div>
+                    <div onClick={this._goToMobileRegisterPage} className='button register-button'>
+                      {translate['Register']}
+                    </div>
                   </div>
-                  <div onClick={this._goToMobileRegisterPage} className='button register-button'>
-                    {translate['Register']}
-                  </div>
-                </div>
                 }
               </div>
               <CarouselLogin/>

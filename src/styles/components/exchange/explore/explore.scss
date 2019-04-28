@@ -746,7 +746,7 @@
   position: relative;
   overflow: hidden;
   text-align: center;
-  height: 590px;
+  height: 604px;
   margin-top: $topBarHeight + 10px;
   overflow-y: auto;
   color: $text-dark-color;
@@ -757,7 +757,7 @@
   width: 25%;
   @media screen and (max-width: 480px) and (min-width: 0) {
     width: 100%;
-    height: 400px;
+    height: 542px;
   }
 }
 
@@ -845,6 +845,12 @@
 
 .user-default-profile-desc {
   margin: 5px 15px;
+  font-size: 14px;
+  background-color: #f3f3f3;
+}
+
+.user-default-profile-desc-margin-bottom{
+  margin: 5px 15px 122px 15px;
   font-size: 14px;
   background-color: #f3f3f3;
 }

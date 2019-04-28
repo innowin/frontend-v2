@@ -1,18 +1,10 @@
 // @flow
 import * as React from 'react'
 import PropTypes from 'prop-types'
-
 import type {organizationType} from 'src/consts/flowTypes/organization/organization'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import type {userType} from 'src/consts/flowTypes/user/basicInformation'
-import {
-  DefaultUserIcon,
-  DefaultOrganIcon,
-  TwitterIcon,
-  TelegramIcon,
-  LinkedInIcon,
-  InstagramIcon,
-} from 'src/images/icons'
+import {DefaultUserIcon, DefaultOrganIcon, TwitterIcon, TelegramIcon, LinkedInIcon, InstagramIcon, Location, CalendarEmpty} from 'src/images/icons'
 import CertificateActions from 'src/redux/actions/commonActions/certificateActions'
 import CertificateForm from '../common/newCertificate/CertificateForm'
 import CheckOwner from '../common/CheckOwner'
@@ -40,17 +32,16 @@ import {bindActionCreators} from 'redux'
 import {createFileFunc} from 'src/views/common/Functions'
 import {getFollowersSelector} from 'src/redux/selectors/common/social/getFollowers'
 import {getMessages} from 'src/redux/selectors/translateSelector'
+import getAllCountries from '../../redux/selectors/common/location/getCountry'
+import {getCountries} from '../../redux/actions/commonActions/location'
 
 
 export const BadgesCard = (props: { badgesImg: (string)[] }) => {
-  return <React.Fragment>
-    {
-      props.badgesImg.map((badgeImg, i) =>
-          <span key={i + 'BadgesCard'}>
+  return props.badgesImg.map((badgeImg, i) =>
+      <span key={i + 'BadgesCard'}>
           <img src={badgeImg} alt=""/>
-      </span>)
-    }
-  </React.Fragment>
+      </span>,
+  )
 }
 
 export const TagsBox = (props: { tags: ({ title: string })[] }) => {
@@ -144,6 +135,31 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
     }
   }
 
+  componentDidUpdate() {
+    const {profileBannerId, profileMediaId, saving} = this.state
+    const {bannerIdTemp, pictureIdTemp, temp} = this.props
+    if (
+        ((profileBannerId && temp[profileBannerId].progress === 100 && bannerIdTemp) || profileBannerId === null) &&
+        ((profileMediaId && temp[profileMediaId].progress === 100 && pictureIdTemp) || profileMediaId === null)
+    ) {
+      if (saving) this._save()
+    }
+  }
+
+  componentDidMount() {
+    const {actions, description, paramId, owner} = this.props
+    const {getFollowers, getFile, getCountries} = actions || {}
+    getFollowers({
+      notProfile: true,
+      followOwnerIdentity: paramId,
+      followOwnerId: paramId,
+    })
+    getFile(owner.profile_media)
+    getFile(owner.profile_banner)
+    getCountries()
+    this.setState({...this.state, descriptionState: description}, () => this._checkCharacter(description))
+  }
+
   _uploadHandler = (fileString: any) => {
     const reader = new FileReader()
     if (fileString) {
@@ -208,24 +224,24 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
 
   _getValues = () => {
     const {owner, bannerIdTemp, pictureIdTemp, sideBarType} = this.props
-    const {descriptionState} = this.state
+    const {descriptionState, editName, editLastName, editTown, editBirthDate, editTelegram, editInstagram, editLinkedIn, editTwitter} = this.state
     const bannerId = bannerIdTemp ? bannerIdTemp : owner.profile_banner
     const pictureId = pictureIdTemp ? pictureIdTemp : owner.profile_media
-    if (sideBarType === constants.USER_TYPES.USER) {
-      return {
-        id: owner.id,
-        description: descriptionState,
-        profile_banner: bannerId,
-        profile_media: pictureId,
-      }
-    }
-    else return {
+    const name = sideBarType === constants.USER_TYPES.USER ? {first_name: editName, last_name: editLastName} : {nike_name: editName, official_name: editLastName}
+    return {
       id: owner.id,
       description: descriptionState,
       profile_banner: bannerId,
       profile_media: pictureId,
       organization_banner: bannerId,
       organization_logo: pictureId,
+      country: editTown,
+      birth_date: editBirthDate,
+      telegram_account: editTelegram,
+      instagram_account: editInstagram,
+      linkedin_account: editLinkedIn,
+      twitter_account: editTwitter,
+      ...name,
     }
   }
 
@@ -248,16 +264,26 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
 
   _handleEditProfile = (e: any) => {
     e.preventDefault()
-    const description = this.props.owner.description
+    const {owner, sideBarType} = this.props
+    const editName = sideBarType === constants.USER_TYPES.USER ? owner.first_name : owner.nike_name
+    const editLastName = sideBarType === constants.USER_TYPES.USER ? owner.last_name : owner.official_name
     this.setState({
       ...this.state,
       selectedImageFile: '',
       selectedImage: '',
       selectedBannerFile: '',
       selectedBanner: '',
-      editProfile: !this.state.editProfile,
       menuToggle: false,
-      descriptionState: description,
+      descriptionState: owner.description,
+      editName,
+      editLastName,
+      editTown: owner.country,
+      editBirthDate: owner.birth_date,
+      editTelegram: owner.telegram_account,
+      editInstagram: owner.instagram_account,
+      editLinkedIn: owner.linkedin_account,
+      editTwitter: owner.twitter_account,
+      editProfile: !this.state.editProfile,
     })
   }
 
@@ -285,6 +311,15 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
       this.setState({...this.state, descriptionState: description}, () => this._checkCharacter(description))
   }
 
+  handleParameter = (title, e) => {
+    this.setState({...this.state, [title]: e.target.value})
+  }
+
+  handleCountry = (e) => {
+    const value = parseInt(e.target.value, 10)
+    this.setState({...this.state, editTown: value === 0 ? null : value})
+  }
+
   _handleBlurText = () => {
     this.setState({...this.state, descriptionClass: ''})
   }
@@ -307,31 +342,6 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
     return false
   }
 
-  componentDidUpdate() {
-    const {profileBannerId, profileMediaId, saving} = this.state
-    const {bannerIdTemp, pictureIdTemp, temp} = this.props
-    if (
-        ((profileBannerId && temp[profileBannerId].progress === 100 && bannerIdTemp) || profileBannerId === null) &&
-        ((profileMediaId && temp[profileMediaId].progress === 100 && pictureIdTemp) || profileMediaId === null)
-    ) {
-      if (saving) this._save()
-    }
-  }
-
-  componentDidMount() {
-    // (document.addEventListener: Function)('click', this._handleClickOutMenuBox)
-    const {actions, description, paramId, owner} = this.props
-    const {getFollowers, getFile} = actions || {}
-    getFollowers({
-      notProfile: true,
-      followOwnerIdentity: paramId,
-      followOwnerId: paramId,
-    })
-    getFile(owner.profile_media)
-    getFile(owner.profile_banner)
-    this.setState({...this.state, descriptionState: description}, () => this._checkCharacter(description))
-  }
-
   _toggleAddModal = () => {
     const {showModalState} = this.state
     this.setState({
@@ -347,7 +357,6 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
     const {showModalState} = this.state
     const {actions} = this.props
     const {showModal} = actions
-
     if (modal === 'product') {
       this.setState({
         ...this.state,
@@ -359,7 +368,6 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
       showModal({modalKey: 'productModal'})
     }
     else {
-
       this.setState({
         ...this.state,
         showModalState: {
@@ -371,39 +379,27 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
     }
   }
 
-
   render() {
     const {
-      editProfile, selectedBanner, selectedImage, descriptionState, descriptionClass, processing, processingBanner,
-      profileBannerId, profileMediaId, showModalState,
+      editProfile, selectedBanner, selectedImage, descriptionState, descriptionClass, processing,
+      processingBanner, profileBannerId, profileMediaId, showModalState, editName, editLastName,
+      editBirthDate, editTelegram, editInstagram, editLinkedIn, editTwitter,
     } = this.state
-    const {
-      sideBarType, badges, translate: tr, paramId, followers, clientIdentityId, owner, files, bannerIdTemp,
-      pictureIdTemp, actions, temp,
-    } = this.props
+    const {sideBarType, badges, translate: tr, paramId, followers, clientIdentityId, owner, files, bannerIdTemp, pictureIdTemp, actions, temp, countries} = this.props
     const {createWorkExperience, createEducation, createCertificate, createSkill, createResearch} = actions
     const {add, education, research, certificate, skill, workExperience} = showModalState
-    const socialNetworks = {
-      telegram_account: owner['telegram_account'],
-      instagram_account: owner['instagram_account'],
-      linkedin_account: owner['linkedin_account'],
-      twitter_account: owner['twitter_account'],
-    }
-    const badgesImg = badges.map(badge => (
-        (!badge) ? '' : (badge.badge_related_badge_category.badge_related_media.file)),
-    )
+    const badgesImg = badges.map(badge => !badge ? '' : badge.badge_related_badge_category.badge_related_media.file)
     const chosenBadgesImg = badgesImg.slice(0, 4)
-    const className = this.props.className ? this.props.className : ''
     const showFollow = followers && !followers.map(follower => follower.id).includes(clientIdentityId)
     const bannerString = selectedBanner || (owner.profile_banner && files[owner.profile_banner] && files[owner.profile_banner].file)
     const pictureString = selectedImage || (owner.profile_media && files[owner.profile_media] && files[owner.profile_media].file)
     const name = sideBarType === constants.USER_TYPES.USER ?
-        (owner.first_name ? owner.first_name + ' ' : '' + owner.last_name ? owner.last_name : '') :
+        (owner.first_name && owner.last_name ? owner.first_name + ' ' + owner.last_name : owner.last_name ? owner.last_name : '') :
         (owner.nike_name || owner.official_name)
 
     return (
-        <React.Fragment>
-          <form className={className + ' pt-0'} onSubmit={this._handleSubmit}>
+        <div className='col-md-3 col-sm-1 -right-sidebar-wrapper col'>
+          <form className='-right-sidebar-wrapper-cont' onSubmit={this._handleSubmit}>
             <div className="editable-profile-img">
               {
                 !bannerString ?
@@ -412,7 +408,11 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
               }
               {
                 editProfile ?
-                    <input type="file" className='abel-input' onChange={!processingBanner ? e => this._uploadHandlerBanner(e.currentTarget.files[0]) : console.log('Still Uploading')}/>
+                    <div>
+                      <input type="file" className='abel-input' onChange={!processingBanner ? e => this._uploadHandlerBanner(e.currentTarget.files[0]) : console.log('Still Uploading')}/>
+                      <button className='user-submit-short' type="submit">ثبت</button>
+                      <div className='user-cancel-short' onClick={this._handleEditProfile}>لغو</div>
+                    </div>
                     : null
               }
             </div>
@@ -427,19 +427,32 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
                 }
                 {
                   editProfile ?
-                      <input type="file" className='abel-input' onChange={!processing ? e => this._uploadHandler(e.currentTarget.files[0]) : console.log('Still Uploading')}/>
+                      <div>
+                        <input type="file" className='abel-input' onChange={!processing ? e => this._uploadHandler(e.currentTarget.files[0]) : console.log('Still Uploading')}/>
+                      </div>
                       : null
                 }
               </div>
               <div className="align-items-center flex-column info-section">
-                <div className="sidebar-name">{name}</div>
+                <div className="sidebar-name">
+                  {
+                    editProfile ?
+                        <div>
+                          <div className='user-edit-name-title-required'>{sideBarType === constants.USER_TYPES.USER ? 'نام' : 'نام مستعار'}</div>
+                          <input className='user-edit-name' type='text' value={editName} onChange={e => this.handleParameter('editName', e)}/>
+                          <div className='user-edit-name-title-required-second'>{sideBarType === constants.USER_TYPES.USER ? 'نام خانوادگی' : 'نام رسمی'}</div>
+                          <input className='user-edit-name' type='text' value={editLastName} onChange={e => this.handleParameter('editLastName', e)}/>
+                        </div>
+                        :
+                        name
+                  }
+                </div>
                 {
-                  !editProfile ?
-                      <span className="-grey1 sidebar-description text-center">{owner.description}</span> :
+                  editProfile ?
                       <div className='description'>
+                        <div className='user-edit-name-title'>بیوگرافی</div>
                         {
-                          descriptionClass && <span
-                              className={descriptionClass}>{descriptionState && descriptionState.trim().length + '/70'}</span>
+                          descriptionClass && <span className={descriptionClass}>{descriptionState && descriptionState.trim().length + '/70'}</span>
                         }
                         <textarea
                             value={descriptionState}
@@ -447,10 +460,62 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
                             onChange={this._handleChangeText}
                         />
                       </div>
+                      :
+                      <div className='user-description-side'>
+                        <span className="-grey1 sidebar-description text-center">{owner.description}</span>
+                      </div>
                 }
+                <div className='sidebar-position'>
+                  {
+                    editProfile ?
+                        <div>
+                          <div className='user-edit-name-title'>موقعیت</div>
+                          <select className='user-edit-name' onChange={this.handleCountry}>
+                            <option className='user-edit-name' value={0}>انتخاب</option>
+                            {
+                              Object.values(countries.list).map((country, index) => {
+                                    if (owner.country === country.id) {
+                                      return <option className='user-edit-name' key={index} value={country.id} selected>{country.name}</option>
+                                    }
+                                    else return <option className='user-edit-name' key={index} value={country.id}>{country.name}</option>
+                                  },
+                              )
+                            }
+                          </select>
+                        </div>
+                        :
+                        <div className='user-sidebar-loc'>
+                          {
+                            countries.list[owner.country] && countries.list[owner.country].name &&
+                            <span>
+                              <Location className='user-view-sidebar-loc-svg'/>
+                              {countries.list[owner.country] && countries.list[owner.country].name}
+                            </span>
+                          }
+                          {
+                            owner.birth_date &&
+                            <span>
+                              <CalendarEmpty className='user-view-sidebar-svg'/>
+                              {owner.birth_date}
+                            </span>
+                          }
+                        </div>
+                  }
+                </div>
+
+                {
+                  editProfile &&
+                  <div className='sidebar-position'>
+                    <div>
+                      <div className='user-edit-name-title'>تاریخ تولد</div>
+                      <input className='user-edit-name' type='text' value={editBirthDate} onChange={e => this.handleParameter('editBirthDate', e)}/>
+                    </div>
+                  </div>
+                }
+
               </div>
               {
-                (chosenBadgesImg.length > 0) ? (
+                chosenBadgesImg.length > 0 ? (
                     <div className="badgesCard">
                       <BadgesCard badgesImg={chosenBadgesImg}/>
                     </div>
@@ -469,74 +534,151 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
                 </div>
               </section>
 
-              <section className='user-sidebar-buttons'>
-                <CheckOwner showForOwner={false} id={paramId}>
-                  <div className="sidebarBottomParent">
-                    <Material className="btn btn-outline-secondary sidebarBottom side-user"
-                              content={tr && tr['Send Message']}/>
-                    {showFollow ?
-                        <Material
-                            className="btn btn-outline-secondary sidebarFollowBottom follow-green-button side-user-follow"
-                            onClick={this._createFollow}
-                            content={tr && tr['Follow']}/>
-                        : <div className="followed-text">
-                          {tr && tr['Followed']}
-                        </div>
-                    }
-                  </div>
-                </CheckOwner>
-                <CheckOwner showForOwner={true} id={paramId}>
-                  <div className="sidebarBottomParent">
-                    <Material className="btn btn-outline-secondary sidebarBottom side-user"
-                              onClick={editProfile ? this._handleEditProfile : this._toggleAddModal}
-                              content={(!editProfile) ? (tr && tr['Complete profile']) : (
-                                  tr && tr['Cancel']
-                              )}/>
-                    <Material className={!editProfile
-                        ? 'sidebarFollowBottom follow-green-button side-user-follow'
-                        : 'side-user-follow-parent'}
-                              onClick={!editProfile ? this._handleEditProfile : undefined}
-                              content={(!editProfile) ? tr && tr['Edit Dashboard'] : (
-                                  <button type="submit" className={
-                                    (
-                                        ((profileBannerId && this.props.temp[profileBannerId].progress === 100 && bannerIdTemp) || profileBannerId === null)
-                                        &&
-                                        ((profileMediaId && this.props.temp[profileMediaId].progress === 100 && pictureIdTemp) || profileMediaId === null)
-                                    )
-                                        ? 'sidebarFollowBottom follow-green-button side-user-follow' : 'disabled sidebarFollowBottom follow-green-button side-user-follow'
-                                  }>
-                                    {tr && tr['Save changes']}
-                                  </button>
-                              )}/>
-                  </div>
-                </CheckOwner>
-              </section>
-              <div className="social-network">
-                {socialNetworks.twitter_account
-                    ? <a href={socialNetworks.twitter_account} className='link' target="_blank">
-                      <TwitterIcon className='social-icon twitter-active'/>
-                    </a>
-                    : <TwitterIcon className='social-icon'/>
-                }
-                {socialNetworks.telegram_account
-                    ? <a href={socialNetworks.telegram_account} className='link' target="_blank">
-                      <TelegramIcon className='social-icon telegram-active'/>
-                    </a>
-                    : <TelegramIcon className='social-icon'/>
-                }
-                {socialNetworks.instagram_account
-                    ? <a href={socialNetworks.instagram_account} className='link' target={'_blank'}>
-                      <InstagramIcon className='social-icon instagram-active'/>
-                    </a>
-                    : <InstagramIcon className='social-icon'/>
-                }
-                {socialNetworks.linkedin_account
-                    ? <a href={socialNetworks.linkedin_account} className='link' target="_blank">
-                      <LinkedInIcon className='social-icon linkedin-active'/>
-                    </a>
-                    : <LinkedInIcon className='social-icon'/>
-                }
-              </div>
+              {
+                !editProfile &&
+                <section className='user-sidebar-buttons'>
+                  <CheckOwner showForOwner={false} id={paramId}>
+                    <div className="sidebarBottomParent">
+                      <Material className="btn btn-outline-secondary sidebarBottom side-user"
+                                content={tr && tr['Send Message']}/>
+                      {showFollow ?
+                          <Material
+                              className="btn btn-outline-secondary sidebarFollowBottom follow-green-button side-user-follow"
+                              onClick={this._createFollow}
+                              content={tr && tr['Follow']}/>
+                          : <div className="followed-text">
+                            {tr && tr['Followed']}
+                          </div>
+                      }
+                    </div>
+                  </CheckOwner>
+                  <CheckOwner showForOwner={true} id={paramId}>
+                    <div className="sidebarBottomParent">
+                      <Material className="btn btn-outline-secondary sidebarBottom side-user"
+                                onClick={editProfile ? this._handleEditProfile : this._toggleAddModal}
+                                content={(!editProfile) ? (tr && tr['Complete profile']) : (
+                                    tr && tr['Cancel']
+                                )}/>
+                      <Material className={!editProfile
+                          ? 'sidebarFollowBottom follow-green-button side-user-follow'
+                          : 'side-user-follow-parent'}
+                                onClick={!editProfile ? this._handleEditProfile : undefined}
+                                content={(!editProfile) ? tr && tr['Edit Dashboard'] : (
+                                    <button type="submit" className={
+                                      (
+                                          ((profileBannerId && this.props.temp[profileBannerId].progress === 100 && bannerIdTemp) || profileBannerId === null)
+                                          &&
+                                          ((profileMediaId && this.props.temp[profileMediaId].progress === 100 && pictureIdTemp) || profileMediaId === null)
+                                      )
+                                          ? 'sidebarFollowBottom follow-green-button side-user-follow' : 'disabled sidebarFollowBottom follow-green-button side-user-follow'
+                                    }>
+                                      {tr && tr['Save changes']}
+                                    </button>
+                                )}/>
+                    </div>
+                  </CheckOwner>
+                </section>
+              }
+
+              {
+                editProfile ?
+                    <section className='user-sidebar-buttons-edit'>
+                      <div className='user-edit-social-title'>آدرس تلگرام</div>
+                      <div className='user-social-cont'>
+                        <TelegramIcon className='user-social-icon telegram-side-active'/>
+                        <div className='user-social-cont-text'>t.me/</div>
+                        <input type='text' className='user-edit-social-input' value={editTelegram} onChange={e => this.handleParameter('editTelegram', e)}/>
+                      </div>
+                      <div className='user-edit-social-title'>آدرس لینکدین</div>
+                      <div className='user-social-cont'>
+                        <LinkedInIcon className='user-social-icon linkedin-side-active'/>
+                        <div className='user-social-cont-text'>linkedin.com/in/</div>
+                        <input type='text' className='user-edit-social-input' value={editLinkedIn} onChange={e => this.handleParameter('editLinkedIn', e)}/>
+                      </div>
+                      <div className='user-edit-social-title'>آدرس اینستاگرام</div>
+                      <div className='user-social-cont'>
+                        <InstagramIcon className='user-social-icon instagram-side-active'/>
+                        <div className='user-social-cont-text'>instagram.com/</div>
+                        <input type='text' className='user-edit-social-input' value={editInstagram} onChange={e => this.handleParameter('editInstagram', e)}/>
+                      </div>
+                      <div className='user-edit-social-title'>آدرس تویتر</div>
+                      <div className='user-social-cont'>
+                        <TwitterIcon className='user-social-icon twitter-side-active'/>
+                        <div className='user-social-cont-text'>twitter.com/</div>
+                        <input type='text' className='user-edit-social-input' value={editTwitter} onChange={e => this.handleParameter('editTwitter', e)}/>
+                      </div>
+                    </section>
+                    :
+                    <div className="social-network">
+                      {
+                        owner.twitter_account
+                            ? <a href={owner.twitter_account.includes('twitter.com') ? owner.twitter_account : 'https://twitter.com/' + owner.twitter_account} className='link' target="_blank"><TwitterIcon className='social-icon twitter-active'/></a>
+                            : <TwitterIcon className='social-icon'/>
+                      }
+                      {
+                        owner.telegram_account
+                            ? <a href={owner.telegram_account.includes('t.me') ? owner.telegram_account : 'https://t.me/' + owner.telegram_account} className='link' target="_blank"><TelegramIcon className='social-icon telegram-active'/></a>
+                            : <TelegramIcon className='social-icon'/>
+                      }
+                      {
+                        owner.instagram_account
+                            ? <a href={owner.instagram_account.includes('instagram.com') ? owner.instagram_account : 'https://instagram.com/' + owner.instagram_account} className='link' target={'_blank'}><InstagramIcon className='social-icon instagram-active'/></a>
+                            : <InstagramIcon className='social-icon'/>
+                      }
+                      {
+                        owner.linkedin_account
+                            ? <a href={owner.linkedin_account.includes('linkedin.com') ? owner.linkedin_account : 'https://linkedin.com/in/' + owner.linkedin_account} className='link' target="_blank"><LinkedInIcon className='social-icon linkedin-active'/></a>
+                            : <LinkedInIcon className='social-icon'/>
+                      }
+                    </div>
+              }
+
+              {
+                editProfile &&
+                <section className='user-sidebar-buttons'>
+                  <CheckOwner showForOwner={false} id={paramId}>
+                    <div className="sidebarBottomParent">
+                      <Material className="btn btn-outline-secondary sidebarBottom side-user"
+                                content={tr && tr['Send Message']}/>
+                      {showFollow ?
+                          <Material
+                              className="btn btn-outline-secondary sidebarFollowBottom follow-green-button side-user-follow"
+                              onClick={this._createFollow}
+                              content={tr && tr['Follow']}/>
+                          : <div className="followed-text">
+                            {tr && tr['Followed']}
+                          </div>
+                      }
+                    </div>
+                  </CheckOwner>
+                  <CheckOwner showForOwner={true} id={paramId}>
+                    <div className="sidebarBottomParent">
+                      <Material className="btn btn-outline-secondary sidebarBottom side-user"
+                                onClick={editProfile ? this._handleEditProfile : this._toggleAddModal}
+                                content={(!editProfile) ? (tr && tr['Complete profile']) : (
+                                    tr && tr['Cancel']
+                                )}/>
+                      <Material className={!editProfile
+                          ? 'sidebarFollowBottom follow-green-button side-user-follow'
+                          : 'side-user-follow-parent'}
+                                onClick={!editProfile ? this._handleEditProfile : undefined}
+                                content={(!editProfile) ? tr && tr['Edit Dashboard'] : (
+                                    <button type="submit" className={
+                                      (
+                                          ((profileBannerId && this.props.temp[profileBannerId].progress === 100 && bannerIdTemp) || profileBannerId === null)
+                                          &&
+                                          ((profileMediaId && this.props.temp[profileMediaId].progress === 100 && pictureIdTemp) || profileMediaId === null)
+                                      )
+                                          ? 'sidebarFollowBottom follow-green-button side-user-follow' : 'disabled sidebarFollowBottom follow-green-button side-user-follow'
+                                    }>
+                                      {tr && tr['Save changes']}
+                                    </button>
+                                )}/>
+                    </div>
+                  </CheckOwner>
+                </section>
+              }
+
             </div>
           </form>
           <Modal open={add} closer={this._toggleAddModal}>
@@ -544,31 +686,52 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
               <div className="head">
                 <div className="title">{tr && tr['Add new expereince']}</div>
               </div>
-              <p onClick={() => this._toggleEducationModal('education')}
-                 className='item pulse'>{tr && tr['Education Experience']}</p>
-              <p onClick={() => this._toggleEducationModal('workExperience')}
-                 className='item pulse'>{tr && tr['Work experience']}</p>
+              <p onClick={() => this._toggleEducationModal('education')} className='item pulse'>{tr && tr['Education Experience']}</p>
+              <p onClick={() => this._toggleEducationModal('workExperience')} className='item pulse'>{tr && tr['Work experience']}</p>
               <p onClick={() => this._toggleEducationModal('skill')} className='item pulse'>{tr && tr['Skill']}</p>
-              <p onClick={() => this._toggleEducationModal('certificate')}
-                 className='item pulse'>{tr && tr['Certificate']}</p>
+              <p onClick={() => this._toggleEducationModal('certificate')} className='item pulse'>{tr && tr['Certificate']}</p>
               <p onClick={() => this._toggleEducationModal('product')} className='item pulse'>{tr && tr['Product']}</p>
-              <p onClick={() => this._toggleEducationModal('research')}
-                 className='item pulse'>{tr && tr['Scientific Research']}</p>
+              <p onClick={() => this._toggleEducationModal('research')} className='item pulse'>{tr && tr['Scientific Research']}</p>
             </div>
           </Modal>
 
-          {education && <EducationForm createEducation={createEducation} translate={tr} owner={owner}
-                                       toggleEdit={() => this._toggleEducationModal('education')}/>}
-          {workExperience && <WorkExperienceForm createWorkExperience={createWorkExperience} translate={tr}
-                                                 toggleEdit={() => this._toggleEducationModal('workExperience')}
-                                                 owner={owner}/>}
-          {skill && <SkillForm createSkill={createSkill} toggleEdit={() => this._toggleEducationModal('skill')}
-                               translate={tr} owner={owner}/>}
-          {certificate && <CertificateForm createCertificate={createCertificate} owner={owner} translate={tr}
-                                           toggleEdit={() => this._toggleEducationModal('certificate')}/>}
-          {research && <ResearchForm createResearch={createResearch} translate={tr} owner={owner}
-                                     toggleEdit={() => this._toggleEducationModal('research')}/>}
-        </React.Fragment>
+          {
+            education && <EducationForm createEducation={createEducation}
+                                        translate={tr}
+                                        owner={owner}
+                                        toggleEdit={() => this._toggleEducationModal('education')}
+            />
+          }
+          {
+            workExperience && <WorkExperienceForm createWorkExperience={createWorkExperience}
+                                                  translate={tr}
+                                                  toggleEdit={() => this._toggleEducationModal('workExperience')}
+                                                  owner={owner}
+            />
+          }
+          {
+            skill && <SkillForm createSkill={createSkill}
+                                toggleEdit={() => this._toggleEducationModal('skill')}
+                                translate={tr}
+                                owner={owner}
+            />
+          }
+          {
+            certificate && <CertificateForm createCertificate={createCertificate}
+                                            owner={owner}
+                                            translate={tr}
+                                            toggleEdit={() => this._toggleEducationModal('certificate')}
+            />
+          }
+          {
+            research && <ResearchForm createResearch={createResearch}
+                                      translate={tr}
+                                      owner={owner}
+                                      toggleEdit={() => this._toggleEducationModal('research')}
+            />
+          }
+
+        </div>
     )
   }
 }
@@ -577,6 +740,7 @@ const mapStateToProps = (state, ownProps) => {
   const bannerIdTemp = state.temp.file['profile_banner'] || null
   const pictureIdTemp = state.temp.file['profile_media'] || null
   return {
+    countries: getAllCountries(state),
     translate: getMessages(state),
     clientIdentityId: state.auth.client.identity.content,
     bannerIdTemp,
@@ -601,6 +765,7 @@ const mapDispatchToProps = dispatch => ({
     createResearch: ResearchActions.createResearchByUserId,
     createSkill: SkillActions.createSkill,
     createCertificate: CertificateActions.createCertificate,
+    getCountries,
   }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(SideBarContent)

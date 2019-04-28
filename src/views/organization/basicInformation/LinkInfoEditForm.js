@@ -14,9 +14,6 @@ type PropsOrganizationInfoEditForm = {|
   hideEdit: Function,
   organization: organizationType,
   translate: { [string]: string },
-  actions: {|
-    updateOrganization: Function,
-  |},
   initialize: Function,
   handleSubmit: Function,
   submitFailed: string,

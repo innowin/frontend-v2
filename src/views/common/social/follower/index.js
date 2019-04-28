@@ -3,14 +3,11 @@ import * as React from "react"
 import {Component} from "react"
 import PropTypes from "prop-types"
 import {connect} from "react-redux"
-
 import GetUserActions from "src/redux/actions/user/getUserActions"
-import OrganizationActions from "src/redux/actions/organization/organizationActions"
 import SocialActions from "src/redux/actions/commonActions/socialActions"
 import type {exchangeType} from "src/consts/flowTypes/exchange/exchange"
 import {bindActionCreators} from "redux"
 import {getMessages} from "src/redux/selectors/translateSelector"
-// import {getFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
 import {getFollowersSelector} from "src/redux/selectors/common/social/getNewFollowers"
 import {getFollowingsSelector} from "src/redux/selectors/common/social/getNewFollowings"
 import {getExchangeMembershipsSelector} from "src/redux/selectors/common/social/getExchangeMemberships"
@@ -26,7 +23,6 @@ type PropsSocials = {
     getFollowers: Function,
     deleteFollow: Function,
     getProfileByUserId: Function,
-    getOrganizationByOrganId: Function,
     updateFollow: Function,
     // createFollow: Function,
   },
@@ -149,7 +145,6 @@ const mapDispatchToProps = dispatch => ({
     updateFollow: SocialActions.updateFollow,
     // createFollow: SocialActions.createFollow,
     getProfileByUserId: GetUserActions.getProfileByUserId,
-    getOrganizationByOrganId: OrganizationActions.getOrganizationByOrganId
   }, dispatch)
 })
 

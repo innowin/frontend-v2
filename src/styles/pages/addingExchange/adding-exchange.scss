@@ -243,6 +243,33 @@
     cursor: pointer;
 }
 
+.user-submit-short{
+  position: absolute;
+  bottom: -40px;
+  left: 5px;
+  font-weight: bold;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: right;
+  padding: 10px;
+  z-index: 1;
+  color: $primary-color;
+  background-color: transparent;
+}
+
+.user-cancel-short{
+  position: absolute;
+  bottom: -40px;
+  right: 5px;
+  font-weight: bold;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: left;
+  padding: 10px;
+  z-index: 1;
+  color: #b1b1b1;
+}
+
 .create-exchange-cancel-button {
   padding: 5px;
   font-size: $font-size-regular;

@@ -5,7 +5,7 @@ import connect from 'react-redux/es/connect/connect'
 import CheckUsernameAction from 'src/redux/actions/user/checkUsernameAction'
 import AuthActions from 'src/redux/actions/authActions'
 import CreateUserActions from 'src/redux/actions/user/createUserActions'
-import {WelcomeOrgan, WelcomeUser} from '../../../images/icons'
+import {WelcomeOrgan, WelcomeUser} from 'src/images/icons'
 
 
 class FirstLevel extends Component {
@@ -36,37 +36,36 @@ class FirstLevel extends Component {
     const username = e.target.value.trim()
     let valid = false
     if (username.length > 4 && username.length < 33) {
-      valid = true
+      if (/^[a-zA-Z0-9]+([a-zA-Z0-9]([_\- ])[a-zA-Z0-9])*[a-zA-Z0-9]+$/.test(username)) {
+        valid = true
+      }
     }
     this.setState({...this.state, username, valid, error: false})
   }
 
-  onUserOut = () => {
-    this.usernameInput.focus()
+  onUserOut = () => this.usernameInput.focus()
+
+  createUser() {
+    return new Promise((resolve, reject) => {
+      const {selected, username} = this.state
+      const {password, email, actions} = this.props
+      const {signIn, createUserPerson, createUserOrgan} = actions
+      if (selected === 'user') {
+        createUserPerson(
+            {username, password, email},
+            () => signIn(username, password, false, () => reject(), () => resolve()),
+            () => signIn(username, password, false, () => reject(), () => resolve()),
+        )
+      }
+      else {
+        createUserOrgan(
+            {username, password, email},
+            () => signIn(username, password, false, () => reject(), () => resolve()),
+            () => signIn(username, password, false, () => reject(), () => resolve()),
+        )
+      }
+    })
   }
-
-  // createUser = (validate) => {
-  //   if (validate === 0) {
-  //     const {selected, username} = this.state
-  //     const {password, email} = this.props
-  //
-  //     if (selected === 'user') {
-  //       const {signIn, createUserPerson} = this.props.actions
-  //       createUserPerson({username, password, email}, (values) => {
-  //         signIn(values.username, password, false)
-  //       })
-  //     }
-  //     else {
-  //       // const {signIn, createUserOrgan} = this.props.actions
-  //       // const {translator} = this.props
-  //       // const promise = new Promise((resolve, reject) => createUserOrgan(values, resolve, reject))
-  //     }
-  //   }
-  //   else {
-  //     this.setState({...this.state, error: true})
-  //   }
-  // }
-
 
   submit = () => {
     if (this.state.valid) {
@@ -77,7 +76,11 @@ class FirstLevel extends Component {
         if (parseInt(res, 10) === 1) {
           this.setState({...this.state, error: true}, () => this.errText.innerText = 'نام کاربری قبلا در سامانه ثبت شده است.')
         }
-        else if (parseInt(res, 10) === 0) setSecondLevel()
+        else if (parseInt(res, 10) === 0) {
+          this.createUser()
+              .then(() => setSecondLevel())
+              .catch(() => this.setState({...this.state, error: true}, () => this.errText.innerText = 'سیستم با خطا مواجه شده است.'))
+        }
       }, () => this.setState({...this.state, error: true}, () => this.errText.innerText = 'شامل حروف underline ، 0-9 ، A - Z , dot حداقل 5 و حداکثر 32 کاراکتر.'))
     }
   }
@@ -151,6 +154,7 @@ class FirstLevel extends Component {
 }
 
 const mapStateToProps = (state) => ({})
+
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     checkUsername: CheckUsernameAction.checkUsername,

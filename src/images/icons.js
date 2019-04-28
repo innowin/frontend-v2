@@ -47,6 +47,7 @@ import InnoWinLogo from "./common/innoWin_svg"
 import InstagramIcon from "./common/instagram_svg"
 import ItemsAndPropertiesIcon from "./common/ItemsAndProperties_svg"
 import LinkedInIcon from "./common/linkedin_svg"
+import CalendarEmpty from "./common/calendar_empty"
 import Location from "./common/location"
 import LockSvg from "./common/lock_svg"
 import LogoColorSvg from "./common/logoColor"
@@ -216,6 +217,7 @@ export {
   WelcomeBox,
   WelcomePhone,
   WelcomeRocket,
+  CalendarEmpty,
   WelcomeUser,
   WelcomeOrgan,
   userInfoIcon,

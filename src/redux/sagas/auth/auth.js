@@ -1,19 +1,19 @@
-import api from "src/consts/api"
-import client from "src/consts/client"
-import results from "src/consts/resultName"
-import types from "src/redux/actions/types"
-import urls from "src/consts/URLS"
-import {delay} from "redux-saga"
-import {put, take, fork, call} from "redux-saga/effects"
+import api from 'src/consts/api'
+import client from 'src/consts/client'
+import results from 'src/consts/resultName'
+import types from 'src/redux/actions/types'
+import urls from 'src/consts/URLS'
+import {delay} from 'redux-saga'
+import {put, take, fork, call} from 'redux-saga/effects'
 
 /**********    %% WORKERS %%    **********/
 
 export function* signIn(action) {
   const {payload} = action
-  const {username, password, rememberMe, reject} = payload
-	const socketChannel = yield call(api.createSocketChannel, results.SIGN_IN)
+  const {username, password, rememberMe, reject, resolve} = payload
+  const socketChannel = yield call(api.createSocketChannel, results.SIGN_IN)
   try {
-		yield fork(api.post, urls.SIGN_IN, results.SIGN_IN, {username: username.toLowerCase(), password})
+    yield fork(api.post, urls.SIGN_IN, results.SIGN_IN, {username: username.toLowerCase(), password})
     const primaryData = yield take(socketChannel)
     const {token, identity} = primaryData
     yield put({type: types.AUTH.SET_TOKEN, payload: {token}})
@@ -22,10 +22,12 @@ export function* signIn(action) {
     yield client.saveData({identityId: identity.id, userType, remember: rememberMe})
     if (!rememberMe) {
       yield client.setSessionLS(token)
-    } else {
+    }
+    else {
       yield client.setTokenLS(token)
     }
-    yield put({type: types.SUCCESS.AUTH.SIGN_IN, payload: {data:primaryData, rememberMe: rememberMe}})
+    yield put({type: types.SUCCESS.AUTH.SIGN_IN, payload: {data: primaryData, rememberMe: rememberMe}})
+    yield call(resolve)
   }
   catch (e) {
     const {message} = e

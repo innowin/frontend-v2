@@ -140,15 +140,10 @@
 
   .-right-sidebar-wrapper {
     flex: 1 1 100%;
-    height: 400px;
 
     .sidebar-organ-user {
-      height: 70%;
       .social-network {
         display: none;
-      }
-      .user-sidebar-buttons {
-        bottom: 0;
       }
     }
   }

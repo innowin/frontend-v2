@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import {Component} from 'react'
 import uuid from 'uuid'
 import {exchangeIdentityFields} from './createExchangeData'
@@ -22,48 +22,7 @@ import types from 'src/redux/actions/types'
 import TempActions from '../../../../redux/actions/tempActions'
 import {CSSTransition, TransitionGroup} from 'react-transition-group'
 
-type HashTagType = {
-  id: string,
-  title: string,
-  usage: number
-}
-type CreateExchangeProps = {
-  addMember: Function,
-  auth: any,
-  createdExchange: { id: string, owner: string },
-  createExchange: Function,
-  createFile: (any) => void,
-  getFiles: (string) => void,
-  getFollowees: Function,
-  handleModalVisibility: Function,
-  hashTags: { [string]: HashTagType },
-  hisFiles: Array<ImageType>,
-  identity: string,
-  members: Array<{}>,
-  modalIsOpen: boolean,
-  social: Array<PersonType>,
-  translate: { [string]: string },
-}
-type CreateExchangeState = {
-  activeStep: number,
-  created?: boolean,
-  description: string,
-  exchangeImage: any,
-  exchangeImageFlag: boolean,
-  formData: { [string]: string },
-  inActPeopleIds: Array<string>,
-  isPrivate: boolean,
-  name: string,
-  processing: boolean,
-  progressStatus: string,
-  searchKey?: string,
-  selectedImage?: any,
-  selectedImageFile?: any,
-  selectedTags: Array<TagAsOptionType>,
-  wrapperClassName: string,
-}
-
-const initialState: any = {
+const initialState = {
   activeStep: 1,
   // progressStatus: PROGRESSIVE_STATUS_CHOICES.ACTIVE,
   // wrapperClassName: WRAPPER_CLASS_NAMES.ENTERING,
@@ -78,7 +37,7 @@ const initialState: any = {
   exchangeImageFlag: false,
 }
 
-class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState> {
+class CreateExchange extends Component {
   constructor() {
     super()
     this.state = {
@@ -88,22 +47,8 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
 
   componentDidMount() {
     const {identity, getFollowees, auth} = this.props
-    const query = `?identity=${identity}`
-    getFiles(query)
-    let getFolloweesPayload
-    if (auth.client.organization) {
-      getFolloweesPayload = {
-        followOwnerIdentity: auth.client.identity.content,
-        followOwnerId: auth.client.organization.id,
-      }
-    }
-    else {
-      getFolloweesPayload = {
-        followOwnerIdentity: auth.client.identity.content,
-        followOwnerId: auth.client.user.id,
-      }
-    }
-    getFollowees(getFolloweesPayload)
+    getFiles(`?identity=${identity}`)
+    getFollowees({followOwnerIdentity: auth.client.identity.content, followOwnerId: auth.client.identity.content})
   }
 
   componentDidUpdate(prevProps, prevState, SS) {
@@ -114,7 +59,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
     const {exchangeImageFlag} = this.state
     // const lastFile = hisFiles[hisFiles.length - 1] || {}
     // const prevLastFile = prevProps.hisFiles[prevProps.hisFiles.length - 1] || {}
-    const doc: any = document
+    const doc = document
 
     if (exchangeImageFlag) {
       if (tempFiles.exchange_image) {
@@ -364,6 +309,7 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
       reader.readAsDataURL(fileString)
     }
   }
+
   _createFile = () => {
     const {createFile} = this.props
     this.setState({...this.state, processing: true})
@@ -421,17 +367,16 @@ class CreateExchange extends Component<CreateExchangeProps, CreateExchangeState>
       self.exName.value = ''
       self.exDes.value = ''
       self.exPic.value = null
-      this.setState(
-          {
-            ...this.state,
-            name: '',
-            description: '',
-            exchangeImage: null,
-            selectedImage: null,
-            selectedImageFile: null,
-            isPrivate: false,
-            processing: false,
-          })
+      this.setState({
+        ...this.state,
+        name: '',
+        description: '',
+        exchangeImage: null,
+        selectedImage: null,
+        selectedImageFile: null,
+        isPrivate: false,
+        processing: false,
+      })
     }
     else {
       if (description.length >= 700) {
@@ -605,15 +550,12 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch =>
-    bindActionCreators(
-        {
-          getFiles,
-          getFollowees: socialActions.getFollowees,
-          createFile,
-          createExchange: exchangeActions.createExchange,
-          addMember: exchangeMembershipActions.createExchangeMembership,
-          removeFileFromTemp: TempActions.removeFileFromTemp,
-        },
-        dispatch,
-    )
+    bindActionCreators({
+      getFiles,
+      getFollowees: socialActions.getFollowees,
+      createFile,
+      createExchange: exchangeActions.createExchange,
+      addMember: exchangeMembershipActions.createExchangeMembership,
+      removeFileFromTemp: TempActions.removeFileFromTemp,
+    }, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(CreateExchange)

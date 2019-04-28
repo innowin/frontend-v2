@@ -12,7 +12,6 @@ type Props = {
   organization: identityType,
   translate: TranslatorType,
   toggleEdit: Function,
-  updateOrganization: Function,
 }
 
 type States = {

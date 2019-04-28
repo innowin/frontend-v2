@@ -3,7 +3,6 @@ import * as React from "react"
 import constants from "src/consts/constants"
 import getUserAction from "src/redux/actions/user/getUserActions"
 import identityActions from "src/redux/actions/identityActions"
-import organizationActions from "src/redux/actions/organization/organizationActions"
 import SocialActions from "src/redux/actions/commonActions/socialActions"
 import {bindActionCreators} from "redux"
 import {ClipLoader} from "react-spinners"
@@ -163,7 +162,7 @@ class MembersView extends Component<props, states> {
 
   setAllMembers() {
     let {exchangeUsers, exchangeId, actions} = this.props
-    let {getUser, getOrganization, getUserIdentity, getOrgIdentity} = actions
+    let {getUser} = actions
     let temp = []
     if (exchangeUsers) {
       if (exchangeUsers[exchangeId]) {
@@ -171,13 +170,9 @@ class MembersView extends Component<props, states> {
           if (exchangeUsers[exchangeId][i]) {
             if (exchangeUsers[exchangeId][i].type === "USER") {
               getUser(exchangeUsers[exchangeId][i].id)
-              // getUser(exchangeUsers[exchangeId][i].id)
-              // getUserIdentity(exchangeUsers[exchangeId][i].id)
             }
             else {
               getUser(exchangeUsers[exchangeId][i].id)
-              // getOrganization(exchangeUsers[exchangeId][i].id)
-              // getOrgIdentity(exchangeUsers[exchangeId][i].id)
             }
             temp.push(exchangeUsers[exchangeId][i])
           }
@@ -192,9 +187,7 @@ class MembersView extends Component<props, states> {
       top: 0
     })
     let {exchangeUsers, exchangeId, getFollowingSelector, actions} = this.props
-    let {getUser, getOrganization, getUserIdentity, getOrgIdentity} = actions
-
-    // getExchangeMembers({exchangeId}) //n
+    let {getUser} = actions
 
     let temp = []
     if (exchangeUsers) {
@@ -203,13 +196,9 @@ class MembersView extends Component<props, states> {
           if (exchangeUsers[exchangeId][i]) {
             if (exchangeUsers[exchangeId][i].type === "USER") {
               getUser(exchangeUsers[exchangeId][i].id)
-              // getUser(exchangeUsers[exchangeId][i].id)
-              // getUserIdentity(exchangeUsers[exchangeId][i].id)
             }
             else {
               getUser(exchangeUsers[exchangeId][i].id)
-              // getOrganization(exchangeUsers[exchangeId][i].id)
-              // getOrgIdentity(exchangeUsers[exchangeId][i].id)
             }
             temp.push(exchangeUsers[exchangeId][i])
           }
@@ -231,24 +220,14 @@ class MembersView extends Component<props, states> {
     this.setState({...this.state, followingUsers: tempUsers.slice(), followingOrgans: tempOrgans.slice()})
   }
 
-  componentDidUpdate(prev, nex, ss) {
+  componentDidUpdate() {
     if (!this.state.requested) {
-      let {exchangeUsers, exchangeId, actions} = this.props
-      let {getUser, getOrganization, getUserIdentity, getOrgIdentity} = actions
+      let {exchangeUsers, exchangeId} = this.props
       let temp = []
       if (exchangeUsers) {
         if (exchangeUsers[exchangeId]) {
           for (let i = 0; i < 6; i++) {
             if (exchangeUsers[exchangeId][i]) {
-              // if (exchangeUsers[exchangeId][i].type === "USER") {
-              //   getUserIdentity(exchangeUsers[exchangeId][i].id)
-              //   // getUser(exchangeUsers[exchangeId][i].id)
-              //   // getUserIdentity(exchangeUsers[exchangeId][i].id)
-              // } else {
-              //   getUserIdentity(exchangeUsers[exchangeId][i].id)
-              //   // getOrganization(exchangeUsers[exchangeId][i].id)
-              //   // getOrgIdentity(exchangeUsers[exchangeId][i].id)
-              // }
               temp.push(exchangeUsers[exchangeId][i])
             }
           }
@@ -312,7 +291,6 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({
     // getExchangeMembers: exchangeMembershipActions.getExchangeMembershipByExchangeId,
     getUser: getUserAction.getUserByUserId,
-    getOrganization: organizationActions.getOrganizationByOrganId,
     createFollow: SocialActions.createFollow,
     getFollowingAction: SocialActions.getFollowees,
     getUserIdentity: identityActions.getUserIdentity,

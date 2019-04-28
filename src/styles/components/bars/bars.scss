@@ -450,17 +450,19 @@ $sidebar-profile-media-width: 80px;
   padding: 0 15px 15px 15px;
 }
 
-.-right-sidebar-wrapper {
-  margin-top: 10px;
-  height: 590px;
-  overflow-y: auto;
+.-right-sidebar-wrapper-cont {
   background: $text-lightest-color;
-  -webkit-box-shadow: 0 0 14px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 0 0 14px rgba(0, 0, 0, 0.2);
   box-shadow: 0 0 14px rgba(0, 0, 0, 0.2);
   border-radius: $border-radius-size;
-  padding: 0;
+  overflow: hidden;
   transform: perspective(0);
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.-right-sidebar-wrapper {
+  margin-top: 10px;
+  padding: 0;
 }
 
 .user-sidebar-width {
@@ -511,18 +513,16 @@ $sidebar-profile-media-width: 80px;
 }
 
 .user-sidebar-buttons {
-  padding-top: 20px;
-  padding-bottom: 20px;
-  bottom: 65px;
-  right: 20px;
+  padding: 20px;
   width: calc(100% - 40px);
-  position: absolute;
   border-top: 1px solid lighten($text-lighter-color, 3.6%);
   text-align: center;
+}
 
-  @media screen and (max-width: 480px) and (min-width: 0) {
-    bottom: 0;
-  }
+.user-sidebar-buttons-edit {
+  padding: 20px 0;
+  border-top: 1px solid lighten($text-lighter-color, 3.6%);
+  text-align: center;
 }
 
 %sidebar-child-wrapper {
@@ -557,6 +557,13 @@ $sidebar-profile-media-width: 80px;
       text-align: center;
     }
 
+    .sidebar-position {
+      margin: 10px 0;
+      width: 100%;
+      text-align: center;
+      font-size: 12px;
+    }
+
     .sidebar-description {
       font-size: $font-size-regular;
     }
@@ -585,7 +592,7 @@ $sidebar-profile-media-width: 80px;
 
         &:focus {
           outline: none;
-          border: 1px solid #BBBBBB;
+          border: 1px solid $secondary-color;
         }
       }
     }
@@ -685,10 +692,10 @@ $sidebar-profile-media-width: 80px;
 
   .social-network {
     display: flex;
-    bottom: 0;
-    right: 20px;
-    width: calc(100% - 40px);
-    position: absolute;
+    //bottom: 0;
+    //right: 20px;
+    //width: calc(100% - 40px);
+    //position: absolute;
     border-top: 1px solid lighten($text-lighter-color, 3.6%);
     flex-direction: row;
     justify-content: space-around;
@@ -1982,10 +1989,10 @@ $sidebar-profile-media-width: 80px;
 
   padding: 20px 0;
   display: flex;
-  bottom: 0;
-  right: 20px;
-  width: calc(100% - 40px);
-  position: absolute;
+  //bottom: 0;
+  //right: 20px;
+  //width: calc(100% - 40px);
+  //position: absolute;
   border-top: 1px solid lighten($text-lighter-color, 3.6%);
   flex-direction: row;
   justify-content: space-around;
@@ -2464,17 +2471,10 @@ $sidebar-profile-media-width: 80px;
 }
 
 .user-sidebar-status {
-  padding: 20px 0;
-  bottom: 139px;
-  right: 20px;
+  padding: 20px;
   width: calc(100% - 40px);
-  position: absolute;
   border-top: 1px solid lighten($text-lighter-color, 3.6%);
   text-align: center;
-
-  @media screen and (max-width: 480px) and (min-width: 0) {
-    bottom: 74px;
-  }
 }
 
 .user-sidebar-status-border {
@@ -2509,4 +2509,116 @@ $sidebar-profile-media-width: 80px;
 
 .user-sidebar-skelete-status-content {
   background-color: #f3f3f3;
+}
+
+.user-edit-name-title {
+  font-size: 13px;
+  margin-bottom: 10px;
+  text-align: right;
+}
+
+
+.user-edit-social-title {
+  margin-top: 10px;
+  font-size: 13px;
+  margin-bottom: 10px;
+  text-align: right;
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+.user-edit-name-title-required {
+  font-size: 13px;
+  margin-bottom: 10px;
+  text-align: right;
+
+  &:after {
+    content: ' *';
+    color: $secondary-color;
+  }
+}
+
+.user-edit-name-title-required-second {
+  margin-top: 10px;
+  font-size: 13px;
+  margin-bottom: 10px;
+  text-align: right;
+
+  &:after {
+    content: ' *';
+    color: $secondary-color;
+  }
+}
+
+.user-edit-name {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #E7E7E7;
+  transition: all linear 0.3s;
+
+  &:focus {
+    border: 1px solid $secondary-color;
+    transition: all linear 0.3s;
+  }
+}
+
+.user-social-cont {
+  direction: ltr;
+  border-radius: 5px;
+  border: 1px solid #E7E7E7;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 40px;
+  padding: 0 10px;
+}
+
+.user-social-icon {
+  width: 22px;
+  height: 22px;
+  fill: $text-light-color;
+}
+
+.user-description-side {
+  height: 120px;
+  overflow-y: auto;
+}
+
+.user-edit-social-input {
+  flex-grow: 1;
+  padding: 8px 0;
+  border-radius: 5px;
+
+  @media screen and (min-width: 480px) {
+    max-width: 130px;
+  }
+}
+
+.user-social-cont-text {
+  color: #cccccc;
+  margin-left: 10px;
+  font-size: 13px;
+}
+
+.telegram-side-active {
+  fill: $telegram-icon-color;
+}
+
+.instagram-side-active {
+  fill: $instagram-icon-color;
+}
+
+.linkedin-side-active {
+  fill: $linkedin-icon-color;
+}
+
+.twitter-side-active {
+  fill: $twitter-icon-color;
+}
+
+.user-sidebar-loc{
+  color: #C2C2C2;
 }

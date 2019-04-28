@@ -1,13 +1,5 @@
 import types from '../types/index'
 
-//organization
-const getOrganizationByOrganId = (organizationId) => ({
-  type: types.ORG.GET_ORGANIZATION,
-  payload: {
-    organizationId
-  }
-})
-
 const getMetaDataOrganization = () => ({
   type: types.ORG.GET_META_DATA_ORGANIZATION,
   payload: {}
@@ -112,7 +104,6 @@ const agencyRequest = (description, hideLoading) => ({
 
 
 const OrganizationActions = {
-  getOrganizationByOrganId,
   getMetaDataOrganization,
   getOrganizationMembers,
   getOrgExchanges,

@@ -5,7 +5,7 @@ import CreateUserActions from 'src/redux/actions/user/createUserActions'
 import {BeatLoader} from 'react-spinners'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import {Field, reduxForm, SubmissionError} from 'redux-form'
+import {Field, reduxForm, /*SubmissionError*/} from 'redux-form'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {routerActions} from 'react-router-redux'
 import {validateSignUpForm, asyncValidateSignUp} from './signUpValidations'
@@ -129,14 +129,14 @@ class SignUpForm extends React.Component<> {
     const {showPassword, emailTextWidth, emailSuggest} = this.state
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="sign-up-form">
-          <Field
-              name="username"
-              type="text"
-              component={renderTextField}
-              label={translator['Username']}
-              className="signup-field"
-              onChangeForm={onChangeSignUp}
-          />
+          {/*<Field*/}
+          {/*    name="username"*/}
+          {/*    type="text"*/}
+          {/*    component={renderTextField}*/}
+          {/*    label={translator['Username']}*/}
+          {/*    className="signup-field"*/}
+          {/*    onChangeForm={onChangeSignUp}*/}
+          {/*/>*/}
           <div className='email-container'>
             {emailSuggest && <span ref={e => this.spanRef = e} className='email-suggest'
                                    style={{left: `${emailTextWidth}px`}}>{emailSuggest}</span>}
@@ -181,9 +181,9 @@ export class RegisterForm extends Component {
     this.state = {userType: constants.USER_TYPES.USER}
   }
 
-  _typeHandler = (value) => {
-    this.setState({...this.state, userType: value})
-  }
+  // _typeHandler = (value) => {
+  //   this.setState({...this.state, userType: value})
+  // }
 
   componentDidUpdate(prevProps) {
     const {push} = this.props.actions
@@ -192,60 +192,60 @@ export class RegisterForm extends Component {
     }
   }
 
-  _onSubmitOrgan = (values) => {
-    const {signIn, createUserOrgan} = this.props.actions
-    const {translator} = this.props
-    let checkedValues = {...values}
-    checkedValues.username = numberCorrection(checkedValues.username)
-    checkedValues.password = numberCorrection(checkedValues.password)
-    checkedValues.email = numberCorrection(checkedValues.email)
-    const promise = new Promise((resolve, reject) => createUserOrgan(checkedValues, resolve, reject))
-    return promise
-        .then(
-            () => {
-              return new Promise((resolve, reject) => signIn(numberCorrection(checkedValues.username), numberCorrection(checkedValues.password), false, reject))
-              //TODO mohsen: check that correctly return error in sign in
-                  .catch((errorMessage) => {
-                    throw new SubmissionError({_error: translator[errorMessage]})
-                  })
-            })
-        .catch(
-            (errorMessage) => {
-              //TODO mohsen: check that correctly return error in SubmissionError
-              throw new SubmissionError({_error: translator[errorMessage]})
-            },
-        )
-  }
-
-  _onSubmitPerson = (values) => {
-    const {signIn, createUserPerson} = this.props.actions
-    const {translator} = this.props
-    let checkedValues = {...values}
-    checkedValues.username = numberCorrection(checkedValues.username)
-    checkedValues.password = numberCorrection(checkedValues.password)
-    checkedValues.email = numberCorrection(checkedValues.email)
-    const promise = new Promise((resolve, reject) => createUserPerson(checkedValues, resolve, reject))
-    return promise
-        .then(
-            () => {
-              return new Promise((resolve, reject) => signIn(checkedValues.username, checkedValues.password, false, reject))
-                  .catch((errorMessage) => {
-                    throw new SubmissionError({_error: translator[errorMessage]})
-                  })
-            })
-        .catch(
-            (errorMessage) => {
-              throw new SubmissionError({_error: translator[errorMessage]})
-            }
-        )
-  }
+  // _onSubmitOrgan = (values) => {
+  //   const {signIn, createUserOrgan} = this.props.actions
+  //   const {translator} = this.props
+  //   let checkedValues = {...values}
+  //   checkedValues.username = numberCorrection(checkedValues.username)
+  //   checkedValues.password = numberCorrection(checkedValues.password)
+  //   checkedValues.email = numberCorrection(checkedValues.email)
+  //   const promise = new Promise((resolve, reject) => createUserOrgan(checkedValues, resolve, reject))
+  //   return promise
+  //       .then(
+  //           () => {
+  //             return new Promise((resolve, reject) => signIn(numberCorrection(checkedValues.username), numberCorrection(checkedValues.password), false, reject))
+  //             //TODO mohsen: check that correctly return error in sign in
+  //                 .catch((errorMessage) => {
+  //                   throw new SubmissionError({_error: translator[errorMessage]})
+  //                 })
+  //           })
+  //       .catch(
+  //           (errorMessage) => {
+  //             //TODO mohsen: check that correctly return error in SubmissionError
+  //             throw new SubmissionError({_error: translator[errorMessage]})
+  //           },
+  //       )
+  // }
+  //
+  // _onSubmitPerson = (values) => {
+  //   const {signIn, createUserPerson} = this.props.actions
+  //   const {translator} = this.props
+  //   let checkedValues = {...values}
+  //   checkedValues.username = numberCorrection(checkedValues.username)
+  //   checkedValues.password = numberCorrection(checkedValues.password)
+  //   checkedValues.email = numberCorrection(checkedValues.email)
+  //   const promise = new Promise((resolve, reject) => createUserPerson(checkedValues, resolve, reject))
+  //   return promise
+  //       .then(
+  //           () => {
+  //             return new Promise((resolve, reject) => signIn(checkedValues.username, checkedValues.password, false, reject))
+  //                 .catch((errorMessage) => {
+  //                   throw new SubmissionError({_error: translator[errorMessage]})
+  //                 })
+  //           })
+  //       .catch(
+  //           (errorMessage) => {
+  //             throw new SubmissionError({_error: translator[errorMessage]})
+  //           }
+  //       )
+  // }
 
   render() {
-    const {translator, /*onRegisterClick,*/ onChangeSignUp, inputValues, ...reduxFormProps} = this.props
-    const {userType} = this.state
+    const {translator, onRegisterClick, onChangeSignUp, inputValues, ...reduxFormProps} = this.props
+    // const {userType} = this.state
     // const userTypeItems = [{value: constants.USER_TYPES.USER, title: 'فرد'}, {value: constants.USER_TYPES.ORG, title: 'مجموعه'}]
-    const onSubmitFunc = (userType === constants.USER_TYPES.USER) ? (this._onSubmitPerson) : (this._onSubmitOrgan)
-    // const onSubmitFunc = onRegisterClick todo Hoseyn
+    // const onSubmitFunc = (userType === constants.USER_TYPES.USER) ? (this._onSubmitPerson) : (this._onSubmitOrgan)
+    const onSubmitFunc = onRegisterClick
     return (
         <div className="">
           {/*<RadioButtonGroup*/}
@@ -255,24 +255,24 @@ export class RegisterForm extends Component {
           {/*name="userType"*/}
           {/*label={''}*/}
           {/*/>*/}
-          <div className='radio-button-container'>
-            <label className="container-checkmark">
-              <input type="radio" name="userType" value={constants.USER_TYPES.USER}
-                     checked={inputValues.userType === constants.USER_TYPES.USER}
-                     onClick={() => this._typeHandler(constants.USER_TYPES.USER)}
-                     onChange={onChangeSignUp}/>
-              <span className="checkmark"/>
-              <p className='title'>{translator['Person']}</p>
-            </label>
-            <label className="container-checkmark">
-              <input type="radio" name="userType" value={constants.USER_TYPES.ORG}
-                     checked={inputValues.userType === constants.USER_TYPES.ORG}
-                     onClick={() => this._typeHandler(constants.USER_TYPES.ORG)}
-                     onChange={onChangeSignUp}/>
-              <span className="checkmark"/>
-              <p className='title'>{translator['Organ']}</p>
-            </label>
-          </div>
+          {/*<div className='radio-button-container'>*/}
+          {/*  <label className="container-checkmark">*/}
+          {/*    <input type="radio" name="userType" value={constants.USER_TYPES.USER}*/}
+          {/*           checked={inputValues.userType === constants.USER_TYPES.USER}*/}
+          {/*           onClick={() => this._typeHandler(constants.USER_TYPES.USER)}*/}
+          {/*           onChange={onChangeSignUp}/>*/}
+          {/*    <span className="checkmark"/>*/}
+          {/*    <p className='title'>{translator['Person']}</p>*/}
+          {/*  </label>*/}
+          {/*  <label className="container-checkmark">*/}
+          {/*    <input type="radio" name="userType" value={constants.USER_TYPES.ORG}*/}
+          {/*           checked={inputValues.userType === constants.USER_TYPES.ORG}*/}
+          {/*           onClick={() => this._typeHandler(constants.USER_TYPES.ORG)}*/}
+          {/*           onChange={onChangeSignUp}/>*/}
+          {/*    <span className="checkmark"/>*/}
+          {/*    <p className='title'>{translator['Organ']}</p>*/}
+          {/*  </label>*/}
+          {/*</div>*/}
 
           <SignUpForm
               {...reduxFormProps}
@@ -310,8 +310,8 @@ RegisterForm = reduxForm({
   form: 'RegisterForm',
   validate: validateSignUpForm,
   asyncValidate: asyncValidateSignUp,
-  asyncBlurFields: ['username', 'email'],
-  // asyncBlurFields: ['email'],
+  // asyncBlurFields: ['username', 'email'],
+  asyncBlurFields: ['email'],
   destroyOnUnmount: false,
 })(RegisterForm)
 

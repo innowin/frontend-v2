@@ -1,6 +1,5 @@
 // import AES from 'crypto-js/aes'
 import cookie from 'src/consts/data'
-import constants from "src/consts/constants"
 
 export const isAuthenticated = () => {
   return window.localStorage.hasOwnProperty('token') || window.sessionStorage.hasOwnProperty('token')

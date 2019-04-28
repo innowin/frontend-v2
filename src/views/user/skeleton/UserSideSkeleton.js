@@ -13,7 +13,7 @@ const UserSideSkeleton = (props) => <div className='sidebar-skeleton'>
     </div>
     <div className='user-default-profile-name'><span> </span></div>
     <div className='user-default-profile-desc'><span> </span></div>
-    <div className='user-default-profile-desc'><span> </span></div>
+    <div className='user-default-profile-desc-margin-bottom'><span> </span></div>
 
     <section className='user-sidebar-status'>
       <div className='user-sidebar-status-border user-sidebar-skelete-status-border'>

@@ -151,7 +151,6 @@ export class Organization extends React.Component<PropsOrganization, StatesOrgan
                 <div className={showSecondHeader ? '-main page-content has-two-header' : '-main page-content'}>
                   <SideBarContent
                       sideBarType={constants.USER_TYPES.ORG}
-                      className='col-md-3 col-sm-1 -right-sidebar-wrapper col pr-0 pl-0'
                       badges={badges}
                       paramId={userId}
                       owner={userObject}
