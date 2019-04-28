@@ -28,6 +28,8 @@ import {userCertificatesSelector} from 'src/redux/selectors/common/certificate/u
 import {getProductsSelector} from 'src/redux/selectors/common/product/userGetProductSelector'
 import ProductInfoView from '../../common/contributions/ProductInfoView'
 import CardContainer from '../../common/cardContainer'
+import CheckOwner from '../../common/CheckOwner'
+import Products from './product/Products'
 
 
 type OrganAboutMeProps = {
@@ -89,11 +91,7 @@ const UserAboutMe = (props: OrganAboutMeProps) => {
                      certificates={certificates} getCertificatesByIdentity={getCertificatesByIdentity}
                      createCertificate={createCertificate} deleteCertificate={deleteCertificate}/>
 
-        <CardContainer>
-          {products && Object.values(products).map(pro =>
-              <ProductInfoView product={pro}/>,
-          )}
-        </CardContainer>
+        <Products translate={translate} products={products}/>
 
         <Research updateResearch={updateResearch} translate={translate} owner={user} researches={researches}
                   getResearches={getResearches} deleteResearch={deleteResearch} createResearch={createResearch}/>
