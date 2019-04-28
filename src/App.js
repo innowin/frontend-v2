@@ -51,22 +51,25 @@ class App extends React.Component {
 
             <PropsRoute path="/login" _hideModalClick={this._hideModalClick} _onRegisterClick={this._onRegisterClick} setSignUpFields={this.setSignUpFields} component={Login}/>
 
-            <div className='pages-wrapper global-wrapper'>
-              <TopBar path={path} collapseClassName="col user-sidebar-width"/>
+            <React.Fragment>
+              <div className='pages-wrapper global-wrapper'>
+                <TopBar path={path} collapseClassName="col user-sidebar-width"/>
 
-              <Switch>
-                <PrivateRoute exact={true} path="/" component={Home}/>
-                <PrivateRoute path="/user/:id" component={User}/>
-                <PrivateRoute path="/organization/:id" component={Organization}/>
-                <PrivateRoute path="/exchange" component={Exchange}/>
-                <PrivateRoute path="/product" component={Product}/>
-                <PrivateRoute path="/users/Users_Explorer" component={User_Explorer}/>
+                <Switch>
+                  <PrivateRoute exact={true} path="/" component={Home}/>
+                  <PrivateRoute path="/user/:id" component={User}/>
+                  <PrivateRoute path="/organization/:id" component={Organization}/>
+                  <PrivateRoute path="/exchange" component={Exchange}/>
+                  <PrivateRoute path="/product" component={Product}/>
+                  <PrivateRoute path="/users/Users_Explorer" component={User_Explorer}/>
 
-                <PrivateRoute path="*" component={NotFound}/>
+                  <PrivateRoute path="*" component={NotFound}/>
 
-              </Switch>
-              <ToastContainer/>
-            </div>
+                </Switch>
+                <ToastContainer/>
+              </div>
+            </React.Fragment>
+
           </Switch>
         </div>
     )

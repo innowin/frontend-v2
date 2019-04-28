@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import connect from 'react-redux/es/connect/connect'
 import Material from '../../common/components/Material'
 import socialActions from '../../../redux/actions/commonActions/socialActions'
@@ -6,42 +6,20 @@ import {bindActionCreators} from 'redux'
 import {ClipLoader} from 'react-spinners'
 import {Component} from 'react'
 import {DefaultOrganIcon, DefaultUserIcon, Organization, User as UserIcon} from 'src/images/icons'
-import {getMessages} from 'src/redux/selectors/translateSelector'
 import {Link} from 'react-router-dom'
 import constants from 'src/consts/constants'
 import getFile from 'src/redux/actions/commonActions/fileActions'
 
-type appProps =
-    {|
-      actions: any,
-      members: Array<number>,
-      data: any,
-      identities: Object,
-      user: Object,
-      followees: Object,
-      translate: { [string]: string }
-    |}
-
-type appState =
-    {|
-      follow: boolean,
-      followLoading: boolean,
-      profileLoaded: boolean,
-      bannerLoaded: boolean,
-      checkMedia: boolean
-    |}
-
-class User extends Component <appProps, appState> {
+class User extends Component {
   constructor(props) {
     super(props)
-    this.state =
-        {
-          follow: false,
-          followLoading: false,
-          profileLoaded: false,
-          bannerLoaded: false,
-          checkMedia: true,
-        }
+    this.state = {
+      follow: false,
+      followLoading: false,
+      profileLoaded: false,
+      bannerLoaded: false,
+      checkMedia: true,
+    }
     const self: any = this
     self._follow = this._follow.bind(this)
   }
@@ -54,21 +32,18 @@ class User extends Component <appProps, appState> {
     if (data.profile_media) {
       actions.getFile(data.profile_media)
     }
-    // if (data.profile_banner && data.profile_banner.file) {
-    //   let banner = new Image()
-    //   banner.src = data.profile_banner.file.includes('innowin.ir') ? data.profile_banner.file : REST_URL + data.profile_banner.file
-    //   banner.onload = () => {
-    //     this.setState({...this.state, bannerLoaded: true})
-    //   }
-    // }
-    //
-    // if (data.profile_media && data.profile_media.file) {
-    //   let profile = new Image()
-    //   profile.src = data.profile_media.file.includes('innowin.ir') ? data.profile_media.file : REST_URL + data.profile_media.file
-    //   profile.onload = () => {
-    //     this.setState({...this.state, profileLoaded: true})
-    //   }
-    // }
+  }
+
+  componentWillReceiveProps(nextProps, nextContext) {
+    if (this.props.data.id !== nextProps.data.id) {
+      const {data, actions} = nextProps
+      if (data.profile_banner) {
+        actions.getFile(data.profile_banner)
+      }
+      if (data.profile_media) {
+        actions.getFile(data.profile_media)
+      }
+    }
   }
 
   _follow() {
@@ -156,17 +131,6 @@ class User extends Component <appProps, appState> {
   }
 }
 
-const mapStateToProps = (state) => {
-  const id = state.auth.client.identity.content
-  const currentUser = state.identities.list[id]
-  return {
-    currentUser,
-    identities: state.identities.list,
-    translate: getMessages(state),
-    files: state.common.file.list,
-  }
-}
-
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({
     follow: socialActions.createFollow,
@@ -174,4 +138,4 @@ const mapDispatchToProps = (dispatch) => ({
   }, dispatch),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(User)
+export default connect(null, mapDispatchToProps)(User)

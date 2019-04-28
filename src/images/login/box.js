@@ -4,12 +4,12 @@ const RocketSvg = ({className = ''}) => (
     <svg className={className} viewBox="0 0 1920 1080">
       <style type="text/css" dangerouslySetInnerHTML={{__html: `
         .st0{display:none;}
-        .st1{display:inline;fill:none;stroke:#D4EDFE;stroke-width:5;stroke-miterlimit:10;}
-        .st2{display:inline;fill:none;stroke:#FFFFFF;stroke-width:5;stroke-miterlimit:10;}
-        .st3{display:inline;fill:none;stroke:#D4EDFE;stroke-width:3;stroke-miterlimit:10;}
+        .st1{display:inline;fill:none;stroke:#D4EDFE;strokeWidth:5;strokeMiterlimit:10;}
+        .st2{display:inline;fill:none;stroke:#FFFFFF;strokeWidth:5;strokeMiterlimit:10;}
+        .st3{display:inline;fill:none;stroke:#D4EDFE;strokeWidth:3;strokeMiterlimit:10;}
         .st4{display:inline;}
-        .st5{fill:#3BA6EE;stroke:#3BA6EE;stroke-miterlimit:10;}
-        .st6{display:inline;fill:none;stroke:#D4EDFE;stroke-width:2;stroke-miterlimit:10;}
+        .st5{fill:#3BA6EE;stroke:#3BA6EE;strokeMiterlimit:10;}
+        .st6{display:inline;fill:none;stroke:#D4EDFE;strokeWidth:2;strokeMiterlimit:10;}
         .st7{display:inline;fill:#FFFFFF;}
         .st8{fill:#FFFFFF;}
         .st9{fill:#D4EDFE;}
@@ -17,25 +17,25 @@ const RocketSvg = ({className = ''}) => (
         .st11{fill:#2488CF;}
         .st12{fill:#30A1ED;}
         .st13{fill:none;}
-        .st14{fill:none;stroke:#A7D7F7;stroke-width:4;stroke-miterlimit:10;}
+        .st14{fill:none;stroke:#A7D7F7;strokeWidth:4;strokeMiterlimit:10;}
         .st15{fill:#2487CE;}
-        .st16{fill:#30A1ED;stroke:#FFFFFF;stroke-width:7;stroke-miterlimit:10;}
-        .st17{fill:none;stroke:#FFFFFF;stroke-width:5;stroke-miterlimit:10;}
+        .st16{fill:#30A1ED;stroke:#FFFFFF;strokeWidth:7;strokeMiterlimit:10;}
+        .st17{fill:none;stroke:#FFFFFF;strokeWidth:5;strokeMiterlimit:10;}
         .st18{fill:#F7A024;}
-        .st19{fill:none;stroke:#FFFFFF;stroke-width:4;stroke-miterlimit:10;}
-        .st20{fill:none;stroke:#D4EDFE;stroke-width:4;stroke-miterlimit:10;}
-        .st21{fill:#FFFFFF;stroke:#D4EDFE;stroke-width:3;stroke-miterlimit:10;}
+        .st19{fill:none;stroke:#FFFFFF;strokeWidth:4;strokeMiterlimit:10;}
+        .st20{fill:none;stroke:#D4EDFE;strokeWidth:4;strokeMiterlimit:10;}
+        .st21{fill:#FFFFFF;stroke:#D4EDFE;strokeWidth:3;strokeMiterlimit:10;}
         .st22{fill:#31A1ED;}
         .st23{display:inline;fill:#30A1ED;}
         .st24{display:inline;fill:#84C7F4;}
         .st25{display:inline;fill:#2487CE;}
-        .st26{display:inline;fill:none;stroke:#84CEFF;stroke-miterlimit:10;}
+        .st26{display:inline;fill:none;stroke:#84CEFF;strokeMiterlimit:10;}
         .st27{display:inline;fill:#D4EDFE;}
-        .st28{display:inline;fill:#84CEFF;stroke:#FFFFFF;stroke-width:2;stroke-miterlimit:10;}
-        .st29{display:inline;fill:none;stroke:#FFFFFF;stroke-width:2;stroke-miterlimit:10;}
+        .st28{display:inline;fill:#84CEFF;stroke:#FFFFFF;strokeWidth:2;strokeMiterlimit:10;}
+        .st29{display:inline;fill:none;stroke:#FFFFFF;strokeWidth:2;strokeMiterlimit:10;}
         .st30{display:inline;fill:#5DBDFD;}
         .st31{display:inline;fill:#84CEFF;}
-        .st32{display:inline;fill:none;stroke:#FFFFFF;stroke-width:4;stroke-miterlimit:10;}
+        .st32{display:inline;fill:none;stroke:#FFFFFF;strokeWidth:4;strokeMiterlimit:10;}
         .st33{display:inline;fill:#F7A024;}
         .st34{display:inline;fill:#87C8F4;}
       `}}></style>

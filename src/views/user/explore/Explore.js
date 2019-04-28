@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react'
 import connect from 'react-redux/es/connect/connect'
 import RightArrowSvg from 'src/images/common/right_arrow_svg'
@@ -13,28 +12,7 @@ import {getMessages} from 'src/redux/selectors/translateSelector'
 import {getUsers} from 'src/redux/selectors/user/GetAllUsers'
 import {PureComponent} from 'react'
 
-type appProps =
-    {|
-      actions: any,
-      currentUser: Object,
-      translate: Object,
-      loading: boolean,
-      allUsers: Object,
-      followees: Object
-    |}
-
-type appState =
-    {|
-      activeScrollHeight: number,
-      search: ?string,
-      justFollowing: boolean,
-      justFollowed: boolean,
-      scrollButton: boolean,
-      justUsers: boolean,
-      justOrgans: boolean,
-    |}
-
-class Explore extends PureComponent <appProps, appState> {
+class Explore extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -106,18 +84,18 @@ class Explore extends PureComponent <appProps, appState> {
   }
 
   render() {
-    const {loading, allUsers} = this.props
+    const {loading, allUsers, currentUser, identities, files, translate} = this.props
     const {justFollowing, justFollowed, scrollButton, justOrgans, justUsers} = this.state
     const list = this.props.followees
     let followees = {}
     let followers = {}
 
-    Object.values(list).forEach((follow: Object) => {
-          if (follow.follow_followed && this.props.currentUser && follow.follow_followed.id === this.props.currentUser.id) {
-            followers[follow.follow_follower.id] = follow
+    Object.values(list).forEach((follow) => {
+          if (follow.follow_followed && currentUser && (follow.follow_followed.id === currentUser.id || follow.follow_followed === currentUser.id)) {
+            followers[follow.follow_follower.id ? follow.follow_follower.id : follow.follow_follower] = follow
           }
-          else if (follow.follow_followed && follow.follow_followed.id) {
-            followees[follow.follow_followed.id] = follow
+          else if (follow.follow_followed) {
+            followees[follow.follow_followed.id ? follow.follow_followed.id : follow.follow_followed] = follow
           }
         },
     )
@@ -139,6 +117,10 @@ class Explore extends PureComponent <appProps, appState> {
                    justOrgans={justOrgans}
                    justUsers={justUsers}
                    loading={loading}
+                   identities={identities}
+                   translate={translate}
+                   files={files}
+                   currentUser={currentUser}
             />
             <div className='users-explore-hide'/>
             <div className='users-explore-hide'/>
@@ -159,10 +141,12 @@ const mapStateToProps = (state) => {
 
   return {
     currentUser,
+    identities: state.identities.list,
     allUsers: getUsers(state),
     followees: getFollowList(state),
     loading: state.identities.isLoading,
     translate: getMessages(state),
+    files: state.common.file.list,
   }
 }
 const mapDispatchToProps = dispatch => ({

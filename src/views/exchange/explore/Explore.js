@@ -1,5 +1,4 @@
-// @flow
-import * as React from 'react'
+import React from 'react'
 import connect from 'react-redux/es/connect/connect'
 import exchangeActions from 'src/redux/actions/exchangeActions'
 import Exchanges from './Exchanges'
@@ -10,27 +9,7 @@ import {ClipLoader} from 'react-spinners'
 import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges.js'
 import {PureComponent} from 'react'
 
-type appProps =
-    {|
-      actions: { getAllExchanges: Function },
-      currentUserIdentity: number,
-      currentUserType: string,
-      currentUserId: number,
-      allExchanges: any,
-      translate: Object,
-      loading: boolean
-    |}
-
-type appState =
-    {|
-      activeScrollHeight: number,
-      scrollLoading: boolean,
-      justFollowing: boolean,
-      search: ?string,
-      scrollButton: boolean
-    |}
-
-class Explore extends PureComponent <appProps, appState> {
+class Explore extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -39,12 +18,40 @@ class Explore extends PureComponent <appProps, appState> {
       justFollowing: false,
       search: null,
       scrollButton: false,
+      followed: [],
     }
   }
 
   componentDidMount() {
     this.props.actions.getAllExchanges(250, 0, null)
+    const {clientExchangeMemberships, exchangeMemberships} = this.props
+    if (clientExchangeMemberships.length > 0) {
+      let followed = []
+      clientExchangeMemberships.forEach((exId, idx) => {
+        if (exchangeMemberships[exId]) {
+          followed.push(exchangeMemberships[exId].exchange_identity_related_exchange.id)
+        }
+        if (idx === clientExchangeMemberships.length - 1) {
+          this.setState({...this.state, followed: [...followed]})
+        }
+      })
+    }
     document.addEventListener('scroll', this._onScroll)
+  }
+
+  componentWillReceiveProps(nextProps, nextContext) {
+    const {clientExchangeMemberships, exchangeMemberships} = nextProps
+    if (clientExchangeMemberships.length > 0) {
+      let followed = []
+      clientExchangeMemberships.forEach((exId, idx) => {
+        if (exchangeMemberships[exId]) {
+          followed.push(exchangeMemberships[exId].exchange_identity_related_exchange.id)
+        }
+        if (idx === clientExchangeMemberships.length - 1) {
+          this.setState({...this.state, followed: [...followed]})
+        }
+      })
+    }
   }
 
   componentWillUnmount() {
@@ -66,11 +73,11 @@ class Explore extends PureComponent <appProps, appState> {
     }
   }
 
-
-  _search = (search) =>
-      this.setState({...this.state, search: search, activeScrollHeight: 0}, () => {
-        this.props.actions.getAllExchanges(24, 0, search)
-      })
+  _search = (search) => {
+    this.setState({...this.state, search: search, activeScrollHeight: 0}, () => {
+      this.props.actions.getAllExchanges(24, 0, search)
+    })
+  }
 
   _justFollowing = (checked) => this.setState({...this.state, justFollowing: checked})
 
@@ -83,13 +90,13 @@ class Explore extends PureComponent <appProps, appState> {
 
   render() {
     const {allExchanges, loading} = this.props
-    const {justFollowing, scrollButton} = this.state
+    const {justFollowing, scrollButton, followed} = this.state
 
     return (
         <div className='all-exchanges-parent'>
           <Sidebar search={this._search} justFollowing={this._justFollowing}/>
           <div className='all-exchanges-container'>
-            <Exchanges exchanges={allExchanges} justFollowing={justFollowing} loading={loading}/>
+            <Exchanges exchanges={allExchanges} justFollowing={justFollowing} loading={loading} followed={followed}/>
             <div className='exchange-model-hide'/>
             <div className='exchange-model-hide'/>
             <div className='exchange-model-hide'/>
@@ -106,6 +113,8 @@ class Explore extends PureComponent <appProps, appState> {
 const mapStateToProps = (state) => ({
   allExchanges: getExchanges(state),
   loading: state.exchanges.isLoading,
+  clientExchangeMemberships: state.auth.client.exchangeMemberships,
+  exchangeMemberships: state.common.exchangeMembership.list,
 })
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({

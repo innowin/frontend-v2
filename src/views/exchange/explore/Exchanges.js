@@ -14,7 +14,7 @@ type appProps =
 const loadingArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 const Exchanges = (props: appProps) => {
-  let {exchanges/*justFollowing*/} = props
+  let {exchanges, followed /*justFollowing*/} = props
 
   exchanges = Object.values(exchanges).sort((a, b) => a.id - b.id)
 
@@ -31,7 +31,7 @@ const Exchanges = (props: appProps) => {
     return <React.Fragment>
       {
         exchanges.map((exchange: Object, i: number): any =>
-            <Exchange key={i} data={exchange}/>,
+            <Exchange key={i} data={exchange} followed={followed}/>,
         )
       }
     </React.Fragment>

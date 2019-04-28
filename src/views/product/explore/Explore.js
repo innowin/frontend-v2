@@ -110,7 +110,7 @@ class Explore extends PureComponent <appProps, appState> {
   _unCollapse = () => this.setState({...this.state, isCollapsed: false})
 
   render() {
-    const {allProducts, loading, categories} = this.props
+    const {allProducts, loading, categories, identities} = this.props
     const {scrollButton, catLevel1, catLevel2, catLevel3, isCollapsed} = this.state
     const {list} = categories
 
@@ -168,6 +168,7 @@ class Explore extends PureComponent <appProps, appState> {
                       catLevel1={catLevel1}
                       catLevel2={catLevel2}
                       catLevel3={catLevel3}
+                      identities={identities}
             />
             <div className='product-model-hide'/>
             <div className='product-model-hide'/>
@@ -188,7 +189,7 @@ const mapStateToProps = (state) => {
     categories: categorySelector(state),
     allProducts: getProducts(state),
     loading: state.common.product.products.isLoading,
-    // translate: getMessages(state),
+    identities: state.identities.list,
   }
 }
 const mapDispatchToProps = dispatch => ({

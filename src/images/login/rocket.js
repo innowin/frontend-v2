@@ -9,17 +9,17 @@ const RocketSvg = ({className = ''}) => (
         .st2{fill:#FFCC84;}
         .st3{fill:#30A1EE;}
         .st4{fill:#348BCA;}
-        .st5{fill:#2390D8;stroke:#FFFFFF;stroke-miterlimit:10;}
+        .st5{fill:#2390D8;stroke:#FFFFFF;strokeMiterlimit:10;}
         .st6{fill:#F8A024;}
         .st7{fill:#D68B18;}
         .st8{fill:#83CEFF;}
-        .st9{fill:#83CEFF;stroke:#FFFFFF;stroke-miterlimit:10;}
-        .st10{fill:#30A1EE;stroke:#FFFFFF;stroke-miterlimit:10;}
-        .st11{fill:none;stroke:#FFFFFF;stroke-width:2;stroke-miterlimit:10;}
-        .st12{fill:none;stroke:#D3EDFE;stroke-width:3;stroke-miterlimit:10;}
+        .st9{fill:#83CEFF;stroke:#FFFFFF;strokeMiterlimit:10;}
+        .st10{fill:#30A1EE;stroke:#FFFFFF;strokeMiterlimit:10;}
+        .st11{fill:none;stroke:#FFFFFF;strokeWidth:2;strokeMiterlimit:10;}
+        .st12{fill:none;stroke:#D3EDFE;strokeWidth:3;strokeMiterlimit:10;}
         .st13{fill:#FFFFFF;}
-        .st14{opacity:0.33;fill:none;stroke:#FFFFFF;stroke-width:2;stroke-miterlimit:10;}
-        .st15{fill:none;stroke:#30A1EE;stroke-width:4;stroke-miterlimit:10;}
+        .st14{opacity:0.33;fill:none;stroke:#FFFFFF;strokeWidth:2;strokeMiterlimit:10;}
+        .st15{fill:none;stroke:#30A1EE;strokeWidth:4;strokeMiterlimit:10;}
         .st16{display:none;}
       `
       }}></style>

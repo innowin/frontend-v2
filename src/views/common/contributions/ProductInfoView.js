@@ -41,8 +41,8 @@ class ProductInfoView extends React.Component {
                 <span className='product-instant-seller'>فروشنده: </span>
                 <span className='product-instant-seller-name'>
                    {
-                     product_owner && product_owner.nike_name ? product_owner.nike_name : product_owner && product_owner.first_name ? product_owner.first_name + ' ' + product_owner.last_name
-                         : <div style={{verticalAlign: 'top', display: 'inline-block', marginTop: '3px'}}><ClipLoader size={15}/></div>
+                     product_owner ? product_owner.official_name ? product_owner.official_name : product_owner.nike_name ? product_owner.nike_name : product_owner.first_name || product_owner.last_name ? product_owner.first_name + ' ' + product_owner.last_name
+                         : <span style={{color: 'red'}}>فاقد نام</span> : <div style={{verticalAlign: 'top', display: 'inline-block', marginTop: '3px'}}><ClipLoader size={15}/></div>
                    }
                 </span>
               </div>
@@ -65,8 +65,8 @@ class ProductInfoView extends React.Component {
                   <span className='product-instant-seller'>فروشنده: </span>
                   <span className='product-instant-seller-name'>
                    {
-                     product_owner && product_owner.nike_name ? product_owner.nike_name : product_owner && product_owner.first_name ? product_owner.first_name + ' ' + product_owner.last_name
-                         : <div style={{verticalAlign: 'top', display: 'inline-block', marginTop: '3px'}}><ClipLoader size={15}/></div>
+                     product_owner ? product_owner.official_name ? product_owner.official_name : product_owner.nike_name ? product_owner.nike_name : product_owner.first_name || product_owner.last_name ? product_owner.first_name + ' ' + product_owner.last_name
+                         : <span style={{color: 'red'}}>فاقد نام</span> : <div style={{verticalAlign: 'top', display: 'inline-block', marginTop: '3px'}}><ClipLoader size={15}/></div>
                    }
                 </span>
                 </div>

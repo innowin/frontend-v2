@@ -15,7 +15,7 @@ type appProps =
 const loadingArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 const Products = (props: appProps) => {
-  let {products, catLevel1, catLevel2, catLevel3, categories} = props
+  let {products, catLevel1, catLevel2, catLevel3, categories, identities} = props
   const list = Object.values(categories.list)
 
   products = Object.values(products).filter(pro => pro.id)
@@ -53,7 +53,7 @@ const Products = (props: appProps) => {
     return <React.Fragment>
       {
         products.reverse().map((product, i): any =>
-            <Product key={i} data={product}/>
+            <Product key={i} data={product} identities={identities}/>,
         )
       }
     </React.Fragment>
@@ -63,8 +63,8 @@ const Products = (props: appProps) => {
   }
   else return <React.Fragment>
       {
-        loadingArr.map((index:number): any =>
-            <ProductSkeleton key={index}/>
+        loadingArr.map((index: number): any =>
+            <ProductSkeleton key={index}/>,
         )
       }
     </React.Fragment>
@@ -73,7 +73,7 @@ const Products = (props: appProps) => {
 const mapStateToProps = (state) => {
   const categorySelector = makeCategorySelector()
   return {
-    categories: categorySelector(state)
+    categories: categorySelector(state),
   }
 }
 

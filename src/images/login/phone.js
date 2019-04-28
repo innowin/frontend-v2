@@ -8,20 +8,20 @@ const PhoneSvg = ({className = ''}) => (
         .st2{fill:#30A1ED;}
         .st3{fill:#84C7F4;}
         .st4{fill:#2487CE;}
-        .st5{fill:none;stroke:#84CEFF;stroke-miterlimit:10;}
-        .st6{fill:#84CEFF;stroke:#FFFFFF;stroke-width:2;stroke-miterlimit:10;}
-        .st7{fill:none;stroke:#FFFFFF;stroke-width:2;stroke-miterlimit:10;}
+        .st5{fill:none;stroke:#84CEFF;strokeMiterlimit:10;}
+        .st6{fill:#84CEFF;stroke:#FFFFFF;strokeWidth:2;strokeMiterlimit:10;}
+        .st7{fill:none;stroke:#FFFFFF;strokeWidth:2;strokeMiterlimit:10;}
         .st8{fill:#5DBDFD;}
         .st9{fill:#84CEFF;}
-        .st10{fill:none;stroke:#FFFFFF;stroke-width:4;stroke-miterlimit:10;}
+        .st10{fill:none;stroke:#FFFFFF;strokeWidth:4;strokeMiterlimit:10;}
         .st11{fill:#F7A024;}
         .st12{fill:#87C8F4;}
-        .st13{fill:none;stroke:#D4EDFE;stroke-width:5;stroke-miterlimit:10;}
-        .st14{fill:none;stroke:#FFFFFF;stroke-width:5;stroke-miterlimit:10;}
+        .st13{fill:none;stroke:#D4EDFE;strokeWidth:5;strokeMiterlimit:10;}
+        .st14{fill:none;stroke:#FFFFFF;strokeWidth:5;strokeMiterlimit:10;}
         .st15{fill:#FFFFFF;}
-        .st16{fill:none;stroke:#D4EDFE;stroke-width:3;stroke-miterlimit:10;}
-        .st17{fill:#3BA6EE;stroke:#3BA6EE;stroke-miterlimit:10;}
-        .st18{fill:none;stroke:#D4EDFE;stroke-width:2;stroke-miterlimit:10;}
+        .st16{fill:none;stroke:#D4EDFE;strokeWidth:3;strokeMiterlimit:10;}
+        .st17{fill:#3BA6EE;stroke:#3BA6EE;strokeMiterlimit:10;}
+        .st18{fill:none;stroke:#D4EDFE;strokeWidth:2;strokeMiterlimit:10;}
       `}}></style>
       <g id="Layer_1" className="st0">
 
