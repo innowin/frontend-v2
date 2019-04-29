@@ -404,11 +404,11 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
     const {add, education, research, certificate, skill, workExperience} = showModalState
     const badgesImg = badges.map(badge => !badge ? '' : badge.badge_related_badge_category.badge_related_media.file)
     const chosenBadgesImg = badgesImg.slice(0, 4)
-    const showFollow = followers && !followers.map(follower => follower.id).includes(clientIdentityId)
+    const showFollow = !followers.map(follower => follower.follow_follower.id ? follower.follow_follower.id : follower.follow_follower).includes(clientIdentityId)
     const bannerString = selectedBanner || (owner.profile_banner && files[owner.profile_banner] && files[owner.profile_banner].file)
     const pictureString = selectedImage || (owner.profile_media && files[owner.profile_media] && files[owner.profile_media].file)
     const name = sideBarType === constants.USER_TYPES.USER ?
-        (owner.first_name && owner.last_name ? owner.first_name + ' ' + owner.last_name : owner.last_name ? owner.last_name : '') :
+        (owner.first_name && owner.last_name ? owner.first_name + ' ' + owner.last_name : owner.last_name ? owner.last_name : owner.first_name ? owner.first_name : '') :
         (owner.nike_name || owner.official_name)
 
     return (

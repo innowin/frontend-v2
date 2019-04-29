@@ -7,10 +7,11 @@ import userActions from 'src/redux/actions/user/getUserActions'
 import Users from './Users'
 import {bindActionCreators} from 'redux'
 import {ClipLoader} from 'react-spinners'
-import {getFollowList} from 'src/redux/selectors/common/social/getFollowList'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {getUsers} from 'src/redux/selectors/user/GetAllUsers'
 import {PureComponent} from 'react'
+import {getFollowersSelector} from '../../../redux/selectors/common/social/getFollowers'
+import {getFolloweesSelector} from '../../../redux/selectors/common/social/getFollowees'
 
 class Explore extends PureComponent {
   constructor(props) {
@@ -84,21 +85,19 @@ class Explore extends PureComponent {
   }
 
   render() {
-    const {loading, allUsers, currentUser, identities, files, translate} = this.props
+    const {loading, allUsers, currentUser, identities, files, translate, followees, followers} = this.props
     const {justFollowing, justFollowed, scrollButton, justOrgans, justUsers} = this.state
-    const list = this.props.followees
-    let followees = {}
-    let followers = {}
 
-    Object.values(list).forEach((follow) => {
-          if (follow.follow_followed && currentUser && (follow.follow_followed.id === currentUser.id || follow.follow_followed === currentUser.id)) {
-            followers[follow.follow_follower.id ? follow.follow_follower.id : follow.follow_follower] = follow
-          }
-          else if (follow.follow_followed) {
-            followees[follow.follow_followed.id ? follow.follow_followed.id : follow.follow_followed] = follow
-          }
-        },
-    )
+    const followeesArr = Object.values(followees).reduce((all, follow) => {
+      const id = follow.follow_followed.id ? follow.follow_followed.id : follow.follow_followed
+      return {...all, [id]: follow}
+    }, {})
+
+    const followersArr = Object.values(followers).reduce((all, follow) => {
+      const id = follow.follow_follower.id ? follow.follow_follower.id : follow.follow_follower
+      return {...all, [id]: follow}
+    }, {})
+
 
     return (
         <div className='all-exchanges-parent'>
@@ -109,8 +108,8 @@ class Explore extends PureComponent {
                    justOrgans={this._justOrgans}
           />
           <div className='all-exchanges-container'>
-            <Users followees={followees}
-                   followers={followers}
+            <Users followees={followeesArr}
+                   followers={followersArr}
                    users={allUsers}
                    justFollowing={justFollowing}
                    justFollowed={justFollowed}
@@ -143,7 +142,8 @@ const mapStateToProps = (state) => {
     currentUser,
     identities: state.identities.list,
     allUsers: getUsers(state),
-    followees: getFollowList(state),
+    followers: getFollowersSelector(state, {ownerId: id}),
+    followees: getFolloweesSelector(state, {ownerId: id}),
     loading: state.identities.isLoading,
     translate: getMessages(state),
     files: state.common.file.list,
