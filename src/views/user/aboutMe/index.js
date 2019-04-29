@@ -121,7 +121,7 @@ const mapStateToProps = (state, ownProps) => {
   return (state, props) => {
     return {
       translate: getMessages(state),
-      products: getProductsSelector(state, {ownerId: state.auth.client.identity.content}),
+      products: getProductsSelector(state, {ownerId: ownProps.userId}),
       certificates: userCertificatesSelector(state, ownProps),
       files: state.common.file.list,
       educations: getEducations(state, props),

@@ -475,7 +475,8 @@ class SideBar extends Component {
                     <span className='product-view-sidebar-details-grey'>فروشنده: </span>
                     <span className='product-view-sidebar-details-blue'>
                       {
-                        product_owner && product_owner.nike_name ? product_owner.nike_name : product_owner && product_owner.first_name ? product_owner.first_name : <div style={{verticalAlign: 'top', display: 'inline-block', marginTop: '3px'}}><ClipLoader size={15}/></div>
+                        product_owner ? product_owner.official_name ? product_owner.official_name : product_owner.nike_name ? product_owner.nike_name : product_owner.first_name || product_owner.last_name ? product_owner.first_name + ' ' + product_owner.last_name
+                            : <span style={{color: 'red'}}>فاقد نام</span> : <div style={{verticalAlign: 'top', display: 'inline-block', marginTop: '3px'}}><ClipLoader size={15}/></div>
                       }
                     </span>
                     <br/>

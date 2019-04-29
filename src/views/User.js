@@ -96,11 +96,11 @@ class User extends Component<PropsUser, StatesUser> {
 
   componentDidMount() {
     const {params} = this.props.match
-    const {getUserByUserId, setParamUserId,getProducts} = this.props.actions
+    const {getUserByUserId, setParamUserId, getProducts} = this.props.actions
     const userId: number = +params.id
     getUserByUserId(userId)
     setParamUserId({id: userId})
-    getProducts(userId)
+    getProducts({productOwnerId: userId})
     window.addEventListener('scroll', this._onScroll)
   }
 
