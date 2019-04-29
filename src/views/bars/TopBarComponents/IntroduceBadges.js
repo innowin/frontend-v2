@@ -18,8 +18,8 @@ class IntroduceBadges extends Component {
         <div className={!loading && badges.length ? 'introduce-badges-container' : !loading && badges.length === 0 ? 'introduce-badges-container-empty' : 'introduce-badges-container-loading'}>
           {
             !loading && badges.length > 0 ?
-                badges.map(badge =>
-                    <Badge media={badge.media} title={badge.title} description={badge.description}/>
+                badges.map((badge, index) =>
+                    <Badge key={'badges ' + index} media={badge.media} title={badge.title} description={badge.description}/>
                 )
                 :
                 !loading && badges.length === 0 ?
