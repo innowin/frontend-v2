@@ -110,11 +110,13 @@ import userInfoIcon from "./user/userinfo_svg"
 import WarningIcon from "./common/warning-sign"
 import workExperienceIcon from "./user/workExperience_svg"
 import YoutubeIcon from "./common/youtube_svg"
+import StaffCount from "./common/staff_count"
 
 export {
   AgentSvgIcon,
   AttachFileIcon,
   NotFoundSvg,
+  StaffCount,
   AttachFileNewIcon,
   Bee,
   BeeBackground,

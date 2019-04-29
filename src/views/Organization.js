@@ -26,6 +26,7 @@ import OrganAboutUs from 'src/views/organization/aboutUs'
 import RightArrowSvg from '../images/common/right_arrow_svg'
 import type {fileType} from '../consts/flowTypes/common/fileType'
 import DefaultOrganIcon from '../images/defaults/defaultOrganization_svg'
+import ProductActions from '../redux/actions/commonActions/productActions'
 
 type PropsOrganization = {
   userObject: organStateObject,
@@ -94,10 +95,11 @@ export class Organization extends React.Component<PropsOrganization, StatesOrgan
   componentDidMount() {
     document.addEventListener('scroll', this._onScroll)
     const {params} = this.props.match
-    const {getUserByUserId, setParamUserId} = this.props.actions
+    const {getUserByUserId, setParamUserId,getProducts} = this.props.actions
     const userId: number = +params.id
     getUserByUserId(userId)
     setParamUserId({id: userId})
+    getProducts({productOwnerId: userId})
   }
 
   componentWillUnmount() {
@@ -221,6 +223,7 @@ export class Organization extends React.Component<PropsOrganization, StatesOrgan
                       />
                       <PrivateRoute exact path={`${path}/basicInformation`} component={OrganAboutUs}
                                     organization={userObject}
+                                    userId={userId}
                       />
                       <PrivateRoute path={`${path}/Followers`} component={Followers}
                                     ownerId={userId}
@@ -283,6 +286,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
+    getProducts: ProductActions.getProductsByIdentity,
     getUserByUserId: GetUserActions.getUserByUserId,
     getUserBadges: BadgeActions.getUserBadges,
     setParamUserId: ParamActions.setParamUserId,

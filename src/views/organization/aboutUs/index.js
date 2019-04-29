@@ -3,20 +3,20 @@ import * as React from "react"
 import PropTypes from 'prop-types'
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
-
 import Certificate from "../../common/newCertificate";
 import CertificateActions from 'src/redux/actions/commonActions/certificateActions'
 import Contact from './contact'
 import Description from "./description";
 import ModalActions from 'src/redux/actions/modalActions'
 import OrganizationActions from 'src/redux/actions/organization/organizationActions'
-import Product from './product'
 import type {certificateType} from 'src/consts/flowTypes/user/others'
 import type {fileType} from 'src/consts/flowTypes/common/fileType'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import {getMessages} from "src/redux/selectors/translateSelector";
 import {TranslatorType} from "src/consts/flowTypes/common/commonTypes";
 import {userCertificatesSelector} from 'src/redux/selectors/common/certificate/userCertificatesSelector'
+import {getProductsSelector} from '../../../redux/selectors/common/product/userGetProductSelector'
+import Products from '../../user/aboutMe/product/Products'
 
 type OrganAboutUsProps = {
   certificates: [certificateType],
@@ -37,13 +37,13 @@ type OrganAboutUsProps = {
 const OrganAboutUs = (props: OrganAboutUsProps) => {
   const {translate, organization, actions, products, certificates, files} = props
   const {
-    getCertificatesByIdentity, showModal, updateOrganization, createCertificate, updateCertificate,
+    getCertificatesByIdentity, updateOrganization, createCertificate, updateCertificate,
     deleteCertificate
   } = actions
   return (
       <div className="about-us">
         <Description updateOrganization={updateOrganization} translate={translate} organization={organization}/>
-        <Product showModal={showModal} products={products} translate={translate} owner={organization}/>
+        <Products translate={translate} products={products}/>
         <Certificate deleteCertificate={deleteCertificate} updateCertificate={updateCertificate} files={files}
                      translate={translate} owner={organization}
                      certificates={certificates} getCertificatesByIdentity={getCertificatesByIdentity}
@@ -67,7 +67,7 @@ const mapStateToProps = (state, ownProps) => {
     translate: getMessages(state),
     certificates: userCertificatesSelector(state, ownProps),
     files: state.common.file.list,
-    products: [],
+    products: getProductsSelector(state, {ownerId: ownProps.userId}),
   }
 };
 

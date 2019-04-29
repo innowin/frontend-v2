@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import type {organizationType} from 'src/consts/flowTypes/organization/organization'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import type {userType} from 'src/consts/flowTypes/user/basicInformation'
-import {DefaultUserIcon, DefaultOrganIcon, TwitterIcon, TelegramIcon, LinkedInIcon, InstagramIcon, Location, CalendarEmpty} from 'src/images/icons'
+import {DefaultUserIcon, DefaultOrganIcon, TwitterIcon, TelegramIcon, LinkedInIcon, InstagramIcon, Location, CalendarEmpty, StaffCount} from 'src/images/icons'
 import CertificateActions from 'src/redux/actions/commonActions/certificateActions'
 import CertificateForm from '../common/newCertificate/CertificateForm'
 import CheckOwner from '../common/CheckOwner'
@@ -224,10 +224,11 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
 
   _getValues = () => {
     const {owner, bannerIdTemp, pictureIdTemp, sideBarType} = this.props
-    const {descriptionState, editName, editLastName, editTown, editBirthDate, editTelegram, editInstagram, editLinkedIn, editTwitter} = this.state
+    const {descriptionState, editName, editLastName, editTown, editBirthDate, editTelegram, editInstagram, editLinkedIn, editTwitter, editStaff} = this.state
     const bannerId = bannerIdTemp ? bannerIdTemp : owner.profile_banner
     const pictureId = pictureIdTemp ? pictureIdTemp : owner.profile_media
     const name = sideBarType === constants.USER_TYPES.USER ? {first_name: editName, last_name: editLastName} : {nike_name: editName, official_name: editLastName}
+    const birth_date = sideBarType === constants.USER_TYPES.USER ? {birth_date: editBirthDate} : {established_year: editBirthDate}
     return {
       id: owner.id,
       description: descriptionState,
@@ -236,22 +237,27 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
       organization_banner: bannerId,
       organization_logo: pictureId,
       country: editTown,
-      birth_date: editBirthDate,
       telegram_account: editTelegram,
       instagram_account: editInstagram,
       linkedin_account: editLinkedIn,
       twitter_account: editTwitter,
+      staff_count: editStaff,
       ...name,
+      ...birth_date,
     }
   }
 
   _formValidate = () => {
     let result = true
-    const {descriptionState} = this.state
+    const {descriptionState, editName, editLastName} = this.state
     const descriptionLength = descriptionState ? descriptionState.trim().length : 0
     const descriptionError = descriptionLength > 70
+    const nameError = editName.length === 0
+    const lastNameError = editLastName.length === 0
     const validates = [
       descriptionError,
+      nameError,
+      lastNameError,
     ]
     for (let i = 0; i < validates.length; i++) {
       if (validates[i]) {
@@ -267,6 +273,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
     const {owner, sideBarType} = this.props
     const editName = sideBarType === constants.USER_TYPES.USER ? owner.first_name : owner.nike_name
     const editLastName = sideBarType === constants.USER_TYPES.USER ? owner.last_name : owner.official_name
+    const editBirthDate = sideBarType === constants.USER_TYPES.USER ? owner.birth_date : owner.established_year
     this.setState({
       ...this.state,
       selectedImageFile: '',
@@ -278,7 +285,8 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
       editName,
       editLastName,
       editTown: owner.country,
-      editBirthDate: owner.birth_date,
+      editStaff: owner.staff_count,
+      editBirthDate,
       editTelegram: owner.telegram_account,
       editInstagram: owner.instagram_account,
       editLinkedIn: owner.linkedin_account,
@@ -318,6 +326,12 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
   handleCountry = (e) => {
     const value = parseInt(e.target.value, 10)
     this.setState({...this.state, editTown: value === 0 ? null : value})
+  }
+
+
+  handleStaff = (e) => {
+    const value = parseInt(e.target.value, 10)
+    this.setState({...this.state, editStaff: value === 0 ? null : value})
   }
 
   _handleBlurText = () => {
@@ -493,10 +507,23 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
                             </span>
                           }
                           {
-                            owner.birth_date &&
+                            (owner.birth_date || owner.established_year) &&
                             <span>
-                              <CalendarEmpty className='user-view-sidebar-svg'/>
-                              {owner.birth_date}
+                              <CalendarEmpty className='user-view-cal-sidebar-svg'/>
+                              {owner.birth_date || owner.established_year}
+                            </span>
+                          }
+                          {
+                            (sideBarType === constants.USER_TYPES.ORG && owner.staff_count) &&
+                            <span>
+                              <StaffCount className='user-view-staff-sidebar-svg'/>
+                              {
+                                owner.staff_count === 10 ? '10 - 50' :
+                                    owner.staff_count === 50 ? '50 - 100' :
+                                        owner.staff_count === 100 ? '100 - 200' :
+                                            owner.staff_count === 200 ? '200 به بالا' : owner.staff_count
+                              }
+                              <span> عضو</span>
                             </span>
                           }
                         </div>
@@ -507,8 +534,24 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
                   editProfile &&
                   <div className='sidebar-position'>
                     <div>
-                      <div className='user-edit-name-title'>تاریخ تولد</div>
-                      <input className='user-edit-name' type='text' value={editBirthDate} onChange={e => this.handleParameter('editBirthDate', e)}/>
+                      <div className='user-edit-name-title'>{sideBarType === constants.USER_TYPES.USER ? 'تاریخ تولد' : 'سال تاسیس'}</div>
+                      <input className='user-edit-name' type={sideBarType === constants.USER_TYPES.USER ? 'text' : 'number'} value={editBirthDate} onChange={e => this.handleParameter('editBirthDate', e)}/>
+                    </div>
+                  </div>
+                }
+
+                {
+                  sideBarType === constants.USER_TYPES.ORG && editProfile &&
+                  <div className='sidebar-position'>
+                    <div>
+                      <div className='user-edit-name-title'>تعداد اعضا</div>
+                      <select className='user-edit-name' onChange={this.handleStaff}>
+                        <option className='user-edit-name' value={0}>انتخاب</option>
+                        <option className='user-edit-name' selected={owner.staff_count === 10} value={10}>10 - 50</option>
+                        <option className='user-edit-name' selected={owner.staff_count === 50} value={50}>50 - 100</option>
+                        <option className='user-edit-name' selected={owner.staff_count === 100} value={100}>100 - 200</option>
+                        <option className='user-edit-name' selected={owner.staff_count === 200} value={200}>200 به بالا</option>
+                      </select>
                     </div>
                   </div>
                 }
@@ -521,12 +564,6 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
                     </div>
                 ) : ('')
               }
-              {/*<div className="followNames">*/}
-              {/*<span className="item">{followNames[0]}،</span>*/}
-              {/*<span className="item">{followNames[1]}</span>*/}
-              {/*<span>{` و ${followNames.length - 2 } نفر دیگر `}</span>*/}
-              {/*</div>*/}
-
 
               <section className='user-sidebar-status'>
                 <div className='user-sidebar-status-border'>
