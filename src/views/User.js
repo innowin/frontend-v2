@@ -11,7 +11,8 @@ import PostExtendedView from 'src/views/common/post/PostView'
 import Posts from 'src/views/common/post/index'
 import PrivateRoute from '../consts/PrivateRoute'
 import PropTypes from 'prop-types'
-import Social from 'src/views/common/social/index'
+import Exchanges from 'src/views/common/social/exchanges/index'
+// import Exchanges from 'src/views/common/social/index'
 import Following from 'src/views/common/social/following/index'
 import Follower from 'src/views/common/social/follower/index'
 import type {badgeType} from 'src/consts/flowTypes/common/badges'
@@ -181,7 +182,7 @@ class User extends Component<PropsUser, StatesUser> {
                         {/*            content={translate['Contributions']}/>*/}
                         {/*</NavLink>*/}
 
-                        <NavLink to={`${url}/SocialConnections`} className='header-container-item'
+                        <NavLink to={`${url}/Exchanges`} className='header-container-item'
                                  activeClassName='header-container-item-active'>
                           <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
                                     content={translate['Exchanges']}/>
@@ -241,7 +242,7 @@ class User extends Component<PropsUser, StatesUser> {
                         {/*              isUser={true}*/}
                         {/*              user={userObject}*/}
                         {/*/>*/}
-                        <PrivateRoute path={`${path}/SocialConnections`} component={Social}
+                        <PrivateRoute path={`${path}/Exchanges`} component={Exchanges}
                                       ownerId={userId}
                                       identityType={constants.USER_TYPES.USER}
                                       user={userObject}

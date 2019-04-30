@@ -133,6 +133,15 @@ const getObjectOfArrayKeysSortByCreateTime = (array, objectArray) => {
   return sortedArray.reduce((acc, arrayId) => [...acc, objectArray[arrayId]], [])
 }
 
+const getObjectOfArrayKeysSortByReverseCreateTime = (array, objectArray) => {
+  const sortedArray = array.sort((element1, element2) => {
+    let a = new Date(objectArray[element1].created_time);
+    let b = new Date(objectArray[element2].created_time);
+    return a < b ? -1 : a > b ? 1 : 0
+  })
+  return sortedArray.reduce((acc, arrayId) => [...acc, objectArray[arrayId]], [])
+}
+
 const abbreviation = (names, num) => names.reduce((result, part) => {
   if (result.length < num + 1) {
     if (part) return result + '‌' + part[0]
@@ -176,6 +185,7 @@ export default {
   changeObjectKeyValueToArray,
   getObjectOfArrayKeys,
   getObjectOfArrayKeysSortByCreateTime,
+  getObjectOfArrayKeysSortByReverseCreateTime,
   normalizer,
   selectByKeyList
 }

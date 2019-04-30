@@ -5,12 +5,15 @@ import types from 'src/redux/actions/types'
 import {put, take, fork, call} from "redux-saga/effects"
 
 export function* getCommentsByParentId(action) {
-  const {parentId, commentParentType} = action.payload
+  const {parentId, commentParentType, limit, offset} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.COMMENT.GET_COMMENTS_BY_PARENT_ID)
   try {
-    yield fork(api.get, urls.COMMON.COMMENT, results.COMMON.COMMENT.GET_COMMENTS_BY_PARENT_ID, `?comment_parent=${parentId}`)
+    yield fork(api.get, urls.COMMON.COMMENT, results.COMMON.COMMENT.GET_COMMENTS_BY_PARENT_ID, `?comment_parent=${parentId}&limit=${limit}&offset=${offset}`)
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.COMMON.COMMENT.GET_COMMENTS_BY_PARENT_ID , payload:{data, parentId, commentParentType}})
+    yield put({
+      type: types.SUCCESS.COMMON.COMMENT.GET_COMMENTS_BY_PARENT_ID,
+      payload: {data, parentId, commentParentType, limit}
+    })
   } catch (error) {
     const {message} = error
     yield put({

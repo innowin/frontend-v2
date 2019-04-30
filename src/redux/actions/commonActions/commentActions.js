@@ -1,8 +1,8 @@
 import types from '../types'
 
-const getCommentsByParentId = ({parentId, commentParentType}) => ({
+const getCommentsByParentId = ({parentId, commentParentType, limit, offset}) => ({
   type: types.COMMON.COMMENT.GET_COMMENTS_BY_PARENT_ID,
-  payload: {parentId, commentParentType},
+  payload: {parentId, commentParentType, limit, offset},
 })
 
 const createComment = ({formValues, parentId, commentParentType}) => ({
