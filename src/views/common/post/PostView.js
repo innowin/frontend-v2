@@ -1,8 +1,10 @@
 // @flow
 import * as React from 'react'
 import 'moment/locale/fa'
-import CommentActions from 'src/redux/actions/commonActions/commentActions'
 import connect from 'react-redux/es/connect/connect'
+import FontAwesome from 'react-fontawesome'
+
+import CommentActions from 'src/redux/actions/commonActions/commentActions'
 import constants from 'src/consts/constants'
 import FileActions from 'src/redux/actions/commonActions/fileActions'
 import PostActions from 'src/redux/actions/commonActions/postActions'
@@ -15,6 +17,7 @@ import PostType from './PostType'
 import ProductInfoView from '../contributions/ProductInfoView'
 import PropTypes from 'prop-types'
 import type {commentType} from 'src/consts/flowTypes/common/comment'
+import type {fileType} from 'src/consts/flowTypes/common/fileType'
 import type {identityType} from 'src/consts/flowTypes/user/basicInformation'
 import type {paramType} from 'src/consts/flowTypes/paramType'
 import type {postType} from 'src/consts/flowTypes/common/post'
@@ -23,14 +26,13 @@ import {CategoryTitle, VerifyWrapper} from 'src/views/common/cards/Frames'
 import {Confirm} from '../cards/Confirm'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {userCommentsSelector} from 'src/redux/selectors/common/comment/postCommentsSelector'
-import FontAwesome from 'react-fontawesome'
+import {userInstantCommentsSelector} from 'src/redux/selectors/common/comment/postInstantCommentSelector'
 
 type postExtendedViewProps = {
   actions: {
     getPost: Function,
     getFile: Function,
     getCommentsByParentId: Function,
-    createComment: Function,
     deleteComment: Function,
     deletePost: Function,
     getFileByFileRelatedParentId: Function,
@@ -48,6 +50,8 @@ type postExtendedViewProps = {
   extendedView?: boolean,
   showEdit?: Function,
   comments?: Array<commentType>,
+  instantViewComments?: Array<commentType>,
+  postRelatedIdentityImage: fileType,
   commentParentType: string,
   fileList: {},
   postRelatedProduct: {},
@@ -73,6 +77,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     extendedView: PropTypes.bool,
     showEdit: PropTypes.func,
     comments: PropTypes.array,
+    instantViewComments: PropTypes.array,
     fileList: PropTypes.object,
   }
 
@@ -143,8 +148,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
         let height = self.text.clientHeight
         if (post.post_description && new RegExp('^[A-Za-z]*$').test(post.post_description[0])) {
           self.text.style.paddingRight = '60px'
-        }
-        else self.text.style.paddingLeft = '60px'
+        } else self.text.style.paddingLeft = '60px'
         self.text.style.height = '68px'
         this.setState({...this.state, showMore: true, descriptionHeight: height})
       }
@@ -170,17 +174,13 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
               self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a title=` + word + ` target=_blank href=` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word} </a>`)
               :
               self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a title=` + word + ` target=_blank href=http://` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-        }
-        else if (word[0] === '@' && word.length >= 6 && !word.substring(1, word.length).includes('@')) {
+        } else if (word[0] === '@' && word.length >= 6 && !word.substring(1, word.length).includes('@')) {
           self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=` + word.slice(1, word.length) + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-        }
-        else if (word[0] === '#' && word.length >= 3 && !word.substring(1, word.length).includes('#')) {
+        } else if (word[0] === '#' && word.length >= 3 && !word.substring(1, word.length).includes('#')) {
           self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-        }
-        else if (mailExp.test(word)) {
+        } else if (mailExp.test(word)) {
           self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=mailto:` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-        }
-        else if (!isNaN(word.replace(/\\+/g, '')) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
+        } else if (!isNaN(word.replace(/\\+/g, '')) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
           // don't touch it !
           word.includes('+') ?
               self.text.innerHTML = self.text.innerHTML.replace(new RegExp(`\\${word}`, 'g'), `<a href=tel:` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
@@ -202,8 +202,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
         height = self.text.clientHeight
         if (post.post_description && new RegExp('^[A-Za-z]*$').test(post.post_description[0])) {
           self.text.style.paddingRight = '60px'
-        }
-        else self.text.style.paddingLeft = '60px'
+        } else self.text.style.paddingLeft = '60px'
         self.text.style.height = '68px'
         showMore = true
       }
@@ -230,8 +229,14 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   _handleShowComment = () => {
+    const {extendedView, instantViewComments, actions, post} = this.props
+    const {getCommentsByParentId} = actions
     let {showComment} = this.state
     this.setState({...this.state, showComment: !showComment, commentOn: undefined})
+
+    if (!extendedView && (!instantViewComments || (instantViewComments && instantViewComments.length === 0))) {
+      getCommentsByParentId({parentId: post.id, commentParentType: constants.COMMENT_PARENT.POST, limit: 3})
+    }
   }
 
   _handleClickOutMenuBoxTop(e: any) {
@@ -285,12 +290,25 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     })
   }
 
+  showMoreComment = () => {
+    const {extendedView, instantViewComments, actions, post} = this.props
+    const {getCommentsByParentId} = actions
+    if (!extendedView && instantViewComments && instantViewComments.length !== 0) {
+      getCommentsByParentId({
+        parentId: post.id,
+        commentParentType: constants.COMMENT_PARENT.POST,
+        limit: 10,
+        offset: instantViewComments.length
+      })
+    }
+  }
+
   render() {
     const self: any = this
 
     const {
       post, translate, postIdentity, postRelatedIdentityImage, extendedView, showEdit, comments, fileList,
-      commentParentType, postRelatedProduct,
+      instantViewComments, commentParentType, postRelatedProduct,
     } = this.props
 
     const {menuToggleBottom, menuToggleTop, confirm, showComment, commentOn} = this.state
@@ -368,19 +386,35 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                             postMenuId={this.postMenuId + 'bottom'}
                 />
 
-                {
-                  showComment ? <PostCommentNew
-                      commentParentType={commentParentType}
-                      post={post}
-                      handleShowComment={this._handleShowComment}
-                      commentOn={commentOn}/> : null
+                {showComment &&
+                <PostCommentNew
+                    commentParentType={commentParentType}
+                    post={post}
+                    handleShowComment={this._handleShowComment}
+                    commentOn={commentOn}/>
+                }
+
+                {showComment && !extendedView && instantViewComments && instantViewComments.length > 0 &&
+                <React.Fragment>
+                  {post.comments_count !== instantViewComments.length &&
+                  <div onClick={this.showMoreComment}
+                       className='show-more-comment'>{translate['Show More Comments']}</div>
+                  }
+                  <PostComments comments={instantViewComments}
+                                translate={translate}
+                                replyComment={(comment) => this._setCommentOn(comment)}
+                                deleteComment={this.deleteComment}/>
+                </React.Fragment>
                 }
 
                 {extendedView && comments && comments.length > 0 &&
-                <PostComments comments={comments} translate={translate}
+                <PostComments comments={comments}
+                              translate={translate}
                               replyComment={(comment) => this._setCommentOn(comment)}
                               deleteComment={this.deleteComment}/>
                 }
+
+                {showComment}
               </div>
             </VerifyWrapper>
             : ''
@@ -414,8 +448,7 @@ const mapStateToProps = (state, ownProps) => {
       comments: userCommentsSelector(state, ownProps),
       fileList,
     }
-  }
-  else {
+  } else {
     const {post} = ownProps
     const postIdentity = post && post.post_related_identity
     const postRelatedProductId = post && post.post_related_product && post.post_related_product.id
@@ -426,6 +459,7 @@ const mapStateToProps = (state, ownProps) => {
       postRelatedProduct,
       postRelatedIdentityImage: postIdentity ? postIdentity.profile_media : null,
       translate: getMessages(state),
+      instantViewComments: userInstantCommentsSelector(state, ownProps),
     }
   }
 }
@@ -435,7 +469,6 @@ const mapDispatchToProps = dispatch => ({
     deletePost: PostActions.deletePost,
     getFile: FileActions.getFile,
     getCommentsByParentId: CommentActions.getCommentsByParentId,
-    createComment: CommentActions.createComment,
     deleteComment: CommentActions.deleteComment,
     getFileByFileRelatedParentId: FileActions.getFileByFileRelatedParentId,
   }, dispatch),

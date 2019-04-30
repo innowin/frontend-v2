@@ -121,6 +121,13 @@
     margin: 15px;
   }
 
+  .show-more-comment {
+    color: $text-light-color;
+    font-size: $font-size-regular;
+    padding: 10px;
+    cursor: pointer;
+  }
+
   .get-file {
     font-size: $font-size-14;
     display: block;

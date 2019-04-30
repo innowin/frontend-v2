@@ -4,10 +4,17 @@ const base = (state, action) => {
 }
 
 const success = (state, action) => {
-  const {data, parentId, commentParentType} = action.payload
+  const {data, parentId, commentParentType, limit} = action.payload
   const previousPost = state.list[parentId] || {comments: []}
   if (commentParentType === constants.COMMENT_PARENT.POST) {
     const arrayOfCommentId = data.map(comment => comment.id)
+    const comments = limit
+        ? (
+            previousPost.comments
+                ? [...new Set([...previousPost.comments, ...arrayOfCommentId])]
+                : arrayOfCommentId
+        )
+        : arrayOfCommentId
     return {
       ...state,
       list: {
@@ -17,12 +24,11 @@ const success = (state, action) => {
           // comments: previousPost.comments
           //     ? [...new Set([...previousPost.comments, ...arrayOfCommentId])]
           //     : arrayOfCommentId,
-          comments: arrayOfCommentId,
+          comments,
         }
       }
     }
-  }
-  else {
+  } else {
     return state
   }
 }

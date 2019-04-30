@@ -6,7 +6,8 @@ import {bindActionCreators} from "redux"
 import {Component} from "react"
 import {connect} from "react-redux"
 import {getMessages} from "src/redux/selectors/translateSelector"
-import type {commentType} from "../../../consts/flowTypes/common/comment";
+import type {commentType} from "src/consts/flowTypes/common/comment";
+import constants from 'src/consts/constants'
 
 type props = {
   actions: any,
@@ -135,9 +136,11 @@ class PostCommentNew extends Component<props, states> {
 }
 
 const mapStateToProps = (state) => {
+  const identityId = state.auth.client.identity.content
   const client = state.auth.client
-  const clientImgId = (client.user_type === "person") ? (client.profile.profile_media) : (
-      (client.organization && client.organization.organization_logo) || null)
+  const identities = state.identities.list
+  const clientImgId = (client.user_type === constants.USER_TYPES.USER) ? (identities[identityId].profile_media) : (
+      (identities[identityId].organization_logo) || null)
   const {common} = state
   const {file} = common
   const currentUserMedia = file.list[clientImgId] ? file.list[clientImgId].file : null

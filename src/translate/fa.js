@@ -275,6 +275,7 @@ module.exports = {
   "LinkedIn": "لینکدین",
   "Web site": "وب سایت",
   "Account is incorrect": "حساب کاربری اشتباه وارد شده است",
+  'Show More Comments': 'مشاهده نظرات بیشتر',
 
   // user - researches
   "This number is not a correct year": "سال باید عدد ۴ رقمی معتبر باشد",
