@@ -283,7 +283,7 @@
   cursor: default;
   transition-duration: $animation-timing-short;
   &:first-child{
-    margin: auto 0 auto 3px;
+    margin: auto 0 3px 3px;
   }
   &:hover{
     color: $background-color;

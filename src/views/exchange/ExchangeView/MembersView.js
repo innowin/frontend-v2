@@ -52,10 +52,10 @@ class MembersView extends Component<props, states> {
   }
 
   changeViewType() {
-    if (this.state.viewType === "member-square") {
-      this.setState({...this.state, viewType: "member-row"})
-    }
-    else this.setState({...this.state, viewType: "member-square"})
+    // if (this.state.viewType === "member-square") {
+    //   this.setState({...this.state, viewType: "member-row"})
+    // }
+    // else this.setState({...this.state, viewType: "member-square"})
   }
 
   follow(targetId, targetType) {
@@ -94,8 +94,9 @@ class MembersView extends Component<props, states> {
 
             <div className={"member-info-container"}>
               <div className={"member-name"}>{
-                identities[memberId].first_name.trim() !== "" ||
-                identities[memberId].last_name.trim() !== "" ?
+                identities[memberId] && identities[memberId].first_name &&
+                (identities[memberId].first_name.trim() !== "" ||
+                    identities[memberId].last_name.trim() !== "") ?
                     identities[memberId].first_name + " " + identities[memberId].last_name :
                     identities[memberId].username !== "" ? identities[memberId].username : "فرد ناشناس"
               }</div>
@@ -145,12 +146,13 @@ class MembersView extends Component<props, states> {
 
             <div className={"member-info-container"}>
               <div className={"member-name"}>{
-                identities[memberId].official_name ?
+                identities[memberId] && identities[memberId].official_name ?
                     identities[memberId].official_name :
                     identities[memberId].username !== "" ? identities[memberId].username : "سازمان ناشناس"
               }</div>
               <div className={"member-description"}>{
-                identities[memberId].biography
+                // identities[memberId].biography
+                identities[memberId].description
               }</div>
             </div>
           </Link>
@@ -198,9 +200,8 @@ class MembersView extends Component<props, states> {
   }
 
   componentDidMount() {
-    window.scrollTo({
-      top: 0
-    })
+    if (document.body.clientWidth > 480)
+      window.scrollTo({top: 0, behavior: "smooth"})
     let {exchangeUsers, exchangeId, followings, actions} = this.props
     let {getUser} = actions
 
@@ -276,7 +277,7 @@ class MembersView extends Component<props, states> {
             }
             <div className={"zero-height-member"}/>
             <div className={"zero-height-member"}/>
-            {(!moreMembers) && initialMembers.length > 6 ?
+            {(!moreMembers) && initialMembers.length >= 6 ?
                 <div className={"members-more"} onClick={this.setAllMembers}>
                   بارگذاری بیشتر
                 </div> : null}

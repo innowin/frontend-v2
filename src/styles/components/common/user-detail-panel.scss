@@ -67,9 +67,10 @@ $sidebar-profile-media-width: 80px;
       }
       .user-detail-username {
         font-weight: bold;
-        color: $primary-color;
+        color: $foreground-color;
         padding: 0;
         margin: 0;
+        font-size: $font-size-regular;
         //margin-bottom: 30px;
       }
       .user-detail-username-value {

@@ -49,10 +49,8 @@ class InfoView extends Component<props, state> {
     if (currentExchange && currentExchange.owner && currentExchange.owner.profile_media) {
       actions.getFiles(currentExchange.owner.profile_media)
     }
-
-    window.scrollTo({
-      top: 0
-    })
+    if (document.body.clientWidth > 480)
+      window.scrollTo({top: 0, behavior: "smooth"})
   }
 
   _handleEditBioView() {

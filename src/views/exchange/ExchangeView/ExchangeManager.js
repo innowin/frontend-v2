@@ -7,9 +7,8 @@ import Medal from "../../../images/common/medal_svg"
 class ExchangeManager extends Component {
 
   componentDidMount() {
-    window.scrollTo({
-      top: 0
-    })
+    if (document.body.clientWidth > 480)
+      window.scrollTo({top: 0, behavior: "smooth"})
   }
 
   render() {

@@ -562,24 +562,24 @@ $heightOfContentBox: 140px;
   height: 27px;
   width: 76px;
   padding: 3px 10px;
-  border: 1.5px solid $tag-del-btn-background;
+  border: 1.5px solid $secondary-color;
   border-radius: 30px;
   cursor: pointer;
-  background-color: $tag-del-btn-background;
+  background-color: $secondary-color;
   color: #FFF;
   transition-duration: 0.3s;
   text-decoration: none;
 
   &:hover {
     transition-duration: 0.3s;
-    color: $tag-del-btn-background;
+    color: $secondary-color;
     background-color: #FFF;
     text-decoration: none;
   }
 
   &:active {
     transition-duration: 0.3s;
-    color: $tag-del-btn-background;
+    color: $secondary-color;
     background-color: #FFF;
     text-decoration: none;
   }

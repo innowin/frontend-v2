@@ -171,13 +171,14 @@
         padding: 0 8px;
 
         .post-name {
-          font-size: $font-size-post-name;
+          font-size: $font-size-regular;
+          font-weight: bold;
           color: $text-dark-color;
           padding: 0 8px;
         }
 
         .post-username {
-          font-size: $font-size-post-username;
+          font-size: $font-size-regular;
           padding: 0 8px;
         }
 

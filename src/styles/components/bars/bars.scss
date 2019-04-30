@@ -428,6 +428,7 @@ $sidebar-profile-media-width: 80px;
   word-wrap: break-word;
   width: 100%;
   min-height: 26vh;
+  font-size: $font-size-regular;
 }
 
 .under-description-right-bar{
@@ -821,7 +822,7 @@ $sidebar-profile-media-width: 80px;
       border-color: $primary-color;
       color: $primary-color !important;
       transition-duration: $animation-timing;
-      font-weight: bold;
+      //font-weight: bold;
     }
   }
 
@@ -855,7 +856,7 @@ $sidebar-profile-media-width: 80px;
       border-color: $success-color;
       color: $success-color !important;
       transition-duration: $animation-timing;
-      font-weight: bold;
+      //font-weight: bold;
     }
 
     .submit-button {
@@ -983,7 +984,8 @@ $sidebar-profile-media-width: 80px;
     .exchange-name {
       transition-duration: 0.6s;
       padding: 0 20px 0 0;
-      font-size: $font-size-normalText;
+      font-size: $font-size-regular;
+      font-weight: bold;
       text-align: right;
     }
 
@@ -2082,7 +2084,7 @@ $sidebar-profile-media-width: 80px;
       border-color: $eee-color;
       color: $eee-color !important;
       transition-duration: $animation-timing;
-      font-weight: bold;
+      //font-weight: bold;
     }
   }
 
@@ -2107,7 +2109,7 @@ $sidebar-profile-media-width: 80px;
       border-color: $eee-color;
       color: $text-lighter-color !important;
       transition-duration: $animation-timing;
-      font-weight: bold;
+      //font-weight: bold;
     }
   }
 
