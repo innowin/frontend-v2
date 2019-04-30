@@ -14,6 +14,16 @@
     }
   }
 
+  .header-container {
+    flex-flow: row nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+
+  .header-container-item {
+    flex: 0 0 auto;
+  }
+
   .-product-main {
     position: absolute;
     top: $smallTopBarHeight + 50px;
