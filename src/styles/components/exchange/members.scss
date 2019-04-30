@@ -11,20 +11,21 @@
 }
 
 .members-header-right {
-  width: 89%;
+  width: 90%;
   background-color: white;
   height: 30px;
   font-weight: bold;
-  font-size: $font-size-post-name;
+  font-size: $font-size-post-content;
   float: right;
   display: inline-block;
   vertical-align: top;
-  padding-right: 3px;
+  padding-right: 12px;
 }
 
 .members-header-left {
-  width: 10%;
-  padding: 0 3px;
+  width: 9%;
+  padding-left: 10px;
+  padding-top: 2px;
   background-color: white;
   height: 30px;
   font-weight: bold;
@@ -47,7 +48,7 @@
   flex-wrap: wrap;
 }
 
-.zero-height-member{
+.zero-height-member {
   background-color: white;
   text-align: center;
   width: 160px;
@@ -182,48 +183,6 @@
     display: inline-block;
   }
 
-  .member-followed-button {
-    position: absolute;
-    bottom: 15px;
-    left: 26%;
-    right: 26%;
-    font-size: $font-size-followed;
-    color: $secondary-color;
-    border-radius: 30px;
-    height: 31px;
-    border: 1.5px solid $secondary-color;
-    transition-duration: $animation-timing;
-    background-color: white;
-
-    &:hover {
-      transition-duration: $animation-timing;
-      color: white;
-      background-color: $secondary-color;
-      cursor: default;
-    }
-  }
-
-  .member-follow-green-button {
-    position: absolute;
-    bottom: 15px;
-    left: 26%;
-    right: 26%;
-    font-size: $font-size-followed;
-    color: white;
-    border-radius: 30px;
-    height: 31px;
-    transition-duration: $animation-timing;
-    background-color: $secondary-color;
-    border: 1.5px solid $secondary-color;
-
-    &:hover {
-      transition-duration: $animation-timing;
-      color: $secondary-color;
-      background-color: white;
-      cursor: pointer;
-    }
-  }
-
   .member-following-button {
     position: absolute;
     bottom: 15px;
@@ -237,14 +196,15 @@
     background-color: $secondary-color;
     border: 1.5px solid $secondary-color;
 
-    &:after{
+    &:after {
       content: "دنبال شده";
     }
 
     &:hover {
-      &:after{
+      &:after {
         content: "قطع ارتباط";
       }
+
       transition-duration: $animation-timing;
       color: white;
       background-color: $error-color;
@@ -293,6 +253,48 @@
       background-color: white;
       cursor: pointer;
     }
+  }
+}
+
+.member-follow-green-button {
+  position: absolute;
+  bottom: 15px;
+  left: 26%;
+  right: 26%;
+  font-size: $font-size-followed;
+  color: white;
+  border-radius: 30px;
+  height: 31px;
+  transition-duration: $animation-timing;
+  background-color: $secondary-color;
+  border: 1.5px solid $secondary-color;
+
+  &:hover {
+    transition-duration: $animation-timing;
+    color: $secondary-color;
+    background-color: white;
+    cursor: pointer;
+  }
+}
+
+.member-followed-button {
+  position: absolute;
+  bottom: 15px;
+  left: 26%;
+  right: 26%;
+  font-size: $font-size-followed;
+  color: $secondary-color;
+  border-radius: 30px;
+  height: 31px;
+  border: 1.5px solid $secondary-color;
+  transition-duration: $animation-timing;
+  background-color: white;
+
+  &:hover {
+    transition-duration: $animation-timing;
+    color: white;
+    background-color: $secondary-color;
+    cursor: default;
   }
 }
 
@@ -388,12 +390,14 @@
 
 .member-description {
   font-size: $font-size-description;
-  margin: 5px 0;
+  margin: 5px 0 55px 0;
   line-height: 20px;
   color: $text-title-menu-color;
   width: 99%;
-  overflow-y: hidden;
   word-wrap: break-word;
+  overflow-y: auto;
+  max-height: 100px;
+
 }
 
 .member-info-container {

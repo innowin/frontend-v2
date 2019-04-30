@@ -427,6 +427,42 @@ $sidebar-profile-media-width: 80px;
   line-height: 23px;
   word-wrap: break-word;
   width: 100%;
+  min-height: 26vh;
+}
+
+.under-description-right-bar{
+  padding: 0 10px;
+  text-align: center;
+  text-align-last: center;
+  line-height: 23px;
+  word-wrap: break-word;
+  width: 100%;
+  color: $disable-color;
+  font-size: $font-size-small;
+}
+
+.under-description-right-bar-svg-member-view {
+  fill: #a5a5a5;
+  transition-duration: $animation-timing;
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 3px;
+}
+
+.under-description-right-bar-svg-member-view-con {
+  background-color: white;
+  transition-duration: $animation-timing;
+  display: inline-block;
+  width: 20px;
+}
+
+.under-description-right-bar-svg-calendar-view{
+  fill: blue;
+  transition-duration: $animation-timing;
+  display: inline-block;
+  vertical-align: top;
+  margin: 4px 4px 0 4px;
+  width: 12px;
 }
 
 .-right-sidebar-wrapper-exchange {
@@ -749,7 +785,7 @@ $sidebar-profile-media-width: 80px;
 
   &:last-child {
     border-bottom: none;
-    padding-bottom: 0;
+    padding-bottom: 20px;
   }
 }
 
@@ -775,7 +811,7 @@ $sidebar-profile-media-width: 80px;
     transition-duration: $animation-timing;
     border: 1.5px solid $primary-color;
     height: 33px;
-    margin: auto auto 20px 5px;
+    margin: auto auto 0 5px;
     width: 110px;
     text-align: center;
     padding: 5px;
@@ -811,7 +847,7 @@ $sidebar-profile-media-width: 80px;
     border-radius: 25px;
     transition: background $animation-timing ease, color $animation-timing ease, border $animation-timing ease;
     height: 33px;
-    margin: auto 5px 20px auto;
+    margin: auto 5px 0 auto;
     //width: 110px;
 
     &:hover {

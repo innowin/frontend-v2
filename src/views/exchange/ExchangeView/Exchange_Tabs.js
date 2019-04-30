@@ -41,8 +41,8 @@ class Exchange_Tabs extends Component<props, states> {
   constructor(props) {
     super(props)
     this.state = {
-      // selectedTab: "Stream",
-      selectedTab: "Info",
+      selectedTab: "Stream",
+      // selectedTab: "Info", // Develop
       clickedSvgStyle: "svg-tabs-clicked",
       clickedSvgContainerStyle: "svg-container-clicked",
       normalSvgStyle: "svg-tabs",

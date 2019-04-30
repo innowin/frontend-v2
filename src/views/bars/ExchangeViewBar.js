@@ -3,9 +3,8 @@ import PropTypes from "prop-types"
 import exchangeActions from "src/redux/actions/exchangeActions"
 import {connect} from "react-redux"
 import {bindActionCreators} from "redux"
-import {ExchangeIcon} from "src/images/icons"
+import {Contacts, ExchangeIcon, DefaultUserIcon, CalendarEmpty} from "src/images/icons"
 import ExchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
-import {DefaultUserIcon} from "src/images/icons"
 import {BeatLoader, ClipLoader} from "react-spinners"
 import {REST_URL} from "src/consts/URLS"
 import {Link} from "react-router-dom"
@@ -354,7 +353,7 @@ class ExchangeViewBar extends Component {
       const {unFollow, getExchangeMembershipByMemberIdentity} = actions
       getExchangeMembershipByMemberIdentity({
         identityId: currentUserIdentity,
-        exchangeMembershipOwnerId: currentUserId,
+        exchangeMembershipOwnerId: currentUserId
       })
       // // console.log(exchangesIdentities)
       // let exchangeMembershipIdTemp = null
@@ -366,7 +365,7 @@ class ExchangeViewBar extends Component {
       if (exchangeMembershipIdTemp !== null && exchangeMembershipIdTemp[0] !== undefined)
         unFollow({
           exchangeMembershipId: exchangeMembershipIdTemp[0].id,
-          exchangeMembershipOwnerId: currentUserId,
+          exchangeMembershipOwnerId: currentUserId
         })
       else console.log("exchangeMembershipIdTemp: ", exchangeMembershipIdTemp)
 
@@ -500,12 +499,24 @@ class ExchangeViewBar extends Component {
               </div>
               {
                 !editView ?
-                    <div className="-grey1 fontSize-13px description-right-bar">
-                      {
-                        currentExchange.description === "" ? "بدون توضیحات" :
-                            currentExchange.description ? currentExchange.description :
-                                currentExchange.description === "" ? "بدون توضیحات" : currentExchange.description
-                      }
+                    <div>
+                      <div className="-grey1 fontSize-13px description-right-bar">
+                        {
+                          currentExchange.description === "" ? "بدون توضیحات" :
+                              currentExchange.description ? currentExchange.description :
+                                  currentExchange.description === "" ? "بدون توضیحات" : currentExchange.description
+                        }
+                      </div>
+                      <div className="under-description-right-bar">
+                        <CalendarEmpty className='under-description-right-bar-svg-calendar-view'/>
+                        1397/12/15
+
+                        <div style={{margin: "0 5px", fontSize: "5px", color: "#aeaeae", display: "inline-block", paddingBottom: "2px"}}>⬤</div>
+
+                        <Contacts width="14px" height="14px" containerClass="under-description-right-bar-svg-member-view-con"
+                                  svgClass="under-description-right-bar-svg-member-view"/>
+                        {currentExchange.members_count === null ? 0 : currentExchange.members_count}
+                      </div>
                     </div>
                     :
                     <textarea ref={e => this.editDescription = e} className={"edit-exchange-description-input"}
@@ -519,47 +530,33 @@ class ExchangeViewBar extends Component {
             </div>
 
 
-            {
-              !editView ?
-                  <div className="numbersSection flex-column">
-                    <div>
-                      <span>اعضا:</span>
-                      <span>
-                        {currentExchange.members_count === null ? 0 :
-                            currentExchange.members_count ? currentExchange.members_count :
-                                currentExchange.exchange.content.members_count === null ? 0 : currentExchange.exchange.content.members_count}
-                      </span>
-                    </div>
-                    <div>
-                      <span>عرضه:</span>
-                      <span>{currentExchange.supply_count}</span>
-                    </div>
-                    <div>
-                      <span>تقاضا:</span>
-                      <span>{currentExchange.demand_count}</span>
-                    </div>
-                    {/*<div>*/}
-                    {/*<span>محصول عرضه شده:</span>*/}
-                    {/*<span>؟</span>*/}
-                    {/*</div>*/}
-                  </div>
-                  :
-                  null
-            }
-            {
-              !editView ?
-                  <div className={"exchange-view-bar-socials"}> {/* TODO:ABEL disable-logo class for non social exchange fields*/}
-                    {/*<i className={"fa fa-youtube-play youtube disable-logo"}/>*/}
-                    <i className={"fa fa-telegram disable-logo"}/>
-                    <i className={"fa fa-instagram disable-logo"}/>
-                    <i className={"fa fa-linkedin-square disable-logo"}/>
-                    <i className={"fa fa-twitter disable-logo"}/>
-                  </div>
-                  :
-                  null
-            }
-
-
+            {/*{*/}
+            {/*!editView ?*/}
+            {/*<div className="numbersSection flex-column">*/}
+            {/*<div>*/}
+            {/*<span>اعضا:</span>*/}
+            {/*<span>*/}
+            {/*{currentExchange.members_count === null ? 0 :*/}
+            {/*currentExchange.members_count ? currentExchange.members_count :*/}
+            {/*currentExchange.exchange.content.members_count === null ? 0 : currentExchange.exchange.content.members_count}*/}
+            {/*</span>*/}
+            {/*</div>*/}
+            {/*<div>*/}
+            {/*<span>عرضه:</span>*/}
+            {/*<span>{currentExchange.supply_count}</span>*/}
+            {/*</div>*/}
+            {/*<div>*/}
+            {/*<span>تقاضا:</span>*/}
+            {/*<span>{currentExchange.demand_count}</span>*/}
+            {/*</div>*/}
+            {/*/!*<div>*!/*/}
+            {/*/!*<span>محصول عرضه شده:</span>*!/*/}
+            {/*/!*<span>؟</span>*!/*/}
+            {/*/!*</div>*!/*/}
+            {/*</div>*/}
+            {/*:*/}
+            {/*null*/}
+            {/*}*/}
             {
               !editView ?
                   <div className="sidebarBottomParent">
@@ -592,6 +589,18 @@ class ExchangeViewBar extends Component {
                         onClick={() => this.setState({...this.state, editView: false, selectedImage: null})}> لغو
                     </button>
                   </div>
+            }
+            {
+              !editView ?
+                  <div className={"exchange-view-bar-socials"}> {/* TODO:ABEL disable-logo class for non social exchange fields*/}
+                    {/*<i className={"fa fa-youtube-play youtube disable-logo"}/>*/}
+                    <i className={"fa fa-telegram disable-logo"}/>
+                    <i className={"fa fa-instagram disable-logo"}/>
+                    <i className={"fa fa-linkedin-square disable-logo"}/>
+                    <i className={"fa fa-twitter disable-logo"}/>
+                  </div>
+                  :
+                  null
             }
           </div>
       )
@@ -634,7 +643,7 @@ const DispatchToProps = dispatch => ({
     getExchangeMembershipByMemberIdentity: ExchangeMembershipActions.getExchangeMembershipByMemberIdentity,
     getAllExchanges: exchangeActions.getAllExchanges,
     createFile,
-    removeFileFromTemp: TempActions.removeFileFromTemp,
+    removeFileFromTemp: TempActions.removeFileFromTemp
   }, dispatch)
 })
 

@@ -91,7 +91,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
               <HomePosts unSetExchangeId={this._unSetExchangeId} exchangeId={activeExchangeId} className={activeExchangeId ? 'post-wrapper active-exchange' : 'post-wrapper'}/>
               <div className={activeExchangeId ? 'user-detail-wrapper active-exchange' : 'user-detail-wrapper'}>
                 <BeePanel/>
-                <EventCard/>
+                {/*<EventCard/>*/}
               </div>
             </div>
             <ChatBar className="-left-sidebar-wrapper"/>

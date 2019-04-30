@@ -11,6 +11,7 @@ import {connect} from "react-redux"
 import {DefaultUserIcon, Contacts, QuestionMark, Stream} from "src/images/icons"
 import {getFolloweesSelector} from "src/redux/selectors/common/social/getFollowees"
 import {Link} from "react-router-dom"
+import {getFollowingsSelector} from "../../../redux/selectors/common/social/getNewFollowings"
 // import exchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
 // import {VerifyWrapper} from "../../common/cards/Frames"
 
@@ -60,7 +61,7 @@ class MembersView extends Component<props, states> {
   follow(targetId, targetType) {
     if (targetType === "USER") {
       const {clientIdentityId, profiles, actions} = this.props
-      const identityId = profiles[targetId].identity.content
+      const identityId = profiles[targetId].id
       const {createFollow} = actions
       const formValues = {follow_follower: clientIdentityId, follow_followed: identityId}
       createFollow({formValues, followOwnerId: targetId})
@@ -68,7 +69,7 @@ class MembersView extends Component<props, states> {
     }
     if (targetType === "ORGANIZATION") {
       const {clientIdentityId, organs, actions} = this.props
-      const identityId = organs[targetId].identity.content
+      const identityId = organs[targetId].id
       const {createFollow} = actions
       const formValues = {follow_follower: clientIdentityId, follow_followed: identityId}
       createFollow({formValues, followOwnerId: targetId})
@@ -81,13 +82,7 @@ class MembersView extends Component<props, states> {
     let {followingUsers, followingOrgans} = this.state
     if (memberType === "USER") {
       if (identities[memberId]) {
-        // if (profiles[memberId].profile.content.profile_user) {
-        // if (!profiles[memberId].profile.isLoading) {
         return <div key={index} className={this.state.viewType}>
-          {followingUsers.indexOf(memberId) >= 0 ? <div className={"member-followed"}>دنبال شده</div>
-              : clientId !== memberId ?
-                  <div className={"member-follow"} onClick={() => this.follow(memberId, memberType)}><span
-                      className={"member-follow-plus"}> + </span></div> : <div className="member-followed"/>}
           <Link to={`/user/${memberId}`}>
             <div className={"member-picture-container"}>
               {identities[memberId].profile_media ?
@@ -109,6 +104,17 @@ class MembersView extends Component<props, states> {
               }</div>
             </div>
           </Link>
+          <div className={followingUsers.indexOf(memberId) >= 0 ?
+              "member-followed-button"
+              : clientId !== memberId ?
+                  "member-follow-green-button"
+                  : "member-followed-button"}>
+            {followingUsers.indexOf(memberId) >= 0 ?
+                <div>دنبال شده</div>
+                : clientId !== memberId ?
+                    <div onClick={() => this.follow(memberId, memberType)}>دنبال کردن</div>
+                    : <div>دنبال شده</div>}
+          </div>
         </div>
       }
       else return <div className={this.state.viewType}>
@@ -118,15 +124,13 @@ class MembersView extends Component<props, states> {
       </div>
     }
     if (memberType === "ORGANIZATION") {
-      // if (!organs[memberId].organization.isLoading) {
-      // if (organs[memberId].organization.content) {
       if (identities[memberId]) {
         return <div key={index}
                     className={this.state.viewType}>
-          {followingOrgans.indexOf(memberId) >= 0 ? <div className={"member-followed"}>دنبال شده</div>
-              : clientId !== memberId ?
-                  <div className={"member-follow"} onClick={() => this.follow(memberId, memberType)}><span
-                      className={"member-follow-plus"}> + </span></div> : <div className={"member-followed"}/>}
+          {/*{followingOrgans.indexOf(memberId) >= 0 ? <div className={"member-followed"}>دنبال شده</div>*/}
+          {/*: clientId !== memberId ?*/}
+          {/*<div className={"member-follow"} onClick={() => this.follow(memberId, memberType)}><span*/}
+          {/*className={"member-follow-plus"}> + </span></div> : <div className={"member-followed"}/>}*/}
           <Link to={`/organization/${memberId}`}>
             <div className={"member-picture-container"}>
               {identities[memberId].organization_logo !== null ? <img alt=""
@@ -150,6 +154,17 @@ class MembersView extends Component<props, states> {
               }</div>
             </div>
           </Link>
+          <div className={followingOrgans.indexOf(memberId) >= 0 ?
+              "member-followed-button"
+              : clientId !== memberId ?
+                  "member-follow-green-button"
+                  : "member-followed-button"}>
+            {followingOrgans.indexOf(memberId) >= 0 ?
+                <div>دنبال شده</div>
+                : clientId !== memberId ?
+                    <div onClick={() => this.follow(memberId, memberType)}>دنبال کردن</div>
+                    : <div>دنبال شده</div>}
+          </div>
         </div>
       }
       else return <div className={this.state.viewType}>
@@ -186,7 +201,7 @@ class MembersView extends Component<props, states> {
     window.scrollTo({
       top: 0
     })
-    let {exchangeUsers, exchangeId, getFollowingSelector, actions} = this.props
+    let {exchangeUsers, exchangeId, followings, actions} = this.props
     let {getUser} = actions
 
     let temp = []
@@ -209,12 +224,12 @@ class MembersView extends Component<props, states> {
 
     let tempUsers = []
     let tempOrgans = []
-    for (let i = 0; i < getFollowingSelector.length; i++) {
-      if (getFollowingSelector[i].id !== null && getFollowingSelector[i].identity_type === constants.USER_TYPES.USER) {
-        tempUsers.push(getFollowingSelector[i].id)
+    for (let i = 0; i < followings.length; i++) {
+      if (followings[i].id !== null && followings[i].identity_type === constants.USER_TYPES.USER) {
+        tempUsers.push(followings[i].id)
       }
-      else if (getFollowingSelector[i].id !== null && getFollowingSelector[i].identity_type === constants.USER_TYPES.ORG) {
-        tempOrgans.push(getFollowingSelector[i].id)
+      else if (followings[i].id !== null && followings[i].identity_type === constants.USER_TYPES.ORG) {
+        tempOrgans.push(followings[i].id)
       }
     }
     this.setState({...this.state, followingUsers: tempUsers.slice(), followingOrgans: tempOrgans.slice()})
@@ -242,7 +257,7 @@ class MembersView extends Component<props, states> {
     return (
         <div className={"members-frame"}>
           <div className={"members-header-right"}>
-            <Contacts width="22px" height="22px" containerClass={"svg-container-info-view"} svgClass={"svg-info-view"}/>
+            {/*<Contacts width="22px" height="22px" containerClass={"svg-container-info-view"} svgClass={"svg-info-view"}/>*/}
             <span>اعضا</span>
           </div>
           <div className={"members-header-left"} onClick={this.changeViewType}>
@@ -261,7 +276,7 @@ class MembersView extends Component<props, states> {
             }
             <div className={"zero-height-member"}/>
             <div className={"zero-height-member"}/>
-            {(!moreMembers) && initialMembers.length >= 6 ?
+            {(!moreMembers) && initialMembers.length > 6 ?
                 <div className={"members-more"} onClick={this.setAllMembers}>
                   بارگذاری بیشتر
                 </div> : null}
@@ -280,10 +295,8 @@ const mapStateToProps = (state) => {
     // clientId: state.auth.client.user.id,
     clientId: state.auth.client.identity.content,
     identities: state.identities.list,
-    getFollowingSelector: getFolloweesSelector(state, {
-      identityId: state.auth.client.identity.content,
-      ownerId: state.auth.client.user.id,
-      identityType: state.auth.client.user_type
+    followings: getFollowingsSelector(state, {
+      userId: state.auth.client.identity.content
     })
   }
 }

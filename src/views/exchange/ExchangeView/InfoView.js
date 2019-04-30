@@ -174,7 +174,7 @@ class InfoView extends Component<props, state> {
                     checkOwner({
                       id: ownerId,
                       children: <a className={editSocial ? "info-header-edit-bio-text-hide" : "info-header-edit-bio-text"}
-                                   onClick={() => alert("Handle Edit This One")}> ویرایش </a>
+                                   onClick={() => console.log("Handle Edit This One")}> ویرایش </a>
                     })
                   }
                 </div>
@@ -277,7 +277,7 @@ class InfoView extends Component<props, state> {
                     checkOwner({
                       id: ownerId,
                       children: <a className={editSocial ? "info-header-edit-bio-text-hide" : "info-header-edit-bio-text"}
-                                   onClick={() => alert("Handle Edit This Too")}> ویرایش </a>
+                                   onClick={() => console.log("Handle Edit This Too")}> ویرایش </a>
                     })
                   }
                 </div>
