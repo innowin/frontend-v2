@@ -1,11 +1,11 @@
 import * as React from "react"
 import Moment from "react-moment"
 import PropTypes from 'prop-types'
+import FontAwesome from "react-fontawesome"
 
-import ReplyArrow from "../../../images/common/reply_arrow_svg";
-import FontAwesome from "react-fontawesome";
-import type {commentType} from "../../../consts/flowTypes/common/comment";
-import CheckOwner from "../CheckOwner";
+import ReplyArrow from "src/images/common/reply_arrow_svg"
+import type {commentType} from "src/consts/flowTypes/common/comment"
+import CheckOwner from "../CheckOwner"
 
 type postCommentsProps = {
   comments: [commentType],
@@ -47,7 +47,7 @@ class PostComments extends React.Component<postCommentsProps, {}> {
                   const commentRepliedSender = comment.comment_replied && comment.comment_replied.comment_sender
                   const name = (commentSender.first_name || commentSender.last_name)
                       ? commentSender.first_name + ' ' + commentSender.last_name
-                      : ''
+                      : commentSender.username
 
                   return (
                       <div key={'comment ' + comment.id} className='comment-container-extended-view'>

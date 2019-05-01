@@ -42,7 +42,7 @@ class PostCommentNew extends Component<props, states> {
   createComment(commentOn, commentTextField) {
     const {handleShowComment} = this.props
     if (commentTextField && commentTextField.value && commentTextField.value.length > 4 && commentTextField.value.length <= 750) {
-      const {actions, post, commentParentType} = this.props
+      const {actions, post} = this.props
       const {createComment} = actions
       let formValues
       if (commentOn) {
@@ -52,7 +52,7 @@ class PostCommentNew extends Component<props, states> {
         formValues = {text: commentTextField.value, comment_parent: post.id}
       }
       commentTextField.value = ""
-      createComment({formValues, parentId: post.id, commentParentType})
+      createComment({formValues, parentId: post.id, commentParentType: constants.COMMENT_PARENT.POST})
     }
     else console.log("Handle Notification for Illegal Comment")
     handleShowComment()
