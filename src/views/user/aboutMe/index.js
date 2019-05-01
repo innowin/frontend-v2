@@ -3,33 +3,34 @@ import * as React from 'react'
 import PropTypes from 'prop-types'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+
 import Certificate from '../../common/newCertificate'
 import CertificateActions from 'src/redux/actions/commonActions/certificateActions'
 import Education from './education'
 import EducationActions from 'src/redux/actions/user/educationActions'
+import FileActions from 'src/redux/actions/commonActions/fileActions'
 import ModalActions from 'src/redux/actions/modalActions'
+import Products from './product/Products'
 import Research from './research'
 import ResearchActions from 'src/redux/actions/user/researchActions'
+import Resume from './resume'
 import Skill from './skill'
 import SkillActions from 'src/redux/actions/user/skillActions'
 import type {certificateType, skillType, workExperienceType} from 'src/consts/flowTypes/user/others'
 import type {fileType} from 'src/consts/flowTypes/common/fileType'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {userEducationType, userResearchType} from 'src/consts/flowTypes/user/basicInformation'
+import updateUserByUserIdAction from 'src/redux/actions/user/updateUserByUserIdAction'
 import WorkExperience from './workExperience'
 import WorkExperienceActions from 'src/redux/actions/user/workExperienceActions'
 import {getMessages} from 'src/redux/selectors/translateSelector'
+import {getProductsSelector} from 'src/redux/selectors/common/product/userGetProductSelector'
 import {makeGetEducations} from 'src/redux/selectors/user/userGetEducationsSelector'
 import {makeGetResearches} from 'src/redux/selectors/user/userGetResearchesSelector'
 import {makeGetSkills} from 'src/redux/selectors/user/userGetSkillSelector'
 import {makeGetWorkExperiences} from 'src/redux/selectors/user/userGetWorkExperiencesSelector'
 import {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import {userCertificatesSelector} from 'src/redux/selectors/common/certificate/userCertificatesSelector'
-import {getProductsSelector} from 'src/redux/selectors/common/product/userGetProductSelector'
-import ProductInfoView from '../../common/contributions/ProductInfoView'
-import CardContainer from '../../common/cardContainer'
-import CheckOwner from '../../common/CheckOwner'
-import Products from './product/Products'
 
 
 type OrganAboutMeProps = {
@@ -64,6 +65,8 @@ type OrganAboutMeProps = {
     deleteSkill: Function,
     updateSkill: Function,
     getSkills: Function,
+    deleteFile: Function,
+    updateUser: Function,
   },
 }
 
@@ -75,7 +78,7 @@ const UserAboutMe = (props: OrganAboutMeProps) => {
     getCertificatesByIdentity, createCertificate, updateCertificate,
     createEducation, updateEducation, getEducations, getWorkExperiences, createWorkExperience, updateWorkExperience,
     updateResearch, getResearches, createResearch, updateSkill, getSkills, createSkill, deleteSkill, deleteEducation,
-    deleteWorkExperience, deleteResearch, deleteCertificate,
+    deleteWorkExperience, deleteResearch, deleteCertificate, deleteFile, updateUser
   } = actions
   return (
       <div className="about-us">
@@ -95,6 +98,8 @@ const UserAboutMe = (props: OrganAboutMeProps) => {
 
         <Research updateResearch={updateResearch} translate={translate} owner={user} researches={researches}
                   getResearches={getResearches} deleteResearch={deleteResearch} createResearch={createResearch}/>
+
+        <Resume updateUser={updateUser} translate={translate} owner={user} files={files} deleteFile={deleteFile}/>
       </div>
   )
 }
@@ -155,6 +160,8 @@ const mapDispatchToProps = dispatch => ({
     deleteSkill: SkillActions.deleteSkillByUserId,
     updateSkill: SkillActions.updateSkillByUserId,
     getSkills: SkillActions.getSkillByUserId,
+    deleteFile: FileActions.deleteFile,
+    updateUser: updateUserByUserIdAction.updateUser,
   }, dispatch),
 })
 

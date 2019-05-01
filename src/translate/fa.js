@@ -433,6 +433,12 @@ module.exports = {
   "Create post header placeholder": "مثال: برگزاری کارگاه آموزشی، معرفی رزومه، خدمات منتورینگ",
 
   "Edit": 'ویرایش',
+  'Resume File': 'فایل رزومه',
+  'Resume':  'رزومه',
+  'Upload Resume File': 'بارگزاری فایل رزومه',
+  'Upload Attach File': 'بارگزاری فایل ضمیمه',
+  'Complete the profile with resume': 'تکمیل پروفایل با فایل رزومه',
+  'Upload resume tip': 'در صورت تمایل، اینوین پروفایل شما را مطابق فایل رزومه تکمیل می کند.',
 
   // TopBar
   topBar: {

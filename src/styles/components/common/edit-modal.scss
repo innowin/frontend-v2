@@ -12,6 +12,10 @@
       .title {
         font-size: $font-size-regular;
       }
+      .fill-resume-text {
+        font-size: $tag-font-size;
+        padding-right: 25px;
+      }
       .edit-text-fields {
         padding: 10px;
         transition: $animation-timing ease;
@@ -25,6 +29,11 @@
         color: $text-light-color;
         font-size: $font-size-regular;
         padding: 10px;
+
+        &.resume-modal {
+          padding-right: 0;
+          padding-bottom: 15px;
+        }
       }
     }
     
