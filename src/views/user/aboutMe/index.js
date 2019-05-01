@@ -85,21 +85,24 @@ const UserAboutMe = (props: OrganAboutMeProps) => {
         <Education deleteEducation={deleteEducation} updateEducation={updateEducation} translate={translate}
                    owner={user} educations={educations} getEducations={getEducations}
                    createEducation={createEducation}/>
+
         <WorkExperience deleteWorkExperience={deleteWorkExperience} updateWorkExperience={updateWorkExperience}
                         translate={translate} owner={user} workExperiences={workExperiences}
                         getWorkExperiences={getWorkExperiences} createWorkExperience={createWorkExperience}/>
+
         <Skill deleteSkill={deleteSkill} updateSkill={updateSkill} translate={translate} owner={user} skills={skills}
                getSkills={getSkills} createSkill={createSkill}/>
+
         <Certificate updateCertificate={updateCertificate} files={files} translate={translate} owner={user}
                      certificates={certificates} getCertificatesByIdentity={getCertificatesByIdentity}
                      createCertificate={createCertificate} deleteCertificate={deleteCertificate}/>
+
+        <Resume updateUser={updateUser} translate={translate} owner={user} files={files} deleteFile={deleteFile}/>
 
         <Products translate={translate} products={products}/>
 
         <Research updateResearch={updateResearch} translate={translate} owner={user} researches={researches}
                   getResearches={getResearches} deleteResearch={deleteResearch} createResearch={createResearch}/>
-
-        <Resume updateUser={updateUser} translate={translate} owner={user} files={files} deleteFile={deleteFile}/>
       </div>
   )
 }

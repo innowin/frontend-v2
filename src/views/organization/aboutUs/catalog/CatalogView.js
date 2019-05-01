@@ -7,13 +7,13 @@ import CardRowContainer from 'src/views/common/components/CardRowContainer'
 import CheckOwner from '../../../common/CheckOwner'
 import ConfirmDeleteModal from '../../../common/ConfirmDeleteModal'
 import constants from 'src/consts/constants'
-import ResumeForm from './ResumeForm'
+import CatalogForm from './CatalogForm'
 import type {fileType} from 'src/consts/flowTypes/common/fileType'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import {EditIcon, LinkedInIcon} from 'src/images/icons'
 
-type ResumeProps = {
+type CatalogProps = {
   owner: identityType,
   translate: TranslatorType,
   toggleEdit: Function,
@@ -22,13 +22,13 @@ type ResumeProps = {
   updateUser: Function,
 }
 
-type ResumeStates = {
+type CatalogStates = {
   isEdit: boolean,
   isDelete: boolean,
   isLoading: boolean,
 }
 
-class ResumeView extends React.Component <ResumeProps, ResumeStates> {
+class CatalogView extends React.Component <CatalogProps, CatalogStates> {
 
   static propTypes = {
     owner: PropTypes.object.isRequired,
@@ -44,29 +44,29 @@ class ResumeView extends React.Component <ResumeProps, ResumeStates> {
     isLoading: false,
   }
 
-  _toggleEditResume() {
+  _toggleEditCatalog() {
     let {isEdit} = this.state
     this.setState({...this.state, isEdit: !isEdit})
   }
 
-  _toggleDeleteResume() {
+  _toggleDeleteCatalog() {
     let {isDelete} = this.state
     this.setState({...this.state, isDelete: !isDelete})
   }
 
-  _deleteResume = () => {
+  _deleteCatalog = () => {
     const {deleteFile, owner, updateUser} = this.props
     const {isLoading} = this.state
 
     if (!isLoading) {
       deleteFile({
-        fileId: owner.related_cv,
+        fileId: owner.related_catalog,
         fileParentId: owner.id,
         fileParentType: constants.FILE_PARENT.PROFILE
       })
 
       const formValues = {
-        related_cv: '',
+        related_catalog: '',
       }
       updateUser(formValues, owner.id)
     }
@@ -77,14 +77,14 @@ class ResumeView extends React.Component <ResumeProps, ResumeStates> {
   render() {
     const {translate, owner, toggleEdit, files} = this.props
     const {isEdit, isDelete} = this.state
-    const resume = owner.related_cv && files[owner.related_cv]
+    const catalog = owner.related_catalog && files[owner.related_catalog]
     return (
         <React.Fragment>
           <div className="card-header">
             <div className="header-title">
-              {translate['Resume File']}
+              {translate['Upload Catalog']}
             </div>
-            {!owner.related_cv &&
+            {!owner.related_catalog &&
             <CheckOwner id={owner.id}>
               <div className='add-button pulse' onClick={toggleEdit}>
                 + {translate['Add']}
@@ -95,29 +95,29 @@ class ResumeView extends React.Component <ResumeProps, ResumeStates> {
 
           <div className="content">
             {!isEdit
-                ? resume &&
+                ? catalog &&
                 <React.Fragment>
-                  <CardRowContainer title={translate['Resume']} svgImage={<LinkedInIcon/>}
-                                    createdTime={resume.created_time}
+                  <CardRowContainer title={translate['Catalog']} svgImage={<LinkedInIcon/>}
+                                    createdTime={catalog.created_time}
                   >
                     <div className='card-row-content-right card-row-entity'>
                       <CheckOwner id={owner.id}>
                         <EditIcon className='edit-icon pulse'
-                                  clickHandler={() => this._toggleEditResume()}/>
+                                  clickHandler={() => this._toggleEditCatalog()}/>
                         <FontAwesome className='trash-icon pulse' name='trash'
-                                     onClick={() => this._toggleDeleteResume()}/>
+                                     onClick={() => this._toggleDeleteCatalog()}/>
                       </CheckOwner>
-                      <a className='attach-file' href={resume.file}>
+                      <a className='attach-file' href={catalog.file}>
                         <FontAwesome className='attach-file-icon' name='paperclip'/>
                         {translate['Attached file']}
                       </a>
                     </div>
                   </CardRowContainer>
 
-                  <ConfirmDeleteModal translate={translate} closer={() => this._toggleDeleteResume()}
-                                      deleteEntity={() => this._deleteResume()} open={isDelete}/>
+                  <ConfirmDeleteModal translate={translate} closer={() => this._toggleDeleteCatalog()}
+                                      deleteEntity={() => this._deleteCatalog()} open={isDelete}/>
                 </React.Fragment>
-                : <ResumeForm translate={translate} owner={owner} toggleEdit={() => this._toggleEditResume()}/>
+                : <CatalogForm translate={translate} owner={owner} toggleEdit={() => this._toggleEditCatalog()}/>
             }
           </div>
         </React.Fragment>
@@ -125,4 +125,4 @@ class ResumeView extends React.Component <ResumeProps, ResumeStates> {
   }
 }
 
-export default ResumeView
+export default CatalogView
