@@ -16,16 +16,10 @@ export type commentType = {
   },
   comment_sender: {
     id: number,
-    created_time: string,
-    updated_time: string,
-    delete_flag: boolean,
-    child_name: string,
-    name: string,
-    accepted: boolean,
-    mobile_verified: boolean,
-    email_verified: boolean,
-    identity_user: userType,
-    identity_organization: organizationType
+    email: boolean,
+    first_name: string,
+    last_name: string,
+    username: string,
   },
   comment_picture: {},
   comment_replied: {

@@ -275,9 +275,9 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   deleteComment = (comment) => {
-    const {actions, post, commentParentType} = this.props
+    const {actions, post} = this.props
     const {deleteComment} = actions
-    deleteComment({commentId: comment.id, parentId: post.id, commentParentType})
+    deleteComment({commentId: comment.id, parentId: post.id, commentParentType: constants.COMMENT_PARENT.POST})
   }
 
   _readMore() {
