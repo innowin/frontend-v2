@@ -280,7 +280,7 @@ class User extends Component<PropsUser, StatesUser> {
 const mapStateToProps = (state, ownProps) => {
   const {params} = ownProps.match
   const userId = +params.id
-  const defaultObject = {content: {}, isLoading: false, error: null}
+  const defaultObject = {content: [], isLoading: false, error: null}
   const user = state.identities.list[userId] || defaultObject
   const profileBannerId = (user && user.profile_banner)
   const profileMediaId = (user && user.profile_media)

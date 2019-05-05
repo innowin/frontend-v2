@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import ProductPosts from '../product/posts'
 import ProductBasicInformation from '../product/basicInformation'
-import {NavLink, Switch, Redirect} from 'react-router-dom'
+import {NavLink, Switch, Redirect, Link} from 'react-router-dom'
 import PropsRoute from 'src/consts/PropsRoute'
 import {connect} from 'react-redux'
 import SideBar from '../bars/ProductSidebar'
@@ -78,10 +78,6 @@ class ProductView extends Component {
     }
   }
 
-  backHistory = () => {
-    window.history.back()
-  }
-
   render() {
     const {hideTopBar} = this.state
     const {match, translate, product, country, province, product_owner, product_category, current_user_identity, countries, provinces, cities, categories, actions} = this.props
@@ -91,7 +87,7 @@ class ProductView extends Component {
         <div className='all-products-parent'>
 
           <div className={hideTopBar ? 'product-header-top' : 'product-header'}>
-            <Material backgroundColor='rgba(255,255,255,0.5)' className='back-button-material' content={<NewRightArrow className='back-button-product'/>} onClick={this.backHistory}/>
+            <Link to='/product/Product_Explorer'><Material backgroundColor='rgba(255,255,255,0.5)' className='back-button-material' content={<NewRightArrow className='back-button-product'/>}/></Link>
             <ProductWhite className='product-header-svg'/>
             <div className='product-header-title'>{product.name}</div>
           </div>

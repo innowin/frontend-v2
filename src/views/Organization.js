@@ -95,7 +95,7 @@ export class Organization extends React.Component<PropsOrganization, StatesOrgan
   componentDidMount() {
     document.addEventListener('scroll', this._onScroll)
     const {params} = this.props.match
-    const {getUserByUserId, setParamUserId,getProducts} = this.props.actions
+    const {getUserByUserId, setParamUserId, getProducts} = this.props.actions
     const userId: number = +params.id
     getUserByUserId(userId)
     setParamUserId({id: userId})
@@ -264,7 +264,7 @@ export class Organization extends React.Component<PropsOrganization, StatesOrgan
 const mapStateToProps = (state, ownProps) => {
   const {params} = ownProps.match
   const userId = +params.id
-  const defaultObject = {content: {}, isLoading: false, error: null}
+  const defaultObject = {content: [], isLoading: false, error: null}
   const user = state.identities.list[userId] || defaultObject
   const profileBannerId = (user && user.profile_banner)
   const profileMediaId = (user && user.profile_media)
