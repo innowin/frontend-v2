@@ -128,10 +128,10 @@ export class Organization extends React.Component<PropsOrganization, StatesOrgan
 
   render() {
     const {showSecondHeader} = this.state
-    const {match, userObject, badgesObject, badges, translate, profileMedia} = this.props
+    const {match, userObject, badges, translate, profileMedia} = this.props
     const {path, url, params} = match
     const userId: number = +params.id
-    const isLoading = userObject.isLoading || badgesObject.isLoading
+    const isLoading = userObject.id ? false : userObject.isLoading
 
     return (
         <div className="-userOrganBackgroundImg">
@@ -265,13 +265,12 @@ const mapStateToProps = (state, ownProps) => {
   const {params} = ownProps.match
   const userId = +params.id
   const defaultObject = {content: {}, isLoading: false, error: null}
-  const defaultObject2 = {content: [], isLoading: false, error: null}
   const user = state.identities.list[userId] || defaultObject
   const profileBannerId = (user && user.profile_banner)
   const profileMediaId = (user && user.profile_media)
   const profileBanner = (profileBannerId && state.common.file.list[profileBannerId]) || {}
   const profileMedia = (profileMediaId && state.common.file.list[profileMediaId]) || {}
-  const badgesObjectInUser = (user && user.badges) || defaultObject2
+  const badgesObjectInUser = (user && user.badges) || defaultObject
   const allBadges = state.common.badges.badge.list
   const badges = badgesObjectInUser.content.map(badgeId => allBadges[badgeId])
   return {

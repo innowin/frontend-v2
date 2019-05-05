@@ -1,6 +1,5 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-
 import type {postType} from "../../../consts/flowTypes/common/post";
 import {VerifyWrapper} from "../cards/Frames";
 // import PostEditForm from "./editPost/PostEditForm";
@@ -55,11 +54,11 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
         <VerifyWrapper isLoading={false} error={false} className='post-view-container'>
           {edit ?
               <div className="-itemWrapperPost">
-                <CreatePost key={'post edit ' + post.id} hideEdit={this._hideEdit} post={post} updateFunc={this._update} isUpdate={true}/>
+                <CreatePost key={'edit ' + post.id} hideEdit={this._hideEdit} post={post} updateFunc={this._update} isUpdate={true}/>
               </div>
               :
               <PostView post={post}
-                        key={'post view ' + post.id}
+                        key={'view ' + post.id}
                         showEdit={this._showEdit}
                         extendedView={false}
               />

@@ -214,25 +214,6 @@
   }
 }
 
-.user-follow-skeleton {
-  padding: 5px 0;
-  border-radius: 30px;
-  width: 100px;
-  background-color: #f3f3f3;
-  border: none;
-  float: left;
-  margin-left: 10px;
-  margin-top: 3px;
-  transition-duration: 0.25s;
-  font-size: $font-size-normalText;
-  overflow: hidden;
-  position: relative;
-
-  &:focus {
-    outline: none;
-  }
-}
-
 .user-followed {
   border: 1.5px solid $secondary-color;
   color: $secondary-color;
@@ -260,6 +241,25 @@
   &:active {
     background-color: $secondary-color;
     color: white;
+  }
+}
+
+.user-follow-skeleton {
+  padding: 5px 0;
+  border-radius: 30px;
+  width: 100px;
+  background-color: #f3f3f3;
+  border: none;
+  float: left;
+  margin-left: 10px;
+  margin-top: 3px;
+  transition-duration: 0.25s;
+  font-size: $font-size-normalText;
+  overflow: hidden;
+  position: relative;
+
+  &:focus {
+    outline: none;
   }
 }
 

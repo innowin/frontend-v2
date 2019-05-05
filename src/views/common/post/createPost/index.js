@@ -32,7 +32,7 @@ const POST_IMG1_TEMP_KEY = 'POST_IMG1'
 const POST_IMG2_TEMP_KEY = 'POST_IMG2'
 const POST_IMG3_TEMP_KEY = 'POST_IMG3'
 
-const minAllowedWordCounts = 5 // TODO: Mohsen should be 3
+const minAllowedWordCounts = 5
 const maxAllowedWordCounts = 4096
 const minAllowedHeaderWordCounts = 5
 const maxAllowedHeaderWordCounts = 70
@@ -979,8 +979,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
 
               <div className={open || focused ? 'emoji-open' : 'emoji-close'}
                    style={description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0]) ? {right: '7px'} : {left: '7px'}}>
-                <StickersMenu ltr={description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0])}
-                              output={this.handleEmoji}/>
+                <StickersMenu ltr={description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0])} output={this.handleEmoji}/>
               </div>
 
             </div>
