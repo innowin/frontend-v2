@@ -112,14 +112,14 @@
 
 .exchange-model-title {
   font-weight: bold;
-  font-size: $font-size-medium;
+  font-size: $font-size-smallText;
   margin: 10px 0;
   z-index: 2;
 }
 
 .exchange-model-title-skeleton {
   font-weight: bold;
-  font-size: $font-size-medium;
+  font-size: $font-size-smallText;
   margin: 10px 0;
   background-color: #f3f3f3;
   border-radius: 3px;
@@ -128,7 +128,7 @@
 .exchange-model-description-skeleton {
   text-align: justify;
   text-align-last: center;
-  font-size: $font-size-smallText;
+  font-size: $font-size-regular;
   line-height: 25px;
   height: 67px;
   overflow-y: hidden;
@@ -139,7 +139,7 @@
 .exchange-model-description {
   text-align: justify;
   text-align-last: center;
-  font-size: $font-size-smallText;
+  font-size: $font-size-regular;
   line-height: 25px;
   height: 75px;
   overflow-y: hidden;
@@ -169,7 +169,7 @@
   width: 50%;
   text-align: center;
   font-weight: bold;
-  font-size: $font-size-medium;
+  font-size: $font-size-smallText;
   margin-top: 12px;
   padding: 17px 0;
   border-top: 1px solid #F1F1F1;
@@ -186,7 +186,7 @@
   width: 50%;
   text-align: center;
   font-weight: bold;
-  font-size: $font-size-medium;
+  font-size: $font-size-smallText;
   margin-top: 12px;
   padding: 7px 0;
   border-top: 1px solid #F1F1F1;
@@ -496,7 +496,7 @@
   border-radius: 30px;
   width: 100px;
   transition-duration: 0.25s;
-  font-size: $font-size-normalText;
+  font-size: $font-size-smallText;
 
   &:hover {
     color: white;
@@ -515,6 +515,7 @@
   flex-wrap: nowrap;
   justify-content: space-around;
   margin-top: 17px;
+  font-size: $font-size-smallText;
 }
 
 .exchange-followed {
@@ -526,7 +527,7 @@
   color: white;
   cursor: pointer;
   transition-duration: 0.25s;
-  font-size: $font-size-normalText;
+  font-size: $font-size-smallText;
 
   &:hover {
     background-color: transparent;
@@ -551,7 +552,7 @@
   border-radius: 30px;
   width: 100px;
   transition-duration: 0.25s;
-  font-size: $font-size-normalText;
+  font-size: $font-size-smallText;
 
   &:focus {
     outline: none;

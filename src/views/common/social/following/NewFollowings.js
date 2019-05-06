@@ -26,6 +26,7 @@ type props = {
   deleteFollow: Function,
   files: [],
   followings: [],
+  clientFollowings: [],
   organs: [],
   profiles: [],
   translate: { [string]: [string] },
@@ -228,6 +229,7 @@ class NewFollowings extends Component<props, states> {
   }
 
   componentDidUpdate(prevProps, prevState, ss): void {
+    console.log(this.props.clientFollowings)
     if ((this.props.followings && this.props.followings.length !== prevProps.followings.length) || prevProps.ownerId !== this.props.ownerId) {
       let {followings, actions} = this.props
       for (let i = 0; i < followings.length; i++) {

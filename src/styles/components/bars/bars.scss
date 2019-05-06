@@ -805,22 +805,22 @@ $sidebar-profile-media-width: 80px;
   .sidebarBottom {
     flex-grow: 1;
     cursor: pointer !important;
-    background-color: $primary-color;
+    background-color: $secondary-color;
     color: $background-color;
     font-size: $font-size-boxText;
     border-radius: 25px;
     transition-duration: $animation-timing;
-    border: 1.5px solid $primary-color;
+    border: 1.5px solid $secondary-color;
     height: 33px;
-    margin: auto auto 0 5px;
-    width: 110px;
+    margin: 2px 5px;
+    width: 90px;
     text-align: center;
     padding: 5px;
 
     &:hover {
       background-color: $background-color;
-      border-color: $primary-color;
-      color: $primary-color !important;
+      border-color: $secondary-color;
+      color: $secondary-color !important;
       transition-duration: $animation-timing;
       //font-weight: bold;
     }
@@ -841,20 +841,20 @@ $sidebar-profile-media-width: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: $success-color;
-    border: 1.5px solid $success-color;
-    color: $background-color;
+    background-color: $background-color;
+    border: 1.5px solid $secondary-color;
+    color: $secondary-color;
     font-size: $font-size-boxText;
     border-radius: 25px;
     transition: background $animation-timing ease, color $animation-timing ease, border $animation-timing ease;
     height: 33px;
-    margin: auto 5px 0 auto;
-    //width: 110px;
+    margin: 2px 5px;
+    width: 90px;
 
     &:hover {
-      background-color: $background-color;
-      border-color: $success-color;
-      color: $success-color !important;
+      background-color: $secondary-color;
+      border-color: $secondary-color;
+      color: $background-color !important;
       transition-duration: $animation-timing;
       //font-weight: bold;
     }
@@ -1983,7 +1983,7 @@ $sidebar-profile-media-width: 80px;
   font-weight: bold;
   vertical-align: top;
   margin-bottom: 7px;
-  font-size: 12px;
+  font-size: $font-size-regular;
   color: $text-title-menu-color;
   direction: ltr;
 }
@@ -2006,6 +2006,7 @@ $sidebar-profile-media-width: 80px;
   font-weight: bold;
   cursor: pointer;
   transition-duration: 0.25s;
+  font-size: $font-size-regular;
 
   &:hover {
     transition-duration: 0.25s;

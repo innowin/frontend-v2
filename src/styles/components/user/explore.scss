@@ -105,7 +105,9 @@
   padding-right: 10px;
   vertical-align: top;
   display: inline-block;
-  font-size: $font-size-normalText;
+  font-size: $font-size-regular;
+  font-weight: bold;
+  color: $foreground-color;
 }
 
 .user-name-icon {
@@ -123,7 +125,7 @@
   vertical-align: top;
   display: inline-block;
   color: $text-title-menu-color;
-  font-size: $font-size-normalText;
+  font-size: $font-size-regular;
 }
 
 .user-name-skeleton {
@@ -154,7 +156,7 @@
 }
 
 .user-description {
-  font-size: $font-size-smallText;
+  font-size: $font-size-regular;
   padding: 10px;
   text-align: justify;
   text-align-last: center;
@@ -171,7 +173,7 @@
   flex-flow: column;
   clear: both;
   margin-top: 20px;
-  font-size: $font-size-smallText;
+  font-size: $font-size-regular;
   padding: 10px;
   text-align: justify;
   text-align-last: initial;
@@ -198,7 +200,7 @@
   border-radius: 30px;
   width: 100px;
   transition-duration: 0.25s;
-  font-size: $font-size-normalText;
+  font-size: $font-size-smallText;
   float: left;
   margin-left: 10px;
   margin-top: 3px;
@@ -224,7 +226,7 @@
   margin-left: 10px;
   margin-top: 3px;
   transition-duration: 0.25s;
-  font-size: $font-size-normalText;
+  font-size: $font-size-smallText;
   overflow: hidden;
   position: relative;
 
@@ -245,7 +247,7 @@
   margin-top: 3px;
   float: left;
   transition-duration: 0.25s;
-  font-size: $font-size-normalText;
+  font-size: $font-size-smallText;
 
   &:hover {
     background-color: $secondary-color;
@@ -284,7 +286,8 @@
 
 .kindId {
   float: right;
-  font-size: 14px;
+  font-size: $font-size-smallText;
+  font-weight: bold;
 }
 
 .exchanges-explore-not-found {
