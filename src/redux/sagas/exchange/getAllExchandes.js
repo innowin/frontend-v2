@@ -14,25 +14,26 @@ export function* getAllExchanges(action) {
         api.get,
         urls.EXCHANGE_EXPLORER,
         results.EXCHANGE.GET_EXCHANGES,
-        encodeURI(params)
+        encodeURI(params),
     )
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.EXCHANGE.GET_EXCHANGES, payload: {data, search, isLoading: false}})
 // Added for get membership
     const identityId = yield select((state) => state.auth.client.identity.content)
-    const exchangeMembershipOwnerId = yield select((state) => state.auth.client.user.id)
     yield put({
       type: types.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY,
-      payload: {identityId, exchangeMembershipOwnerId}
+      payload: {identityId, exchangeMembershipOwnerId: identityId},
     })
 //end
-  } catch (err) {
+  }
+  catch (err) {
     const {message} = err
     yield put({
       type: types.ERROR.EXCHANGE.GET_EXCHANGES,
-      payload: {message}
+      payload: {message},
     })
-  } finally {
+  }
+  finally {
     socketChannel.close()
   }
 }
