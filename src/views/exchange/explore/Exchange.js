@@ -19,22 +19,40 @@ class Exchange extends Component {
     this.state = {
       followLoading: false,
     }
-    this._follow = this._follow.bind(this)
+    this.follow = this.follow.bind(this)
+    this.unFollow = this.unFollow.bind(this)
   }
 
-  _follow() {
-    this.setState({...this.state, followLoading: true})
-    this.props.actions.follow({identityId: this.props.currentUserIdentity, exchangeIdentity: this.props.data.id})
+  componentWillReceiveProps(nextProps, nextContext) {
+    if (this.props.followed[this.props.data.id] !== nextProps.followed[nextProps.data.id]) {
+      this.setState({...this.state, followLoading: false})
+    }
+  }
+
+  follow() {
+    this.setState({...this.state, followLoading: true}, () =>
+        this.props.actions.follow({identityId: this.props.currentUserIdentity, exchangeIdentity: this.props.data.id}),
+    )
+  }
+
+  unFollow() {
+    this.setState({...this.state, followLoading: true}, () =>
+        this.props.actions.unFollow({
+          exchangeMembershipId: this.props.followed[this.props.data.id],
+          exchangeMembershipOwnerId: this.props.currentUserIdentity,
+        }),
+    )
   }
 
   _renderFollowButton() {
-    if (this.props.followed.indexOf(this.props.data.id) < 0 && this.state.followLoading) {
+    if (this.props.followed[this.props.data.id])
+      return <Material className='exchange-follow' content={''} onClick={this.unFollow}/>
+    else if (this.state.followLoading) {
       return <div className='exchange-model-following'><ClipLoader color='#008057' size={19}/></div>
     }
-    else if (this.props.followed.indexOf(this.props.data.id) < 0) {
-      return <Material className='exchange-followed' content={this.props.translate['Follow']} onClick={this._follow}/>
+    else {
+      return <Material className='exchange-followed' content={this.props.translate['Follow']} onClick={this.follow}/>
     }
-    else return <Material className='exchange-follow' content={this.props.translate['Followed']}/>
   }
 
   render() {
@@ -76,7 +94,7 @@ class Exchange extends Component {
             </Link>
             <div className='exchange-follow-green-buttons'>
               <Link to={`/exchange/${data.id}`} style={{textDecoration: 'none'}}>
-                <Material className='exchange-follow' content='مشاهده'/>
+                <Material className='exchange-link' content='مشاهده'/>
               </Link>
               {
                 this._renderFollowButton()
@@ -99,6 +117,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     follow: exchangeActions.createExchangeMembership,
+    unFollow: exchangeActions.deleteExchangeMembership,
   }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Exchange)

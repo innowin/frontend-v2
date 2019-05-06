@@ -36,14 +36,12 @@ class PostHeader extends React.Component {
 
   showInstant() {
     if (document.body.clientWidth > 480)
-      this.timer = setTimeout(() => this.setState({...this.state, instantView: true}), 700)
-    console.log('show')
+      this.timer = setTimeout(() => this.setState({...this.state, instantView: true}), 500)
   }
 
   hideInstant() {
     clearTimeout(this.timer)
     this.setState({...this.state, instantView: false})
-    console.log('hide')
   }
 
   _follow() {

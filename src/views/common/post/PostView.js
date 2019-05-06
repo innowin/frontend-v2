@@ -3,7 +3,6 @@ import * as React from 'react'
 import 'moment/locale/fa'
 import connect from 'react-redux/es/connect/connect'
 import FontAwesome from 'react-fontawesome'
-
 import CommentActions from 'src/redux/actions/commonActions/commentActions'
 import constants from 'src/consts/constants'
 import FileActions from 'src/redux/actions/commonActions/fileActions'
@@ -333,13 +332,9 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
             ? <div className={extendedView ? 'post-view-container remove-post-container' : 'remove-post-container'}>
               <Confirm cancelRemoving={this._cancelConfirm} remove={this._delete}/>
             </div>
-            : post ?
+            : post &&
             <VerifyWrapper isLoading={false} error={false} className="-itemWrapperPost">
-              {extendedView &&
-              <CategoryTitle
-                  title={translate['Single post']}
-              />
-              }
+              {extendedView && <CategoryTitle title={translate['Single post']}/>}
               <div className={extendedView ? 'post-view-container' : undefined}>
                 {
                   post.post_type !== constants.POST.POST_TYPE.POST &&
@@ -429,8 +424,6 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                 {showComment}
               </div>
             </VerifyWrapper>
-            : ''
-
     )
   }
 }

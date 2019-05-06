@@ -654,7 +654,7 @@
   transform-origin: top left;
   opacity: 0;
   transform: scale(0);
-  transition: transform linear 0s 1s, opacity linear 0.2s;
+  transition: transform linear 0s 0.5s, opacity linear 0.2s;
 }
 
 .post-instant-view-img {

@@ -488,7 +488,8 @@
   position: relative;
 }
 
-.exchange-follow {
+
+.exchange-link {
   border: 1.5px solid $secondary-color;
   color: $secondary-color;
   background-color: transparent;
@@ -497,6 +498,7 @@
   width: 100px;
   transition-duration: 0.25s;
   font-size: $font-size-normalText;
+  position: relative;
 
   &:hover {
     color: white;
@@ -506,6 +508,44 @@
 
   &:focus {
     outline: none;
+  }
+}
+
+.exchange-follow {
+  border: 1.5px solid $secondary-color;
+  color: $secondary-color;
+  background-color: transparent;
+  padding: 5px 0;
+  border-radius: 30px;
+  width: 100px;
+  transition-duration: 0.25s;
+  font-size: $font-size-normalText;
+  position: relative;
+  cursor: pointer;
+
+  &:hover {
+    color: white;
+    background-color: $error-color;
+    border: 1.5px solid $error-color;
+    transition-duration: 0.25s;
+  }
+
+  &:hover:after {
+    content: 'لغو عضویت';
+    position: absolute;
+    top: 5px;
+    right: 15px;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:after{
+    content: 'دنبال شده';
+    position: absolute;
+    top: 5px;
+    right: 20px;
   }
 }
 
