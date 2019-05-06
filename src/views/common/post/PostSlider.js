@@ -22,8 +22,10 @@ class PostSlider extends Component {
 
   renderSlider(images) {
     let {selectedImage} = this.state
+    let {rect} = this.props
     return (
-        <div className="post-slider-container">
+        <div className="post-slider-container"
+             style={rect && {width: rect.width + "px", height: rect.height + "px", top: rect.top + "px", left: rect.left + "px"}}>
           <div className="post-slider-image-con">
             <img src={images[selectedImage].file} alt="" className="post-slider-image"/>
           </div>
@@ -49,11 +51,13 @@ class PostSlider extends Component {
         <React.Fragment>
           <div className={modalIsOpen ? "post-slider-black-back" : "post-slider-black-back-close"} onClick={() => closeModal()}/>
           <TransitionGroup>
-            {modalIsOpen ?
-                <CSSTransition key={10} timeout={300} classNames='fade'>
-                  {this.renderSlider(images)}
-                </CSSTransition>
-                : null}
+            {
+              modalIsOpen ?
+                  <CSSTransition key={Math.random()} exit={true} timeout={300} classNames='scale'>
+                    {this.renderSlider(images)}
+                  </CSSTransition>
+                  : null
+            }
           </TransitionGroup>
         </React.Fragment>
     )

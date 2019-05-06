@@ -32,7 +32,8 @@ class PostImage extends React.Component<postImageProps, postImageState> {
     this.state = {
       pictureLoaded: null,
       pictureArrayLoaded: [null, null, null],
-      postPicturesSlider: false
+      postPicturesSlider: false,
+      rect: null
     }
     const self: any = this
 
@@ -196,17 +197,20 @@ class PostImage extends React.Component<postImageProps, postImageState> {
 
   closeImageSlider() {
     const {postPicturesSlider} = this.state
-    postPicturesSlider && this.setState({...this.state, postPicturesSlider: false})
+    postPicturesSlider && this.setState({...this.state, postPicturesSlider: false, rect: null})
   }
 
   openImageSlider() {
+    let target = this.container
+    let rect = target.getBoundingClientRect()
+
     const {postPicturesSlider} = this.state
-    !postPicturesSlider && this.setState({...this.state, postPicturesSlider: true})
+    !postPicturesSlider && this.setState({...this.state, postPicturesSlider: true, rect})
   }
 
   render() {
     const {post, extendedView, fileList} = this.props
-    const {pictureLoaded, pictureArrayLoaded, postPicturesSlider} = this.state
+    const {pictureLoaded, pictureArrayLoaded, postPicturesSlider, rect} = this.state
     let postPicture, postPictureId
     let postFilesArray = [], picturesClass = "", postPicturesLength = 0
 
@@ -251,7 +255,6 @@ class PostImage extends React.Component<postImageProps, postImageState> {
           }
           {postFilesArray && postPicturesLength > 0
               ? <div className={extendedView && postPicturesLength === 1 ? "post-image-container" : ("pictures-section " + picturesClass)}>
-                <PostSlider images={postFilesArray} modalIsOpen={postPicturesSlider} closeModal={() => this.closeImageSlider()}/>
                 {postFilesArray.map((postPictureElement, i) => (
                     <div className='image-container' key={i + "pictures-section"}>
                       <div className='post-image-container'>
@@ -269,7 +272,7 @@ class PostImage extends React.Component<postImageProps, postImageState> {
                                 <div className='bright-line'/>
                           }
                         </div>
-                        <img src={postPictureElement.file} alt='عکس پست' onClick={() => this.openImageSlider()}
+                        <img src={postPictureElement.file} alt='عکس پست' onClick={() => this.openImageSlider()} ref={e => this.container = e}
                              className={pictureArrayLoaded[i] === true ? "post-image-effect" : "post-image"}/>
                       </div>
 
@@ -279,6 +282,7 @@ class PostImage extends React.Component<postImageProps, postImageState> {
               </div>
               : null
           }
+          {/*<PostSlider images={postFilesArray} modalIsOpen={postPicturesSlider} closeModal={() => this.closeImageSlider()} rect={rect}/>*/}
         </React.Fragment>
     )
   }

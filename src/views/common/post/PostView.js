@@ -3,7 +3,6 @@ import * as React from 'react'
 import 'moment/locale/fa'
 import connect from 'react-redux/es/connect/connect'
 import FontAwesome from 'react-fontawesome'
-
 import CommentActions from 'src/redux/actions/commonActions/commentActions'
 import constants from 'src/consts/constants'
 import FileActions from 'src/redux/actions/commonActions/fileActions'
@@ -148,7 +147,8 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
         let height = self.text.clientHeight
         if (post.post_description && new RegExp('^[A-Za-z]*$').test(post.post_description[0])) {
           self.text.style.paddingRight = '60px'
-        } else self.text.style.paddingLeft = '60px'
+        }
+        else self.text.style.paddingLeft = '60px'
         self.text.style.height = '68px'
         this.setState({...this.state, showMore: true, descriptionHeight: height})
       }
@@ -174,13 +174,17 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
               self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a title=` + word + ` target=_blank href=` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word} </a>`)
               :
               self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a title=` + word + ` target=_blank href=http://` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-        } else if (word[0] === '@' && word.length >= 6 && !word.substring(1, word.length).includes('@')) {
+        }
+        else if (word[0] === '@' && word.length >= 6 && !word.substring(1, word.length).includes('@')) {
           self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=` + word.slice(1, word.length) + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-        } else if (word[0] === '#' && word.length >= 3 && !word.substring(1, word.length).includes('#')) {
+        }
+        else if (word[0] === '#' && word.length >= 3 && !word.substring(1, word.length).includes('#')) {
           self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-        } else if (mailExp.test(word)) {
+        }
+        else if (mailExp.test(word)) {
           self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=mailto:` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
-        } else if (!isNaN(word.replace(/\\+/g, '')) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
+        }
+        else if (!isNaN(word.replace(/\\+/g, '')) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
           // don't touch it !
           word.includes('+') ?
               self.text.innerHTML = self.text.innerHTML.replace(new RegExp(`\\${word}`, 'g'), `<a href=tel:` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
@@ -202,7 +206,8 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
         height = self.text.clientHeight
         if (post.post_description && new RegExp('^[A-Za-z]*$').test(post.post_description[0])) {
           self.text.style.paddingRight = '60px'
-        } else self.text.style.paddingLeft = '60px'
+        }
+        else self.text.style.paddingLeft = '60px'
         self.text.style.height = '68px'
         showMore = true
       }
@@ -298,7 +303,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
         parentId: post.id,
         commentParentType: constants.COMMENT_PARENT.POST,
         limit: 10,
-        offset: instantViewComments.length
+        offset: instantViewComments.length,
       })
     }
   }
@@ -308,7 +313,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
     const {
       post, translate, postIdentity, postRelatedIdentityImage, extendedView, showEdit, comments, fileList,
-      instantViewComments, commentParentType, postRelatedProduct,
+      instantViewComments, commentParentType, postRelatedProduct, clientIdentity,
     } = this.props
 
     const {menuToggleBottom, menuToggleTop, confirm, showComment, commentOn} = this.state
@@ -327,24 +332,26 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
             ? <div className={extendedView ? 'post-view-container remove-post-container' : 'remove-post-container'}>
               <Confirm cancelRemoving={this._cancelConfirm} remove={this._delete}/>
             </div>
-            : post ?
+            : post &&
             <VerifyWrapper isLoading={false} error={false} className="-itemWrapperPost">
-              {extendedView &&
-              <CategoryTitle
-                  title={translate['Single post']}
-              />
-              }
+              {extendedView && <CategoryTitle title={translate['Single post']}/>}
               <div className={extendedView ? 'post-view-container' : undefined}>
                 {
                   post.post_type !== constants.POST.POST_TYPE.POST &&
                   <PostType translate={translate} post={post}/>
                 }
                 <div className='post-view-relative'>
-                  <PostHeader post={post} translate={translate} postIdentity={postIdentity}
-                              postRelatedIdentityImage={postRelatedIdentityImage} showEdit={showEdit}
-                              extendedView={extendedView} openMenu={this._openMenuTop} deletePost={this._delete}
+                  <PostHeader post={post}
+                              translate={translate}
+                              postIdentity={postIdentity}
+                              postRelatedIdentityImage={postRelatedIdentityImage}
+                              showEdit={showEdit}
+                              extendedView={extendedView}
+                              openMenu={this._openMenuTop}
+                              deletePost={this._delete}
                               menuToggle={menuToggleTop}
                               postMenuId={this.postMenuId + 'top'}
+                              clientIdentity={clientIdentity}
                   />
                   <div className='post-content'
                        style={new RegExp('^[A-Za-z]*$').test(postDescription && postDescription[0]) ? {direction: 'ltr'} : {direction: 'rtl'}}
@@ -417,8 +424,6 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                 {showComment}
               </div>
             </VerifyWrapper>
-            : ''
-
     )
   }
 }
@@ -445,10 +450,12 @@ const mapStateToProps = (state, ownProps) => {
       postRelatedIdentityImage: postIdentity && state.identities.list[postIdentity] && fileList[state.identities.list[postIdentity].profile_media],
       postRelatedProduct,
       postIdentity: state.identities.list[postIdentity],
+      clientIdentity: state.auth.client.identity.content,
       comments: userCommentsSelector(state, ownProps),
       fileList,
     }
-  } else {
+  }
+  else {
     const {post} = ownProps
     const postIdentity = post && post.post_related_identity
     const postRelatedProductId = post && post.post_related_product && post.post_related_product.id
@@ -456,6 +463,7 @@ const mapStateToProps = (state, ownProps) => {
     postRelatedProduct = postRelatedProduct && {...postRelatedProduct, product_owner: postIdentity}
     return {
       postIdentity,
+      clientIdentity: state.auth.client.identity.content,
       postRelatedProduct,
       postRelatedIdentityImage: postIdentity ? postIdentity.profile_media : null,
       translate: getMessages(state),

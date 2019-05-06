@@ -29,6 +29,8 @@ import SideBarContent from './bars/SideBar'
 import RightArrowSvg from '../images/common/right_arrow_svg'
 import DefaultOrganIcon from '../images/defaults/defaultOrganization_svg'
 import ProductActions from '../redux/actions/commonActions/productActions'
+import PostActions from '../redux/actions/commonActions/postActions'
+import {userPostsSelector} from '../redux/selectors/common/post/userPostsSelector'
 // import Contributions from './common/contributions'
 // import Educations from 'src/views/user/educations'
 // import UserBasicInformation from './user/basicInformation'
@@ -97,8 +99,9 @@ class User extends Component<PropsUser, StatesUser> {
 
   componentDidMount() {
     const {params} = this.props.match
-    const {getUserByUserId, setParamUserId, getProducts} = this.props.actions
+    const {getUserByUserId, setParamUserId, getProducts, getPostByIdentity} = this.props.actions
     const userId: number = +params.id
+    getPostByIdentity({postIdentity: userId, postOwnerId: userId})
     getUserByUserId(userId)
     setParamUserId({id: userId})
     getProducts({productOwnerId: userId})
@@ -131,10 +134,11 @@ class User extends Component<PropsUser, StatesUser> {
 
   render() {
     const {showSecondHeader} = this.state
-    const {match, userObject, badgesObject, badges, translate, profileMedia} = this.props
+    const {match, userObject, badges, translate, profileMedia, actions, posts} = this.props
+    const {updatePost, deletePost} = actions
     const {path, url, params} = match
     const userId: number = +params.id
-    const isLoading = userObject.isLoading || badgesObject.isLoading
+    const isLoading = userObject.id ? false : userObject.isLoading
 
     return (
         <div className="-userOrganBackgroundImg">
@@ -163,17 +167,12 @@ class User extends Component<PropsUser, StatesUser> {
 
                       <div className='header-container'>
 
-                        <NavLink to={`${url}/Posts`} className='header-container-item'
-                                 activeClassName='header-container-item-active'>
-                          <Material backgroundColor='rgba(66,172,151,0.4)'
-                                    className='header-container-item-material-first'
-                                    content={translate['Stream']}/>
+                        <NavLink to={`${url}/Posts`} className='header-container-item' activeClassName='header-container-item-active'>
+                          <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material-first' content={translate['Stream']}/>
                         </NavLink>
 
-                        <NavLink to={`${url}/basicInformation`} className='header-container-item'
-                                 activeClassName='header-container-item-active'>
-                          <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
-                                    content={translate['About Me']}/>
+                        <NavLink to={`${url}/basicInformation`} className='header-container-item' activeClassName='header-container-item-active'>
+                          <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['About Me']}/>
                         </NavLink>
 
                         {/*<NavLink to={`${url}/contributions`} className='header-container-item'*/}
@@ -182,22 +181,16 @@ class User extends Component<PropsUser, StatesUser> {
                         {/*            content={translate['Contributions']}/>*/}
                         {/*</NavLink>*/}
 
-                        <NavLink to={`${url}/Exchanges`} className='header-container-item'
-                                 activeClassName='header-container-item-active'>
-                          <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
-                                    content={translate['Exchanges']}/>
+                        <NavLink to={`${url}/Exchanges`} className='header-container-item' activeClassName='header-container-item-active'>
+                          <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Exchanges']}/>
                         </NavLink>
 
-                        <NavLink to={`${url}/Followings`} className='header-container-item'
-                                 activeClassName='header-container-item-active'>
-                          <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
-                                    content={translate['Followings']}/>
+                        <NavLink to={`${url}/Followings`} className='header-container-item' activeClassName='header-container-item-active'>
+                          <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Followings']}/>
                         </NavLink>
 
-                        <NavLink to={`${url}/Followers`} className='header-container-item'
-                                 activeClassName='header-container-item-active'>
-                          <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
-                                    content={translate['Followers']}/>
+                        <NavLink to={`${url}/Followers`} className='header-container-item' activeClassName='header-container-item-active'>
+                          <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Followers']}/>
                         </NavLink>
 
                         {/*<NavLink to={`${url}/Educations`} className='header-container-item'*/}
@@ -221,49 +214,62 @@ class User extends Component<PropsUser, StatesUser> {
                       </div>
                       <Switch>
                         <Redirect exact from={`${url}/`} to={`${url}/Posts`}/>
-                        <PrivateRoute exact={true} path={`${path}/Posts`} component={Posts} id={userId}
+
+                        <PrivateRoute exact={true}
+                                      path={`${path}/Posts`}
+                                      component={Posts}
+                                      updatePost={updatePost}
+                                      deletePost={deletePost}
+                                      posts={posts}
+                        />
+                        <PrivateRoute path={`${path}/Posts/:id`}
+                                      component={PostExtendedView}
+                                      extendedView={true}
+                                      commentParentType={constants.COMMENT_PARENT.POST}
+                        />
+                        <PrivateRoute path={`${path}/basicInformation`}
+                                      component={UserAboutMe}
+                                      userId={userId}
+                                      user={userObject}
+                        />
+                        <PrivateRoute path={`${path}/Exchanges`}
+                                      component={Exchanges}
+                                      ownerId={userId}
                                       identityType={constants.USER_TYPES.USER}
                                       user={userObject}
                         />
-                        <PrivateRoute path={`${path}/Posts/:id`} component={PostExtendedView}
-                                      extendedView={true}
-                                      commentParentType={constants.COMMENT_PARENT.POST}/>
+                        <PrivateRoute path={`${path}/Followings`}
+                                      component={Following}
+                                      ownerId={userId}
+                                      identityType={constants.USER_TYPES.USER}
+                                      user={userObject}
+                        />
+                        <PrivateRoute path={`${path}/Followers`}
+                                      component={Follower}
+                                      ownerId={userId}
+                                      identityType={constants.USER_TYPES.USER}
+                                      user={userObject}
+                        />
+                        <PrivateRoute path={`${path}/Certificates`}
+                                      component={Certificates}
+                                      ownerId={userId}
+                                      identityType={constants.USER_TYPES.USER}
+                                      user={userObject}
+                        />
+
                         {/*<PrivateRoute path={`${path}/basicInformation`} component={UserBasicInformation}*/}
                         {/*              userId={userId}*/}
                         {/*              user={userObject}*/}
                         {/*/>*/}
-                        <PrivateRoute path={`${path}/basicInformation`} component={UserAboutMe}
-                                      userId={userId}
-                                      user={userObject}
-                        />
                         {/*<PrivateRoute path={`${path}/contributions`} component={Contributions}*/}
                         {/*              ownerId={userId}*/}
                         {/*              identityType={constants.USER_TYPES.USER}*/}
                         {/*              isUser={true}*/}
                         {/*              user={userObject}*/}
                         {/*/>*/}
-                        <PrivateRoute path={`${path}/Exchanges`} component={Exchanges}
-                                      ownerId={userId}
-                                      identityType={constants.USER_TYPES.USER}
-                                      user={userObject}
-                        />
-                        <PrivateRoute path={`${path}/Followings`} component={Following}
-                                      ownerId={userId}
-                                      identityType={constants.USER_TYPES.USER}
-                                      user={userObject}
-                        />
-                        <PrivateRoute path={`${path}/Followers`} component={Follower}
-                                      ownerId={userId}
-                                      identityType={constants.USER_TYPES.USER}
-                                      user={userObject}
-                        />
                         {/*<PrivateRoute path={`${path}/Educations`} component={Educations} userId={userId}/>*/}
                         {/*<PrivateRoute path={`${path}/WorkExperiences`} component={WorkExperiences} userId={userId}/>*/}
-                        <PrivateRoute path={`${path}/Certificates`} component={Certificates}
-                                      ownerId={userId}
-                                      identityType={constants.USER_TYPES.USER}
-                                      user={userObject}
-                        />
+
                       </Switch>
                     </div>
                     <div className="col-md-2 col-sm-1 -left-sidebar-wrapper">
@@ -280,14 +286,13 @@ class User extends Component<PropsUser, StatesUser> {
 const mapStateToProps = (state, ownProps) => {
   const {params} = ownProps.match
   const userId = +params.id
-  const defaultObject = {content: {}, isLoading: false, error: null}
-  const defaultObject2 = {content: [], isLoading: false, error: null}
+  const defaultObject = {content: [], isLoading: false, error: null}
   const user = state.identities.list[userId] || defaultObject
   const profileBannerId = (user && user.profile_banner)
   const profileMediaId = (user && user.profile_media)
   const profileBanner = (profileBannerId && state.common.file.list[profileBannerId]) || {}
   const profileMedia = (profileMediaId && state.common.file.list[profileMediaId]) || {}
-  const badgesObjectInUser = (user && user.badges) || defaultObject2
+  const badgesObjectInUser = (user && user.badges) || defaultObject
   const allBadges = state.common.badges.badge.list
   const badges = badgesObjectInUser.content.map(badgeId => allBadges[badgeId])
   return {
@@ -297,6 +302,7 @@ const mapStateToProps = (state, ownProps) => {
     translate: getMessages(state),
     profileMedia,
     badges,
+    posts: userPostsSelector(state, {id: userId}),
   }
 }
 const mapDispatchToProps = dispatch => ({
@@ -306,6 +312,9 @@ const mapDispatchToProps = dispatch => ({
     getUserBadges: BadgeActions.getUserBadges,
     setParamUserId: ParamActions.setParamUserId,
     removeParamUserId: ParamActions.removeParamUserId,
+    getPostByIdentity: PostActions.getPostByIdentity,
+    updatePost: PostActions.updatePost,
+    deletePost: PostActions.deletePost,
   }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(User)

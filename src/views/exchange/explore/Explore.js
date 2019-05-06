@@ -26,15 +26,10 @@ class Explore extends PureComponent {
     this.props.actions.getAllExchanges(250, 0, null)
     const {clientExchangeMemberships, exchangeMemberships} = this.props
     if (clientExchangeMemberships.length > 0) {
-      let followed = []
-      clientExchangeMemberships.forEach((exId, idx) => {
-        if (exchangeMemberships[exId]) {
-          followed.push(exchangeMemberships[exId].exchange_identity_related_exchange.id)
-        }
-        if (idx === clientExchangeMemberships.length - 1) {
-          this.setState({...this.state, followed: [...followed]})
-        }
-      })
+      const followed = clientExchangeMemberships.reduce((sum, exId) =>
+          exchangeMemberships[exId] && {...sum, [exchangeMemberships[exId].exchange_identity_related_exchange.id]: exchangeMemberships[exId].id}, {},
+      )
+      this.setState({...this.state, followed: {...followed}})
     }
     document.addEventListener('scroll', this._onScroll)
   }
@@ -42,15 +37,10 @@ class Explore extends PureComponent {
   componentWillReceiveProps(nextProps, nextContext) {
     const {clientExchangeMemberships, exchangeMemberships} = nextProps
     if (clientExchangeMemberships.length > 0) {
-      let followed = []
-      clientExchangeMemberships.forEach((exId, idx) => {
-        if (exchangeMemberships[exId]) {
-          followed.push(exchangeMemberships[exId].exchange_identity_related_exchange.id)
-        }
-        if (idx === clientExchangeMemberships.length - 1) {
-          this.setState({...this.state, followed: [...followed]})
-        }
-      })
+      const followed = clientExchangeMemberships.reduce((sum, exId) =>
+          exchangeMemberships[exId] && {...sum, [exchangeMemberships[exId].exchange_identity_related_exchange.id]: exchangeMemberships[exId].id}, {},
+      )
+      this.setState({...this.state, followed: {...followed}})
     }
   }
 

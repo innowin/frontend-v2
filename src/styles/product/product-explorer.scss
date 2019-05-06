@@ -324,8 +324,8 @@
   }
 
   .product-model-seller-name {
+    display: inline-block;
     color: $info-color;
-    width: 100%;
   }
 
   .product-model-name {
@@ -335,6 +335,12 @@
     padding: 10px 0;
     margin-bottom: 10px;
     border-bottom: 1px solid $more-button-color-hover-darker;
+
+    div {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   .product-model-seller-icon {
@@ -434,12 +440,18 @@
   }
 
   .product-model-seller-name {
+    display: inline-block;
     color: $info-color;
-    width: 100%;
   }
 
   .product-model-name {
     margin-bottom: 28px;
+
+    div {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   .product-model-svg {
@@ -454,6 +466,15 @@
   .product-explorer-skeleton {
     display: flex;
     width: 100%;
+  }
+
+  .product-model-seller-icon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
 }

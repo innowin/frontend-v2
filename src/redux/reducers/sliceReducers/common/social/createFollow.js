@@ -3,9 +3,6 @@ const base = (state, action) => {
 
 const success = (state, action) => {
   const {data} = action.payload
-
-  console.log('here: ', data)
-
   return {
     ...state,
     follows: {

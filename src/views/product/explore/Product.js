@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom'
 import {Product as ProductSvg} from 'src/images/icons'
 import {Organization} from 'src/images/icons'
 import {ClipLoader} from 'react-spinners'
-import GetUserActions from '../../../redux/actions/user/getUserActions'
+import GetUserActions from 'src/redux/actions/user/getUserActions'
 
 class Product extends Component {
   componentDidMount() {
@@ -18,8 +18,7 @@ class Product extends Component {
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
-    if (this.props.data.id !== nextProps.data.id)
-    {
+    if (this.props.data.id !== nextProps.data.id) {
       const {data, actions} = nextProps
       actions.getFileByFileRelatedParentId({fileRelatedParentId: data.id, fileParentType: constants.FILE_PARENT.PRODUCT})
       const id = data.product_owner.id ? data.product_owner.id : data.product_owner
@@ -41,18 +40,18 @@ class Product extends Component {
           <div className='product-model-detail'>
             <div className='product-model-name'>
               <ProductSvg className='product-model-little-svg'/>
-              {data.name}
+              <div>{data.name}</div>
             </div>
             <div className='product-model-seller-icon'>
               <Organization className='product-model-little-svg'/>
               <span className='product-model-seller'>فروشنده: </span>
-              <span className='product-model-seller-name'>
+              <div className='product-model-seller-name'>
                 {
                   identities[id] ?
                       identities[id].official_name ? identities[id].official_name : identities[id].nike_name ? identities[id].nike_name : identities[id].first_name || identities[id].last_name ? identities[id].first_name + ' ' + identities[id].last_name
                           : <span style={{color: 'red'}}>فاقد نام</span> : <div style={{verticalAlign: 'top', display: 'inline-block', marginTop: '3px'}}><ClipLoader size={15}/></div>
                 }
-            </span>
+              </div>
             </div>
           </div>
           <img className='product-model-img' src={pictures_array && pictures_array.length > 0 ? pictures_array[0].file : ''} alt=''/>
