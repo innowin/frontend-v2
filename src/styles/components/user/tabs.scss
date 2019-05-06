@@ -630,12 +630,31 @@
   border-radius: 5px;
   transform-origin: top left;
   transition: all linear 0.2s;
+  animation: show linear 0.3s;
+}
+
+@keyframes show {
+  from {
+    transform: scale(0.9);
+  }
+  to {
+    transform: scale(1);
+  }
 }
 
 .post-instant-view-hide {
-  opacity: 0;
-  transform: scale(0.9);
+  position: absolute;
+  background-color: white;
+  width: 160px;
+  padding: 25px 35px 20px 35px;
+  z-index: 2;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  border-radius: 5px;
   transform-origin: top left;
+  opacity: 0;
+  transform: scale(0);
+  transition: transform linear 0s 1s, opacity linear 0.2s;
 }
 
 .post-instant-view-img {

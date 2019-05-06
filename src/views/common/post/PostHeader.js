@@ -36,11 +36,14 @@ class PostHeader extends React.Component {
 
   showInstant() {
     if (document.body.clientWidth > 480)
-      this.timer = setTimeout(() => this.setState({...this.state, instantView: true}), 500)
+      this.timer = setTimeout(() => this.setState({...this.state, instantView: true}), 700)
+    console.log('show')
   }
 
   hideInstant() {
-    this.setState({...this.state, instantView: false}, () => clearTimeout(this.timer))
+    clearTimeout(this.timer)
+    this.setState({...this.state, instantView: false})
+    console.log('hide')
   }
 
   _follow() {
@@ -93,23 +96,26 @@ class PostHeader extends React.Component {
               </div>
             </Link>
 
-            <div className={instantView ? 'post-instant-view' : 'post-instant-view post-instant-view-hide'} style={{top: y, left: x}}>
+            <div className={instantView ? 'post-instant-view' : 'post-instant-view-hide'} style={{top: y, left: x}}>
               {
                 postRelatedIdentityImage && postRelatedIdentityImage.file ?
                     <img className="post-instant-view-img rounded-circle covered-img" src={postRelatedIdentityImage.file} alt=""/>
                     : <DefaultUserIcon className="post-instant-view-img rounded-circle covered-svg"/>
               }
               <div className='post-instant-view-name'>{name}</div>
-              <div className='post-instant-view-desc'>{postIdentity.description}</div>
-              <div className='post-instant-view-follow'>
-                {
-                  showFollow ?
-                      <Material className='post-instant-view-followed-btn' content={translate['Follow']} onClick={this._follow}/>
-                      :
-                      <Material className='post-instant-view-follow-btn' content={translate['Followed']}/>
-                }
-              </div>
-
+              <div className='post-instant-view-desc'>{postIdentity && postIdentity.description}</div>
+              {
+                postIdentity && clientIdentity && clientIdentity !== postIdentity.id ?
+                    <div className='post-instant-view-follow'>
+                      {
+                        showFollow ?
+                            <Material className='post-instant-view-followed-btn' content={translate['Follow']} onClick={this._follow}/>
+                            :
+                            <Material className='post-instant-view-follow-btn' content={translate['Followed']}/>
+                      }
+                    </div>
+                    : null
+              }
             </div>
 
           </div>
@@ -133,7 +139,7 @@ PostHeader.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  followers: getFollowersSelector(state, {ownerId: ownProps.postIdentity.id}),
+  followers: getFollowersSelector(state, {ownerId: ownProps.postIdentity && ownProps.postIdentity.id}),
 })
 
 const mapDispatchToProps = dispatch => ({
