@@ -105,7 +105,9 @@
   padding-right: 10px;
   vertical-align: top;
   display: inline-block;
-  font-size: $font-size-normalText;
+  font-size: $font-size-regular;
+  font-weight: bold;
+  color: $foreground-color;
 }
 
 .user-name-icon {
@@ -123,7 +125,7 @@
   vertical-align: top;
   display: inline-block;
   color: $text-title-menu-color;
-  font-size: $font-size-normalText;
+  font-size: $font-size-regular;
 }
 
 .user-name-skeleton {
@@ -154,7 +156,7 @@
 }
 
 .user-description {
-  font-size: $font-size-smallText;
+  font-size: $font-size-regular;
   padding: 10px;
   text-align: justify;
   text-align-last: center;
@@ -171,7 +173,7 @@
   flex-flow: column;
   clear: both;
   margin-top: 20px;
-  font-size: $font-size-smallText;
+  font-size: $font-size-regular;
   padding: 10px;
   text-align: justify;
   text-align-last: initial;
@@ -198,7 +200,7 @@
   border-radius: 30px;
   width: 100px;
   transition-duration: 0.25s;
-  font-size: $font-size-normalText;
+  font-size: $font-size-smallText;
   float: left;
   margin-left: 10px;
   margin-top: 3px;
@@ -208,6 +210,25 @@
     background-color: $secondary-color;
     transition-duration: 0.25s;
   }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.user-follow-skeleton {
+  padding: 5px 0;
+  border-radius: 30px;
+  width: 100px;
+  background-color: #f3f3f3;
+  border: none;
+  float: left;
+  margin-left: 10px;
+  margin-top: 3px;
+  transition-duration: 0.25s;
+  font-size: $font-size-smallText;
+  overflow: hidden;
+  position: relative;
 
   &:focus {
     outline: none;
@@ -226,7 +247,7 @@
   margin-top: 3px;
   float: left;
   transition-duration: 0.25s;
-  font-size: $font-size-normalText;
+  font-size: $font-size-smallText;
 
   &:hover {
     background-color: $secondary-color;
@@ -284,7 +305,8 @@
 
 .kindId {
   float: right;
-  font-size: 14px;
+  font-size: $font-size-smallText;
+  font-weight: bold;
 }
 
 .exchanges-explore-not-found {
@@ -403,4 +425,14 @@
     left: 200%;
     opacity: 1;
   }
+}
+
+.scale-exit {
+  transform: scale(1.5);
+  transition: all 300ms ease;
+}
+
+.scale-exit.scale-exit-active {
+  transform: scale(1);
+  transition: all 300ms ease;
 }

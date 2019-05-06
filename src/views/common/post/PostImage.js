@@ -1,10 +1,11 @@
 // @flow
-import * as React from 'react'
-import PropTypes from 'prop-types'
+import * as React from "react"
+import PropTypes from "prop-types"
 
-import {DefaultImage} from 'src/images/icons'
-import type {postType} from 'src/consts/flowTypes/common/post'
-import constants from '../../../consts/constants'
+import {DefaultImage} from "src/images/icons"
+import type {postType} from "src/consts/flowTypes/common/post"
+import constants from "../../../consts/constants"
+import PostSlider from "./PostSlider"
 
 type postImageProps = {
   translate: { [string]: string },
@@ -15,6 +16,7 @@ type postImageProps = {
 type postImageState = {
   pictureLoaded: null | boolean,
   pictureArrayLoaded: [null | boolean, null | boolean, null | boolean],
+  postPicturesSlider: boolean,
 }
 
 class PostImage extends React.Component<postImageProps, postImageState> {
@@ -22,7 +24,7 @@ class PostImage extends React.Component<postImageProps, postImageState> {
     translate: PropTypes.object.isRequired,
     post: PropTypes.object.isRequired,
     extendedView: PropTypes.bool,
-    fileList: PropTypes.object,
+    fileList: PropTypes.object
   }
 
   constructor(props: postImageProps) {
@@ -30,6 +32,8 @@ class PostImage extends React.Component<postImageProps, postImageState> {
     this.state = {
       pictureLoaded: null,
       pictureArrayLoaded: [null, null, null],
+      postPicturesSlider: false,
+      rect: null
     }
     const self: any = this
 
@@ -50,8 +54,8 @@ class PostImage extends React.Component<postImageProps, postImageState> {
       let picture = new Image()
 
       picture.src = !extendedView
-          ? (postPicture ? postPicture.file : '')
-          : (postPictureId ? (fileList[postPictureId] ? fileList[postPictureId].file : '') : '')
+          ? (postPicture ? postPicture.file : "")
+          : (postPictureId ? (fileList[postPictureId] ? fileList[postPictureId].file : "") : "")
       picture.onload = () => {
         this.setState({...this.state, pictureLoaded: true})
       }
@@ -84,7 +88,8 @@ class PostImage extends React.Component<postImageProps, postImageState> {
             }
           }
         }
-      } else {
+      }
+      else {
         this.setState({...this.state, pictureArrayLoaded: [null, null, null]})
       }
     }
@@ -101,8 +106,8 @@ class PostImage extends React.Component<postImageProps, postImageState> {
         }
         let picture = new Image()
         picture.src = !extendedView
-            ? (postPicture ? postPicture.file : '')
-            : (postPictureId ? (fileList[postPictureId] ? fileList[postPictureId].file : '') : '')
+            ? (postPicture ? postPicture.file : "")
+            : (postPictureId ? (fileList[postPictureId] ? fileList[postPictureId].file : "") : "")
         picture.onload = () => {
           this.setState({...this.state, pictureLoaded: true})
         }
@@ -134,7 +139,8 @@ class PostImage extends React.Component<postImageProps, postImageState> {
               }
             }
           }
-        } else {
+        }
+        else {
           this.setState({...this.state, pictureArrayLoaded: [false, false, false]})
         }
       }
@@ -166,7 +172,7 @@ class PostImage extends React.Component<postImageProps, postImageState> {
         const {post} = this.props
         let postFilesArray
         if (post) {
-          postFilesArray = post.post_files_array && post.post_files_array.filter(picture => picture.type === null ||  picture.type === constants.CREATE_FILE_TYPES.IMAGE)
+          postFilesArray = post.post_files_array && post.post_files_array.filter(picture => picture.type === null || picture.type === constants.CREATE_FILE_TYPES.IMAGE)
         }
         if (postFilesArray && postFilesArray.length > 0) {
           let picture = new Image()
@@ -181,18 +187,32 @@ class PostImage extends React.Component<postImageProps, postImageState> {
             newPictureArrayLoaded[fileIndex] = false
             this.setState({...this.state, pictureArrayLoaded: newPictureArrayLoaded})
           }
-        } else {
+        }
+        else {
           this.setState({...this.state, pictureArrayLoaded: [false, false, false]})
         }
       }
     })
   }
 
+  closeImageSlider() {
+    const {postPicturesSlider} = this.state
+    postPicturesSlider && this.setState({...this.state, postPicturesSlider: false, rect: null})
+  }
+
+  openImageSlider() {
+    let target = this.container
+    let rect = target.getBoundingClientRect()
+
+    const {postPicturesSlider} = this.state
+    !postPicturesSlider && this.setState({...this.state, postPicturesSlider: true, rect})
+  }
+
   render() {
     const {post, extendedView, fileList} = this.props
-    const {pictureLoaded, pictureArrayLoaded} = this.state
+    const {pictureLoaded, pictureArrayLoaded, postPicturesSlider, rect} = this.state
     let postPicture, postPictureId
-    let postFilesArray = [], picturesClass = '', postPicturesLength = 0
+    let postFilesArray = [], picturesClass = "", postPicturesLength = 0
 
     if (post) {
       postPicture = post.post_picture
@@ -215,7 +235,7 @@ class PostImage extends React.Component<postImageProps, postImageState> {
           {postImageUrl
               ? <div className='post-image-container'>
                 <div
-                    className={pictureLoaded === true ? 'post-image-loading-effect' : 'post-image-loading'}>
+                    className={pictureLoaded === true ? "post-image-loading-effect" : "post-image-loading"}>
                   <DefaultImage className='default-image'/>
                   {
                     pictureLoaded === false ?
@@ -228,19 +248,18 @@ class PostImage extends React.Component<postImageProps, postImageState> {
                         <div className='bright-line'/>
                   }
                 </div>
-                <img src={postImageUrl} width={'100%'} alt='عکس پست'
-                     className={pictureLoaded === true ? 'post-image-effect' : 'post-image'}/>
+                <img src={postImageUrl} width={"100%"} alt='عکس پست'
+                     className={pictureLoaded === true ? "post-image-effect" : "post-image"}/>
               </div>
               : null
           }
-
           {postFilesArray && postPicturesLength > 0
-              ? <div className={extendedView && postPicturesLength === 1 ? 'post-image-container' : ("pictures-section " + picturesClass)}>
+              ? <div className={extendedView && postPicturesLength === 1 ? "post-image-container" : ("pictures-section " + picturesClass)}>
                 {postFilesArray.map((postPictureElement, i) => (
                     <div className='image-container' key={i + "pictures-section"}>
                       <div className='post-image-container'>
                         <div
-                            className={pictureArrayLoaded[i] === true ? 'post-image-loading-effect' : 'post-image-loading'}>
+                            className={pictureArrayLoaded[i] === true ? "post-image-loading-effect" : "post-image-loading"}>
                           <DefaultImage className='default-image'/>
                           {
                             pictureArrayLoaded[i] === false ?
@@ -253,8 +272,8 @@ class PostImage extends React.Component<postImageProps, postImageState> {
                                 <div className='bright-line'/>
                           }
                         </div>
-                        <img src={postPictureElement.file} alt='عکس پست'
-                             className={pictureArrayLoaded[i] === true ? 'post-image-effect' : 'post-image'}/>
+                        <img src={postPictureElement.file} alt='عکس پست' onClick={() => this.openImageSlider()} ref={e => this.container = e}
+                             className={pictureArrayLoaded[i] === true ? "post-image-effect" : "post-image"}/>
                       </div>
 
                       {/*<img src={postPictureElement.file} alt={"عکس پست" + i}/>*/}
@@ -263,6 +282,7 @@ class PostImage extends React.Component<postImageProps, postImageState> {
               </div>
               : null
           }
+          {/*<PostSlider images={postFilesArray} modalIsOpen={postPicturesSlider} closeModal={() => this.closeImageSlider()} rect={rect}/>*/}
         </React.Fragment>
     )
   }
