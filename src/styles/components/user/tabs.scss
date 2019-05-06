@@ -622,30 +622,21 @@
 .post-instant-view {
   position: absolute;
   background-color: white;
-  width: 160px;
+  width: 175px;
   padding: 25px 35px 20px 35px;
   z-index: 2;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
   border-radius: 5px;
   transform-origin: top left;
-  transition: all linear 0.2s;
-  animation: show linear 0.3s;
-}
-
-@keyframes show {
-  from {
-    transform: scale(0.9);
-  }
-  to {
-    transform: scale(1);
-  }
+  transition: all linear $animation-timing;
+  opacity: 1;
 }
 
 .post-instant-view-hide {
   position: absolute;
   background-color: white;
-  width: 160px;
+  width: 175px;
   padding: 25px 35px 20px 35px;
   z-index: 2;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
@@ -653,7 +644,6 @@
   border-radius: 5px;
   transform-origin: top left;
   opacity: 0;
-  transform: scale(0);
   transition: transform linear 0s 0.5s, opacity linear 0.2s;
 }
 
@@ -687,15 +677,18 @@
   border: 1.5px solid $secondary-color;
   color: white;
   background-color: $secondary-color;
-  padding: 5px 10px;
+  padding: 6px 10px;
   border-radius: 30px;
-  transition-duration: 0.25s;
-  font-size: 11px;
+  transition-duration: $animation-timing;
+  font-size: 10px;
+  height: 31px;
+  cursor: pointer;
+  width: 90px;
 
   &:hover {
-    color: white;
-    background-color: $secondary-color;
-    transition-duration: 0.25s;
+    color: $secondary-color;
+    background-color: $background-color;
+    transition-duration: $animation-timing;
   }
 
   &:focus {
@@ -707,16 +700,17 @@
   border: 1.5px solid $secondary-color;
   color: $secondary-color;
   background-color: transparent;
-  padding: 5px 10px;
+  padding: 7px 10px;
   border-radius: 30px;
-  cursor: pointer;
-  transition-duration: 0.25s;
-  font-size: 11px;
+  transition-duration: $animation-timing;
+  font-size: 10px;
+  height: 31px;
+  width: 90px;
 
   &:hover {
     background-color: $secondary-color;
     color: white;
-    transition-duration: 0.25s;
+    transition-duration: $animation-timing;
   }
 
   &:focus {

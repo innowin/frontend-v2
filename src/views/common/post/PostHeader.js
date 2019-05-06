@@ -107,9 +107,9 @@ class PostHeader extends React.Component {
                     <div className='post-instant-view-follow'>
                       {
                         showFollow ?
-                            <Material className='post-instant-view-followed-btn' content={translate['Follow']} onClick={this._follow}/>
+                            <Material className='post-instant-view-follow-btn' content={translate['Follow']} onClick={this._follow}/>
                             :
-                            <Material className='post-instant-view-follow-btn' content={translate['Followed']}/>
+                            <Material className='post-instant-view-followed-btn' content={translate['Followed']}/>
                       }
                     </div>
                     : null
