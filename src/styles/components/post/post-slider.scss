@@ -2,16 +2,13 @@
 
 .post-slider-black-back {
   position: fixed;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.3);
-  z-index: 2;
-  transition-duration: $animation-timing;
+  background-color: rgba(0, 0, 0, 0.35);
+  z-index: 3;
+  transition-duration: $animation-timing-short;
   opacity: 1;
 }
 
@@ -24,35 +21,41 @@
   right: 0;
   top: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.3);
-  z-index: -2;
-  transition-duration: $animation-timing;
+  background-color: rgba(0, 0, 0, 0);
+  z-index: -1;
   opacity: 1;
 }
 
 .post-slider-container {
   position: fixed;
-  z-index: 2;
-  animation: slider-scale ease .3s;
+  z-index: 3;
   background-color: $primary-color;
   text-align: center;
   border-radius: $border-radius-size;
   overflow: hidden;
-  transform: scale(1.5)
+  opacity: 1;
+  transition-duration: $animation-timing;
+  top: 6vh;
+  bottom: 5vh;
+  //left: 20vw;
+  //right: 20vw;
+  transform: scale(1) translate(20%, 0);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
-@keyframes slider-scale {
-  from{
-    transform: scale(1)
-  }
-  to{
-    transform: scale(1.5)
-  }
-}
-
-.post-slider-image-con {
-  width: 100%;
-  height: 80%;
+.post-slider-container-inactive {
+  position: fixed;
+  z-index: -1;
+  background-color: $primary-color;
+  text-align: center;
+  border-radius: $border-radius-size;
+  overflow: hidden;
+  opacity: 0;
+  transform: scale(.2) translate(50%, 0);
 }
 
 .post-slider-image {
@@ -61,25 +64,115 @@
   object-fit: cover;
 }
 
-.post-slider-footer {
-  width: 100%;
+.slider-left-arrow-container {
+  position: fixed;
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+  left: -5px;
+  top: 0;
+  bottom: 0;
+  width: 120px;
+  z-index: 3;
+  transition-duration: $animation-timing-short;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.1), transparent);
+  opacity: .7;
+
+  &:hover {
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.25), transparent);
+    transition-duration: $animation-timing;
+    opacity: 1;
+    cursor: pointer;
+  }
 }
 
-.post-slider-images-con {
-  display: inline-flex;
-  width: 30%;
+.slider-left-arrow {
+  width: 30px;
+  z-index: 3;
+  fill: $background-color;
+  transform: rotate(180deg);
 }
 
-.post-slider-footer-images-con {
-  flex-grow: 1;
-  height: 8vh;
-  margin: 1vh 5px;
-  border-radius: $border-radius-size;
+.slider-right-arrow-container {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  right: 5px;
+  top: 0;
+  bottom: 0;
+  width: 120px;
+  z-index: 3;
+  transition-duration: $animation-timing-short;
+  background-image: linear-gradient(to left, rgba(0, 0, 0, 0.1), transparent);
+  opacity: .7;
+
+  &:hover {
+    background-image: linear-gradient(to left, rgba(0, 0, 0, 0.25), transparent);
+    transition-duration: $animation-timing;
+    opacity: 1;
+    cursor: pointer;
+  }
 }
 
-.post-slider-footer-images {
-  height: 100%;
-  object-fit: cover;
+.slider-right-arrow {
+  width: 30px;
+  z-index: 3;
+  fill: $background-color;
+  transition-duration: $animation-timing-short;
+}
+
+.slider-arrow-hide {
+  position: fixed;
+  opacity: 0;
+  z-index: -1;
+  top: -20vh;
+}
+
+.post-slider-close-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  font-size: 45px;
+  font-weight: bold;
+  color: $background-color;
+  top: -5px;
+  left: -5px;
+  width: 120px;
+  height: 120px;
+  transition-duration: $animation-timing-short;
+  opacity: .85;
+  z-index: 4;
+  cursor: pointer;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    transition-duration: $animation-timing;
+    color: $background-color;
+    opacity: 1;
+  }
+}
+
+.post-slider-close-button-hide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  font-size: 45px;
+  font-weight: bold;
+  color: $background-color;
+  top: -150px;
+  left: -5px;
+  width: 120px;
+  height: 120px;
+  opacity: 0;
+  z-index: -1;
+  cursor: pointer;
 }

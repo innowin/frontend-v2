@@ -1,12 +1,16 @@
-import React from 'react'
+import React from "react"
 
-const ThinDownArrow = ({className = ''}) => (
-    <svg className={className} version="1.1" viewBox="0 0 13380 6760">
-      <g id="Layer_x0020_1">
-        <polygon className="fil0" points="6700,0 0,6760 2100,6760 6700,2120 11290,6760 13380,6760 "/>
-      </g>
+const ThinDownArrow = ({className = ""}) => (
+    <svg className={className} version="1.1" viewBox="0 0 9.293 16">
+      <path id="Path_47" data-name="Path 47"
+            d="M6.429,7.974A15.8,15.8,0,0,1,4.532,9.9L2.588,11.846C1.936,12.5,1.33,13.107.677,13.758c-.285.284-.739.69-.669,1.206A1.308,1.308,0,0,0,.912,16a1.337,1.337,0,0,0,1.111-.33l1.506-1.5c.674-.674,1.3-1.3,1.975-1.975l.675-.641.034-.029,1.3-1.272C7.962,9.8,9.262,8.7,9.293,8.029,9.325,7.319,7.3,5.561,6.57,4.824l-.495-.446c-1-.859-3.02-3.125-4.019-4.006A1.188,1.188,0,0,0,.015,1c-.1.518.319.914.63,1.223l4.294,4.3A13.026,13.026,0,0,1,6.429,7.974Z"
+            fill-rule="evenodd"/>
     </svg>
-
 )
+/*<svg className={className} version="1.1" viewBox="0 0 13380 6760">*/
+/*<g id="Layer_x0020_1">*/
+/*<polygon className="fil0" points="6700,0 0,6760 2100,6760 6700,2120 11290,6760 13380,6760 "/>*/
+/*</g>*/
+/*</svg>*/
 
 export default ThinDownArrow

@@ -1,13 +1,15 @@
 import React, {Component} from "react"
 import PropTypes from "prop-types"
-import {CSSTransition, TransitionGroup} from "react-transition-group"
-import Toast from "../components/ToastContainer"
+// import {CSSTransition, TransitionGroup} from "react-transition-group"
+import {MainLbarArrow} from "src/images/icons"
 
 class PostSlider extends Component {
   static propTypes = {
     images: PropTypes.array.isRequired,
     closeModal: PropTypes.func.isRequired,
-    modalIsOpen: PropTypes.bool.isRequired
+    modalIsOpen: PropTypes.bool.isRequired,
+    imageIndex: PropTypes.number.isRequired,
+    rect: PropTypes.object
   }
 
   constructor(props) {
@@ -17,48 +19,79 @@ class PostSlider extends Component {
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState, snapshot): void {
+    if (prevProps.imageIndex !== this.props.imageIndex) {
+      this.setState({...this.state, selectedImage: this.props.imageIndex})
+    }
   }
 
-  renderSlider(images) {
+  handleNext() {
+    let {images} = this.props
     let {selectedImage} = this.state
-    let {rect} = this.props
-    return (
-        <div className="post-slider-container"
-             style={rect && {width: rect.width + "px", height: rect.height + "px", top: rect.top + "px", left: rect.left + "px"}}>
-          <div className="post-slider-image-con">
-            <img src={images[selectedImage].file} alt="" className="post-slider-image"/>
-          </div>
-          <div className="post-slider-footer">
-            <div className="post-slider-images-con">
-              {
-                images.map(p =>
-                    <div className="post-slider-footer-images-con">
-                      <img src={p.file} alt="" className="post-slider-footer-images">
+    if (images[selectedImage + 1]) {
+      this.setState({...this.state, selectedImage: selectedImage + 1})
+    }
+    else {
+      this.setState({...this.state, selectedImage: 0})
+    }
+  }
 
-                      </img>
-                    </div>)
-              }
-            </div>
+  handlePrevious() {
+    let {images} = this.props
+    let {selectedImage} = this.state
+    if (images[selectedImage - 1]) {
+      this.setState({...this.state, selectedImage: selectedImage - 1})
+    }
+    else {
+      this.setState({...this.state, selectedImage: images.length - 1})
+    }
+  }
+
+  renderSlider() {
+    let {images, rect, modalIsOpen} = this.props
+    let {selectedImage} = this.state
+    if (rect)
+      return (
+          <div className={modalIsOpen ? "post-slider-container" : "post-slider-container-inactive"}
+               style={!modalIsOpen ?
+                   rect && {
+                     width: rect.width + "px",
+                     height: rect.height + "px",
+                     top: rect.top + "px",
+                     left: rect.left + "px"
+                   } : null}>
+            <img src={images[selectedImage] && images[selectedImage].file} alt="" className={images[selectedImage] && "post-slider-image"}/>
           </div>
-        </div>
-    )
+      )
   }
 
   render() {
-    let {images, modalIsOpen, closeModal} = this.props
+    let {modalIsOpen, closeModal, images} = this.props
     return (
         <React.Fragment>
           <div className={modalIsOpen ? "post-slider-black-back" : "post-slider-black-back-close"} onClick={() => closeModal()}/>
-          <TransitionGroup>
-            {
-              modalIsOpen ?
-                  <CSSTransition key={Math.random()} exit={true} timeout={300} classNames='scale'>
-                    {this.renderSlider(images)}
-                  </CSSTransition>
-                  : null
-            }
-          </TransitionGroup>
+          <div className={modalIsOpen ? "post-slider-close-button" : "post-slider-close-button-hide"} onClick={() => closeModal()}>✕</div>
+          {
+            images && images.length > 1 &&
+            <React.Fragment>
+              <div className={modalIsOpen ? "slider-left-arrow-container" : "slider-arrow-hide"} onClick={() => this.handleNext()}>
+                <MainLbarArrow className={modalIsOpen ? "slider-left-arrow" : "slider-arrow-hide"}/>
+              </div>
+              <div className={modalIsOpen ? "slider-right-arrow-container" : "slider-arrow-hide"} onClick={() => this.handlePrevious()}>
+                <MainLbarArrow className={modalIsOpen ? "slider-right-arrow" : "slider-arrow-hide"}/>
+              </div>
+            </React.Fragment>
+          }
+          {this.renderSlider()}
+          {/*<TransitionGroup>*/}
+          {/*{*/}
+          {/*modalIsOpen ?*/}
+          {/*<CSSTransition key={Math.random()} exit={true} timeout={300} classNames='scale'>*/}
+          {/*{this.renderSlider(images)}*/}
+          {/*</CSSTransition>*/}
+          {/*: null*/}
+          {/*}*/}
+          {/*</TransitionGroup>*/}
         </React.Fragment>
     )
   }
