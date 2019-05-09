@@ -11,17 +11,16 @@ class GetUserData extends Component {
   }
 
   setSecondLevel = () => {
-    // this.setState({...this.state, level: 2})
     this.props.hideRegisterModal()
   }
 
   render() {
-    const {showRegisterModal, /*hideRegisterModal,*/ email, password} = this.props
+    const {showRegisterModal, email, password} = this.props
     const {level} = this.state
     return (
         <React.Fragment>
 
-          <div className={showRegisterModal ? 'get-data-dark-back' : 'get-data-dark-back-hide'} /*onClick={hideRegisterModal}*//>
+          <div className={showRegisterModal ? 'get-data-dark-back' : 'get-data-dark-back-hide'}/>
 
           <div className={showRegisterModal ? 'get-data-container' : 'get-data-container-hide'}>
 
