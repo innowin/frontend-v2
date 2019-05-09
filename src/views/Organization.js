@@ -131,8 +131,8 @@ export class Organization extends React.Component<PropsOrganization, StatesOrgan
     const {match, userObject, badges, translate, profileMedia} = this.props
     const {path, url, params} = match
     const userId: number = +params.id
-    const isLoading = userObject.id ? false : userObject.isLoading
-
+    const isLoading = userObject.id ? false : userObject.isLoading ? userObject.isLoading : true
+    
     return (
         <div className="-userOrganBackgroundImg">
 
@@ -264,7 +264,7 @@ export class Organization extends React.Component<PropsOrganization, StatesOrgan
 const mapStateToProps = (state, ownProps) => {
   const {params} = ownProps.match
   const userId = +params.id
-  const defaultObject = {content: [], isLoading: false, error: null}
+  const defaultObject = {content: [], isLoading: true, error: null}
   const user = state.identities.list[userId] || defaultObject
   const profileBannerId = (user && user.profile_banner)
   const profileMediaId = (user && user.profile_media)

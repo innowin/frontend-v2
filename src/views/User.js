@@ -138,7 +138,7 @@ class User extends Component<PropsUser, StatesUser> {
     const {updatePost, deletePost} = actions
     const {path, url, params} = match
     const userId: number = +params.id
-    const isLoading = userObject.id ? false : userObject.isLoading
+    const isLoading = userObject.id ? false : userObject.isLoading ? userObject.isLoading : true
 
     return (
         <div className="-userOrganBackgroundImg">
@@ -286,7 +286,7 @@ class User extends Component<PropsUser, StatesUser> {
 const mapStateToProps = (state, ownProps) => {
   const {params} = ownProps.match
   const userId = +params.id
-  const defaultObject = {content: [], isLoading: false, error: null}
+  const defaultObject = {content: [], isLoading: true, error: null}
   const user = state.identities.list[userId] || defaultObject
   const profileBannerId = (user && user.profile_banner)
   const profileMediaId = (user && user.profile_media)
